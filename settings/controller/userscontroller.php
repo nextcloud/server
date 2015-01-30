@@ -11,6 +11,7 @@
 namespace OC\Settings\Controller;
 
 use OC\AppFramework\Http;
+use OC\Settings\Factory\SubAdminFactory;
 use OC\User\User;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -56,8 +57,8 @@ class UsersController extends Controller {
 	private $isEncryptionAppEnabled;
 	/** @var bool contains the state of the admin recovery setting */
 	private $isRestoreEnabled = false;
-	/** @var string[] Array of groups the user is sub-admin of */
-	private $subAdminOfGroups = [];
+	/** @var SubAdminFactory */
+	private $subAdminFactory;
 
 	/**
 	 * @param string $appName
@@ -74,7 +75,7 @@ class UsersController extends Controller {
 	 * @param string $fromMailAddress
 	 * @param IURLGenerator $urlGenerator
 	 * @param IAppManager $appManager
-	 * @param array $subAdminOfGroups
+	 * @param SubAdminFactory $subAdminFactory
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -90,7 +91,7 @@ class UsersController extends Controller {
 								$fromMailAddress,
 								IURLGenerator $urlGenerator,
 								IAppManager $appManager,
-								array $subAdminOfGroups) {
+								SubAdminFactory $subAdminFactory) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -103,7 +104,7 @@ class UsersController extends Controller {
 		$this->mail = $mail;
 		$this->fromMailAddress = $fromMailAddress;
 		$this->urlGenerator = $urlGenerator;
-		$this->subAdminOfGroups = $subAdminOfGroups;
+		$this->subAdminFactory = $subAdminFactory;
 
 		// check for encryption state - TODO see formatUserForIndex
 		$this->isEncryptionAppEnabled = $appManager->isEnabledForUser('files_encryption');
@@ -216,15 +217,18 @@ class UsersController extends Controller {
 			}
 
 		} else {
+			$subAdminOfGroups = $this->subAdminFactory->getSubAdminsOfGroups(
+				$this->userSession->getUser()->getUID()
+			);
 			// Set the $gid parameter to an empty value if the subadmin has no rights to access a specific group
-			if($gid !== '' && !in_array($gid, $this->subAdminOfGroups)) {
+			if($gid !== '' && !in_array($gid, $subAdminOfGroups)) {
 				$gid = '';
 			}
 
 			// Batch all groups the user is subadmin of when a group is specified
 			$batch = [];
 			if($gid === '') {
-				foreach($this->subAdminOfGroups as $group) {
+				foreach($subAdminOfGroups as $group) {
 					$groupUsers = $this->groupManager->displayNamesInGroup($group, $pattern, $limit, $offset);
 					foreach($groupUsers as $uid => $displayName) {
 						$batch[$uid] = $displayName;
@@ -239,7 +243,7 @@ class UsersController extends Controller {
 				// Only add the groups, this user is a subadmin of
 				$userGroups = array_values(array_intersect(
 					$this->groupManager->getUserGroupIds($user),
-					$this->subAdminOfGroups
+					$subAdminOfGroups
 				));
 				$users[] = $this->formatUserForIndex($user, $userGroups);
 			}
@@ -256,8 +260,6 @@ class UsersController extends Controller {
 	 * @param array $groups
 	 * @param string $email
 	 * @return DataResponse
-	 *
-	 * TODO: Tidy up and write unit tests - code is mainly static method calls
 	 */
 	public function create($username, $password, array $groups=array(), $email='') {
 
@@ -270,17 +272,17 @@ class UsersController extends Controller {
 			);
 		}
 
-		// TODO FIXME get rid of the static calls to OC_Subadmin
 		if (!$this->isAdmin) {
+			$uid = $this->userSession->getUser()->getUID();
 			if (!empty($groups)) {
 				foreach ($groups as $key => $group) {
-					if (!\OC_SubAdmin::isGroupAccessible($this->userSession->getUser()->getUID(), $group)) {
+					if (!$this->subAdminFactory->isGroupAccessible($uid, $group)) {
 						unset($groups[$key]);
 					}
 				}
 			}
 			if (empty($groups)) {
-				$groups = $this->subAdminOfGroups;
+				$groups = $this->subAdminFactory->getSubAdminsOfGroups($uid);
 			}
 		}
 
@@ -297,7 +299,7 @@ class UsersController extends Controller {
 
 		if($user instanceof User) {
 			if($groups !== null) {
-				foreach( $groups as $groupName ) {
+				foreach($groups as $groupName) {
 					$group = $this->groupManager->get($groupName);
 
 					if(empty($group)) {
@@ -363,11 +365,10 @@ class UsersController extends Controller {
 	 *
 	 * @param string $id
 	 * @return DataResponse
-	 *
-	 * TODO: Tidy up and write unit tests - code is mainly static method calls
 	 */
 	public function destroy($id) {
-		if($this->userSession->getUser()->getUID() === $id) {
+		$UserId = $this->userSession->getUser()->getUID();
+		if($UserId === $id) {
 			return new DataResponse(
 				array(
 					'status' => 'error',
@@ -379,8 +380,7 @@ class UsersController extends Controller {
 			);
 		}
 
-		// FIXME: Remove this static function call at some point…
-		if(!$this->isAdmin && !\OC_SubAdmin::isUserAccessible($this->userSession->getUser()->getUID(), $id)) {
+		if(!$this->isAdmin && !$this->subAdminFactory->isUserAccessible($UserId, $id)) {
 			return new DataResponse(
 				array(
 					'status' => 'error',
@@ -427,14 +427,13 @@ class UsersController extends Controller {
 	 * @param string $id
 	 * @param string $mailAddress
 	 * @return DataResponse
-	 *
-	 * TODO: Tidy up and write unit tests - code is mainly static method calls
 	 */
 	public function setMailAddress($id, $mailAddress) {
+		$UserId = $this->userSession->getUser()->getUID();
 		// FIXME: Remove this static function call at some point…
 		if($this->userSession->getUser()->getUID() !== $id
 			&& !$this->isAdmin
-			&& !\OC_SubAdmin::isUserAccessible($this->userSession->getUser()->getUID(), $id)) {
+			&& !$this->subAdminFactory->isUserAccessible($UserId, $id)) {
 			return new DataResponse(
 				array(
 					'status' => 'error',

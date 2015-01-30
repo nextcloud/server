@@ -33,6 +33,8 @@ class UsersControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->container['L10N'] = $this->getMockBuilder('\OCP\IL10N')
 			->disableOriginalConstructor()->getMock();
+		$this->container['SubAdminFactory'] = $this->getMockBuilder('\OC\Settings\Factory\SubAdminFactory')
+			->disableOriginalConstructor()->getMock();
 		$this->container['Config'] = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
 		$this->container['L10N']
@@ -197,7 +199,22 @@ class UsersControllerTest extends \Test\TestCase {
 
 	public function testIndexSubAdmin() {
 		$this->container['IsAdmin'] = false;
-		$this->container['SubAdminOfGroups'] = ['SubGroup1', 'SubGroup2'];
+		$this->container['SubAdminFactory']
+			->expects($this->once())
+			->method('getSubAdminsOfGroups')
+			->with('username')
+			->will($this->returnValue(['SubGroup1', 'SubGroup2']));
+
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('username'));
+		$this->container['UserSession']
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
 
 		$foo = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
@@ -557,11 +574,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	/**
-	 * TODO: Since the function uses the static OC_Subadmin class it can't be mocked
-	 * to test for subadmins. Thus the test always assumes you have admin permissions...
-	 */
-	public function testCreateSuccessfulWithoutGroup() {
+	public function testCreateSuccessfulWithoutGroupAdmin() {
 		$this->container['IsAdmin'] = true;
 
 		$user = $this->getMockBuilder('\OC\User\User')
@@ -602,11 +615,86 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	/**
-	 * TODO: Since the function uses the static OC_Subadmin class it can't be mocked
-	 * to test for subadmins. Thus the test always assumes you have admin permissions...
-	 */
-	public function testCreateSuccessfulWithGroup() {
+	public function testCreateSuccessfulWithoutGroupSubAdmin() {
+		$this->container['IsAdmin'] = false;
+		$this->container['SubAdminFactory']
+			->expects($this->once())
+			->method('getSubAdminsOfGroups')
+			->with('username')
+			->will($this->returnValue(['SubGroup1', 'SubGroup2']));
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('username'));
+		$this->container['UserSession']
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->method('getHome')
+			->will($this->returnValue('/home/user'));
+		$user
+			->method('getHome')
+			->will($this->returnValue('/home/user'));
+		$user
+			->method('getUID')
+			->will($this->returnValue('foo'));
+		$user
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('bar'));
+		$subGroup1 = $this->getMockBuilder('\OCP\IGroup')
+			->disableOriginalConstructor()->getMock();
+		$subGroup1
+			->expects($this->once())
+			->method('addUser')
+			->with($user);
+		$subGroup2 = $this->getMockBuilder('\OCP\IGroup')
+			->disableOriginalConstructor()->getMock();
+		$subGroup2
+			->expects($this->once())
+			->method('addUser')
+			->with($user);
+
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('createUser')
+			->will($this->onConsecutiveCalls($user));
+		$this->container['GroupManager']
+			->expects($this->exactly(2))
+			->method('get')
+			->will($this->onConsecutiveCalls($subGroup1, $subGroup2));
+		$this->container['GroupManager']
+			->expects($this->once())
+			->method('getUserGroupIds')
+			->with($user)
+			->will($this->onConsecutiveCalls(['SubGroup1', 'SubGroup2']));
+
+		$expectedResponse = new DataResponse(
+			array(
+				'name' => 'foo',
+				'groups' => ['SubGroup1', 'SubGroup2'],
+				'storageLocation' => '/home/user',
+				'backend' => 'bar',
+				'lastLogin' => null,
+				'displayname' => null,
+				'quota' => null,
+				'subadmin' => [],
+				'email' => null,
+				'isRestoreDisabled' => false,
+			),
+			Http::STATUS_CREATED
+		);
+		$response = $this->container['UsersController']->create('foo', 'password');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testCreateSuccessfulWithGroupAdmin() {
 		$this->container['IsAdmin'] = true;
 
 		$user = $this->getMockBuilder('\OC\User\User')
@@ -675,11 +763,86 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	/**
-	 * TODO: Since the function uses the static OC_Subadmin class it can't be mocked
-	 * to test for subadmins. Thus the test always assumes you have admin permissions...
-	 */
-	public function testCreateUnsuccessful() {
+	public function testCreateSuccessfulWithGroupSubAdmin() {
+		$this->container['IsAdmin'] = false;
+		$this->container['SubAdminFactory']
+			->expects($this->once())
+			->method('getSubAdminsOfGroups')
+			->with('username')
+			->will($this->returnValue(['SubGroup1', 'SubGroup2']));
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('username'));
+		$this->container['UserSession']
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->method('getHome')
+			->will($this->returnValue('/home/user'));
+		$user
+			->method('getHome')
+			->will($this->returnValue('/home/user'));
+		$user
+			->method('getUID')
+			->will($this->returnValue('foo'));
+		$user
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('bar'));
+		$subGroup1 = $this->getMockBuilder('\OCP\IGroup')
+			->disableOriginalConstructor()->getMock();
+		$subGroup1
+			->expects($this->once())
+			->method('addUser')
+			->with($user);
+		$subGroup2 = $this->getMockBuilder('\OCP\IGroup')
+			->disableOriginalConstructor()->getMock();
+		$subGroup2
+			->expects($this->once())
+			->method('addUser')
+			->with($user);
+
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('createUser')
+			->will($this->onConsecutiveCalls($user));
+		$this->container['GroupManager']
+			->expects($this->exactly(2))
+			->method('get')
+			->will($this->onConsecutiveCalls($subGroup1, $subGroup2));
+		$this->container['GroupManager']
+			->expects($this->once())
+			->method('getUserGroupIds')
+			->with($user)
+			->will($this->onConsecutiveCalls(['SubGroup1']));
+
+		$expectedResponse = new DataResponse(
+			array(
+				'name' => 'foo',
+				'groups' => ['SubGroup1'],
+				'storageLocation' => '/home/user',
+				'backend' => 'bar',
+				'lastLogin' => null,
+				'displayname' => null,
+				'quota' => null,
+				'subadmin' => [],
+				'email' => null,
+				'isRestoreDisabled' => false,
+			),
+			Http::STATUS_CREATED
+		);
+		$response = $this->container['UsersController']->create('foo', 'password', ['SubGroup1', 'ExistingGroup']);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testCreateUnsuccessfulAdmin() {
 		$this->container['IsAdmin'] = true;
 
 		$this->container['UserManager']
@@ -696,11 +859,39 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	/**
-	 * TODO: Since the function uses the static OC_Subadmin class it can't be mocked
-	 * to test for subadmins. Thus the test always assumes you have admin permissions...
-	 */
-	public function testDestroySelf() {
+	public function testCreateUnsuccessfulSubAdmin() {
+		$this->container['IsAdmin'] = false;
+		$this->container['SubAdminFactory']
+			->expects($this->once())
+			->method('getSubAdminsOfGroups')
+			->with('username')
+			->will($this->returnValue(['SubGroup1', 'SubGroup2']));
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('username'));
+		$this->container['UserSession']
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$this->container['UserManager']
+			->method('createUser')
+			->will($this->throwException(new \Exception()));
+
+		$expectedResponse = new DataResponse(
+			[
+				'message' => 'Unable to create user.'
+			],
+			Http::STATUS_FORBIDDEN
+		);
+		$response = $this->container['UsersController']->create('foo', 'password', array());
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDestroySelfAdmin() {
 		$this->container['IsAdmin'] = true;
 
 		$user = $this->getMockBuilder('\OC\User\User')
@@ -726,11 +917,33 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	/**
-	 * TODO: Since the function uses the static OC_Subadmin class it can't be mocked
-	 * to test for subadmins. Thus the test always assumes you have admin permissions...
-	 */
-	public function testDestroy() {
+	public function testDestroySelfSubadmin() {
+		$this->container['IsAdmin'] = false;
+
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('myself'));
+		$this->container['UserSession']
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$expectedResponse = new DataResponse(
+			array(
+				'status' => 'error',
+				'data' => array(
+					'message' => 'Unable to delete user.'
+				)
+			),
+			Http::STATUS_FORBIDDEN
+		);
+		$response = $this->container['UsersController']->destroy('myself');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDestroyAdmin() {
 		$this->container['IsAdmin'] = true;
 
 		$user = $this->getMockBuilder('\OC\User\User')
@@ -765,11 +978,54 @@ class UsersControllerTest extends \Test\TestCase {
 		$response = $this->container['UsersController']->destroy('UserToDelete');
 		$this->assertEquals($expectedResponse, $response);
 	}
-	/**
-	 * TODO: Since the function uses the static OC_Subadmin class it can't be mocked
-	 * to test for subadmins. Thus the test always assumes you have admin permissions...
-	 */
-	public function testDestroyUnsuccessful() {
+
+	public function testDestroySubAdmin() {
+		$this->container['IsAdmin'] = false;
+		$this->container['SubAdminFactory']
+			->expects($this->once())
+			->method('isUserAccessible')
+			->with('myself', 'UserToDelete')
+			->will($this->returnValue(true));
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('myself'));
+		$this->container['UserSession']
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$toDeleteUser = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$toDeleteUser
+			->expects($this->once())
+			->method('delete')
+			->will($this->returnValue(true));
+		$this->container['UserSession']
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->container['UserManager']
+			->method('get')
+			->with('UserToDelete')
+			->will($this->returnValue($toDeleteUser));
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'success',
+				'data' => [
+					'username' => 'UserToDelete'
+				]
+			],
+			Http::STATUS_NO_CONTENT
+		);
+		$response = $this->container['UsersController']->destroy('UserToDelete');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDestroyUnsuccessfulAdmin() {
 		$this->container['IsAdmin'] = true;
 
 		$user = $this->getMockBuilder('\OC\User\User')
@@ -805,10 +1061,94 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
+	public function testDestroyUnsuccessfulSubAdmin() {
+		$this->container['IsAdmin'] = false;
+		$this->container['SubAdminFactory']
+			->expects($this->once())
+			->method('isUserAccessible')
+			->with('myself', 'UserToDelete')
+			->will($this->returnValue(true));
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('myself'));
+		$this->container['UserSession']
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$toDeleteUser = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$toDeleteUser
+			->expects($this->once())
+			->method('delete')
+			->will($this->returnValue(false));
+		$this->container['UserSession']
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->container['UserManager']
+			->method('get')
+			->with('UserToDelete')
+			->will($this->returnValue($toDeleteUser));
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'error',
+				'data' => [
+					'message' => 'Unable to delete user.'
+				]
+			],
+			Http::STATUS_FORBIDDEN
+		);
+		$response = $this->container['UsersController']->destroy('UserToDelete');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDestroyNotAccessibleToSubAdmin() {
+		$this->container['IsAdmin'] = false;
+		$this->container['SubAdminFactory']
+			->expects($this->once())
+			->method('isUserAccessible')
+			->with('myself', 'UserToDelete')
+			->will($this->returnValue(false));
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('myself'));
+		$this->container['UserSession']
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$toDeleteUser = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$this->container['UserSession']
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->container['UserManager']
+			->method('get')
+			->with('UserToDelete')
+			->will($this->returnValue($toDeleteUser));
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'error',
+				'data' => [
+					'message' => 'Authentication error'
+				]
+			],
+			Http::STATUS_FORBIDDEN
+		);
+		$response = $this->container['UsersController']->destroy('UserToDelete');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
 	/**
 	 * test if an invalid mail result in a failure response
 	 */
-	public function testCreateUnsuccessfulWithInvalidEMail() {
+	public function testCreateUnsuccessfulWithInvalidEmailAdmin() {
 		$this->container['IsAdmin'] = true;
 
 		/**
@@ -835,7 +1175,7 @@ class UsersControllerTest extends \Test\TestCase {
 	/**
 	 * test if a valid mail result in a successful mail send
 	 */
-	public function testCreateSuccessfulWithValidEMail() {
+	public function testCreateSuccessfulWithValidEmailAdmin() {
 		$this->container['IsAdmin'] = true;
 
 		/**
