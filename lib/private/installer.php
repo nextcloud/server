@@ -308,7 +308,7 @@ class OC_Installer{
 		}
 		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml', true);
 		// check the code for not allowed calls
-		if(!$isShipped && !OC_Installer::checkCode($info['id'], $extractDir)) {
+		if(!$isShipped && !OC_Installer::checkCode($extractDir)) {
 			OC_Helper::rmdirr($extractDir);
 			throw new \Exception($l->t("App can't be installed because of not allowed code in the App"));
 		}
@@ -529,58 +529,16 @@ class OC_Installer{
 	 * @param string $folder the folder of the app to check
 	 * @return boolean true for app is o.k. and false for app is not o.k.
 	 */
-	public static function checkCode($appname, $folder) {
-		$blacklist=array(
-			// classes replaced by the public api
-			'OC_API::',
-			'OC_App::',
-			'OC_AppConfig::',
-			'OC_Avatar',
-			'OC_BackgroundJob::',
-			'OC_Config::',
-			'OC_DB::',
-			'OC_Files::',
-			'OC_Helper::',
-			'OC_Hook::',
-			'OC_Image::',
-			'OC_JSON::',
-			'OC_L10N::',
-			'OC_Log::',
-			'OC_Mail::',
-			'OC_Request::',
-			'OC_Response::',
-			'OC_Template::',
-			'OC_User::',
-			'OC_Util::',
-		);
 
+	public static function checkCode($folder) {
 		// is the code checker enabled?
-		if(OC_Config::getValue('appcodechecker', false)) {
-			// check if grep is installed
-			$grep = \OC_Helper::findBinaryPath('grep');
-			if (!$grep) {
-				OC_Log::write('core',
-					'grep not installed. So checking the code of the app "'.$appname.'" was not possible',
-					OC_Log::ERROR);
-				return true;
-			}
-
-			// iterate the bad patterns
-			foreach($blacklist as $bl) {
-				$cmd = 'grep --include \\*.php -ri '.escapeshellarg($bl).' '.$folder.'';
-				$result = exec($cmd);
-				// bad pattern found
-				if($result<>'') {
-					OC_Log::write('core',
-						'App "'.$appname.'" is using a not allowed call "'.$bl.'". Installation refused.',
-						OC_Log::ERROR);
-					return false;
-				}
-			}
-			return true;
-
-		}else{
+		if(!OC_Config::getValue('appcodechecker', false)) {
 			return true;
 		}
+
+		$codeChecker = new \OC\App\CodeChecker();
+		$errors = $codeChecker->analyseFolder($folder);
+
+		return empty($errors);
 	}
 }

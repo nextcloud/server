@@ -29,6 +29,12 @@ class CodeChecker extends BasicEmitter {
 	const CLASS_CONST_FETCH_NOT_ALLOWED = 1003;
 	const CLASS_NEW_FETCH_NOT_ALLOWED =  1004;
 
+	/** @var Parser */
+	private $parser;
+
+	/** @var string[] */
+	private $blackListedClassNames;
+
 	public function __construct() {
 		$this->parser = new Parser(new Lexer);
 		$this->blackListedClassNames = [
@@ -67,14 +73,22 @@ class CodeChecker extends BasicEmitter {
 			throw new \RuntimeException("No app with given id <$appId> known.");
 		}
 
+		return $this->analyseFolder($appPath);
+	}
+
+	/**
+	 * @param string $folder
+	 * @return array
+	 */
+	public function analyseFolder($folder) {
 		$errors = [];
 
-		$excludes = array_map(function($item) use ($appPath) {
-			return $appPath . '/' . $item;
+		$excludes = array_map(function($item) use ($folder) {
+			return $folder . '/' . $item;
 		}, ['vendor', '3rdparty', '.git', 'l10n']);
 
-		$iterator = new RecursiveDirectoryIterator($appPath, RecursiveDirectoryIterator::SKIP_DOTS);
-		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($appPath, $excludes){
+		$iterator = new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS);
+		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($folder, $excludes){
 			/** @var SplFileInfo $item */
 			foreach($excludes as $exclude) {
 				if (substr($item->getPath(), 0, strlen($exclude)) === $exclude) {
@@ -95,6 +109,7 @@ class CodeChecker extends BasicEmitter {
 
 		return $errors;
 	}
+
 
 	/**
 	 * @param string $file
