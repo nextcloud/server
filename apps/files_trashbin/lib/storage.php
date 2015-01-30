@@ -80,11 +80,15 @@ class Storage extends Wrapper {
 				$result = \OCA\Files_Trashbin\Trashbin::move2trash($filesPath);
 				// in cross-storage cases the file will be copied
 				// but not deleted, so we delete it here
-				$this->storage->unlink($path);
+				if ($result) {
+					$this->storage->unlink($path);
+				}
 			} else {
 				$result = $this->storage->unlink($path);
 			}
 			unset($this->deletedFiles[$normalized]);
+		} else if ($this->storage->file_exists($path)) {
+			$result = $this->storage->unlink($path);
 		}
 
 		return $result;

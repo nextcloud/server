@@ -180,6 +180,11 @@ class Trashbin {
 		}
 		\OC_FileProxy::$enabled = $proxyStatus;
 
+		if ($view->file_exists('/files/' . $file_path)) { // failed to delete the original file, abort
+			$view->unlink($trashPath);
+			return false;
+		}
+
 		if ($sizeOfAddedFiles !== false) {
 			$size = $sizeOfAddedFiles;
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");

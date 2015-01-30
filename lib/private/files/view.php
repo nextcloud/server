@@ -527,7 +527,7 @@ class View {
 						fclose($target);
 
 						if ($result !== false) {
-							$storage1->unlink($internalPath1);
+							$result &= $storage1->unlink($internalPath1);
 						}
 					}
 				}
@@ -537,7 +537,7 @@ class View {
 					if ($this->shouldEmitHooks()) {
 						$this->emit_file_hooks_post($exists, $path2);
 					}
-				} elseif ($result !== false) {
+				} elseif ($result) {
 					$this->updater->rename($path1, $path2);
 					if ($this->shouldEmitHooks($path1) and $this->shouldEmitHooks($path2)) {
 						\OC_Hook::emit(
@@ -803,7 +803,7 @@ class View {
 
 				$result = \OC_FileProxy::runPostProxies($operation, $this->getAbsolutePath($path), $result);
 
-				if (in_array('delete', $hooks)) {
+				if (in_array('delete', $hooks) and $result) {
 					$this->updater->remove($path);
 				}
 				if (in_array('write', $hooks)) {
