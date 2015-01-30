@@ -540,7 +540,6 @@ class Cache {
 				'WHERE `parent` = ? AND `storage` = ?';
 			$result = \OC_DB::executeAudited($sql, array($id, $this->getNumericStorageId()));
 			if ($row = $result->fetchRow()) {
-				$result->closeCursor();
 				list($sum, $min, $unencryptedSum) = array_values($row);
 				$sum = 0 + $sum;
 				$min = 0 + $min;
@@ -563,8 +562,6 @@ class Cache {
 				if ($totalSize !== -1 and $unencryptedSum > 0) {
 					$totalSize = $unencryptedSum;
 				}
-			} else {
-				$result->closeCursor();
 			}
 		}
 		return $totalSize;
