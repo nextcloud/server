@@ -128,6 +128,7 @@ class DAV extends \OC\Files\Storage\Common {
 			return false;
 		} catch (\Sabre\DAV\Exception $e) {
 			$this->convertSabreException($e);
+			return false;
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -149,6 +150,7 @@ class DAV extends \OC\Files\Storage\Common {
 			return false;
 		} catch (\Sabre\DAV\Exception $e) {
 			$this->convertSabreException($e);
+			return false;
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -166,6 +168,7 @@ class DAV extends \OC\Files\Storage\Common {
 			return false;
 		} catch (\Sabre\DAV\Exception $e) {
 			$this->convertSabreException($e);
+			return false;
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -284,6 +287,7 @@ class DAV extends \OC\Files\Storage\Common {
 				return false;
 			} catch (\Sabre\DAV\Exception $e) {
 				$this->convertSabreException($e);
+				return false;
 			} catch (\Exception $e) {
 				// TODO: log for now, but in the future need to wrap/rethrow exception
 				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -337,6 +341,7 @@ class DAV extends \OC\Files\Storage\Common {
 			return true;
 		} catch (\Sabre\DAV\Exception $e) {
 			$this->convertSabreException($e);
+			return false;
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -354,6 +359,7 @@ class DAV extends \OC\Files\Storage\Common {
 			return true;
 		} catch (\Sabre\DAV\Exception $e) {
 			$this->convertSabreException($e);
+			return false;
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -374,6 +380,7 @@ class DAV extends \OC\Files\Storage\Common {
 			return array();
 		} catch (\Sabre\DAV\Exception $e) {
 			$this->convertSabreException($e);
+			return false;
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -398,8 +405,11 @@ class DAV extends \OC\Files\Storage\Common {
 			} else {
 				return false;
 			}
+		} catch (Exception\NotFound $e) {
+			return false;
 		} catch (\Sabre\DAV\Exception $e) {
 			$this->convertSabreException($e);
+			return false;
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -440,8 +450,16 @@ class DAV extends \OC\Files\Storage\Common {
 		try {
 			$response = $this->client->request($method, $this->encodePath($path), $body);
 			return $response['statusCode'] == $expected;
+		} catch (Exception\NotFound $e) {
+			if ($method === 'DELETE') {
+				return false;
+			}
+
+			$this->convertSabreException($e);
+			return false;
 		} catch (\Sabre\DAV\Exception $e) {
 			$this->convertSabreException($e);
+			return false;
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -549,6 +567,7 @@ class DAV extends \OC\Files\Storage\Common {
 			return false;
 		} catch (Exception $e) {
 			$this->convertSabreException($e);
+			return false;
 		}
 	}
 
@@ -567,6 +586,9 @@ class DAV extends \OC\Files\Storage\Common {
 		if ($e instanceof \Sabre\DAV\Exception\NotAuthenticated) {
 			// either password was changed or was invalid all along
 			throw new StorageInvalidException(get_class($e).': '.$e->getMessage());
+		} else if ($e instanceof \Sabre\DAV\Exception\MethodNotAllowed) {
+			// ignore exception, false will be returned
+			return;
 		}
 
 		throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
