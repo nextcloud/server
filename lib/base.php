@@ -478,7 +478,10 @@ class OC {
 			require_once $vendorAutoLoad;
 		} else {
 			OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
-			OC_Template::printErrorPage('Composer autoloader not found, unable to continue.');
+			// we can't use the template error page here, because this needs the
+			// DI container which isn't available yet
+			print('Composer autoloader not found, unable to continue. Check the folder "3rdparty".');
+			exit();
 		}
 
 		// setup the basic server
