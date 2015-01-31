@@ -219,6 +219,7 @@ class TestHelper extends TestCase {
 		return array(
 			array('/' . self::TEST_ENCRYPTION_HELPER_USER1 . '/files/foo.txt', self::TEST_ENCRYPTION_HELPER_USER1),
 			array('//' . self::TEST_ENCRYPTION_HELPER_USER2 . '/files_versions/foo.txt', self::TEST_ENCRYPTION_HELPER_USER2),
+			array('/' . self::TEST_ENCRYPTION_HELPER_USER1 . '/files_trashbin/', self::TEST_ENCRYPTION_HELPER_USER1),
 			array(self::TEST_ENCRYPTION_HELPER_USER1 . '//cache/foo/bar.txt', self::TEST_ENCRYPTION_HELPER_USER1),
 		);
 	}

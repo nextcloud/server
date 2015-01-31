@@ -293,8 +293,8 @@ class Helper {
 	public static function getUserFromPath($path) {
 		$split = self::splitPath($path);
 
-		if (count($split) > 3 && (
-			$split[2] === 'files' || $split[2] === 'files_versions' || $split[2] === 'cache')) {
+		if (count($split) > 2 && (
+			$split[2] === 'files' || $split[2] === 'files_versions' || $split[2] === 'cache' || $split[2] === 'files_trashbin')) {
 
 			$user = $split[1];
 
