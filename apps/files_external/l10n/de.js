@@ -27,7 +27,7 @@ OC.L10N.register(
     "Username" : "Benutzername",
     "Password" : "Passwort",
     "Remote subfolder" : "Remote subfolder",
-    "Secure ftps://" : "Sicherer FTPS://",
+    "Secure ftps://" : "Sicherer ftps://",
     "Client ID" : "Client-ID",
     "Client secret" : "Geheime Zeichenkette des Client",
     "OpenStack Object Storage" : "Openstack-Objektspeicher",

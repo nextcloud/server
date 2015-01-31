@@ -49,6 +49,7 @@ OC.L10N.register(
     "Edit raw filter instead" : "Edytuj zamiast tego czysty filtr",
     "Raw LDAP filter" : "Czysty filtr LDAP",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filtr określa, które grupy LDAP powinny mieć dostęp do instancji %s.",
+    "Test Filter" : "Testuj filtr",
     "groups found" : "grup znaleziono",
     "Users login with this attribute:" : "Użytkownicy zalogowani z tymi ustawieniami:",
     "LDAP Username:" : "Nazwa użytkownika LDAP:",

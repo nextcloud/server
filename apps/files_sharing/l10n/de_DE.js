@@ -25,8 +25,8 @@ OC.L10N.register(
     "Invalid ownCloud url" : "Ungültige OwnCloud-Adresse",
     "Share" : "Teilen",
     "Shared by" : "Geteilt von",
-    "A file or folder was shared from <strong>another server</strong>" : "Eine Datei oder Ordner wurde von <strong>einem anderen Server</strong> geteilt",
-    "A public shared file or folder was <strong>downloaded</strong>" : "Eine öffentlich geteilte Datei oder Ordner wurde <strong>heruntergeladen</strong>",
+    "A file or folder was shared from <strong>another server</strong>" : "Eine Datei oder ein Ordner wurde von <strong>einem anderen Server</strong> geteilt",
+    "A public shared file or folder was <strong>downloaded</strong>" : "Eine öffentlich geteilte Datei oder ein öffentlich geteilter Ordner wurde <strong>heruntergeladen</strong>",
     "You received a new remote share from %s" : "Sie haben eine neue Remotefreigabe von %s erhalten",
     "%1$s accepted remote share %2$s" : "%1$s hat die Remotefreigabe von %2$s akzeptiert",
     "%1$s declined remote share %2$s" : "%1$s hat die Remotefreigabe von %2$s abgelehnt",
@@ -44,12 +44,13 @@ OC.L10N.register(
     "the item was removed" : "Das Element wurde entfernt",
     "the link expired" : "Der Link ist abgelaufen",
     "sharing is disabled" : "Teilen ist deaktiviert",
-    "For more info, please ask the person who sent this link." : "Für mehr Informationen, fragen Sie bitte die Person, die Ihnen diesen Link geschickt hat.",
+    "For more info, please ask the person who sent this link." : "Um weitere Informationen zu erhalten, fragen Sie bitte die Person, die Ihnen diesen Link geschickt hat.",
     "Add to your ownCloud" : "Zu Ihrer ownCloud hinzufügen",
     "Download" : "Herunterladen",
     "Download %s" : "Download %s",
     "Direct link" : "Direkte Verlinkung",
+    "Federated Cloud Sharing" : "Federated-Cloud-Sharing",
     "Allow users on this server to send shares to other servers" : "Nutzern auf diesem Server das Senden von Freigaben an andere Server erlauben",
-    "Allow users on this server to receive shares from other servers" : "Nutzern auf diesem Server das Empfangen von Freigaben von anderen Servern erlauben"
+    "Allow users on this server to receive shares from other servers" : "Benutzern auf diesem Server das Empfangen von Freigaben von anderen Servern erlauben"
 },
 "nplurals=2; plural=(n != 1);");

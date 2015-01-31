@@ -4,6 +4,8 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "이 서버에서 서버간 공유를 사용할 수 없음",
     "The mountpoint name contains invalid characters." : "마운트 지점 이름에 잘못된 글자가 포함되어 있습니다.",
     "Invalid or untrusted SSL certificate" : "잘못되었거나 신뢰할 수 없는 SSL 인증서",
+    "Could not authenticate to remote share, password might be wrong" : "원격 공유에서 인증할 수 없습니다. 암호가 맞지 않을 수 있습니다.",
+    "Storage not valid" : "저장소가 잘못됨",
     "Couldn't add remote share" : "원격 공유를 추가할 수 없음",
     "Shared with you" : "나와 공유됨",
     "Shared with others" : "다른 사람과 공유됨",
@@ -47,6 +49,7 @@ OC.L10N.register(
     "Download" : "다운로드",
     "Download %s" : "%s 다운로드",
     "Direct link" : "직접 링크",
+    "Federated Cloud Sharing" : "클라우드 연합 공유",
     "Allow users on this server to send shares to other servers" : "이 서버의 사용자가 다른 서버와 공유할 수 있도록 허용",
     "Allow users on this server to receive shares from other servers" : "이 서버의 사용자가 다른 서버에서 공유한 파일을 받을 수 있도록 허용"
 },

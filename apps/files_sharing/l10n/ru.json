@@ -3,7 +3,7 @@
     "The mountpoint name contains invalid characters." : "Имя точки монтирования содержит недопустимые символы.",
     "Invalid or untrusted SSL certificate" : "Недействительный или недоверенный сертификат SSL",
     "Could not authenticate to remote share, password might be wrong" : "Не удалось произвести аутентификацию для доступа к удалённому хранилищу, возможно неправильно указан пароль",
-    "Storage not valid" : "Хранилище не доступно",
+    "Storage not valid" : "Хранилище недоступно",
     "Couldn't add remote share" : "Невозможно добавить удалённый общий ресурс",
     "Shared with you" : "Поделились с вами",
     "Shared with others" : "Доступные для других",
@@ -34,7 +34,7 @@
     "This share is password-protected" : "Общий ресурс защищен паролем",
     "The password is wrong. Try again." : "Неверный пароль. Попробуйте еще раз.",
     "Password" : "Пароль",
-    "No entries found in this folder" : "Каталог пуст",
+    "No entries found in this folder" : "Нет элементов в этом каталоге",
     "Name" : "Имя",
     "Share time" : "Дата публикации",
     "Sorry, this link doesn’t seem to work anymore." : "Эта ссылка устарела и более не действительна.",
@@ -47,6 +47,7 @@
     "Download" : "Скачать",
     "Download %s" : "Скачать %s",
     "Direct link" : "Прямая ссылка",
+    "Federated Cloud Sharing" : "Объединение облачных хранилищ",
     "Allow users on this server to send shares to other servers" : "Разрешить пользователям делиться с пользователями других серверов",
     "Allow users on this server to receive shares from other servers" : "Разрешить пользователям использовать общие ресурсы с других серверов"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"

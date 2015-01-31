@@ -120,7 +120,7 @@
     "Hello {name}" : "Hallo {name}",
     "_download %n file_::_download %n files_" : ["Lade %n Datei herunter","Lade %n Dateien herunter"],
     "Updating {productName} to version {version}, this may take a while." : "{productName} wird auf Version {version} aktualisiert. Das könnte eine Weile dauern.",
-    "Please reload the page." : "Bitte laden Sie diese Seite neu.",
+    "Please reload the page." : "Bitte laden Sie die Seite neu.",
     "The update was unsuccessful. " : "Die Aktualisierung war nicht erfolgreich.",
     "The update was successful. Redirecting you to ownCloud now." : "Das Update war erfolgreich. Sie werden nun zu ownCloud weitergeleitet.",
     "Couldn't reset password because the token is invalid" : "Aufgrund eines ungültigen Tokens kann das Passwort nicht zurück gesetzt werden",

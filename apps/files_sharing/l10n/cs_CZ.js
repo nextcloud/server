@@ -49,6 +49,7 @@ OC.L10N.register(
     "Download" : "Stáhnout",
     "Download %s" : "Stáhnout %s",
     "Direct link" : "Přímý odkaz",
+    "Federated Cloud Sharing" : "Propojené cloudové sdílení",
     "Allow users on this server to send shares to other servers" : "Povolit uživatelům z tohoto serveru zasílat sdílení na jiné servery",
     "Allow users on this server to receive shares from other servers" : "Povolit uživatelům z tohoto serveru přijímat sdílení z jiných serverů"
 },

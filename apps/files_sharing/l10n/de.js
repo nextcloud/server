@@ -2,7 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Server to server sharing is not enabled on this server" : "Der Server für die Serverfreigabe ist auf diesem Server nicht aktiviert",
-    "The mountpoint name contains invalid characters." : "Der Name des Einhängepunktes enthält nicht gültige Zeichen.",
+    "The mountpoint name contains invalid characters." : "Der Name des Einhängepunktes enthält ungültige Zeichen.",
     "Invalid or untrusted SSL certificate" : "Ungültiges oder nicht vertrauenswürdiges SSL-Zertifikat",
     "Could not authenticate to remote share, password might be wrong" : "Die Authentifizierung an der entfernten Freigabe konnte nicht erfolgen, das Passwort könnte falsch sein",
     "Storage not valid" : "Speicher ungültig",
@@ -26,7 +26,7 @@ OC.L10N.register(
     "Share" : "Share",
     "Shared by" : "Geteilt von ",
     "A file or folder was shared from <strong>another server</strong>" : "Eine Datei oder ein Ordner wurde von <strong>einem anderen Server</strong> geteilt",
-    "A public shared file or folder was <strong>downloaded</strong>" : "Eine öffentlich geteilte Datei oder Ordner wurde <strong>heruntergeladen</strong>",
+    "A public shared file or folder was <strong>downloaded</strong>" : "Eine öffentlich geteilte Datei oder ein öffentlich geteilter Ordner wurde <strong>heruntergeladen</strong>",
     "You received a new remote share from %s" : "Du hast eine neue Remotefreigabe von %s erhalten",
     "%1$s accepted remote share %2$s" : "%1$s hat die Remotefreigabe von %2$s akzeptiert",
     "%1$s declined remote share %2$s" : "%1$s hat die Remotefreigabe von %2$s abgelehnt",
@@ -49,6 +49,7 @@ OC.L10N.register(
     "Download" : "Herunterladen",
     "Download %s" : "Download %s",
     "Direct link" : "Direkter Link",
+    "Federated Cloud Sharing" : "Federated-Cloud-Sharing",
     "Allow users on this server to send shares to other servers" : "Nutzern auf diesem Server das Senden von Freigaben an andere Server erlauben",
     "Allow users on this server to receive shares from other servers" : "Nutzern auf diesem Server das Empfangen von Freigaben von anderen Servern erlauben"
 },
