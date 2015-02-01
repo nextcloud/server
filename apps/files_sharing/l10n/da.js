@@ -49,6 +49,7 @@ OC.L10N.register(
     "Download" : "Download",
     "Download %s" : "Download %s",
     "Direct link" : "Direkte link",
+    "Federated Cloud Sharing" : "Sammensluttet Cloud deling",
     "Allow users on this server to send shares to other servers" : "Tillad brugere på denne server, at sende delinger til andre servere",
     "Allow users on this server to receive shares from other servers" : "Tillad brugere på denne server, at modtage delinger fra andre servere"
 },
