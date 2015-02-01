@@ -148,7 +148,7 @@ class LostController extends Controller {
 		try {
 			$user = $this->userManager->get($userId);
 
-			if (!StringUtils::equals($this->config->getUserValue($userId, 'owncloud', 'lostpassword'), $token)) {
+			if (!StringUtils::equals($this->config->getUserValue($userId, 'owncloud', 'lostpassword', null), $token)) {
 				throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 			}
 
