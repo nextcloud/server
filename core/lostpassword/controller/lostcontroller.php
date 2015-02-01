@@ -141,7 +141,7 @@ class LostController extends Controller {
 	 * @return array
 	 */
 	public function setPassword($token, $userId, $password, $proceed) {
-		if ($this->isDataEncrypted && !$proceed){
+		if ($this->isDataEncrypted && !$proceed) {
 			return $this->error('', array('encryption' => true));
 		}
 

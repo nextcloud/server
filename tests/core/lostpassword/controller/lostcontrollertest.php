@@ -159,7 +159,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->container['Config']
 			->expects($this->once())
 			->method('getUserValue')
-			->with('InvalidTokenUser', 'owncloud', 'lostpassword')
+			->with('InvalidTokenUser', 'owncloud', 'lostpassword', null)
 			->will($this->returnValue('TheOnlyAndOnlyOneTokenToResetThePassword'));
 
 		// With an invalid token
@@ -178,7 +178,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->container['Config']
 			->expects($this->once())
 			->method('getUserValue')
-			->with('ValidTokenUser', 'owncloud', 'lostpassword')
+			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
 			->will($this->returnValue('TheOnlyAndOnlyOneTokenToResetThePassword'));
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()->getMock();
@@ -200,4 +200,17 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$expectedResponse = array('status' => 'success');
 		$this->assertSame($expectedResponse, $response);
 	}
+
+	public function testIsSetPasswordWithoutTokenFailing() {
+		$this->container['Config']
+			->expects($this->once())
+			->method('getUserValue')
+			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
+			->will($this->returnValue(null));
+
+		$response = $this->lostController->setPassword('', 'ValidTokenUser', 'NewPassword', true);
+		$expectedResponse = ['status' => 'error', 'msg' => ''];
+		$this->assertSame($expectedResponse, $response);
+	}
+
 }
