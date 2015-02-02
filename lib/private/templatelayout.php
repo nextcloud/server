@@ -92,7 +92,9 @@ class OC_TemplateLayout extends OC_Template {
 
 
 		if(empty(self::$versionHash)) {
-			self::$versionHash = md5(implode(',', OC_App::getAppVersions()));
+			$v = OC_App::getAppVersions();
+			$v['core'] = implode('.', \OC_Util::getVersion());
+			self::$versionHash = md5(implode(',', $v));
 		}
 
 		$useAssetPipeline = self::isAssetPipelineEnabled();
@@ -214,7 +216,7 @@ class OC_TemplateLayout extends OC_Template {
 	}
 
 	/**
-	 * Converts the absolute filepath to a relative path from \OC::$SERVERROOT
+	 * Converts the absolute file path to a relative path from \OC::$SERVERROOT
 	 * @param string $filePath Absolute path
 	 * @return string Relative path
 	 * @throws Exception If $filePath is not under \OC::$SERVERROOT
