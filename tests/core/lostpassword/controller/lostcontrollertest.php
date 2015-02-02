@@ -29,6 +29,12 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->container['L10N'] = $this->getMockBuilder('\OCP\IL10N')
 			->disableOriginalConstructor()->getMock();
+		$this->container['L10N']
+			->expects($this->any())
+			->method('t')
+			->will($this->returnCallback(function($text, $parameters = array()) {
+				return vsprintf($text, $parameters);
+			}));
 		$this->container['Defaults'] = $this->getMockBuilder('\OC_Defaults')
 			->disableOriginalConstructor()->getMock();
 		$this->container['UserManager'] = $this->getMockBuilder('\OCP\IUserManager')
@@ -73,21 +79,13 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 				array(true, $existingUser),
 				array(false, $nonExistingUser)
 			)));
-		$this->container['L10N']
-			->expects($this->any())
-			->method('t')
-			->will(
-				$this->returnValueMap(
-					array(
-						array('Couldn\'t send reset email. Please make sure your username is correct.', array(),
-							'Couldn\'t send reset email. Please make sure your username is correct.'),
-
-					)
-				));
 
 		// With a non existing user
 		$response = $this->lostController->email($nonExistingUser);
-		$expectedResponse = array('status' => 'error', 'msg' => 'Couldn\'t send reset email. Please make sure your username is correct.');
+		$expectedResponse = [
+			'status' => 'error',
+			'msg' => 'Couldn\'t send reset email. Please make sure your username is correct.'
+		];
 		$this->assertSame($expectedResponse, $response);
 
 		// With no mail address
@@ -97,7 +95,10 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 			->with($existingUser, 'settings', 'email')
 			->will($this->returnValue(null));
 		$response = $this->lostController->email($existingUser);
-		$expectedResponse = array('status' => 'error', 'msg' => 'Couldn\'t send reset email. Please make sure your username is correct.');
+		$expectedResponse = [
+			'status' => 'error',
+			'msg' => 'Couldn\'t send reset email. Please make sure your username is correct.'
+		];
 		$this->assertSame($expectedResponse, $response);
 	}
 
@@ -146,31 +147,24 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetPasswordUnsuccessful() {
-		$this->container['L10N']
-			->expects($this->any())
-			->method('t')
-			->will(
-				$this->returnValueMap(
-					array(
-						array('Couldn\'t reset password because the token is invalid', array(),
-							'Couldn\'t reset password because the token is invalid'),
-					)
-				));
 		$this->container['Config']
 			->expects($this->once())
 			->method('getUserValue')
-			->with('InvalidTokenUser', 'owncloud', 'lostpassword')
+			->with('InvalidTokenUser', 'owncloud', 'lostpassword', null)
 			->will($this->returnValue('TheOnlyAndOnlyOneTokenToResetThePassword'));
 
 		// With an invalid token
 		$userName = 'InvalidTokenUser';
 		$response = $this->lostController->setPassword('wrongToken', $userName, 'NewPassword', true);
-		$expectedResponse = array('status' => 'error', 'msg' => 'Couldn\'t reset password because the token is invalid');
+		$expectedResponse = [
+			'status' => 'error',
+			'msg' => 'Couldn\'t reset password because the token is invalid'
+		];
 		$this->assertSame($expectedResponse, $response);
 
 		// With a valid token and no proceed
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword!', $userName, 'NewPassword', false);
-		$expectedResponse = array('status' => 'error', 'msg' => '', 'encryption' => true);
+		$expectedResponse = ['status' => 'error', 'msg' => '', 'encryption' => true];
 		$this->assertSame($expectedResponse, $response);
 	}
 
@@ -178,7 +172,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->container['Config']
 			->expects($this->once())
 			->method('getUserValue')
-			->with('ValidTokenUser', 'owncloud', 'lostpassword')
+			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
 			->will($this->returnValue('TheOnlyAndOnlyOneTokenToResetThePassword'));
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()->getMock();
@@ -200,4 +194,20 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$expectedResponse = array('status' => 'success');
 		$this->assertSame($expectedResponse, $response);
 	}
+
+	public function testIsSetPasswordWithoutTokenFailing() {
+		$this->container['Config']
+			->expects($this->once())
+			->method('getUserValue')
+			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
+			->will($this->returnValue(null));
+
+		$response = $this->lostController->setPassword('', 'ValidTokenUser', 'NewPassword', true);
+		$expectedResponse = [
+			'status' => 'error',
+			'msg' => 'Couldn\'t reset password because the token is invalid'
+			];
+		$this->assertSame($expectedResponse, $response);
+	}
+
 }

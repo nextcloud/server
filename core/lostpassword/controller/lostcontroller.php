@@ -141,14 +141,14 @@ class LostController extends Controller {
 	 * @return array
 	 */
 	public function setPassword($token, $userId, $password, $proceed) {
-		if ($this->isDataEncrypted && !$proceed){
+		if ($this->isDataEncrypted && !$proceed) {
 			return $this->error('', array('encryption' => true));
 		}
 
 		try {
 			$user = $this->userManager->get($userId);
 
-			if (!StringUtils::equals($this->config->getUserValue($userId, 'owncloud', 'lostpassword'), $token)) {
+			if (!StringUtils::equals($this->config->getUserValue($userId, 'owncloud', 'lostpassword', null), $token)) {
 				throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 			}
 
