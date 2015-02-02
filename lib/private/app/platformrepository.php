@@ -28,13 +28,10 @@ class PlatformRepository {
 			$ext = new \ReflectionExtension($name);
 			try {
 				$prettyVersion = $ext->getVersion();
-			} catch (\UnexpectedValueException $e) {
-				$prettyVersion = '0';
-			}
-			try {
 				$prettyVersion = $this->normalizeVersion($prettyVersion);
 			} catch (\UnexpectedValueException $e) {
-				continue;
+				$prettyVersion = '0';
+				$prettyVersion = $this->normalizeVersion($prettyVersion);
 			}
 
 			$packages[$this->buildPackageName($name)] = $prettyVersion;
