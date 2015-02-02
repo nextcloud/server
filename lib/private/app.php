@@ -321,6 +321,9 @@ class OC_App {
 	 * @param string $app app
 	 */
 	public static function disable($app) {
+		if($app === 'files') {
+			throw new \Exception("App 'files' can't be disabled.");
+		}
 		self::$enabledAppsCache = array(); // flush
 		// check if app is a shipped app or not. if not delete
 		\OC_Hook::emit('OC_App', 'pre_disable', array('app' => $app));
