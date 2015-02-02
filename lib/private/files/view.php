@@ -811,7 +811,7 @@ class View {
 				if (in_array('delete', $hooks) and $result) {
 					$this->updater->remove($path);
 				}
-				if (in_array('write', $hooks)) {
+				if (in_array('write', $hooks) and $operation !== 'fopen') {
 					$this->updater->update($path);
 				}
 				if (in_array('touch', $hooks)) {
