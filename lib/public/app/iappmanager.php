@@ -9,6 +9,8 @@
 
 namespace OCP\App;
 
+use OCP\IUser;
+
 interface IAppManager {
 	/**
 	 * Check if an app is enabled for user
@@ -48,4 +50,19 @@ interface IAppManager {
 	 * @param string $appId
 	 */
 	public function disableApp($appId);
+
+	/**
+	 * List all apps enabled for a user
+	 *
+	 * @param \OCP\IUser $user
+	 * @return string[]
+	 */
+	public function getAppsEnabledForUser(IUser $user);
+
+	/**
+	 * List all installed apps
+	 *
+	 * @return string[]
+	 */
+	public function getInstalledApps();
 }
