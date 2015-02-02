@@ -11,6 +11,12 @@ class Test_Appconfig extends \Test\TestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*appconfig` WHERE `appid` = ?');
+		$query->execute(array('testapp'));
+		$query->execute(array('someapp'));
+		$query->execute(array('123456'));
+		$query->execute(array('anotherapp'));
+
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*appconfig` VALUES (?, ?, ?)');
 
 		$query->execute(array('testapp', 'enabled', 'true'));

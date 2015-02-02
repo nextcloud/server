@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2012 Bernhard Posselt <dev@bernhard-posselt.com>
  * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
@@ -6,11 +7,7 @@
  * later.
  * See the COPYING-README file.
  */
-
 class Test_App extends \Test\TestCase {
-
-	private $oldAppConfigService;
-	private $oldAppManagerService;
 
 	const TEST_USER1 = 'user1';
 	const TEST_USER2 = 'user2';
@@ -399,10 +396,9 @@ class Test_App extends \Test\TestCase {
 					'appforgroup12' => '["group2","group1"]',
 				)
 			)
-		);
+			);
 
 		$apps = \OC_App::getEnabledApps(true, $forceAll);
-		$this->assertEquals($expectedApps, $apps);
 
 		$this->restoreAppConfig();
 		\OC_User::setUserId(null);
@@ -413,6 +409,8 @@ class Test_App extends \Test\TestCase {
 
 		$group1->delete();
 		$group2->delete();
+
+		$this->assertEquals($expectedApps, $apps);
 	}
 
 	/**
@@ -433,7 +431,7 @@ class Test_App extends \Test\TestCase {
 					'app2' => 'no',
 				)
 			)
-		);
+			);
 
 		$apps = \OC_App::getEnabledApps(true);
 		$this->assertEquals(array('files', 'app3'), $apps);
@@ -448,30 +446,6 @@ class Test_App extends \Test\TestCase {
 		$user1->delete();
 	}
 
-	/**
-	 * Tests that the apps list is re-requested (not cached) when
-	 * no user is set.
-	 */
-	public function testEnabledAppsNoCache() {
-		$this->setupAppConfigMock()->expects($this->exactly(2))
-			->method('getValues')
-			->will($this->returnValue(
-				array(
-					'app3' => 'yes',
-					'app2' => 'no',
-				)
-			)
-		);
-
-		$apps = \OC_App::getEnabledApps(true);
-		$this->assertEquals(array('files', 'app3'), $apps);
-
-		// mock should be called again here
-		$apps = \OC_App::getEnabledApps(false);
-		$this->assertEquals(array('files', 'app3'), $apps);
-
-		$this->restoreAppConfig();
-	}
 
 	private function setupAppConfigMock() {
 		$appConfig = $this->getMock(
@@ -488,11 +462,10 @@ class Test_App extends \Test\TestCase {
 
 	/**
 	 * Register an app config mock for testing purposes.
+	 *
 	 * @param $appConfig app config mock
 	 */
 	private function registerAppConfig($appConfig) {
-		$this->oldAppConfigService = \OC::$server->query('AppConfig');
-		$this->oldAppManagerService = \OC::$server->query('AppManager');
 		\OC::$server->registerService('AppConfig', function ($c) use ($appConfig) {
 			return $appConfig;
 		});
@@ -505,11 +478,11 @@ class Test_App extends \Test\TestCase {
 	 * Restore the original app config service.
 	 */
 	private function restoreAppConfig() {
-		\OC::$server->registerService('AppConfig', function ($c){
-			return $this->oldAppConfigService;
+		\OC::$server->registerService('AppConfig', function ($c) {
+			return new \OC\AppConfig(\OC_DB::getConnection());
 		});
-		\OC::$server->registerService('AppManager', function ($c) {
-			return $this->oldAppManagerService;
+		\OC::$server->registerService('AppManager', function (\OC\Server $c) {
+			return new \OC\App\AppManager($c->getUserSession(), $c->getAppConfig(), $c->getGroupManager());
 		});
 
 		// Remove the cache of the mocked apps list with a forceRefresh
