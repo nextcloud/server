@@ -52,7 +52,7 @@ class FileGlobal {
 	public function hasKey($key) {
 		$key = $this->fixKey($key);
 		$cache_dir = self::getCacheDir();
-		if ($cache_dir && is_file($cache_dir.$key)) {
+		if ($cache_dir && is_file($cache_dir.$key) && is_readable($cache_dir.$key)) {
 			$mtime = filemtime($cache_dir.$key);
 			if ($mtime < time()) {
 				unlink($cache_dir.$key);
