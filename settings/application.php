@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Lukas Reschke
- * @copyright 2014 Lukas Reschke lukas@owncloud.com
+ * @copyright 2014-2015 Lukas Reschke lukas@owncloud.com
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
@@ -16,6 +16,7 @@ use OC\Settings\Controller\LogSettingsController;
 use OC\Settings\Controller\MailSettingsController;
 use OC\Settings\Controller\SecuritySettingsController;
 use OC\Settings\Controller\UsersController;
+use OC\Settings\Factory\SubAdminFactory;
 use OC\Settings\Middleware\SubadminMiddleware;
 use \OCP\AppFramework\App;
 use OCP\IContainer;
@@ -91,7 +92,8 @@ class Application extends App {
 				$c->query('Mail'),
 				$c->query('DefaultMailAddress'),
 				$c->query('URLGenerator'),
-				$c->query('OCP\\App\\IAppManager')
+				$c->query('OCP\\App\\IAppManager'),
+				$c->query('SubAdminFactory')
 			);
 		});
 		$container->registerService('LogSettingsController', function(IContainer $c) {
@@ -144,6 +146,10 @@ class Application extends App {
 		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
 		$container->registerService('IsSubAdmin', function(IContainer $c) {
 			return \OC_Subadmin::isSubAdmin(\OC_User::getUser());
+		});
+		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
+		$container->registerService('SubAdminFactory', function(IContainer $c) {
+			return new SubAdminFactory();
 		});
 		$container->registerService('Mail', function(IContainer $c) {
 			return new \OC_Mail;
