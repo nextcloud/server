@@ -322,7 +322,7 @@ class OC_App {
 	 */
 	public static function disable($app) {
 		if($app === 'files') {
-			throw new \Exception("App 'files' can't be disabled.");
+			throw new \Exception("files can't be disabled.");
 		}
 		self::$enabledAppsCache = array(); // flush
 		// check if app is a shipped app or not. if not delete

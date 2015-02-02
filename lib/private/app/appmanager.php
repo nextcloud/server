@@ -135,7 +135,7 @@ class AppManager implements IAppManager {
 	 */
 	public function disableApp($appId) {
 		if($appId === 'files') {
-			throw new \Exception("App 'files' can't be disabled.");
+			throw new \Exception("files can't be disabled.");
 		}
 		$this->appConfig->setValue($appId, 'enabled', 'no');
 	}
