@@ -83,7 +83,7 @@ class File {
 
 	public function hasKey($key) {
 		$storage = $this->getStorage();
-		if ($storage && $storage->is_file($key)) {
+		if ($storage && $storage->is_readable($key)) {
 			return true;
 		}
 		return false;
