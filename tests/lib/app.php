@@ -10,6 +10,7 @@
 class Test_App extends \Test\TestCase {
 
 	private $oldAppConfigService;
+	private $oldAppManagerService;
 
 	const TEST_USER1 = 'user1';
 	const TEST_USER2 = 'user2';
@@ -491,8 +492,12 @@ class Test_App extends \Test\TestCase {
 	 */
 	private function registerAppConfig($appConfig) {
 		$this->oldAppConfigService = \OC::$server->query('AppConfig');
+		$this->oldAppManagerService = \OC::$server->query('AppManager');
 		\OC::$server->registerService('AppConfig', function ($c) use ($appConfig) {
 			return $appConfig;
+		});
+		\OC::$server->registerService('AppManager', function (\OC\Server $c) use ($appConfig) {
+			return new \OC\App\AppManager($c->getUserSession(), $appConfig, $c->getGroupManager());
 		});
 	}
 
@@ -500,9 +505,11 @@ class Test_App extends \Test\TestCase {
 	 * Restore the original app config service.
 	 */
 	private function restoreAppConfig() {
-		$oldService = $this->oldAppConfigService;
-		\OC::$server->registerService('AppConfig', function ($c) use ($oldService){
-			return $oldService;
+		\OC::$server->registerService('AppConfig', function ($c){
+			return $this->oldAppConfigService;
+		});
+		\OC::$server->registerService('AppManager', function ($c) {
+			return $this->oldAppManagerService;
 		});
 
 		// Remove the cache of the mocked apps list with a forceRefresh
