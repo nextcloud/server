@@ -6,6 +6,7 @@
  * See the COPYING-README file.
  */
 
+OCP\JSON::callCheck();
 OCP\JSON::checkAppEnabled('files_sharing');
 
 $remote = $_GET['remote'];
