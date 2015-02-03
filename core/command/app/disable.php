@@ -28,8 +28,12 @@ class Disable extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$appId = $input->getArgument('app-id');
 		if (\OC_App::isEnabled($appId)) {
-			\OC_App::disable($appId);
-			$output->writeln($appId . ' disabled');
+			try {
+				\OC_App::disable($appId);
+				$output->writeln($appId . ' disabled');
+			} catch(\Exception $e) {
+				$output->writeln($e->getMessage());
+			}
 		} else {
 			$output->writeln('No such app enabled: ' . $appId);
 		}
