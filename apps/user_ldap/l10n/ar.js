@@ -40,6 +40,7 @@ OC.L10N.register(
     "Port" : "المنفذ",
     "Password" : "كلمة المرور",
     "Back" : "رجوع",
+    "Continue" : "المتابعة",
     "Advanced" : "تعديلات متقدمه",
     "Email Field" : "خانة البريد الإلكتروني"
 },

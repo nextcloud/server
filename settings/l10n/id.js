@@ -1,7 +1,7 @@
 OC.L10N.register(
     "settings",
     {
-    "Security & Setup Warnings" : "Peringatan Keamanan dan Setelan",
+    "Security & Setup Warnings" : "Keamanan dan Setelan Peringatan",
     "Cron" : "Cron",
     "Sharing" : "Berbagi",
     "Security" : "Keamanan",
@@ -176,6 +176,9 @@ OC.L10N.register(
     "Bugtracker" : "Bugtracker",
     "Commercial Support" : "Dukungan Komersial",
     "Get the apps to sync your files" : "Dapatkan aplikasi untuk sinkronisasi berkas Anda",
+    "Desktop client" : "Klien desktop",
+    "Android app" : "Aplikasi Android",
+    "iOS app" : "Aplikasi iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spread the word</a>!" : "Jika Anda ingin mendukung proyek ini\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">bergabung dengan pembagunan</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">sebarkan promosi</a>!",
     "Show First Run Wizard again" : "Tampilkan Penuntun Konfigurasi Awal",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Anda telah menggunakan <strong>%s</strong> dari total <strong>%s</strong>",

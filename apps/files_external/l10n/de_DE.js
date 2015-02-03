@@ -49,7 +49,7 @@ OC.L10N.register(
     "Error configuring Google Drive storage" : "Fehler beim Einrichten von Google Drive",
     "Personal" : "Persönlich",
     "System" : "System",
-    "All users. Type to select user or group." : "Alle Nutzer. Nutzer oder Gruppe zur Auswahl eingeben.",
+    "All users. Type to select user or group." : "Alle Benutzer. Benutzer oder Gruppe zur Auswahl eingeben.",
     "(group)" : "(group)",
     "Saved" : "Gespeichert",
     "<b>Note:</b> " : "<b>Hinweis:</b> ",

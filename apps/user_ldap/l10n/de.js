@@ -111,12 +111,12 @@ OC.L10N.register(
     "Nested Groups" : "Eingebundene Gruppen",
     "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" : "Wenn aktiviert, werden Gruppen, die Gruppen enthalten, unterstützt. (Funktioniert nur, wenn das Merkmal des Gruppenmitgliedes den Domain-Namen enthält.)",
     "Paging chunksize" : "Seitenstücke (Paging chunksize)",
-    "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "Die Größe der Seitenstücke (Chunksize) wird für seitenbezogene LDAP-Suchen verwendet die sehr viele Ergebnisse z.B. Nutzer- und Gruppenaufzählungen liefern. (Die Einstellung 0 deaktiviert das seitenbezogene LDAP-Suchen in diesen Situationen)",
+    "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "Abschnittslänge von seitenweise angezeigten LDAP-Suchen, die bei Suchen wie etwa Benutzer- und Gruppen-Auflistungen ausufernd viele Ergebnisse liefern können (die Einstellung „0“ deaktiviert seitenweise angezeigte LDAP-Suchen in diesen Situationen).",
     "Special Attributes" : "Spezielle Eigenschaften",
     "Quota Field" : "Kontingent Feld",
     "Quota Default" : "Standard Kontingent",
     "in bytes" : "in Bytes",
-    "Email Field" : "E-Mail Feld",
+    "Email Field" : "E-Mail-Feld",
     "User Home Folder Naming Rule" : "Benennungsregel für das Home-Verzeichnis des Benutzers",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfall trage ein LDAP/AD-Attribut ein.",
     "Internal Username" : "Interner Benutzername",
@@ -128,7 +128,7 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID-Attribute für Gruppen:",
     "Username-LDAP User Mapping" : "LDAP-Benutzernamenzuordnung",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have a internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Die Benutzernamen werden genutzt, um (Meta)Daten zuzuordnen und zu speichern. Um Benutzer eindeutig und präzise zu identifizieren, hat jeder LDAP-Benutzer einen internen Benutzernamen. Dies erfordert eine Zuordnung (mappen) von Benutzernamen zum LDAP-Benutzer. Der erstellte Benutzername wird der UUID des LDAP-Benutzernamens zugeordnet. Zusätzlich wird der DN zwischengespeichert, um die Interaktion mit dem LDAP zu minimieren, was aber nicht der Identifikation dient. Ändert sich der DN, werden die Änderungen durch gefunden. Der interne Benutzername, wird in überall verwendet. Werden die Zuordnungen gelöscht, bleiben überall Reste zurück. Die Löschung der Zuordnungen kann nicht in der Konfiguration vorgenommen werden, beeinflusst aber die LDAP-Konfiguration! Löschen Sie niemals die Zuordnungen in einer produktiven Umgebung. Lösche die Zuordnungen nur in einer Test- oder Experimentierumgebung.",
-    "Clear Username-LDAP User Mapping" : "Lösche LDAP-Benutzernamenzuordnung",
-    "Clear Groupname-LDAP Group Mapping" : "Lösche LDAP-Gruppennamenzuordnung"
+    "Clear Username-LDAP User Mapping" : "LDAP-Benutzernamenzuordnung löschen",
+    "Clear Groupname-LDAP Group Mapping" : "LDAP-Gruppennamenzuordnung löschen"
 },
 "nplurals=2; plural=(n != 1);");
