@@ -592,7 +592,7 @@ class Connection extends LDAPUtility {
 		if(!$ldapLogin) {
 			\OCP\Util::writeLog('user_ldap',
 				'Bind failed: ' . $this->ldap->errno($cr) . ': ' . $this->ldap->error($cr),
-				\OCP\Util::ERROR);
+				\OCP\Util::WARN);
 			$this->ldapConnectionRes = null;
 			return false;
 		}
