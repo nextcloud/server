@@ -21,6 +21,13 @@ interface IAvatar {
 	function get($size = 64);
 
 	/**
+	 * Check if an avatar exists for the user
+	 *
+	 * @return bool
+	 */
+	public function exists();
+
+	/**
 	 * sets the users avatar
 	 * @param Image $data mixed imagedata or path to set a new avatar
 	 * @throws \Exception if the provided file is not a jpg or png image

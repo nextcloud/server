@@ -288,12 +288,7 @@ class OC_Helper {
 	**/
 	public static function userAvatarSet($user) {
 		$avatar = new \OC_Avatar($user);
-		$image = $avatar->get(1);
-		if ($image instanceof \OC_Image) {
-			return true;
-		} else {
-			return false;
-		}
+		return $avatar->exists();
 	}
 
 	/**
