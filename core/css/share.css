@@ -68,6 +68,12 @@
 	overflow: hidden;
 	vertical-align: middle;
 }
+#shareWithList .avatar {
+	margin-right: 2px;
+	display: inline-block;
+	overflow: hidden;
+	vertical-align: middle;
+}
 #shareWithList li label{
 	margin-right: 8px;
 }
