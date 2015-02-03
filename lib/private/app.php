@@ -1159,6 +1159,7 @@ class OC_App {
 		if (file_exists(self::getAppPath($appId) . '/appinfo/database.xml')) {
 			OC_DB::updateDbFromStructure(self::getAppPath($appId) . '/appinfo/database.xml');
 		}
+		unset(self::$appVersion[$appId]);
 		if (!self::isEnabled($appId)) {
 			return false;
 		}
