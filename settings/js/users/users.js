@@ -422,7 +422,7 @@ var UserList = {
 					UserList.noMoreEntries = true;
 					$userList.siblings('.loading').remove();
 				}
-				UserList.offset += loadedUsers;
+				UserList.offset += limit;
 			}).always(function() {
 				UserList.updating = false;
 			});
@@ -866,6 +866,11 @@ $(document).ready(function () {
 		containerHeight = $('#app-content').height();
 	if(containerHeight > 40) {
 		initialUserCountLimit = Math.floor(containerHeight/40);
+		while((initialUserCountLimit % UserList.usersToLoad) !== 0) {
+			// must be a multiple of this, otherwise LDAP freaks out.
+			// FIXME: solve this in LDAP backend in  8.1
+			initialUserCountLimit = initialUserCountLimit + 1;
+		}
 	}
 
 	// trigger loading of users on startup
