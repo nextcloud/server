@@ -29,27 +29,26 @@ class Manager {
 	private $storageLoader;
 
 	/**
-	 * @var \OC\User\Session
+	 * @var string
 	 */
-	private $userSession;
+	private $uid;
 
 	/**
 	 * @param \OCP\IDBConnection $connection
 	 * @param \OC\Files\Mount\Manager $mountManager
-	 * @param \OC\User\Session $userSession
 	 * @param \OC\Files\Storage\Loader $storageLoader
+	 * @param string $uid
 	 */
 	public function __construct(\OCP\IDBConnection $connection, \OC\Files\Mount\Manager $mountManager,
-								\OC\Files\Storage\Loader $storageLoader, \OC\User\Session $userSession) {
+								\OC\Files\Storage\Loader $storageLoader, $uid) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
-		$this->userSession = $userSession;
 		$this->storageLoader = $storageLoader;
+		$this->uid = $uid;
 	}
 
 	public function addShare($remote, $token, $password, $name, $owner) {
-		$user = $this->userSession->getUser();
-		if ($user) {
+		if ($this->uid) {
 			$query = $this->connection->prepare('
 				INSERT INTO `*PREFIX*share_external`
 					(`remote`, `share_token`, `password`, `name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`)
@@ -57,7 +56,7 @@ class Manager {
 			');
 			$mountPoint = Filesystem::normalizePath('/' . $name);
 			$hash = md5($mountPoint);
-			$query->execute(array($remote, $token, $password, $name, $owner, $user->getUID(), $mountPoint, $hash));
+			$query->execute(array($remote, $token, $password, $name, $owner, $this->uid, $mountPoint, $hash));
 
 			$options = array(
 				'remote' => $remote,
@@ -76,14 +75,13 @@ class Manager {
 			return false;
 		}
 
-		$user = $this->userSession->getUser();
-		if ($user) {
+		if ($this->uid) {
 			$query = $this->connection->prepare('
 				SELECT `remote`, `share_token`, `password`, `mountpoint`, `owner`
 				FROM `*PREFIX*share_external`
 				WHERE `user` = ?
 			');
-			$query->execute(array($user->getUID()));
+			$query->execute(array($this->uid));
 
 			while ($row = $query->fetch()) {
 				$row['manager'] = $this;
@@ -93,18 +91,18 @@ class Manager {
 		}
 	}
 
-	public static function setup() {
+	public static function setup($param) {
 		$externalManager = new \OCA\Files_Sharing\External\Manager(
 			\OC::$server->getDatabaseConnection(),
 			\OC\Files\Filesystem::getMountManager(),
 			\OC\Files\Filesystem::getLoader(),
-			\OC::$server->getUserSession()
+			$param['user']
 		);
 		$externalManager->setupMounts();
 	}
 
 	protected function stripPath($path) {
-		$prefix = '/' . $this->userSession->getUser()->getUID() . '/files';
+		$prefix = '/' . $this->uid . '/files';
 		return rtrim(substr($path, strlen($prefix)), '/');
 	}
 
@@ -114,7 +112,7 @@ class Manager {
 	 */
 	protected function mountShare($data) {
 		$data['manager'] = $this;
-		$mountPoint = '/' . $this->userSession->getUser()->getUID() . '/files' . $data['mountpoint'];
+		$mountPoint = '/' . $this->uid . '/files' . $data['mountpoint'];
 		$data['mountpoint'] = $mountPoint;
 		$mount = new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
 		$this->mountManager->addMount($mount);
@@ -134,7 +132,6 @@ class Manager {
 	 * @return bool
 	 */
 	public function setMountPoint($source, $target) {
-		$user = $this->userSession->getUser();
 		$source = $this->stripPath($source);
 		$target = $this->stripPath($target);
 		$sourceHash = md5($source);
@@ -146,13 +143,12 @@ class Manager {
 			WHERE `mountpoint_hash` = ?
 			AND `user` = ?
 		');
-		$result = (bool)$query->execute(array($target, $targetHash, $sourceHash, $user->getUID()));
+		$result = (bool)$query->execute(array($target, $targetHash, $sourceHash, $this->uid));
 
 		return $result;
 	}
 
 	public function removeShare($mountPoint) {
-		$user = $this->userSession->getUser();
 		$mountPoint = $this->stripPath($mountPoint);
 		$hash = md5($mountPoint);
 		$query = $this->connection->prepare('
@@ -160,6 +156,6 @@ class Manager {
 			WHERE `mountpoint_hash` = ?
 			AND `user` = ?
 		');
-		return (bool)$query->execute(array($hash, $user->getUID()));
+		return (bool)$query->execute(array($hash, $this->uid));
 	}
 }
