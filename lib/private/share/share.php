@@ -1889,15 +1889,15 @@ class Share extends \OC\Share\Constants {
 
 				// group share which doesn't exists until now, check if we need a unique target for this user
 
-				$itemTarget = Helper::generateTarget($itemType, $itemSource, self::SHARE_TYPE_USER, $user,
-					$uidOwner, $suggestedItemTarget, $parent);
 
 				// do we also need a file target
 				if (isset($fileSource)) {
-					$fileTarget = Helper::generateTarget('file', $filePath, self::SHARE_TYPE_USER, $user,
+					$itemTarget = $fileTarget = Helper::generateTarget('file', $filePath, self::SHARE_TYPE_USER, $user,
 						$uidOwner, $suggestedFileTarget, $parent);
 				} else {
 					$fileTarget = null;
+					$itemTarget = Helper::generateTarget($itemType, $itemSource, self::SHARE_TYPE_USER, $user,
+						$uidOwner, $suggestedItemTarget, $parent);
 				}
 
 				if ($itemTarget === $groupItemTarget && (isset($fileSource) && $fileTarget === $groupItemTarget)) {
