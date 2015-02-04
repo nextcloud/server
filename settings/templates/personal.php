@@ -136,6 +136,14 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
+<div id="groups" class="section">
+	<h2><?php p($l->t('Groups')); ?></h2>
+	<p><?php p($l->t('You are member of the following groups:')); ?></p>
+	<p>
+	<?php p(implode(', ', $_['groups'])); ?>
+	</p>
+</div>
+
 <?php if ($_['enableAvatars']): ?>
 <form id="avatar" class="section" method="post" action="<?php p(\OC_Helper::linkToRoute('core_avatar_post')); ?>">
 	<h2><?php p($l->t('Profile picture')); ?></h2>

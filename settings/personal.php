@@ -100,6 +100,12 @@ $tmpl->assign('enableAvatars', $config->getSystemValue('enable_avatars', true));
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 $tmpl->assign('certs', $certificateManager->listCertificates());
 
+// Get array of group ids for this user
+$groups = \OC::$server->getGroupManager()->getUserIdGroups(OC_User::getUser());
+$groups2 = array_map(function($group) { return $group->getGID(); }, $groups);
+sort($groups2);
+$tmpl->assign('groups', $groups2);
+
 // add hardcoded forms from the template
 $l = OC_L10N::get('settings');
 $formsAndMore = array();
