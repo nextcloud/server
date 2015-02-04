@@ -87,6 +87,11 @@ class View {
 		if ($this->fakeRoot == '') {
 			return $path;
 		}
+
+		if (rtrim($path,'/') === rtrim($this->fakeRoot, '/')) {
+			return '/';
+		}
+
 		if (strpos($path, $this->fakeRoot) !== 0) {
 			return null;
 		} else {
