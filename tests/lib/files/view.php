@@ -696,6 +696,28 @@ class View extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @dataProvider relativePathProvider
+	 */
+	function testGetRelativePath($absolutePath, $expectedPath) {
+		$view = new \OC\Files\View('/files');
+		// simulate a external storage mount point which has a trailing slash
+		$view->chroot('/files/');
+		$this->assertEquals($expectedPath, $view->getRelativePath($absolutePath));
+	}
+
+	function relativePathProvider() {
+		return array(
+			array('/files/', '/'),
+			array('/files', '/'),
+			array('/files/0', '0'),
+			array('/files/false', 'false'),
+			array('/files/true', 'true'),
+			array('/files/test', 'test'),
+			array('/files/test/foo', 'test/foo'),
+		);
+	}
+
+	/**
 	 * @dataProvider tooLongPathDataProvider
 	 * @expectedException \OCP\Files\InvalidPathException
 	 */
