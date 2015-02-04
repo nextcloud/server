@@ -154,7 +154,12 @@ script('core', [
 	<?php endif; ?>
 
 	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
-	<p id="sqliteInformation" class="info"><?php p($l->t('SQLite will be used as database. For larger installations we recommend to change this.'));?></p>
+		<fieldset id="sqliteInformation" class="warning">
+			<legend><?php p($l->t('Performance Warning'));?></legend>
+			<p><?php p($l->t('SQLite will be used as database.'));?></p>
+			<p><?php p($l->t('For larger installations we recommend to choose a different database backend.'));?></p>
+			<p><?php p($l->t('Especially when using desktop client for file syncing the use of sqlite is highly discouraged.')); ?></p>
+		</fieldset>
 	<?php endif ?>
 
 	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>" /></div>
