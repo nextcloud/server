@@ -16,12 +16,12 @@
 	<?php } ?>
 
 		<li>
-			<a href="http://owncloud.org/support" target="_blank">
+			<a href="https://owncloud.org/support" target="_blank" rel="noreferrer">
 				<?php p($l->t( 'Online Documentation' )); ?> ↗
 			</a>
 		</li>
 		<li>
-			<a href="https://forum.owncloud.org" target="_blank">
+			<a href="https://forum.owncloud.org" target="_blank" rel="noreferrer">
 				<?php p($l->t( 'Forum' )); ?> ↗
 			</a>
 		</li>
@@ -29,14 +29,14 @@
 	<?php if($_['admin']) { ?>
 		<li>
 			<a href="https://github.com/owncloud/core/blob/master/CONTRIBUTING.md"
-				target="_blank">
+				target="_blank" rel="noreferrer">
 				<?php p($l->t( 'Bugtracker' )); ?> ↗
 			</a>
 		</li>
 	<?php } ?>
 
 	<li>
-		<a href="https://owncloud.com" target="_blank">
+		<a href="https://owncloud.com" target="_blank" rel="noreferrer">
 			<?php p($l->t( 'Commercial Support' )); ?> ↗
 		</a>
 	</li>
