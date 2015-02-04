@@ -19,7 +19,7 @@ OC.L10N.register(
     "Success" : "Berhasil",
     "Error" : "Kesalahan",
     "Please specify a Base DN" : "Sialakan menetapkan Base DN",
-    "Could not determine Base DN" : "Tidak dapat menetakan Base DN",
+    "Could not determine Base DN" : "Tidak dapat menetapkan Base DN",
     "Please specify the port" : "Silakan tetapkan port",
     "Configuration OK" : "Konfigurasi Oke",
     "Configuration incorrect" : "Konfigurasi salah",

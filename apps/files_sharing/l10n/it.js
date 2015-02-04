@@ -30,7 +30,7 @@ OC.L10N.register(
     "You received a new remote share from %s" : "Hai ricevuto una nuova condivisione remota da %s",
     "%1$s accepted remote share %2$s" : "%1$s ha accettato la condivisione remota %2$s",
     "%1$s declined remote share %2$s" : "%1$s ha rifiutato la condivisione remota %2$s",
-    "%1$s unshared %2$s from you" : "%1$s ha rimosso la condivisione %2$s da te",
+    "%1$s unshared %2$s from you" : "%1$s ha rimosso la condivisione %2$s con te",
     "Public shared folder %1$s was downloaded" : "La cartella condivisa pubblicamente %1$s è stata scaricata",
     "Public shared file %1$s was downloaded" : "Il file condiviso pubblicamente %1$s è stato scaricato",
     "This share is password-protected" : "Questa condivione è protetta da password",

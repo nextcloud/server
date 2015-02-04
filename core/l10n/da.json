@@ -62,7 +62,7 @@
     "Good password" : "Godt kodeord",
     "Strong password" : "Stærkt kodeord",
     "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." : "Din webserver er endnu ikke sat op til at tillade fil synkronisering fordi WebDAV grænsefladen virker ødelagt.",
-    "This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features." : "Denne ownCloud-server har ikke en fungerende forbindelse til internettet. Det betyder, at visse funktioner som montering af eksterne drev, oplysninger om opdatering eller installation af 3.-parts applikationer ikke fungerer. Det vil sandsynligvis heller ikke fungere at tilgå filer fra eksterne drev eller informations-e-mails. Vi opfordrer til at etablere forbindelse til internettet for denne server, såfremt du ønsker samtlige funktioner.",
+    "This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features." : "Denne ownCloud-server har ikke en fungerende forbindelse til internettet. Det betyder, at visse funktioner som montering af eksterne drev, oplysninger om opdatering og installation af 3.-parts applikationer ikke fungerer. Det vil sandsynligvis heller ikke fungere at tilgå filer fra eksterne drev eller informations-e-mails. Vi opfordrer til at etablere forbindelse til internettet for denne server, såfremt du ønsker samtlige funktioner.",
     "Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." : "Din data mappe og dine filer er muligvis tilgængelige fra internettet. .htaccess filen virker ikke. Vi anbefaler på det kraftigste at du konfigurerer din webserver så data mappen ikke længere er tilgængelig, eller at du flytter data mappen uden for webserverens dokument rod.  ",
     "Error occurred while checking server setup" : "Der opstod fejl under tjek af serveropsætningen",
     "Shared" : "Delt",
@@ -151,7 +151,7 @@
     "Error tagging" : "Fejl ved opmærkning",
     "Error untagging" : "Fejl ved fjernelse af opmærkning",
     "Error favoriting" : "Fejl ved omdannelse til foretrukken",
-    "Error unfavoriting" : "Fejl ved fjernelse af favorisering.",
+    "Error unfavoriting" : "Fejl ved fjernelse fra foretrukken.",
     "Access forbidden" : "Adgang forbudt",
     "File not found" : "Filen blev ikke fundet",
     "The specified document has not been found on the server." : "Det angivne dokument blev ikke fundet på serveren.",
@@ -214,7 +214,7 @@
     "The theme %s has been disabled." : "Temaet, %s, er blevet deaktiveret.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Sørg venligst for at sikre, at databasen, config-mappen og data-mappen er blevet sikkerhedskopieret inden vi fortsætter.",
     "Start update" : "Begynd opdatering",
-    "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "For at undgå tidsudløb med større installationer, så kan du i stedet køre følgende kommando fra din installationsmappe:",
+    "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "For at undgå tidsudløb ved større installationer, så kan du i stedet køre følgende kommando fra din installationsmappe:",
     "This %s instance is currently being updated, which may take a while." : "Denne %s-instans bliver i øjeblikket opdateret, hvilket kan tage et stykke tid.",
     "This page will refresh itself when the %s instance is available again." : "Denne side vil genopfriske sig selv, når %s-instancen er tilgængelig igen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
