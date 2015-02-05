@@ -21,6 +21,14 @@
 *
 */
 
+// Show warning if a PHP version below 5.4.0 is used, this has to happen here
+// because base.php will already use 5.4 syntax.
+if (version_compare(PHP_VERSION, '5.4.0') === -1) {
+	echo 'This version of ownCloud requires at least PHP 5.4.0<br/>';
+	echo 'You are currently running ' . PHP_VERSION . '. Please update your PHP version.';
+	return;
+}
+
 try {
 	
 	require_once 'lib/base.php';
