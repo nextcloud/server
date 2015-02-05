@@ -222,6 +222,6 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$appConfig->setValue('test2', 'enabled', 'no');
 		$appConfig->setValue('test3', 'enabled', '["foo"]');
 		$appConfig->setValue('test4', 'enabled', '["asd"]');
-		$this->assertEquals(['test1', 'test3'], $manager->getAppsEnabledForUser($user));
+		$this->assertEquals(['test1', 'test3'], $manager->getEnabledAppsForUser($user));
 	}
 }

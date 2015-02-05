@@ -76,7 +76,7 @@ class AppManager implements IAppManager {
 	 * @param \OCP\IUser $user
 	 * @return string[]
 	 */
-	public function getAppsEnabledForUser(IUser $user) {
+	public function getEnabledAppsForUser(IUser $user) {
 		$apps = $this->getInstalledAppsValues();
 		$appsForUser = array_filter($apps, function ($enabled) use ($user) {
 			return $this->checkAppForUser($enabled, $user);

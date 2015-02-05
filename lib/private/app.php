@@ -220,7 +220,7 @@ class OC_App {
 		if (is_null($user)) {
 			$apps = $appManager->getInstalledApps();
 		} else {
-			$apps = $appManager->getAppsEnabledForUser($user);
+			$apps = $appManager->getEnabledAppsForUser($user);
 		}
 		$apps = array_filter($apps, function ($app) {
 			return $app !== 'files';//we add this manually

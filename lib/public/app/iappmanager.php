@@ -57,7 +57,7 @@ interface IAppManager {
 	 * @param \OCP\IUser $user
 	 * @return string[]
 	 */
-	public function getAppsEnabledForUser(IUser $user);
+	public function getEnabledAppsForUser(IUser $user);
 
 	/**
 	 * List all installed apps
