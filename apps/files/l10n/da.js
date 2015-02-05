@@ -104,7 +104,7 @@ OC.L10N.register(
     "Upload too large" : "Upload er for stor",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",
     "Files are being scanned, please wait." : "Filerne bliver indlæst, vent venligst.",
-    "Currently scanning" : "Indlæser",
+    "Currently scanning" : "Skanning er i gang",
     "No favorites" : "Ingen foretrukne",
     "Files and folders you mark as favorite will show up here" : "Filer og mapper som du har markeret som foretrukne, vil blive vist her"
 },
