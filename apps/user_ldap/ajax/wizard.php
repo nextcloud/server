@@ -85,7 +85,7 @@ switch($action) {
 				exit;
 			}
 		} catch (\Exception $e) {
-			\OCP\JSON::error(array('message' => $e->getMessage()));
+			\OCP\JSON::error(array('message' => $e->getMessage(), 'code' => $e->getCode()));
 			exit;
 		}
 		\OCP\JSON::error();
