@@ -158,7 +158,7 @@ script('core', [
 			<legend><?php p($l->t('Performance Warning'));?></legend>
 			<p><?php p($l->t('SQLite will be used as database.'));?></p>
 			<p><?php p($l->t('For larger installations we recommend to choose a different database backend.'));?></p>
-			<p><?php p($l->t('Especially when using desktop client for file syncing the use of sqlite is highly discouraged.')); ?></p>
+			<p><?php p($l->t('Especially when using desktop client for file syncing the use of sqlite is discouraged.')); ?></p>
 		</fieldset>
 	<?php endif ?>
 
