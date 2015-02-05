@@ -1102,13 +1102,20 @@ class Share extends \OC\Share\Constants {
 	 * @return null
 	 */
 	protected static function unshareItem(array $item, $newParent = null) {
+
+		$shareType = (int)$item['share_type'];
+		$shareWith = null;
+		if ($shareType !== \OCP\Share::SHARE_TYPE_LINK) {
+			$shareWith = $item['share_with'];
+		}
+
 		// Pass all the vars we have for now, they may be useful
 		$hookParams = array(
 			'id'            => $item['id'],
 			'itemType'      => $item['item_type'],
 			'itemSource'    => $item['item_source'],
-			'shareType'     => (int)$item['share_type'],
-			'shareWith'     => $item['share_with'],
+			'shareType'     => $shareType,
+			'shareWith'     => $shareWith,
 			'itemParent'    => $item['parent'],
 			'uidOwner'      => $item['uid_owner'],
 		);
