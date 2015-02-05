@@ -545,6 +545,13 @@ class Test_Share extends \Test\TestCase {
 		// Valid share
 		$this->shareUserOneTestFileWithGroupOne();
 
+		// check if only the group share was created and not a single db-entry for each user
+		$statement = \OCP\DB::prepare('select `id` from `*PREFIX*share`');
+		$query = $statement->execute();
+		$result = $query->fetchAll();
+		$this->assertSame(1, count($result));
+
+
 		// Attempt to share again
 		OC_User::setUserId($this->user1);
 		$message = 'Sharing test.txt failed, because this item is already shared with '.$this->group1;

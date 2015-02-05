@@ -1905,7 +1905,11 @@ class Share extends \OC\Share\Constants {
 		$isGroupShare = false;
 		if ($shareType == self::SHARE_TYPE_GROUP) {
 			$isGroupShare = true;
-			$users = \OC_Group::usersInGroup($shareWith['group']);
+			if (isset($shareWith['users'])) {
+				$users = $shareWith['users'];
+			} else {
+				$users = \OC_Group::usersInGroup($shareWith['group']);
+			}
 			// remove current user from list
 			if (in_array(\OCP\User::getUser(), $users)) {
 				unset($users[array_search(\OCP\User::getUser(), $users)]);
@@ -2016,7 +2020,8 @@ class Share extends \OC\Share\Constants {
 					$fileTarget = null;
 				}
 
-				if ($itemTarget === $groupItemTarget && (isset($fileSource) && $fileTarget === $groupItemTarget)) {
+				if (($itemTarget === $groupItemTarget) &&
+					(!isset($fileSource) || $fileTarget === $groupFileTarget)) {
 					continue;
 				}
 			}
