@@ -324,7 +324,7 @@ class Updater extends BasicEmitter {
 				}
 			}
 			if (!$priorityType) {
-				$stacks[$pseudoOtherType] = $appId;
+				$stacks[$pseudoOtherType][] = $appId;
 			}
 		}
 		foreach ($stacks as $type => $stack) {
