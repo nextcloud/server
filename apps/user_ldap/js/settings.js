@@ -351,7 +351,7 @@ var LdapWizard = {
 				encodeURIComponent($('#ldap_serverconfig_chooser').val());
 
 		LdapWizard.showSpinner(spinnerID);
-		var request = LdapWizard.ajax(param,
+		LdapWizard.ajax(param,
 			function(result) {
 				LdapWizard.applyChanges(result);
 				LdapWizard.hideSpinner(spinnerID);
@@ -360,7 +360,7 @@ var LdapWizard = {
 				}
 			},
 			function (result) {
-				OC.Notification.show('Counting the entries failed with, ' + result.message);
+				OC.Notification.showTemporary('Counting the entries failed with: ' + result.message);
 				LdapWizard.hideSpinner(spinnerID);
 				if(!_.isUndefined(doneCallback)) {
 					doneCallback(method);
@@ -371,11 +371,17 @@ var LdapWizard = {
 	},
 
 	countGroups: function(doneCallback) {
-		LdapWizard._countThings('countGroups', '#ldap_group_count', doneCallback);
+		var groupFilter  = $('#ldap_group_filter').val();
+		if(!_.isEmpty(groupFilter)) {
+			LdapWizard._countThings('countGroups', '#ldap_group_count', doneCallback);
+		}
 	},
 
 	countUsers: function(doneCallback) {
-		LdapWizard._countThings('countUsers', '#ldap_user_count', doneCallback);
+		var userFilter  = $('#ldap_userlist_filter').val();
+		if(!_.isEmpty(userFilter)) {
+			LdapWizard._countThings('countUsers', '#ldap_user_count', doneCallback);
+		}
 	},
 
 	/**
