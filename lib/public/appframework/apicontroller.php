@@ -3,7 +3,7 @@
  * ownCloud - App Framework
  *
  * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+ * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -44,17 +44,17 @@ abstract class ApiController extends Controller {
      * constructor of the controller
      * @param string $appName the name of the app
      * @param IRequest $request an instance of the request
-     * @param string $corsMethods: comma seperated string of HTTP verbs which 
+     * @param string $corsMethods: comma seperated string of HTTP verbs which
      * should be allowed for websites or webapps when calling your API, defaults to
      * 'PUT, POST, GET, DELETE, PATCH'
      * @param string $corsAllowedHeaders: comma seperated string of HTTP headers
-     * which should be allowed for websites or webapps when calling your API, 
+     * which should be allowed for websites or webapps when calling your API,
      * defaults to 'Authorization, Content-Type, Accept'
      * @param int $corsMaxAge number in seconds how long a preflighted OPTIONS
      * request should be cached, defaults to 1728000 seconds
      */
-    public function __construct($appName, 
-                                IRequest $request, 
+    public function __construct($appName,
+                                IRequest $request,
                                 $corsMethods='PUT, POST, GET, DELETE, PATCH',
                                 $corsAllowedHeaders='Authorization, Content-Type, Accept',
                                 $corsMaxAge=1728000){
