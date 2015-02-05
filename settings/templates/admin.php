@@ -114,8 +114,18 @@ if ($_['databaseOverload']) {
 <div class="section">
 	<h2><?php p($l->t('Database Performance Info'));?></h2>
 
-	<p class="securitywarning">
-		<?php p($l->t('SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: \'occ db:convert-type\'')); ?>
+	<p>
+		<strong>
+			<?php p($l->t('SQLite is used as database. For larger installations we recommend to switch to a different database backend.')); ?>
+		</strong>
+	</p>
+	<p>
+		<strong>
+			<?php p($l->t('Especially when using desktop client for file syncing the use of sqlite is highly discouraged.')); ?>
+		</strong>
+	</p>
+	<p>
+		<?php p($l->t('To migrate to another database use the command line tool: \'occ db:convert-type\'')); ?>
 	</p>
 
 </div>
