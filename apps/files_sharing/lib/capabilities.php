@@ -41,12 +41,14 @@ class Capabilities {
 	public function getCaps() {
 		$res = array();
 
-		$public = array();
+		$public = false;;
 		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
+			$public = array();
 			$public['password_enforced'] = ($this->config->getAppValue('core', 'shareapi_enforce_links_password', 'yes') === 'yes');
 
-			$public['expire_date'] = array();
+			$public['expire_date'] = false;
 			if ($this->config->getAppValue('core', 'shareapi_default_expire_date', 'yes') === 'yes') {
+				$public['expire_date'] = array();
 				$public['expire_date']['days'] = $this->config->getAppValue('core', 'shareapi_expire_after_n_days', false);
 				$public['expire_date']['enforce'] = $this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'yes') === 'yes';
 			}
