@@ -115,6 +115,8 @@ OC.L10N.register(
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP satırıçi doc bloklarını ayıklamak üzere yapılandırılmış gibi görünüyor. Bu, bazı çekirdek (core) uygulamalarını erişilemez yapacak.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Bu, muhtemelen Zend OPcache veya eAccelerator gibi bir önbellek/hızlandırıcı nedeniyle gerçekleşir.",
     "Database Performance Info" : "Veritabanı Başarım Bilgisi",
+    "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "Veritabanı olarak SQLite kullanıldı. Daha büyük kurulumlar için farklı bir veritabanına geçmenizi öneriyoruz.",
+    "To migrate to another database use the command line tool: 'occ db:convert-type'" : "Başka bir veritabanına eşitlemek için komut satırı aracını kullanın: 'occ db:convert-type'",
     "Microsoft Windows Platform" : "Microsoft Windows Platformu",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Sunucunuz, Microsoft Windows ile çalışıyor. En uygun kullanıcı deneyimi için şiddetle Linux'u öneriyoruz.",
     "Module 'fileinfo' missing" : "Modül 'fileinfo' kayıp",
