@@ -42,10 +42,15 @@ class Migration {
 	public function reorganizeFolderStructure() {
 		$this->reorganizeSystemFolderStructure();
 
-		$users = \OCP\User::getUsers();
-		foreach ($users as $user) {
-			$this->reorganizeFolderStructureForUser($user);
-		}
+		$limit = 500;
+		$offset = 0;
+		do {
+			$users = \OCP\User::getUsers('', $limit, $offset);
+			foreach ($users as $user) {
+				$this->reorganizeFolderStructureForUser($user);
+			}
+			$offset += $limit;
+		} while(count($users) >= $limit);
 	}
 
 	public function reorganizeSystemFolderStructure() {
