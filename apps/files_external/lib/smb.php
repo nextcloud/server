@@ -267,12 +267,7 @@ class SMB extends Common {
 	 * check if smbclient is installed
 	 */
 	public static function checkDependencies() {
-		if (function_exists('shell_exec')) {
-			$output = shell_exec('command -v smbclient 2> /dev/null');
-			if (!empty($output)) {
-				return true;
-			}
-		}
-		return array('smbclient');
+		$smbClientExists = (bool)\OC_Helper::findBinaryPath('smbclient');
+		return $smbClientExists ? true : array('smbclient');
 	}
 }
