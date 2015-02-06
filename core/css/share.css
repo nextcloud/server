@@ -16,6 +16,13 @@
 	padding:16px;
 }
 
+@media only screen and (min-width: 768px) and (max-width: 990px) {
+	#dropdown {
+		/* this limits the dropdown to float below the sidebar for mid narrow screens */
+		left: 20px;
+	}
+}
+
 #dropdown.shareDropDown .unshare.icon-loading-small {
 	margin-top: 1px;
 }
