@@ -121,7 +121,7 @@ if ($_['databaseOverload']) {
 	</p>
 	<p>
 		<strong>
-			<?php p($l->t('Especially when using desktop client for file syncing the use of sqlite is discouraged.')); ?>
+			<?php p($l->t('Especially when using the desktop client for file syncing the use of SQLite is discouraged.')); ?>
 		</strong>
 	</p>
 	<p>
