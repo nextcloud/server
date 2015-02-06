@@ -8,6 +8,8 @@
  */
 
 namespace OC;
+
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
 
@@ -20,6 +22,9 @@ class AllConfig implements \OCP\IConfig {
 
 	/** @var IDBConnection */
 	private $connection;
+
+	/** @var IAppConfig */
+	private $appConfig;
 
 	/**
 	 * 3 dimensional array with the following structure:
@@ -62,10 +67,16 @@ class AllConfig implements \OCP\IConfig {
 	 *
 	 * otherwise a SQLite database is created in the wrong directory
 	 * because the database connection was created with an uninitialized config
+	 *
+	 * The same applies for the app config, because it uses the database
+	 * connection itself
 	 */
 	private function fixDIInit() {
 		if($this->connection === null) {
 			$this->connection = \OC::$server->getDatabaseConnection();
+		}
+		if ($this->appConfig === null) {
+			$this->appConfig = \OC::$server->getAppConfig();
 		}
 	}
 
@@ -116,7 +127,10 @@ class AllConfig implements \OCP\IConfig {
 	 * @return string[] the keys stored for the app
 	 */
 	public function getAppKeys($appName) {
-		return \OC::$server->getAppConfig()->getKeys($appName);
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		return $this->appConfig->getKeys($appName);
 	}
 
 	/**
@@ -127,7 +141,24 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $value the value that should be stored
 	 */
 	public function setAppValue($appName, $key, $value) {
-		\OC::$server->getAppConfig()->setValue($appName, $key, $value);
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		$this->appConfig->setValue($appName, $key, $value);
+	}
+
+	/**
+	 * Checks if a key is set in the apps config
+	 *
+	 * @param string $appName the appName tto look a key up
+	 * @param string $key the key to look up
+	 * @return bool
+	 */
+	public function hasAppKey($appName, $key) {
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		$this->appConfig->hasKey($appName, $key);
 	}
 
 	/**
@@ -139,7 +170,49 @@ class AllConfig implements \OCP\IConfig {
 	 * @return string the saved value
 	 */
 	public function getAppValue($appName, $key, $default = '') {
-		return \OC::$server->getAppConfig()->getValue($appName, $key, $default);
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		return $this->appConfig->getValue($appName, $key, $default);
+	}
+
+	/**
+	 * Get all app values that are stored
+	 *
+	 * @param string $appName the appName
+	 * @return array with key - value pair as they are saved previously
+	 */
+	public function getAppValuesByApp($appName) {
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		return $this->appConfig->getValues($appName, false);
+	}
+
+	/**
+	 * Get all app values that use the same key
+	 *
+	 * @param string $key the appName
+	 * @return array with key - value pair as they are saved previously with the
+	 *                 app name as key
+	 */
+	public function getAppValuesByKey($key) {
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		return $this->appConfig->getValues(false, $key);
+	}
+
+	/**
+	 * Get all apps that have at least one value saved
+	 *
+	 * @return array containing app names
+	 */
+	public function getApps() {
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		return $this->appConfig->getApps();
 	}
 
 	/**
@@ -149,7 +222,10 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $key the key of the value, under which it was saved
 	 */
 	public function deleteAppValue($appName, $key) {
-		\OC::$server->getAppConfig()->deleteKey($appName, $key);
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		$this->appConfig->deleteKey($appName, $key);
 	}
 
 	/**
@@ -158,7 +234,10 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $appName the appName the configs are stored under
 	 */
 	public function deleteAppValues($appName) {
-		\OC::$server->getAppConfig()->deleteApp($appName);
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		$this->appConfig->deleteApp($appName);
 	}
 
 
