@@ -408,12 +408,14 @@ class Cache {
 			$result = \OC_DB::executeAudited($sql, array($this->getNumericStorageId(), $source . '/%'));
 			$childEntries = $result->fetchAll();
 			$sourceLength = strlen($source);
+			\OC_DB::beginTransaction();
 			$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ? WHERE `fileid` = ?');
 
 			foreach ($childEntries as $child) {
 				$targetPath = $target . substr($child['path'], $sourceLength);
 				\OC_DB::executeAudited($query, array($targetPath, md5($targetPath), $child['fileid']));
 			}
+			\OC_DB::commit();
 		}
 
 		$sql = 'UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ?, `name` = ?, `parent` =? WHERE `fileid` = ?';
