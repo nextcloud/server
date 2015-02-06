@@ -421,9 +421,10 @@ class Filesystem {
 	 * @return bool
 	 */
 	static public function isFileBlacklisted($filename) {
+		$filename = self::normalizePath($filename);
 		$blacklist = \OC_Config::getValue('blacklisted_files', array('.htaccess'));
 		$filename = strtolower(basename($filename));
-		return (in_array($filename, $blacklist));
+		return in_array($filename, $blacklist);
 	}
 
 	/**
@@ -587,6 +588,10 @@ class Filesystem {
 		if ($path == '') {
 			return '/';
 		}
+
+		//normalize unicode if possible
+		$path = \OC_Util::normalizeUnicode($path);
+
 		//no windows style slashes
 		$path = str_replace('\\', '/', $path);
 
@@ -615,8 +620,6 @@ class Filesystem {
 			$path = substr($path, 0, -2);
 		}
 
-		//normalize unicode if possible
-		$path = \OC_Util::normalizeUnicode($path);
 		return $path;
 	}
 

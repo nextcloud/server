@@ -59,6 +59,15 @@ class Mapper extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('D:/folder.name.with.peri-ods/te-st-2.t-x-t', $this->mapper->slugifyPath('D:/folder.name.with.peri ods/te st.t x t', 2));
 		$this->assertEquals('D:/folder.name.with.peri-ods/te-st.t-x-t', $this->mapper->slugifyPath('D:/folder.name.with.peri ods/te st.t x t'));
 
-		
+		// blacklisted files
+		$this->assertNotEquals('D:/.htaccess', $this->mapper->slugifyPath(' D:/.htaccess'));
+		$this->assertNotEquals('D:/.htaccess', $this->mapper->slugifyPath('D:/.htaccess '));
+		$this->assertNotEquals('D:/.htaccess', $this->mapper->slugifyPath(' D:/.htaccess '));
+		$this->assertNotEquals('D:/.htaccess', $this->mapper->slugifyPath('D:/.htaccess'));
+		$this->assertNotEquals('D:/.htaccess', $this->mapper->slugifyPath('D:/.htaccess.'));
+		$this->assertNotEquals('D:/.htaccess', $this->mapper->slugifyPath('D:/.htAccess'));
+		$this->assertNotEquals('D:/.htaccess', $this->mapper->slugifyPath('D:/.htAccess\…\/とa'));
+		$this->assertNotEquals('D:/.htaccess', $this->mapper->slugifyPath('D:/.htaccess-'));
+		$this->assertNotEquals('D:/.htaccess', $this->mapper->slugifyPath('D:/.htaあccess'));
 	}
 }

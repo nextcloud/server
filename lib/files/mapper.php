@@ -230,7 +230,7 @@ class Mapper
 		// trim ending dots (for security reasons and win compatibility)
 		$text = preg_replace('~\.+$~', '', $text);
 
-		if (empty($text)) {
+		if (empty($text) || \OC\Files\Filesystem::isFileBlacklisted($text)) {
 			return uniqid();
 		}
 
