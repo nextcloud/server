@@ -40,23 +40,29 @@ class Capabilities {
 	 */
 	public function getCaps() {
 		$res = array();
+
+		$public = array();
 		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
-			$res['allow_links'] = true;
+			$public['password_enforced'] = ($this->config->getAppValue('core', 'shareapi_enforce_links_password', 'yes') === 'yes');
 
-			if ($this->config->getAppValue('core', 'shareapi_enforce_links_password', 'yes') === 'yes') {
-				$res['enforce_links_password'] = true;
-			} 
-
-			if ($this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes') {
-				$res['allow_public_upload'] = true;
+			$public['expire_date'] = array();
+			if ($this->config->getAppValue('core', 'shareapi_default_expire_date', 'yes') === 'yes') {
+				$public['expire_date']['days'] = $this->config->getAppValue('core', 'shareapi_expire_after_n_days', false);
+				$public['expire_date']['enforce'] = $this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'yes') === 'yes';
 			}
 
-			$res = array('sharing' => $res);
+			$public['send_mail'] = $this->config->getAppValue('core', 'shareapi_allow_public_notification', 'yes') === 'yes';
 		}
+		$res["public"] = $public;
+
+		$res['user']['send_mail'] = $this->config->getAppValue('core', 'shareapi_allow_mail_notification', 'yes') === 'yes';
+
+		$res['resharing'] = $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
+
 
 		return new \OC_OCS_Result(array(
 			'capabilities' => array(
-				'files' => $res
+				'files_sharing' => $res
 				),
 			));
 	}
