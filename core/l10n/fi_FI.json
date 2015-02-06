@@ -190,6 +190,7 @@
     "Performance Warning" : "Suorituskykyvaroitus",
     "SQLite will be used as database." : "SQLitea käytetään tietokantana.",
     "For larger installations we recommend to choose a different database backend." : "Suuria asennuksia varten suositellaan muun tietokannan käyttöä.",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Varsinkin työpöytäsovelluksen tiedostosynkronointia käyttäessä SQLiten käyttö ei ole suositeltavaa.",
     "Finish setup" : "Viimeistele asennus",
     "Finishing …" : "Valmistellaan…",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Tämä sovellus vaatii JavaScript-tuen toimiakseen. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Ota JavaScript käyttöön</a> ja päivitä sivu.",

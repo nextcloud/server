@@ -114,6 +114,7 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dies wird wahrscheinlich durch Zwischenspeicher/Beschleuniger wie z.B. OPcache oder eAccelerator verursacht.",
     "Database Performance Info" : "Info zur Datenbankleistung",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite wird als Datenbank verwendet. Bei größeren Installationen wird empfohlen, auf ein anderes Datenbank-Backend zu wechseln.",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Insbesondere bei der Nutzung des Desktop Clients zur Dateisynchronisierung wird vom Einsatz von SQLite abgeraten.",
     "To migrate to another database use the command line tool: 'occ db:convert-type'" : "Um zu einer anderen Datenbank zu migrieren, benutzen Sie bitte die Kommandozeile: „occ db:convert-type“",
     "Microsoft Windows Platform" : "Microsoft Windows-Plattform",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Ihr Server wird mit Microsoft Windows betrieben. Für ein optimales Nutzungserlebnis empfehlen wir dringend Linux.",

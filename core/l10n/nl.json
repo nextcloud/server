@@ -190,6 +190,7 @@
     "Performance Warning" : "Prestatiewaarschuwing",
     "SQLite will be used as database." : "SQLite wordt gebruikt als database.",
     "For larger installations we recommend to choose a different database backend." : "Voor grotere installaties adviseren we een andere database engine te kiezen.",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Vooral wanneer de desktop client wordt gebruik voor bestandssynchronisatie wordt gebruik van sqlite afgeraden.",
     "Finish setup" : "Installatie afronden",
     "Finishing …" : "Afronden ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Deze applicatie heeft JavaScript nodig. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Activeer JavaScript</a> en herlaad deze interface.",

@@ -112,6 +112,7 @@ OC.L10N.register(
     "Setup Warning" : "Asetusvaroitus",
     "Database Performance Info" : "Tietokannan suorituskyvyn tiedot",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLitea käytetään tietokantana. Suuria asennuksia varten on suositeltavaa vaihtaa muuhun tietokantaan.",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Varsinkin työpöytäsovelluksen tiedostosynkronointia käyttäessä SQLiten käyttö ei ole suositeltavaa.",
     "To migrate to another database use the command line tool: 'occ db:convert-type'" : "Suorita migraatio toiseen tietokantaan komentorivityökalulla: 'occ db:convert-type'",
     "Microsoft Windows Platform" : "Microsoft Windows -alusta",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Palvelimesi käyttöjärjestelmä on Microsoft Windows. Suosittelemme käyttämään parhaan mahdollisen käyttökokemuksen saavuttamiseksi Linuxia.",

@@ -77,7 +77,7 @@
     "{dirs} and {files}" : "{dirs} と {files}",
     "Favorited" : "お気に入り済",
     "Favorite" : "お気に入り",
-    "%s could not be renamed as it has been deleted" : "%s は削除された為、ファイル名を変更できません",
+    "%s could not be renamed as it has been deleted" : "%s は削除されたため、ファイル名を変更できません",
     "%s could not be renamed" : "%sの名前を変更できませんでした",
     "Upload (max. %s)" : "アップロード ( 最大 %s )",
     "File handling" : "ファイル操作",

@@ -189,6 +189,7 @@ OC.L10N.register(
     "Database name" : "Название базы данных",
     "Database tablespace" : "Табличое пространство базы данных",
     "Database host" : "Хост базы данных",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Особенно вызывает сомнение использование SQLite при синхронизации файлов с использование клиента для ПК.",
     "Finish setup" : "Завершить установку",
     "Finishing …" : "Завершение...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Для нормальной работы приложения требуется JavaScript. Пожалуйста, <a href=\"http://www.enable-javascript.com/ru/\" target=\"_blank\">включите JavaScript</a> в вашем браузере и обновите страницу.",

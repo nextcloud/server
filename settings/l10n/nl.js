@@ -116,6 +116,7 @@ OC.L10N.register(
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dit wordt vermoedelijk veroorzaakt door een cache/accelerator, zoals Zend OPcache of eAccelerator.",
     "Database Performance Info" : "Database Performance Info",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite wordt gebruikt als database. Voor grotere installaties adviseren we om te schakelen naar een andere database engine.",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Vooral wanneer de desktop client wordt gebruik voor bestandssynchronisatie wordt gebruik van sqlite afgeraden.",
     "To migrate to another database use the command line tool: 'occ db:convert-type'" : "Om te migreren naar een andere database moet u deze commandoregel tool gebruiken: 'occ db:convert-type'",
     "Microsoft Windows Platform" : "Microsoft Windows Platform",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Uw server draait op Microsoft Windows. We adviseren om een linux server te gebruiken voor een optimale gebruikerservaring.",

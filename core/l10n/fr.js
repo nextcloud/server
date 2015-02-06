@@ -192,6 +192,7 @@ OC.L10N.register(
     "Performance Warning" : "Avertissement de performance",
     "SQLite will be used as database." : "SQLite sera utilisé comme gestionnaire de base de données.",
     "For larger installations we recommend to choose a different database backend." : "Pour des installations plus volumineuses, nous vous conseillons d'utiliser un autre gestionnaire de base de données.",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "En particulier si vous utilisez le client de bureau pour synchroniser vos données : l'utilisation de SQLite est alors déconseillée.",
     "Finish setup" : "Terminer l'installation",
     "Finishing …" : "Finalisation …",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Cette application nécessite JavaScript pour fonctionner correctement.  Veuillez <a href=\"http://www.enable-javascript.com/fr/\" target=\"_blank\">activer JavaScript</a> puis charger à nouveau cette page.",
