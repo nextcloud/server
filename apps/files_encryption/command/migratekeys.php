@@ -62,11 +62,17 @@ class MigrateKeys extends Command {
 				}
 
 				$output->writeln("Migrating keys for users on backend <info>$name</info>");
-				$users = $backend->getUsers();
-				foreach ($users as $user) {
+
+				$limit = 500;
+				$offset = 0;
+				do {
+					$users = $backend->getUsers('', $limit, $offset);
+					foreach ($users as $user) {
 						$output->writeln("   <info>$user</info>");
 						$migration->reorganizeFolderStructureForUser($user);
-				}
+					}
+					$offset += $limit;
+				} while(count($users) >= $limit);
 			}
 		}
 
