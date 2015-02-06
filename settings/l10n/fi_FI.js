@@ -111,7 +111,6 @@ OC.L10N.register(
     "Read-Only config enabled" : "Vain luku -määritykset otettu käyttöön",
     "Setup Warning" : "Asetusvaroitus",
     "Database Performance Info" : "Tietokannan suorituskyvyn tiedot",
-    "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "SQLitea käytetään tietokantana. Laajoja asennuksia varten tämä asetus kannattaa muuttaa. Käytä komentorivityökalua 'occ db:convert-type' siirtyäksesi toiseen tietokantaan.",
     "Microsoft Windows Platform" : "Microsoft Windows -alusta",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Palvelimesi käyttöjärjestelmä on Microsoft Windows. Suosittelemme käyttämään parhaan mahdollisen käyttökokemuksen saavuttamiseksi Linuxia.",
     "Module 'fileinfo' missing" : "Moduuli 'fileinfo' puuttuu",

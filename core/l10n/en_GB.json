@@ -187,7 +187,6 @@
     "Database name" : "Database name",
     "Database tablespace" : "Database tablespace",
     "Database host" : "Database host",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "SQLite will be used as database. For larger installations we recommend changing this.",
     "Finish setup" : "Finish setup",
     "Finishing …" : "Finishing …",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page.",

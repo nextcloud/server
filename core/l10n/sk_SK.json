@@ -187,7 +187,6 @@
     "Database name" : "Meno databázy",
     "Database tablespace" : "Tabuľkový priestor databázy",
     "Database host" : "Server databázy",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "Ako databáza bude použitá SQLite. Pri väčších inštaláciách odporúčame zmeniť na inú.",
     "Finish setup" : "Dokončiť inštaláciu",
     "Finishing …" : "Dokončujem...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Táto aplikácia potrebuje JavaScript pre správne fungovanie. Prosím <a href=\"http://enable-javascript.com/\" target=\"_blank\">zapnite si JavaScript</a> a obnovte stránku",

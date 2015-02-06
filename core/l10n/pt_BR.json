@@ -187,7 +187,6 @@
     "Database name" : "Nome do banco de dados",
     "Database tablespace" : "Espaço de tabela do banco de dados",
     "Database host" : "Host do banco de dados",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "O SQLite será usado como banco de dados. Para grandes instalações nós recomendamos mudar isto.",
     "Finish setup" : "Concluir configuração",
     "Finishing …" : "Finalizando ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Esta aplicação requer JavaScript para sua correta operação. Por favor <a href=\"http://enable-javascript.com/\" target=\"_blank\">habilite JavaScript</a> e recerregue a página.",

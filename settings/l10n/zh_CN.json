@@ -92,7 +92,6 @@
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP 被设置为移除行内 <doc> 块，这将导致数个核心应用无法访问。",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "这可能是由缓存/加速器造成的，例如 Zend OPcache 或 eAccelerator。",
     "Database Performance Info" : "数据库性能信息",
-    "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "SQLite 正在使用。我们建议大型网站切换到其他数据库。请使用命令行工具：“occ db:convert-type”迁移数据库",
     "Module 'fileinfo' missing" : "模块'文件信息'丢失",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP模块'文件信息'丢失. 我们强烈建议启用此模块以便mime类型检测取得最佳结果.",
     "PHP charset is not set to UTF-8" : "PHP字符集没有设置为UTF-8",

@@ -188,7 +188,6 @@ OC.L10N.register(
     "Database name" : "Az adatbázis neve",
     "Database tablespace" : "Az adatbázis táblázattér (tablespace)",
     "Database host" : "Adatbázis szerver",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "Adatbázisként az SQLite-ot fogjuk használni. Nagyobb telepítések esetén javasoljuk, hogy változtassa meg ezt a beállítást.",
     "Finish setup" : "A beállítások befejezése",
     "Finishing …" : "Befejezés ...",
     "%s is available. Get more information on how to update." : "%s rendelkezésre áll. További információ a frissítéshez.",

@@ -189,7 +189,6 @@ OC.L10N.register(
     "Database name" : "Naam database",
     "Database tablespace" : "Database tablespace",
     "Database host" : "Databaseserver",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "SQLite wordt gebruikt als database. Voor grotere installaties adviseren we dit te veranderen.",
     "Finish setup" : "Installatie afronden",
     "Finishing …" : "Afronden ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Deze applicatie heeft JavaScript nodig. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Activeer JavaScript</a> en herlaad deze interface.",

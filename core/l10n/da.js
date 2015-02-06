@@ -189,7 +189,6 @@ OC.L10N.register(
     "Database name" : "Navn på database",
     "Database tablespace" : "Database tabelplads",
     "Database host" : "Databasehost",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "SQLite bliver brugt som database. For større installationer anbefaler vi at ændre dette.",
     "Finish setup" : "Afslut opsætning",
     "Finishing …" : "Færdigbehandler ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Applikationen kræver JavaScript for at fungere korrekt. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Slå venligst JavaScript til</a> og genindlæs siden.",

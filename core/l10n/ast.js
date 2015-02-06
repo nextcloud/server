@@ -155,7 +155,6 @@ OC.L10N.register(
     "Database name" : "Nome de la base de datos",
     "Database tablespace" : "Espaciu de tables de la base de datos",
     "Database host" : "Agospiador de la base de datos",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "Va usase SQLite como base de datos. Pa instalaciones más grandes, recomiéndase cambiar esto.",
     "Finish setup" : "Finar la configuración ",
     "Finishing …" : "Finando ...",
     "%s is available. Get more information on how to update." : "Ta disponible %s. Consigui más información en cómo anovar·",

@@ -171,7 +171,6 @@ OC.L10N.register(
     "Database name" : "資料庫名稱",
     "Database tablespace" : "資料庫 tablespace",
     "Database host" : "資料庫主機",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "將會使用 SQLite 作為資料庫，在大型安裝中建議使用其他種資料庫",
     "Finish setup" : "完成設定",
     "Finishing …" : "即將完成…",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "這個應用程式需要 Javascript 才能正常運作，請<a href=\"http://enable-javascript.com/\" target=\"_blank\">啟用 Javascript</a> 然後重新整理。",

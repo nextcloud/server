@@ -111,7 +111,6 @@
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Wygląda na to, że ustawienia PHP ucinają bloki wklejonych dokumentów. To sprawi, że niektóre wbudowane aplikacje będą niedostępne.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dzieje się tak prawdopodobnie przez cache lub akcelerator taki jak Zend OPcache lub eAccelerator.",
     "Database Performance Info" : "Informacja o wydajności bazy danych",
-    "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "Jako baza danych został użyty SQLite. Dla większych instalacji doradzamy zmianę na inną. Aby zmigrować do innej bazy danych, użyj narzędzia linii poleceń: 'occ db:convert-type'",
     "Microsoft Windows Platform" : "Platforma Microsoft Windows",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Twój serwer działa na platformie Windows. Zalecamy Linuxa dla optymalnych doświadczeń użytkownika.",
     "Module 'fileinfo' missing" : "Brak modułu „fileinfo”",

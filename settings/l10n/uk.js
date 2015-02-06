@@ -114,7 +114,6 @@ OC.L10N.register(
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Схоже, що PHP налаштовано на вичищення блоків вбудованої документації. Це зробить кілька основних додатків недоступними.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Це, ймовірно, обумовлено використанням кеша/прискорювача такого як Zend OPcache або eAccelerator.",
     "Database Performance Info" : "Інформація продуктивності баз даних",
-    "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "В якості бази даних використовується SQLite. Для більш навантажених серверів, ми рекомендуємо користуватися іншими типами баз даних. Для зміни типу бази даних використовуйте інструмент командного рядка: 'occ db:convert-type'",
     "Module 'fileinfo' missing" : "Модуль 'fileinfo' відсутній",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP модуль 'fileinfo' відсутній. Ми наполегливо рекомендуємо увімкнути цей модуль, щоб отримати кращі результати при виявленні MIME-типів.",
     "PHP charset is not set to UTF-8" : "Кодування PHP не співпадає з UTF-8",

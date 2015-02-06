@@ -187,7 +187,6 @@ OC.L10N.register(
     "Database name" : "Назва бази даних",
     "Database tablespace" : "Таблиця бази даних",
     "Database host" : "Хост бази даних",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "Ви використовуете SQLite для вашої бази даних. Для більш навантажених серверів, ми рекомендуемо змінити це.",
     "Finish setup" : "Завершити налаштування",
     "Finishing …" : "Завершується ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Для цього додатка потрібна наявність Java для коректної роботи. Будь ласка, <a href=\"http://enable-javascript.com/\" target=\"_blank\"> увімкніть JavaScript </a> і перезавантажте сторінку.",

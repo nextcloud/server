@@ -113,7 +113,6 @@
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP에서 인라인 doc 블록을 삭제하도록 설정되어 있습니다. 일부 코어 앱에 접근할 수 없을 수도 있습니다.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Zend OPcache, eAccelerator 같은 캐시/가속기 문제일 수도 있습니다.",
     "Database Performance Info" : "데이터베이스 성능 정보",
-    "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "SQLite 데이터베이스를 사용합니다. 큰 규모의 파일을 관리하는 데에는 추천하지 않습니다. 다른 데이터베이스로 이전하려면 다음 명령행 도구를 사용하십시오: 'occ db :convert-type'",
     "Microsoft Windows Platform" : "마이크로소프트 윈도우 플랫폼",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "서버가 마이크로소프트 윈도우 환경에서 동작하고 있습니다. 최적의 사용자 경험을 위해서는 리눅스를 사용할 것을 권장합니다.",
     "Module 'fileinfo' missing" : "모듈 'fileinfo'가 없음",

@@ -94,7 +94,6 @@ OC.L10N.register(
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Úgy tűnik, hogy a PHP úgy van beállítva, hogy eltávolítja programok belsejében elhelyezett szövegblokkokat. Emiatt a rendszer több alapvető fontosságú eleme működésképtelen lesz.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Ezt valószínűleg egy gyorsítótár ill. kódgyorsító, mint pl, a Zend, OPcache vagy eAccelererator okozza.",
     "Database Performance Info" : "Információ az adatbázis teljesítményéről",
-    "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "A kiválasztott adatbázis az SQLite. Nagyobb telepítések esetén ezt érdemes megváltoztatni. Másik adatbázisra való áttéréshez használja a következő parancssori eszközt:  'occ db:convert-type'",
     "Module 'fileinfo' missing" : "A 'fileinfo' modul hiányzik",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "A 'fileinfo' PHP modul hiányzik. Erősen javasolt ennek a modulnak a telepítése, mert ezzel lényegesen jobb a MIME-típusok felismerése.",
     "PHP charset is not set to UTF-8" : "A PHP-karakterkészlet nem UTF-8-ra van állítva",

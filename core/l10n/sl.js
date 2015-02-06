@@ -186,7 +186,6 @@ OC.L10N.register(
     "Database name" : "Ime podatkovne zbirke",
     "Database tablespace" : "Razpredelnica podatkovne zbirke",
     "Database host" : "Gostitelj podatkovne zbirke",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "Za podatkovno zbirko bo uporabljen SQLite. Za večje zbirke je priporočljivo to zamenjati.",
     "Finish setup" : "Končaj nastavitev",
     "Finishing …" : "Poteka zaključevanje opravila ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Program zahteva podporo JavaScript za pravilno delovanje. Omogočite <a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScript</a> in ponovno osvežite stran.",

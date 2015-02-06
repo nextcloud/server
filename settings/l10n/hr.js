@@ -96,7 +96,6 @@ OC.L10N.register(
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP je očigledno postavljen na strip inline doc blocks. To će nekoliko osnovnih aplikacija učiniti nedostupnima.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Uzrok tome je vjerojatno neki ubrzivač predmemoriranja kao što je Zend OPcache ilieAccelerator.",
     "Database Performance Info" : "Info o performansi baze podataka",
-    "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "SQLite se koristi kao baza podataka. Za veće instalacije preporučujemo da se to promijeni.Za migraciju na neku drugu bazu podataka koristite naredbeni redak: 'occ db: convert-type'",
     "Module 'fileinfo' missing" : "Nedostaje modul 'fileinfo'",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP modul 'fileinfo' nedostaje. Tolo vam preporučjemo da taj modul omogućitekako biste dobili najbolje rezultate u detekciji mime vrste.",
     "PHP charset is not set to UTF-8" : "PHP Charset nije postavljen na UTF-8",

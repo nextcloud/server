@@ -181,7 +181,6 @@ OC.L10N.register(
     "Database name" : "Όνομα βάσης δεδομένων",
     "Database tablespace" : "Κενά Πινάκων Βάσης Δεδομένων",
     "Database host" : "Διακομιστής βάσης δεδομένων",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "Η SQLIte θα χρησιμοποιηθεί ως βάση δεδομένων. Για μεγαλύτερες εγκαταστάσεις σας συνιστούμε να το αλλάξετε.",
     "Finish setup" : "Ολοκλήρωση εγκατάστασης",
     "Finishing …" : "Ολοκλήρωση...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Αυτή η εφαρμογή απαιτεί JavaScript για τη σωστή λειτουργία. Παρακαλώ  <a href=\"http://enable-javascript.com/\" target=\"_blank\">ενεργοποιήστε τη JavaScript</a> και επαναφορτώστε τη σελίδα.",

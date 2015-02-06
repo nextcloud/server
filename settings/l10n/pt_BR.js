@@ -115,7 +115,6 @@ OC.L10N.register(
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP é, aparentemente, a configuração para retirar blocos doc inline. Isso fará com que vários aplicativos do núcleo fiquem inacessíveis.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Isso provavelmente é causado por uma cache/acelerador, como Zend OPcache ou eAccelerator.",
     "Database Performance Info" : "Informações de Desempenho do Banco de Dados",
-    "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "SQLite é usada como base de dados. Para grandes instalações recomendamos mudar isso. Para migrar para outro banco de dados usar a ferramenta de linha de comando: 'occ db: converter-type'",
     "Microsoft Windows Platform" : "Plataforma Microsoft Windows",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "O servidor está em execução no Microsoft Windows. Recomendamos Linux para uma excelente experiência para o usuário.",
     "Module 'fileinfo' missing" : "Módulo 'fileinfo' faltando",

@@ -38,7 +38,7 @@
     "seconds ago" : "Gerade eben",
     "Database Error" : "Datenbankfehler",
     "Please contact your system administrator." : "Bitte kontaktiere Deinen Systemadministrator.",
-    "web services under your control" : "Web-Services unter Deiner Kontrolle",
+    "web services under your control" : "Web-Dienste unter Deiner Kontrolle",
     "App directory already exists" : "Das Applikationsverzeichnis existiert bereits",
     "Can't create app folder. Please fix permissions. %s" : "Es kann kein Applikationsordner erstellt werden. Bitte passe die  Berechtigungen an. %s",
     "No source specified when installing app" : "Für die Installation der Applikation wurde keine Quelle angegeben",

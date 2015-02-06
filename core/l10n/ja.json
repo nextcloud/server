@@ -187,7 +187,6 @@
     "Database name" : "データベース名",
     "Database tablespace" : "データベースの表領域",
     "Database host" : "データベースのホスト名",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "SQLite をデータベースとして利用します。大規模な運用では、利用しないことをお勧めします。",
     "Finish setup" : "セットアップを完了します",
     "Finishing …" : "作業を完了しています ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "このアプリケーションは使用する為、JavaScriptが必要です。\n<a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScriptを有効にし</a>、ページを更新してください。 ",

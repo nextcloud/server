@@ -189,7 +189,6 @@ OC.L10N.register(
     "Database name" : "Nama basis data",
     "Database tablespace" : "Tablespace basis data",
     "Database host" : "Host basis data",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "SQLite akan digunakan sebagai basis data. Untuk instalasi yang lebih besar, kami merekomendasikan untuk mengubah setelan ini.",
     "Finish setup" : "Selesaikan instalasi",
     "Finishing …" : "Menyelesaikan ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Aplikasi ini memerlukan JavaScript untuk beroperasi dengan benar. Mohon <a href=\"http://enable-javascript.com/\" target=\"_blank\">aktifkan JavaScript</a> dan muat ulang halaman.",

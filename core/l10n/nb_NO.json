@@ -182,7 +182,6 @@
     "Database name" : "Databasenavn",
     "Database tablespace" : "Database tabellområde",
     "Database host" : "Databasevert",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "SQLite vil bli brukt som database. For større installasjoner anbefaler vi å endre dette.",
     "Finish setup" : "Fullfør oppsetting",
     "Finishing …" : "Ferdigstiller ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Denne applikasjonen krever JavaScript for å fungere korrekt. Vennligst <a href=\"http://enable-javascript.com/\" target=\"_blank\">aktiver JavaScript</a> og last siden på nytt.",

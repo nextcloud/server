@@ -176,7 +176,6 @@ OC.L10N.register(
     "Database name" : "Andmebasi nimi",
     "Database tablespace" : "Andmebaasi tabeliruum",
     "Database host" : "Andmebaasi host",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "Andmebaasina kasutatakse SQLite-t. Suuremate paigalduste puhul me soovitame seda muuta.",
     "Finish setup" : "Lõpeta seadistamine",
     "Finishing …" : "Lõpetamine ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "See rakendus vajab toimimiseks JavaScripti. Palun <a href=\"http://enable-javascript.com/\" target=\"_blank\">luba JavaScript</a> ning laadi see leht uuesti.",

@@ -189,7 +189,6 @@ OC.L10N.register(
     "Database name" : "Nome da base de datos",
     "Database tablespace" : "Táboa de espazos da base de datos",
     "Database host" : "Servidor da base de datos",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "Empregarase SQLite como base de datos. Para instalacións máis grandes recomendámoslle que cambie isto.",
     "Finish setup" : "Rematar a configuración",
     "Finishing …" : "Rematando ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Este aplicativo precisa JavaScript para funcionar. Por favor <a href=\"http://enable-javascript.com/\" target=\"_blank\">habilite JavaScript</a> e recargue a páxina.",

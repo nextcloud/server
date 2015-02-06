@@ -189,7 +189,6 @@ OC.L10N.register(
     "Database name" : "데이터베이스 이름",
     "Database tablespace" : "데이터베이스 테이블 공간",
     "Database host" : "데이터베이스 호스트",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "SQLite 데이터베이스를 사용합니다. 큰 규모의 파일을 관리하는 데에는 추천하지 않습니다.",
     "Finish setup" : "설치 완료",
     "Finishing …" : "완료 중 ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "이 앱이 올바르게 작동하려면 JavaScript가 필요합니다. <a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScript를 활성화</a>한 다음 페이지를 새로 고치십시오.",

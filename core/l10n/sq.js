@@ -175,7 +175,6 @@ OC.L10N.register(
     "Database name" : "Emri i database-it",
     "Database tablespace" : "Tablespace-i i database-it",
     "Database host" : "Pozicioni (host) i database-it",
-    "SQLite will be used as database. For larger installations we recommend to change this." : "SQLite do të përdoret si bazë të dhënash. Për instalime më të mëdha ju rekomandojmë që ta ndryshoni këtë.",
     "Finish setup" : "Mbaro setup-in",
     "Finishing …" : "Duke përfunduar ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Këtij aplikacioni i nevojitet JavaScript për funksionim të rregullt. Ju lutem <a href=\"http://enable-javascript.com/\" target=\"_blank\">aktivizoni JavaScript</a> dhe ringarkoni faqen.",

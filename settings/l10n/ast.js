@@ -99,7 +99,6 @@ OC.L10N.register(
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP ta aparentemente configuráu pa desaniciar bloques de documentos en llinia. Esto va facer que delles aplicaciones principales nun tean accesibles.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dablemente esto seya culpa d'un caché o acelerador, como por exemplu Zend OPcache o eAccelerator.",
     "Database Performance Info" : "Información de rindimientu de la base de datos",
-    "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "Ta usándose SQLite como base de datos. Pa instalaciones más grandes, recomendamos cambiar esto. Pa migrar a otra base de datos, usa la ferramienta de llinia de comandos: 'occ db:convert-type'",
     "Module 'fileinfo' missing" : "Nun s'atopó'l módulu \"fileinfo\"",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Nun s'atopó'l módulu PHP 'fileinfo'. Encamentámoste qu'habilites esti módulu pa obtener meyores resultaos cola deteición de tribes MIME.",
     "PHP charset is not set to UTF-8" : "El xuegu de caracteres de PHP nun ta afitáu pa UTF-8",
