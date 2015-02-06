@@ -59,6 +59,20 @@ class Mapper extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('D:/folder.name.with.peri-ods/te-st-2.t-x-t', $this->mapper->slugifyPath('D:/folder.name.with.peri ods/te st.t x t', 2));
 		$this->assertEquals('D:/folder.name.with.peri-ods/te-st.t-x-t', $this->mapper->slugifyPath('D:/folder.name.with.peri ods/te st.t x t'));
 
-		
+		// files with special characters
+		$this->assertEquals('D:/' . md5('ありがとう'), $this->mapper->slugifyPath('D:/ありがとう'));
+		$this->assertEquals('D:/' . md5('ありがとう') . '/issue6722.txt', $this->mapper->slugifyPath('D:/ありがとう/issue6722.txt'));
+
+		// blacklisted files
+		$this->assertEquals('D:/' . md5('.htaccess'), $this->mapper->slugifyPath('D:/.htaccess'));
+		$this->assertEquals('D:/' . md5('.htaccess.'), $this->mapper->slugifyPath('D:/.htaccess.'));
+		$this->assertEquals('D:/' . md5('.htAccess'), $this->mapper->slugifyPath('D:/.htAccess'));
+		$this->assertEquals('D:/' . md5('.htAccess\\…\\') . '/a', $this->mapper->slugifyPath('D:/.htAccess\…\/とa'));
+		$this->assertEquals('D:/' . md5('.htaccess-'), $this->mapper->slugifyPath('D:/.htaccess-'));
+		$this->assertEquals('D:/' . md5('.htaあccess'), $this->mapper->slugifyPath('D:/.htaあccess'));
+		$this->assertEquals('D:/' . md5(' .htaccess'), $this->mapper->slugifyPath('D:/ .htaccess'));
+		$this->assertEquals('D:/' . md5('.htaccess '), $this->mapper->slugifyPath('D:/.htaccess '));
+		$this->assertEquals('D:/' . md5(' .htaccess '), $this->mapper->slugifyPath('D:/ .htaccess '));
+
 	}
 }
