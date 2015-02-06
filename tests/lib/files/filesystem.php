@@ -187,6 +187,28 @@ class Filesystem extends \Test\TestCase {
 		$this->assertSame($expected, \OC\Files\Filesystem::isValidPath($path));
 	}
 
+	public function isFileBlacklistedData() {
+		return array(
+			array('/etc/foo/bar/foo.txt', false),
+			array('\etc\foo/bar\foo.txt', false),
+			array('.htaccess', true),
+			array('.htaccess/', true),
+			array('.htaccess\\', true),
+			array('/etc/foo\bar/.htaccess\\', true),
+			array('/etc/foo\bar/.htaccess/', true),
+			array('/etc/foo\bar/.htaccess/foo', false),
+			array('//foo//bar/\.htaccess/', true),
+			array('\foo\bar\.HTAccess', true),
+		);
+	}
+
+	/**
+	 * @dataProvider isFileBlacklistedData
+	 */
+	public function testIsFileBlacklisted($path, $expected) {
+		$this->assertSame($expected, \OC\Files\Filesystem::isFileBlacklisted($path));
+	}
+
 	public function normalizePathWindowsAbsolutePathData() {
 		return array(
 			array('C:/', 'C:\\'),

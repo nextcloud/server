@@ -68,6 +68,15 @@ class Mapper extends \Test\TestCase {
 			 */
 			array('D:/' . md5('ありがとう'), 'D:/ありがとう'),
 			array('D:/' . md5('ありがとう') . '/issue6722.txt', 'D:/ありがとう/issue6722.txt'),
+			array('D:/' . md5('.htaccess'), 'D:/.htaccess'),
+			array('D:/' . md5('.htaccess.'), 'D:/.htaccess.'),
+			array('D:/' . md5('.htAccess'), 'D:/.htAccess'),
+			array('D:/' . md5('.htAccess\\…\\') . '/a', 'D:/.htAccess\…\/とa'),
+			array('D:/' . md5('.htaccess-'), 'D:/.htaccess-'),
+			array('D:/' . md5('.htaあccess'), 'D:/.htaあccess'),
+			array('D:/' . md5(' .htaccess'), 'D:/ .htaccess'),
+			array('D:/' . md5('.htaccess '), 'D:/.htaccess '),
+			array('D:/' . md5(' .htaccess '), 'D:/ .htaccess '),
 		);
 	}
 
