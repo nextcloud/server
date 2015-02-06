@@ -256,11 +256,7 @@ class Migration {
 						if (substr($file, 0, strlen($filename) +1) === $filename . '.') {
 
 							$uid = $this->getUidFromShareKey($file, $filename, $trash);
-							if ($uid === $this->public_share_key_id ||
-									$uid === $this->recovery_key_id ||
-									\OCP\User::userExists($uid)) {
-								$this->view->copy($oldShareKeyPath . '/' . $file, $target . '/' . $uid . '.shareKey');
-							}
+							$this->view->copy($oldShareKeyPath . '/' . $file, $target . '/' . $uid . '.shareKey');
 						}
 					}
 
