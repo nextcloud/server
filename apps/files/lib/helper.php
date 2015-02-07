@@ -13,21 +13,26 @@ use OCP\Files\FileInfo;
 /**
  * Helper class for manipulating file information
  */
-class Helper
-{
+class Helper {
+	/**
+	 * @param string $dir
+	 * @return array
+	 * @throws \OCP\Files\NotFoundException
+	 */
 	public static function buildFileStorageStatistics($dir) {
 		// information about storage capacities
 		$storageInfo = \OC_Helper::getStorageInfo($dir);
-
 		$l = new \OC_L10N('files');
 		$maxUploadFileSize = \OCP\Util::maxUploadFilesize($dir, $storageInfo['free']);
 		$maxHumanFileSize = \OCP\Util::humanFileSize($maxUploadFileSize);
 		$maxHumanFileSize = $l->t('Upload (max. %s)', array($maxHumanFileSize));
 
-		return array('uploadMaxFilesize' => $maxUploadFileSize,
-					 'maxHumanFilesize'  => $maxHumanFileSize,
-					 'freeSpace' => $storageInfo['free'],
-					 'usedSpacePercent'  => (int)$storageInfo['relative']);
+		return [
+			'uploadMaxFilesize' => $maxUploadFileSize,
+			'maxHumanFilesize'  => $maxHumanFileSize,
+			'freeSpace' => $storageInfo['free'],
+			'usedSpacePercent'  => (int)$storageInfo['relative']
+		];
 	}
 
 	/**

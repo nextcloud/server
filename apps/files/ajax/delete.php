@@ -36,7 +36,12 @@ foreach ($files as $file) {
 }
 
 // get array with updated storage stats (e.g. max file size) after upload
-$storageStats = \OCA\Files\Helper::buildFileStorageStatistics($dir);
+try {
+	$storageStats = \OCA\Files\Helper::buildFileStorageStatistics($dir);
+} catch(\OCP\Files\NotFoundException $e) {
+	OCP\JSON::error(['data' => ['message' => 'File not found']]);
+	return;
+}
 
 if ($success) {
 	OCP\JSON::success(array("data" => array_merge(array("dir" => $dir, "files" => $files), $storageStats)));
