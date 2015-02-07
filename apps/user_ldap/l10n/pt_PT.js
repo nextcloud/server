@@ -33,6 +33,7 @@ OC.L10N.register(
     "Confirm Deletion" : "Confirmar a operação de apagar",
     "_%s group found_::_%s groups found_" : ["%s grupo encontrado","%s grupos encontrados"],
     "_%s user found_::_%s users found_" : ["%s utilizador encontrado","%s utilizadores encontrados"],
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Não foi possível detetar o atributo do nome do utilizador. Por favor especifique-o nas configurações ldap avançadas.",
     "Could not find the desired feature" : "Não se encontrou a função desejada",
     "Invalid Host" : "Hospedeiro Inválido",
     "Server" : "Servidor",
