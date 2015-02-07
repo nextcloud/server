@@ -40,7 +40,8 @@ class OC_Helper {
 		'application/x-gimp' => 'image',
 		'application/x-photoshop' => 'image',
 
-		'application/x-font-ttf' => 'font',
+		'application/font-sfnt' => 'font',
+		'application/x-font' => 'font',
 		'application/font-woff' => 'font',
 		'application/vnd.ms-fontobject' => 'font',
 
