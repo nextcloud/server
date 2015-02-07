@@ -818,8 +818,7 @@ class OC_Util {
 			$parameters['user_autofocus'] = true;
 		}
 		if (isset($_REQUEST['redirect_url'])) {
-			$redirectUrl = $_REQUEST['redirect_url'];
-			$parameters['redirect_url'] = urlencode($redirectUrl);
+			$parameters['redirect_url'] = $_REQUEST['redirect_url'];
 		}
 
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
