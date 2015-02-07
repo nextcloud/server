@@ -81,11 +81,9 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->subadminMiddlewareAsSubAdmin->beforeController($this->controller, 'foo');
 	}
 
-
-
-
 	public function testAfterException() {
 		$expectedResponse = new TemplateResponse('core', '403', array(), 'guest');
+		$expectedResponse->setStatus(403);
 		$this->assertEquals($expectedResponse, $this->subadminMiddleware->afterException($this->controller, 'foo', new \Exception()));
 	}
 }
