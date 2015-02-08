@@ -460,7 +460,7 @@ if ($_['suggestedOverwriteCliUrl']) {
 			<label for="mail_smtpname"><?php p($l->t( 'Credentials' )); ?></label>
 			<input type="text" name='mail_smtpname' id="mail_smtpname" placeholder="<?php p($l->t('SMTP Username'))?>"
 				   value='<?php p($_['mail_smtpname']) ?>' />
-			<input type="password" name='mail_smtppassword' id="mail_smtppassword"
+			<input type="password" name='mail_smtppassword' id="mail_smtppassword" autocomplete="off"
 				   placeholder="<?php p($l->t('SMTP Password'))?>" value='<?php p($_['mail_smtppassword']) ?>' />
 			<input id="mail_credentials_settings_submit" type="button" value="<?php p($l->t('Store credentials')) ?>">
 		</p>
