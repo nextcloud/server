@@ -9,7 +9,7 @@
     "PHP with a version lower than %s is required." : "PHP'nin %s sürümü öncesi gerekli.",
     "Following databases are supported: %s" : "Şu veritabanları desteklenmekte: %s",
     "The command line tool %s could not be found" : "Komut satırı aracı %s bulunamadı",
-    "The library %s is not available." : "%s kütüphanesi kullanılamıyor.",
+    "The library %s is not available." : "%s kütüphanesi mevcut değil.",
     "Library %s with a version higher than %s is required - available version %s." : "%s kütüphanesinin %s sürümünden daha yüksek sürümü gerekli - kullanılabilir sürüm %s.",
     "Library %s with a version lower than %s is required - available version %s." : "%s kütüphanesinin %s sürümünden daha düşük sürümü gerekli - kullanılabilir sürüm %s.",
     "Following platforms are supported: %s" : "Aşağıdaki platformlar destekleniyor: %s",

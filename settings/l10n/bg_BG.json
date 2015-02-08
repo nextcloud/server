@@ -111,6 +111,7 @@
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP е настроен да премахва inline doc блокове. Това ще направи няколко основни приложения недостъпни.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Това може да се дължи на кеш/акселератор като Zend OPache или eAccelerator.",
     "Database Performance Info" : "Информация за прозиводителността на базата данни",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Особено, когато използвате клиент за работен плот за синхронизация, използването на SQLite e непрепоръчително.",
     "Microsoft Windows Platform" : "Платформа Microsoft Windows",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Вашия сървър работи на Microsoft Windows. Ние горещо препоръчваме Linux за оптимално потребителско изживяване.",
     "Module 'fileinfo' missing" : "Модулът 'fileinfo' липсва",
