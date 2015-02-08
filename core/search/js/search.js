@@ -360,10 +360,17 @@
 })();
 
 $(document).ready(function() {
-	var $searchResults = $('<div id="searchresults" class="hidden"/>');
-	$('#app-content')
-		.append($searchResults)
-		.find('.viewcontainer').css('min-height', 'initial');
+	var $searchResults = $('#searchresults');
+	if ($searchResults.length) {
+		$searchResults.addClass('hidden');
+		$('#app-content')
+			.find('.viewcontainer').css('min-height', 'initial');
+	} else {
+		var $searchResults = $('<div id="searchresults" class="hidden"/>');
+		$('#app-content')
+			.append($searchResults)
+			.find('.viewcontainer').css('min-height', 'initial');
+	}
 	$searchResults.load(OC.webroot + '/core/search/templates/part.results.html', function () {
 		OC.Search = new OCA.Search($('#searchbox'), $('#searchresults'));
 	});
