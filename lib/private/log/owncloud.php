@@ -68,7 +68,7 @@ class OC_Log_Owncloud {
 				$timezone = new DateTimeZone('UTC');
 			}
 			$time = new DateTime(null, $timezone);
-			$reqId = \OC_Request::getRequestID();
+			$reqId = \OC::$server->getRequest()->getId();
 			$remoteAddr = \OC_Request::getRemoteAddress();
 			// remove username/passwords from URLs before writing the to the log file
 			$time = $time->format($format);

@@ -223,7 +223,7 @@ class OC_Template extends \OC\Template\Base {
 		$content->assign('trace', $exception->getTraceAsString());
 		$content->assign('debugMode', defined('DEBUG') && DEBUG === true);
 		$content->assign('remoteAddr', OC_Request::getRemoteAddress());
-		$content->assign('requestID', OC_Request::getRequestID());
+		$content->assign('requestID', \OC::$server->getRequest()->getId());
 		$content->printPage();
 		die();
 	}

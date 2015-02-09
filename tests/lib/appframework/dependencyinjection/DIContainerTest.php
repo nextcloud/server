@@ -71,7 +71,10 @@ class DIContainerTest extends \Test\TestCase {
 
 
 	public function testMiddlewareDispatcherIncludesSecurityMiddleware(){
-		$this->container['Request'] = new Request(array('method' => 'GET'));
+		$this->container['Request'] = new Request(
+			['method' => 'GET'],
+			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
+		);
 		$security = $this->container['SecurityMiddleware'];
 		$dispatcher = $this->container['MiddlewareDispatcher'];
 

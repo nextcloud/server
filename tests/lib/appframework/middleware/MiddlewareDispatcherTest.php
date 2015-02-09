@@ -126,8 +126,16 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 
 
 	private function getControllerMock(){
-		return $this->getMock('OCP\AppFramework\Controller', array('method'),
-			array('app', new Request(array('method' => 'GET'))));
+		return $this->getMock(
+			'OCP\AppFramework\Controller',
+			['method'],
+			['app',
+				new Request(
+					['method' => 'GET'],
+					$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
+				)
+			]
+		);
 	}
 
 

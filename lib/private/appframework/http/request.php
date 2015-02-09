@@ -25,6 +25,7 @@
 namespace OC\AppFramework\Http;
 
 use OCP\IRequest;
+use OCP\Security\ISecureRandom;
 
 /**
  * Class for accessing variables in the request.
@@ -48,24 +49,32 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		'method',
 		'requesttoken',
 	);
+	/** @var ISecureRandom */
+	protected $secureRandom;
+	/** @var string */
+	protected $requestId = '';
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
-	 * @param array 'urlParams' the parameters which were matched from the URL
-	 * @param array 'get' the $_GET array
-	 * @param array|string 'post' the $_POST array or JSON string
-	 * @param array 'files' the $_FILES array
-	 * @param array 'server' the $_SERVER array
-	 * @param array 'env' the $_ENV array
-	 * @param array 'cookies' the $_COOKIE array
-	 * @param string 'method' the request method (GET, POST etc)
-	 * @param string|false 'requesttoken' the requesttoken or false when not available
+	 *        - array 'urlParams' the parameters which were matched from the URL
+	 *        - array 'get' the $_GET array
+	 *        - array|string 'post' the $_POST array or JSON string
+	 *        - array 'files' the $_FILES array
+	 *        - array 'server' the $_SERVER array
+	 *        - array 'env' the $_ENV array
+	 *        - array 'cookies' the $_COOKIE array
+	 *        - string 'method' the request method (GET, POST etc)
+	 *        - string|false 'requesttoken' the requesttoken or false when not available
+	 * @param ISecureRandom $secureRandom
+	 * @param string $stream
 	 * @see http://www.php.net/manual/en/reserved.variables.php
 	 */
-	public function __construct(array $vars=array(), $stream='php://input') {
-
+	public function __construct(array $vars=array(),
+								ISecureRandom $secureRandom,
+								$stream='php://input') {
 		$this->inputStream = $stream;
 		$this->items['params'] = array();
+		$this->secureRandom = $secureRandom;
 
 		if(!array_key_exists('method', $vars)) {
 			$vars['method'] = 'GET';
@@ -384,4 +393,23 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			// Valid token
 			return true;
 		}
-	}}
+	}
+
+	/**
+	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
+	 * If `mod_unique_id` is installed this value will be taken.
+	 * @return string
+	 */
+	public function getId() {
+		if(isset($this->server['UNIQUE_ID'])) {
+			return $this->server['UNIQUE_ID'];
+		}
+
+		if(empty($this->requestId)) {
+			$this->requestId = $this->secureRandom->getLowStrengthGenerator()->generate(20);
+		}
+
+		return $this->requestId;
+	}
+
+}
