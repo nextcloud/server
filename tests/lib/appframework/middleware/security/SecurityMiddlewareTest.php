@@ -314,10 +314,14 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 	public function testAfterExceptionReturnsRedirect(){
 		$this->request = new Request(
-			array('server' =>
-				array('HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-					'REQUEST_URI' => 'owncloud/index.php/apps/specialapp')
-			)
+			[
+				'server' =>
+				[
+					'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+					'REQUEST_URI' => 'owncloud/index.php/apps/specialapp'
+				]
+			],
+			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
 		);
 		$this->middleware = $this->getMiddleware(true, true);
 		$response = $this->middleware->afterException($this->controller, 'test',

@@ -13,7 +13,6 @@ class OC_Request {
 	const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
 	const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost)$/';
-	static protected $reqId;
 
 	/**
 	 * Returns the remote address, if the connection came from a trusted proxy and `forwarded_for_headers` has been configured
@@ -41,17 +40,6 @@ class OC_Request {
 		}
 
 		return $remoteAddress;
-	}
-
-	/**
-	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
-	 * @return string
-	 */
-	public static function getRequestID() {
-		if(self::$reqId === null) {
-			self::$reqId = hash('md5', microtime().\OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(20));
-		}
-		return self::$reqId;
 	}
 
 	/**

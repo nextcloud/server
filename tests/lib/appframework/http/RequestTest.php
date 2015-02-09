@@ -8,9 +8,13 @@
 
 namespace OC\AppFramework\Http;
 
-global $data;
+use OCP\Security\ISecureRandom;
 
 class RequestTest extends \Test\TestCase {
+	/** @var string */
+	protected $stream = 'fakeinput://data';
+	/** @var ISecureRandom */
+	protected $secureRandom;
 
 	protected function setUp() {
 		parent::setUp();
@@ -20,7 +24,8 @@ class RequestTest extends \Test\TestCase {
 			stream_wrapper_unregister('fakeinput');
 		}
 		stream_wrapper_register('fakeinput', 'RequestStream');
-		$this->stream = 'fakeinput://data';
+
+		$this->secureRandom = $this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock();
 	}
 
 	protected function tearDown() {
@@ -34,7 +39,7 @@ class RequestTest extends \Test\TestCase {
 			'method' => 'GET',
 		);
 
-		$request = new Request($vars, $this->stream);
+		$request = new Request($vars, $this->secureRandom, $this->stream);
 
 		// Countable
 		$this->assertEquals(2, count($request));
@@ -61,7 +66,7 @@ class RequestTest extends \Test\TestCase {
 			'method' => 'GET'
 		);
 
-		$request = new Request($vars, $this->stream);
+		$request = new Request($vars, $this->secureRandom, $this->stream);
 
 		$this->assertEquals(3, count($request));
 		$this->assertEquals('Janey', $request->{'nickname'});
@@ -78,7 +83,7 @@ class RequestTest extends \Test\TestCase {
 			'method' => 'GET'
 		);
 
-		$request = new Request($vars, $this->stream);
+		$request = new Request($vars, $this->secureRandom, $this->stream);
 		$request['nickname'] = 'Janey';
 	}
 
@@ -91,7 +96,7 @@ class RequestTest extends \Test\TestCase {
 			'method' => 'GET'
 		);
 
-		$request = new Request($vars, $this->stream);
+		$request = new Request($vars, $this->secureRandom, $this->stream);
 		$request->{'nickname'} = 'Janey';
 	}
 
@@ -104,7 +109,7 @@ class RequestTest extends \Test\TestCase {
 			'method' => 'GET',
 		);
 
-		$request = new Request($vars, $this->stream);
+		$request = new Request($vars, $this->secureRandom, $this->stream);
 		$result = $request->post;
 	}
 
@@ -114,7 +119,7 @@ class RequestTest extends \Test\TestCase {
 			'method' => 'GET',
 		);
 
-		$request = new Request($vars, $this->stream);
+		$request = new Request($vars, $this->secureRandom, $this->stream);
 		$this->assertEquals('GET', $request->method);
 		$result = $request->get;
 		$this->assertEquals('John Q. Public', $result['name']);
@@ -129,7 +134,7 @@ class RequestTest extends \Test\TestCase {
 			'server' => array('CONTENT_TYPE' => 'application/json; utf-8')
 		);
 
-		$request = new Request($vars, $this->stream);
+		$request = new Request($vars, $this->secureRandom, $this->stream);
 		$this->assertEquals('POST', $request->method);
 		$result = $request->post;
 		$this->assertEquals('John Q. Public', $result['name']);
@@ -147,7 +152,7 @@ class RequestTest extends \Test\TestCase {
 			'server' => array('CONTENT_TYPE' => 'application/x-www-form-urlencoded'),
 		);
 
-		$request = new Request($vars, $this->stream);
+		$request = new Request($vars, $this->secureRandom, $this->stream);
 
 		$this->assertEquals('PATCH', $request->method);
 		$result = $request->patch;
@@ -166,7 +171,7 @@ class RequestTest extends \Test\TestCase {
 			'server' => array('CONTENT_TYPE' => 'application/json; utf-8'),
 		);
 
-		$request = new Request($vars, $this->stream);
+		$request = new Request($vars, $this->secureRandom, $this->stream);
 
 		$this->assertEquals('PUT', $request->method);
 		$result = $request->put;
@@ -181,7 +186,7 @@ class RequestTest extends \Test\TestCase {
 			'server' => array('CONTENT_TYPE' => 'application/json; utf-8'),
 		);
 
-		$request = new Request($vars, $this->stream);
+		$request = new Request($vars, $this->secureRandom, $this->stream);
 
 		$this->assertEquals('PATCH', $request->method);
 		$result = $request->patch;
@@ -200,7 +205,7 @@ class RequestTest extends \Test\TestCase {
 			'server' => array('CONTENT_TYPE' => 'image/png'),
 		);
 
-		$request = new Request($vars, $this->stream);
+		$request = new Request($vars, $this->secureRandom, $this->stream);
 		$this->assertEquals('PUT', $request->method);
 		$resource = $request->put;
 		$contents = stream_get_contents($resource);
@@ -223,12 +228,47 @@ class RequestTest extends \Test\TestCase {
 			'urlParams' => array('id' => '2'),
 		);
 
-		$request = new Request($vars, $this->stream);
+		$request = new Request($vars, $this->secureRandom, $this->stream);
 
 		$newParams = array('id' => '3', 'test' => 'test2');
 		$request->setUrlParameters($newParams);
 		$this->assertEquals('test2', $request->getParam('test'));
 		$this->assertEquals('3', $request->getParam('id'));
 		$this->assertEquals('3', $request->getParams()['id']);
+	}
+
+	public function testGetIdWithModUnique() {
+		$vars = [
+			'server' => [
+				'UNIQUE_ID' => 'GeneratedUniqueIdByModUnique'
+			],
+		];
+
+		$request = new Request($vars, $this->secureRandom, $this->stream);
+		$this->assertSame('GeneratedUniqueIdByModUnique', $request->getId());
+	}
+
+	public function testGetIdWithoutModUnique() {
+		$lowRandomSource = $this->getMockBuilder('\OCP\Security\ISecureRandom')
+			->disableOriginalConstructor()->getMock();
+		$lowRandomSource->expects($this->once())
+			->method('generate')
+			->with('20')
+			->will($this->returnValue('GeneratedByOwnCloudItself'));
+
+		$this->secureRandom
+			->expects($this->once())
+			->method('getLowStrengthGenerator')
+			->will($this->returnValue($lowRandomSource));
+
+		$request = new Request([], $this->secureRandom, $this->stream);
+		$this->assertSame('GeneratedByOwnCloudItself', $request->getId());
+	}
+
+	public function testGetIdWithoutModUniqueStable() {
+		$request = new Request([], \OC::$server->getSecureRandom(), $this->stream);
+		$firstId = $request->getId();
+		$secondId = $request->getId();
+		$this->assertSame($firstId, $secondId);
 	}
 }

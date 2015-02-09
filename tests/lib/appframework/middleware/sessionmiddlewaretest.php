@@ -33,7 +33,10 @@ class SessionMiddlewareTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->request = new Request();
+		$this->request = new Request(
+			[],
+			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
+		);
 		$this->reflector = new ControllerMethodReflector();
 	}
 

@@ -127,4 +127,11 @@ interface IRequest {
 	 * @return bool true if CSRF check passed
 	 */
 	public function passesCSRFCheck();
+
+	/**
+	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
+	 * If `mod_unique_id` is installed this value will be taken.
+	 * @return string
+	 */
+	public function getId();
 }

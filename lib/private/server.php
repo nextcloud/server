@@ -10,7 +10,6 @@ use OC\Cache\UserCache;
 use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
-use OC\Files\Config\StorageManager;
 use OC\Security\CertificateManager;
 use OC\Files\Node\Root;
 use OC\Files\View;
@@ -64,7 +63,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			}
 
 			return new Request(
-				array(
+				[
 					'get' => $_GET,
 					'post' => $_POST,
 					'files' => $_FILES,
@@ -76,7 +75,9 @@ class Server extends SimpleContainer implements IServerContainer {
 						: null,
 					'urlParams' => $urlParams,
 					'requesttoken' => $requestToken,
-				), $stream
+				],
+				$this->getSecureRandom(),
+				$stream
 			);
 		});
 		$this->registerService('PreviewManager', function ($c) {

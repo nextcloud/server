@@ -25,18 +25,19 @@
 namespace OCP\AppFramework;
 
 use OC\AppFramework\Http\Request;
-use OCP\AppFramework\Http\TemplateResponse;
 
 
 class ChildApiController extends ApiController {};
 
 
 class ApiControllerTest extends \Test\TestCase {
-
+    /** @var ChildApiController */
+    protected $controller;
 
     public function testCors() {
         $request = new Request(
-            array('server' => array('HTTP_ORIGIN' => 'test'))
+            ['server' => ['HTTP_ORIGIN' => 'test']],
+            $this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
         );
         $this->controller = new ChildApiController('app', $request, 'verbs',
             'headers', 100);

@@ -32,7 +32,12 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	 */
 	public function testSetCORSAPIHeader() {
 		$request = new Request(
-			array('server' => array('HTTP_ORIGIN' => 'test'))
+			[
+				'server' => [
+					'HTTP_ORIGIN' => 'test'
+				]
+			],
+			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
 		);
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector);
@@ -45,7 +50,12 @@ class CORSMiddlewareTest extends \Test\TestCase {
 
 	public function testNoAnnotationNoCORSHEADER() {
 		$request = new Request(
-			array('server' => array('HTTP_ORIGIN' => 'test'))
+			[
+				'server' => [
+					'HTTP_ORIGIN' => 'test'
+				]
+			],
+			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
 		);
 		$middleware = new CORSMiddleware($request, $this->reflector);
 
@@ -59,7 +69,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	 * @CORS
 	 */
 	public function testNoOriginHeaderNoCORSHEADER() {
-		$request = new Request();
+		$request = new Request([], $this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock());
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector);
 
@@ -75,7 +85,12 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	 */
 	public function testCorsIgnoredIfWithCredentialsHeaderPresent() {
 		$request = new Request(
-			array('server' => array('HTTP_ORIGIN' => 'test'))
+			[
+				'server' => [
+					'HTTP_ORIGIN' => 'test'
+				]
+			],
+			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
 		);
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector);
