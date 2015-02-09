@@ -65,7 +65,10 @@ $(document).ready(function() {
 				|| $(tr).find('.chzn-select').val() != null))
 			{
 				if ($(tr).find('.dropbox').length == 0) {
-					$(config).append('<a class="button dropbox">'+t('files_external', 'Grant access')+'</a>');
+					$(config).append($(document.createElement('input'))
+						.addClass('button dropbox')
+						.attr('type', 'button')
+						.attr('value', t('files_external', 'Grant access')));
 				} else {
 					$(tr).find('.dropbox').show();
 				}

@@ -26,39 +26,41 @@ if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == '
 	OCP\App::registerPersonal('files_external', 'personal');
 }
 
-\OCA\Files\App::getNavigationManager()->add(
-	array(
-		"id" => 'extstoragemounts',
-		"appname" => 'files_external',
-		"script" => 'list.php',
-		"order" => 30,
-		"name" => $l->t('External storage')
-	)
-);
+\OCA\Files\App::getNavigationManager()->add([
+	"id" => 'extstoragemounts',
+	"appname" => 'files_external',
+	"script" => 'list.php',
+	"order" => 30,
+	"name" => $l->t('External storage')
+]);
 
 // connecting hooks
 OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config', 'initMountPointsHook');
 OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\SMB_OC', 'login');
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\Local', array(
+OC_Mount_Config::registerBackend('\OC\Files\Storage\Local', [
 	'backend' => (string)$l->t('Local'),
 	'priority' => 150,
-	'configuration' => array(
-		'datadir' => (string)$l->t('Location'))));
+	'configuration' => [
+		'datadir' => (string)$l->t('Location')
+	],
+]);
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', array(
+OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', [
 	'backend' => (string)$l->t('Amazon S3'),
 	'priority' => 100,
-	'configuration' => array(
+	'configuration' => [
 		'key' => (string)$l->t('Key'),
 		'secret' => '*'.$l->t('Secret'),
-		'bucket' => (string)$l->t('Bucket')),
-	'has_dependencies' => true));
+		'bucket' => (string)$l->t('Bucket'),
+	],
+	'has_dependencies' => true,
+]);
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', array(
+OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', [
 	'backend' => (string)$l->t('Amazon S3 and compliant'),
 	'priority' => 100,
-	'configuration' => array(
+	'configuration' => [
 		'key' => (string)$l->t('Access Key'),
 		'secret' => '*'.$l->t('Secret Key'),
 		'bucket' => (string)$l->t('Bucket'),
@@ -66,48 +68,56 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', array(
 		'port' => '&'.$l->t('Port'),
 		'region' => '&'.$l->t('Region'),
 		'use_ssl' => '!'.$l->t('Enable SSL'),
-		'use_path_style' => '!'.$l->t('Enable Path Style')),
-	'has_dependencies' => true));
+		'use_path_style' => '!'.$l->t('Enable Path Style')
+	],
+	'has_dependencies' => true,
+]);
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\Dropbox', array(
+OC_Mount_Config::registerBackend('\OC\Files\Storage\Dropbox', [
 	'backend' => 'Dropbox',
 	'priority' => 100,
-	'configuration' => array(
+	'configuration' => [
 		'configured' => '#configured',
 		'app_key' => (string)$l->t('App key'),
 		'app_secret' => '*'.$l->t('App secret'),
 		'token' => '#token',
-		'token_secret' => '#token_secret'),
+		'token_secret' => '#token_secret'
+	],
 	'custom' => 'dropbox',
-	'has_dependencies' => true));
+	'has_dependencies' => true,
+]);
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\FTP', array(
+OC_Mount_Config::registerBackend('\OC\Files\Storage\FTP', [
 	'backend' => 'FTP',
 	'priority' => 100,
-	'configuration' => array(
+	'configuration' => [
 		'host' => (string)$l->t('Host'),
 		'user' => (string)$l->t('Username'),
 		'password' => '*'.$l->t('Password'),
 		'root' => '&'.$l->t('Remote subfolder'),
-		'secure' => '!'.$l->t('Secure ftps://')),
-	'has_dependencies' => true));
+		'secure' => '!'.$l->t('Secure ftps://')
+	],
+	'has_dependencies' => true,
+]);
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\Google', array(
+OC_Mount_Config::registerBackend('\OC\Files\Storage\Google', [
 	'backend' => 'Google Drive',
 	'priority' => 100,
-	'configuration' => array(
+	'configuration' => [
 		'configured' => '#configured',
 		'client_id' => (string)$l->t('Client ID'),
 		'client_secret' => '*'.$l->t('Client secret'),
-		'token' => '#token'),
+		'token' => '#token',
+	],
 	'custom' => 'google',
-	'has_dependencies' => true));
+	'has_dependencies' => true,
+]);
 
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\Swift', array(
+OC_Mount_Config::registerBackend('\OC\Files\Storage\Swift', [
 	'backend' => (string)$l->t('OpenStack Object Storage'),
 	'priority' => 100,
-	'configuration' => array(
+	'configuration' => [
 		'user' => (string)$l->t('Username'),
 		'bucket' => (string)$l->t('Bucket'),
 		'region' => '&'.$l->t('Region (optional for OpenStack Object Storage)'),
@@ -117,63 +127,74 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Swift', array(
 		'service_name' => '&'.$l->t('Service Name (required for OpenStack Object Storage)'),
 		'url' => '&'.$l->t('URL of identity endpoint (required for OpenStack Object Storage)'),
 		'timeout' => '&'.$l->t('Timeout of HTTP requests in seconds'),
-	),
-	'has_dependencies' => true));
+	],
+	'has_dependencies' => true,
+]);
 
 
 if (!OC_Util::runningOnWindows()) {
-	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB', array(
+	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB', [
 		'backend' => 'SMB / CIFS',
 		'priority' => 100,
-		'configuration' => array(
+		'configuration' => [
 			'host' => (string)$l->t('Host'),
 			'user' => (string)$l->t('Username'),
 			'password' => '*'.$l->t('Password'),
 			'share' => (string)$l->t('Share'),
-			'root' => '&'.$l->t('Remote subfolder')),
-		'has_dependencies' => true));
+			'root' => '&'.$l->t('Remote subfolder'),
+		],
+		'has_dependencies' => true,
+	]);
 
-	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB_OC', array(
+	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB_OC', [
 			'backend' => (string)$l->t('SMB / CIFS using OC login'),
 			'priority' => 90,
-			'configuration' => array(
+			'configuration' => [
 				'host' => (string)$l->t('Host'),
 				'username_as_share' => '!'.$l->t('Username as share'),
 				'share' => '&'.$l->t('Share'),
-				'root' => '&'.$l->t('Remote subfolder')),
-		'has_dependencies' => true));
+				'root' => '&'.$l->t('Remote subfolder'),
+			],
+		'has_dependencies' => true,
+	]);
 }
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\DAV', array(
+OC_Mount_Config::registerBackend('\OC\Files\Storage\DAV', [
 	'backend' => 'WebDAV',
 	'priority' => 100,
-	'configuration' => array(
+	'configuration' => [
 		'host' => (string)$l->t('URL'),
 		'user' => (string)$l->t('Username'),
 		'password' => '*'.$l->t('Password'),
 		'root' => '&'.$l->t('Remote subfolder'),
-		'secure' => '!'.$l->t('Secure https://')),
-	'has_dependencies' => true));
+		'secure' => '!'.$l->t('Secure https://'),
+	],
+	'has_dependencies' => true,
+]);
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\OwnCloud', array(
+OC_Mount_Config::registerBackend('\OC\Files\Storage\OwnCloud', [
 	'backend' => 'ownCloud',
 	'priority' => 100,
-	'configuration' => array(
+	'configuration' => [
 		'host' => (string)$l->t('URL'),
 		'user' => (string)$l->t('Username'),
 		'password' => '*'.$l->t('Password'),
 		'root' => '&'.$l->t('Remote subfolder'),
-		'secure' => '!'.$l->t('Secure https://'))));
+		'secure' => '!'.$l->t('Secure https://'),
+	],
+]);
 
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP', array(
+OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP', [
 	'backend' => 'SFTP',
 	'priority' => 100,
-	'configuration' => array(
+	'configuration' => [
 		'host' => (string)$l->t('Host'),
 		'user' => (string)$l->t('Username'),
 		'password' => '*'.$l->t('Password'),
-		'root' => '&'.$l->t('Remote subfolder'))));
+		'root' => '&'.$l->t('Remote subfolder'),
+	],
+]);
 
 $mountProvider = new \OCA\Files_External\Config\ConfigAdapter();
 \OC::$server->getMountProviderCollection()->registerProvider($mountProvider);
