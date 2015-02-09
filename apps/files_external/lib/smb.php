@@ -114,13 +114,17 @@ class SMB extends Common {
 	 * @return bool
 	 */
 	public function unlink($path) {
-		if ($this->is_dir($path)) {
-			return $this->rmdir($path);
-		} else {
-			$path = $this->buildPath($path);
-			unset($this->statCache[$path]);
-			$this->share->del($path);
-			return true;
+		try {
+			if ($this->is_dir($path)) {
+				return $this->rmdir($path);
+			} else {
+				$path = $this->buildPath($path);
+				unset($this->statCache[$path]);
+				$this->share->del($path);
+				return true;
+			}
+		} catch (NotFoundException $e) {
+			return false;
 		}
 	}
 
