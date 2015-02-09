@@ -109,7 +109,9 @@
 
 					self.applyFileTags(
 						dir + '/' + fileName,
-						tags
+						tags,
+						$actionEl,
+						isFavorite
 					).then(function(result) {
 						// response from server should contain updated tags
 						var newTags = result.tags;
@@ -157,8 +159,10 @@
 		 *
 		 * @param {String} fileName path to the file or folder to tag
 		 * @param {Array.<String>} tagNames array of tag names
+		 * @param {Object} $actionEl element
+		 * @param {boolean} isFavorite Was the item favorited before
 		 */
-		applyFileTags: function(fileName, tagNames) {
+		applyFileTags: function(fileName, tagNames, $actionEl, isFavorite) {
 			var encodedPath = OC.encodePath(fileName);
 			while (encodedPath[0] === '/') {
 				encodedPath = encodedPath.substr(1);
@@ -171,6 +175,14 @@
 				}),
 				dataType: 'json',
 				type: 'POST'
+			}).fail(function(response) {
+				var message = '';
+				// show message if it is available
+				if(response.responseJSON && response.responseJSON.message) {
+					message = ': ' + response.responseJSON.message;
+				}
+				OC.Notification.showTemporary(t('files', 'An error occurred while trying to update the tags') + message);
+				toggleStar($actionEl, isFavorite);
 			});
 		}
 	};

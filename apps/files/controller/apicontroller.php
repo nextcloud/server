@@ -76,11 +76,11 @@ class ApiController extends Controller {
 			try {
 				$this->tagService->updateFileTags($path, $tags);
 			} catch (\OCP\Files\NotFoundException $e) {
-				return new DataResponse($e->getMessage(), Http::STATUS_NOT_FOUND);
+				return new DataResponse(['message' => $e->getMessage()], Http::STATUS_NOT_FOUND);
 			} catch (\OCP\Files\StorageNotAvailableException $e) {
-				return new DataResponse($e->getMessage(), Http::STATUS_SERVICE_UNAVAILABLE);
+				return new DataResponse(['message' => $e->getMessage()], Http::STATUS_SERVICE_UNAVAILABLE);
 			} catch (\Exception $e) {
-				return new DataResponse($e->getMessage(), Http::STATUS_NOT_FOUND);
+				return new DataResponse(['message' => $e->getMessage()], Http::STATUS_NOT_FOUND);
 			}
 			$result['tags'] = $tags;
 		}
