@@ -44,7 +44,7 @@ sub crawlFiles{
 			push( @found, crawlFiles( $dir.'/'.$i ));
 		}
 		else{
-			push(@found,$dir.'/'.$i) if $i =~ /\.js$/ || $i =~ /\.php$/;
+			push(@found,$dir.'/'.$i) if $i =~ /.*(?<!\.min)\.js$/ || $i =~ /\.php$/;
 		}
 	}
 
