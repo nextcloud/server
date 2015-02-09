@@ -547,7 +547,6 @@ class OC_Installer{
 			'OC_L10N::',
 			'OC_Log::',
 			'OC_Mail::',
-			'OC_Preferences::',
 			'OC_Request::',
 			'OC_Response::',
 			'OC_Template::',
