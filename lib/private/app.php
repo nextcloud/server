@@ -34,6 +34,7 @@ use OC\App\Platform;
  * upgrading and removing apps.
  */
 class OC_App {
+	static private $appVersion = [];
 	static private $settingsForms = array();
 	static private $adminForms = array();
 	static private $personalForms = array();
@@ -603,8 +604,11 @@ class OC_App {
 	 * @return string
 	 */
 	public static function getAppVersion($appId) {
-		$file = self::getAppPath($appId);
-		return ($file !== false) ? self::getAppVersionByPath($file) : '0';
+		if (!isset(self::$appVersion[$appId])) {
+			$file = self::getAppPath($appId);
+			self::$appVersion[$appId] = ($file !== false) ? self::getAppVersionByPath($file) : '0';
+		}
+		return self::$appVersion[$appId];
 	}
 
 	/**
@@ -1158,6 +1162,7 @@ class OC_App {
 		if (file_exists(self::getAppPath($appId) . '/appinfo/database.xml')) {
 			OC_DB::updateDbFromStructure(self::getAppPath($appId) . '/appinfo/database.xml');
 		}
+		unset(self::$appVersion[$appId]);
 		if (!self::isEnabled($appId)) {
 			return false;
 		}
