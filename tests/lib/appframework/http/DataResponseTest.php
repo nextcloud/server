@@ -66,7 +66,10 @@ class DataResponseTest extends \Test\TestCase {
 		$headers = array('test' => 'something');
 		$response = new DataResponse($data, $code, $headers);
 
-		$expectedHeaders = array('Cache-Control' => 'no-cache, must-revalidate');
+		$expectedHeaders = [
+			'Cache-Control' => 'no-cache, must-revalidate',
+			'Content-Security-Policy' => "default-src 'none';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self';connect-src 'self';media-src 'self'",
+		];
 		$expectedHeaders = array_merge($expectedHeaders, $headers);
 
 		$this->assertEquals($data, $response->getData());

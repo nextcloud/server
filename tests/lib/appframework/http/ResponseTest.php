@@ -49,7 +49,7 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 
-	function testSetHeaders(){
+	public function testSetHeaders() {
 		$expected = array(
 			'Last-Modified' => 1,
 			'ETag' => 3,
@@ -58,15 +58,40 @@ class ResponseTest extends \Test\TestCase {
 
 		$this->childResponse->setHeaders($expected);
 		$headers = $this->childResponse->getHeaders();
+		$expected['Content-Security-Policy'] = "default-src 'none';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self';connect-src 'self';media-src 'self'";
 
 		$this->assertEquals($expected, $headers);
 	}
 
+	public function testOverwriteCsp() {
+		$expected = [
+			'Content-Security-Policy' => "default-src 'none';script-src 'self' 'unsafe-inline' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self';connect-src 'self';media-src 'self'",
+		];
+		$policy = new Http\ContentSecurityPolicy();
+		$policy->allowInlineScript(true);
+
+		$this->childResponse->setContentSecurityPolicy($policy);
+		$headers = $this->childResponse->getHeaders();
+
+		$this->assertEquals(array_merge($expected, $headers), $headers);
+	}
+
+	public function testGetCsp() {
+		$policy = new Http\ContentSecurityPolicy();
+		$policy->allowInlineScript(true);
+
+		$this->childResponse->setContentSecurityPolicy($policy);
+		$this->assertEquals($policy, $this->childResponse->getContentSecurityPolicy());
+	}
+
+	public function testGetCspEmpty() {
+		$this->assertNull($this->childResponse->getContentSecurityPolicy());
+	}
 
 	public function testAddHeaderValueNullDeletesIt(){
 		$this->childResponse->addHeader('hello', 'world');
 		$this->childResponse->addHeader('hello', null);
-		$this->assertEquals(1, count($this->childResponse->getHeaders()));
+		$this->assertEquals(2, count($this->childResponse->getHeaders()));
 	}
 
 
