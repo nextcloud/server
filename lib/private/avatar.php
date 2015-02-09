@@ -43,6 +43,15 @@ class OC_Avatar implements \OCP\IAvatar {
 	}
 
 	/**
+	 * Check if an avatar exists for the user
+	 *
+	 * @return bool
+	 */
+	public function exists() {
+		return $this->view->file_exists('avatar.jpg') || $this->view->file_exists('avatar.png');
+	}
+
+	/**
 	 * sets the users avatar
 	 * @param \OC_Image|resource|string $data OC_Image, imagedata or path to set a new avatar
 	 * @throws Exception if the provided file is not a jpg or png image
