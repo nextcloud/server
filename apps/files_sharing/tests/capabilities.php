@@ -53,7 +53,8 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 			array('core', 'shareapi_allow_links', 'yes', 'no'),
 		);
 		$result = $this->getResults($map);
-		$this->assertFalse($result['public']);
+		$this->assertInternalType('array', $result['public']);
+		$this->assertFalse($result['public']['enabled']);
 	}
 
 	/**
@@ -65,6 +66,7 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 		);
 		$result = $this->getResults($map);
 		$this->assertInternalType('array', $result['public']);
+		$this->assertTrue($result['public']['enabled']);
 	}
 
 	/**
@@ -103,7 +105,8 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 		);
 		$result = $this->getResults($map);
 		$this->assertArrayHasKey('expire_date', $result['public']);
-		$this->assertFalse($result['public']['expire_date']);
+		$this->assertInternalType('array', $result['public']['expire_date']);
+		$this->assertFalse($result['public']['expire_date']['enabled']);
 	}
 
 	/**
@@ -119,6 +122,7 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 		$result = $this->getResults($map);
 		$this->assertArrayHasKey('expire_date', $result['public']);
 		$this->assertInternalType('array', $result['public']['expire_date']);
+		$this->assertTrue($result['public']['expire_date']['enabled']);
 		$this->assertArrayHasKey('days', $result['public']['expire_date']);
 		$this->assertFalse($result['public']['expire_date']['enforce']);
 	}
