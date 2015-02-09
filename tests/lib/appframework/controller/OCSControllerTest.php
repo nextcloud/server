@@ -36,12 +36,13 @@ class OCSControllerTest extends \Test\TestCase {
 
 	public function testCors() {
 		$request = new Request(
-			array('server' => array('HTTP_ORIGIN' => 'test'))
+			array('server' => array('HTTP_ORIGIN' => 'test')),
+			$this->getMock('\OCP\Security\ISecureRandom')
 		);
-		$this->controller = new ChildOCSController('app', $request, 'verbs',
+		$controller = new ChildOCSController('app', $request, 'verbs',
 			'headers', 100);
 
-		$response = $this->controller->preflightedCors();
+		$response = $controller->preflightedCors();
 
 		$headers = $response->getHeaders();
 
@@ -54,7 +55,10 @@ class OCSControllerTest extends \Test\TestCase {
 
 
 	public function testXML() {
-		$controller = new ChildOCSController('app', new Request);
+		$controller = new ChildOCSController('app', new Request(
+			[],
+			$this->getMock('\OCP\Security\ISecureRandom')
+		));
 		$expected = "<?xml version=\"1.0\"?>\n" .
 		"<ocs>\n" .
 		" <meta>\n" .
@@ -80,7 +84,10 @@ class OCSControllerTest extends \Test\TestCase {
 
 
 	public function testXMLDataResponse() {
-		$controller = new ChildOCSController('app', new Request);
+		$controller = new ChildOCSController('app', new Request(
+			[],
+			$this->getMock('\OCP\Security\ISecureRandom')
+		));
 		$expected = "<?xml version=\"1.0\"?>\n" .
 		"<ocs>\n" .
 		" <meta>\n" .
@@ -106,7 +113,10 @@ class OCSControllerTest extends \Test\TestCase {
 
 
 	public function testJSON() {
-		$controller = new ChildOCSController('app', new Request);
+		$controller = new ChildOCSController('app', new Request(
+			[],
+			$this->getMock('\OCP\Security\ISecureRandom')
+		));
 		$expected = '{"status":"OK","statuscode":400,"message":"OK",' .
 		            '"totalitems":"","itemsperpage":"","data":{"test":"hi"}}';
 		$params = [
