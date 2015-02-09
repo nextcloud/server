@@ -121,7 +121,7 @@ class OC_OCS {
 	 * @param int|string $itemsperpage
 	 * @return string xml/json
 	 */
-	private static function generateXml($format, $status, $statuscode,
+	public static function generateXml($format, $status, $statuscode,
 		$message, $data=array(), $tag='', $tagattribute='', $dimension=-1, $itemscount='', $itemsperpage='') {
 		if($format=='json') {
 			$json=array();
