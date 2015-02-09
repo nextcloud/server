@@ -17,6 +17,7 @@
     "_%n year ago_::_%n years ago_" : ["",""],
     "_%n hour ago_::_%n hours ago_" : ["",""],
     "_%n minute ago_::_%n minutes ago_" : ["",""],
+    "seconds ago" : "saniyələr öncə",
     "App directory already exists" : "Proqram təminatı qovluğu artıq mövcuddur.",
     "Can't create app folder. Please fix permissions. %s" : "Proqram təminatı qovluğunu yaratmaq mümkün olmadı. Xahiş edilir yetkiləri düzgün təyin edəsiniz. %s",
     "Application is not enabled" : "Proqram təminatı aktiv edilməyib",
