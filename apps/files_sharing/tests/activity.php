@@ -34,7 +34,12 @@ class Activity extends \OCA\Files_Sharing\Tests\TestCase{
 
 	protected function setUp() {
 		parent::setUp();
-		$this->activity = new \OCA\Files_Sharing\Activity();
+		$this->activity = new \OCA\Files_Sharing\Activity(
+			$this->getMock('\OC\L10N\Factory'),
+			$this->getMockBuilder('\OC\URLGenerator')
+				->disableOriginalConstructor()
+				->getMock()
+		);
 	}
 
 	/**
@@ -56,9 +61,8 @@ class Activity extends \OCA\Files_Sharing\Tests\TestCase{
 
 	public function dataTestGetDefaultType() {
 		return array(
-			array('email', array(\OCA\Files_Sharing\Activity::TYPE_REMOTE_SHARE)),
-			array('stream', array(\OCA\Files_Sharing\Activity::TYPE_REMOTE_SHARE, \OCA\Files_Sharing\Activity::TYPE_PUBLIC_LINKS)),
-			array('foo', false)
+			array('email', array(\OCA\Files_Sharing\Activity::TYPE_SHARED, \OCA\Files_Sharing\Activity::TYPE_REMOTE_SHARE)),
+			array('stream', array(\OCA\Files_Sharing\Activity::TYPE_SHARED, \OCA\Files_Sharing\Activity::TYPE_REMOTE_SHARE, \OCA\Files_Sharing\Activity::TYPE_PUBLIC_LINKS)),
 		);
 	}
 

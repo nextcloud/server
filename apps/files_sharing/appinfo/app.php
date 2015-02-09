@@ -28,7 +28,10 @@ OCP\Util::addScript('files_sharing', 'external');
 OC_FileProxy::register(new OCA\Files\Share\Proxy());
 
 \OC::$server->getActivityManager()->registerExtension(function() {
-		return new \OCA\Files_Sharing\Activity();
+		return new \OCA\Files_Sharing\Activity(
+			\OC::$server->query('L10NFactory'),
+			\OC::$server->getURLGenerator()
+		);
 });
 
 $config = \OC::$server->getConfig();
