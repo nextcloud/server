@@ -132,12 +132,14 @@ class TempManager implements ITempManager {
 		$cutOfTime = time() - 3600;
 		$files = array();
 		$dh = opendir($this->tmpBaseDir);
-		while (($file = readdir($dh)) !== false) {
-			if (substr($file, 0, 7) === 'oc_tmp_') {
-				$path = $this->tmpBaseDir . '/' . $file;
-				$mtime = filemtime($path);
-				if ($mtime < $cutOfTime) {
-					$files[] = $path;
+		if ($dh) {
+			while (($file = readdir($dh)) !== false) {
+				if (substr($file, 0, 7) === 'oc_tmp_') {
+					$path = $this->tmpBaseDir . '/' . $file;
+					$mtime = filemtime($path);
+					if ($mtime < $cutOfTime) {
+						$files[] = $path;
+					}
 				}
 			}
 		}
