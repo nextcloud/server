@@ -366,7 +366,7 @@ $(document).ready(function() {
 		$('#app-content')
 			.find('.viewcontainer').css('min-height', 'initial');
 	} else {
-		var $searchResults = $('<div id="searchresults" class="hidden"/>');
+		$searchResults = $('<div id="searchresults" class="hidden"/>');
 		$('#app-content')
 			.append($searchResults)
 			.find('.viewcontainer').css('min-height', 'initial');
