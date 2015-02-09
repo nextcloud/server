@@ -566,9 +566,9 @@ abstract class Common implements Storage {
 		$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, true);
 		if ($result) {
 			if ($sourceStorage->is_dir($sourceInternalPath)) {
-				$sourceStorage->rmdir($sourceInternalPath);
+				$result &= $sourceStorage->rmdir($sourceInternalPath);
 			} else {
-				$sourceStorage->unlink($sourceInternalPath);
+				$result &= $sourceStorage->unlink($sourceInternalPath);
 			}
 		}
 		return $result;
