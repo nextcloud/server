@@ -29,12 +29,12 @@ class SFTP extends Storage {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->config = include('files_external/tests/config.php');
-		if ( ! is_array($this->config) or ! isset($this->config['sftp']) or ! $this->config['sftp']['run']) {
+		$this->config = include('files_external/tests/config.sftp.php');
+		if (!is_array($this->config) or !$this->config['run']) {
 			$this->markTestSkipped('SFTP backend not configured');
 		}
-		$this->config['sftp']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new \OC\Files\Storage\SFTP($this->config['sftp']);
+		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
+		$this->instance = new \OC\Files\Storage\SFTP($this->config);
 		$this->instance->mkdir('/');
 	}
 
