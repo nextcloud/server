@@ -75,7 +75,8 @@ class ControllerTest extends \Test\TestCase {
 				'session' => ['sezession' => 'kein'],
 				'method' => 'hi',
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
 		);
 
 		$this->app = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer',

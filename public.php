@@ -13,12 +13,13 @@ try {
 
 	OC::checkMaintenanceMode();
 	OC::checkSingleUserMode();
-	$pathInfo = OC_Request::getPathInfo();
-	if (!$pathInfo && !isset($_GET['service'])) {
+	$request = \OC::$server->getRequest();
+	$pathInfo = $request->getPathInfo();
+	if (!$pathInfo && !isset($request->server['service'])) {
 		header('HTTP/1.0 404 Not Found');
 		exit;
-	} elseif (isset($_GET['service'])) {
-		$service = $_GET['service'];
+	} elseif (isset($request->server['service'])) {
+		$service = $request->server['service'];
 	} else {
 		$pathInfo = trim($pathInfo, '/');
 		list($service) = explode('/', $pathInfo);

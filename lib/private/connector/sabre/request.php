@@ -28,7 +28,7 @@ class OC_Connector_Sabre_Request extends \Sabre\HTTP\Request {
 	 * @return string
 	 */
 	public function getUri() {
-		return OC_Request::requestUri();
+		return \OC::$server->getRequest()->getRequestUri();
 	}
 
 	/**

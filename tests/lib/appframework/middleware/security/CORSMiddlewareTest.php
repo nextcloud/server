@@ -37,7 +37,8 @@ class CORSMiddlewareTest extends \Test\TestCase {
 					'HTTP_ORIGIN' => 'test'
 				]
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
 		);
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector);
@@ -55,7 +56,8 @@ class CORSMiddlewareTest extends \Test\TestCase {
 					'HTTP_ORIGIN' => 'test'
 				]
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
 		);
 		$middleware = new CORSMiddleware($request, $this->reflector);
 
@@ -69,7 +71,11 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	 * @CORS
 	 */
 	public function testNoOriginHeaderNoCORSHEADER() {
-		$request = new Request([], $this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock());
+		$request = new Request(
+			[],
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
+		);
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector);
 
@@ -90,14 +96,15 @@ class CORSMiddlewareTest extends \Test\TestCase {
 					'HTTP_ORIGIN' => 'test'
 				]
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
 		);
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector);
 
 		$response = new Response();
 		$response->addHeader('AcCess-control-Allow-Credentials ', 'TRUE');
-		$response = $middleware->afterController($this, __FUNCTION__, $response);
+		$middleware->afterController($this, __FUNCTION__, $response);
 	}
 
 }

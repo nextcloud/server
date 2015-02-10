@@ -149,9 +149,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 			}
 
 			// allow sync clients to send the mtime along in a header
-			$mtime = OC_Request::hasModificationTime();
-			if ($mtime !== false) {
-				if($this->fileView->touch($this->path, $mtime)) {
+			$request = \OC::$server->getRequest();
+			if (isset($request->server['HTTP_X_OC_MTIME'])) {
+				if($this->fileView->touch($this->path, $request->server['HTTP_X_OC_MTIME'])) {
 					header('X-OC-MTime: accepted');
 				}
 			}
@@ -165,8 +165,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 
 	/**
 	 * Returns the data
-	 *
 	 * @return string|resource
+	 * @throws \Sabre\DAV\Exception\Forbidden
+	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
 	public function get() {
 
@@ -187,9 +188,8 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 
 	/**
 	 * Delete the current file
-	 *
-	 * @return void
 	 * @throws \Sabre\DAV\Exception\Forbidden
+	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
 	public function delete() {
 		if (!$this->info->isDeletable()) {
@@ -251,6 +251,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 		return \OC_Helper::getSecureMimeType($mimeType);
 	}
 
+	/**
+	 * @return array|false
+	 */
 	public function getDirectDownload() {
 		if (\OCP\App::isEnabled('encryption')) {
 			return [];
@@ -267,6 +270,10 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 	/**
 	 * @param resource $data
 	 * @return null|string
+	 * @throws \Sabre\DAV\Exception
+	 * @throws \Sabre\DAV\Exception\BadRequest
+	 * @throws \Sabre\DAV\Exception\NotImplemented
+	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
 	private function createFileChunked($data)
 	{
@@ -319,9 +326,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 				}
 
 				// allow sync clients to send the mtime along in a header
-				$mtime = OC_Request::hasModificationTime();
-				if ($mtime !== false) {
-					if($this->fileView->touch($targetPath, $mtime)) {
+				$request = \OC::$server->getRequest();
+				if (isset($request->server['HTTP_X_OC_MTIME'])) {
+					if($this->fileView->touch($targetPath, $request->server['HTTP_X_OC_MTIME'])) {
 						header('X-OC-MTime: accepted');
 					}
 				}
@@ -340,9 +347,8 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 	 * Returns whether a part file is needed for the given storage
 	 * or whether the file can be assembled/uploaded directly on the
 	 * target storage.
-	 *
-	 * @param \OCP\Files\Storage $storage storage to check
-	 * @param bool true if the storage needs part file handling
+	 * @param \OCP\Files\Storage $storage
+	 * @return bool true if the storage needs part file handling
 	 */
 	private function needsPartFile($storage) {
 		// TODO: in the future use ChunkHandler provided by storage

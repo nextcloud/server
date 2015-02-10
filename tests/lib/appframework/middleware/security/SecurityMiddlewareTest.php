@@ -321,7 +321,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 					'REQUEST_URI' => 'owncloud/index.php/apps/specialapp'
 				]
 			],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
 		);
 		$this->middleware = $this->getMiddleware(true, true);
 		$response = $this->middleware->afterException($this->controller, 'test',

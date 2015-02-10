@@ -849,8 +849,11 @@ class OC_Util {
 		// Check if we are a user
 		if (!OC_User::isLoggedIn()) {
 			header('Location: ' . OC_Helper::linkToAbsolute('', 'index.php',
-					array('redirect_url' => OC_Request::requestUri())
-				));
+					[
+						'redirect_url' => \OC::$server->getRequest()->getRequestUri()
+					]
+				)
+			);
 			exit();
 		}
 	}

@@ -42,7 +42,7 @@ try {
 	// api calls always will return English
 	\OC_L10N::forceLanguage('en');
 
-	OC::$server->getRouter()->match('/ocs'.OC_Request::getRawPathInfo());
+	OC::$server->getRouter()->match('/ocs'.\OC::$server->getRequest()->getRawPathInfo());
 } catch (ResourceNotFoundException $e) {
 	OC_API::setContentType();
 	OC_OCS::notFound();
