@@ -236,8 +236,11 @@ class Config {
 		flock($filePointer, LOCK_UN);
 		fclose($filePointer);
 
-		// Clear the opcode cache
-		\OC_Util::clearOpcodeCache();
+		// Try invalidating the opcache just for the file we wrote...
+		if (!\OC_Util::deleteFromOpcodeCache($this->configFilePath)) {
+			// But if that doesn't work, clear the whole cache.
+			\OC_Util::clearOpcodeCache();
+		}
 	}
 }
 
