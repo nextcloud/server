@@ -13,7 +13,6 @@ use OC\Hooks\Emitter;
 use OC\Repair\AssetCache;
 use OC\Repair\CleanTags;
 use OC\Repair\Collation;
-use OC\Repair\EnableFilesApp;
 use OC\Repair\FillETags;
 use OC\Repair\InnoDB;
 use OC\Repair\RepairConfig;
@@ -85,7 +84,6 @@ class Repair extends BasicEmitter {
 			new AssetCache(),
 			new FillETags(\OC_DB::getConnection()),
 			new CleanTags(\OC_DB::getConnection()),
-			new EnableFilesApp(\OC::$server->getConfig()),
 		);
 	}
 
