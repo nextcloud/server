@@ -20,6 +20,23 @@
  *
  */
 
+namespace OCA\Files_External\Appinfo;
+
+$application = new Application();
+$application->registerRoutes(
+        $this,
+        array(
+                'routes' => array(
+                        array(
+                                'name' => 'Ajax#getSshKeys',
+                                'url' => '/ajax/sftp_key.php',
+                                'verb' => 'POST',
+                                'requirements' => array()
+                        )
+                )
+        )
+);
+
 /** @var $this OC\Route\Router */
 
 $this->create('files_external_add_mountpoint', 'ajax/addMountPoint.php')
@@ -37,10 +54,11 @@ $this->create('files_external_dropbox', 'ajax/dropbox.php')
 $this->create('files_external_google', 'ajax/google.php')
 	->actionInclude('files_external/ajax/google.php');
 
+
 $this->create('files_external_list_applicable', '/applicable')
 	->actionInclude('files_external/ajax/applicable.php');
 
-OC_API::register('get',
+\OC_API::register('get',
 		'/apps/files_external/api/v1/mounts',
 		array('\OCA\Files\External\Api', 'getUserMounts'),
 		'files_external');
