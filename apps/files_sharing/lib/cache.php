@@ -45,7 +45,7 @@ class Shared_Cache extends Cache {
 	 * Get the source cache of a shared file or folder
 	 *
 	 * @param string $target Shared target file path
-	 * @return \OC\Files\Cache\Cache
+	 * @return \OC\Files\Cache\Cache|false
 	 */
 	private function getSourceCache($target) {
 		if ($target === false || $target === $this->storage->getMountPoint()) {
@@ -82,7 +82,7 @@ class Shared_Cache extends Cache {
 	 * get the stored metadata of a file or folder
 	 *
 	 * @param string|int $file
-	 * @return array
+	 * @return array|false
 	 */
 	public function get($file) {
 		if (is_string($file)) {
@@ -148,7 +148,7 @@ class Shared_Cache extends Cache {
 	 * get the metadata of all files stored in $folder
 	 *
 	 * @param string $folderId
-	 * @return array
+	 * @return array|false
 	 */
 	public function getFolderContentsById($folderId) {
 		$cache = $this->getSourceCache('');
@@ -178,7 +178,7 @@ class Shared_Cache extends Cache {
 	 * @param string $file
 	 * @param array $data
 	 *
-	 * @return int file id
+	 * @return int|false file id
 	 */
 	public function put($file, array $data) {
 		$file = ($file === false) ? '' : $file;

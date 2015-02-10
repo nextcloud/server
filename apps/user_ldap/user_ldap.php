@@ -303,7 +303,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	/**
 	 * get display name of the user
 	 * @param string $uid user ID of the user
-	 * @return string display name
+	 * @return string|false display name
 	 */
 	public function getDisplayName($uid) {
 		if(!$this->userExists($uid)) {

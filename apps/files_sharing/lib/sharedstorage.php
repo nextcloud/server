@@ -80,7 +80,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	/**
 	 * Get the source file path for a shared file
 	 * @param string $target Shared target file path
-	 * @return string source file path or false if not found
+	 * @return string|false source file path or false if not found
 	 */
 	public function getSourcePath($target) {
 		$source = $this->getFile($target);

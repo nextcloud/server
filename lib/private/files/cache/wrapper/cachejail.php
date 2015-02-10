@@ -163,7 +163,7 @@ class CacheJail extends CacheWrapper {
 	/**
 	 * @param string $file
 	 *
-	 * @return int, Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
+	 * @return int Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
 	 */
 	public function getStatus($file) {
 		return $this->cache->getStatus($this->getSourcePath($file));

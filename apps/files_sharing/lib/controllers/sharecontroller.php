@@ -131,7 +131,7 @@ class ShareController extends Controller {
 	 *
 	 * @param string $token
 	 * @param string $path
-	 * @return TemplateResponse
+	 * @return TemplateResponse|RedirectResponse
 	 */
 	public function showShare($token, $path = '') {
 		\OC_User::setIncognitoMode(true);

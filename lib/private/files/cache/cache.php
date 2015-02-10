@@ -436,7 +436,7 @@ class Cache {
 	/**
 	 * @param string $file
 	 *
-	 * @return int, Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
+	 * @return int Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
 	 */
 	public function getStatus($file) {
 		// normalize file
@@ -689,7 +689,7 @@ class Cache {
 	 * instead does a global search in the cache table
 	 *
 	 * @param int $id
-	 * @return array, first element holding the storage id, second the path
+	 * @return array first element holding the storage id, second the path
 	 */
 	static public function getById($id) {
 		$sql = 'SELECT `storage`, `path` FROM `*PREFIX*filecache` WHERE `fileid` = ?';

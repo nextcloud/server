@@ -493,7 +493,7 @@ class OC_App {
 	/**
 	 * Get the path where to install apps
 	 *
-	 * @return string
+	 * @return string|false
 	 */
 	public static function getInstallPath() {
 		if (OC_Config::getValue('appstoreenabled', true) == false) {
@@ -902,7 +902,7 @@ class OC_App {
 
 	/**
 	 * get a list of all apps on apps.owncloud.com
-	 * @return array, multi-dimensional array of apps.
+	 * @return array|false multi-dimensional array of apps.
 	 *     Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
 	 */
 	public static function getAppstoreApps($filter = 'approved', $category = null) {
@@ -1193,7 +1193,7 @@ class OC_App {
 
 	/**
 	 * @param string $appId
-	 * @return \OC\Files\View
+	 * @return \OC\Files\View|false
 	 */
 	public static function getStorage($appId) {
 		if (OC_App::isEnabled($appId)) { //sanity check

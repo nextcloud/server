@@ -136,7 +136,7 @@ class API implements IApi{
 	 * @param string $slotName name of slot, in another word, this is the
 	 *               name of the method that will be called when registered
 	 *               signal is emitted.
-	 * @return bool, always true
+	 * @return bool always true
 	 */
 	public function connectHook($signalClass, $signalName, $slotClass, $slotName) {
 		return \OCP\Util::connectHook($signalClass, $signalName, $slotClass, $slotName);
@@ -148,7 +148,7 @@ class API implements IApi{
 	 * @param string $signalClass class name of emitter
 	 * @param string $signalName name of signal
 	 * @param array $params default: array() array with additional data
-	 * @return bool, true if slots exists or false if not
+	 * @return bool true if slots exists or false if not
 	 */
 	public function emitHook($signalClass, $signalName, $params = array()) {
 		return  \OCP\Util::emitHook($signalClass, $signalName, $params);
