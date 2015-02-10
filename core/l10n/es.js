@@ -191,6 +191,7 @@ OC.L10N.register(
     "Database host" : "Host de la base de datos",
     "Performance Warning" : "Advertencia de rendimiento",
     "SQLite will be used as database." : "SQLite se empleará como base de datos.",
+    "For larger installations we recommend to choose a different database backend." : "Para grandes instalaciones recomendamos seleccionar una base de datos diferente",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "El uso de SQLite esta desaconsejado especialmente cuando se usa el cliente de escritorio para que se sincronizan los ficheros.",
     "Finish setup" : "Completar la instalación",
     "Finishing …" : "Finalizando...",

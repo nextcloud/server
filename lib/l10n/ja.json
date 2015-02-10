@@ -20,7 +20,7 @@
     "Settings" : "設定",
     "Users" : "ユーザー",
     "Admin" : "管理",
-    "Recommended" : "推奨",
+    "Recommended" : "おすすめ",
     "App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." : "アプリ \\\"%s\\\" をインストールできません。現在のownCloudのバージョンと互換性がありません。",
     "App \\\"%s\\\" cannot be installed because the following dependencies are not fulfilled: %s" : "次の依存関係は無いため\\\"%s\\\"のアプリをインストールできません：%s",
     "No app name specified" : "アプリ名が未指定",

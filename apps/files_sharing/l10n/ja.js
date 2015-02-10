@@ -24,8 +24,8 @@ OC.L10N.register(
     "Invalid ownCloud url" : "無効なownCloud URL です",
     "Share" : "共有",
     "Shared by" : "共有者：",
-    "A file or folder was shared from <strong>another server</strong>" : "ファイルまたはフォルダーは <strong>他のサーバー</strong>から共有されました",
-    "A public shared file or folder was <strong>downloaded</strong>" : "公開共有ファイルまたはフォルダーは<strong>ダウンロード済み</strong>です",
+    "A file or folder was shared from <strong>another server</strong>" : "ファイルまたはフォルダーが<strong>他のサーバー</strong>から共有されたとき",
+    "A public shared file or folder was <strong>downloaded</strong>" : "公開共有ファイルまたはフォルダーが<strong>ダウンロードされた</strong>とき",
     "You received a new remote share from %s" : "%sからリモート共有のリクエストは\n届きました。",
     "Public shared folder %1$s was downloaded" : "公開共有フォルダ %1$s がダウンロードされました",
     "Public shared file %1$s was downloaded" : "公開共有ファイル %1$s がダウンロードされました",
@@ -45,6 +45,7 @@ OC.L10N.register(
     "Download" : "ダウンロード",
     "Download %s" : "%s をダウンロード",
     "Direct link" : "リンク",
+    "Federated Cloud Sharing" : "統合されたクラウド共有",
     "Allow users on this server to send shares to other servers" : "ユーザーがこのサーバーから他のサーバーに共有することを許可する",
     "Allow users on this server to receive shares from other servers" : "ユーザーが他のサーバーからこのサーバーに共有することを許可する"
 },

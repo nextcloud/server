@@ -65,7 +65,7 @@ OC.L10N.register(
     "External Storage" : "外部ストレージ",
     "Folder name" : "フォルダー名",
     "Configuration" : "設定",
-    "Available for" : "以下が利用可能",
+    "Available for" : "利用可能",
     "Add storage" : "ストレージを追加",
     "Delete" : "削除",
     "Enable User External Storage" : "ユーザーの外部ストレージを有効にする",
