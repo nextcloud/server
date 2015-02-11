@@ -1425,10 +1425,12 @@ class OC_Util {
 	}
 
 	/**
+	 * Check if PhpCharset config is UTF-8
+	 *
 	 * @return string
 	 */
 	public static function isPhpCharSetUtf8() {
-		return ini_get('default_charset') === 'UTF-8';
+		return strtoupper(ini_get('default_charset')) === 'UTF-8';
 	}
 
 }
