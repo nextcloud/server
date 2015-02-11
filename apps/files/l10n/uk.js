@@ -79,6 +79,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} і {files}",
     "Favorited" : "Улюблений",
     "Favorite" : "Улюблений",
+    "An error occurred while trying to update the tags" : "Виникла помилка при спробі оновити мітки",
     "%s could not be renamed as it has been deleted" : "%s не може бути перейменований, оскільки він видалений",
     "%s could not be renamed" : "%s не може бути перейменований",
     "Upload (max. %s)" : "Завантаження (макс. %s)",

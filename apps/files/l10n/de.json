@@ -77,6 +77,7 @@
     "{dirs} and {files}" : "{dirs} und {files}",
     "Favorited" : "Favorisiert",
     "Favorite" : "Favorit",
+    "An error occurred while trying to update the tags" : "Es ist ein Fehler beim Aktualisieren der Tags aufgetreten",
     "%s could not be renamed as it has been deleted" : "%s konnte nicht umbenannt werden, da es gelöscht wurde",
     "%s could not be renamed" : "%s konnte nicht umbenannt werden",
     "Upload (max. %s)" : "Hochladen (max. %s)",

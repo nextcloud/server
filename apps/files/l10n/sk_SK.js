@@ -79,6 +79,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} a {files}",
     "Favorited" : "Pridané k obľúbeným",
     "Favorite" : "Obľúbené",
+    "An error occurred while trying to update the tags" : "Pri pokuse o aktualizáciu štítkov došlo k chybe",
     "%s could not be renamed as it has been deleted" : "%s nebolo možné premenovať, pretože bol zmazaný",
     "%s could not be renamed" : "%s nemohol byť premenovaný",
     "Upload (max. %s)" : "Nahrať (max. %s)",

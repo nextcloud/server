@@ -79,6 +79,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} ve {files}",
     "Favorited" : "Sık kullanılanlara eklendi",
     "Favorite" : "Sık kullanılan",
+    "An error occurred while trying to update the tags" : "Etiketler güncellenmeye çalışılırken bir hata oluştu",
     "%s could not be renamed as it has been deleted" : "%s, silindiği için adlandırılamadı",
     "%s could not be renamed" : "%s yeniden adlandırılamadı",
     "Upload (max. %s)" : "Yükle (azami: %s)",

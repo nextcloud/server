@@ -77,6 +77,7 @@
     "{dirs} and {files}" : "{dirs} e {files}",
     "Favorited" : "Marcado como favorito",
     "Favorite" : "Favorito",
+    "An error occurred while trying to update the tags" : "Houbo un erro ao tentar actualizar as etiquetas",
     "%s could not be renamed as it has been deleted" : "Non é posíbel renomear %s xa que foi eliminado",
     "%s could not be renamed" : "%s non pode cambiar de nome",
     "Upload (max. %s)" : "Envío (máx. %s)",

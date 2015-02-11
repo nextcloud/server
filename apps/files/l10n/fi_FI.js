@@ -79,6 +79,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} ja {files}",
     "Favorited" : "Lisätty suosikkeihin",
     "Favorite" : "Suosikki",
+    "An error occurred while trying to update the tags" : "Tunnisteiden päivitystä yrittäessä tapahtui virhe",
     "%s could not be renamed as it has been deleted" : "Kohdetta %s ei voitu nimetä uudelleen, koska se on poistettu",
     "%s could not be renamed" : "kohteen %s nimeäminen uudelleen epäonnistui",
     "Upload (max. %s)" : "Lähetys (enintään %s)",

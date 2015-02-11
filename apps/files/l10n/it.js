@@ -79,6 +79,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} e {files}",
     "Favorited" : "Preferiti",
     "Favorite" : "Preferito",
+    "An error occurred while trying to update the tags" : "Si è verificato un errore durante il tentativo di aggiornare le etichette",
     "%s could not be renamed as it has been deleted" : "%s non può essere rinominato poiché è stato eliminato",
     "%s could not be renamed" : "%s non può essere rinominato",
     "Upload (max. %s)" : "Carica (massimo %s)",

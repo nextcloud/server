@@ -43,6 +43,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "New" : "Нова",
     "Text file" : "текстуална датотека",
+    "New folder" : "Нова фасцикла",
     "Folder" : "фасцикла",
     "From link" : "Са везе",
     "Upload" : "Отпреми",

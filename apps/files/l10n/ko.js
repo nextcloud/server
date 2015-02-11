@@ -79,6 +79,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} 그리고 {files}",
     "Favorited" : "책갈피에 추가됨",
     "Favorite" : "즐겨찾기",
+    "An error occurred while trying to update the tags" : "태그를 업데이트하는 중 오류 발생",
     "%s could not be renamed as it has been deleted" : "%s이(가) 삭제되었기 때문에 이름을 변경할 수 없습니다",
     "%s could not be renamed" : "%s의 이름을 변경할 수 없습니다",
     "Upload (max. %s)" : "업로드(최대 %s)",

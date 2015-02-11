@@ -79,6 +79,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} и {files}",
     "Favorited" : "Избранное",
     "Favorite" : "Избранное",
+    "An error occurred while trying to update the tags" : "Во время обновления тегов возникла ошибка",
     "%s could not be renamed as it has been deleted" : "Невозможно переименовать %s, поскольку объект удалён.",
     "%s could not be renamed" : "%s не может быть переименован",
     "Upload (max. %s)" : "Загрузка (максимум %s)",

@@ -11,7 +11,7 @@ OC.L10N.register(
     "Please provide the old recovery password" : "Escreva a palavra-passe de recuperação antiga",
     "Please provide a new recovery password" : "Escreva a nova palavra-passe de recuperação",
     "Please repeat the new recovery password" : "Escreva de novo a nova palavra-passe de recuperação",
-    "Password successfully changed." : "Senha alterada com sucesso.",
+    "Password successfully changed." : "Palavra-passe alterada com sucesso.",
     "Could not change the password. Maybe the old password was not correct." : "Não foi possível alterar a senha. Possivelmente a senha antiga não está correta.",
     "Could not update the private key password." : "Não foi possível atualizar a senha da chave privada.",
     "The old password was not correct, please try again." : "A senha antiga não estava correta, por favor, tente de novo.",

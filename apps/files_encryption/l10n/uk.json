@@ -27,6 +27,7 @@
     "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Будь ласка, переконайтеся, що OpenSSL разом з розширенням PHP включена і налаштована належним чином. В даний час, шифрування додатку було відключено.",
     "Following users are not set up for encryption:" : "Для наступних користувачів шифрування не налаштоване:",
     "Go directly to your %spersonal settings%s." : "Перейти навпростець до ваших %spersonal settings%s.",
+    "Server-side Encryption" : "Серверне шіфрування",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Доданок шифрування ввімкнено, але ваші ключі не ініціалізовано, вийдіть та зайдіть знову",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Ввімкнути ключ відновлення (дозволяє користувачам відновлювати файли при втраті паролю):",
     "Recovery key password" : "Пароль ключа відновлення",

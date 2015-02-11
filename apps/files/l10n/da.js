@@ -79,6 +79,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} og {files}",
     "Favorited" : "Gjort til foretrukken",
     "Favorite" : "Foretrukken",
+    "An error occurred while trying to update the tags" : "Der opstod en fejl under forsøg på at opdatere mærkerne",
     "%s could not be renamed as it has been deleted" : "%s kunne ikke omdøbes, da den er blevet slettet",
     "%s could not be renamed" : "%s kunne ikke omdøbes",
     "Upload (max. %s)" : "Upload (max. %s)",

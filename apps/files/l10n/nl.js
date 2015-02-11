@@ -79,6 +79,7 @@ OC.L10N.register(
     "{dirs} and {files}" : "{dirs} en {files}",
     "Favorited" : "Favoriet",
     "Favorite" : "Favoriet",
+    "An error occurred while trying to update the tags" : "Er trad een fout op bij uw poging de tags bij te werken",
     "%s could not be renamed as it has been deleted" : "%s kon niet worden hernoemd, omdat het verwijderd is",
     "%s could not be renamed" : "%s kon niet worden hernoemd",
     "Upload (max. %s)" : "Upload (max. %s)",
