@@ -35,13 +35,11 @@ use OC\App\Platform;
  */
 class OC_App {
 	static private $appVersion = [];
-	static private $settingsForms = array();
 	static private $adminForms = array();
 	static private $personalForms = array();
 	static private $appInfo = array();
 	static private $appTypes = array();
 	static private $loadedApps = array();
-	static private $checkedApps = array();
 	static private $altLogin = array();
 
 	/**
@@ -320,6 +318,7 @@ class OC_App {
 	/**
 	 * This function set an app as disabled in appconfig.
 	 * @param string $app app
+	 * @throws Exception
 	 */
 	public static function disable($app) {
 		if($app === 'files') {
@@ -431,18 +430,6 @@ class OC_App {
 				"icon" => OC_Helper::imagePath("settings", "personal.svg")
 			);
 
-			// if there are some settings forms
-			if (!empty(self::$settingsForms)) {
-				// settings menu
-				$settings[] = array(
-					"id" => "settings",
-					"order" => 1000,
-					"href" => OC_Helper::linkToRoute("settings_settings"),
-					"name" => $l->t("Settings"),
-					"icon" => OC_Helper::imagePath("settings", "settings.svg")
-				);
-			}
-
 			//SubAdmins are also allowed to access user management
 			if (OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 				// admin users menu
@@ -454,7 +441,6 @@ class OC_App {
 					"icon" => OC_Helper::imagePath("settings", "users.svg")
 				);
 			}
-
 
 			// if the user is an admin
 			if (OC_User::isAdminUser(OC_User::getUser())) {
@@ -696,14 +682,12 @@ class OC_App {
 	}
 
 	/**
-	 * get the forms for either settings, admin or personal
+	 * @param string $type
+	 * @return array
 	 */
 	public static function getForms($type) {
 		$forms = array();
 		switch ($type) {
-			case 'settings':
-				$source = self::$settingsForms;
-				break;
 			case 'admin':
 				$source = self::$adminForms;
 				break;
@@ -717,13 +701,6 @@ class OC_App {
 			$forms[] = include $form;
 		}
 		return $forms;
-	}
-
-	/**
-	 * register a settings form to be shown
-	 */
-	public static function registerSettings($app, $page) {
-		self::$settingsForms[] = $app . '/' . $page . '.php';
 	}
 
 	/**
@@ -743,10 +720,16 @@ class OC_App {
 		self::$personalForms[] = $app . '/' . $page . '.php';
 	}
 
-	public static function registerLogIn($entry) {
+	/**
+	 * @param array $entry
+	 */
+	public static function registerLogIn(array $entry) {
 		self::$altLogin[] = $entry;
 	}
 
+	/**
+	 * @return array
+	 */
 	public static function getAlternativeLogIns() {
 		return self::$altLogin;
 	}

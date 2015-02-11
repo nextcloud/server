@@ -37,8 +37,6 @@ $this->create('settings_help', '/settings/help')
 	->actionInclude('settings/help.php');
 $this->create('settings_personal', '/settings/personal')
 	->actionInclude('settings/personal.php');
-$this->create('settings_settings', '/settings')
-	->actionInclude('settings/settings.php');
 $this->create('settings_users', '/settings/users')
 	->actionInclude('settings/users.php');
 $this->create('settings_apps', '/settings/apps')
