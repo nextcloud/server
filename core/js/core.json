@@ -9,7 +9,8 @@
 	],
 	"libraries": [
 		"jquery-showpassword.js",
-		"jquery-tipsy.js"
+		"jquery-tipsy.js",
+		"jquery.avatar.js"
 	],
 	"modules": [
 		"compatibility.js",
