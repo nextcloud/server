@@ -117,7 +117,7 @@ var OC={
 	/**
 	 * Generates the absolute url for the given relative url, which can contain parameters.
 	 * @param {string} url
-	 * @param params
+	 * @param [params] params
 	 * @return {string} Absolute URL for the given relative URL
 	 */
 	generateUrl: function(url, params) {
