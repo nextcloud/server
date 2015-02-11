@@ -6,10 +6,15 @@
  * See the COPYING-README file.
  */
 
+/**
+ * Class OC_JSON
+ * @deprecated Use a AppFramework JSONResponse instead
+ */
 class OC_JSON{
 	static protected $send_content_type_header = false;
 	/**
 	 * set Content-Type header to jsonrequest
+	 * @deprecated Use a AppFramework JSONResponse instead
 	 */
 	public static function setContentTypeHeader($type='application/json') {
 		if (!self::$send_content_type_header) {
@@ -20,9 +25,10 @@ class OC_JSON{
 	}
 
 	/**
-	* Check if the app is enabled, send json error msg if not
-	* @param string $app
-	*/
+	 * Check if the app is enabled, send json error msg if not
+	 * @param string $app
+	 * @deprecated Use the AppFramework instead. It will automatically check if the app is enabled.
+	 */
 	public static function checkAppEnabled($app) {
 		if( !OC_App::isEnabled($app)) {
 			$l = \OC::$server->getL10N('lib');
@@ -32,8 +38,9 @@ class OC_JSON{
 	}
 
 	/**
-	* Check if the user is logged in, send json error msg if not
-	*/
+	 * Check if the user is logged in, send json error msg if not
+	 * @deprecated Use annotation based ACLs from the AppFramework instead
+	 */
 	public static function checkLoggedIn() {
 		if( !OC_User::isLoggedIn()) {
 			$l = \OC::$server->getL10N('lib');
@@ -44,6 +51,7 @@ class OC_JSON{
 
 	/**
 	 * Check an ajax get/post call if the request token is valid, send json error msg if not.
+	 * @deprecated Use annotation based CSRF checks from the AppFramework instead
 	 */
 	public static function callCheck() {
 		if( !OC_Util::isCallRegistered()) {
@@ -54,8 +62,9 @@ class OC_JSON{
 	}
 
 	/**
-	* Check if the user is a admin, send json error msg if not.
-	*/
+	 * Check if the user is a admin, send json error msg if not.
+	 * @deprecated Use annotation based ACLs from the AppFramework instead
+	 */
 	public static function checkAdminUser() {
 		if( !OC_User::isAdminUser(OC_User::getUser())) {
 			$l = \OC::$server->getL10N('lib');
@@ -67,6 +76,7 @@ class OC_JSON{
 	/**
 	 * Check is a given user exists - send json error msg if not
 	 * @param string $user
+	 * @deprecated Use a AppFramework JSONResponse instead
 	 */
 	public static function checkUserExists($user) {
 		if (!OCP\User::userExists($user)) {
@@ -77,10 +87,10 @@ class OC_JSON{
 	}
 
 
-
 	/**
-	* Check if the user is a subadmin, send json error msg if not
-	*/
+	 * Check if the user is a subadmin, send json error msg if not
+	 * @deprecated Use annotation based ACLs from the AppFramework instead
+	 */
 	public static function checkSubAdminUser() {
 		if(!OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 			$l = \OC::$server->getL10N('lib');
@@ -90,16 +100,18 @@ class OC_JSON{
 	}
 
 	/**
-	* Send json error msg
-	*/
+	 * Send json error msg
+	 * @deprecated Use a AppFramework JSONResponse instead
+	 */
 	public static function error($data = array()) {
 		$data['status'] = 'error';
 		self::encodedPrint($data);
 	}
 
 	/**
-	* Send json success msg
-	*/
+	 * Send json success msg
+	 * @deprecated Use a AppFramework JSONResponse instead
+	 */
 	public static function success($data = array()) {
 		$data['status'] = 'success';
 		self::encodedPrint($data);
@@ -115,8 +127,9 @@ class OC_JSON{
 	}
 
 	/**
-	* Encode and print $data in json format
-	*/
+	 * Encode and print $data in json format
+	 * @deprecated Use a AppFramework JSONResponse instead
+	 */
 	public static function encodedPrint($data, $setContentType=true) {
 		if($setContentType) {
 			self::setContentTypeHeader();
@@ -126,6 +139,7 @@ class OC_JSON{
 
 	/**
 	 * Encode JSON
+	 * @deprecated Use a AppFramework JSONResponse instead
 	 */
 	public static function encode($data) {
 		if (is_array($data)) {
