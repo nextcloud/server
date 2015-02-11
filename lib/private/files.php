@@ -182,7 +182,16 @@ class OC_Files {
 		}
 
 		if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
-			$filename = \OC::$WEBROOT . '/data' . \OC\Files\Filesystem::getRoot() . $filename;
+			if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_PREFIX'])) {
+				$prefix = $_SERVER['MOD_X_ACCEL_REDIRECT_PREFIX'];
+				// nginx is picky about double slashes
+				while($prefix[strlen($prefix) - 1] === '/'){
+					$prefix = substr($prefix, 0, -1);
+				}
+				$filename = $prefix . \OC\Files\Filesystem::getLocalFile($filename);
+			} else {
+				$filename = \OC::$WEBROOT . '/data' . \OC\Files\Filesystem::getRoot() . $filename;
+			}
 			header("X-Accel-Redirect: " . $filename);
 		}
 	}
