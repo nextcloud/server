@@ -182,7 +182,7 @@ class OC_Files {
 		}
 
 		if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
-			$filename = \OC\Files\Filesystem::getLocalFile($filename);
+			$filename = \OC::$WEBROOT . '/data' . \OC\Files\Filesystem::getRoot() . $filename;
 			header("X-Accel-Redirect: " . $filename);
 		}
 	}
