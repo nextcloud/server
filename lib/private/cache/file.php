@@ -11,6 +11,7 @@ namespace OC\Cache;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCP\Security\ISecureRandom;
 
 class File {
 	protected $storage;
@@ -79,12 +80,22 @@ class File {
 		$storage = $this->getStorage();
 		$result = false;
 		$proxyStatus = \OC_FileProxy::$enabled;
+		// unique id to avoid chunk collision, just in case
+		$uniqueId = \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(
+			16,
+			ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER
+		);
+
+		// use part file to prevent hasKey() to find the key
+		// while it is being written
+		$keyPart = $key . '.' . $uniqueId . '.part';
 		\OC_FileProxy::$enabled = false;
-		if ($storage and $storage->file_put_contents($key, $value)) {
+		if ($storage and $storage->file_put_contents($keyPart, $value)) {
 			if ($ttl === 0) {
 				$ttl = 86400; // 60*60*24
 			}
-			$result = $storage->touch($key, time() + $ttl);
+			$result = $storage->touch($keyPart, time() + $ttl);
+			$result &= $storage->rename($keyPart, $key);
 		}
 		\OC_FileProxy::$enabled = $proxyStatus;
 		return $result;
