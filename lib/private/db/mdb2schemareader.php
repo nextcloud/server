@@ -293,6 +293,9 @@ class MDB2SchemaReader {
 		}
 		if (!empty($fields)) {
 			if (isset($primary) && $primary) {
+				if ($table->hasPrimaryKey()) {
+					return;
+				}
 				$table->setPrimaryKey($fields, $name);
 			} else {
 				if (isset($unique) && $unique) {
