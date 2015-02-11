@@ -43,6 +43,21 @@
   RewriteRule ^remote/(.*) remote.php [QSA,L]
   RewriteRule ^(build|tests|config|lib|3rdparty|templates)/.* - [R=404,L]
   RewriteRule ^(\.|autotest|occ|issue|indie|db_|console).* - [R=404,L]
+
+  <IfModule mod_env.c>
+    SetEnv front_controller_active true
+    RewriteRule ^core/js/oc.js$ index.php [PT,E=PATH_INFO:$1]
+    RewriteRule ^core/preview.png$ index.php [PT,E=PATH_INFO:$1]
+    RewriteCond %{REQUEST_FILENAME} !\.(css|js|svg|gif|png|html|ttf|woff)$
+    RewriteCond %{REQUEST_FILENAME} !/remote.php
+    RewriteCond %{REQUEST_FILENAME} !/public.php
+    RewriteCond %{REQUEST_FILENAME} !/cron.php
+    RewriteCond %{REQUEST_FILENAME} !/status.php
+    RewriteCond %{REQUEST_FILENAME} !/ocs/v1.php
+    RewriteCond %{REQUEST_FILENAME} !/ocs/v2.php
+    RewriteRule .* index.php [PT,E=PATH_INFO:$1]
+  </IfModule>
+
 </IfModule>
 <IfModule mod_mime.c>
   AddType image/svg+xml svg svgz

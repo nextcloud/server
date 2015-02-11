@@ -1073,7 +1073,12 @@ class OC_Util {
 						break;
 					}
 				}
-				$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $appId . '/');
+
+				if(getenv('front_controller_active') === 'true') {
+					$location = $urlGenerator->getAbsoluteURL('/apps/' . $appId . '/');
+				} else {
+					$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $appId . '/');
+				}
 			}
 		}
 		return $location;
