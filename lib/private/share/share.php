@@ -1857,7 +1857,7 @@ class Share extends \OC\Share\Constants {
 			$sourceId = ($itemType === 'file' || $itemType === 'folder') ? $fileSource : $itemSource;
 			$sourceExists = self::getItemSharedWithBySource($itemType, $sourceId, self::FORMAT_NONE, null, true, $user);
 
-			$shareType = ($isGroupShare) ? self::$shareTypeGroupUserUnique : $shareType;
+			$userShareType = ($isGroupShare) ? self::$shareTypeGroupUserUnique : $shareType;
 
 			if ($sourceExists) {
 				$fileTarget = $sourceExists['file_target'];
@@ -1870,12 +1870,12 @@ class Share extends \OC\Share\Constants {
 
 			} elseif(!$sourceExists && !$isGroupShare)  {
 
-				$itemTarget = Helper::generateTarget($itemType, $itemSource, $shareType, $user,
+				$itemTarget = Helper::generateTarget($itemType, $itemSource, $userShareType, $user,
 					$uidOwner, $suggestedItemTarget, $parent);
 				if (isset($fileSource)) {
 					if ($parentFolder) {
 						if ($parentFolder === true) {
-							$fileTarget = Helper::generateTarget('file', $filePath, $shareType, $user,
+							$fileTarget = Helper::generateTarget('file', $filePath, $userShareType, $user,
 								$uidOwner, $suggestedFileTarget, $parent);
 							if ($fileTarget != $groupFileTarget) {
 								$parentFolders[$user]['folder'] = $fileTarget;
@@ -1885,7 +1885,7 @@ class Share extends \OC\Share\Constants {
 							$parent = $parentFolder[$user]['id'];
 						}
 					} else {
-						$fileTarget = Helper::generateTarget('file', $filePath, $shareType,
+						$fileTarget = Helper::generateTarget('file', $filePath, $userShareType,
 							$user, $uidOwner, $suggestedFileTarget, $parent);
 					}
 				} else {
@@ -1916,7 +1916,7 @@ class Share extends \OC\Share\Constants {
 				'itemType'			=> $itemType,
 				'itemSource'		=> $itemSource,
 				'itemTarget'		=> $itemTarget,
-				'shareType'			=> $shareType,
+				'shareType'			=> $userShareType,
 				'shareWith'			=> $user,
 				'uidOwner'			=> $uidOwner,
 				'permissions'		=> $permissions,
