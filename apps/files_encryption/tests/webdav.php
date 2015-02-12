@@ -216,35 +216,33 @@ class Webdav extends TestCase {
 	 */
 	function handleWebdavRequest($body = false) {
 		// Backends
-		$authBackend = $this->getMockBuilder('OC_Connector_Sabre_Auth')
+		$authBackend = $this->getMockBuilder('OC\Connector\Sabre\Auth')
 			->setMethods(['validateUserPass'])
 			->getMock();
 		$authBackend->expects($this->any())
 			->method('validateUserPass')
 			->will($this->returnValue(true));
 
-		$lockBackend = new \OC_Connector_Sabre_Locks();
-		$requestBackend = new \OC_Connector_Sabre_Request();
+		$lockBackend = new \OC\Connector\Sabre\Locks();
 
 		// Create ownCloud Dir
 		$root = '/' . $this->userId . '/files';
 		$view = new \OC\Files\View($root);
-		$publicDir = new \OC_Connector_Sabre_Directory($view, $view->getFileInfo(''));
+		$publicDir = new \OC\Connector\Sabre\Directory($view, $view->getFileInfo(''));
 		$objectTree = new \OC\Connector\Sabre\ObjectTree();
 		$mountManager = \OC\Files\Filesystem::getMountManager();
 		$objectTree->init($publicDir, $view, $mountManager);
 
 		// Fire up server
 		$server = new \Sabre\DAV\Server($publicDir);
-		$server->httpRequest = $requestBackend;
 		$server->setBaseUri('/remote.php/webdav/');
 
 		// Load plugins
 		$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud'));
 		$server->addPlugin(new \Sabre\DAV\Locks\Plugin($lockBackend));
 		$server->addPlugin(new \Sabre\DAV\Browser\Plugin(false)); // Show something in the Browser, but no upload
-		$server->addPlugin(new \OC_Connector_Sabre_QuotaPlugin($view));
-		$server->addPlugin(new \OC_Connector_Sabre_MaintenancePlugin());
+		$server->addPlugin(new \OC\Connector\Sabre\QuotaPlugin($view));
+		$server->addPlugin(new \OC\Connector\Sabre\MaintenancePlugin());
 		$server->debugExceptions = true;
 
 		// Totally ugly hack to setup the FS

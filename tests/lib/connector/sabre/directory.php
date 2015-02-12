@@ -27,7 +27,7 @@ class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 			->method('getPath')
 			->will($this->returnValue(''));
 
-		return new OC_Connector_Sabre_Directory($this->view, $this->info);
+		return new \OC\Connector\Sabre\Directory($this->view, $this->info);
 	}
 
 	/**
@@ -131,7 +131,7 @@ class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 			->method('getRelativePath')
 			->will($this->returnValue(''));
 
-		$dir = new OC_Connector_Sabre_Directory($this->view, $this->info);
+		$dir = new \OC\Connector\Sabre\Directory($this->view, $this->info);
 		$nodes = $dir->getChildren();
 
 		$this->assertEquals(2, count($nodes));
@@ -139,21 +139,6 @@ class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 		// calling a second time just returns the cached values,
 		// does not call getDirectoryContents again
 		$nodes = $dir->getChildren();
-
-		$properties = array('testprop', OC_Connector_Sabre_Node::GETETAG_PROPERTYNAME);
-		$this->assertEquals(2, count($nodes));
-		$this->assertEquals(
-			array(
-				OC_Connector_Sabre_Node::GETETAG_PROPERTYNAME => '"abc"'
-			),
-			$nodes[0]->getProperties($properties)
-		);
-		$this->assertEquals(
-			array(
-				OC_Connector_Sabre_Node::GETETAG_PROPERTYNAME => '"def"'
-			),
-			$nodes[1]->getProperties($properties)
-		);
 	}
 
 	public function testGetQuotaInfo() {
@@ -182,7 +167,7 @@ class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 			->method('getStorage')
 			->will($this->returnValue($storage));
 
-		$dir = new OC_Connector_Sabre_Directory($this->view, $this->info);
+		$dir = new \OC\Connector\Sabre\Directory($this->view, $this->info);
 		$this->assertEquals([200, 800], $dir->getQuotaInfo()); //200 used, 800 free
 	}
 }

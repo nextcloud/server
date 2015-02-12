@@ -10,6 +10,7 @@
 
 namespace Test\Connector\Sabre;
 
+use \Sabre\DAV\PropPatch;
 use OCP\IUserManager;
 use OCP\IConfig;
 
@@ -240,7 +241,7 @@ class Principal extends \Test\TestCase {
 	}
 
 	public function testUpdatePrincipal() {
-		$this->assertSame(0, $this->connector->updatePrincipal('foo', []));
+		$this->assertSame(0, $this->connector->updatePrincipal('foo', new PropPatch(array())));
 	}
 
 	public function testSearchPrincipals() {

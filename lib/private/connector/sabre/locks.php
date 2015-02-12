@@ -1,29 +1,9 @@
 <?php
-/**
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Felix Moeller <mail@felixmoeller.de>
- * @author Jakob Sack <mail@jakobsack.de>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
- */
-class OC_Connector_Sabre_Locks extends \Sabre\DAV\Locks\Backend\AbstractBackend {
+
+namespace OC\Connector\Sabre;
+
+
+class Locks extends \Sabre\DAV\Locks\Backend\AbstractBackend {
 
 	/**
 	 * Returns a list of \Sabre\DAV\Locks_LockInfo objects
@@ -48,12 +28,12 @@ class OC_Connector_Sabre_Locks extends \Sabre\DAV\Locks\Backend\AbstractBackend 
 		// nothing
 		$query = 'SELECT * FROM `*PREFIX*locks`'
 			   .' WHERE `userid` = ? AND (`created` + `timeout`) > '.time().' AND (( `uri` = ?)';
-		if (OC_Config::getValue( "dbtype") === 'oci') {
+		if (\OC_Config::getValue( "dbtype") === 'oci') {
 			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
 			$query = 'SELECT * FROM `*PREFIX*locks`'
 				   .' WHERE `userid` = ? AND (`created` + `timeout`) > '.time().' AND (( to_char(`uri`) = ?)';
 		}
-		$params = array(OC_User::getUser(), $uri);
+		$params = array(\OC_User::getUser(), $uri);
 
 		// We need to check locks for every part in the uri.
 		$uriParts = explode('/', $uri);
@@ -68,7 +48,7 @@ class OC_Connector_Sabre_Locks extends \Sabre\DAV\Locks\Backend\AbstractBackend 
 			if ($currentPath) $currentPath.='/';
 			$currentPath.=$part;
 			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
-			if (OC_Config::getValue( "dbtype") === 'oci') {
+			if (\OC_Config::getValue( "dbtype") === 'oci') {
 				$query.=' OR (`depth` != 0 AND to_char(`uri`) = ?)';
 			} else {
 				$query.=' OR (`depth` != 0 AND `uri` = ?)';
@@ -80,7 +60,7 @@ class OC_Connector_Sabre_Locks extends \Sabre\DAV\Locks\Backend\AbstractBackend 
 		if ($returnChildLocks) {
 
 			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
-			if (OC_Config::getValue( "dbtype") === 'oci') {
+			if (\OC_Config::getValue( "dbtype") === 'oci') {
 				$query.=' OR (to_char(`uri`) LIKE ?)';
 			} else {
 				$query.=' OR (`uri` LIKE ?)';
@@ -90,7 +70,7 @@ class OC_Connector_Sabre_Locks extends \Sabre\DAV\Locks\Backend\AbstractBackend 
 		}
 		$query.=')';
 
-		$result = OC_DB::executeAudited( $query, $params );
+		$result = \OC_DB::executeAudited( $query, $params );
 		
 		$lockList = array();
 		while( $row = $result->fetchRow()) {
@@ -138,22 +118,22 @@ class OC_Connector_Sabre_Locks extends \Sabre\DAV\Locks\Backend\AbstractBackend 
 			$sql = 'UPDATE `*PREFIX*locks`'
 				 .' SET `owner` = ?, `timeout` = ?, `scope` = ?, `depth` = ?, `uri` = ?, `created` = ?'
 				 .' WHERE `userid` = ? AND `token` = ?';
-			$result = OC_DB::executeAudited( $sql, array(
+			$result = \OC_DB::executeAudited( $sql, array(
 				$lockInfo->owner,
 				$lockInfo->timeout,
 				$lockInfo->scope,
 				$lockInfo->depth,
 				$uri,
 				$lockInfo->created,
-				OC_User::getUser(),
+				\OC_User::getUser(),
 				$lockInfo->token)
 			);
 		} else {
 			$sql = 'INSERT INTO `*PREFIX*locks`'
 				 .' (`userid`,`owner`,`timeout`,`scope`,`depth`,`uri`,`created`,`token`)'
 				 .' VALUES (?,?,?,?,?,?,?,?)';
-			$result = OC_DB::executeAudited( $sql, array(
-				OC_User::getUser(),
+			$result = \OC_DB::executeAudited( $sql, array(
+				\OC_User::getUser(),
 				$lockInfo->owner,
 				$lockInfo->timeout,
 				$lockInfo->scope,
@@ -178,11 +158,11 @@ class OC_Connector_Sabre_Locks extends \Sabre\DAV\Locks\Backend\AbstractBackend 
 	public function unlock($uri, \Sabre\DAV\Locks\LockInfo $lockInfo) {
 
 		$sql = 'DELETE FROM `*PREFIX*locks` WHERE `userid` = ? AND `uri` = ? AND `token` = ?';
-		if (OC_Config::getValue( "dbtype") === 'oci') {
+		if (\OC_Config::getValue( "dbtype") === 'oci') {
 			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
 			$sql = 'DELETE FROM `*PREFIX*locks` WHERE `userid` = ? AND to_char(`uri`) = ? AND `token` = ?';
 		}
-		$result = OC_DB::executeAudited( $sql, array(OC_User::getUser(), $uri, $lockInfo->token));
+		$result = \OC_DB::executeAudited( $sql, array(\OC_User::getUser(), $uri, $lockInfo->token));
 
 		return $result === 1;
 

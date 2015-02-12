@@ -30,6 +30,7 @@ namespace OC\Connector\Sabre;
 
 use OCP\IUserManager;
 use OCP\IConfig;
+use \Sabre\DAV\PropPatch;
 
 class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 	/** @var IConfig */
@@ -137,7 +138,7 @@ class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 	 * @throws \Sabre\DAV\Exception
 	 */
 	public function getGroupMembership($principal) {
-		list($prefix, $name) = \Sabre\DAV\URLUtil::splitPath($principal);
+		list($prefix, $name) = \Sabre\HTTP\URLUtil::splitPath($principal);
 
 		$group_membership = array();
 		if ($prefix === 'principals') {
@@ -174,19 +175,28 @@ class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 
 	/**
 	 * @param string $path
-	 * @param array $mutations
+	 * @param PropPatch $propPatch
 	 * @return int
 	 */
-	function updatePrincipal($path, $mutations) {
+	function updatePrincipal($path, PropPatch $propPatch) {
 		return 0;
 	}
 
 	/**
 	 * @param string $prefixPath
 	 * @param array $searchProperties
+	 * @param string $test
 	 * @return array
 	 */
-	function searchPrincipals($prefixPath, array $searchProperties) {
+	function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		return [];
+	}
+
+	/**
+	 * @param string $uri
+	 * @return string
+	 */
+	function findByUri($uri) {
+		return '';
 	}
 }

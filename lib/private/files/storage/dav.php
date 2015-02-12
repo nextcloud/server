@@ -38,7 +38,7 @@ namespace OC\Files\Storage;
 
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
-use Sabre\DAV\Exception;
+use Sabre\DAV\ClientHttpException;
 
 class DAV extends \OC\Files\Storage\Common {
 	protected $password;
@@ -104,6 +104,7 @@ class DAV extends \OC\Files\Storage\Common {
 		);
 
 		$this->client = new \Sabre\DAV\Client($settings);
+		$this->client->setThrowExceptions(true);
 
 		if ($this->secure === true && $this->certPath) {
 			$this->client->addTrustedCertificates($this->certPath);
@@ -152,9 +153,10 @@ class DAV extends \OC\Files\Storage\Common {
 			}
 			\OC\Files\Stream\Dir::register($id, $content);
 			return opendir('fakedir://' . $id);
-		} catch (Exception\NotFound $e) {
-			return false;
-		} catch (\Sabre\DAV\Exception $e) {
+		} catch (ClientHttpException $e) {
+			if ($e->getHttpStatus() === 404) {
+				return false;
+			}
 			$this->convertSabreException($e);
 			return false;
 		} catch (\Exception $e) {
@@ -174,9 +176,10 @@ class DAV extends \OC\Files\Storage\Common {
 				$responseType = $response["{DAV:}resourcetype"]->resourceType;
 			}
 			return (count($responseType) > 0 and $responseType[0] == "{DAV:}collection") ? 'dir' : 'file';
-		} catch (Exception\NotFound $e) {
-			return false;
-		} catch (\Sabre\DAV\Exception $e) {
+		} catch (ClientHttpException $e) {
+			if ($e->getHttpStatus() === 404) {
+				return false;
+			}
 			$this->convertSabreException($e);
 			return false;
 		} catch (\Exception $e) {
@@ -192,9 +195,10 @@ class DAV extends \OC\Files\Storage\Common {
 		try {
 			$this->client->propfind($this->encodePath($path), array('{DAV:}resourcetype'));
 			return true; //no 404 exception
-		} catch (Exception\NotFound $e) {
-			return false;
-		} catch (\Sabre\DAV\Exception $e) {
+		} catch (ClientHttpException $e) {
+			if ($e->getHttpStatus() === 404) {
+				return false;
+			}
 			$this->convertSabreException($e);
 			return false;
 		} catch (\Exception $e) {
@@ -311,9 +315,10 @@ class DAV extends \OC\Files\Storage\Common {
 		if ($this->file_exists($path)) {
 			try {
 				$this->client->proppatch($this->encodePath($path), array('{DAV:}lastmodified' => $mtime));
-			} catch (Exception\NotImplemented $e) {
-				return false;
-			} catch (\Sabre\DAV\Exception $e) {
+			} catch (ClientHttpException $e) {
+				if ($e->getHttpStatus() === 501) {
+					return false;
+				}
 				$this->convertSabreException($e);
 				return false;
 			} catch (\Exception $e) {
@@ -367,7 +372,7 @@ class DAV extends \OC\Files\Storage\Common {
 			$this->removeCachedFile($path1);
 			$this->removeCachedFile($path2);
 			return true;
-		} catch (\Sabre\DAV\Exception $e) {
+		} catch (ClientHttpException $e) {
 			$this->convertSabreException($e);
 			return false;
 		} catch (\Exception $e) {
@@ -385,7 +390,7 @@ class DAV extends \OC\Files\Storage\Common {
 			$this->client->request('COPY', $path1, null, array('Destination' => $path2));
 			$this->removeCachedFile($path2);
 			return true;
-		} catch (\Sabre\DAV\Exception $e) {
+		} catch (ClientHttpException $e) {
 			$this->convertSabreException($e);
 			return false;
 		} catch (\Exception $e) {
@@ -404,11 +409,12 @@ class DAV extends \OC\Files\Storage\Common {
 				'mtime' => strtotime($response['{DAV:}getlastmodified']),
 				'size' => (int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
 			);
-		} catch (Exception\NotFound $e) {
-			return array();
-		} catch (\Sabre\DAV\Exception $e) {
+		} catch (ClientHttpException $e) {
+			if ($e->getHttpStatus() === 404) {
+				return array();
+			}
 			$this->convertSabreException($e);
-			return false;
+			return array();
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -433,9 +439,10 @@ class DAV extends \OC\Files\Storage\Common {
 			} else {
 				return false;
 			}
-		} catch (Exception\NotFound $e) {
-			return false;
-		} catch (\Sabre\DAV\Exception $e) {
+		} catch (ClientHttpException $e) {
+			if ($e->getHttpStatus() === 404) {
+				return false;
+			}
 			$this->convertSabreException($e);
 			return false;
 		} catch (\Exception $e) {
@@ -478,14 +485,11 @@ class DAV extends \OC\Files\Storage\Common {
 		try {
 			$response = $this->client->request($method, $this->encodePath($path), $body);
 			return $response['statusCode'] == $expected;
-		} catch (Exception\NotFound $e) {
-			if ($method === 'DELETE') {
+		} catch (ClientHttpException $e) {
+			if ($e->getHttpStatus() === 404 && $method === 'DELETE') {
 				return false;
 			}
 
-			$this->convertSabreException($e);
-			return false;
-		} catch (\Sabre\DAV\Exception $e) {
 			$this->convertSabreException($e);
 			return false;
 		} catch (\Exception $e) {
@@ -591,9 +595,10 @@ class DAV extends \OC\Files\Storage\Common {
 				$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
 				return $remoteMtime > $time;
 			}
-		} catch (Exception\NotFound $e) {
-			return false;
 		} catch (Exception $e) {
+			if ($e->getHttpStatus() === 404) {
+				return false;
+			}
 			$this->convertSabreException($e);
 			return false;
 		}
@@ -603,19 +608,19 @@ class DAV extends \OC\Files\Storage\Common {
 	 * Convert sabre DAV exception to a storage exception,
 	 * then throw it
 	 *
-	 * @param \Sabre\Dav\Exception $e sabre exception
+	 * @param ClientException $e sabre exception
 	 * @throws StorageInvalidException if the storage is invalid, for example
 	 * when the authentication expired or is invalid
 	 * @throws StorageNotAvailableException if the storage is not available,
 	 * which might be temporary
 	 */
-	private function convertSabreException(\Sabre\Dav\Exception $e) {
+	private function convertSabreException(ClientException $e) {
 		\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-		if ($e instanceof \Sabre\DAV\Exception\NotAuthenticated) {
+		if ($e->getHttpStatus() === 401) {
 			// either password was changed or was invalid all along
 			throw new StorageInvalidException(get_class($e).': '.$e->getMessage());
-		} else if ($e instanceof \Sabre\DAV\Exception\MethodNotAllowed) {
-			// ignore exception, false will be returned
+		} else if ($e->getHttpStatus() === 405) {
+			// ignore exception for MethodNotAllowed, false will be returned
 			return;
 		}
 
