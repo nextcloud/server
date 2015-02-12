@@ -435,7 +435,7 @@ describe('OC.Share tests', function() {
 				expect(avatarStub.calledOnce).toEqual(true);
 				var args = avatarStub.getCall(0).args;
 
-				expect($('#avatar-user1')[0]).toEqual(jasmine.anything());
+				expect($('#avatar-user1').length).toEqual(1);
 				expect(args.length).toEqual(2);
 				expect(args[0]).toEqual('user1');
 			});
