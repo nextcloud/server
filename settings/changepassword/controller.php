@@ -78,7 +78,7 @@ class Controller {
 					$l = new \OC_L10n('settings');
 					\OC_JSON::error(array(
 						"data" => array(
-							"message" => $l->t("Back-end doesn't support password change, but the users encryption key was successfully updated.")
+							"message" => $l->t("Backend doesn't support password change, but the user's encryption key was successfully updated.")
 						)
 					));
 				} elseif (!$result && !$recoveryEnabledForUser) {
