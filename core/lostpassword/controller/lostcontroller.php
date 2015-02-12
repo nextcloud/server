@@ -15,6 +15,7 @@ use \OCP\IRequest;
 use \OCP\IL10N;
 use \OCP\IConfig;
 use OCP\IUserManager;
+use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
 use \OC_Defaults;
 use OCP\Security\StringUtils;
@@ -32,6 +33,7 @@ class LostController extends Controller {
 	protected $urlGenerator;
 	/** @var IUserManager */
 	protected $userManager;
+	// FIXME: Inject a non-static factory of OC_Defaults for better unit-testing
 	/** @var OC_Defaults */
 	protected $defaults;
 	/** @var IL10N */
@@ -44,6 +46,8 @@ class LostController extends Controller {
 	protected $config;
 	/** @var ISecureRandom */
 	protected $secureRandom;
+	/** @var IMailer */
+	protected $mailer;
 
 	/**
 	 * @param string $appName
@@ -56,6 +60,7 @@ class LostController extends Controller {
 	 * @param ISecureRandom $secureRandom
 	 * @param string $from
 	 * @param string $isDataEncrypted
+	 * @param IMailer $mailer
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -66,7 +71,8 @@ class LostController extends Controller {
 								IConfig $config,
 								ISecureRandom $secureRandom,
 								$from,
-								$isDataEncrypted) {
+								$isDataEncrypted,
+								IMailer $mailer) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
@@ -76,6 +82,7 @@ class LostController extends Controller {
 		$this->from = $from;
 		$this->isDataEncrypted = $isDataEncrypted;
 		$this->config = $config;
+		$this->mailer = $mailer;
 	}
 
 	/**
@@ -200,15 +207,12 @@ class LostController extends Controller {
 		$msg = $tmpl->fetchPage();
 
 		try {
-			// FIXME: should be added to the container and injected in here
-			\OCP\Util::sendMail(
-				$email,
-				$user,
-				$this->l10n->t('%s password reset',	array($this->defaults->getName())),
-				$msg,
-				$this->from,
-				$this->defaults->getName()
-			);
+			$message = $this->mailer->createMessage();
+			$message->setTo([$email => $user]);
+			$message->setSubject($this->l10n->t('%s password reset', [$this->defaults->getName()]));
+			$message->setPlainBody($msg);
+			$message->setFrom([$this->from => $this->defaults->getName()]);
+			$this->mailer->send($message);
 		} catch (\Exception $e) {
 			throw new \Exception($this->l10n->t(
 				'Couldn\'t send reset email. Please contact your administrator.'

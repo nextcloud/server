@@ -46,7 +46,8 @@ class Application extends App {
 				$c->query('Config'),
 				$c->query('SecureRandom'),
 				$c->query('DefaultEmailAddress'),
-				$c->query('IsEncryptionEnabled')
+				$c->query('IsEncryptionEnabled'),
+				$c->query('Mailer')
 			);
 		});
 		$container->registerService('UserController', function(SimpleContainer $c) {
@@ -103,6 +104,9 @@ class Application extends App {
 
 		$container->registerService('Defaults', function() {
 			return new \OC_Defaults;
+		});
+		$container->registerService('Mailer', function(SimpleContainer $c) {
+			return $c->query('ServerContainer')->getMailer();
 		});
 		$container->registerService('DefaultEmailAddress', function() {
 			return Util::getDefaultEmailAddress('lostpassword-noreply');
