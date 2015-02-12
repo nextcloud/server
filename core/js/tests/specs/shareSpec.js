@@ -26,6 +26,7 @@ describe('OC.Share tests', function() {
 		var oldAppConfig;
 		var loadItemStub;
 		var autocompleteStub;
+		var avatarStub;
 
 		beforeEach(function() {
 			$('#testArea').append($('<div id="shareContainer"></div>'));
@@ -54,6 +55,8 @@ describe('OC.Share tests', function() {
 				var $el = $('<div></div>').data('ui-autocomplete', {});
 				return $el;
 			});
+
+			avatarStub = sinon.stub($.fn, 'avatar');
 		});
 		afterEach(function() {
 			/* jshint camelcase:false */
@@ -61,6 +64,7 @@ describe('OC.Share tests', function() {
 			loadItemStub.restore();
 
 			autocompleteStub.restore();
+			avatarStub.restore();
 			$('#dropdown').remove();
 		});
 		it('calls loadItem with the correct arguments', function() {
@@ -403,6 +407,37 @@ describe('OC.Share tests', function() {
 					expect($.datepicker._defaults.minDate).toEqual(expectedMinDate);
 					expect($.datepicker._defaults.maxDate).toEqual(new Date(2014, 0, 27, 0, 0, 0, 0));
 				});
+			});
+		});
+		describe('check for avatar', function() {
+			beforeEach(function() {
+				loadItemStub.returns({
+					reshare: [],
+					shares: [{
+						id: 100,
+						item_source: 123,
+						permissions: 31,
+						share_type: OC.Share.SHARE_TYPE_USER,
+						share_with: 'user1',
+						share_with_displayname: 'User One'
+					}]
+				});
+				OC.Share.showDropDown(
+					'file',
+					123,
+					$container,
+					true,
+					31,
+					'shared_file_name.txt'
+				);
+			});
+			it('test correct function call', function() {
+				expect(avatarStub.calledOnce).toEqual(true);
+				var args = avatarStub.getCall(0).args;
+
+				expect($('#avatar-user1')[0]).toEqual(jasmine.anything());
+				expect(args.length).toEqual(2);
+				expect(args[0]).toEqual('user1');
 			});
 		});
 		describe('"sharesChanged" event', function() {
