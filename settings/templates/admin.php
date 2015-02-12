@@ -516,7 +516,7 @@ if ($_['suggestedOverwriteCliUrl']) {
 	<?php if ($_['logFileSize'] > (100 * 1024 * 1024)): ?>
 	<br>
 	<em>
-		<?php p($l->t('The logfile is bigger than 100MB. Downloading it may take some time!')); ?>
+		<?php p($l->t('The logfile is bigger than 100 MB. Downloading it may take some time!')); ?>
 	</em>
 	<?php endif; ?>
 	<?php endif; ?>
