@@ -391,7 +391,7 @@ class OC_Image {
 				$rotate = 90;
 				break;
 		}
-		if($flip) {
+		if($flip && function_exists('imageflip')) {
 			imageflip($this->resource, IMG_FLIP_HORIZONTAL);
 		}
 		if ($rotate) {
