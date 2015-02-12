@@ -20,6 +20,10 @@ select {
 	background-image: url('../img/actions/delete-hover.png');
 }
 
+.ie8 .icon-checkmark {
+	background-image: url('../img/actions/checkmark.png');
+}
+
 .lte9 .icon-triangle-e {
 	background-image: url('../img/actions/triangle-e.png');
 }
