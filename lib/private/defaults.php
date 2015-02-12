@@ -1,9 +1,5 @@
 <?php
 
-if (file_exists(OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php')) {
-	require_once 'themes/' . OC_Util::getTheme() . '/defaults.php';
-}
-
 /**
  * Default strings and values which differ between the enterprise and the
  * community edition. Use the get methods to always get the right strings.
@@ -43,7 +39,11 @@ class OC_Defaults {
 		$this->defaultLogoClaim = '';
 		$this->defaultMailHeaderColor = '#1d2d44'; /* header color of mail notifications */
 
-		if (class_exists('OC_Theme')) {
+		if (file_exists(OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php')) {
+			// prevent defaults.php from printing output
+			ob_start();
+			require_once 'themes/' . OC_Util::getTheme() . '/defaults.php';
+			ob_end_clean();
 			$this->theme = new OC_Theme();
 		}
 	}

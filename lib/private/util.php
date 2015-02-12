@@ -426,11 +426,6 @@ class OC_Util {
 			$webServerRestart = true;
 		}
 
-		//common hint for all file permissions error messages
-		$permissionsHint = $l->t('Permissions can usually be fixed by '
-			.'%sgiving the webserver write access to the root directory%s.',
-			array('<a href="'.\OC_Helper::linkToDocs('admin-dir_permissions').'" target="_blank">', '</a>'));
-
 		// Check if config folder is writable.
 		if(!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
 			$errors[] = array(
@@ -470,6 +465,11 @@ class OC_Util {
 					);
 				}
 			} else if (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
+				//common hint for all file permissions error messages
+				$permissionsHint = $l->t('Permissions can usually be fixed by '
+					.'%sgiving the webserver write access to the root directory%s.',
+					array('<a href="'.\OC_Helper::linkToDocs('admin-dir_permissions').'" target="_blank">', '</a>'));
+
 				$errors[] = array(
 					'error' => 'Data directory (' . $CONFIG_DATADIRECTORY . ') not writable by ownCloud',
 					'hint' => $permissionsHint
