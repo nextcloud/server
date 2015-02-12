@@ -47,7 +47,7 @@ class Application extends App {
 				$c->query('Config'),
 				$c->query('UserSession'),
 				$c->query('Defaults'),
-				$c->query('Mail'),
+				$c->query('Mailer'),
 				$c->query('DefaultMailAddress')
 			);
 		});
@@ -89,7 +89,7 @@ class Application extends App {
 				$c->query('L10N'),
 				$c->query('Logger'),
 				$c->query('Defaults'),
-				$c->query('Mail'),
+				$c->query('Mailer'),
 				$c->query('DefaultMailAddress'),
 				$c->query('URLGenerator'),
 				$c->query('OCP\\App\\IAppManager'),
@@ -151,8 +151,8 @@ class Application extends App {
 		$container->registerService('SubAdminFactory', function(IContainer $c) {
 			return new SubAdminFactory();
 		});
-		$container->registerService('Mail', function(IContainer $c) {
-			return new \OC_Mail;
+		$container->registerService('Mailer', function(IContainer $c) {
+			return $c->query('ServerContainer')->getMailer();
 		});
 		$container->registerService('Defaults', function(IContainer $c) {
 			return new \OC_Defaults;

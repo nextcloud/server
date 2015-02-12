@@ -63,12 +63,31 @@ class Util {
 	 * @param string $ccaddress
 	 * @param string $ccname
 	 * @param string $bcc
+	 * @deprecated Use \OCP\Mail\IMailer instead
 	 */
 	public static function sendMail( $toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname,
 		$html = 0, $altbody = '', $ccaddress = '', $ccname = '', $bcc = '') {
-		// call the internal mail class
-		\OC_MAIL::send($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname,
-			$html, $altbody, $ccaddress, $ccname, $bcc);
+		$mailer = \OC::$server->getMailer();
+		$message = $mailer->createMessage();
+		$message->setTo(array($toaddress => $toname));
+		$message->setSubject($subject);
+		$message->setPlainBody($mailtext);
+		$message->setFrom(array($fromaddress => $fromname));
+		if($html === 1) {
+			$message->setHTMLBody($altbody);
+		}
+		if(!empty($ccaddress)) {
+			if(!empty($ccname)) {
+				$message->setCc(array($ccaddress => $ccname));
+			} else {
+				$message->setCc(array($ccaddress));
+			}
+		}
+		if(!empty($bcc)) {
+			$message->setBcc(array($bcc));
+		}
+
+		$mailer->send($message);
 	}
 
 	/**
@@ -275,7 +294,7 @@ class Util {
 		$host_name = \OC_Config::getValue('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
-		if (\OC_Mail::validateAddress($defaultEmailAddress)) {
+		if (\OCP\Mail\Util::validateMailAddress($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
 

@@ -318,9 +318,15 @@ interface IServerContainer {
 	 * @return \bantu\IniGetWrapper\IniGetWrapper
 	 */
 	 function getIniWrapper();
-
 	/**
 	 * @return \OCP\Command\IBus
 	 */
 	function getCommandBus();
+
+	/**
+	 * Creates a new mailer
+	 *
+	 * @return \OCP\Mail\IMailer
+	 */
+	function getMailer();
 }

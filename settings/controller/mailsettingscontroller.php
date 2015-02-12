@@ -16,6 +16,8 @@ use \OCP\AppFramework\Controller;
 use OCP\IRequest;
 use OCP\IL10N;
 use OCP\IConfig;
+use OCP\Mail\IMailer;
+use OCP\Mail\IMessage;
 
 /**
  * @package OC\Settings\Controller
@@ -30,8 +32,8 @@ class MailSettingsController extends Controller {
 	private $userSession;
 	/** @var \OC_Defaults */
 	private $defaults;
-	/** @var \OC_Mail */
-	private $mail;
+	/** @var IMailer */
+	private $mailer;
 	/** @var string */
 	private $defaultMailAddress;
 
@@ -42,7 +44,7 @@ class MailSettingsController extends Controller {
 	 * @param IConfig $config
 	 * @param Session $userSession
 	 * @param \OC_Defaults $defaults
-	 * @param \OC_Mail $mail
+	 * @param IMailer $mailer
 	 * @param string $defaultMailAddress
 	 */
 	public function __construct($appName,
@@ -51,14 +53,14 @@ class MailSettingsController extends Controller {
 								IConfig $config,
 								Session $userSession,
 								\OC_Defaults $defaults,
-								\OC_Mail $mail,
+								IMailer $mailer,
 								$defaultMailAddress) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->defaults = $defaults;
-		$this->mail = $mail;
+		$this->mailer = $mailer;
 		$this->defaultMailAddress = $defaultMailAddress;
 	}
 
