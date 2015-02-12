@@ -42,6 +42,7 @@ OC.L10N.register(
     "Username as share" : "Erabiltzaile izena elkarbanaketa bezala",
     "URL" : "URL",
     "Secure https://" : "https:// segurua",
+    "Public key" : "Gako publikoa",
     "Access granted" : "Sarrera baimendua",
     "Error configuring Dropbox storage" : "Errore bat egon da Dropbox biltegiratzea konfiguratzean",
     "Grant access" : "Baimendu sarrera",

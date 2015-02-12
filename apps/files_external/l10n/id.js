@@ -43,6 +43,7 @@ OC.L10N.register(
     "Username as share" : "Nama pengguna berbagi",
     "URL" : "URL",
     "Secure https://" : "Secure https://",
+    "Public key" : "Kunci Public",
     "Access granted" : "Akses diberikan",
     "Error configuring Dropbox storage" : "Kesalahan dalam mengonfigurasi penyimpanan Dropbox",
     "Grant access" : "Berikan hak akses",

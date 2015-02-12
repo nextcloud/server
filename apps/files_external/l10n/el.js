@@ -43,6 +43,7 @@ OC.L10N.register(
     "Username as share" : "Όνομα χρήστη ως διαμοιραζόμενος φάκελος",
     "URL" : "URL",
     "Secure https://" : "Ασφαλής σύνδεση https://",
+    "Public key" : "Δημόσιο κλειδί",
     "Access granted" : "Πρόσβαση παρασχέθηκε",
     "Error configuring Dropbox storage" : "Σφάλμα ρυθμίζωντας αποθήκευση Dropbox ",
     "Grant access" : "Παροχή πρόσβασης",

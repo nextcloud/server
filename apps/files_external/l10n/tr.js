@@ -43,6 +43,7 @@ OC.L10N.register(
     "Username as share" : "Paylaşım olarak kullanıcı adı",
     "URL" : "URL",
     "Secure https://" : "Güvenli https://",
+    "Public key" : "Ortak anahtar",
     "Access granted" : "Giriş kabul edildi",
     "Error configuring Dropbox storage" : "Dropbox depo yapılandırma hatası",
     "Grant access" : "Erişimi sağla",

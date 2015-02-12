@@ -43,6 +43,7 @@ OC.L10N.register(
     "Username as share" : "Ім'я для відкритого доступу",
     "URL" : "URL",
     "Secure https://" : "Захищений https://",
+    "Public key" : "Відкритий ключ",
     "Access granted" : "Доступ дозволено",
     "Error configuring Dropbox storage" : "Помилка при налаштуванні сховища Dropbox",
     "Grant access" : "Дозволити доступ",

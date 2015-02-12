@@ -43,6 +43,7 @@ OC.L10N.register(
     "Username as share" : "Uživatelské jméno jako sdílený adresář",
     "URL" : "URL",
     "Secure https://" : "Zabezpečené https://",
+    "Public key" : "Veřejný klíč",
     "Access granted" : "Přístup povolen",
     "Error configuring Dropbox storage" : "Chyba při nastavení úložiště Dropbox",
     "Grant access" : "Povolit přístup",

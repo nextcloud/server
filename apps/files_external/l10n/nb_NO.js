@@ -43,6 +43,7 @@ OC.L10N.register(
     "Username as share" : "Brukernavn som share",
     "URL" : "URL",
     "Secure https://" : "Sikker https://",
+    "Public key" : "Offentlig nøkkel",
     "Access granted" : "Tilgang innvilget",
     "Error configuring Dropbox storage" : "Feil ved konfigurering av Dropbox-lagring",
     "Grant access" : "Gi tilgang",

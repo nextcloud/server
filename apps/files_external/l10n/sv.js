@@ -43,6 +43,7 @@ OC.L10N.register(
     "Username as share" : "Användarnamn till utdelning",
     "URL" : "URL",
     "Secure https://" : "Säker https://",
+    "Public key" : "Publik nyckel",
     "Access granted" : "Åtkomst beviljad",
     "Error configuring Dropbox storage" : "Fel vid konfigurering av Dropbox",
     "Grant access" : "Bevilja åtkomst",

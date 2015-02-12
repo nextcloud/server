@@ -43,6 +43,7 @@ OC.L10N.register(
     "Username as share" : "共有名",
     "URL" : "URL",
     "Secure https://" : "セキュア https://",
+    "Public key" : "公開鍵",
     "Access granted" : "アクセスは許可されました",
     "Error configuring Dropbox storage" : "Dropboxストレージの設定エラー",
     "Grant access" : "アクセスを許可",

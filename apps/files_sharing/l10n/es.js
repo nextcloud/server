@@ -33,7 +33,7 @@ OC.L10N.register(
     "%1$s unshared %2$s from you" : "%1$s dejó de compartirse %2$s por ti",
     "Public shared folder %1$s was downloaded" : "Se descargó la carpeta pública compartida %1$s",
     "Public shared file %1$s was downloaded" : "Se descargó el archivo público compartido %1$s",
-    "This share is password-protected" : "Este elemento compartido esta protegido por contraseña",
+    "This share is password-protected" : "Este elemento compartido está protegido por contraseña",
     "The password is wrong. Try again." : "La contraseña introducida es errónea. Inténtelo de nuevo.",
     "Password" : "Contraseña",
     "No entries found in this folder" : "No hay entradas en esta carpeta",
