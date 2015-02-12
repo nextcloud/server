@@ -23,7 +23,6 @@
 /**
  * Public interface of ownCloud for apps to use.
  * JSON Class
- *
  */
 
 // use OCP namespace for all classes that are considered public.
@@ -31,141 +30,142 @@
 namespace OCP;
 
 /**
- * This class provides convinient functions to generate and send JSON data. Usefull for Ajax calls
+ * This class provides convenient functions to generate and send JSON data. Useful for Ajax calls
+ * @deprecated Use a AppFramework JSONResponse instead
  */
 class JSON {
 	/**
-	* Encode and print $data in JSON format
-	* @param array $data The data to use
-	* @param string $setContentType the optional content type
-	* @return string json formatted string.
-	*/
+	 * Encode and print $data in JSON format
+	 * @param array $data The data to use
+	 * @param bool $setContentType the optional content type
+	 * @deprecated Use a AppFramework JSONResponse instead
+	 */
 	public static function encodedPrint( $data, $setContentType=true ) {
-		return(\OC_JSON::encodedPrint( $data, $setContentType ));
+		\OC_JSON::encodedPrint($data, $setContentType);
 	}
 
 	/**
-	* Check if the user is logged in, send json error msg if not.
-	*
-	* This method checks if a user is logged in. If not, a json error
-	* response will be return and the method will exit from execution
-	* of the script.
-	* The returned json will be in the format:
-	*
-	*     {"status":"error","data":{"message":"Authentication error."}}
-	*
-	* Add this call to the start of all ajax method files that requires
-	* an authenticated user.
-	*
-	* @return string json formatted error string if not authenticated.
-	*/
+	 * Check if the user is logged in, send json error msg if not.
+	 *
+	 * This method checks if a user is logged in. If not, a json error
+	 * response will be return and the method will exit from execution
+	 * of the script.
+	 * The returned json will be in the format:
+	 *
+	 *     {"status":"error","data":{"message":"Authentication error."}}
+	 *
+	 * Add this call to the start of all ajax method files that requires
+	 * an authenticated user.
+	 * @deprecated Use annotation based ACLs from the AppFramework instead
+	 */
 	public static function checkLoggedIn() {
-		return(\OC_JSON::checkLoggedIn());
+		\OC_JSON::checkLoggedIn();
 	}
 
 	/**
-	* Check an ajax get/post call if the request token is valid.
-	*
-	* This method checks for a valid variable 'requesttoken' in $_GET,
-	* $_POST and $_SERVER. If a valid token is not found, a json error
-	* response will be return and the method will exit from execution
-	* of the script.
-	* The returned json will be in the format:
-	*
-	*     {"status":"error","data":{"message":"Token expired. Please reload page."}}
-	*
-	* Add this call to the start of all ajax method files that creates,
-	* updates or deletes anything.
-	* In cases where you e.g. use an ajax call to load a dialog containing
-	* a submittable form, you will need to add the requesttoken first as a
-	* parameter to the ajax call, then assign it to the template and finally
-	* add a hidden input field also named 'requesttoken' containing the value.
-	*
-	* @return \json|null json formatted error string if not valid.
-	*/
+	 * Check an ajax get/post call if the request token is valid.
+	 *
+	 * This method checks for a valid variable 'requesttoken' in $_GET,
+	 * $_POST and $_SERVER. If a valid token is not found, a json error
+	 * response will be return and the method will exit from execution
+	 * of the script.
+	 * The returned json will be in the format:
+	 *
+	 *     {"status":"error","data":{"message":"Token expired. Please reload page."}}
+	 *
+	 * Add this call to the start of all ajax method files that creates,
+	 * updates or deletes anything.
+	 * In cases where you e.g. use an ajax call to load a dialog containing
+	 * a submittable form, you will need to add the requesttoken first as a
+	 * parameter to the ajax call, then assign it to the template and finally
+	 * add a hidden input field also named 'requesttoken' containing the value.
+	 * @deprecated Use annotation based CSRF checks from the AppFramework instead
+	 */
 	public static function callCheck() {
-		return(\OC_JSON::callCheck());
+		\OC_JSON::callCheck();
 	}
 
 	/**
-	* Send json success msg
-	*
-	* Return a json success message with optional extra data.
-	* @see OCP\JSON::error()		for the format to use.
-	*
-	* @param array $data The data to use
-	* @return string json formatted string.
-	*/
+	 * Send json success msg
+	 *
+	 * Return a json success message with optional extra data.
+	 * @see OCP\JSON::error()		for the format to use.
+	 *
+	 * @param array $data The data to use
+	 * @return string json formatted string.
+	 * @deprecated Use a AppFramework JSONResponse instead
+	 */
 	public static function success( $data = array() ) {
-		return(\OC_JSON::success( $data ));
+		\OC_JSON::success($data);
 	}
 
 	/**
-	* Send json error msg
-	*
-	* Return a json error message with optional extra data for
-	* error message or app specific data.
-	*
-	* Example use:
-	*
-	*     $id = [some value]
-	*     OCP\JSON::error(array('data':array('message':'An error happened', 'id': $id)));
-	*
-	* Will return the json formatted string:
-	*
-	*     {"status":"error","data":{"message":"An error happened", "id":[some value]}}
-	*
-	* @param array $data The data to use
-	* @return string json formatted error string.
-	*/
+	 * Send json error msg
+	 *
+	 * Return a json error message with optional extra data for
+	 * error message or app specific data.
+	 *
+	 * Example use:
+	 *
+	 *     $id = [some value]
+	 *     OCP\JSON::error(array('data':array('message':'An error happened', 'id': $id)));
+	 *
+	 * Will return the json formatted string:
+	 *
+	 *     {"status":"error","data":{"message":"An error happened", "id":[some value]}}
+	 *
+	 * @param array $data The data to use
+	 * @return string json formatted error string.
+	 * @deprecated Use a AppFramework JSONResponse instead
+	 */
 	public static function error( $data = array() ) {
-		return(\OC_JSON::error( $data ));
+		\OC_JSON::error( $data );
 	}
 
 	/**
-	* Set Content-Type header to jsonrequest
-	* @param array $type The contwnt type header
-	* @return string json formatted string.
-	*/
+	 * Set Content-Type header to jsonrequest
+	 * @param string $type The content type header
+	 * @deprecated Use a AppFramework JSONResponse instead
+	 */
 	public static function setContentTypeHeader( $type='application/json' ) {
-		return(\OC_JSON::setContentTypeHeader( $type ));
+		\OC_JSON::setContentTypeHeader($type);
 	}
 
 	/**
-	* Check if the App is enabled and send JSON error message instead
-	*
-	* This method checks if a specific app is enabled. If not, a json error
-	* response will be return and the method will exit from execution
-	* of the script.
-	* The returned json will be in the format:
-	*
-	*     {"status":"error","data":{"message":"Application is not enabled."}}
-	*
-	* Add this call to the start of all ajax method files that requires
-	* a specific app to be enabled.
-	*
-	* @param string $app The app to check
-	* @return string json formatted string if not enabled.
-	*/
+	 * Check if the App is enabled and send JSON error message instead
+	 *
+	 * This method checks if a specific app is enabled. If not, a json error
+	 * response will be return and the method will exit from execution
+	 * of the script.
+	 * The returned json will be in the format:
+	 *
+	 *     {"status":"error","data":{"message":"Application is not enabled."}}
+	 *
+	 * Add this call to the start of all ajax method files that requires
+	 * a specific app to be enabled.
+	 *
+	 * @param string $app The app to check
+	 * @deprecated Use the AppFramework instead. It will automatically check if the app is enabled.
+	 */
 	public static function checkAppEnabled( $app ) {
-		return(\OC_JSON::checkAppEnabled( $app ));
+		\OC_JSON::checkAppEnabled($app);
 	}
 
 	/**
-	* Check if the user is a admin, send json error msg if not
-	*
-	* This method checks if the current user has admin rights. If not, a json error
-	* response will be return and the method will exit from execution
-	* of the script.
-	* The returned json will be in the format:
-	*
-	*     {"status":"error","data":{"message":"Authentication error."}}
-	*
-	* Add this call to the start of all ajax method files that requires
-	* administrative rights.
-	*
-	* @return string json formatted string if not admin user.
-	*/
+	 * Check if the user is a admin, send json error msg if not
+	 *
+	 * This method checks if the current user has admin rights. If not, a json error
+	 * response will be return and the method will exit from execution
+	 * of the script.
+	 * The returned json will be in the format:
+	 *
+	 *     {"status":"error","data":{"message":"Authentication error."}}
+	 *
+	 * Add this call to the start of all ajax method files that requires
+	 * administrative rights.
+	 *
+	 * @deprecated Use annotation based ACLs from the AppFramework instead
+	 */
 	public static function checkAdminUser() {
 		\OC_JSON::checkAdminUser();
 	}
@@ -173,14 +173,17 @@ class JSON {
 	/**
 	 * Encode JSON
 	 * @param array $data
+	 * @return string
+	 * @deprecated Use a AppFramework JSONResponse instead
 	 */
 	public static function encode($data) {
-		return(\OC_JSON::encode($data));
+		return \OC_JSON::encode($data);
 	}
 
 	/**
 	 * Check is a given user exists - send json error msg if not
 	 * @param string $user
+	 * @deprecated Use a AppFramework JSONResponse instead
 	 */
 	public static function checkUserExists($user) {
 		\OC_JSON::checkUserExists($user);
