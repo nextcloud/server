@@ -671,7 +671,7 @@ $CONFIG = array(
  *  - OC\Preview\TIFF
  * 
  * .. note:: Troubleshooting steps for the MS Word previews are available
- *    at the :doc:`collaborative_documents_configuration#troubleshooting` section
+ *    at the :doc:`collaborative_documents_configuration` section
  *    of the Administrators Manual.
  *
  * The following providers are not available in Microsoft Windows:
