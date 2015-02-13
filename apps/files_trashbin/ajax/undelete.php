@@ -7,10 +7,10 @@ OCP\JSON::callCheck();
 $files = $_POST['files'];
 $dir = '/';
 if (isset($_POST['dir'])) {
-	$dir = rtrim($_POST['dir'], '/'). '/';
+	$dir = rtrim((string)$_POST['dir'], '/'). '/';
 }
 $allFiles = false;
-if (isset($_POST['allfiles']) and $_POST['allfiles'] === 'true') {
+if (isset($_POST['allfiles']) && (string)$_POST['allfiles'] === 'true') {
 	$allFiles = true;
 	$list = array();
 	$dirListing = true;

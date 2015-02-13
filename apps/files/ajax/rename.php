@@ -30,9 +30,9 @@ $files = new \OCA\Files\App(
 	\OC::$server->getL10N('files')
 );
 $result = $files->rename(
-	isset($_GET['dir']) ? $_GET['dir'] : '',
-	isset($_GET['file']) ? $_GET['file'] : '',
-	isset($_GET['newname']) ? $_GET['newname'] : ''
+	isset($_GET['dir']) ? (string)$_GET['dir'] : '',
+	isset($_GET['file']) ? (string)$_GET['file'] : '',
+	isset($_GET['newname']) ? (string)$_GET['newname'] : ''
 );
 
 if($result['success'] === true){

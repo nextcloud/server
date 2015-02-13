@@ -31,13 +31,13 @@ $l = \OC::$server->getL10N('user_ldap');
 if(!isset($_POST['action'])) {
 	\OCP\JSON::error(array('message' => $l->t('No action specified')));
 }
-$action = $_POST['action'];
+$action = (string)$_POST['action'];
 
 
 if(!isset($_POST['ldap_serverconfig_chooser'])) {
 	\OCP\JSON::error(array('message' => $l->t('No configuration specified')));
 }
-$prefix = $_POST['ldap_serverconfig_chooser'];
+$prefix = (string)$_POST['ldap_serverconfig_chooser'];
 
 $ldapWrapper = new \OCA\user_ldap\lib\LDAP();
 $configuration = new \OCA\user_ldap\lib\Configuration($prefix);

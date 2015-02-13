@@ -956,13 +956,13 @@ class OC {
 		//setup extra user backends
 		OC_User::setupBackends();
 
-		if (OC_User::login($_POST["user"], $_POST["password"])) {
+		if (OC_User::login((string)$_POST["user"], (string)$_POST["password"])) {
 			$userId = OC_User::getUser();
 
 			// setting up the time zone
 			if (isset($_POST['timezone-offset'])) {
-				self::$server->getSession()->set('timezone', $_POST['timezone-offset']);
-				self::$server->getConfig()->setUserValue($userId, 'core', 'timezone', $_POST['timezone']);
+				self::$server->getSession()->set('timezone', (string)$_POST['timezone-offset']);
+				self::$server->getConfig()->setUserValue($userId, 'core', 'timezone', (string)$_POST['timezone']);
 			}
 
 			self::cleanupLoginTokens($userId);

@@ -3,7 +3,7 @@
 $dir = '/';
 
 if (isset($_GET['dir'])) {
-	$dir = $_GET['dir'];
+	$dir = (string)$_GET['dir'];
 }
 
 OCP\JSON::checkLoggedIn();

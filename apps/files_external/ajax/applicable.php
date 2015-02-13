@@ -9,13 +9,13 @@ $pattern = '';
 $limit = null;
 $offset = null;
 if (isset($_GET['pattern'])) {
-	$pattern = $_GET['pattern'];
+	$pattern = (string)$_GET['pattern'];
 }
 if (isset($_GET['limit'])) {
-	$limit = $_GET['limit'];
+	$limit = (int)$_GET['limit'];
 }
 if (isset($_GET['offset'])) {
-	$offset = $_GET['offset'];
+	$offset = (int)$_GET['offset'];
 }
 
 $groups = \OC_Group::getGroups($pattern, $limit, $offset);

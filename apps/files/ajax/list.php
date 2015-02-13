@@ -5,7 +5,7 @@ OCP\JSON::checkLoggedIn();
 $l = \OC::$server->getL10N('files');
 
 // Load the files
-$dir = isset($_GET['dir']) ? $_GET['dir'] : '';
+$dir = isset($_GET['dir']) ? (string)$_GET['dir'] : '';
 $dir = \OC\Files\Filesystem::normalizePath($dir);
 
 try {
@@ -20,7 +20,7 @@ try {
 
 	$permissions = $dirInfo->getPermissions();
 
-	$sortAttribute = isset($_GET['sort']) ? $_GET['sort'] : 'name';
+	$sortAttribute = isset($_GET['sort']) ? (string)$_GET['sort'] : 'name';
 	$sortDirection = isset($_GET['sortdirection']) ? ($_GET['sortdirection'] === 'desc') : false;
 
 	// make filelist

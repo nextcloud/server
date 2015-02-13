@@ -23,7 +23,7 @@ if (
 	$util = new \OCA\Files_Encryption\Util($view, $userId);
 
 	// Save recovery preference to DB
-	$return = $util->setRecoveryForUser($_POST['userEnableRecovery']);
+	$return = $util->setRecoveryForUser((string)$_POST['userEnableRecovery']);
 
 	if ($_POST['userEnableRecovery'] === '1') {
 		$util->addRecoveryKeys();

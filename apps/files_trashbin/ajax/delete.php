@@ -7,7 +7,7 @@ OCP\JSON::callCheck();
 $folder = isset($_POST['dir']) ? $_POST['dir'] : '/';
 
 // "empty trash" command
-if (isset($_POST['allfiles']) and $_POST['allfiles'] === 'true'){
+if (isset($_POST['allfiles']) && (string)$_POST['allfiles'] === 'true'){
 	$deleteAll = true;
 	if ($folder === '/' || $folder === '') {
 		OCA\Files_Trashbin\Trashbin::deleteAll();
@@ -19,7 +19,7 @@ if (isset($_POST['allfiles']) and $_POST['allfiles'] === 'true'){
 }
 else {
 	$deleteAll = false;
-	$files = $_POST['files'];
+	$files = (string)$_POST['files'];
 	$list = json_decode($files);
 }
 

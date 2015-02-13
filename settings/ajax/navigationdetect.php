@@ -3,7 +3,7 @@
 OC_Util::checkAdminUser();
 OCP\JSON::callCheck();
 
-$app = $_GET['app'];
+$app = (string)$_GET['app'];
 $app = OC_App::cleanAppId($app);
 
 $navigation = OC_App::getAppNavigationEntries($app);

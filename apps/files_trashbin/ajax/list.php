@@ -4,9 +4,9 @@ OCP\JSON::checkLoggedIn();
 \OC::$server->getSession()->close();
 
 // Load the files
-$dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
-$sortAttribute = isset( $_GET['sort'] ) ? $_GET['sort'] : 'name';
-$sortDirection = isset( $_GET['sortdirection'] ) ? ($_GET['sortdirection'] === 'desc') : false;
+$dir = isset($_GET['dir']) ? (string)$_GET['dir'] : '';
+$sortAttribute = isset($_GET['sort']) ? (string)$_GET['sort'] : 'name';
+$sortDirection = isset($_GET['sortdirection']) ? ($_GET['sortdirection'] === 'desc') : false;
 $data = array();
 
 // make filelist

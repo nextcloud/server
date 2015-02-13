@@ -17,9 +17,9 @@ $l = \OC::$server->getL10N('core');
 
 $return = false;
 
-$oldPassword = $_POST['oldPassword'];
-$newPassword = $_POST['newPassword'];
-$confirmPassword = $_POST['confirmPassword'];
+$oldPassword = (string)$_POST['oldPassword'];
+$newPassword = (string)$_POST['newPassword'];
+$confirmPassword = (string)$_POST['confirmPassword'];
 
 //check if both passwords are the same
 if (empty($_POST['oldPassword'])) {

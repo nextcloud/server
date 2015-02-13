@@ -7,7 +7,7 @@ if (!array_key_exists('appid', $_POST)) {
 	exit;
 }
 
-$appId = $_POST['appid'];
+$appId = (string)$_POST['appid'];
 $appId = OC_App::cleanAppId($appId);
 
 $result = OC_App::installApp($appId);
