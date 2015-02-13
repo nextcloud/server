@@ -84,22 +84,6 @@ class Activity implements IExtension {
 	}
 
 	/**
-	 * The extension can filter the types based on the filter if required.
-	 * In case no filter is to be applied false is to be returned unchanged.
-	 *
-	 * @param array $types
-	 * @param string $filter
-	 * @return array|false
-	 */
-	public function filterNotificationTypes($types, $filter) {
-		switch ($filter) {
-			case self::FILTER_SHARES:
-				return array_intersect([self::TYPE_SHARED], $types);
-		}
-		return false;
-	}
-
-	/**
 	 * For a given method additional types to be displayed in the settings can be returned.
 	 * In case no additional types are to be added false is to be returned.
 	 *
@@ -117,6 +101,25 @@ class Activity implements IExtension {
 		}
 
 		return $defaultTypes;
+	}
+
+	/**
+	 * A string naming the css class for the icon to be used can be returned.
+	 * If no icon is known for the given type false is to be returned.
+	 *
+	 * @param string $type
+	 * @return string|false
+	 */
+	public function getTypeIcon($type) {
+		switch ($type) {
+			case self::TYPE_SHARED:
+			case self::TYPE_REMOTE_SHARE:
+				return 'icon-share';
+			case self::TYPE_PUBLIC_LINKS:
+				return 'icon-download';
+		}
+
+		return false;
 	}
 
 	/**
@@ -215,25 +218,6 @@ class Activity implements IExtension {
 	}
 
 	/**
-	 * A string naming the css class for the icon to be used can be returned.
-	 * If no icon is known for the given type false is to be returned.
-	 *
-	 * @param string $type
-	 * @return string|false
-	 */
-	public function getTypeIcon($type) {
-		switch ($type) {
-			case self::TYPE_SHARED:
-			case self::TYPE_REMOTE_SHARE:
-				return 'icon-share';
-			case self::TYPE_PUBLIC_LINKS:
-				return 'icon-download';
-		}
-
-		return false;
-	}
-
-	/**
 	 * The extension can define the parameter grouping by returning the index as integer.
 	 * In case no grouping is required false is to be returned.
 	 *
@@ -276,6 +260,22 @@ class Activity implements IExtension {
 	}
 
 	/**
+	 * The extension can filter the types based on the filter if required.
+	 * In case no filter is to be applied false is to be returned unchanged.
+	 *
+	 * @param array $types
+	 * @param string $filter
+	 * @return array|false
+	 */
+	public function filterNotificationTypes($types, $filter) {
+		switch ($filter) {
+			case self::FILTER_SHARES:
+				return array_intersect([self::TYPE_SHARED, self::TYPE_REMOTE_SHARE], $types);
+		}
+		return false;
+	}
+
+	/**
 	 * For a given filter the extension can specify the sql query conditions including parameters for that query.
 	 * In case the extension does not know the filter false is to be returned.
 	 * The query condition and the parameters are to be returned as array with two elements.
@@ -287,14 +287,8 @@ class Activity implements IExtension {
 	public function getQueryForFilter($filter) {
 		if ($filter === self::FILTER_SHARES) {
 			return [
-				'('
-					. '`app` = ? and `type` = ? or '
-					. '`app` = ? and `type` = ?'
-				. ')',
-				[
-					'files_sharing', self::TYPE_REMOTE_SHARE,
-					'files', self::TYPE_SHARED,
-				],
+				'(`app` = ? or `app` = ?)',
+				['files_sharing', 'files'],
 			];
 		}
 		return false;
