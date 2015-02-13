@@ -7,10 +7,10 @@ OCP\JSON::callCheck();
 
 // Get data
 $dir = isset($_POST['dir']) ? (string)$_POST['dir'] : '';
-$allFiles = isset($_POST["allfiles"]) ? (bool)$_POST["allfiles"] : false;
+$allFiles = isset($_POST["allfiles"]) ? (string)$_POST["allfiles"] : false;
 
 // delete all files in dir ?
-if ($allFiles === true) {
+if ($allFiles === 'true') {
 	$files = array();
 	$fileList = \OC\Files\Filesystem::getDirectoryContent($dir);
 	foreach ($fileList as $fileInfo) {
