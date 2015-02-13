@@ -47,16 +47,6 @@ interface IExtension {
 	public function getNotificationTypes($languageCode);
 
 	/**
-	 * The extension can filter the types based on the filter if required.
-	 * In case no filter is to be applied false is to be returned unchanged.
-	 *
-	 * @param array $types
-	 * @param string $filter
-	 * @return array|false
-	 */
-	public function filterNotificationTypes($types, $filter);
-
-	/**
 	 * For a given method additional types to be displayed in the settings can be returned.
 	 * In case no additional types are to be added false is to be returned.
 	 *
@@ -64,6 +54,15 @@ interface IExtension {
 	 * @return array|false
 	 */
 	public function getDefaultTypes($method);
+
+	/**
+	 * A string naming the css class for the icon to be used can be returned.
+	 * If no icon is known for the given type false is to be returned.
+	 *
+	 * @param string $type
+	 * @return string|false
+	 */
+	public function getTypeIcon($type);
 
 	/**
 	 * The extension can translate a given message to the requested languages.
@@ -93,15 +92,6 @@ interface IExtension {
 	function getSpecialParameterList($app, $text);
 
 	/**
-	 * A string naming the css class for the icon to be used can be returned.
-	 * If no icon is known for the given type false is to be returned.
-	 *
-	 * @param string $type
-	 * @return string|false
-	 */
-	public function getTypeIcon($type);
-
-	/**
 	 * The extension can define the parameter grouping by returning the index as integer.
 	 * In case no grouping is required false is to be returned.
 	 *
@@ -126,6 +116,16 @@ interface IExtension {
 	 * @return boolean
 	 */
 	public function isFilterValid($filterValue);
+
+	/**
+	 * The extension can filter the types based on the filter if required.
+	 * In case no filter is to be applied false is to be returned unchanged.
+	 *
+	 * @param array $types
+	 * @param string $filter
+	 * @return array|false
+	 */
+	public function filterNotificationTypes($types, $filter);
 
 	/**
 	 * For a given filter the extension can specify the sql query conditions including parameters for that query.

@@ -76,17 +76,16 @@ interface IManager {
 	function getNotificationTypes($languageCode);
 
 	/**
-	 * @param array $types
-	 * @param string $filter
-	 * @return array
-	 */
-	function filterNotificationTypes($types, $filter);
-
-	/**
 	 * @param string $method
 	 * @return array
 	 */
 	function getDefaultTypes($method);
+
+	/**
+	 * @param string $type
+	 * @return string
+	 */
+	function getTypeIcon($type);
 
 	/**
 	 * @param string $app
@@ -107,12 +106,6 @@ interface IManager {
 	function getSpecialParameterList($app, $text);
 
 	/**
-	 * @param string $type
-	 * @return string
-	 */
-	function getTypeIcon($type);
-
-	/**
 	 * @param array $activity
 	 * @return integer|false
 	 */
@@ -128,6 +121,13 @@ interface IManager {
 	 * @return boolean
 	 */
 	function isFilterValid($filterValue);
+
+	/**
+	 * @param array $types
+	 * @param string $filter
+	 * @return array
+	 */
+	function filterNotificationTypes($types, $filter);
 
 	/**
 	 * @param string $filter

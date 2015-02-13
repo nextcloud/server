@@ -122,28 +122,6 @@ class ActivityManager implements IManager {
 	}
 
 	/**
-	 * @param array $types
-	 * @param string $filter
-	 * @return array
-	 */
-	function filterNotificationTypes($types, $filter) {
-		if (!$this->isFilterValid($filter)) {
-			return $types;
-		}
-
-		foreach($this->extensions as $extension) {
-			$c = $extension();
-			if ($c instanceof IExtension) {
-				$result = $c->filterNotificationTypes($types, $filter);
-				if (is_array($result)) {
-					$types = $result;
-				}
-			}
-		}
-		return $types;
-	}
-
-	/**
 	 * @param string $method
 	 * @return array
 	 */
@@ -159,6 +137,30 @@ class ActivityManager implements IManager {
 			}
 		}
 		return $defaultTypes;
+	}
+
+	/**
+	 * @param string $type
+	 * @return string
+	 */
+	function getTypeIcon($type) {
+		if (isset($this->typeIcons[$type])) {
+			return $this->typeIcons[$type];
+		}
+
+		foreach($this->extensions as $extension) {
+			$c = $extension();
+			if ($c instanceof IExtension) {
+				$icon = $c->getTypeIcon($type);
+				if (is_string($icon)) {
+					$this->typeIcons[$type] = $icon;
+					return $icon;
+				}
+			}
+		}
+
+		$this->typeIcons[$type] = '';
+		return '';
 	}
 
 	/**
@@ -211,30 +213,6 @@ class ActivityManager implements IManager {
 
 		$this->specialParameters[$app][$text] = false;
 		return false;
-	}
-
-	/**
-	 * @param string $type
-	 * @return string
-	 */
-	function getTypeIcon($type) {
-		if (isset($this->typeIcons[$type])) {
-			return $this->typeIcons[$type];
-		}
-
-		foreach($this->extensions as $extension) {
-			$c = $extension();
-			if ($c instanceof IExtension) {
-				$icon = $c->getTypeIcon($type);
-				if (is_string($icon)) {
-					$this->typeIcons[$type] = $icon;
-					return $icon;
-				}
-			}
-		}
-
-		$this->typeIcons[$type] = '';
-		return '';
 	}
 
 	/**
@@ -298,6 +276,28 @@ class ActivityManager implements IManager {
 
 		$this->validFilters[$filterValue] = false;
 		return false;
+	}
+
+	/**
+	 * @param array $types
+	 * @param string $filter
+	 * @return array
+	 */
+	function filterNotificationTypes($types, $filter) {
+		if (!$this->isFilterValid($filter)) {
+			return $types;
+		}
+
+		foreach($this->extensions as $extension) {
+			$c = $extension();
+			if ($c instanceof IExtension) {
+				$result = $c->filterNotificationTypes($types, $filter);
+				if (is_array($result)) {
+					$types = $result;
+				}
+			}
+		}
+		return $types;
 	}
 
 	/**
