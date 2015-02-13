@@ -241,8 +241,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 			return $this->quotaInfo;
 		}
 		try {
-			$path = \OC\Files\Filesystem::getView()->getRelativePath($this->info->getPath());
-			$storageInfo = OC_Helper::getStorageInfo($path);
+			$storageInfo = OC_Helper::getStorageInfo($this->info->getPath(), $this->info);
 			$this->quotaInfo = array(
 				$storageInfo['used'],
 				$storageInfo['free']
