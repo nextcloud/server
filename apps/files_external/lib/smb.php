@@ -45,6 +45,9 @@ class SMB extends Common {
 			if (!$this->root || $this->root[0] != '/') {
 				$this->root = '/' . $this->root;
 			}
+			if (substr($this->root, -1, 1) != '/') {
+				$this->root .= '/';
+			}
 		} else {
 			throw new \Exception('Invalid configuration');
 		}
