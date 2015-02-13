@@ -26,6 +26,7 @@ describe('OC.Share tests', function() {
 		var oldAppConfig;
 		var loadItemStub;
 		var autocompleteStub;
+		var oldEnableAvatars;
 		var avatarStub;
 
 		beforeEach(function() {
@@ -56,6 +57,8 @@ describe('OC.Share tests', function() {
 				return $el;
 			});
 
+			oldEnableAvatars = oc_config.enable_avatars;
+			oc_config.enable_avatars = false;
 			avatarStub = sinon.stub($.fn, 'avatar');
 		});
 		afterEach(function() {
@@ -65,6 +68,7 @@ describe('OC.Share tests', function() {
 
 			autocompleteStub.restore();
 			avatarStub.restore();
+			oc_config.enable_avatars = oldEnableAvatars;
 			$('#dropdown').remove();
 		});
 		it('calls loadItem with the correct arguments', function() {
@@ -420,24 +424,67 @@ describe('OC.Share tests', function() {
 						share_type: OC.Share.SHARE_TYPE_USER,
 						share_with: 'user1',
 						share_with_displayname: 'User One'
+					},{
+						id: 101,
+						item_source: 123,
+						permissions: 31,
+						share_type: OC.Share.SHARE_TYPE_GROUP,
+						share_with: 'group',
+						share_with_displayname: 'group'
 					}]
 				});
-				OC.Share.showDropDown(
-					'file',
-					123,
-					$container,
-					true,
-					31,
-					'shared_file_name.txt'
-				);
 			});
-			it('test correct function call', function() {
-				expect(avatarStub.calledOnce).toEqual(true);
-				var args = avatarStub.getCall(0).args;
 
-				expect($('#avatar-user1').length).toEqual(1);
-				expect(args.length).toEqual(2);
-				expect(args[0]).toEqual('user1');
+			describe('avatars enabled', function() {
+				beforeEach(function() {
+					oc_config.enable_avatars = true;
+					OC.Share.showDropDown(
+						'file',
+						123,
+						$container,
+						true,
+						31,
+						'shared_file_name.txt'
+					);
+				});
+
+				afterEach(function() {
+					oc_config.enable_avatars = false;
+				});
+
+				it('test correct function call', function() {
+					expect(avatarStub.calledOnce).toEqual(true);
+					var args = avatarStub.getCall(0).args;
+
+
+					expect($('#shareWithList').children().length).toEqual(2);
+
+					expect($('#avatar-user1').length).toEqual(1);
+					expect(args.length).toEqual(2);
+					expect(args[0]).toEqual('user1');
+				});
+
+				it('test no avatar for groups', function() {
+					expect($('#shareWithList').children().length).toEqual(2);
+					expect($('#shareWithList li:nth-child(2) .avatar').attr('id')).not.toBeDefined();
+				});
+			});
+
+			describe('avatars disabled', function() {
+				beforeEach(function() {
+					OC.Share.showDropDown(
+						'file',
+						123,
+						$container,
+						true,
+						31,
+						'shared_file_name.txt'
+					);
+				});
+
+				it('no avatar classes', function() {
+					expect($('.avatar').length).toEqual(0);
+				});
 			});
 		});
 		describe('"sharesChanged" event', function() {
