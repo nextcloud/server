@@ -5,7 +5,7 @@ OCP\JSON::checkLoggedIn();
 $l = \OC::$server->getL10N('files');
 
 // Load the files
-$dir = isset($_GET['dir']) ? $_GET['dir'] : '';
+$dir = isset($_GET['dir']) ? (string)$_GET['dir'] : '';
 $dir = \OC\Files\Filesystem::normalizePath($dir);
 
 try {
