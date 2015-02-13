@@ -20,7 +20,6 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 	implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota {
 
@@ -30,6 +29,13 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 	 * @var \OCP\Files\FileInfo[]
 	 */
 	private $dirContent;
+
+	/**
+	 * Cached quota info
+	 *
+	 * @var array
+	 */
+	private $quotaInfo;
 
 	/**
 	 * Creates a new file in the directory
@@ -66,7 +72,8 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 				// exit if we can't create a new file and we don't updatable existing file
 				$info = OC_FileChunking::decodeName($name);
 				if (!$this->fileView->isCreatable($this->path) &&
-						!$this->fileView->isUpdatable($this->path . '/' . $info['name'])) {
+					!$this->fileView->isUpdatable($this->path . '/' . $info['name'])
+				) {
 					throw new \Sabre\DAV\Exception\Forbidden();
 				}
 
@@ -101,8 +108,8 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 			}
 
 			$newPath = $this->path . '/' . $name;
-			if(!$this->fileView->mkdir($newPath)) {
-				throw new \Sabre\DAV\Exception\Forbidden('Could not create directory '.$newPath);
+			if (!$this->fileView->mkdir($newPath)) {
+				throw new \Sabre\DAV\Exception\Forbidden('Could not create directory ' . $newPath);
 			}
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
@@ -152,14 +159,14 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 
 		$properties = array();
 		$paths = array();
-		foreach($folderContent as $info) {
+		foreach ($folderContent as $info) {
 			$name = $info->getName();
 			$paths[] = $this->path . '/' . $name;
-			$properties[$this->path.'/' . $name][self::GETETAG_PROPERTYNAME] = '"' . $info->getEtag() . '"';
+			$properties[$this->path . '/' . $name][self::GETETAG_PROPERTYNAME] = '"' . $info->getEtag() . '"';
 		}
 		// TODO: move this to a beforeGetPropertiesForPath event to pre-cache properties
 		// TODO: only fetch the requested properties
-		if(count($paths)>0) {
+		if (count($paths) > 0) {
 			//
 			// the number of arguments within IN conditions are limited in most databases
 			// we chunk $paths into arrays of 200 items each to meet this criteria
@@ -167,15 +174,15 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 			$chunks = array_chunk($paths, 200, false);
 			foreach ($chunks as $pack) {
 				$placeholders = join(',', array_fill(0, count($pack), '?'));
-				$query = OC_DB::prepare( 'SELECT * FROM `*PREFIX*properties`'
-					.' WHERE `userid` = ?' . ' AND `propertypath` IN ('.$placeholders.')' );
+				$query = OC_DB::prepare('SELECT * FROM `*PREFIX*properties`'
+					. ' WHERE `userid` = ?' . ' AND `propertypath` IN (' . $placeholders . ')');
 				array_unshift($pack, OC_User::getUser()); // prepend userid
-				$result = $query->execute( $pack );
-				while($row = $result->fetchRow()) {
+				$result = $query->execute($pack);
+				while ($row = $result->fetchRow()) {
 					$propertypath = $row['propertypath'];
 					$propertyname = $row['propertyname'];
 					$propertyvalue = $row['propertyvalue'];
-					if($propertyname !== self::GETETAG_PROPERTYNAME) {
+					if ($propertyname !== self::GETETAG_PROPERTYNAME) {
 						$properties[$propertypath][$propertyname] = $propertyvalue;
 					}
 				}
@@ -183,7 +190,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 		}
 
 		$nodes = array();
-		foreach($folderContent as $info) {
+		foreach ($folderContent as $info) {
 			$node = $this->getChild($info->getName(), $info);
 			$node->setPropertyCache($properties[$this->path . '/' . $info->getName()]);
 			$nodes[] = $node;
@@ -230,15 +237,18 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 	 * @return array
 	 */
 	public function getQuotaInfo() {
+		if ($this->quotaInfo) {
+			return $this->quotaInfo;
+		}
 		try {
 			$path = \OC\Files\Filesystem::getView()->getRelativePath($this->info->getPath());
 			$storageInfo = OC_Helper::getStorageInfo($path);
-			return array(
+			$this->quotaInfo = array(
 				$storageInfo['used'],
 				$storageInfo['free']
 			);
-		}
-		catch (\OCP\Files\StorageNotAvailableException $e) {
+			return $this->quotaInfo;
+		} catch (\OCP\Files\StorageNotAvailableException $e) {
 			return array(0, 0);
 		}
 	}
