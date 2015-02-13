@@ -27,3 +27,10 @@ $templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadshe
 		"name" => $l->t('All files')
 	)
 );
+
+\OC::$server->getActivityManager()->registerExtension(function() {
+	return new \OCA\Files\Activity(
+		\OC::$server->query('L10NFactory'),
+		\OC::$server->getURLGenerator()
+	);
+});
