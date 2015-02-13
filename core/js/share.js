@@ -358,9 +358,17 @@ OC.Share={
 		var html = '<div id="dropdown" class="drop shareDropDown" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
 		if (data !== false && data.reshare !== false && data.reshare.uid_owner !== undefined) {
 			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
-				html += '<span class="reshare">'+t('core', 'Shared with you and the group {group} by {owner}', {group: data.reshare.share_with, owner: data.reshare.displayname_owner})+' <div id="avatar-share-owner" style="display: inline-block"></div></span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you and the group {group} by {owner}', {group: data.reshare.share_with, owner: data.reshare.displayname_owner});
+				if (oc_config.enable_avatars === true) {
+					html += ' <div id="avatar-share-owner" style="display: inline-block"></div>';
+				}
+				html += '</span>';
 			} else {
-				html += '<span class="reshare">'+t('core', 'Shared with you by {owner}', {owner: data.reshare.displayname_owner})+' <div id="avatar-share-owner" style="display: inline-block"></div></span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you by {owner}', {owner: data.reshare.displayname_owner});
+				if (oc_config.enable_avatars === true) {
+					html += ' <div id="avatar-share-owner" style="display: inline-block"></div>';
+				}
+				html += '</span>';
 			}
 			html += '<br />';
 			// reduce possible permissions to what the original share allowed
@@ -439,7 +447,7 @@ OC.Share={
 			dropDownEl = dropDownEl.appendTo(appendTo);
 
 			//Get owner avatars
-			if (data !== false && data.reshare !== false && data.reshare.uid_owner !== undefined) {
+			if (oc_config.enable_avatars === true && data !== false && data.reshare !== false && data.reshare.uid_owner !== undefined) {
 				$('#avatar-share-owner').avatar(data.reshare.uid_owner, 32);
 			}
 
@@ -656,10 +664,12 @@ OC.Share={
 			var html = '<li style="clear: both;" data-share-type="'+escapeHTML(shareType)+'" data-share-with="'+escapeHTML(shareWith)+'" title="' + escapeHTML(shareWith) + '">';
 			var showCrudsButton;
 			html += '<a href="#" class="unshare"><img class="svg" alt="'+t('core', 'Unshare')+'" title="'+t('core', 'Unshare')+'" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
-			if (shareType === OC.Share.SHARE_TYPE_USER) {
-				html += '<div id="avatar-' + escapeHTML(shareWith) + '" class="avatar"></div>';
-			} else {
-				html += '<div class="avatar" style="padding-right: 32px"></div>';
+			if (oc_config.enable_avatars === true) {
+				if (shareType === OC.Share.SHARE_TYPE_USER) {
+					html += '<div id="avatar-' + escapeHTML(shareWith) + '" class="avatar"></div>';
+				} else {
+					html += '<div class="avatar" style="padding-right: 32px"></div>';
+				}
 			}
 			html += '<span class="username">' + escapeHTML(shareWithDisplayName) + '</span>';
 			var mailNotificationEnabled = $('input:hidden[name=mailNotificationEnabled]').val();
@@ -692,7 +702,7 @@ OC.Share={
 			html += '</div>';
 			html += '</li>';
 			html = $(html).appendTo('#shareWithList');
-			if (shareType === OC.Share.SHARE_TYPE_USER) {
+			if (oc_config.enable_avatars === true && shareType === OC.Share.SHARE_TYPE_USER) {
 				$('#avatar-' + escapeHTML(shareWith)).avatar(escapeHTML(shareWith), 32);
 			}
 			// insert cruds button into last label element
