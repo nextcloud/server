@@ -723,9 +723,18 @@ class Filesystem {
 	 * Fix common problems with a file path
 	 * @param string $path
 	 * @param bool $stripTrailingSlash
+	 * @param bool $isAbsolutePath
 	 * @return string
 	 */
 	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false) {
+		/**
+		 * FIXME: This is a workaround for existing classes and files which call
+		 *        this function with another type than a valid string. This
+		 *        conversion should get removed as soon as all existing
+		 *        function calls have been fixed.
+		 */
+		$path = (string)$path;
+
 		$cacheKey = json_encode([$path, $stripTrailingSlash, $isAbsolutePath]);
 
 		if(isset(self::$normalizedPathCache[$cacheKey])) {
