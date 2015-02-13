@@ -616,6 +616,14 @@ class Filesystem {
 	 * @return string
 	 */
 	public static function normalizePath($path, $stripTrailingSlash = true) {
+		/**
+		 * FIXME: This is a workaround for existing classes and files which call
+		 *        this function with another type than a valid string. This
+		 *        conversion should get removed as soon as all existing
+		 *        function calls have been fixed.
+		 */
+		$path = (string)$path;
+
 		if ($path == '') {
 			return '/';
 		}

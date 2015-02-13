@@ -9,7 +9,7 @@ $RUNTIME_APPTYPES=array('filesystem');
 OCP\JSON::checkLoggedIn();
 
 // Load the files
-$dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
+$dir = isset($_GET['dir']) ? (string)$_GET['dir'] : '';
 $dir = \OC\Files\Filesystem::normalizePath($dir);
 if (!\OC\Files\Filesystem::is_dir($dir . '/')) {
 	header("HTTP/1.0 404 Not Found");
