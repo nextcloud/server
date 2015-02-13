@@ -20,7 +20,6 @@ OC.L10N.register(
     "No user supplied" : "لم يتم توفير مستخدم ",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "يرجى توفير كلمة مرور المسؤول المستردة, وإلا سيتم فقد جميع بيانات المستخدم ",
     "Wrong admin recovery password. Please check the password and try again." : "خطا في كلمة مرور المسؤول المستردة, يرجى التاكد من كلمة المرور والمحاولة مرة اخرى.",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "Back-end لا يدعم تغيير كلمة المرور, لاكن مفتاح تشفير المستخدمين تم تحديثة بنجاح.",
     "Unable to change password" : "لا يمكن تغيير كلمة المرور",
     "Enabled" : "مفعلة",
     "Saved" : "حفظ",

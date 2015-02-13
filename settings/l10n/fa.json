@@ -21,7 +21,6 @@
     "No user supplied" : "هیچ کاربری تعریف نشده است",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "لطفاً یک رمز مدیریتی برای بازیابی کردن تعریف نمایید. در غیر اینصورت اطلاعات تمامی کاربران از دست خواهند رفت.",
     "Wrong admin recovery password. Please check the password and try again." : "رمز مدیریتی بازیابی غلط است. لطفاً رمز را کنترل کرده و دوباره امتحان نمایید.",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "سیستم مدیریتی امکان تغییر رمز را پشتیبانی نمی‌کند. ولی کلید رمزنگاری کاربران با موفقیت به روز شد.",
     "Unable to change password" : "نمی‌توان رمز را تغییر داد",
     "Enabled" : "فعال شده",
     "Saved" : "ذخیره شد",

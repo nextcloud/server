@@ -25,7 +25,6 @@
     "No user supplied" : "Nun s'especificó un usuariu",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Facilita una contraseña de recuperación d'alministrador, sinón podríen perdese tolos datos d'usuariu",
     "Wrong admin recovery password. Please check the password and try again." : "Contraseña de recuperación d'alministrador incorreuta. Comprueba la contraseña ya inténtalo dempués.",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "El back-end nun sofita cambeos de contraseña, pero la contraseña de cifráu del usuariu anovóse afechiscamente.",
     "Unable to change password" : "Nun pudo camudase la contraseña",
     "Enabled" : "Habilitar",
     "Not enabled" : "Desactiváu",

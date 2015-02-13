@@ -28,7 +28,6 @@ OC.L10N.register(
     "No user supplied" : "Δεν εισήχθη χρήστης",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Παρακαλώ παρέχετε έναν κωδικό ανάκτησης διαχειριστή, διαφορετικά όλα τα δεδομένα χρήστη θα χαθούν",
     "Wrong admin recovery password. Please check the password and try again." : "Λάθος κωδικός ανάκτησης διαχειριστή. Παρακαλώ ελέγξτε τον κωδικό και δοκιμάστε ξανά.",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "Το βασικό πλαίσιο δεν υποστηρίζει αλλαγή κωδικού, αλλά το κλειδί κρυπτογράφησης των χρηστών ενημερώθηκε επιτυχώς.",
     "Unable to change password" : "Αδυναμία αλλαγής συνθηματικού",
     "Enabled" : "Ενεργοποιημένο",
     "Not enabled" : "Μη ενεργοποιημένο",

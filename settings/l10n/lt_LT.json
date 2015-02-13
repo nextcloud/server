@@ -14,7 +14,6 @@
     "No user supplied" : "Nepateiktas naudotojas",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Prašome įvesti administratoriaus atkūrimo slaptažodį, kitaip visi naudotojo suomenys bus prarasti",
     "Wrong admin recovery password. Please check the password and try again." : "Netinkamas administratoriau atkūrimo slaptažodis. Prašome pasitikrinti ir bandyti vėl.",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "Sistema nepalaiko slaptažodžio keitimo, bet naudotojo šifravimo raktas buvo sėkmingai atnaujintas.",
     "Unable to change password" : "Nepavyksta pakeisti slaptažodžio",
     "Enabled" : "Įjungta",
     "Email sent" : "Laiškas išsiųstas",

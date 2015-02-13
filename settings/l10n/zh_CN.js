@@ -27,7 +27,6 @@ OC.L10N.register(
     "No user supplied" : "没有满足的用户",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "请提供管理员恢复密码，否则所有用户的数据都将遗失。",
     "Wrong admin recovery password. Please check the password and try again." : "错误的管理员恢复密码。请检查密码并重试。",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "后端不支持修改密码，但是用户的加密密码已成功更新。",
     "Unable to change password" : "不能更改密码",
     "Enabled" : "开启",
     "Saved" : "已保存",

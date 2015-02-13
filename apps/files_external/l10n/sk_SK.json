@@ -51,6 +51,8 @@
     "All users. Type to select user or group." : "Všetci používatelia. Začnite písať pre výber používateľa alebo skupinu.",
     "(group)" : "(skupina)",
     "Saved" : "Uložené",
+    "Generate keys" : "Vytvoriť kľúče",
+    "Error generating key pair" : "Chyba pri vytváraní dvojice kľúčov",
     "<b>Note:</b> " : "<b>Poznámka:</b> ",
     "and" : "a",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Poznámka:</b> cURL podpora v PHP nie je zapnutá alebo nainštalovaná. Pripojenie %s nie je možné. Požiadajte správcu systému, aby ju nainštaloval.",

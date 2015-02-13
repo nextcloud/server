@@ -28,7 +28,6 @@ OC.L10N.register(
     "No user supplied" : "Nuk është dhënë asnjë përdorues",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Ju lutem jepni një fjalëkalim restaurimi administrativ, në të kundërt të gjitha të dhënat do humbasin",
     "Wrong admin recovery password. Please check the password and try again." : "Fjalëkalim i gabuar restaurimi administrativ. Ju lutem kontrolloni fjalëkalimin dhe provoni përsëri.",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "Paneli i kontrollit nuk mbështet ndryshimin e fjalëkalimit, por çelësi i shifrimit të përdoruesit u modifikua me sukses.",
     "Unable to change password" : "Fjalëkalimi nuk mund të ndryshohet",
     "Enabled" : "Aktivizuar",
     "Not enabled" : "Jo aktive",

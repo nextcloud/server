@@ -24,7 +24,6 @@
     "No user supplied" : "未提供使用者",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "請提供管理者還原密碼，否則會遺失所有使用者資料",
     "Wrong admin recovery password. Please check the password and try again." : "錯誤的管理者還原密碼",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "後端不支援變更密碼，但成功更新使用者的加密金鑰",
     "Unable to change password" : "無法修改密碼",
     "Enabled" : "已啓用",
     "Not enabled" : "無啟動",

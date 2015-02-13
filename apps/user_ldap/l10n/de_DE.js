@@ -4,7 +4,7 @@ OC.L10N.register(
     "Failed to clear the mappings." : "Löschen der Zuordnung fehlgeschlagen.",
     "Failed to delete the server configuration" : "Löschen der Serverkonfiguration fehlgeschlagen",
     "The configuration is valid and the connection could be established!" : "Die Konfiguration ist gültig und die Verbindung konnte hergestellt werden!",
-    "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "Die Konfiguration ist gültig aber die Verbindung ist fehlgeschlagen. Bitte überprüfen Sie die Servereinstellungen und die Anmeldeinformationen.",
+    "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "Die Konfiguration ist gültig, aber die Verbindung ist fehlgeschlagen. Bitte überprüfen Sie die Servereinstellungen und die Anmeldeinformationen.",
     "The configuration is invalid. Please have a look at the logs for further details." : "Die Konfiguration ist ungültig. Weitere Details können Sie in den Logdateien nachlesen.",
     "No action specified" : "Keine Aktion spezifiziert",
     "No configuration specified" : "Keine Konfiguration spezifiziert",

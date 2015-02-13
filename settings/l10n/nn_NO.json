@@ -14,7 +14,6 @@
     "No user supplied" : "Ingen brukar gjeve",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Ver venleg og gje eit admingjenopprettingspassord, elles vil all brukardata gå tapt.",
     "Wrong admin recovery password. Please check the password and try again." : "Feil admingjenopprettingspassord. Ver venleg og sjekk passordet og prøv igjen.",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "Bakstykket støttar ikkje passordendring, men krypteringsnøkkelen til brukaren blei oppdatert.",
     "Unable to change password" : "Klarte ikkje å endra passordet",
     "Email sent" : "E-post sendt",
     "Email saved" : "E-postadresse lagra",

@@ -26,7 +26,6 @@
     "No user supplied" : "No heu proporcionat cap usuari",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Sisplau, proporcioneu una contrasenya de recuperació d'administrador, altrament totes les dades d'usuari es perdran",
     "Wrong admin recovery password. Please check the password and try again." : "La contrasenya de recuperació d'administrador és incorrecta. Comproveu-la i torneu-ho a intentar.",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "El dorsal no permet canviar la contrasenya, però la clau d'encripació d'usuaris s'ha actualitzat correctament.",
     "Unable to change password" : "No es pot canviar la contrasenya",
     "Enabled" : "Activat",
     "Not enabled" : "Desactivat",

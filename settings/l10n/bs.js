@@ -28,7 +28,6 @@ OC.L10N.register(
     "No user supplied" : "Nijedan korisnik nije dostavljen",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Molim navedite admin lozinku za povratak, u protivnom će svi korisnički podaci biti izgubljeni",
     "Wrong admin recovery password. Please check the password and try again." : "Pogrešna admin lozinka za povratak. Molim provjerite lozinku i pokušajte ponovno.",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "Pozadina ne podržava promjenu lozinke, ali korisnički ključ za šifriranje je uspješno ažuriran.",
     "Unable to change password" : "Promjena lozinke nije moguća",
     "Enabled" : "Aktivirano",
     "Not enabled" : "Nije aktivirano",

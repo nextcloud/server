@@ -27,7 +27,6 @@ OC.L10N.register(
     "No user supplied" : "Nincs megadva felhasználó",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Adja meg az admin helyreállítási jelszót, máskülönben az összes felhasználói adat elveszik!",
     "Wrong admin recovery password. Please check the password and try again." : "Hibás admin helyreállítási jelszó. Ellenőrizze a jelszót és próbálja újra!",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "A háttér-alrendszer nem támogatja a jelszómódosítást, de felhasználó titkosítási kulcsát sikeresen frissítettük.",
     "Unable to change password" : "Nem sikerült megváltoztatni a jelszót",
     "Enabled" : "Bekapcsolva",
     "Recommended" : "Ajánlott",

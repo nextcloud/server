@@ -89,7 +89,7 @@ OC.L10N.register(
     "Set expiration date" : "Setze ein Ablaufdatum",
     "Expiration" : "Ablaufdatum",
     "Expiration date" : "Ablaufdatum",
-    "Adding user..." : "Benutzer wird hinzugefügt …",
+    "Adding user..." : "Benutzer wird hinzugefügt…",
     "group" : "Gruppe",
     "remote" : "Entfernte Freigabe",
     "Resharing is not allowed" : "Weiterverteilen ist nicht erlaubt",

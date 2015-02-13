@@ -26,7 +26,6 @@
     "No user supplied" : "Nav norādīts lietotājs",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Lūdzu ievadiet administratora atjaunošanas paroli, citādi visi lietotāja dati tiks zaudēti",
     "Wrong admin recovery password. Please check the password and try again." : "Nepareiza administratora atjaunošanas parole. Lūdzu pārbaudiet paroli un mēģiniet vēlreiz.",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "Aizmugursistēma neatbalsta paroles maiņu, bet lietotāja šifrēšanas atslēga tika veiksmīgi atjaunota.",
     "Unable to change password" : "Nav iespējams nomainīt paroli",
     "Enabled" : "Pievienots",
     "Not enabled" : "Nav pievienots",

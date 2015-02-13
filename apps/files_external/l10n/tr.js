@@ -53,6 +53,8 @@ OC.L10N.register(
     "All users. Type to select user or group." : "Tüm kullanıcılar. Kullanıcı veya grup seçmek için yazın.",
     "(group)" : "(grup)",
     "Saved" : "Kaydedildi",
+    "Generate keys" : "Anahtarlar üret",
+    "Error generating key pair" : "Anahtar çifti üretirken hata",
     "<b>Note:</b> " : "<b>Not:</b> ",
     "and" : "ve",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Not:</b> PHP'de cURL desteği etkin veya kurulu değil. %s bağlaması mümkün olmayacak. Lütfen kurulumu için sistem yöneticilerinizle iletişime geçin.",

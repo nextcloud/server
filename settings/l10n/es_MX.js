@@ -18,7 +18,6 @@ OC.L10N.register(
     "No user supplied" : "No se especificó un usuario",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Por favor facilite una contraseña de recuperación de administrador, sino podrían perderse todos los datos de usuario",
     "Wrong admin recovery password. Please check the password and try again." : "Contraseña de recuperación de administrador incorrecta. Por favor compruebe la contraseña e inténtelo de nuevo.",
-    "Back-end doesn't support password change, but the users encryption key was successfully updated." : "El back-end no soporta cambios de contraseña, pero la clave de cifrado del usuario ha sido actualizada satisfactoriamente.",
     "Unable to change password" : "No se ha podido cambiar la contraseña",
     "Enabled" : "Habilitar",
     "Email sent" : "Correo electrónico enviado",
