@@ -26,7 +26,11 @@ class ActivityManager implements IManager {
 	private $extensions = array();
 
 	/** @var array list of filters "name" => "is valid" */
-	protected $validFilters = array();
+	protected $validFilters = array(
+		'all'	=> true,
+		'by'	=> true,
+		'self'	=> true,
+	);
 
 	/** @var array list of type icons "type" => "css class" */
 	protected $typeIcons = array();
@@ -123,6 +127,10 @@ class ActivityManager implements IManager {
 	 * @return array
 	 */
 	function filterNotificationTypes($types, $filter) {
+		if (!$this->isFilterValid($filter)) {
+			return $types;
+		}
+
 		foreach($this->extensions as $extension) {
 			$c = $extension();
 			if ($c instanceof IExtension) {
@@ -297,6 +305,9 @@ class ActivityManager implements IManager {
 	 * @return array
 	 */
 	function getQueryForFilter($filter) {
+		if (!$this->isFilterValid($filter)) {
+			return [null, null];
+		}
 
 		$conditions = array();
 		$parameters = array();
