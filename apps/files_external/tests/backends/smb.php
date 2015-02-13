@@ -10,8 +10,6 @@ namespace Test\Files\Storage;
 
 class SMB extends Storage {
 
-	private $config;
-
 	protected function setUp() {
 		parent::setUp();
 
@@ -19,6 +17,9 @@ class SMB extends Storage {
 		$config = include('files_external/tests/config.smb.php');
 		if (!is_array($config) or !$config['run']) {
 			$this->markTestSkipped('Samba backend not configured');
+		}
+		if (substr($config['root'], -1, 1) != '/') {
+			$config['root'] .= '/';
 		}
 		$config['root'] .= $id; //make sure we have an new empty folder to work in
 		$this->instance = new \OC\Files\Storage\SMB($config);
