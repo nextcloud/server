@@ -10,7 +10,7 @@ OC.L10N.register(
     "Recovery key successfully disabled" : "Desactivada satisfactoriamente a chave de recuperación",
     "Please provide the old recovery password" : "Introduza a chave de recuperación antiga",
     "Please provide a new recovery password" : "Introduza a nova chave de recuperación",
-    "Please repeat the new recovery password" : "Por favor repita a nova chave de recuperación",
+    "Please repeat the new recovery password" : "Repita a nova chave de recuperación",
     "Password successfully changed." : "O contrasinal foi cambiado satisfactoriamente",
     "Could not change the password. Maybe the old password was not correct." : "Non foi posíbel cambiar o contrasinal. Probabelmente o contrasinal antigo non é o  correcto.",
     "Could not update the private key password." : "Non foi posíbel actualizar o contrasinal da chave privada.",
