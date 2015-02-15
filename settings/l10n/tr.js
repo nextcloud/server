@@ -1,7 +1,7 @@
 OC.L10N.register(
     "settings",
     {
-    "Security & Setup Warnings" : "Güvelik ve Kurulum Uyarıları",
+    "Security & Setup Warnings" : "Güvenlik ve Kurulum Uyarıları",
     "Cron" : "Cron",
     "Sharing" : "Paylaşım",
     "Security" : "Güvenlik",
