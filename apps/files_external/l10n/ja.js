@@ -53,6 +53,8 @@ OC.L10N.register(
     "All users. Type to select user or group." : "すべてのユーザー。ユーザー、グループを追加",
     "(group)" : "(グループ)",
     "Saved" : "保存されました",
+    "Generate keys" : "キーを生成",
+    "Error generating key pair" : "キーペアの生成エラー",
     "<b>Note:</b> " : "<b>注意:</b> ",
     "and" : "と",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> PHPにcURLのエクステンションが入っていないか、有効ではありません。%s をマウントすることができません。このシステムの管理者にインストールをお願いしてください。",

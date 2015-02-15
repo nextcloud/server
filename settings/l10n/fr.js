@@ -28,6 +28,7 @@ OC.L10N.register(
     "No user supplied" : "Aucun utilisateur fourni",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Veuillez fournir un mot de passe administrateur de récupération de données, sinon toutes les données de l'utilisateur seront perdues",
     "Wrong admin recovery password. Please check the password and try again." : "Mot de passe administrateur de récupération de données non valable. Veuillez vérifier le mot de passe et essayer à nouveau.",
+    "Backend doesn't support password change, but the user's encryption key was successfully updated." : "L'infrastructure d'arrière-plan ne supporte pas la modification de mot de passe, mais la clef de chiffrement de l'utilisateur a été mise à jour avec succès.",
     "Unable to change password" : "Impossible de modifier le mot de passe",
     "Enabled" : "Activées",
     "Not enabled" : "Désactivées",

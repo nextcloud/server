@@ -189,6 +189,8 @@
     "Database host" : "データベースのホスト名",
     "Performance Warning" : "パフォーマンス警告",
     "SQLite will be used as database." : "SQLiteをデータベースとして使用しています。",
+    "For larger installations we recommend to choose a different database backend." : "大規模な運用では別のデータベースを選択することをお勧めします。",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "特にデスクトップクライアントをファイル同期に使用する場合，SQLiteは非推奨です.",
     "Finish setup" : "セットアップを完了します",
     "Finishing …" : "作業を完了しています ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "このアプリケーションは使用するため、JavaScriptが必要です。\n<a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScriptを有効にし</a>、ページを更新してください。 ",

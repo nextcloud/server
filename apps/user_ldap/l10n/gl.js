@@ -20,7 +20,7 @@ OC.L10N.register(
     "Error" : "Erro",
     "Please specify a Base DN" : "Por favor indique un DN base",
     "Could not determine Base DN" : "Non se puido determinar o DN base",
-    "Please specify the port" : "Por favor indique un porto",
+    "Please specify the port" : "Especifique un porto",
     "Configuration OK" : "Configuración correcta",
     "Configuration incorrect" : "Configuración incorrecta",
     "Configuration incomplete" : "Configuración incompleta",
