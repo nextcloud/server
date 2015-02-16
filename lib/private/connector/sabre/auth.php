@@ -60,8 +60,11 @@ class OC_Connector_Sabre_Auth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 		} else {
 			OC_Util::setUpFS(); //login hooks may need early access to the filesystem
 			if(OC_User::login($username, $password)) {
-				OC_Util::setUpFS(OC_User::getUser());
-				\OC::$server->getSession()->set(self::DAV_AUTHENTICATED, $username);
+			        // make sure we use owncloud's internal username here
+			        // and not the HTTP auth supplied one, see issue #14048
+			        $ocUser = OC_User::getUser();
+				OC_Util::setUpFS($ocUser);
+				\OC::$server->getSession()->set(self::DAV_AUTHENTICATED, $ocUser);
 				\OC::$server->getSession()->close();
 				return true;
 			} else {
