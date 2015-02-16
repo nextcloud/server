@@ -10,8 +10,6 @@ namespace Test\Files\Storage;
 
 class DAV extends Storage {
 
-	private $config;
-
 	protected function setUp() {
 		parent::setUp();
 

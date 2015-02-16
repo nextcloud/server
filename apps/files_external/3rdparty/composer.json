@@ -1,0 +1,13 @@
+{
+	"name": "files_external/3rdparty",
+	"description": "3rdparty components for files_external",
+	"license": "MIT",
+	"config": {
+		"vendor-dir": "."
+	},
+	"require": {
+		"icewind/smb": "dev-master",
+		"icewind/streams": "0.2"
+	}
+}
+
