@@ -284,6 +284,7 @@ class UpdaterLegacy extends \Test\TestCase {
 		$time = 1371006070;
 		$barCachedData = $this->cache->get('folder/bar.txt');
 		$folderCachedData = $this->cache->get('folder');
+		$this->cache->put('', ['mtime' => $time - 100]);
 		Filesystem::touch('folder/bar.txt', $time);
 		$cachedData = $this->cache->get('folder/bar.txt');
 		$this->assertInternalType('string', $barCachedData['etag']);
@@ -314,6 +315,7 @@ class UpdaterLegacy extends \Test\TestCase {
 		$fooCachedData = $cache2->get('foo.txt');
 		$cachedData = $cache2->get('foo.txt');
 		$time = 1371006070;
+		$this->cache->put('folder', ['mtime' => $time - 100]);
 		Filesystem::touch('folder/substorage/foo.txt', $time);
 		$cachedData = $cache2->get('foo.txt');
 		$this->assertInternalType('string', $fooCachedData['etag']);
