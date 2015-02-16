@@ -1,7 +1,7 @@
 OC.L10N.register(
     "settings",
     {
-    "Security & Setup Warnings" : "Güvelik ve Kurulum Uyarıları",
+    "Security & Setup Warnings" : "Güvenlik ve Kurulum Uyarıları",
     "Cron" : "Cron",
     "Sharing" : "Paylaşım",
     "Security" : "Güvenlik",
@@ -28,6 +28,7 @@ OC.L10N.register(
     "No user supplied" : "Kullanıcı girilmedi",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Lütfen yönetici kurtarma parolasını girin, aksi takdirde tüm kullanıcı verisi kaybedilecek",
     "Wrong admin recovery password. Please check the password and try again." : "Hatalı yönetici kurtarma parolası. Lütfen parolayı denetleyip yeniden deneyin.",
+    "Backend doesn't support password change, but the user's encryption key was successfully updated." : "Arka uç, parola değiştirmesini desteklemiyor, ancak kullanıcı şifreleme anahtarı başarıyla güncellendi.",
     "Unable to change password" : "Parola değiştirilemiyor",
     "Enabled" : "Etkin",
     "Not enabled" : "Etkin değil",
@@ -175,6 +176,7 @@ OC.L10N.register(
     "Download logfile" : "Günlük dosyasını indir",
     "More" : "Daha fazla",
     "Less" : "Daha az",
+    "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Günlük dosyası 100 MB'dan daha büyük. İndirmek zaman alabilir!",
     "Version" : "Sürüm",
     "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." : "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud topluluğu</a> tarafından geliştirilmiş olup, <a href=\"https://github.com/owncloud\" target=\"_blank\">kaynak kodu</a>, <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> altında lisanslanmıştır.",
     "More apps" : "Daha fazla uygulama",
@@ -215,6 +217,7 @@ OC.L10N.register(
     "Your email address" : "E-posta adresiniz",
     "Fill in an email address to enable password recovery and receive notifications" : "Parola kurtarmayı ve bildirim almayı açmak için bir e-posta adresi girin",
     "No email address set" : "E-posta adresi ayarlanmamış",
+    "You are member of the following groups:" : "Şu grupların üyesisiniz:",
     "Profile picture" : "Profil resmi",
     "Upload new" : "Yeni yükle",
     "Select new from Files" : "Dosyalardan seç",

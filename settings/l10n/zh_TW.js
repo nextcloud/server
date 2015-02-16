@@ -93,6 +93,7 @@ OC.L10N.register(
     "Allow apps to use the Share API" : "允許 apps 使用分享 API",
     "Allow public uploads" : "允許任何人上傳",
     "Allow users to send mail notification for shared files" : "允許使用者寄送有關分享檔案的郵件通知",
+    "days" : "天",
     "Allow resharing" : "允許轉貼分享",
     "Enforce HTTPS" : "強制啟用 HTTPS",
     "Forces the clients to connect to %s via an encrypted connection." : "強迫用戶端使用加密連線連接到 %s",
