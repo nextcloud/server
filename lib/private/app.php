@@ -261,10 +261,11 @@ class OC_App {
 			$app = self::installApp($app);
 		}
 
+		$appManager = \OC::$server->getAppManager();
 		if (!is_null($groups)) {
-			OC_Appconfig::setValue($app, 'enabled', json_encode($groups));
+			$appManager->enableAppForGroups($app, $groups);
 		} else {
-			OC_Appconfig::setValue($app, 'enabled', 'yes');
+			$appManager->enableApp($app);
 		}
 	}
 
@@ -308,7 +309,8 @@ class OC_App {
 		self::$enabledAppsCache = array(); // flush
 		// check if app is a shipped app or not. if not delete
 		\OC_Hook::emit('OC_App', 'pre_disable', array('app' => $app));
-		OC_Appconfig::setValue($app, 'enabled', 'no');
+		$appManager = \OC::$server->getAppManager();
+		$appManager->disableApp($app);
 	}
 
 	/**
