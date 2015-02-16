@@ -15,6 +15,7 @@ $application->add(new OC\Core\Command\Db\ConvertType(\OC::$server->getConfig(), 
 $application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig()));
 $application->add(new OC\Core\Command\Maintenance\SingleUser());
 $application->add(new OC\Core\Command\Maintenance\Mode(\OC::$server->getConfig()));
+$application->add(new OC\Core\Command\App\CheckCode());
 $application->add(new OC\Core\Command\App\Disable());
 $application->add(new OC\Core\Command\App\Enable());
 $application->add(new OC\Core\Command\App\ListApps());
