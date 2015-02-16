@@ -4,7 +4,7 @@ OCP\JSON::callCheck();
 OCP\JSON::checkAppEnabled('files_versions');
 
 $source = (string)$_GET['source'];
-$start = (string)$_GET['start'];
+$start = (int)$_GET['start'];
 list ($uid, $filename) = OCA\Files_Versions\Storage::getUidAndFilename($source);
 $count = 5; //show the newest revisions
 $versions = OCA\Files_Versions\Storage::getVersions($uid, $filename, $source);
