@@ -521,7 +521,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/**
 	 * Get raw PathInfo from request (not urldecoded)
 	 * @throws \Exception
-	 * @return string|false Path info or false when not found
+	 * @return string Path info
 	 */
 	public function getRawPathInfo() {
 		$requestUri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';

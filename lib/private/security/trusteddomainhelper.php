@@ -28,7 +28,7 @@ class TrustedDomainHelper {
 
 	/**
 	 * Strips a potential port from a domain (in format domain:port)
-	 * @param $host
+	 * @param string $host
 	 * @return string $host without appended port
 	 */
 	private function getDomainWithoutPort($host) {
