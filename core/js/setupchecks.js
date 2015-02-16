@@ -51,7 +51,7 @@
 				if (xhr.status === 200 && data) {
 					if (!data.serverHasInternetConnection) {
 						messages.push(
-							t('core', 'This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps won\'t work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.')
+							t('core', 'This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.')
 						);
 					}
 					if(!data.dataDirectoryProtected) {
