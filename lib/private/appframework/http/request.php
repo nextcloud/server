@@ -80,7 +80,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @see http://www.php.net/manual/en/reserved.variables.php
 	 */
 	public function __construct(array $vars=array(),
-								ISecureRandom $secureRandom,
+								ISecureRandom $secureRandom = null,
 								IConfig $config,
 								$stream='php://input') {
 		$this->inputStream = $stream;
@@ -596,8 +596,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$name = $this->server['SCRIPT_NAME'];
 		$overwriteWebRoot =  $this->config->getSystemValue('overwritewebroot');
 		if ($overwriteWebRoot !== '' && $this->isOverwriteCondition()) {
-			// FIXME: This code is untestable due to ___DIR__
-			$serverRoot = str_replace('\\', '/', substr(__DIR__, 0, -strlen('lib/private/')));
+			// FIXME: This code is untestable due to __DIR__, also that hardcoded path is really dangerous
+			$serverRoot = str_replace('\\', '/', substr(__DIR__, 0, -strlen('lib/private/appframework/http/')));
 			$suburi = str_replace('\\', '/', substr(realpath($this->server['SCRIPT_FILENAME']), strlen($serverRoot)));
 			$name = '/' . ltrim($overwriteWebRoot . $suburi, '/');
 		}
