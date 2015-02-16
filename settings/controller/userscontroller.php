@@ -154,7 +154,7 @@ class UsersController extends Controller {
 			'subadmin' => \OC_SubAdmin::getSubAdminsGroups($user->getUID()),
 			'quota' => $this->config->getUserValue($user->getUID(), 'files', 'quota', 'default'),
 			'storageLocation' => $user->getHome(),
-			'lastLogin' => $user->getLastLogin(),
+			'lastLogin' => $user->getLastLogin() * 1000,
 			'backend' => $user->getBackendClassName(),
 			'email' => $this->config->getUserValue($user->getUID(), 'settings', 'email', ''),
 			'isRestoreDisabled' => !$restorePossible,
