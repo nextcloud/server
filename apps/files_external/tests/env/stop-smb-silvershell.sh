@@ -6,7 +6,7 @@
 # against. It will also revert the config changes done in start step.
 #
 # @author Morris Jobke
-# @copyright 2014 Morris Jobke <hey@morrisjobke.de>
+# @copyright 2015 Morris Jobke <hey@morrisjobke.de>
 #
 
 if ! command -v docker >/dev/null 2>&1; then
@@ -17,20 +17,20 @@ fi
 echo "Docker executable found - stop and remove docker containers"
 
 # retrieve current folder to remove the config from the parent folder
-thisFolder=`echo $0 | replace "env/stop-webdav-ownCloud.sh" ""`
+thisFolder=`echo $0 | replace "env/stop-smb-silvershell.sh" ""`
 
 if [ -z "$thisFolder" ]; then
     thisFolder="."
 fi;
 
 # stopping and removing docker containers
-for container in `cat $thisFolder/dockerContainerOwnCloud.$EXECUTOR_NUMBER.webdav`; do
+for container in `cat $thisFolder/dockerContainerSilvershell.$EXECUTOR_NUMBER.smb`; do
     echo "Stopping and removing docker container $container"
     # kills running container and removes it
     docker rm -f $container
 done;
 
 # cleanup
-rm $thisFolder/config.webdav.php
-rm $thisFolder/dockerContainerOwnCloud.$EXECUTOR_NUMBER.webdav
+rm $thisFolder/config.smb.php
+rm $thisFolder/dockerContainerSilvershell.$EXECUTOR_NUMBER.smb
 
