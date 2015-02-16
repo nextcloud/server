@@ -626,7 +626,6 @@ class OC {
 			return;
 		}
 
-		$trustedDomainHelper = new \OC\Security\TrustedDomainHelper(\OC::$server->getConfig());
 		$request = \OC::$server->getRequest();
 		$host = $request->getInsecureServerHost();
 		/**
@@ -637,7 +636,7 @@ class OC {
 			// overwritehost is always trusted, workaround to not have to make
 			// \OC\AppFramework\Http\Request::getOverwriteHost public
 			&& self::$server->getConfig()->getSystemValue('overwritehost') === ''
-			&& !$trustedDomainHelper->isTrustedDomain($host)
+			&& !\OC::$server->getTrustedDomainHelper()->isTrustedDomain($host)
 		) {
 			header('HTTP/1.1 400 Bad Request');
 			header('Status: 400 Bad Request');

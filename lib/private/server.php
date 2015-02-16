@@ -17,6 +17,7 @@ use OC\Security\Crypto;
 use OC\Security\Hasher;
 use OC\Security\SecureRandom;
 use OC\Diagnostics\NullEventLogger;
+use OC\Security\TrustedDomainHelper;
 use OCP\IServerContainer;
 use OCP\ISession;
 use OC\Tagging\TagMapper;
@@ -260,6 +261,9 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('IniWrapper', function ($c) {
 			return new IniGetWrapper();
 		});
+		$this->registerService('TrustedDomainHelper', function ($c) {
+			return new TrustedDomainHelper($this->getConfig());
+		});
 	}
 
 	/**
@@ -323,7 +327,6 @@ class Server extends SimpleContainer implements IServerContainer {
 			$stream
 		);
 	}
-
 
 	/**
 	 * Returns the preview manager which can create preview images for a given file
@@ -742,5 +745,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	public function getIniWrapper() {
 		return $this->query('IniWrapper');
+	}
+
+	/**
+	 * Get the trusted domain helper
+	 *
+	 * @return TrustedDomainHelper
+	 */
+	public function getTrustedDomainHelper() {
+		return $this->query('TrustedDomainHelper');
 	}
 }

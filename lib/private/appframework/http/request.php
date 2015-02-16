@@ -128,9 +128,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 	}
 	/**
-	 * @param $parameters
+	 * @param array $parameters
 	 */
-	public function setUrlParameters($parameters) {
+	public function setUrlParameters(array $parameters) {
 		$this->items['urlParams'] = $parameters;
 		$this->items['parameters'] = array_merge(
 			$this->items['parameters'],
@@ -195,8 +195,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 	/**
 	 * Magic property accessors
-	 * @param $name
-	 * @param $value
+	 * @param string $name
+	 * @param mixed $value
 	 */
 	public function __set($name, $value) {
 		throw new \RuntimeException('You cannot change the contents of the request object');
@@ -253,7 +253,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @return bool
 	 */
 	public function __isset($name) {
@@ -261,7 +261,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * @param $id
+	 * @param string $id
 	 */
 	public function __unset($id) {
 		throw new \RunTimeException('You cannot change the contents of the request object');
