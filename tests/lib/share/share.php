@@ -586,7 +586,10 @@ class Test_Share extends \Test\TestCase {
 
 		// Attempt user specific target conflict
 		OC_User::setUserId($this->user3);
+		\OCP\Util::connectHook('OCP\\Share', 'post_shared', 'DummyHookListener', 'listen');
+
 		$this->assertTrue(OCP\Share::shareItem('test', 'share.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE));
+		$this->assertEquals(OCP\Share::SHARE_TYPE_GROUP, DummyHookListener::$shareType);
 		OC_User::setUserId($this->user2);
 		$to_test = OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET);
 		$this->assertEquals(2, count($to_test));
@@ -1053,5 +1056,13 @@ class Test_Share extends \Test\TestCase {
 class DummyShareClass extends \OC\Share\Share {
 	public static function groupItemsTest($items) {
 		return parent::groupItems($items, 'test');
+	}
+}
+
+class DummyHookListener {
+	static $shareType = null;
+
+	public static function listen($params) {
+		self::$shareType = $params['shareType'];
 	}
 }
