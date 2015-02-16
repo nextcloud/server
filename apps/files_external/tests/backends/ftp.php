@@ -15,12 +15,12 @@ class FTP extends Storage {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->config = include('files_external/tests/config.php');
-		if ( ! is_array($this->config) or ! isset($this->config['ftp']) or ! $this->config['ftp']['run']) {
+		$this->config = include('files_external/tests/config.ftp.php');
+		if ( ! is_array($this->config) or ! $this->config['run']) {
 			$this->markTestSkipped('FTP backend not configured');
 		}
-		$this->config['ftp']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new \OC\Files\Storage\FTP($this->config['ftp']);
+		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
+		$this->instance = new \OC\Files\Storage\FTP($this->config);
 		$this->instance->mkdir('/');
 	}
 
