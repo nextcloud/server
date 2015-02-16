@@ -52,7 +52,7 @@ class OC_Connector_Sabre_Auth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 	 */
 	protected function validateUserPass($username, $password) {
 		if (OC_User::isLoggedIn() &&
-			$this->isDavAuthenticated($username)
+			$this->isDavAuthenticated(OC_User::getUser())
 		) {
 			OC_Util::setupFS(OC_User::getUser());
 			\OC::$server->getSession()->close();
