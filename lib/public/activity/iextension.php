@@ -90,7 +90,7 @@ interface IExtension {
 	 * @param string $text
 	 * @return array|false
 	 */
-	function getSpecialParameterList($app, $text);
+	public function getSpecialParameterList($app, $text);
 
 	/**
 	 * A string naming the css class for the icon to be used can be returned.
