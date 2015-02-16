@@ -11,6 +11,9 @@ use Symfony\Component\Console\Application;
 $RUNTIME_NOAPPS = true;
 require_once 'lib/base.php';
 
+// set to run indefinitely if needed
+set_time_limit(0);
+
 // Don't do anything if ownCloud has not been installed yet
 if (!OC_Config::getValue('installed', false)) {
 	echo "Console can only be used once ownCloud has been installed" . PHP_EOL;
