@@ -42,7 +42,7 @@ class Factory implements ICacheFactory {
 		} elseif (Memcached::isAvailable()) {
 			return new Memcached($prefix);
 		} else {
-			return new Null($prefix);
+			return new ArrayCache($prefix);
 		}
 	}
 
