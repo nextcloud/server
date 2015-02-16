@@ -143,9 +143,24 @@ if ($_['WindowsWarning']) {
 	</p>
 
 </div>
+
 <?php
 }
 
+// APCU Warning if outdated
+if ($_['ApcuOutdatedWarning']) {
+	?>
+	<div class="section">
+		<h2><?php p($l->t('APCu below version 4.0.6 installed'));?></h2>
+
+		<p class="securitywarning">
+			<?php p($l->t('APCu below version 4.0.6 is installed, for stability and performance reasons we recommend to update to a newer APCu version.')); ?>
+		</p>
+
+	</div>
+
+<?php
+}
 // if module fileinfo available?
 if (!$_['has_fileinfo']) {
 	?>
