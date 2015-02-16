@@ -21,7 +21,7 @@
 				var messages = [];
 				if (xhr.status !== 207 && xhr.status !== 401) {
 					messages.push(
-						t('core', 'Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.')
+						t('core', 'Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken.')
 					);
 				}
 				deferred.resolve(messages);
@@ -51,12 +51,12 @@
 				if (xhr.status === 200 && data) {
 					if (!data.serverHasInternetConnection) {
 						messages.push(
-							t('core', 'This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features.')
+							t('core', 'This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps won\'t work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.')
 						);
 					}
 					if(!data.dataDirectoryProtected) {
 						messages.push(
-							t('core', 'Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.')
+							t('core', 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.')
 						);
 					}
 				} else {
