@@ -142,6 +142,7 @@ class AppManager implements IAppManager {
 	 * @param string $appId
 	 */
 	public function enableApp($appId) {
+		$this->installedAppsCache[$appId] = 'yes';
 		$this->appConfig->setValue($appId, 'enabled', 'yes');
 	}
 
@@ -156,6 +157,7 @@ class AppManager implements IAppManager {
 			/** @var \OCP\IGroup $group */
 			return $group->getGID();
 		}, $groups);
+		$this->installedAppsCache[$appId] = json_encode($groupIds);
 		$this->appConfig->setValue($appId, 'enabled', json_encode($groupIds));
 	}
 
@@ -166,9 +168,10 @@ class AppManager implements IAppManager {
 	 * @throws \Exception if app can't be disabled
 	 */
 	public function disableApp($appId) {
-		if($appId === 'files') {
+		if ($appId === 'files') {
 			throw new \Exception("files can't be disabled.");
 		}
+		unset($this->installedAppsCache[$appId]);
 		$this->appConfig->setValue($appId, 'enabled', 'no');
 	}
 }
