@@ -81,7 +81,7 @@ class ContentSecurityPolicy {
 	 * @param bool $state
 	 * @return $this
 	 */
-	public function evalScriptState($state = true) {
+	public function allowEvalScript($state = true) {
 		$this->evalScriptAllowed= $state;
 		return $this;
 	}

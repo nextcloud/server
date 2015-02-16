@@ -66,7 +66,7 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 		$expectedPolicy = "default-src 'none';script-src 'self';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self';connect-src 'self';media-src 'self'";
 
 		$this->contentSecurityPolicy->allowInlineScript(false);
-		$this->contentSecurityPolicy->evalScriptState(false);
+		$this->contentSecurityPolicy->allowEvalScript(false);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
@@ -201,7 +201,7 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 		$expectedPolicy = "default-src 'none';script-src 'self' script.owncloud.org;style-src 'self' style.owncloud.org;img-src 'self' img.owncloud.org;font-src 'self' font.owncloud.org;connect-src 'self' connect.owncloud.org;media-src 'self' media.owncloud.org;object-src objects.owncloud.org;frame-src frame.owncloud.org";
 
 		$this->contentSecurityPolicy->allowInlineStyle(false)
-			->evalScriptState(false)
+			->allowEvalScript(false)
 			->addAllowedScriptDomain('script.owncloud.org')
 			->addAllowedStyleDomain('style.owncloud.org')
 			->addAllowedFontDomain('font.owncloud.org')
