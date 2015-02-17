@@ -1,7 +1,6 @@
 { "translations": {
     "Help" : "Bantuan",
     "Personal" : "Peribadi",
-    "Settings" : "Tetapan",
     "Users" : "Pengguna",
     "Admin" : "Admin",
     "_%n day ago_::_%n days ago_" : [""],

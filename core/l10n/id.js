@@ -191,7 +191,6 @@ OC.L10N.register(
     "Database host" : "Host basis data",
     "Finish setup" : "Selesaikan instalasi",
     "Finishing …" : "Menyelesaikan ...",
-    "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Aplikasi ini memerlukan JavaScript untuk beroperasi dengan benar. Mohon <a href=\"http://enable-javascript.com/\" target=\"_blank\">aktifkan JavaScript</a> dan muat ulang halaman.",
     "%s is available. Get more information on how to update." : "%s tersedia. Dapatkan informasi lebih lanjut tentang cara memperbarui.",
     "Log out" : "Keluar",
     "Search" : "Cari",

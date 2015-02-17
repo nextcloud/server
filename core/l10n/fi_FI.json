@@ -193,7 +193,6 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Varsinkin työpöytäsovelluksen tiedostosynkronointia käyttäessä SQLiten käyttö ei ole suositeltavaa.",
     "Finish setup" : "Viimeistele asennus",
     "Finishing …" : "Valmistellaan…",
-    "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Tämä sovellus vaatii JavaScript-tuen toimiakseen. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Ota JavaScript käyttöön</a> ja päivitä sivu.",
     "%s is available. Get more information on how to update." : "%s on saatavilla. Lue lisätietoja, miten päivitys asennetaan.",
     "Log out" : "Kirjaudu ulos",
     "Search" : "Etsi",

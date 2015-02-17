@@ -1,7 +1,6 @@
 { "translations": {
     "Help" : "सहयोग",
     "Personal" : "यक्तिगत",
-    "Settings" : "सेटिंग्स",
     "Users" : "उपयोगकर्ता",
     "_%n day ago_::_%n days ago_" : ["",""],
     "_%n month ago_::_%n months ago_" : ["",""],

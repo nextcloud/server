@@ -180,7 +180,6 @@ OC.L10N.register(
     "Database host" : "Glavno računalo (host) baze podataka",
     "Finish setup" : "Završite postavke",
     "Finishing …" : "Završavanje...",
-    "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Ova aplikacija zahtjeva JavaScript za ispravan rad. Molimo <a href=\"http://enable-javascript.com/\" target=\"_blank\"> uključite JavaScript</a> i ponovno učitajte stranicu.",
     "%s is available. Get more information on how to update." : "%s je dostupan. Saznajte više informacija o tome kako ažurirati.",
     "Log out" : "Odjava",
     "Search" : "Potraži",

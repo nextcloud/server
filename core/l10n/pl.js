@@ -188,7 +188,6 @@ OC.L10N.register(
     "Database host" : "Komputer bazy danych",
     "Finish setup" : "Zakończ konfigurowanie",
     "Finishing …" : "Kończę ...",
-    "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Ta aplikacja wymaga JavaScript do poprawnego działania. Proszę <a href=\"http://enable-javascript.com/\" target=\"_blank\">włącz JavaScript</a> i przeładuj stronę.",
     "%s is available. Get more information on how to update." : "%s jest dostępna. Dowiedz się więcej na temat aktualizacji.",
     "Log out" : "Wyloguj",
     "Search" : "Wyszukaj",

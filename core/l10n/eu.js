@@ -191,7 +191,6 @@ OC.L10N.register(
     "Database host" : "Datubasearen hostalaria",
     "Finish setup" : "Bukatu konfigurazioa",
     "Finishing …" : "Bukatzen...",
-    "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Aplikazio honek ongi funtzionatzeko JavaScript behar du. Mesedez  <a href=\"http://enable-javascript.com/\" target=\"_blank\">gaitu JavaScript</a> eta birkargatu orri hau.",
     "%s is available. Get more information on how to update." : "%s erabilgarri dago. Eguneratzeaz argibide gehiago eskuratu.",
     "Log out" : "Saioa bukatu",
     "Search" : "Bilatu",

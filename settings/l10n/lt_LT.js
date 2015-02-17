@@ -65,7 +65,6 @@ OC.L10N.register(
     "More" : "Daugiau",
     "Less" : "Mažiau",
     "Version" : "Versija",
-    "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." : "Sukurta <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud bendruomenės</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">pirminis kodas</a> platinamas pagal <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
     "More apps" : "Daugiau programų",
     "by" : " ",
     "User Documentation" : "Naudotojo dokumentacija",

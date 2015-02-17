@@ -186,7 +186,6 @@ OC.L10N.register(
     "Database host" : "Databasserver",
     "Finish setup" : "Avsluta installation",
     "Finishing …" : "Avslutar ...",
-    "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Denna applikation kräver JavaScript för att fungera korrekt. Vänligen  <a href=\"http://enable-javascript.com/\" target=\"_blank\">slå på JavaScript</a> och ladda om denna sidan.",
     "%s is available. Get more information on how to update." : "%s är tillgänglig. Få mer information om hur du går tillväga för att uppdatera.",
     "Log out" : "Logga ut",
     "Search" : "Sök",

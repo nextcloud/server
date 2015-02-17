@@ -195,7 +195,6 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "SQLite er spesielt frarådet om man bruker desktopklienten til filsynkronisering",
     "Finish setup" : "Fullfør oppsetting",
     "Finishing …" : "Ferdigstiller ...",
-    "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Denne applikasjonen krever JavaScript for å fungere korrekt. Vennligst <a href=\"http://enable-javascript.com/\" target=\"_blank\">aktiver JavaScript</a> og last siden på nytt.",
     "%s is available. Get more information on how to update." : "%s er tilgjengelig. Få mer informasjon om hvordan du kan oppdatere.",
     "Log out" : "Logg ut",
     "Search" : "Søk",

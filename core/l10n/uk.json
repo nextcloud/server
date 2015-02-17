@@ -187,7 +187,6 @@
     "Database host" : "Хост бази даних",
     "Finish setup" : "Завершити налаштування",
     "Finishing …" : "Завершується ...",
-    "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Для цього додатка потрібна наявність Java для коректної роботи. Будь ласка, <a href=\"http://enable-javascript.com/\" target=\"_blank\"> увімкніть JavaScript </a> і перезавантажте сторінку.",
     "%s is available. Get more information on how to update." : "%s доступний. Отримай більше інформації про те, як оновити.",
     "Log out" : "Вихід",
     "Search" : "Пошук",

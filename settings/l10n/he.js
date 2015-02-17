@@ -50,7 +50,6 @@ OC.L10N.register(
     "More" : "יותר",
     "Less" : "פחות",
     "Version" : "גרסא",
-    "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." : "פותח על די <a href=\"http://ownCloud.org/contact\" target=\"_blank\">קהילתownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">קוד המקור</a> מוגן ברישיון <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
     "More apps" : "יישומים נוספים",
     "by" : "על ידי",
     "User Documentation" : "תיעוד משתמש",

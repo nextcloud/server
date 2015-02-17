@@ -193,7 +193,6 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Najmä pri používaní klientských aplikácií na synchronizáciu s desktopom neodporúčame používať SQLite.",
     "Finish setup" : "Dokončiť inštaláciu",
     "Finishing …" : "Dokončujem...",
-    "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Táto aplikácia potrebuje JavaScript pre správne fungovanie. Prosím <a href=\"http://enable-javascript.com/\" target=\"_blank\">zapnite si JavaScript</a> a obnovte stránku",
     "%s is available. Get more information on how to update." : "%s je dostupná. Získajte viac informácií o postupe aktualizácie.",
     "Log out" : "Odhlásiť",
     "Search" : "Hľadať",

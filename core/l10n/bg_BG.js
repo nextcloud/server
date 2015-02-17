@@ -195,7 +195,6 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Особено, когато използвате клиент за работен плот за синхронизация, използването на SQLite e непрепоръчително.",
     "Finish setup" : "Завършване на настройките",
     "Finishing …" : "Завършване...",
-    "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Програмата изисква JavaScript, за да функционира правилно. Моля, <a href=\"http://enable-javascript.com/\" target=\"_blank\">включи JavaScript</a> и презареди страницата.",
     "%s is available. Get more information on how to update." : "%s е на разположение. Прочети повече как да обновиш. ",
     "Log out" : "Отписване",
     "Search" : "Търсене",

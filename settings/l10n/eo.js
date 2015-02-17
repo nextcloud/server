@@ -91,7 +91,6 @@ OC.L10N.register(
     "More" : "Pli",
     "Less" : "Malpli",
     "Version" : "Eldono",
-    "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." : "Ellaborita de la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunumo de ownCloud</a>, la <a href=\"https://github.com/owncloud\" target=\"_blank\">fontokodo</a> publikas laŭ la permesilo <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
     "by" : "de",
     "Documentation:" : "Dokumentaro:",
     "User Documentation" : "Dokumentaro por uzantoj",

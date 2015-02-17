@@ -195,7 +195,6 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Özellikle dosya eşitleme için masaüstü istemcisi kullanılırken SQLite kullanımı önerilmez.",
     "Finish setup" : "Kurulumu tamamla",
     "Finishing …" : "Tamamlanıyor ...",
-    "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Uygulama, doğru çalışabilmesi için JavaScript gerektiriyor. Lütfen <a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScript'i etkinleştirin</a> ve sayfayı yeniden yükleyin.",
     "%s is available. Get more information on how to update." : "%s kullanılabilir. Nasıl güncelleyeceğiniz hakkında daha fazla bilgi alın.",
     "Log out" : "Çıkış yap",
     "Search" : "Ara",

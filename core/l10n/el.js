@@ -183,7 +183,6 @@ OC.L10N.register(
     "Database host" : "Διακομιστής βάσης δεδομένων",
     "Finish setup" : "Ολοκλήρωση εγκατάστασης",
     "Finishing …" : "Ολοκλήρωση...",
-    "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Αυτή η εφαρμογή απαιτεί JavaScript για τη σωστή λειτουργία. Παρακαλώ  <a href=\"http://enable-javascript.com/\" target=\"_blank\">ενεργοποιήστε τη JavaScript</a> και επαναφορτώστε τη σελίδα.",
     "%s is available. Get more information on how to update." : "%s είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες στο πώς να αναβαθμίσετε.",
     "Log out" : "Αποσύνδεση",
     "Search" : "Αναζήτηση",

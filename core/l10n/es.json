@@ -193,7 +193,6 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "El uso de SQLite esta desaconsejado especialmente cuando se usa el cliente de escritorio para que se sincronizan los ficheros.",
     "Finish setup" : "Completar la instalación",
     "Finishing …" : "Finalizando...",
-    "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "La aplicación requiere JavaScript para poder operar correctamente. Habilite <a href=\"http://enable-javascript.com/\" target=\"_blank\">activar JavaScript</a> y recarge la página.",
     "%s is available. Get more information on how to update." : "%s está disponible. Obtener más información de como actualizar.",
     "Log out" : "Salir",
     "Search" : "Buscar",

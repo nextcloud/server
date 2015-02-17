@@ -59,7 +59,6 @@ OC.L10N.register(
     "More" : "বেশী",
     "Less" : "কম",
     "Version" : "ভার্সন",
-    "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." : "তৈলী করেছেন <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud সম্প্রদায়</a>, যার <a href=\"https://github.com/owncloud\" target=\"_blank\"> উৎস কোডটি <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> এর অধীনে লাইসেন্সকৃত।",
     "by" : "কর্তৃক",
     "User Documentation" : "ব্যবহারকারী সহায়িকা",
     "Cheers!" : "শুভেচ্ছা!",
