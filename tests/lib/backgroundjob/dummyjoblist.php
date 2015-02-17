@@ -21,13 +21,18 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 
 	private $last = 0;
 
-	public function __construct(){}
+	public function __construct() {
+	}
 
 	/**
 	 * @param \OC\BackgroundJob\Job|string $job
 	 * @param mixed $argument
 	 */
 	public function add($job, $argument = null) {
+		if (is_string($job)) {
+			/** @var \OC\BackgroundJob\Job $job */
+			$job = new $job;
+		}
 		$job->setArgument($argument);
 		if (!$this->has($job, null)) {
 			$this->jobs[] = $job;

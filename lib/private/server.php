@@ -38,6 +38,7 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Cache\UserCache;
+use OC\Command\AsyncBus;
 use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
@@ -290,6 +291,10 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('IniWrapper', function ($c) {
 			return new IniGetWrapper();
+		});
+		$this->registerService('AsyncCommandBus', function (Server $c) {
+			$jobList = $c->getJobList();
+			return new AsyncBus($jobList);
 		});
 		$this->registerService('TrustedDomainHelper', function ($c) {
 			return new TrustedDomainHelper($this->getConfig());
@@ -775,6 +780,13 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	public function getIniWrapper() {
 		return $this->query('IniWrapper');
+	}
+
+	/**
+	 * @return \OCP\Command\IBus
+	 */
+	function getAsyncCommandBus(){
+		return $this->query('AsyncCommandBus');
 	}
 
 	/**
