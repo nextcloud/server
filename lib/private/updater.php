@@ -298,13 +298,47 @@ class Updater extends BasicEmitter {
 		include \OC_App::getAppPath($appId) . '/appinfo/preupdate.php';
 	}
 
+
+	/**
+	 * upgrades all apps within a major ownCloud upgrade. Also loads "priority"
+	 * (types authentication, filesystem, logging, in that order) afterwards.
+	 *
+	 * @throws NeedsUpdateException
+	 */
 	protected function doAppUpgrade() {
 		$apps = \OC_App::getEnabledApps();
+		$priorityTypes = array('authentication', 'filesystem', 'logging');
+		$pseudoOtherType = 'other';
+		$stacks = array($pseudoOtherType => array());
 
 		foreach ($apps as $appId) {
-			if (\OC_App::shouldUpgrade($appId)) {
-				\OC_App::updateApp($appId);
-				$this->emit('\OC\Updater', 'appUpgrade', array($appId, \OC_App::getAppVersion($appId)));
+			$priorityType = false;
+			foreach ($priorityTypes as $type) {
+				if(!isset($stacks[$type])) {
+					$stacks[$type] = array();
+				}
+				if (\OC_App::isType($appId, $type)) {
+					$stacks[$type][] = $appId;
+					$priorityType = true;
+					break;
+				}
+			}
+			if (!$priorityType) {
+				$stacks[$pseudoOtherType][] = $appId;
+			}
+		}
+		foreach ($stacks as $type => $stack) {
+			foreach ($stack as $appId) {
+				if (\OC_App::shouldUpgrade($appId)) {
+					\OC_App::updateApp($appId);
+					$this->emit('\OC\Updater', 'appUpgrade', array($appId, \OC_App::getAppVersion($appId)));
+				}
+				if($type !== $pseudoOtherType) {
+					// load authentication, filesystem and logging apps after
+					// upgrading them. Other apps my need to rely on modifying
+					// user and/or filesystem aspects.
+					\OC_App::loadApp($appId, false);
+				}
 			}
 		}
 	}
