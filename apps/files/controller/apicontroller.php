@@ -102,7 +102,11 @@ class ApiController extends Controller {
 		foreach ($fileInfos as &$fileInfo) {
 			$file = \OCA\Files\Helper::formatFileInfo($fileInfo);
 			$parts = explode('/', dirname($fileInfo->getPath()), 4);
-			$file['path'] = '/' . $parts[3];
+			if(isset($parts[3])) {
+				$file['path'] = '/' . $parts[3];
+			} else {
+				$file['path'] = '/';
+			}
 			$file['tags'] = array($tagName);
 			$files[] = $file;
 		}
