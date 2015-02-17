@@ -77,7 +77,8 @@ class OC_TemplateLayout extends OC_Template {
 			// Update notification
 			if($this->config->getSystemValue('updatechecker', true) === true &&
 				OC_User::isAdminUser(OC_User::getUser())) {
-				$updater = new \OC\Updater(\OC::$server->getHTTPHelper(), \OC::$server->getAppConfig());
+				$updater = new \OC\Updater(\OC::$server->getHTTPHelper(),
+					\OC::$server->getConfig());
 				$data = $updater->check();
 
 				if(isset($data['version']) && $data['version'] != '' and $data['version'] !== Array()) {
