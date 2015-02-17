@@ -24,6 +24,8 @@
 
 namespace OC\AppFramework\Http;
 
+use OC\Security\TrustedDomainHelper;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 
@@ -31,8 +33,13 @@ use OCP\Security\ISecureRandom;
  * Class for accessing variables in the request.
  * This class provides an immutable object with request variables.
  */
-
 class Request implements \ArrayAccess, \Countable, IRequest {
+
+	const USER_AGENT_IE = '/MSIE/';
+	// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
+	const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
+	const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
+	const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost)$/';
 
 	protected $inputStream;
 	protected $content;
@@ -51,6 +58,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	);
 	/** @var ISecureRandom */
 	protected $secureRandom;
+	/** @var IConfig */
+	protected $config;
 	/** @var string */
 	protected $requestId = '';
 
@@ -66,15 +75,18 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 *        - string 'method' the request method (GET, POST etc)
 	 *        - string|false 'requesttoken' the requesttoken or false when not available
 	 * @param ISecureRandom $secureRandom
+	 * @param IConfig $config
 	 * @param string $stream
 	 * @see http://www.php.net/manual/en/reserved.variables.php
 	 */
 	public function __construct(array $vars=array(),
-								ISecureRandom $secureRandom,
+								ISecureRandom $secureRandom = null,
+								IConfig $config,
 								$stream='php://input') {
 		$this->inputStream = $stream;
 		$this->items['params'] = array();
 		$this->secureRandom = $secureRandom;
+		$this->config = $config;
 
 		if(!array_key_exists('method', $vars)) {
 			$vars['method'] = 'GET';
@@ -115,8 +127,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		);
 
 	}
-
-	public function setUrlParameters($parameters) {
+	/**
+	 * @param array $parameters
+	 */
+	public function setUrlParameters(array $parameters) {
 		$this->items['urlParams'] = $parameters;
 		$this->items['parameters'] = array_merge(
 			$this->items['parameters'],
@@ -124,7 +138,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		);
 	}
 
-	// Countable method.
+	/**
+	 * Countable method
+	 * @return int
+	 */
 	public function count() {
 		return count(array_keys($this->items['parameters']));
 	}
@@ -176,7 +193,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		throw new \RuntimeException('You cannot change the contents of the request object');
 	}
 
-	// Magic property accessors
+	/**
+	 * Magic property accessors
+	 * @param string $name
+	 * @param mixed $value
+	 */
 	public function __set($name, $value) {
 		throw new \RuntimeException('You cannot change the contents of the request object');
 	}
@@ -231,12 +252,17 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 	}
 
-
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
 	public function __isset($name) {
 		return isset($this->items['parameters'][$name]);
 	}
 
-
+	/**
+	 * @param string $id
+	 */
 	public function __unset($id) {
 		throw new \RunTimeException('You cannot change the contents of the request object');
 	}
@@ -410,6 +436,256 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		return $this->requestId;
+	}
+
+	/**
+	 * Returns the remote address, if the connection came from a trusted proxy
+	 * and `forwarded_for_headers` has been configured then the IP address
+	 * specified in this header will be returned instead.
+	 * Do always use this instead of $_SERVER['REMOTE_ADDR']
+	 * @return string IP address
+	 */
+	public function getRemoteAddress() {
+		$remoteAddress = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
+		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
+
+		if(is_array($trustedProxies) && in_array($remoteAddress, $trustedProxies)) {
+			$forwardedForHeaders = $this->config->getSystemValue('forwarded_for_headers', []);
+
+			foreach($forwardedForHeaders as $header) {
+				if(isset($this->server[$header])) {
+					foreach(explode(',', $this->server[$header]) as $IP) {
+						$IP = trim($IP);
+						if (filter_var($IP, FILTER_VALIDATE_IP) !== false) {
+							return $IP;
+						}
+					}
+				}
+			}
+		}
+
+		return $remoteAddress;
+	}
+
+	/**
+	 * Check overwrite condition
+	 * @param string $type
+	 * @return bool
+	 */
+	private function isOverwriteCondition($type = '') {
+		$regex = '/' . $this->config->getSystemValue('overwritecondaddr', '')  . '/';
+		return $regex === '//' || preg_match($regex, $this->server['REMOTE_ADDR']) === 1
+		|| ($type !== 'protocol' && $this->config->getSystemValue('forcessl', false));
+	}
+
+	/**
+	 * Returns the server protocol. It respects reverse proxy servers and load
+	 * balancers.
+	 * @return string Server protocol (http or https)
+	 */
+	public function getServerProtocol() {
+		if($this->config->getSystemValue('overwriteprotocol') !== ''
+			&& $this->isOverwriteCondition('protocol')) {
+			return $this->config->getSystemValue('overwriteprotocol');
+		}
+
+		if (isset($this->server['HTTP_X_FORWARDED_PROTO'])) {
+			$proto = strtolower($this->server['HTTP_X_FORWARDED_PROTO']);
+			// Verify that the protocol is always HTTP or HTTPS
+			// default to http if an invalid value is provided
+			return $proto === 'https' ? 'https' : 'http';
+		}
+
+		if (isset($this->server['HTTPS'])
+			&& $this->server['HTTPS'] !== null
+			&& $this->server['HTTPS'] !== 'off') {
+			return 'https';
+		}
+
+		return 'http';
+	}
+
+	/**
+	 * Returns the request uri, even if the website uses one or more
+	 * reverse proxies
+	 * @return string
+	 */
+	public function getRequestUri() {
+		$uri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
+		if($this->config->getSystemValue('overwritewebroot') !== '' && $this->isOverwriteCondition()) {
+			$uri = $this->getScriptName() . substr($uri, strlen($this->server['SCRIPT_NAME']));
+		}
+		return $uri;
+	}
+
+	/**
+	 * Get raw PathInfo from request (not urldecoded)
+	 * @throws \Exception
+	 * @return string Path info
+	 */
+	public function getRawPathInfo() {
+		$requestUri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
+		// remove too many leading slashes - can be caused by reverse proxy configuration
+		if (strpos($requestUri, '/') === 0) {
+			$requestUri = '/' . ltrim($requestUri, '/');
+		}
+
+		$requestUri = preg_replace('%/{2,}%', '/', $requestUri);
+
+		// Remove the query string from REQUEST_URI
+		if ($pos = strpos($requestUri, '?')) {
+			$requestUri = substr($requestUri, 0, $pos);
+		}
+
+		$scriptName = $this->server['SCRIPT_NAME'];
+		$pathInfo = $requestUri;
+
+		// strip off the script name's dir and file name
+		// FIXME: Sabre does not really belong here
+		list($path, $name) = \Sabre\DAV\URLUtil::splitPath($scriptName);
+		if (!empty($path)) {
+			if($path === $pathInfo || strpos($pathInfo, $path.'/') === 0) {
+				$pathInfo = substr($pathInfo, strlen($path));
+			} else {
+				throw new \Exception("The requested uri($requestUri) cannot be processed by the script '$scriptName')");
+			}
+		}
+		if (strpos($pathInfo, '/'.$name) === 0) {
+			$pathInfo = substr($pathInfo, strlen($name) + 1);
+		}
+		if (strpos($pathInfo, $name) === 0) {
+			$pathInfo = substr($pathInfo, strlen($name));
+		}
+		if($pathInfo === '/'){
+			return '';
+		} else {
+			return $pathInfo;
+		}
+	}
+
+	/**
+	 * Get PathInfo from request
+	 * @throws \Exception
+	 * @return string|false Path info or false when not found
+	 */
+	public function getPathInfo() {
+		if(isset($this->server['PATH_INFO'])) {
+			return $this->server['PATH_INFO'];
+		}
+
+		$pathInfo = $this->getRawPathInfo();
+		// following is taken from \Sabre\DAV\URLUtil::decodePathSegment
+		$pathInfo = rawurldecode($pathInfo);
+		$encoding = mb_detect_encoding($pathInfo, ['UTF-8', 'ISO-8859-1']);
+
+		switch($encoding) {
+			case 'ISO-8859-1' :
+				$pathInfo = utf8_encode($pathInfo);
+		}
+		// end copy
+
+		return $pathInfo;
+	}
+
+	/**
+	 * Returns the script name, even if the website uses one or more
+	 * reverse proxies
+	 * @return string the script name
+	 */
+	public function getScriptName() {
+		$name = $this->server['SCRIPT_NAME'];
+		$overwriteWebRoot =  $this->config->getSystemValue('overwritewebroot');
+		if ($overwriteWebRoot !== '' && $this->isOverwriteCondition()) {
+			// FIXME: This code is untestable due to __DIR__, also that hardcoded path is really dangerous
+			$serverRoot = str_replace('\\', '/', substr(__DIR__, 0, -strlen('lib/private/appframework/http/')));
+			$suburi = str_replace('\\', '/', substr(realpath($this->server['SCRIPT_FILENAME']), strlen($serverRoot)));
+			$name = '/' . ltrim($overwriteWebRoot . $suburi, '/');
+		}
+		return $name;
+	}
+
+	/**
+	 * Checks whether the user agent matches a given regex
+	 * @param array $agent array of agent names
+	 * @return bool true if at least one of the given agent matches, false otherwise
+	 */
+	public function isUserAgent(array $agent) {
+		foreach ($agent as $regex) {
+			if (preg_match($regex, $this->server['HTTP_USER_AGENT'])) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Returns the unverified server host from the headers without checking
+	 * whether it is a trusted domain
+	 * @return string Server host
+	 */
+	public function getInsecureServerHost() {
+		$host = null;
+		if (isset($this->server['HTTP_X_FORWARDED_HOST'])) {
+			if (strpos($this->server['HTTP_X_FORWARDED_HOST'], ',') !== false) {
+				$parts = explode(',', $this->server['HTTP_X_FORWARDED_HOST']);
+				$host = trim(current($parts));
+			} else {
+				$host = $this->server['HTTP_X_FORWARDED_HOST'];
+			}
+		} else {
+			if (isset($this->server['HTTP_HOST'])) {
+				$host = $this->server['HTTP_HOST'];
+			} else if (isset($this->server['SERVER_NAME'])) {
+				$host = $this->server['SERVER_NAME'];
+			}
+		}
+		return $host;
+	}
+
+
+	/**
+	 * Returns the server host from the headers, or the first configured
+	 * trusted domain if the host isn't in the trusted list
+	 * @return string Server host
+	 */
+	public function getServerHost() {
+		// FIXME: Ugly workaround that we need to get rid of
+		if (\OC::$CLI && defined('PHPUNIT_RUN')) {
+			return 'localhost';
+		}
+
+		// overwritehost is always trusted
+		$host = $this->getOverwriteHost();
+		if ($host !== null) {
+			return $host;
+		}
+
+		// get the host from the headers
+		$host = $this->getInsecureServerHost();
+
+		// Verify that the host is a trusted domain if the trusted domains
+		// are defined
+		// If no trusted domain is provided the first trusted domain is returned
+		$trustedDomainHelper = new TrustedDomainHelper($this->config);
+		if ($trustedDomainHelper->isTrustedDomain($host)) {
+			return $host;
+		} else {
+			$trustedList = $this->config->getSystemValue('trusted_domains', []);
+			return $trustedList[0];
+		}
+	}
+
+	/**
+	 * Returns the overwritehost setting from the config if set and
+	 * if the overwrite condition is met
+	 * @return string|null overwritehost value or null if not defined or the defined condition
+	 * isn't met
+	 */
+	private function getOverwriteHost() {
+		if($this->config->getSystemValue('overwritehost') !== '' && $this->isOverwriteCondition()) {
+			return $this->config->getSystemValue('overwritehost');
+		}
+		return null;
 	}
 
 }

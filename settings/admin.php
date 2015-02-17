@@ -20,6 +20,7 @@ $doesLogFileExist = file_exists($logFilePath);
 $logFileSize = filesize($logFilePath);
 $config = \OC::$server->getConfig();
 $appConfig = \OC::$server->getAppConfig();
+$request = \OC::$server->getRequest();
 
 // Should we display sendmail as an option?
 $template->assign('sendmail_is_available', (bool) \OC_Helper::findBinaryPath('sendmail'));
@@ -59,7 +60,7 @@ $excludedGroupsList = explode(',', $excludedGroupsList); // FIXME: this should b
 $template->assign('shareExcludedGroupsList', implode('|', $excludedGroupsList));
 
 // Check if connected using HTTPS
-$template->assign('isConnectedViaHTTPS', OC_Request::serverProtocol() === 'https');
+$template->assign('isConnectedViaHTTPS', $request->getServerProtocol() === 'https');
 $template->assign('enforceHTTPSEnabled', $config->getSystemValue('forcessl', false));
 $template->assign('forceSSLforSubdomainsEnabled', $config->getSystemValue('forceSSLforSubdomains', false));
 
@@ -88,7 +89,7 @@ $template->assign('WindowsWarning', OC_Util::runningOnWindows());
 $forms = OC_App::getForms('admin');
 $l = OC_L10N::get('settings');
 $formsAndMore = array();
-if (OC_Request::serverProtocol() !== 'https' || !OC_Util::isAnnotationsWorking() ||
+if ($request->getServerProtocol()  !== 'https' || !OC_Util::isAnnotationsWorking() ||
 	$suggestedOverwriteCliUrl || !OC_Util::isSetLocaleWorking() || !OC_Util::isPhpCharSetUtf8() ||
 	!OC_Util::fileInfoLoaded() || $databaseOverload
 ) {

@@ -157,12 +157,14 @@ class OC_Setup {
 			return $error;
 		}
 
+		$request = \OC::$server->getRequest();
+
 		//no errors, good
 		if(isset($options['trusted_domains'])
 		    && is_array($options['trusted_domains'])) {
 			$trustedDomains = $options['trusted_domains'];
 		} else {
-			$trustedDomains = array(\OC_Request::getDomainWithoutPort(\OC_Request::serverHost()));
+			$trustedDomains = [\OCP\Util::getServerHostName()];
 		}
 
 		if (OC_Util::runningOnWindows()) {
@@ -185,7 +187,7 @@ class OC_Setup {
 			'secret'			=> $secret,
 			'trusted_domains'	=> $trustedDomains,
 			'datadirectory'		=> $dataDir,
-			'overwrite.cli.url'	=> \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost() . OC::$WEBROOT,
+			'overwrite.cli.url'	=> $request->getServerProtocol() . '://' . $request->getServerHost() . OC::$WEBROOT,
 			'dbtype'			=> $dbType,
 			'version'			=> implode('.', OC_Util::getVersion()),
 		]);

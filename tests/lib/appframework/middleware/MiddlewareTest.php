@@ -26,7 +26,7 @@ namespace OC\AppFramework;
 
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Middleware;
-
+use OCP\AppFramework\Http\Response;
 
 class ChildMiddleware extends Middleware {};
 
@@ -40,6 +40,8 @@ class MiddlewareTest extends \Test\TestCase {
 	private $controller;
 	private $exception;
 	private $api;
+	/** @var Response */
+	private $response;
 
 	protected function setUp(){
 		parent::setUp();
@@ -56,7 +58,11 @@ class MiddlewareTest extends \Test\TestCase {
 			[],
 			[
 				$this->api,
-				new Request([], $this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock())
+				new Request(
+					[],
+					$this->getMock('\OCP\Security\ISecureRandom'),
+					$this->getMock('\OCP\IConfig')
+				)
 			]
 		);
 		$this->exception = new \Exception();

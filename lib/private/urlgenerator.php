@@ -170,7 +170,8 @@ class URLGenerator implements IURLGenerator {
 			? ''
 			: \OC::$WEBROOT;
 
-		return \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost(). $webRoot . $separator . $url;
+		$request = \OC::$server->getRequest();
+		return $request->getServerProtocol() . '://' . $request->getServerHost() . $webRoot . $separator . $url;
 	}
 
 	/**

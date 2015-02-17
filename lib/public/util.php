@@ -234,9 +234,10 @@ class Util {
 	/**
 	 * Returns the server host, even if the website uses one or more reverse proxy
 	 * @return string the server host
+	 * @deprecated Use \OCP\IRequest::getServerHost
 	 */
 	public static function getServerHost() {
-		return(\OC_Request::serverHost());
+		return \OC::$server->getRequest()->getServerHost();
 	}
 
 	/**
@@ -285,25 +286,28 @@ class Util {
 	/**
 	 * Returns the server protocol. It respects reverse proxy servers and load balancers
 	 * @return string the server protocol
+	 * @deprecated Use \OCP\IRequest::getServerProtocol
 	 */
 	public static function getServerProtocol() {
-		return(\OC_Request::serverProtocol());
+		return \OC::$server->getRequest()->getServerProtocol();
 	}
 
 	/**
 	 * Returns the request uri, even if the website uses one or more reverse proxies
 	 * @return string the request uri
+	 * @deprecated Use \OCP\IRequest::getRequestUri
 	 */
 	public static function getRequestUri() {
-		return(\OC_Request::requestUri());
+		return \OC::$server->getRequest()->getRequestUri();
 	}
 
 	/**
 	 * Returns the script name, even if the website uses one or more reverse proxies
 	 * @return string the script name
+	 * @deprecated Use \OCP\IRequest::getScriptName
 	 */
 	public static function getScriptName() {
-		return(\OC_Request::scriptName());
+		return \OC::$server->getRequest()->getScriptName();
 	}
 
 	/**

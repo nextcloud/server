@@ -100,7 +100,18 @@ class OC {
 		OC_Config::$object = new \OC\Config(self::$configDir);
 
 		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
-		$scriptName = OC_Request::scriptName();
+		/**
+		 * FIXME: The following line is required because of a cyclic dependency
+		 *        on IRequest.
+		 */
+		$params = [
+			'server' => [
+				'SCRIPT_NAME' => $_SERVER['SCRIPT_NAME'],
+				'SCRIPT_FILENAME' => $_SERVER['SCRIPT_FILENAME'],
+			],
+		];
+		$fakeRequest = new \OC\AppFramework\Http\Request($params, null, new \OC\AllConfig(new \OC\SystemConfig()));
+		$scriptName = $fakeRequest->getScriptName();
 		if (substr($scriptName, -1) == '/') {
 			$scriptName .= 'index.php';
 			//make sure suburi follows the same rules as scriptName
@@ -230,6 +241,8 @@ class OC {
 	}
 
 	public static function checkSSL() {
+		$request = \OC::$server->getRequest();
+
 		// redirect to https site if configured
 		if (\OC::$server->getSystemConfig()->getValue('forcessl', false)) {
 			// Default HSTS policy
@@ -241,14 +254,15 @@ class OC {
 			}
 			header($header);
 			ini_set('session.cookie_secure', 'on');
-			if (OC_Request::serverProtocol() <> 'https' and !OC::$CLI) {
-				$url = 'https://' . OC_Request::serverHost() . OC_Request::requestUri();
+
+			if ($request->getServerProtocol() <> 'https' && !OC::$CLI) {
+				$url = 'https://' . $request->getServerHost() . $request->getRequestUri();
 				header("Location: $url");
 				exit();
 			}
 		} else {
 			// Invalidate HSTS headers
-			if (OC_Request::serverProtocol() === 'https') {
+			if ($request->getServerProtocol() === 'https') {
 				header('Strict-Transport-Security: max-age=0');
 			}
 		}
@@ -612,18 +626,23 @@ class OC {
 			return;
 		}
 
-		$host = OC_Request::insecureServerHost();
-		// if the host passed in headers isn't trusted
+		$request = \OC::$server->getRequest();
+		$host = $request->getInsecureServerHost();
+		/**
+		 * if the host passed in headers isn't trusted
+		 * FIXME: Should not be in here at all :see_no_evil:
+		 */
 		if (!OC::$CLI
-			// overwritehost is always trusted
-			&& OC_Request::getOverwriteHost() === null
-			&& !OC_Request::isTrustedDomain($host)
+			// overwritehost is always trusted, workaround to not have to make
+			// \OC\AppFramework\Http\Request::getOverwriteHost public
+			&& self::$server->getConfig()->getSystemValue('overwritehost') === ''
+			&& !\OC::$server->getTrustedDomainHelper()->isTrustedDomain($host)
 		) {
 			header('HTTP/1.1 400 Bad Request');
 			header('Status: 400 Bad Request');
 
 			$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
-			$tmpl->assign('domain', $_SERVER['SERVER_NAME']);
+			$tmpl->assign('domain', $request->server['SERVER_NAME']);
 			$tmpl->printPage();
 
 			exit();
@@ -720,6 +739,7 @@ class OC {
 	 * Handle the request
 	 */
 	public static function handleRequest() {
+
 		\OC::$server->getEventLogger()->start('handle_request', 'Handle request');
 		$systemConfig = \OC::$server->getSystemConfig();
 		// load all the classpaths from the enabled apps so they are available
@@ -734,7 +754,7 @@ class OC {
 			exit();
 		}
 
-		$request = OC_Request::getPathInfo();
+		$request = \OC::$server->getRequest()->getPathInfo();
 		if (substr($request, -3) !== '.js') { // we need these files during the upgrade
 			self::checkMaintenanceMode();
 			self::checkUpgrade();
@@ -764,7 +784,7 @@ class OC {
 				}
 				self::checkSingleUserMode();
 				OC_Util::setupFS();
-				OC::$server->getRouter()->match(OC_Request::getRawPathInfo());
+				OC::$server->getRouter()->match(\OC::$server->getRequest()->getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
 				//header('HTTP/1.0 404 Not Found');
@@ -895,7 +915,7 @@ class OC {
 
 		// if return is true we are logged in -> redirect to the default page
 		if ($return === true) {
-			$_REQUEST['redirect_url'] = \OC_Request::requestUri();
+			$_REQUEST['redirect_url'] = \OC::$server->getRequest()->getRequestUri();
 			OC_Util::redirectToDefaultPage();
 			exit;
 		}

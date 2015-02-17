@@ -52,7 +52,7 @@ class OC_TemplateLayout extends \Test\TestCase {
 	 */
 	public function testConvertToRelativePath($absolutePath, $expected) {
 		$_SERVER['REQUEST_URI'] = $expected;
-		$_SERVER['SCRIPT_NAME'] = '/';
+		$_SERVER['SCRIPT_NAME'] = $expected;
 
 		$relativePath = \Test_Helper::invokePrivate(new \OC_TemplateLayout('user'), 'convertToRelativePath', array($absolutePath));
 		$this->assertEquals($expected, $relativePath);

@@ -63,8 +63,9 @@ class Router implements IRouter {
 		} else {
 			$method = 'GET';
 		}
-		$host = \OC_Request::serverHost();
-		$schema = \OC_Request::serverProtocol();
+		$request = \OC::$server->getRequest();
+		$host = $request->getServerHost();
+		$schema = $request->getServerProtocol();
 		$this->context = new RequestContext($baseUrl, $method, $host, $schema);
 		// TODO cache
 		$this->root = $this->getCollection('root');

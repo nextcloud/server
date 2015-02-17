@@ -17,6 +17,7 @@ use OC\Security\Crypto;
 use OC\Security\Hasher;
 use OC\Security\SecureRandom;
 use OC\Diagnostics\NullEventLogger;
+use OC\Security\TrustedDomainHelper;
 use OCP\IServerContainer;
 use OCP\ISession;
 use OC\Tagging\TagMapper;
@@ -40,45 +41,6 @@ class Server extends SimpleContainer implements IServerContainer {
 
 		$this->registerService('ContactsManager', function ($c) {
 			return new ContactsManager();
-		});
-		$this->registerService('Request', function (Server $c) {
-			if (isset($c['urlParams'])) {
-				$urlParams = $c['urlParams'];
-			} else {
-				$urlParams = array();
-			}
-
-			if ($c->getSession()->exists('requesttoken')) {
-				$requestToken = $c->getSession()->get('requesttoken');
-			} else {
-				$requestToken = false;
-			}
-
-			if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
-				&& in_array('fakeinput', stream_get_wrappers())
-			) {
-				$stream = 'fakeinput://data';
-			} else {
-				$stream = 'php://input';
-			}
-
-			return new Request(
-				[
-					'get' => $_GET,
-					'post' => $_POST,
-					'files' => $_FILES,
-					'server' => $_SERVER,
-					'env' => $_ENV,
-					'cookies' => $_COOKIE,
-					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
-						? $_SERVER['REQUEST_METHOD']
-						: null,
-					'urlParams' => $urlParams,
-					'requesttoken' => $requestToken,
-				],
-				$this->getSecureRandom(),
-				$stream
-			);
 		});
 		$this->registerService('PreviewManager', function ($c) {
 			return new PreviewManager();
@@ -299,6 +261,9 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('IniWrapper', function ($c) {
 			return new IniGetWrapper();
 		});
+		$this->registerService('TrustedDomainHelper', function ($c) {
+			return new TrustedDomainHelper($this->getConfig());
+		});
 	}
 
 	/**
@@ -313,10 +278,54 @@ class Server extends SimpleContainer implements IServerContainer {
 	 * currently being processed is returned from this method.
 	 * In case the current execution was not initiated by a web request null is returned
 	 *
+	 * FIXME: This should be queried as well. However, due to our totally awesome
+	 * static code a lot of tests do stuff like $_SERVER['foo'] which obviously
+	 * will not work with that approach. We even have some integration tests in our
+	 * unit tests which setup a complete webserver. Once the code is all non-static
+	 * or we don't have such mixed integration/unit tests setup anymore this can
+	 * get moved out again.
+	 *
 	 * @return \OCP\IRequest|null
 	 */
 	function getRequest() {
-		return $this->query('Request');
+		if (isset($this['urlParams'])) {
+			$urlParams = $this['urlParams'];
+		} else {
+			$urlParams = array();
+		}
+
+		if ($this->getSession()->exists('requesttoken')) {
+			$requestToken = $this->getSession()->get('requesttoken');
+		} else {
+			$requestToken = false;
+		}
+
+		if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
+			&& in_array('fakeinput', stream_get_wrappers())
+		) {
+			$stream = 'fakeinput://data';
+		} else {
+			$stream = 'php://input';
+		}
+
+		return new Request(
+			[
+				'get' => $_GET,
+				'post' => $_POST,
+				'files' => $_FILES,
+				'server' => $_SERVER,
+				'env' => $_ENV,
+				'cookies' => $_COOKIE,
+				'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
+					? $_SERVER['REQUEST_METHOD']
+					: null,
+				'urlParams' => $urlParams,
+				'requesttoken' => $requestToken,
+			],
+			$this->getSecureRandom(),
+			$this->getConfig(),
+			$stream
+		);
 	}
 
 	/**
@@ -736,5 +745,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	public function getIniWrapper() {
 		return $this->query('IniWrapper');
+	}
+
+	/**
+	 * Get the trusted domain helper
+	 *
+	 * @return TrustedDomainHelper
+	 */
+	public function getTrustedDomainHelper() {
+		return $this->query('TrustedDomainHelper');
 	}
 }

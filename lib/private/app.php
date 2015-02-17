@@ -665,10 +665,11 @@ class OC_App {
 	 * @return string
 	 */
 	public static function getCurrentApp() {
-		$script = substr(OC_Request::scriptName(), strlen(OC::$WEBROOT) + 1);
+		$request = \OC::$server->getRequest();
+		$script = substr($request->getScriptName(), strlen(OC::$WEBROOT) + 1);
 		$topFolder = substr($script, 0, strpos($script, '/'));
 		if (empty($topFolder)) {
-			$path_info = OC_Request::getPathInfo();
+			$path_info = $request->getPathInfo();
 			if ($path_info) {
 				$topFolder = substr($path_info, 1, strpos($path_info, '/', 1) - 1);
 			}

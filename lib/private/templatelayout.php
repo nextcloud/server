@@ -34,9 +34,9 @@ class OC_TemplateLayout extends OC_Template {
 		$this->config = \OC::$server->getConfig();
 
 		// Decide which page we show
-		if( $renderAs == 'user' ) {
+		if($renderAs == 'user') {
 			parent::__construct( 'core', 'layout.user' );
-			if(in_array(OC_APP::getCurrentApp(), array('settings','admin', 'help'))!==false) {
+			if(in_array(OC_App::getCurrentApp(), ['settings','admin', 'help']) !== false) {
 				$this->assign('bodyid', 'body-settings');
 			}else{
 				$this->assign('bodyid', 'body-user');
@@ -72,9 +72,9 @@ class OC_TemplateLayout extends OC_Template {
 				}
 			}
 			$userDisplayName = OC_User::getDisplayName();
-			$this->assign( 'user_displayname', $userDisplayName );
-			$this->assign( 'user_uid', OC_User::getUser() );
-			$this->assign( 'appsmanagement_active', strpos(OC_Request::requestUri(), OC_Helper::linkToRoute('settings_apps')) === 0 );
+			$this->assign('user_displayname', $userDisplayName);
+			$this->assign('user_uid', OC_User::getUser());
+			$this->assign('appsmanagement_active', strpos(\OC::$server->getRequest()->getRequestUri(), OC_Helper::linkToRoute('settings_apps')) === 0 );
 			$this->assign('enableAvatars', $this->config->getSystemValue('enable_avatars', true));
 			$this->assign('userAvatarSet', \OC_Helper::userAvatarSet(OC_User::getUser()));
 		} else if ($renderAs == 'error') {

@@ -529,7 +529,6 @@ class OC_Installer{
 	 * @param string $folder the folder of the app to check
 	 * @return boolean true for app is o.k. and false for app is not o.k.
 	 */
-
 	public static function checkCode($folder) {
 		// is the code checker enabled?
 		if(!OC_Config::getValue('appcodechecker', false)) {

@@ -132,7 +132,8 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 			['app',
 				new Request(
 					['method' => 'GET'],
-					$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock()
+					$this->getMock('\OCP\Security\ISecureRandom'),
+					$this->getMock('\OCP\IConfig')
 				)
 			]
 		);
