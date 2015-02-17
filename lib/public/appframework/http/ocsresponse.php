@@ -29,8 +29,6 @@ namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
 
-use OC_OCS;
-
 /**
  * A renderer for OCS responses
  * @since 8.1.0
