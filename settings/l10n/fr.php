@@ -219,6 +219,8 @@ $TRANSLATIONS = array(
 "Last Login" => "Dernière Connexion",
 "change full name" => "Modifier le nom complet",
 "set new password" => "Changer le mot de passe",
-"Default" => "Défaut"
+"Default" => "Défaut",
+"Connectivity Checks" => "Vérification de la connectivité",
+"No problems found" => "Aucun problème trouvé",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

@@ -222,5 +222,6 @@ $TRANSLATIONS = array(
 "Default" => "Domyślny",
 "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" => "Jeśli Twoja instalacja nie jest zainstalowana w katalogu głównym serwera www, a system używa cron-a, mogą występować problemy z generowaniem URL-i. Aby uniknąć tych problemów, proszę  ustawić opcję \"overwritewebroot\" w pliku config.php na ścieżkę z adresu www Twojej instalacji (Sugerowane: \"%s\")",
 "URL generation in notification emails" => "Generowanie URL w powiadomieniach email",
+"No problems found" => "Nie ma żadnych problemów",
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

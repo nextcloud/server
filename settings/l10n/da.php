@@ -192,5 +192,7 @@ $TRANSLATIONS = array(
 "Default" => "Standard",
 "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" => "Hvis din installation ikke er installeret i roden af domænet, og bruger systemets cron, så kan der være problemer med URL-oprettelsen. For at undgå disse problemer, så angiv tilvalget \"overwritewebroot\" i din fil config.php til webrodens sti for din installation (foreslået værdi: \"%s\")",
 "URL generation in notification emails" => "URL-oprettelse i email-notifikationer.",
+"Connectivity Checks" => "Forbindelsestjek",
+"No problems found" => "Der blev ikke fundet problemer",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

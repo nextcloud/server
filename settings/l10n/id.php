@@ -170,6 +170,7 @@ $TRANSLATIONS = array(
 "Quota" => "Quota",
 "change full name" => "ubah nama lengkap",
 "set new password" => "setel sandi baru",
-"Default" => "Baku"
+"Default" => "Baku",
+"No problems found" => "Masalah tidak ditemukan",
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

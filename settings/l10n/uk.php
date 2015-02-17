@@ -98,6 +98,8 @@ $TRANSLATIONS = array(
 "Username" => "Ім'я користувача",
 "Quota" => "Квота",
 "set new password" => "встановити новий пароль",
-"Default" => "За замовчуванням"
+"Default" => "За замовчуванням",
+"Connectivity Checks" => "Перевірка З'єднання",
+"No problems found" => "Проблем не виявленно",
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";
