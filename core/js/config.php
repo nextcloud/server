@@ -74,6 +74,7 @@ $array = array(
 			'session_keepalive'	=> \OCP\Config::getSystemValue('session_keepalive', true),
 			'version'			=> implode('.', OC_Util::getVersion()),
 			'versionstring'		=> OC_Util::getVersionString(),
+			'enable_avatars'	=> \OC::$server->getConfig()->getSystemValue('enable_avatars', true),
 		)
 	),
 	"oc_appconfig" => json_encode(
