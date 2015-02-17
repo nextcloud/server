@@ -26,13 +26,6 @@ script('core', [
 		<?php endforeach; ?>
 	</fieldset>
 	<?php endif; ?>
-	<?php if($_['vulnerableToNullByte']): ?>
-	<fieldset class="warning">
-		<legend><strong><?php p($l->t('Security Warning'));?></strong></legend>
-		<p><?php p($l->t('Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)'));?><br/>
-		<?php p($l->t('Please update your PHP installation to use %s securely.', $theme->getName() )); ?></p>
-	</fieldset>
-	<?php endif; ?>
 	<?php if(!$_['htaccessWorking']): ?>
 	<fieldset class="warning">
 		<legend><strong><?php p($l->t('Security Warning'));?></strong></legend>

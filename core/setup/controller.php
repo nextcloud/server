@@ -131,10 +131,6 @@ class Controller {
 		$databases = $setup->getSupportedDatabases();
 
 		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data');
-		$vulnerableToNullByte = false;
-		if(@file_exists(__FILE__."\0Nullbyte")) { // Check if the used PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)
-			$vulnerableToNullByte = true;
-		} 
 
 		$errors = array();
 
@@ -200,7 +196,6 @@ class Controller {
 			'databases' => $databases,
 			'directory' => $dataDir,
 			'htaccessWorking' => $htAccessWorking,
-			'vulnerableToNullByte' => $vulnerableToNullByte,
 			'errors' => $errors,
 		);
 	}
