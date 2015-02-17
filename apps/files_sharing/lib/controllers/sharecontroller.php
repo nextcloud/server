@@ -230,26 +230,48 @@ class ShareController extends Controller {
 			}
 		}
 
-		$originalSharePath = self::getPath($token);
-
-		if (isset($originalSharePath) && Filesystem::isReadable($originalSharePath . $path)) {
-			$originalSharePath = Filesystem::normalizePath($originalSharePath . $path);
-			$type = \OC\Files\Filesystem::is_dir($originalSharePath) ? 'folder' : 'file';
-			$args = $type === 'folder' ? array('dir' => $originalSharePath) : array('dir' => dirname($originalSharePath), 'scrollto' => basename($originalSharePath));
-			$linkToFile = \OCP\Util::linkToAbsolute('files', 'index.php', $args);
-			$subject = $type === 'folder' ? Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED : Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
-			$this->activityManager->publishActivity(
-					'files_sharing', $subject, array($originalSharePath), '', array(), $originalSharePath,
-					$linkToFile, $linkItem['uid_owner'], Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM);
-		}
-
+		$files_list = null;
 		if (!is_null($files)) { // download selected files
 			$files_list = json_decode($files);
 			// in case we get only a single file
-			if ($files_list === NULL) {
+			if ($files_list === null) {
 				$files_list = array($files);
 			}
+		}
 
+		$originalSharePath = self::getPath($token);
+
+		// Create the activities
+		if (isset($originalSharePath) && Filesystem::isReadable($originalSharePath . $path)) {
+			$originalSharePath = Filesystem::normalizePath($originalSharePath . $path);
+			$isDir = \OC\Files\Filesystem::is_dir($originalSharePath);
+
+			$activities = [];
+			if (!$isDir) {
+				// Single file public share
+				$activities[$originalSharePath] = Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
+			} else if (!empty($files_list)) {
+				// Only some files are downloaded
+				foreach ($files_list as $file) {
+					$filePath = Filesystem::normalizePath($originalSharePath . '/' . $file);
+					$isDir = \OC\Files\Filesystem::is_dir($filePath);
+					$activities[$filePath] = ($isDir) ? Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED : Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
+				}
+			} else {
+				// The folder is downloaded
+				$activities[$originalSharePath] = Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED;
+			}
+
+			foreach ($activities as $filePath => $subject) {
+				$this->activityManager->publishActivity(
+					'files_sharing', $subject, array($filePath), '', array(),
+					$filePath, '', $linkItem['uid_owner'], Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM
+				);
+			}
+		}
+
+		// download selected files
+		if (!is_null($files)) {
 			// FIXME: The exit is required here because otherwise the AppFramework is trying to add headers as well
 			// after dispatching the request which results in a "Cannot modify header information" notice.
 			OC_Files::get($originalSharePath, $files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD');
