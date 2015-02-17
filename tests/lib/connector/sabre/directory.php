@@ -155,4 +155,34 @@ class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 			$nodes[1]->getProperties($properties)
 		);
 	}
+
+	public function testGetQuotaInfo() {
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Quota')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$storage->expects($this->once())
+			->method('instanceOfStorage')
+			->with('\OC\Files\Storage\Wrapper\Quota')
+			->will($this->returnValue(true));
+
+		$storage->expects($this->once())
+			->method('getQuota')
+			->will($this->returnValue(1000));
+
+		$storage->expects($this->once())
+			->method('free_space')
+			->will($this->returnValue(800));
+
+		$this->info->expects($this->once())
+			->method('getSize')
+			->will($this->returnValue(200));
+
+		$this->info->expects($this->once())
+			->method('getStorage')
+			->will($this->returnValue($storage));
+
+		$dir = new OC_Connector_Sabre_Directory($this->view, $this->info);
+		$this->assertEquals([200, 800], $dir->getQuotaInfo()); //200 used, 800 free
+	}
 }
