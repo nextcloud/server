@@ -74,6 +74,7 @@
 	display: block;
 	width: 100%;
 	line-height: 44px;
+	min-height: 44px;
 	padding: 0 12px;
 	overflow: hidden;
 	-moz-box-sizing: border-box; box-sizing: border-box;
