@@ -253,7 +253,7 @@ class OC {
 				$header .= '; includeSubDomains';
 			}
 			header($header);
-			ini_set('session.cookie_secure', 'on');
+			ini_set('session.cookie_secure', true);
 
 			if ($request->getServerProtocol() <> 'https' && !OC::$CLI) {
 				$url = 'https://' . $request->getServerHost() . $request->getRequestUri();
@@ -405,7 +405,7 @@ class OC {
 
 	public static function initSession() {
 		// prevents javascript from accessing php session cookies
-		ini_set('session.cookie_httponly', '1;');
+		ini_set('session.cookie_httponly', true);
 
 		// set the cookie path to the ownCloud directory
 		$cookie_path = OC::$WEBROOT ? : '/';
