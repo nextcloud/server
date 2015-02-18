@@ -72,6 +72,9 @@ class Response {
 	 */
 	private $ETag;
 
+	/** @var ContentSecurityPolicy|null Used Content-Security-Policy */
+	private $contentSecurityPolicy = null;
+
 
 	/**
 	 * Caches the response
@@ -186,12 +189,18 @@ class Response {
 	 * @return array the headers
 	 */
 	public function getHeaders() {
-		$mergeWith = array();
+		$mergeWith = [];
 
 		if($this->lastModified) {
 			$mergeWith['Last-Modified'] =
 				$this->lastModified->format(\DateTime::RFC2822);
 		}
+
+		// Build Content-Security-Policy and use default if none has been specified
+		if(is_null($this->contentSecurityPolicy)) {
+			$this->setContentSecurityPolicy(new ContentSecurityPolicy());
+		}
+		$this->headers['Content-Security-Policy'] = $this->contentSecurityPolicy->buildPolicy();
 
 		if($this->ETag) {
 			$mergeWith['ETag'] = '"' . $this->ETag . '"';
@@ -219,6 +228,25 @@ class Response {
 		$this->status = $status;
 
 		return $this;
+	}
+
+	/**
+	 * Set a Content-Security-Policy
+	 * @param ContentSecurityPolicy $csp Policy to set for the response object
+	 * @return $this
+	 */
+	public function setContentSecurityPolicy(ContentSecurityPolicy $csp) {
+		$this->contentSecurityPolicy = $csp;
+		return $this;
+	}
+
+	/**
+	 * Get the currently used Content-Security-Policy
+	 * @return ContentSecurityPolicy|null Used Content-Security-Policy or null if
+	 *                                    none specified.
+	 */
+	public function getContentSecurityPolicy() {
+		return $this->contentSecurityPolicy;
 	}
 
 

@@ -930,15 +930,6 @@ $CONFIG = array(
 ),
 
 /**
- * Custom CSP policy, changing this will overwrite the standard policy
- */
-'custom_csp_policy' =>
-	"default-src 'self'; script-src 'self' 'unsafe-eval'; ".
-	"style-src 'self' 'unsafe-inline'; frame-src *; img-src *; ".
-	"font-src 'self' data:; media-src *; connect-src *",
-
-
-/**
  * All other config options
  */
 
