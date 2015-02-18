@@ -31,6 +31,9 @@ class Updater {
 	}
 
 	public function propagate($path, $time = null) {
+		if (Scanner::isPartialFile($path)) {
+			return;
+		}
 		$this->propagator->addChange($path);
 		$this->propagator->propagateChanges($time);
 	}
@@ -42,6 +45,9 @@ class Updater {
 	 * @param int $time
 	 */
 	public function update($path, $time = null) {
+		if(Scanner::isPartialFile($path)) {
+			return;
+		}
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 * @var string $internalPath
@@ -64,6 +70,9 @@ class Updater {
 	 * @param string $path
 	 */
 	public function remove($path) {
+		if (Scanner::isPartialFile($path)) {
+			return;
+		}
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 * @var string $internalPath
@@ -88,6 +97,9 @@ class Updater {
 	 * @param string $target
 	 */
 	public function rename($source, $target) {
+		if (Scanner::isPartialFile($source) or Scanner::isPartialFile($target)) {
+			return;
+		}
 		/**
 		 * @var \OC\Files\Storage\Storage $sourceStorage
 		 * @var \OC\Files\Storage\Storage $targetStorage
