@@ -11,9 +11,10 @@ namespace OC;
 
 class NaturalSort_DefaultCollator {
 	public function compare($a, $b) {
-		if ($a === $b) {
-			return 0;
-		}
-		return ($a < $b) ? -1 : 1;
+		$result = strcasecmp($a, $b); 
+    		if ($result === 0) {
+      			return 0;
+    		}
+    		return ($result < 0) ? -1 : 1;
 	}
 }
