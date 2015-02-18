@@ -1106,7 +1106,7 @@ class OC_App {
 			$version=OC_Util::getVersion();
 			if(!self::isAppCompatible($version, $info)) {
 				throw new \Exception(
-					$l->t('App \"%s\" can\'t be installed because it is not compatible with this version of ownCloud.',
+					$l->t('App "%s" cannot be installed because it is not compatible with this version of ownCloud.',
 						array($info['name'])
 					)
 				);
@@ -1118,7 +1118,7 @@ class OC_App {
 			if(!empty($missing)) {
 				$missingMsg = join(PHP_EOL, $missing);
 				throw new \Exception(
-					$l->t('App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s',
+					$l->t('App "%s" cannot be installed because the following dependencies are not fulfilled: %s',
 						array($info['name'], $missingMsg)
 					)
 				);
