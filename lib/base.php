@@ -637,6 +637,7 @@ class OC {
 			// \OC\AppFramework\Http\Request::getOverwriteHost public
 			&& self::$server->getConfig()->getSystemValue('overwritehost') === ''
 			&& !\OC::$server->getTrustedDomainHelper()->isTrustedDomain($host)
+			&& self::$server->getConfig()->getSystemValue('installed', false)
 		) {
 			header('HTTP/1.1 400 Bad Request');
 			header('Status: 400 Bad Request');
