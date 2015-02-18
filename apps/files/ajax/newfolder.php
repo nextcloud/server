@@ -9,7 +9,7 @@ OCP\JSON::callCheck();
 
 // Get the params
 $dir = isset($_POST['dir']) ? (string)$_POST['dir'] : '';
-$foldername = isset($_POST['foldername']) ?(string) $_POST['foldername'] : '';
+$folderName = isset($_POST['foldername']) ?(string) $_POST['foldername'] : '';
 
 $l10n = \OC::$server->getL10N('files');
 
@@ -18,16 +18,13 @@ $result = array(
 	'data'		=> NULL
 	);
 
-if(trim($foldername) === '') {
-	$result['data'] = array('message' => $l10n->t('Folder name cannot be empty.'));
+try {
+	\OC\Files\Filesystem::getView()->verifyPath($dir, $folderName);
+} catch (\OCP\Files\InvalidPathException $ex) {
+	$result['data'] = [
+		'message' => $ex->getMessage()];
 	OCP\JSON::error($result);
-	exit();
-}
-
-if(!OCP\Util::isValidFileName($foldername)) {
-	$result['data'] = array('message' => (string)$l10n->t("Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
-	OCP\JSON::error($result);
-	exit();
+	return;
 }
 
 if (!\OC\Files\Filesystem::file_exists($dir . '/')) {
@@ -39,12 +36,12 @@ if (!\OC\Files\Filesystem::file_exists($dir . '/')) {
 	exit();
 }
 
-$target = $dir . '/' . $foldername;
+$target = $dir . '/' . $folderName;
 		
 if (\OC\Files\Filesystem::file_exists($target)) {
 	$result['data'] = array('message' => $l10n->t(
 			'The name %s is already used in the folder %s. Please choose a different name.',
-			array($foldername, $dir))
+			array($folderName, $dir))
 		);
 	OCP\JSON::error($result);
 	exit();
@@ -52,9 +49,9 @@ if (\OC\Files\Filesystem::file_exists($target)) {
 
 if(\OC\Files\Filesystem::mkdir($target)) {
 	if ( $dir !== '/') {
-		$path = $dir.'/'.$foldername;
+		$path = $dir.'/'.$folderName;
 	} else {
-		$path = '/'.$foldername;
+		$path = '/'.$folderName;
 	}
 	$meta = \OC\Files\Filesystem::getFileInfo($path);
 	$meta['type'] = 'dir'; // missing ?!

@@ -103,9 +103,8 @@ abstract class Node implements \Sabre\DAV\INode {
 		list($parentPath,) = \Sabre\HTTP\URLUtil::splitPath($this->path);
 		list(, $newName) = \Sabre\HTTP\URLUtil::splitPath($name);
 
-		if (!\OCP\Util::isValidFileName($newName)) {
-			throw new \Sabre\DAV\Exception\BadRequest();
-		}
+		// verify path of the target
+		$this->verifyPath();
 
 		$newPath = $parentPath . '/' . $newName;
 
@@ -229,5 +228,14 @@ abstract class Node implements \Sabre\DAV\INode {
 			}
 		}
 		return $p;
+	}
+
+	protected function verifyPath() {
+		try {
+			$fileName = basename($this->info->getPath());
+			$this->fileView->verifyPath($this->path, $fileName);
+		} catch (\OCP\Files\InvalidPathException $ex) {
+			throw new OC_Connector_Sabre_Exception_InvalidPath($ex->getMessage());
+		}
 	}
 }

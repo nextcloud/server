@@ -8,8 +8,12 @@
 
 namespace OC\Files\Storage;
 
+use OC\Files\Cache\Cache;
+use OC\Files\Cache\Scanner;
+use OC\Files\Cache\Storage;
 use OC\Files\Filesystem;
 use OC\Files\Cache\Watcher;
+use OCP\Files\InvalidPathException;
 
 /**
  * Storage backend class for providing common filesystem operation methods
@@ -25,7 +29,6 @@ use OC\Files\Cache\Watcher;
 abstract class Common implements \OC\Files\Storage\Storage {
 	protected $cache;
 	protected $scanner;
-	protected $permissioncache;
 	protected $watcher;
 	protected $storageCache;
 
@@ -303,7 +306,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			$storage = $this;
 		}
 		if (!isset($this->cache)) {
-			$this->cache = new \OC\Files\Cache\Cache($storage);
+			$this->cache = new Cache($storage);
 		}
 		return $this->cache;
 	}
@@ -313,7 +316,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			$storage = $this;
 		}
 		if (!isset($this->scanner)) {
-			$this->scanner = new \OC\Files\Cache\Scanner($storage);
+			$this->scanner = new Scanner($storage);
 		}
 		return $this->scanner;
 	}
@@ -323,7 +326,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			$storage = $this;
 		}
 		if (!isset($this->watcher)) {
-			$this->watcher = new \OC\Files\Cache\Watcher($storage);
+			$this->watcher = new Watcher($storage);
 			$this->watcher->setPolicy(\OC::$server->getConfig()->getSystemValue('filesystem_check_changes', Watcher::CHECK_ONCE));
 		}
 		return $this->watcher;
@@ -334,7 +337,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			$storage = $this;
 		}
 		if (!isset($this->storageCache)) {
-			$this->storageCache = new \OC\Files\Cache\Storage($storage);
+			$this->storageCache = new Storage($storage);
 		}
 		return $this->storageCache;
 	}
@@ -449,6 +452,60 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 */
 	public function getDirectDownload($path) {
 		return [];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function verifyPath($path, $fileName) {
+		// NOTE: $path will remain unverified for now
+		if (\OC_Util::runningOnWindows()) {
+			$this->verifyWindowsPath($fileName);
+		} else {
+			$this->verifyPosixPath($fileName);
+		}
+	}
+
+	/**
+	 * https://msdn.microsoft.com/en-us/library/windows/desktop/aa365247%28v=vs.85%29.aspx
+	 * @param string $fileName
+	 * @throws InvalidPathException
+	 */
+	private function verifyWindowsPath($fileName) {
+		$fileName = trim($fileName);
+		$this->scanForInvalidCharacters($fileName, "\\/<>:\"|?*");
+		$reservedNames = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9'];
+		if (in_array(strtoupper($fileName), $reservedNames)) {
+				throw new InvalidPathException("File name is a reserved word");
+		}
+	}
+
+	/**
+	 * @param string $fileName
+	 * @throws InvalidPathException
+	 */
+	private function verifyPosixPath($fileName) {
+		$fileName = trim($fileName);
+		$this->scanForInvalidCharacters($fileName, "\\/");
+		$reservedNames = ['*'];
+		if (in_array($fileName, $reservedNames)) {
+			throw new InvalidPathException("File name is a reserved word");
+		}
+	}
+
+	/**
+	 * @param $fileName
+	 * @throws InvalidPathException
+	 */
+	private function scanForInvalidCharacters($fileName, $invalidChars) {
+		foreach (str_split($fileName) as $char) {
+			if (strpos($invalidChars, $char) !== false) {
+				throw new InvalidPathException('File name contains at least one invalid characters');
+			}
+			if (ord($char) >= 0 && ord($char) <= 31) {
+				throw new InvalidPathException('File name contains at least one invalid characters');
+			}
+		}
 	}
 
 }

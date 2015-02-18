@@ -28,6 +28,7 @@
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP\Files;
+use OCP\Files\InvalidPathException;
 
 /**
  * Provide a common interface to all different storage options
@@ -345,4 +346,12 @@ interface Storage {
 	 * @return array|false
 	 */
 	public function getDirectDownload($path);
+
+	/**
+	 * @param string $path the path of the target folder
+	 * @param string $fileName the name of the file itself
+	 * @return void
+	 * @throws InvalidPathException
+	 */
+	public function verifyPath($path, $fileName);
 }

@@ -10,7 +10,7 @@ global $eventSource;
 
 // Get the params
 $dir = isset( $_REQUEST['dir'] ) ? '/'.trim((string)$_REQUEST['dir'], '/\\') : '';
-$filename = isset( $_REQUEST['filename'] ) ? trim((string)$_REQUEST['filename'], '/\\') : '';
+$fileName = isset( $_REQUEST['filename'] ) ? trim((string)$_REQUEST['filename'], '/\\') : '';
 
 $l10n = \OC::$server->getL10N('files');
 
@@ -18,23 +18,14 @@ $result = array(
 	'success' 	=> false,
 	'data'		=> NULL
 );
-$trimmedFileName = trim($filename);
 
-if($trimmedFileName === '') {
-	$result['data'] = array('message' => (string)$l10n->t('File name cannot be empty.'));
+try {
+	\OC\Files\Filesystem::getView()->verifyPath($dir, $fileName);
+} catch (\OCP\Files\InvalidPathException $ex) {
+	$result['data'] = [
+		'message' => $ex->getMessage()];
 	OCP\JSON::error($result);
-	exit();
-}
-if($trimmedFileName === '.' || $trimmedFileName === '..') {
-	$result['data'] = array('message' => (string)$l10n->t('"%s" is an invalid file name.', $trimmedFileName));
-	OCP\JSON::error($result);
-	exit();
-}
-
-if(!OCP\Util::isValidFileName($filename)) {
-	$result['data'] = array('message' => (string)$l10n->t("Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
-	OCP\JSON::error($result);
-	exit();
+	return;
 }
 
 if (!\OC\Files\Filesystem::file_exists($dir . '/')) {
@@ -46,12 +37,12 @@ if (!\OC\Files\Filesystem::file_exists($dir . '/')) {
 	exit();
 }
 
-$target = $dir.'/'.$filename;
+$target = $dir.'/'.$fileName;
 
 if (\OC\Files\Filesystem::file_exists($target)) {
 	$result['data'] = array('message' => (string)$l10n->t(
 			'The name %s is already used in the folder %s. Please choose a different name.',
-			array($filename, $dir))
+			array($fileName, $dir))
 		);
 	OCP\JSON::error($result);
 	exit();
