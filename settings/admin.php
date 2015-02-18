@@ -85,6 +85,10 @@ $template->assign('databaseOverload', $databaseOverload);
 // warn if Windows is used
 $template->assign('WindowsWarning', OC_Util::runningOnWindows());
 
+// warn if outdated version of APCu is used
+$template->assign('ApcuOutdatedWarning',
+	extension_loaded('apcu') && version_compare(phpversion('apc'), '4.0.6') === -1);
+
 // add hardcoded forms from the template
 $forms = OC_App::getForms('admin');
 $l = OC_L10N::get('settings');
