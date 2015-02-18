@@ -51,6 +51,9 @@ $(document).ready(function() {
 		// Save form parameters
 		var post = $(this).serializeArray();
 
+		// Show spinner while finishing setup
+		$('.float-spinner').show(250);
+
 		// Disable inputs
 		$(':submit', this).attr('disabled','disabled').val($(':submit', this).data('finishing'));
 		$('input', this).addClass('ui-state-disabled').attr('disabled','disabled');
@@ -91,6 +94,7 @@ $(document).ready(function() {
 		$('#datadirContent').hide(250);
 		$('#databaseBackend').hide(250);
 		$('#databaseField').hide(250);
+		$('.float-spinner').hide(250);
 	}
 
 	$('#adminpass').strengthify({

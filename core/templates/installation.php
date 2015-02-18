@@ -145,6 +145,8 @@ script('core', [
 		</fieldset>
 		<?php endif; ?>
 	<?php endif; ?>
+	
+	<div class="icon-loading-dark float-spinner">&nbsp;</div>
 
 	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 		<fieldset id="sqliteInformation" class="warning">

@@ -36,7 +36,9 @@ body {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d44',GradientType=0 ); /* IE6-9 */
 }
 
-
+.float-spinner {
+	height: 32px;
+}
 
 #nojavascript {
 	position: fixed;
