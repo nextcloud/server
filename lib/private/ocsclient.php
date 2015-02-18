@@ -49,9 +49,7 @@ class OCSClient {
 	 * @return bool
 	 */
 	public static function isAppStoreEnabled() {
-		if (\OC::$server->getConfig()->getSystemValue('appstoreenabled', true) === false ||
-			\OC_Util::getEditionString() !== ''
-		) {
+		if (\OC::$server->getConfig()->getSystemValue('appstoreenabled', true) === false ) {
 			return false;
 		}
 
