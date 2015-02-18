@@ -41,7 +41,8 @@ $server->setBaseUri($baseuri);
 $defaults = new OC_Defaults();
 $server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, $defaults->getName()));
 $server->addPlugin(new \Sabre\DAV\Locks\Plugin($lockBackend));
-$server->addPlugin(new \Sabre\DAV\Browser\Plugin(false, false)); // Show something in the Browser, but no upload
+// FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
+$server->addPlugin(new \OC\Connector\Sabre\DummyGetResponsePlugin());
 $server->addPlugin(new \OC\Connector\Sabre\FilesPlugin($objectTree));
 $server->addPlugin(new \OC\Connector\Sabre\MaintenancePlugin());
 $server->addPlugin(new \OC\Connector\Sabre\ExceptionLoggerPlugin('webdav'));
