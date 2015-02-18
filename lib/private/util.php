@@ -11,6 +11,10 @@ class OC_Util {
 	private static $rootMounted = false;
 	private static $fsSetup = false;
 
+	protected static function getAppManager() {
+		return \OC::$server->getAppManager();
+	}
+
 	private static function initLocalStorageRootFS() {
 		// mount local file backend as root
 		$configDataDirectory = OC_Config::getValue("datadirectory", OC::$SERVERROOT . "/data");
@@ -926,7 +930,7 @@ class OC_Util {
 				// find the first app that is enabled for the current user
 				foreach ($defaultApps as $defaultApp) {
 					$defaultApp = OC_App::cleanAppId(strip_tags($defaultApp));
-					if (OC_App::isEnabled($defaultApp)) {
+					if (static::getAppManager()->isEnabledForUser($defaultApp)) {
 						$appId = $defaultApp;
 						break;
 					}

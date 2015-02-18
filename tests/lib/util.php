@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Copyright (c) 2012 Lukas Reschke <lukas@statuscode.ch>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
-
 class Test_Util extends \Test\TestCase {
 	public function testGetVersion() {
 		$version = \OC_Util::getVersion();
@@ -105,7 +105,7 @@ class Test_Util extends \Test\TestCase {
 		$this->assertEquals('This is a good string without HTML.', $result);
 	}
 
-	function testEncodePath(){
+	function testEncodePath() {
 		$component = '/§#@test%&^ä/-child';
 		$result = OC_Util::encodePath($component);
 		$this->assertEquals("/%C2%A7%23%40test%25%26%5E%C3%A4/-child", $result);
@@ -210,14 +210,12 @@ class Test_Util extends \Test\TestCase {
 	/**
 	 * @dataProvider baseNameProvider
 	 */
-	public function testBaseName($expected, $file)
-	{
+	public function testBaseName($expected, $file) {
 		$base = \OC_Util::basename($file);
 		$this->assertEquals($expected, $base);
 	}
 
-	public function baseNameProvider()
-	{
+	public function baseNameProvider() {
 		return array(
 			array('public_html', '/home/user/public_html/'),
 			array('public_html', '/home/user/public_html'),
@@ -288,11 +286,11 @@ class Test_Util extends \Test\TestCase {
 
 		\OC_User::createUser($uid, "passwd");
 
-		foreach($groups as $group) {
+		foreach ($groups as $group) {
 			\OC_Group::createGroup($group);
 		}
 
-		foreach($membership as $group) {
+		foreach ($membership as $group) {
 			\OC_Group::addToGroup($uid, $group);
 		}
 
@@ -308,7 +306,7 @@ class Test_Util extends \Test\TestCase {
 		\OC_User::deleteUser($uid);
 		\OC_User::setUserId('');
 
-		foreach($groups as $group) {
+		foreach ($groups as $group) {
 			\OC_Group::deleteGroup($group);
 		}
 
@@ -317,7 +315,7 @@ class Test_Util extends \Test\TestCase {
 
 	}
 
-	public function dataProviderForTestIsSharingDisabledForUser()    {
+	public function dataProviderForTestIsSharingDisabledForUser() {
 		return array(
 			// existing groups, groups the user belong to, groups excluded from sharing, expected result
 			array(array('g1', 'g2', 'g3'), array(), array('g1'), false),
@@ -327,8 +325,8 @@ class Test_Util extends \Test\TestCase {
 			array(array('g1', 'g2', 'g3'), array('g1', 'g2'), array('g1'), false),
 			array(array('g1', 'g2', 'g3'), array('g1', 'g2'), array('g1', 'g2'), true),
 			array(array('g1', 'g2', 'g3'), array('g1', 'g2'), array('g1', 'g2', 'g3'), true),
-        );
-    }
+		);
+	}
 
 	/**
 	 * Test default apps
@@ -341,15 +339,21 @@ class Test_Util extends \Test\TestCase {
 		$oldWebRoot = \OC::$WEBROOT;
 		\OC::$WEBROOT = '';
 
-		Dummy_OC_App::setEnabledApps($enabledApps);
+		$appManager = $this->getMock('\OCP\App\IAppManager');
+		$appManager->expects($this->any())
+			->method('isEnabledForUser')
+			->will($this->returnCallback(function($appId) use ($enabledApps){
+				return in_array($appId, $enabledApps);
+		}));
+		Dummy_OC_Util::$appManager = $appManager;
+
 		// need to set a user id to make sure enabled apps are read from cache
 		\OC_User::setUserId($this->getUniqueID());
 		\OCP\Config::setSystemValue('defaultapp', $defaultAppConfig);
-		$this->assertEquals('http://localhost/' . $expectedPath, \OC_Util::getDefaultPageUrl());
+		$this->assertEquals('http://localhost/' . $expectedPath, Dummy_OC_Util::getDefaultPageUrl());
 
 		// restore old state
 		\OC::$WEBROOT = $oldWebRoot;
-		Dummy_OC_App::restore();
 		\OCP\Config::setSystemValue('defaultapp', $oldDefaultApps);
 		\OC_User::setUserId(null);
 	}
@@ -405,18 +409,15 @@ class Test_Util extends \Test\TestCase {
 }
 
 /**
- * Dummy OC Apps class to make it possible to override
- * enabled apps
+ * Dummy OC Util class to make it possible to override the app manager
  */
-class Dummy_OC_App extends OC_App {
-	private static $enabledAppsCacheBackup;
+class Dummy_OC_Util extends OC_Util {
+	/**
+	 * @var \OCP\App\IAppManager
+	 */
+	public static $appManager;
 
-	public static function setEnabledApps($enabledApps) {
-		self::$enabledAppsCacheBackup = self::$enabledAppsCache;
-		self::$enabledAppsCache = $enabledApps;
-	}
-
-	public static function restore() {
-		self::$enabledAppsCache = self::$enabledAppsCacheBackup;
+	protected static function getAppManager() {
+		return self::$appManager;
 	}
 }
