@@ -164,7 +164,7 @@ class OC_Setup {
 		    && is_array($options['trusted_domains'])) {
 			$trustedDomains = $options['trusted_domains'];
 		} else {
-			$trustedDomains = [\OCP\Util::getServerHostName()];
+			$trustedDomains = [$request->getInsecureServerHost()];
 		}
 
 		if (OC_Util::runningOnWindows()) {
@@ -187,7 +187,7 @@ class OC_Setup {
 			'secret'			=> $secret,
 			'trusted_domains'	=> $trustedDomains,
 			'datadirectory'		=> $dataDir,
-			'overwrite.cli.url'	=> $request->getServerProtocol() . '://' . $request->getServerHost() . OC::$WEBROOT,
+			'overwrite.cli.url'	=> $request->getServerProtocol() . '://' . $request->getInsecureServerHost() . OC::$WEBROOT,
 			'dbtype'			=> $dbType,
 			'version'			=> implode('.', OC_Util::getVersion()),
 		]);
