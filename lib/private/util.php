@@ -1416,6 +1416,7 @@ class OC_Util {
 	 *
 	 * @param string $file file name to check
 	 * @return bool true if the file name is valid, false otherwise
+	 * @deprecated use \OC\Files\View::verifyPath()
 	 */
 	public static function isValidFileName($file) {
 		$trimmed = trim($file);

@@ -497,6 +497,7 @@ class Util {
 	 * Returns whether the given file name is valid
 	 * @param string $file file name to check
 	 * @return bool true if the file name is valid, false otherwise
+	 * @deprecated use \OC\Files\View::verifyPath()
 	 */
 	public static function isValidFileName($file) {
 		return \OC_Util::isValidFileName($file);
