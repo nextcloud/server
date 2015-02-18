@@ -97,8 +97,6 @@
     "Access forbidden" : "رسائ منقطع ہے",
     "Cheers!" : "واہ!",
     "Security Warning" : "حفاظتی انتباہ",
-    "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" : "آپ کا پی ایچ پی ورین نل بائٹ کے حملے کے خطرے سے دوچار  ہے (CVE-2006-7243)",
-    "Please update your PHP installation to use %s securely." : " براہ مہربانی %s کو بحفاظت استعمال کرنے کے پی ایچ پی کی تنصیب اپڈیٹ کریں",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "آپ کی ڈیٹا ڈائریکٹری اور فائلیں امکان ہےانٹرنیٹ سے قابل رسائی ہیں کیونکہ htaccess. فائل کام نہیں کرتا ہے",
     "Create an <strong>admin account</strong>" : "ایک<strong> ایڈمن اکاؤنٹ</strong> بنائیں",
     "Username" : "یوزر نیم",

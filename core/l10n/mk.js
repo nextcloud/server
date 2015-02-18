@@ -103,7 +103,6 @@ OC.L10N.register(
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Здраво,\n\nСамо да ве известам дека  %s shared %s with you.\nView it: %s\n\n",
     "Cheers!" : "Поздрав!",
     "Security Warning" : "Безбедносно предупредување",
-    "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" : "Вашата верзија на PHP е ранлива на NULL Byte attack (CVE-2006-7243)",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Вашиот директориум со податоци и датотеки се веројатно достапни преку интенернт поради што .htaccess датотеката не функционира.",
     "Create an <strong>admin account</strong>" : "Направете <strong>администраторска сметка</strong>",
     "Username" : "Корисничко име",

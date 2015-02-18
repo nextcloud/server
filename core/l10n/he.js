@@ -76,8 +76,6 @@ OC.L10N.register(
     "Help" : "עזרה",
     "Access forbidden" : "הגישה נחסמה",
     "Security Warning" : "אזהרת אבטחה",
-    "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" : "גרסת ה־PHP פגיעה בפני התקפת בית NULL/ריק (CVE-2006-7243)",
-    "Please update your PHP installation to use %s securely." : "נא לעדכן את התקנת ה-PHP שלך כדי להשתמש ב-%s בצורה מאובטחת.",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "תיקיית וקבצי המידע שלך כנראה נגישים מהאינטרנט מכיוון שקובץ ה.htaccess לא עובד.",
     "Create an <strong>admin account</strong>" : "יצירת <strong>חשבון מנהל</strong>",
     "Username" : "שם משתמש",

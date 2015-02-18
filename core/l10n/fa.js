@@ -119,7 +119,6 @@ OC.L10N.register(
     "Access forbidden" : "اجازه دسترسی به مناطق ممنوعه را ندارید",
     "Cheers!" : "سلامتی!",
     "Security Warning" : "اخطار امنیتی",
-    "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" : "نسخه ی PHP شما در برابر حملات NULL Byte آسیب پذیر است.(CVE-2006-7243)",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "فایلها و فهرست های داده های شما قابل از اینترنت قابل دسترسی هستند، چونکه فایل htacces. کار نمی کند.",
     "Create an <strong>admin account</strong>" : "لطفا یک <strong> شناسه برای مدیر</strong> بسازید",
     "Username" : "نام کاربری",

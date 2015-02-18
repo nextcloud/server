@@ -174,8 +174,6 @@ OC.L10N.register(
     "Line: %s" : "Baris: %s",
     "Trace" : "Jejak",
     "Security Warning" : "Peringatan Keamanan",
-    "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" : "Versi PHP Anda rentan terhadap serangan NULL Byte (CVE-2006-7243)",
-    "Please update your PHP installation to use %s securely." : "Silakan perbarui instalasi PHP anda untuk menggunakan %s dengan aman.",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Kemungkinan direktori data dan berkas anda dapat diakses dari internet karena berkas .htaccess tidak berfungsi.",
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Untuk informasi cara mengkonfigurasi server anda dengan benar, silakan lihat <a href=\"%s\" target=\"_blank\">dokumentasi</a>.",
     "Create an <strong>admin account</strong>" : "Buat sebuah <strong>akun admin</strong>",

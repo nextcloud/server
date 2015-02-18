@@ -173,8 +173,6 @@ OC.L10N.register(
     "Line: %s" : "Sor: %s",
     "Trace" : "Lekövetés",
     "Security Warning" : "Biztonsági figyelmeztetés",
-    "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" : "Az Ön PHP verziója sebezhető a NULL bájtos támadással szemben (CVE-2006-7243)",
-    "Please update your PHP installation to use %s securely." : "Kérjük frissítse a telepített PHP csomagjait, hogy biztonságos legyen az %s szolgáltatása.",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Az adatkönyvtár és a benne levő állományok valószínűleg közvetlenül is elérhetők az internetről, mert a .htaccess állomány nem érvényesül.",
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "A kiszolgáló megfelelő beállításához kérjük olvassa el a <a href=\"%sl\" target=\"_blank\">dokumentációt</a>.",
     "Create an <strong>admin account</strong>" : "<strong>Rendszergazdai belépés</strong> létrehozása",

@@ -154,8 +154,6 @@
     "Line: %s" : "行數：%s",
     "Trace" : "追蹤",
     "Security Warning" : "安全性警告",
-    "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" : "您的 PHP 版本無法抵抗 NULL Byte 攻擊 (CVE-2006-7243)",
-    "Please update your PHP installation to use %s securely." : "請更新 PHP 以安全地使用 %s。",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "您的資料目錄看起來可以被 Internet 公開存取，因為 .htaccess 設定並未生效。",
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "請參考<a href=\"%s\" target=\"_blank\">說明文件</a>以瞭解如何正確設定您的伺服器。",
     "Create an <strong>admin account</strong>" : "建立一個<strong>管理者帳號</strong>",

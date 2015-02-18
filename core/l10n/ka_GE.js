@@ -75,7 +75,6 @@ OC.L10N.register(
     "Help" : "დახმარება",
     "Access forbidden" : "წვდომა აკრძალულია",
     "Security Warning" : "უსაფრთხოების გაფრთხილება",
-    "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" : "თქვენი PHP ვერსია შეიცავს საფრთხეს  NULL Byte შეტევებისთვის (CVE-2006-7243)",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "თქვენი data დირექტორია და ფაილები დაშვებადია ინტერნეტში რადგან  .htaccess ფაილი არ მუშაობს.",
     "Create an <strong>admin account</strong>" : "შექმენი <strong>ადმინ ექაუნტი</strong>",
     "Username" : "მომხმარებლის სახელი",

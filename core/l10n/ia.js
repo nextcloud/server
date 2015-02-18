@@ -126,7 +126,6 @@ OC.L10N.register(
     "Line: %s" : "Rango: %s",
     "Trace" : "Tracia",
     "Security Warning" : "Aviso de securitate",
-    "Please update your PHP installation to use %s securely." : "Pro favor actualisa tu installation de PHP pro usar %s con securitate.",
     "Create an <strong>admin account</strong>" : "Crear un <strong>conto de administration</strong>",
     "Username" : "Nomine de usator",
     "Storage & database" : "Immagazinage & base de datos",

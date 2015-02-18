@@ -91,8 +91,6 @@ OC.L10N.register(
     "Access forbidden" : "Zougrëff net erlaabt",
     "Cheers!" : "Prost!",
     "Security Warning" : "Sécherheets-Warnung",
-    "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" : "Deng PHP-Versioun ass verwonnbar duerch d'NULL-Byte-Attack (CVE-2006-7243)",
-    "Please update your PHP installation to use %s securely." : "Aktualiséier w.e.gl deng PHP-Installatioun fir %s sécher kennen ze benotzen.",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Däin Daten-Dossier an deng Fichieren si wahrscheinlech iwwert den Internet accessibel well den .htaccess-Fichier net funktionnéiert.",
     "Create an <strong>admin account</strong>" : "En <strong>Admin-Account</strong> uleeën",
     "Username" : "Benotzernumm",

@@ -172,8 +172,6 @@ OC.L10N.register(
     "Line: %s" : "Рядок: %s",
     "Trace" : "Трасування",
     "Security Warning" : "Попередження про небезпеку",
-    "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" : "Ваша версія PHP вразлива для атак NULL Byte (CVE-2006-7243)",
-    "Please update your PHP installation to use %s securely." : "Будь ласка, оновіть вашу інсталяцію PHP для використання %s безпеки.",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Ваші дані каталогів і файлів, ймовірно, доступні з інтернету, тому що  .htaccess файл не працює.",
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Для отримання інформації, як правильно налаштувати сервер, див. <a href=\"%s\" target=\"_blank\">документацію</a>.",
     "Create an <strong>admin account</strong>" : "Створити <strong>обліковий запис адміністратора</strong>",

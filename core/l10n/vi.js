@@ -110,8 +110,6 @@ OC.L10N.register(
     "The share will expire on %s." : "Chia sẻ này sẽ hết hiệu lực vào %s.",
     "Cheers!" : "Chúc mừng!",
     "Security Warning" : "Cảnh bảo bảo mật",
-    "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" : "Phiên bản PHP của bạn có lỗ hổng NULL Byte attack (CVE-2006-7243)",
-    "Please update your PHP installation to use %s securely." : "Vui lòng cập nhật bản cài đặt PHP để sử dụng %s một cách an toàn.",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Thư mục và file dữ liệu của bạn có thể được truy cập từ internet bởi vì file .htaccess không hoạt động",
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Để biết thêm thông tin và cách cấu hình đúng vui lòng xem thêm <a href=\"%s\" target=\"_blank\">tài l</a>.",
     "Create an <strong>admin account</strong>" : "Tạo một <strong>tài khoản quản trị</strong>",

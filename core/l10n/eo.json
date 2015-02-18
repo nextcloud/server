@@ -99,8 +99,6 @@
     "Error untagging" : "Eraris maletikedado",
     "Access forbidden" : "Aliro estas malpermesata",
     "Security Warning" : "Sekureca averto",
-    "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" : "Via PHP versio estas sendefenda je la NULL bajto atako (CVE-2006-7243)",
-    "Please update your PHP installation to use %s securely." : "Bonvolu ĝisdatigi vian PHP-instalon por uzi %s sekure.",
     "Create an <strong>admin account</strong>" : "Krei <strong>administran konton</strong>",
     "Username" : "Uzantonomo",
     "Data folder" : "Datuma dosierujo",

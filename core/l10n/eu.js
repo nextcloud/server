@@ -174,8 +174,6 @@ OC.L10N.register(
     "Line: %s" : "Lerroa: %s",
     "Trace" : "Arrastoa",
     "Security Warning" : "Segurtasun abisua",
-    "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" : "Zure PHP bertsioa NULL Byte erasoak (CVE-2006-7243) mendera dezake.",
-    "Please update your PHP installation to use %s securely." : "Mesedez eguneratu zure PHP instalazioa %s seguru erabiltzeko",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Zure data karpeta eta fitxategiak interneten bidez eskuragarri egon daitezke .htaccess fitxategia ez delako funtzionatzen ari.",
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Zure zerbitrzaria ongi konfiguratzeko, mezedez <a href=\"%s\" target=\"_blank\">dokumentazioa</a> ikusi.",
     "Create an <strong>admin account</strong>" : "Sortu <strong>kudeatzaile kontu<strong> bat",
