@@ -36,7 +36,15 @@ class View {
 	 */
 	protected $updater;
 
+	/**
+	 * @param string $root
+	 * @throws \Exception If $root contains an invalid path
+	 */
 	public function __construct($root = '') {
+		if(!Filesystem::isValidPath($root)) {
+			throw new \Exception();
+		}
+
 		$this->fakeRoot = $root;
 		$this->updater = new Updater($this);
 	}
