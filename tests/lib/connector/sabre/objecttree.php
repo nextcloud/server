@@ -47,29 +47,29 @@ class ObjectTree extends \Test\TestCase {
 	 * @dataProvider moveFailedProvider
 	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
-	public function testMoveFailed($source, $dest, $updatables, $deletables) {
-		$this->moveTest($source, $dest, $updatables, $deletables);
+	public function testMoveFailed($source, $destination, $updatables, $deletables) {
+		$this->moveTest($source, $destination, $updatables, $deletables);
 	}
 
 	/**
 	 * @dataProvider moveSuccessProvider
 	 */
-	public function testMoveSuccess($source, $dest, $updatables, $deletables) {
-		$this->moveTest($source, $dest, $updatables, $deletables);
+	public function testMoveSuccess($source, $destination, $updatables, $deletables) {
+		$this->moveTest($source, $destination, $updatables, $deletables);
 		$this->assertTrue(true);
 	}
 
 	/**
 	 * @dataProvider moveFailedInvalidCharsProvider
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
+	 * @expectedException \OC\Connector\Sabre\Exception\InvalidPath
 	 */
-	public function testMoveFailedInvalidChars($source, $dest, $updatables, $deletables) {
-		$this->moveTest($source, $dest, $updatables, $deletables);
+	public function testMoveFailedInvalidChars($source, $destination, $updatables, $deletables) {
+		$this->moveTest($source, $destination, $updatables, $deletables);
 	}
 
 	function moveFailedInvalidCharsProvider() {
 		return array(
-			array('a/b', 'a/c*', array('a' => false, 'a/b' => true, 'a/c*' => false), array()),
+			array('a/b', 'a/*', array('a' => false, 'a/b' => true, 'a/c*' => false), array()),
 		);
 	}
 
@@ -94,10 +94,10 @@ class ObjectTree extends \Test\TestCase {
 
 	/**
 	 * @param $source
-	 * @param $dest
+	 * @param $destination
 	 * @param $updatables
 	 */
-	private function moveTest($source, $dest, $updatables, $deletables) {
+	private function moveTest($source, $destination, $updatables, $deletables) {
 		$view = new TestDoubleFileView($updatables, $deletables);
 
 		$info = new FileInfo('', null, null, array(), null);
@@ -115,7 +115,7 @@ class ObjectTree extends \Test\TestCase {
 		/** @var $objectTree \OC\Connector\Sabre\ObjectTree */
 		$mountManager = \OC\Files\Filesystem::getMountManager();
 		$objectTree->init($rootDir, $view, $mountManager);
-		$objectTree->move($source, $dest);
+		$objectTree->move($source, $destination);
 	}
 
 	/**

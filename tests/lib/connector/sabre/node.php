@@ -9,9 +9,6 @@
 
 namespace Test\Connector\Sabre;
 
-use OC\Files\FileInfo;
-use OC\Files\View;
-
 class Node extends \Test\TestCase {
 	public function davPermissionsProvider() {
 		return array(

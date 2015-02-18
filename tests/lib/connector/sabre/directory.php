@@ -8,7 +8,9 @@
  */
 class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 
+	/** @var OC\Files\View | PHPUnit_Framework_MockObject_MockObject */
 	private $view;
+	/** @var OC\Files\FileInfo | PHPUnit_Framework_MockObject_MockObject */
 	private $info;
 
 	protected function setUp() {

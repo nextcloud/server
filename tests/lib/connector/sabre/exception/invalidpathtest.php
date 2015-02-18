@@ -1,12 +1,16 @@
 <?php
 
+namespace Test\Connector\Sabre\Exception;
+
+use OC\Connector\Sabre\Exception\InvalidPath;
+
 /**
  * Copyright (c) 2015 Thomas Müller <deepdiver@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
-class Test_OC_Connector_Sabre_Exception_InvalidPath extends \Test\TestCase {
+class InvalidPathTest extends \Test\TestCase {
 
 	public function testSerialization() {
 
@@ -14,7 +18,7 @@ class Test_OC_Connector_Sabre_Exception_InvalidPath extends \Test\TestCase {
 		$DOM = new \DOMDocument('1.0','utf-8');
 		$DOM->formatOutput = true;
 		$error = $DOM->createElementNS('DAV:','d:error');
-		$error->setAttribute('xmlns:s', Sabre\DAV\Server::NS_SABREDAV);
+		$error->setAttribute('xmlns:s', \Sabre\DAV\Server::NS_SABREDAV);
 		$DOM->appendChild($error);
 
 		// serialize the exception
@@ -29,8 +33,7 @@ class Test_OC_Connector_Sabre_Exception_InvalidPath extends \Test\TestCase {
 
 EOD;
 
-
-		$ex = new OC_Connector_Sabre_Exception_InvalidPath($message, $retry);
+		$ex = new InvalidPath($message, $retry);
 		$server = $this->getMock('Sabre\DAV\Server');
 		$ex->serialize($server, $error);
 
