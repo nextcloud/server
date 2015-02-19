@@ -182,20 +182,10 @@ class Stream {
 			$this->unencryptedSize = 0;
 		} else {
 			$this->size = $this->rootView->filesize($this->rawPath);
-<<<<<<< HEAD
 			\OC_FileProxy::$enabled = true;
 			$this->unencryptedSize = $this->rootView->filesize($this->rawPath);
 			\OC_FileProxy::$enabled = false;
 			$this->readHeader();
-=======
-			$this->readHeader();
-		}
-
-		if ($this->isLocalTmpFile) {
-			$this->handle = fopen($this->localTmpFile, $mode);
-		} else {
-			$this->handle = $this->rootView->fopen($this->rawPath, $mode);
->>>>>>> origin/master
 		}
 
 		\OC_FileProxy::$enabled = $proxyStatus;
@@ -300,19 +290,7 @@ class Stream {
 	 */
 	public function stream_read($count) {
 
-<<<<<<< HEAD
 		$result = '';
-=======
-		$this->writeCache = '';
-
-		if ($count !== Crypt::BLOCKSIZE) {
-			\OCP\Util::writeLog('Encryption library', 'PHP "bug" 21641 no longer holds, decryption system requires refactoring', \OCP\Util::FATAL);
-			throw new EncryptionException('expected a block size of 8192 byte', EncryptionException::UNEXPECTED_BLOCK_SIZE);
-		}
-
-		// Get the data from the file handle
-		$data = fread($this->handle, $count);
->>>>>>> origin/master
 
 		// limit to the end of the unencrypted file; otherwise getFileSize will fail and it is good practise anyway
 		$count=min($count,$this->unencryptedSize - $this->position);
@@ -382,23 +360,9 @@ class Stream {
 
 		}
 
-<<<<<<< HEAD
-		$util = new Util($this->rootView, $this->userId);
-
-		// Fetch and decrypt keyfile
-		// Fetch existing keyfile
-<<<<<<< HEAD
-		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $this->util, $this->relPath);
-=======
-		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $util, $this->relPath);
-=======
-		// $util = new Util($this->rootView, $this->userId);
-
 		// Fetch and decrypt keyfile
 		// Fetch existing keyfile
 		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $this->util, $this->relPath);
->>>>>>> origin/master
->>>>>>> origin/master
 
 		// If a keyfile already exists
 		if ($this->encKeyfile) {
