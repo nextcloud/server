@@ -49,7 +49,7 @@ OC.EventSource=function(src,data){
 			dataStr+=name+'='+encodeURIComponent(data[name])+'&';
 		}
 	}
-	dataStr+='requesttoken='+oc_requesttoken;
+	dataStr+='requesttoken='+encodeURIComponent(oc_requesttoken);
 	if(!this.useFallBack && typeof EventSource !== 'undefined'){
 		joinChar = '&';
 		if(src.indexOf('?') === -1) {
