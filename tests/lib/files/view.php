@@ -894,4 +894,21 @@ class View extends \Test\TestCase {
 		$this->assertFalse($view->unlink('foo.txt'));
 		$this->assertTrue($cache->inCache('foo.txt'));
 	}
+
+	function directoryTraversalProvider() {
+		return [
+			['../test/'],
+			['..\\test\\my/../folder'],
+			['/test/my/../foo\\'],
+		];
+	}
+
+	/**
+	 * @dataProvider directoryTraversalProvider
+	 * @expectedException \Exception
+	 * @param string $root
+	 */
+	public function testConstructDirectoryTraversalException($root) {
+		new \OC\Files\View($root);
+	}
 }

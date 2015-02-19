@@ -6,6 +6,12 @@
  * See the COPYING-README file.
  */
 
+
+namespace OC\Files;
+
+use OC\Files\Cache\Updater;
+use OC\Files\Mount\MoveableMount;
+
 /**
  * Class to provide access to ownCloud filesystem via a "view", and methods for
  * working with files within that view (e.g. read, write, delete, etc.). Each
@@ -22,12 +28,6 @@
  * Filesystem functions are not called directly; they are passed to the correct
  * \OC\Files\Storage\Storage object
  */
-
-namespace OC\Files;
-
-use OC\Files\Cache\Updater;
-use OC\Files\Mount\MoveableMount;
-
 class View {
 	private $fakeRoot = '';
 
@@ -36,7 +36,15 @@ class View {
 	 */
 	protected $updater;
 
+	/**
+	 * @param string $root
+	 * @throws \Exception If $root contains an invalid path
+	 */
 	public function __construct($root = '') {
+		if(!Filesystem::isValidPath($root)) {
+			throw new \Exception();
+		}
+
 		$this->fakeRoot = $root;
 		$this->updater = new Updater($this);
 	}
@@ -242,11 +250,19 @@ class View {
 		return $this->basicOperation('opendir', $path, array('read'));
 	}
 
+	/**
+	 * @param $handle
+	 * @return mixed
+	 */
 	public function readdir($handle) {
 		$fsLocal = new Storage\Local(array('datadir' => '/'));
 		return $fsLocal->readdir($handle);
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool|mixed
+	 */
 	public function is_dir($path) {
 		if ($path == '/') {
 			return true;
@@ -254,6 +270,10 @@ class View {
 		return $this->basicOperation('is_dir', $path);
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool|mixed
+	 */
 	public function is_file($path) {
 		if ($path == '/') {
 			return false;
@@ -261,18 +281,35 @@ class View {
 		return $this->basicOperation('is_file', $path);
 	}
 
+	/**
+	 * @param string $path
+	 * @return mixed
+	 */
 	public function stat($path) {
 		return $this->basicOperation('stat', $path);
 	}
 
+	/**
+	 * @param string $path
+	 * @return mixed
+	 */
 	public function filetype($path) {
 		return $this->basicOperation('filetype', $path);
 	}
 
+	/**
+	 * @param string $path
+	 * @return mixed
+	 */
 	public function filesize($path) {
 		return $this->basicOperation('filesize', $path);
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool|mixed
+	 * @throws \OCP\Files\InvalidPathException
+	 */
 	public function readfile($path) {
 		$this->assertPathLength($path);
 		@ob_end_clean();
@@ -289,18 +326,34 @@ class View {
 		return false;
 	}
 
+	/**
+	 * @param string $path
+	 * @return mixed
+	 */
 	public function isCreatable($path) {
 		return $this->basicOperation('isCreatable', $path);
 	}
 
+	/**
+	 * @param string $path
+	 * @return mixed
+	 */
 	public function isReadable($path) {
 		return $this->basicOperation('isReadable', $path);
 	}
 
+	/**
+	 * @param string $path
+	 * @return mixed
+	 */
 	public function isUpdatable($path) {
 		return $this->basicOperation('isUpdatable', $path);
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool|mixed
+	 */
 	public function isDeletable($path) {
 		$absolutePath = $this->getAbsolutePath($path);
 		$mount = Filesystem::getMountManager()->find($absolutePath);
@@ -310,10 +363,18 @@ class View {
 		return $this->basicOperation('isDeletable', $path);
 	}
 
+	/**
+	 * @param string $path
+	 * @return mixed
+	 */
 	public function isSharable($path) {
 		return $this->basicOperation('isSharable', $path);
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool|mixed
+	 */
 	public function file_exists($path) {
 		if ($path == '/') {
 			return true;
@@ -321,10 +382,19 @@ class View {
 		return $this->basicOperation('file_exists', $path);
 	}
 
+	/**
+	 * @param string $path
+	 * @return mixed
+	 */
 	public function filemtime($path) {
 		return $this->basicOperation('filemtime', $path);
 	}
 
+	/**
+	 * @param string $path
+	 * @param int|string $mtime
+	 * @return bool
+	 */
 	public function touch($path, $mtime = null) {
 		if (!is_null($mtime) and !is_numeric($mtime)) {
 			$mtime = strtotime($mtime);
@@ -352,10 +422,19 @@ class View {
 		return true;
 	}
 
+	/**
+	 * @param string $path
+	 * @return mixed
+	 */
 	public function file_get_contents($path) {
 		return $this->basicOperation('file_get_contents', $path, array('read'));
 	}
 
+	/**
+	 * @param bool $exists
+	 * @param string $path
+	 * @param bool $run
+	 */
 	protected function emit_file_hooks_pre($exists, $path, &$run) {
 		if (!$exists) {
 			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_create, array(
@@ -374,6 +453,10 @@ class View {
 		));
 	}
 
+	/**
+	 * @param bool $exists
+	 * @param string $path
+	 */
 	protected function emit_file_hooks_post($exists, $path) {
 		if (!$exists) {
 			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, array(
@@ -389,6 +472,11 @@ class View {
 		));
 	}
 
+	/**
+	 * @param string $path
+	 * @param mixed $data
+	 * @return bool|mixed
+	 */
 	public function file_put_contents($path, $data) {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
@@ -428,6 +516,10 @@ class View {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool|mixed
+	 */
 	public function unlink($path) {
 		if ($path === '' || $path === '/') {
 			// do not allow deleting the root
@@ -564,6 +656,12 @@ class View {
 		}
 	}
 
+	/**
+	 * @param string $path1
+	 * @param string $path2
+	 * @param bool $preserveMtime
+	 * @return bool|mixed
+	 */
 	public function copy($path1, $path2, $preserveMtime = false) {
 		$postFix1 = (substr($path1, -1, 1) === '/') ? '/' : '';
 		$postFix2 = (substr($path2, -1, 1) === '/') ? '/' : '';
@@ -689,6 +787,11 @@ class View {
 		return $this->basicOperation('fopen', $path, $hooks, $mode);
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool|string
+	 * @throws \OCP\Files\InvalidPathException
+	 */
 	public function toTmpFile($path) {
 		$this->assertPathLength($path);
 		if (Filesystem::isValidPath($path)) {
@@ -706,6 +809,12 @@ class View {
 		}
 	}
 
+	/**
+	 * @param string $tmpFile
+	 * @param string $path
+	 * @return bool|mixed
+	 * @throws \OCP\Files\InvalidPathException
+	 */
 	public function fromTmpFile($tmpFile, $path) {
 		$this->assertPathLength($path);
 		if (Filesystem::isValidPath($path)) {
@@ -737,11 +846,23 @@ class View {
 		}
 	}
 
+
+	/**
+	 * @param string $path
+	 * @return mixed
+	 * @throws \OCP\Files\InvalidPathException
+	 */
 	public function getMimeType($path) {
 		$this->assertPathLength($path);
 		return $this->basicOperation('getMimeType', $path);
 	}
 
+	/**
+	 * @param string $type
+	 * @param string $path
+	 * @param bool $raw
+	 * @return bool|null|string
+	 */
 	public function hash($type, $path, $raw = false) {
 		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
@@ -767,6 +888,11 @@ class View {
 		return null;
 	}
 
+	/**
+	 * @param string $path
+	 * @return mixed
+	 * @throws \OCP\Files\InvalidPathException
+	 */
 	public function free_space($path = '/') {
 		$this->assertPathLength($path);
 		return $this->basicOperation('free_space', $path);
