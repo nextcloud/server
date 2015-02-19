@@ -1221,7 +1221,7 @@ describe('OCA.Files.FileList tests', function() {
 						"Content-Type": "application/json"
 					},
 					JSON.stringify(data)
-			]);
+				]);
 		});
 		it('fetches file list from server and renders it when reload() is called', function() {
 			fileList.reload();
@@ -1241,6 +1241,10 @@ describe('OCA.Files.FileList tests', function() {
 			var query = url.substr(url.indexOf('?') + 1);
 			expect(OC.parseQueryString(query)).toEqual({'dir': '/anothersubdir', sort: 'name', sortdirection: 'asc'});
 			fakeServer.respond();
+		});
+		it('converts backslashes to slashes when calling changeDirectory()', function() {
+			fileList.changeDirectory('/another\\subdir');
+			expect(fileList.getCurrentDirectory()).toEqual('/another/subdir');
 		});
 		it('switches to root dir when current directory does not exist', function() {
 			fakeServer.respondWith(/\/index\.php\/apps\/files\/ajax\/list.php\?dir=%2funexist/, [
