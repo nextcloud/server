@@ -1,11 +1,15 @@
 <?php
 set_time_limit(0); //scanning can take ages
+
+\OCP\JSON::checkLoggedIn();
+\OCP\JSON::callCheck();
+
 \OC::$server->getSession()->close();
 
 $force = (isset($_GET['force']) and ($_GET['force'] === 'true'));
 $dir = isset($_GET['dir']) ? $_GET['dir'] : '';
 if (isset($_GET['users'])) {
-	OC_JSON::checkAdminUser();
+	\OCP\JSON::checkAdminUser();
 	if ($_GET['users'] === 'all') {
 		$users = OC_User::getUsers();
 	} else {
