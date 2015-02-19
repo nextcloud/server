@@ -367,10 +367,18 @@ class Updater extends BasicEmitter {
 				OC_App::disable($app);
 				$this->emit('\OC\Updater', 'incompatibleAppDisabled', array($app));
 			}
-			if (!OC_App::isShipped($app)) {
-				\OC_App::disable($app);
-				$this->emit('\OC\Updater', 'thirdPartyAppDisabled', array($app));
+			// shipped apps will remain enabled
+			if (OC_App::isShipped($app)) {
+				continue;
 			}
+			// authentication and session apps will remain enabled as well
+			if (OC_App::isType($app, ['session', 'authentication'])) {
+				continue;
+			}
+
+			// disable any other 3rd party apps
+			\OC_App::disable($app);
+			$this->emit('\OC\Updater', 'thirdPartyAppDisabled', array($app));
 		}
 	}
 }
