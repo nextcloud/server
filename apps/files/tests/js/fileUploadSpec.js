@@ -110,18 +110,5 @@ describe('OC.Upload tests', function() {
 				'Not enough free space, you are uploading 5 kB but only 1000 B is left'
 			);
 		});
-		it('does not add file if it has invalid characters', function() {
-			var result;
-			testFile.name = 'stars*stars.txt';
-
-			result = addFile(testFile);
-
-			expect(result).toEqual(false);
-			expect(failStub.calledOnce).toEqual(true);
-			expect(failStub.getCall(0).args[1].textStatus).toEqual('invalidcharacters');
-			expect(failStub.getCall(0).args[1].errorThrown.substr(0, 12)).toEqual(
-				'Invalid name'
-			);
-		});
 	});
 });
