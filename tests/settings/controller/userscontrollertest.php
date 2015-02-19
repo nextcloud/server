@@ -1208,10 +1208,15 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$this->container['Mailer']
 			->expects($this->at(0))
+			->method('validateMailAddress')
+			->with('validMail@Adre.ss')
+			->will($this->returnValue(true));
+		$this->container['Mailer']
+			->expects($this->at(1))
 			->method('createMessage')
 			->will($this->returnValue($message));
 		$this->container['Mailer']
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('send')
 			->with($message);
 
