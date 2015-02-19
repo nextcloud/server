@@ -263,8 +263,7 @@ class UsersController extends Controller {
 	 * @return DataResponse
 	 */
 	public function create($username, $password, array $groups=array(), $email='') {
-
-		if($email !== '' && !\OCP\Mail\Util::validateMailAddress($email)) {
+		if($email !== '' && !$this->mailer->validateMailAddress($email)) {
 			return new DataResponse(
 				array(
 					'message' => (string)$this->l10n->t('Invalid mail address')
@@ -443,7 +442,7 @@ class UsersController extends Controller {
 			);
 		}
 
-		if($mailAddress !== '' && ! \OCP\Mail\Util::validateMailAddress($mailAddress)) {
+		if($mailAddress !== '' && !$this->mailer->validateMailAddress($mailAddress)) {
 			return new DataResponse(
 				array(
 					'status' => 'error',

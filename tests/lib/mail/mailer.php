@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
+ * Copyright (c) 2014-2015 Lukas Reschke <lukas@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -113,6 +113,27 @@ class MailerTest extends TestCase {
 			->will($this->returnValue(new \Swift_Message()));
 
 		$this->mailer->send($message);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function mailAddressProvider() {
+		return [
+			['lukas@owncloud.com', true],
+			['lukas@localhost', true],
+			['lukas@192.168.1.1', true],
+			['lukas@éxämplè.com', true],
+			['asdf', false],
+			['lukas@owncloud.org@owncloud.com', false],
+		];
+	}
+
+	/**
+	 * @dataProvider mailAddressProvider
+	 */
+	public function testValidateMailAddress($email, $expected) {
+		$this->assertSame($expected, $this->mailer->validateMailAddress($email));
 	}
 
 }

@@ -46,4 +46,12 @@ interface IMailer {
 	 * has been supplied.)
 	 */
 	public function send(Message $message);
+
+	/**
+	 * Checks if an e-mail address is valid
+	 *
+	 * @param string $email Email address to be validated
+	 * @return bool True if the mail address is valid, false otherwise
+	 */
+	public function validateMailAddress($email);
 }

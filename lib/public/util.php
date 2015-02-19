@@ -294,7 +294,8 @@ class Util {
 		$host_name = \OC_Config::getValue('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
-		if (\OCP\Mail\Util::validateMailAddress($defaultEmailAddress)) {
+		$mailer = \OC::$server->getMailer();
+		if ($mailer->validateMailAddress($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
 
