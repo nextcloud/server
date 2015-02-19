@@ -8,8 +8,8 @@ OCP\JSON::callCheck();
 \OC::$server->getSession()->close();
 
 // Get the params
-$dir = isset($_POST['dir']) ? $_POST['dir'] : '';
-$foldername = isset($_POST['foldername']) ? $_POST['foldername'] : '';
+$dir = isset($_POST['dir']) ? (string)$_POST['dir'] : '';
+$foldername = isset($_POST['foldername']) ?(string) $_POST['foldername'] : '';
 
 $l10n = \OC::$server->getL10N('files');
 

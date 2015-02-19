@@ -20,4 +20,4 @@ if ($_POST['isPersonal'] == 'true') {
 	$isPersonal = false;
 }
 
-OC_Mount_Config::removeMountPoint($_POST['mountPoint'], $_POST['mountType'], $_POST['applicable'], $isPersonal);
+OC_Mount_Config::removeMountPoint((string)$_POST['mountPoint'], (string)$_POST['mountType'], (string)$_POST['applicable'], $isPersonal);

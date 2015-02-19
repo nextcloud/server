@@ -4,7 +4,7 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('files_versions');
 OCP\JSON::callCheck();
 
-$file = $_GET['file'];
+$file = (string)$_GET['file'];
 $revision=(int)$_GET['revision'];
 
 if(OCA\Files_Versions\Storage::rollback( $file, $revision )) {

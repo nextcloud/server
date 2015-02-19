@@ -16,7 +16,7 @@ $l = \OC::$server->getL10N('files');
 if (empty($_POST['dirToken'])) {
 	// The standard case, files are uploaded through logged in users :)
 	OCP\JSON::checkLoggedIn();
-	$dir = isset($_POST['dir']) ? $_POST['dir'] : "";
+	$dir = isset($_POST['dir']) ? (string)$_POST['dir'] : '';
 	if (!$dir || empty($dir) || $dir === false) {
 		OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Unable to set upload directory.')))));
 		die();
@@ -30,9 +30,9 @@ if (empty($_POST['dirToken'])) {
 
 	// return only read permissions for public upload
 	$allowedPermissions = \OCP\Constants::PERMISSION_READ;
-	$publicDirectory = !empty($_POST['subdir']) ? $_POST['subdir'] : '/';
+	$publicDirectory = !empty($_POST['subdir']) ? (string)$_POST['subdir'] : '/';
 
-	$linkItem = OCP\Share::getShareByToken($_POST['dirToken']);
+	$linkItem = OCP\Share::getShareByToken((string)$_POST['dirToken']);
 	if ($linkItem === false) {
 		OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Invalid Token')))));
 		die();

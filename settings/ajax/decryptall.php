@@ -8,7 +8,7 @@ OC_App::loadApp('files_encryption');
 
 // init encryption app
 $params = array('uid' => \OCP\User::getUser(),
-				'password' => $_POST['password']);
+				'password' => (string)$_POST['password']);
 
 $view = new OC\Files\View('/');
 $util = new \OCA\Files_Encryption\Util($view, \OCP\User::getUser());

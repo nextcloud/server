@@ -29,7 +29,7 @@ OCP\JSON::checkAdminUser();
 OCP\JSON::checkAppEnabled('user_ldap');
 OCP\JSON::callCheck();
 
-$subject = $_POST['ldap_clear_mapping'];
+$subject = (string)$_POST['ldap_clear_mapping'];
 $mapping = null;
 if($subject === 'user') {
 	$mapping = new UserMapping(\OC::$server->getDatabaseConnection());

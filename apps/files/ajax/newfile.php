@@ -9,10 +9,10 @@ global $eventSource;
 \OC::$server->getSession()->close();
 
 // Get the params
-$dir = isset( $_REQUEST['dir'] ) ? '/'.trim($_REQUEST['dir'], '/\\') : '';
-$filename = isset( $_REQUEST['filename'] ) ? trim($_REQUEST['filename'], '/\\') : '';
-$content = isset( $_REQUEST['content'] ) ? $_REQUEST['content'] : '';
-$source = isset( $_REQUEST['source'] ) ? trim($_REQUEST['source'], '/\\') : '';
+$dir = isset( $_REQUEST['dir'] ) ? '/'.trim((string)$_REQUEST['dir'], '/\\') : '';
+$filename = isset( $_REQUEST['filename'] ) ? trim((string)$_REQUEST['filename'], '/\\') : '';
+$content = isset( $_REQUEST['content'] ) ? (string)$_REQUEST['content'] : '';
+$source = isset( $_REQUEST['source'] ) ? trim((string)$_REQUEST['source'], '/\\') : '';
 
 if($source) {
 	$eventSource = \OC::$server->createEventSource();

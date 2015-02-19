@@ -15,7 +15,7 @@ if (!array_key_exists('appid', $_POST)) {
 	return;
 }
 
-$appId = $_POST['appid'];
+$appId = (string)$_POST['appid'];
 
 if (!is_numeric($appId)) {
 	$appId = \OC::$server->getAppConfig()->getValue($appId, 'ocsid', null);

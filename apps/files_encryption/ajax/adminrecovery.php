@@ -43,7 +43,7 @@ $recoveryKeyId = \OC::$server->getAppConfig()->getValue('files_encryption', 'rec
 
 if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] === '1') {
 
-	$return = Helper::adminEnableRecovery($recoveryKeyId, $_POST['recoveryPassword']);
+	$return = Helper::adminEnableRecovery($recoveryKeyId, (string)$_POST['recoveryPassword']);
 
 	// Return success or failure
 	if ($return) {
@@ -57,7 +57,7 @@ if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] === '1
 	isset($_POST['adminEnableRecovery'])
 	&& '0' === $_POST['adminEnableRecovery']
 ) {
-	$return = Helper::adminDisableRecovery($_POST['recoveryPassword']);
+	$return = Helper::adminDisableRecovery((string)$_POST['recoveryPassword']);
 
 	if ($return) {
 		$successMessage = $l->t('Recovery key successfully disabled');

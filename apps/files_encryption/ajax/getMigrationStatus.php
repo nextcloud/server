@@ -11,8 +11,8 @@ use OCA\Files_Encryption\Util;
 
 \OCP\JSON::checkAppEnabled('files_encryption');
 
-$loginname = isset($_POST['user']) ? $_POST['user'] : '';
-$password = isset($_POST['password']) ? $_POST['password'] : '';
+$loginname = isset($_POST['user']) ? (string)$_POST['user'] : '';
+$password = isset($_POST['password']) ? (string)$_POST['password'] : '';
 
 $migrationStatus = Util::MIGRATION_COMPLETED;
 

@@ -4,8 +4,8 @@ OC_JSON::checkSubAdminUser();
 OCP\JSON::callCheck();
 
 $success = true;
-$username = $_POST["username"];
-$group = $_POST["group"];
+$username = (string)$_POST['username'];
+$group = (string)$_POST['group'];
 
 if($username === OC_User::getUser() && $group === "admin" &&  OC_User::isAdminUser($username)) {
 	$l = \OC::$server->getL10N('core');

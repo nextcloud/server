@@ -18,8 +18,8 @@ $l = \OC::$server->getL10N('core');
 $return = false;
 $errorMessage = $l->t('Could not update the private key password.');
 
-$oldPassword = $_POST['oldPassword'];
-$newPassword = $_POST['newPassword'];
+$oldPassword = (string)$_POST['oldPassword'];
+$newPassword = (string)$_POST['newPassword'];
 
 $view = new \OC\Files\View('/');
 $session = new \OCA\Files_Encryption\Session($view);

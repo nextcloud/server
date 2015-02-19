@@ -11,12 +11,12 @@ if ($_POST['isPersonal'] == 'true') {
 	$isPersonal = false;
 }
 
-$mountPoint = $_POST['mountPoint'];
-$oldMountPoint = $_POST['oldMountPoint'];
-$class = $_POST['class'];
-$options = $_POST['classOptions'];
-$type = $_POST['mountType'];
-$applicable = $_POST['applicable'];
+$mountPoint = (string)$_POST['mountPoint'];
+$oldMountPoint = (string)$_POST['oldMountPoint'];
+$class = (string)$_POST['class'];
+$options = (string)$_POST['classOptions'];
+$type = (string)$_POST['mountType'];
+$applicable = (string)$_POST['applicable'];
 
 if ($oldMountPoint and $oldMountPoint !== $mountPoint) {
 	OC_Mount_Config::removeMountPoint($oldMountPoint, $type, $applicable, $isPersonal);

@@ -6,8 +6,8 @@ OCP\JSON::callCheck();
 
 
 // Get data
-$dir = isset($_POST['dir']) ? $_POST['dir'] : '';
-$allFiles = isset($_POST["allfiles"]) ? $_POST["allfiles"] : false;
+$dir = isset($_POST['dir']) ? (string)$_POST['dir'] : '';
+$allFiles = isset($_POST["allfiles"]) ? (string)$_POST["allfiles"] : false;
 
 // delete all files in dir ?
 if ($allFiles === 'true') {
@@ -17,7 +17,7 @@ if ($allFiles === 'true') {
 		$files[] = $fileInfo['name'];
 	}
 } else {
-	$files = isset($_POST["file"]) ? $_POST["file"] : $_POST["files"];
+	$files = isset($_POST["file"]) ? (string)$_POST["file"] : (string)$_POST["files"];
 	$files = json_decode($files);
 }
 $filesWithError = '';

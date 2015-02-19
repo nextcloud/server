@@ -20,7 +20,7 @@ try {
 
 	$permissions = $dirInfo->getPermissions();
 
-	$sortAttribute = isset($_GET['sort']) ? $_GET['sort'] : 'name';
+	$sortAttribute = isset($_GET['sort']) ? (string)$_GET['sort'] : 'name';
 	$sortDirection = isset($_GET['sortdirection']) ? ($_GET['sortdirection'] === 'desc') : false;
 
 	// make filelist

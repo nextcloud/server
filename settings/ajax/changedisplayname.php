@@ -7,7 +7,7 @@ OC_JSON::checkLoggedIn();
 $l = \OC::$server->getL10N('settings');
 
 $username = isset($_POST["username"]) ? $_POST["username"] : OC_User::getUser();
-$displayName = $_POST["displayName"];
+$displayName = (string)$_POST["displayName"];
 
 $userstatus = null;
 if(OC_User::isAdminUser(OC_User::getUser())) {
