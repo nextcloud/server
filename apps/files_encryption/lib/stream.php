@@ -328,16 +328,24 @@ class Stream {
 
 		}
 
+<<<<<<< HEAD
 		$util = new Util($this->rootView, $this->userId);
 
 		// Fetch and decrypt keyfile
 		// Fetch existing keyfile
 		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $util, $this->relPath);
+=======
+		// $util = new Util($this->rootView, $this->userId);
+
+		// Fetch and decrypt keyfile
+		// Fetch existing keyfile
+		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $this->util, $this->relPath);
+>>>>>>> origin/master
 
 		// If a keyfile already exists
 		if ($this->encKeyfile) {
 
-			$shareKey = Keymanager::getShareKey($this->rootView, $this->keyId, $util, $this->relPath);
+			$shareKey = Keymanager::getShareKey($this->rootView, $this->keyId, $this->util, $this->relPath);
 
 			// if there is no valid private key return false
 			if ($this->privateKey === false) {
