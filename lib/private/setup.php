@@ -295,6 +295,7 @@ class OC_Setup {
 		$content.= "# line below if for Apache 2.2\n";
 		$content.= "<ifModule !mod_authz_core.c>\n";
 		$content.= "deny from all\n";
+		$content.= "Satisfy All\n";
 		$content.= "</ifModule>\n\n";
 		$content.= "# section for Apache 2.2 and 2.4\n";
 		$content.= "IndexIgnore *\n";
