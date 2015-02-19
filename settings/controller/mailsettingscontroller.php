@@ -135,19 +135,19 @@ class MailSettingsController extends Controller {
 		$email = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'email', '');
 		if (!empty($email)) {
 			try {
-				$this->mail->send($email, $this->userSession->getUser()->getDisplayName(),
-					$this->l10n->t('test email settings'),
-					$this->l10n->t('If you received this email, the settings seem to be correct.'),
-					$this->defaultMailAddress,
-					$this->defaults->getName()
-				);
+				$message = $this->mailer->createMessage();
+				$message->setTo([$email => $this->userSession->getUser()->getDisplayName()]);
+				$message->setFrom([$this->defaultMailAddress]);
+				$message->setSubject($this->l10n->t('test email settings'));
+				$message->setPlainBody('If you received this email, the settings seem to be correct.');
+				$this->mailer->send($message);
 			} catch (\Exception $e) {
-				return array('data' =>
-					array('message' =>
-						(string) $this->l10n->t('A problem occurred while sending the email. Please revise your settings.'),
-					),
-					'status' => 'error'
-				);
+				return [
+					'data' => [
+						'message' => (string) $this->l10n->t('A problem occurred while sending the email. Please revise your settings. (Error: %s)', [$e->getMessage()]),
+					],
+					'status' => 'error',
+				];
 			}
 
 			return array('data' =>

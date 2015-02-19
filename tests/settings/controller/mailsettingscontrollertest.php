@@ -32,6 +32,9 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->container['MailMessage'] = $this->getMockBuilder('\OCP\Mail\IMessage')
 			->disableOriginalConstructor()->getMock();
+		$this->container['Mailer'] = $this->getMockBuilder('\OC\Mail\Mailer')
+			->setMethods(['send'])
+			->disableOriginalConstructor()->getMock();
 		$this->container['Defaults'] = $this->getMockBuilder('\OC_Defaults')
 			->disableOriginalConstructor()->getMock();
 		$this->container['DefaultMailAddress'] = 'no-reply@owncloud.com';

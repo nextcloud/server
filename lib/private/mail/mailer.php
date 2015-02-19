@@ -149,6 +149,7 @@ class Mailer implements IMailer {
 		if (!empty($smtpSecurity)) {
 			$transport->setEncryption($smtpSecurity);
 		}
+		$transport->start();
 		return $transport;
 	}
 

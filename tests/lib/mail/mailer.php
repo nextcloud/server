@@ -53,20 +53,6 @@ class MailerTest extends TestCase {
 		$this->assertEquals(\Swift_SendmailTransport::newInstance('/var/qmail/bin/sendmail -bs'), \Test_Helper::invokePrivate($this->mailer, 'getSendMailInstance'));
 	}
 
-	public function testGetSmtpInstanceDefaults() {
-		$expected = \Swift_SmtpTransport::newInstance();
-		$expected->setHost('127.0.0.1');
-		$expected->setTimeout(10);
-		$expected->setPort(25);
-
-		$this->config
-			->expects($this->any())
-			->method('getSystemValue')
-			->will($this->returnArgument(1));
-
-		$this->assertEquals($expected, \Test_Helper::invokePrivate($this->mailer, 'getSmtpInstance'));
-	}
-
 	public function testGetInstanceDefault() {
 		$this->assertInstanceOf('\Swift_MailTransport', \Test_Helper::invokePrivate($this->mailer, 'getInstance'));
 	}
@@ -78,15 +64,6 @@ class MailerTest extends TestCase {
 			->will($this->returnValue('php'));
 
 		$this->assertInstanceOf('\Swift_MailTransport', \Test_Helper::invokePrivate($this->mailer, 'getInstance'));
-	}
-
-	public function testGetInstanceSmtp() {
-		$this->config
-			->expects($this->any())
-			->method('getSystemValue')
-			->will($this->returnValue('smtp'));
-
-		$this->assertInstanceOf('\Swift_SmtpTransport', \Test_Helper::invokePrivate($this->mailer, 'getInstance'));
 	}
 
 	public function testGetInstanceSendmail() {
