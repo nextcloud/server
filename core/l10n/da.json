@@ -191,6 +191,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Brug af SQLite frarådes især når skrivebordsklienten anvendes til filsynkronisering.",
     "Finish setup" : "Afslut opsætning",
     "Finishing …" : "Færdigbehandler ...",
+    "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Denne applikation kræver JavaScript for at fungere korrekt. {linkstart}Slå venligst JavaScript til{linkend} og genindlæs siden. ",
     "%s is available. Get more information on how to update." : "%s er tilgængelig. Få mere information om, hvordan du opdaterer.",
     "Log out" : "Log ud",
     "Search" : "Søg",

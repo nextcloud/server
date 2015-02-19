@@ -118,6 +118,8 @@
     "To migrate to another database use the command line tool: 'occ db:convert-type'" : "他のデータベースに移行する場合はコマンドラインツール 'occ db:convert-type'を使ってください。",
     "Microsoft Windows Platform" : "Microsoft Windows 環境",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "サーバーがMicrosoft Windowsで動いています。ユーザーに最適なサービスを提供するためには、Linuxを利用することを強くお勧めします。",
+    "APCu below version 4.0.6 installed" : "バージョン4.0.6より古いAPCuがインストールされています",
+    "APCu below version 4.0.6 is installed, for stability and performance reasons we recommend to update to a newer APCu version." : "バージョン4.0.6より古いAPCuがインストールされています、安定性とパフォーマンスのために新しいバージョンのAPCuにアップデートすることをお勧めします。",
     "Module 'fileinfo' missing" : "モジュール 'fileinfo' が見つかりません",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP のモジュール 'fileinfo' が見つかりません。mimeタイプの検出を精度良く行うために、このモジュールを有効にすることを強くお勧めします。",
     "PHP charset is not set to UTF-8" : "PHP の文字コードは UTF-8 に設定されていません",

@@ -191,6 +191,7 @@
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Especialmente quando se utiliza o cliente de desktop para sincronização de arquivos o uso de SQLite é desencorajado.",
     "Finish setup" : "Concluir configuração",
     "Finishing …" : "Finalizando ...",
+    "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Esta aplicação requer JavaScript para sua correta operação. Por favor {linkstart}habilite JavaScript{linkend} e recerregue a página.",
     "%s is available. Get more information on how to update." : "%s está disponível. Obtenha mais informações sobre como atualizar.",
     "Log out" : "Sair",
     "Search" : "Perquisar",

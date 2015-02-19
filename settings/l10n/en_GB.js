@@ -120,6 +120,8 @@ OC.L10N.register(
     "To migrate to another database use the command line tool: 'occ db:convert-type'" : "To migrate to another database, use the command line tool: 'occ db:convert-type'",
     "Microsoft Windows Platform" : "Microsoft Windows Platform",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience.",
+    "APCu below version 4.0.6 installed" : "APCu below version 4.0.6 installed",
+    "APCu below version 4.0.6 is installed, for stability and performance reasons we recommend to update to a newer APCu version." : "APCu below version 4.0.6 is installed, for stability and performance reasons we recommend updating to a newer APCu version.",
     "Module 'fileinfo' missing" : "Module 'fileinfo' missing",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "The PHP module 'fileinfo' is missing. We strongly recommend enabling this module to get best results with mime-type detection.",
     "PHP charset is not set to UTF-8" : "PHP charset is not set to UTF-8",
