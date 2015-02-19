@@ -64,19 +64,19 @@ class Stream {
 	private $keyId;
 	private $handle; // Resource returned by fopen
 	private $meta = array(); // Header / meta for source stream
-	private $cache; // Current block unencrypted
-	private $position; // Current pointer position in the unencrypted stream
-	private $writeFlag; // Flag to write current block when leaving it
+	private $writeCache;
 	private $size;
-	private $headerSize = 0; // Size of header
 	private $unencryptedSize;
 	private $publicKey;
 	private $encKeyfile;
 	private $newFile; // helper var, we only need to write the keyfile for new files
 	private $isLocalTmpFile = false; // do we operate on a local tmp file
 	private $localTmpFile; // path of local tmp file
+	private $headerWritten = false;
 	private $containHeader = false; // the file contain a header
 	private $cipher; // cipher used for encryption/decryption
+	/** @var \OCA\Files_Encryption\Util */
+	private $util;
 
 	/**
 	 * @var \OC\Files\View
@@ -105,9 +105,7 @@ class Stream {
 		// assume that the file already exist before we decide it finally in getKey()
 		$this->newFile = false;
 
-		if (!isset($this->rootView)) {
-			$this->rootView = new \OC\Files\View('/');
-		}
+		$this->rootView = new \OC\Files\View('/');
 
 		$this->session = new Session($this->rootView);
 
@@ -118,7 +116,8 @@ class Stream {
 		}
 
 		$normalizedPath = \OC\Files\Filesystem::normalizePath(str_replace('crypt://', '', $path));
-		if ($originalFile = Helper::getPathFromTmpFile($normalizedPath)) {
+		$originalFile = Helper::getPathFromTmpFile($normalizedPath);
+		if ($originalFile) {
 			$this->rawPath = $originalFile;
 			$this->isLocalTmpFile = true;
 			$this->localTmpFile = $normalizedPath;
@@ -126,40 +125,38 @@ class Stream {
 			$this->rawPath = $normalizedPath;
 		}
 
-		$this->userId = Helper::getUser($this->rawPath);
-
-		$util = new Util($this->rootView, $this->userId);
+		$this->util = new Util($this->rootView, Helper::getUser($this->rawPath));
 
 		// get the key ID which we want to use, can be the users key or the
 		// public share key
-		$this->keyId = $util->getKeyId();
+		$this->keyId = $this->util->getKeyId();
 
-		// Strip identifier text from path, this gives us the path relative to data/<user>/files
-		$this->relPath = Helper::stripUserFilesPath($this->rawPath);
-		// if raw path doesn't point to a real file, check if it is a version or a file in the trash bin
-		if ($this->relPath === false) {
-			$this->relPath = Helper::getPathToRealFile($this->rawPath);
-		}
+		$fileType = Helper::detectFileType($this->rawPath);
 
-		if($this->relPath === false) {
-			\OCP\Util::writeLog('Encryption library', 'failed to open file "' . $this->rawPath . '" expecting a path to "files", "files_versions" or "cache"', \OCP\Util::ERROR);
-			return false;
+		switch ($fileType) {
+			case Util::FILE_TYPE_FILE:
+				$this->relPath = Helper::stripUserFilesPath($this->rawPath);
+				$user = \OC::$server->getUserSession()->getUser();
+				$this->userId = $user ? $user->getUID() : Helper::getUserFromPath($this->rawPath);
+				break;
+			case Util::FILE_TYPE_VERSION:
+				$this->relPath = Helper::getPathFromVersion($this->rawPath);
+				$this->userId = Helper::getUserFromPath($this->rawPath);
+				break;
+			case Util::FILE_TYPE_CACHE:
+				$this->relPath = Helper::getPathFromCachedFile($this->rawPath);
+				Helper::mkdirr($this->rawPath, new \OC\Files\View('/'));
+				$user = \OC::$server->getUserSession()->getUser();
+				$this->userId = $user ? $user->getUID() : Helper::getUserFromPath($this->rawPath);
+				break;
+			default:
+				\OCP\Util::writeLog('Encryption library', 'failed to open file "' . $this->rawPath . '" expecting a path to "files", "files_versions" or "cache"', \OCP\Util::ERROR);
+				return false;
 		}
 
 		// Disable fileproxies so we can get the file size and open the source file without recursive encryption
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
-
-		$this->position = 0;
-		$this->cache = '';
-		$this->writeFlag = 0;
-
-		// Setting handle so it can be used for reading the header
-		if ($this->isLocalTmpFile) {
-			$this->handle = fopen($this->localTmpFile, $mode);
-		} else {
-			$this->handle = $this->rootView->fopen($this->rawPath, $mode);
-		}
 
 		if (
 			$mode === 'w'
@@ -167,26 +164,18 @@ class Stream {
 			or $mode === 'wb'
 			or $mode === 'wb+'
 		) {
-
 			// We're writing a new file so start write counter with 0 bytes
 			$this->size = 0;
 			$this->unencryptedSize = 0;
-
 		} else {
-
-			if($this->privateKey === false) {
-				// if private key is not valid redirect user to a error page
-				Helper::redirectToErrorPage($this->session);
-			}
-
 			$this->size = $this->rootView->filesize($this->rawPath);
-
-			\OC_FileProxy::$enabled = true;
-			$this->unencryptedSize = $this->rootView->filesize($this->rawPath);
-			\OC_FileProxy::$enabled = false;
-
 			$this->readHeader();
+		}
 
+		if ($this->isLocalTmpFile) {
+			$this->handle = fopen($this->localTmpFile, $mode);
+		} else {
+			$this->handle = $this->rootView->fopen($this->rawPath, $mode);
 		}
 
 		\OC_FileProxy::$enabled = $proxyStatus;
@@ -211,8 +200,14 @@ class Stream {
 
 	private function readHeader() {
 
-		if (is_resource($this->handle)) {
-			$data = fread($this->handle, Crypt::BLOCKSIZE);
+		if ($this->isLocalTmpFile) {
+			$handle = fopen($this->localTmpFile, 'r');
+		} else {
+			$handle = $this->rootView->fopen($this->rawPath, 'r');
+		}
+
+		if (is_resource($handle)) {
+			$data = fread($handle, Crypt::BLOCKSIZE);
 
 			$header = Crypt::parseHeader($data);
 			$this->cipher = Crypt::getCipher($header);
@@ -220,16 +215,9 @@ class Stream {
 			// remeber that we found a header
 			if (!empty($header)) {
 				$this->containHeader = true;
-				$this->headerSize = Crypt::BLOCKSIZE;
-			// if there's no header then decrypt the block and store it in the cache
-			} else {
-				if (!$this->getKey()) {
-					throw new \Exception('Encryption key not found for "' . $this->rawPath . '" during attempted read via stream');
-				} else {
-					$this->cache = Crypt::symmetricDecryptFileContent($data, $this->plainKey, $this->cipher);
-				}
 			}
 
+			fclose($handle);
 		}
 	}
 
@@ -238,7 +226,7 @@ class Stream {
 	 * @return int position of the file pointer
 	 */
 	public function stream_tell() {
-		return $this->position;
+		return ftell($this->handle);
 	}
 
 	/**
@@ -246,40 +234,18 @@ class Stream {
 	 * @param int $whence
 	 * @return bool true if fseek was successful, otherwise false
 	 */
-
-	// seeking the stream tries to move the pointer on the encrypted stream to the beginning of the target block
-	// if that works, it flushes the current block and changes the position in the unencrypted stream
 	public function stream_seek($offset, $whence = SEEK_SET) {
+
+		$this->flush();
+
+		// ignore the header and just overstep it
+		if ($this->containHeader) {
+			$offset += Crypt::BLOCKSIZE;
+		}
+
 		// this wrapper needs to return "true" for success.
 		// the fseek call itself returns 0 on succeess
-		$return=false;
-
-		switch($whence) {
-			case SEEK_SET:
-				if($offset < $this->unencryptedSize && $offset >= 0) {
-					$newPosition=$offset;
-				}
-				break;
-			case SEEK_CUR:
-				if($offset>=0) {
-					$newPosition=$offset+$this->position;
-				}
-				break;
-			case SEEK_END:
-				if($this->unencryptedSize + $offset >= 0) {
-					$newPosition=$this->unencryptedSize+$offset;
-				}
-				break;
-			default:
-				return $return;
-		}
-		$newFilePosition=floor($newPosition/6126)*Crypt::BLOCKSIZE+$this->headerSize;
-		if (fseek($this->handle, $newFilePosition)===0) {
-			$this->flush();
-			$this->position=$newPosition;
-			$return=true;
-		}
-		return $return;
+		return !fseek($this->handle, $offset, $whence);
 
 	}
 
@@ -290,32 +256,35 @@ class Stream {
 	 */
 	public function stream_read($count) {
 
-		$result = '';
-		// limit to the end of the unencrypted file; otherwise getFileSize will fail and it is good practise anyway
-		$count=min($count,$this->unencryptedSize - $this->position);
+		$this->writeCache = '';
 
-		// loop over the 6126 sized unencrypted blocks
-		while ($count > 0) {
+		if ($count !== Crypt::BLOCKSIZE) {
+			\OCP\Util::writeLog('Encryption library', 'PHP "bug" 21641 no longer holds, decryption system requires refactoring', \OCP\Util::FATAL);
+			throw new EncryptionException('expected a block size of 8192 byte', EncryptionException::UNEXPECTED_BLOCK_SIZE);
+		}
 
-			$remainingLength = $count;
+		// Get the data from the file handle
+		$data = fread($this->handle, $count);
 
-			// update the cache of the current block
-			$this->readCache();
-			
-			// determine the relative position in the current block
-			$blockPosition=($this->position % 6126);
+		// if this block contained the header we move on to the next block
+		if (Crypt::isHeader($data)) {
+			$data = fread($this->handle, $count);
+		}
 
-			// if entire read inside current block then only position needs to be updated
-			if ($remainingLength<(6126 - $blockPosition)) {
-				$result .= substr($this->cache,$blockPosition,$remainingLength);
-				$this->position += $remainingLength;
-				$count=0;
-			// otherwise remainder of current block is fetched, the block is flushed and the position updated
+		$result = null;
+
+		if (strlen($data)) {
+
+			if (!$this->getKey()) {
+
+				// Error! We don't have a key to decrypt the file with
+				throw new \Exception(
+					'Encryption key not found for "' . $this->rawPath . '" during attempted read via stream');
+
 			} else {
-				$result .= substr($this->cache,$blockPosition);
-				$this->flush();
-				$this->position += (6126 - $blockPosition);
-				$count -= (6126 - $blockPosition);
+
+				// Decrypt data
+				$result = Crypt::symmetricDecryptFileContent($data, $this->plainKey, $this->cipher);
 			}
 
 		}
@@ -359,15 +328,16 @@ class Stream {
 
 		}
 
+		// $util = new Util($this->rootView, $this->userId);
+
 		// Fetch and decrypt keyfile
 		// Fetch existing keyfile
-		$util = new Util($this->rootView, $this->userId);
-		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $util, $this->relPath);
+		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $this->util, $this->relPath);
 
 		// If a keyfile already exists
 		if ($this->encKeyfile) {
 
-			$shareKey = Keymanager::getShareKey($this->rootView, $this->keyId, $util, $this->relPath);
+			$shareKey = Keymanager::getShareKey($this->rootView, $this->keyId, $this->util, $this->relPath);
 
 			// if there is no valid private key return false
 			if ($this->privateKey === false) {
@@ -412,9 +382,7 @@ class Stream {
 		$paddedHeader = str_pad($header, Crypt::BLOCKSIZE, self::PADDING_CHAR, STR_PAD_RIGHT);
 
 		fwrite($this->handle, $paddedHeader);
-		$this->containHeader = true;
-		$this->headerSize = Crypt::BLOCKSIZE;
-		$this->size += $this->headerSize;
+		$this->headerWritten = true;
 	}
 
 	/**
@@ -422,7 +390,7 @@ class Stream {
 	 * @param string $data data to be written to disk
 	 * @note the data will be written to the path stored in the stream handle, set in stream_open()
 	 * @note $data is only ever be a maximum of 8192 bytes long. This is set by PHP internally. stream_write() is called multiple times in a loop on data larger than 8192 bytes
-	 * @note Because the encryption process used increases the length of $data, a cache is used to carry over data which would not fit in the required block size
+	 * @note Because the encryption process used increases the length of $data, a writeCache is used to carry over data which would not fit in the required block size
 	 * @note Padding is added to each encrypted block to ensure that the resulting block is exactly 8192 bytes. This is removed during stream_read
 	 * @note PHP automatically updates the file pointer after writing data to reflect it's length. There is generally no need to update the poitner manually using fseek
 	 */
@@ -433,67 +401,101 @@ class Stream {
 			$this->size = 0;
 			return strlen($data);
 		}
-		
-		if ($this->size === 0) {
+
+		if ($this->headerWritten === false) {
 			$this->writeHeader();
 		}
+
+		// Disable the file proxies so that encryption is not
+		// automatically attempted when the file is written to disk -
+		// we are handling that separately here and we don't want to
+		// get into an infinite loop
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		// Get the length of the unencrypted data that we are handling
+		$length = strlen($data);
+
+		// Find out where we are up to in the writing of data to the
+		// file
+		$pointer = ftell($this->handle);
 
 		// Get / generate the keyfile for the file we're handling
 		// If we're writing a new file (not overwriting an existing
 		// one), save the newly generated keyfile
-
 		if (!$this->getKey()) {
+
 			$this->plainKey = Crypt::generateKey();
+
 		}
 
-		$length=0;
+		// If extra data is left over from the last round, make sure it
+		// is integrated into the next 6126 / 8192 block
+		if ($this->writeCache) {
 
-		// loop over $data to fit it in 6126 sized unencrypted blocks
+			// Concat writeCache to start of $data
+			$data = $this->writeCache . $data;
+
+			// Clear the write cache, ready for reuse - it has been
+			// flushed and its old contents processed
+			$this->writeCache = '';
+
+		}
+
+		// While there still remains some data to be processed & written
 		while (strlen($data) > 0) {
 
+			// Remaining length for this iteration, not of the
+			// entire file (may be greater than 8192 bytes)
 			$remainingLength = strlen($data);
 
-			// set the cache to the current 6126 block
-			$this->readCache();
+			// If data remaining to be written is less than the
+			// size of 1 6126 byte block
+			if ($remainingLength < 6126) {
 
-			// only allow writes on seekable streams, or at the end of the encrypted stream
-			// for seekable streams the pointer is moved back to the beginning of the encrypted block
-			// flush will start writing there when the position moves to another block
-			if((fseek($this->handle, floor($this->position/6126)*Crypt::BLOCKSIZE + $this->headerSize) === 0) || (floor($this->position/6126)*Crypt::BLOCKSIZE + $this->headerSize === $this->size)) {
+				// Set writeCache to contents of $data
+				// The writeCache will be carried over to the
+				// next write round, and added to the start of
+				// $data to ensure that written blocks are
+				// always the correct length. If there is still
+				// data in writeCache after the writing round
+				// has finished, then the data will be written
+				// to disk by $this->flush().
+				$this->writeCache = $data;
 
-				// switch the writeFlag so flush() will write the block
-				$this->writeFlag=1;
-				
-				// determine the relative position in the current block
-				$blockPosition=($this->position % 6126);
-
-				// check if $data fits in current block
-				// if so, overwrite existing data (if any)
-				// update position and liberate $data
-				if ($remainingLength<(6126 - $blockPosition)) {
-					$this->cache=substr($this->cache,0,$blockPosition).$data.substr($this->cache,$blockPosition+$remainingLength);
-					$this->position += $remainingLength;
-					$length += $remainingLength;
-					$data = '';
-				// if $data doens't fit the current block, the fill the current block and reiterate
-				// after the block is filled, it is flushed and $data is updated
-				} else {
-					$this->cache=substr($this->cache,0,$blockPosition).substr($data,0,6126-$blockPosition);
-					$this->flush();
-					$this->position += (6126 - $blockPosition);
-					$length += (6126 - $blockPosition);
-					$data = substr($data, 6126 - $blockPosition);
-				}
+				// Clear $data ready for next round
+				$data = '';
 
 			} else {
-				$data='';
+
+				// Read the chunk from the start of $data
+				$chunk = substr($data, 0, 6126);
+
+				$encrypted = $this->preWriteEncrypt($chunk, $this->plainKey);
+
+				// Write the data chunk to disk. This will be
+				// attended to the last data chunk if the file
+				// being handled totals more than 6126 bytes
+				fwrite($this->handle, $encrypted);
+
+				// Remove the chunk we just processed from
+				// $data, leaving only unprocessed data in $data
+				// var, for handling on the next round
+				$data = substr($data, 6126);
+
 			}
+
 		}
 
-		$this->unencryptedSize = max($this->unencryptedSize,$this->position);
+		$this->size = max($this->size, $pointer + $length);
+		$this->unencryptedSize += $length;
+
+		\OC_FileProxy::$enabled = $proxyStatus;
+
 		return $length;
 
 	}
+
 
 	/**
 	 * @param int $option
@@ -534,7 +536,7 @@ class Stream {
 	 * @return bool
 	 */
 	public function stream_flush() {
-		$this->flush();
+
 		return fflush($this->handle);
 		// Not a typo: http://php.net/manual/en/function.fflush.php
 
@@ -544,47 +546,21 @@ class Stream {
 	 * @return bool
 	 */
 	public function stream_eof() {
-		return ($this->position>=$this->unencryptedSize);
+		return feof($this->handle);
 	}
 
 	private function flush() {
-		// write to disk only when writeFlag was set to 1
-		if ($this->writeFlag === 1) {
-			// Disable the file proxies so that encryption is not
-			// automatically attempted when the file is written to disk -
-			// we are handling that separately here and we don't want to
-			// get into an infinite loop
-			$proxyStatus = \OC_FileProxy::$enabled;
-			\OC_FileProxy::$enabled = false;
+
+		if ($this->writeCache) {
+
 			// Set keyfile property for file in question
 			$this->getKey();
-			$encrypted = $this->preWriteEncrypt($this->cache, $this->plainKey);
-			fwrite($this->handle, $encrypted);
-			$this->writeFlag = 0;
-	                $this->size = max($this->size,ftell($this->handle));
-			\OC_FileProxy::$enabled = $proxyStatus;
-		}
-		// always empty the cache (otherwise readCache() will not fill it with the new block)
-		$this->cache = '';
-	}
 
-	private function readCache() {
-		// cache should always be empty string when this function is called
-		// don't try to fill the cache when trying to write at the end of the unencrypted file when it coincides with new block
-		if ($this->cache === '' && !($this->position===$this->unencryptedSize && ($this->position % 6126)===0)) {
-			// Get the data from the file handle
-			$data = fread($this->handle, Crypt::BLOCKSIZE);
-			$result = '';
-			if (strlen($data)) {
-				if (!$this->getKey()) {
-					// Error! We don't have a key to decrypt the file with
-					throw new \Exception('Encryption key not found for "'. $this->rawPath . '" during attempted read via stream');
-				} else {
-					// Decrypt data
-					$result = Crypt::symmetricDecryptFileContent($data, $this->plainKey, $this->cipher);
-				}
-			}
-			$this->cache = $result;
+			$encrypted = $this->preWriteEncrypt($this->writeCache, $this->plainKey);
+
+			fwrite($this->handle, $encrypted);
+
+			$this->writeCache = '';
 		}
 	}
 
@@ -605,7 +581,7 @@ class Stream {
 				$proxyStatus = \OC_FileProxy::$enabled;
 				\OC_FileProxy::$enabled = false;
 
-				if ($this->rootView->file_exists($this->rawPath) && $this->size === $this->headerSize) {
+				if ($this->rootView->file_exists($this->rawPath) && $this->size === 0) {
 					fclose($this->handle);
 					$this->rootView->unlink($this->rawPath);
 				}
@@ -622,7 +598,7 @@ class Stream {
 				$this->meta['mode'] !== 'r' &&
 				$this->meta['mode'] !== 'rb' &&
 				$this->isLocalTmpFile === false &&
-				$this->size > $this->headerSize &&
+				$this->size > 0 &&
 				$this->unencryptedSize > 0
 		) {
 
@@ -639,11 +615,9 @@ class Stream {
 				// Check if OC sharing api is enabled
 				$sharingEnabled = \OCP\Share::isEnabled();
 
-				$util = new Util($this->rootView, $this->userId);
-
 				// Get all users sharing the file includes current user
-				$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $this->relPath);
-				$checkedUserIds = $util->filterShareReadyUsers($uniqueUserIds);
+				$uniqueUserIds = $this->util->getSharingUsersArray($sharingEnabled, $this->relPath);
+				$checkedUserIds = $this->util->filterShareReadyUsers($uniqueUserIds);
 
 				// Fetch public keys for all sharing users
 				$publicKeys = Keymanager::getPublicKeys($this->rootView, $checkedUserIds['ready']);
@@ -652,10 +626,10 @@ class Stream {
 				$this->encKeyfiles = Crypt::multiKeyEncrypt($this->plainKey, $publicKeys);
 
 				// Save the new encrypted file key
-				Keymanager::setFileKey($this->rootView, $util, $this->relPath, $this->encKeyfiles['data']);
+				Keymanager::setFileKey($this->rootView, $this->util, $this->relPath, $this->encKeyfiles['data']);
 
 				// Save the sharekeys
-				Keymanager::setShareKeys($this->rootView, $util, $this->relPath, $this->encKeyfiles['keys']);
+				Keymanager::setShareKeys($this->rootView, $this->util, $this->relPath, $this->encKeyfiles['keys']);
 
 				// Re-enable proxy - our work is done
 				\OC_FileProxy::$enabled = $proxyStatus;
