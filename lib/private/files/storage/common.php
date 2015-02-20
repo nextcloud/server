@@ -494,17 +494,20 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	/**
-	 * @param $fileName
+	 * @param string $fileName
+	 * @param string $invalidChars
 	 * @throws InvalidPathException
 	 */
 	private function scanForInvalidCharacters($fileName, $invalidChars) {
-		foreach (str_split($fileName) as $char) {
-			if (strpos($invalidChars, $char) !== false) {
+		foreach(str_split($invalidChars) as $char) {
+			if (strpos($fileName, $char) !== false) {
 				throw new InvalidPathException('File name contains at least one invalid characters');
 			}
-			if (ord($char) >= 0 && ord($char) <= 31) {
-				throw new InvalidPathException('File name contains at least one invalid characters');
-			}
+		}
+
+		$sanitizedFileName = filter_var($fileName, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+		if($sanitizedFileName !== $fileName) {
+			throw new InvalidPathException('File name contains at least one invalid characters');
 		}
 	}
 
