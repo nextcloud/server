@@ -67,6 +67,7 @@
 		 * @param dir path to be displayed as breadcrumb
 		 */
 		setDirectory: function(dir) {
+			dir = dir.replace(/\\/g, '/');
 			dir = dir || '/';
 			if (dir !== this.dir) {
 				this.dir = dir;

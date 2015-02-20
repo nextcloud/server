@@ -93,6 +93,31 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(3).find('img').length).toEqual(0);
 			expect($crumbs.eq(3).attr('data-dir')).toEqual('/somedir/with space/abc');
 		});
+		it('Renders backslashes as regular directory separator', function() {
+			var $crumbs;
+			bc.setDirectory('/somedir\\with/mixed\\separators');
+			$crumbs = bc.$el.find('.crumb');
+			expect($crumbs.length).toEqual(5);
+			expect($crumbs.eq(0).find('a').attr('href')).toEqual('/#0');
+			expect($crumbs.eq(0).find('img').length).toEqual(1);
+			expect($crumbs.eq(0).attr('data-dir')).toEqual('/');
+
+			expect($crumbs.eq(1).find('a').attr('href')).toEqual('/somedir#1');
+			expect($crumbs.eq(1).find('img').length).toEqual(0);
+			expect($crumbs.eq(1).attr('data-dir')).toEqual('/somedir');
+
+			expect($crumbs.eq(2).find('a').attr('href')).toEqual('/somedir/with#2');
+			expect($crumbs.eq(2).find('img').length).toEqual(0);
+			expect($crumbs.eq(2).attr('data-dir')).toEqual('/somedir/with');
+
+			expect($crumbs.eq(3).find('a').attr('href')).toEqual('/somedir/with/mixed#3');
+			expect($crumbs.eq(3).find('img').length).toEqual(0);
+			expect($crumbs.eq(3).attr('data-dir')).toEqual('/somedir/with/mixed');
+
+			expect($crumbs.eq(4).find('a').attr('href')).toEqual('/somedir/with/mixed/separators#4');
+			expect($crumbs.eq(4).find('img').length).toEqual(0);
+			expect($crumbs.eq(4).attr('data-dir')).toEqual('/somedir/with/mixed/separators');
+		});
 	});
 	describe('Events', function() {
 		it('Calls onClick handler when clicking on a crumb', function() {
