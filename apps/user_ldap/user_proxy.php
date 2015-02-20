@@ -159,7 +159,7 @@ class User_Proxy extends lib\Proxy implements \OCP\IUserBackend, \OCP\UserInterf
 
 	/**
 	 * check if a user exists on LDAP
-	 * @param string|OCA\User_LDAP\lib\User\User $user either the ownCloud user
+	 * @param string|\OCA\User_LDAP\lib\User\User $user either the ownCloud user
 	 * name or an instance of that user
 	 * @return boolean
 	 */
@@ -178,6 +178,17 @@ class User_Proxy extends lib\Proxy implements \OCP\IUserBackend, \OCP\UserInterf
 	 */
 	public function checkPassword($uid, $password) {
 		return $this->handleRequest($uid, 'checkPassword', array($uid, $password));
+	}
+
+	/**
+	 * returns the username for the given login name, if available
+	 *
+	 * @param string $loginName
+	 * @return string|false
+	 */
+	public function loginName2UserName($loginName) {
+		$id = 'LOGINNAME,' . $loginName;
+		return $this->handleRequest($id, 'loginName2UserName', array($loginName));
 	}
 
 	/**

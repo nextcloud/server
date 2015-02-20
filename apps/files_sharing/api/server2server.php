@@ -49,6 +49,14 @@ class Server2Server {
 				return new \OC_OCS_Result(null, 400, 'The mountpoint name contains invalid characters.');
 			}
 
+			\OCP\Util::writeLog('files_sharing', 'shareWith before, ' . $shareWith, \OCP\Util::DEBUG);
+			\OCP\Util::emitHook(
+				'\OCA\Files_Sharing\API\Server2Server',
+				'preLoginNameUsedAsUserName',
+				array('uid' => &$shareWith)
+			);
+			\OCP\Util::writeLog('files_sharing', 'shareWith after, ' . $shareWith, \OCP\Util::DEBUG);
+
 			if (!\OCP\User::userExists($shareWith)) {
 				return new \OC_OCS_Result(null, 400, 'User does not exists');
 			}
