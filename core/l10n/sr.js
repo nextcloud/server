@@ -21,7 +21,7 @@ OC.L10N.register(
     "November" : "Новембар",
     "December" : "Децембар",
     "Settings" : "Поставке",
-    "Saving..." : "Чување у току...",
+    "Saving..." : "Уписујем...",
     "No" : "Не",
     "Yes" : "Да",
     "Choose" : "Одабери",

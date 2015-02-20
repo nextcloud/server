@@ -13,6 +13,12 @@ OC.L10N.register(
     "Invalid ownCloud url" : "Yalnış ownCloud url-i",
     "Share" : "Yayımla",
     "Shared by" : "Tərəfindən yayımlanıb",
+    "A file or folder has been <strong>shared</strong>" : "Fayl və ya direktoriya <strong>yayımlandı</strong>",
+    "You shared %1$s with %2$s" : "Siz yayımladınız %1$s - i %2$s ilə",
+    "You shared %1$s with group %2$s" : "Siz yayımladınız %1$s qrupu ilə %2$s",
+    "%2$s shared %1$s with you" : "%2$s yayımlanıb %1$s sizinlə",
+    "You shared %1$s via link" : "Siz yayımladınız %1$s link ilə",
+    "Shares" : "Yayımlanmalar",
     "Password" : "Şifrə",
     "Name" : "Ad",
     "Download" : "Yüklə"

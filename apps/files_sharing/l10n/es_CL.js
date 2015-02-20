@@ -3,6 +3,12 @@ OC.L10N.register(
     {
     "Cancel" : "Cancelar",
     "Share" : "Compartir",
+    "A file or folder has been <strong>shared</strong>" : "Un archivo o carpeta ha sido <strong>compartido</strong>",
+    "You shared %1$s with %2$s" : "Ha compartido %1$s con %2$s",
+    "You shared %1$s with group %2$s" : "Has compartido %1$s con el grupo %2$s",
+    "%2$s shared %1$s with you" : "%2$s compartió %1$s con usted",
+    "You shared %1$s via link" : "Ha compartido %1$s vía enlace",
+    "Shares" : "Compartidos",
     "Password" : "Clave",
     "Download" : "Descargar"
 },

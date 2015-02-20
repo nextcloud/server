@@ -4,11 +4,13 @@ OC.L10N.register(
     "Location" : "Локација",
     "Port" : "Порт",
     "Region" : "Регија",
+    "Enable SSL" : "Омогући ССЛ",
     "Host" : "Домаћин",
     "Username" : "Корисничко име",
     "Password" : "Лозинка",
     "Share" : "Дели",
     "Personal" : "Лично",
+    "Saved" : "Снимљено",
     "Name" : "Име",
     "Delete" : "Обриши"
 },
