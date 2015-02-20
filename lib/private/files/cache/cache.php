@@ -74,9 +74,11 @@ class Cache {
 
 		if (!isset(self::$mimetypeIds[$mime])) {
 			try {
-				$result = \OC_DB::executeAudited('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)', array($mime));
-				self::$mimetypeIds[$mime] = \OC_DB::insertid('*PREFIX*mimetypes');
-				self::$mimetypes[self::$mimetypeIds[$mime]] = $mime;
+				$connection = \OC_DB::getConnection();
+				$connection->insertIfNotExist('*PREFIX*mimetypes', [
+					'mimetype'	=> $mime,
+				]);
+				$this->loadMimetypes();
 			} catch (\Doctrine\DBAL\DBALException $e) {
 				\OC_Log::write('core', 'Exception during mimetype insertion: ' . $e->getmessage(), \OC_Log::DEBUG);
 				return -1;
@@ -95,6 +97,8 @@ class Cache {
 	}
 
 	public function loadMimetypes() {
+		self::$mimetypeIds = self::$mimetypes = array();
+
 		$result = \OC_DB::executeAudited('SELECT `id`, `mimetype` FROM `*PREFIX*mimetypes`', array());
 		if ($result) {
 			while ($row = $result->fetchRow()) {
