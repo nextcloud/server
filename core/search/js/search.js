@@ -337,7 +337,7 @@
 				var $row = $(this);
 				var item = $row.data('result');
 				if(self.hasHandler(item.type)){
-					var result = self.getHandler(item.type)($row, result, event);
+					var result = self.getHandler(item.type)($row, item, event);
 					$searchBox.val('');
 					if(self.hasFilter(getCurrentApp())) {
 						self.getFilter(getCurrentApp())('');
