@@ -15,6 +15,19 @@ class NaturalSort {
 	private $cache = array();
 
 	/**
+	 * Instantiate a new \OC\NaturalSort instance.
+	 * @param object $injectedCollator
+	 */
+	public function __construct($injectedCollator = null) {
+		// inject an instance of \Collator('en_US') to force using the php5-intl Collator
+		// or inject an instance of \OC\NaturalSort_DefaultCollator to force using Owncloud's default collator
+		if (isset($injectedCollator)) {
+			$this->collator = $injectedCollator;
+			\OC_Log::write('core', 'forced use of '.get_class($injectedCollator), \OC_Log::DEBUG);
+		}
+	}
+
+	/**
 	 * Split the given string in chunks of numbers and strings
 	 * @param string $t string
 	 * @return array of strings and number chunks
