@@ -74,7 +74,7 @@ class MapperTest extends MapperTestUtility {
 		$rows = array(
 			array('hi')
 		);
-		$this->setMapperResult($sql, $params, $rows);		
+		$this->setMapperResult($sql, $params, $rows);
 		$this->mapper->find($sql, $params);
 	}
 
@@ -84,7 +84,7 @@ class MapperTest extends MapperTestUtility {
 		$rows = array(
 			array('pre_name' => 'hi')
 		);
-		$this->setMapperResult($sql, $params, $rows);
+		$this->setMapperResult($sql, $params, $rows, null, null, true);
 		$this->mapper->findOneEntity($sql, $params);
 	}
 
@@ -92,7 +92,7 @@ class MapperTest extends MapperTestUtility {
 		$sql = 'hi';
 		$params = array('jo');
 		$rows = array();
-		$this->setMapperResult($sql, $params, $rows);		
+		$this->setMapperResult($sql, $params, $rows);
 		$this->setExpectedException(
 			'\OCP\AppFramework\Db\DoesNotExistException');
 		$this->mapper->find($sql, $params);
@@ -102,7 +102,7 @@ class MapperTest extends MapperTestUtility {
 		$sql = 'hi';
 		$params = array('jo');
 		$rows = array();
-		$this->setMapperResult($sql, $params, $rows);
+		$this->setMapperResult($sql, $params, $rows, null, null, true);
 		$this->setExpectedException(
 			'\OCP\AppFramework\Db\DoesNotExistException');
 		$this->mapper->findOneEntity($sql, $params);
@@ -114,7 +114,7 @@ class MapperTest extends MapperTestUtility {
 		$rows = array(
 			array('jo'), array('ho')
 		);
-		$this->setMapperResult($sql, $params, $rows);
+		$this->setMapperResult($sql, $params, $rows, null, null, true);
 		$this->setExpectedException(
 			'\OCP\AppFramework\Db\MultipleObjectsReturnedException');
 		$this->mapper->find($sql, $params);
@@ -126,7 +126,7 @@ class MapperTest extends MapperTestUtility {
 		$rows = array(
 			array('jo'), array('ho')
 		);
-		$this->setMapperResult($sql, $params, $rows);
+		$this->setMapperResult($sql, $params, $rows, null, null, true);
 		$this->setExpectedException(
 			'\OCP\AppFramework\Db\MultipleObjectsReturnedException');
 		$this->mapper->findOneEntity($sql, $params);
@@ -249,7 +249,7 @@ class MapperTest extends MapperTestUtility {
 		$entity = new Example();
 		$entity->setPreName('hi');
 		$entity->resetUpdatedFields();
-		$this->setMapperResult($sql, array(), $rows);
+		$this->setMapperResult($sql, array(), $rows, null, null, true);
 		$result = $this->mapper->findAllEntities($sql);
 		$this->assertEquals(array($entity), $result);
 	}

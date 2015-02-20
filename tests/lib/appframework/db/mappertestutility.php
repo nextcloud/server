@@ -36,7 +36,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 	private $prepareAt;
 	private $fetchAt;
 	private $iterators;
-	
+
 
 	/**
 	 * Run this function before the actual test to either set or initialize the
@@ -51,7 +51,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 			->getMock();
 
 		$this->query = $this->getMock('Query', array('execute', 'bindValue'));
-		$this->pdoResult = $this->getMock('Result', array('fetch'));
+		$this->pdoResult = $this->getMock('Result', array('fetch', 'closeCursor'));
 		$this->queryAt = 0;
 		$this->prepareAt = 0;
 		$this->iterators = array();
@@ -69,7 +69,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 	 * will be called on the result
 	 */
 	protected function setMapperResult($sql, $arguments=array(), $returnRows=array(),
-		$limit=null, $offset=null){
+		$limit=null, $offset=null, $expectClose=false){
 
 		$this->iterators[] = new ArgumentIterator($returnRows);
 
@@ -88,8 +88,14 @@ abstract class MapperTestUtility extends \Test\TestCase {
 					}
 
 					return $result;
-			  	}
+				}
 			));
+		if ($expectClose) {
+			$closing = $this->once();
+		} else {
+			$closing = $this->any();
+		}
+		$this->pdoResult->expects($closing)->method('closeCursor');
 
 		$index = 1;
 		foreach($arguments as $argument) {
@@ -105,7 +111,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 				case 'boolean':
 					$pdoConstant = \PDO::PARAM_BOOL;
 					break;
-				
+
 				default:
 					$pdoConstant = \PDO::PARAM_STR;
 					break;
@@ -138,14 +144,14 @@ abstract class MapperTestUtility extends \Test\TestCase {
 		} elseif($limit === null && $offset !== null) {
 			$this->db->expects($this->at($this->prepareAt))
 				->method('prepareQuery')
-				->with($this->equalTo($sql), 
+				->with($this->equalTo($sql),
 					$this->equalTo(null),
 					$this->equalTo($offset))
 				->will(($this->returnValue($this->query)));
 		} else  {
 			$this->db->expects($this->at($this->prepareAt))
 				->method('prepareQuery')
-				->with($this->equalTo($sql), 
+				->with($this->equalTo($sql),
 					$this->equalTo($limit),
 					$this->equalTo($offset))
 				->will(($this->returnValue($this->query)));
@@ -162,11 +168,11 @@ abstract class MapperTestUtility extends \Test\TestCase {
 class ArgumentIterator {
 
 	private $arguments;
-	
+
 	public function __construct($arguments){
 		$this->arguments = $arguments;
 	}
-	
+
 	public function next(){
 		$result = array_shift($this->arguments);
 		if($result === null){
