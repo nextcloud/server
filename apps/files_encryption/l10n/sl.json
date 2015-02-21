@@ -27,6 +27,7 @@
     "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Preverite, ali je OpenSSL z ustrezno razširitvijo PHP omogočen in ustrezno nastavljen. Trenutno je šifriranje onemogočeno.",
     "Following users are not set up for encryption:" : "Navedeni uporabniki še nimajo nastavljenega šifriranja:",
     "Go directly to your %spersonal settings%s." : "Oglejte si %sosebne nastavitve%s.",
+    "Server-side Encryption" : "Strežniško šifriranje",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Program za šifriranje je omogočen, vendar ni začet. Odjavite se in nato ponovno prijavite.",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Omogoči ključ za obnovitev datotek (v primeru izgube gesla):",
     "Recovery key password" : "Ključ za obnovitev gesla",

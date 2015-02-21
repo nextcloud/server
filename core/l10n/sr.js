@@ -45,6 +45,7 @@ OC.L10N.register(
     "Resharing is not allowed" : "Поновно дељење није дозвољено",
     "Shared in {item} with {user}" : "Подељено унутар {item} са {user}",
     "Unshare" : "Укини дељење",
+    "can share" : "може да дели",
     "can edit" : "може да мења",
     "access control" : "права приступа",
     "create" : "направи",

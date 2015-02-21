@@ -92,7 +92,7 @@ OC.L10N.register(
     "You deleted %1$s" : "Você excluiu %1$s ",
     "%2$s deleted %1$s" : "%2$s eliminou %1$s",
     "You restored %1$s" : "Você restaurou %1$s",
-    "%2$s restored %1$s" : "%2$s restaurado %1$s",
+    "%2$s restored %1$s" : "%2$s restaurou %1$s",
     "%s could not be renamed as it has been deleted" : "%s não pode ser renomeado pois foi apagado",
     "%s could not be renamed" : "%s não pode ser renomeado",
     "Upload (max. %s)" : "Envio (max. %s)",

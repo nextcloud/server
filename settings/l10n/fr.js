@@ -120,6 +120,8 @@ OC.L10N.register(
     "To migrate to another database use the command line tool: 'occ db:convert-type'" : "Pour migrer vers un autre type de base de données, utilisez la ligne de commande : 'occ db:convert-type'",
     "Microsoft Windows Platform" : "Plateforme Microsoft Windows",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Votre serveur fonctionne actuellement sur une plateforme Microsoft Windows. Nous vous recommandons fortement d'utiliser une plateforme Linux pour une expérience utilisateur optimale.",
+    "APCu below version 4.0.6 installed" : "APCu installé en version inférieure à 4.0.6",
+    "APCu below version 4.0.6 is installed, for stability and performance reasons we recommend to update to a newer APCu version." : "APCu est installé en version inférieure à 4.0.6. Pour des raisons de stabilité et de performances, nous recommandons de mettre à jour vers une version d'APCu plus récente.",
     "Module 'fileinfo' missing" : "Module 'fileinfo' manquant",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Le module PHP 'fileinfo' est manquant. Il est vivement recommandé de l'activer afin d'obtenir de meilleurs résultats pour la détection des types de fichiers.",
     "PHP charset is not set to UTF-8" : "Le jeu de caractères PHP n'est pas réglé sur UTF-8",
