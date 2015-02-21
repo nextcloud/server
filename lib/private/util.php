@@ -570,6 +570,7 @@ class OC_Util {
 		// classes = class_exists
 		// functions = function_exists
 		// defined = defined
+		// ini = ini_get
 		// If the dependency is not found the missing module name is shown to the EndUser
 		$dependencies = array(
 			'classes' => array(
@@ -590,9 +591,14 @@ class OC_Util {
 			),
 			'defined' => array(
 				'PDO::ATTR_DRIVER_NAME' => 'PDO'
-			)
+			),
+			'ini' => [
+				'mbstring.func_overload' => 0,
+				'output_buffering' => false,
+			],
 		);
 		$missingDependencies = array();
+		$invalidIniSettings = [];
 		$moduleHint = $l->t('Please ask your server administrator to install the module.');
 
 		foreach ($dependencies['classes'] as $class => $module) {
@@ -610,12 +616,32 @@ class OC_Util {
 				$missingDependencies[] = $module;
 			}
 		}
+		foreach($dependencies['ini'] as $setting => $expected) {
+			$iniWrapper = \OC::$server->getIniWrapper();
+			if(is_bool($expected)) {
+				if($iniWrapper->getBool($setting) !== $expected) {
+					$invalidIniSettings[] = [$setting, $expected];
+				}
+			}
+			if(is_int($expected)) {
+				if($iniWrapper->getNumeric($setting) !== $expected) {
+					$invalidIniSettings[] = [$setting, $expected];
+				}
+			}
+		}
 
 		foreach($missingDependencies as $missingDependency) {
 			$errors[] = array(
 				'error' => $l->t('PHP module %s not installed.', array($missingDependency)),
 				'hint' => $moduleHint
 			);
+			$webServerRestart = true;
+		}
+		foreach($invalidIniSettings as $setting) {
+			$errors[] = [
+				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], $setting[1]]),
+				'hint' =>  $l->t('Adjusting this setting in php.ini will make ownCloud run again')
+			];
 			$webServerRestart = true;
 		}
 
