@@ -550,7 +550,7 @@ class OC_Util {
 		}
 
 		$webServerRestart = false;
-		$setup = new OC_Setup($config);
+		$setup = new OC\Setup($config);
 		$availableDatabases = $setup->getSupportedDatabases();
 		if (empty($availableDatabases)) {
 			$errors[] = array(

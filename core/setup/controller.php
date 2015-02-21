@@ -75,7 +75,7 @@ class Controller {
 
 		if(isset($post['install']) AND $post['install']=='true') {
 			// We have to launch the installation process :
-			$e = \OC_Setup::install($post);
+			$e = \OC\Setup::install($post);
 			$errors = array('errors' => $e);
 
 			if(count($e) > 0) {
@@ -145,7 +145,7 @@ class Controller {
 	 * in case of errors/warnings
 	 */
 	public function getSystemInfo() {
-		$setup = new \OC_Setup($this->config);
+		$setup = new \OC\Setup($this->config);
 		$databases = $setup->getSupportedDatabases();
 
 		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data');
@@ -159,7 +159,7 @@ class Controller {
 		$htAccessWorking = true;
 		if (is_dir($dataDir) && is_writable($dataDir)) {
 			// Protect data directory here, so we can test if the protection is working
-			\OC_Setup::protectDataDirectory();
+			\OC\Setup::protectDataDirectory();
 
 			try {
 				$htAccessWorking = \OC_Util::isHtaccessWorking();
