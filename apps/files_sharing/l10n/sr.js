@@ -5,6 +5,7 @@ OC.L10N.register(
     "Share" : "Дели",
     "Shared by" : "Делио",
     "Password" : "Лозинка",
+    "No entries found in this folder" : "Нема ничега у овој фасцикли",
     "Name" : "Име",
     "Download" : "Преузми"
 },

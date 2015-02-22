@@ -1,11 +1,18 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Deleted files" : "Обрисане датотеке",
+    "Couldn't delete %s permanently" : "Не могу заувек да обришем %s",
+    "Couldn't restore %s" : "Не могу да вратим %s",
+    "Deleted files" : "Обрисани фајлови",
     "Restore" : "Врати",
-    "Delete permanently" : "Обриши за стално",
+    "Delete permanently" : "Обриши заувек",
     "Error" : "Грешка",
-    "Name" : "Име",
+    "restored" : "враћено",
+    "No deleted files" : "Нема обрисаних фајлова",
+    "You will be able to recover deleted files from here" : "Одавде ћете моћи да повратите обрисане фајлове",
+    "No entries found in this folder" : "Нема ничега у овој фасцикли",
+    "Select all" : "Означи све",
+    "Name" : "Назив",
     "Deleted" : "Обрисано",
     "Delete" : "Обриши"
 },

@@ -118,7 +118,7 @@
     "sunny" : "soleado",
     "Hello {name}, the weather is {weather}" : "Hola {name}, el día es {weather}",
     "Hello {name}" : "Hola {name}",
-    "_download %n file_::_download %n files_" : ["descarga %n ficheros","descarga %n ficheros"],
+    "_download %n file_::_download %n files_" : ["descargar %n ficheros","descargar %n ficheros"],
     "Updating {productName} to version {version}, this may take a while." : "Actualizando {productName} a la versión {version}. Esto puede tardar un poco.",
     "Please reload the page." : "Recargue/Actualice la página",
     "The update was unsuccessful. " : "La actualización ha fallado.",

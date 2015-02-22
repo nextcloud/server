@@ -1,5 +1,5 @@
 { "translations": {
-    "Fetching request tokens failed. Verify that your Dropbox app key and secret are correct." : "La descarga de los tokens solicitados ha fallado. Verifique que la clave y el secreto de su app Dropbox es correcta.",
+    "Fetching request tokens failed. Verify that your Dropbox app key and secret are correct." : "La descarga de los tokens solicitados ha fallado. Verifique que la clave y el secreto de su app Dropbox sean correctos.",
     "Fetching access tokens failed. Verify that your Dropbox app key and secret are correct." : "La descarga de los tokens de acceso ha fallado. Verifique que la clave y el secreto de su app Dropbox es correcta.",
     "Please provide a valid Dropbox app key and secret." : "Por favor, proporcione un una clave válida de la app Dropbox y una clave secreta.",
     "Step 1 failed. Exception: %s" : "El paso 1 falló. Excepción: %s",
@@ -28,7 +28,7 @@
     "Secure ftps://" : "—Seguro— ftps://",
     "Client ID" : "ID de Cliente",
     "Client secret" : "Cliente secreto",
-    "OpenStack Object Storage" : "OpenStack Object Storage",
+    "OpenStack Object Storage" : "Almacenamiento de objeto OpenStack",
     "Region (optional for OpenStack Object Storage)" : "Región (opcional para OpenStack Object Storage)",
     "API Key (required for Rackspace Cloud Files)" : "Clave API (requerida para Rackspace Cloud Files)",
     "Tenantname (required for OpenStack Object Storage)" : "Nombre de Inquilino (requerido para OpenStack Object Storage)",
