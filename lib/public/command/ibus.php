@@ -15,4 +15,11 @@ interface IBus {
 	 * @param \OCP\Command\ICommand | callable $command
 	 */
 	public function push($command);
+
+	/**
+	 * Require all commands using a trait to be run synchronous
+	 *
+	 * @param string $trait
+	 */
+	public function requireSync($trait);
 }

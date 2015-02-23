@@ -22,6 +22,13 @@ class AsyncBus implements IBus {
 	private $jobList;
 
 	/**
+	 * List of traits for command which require sync execution
+	 *
+	 * @var string[]
+	 */
+	private $syncTraits = [];
+
+	/**
 	 * @param \OCP\BackgroundJob\IJobList $jobList
 	 */
 	function __construct($jobList) {
@@ -34,7 +41,31 @@ class AsyncBus implements IBus {
 	 * @param \OCP\Command\ICommand | callable $command
 	 */
 	public function push($command) {
-		$this->jobList->add($this->getJobClass($command), $this->serializeCommand($command));
+		if ($this->canRunAsync($command)) {
+			$this->jobList->add($this->getJobClass($command), $this->serializeCommand($command));
+		} else {
+			$this->runCommand($command);
+		}
+	}
+
+	/**
+	 * Require all commands using a trait to be run synchronous
+	 *
+	 * @param string $trait
+	 */
+	public function requireSync($trait) {
+		$this->syncTraits[] = trim($trait, '\\');
+	}
+
+	/**
+	 * @param \OCP\Command\ICommand | callable $command
+	 */
+	private function runCommand($command) {
+		if ($command instanceof ICommand) {
+			$command->handle();
+		} else {
+			$command();
+		}
 	}
 
 	/**
@@ -65,6 +96,32 @@ class AsyncBus implements IBus {
 			return serialize($command);
 		} else {
 			throw new \InvalidArgumentException('Invalid command');
+		}
+	}
+
+	/**
+	 * @param \OCP\Command\ICommand | callable $command
+	 * @return bool
+	 */
+	private function canRunAsync($command) {
+		$traits = $this->getTraits($command);
+		foreach ($traits as $trait) {
+			if (array_search($trait, $this->syncTraits) !== false) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @param \OCP\Command\ICommand | callable $command
+	 * @return string[]
+	 */
+	private function getTraits($command) {
+		if ($command instanceof ICommand) {
+			return class_uses($command);
+		} else {
+			return [];
 		}
 	}
 }
