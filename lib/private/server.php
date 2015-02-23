@@ -785,7 +785,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	/**
 	 * @return \OCP\Command\IBus
 	 */
-	function getAsyncCommandBus(){
+	function getCommandBus(){
 		return $this->query('AsyncCommandBus');
 	}
 

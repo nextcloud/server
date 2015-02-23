@@ -50,7 +50,7 @@ if (!OC_Config::getValue('maintenance', false)) {
 	OCP\User::logout();
 }
 
-\OC::$server->getAsyncCommandBus()->requireSync('\OC\Command\FileAccess');
+\OC::$server->getCommandBus()->requireSync('\OC\Command\FileAccess');
 
 // Register settings scripts
 OCP\App::registerAdmin('files_encryption', 'settings-admin');

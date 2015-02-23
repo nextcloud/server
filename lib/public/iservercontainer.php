@@ -321,5 +321,5 @@ interface IServerContainer {
 	/**
 	 * @return \OCP\Command\IBus
 	 */
-	function getAsyncCommandBus();
+	function getCommandBus();
 }
