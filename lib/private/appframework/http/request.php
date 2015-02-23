@@ -625,7 +625,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string Server host
 	 */
 	public function getInsecureServerHost() {
-		$host = null;
+		$host = 'localhost';
 		if (isset($this->server['HTTP_X_FORWARDED_HOST'])) {
 			if (strpos($this->server['HTTP_X_FORWARDED_HOST'], ',') !== false) {
 				$parts = explode(',', $this->server['HTTP_X_FORWARDED_HOST']);
