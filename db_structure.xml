@@ -979,7 +979,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>2048</length>
+				<length>4000</length>
 			</field>
 
 			<field>
