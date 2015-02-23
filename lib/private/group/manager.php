@@ -236,16 +236,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return array with group ids
 	 */
 	public function getUserGroupIds($user) {
-		$groupIds = array();
-		$userId = $user->getUID();
-		if (isset($this->cachedUserGroups[$userId])) {
-			return array_keys($this->cachedUserGroups[$userId]);
-		} else {
-			foreach ($this->backends as $backend) {
-				$groupIds = array_merge($groupIds, $backend->getUserGroups($userId));
-			}
-		}
-		return $groupIds;
+		return array_keys($this->getUserGroups($user));
 	}
 
 	/**

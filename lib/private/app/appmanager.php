@@ -24,6 +24,7 @@ namespace OC\App;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserSession;
 
 class AppManager implements IAppManager {
@@ -61,7 +62,7 @@ class AppManager implements IAppManager {
 	/**
 	 * @return string[] $appId => $enabled
 	 */
-	private function getInstalledApps() {
+	private function getInstalledAppsValues() {
 		if (!$this->installedAppsCache) {
 			$values = $this->appConfig->getValues(false, 'enabled');
 			$this->installedAppsCache = array_filter($values, function ($value) {
@@ -70,6 +71,29 @@ class AppManager implements IAppManager {
 			ksort($this->installedAppsCache);
 		}
 		return $this->installedAppsCache;
+	}
+
+	/**
+	 * List all installed apps
+	 *
+	 * @return string[]
+	 */
+	public function getInstalledApps() {
+		return array_keys($this->getInstalledAppsValues());
+	}
+
+	/**
+	 * List all apps enabled for a user
+	 *
+	 * @param \OCP\IUser $user
+	 * @return string[]
+	 */
+	public function getEnabledAppsForUser(IUser $user) {
+		$apps = $this->getInstalledAppsValues();
+		$appsForUser = array_filter($apps, function ($enabled) use ($user) {
+			return $this->checkAppForUser($enabled, $user);
+		});
+		return array_keys($appsForUser);
 	}
 
 	/**
@@ -83,24 +107,32 @@ class AppManager implements IAppManager {
 		if (is_null($user)) {
 			$user = $this->userSession->getUser();
 		}
-		$installedApps = $this->getInstalledApps();
+		$installedApps = $this->getInstalledAppsValues();
 		if (isset($installedApps[$appId])) {
-			$enabled = $installedApps[$appId];
-			if ($enabled === 'yes') {
-				return true;
-			} elseif (is_null($user)) {
-				return false;
-			} else {
-				$groupIds = json_decode($enabled);
-				$userGroups = $this->groupManager->getUserGroupIds($user);
-				foreach ($userGroups as $groupId) {
-					if (array_search($groupId, $groupIds) !== false) {
-						return true;
-					}
-				}
-				return false;
-			}
+			return $this->checkAppForUser($installedApps[$appId], $user);
 		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @param string $enabled
+	 * @param IUser $user
+	 * @return bool
+	 */
+	private function checkAppForUser($enabled, $user) {
+		if ($enabled === 'yes') {
+			return true;
+		} elseif (is_null($user)) {
+			return false;
+		} else {
+			$groupIds = json_decode($enabled);
+			$userGroups = $this->groupManager->getUserGroupIds($user);
+			foreach ($userGroups as $groupId) {
+				if (array_search($groupId, $groupIds) !== false) {
+					return true;
+				}
+			}
 			return false;
 		}
 	}
@@ -112,7 +144,7 @@ class AppManager implements IAppManager {
 	 * @return bool
 	 */
 	public function isInstalled($appId) {
-		$installedApps = $this->getInstalledApps();
+		$installedApps = $this->getInstalledAppsValues();
 		return isset($installedApps[$appId]);
 	}
 
@@ -122,6 +154,7 @@ class AppManager implements IAppManager {
 	 * @param string $appId
 	 */
 	public function enableApp($appId) {
+		$this->installedAppsCache[$appId] = 'yes';
 		$this->appConfig->setValue($appId, 'enabled', 'yes');
 	}
 
@@ -136,6 +169,7 @@ class AppManager implements IAppManager {
 			/** @var \OCP\IGroup $group */
 			return $group->getGID();
 		}, $groups);
+		$this->installedAppsCache[$appId] = json_encode($groupIds);
 		$this->appConfig->setValue($appId, 'enabled', json_encode($groupIds));
 	}
 
@@ -146,9 +180,10 @@ class AppManager implements IAppManager {
 	 * @throws \Exception if app can't be disabled
 	 */
 	public function disableApp($appId) {
-		if($appId === 'files') {
+		if ($appId === 'files') {
 			throw new \Exception("files can't be disabled.");
 		}
+		unset($this->installedAppsCache[$appId]);
 		$this->appConfig->setValue($appId, 'enabled', 'no');
 	}
 }

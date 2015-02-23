@@ -94,13 +94,13 @@ abstract class TestCase extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->assertFalse(\OC_App::isEnabled('files_encryption'));
-
 		//login as user1
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->data = 'foobar';
 		$this->view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
+
+		$this->assertFalse(\OC_App::isEnabled('files_encryption'));
 	}
 
 	protected function tearDown() {

@@ -192,4 +192,36 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$appConfig->setValue('test', 'enabled', '["foo"]');
 		$this->assertTrue($manager->isEnabledForUser('test'));
 	}
+
+	public function testGetInstalledApps() {
+		$userSession = $this->getMock('\OCP\IUserSession');
+		$groupManager = $this->getMock('\OCP\IGroupManager');
+
+		$appConfig = $this->getAppConfig();
+		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
+		$appConfig->setValue('test1', 'enabled', 'yes');
+		$appConfig->setValue('test2', 'enabled', 'no');
+		$appConfig->setValue('test3', 'enabled', '["foo"]');
+		$this->assertEquals(['test1', 'test3'], $manager->getInstalledApps());
+	}
+
+	public function testGetAppsForUser() {
+		$userSession = $this->getMock('\OCP\IUserSession');
+		$groupManager = $this->getMock('\OCP\IGroupManager');
+
+		$user = new User('user1', null);
+
+		$groupManager->expects($this->any())
+			->method('getUserGroupIds')
+			->with($user)
+			->will($this->returnValue(array('foo', 'bar')));
+
+		$appConfig = $this->getAppConfig();
+		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
+		$appConfig->setValue('test1', 'enabled', 'yes');
+		$appConfig->setValue('test2', 'enabled', 'no');
+		$appConfig->setValue('test3', 'enabled', '["foo"]');
+		$appConfig->setValue('test4', 'enabled', '["asd"]');
+		$this->assertEquals(['test1', 'test3'], $manager->getEnabledAppsForUser($user));
+	}
 }
