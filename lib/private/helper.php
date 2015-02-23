@@ -594,13 +594,23 @@ class OC_Helper {
 		if (!$source or !$target) {
 			return array(0, false);
 		}
+		$bufSize = 8192;
 		$result = true;
 		$count = 0;
 		while (!feof($source)) {
-			if (($c = fwrite($target, fread($source, 8192))) === false) {
+			$buf = fread($source, $bufSize);
+			$bytesWritten = fwrite($target, $buf);
+			if ($bytesWritten !== false) {
+				$count += $bytesWritten;
+			}
+			// note: strlen is expensive so only use it when necessary,
+			// on the last block
+			if ($bytesWritten === false
+				|| ($bytesWritten < $bufSize && $bytesWritten < strlen($buf))
+			) {
+				// write error, could be disk full ?
 				$result = false;
-			} else {
-				$count += $c;
+				break;
 			}
 		}
 		return array($count, $result);
