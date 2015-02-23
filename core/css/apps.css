@@ -484,6 +484,9 @@ button.loading {
 	color: #555;
 	border-top: 1px solid #ddd;
 }
+.section.hidden {
+	display: none !important;
+}
 /* no top border for first settings item */
 #app-content > .section:first-child {
 	border-top: none;

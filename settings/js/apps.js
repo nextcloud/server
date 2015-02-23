@@ -334,7 +334,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 	filter: function(query) {
 		query = query.toLowerCase();
-		$('#apps-list').find('.section').hide();
+		$('#apps-list').find('.section').addClass('hidden');
 
 		var apps = _.filter(OC.Settings.Apps.State.apps, function (app) {
 			return app.name.toLowerCase().indexOf(query) !== -1;
@@ -347,10 +347,75 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		apps = _.uniq(apps, function(app){return app.id;});
 
 		_.each(apps, function (app) {
-			$('#app-' + app.id).show();
+			$('#app-' + app.id).removeClass('hidden');
 		});
 
 		$('#searchresults').hide();
+	},
+
+	/**
+	 * Initializes the apps list
+	 */
+	initialize: function($el) {
+		OC.Plugins.register('OCA.Search', OC.Settings.Apps.Search);
+		OC.Settings.Apps.loadCategories();
+
+		$(document).on('click', 'ul#apps-categories li', function () {
+			var categoryId = $(this).data('categoryId');
+			OC.Settings.Apps.loadCategory(categoryId);
+		});
+
+		$(document).on('click', '#apps-list input.enable', function () {
+			var appId = $(this).data('appid');
+			var element = $(this);
+			var active = $(this).data('active');
+
+			OC.Settings.Apps.enableApp(appId, active, element);
+		});
+
+		$(document).on('click', '#apps-list input.uninstall', function () {
+			var appId = $(this).data('appid');
+			var element = $(this);
+
+			OC.Settings.Apps.uninstallApp(appId, element);
+		});
+
+		$(document).on('click', '#apps-list input.update', function () {
+			var appId = $(this).data('appid');
+			var element = $(this);
+
+			OC.Settings.Apps.updateApp(appId, element);
+		});
+
+		$(document).on('change', '#group_select', function() {
+			var element = $(this).parent().find('input.enable');
+			var groups = $(this).val();
+			if (groups && groups !== '') {
+				groups = groups.split(',');
+			} else {
+				groups = [];
+			}
+
+			var appId = element.data('appid');
+			if (appId) {
+				OC.Settings.Apps.enableApp(appId, false, element, groups);
+				OC.Settings.Apps.State.apps[appId].groups = groups;
+			}
+		});
+
+		$(document).on('change', ".groups-enable", function() {
+			var $select = $(this).parent().find('#group_select');
+			$select.val('');
+
+			if (this.checked) {
+				OC.Settings.Apps.setupGroupsSelect($select);
+			} else {
+				$select.select2('destroy');
+			}
+
+			$select.change();
+		});
+
 	}
 };
 
@@ -361,63 +426,8 @@ OC.Settings.Apps.Search = {
 };
 
 $(document).ready(function () {
-	OC.Plugins.register('OCA.Search', OC.Settings.Apps.Search);
-	OC.Settings.Apps.loadCategories();
-
-	$(document).on('click', 'ul#apps-categories li', function () {
-		var categoryId = $(this).data('categoryId');
-		OC.Settings.Apps.loadCategory(categoryId);
-	});
-
-	$(document).on('click', '#apps-list input.enable', function () {
-		var appId = $(this).data('appid');
-		var element = $(this);
-		var active = $(this).data('active');
-
-		OC.Settings.Apps.enableApp(appId, active, element);
-	});
-
-	$(document).on('click', '#apps-list input.uninstall', function () {
-		var appId = $(this).data('appid');
-		var element = $(this);
-
-		OC.Settings.Apps.uninstallApp(appId, element);
-	});
-
-	$(document).on('click', '#apps-list input.update', function () {
-		var appId = $(this).data('appid');
-		var element = $(this);
-
-		OC.Settings.Apps.updateApp(appId, element);
-	});
-
-	$(document).on('change', '#group_select', function() {
-		var element = $(this).parent().find('input.enable');
-		var groups = $(this).val();
-		if (groups && groups !== '') {
-			groups = groups.split(',');
-		} else {
-			groups = [];
-		}
-
-		var appId = element.data('appid');
-		if (appId) {
-			OC.Settings.Apps.enableApp(appId, false, element, groups);
-			OC.Settings.Apps.State.apps[appId].groups = groups;
-		}
-	});
-
-	$(document).on('change', ".groups-enable", function() {
-		var $select = $(this).parent().find('#group_select');
-		$select.val('');
-
-		if (this.checked) {
-			OC.Settings.Apps.setupGroupsSelect($select);
-		} else {
-			$select.select2('destroy');
-		}
-
-		$select.change();
-	});
-
+	// HACK: FIXME: use plugin approach
+	if (!window.TESTING) {
+		OC.Settings.Apps.initialize($('#apps-list'));
+	}
 });

@@ -71,9 +71,13 @@ module.exports = function(config) {
 			{
 				name: 'settings',
 				srcFiles: [
+					'settings/js/apps.js',
 					'settings/js/users/deleteHandler.js'
 				],
-				testFiles: ['settings/tests/js/users/deleteHandlerSpec.js']
+				testFiles: [
+					'settings/tests/js/appsSpec.js',
+					'settings/tests/js/users/deleteHandlerSpec.js'
+				]
 			}
 		];
 	}
