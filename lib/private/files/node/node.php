@@ -23,6 +23,10 @@
  */
 namespace OC\Files\Node;
 
+use OC\Files\Filesystem;
+use OCP\Files\FileInfo;
+use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 
 class Node implements \OCP\Files\Node {
@@ -60,11 +64,21 @@ class Node implements \OCP\Files\Node {
 	/**
 	 * Returns the matching file info
 	 *
-	 * @return \OCP\Files\FileInfo
+	 * @return FileInfo
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function getFileInfo() {
+		if (!Filesystem::isValidPath($this->path)) {
+			throw new InvalidPathException();
+		}
 		if (!$this->fileInfo) {
-			$this->fileInfo = $this->view->getFileInfo($this->path);
+			$fileInfo = $this->view->getFileInfo($this->path);
+			if ($fileInfo instanceof FileInfo) {
+				$this->fileInfo = $fileInfo;
+			} else {
+				throw new NotFoundException();
+			}
 		}
 		return $this->fileInfo;
 	}
