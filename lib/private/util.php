@@ -638,8 +638,11 @@ class OC_Util {
 			$webServerRestart = true;
 		}
 		foreach($invalidIniSettings as $setting) {
+			if(is_bool($setting[1])) {
+				$setting[1] = ($setting[1]) ? 'on' : 'off';
+			}
 			$errors[] = [
-				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], $setting[1]]),
+				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], var_export($setting[1], true)]),
 				'hint' =>  $l->t('Adjusting this setting in php.ini will make ownCloud run again')
 			];
 			$webServerRestart = true;
