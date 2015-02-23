@@ -35,7 +35,7 @@ if ($_POST['isPersonal'] == 'true') {
 $mountPoint = (string)$_POST['mountPoint'];
 $oldMountPoint = (string)$_POST['oldMountPoint'];
 $class = (string)$_POST['class'];
-$options = (string)$_POST['classOptions'];
+$options = (array)$_POST['classOptions'];
 $type = (string)$_POST['mountType'];
 $applicable = (string)$_POST['applicable'];
 
