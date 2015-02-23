@@ -46,7 +46,12 @@ class Install extends Command {
 			return 0;
 		}
 		foreach($errors as $error) {
-			$output->writeln((string)$error);
+			if (is_array($error)) {
+				$output->writeln('<error>' . (string)$error['error'] . '</error>');
+				$output->writeln('<info> -> ' . (string)$error['hint'] . '</info>');
+			} else {
+				$output->writeln('<error>' . (string)$error . '</error>');
+			}
 		}
 
 		return 1;
