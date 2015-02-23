@@ -187,7 +187,7 @@ class OC_User {
 	 * itself, not in its subclasses.
 	 *
 	 * Allowed characters in the username are: "a-z", "A-Z", "0-9" and "_.@-"
-	 * @deprecated Use \OC::$server->getUserManager->createUser($uid, $password)
+	 * @deprecated Use \OC::$server->getUserManager()->createUser($uid, $password)
 	 */
 	public static function createUser($uid, $password) {
 		return self::getManager()->createUser($uid, $password);

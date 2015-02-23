@@ -211,7 +211,7 @@ class Updater extends BasicEmitter {
 		// Update htaccess files for apache hosts
 		if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 			try {
-				\OC_Setup::updateHtaccess();
+				\OC\Setup::updateHtaccess();
 			} catch (\Exception $e) {
 				throw new \Exception($e->getMessage());
 			}

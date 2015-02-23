@@ -152,18 +152,22 @@ class OC {
 			}
 		}
 
-		if (substr($scriptName, 0 - strlen(OC::$SUBURI)) === OC::$SUBURI) {
-			OC::$WEBROOT = substr($scriptName, 0, 0 - strlen(OC::$SUBURI));
-
-			if (OC::$WEBROOT != '' && OC::$WEBROOT[0] !== '/') {
-				OC::$WEBROOT = '/' . OC::$WEBROOT;
-			}
-		} else {
-			// The scriptName is not ending with OC::$SUBURI
-			// This most likely means that we are calling from CLI.
-			// However some cron jobs still need to generate
-			// a web URL, so we use overwritewebroot as a fallback.
+		if (OC::$CLI) {
 			OC::$WEBROOT = OC_Config::getValue('overwritewebroot', '');
+		} else {
+			if (substr($scriptName, 0 - strlen(OC::$SUBURI)) === OC::$SUBURI) {
+				OC::$WEBROOT = substr($scriptName, 0, 0 - strlen(OC::$SUBURI));
+
+				if (OC::$WEBROOT != '' && OC::$WEBROOT[0] !== '/') {
+					OC::$WEBROOT = '/' . OC::$WEBROOT;
+				}
+			} else {
+				// The scriptName is not ending with OC::$SUBURI
+				// This most likely means that we are calling from CLI.
+				// However some cron jobs still need to generate
+				// a web URL, so we use overwritewebroot as a fallback.
+				OC::$WEBROOT = OC_Config::getValue('overwritewebroot', '');
+			}
 		}
 
 		// search the 3rdparty folder
@@ -257,6 +261,9 @@ class OC {
 	}
 
 	public static function checkInstalled() {
+		if (defined('OC_CONSOLE')) {
+			return;
+		}
 		// Redirect to installer if not installed
 		if (!\OC::$server->getSystemConfig()->getValue('installed', false) && OC::$SUBURI != '/index.php') {
 			if (OC::$CLI) {
@@ -513,6 +520,8 @@ class OC {
 		spl_autoload_register(array(self::$loader, 'load'));
 		$loaderEnd = microtime(true);
 
+		self::$CLI = (php_sapi_name() == 'cli');
+
 		self::initPaths();
 
 		// setup 3rdparty autoloader
@@ -538,7 +547,6 @@ class OC {
 		if (defined('DEBUG') && DEBUG) {
 			ini_set('display_errors', 1);
 		}
-		self::$CLI = (php_sapi_name() == 'cli');
 
 		date_default_timezone_set('UTC');
 		ini_set('arg_separator.output', '&amp;');

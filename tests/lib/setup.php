@@ -12,14 +12,14 @@ class Test_OC_Setup extends \Test\TestCase {
 
 	/** @var IConfig */
 	protected $config;
-	/** @var \OC_Setup */
+	/** @var \OC\Setup */
 	protected $setupClass;
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->config = $this->getMock('\OCP\IConfig');
-		$this->setupClass = $this->getMock('\OC_Setup', ['class_exists', 'is_callable'], [$this->config]);
+		$this->setupClass = $this->getMock('\OC\Setup', ['class_exists', 'is_callable'], [$this->config]);
 	}
 
 	public function testGetSupportedDatabasesWithOneWorking() {

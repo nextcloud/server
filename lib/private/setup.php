@@ -33,9 +33,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+namespace OC;
+
+use Exception;
+use OC_L10N;
 use OCP\IConfig;
 
-class OC_Setup {
+class Setup {
 	/** @var IConfig */
 	protected $config;
 
@@ -156,7 +161,7 @@ class OC_Setup {
 			$error[] = $l->t('Set an admin password.');
 		}
 		if(empty($options['directory'])) {
-			$options['directory'] = OC::$SERVERROOT."/data";
+			$options['directory'] = \OC::$SERVERROOT."/data";
 		}
 
 		if (!isset(self::$dbSetupClasses[$dbType])) {
@@ -194,7 +199,7 @@ class OC_Setup {
 			$trustedDomains = [$request->getInsecureServerHost()];
 		}
 
-		if (OC_Util::runningOnWindows()) {
+		if (\OC_Util::runningOnWindows()) {
 			$dataDir = rtrim(realpath($dataDir), '\\');
 		}
 
@@ -214,9 +219,9 @@ class OC_Setup {
 			'secret'			=> $secret,
 			'trusted_domains'	=> $trustedDomains,
 			'datadirectory'		=> $dataDir,
-			'overwrite.cli.url'	=> $request->getServerProtocol() . '://' . $request->getInsecureServerHost() . OC::$WEBROOT,
+			'overwrite.cli.url'	=> $request->getServerProtocol() . '://' . $request->getInsecureServerHost() . \OC::$WEBROOT,
 			'dbtype'			=> $dbType,
-			'version'			=> implode('.', OC_Util::getVersion()),
+			'version'			=> implode('.', \OC_Util::getVersion()),
 		]);
 
 		try {
@@ -237,27 +242,31 @@ class OC_Setup {
 		}
 
 		//create the user and group
+		$user =  null;
 		try {
-			OC_User::createUser($username, $password);
+			$user = \OC::$server->getUserManager()->createUser($username, $password);
+			if (!$user) {
+				$error[] = "User <$username> could not be created.";
+			}
 		} catch(Exception $exception) {
 			$error[] = $exception->getMessage();
 		}
 
 		if(count($error) == 0) {
-			$appConfig = \OC::$server->getAppConfig();
-			$appConfig->setValue('core', 'installedat', microtime(true));
-			$appConfig->setValue('core', 'lastupdatedat', microtime(true));
+			$config = \OC::$server->getConfig();
+			$config->setAppValue('core', 'installedat', microtime(true));
+			$config->setAppValue('core', 'lastupdatedat', microtime(true));
 
-			OC_Group::createGroup('admin');
-			OC_Group::addToGroup($username, 'admin');
-			OC_User::login($username, $password);
+			$group =\OC::$server->getGroupManager()->createGroup('admin');
+			$group->addUser($user);
+			\OC_User::login($username, $password);
 
 			//guess what this does
-			OC_Installer::installShippedApps();
+			\OC_Installer::installShippedApps();
 
 			// create empty file in data dir, so we can later find
 			// out that this is indeed an ownCloud data directory
-			file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.ocdata', '');
+			file_put_contents($config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data').'/.ocdata', '');
 
 			// Update htaccess files for apache hosts
 			if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
@@ -266,7 +275,7 @@ class OC_Setup {
 			}
 
 			//and we are done
-			OC_Config::setValue('installed', true);
+			$config->setSystemValue('installed', true);
 		}
 
 		return $error;
@@ -276,7 +285,7 @@ class OC_Setup {
 	 * @return string Absolute path to htaccess
 	 */
 	private function pathToHtaccess() {
-		return OC::$SERVERROOT.'/.htaccess';
+		return \OC::$SERVERROOT.'/.htaccess';
 	}
 
 	/**
@@ -300,14 +309,14 @@ class OC_Setup {
 	 * @throws \OC\HintException If .htaccess does not include the current version
 	 */
 	public static function updateHtaccess() {
-		$setupHelper = new OC_Setup(\OC::$server->getConfig());
+		$setupHelper = new \OC\Setup(\OC::$server->getConfig());
 		if(!$setupHelper->isCurrentHtaccess()) {
 			throw new \OC\HintException('.htaccess file has the wrong version. Please upload the correct version. Maybe you forgot to replace it after updating?');
 		}
 
 		$content = "\n";
-		$content.= "ErrorDocument 403 ".OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
-		$content.= "ErrorDocument 404 ".OC::$WEBROOT."/core/templates/404.php";//custom 404 error page
+		$content.= "ErrorDocument 403 ".\OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
+		$content.= "ErrorDocument 404 ".\OC::$WEBROOT."/core/templates/404.php";//custom 404 error page
 		@file_put_contents($setupHelper->pathToHtaccess(), $content, FILE_APPEND); //suppress errors in case we don't have permissions for it
 	}
 
@@ -326,7 +335,7 @@ class OC_Setup {
 		$content.= "</ifModule>\n\n";
 		$content.= "# section for Apache 2.2 and 2.4\n";
 		$content.= "IndexIgnore *\n";
-		file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.htaccess', $content);
-		file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/index.html', '');
+		file_put_contents(\OC_Config::getValue('datadirectory', \OC::$SERVERROOT.'/data').'/.htaccess', $content);
+		file_put_contents(\OC_Config::getValue('datadirectory', \OC::$SERVERROOT.'/data').'/index.html', '');
 	}
 }
