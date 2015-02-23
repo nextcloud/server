@@ -25,6 +25,7 @@
     "You need to set your user email before being able to send test emails." : "Морате подесити адресу Ваше е-поште прије слања тестне поруке.",
     "Invalid mail address" : "Адреса е-поште није важећа",
     "Email saved" : "Е-порука сачувана",
+    "All" : "Све",
     "Please wait...." : "Сачекајте…",
     "Disable" : "Искључи",
     "Enable" : "Омогући",
