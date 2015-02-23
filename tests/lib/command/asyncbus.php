@@ -10,6 +10,7 @@
 namespace Test\Command;
 
 use OC\Command\FileAccess;
+use OCP\Command\IBus;
 use OCP\Command\ICommand;
 use Test\BackgroundJob\DummyJobList;
 use Test\TestCase;
@@ -42,6 +43,19 @@ class FilesystemCommand implements ICommand {
 
 function basicFunction() {
 	AsyncBus::$lastCommand = 'function';
+}
+
+// clean class to prevent phpunit putting closure in $this
+class ThisClosureTest {
+	private function privateMethod() {
+		AsyncBus::$lastCommand = 'closure-this';
+	}
+
+	public function test(IBus $bus) {
+		$bus->push(function () {
+			$this->privateMethod();
+		});
+	}
 }
 
 class AsyncBus extends TestCase {
@@ -121,14 +135,11 @@ class AsyncBus extends TestCase {
 		$this->assertEquals('closure-self', self::$lastCommand);
 	}
 
-	private function privateMethod() {
-		self::$lastCommand = 'closure-this';
-	}
 
 	public function testClosureThis() {
-		$this->bus->push(function () {
-			$this->privateMethod();
-		});
+		// clean class to prevent phpunit putting closure in $this
+		$test = new ThisClosureTest();
+		$test->test($this->bus);
 		$this->runJobs();
 		$this->assertEquals('closure-this', self::$lastCommand);
 	}
