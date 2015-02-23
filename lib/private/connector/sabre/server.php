@@ -1,30 +1,26 @@
 <?php
 /**
- * ownCloud / SabreDAV
+ * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author scolebrook <scolebrook@mac.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @author Markus Goetz
+ * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @license AGPL-3.0
  *
- * @copyright Copyright (C) 2007-2013 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/)
- * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
- */
-
-/**
- * Class OC_Connector_Sabre_Server
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
  *
- * This class reimplements some methods from @see \Sabre\DAV\Server.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
  *
- * Basically we add handling of depth: infinity.
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
- * The right way to handle this would have been to submit a patch to the upstream project
- * and grab the corresponding version one merged.
- *
- * Due to time constrains and the limitations where we don't want to upgrade 3rdparty code in
- * this stage of the release cycle we did choose this approach.
- *
- * For ownCloud 7 we will upgrade SabreDAV and submit the patch - if needed.
- *
- * @see \Sabre\DAV\Server
  */
 class OC_Connector_Sabre_Server extends Sabre\DAV\Server {
 
