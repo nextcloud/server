@@ -15,11 +15,12 @@ try {
 	OC::checkSingleUserMode();
 	$request = \OC::$server->getRequest();
 	$pathInfo = $request->getPathInfo();
-	if (!$pathInfo && !isset($request->server['service'])) {
+
+	if (!$pathInfo && $request->getParam('service', '') === '') {
 		header('HTTP/1.0 404 Not Found');
 		exit;
-	} elseif (isset($request->server['service'])) {
-		$service = $request->server['service'];
+	} elseif ($request->getParam('service', '')) {
+		$service = $request->getParam('service', '');
 	} else {
 		$pathInfo = trim($pathInfo, '/');
 		list($service) = explode('/', $pathInfo);
