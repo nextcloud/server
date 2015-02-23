@@ -28,7 +28,6 @@
  */
 // Backends
 $authBackend = new \OC\Connector\Sabre\Auth();
-$lockBackend = new \OC\Connector\Sabre\Locks();
 
 // Fire up server
 $objectTree = new \OC\Connector\Sabre\ObjectTree();
@@ -40,7 +39,6 @@ $server->setBaseUri($baseuri);
 // Load plugins
 $defaults = new OC_Defaults();
 $server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, $defaults->getName()));
-$server->addPlugin(new \Sabre\DAV\Locks\Plugin($lockBackend));
 // FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 $server->addPlugin(new \OC\Connector\Sabre\DummyGetResponsePlugin());
 $server->addPlugin(new \OC\Connector\Sabre\FilesPlugin($objectTree));

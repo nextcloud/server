@@ -34,7 +34,6 @@ OC_Util::obEnd();
 
 // Backends
 $authBackend = new OCA\Files_Sharing\Connector\PublicAuth(\OC::$server->getConfig());
-$lockBackend = new \OC\Connector\Sabre\Locks();
 
 // Fire up server
 $objectTree = new \OC\Connector\Sabre\ObjectTree();
@@ -46,7 +45,6 @@ $server->setBaseUri($baseuri);
 // Load plugins
 $defaults = new OC_Defaults();
 $server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, $defaults->getName()));
-$server->addPlugin(new \Sabre\DAV\Locks\Plugin($lockBackend));
 $server->addPlugin(new \Sabre\DAV\Browser\Plugin(false)); // Show something in the Browser, but no upload
 $server->addPlugin(new \OC\Connector\Sabre\FilesPlugin($objectTree));
 $server->addPlugin(new \OC\Connector\Sabre\MaintenancePlugin());
