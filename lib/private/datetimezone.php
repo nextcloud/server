@@ -44,19 +44,66 @@ class DateTimeZone implements IDateTimeZone {
 		$timeZone = $this->config->getUserValue($this->session->get('user_id'), 'core', 'timezone', null);
 		if ($timeZone === null) {
 			if ($this->session->exists('timezone')) {
-				$offsetHours = $this->session->get('timezone');
-				// Note: the timeZone name is the inverse to the offset,
-				// so a positive offset means negative timeZone
-				// and the other way around.
-				if ($offsetHours > 0) {
-					return new \DateTimeZone('Etc/GMT-' . $offsetHours);
-				} else {
-					return new \DateTimeZone('Etc/GMT+' . abs($offsetHours));
-				}
-			} else {
-				return new \DateTimeZone('UTC');
+				return $this->guessTimeZoneFromOffset($this->session->get('timezone'));
 			}
+			$timeZone = $this->getDefaultTimeZone();
 		}
-		return new \DateTimeZone($timeZone);
+
+		try {
+			return new \DateTimeZone($timeZone);
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog('datetimezone', 'Failed to created DateTimeZone "' . $timeZone . "'", \OCP\Util::DEBUG);
+			return new \DateTimeZone($this->getDefaultTimeZone());
+		}
+	}
+
+	/**
+	 * Guess the DateTimeZone for a given offset
+	 *
+	 * We first try to find a Etc/GMT* timezone, if that does not exist,
+	 * we try to find it manually, before falling back to UTC.
+	 *
+	 * @param mixed $offset
+	 * @return \DateTimeZone
+	 */
+	protected function guessTimeZoneFromOffset($offset) {
+		try {
+			// Note: the timeZone name is the inverse to the offset,
+			// so a positive offset means negative timeZone
+			// and the other way around.
+			if ($offset > 0) {
+				$timeZone = 'Etc/GMT-' . $offset;
+			} else {
+				$timeZone = 'Etc/GMT+' . abs($offset);
+			}
+
+			return new \DateTimeZone($timeZone);
+		} catch (\Exception $e) {
+			// If the offset has no Etc/GMT* timezone,
+			// we try to guess one timezone that has the same offset
+			foreach (\DateTimeZone::listIdentifiers() as $timeZone) {
+				$dtz = new \DateTimeZone($timeZone);
+				$dtOffset = $dtz->getOffset(new \DateTime());
+				if ($dtOffset == 3600 * $offset) {
+					return $dtz;
+				}
+			}
+
+			// No timezone found, fallback to UTC
+			\OCP\Util::writeLog('datetimezone', 'Failed to find DateTimeZone for offset "' . $offset . "'", \OCP\Util::DEBUG);
+			return new \DateTimeZone($this->getDefaultTimeZone());
+		}
+	}
+
+	/**
+	 * Get the default timezone of the server
+	 *
+	 * Falls back to UTC if it is not yet set.
+	 * 
+	 * @return string
+	 */
+	protected function getDefaultTimeZone() {
+		$serverTimeZone = date_default_timezone_get();
+		return $serverTimeZone ?: 'UTC';
 	}
 }
