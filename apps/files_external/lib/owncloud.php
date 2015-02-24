@@ -49,13 +49,13 @@ class OwnCloud extends \OC\Files\Storage\DAV{
 			$host = substr($host, 0, $hostSlashPos);
 		}
 
-		if (substr($contextPath , 1) !== '/'){
+		if (substr($contextPath, -1) !== '/'){
 			$contextPath .= '/';
 		}
 
 		if (isset($params['root'])){
 			$root = $params['root'];
-			if (substr($root, 1) !== '/'){
+			if (substr($root, 0, 1) !== '/'){
 				$root = '/' . $root;
 			}
 		}
