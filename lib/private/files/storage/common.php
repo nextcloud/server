@@ -471,12 +471,12 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * @param string $fileName
 	 * @throws InvalidPathException
 	 */
-	private function verifyWindowsPath($fileName) {
+	protected function verifyWindowsPath($fileName) {
 		$fileName = trim($fileName);
 		$this->scanForInvalidCharacters($fileName, "\\/<>:\"|?*");
 		$reservedNames = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9'];
 		if (in_array(strtoupper($fileName), $reservedNames)) {
-				throw new InvalidPathException("File name is a reserved word");
+			throw new InvalidPathException($this->t("File name is a reserved word"));
 		}
 	}
 
@@ -484,12 +484,12 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * @param string $fileName
 	 * @throws InvalidPathException
 	 */
-	private function verifyPosixPath($fileName) {
+	protected function verifyPosixPath($fileName) {
 		$fileName = trim($fileName);
 		$this->scanForInvalidCharacters($fileName, "\\/");
 		$reservedNames = ['*'];
 		if (in_array($fileName, $reservedNames)) {
-			throw new InvalidPathException("File name is a reserved word");
+			throw new InvalidPathException($this->t('File name is a reserved word'));
 		}
 	}
 
@@ -501,14 +501,19 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	private function scanForInvalidCharacters($fileName, $invalidChars) {
 		foreach(str_split($invalidChars) as $char) {
 			if (strpos($fileName, $char) !== false) {
-				throw new InvalidPathException('File name contains at least one invalid characters');
+				throw new InvalidPathException($this->t('File name contains at least one invalid characters'));
 			}
 		}
 
 		$sanitizedFileName = filter_var($fileName, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 		if($sanitizedFileName !== $fileName) {
-			throw new InvalidPathException('File name contains at least one invalid characters');
+			throw new InvalidPathException($this->t('File name contains at least one invalid characters'));
 		}
+	}
+
+	private function t($string) {
+		$l10n = \OC::$server->getL10N('lib');
+		return $l10n->t($string);
 	}
 
 }

@@ -1543,13 +1543,15 @@ class View {
 	 */
 	public function verifyPath($path, $fileName) {
 
+		$l10n = \OC::$server->getL10N('lib');
+
 		// verify empty and dot files
 		$trimmed = trim($fileName);
 		if ($trimmed === '') {
-			throw new InvalidPathException('Empty filename is not allowed');
+			throw new InvalidPathException($l10n->t('Empty filename is not allowed'));
 		}
 		if ($trimmed === '.' || $trimmed === '..') {
-			throw new InvalidPathException('Dot files are not allowed');
+			throw new InvalidPathException($l10n->t('Dot files are not allowed'));
 		}
 
 		// verify database - e.g. mysql only 3-byte chars
@@ -1558,7 +1560,7 @@ class View {
     | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
     | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
 )*$%xs', $fileName)) {
-			throw new InvalidPathException('4-byte characters are not supported in file names');
+			throw new InvalidPathException($l10n->t('4-byte characters are not supported in file names'));
 		}
 
 		/** @type \OCP\Files\Storage $storage */
