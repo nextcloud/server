@@ -59,8 +59,8 @@ class SFTP extends \OC\Files\Storage\Common {
 		}
 
 		//deals with server:port
-		$HasPort = strpos($this->host,':');
-		if($HasPort != false) {
+		$hasPort = strpos($this->host,':');
+		if($hasPort != false) {
 			$pieces = explode(":", $this->host);
 			$this->host = $pieces[0];
 			$this->port = $pieces[1];
