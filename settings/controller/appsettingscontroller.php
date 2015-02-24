@@ -24,6 +24,7 @@ namespace OC\Settings\Controller;
 
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
+use OC\OCSClient;
 use \OCP\AppFramework\Controller;
 use OCP\ICacheFactory;
 use OCP\IRequest;
@@ -74,10 +75,10 @@ class AppSettingsController extends Controller {
 			['id' => 1, 'displayName' => (string)$this->l10n->t('Not enabled')],
 		];
 
-		if($this->config->getSystemValue('appstoreenabled', true)) {
+		if(OCSClient::isAppStoreEnabled()) {
 			$categories[] = ['id' => 2, 'displayName' => (string)$this->l10n->t('Recommended')];
 			// apps from external repo via OCS
-			$ocs = \OC_OCSClient::getCategories();
+			$ocs = OCSClient::getCategories();
 			if ($ocs) {
 				foreach($ocs as $k => $v) {
 					$categories[] = array(
@@ -106,10 +107,7 @@ class AppSettingsController extends Controller {
 			switch ($category) {
 				// installed apps
 				case 0:
-					$apps = \OC_App::listAllApps(true);
-					$apps = array_filter($apps, function ($app) {
-						return $app['active'];
-					});
+					$apps = $this->getInstalledApps();
 					usort($apps, function ($a, $b) {
 						$a = (string)$a['name'];
 						$b = (string)$b['name'];
@@ -147,7 +145,21 @@ class AppSettingsController extends Controller {
 					}
 					if (!$apps) {
 						$apps = array();
+					} else {
+						// don't list installed apps
+						$installedApps = $this->getInstalledApps();
+						$installedApps = array_map(function ($app) {
+							if (isset($app['ocsid'])) {
+								return $app['ocsid'];
+							}
+							return $app['id'];
+						}, $installedApps);
+						$apps = array_filter($apps, function ($app) use ($installedApps) {
+							return !in_array($app['id'], $installedApps);
+						});
 					}
+
+					// sort by score
 					usort($apps, function ($a, $b) {
 						$a = (int)$a['score'];
 						$b = (int)$b['score'];
@@ -188,5 +200,16 @@ class AppSettingsController extends Controller {
 		$this->cache->set('listApps-'.$category, $apps, 300);
 
 		return ['apps' => $apps, 'status' => 'success'];
+	}
+
+	/**
+	 * @return array
+	 */
+	private function getInstalledApps() {
+		$apps = \OC_App::listAllApps(true);
+		$apps = array_filter($apps, function ($app) {
+			return $app['active'];
+		});
+		return $apps;
 	}
 }

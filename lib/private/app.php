@@ -45,6 +45,7 @@
  */
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
+use OC\OCSClient;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
@@ -290,9 +291,9 @@ class OC_App {
 	 * @return int
 	 */
 	public static function downloadApp($app) {
-		$appData = OC_OCSClient::getApplication($app);
-		$download = OC_OCSClient::getApplicationDownload($app, 1);
-		if (isset($download['downloadlink']) and $download['downloadlink'] != '') {
+		$appData= OCSClient::getApplication($app);
+		$download= OCSClient::getApplicationDownload($app, 1);
+		if(isset($download['downloadlink']) and $download['downloadlink']!='') {
 			// Replace spaces in download link without encoding entire URL
 			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
 			$info = array('source' => 'http', 'href' => $download['downloadlink'], 'appdata' => $appData);
@@ -904,7 +905,7 @@ class OC_App {
 	public static function getAppstoreApps($filter = 'approved', $category = null) {
 		$categories = array($category);
 		if (is_null($category)) {
-			$categoryNames = OC_OCSClient::getCategories();
+			$categoryNames = OCSClient::getCategories();
 			if (is_array($categoryNames)) {
 				// Check that categories of apps were retrieved correctly
 				if (!$categories = array_keys($categoryNames)) {
@@ -916,7 +917,7 @@ class OC_App {
 		}
 
 		$page = 0;
-		$remoteApps = OC_OCSClient::getApplications($categories, $page, $filter);
+		$remoteApps = OCSClient::getApplications($categories, $page, $filter);
 		$app1 = array();
 		$i = 0;
 		$l = \OC::$server->getL10N('core');
@@ -1098,7 +1099,7 @@ class OC_App {
 	public static function installApp($app) {
 		$l = \OC::$server->getL10N('core');
 		$config = \OC::$server->getConfig();
-		$appData = OC_OCSClient::getApplication($app);
+		$appData=OCSClient::getApplication($app);
 
 		// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string
 		if (!is_numeric($app)) {
