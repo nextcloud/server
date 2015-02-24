@@ -115,6 +115,8 @@
     "Please install one of these locales on your system and restart your webserver." : "Installeer één van de talen op uw systeem en herstart uw webserver.",
     "Please ask your server administrator to install the module." : "Vraag uw beheerder om de module te installeren.",
     "PHP module %s not installed." : "PHP module %s niet geïnstalleerd.",
+    "PHP setting \"%s\" is not set to \"%s\"." : "PHP instelling \"%s\" staat niet op \"%s\".",
+    "Adjusting this setting in php.ini will make ownCloud run again" : "Het in php.ini bijstellen hiervan laat ownCloud weer werken",
     "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Vraag uw beheerder om PHP bij te werken tot de laatste versie. Uw PHP versie wordt niet langer ondersteund door ownCloud en de PHP community.",
     "PHP is configured to populate raw post data. Since PHP 5.6 this will lead to PHP throwing notices for perfectly valid code." : "PHP is geconfigureerd om ruwe data van berichten te vullen. Vanaf PHP 5.6 leidt dit tot PHP meldingen voor echt wel geldige code.",
     "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "Om dit op te lossen stel de waarde <code>always_populate_raw_post_data</code> in op <code>-1</code> in php.ini",

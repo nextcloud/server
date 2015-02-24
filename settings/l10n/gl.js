@@ -240,7 +240,7 @@ OC.L10N.register(
     "Your encryption keys are moved to a backup location. If something went wrong you can restore the keys. Only delete them permanently if you are sure that all files are decrypted correctly." : "As chaves de cifrado foron movidas á copia de seguranza. Se ten algún problema pode restaurar as chaves. Elimineas permanentemente só se está seguro de que é posíbel descifrar correctamente todos os ficheiros.",
     "Restore Encryption Keys" : "Restaurar as chaves de cifrado",
     "Delete Encryption Keys" : "Eliminar as chaves de cifrado",
-    "Developed by the {communityopen}ownCloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Desenvolvido pola {communityopen}comunidade ownCloud{linkclose}, o {githubopen}código fonte{linkclose} está licenciado baixo a {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}.",
+    "Developed by the {communityopen}ownCloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Desenvolvido pola {communityopen}comunidade ownCloud{linkclose}, o {githubopen}código fonte{linkclose} está licenciado baixo a {licenseopen}<abbr title=\"Licencia Pública Xeral Affero\">AGPL</abbr>{linkclose}.",
     "Show storage location" : "Amosar a localización do almacenamento",
     "Show last log in" : "Amosar a última conexión",
     "Show user backend" : "Amosar a infraestrutura do usuario",
