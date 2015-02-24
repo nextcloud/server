@@ -70,7 +70,8 @@ abstract class Mapper {
 	 */
 	public function delete(Entity $entity){
 		$sql = 'DELETE FROM `' . $this->tableName . '` WHERE `id` = ?';
-		$this->execute($sql, [$entity->getId()]);
+		$stmt = $this->execute($sql, [$entity->getId()]);
+		$stmt->closeCursor();
 		return $entity;
 	}
 
@@ -103,7 +104,7 @@ abstract class Mapper {
 				$values .= ',';
 			}
 
-			array_push($params, $entity->$getter());
+			$params[] = $entity->$getter();
 			$i++;
 
 		}
@@ -111,9 +112,11 @@ abstract class Mapper {
 		$sql = 'INSERT INTO `' . $this->tableName . '`(' .
 				$columns . ') VALUES(' . $values . ')';
 
-		$this->execute($sql, $params);
+		$stmt = $this->execute($sql, $params);
 
 		$entity->setId((int) $this->db->lastInsertId($this->tableName));
+
+		$stmt->closeCursor();
 
 		return $entity;
 	}
@@ -162,15 +165,16 @@ abstract class Mapper {
 				$columns .= ',';
 			}
 
-			array_push($params, $entity->$getter());
+			$params[] = $entity->$getter();
 			$i++;
 		}
 
 		$sql = 'UPDATE `' . $this->tableName . '` SET ' .
 				$columns . ' WHERE `id` = ?';
-		array_push($params, $id);
+		$params[] = $id;
 
-		$this->execute($sql, $params);
+		$stmt = $this->execute($sql, $params);
+		$stmt->closeCursor();
 
 		return $entity;
 	}
