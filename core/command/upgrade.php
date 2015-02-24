@@ -129,6 +129,12 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use($output) {
 				$output->writeln('<info>Disabled 3rd-party app: ' . $app . '</info>');
 			});
+			$updater->listen('\OC\Updater', 'appUpgradeCheck', function () use ($output) {
+				$output->writeln('<info>Checked database schema update for apps</info>');
+			});
+			$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($output) {
+				$output->writeln("<info>Updated <$app> to $version</info>");
+			});
 
 			$updater->listen('\OC\Updater', 'failure', function ($message) use($output, $self) {
 				$output->writeln("<error>$message</error>");
