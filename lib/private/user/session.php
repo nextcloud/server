@@ -285,27 +285,30 @@ class Session implements IUserSession, Emitter {
 	 * @param string $token
 	 */
 	public function setMagicInCookie($username, $token) {
-		$secure_cookie = \OC_Config::getValue("forcessl", false); //TODO: DI for cookies and OC_Config
+		$secureCookie = \OC_Config::getValue("forcessl", false); //TODO: DI for cookies and OC_Config
 		$expires = time() + \OC_Config::getValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
-		setcookie("oc_username", $username, $expires, \OC::$WEBROOT, '', $secure_cookie);
-		setcookie("oc_token", $token, $expires, \OC::$WEBROOT, '', $secure_cookie, true);
-		setcookie("oc_remember_login", "1", $expires, \OC::$WEBROOT, '', $secure_cookie);
+		setcookie("oc_username", $username, $expires, \OC::$WEBROOT, '', $secureCookie, true);
+		setcookie("oc_token", $token, $expires, \OC::$WEBROOT, '', $secureCookie, true);
+		setcookie("oc_remember_login", "1", $expires, \OC::$WEBROOT, '', $secureCookie, true);
 	}
 
 	/**
 	 * Remove cookie for "remember username"
 	 */
 	public function unsetMagicInCookie() {
+		//TODO: DI for cookies and OC_Config
+		$secureCookie = \OC_Config::getValue('forcessl', false);
+
 		unset($_COOKIE["oc_username"]); //TODO: DI
 		unset($_COOKIE["oc_token"]);
 		unset($_COOKIE["oc_remember_login"]);
-		setcookie('oc_username', '', time() - 3600, \OC::$WEBROOT);
-		setcookie('oc_token', '', time() - 3600, \OC::$WEBROOT);
-		setcookie('oc_remember_login', '', time() - 3600, \OC::$WEBROOT);
+		setcookie('oc_username', '', time() - 3600, \OC::$WEBROOT, '',$secureCookie, true);
+		setcookie('oc_token', '', time() - 3600, \OC::$WEBROOT, '', $secureCookie, true);
+		setcookie('oc_remember_login', '', time() - 3600, \OC::$WEBROOT, '', $secureCookie, true);
 		// old cookies might be stored under /webroot/ instead of /webroot
 		// and Firefox doesn't like it!
-		setcookie('oc_username', '', time() - 3600, \OC::$WEBROOT . '/');
-		setcookie('oc_token', '', time() - 3600, \OC::$WEBROOT . '/');
-		setcookie('oc_remember_login', '', time() - 3600, \OC::$WEBROOT . '/');
+		setcookie('oc_username', '', time() - 3600, \OC::$WEBROOT . '/', '', $secureCookie, true);
+		setcookie('oc_token', '', time() - 3600, \OC::$WEBROOT . '/', '', $secureCookie, true);
+		setcookie('oc_remember_login', '', time() - 3600, \OC::$WEBROOT . '/', '', $secureCookie, true);
 	}
 }
