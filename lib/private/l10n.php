@@ -80,6 +80,48 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
+	 * @param $app
+	 * @return string
+	 */
+	public static function setLanguageFromRequest($app = null) {
+		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+			if (is_array($app)) {
+				$available = $app;
+			} else {
+				$available = self::findAvailableLanguages($app);
+			}
+
+			// E.g. make sure that 'de' is before 'de_DE'.
+			sort($available);
+
+			$preferences = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
+			foreach ($preferences as $preference) {
+				list($preferred_language) = explode(';', $preference);
+				$preferred_language = str_replace('-', '_', $preferred_language);
+				foreach ($available as $available_language) {
+					if ($preferred_language === strtolower($available_language)) {
+						if (is_null($app)) {
+							self::$language = $available_language;
+						}
+						return $available_language;
+					}
+				}
+				foreach ($available as $available_language) {
+					if (substr($preferred_language, 0, 2) === $available_language) {
+						if (is_null($app)) {
+							self::$language = $available_language;
+						}
+						return $available_language;
+					}
+				}
+			}
+		}
+
+		// Last try: English
+		return 'en';
+	}
+
+	/**
 	 * @param $transFile
 	 * @param bool $mergeTranslations
 	 * @return bool
@@ -403,41 +445,7 @@ class OC_L10N implements \OCP\IL10N {
 			return $default_language;
 		}
 
-		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-			if(is_array($app)) {
-				$available = $app;
-			} else {
-				$available = self::findAvailableLanguages($app);
-			}
-
-			// E.g. make sure that 'de' is before 'de_DE'.
-			sort($available);
-
-			$preferences = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
-			foreach($preferences as $preference) {
-				list($preferred_language) = explode(';', $preference);
-				$preferred_language = str_replace('-', '_', $preferred_language);
-				foreach($available as $available_language) {
-					if ($preferred_language === strtolower($available_language)) {
-						if (is_null($app)) {
-							self::$language = $available_language;
-						}
-						return $available_language;
-					}
-				}
-				foreach($available as $available_language) {
-					if (substr($preferred_language, 0, 2) === $available_language) {
-						if (is_null($app)) {
-							self::$language = $available_language;
-						}
-						return $available_language;
-					}
-				}
-			}
-		}
-
-		// Last try: English
-		return 'en';
+		return self::setLanguageFromRequest($app);
 	}
 
 	/**
