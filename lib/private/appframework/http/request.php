@@ -493,7 +493,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		if (isset($this->server['HTTP_X_FORWARDED_PROTO'])) {
 			if (strpos($this->server['HTTP_X_FORWARDED_PROTO'], ',') !== false) {
 				$parts = explode(',', $this->server['HTTP_X_FORWARDED_PROTO']);
-				$proto = strtolower(trim(current($parts)));
+				$proto = strtolower(trim($parts[0]));
 			} else {
 				$proto = strtolower($this->server['HTTP_X_FORWARDED_PROTO']);
 			}
