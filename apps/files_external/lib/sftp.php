@@ -233,7 +233,7 @@ class SFTP extends \OC\Files\Storage\Common {
 			if ($stat['type'] == NET_SFTP_TYPE_DIRECTORY) {
 				return 'dir';
 			}
-		} catch (\Exeption $e) {
+		} catch (\Exception $e) {
 
 		}
 		return false;
