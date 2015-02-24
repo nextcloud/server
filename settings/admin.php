@@ -65,7 +65,6 @@ $template->assign('doesLogFileExist', $doesLogFileExist);
 $template->assign('showLog', $showLog);
 $template->assign('readOnlyConfigEnabled', OC_Helper::isReadOnlyConfigEnabled());
 $template->assign('isLocaleWorking', OC_Util::isSetLocaleWorking());
-$template->assign('isPhpCharSetUtf8', OC_Util::isPhpCharSetUtf8());
 $template->assign('isAnnotationsWorking', OC_Util::isAnnotationsWorking());
 $template->assign('has_fileinfo', OC_Util::fileInfoLoaded());
 $template->assign('backgroundjobs_mode', $appConfig->getValue('core', 'backgroundjobs_mode', 'ajax'));
@@ -116,7 +115,7 @@ $forms = OC_App::getForms('admin');
 $l = OC_L10N::get('settings');
 $formsAndMore = array();
 if ($request->getServerProtocol()  !== 'https' || !OC_Util::isAnnotationsWorking() ||
-	$suggestedOverwriteCliUrl || !OC_Util::isSetLocaleWorking() || !OC_Util::isPhpCharSetUtf8() ||
+	$suggestedOverwriteCliUrl || !OC_Util::isSetLocaleWorking()  ||
 	!OC_Util::fileInfoLoaded() || $databaseOverload
 ) {
 	$formsAndMore[] = array('anchor' => 'security-warning', 'section-name' => $l->t('Security & Setup Warnings'));
