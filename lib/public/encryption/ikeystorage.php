@@ -29,59 +29,65 @@ interface IKeyStorage {
 	 * get user specific key
 	 *
 	 * @param string $uid ID if the user for whom we want the key
-	 * @param string $keyid id of the key
+	 * @param string $keyId id of the key
 	 *
 	 * @return mixed key
 	 */
-	public function getUserKey($uid, $keyid);
+	public function getUserKey($uid, $keyId);
 
 	/**
 	 * get file specific key
 	 *
 	 * @param string $path path to file
-	 * @param string $keyid id of the key
+	 * @param string $keyId id of the key
 	 *
 	 * @return mixed key
 	 */
-	public function getFileKey($path, $keyid);
+	public function getFileKey($path, $keyId);
 
 	/**
 	 * get system-wide encryption keys not related to a specific user,
 	 * e.g something like a key for public link shares
 	 *
-	 * @param string $keyid id of the key
+	 * @param string $keyId id of the key
 	 *
 	 * @return mixed key
 	 */
-	public function getSystemUserKey($uid, $keyid);
+	public function getSystemUserKey($keyId);
 
 	/**
 	 * set user specific key
 	 *
 	 * @param string $uid ID if the user for whom we want the key
-	 * @param string $keyid id of the key
+	 * @param string $keyId id of the key
 	 * @param mixed $key
 	 */
-	public function setUserKey($uid, $keyid, $key);
+	public function setUserKey($uid, $keyId, $key);
 
 	/**
 	 * set file specific key
 	 *
 	 * @param string $path path to file
-	 * @param string $keyid id of the key
+	 * @param string $keyId id of the key
 	 * @param mixed $key
 	 */
-	public function setFileKey($path, $keyid, $key);
+	public function setFileKey($path, $keyId, $key);
 
 	/**
 	 * set system-wide encryption keys not related to a specific user,
 	 * e.g something like a key for public link shares
 	 *
-	 * @param string $keyid id of the key
+	 * @param string $keyId id of the key
 	 * @param mixed $key
 	 *
 	 * @return mixed key
 	 */
-	public function setSystemUserKey($uid, $keyid, $key);
+	public function setSystemUserKey($keyId, $key);
 
+	/**
+	 * Return if encryption is setup and ready encrypt things
+	 *
+	 * @return bool
+	 */
+	public function ready();
 }
