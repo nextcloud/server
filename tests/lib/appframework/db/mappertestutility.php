@@ -58,113 +58,113 @@ abstract class MapperTestUtility extends \Test\TestCase {
 
 
 
-    /**
-     * Create mocks and set expected results for database queries
-     * @param string $sql the sql query that you expect to receive
-     * @param array $arguments the expected arguments for the prepare query
-     * method
-     * @param array $returnRows the rows that should be returned for the result
-     * of the database query. If not provided, it wont be assumed that fetch
-     * will be called on the result
-     */
-    protected function setMapperResult($sql, $arguments=array(), $returnRows=array(),
-        $limit=null, $offset=null, $expectClose=false){
-        if($limit === null && $offset === null) {
-            $this->db->expects($this->at($this->prepareAt))
-                ->method('prepare')
-                ->with($this->equalTo($sql))
-                ->will(($this->returnValue($this->query)));
-        } elseif($limit !== null && $offset === null) {
-            $this->db->expects($this->at($this->prepareAt))
-                ->method('prepare')
-                ->with($this->equalTo($sql), $this->equalTo($limit))
-                ->will(($this->returnValue($this->query)));
-        } elseif($limit === null && $offset !== null) {
-            $this->db->expects($this->at($this->prepareAt))
-                ->method('prepare')
-                ->with($this->equalTo($sql),
-                    $this->equalTo(null),
-                    $this->equalTo($offset))
-                ->will(($this->returnValue($this->query)));
-        } else  {
-            $this->db->expects($this->at($this->prepareAt))
-                ->method('prepare')
-                ->with($this->equalTo($sql),
-                    $this->equalTo($limit),
-                    $this->equalTo($offset))
-                ->will(($this->returnValue($this->query)));
-        }
+	/**
+	 * Create mocks and set expected results for database queries
+	 * @param string $sql the sql query that you expect to receive
+	 * @param array $arguments the expected arguments for the prepare query
+	 * method
+	 * @param array $returnRows the rows that should be returned for the result
+	 * of the database query. If not provided, it wont be assumed that fetch
+	 * will be called on the result
+	 */
+	protected function setMapperResult($sql, $arguments=array(), $returnRows=array(),
+		$limit=null, $offset=null, $expectClose=false){
+		if($limit === null && $offset === null) {
+			$this->db->expects($this->at($this->prepareAt))
+				->method('prepare')
+				->with($this->equalTo($sql))
+				->will(($this->returnValue($this->query)));
+		} elseif($limit !== null && $offset === null) {
+			$this->db->expects($this->at($this->prepareAt))
+				->method('prepare')
+				->with($this->equalTo($sql), $this->equalTo($limit))
+				->will(($this->returnValue($this->query)));
+		} elseif($limit === null && $offset !== null) {
+			$this->db->expects($this->at($this->prepareAt))
+				->method('prepare')
+				->with($this->equalTo($sql),
+					$this->equalTo(null),
+					$this->equalTo($offset))
+				->will(($this->returnValue($this->query)));
+		} else  {
+			$this->db->expects($this->at($this->prepareAt))
+				->method('prepare')
+				->with($this->equalTo($sql),
+					$this->equalTo($limit),
+					$this->equalTo($offset))
+				->will(($this->returnValue($this->query)));
+		}
 
-        $this->iterators[] = new ArgumentIterator($returnRows);
+		$this->iterators[] = new ArgumentIterator($returnRows);
 
-        $iterators = $this->iterators;
-        $fetchAt = $this->fetchAt;
+		$iterators = $this->iterators;
+		$fetchAt = $this->fetchAt;
 
-        $this->query->expects($this->any())
-            ->method('fetch')
-            ->will($this->returnCallback(
-                function() use ($iterators, $fetchAt){
-                    $iterator = $iterators[$fetchAt];
-                    $result = $iterator->next();
+		$this->query->expects($this->any())
+			->method('fetch')
+			->will($this->returnCallback(
+				function() use ($iterators, $fetchAt){
+					$iterator = $iterators[$fetchAt];
+					$result = $iterator->next();
 
-                    if($result === false) {
-                        $fetchAt++;
-                    }
+					if($result === false) {
+						$fetchAt++;
+					}
 
-                    $this->queryAt++;
+					$this->queryAt++;
 
-                    return $result;
-                }
-            ));
+					return $result;
+				}
+			));
 
-        $index = 1;
-        foreach($arguments as $argument) {
-            switch (gettype($argument)) {
-                case 'integer':
-                    $pdoConstant = \PDO::PARAM_INT;
-                    break;
+		$index = 1;
+		foreach($arguments as $argument) {
+			switch (gettype($argument)) {
+				case 'integer':
+					$pdoConstant = \PDO::PARAM_INT;
+					break;
 
-                case 'NULL':
-                    $pdoConstant = \PDO::PARAM_NULL;
-                    break;
+				case 'NULL':
+					$pdoConstant = \PDO::PARAM_NULL;
+					break;
 
-                case 'boolean':
-                    $pdoConstant = \PDO::PARAM_BOOL;
-                    break;
+				case 'boolean':
+					$pdoConstant = \PDO::PARAM_BOOL;
+					break;
 
-                default:
-                    $pdoConstant = \PDO::PARAM_STR;
-                    break;
-            }
-            $this->query->expects($this->at($this->queryAt))
-                ->method('bindValue')
-                ->with($this->equalTo($index),
-                    $this->equalTo($argument),
-                    $this->equalTo($pdoConstant));
-            $index++;
-            $this->queryAt++;
-        }
+				default:
+					$pdoConstant = \PDO::PARAM_STR;
+					break;
+			}
+			$this->query->expects($this->at($this->queryAt))
+				->method('bindValue')
+				->with($this->equalTo($index),
+					$this->equalTo($argument),
+					$this->equalTo($pdoConstant));
+			$index++;
+			$this->queryAt++;
+		}
 
-        $this->query->expects($this->at($this->queryAt))
-            ->method('execute')
-            ->will($this->returnCallback(function($sql, $p=null, $o=null, $s=null) {
+		$this->query->expects($this->at($this->queryAt))
+			->method('execute')
+			->will($this->returnCallback(function($sql, $p=null, $o=null, $s=null) {
 
-            }));
-        $this->queryAt++;
+			}));
+		$this->queryAt++;
 
 
 
-        if ($expectClose) {
-            $closing = $this->at($this->queryAt);
-        } else {
-            $closing = $this->any();
-        }
-        $this->query->expects($closing)->method('closeCursor');
-        $this->queryAt++;
+		if ($expectClose) {
+			$closing = $this->at($this->queryAt);
+		} else {
+			$closing = $this->any();
+		}
+		$this->query->expects($closing)->method('closeCursor');
+		$this->queryAt++;
 
-        $this->prepareAt++;
-        $this->fetchAt++;
-    }
+		$this->prepareAt++;
+		$this->fetchAt++;
+	}
 
 
 }
@@ -172,19 +172,19 @@ abstract class MapperTestUtility extends \Test\TestCase {
 
 class ArgumentIterator {
 
-    private $arguments;
+	private $arguments;
 
-    public function __construct($arguments){
-        $this->arguments = $arguments;
-    }
+	public function __construct($arguments){
+		$this->arguments = $arguments;
+	}
 
-    public function next(){
-        $result = array_shift($this->arguments);
-        if($result === null){
-            return false;
-        } else {
-            return $result;
-        }
-    }
+	public function next(){
+		$result = array_shift($this->arguments);
+		if($result === null){
+			return false;
+		} else {
+			return $result;
+		}
+	}
 }
 
