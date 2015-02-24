@@ -358,6 +358,7 @@ class Updater extends BasicEmitter {
 	 * party apps installed.
 	 */
 	private function checkAppsRequirements() {
+		$isCoreUpgrade = $this->isCodeUpgrade();
 		$apps = OC_App::getEnabledApps();
 		$version = OC_Util::getVersion();
 		foreach ($apps as $app) {
@@ -366,6 +367,10 @@ class Updater extends BasicEmitter {
 			if(!OC_App::isAppCompatible($version, $info)) {
 				OC_App::disable($app);
 				$this->emit('\OC\Updater', 'incompatibleAppDisabled', array($app));
+			}
+			// no need to disable any app in case this is a non-core upgrade
+			if (!$isCoreUpgrade) {
+				continue;
 			}
 			// shipped apps will remain enabled
 			if (OC_App::isShipped($app)) {
@@ -380,6 +385,15 @@ class Updater extends BasicEmitter {
 			\OC_App::disable($app);
 			$this->emit('\OC\Updater', 'thirdPartyAppDisabled', array($app));
 		}
+	}
+
+	private function isCodeUpgrade() {
+		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
+		$currentVersion = implode('.', OC_Util::getVersion());
+		if (version_compare($currentVersion, $installedVersion, '>')) {
+			return true;
+		}
+		return false;
 	}
 }
 
