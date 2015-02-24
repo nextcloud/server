@@ -37,6 +37,15 @@
 	display: none !important;
 }
 
+#dropdown .avatar {
+	margin-right: 2px;
+	display: inline-block;
+	overflow: hidden;
+	vertical-align: middle;
+	width: 32px;
+	height: 32px;
+}
+
 #shareWithList {
 	list-style-type:none;
 	padding:8px;
@@ -64,12 +73,6 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	max-width: 254px;
-	display: inline-block;
-	overflow: hidden;
-	vertical-align: middle;
-}
-#shareWithList .avatar {
-	margin-right: 2px;
 	display: inline-block;
 	overflow: hidden;
 	vertical-align: middle;
