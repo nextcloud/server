@@ -195,7 +195,6 @@ class ShareController extends Controller {
 		// Show file list
 		if (Filesystem::is_dir($originalSharePath)) {
 			$shareTmpl['dir'] = $getPath;
-			$files = array();
 			$maxUploadFilesize = Util::maxUploadFilesize($originalSharePath);
 			$freeSpace = Util::freeSpace($originalSharePath);
 			$uploadLimit = Util::uploadLimit();
@@ -205,7 +204,6 @@ class ShareController extends Controller {
 			$folder->assign('permissions', \OCP\Constants::PERMISSION_READ);
 			$folder->assign('isPublic', true);
 			$folder->assign('publicUploadEnabled', 'no');
-			$folder->assign('files', $files);
 			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);
 			$folder->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 			$folder->assign('freeSpace', $freeSpace);
