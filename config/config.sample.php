@@ -55,7 +55,7 @@ $CONFIG = array(
  *
  * @deprecated This salt is deprecated and only used for legacy-compatibility, developers
  * should *NOT* use this value for anything nowadays.
- * 
+ *
  *'passwordsalt' => 'd3c944a9af095aa08f',
  */
 'passwordsalt' => '',
@@ -508,6 +508,16 @@ $CONFIG = array(
 'cron_log' => true,
 
 /**
+ * Location of the lock file for cron executions can be specified here.
+ * Default is within the tmp directory. The file is named in the following way
+ *   owncloud-server-$INSTANCEID-cron.lock
+ * where $INSTANCEID is the string specified in the instanceid field.
+ * Because the cron lock file is accessed in regular intervals, it may prevent enabled disk drives from spinning down.
+ * A different location for this file can solve such issues.
+ */
+'cron.lockfile.location' => '',
+
+/**
  * Enables log rotation and limits the total size of logfiles. The default is 0,
  * or no rotation. Specify a size in bytes, for example 104857600 (100 megabytes
  * = 100 * 1024 * 1024 bytes). A new logfile is created with a new name when the
@@ -669,7 +679,7 @@ $CONFIG = array(
  *  - OC\Preview\StarOffice
  *  - OC\Preview\SVG
  *  - OC\Preview\TIFF
- * 
+ *
  * .. note:: Troubleshooting steps for the MS Word previews are available
  *    at the :doc:`collaborative_documents_configuration` section
  *    of the Administrators Manual.
