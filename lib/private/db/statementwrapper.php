@@ -80,7 +80,6 @@ class OC_DB_StatementWrapper {
 		}
 		if ($this->isManipulation) {
 			$count = $this->statement->rowCount();
-			$this->statement->closeCursor();
 			return $count;
 		} else {
 			return $this;
