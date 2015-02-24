@@ -144,6 +144,7 @@ interface IServerContainer {
 
 	/**
 	 * Returns an instance of the db facade
+	 * @deprecated use getDatabaseConnection, will be removed in ownCloud 10
 	 * @return \OCP\IDb
 	 */
 	function getDb();
@@ -255,7 +256,7 @@ interface IServerContainer {
 	 * @return \OCP\ICertificateManager
 	 */
 	function getCertificateManager($user = null);
-	
+
 	/**
 	 * Create a new event source
 	 *

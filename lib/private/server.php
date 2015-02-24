@@ -655,7 +655,7 @@ class Server extends SimpleContainer implements IServerContainer {
 
 	/**
 	 * Returns an instance of the db facade
-	 *
+	 * @deprecated use getDatabaseConnection, will be removed in ownCloud 10
 	 * @return \OCP\IDb
 	 */
 	function getDb() {
