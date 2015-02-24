@@ -857,13 +857,23 @@ class Wizard extends LDAPUtility {
 						}
 						$base = $this->configuration->ldapBase[0];
 						foreach($cns as $cn) {
-							$rr = $this->ldap->search($cr, $base, 'cn=' . $cn, array('dn'));
+							$rr = $this->ldap->search($cr, $base, 'cn=' . $cn, array('dn', 'primaryGroupToken'));
 							if(!$this->ldap->isResource($rr)) {
 								continue;
 							}
 							$er = $this->ldap->firstEntry($cr, $rr);
+							$attrs = $this->ldap->getAttributes($cr, $er);
 							$dn = $this->ldap->getDN($cr, $er);
-							$filter .= '(memberof=' . $dn . ')';
+							if(empty($dn)) {
+								continue;
+							}
+							$filterPart = '(memberof=' . $dn . ')';
+							if(isset($attrs['primaryGroupToken'])) {
+								$pgt = $attrs['primaryGroupToken'][0];
+								$primaryFilterPart = '(primaryGroupID=' . $pgt .')';
+								$filterPart = '(|' . $filterPart . $primaryFilterPart . ')';
+							}
+							$filter .= $filterPart;
 						}
 						$filter .= ')';
 					}

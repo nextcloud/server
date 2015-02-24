@@ -968,7 +968,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	/**
 	* escapes (user provided) parts for LDAP filter
 	* @param string $input, the provided value
-	* @param bool $allowAsterisk wether in * at the beginning should be preserved
+	* @param bool $allowAsterisk whether in * at the beginning should be preserved
 	* @return string the escaped string
 	*/
 	public function escapeFilterPart($input, $allowAsterisk = false) {
