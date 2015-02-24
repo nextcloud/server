@@ -31,16 +31,6 @@ class Test_ActivityManager extends \Test\TestCase {
 		$this->assertEquals(2, sizeof($result));
 	}
 
-	public function testFilterNotificationTypes() {
-		$result = $this->activityManager->filterNotificationTypes(array('NT0', 'NT1', 'NT2', 'NT3'), 'FILTER1');
-		$this->assertTrue(is_array($result));
-		$this->assertEquals(3, sizeof($result));
-
-		$result = $this->activityManager->filterNotificationTypes(array('NT0', 'NT1', 'NT2', 'NT3'), 'FILTER2');
-		$this->assertTrue(is_array($result));
-		$this->assertEquals(4, sizeof($result));
-	}
-
 	public function testDefaultTypes() {
 		$result = $this->activityManager->getDefaultTypes('stream');
 		$this->assertTrue(is_array($result));
@@ -49,6 +39,14 @@ class Test_ActivityManager extends \Test\TestCase {
 		$result = $this->activityManager->getDefaultTypes('email');
 		$this->assertTrue(is_array($result));
 		$this->assertEquals(0, sizeof($result));
+	}
+
+	public function testTypeIcon() {
+		$result = $this->activityManager->getTypeIcon('NT1');
+		$this->assertEquals('icon-nt-one', $result);
+
+		$result = $this->activityManager->getTypeIcon('NT2');
+		$this->assertEquals('', $result);
 	}
 
 	public function testTranslate() {
@@ -67,14 +65,6 @@ class Test_ActivityManager extends \Test\TestCase {
 		$this->assertFalse($result);
 	}
 
-	public function testTypeIcon() {
-		$result = $this->activityManager->getTypeIcon('NT1');
-		$this->assertEquals('icon-nt-one', $result);
-
-		$result = $this->activityManager->getTypeIcon('NT2');
-		$this->assertEquals('', $result);
-	}
-
 	public function testGroupParameter() {
 		$result = $this->activityManager->getGroupParameter(array());
 		$this->assertEquals(5, $result);
@@ -90,15 +80,27 @@ class Test_ActivityManager extends \Test\TestCase {
 		$result = $this->activityManager->isFilterValid('fv01');
 		$this->assertTrue($result);
 
-		$result = $this->activityManager->isFilterValid('FV2');
+		$result = $this->activityManager->isFilterValid('InvalidFilter');
 		$this->assertFalse($result);
 	}
 
+	public function testFilterNotificationTypes() {
+		$result = $this->activityManager->filterNotificationTypes(array('NT0', 'NT1', 'NT2', 'NT3'), 'fv01');
+		$this->assertTrue(is_array($result));
+		$this->assertEquals(3, sizeof($result));
+
+		$result = $this->activityManager->filterNotificationTypes(array('NT0', 'NT1', 'NT2', 'NT3'), 'InvalidFilter');
+		$this->assertTrue(is_array($result));
+		$this->assertEquals(4, sizeof($result));
+	}
+
 	public function testQueryForFilter() {
+		// Register twice, to test the created sql part
 		$this->activityManager->registerExtension(function() {
 			return new SimpleExtension();
 		});
-		$result = $this->activityManager->getQueryForFilter('filter1');
+
+		$result = $this->activityManager->getQueryForFilter('fv01');
 		$this->assertEquals(
 			array(
 				' and ((`app` = ? and `message` like ?) or (`app` = ? and `message` like ?))',
@@ -106,8 +108,8 @@ class Test_ActivityManager extends \Test\TestCase {
 			), $result
 		);
 
-		$result = $this->activityManager->isFilterValid('filter2');
-		$this->assertFalse($result);
+		$result = $this->activityManager->getQueryForFilter('InvalidFilter');
+		$this->assertEquals(array(null, null), $result);
 	}
 }
 
@@ -117,19 +119,19 @@ class SimpleExtension implements \OCP\Activity\IExtension {
 		return array('NT1', 'NT2');
 	}
 
-	public function filterNotificationTypes($types, $filter) {
-		if ($filter === 'FILTER1') {
-			unset($types[0]);
-		}
-		return $types;
-	}
-
 	public function getDefaultTypes($method) {
 		if ($method === 'stream') {
 			return array('DT0');
 		}
 
 		return array();
+	}
+
+	public function getTypeIcon($type) {
+		if ($type === 'NT1') {
+			return 'icon-nt-one';
+		}
+		return '';
 	}
 
 	public function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode) {
@@ -146,13 +148,6 @@ class SimpleExtension implements \OCP\Activity\IExtension {
 		}
 
 		return false;
-	}
-
-	public function getTypeIcon($type) {
-		if ($type === 'NT1') {
-			return 'icon-nt-one';
-		}
-		return '';
 	}
 
 	public function getGroupParameter($activity) {
@@ -174,8 +169,15 @@ class SimpleExtension implements \OCP\Activity\IExtension {
 		return false;
 	}
 
+	public function filterNotificationTypes($types, $filter) {
+		if ($filter === 'fv01') {
+			unset($types[0]);
+		}
+		return $types;
+	}
+
 	public function getQueryForFilter($filter) {
-		if ($filter === 'filter1') {
+		if ($filter === 'fv01') {
 			return array('`app` = ? and `message` like ?', array('mail', 'ownCloud%'));
 		}
 
@@ -189,11 +191,11 @@ class NoOpExtension implements \OCP\Activity\IExtension {
 		return false;
 	}
 
-	public function filterNotificationTypes($types, $filter) {
+	public function getDefaultTypes($method) {
 		return false;
 	}
 
-	public function getDefaultTypes($method) {
+	public function getTypeIcon($type) {
 		return false;
 	}
 
@@ -202,10 +204,6 @@ class NoOpExtension implements \OCP\Activity\IExtension {
 	}
 
 	public function getSpecialParameterList($app, $text) {
-		return false;
-	}
-
-	public function getTypeIcon($type) {
 		return false;
 	}
 
@@ -218,6 +216,10 @@ class NoOpExtension implements \OCP\Activity\IExtension {
 	}
 
 	public function isFilterValid($filterValue) {
+		return false;
+	}
+
+	public function filterNotificationTypes($types, $filter) {
 		return false;
 	}
 
