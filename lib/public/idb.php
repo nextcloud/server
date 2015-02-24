@@ -24,7 +24,7 @@ namespace OCP;
 /**
  * Small Facade for being able to inject the database connection for tests
  */
-interface IDb {
+interface IDb extends IDBConnection {
 
 
     /**
