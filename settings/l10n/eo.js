@@ -105,7 +105,6 @@ OC.L10N.register(
     "Get the apps to sync your files" : "Ekhavu la aplikaĵojn por sinkronigi viajn dosierojn",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Vi uzas <strong>%s</strong> el la disponeblaj <strong>%s</strong>",
     "Password" : "Pasvorto",
-    "Your password was changed" : "Via pasvorto ŝanĝiĝis",
     "Unable to change your password" : "Ne eblis ŝanĝi vian pasvorton",
     "Current password" : "Nuna pasvorto",
     "New password" : "Nova pasvorto",

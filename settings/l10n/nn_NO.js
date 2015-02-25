@@ -72,7 +72,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Vis Oppstartvegvisaren igjen",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Du har brukt <strong>%s</strong> av dine tilgjengelege <strong>%s</strong>",
     "Password" : "Passord",
-    "Your password was changed" : "Passordet ditt er endra",
     "Unable to change your password" : "Klarte ikkje endra passordet",
     "Current password" : "Passord",
     "New password" : "Nytt passord",

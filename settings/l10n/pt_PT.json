@@ -205,7 +205,6 @@
     "Show First Run Wizard again" : "Mostrar novamente Wizard de Arranque Inicial",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Usou <strong>%s</strong> do disponivel <strong>%s</strong>",
     "Password" : "Palavra-passe",
-    "Your password was changed" : "A sua palavra-passe foi alterada",
     "Unable to change your password" : "Não foi possível alterar a sua palavra-passe",
     "Current password" : "Palavra-passe atual",
     "New password" : "Nova palavra-passe",

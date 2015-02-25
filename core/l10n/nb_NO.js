@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "Sjekket oppdatering av databaseskjema",
     "Checked database schema update for apps" : "Sjekket databaseskjema-oppdatering for apper",
     "Updated \"%s\" to %s" : "Oppdaterte \"%s\" til %s",
-    "Disabled incompatible apps: %s" : "Deaktiverte ukompatible apper: %s",
     "No image or file provided" : "Bilde eller fil ikke angitt",
     "Unknown filetype" : "Ukjent filtype",
     "Invalid image" : "Ugyldig bilde",

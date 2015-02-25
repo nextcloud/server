@@ -48,7 +48,6 @@
     "Show First Run Wizard again" : "แสดงหน้าจอวิซาร์ดนำทางครั้งแรกอีกครั้ง",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "คุณได้ใช้งานไปแล้ว <strong>%s</strong> จากจำนวนที่สามารถใช้ได้ <strong>%s</strong>",
     "Password" : "รหัสผ่าน",
-    "Your password was changed" : "รหัสผ่านของคุณถูกเปลี่ยนแล้ว",
     "Unable to change your password" : "ไม่สามารถเปลี่ยนรหัสผ่านของคุณได้",
     "Current password" : "รหัสผ่านปัจจุบัน",
     "New password" : "รหัสผ่านใหม่",

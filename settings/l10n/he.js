@@ -62,7 +62,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "הצגת אשף ההפעלה הראשונית שוב",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "השתמשת ב־<strong>%s</strong> מתוך <strong>%s</strong> הזמינים לך",
     "Password" : "סיסמא",
-    "Your password was changed" : "הססמה שלך הוחלפה",
     "Unable to change your password" : "לא ניתן לשנות את הססמה שלך",
     "Current password" : "ססמה נוכחית",
     "New password" : "ססמה חדשה",

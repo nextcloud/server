@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "已檢查資料庫格式更新",
     "Checked database schema update for apps" : "已檢查應用程式的資料庫格式更新",
     "Updated \"%s\" to %s" : "已更新 %s 到 %s",
-    "Disabled incompatible apps: %s" : "停用不相容的應用程式：%s",
     "No image or file provided" : "未提供圖片或檔案",
     "Unknown filetype" : "未知的檔案類型",
     "Invalid image" : "無效的圖片",

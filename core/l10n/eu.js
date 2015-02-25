@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "Egiaztatuta datu-basearen zerbitzariaren eguneraketa",
     "Checked database schema update for apps" : "Egiaztatuta aplikazioen datu-basearen zerbitzariaren eguneraketa",
     "Updated \"%s\" to %s" : "\"%s\" %s-ra eguneratua",
-    "Disabled incompatible apps: %s" : "Bateragarriak ez diren desgaitutako aplikazioak: %s",
     "No image or file provided" : "Ez da irudi edo fitxategirik zehaztu",
     "Unknown filetype" : "Fitxategi mota ezezaguna",
     "Invalid image" : "Baliogabeko irudia",

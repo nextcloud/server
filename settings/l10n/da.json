@@ -205,7 +205,6 @@
     "Show First Run Wizard again" : "Vis guiden for første kørsel igen.",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Du har brugt <strong>%s</strong> af den tilgængelige <strong>%s</strong>",
     "Password" : "Kodeord",
-    "Your password was changed" : "Din adgangskode blev ændret",
     "Unable to change your password" : "Ude af stand til at ændre dit kodeord",
     "Current password" : "Nuværende adgangskode",
     "New password" : "Nyt kodeord",

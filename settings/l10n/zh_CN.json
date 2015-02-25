@@ -157,7 +157,6 @@
     "Show First Run Wizard again" : "再次显示首次运行向导",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "你已使用 <strong>%s</strong>，有效空间 <strong>%s</strong>",
     "Password" : "密码",
-    "Your password was changed" : "密码已修改",
     "Unable to change your password" : "无法修改密码",
     "Current password" : "当前密码",
     "New password" : "新密码",

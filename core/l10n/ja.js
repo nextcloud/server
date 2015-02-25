@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "指定データベースのスキーマを更新",
     "Checked database schema update for apps" : "アプリの指定データベースのスキーマを更新",
     "Updated \"%s\" to %s" : "\"%s\" を %s にアップデートしました。",
-    "Disabled incompatible apps: %s" : "無効化された非互換アプリ：%s",
     "No image or file provided" : "画像もしくはファイルが提供されていません",
     "Unknown filetype" : "不明なファイルタイプ",
     "Invalid image" : "無効な画像",

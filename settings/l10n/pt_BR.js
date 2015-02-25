@@ -207,7 +207,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Mostrar Assistente de Primeira Execução novamente",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Você usou <strong>%s</strong> do seu espaço de <strong>%s</strong>",
     "Password" : "Senha",
-    "Your password was changed" : "Sua senha foi alterada",
     "Unable to change your password" : "Não é possivel alterar a sua senha",
     "Current password" : "Senha atual",
     "New password" : "Nova senha",

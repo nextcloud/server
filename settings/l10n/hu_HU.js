@@ -157,7 +157,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Nézzük meg újra az első bejelentkezéskori segítséget!",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Az Ön tárterület-felhasználása jelenleg: <strong>%s</strong>. Maximálisan ennyi áll rendelkezésére: <strong>%s</strong>",
     "Password" : "Jelszó",
-    "Your password was changed" : "A jelszava megváltozott",
     "Unable to change your password" : "A jelszó nem változtatható meg",
     "Current password" : "A jelenlegi jelszó",
     "New password" : "Az új jelszó",

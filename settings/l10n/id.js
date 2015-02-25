@@ -199,7 +199,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Tampilkan Penuntun Konfigurasi Awal",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Anda telah menggunakan <strong>%s</strong> dari total <strong>%s</strong>",
     "Password" : "Sandi",
-    "Your password was changed" : "Sandi Anda telah diubah",
     "Unable to change your password" : "Gagal mengubah sandi Anda",
     "Current password" : "Sandi saat ini",
     "New password" : "Sandi baru",

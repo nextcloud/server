@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "Έλεγχος ενημέρωσης σχήματος βάσης δεδομένων",
     "Checked database schema update for apps" : "Έλεγχος ενημέρωσης σχήματος βάσης δεδομένων για εφαρμογές",
     "Updated \"%s\" to %s" : "Αναβαθμίστηκε \"%s\" σε %s",
-    "Disabled incompatible apps: %s" : "Απενεργοποιημένες μη συμβατές εφαρμογές: %s",
     "No image or file provided" : "Δεν δόθηκε εικόνα ή αρχείο",
     "Unknown filetype" : "Άγνωστος τύπος αρχείου",
     "Invalid image" : "Μη έγκυρη εικόνα",

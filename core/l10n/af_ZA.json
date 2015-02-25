@@ -6,7 +6,6 @@
     "Checked database schema update" : "Databasis skema opdatering nagegaan",
     "Checked database schema update for apps" : "Databasis skema opdatering nagegaan vir sagteware",
     "Updated \"%s\" to %s" : "\"%s\" opgedateer na %s",
-    "Disabled incompatible apps: %s" : "Onversoenbare sagteware onaktief gemaak: %s",
     "No image or file provided" : "Geen prent of lêer voorsien",
     "Unknown filetype" : "Onbekende lêertipe",
     "Invalid image" : "Ongeldige prent",

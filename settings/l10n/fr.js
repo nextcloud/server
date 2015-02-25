@@ -207,7 +207,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Revoir la fenêtre d'accueil affichée lors de votre première connexion",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Vous utilisez <strong>%s</strong> des <strong>%s<strong> disponibles",
     "Password" : "Mot de passe",
-    "Your password was changed" : "Votre mot de passe a été changé",
     "Unable to change your password" : "Impossible de changer votre mot de passe",
     "Current password" : "Mot de passe actuel",
     "New password" : "Nouveau mot de passe",

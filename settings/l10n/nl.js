@@ -207,7 +207,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Toon de Eerste start Wizard opnieuw",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "U heeft <strong>%s</strong> gebruikt van de beschikbare <strong>%s</strong>",
     "Password" : "Wachtwoord",
-    "Your password was changed" : "Je wachtwoord is veranderd",
     "Unable to change your password" : "Niet in staat om uw wachtwoord te wijzigen",
     "Current password" : "Huidig wachtwoord",
     "New password" : "Nieuw",

@@ -6,7 +6,6 @@
     "Checked database schema update" : "Pembaruan skema basis data terperiksa",
     "Checked database schema update for apps" : "Pembaruan skema basis data terperiksa untuk aplikasi",
     "Updated \"%s\" to %s" : "Terbaru \"%s\" sampai %s",
-    "Disabled incompatible apps: %s" : "Aplikasi tidak kompatibel yang dinonaktifkan: %s",
     "No image or file provided" : "Tidak ada gambar atau berkas yang disediakan",
     "Unknown filetype" : "Tipe berkas tidak dikenal",
     "Invalid image" : "Gambar tidak sah",

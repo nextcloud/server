@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "Перевірено оновлення схеми бази даних",
     "Checked database schema update for apps" : "Перевірено оновлення схеми бази даних для додатків",
     "Updated \"%s\" to %s" : "Оновлено \"%s\" до %s",
-    "Disabled incompatible apps: %s" : "Вимкнені несумісні додатки: %s",
     "No image or file provided" : "Немає наданого зображення або файлу",
     "Unknown filetype" : "Невідомий тип файлу",
     "Invalid image" : "Невірне зображення",

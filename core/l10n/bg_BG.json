@@ -6,7 +6,6 @@
     "Checked database schema update" : "Обновяването на схемата на базата данни е проверено",
     "Checked database schema update for apps" : "Обновяването на схемата на базата данни за приложения е проверено",
     "Updated \"%s\" to %s" : "Обновен \"%s\" до %s",
-    "Disabled incompatible apps: %s" : "Изключени са несъвместимите програми: %s.",
     "No image or file provided" : "Не бяха доставени картинка или файл",
     "Unknown filetype" : "Непознат файлов тип",
     "Invalid image" : "Невалидно изображение",

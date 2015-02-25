@@ -207,7 +207,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "初回ウィザードを再表示する",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "現在 <strong>%s</strong> / <strong>%s</strong> を利用しています",
     "Password" : "パスワード",
-    "Your password was changed" : "パスワードを変更しました",
     "Unable to change your password" : "パスワードを変更することができません",
     "Current password" : "現在のパスワード",
     "New password" : "新しいパスワード",

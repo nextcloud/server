@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "데이터베이스 스키마 업데이트 확인됨",
     "Checked database schema update for apps" : "앱용 데이터베이스 스키마 업데이트 확인됨",
     "Updated \"%s\" to %s" : "\"%s\"을(를) %s(으)로 업데이트함",
-    "Disabled incompatible apps: %s" : "호환되지 않는 앱 비활성화됨: %s",
     "No image or file provided" : "사진이나 파일이 없음",
     "Unknown filetype" : "알려지지 않은 파일 형식",
     "Invalid image" : "잘못된 사진",

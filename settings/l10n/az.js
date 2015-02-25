@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "Security" : "Təhlükəsizlik",
     "Authentication error" : "Təyinat metodikası",
     "Your full name has been changed." : "Sizin tam adınız dəyişdirildi.",
     "Unable to change full name" : "Tam adı dəyişmək olmur",
@@ -85,6 +86,7 @@ OC.L10N.register(
     "PHP charset is not set to UTF-8" : "PHP simvol tipi UTF-8 deyil",
     "Send mode" : "Göndərmə rejimi",
     "Authentication method" : "Qeydiyyat metodikası",
+    "Authentication required" : "Qeydiyyat tələb edilir",
     "More" : "Yenə",
     "by" : "onunla",
     "User Documentation" : "İstifadəçi sənədləri",

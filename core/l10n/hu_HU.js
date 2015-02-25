@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "Az adatbázis séma frissítését ellenőriztük",
     "Checked database schema update for apps" : "Az adatbázis séma frissítését ellenőriztük az alkalmazásokra vontakozóan",
     "Updated \"%s\" to %s" : "Frissítettük  \"%s\"-t erre: %s",
-    "Disabled incompatible apps: %s" : "Letiltásra került inkompatibilis alkalmazások: %s",
     "No image or file provided" : "Nincs kép vagy fájl megadva",
     "Unknown filetype" : "Ismeretlen fájltípus",
     "Invalid image" : "Hibás kép",

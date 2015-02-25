@@ -6,7 +6,6 @@
     "Checked database schema update" : "Verificato l'aggiornamento dello schema del database",
     "Checked database schema update for apps" : "Verificato l'aggiornamento dello schema del database per le applicazioni",
     "Updated \"%s\" to %s" : "Aggiornato \"%s\" a %s",
-    "Disabled incompatible apps: %s" : "Applicazione incompatibili disabilitate: %s",
     "No image or file provided" : "Non è stata fornita alcun immagine o file",
     "Unknown filetype" : "Tipo di file sconosciuto",
     "Invalid image" : "Immagine non valida",

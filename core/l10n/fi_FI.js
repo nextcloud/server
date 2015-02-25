@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "Tarkistettu tietokannan skeemapäivitys",
     "Checked database schema update for apps" : "Tarkistettu tietokannan skeemapäivitys sovelluksille",
     "Updated \"%s\" to %s" : "Päivitetty \"%s\" versioon %s",
-    "Disabled incompatible apps: %s" : "Yhteensopimattomat sovellukset poistettiin käytöstä: %s",
     "No image or file provided" : "Kuvaa tai tiedostoa ei määritelty",
     "Unknown filetype" : "Tuntematon tiedostotyyppi",
     "Invalid image" : "Virhellinen kuva",

@@ -135,7 +135,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "راهبری کمکی اجرای اول را دوباره نمایش بده",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "شما استفاده کردید از <strong>%s</strong> از میزان در دسترس <strong>%s</strong>",
     "Password" : "گذرواژه",
-    "Your password was changed" : "رمز عبور شما تغییر یافت",
     "Unable to change your password" : "ناتوان در تغییر گذرواژه",
     "Current password" : "گذرواژه کنونی",
     "New password" : "گذرواژه جدید",

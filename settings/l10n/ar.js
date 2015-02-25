@@ -104,7 +104,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "ابدأ خطوات بداية التشغيل من جديد",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "تم إستهلاك <strong>%s</strong> من المتوفر <strong>%s</strong>",
     "Password" : "كلمة المرور",
-    "Your password was changed" : "لقد تم تغيير كلمة السر",
     "Unable to change your password" : "لم يتم تعديل كلمة السر بنجاح",
     "Current password" : "كلمات السر الحالية",
     "New password" : "كلمات سر جديدة",

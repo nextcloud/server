@@ -55,6 +55,7 @@ OC.L10N.register(
     "Download" : "Prejmi",
     "Download %s" : "Prejmi %s",
     "Direct link" : "Neposredna povezava",
+    "Federated Cloud Sharing" : "Upravljana souporaba oblaka",
     "Allow users on this server to send shares to other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo na druge strežnike.",
     "Allow users on this server to receive shares from other servers" : "Dovoli uporabnikom tega strežnika sprejemanje map za souporabo z drugih strežnikov."
 },

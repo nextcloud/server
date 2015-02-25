@@ -6,7 +6,6 @@
     "Checked database schema update" : "Provereno je osvežavanje šema baze podataka",
     "Checked database schema update for apps" : "Provereno je osvežavanje šema baze podataka za aplikacije",
     "Updated \"%s\" to %s" : "Osveženo je \"%s\" na \"%s\"",
-    "Disabled incompatible apps: %s" : "Isključene su nekompatibilne aplikacije; %s",
     "No image or file provided" : "Nije data slika ili fajl",
     "Unknown filetype" : "Nepoznat tip fajla",
     "Invalid image" : "Neispravna slika",

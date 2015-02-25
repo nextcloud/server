@@ -46,7 +46,6 @@ OC.L10N.register(
     "Online Documentation" : "توردىكى قوللانما",
     "Forum" : "مۇنبەر",
     "Password" : "ئىم",
-    "Your password was changed" : "ئىمىڭىز مۇۋەپپەقىيەتلىك ئۆزگەرتىلدى",
     "Unable to change your password" : "ئىمنى ئۆزگەرتكىلى بولمايدۇ.",
     "Current password" : "نۆۋەتتىكى ئىم",
     "New password" : "يېڭى ئىم",

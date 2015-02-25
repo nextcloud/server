@@ -207,7 +207,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Показать помощник настройки снова",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Вы использовали <strong>%s</strong> из доступных <strong>%s</strong>",
     "Password" : "Пароль",
-    "Your password was changed" : "Ваш пароль был изменён",
     "Unable to change your password" : "Невозможно сменить пароль",
     "Current password" : "Текущий пароль",
     "New password" : "Новый пароль",

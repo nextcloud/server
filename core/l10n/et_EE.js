@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "Andmebaasi skeemi uuendus kontrollitud",
     "Checked database schema update for apps" : "Andmebaasi skeemi uuendus rakendustele on kontrollitud",
     "Updated \"%s\" to %s" : "Uuendatud \"%s\" -> %s",
-    "Disabled incompatible apps: %s" : "Keelatud mitteühilduvad rakendid: %s",
     "No image or file provided" : "Ühtegi pilti või faili pole pakutud",
     "Unknown filetype" : "Tundmatu failitüüp",
     "Invalid image" : "Vigane pilt",

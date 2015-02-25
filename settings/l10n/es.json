@@ -204,7 +204,6 @@
     "Show First Run Wizard again" : "Mostrar nuevamente el Asistente de ejecución inicial",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Ha usado <strong>%s</strong> de los <strong>%s</strong> disponibles",
     "Password" : "Contraseña",
-    "Your password was changed" : "Su contraseña ha sido cambiada",
     "Unable to change your password" : "No se ha podido cambiar su contraseña",
     "Current password" : "Contraseña actual",
     "New password" : "Nueva contraseña",

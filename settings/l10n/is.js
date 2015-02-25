@@ -36,7 +36,6 @@ OC.L10N.register(
     "Commercial Support" : "Borgaður stuðningur",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Þú hefur notað <strong>%s</strong> af tiltæku <strong>%s</strong>",
     "Password" : "Lykilorð",
-    "Your password was changed" : "Lykilorði þínu hefur verið breytt",
     "Unable to change your password" : "Ekki tókst að breyta lykilorðinu þínu",
     "Current password" : "Núverandi lykilorð",
     "New password" : "Nýtt lykilorð",

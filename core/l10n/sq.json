@@ -6,7 +6,6 @@
     "Checked database schema update" : "Përditësim i skemës së kontrolluar të bazës së të dhënave",
     "Checked database schema update for apps" : "Përditësim i skemës së kontrolluar të bazës së të dhënave për aplikacionet",
     "Updated \"%s\" to %s" : "U përditësua \"%s\" në %s",
-    "Disabled incompatible apps: %s" : "Aplikacione të papajtueshme të bllokuara: %s",
     "No image or file provided" : "Nuk është dhënë asnjë imazh apo skedar",
     "Unknown filetype" : "Tip i panjohur skedari",
     "Invalid image" : "Imazh i pavlefshëm",

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "Sprawdzono aktualizację schematu bazy danych",
     "Checked database schema update for apps" : "Sprawdzono aktualizację schematu bazy danych dla aplikacji",
     "Updated \"%s\" to %s" : "Zaktualizowano \"%s\" do %s",
-    "Disabled incompatible apps: %s" : "Wyłączone niekompatybilne aplikacja: %s",
     "No image or file provided" : "Brak obrazu lub pliku dostarczonego",
     "Unknown filetype" : "Nieznany typ pliku",
     "Invalid image" : "Nieprawidłowe zdjęcie",

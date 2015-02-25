@@ -62,7 +62,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "მაჩვენე თავიდან გაშვებული ვიზარდი",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "თქვენ გამოყენებული გაქვთ <strong>%s</strong> –ი –<strong>%s<strong>–დან",
     "Password" : "პაროლი",
-    "Your password was changed" : "თქვენი პაროლი შეიცვალა",
     "Unable to change your password" : "თქვენი პაროლი არ შეიცვალა",
     "Current password" : "მიმდინარე პაროლი",
     "New password" : "ახალი პაროლი",

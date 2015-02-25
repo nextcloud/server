@@ -6,7 +6,6 @@
     "Checked database schema update" : "Verificado atualização do esquema de banco de dados",
     "Checked database schema update for apps" : "Verificar atualização do esquema de banco de dados para aplicativos",
     "Updated \"%s\" to %s" : "Atualizado \"%s\" para %s",
-    "Disabled incompatible apps: %s" : "Desabilitar aplicativos incompatíveis : %s",
     "No image or file provided" : "Nenhuma imagem ou arquivo fornecido",
     "Unknown filetype" : "Tipo de arquivo desconhecido",
     "Invalid image" : "Imagem inválida",

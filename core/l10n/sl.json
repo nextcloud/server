@@ -6,7 +6,6 @@
     "Checked database schema update" : "Izbrana posodobitev sheme podatkovne zbirke",
     "Checked database schema update for apps" : "Izbrana posodobitev sheme podatkovne zbirke za programe",
     "Updated \"%s\" to %s" : "Datoteka \"%s\" je posodobljena na %s",
-    "Disabled incompatible apps: %s" : "Onemogočeni neskladni programi: %s",
     "No image or file provided" : "Ni podane datoteke ali slike",
     "Unknown filetype" : "Neznana vrsta datoteke",
     "Invalid image" : "Neveljavna slika",

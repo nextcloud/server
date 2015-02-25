@@ -79,7 +79,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "បង្ហាញ First Run Wizard ម្តង​ទៀត",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "អ្នក​បាន​ប្រើ <strong>%s</strong> ក្នុង​ចំណោម​ចំនួន​មាន <strong>%s</strong>",
     "Password" : "ពាក្យសម្ងាត់",
-    "Your password was changed" : "ពាក្យ​សម្ងាត់​របស់​អ្នក​ត្រូវ​បាន​ប្ដូរ",
     "Unable to change your password" : "មិន​អាច​ប្ដូរ​ពាក្យ​សម្ងាត់​របស់​អ្នក​បាន​ទេ",
     "Current password" : "ពាក្យសម្ងាត់​បច្ចុប្បន្ន",
     "New password" : "ពាក្យ​សម្ងាត់​ថ្មី",

@@ -207,7 +207,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Znovu zobrazit průvodce prvním spuštěním",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Používáte <strong>%s</strong> z <strong>%s</strong> dostupných",
     "Password" : "Heslo",
-    "Your password was changed" : "Vaše heslo bylo změněno",
     "Unable to change your password" : "Změna vašeho hesla se nezdařila",
     "Current password" : "Současné heslo",
     "New password" : "Nové heslo",

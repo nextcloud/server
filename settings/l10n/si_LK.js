@@ -28,7 +28,6 @@ OC.L10N.register(
     "Less" : "අඩු",
     "by" : "විසින්",
     "Password" : "මුර පදය",
-    "Your password was changed" : "ඔබගේ මුර පදය වෙනස් කෙරුණි",
     "Unable to change your password" : "මුර පදය වෙනස් කළ නොහැකි විය",
     "Current password" : "වත්මන් මුරපදය",
     "New password" : "නව මුරපදය",

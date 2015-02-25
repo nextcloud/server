@@ -6,7 +6,6 @@
     "Checked database schema update" : "已经检查数据库架构更新",
     "Checked database schema update for apps" : "已经检查应用的数据库架构更新",
     "Updated \"%s\" to %s" : "更新 \"%s\" 为 %s",
-    "Disabled incompatible apps: %s" : "禁用不兼容应用：%s",
     "No image or file provided" : "没有提供图片或文件",
     "Unknown filetype" : "未知的文件类型",
     "Invalid image" : "无效的图像",

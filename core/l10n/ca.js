@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "S'ha comprobat l'actualització de l'esquema de la base de dades",
     "Checked database schema update for apps" : "S'ha comprobat l'actualització de l'esquema de la base de dades per les apps",
     "Updated \"%s\" to %s" : "Actualitzat \"%s\" a %s",
-    "Disabled incompatible apps: %s" : "Aplicacions incompatibles desactivades: %s",
     "No image or file provided" : "No s'han proporcionat imatges o fitxers",
     "Unknown filetype" : "Tipus de fitxer desconegut",
     "Invalid image" : "Imatge no vàlida",

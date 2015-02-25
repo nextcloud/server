@@ -129,7 +129,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "再次顯示首次使用精靈",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "您已經使用了 <strong>%s</strong> ，目前可用空間為 <strong>%s</strong>",
     "Password" : "密碼",
-    "Your password was changed" : "你的密碼已更改",
     "Unable to change your password" : "無法變更您的密碼",
     "Current password" : "目前密碼",
     "New password" : "新密碼",

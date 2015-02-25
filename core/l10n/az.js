@@ -15,6 +15,7 @@ OC.L10N.register(
     "Saving..." : "Saxlama...",
     "No" : "Xeyir",
     "Yes" : "Bəli",
+    "Choose" : "Seç",
     "Ok" : "Oldu",
     "_{count} file conflict_::_{count} file conflicts_" : ["",""],
     "Cancel" : "Dayandır",

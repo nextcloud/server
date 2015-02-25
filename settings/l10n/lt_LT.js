@@ -81,7 +81,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Rodyti pirmo karto vedlį dar kartą",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Jūs naudojate <strong>%s</strong> iš galimų <strong>%s</strong>",
     "Password" : "Slaptažodis",
-    "Your password was changed" : "Jūsų slaptažodis buvo pakeistas",
     "Unable to change your password" : "Neįmanoma pakeisti slaptažodžio",
     "Current password" : "Dabartinis slaptažodis",
     "New password" : "Naujas slaptažodis",

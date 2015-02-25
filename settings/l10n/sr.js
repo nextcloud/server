@@ -77,7 +77,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Поново прикажи чаробњак за прво покретање",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Искористили сте <strong>%s</strong> од дозвољених <strong>%s</strong>",
     "Password" : "Лозинка",
-    "Your password was changed" : "Лозинка је промењена",
     "Unable to change your password" : "Не могу да изменим вашу лозинку",
     "Current password" : "Тренутна лозинка",
     "New password" : "Нова лозинка",

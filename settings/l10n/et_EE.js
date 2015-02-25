@@ -171,7 +171,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Näita veelkord Esmase Käivituse Juhendajat",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Kasutad <strong>%s</strong> saadavalolevast <strong>%s</strong>",
     "Password" : "Parool",
-    "Your password was changed" : "Sinu parooli on muudetud",
     "Unable to change your password" : "Sa ei saa oma parooli muuta",
     "Current password" : "Praegune parool",
     "New password" : "Uus parool",

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "Database schema-update gecontroleerd",
     "Checked database schema update for apps" : "Database schema-update voor apps gecontroleerd",
     "Updated \"%s\" to %s" : "Bijgewerkt \"%s\" naar %s",
-    "Disabled incompatible apps: %s" : "Gedeactiveerde incompatibele apps: %s",
     "No image or file provided" : "Geen afbeelding of bestand opgegeven",
     "Unknown filetype" : "Onbekend bestandsformaat",
     "Invalid image" : "Ongeldige afbeelding",

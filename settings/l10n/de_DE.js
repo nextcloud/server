@@ -207,7 +207,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Den Einrichtungsassistenten erneut anzeigen",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Sie verwenden <strong>%s</strong> der verfügbaren <strong>%s</strong>",
     "Password" : "Passwort",
-    "Your password was changed" : "Ihr Passwort wurde geändert.",
     "Unable to change your password" : "Das Passwort konnte nicht geändert werden",
     "Current password" : "Aktuelles Passwort",
     "New password" : "Neues Passwort",

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Checked database schema update" : "Проверено обновление схемы БД",
     "Checked database schema update for apps" : "Проверено обновление схемы БД приложений",
     "Updated \"%s\" to %s" : "Обновлено \"%s\" до %s",
-    "Disabled incompatible apps: %s" : "Отключены несовместимые приложения: %s",
     "No image or file provided" : "Не указано изображение или файл",
     "Unknown filetype" : "Неизвестный тип файла",
     "Invalid image" : "Некорректное изображение",

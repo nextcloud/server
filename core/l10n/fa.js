@@ -5,7 +5,6 @@ OC.L10N.register(
     "Turned on maintenance mode" : "حالت \" در دست تعمیر \" فعال شد .",
     "Turned off maintenance mode" : "حالت \" در دست تعمیر \" غیرفعال شد .",
     "Updated database" : "بروز رسانی پایگاه داده انجام شد .",
-    "Disabled incompatible apps: %s" : "اپ های ناسازگار غیرفعال شدند : %s",
     "No image or file provided" : "هیچ فایل یا تصویری وارد نشده است",
     "Unknown filetype" : "نوع فایل ناشناخته",
     "Invalid image" : "عکس نامعتبر",

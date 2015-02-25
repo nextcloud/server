@@ -159,7 +159,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Opet pokažite First Run Wizard",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Iskoristili ste <strong>%s</strong> od raspoloživog <strong>%s</strong>",
     "Password" : "Lozinka",
-    "Your password was changed" : "Vaša je lozinka promijenjena",
     "Unable to change your password" : "Vašu lozinku nije moguće promijeniti",
     "Current password" : "Trenutna lozinka",
     "New password" : "Nova lozinka",

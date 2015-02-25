@@ -116,7 +116,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Прикажи го повторно волшебникот при првото стартување",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Имате искористено <strong>%s</strong> од достапните <strong>%s</strong>",
     "Password" : "Лозинка",
-    "Your password was changed" : "Вашата лозинка беше променета.",
     "Unable to change your password" : "Вашата лозинка неможе да се смени",
     "Current password" : "Моментална лозинка",
     "New password" : "Нова лозинка",

@@ -207,7 +207,6 @@ OC.L10N.register(
     "Show First Run Wizard again" : "İlk Çalıştırma Sihirbazı'nı yeniden göster",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Kullandığınız: <strong>%s</strong>. Kullanılabilir alan: <strong>%s</strong>",
     "Password" : "Parola",
-    "Your password was changed" : "Parolanız değiştirildi",
     "Unable to change your password" : "Parolanız değiştirilemiyor",
     "Current password" : "Mevcut parola",
     "New password" : "Yeni parola",
