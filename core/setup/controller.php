@@ -118,7 +118,7 @@ class Controller {
 
 	public function loadAutoConfig($post) {
 		if( file_exists($this->autoConfigFile)) {
-			\OC_Log::write('core', 'Autoconfig file found, setting up owncloud...', \OC_Log::INFO);
+			\OC_Log::write('core', 'Autoconfig file found, setting up ownCloud…', \OC_Log::INFO);
 			$AUTOCONFIG = array();
 			include $this->autoConfigFile;
 			$post = array_merge ($post, $AUTOCONFIG);
@@ -188,7 +188,7 @@ class Controller {
 			$errors[] = array(
 				'error' => $this->l10n->t(
 					'It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. ' .
-					'This will lead to problems with files over 4GB and is highly discouraged.',
+					'This will lead to problems with files over 4 GB and is highly discouraged.',
 					$this->defaults->getName()
 				),
 				'hint' => $this->l10n->t('Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP.')
@@ -198,7 +198,7 @@ class Controller {
 			$errors[] = array(
 				'error' => $this->l10n->t(
 					'It seems that this %s instance is running on a 32-bit PHP environment and cURL is not installed. ' .
-					'This will lead to problems with files over 4GB and is highly discouraged.',
+					'This will lead to problems with files over 4 GB and is highly discouraged.',
 					$this->defaults->getName()
 				),
 				'hint' => $this->l10n->t('Please install the cURL extension and restart your webserver.')
