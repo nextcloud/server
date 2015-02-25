@@ -65,6 +65,11 @@ class TagManager implements \OCP\ITagManager {
 	*/
 	public function load($type, $defaultTags = array(), $includeShared = false, $userId = null) {
 		if (is_null($userId)) {
+			$user = $this->userSession->getUser();
+			if ($user === null) {
+				// nothing we can do without a user
+				return null;
+			}
 			$userId = $this->userSession->getUser()->getUId();
 		}
 		return new Tags($this->mapper, $userId, $type, $defaultTags, $includeShared);
