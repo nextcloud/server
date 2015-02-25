@@ -103,29 +103,4 @@ class FileGlobal {
 			}
 		}
 	}
-
-	static public function gc() {
-		$appConfig = \OC::$server->getAppConfig();
-		$last_run = $appConfig->getValue('core', 'global_cache_gc_lastrun', 0);
-		$now = time();
-		if (($now - $last_run) < 300) {
-			// only do cleanup every 5 minutes
-			return;
-		}
-		$appConfig->setValue('core', 'global_cache_gc_lastrun', $now);
-		$cache_dir = self::getCacheDir();
-		if($cache_dir and is_dir($cache_dir)) {
-			$dh=opendir($cache_dir);
-			if(is_resource($dh)) {
-				while (($file = readdir($dh)) !== false) {
-					if($file!='.' and $file!='..') {
-						$mtime = filemtime($cache_dir.$file);
-						if ($mtime < $now) {
-							unlink($cache_dir.$file);
-						}
-					}
-				}
-			}
-		}
-	}
 }
