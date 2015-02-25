@@ -25,4 +25,10 @@ $urlGenerator = new \OC\URLGenerator(\OC::$server->getConfig());
 $token = isset($_GET['t']) ? $_GET['t'] : '';
 $route = isset($_GET['download']) ? 'files_sharing.sharecontroller.downloadShare' : 'files_sharing.sharecontroller.showShare';
 
-OC_Response::redirect($urlGenerator->linkToRoute($route, array('token' => $token)));
+if($token !== '') {
+	OC_Response::redirect($urlGenerator->linkToRoute($route, array('token' => $token)));
+} else {
+	header('HTTP/1.0 404 Not Found');
+	$tmpl = new OCP\Template('', '404', 'guest');
+	print_unescaped($tmpl->fetchPage());
+}
