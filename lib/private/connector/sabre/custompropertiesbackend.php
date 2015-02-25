@@ -23,12 +23,14 @@
 
 namespace OC\Connector\Sabre;
 
-use \Sabre\DAV\PropFind;
-use \Sabre\DAV\PropPatch;
-use \Sabre\HTTP\RequestInterface;
-use \Sabre\HTTP\ResponseInterface;
+use OCP\IDBConnection;
+use OCP\IUser;
+use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
+use Sabre\DAV\PropFind;
+use Sabre\DAV\PropPatch;
+use Sabre\DAV\Tree;
 
-class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\BackendInterface {
+class CustomPropertiesBackend implements BackendInterface {
 
 	/**
 	 * Ignored properties
@@ -49,17 +51,17 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
 	);
 
 	/**
-	 * @var \Sabre\DAV\Tree
+	 * @var Tree
 	 */
 	private $tree;
 
 	/**
-	 * @var \OCP\IDBConnection
+	 * @var IDBConnection
 	 */
 	private $connection;
 
 	/**
-	 * @var \OCP\IUser
+	 * @var IUser
 	 */
 	private $user;
 
@@ -71,14 +73,14 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
 	private $cache = [];
 
 	/**
-	 * @param \Sabre\DAV\Tree $tree node tree
-	 * @param \OCP\IDBConnection $connection database connection
-	 * @param \OCP\IUser $user owner of the tree and properties
+	 * @param Tree $tree node tree
+	 * @param IDBConnection $connection database connection
+	 * @param IUser $user owner of the tree and properties
 	 */
 	public function __construct(
-		\Sabre\DAV\Tree $tree,
-		\OCP\IDBConnection $connection,
-		\OCP\IUser $user) {
+		Tree $tree,
+		IDBConnection $connection,
+		IUser $user) {
 		$this->tree = $tree;
 		$this->connection = $connection;
 		$this->user = $user->getUID();
@@ -93,7 +95,7 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
      */
 	public function propFind($path, PropFind $propFind) {
 		$node = $this->tree->getNodeForPath($path);
-		if (!($node instanceof \OC\Connector\Sabre\Node)) {
+		if (!($node instanceof Node)) {
 			return;
 		}
 
@@ -109,7 +111,7 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
 			return;
 		}
 
-		if ($node instanceof \OC\Connector\Sabre\Directory
+		if ($node instanceof Directory
 			&& $propFind->getDepth() !== 0
 		) {
 			// note: pre-fetching only supported for depth <= 1
@@ -132,7 +134,7 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
      */
 	public function propPatch($path, PropPatch $propPatch) {
 		$node = $this->tree->getNodeForPath($path);
-		if (!($node instanceof \OC\Connector\Sabre\Node)) {
+		if (!($node instanceof Node)) {
 			return;
 		}
 
@@ -175,7 +177,7 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
 
 	/**
 	 * Returns a list of properties for this nodes.;
-	 * @param \OC\Connector\Sabre\Node $node
+	 * @param Node $node
 	 * @param array $requestedProperties requested properties or empty array for "all"
 	 * @return array
 	 * @note The properties list is a list of propertynames the client
@@ -183,7 +185,7 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
 	 * http://www.example.org/namespace#author If the array is empty, all
 	 * properties should be returned
 	 */
-	private function getProperties(\OC\Connector\Sabre\Node $node, array $requestedProperties) {
+	private function getProperties(Node $node, array $requestedProperties) {
 		$path = $node->getPath();
 		if (isset($this->cache[$path])) {
 			return $this->cache[$path];
@@ -222,7 +224,7 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
 	/**
 	 * Update properties
 	 *
-	 * @param \OC\Connector\Sabre\Node $node node for which to update properties
+	 * @param Node $node node for which to update properties
 	 * @param array $properties array of properties to update
 	 *
 	 * @return bool
@@ -230,20 +232,14 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
 	private function updateProperties($node, $properties) {
 		$path = $node->getPath();
 
-		$deleteStatement = $this->connection->prepare(
-			'DELETE FROM `*PREFIX*properties`' .
-			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?'
-		);
+		$deleteStatement = 'DELETE FROM `*PREFIX*properties`' .
+			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?';
 
-		$insertStatement = $this->connection->prepare(
-			'INSERT INTO `*PREFIX*properties`' .
-			' (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)'
-		);
+		$insertStatement = 'INSERT INTO `*PREFIX*properties`' .
+			' (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)';
 
-		$updateStatement = $this->connection->prepare(
-			'UPDATE `*PREFIX*properties` SET `propertyvalue` = ?' .
-			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?'
-		);
+		$updateStatement = 'UPDATE `*PREFIX*properties` SET `propertyvalue` = ?' .
+			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?';
 
 		// TODO: use "insert or update" strategy ?
 		$existing = $this->getProperties($node, array());
@@ -252,18 +248,17 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
 			// If it was null, we need to delete the property
 			if (is_null($propertyValue)) {
 				if (array_key_exists($propertyName, $existing)) {
-					$deleteStatement->execute(
+					$this->connection->executeUpdate($deleteStatement,
 						array(
 							$this->user,
 							$path,
 							$propertyName
 						)
 					);
-					$deleteStatement->closeCursor();
 				}
 			} else {
 				if (!array_key_exists($propertyName, $existing)) {
-					$insertStatement->execute(
+					$this->connection->executeUpdate($insertStatement,
 						array(
 							$this->user,
 							$path,
@@ -271,9 +266,8 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
 							$propertyValue
 						)
 					);
-					$insertStatement->closeCursor();
 				} else {
-					$updateStatement->execute(
+					$this->connection->executeUpdate($updateStatement,
 						array(
 							$propertyValue,
 							$this->user,
@@ -281,7 +275,6 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
 							$propertyName
 						)
 					);
-					$updateStatement->closeCursor();
 				}
 			}
 		}
@@ -295,12 +288,12 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
 	/**
 	 * Bulk load properties for directory children
 	 *
-	 * @param \OC\Connector\Sabre\Directory $node
+	 * @param Directory $node
 	 * @param array $requestedProperties requested properties
 	 *
 	 * @return void
 	 */
-	private function loadChildrenProperties(\OC\Connector\Sabre\Directory $node, $requestedProperties) {
+	private function loadChildrenProperties(Directory $node, $requestedProperties) {
 		$path = $node->getPath();
 		if (isset($this->cache[$path])) {
 			// we already loaded them at some point
@@ -322,7 +315,6 @@ class CustomPropertiesBackend implements \Sabre\DAV\PropertyStorage\Backend\Back
 			array(null, null, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
 		);
 
-		$props = [];
 		$oldPath = null;
 		$props = [];
 		while ($row = $result->fetch()) {
