@@ -131,7 +131,10 @@ EOD;
 		$authors = explode(PHP_EOL, $out);
 
 		$authors = array_filter($authors, function($author) {
-			return !in_array($author, ['', 'Not Committed Yet', 'Jenkins for ownCloud <owncloud-bot@tmit.eu>']);
+			return !in_array($author, [
+				'',
+				'Not Committed Yet <not.committed.yet>',
+				'Jenkins for ownCloud <owncloud-bot@tmit.eu>']);
 		});
 		$authors = array_map(function($author){
 			return " * @author $author";
