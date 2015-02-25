@@ -22,7 +22,7 @@ namespace OC\Tagging;
 
 use \OCP\AppFramework\Db\Mapper,
     \OCP\AppFramework\Db\DoesNotExistException,
-    \OCP\IDb;
+    \OCP\IDBConnection;
 
 /**
  * Mapper for Tag entity
@@ -32,9 +32,9 @@ class TagMapper extends Mapper {
 	/**
 	* Constructor.
 	*
-	* @param IDb $db Instance of the Db abstraction layer.
+	* @param IDBConnection $db Instance of the Db abstraction layer.
 	*/
-	public function __construct(IDb $db) {
+	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'vcategory', 'OC\Tagging\Tag');
 	}
 

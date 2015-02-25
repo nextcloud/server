@@ -31,7 +31,7 @@ namespace OCP;
  */
 interface IDBConnection {
 	/**
-	 * Used to abstract the owncloud database access away
+	 * Used to abstract the ownCloud database access away
 	 * @param string $sql the sql query with ? placeholder for params
 	 * @param int $limit the maximum number of rows
 	 * @param int $offset from which row we want to start

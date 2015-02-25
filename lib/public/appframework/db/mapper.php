@@ -22,7 +22,7 @@
  */
 namespace OCP\AppFramework\Db;
 
-use \OCP\IDb;
+use \OCP\IDBConnection;
 
 
 /**
@@ -36,12 +36,12 @@ abstract class Mapper {
 	protected $db;
 
 	/**
-	 * @param IDb $db Instance of the Db abstraction layer
+	 * @param IDBConnection $db Instance of the Db abstraction layer
 	 * @param string $tableName the name of the table. set this to allow entity
 	 * @param string $entityClass the name of the entity that the sql should be
 	 * mapped to queries without using sql
 	 */
-	public function __construct(IDb $db, $tableName, $entityClass=null){
+	public function __construct(IDBConnection $db, $tableName, $entityClass=null){
 		$this->db = $db;
 		$this->tableName = '*PREFIX*' . $tableName;
 
@@ -70,7 +70,8 @@ abstract class Mapper {
 	 */
 	public function delete(Entity $entity){
 		$sql = 'DELETE FROM `' . $this->tableName . '` WHERE `id` = ?';
-		$this->execute($sql, [$entity->getId()]);
+		$stmt = $this->execute($sql, [$entity->getId()]);
+		$stmt->closeCursor();
 		return $entity;
 	}
 
@@ -103,7 +104,7 @@ abstract class Mapper {
 				$values .= ',';
 			}
 
-			array_push($params, $entity->$getter());
+			$params[] = $entity->$getter();
 			$i++;
 
 		}
@@ -111,9 +112,11 @@ abstract class Mapper {
 		$sql = 'INSERT INTO `' . $this->tableName . '`(' .
 				$columns . ') VALUES(' . $values . ')';
 
-		$this->execute($sql, $params);
+		$stmt = $this->execute($sql, $params);
 
-		$entity->setId((int) $this->db->getInsertId($this->tableName));
+		$entity->setId((int) $this->db->lastInsertId($this->tableName));
+
+		$stmt->closeCursor();
 
 		return $entity;
 	}
@@ -162,15 +165,16 @@ abstract class Mapper {
 				$columns .= ',';
 			}
 
-			array_push($params, $entity->$getter());
+			$params[] = $entity->$getter();
 			$i++;
 		}
 
 		$sql = 'UPDATE `' . $this->tableName . '` SET ' .
 				$columns . ' WHERE `id` = ?';
-		array_push($params, $id);
+		$params[] = $id;
 
-		$this->execute($sql, $params);
+		$stmt = $this->execute($sql, $params);
+		$stmt->closeCursor();
 
 		return $entity;
 	}
@@ -185,7 +189,7 @@ abstract class Mapper {
 	 * @return \PDOStatement the database query result
 	 */
 	protected function execute($sql, array $params=[], $limit=null, $offset=null){
-		$query = $this->db->prepareQuery($sql, $limit, $offset);
+		$query = $this->db->prepare($sql, $limit, $offset);
 
 		$index = 1;  // bindParam is 1 indexed
 		foreach($params as $param) {
@@ -209,7 +213,9 @@ abstract class Mapper {
 			$index++;
 		}
 
-		return $query->execute();
+		$query->execute();
+
+		return $query;
 	}
 
 
