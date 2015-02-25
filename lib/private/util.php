@@ -1287,16 +1287,6 @@ class OC_Util {
 	}
 
 	/**
-	 * Checks if a secure random number generator is available
-	 *
-	 * @return true
-	 * @deprecated Function will be removed in the future and does only return true.
-	 */
-	public static function secureRNGAvailable() {
-		return true;
-	}
-
-	/**
 	 * Get URL content
 	 * @param string $url Url to get content
 	 * @deprecated Use \OC::$server->getHTTPHelper()->getUrlContent($url);
