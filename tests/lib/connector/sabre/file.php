@@ -26,7 +26,7 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 			'permissions'=>\OCP\Constants::PERMISSION_ALL
 		), null);
 
-		$file = new OC_Connector_Sabre_File($view, $info);
+		$file = new \OC\Connector\Sabre\File($view, $info);
 
 		// action
 		$file->put('test data');
@@ -52,7 +52,7 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 			'permissions' => \OCP\Constants::PERMISSION_ALL
 		), null);
 
-		$file = new OC_Connector_Sabre_File($view, $info);
+		$file = new \OC\Connector\Sabre\File($view, $info);
 
 		$this->assertNotEmpty($file->put('test data'));
 	}
@@ -86,7 +86,7 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 			'permissions' => \OCP\Constants::PERMISSION_ALL
 		), null);
 
-		$file = new OC_Connector_Sabre_File($view, $info);
+		$file = new \OC\Connector\Sabre\File($view, $info);
 
 		// action
 		$file->put('test data');
@@ -109,7 +109,7 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 		$info = new \OC\Files\FileInfo('/super*star.txt', null, null, array(
 			'permissions' => \OCP\Constants::PERMISSION_ALL
 		), null);
-		$file = new OC_Connector_Sabre_File($view, $info);
+		$file = new \OC\Connector\Sabre\File($view, $info);
 
 		// action
 		$file->put('test data');
@@ -130,7 +130,7 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 		$info = new \OC\Files\FileInfo('/super*star.txt', null, null, array(
 			'permissions' => \OCP\Constants::PERMISSION_ALL
 		), null);
-		$file = new OC_Connector_Sabre_File($view, $info);
+		$file = new \OC\Connector\Sabre\File($view, $info);
 		$file->setName('/super*star.txt');
 	}
 
@@ -163,7 +163,7 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 			'permissions' => \OCP\Constants::PERMISSION_ALL
 		), null);
 
-		$file = new OC_Connector_Sabre_File($view, $info);
+		$file = new \OC\Connector\Sabre\File($view, $info);
 
 		// action
 		$file->put('test data');
@@ -185,7 +185,7 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 			'permissions' => \OCP\Constants::PERMISSION_ALL
 		), null);
 
-		$file = new OC_Connector_Sabre_File($view, $info);
+		$file = new \OC\Connector\Sabre\File($view, $info);
 
 		// action
 		$file->delete();
@@ -203,7 +203,7 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 			'permissions' => 0
 		), null);
 
-		$file = new OC_Connector_Sabre_File($view, $info);
+		$file = new \OC\Connector\Sabre\File($view, $info);
 
 		// action
 		$file->delete();
@@ -226,7 +226,7 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 			'permissions' => \OCP\Constants::PERMISSION_ALL
 		), null);
 
-		$file = new OC_Connector_Sabre_File($view, $info);
+		$file = new \OC\Connector\Sabre\File($view, $info);
 
 		// action
 		$file->delete();

@@ -10,7 +10,7 @@ namespace Test\OC\Connector\Sabre;
 
 
 use OC\Files\FileInfo;
-use OC_Connector_Sabre_Directory;
+use OC\Connector\Sabre\Directory;
 use PHPUnit_Framework_TestCase;
 
 class TestDoubleFileView extends \OC\Files\View {
@@ -103,7 +103,7 @@ class ObjectTree extends \Test\TestCase {
 
 		$info = new FileInfo('', null, null, array(), null);
 
-		$rootDir = new OC_Connector_Sabre_Directory($view, $info);
+		$rootDir = new Directory($view, $info);
 		$objectTree = $this->getMock('\OC\Connector\Sabre\ObjectTree',
 			array('nodeExists', 'getNodeForPath'),
 			array($rootDir, $view));
@@ -117,6 +117,125 @@ class ObjectTree extends \Test\TestCase {
 		$mountManager = \OC\Files\Filesystem::getMountManager();
 		$objectTree->init($rootDir, $view, $mountManager);
 		$objectTree->move($source, $dest);
+	}
+
+	/**
+	 * @dataProvider nodeForPathProvider
+	 */
+	public function testGetNodeForPath(
+			$inputFileName,
+			$fileInfoQueryPath,
+			$outputFileName,
+			$type,
+			$enableChunkingHeader
+	) {
+
+		if ($enableChunkingHeader) {
+			$_SERVER['HTTP_OC_CHUNKED'] = true;
+		}
+
+		$rootNode = $this->getMockBuilder('\OC\Connector\Sabre\Directory')
+			->disableOriginalConstructor()
+			->getMock();
+		$mountManager = $this->getMock('\OC\Files\Mount\Manager');
+		$view = $this->getMock('\OC\Files\View');
+		$fileInfo = $this->getMock('\OCP\Files\FileInfo');
+		$fileInfo->expects($this->once())
+			->method('getType')
+			->will($this->returnValue($type));
+		$fileInfo->expects($this->once())
+			->method('getName')
+			->will($this->returnValue($outputFileName));
+
+		$view->expects($this->once())
+			->method('getFileInfo')
+			->with($fileInfoQueryPath)
+			->will($this->returnValue($fileInfo));
+
+		$tree = new \OC\Connector\Sabre\ObjectTree();
+		$tree->init($rootNode, $view, $mountManager);
+
+		$node = $tree->getNodeForPath($inputFileName);
+
+		$this->assertNotNull($node);
+		$this->assertEquals($outputFileName, $node->getName());
+
+		if ($type === 'file') {
+			$this->assertTrue($node instanceof \OC\Connector\Sabre\File);
+		} else {
+			$this->assertTrue($node instanceof \OC\Connector\Sabre\Directory);
+		}
+
+		unset($_SERVER['HTTP_OC_CHUNKED']);
+	}
+
+	function nodeForPathProvider() {
+		return array(
+			// regular file
+			array(
+				'regularfile.txt',
+				'regularfile.txt',
+				'regularfile.txt',
+				'file',
+				false
+			),
+			// regular directory
+			array(
+				'regulardir',
+				'regulardir',
+				'regulardir',
+				'dir',
+				false
+			),
+			// regular file with chunking
+			array(
+				'regularfile.txt',
+				'regularfile.txt',
+				'regularfile.txt',
+				'file',
+				true
+			),
+			// regular directory with chunking
+			array(
+				'regulardir',
+				'regulardir',
+				'regulardir',
+				'dir',
+				true
+			),
+			// file with chunky file name
+			array(
+				'regularfile.txt-chunking-123566789-10-1',
+				'regularfile.txt',
+				'regularfile.txt',
+				'file',
+				true
+			),
+			// regular file in subdir
+			array(
+				'subdir/regularfile.txt',
+				'subdir/regularfile.txt',
+				'regularfile.txt',
+				'file',
+				false
+			),
+			// regular directory in subdir
+			array(
+				'subdir/regulardir',
+				'subdir/regulardir',
+				'regulardir',
+				'dir',
+				false
+			),
+			// file with chunky file name in subdir
+			array(
+				'subdir/regularfile.txt-chunking-123566789-10-1',
+				'subdir/regularfile.txt',
+				'regularfile.txt',
+				'file',
+				true
+			),
+		);
 	}
 
 }

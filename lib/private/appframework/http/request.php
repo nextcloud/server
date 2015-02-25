@@ -543,7 +543,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		// strip off the script name's dir and file name
 		// FIXME: Sabre does not really belong here
-		list($path, $name) = \Sabre\DAV\URLUtil::splitPath($scriptName);
+		list($path, $name) = \Sabre\HTTP\URLUtil::splitPath($scriptName);
 		if (!empty($path)) {
 			if($path === $pathInfo || strpos($pathInfo, $path.'/') === 0) {
 				$pathInfo = substr($pathInfo, strlen($path));
@@ -575,7 +575,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		$pathInfo = $this->getRawPathInfo();
-		// following is taken from \Sabre\DAV\URLUtil::decodePathSegment
+		// following is taken from \Sabre\HTTP\URLUtil::decodePathSegment
 		$pathInfo = rawurldecode($pathInfo);
 		$encoding = mb_detect_encoding($pathInfo, ['UTF-8', 'ISO-8859-1']);
 
