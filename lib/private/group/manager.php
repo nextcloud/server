@@ -106,6 +106,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	public function clearBackends() {
 		$this->backends = array();
 		$this->cachedGroups = array();
+		$this->cachedUserGroups = array();
 	}
 
 	/**
