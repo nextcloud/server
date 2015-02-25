@@ -60,20 +60,25 @@ if [ "$1" ]; then
 	fi
 fi
 
-# Back up existing (dev) config if one exists
-if [ -f config/config.php ]; then
+# Back up existing (dev) config if one exists and backup not already there
+if [ -f config/config.php ] && [ ! -f config/config-autotest-backup.php ]; then
 	mv config/config.php config/config-autotest-backup.php
 fi
 
-function restore_config {
+function cleanup_config {
+	cd "$BASEDIR"
 	# Restore existing config
 	if [ -f config/config-autotest-backup.php ]; then
 		mv config/config-autotest-backup.php config/config.php
 	fi
+	# Remove autotest config
+	if [ -f config/autoconfig.php ]; then
+		rm config/autoconfig.php
+	fi
 }
 
-# restore config on exit, even when killed
-trap restore_config SIGINT SIGTERM
+# restore config on exit
+trap cleanup_config EXIT
 
 # use tmpfs for datadir - should speedup unit test execution
 if [ -d /dev/shm ]; then
@@ -278,9 +283,6 @@ else
 	execute_tests "$1" "$2"
 fi
 
-cd "$BASEDIR"
-
-restore_config
 #
 # NOTES on mysql:
 #  - CREATE DATABASE oc_autotest;
