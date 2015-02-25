@@ -81,6 +81,14 @@ class OwnCloudFunctions extends \Test\TestCase {
 				),
 				'http://testhost/testroot/remote.php/webdav/subdir/',
 			),
+			array(
+				array(
+					'host' => 'http://testhost/testroot/',
+					'root' => '/subdir',
+					'secure' => false
+				),
+				'http://testhost/testroot/remote.php/webdav/subdir/',
+			),
 		);
 	}
 
