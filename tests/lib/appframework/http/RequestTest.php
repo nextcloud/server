@@ -593,6 +593,27 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('http', $request->getServerProtocol());
 	}
 
+	public function testGetServerProtocolBehindLoadBalancers() {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('overwriteprotocol')
+			->will($this->returnValue(''));
+
+		$request = new Request(
+			[
+				'server' => [
+					'HTTP_X_FORWARDED_PROTO' => 'https,http,http'
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->stream
+		);
+
+		$this->assertSame('https', $request->getServerProtocol());
+	}
+
 	/**
 	 * @dataProvider userAgentProvider
 	 * @param string $testAgent
