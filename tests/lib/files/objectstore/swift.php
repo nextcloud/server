@@ -23,8 +23,6 @@ namespace OCA\ObjectStore\Tests\Unit;
 use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\ObjectStore\Swift as ObjectStoreToTest;
 
-use PHPUnit_Framework_TestCase;
-
 //class Swift extends PHPUnit_Framework_TestCase {
 class Swift extends \Test\Files\Storage\Storage {
 

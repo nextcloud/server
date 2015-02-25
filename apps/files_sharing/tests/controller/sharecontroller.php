@@ -36,7 +36,7 @@ use OC\URLGenerator;
 /**
  * @package OCA\Files_Sharing\Controllers
  */
-class ShareControllerTest extends \PHPUnit_Framework_TestCase {
+class ShareControllerTest extends \Test\TestCase {
 
 	/** @var IAppContainer */
 	private $container;
