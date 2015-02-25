@@ -68,7 +68,7 @@ if($linkedItem['item_type'] === 'folder') {
 	$isValid = \OC\Files\Filesystem::isValidPath($file);
 	if(!$isValid) {
 		\OC_Response::setStatus(\OC_Response::STATUS_BAD_REQUEST);
-		\OC_Log::write('core-preview', 'Passed filename is not valid, might be malicious (file:"' . $file . '";ip:"' . $_SERVER['REMOTE_ADDR'] . '")', \OC_Log::WARN);
+		\OC_Log::write('core-preview', 'Passed filename is not valid, might be malicious (file:"' . $file . '";ip:"' . \OC::$server->getRequest()->getRemoteAddress() . '")', \OC_Log::WARN);
 		exit;
 	}
 	$sharedFile = \OC\Files\Filesystem::normalizePath($file);
