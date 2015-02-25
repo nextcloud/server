@@ -62,6 +62,16 @@ class Test_Tags extends \Test\TestCase {
 		parent::tearDown();
 	}
 
+	public function testTagManagerWithoutUserReturnsNull() {
+		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->userSession
+			->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue(null));
+		$this->tagMgr = new OC\TagManager($this->tagMapper, $this->userSession);
+		$this->assertNull($this->tagMgr->load($this->objectType));
+	}
+
 	public function testInstantiateWithDefaults() {
 		$defaultTags = array('Friends', 'Family', 'Work', 'Other');
 
