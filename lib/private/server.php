@@ -77,7 +77,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new PreviewManager();
 		});
 		$this->registerService('TagMapper', function(Server $c) {
-			return new TagMapper($c->getDb());
+			return new TagMapper($c->getDatabaseConnection());
 		});
 		$this->registerService('TagManager', function (Server $c) {
 			$tagMapper = $c->query('TagMapper');

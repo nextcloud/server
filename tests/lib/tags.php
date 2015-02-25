@@ -49,7 +49,7 @@ class Test_Tags extends \Test\TestCase {
 			->will($this->returnValue($this->user));
 
 		$this->objectType = $this->getUniqueID('type_');
-		$this->tagMapper = new OC\Tagging\TagMapper(\OC::$server->getDb());
+		$this->tagMapper = new OC\Tagging\TagMapper(\OC::$server->getDatabaseConnection());
 		$this->tagMgr = new OC\TagManager($this->tagMapper, $this->userSession);
 
 	}
