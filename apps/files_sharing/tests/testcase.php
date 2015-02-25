@@ -65,7 +65,7 @@ abstract class TestCase extends \Test\TestCase {
 
 		// reset backend
 		\OC_User::clearBackends();
-		\OC_User::useBackend('database');
+		\OC_Group::clearBackends();
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
@@ -129,6 +129,12 @@ abstract class TestCase extends \Test\TestCase {
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
 		Filesystem::tearDown();
+
+		// reset backend
+		\OC_User::clearBackends();
+		\OC_User::useBackend('database');
+		\OC_Group::clearBackends();
+		\OC_Group::useBackend(new \OC_Group_Database());
 
 		parent::tearDownAfterClass();
 	}
