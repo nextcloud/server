@@ -44,8 +44,9 @@ class SFTP extends \OC\Files\Storage\Common {
 	*/
 	protected $client;
 
-	private static $tempFiles = array();
-
+	/**
+	 * {@inheritdoc}
+	 */
 	public function __construct($params) {
 		// Register sftp://
 		\Net_SFTP_Stream::register();
@@ -112,6 +113,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		return $this->client;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function test() {
 		if (
 			!isset($this->host)
@@ -123,29 +127,45 @@ class SFTP extends \OC\Files\Storage\Common {
 		return $this->getConnection()->nlist() !== false;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getId(){
 		return 'sftp::' . $this->user . '@' . $this->host . ':' . $this->port . '/' . $this->root;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getHost() {
 		return $this->host;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getRoot() {
 		return $this->root;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function getUser() {
 		return $this->user;
 	}
 
 	/**
 	 * @param string $path
+	 * @return string
 	 */
 	private function absPath($path) {
 		return $this->root . $this->cleanPath($path);
 	}
 
+	/**
+	 * @return bool|string
+	 */
 	private function hostKeysPath() {
 		try {
 			$storage_view = \OCP\Files::getStorage('files_external');
@@ -159,6 +179,10 @@ class SFTP extends \OC\Files\Storage\Common {
 		return false;
 	}
 
+	/**
+	 * @param $keys
+	 * @return bool
+	 */
 	protected function writeHostKeys($keys) {
 		try {
 			$keyPath = $this->hostKeysPath();
@@ -175,6 +199,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		return false;
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function readHostKeys() {
 		try {
 			$keyPath = $this->hostKeysPath();
@@ -198,6 +225,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		return array();
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function mkdir($path) {
 		try {
 			return $this->getConnection()->mkdir($this->absPath($path));
@@ -206,6 +236,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function rmdir($path) {
 		try {
 			return $this->getConnection()->delete($this->absPath($path), true);
@@ -214,6 +247,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function opendir($path) {
 		try {
 			$list = $this->getConnection()->nlist($this->absPath($path));
@@ -235,6 +271,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function filetype($path) {
 		try {
 			$stat = $this->getConnection()->stat($this->absPath($path));
@@ -251,6 +290,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		return false;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function file_exists($path) {
 		try {
 			return $this->getConnection()->stat($this->absPath($path)) !== false;
@@ -259,6 +301,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function unlink($path) {
 		try {
 			return $this->getConnection()->delete($this->absPath($path), true);
@@ -267,6 +312,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function fopen($path, $mode) {
 		try {
 			$absPath = $this->absPath($path);
@@ -296,6 +344,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		return false;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function touch($path, $mtime=null) {
 		try {
 			if (!is_null($mtime)) {
@@ -312,14 +363,27 @@ class SFTP extends \OC\Files\Storage\Common {
 		return true;
 	}
 
+	/**
+	 * @param string $path
+	 * @param string $target
+	 * @throws \Exception
+	 */
 	public function getFile($path, $target) {
 		$this->getConnection()->get($path, $target);
 	}
 
+	/**
+	 * @param string $path
+	 * @param string $target
+	 * @throws \Exception
+	 */
 	public function uploadFile($path, $target) {
 		$this->getConnection()->put($target, $path, NET_SFTP_LOCAL_FILE);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function rename($source, $target) {
 		try {
 			if (!$this->is_dir($target) && $this->file_exists($target)) {
@@ -334,6 +398,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function stat($path) {
 		try {
 			$stat = $this->getConnection()->stat($this->absPath($path));
@@ -349,6 +416,7 @@ class SFTP extends \OC\Files\Storage\Common {
 
 	/**
 	 * @param string $path
+	 * @return string
 	 */
 	public function constructUrl($path) {
 		// Do not pass the password here. We want to use the Net_SFTP object
