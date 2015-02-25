@@ -797,6 +797,9 @@ class OC {
 			self::checkUpgrade();
 		}
 
+		// Always load authentication apps
+		OC_App::loadApps(['authentication']);
+
 		// Load minimum set of apps
 		if (!self::checkUpgrade(false)
 			&& !$systemConfig->getValue('maintenance', false)
@@ -805,8 +808,7 @@ class OC {
 			if(OC_User::isLoggedIn()) {
 				OC_App::loadApps();
 			} else {
-				// For guests: Load only authentication, filesystem and logging
-				OC_App::loadApps(array('authentication'));
+				// For guests: Load only filesystem and logging
 				OC_App::loadApps(array('filesystem', 'logging'));
 				\OC_User::tryBasicAuthLogin();
 			}
@@ -815,7 +817,6 @@ class OC {
 		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
 			try {
 				if (!$systemConfig->getValue('maintenance', false) && !\OCP\Util::needUpgrade()) {
-					OC_App::loadApps(array('authentication'));
 					OC_App::loadApps(array('filesystem', 'logging'));
 					OC_App::loadApps();
 				}
