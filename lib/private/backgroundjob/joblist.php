@@ -58,7 +58,7 @@ class JobList implements IJobList {
 			}
 			$argument = json_encode($argument);
 			if (strlen($argument) > 4000) {
-				throw new \InvalidArgumentException('Background job arguments cant exceed 2048 characters (json encoded');
+				throw new \InvalidArgumentException('Background job arguments can\'t exceed 4000 characters (json encoded)');
 			}
 			$query = $this->conn->prepare('INSERT INTO `*PREFIX*jobs`(`class`, `argument`, `last_run`) VALUES(?, ?, 0)');
 			$query->execute(array($class, $argument));
