@@ -82,6 +82,14 @@ class DependencyAnalyzer {
 		return [implode('.', $first), implode('.', $second)];
 	}
 
+	/**
+	 * Parameters will be normalized and then passed into version_compare
+	 * in the same order they are specified in the method header
+	 * @param string $first
+	 * @param string $second
+	 * @param string $operator
+	 * @return bool result similar to version_compare
+	 */
 	private function compare($first, $second, $operator) {
 		// we cant normalize versions if one of the given parameters is not a
 		// version string but null. In case one parameter is null normalization
@@ -93,10 +101,22 @@ class DependencyAnalyzer {
 		return version_compare($first, $second, $operator);
 	}
 
+	/**
+	 * Checks if a version is bigger than another version
+	 * @param string $first
+	 * @param string $second
+	 * @return bool true if the first version is bigger than the second
+	 */
 	private function compareBigger($first, $second) {
 		return $this->compare($first, $second, '>');
 	}
 
+	/**
+	 * Checks if a version is smaller than another version
+	 * @param string $first
+	 * @param string $second
+	 * @return bool true if the first version is smaller than the second
+	 */
 	private function compareSmaller($first, $second) {
 		return $this->compare($first, $second, '<');
 	}
