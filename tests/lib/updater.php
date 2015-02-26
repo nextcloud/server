@@ -88,7 +88,7 @@ class UpdaterTest extends \Test\TestCase {
 
 	protected function getUpdaterMock($content){
 		// Invalidate cache
-		$mockedAppConfig = $this->getMockBuilder('\OC\AppConfig')
+		$mockedConfig = $this->getMockBuilder('\OCP\IConfig')
 				->disableOriginalConstructor()
 				->getMock()
 		;
@@ -101,7 +101,7 @@ class UpdaterTest extends \Test\TestCase {
 
 		$mockedHTTPHelper->expects($this->once())->method('getUrlContent')->will($this->returnValue($content));
 
-		return new Updater($mockedHTTPHelper, $mockedAppConfig);
+		return new Updater($mockedHTTPHelper, $mockedConfig);
 	}
 
 }
