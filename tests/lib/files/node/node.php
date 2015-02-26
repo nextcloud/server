@@ -340,4 +340,19 @@ class Node extends \Test\TestCase {
 		$node = new \OC\Files\Node\Node($root, $view, '/bar/foo');
 		$node->touch(100);
 	}
+
+	/**
+	 * @expectedException \OCP\Files\InvalidPathException
+	 */
+	public function testInvalidPath() {
+		$manager = $this->getMock('\OC\Files\Mount\Manager');
+		/**
+		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 */
+		$view = $this->getMock('\OC\Files\View');
+		$root = $this->getMock('\OC\Files\Node\Root', array(), array($manager, $view, $this->user));
+
+		$node = new \OC\Files\Node\Node($root, $view, '/../foo');
+		$node->getFileInfo();
+	}
 }
