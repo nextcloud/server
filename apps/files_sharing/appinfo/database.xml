@@ -25,6 +25,7 @@
 			<field>
 				<name>remote_id</name>
 				<type>integer</type>
+				<default>-1</default>
 				<notnull>true</notnull>
 				<length>4</length>
 			</field>
