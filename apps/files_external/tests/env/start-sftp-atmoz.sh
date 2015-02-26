@@ -44,7 +44,7 @@ return array(
     'host'=>'$host',
     'user'=>'$user',
     'password'=>'$password',
-    'root'=>'',
+    'root'=>'upload',
 );
 
 DELIM
@@ -62,4 +62,7 @@ fi
 # TODO find a way to determine the successful initialization inside the docker container
 echo "Waiting 5 seconds for sftp initialization ... "
 sleep 5
+
+# create folder "upload" with correct permissions
+docker exec $container bash -c "mkdir /home/$user/upload && chown $user:users /home/$user/upload"
 
