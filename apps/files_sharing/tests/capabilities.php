@@ -61,9 +61,9 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @covers OCA\Files_Sharing\Capabilities::getCaps
 	 */
 	public function testNoLinkSharing() {
-		$map = array(
-			array('core', 'shareapi_allow_links', 'yes', 'no'),
-		);
+		$map = [
+			['core', 'shareapi_allow_links', 'yes', 'no'],
+		];
 		$result = $this->getResults($map);
 		$this->assertInternalType('array', $result['public']);
 		$this->assertFalse($result['public']['enabled']);
@@ -73,9 +73,9 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @covers OCA\Files_Sharing\Capabilities::getCaps
 	 */
 	public function testOnlyLinkSharing() {
-		$map = array(
-			array('core', 'shareapi_allow_links', 'yes', 'yes'),
-		);
+		$map = [
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+		];
 		$result = $this->getResults($map);
 		$this->assertInternalType('array', $result['public']);
 		$this->assertTrue($result['public']['enabled']);
@@ -85,10 +85,10 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @covers OCA\Files_Sharing\Capabilities::getCaps
 	 */
 	public function testLinkPassword() {
-		$map = array(
-			array('core', 'shareapi_allow_links', 'yes', 'yes'),
-			array('core', 'shareapi_enforce_links_password', 'yes', 'yes'),
-		);
+		$map = [
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_enforce_links_password', 'yes', 'yes'],
+		];
 		$result = $this->getResults($map);
 		$this->assertArrayHasKey('password_enforced', $result['public']);
 		$this->assertTrue($result['public']['password_enforced']);
@@ -98,10 +98,10 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @covers OCA\Files_Sharing\Capabilities::getCaps
 	 */
 	public function testLinkNoPassword() {
-		$map = array(
-			array('core', 'shareapi_allow_links', 'yes', 'yes'),
-			array('core', 'shareapi_enforce_links_password', 'yes', 'no'),
-		);
+		$map = [
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_enforce_links_password', 'yes', 'no'],
+		];
 		$result = $this->getResults($map);
 		$this->assertArrayHasKey('password_enforced', $result['public']);
 		$this->assertFalse($result['public']['password_enforced']);
@@ -111,10 +111,10 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @covers OCA\Files_Sharing\Capabilities::getCaps
 	 */
 	public function testLinkNoExpireDate() {
-		$map = array(
-			array('core', 'shareapi_allow_links', 'yes', 'yes'),
-			array('core', 'shareapi_default_expire_date', 'yes', 'no'),
-		);
+		$map = [
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_default_expire_date', 'yes', 'no'],
+		];
 		$result = $this->getResults($map);
 		$this->assertArrayHasKey('expire_date', $result['public']);
 		$this->assertInternalType('array', $result['public']['expire_date']);
@@ -125,12 +125,12 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @covers OCA\Files_Sharing\Capabilities::getCaps
 	 */
 	public function testLinkExpireDate() {
-		$map = array(
-			array('core', 'shareapi_allow_links', 'yes', 'yes'),
-			array('core', 'shareapi_default_expire_date', 'yes', 'yes'),
-			array('core', 'shareapi_expire_after_n_days', '7', '7'),
-			array('core', 'shareapi_enforce_expire_date', 'yes', 'no'),
-		);
+		$map = [
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_default_expire_date', 'yes', 'yes'],
+			['core', 'shareapi_expire_after_n_days', '7', '7'],
+			['core', 'shareapi_enforce_expire_date', 'yes', 'no'],
+		];
 		$result = $this->getResults($map);
 		$this->assertArrayHasKey('expire_date', $result['public']);
 		$this->assertInternalType('array', $result['public']['expire_date']);
@@ -143,11 +143,11 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @covers OCA\Files_Sharing\Capabilities::getCaps
 	 */
 	public function testLinkExpireDateEnforced() {
-		$map = array(
-			array('core', 'shareapi_allow_links', 'yes', 'yes'),
-			array('core', 'shareapi_default_expire_date', 'yes', 'yes'),
-			array('core', 'shareapi_enforce_expire_date', 'yes', 'yes'),
-		);
+		$map = [
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_default_expire_date', 'yes', 'yes'],
+			['core', 'shareapi_enforce_expire_date', 'yes', 'yes'],
+		];
 		$result = $this->getResults($map);
 		$this->assertArrayHasKey('expire_date', $result['public']);
 		$this->assertInternalType('array', $result['public']['expire_date']);
@@ -158,10 +158,10 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @covers OCA\Files_Sharing\Capabilities::getCaps
 	 */
 	public function testLinkSendMail() {
-		$map = array(
-			array('core', 'shareapi_allow_links', 'yes', 'yes'),
-			array('core', 'shareapi_allow_public_notification', 'yes', 'yes'),
-		);
+		$map = [
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_allow_public_notification', 'yes', 'yes'],
+		];
 		$result = $this->getResults($map);
 		$this->assertTrue($result['public']['send_mail']);
 	}
@@ -170,10 +170,10 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @covers OCA\Files_Sharing\Capabilities::getCaps
 	 */
 	public function testLinkNoSendMail() {
-		$map = array(
-			array('core', 'shareapi_allow_links', 'yes', 'yes'),
-			array('core', 'shareapi_allow_public_notification', 'yes', 'no'),
-		);
+		$map = [
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_allow_public_notification', 'yes', 'no'],
+		];
 		$result = $this->getResults($map);
 		$this->assertFalse($result['public']['send_mail']);
 	}
@@ -182,9 +182,9 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @covers OCA\Files_Sharing\Capabilities::getCaps
 	 */
 	public function testUserSendMail() {
-		$map = array(
-			array('core', 'shareapi_allow_mail_notification', 'yes', 'yes'),
-		);
+		$map = [
+			['core', 'shareapi_allow_mail_notification', 'yes', 'yes'],
+		];
 		$result = $this->getResults($map);
 		$this->assertTrue($result['user']['send_mail']);
 	}
@@ -193,9 +193,9 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @covers OCA\Files_Sharing\Capabilities::getCaps
 	 */
 	public function testUserNoSendMail() {
-		$map = array(
-			array('core', 'shareapi_allow_mail_notification', 'yes', 'no'),
-		);
+		$map = [
+			['core', 'shareapi_allow_mail_notification', 'yes', 'no'],
+		];
 		$result = $this->getResults($map);
 		$this->assertFalse($result['user']['send_mail']);
 	}
@@ -204,9 +204,9 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @covers OCA\Files_Sharing\Capabilities::getCaps
 	 */
 	public function testResharing() {
-		$map = array(
-			array('core', 'shareapi_allow_resharing', 'yes', 'yes'),
-		);
+		$map = [
+			['core', 'shareapi_allow_resharing', 'yes', 'yes'],
+		];
 		$result = $this->getResults($map);
 		$this->assertTrue($result['resharing']);
 	}
@@ -215,9 +215,9 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @covers OCA\Files_Sharing\Capabilities::getCaps
 	 */
 	public function testNoResharing() {
-		$map = array(
-			array('core', 'shareapi_allow_resharing', 'yes', 'no'),
-		);
+		$map = [
+			['core', 'shareapi_allow_resharing', 'yes', 'no'],
+		];
 		$result = $this->getResults($map);
 		$this->assertFalse($result['resharing']);
 	}

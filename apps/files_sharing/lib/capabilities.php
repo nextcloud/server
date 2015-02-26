@@ -53,14 +53,14 @@ class Capabilities {
 	 * @return \OC_OCS_Result
 	 */
 	public function getCaps() {
-		$res = array();
+		$res = [];
 
-		$public = array();
+		$public = [];
 		$public['enabled'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes';
 		if ($public['enabled']) {
 			$public['password_enforced'] = ($this->config->getAppValue('core', 'shareapi_enforce_links_password', 'yes') === 'yes');
 
-			$public['expire_date'] = array();
+			$public['expire_date'] = [];
 			$public['expire_date']['enabled'] = $this->config->getAppValue('core', 'shareapi_default_expire_date', 'yes') === 'yes';
 			if ($public['expire_date']['enabled']) {
 				$public['expire_date']['days'] = $this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
@@ -76,11 +76,11 @@ class Capabilities {
 		$res['resharing'] = $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
 
 
-		return new \OC_OCS_Result(array(
-			'capabilities' => array(
+		return new \OC_OCS_Result([
+			'capabilities' => [
 				'files_sharing' => $res
-				),
-			));
+				],
+			]);
 	}
 	
 }
