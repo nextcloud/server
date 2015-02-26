@@ -11,7 +11,6 @@ namespace Test\OC\Connector\Sabre;
 
 use OC\Files\FileInfo;
 use OC\Connector\Sabre\Directory;
-use PHPUnit_Framework_TestCase;
 
 class TestDoubleFileView extends \OC\Files\View {
 
