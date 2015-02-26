@@ -3,6 +3,12 @@
 
 namespace OC\Connector\Sabre\Exception;
 
+/**
+ * Entity Too Large
+ *
+ * This exception is thrown whenever a user tries to upload a file which exceeds hard limitations
+ *
+ */
 class EntityTooLarge extends \Sabre\DAV\Exception {
 
 	/**

@@ -1,4 +1,12 @@
 <?php
+/**
+ * ownCloud
+ *
+ * @author Vincent Petry
+ * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
+ *
+ * @license AGPL3
+ */
 
 namespace OC\Connector\Sabre;
 

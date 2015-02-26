@@ -1,28 +1,21 @@
 <?php
 /**
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Joas Schilling <nickvergessen@gmx.de>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
- * @author Michael Gapczynski <gapczynskim@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * ownCloud
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
+ * @author Frank Karlitschek
+ * @author Jakob Sack
+ * @copyright 2012 Frank Karlitschek frank@owncloud.org
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+
+/**
+ * This class is responsible for reading and writing config.php, the very basic
+ * configuration file of ownCloud.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * @deprecated use \OC::$server->getConfig() to get an \OCP\Config instance
  */
 class OC_Config {
 

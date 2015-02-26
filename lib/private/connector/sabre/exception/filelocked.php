@@ -1,4 +1,11 @@
 <?php
+/**
+ * ownCloud
+ *
+ * @author Owen Winkler
+ * @copyright 2013 Owen Winkler <owen@owncloud.com>
+ *
+ */
 
 namespace OC\Connector\Sabre\Exception;
 
