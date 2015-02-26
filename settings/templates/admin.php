@@ -175,20 +175,6 @@ if (!$_['has_fileinfo']) {
 <?php
 }
 
-// is PHP charset set to UTF8?
-if (!$_['isPhpCharSetUtf8']) {
-	?>
-	<div class="section">
-		<h2><?php p($l->t('PHP charset is not set to UTF-8'));?></h2>
-
-		<span class="connectionwarning">
-		<?php p($l->t("PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'.")); ?>
-	</span>
-
-	</div>
-<?php
-}
-
 // is locale working ?
 if (!$_['isLocaleWorking']) {
 	?>

@@ -651,6 +651,7 @@ class OC_Util {
 			'ini' => [
 				'mbstring.func_overload' => 0,
 				'output_buffering' => false,
+				'default_charset' => 'UTF-8',
 			],
 		);
 		$missingDependencies = array();
@@ -681,6 +682,11 @@ class OC_Util {
 			}
 			if(is_int($expected)) {
 				if($iniWrapper->getNumeric($setting) !== $expected) {
+					$invalidIniSettings[] = [$setting, $expected];
+				}
+			}
+			if(is_string($expected)) {
+				if(strtolower($iniWrapper->getString($setting)) !== strtolower($expected)) {
 					$invalidIniSettings[] = [$setting, $expected];
 				}
 			}
@@ -1499,15 +1505,6 @@ class OC_Util {
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * Check if PhpCharset config is UTF-8
-	 *
-	 * @return string
-	 */
-	public static function isPhpCharSetUtf8() {
-		return strtoupper(ini_get('default_charset')) === 'UTF-8';
 	}
 
 }
