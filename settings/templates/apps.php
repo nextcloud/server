@@ -8,7 +8,7 @@
 		<a class="app-external" target="_blank" href="https://apps.owncloud.com/?xsortmode=high"><?php p($l->t('More apps'));?> …</a>
 	</li>
 	<li>
-		<a class="app-external" target="_blank" href="https://owncloud.org/dev"><?php p($l->t('Add your app'));?> …</a>
+		<a class="app-external" target="_blank" href="https://owncloud.org/dev"><?php p($l->t('Developer documentation'));?> …</a>
 	</li>
 <?php endif; ?>
 </script>
