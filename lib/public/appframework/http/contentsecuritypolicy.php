@@ -65,6 +65,8 @@ class ContentSecurityPolicy {
 	private $allowedFontDomains = [
 		'\'self\'',
 	];
+	/** @var array Domains from which web-workers and nested browsing content can load elements */
+	private $allowedChildSrcDomains = [];
 
 	/**
 	 * Whether inline JavaScript snippets are allowed or forbidden
@@ -181,6 +183,16 @@ class ContentSecurityPolicy {
 	}
 
 	/**
+	 * Domains from which web-workers and nested browsing content can load elements
+	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
+	 * @return $this
+	 */
+	public function addAllowedChildSrcDomain($domain) {
+		$this->allowedChildSrcDomains[] = $domain;
+		return $this;
+	}
+
+	/**
 	 * Get the generated Content-Security-Policy as a string
 	 * @return string
 	 */
@@ -233,6 +245,11 @@ class ContentSecurityPolicy {
 
 		if(!empty($this->allowedFrameDomains)) {
 			$policy .= 'frame-src ' . implode(' ', $this->allowedFrameDomains);
+			$policy .= ';';
+		}
+
+		if(!empty($this->allowedChildSrcDomains)) {
+			$policy .= 'child-src ' . implode(' ', $this->allowedChildSrcDomains);
 			$policy .= ';';
 		}
 

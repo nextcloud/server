@@ -181,7 +181,6 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-
 	public function testGetAllowedFrameDomain() {
 		$expectedPolicy = "default-src 'none';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self';connect-src 'self';media-src 'self';frame-src www.owncloud.com";
 
@@ -197,8 +196,23 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
+	public function testGetAllowedChildSrcDomain() {
+		$expectedPolicy = "default-src 'none';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self';connect-src 'self';media-src 'self';child-src child.owncloud.com";
+
+		$this->contentSecurityPolicy->addAllowedChildSrcDomain('child.owncloud.com');
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyChildSrcValidMultiple() {
+		$expectedPolicy = "default-src 'none';script-src 'self' 'unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self';connect-src 'self';media-src 'self';child-src child.owncloud.com child.owncloud.org";
+
+		$this->contentSecurityPolicy->addAllowedChildSrcDomain('child.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedChildSrcDomain('child.owncloud.org');
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
 	public function testConfigureStacked() {
-		$expectedPolicy = "default-src 'none';script-src 'self' script.owncloud.org;style-src 'self' style.owncloud.org;img-src 'self' img.owncloud.org;font-src 'self' font.owncloud.org;connect-src 'self' connect.owncloud.org;media-src 'self' media.owncloud.org;object-src objects.owncloud.org;frame-src frame.owncloud.org";
+		$expectedPolicy = "default-src 'none';script-src 'self' script.owncloud.org;style-src 'self' style.owncloud.org;img-src 'self' img.owncloud.org;font-src 'self' font.owncloud.org;connect-src 'self' connect.owncloud.org;media-src 'self' media.owncloud.org;object-src objects.owncloud.org;frame-src frame.owncloud.org;child-src child.owncloud.org";
 
 		$this->contentSecurityPolicy->allowInlineStyle(false)
 			->allowEvalScript(false)
@@ -209,6 +223,7 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 			->addAllowedConnectDomain('connect.owncloud.org')
 			->addAllowedMediaDomain('media.owncloud.org')
 			->addAllowedObjectDomain('objects.owncloud.org')
+			->addAllowedChildSrcDomain('child.owncloud.org')
 			->addAllowedFrameDomain('frame.owncloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
