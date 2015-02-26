@@ -61,17 +61,57 @@ class DependencyAnalyzer {
 			$this->analyzeOC($dependencies, $app));
 	}
 
+	/**
+	 * Truncates both verions to the lowest common version, e.g.
+	 * 5.1.2.3 and 5.1 will be turned into 5.1 and 5.1,
+	 * 5.2.6.5 and 5.1 will be turned into 5.2 and 5.1
+	 * @param string $first
+	 * @param string $second
+	 * @return array first element is the first version, second element is the
+	 * second version
+	 */
+	private function normalizeVersions($first, $second) {
+		$first = explode('.', $first);
+		$second = explode('.', $second);
+
+		// get both arrays to the same minimum size
+		$length = min(count($second), count($first));
+		$first = array_slice($first, 0, $length);
+		$second = array_slice($second, 0, $length);
+
+		return [implode('.', $first), implode('.', $second)];
+	}
+
+	private function compare($first, $second, $operator) {
+		// we cant normalize versions if one of the given parameters is not a
+		// version string but null. In case one parameter is null normalization
+		// will therefore be skipped
+		if ($first !== null && $second !== null) {
+			list($first, $second) = $this->normalizeVersions($first, $second);
+		}
+
+		return version_compare($first, $second, $operator);
+	}
+
+	private function compareBigger($first, $second) {
+		return $this->compare($first, $second, '>');
+	}
+
+	private function compareSmaller($first, $second) {
+		return $this->compare($first, $second, '<');
+	}
+
 	private function analyzePhpVersion($dependencies) {
 		$missing = [];
 		if (isset($dependencies['php']['@attributes']['min-version'])) {
 			$minVersion = $dependencies['php']['@attributes']['min-version'];
-			if (version_compare($this->platform->getPhpVersion(), $minVersion, '<')) {
+			if ($this->compareSmaller($this->platform->getPhpVersion(), $minVersion)) {
 				$missing[] = (string)$this->l->t('PHP %s or higher is required.', $minVersion);
 			}
 		}
 		if (isset($dependencies['php']['@attributes']['max-version'])) {
 			$maxVersion = $dependencies['php']['@attributes']['max-version'];
-			if (version_compare($this->platform->getPhpVersion(), $maxVersion, '>')) {
+			if ($this->compareBigger($this->platform->getPhpVersion(), $maxVersion)) {
 				$missing[] = (string)$this->l->t('PHP with a version lower than %s is required.', $maxVersion);
 			}
 		}
@@ -145,14 +185,14 @@ class DependencyAnalyzer {
 			if (is_array($lib)) {
 				if (isset($lib['@attributes']['min-version'])) {
 					$minVersion = $lib['@attributes']['min-version'];
-					if (version_compare($libVersion, $minVersion, '<')) {
+					if ($this->compareSmaller($libVersion, $minVersion)) {
 						$missing[] = (string)$this->l->t('Library %s with a version higher than %s is required - available version %s.',
 							array($libName, $minVersion, $libVersion));
 					}
 				}
 				if (isset($lib['@attributes']['max-version'])) {
 					$maxVersion = $lib['@attributes']['max-version'];
-					if (version_compare($libVersion, $maxVersion, '>')) {
+					if ($this->compareBigger($libVersion, $maxVersion)) {
 						$missing[] = (string)$this->l->t('Library %s with a version lower than %s is required - available version %s.',
 							array($libName, $maxVersion, $libVersion));
 					}
@@ -204,12 +244,12 @@ class DependencyAnalyzer {
 		}
 
 		if (!is_null($minVersion)) {
-			if (version_compare($this->platform->getOcVersion(), $minVersion, '<')) {
+			if ($this->compareSmaller($this->platform->getOcVersion(), $minVersion)) {
 				$missing[] = (string)$this->l->t('ownCloud %s or higher is required.', $minVersion);
 			}
 		}
 		if (!is_null($maxVersion)) {
-			if (version_compare($this->platform->getOcVersion(), $maxVersion, '>')) {
+			if ($this->compareBigger($this->platform->getOcVersion(), $maxVersion)) {
 				$missing[] = (string)$this->l->t('ownCloud with a version lower than %s is required.', $maxVersion);
 			}
 		}

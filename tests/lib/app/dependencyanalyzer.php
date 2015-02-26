@@ -52,7 +52,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			}));
 		$this->platformMock->expects($this->any())
 			->method('getOcVersion')
-			->will( $this->returnValue('8.0.1'));
+			->will( $this->returnValue('8.0.2'));
 
 		$this->l10nMock = $this->getMockBuilder('\OCP\IL10N')
 			->disableOriginalConstructor()
@@ -183,8 +183,12 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		return array(
 			// no version -> no missing dependency
 			array(array(), null),
+			array(array(), array('@attributes' => array('min-version' => '8', 'max-version' => '8'))),
+			array(array(), array('@attributes' => array('min-version' => '8.0', 'max-version' => '8.0'))),
+			array(array(), array('@attributes' => array('min-version' => '8.0.2', 'max-version' => '8.0.2'))),
+			array(array('ownCloud 8.0.3 or higher is required.'), array('@attributes' => array('min-version' => '8.0.3'))),
 			array(array('ownCloud 9 or higher is required.'), array('@attributes' => array('min-version' => '9'))),
-			array(array('ownCloud with a version lower than 5.1.2 is required.'), array('@attributes' => array('max-version' => '5.1.2'))),
+			array(array('ownCloud with a version lower than 8.0.1 is required.'), array('@attributes' => array('max-version' => '8.0.1'))),
 		);
 	}
 
@@ -208,7 +212,17 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 				array(array('@attributes' => array('min-version' => '100.0'), '@value' => 'curl'))),
 			// curl in version 100.0 does not exist
 			array(array('Library curl with a version lower than 1.0.0 is required - available version 2.3.4.'),
-				array(array('@attributes' => array('max-version' => '1.0.0'), '@value' => 'curl')))
+				array(array('@attributes' => array('max-version' => '1.0.0'), '@value' => 'curl'))),
+			array(array('Library curl with a version lower than 2.3.3 is required - available version 2.3.4.'),
+				array(array('@attributes' => array('max-version' => '2.3.3'), '@value' => 'curl'))),
+			array(array('Library curl with a version higher than 2.3.5 is required - available version 2.3.4.'),
+				array(array('@attributes' => array('min-version' => '2.3.5'), '@value' => 'curl'))),
+			array(array(),
+				array(array('@attributes' => array('min-version' => '2.3.4', 'max-version' => '2.3.4'), '@value' => 'curl'))),
+			array(array(),
+				array(array('@attributes' => array('min-version' => '2.3', 'max-version' => '2.3'), '@value' => 'curl'))),
+			array(array(),
+				array(array('@attributes' => array('min-version' => '2', 'max-version' => '2'), '@value' => 'curl'))),
 		);
 	}
 
@@ -244,6 +258,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			array(array(), '5.4', '5.5'),
 			array(array('PHP 5.4.4 or higher is required.'), '5.4.4', null),
 			array(array('PHP with a version lower than 5.4.2 is required.'), null, '5.4.2'),
+			array(array(), '5.4', '5.4'),
 		);
 	}
 }
