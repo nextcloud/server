@@ -235,7 +235,7 @@ class ObjectTree extends \Sabre\DAV\Tree {
 		}
 
 		// this will trigger existence check
-		$node = $this->getNodeForPath($source);
+		$this->getNodeForPath($source);
 
 		try {
 			$this->fileView->copy($source, $destination);
