@@ -318,4 +318,9 @@ interface IServerContainer {
 	 * @return \bantu\IniGetWrapper\IniGetWrapper
 	 */
 	 function getIniWrapper();
+
+	/**
+	 * @return \OCP\Command\IBus
+	 */
+	function getCommandBus();
 }
