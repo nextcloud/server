@@ -104,6 +104,7 @@ class Watcher {
 		$cachedContent = $this->cache->getFolderContents($path);
 		foreach ($cachedContent as $entry) {
 			if (!$this->storage->file_exists($entry['path'])) {
+				\OC::$server->getLogger()->warning('File no longer on filesystem while checking for update (' . $entry['path'] . ')');
 				$this->cache->remove($entry['path']);
 			}
 		}

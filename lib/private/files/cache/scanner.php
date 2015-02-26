@@ -197,6 +197,7 @@ class Scanner extends BasicEmitter {
 	}
 
 	protected function removeFromCache($path) {
+		\OC::$server->getLogger()->warning('File no longer on filesystem scanning the filesystem (' . $path . ')');
 		\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $path));
 		$this->emit('\OC\Files\Cache\Scanner', 'removeFromCache', array($path));
 		if ($this->cacheActive) {
