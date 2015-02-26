@@ -59,8 +59,6 @@
     "So-so password" : "Fjalëkalim i pranueshëm",
     "Good password" : "Fjalëkalim i mirë",
     "Strong password" : "Fjalëkalim shumë i mirë",
-    "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." : "Web Serveri juaj nuk është konfigurar sic duhet në mënyre që të lejojë sinkronizimin e skedare pasi ndërfaqja WevDAV duket të jetë e demtuar.",
-    "This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features." : "Ky server nuk ka lidhje në internet. Kjo dmth qe disa nga funksionalitetet si të montohet ruajtje e jashtme, njoftime mbi versione të reja apo instalimi i aplikacioneve nga palë të 3ta nuk do të funksionojnë. Qasja në distancë e skedarëve dhe dërgimi i emaileve njoftues gjithashtu mund të mos funksionojnë. Ju sugjerojmë që të aktivizoni lidhjen në internet për këtë server nëse dëshironi ti keni të gjitha funksionalitetet.",
     "Error occurred while checking server setup" : "Gabim gjatë kontrollit të konfigurimit të serverit",
     "Shared" : "Ndarë",
     "Shared with {recipients}" : "Ndarë me {recipients}",

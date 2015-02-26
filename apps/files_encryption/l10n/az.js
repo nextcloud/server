@@ -11,6 +11,8 @@ OC.L10N.register(
     "Unknown error. Please check your system settings or contact your administrator" : "Tanınmayan səhv. Xahiş olunur sistem quraşdırmalarınızı yoxlayın yada öz inzibatçınızla əlaqə yaradın",
     "Initial encryption running... Please try again later." : "İlkin şifrələnmə işləyir... Xahiş olunur birazdan yenidən müraciət edəsiniz.",
     "Missing requirements." : "Taləbatlar çatışmır.",
-    "Go directly to your %spersonal settings%s." : "Birbaşa öz %sşəxsi quraşdırmalarınıza%s gedin."
+    "Go directly to your %spersonal settings%s." : "Birbaşa öz %sşəxsi quraşdırmalarınıza%s gedin.",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Proqram şifrələnməsi işə salınıb ancaq, sizin açarlar inisializasiya edilməyib. Xahiş edilir çıxıb yenidən daxil olasınız",
+    "Enabled" : "İşə salınıb"
 },
 "nplurals=2; plural=(n != 1);");

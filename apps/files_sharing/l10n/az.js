@@ -20,6 +20,7 @@ OC.L10N.register(
     "You shared %1$s via link" : "Siz yayımladınız %1$s link ilə",
     "Shares" : "Yayımlanmalar",
     "Password" : "Şifrə",
+    "No entries found in this folder" : "Bu qovluqda heç bir verilən tapılmadı",
     "Name" : "Ad",
     "Download" : "Yüklə"
 },

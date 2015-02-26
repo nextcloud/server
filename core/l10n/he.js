@@ -29,7 +29,6 @@ OC.L10N.register(
     "_{count} file conflict_::_{count} file conflicts_" : ["",""],
     "New Files" : "קבצים חדשים",
     "Cancel" : "ביטול",
-    "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." : "שרת האינטרנט שלך אינו מוגדר לצורכי סנכרון קבצים עדיין כיוון שמנשק ה־WebDAV כנראה אינו תקין.",
     "Shared" : "שותף",
     "Share" : "שתף",
     "Error" : "שגיאה",
