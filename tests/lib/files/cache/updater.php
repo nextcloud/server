@@ -146,4 +146,34 @@ class Updater extends \Test\TestCase {
 		$this->assertEquals($cached['size'], $cachedTarget['size']);
 		$this->assertEquals($cached['fileid'], $cachedTarget['fileid']);
 	}
+
+	public function testNewFileDisabled() {
+		$this->storage->file_put_contents('foo.txt', 'bar');
+		$this->assertFalse($this->cache->inCache('foo.txt'));
+
+		$this->updater->disable();
+		$this->updater->update('/foo.txt');
+
+		$this->assertFalse($this->cache->inCache('foo.txt'));
+	}
+
+	public function testMoveDisabled() {
+		$this->storage->file_put_contents('foo.txt', 'qwerty');
+		$this->updater->update('foo.txt');
+
+		$this->assertTrue($this->cache->inCache('foo.txt'));
+		$this->assertFalse($this->cache->inCache('bar.txt'));
+		$cached = $this->cache->get('foo.txt');
+
+		$this->storage->rename('foo.txt', 'bar.txt');
+
+		$this->assertTrue($this->cache->inCache('foo.txt'));
+		$this->assertFalse($this->cache->inCache('bar.txt'));
+
+		$this->updater->disable();
+		$this->updater->rename('foo.txt', 'bar.txt');
+
+		$this->assertTrue($this->cache->inCache('foo.txt'));
+		$this->assertFalse($this->cache->inCache('bar.txt'));
+	}
 }
