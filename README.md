@@ -11,14 +11,14 @@ Quality:
  - CodeClimate: [![Code Climate](https://codeclimate.com/github/owncloud/core/badges/gpa.svg)](https://codeclimate.com/github/owncloud/core)
 
 ### Installation instructions
-http://doc.owncloud.org/server/8.0/developer_manual/app/index.html
+https://doc.owncloud.org/server/8.0/developer_manual/app/index.html
 
 ### Contribution Guidelines
-http://owncloud.org/contribute/
+https://owncloud.org/contribute/
 
 ### Get in touch
-* [Forum](http://forum.owncloud.org)
-* [Mailing list](http://mailman.owncloud.org/mailman/listinfo)
+* [Forum](https://forum.owncloud.org)
+* [Mailing list](https://mailman.owncloud.org/mailman/listinfo)
 * [IRC channel](https://webchat.freenode.net/?channels=owncloud)
 * [Twitter](https://twitter.com/ownClouders)
 
