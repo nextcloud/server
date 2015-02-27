@@ -24,6 +24,9 @@
 
 namespace OC\AppFramework;
 
+use OCP\AppFramework\Http\Response;
+
+
 function rrmdir($directory) {
 	$files = array_diff(scandir($directory), array('.','..'));
 	foreach ($files as $file) {
@@ -36,9 +39,11 @@ function rrmdir($directory) {
 	return rmdir($directory);
 }
 
+
 class AppTest extends \Test\TestCase {
 
 	private $container;
+	private $io;
 	private $api;
 	private $controller;
 	private $dispatcher;
@@ -62,6 +67,7 @@ class AppTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->io = $this->getMockBuilder('OCP\\AppFramework\\Http\\IOutput')->getMock();
 
 		$this->headers = array('key' => 'value');
 		$this->output = 'hi';
@@ -70,6 +76,7 @@ class AppTest extends \Test\TestCase {
 
 		$this->container[$this->controllerName] = $this->controller;
 		$this->container['Dispatcher'] = $this->dispatcher;
+		$this->container['OCP\\AppFramework\\Http\\IOutput'] = $this->io;
 		$this->container['urlParams'] = array();
 
 		$this->appPath = __DIR__ . '/../../../apps/namespacetestapp/appinfo';
@@ -86,14 +93,15 @@ class AppTest extends \Test\TestCase {
 
 
 	public function testControllerNameAndMethodAreBeingPassed(){
-		$return = array(null, array(), array(), null);
+		$return = array(null, array(), array(), null, new Response());
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod))
 			->will($this->returnValue($return));
 
-		$this->expectOutputString('');
+		$this->io->expects($this->never())
+			->method('setOutput');
 
 		App::main($this->controllerName, $this->controllerMethod,
 			$this->container);
@@ -122,26 +130,34 @@ class AppTest extends \Test\TestCase {
 		rrmdir($this->appPath);
 	}
 
-	/*
-	FIXME: this complains about shit headers which are already sent because
-	of the content length. Would be cool if someone could fix this
 
 	public function testOutputIsPrinted(){
-		$return = array(null, array(), $this->output);
+		$return = [null, [], [], $this->output, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod))
 			->will($this->returnValue($return));
-
-		$this->expectOutputString($this->output);
-
-		App::main($this->controllerName, $this->controllerMethod, array(),
-			$this->container);
+		$this->io->expects($this->once())
+			->method('setOutput')
+			->with($this->equalTo($this->output));
+		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
 	}
-	*/
 
-	// FIXME: if someone manages to test the headers output, I'd be grateful
 
+	public function testCallbackIsCalled(){
+		$mock = $this->getMockBuilder('OCP\AppFramework\Http\ICallbackResponse')
+			->getMock();
+
+		$return = [null, [], [], $this->output, $mock];
+		$this->dispatcher->expects($this->once())
+			->method('dispatch')
+			->with($this->equalTo($this->controller),
+				$this->equalTo($this->controllerMethod))
+			->will($this->returnValue($return));
+		$mock->expects($this->once())
+			->method('callback');
+		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
+	}
 
 }

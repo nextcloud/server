@@ -28,6 +28,7 @@ use OC;
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\Dispatcher;
+use OC\AppFramework\Http\Output;
 use OC\AppFramework\Core\API;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
@@ -67,6 +68,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('OCP\\App\\IAppManager', function($c) {
 			return $this->getServer()->getAppManager();
+		});
+
+		$this->registerService('OCP\\AppFramework\\Http\\IOutput', function($c){
+			return new Output();
 		});
 
 		$this->registerService('OCP\\IAvatarManager', function($c) {
