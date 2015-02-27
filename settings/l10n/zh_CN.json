@@ -93,8 +93,6 @@
     "Database Performance Info" : "数据库性能信息",
     "Module 'fileinfo' missing" : "模块'文件信息'丢失",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP模块'文件信息'丢失. 我们强烈建议启用此模块以便mime类型检测取得最佳结果.",
-    "PHP charset is not set to UTF-8" : "PHP字符集没有设置为UTF-8",
-    "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." : "PHP字符集没有设置为UTF-8。这会导致非ASC||字符的文件名出现乱码。我们强烈建议修改php.ini文件中的'default_charset' 的值为 'UTF-8'",
     "Locale not working" : "本地化无法工作",
     "System locale can not be set to a one which supports UTF-8." : "系统语系无法设置为支持 UTF-8 的语系。",
     "This means that there might be problems with certain characters in file names." : "这意味着一些文件名中的特定字符可能有问题。",

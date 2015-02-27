@@ -100,8 +100,6 @@ OC.L10N.register(
     "Database Performance Info" : "Información de rindimientu de la base de datos",
     "Module 'fileinfo' missing" : "Nun s'atopó'l módulu \"fileinfo\"",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Nun s'atopó'l módulu PHP 'fileinfo'. Encamentámoste qu'habilites esti módulu pa obtener meyores resultaos cola deteición de tribes MIME.",
-    "PHP charset is not set to UTF-8" : "El xuegu de caracteres de PHP nun ta afitáu pa UTF-8",
-    "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." : "El xuegu de caracteres de PHP nun ta afitáu pa UTF-8. Esto pue causar problemes graves con nomes d'archivos que nun contengan caracteres ASCII. Encamentamos camudar el valor de 'default_charset' a 'UTF-8'.",
     "Locale not working" : "La configuración rexonal nun ta funcionando",
     "System locale can not be set to a one which supports UTF-8." : "Nun se pue escoyer una configuración rexonal que sofite UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Esto significa que pue haber problemes con ciertos caráuteres nos nomes de los ficheros.",

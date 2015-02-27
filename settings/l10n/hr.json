@@ -95,8 +95,6 @@
     "Database Performance Info" : "Info o performansi baze podataka",
     "Module 'fileinfo' missing" : "Nedostaje modul 'fileinfo'",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP modul 'fileinfo' nedostaje. Tolo vam preporučjemo da taj modul omogućitekako biste dobili najbolje rezultate u detekciji mime vrste.",
-    "PHP charset is not set to UTF-8" : "PHP Charset nije postavljen na UTF-8",
-    "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." : "PHP charset nije postavljen na UTF-8. To može prouzročiti ozbiljne probleme s non-ASCII znakovimau nazivima datoteka. Toplo vam preporučujemo da vrijednost 'default_charset' php.ini promijeniteu 'UTF-8'.",
     "Locale not working" : "Regionalna shema ne radi",
     "System locale can not be set to a one which supports UTF-8." : "Regionalnu shemu sustava nemoguće je postaviti na neku koja podržava UTF-8.",
     "This means that there might be problems with certain characters in file names." : "To znači da se mogu javiti problemi s određenim znakovima u datoteci.",

@@ -95,8 +95,6 @@ OC.L10N.register(
     "Database Performance Info" : "Információ az adatbázis teljesítményéről",
     "Module 'fileinfo' missing" : "A 'fileinfo' modul hiányzik",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "A 'fileinfo' PHP modul hiányzik. Erősen javasolt ennek a modulnak a telepítése, mert ezzel lényegesen jobb a MIME-típusok felismerése.",
-    "PHP charset is not set to UTF-8" : "A PHP-karakterkészlet nem UTF-8-ra van állítva",
-    "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." : "A PHP-karakterkészlet nem UTF-8-ra van állítva. Ez komoly problémákat okozhat, ha valaki olyan fájlnevet használ, amiben nem csupán ASCII karakterek fordulnak elő. Feltétlenül javasoljuk, hogy a php.ini-ben a 'default_charset' paramétert állítsa 'UTF-8'-ra!",
     "Locale not working" : "A nyelvi lokalizáció nem működik",
     "System locale can not be set to a one which supports UTF-8." : "A rendszer lokalizációs állományai között nem sikerült olyat beállítani, ami támogatja az UTF-8-at.",
     "This means that there might be problems with certain characters in file names." : "Ez azt jelenti, hogy probléma lehet bizonyos karakterekkel a fájlnevekben.",

@@ -106,7 +106,6 @@ OC.L10N.register(
     "Setup Warning" : "Quruluş xəbərdarlığı",
     "Database Performance Info" : "Verilənlər  bazasının davamiyyəti məlumatı",
     "Module 'fileinfo' missing" : "'fileinfo' modulu çatışmır",
-    "PHP charset is not set to UTF-8" : "PHP simvol tipi UTF-8 deyil",
     "days" : "günlər",
     "Send mode" : "Göndərmə rejimi",
     "Authentication method" : "Qeydiyyat metodikası",

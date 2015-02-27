@@ -41,6 +41,7 @@ OC.L10N.register(
     "For anonymous access, leave DN and Password empty." : "Jos haluat mahdollistaa anonyymin pääsyn, jätä DN ja Salasana tyhjäksi ",
     "You can specify Base DN for users and groups in the Advanced tab" : "Voit määrittää käyttäjien ja ryhmien oletus DN:n (distinguished name) 'tarkemmat asetukset'-välilehdeltä  ",
     "users found" : "käyttäjää löytynyt",
+    "Saving" : "Tallennetaan",
     "Back" : "Takaisin",
     "Continue" : "Jatka",
     "LDAP" : "LDAP",
