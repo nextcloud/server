@@ -152,6 +152,8 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @return int
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function getId() {
 		return $this->getFileInfo()->getId();
@@ -166,6 +168,8 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @return int
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function getMTime() {
 		return $this->getFileInfo()->getMTime();
@@ -173,6 +177,8 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @return int
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function getSize() {
 		return $this->getFileInfo()->getSize();
@@ -180,6 +186,8 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @return string
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function getEtag() {
 		return $this->getFileInfo()->getEtag();
@@ -187,6 +195,8 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @return int
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function getPermissions() {
 		return $this->getFileInfo()->getPermissions();
@@ -194,6 +204,8 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @return bool
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function isReadable() {
 		return $this->getFileInfo()->isReadable();
@@ -201,6 +213,8 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @return bool
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function isUpdateable() {
 		return $this->getFileInfo()->isUpdateable();
@@ -208,6 +222,8 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @return bool
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function isDeletable() {
 		return $this->getFileInfo()->isDeletable();
@@ -215,11 +231,18 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @return bool
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function isShareable() {
 		return $this->getFileInfo()->isShareable();
 	}
 
+	/**
+	 * @return bool
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 */
 	public function isCreatable() {
 		return $this->getFileInfo()->isCreatable();
 	}
