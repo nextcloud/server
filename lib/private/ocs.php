@@ -76,7 +76,6 @@ class OC_OCS {
 			$method='get';
 		}elseif($_SERVER['REQUEST_METHOD'] == 'PUT') {
 			$method='put';
-			parse_str(file_get_contents("php://input"), $put_vars);
 		}elseif($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$method='post';
 		}else{
