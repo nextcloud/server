@@ -119,6 +119,32 @@ class Test_Files_Sharing_Api extends TestCase {
 		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
 	}
 
+	/**
+	 * @medium
+	 */
+	public function testCreateShareInvalidPermissions() {
+
+		// simulate a post request
+		$_POST['path'] = $this->filename;
+		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_USER;
+		$_POST['permissions'] = \OCP\Constants::PERMISSION_SHARE;
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+
+		// share was successful?
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(400, $result->getStatusCode());
+
+		$shares = \OCP\Share::getItemShared('file', null);
+		$this->assertCount(0, $shares);
+
+		$fileinfo = $this->view->getFileInfo($this->filename);
+		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+	}
+
+
 	function testEnfoceLinkPassword() {
 
 		$appConfig = \OC::$server->getAppConfig();
@@ -882,6 +908,51 @@ class Test_Files_Sharing_Api extends TestCase {
 		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
 
 	}
+
+	/**
+	 * @medium
+	 * @depends testCreateShare
+	 */
+	public function testUpdateShareInvalidPermissions() {
+
+		$fileInfo = $this->view->getFileInfo($this->filename);
+
+		$result = \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_ALL);
+
+		// share was successful?
+		$this->assertTrue($result);
+
+		$share = \OCP\Share::getItemShared('file', null);
+		$this->assertCount(1, $share);
+		$share = reset($share);
+
+		// check if share have expected permissions, single shared files never have
+		// delete permissions
+		$this->assertEquals(\OCP\Constants::PERMISSION_ALL & ~\OCP\Constants::PERMISSION_DELETE, $share['permissions']);
+
+		// update permissions
+		$params = [];
+		$params['id'] = $share['id'];
+		$params['_put'] = [];
+		$params['_put']['permissions'] = \OCP\Constants::PERMISSION_SHARE;
+
+		$result = \OCA\Files_Sharing\API\Local::updateShare($params);
+
+		//Updating should fail with 400
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(400, $result->getStatusCode());
+
+		$share = \OCP\Share::getItemShared('file', $share['file_source']);
+		$share = reset($share);
+
+		//Permissions should not have changed!
+		$this->assertEquals(\OCP\Constants::PERMISSION_ALL & ~\OCP\Constants::PERMISSION_DELETE, $share['permissions']);
+
+		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+	}
+
 
 	/**
 	 * @medium
