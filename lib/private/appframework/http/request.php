@@ -48,6 +48,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		'method',
 		'requesttoken',
 	);
+	protected $streamReadInitialized = false;
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
@@ -85,16 +86,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				if($vars['method'] === 'POST') {
 					$this->items['post'] = $params;
 				}
-			}
-		// Handle application/x-www-form-urlencoded for methods other than GET
-		// or post correctly
-		} elseif($vars['method'] !== 'GET'
-				&& $vars['method'] !== 'POST'
-				&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') !== false) {
-
-			parse_str(file_get_contents($this->inputStream), $params);
-			if(is_array($params)) {
-				$this->items['params'] = $params;
 			}
 		}
 
@@ -276,6 +267,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return mixed the content of the array
 	 */
 	public function getParam($key, $default = null) {
+		$this->initializeStreamParams();
 		return isset($this->parameters[$key])
 			? $this->parameters[$key]
 			: $default;
@@ -287,7 +279,33 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return array the array with all parameters
 	 */
 	public function getParams() {
+		$this->initializeStreamParams();
 		return $this->parameters;
+	}
+
+	/**
+	 * Workaround for ownCloud 8 to only read the stream-input when parameters
+	 * are requested. For the next master release this is removed and implemented
+	 * using a different approach.
+	 */
+	protected function initializeStreamParams() {
+		if(
+			$this->streamReadInitialized === false &&
+			$this->getMethod() !== 'GET' &&
+			$this->getMethod() !== 'POST' &&
+			strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') !== false
+		) {
+			$params = [];
+			parse_str(file_get_contents($this->inputStream), $params);
+			if(!empty($params)) {
+				$this->items['params'] = $params;
+				$this->items['parameters'] = array_merge(
+					$this->items['parameters'],
+					$this->items['params']
+				);
+			}
+		}
+		$this->streamReadInitialized = true;
 	}
 
 	/**
@@ -337,6 +355,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @throws \LogicException
 	 */
 	protected function getContent() {
+		$this->initializeStreamParams();
 		// If the content can't be parsed into an array then return a stream resource.
 		if ($this->method === 'PUT'
 			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
