@@ -962,4 +962,17 @@ class View extends \Test\TestCase {
 	public function testConstructDirectoryTraversalException($root) {
 		new \OC\Files\View($root);
 	}
+
+	public function testRenameOverWrite() {
+		$storage = new Temporary(array());
+		$scanner = $storage->getScanner();
+		$storage->mkdir('sub');
+		$storage->mkdir('foo');
+		$storage->file_put_contents('foo.txt', 'asd');
+		$storage->file_put_contents('foo/bar.txt', 'asd');
+		$scanner->scan('');
+		\OC\Files\Filesystem::mount($storage, array(), '/test/');
+		$view = new \OC\Files\View('');
+		$this->assertTrue($view->rename('/test/foo.txt', '/test/foo/bar.txt'));
+	}
 }
