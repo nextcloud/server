@@ -945,4 +945,17 @@ class View extends \Test\TestCase {
 		$this->assertFalse($view->unlink('foo.txt'));
 		$this->assertTrue($cache->inCache('foo.txt'));
 	}
+
+	public function testRenameOverWrite() {
+		$storage = new Temporary(array());
+		$scanner = $storage->getScanner();
+		$storage->mkdir('sub');
+		$storage->mkdir('foo');
+		$storage->file_put_contents('foo.txt', 'asd');
+		$storage->file_put_contents('foo/bar.txt', 'asd');
+		$scanner->scan('');
+		\OC\Files\Filesystem::mount($storage, array(), '/test/');
+		$view = new \OC\Files\View('');
+		$this->assertTrue($view->rename('/test/foo.txt', '/test/foo/bar.txt'));
+	}
 }

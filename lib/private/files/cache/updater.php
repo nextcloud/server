@@ -42,6 +42,9 @@ class Updater {
 	 * @param int $time
 	 */
 	public function update($path, $time = null) {
+		if (Scanner::isPartialFile($path)) {
+			return;
+		}
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 * @var string $internalPath
@@ -104,6 +107,9 @@ class Updater {
 		if ($sourceStorage && $targetStorage) {
 			if ($sourceStorage === $targetStorage) {
 				$cache = $sourceStorage->getCache($sourceInternalPath);
+				if ($cache->inCache($targetInternalPath)) {
+					$cache->remove($targetInternalPath);
+				}
 				$cache->move($sourceInternalPath, $targetInternalPath);
 
 				if (pathinfo($sourceInternalPath, PATHINFO_EXTENSION) !== pathinfo($targetInternalPath, PATHINFO_EXTENSION)) {
