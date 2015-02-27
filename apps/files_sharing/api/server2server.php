@@ -64,8 +64,6 @@ class Server2Server {
 					$shareWith
 				);
 
-			$name = \OCP\Files::buildNotExistingFileName('/', $name);
-
 			try {
 				$externalManager->addShare($remote, $token, '', $name, $owner, false, $shareWith, $remoteId);
 

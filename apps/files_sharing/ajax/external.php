@@ -38,8 +38,6 @@ $externalManager = new \OCA\Files_Sharing\External\Manager(
 		\OC::$server->getUserSession()->getUser()->getUID()
 );
 
-$name = OCP\Files::buildNotExistingFileName('/', $name);
-
 // check for ssl cert
 if (substr($remote, 0, 5) === 'https' and !OC_Util::getUrlContent($remote)) {
 	\OCP\JSON::error(array('data' => array('message' => $l->t('Invalid or untrusted SSL certificate'))));

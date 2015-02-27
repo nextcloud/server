@@ -9,6 +9,7 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
+use OCP\Files;
 
 class Manager {
 	const STORAGE = '\OCA\Files_Sharing\External\Storage';
@@ -71,15 +72,39 @@ class Manager {
 
 		$user = $user ? $user : $this->uid;
 		$accepted = $accepted ? 1 : 0;
+		$name = Filesystem::normalizePath('/' . $name);
 
-		$mountPoint = Filesystem::normalizePath('/' . $name);
+		if ($accepted) {
+			$mountPoint = Files::buildNotExistingFileName('/', $name);
+			$mountPoint = Filesystem::normalizePath('/' . $mountPoint);
+			$hash = md5($mountPoint);
+		} else {
+			// To avoid conflicts with the mount point generation later,
+			// we only use a temporary mount point name here. The real
+			// mount point name will be generated when accepting the share,
+			// using the original share item name.
+			$tmpMountPointName = Filesystem::normalizePath('/TemporaryMountPointName-' . $name);
+			$mountPoint = $tmpMountPointName;
+			$hash = md5($tmpMountPointName);
+
+			$query = $this->connection->prepare('SELECT `id` FROM `*PREFIX*share_external` WHERE `user` = ? AND `mountpoint_hash` = ?', 1);
+			$query->execute([$user, $hash]);
+
+			$i = 1;
+			while ($query->fetch()) {
+				// The external share already exists for the user
+				$mountPoint = $tmpMountPointName . '-' . $i;
+				$hash = md5($mountPoint);
+				$query->execute([$user, $hash]);
+				$i++;
+			}
+		}
 
 		$query = $this->connection->prepare('
 				INSERT INTO `*PREFIX*share_external`
 					(`remote`, `share_token`, `password`, `name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`, `accepted`, `remote_id`)
 				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 			');
-		$hash = md5($mountPoint);
 		$query->execute(array($remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId));
 
 		if ($accepted) {
@@ -124,7 +149,7 @@ class Manager {
 	 */
 	private function getShare($id) {
 		$getShare = $this->connection->prepare('
-			SELECT `remote`, `share_token`
+			SELECT `remote`, `share_token`, `name`
 			FROM  `*PREFIX*share_external`
 			WHERE `id` = ? AND `user` = ?');
 		$result = $getShare->execute(array($id, $this->uid));
@@ -142,11 +167,17 @@ class Manager {
 		$share = $this->getShare($id);
 
 		if ($share) {
+			$mountPoint = Files::buildNotExistingFileName('/', $share['name']);
+			$mountPoint = Filesystem::normalizePath('/' . $mountPoint);
+			$hash = md5($mountPoint);
+
 			$acceptShare = $this->connection->prepare('
 				UPDATE `*PREFIX*share_external`
-				SET `accepted` = ?
+				SET `accepted` = ?,
+					`mountpoint` = ?,
+					`mountpoint_hash` = ?
 				WHERE `id` = ? AND `user` = ?');
-			$acceptShare->execute(array(1, $id, $this->uid));
+			$acceptShare->execute(array(1, $mountPoint, $hash, $id, $this->uid));
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $id, 'accept');
 		}
 	}
