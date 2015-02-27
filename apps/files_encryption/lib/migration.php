@@ -1,5 +1,5 @@
 <?php
- /**
+/**
  * ownCloud
  *
  * @copyright (C) 2014 ownCloud, Inc.
@@ -35,6 +35,7 @@ class Migration {
 
 	public function __construct() {
 		$this->view = new \OC\Files\View();
+		$this->view->getUpdater()->disable();
 		$this->public_share_key_id = Helper::getPublicShareKeyId();
 		$this->recovery_key_id = Helper::getRecoveryKeyId();
 	}
@@ -50,7 +51,7 @@ class Migration {
 				$this->reorganizeFolderStructureForUser($user);
 			}
 			$offset += $limit;
-		} while(count($users) >= $limit);
+		} while (count($users) >= $limit);
 	}
 
 	public function reorganizeSystemFolderStructure() {
@@ -74,6 +75,10 @@ class Migration {
 		$this->view->deleteAll('/owncloud_private_key');
 		$this->view->deleteAll('/files_encryption/share-keys');
 		$this->view->deleteAll('/files_encryption/keyfiles');
+		$storage = $this->view->getMount('')->getStorage();
+		$storage->getScanner()->scan('files_encryption');
+		$storage->getCache()->remove('owncloud_private_key');
+		$storage->getCache()->remove('public-keys');
 	}
 
 
@@ -96,6 +101,7 @@ class Migration {
 			}
 			// delete old folders
 			$this->deleteOldKeys($user);
+			$this->view->getMount('/' . $user)->getStorage()->getScanner()->scan('files_encryption');
 		}
 	}
 
@@ -127,7 +133,7 @@ class Migration {
 			while (($oldPublicKey = readdir($dh)) !== false) {
 				if (!\OC\Files\Filesystem::isIgnoredDir($oldPublicKey)) {
 					$newPublicKey = substr($oldPublicKey, 0, strlen($oldPublicKey) - strlen('.public.key')) . '.publicKey';
-					$this->view->rename('public-keys/' . $oldPublicKey , 'files_encryption/public_keys/' . $newPublicKey);
+					$this->view->rename('public-keys/' . $oldPublicKey, 'files_encryption/public_keys/' . $newPublicKey);
 				}
 			}
 			closedir($dh);
@@ -141,7 +147,7 @@ class Migration {
 			while (($oldPrivateKey = readdir($dh)) !== false) {
 				if (!\OC\Files\Filesystem::isIgnoredDir($oldPrivateKey)) {
 					$newPrivateKey = substr($oldPrivateKey, 0, strlen($oldPrivateKey) - strlen('.private.key')) . '.privateKey';
-					$this->view->rename('owncloud_private_key/' . $oldPrivateKey , 'files_encryption/' . $newPrivateKey);
+					$this->view->rename('owncloud_private_key/' . $oldPrivateKey, 'files_encryption/' . $newPrivateKey);
 				}
 			}
 			closedir($dh);
@@ -149,10 +155,10 @@ class Migration {
 	}
 
 	private function renameUsersPrivateKey($user) {
-		 $oldPrivateKey = $user . '/files_encryption/' . $user . '.private.key';
-		 $newPrivateKey = substr($oldPrivateKey, 0, strlen($oldPrivateKey) - strlen('.private.key')) . '.privateKey';
+		$oldPrivateKey = $user . '/files_encryption/' . $user . '.private.key';
+		$newPrivateKey = substr($oldPrivateKey, 0, strlen($oldPrivateKey) - strlen('.private.key')) . '.privateKey';
 
-		 $this->view->rename($oldPrivateKey, $newPrivateKey);
+		$this->view->rename($oldPrivateKey, $newPrivateKey);
 	}
 
 	private function getFileName($file, $trash) {
@@ -186,7 +192,7 @@ class Migration {
 	}
 
 	private function getFilePath($path, $user, $trash) {
-		$offset = $trash ? strlen($user . '/files_trashbin/keyfiles') :  strlen($user . '/files_encryption/keyfiles');
+		$offset = $trash ? strlen($user . '/files_trashbin/keyfiles') : strlen($user . '/files_encryption/keyfiles');
 		return substr($path, $offset);
 	}
 
@@ -258,7 +264,7 @@ class Migration {
 					if ($this->view->is_dir($oldShareKeyPath . '/' . $file)) {
 						continue;
 					} else {
-						if (substr($file, 0, strlen($filename) +1) === $filename . '.') {
+						if (substr($file, 0, strlen($filename) + 1) === $filename . '.') {
 
 							$uid = $this->getUidFromShareKey($file, $filename, $trash);
 							$this->view->copy($oldShareKeyPath . '/' . $file, $target . '/' . $uid . '.shareKey');
