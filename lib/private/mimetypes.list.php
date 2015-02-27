@@ -1,28 +1,31 @@
 <?php
 /**
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Normal Ra <normalraw@gmail.com>
- * @author Olivier Paroz <github@oparoz.com>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Thomas Tanghus <thomas@tanghus.net>
- * @author tiezdne <oswald.84@t-online.de>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
+* ownCloud
+*
+* @author Robin Appelman
+* @copyright 2011 Robin Appelman icewind1991@gmail.com
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either
+* version 3 of the License, or any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*
+* You should have received a copy of the GNU Affero General Public
+* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+*
+*/
+
+/**
+ * Array mapping file extensions to mimetypes (in alphabetical order).
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * The first index in the mime type array is the assumed correct mimetype
+ * and the second is either a secure alternative or null if the correct
+ * is considered secure.
  */
 return array(
 	'3gp' => array('video/3gpp', null),

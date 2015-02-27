@@ -1,4 +1,13 @@
 <?php
+/**
+ * ownCloud
+ *
+ * @author Thomas Müller
+ * @copyright 2013 Thomas Müller <thomas.mueller@tmit.eu>
+ *
+ * @license AGPL3
+ */
+
 namespace OC\Connector\Sabre;
 
 class MaintenancePlugin extends \Sabre\DAV\ServerPlugin
