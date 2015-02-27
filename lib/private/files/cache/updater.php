@@ -13,6 +13,11 @@ namespace OC\Files\Cache;
  */
 class Updater {
 	/**
+	 * @var bool
+	 */
+	protected $enabled = true;
+
+	/**
 	 * @var \OC\Files\View
 	 */
 	protected $view;
@@ -30,6 +35,14 @@ class Updater {
 		$this->propagator = new ChangePropagator($view);
 	}
 
+	public function disable() {
+		$this->enabled = false;
+	}
+
+	public function enable() {
+		$this->enabled = true;
+	}
+
 	public function propagate($path, $time = null) {
 		$this->propagator->addChange($path);
 		$this->propagator->propagateChanges($time);
@@ -42,7 +55,7 @@ class Updater {
 	 * @param int $time
 	 */
 	public function update($path, $time = null) {
-		if (Scanner::isPartialFile($path)) {
+		if (!$this->enabled or Scanner::isPartialFile($path)) {
 			return;
 		}
 		/**
@@ -67,6 +80,9 @@ class Updater {
 	 * @param string $path
 	 */
 	public function remove($path) {
+		if (!$this->enabled) {
+			return;
+		}
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 * @var string $internalPath
@@ -91,6 +107,9 @@ class Updater {
 	 * @param string $target
 	 */
 	public function rename($source, $target) {
+		if (!$this->enabled) {
+			return;
+		}
 		/**
 		 * @var \OC\Files\Storage\Storage $sourceStorage
 		 * @var \OC\Files\Storage\Storage $targetStorage
