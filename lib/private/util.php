@@ -576,6 +576,8 @@ class OC_Util {
 		// defined = defined
 		// ini = ini_get
 		// If the dependency is not found the missing module name is shown to the EndUser
+		// When adding new checks always verify that they pass on Travis as well
+		// for ini settings, see https://github.com/owncloud/administration/blob/master/travis-ci/custom.ini
 		$dependencies = array(
 			'classes' => array(
 				'ZipArchive' => 'zip',
