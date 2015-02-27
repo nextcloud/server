@@ -1528,4 +1528,11 @@ class View {
 			$mount
 		);
 	}
+
+	/**
+	 * @return Updater
+	 */
+	public function getUpdater(){
+		return $this->updater;
+	}
 }
