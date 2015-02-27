@@ -173,6 +173,20 @@ class Updater extends BasicEmitter {
 	}
 
 	/**
+	 * Forward messages emitted by the repair routine
+	 *
+	 * @param Repair $repair repair routine
+	 */
+	private function emitRepairMessages(Repair $repair) {
+		$repair->listen('\OC\Repair', 'warning', function ($description) {
+			$this->emit('\OC\Updater', 'repairWarning', array($description));
+		});
+		$repair->listen('\OC\Repair', 'error', function ($description) {
+			$this->emit('\OC\Updater', 'repairError', array($description));
+		});
+	}
+
+	/**
 	 * runs the update actions in maintenance mode, does not upgrade the source files
 	 * except the main .htaccess file
 	 *
@@ -204,6 +218,7 @@ class Updater extends BasicEmitter {
 
 		// pre-upgrade repairs
 		$repair = new Repair(Repair::getBeforeUpgradeRepairSteps());
+		$this->emitRepairMessages($repair);
 		$repair->run();
 
 		// simulate DB upgrade
@@ -223,6 +238,7 @@ class Updater extends BasicEmitter {
 
 			// post-upgrade repairs
 			$repair = new Repair(Repair::getRepairSteps());
+			$this->emitRepairMessages($repair);
 			$repair->run();
 
 			//Invalidate update feed

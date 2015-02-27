@@ -143,6 +143,7 @@ class RepairLegacyStorages extends BasicEmitter {
 		$dataDirId = 'local::' . $dataDir;
 
 		$count = 0;
+		$hasWarnings = false;
 
 		$this->connection->beginTransaction();
 
@@ -167,6 +168,7 @@ class RepairLegacyStorages extends BasicEmitter {
 				}
 			}
 			catch (\OC\RepairException $e) {
+				$hasWarnings = true;
 				$this->emit(
 					'\OC\Repair',
 					'warning',
@@ -180,6 +182,7 @@ class RepairLegacyStorages extends BasicEmitter {
 			. ' WHERE `id` NOT LIKE \'%::%\'';
 		$result = $this->connection->executeQuery($sql);
 		$row = $result->fetch();
+
 		// find at least one to make sure it's worth
 		// querying the user list
 		if ((int)$row['c'] > 0) {
@@ -213,6 +216,7 @@ class RepairLegacyStorages extends BasicEmitter {
 							}
 						}
 						catch (\OC\RepairException $e) {
+							$hasWarnings = true;
 							$this->emit(
 								'\OC\Repair',
 								'warning',
@@ -229,6 +233,15 @@ class RepairLegacyStorages extends BasicEmitter {
 
 		$this->connection->commit();
 
-		$this->config->setAppValue('core', 'repairlegacystoragesdone', 'yes');
+		if ($hasWarnings) {
+			$this->emit(
+				'\OC\Repair',
+				'warning',
+				array('Some legacy storages could not be repaired. Please manually fix them then re-run ./occ maintenance:repair')
+			);
+		} else {
+			// if all were done, no need to redo the repair during next upgrade
+			$this->config->setAppValue('core', 'repairlegacystoragesdone', 'yes');
+		}
 	}
 }

@@ -46,6 +46,9 @@ class Repair extends Command {
 		$this->repair->listen('\OC\Repair', 'info', function ($description) use ($output) {
 			$output->writeln('     - ' . $description);
 		});
+		$this->repair->listen('\OC\Repair', 'warning', function ($description) use ($output) {
+			$output->writeln('     - WARNING: ' . $description);
+		});
 		$this->repair->listen('\OC\Repair', 'error', function ($description) use ($output) {
 			$output->writeln('     - ERROR: ' . $description);
 		});
