@@ -191,7 +191,7 @@ class TestRepairLegacyStorages extends \Test\TestCase {
 
 		$this->repair->run();
 
-		$this->assertEquals(1, count($this->warnings));
+		$this->assertEquals(2, count($this->warnings));
 		$this->assertEquals('Could not repair legacy storage ', substr(current($this->warnings), 0, 32));
 
 		// storages left alone
