@@ -221,7 +221,7 @@ class Migration {
 						$extension = $this->getExtension($file, $trash);
 						$targetDir = $this->getTargetDir($user, $filePath, $filename, $extension, $trash);
 						$this->createPathForKeys($targetDir);
-						$this->view->copy($path . '/' . $file, $targetDir . '/fileKey');
+						$this->view->rename($path . '/' . $file, $targetDir . '/fileKey');
 						$this->renameShareKeys($user, $filePath, $filename, $targetDir, $trash);
 					}
 				}
@@ -267,7 +267,7 @@ class Migration {
 						if (substr($file, 0, strlen($filename) + 1) === $filename . '.') {
 
 							$uid = $this->getUidFromShareKey($file, $filename, $trash);
-							$this->view->copy($oldShareKeyPath . '/' . $file, $target . '/' . $uid . '.shareKey');
+							$this->view->rename($oldShareKeyPath . '/' . $file, $target . '/' . $uid . '.shareKey');
 						}
 					}
 
