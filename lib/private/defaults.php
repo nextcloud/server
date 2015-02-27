@@ -35,7 +35,7 @@ class OC_Defaults {
 		$this->defaultiOSClientUrl = 'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8';
 		$this->defaultiTunesAppId = '543672169';
 		$this->defaultAndroidClientUrl = 'https://play.google.com/store/apps/details?id=com.owncloud.android';
-		$this->defaultDocBaseUrl = 'http://doc.owncloud.org';
+		$this->defaultDocBaseUrl = 'https://doc.owncloud.org';
 		$this->defaultDocVersion = $version[0] . '.0'; // used to generate doc links
 		$this->defaultSlogan = $this->l->t('web services under your control');
 		$this->defaultLogoClaim = '';
