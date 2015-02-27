@@ -89,6 +89,8 @@ interface Node extends FileInfo {
 	 * Get the internal file id for the file or folder
 	 *
 	 * @return int
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function getId();
 
@@ -106,6 +108,8 @@ interface Node extends FileInfo {
 	 * Get the modified date of the file or folder as unix timestamp
 	 *
 	 * @return int
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function getMTime();
 
@@ -113,6 +117,8 @@ interface Node extends FileInfo {
 	 * Get the size of the file or folder in bytes
 	 *
 	 * @return int
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function getSize();
 
@@ -122,6 +128,8 @@ interface Node extends FileInfo {
 	 * every time the file or folder is changed the Etag will change to
 	 *
 	 * @return string
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function getEtag();
 
@@ -135,6 +143,8 @@ interface Node extends FileInfo {
 	 *  - \OCP\Constants::PERMISSION_SHARE
 	 *
 	 * @return int
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function getPermissions();
 
@@ -142,6 +152,8 @@ interface Node extends FileInfo {
 	 * Check if the file or folder is readable
 	 *
 	 * @return bool
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function isReadable();
 
@@ -149,6 +161,8 @@ interface Node extends FileInfo {
 	 * Check if the file or folder is writable
 	 *
 	 * @return bool
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function isUpdateable();
 
@@ -156,6 +170,8 @@ interface Node extends FileInfo {
 	 * Check if the file or folder is deletable
 	 *
 	 * @return bool
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function isDeletable();
 
@@ -163,6 +179,8 @@ interface Node extends FileInfo {
 	 * Check if the file or folder is shareable
 	 *
 	 * @return bool
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function isShareable();
 
