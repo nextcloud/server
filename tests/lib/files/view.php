@@ -872,6 +872,57 @@ class View extends \Test\TestCase {
 		$this->assertEquals($time, $view->filemtime('/test/sub/storage/foo/bar.txt'));
 	}
 
+	public function testRenameFailDeleteTargetKeepSource() {
+		$this->doTestCopyRenameFail('rename');
+	}
+
+	public function testCopyFailDeleteTargetKeepSource() {
+		$this->doTestCopyRenameFail('copy');
+	}
+
+	private function doTestCopyRenameFail($operation) {
+		$storage1 = new Temporary(array());
+		$storage2 = new Temporary(array());
+		$storage2 = new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage2, 'quota' => 9));
+		$storage1->mkdir('sub');
+		$storage1->file_put_contents('foo.txt', '0123456789ABCDEFGH');
+		$storage1->mkdir('dirtomove');
+		$storage1->file_put_contents('dirtomove/indir1.txt', '0123456'); // fits
+		$storage1->file_put_contents('dirtomove/indir2.txt', '0123456789ABCDEFGH'); // doesn't fit 
+		$storage2->file_put_contents('existing.txt', '0123');
+		$storage1->getScanner()->scan('');
+		$storage2->getScanner()->scan('');
+		\OC\Files\Filesystem::mount($storage1, array(), '/test/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/test/sub/storage');
+
+		// move file
+		$view = new \OC\Files\View('');
+		$this->assertTrue($storage1->file_exists('foo.txt'));
+		$this->assertFalse($storage2->file_exists('foo.txt'));
+		$this->assertFalse($view->$operation('/test/foo.txt', '/test/sub/storage/foo.txt'));
+		$this->assertFalse($storage2->file_exists('foo.txt'));
+		$this->assertFalse($storage2->getCache()->get('foo.txt'));
+		$this->assertTrue($storage1->file_exists('foo.txt'));
+
+		// if target exists, it will be deleted too
+		$this->assertFalse($view->$operation('/test/foo.txt', '/test/sub/storage/existing.txt'));
+		$this->assertFalse($storage2->file_exists('existing.txt'));
+		$this->assertFalse($storage2->getCache()->get('existing.txt'));
+		$this->assertTrue($storage1->file_exists('foo.txt'));
+
+		// move folder
+		$this->assertFalse($view->$operation('/test/dirtomove/', '/test/sub/storage/dirtomove/'));
+		// since the move failed, the full source tree is kept
+		$this->assertTrue($storage1->file_exists('dirtomove/indir1.txt'));
+		// but the target file stays
+		$this->assertTrue($storage2->file_exists('dirtomove/indir1.txt'));
+		// second file not moved/copied
+		$this->assertTrue($storage1->file_exists('dirtomove/indir2.txt'));
+		$this->assertFalse($storage2->file_exists('dirtomove/indir2.txt'));
+		$this->assertFalse($storage2->getCache()->get('dirtomove/indir2.txt'));
+
+	}
+
 	public function testDeleteFailKeepCache() {
 		/**
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Files\Storage\Temporary $storage
