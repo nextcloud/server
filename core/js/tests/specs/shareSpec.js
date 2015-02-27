@@ -459,7 +459,7 @@ describe('OC.Share tests', function() {
 
 					expect($('#shareWithList').children().length).toEqual(2);
 
-					expect($('#avatar-user1').length).toEqual(1);
+					expect($('.avatar[data-user="user1"]').length).toEqual(1);
 					expect(args.length).toEqual(2);
 					expect(args[0]).toEqual('user1');
 				});

@@ -666,7 +666,7 @@ OC.Share={
 			html += '<a href="#" class="unshare"><img class="svg" alt="'+t('core', 'Unshare')+'" title="'+t('core', 'Unshare')+'" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
 			if (oc_config.enable_avatars === true) {
 				if (shareType === OC.Share.SHARE_TYPE_USER) {
-					html += '<div id="avatar-' + escapeHTML(shareWith) + '" class="avatar"></div>';
+					html += '<div data-user="' + escapeHTML(shareWith) + '" class="avatar"></div>';
 				} else {
 					html += '<div class="avatar" style="padding-right: 32px"></div>';
 				}
@@ -703,7 +703,7 @@ OC.Share={
 			html += '</li>';
 			html = $(html).appendTo('#shareWithList');
 			if (oc_config.enable_avatars === true && shareType === OC.Share.SHARE_TYPE_USER) {
-				$('#avatar-' + escapeHTML(shareWith)).avatar(escapeHTML(shareWith), 32);
+				$('.avatar[data-user="' + escapeHTML(shareWith) + '"]').avatar(escapeHTML(shareWith), 32);
 			}
 			// insert cruds button into last label element
 			var lastLabel = html.find('>label:last');
