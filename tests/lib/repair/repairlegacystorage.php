@@ -198,8 +198,8 @@ class TestRepairLegacyStorages extends \Test\TestCase {
 		$this->assertEquals($legacyStorageNumId, $this->getStorageId($this->legacyStorageId));
 		$this->assertEquals($newStorageNumId, $this->getStorageId($this->newStorageId));
 
-		// set the done flag
-		$this->assertEquals('yes', $this->config->getAppValue('core', 'repairlegacystoragesdone'));
+		// do not set the done flag
+		$this->assertNotEquals('yes', $this->config->getAppValue('core', 'repairlegacystoragesdone'));
 	}
 
 	/**
