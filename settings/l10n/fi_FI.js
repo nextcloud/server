@@ -172,6 +172,7 @@ OC.L10N.register(
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Lokitiedosto on kooltaan yli 100 megatavua. Sen lataaminen saattaa kestää hetken.",
     "Version" : "Versio",
     "More apps" : "Lisää sovelluksia",
+    "Developer documentation" : "Kehittäjädokumentaatio",
     "by" : " Kirjoittaja:",
     "licensed" : "lisensoitu",
     "Documentation:" : "Ohjeistus:",

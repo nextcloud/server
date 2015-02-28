@@ -17,6 +17,7 @@ OC.L10N.register(
     "Save" : "Saxlamaq",
     "Help" : "Kömək",
     "Host" : "Şəbəkədə ünvan",
-    "Password" : "Şifrə"
+    "Password" : "Şifrə",
+    "Advanced" : "İrəliləmiş"
 },
 "nplurals=2; plural=(n != 1);");

@@ -6,6 +6,7 @@ OC.L10N.register(
     "Please provide a valid Dropbox app key and secret." : "Xahiş olunur düzgün Dropbox proqram açarı və gizlisini təqdim edəsiniz.",
     "Step 2 failed. Exception: %s" : "2-ci addım. İstisna: %s",
     "External storage" : "Kənar informasıya daşıyıcısı",
+    "Local" : "Yerli",
     "Location" : "Yerləşdiyiniz ünvan",
     "Key" : "Açar",
     "Secret" : "Gizli",

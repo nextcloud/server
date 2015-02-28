@@ -11,6 +11,7 @@
     "Missing requirements." : "Taləbatlar çatışmır.",
     "Go directly to your %spersonal settings%s." : "Birbaşa öz %sşəxsi quraşdırmalarınıza%s gedin.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Proqram şifrələnməsi işə salınıb ancaq, sizin açarlar inisializasiya edilməyib. Xahiş edilir çıxıb yenidən daxil olasınız",
-    "Enabled" : "İşə salınıb"
+    "Enabled" : "İşə salınıb",
+    "Disabled" : "Dayandırılıb"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

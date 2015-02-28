@@ -87,7 +87,10 @@
     "A valid username must be provided" : "Düzgün istifadəçi adı daxil edilməlidir",
     "Error creating user" : "İstifadəçi yaratdıqda səhv baş verdi",
     "A valid password must be provided" : "Düzgün şifrə daxil edilməlidir",
+    "A valid email must be provided" : "Düzgün email təqdim edilməlidir",
     "__language_name__" : "__AZ_Azerbaijan__",
+    "Personal Info" : "Şəxsi İnformasiya",
+    "SSL root certificates" : "SSL root sertifikatları",
     "Encryption" : "Şifrələnmə",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Hər şey(ən pis hadisələr, səhvlər, xəbərdarlıqlar, məlmat, araşdırma səhvləri)",
     "Info, warnings, errors and fatal issues" : "Məlmat, xəbərdarlıqlar, səhvlər və ən pis hadisələr",
@@ -101,6 +104,9 @@
     "SSL" : "SSL",
     "TLS" : "TLS",
     "Security Warning" : "Təhlükəsizlik xəbərdarlığı",
+    "You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Siz HTTP üzərindən %s yetki alırsınız. Biz təkidlə məsləhət görürük ki, öz serverinizi HTTPS protokolu ilə koqnfiqurasiya edəsiniz. ",
+    "Read-Only config enabled" : "Yalnız-Oxuma konfiqi işə salınıb",
+    "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Yalnız-Oxuma işə salınıb. Bu web-interface vasitəsilə edilən bəzi konfiqlərin qarşısını alır. Bundan başqa, fayl əllə edilən istənilən yenilınmə üçün yazılma yetkisinə sahib olmalıdır. ",
     "Setup Warning" : "Quruluş xəbərdarlığı",
     "Database Performance Info" : "Verilənlər  bazasının davamiyyəti məlumatı",
     "Module 'fileinfo' missing" : "'fileinfo' modulu çatışmır",
@@ -120,6 +126,8 @@
     "Password" : "Şifrə",
     "Change password" : "Şifrəni dəyiş",
     "Cancel" : "Dayandır",
-    "Username" : "İstifadəçi adı"
+    "Username" : "İstifadəçi adı",
+    "Create" : "Yarat",
+    "Other" : "Digər"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

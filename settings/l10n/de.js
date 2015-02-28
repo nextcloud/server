@@ -179,6 +179,7 @@ OC.L10N.register(
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Die Logdatei ist größer als 100 MB. Es kann etwas Zeit beanspruchen, sie herunterzuladen!",
     "Version" : "Version",
     "More apps" : "Weitere Apps",
+    "Developer documentation" : "Dokumentation für Entwickler",
     "by" : "von",
     "licensed" : "Lizenziert",
     "Documentation:" : "Dokumentation:",

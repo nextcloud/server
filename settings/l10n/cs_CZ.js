@@ -179,6 +179,7 @@ OC.L10N.register(
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Soubor logu je větší než 100 MB. Jeho stažení zabere nějaký čas!",
     "Version" : "Verze",
     "More apps" : "Více aplikací",
+    "Developer documentation" : "Vývojářská dokumentace",
     "by" : "sdílí",
     "licensed" : "licencováno",
     "Documentation:" : "Dokumentace:",
