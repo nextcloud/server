@@ -608,36 +608,44 @@ class OC_Util {
 		$invalidIniSettings = [];
 		$moduleHint = $l->t('Please ask your server administrator to install the module.');
 
-		foreach ($dependencies['classes'] as $class => $module) {
-			if (!class_exists($class)) {
-				$missingDependencies[] = $module;
-			}
-		}
-		foreach ($dependencies['functions'] as $function => $module) {
-			if (!function_exists($function)) {
-				$missingDependencies[] = $module;
-			}
-		}
-		foreach ($dependencies['defined'] as $defined => $module) {
-			if (!defined($defined)) {
-				$missingDependencies[] = $module;
-			}
-		}
-		foreach($dependencies['ini'] as $setting => $expected) {
-			$iniWrapper = \OC::$server->getIniWrapper();
-			if(is_bool($expected)) {
-				if($iniWrapper->getBool($setting) !== $expected) {
-					$invalidIniSettings[] = [$setting, $expected];
+		/**
+		 * FIXME: The dependency check does not work properly on HHVM on the moment
+		 *        and prevents installation. Once HHVM is more compatible with our
+		 *        approach to check for these values we should re-enable those
+		 *        checks.
+		 */
+		if (!self::runningOnHhvm()) {
+			foreach ($dependencies['classes'] as $class => $module) {
+				if (!class_exists($class)) {
+					$missingDependencies[] = $module;
 				}
 			}
-			if(is_int($expected)) {
-				if($iniWrapper->getNumeric($setting) !== $expected) {
-					$invalidIniSettings[] = [$setting, $expected];
+			foreach ($dependencies['functions'] as $function => $module) {
+				if (!function_exists($function)) {
+					$missingDependencies[] = $module;
 				}
 			}
-			if(is_string($expected)) {
-				if(strtolower($iniWrapper->getString($setting)) !== strtolower($expected)) {
-					$invalidIniSettings[] = [$setting, $expected];
+			foreach ($dependencies['defined'] as $defined => $module) {
+				if (!defined($defined)) {
+					$missingDependencies[] = $module;
+				}
+			}
+			foreach ($dependencies['ini'] as $setting => $expected) {
+				$iniWrapper = \OC::$server->getIniWrapper();
+				if (is_bool($expected)) {
+					if ($iniWrapper->getBool($setting) !== $expected) {
+						$invalidIniSettings[] = [$setting, $expected];
+					}
+				}
+				if (is_int($expected)) {
+					if ($iniWrapper->getNumeric($setting) !== $expected) {
+						$invalidIniSettings[] = [$setting, $expected];
+					}
+				}
+				if (is_string($expected)) {
+					if (strtolower($iniWrapper->getString($setting)) !== strtolower($expected)) {
+						$invalidIniSettings[] = [$setting, $expected];
+					}
 				}
 			}
 		}
