@@ -58,4 +58,5 @@ try {
 } catch (Exception $ex) {
 	echo "An unhandled exception has been thrown:" . PHP_EOL;
 	echo $ex;
+	exit(1);
 }
