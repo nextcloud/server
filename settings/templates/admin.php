@@ -237,13 +237,18 @@ if ($_['suggestedOverwriteCliUrl']) {
 	<p class="cronlog inlineblock">
 		<?php if ($_['lastcron'] !== false):
 			$human_time = relative_modified_date($_['lastcron']);
+			$absolute_time = OC_Util::formatDate($_['lastcron']);
 			if (time() - $_['lastcron'] <= 3600): ?>
 				<span class="cronstatus success"></span>
-				<?php p($l->t("Last cron was executed %s.", array($human_time)));
-			else: ?>
+				<span class="crondate" original-title="<?php p($absolute_time);?>">
+					<?php p($l->t("Last cron was executed %s.", array($human_time)));?>
+				</span>
+			<?php else: ?>
 				<span class="cronstatus error"></span>
-				<?php p($l->t("Last cron was executed %s. Something seems wrong.", array($human_time)));
-			endif;
+				<span class="crondate" original-title="<?php p($absolute_time);?>">
+					<?php p($l->t("Last cron was executed %s. Something seems wrong.", array($human_time)));?>
+				</span>
+			<?php endif;
 		else: ?>
 			<span class="cronstatus error"></span>
 			<?php p($l->t("Cron was not executed yet!"));
