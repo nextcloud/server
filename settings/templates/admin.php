@@ -241,12 +241,12 @@ if ($_['suggestedOverwriteCliUrl']) {
 			if (time() - $_['lastcron'] <= 3600): ?>
 				<span class="cronstatus success"></span>
 				<span class="crondate" original-title="<?php p($absolute_time);?>">
-					<?php p($l->t("Last cron was executed %s.", array($relative_time)));?>
+					<?php p($l->t("Last cron job execution: %s.", array($relative_time)));?>
 				</span>
 			<?php else: ?>
 				<span class="cronstatus error"></span>
 				<span class="crondate" original-title="<?php p($absolute_time);?>">
-					<?php p($l->t("Last cron was executed %s. Something seems wrong.", array($relative_time)));?>
+					<?php p($l->t("Last cron job execution: %s. Something seems wrong.", array($relative_time)));?>
 				</span>
 			<?php endif;
 		else: ?>
