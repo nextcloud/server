@@ -85,11 +85,12 @@ class OC_API {
 	 */
 	public static function call($parameters) {
 		$request = \OC::$server->getRequest();
+		$method = $request->getMethod();
 
 		// Prepare the request variables
-		if($request->getMethod() === 'PUT') {
+		if($method === 'PUT') {
 			$parameters['_put'] = $request->getParams();
-		} else if($request->getMethod() === 'DELETE') {
+		} else if($method === 'DELETE') {
 			$parameters['_delete'] = $request->getParams();
 		}
 		$name = $parameters['_route'];
