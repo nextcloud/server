@@ -179,6 +179,7 @@ OC.L10N.register(
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "100MBより大きいlogファイルです。ダウンロードに時間がかかります！",
     "Version" : "バージョン",
     "More apps" : "他のアプリ",
+    "Developer documentation" : "デベロッパードキュメント",
     "by" : "by",
     "licensed" : "ライセンス",
     "Documentation:" : "ドキュメント:",

@@ -17,6 +17,7 @@ OC.L10N.register(
     "Save" : "Saxlamaq",
     "Help" : "Kömək",
     "Host" : "Şəbəkədə ünvan",
+    "Port" : "Port",
     "Password" : "Şifrə",
     "Advanced" : "İrəliləmiş"
 },

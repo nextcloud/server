@@ -10,6 +10,7 @@ OC.L10N.register(
     "Location" : "Yerləşdiyiniz ünvan",
     "Key" : "Açar",
     "Secret" : "Gizli",
+    "Port" : "Port",
     "Enable SSL" : "SSL-i işə sal",
     "Host" : "Şəbəkədə ünvan",
     "Username" : "İstifadəçi adı",
@@ -20,6 +21,7 @@ OC.L10N.register(
     "Saved" : "Saxlanıldı",
     "Name" : "Ad",
     "Folder name" : "Qovluq adı",
+    "Configuration" : "Konfiqurasiya",
     "Delete" : "Sil"
 },
 "nplurals=2; plural=(n != 1);");

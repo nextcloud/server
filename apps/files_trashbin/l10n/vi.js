@@ -8,6 +8,7 @@ OC.L10N.register(
     "Delete permanently" : "Xóa vĩnh vễn",
     "Error" : "Lỗi",
     "restored" : "khôi phục",
+    "No entries found in this folder" : "Chưa có mục nào trong thư mục",
     "Name" : "Tên",
     "Deleted" : "Đã xóa",
     "Delete" : "Xóa"

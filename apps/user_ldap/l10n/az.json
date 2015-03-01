@@ -15,6 +15,7 @@
     "Save" : "Saxlamaq",
     "Help" : "Kömək",
     "Host" : "Şəbəkədə ünvan",
+    "Port" : "Port",
     "Password" : "Şifrə",
     "Advanced" : "İrəliləmiş"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
