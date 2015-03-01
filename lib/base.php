@@ -577,13 +577,13 @@ class OC {
 			if (self::$CLI) {
 				// Convert l10n string into regular string for usage in database
 				$staticErrors = [];
-				$i = 0;
 				foreach ($errors as $error) {
 					echo $error['error'] . "\n";
 					echo $error['hint'] . "\n\n";
-					$staticErrors[$i]['error'] = (string) $error['error'];
-					$staticErrors[$i]['hint'] = (string) $error['hint'];
-					$i++;
+					$staticErrors[] = [
+						'error' => (string) $error['error'],
+						'hint' => (string) $error['hint'],
+					];
 				}
 
 				try {
