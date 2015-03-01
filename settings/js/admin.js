@@ -39,6 +39,8 @@ $(document).ready(function(){
 		} );
 	});
 
+	$('#backgroundjobs span.crondate').tipsy({fade: true, gravity: 's', live: true});
+
 	$('#backgroundjobs input').change(function(){
 		if($(this).attr('checked')){
 			var mode = $(this).val();
