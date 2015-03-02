@@ -27,6 +27,9 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\User\LastSeen());
 	$application->add(new OC\Core\Command\User\Delete(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\L10n\CreateJs());
+	$application->add(new OC\Core\Command\Background\Cron(\OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Background\WebCron(\OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Background\Ajax(\OC::$server->getConfig()));
 } else {
 	$application->add(new OC\Core\Command\Maintenance\Install(\OC::$server->getConfig()));
 }
