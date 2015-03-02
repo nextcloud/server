@@ -12,9 +12,6 @@
 						data-type="folder" data-newname="<?php p($l->t('New folder')) ?>">
 						<p><?php p($l->t('Folder'));?></p>
 					</li>
-					<li class="icon-link svg" data-type="web">
-						<p><?php p($l->t('From link'));?></p>
-					</li>
 				</ul>
 			</div>
 			<?php endif;?>
