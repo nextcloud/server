@@ -11,7 +11,6 @@ global $eventSource;
 // Get the params
 $dir = isset( $_REQUEST['dir'] ) ? '/'.trim((string)$_REQUEST['dir'], '/\\') : '';
 $filename = isset( $_REQUEST['filename'] ) ? trim((string)$_REQUEST['filename'], '/\\') : '';
-$content = isset( $_REQUEST['content'] ) ? (string)$_REQUEST['content'] : '';
 
 $l10n = \OC::$server->getL10N('files');
 
@@ -59,11 +58,9 @@ if (\OC\Files\Filesystem::file_exists($target)) {
 }
 
 $success = false;
-if (!$content) {
-	$templateManager = OC_Helper::getFileTemplateManager();
-	$mimeType = OC_Helper::getMimetypeDetector()->detectPath($target);
-	$content = $templateManager->getTemplate($mimeType);
-}
+$templateManager = OC_Helper::getFileTemplateManager();
+$mimeType = OC_Helper::getMimetypeDetector()->detectPath($target);
+$content = $templateManager->getTemplate($mimeType);
 
 if($content) {
 	$success = \OC\Files\Filesystem::file_put_contents($target, $content);
@@ -74,7 +71,7 @@ if($content) {
 if($success) {
 	$meta = \OC\Files\Filesystem::getFileInfo($target);
 	OCP\JSON::success(array('data' => \OCA\Files\Helper::formatFileInfo($meta)));
-	exit();
+	return;
 }
 
 OCP\JSON::error(array('data' => array( 'message' => $l10n->t('Error when creating the file') )));
