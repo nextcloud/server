@@ -173,4 +173,20 @@ class Test_L10n extends \Test\TestCase {
 			array(null, null, 'en'),
 		);
 	}
+
+	public function testGetLanguageCode() {
+		$l = OC_L10N::get('lib', 'de');
+		$this->assertEquals('de', $l->getLanguageCode());
+	}
+
+	public function testFactoryGetLanguageCode() {
+		$factory = new \OC\L10N\Factory();
+		$l = $factory->get('lib', 'de');
+		$this->assertEquals('de', $l->getLanguageCode());
+	}
+
+	public function testServiceGetLanguageCode() {
+		$l = \OC::$server->getL10N('lib', 'de');
+		$this->assertEquals('de', $l->getLanguageCode());
+	}
 }
