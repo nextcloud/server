@@ -131,8 +131,6 @@
     "Configuration Checks" : "Overenie konfigurácie",
     "No problems found" : "Nenašli sa žiadne problémy",
     "Please double check the <a href='%s'>installation guides</a>." : "Prosím skontrolujte <a href='%s'>inštalačnú príručku</a>.",
-    "Last cron was executed at %s." : "Posledný cron bol spustený %s.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Posledný cron bol spustený %s. To je viac ako pred hodinou. Zdá sa, že niečo nie je vporiadku.",
     "Cron was not executed yet!" : "Cron sa ešte nespustil!",
     "Execute one task with each page loaded" : "Vykonať jednu úlohu s každým načítaní stránky",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php je zaregistrovaná v službe WebCron a zavolá cron.php každých 15 minút cez http.",

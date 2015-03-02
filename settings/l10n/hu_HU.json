@@ -98,8 +98,6 @@
     "This means that there might be problems with certain characters in file names." : "Ez azt jelenti, hogy probléma lehet bizonyos karakterekkel a fájlnevekben.",
     "URL generation in notification emails" : "URL-képzés az értesítő e-mailekben",
     "Please double check the <a href='%s'>installation guides</a>." : "Kérjük tüzetesen tanulmányozza át a <a href='%s'>telepítési útmutatót</a>.",
-    "Last cron was executed at %s." : "Az utolsó cron feladat ekkor futott le: %s.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Az utolsó cron feladat ekkor futott le: %s. Ez több, mint 1 órája történt, valami nincs rendben.",
     "Cron was not executed yet!" : "A cron feladat még nem futott le!",
     "Execute one task with each page loaded" : "Egy-egy feladat végrehajtása minden alkalommal, amikor egy weboldalt letöltenek",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "A cron.php webcron szolgáltatásként van regisztrálva, hogy 15 percenként egyszer lefuttassa a cron.php-t.",

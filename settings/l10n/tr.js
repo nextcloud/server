@@ -133,8 +133,6 @@ OC.L10N.register(
     "Configuration Checks" : "Yapılandırma Kontrolleri",
     "No problems found" : "Hiç sorun yok",
     "Please double check the <a href='%s'>installation guides</a>." : "Lütfen <a href='%s'>kurulum rehberlerini</a> iki kez kontrol edin.",
-    "Last cron was executed at %s." : "Son cron %s zamanında çalıştırıldı.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Son cron %s zamanında çalıştırıldı. Bu bir saatten daha uzun bir süre, bir şeyler yanlış gibi görünüyor.",
     "Cron was not executed yet!" : "Cron henüz çalıştırılmadı!",
     "Execute one task with each page loaded" : "Yüklenen her sayfa ile bir görev çalıştır",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php, http üzerinden her 15 dakikada bir çağrılması için webcron hizmetine kaydedilir.",

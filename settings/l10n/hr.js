@@ -102,8 +102,6 @@ OC.L10N.register(
     "This means that there might be problems with certain characters in file names." : "To znači da se mogu javiti problemi s određenim znakovima u datoteci.",
     "URL generation in notification emails" : "Generiranje URL-a u notifikacijskoj e-pošti",
     "Please double check the <a href='%s'>installation guides</a>." : "Molimo provjerite <a href='%s'> instalacijske vodiče </a>.",
-    "Last cron was executed at %s." : "Zadnji cron je izvršen na %s",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Zadnji cron izvršen je na %s. Bilo je to prije više od jednog sata, čini se da nešto nije u redu.",
     "Cron was not executed yet!" : "Cron još nije izvršen!",
     "Execute one task with each page loaded" : "Izvršite jedan zadatak sa svakom učitanom stranicom",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php je registriran na webcron usluzi da poziva cron.php svakih 15 minuta preko http.",

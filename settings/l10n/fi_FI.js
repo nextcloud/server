@@ -127,8 +127,6 @@ OC.L10N.register(
     "URL generation in notification emails" : "Verkko-osoitteiden luominen sähköposti-ilmoituksissa",
     "No problems found" : "Ongelmia ei löytynyt",
     "Please double check the <a href='%s'>installation guides</a>." : "Lue tarkasti <a href='%s'>asennusohjeet</a>.",
-    "Last cron was executed at %s." : "Viimeisin cron suoritettiin %s.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Viimeisin cron suoritettiin %s. Siitä on yli tunti aikaa, joten jokin näyttää olevan pielessä.",
     "Cron was not executed yet!" : "Cronia ei suoritettu vielä!",
     "Execute one task with each page loaded" : "Suorita yksi tehtävä jokaista ladattua sivua kohden",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php kutsuu webcron-palvelun kautta cron.php:ta  15 minuutin välein http:tä käyttäen.",

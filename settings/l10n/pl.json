@@ -122,8 +122,6 @@
     "URL generation in notification emails" : "Generowanie URL w powiadomieniach email",
     "No problems found" : "Nie ma żadnych problemów",
     "Please double check the <a href='%s'>installation guides</a>." : "Sprawdź podwójnie <a href='%s'>wskazówki instalacji</a>.",
-    "Last cron was executed at %s." : "Ostatni cron był uruchomiony %s.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Ostatni cron był uruchomiony %s. To jest więcej niż godzinę temu, wygląda na to, że coś jest nie tak.",
     "Cron was not executed yet!" : "Cron nie został jeszcze uruchomiony!",
     "Execute one task with each page loaded" : "Wykonuj jedno zadanie wraz z każdą wczytaną stroną",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php jest zarejestrowany w serwisie webcron do uruchamiania cron.php raz na 15 minut przez http.",

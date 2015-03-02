@@ -131,8 +131,6 @@
     "Configuration Checks" : "Configuratie Controles",
     "No problems found" : "Geen problemen gevonden",
     "Please double check the <a href='%s'>installation guides</a>." : "Controleer de <a href='%s'>installatiehandleiding</a> goed.",
-    "Last cron was executed at %s." : "Laatst uitgevoerde cron op %s.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Laatst uitgevoerde cron op %s. Dat is langer dan een uur geleden, er is iets fout gegaan.",
     "Cron was not executed yet!" : "Cron is nog niet uitgevoerd!",
     "Execute one task with each page loaded" : "Bij laden van elke pagina één taak uitvoeren",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php is geregisteerd bij een webcron service om elke 15 minuten cron.php over http aan te roepen.",

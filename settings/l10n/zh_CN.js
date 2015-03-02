@@ -101,8 +101,6 @@ OC.L10N.register(
     "URL generation in notification emails" : "在通知邮件里生成URL",
     "No problems found" : "未发现问题",
     "Please double check the <a href='%s'>installation guides</a>." : "请认真检查<a href='%s'>安装指南</a>.",
-    "Last cron was executed at %s." : "上次定时任务执行于 %s。",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "上次定时任务执行于 %s。这是在一个小时之前执行的，可能出了什么问题。",
     "Cron was not executed yet!" : "定时任务还未被执行！",
     "Execute one task with each page loaded" : "每个页面加载后执行一个任务",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php 已注册于一个 webcron 服务来通过 http 每 15 分钟执行 cron.php。",

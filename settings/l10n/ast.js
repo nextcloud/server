@@ -105,8 +105,6 @@ OC.L10N.register(
     "This means that there might be problems with certain characters in file names." : "Esto significa que pue haber problemes con ciertos caráuteres nos nomes de los ficheros.",
     "URL generation in notification emails" : "Xeneración d'URL en mensaxes de notificación",
     "Please double check the <a href='%s'>installation guides</a>." : "Por favor, comprueba les <a href='%s'>guíes d'instalación</a>.",
-    "Last cron was executed at %s." : "Cron executóse per cabera vegada a les %s.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Cron executóse per cabera vegada a les %s. Esto foi hai más d'una hora, daqué anda mal.",
     "Cron was not executed yet!" : "¡Cron entá nun s'executó!",
     "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php rexístrase nun serviciu webcron pa llamar a cron.php cada 15 minutos al traviés de HTTP.",

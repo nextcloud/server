@@ -107,8 +107,6 @@ OC.L10N.register(
     "URL generation in notification emails" : "URL-ide loomine teavituskirjades",
     "No problems found" : "Ühtegi probleemi ei leitud",
     "Please double check the <a href='%s'>installation guides</a>." : "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>.",
-    "Last cron was executed at %s." : "Cron käivitati viimati %s.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Cron käivitati viimati %s. See on rohkem kui tund tagasi, midagi on valesti.",
     "Cron was not executed yet!" : "Cron pole kordagi käivitatud!",
     "Execute one task with each page loaded" : "Käivita toiming igal lehe laadimisel",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php on registreeritud webcron teenuses, et käivitada fail cron.php iga 15 minuti tagant üle http.",

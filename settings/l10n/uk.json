@@ -122,8 +122,6 @@
     "Configuration Checks" : "Перевірка налаштувань",
     "No problems found" : "Проблем не виявленно",
     "Please double check the <a href='%s'>installation guides</a>." : "Будь ласка, перевірте <a href='%s'>інструкції по встановленню</a>.",
-    "Last cron was executed at %s." : "Останню cron-задачу було запущено: %s.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Останню cron-задачу було запущено: %s. Минуло вже більше години, здається щось не так.",
     "Cron was not executed yet!" : "Cron-задачі ще не запускалися!",
     "Execute one task with each page loaded" : "Виконати одне завдання для кожної завантаженої сторінки ",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php зареєстрований в службі webcron та буде викликатися кожні 15 хвилин через HTTP.",

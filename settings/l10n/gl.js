@@ -133,8 +133,6 @@ OC.L10N.register(
     "Configuration Checks" : "Comprobacións da configuración",
     "No problems found" : "Non se atoparon problemas",
     "Please double check the <a href='%s'>installation guides</a>." : "Volva comprobar as <a href='%s'>guías de instalación</a>",
-    "Last cron was executed at %s." : "O último «cron» executouse ás %s.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "O último «cron» executouse ás %s. Isto supón que pasou máis dunha hora. polo que semella que algo vai mal.",
     "Cron was not executed yet!" : "«Cron» aínda non foi executado!",
     "Execute one task with each page loaded" : "Executar unha tarefa con cada páxina cargada",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php está rexistrado nun servizo de WebCron para chamar a cron.php cada 15 minutos a través de HTTP.",

@@ -119,8 +119,6 @@ OC.L10N.register(
     "Configuration Checks" : "Έλεγχοι ρυθμίσεων",
     "No problems found" : "Δεν βρέθηκαν προβλήματα",
     "Please double check the <a href='%s'>installation guides</a>." : "Ελέγξτε ξανά τις <a href='%s'>οδηγίες εγκατάστασης</a>.",
-    "Last cron was executed at %s." : "Η τελευταία εκτέλεση του cron ήταν στις %s",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Η τελευταία εκτέλεση του cron ήταν στις %s. Αυτό είναι πάνω από μια ώρα πριν, ίσως κάτι δεν πάει καλά.",
     "Cron was not executed yet!" : "Η διεργασία cron δεν έχει εκτελεστεί ακόμα!",
     "Execute one task with each page loaded" : "Εκτελεί μια διεργασία κάθε φορά που φορτώνεται μια σελίδα",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "Το cron.php είναι καταχωρημένο σε μια υπηρεσία webcron ώστε να καλεί το cron.php κάθε 15 λεπτά μέσω http.",

@@ -110,8 +110,6 @@ OC.L10N.register(
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Trūkst PHP modulis “fileinfo”. Mēs iesakām to aktivēt, lai pēc iespējas labāk noteiktu mime tipus.",
     "Locale not working" : "Lokāle nestrādā",
     "Please double check the <a href='%s'>installation guides</a>." : "Lūdzu, vēlreiz pārbaudiet <a href='%s'>instalēšanas palīdzību</a>.",
-    "Last cron was executed at %s." : "Pēdējo reizi Cron tika izpildīts %s.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Pēdējo reizi Cron tika izpildīts %s. Tas ir vairāk kā pirms stundas, kaut kas nav kārtībā.",
     "Execute one task with each page loaded" : "Izpildīt vienu uzdevumu ar katru ielādēto lapu",
     "Allow apps to use the Share API" : "Ļauj lietotnēm izmantot koplietošanas API",
     "Allow users to share via link" : "Ļaut lietotājiem dalīties caur saitēm",

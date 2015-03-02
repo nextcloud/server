@@ -133,8 +133,6 @@ OC.L10N.register(
     "Configuration Checks" : "Ověření konfigurace",
     "No problems found" : "Nebyly nalezeny žádné problémy",
     "Please double check the <a href='%s'>installation guides</a>." : "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>.",
-    "Last cron was executed at %s." : "Poslední cron byl spuštěn v %s",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Poslední cron byl spuštěn v %s. To je více než před hodinou. Vypadá to, že není něco v pořádku.",
     "Cron was not executed yet!" : "Cron ještě nebyl spuštěn!",
     "Execute one task with each page loaded" : "Spustit jednu úlohu s každým načtením stránky",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php je registrován u služby webcron, aby volal cron.php jednou za 15 minut přes http.",

@@ -131,8 +131,6 @@
     "Configuration Checks" : "Verificações de Configuração",
     "No problems found" : "Nenhum problema encontrado",
     "Please double check the <a href='%s'>installation guides</a>." : "Por favor verifique <a href='%s'>installation guides</a>.",
-    "Last cron was executed at %s." : "O ultimo cron foi executado em %s.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "O ultima cron foi executado em %s a mais duma hora. Algo não está certo.",
     "Cron was not executed yet!" : "Cron ainda não foi executado!",
     "Execute one task with each page loaded" : "Executar uma tarefa com cada página carregada",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php está registado num serviço webcron para chamar a página cron.php por http a cada 15 minutos.",

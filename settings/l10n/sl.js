@@ -117,8 +117,6 @@ OC.L10N.register(
     "Configuration Checks" : "Preverjanje nastavitev",
     "No problems found" : "Ni zaznanih težav",
     "Please double check the <a href='%s'>installation guides</a>." : "Preverite <a href='%s'>navodila namestitve</a>.",
-    "Last cron was executed at %s." : "Zadnje periodično opravilo cron je bilo izvedeno ob %s.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Zadnje periodično opravilo cron je bilo izvedeno ob %s. To je več kot uro nazaj. Nekaj je očitno narobe.",
     "Cron was not executed yet!" : "Periodično opravilo cron še ni zagnano!",
     "Execute one task with each page loaded" : "Izvedi eno nalogo z vsako naloženo stranjo.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "Datoteka cron.php je vpisana za periodično opravilo webcron za potrditev sklica vsakih 15 minut pri povezavi preko HTTP.",

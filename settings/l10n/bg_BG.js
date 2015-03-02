@@ -126,8 +126,6 @@ OC.L10N.register(
     "Configuration Checks" : "Проверки на конфигурацията",
     "No problems found" : "Не са открити проблеми",
     "Please double check the <a href='%s'>installation guides</a>." : "Моля, провери <a href='%s'>ръководството за инсталиране</a> отново.",
-    "Last cron was executed at %s." : "Последният cron се изпълни в %s.",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Последният cron се изпълни в %s. Това е преди повече от час, нещо не както трябва.",
     "Cron was not executed yet!" : "Cron oще не е изпълнен!",
     "Execute one task with each page loaded" : "Изпълни по едно задание с всяка заредена страница.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php е регистриран към webcron да се свързва с cron.php всеки 15 минути по http.",

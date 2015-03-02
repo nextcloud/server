@@ -131,8 +131,6 @@
     "Configuration Checks" : "設定のチェック",
     "No problems found" : "問題は見つかりませんでした",
     "Please double check the <a href='%s'>installation guides</a>." : "<a href='%s'>インストールガイド</a>をよく確認してください。",
-    "Last cron was executed at %s." : "直近では%sにcronが実行されました。",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "直近では%sにcronが実行されました。これは1時間以上前になるので、何かおかしいです。",
     "Cron was not executed yet!" : "cronはまだ実行されていません！",
     "Execute one task with each page loaded" : "各ページの読み込み時にタスクを実行します。",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.phpは、HTTP経由で15分ごとにcron.phpを実行するようwebcronサービスに登録されています。",

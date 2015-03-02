@@ -126,8 +126,6 @@ OC.L10N.register(
     "Configuration Checks" : "Konfigurationskontroller",
     "No problems found" : "Inga problem hittades",
     "Please double check the <a href='%s'>installation guides</a>." : "Var god kontrollera <a href='%s'>installationsguiden</a>.",
-    "Last cron was executed at %s." : "Sista cron kördes vid %s",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Sista cron kördes vid %s. Detta är mer än en timme sedan, något verkar fel.",
     "Cron was not executed yet!" : "Cron kördes inte ännu!",
     "Execute one task with each page loaded" : "Exekvera en uppgift vid varje sidladdning",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php är registrerad som en webcron service att ropa på cron.php varje 15 minuter över http.",

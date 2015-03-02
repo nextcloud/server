@@ -125,8 +125,6 @@
     "Configuration Checks" : "Konfigurazio Egiaztapenak",
     "No problems found" : "Ez da problemarik aurkitu",
     "Please double check the <a href='%s'>installation guides</a>." : "Mesedez begiratu <a href='%s'>instalazio gidak</a>.",
-    "Last cron was executed at %s." : "Azken cron-a  %s-etan exekutatu da",
-    "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Azken cron-a %s-etan exekutatu da. Ordu bat baino gehiago pasa da, zerbait gaizki dabilela dirudi.",
     "Cron was not executed yet!" : "Cron-a oraindik ez da exekutatu!",
     "Execute one task with each page loaded" : "Exekutatu zeregin bat orri karga bakoitzean",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php webcron zerbitzu batean erregistratua dago cron.php  15 minuturo http bidez deitzeko.",
