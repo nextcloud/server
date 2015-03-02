@@ -276,6 +276,10 @@ class Local {
 				return new \OC_OCS_Result(null, 400, "unknown share type");
 		}
 
+		if (($permissions & \OCP\Constants::PERMISSION_READ) === 0) {
+			return new \OC_OCS_Result(null, 400, 'invalid permissions');
+		}
+
 		try	{
 			$token = \OCP\Share::shareItem(
 					$itemType,
@@ -347,7 +351,6 @@ class Local {
 		}
 
 		return new \OC_OCS_Result(null, 400, "Wrong or no update parameter given");
-
 	}
 
 	/**
@@ -374,6 +377,10 @@ class Local {
 			if ($publicUploadEnabled === false || ($permissions !== 7 && $permissions !== 1)) {
 				return new \OC_OCS_Result(null, 400, "can't change permission for public link share");
 			}
+		}
+
+		if (($permissions & \OCP\Constants::PERMISSION_READ) === 0) {
+			return new \OC_OCS_Result(null, 400, 'invalid permissions');
 		}
 
 		try {
