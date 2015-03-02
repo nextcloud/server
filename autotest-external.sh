@@ -24,6 +24,7 @@ function print_syntax {
 	echo -e "\nExample: ./autotest.sh sqlite webdav-ownCloud" >&2
 	echo "will run the external suite from \"apps/files_external/tests/env/start-webdav-ownCloud.sh\"" >&2
 	echo -e "\nIf no arguments are specified, all available external backends will be run with all database configs" >&2
+	echo -e "\nIf you specify 'common-tests' as startfile it will just run the tests that are independent from the backends" >&2
 }
 
 if ! [ -x "$PHPUNIT" ]; then
@@ -219,12 +220,16 @@ EOF
 	# just enable files_external
 	php ../occ app:enable files_external
 	if [ -z "$NOCOVERAGE" ]; then
-		#"$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1.xml" --coverage-clover "autotest-external-clover-$1.xml" --coverage-html "coverage-external-html-$1"
+		"$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1.xml" --coverage-clover "autotest-external-clover-$1.xml" --coverage-html "coverage-external-html-$1"
 		RESULT=$?
 	else
 		echo "No coverage"
-		#"$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1.xml"
+		"$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1.xml"
 		RESULT=$?
+	fi
+
+	if [ -n "$2" -a "$2" == "common-tests" ]; then
+	    return;
 	fi
 
     FILES_EXTERNAL_BACKEND_PATH=../apps/files_external/tests/backends

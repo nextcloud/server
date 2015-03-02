@@ -42,6 +42,11 @@ then runs the unit test suite from `backends/webdav.php` (because the middle par
 the name of the script is `webdav`) and finally tries to call
 `stop-webdav-ownCloud.sh` for cleanup purposes.
 
+If `common-tests` is supplied as second argument it will skip the backend specific
+part completely and just run the common files_external unit tests:
+
+    ./autotest-external.sh sqlite common-tests
+
 ## The more manual way of unit test execution
 
 If you want to debug your external storage provider, you maybe don't want to
