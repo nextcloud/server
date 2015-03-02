@@ -32,6 +32,13 @@ class Trashbin {
 	// unit: percentage; 50% of available disk space/quota
 	const DEFAULTMAXSIZE = 50;
 
+	/**
+	 * Whether versions have already be rescanned during this PHP request
+	 *
+	 * @var bool
+	 */
+	private static $scannedVersions = false;
+
 	public static function getUidAndFilename($filename) {
 		$uid = \OC\Files\Filesystem::getOwner($filename);
 		\OC\Files\Filesystem::initMountPoints($uid);
@@ -825,9 +832,12 @@ class Trashbin {
 		$versions = array();
 
 		//force rescan of versions, local storage may not have updated the cache
-		/** @var \OC\Files\Storage\Storage $storage */
-		list($storage, ) = $view->resolvePath('/');
-		$storage->getScanner()->scan('files_trashbin');
+		if (!self::$scannedVersions) {
+			/** @var \OC\Files\Storage\Storage $storage */
+			list($storage, ) = $view->resolvePath('/');
+			$storage->getScanner()->scan('files_trashbin/versions');
+			self::$scannedVersions = true;
+		}
 
 		if ($timestamp) {
 			// fetch for old versions
