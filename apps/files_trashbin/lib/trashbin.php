@@ -23,6 +23,7 @@
 namespace OCA\Files_Trashbin;
 
 use OC\Files\Filesystem;
+use OCA\Files_Trashbin\Command\Expire;
 
 class Trashbin {
 	// how long do we keep files in the trash bin if no other value is defined in the config file (unit: days)
@@ -204,13 +205,13 @@ class Trashbin {
 		}
 
 		$userTrashSize += $size;
-		$userTrashSize -= self::expire($userTrashSize, $user);
+		self::scheduleExpire($userTrashSize, $user);
 
 		// if owner !== user we also need to update the owners trash size
 		if ($owner !== $user) {
 			$ownerTrashSize = self::getTrashbinSize($owner);
 			$ownerTrashSize += $size;
-			$ownerTrashSize -= self::expire($ownerTrashSize, $owner);
+			self::scheduleExpire($ownerTrashSize, $owner);
 		}
 
 		return ($sizeOfAddedFiles === false) ? false : true;
@@ -682,26 +683,18 @@ class Trashbin {
 		$freeSpace = self::calculateFreeSpace($size, $user);
 
 		if ($freeSpace < 0) {
-			self::expire($size, $user);
+			self::scheduleExpire($size, $user);
 		}
 	}
 
 	/**
 	 * clean up the trash bin
 	 *
-	 * @param int $trashbinSize current size of the trash bin
+	 * @param int $trashBinSize current size of the trash bin
 	 * @param string $user
-	 * @return int size of expired files
 	 */
-	private static function expire($trashbinSize, $user) {
-
-		// let the admin disable auto expire
-		$autoExpire = \OC_Config::getValue('trashbin_auto_expire', true);
-		if ($autoExpire === false) {
-			return 0;
-		}
-
-		$availableSpace = self::calculateFreeSpace($trashbinSize, $user);
+	public static function expire($trashBinSize, $user) {
+		$availableSpace = self::calculateFreeSpace($trashBinSize, $user);
 		$size = 0;
 
 		$retention_obligation = \OC_Config::getValue('trashbin_retention_obligation', self::DEFAULT_RETENTION_OBLIGATION);
@@ -718,8 +711,18 @@ class Trashbin {
 
 		// delete files from trash until we meet the trash bin size limit again
 		$size += self::deleteFiles(array_slice($dirContent, $count), $user, $availableSpace);
+	}
 
-		return $size;
+	/**@param int $trashBinSize current size of the trash bin
+	 * @param string $user
+	 */
+	private static function scheduleExpire($trashBinSize, $user) {
+		// let the admin disable auto expire
+		$autoExpire = \OC_Config::getValue('trashbin_auto_expire', true);
+		if ($autoExpire === false) {
+			return;
+		}
+		\OC::$server->getCommandBus()->push(new Expire($user, $trashBinSize));
 	}
 
 	/**

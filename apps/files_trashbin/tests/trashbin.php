@@ -210,6 +210,8 @@ class Test_Trashbin extends \Test\TestCase {
 
 		\OC\Files\Filesystem::unlink($folder . 'user1-4.txt');
 
+		$this->runCommands();
+
 		$filesInTrashUser2AfterDelete = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER2);
 
 		// user2-1.txt should have been expired
