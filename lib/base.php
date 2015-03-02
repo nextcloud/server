@@ -575,15 +575,30 @@ class OC {
 		$errors = OC_Util::checkServer(\OC::$server->getConfig());
 		if (count($errors) > 0) {
 			if (self::$CLI) {
+				// Convert l10n string into regular string for usage in database
+				$staticErrors = [];
 				foreach ($errors as $error) {
 					echo $error['error'] . "\n";
 					echo $error['hint'] . "\n\n";
+					$staticErrors[] = [
+						'error' => (string) $error['error'],
+						'hint' => (string) $error['hint'],
+					];
 				}
+
+				try {
+					\OC::$server->getConfig()->setAppValue('core', 'cronErrors', json_encode($staticErrors));
+				} catch(\Exception $e) {
+					echo('Writing to database failed');
+				}
+				exit();
 			} else {
 				OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
 				OC_Template::printGuestPage('', 'error', array('errors' => $errors));
+				exit;
 			}
-			exit;
+		} elseif(self::$CLI && \OC::$server->getConfig()->getSystemValue('installed', false)) {
+				\OC::$server->getConfig()->deleteAppValue('core', 'cronErrors');
 		}
 
 		//try to set the session lifetime

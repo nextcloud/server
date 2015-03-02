@@ -212,7 +212,29 @@ if ($_['suggestedOverwriteCliUrl']) {
 	</div>
 <?php
 }
+
+if ($_['cronErrors']) {
+	?>
+	<div class="section">
+		<h2><?php p($l->t('Cronjob encountered misconfiguration'));?></h2>
+
+		<span class="connectionwarning">
+			<?php p($l->t('It was not possible to execute the cronjob via CLI. The following technical errors have appeared:')); ?>
+			<br/>
+			<ol>
+				<?php foreach(json_decode($_['cronErrors']) as $error) { if(isset($error->error)) {?>
+					<li><?php p($error->error) ?></li>
+					<ul><li><?php p($error->hint) ?></li></ul>
+
+				<?php }};?>
+			</ol>
+		</span>
+
+	</div>
+<?php
+}
 ?>
+
 <div id="postsetupchecks" class="section">
 	<h2><?php p($l->t('Configuration Checks'));?></h2>
 	<div class="loading"></div>
