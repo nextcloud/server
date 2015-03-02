@@ -396,8 +396,7 @@ class OC_Util {
 	 */
 	public static function addTranslations($application, $languageCode = null) {
 		if (is_null($languageCode)) {
-			$l = new \OC_L10N($application);
-			$languageCode = $l->getLanguageCode($application);
+			$languageCode = \OC_L10N::findLanguage($application);
 		}
 		if (!empty($application)) {
 			$path = "$application/l10n/$languageCode";
