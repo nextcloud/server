@@ -925,9 +925,10 @@ class OC_Helper {
 			// Returns null if nothing is found
 			$result = $exeSniffer->find($program);
 			if (empty($result)) {
-				// The order of the folders is important as we'll use the first command we find
-				exec('find /usr/local/bin/ /usr/bin/ -name ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
-				if ($returnCode === 0 && count($output) > 0) {
+				$paths = str_replace(':','/ ',getenv('PATH'));
+				$command = 'find ' . $paths . ' -name ' . escapeshellarg($program) . ' 2> /dev/null';
+				exec($command, $output, $returnCode);
+				if (count($output) > 0) {
 					$result = escapeshellcmd($output[0]);
 				}
 			}
