@@ -75,15 +75,9 @@ interface IL10N {
 
 
 	/**
-	 * find the best language
-	 * @param array|string $app details below
+	 * The code (en, de, ...) of the language that is used for this OC_L10N object
+	 *
 	 * @return string language
-	 *
-	 * If $app is an array, ownCloud assumes that these are the available
-	 * languages. Otherwise ownCloud tries to find the files in the l10n
-	 * folder.
-	 *
-	 * If nothing works it returns 'en'
 	 */
-	public function getLanguageCode($app=null);
+	public function getLanguageCode();
 }
