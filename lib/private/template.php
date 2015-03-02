@@ -269,14 +269,17 @@ class OC_Template extends \OC\Template\Base {
 			while (method_exists($exception, 'previous') && $exception = $exception->previous()) {
 				$error_msg .= '<br/>Caused by:' . ' ';
 				if ($exception->getCode()) {
-					$error_msg .= '['.OC_Util::sanitizeHTML($exception->getCode()).'] ';
+					$code = $exception->getCode();
+					$error_msg .= '['.OC_Util::sanitizeHTML($code).'] ';
 				}
-				$error_msg .= OC_Util::sanitizeHTML($exception->getMessage());
+				$message = $exception->getMessage();
+				$error_msg .= OC_Util::sanitizeHTML($message);
 			};
 		} else {
 			$hint = '';
 			if ($exception instanceof \OC\HintException) {
-				$hint = OC_Util::sanitizeHTML($exception->getHint());
+				$hint = $exception->getHint();
+				$hint = OC_Util::sanitizeHTML($hint);
 			}
 		}
 		self::printErrorPage($error_msg, $hint);
