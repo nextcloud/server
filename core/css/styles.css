@@ -38,6 +38,7 @@ body {
 
 .float-spinner {
 	height: 32px;
+	display: none;
 }
 
 #nojavascript {
