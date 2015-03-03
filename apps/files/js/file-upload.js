@@ -602,9 +602,7 @@ OC.Upload = {
 			var lastPos;
 			var checkInput = function () {
 				var filename = input.val();
-				if (type === 'web' && filename.length === 0) {
-					throw t('files', 'URL cannot be empty');
-				} else if (type !== 'web' && ! Files.isFileNameValid(filename)) {
+				if (Files.isFileNameValid(filename)) {
 					// Files.isFileNameValid(filename) throws an exception itself
 				} else if (FileList.inList(filename)) {
 					throw t('files', '{new_name} already exists', {new_name: filename});
@@ -682,56 +680,6 @@ OC.Upload = {
 									}
 								}
 							);
-							break;
-						case 'web':
-							if (name.substr(0, 8) !== 'https://' && name.substr(0, 7) !== 'http://') {
-								name = 'http://' + name;
-							}
-							var localName = name;
-							if (localName.substr(localName.length-1, 1) === '/') {//strip /
-								localName = localName.substr(0, localName.length-1);
-							}
-							if (localName.indexOf('/')) { //use last part of url
-								localName = localName.split('/').pop();
-							} else { //or the domain
-								localName = (localName.match(/:\/\/(.[^\/]+)/)[1]).replace('www.', '');
-							}
-							localName = FileList.getUniqueName(localName);
-							//IE < 10 does not fire the necessary events for the progress bar.
-							if ($('html.lte9').length === 0) {
-								$('#uploadprogressbar').progressbar({value: 0});
-								OC.Upload._showProgressBar();
-							}
-
-							var eventSource = new OC.EventSource(
-								OC.filePath('files', 'ajax', 'newfile.php'),
-								{
-									dir: FileList.getCurrentDirectory(),
-									source: name,
-									filename: localName
-								}
-							);
-							eventSource.listen('progress', function(progress) {
-								//IE < 10 does not fire the necessary events for the progress bar.
-								if ($('html.lte9').length === 0) {
-									$('#uploadprogressbar').progressbar('value',progress);
-								}
-							});
-							eventSource.listen('success', function(data) {
-								var file = data;
-								OC.Upload._hideProgressBar();
-
-								FileList.add(file, {hidden: hidden, animate: true});
-							});
-							eventSource.listen('error', function(error) {
-								OC.Upload._hideProgressBar();
-								var message = (error && error.message) || t('core', 'Error fetching URL');
-								OC.Notification.show(message);
-								//hide notification after 10 sec
-								setTimeout(function() {
-									OC.Notification.hide();
-								}, 10000);
-							});
 							break;
 					}
 					var li = form.parent();
