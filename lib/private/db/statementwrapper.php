@@ -51,15 +51,6 @@ class OC_DB_StatementWrapper {
 		}
 		$this->lastArguments = $input;
 		if (count($input) > 0) {
-
-			if (!isset($type)) {
-				$type = OC_Config::getValue( "dbtype", "sqlite" );
-			}
-
-			if ($type == 'mssql') {
-				$input = $this->tryFixSubstringLastArgumentDataForMSSQL($input);
-			}
-
 			$result = $this->statement->execute($input);
 		} else {
 			$result = $this->statement->execute();
@@ -73,99 +64,6 @@ class OC_DB_StatementWrapper {
 			return $count;
 		} else {
 			return $this;
-		}
-	}
-
-	private function tryFixSubstringLastArgumentDataForMSSQL($input) {
-		$query = $this->statement->getWrappedStatement()->queryString;
-		$pos = stripos ($query, 'SUBSTRING');
-
-		if ( $pos === false) {
-			return $input;
-		}
-
-		try {
-			$newQuery = '';
-
-			$cArg = 0;
-
-			$inSubstring = false;
-			$queryLength = strlen($query);
-
-			// Create new query
-			for ($i = 0; $i < $queryLength; $i++) {
-				if ($inSubstring == false) {
-					// Defines when we should start inserting values
-					if (substr ($query, $i, 9) == 'SUBSTRING') {
-						$inSubstring = true;
-					}
-				} else {
-					// Defines when we should stop inserting values
-					if (substr ($query, $i, 1) == ')') {
-						$inSubstring = false;
-					}
-				}
-
-				if (substr ($query, $i, 1) == '?') {
-					// We found a question mark
-					if ($inSubstring) {
-						$newQuery .= $input[$cArg];
-
-						//
-						// Remove from input array
-						//
-						array_splice ($input, $cArg, 1);
-					} else {
-						$newQuery .= substr ($query, $i, 1);
-						$cArg++;
-					}
-				} else {
-					$newQuery .= substr ($query, $i, 1);
-				}
-			}
-
-			// The global data we need
-			$name = OC_Config::getValue( "dbname", "owncloud" );
-			$host = OC_Config::getValue( "dbhost", "" );
-			$user = OC_Config::getValue( "dbuser", "" );
-			$pass = OC_Config::getValue( "dbpassword", "" );
-			if (strpos($host, ':')) {
-				list($host, $port) = explode(':', $host, 2);
-			} else {
-				$port = false;
-			}
-			$opts = array();
-
-			if ($port) {
-				$dsn = 'sqlsrv:Server='.$host.','.$port.';Database='.$name;
-			} else {
-				$dsn = 'sqlsrv:Server='.$host.';Database='.$name;
-			}
-
-			$PDO = new PDO($dsn, $user, $pass, $opts);
-			$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-			$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-			$this->statement = $PDO->prepare($newQuery);
-
-			$this->lastArguments = $input;
-
-			return $input;
-		} catch (PDOException $e){
-			$entry = 'PDO DB Error: "'.$e->getMessage().'"<br />';
-			$entry .= 'Offending command was: '.$this->statement->queryString .'<br />';
-			$entry .= 'Input parameters: ' .print_r($input, true).'<br />';
-			$entry .= 'Stack trace: ' .$e->getTraceAsString().'<br />';
-			OC_Log::write('core', $entry, OC_Log::FATAL);
-			OC_User::setUserId(null);
-
-			$l = \OC::$server->getL10N('lib');
-			throw new \OC\HintException(
-				$l->t('Database Error'),
-				$l->t('Please contact your system administrator.'),
-				0,
-				$e
-			);
 		}
 	}
 
