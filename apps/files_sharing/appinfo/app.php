@@ -51,6 +51,8 @@ OCP\Share::registerBackend('folder', 'OC_Share_Backend_Folder', 'file');
 OCP\Util::addScript('files_sharing', 'share');
 OCP\Util::addScript('files_sharing', 'external');
 
+\OC::$server->getJobList()->add('OCA\Files_sharing\Lib\DeleteOrphanedSharesJob');
+
 \OC::$server->getActivityManager()->registerExtension(function() {
 		return new \OCA\Files_Sharing\Activity(
 			\OC::$server->query('L10NFactory'),
