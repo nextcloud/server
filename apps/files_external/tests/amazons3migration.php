@@ -64,7 +64,7 @@ class AmazonS3Migration extends \Test\TestCase {
 		$oldCache = new \OC\Files\Cache\Cache($this->oldId);
 
 		// add file to old cache
-		$fileId = $oldCache->put('/', array('size' => 0, 'mtime' => time(), 'mimetype' => 'httpd/directory'));
+		$fileId = $oldCache->put('foobar', array('size' => 0, 'mtime' => time(), 'mimetype' => 'httpd/directory'));
 
 		try {
 			$this->instance = new \OC\Files\Storage\AmazonS3($this->params);
@@ -80,7 +80,7 @@ class AmazonS3Migration extends \Test\TestCase {
 		list($storageId, $path) = \OC\Files\Cache\Cache::getById($fileId);
 
 		$this->assertSame($this->newId, $storageId);
-		$this->assertSame('/', $path);
+		$this->assertSame('foobar', $path);
 	}
 
 	public function testUpdateLegacyAndNewId () {
