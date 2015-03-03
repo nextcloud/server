@@ -65,5 +65,6 @@
 		<?php print_unescaped($_['settingControls']); ?>
 	</fieldset>
 	</div>
-
+	<!-- Spinner Template -->
+	<img class="ldapSpinner hidden" src="<?php p(\OCP\Util::imagePath('core', 'loading.gif')); ?>">
 </form>

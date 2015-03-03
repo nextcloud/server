@@ -75,9 +75,11 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * counts entries in the LDAP directory
+	 *
 	 * @param string $filter the LDAP search filter
 	 * @param string $type a string being either 'users' or 'groups';
-	 * @return int|bool
+	 * @return bool|int
+	 * @throws \Exception
 	 */
 	public function countEntries($filter, $type) {
 		$reqs = array('ldapHost', 'ldapPort', 'ldapBase');
@@ -88,15 +90,34 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Requirements not met', 400);
 		}
 
+		$attr = array('dn'); // default
+		$limit = 1001;
 		if($type === 'groups') {
-			$result =  $this->access->countGroups($filter);
+			$result =  $this->access->countGroups($filter, $attr, $limit);
 		} else if($type === 'users') {
-			$result = $this->access->countUsers($filter);
+			$result = $this->access->countUsers($filter, $attr, $limit);
+		} else if ($type === 'objects') {
+			$result = $this->access->countObjects($limit);
 		} else {
-			throw new \Exception('internal error: invald object type', 500);
+			throw new \Exception('internal error: invalid object type', 500);
 		}
 
 		return $result;
+	}
+
+	/**
+	 * formats the return value of a count operation to the string to be
+	 * inserted.
+	 *
+	 * @param bool|int $count
+	 * @return int|string
+	 */
+	private function formatCountResult($count) {
+		$formatted = ($count !== false) ? $count : 0;
+		if($formatted > 1000) {
+			$formatted = '> 1000';
+		}
+		return $formatted;
 	}
 
 	public function countGroups() {
@@ -109,7 +130,7 @@ class Wizard extends LDAPUtility {
 		}
 
 		try {
-			$groupsTotal = $this->countEntries($filter, 'groups');
+			$groupsTotal = $this->formatCountResult($this->countEntries($filter, 'groups'));
 		} catch (\Exception $e) {
 			//400 can be ignored, 500 is forwarded
 			if($e->getCode() === 500) {
@@ -117,7 +138,6 @@ class Wizard extends LDAPUtility {
 			}
 			return false;
 		}
-		$groupsTotal = ($groupsTotal !== false) ? $groupsTotal : 0;
 		$output = self::$l->n('%s group found', '%s groups found', $groupsTotal, array($groupsTotal));
 		$this->result->addChange('ldap_group_count', $output);
 		return $this->result;
@@ -130,10 +150,22 @@ class Wizard extends LDAPUtility {
 	public function countUsers() {
 		$filter = $this->access->getFilterForUserCount();
 
-		$usersTotal = $this->countEntries($filter, 'users');
-		$usersTotal = ($usersTotal !== false) ? $usersTotal : 0;
+		$usersTotal = $this->formatCountResult($this->countEntries($filter, 'users'));
 		$output = self::$l->n('%s user found', '%s users found', $usersTotal, array($usersTotal));
 		$this->result->addChange('ldap_user_count', $output);
+		return $this->result;
+	}
+
+	/**
+	 * counts any objects in the currently set base dn
+	 *
+	 * @return WizardResult
+	 * @throws \Exception
+	 */
+	public function countInBaseDN() {
+		// we don't need to provide a filter in this case
+		$total = $this->countEntries(null, 'objects');
+		$this->result->addChange('ldap_test_base', $total);
 		return $this->result;
 	}
 
@@ -279,45 +311,6 @@ class Wizard extends LDAPUtility {
 		}
 
 		return $this->result;
-	}
-
-	/**
-	 * return the state of the Group Filter Mode
-	 * @return WizardResult
-	 */
-	public function getGroupFilterMode() {
-		$this->getFilterMode('ldapGroupFilterMode');
-		return $this->result;
-	}
-
-	/**
-	 * return the state of the Login Filter Mode
-	 * @return WizardResult
-	 */
-	public function getLoginFilterMode() {
-		$this->getFilterMode('ldapLoginFilterMode');
-		return $this->result;
-	}
-
-	/**
-	 * return the state of the User Filter Mode
-	 * @return WizardResult
-	 */
-	public function getUserFilterMode() {
-		$this->getFilterMode('ldapUserFilterMode');
-		return $this->result;
-	}
-
-	/**
-	 * return the state of the mode of the specified filter
-	 * @param string $confKey contains the access key of the Configuration
-	 */
-	private function getFilterMode($confKey) {
-		$mode = $this->configuration->$confKey;
-		if(is_null($mode)) {
-			$mode = $this->LFILTER_MODE_ASSISTED;
-		}
-		$this->result->addChange($confKey, $mode);
 	}
 
 	/**
@@ -467,8 +460,9 @@ class Wizard extends LDAPUtility {
 			return false;
 		}
 		$this->configuration->setConfiguration(array('ldapGroupMemberAssocAttr' => $attribute));
+		$this->result->addChange('ldap_group_member_assoc_attribute', $attribute);
 		//so it will be saved on destruct
-		$this->result->markChange();
+		//$this->result->markChange();
 
 		return $this->result;
 	}
@@ -604,6 +598,41 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
+	 * @return bool|WizardResult
+	 * @param string $loginName
+	 * @throws \Exception
+	 */
+	public function testLoginName($loginName) {
+		if(!$this->checkRequirements(array('ldapHost',
+			'ldapPort',
+			'ldapBase',
+			'ldapLoginFilter',
+		))) {
+			return false;
+		}
+
+		$cr = $this->access->connection->getConnectionResource();
+		if(!$this->ldap->isResource($cr)) {
+			throw new \Exception('connection error');
+		}
+
+		if(mb_strpos($this->access->connection->ldapLoginFilter, '%uid', 0, 'UTF-8')
+			=== false) {
+			throw new \Exception('missing placeholder');
+		}
+
+		$users = $this->access->fetchUsersByLoginName($loginName);
+		if($this->ldap->errno($cr) !== 0) {
+			throw new \Exception($this->ldap->error($cr));
+		}
+		$filter = \OCP\Util::mb_str_replace(
+			'%uid', $loginName, $this->access->connection->ldapLoginFilter, 'UTF-8');
+		$this->result->addChange('ldap_test_loginname', count($users));
+		$this->result->addChange('ldap_test_effective_filter', $filter);
+		return $this->result;
+	}
+
+	/**
 	 * Tries to determine the port, requires given Host, User DN and Password
 	 * @return WizardResult|false WizardResult on success, false otherwise
 	 * @throws \Exception
@@ -674,10 +703,13 @@ class Wizard extends LDAPUtility {
 		}
 
 		$dparts = explode('.', $domain);
-		$base2 = implode('dc=', $dparts);
-		if($base !== $base2 && $this->testBaseDN($base2)) {
-			$this->applyFind('ldap_base', $base2);
-			return $this->result;
+		while(count($dparts) > 0) {
+			$base2 = 'dc=' . implode(',dc=', $dparts);
+			if ($base !== $base2 && $this->testBaseDN($base2)) {
+				$this->applyFind('ldap_base', $base2);
+				return $this->result;
+			}
+			array_shift($dparts);
 		}
 
 		return false;
@@ -720,7 +752,7 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	private function detectGroupMemberAssoc() {
-		$possibleAttrs = array('uniqueMember', 'memberUid', 'member', 'unfugasdfasdfdfa');
+		$possibleAttrs = array('uniqueMember', 'memberUid', 'member');
 		$filter = $this->configuration->ldapGroupFilter;
 		if(empty($filter)) {
 			return false;
@@ -730,7 +762,7 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Could not connect to LDAP');
 		}
 		$base = $this->configuration->ldapBase[0];
-		$rr = $this->ldap->search($cr, $base, $filter, $possibleAttrs);
+		$rr = $this->ldap->search($cr, $base, $filter, $possibleAttrs, 0, 1000);
 		if(!$this->ldap->isResource($rr)) {
 			return false;
 		}
@@ -1114,7 +1146,8 @@ class Wizard extends LDAPUtility {
 				//skip when the filter is a wildcard and results were found
 				continue;
 			}
-			$rr = $this->ldap->search($cr, $base, $filter, array($attr));
+			// 20k limit for performance and reason
+			$rr = $this->ldap->search($cr, $base, $filter, array($attr), 0, 20000);
 			if(!$this->ldap->isResource($rr)) {
 				continue;
 			}

@@ -79,14 +79,10 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * Check if the password is correct without logging in the user
 	 */
 	public function checkPassword($uid, $password) {
-		$uid = $this->access->escapeFilterPart($uid);
-
 		//find out dn of the user name
 		$attrs = array($this->access->connection->ldapUserDisplayName, 'dn',
 			'uid', 'samaccountname');
-		$filter = \OCP\Util::mb_str_replace(
-			'%uid', $uid, $this->access->connection->ldapLoginFilter, 'UTF-8');
-		$users = $this->access->fetchListOfUsers($filter, $attrs);
+		$users = $this->access->fetchUsersByLoginName($uid, $attrs);
 		if(count($users) < 1) {
 			return false;
 		}

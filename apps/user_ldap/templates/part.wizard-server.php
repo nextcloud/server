@@ -22,32 +22,41 @@
 			}
 		}
 		?>
-		<option value="NEW"><?php p($l->t('Add Server Configuration'));?></option>
 		</select>
+		<button type="button" id="ldap_action_add_configuration"
+			name="ldap_action_add_configuration" class="icon-add"
+			title="Adds a new and blank configuration">&nbsp;</button>
+		<button type="button" id="ldap_action_copy_configuration"
+			name="ldap_action_copy_configuration"
+			class="ldapIconCopy icon-default-style"
+			title="Copy current configuration into new directory binding">&nbsp;</button>
 		<button type="button" id="ldap_action_delete_configuration"
-			name="ldap_action_delete_configuration"><?php p($l->t('Delete Configuration'));?></button>
+			name="ldap_action_delete_configuration" class="icon-delete"
+			title="Delete the current configuration">&nbsp;</button>
 		</p>
 
 		<div class="hostPortCombinator">
 			<div class="tablerow">
 				<div class="tablecell">
 					<div class="table">
-						<input type="text" class="host tablecell lwautosave" id="ldap_host"
+						<input type="text" class="host" id="ldap_host"
 							name="ldap_host"
 							placeholder="<?php p($l->t('Host'));?>"
 							title="<?php p($l->t('You can omit the protocol, except you require SSL. Then start with ldaps://'));?>"
 							/>
 						<span>
 							<input type="number" id="ldap_port" name="ldap_port"
-								class="lwautosave"
 								placeholder="<?php p($l->t('Port'));?>" />
+							<button class="ldapDetectPort" name="ldapDetectPort" type="button">
+								<?php p($l->t('Detect Port'));?>
+							</button>
 						</span>
 					</div>
 				</div>
 			</div>
 			<div class="tablerow">
 				<input type="text" id="ldap_dn" name="ldap_dn"
-				class="tablecell lwautosave"
+				class="tablecell"
 				placeholder="<?php p($l->t('User DN'));?>" autocomplete="off"
 				title="<?php p($l->t('The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty.'));?>"
 				/>
@@ -55,7 +64,7 @@
 
 			<div class="tablerow">
 				<input type="password" id="ldap_agent_password"
-				class="tablecell lwautosave" name="ldap_agent_password"
+				class="tablecell" name="ldap_agent_password"
 				placeholder="<?php p($l->t('Password'));?>" autocomplete="off"
 				title="<?php p($l->t('For anonymous access, leave DN and Password empty.'));?>"
 				/>
@@ -63,15 +72,21 @@
 
 			<div class="tablerow">
 				<textarea id="ldap_base" name="ldap_base"
-					class="tablecell lwautosave"
+					class="tablecell"
 					placeholder="<?php p($l->t('One Base DN per line'));?>"
 					title="<?php p($l->t('You can specify Base DN for users and groups in the Advanced tab'));?>">
 				</textarea>
+				<button class="ldapDetectBase" name="ldapDetectBase" type="button">
+					<?php p($l->t('Detect Base DN'));?>
+				</button>
+				<button class="ldapTestBase" name="ldapTestBase" type="button">
+					<?php p($l->t('Test Base DN'));?>
+				</button>
 			</div>
 
 			<div class="tablerow left">
 				<input type="checkbox" id="ldap_experienced_admin" value="1"
-					name="ldap_experienced_admin" class="tablecell lwautosave"
+					name="ldap_experienced_admin" class="tablecell"
 					title="<?php p($l->t('Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge.'));?>"
 					/>
 				<label for="ldap_experienced_admin" class="tablecell">

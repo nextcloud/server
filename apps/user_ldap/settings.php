@@ -29,12 +29,51 @@
 
 OC_Util::checkAdminUser();
 
-OCP\Util::addScript('user_ldap', 'ldapFilter');
-OCP\Util::addScript('user_ldap', 'experiencedAdmin');
-OCP\Util::addScript('user_ldap', 'settings');
 \OC_Util::addVendorScript('user_ldap', 'ui-multiselect/src/jquery.multiselect');
-OCP\Util::addStyle('user_ldap', 'settings');
 \OC_Util::addVendorStyle('user_ldap', 'ui-multiselect/jquery.multiselect');
+
+\OCP\Util::addScript('user_ldap', 'wizard/controller');
+\OCP\Util::addScript('user_ldap', 'wizard/configModel');
+\OCP\Util::addScript('user_ldap', 'wizard/view');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardObject');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardTabGeneric');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardTabElementary');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardTabAbstractFilter');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardTabUserFilter');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardTabLoginFilter');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardTabGroupFilter');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardTabAdvanced');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardTabExpert');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorQueue');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorGeneric');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorPort');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorBaseDN');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorFeatureAbstract');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorUserObjectClasses');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorGroupObjectClasses');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorGroupsForUsers');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorGroupsForGroups');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorSimpleRequestAbstract');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorFilterUser');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorFilterLogin');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorFilterGroup');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorUserCount');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorGroupCount');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorEmailAttribute');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorUserDisplayNameAttribute');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorUserGroupAssociation');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorAvailableAttributes');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorTestAbstract');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorTestLoginName');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorTestBaseDN');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorTestConfiguration');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorClearUserMappings');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorClearGroupMappings');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardFilterOnType');
+\OCP\Util::addScript('user_ldap', 'wizard/wizardFilterOnTypeFactory');
+\OCP\Util::addScript('user_ldap', 'wizard/wizard');
+
+OCP\Util::addStyle('user_ldap', 'settings');
 
 // fill template
 $tmpl = new OCP\Template('user_ldap', 'settings');
@@ -55,9 +94,9 @@ $l = \OC::$server->getL10N('user_ldap');
 
 $wizTabs = array();
 $wizTabs[] = array('tpl' => 'part.wizard-server',      'cap' => $l->t('Server'));
-$wizTabs[] = array('tpl' => 'part.wizard-userfilter',  'cap' => $l->t('User Filter'));
-$wizTabs[] = array('tpl' => 'part.wizard-loginfilter', 'cap' => $l->t('Login Filter'));
-$wizTabs[] = array('tpl' => 'part.wizard-groupfilter', 'cap' => $l->t('Group Filter'));
+$wizTabs[] = array('tpl' => 'part.wizard-userfilter',  'cap' => $l->t('Users'));
+$wizTabs[] = array('tpl' => 'part.wizard-loginfilter', 'cap' => $l->t('Login Attributes'));
+$wizTabs[] = array('tpl' => 'part.wizard-groupfilter', 'cap' => $l->t('Groups'));
 $wizTabsCount = count($wizTabs);
 for($i = 0; $i < $wizTabsCount; $i++) {
 	$tab = new OCP\Template('user_ldap', $wizTabs[$i]['tpl']);
