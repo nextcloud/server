@@ -358,23 +358,14 @@ class OC_L10N implements \OCP\IL10N {
 		self::$language = $lang;
 	}
 
-
 	/**
-	 * find the best language
+	 * The code (en, de, ...) of the language that is used for this OC_L10N object
 	 *
-	 * @param array|string $app details below
-	 *
-	 * If $app is an array, ownCloud assumes that these are the available
-	 * languages. Otherwise ownCloud tries to find the files in the l10n
-	 * folder.
-	 *
-	 * If nothing works it returns 'en'
 	 * @return string language
 	 */
-	public function getLanguageCode($app=null) {
-		return self::findLanguage($app);
+	public function getLanguageCode() {
+		return $this->lang ? $this->lang : self::findLanguage();
 	}
-
 
 	/**
 	 * find the best language
@@ -515,7 +506,7 @@ class OC_L10N implements \OCP\IL10N {
 	 * @throws \Punic\Exception\ValueNotInList
 	 */
 	public function getDateFormat() {
-		$locale = self::findLanguage();
+		$locale = $this->getLanguageCode();
 		return Punic\Calendar::getDateFormat('short', $locale);
 	}
 
@@ -523,7 +514,7 @@ class OC_L10N implements \OCP\IL10N {
 	 * @return int
 	 */
 	public function getFirstWeekDay() {
-		$locale = self::findLanguage();
+		$locale = $this->getLanguageCode();
 		return Punic\Calendar::getFirstWeekday($locale);
 	}
 }
