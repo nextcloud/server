@@ -8,8 +8,9 @@
 namespace OC;
 
 use OCP\IAvatarManager;
+use OC\Avatar;
 
-/*
+/**
  * This class implements methods to access Avatar functionality
  */
 class AvatarManager implements IAvatarManager {
@@ -21,6 +22,6 @@ class AvatarManager implements IAvatarManager {
 	 * @return \OCP\IAvatar
 	 */
 	function getAvatar($user) {
-		return new \OC_Avatar($user);
+		return new Avatar($user);
 	}
 }

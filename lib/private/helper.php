@@ -288,7 +288,7 @@ class OC_Helper {
 	 * @return bool avatar set or not
 	**/
 	public static function userAvatarSet($user) {
-		$avatar = new \OC_Avatar($user);
+		$avatar = new \OC\Avatar($user);
 		return $avatar->exists();
 	}
 

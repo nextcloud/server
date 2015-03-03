@@ -6,11 +6,15 @@
  * See the COPYING-README file.
  */
 
+ namespace OC;
+
+ use OC_Image;
+
 /**
  * This class gets and sets users avatars.
  */
 
-class OC_Avatar implements \OCP\IAvatar {
+class Avatar implements \OCP\IAvatar {
 
 	private $view;
 
@@ -54,8 +58,8 @@ class OC_Avatar implements \OCP\IAvatar {
 	/**
 	 * sets the users avatar
 	 * @param \OC_Image|resource|string $data OC_Image, imagedata or path to set a new avatar
-	 * @throws Exception if the provided file is not a jpg or png image
-	 * @throws Exception if the provided image is not valid
+	 * @throws \Exception if the provided file is not a jpg or png image
+	 * @throws \Exception if the provided image is not valid
 	 * @throws \OC\NotSquareException if the image is not square
 	 * @return void
 	*/
