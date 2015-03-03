@@ -194,7 +194,6 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Ju lutem sigurohuni që bazës së të dhënave, dosjes së konfigurimit dhe dosjes së të dhënave ti jetë bërë një kopje rezervë përpara se të vazhdoni më tutje.",
     "Start update" : "Fillo përditësimin.",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Për të shmangur momente bllokimi gjatë punës me instalime të mëdha, në vend të kësaj ju mund të kryeni komandën e mëposhtme nga dosja juaj e instalimit:",
-    "This %s instance is currently being updated, which may take a while." : "Kjo instancë %s është në proces përditësimi, i cili mund të zgjasë pak kohë.",
     "This page will refresh itself when the %s instance is available again." : "Kjo faqe do të ringarkohet automatikisht kur instanca %s të jetë sërish e disponueshme."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

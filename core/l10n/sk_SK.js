@@ -219,7 +219,6 @@ OC.L10N.register(
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Pred vykonaním ďalšieho kroku sa presvedčte, že databáza, konfiguračný a dátový priečinok sú zazálohované.",
     "Start update" : "Spustiť aktualizáciu",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Aby nedošlo k vypršaniu časového limitu vo väčších inštaláciách, môžete namiesto toho použiť nasledujúci príkaz z inštalačného priečinka:",
-    "This %s instance is currently being updated, which may take a while." : "Tento %s inštancia sa v súčasnej dobe aktualizuje. Počkajte prosím.",
     "This page will refresh itself when the %s instance is available again." : "Táto stránka sa obnoví sama hneď ako bude %s inštancia znovu dostupná."
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

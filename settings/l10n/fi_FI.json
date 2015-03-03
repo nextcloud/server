@@ -125,6 +125,8 @@
     "URL generation in notification emails" : "Verkko-osoitteiden luominen sähköposti-ilmoituksissa",
     "No problems found" : "Ongelmia ei löytynyt",
     "Please double check the <a href='%s'>installation guides</a>." : "Lue tarkasti <a href='%s'>asennusohjeet</a>.",
+    "Last cron job execution: %s." : "Viimeisin cron-työn suoritus: %s.",
+    "Last cron job execution: %s. Something seems wrong." : "Viimeisin cron-työn suoritus: %s. Jokin vaikuttaa menneen pieleen.",
     "Cron was not executed yet!" : "Cronia ei suoritettu vielä!",
     "Execute one task with each page loaded" : "Suorita yksi tehtävä jokaista ladattua sivua kohden",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php kutsuu webcron-palvelun kautta cron.php:ta  15 minuutin välein http:tä käyttäen.",

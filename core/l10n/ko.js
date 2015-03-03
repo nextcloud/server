@@ -211,7 +211,6 @@ OC.L10N.register(
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "계속하기 전에 데이터베이스, 설정 폴더, 데이터 폴더가 백업되어 있는지 확인하십시오.",
     "Start update" : "업데이트 시작",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "큰 파일을 설치하는 경우 시간이 초과될 수 있으므로, 설치 디렉터리에서 다음 명령을 실행하셔도 됩니다:",
-    "This %s instance is currently being updated, which may take a while." : "%s 인스턴스가 업데이트 중입니다. 시간이 걸릴 수도 있습니다.",
     "This page will refresh itself when the %s instance is available again." : "%s 인스턴스를 다시 사용할 수 있으면 자동으로 새로 고칩니다."
 },
 "nplurals=1; plural=0;");

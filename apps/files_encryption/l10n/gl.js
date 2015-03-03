@@ -26,7 +26,7 @@ OC.L10N.register(
     "Initial encryption started... This can take some time. Please wait." : "Comezou o cifrado inicial... Isto pode levar bastante tempo. Agarde.",
     "Initial encryption running... Please try again later." : "O cifrado inicial está en execución... Tenteo máis tarde.",
     "Missing requirements." : "Non se cumpren os requisitos.",
-    "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Asegúrese de que está instalado o OpenSSL xunto coa extensión PHP e que estean activados e configurados correctamente. Polo de agora foi desactivado a aplicación de cifrado.",
+    "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Asegúrese de que está instalado o OpenSSL xunto coa extensión PHP e que estean activados e configurados correctamente. Polo de agora foi desactivada a aplicación de cifrado.",
     "Following users are not set up for encryption:" : "Os seguintes usuarios non teñen configuración para o cifrado:",
     "Go directly to your %spersonal settings%s." : "Vaia directamente aos seus %saxustes persoais%s.",
     "Server-side Encryption" : "Cifrado na parte do servidor",

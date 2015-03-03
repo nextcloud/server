@@ -16,6 +16,7 @@ OC.L10N.register(
     "Password" : "Лозинка",
     "For anonymous access, leave DN and Password empty." : "За анониман приступ, оставите поља DN и лозинка празним.",
     "Back" : "Назад",
+    "Continue" : "Настави",
     "Advanced" : "Напредно",
     "Turn off SSL certificate validation." : "Искључите потврду SSL сертификата.",
     "in seconds. A change empties the cache." : "у секундама. Промена испражњава кеш меморију.",

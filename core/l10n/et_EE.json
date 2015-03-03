@@ -194,7 +194,6 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Enne jätkamist veendu, et andmebaas, seadete ning andmete kataloog on varundatud.",
     "Start update" : "Käivita uuendus",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Suurtel saitidel aegumise vältimiseks võid sa paigalduskaustas käivitada järgmise käsu:",
-    "This %s instance is currently being updated, which may take a while." : "Seda %s ownCloud instantsi hetkel uuendatakse, see võib võtta veidi aega.",
     "This page will refresh itself when the %s instance is available again." : "Se leht laetakse uuesti, kui %s instantsi on uuesti saadaval."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

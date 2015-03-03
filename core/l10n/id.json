@@ -205,7 +205,6 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Pastikan bahwa basis data, folder konfig, dan folder data telah dicadangkan sebelum melanjutkan.",
     "Start update" : "Jalankan pembaruan",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Untuk menghindari waktu habis dengan instalasi yang lebih besar, Anda bisa menjalankan perintah berikut dari direktori instalasi Anda:",
-    "This %s instance is currently being updated, which may take a while." : "Instansi %s ini sedang melakukan pembaruan, ini memerlukan beberapa waktu.",
     "This page will refresh itself when the %s instance is available again." : "Halaman ini akan disegarkan dengan sendiri saat instansi %s tersebut tersedia kembali."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

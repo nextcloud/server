@@ -209,7 +209,6 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Forsikre deg om at databasen, config-mappen og datamappen er blitt sikkerhetskopiert før du fortsetter.",
     "Start update" : "Start oppdatering",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "For å unngå tidsavbrudd ved store installasjoner, kan du i stedet kjøre følgende kommando fra installasjonsmappen:",
-    "This %s instance is currently being updated, which may take a while." : "%s-instansen er under oppdatering, noe som kan ta litt tid.",
     "This page will refresh itself when the %s instance is available again." : "Denne siden vil bli lastet på nytt når %s-instansen er tilgjengelig igjen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

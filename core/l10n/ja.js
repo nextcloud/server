@@ -215,7 +215,6 @@ OC.L10N.register(
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "データベースを確認してください。実行前にconfigフォルダーとdataフォルダーをバックアップします。",
     "Start update" : "アップデートを開始",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "大規模なサイトの場合、ブラウザーがタイムアウトする可能性があるため、インストールディレクトリで次のコマンドを実行しても構いません。",
-    "This %s instance is currently being updated, which may take a while." : "このサーバー %s は現在更新中です。しばらくお待ちください。",
     "This page will refresh itself when the %s instance is available again." : "この画面は、サーバー %s の再起動後に自動的に更新されます。"
 },
 "nplurals=1; plural=0;");

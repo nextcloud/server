@@ -20,6 +20,7 @@ OC.L10N.register(
     "Folder name cannot be empty." : "Назив фасцикле не може бити празан",
     "Error when creating the folder" : "Грешка при стварању фајла",
     "Unable to set upload directory." : "Не могу да поставим директоријум за отпремање.",
+    "Invalid Token" : "Неисправан токен",
     "No file was uploaded. Unknown error" : "Ниједан фајл није отпремљен. Непозната грешка",
     "There is no error, the file uploaded with success" : "Нема грешке, фајл је успешно отпремљен",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini: " : "Отпремани фајл превазилази смерницу upload_max_filesize у фајлу php.ini:",

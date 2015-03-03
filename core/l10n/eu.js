@@ -207,7 +207,6 @@ OC.L10N.register(
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Ekin aurretik egiazta ezazu datu basearen, ezarpenen karpetaren eta datuen karpetaren babeskopia duzula.",
     "Start update" : "Hasi eguneraketa",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Instalazio handien itxarote-denbora saihesteko, ondoko komandoa exekuta dezakezu instalazio direktoriotik:",
-    "This %s instance is currently being updated, which may take a while." : "%s instantzia hau eguneratzen ari da, honek denbora har dezake.",
     "This page will refresh itself when the %s instance is available again." : "Orri honek bere burua eguneratuko du %s instantzia berriz prest dagoenean."
 },
 "nplurals=2; plural=(n != 1);");

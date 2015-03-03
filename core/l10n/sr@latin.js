@@ -203,7 +203,6 @@ OC.L10N.register(
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Molimo Vas da proverite da li su baza podataka, fascikla sa podešavanjima i fascikla sa podacima bekapovani pre nego što nastavite.",
     "Start update" : "Započni osvežavanje",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Da bi izbegli preduga čekanja na većim instalacijama, možete pokrenuti sledeću komandu iz instalacionog direktorijuma:",
-    "This %s instance is currently being updated, which may take a while." : "Ova %s instance se osveževa, što može potrajati.",
     "This page will refresh itself when the %s instance is available again." : "Ova stranica će se sama osvežiti kada %s instanca ponovo postane dostupna."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

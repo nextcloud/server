@@ -204,7 +204,6 @@ OC.L10N.register(
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Vänligen säkerställ att en säkerhetskopia har gjorts av databasen, konfigurations- och datamappen innan du fortsätter.",
     "Start update" : "Starta uppdateringen",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "För att undvika timeout vid större installationer kan du istället köra följande kommando från din installationskatalog:",
-    "This %s instance is currently being updated, which may take a while." : "Denna  %s instans håller på att uppdatera, vilket kan ta ett tag.",
     "This page will refresh itself when the %s instance is available again." : "Denna sida uppdaterar sig själv när %s instansen är tillgänglig igen."
 },
 "nplurals=2; plural=(n != 1);");

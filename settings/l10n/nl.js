@@ -133,6 +133,8 @@ OC.L10N.register(
     "Configuration Checks" : "Configuratie Controles",
     "No problems found" : "Geen problemen gevonden",
     "Please double check the <a href='%s'>installation guides</a>." : "Controleer de <a href='%s'>installatiehandleiding</a> goed.",
+    "Last cron job execution: %s." : "Laatst uitgevoerde cronjob: %s.",
+    "Last cron job execution: %s. Something seems wrong." : "Laatst uitgevoerde cronjob: %s. Er lijkt iets fout gegaan.",
     "Cron was not executed yet!" : "Cron is nog niet uitgevoerd!",
     "Execute one task with each page loaded" : "Bij laden van elke pagina één taak uitvoeren",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php is geregisteerd bij een webcron service om elke 15 minuten cron.php over http aan te roepen.",

@@ -219,7 +219,6 @@ OC.L10N.register(
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Asegúrese de ter feito unha copia de seguranza da base de datos, do cartafol de configuración e do cartafol de datos, antes de proceder.",
     "Start update" : "Iniciar a actualización",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Para evitar tempos de espera nas instalacións grandes, no seu lugar pode executar a seguinte orde desde o directorio de instalación:",
-    "This %s instance is currently being updated, which may take a while." : "Esta instancia de %s está sendo actualizada e pode tardar un anaco.",
     "This page will refresh itself when the %s instance is available again." : "Esta páxina actualizarase automaticamente cando a instancia de %s estea dispoñíbel de novo."
 },
 "nplurals=2; plural=(n != 1);");
