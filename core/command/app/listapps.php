@@ -23,6 +23,7 @@ class ListApps extends Command {
 		$apps = \OC_App::getAllApps();
 		$enabledApps = array();
 		$disabledApps = array();
+		$versions = \OC_App::getAppVersions();
 
 		//sort enabled apps above disabled apps
 		foreach ($apps as $app) {
@@ -37,11 +38,11 @@ class ListApps extends Command {
 		sort($disabledApps);
 		$output->writeln('Enabled:');
 		foreach ($enabledApps as $app) {
-			$output->writeln(' - ' . $app);
+			$output->writeln(' - ' . $app . (isset($versions[$app]) ? ' (' . $versions[$app] . ')' : ''));
 		}
 		$output->writeln('Disabled:');
 		foreach ($disabledApps as $app) {
-			$output->writeln(' - ' . $app);
+			$output->writeln(' - ' . $app . (isset($versions[$app]) ? ' (' . $versions[$app] . ')' : ''));
 		}
 	}
 }
