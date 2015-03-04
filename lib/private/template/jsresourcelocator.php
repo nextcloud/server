@@ -9,7 +9,10 @@
 namespace OC\Template;
 
 class JSResourceLocator extends ResourceLocator {
-	public function doFind( $script ) {
+	/**
+	 * @param string $script
+	 */
+	public function doFind($script) {
 		$theme_dir = 'themes/'.$this->theme.'/';
 		if (strpos($script, '3rdparty') === 0
 			&& $this->appendIfExist($this->thirdpartyroot, $script.'.js')
@@ -25,16 +28,18 @@ class JSResourceLocator extends ResourceLocator {
 		$script = substr($script, strpos($script, '/')+1);
 		$app_path = \OC_App::getAppPath($app);
 		$app_url = \OC_App::getAppWebPath($app);
-		if ($this->appendIfExist($app_path, $script.'.js', $app_url)) {
-			return;
-		}
+
 		// missing translations files fill be ignored
-		if (strpos($script, "l10n/") === 0) {
+		if (strpos($script, 'l10n/') === 0) {
+			$this->appendIfExist($app_path, $script . '.js', $app_url);
 			return;
 		}
-		throw new \Exception('js file not found: script:'.$script);
+		$this->append($app_path, $script . '.js', $app_url);
 	}
 
-	public function doFindTheme( $script ) {
+	/**
+	 * @param string $script
+	 */
+	public function doFindTheme($script) {
 	}
 }

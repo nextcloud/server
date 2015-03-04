@@ -7,13 +7,20 @@
  */
 
 class Test_ResourceLocator extends \Test\TestCase {
+	/** @var PHPUnit_Framework_MockObject_MockObject */
+	protected $logger;
+
+	protected function setUp() {
+		parent::setUp();
+		$this->logger = $this->getMock('OCP\ILogger');
+	}
 
 	/**
 	 * @param string $theme
 	 */
 	public function getResourceLocator( $theme, $core_map, $party_map, $appsroots ) {
 		return $this->getMockForAbstractClass('OC\Template\ResourceLocator',
-			array( $theme, $core_map, $party_map, $appsroots ),
+			array($this->logger, $theme, $core_map, $party_map, $appsroots ),
 			'', true, true, true, array());
 	}
 
@@ -30,7 +37,7 @@ class Test_ResourceLocator extends \Test\TestCase {
 
 	public function testFind() {
 		$locator = $this->getResourceLocator('theme',
-			array('core'=>'map'), array('3rd'=>'party'), array('foo'=>'bar'));
+			array('core' => 'map'), array('3rd' => 'party'), array('foo' => 'bar'));
 		$locator->expects($this->once())
 			->method('doFind')
 			->with('foo');
@@ -38,18 +45,22 @@ class Test_ResourceLocator extends \Test\TestCase {
 			->method('doFindTheme')
 			->with('foo');
 		$locator->find(array('foo'));
+	}
 
+	public function testFindNotFound() {
 		$locator = $this->getResourceLocator('theme',
 			array('core'=>'map'), array('3rd'=>'party'), array('foo'=>'bar'));
 		$locator->expects($this->once())
 			->method('doFind')
 			->with('foo')
-			->will($this->throwException(new Exception('test')));
-		try {
-			$locator->find(array('foo'));
-		} catch (\Exception $e) {
-			$this->assertEquals('test serverroot:core', $e->getMessage());
-		}
+			->will($this->throwException(new \OC\Template\ResourceNotFoundException('foo', 'map')));
+		$locator->expects($this->once())
+			->method('doFindTheme')
+			->with('foo')
+			->will($this->throwException(new \OC\Template\ResourceNotFoundException('foo', 'map')));
+		$this->logger->expects($this->exactly(2))
+			->method('error');
+		$locator->find(array('foo'));
 	}
 
 	public function testAppendIfExist() {

@@ -9,7 +9,10 @@
 namespace OC\Template;
 
 class CSSResourceLocator extends ResourceLocator {
-	public function doFind( $style ) {
+	/**
+	 * @param string $style
+	 */
+	public function doFind($style) {
 		if (strpos($style, '3rdparty') === 0
 			&& $this->appendIfExist($this->thirdpartyroot, $style.'.css')
 			|| $this->appendIfExist($this->serverroot, $style.'.css')
@@ -21,14 +24,13 @@ class CSSResourceLocator extends ResourceLocator {
 		$style = substr($style, strpos($style, '/')+1);
 		$app_path = \OC_App::getAppPath($app);
 		$app_url = \OC_App::getAppWebPath($app);
-		if ($this->appendIfExist($app_path, $style.'.css', $app_url)
-		) {
-			return;
-		}
-		throw new \Exception('css file not found: style:'.$style);
+		$this->append($app_path, $style.'.css', $app_url);
 	}
 
-	public function doFindTheme( $style ) {
+	/**
+	 * @param string $style
+	 */
+	public function doFindTheme($style) {
 		$theme_dir = 'themes/'.$this->theme.'/';
 		$this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$style.'.css')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.$style.'.css')
