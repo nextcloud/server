@@ -108,11 +108,11 @@ EOD;
 				array_shift($lines);
 				continue;
 			}
-			if (strpos($line, '*') !== false) {
+			if (strpos($line, '*/') !== false ) {
 				array_shift($lines);
-				continue;
+				break;
 			}
-			if (strpos($line, '*/') !== false) {
+			if (strpos($line, '*') !== false) {
 				array_shift($lines);
 				continue;
 			}
@@ -144,26 +144,30 @@ EOD;
 }
 
 $licenses = new Licenses;
-$licenses->exec([
-	'../apps/files',
-	'../apps/files_encryption',
-	'../apps/files_external',
-	'../apps/files_sharing',
-	'../apps/files_trashbin',
-	'../apps/files_versions',
-	'../apps/provisioning_api',
-	'../apps/user_ldap',
-	'../apps/user_webdavauth',
-	'../core',
-	'../lib',
-	'../ocs',
-	'../settings',
-	'../console.php',
-	'../cron.php',
-	'../index.php',
-	'../public.php',
-	'../remote.php',
-	'../status.php',
-	'../version.php',
-]);
+if (isset($argv[1])) {
+	$licenses->exec($argv[1]);
+} else {
+	$licenses->exec([
+		'../apps/files',
+		'../apps/files_encryption',
+		'../apps/files_external',
+		'../apps/files_sharing',
+		'../apps/files_trashbin',
+		'../apps/files_versions',
+		'../apps/provisioning_api',
+		'../apps/user_ldap',
+		'../apps/user_webdavauth',
+		'../core',
+		'../lib',
+		'../ocs',
+		'../settings',
+		'../console.php',
+		'../cron.php',
+		'../index.php',
+		'../public.php',
+		'../remote.php',
+		'../status.php',
+		'../version.php',
+	]);
+}
 
