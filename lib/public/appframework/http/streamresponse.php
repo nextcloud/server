@@ -32,7 +32,7 @@ class StreamResponse extends Response implements ICallbackResponse {
 	/**
 	 * Streams the file using readfile
 	 *
-	 * @param IOutput a small wrapper that handles output
+	 * @param IOutput $output a small wrapper that handles output
 	 */
 	public function callback (IOutput $output) {
 		// handle caching
