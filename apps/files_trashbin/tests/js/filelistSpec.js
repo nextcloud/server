@@ -220,6 +220,28 @@ describe('OCA.Trashbin.FileList tests', function() {
 			fileList.findFileEl('somedir.d99999').find('input:checkbox').click();
 		});
 		describe('Delete', function() {
+			it('Shows trashbin actions', function() {
+				// visible because a few files were selected
+				expect($('.selectedActions').is(':visible')).toEqual(true);
+				expect($('.selectedActions .delete-selected').is(':visible')).toEqual(true);
+				expect($('.selectedActions .undelete').is(':visible')).toEqual(true);
+
+				// check
+				fileList.$el.find('.select-all').click();
+
+				// stays visible
+				expect($('.selectedActions').is(':visible')).toEqual(true);
+				expect($('.selectedActions .delete-selected').is(':visible')).toEqual(true);
+				expect($('.selectedActions .undelete').is(':visible')).toEqual(true);
+
+				// uncheck
+				fileList.$el.find('.select-all').click();
+
+				// becomes hidden now
+				expect($('.selectedActions').is(':visible')).toEqual(false);
+				expect($('.selectedActions .delete-selected').is(':visible')).toEqual(false);
+				expect($('.selectedActions .undelete').is(':visible')).toEqual(false);
+			});
 			it('Deletes selected files when "Delete" clicked', function() {
 				var request;
 				$('.selectedActions .delete-selected').click();
