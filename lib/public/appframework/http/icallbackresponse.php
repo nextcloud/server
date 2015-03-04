@@ -21,7 +21,7 @@ interface ICallbackResponse {
 	/**
 	 * Outputs the content that should be printed
 	 *
-	 * @param IOutput a small wrapper that handles output
+	 * @param IOutput $output a small wrapper that handles output
 	 */
 	function callback(IOutput $output);
 
