@@ -28,6 +28,7 @@ describe('OC.Share tests', function() {
 		var autocompleteStub;
 		var oldEnableAvatars;
 		var avatarStub;
+		var placeholderStub;
 
 		beforeEach(function() {
 			$('#testArea').append($('<div id="shareContainer"></div>'));
@@ -60,6 +61,7 @@ describe('OC.Share tests', function() {
 			oldEnableAvatars = oc_config.enable_avatars;
 			oc_config.enable_avatars = false;
 			avatarStub = sinon.stub($.fn, 'avatar');
+			placeholderStub = sinon.stub($.fn, 'imageplaceholder');
 		});
 		afterEach(function() {
 			/* jshint camelcase:false */
@@ -68,6 +70,7 @@ describe('OC.Share tests', function() {
 
 			autocompleteStub.restore();
 			avatarStub.restore();
+			placeholderStub.restore();
 			oc_config.enable_avatars = oldEnableAvatars;
 			$('#dropdown').remove();
 		});
@@ -416,7 +419,12 @@ describe('OC.Share tests', function() {
 		describe('check for avatar', function() {
 			beforeEach(function() {
 				loadItemStub.returns({
-					reshare: [],
+					reshare: {
+						share_type: OC.Share.SHARE_TYPE_USER,
+						uid_owner: 'owner',
+						displayname_owner: 'Owner',
+						permissions: 31
+					},
 					shares: [{
 						id: 100,
 						item_source: 123,
@@ -431,6 +439,14 @@ describe('OC.Share tests', function() {
 						share_type: OC.Share.SHARE_TYPE_GROUP,
 						share_with: 'group',
 						share_with_displayname: 'group'
+					},{
+						id: 102,
+						item_source: 123,
+						permissions: 31,
+						share_type: OC.Share.SHARE_TYPE_REMOTE,
+						share_with: 'foo@bar.com/baz',
+						share_with_displayname: 'foo@bar.com/baz'
+
 					}]
 				});
 			});
@@ -452,21 +468,35 @@ describe('OC.Share tests', function() {
 					oc_config.enable_avatars = false;
 				});
 
-				it('test correct function call', function() {
-					expect(avatarStub.calledOnce).toEqual(true);
+				it('test correct function calls', function() {
+					expect(avatarStub.calledTwice).toEqual(true);
+					expect(placeholderStub.calledTwice).toEqual(true);
+					expect($('#shareWithList').children().length).toEqual(3);
+					expect($('.avatar').length).toEqual(4);
+				});
+
+				it('test avatar owner', function() {
 					var args = avatarStub.getCall(0).args;
+					expect(args.length).toEqual(2);
+					expect(args[0]).toEqual('owner');
+				});
 
-
-					expect($('#shareWithList').children().length).toEqual(2);
-
-					expect($('.avatar[data-user="user1"]').length).toEqual(1);
+				it('test avatar user', function() {
+					var args = avatarStub.getCall(1).args;
 					expect(args.length).toEqual(2);
 					expect(args[0]).toEqual('user1');
 				});
 
-				it('test no avatar for groups', function() {
-					expect($('#shareWithList').children().length).toEqual(2);
-					expect($('#shareWithList li:nth-child(2) .avatar').attr('id')).not.toBeDefined();
+				it('test avatar for groups', function() {
+					var args = placeholderStub.getCall(0).args;
+					expect(args.length).toEqual(1);
+					expect(args[0]).toEqual('group ' + OC.Share.SHARE_TYPE_GROUP);
+				});
+
+				it('test avatar for remotes', function() {
+					var args = placeholderStub.getCall(1).args;
+					expect(args.length).toEqual(1);
+					expect(args[0]).toEqual('foo@bar.com/baz ' + OC.Share.SHARE_TYPE_REMOTE);
 				});
 			});
 
@@ -484,6 +514,8 @@ describe('OC.Share tests', function() {
 
 				it('no avatar classes', function() {
 					expect($('.avatar').length).toEqual(0);
+					expect(avatarStub.callCount).toEqual(0);
+					expect(placeholderStub.callCount).toEqual(0);
 				});
 			});
 		});
