@@ -3,6 +3,7 @@
  * ownCloud
  *
  * @author Vincent Petry
+ * @author Robin McCorkell
  * Copyright (c) 2013 Vincent Petry <pvince81@owncloud.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -20,16 +21,59 @@
  *
  */
 
-class Test_Mount_Config_Dummy_Storage {
+class Test_Mount_Config_Dummy_Storage extends \OC\Files\Storage\Common {
 	public function __construct($params) {
 		if (isset($params['simulateFail']) && $params['simulateFail'] == true) {
 			throw new \Exception('Simulated config validation fail');
 		}
 	}
 
+	public function getId() {
+		return 'dummy_storage';
+	}
+
+	public function mkdir($path) {
+		return false;
+	}
+
+	public function rmdir($path) {
+		return false;
+	}
+
+	public function opendir($path) {
+		return false;
+	}
+
+	public function filetype($path) {
+		return false;
+	}
+
+	public function file_exists($path) {
+		return false;
+	}
+
+	public function unlink($path) {
+		return false;
+	}
+
+	public function fopen($path, $mode) {
+		return false;
+	}
+
+	public function touch($path, $mtime = null) {
+		return false;
+	}
+
+	public function stat($path) {
+		return false;
+	}
+
 	public function test() {
 		return true;
 	}
+}
+
+class Test_Mount_Config_Storage_No_Personal extends Test_Mount_Config_Dummy_Storage {
 }
 
 class Test_Mount_Config_Hook_Test {
@@ -94,6 +138,12 @@ class Test_Mount_Config extends \Test\TestCase {
 				'configuration' => array()
 			)
 		);
+		OC_Mount_Config::registerBackend('Test_Mount_Config_Storage_No_Personal', array(
+				'backend' => 'dummy no personal',
+				'priority' => 150,
+				'configuration' => array()
+			)
+		);
 
 		\OC_User::createUser(self::TEST_USER1, self::TEST_USER1);
 		\OC_User::createUser(self::TEST_USER2, self::TEST_USER2);
@@ -120,11 +170,10 @@ class Test_Mount_Config extends \Test\TestCase {
 			'user_mounting_backends',
 			''
 		);
-		$this->allBackends = OC_Mount_Config::getBackends();
 		OCP\Config::setAppValue(
 			'files_external',
 			'user_mounting_backends',
-			implode(',', array_keys($this->allBackends))
+			'Test_Mount_Config_Dummy_Storage'
 		);
 
 		OC_Mount_Config::$skipTest = true;
@@ -203,7 +252,7 @@ class Test_Mount_Config extends \Test\TestCase {
 			'password' => '12345',
 		);
 
-		$this->assertEquals(true, OC_Mount_Config::addMountPoint('/ext', '\OC\Files\Storage\SFTP', $storageOptions, $mountType, $applicable, $isPersonal));
+		$this->assertEquals(true, OC_Mount_Config::addMountPoint('/ext', 'Test_Mount_Config_Dummy_Storage', $storageOptions, $mountType, $applicable, $isPersonal));
 
 		$config = $this->readGlobalConfig();
 		$this->assertEquals(1, count($config));
@@ -211,7 +260,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(isset($config[$mountType][$applicable]));
 		$this->assertTrue(isset($config[$mountType][$applicable]['/$user/files/ext']));
 		$this->assertEquals(
-			'\OC\Files\Storage\SFTP',
+			'Test_Mount_Config_Dummy_Storage',
 			$config[$mountType][$applicable]['/$user/files/ext']['class']
 		);
 	}
@@ -230,7 +279,7 @@ class Test_Mount_Config extends \Test\TestCase {
 			'password' => '12345',
 		);
 
-		$this->assertEquals(true, OC_Mount_Config::addMountPoint('/ext', '\OC\Files\Storage\SFTP', $storageOptions, $mountType, $applicable, $isPersonal));
+		$this->assertEquals(true, OC_Mount_Config::addMountPoint('/ext', 'Test_Mount_Config_Dummy_Storage', $storageOptions, $mountType, $applicable, $isPersonal));
 
 		$config = $this->readUserConfig();
 		$this->assertEquals(1, count($config));
@@ -238,7 +287,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(isset($config[$mountType][$applicable]));
 		$this->assertTrue(isset($config[$mountType][$applicable]['/' . self::TEST_USER1 . '/files/ext']));
 		$this->assertEquals(
-			'\OC\Files\Storage\SFTP',
+			'Test_Mount_Config_Dummy_Storage',
 			$config[$mountType][$applicable]['/' . self::TEST_USER1 . '/files/ext']['class']
 		);
 	}
@@ -252,14 +301,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$isPersonal = true;
 
 		// local
-		$this->assertFalse(OC_Mount_Config::addMountPoint('/ext', '\OC\Files\storage\local', array(), $mountType, $applicable, $isPersonal));
-
-		unset($this->allBackends['\OC\Files\Storage\SFTP']);
-		OCP\Config::setAppValue(
-			'files_external',
-			'user_mounting_backends',
-			implode(',', array_keys($this->allBackends))
-		);
+		$this->assertFalse(OC_Mount_Config::addMountPoint('/ext', '\OC\Files\Storage\Local', array(), $mountType, $applicable, $isPersonal));
 
 		$storageOptions = array(
 			'host' => 'localhost',
@@ -268,7 +310,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		);
 
 		// non-local but forbidden
-		$this->assertFalse(OC_Mount_Config::addMountPoint('/ext', '\OC\Files\Storage\SFTP', $storageOptions, $mountType, $applicable, $isPersonal));
+		$this->assertFalse(OC_Mount_Config::addMountPoint('/ext', 'Test_Mount_Config_Storage_No_Personal', $storageOptions, $mountType, $applicable, $isPersonal));
 
 		$this->assertFalse(file_exists($this->userHome . '/mount.json'));
 	}
@@ -343,7 +385,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				'/ext',
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$options,
 				$mountType,
 				$applicable,
@@ -354,7 +396,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		// re-read config
 		$config = OC_Mount_Config::getSystemMountPoints();
 		$this->assertEquals(1, count($config));
-		$this->assertEquals('\OC\Files\Storage\SMB', $config[0]['class']);
+		$this->assertEquals('Test_Mount_Config_Dummy_Storage', $config[0]['class']);
 		$this->assertEquals('ext', $config[0]['mountpoint']);
 		$this->assertEquals($expectApplicableArray, $config[0]['applicable']);
 		$savedOptions = $config[0]['options'];
@@ -383,7 +425,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				'/ext',
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$options,
 				$mountType,
 				$applicable,
@@ -394,7 +436,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		// re-read config
 		$config = OC_Mount_Config::getPersonalMountPoints();
 		$this->assertEquals(1, count($config));
-		$this->assertEquals('\OC\Files\Storage\SMB', $config[0]['class']);
+		$this->assertEquals('Test_Mount_Config_Dummy_Storage', $config[0]['class']);
 		$this->assertEquals('ext', $config[0]['mountpoint']);
 		$savedOptions = $config[0]['options'];
 		$this->assertEquals($options, $savedOptions);
@@ -420,7 +462,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				$mountPoint,
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$mountConfig,
 				$mountType,
 				$applicable,
@@ -453,7 +495,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				$mountPoint,
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$mountConfig,
 				$mountType,
 				$applicable,
@@ -518,7 +560,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				'/ext',
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$mountConfig,
 				$mountType,
 				$applicable,
@@ -559,7 +601,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				'/ext',
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$mountConfig,
 				$mountType,
 				$applicable,
@@ -668,7 +710,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				'/ext',
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$mountConfig,
 				$mountType,
 				$applicable,
@@ -683,7 +725,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		if ($expectVisible) {
 			$this->assertEquals(1, count($mountPoints));
 			$this->assertTrue(isset($mountPoints['/' . self::TEST_USER1 . '/files/ext']));
-			$this->assertEquals('\OC\Files\Storage\SMB', $mountPoints['/' . self::TEST_USER1 . '/files/ext']['class']);
+			$this->assertEquals('Test_Mount_Config_Dummy_Storage', $mountPoints['/' . self::TEST_USER1 . '/files/ext']['class']);
 			$this->assertEquals($mountConfig, $mountPoints['/' . self::TEST_USER1 . '/files/ext']['options']);
 		}
 		else {
@@ -711,7 +753,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				'/ext',
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$options,
 				OC_Mount_Config::MOUNT_TYPE_USER,
 				self::TEST_USER1,
@@ -722,7 +764,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				'/ext',
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$options,
 				OC_Mount_Config::MOUNT_TYPE_USER,
 				self::TEST_USER2,
@@ -733,7 +775,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				'/ext',
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$options,
 				OC_Mount_Config::MOUNT_TYPE_GROUP,
 				self::TEST_GROUP2,
@@ -744,7 +786,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				'/ext',
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$options,
 				OC_Mount_Config::MOUNT_TYPE_GROUP,
 				self::TEST_GROUP1,
@@ -755,7 +797,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		// re-read config
 		$config = OC_Mount_Config::getSystemMountPoints();
 		$this->assertEquals(1, count($config));
-		$this->assertEquals('\OC\Files\Storage\SMB', $config[0]['class']);
+		$this->assertEquals('Test_Mount_Config_Dummy_Storage', $config[0]['class']);
 		$this->assertEquals('ext', $config[0]['mountpoint']);
 		$this->assertEquals($options, $config[0]['options']);
 		$this->assertEquals(array(self::TEST_USER1, self::TEST_USER2), $config[0]['applicable']['users']);
@@ -782,7 +824,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				'/ext',
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$options1,
 				$mountType,
 				self::TEST_USER1,
@@ -800,7 +842,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				'/ext',
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$options2,
 				$mountType,
 				self::TEST_USER2,
@@ -811,10 +853,10 @@ class Test_Mount_Config extends \Test\TestCase {
 		// re-read config
 		$config = OC_Mount_Config::getSystemMountPoints();
 		$this->assertEquals(2, count($config));
-		$this->assertEquals('\OC\Files\Storage\SMB', $config[0]['class']);
+		$this->assertEquals('Test_Mount_Config_Dummy_Storage', $config[0]['class']);
 		$this->assertEquals('ext', $config[0]['mountpoint']);
 		$this->assertEquals($options1, $config[0]['options']);
-		$this->assertEquals('\OC\Files\Storage\SMB', $config[1]['class']);
+		$this->assertEquals('Test_Mount_Config_Dummy_Storage', $config[1]['class']);
 		$this->assertEquals('ext', $config[1]['mountpoint']);
 		$this->assertEquals($options2, $config[1]['options']);
 	}
@@ -913,7 +955,7 @@ class Test_Mount_Config extends \Test\TestCase {
 			$this->assertTrue(
 				OC_Mount_Config::addMountPoint(
 					'/ext',
-					'\OC\Files\Storage\SMB',
+					'Test_Mount_Config_Dummy_Storage',
 					$mountConfig + array('id' => $i),
 					$mount['mountType'],
 					$mount['applicable'],
@@ -935,7 +977,7 @@ class Test_Mount_Config extends \Test\TestCase {
 	 */
 	public function testPriorityPersistence() {
 
-		$class = '\OC\Files\Storage\SMB';
+		$class = 'Test_Mount_Config_Dummy_Storage';
 		$priority = 123;
 		$mountConfig = array(
 			'host' => 'somehost',
@@ -996,7 +1038,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				'/ext',
-				'\OC\Files\Storage\SMB',
+				'Test_Mount_Config_Dummy_Storage',
 				$mountConfig,
 				OC_Mount_Config::MOUNT_TYPE_USER,
 				self::TEST_USER1,
@@ -1012,7 +1054,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		$this->assertEquals(0, count($mountPointsMe));
 		$this->assertEquals(1, count($mountPointsOther));
 		$this->assertTrue(isset($mountPointsOther['/'.self::TEST_USER1.'/files/ext']));
-		$this->assertEquals('\OC\Files\Storage\SMB',
+		$this->assertEquals('Test_Mount_Config_Dummy_Storage',
 			$mountPointsOther['/'.self::TEST_USER1.'/files/ext']['class']);
 		$this->assertEquals($mountConfig,
 			$mountPointsOther['/'.self::TEST_USER1.'/files/ext']['options']);
