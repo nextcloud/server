@@ -96,7 +96,7 @@ class ConnectionFactory {
 				break;
 			case 'sqlite3':
 				$journalMode = $additionalConnectionParams['sqlite.journal_mode'];
-				$additionalConnectionParams['platform'] = new SqlitePlatform();
+				$additionalConnectionParams['platform'] = new OCSqlitePlatform();
 				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
 				break;
 		}

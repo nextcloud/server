@@ -8,7 +8,7 @@
 
 namespace OC\DB;
 
-class SqlitePlatform extends \Doctrine\DBAL\Platforms\SqlitePlatform {
+class OCSqlitePlatform extends \Doctrine\DBAL\Platforms\SqlitePlatform {
 	/**
 	 * {@inheritDoc}
 	 */
