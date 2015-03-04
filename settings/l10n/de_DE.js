@@ -130,6 +130,8 @@ OC.L10N.register(
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Wir empfehlen dringend, die erforderlichen Pakete auf Ihrem System zu installieren, damit eines der folgenden Gebietsschemata unterstützt wird: %s.",
     "URL generation in notification emails" : "URL-Erzeugung in E-Mail-Benachrichtungen",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Wenn sich Ihre Installation nicht im Wurzelverzeichnis der Domain befindet und Cron aus dem System genutzt wird, kann es zu Fehlern bei der URL-Generierung kommen. Um dies zu verhindern, setzen Sie bitte die „overwrite.cli.url“-Option in Ihrer config.php auf das Web-Wurzelverzeichnis Ihrer Installation (Vorschlag: „%s“).",
+    "Cronjob encountered misconfiguration" : "Im Cron-Job wurde eine Fehlkonfiguration festgestellt",
+    "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "Die Ausführung des Cron-Jobs über die Kommandozeile war nicht möglich. Die folgenden technischen Fehler sind dabei aufgetreten:",
     "Configuration Checks" : "Konfigurationsprüfungen",
     "No problems found" : "Keine Probleme gefunden",
     "Please double check the <a href='%s'>installation guides</a>." : "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>.",

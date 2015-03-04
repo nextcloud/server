@@ -64,7 +64,6 @@ OC.L10N.register(
     "Text file" : "فایل متنی",
     "New folder" : "پوشه جدید",
     "Folder" : "پوشه",
-    "From link" : "از پیوند",
     "Upload" : "بارگزاری",
     "Cancel upload" : "متوقف کردن بار گذاری",
     "Upload too large" : "سایز فایل برای آپلود زیاد است(م.تنظیمات در php.ini)",

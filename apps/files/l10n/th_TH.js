@@ -49,7 +49,6 @@ OC.L10N.register(
     "Text file" : "ไฟล์ข้อความ",
     "New folder" : "โฟลเดอร์ใหม่",
     "Folder" : "แฟ้มเอกสาร",
-    "From link" : "จากลิงก์",
     "Upload" : "อัพโหลด",
     "Cancel upload" : "ยกเลิกการอัพโหลด",
     "Upload too large" : "ไฟล์ที่อัพโหลดมีขนาดใหญ่เกินไป",

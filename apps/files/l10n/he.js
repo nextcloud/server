@@ -61,7 +61,6 @@ OC.L10N.register(
     "Text file" : "קובץ טקסט",
     "New folder" : "תיקייה חדשה",
     "Folder" : "תיקייה",
-    "From link" : "מקישור",
     "Upload" : "העלאה",
     "Cancel upload" : "ביטול ההעלאה",
     "Upload too large" : "העלאה גדולה מידי",

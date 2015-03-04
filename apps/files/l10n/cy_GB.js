@@ -43,7 +43,6 @@ OC.L10N.register(
     "New" : "Newydd",
     "Text file" : "Ffeil destun",
     "Folder" : "Plygell",
-    "From link" : "Dolen o",
     "Upload" : "Llwytho i fyny",
     "Cancel upload" : "Diddymu llwytho i fyny",
     "Upload too large" : "Maint llwytho i fyny'n rhy fawr",

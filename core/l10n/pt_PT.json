@@ -188,7 +188,7 @@
     "Database host" : "Anfitrião da base de dados",
     "Performance Warning" : "Aviso de Desempenho",
     "SQLite will be used as database." : "SQLite será usado como base de dados.",
-    "For larger installations we recommend to choose a different database backend." : "Para instalações maiores recomendamos que escolha um tipo de base de dados diferente.",
+    "For larger installations we recommend to choose a different database backend." : "Para instalações maiores, nós recomendamos que escolha uma interface de base de dados diferente.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "O uso de SQLite é desencorajado especialmente se estiver a pensar em dar uso ao cliente desktop para sincronizar os seus ficheiros no seu computador.",
     "Finish setup" : "Terminar consiguração",
     "Finishing …" : "A terminar...",
@@ -217,6 +217,7 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Por favor garanta a cópia de segurança da base de dados e das pastas 'config' e 'data' antes de prosseguir.",
     "Start update" : "Iniciar atualização",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Para evitar tempos de espera com instalações maiores, você pode em vez disso, executar o seguinte comando a partir do diretório de instalação:",
+    "This %s instance is currently in maintenance mode, which may take a while." : "Esta instância %s está actualmente em modo de manutenção, o que poderá demorar algum tempo.",
     "This page will refresh itself when the %s instance is available again." : "Esta página irá ser recarregada novamente quando a instância %s ficar novamente disponível."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

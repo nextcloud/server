@@ -48,7 +48,6 @@ OC.L10N.register(
     "Text file" : "ტექსტური ფაილი",
     "New folder" : "ახალი ფოლდერი",
     "Folder" : "საქაღალდე",
-    "From link" : "მისამართიდან",
     "Upload" : "ატვირთვა",
     "Cancel upload" : "ატვირთვის გაუქმება",
     "Upload too large" : "ასატვირთი ფაილი ძალიან დიდია",

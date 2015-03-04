@@ -74,7 +74,6 @@ OC.L10N.register(
     "Text file" : "ملف",
     "New folder" : "مجلد جديد",
     "Folder" : "مجلد",
-    "From link" : "من رابط",
     "Upload" : "رفع",
     "Cancel upload" : "إلغاء الرفع",
     "Upload too large" : "حجم الترفيع أعلى من المسموح",

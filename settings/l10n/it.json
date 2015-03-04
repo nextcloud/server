@@ -1,5 +1,5 @@
 { "translations": {
-    "Security & Setup Warnings" : "Avviso di sicurezza e configurazione",
+    "Security & Setup Warnings" : "Avvisi di sicurezza e configurazione",
     "Cron" : "Cron",
     "Sharing" : "Condivisione",
     "Security" : "Protezione",
@@ -128,6 +128,8 @@
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Consigliamo vivamente di installare i pacchetti richiesti sul tuo sistema per supportare una delle localizzazioni seguenti: %s.",
     "URL generation in notification emails" : "Generazione di URL nelle email di notifica",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Se la tua installazione non si trova nella radice del dominio e utilizza il cron di sistema, potrebbero esserci problemi con la generazione degli URL. Per evitare questi problemi, imposta l'opzione \"overwrite.cli.url\"  nel file config.php al percorso della radice del sito della tua installazione (Consigliato: \"%s\")",
+    "Cronjob encountered misconfiguration" : "Il job di cron ha riscontrato un problema di configurazione",
+    "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "Non è stato possibile eseguire il job di cron tramite CLI. Sono apparsi i seguenti errori tecnici:",
     "Configuration Checks" : "Controlli di configurazione",
     "No problems found" : "Nessun problema trovato",
     "Please double check the <a href='%s'>installation guides</a>." : "Leggi attentamente le <a href='%s'>guide d'installazione</a>.",

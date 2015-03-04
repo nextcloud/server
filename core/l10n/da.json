@@ -217,6 +217,7 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Sørg venligst for at sikre, at databasen, config-mappen og data-mappen er blevet sikkerhedskopieret inden vi fortsætter.",
     "Start update" : "Begynd opdatering",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "For at undgå tidsudløb ved større installationer, så kan du i stedet køre følgende kommando fra din installationsmappe:",
+    "This %s instance is currently in maintenance mode, which may take a while." : "Denne %s-instans befinder sig i vedligeholdelsestilstand for øjeblikket, hvilket kan tage et stykke tid.",
     "This page will refresh itself when the %s instance is available again." : "Denne side vil genopfriske sig selv, når %s-instancen er tilgængelig igen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

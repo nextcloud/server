@@ -38,7 +38,6 @@ OC.L10N.register(
     "Text file" : "ឯកសារ​អក្សរ",
     "New folder" : "ថត​ថ្មី",
     "Folder" : "ថត",
-    "From link" : "ពី​តំណ",
     "Upload" : "ផ្ទុក​ឡើង",
     "Cancel upload" : "បោះបង់​ការ​ផ្ទុកឡើង",
     "Upload too large" : "ផ្ទុក​ឡើង​ធំ​ពេក"
