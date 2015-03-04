@@ -27,6 +27,12 @@ class ShowConfig extends Command {
 					InputArgument::OPTIONAL,
 					'will show the configuration of the specified id'
 				     )
+			->addOption(
+					'show-password',
+					null,
+					InputOption::VALUE_NONE,
+					'show ldap bind password'
+				     )
 		;
 	}
 
@@ -44,15 +50,16 @@ class ShowConfig extends Command {
 			$configIDs = $availableConfigs;
 		}
 
-		$this->renderConfigs($configIDs, $output);
+		$this->renderConfigs($configIDs, $output, $input->getOption('show-password'));
 	}
 
 	/**
 	 * prints the LDAP configuration(s)
 	 * @param string[] configID(s)
 	 * @param OutputInterface $output
+	 * @param bool $withPassword      Set to TRUE to show plaintext passwords in output
 	 */
-	protected function renderConfigs($configIDs, $output) {
+	protected function renderConfigs($configIDs, $output, $withPassword) {
 		foreach($configIDs as $id) {
 			$configHolder = new Configuration($id);
 			$configuration = $configHolder->getConfiguration();
@@ -62,7 +69,7 @@ class ShowConfig extends Command {
 			$table->setHeaders(array('Configuration', $id));
 			$rows = array();
 			foreach($configuration as $key => $value) {
-				if($key === 'ldapAgentPassword') {
+				if($key === 'ldapAgentPassword' && !$withPassword) {
 					$value = '***';
 				}
 				if(is_array($value)) {
