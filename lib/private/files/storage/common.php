@@ -13,7 +13,9 @@ use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Storage;
 use OC\Files\Filesystem;
 use OC\Files\Cache\Watcher;
+use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
+use OCP\Files\ReservedWordException;
 
 /**
  * Storage backend class for providing common filesystem operation methods
@@ -476,7 +478,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		$this->scanForInvalidCharacters($fileName, "\\/<>:\"|?*");
 		$reservedNames = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9'];
 		if (in_array(strtoupper($fileName), $reservedNames)) {
-			throw new InvalidPathException($this->t("File name is a reserved word"));
+			throw new ReservedWordException();
 		}
 	}
 
@@ -489,7 +491,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		$this->scanForInvalidCharacters($fileName, "\\/");
 		$reservedNames = ['*'];
 		if (in_array($fileName, $reservedNames)) {
-			throw new InvalidPathException($this->t('File name is a reserved word'));
+			throw new ReservedWordException();
 		}
 	}
 
@@ -501,19 +503,13 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	private function scanForInvalidCharacters($fileName, $invalidChars) {
 		foreach(str_split($invalidChars) as $char) {
 			if (strpos($fileName, $char) !== false) {
-				throw new InvalidPathException($this->t('File name contains at least one invalid characters'));
+				throw new InvalidCharacterInPathException();
 			}
 		}
 
 		$sanitizedFileName = filter_var($fileName, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 		if($sanitizedFileName !== $fileName) {
-			throw new InvalidPathException($this->t('File name contains at least one invalid characters'));
+			throw new InvalidCharacterInPathException();
 		}
 	}
-
-	private function t($string) {
-		$l10n = \OC::$server->getL10N('lib');
-		return $l10n->t($string);
-	}
-
 }

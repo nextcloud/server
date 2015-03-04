@@ -78,8 +78,7 @@ class PathVerification extends \Test\TestCase {
 
 	/**
 	 * @dataProvider providesInvalidCharsWindows
-	 * @expectedException \OCP\Files\InvalidPathException
-	 * @expectedExceptionMessage File name contains at least one invalid characters
+	 * @expectedException \OCP\Files\InvalidCharacterInPathException
 	 */
 	public function testPathVerificationInvalidCharsWindows($fileName) {
 		$storage = new Local(['datadir' => '']);
@@ -136,8 +135,7 @@ class PathVerification extends \Test\TestCase {
 
 	/**
 	 * @dataProvider providesInvalidCharsPosix
-	 * @expectedException \OCP\Files\InvalidPathException
-	 * @expectedExceptionMessage File name contains at least one invalid characters
+	 * @expectedException \OCP\Files\InvalidCharacterInPathException
 	 */
 	public function testPathVerificationInvalidCharsPosix($fileName) {
 		$storage = new Local(['datadir' => '']);
@@ -187,8 +185,7 @@ class PathVerification extends \Test\TestCase {
 
 	/**
 	 * @dataProvider providesReservedNamesWindows
-	 * @expectedException \OCP\Files\InvalidPathException
-	 * @expectedExceptionMessage File name is a reserved word
+	 * @expectedException \OCP\Files\ReservedWordException
 	 */
 	public function testPathVerificationReservedNamesWindows($fileName) {
 		$storage = new Local(['datadir' => '']);

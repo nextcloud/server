@@ -11,7 +11,9 @@ namespace OC\Files;
 
 use OC\Files\Cache\Updater;
 use OC\Files\Mount\MoveableMount;
+use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
+use OCP\Files\ReservedWordException;
 
 /**
  * Class to provide access to ownCloud filesystem via a "view", and methods for
@@ -1563,8 +1565,14 @@ class View {
 			throw new InvalidPathException($l10n->t('4-byte characters are not supported in file names'));
 		}
 
-		/** @type \OCP\Files\Storage $storage */
-		list($storage, $internalPath) = $this->resolvePath($path);
-		$storage->verifyPath($internalPath, $fileName);
+		try {
+			/** @type \OCP\Files\Storage $storage */
+			list($storage, $internalPath) = $this->resolvePath($path);
+			$storage->verifyPath($internalPath, $fileName);
+		} catch (ReservedWordException $ex) {
+			throw new InvalidPathException($l10n->t('File name is a reserved word'));
+		} catch (InvalidCharacterInPathException $ex) {
+			throw new InvalidPathException($l10n->t('File name contains at least one invalid characters'));
+		}
 	}
 }
