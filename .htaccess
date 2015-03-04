@@ -45,6 +45,10 @@ Options -Indexes
         ModPagespeed Off
 </IfModule>
 <IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-XSS-Protection "1; mode=block"
+  Header set X-Robots-Tag "none"
+  Header set X-Frame-Options "SAMEORIGIN"
   <FilesMatch "\.(css|js)$">
     Header set Cache-Control "max-age=7200, public"
   </FilesMatch>

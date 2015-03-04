@@ -746,18 +746,6 @@ $CONFIG = array(
  */
 
 /**
- * Change this to ``true`` to require HTTPS for all connections, and to reject
- * HTTP requests.
- */
-'forcessl' => false,
-
-/**
- * Change this to ``true`` to require HTTPS connections also for all subdomains.
- * Works only together when `forcessl` is set to true.
- */
-'forceSSLforSubdomains' => false,
-
-/**
  * Extra SSL options to be used for configuration.
  */
 'openssl' => array(
@@ -786,13 +774,6 @@ $CONFIG = array(
  * The default location for themes is ``owncloud/themes/``.
  */
 'theme' => '',
-
-/**
- * X-Frame-Restriction is a header which prevents browsers from showing the site
- * inside an iframe. This is be used to prevent clickjacking. It is risky to
- * disable this, so leave it set at ``true``.
- */
-'xframe_restriction' => true,
 
 /**
  * The default cipher for encrypting files. Currently AES-128-CFB and

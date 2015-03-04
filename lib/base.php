@@ -247,34 +247,6 @@ class OC {
 		}
 	}
 
-	public static function checkSSL() {
-		$request = \OC::$server->getRequest();
-
-		// redirect to https site if configured
-		if (\OC::$server->getSystemConfig()->getValue('forcessl', false)) {
-			// Default HSTS policy
-			$header = 'Strict-Transport-Security: max-age=31536000';
-
-			// If SSL for subdomains is enabled add "; includeSubDomains" to the header
-			if(\OC::$server->getSystemConfig()->getValue('forceSSLforSubdomains', false)) {
-				$header .= '; includeSubDomains';
-			}
-			header($header);
-			ini_set('session.cookie_secure', true);
-
-			if ($request->getServerProtocol() <> 'https' && !OC::$CLI) {
-				$url = 'https://' . $request->getServerHost() . $request->getRequestUri();
-				header("Location: $url");
-				exit();
-			}
-		} else {
-			// Invalidate HSTS headers
-			if ($request->getServerProtocol() === 'https') {
-				header('Strict-Transport-Security: max-age=0');
-			}
-		}
-	}
-
 	public static function checkMaintenanceMode() {
 		// Allow ajax update script to execute without being stopped
 		if (\OC::$server->getSystemConfig()->getValue('maintenance', false) && OC::$SUBURI != '/core/ajax/update.php') {
@@ -569,8 +541,11 @@ class OC {
 		self::initTemplateEngine();
 		self::checkConfig();
 		self::checkInstalled();
-		self::checkSSL();
+
 		OC_Response::addSecurityHeaders();
+		if(self::$server->getRequest()->getServerProtocol() === 'https') {
+			ini_set('session.cookie_secure', true);
+		}
 
 		$errors = OC_Util::checkServer(\OC::$server->getConfig());
 		if (count($errors) > 0) {

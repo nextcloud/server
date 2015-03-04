@@ -66,20 +66,6 @@ if ($_['mail_smtpmode'] == 'qmail') {
 <div id="security-warning">
 <?php
 
-// is ssl working ?
-if (!$_['isConnectedViaHTTPS']) {
-	?>
-<div class="section">
-	<h2><?php p($l->t('Security Warning'));?></h2>
-
-	<span class="securitywarning">
-		<?php p($l->t('You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead.', $theme->getTitle())); ?>
-	</span>
-
-</div>
-<?php
-}
-
 // is read only config enabled
 if ($_['readOnlyConfigEnabled']) {
 ?>
@@ -368,51 +354,6 @@ if ($_['cronErrors']) {
 				<br />
 				<em><?php p($l->t('These groups will still be able to receive shares, but not to initiate them.')); ?></em>
 			</p>
-</div>
-
-<div class="section" id="security">
-	<h2><?php p($l->t('Security'));?></h2>
-	<p>
-		<input type="checkbox" name="forcessl"  id="forcessl"
-			<?php if ($_['enforceHTTPSEnabled']) {
-				print_unescaped('checked="checked" ');
-				print_unescaped('value="true"');
-			}  else {
-				print_unescaped('value="false"');
-			}
-			?>
-			<?php if (!$_['isConnectedViaHTTPS']) p('disabled'); ?> />
-		<label for="forcessl"><?php p($l->t('Enforce HTTPS'));?></label><br/>
-		<em><?php p($l->t(
-			'Forces the clients to connect to %s via an encrypted connection.',
-			$theme->getName()
-		)); ?></em><br/>
-		<span id="forceSSLforSubdomainsSpan" <?php if(!$_['enforceHTTPSEnabled']) { print_unescaped('class="hidden"'); } ?>>
-			<input type="checkbox" name="forceSSLforSubdomains"  id="forceSSLforSubdomains"
-				<?php if ($_['forceSSLforSubdomainsEnabled']) {
-					print_unescaped('checked="checked" ');
-					print_unescaped('value="true"');
-				}  else {
-					print_unescaped('value="false"');
-				}
-				?>
-				<?php if (!$_['isConnectedViaHTTPS']) { p('disabled'); } ?> />
-			<label for="forceSSLforSubdomains"><?php p($l->t('Enforce HTTPS for subdomains'));?></label><br/>
-			<em><?php p($l->t(
-					'Forces the clients to connect to %s and subdomains via an encrypted connection.',
-					$theme->getName()
-				)); ?></em>
-		</span>
-		<?php if (!$_['isConnectedViaHTTPS']) {
-			print_unescaped("<br/><em>");
-			p($l->t(
-				'Please connect to your %s via HTTPS to enable or disable the SSL enforcement.',
-				$theme->getName()
-			));
-			print_unescaped("</em>");
-		}
-		?>
-	</p>
 </div>
 
 <div class="section">

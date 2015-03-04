@@ -20,8 +20,6 @@ $application->registerRoutes($this, array(
 		array('name' => 'MailSettings#sendTestMail', 'url' => '/settings/admin/mailtest', 'verb' => 'POST'),
 		array('name' => 'AppSettings#listCategories', 'url' => '/settings/apps/categories', 'verb' => 'GET'),
 		array('name' => 'AppSettings#listApps', 'url' => '/settings/apps/list', 'verb' => 'GET'),
-		array('name' => 'SecuritySettings#enforceSSL', 'url' => '/settings/admin/security/ssl', 'verb' => 'POST'),
-		array('name' => 'SecuritySettings#enforceSSLForSubdomains', 'url' => '/settings/admin/security/ssl/subdomains', 'verb' => 'POST'),
 		array('name' => 'SecuritySettings#trustedDomains', 'url' => '/settings/admin/security/trustedDomains', 'verb' => 'POST'),
 		array('name' => 'Users#setMailAddress', 'url' => '/settings/users/{id}/mailAddress', 'verb' => 'PUT'),
 		array('name' => 'LogSettings#setLogLevel', 'url' => '/settings/admin/log/level', 'verb' => 'POST'),

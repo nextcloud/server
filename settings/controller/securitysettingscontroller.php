@@ -43,43 +43,6 @@ class SecuritySettingsController extends Controller {
 	}
 
 	/**
-	 * @return array
-	 */
-	protected function returnError() {
-		return array(
-			'status' => 'error'
-		);
-	}
-
-	/**
-	 * Enforce or disable the enforcement of SSL
-	 * @param boolean $enforceHTTPS Whether SSL should be enforced
-	 * @return array
-	 */
-	public function enforceSSL($enforceHTTPS = false) {
-		if(!is_bool($enforceHTTPS)) {
-			return $this->returnError();
-		}
-		$this->config->setSystemValue('forcessl', $enforceHTTPS);
-
-		return $this->returnSuccess();
-	}
-
-	/**
-	 * Enforce or disable the enforcement for SSL on subdomains
-	 * @param bool $forceSSLforSubdomains Whether SSL on subdomains should be enforced
-	 * @return array
-	 */
-	public function enforceSSLForSubdomains($forceSSLforSubdomains = false) {
-		if(!is_bool($forceSSLforSubdomains)) {
-			return $this->returnError();
-		}
-		$this->config->setSystemValue('forceSSLforSubdomains', $forceSSLforSubdomains);
-
-		return $this->returnSuccess();
-	}
-
-	/**
 	 * Add a new trusted domain
 	 * @param string $newTrustedDomain The newly to add trusted domain
 	 * @return array
