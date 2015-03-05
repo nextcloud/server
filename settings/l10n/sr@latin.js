@@ -14,7 +14,6 @@ OC.L10N.register(
     "Delete" : "Obriši",
     "Groups" : "Grupe",
     "never" : "nikad",
-    "Security Warning" : "Bezbednosno upozorenje",
     "Port" : "Port",
     "by" : "od",
     "Cheers!" : "U zdravlje!",

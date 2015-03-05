@@ -22,7 +22,6 @@ OC.L10N.register(
     "SSL root certificates" : "SSL rótar skilríki",
     "Encryption" : "Dulkóðun",
     "None" : "Ekkert",
-    "Security Warning" : "Öryggis aðvörun",
     "Server address" : "Host nafn netþjóns",
     "More" : "Meira",
     "Less" : "Minna",

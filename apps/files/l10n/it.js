@@ -32,7 +32,7 @@ OC.L10N.register(
     "Files" : "File",
     "All files" : "Tutti i file",
     "Favorites" : "Preferiti",
-    "Home" : "Casa",
+    "Home" : "Home",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Impossibile caricare {filename} poiché è una cartella oppure ha una dimensione di 0 byte.",
     "Total file size {size1} exceeds upload limit {size2}" : "La dimensione totale del file {size1} supera il limite di caricamento {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Spazio insufficiente, stai caricando {size1}, ma è rimasto solo {size2}",

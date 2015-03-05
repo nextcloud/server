@@ -13,7 +13,6 @@ OC.L10N.register(
     "add group" : "ਗਰੁੱਪ ਸ਼ਾਮਲ",
     "__language_name__" : "__ਭਾਸ਼ਾ_ਨਾਂ__",
     "Login" : "ਲਾਗਇਨ",
-    "Security Warning" : "ਸੁਰੱਖਿਆ ਚੇਤਾਵਨੀ",
     "Setup Warning" : "ਸੈਟਅੱਪ ਚੇਤਾਵਨੀ",
     "Server address" : "ਸਰਵਰ ਐਡਰੈਸ",
     "Password" : "ਪਾਸਵਰ",

@@ -31,7 +31,6 @@ OC.L10N.register(
     "Encryption" : "شىفىرلاش",
     "None" : "يوق",
     "Login" : "تىزىمغا كىرىڭ",
-    "Security Warning" : "بىخەتەرلىك ئاگاھلاندۇرۇش",
     "Setup Warning" : "ئاگاھلاندۇرۇش تەڭشەك",
     "Module 'fileinfo' missing" : "بۆلەك «ھۆججەت ئۇچۇرى» يوقالغان",
     "Server address" : "مۇلازىمېتىر ئادرىسى",

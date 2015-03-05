@@ -9,7 +9,6 @@ OC.L10N.register(
     "Good password" : "اچھا پاسورڈ",
     "Strong password" : "مضبوط پاسورڈ",
     "Delete" : "حذف کریں",
-    "Security Warning" : "حفاظتی انتباہ",
     "More" : "مزید",
     "Less" : "کم",
     "Cheers!" : "واہ!",

@@ -20,8 +20,6 @@
     "Users" : "Пользователи",
     "Admin" : "Администрирование",
     "Recommended" : "Рекомендовано",
-    "App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." : "Невозможно установить приложение \\\"%s\\\", т.к. оно несовместимо с этой версией ownCloud.",
-    "App \\\"%s\\\" cannot be installed because the following dependencies are not fulfilled: %s" : "Следующие зависимости не удовлетворены: %s, без них приложение \\\"%s\\\" не может быть установлено",
     "No app name specified" : "Не указано имя приложения",
     "Unknown filetype" : "Неизвестный тип файла",
     "Invalid image" : "Изображение повреждено",

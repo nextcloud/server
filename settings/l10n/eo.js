@@ -67,7 +67,6 @@ OC.L10N.register(
     "Login" : "Ensaluti",
     "SSL" : "SSL",
     "TLS" : "TLS",
-    "Security Warning" : "Sekureca averto",
     "Module 'fileinfo' missing" : "La modulo «fileinfo» mankas",
     "Locale not working" : "La lokaĵaro ne funkcias",
     "Please double check the <a href='%s'>installation guides</a>." : "Bonvolu duoble kontroli la <a href='%s'>gvidilon por instalo</a>.",

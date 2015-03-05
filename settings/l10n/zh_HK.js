@@ -30,7 +30,6 @@ OC.L10N.register(
     "SSL" : "SSL",
     "TLS" : "TLS",
     "days" : "天",
-    "Enforce HTTPS" : "強制使用 HTTPS",
     "Server address" : "伺服器地址",
     "Port" : "連接埠",
     "SMTP Username" : "SMTP 使用者名稱",

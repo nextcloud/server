@@ -20,7 +20,6 @@ OC.L10N.register(
     "Encryption" : "ගුප්ත කේතනය",
     "None" : "කිසිවක් නැත",
     "Login" : "ප්‍රවිශ්ටය",
-    "Security Warning" : "ආරක්ෂක නිවේදනයක්",
     "Allow resharing" : "යළි යළිත් හුවමාරුවට අවසර දෙමි",
     "Server address" : "සේවාදායකයේ ලිපිනය",
     "Port" : "තොට",

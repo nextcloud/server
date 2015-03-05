@@ -1,4 +1,5 @@
 { "translations": {
+    "WebDAV Authentication" : "WebDAV նույնականացում",
     "Address:" : "Հասցե՝",
     "Save" : "Պահպանել"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

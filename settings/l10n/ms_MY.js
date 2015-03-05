@@ -13,7 +13,6 @@ OC.L10N.register(
     "never" : "jangan",
     "__language_name__" : "_nama_bahasa_",
     "Login" : "Log masuk",
-    "Security Warning" : "Amaran keselamatan",
     "Server address" : "Alamat pelayan",
     "Log level" : "Tahap Log",
     "More" : "Lanjutan",

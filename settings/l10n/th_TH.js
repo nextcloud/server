@@ -29,7 +29,6 @@ OC.L10N.register(
     "Encryption" : "การเข้ารหัส",
     "None" : "ไม่มี",
     "Login" : "เข้าสู่ระบบ",
-    "Security Warning" : "คำเตือนเกี่ยวกับความปลอดภัย",
     "Execute one task with each page loaded" : "ประมวลคำสั่งหนึ่งงานในแต่ละครั้งที่มีการโหลดหน้าเว็บ",
     "Allow apps to use the Share API" : "อนุญาตให้แอปฯสามารถใช้ API สำหรับแชร์ข้อมูลได้",
     "Allow resharing" : "อนุญาตให้แชร์ข้อมูลซ้ำใหม่ได้",

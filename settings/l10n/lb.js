@@ -19,7 +19,6 @@ OC.L10N.register(
     "never" : "ni",
     "__language_name__" : "__language_name__",
     "Login" : "Login",
-    "Security Warning" : "Sécherheets Warnung",
     "Allow apps to use the Share API" : "Erlab Apps d'Share API ze benotzen",
     "Allow resharing" : "Resharing erlaben",
     "Server address" : "Server Adress",

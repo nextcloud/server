@@ -19,7 +19,6 @@ OC.L10N.register(
     "Encryption" : "மறைக்குறியீடு",
     "None" : "ஒன்றுமில்லை",
     "Login" : "புகுபதிகை",
-    "Security Warning" : "பாதுகாப்பு எச்சரிக்கை",
     "Server address" : "சேவையக முகவரி",
     "Port" : "துறை ",
     "Credentials" : "சான்று ஆவணங்கள்",

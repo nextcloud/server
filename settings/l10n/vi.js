@@ -32,7 +32,6 @@ OC.L10N.register(
     "Encryption" : "Mã hóa",
     "None" : "Không gì cả",
     "Login" : "Đăng nhập",
-    "Security Warning" : "Cảnh bảo bảo mật",
     "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải",
     "Allow apps to use the Share API" : "Cho phép các ứng dụng sử dụng chia sẻ API",
     "Allow resharing" : "Cho phép chia sẻ lại",

@@ -93,7 +93,6 @@ OC.L10N.register(
     "None" : "﻿ಯಾವುದೂ ಇಲ್ಲ",
     "Login" : "ಖಾತೆ ಪ್ರವೇಶಿಸು",
     "Plain" : "﻿ಸರಳ",
-    "Security Warning" : "﻿ಭದ್ರತಾ ಎಚ್ಚರಿಕೆ",
     "Read-Only config enabled" : "ಸಂರಚನೆಯಲ್ಲಿ ಓದವ ಹಕ್ಕುನ್ನು ಮಾತ್ರ ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
     "Setup Warning" : "﻿ಸಿದ್ಧತೆಯ ಎಚ್ಚರಿಕೆ",
     "Database Performance Info" : "ದತ್ತಸಂಚಯದ ಸಾಧನೆ ಮಾಹಿತಿ",

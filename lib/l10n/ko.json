@@ -20,8 +20,6 @@
     "Users" : "사용자",
     "Admin" : "관리자",
     "Recommended" : "추천",
-    "App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." : "현재 ownCloud 버전과 호환되지 않기 때문에 앱 \\\"%s\\\"을(를) 설치할 수 없습니다..",
-    "App \\\"%s\\\" cannot be installed because the following dependencies are not fulfilled: %s" : "다음 의존성을 만족할 수 없기 때문에 앱 \\\"%s\\\"을(를) 설치할 수 없습니다: %s",
     "No app name specified" : "앱 이름이 지정되지 않았습니다.",
     "Unknown filetype" : "알 수 없는 파일 형식",
     "Invalid image" : "잘못된 사진",

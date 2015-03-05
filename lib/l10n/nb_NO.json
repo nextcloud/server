@@ -20,8 +20,6 @@
     "Users" : "Brukere",
     "Admin" : "Admin",
     "Recommended" : "Anbefalt",
-    "App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." : "App \\\"%s\\\" kan ikke installeres fordi den ikke er kompatibel med denne versjoen av ownCloud.",
-    "App \\\"%s\\\" cannot be installed because the following dependencies are not fulfilled: %s" : "App \\\"%s\\\" kan ikke installeres fordi følgende avhengigheter ikke er tilfredsstilt: %s",
     "No app name specified" : "Intet app-navn spesifisert",
     "Unknown filetype" : "Ukjent filtype",
     "Invalid image" : "Ugyldig bilde",

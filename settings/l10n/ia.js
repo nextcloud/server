@@ -15,7 +15,6 @@ OC.L10N.register(
     "Groups" : "Gruppos",
     "never" : "nunquam",
     "__language_name__" : "Interlingua",
-    "Security Warning" : "Aviso de securitate",
     "More" : "Plus",
     "by" : "per",
     "Cheers!" : "Acclamationes!",

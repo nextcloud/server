@@ -43,7 +43,6 @@ OC.L10N.register(
     "Encryption" : "সংকেতায়ন",
     "None" : "কোনটিই নয়",
     "Login" : "প্রবেশ",
-    "Security Warning" : "নিরাপত্তাজনিত সতর্কতা",
     "Module 'fileinfo' missing" : "'fileinfo' মডিউল নেই",
     "No problems found" : "কোন সমস্যা পাওয়া গেল না",
     "Please double check the <a href='%s'>installation guides</a>." : "দয়া করে <a href='%s'>installation guides</a> দ্বিতীয়বার দেখুন।",

@@ -18,7 +18,6 @@ OC.L10N.register(
     "never" : "jamai",
     "__language_name__" : "__language_name__",
     "Login" : "Login",
-    "Security Warning" : "Avertiment de securitat",
     "Execute one task with each page loaded" : "Executa un prètfach amb cada pagina cargada",
     "More" : "Mai d'aquò",
     "by" : "per",

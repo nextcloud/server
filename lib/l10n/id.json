@@ -20,8 +20,6 @@
     "Users" : "Pengguna",
     "Admin" : "Admin",
     "Recommended" : "Direkomendasikan",
-    "App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." : "Aplikasi \\\"%s\\\" tidak dapat diinstal karena tidak kompatibel denga versi ownCloud ini.",
-    "App \\\"%s\\\" cannot be installed because the following dependencies are not fulfilled: %s" : "Aplikasi \\\"%s\\\" tidak dapat diinstal karena ketergantungan berikut tidak terpenuhi: %s",
     "No app name specified" : "Tidak ada nama apl yang ditentukan",
     "Unknown filetype" : "Tipe berkas tak dikenal",
     "Invalid image" : "Gambar tidak sah",
