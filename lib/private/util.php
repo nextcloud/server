@@ -98,6 +98,14 @@ class OC_Util {
 			return false;
 		}
 
+		\OC\Files\Filesystem::addStorageWrapper('mount_options', function($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
+			if($storage->instanceOfStorage('\OC\Files\Storage\Common')) {
+				/** @var \OC\Files\Storage\Common $storage */
+				$storage->setMountOptions($mount->getOptions());
+			}
+			return $storage;
+		});
+
 		//if we aren't logged in, there is no use to set up the filesystem
 		if ($user != "") {
 			\OC\Files\Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage) {

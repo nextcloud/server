@@ -195,7 +195,7 @@ class MountPoint implements IMountPoint {
 		$storage = $this->getStorage();
 		// storage can be null if it couldn't be initialized
 		if ($storage != null) {
-			$this->storage = $wrapper($this->mountPoint, $storage);
+			$this->storage = $wrapper($this->mountPoint, $storage, $this);
 		}
 	}
 

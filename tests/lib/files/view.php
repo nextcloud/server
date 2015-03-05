@@ -8,6 +8,8 @@
 namespace Test\Files;
 
 use OC\Files\Cache\Watcher;
+use OC\Files\Filesystem;
+use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
 
 class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
@@ -974,5 +976,13 @@ class View extends \Test\TestCase {
 		\OC\Files\Filesystem::mount($storage, array(), '/test/');
 		$view = new \OC\Files\View('');
 		$this->assertTrue($view->rename('/test/foo.txt', '/test/foo/bar.txt'));
+	}
+
+	public function testSetMountOptionsInStorage() {
+		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/asd/', [[]], Filesystem::getLoader(), ['foo' => 'bar']);
+		Filesystem::getMountManager()->addMount($mount);
+		/** @var \OC\Files\Storage\Common $storage */
+		$storage = $mount->getStorage();
+		$this->assertEquals($storage->getMountOption('foo'), 'bar');
 	}
 }
