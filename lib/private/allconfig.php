@@ -161,6 +161,36 @@ class AllConfig implements \OCP\IConfig {
 		\OC::$server->getAppConfig()->deleteApp($appName);
 	}
 
+	/**
+	 * Determines the apps that have the set the value for the specified
+	 * keys
+	 *
+	 * @param string $value the value to get the app for
+	 * @param string $key the key too lookup
+	 * @return array of app IDs
+	 */
+	public function getAppsForKeyValue($key, $value) {
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		$qb = $this->connection->createQueryBuilder();
+		$qb
+			->select('appid')
+			->from('`*PREFIX*appconfig`')
+			->where('configvalue = ?')
+			->andWhere('configkey = ?')
+			->setParameter(0, $value)
+			->setParameter(1, $key)
+		;
+		$result = $qb->execute();
+
+		$appIDs = [];
+		while ($row = $result->fetch()) {
+			$appIDs[] = $row['appid'];
+		}
+
+		return $appIDs;
+	}
 
 	/**
 	 * Set a user defined value

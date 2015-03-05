@@ -26,6 +26,33 @@ class TestAllConfig extends \Test\TestCase {
 		return new \OC\AllConfig($systemConfig, $connection);
 	}
 
+	// FIXME: Actually an integration test... – Shouldn't be in the unit test at all.
+	public function testGetAppsForKeyValue() {
+		$config = $this->getConfig();
+
+		// preparation - add something to the database
+		$data = [
+			['myFirstApp', 'key1', 'value1'],
+			['mySecondApp', 'key1', 'value2'],
+			['mySecondApp', 'key3', 'value2'],
+			['myThirdApp', 'key3', 'value3'],
+			['myThirdApp', 'key3', 'value2'],
+		];
+		foreach ($data as $entry) {
+			$config->setAppValue($entry[0], $entry[1], $entry[2]);
+		}
+
+		$this->assertEquals(['mySecondApp'], $config->getAppsForKeyValue('key1', 'value2'));
+		$this->assertEquals(['mySecondApp', 'myThirdApp'], $config->getAppsForKeyValue('key3', 'value2'));
+		$this->assertEquals([], $config->getAppsForKeyValue('NotExisting', 'NotExistingValue'));
+
+		// cleanup
+		foreach ($data as $entry) {
+			$config->deleteAppValue($entry[0], $entry[1]);
+
+		}
+	}
+
 	public function testDeleteUserValue() {
 		$config = $this->getConfig();
 

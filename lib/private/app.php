@@ -277,6 +277,7 @@ class OC_App {
 	 */
 	public static function enable($app, $groups = null) {
 		self::$enabledAppsCache = array(); // flush
+
 		if (!OC_Installer::isInstalled($app)) {
 			$app = self::installApp($app);
 		}
@@ -327,6 +328,12 @@ class OC_App {
 		self::$enabledAppsCache = array(); // flush
 		// check if app is a shipped app or not. if not delete
 		\OC_Hook::emit('OC_App', 'pre_disable', array('app' => $app));
+
+		// Convert OCS ID to regular application identifier
+		if(is_numeric($app)) {
+			$app = \OC::$server->getConfig()->getAppsForKeyValue('ocsid', $app)[0];
+		}
+
 		OC_Appconfig::setValue($app, 'enabled', 'no' );
 	}
 
@@ -925,7 +932,8 @@ class OC_App {
 			$app1[$i] = OC_App::parseAppInfo($app);
 			$app1[$i]['author'] = $app['personid'];
 			$app1[$i]['ocs_id'] = $app['id'];
-			$app1[$i]['internal'] = $app1[$i]['active'] = 0;
+			$app1[$i]['internal'] = 0;
+			$app1[$i]['active'] = self::isEnabled(\OC::$server->getConfig()->getAppsForKeyValue('ocsid', $app['id'])[0]);
 			$app1[$i]['update'] = false;
 			$app1[$i]['groups'] = false;
 			$app1[$i]['score'] = $app['score'];
@@ -1055,7 +1063,6 @@ class OC_App {
 		}
 	}
 
-
 	/**
 	 * @param mixed $app
 	 * @return bool
@@ -1075,8 +1082,21 @@ class OC_App {
 			} else {
 				$app = OC_Installer::installShippedApp($app);
 			}
-		}else{
-			$app = self::downloadApp($app);
+		} else {
+			// Maybe the app is already installed - compare the version in this
+			// case and use the local already installed one.
+			// FIXME: This is a horrible hack. I feel sad. The god of code cleanness may forgive me.
+			$internalAppId = $config->getAppsForKeyValue('ocsid', $app);
+			if(isset($internalAppId[0])) {
+				if($appData && version_compare(\OC_App::getAppVersion($internalAppId[0]), $appData['version'], '<')) {
+					$app = self::downloadApp($app);
+				} else {
+					self::enable($internalAppId[0]);
+					$app = $internalAppId[0];
+				}
+			} else {
+				$app = self::downloadApp($app);
+			}
 		}
 
 		if($app!==false) {
