@@ -55,9 +55,14 @@ class Quota extends Wrapper {
 
 	/**
 	 * @param string $path
+	 * @param \OC\Files\Storage\Storage $storage
 	 */
-	protected function getSize($path) {
-		$cache = $this->getCache();
+	protected function getSize($path, $storage = null) {
+		if (is_null($storage)) {
+			$cache = $this->getCache();
+		} else {
+			$cache = $storage->getCache();
+		}
 		$data = $cache->get($path);
 		if (is_array($data) and isset($data['size'])) {
 			return $data['size'];
@@ -139,6 +144,36 @@ class Quota extends Wrapper {
 			return \OC\Files\Stream\Quota::wrap($source, $free);
 		} else {
 			return $source;
+		}
+	}
+
+	/**
+	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param string $sourceInternalPath
+	 * @param string $targetInternalPath
+	 * @return bool
+	 */
+	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		$free = $this->free_space('');
+		if ($free < 0 or $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
+			return $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param string $sourceInternalPath
+	 * @param string $targetInternalPath
+	 * @return bool
+	 */
+	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		$free = $this->free_space('');
+		if ($free < 0 or $this->getSize($sourceInternalPath, $sourceStorage) < $free) {
+			return $this->storage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		} else {
+			return false;
 		}
 	}
 }
