@@ -985,4 +985,13 @@ class View extends \Test\TestCase {
 		$storage = $mount->getStorage();
 		$this->assertEquals($storage->getMountOption('foo'), 'bar');
 	}
+
+	public function testSetMountOptionsWatcherPolicy() {
+		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/asd/', [[]], Filesystem::getLoader(), ['filesystem_check_changes' => Watcher::CHECK_NEVER]);
+		Filesystem::getMountManager()->addMount($mount);
+		/** @var \OC\Files\Storage\Common $storage */
+		$storage = $mount->getStorage();
+		$watcher = $storage->getWatcher();
+		$this->assertEquals(Watcher::CHECK_NEVER, $watcher->getPolicy());
+	}
 }

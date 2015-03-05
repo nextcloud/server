@@ -331,7 +331,8 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		}
 		if (!isset($this->watcher)) {
 			$this->watcher = new Watcher($storage);
-			$this->watcher->setPolicy(\OC::$server->getConfig()->getSystemValue('filesystem_check_changes', Watcher::CHECK_ONCE));
+			$globalPolicy = \OC::$server->getConfig()->getSystemValue('filesystem_check_changes', Watcher::CHECK_ONCE);
+			$this->watcher->setPolicy($this->getMountOption('filesystem_check_changes', $globalPolicy));
 		}
 		return $this->watcher;
 	}

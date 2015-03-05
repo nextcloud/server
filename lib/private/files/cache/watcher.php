@@ -52,6 +52,13 @@ class Watcher {
 	}
 
 	/**
+	 * @return int either \OC\Files\Cache\Watcher::CHECK_NEVER, \OC\Files\Cache\Watcher::CHECK_ONCE, \OC\Files\Cache\Watcher::CHECK_ALWAYS
+	 */
+	public function getPolicy() {
+		return $this->watchPolicy;
+	}
+
+	/**
 	 * check $path for updates
 	 *
 	 * @param string $path
