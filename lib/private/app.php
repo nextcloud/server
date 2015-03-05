@@ -303,6 +303,11 @@ class OC_App {
 	 * @throws Exception
 	 */
 	public static function disable($app) {
+		// Convert OCS ID to regular application identifier
+		if(self::getInternalAppIdByOcs($app) !== false) {
+			$app = self::getInternalAppIdByOcs($app);
+		}
+
 		if($app === 'files') {
 			throw new \Exception("files can't be disabled.");
 		}
@@ -879,6 +884,21 @@ class OC_App {
 	}
 
 	/**
+	 * Returns the internal app ID or false
+	 * @param string $ocsID
+	 * @return string|false
+	 */
+	protected static function getInternalAppIdByOcs($ocsID) {
+		if(is_numeric($ocsID)) {
+			$idArray = \OC::$server->getAppConfig()->getValues(false, 'ocsid');
+			if(array_search($ocsID, $idArray)) {
+				return array_search($ocsID, $idArray);
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * get a list of all apps on apps.owncloud.com
 	 * 
 	 * @return array|false multi-dimensional array of apps.
@@ -904,11 +924,13 @@ class OC_App {
 		$i = 0;
 		$l = \OC::$server->getL10N('core');
 		foreach ($remoteApps as $app) {
+			$potentialCleanId = self::getInternalAppIdByOcs($app['id']);
 			// enhance app info (for example the description)
 			$app1[$i] = OC_App::parseAppInfo($app);
 			$app1[$i]['author'] = $app['personid'];
 			$app1[$i]['ocs_id'] = $app['id'];
-			$app1[$i]['internal'] = $app1[$i]['active'] = 0;
+			$app1[$i]['internal'] = 0;
+			$app1[$i]['active'] = ($potentialCleanId !== false) ? self::isEnabled($potentialCleanId) : false;
 			$app1[$i]['update'] = false;
 			$app1[$i]['groups'] = false;
 			$app1[$i]['score'] = $app['score'];
@@ -1059,7 +1081,20 @@ class OC_App {
 				$app = OC_Installer::installShippedApp($app);
 			}
 		} else {
-			$app = self::downloadApp($app);
+			// Maybe the app is already installed - compare the version in this
+			// case and use the local already installed one.
+			// FIXME: This is a horrible hack. I feel sad. The god of code cleanness may forgive me.
+			$internalAppId = self::getInternalAppIdByOcs($app);
+			if($internalAppId !== false) {
+				if($appData && version_compare(\OC_App::getAppVersion($internalAppId), $appData['version'], '<')) {
+					$app = self::downloadApp($app);
+				} else {
+					self::enable($internalAppId);
+					$app = $internalAppId;
+				}
+			} else {
+				$app = self::downloadApp($app);
+			}
 		}
 
 		if ($app !== false) {
