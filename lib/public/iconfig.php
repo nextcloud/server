@@ -110,16 +110,6 @@ interface IConfig {
 	public function deleteAppValues($appName);
 
 	/**
-	 * Determines the apps that have the set the value for the specified
-	 * keys
-	 *
-	 * @param string $value the value to get the app for
-	 * @param string $key the key too lookup
-	 * @return array of app IDs
-	 */
-	public function getAppsForKeyValue($key, $value);
-
-	/**
 	 * Set a user defined value
 	 *
 	 * @param string $userId the userId of the user that we want to store the value under
