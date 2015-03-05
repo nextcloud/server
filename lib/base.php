@@ -726,8 +726,8 @@ class OC {
 		$instanceId = \OC::$server->getSystemConfig()->getValue('instanceid', null);
 		if ($instanceId) {
 			try {
-				$memcacheFactory = new \OC\Memcache\Factory($instanceId);
-				self::$loader->setMemoryCache($memcacheFactory->createLowLatency('Autoloader'));
+				$memcacheFactory = \OC::$server->getMemCacheFactory();
+				self::$loader->setMemoryCache($memcacheFactory->createLocal('Autoloader'));
 			} catch (\Exception $ex) {
 			}
 		}

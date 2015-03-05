@@ -8,7 +8,7 @@
 
 namespace OC\Memcache;
 
-abstract class Cache implements \ArrayAccess {
+abstract class Cache implements \ArrayAccess, \OCP\ICache {
 	/**
 	 * @var string $prefix
 	 */
