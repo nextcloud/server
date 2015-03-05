@@ -944,8 +944,19 @@ class View extends \Test\TestCase {
 
 	private function doTestCopyRenameFail($operation) {
 		$storage1 = new Temporary(array());
-		$storage2 = new Temporary(array());
-		$storage2 = new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage2, 'quota' => 9));
+		/** @var \PHPUnit_Framework_MockObject_MockObject | \OC\Files\Storage\Temporary $storage2 */
+		$storage2 = $this->getMockBuilder('\Test\Files\TemporaryNoCross')
+			->setConstructorArgs([[]])
+			->setMethods(['fopen'])
+			->getMock();
+
+		$storage2->expects($this->any())
+			->method('fopen')
+			->will($this->returnCallback(function($path, $mode) use($storage2) {
+				$source = fopen($storage2->getSourcePath($path), $mode);
+				return \OC\Files\Stream\Quota::wrap($source, 9);
+			}));
+
 		$storage1->mkdir('sub');
 		$storage1->file_put_contents('foo.txt', '0123456789ABCDEFGH');
 		$storage1->mkdir('dirtomove');
@@ -976,10 +987,8 @@ class View extends \Test\TestCase {
 		$this->assertFalse($view->$operation('/test/dirtomove/', '/test/sub/storage/dirtomove/'));
 		// since the move failed, the full source tree is kept
 		$this->assertTrue($storage1->file_exists('dirtomove/indir1.txt'));
-		// but the target file stays
-		$this->assertTrue($storage2->file_exists('dirtomove/indir1.txt'));
-		// second file not moved/copied
 		$this->assertTrue($storage1->file_exists('dirtomove/indir2.txt'));
+		// second file not moved/copied
 		$this->assertFalse($storage2->file_exists('dirtomove/indir2.txt'));
 		$this->assertFalse($storage2->getCache()->get('dirtomove/indir2.txt'));
 
