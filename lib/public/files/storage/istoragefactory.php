@@ -7,6 +7,7 @@
  */
 
 namespace OCP\Files\Storage;
+use OCP\Files\Mount\IMountPoint;
 
 /**
  * Creates storage instances and manages and applies storage wrappers
@@ -25,10 +26,10 @@ interface IStorageFactory {
 	public function addStorageWrapper($wrapperName, $callback);
 
 	/**
-	 * @param string|boolean $mountPoint
+	 * @param \OCP\Files\Mount\IMountPoint $mountPoint
 	 * @param string $class
 	 * @param array $arguments
 	 * @return \OCP\Files\Storage
 	 */
-	public function getInstance($mountPoint, $class, $arguments);
+	public function getInstance(IMountPoint $mountPoint, $class, $arguments);
 }

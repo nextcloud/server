@@ -8,6 +8,8 @@
 
 namespace OC\Files\Storage;
 
+use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 
 class StorageFactory implements IStorageFactory {
@@ -55,23 +57,23 @@ class StorageFactory implements IStorageFactory {
 	/**
 	 * Create an instance of a storage and apply the registered storage wrappers
 	 *
-	 * @param string|boolean $mountPoint
+	 * @param \OCP\Files\Mount\IMountPoint $mountPoint
 	 * @param string $class
 	 * @param array $arguments
 	 * @return \OCP\Files\Storage
 	 */
-	public function getInstance($mountPoint, $class, $arguments) {
+	public function getInstance(IMountPoint $mountPoint, $class, $arguments) {
 		return $this->wrap($mountPoint, new $class($arguments));
 	}
 
 	/**
-	 * @param string|boolean $mountPoint
+	 * @param \OCP\Files\Mount\IMountPoint $mountPoint
 	 * @param \OCP\Files\Storage $storage
 	 * @return \OCP\Files\Storage
 	 */
-	public function wrap($mountPoint, $storage) {
+	public function wrap(IMountPoint $mountPoint, $storage) {
 		foreach ($this->storageWrappers as $wrapper) {
-			$storage = $wrapper($mountPoint, $storage);
+			$storage = $wrapper($mountPoint->getMountPoint(), $storage, $mountPoint);
 		}
 		return $storage;
 	}
