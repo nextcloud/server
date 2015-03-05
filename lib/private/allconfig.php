@@ -189,6 +189,7 @@ class AllConfig implements \OCP\IConfig {
 			$appIDs[] = $row['appid'];
 		}
 
+		sort($appIDs);
 		return $appIDs;
 	}
 
