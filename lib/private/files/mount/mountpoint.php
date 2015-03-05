@@ -209,4 +209,13 @@ class MountPoint implements IMountPoint {
 	public function getOption($name, $default) {
 		return isset($this->mountOptions[$name]) ? $this->mountOptions[$name] : $default;
 	}
+
+	/**
+	 * Get all options for the mount
+	 *
+	 * @return array
+	 */
+	public function getOptions() {
+		return $this->mountOptions;
+	}
 }

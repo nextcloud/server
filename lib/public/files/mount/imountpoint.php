@@ -64,4 +64,11 @@ interface IMountPoint {
 	 * @return mixed
 	 */
 	public function getOption($name, $default);
+
+	/**
+	 * Get all options for the mount
+	 *
+	 * @return array
+	 */
+	public function getOptions();
 }
