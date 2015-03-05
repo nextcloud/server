@@ -8,7 +8,6 @@
 namespace Test\Files;
 
 use OC\Files\Cache\Watcher;
-use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
 
@@ -980,7 +979,7 @@ class View extends \Test\TestCase {
 
 	public function testSetMountOptionsInStorage() {
 		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/asd/', [[]], Filesystem::getLoader(), ['foo' => 'bar']);
-		Filesystem::getMountManager()->addMount($mount);
+		\OC\Files\Filesystem::getMountManager()->addMount($mount);
 		/** @var \OC\Files\Storage\Common $storage */
 		$storage = $mount->getStorage();
 		$this->assertEquals($storage->getMountOption('foo'), 'bar');
@@ -988,7 +987,7 @@ class View extends \Test\TestCase {
 
 	public function testSetMountOptionsWatcherPolicy() {
 		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/asd/', [[]], Filesystem::getLoader(), ['filesystem_check_changes' => Watcher::CHECK_NEVER]);
-		Filesystem::getMountManager()->addMount($mount);
+		\OC\Files\Filesystem::getMountManager()->addMount($mount);
 		/** @var \OC\Files\Storage\Common $storage */
 		$storage = $mount->getStorage();
 		$watcher = $storage->getWatcher();

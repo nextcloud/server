@@ -8,7 +8,6 @@
 
 namespace OC\Files\Storage;
 
-use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 

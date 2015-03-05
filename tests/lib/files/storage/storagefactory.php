@@ -10,7 +10,7 @@ namespace Test\Files\Storage;
 
 use OC\Files\Mount\MountPoint;
 use OCP\Files\Mount\IMountPoint;
-use OCP\Files\Storage;
+use OCP\Files\Storage as IStorage;
 use Test\TestCase;
 use OC\Files\Storage\Wrapper\Wrapper;
 
@@ -22,7 +22,7 @@ class StorageFactory extends TestCase {
 	public function testSimpleWrapper() {
 		$instance = new \OC\Files\Storage\StorageFactory();
 		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/foo', [[]], $instance);
-		$instance->addStorageWrapper('dummy', function ($mountPoint, Storage $storage, IMountPoint $mount) {
+		$instance->addStorageWrapper('dummy', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
 			$this->assertInstanceOf('\OC\Files\Storage\Temporary', $storage);
 			$this->assertEquals('/foo/', $mount->getMountPoint());
 			$this->assertEquals('/foo/', $mountPoint);
@@ -35,7 +35,7 @@ class StorageFactory extends TestCase {
 	public function testRemoveWrapper() {
 		$instance = new \OC\Files\Storage\StorageFactory();
 		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/foo', [[]], $instance);
-		$instance->addStorageWrapper('dummy', function ($mountPoint, Storage $storage) {
+		$instance->addStorageWrapper('dummy', function ($mountPoint, IStorage $storage) {
 			return new DummyWrapper(['storage' => $storage]);
 		});
 		$instance->removeStorageWrapper('dummy');
