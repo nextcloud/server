@@ -225,7 +225,7 @@ if ($_['cronErrors']) {
 	<h2><?php p($l->t('Configuration Checks'));?></h2>
 	<div class="loading"></div>
 	<div class="success hidden"><?php p($l->t('No problems found'));?></div>
-	<div class="errors hidden"></div>
+	<ul class="errors hidden"></ul>
 	<div class="hint hidden">
 		<span class="setupwarning"><?php
 			print_unescaped($l->t('Please double check the <a href=\'%s\'>installation guides</a>.', \OC_Helper::linkToDocs('admin-install')));
