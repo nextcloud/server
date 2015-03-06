@@ -339,6 +339,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	background-position: left center;
 }
 
-#postsetupchecks .hint, #postsetupchecks .setupwarning {
+#postsetupchecks .hint {
 	margin-top: 15px;
+}
+
+#postsetupchecks .setupwarning {
+	list-style: initial;
+	font-weight: normal;
+	margin-top: 5px;
 }
