@@ -369,6 +369,17 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			OC.Settings.Apps.loadCategory(categoryId);
 		});
 
+		$(document).on('click', '.app-description-toggle-show', function () {
+			$(this).addClass('hidden');
+			$(this).siblings('.app-description-toggle-hide').removeClass('hidden');
+			$(this).siblings('.app-description-container').slideDown();
+		});
+		$(document).on('click', '.app-description-toggle-hide', function () {
+			$(this).addClass('hidden');
+			$(this).siblings('.app-description-toggle-show').removeClass('hidden');
+			$(this).siblings('.app-description-container').slideUp();
+		});
+
 		$(document).on('click', '#apps-list input.enable', function () {
 			var appId = $(this).data('appid');
 			var element = $(this);

@@ -217,6 +217,21 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 .recommendedapp {
 	display: inline-block;
 }
+
+.app-description-toggle-show,
+.app-description-toggle-hide {
+	clear: both;
+	padding: 7px 0;
+	cursor: pointer;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	opacity: .5;
+}
+.app-description-container {
+	clear: both;
+	position: relative;
+	top: 7px;
+}
+
 .app-description {
 	clear: both;
 }

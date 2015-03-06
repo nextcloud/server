@@ -33,24 +33,30 @@
 	<div class="{{internalclass}} icon-checkmark">{{internallabel}}</div>
 	{{/if}}
 	<div class="app-detailpage"></div>
-	<div class="app-description"><pre>{{description}}</pre></div>
-	<!--<div class="app-changed">{{changed}}</div>-->
-	{{#if documentation}}
-	<p class="documentation">
-		<?php p($l->t("Documentation:"));?>
-		{{#if documentation.user}}
-		<span class="userDocumentation appslink">
-		<a id='userDocumentation' href='{{documentation.user}}' target="_blank"><?php p($l->t("User Documentation"));?></a>
-		</span>
-		{{/if}}
 
-		{{#if documentation.admin}}
-		<span class="adminDocumentation appslink">
-		<a id='adminDocumentation' href='{{documentation.admin}}' target="_blank"><?php p($l->t("Admin Documentation"));?></a>
-		</span>
+	<div class="app-description-container hidden">
+		<div class="app-description"><pre>{{description}}</pre></div>
+		<!--<div class="app-changed">{{changed}}</div>-->
+		{{#if documentation}}
+		<p class="documentation">
+			<?php p($l->t("Documentation:"));?>
+			{{#if documentation.user}}
+			<span class="userDocumentation appslink">
+			<a id='userDocumentation' href='{{documentation.user}}' target="_blank"><?php p($l->t("User Documentation"));?></a>
+			</span>
+			{{/if}}
+
+			{{#if documentation.admin}}
+			<span class="adminDocumentation appslink">
+			<a id='adminDocumentation' href='{{documentation.admin}}' target="_blank"><?php p($l->t("Admin Documentation"));?></a>
+			</span>
+			{{/if}}
+		</p>
 		{{/if}}
-	</p>
-	{{/if}}
+	</div><!-- end app-description-container -->
+	<div class="app-description-toggle-show"><?php p($l->t("Show description …"));?></div>
+	<div class="app-description-toggle-hide hidden"><?php p($l->t("Hide description …"));?></div>
+
 	{{#unless canInstall}}
 	<div class="app-dependencies">
 	<p><?php p($l->t('This app cannot be installed because the following dependencies are not fulfilled:')); ?></p>
