@@ -20,6 +20,8 @@
     "Users" : "Users",
     "Admin" : "Admin",
     "Recommended" : "Recommended",
+    "App \"%s\" cannot be installed because it is not compatible with this version of ownCloud." : "App \"%s\" cannot be installed because it is not compatible with this version of ownCloud.",
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s",
     "No app name specified" : "No app name specified",
     "Unknown filetype" : "Unknown filetype",
     "Invalid image" : "Invalid image",

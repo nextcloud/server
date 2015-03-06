@@ -122,6 +122,7 @@
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Suosittelemme asentamaan vaaditut paketit järjestelmään, jotta järjestelmässä on tuki yhdelle seuraavista maa-asetuksista: %s.",
     "URL generation in notification emails" : "Verkko-osoitteiden luominen sähköposti-ilmoituksissa",
     "Cronjob encountered misconfiguration" : "Cron-työ epäonnistui väärien asetusten vuoksi",
+    "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "Cron-työn suorittaminen komentorivin kautta ei onnistunut. Ilmeni seuraavia teknisiä virheitä:",
     "No problems found" : "Ongelmia ei löytynyt",
     "Please double check the <a href='%s'>installation guides</a>." : "Lue tarkasti <a href='%s'>asennusohjeet</a>.",
     "Last cron job execution: %s." : "Viimeisin cron-työn suoritus: %s.",

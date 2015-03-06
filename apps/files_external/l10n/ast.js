@@ -43,6 +43,7 @@ OC.L10N.register(
     "Username as share" : "Nome d'usuariu como Compartición",
     "URL" : "URL",
     "Secure https://" : "Secure https://",
+    "Public key" : "Clave pública",
     "Access granted" : "Accesu concedíu",
     "Error configuring Dropbox storage" : "Fallu configurando l'almacenamientu de Dropbox",
     "Grant access" : "Conceder accesu",

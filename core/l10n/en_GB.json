@@ -62,7 +62,13 @@
     "So-so password" : "So-so password",
     "Good password" : "Good password",
     "Strong password" : "Strong password",
+    "Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken." : "Your web server is not yet set up properly to allow file synchronisation because the WebDAV interface seems to be broken.",
+    "This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features." : "This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest enabling the Internet connection for this server.",
+    "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.",
     "Error occurred while checking server setup" : "Error occurred whilst checking server setup",
+    "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security risk and we recommend adjusting this setting." : "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security risk and we recommend adjusting this setting.",
+    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting.",
+    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead.",
     "Shared" : "Shared",
     "Shared with {recipients}" : "Shared with {recipients}",
     "Share" : "Share",
@@ -134,7 +140,9 @@
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} search result in other places","{count} search results in other places"],
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! ",
     "For the best results, please consider using a GNU/Linux server instead." : "For the best results, please consider using a GNU/Linux server instead.",
+    "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir setting has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP.",
+    "It seems that this %s instance is running on a 32-bit PHP environment and cURL is not installed. This will lead to problems with files over 4 GB and is highly discouraged." : "It seems that this %s instance is running on a 32-bit PHP environment and cURL is not installed. This will lead to problems with files over 4 GB and is highly discouraged.",
     "Please install the cURL extension and restart your webserver." : "Please install the cURL extension and restart your webserver.",
     "Personal" : "Personal",
     "Users" : "Users",
@@ -212,6 +220,7 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Please make sure that the database, the config folder and the data folder have been backed up before proceeding.",
     "Start update" : "Start update",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:",
+    "This %s instance is currently in maintenance mode, which may take a while." : "This %s instance is currently in maintenance mode, which may take a while.",
     "This page will refresh itself when the %s instance is available again." : "This page will refresh itself when the %s instance is available again."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

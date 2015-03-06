@@ -20,6 +20,8 @@
     "Users" : "Uživatelé",
     "Admin" : "Administrace",
     "Recommended" : "Doporučené",
+    "App \"%s\" cannot be installed because it is not compatible with this version of ownCloud." : "Aplikace \"%s\" nemůže být nainstalována, protože není kompatibilní s touto verzí ownCloud.",
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Aplikaci \"%s\" nelze nainstalovat, protože nejsou splněny následující závislosti: %s",
     "No app name specified" : "Nebyl zadan název aplikace",
     "Unknown filetype" : "Neznámý typ souboru",
     "Invalid image" : "Chybný obrázek",

@@ -19,6 +19,8 @@
     "Users" : "Käyttäjät",
     "Admin" : "Ylläpito",
     "Recommended" : "Suositeltu",
+    "App \"%s\" cannot be installed because it is not compatible with this version of ownCloud." : "Sovelluksen \"%s\" asennus ei onnistu, koska se ei ole yhteensopiva tämän ownCloud-version kanssa.",
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Sovelluksen \"%s\" asennus ei onnistu, koska seuraavia riippuvuuksia ei ole täytetty: %s",
     "No app name specified" : "Sovelluksen nimeä ei määritelty",
     "Unknown filetype" : "Tuntematon tiedostotyyppi",
     "Invalid image" : "Virheellinen kuva",

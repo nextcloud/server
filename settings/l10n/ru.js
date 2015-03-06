@@ -128,6 +128,8 @@ OC.L10N.register(
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Мы рекомендуем установить требуемые пакеты для вашей системы для поддержки одного из следующих языков: %s.",
     "URL generation in notification emails" : "Генерация URL в письмах уведомлениях",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Если ваша копия ownCloud установлена не в корне домена и использует системный планировщик cron, возможны проблемы с правильной генерацией URL. Чтобы избежать этого, установите опцию \"overwrite.cli.url\" в файле config.php равной пути папки установки. (Предположительно: \"%s\".)",
+    "Cronjob encountered misconfiguration" : "Одна из задач планировщика имеет неправильную конфигурацию",
+    "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "Не удается запустить задачу планировщика через CLI. Произошли следующие технические ошибки:",
     "Configuration Checks" : "Проверка конфигурации",
     "No problems found" : "Проблемы не найдены",
     "Please double check the <a href='%s'>installation guides</a>." : "Подробно изучите <a href='%s'>инструкции по установке</a>.",
