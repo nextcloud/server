@@ -243,13 +243,19 @@ class Cache {
 			list($queryParts, $params) = $this->buildParts($data);
 			$queryParts[] = '`storage`';
 			$params[] = $this->getNumericStorageId();
-			$valuesPlaceholder = array_fill(0, count($queryParts), '?');
 
-			$sql = 'INSERT INTO `*PREFIX*filecache` (' . implode(', ', $queryParts) . ')'
-				. ' VALUES (' . implode(', ', $valuesPlaceholder) . ')';
-			\OC_DB::executeAudited($sql, $params);
+			$params = array_map(function($item) {
+				return trim($item, "`");
+			}, $params);
+			$queryParts = array_map(function($item) {
+				return trim($item, "`");
+			}, $queryParts);
+			$values = array_combine($queryParts, $params);
+			if (\OC::$server->getDatabaseConnection()->insertIfNotExist('*PREFIX*filecache', $values)) {
+				return (int)\OC_DB::insertid('*PREFIX*filecache');
+			}
 
-			return (int)\OC_DB::insertid('*PREFIX*filecache');
+			return $this->getId($file);
 		}
 	}
 
