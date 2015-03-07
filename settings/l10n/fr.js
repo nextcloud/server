@@ -129,6 +129,7 @@ OC.L10N.register(
     "URL generation in notification emails" : "Génération d'URL dans les mails de notification",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Si votre installation n'a pas été effectuée à la racine du domaine et qu'elle utilise le cron du système, il peut y avoir des problèmes avec la génération d'URL. Pour les éviter, veuillez configurer l'option \"overwrite.cli.url\" de votre fichier config.php avec le chemin de la racine de votre installation (suggéré : \"%s\")",
     "Cronjob encountered misconfiguration" : "Cronjob a rencontré une erreur de configuration",
+    "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "La tâche cron n'a pu s'exécuter via CLI. Ces erreurs techniques sont apparues :",
     "Configuration Checks" : "Vérification de la configuration",
     "No problems found" : "Aucun problème trouvé",
     "Please double check the <a href='%s'>installation guides</a>." : "Veuillez vous référer au <a href='%s'>guide d'installation</a>.",

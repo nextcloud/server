@@ -23,7 +23,7 @@ OC.L10N.register(
     "Add remote share" : "Entfernte Freigabe hinzufügen",
     "No ownCloud installation (7 or higher) found at {remote}" : "Keine OwnCloud-Installation (7 oder höher) auf {remote} gefunden",
     "Invalid ownCloud url" : "Ungültige OwnCloud-URL",
-    "Share" : "Share",
+    "Share" : "Teilen",
     "Shared by" : "Geteilt von ",
     "A file or folder has been <strong>shared</strong>" : "Eine Datei oder ein Ordner wurde <strong>geteilt</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Eine Datei oder ein Ordner wurde von <strong>einem anderen Server</strong> geteilt",
