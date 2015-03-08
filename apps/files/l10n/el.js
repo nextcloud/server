@@ -100,11 +100,13 @@ OC.L10N.register(
     "Folder" : "Φάκελος",
     "Upload" : "Μεταφόρτωση",
     "Cancel upload" : "Ακύρωση μεταφόρτωσης",
+    "No files yet" : "Κανένα αρχείο ακόμα.",
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
     "Select all" : "Επιλογή όλων",
     "Upload too large" : "Πολύ μεγάλο αρχείο προς αποστολή",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν τον διακομιστή.",
     "Files are being scanned, please wait." : "Τα αρχεία σαρώνονται, παρακαλώ περιμένετε.",
-    "Currently scanning" : "Σάρωση σε εξέλιξη"
+    "Currently scanning" : "Σάρωση σε εξέλιξη",
+    "No favorites" : "Δεν υπάρχουν αγαπημένα"
 },
 "nplurals=2; plural=(n != 1);");

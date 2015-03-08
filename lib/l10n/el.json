@@ -6,6 +6,8 @@
     "Sample configuration detected" : "Ανιχνεύθηκε δείγμα εγκατάστασης",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Έχει ανιχνευθεί ότι το δείγμα εγκατάστασης έχει αντιγραφεί. Αυτό μπορεί να σπάσει την εγκατάστασή σας και δεν υποστηρίζεται. Παρακαλώ διαβάστε την τεκμηρίωση πριν εκτελέσετε αλλαγές στο config.php",
     "PHP %s or higher is required." : "PHP %s ή νεώτερη απαιτείται.",
+    "The library %s is not available." : "Το %s της βιβλιοθήκης δεν είναι διαθέσιμο.",
+    "Following platforms are supported: %s" : "Οι ακόλουθες πλατφόρμες υποστηρίζονται: %s",
     "Help" : "Βοήθεια",
     "Personal" : "Προσωπικά",
     "Users" : "Χρήστες",
