@@ -2,6 +2,8 @@
 set_time_limit(0);
 require_once '../../lib/base.php';
 
+\OCP\JSON::callCheck();
+
 if (OC::checkUpgrade(false)) {
 	// if a user is currently logged in, their session must be ignored to
 	// avoid side effects
