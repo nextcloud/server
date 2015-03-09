@@ -55,6 +55,14 @@ class Controller {
 		$post = $this->loadAutoConfig($post);
 		$opts = $this->getSystemInfo();
 
+		// convert 'abcpassword' to 'abcpass'
+		if (isset($post['adminpassword'])) {
+			$post['adminpass'] = $post['adminpassword'];
+		}
+		if (isset($post['dbpassword'])) {
+			$post['dbpass'] = $post['dbpassword'];
+		}
+
 		if(isset($post['install']) AND $post['install']=='true') {
 			// We have to launch the installation process :
 			$e = \OC\Setup::install($post);
