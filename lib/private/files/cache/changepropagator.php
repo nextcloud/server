@@ -22,12 +22,14 @@
 
 namespace OC\Files\Cache;
 
+use OC\Hooks\BasicEmitter;
+
 /**
  * Propagates changes in etag and mtime up the filesystem tree
  *
  * @package OC\Files\Cache
  */
-class ChangePropagator {
+class ChangePropagator extends BasicEmitter {
 	/**
 	 * @var string[]
 	 */
@@ -75,6 +77,7 @@ class ChangePropagator {
 				$cache = $storage->getCache();
 				$entry = $cache->get($internalPath);
 				$cache->update($entry['fileid'], array('mtime' => max($time, $entry['mtime']), 'etag' => $storage->getETag($internalPath)));
+				$this->emit('\OC\Files', 'propagate', [$parent, $entry]);
 			}
 		}
 	}
