@@ -64,8 +64,8 @@ class DB {
 	 * @return bool
 	 *
 	 */
-	public static function insertIfNotExist($table, $input) {
-		return(\OC_DB::insertIfNotExist($table, $input));
+	public static function insertIfNotExist($table, $input, $compare = null) {
+		return(\OC_DB::insertIfNotExist($table, $input, $compare));
 	}
 
 	/**

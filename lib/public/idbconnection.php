@@ -94,7 +94,7 @@ interface IDBConnection {
 	 * @return bool
 	 *
 	 */
-	public function insertIfNotExist($table, $input);
+	public function insertIfNotExist($table, $input, $compare = null);
 
 	/**
 	 * Start a transaction
