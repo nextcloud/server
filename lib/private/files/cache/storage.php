@@ -42,6 +42,8 @@ class Storage {
 				$result = \OC_DB::executeAudited($sql, array($this->storageId));
 				if ($row = $result->fetchRow()) {
 					$this->numericId = $row['numeric_id'];
+				} else {
+					throw new \Exception('Storage exists when inserting and does not exist on select... go away');
 				}
 			}
 		}
