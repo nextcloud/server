@@ -65,7 +65,7 @@ class DB {
 	 *
 	 */
 	public static function insertIfNotExist($table, $input, $compare = null) {
-		return(\OC_DB::insertIfNotExist($table, $input, $compare));
+		return \OC::$server->getDatabaseConnection()->insertIfNotExist($table, $input, $compare);
 	}
 
 	/**

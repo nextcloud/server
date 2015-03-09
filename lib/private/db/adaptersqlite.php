@@ -18,6 +18,13 @@ class AdapterSqlite extends Adapter {
 		return $statement;
 	}
 
+	/**
+	 * @param string $table
+	 * @param array $input
+	 * @param null $compare
+	 * @return int
+	 * @throws \Doctrine\DBAL\DBALException
+	 */
 	public function insertIfNotExist($table, $input, $compare = null) {
 		if ($compare === null) {
 			$compare = array_keys($input);
@@ -40,19 +47,6 @@ class AdapterSqlite extends Adapter {
 		$query = substr($query, 0, strlen($query) - 5);
 		$query .= ')';
 
-		try {
-			return $this->conn->executeUpdate($query, $inserts);
-		} catch(\Doctrine\DBAL\DBALException $e) {
-			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
-			$entry .= 'Offending command was: ' . $query.'<br />';
-			\OC_Log::write('core', $entry, \OC_Log::FATAL);
-			$l = \OC::$server->getL10N('lib');
-			throw new \OC\HintException(
-				$l->t('Database Error'),
-				$l->t('Please contact your system administrator.'),
-				0,
-				$e
-			);
-		}
+		return $this->conn->executeUpdate($query, $inserts);
 	}
 }
