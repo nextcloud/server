@@ -135,7 +135,9 @@ class OC_TemplateLayout extends OC_Template {
 		// Read the selected theme from the config file
 		$theme = OC_Util::getTheme();
 
-		$locator = new \OC\Template\CSSResourceLocator( $theme,
+		$locator = new \OC\Template\CSSResourceLocator(
+			OC::$server->getLogger(),
+			$theme,
 			array( OC::$SERVERROOT => OC::$WEBROOT ),
 			array( OC::$THIRDPARTYROOT => OC::$THIRDPARTYWEBROOT ));
 		$locator->find($styles);
@@ -150,7 +152,9 @@ class OC_TemplateLayout extends OC_Template {
 		// Read the selected theme from the config file
 		$theme = OC_Util::getTheme();
 
-		$locator = new \OC\Template\JSResourceLocator( $theme,
+		$locator = new \OC\Template\JSResourceLocator(
+			OC::$server->getLogger(),
+			$theme,
 			array( OC::$SERVERROOT => OC::$WEBROOT ),
 			array( OC::$THIRDPARTYROOT => OC::$THIRDPARTYWEBROOT ));
 		$locator->find($scripts);
