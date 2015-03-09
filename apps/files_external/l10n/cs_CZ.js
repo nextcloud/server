@@ -54,7 +54,7 @@ OC.L10N.register(
     "(group)" : "(skupina)",
     "Saved" : "Uloženo",
     "Generate keys" : "Vytvořit klíče",
-    "Error generating key pair" : "Chyba při vytváření párů klíče",
+    "Error generating key pair" : "Chyba při vytváření páru klíčů",
     "<b>Note:</b> " : "<b>Poznámka:</b>",
     "and" : "a",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Poznámka:</b> cURL podpora v PHP není povolena nebo nainstalována. Není možné připojení %s. Prosím požádejte svého správce systému ať ji nainstaluje.",
