@@ -80,7 +80,7 @@ interface IDBConnection {
 	 * Insert a row if a matching row doesn't exists.
 	 * @param string $table The table name (will replace *PREFIX*) to perform the replace on.
 	 * @param array $input
-	 * @throws \OC\HintException
+	 * @throws \Doctrine\DBAL\DBALException
 	 *
 	 * The input array if in the form:
 	 *

@@ -152,16 +152,16 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	}
 
 	// internal use
-	public function realLastInsertId($seqName = null)
-	{
+	public function realLastInsertId($seqName = null) {
 		return parent::lastInsertId($seqName);
 	}
 
 	/**
-	 * Insert a row if a matching row doesn't exists.
+	 * Insert a row if a matching row does not exists.
 	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
-	 * @param array $input. An array of fieldname/value pairs
-	 * @throws \OC\HintException
+	 * @param array $input. An array of field name/value pairs
+	 * @param array $compare
+	 * @throws \Doctrine\DBAL\DBALException
 	 * @return bool The return value from execute()
 	 */
 	public function insertIfNotExist($table, $input, $compare = null) {

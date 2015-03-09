@@ -125,7 +125,7 @@ class Test_DB extends \Test\TestCase {
 			);
 
 		foreach($categoryEntries as $entry) {
-			$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table3,
+			$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table3,
 				array(
 					'uid' => $entry['user'],
 					'type' => $entry['type'],
@@ -148,7 +148,7 @@ class Test_DB extends \Test\TestCase {
 		);
 
 		foreach($categoryEntries as $entry) {
-			$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table2,
+			$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table2,
 				array(
 					'addressbookid' => $entry['addressbookid'],
 					'fullname' => $entry['fullname'],
@@ -180,7 +180,7 @@ class Test_DB extends \Test\TestCase {
 		$this->assertEquals($carddata, $rowset[0]['carddata']);
 
 		// Try to insert a new row
-		$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table2,
+		$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table2,
 			array(
 				'fullname' => $fullName,
 				'uri' => $uri,
@@ -199,7 +199,7 @@ class Test_DB extends \Test\TestCase {
 	}
 
 	public function testInsertIfNotExistsViolating() {
-		$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table5,
+		$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table5,
 			array(
 				'storage' => 1,
 				'path_hash' => md5('welcome.txt'),
@@ -207,7 +207,7 @@ class Test_DB extends \Test\TestCase {
 			));
 		$this->assertEquals(1, $result);
 
-		$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table5,
+		$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table5,
 			array(
 				'storage' => 1,
 				'path_hash' => md5('welcome.txt'),

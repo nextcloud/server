@@ -43,7 +43,7 @@ class Adapter {
 	 * insert the @input values when they do not exist yet
 	 * @param string $table name
 	 * @param array $input key->value pair, key has to be sanitized properly
-	 * @throws \OC\HintException
+	 * @throws \Doctrine\DBAL\DBALException
 	 * @return int count of inserted rows
 	 */
 	public function insertIfNotExist($table, $input, $compare = null) {
@@ -68,19 +68,6 @@ class Adapter {
 		$query = substr($query, 0, strlen($query) - 5);
 		$query .= ' HAVING COUNT(*) = 0';
 
-		try {
-			return $this->conn->executeUpdate($query, $inserts);
-		} catch(\Doctrine\DBAL\DBALException $e) {
-			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
-			$entry .= 'Offending command was: ' . $query.'<br />';
-			\OC_Log::write('core', $entry, \OC_Log::FATAL);
-			$l = \OC::$server->getL10N('lib');
-			throw new \OC\HintException(
-				$l->t('Database Error'),
-				$l->t('Please contact your system administrator.'),
-				0,
-				$e
-			);
-		}
+		return $this->conn->executeUpdate($query, $inserts);
 	}
 }
