@@ -1,4 +1,4 @@
-# Version: 8.0.1
+# Version: 8.0.2
 <IfModule mod_fcgid.c>
 <IfModule mod_setenvif.c>
 <IfModule mod_headers.c>
