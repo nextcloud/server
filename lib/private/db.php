@@ -172,8 +172,8 @@ class OC_DB {
 	 * @param array $input An array of fieldname/value pairs
 	 * @return boolean number of updated rows
 	 */
-	public static function insertIfNotExist($table, $input) {
-		return \OC::$server->getDatabaseConnection()->insertIfNotExist($table, $input);
+	public static function insertIfNotExist($table, $input, $compare = null) {
+		return \OC::$server->getDatabaseConnection()->insertIfNotExist($table, $input, $compare);
 	}
 
 	/**

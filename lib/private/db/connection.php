@@ -164,8 +164,8 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 * @throws \OC\HintException
 	 * @return bool The return value from execute()
 	 */
-	public function insertIfNotExist($table, $input) {
-		return $this->adapter->insertIfNotExist($table, $input);
+	public function insertIfNotExist($table, $input, $compare = null) {
+		return $this->adapter->insertIfNotExist($table, $input, $compare);
 	}
 
 	/**

@@ -138,8 +138,8 @@ class Db implements IDb {
 	 * @return bool
 	 *
 	 */
-	public function insertIfNotExist($table, $input) {
-		return $this->connection->insertIfNotExist($table, $input);
+	public function insertIfNotExist($table, $input, $compare = null) {
+		return $this->connection->insertIfNotExist($table, $input, $compare);
 	}
 
 	/**

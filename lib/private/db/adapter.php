@@ -46,19 +46,22 @@ class Adapter {
 	 * @throws \OC\HintException
 	 * @return int count of inserted rows
 	 */
-	public function insertIfNotExist($table, $input) {
+	public function insertIfNotExist($table, $input, $compare = null) {
+		if ($compare === null) {
+			$compare = array_keys($input);
+		}
 		$query = 'INSERT INTO `' .$table . '` (`'
 			. implode('`,`', array_keys($input)) . '`) SELECT '
 			. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
 			. 'FROM `' . $table . '` WHERE ';
 
 		$inserts = array_values($input);
-		foreach($input as $key => $value) {
+		foreach($compare as $key) {
 			$query .= '`' . $key . '`';
-			if (is_null($value)) {
+			if (is_null($input[$key])) {
 				$query .= ' IS NULL AND ';
 			} else {
-				$inserts[] = $value;
+				$inserts[] = $input[$key];
 				$query .= ' = ? AND ';
 			}
 		}
