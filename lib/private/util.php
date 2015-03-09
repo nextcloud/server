@@ -321,7 +321,7 @@ class OC_Util {
 	private static function loadVersion() {
 		$timestamp = filemtime(OC::$SERVERROOT . '/version.php');
 		if (!\OC::$server->getSession()->exists('OC_Version') or OC::$server->getSession()->get('OC_Version_Timestamp') != $timestamp) {
-			require 'version.php';
+			require OC::$SERVERROOT . '/version.php';
 			$session = \OC::$server->getSession();
 			/** @var $timestamp int */
 			$session->set('OC_Version_Timestamp', $timestamp);
