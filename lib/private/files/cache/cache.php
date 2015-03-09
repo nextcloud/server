@@ -259,8 +259,9 @@ class Cache {
 			}
 
 			// The file was created in the mean time
+			$id = $this->getId($file);
 			$this->update($id, $data);
-			return $this->getId($file);
+			return $id;
 		}
 	}
 
