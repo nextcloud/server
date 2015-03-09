@@ -35,8 +35,14 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	protected $storage = null;
 
+	/**
+	 * @var \OC\Files\Cache\ChangePropagator
+	 */
+	protected $ownerPropagator;
+
 	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
 		// first update the mount point before creating the parent
+		$this->ownerPropagator = $arguments['propagator'];
 		$newMountPoint = $this->verifyMountPoint($arguments['share'], $arguments['user']);
 		$absMountPoint = '/' . $arguments['user'] . '/files' . $newMountPoint;
 		parent::__construct($storage, $absMountPoint, $arguments, $loader);
@@ -173,5 +179,17 @@ class SharedMount extends MountPoint implements MoveableMount {
 		$mountManager->removeMount($this->mountPoint);
 
 		return $result;
+	}
+
+	public function getShare() {
+		$this->getStorage(); //ensure it exists
+		return $this->storage->getShare();
+	}
+
+	/**
+	 * @return \OC\Files\Cache\ChangePropagator
+	 */
+	public function getOwnerPropagator() {
+		return $this->ownerPropagator;
 	}
 }

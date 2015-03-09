@@ -31,6 +31,7 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
 use OCA\Files\Share;
+use OCA\Files_Sharing\Appinfo\Application;
 
 /**
  * Class Test_Files_Sharing_Base
@@ -57,6 +58,10 @@ abstract class TestCase extends \Test\TestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
+		$application = new Application();
+		$application->registerMountProviders();
+		$application->setupPropagation();
+		
 		// reset backend
 		\OC_User::clearBackends();
 		\OC_Group::clearBackends();
@@ -64,7 +69,6 @@ abstract class TestCase extends \Test\TestCase {
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
 		\OC::registerShareHooks();
-		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
 
 		// create users
 		$backend = new \OC_User_Dummy();
@@ -147,6 +151,7 @@ abstract class TestCase extends \Test\TestCase {
 		\OC::$server->getUserSession()->setUser(null);
 		\OC\Files\Filesystem::tearDown();
 		\OC::$server->getUserSession()->login($user, $password);
+
 		\OC_Util::setupFS($user);
 	}
 

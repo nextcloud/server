@@ -2518,6 +2518,7 @@ class Share extends \OC\Share\Constants {
 		$enforcePassword = $config->getAppValue('core', 'shareapi_enforce_links_password', 'no');
 		return ($enforcePassword === "yes") ? true : false;
 	}
+
 	/**
 	 * Get all share entries, including non-unique group items
 	 *
@@ -2530,4 +2531,15 @@ class Share extends \OC\Share\Constants {
 		return $result->fetchAll();
 	}
 
+	/**
+	 * Get all share entries, including non-unique group items for a file
+	 *
+	 * @param int $id
+	 * @return array
+	 */
+	public static function getAllSharesForFileId($id) {
+		$query = 'SELECT * FROM `*PREFIX*share` WHERE `file_source` = ?';
+		$result = \OC::$server->getDatabaseConnection()->executeQuery($query, [$id]);
+		return $result->fetchAll();
+	}
 }
