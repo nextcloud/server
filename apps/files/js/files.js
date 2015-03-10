@@ -102,14 +102,6 @@
 			} else if (trimmedName.length === 0) {
 				throw t('files', 'File name cannot be empty.');
 			}
-			// check for invalid characters
-			var invalidCharacters =
-				['\\', '/', '<', '>', ':', '"', '|', '?', '*', '\n'];
-			for (var i = 0; i < invalidCharacters.length; i++) {
-				if (trimmedName.indexOf(invalidCharacters[i]) !== -1) {
-					throw t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed.");
-				}
-			}
 			return true;
 		},
 		displayStorageWarnings: function() {

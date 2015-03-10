@@ -29,6 +29,9 @@ try {
 		exit;
 	}
 
+	// force language as given in the http request
+	\OC_L10N::setLanguageFromRequest();
+
 	$file=ltrim($file, '/');
 
 	$parts=explode('/', $file, 2);

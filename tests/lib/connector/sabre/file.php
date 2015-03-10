@@ -6,7 +6,12 @@
  * See the COPYING-README file.
  */
 
-class Test_OC_Connector_Sabre_File extends \Test\TestCase {
+namespace Test\Connector\Sabre;
+
+
+use OC_Connector_Sabre_File;
+
+class File extends \Test\TestCase {
 
 	/**
 	 * @expectedException \Sabre\DAV\Exception
@@ -93,7 +98,7 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
+	 * @expectedException \OC\Connector\Sabre\Exception\InvalidPath
 	 */
 	public function testSimplePutInvalidChars() {
 		// setup
@@ -104,9 +109,9 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 
 		$view->expects($this->any())
 			->method('getRelativePath')
-			->will($this->returnValue('/super*star.txt'));
+			->will($this->returnValue('/*'));
 
-		$info = new \OC\Files\FileInfo('/super*star.txt', null, null, array(
+		$info = new \OC\Files\FileInfo('/*', null, null, array(
 			'permissions' => \OCP\Constants::PERMISSION_ALL
 		), null);
 		$file = new \OC\Connector\Sabre\File($view, $info);
@@ -117,7 +122,7 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 
 	/**
 	 * Test setting name with setName() with invalid chars
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
+	 * @expectedException \OC\Connector\Sabre\Exception\InvalidPath
 	 */
 	public function testSetNameInvalidChars() {
 		// setup
@@ -125,9 +130,9 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 
 		$view->expects($this->any())
 			->method('getRelativePath')
-			->will($this->returnValue('/super*star.txt'));
+			->will($this->returnValue('/*'));
 
-		$info = new \OC\Files\FileInfo('/super*star.txt', null, null, array(
+		$info = new \OC\Files\FileInfo('/*', null, null, array(
 			'permissions' => \OCP\Constants::PERMISSION_ALL
 		), null);
 		$file = new \OC\Connector\Sabre\File($view, $info);

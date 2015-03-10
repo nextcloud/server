@@ -11,6 +11,9 @@ namespace OC\Files;
 
 use OC\Files\Cache\Updater;
 use OC\Files\Mount\MoveableMount;
+use OCP\Files\InvalidCharacterInPathException;
+use OCP\Files\InvalidPathException;
+use OCP\Files\ReservedWordException;
 
 /**
  * Class to provide access to ownCloud filesystem via a "view", and methods for
@@ -29,11 +32,10 @@ use OC\Files\Mount\MoveableMount;
  * \OC\Files\Storage\Storage object
  */
 class View {
+	/** @var string */
 	private $fakeRoot = '';
 
-	/**
-	 * @var \OC\Files\Cache\Updater
-	 */
+	/** @var \OC\Files\Cache\Updater */
 	protected $updater;
 
 	/**
@@ -116,7 +118,7 @@ class View {
 	 * get the mountpoint of the storage object for a path
 	 * ( note: because a storage is not always mounted inside the fakeroot, the
 	 * returned mountpoint is relative to the absolute root of the filesystem
-	 * and doesn't take the chroot into account )
+	 * and does not take the chroot into account )
 	 *
 	 * @param string $path
 	 * @return string
@@ -129,7 +131,7 @@ class View {
 	 * get the mountpoint of the storage object for a path
 	 * ( note: because a storage is not always mounted inside the fakeroot, the
 	 * returned mountpoint is relative to the absolute root of the filesystem
-	 * and doesn't take the chroot into account )
+	 * and does not take the chroot into account )
 	 *
 	 * @param string $path
 	 * @return \OCP\Files\Mount\IMountPoint
@@ -1532,7 +1534,45 @@ class View {
 	/**
 	 * @return Updater
 	 */
-	public function getUpdater(){
+	public function getUpdater() {
 		return $this->updater;
+	}
+
+	/**
+	 * @param string $path
+	 * @param string $fileName
+	 * @throws InvalidPathException
+	 */
+	public function verifyPath($path, $fileName) {
+
+		$l10n = \OC::$server->getL10N('lib');
+
+		// verify empty and dot files
+		$trimmed = trim($fileName);
+		if ($trimmed === '') {
+			throw new InvalidPathException($l10n->t('Empty filename is not allowed'));
+		}
+		if ($trimmed === '.' || $trimmed === '..') {
+			throw new InvalidPathException($l10n->t('Dot files are not allowed'));
+		}
+
+		// verify database - e.g. mysql only 3-byte chars
+		if (preg_match('%^(?:
+      \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
+    | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+    | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
+)*$%xs', $fileName)) {
+			throw new InvalidPathException($l10n->t('4-byte characters are not supported in file names'));
+		}
+
+		try {
+			/** @type \OCP\Files\Storage $storage */
+			list($storage, $internalPath) = $this->resolvePath($path);
+			$storage->verifyPath($internalPath, $fileName);
+		} catch (ReservedWordException $ex) {
+			throw new InvalidPathException($l10n->t('File name is a reserved word'));
+		} catch (InvalidCharacterInPathException $ex) {
+			throw new InvalidPathException($l10n->t('File name contains at least one invalid characters'));
+		}
 	}
 }
