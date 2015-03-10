@@ -217,6 +217,38 @@ class Test_DB extends \Test\TestCase {
 		$this->assertEquals(0, $result);
 	}
 
+	public function insertIfNotExistsViolatingThrows() {
+		return [
+			[null],
+			[['etag']],
+		];
+	}
+
+	/**
+	 * @dataProvider insertIfNotExistsViolatingThrows
+	 * @expectedException \Doctrine\DBAL\Exception\UniqueConstraintViolationException
+	 *
+	 * @param array $compareKeys
+	 */
+	public function testInsertIfNotExistsViolatingThrows($compareKeys) {
+		$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table5,
+			array(
+				'storage' => 1,
+				'path_hash' => md5('welcome.txt'),
+				'etag' => $this->getUniqueID()
+			));
+		$this->assertEquals(1, $result);
+
+		$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table5,
+			array(
+				'storage' => 1,
+				'path_hash' => md5('welcome.txt'),
+				'etag' => $this->getUniqueID()
+			), $compareKeys);
+
+		$this->assertEquals(0, $result);
+	}
+
 	public function testUtf8Data() {
 		$table = "*PREFIX*{$this->table2}";
 		$expected = "Ћö雙喜\xE2\x80\xA2";
