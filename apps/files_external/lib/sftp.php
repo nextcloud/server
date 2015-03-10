@@ -29,6 +29,7 @@
  *
  */
 namespace OC\Files\Storage;
+use Icewind\Streams\IteratorDirectory;
 
 /**
 * Uses phpseclib's Net_SFTP class and the Net_SFTP_Stream stream wrapper to
@@ -278,8 +279,7 @@ class SFTP extends \OC\Files\Storage\Common {
 					$dirStream[] = $file;
 				}
 			}
-			\OC\Files\Stream\Dir::register($id, $dirStream);
-			return opendir('fakedir://' . $id);
+			return IteratorDirectory::wrap($dirStream);
 		} catch(\Exception $e) {
 			return false;
 		}

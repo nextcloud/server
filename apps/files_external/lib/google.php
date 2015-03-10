@@ -32,6 +32,8 @@
 
 namespace OC\Files\Storage;
 
+use Icewind\Streams\IteratorDirectory;
+
 set_include_path(get_include_path().PATH_SEPARATOR.
 	\OC_App::getAppPath('files_external').'/3rdparty/google-api-php-client/src');
 require_once 'Google/Client.php';
@@ -291,8 +293,7 @@ class Google extends \OC\Files\Storage\Common {
 				}
 				$pageToken = $children->getNextPageToken();
 			}
-			\OC\Files\Stream\Dir::register('google'.$path, $files);
-			return opendir('fakedir://google'.$path);
+			return IteratorDirectory::wrap($files);
 		} else {
 			return false;
 		}

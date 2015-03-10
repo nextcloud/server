@@ -38,7 +38,7 @@ namespace OC\Files\Storage;
 use Exception;
 use OC\Files\Filesystem;
 use OC\Files\Stream\Close;
-use OC\Files\Stream\Dir;
+use Icewind\Streams\IteratorDirectory;
 use OC\MemCache\ArrayCache;
 use OCP\Constants;
 use OCP\Files;
@@ -211,8 +211,7 @@ class DAV extends Common {
 				$file = basename($file);
 				$content[] = $file;
 			}
-			Dir::register($id, $content);
-			return opendir('fakedir://' . $id);
+			return IteratorDirectory::wrap($content);
 		} catch (ClientHttpException $e) {
 			if ($e->getHttpStatus() === 404) {
 				$this->statCache->clear($path . '/');

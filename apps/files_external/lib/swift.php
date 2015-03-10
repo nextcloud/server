@@ -32,6 +32,7 @@
 namespace OC\Files\Storage;
 
 use Guzzle\Http\Exception\ClientErrorResponseException;
+use Icewind\Streams\IteratorDirectory;
 use OpenCloud;
 use OpenCloud\Common\Exceptions;
 use OpenCloud\OpenStack;
@@ -222,8 +223,7 @@ class Swift extends \OC\Files\Storage\Common {
 				}
 			}
 
-			\OC\Files\Stream\Dir::register('swift' . $path, $files);
-			return opendir('fakedir://swift' . $path);
+			return IteratorDirectory::wrap($files);
 		} catch (\Exception $e) {
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
