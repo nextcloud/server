@@ -49,6 +49,7 @@ class Expire implements ICommand {
 	}
 
 	public function handle() {
+		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($this->user);
 		Trashbin::expire($this->trashBinSize, $this->user);
 	}
