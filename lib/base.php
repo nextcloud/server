@@ -566,7 +566,7 @@ class OC {
 				} catch(\Exception $e) {
 					echo('Writing to database failed');
 				}
-				exit();
+				exit(1);
 			} else {
 				OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
 				OC_Template::printGuestPage('', 'error', array('errors' => $errors));
