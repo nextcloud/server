@@ -23,6 +23,16 @@ class PathVerification extends \Test\TestCase {
 	}
 
 	/**
+	 * @expectedException \OCP\Files\InvalidPathException
+	 * @expectedExceptionMessage File name is too long
+	 */
+	public function testPathVerificationFileNameTooLong() {
+		$fileName = str_repeat('a', 500);
+		$this->view->verifyPath('', $fileName);
+	}
+
+
+	/**
 	 * @dataProvider providesEmptyFiles
 	 * @expectedException \OCP\Files\InvalidPathException
 	 * @expectedExceptionMessage Empty filename is not allowed
