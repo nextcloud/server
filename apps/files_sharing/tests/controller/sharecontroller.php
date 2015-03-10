@@ -159,7 +159,12 @@ class ShareControllerTest extends \Test\TestCase {
 			'nonHumanFileSize' => 33,
 			'maxSizeAnimateGif' => 10,
 		);
+
+		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
+		$csp->addAllowedFrameDomain('\'self\'');
 		$expectedResponse = new TemplateResponse($this->container['AppName'], 'public', $sharedTmplParams, 'base');
+		$expectedResponse->setContentSecurityPolicy($csp);
+
 		$this->assertEquals($expectedResponse, $response);
 	}
 
