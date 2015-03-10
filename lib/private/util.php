@@ -702,7 +702,7 @@ class OC_Util {
 			);
 		}
 
-		if ($webServerRestart) {
+		if (!\OC::$CLI && $webServerRestart) {
 			$errors[] = array(
 				'error' => $l->t('PHP modules have been installed, but they are still listed as missing?'),
 				'hint' => $l->t('Please ask your server administrator to restart the web server.')
