@@ -423,7 +423,7 @@ class Trashbin {
 
 			if ($view->is_dir('/files_trashbin/versions/' . $file)) {
 				$rootView->rename(\OC\Files\Filesystem::normalizePath($user . '/files_trashbin/versions/' . $file), \OC\Files\Filesystem::normalizePath($owner . '/files_versions/' . $ownerPath));
-			} else if ($versions = self::getVersionsFromTrash($versionedFile, $timestamp)) {
+			} else if ($versions = self::getVersionsFromTrash($versionedFile, $timestamp, $user)) {
 				foreach ($versions as $v) {
 					if ($timestamp) {
 						$rootView->rename($user . '/files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp, $owner . '/files_versions/' . $ownerPath . '.v' . $v);
@@ -527,8 +527,8 @@ class Trashbin {
 			$file = $filename;
 		}
 
-		$size += self::deleteVersions($view, $file, $filename, $timestamp);
-		$size += self::deleteEncryptionKeys($view, $file, $filename, $timestamp);
+		$size += self::deleteVersions($view, $file, $filename, $timestamp, $user);
+		$size += self::deleteEncryptionKeys($view, $file, $filename, $timestamp, $user);
 
 		if ($view->is_dir('/files_trashbin/files/' . $file)) {
 			$size += self::calculateSize(new \OC\Files\View('/' . $user . '/files_trashbin/files/' . $file));
@@ -549,14 +549,13 @@ class Trashbin {
 	 * @param $timestamp
 	 * @return int
 	 */
-	private static function deleteVersions(\OC\Files\View $view, $file, $filename, $timestamp) {
+	private static function deleteVersions(\OC\Files\View $view, $file, $filename, $timestamp, $user) {
 		$size = 0;
 		if (\OCP\App::isEnabled('files_versions')) {
-			$user = \OCP\User::getUser();
 			if ($view->is_dir('files_trashbin/versions/' . $file)) {
 				$size += self::calculateSize(new \OC\Files\view('/' . $user . '/files_trashbin/versions/' . $file));
 				$view->unlink('files_trashbin/versions/' . $file);
-			} else if ($versions = self::getVersionsFromTrash($filename, $timestamp)) {
+			} else if ($versions = self::getVersionsFromTrash($filename, $timestamp, $user)) {
 				foreach ($versions as $v) {
 					if ($timestamp) {
 						$size += $view->filesize('/files_trashbin/versions/' . $filename . '.v' . $v . '.d' . $timestamp);
@@ -578,10 +577,9 @@ class Trashbin {
 	 * @param $timestamp
 	 * @return int
 	 */
-	private static function deleteEncryptionKeys(\OC\Files\View $view, $file, $filename, $timestamp) {
+	private static function deleteEncryptionKeys(\OC\Files\View $view, $file, $filename, $timestamp, $user) {
 		$size = 0;
 		if (\OCP\App::isEnabled('files_encryption')) {
-			$user = \OCP\User::getUser();
 
 			$keyfiles = \OC\Files\Filesystem::normalizePath('files_trashbin/keys/' . $filename);
 
@@ -823,8 +821,8 @@ class Trashbin {
 	 * @param int $timestamp timestamp when the file was deleted
 	 * @return array
 	 */
-	private static function getVersionsFromTrash($filename, $timestamp) {
-		$view = new \OC\Files\View('/' . \OCP\User::getUser() . '/files_trashbin/versions');
+	private static function getVersionsFromTrash($filename, $timestamp, $user) {
+		$view = new \OC\Files\View('/' . $user . '/files_trashbin/versions');
 		$versions = array();
 
 		//force rescan of versions, local storage may not have updated the cache
