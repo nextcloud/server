@@ -10,8 +10,13 @@ namespace OC\Files\Storage;
 
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
-use Sabre\DAV\ClientHttpException;
+use Sabre\HTTP\ClientHttpException;
 
+/**
+ * Class DAV
+ *
+ * @package OC\Files\Storage
+ */
 class DAV extends \OC\Files\Storage\Common {
 	protected $password;
 	protected $user;
@@ -25,8 +30,13 @@ class DAV extends \OC\Files\Storage\Common {
 	 */
 	private $client;
 
-	private static $tempFiles = array();
+	/** @var array */
+	private static $tempFiles = [];
 
+	/**
+	 * @param array $params
+	 * @throws \Exception
+	 */
 	public function __construct($params) {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
@@ -83,10 +93,12 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function getId() {
 		return 'webdav::' . $this->user . '@' . $this->host . '/' . $this->root;
 	}
 
+	/** {@inheritdoc} */
 	public function createBaseUri() {
 		$baseUri = 'http';
 		if ($this->secure) {
@@ -96,12 +108,14 @@ class DAV extends \OC\Files\Storage\Common {
 		return $baseUri;
 	}
 
+	/** {@inheritdoc} */
 	public function mkdir($path) {
 		$this->init();
 		$path = $this->cleanPath($path);
 		return $this->simpleResponse('MKCOL', $path, null, 201);
 	}
 
+	/** {@inheritdoc} */
 	public function rmdir($path) {
 		$this->init();
 		$path = $this->cleanPath($path) . '/';
@@ -110,6 +124,7 @@ class DAV extends \OC\Files\Storage\Common {
 		return $this->simpleResponse('DELETE', $path, null, 204);
 	}
 
+	/** {@inheritdoc} */
 	public function opendir($path) {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -138,6 +153,7 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function filetype($path) {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -161,6 +177,7 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function file_exists($path) {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -180,11 +197,13 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function unlink($path) {
 		$this->init();
 		return $this->simpleResponse('DELETE', $path, null, 204);
 	}
 
+	/** {@inheritdoc} */
 	public function fopen($path, $mode) {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -254,6 +273,9 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * @param string $tmpFile
+	 */
 	public function writeBack($tmpFile) {
 		if (isset(self::$tempFiles[$tmpFile])) {
 			$this->uploadFile($tmpFile, self::$tempFiles[$tmpFile]);
@@ -261,6 +283,7 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function free_space($path) {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -276,6 +299,7 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function touch($path, $mtime = null) {
 		$this->init();
 		if (is_null($mtime)) {
@@ -304,6 +328,10 @@ class DAV extends \OC\Files\Storage\Common {
 		return true;
 	}
 
+	/**
+	 * @param string $path
+	 * @param string $target
+	 */
 	protected function uploadFile($path, $target) {
 		$this->init();
 		$source = fopen($path, 'r');
@@ -335,6 +363,7 @@ class DAV extends \OC\Files\Storage\Common {
 		$this->removeCachedFile($target);
 	}
 
+	/** {@inheritdoc} */
 	public function rename($path1, $path2) {
 		$this->init();
 		$path1 = $this->encodePath($this->cleanPath($path1));
@@ -354,6 +383,7 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function copy($path1, $path2) {
 		$this->init();
 		$path1 = $this->encodePath($this->cleanPath($path1));
@@ -372,6 +402,7 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function stat($path) {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -394,6 +425,7 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function getMimeType($path) {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -426,6 +458,7 @@ class DAV extends \OC\Files\Storage\Common {
 
 	/**
 	 * @param string $path
+	 * @return string
 	 */
 	public function cleanPath($path) {
 		if ($path === "") {
@@ -450,7 +483,11 @@ class DAV extends \OC\Files\Storage\Common {
 	/**
 	 * @param string $method
 	 * @param string $path
-	 * @param integer $expected
+	 * @param string|resource|null $body
+	 * @param int $expected
+	 * @return bool
+	 * @throws StorageInvalidException
+	 * @throws StorageNotAvailableException
 	 */
 	private function simpleResponse($method, $path, $body, $expected) {
 		$path = $this->cleanPath($path);
@@ -482,22 +519,27 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function isUpdatable($path) {
 		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_UPDATE);
 	}
 
+	/** {@inheritdoc} */
 	public function isCreatable($path) {
 		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_CREATE);
 	}
 
+	/** {@inheritdoc} */
 	public function isSharable($path) {
 		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_SHARE);
 	}
 
+	/** {@inheritdoc} */
 	public function isDeletable($path) {
 		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_DELETE);
 	}
 
+	/** {@inheritdoc} */
 	public function getPermissions($path) {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -567,7 +609,7 @@ class DAV extends \OC\Files\Storage\Common {
 				$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
 				return $remoteMtime > $time;
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			if ($e->getHttpStatus() === 404) {
 				return false;
 			}
@@ -580,13 +622,13 @@ class DAV extends \OC\Files\Storage\Common {
 	 * Convert sabre DAV exception to a storage exception,
 	 * then throw it
 	 *
-	 * @param ClientException $e sabre exception
+	 * @param ClientHttpException $e sabre exception
 	 * @throws StorageInvalidException if the storage is invalid, for example
 	 * when the authentication expired or is invalid
 	 * @throws StorageNotAvailableException if the storage is not available,
 	 * which might be temporary
 	 */
-	private function convertSabreException(ClientException $e) {
+	private function convertSabreException(ClientHttpException $e) {
 		\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 		if ($e->getHttpStatus() === 401) {
 			// either password was changed or was invalid all along
