@@ -19,6 +19,7 @@ OC.L10N.register(
     "Confirm Deletion" : "確認刪除",
     "_%s group found_::_%s groups found_" : [""],
     "_%s user found_::_%s users found_" : [""],
+    "Server" : "伺服器",
     "Group Filter" : "Group Filter",
     "Save" : "儲存",
     "Test Configuration" : "測試此設定",
