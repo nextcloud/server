@@ -40,9 +40,8 @@ class Install extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
 		// validate the environment
-		$this->config->setSystemValue('supportedDatabases', ['sqlite', 'mysql', 'pgsql', 'oci']);
 		$setupHelper = new Setup($this->config, \OC::$server->getIniWrapper(), \OC::$server->getL10N('lib'), new \OC_Defaults());
-		$sysInfo = $setupHelper->getSystemInfo();
+		$sysInfo = $setupHelper->getSystemInfo(true);
 		$errors = $sysInfo['errors'];
 		if (count($errors) > 0) {
 			$this->printErrors($output, $errors);
