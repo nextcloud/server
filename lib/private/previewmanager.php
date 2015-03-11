@@ -12,6 +12,26 @@ use OCP\image;
 use OCP\IPreview;
 
 class PreviewManager implements IPreview {
+	/** @var array */
+	protected $providers = [];
+
+	/**
+	 * In order to improve lazy loading a closure can be registered which will be
+	 * called in case preview providers are actually requested
+	 *
+	 * $callable has to return an instance of \OC\Preview\Provider
+	 *
+	 * @param string $mimeTypeRegex Regex with the mime types that are supported by this provider
+	 * @param \Closure $callable
+	 * @return void
+	 */
+	public function registerProvider($mimeTypeRegex, \Closure $callable) {
+		if (!isset($this->providers[$mimeTypeRegex])) {
+			$this->providers[$mimeTypeRegex] = [];
+		}
+		$this->providers[$mimeTypeRegex][] = $callable;
+	}
+
 	/**
 	 * return a preview of a file
 	 *
@@ -33,16 +53,45 @@ class PreviewManager implements IPreview {
 	 * @return boolean
 	 */
 	function isMimeSupported($mimeType = '*') {
-		return \OC\Preview::isMimeSupported($mimeType);
+		if (!\OC::$server->getConfig()->getSystemValue('enable_previews', true)) {
+			return false;
+		}
+
+		$providerMimeTypes = array_keys($this->providers);
+		foreach ($providerMimeTypes as $supportedMimeType) {
+			if (preg_match($supportedMimeType, $mimeType)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
 	 * Check if a preview can be generated for a file
 	 *
-	 * @param \OC\Files\FileInfo $file
+	 * @param \OCP\Files\FileInfo $file
 	 * @return bool
 	 */
 	function isAvailable($file) {
-		return \OC\Preview::isAvailable($file);
+		if (!\OC::$server->getConfig()->getSystemValue('enable_previews', true)) {
+			return false;
+		}
+
+		$mount = $file->getMountPoint();
+		if ($mount and !$mount->getOption('previews', true)){
+			return false;
+		}
+
+		foreach ($this->providers as $supportedMimeType => $providers) {
+			if (preg_match($supportedMimeType, $file->getMimetype())) {
+				foreach ($providers as $provider) {
+					/** @var $provider \OC\Preview\Provider */
+					if ($provider->isAvailable($file)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }

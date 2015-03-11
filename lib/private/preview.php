@@ -510,7 +510,7 @@ class Preview {
 		if (is_null($this->preview)) {
 			$preview = null;
 
-			foreach (self::$providers as $supportedMimeType => $provider) {
+			foreach (self::getProviders() as $supportedMimeType => $provider) {
 				if (!preg_match($supportedMimeType, $this->mimeType)) {
 					continue;
 				}
@@ -757,6 +757,14 @@ class Preview {
 		array_multisort($keys, SORT_DESC, self::$providers);
 	}
 
+	protected static function getProviders() {
+		if (empty(self::$providers)) {
+			self::initProviders();
+		}
+
+		return self::$providers;
+	}
+
 	protected static function registerCoreProviders() {
 		self::registerProvider('OC\Preview\TXT');
 		self::registerProvider('OC\Preview\MarkDown');
@@ -912,60 +920,6 @@ class Preview {
 
 		$preview = new Preview(\OC_User::getUser(), $prefix, $path);
 		$preview->deleteAllPreviews();
-	}
-
-	/**
-	 * Check if a preview can be generated for a file
-	 *
-	 * @param \OC\Files\FileInfo $file
-	 * @return bool
-	 */
-	public static function isAvailable(\OC\Files\FileInfo $file) {
-		if (!\OC_Config::getValue('enable_previews', true)) {
-			return false;
-		}
-
-		$mount = $file->getMountPoint();
-		if ($mount and !$mount->getOption('previews', true)){
-			return false;
-		}
-
-		//check if there are preview backends
-		if (empty(self::$providers)) {
-			self::initProviders();
-		}
-
-		foreach (self::$providers as $supportedMimeType => $provider) {
-			/**
-			 * @var \OC\Preview\Provider $provider
-			 */
-			if (preg_match($supportedMimeType, $file->getMimetype())) {
-				return $provider->isAvailable($file);
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * @param string $mimeType
-	 * @return bool
-	 */
-	public static function isMimeSupported($mimeType) {
-		if (!\OC_Config::getValue('enable_previews', true)) {
-			return false;
-		}
-
-		//check if there are preview backends
-		if (empty(self::$providers)) {
-			self::initProviders();
-		}
-
-		foreach(self::$providers as $supportedMimetype => $provider) {
-			if(preg_match($supportedMimetype, $mimeType)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**

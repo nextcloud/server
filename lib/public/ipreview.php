@@ -36,8 +36,18 @@ namespace OCP;
 /**
  * This class provides functions to render and show thumbnails and previews of files
  */
-interface IPreview
-{
+interface IPreview {
+	/**
+	 * In order to improve lazy loading a closure can be registered which will be
+	 * called in case preview providers are actually requested
+	 *
+	 * $callable has to return an instance of \OC\Preview\Provider
+	 *
+	 * @param string $mimeTypeRegex Regex with the mime types that are supported by this provider
+	 * @param \Closure $callable
+	 * @return void
+	 */
+	public function registerProvider($mimeTypeRegex, \Closure $callable);
 
 	/**
 	 * Return a preview of a file

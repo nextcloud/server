@@ -16,7 +16,7 @@ abstract class Provider {
 	/**
 	 * Check if a preview can be generated for $path
 	 *
-	 * @param \OC\Files\FileInfo $file
+	 * @param \OCP\Files\FileInfo $file
 	 * @return bool
 	 */
 	public function isAvailable($file) {
