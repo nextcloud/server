@@ -37,6 +37,12 @@ if (OC::checkUpgrade(false)) {
 	$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Updated "%s" to %s', array($app, $version)));
 	});
+	$updater->listen('\OC\Updater', 'repairWarning', function ($description) use ($eventSource, $l) {
+		$eventSource->send('notice', (string)$l->t('Repair warning: ') . $description);
+	});
+	$updater->listen('\OC\Updater', 'repairError', function ($description) use ($eventSource, $l) {
+		$eventSource->send('notice', (string)$l->t('Repair error: ') . $description);
+	});
 	$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps) {
 		$incompatibleApps[]= $app;
 	});

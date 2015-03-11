@@ -113,6 +113,12 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use($output) {
 				$output->writeln('<info>Disabled 3rd-party app: ' . $app . '</info>');
 			});
+			$updater->listen('\OC\Updater', 'repairWarning', function ($app) use($output) {
+				$output->writeln('<error>Repair warning: ' . $app . '</error>');
+			});
+			$updater->listen('\OC\Updater', 'repairError', function ($app) use($output) {
+				$output->writeln('<error>Repair error: ' . $app . '</error>');
+			});
 			$updater->listen('\OC\Updater', 'appUpgradeCheck', function () use ($output) {
 				$output->writeln('<info>Checked database schema update for apps</info>');
 			});
