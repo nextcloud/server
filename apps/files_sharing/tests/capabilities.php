@@ -35,7 +35,7 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @param string[] $data Capabilities
 	 * @return string[]
 	 */
-	function getFilesSharingPart(array $data) {
+	private function getFilesSharingPart(array $data) {
 		$this->assertArrayHasKey('capabilities', $data);
 		$this->assertArrayHasKey('files_sharing', $data['capabilities']);
 		return $data['capabilities']['files_sharing'];
@@ -49,7 +49,7 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @param (string[])[] $map Map of arguments to return types for the getAppValue function in the mock
 	 * @return string[]
 	 */
-	function getResults(array $map) {
+	private function getResults(array $map) {
 		$stub = $this->getMockBuilder('\OCP\IConfig')->disableOriginalConstructor()->getMock();
 		$stub->method('getAppValue')->will($this->returnValueMap($map));
 		$cap = new Capabilities($stub);
