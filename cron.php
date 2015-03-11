@@ -58,6 +58,9 @@ try {
 	}
 
 	if (OC::$CLI) {
+		// set to run indefinitely if needed
+		set_time_limit(0);
+
 		$config = OC::$server->getConfig();
 		$instanceId = $config->getSystemValue('instanceid');
 		$lockFileName = 'owncloud-server-' . $instanceId . '-cron.lock';
