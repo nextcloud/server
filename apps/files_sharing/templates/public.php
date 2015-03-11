@@ -20,10 +20,10 @@ OCP\Util::addScript('files', 'filelist');
 OCP\Util::addscript('files', 'keyboardshortcuts');
 
 $thumbSize=1024;
-$previewSupported = OC\Preview::isMimeSupported($_['mimetype']) ? 'true' : 'false';
+$previewSupported = \OC::$server->getPreviewManager()->isMimeSupported($_['mimetype']) ? 'true' : 'false';
 ?>
 
-<?php if ( \OC\Preview::isMimeSupported($_['mimetype'])): /* This enables preview images for links (e.g. on Facebook, Google+, ...)*/?>
+<?php if ($previewSupported === 'true'): /* This enables preview images for links (e.g. on Facebook, Google+, ...)*/?>
 	<link rel="image_src" href="<?php p(OCP\Util::linkToRoute( 'core_ajax_public_preview', array('x' => $thumbSize, 'y' => $thumbSize, 'file' => $_['directory_path'], 't' => $_['dirToken']))); ?>" />
 <?php endif; ?>
 
