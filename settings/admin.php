@@ -80,6 +80,7 @@ $template->assign('allowMailNotification', $appConfig->getValue('core', 'shareap
 $template->assign('onlyShareWithGroupMembers', \OC\Share\Share::shareWithGroupMembersOnly());
 $databaseOverload = (strpos(\OCP\Config::getSystemValue('dbtype'), 'sqlite') !== false);
 $template->assign('databaseOverload', $databaseOverload);
+$template->assign('cronErrors', $appConfig->getValue('core', 'cronErrors'));
 
 // warn if Windows is used
 $template->assign('WindowsWarning', OC_Util::runningOnWindows());
