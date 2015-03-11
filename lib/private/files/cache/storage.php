@@ -21,6 +21,7 @@ class Storage {
 
 	/**
 	 * @param \OC\Files\Storage\Storage|string $storage
+	 * @throws \RuntimeException
 	 */
 	public function __construct($storage) {
 		if ($storage instanceof \OC\Files\Storage\Storage) {
@@ -43,7 +44,7 @@ class Storage {
 				if ($row = $result->fetchRow()) {
 					$this->numericId = $row['numeric_id'];
 				} else {
-					throw new \Exception('Storage exists when inserting and does not exist on select... go away');
+					throw new \RuntimeException('Storage exists when inserting and does not exist on select... go away');
 				}
 			}
 		}

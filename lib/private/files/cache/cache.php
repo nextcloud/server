@@ -211,6 +211,7 @@ class Cache {
 	 * @param array $data
 	 *
 	 * @return int file id
+	 * @throws \RuntimeException
 	 */
 	public function put($file, array $data) {
 		if (($id = $this->getId($file)) > -1) {
@@ -256,9 +257,12 @@ class Cache {
 			}
 
 			// The file was created in the mean time
-			$id = $this->getId($file);
-			$this->update($id, $data);
-			return $id;
+			if (($id = $this->getId($file)) > -1) {
+				$this->update($id, $data);
+				return $id;
+			} else {
+				throw new \RuntimeException('File entry exists when inserting and does not exist on select... go away');
+			}
 		}
 	}
 
