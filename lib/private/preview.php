@@ -713,6 +713,7 @@ class Preview {
 		 *  - OC\Preview\Illustrator
 		 *  - OC\Preview\Postscript
 		 *  - OC\Preview\Photoshop
+		 *  - OC\Preview\Font
 		 */
 		if(empty(self::$enabledProviders)) {
 			self::$enabledProviders = \OC::$server->getConfig()->getSystemValue('enabledPreviewProviders', array(
@@ -772,8 +773,8 @@ class Preview {
 				'PDF'	=> 'OC\Preview\PDF',
 				'AI'	=> 'OC\Preview\Illustrator',
 				'PSD'	=> 'OC\Preview\Photoshop',
-				// Requires adding 'eps' => array('application/postscript', null), to lib/private/mimetypes.list.php
 				'EPS'	=> 'OC\Preview\Postscript',
+				'TTF'	=> 'OC\Preview\Font',
 			);
 
 			foreach ($imagickProviders as $queryFormat => $provider) {
