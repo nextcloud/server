@@ -12,6 +12,7 @@ use OC\Hooks\BasicEmitter;
 use OC_App;
 use OC_Util;
 use OCP\IConfig;
+use OC\Setup;
 
 /**
  * Class that handles autoupdating of ownCloud
@@ -202,13 +203,12 @@ class Updater extends BasicEmitter {
 			throw new \Exception('Updates between multiple major versions are unsupported.');
 		}
 
-		// Update htaccess files for apache hosts
-		if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
-			try {
-				\OC\Setup::updateHtaccess();
-			} catch (\Exception $e) {
-				throw new \Exception($e->getMessage());
-			}
+		// Update .htaccess files
+		try {
+			Setup::updateHtaccess();
+			Setup::protectDataDirectory();
+		} catch (\Exception $e) {
+			throw new \Exception($e->getMessage());
 		}
 
 		// create empty file in data dir, so we can later find
