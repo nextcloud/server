@@ -14,6 +14,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use \OCP\AppFramework\App;
 use OC\Core\LostPassword\Controller\LostController;
 use OC\Core\User\UserController;
+use OC\Core\Avatar\AvatarController;
 use \OCP\Util;
 
 /**
@@ -56,6 +57,17 @@ class Application extends App {
 				$c->query('Defaults')
 			);
 		});
+		$container->registerService('AvatarController', function(SimpleContainer $c) {
+			return new AvatarController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('AvatarManager'),
+				$c->query('Cache'),
+				$c->query('L10N'),
+				$c->query('UserManager'),
+				$c->query('UserSession')
+			);
+		});
 
 		/**
 		 * Core class wrappers
@@ -78,6 +90,17 @@ class Application extends App {
 		$container->registerService('SecureRandom', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getSecureRandom();
 		});
+		$container->registerService('AvatarManager', function(SimpleContainer $c) {
+			return $c->query('ServerContainer')->getAvatarManager();
+		});
+		$container->registerService('UserSession', function(SimpleContainer $c) {
+			return $c->query('ServerContainer')->getUserSession();
+		});
+		$container->registerService('Cache', function(SimpleContainer $c) {
+			return $c->query('ServerContainer')->getCache();
+		});
+
+
 		$container->registerService('Defaults', function() {
 			return new \OC_Defaults;
 		});

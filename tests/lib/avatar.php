@@ -6,6 +6,9 @@
  * later.
  * See the COPYING-README file.
  */
+
+use OC\Avatar;
+
 class Test_Avatar extends \Test\TestCase {
 
 	private $user;
@@ -20,7 +23,7 @@ class Test_Avatar extends \Test\TestCase {
 
 	public function testAvatar() {
 
-		$avatar = new \OC_Avatar($this->user);
+		$avatar = new Avatar($this->user);
 
 		$this->assertEquals(false, $avatar->get());
 
