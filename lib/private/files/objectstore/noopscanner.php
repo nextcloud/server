@@ -33,10 +33,9 @@ class NoopScanner extends Scanner {
 	 *
 	 * @param string $file
 	 * @param int $reuseExisting
-	 * @param bool $parentExistsInCache
-	 * @return array with metadata of the scanned file
+	 * @return array an array of metadata of the scanned file
 	 */
-	public function scanFile($file, $reuseExisting = 0, $parentExistsInCache = false) {
+	public function scanFile($file, $reuseExisting = 0) {
 		return array();
 	}
 
@@ -60,9 +59,8 @@ class NoopScanner extends Scanner {
 	 * @param int $reuse
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	public function scanChildren($path, $recursive = Storage::SCAN_RECURSIVE, $reuse = -1) {
-		$size = 0;
-		return $size;
+	public function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1) {
+		return 0;
 	}
 
 	/**
