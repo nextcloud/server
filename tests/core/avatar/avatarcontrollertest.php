@@ -95,6 +95,10 @@ class AvatarControllerTest extends \Test\TestCase {
 		\OC_User::setUserId($this->user);
 		\OC_Util::setupFS($this->user);
 
+		// Create Cache dir
+		$view = new \OC\Files\View('/'.$this->user);
+		$view->mkdir('cache');
+
 		// Configure userMock
 		$this->userMock->method('getDisplayName')->willReturn($this->user);
 		$this->userMock->method('getUID')->willReturn($this->user);
@@ -275,7 +279,6 @@ class AvatarControllerTest extends \Test\TestCase {
 
 	/**
 	 * Check what happens when we upload a GIF
-	 * TODO: Finish
 	 */
 	public function testPostAvatarFileGif() {
 		//Create temp file
