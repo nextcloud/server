@@ -10,16 +10,27 @@ use OCP\IConfig;
 
 class Test_OC_Setup extends \Test\TestCase {
 
-	/** @var IConfig */
+	/** @var IConfig | PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
-	/** @var \OC\Setup */
+	/** @var \bantu\IniGetWrapper\IniGetWrapper | PHPUnit_Framework_MockObject_MockObject */
+	private $iniWrapper;
+	/** @var \OCP\IL10N | PHPUnit_Framework_MockObject_MockObject */
+	private $l10n;
+	/** @var \OC_Defaults | PHPUnit_Framework_MockObject_MockObject */
+	private $defaults;
+	/** @var \OC\Setup | PHPUnit_Framework_MockObject_MockObject */
 	protected $setupClass;
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->config = $this->getMock('\OCP\IConfig');
-		$this->setupClass = $this->getMock('\OC\Setup', ['class_exists', 'is_callable'], [$this->config]);
+		$this->iniWrapper = $this->getMock('\bantu\IniGetWrapper\IniGetWrapper');
+		$this->l10n = $this->getMock('\OCP\IL10N');
+		$this->defaults = $this->getMock('\OC_Defaults');
+		$this->setupClass = $this->getMock('\OC\Setup',
+			['class_exists', 'is_callable'],
+			[$this->config, $this->iniWrapper, $this->l10n, $this->defaults]);
 	}
 
 	public function testGetSupportedDatabasesWithOneWorking() {

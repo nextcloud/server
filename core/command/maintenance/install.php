@@ -3,6 +3,7 @@
 namespace OC\Core\Command\Maintenance;
 
 use InvalidArgumentException;
+use OC\Setup;
 use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,39 +39,36 @@ class Install extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
-		$options = $this->validateInput($input, $output);
-
-		$errors = \OC\Setup::install($options);
-		if (count($errors) === 0) {
-			$output->writeln("ownCloud was successfully installed");
-			return 0;
-		}
-		foreach($errors as $error) {
-			if (is_array($error)) {
-				$output->writeln('<error>' . (string)$error['error'] . '</error>');
-				$output->writeln('<info> -> ' . (string)$error['hint'] . '</info>');
-			} else {
-				$output->writeln('<error>' . (string)$error . '</error>');
-			}
+		// validate the environment
+		$setupHelper = new Setup($this->config, \OC::$server->getIniWrapper(), \OC::$server->getL10N('lib'), new \OC_Defaults());
+		$sysInfo = $setupHelper->getSystemInfo();
+		$errors = $sysInfo['errors'];
+		if (count($errors) > 0) {
+			$this->printErrors($output, $errors);
+			return 1;
 		}
 
-		return 1;
+		// validate user input
+		$options = $this->validateInput($input, $output, array_keys($sysInfo['databases']));
+
+		// perform installation
+		$errors = $setupHelper->install($options);
+		if (count($errors) > 0) {
+			$this->printErrors($output, $errors);
+			return 1;
+		}
+		$output->writeln("ownCloud was successfully installed");
+		return 0;
 	}
 
 	/**
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
+	 * @param string[] $supportedDatabases
 	 * @return array
 	 */
-	protected function validateInput(InputInterface $input, OutputInterface $output) {
+	protected function validateInput(InputInterface $input, OutputInterface $output, $supportedDatabases) {
 		$db = strtolower($input->getOption('database'));
-		$supportedDatabases = $this->config->getSystemValue('supportedDatabases', [
-			'sqlite',
-			'mysql',
-			'pgsql',
-			'oci',
-			'mssql'
-		]);
 
 		if (!in_array($db, $supportedDatabases)) {
 			throw new InvalidArgumentException("Database <$db> is not supported.");
@@ -125,5 +123,20 @@ class Install extends Command {
 			'directory' => $dataDir
 		];
 		return $options;
+	}
+
+	/**
+	 * @param OutputInterface $output
+	 * @param $errors
+	 */
+	protected function printErrors(OutputInterface $output, $errors) {
+		foreach ($errors as $error) {
+			if (is_array($error)) {
+				$output->writeln('<error>' . (string)$error['error'] . '</error>');
+				$output->writeln('<info> -> ' . (string)$error['hint'] . '</info>');
+			} else {
+				$output->writeln('<error>' . (string)$error . '</error>');
+			}
+		}
 	}
 }

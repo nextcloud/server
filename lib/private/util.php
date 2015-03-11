@@ -497,7 +497,7 @@ class OC_Util {
 		}
 
 		$webServerRestart = false;
-		$setup = new OC\Setup($config);
+		$setup = new \OC\Setup($config, \OC::$server->getIniWrapper(), \OC::$server->getL10N('lib'), new \OC_Defaults());
 		$availableDatabases = $setup->getSupportedDatabases();
 		if (empty($availableDatabases)) {
 			$errors[] = array(
@@ -702,7 +702,7 @@ class OC_Util {
 			);
 		}
 
-		if ($webServerRestart) {
+		if (!\OC::$CLI && $webServerRestart) {
 			$errors[] = array(
 				'error' => $l->t('PHP modules have been installed, but they are still listed as missing?'),
 				'hint' => $l->t('Please ask your server administrator to restart the web server.')

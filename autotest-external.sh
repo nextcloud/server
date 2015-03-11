@@ -4,7 +4,7 @@
 #
 # @author Thomas Müller
 # @author Morris Jobke
-# @copyright 2012, 2013 Thomas Müller thomas.mueller@tmit.eu
+# @copyright 2012-2015 Thomas Müller thomas.mueller@tmit.eu
 # @copyright 2014 Morris Jobke hey@morrisjobke.de
 #
 
@@ -90,67 +90,6 @@ fi
 
 echo "Using database $DATABASENAME"
 
-# create autoconfig for sqlite, mysql and postgresql
-cat > ./tests/autoconfig-sqlite.php <<DELIM
-<?php
-\$AUTOCONFIG = array (
-  'installed' => false,
-  'dbtype' => 'sqlite',
-  'dbtableprefix' => 'oc_',
-  'adminlogin' => '$ADMINLOGIN',
-  'adminpass' => 'admin',
-  'directory' => '$DATADIR',
-);
-DELIM
-
-cat > ./tests/autoconfig-mysql.php <<DELIM
-<?php
-\$AUTOCONFIG = array (
-  'installed' => false,
-  'dbtype' => 'mysql',
-  'dbtableprefix' => 'oc_',
-  'adminlogin' => '$ADMINLOGIN',
-  'adminpass' => 'admin',
-  'directory' => '$DATADIR',
-  'dbuser' => '$DATABASEUSER',
-  'dbname' => '$DATABASENAME',
-  'dbhost' => 'localhost',
-  'dbpass' => 'owncloud',
-);
-DELIM
-
-cat > ./tests/autoconfig-pgsql.php <<DELIM
-<?php
-\$AUTOCONFIG = array (
-  'installed' => false,
-  'dbtype' => 'pgsql',
-  'dbtableprefix' => 'oc_',
-  'adminlogin' => '$ADMINLOGIN',
-  'adminpass' => 'admin',
-  'directory' => '$DATADIR',
-  'dbuser' => '$DATABASEUSER',
-  'dbname' => '$DATABASENAME',
-  'dbhost' => 'localhost',
-  'dbpass' => 'owncloud',
-);
-DELIM
-
-cat > ./tests/autoconfig-oci.php <<DELIM
-<?php
-\$AUTOCONFIG = array (
-  'installed' => false,
-  'dbtype' => 'oci',
-  'dbtableprefix' => 'oc_',
-  'adminlogin' => '$ADMINLOGIN',
-  'adminpass' => 'admin',
-  'directory' => '$DATADIR',
-  'dbuser' => '$DATABASENAME',
-  'dbname' => 'XE',
-  'dbhost' => 'localhost',
-  'dbpass' => 'owncloud',
-);
-DELIM
-
 function execute_tests {
 	echo "Setup environment for $1 testing ..."
 	# back to root folder
@@ -197,15 +136,16 @@ EOF
 			to $DATABASENAME;
 			exit;
 EOF
+		DATABASEUSER=$DATABASENAME
+		DATABASENAME='XE'
 	fi
 
 	# copy autoconfig
 	cp "$BASEDIR/tests/autoconfig-$1.php" "$BASEDIR/config/autoconfig.php"
 
 	# trigger installation
-	echo "INDEX"
-	php -f index.php | grep -i -C9999 error && echo "Error during setup" && exit 101
-	echo "END INDEX"
+	echo "Installing ...."
+	./occ maintenance:install --database=$1 --database-name=$DATABASENAME --database-host=localhost --database-user=$DATABASEUSER --database-pass=owncloud --database-table-prefix=oc_ --admin-user=$ADMINLOGIN --admin-pass=admin --data-dir=$DATADIR
 
 	#test execution
 	echo "Testing with $1 ..."
