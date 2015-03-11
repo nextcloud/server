@@ -395,14 +395,7 @@ class Filesystem {
 	 */
 	private static function mountCacheDir($user) {
 		$cacheBaseDir = \OC_Config::getValue('cache_path', '');
-		if ($cacheBaseDir === '') {
-			// use local cache dir relative to the user's home
-			$subdir = 'cache';
-			$view = new \OC\Files\View('/' . $user);
-			if(!$view->file_exists($subdir)) {
-				$view->mkdir($subdir);
-			}
-		} else {
+		if ($cacheBaseDir !== '') {
 			$cacheDir = rtrim($cacheBaseDir, '/') . '/' . $user;
 			if (!file_exists($cacheDir)) {
 				mkdir($cacheDir, 0770, true);
