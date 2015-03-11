@@ -19,13 +19,16 @@ class AdapterSqlite extends Adapter {
 	}
 
 	/**
-	 * @param string $table
-	 * @param array $input
-	 * @param null $compare
-	 * @return int
+	 * Insert a row if the matching row does not exists.
+	 *
+	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
+	 * @param array $input data that should be inserted into the table  (column name => value)
+	 * @param array|null $compare List of values that should be checked for "if not exists"
+	 *				If this is null or an empty array, all keys of $input will be compared
+	 * @return int number of inserted rows
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function insertIfNotExist($table, $input, $compare = null) {
+	public function insertIfNotExist($table, $input, array $compare = null) {
 		if ($compare === null) {
 			$compare = array_keys($input);
 		}
