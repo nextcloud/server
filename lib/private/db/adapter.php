@@ -40,13 +40,16 @@ class Adapter {
 	}
 
 	/**
-	 * insert the @input values when they do not exist yet
-	 * @param string $table name
-	 * @param array $input key->value pair, key has to be sanitized properly
+	 * Insert a row if the matching row does not exists.
+	 *
+	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
+	 * @param array $input data that should be inserted into the table  (column name => value)
+	 * @param array|null $compare List of values that should be checked for "if not exists"
+	 *				If this is null or an empty array, all keys of $input will be compared
+	 * @return int number of inserted rows
 	 * @throws \Doctrine\DBAL\DBALException
-	 * @return int count of inserted rows
 	 */
-	public function insertIfNotExist($table, $input, $compare = null) {
+	public function insertIfNotExist($table, $input, array $compare = null) {
 		if ($compare === null) {
 			$compare = array_keys($input);
 		}

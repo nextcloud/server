@@ -77,24 +77,16 @@ interface IDBConnection {
 	public function lastInsertId($table = null);
 
 	/**
-	 * Insert a row if a matching row doesn't exists.
-	 * @param string $table The table name (will replace *PREFIX*) to perform the replace on.
-	 * @param array $input
+	 * Insert a row if the matching row does not exists.
+	 *
+	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
+	 * @param array $input data that should be inserted into the table  (column name => value)
+	 * @param array|null $compare List of values that should be checked for "if not exists"
+	 *				If this is null or an empty array, all keys of $input will be compared
+	 * @return int number of inserted rows
 	 * @throws \Doctrine\DBAL\DBALException
-	 *
-	 * The input array if in the form:
-	 *
-	 * array ( 'id' => array ( 'value' => 6,
-	 *	'key' => true
-	 *	),
-	 *	'name' => array ('value' => 'Stoyan'),
-	 *	'family' => array ('value' => 'Stefanov'),
-	 *	'birth_date' => array ('value' => '1975-06-20')
-	 *	);
-	 * @return bool
-	 *
 	 */
-	public function insertIfNotExist($table, $input, $compare = null);
+	public function insertIfNotExist($table, $input, array $compare = null);
 
 	/**
 	 * Start a transaction

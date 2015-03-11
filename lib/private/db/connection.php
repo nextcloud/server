@@ -157,14 +157,16 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	}
 
 	/**
-	 * Insert a row if a matching row does not exists.
-	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
-	 * @param array $input. An array of field name/value pairs
-	 * @param array $compare
+	 * Insert a row if the matching row does not exists.
+	 *
+	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
+	 * @param array $input data that should be inserted into the table  (column name => value)
+	 * @param array|null $compare List of values that should be checked for "if not exists"
+	 *				If this is null or an empty array, all keys of $input will be compared
+	 * @return int number of inserted rows
 	 * @throws \Doctrine\DBAL\DBALException
-	 * @return bool The return value from execute()
 	 */
-	public function insertIfNotExist($table, $input, $compare = null) {
+	public function insertIfNotExist($table, $input, array $compare = null) {
 		return $this->adapter->insertIfNotExist($table, $input, $compare);
 	}
 
