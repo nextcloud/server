@@ -202,20 +202,21 @@ class OC_Installer{
 
 	/**
 	 * update an app by it's id
-	 * @param integer $ocsid
+	 *
+	 * @param integer $ocsId
 	 * @return bool
 	 * @throws Exception
 	 */
-	public static function updateAppByOCSId($ocsid) {
-		$appdata = OCSClient::getApplication($ocsid);
-		$download = OCSClient::getApplicationDownload($ocsid, 1);
+	public static function updateAppByOCSId($ocsId) {
+		$appData = OCSClient::getApplication($ocsId);
+		$download = OCSClient::getApplicationDownload($ocsId, 1);
 
 		if (isset($download['downloadlink']) && trim($download['downloadlink']) !== '') {
 			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
 			$info = array(
 				'source' => 'http',
 				'href' => $download['downloadlink'],
-				'appdata' => $appdata
+				'appdata' => $appData
 			);
 		} else {
 			throw new \Exception('Could not fetch app info!');
@@ -285,7 +286,7 @@ class OC_Installer{
 	 * @return array
 	 * @throws \Exception
 	 */
-	public static function checkAppsIntegrity($data = array(), $extractDir, $path, $isShipped=false) {
+	public static function checkAppsIntegrity($data, $extractDir, $path, $isShipped=false) {
 		$l = \OC::$server->getL10N('lib');
 		//load the info.xml file of the app
 		if(!is_file($extractDir.'/appinfo/info.xml')) {
