@@ -73,19 +73,19 @@ class Manager extends TestCase {
 
 	public function testAddBasic() {
 		$this->instance->addShare('http://example.com', 'foo', 'bar', 'example', 'me', true);
-		$this->instance->setupMounts();
+		\Test_Helper::invokePrivate($this->instance, 'setupMounts');
 		$this->assertMount('/example');
 	}
 
 	public function testAddBasicEmptyPassword() {
 		$this->instance->addShare('http://example.com', 'foo', '', 'example', 'me', true);
-		$this->instance->setupMounts();
+		\Test_Helper::invokePrivate($this->instance, 'setupMounts');
 		$this->assertMount('/example');
 	}
 
 	public function testAddNotAcceptedShare() {
 		$this->instance->addShare('http://example.com', 'foo', 'bar', 'example', 'me', false);
-		$this->instance->setupMounts();
+		\Test_Helper::invokePrivate($this->instance, 'setupMounts');
 		$this->assertNotMount('/example');
 	}
 
@@ -95,7 +95,7 @@ class Manager extends TestCase {
 		$this->assertCount(1, $open);
 		$this->instance->acceptShare($open[0]['id']);
 		$this->assertEquals([], $this->instance->getOpenShares());
-		$this->instance->setupMounts();
+		\Test_Helper::invokePrivate($this->instance, 'setupMounts');
 		$this->assertMount('/example');
 	}
 
@@ -105,38 +105,38 @@ class Manager extends TestCase {
 		$this->assertCount(1, $open);
 		$this->instance->declineShare($open[0]['id']);
 		$this->assertEquals([], $this->instance->getOpenShares());
-		$this->instance->setupMounts();
+		\Test_Helper::invokePrivate($this->instance, 'setupMounts');
 		$this->assertNotMount('/example');
 	}
 
 	public function testSetMountPoint() {
 		$this->instance->addShare('http://example.com', 'foo', 'bar', 'example', 'me', true);
-		$this->instance->setupMounts();
+		\Test_Helper::invokePrivate($this->instance, 'setupMounts');
 		$this->assertMount('/example');
 		$this->instance->setMountPoint($this->getFullPath('/example'), $this->getFullPath('/renamed'));
 		$this->mountManager->clear();
-		$this->instance->setupMounts();
+		\Test_Helper::invokePrivate($this->instance, 'setupMounts');
 		$this->assertMount('/renamed');
 		$this->assertNotMount('/example');
 	}
 
 	public function testRemoveShare() {
 		$this->instance->addShare('http://example.com', 'foo', 'bar', 'example', 'me', true);
-		$this->instance->setupMounts();
+		\Test_Helper::invokePrivate($this->instance, 'setupMounts');
 		$this->assertMount('/example');
 		$this->instance->removeShare($this->getFullPath('/example'));
 		$this->mountManager->clear();
-		$this->instance->setupMounts();
+		\Test_Helper::invokePrivate($this->instance, 'setupMounts');
 		$this->assertNotMount('/example');
 	}
 
 	public function testRemoveShareForUser() {
 		$this->instance->addShare('http://example.com', 'foo', 'bar', 'example', 'me', true);
-		$this->instance->setupMounts();
+		\Test_Helper::invokePrivate($this->instance, 'setupMounts');
 		$this->assertMount('/example');
 		$this->instance->removeUserShares($this->uid);
 		$this->mountManager->clear();
-		$this->instance->setupMounts();
+		\Test_Helper::invokePrivate($this->instance, 'setupMounts');
 		$this->assertNotMount('/example');
 	}
 }
