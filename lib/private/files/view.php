@@ -1572,7 +1572,7 @@ class View {
 		} catch (ReservedWordException $ex) {
 			throw new InvalidPathException($l10n->t('File name is a reserved word'));
 		} catch (InvalidCharacterInPathException $ex) {
-			throw new InvalidPathException($l10n->t('File name contains at least one invalid characters'));
+			throw new InvalidPathException($l10n->t('File name contains at least one invalid character'));
 		}
 	}
 }
