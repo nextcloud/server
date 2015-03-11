@@ -41,7 +41,7 @@ class Install extends Command {
 
 		// validate the environment
 		$setupHelper = new Setup($this->config, \OC::$server->getIniWrapper(), \OC::$server->getL10N('lib'), new \OC_Defaults());
-		$sysInfo = $setupHelper->getSystemInfo();
+		$sysInfo = $setupHelper->getSystemInfo(true);
 		$errors = $sysInfo['errors'];
 		if (count($errors) > 0) {
 			$this->printErrors($output, $errors);

@@ -68,10 +68,11 @@ class Setup {
 	/**
 	 * Get the available and supported databases of this instance
 	 *
-	 * @throws Exception
+	 * @param bool $allowAllDatabases
 	 * @return array
+	 * @throws Exception
 	 */
-	public function getSupportedDatabases() {
+	public function getSupportedDatabases($allowAllDatabases = false) {
 		$availableDatabases = array(
 			'sqlite' =>  array(
 				'type' => 'class',
@@ -99,8 +100,12 @@ class Setup {
 				'name' => 'MS SQL'
 			)
 		);
-		$configuredDatabases = $this->config->getSystemValue('supportedDatabases',
-			array('sqlite', 'mysql', 'pgsql'));
+		if ($allowAllDatabases) {
+			$configuredDatabases = array_keys($availableDatabases);
+		} else {
+			$configuredDatabases = $this->config->getSystemValue('supportedDatabases',
+				array('sqlite', 'mysql', 'pgsql'));
+		}
 		if(!is_array($configuredDatabases)) {
 			throw new Exception('Supported databases are not properly configured.');
 		}
@@ -131,8 +136,8 @@ class Setup {
 	 * @return array of system info, including an "errors" value
 	 * in case of errors/warnings
 	 */
-	public function getSystemInfo() {
-		$databases = $this->getSupportedDatabases();
+	public function getSystemInfo($allowAllDatabases = false) {
+		$databases = $this->getSupportedDatabases($allowAllDatabases);
 
 		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data');
 
