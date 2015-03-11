@@ -8,9 +8,6 @@
 
 namespace Test\Connector\Sabre;
 
-
-use OC_Connector_Sabre_File;
-
 class File extends \Test\TestCase {
 
 	/**
