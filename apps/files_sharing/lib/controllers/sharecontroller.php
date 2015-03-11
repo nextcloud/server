@@ -203,7 +203,12 @@ class ShareController extends Controller {
 		$shareTmpl['downloadURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', array('token' => $token));
 		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
 
-		return new TemplateResponse($this->appName, 'public', $shareTmpl, 'base');
+		$csp = new OCP\AppFramework\Http\ContentSecurityPolicy();
+		$csp->addAllowedFrameDomain('\'self\'');
+		$response = new TemplateResponse($this->appName, 'public', $shareTmpl, 'base');
+		$response->setContentSecurityPolicy($csp);
+
+		return $response;
 	}
 
 	/**
