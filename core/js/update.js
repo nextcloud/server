@@ -17,7 +17,7 @@
 		 *
 		 * @param $el progress list element
 		 */
-		start: function($el) {
+		start: function($el, options) {
 			if (this._started) {
 				return;
 			}
@@ -28,8 +28,8 @@
 			this.addMessage(t(
 				'core',
 				'Updating {productName} to version {version}, this may take a while.', {
-					productName: OC.theme.name || 'ownCloud',
-					version: OC.config.versionstring
+					productName: options.productName || 'ownCloud',
+					version: options.version
 				}),
 				'bold'
 			).append('<br />'); // FIXME: these should be ul/li with CSS paddings!
@@ -77,10 +77,14 @@
 
 $(document).ready(function() {
 	$('.updateButton').on('click', function() {
+		var $updateEl = $('.update');
 		var $progressEl = $('.updateProgress');
 		$progressEl.removeClass('hidden');
 		$('.updateOverview').addClass('hidden');
-		OC.Update.start($progressEl);
+		OC.Update.start($progressEl, {
+			productName: $updateEl.attr('data-productname'),
+			version: $updateEl.attr('data-version'),
+		});
 		return false;
 	});
 });
