@@ -10,6 +10,10 @@
 
 namespace OC\Connector\Sabre;
 
+use OCP\ILogger;
+use Sabre\DAV\Exception;
+use Sabre\HTTP\Response;
+
 class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	private $nonFatalExceptions = array(
 		'Sabre\DAV\Exception\NotAuthenticated' => true,
@@ -22,13 +26,19 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		'Sabre\DAV\Exception\PreconditionFailed' => true,
 	);
 
+	/** @var string */
 	private $appName;
+
+	/** @var ILogger */
+	private $logger;
 
 	/**
 	 * @param string $loggerAppName app name to use when logging
+	 * @param ILogger $logger
 	 */
-	public function __construct($loggerAppName = 'webdav') {
+	public function __construct($loggerAppName, $logger) {
 		$this->appName = $loggerAppName;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -50,14 +60,30 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	/**
 	 * Log exception
 	 *
-	 * @internal param Exception $e exception
 	 */
-	public function logException($e) {
-		$exceptionClass = get_class($e);
+	public function logException(\Exception $ex) {
+		$exceptionClass = get_class($ex);
 		$level = \OCP\Util::FATAL;
 		if (isset($this->nonFatalExceptions[$exceptionClass])) {
 			$level = \OCP\Util::DEBUG;
 		}
-		\OCP\Util::logException($this->appName, $e, $level);
+
+		$message = $ex->getMessage();
+		if ($ex instanceof Exception) {
+			if (empty($message)) {
+				$response = new Response($ex->getHTTPCode());
+				$message = $response->getStatusText();
+			}
+			$message = "HTTP/1.1 {$ex->getHTTPCode()} $message";
+		}
+
+		$exception = [
+			'Message' => $message,
+			'Code' => $ex->getCode(),
+			'Trace' => $ex->getTraceAsString(),
+			'File' => $ex->getFile(),
+			'Line' => $ex->getLine(),
+		];
+		$this->logger->log($level, 'Exception: ' . json_encode($exception), ['app' => $this->appName]);
 	}
 }
