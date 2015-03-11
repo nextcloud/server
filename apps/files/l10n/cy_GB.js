@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "Could not move %s - File with this name already exists" : "Methwyd symud %s - Mae ffeil gyda'r enw hwn eisoes yn bodoli",
     "Could not move %s" : "Methwyd symud %s",
-    "File name cannot be empty." : "Does dim hawl cael enw ffeil gwag.",
-    "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." : "Enw annilys, ni chaniateir, '\\', '/', '<', '>', ':', '\"', '|', '?' na '*'.",
     "No file was uploaded. Unknown error" : "Ni lwythwyd ffeil i fyny. Gwall anhysbys.",
     "There is no error, the file uploaded with success" : "Does dim gwall, llwythodd y ffeil i fyny'n llwyddiannus",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini: " : "Mae'r ffeil lwythwyd i fyny'n fwy na chyfarwyddeb upload_max_filesize yn php.ini:",
@@ -32,6 +30,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["","","",""],
     "_%n file_::_%n files_" : ["","","",""],
     "_Uploading %n file_::_Uploading %n files_" : ["","","",""],
+    "File name cannot be empty." : "Does dim hawl cael enw ffeil gwag.",
     "Your storage is full, files can not be updated or synced anymore!" : "Mae eich storfa'n llawn, ni ellir diweddaru a chydweddu ffeiliau mwyach!",
     "Your storage is almost full ({usedSpacePercent}%)" : "Mae eich storfa bron a bod yn llawn ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["","","",""],

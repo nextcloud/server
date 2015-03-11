@@ -20,6 +20,8 @@
     "Users" : "Pengguna",
     "Admin" : "Admin",
     "Recommended" : "Direkomendasikan",
+    "App \"%s\" cannot be installed because it is not compatible with this version of ownCloud." : "Aplikasi \"%s\" tidak dapat diinstal karena tidak kompatibel dengan ownCloud versi ini.",
+    "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "Aplikasi \"%s\" tidak dapat diinstal karena dependensi berikut belum terpenuhi: %s",
     "No app name specified" : "Tidak ada nama apl yang ditentukan",
     "Unknown filetype" : "Tipe berkas tak dikenal",
     "Invalid image" : "Gambar tidak sah",
@@ -108,7 +110,9 @@
     "Please install one of these locales on your system and restart your webserver." : "Mohon instal paling tidak satu lokal pada sistem Anda dan jalankan ulang server web.",
     "Please ask your server administrator to install the module." : "Mohon tanyakan administrator Anda untuk menginstal module.",
     "PHP module %s not installed." : "Module PHP %s tidak terinstal.",
-    "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Mohon tanyakan administrator Anda untuk memperbarui PHP ke versi terkini. Versi PHP Anda tidak lagi didukung oleh ownCloud dan komunitas PHP.",
+    "PHP setting \"%s\" is not set to \"%s\"." : "Pengaturan PHP \"%s\" tidak diatur ke \"%s\".",
+    "Adjusting this setting in php.ini will make ownCloud run again" : "Menyesuaikan pengaturan ini dalam php.ini akan menyebabkan ownCloud berjalan kembali",
+    "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Silakan minta administrator Anda untuk memperbarui PHP ke versi terkini. Versi PHP Anda tidak lagi didukung oleh ownCloud dan komunitas PHP.",
     "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "Untuk memperbaiki masalah ini, atur <code>always_populate_raw_post_data</code> menjadi <code>-1</code> pada berkas php.ini",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Tampaknya pengaturan PHP strip inline doc blocks. Hal ini akan membuat beberapa aplikasi inti tidak dapat diakses.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Hal ini kemungkinan disebabkan oleh cache/akselerator seperti Zend OPcache atau eAccelerator.",
@@ -121,7 +125,7 @@
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Mohon ubah perizinan menjadi 0770 sehingga direktori tersebut tidak dapat dilihat oleh pengguna lain.",
     "Data directory (%s) is readable by other users" : "Direktori data (%s) dapat dibaca oleh pengguna lain",
     "Data directory (%s) is invalid" : "Direktori data (%s) tidak sah",
-    "Please check that the data directory contains a file \".ocdata\" in its root." : "Mohon periksa apakah direktori data berisi sebuah berkas \".ocdata\".",
+    "Please check that the data directory contains a file \".ocdata\" in its root." : "Mohon periksa apakah direktori data berisi sebuah berkas \".ocdata\" di direktori induknya.",
     "Could not obtain lock type %d on \"%s\"." : "Tidak bisa memperoleh jenis kunci %d pada \"%s\"."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

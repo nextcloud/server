@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "Could not move %s - File with this name already exists" : "Gat ekki fært %s - Skrá með þessu nafni er þegar til",
     "Could not move %s" : "Gat ekki fært %s",
-    "File name cannot be empty." : "Nafn skráar má ekki vera tómt",
-    "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." : "Ógilt nafn, táknin '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' eru ekki leyfð.",
     "No file was uploaded. Unknown error" : "Engin skrá var send inn. Óþekkt villa.",
     "There is no error, the file uploaded with success" : "Engin villa, innsending heppnaðist",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini: " : "Innsend skrá er stærri en upload_max stillingin í php.ini:",
@@ -31,6 +29,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["",""],
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
+    "File name cannot be empty." : "Nafn skráar má ekki vera tómt",
     "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "File handling" : "Meðhöndlun skrár",
     "Maximum upload size" : "Hámarks stærð innsendingar",

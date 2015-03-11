@@ -2,7 +2,6 @@ OC.L10N.register(
     "files",
     {
     "Unknown error" : "Error Incognite",
-    "File name cannot be empty." : "Le nomine de file non pote esser vacue.",
     "The uploaded file was only partially uploaded" : "Le file incargate solmente esseva incargate partialmente",
     "No file was uploaded" : "Nulle file esseva incargate.",
     "Missing a temporary folder" : "Manca un dossier temporari",
@@ -18,6 +17,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["",""],
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
+    "File name cannot be empty." : "Le nomine de file non pote esser vacue.",
     "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "A new file or folder has been <strong>created</strong>" : "Un nove file o dossier ha essite <strong>create</strong>",
     "A file or folder has been <strong>changed</strong>" : "Un nove file o dossier ha essite <strong>modificate</strong>",
