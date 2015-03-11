@@ -235,7 +235,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		OC.Settings.Apps.hideErrorMessage(appId);
 		$.post(OC.filePath('settings','ajax','updateapp.php'),{appid:appId},function(result) {
 			if(!result || result.status !== 'success') {
-				OC.Settings.Apps.showErrorMessage(appId, t('settings','Error while updating app'));
+				if (result.data && result.data.message) {
+					OC.Settings.Apps.showErrorMessage(appId, result.data.message);
+				} else {
+					OC.Settings.Apps.showErrorMessage(appId, t('settings','Error while updating app'));
+				}
 				element.val(oldButtonText);
 			}
 			else {
