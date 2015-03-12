@@ -1443,6 +1443,17 @@ class Access extends LDAPUtility implements user\IUserTools {
 				}
 
 			}
+		} else if($this->connection->hasPagedResultSupport && $limit === 0) {
+			// a search without limit was requested. However, if we do use
+			// Paged Search once, we always must do it. This requires us to
+			// initialize it with the configured page size.
+			$this->abandonPagedSearch();
+			// in case someone set it to 0 … use 500, otherwise no results will
+			// be returned.
+			$pageSize = intval($this->connection->ldapPagingSize) > 0 ? intval($this->connection->ldapPagingSize) : 500;
+			$pagedSearchOK = $this->ldap->controlPagedResult(
+				$this->connection->getConnectionResource(), $pageSize, false, ''
+			);
 		}
 
 		return $pagedSearchOK;
