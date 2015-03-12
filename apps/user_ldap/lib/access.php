@@ -1372,7 +1372,8 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 * @return void
 	 */
 	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
-		if(!empty($cookie)) {
+		// allow '0' for 389ds
+		if(!empty($cookie) || $cookie === '0') {
 			$cacheKey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' .intval($limit) . '-' . intval($offset);
 			$this->cookies[$cacheKey] = $cookie;
 			$this->lastCookie = $cookie;
@@ -1410,11 +1411,12 @@ class Access extends LDAPUtility implements user\IUserTools {
 			foreach($bases as $base) {
 
 				$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
-				if(empty($cookie) && ($offset > 0)) {
+				if(empty($cookie) && $cookie !== "0" && ($offset > 0)) {
 					// no cookie known, although the offset is not 0. Maybe cache run out. We need
 					// to start all over *sigh* (btw, Dear Reader, did you know LDAP paged
 					// searching was designed by MSFT?)
 					// 		Lukas: No, but thanks to reading that source I finally know!
+					// '0' is valid, because 389ds
 					$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
 					//a bit recursive, $offset of 0 is the exit
 					\OCP\Util::writeLog('user_ldap', 'Looking for cookie L/O '.$limit.'/'.$reOffset, \OCP\Util::INFO);
@@ -1422,7 +1424,8 @@ class Access extends LDAPUtility implements user\IUserTools {
 					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
 					//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
 					//TODO: remember this, probably does not change in the next request...
-					if(empty($cookie)) {
+					if(empty($cookie) && $cookie !== '0') {
+						// '0' is valid, because 389ds
 						$cookie = null;
 					}
 				}
