@@ -23,7 +23,7 @@ interface IProvider {
 	 * @param \OCP\Files\FileInfo $file
 	 * @return bool
 	 */
-	public function isAvailable($file);
+	public function isAvailable(\OCP\Files\FileInfo $file);
 
 	/**
 	 * get thumbnail for file at path $path

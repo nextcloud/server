@@ -18,7 +18,7 @@ class TXT extends Provider {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function isAvailable($file) {
+	public function isAvailable(\OCP\Files\FileInfo $file) {
 		return $file->getSize() > 5;
 	}
 

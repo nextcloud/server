@@ -26,7 +26,7 @@ abstract class Provider implements IProvider {
 	 * @param \OCP\Files\FileInfo $file
 	 * @return bool
 	 */
-	public function isAvailable($file) {
+	public function isAvailable(\OCP\Files\FileInfo $file) {
 		return true;
 	}
 
