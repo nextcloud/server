@@ -82,7 +82,8 @@ class Application extends App {
 				$c->query('Cache'),
 				$c->query('L10N'),
 				$c->query('UserManager'),
-				$c->query('UserSession')
+				$c->query('UserSession'),
+				$c->query('UserFolder')
 			);
 		});
 
@@ -116,6 +117,10 @@ class Application extends App {
 		$container->registerService('Cache', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getCache();
 		});
+		$container->registerService('UserFolder', function(SimpleContainer $c) {
+			return $c->query('ServerContainer')->getUserFolder();
+		});
+
 
 
 		$container->registerService('Defaults', function() {
