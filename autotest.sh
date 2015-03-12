@@ -17,6 +17,7 @@ set -e
 #$EXECUTOR_NUMBER is set by Jenkins and allows us to run autotest in parallel
 DATABASENAME=oc_autotest$EXECUTOR_NUMBER
 DATABASEUSER=oc_autotest$EXECUTOR_NUMBER
+DATABASEHOST=localhost
 ADMINLOGIN=admin$EXECUTOR_NUMBER
 BASEDIR=$PWD
 
@@ -72,6 +73,11 @@ if [ -f config/config.php ] && [ ! -f config/config-autotest-backup.php ]; then
 fi
 
 function cleanup_config {
+	if [ ! -z "$DOCKER_CONTAINER_ID" ]; then
+		echo "Kill the docker $DOCKER_CONTAINER_ID"
+		docker rm -f $DOCKER_CONTAINER_ID
+	fi
+
 	cd "$BASEDIR"
 	# Restore existing config
 	if [ -f config/config-autotest-backup.php ]; then
@@ -117,13 +123,22 @@ function execute_tests {
 		dropdb -U $DATABASEUSER $DATABASENAME || true
 	fi
 	if [ "$1" == "oci" ] ; then
+		echo "Fire up the oracle docker"
+		DOCKER_CONTAINER_ID=`docker run -d wnameless/oracle-xe-11g`
+		DATABASEHOST=`docker inspect $DOCKER_CONTAINER_ID | grep IPAddress | cut -d '"' -f 4`
+
+		echo "Waiting 60 seconds for Oracle initialization ... "
+		sleep 60
+
 		echo "drop the database"
-		sqlplus -s -l / as sysdba <<EOF
+		echo "sqlplus -s -l system/oracle@//$DATABASEHOST:1521/xe"
+
+		sqlplus -s -l system/oracle@//$DATABASEHOST:1521/xe <<EOF
 			drop user $DATABASENAME cascade;
 EOF
 
 		echo "create the database"
-		sqlplus -s -l / as sysdba <<EOF
+		sqlplus -s -l system/oracle@//$DATABASEHOST:1521/xe <<EOF
 			create user $DATABASENAME identified by owncloud;
 			alter user $DATABASENAME default tablespace users
 			temporary tablespace temp
@@ -145,7 +160,7 @@ EOF
 
 	# trigger installation
 	echo "Installing ...."
-	./occ maintenance:install --database=$1 --database-name=$DATABASENAME --database-host=localhost --database-user=$DATABASEUSER --database-pass=owncloud --database-table-prefix=oc_ --admin-user=$ADMINLOGIN --admin-pass=admin --data-dir=$DATADIR
+	./occ maintenance:install --database=$1 --database-name=$DATABASENAME --database-host=$DATABASEHOST --database-user=$DATABASEUSER --database-pass=owncloud --database-table-prefix=oc_ --admin-user=$ADMINLOGIN --admin-pass=admin --data-dir=$DATADIR
 
 	#test execution
 	echo "Testing with $1 ..."
