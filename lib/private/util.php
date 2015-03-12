@@ -583,7 +583,7 @@ class OC_Util {
 				'DOMDocument' => 'dom',
 				'XMLWriter' => 'XMLWriter'
 			),
-			'functions' => array(
+			'functions' => [
 				'xml_parser_create' => 'libxml',
 				'mb_detect_encoding' => 'mb multibyte',
 				'ctype_digit' => 'ctype',
@@ -592,8 +592,9 @@ class OC_Util {
 				'gzencode' => 'zlib',
 				'iconv' => 'iconv',
 				'simplexml_load_string' => 'SimpleXML',
-				'hash' => 'HASH Message Digest Framework'
-			),
+				'hash' => 'HASH Message Digest Framework',
+				'curl_init' => 'cURL',
+			],
 			'defined' => array(
 				'PDO::ATTR_DRIVER_NAME' => 'PDO'
 			),
