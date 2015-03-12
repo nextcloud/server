@@ -6,7 +6,12 @@ use OCP\Preview\IProvider;
 abstract class Provider implements IProvider {
 	private $options;
 
-	public function __construct($options) {
+	/**
+	 * Constructor
+	 *
+	 * @param array $options
+	 */
+	public function __construct(array $options = []) {
 		$this->options = $options;
 	}
 

@@ -8,11 +8,13 @@
  */
 namespace OC;
 
-use OCP\Image;
 use OCP\IPreview;
 use OCP\Preview\IProvider;
 
 class PreviewManager implements IPreview {
+	/** @var \OCP\IConfig */
+	protected $config;
+
 	/** @var array */
 	protected $providers = [];
 
@@ -21,8 +23,11 @@ class PreviewManager implements IPreview {
 
 	/**
 	 * Constructor
+	 *
+	 * @param \OCP\IConfig $config
 	 */
-	public function __construct() {
+	public function __construct(\OCP\IConfig $config) {
+		$this->config = $config;
 		$this->registerCoreProviders();
 	}
 
@@ -37,7 +42,7 @@ class PreviewManager implements IPreview {
 	 * @return void
 	 */
 	public function registerProvider($mimeTypeRegex, \Closure $callable) {
-		if (!\OC::$server->getConfig()->getSystemValue('enable_previews', true)) {
+		if (!$this->config->getSystemValue('enable_previews', true)) {
 			return;
 		}
 
@@ -87,7 +92,7 @@ class PreviewManager implements IPreview {
 	 * @return boolean
 	 */
 	public function isMimeSupported($mimeType = '*') {
-		if (!\OC::$server->getConfig()->getSystemValue('enable_previews', true)) {
+		if (!$this->config->getSystemValue('enable_previews', true)) {
 			return false;
 		}
 
@@ -107,7 +112,7 @@ class PreviewManager implements IPreview {
 	 * @return bool
 	 */
 	public function isAvailable(\OCP\Files\FileInfo $file) {
-		if (!\OC::$server->getConfig()->getSystemValue('enable_previews', true)) {
+		if (!$this->config->getSystemValue('enable_previews', true)) {
 			return false;
 		}
 
@@ -165,7 +170,7 @@ class PreviewManager implements IPreview {
 			return $this->defaultProviders;
 		}
 
-		$this->defaultProviders = \OC::$server->getConfig()->getSystemValue('enabledPreviewProviders', [
+		$this->defaultProviders = $this->config->getSystemValue('enabledPreviewProviders', [
 			'OC\Preview\Image',
 			'OC\Preview\MP3',
 			'OC\Preview\TXT',
@@ -180,10 +185,10 @@ class PreviewManager implements IPreview {
 	 * @param string $class
 	 * @param string $mimeType
 	 */
-	protected function registerCoreProvider($class, $mimeType) {
+	protected function registerCoreProvider($class, $mimeType, $options = []) {
 		if (in_array(trim($class, '\\'), $this->getEnabledDefaultProvider())) {
-			$this->registerProvider($mimeType, function () use ($class) {
-				return new $class([]);
+			$this->registerProvider($mimeType, function () use ($class, $options) {
+				return new $class($options);
 			});
 		}
 	}
@@ -225,7 +230,7 @@ class PreviewManager implements IPreview {
 			if (count($checkImagick->queryFormats('PDF')) === 1) {
 				// Office previews are currently not supported on Windows
 				if (!\OC_Util::runningOnWindows() && \OC_Helper::is_function_enabled('shell_exec')) {
-					$officeFound = is_string(\OC::$server->getConfig()->getSystemValue('preview_libreoffice_path', null));
+					$officeFound = is_string($this->config->getSystemValue('preview_libreoffice_path', null));
 
 					if (!$officeFound) {
 						//let's see if there is libreoffice or openoffice on this machine
