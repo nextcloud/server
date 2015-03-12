@@ -26,7 +26,11 @@ try {
 
 	if (\OCP\Util::needUpgrade()) {
 		\OCP\Util::writeLog('cron', 'Update required, skipping cron', \OCP\Util::DEBUG);
-		exit();
+		exit;
+	}
+	if (\OC::$server->getSystemConfig()->getValue('maintenance', false)) {
+		\OCP\Util::writeLog('cron', 'We are in maintenance mode, skipping cron', \OCP\Util::DEBUG);
+		exit;
 	}
 
 	// load all apps to get all api routes properly setup
