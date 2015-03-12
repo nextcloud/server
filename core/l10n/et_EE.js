@@ -123,8 +123,6 @@ OC.L10N.register(
     "New Password" : "Uus parool",
     "Reset password" : "Nulli parool",
     "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X ei ole toetatud ja %s ei pruugi korralikult toimida sellel platvormil. Kasuta seda omal vastutusel!",
-    "For the best results, please consider using a GNU/Linux server instead." : "Parema tulemuse saavitamiseks palun kaalu serveris GNU/Linux kasutamist.",
     "Personal" : "Isiklik",
     "Users" : "Kasutajad",
     "Apps" : "Rakendused",

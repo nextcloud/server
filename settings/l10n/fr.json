@@ -48,7 +48,7 @@
     "Forbidden" : "Iinterdit",
     "Invalid user" : "Utilisateur non valide",
     "Unable to change mail address" : "Impossible de modifier l'adresse de courriel",
-    "Email saved" : "E-mail sauvegardé",
+    "Email saved" : "Email sauvegardé",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Êtes-vous vraiment sûr de vouloir ajouter \"{domain}\" comme domaine de confiance ?",
     "Add trusted domain" : "Ajouter un domaine de confiance",
     "Sending..." : "Envoi en cours...",

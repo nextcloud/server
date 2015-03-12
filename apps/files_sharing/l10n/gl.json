@@ -20,7 +20,7 @@
     "Cancel" : "Cancelar",
     "Add remote share" : "Engadir unha compartición remota",
     "No ownCloud installation (7 or higher) found at {remote}" : "Non se atopa unha instalación de ownCloud (7 ou superior) en {remote}",
-    "Invalid ownCloud url" : "URL incorrecta do ownCloud",
+    "Invalid ownCloud url" : "URL incorrecto do ownCloud",
     "Share" : "Compartir",
     "Shared by" : "Compartido por",
     "A file or folder has been <strong>shared</strong>" : "<strong>Compartiuse</strong> un ficheiro ou cartafol",

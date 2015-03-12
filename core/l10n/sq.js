@@ -123,8 +123,6 @@ OC.L10N.register(
     "New Password" : "Fjalëkalim i ri",
     "Reset password" : "Rivendos kodin",
     "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X nuk është i mbështetur dhe %s nuk do të funksionojë si duhet në këtë platformë. Përdoreni nën përgjegjësinë tuaj!",
-    "For the best results, please consider using a GNU/Linux server instead." : "Për të arritur rezultatet më të mira të mundshme, ju lutem më mirë konsideroni përdorimin e një serveri GNU/Linux.",
     "Personal" : "Personale",
     "Users" : "Përdoruesit",
     "Apps" : "App",

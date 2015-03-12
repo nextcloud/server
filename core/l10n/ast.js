@@ -117,8 +117,6 @@ OC.L10N.register(
     "New Password" : "Contraseña nueva",
     "Reset password" : "Restablecer contraseña",
     "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X nun ta sofitáu y %s nun furrulará afayadizamente nesta plataforma. ¡Úsalu baxo'l to riesgu!",
-    "For the best results, please consider using a GNU/Linux server instead." : "Pa los meyores resultaos, por favor considera l'usu d'un sirvidor GNU/Linux nel so llugar.",
     "Personal" : "Personal",
     "Users" : "Usuarios",
     "Apps" : "Aplicaciones",

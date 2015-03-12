@@ -10,7 +10,7 @@
     "Error when creating the file" : "Fehler beim Erstellen der Datei",
     "Error when creating the folder" : "Fehler beim Erstellen des Ordners",
     "Unable to set upload directory." : "Das Upload-Verzeichnis konnte nicht gesetzt werden.",
-    "Invalid Token" : "Ungültiges Merkmal",
+    "Invalid Token" : "Ungültiger Token",
     "No file was uploaded. Unknown error" : "Keine Datei hochgeladen. Unbekannter Fehler",
     "There is no error, the file uploaded with success" : "Es ist kein Fehler aufgetreten. Die Datei wurde erfolgreich hochgeladen.",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini: " : "Die hochgeladene Datei überschreitet die upload_max_filesize Vorgabe in php.ini",

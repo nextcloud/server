@@ -90,7 +90,6 @@ OC.L10N.register(
     "New password" : "Nuwe wagwoord",
     "Reset password" : "Herstel wagwoord",
     "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
-    "For the best results, please consider using a GNU/Linux server instead." : "Oorweeg die gebruik van 'n GNU/Linux bediener vir die beste resultate.",
     "Personal" : "Persoonlik",
     "Users" : "Gebruikers",
     "Apps" : "Toepassings",

@@ -118,8 +118,6 @@
     "New Password" : "新密碼",
     "Reset password" : "重設密碼",
     "_{count} search result in other places_::_{count} search results in other places_" : [""],
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "不支援 Mac OS X 而且 %s 在這個平台上面無法正常運作，請自行衡量風險！",
-    "For the best results, please consider using a GNU/Linux server instead." : "請考慮使用 GNU/Linux 伺服器以取得最好的效果",
     "Personal" : "個人",
     "Users" : "使用者",
     "Apps" : "應用程式",

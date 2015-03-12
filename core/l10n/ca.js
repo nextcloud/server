@@ -132,8 +132,6 @@ OC.L10N.register(
     "Searching other places" : "Buscant altres ubicacions",
     "No search result in other places" : "No s'han trobat resultats en altres ubicacions",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} resultat de cerca en altres ubicacions","{count} resultats de cerca en altres ubicacions"],
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X no té suport i %s no funcionarà correctament en aquesta plataforma. Useu-ho al vostre risc!",
-    "For the best results, please consider using a GNU/Linux server instead." : "Per millors resultats, millor considereu utilitzar un servidor GNU/Linux.",
     "Personal" : "Personal",
     "Users" : "Usuaris",
     "Apps" : "Aplicacions",
