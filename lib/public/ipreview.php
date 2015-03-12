@@ -50,6 +50,18 @@ interface IPreview {
 	public function registerProvider($mimeTypeRegex, \Closure $callable);
 
 	/**
+	 * Get all providers
+	 * @return array
+	 */
+	public function getProviders();
+
+	/**
+	 * Does the manager have any providers
+	 * @return bool
+	 */
+	public function hasProviders();
+
+	/**
 	 * Return a preview of a file
 	 * @param string $file The path to the file where you want a thumbnail from
 	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image

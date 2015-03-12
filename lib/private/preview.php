@@ -50,11 +50,6 @@ class Preview {
 	 */
 	private $preview;
 
-	//preview providers
-	static private $providers = array();
-	static private $registeredProviders = array();
-	static private $enabledProviders = array();
-
 	/**
 	 * @var \OCP\Files\FileInfo
 	 */
@@ -95,11 +90,7 @@ class Preview {
 		$this->preview = null;
 
 		//check if there are preview backends
-		if (empty(self::$providers)) {
-			self::initProviders();
-		}
-
-		if (empty(self::$providers) && \OC::$server->getConfig()->getSystemValue('enable_previews', true)) {
+		if (!\OC::$server->getPreviewManager()->hasProviders() && \OC::$server->getConfig()->getSystemValue('enable_previews', true)) {
 			\OC_Log::write('core', 'No preview providers exist', \OC_Log::ERROR);
 			throw new \Exception('No preview providers');
 		}
@@ -510,37 +501,45 @@ class Preview {
 		if (is_null($this->preview)) {
 			$preview = null;
 
-			foreach (self::getProviders() as $supportedMimeType => $provider) {
+			$previewProviders = \OC::$server->getPreviewManager()->getProviders();
+			foreach ($previewProviders as $supportedMimeType => $providers) {
 				if (!preg_match($supportedMimeType, $this->mimeType)) {
 					continue;
 				}
 
-				\OC_Log::write('core', 'Generating preview for "' . $file . '" with "' . get_class($provider) . '"', \OC_Log::DEBUG);
+				foreach ($providers as $closure) {
+					$provider = $closure();
+					if (!($provider instanceof \OC\Preview\Provider)) {
+						continue;
+					}
 
-				/** @var $provider Provider */
-				$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingUp, $this->fileView);
+					\OC_Log::write('core', 'Generating preview for "' . $file . '" with "' . get_class($provider) . '"', \OC_Log::DEBUG);
 
-				if (!($preview instanceof \OC_Image)) {
-					continue;
+					/** @var $provider Provider */
+					$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingUp, $this->fileView);
+
+					if (!($preview instanceof \OC_Image)) {
+						continue;
+					}
+
+					$this->preview = $preview;
+					$this->resizeAndCrop();
+
+					$previewPath = $this->getPreviewPath($fileId);
+					$cachePath = $this->buildCachePath($fileId);
+
+					if ($this->userView->is_dir($this->getThumbnailsFolder() . '/') === false) {
+						$this->userView->mkdir($this->getThumbnailsFolder() . '/');
+					}
+
+					if ($this->userView->is_dir($previewPath) === false) {
+						$this->userView->mkdir($previewPath);
+					}
+
+					$this->userView->file_put_contents($cachePath, $preview->data());
+
+					break 2;
 				}
-
-				$this->preview = $preview;
-				$this->resizeAndCrop();
-
-				$previewPath = $this->getPreviewPath($fileId);
-				$cachePath = $this->buildCachePath($fileId);
-
-				if ($this->userView->is_dir($this->getThumbnailsFolder() . '/') === false) {
-					$this->userView->mkdir($this->getThumbnailsFolder() . '/');
-				}
-
-				if ($this->userView->is_dir($previewPath) === false) {
-					$this->userView->mkdir($previewPath);
-				}
-
-				$this->userView->file_put_contents($cachePath, $preview->data());
-
-				break;
 			}
 		}
 
@@ -682,154 +681,6 @@ class Preview {
 
 			$this->preview = $image;
 			return;
-		}
-	}
-
-	/**
-	 * register a new preview provider to be used
-	 * @param string $class
-	 * @param array $options
-	 */
-	public static function registerProvider($class, $options = array()) {
-		/**
-		 * Only register providers that have been explicitly enabled
-		 *
-		 * The following providers are enabled by default:
-		 *  - OC\Preview\Image
-		 *  - OC\Preview\MP3
-		 *  - OC\Preview\TXT
-		 *  - OC\Preview\MarkDown
-		 *
-		 * The following providers are disabled by default due to performance or privacy concerns:
-		 *  - OC\Preview\MSOfficeDoc
-		 *  - OC\Preview\MSOffice2003
-		 *  - OC\Preview\MSOffice2007
-		 *  - OC\Preview\OpenDocument
-		 *  - OC\Preview\StarOffice
- 		 *  - OC\Preview\SVG
-		 *  - OC\Preview\Movie
-		 *  - OC\Preview\PDF
-		 *  - OC\Preview\TIFF
-		 *  - OC\Preview\Illustrator
-		 *  - OC\Preview\Postscript
-		 *  - OC\Preview\Photoshop
-		 *  - OC\Preview\Font
-		 */
-		if(empty(self::$enabledProviders)) {
-			self::$enabledProviders = \OC::$server->getConfig()->getSystemValue('enabledPreviewProviders', array(
-				'OC\Preview\Image',
-				'OC\Preview\MP3',
-				'OC\Preview\TXT',
-				'OC\Preview\MarkDown',
-			));
-		}
-
-		if(in_array($class, self::$enabledProviders)) {
-			self::$registeredProviders[] = array('class' => $class, 'options' => $options);
-		}
-	}
-
-	/**
-	 * create instances of all the registered preview providers
-	 * @return void
-	 */
-	private static function initProviders() {
-		if (!\OC::$server->getConfig()->getSystemValue('enable_previews', true)) {
-			self::$providers = array();
-			return;
-		}
-
-		if (!empty(self::$providers)) {
-			return;
-		}
-
-		self::registerCoreProviders();
-		foreach (self::$registeredProviders as $provider) {
-			$class = $provider['class'];
-			$options = $provider['options'];
-
-			/** @var $object Provider */
-			$object = new $class($options);
-			self::$providers[$object->getMimeType()] = $object;
-		}
-
-		$keys = array_map('strlen', array_keys(self::$providers));
-		array_multisort($keys, SORT_DESC, self::$providers);
-	}
-
-	protected static function getProviders() {
-		if (empty(self::$providers)) {
-			self::initProviders();
-		}
-
-		return self::$providers;
-	}
-
-	protected static function registerCoreProviders() {
-		self::registerProvider('OC\Preview\TXT');
-		self::registerProvider('OC\Preview\MarkDown');
-		self::registerProvider('OC\Preview\Image');
-		self::registerProvider('OC\Preview\MP3');
-
-		// SVG, Office and Bitmap require imagick
-		if (extension_loaded('imagick')) {
-			$checkImagick = new \Imagick();
-
-			$imagickProviders = array(
-				'SVG'	=> 'OC\Preview\SVG',
-				'TIFF'	=> 'OC\Preview\TIFF',
-				'PDF'	=> 'OC\Preview\PDF',
-				'AI'	=> 'OC\Preview\Illustrator',
-				'PSD'	=> 'OC\Preview\Photoshop',
-				'EPS'	=> 'OC\Preview\Postscript',
-				'TTF'	=> 'OC\Preview\Font',
-			);
-
-			foreach ($imagickProviders as $queryFormat => $provider) {
-				if (count($checkImagick->queryFormats($queryFormat)) === 1) {
-					self::registerProvider($provider);
-				}
-			}
-
-			if (count($checkImagick->queryFormats('PDF')) === 1) {
-				// Office previews are currently not supported on Windows
-				if (!\OC_Util::runningOnWindows() && \OC_Helper::is_function_enabled('shell_exec')) {
-					$officeFound = is_string(\OC::$server->getConfig()->getSystemValue('preview_libreoffice_path', null));
-
-					if (!$officeFound) {
-						//let's see if there is libreoffice or openoffice on this machine
-						$whichLibreOffice = shell_exec('command -v libreoffice');
-						$officeFound = !empty($whichLibreOffice);
-						if (!$officeFound) {
-							$whichOpenOffice = shell_exec('command -v openoffice');
-							$officeFound = !empty($whichOpenOffice);
-						}
-					}
-
-					if ($officeFound) {
-						self::registerProvider('OC\Preview\MSOfficeDoc');
-						self::registerProvider('OC\Preview\MSOffice2003');
-						self::registerProvider('OC\Preview\MSOffice2007');
-						self::registerProvider('OC\Preview\OpenDocument');
-						self::registerProvider('OC\Preview\StarOffice');
-					}
-				}
-			}
-		}
-
-		// Video requires avconv or ffmpeg and is therefor
-		// currently not supported on Windows.
-		if (!\OC_Util::runningOnWindows()) {
-			$avconvBinary = \OC_Helper::findBinaryPath('avconv');
-			$ffmpegBinary = ($avconvBinary) ? null : \OC_Helper::findBinaryPath('ffmpeg');
-
-			if ($avconvBinary || $ffmpegBinary) {
-				// FIXME // a bit hacky but didn't want to use subclasses
-				\OC\Preview\Movie::$avconvBinary = $avconvBinary;
-				\OC\Preview\Movie::$ffmpegBinary = $ffmpegBinary;
-
-				self::registerProvider('OC\Preview\Movie');
-			}
 		}
 	}
 
