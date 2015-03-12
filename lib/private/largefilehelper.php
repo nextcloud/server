@@ -94,15 +94,15 @@ class LargeFileHelper {
 	/**
 	* @brief Tries to get the size of a file via a CURL HEAD request.
 	*
-	* @param string $filename Path to the file.
+	* @param string $fileName Path to the file.
 	*
 	* @return null|int|float Number of bytes as number (float or int) or
 	*                        null on failure.
 	*/
-	public function getFileSizeViaCurl($filename) {
-		if (function_exists('curl_init') && \OC::$server->getIniWrapper()->getString('open_basedir') === '') {
-			$fencoded = rawurlencode($filename);
-			$ch = curl_init("file://$fencoded");
+	public function getFileSizeViaCurl($fileName) {
+		if (\OC::$server->getIniWrapper()->getString('open_basedir') === '') {
+			$encodedFileName = rawurlencode($fileName);
+			$ch = curl_init("file://$encodedFileName");
 			curl_setopt($ch, CURLOPT_NOBODY, true);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HEADER, true);
@@ -129,8 +129,8 @@ class LargeFileHelper {
 	*/
 	public function getFileSizeViaCOM($filename) {
 		if (class_exists('COM')) {
-			$fsobj = new \COM("Scripting.FileSystemObject");
-			$file = $fsobj->GetFile($filename);
+			$fsObj = new \COM("Scripting.FileSystemObject");
+			$file = $fsObj->GetFile($filename);
 			return 0 + $file->Size;
 		}
 		return null;

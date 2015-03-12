@@ -60,82 +60,68 @@ class HTTPHelper {
 
 		$proxy = $this->config->getSystemValue('proxy', null);
 		$proxyUserPwd = $this->config->getSystemValue('proxyuserpwd', null);
-		if (function_exists('curl_init')) {
-			$curl = curl_init();
-			$max_redirects = 10;
+		$curl = curl_init();
+		$max_redirects = 10;
 
-			curl_setopt($curl, CURLOPT_HEADER, 0);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
-			curl_setopt($curl, CURLOPT_URL, $url);
-			curl_setopt($curl, CURLOPT_PROTOCOLS,  CURLPROTO_HTTP | CURLPROTO_HTTPS);
-			curl_setopt($curl, CURLOPT_REDIR_PROTOCOLS,  CURLPROTO_HTTP | CURLPROTO_HTTPS);
+		curl_setopt($curl, CURLOPT_HEADER, 0);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_PROTOCOLS,  CURLPROTO_HTTP | CURLPROTO_HTTPS);
+		curl_setopt($curl, CURLOPT_REDIR_PROTOCOLS,  CURLPROTO_HTTP | CURLPROTO_HTTPS);
 
-			curl_setopt($curl, CURLOPT_USERAGENT, self::USER_AGENT);
-			if ($proxy !== null) {
-				curl_setopt($curl, CURLOPT_PROXY, $proxy);
-			}
-			if ($proxyUserPwd !== null) {
-				curl_setopt($curl, CURLOPT_PROXYUSERPWD, $proxyUserPwd);
-			}
-
-			if (ini_get('open_basedir') === '') {
-				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-				curl_setopt($curl, CURLOPT_MAXREDIRS, $max_redirects);
-				$data = curl_exec($curl);
-			} else {
-				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
-				$mr = $max_redirects;
-				if ($mr > 0) {
-					$newURL = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
-					$rcurl = curl_copy_handle($curl);
-					curl_setopt($rcurl, CURLOPT_HEADER, true);
-					curl_setopt($rcurl, CURLOPT_NOBODY, true);
-					curl_setopt($rcurl, CURLOPT_FORBID_REUSE, false);
-					curl_setopt($rcurl, CURLOPT_RETURNTRANSFER, true);
-					curl_setopt($rcurl, CURLOPT_USERAGENT, self::USER_AGENT);
-					do {
-						curl_setopt($rcurl, CURLOPT_URL, $newURL);
-						$header = curl_exec($rcurl);
-						if (curl_errno($rcurl)) {
-							$code = 0;
-						} else {
-							$code = curl_getinfo($rcurl, CURLINFO_HTTP_CODE);
-							if ($code == 301 || $code == 302) {
-								preg_match('/Location:(.*?)\n/', $header, $matches);
-								$newURL = trim(array_pop($matches));
-							} else {
-								$code = 0;
-							}
-						}
-					} while ($code && --$mr);
-					curl_close($rcurl);
-					if ($mr > 0) {
-						curl_setopt($curl, CURLOPT_URL, $newURL);
-					}
-				}
-
-				if ($mr == 0 && $max_redirects > 0) {
-					$data = false;
-				} else {
-					$data = curl_exec($curl);
-				}
-			}
-			curl_close($curl);
-		} else {
-			$url = $this->getFinalLocationOfURL($url);
-			$contextArray = $this->getDefaultContextArray();
-
-			if ($proxy !== null) {
-				$contextArray['http']['proxy'] = $proxy;
-			}
-
-			$ctx = stream_context_create(
-				$contextArray
-			);
-			$data = @file_get_contents($url, 0, $ctx);
-
+		curl_setopt($curl, CURLOPT_USERAGENT, self::USER_AGENT);
+		if ($proxy !== null) {
+			curl_setopt($curl, CURLOPT_PROXY, $proxy);
 		}
+		if ($proxyUserPwd !== null) {
+			curl_setopt($curl, CURLOPT_PROXYUSERPWD, $proxyUserPwd);
+		}
+
+		if (ini_get('open_basedir') === '') {
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($curl, CURLOPT_MAXREDIRS, $max_redirects);
+			$data = curl_exec($curl);
+		} else {
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+			$mr = $max_redirects;
+			if ($mr > 0) {
+				$newURL = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+				$rCurl = curl_copy_handle($curl);
+				curl_setopt($rCurl, CURLOPT_HEADER, true);
+				curl_setopt($rCurl, CURLOPT_NOBODY, true);
+				curl_setopt($rCurl, CURLOPT_FORBID_REUSE, false);
+				curl_setopt($rCurl, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($rCurl, CURLOPT_USERAGENT, self::USER_AGENT);
+				do {
+					curl_setopt($rCurl, CURLOPT_URL, $newURL);
+					$header = curl_exec($rCurl);
+					if (curl_errno($rCurl)) {
+						$code = 0;
+					} else {
+						$code = curl_getinfo($rCurl, CURLINFO_HTTP_CODE);
+						if ($code == 301 || $code == 302) {
+							preg_match('/Location:(.*?)\n/', $header, $matches);
+							$newURL = trim(array_pop($matches));
+						} else {
+							$code = 0;
+						}
+					}
+				} while ($code && --$mr);
+				curl_close($rCurl);
+				if ($mr > 0) {
+					curl_setopt($curl, CURLOPT_URL, $newURL);
+				}
+			}
+
+			if ($mr == 0 && $max_redirects > 0) {
+				$data = false;
+			} else {
+				$data = curl_exec($curl);
+			}
+		}
+		curl_close($curl);
+
 		return $data;
 	}
 
@@ -156,29 +142,6 @@ class HTTPHelper {
 	 */
 	public function isHTTPURL($url) {
 		return stripos($url, 'https://') === 0 || stripos($url, 'http://') === 0;
-	}
-
-	/**
-	 * Returns the last HTTP or HTTPS site the request has been redirected too using the Location HTTP header
-	 * This is a very ugly workaround about the missing functionality to restrict fopen() to protocols
-	 * @param string $location Needs to be a HTTPS or HTTP URL
-	 * @throws \Exception In case the initial URL is not a HTTP or HTTPS one
-	 * @return string
-	 */
-	public function getFinalLocationOfURL($location) {
-		if(!$this->isHTTPURL($location)) {
-			throw new \Exception('URL must begin with HTTPS or HTTP.');
-		}
-		$headerArray = $this->getHeaders($location, 1);
-
-		if($headerArray !== false && isset($headerArray['Location'])) {
-			while($this->isHTTPURL($headerArray['Location'])) {
-				$location = $headerArray['Location'];
-				$headerArray = $this->getHeaders($location);
-			}
-		}
-
-		return $location;
 	}
 
 	/**
