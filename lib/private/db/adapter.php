@@ -50,7 +50,7 @@ class Adapter {
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
 	public function insertIfNotExist($table, $input, array $compare = null) {
-		if ($compare === null) {
+		if (empty($compare)) {
 			$compare = array_keys($input);
 		}
 		$query = 'INSERT INTO `' .$table . '` (`'

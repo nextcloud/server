@@ -29,7 +29,7 @@ class AdapterSqlite extends Adapter {
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
 	public function insertIfNotExist($table, $input, array $compare = null) {
-		if ($compare === null) {
+		if (empty($compare)) {
 			$compare = array_keys($input);
 		}
 		$fieldList = '`' . implode('`,`', array_keys($input)) . '`';
