@@ -8,8 +8,9 @@
  */
 namespace OC;
 
-use OCP\image;
+use OCP\Image;
 use OCP\IPreview;
+use OCP\Preview\IProvider;
 
 class PreviewManager implements IPreview {
 	/** @var array */
@@ -29,7 +30,7 @@ class PreviewManager implements IPreview {
 	 * In order to improve lazy loading a closure can be registered which will be
 	 * called in case preview providers are actually requested
 	 *
-	 * $callable has to return an instance of \OC\Preview\Provider
+	 * $callable has to return an instance of \OCP\Preview\IProvider
 	 *
 	 * @param string $mimeTypeRegex Regex with the mime types that are supported by this provider
 	 * @param \Closure $callable
@@ -119,11 +120,11 @@ class PreviewManager implements IPreview {
 			if (preg_match($supportedMimeType, $file->getMimetype())) {
 				foreach ($providers as $closure) {
 					$provider = $closure();
-					if (!($provider instanceof \OC\Preview\Provider)) {
+					if (!($provider instanceof IProvider)) {
 						continue;
 					}
 
-					/** @var $provider \OC\Preview\Provider */
+					/** @var $provider IProvider */
 					if ($provider->isAvailable($file)) {
 						return true;
 					}

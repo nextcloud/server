@@ -509,7 +509,7 @@ class Preview {
 
 				foreach ($providers as $closure) {
 					$provider = $closure();
-					if (!($provider instanceof \OC\Preview\Provider)) {
+					if (!($provider instanceof \OCP\Preview\IProvider)) {
 						continue;
 					}
 
