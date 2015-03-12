@@ -69,7 +69,7 @@ interface IPreview {
 	 * @param boolean $scaleUp Scale smaller images up to the thumbnail size or not. Might look ugly
 	 * @return \OCP\Image
 	 */
-	function createPreview($file, $maxX = 100, $maxY = 75, $scaleUp = false);
+	public function createPreview($file, $maxX = 100, $maxY = 75, $scaleUp = false);
 
 
 	/**
@@ -77,7 +77,7 @@ interface IPreview {
 	 * @param string $mimeType
 	 * @return boolean
 	 */
-	function isMimeSupported($mimeType = '*');
+	public function isMimeSupported($mimeType = '*');
 
 	/**
 	 * Check if a preview can be generated for a file
@@ -85,5 +85,5 @@ interface IPreview {
 	 * @param \OCP\Files\FileInfo $file
 	 * @return bool
 	 */
-	function isAvailable($file);
+	public function isAvailable(\OCP\Files\FileInfo $file);
 }

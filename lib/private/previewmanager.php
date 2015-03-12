@@ -15,6 +15,9 @@ class PreviewManager implements IPreview {
 	/** @var array */
 	protected $providers = [];
 
+	/** @var array */
+	protected $defaultProviders;
+
 	/**
 	 * Constructor
 	 */
@@ -71,7 +74,7 @@ class PreviewManager implements IPreview {
 	 * @param boolean $scaleUp Scale smaller images up to the thumbnail size or not. Might look ugly
 	 * @return \OCP\Image
 	 */
-	function createPreview($file, $maxX = 100, $maxY = 75, $scaleUp = false) {
+	public function createPreview($file, $maxX = 100, $maxY = 75, $scaleUp = false) {
 		$preview = new \OC\Preview('', '/', $file, $maxX, $maxY, $scaleUp);
 		return $preview->getPreview();
 	}
@@ -82,7 +85,7 @@ class PreviewManager implements IPreview {
 	 * @param string $mimeType
 	 * @return boolean
 	 */
-	function isMimeSupported($mimeType = '*') {
+	public function isMimeSupported($mimeType = '*') {
 		if (!\OC::$server->getConfig()->getSystemValue('enable_previews', true)) {
 			return false;
 		}
@@ -102,7 +105,7 @@ class PreviewManager implements IPreview {
 	 * @param \OCP\Files\FileInfo $file
 	 * @return bool
 	 */
-	function isAvailable($file) {
+	public function isAvailable(\OCP\Files\FileInfo $file) {
 		if (!\OC::$server->getConfig()->getSystemValue('enable_previews', true)) {
 			return false;
 		}
@@ -129,9 +132,6 @@ class PreviewManager implements IPreview {
 		}
 		return false;
 	}
-
-	/** @var array */
-	protected $defaultProviders;
 
 	/**
 	 * List of enabled default providers
