@@ -333,6 +333,13 @@ GlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
 	applicableGroups: null,
 
 	/**
+	 * Storage priority
+	 *
+	 * @type int
+	 */
+	priority: null,
+
+	/**
 	 * Returns the data from this object
 	 *
 	 * @return {Array} JSON array of the data
@@ -342,6 +349,7 @@ GlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
 		return _.extend(data, {
 			applicableUsers: this.applicableUsers,
 			applicableGroups: this.applicableGroups,
+			priority: this.priority,
 		});
 	}
 });
@@ -546,6 +554,8 @@ MountConfigListView.prototype = {
 					highlightInput(newElement);
 					$td.append(newElement);
 				});
+				var priorityEl = $('<input type="hidden" class="priority" value="' + parameters['priority'] + '" />');
+				$tr.append(priorityEl);
 				if (parameters['custom'] && $el.find('tbody tr.'+backendClass.replace(/\\/g, '\\\\')).length === 1) {
 					OC.addScript('files_external', parameters['custom']);
 				}
@@ -627,6 +637,8 @@ MountConfigListView.prototype = {
 
 			storage.applicableUsers = users;
 			storage.applicableGroups = groups;
+
+			storage.priority = $tr.find('input.priority').val();
 		}
 
 		return storage;

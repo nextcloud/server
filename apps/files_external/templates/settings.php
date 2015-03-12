@@ -90,6 +90,9 @@
 													print_unescaped(json_encode($mount['applicable']['users'])); ?>'>
 					<input type="hidden" class="applicableUsers" style="width:20em;" value=""/>
 				</td>
+				<?php if (isset($mount['priority'])): ?>
+				<input type="hidden" class="priority" value="<?php p($mount['priority']) ?>" />
+				<?php endif; ?>
 				<?php endif; ?>
 				<td <?php if (isset($mount['mountpoint'])): ?>class="remove"
 					<?php else: ?>style="visibility:hidden;"
