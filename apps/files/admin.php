@@ -36,8 +36,6 @@ if($_POST && OC_Util::isCallRegistered()) {
 	}
 }
 
-OCP\App::setActiveNavigationEntry( "files_administration" );
-
 $htaccessWritable=is_writable(OC::$SERVERROOT.'/.htaccess');
 
 $tmpl = new OCP\Template( 'files', 'admin' );
