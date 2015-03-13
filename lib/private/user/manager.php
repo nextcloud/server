@@ -103,7 +103,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * get a user by user id
 	 *
 	 * @param string $uid
-	 * @return \OC\User\User
+	 * @return \OC\User\User|null Either the user or null if the specified user does not exist
 	 */
 	public function get($uid) {
 		if (isset($this->cachedUsers[$uid])) { //check the cache first to prevent having to loop over the backends

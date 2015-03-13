@@ -53,7 +53,7 @@ interface IUserManager {
 	 * get a user by user id
 	 *
 	 * @param string $uid
-	 * @return \OCP\IUser
+	 * @return \OCP\IUser|null Either the user or null if the specified user does not exist
 	 */
 	public function get($uid);
 
