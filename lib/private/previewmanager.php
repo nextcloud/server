@@ -16,6 +16,9 @@ class PreviewManager implements IPreview {
 	protected $config;
 
 	/** @var array */
+	protected $providerListDirty = false;
+
+	/** @var array */
 	protected $providers = [];
 
 	/** @var array mime type => support status */
@@ -57,6 +60,7 @@ class PreviewManager implements IPreview {
 			$this->providers[$mimeTypeRegex] = [];
 		}
 		$this->providers[$mimeTypeRegex][] = $callable;
+		$this->providerListDirty = true;
 	}
 
 	/**
@@ -64,8 +68,15 @@ class PreviewManager implements IPreview {
 	 * @return array
 	 */
 	public function getProviders() {
-		$keys = array_map('strlen', array_keys($this->providers));
-		array_multisort($keys, SORT_DESC, $this->providers);
+		if (!$this->config->getSystemValue('enable_previews', true)) {
+			return [];
+		}
+
+		if ($this->providerListDirty) {
+			$keys = array_map('strlen', array_keys($this->providers));
+			array_multisort($keys, SORT_DESC, $this->providers);
+			$this->providerListDirty = false;
+		}
 
 		return $this->providers;
 	}
