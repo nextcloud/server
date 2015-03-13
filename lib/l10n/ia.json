@@ -15,6 +15,7 @@
     "_%n hour ago_::_%n hours ago_" : ["","%n horas passate"],
     "_%n minute ago_::_%n minutes ago_" : ["","%n minutas passate"],
     "seconds ago" : "secundas passate",
-    "web services under your control" : "servicios web sub tu controlo"
+    "web services under your control" : "servicios web sub tu controlo",
+    "For the best results, please consider using a GNU/Linux server instead." : "Pro le exitos melior, pro favor tu considera usar in loco un servitor GNU/Linux."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

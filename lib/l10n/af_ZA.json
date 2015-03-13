@@ -12,6 +12,7 @@
     "_%n hour ago_::_%n hours ago_" : ["","%n ure gelede"],
     "_%n minute ago_::_%n minutes ago_" : ["",""],
     "seconds ago" : "sekondes gelede",
-    "web services under your control" : "webdienste onder jou beheer"
+    "web services under your control" : "webdienste onder jou beheer",
+    "For the best results, please consider using a GNU/Linux server instead." : "Oorweeg die gebruik van 'n GNU/Linux bediener vir die beste resultate."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

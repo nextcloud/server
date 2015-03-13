@@ -57,6 +57,8 @@
     "Oracle username and/or password not valid" : "Nome d'usuariu o contraseña d'Oracle non válidos",
     "Offending command was: \"%s\", name: %s, password: %s" : "El comandu infractor foi: \"%s\", nome: %s, contraseña: %s",
     "PostgreSQL username and/or password not valid" : "Nome d'usuariu o contraseña PostgreSQL non válidos",
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X nun ta sofitáu y %s nun furrulará afayadizamente nesta plataforma. ¡Úsalu baxo'l to riesgu!",
+    "For the best results, please consider using a GNU/Linux server instead." : "Pa los meyores resultaos, por favor considera l'usu d'un sirvidor GNU/Linux nel so llugar.",
     "Set an admin username." : "Afitar nome d'usuariu p'almin",
     "Set an admin password." : "Afitar contraseña p'almin",
     "Can't create or write into the data directory %s" : "Nun pue crease o escribir dientro los datos del direutoriu %s",
