@@ -74,7 +74,6 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->container['Request'] = $this->getMockBuilder('OCP\IRequest')
 			->disableOriginalConstructor()->getMock();
 
-	
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')
 			->disableOriginalConstructor()->getMock();
 		$this->userMock = $this->getMockBuilder('OCP\IUser')
@@ -82,11 +81,11 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$this->avatarController = $this->container['AvatarController'];
 
-		// Store current User	
+		// Store current User
 		$this->oldUser = \OC_User::getUser();
 
 		// Create a dummy user
-		$this->user = \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(12, ISecureRandom::CHAR_LOWER);
+		$this->user = $this->getUniqueID('user');
 
 		OC::$server->getUserManager()->createUser($this->user, $this->user);
 		\OC_Util::tearDownFS();
@@ -102,7 +101,8 @@ class AvatarControllerTest extends \Test\TestCase {
 		// Configure userMock
 		$this->userMock->method('getDisplayName')->willReturn($this->user);
 		$this->userMock->method('getUID')->willReturn($this->user);
-		$this->container['UserManager']->method('get')->willReturn($this->userMock);
+		$this->container['UserManager']->method('get')
+			->willReturnMap([[$this->user, $this->userMock]]);
 		$this->container['UserSession']->method('getUser')->willReturn($this->userMock);
 
 	}
@@ -134,7 +134,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * Fetch the users avatar
+	 * Fetch the user's avatar
 	 */
 	public function testGetAvatar() {
 		$image = new Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
@@ -142,6 +142,23 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
 
 		$response = $this->avatarController->getAvatar($this->user, 32);
+
+		$this->assertEquals($response->getStatus(), Http::STATUS_OK);
+
+		$image2 = new Image($response->getData());
+		$this->assertEquals($image->mimeType(), $image2->mimeType());
+		$this->assertEquals(crc32($response->getData()), $response->getEtag());
+	}
+
+	/**
+	 * Fetch the avatar of a non-existing user
+	 */
+	public function testGetAvatarNoUser() {
+		$image = new Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
+		$this->avatarMock->method('get')->willReturn($image);
+		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+
+		$response = $this->avatarController->getAvatar($this->user . 'doesnotexist', 32);
 
 		$this->assertEquals($response->getStatus(), Http::STATUS_OK);
 
