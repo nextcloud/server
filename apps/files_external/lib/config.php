@@ -347,8 +347,6 @@ class OC_Mount_Config {
 					$mountPoint = substr($mountPoint, 13);
 
 					$config = array(
-						'id' => (int) $mount['id'],
-						'storage_id' => (int) $mount['storage_id'],
 						'class' => $mount['class'],
 						'mountpoint' => $mountPoint,
 						'backend' => $backends[$mount['class']]['backend'],
@@ -357,6 +355,12 @@ class OC_Mount_Config {
 						'applicable' => array('groups' => array($group), 'users' => array()),
 						'status' => self::getBackendStatus($mount['class'], $mount['options'], false)
 					);
+					if (isset($mount['id'])) {
+						$config['id'] = (int)$mount['id'];
+					}
+					if (isset($mount['storage_id'])) {
+						$config['storage_id'] = (int)$mount['storage_id'];
+					}
 					if (isset($mount['mountOptions'])) {
 						$config['mountOptions'] = $mount['mountOptions'];
 					}
@@ -386,8 +390,6 @@ class OC_Mount_Config {
 					// Remove '/$user/files/' from mount point
 					$mountPoint = substr($mountPoint, 13);
 					$config = array(
-						'id' => (int) $mount['id'],
-						'storage_id' => (int) $mount['storage_id'],
 						'class' => $mount['class'],
 						'mountpoint' => $mountPoint,
 						'backend' => $backends[$mount['class']]['backend'],
@@ -396,6 +398,12 @@ class OC_Mount_Config {
 						'applicable' => array('groups' => array(), 'users' => array($user)),
 						'status' => self::getBackendStatus($mount['class'], $mount['options'], false)
 					);
+					if (isset($mount['id'])) {
+						$config['id'] = (int)$mount['id'];
+					}
+					if (isset($mount['storage_id'])) {
+						$config['storage_id'] = (int)$mount['storage_id'];
+					}
 					if (isset($mount['mountOptions'])) {
 						$config['mountOptions'] = $mount['mountOptions'];
 					}
@@ -433,8 +441,6 @@ class OC_Mount_Config {
 				}
 				$mount['options'] = self::decryptPasswords($mount['options']);
 				$config = array(
-					'id' => (int) $mount['id'],
-					'storage_id' => (int) $mount['storage_id'],
 					'class' => $mount['class'],
 					// Remove '/uid/files/' from mount point
 					'mountpoint' => substr($mountPoint, strlen($uid) + 8),
@@ -442,6 +448,12 @@ class OC_Mount_Config {
 					'options' => $mount['options'],
 					'status' => self::getBackendStatus($mount['class'], $mount['options'], true)
 				);
+				if (isset($mount['id'])) {
+					$config['id'] = (int)$mount['id'];
+				}
+				if (isset($mount['storage_id'])) {
+					$config['storage_id'] = (int)$mount['storage_id'];
+				}
 				if (isset($mount['mountOptions'])) {
 					$config['mountOptions'] = $mount['mountOptions'];
 				}
