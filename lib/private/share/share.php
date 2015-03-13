@@ -37,6 +37,10 @@
 
 namespace OC\Share;
 
+use OCP\IUserSession;
+use OC\DB\Connection;
+use OCP\IConfig;
+
 /**
  * This class provides the ability for apps to share their content between users.
  * Apps must create a backend class that implements OCP\Share_Backend and register it with this class.
@@ -1146,6 +1150,74 @@ class Share extends \OC\Share\Constants {
 			'date' => $date,
 			'uidOwner' => $user
 		));
+
+		return true;
+	}
+
+	/**
+	 * Retrieve the owner of a connection
+	 *
+	 * @param Connection $connection
+	 * @param int $shareId
+	 * @throws \Exception
+	 * @return string uid of share owner
+	 */
+	private static function getShareOwner(Connection $connection, $shareId) {
+		$qb = $connection->createQueryBuilder();
+
+		$qb->select('`uid_owner`')
+			->from('`*PREFIX*share`')
+			->where($qb->expr()->eq('`id`', $shareId));
+		$result = $qb->execute();
+		$result = $result->fetch();
+
+		if (empty($result)) {
+			throw new \Exception('Share not found');
+		}
+
+		return $result['uid_owner'];
+	}
+
+	/**
+	 * Set expiration date for a share
+	 *
+	 * @param IUserSession $userSession
+	 * @param Connection $connection
+	 * @param IConfig $config
+	 * @param int $shareId
+	 * @param string $password
+	 * @throws \Exception
+	 * @return boolean
+	 */
+	public static function setPassword(IUserSession $userSession, 
+	                                   Connection $connection,
+	                                   IConfig $config,
+	                                   $shareId, $password) {
+		$user = $userSession->getUser();
+		if (is_null($user)) {
+			throw new \Exception("User not logged in");
+		}
+
+		$uid = self::getShareOwner($connection, $shareId);
+
+		if ($uid !== $user->getUID()) {
+			throw new \Exception('Cannot update share of a different user');
+		}
+
+		if ($password === '') {
+			$password = null;
+		}
+
+		//If passwords are enforced the password can't be null
+		if (self::enforcePassword($config) && is_null($password)) {
+			throw new \Exception('Cannot remove password');
+		}
+
+		$qb = $connection->createQueryBuilder();
+		$qb->update('`*PREFIX*share`')
+			->set('`share_with`', is_null($password) ? 'NULL' : $qb->expr()->literal(\OC::$server->getHasher()->hash($password)))
+			->where($qb->expr()->eq('`id`', $shareId));
+		$qb->execute();
 
 		return true;
 	}
@@ -2429,4 +2501,12 @@ class Share extends \OC\Share\Constants {
 		return false;
 	}
 
+	/**
+	 * @param IConfig $config
+	 * @return bool 
+	 */
+	public static function enforcePassword(IConfig $config) {
+		$enforcePassword = $config->getAppValue('core', 'shareapi_enforce_links_password', 'no');
+		return ($enforcePassword === "yes") ? true : false;
+	}
 }

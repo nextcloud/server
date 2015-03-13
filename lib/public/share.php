@@ -318,6 +318,20 @@ class Share extends \OC\Share\Constants {
 	}
 
 	/**
+	 * Set expiration date for a share
+	 * @param int $shareId
+	 * @param string $password
+	 * @return boolean
+	 */
+	public static function setPassword($shareId, $password) {
+		$userSession = \OC::$server->getUserSession();
+		$connection = \OC::$server->getDatabaseConnection();
+		$config = \OC::$server->getConfig();
+		return \OC\Share\Share::setPassword($userSession, $connection, $config, $shareId, $password);
+	}
+
+
+	/**
 	 * Get the backend class for the specified item type
 	 * @param string $itemType
 	 * @return Share_Backend
