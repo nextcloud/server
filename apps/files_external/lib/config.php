@@ -38,6 +38,11 @@ class OC_Mount_Config {
 	private static $backends = array();
 
 	/**
+	 * @var array
+	 */
+	private static $availableBackends = null;
+
+	/**
 	 * @param string $class
 	 * @param array $definition
 	 * @return bool
@@ -74,6 +79,9 @@ class OC_Mount_Config {
 	 * @return array
 	 */
 	public static function getBackends() {
+		if (is_array(self::$availableBackends)) {
+			return self::$availableBackends;
+		}
 		$sortFunc = function ($a, $b) {
 			return strcasecmp($a['backend'], $b['backend']);
 		};
@@ -95,6 +103,8 @@ class OC_Mount_Config {
 		}
 
 		uasort($backEnds, $sortFunc);
+
+		self::$availableBackends = $backEnds;
 
 		return $backEnds;
 	}
