@@ -1,0 +1,25 @@
+{
+  "_comment" : "As shipped with owncloud-8.0.2.tar.bz2",
+  "core-version": "8.1.0.0",
+  "shippedApps": [
+    "activity",
+    "files",
+    "files_external",
+    "files_pdfviewer",
+    "files_texteditor",
+    "files_versions",
+    "firstrunwizard",
+    "templateeditor",
+    "user_external",
+    "user_webdavauth external",
+    "files_encryption",
+    "files_locking",
+    "files_sharing",
+    "files_trashbin",
+    "files_videoviewer",
+    "gallery",
+    "provisioning_api",
+    "updater",
+    "user_ldap"
+  ]
+}
