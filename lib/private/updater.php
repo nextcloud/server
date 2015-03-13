@@ -10,6 +10,7 @@ namespace OC;
 
 use OC\Hooks\BasicEmitter;
 use OC_App;
+use OC_Installer;
 use OC_Util;
 use OCP\IConfig;
 use OC\Setup;
@@ -233,8 +234,13 @@ class Updater extends BasicEmitter {
 		if ($this->updateStepEnabled) {
 			$this->doCoreUpgrade();
 
-			$this->checkAppsRequirements();
+			// update all shipped apps
+			$disabledApps = $this->checkAppsRequirements();
 			$this->doAppUpgrade();
+
+			// upgrade appstore apps
+			$this->upgradeAppStoreApps($disabledApps);
+
 
 			// post-upgrade repairs
 			$repair = new Repair(Repair::getRepairSteps());
@@ -356,6 +362,7 @@ class Updater extends BasicEmitter {
 		$isCoreUpgrade = $this->isCodeUpgrade();
 		$apps = OC_App::getEnabledApps();
 		$version = OC_Util::getVersion();
+		$disabledApps = [];
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of ownCloud
 			$info = OC_App::getAppInfo($app);
@@ -378,8 +385,10 @@ class Updater extends BasicEmitter {
 
 			// disable any other 3rd party apps
 			\OC_App::disable($app);
+			$disabledApps[]= $app;
 			$this->emit('\OC\Updater', 'thirdPartyAppDisabled', array($app));
 		}
+		return $disabledApps;
 	}
 
 	private function isCodeUpgrade() {
@@ -389,6 +398,17 @@ class Updater extends BasicEmitter {
 			return true;
 		}
 		return false;
+	}
+
+	private function upgradeAppStoreApps($disabledApps) {
+		foreach($disabledApps as $app) {
+			if (OC_Installer::isUpdateAvailable($app)) {
+				$ocsId=\OC::$server->getConfig()->getAppValue($app, 'ocsid', '');
+
+				$this->emit('\OC\Updater', 'upgradeAppStoreApp', array($app));
+				OC_Installer::updateAppByOCSId($ocsId);
+			}
+		}
 	}
 }
 
