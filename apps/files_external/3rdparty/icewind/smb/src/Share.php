@@ -38,8 +38,6 @@ class Share implements IShare {
 	 */
 	protected $parser;
 
-	private $serverTimezone;
-
 	/**
 	 * @param Server $server
 	 * @param string $name
@@ -47,7 +45,7 @@ class Share implements IShare {
 	public function __construct($server, $name) {
 		$this->server = $server;
 		$this->name = $name;
-		$this->parser = new Parser($this->server->getTimeZone());
+		$this->parser = new Parser(new TimeZoneProvider($this->server->getHost()));
 	}
 
 	/**
@@ -374,6 +372,9 @@ class Share implements IShare {
 	 * @return string
 	 */
 	protected function escapePath($path) {
+		if ($path === '/') {
+			$path = '';
+		}
 		$path = str_replace('/', '\\', $path);
 		$path = str_replace('"', '^"', $path);
 		return '"' . $path . '"';

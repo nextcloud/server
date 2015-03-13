@@ -25,10 +25,24 @@ class Parser extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @param string $timeZone
+	 * @return \Icewind\SMB\TimeZoneProvider
+	 */
+	private function getTimeZoneProvider($timeZone) {
+		$mock = $this->getMockBuilder('\Icewind\SMB\TimeZoneProvider')
+			->disableOriginalConstructor()
+			->getMock();
+		$mock->expects($this->any())
+			->method('get')
+			->will($this->returnValue($timeZone));
+		return $mock;
+	}
+
+	/**
 	 * @dataProvider modeProvider
 	 */
 	public function testParseMode($string, $mode) {
-		$parser = new \Icewind\SMB\Parser('UTC');
+		$parser = new \Icewind\SMB\Parser($this->getTimeZoneProvider('UTC'));
 		$this->assertEquals($mode, $parser->parseMode($string), 'Failed parsing ' . $string);
 	}
 
@@ -48,7 +62,8 @@ class Parser extends \PHPUnit_Framework_TestCase {
 					'mtime' => strtotime('12 Oct 2013 19:05:58 CEST'),
 					'mode' => FileInfo::MODE_NORMAL,
 					'size' => 29634
-				))
+				)
+			)
 		);
 	}
 
@@ -56,7 +71,7 @@ class Parser extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider statProvider
 	 */
 	public function testStat($output, $stat) {
-		$parser = new \Icewind\SMB\Parser('UTC');
+		$parser = new \Icewind\SMB\Parser($this->getTimeZoneProvider('UTC'));
 		$this->assertEquals($stat, $parser->parseStat($output));
 	}
 
@@ -71,7 +86,8 @@ class Parser extends \PHPUnit_Framework_TestCase {
 					'                62536 blocks of size 8388608. 57113 blocks available'
 				),
 				array(
-					new FileInfo('/c.pdf', 'c.pdf', 29634, strtotime('12 Oct 2013 19:05:58 CEST'), FileInfo::MODE_NORMAL)
+					new FileInfo('/c.pdf', 'c.pdf', 29634, strtotime('12 Oct 2013 19:05:58 CEST'),
+						FileInfo::MODE_NORMAL)
 				)
 			)
 		);
@@ -81,7 +97,7 @@ class Parser extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider dirProvider
 	 */
 	public function testDir($output, $dir) {
-		$parser = new \Icewind\SMB\Parser('CEST');
+		$parser = new \Icewind\SMB\Parser($this->getTimeZoneProvider('CEST'));
 		$this->assertEquals($dir, $parser->parseDir($output, ''));
 	}
 }

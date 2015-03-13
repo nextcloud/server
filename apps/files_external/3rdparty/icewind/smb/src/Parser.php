@@ -17,15 +17,15 @@ use Icewind\SMB\Exception\NotFoundException;
 
 class Parser {
 	/**
-	 * @var string
+	 * @var \Icewind\SMB\TimeZoneProvider
 	 */
-	protected $timeZone;
+	protected $timeZoneProvider;
 
 	/**
-	 * @param string $timeZone
+	 * @param \Icewind\SMB\TimeZoneProvider $timeZoneProvider
 	 */
-	public function __construct($timeZone) {
-		$this->timeZone = $timeZone;
+	public function __construct(TimeZoneProvider $timeZoneProvider) {
+		$this->timeZoneProvider = $timeZoneProvider;
 	}
 
 	public function checkForError($output, $path) {
@@ -120,7 +120,7 @@ class Parser {
 				list(, $name, $mode, $size, $time) = $matches;
 				if ($name !== '.' and $name !== '..') {
 					$mode = $this->parseMode($mode);
-					$time = strtotime($time . ' ' . $this->timeZone);
+					$time = strtotime($time . ' ' . $this->timeZoneProvider->get());
 					$content[] = new FileInfo($basePath . '/' . $name, $name, $size, $time, $mode);
 				}
 			}
