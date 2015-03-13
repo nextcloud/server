@@ -130,6 +130,7 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		//Comment out until JS is fixed
 		//$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
+		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
 		$this->assertEquals($this->user, $response->getData()['data']['displayname']);
 	}
 
@@ -154,17 +155,15 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Fetch the avatar of a non-existing user
 	 */
 	public function testGetAvatarNoUser() {
-		$image = new Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
-		$this->avatarMock->method('get')->willReturn($image);
+		$this->avatarMock->method('get')->willReturn(null);
 		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
 
 		$response = $this->avatarController->getAvatar($this->user . 'doesnotexist', 32);
 
+		//Comment out until JS is fixed
+		//$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-
-		$image2 = new Image($response->getData());
-		$this->assertEquals($image->mimeType(), $image2->mimeType());
-		$this->assertEquals(crc32($response->getData()), $response->getEtag());
+		$this->assertEquals('', $response->getData()['data']['displayname']);
 	}
 
 	/**
