@@ -31,7 +31,11 @@ class PreviewManager implements IPreview {
 	 */
 	public function __construct(\OCP\IConfig $config) {
 		$this->config = $config;
-		$this->registerCoreProviders();
+
+		if ($this->config->getSystemValue('enable_previews', true)) {
+			// Register the default providers like txt, image, ...
+			$this->registerCoreProviders();
+		}
 	}
 
 	/**
