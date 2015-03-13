@@ -18,6 +18,9 @@ class PreviewManager implements IPreview {
 	/** @var array */
 	protected $providers = [];
 
+	/** @var array mime type => support status */
+	protected $mimeTypeSupportMap = [];
+
 	/** @var array */
 	protected $defaultProviders;
 
@@ -96,12 +99,18 @@ class PreviewManager implements IPreview {
 			return false;
 		}
 
+		if (isset($this->mimeTypeSupportMap[$mimeType])) {
+			return $this->mimeTypeSupportMap[$mimeType];
+		}
+
 		$providerMimeTypes = array_keys($this->providers);
 		foreach ($providerMimeTypes as $supportedMimeType) {
 			if (preg_match($supportedMimeType, $mimeType)) {
+				$this->mimeTypeSupportMap[$mimeType] = true;
 				return true;
 			}
 		}
+		$this->mimeTypeSupportMap[$mimeType] = false;
 		return false;
 	}
 
@@ -113,6 +122,10 @@ class PreviewManager implements IPreview {
 	 */
 	public function isAvailable(\OCP\Files\FileInfo $file) {
 		if (!$this->config->getSystemValue('enable_previews', true)) {
+			return false;
+		}
+
+		if (!$this->isMimeSupported($file->getMimetype())) {
 			return false;
 		}
 
