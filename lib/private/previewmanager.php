@@ -161,24 +161,24 @@ class PreviewManager implements IPreview {
 	 *
 	 * The following providers are enabled by default:
 	 *  - OC\Preview\Image
+	 *  - OC\Preview\MarkDown
 	 *  - OC\Preview\MP3
 	 *  - OC\Preview\TXT
-	 *  - OC\Preview\MarkDown
 	 *
 	 * The following providers are disabled by default due to performance or privacy concerns:
+	 *  - OC\Preview\Font
+	 *  - OC\Preview\Illustrator
+	 *  - OC\Preview\Movie
 	 *  - OC\Preview\MSOfficeDoc
 	 *  - OC\Preview\MSOffice2003
 	 *  - OC\Preview\MSOffice2007
 	 *  - OC\Preview\OpenDocument
+	 *  - OC\Preview\PDF
+	 *  - OC\Preview\Photoshop
+	 *  - OC\Preview\Postscript
 	 *  - OC\Preview\StarOffice
 	 *  - OC\Preview\SVG
-	 *  - OC\Preview\Movie
-	 *  - OC\Preview\PDF
 	 *  - OC\Preview\TIFF
-	 *  - OC\Preview\Illustrator
-	 *  - OC\Preview\Postscript
-	 *  - OC\Preview\Photoshop
-	 *  - OC\Preview\Font
 	 *
 	 * @return array
 	 */
@@ -189,9 +189,9 @@ class PreviewManager implements IPreview {
 
 		$this->defaultProviders = $this->config->getSystemValue('enabledPreviewProviders', [
 			'OC\Preview\Image',
+			'OC\Preview\MarkDown',
 			'OC\Preview\MP3',
 			'OC\Preview\TXT',
-			'OC\Preview\MarkDown',
 		]);
 		return $this->defaultProviders;
 	}
