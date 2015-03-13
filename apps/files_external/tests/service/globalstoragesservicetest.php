@@ -50,6 +50,9 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 			'applicableUsers' => [],
 			'applicableGroups' => [],
 			'priority' => 15,
+			'mountOptions' => [
+				'preview' => false,
+			]
 		]);
 	}
 
@@ -638,6 +641,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		$this->assertEquals(1, $mountPointOptions['id']);
 		$this->assertEquals('\OC\Files\Storage\SMB', $mountPointOptions['class']);
 		$this->assertEquals(15, $mountPointOptions['priority']);
+		$this->assertEquals(false, $mountPointOptions['mountOptions']['preview']);
 
 		$backendOptions = $mountPointOptions['options'];
 		$this->assertEquals('value1', $backendOptions['option1']);
@@ -677,6 +681,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 			$this->assertEquals(1, $mountPointOptions['id']);
 			$this->assertEquals('\OC\Files\Storage\SMB', $mountPointOptions['class']);
 			$this->assertEquals(15, $mountPointOptions['priority']);
+			$this->assertEquals(false, $mountPointOptions['mountOptions']['preview']);
 
 			$backendOptions = $mountPointOptions['options'];
 			$this->assertEquals('value1', $backendOptions['option1']);
@@ -693,6 +698,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 			$this->assertEquals(1, $mountPointOptions['id']);
 			$this->assertEquals('\OC\Files\Storage\SMB', $mountPointOptions['class']);
 			$this->assertEquals(15, $mountPointOptions['priority']);
+			$this->assertEquals(false, $mountPointOptions['mountOptions']['preview']);
 
 			$backendOptions = $mountPointOptions['options'];
 			$this->assertEquals('value1', $backendOptions['option1']);

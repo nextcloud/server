@@ -62,6 +62,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 			array(),
 			[],
 			[],
+			[],
 			null
 		);
 
@@ -83,6 +84,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 			'mount',
 			'\OC\Files\Storage\SMB',
 			array(),
+			[],
 			[],
 			[],
 			null
@@ -116,6 +118,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 			array(),
 			[],
 			[],
+			[],
 			null
 		);
 
@@ -126,6 +129,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 			$mountPoint,
 			'\OC\Files\Storage\SMB',
 			array(),
+			[],
 			[],
 			[],
 			null
@@ -146,6 +150,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 			array(),
 			[],
 			[],
+			[],
 			null
 		);
 
@@ -156,6 +161,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 			'mount',
 			'\OC\Files\Storage\InvalidStorage',
 			array(),
+			[],
 			[],
 			[],
 			null
@@ -174,6 +180,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 			'mount',
 			'\OC\Files\Storage\SMB',
 			array(),
+			[],
 			[],
 			[],
 			null
@@ -204,6 +211,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$storageConfig->setMountPoint('test');
 		$storageConfig->setBackendClass('\OC\Files\Storage\SMB');
 		$storageConfig->setBackendOptions(['user' => 'test', 'password', 'password123']);
+		$storageConfig->setMountOptions(['priority' => false]);
 
 		$this->service->expects($this->once())
 			->method('getStorage')

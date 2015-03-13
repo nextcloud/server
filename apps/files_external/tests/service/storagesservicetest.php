@@ -96,6 +96,9 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		if (isset($data['priority'])) {
 			$storage->setPriority($data['priority']);
 		}
+		if (isset($data['mountOptions'])) {
+			$storage->setMountOptions($data['mountOptions']);
+		}
 		return $storage;
 	}
 

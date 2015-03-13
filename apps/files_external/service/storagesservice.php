@@ -50,6 +50,7 @@ abstract class StoragesService {
 		 *     - "priority": storage priority
 		 *     - "backend": backend class name
 		 *     - "options": backend-specific options
+		 *     - "mountOptions": mount-specific options (ex: disable previews, scanner, etc)
 		 */
 
 		// group by storage id
@@ -82,6 +83,9 @@ abstract class StoragesService {
 
 					$currentStorage->setBackendClass($storageOptions['class']);
 					$currentStorage->setBackendOptions($storageOptions['options']);
+					if (isset($storageOptions['mountOptions'])) {
+						$currentStorage->setMountOptions($storageOptions['mountOptions']);
+					}
 					if (isset($storageOptions['priority'])) {
 						$currentStorage->setPriority($storageOptions['priority']);
 					}
@@ -140,6 +144,9 @@ abstract class StoragesService {
 
 		if (!is_null($storageConfig->getPriority())) {
 			$options['priority'] = $storageConfig->getPriority();
+		}
+		if (!empty($storageConfig->getMountOptions())) {
+			$options['mountOptions'] = $storageConfig->getMountOptions();
 		}
 
 		$mountPoints[$mountType][$applicable][$rootMountPoint] = $options;

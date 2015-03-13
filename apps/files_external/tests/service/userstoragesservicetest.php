@@ -61,6 +61,9 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 				'option2' => 'value2',
 				'password' => 'testPassword',
 			],
+			'mountOptions' => [
+				'preview' => false,
+			]
 		]);
 	}
 
@@ -190,6 +193,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		$mountPointOptions = current($mountPointData);
 		$this->assertEquals(1, $mountPointOptions['id']);
 		$this->assertEquals('\OC\Files\Storage\SMB', $mountPointOptions['class']);
+		$this->assertEquals(false, $mountPointOptions['mountOptions']['preview']);
 
 		$backendOptions = $mountPointOptions['options'];
 		$this->assertEquals('value1', $backendOptions['option1']);

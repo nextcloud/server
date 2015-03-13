@@ -54,6 +54,11 @@ class StorageConfig implements \JsonSerializable {
 	private $applicableGroups = [];
 
 	/**
+	 * @var array
+	 */
+	private $mountOptions = [];
+
+	/**
 	 * @param int|null $id config id or null for a new config
 	 */
 	public function __construct($id = null) {
@@ -196,6 +201,27 @@ class StorageConfig implements \JsonSerializable {
 	}
 
 	/**
+	 * Returns the mount-specific options
+	 *
+	 * @return array mount specific options
+	 */
+	public function getMountOptions() {
+		return $this->mountOptions;
+	}
+
+	/**
+	 * Sets the mount-specific options
+	 *
+	 * @param array applicable groups
+	 */
+	public function setMountOptions($mountOptions) {
+		if (is_null($mountOptions)) {
+			$mountOptions = [];
+		}
+		$this->mountOptions = $mountOptions;
+	}
+
+	/**
 	 * Sets the storage status, whether the config worked last time
 	 *
 	 * @return int $status status
@@ -234,6 +260,9 @@ class StorageConfig implements \JsonSerializable {
 		}
 		if (!empty($this->applicableGroups)) {
 			$result['applicableGroups'] = $this->applicableGroups;
+		}
+		if (!empty($this->mountOptions)) {
+			$result['mountOptions'] = $this->mountOptions;
 		}
 		if (!is_null($this->status)) {
 			$result['status'] = $this->status;

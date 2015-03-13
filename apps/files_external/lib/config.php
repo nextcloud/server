@@ -357,6 +357,9 @@ class OC_Mount_Config {
 						'applicable' => array('groups' => array($group), 'users' => array()),
 						'status' => self::getBackendStatus($mount['class'], $mount['options'], false)
 					);
+					if (isset($mount['mountOptions'])) {
+						$config['mountOptions'] = $mount['mountOptions'];
+					}
 					$hash = self::makeConfigHash($config);
 					// If an existing config exists (with same class, mountpoint and options)
 					if (isset($system[$hash])) {
@@ -393,6 +396,9 @@ class OC_Mount_Config {
 						'applicable' => array('groups' => array(), 'users' => array($user)),
 						'status' => self::getBackendStatus($mount['class'], $mount['options'], false)
 					);
+					if (isset($mount['mountOptions'])) {
+						$config['mountOptions'] = $mount['mountOptions'];
+					}
 					$hash = self::makeConfigHash($config);
 					// If an existing config exists (with same class, mountpoint and options)
 					if (isset($system[$hash])) {
@@ -426,7 +432,7 @@ class OC_Mount_Config {
 					$mount['class'] = '\OC\Files\Storage\\' . substr($mount['class'], 15);
 				}
 				$mount['options'] = self::decryptPasswords($mount['options']);
-				$personal[] = array(
+				$config = array(
 					'id' => (int) $mount['id'],
 					'storage_id' => (int) $mount['storage_id'],
 					'class' => $mount['class'],
@@ -436,6 +442,10 @@ class OC_Mount_Config {
 					'options' => $mount['options'],
 					'status' => self::getBackendStatus($mount['class'], $mount['options'], true)
 				);
+				if (isset($mount['mountOptions'])) {
+					$config['mountOptions'] = $mount['mountOptions'];
+				}
+				$personal[] = $config;
 			}
 		}
 		return $personal;

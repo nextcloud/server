@@ -86,6 +86,7 @@ class UserStoragesController extends StoragesController {
 	 * @param string $mountPoint storage mount point
 	 * @param string $backendClass backend class name
 	 * @param array $backendOptions backend-specific options
+	 * @param array $mountOptions backend-specific mount options
 	 *
 	 * @return DataResponse
 	 *
@@ -94,12 +95,14 @@ class UserStoragesController extends StoragesController {
 	public function create(
 		$mountPoint,
 		$backendClass,
-		$backendOptions
+		$backendOptions,
+		$mountOptions
 	) {
 		$newStorage = new StorageConfig();
 		$newStorage->setMountPoint($mountPoint);
 		$newStorage->setBackendClass($backendClass);
 		$newStorage->setBackendOptions($backendOptions);
+		$newStorage->setMountOptions($mountOptions);
 
 		$response = $this->validate($newStorage);
 		if (!empty($response)) {
@@ -122,6 +125,7 @@ class UserStoragesController extends StoragesController {
 	 * @param string $mountPoint storage mount point
 	 * @param string $backendClass backend class name
 	 * @param array $backendOptions backend-specific options
+	 * @param array $mountOptions backend-specific mount options
 	 *
 	 * @return DataResponse
 	 */
@@ -129,12 +133,14 @@ class UserStoragesController extends StoragesController {
 		$id,
 		$mountPoint,
 		$backendClass,
-		$backendOptions
+		$backendOptions,
+		$mountOptions
 	) {
 		$storage = new StorageConfig($id);
 		$storage->setMountPoint($mountPoint);
 		$storage->setBackendClass($backendClass);
 		$storage->setBackendOptions($backendOptions);
+		$storage->setMountOptions($mountOptions);
 
 		$response = $this->validate($storage);
 		if (!empty($response)) {

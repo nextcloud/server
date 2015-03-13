@@ -49,6 +49,7 @@ class GlobalStoragesController extends StoragesController {
 	 * @param string $mountPoint storage mount point
 	 * @param string $backendClass backend class name
 	 * @param array $backendOptions backend-specific options
+	 * @param array $mountOptions mount-specific options
 	 * @param array $applicableUsers users for which to mount the storage
 	 * @param array $applicableGroups groups for which to mount the storage
 	 * @param int $priority priority
@@ -59,6 +60,7 @@ class GlobalStoragesController extends StoragesController {
 		$mountPoint,
 		$backendClass,
 		$backendOptions,
+		$mountOptions,
 		$applicableUsers,
 		$applicableGroups,
 		$priority
@@ -67,6 +69,7 @@ class GlobalStoragesController extends StoragesController {
 		$newStorage->setMountPoint($mountPoint);
 		$newStorage->setBackendClass($backendClass);
 		$newStorage->setBackendOptions($backendOptions);
+		$newStorage->setMountOptions($mountOptions);
 		$newStorage->setApplicableUsers($applicableUsers);
 		$newStorage->setApplicableGroups($applicableGroups);
 		$newStorage->setPriority($priority);
@@ -93,6 +96,7 @@ class GlobalStoragesController extends StoragesController {
 	 * @param string $mountPoint storage mount point
 	 * @param string $backendClass backend class name
 	 * @param array $backendOptions backend-specific options
+	 * @param array $mountOptions mount-specific options
 	 * @param array $applicableUsers users for which to mount the storage
 	 * @param array $applicableGroups groups for which to mount the storage
 	 * @param int $priority priority
@@ -104,6 +108,7 @@ class GlobalStoragesController extends StoragesController {
 		$mountPoint,
 		$backendClass,
 		$backendOptions,
+		$mountOptions,
 		$applicableUsers,
 		$applicableGroups,
 		$priority
@@ -112,6 +117,7 @@ class GlobalStoragesController extends StoragesController {
 		$storage->setMountPoint($mountPoint);
 		$storage->setBackendClass($backendClass);
 		$storage->setBackendOptions($backendOptions);
+		$storage->setMountOptions($mountOptions);
 		$storage->setApplicableUsers($applicableUsers);
 		$storage->setApplicableGroups($applicableGroups);
 		$storage->setPriority($priority);

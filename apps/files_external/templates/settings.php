@@ -80,6 +80,14 @@
 							<?php OCP\Util::addScript('files_external', $_['backends'][$mount['class']]['custom']); ?>
 						<?php endif; ?>
 					<?php endif; ?>
+					<?php if (isset($mount['mountOptions'])): ?>
+					<input type="hidden" class="mountOptions" value="<?php p(json_encode($mount['mountOptions'])) ?>" />
+					<?php endif; ?>
+					<?php if ($_['isAdminPage']): ?>
+					<?php if (isset($mount['priority'])): ?>
+					<input type="hidden" class="priority" value="<?php p($mount['priority']) ?>" />
+					<?php endif; ?>
+					<?php endif; ?>
 				</td>
 				<?php if ($_['isAdminPage']): ?>
 				<td class="applicable"
@@ -90,9 +98,6 @@
 													print_unescaped(json_encode($mount['applicable']['users'])); ?>'>
 					<input type="hidden" class="applicableUsers" style="width:20em;" value=""/>
 				</td>
-				<?php if (isset($mount['priority'])): ?>
-				<input type="hidden" class="priority" value="<?php p($mount['priority']) ?>" />
-				<?php endif; ?>
 				<?php endif; ?>
 				<td <?php if (isset($mount['mountpoint'])): ?>class="remove"
 					<?php else: ?>style="visibility:hidden;"

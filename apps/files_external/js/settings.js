@@ -195,6 +195,13 @@ StorageConfig.prototype = {
 	backendOptions: null,
 
 	/**
+	 * Mount-specific options
+	 *
+	 * @type Object.<string,object>
+	 */
+	mountOptions: null,
+
+	/**
 	 * Creates or saves the storage.
 	 *
 	 * @param {Function} [options.success] success callback, receives result as argument
@@ -236,6 +243,9 @@ StorageConfig.prototype = {
 		};
 		if (this.id) {
 			data.id = this.id;
+		}
+		if (this.mountOptions) {
+			data.mountOptions = this.mountOptions;
 		}
 		return data;
 	},
@@ -639,6 +649,11 @@ MountConfigListView.prototype = {
 			storage.applicableGroups = groups;
 
 			storage.priority = $tr.find('input.priority').val();
+		}
+
+		var mountOptions = $tr.find('input.mountOptions').val();
+		if (mountOptions) {
+			storage.mountOptions = JSON.parse(mountOptions);
 		}
 
 		return storage;

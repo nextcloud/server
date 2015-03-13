@@ -91,6 +91,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 			array(),
 			[],
 			[],
+			[],
 			null
 		);
 
@@ -101,6 +102,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 			'mount',
 			$backendClass,
 			array(),
+			[],
 			[],
 			[],
 			null
