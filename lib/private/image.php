@@ -15,7 +15,7 @@
 /**
  * Class for basic image manipulation
  */
-class OC_Image {
+class OC_Image implements \OCP\IImage {
 	protected $resource = false; // tmp resource.
 	protected $imageType = IMAGETYPE_PNG; // Default to png if file type isn't evident.
 	protected $mimeType = "image/png"; // Default to png
@@ -285,7 +285,7 @@ class OC_Image {
 	/**
 	 * @return null|string Returns the raw image data.
 	 */
-	function data() {
+	public function data() {
 		if (!$this->valid()) {
 			return null;
 		}
@@ -949,6 +949,9 @@ class OC_Image {
 		return true;
 	}
 
+	/**
+	 * Destroys the current image and resets the object
+	 */
 	public function destroy() {
 		if ($this->valid()) {
 			imagedestroy($this->resource);

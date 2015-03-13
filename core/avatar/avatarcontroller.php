@@ -95,7 +95,7 @@ class AvatarController extends Controller {
 		$avatar = $this->avatarManager->getAvatar($userId);
 		$image = $avatar->get($size);
 
-		if ($image instanceof \OC_Image) {
+		if ($image instanceof \OCP\IImage) {
 			$resp = new DataDisplayResponse($image->data(),
 				Http::STATUS_OK,
 				['Content-Type' => $image->mimeType()]);

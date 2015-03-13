@@ -37,9 +37,7 @@ abstract class Provider implements IProvider {
 	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param bool $scalingup Disable/Enable upscaling of previews
 	 * @param \OC\Files\View $fileview fileview object of user folder
-	 * @return mixed
-	 * 		false if no preview was generated
-	 *		OC_Image object of the preview
+	 * @return bool|\OCP\IImage false if no preview was generated
 	 */
 	abstract public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview);
 }

@@ -61,7 +61,7 @@ class Movie extends Provider {
 	 * @param int $maxY
 	 * @param string $absPath
 	 * @param int $second
-	 * @return bool|\OC_Image
+	 * @return bool|\OCP\IImage
 	 */
 	private function generateThumbNail($maxX, $maxY, $absPath, $second) {
 		$tmpPath = \OC_Helper::tmpFile();

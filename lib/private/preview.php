@@ -46,7 +46,7 @@ class Preview {
 	/**
 	 * preview images object
 	 *
-	 * @var \OC_Image
+	 * @var \OCP\IImage
 	 */
 	private $preview;
 
@@ -465,7 +465,7 @@ class Preview {
 
 	/**
 	 * return a preview of a file
-	 * @return \OC_Image
+	 * @return \OCP\IImage
 	 */
 	public function getPreview() {
 		if (!is_null($this->preview) && $this->preview->valid()) {
@@ -518,7 +518,7 @@ class Preview {
 					/** @var $provider Provider */
 					$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingUp, $this->fileView);
 
-					if (!($preview instanceof \OC_Image)) {
+					if (!($preview instanceof \OCP\IImage)) {
 						continue;
 					}
 
@@ -564,7 +564,7 @@ class Preview {
 		if (is_null($this->preview)) {
 			$this->getPreview();
 		}
-		if ($this->preview instanceof \OC_Image) {
+		if ($this->preview instanceof \OCP\IImage) {
 			$this->preview->show($mimeType);
 		}
 	}
@@ -580,8 +580,8 @@ class Preview {
 		$scalingUp = $this->getScalingUp();
 		$maxScaleFactor = $this->getMaxScaleFactor();
 
-		if (!($image instanceof \OC_Image)) {
-			\OC_Log::write('core', '$this->preview is not an instance of OC_Image', \OC_Log::DEBUG);
+		if (!($image instanceof \OCP\IImage)) {
+			\OC_Log::write('core', '$this->preview is not an instance of \OCP\IImage', \OC_Log::DEBUG);
 			return;
 		}
 

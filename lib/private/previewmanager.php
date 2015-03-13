@@ -96,7 +96,7 @@ class PreviewManager implements IPreview {
 	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param boolean $scaleUp Scale smaller images up to the thumbnail size or not. Might look ugly
-	 * @return \OCP\Image
+	 * @return \OCP\IImage
 	 */
 	public function createPreview($file, $maxX = 100, $maxY = 75, $scaleUp = false) {
 		$preview = new \OC\Preview('', '/', $file, $maxX, $maxY, $scaleUp);
