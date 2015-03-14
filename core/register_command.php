@@ -36,6 +36,9 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Db\GenerateChangeScript());
 	$application->add(new OC\Core\Command\Db\ConvertType(\OC::$server->getConfig(), new \OC\DB\ConnectionFactory()));
 	$application->add(new OC\Core\Command\Db\Migrations\StatusCommand(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()));
+	$application->add(new OC\Core\Command\Db\Migrations\MigrateCommand(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()));
+	$application->add(new OC\Core\Command\Db\Migrations\GenerateCommand(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()));
+	$application->add(new OC\Core\Command\Db\Migrations\ExecuteCommand(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()));
 	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Maintenance\SingleUser());
 	$application->add(new OC\Core\Command\Maintenance\Mode(\OC::$server->getConfig()));

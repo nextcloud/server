@@ -12,15 +12,13 @@ namespace OC\Core\Command\Db\Migrations;
 
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Migrations\Configuration\Configuration;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand as DBALStatusCommand;
-use InvalidArgumentException;
+use Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand as DBALExecuteCommand;
 use OCP\IConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class StatusCommand extends DBALStatusCommand {
+class ExecuteCommand extends DBALExecuteCommand {
 	use MigrationTrait;
 
 	/**
@@ -34,9 +32,9 @@ class StatusCommand extends DBALStatusCommand {
 	}
 
 	protected function configure() {
-		parent::configure();
-
 		$this->addArgument('app', InputArgument::REQUIRED, 'Name of the app this migration command shall work on');
+
+		parent::configure();
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output) {
