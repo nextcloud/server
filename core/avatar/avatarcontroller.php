@@ -101,11 +101,13 @@ class AvatarController extends Controller {
 				['Content-Type' => $image->mimeType()]);
 			$resp->setETag(crc32($image->data()));
 		} else {
-			$resp = new DataResponse(
-						['data' => [
-								'displayname' => $this->userManager->get($userId)->getDisplayName()
-							]
-						]);
+			$user = $this->userManager->get($userId);
+			$userName = $user ? $user->getDisplayName() : '';
+			$resp = new DataResponse([
+				'data' => [
+					'displayname' => $userName,
+				],
+			]);
 		}
 
 		$resp->addHeader('Pragma', 'public');

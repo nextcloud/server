@@ -74,7 +74,6 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->container['Request'] = $this->getMockBuilder('OCP\IRequest')
 			->disableOriginalConstructor()->getMock();
 
-	
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')
 			->disableOriginalConstructor()->getMock();
 		$this->userMock = $this->getMockBuilder('OCP\IUser')
@@ -82,11 +81,11 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$this->avatarController = $this->container['AvatarController'];
 
-		// Store current User	
+		// Store current User
 		$this->oldUser = \OC_User::getUser();
 
 		// Create a dummy user
-		$this->user = \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(12, ISecureRandom::CHAR_LOWER);
+		$this->user = $this->getUniqueID('user');
 
 		OC::$server->getUserManager()->createUser($this->user, $this->user);
 		\OC_Util::tearDownFS();
@@ -102,7 +101,8 @@ class AvatarControllerTest extends \Test\TestCase {
 		// Configure userMock
 		$this->userMock->method('getDisplayName')->willReturn($this->user);
 		$this->userMock->method('getUID')->willReturn($this->user);
-		$this->container['UserManager']->method('get')->willReturn($this->userMock);
+		$this->container['UserManager']->method('get')
+			->willReturnMap([[$this->user, $this->userMock]]);
 		$this->container['UserSession']->method('getUser')->willReturn($this->userMock);
 
 	}
@@ -128,13 +128,14 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
 		$response = $this->avatarController->getAvatar($this->user, 32);
 
-		//Comment out unitl JS is fixed
-		//$this->assertEquals($response->getStatus(), Http::STATUS_NOT_FOUND);
-		$this->assertEquals($response->getData()['data']['displayname'], $this->user);
+		//Comment out until JS is fixed
+		//$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
+		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
+		$this->assertEquals($this->user, $response->getData()['data']['displayname']);
 	}
 
 	/**
-	 * Fetch the users avatar
+	 * Fetch the user's avatar
 	 */
 	public function testGetAvatar() {
 		$image = new Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
@@ -143,11 +144,26 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$response = $this->avatarController->getAvatar($this->user, 32);
 
-		$this->assertEquals($response->getStatus(), Http::STATUS_OK);
+		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
 
 		$image2 = new Image($response->getData());
 		$this->assertEquals($image->mimeType(), $image2->mimeType());
 		$this->assertEquals(crc32($response->getData()), $response->getEtag());
+	}
+
+	/**
+	 * Fetch the avatar of a non-existing user
+	 */
+	public function testGetAvatarNoUser() {
+		$this->avatarMock->method('get')->willReturn(null);
+		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+
+		$response = $this->avatarController->getAvatar($this->user . 'doesnotexist', 32);
+
+		//Comment out until JS is fixed
+		//$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
+		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
+		$this->assertEquals('', $response->getData()['data']['displayname']);
 	}
 
 	/**
@@ -196,7 +212,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
 
 		$response = $this->avatarController->deleteAvatar();
-		$this->assertEquals($response->getStatus(), Http::STATUS_OK);
+		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
 	}
 
 	/**
@@ -207,7 +223,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
 
 		$response = $this->avatarController->deleteAvatar();
-		$this->assertEquals($response->getStatus(), Http::STATUS_BAD_REQUEST);
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
 	}
 
 	/**
@@ -215,7 +231,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testTmpAvatarNoTmp() {
 		$response = $this->avatarController->getTmpAvatar();
-		$this->assertEquals($response->getStatus(), Http::STATUS_NOT_FOUND);
+		$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
 
 	/**
@@ -225,7 +241,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->container['Cache']->method('get')->willReturn(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 
 		$response = $this->avatarController->getTmpAvatar();
-		$this->assertEquals($response->getStatus(), Http::STATUS_OK);
+		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
 	}
 
 
@@ -235,7 +251,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	public function testPostAvatarNoPathOrImage() {
 		$response = $this->avatarController->postAvatar(null);
 
-		$this->assertEquals($response->getStatus(), Http::STATUS_BAD_REQUEST);
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
 	}
 
 	/**
@@ -258,7 +274,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$response = $this->avatarController->postAvatar(null);
 
 		//On correct upload always respond with the notsquare message
-		$this->assertEquals($response->getData()['data'], 'notsquare');
+		$this->assertEquals('notsquare', $response->getData()['data']);
 
 		//File should be deleted
 		$this->assertFalse(file_exists($fileName));
@@ -274,7 +290,7 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$response = $this->avatarController->postAvatar(null);
 
-		$this->assertEquals($response->getStatus(), Http::STATUS_BAD_REQUEST);
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
 	}
 
 	/**
@@ -296,7 +312,7 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$response = $this->avatarController->postAvatar(null);
 
-		$this->assertEquals($response->getData()['data']['message'], 'Unknown filetype');
+		$this->assertEquals('Unknown filetype', $response->getData()['data']['message']);
 
 		//File should be deleted
 		$this->assertFalse(file_exists($fileName));
@@ -314,7 +330,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$response = $this->avatarController->postAvatar('avatar.jpg');
 
 		//On correct upload always respond with the notsquare message
-		$this->assertEquals($response->getData()['data'], 'notsquare');
+		$this->assertEquals('notsquare', $response->getData()['data']);
 	}
 
 	/**
@@ -323,7 +339,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	public function testPostCroppedAvatarInvalidCrop() {
 		$response = $this->avatarController->postCroppedAvatar([]);
 
-		$this->assertEquals($response->getStatus(), Http::STATUS_BAD_REQUEST);
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
 	}
 
 	/**
@@ -332,7 +348,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	public function testPostCroppedAvatarNoTmpAvatar() {
 		$response = $this->avatarController->postCroppedAvatar(['x' => 0, 'y' => 0, 'w' => 10, 'h' => 10]);
 
-		$this->assertEquals($response->getStatus(), Http::STATUS_BAD_REQUEST);
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
 	}
 
 	/**
@@ -345,7 +361,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
 		$response = $this->avatarController->postCroppedAvatar(['x' => 0, 'y' => 0, 'w' => 10, 'h' => 11]);
 
-		$this->assertEquals($response->getStatus(), Http::STATUS_BAD_REQUEST);
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
 	}
 
 	/**
@@ -356,8 +372,8 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
 		$response = $this->avatarController->postCroppedAvatar(['x' => 0, 'y' => 0, 'w' => 10, 'h' => 10]);
 
-		$this->assertEquals($response->getStatus(), Http::STATUS_OK);
-		$this->assertEquals($response->getData()['status'], 'success');
+		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
+		$this->assertEquals('success', $response->getData()['status']);
 	}
 
 }
