@@ -228,7 +228,7 @@ if ($_['cronErrors']) {
 	<ul class="errors hidden"></ul>
 	<div class="hint hidden">
 		<span class="setupwarning"><?php
-			print_unescaped($l->t('Please double check the <a href=\'%s\'>installation guides</a>.', \OC_Helper::linkToDocs('admin-install')));
+			print_unescaped($l->t('Please double check the <a href="%s">installation guides</a>, and check for any errors or warnings in the <a href="#log-section">log</a>.', \OC_Helper::linkToDocs('admin-install')));
 		?></span>
 	</div>
 </div>
