@@ -412,7 +412,7 @@ MountConfigListView.prototype = {
 	/**
 	 * Flag whether the list is about user storage configs (true)
 	 * or global storage configs (false)
-	 * 
+	 *
 	 * @type bool
 	 */
 	_isPersonal: false,
@@ -488,35 +488,12 @@ MountConfigListView.prototype = {
 	_initEvents: function() {
 		var self = this;
 
-		this.$el.on('paste', 'td input', function() {
-			var $me = $(this);
-			var $tr = $me.closest('tr');
-			setTimeout(function() {
-				highlightInput($me);
-				self.saveStorageConfig($tr);
-			}, 20);
-		});
-
-		var timer;
-
-		this.$el.on('keyup', 'td input', function() {
-			clearTimeout(timer);
-			var $tr = $(this).closest('tr');
-			highlightInput($(this));
-			if ($(this).val) {
-				timer = setTimeout(function() {
-					self.saveStorageConfig($tr);
-				}, 2000);
-			}
-		});
-
-		this.$el.on('change', 'td input:checkbox', function() {
-			self.saveStorageConfig($(this).closest('tr'));
-		});
-
-		this.$el.on('change', '.applicable', function() {
-			self.saveStorageConfig($(this).closest('tr'));
-		});
+		var onChangeHandler = _.bind(this._onChange, this);
+		//this.$el.on('input', 'td input', onChangeHandler);
+		this.$el.on('keyup', 'td input', onChangeHandler);
+		this.$el.on('paste', 'td input', onChangeHandler);
+		this.$el.on('change', 'td input:checkbox', onChangeHandler);
+		this.$el.on('change', '.applicable', onChangeHandler);
 
 		this.$el.on('click', '.status>span', function() {
 			self.recheckStorageConfig($(this).closest('tr'));
@@ -527,6 +504,20 @@ MountConfigListView.prototype = {
 		});
 
 		this.$el.on('change', '.selectBackend', _.bind(this._onSelectBackend, this));
+	},
+
+	_onChange: function(event) {
+		var self = this;
+		var $target = $(event.target);
+		highlightInput($target);
+		var $tr = $target.closest('tr');
+
+		var timer = $tr.data('save-timer');
+		clearTimeout(timer);
+		timer = setTimeout(function() {
+			self.saveStorageConfig($tr);
+		}, 2000);
+		$tr.data('save-timer', timer);
 	},
 
 	_onSelectBackend: function(event) {
