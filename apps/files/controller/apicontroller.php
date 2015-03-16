@@ -11,11 +11,11 @@ namespace OCA\Files\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Controller;
 use OCP\IRequest;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DownloadResponse;
-use OC\Preview;
 use OCA\Files\Service\TagService;
+use OCP\IPreview;
 
 /**
  * Class ApiController
@@ -25,17 +25,22 @@ use OCA\Files\Service\TagService;
 class ApiController extends Controller {
 	/** @var TagService */
 	private $tagService;
+	/** @var IPreview */
+	private $previewManager;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param TagService $tagService
+	 * @param IPreview $previewManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
-								TagService $tagService){
+								TagService $tagService,
+								IPreview $previewManager){
 		parent::__construct($appName, $request);
 		$this->tagService = $tagService;
+		$this->previewManager = $previewManager;
 	}
 
 	/**
@@ -49,19 +54,18 @@ class ApiController extends Controller {
 	 * @param int $x
 	 * @param int $y
 	 * @param string $file URL-encoded filename
-	 * @return JSONResponse|DownloadResponse
+	 * @return DataResponse|DataDisplayResponse
 	 */
 	public function getThumbnail($x, $y, $file) {
 		if($x < 1 || $y < 1) {
-			return new JSONResponse('Requested size must be numeric and a positive value.', Http::STATUS_BAD_REQUEST);
+			return new DataResponse(['message' => 'Requested size must be numeric and a positive value.'], Http::STATUS_BAD_REQUEST);
 		}
 
-		try {
-			$preview = new Preview('', 'files', urldecode($file), $x, $y, true);
-			echo($preview->showPreview('image/png'));
-			return new DownloadResponse(urldecode($file).'.png', 'image/png');
-		} catch (\Exception $e) {
-			return new JSONResponse('File not found.', Http::STATUS_NOT_FOUND);
+		$preview = $this->previewManager->createPreview('files/'.urldecode($file), $x, $y, true);
+		if ($preview->valid()) {
+			return new DataDisplayResponse($preview->data(), Http::STATUS_OK, ['Content-Type' => 'image/png']);
+		} else {
+			return new DataResponse(['message' => 'File not found.'], Http::STATUS_NOT_FOUND);
 		}
 	}
 
