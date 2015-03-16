@@ -123,7 +123,6 @@ OC.L10N.register(
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Ако инсталацията не е в основата на вашия домейн и използва системния cron, могат да възникнат проблеми с генерирането на URLи. За избягване на тези проблеми, моля настройте <code>overwrite.cli.url</code> опцията в config.php файла с мрежовия път към вашята инсталация (Вероятно : \\\"%s\\\")",
     "Configuration Checks" : "Проверки на конфигурацията",
     "No problems found" : "Не са открити проблеми",
-    "Please double check the <a href='%s'>installation guides</a>." : "Моля, провери <a href='%s'>ръководството за инсталиране</a> отново.",
     "Cron was not executed yet!" : "Cron oще не е изпълнен!",
     "Execute one task with each page loaded" : "Изпълни по едно задание с всяка заредена страница.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php е регистриран към webcron да се свързва с cron.php всеки 15 минути по http.",

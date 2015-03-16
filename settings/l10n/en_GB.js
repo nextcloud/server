@@ -132,7 +132,6 @@ OC.L10N.register(
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:",
     "Configuration Checks" : "Configuration Checks",
     "No problems found" : "No problems found",
-    "Please double check the <a href='%s'>installation guides</a>." : "Please double check the <a href='%s'>installation guides</a>.",
     "Last cron job execution: %s." : "Last cron job execution: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Last cron job execution: %s. Something seems wrong.",
     "Cron was not executed yet!" : "Cron was not executed yet!",

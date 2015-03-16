@@ -130,7 +130,6 @@
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "La tâche cron n'a pu s'exécuter via CLI. Ces erreurs techniques sont apparues :",
     "Configuration Checks" : "Vérification de la configuration",
     "No problems found" : "Aucun problème trouvé",
-    "Please double check the <a href='%s'>installation guides</a>." : "Veuillez vous référer au <a href='%s'>guide d'installation</a>.",
     "Last cron job execution: %s." : "Dernière tâche cron exécutée : %s.",
     "Last cron job execution: %s. Something seems wrong." : "Dernière tâche cron exécutée : %s. Quelque chose s'est mal passé.",
     "Cron was not executed yet!" : "Le cron n'a pas encore été exécuté !",

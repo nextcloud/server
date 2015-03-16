@@ -98,7 +98,6 @@ OC.L10N.register(
     "This means that there might be problems with certain characters in file names." : "这意味着一些文件名中的特定字符可能有问题。",
     "URL generation in notification emails" : "在通知邮件里生成URL",
     "No problems found" : "未发现问题",
-    "Please double check the <a href='%s'>installation guides</a>." : "请认真检查<a href='%s'>安装指南</a>.",
     "Cron was not executed yet!" : "定时任务还未被执行！",
     "Execute one task with each page loaded" : "每个页面加载后执行一个任务",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php 已注册于一个 webcron 服务来通过 http 每 15 分钟执行 cron.php。",

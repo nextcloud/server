@@ -113,7 +113,6 @@ OC.L10N.register(
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Препоручујемо да инсталирате потребне пакете да бисте подржали следеће локалитете: %s",
     "Configuration Checks" : "Провера подешавања",
     "No problems found" : "Нема никаквих проблема",
-    "Please double check the <a href='%s'>installation guides</a>." : "Погледајте <a href='%s'>водиче за инсталацију</a>.",
     "Execute one task with each page loaded" : "Изврши један задатак са сваком учитаном страницом",
     "Allow apps to use the Share API" : "Дозвољава апликацијама да користе АПИ дељења",
     "Allow users to share via link" : "Дозволи корисницима да деле путем везе",

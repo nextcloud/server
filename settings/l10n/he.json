@@ -35,7 +35,6 @@
     "Login" : "התחברות",
     "Setup Warning" : "שגיאת הגדרה",
     "Module 'fileinfo' missing" : "המודול „fileinfo“ חסר",
-    "Please double check the <a href='%s'>installation guides</a>." : "נא לעיין שוב ב<a href='%s'>מדריכי ההתקנה</a>.",
     "Execute one task with each page loaded" : "יש להפעיל משימה אחת עם כל עמוד שנטען",
     "Allow apps to use the Share API" : "לאפשר ליישום להשתמש ב־API השיתוף",
     "Allow resharing" : "לאפשר שיתוף מחדש",

@@ -95,7 +95,6 @@
     "System locale can not be set to a one which supports UTF-8." : "A rendszer lokalizációs állományai között nem sikerült olyat beállítani, ami támogatja az UTF-8-at.",
     "This means that there might be problems with certain characters in file names." : "Ez azt jelenti, hogy probléma lehet bizonyos karakterekkel a fájlnevekben.",
     "URL generation in notification emails" : "URL-képzés az értesítő e-mailekben",
-    "Please double check the <a href='%s'>installation guides</a>." : "Kérjük tüzetesen tanulmányozza át a <a href='%s'>telepítési útmutatót</a>.",
     "Cron was not executed yet!" : "A cron feladat még nem futott le!",
     "Execute one task with each page loaded" : "Egy-egy feladat végrehajtása minden alkalommal, amikor egy weboldalt letöltenek",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "A cron.php webcron szolgáltatásként van regisztrálva, hogy 15 percenként egyszer lefuttassa a cron.php-t.",

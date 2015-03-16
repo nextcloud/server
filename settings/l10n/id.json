@@ -122,7 +122,6 @@
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Jika instalasi Anda tidak di root domain dan menggunakan sistem cron, hal tersebut dapat menyebabkan masalah dengan pembuatan URL. Untuk mencegah masalah tersebut, mohon atur opsi \"overwrite.cli.url\" pada berkas config.php Anda ke jalur lokasi webroot instalasi Anda (Disarankan: \"%s\")",
     "Configuration Checks" : "Pemeriksaan Konfigurasi",
     "No problems found" : "Masalah tidak ditemukan",
-    "Please double check the <a href='%s'>installation guides</a>." : "Silakan periksa ulang <a href='%s'>panduan instalasi</a>.",
     "Cron was not executed yet!" : "Cron masih belum dieksekusi!",
     "Execute one task with each page loaded" : "Jalankan tugas setiap kali halaman dimuat",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php didaftarkan pada layanan webcron untuk memanggil cron.php setiap 15 menit melalui http.",

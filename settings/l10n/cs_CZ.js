@@ -132,7 +132,6 @@ OC.L10N.register(
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "Nebylo možné spustit službu cron v CLI. Došlo k následujícím technickým chybám:",
     "Configuration Checks" : "Ověření konfigurace",
     "No problems found" : "Nebyly nalezeny žádné problémy",
-    "Please double check the <a href='%s'>installation guides</a>." : "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>.",
     "Last cron job execution: %s." : "Poslední cron proběhl: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Poslední cron proběhl: %s. Vypadá to, že něco není v pořádku.",
     "Cron was not executed yet!" : "Cron ještě nebyl spuštěn!",

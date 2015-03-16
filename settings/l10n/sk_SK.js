@@ -130,7 +130,6 @@ OC.L10N.register(
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Inštalácia mimo koreňový priečinok domény a používanie systémového príkazu cron môže spôsobiť problém s generovaním správnej URL. Pre zabránenie týmto chybám nastavte prosím správnu cestu v svojom config.php súbore pre hodnotu \"overwrite.cli.url\" (Doporučujeme: \"%s\")",
     "Configuration Checks" : "Overenie konfigurácie",
     "No problems found" : "Nenašli sa žiadne problémy",
-    "Please double check the <a href='%s'>installation guides</a>." : "Prosím skontrolujte <a href='%s'>inštalačnú príručku</a>.",
     "Cron was not executed yet!" : "Cron sa ešte nespustil!",
     "Execute one task with each page loaded" : "Vykonať jednu úlohu s každým načítaní stránky",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php je zaregistrovaná v službe WebCron a zavolá cron.php každých 15 minút cez http.",

@@ -11,7 +11,6 @@ OC.L10N.register(
     "Encryption" : "Amgryptiad",
     "None" : "Dim",
     "Login" : "Mewngofnodi",
-    "Please double check the <a href='%s'>installation guides</a>." : "Gwiriwch y <a href='%s'>canllawiau gosod</a> eto.",
     "by" : "gan",
     "Password" : "Cyfrinair",
     "New password" : "Cyfrinair newydd",

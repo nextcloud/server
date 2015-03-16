@@ -104,7 +104,6 @@ OC.L10N.register(
     "This means that there might be problems with certain characters in file names." : "See tähendab, et võib esineda probleeme failide nimedes mõnede sümbolitega.",
     "URL generation in notification emails" : "URL-ide loomine teavituskirjades",
     "No problems found" : "Ühtegi probleemi ei leitud",
-    "Please double check the <a href='%s'>installation guides</a>." : "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>.",
     "Cron was not executed yet!" : "Cron pole kordagi käivitatud!",
     "Execute one task with each page loaded" : "Käivita toiming igal lehe laadimisel",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php on registreeritud webcron teenuses, et käivitada fail cron.php iga 15 minuti tagant üle http.",

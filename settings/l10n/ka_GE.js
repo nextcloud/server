@@ -38,7 +38,6 @@ OC.L10N.register(
     "Module 'fileinfo' missing" : "მოდული 'fileinfo'  არ არსებობს",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP მოდული 'fileinfo' არ არსებობს. ჩვენ გირჩევთ რომ აუცილებლად ჩართოთ ეს მოდული, რომ მიიღოთ კარგი შედეგები mime-type–ს აღმოჩენისას.",
     "Locale not working" : "ლოკალიზაცია არ მუშაობს",
-    "Please double check the <a href='%s'>installation guides</a>." : "გთხოვთ გადაათვალიეროთ <a href='%s'>ინსტალაციის გზამკვლევი</a>.",
     "Execute one task with each page loaded" : "გაუშვი თითო მოქმედება ყველა ჩატვირთულ გვერდზე",
     "Allow apps to use the Share API" : "დაუშვი აპლიკაციების უფლება  Share API –ზე",
     "Allow resharing" : "გადაზიარების დაშვება",

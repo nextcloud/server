@@ -128,7 +128,6 @@
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Eger sizin yüklənməniz root domain-də yüklənməyibsə və sistem cron-u istifadə edirsə, orda URL generasiyası ilə bağlı problemləriniz ola bilər. Bu problemləri aşmaq üçün xahiş olunur yüklənmə vaxtı \"overwrite.cli.url\" opsiyasını config.php faylında webroot ünvanı olaraq təyin edəsiniz (Məsləhətdir: \"%s\")",
     "Configuration Checks" : "Konfiqurasiya yoxlanılır",
     "No problems found" : "Heç bir problem tapılmadı",
-    "Please double check the <a href='%s'>installation guides</a>." : "Xahiş olunur təkrar yoxlayasınız <a href='%s'>yüklənmə məlumat kitabçasını</a>.",
     "Cron was not executed yet!" : "Cron hələ yerinə yetirilməyib!",
     "Execute one task with each page loaded" : "Hər səhifə yüklənməsində bir işi yerinə yetir",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php qeydə alınmış webcron servisdir hansi ki, http üzərindən hər 15 dəqiqədən bir cron.php çağırır.",

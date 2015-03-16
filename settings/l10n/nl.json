@@ -130,7 +130,6 @@
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "het was niet mogelijk om de cronjob via CLI uit te voeren. De volgende technische problemen traden op:",
     "Configuration Checks" : "Configuratie Controles",
     "No problems found" : "Geen problemen gevonden",
-    "Please double check the <a href='%s'>installation guides</a>." : "Controleer de <a href='%s'>installatiehandleiding</a> goed.",
     "Last cron job execution: %s." : "Laatst uitgevoerde cronjob: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Laatst uitgevoerde cronjob: %s. Er lijkt iets fout gegaan.",
     "Cron was not executed yet!" : "Cron is nog niet uitgevoerd!",

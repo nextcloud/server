@@ -119,7 +119,6 @@ OC.L10N.register(
     "URL generation in notification emails" : "Generiranje URL-a u notifikacijskoj e-pošti",
     "Configuration Checks" : "Konfiguracione Provjere",
     "No problems found" : "Problemi nisu pronađeni",
-    "Please double check the <a href='%s'>installation guides</a>." : "Molimo duplo provjerite <a href='%s'> instalacijske vodiće</a>.",
     "Cron was not executed yet!" : "Cron još nije izvršen!",
     "Execute one task with each page loaded" : "Izvrši jedan zadatak sa svakom učitanom stranicom",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php je registrovan na webcron usluzi da poziva cron.php svakih 15 minuta preko http.",

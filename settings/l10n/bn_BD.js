@@ -45,7 +45,6 @@ OC.L10N.register(
     "Login" : "প্রবেশ",
     "Module 'fileinfo' missing" : "'fileinfo' মডিউল নেই",
     "No problems found" : "কোন সমস্যা পাওয়া গেল না",
-    "Please double check the <a href='%s'>installation guides</a>." : "দয়া করে <a href='%s'>installation guides</a> দ্বিতীয়বার দেখুন।",
     "Expire after " : "এরপর মেয়াদোত্তীর্ণ হও",
     "days" : "দিনগুলি",
     "Enforce expiration date" : "মেয়াদোত্তীর্ণ হওয়ার তারিখ কার্যকর করুন",

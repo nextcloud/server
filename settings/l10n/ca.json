@@ -103,7 +103,6 @@
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Recomanem fermament que instal·leu els paquets requerits en el vostre sistema per suportar un dels següents idiomes: %s",
     "URL generation in notification emails" : "Generar URL en els correus de notificació",
     "No problems found" : "No hem trovat problemes",
-    "Please double check the <a href='%s'>installation guides</a>." : "Comproveu les <a href='%s'>guies d'instal·lació</a>.",
     "Cron was not executed yet!" : "El cron encara no s'ha executat!",
     "Execute one task with each page loaded" : "Executa una tasca per cada paquet carregat",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php està registrat en un servei webcron que fa una crida a cron.php cada 15 minuts a través de http.",

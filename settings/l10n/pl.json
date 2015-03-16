@@ -119,7 +119,6 @@
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Zalecamy instalację na Twoim systemie komponentów wymaganych do obsługi języków: %s",
     "URL generation in notification emails" : "Generowanie URL w powiadomieniach email",
     "No problems found" : "Nie ma żadnych problemów",
-    "Please double check the <a href='%s'>installation guides</a>." : "Sprawdź podwójnie <a href='%s'>wskazówki instalacji</a>.",
     "Cron was not executed yet!" : "Cron nie został jeszcze uruchomiony!",
     "Execute one task with each page loaded" : "Wykonuj jedno zadanie wraz z każdą wczytaną stroną",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php jest zarejestrowany w serwisie webcron do uruchamiania cron.php raz na 15 minut przez http.",

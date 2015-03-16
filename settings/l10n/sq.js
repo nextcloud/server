@@ -68,7 +68,6 @@ OC.L10N.register(
     "Module 'fileinfo' missing" : "Mungon moduli 'fileinfo'",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Moduli PHP 'fileinfo' mungon. Ju këshillojmë me këmbngulje të aktivizoni këtë modul për të arritur rezultate më të mirame identifikimin e tipeve te ndryshme MIME.",
     "Locale not working" : "Locale nuk është funksional",
-    "Please double check the <a href='%s'>installation guides</a>." : "Ju lutemi kontrolloni mirë <a href='%s'>shoqëruesin e instalimit</a>.",
     "Execute one task with each page loaded" : "Kryeni vetëm një veprim me secilën prej faqeve të ngarkuara",
     "Allow apps to use the Share API" : "Lejoni aplikacionet të përdorin share API",
     "Allow public uploads" : "Lejo ngarkimin publik",

@@ -69,7 +69,6 @@ OC.L10N.register(
     "Locale not working" : "اللغه لا تعمل",
     "System locale can not be set to a one which supports UTF-8." : "لا يمكن تعيين لغة النظام الى احد اللغات التي تدعم UTF-8.",
     "This means that there might be problems with certain characters in file names." : "هذا يعني انه من الممكن ان يكون هناك مشكلة في بعض الاحرف في اسم الملف.",
-    "Please double check the <a href='%s'>installation guides</a>." : "الرجاء التحقق من <a href='%s'>دليل التنصيب</a>.",
     "Execute one task with each page loaded" : "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "الملف cron.php تم تسجيله فى خدمه webcron  لاستدعاء الملف cron.php كل  15 دقيقه",
     "Allow apps to use the Share API" : "السماح للتطبيقات بالمشاركة عن طريق الAPI",

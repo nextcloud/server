@@ -142,7 +142,7 @@ OC.L10N.register(
     "Personal" : "Лично",
     "Users" : "Корисници",
     "Apps" : "Апликације",
-    "Admin" : "Администратор",
+    "Admin" : "Администрација",
     "Help" : "Помоћ",
     "Error loading tags" : "Грешка при учитавању ознака",
     "Tag already exists" : "Ознака већ постоји",

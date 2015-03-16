@@ -130,7 +130,6 @@ OC.L10N.register(
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "もし、URLがドメインのルート(/)で終わっていない場合で、システムのcronを利用している場合、URLの生成に問題が発生します。その場合は、config.php ファイルの中の \"overwrite.cli.url\" オプションをインストールしたwebrootのパスに設定してください。(推奨: \"%s\")",
     "Configuration Checks" : "設定のチェック",
     "No problems found" : "問題は見つかりませんでした",
-    "Please double check the <a href='%s'>installation guides</a>." : "<a href='%s'>インストールガイド</a>をよく確認してください。",
     "Cron was not executed yet!" : "cronはまだ実行されていません！",
     "Execute one task with each page loaded" : "各ページの読み込み時にタスクを実行します。",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.phpは、HTTP経由で15分ごとにcron.phpを実行するようwebcronサービスに登録されています。",

@@ -98,6 +98,7 @@ OC.L10N.register(
     "Upload" : "Μεταφόρτωση",
     "Cancel upload" : "Ακύρωση μεταφόρτωσης",
     "No files yet" : "Κανένα αρχείο ακόμα.",
+    "Upload some content or sync with your devices!" : "Μεταφόρτωση περιεχομένου ή συγχρονισμός με τις συσκευές σας!",
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
     "Select all" : "Επιλογή όλων",
     "Upload too large" : "Πολύ μεγάλο αρχείο προς αποστολή",

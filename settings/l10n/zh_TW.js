@@ -82,7 +82,6 @@ OC.L10N.register(
     "Locale not working" : "語系無法運作",
     "System locale can not be set to a one which supports UTF-8." : "系統語系無法設定只支援 UTF-8",
     "This means that there might be problems with certain characters in file names." : "這個意思是指在檔名中使用一些字元可能會有問題",
-    "Please double check the <a href='%s'>installation guides</a>." : "請參考<a href='%s'>安裝指南</a>。",
     "Cron was not executed yet!" : "排程沒有執行!",
     "Execute one task with each page loaded" : "當頁面載入時，執行",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "已經與 webcron 服務註冊好，將會每15分鐘呼叫 cron.php",

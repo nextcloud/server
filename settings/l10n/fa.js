@@ -83,7 +83,6 @@ OC.L10N.register(
     "Module 'fileinfo' missing" : "ماژول 'fileinfo' از کار افتاده",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "ماژول 'fileinfo' PHP از کار افتاده است.ما اکیدا توصیه می کنیم که این ماژول را فعال کنید تا نتایج بهتری به وسیله ی mime-type detection دریافت کنید.",
     "Locale not working" : "زبان محلی کار نمی کند.",
-    "Please double check the <a href='%s'>installation guides</a>." : "لطفاً دوباره <a href='%s'>راهنمای نصب</a>را بررسی کنید.",
     "Cron was not executed yet!" : "کران هنوز اجرا نشده است!",
     "Execute one task with each page loaded" : "اجرای یک وظیفه با هر بار بارگذاری صفحه",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php در یک سرویس webcron ثبت شده است که هر 15 دقیقه یک بار بر روی بستر http فراخوانی شود.",
