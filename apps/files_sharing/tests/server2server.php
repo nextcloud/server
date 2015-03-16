@@ -48,9 +48,9 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 
 		$config = $this->getMockBuilder('\OCP\IConfig')
 				->disableOriginalConstructor()->getMock();
-		$certificateManager = $this->getMock('\OCP\ICertificateManager');
+		$clientService = $this->getMock('\OCP\Http\Client\IClientService');
 		$httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
-				->setConstructorArgs(array($config, $certificateManager))
+				->setConstructorArgs([$config, $clientService])
 				->getMock();
 		$httpHelperMock->expects($this->any())->method('post')->with($this->anything())->will($this->returnValue(true));
 

@@ -1193,33 +1193,21 @@ class OC_Util {
 	/**
 	 * Check if the ownCloud server can connect to the internet
 	 *
+	 * @param \OCP\Http\Client\IClientService $clientService
 	 * @return bool
 	 */
-	public static function isInternetConnectionWorking() {
+	public static function isInternetConnectionWorking(\OCP\Http\Client\IClientService $clientService) {
 		// in case there is no internet connection on purpose return false
 		if (self::isInternetConnectionEnabled() === false) {
 			return false;
 		}
 
-		// in case the connection is via proxy return true to avoid connecting to owncloud.org
-		if (OC_Config::getValue('proxy', '') != '') {
-			return true;
-		}
-
-		// try to connect to owncloud.org to see if http connections to the internet are possible.
-		$connected = @fsockopen("www.owncloud.org", 80);
-		if ($connected) {
-			fclose($connected);
-			return true;
-		} else {
-			// second try in case one server is down
-			$connected = @fsockopen("apps.owncloud.com", 80);
-			if ($connected) {
-				fclose($connected);
-				return true;
-			} else {
-				return false;
-			}
+		try {
+			$client = $clientService->newClient();
+			$response = $client->get('https://www.owncloud.org/');
+			return $response->getStatusCode() === 200;
+		} catch (\Exception $e) {
+			return false;
 		}
 	}
 

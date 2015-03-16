@@ -244,8 +244,9 @@ class OC_Installer{
 			if(!isset($data['href'])) {
 				throw new \Exception($l->t("No href specified when installing app from http"));
 			}
-			file_put_contents($path, \OC_Util::getUrlContent($data['href']));
-		}else{
+			$client = \OC::$server->getHTTPClientService()->newClient();
+			$client->get($data['href'], ['save_to' => $path]);
+		} else {
 			if(!isset($data['path'])) {
 				throw new \Exception($l->t("No path specified when installing app from local file"));
 			}

@@ -93,9 +93,9 @@ class UpdaterTest extends \Test\TestCase {
 				->getMock()
 		;
 
-		$certificateManager = $this->getMock('\OCP\ICertificateManager');
+		$clientService = $this->getMock('\OCP\Http\Client\IClientService');
 		$mockedHTTPHelper = $this->getMockBuilder('\OC\HTTPHelper')
-				->setConstructorArgs(array(\OC::$server->getConfig(), $certificateManager))
+				->setConstructorArgs([\OC::$server->getConfig(), $clientService])
 				->getMock()
 		;
 

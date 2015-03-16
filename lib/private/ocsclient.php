@@ -67,16 +67,24 @@ class OCSClient {
 			return null;
 		}
 		$url = self::getAppStoreURL() . '/content/categories';
-		$xml = \OC::$server->getHTTPHelper()->getUrlContent($url);
-		if ($xml == false) {
+
+		$client = \OC::$server->getHTTPClientService()->newClient();
+		try {
+			$response = $client->get($url, ['timeout' => 5]);
+		} catch(\Exception $e) {
 			return null;
 		}
+
+		if($response->getStatusCode() !== 200) {
+			return null;
+		}
+
 		$loadEntities = libxml_disable_entity_loader(true);
-		$data = simplexml_load_string($xml);
+		$data = simplexml_load_string($response->getBody());
 		libxml_disable_entity_loader($loadEntities);
 
 		$tmp = $data->data;
-		$cats = array();
+		$cats = [];
 
 		foreach ($tmp->category as $value) {
 
@@ -114,14 +122,21 @@ class OCSClient {
 		$filterUrl = '&filter=' . urlencode($filter);
 		$url = self::getAppStoreURL() . '/content/data?categories=' . urlencode($categoriesString)
 			. '&sortmode=new&page=' . urlencode($page) . '&pagesize=100' . $filterUrl . $version;
-		$apps = array();
-		$xml = \OC::$server->getHTTPHelper()->getUrlContent($url);
+		$apps = [];
 
-		if ($xml == false) {
+		$client = \OC::$server->getHTTPClientService()->newClient();
+		try {
+			$response = $client->get($url, ['timeout' => 5]);
+		} catch(\Exception $e) {
 			return null;
 		}
+
+		if($response->getStatusCode() !== 200) {
+			return null;
+		}
+
 		$loadEntities = libxml_disable_entity_loader(true);
-		$data = simplexml_load_string($xml);
+		$data = simplexml_load_string($response->getBody());
 		libxml_disable_entity_loader($loadEntities);
 
 		$tmp = $data->data->content;
@@ -163,14 +178,19 @@ class OCSClient {
 			return null;
 		}
 		$url = self::getAppStoreURL() . '/content/data/' . urlencode($id);
-		$xml = \OC::$server->getHTTPHelper()->getUrlContent($url);
-
-		if ($xml == false) {
-			\OC_Log::write('core', 'Unable to parse OCS content for app ' . $id, \OC_Log::FATAL);
+		$client = \OC::$server->getHTTPClientService()->newClient();
+		try {
+			$response = $client->get($url, ['timeout' => 5]);
+		} catch(\Exception $e) {
 			return null;
 		}
+
+		if($response->getStatusCode() !== 200) {
+			return null;
+		}
+
 		$loadEntities = libxml_disable_entity_loader(true);
-		$data = simplexml_load_string($xml);
+		$data = simplexml_load_string($response->getBody());
 		libxml_disable_entity_loader($loadEntities);
 
 		$tmp = $data->data->content;
@@ -178,7 +198,7 @@ class OCSClient {
 			\OC_Log::write('core', 'Invalid OCS content returned for app ' . $id, \OC_Log::FATAL);
 			return null;
 		}
-		$app = array();
+		$app = [];
 		$app['id'] = $tmp->id;
 		$app['name'] = $tmp->name;
 		$app['version'] = $tmp->version;
@@ -212,14 +232,19 @@ class OCSClient {
 			return null;
 		}
 		$url = self::getAppStoreURL() . '/content/download/' . urlencode($id) . '/' . urlencode($item);
-		$xml = \OC::$server->getHTTPHelper()->getUrlContent($url);
-
-		if ($xml == false) {
-			\OC_Log::write('core', 'Unable to parse OCS content', \OC_Log::FATAL);
+		$client = \OC::$server->getHTTPClientService()->newClient();
+		try {
+			$response = $client->get($url, ['timeout' => 5]);
+		} catch(\Exception $e) {
 			return null;
 		}
+
+		if($response->getStatusCode() !== 200) {
+			return null;
+		}
+
 		$loadEntities = libxml_disable_entity_loader(true);
-		$data = simplexml_load_string($xml);
+		$data = simplexml_load_string($response->getBody());
 		libxml_disable_entity_loader($loadEntities);
 
 		$tmp = $data->data->content;

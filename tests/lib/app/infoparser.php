@@ -21,10 +21,10 @@ class InfoParser extends \PHPUnit_Framework_TestCase {
 	public function setUp() {
 		$config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
-		$certificateManager = $this->getMock('\OCP\ICertificateManager');
+		$clientService = $this->getMock('\OCP\Http\Client\IClientService');
 		$httpHelper = $this->getMockBuilder('\OC\HTTPHelper')
-			->setConstructorArgs(array($config, $certificateManager))
-			->setMethods(array('getHeaders'))
+			->setConstructorArgs([$config, $clientService])
+			->setMethods(['getHeaders'])
 			->getMock();
 		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
 			->disableOriginalConstructor()

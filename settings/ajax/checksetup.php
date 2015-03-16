@@ -13,7 +13,7 @@ OCP\JSON::callCheck();
 // no warning when has_internet_connection is false in the config
 $hasInternet = true;
 if (OC_Util::isInternetConnectionEnabled()) {
-	$hasInternet = OC_Util::isInternetConnectionWorking();
+	$hasInternet = OC_Util::isInternetConnectionWorking(\OC::$server->getHTTPClientService());
 }
 
 OCP\JSON::success(

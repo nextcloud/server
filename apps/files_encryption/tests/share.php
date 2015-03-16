@@ -122,9 +122,9 @@ class Share extends TestCase {
 	private function createMocks() {
 		$config = $this->getMockBuilder('\OCP\IConfig')
 				->disableOriginalConstructor()->getMock();
-		$certificateManager = $this->getMock('\OCP\ICertificateManager');
+		$clientService = $this->getMock('\OCP\Http\Client\IClientService');
 		$httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
-				->setConstructorArgs(array($config, $certificateManager))
+				->setConstructorArgs([$config, $clientService])
 				->getMock();
 		$httpHelperMock->expects($this->any())->method('post')->with($this->anything())->will($this->returnValue(array('success' => true, 'result' => "{'ocs' : { 'meta' : { 'statuscode' : 100 }}}")));
 
