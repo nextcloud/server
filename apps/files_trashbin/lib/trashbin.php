@@ -23,6 +23,7 @@
 namespace OCA\Files_Trashbin;
 
 use OC\Files\Filesystem;
+use OCA\Files_Trashbin\Command\Expire;
 
 class Trashbin {
 	// how long do we keep files in the trash bin if no other value is defined in the config file (unit: days)
@@ -211,13 +212,13 @@ class Trashbin {
 		}
 
 		$userTrashSize += $size;
-		$userTrashSize -= self::expire($userTrashSize, $user);
+		self::scheduleExpire($userTrashSize, $user);
 
 		// if owner !== user we also need to update the owners trash size
 		if ($owner !== $user) {
 			$ownerTrashSize = self::getTrashbinSize($owner);
 			$ownerTrashSize += $size;
-			$ownerTrashSize -= self::expire($ownerTrashSize, $owner);
+			self::scheduleExpire($ownerTrashSize, $owner);
 		}
 
 		return ($sizeOfAddedFiles === false) ? false : true;
@@ -429,7 +430,7 @@ class Trashbin {
 
 			if ($view->is_dir('/files_trashbin/versions/' . $file)) {
 				$rootView->rename(\OC\Files\Filesystem::normalizePath($user . '/files_trashbin/versions/' . $file), \OC\Files\Filesystem::normalizePath($owner . '/files_versions/' . $ownerPath));
-			} else if ($versions = self::getVersionsFromTrash($versionedFile, $timestamp)) {
+			} else if ($versions = self::getVersionsFromTrash($versionedFile, $timestamp, $user)) {
 				foreach ($versions as $v) {
 					if ($timestamp) {
 						$rootView->rename($user . '/files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp, $owner . '/files_versions/' . $ownerPath . '.v' . $v);
@@ -533,8 +534,8 @@ class Trashbin {
 			$file = $filename;
 		}
 
-		$size += self::deleteVersions($view, $file, $filename, $timestamp);
-		$size += self::deleteEncryptionKeys($view, $file, $filename, $timestamp);
+		$size += self::deleteVersions($view, $file, $filename, $timestamp, $user);
+		$size += self::deleteEncryptionKeys($view, $file, $filename, $timestamp, $user);
 
 		if ($view->is_dir('/files_trashbin/files/' . $file)) {
 			$size += self::calculateSize(new \OC\Files\View('/' . $user . '/files_trashbin/files/' . $file));
@@ -555,14 +556,13 @@ class Trashbin {
 	 * @param $timestamp
 	 * @return int
 	 */
-	private static function deleteVersions(\OC\Files\View $view, $file, $filename, $timestamp) {
+	private static function deleteVersions(\OC\Files\View $view, $file, $filename, $timestamp, $user) {
 		$size = 0;
 		if (\OCP\App::isEnabled('files_versions')) {
-			$user = \OCP\User::getUser();
 			if ($view->is_dir('files_trashbin/versions/' . $file)) {
 				$size += self::calculateSize(new \OC\Files\view('/' . $user . '/files_trashbin/versions/' . $file));
 				$view->unlink('files_trashbin/versions/' . $file);
-			} else if ($versions = self::getVersionsFromTrash($filename, $timestamp)) {
+			} else if ($versions = self::getVersionsFromTrash($filename, $timestamp, $user)) {
 				foreach ($versions as $v) {
 					if ($timestamp) {
 						$size += $view->filesize('/files_trashbin/versions/' . $filename . '.v' . $v . '.d' . $timestamp);
@@ -584,10 +584,9 @@ class Trashbin {
 	 * @param $timestamp
 	 * @return int
 	 */
-	private static function deleteEncryptionKeys(\OC\Files\View $view, $file, $filename, $timestamp) {
+	private static function deleteEncryptionKeys(\OC\Files\View $view, $file, $filename, $timestamp, $user) {
 		$size = 0;
 		if (\OCP\App::isEnabled('files_encryption')) {
-			$user = \OCP\User::getUser();
 
 			$keyfiles = \OC\Files\Filesystem::normalizePath('files_trashbin/keys/' . $filename);
 
@@ -689,26 +688,18 @@ class Trashbin {
 		$freeSpace = self::calculateFreeSpace($size, $user);
 
 		if ($freeSpace < 0) {
-			self::expire($size, $user);
+			self::scheduleExpire($size, $user);
 		}
 	}
 
 	/**
 	 * clean up the trash bin
 	 *
-	 * @param int $trashbinSize current size of the trash bin
+	 * @param int $trashBinSize current size of the trash bin
 	 * @param string $user
-	 * @return int size of expired files
 	 */
-	private static function expire($trashbinSize, $user) {
-
-		// let the admin disable auto expire
-		$autoExpire = \OC_Config::getValue('trashbin_auto_expire', true);
-		if ($autoExpire === false) {
-			return 0;
-		}
-
-		$availableSpace = self::calculateFreeSpace($trashbinSize, $user);
+	public static function expire($trashBinSize, $user) {
+		$availableSpace = self::calculateFreeSpace($trashBinSize, $user);
 		$size = 0;
 
 		$retention_obligation = \OC_Config::getValue('trashbin_retention_obligation', self::DEFAULT_RETENTION_OBLIGATION);
@@ -725,8 +716,18 @@ class Trashbin {
 
 		// delete files from trash until we meet the trash bin size limit again
 		$size += self::deleteFiles(array_slice($dirContent, $count), $user, $availableSpace);
+	}
 
-		return $size;
+	/**@param int $trashBinSize current size of the trash bin
+	 * @param string $user
+	 */
+	private static function scheduleExpire($trashBinSize, $user) {
+		// let the admin disable auto expire
+		$autoExpire = \OC_Config::getValue('trashbin_auto_expire', true);
+		if ($autoExpire === false) {
+			return;
+		}
+		\OC::$server->getCommandBus()->push(new Expire($user, $trashBinSize));
 	}
 
 	/**
@@ -827,8 +828,8 @@ class Trashbin {
 	 * @param int $timestamp timestamp when the file was deleted
 	 * @return array
 	 */
-	private static function getVersionsFromTrash($filename, $timestamp) {
-		$view = new \OC\Files\View('/' . \OCP\User::getUser() . '/files_trashbin/versions');
+	private static function getVersionsFromTrash($filename, $timestamp, $user) {
+		$view = new \OC\Files\View('/' . $user . '/files_trashbin/versions');
 		$versions = array();
 
 		//force rescan of versions, local storage may not have updated the cache

@@ -22,9 +22,23 @@
 
 namespace Test;
 
+use OC\Command\QueueBus;
 use OCP\Security\ISecureRandom;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase {
+	/**
+	 * @var \OC\Command\QueueBus
+	 */
+	private $commandBus;
+
+	protected function setUp() {
+		// overwrite the command bus with one we can run ourselves
+		$this->commandBus = new QueueBus();
+		\OC::$server->registerService('AsyncCommandBus', function(){
+			return $this->commandBus;
+		});
+	}
+
 	/**
 	 * Returns a unique identifier as uniqid() is not reliable sometimes
 	 *
@@ -55,6 +69,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Remove all entries from the files map table
+	 *
 	 * @param string $dataDir
 	 */
 	static protected function tearDownAfterClassCleanFileMapper($dataDir) {
@@ -66,6 +81,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Remove all entries from the storages table
+	 *
 	 * @throws \OC\DatabaseException
 	 */
 	static protected function tearDownAfterClassCleanStorages() {
@@ -76,6 +92,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Remove all entries from the filecache table
+	 *
 	 * @throws \OC\DatabaseException
 	 */
 	static protected function tearDownAfterClassCleanFileCache() {
@@ -91,11 +108,11 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	 */
 	static protected function tearDownAfterClassCleanStrayDataFiles($dataDir) {
 		$knownEntries = array(
-			'owncloud.log'	=> true,
-			'owncloud.db'	=> true,
-			'.ocdata'		=> true,
-			'..'			=> true,
-			'.'				=> true,
+			'owncloud.log' => true,
+			'owncloud.db' => true,
+			'.ocdata' => true,
+			'..' => true,
+			'.' => true,
 		);
 
 		if ($dh = opendir($dataDir)) {
@@ -122,8 +139,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 				$path = $dir . '/' . $file;
 				if (is_dir($path)) {
 					self::tearDownAfterClassCleanStrayDataUnlinkDir($path);
-				}
-				else {
+				} else {
 					@unlink($path);
 				}
 			}
@@ -168,5 +184,12 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	static protected function logout() {
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
+	}
+
+	/**
+	 * Run all commands pushed to the bus
+	 */
+	protected function runCommands() {
+		$this->commandBus->run();
 	}
 }
