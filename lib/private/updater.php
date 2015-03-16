@@ -403,7 +403,7 @@ class Updater extends BasicEmitter {
 	private function upgradeAppStoreApps($disabledApps) {
 		foreach($disabledApps as $app) {
 			if (OC_Installer::isUpdateAvailable($app)) {
-				$ocsId=\OC::$server->getConfig()->getAppValue($app, 'ocsid', '');
+				$ocsId = \OC::$server->getConfig()->getAppValue($app, 'ocsid', '');
 
 				$this->emit('\OC\Updater', 'upgradeAppStoreApp', array($app));
 				OC_Installer::updateAppByOCSId($ocsId);
