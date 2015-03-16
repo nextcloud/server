@@ -41,60 +41,16 @@ class TestHTTPHelper extends \Test\TestCase {
 	}
 
 	/**
-	 * Note: Not using a dataprovider because onConsecutiveCalls expects not
-	 * an array but the function arguments directly
-	 */
-	public function testGetFinalLocationOfURLValid() {
-		$url = 'https://www.owncloud.org/enterprise/';
-		$expected = 'https://www.owncloud.com/enterprise/';
-		$this->httpHelperMock->expects($this->any())
-			->method('getHeaders')
-			->will($this->onConsecutiveCalls(
-				array('Location' => 'http://www.owncloud.com/enterprise/'),
-				array('Location' => 'https://www.owncloud.com/enterprise/')
-			));
-		$result = $this->httpHelperMock->getFinalLocationOfURL($url);
-		$this->assertSame($expected, $result);
-	}
-
-	/**
-	 * Note: Not using a dataprovider because onConsecutiveCalls expects not
-	 * an array but the function arguments directly
-	 */
-	public function testGetFinalLocationOfURLInvalid() {
-		$url = 'https://www.owncloud.org/enterprise/';
-		$expected = 'http://www.owncloud.com/enterprise/';
-		$this->httpHelperMock->expects($this->any())
-			->method('getHeaders')
-			->will($this->onConsecutiveCalls(
-				array('Location' => 'http://www.owncloud.com/enterprise/'),
-				array('Location' => 'file://etc/passwd'),
-				array('Location' => 'http://www.example.com/')
-			));
-		$result = $this->httpHelperMock->getFinalLocationOfURL($url);
-		$this->assertSame($expected, $result);
-	}
-
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage URL must begin with HTTPS or HTTP.
-	 */
-	public function testGetFinalLocationOfURLException() {
-		$this->httpHelperMock->getFinalLocationOfURL('file://etc/passwd');
-	}
-
-	/**
 	 * @dataProvider isHttpTestData
 	 */
 	public function testIsHTTP($url, $expected) {
 			$this->assertSame($expected, $this->httpHelperMock->isHTTPURL($url));
 	}
 
-
 	/**
 	 * @dataProvider postParameters
 	 */
-	public function testassemblePostParameters($parameterList, $expectedResult) {
+	public function testAssemblePostParameters($parameterList, $expectedResult) {
 		$helper = \OC::$server->getHTTPHelper();
 		$result = \Test_Helper::invokePrivate($helper, 'assemblePostParameters', array($parameterList));
 		$this->assertSame($expectedResult, $result);
@@ -107,6 +63,4 @@ class TestHTTPHelper extends \Test\TestCase {
 			array(array(), ''),
 		);
 	}
-
-
 }

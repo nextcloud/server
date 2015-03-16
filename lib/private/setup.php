@@ -184,16 +184,6 @@ class Setup {
 				'hint' => $this->l10n->t('Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP.')
 			);
 		}
-		if(!function_exists('curl_init') && PHP_INT_SIZE === 4) {
-			$errors[] = array(
-				'error' => $this->l10n->t(
-					'It seems that this %s instance is running on a 32-bit PHP environment and cURL is not installed. ' .
-					'This will lead to problems with files over 4 GB and is highly discouraged.',
-					$this->defaults->getName()
-				),
-				'hint' => $this->l10n->t('Please install the cURL extension and restart your webserver.')
-			);
-		}
 
 		return array(
 			'hasSQLite' => isset($databases['sqlite']),
