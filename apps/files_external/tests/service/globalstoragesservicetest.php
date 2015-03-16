@@ -708,4 +708,108 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		}
 	}
 
+	/**
+	 * Test reading in a legacy config and generating config ids.
+	 */
+	public function testReadLegacyConfigAndGenerateConfigId() {
+		$configFile = $this->dataDir . '/mount.json';
+
+		$legacyBackendOptions = [
+			'user' => 'someuser',
+			'password' => 'somepassword',
+		];
+		$legacyBackendOptions = \OC_Mount_Config::encryptPasswords($legacyBackendOptions);
+
+		$legacyConfig = [
+			'class' => '\OC\Files\Storage\SMB',
+			'options' => $legacyBackendOptions,
+			'mountOptions' => ['preview' => false],
+		];
+		// different mount options
+		$legacyConfig2 = [
+			'class' => '\OC\Files\Storage\SMB',
+			'options' => $legacyBackendOptions,
+			'mountOptions' => ['preview' => true],
+		];
+
+		$legacyBackendOptions2 = $legacyBackendOptions;
+		$legacyBackendOptions2 = ['user' => 'someuser2', 'password' => 'somepassword2'];
+		$legacyBackendOptions2 = \OC_Mount_Config::encryptPasswords($legacyBackendOptions2);
+
+		// different config
+		$legacyConfig3 = [
+			'class' => '\OC\Files\Storage\SMB',
+			'options' => $legacyBackendOptions2,
+			'mountOptions' => ['preview' => true],
+		];
+
+		$json = [
+			'user' => [
+				'user1' => [
+					'/$user/files/somemount' => $legacyConfig,
+				],
+				// same config
+				'user2' => [
+					'/$user/files/somemount' => $legacyConfig,
+				],
+				// different mountOptions
+				'user3' => [
+					'/$user/files/somemount' => $legacyConfig2,
+				],
+				// different mount point
+				'user4' => [
+					'/$user/files/anothermount' => $legacyConfig,
+				],
+				// different storage config
+				'user5' => [
+					'/$user/files/somemount' => $legacyConfig3,
+				],
+			],
+			'group' => [
+				'group1' => [
+					// will get grouped with user configs
+					'/$user/files/somemount' => $legacyConfig,
+				],
+			],
+		];
+
+		file_put_contents($configFile, json_encode($json));
+
+		$allStorages = $this->service->getAllStorages();
+
+		$this->assertCount(4, $allStorages);
+
+		$storage1 = $allStorages[1];
+		$storage2 = $allStorages[2];
+		$storage3 = $allStorages[3];
+		$storage4 = $allStorages[4];
+
+		$this->assertEquals('/somemount', $storage1->getMountPoint());
+		$this->assertEquals('someuser', $storage1->getBackendOptions()['user']);
+		$this->assertEquals('somepassword', $storage1->getBackendOptions()['password']);
+		$this->assertEquals(['user1', 'user2'], $storage1->getApplicableUsers());
+		$this->assertEquals(['group1'], $storage1->getApplicableGroups());
+		$this->assertEquals(['preview' => false], $storage1->getMountOptions());
+
+		$this->assertEquals('/somemount', $storage2->getMountPoint());
+		$this->assertEquals('someuser', $storage2->getBackendOptions()['user']);
+		$this->assertEquals('somepassword', $storage2->getBackendOptions()['password']);
+		$this->assertEquals(['user3'], $storage2->getApplicableUsers());
+		$this->assertEquals([], $storage2->getApplicableGroups());
+		$this->assertEquals(['preview' => true], $storage2->getMountOptions());
+
+		$this->assertEquals('/anothermount', $storage3->getMountPoint());
+		$this->assertEquals('someuser', $storage3->getBackendOptions()['user']);
+		$this->assertEquals('somepassword', $storage3->getBackendOptions()['password']);
+		$this->assertEquals(['user4'], $storage3->getApplicableUsers());
+		$this->assertEquals([], $storage3->getApplicableGroups());
+		$this->assertEquals(['preview' => false], $storage3->getMountOptions());
+
+		$this->assertEquals('/somemount', $storage4->getMountPoint());
+		$this->assertEquals('someuser2', $storage4->getBackendOptions()['user']);
+		$this->assertEquals('somepassword2', $storage4->getBackendOptions()['password']);
+		$this->assertEquals(['user5'], $storage4->getApplicableUsers());
+		$this->assertEquals([], $storage4->getApplicableGroups());
+		$this->assertEquals(['preview' => true], $storage4->getMountOptions());
+	}
 }

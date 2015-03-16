@@ -201,4 +201,54 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		$this->assertEquals('', $backendOptions['password']);
 		$this->assertNotEmpty($backendOptions['password_encrypted']);
 	}
+
+	/**
+	 * Test reading in a legacy config and generating config ids.
+	 */
+	public function testReadLegacyConfigAndGenerateConfigId() {
+		$configFile = $this->dataDir . '/' . $this->userId . '/mount.json';
+
+		$legacyBackendOptions = [
+			'user' => 'someuser',
+			'password' => 'somepassword',
+		];
+		$legacyBackendOptions = \OC_Mount_Config::encryptPasswords($legacyBackendOptions);
+
+		$legacyConfig = [
+			'class' => '\OC\Files\Storage\SMB',
+			'options' => $legacyBackendOptions,
+			'mountOptions' => ['preview' => false],
+		];
+		// different mount options
+		$legacyConfig2 = [
+			'class' => '\OC\Files\Storage\SMB',
+			'options' => $legacyBackendOptions,
+			'mountOptions' => ['preview' => true],
+		];
+
+		$json = ['user' => []];
+		$json['user'][$this->userId] = [
+			'/$user/files/somemount' => $legacyConfig,
+			'/$user/files/anothermount' => $legacyConfig2,
+		];
+
+		file_put_contents($configFile, json_encode($json));
+
+		$allStorages = $this->service->getAllStorages();
+
+		$this->assertCount(2, $allStorages);
+
+		$storage1 = $allStorages[1];
+		$storage2 = $allStorages[2];
+
+		$this->assertEquals('/somemount', $storage1->getMountPoint());
+		$this->assertEquals('someuser', $storage1->getBackendOptions()['user']);
+		$this->assertEquals('somepassword', $storage1->getBackendOptions()['password']);
+		$this->assertEquals(['preview' => false], $storage1->getMountOptions());
+
+		$this->assertEquals('/anothermount', $storage2->getMountPoint());
+		$this->assertEquals('someuser', $storage2->getBackendOptions()['user']);
+		$this->assertEquals('somepassword', $storage2->getBackendOptions()['password']);
+		$this->assertEquals(['preview' => true], $storage2->getMountOptions());
+	}
 }

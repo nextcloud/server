@@ -30,6 +30,39 @@ abstract class StoragesService {
 	}
 
 	/**
+	 * Copy legacy storage options into the given storage config object.
+	 *
+	 * @param StorageConfig $storageConfig storage config to populate
+	 * @param string $mountType mount type
+	 * @param string $applicable applicable user or group
+	 * @param array $storageOptions legacy storage options
+	 * @return StorageConfig populated storage config
+	 */
+	protected function populateStorageConfigWithLegacyOptions(&$storageConfig, $mountType, $applicable, $storageOptions) {
+		$storageConfig->setBackendClass($storageOptions['class']);
+		$storageConfig->setBackendOptions($storageOptions['options']);
+		if (isset($storageOptions['mountOptions'])) {
+			$storageConfig->setMountOptions($storageOptions['mountOptions']);
+		}
+		if (isset($storageOptions['priority'])) {
+			$storageConfig->setPriority($storageOptions['priority']);
+		}
+
+		if ($mountType === \OC_Mount_Config::MOUNT_TYPE_USER) {
+			$applicableUsers = $storageConfig->getApplicableUsers();
+			if ($applicable !== 'all') {
+				$applicableUsers[] = $applicable;
+				$storageConfig->setApplicableUsers($applicableUsers);
+			}
+		} else if ($mountType === \OC_Mount_Config::MOUNT_TYPE_GROUP) {
+			$applicableGroups = $storageConfig->getApplicableGroups();
+			$applicableGroups[] = $applicable;
+			$storageConfig->setApplicableGroups($applicableGroups);
+		}
+		return $storageConfig;
+	}
+
+	/**
 	 * Read the external storages config
 	 *
 	 * @return array map of storage id to storage config
@@ -55,9 +88,25 @@ abstract class StoragesService {
 
 		// group by storage id
 		$storages = [];
+
+		// for storages without id (legacy), group by config hash for
+		// later processing
+		$storagesWithConfigHash = [];
+
 		foreach ($mountPoints as $mountType => $applicables) {
 			foreach ($applicables as $applicable => $mountPaths) {
 				foreach ($mountPaths as $rootMountPath => $storageOptions) {
+					$currentStorage = null;
+
+					/**
+					 * Flag whether the config that was read already has an id.
+					 * If not, it will use a config hash instead and generate
+					 * a proper id later
+					 *
+					 * @var boolean
+					 */
+					$hasId = false;
+
 					// the root mount point is in the format "/$user/files/the/mount/point"
 					// we remove the "/$user/files" prefix
 					$parts = explode('/', trim($rootMountPath, '/'), 3);
@@ -73,46 +122,60 @@ abstract class StoragesService {
 
 					$relativeMountPath = $parts[2];
 
-					$configId = (int)$storageOptions['id'];
-					if (isset($storages[$configId])) {
-						$currentStorage = $storages[$configId];
+					// note: we cannot do this after the loop because the decrypted config
+					// options might be needed for the config hash
+					$storageOptions['options'] = \OC_Mount_Config::decryptPasswords($storageOptions['options']);
+
+					if (isset($storageOptions['id'])) {
+						$configId = (int)$storageOptions['id'];
+						if (isset($storages[$configId])) {
+							$currentStorage = $storages[$configId];
+						}
+						$hasId = true;
 					} else {
+						// missing id in legacy config, need to generate
+						// but at this point we don't know the max-id, so use
+						// first group it by config hash
+						$storageOptions['mountpoint'] = $rootMountPath;
+						$configId = \OC_Mount_Config::makeConfigHash($storageOptions);
+						if (isset($storagesWithConfigHash[$configId])) {
+							$currentStorage = $storagesWithConfigHash[$configId];
+						}
+					}
+
+					if (is_null($currentStorage)) {
+						// create new
 						$currentStorage = new StorageConfig($configId);
 						$currentStorage->setMountPoint($relativeMountPath);
 					}
 
-					$currentStorage->setBackendClass($storageOptions['class']);
-					$currentStorage->setBackendOptions($storageOptions['options']);
-					if (isset($storageOptions['mountOptions'])) {
-						$currentStorage->setMountOptions($storageOptions['mountOptions']);
-					}
-					if (isset($storageOptions['priority'])) {
-						$currentStorage->setPriority($storageOptions['priority']);
-					}
+					$this->populateStorageConfigWithLegacyOptions(
+						$currentStorage,
+						$mountType,
+						$applicable,
+						$storageOptions
+					);
 
-					if ($mountType === \OC_Mount_Config::MOUNT_TYPE_USER) {
-						$applicableUsers = $currentStorage->getApplicableUsers();
-						if ($applicable !== 'all') {
-							$applicableUsers[] = $applicable;
-							$currentStorage->setApplicableUsers($applicableUsers);
-						}
-					} else if ($mountType === \OC_Mount_Config::MOUNT_TYPE_GROUP) {
-						$applicableGroups = $currentStorage->getApplicableGroups();
-						$applicableGroups[] = $applicable;
-						$currentStorage->setApplicableGroups($applicableGroups);
+					if ($hasId) {
+						$storages[$configId] = $currentStorage;
+					} else {
+						$storagesWithConfigHash[$configId] = $currentStorage;
 					}
-					$storages[$configId] = $currentStorage;
 				}
 			}
 		}
 
-		// decrypt passwords
-		foreach ($storages as &$storage) {
-			$storage->setBackendOptions(
-				\OC_Mount_Config::decryptPasswords(
-					$storage->getBackendOptions()
-				)
-			);
+		// process storages with config hash, they must get a real id
+		if (!empty($storagesWithConfigHash)) {
+			$nextId = $this->generateNextId($storages);
+			foreach ($storagesWithConfigHash as $storage) {
+				$storage->setId($nextId);
+				$storages[$nextId] = $storage;
+				$nextId++;
+			}
+
+			// re-save the config with the generated ids
+			$this->writeConfig($storages);
 		}
 
 		return $storages;
@@ -174,6 +237,15 @@ abstract class StoragesService {
 		}
 
 		return $allStorages[$id];
+	}
+
+	/**
+	 * Gets all storages
+	 *
+	 * @return array array of storage configs
+	 */
+	public function getAllStorages() {
+		return $this->readConfig();
 	}
 
 	/**

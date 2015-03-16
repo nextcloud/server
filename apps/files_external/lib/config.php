@@ -894,12 +894,14 @@ class OC_Mount_Config {
 	 * This is mostly used to find out whether configurations
 	 * are the same.
 	 */
-	private static function makeConfigHash($config) {
+	public static function makeConfigHash($config) {
 		$data = json_encode(
 			array(
 				'c' => $config['class'],
 				'm' => $config['mountpoint'],
-				'o' => $config['options']
+				'o' => $config['options'],
+				'p' => isset($config['priority']) ? $config['priority'] : -1,
+				'mo' => isset($config['mountOptions']) ? $config['mountOptions'] : [],
 			)
 		);
 		return hash('md5', $data);

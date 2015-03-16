@@ -15,6 +15,7 @@ namespace OCA\Files_External\Controller;
 use \OCP\IConfig;
 use \OCP\IUserSession;
 use \OCP\IRequest;
+use \OCP\IL10N;
 use \OCP\AppFramework\Http\DataResponse;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http;
@@ -24,15 +25,17 @@ use \OCA\Files_external\Lib\StorageConfig;
 
 class UserStoragesController extends StoragesController {
 	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param UserStoragesService $userStoragesService
+	 * Creates a new user storages controller.
+	 *
+	 * @param string $AppName application name
+	 * @param IRequest $request request object
+	 * @param IL10N $l10n l10n service
+	 * @param UserStoragesService $userStoragesService storage service
 	 */
 	public function __construct(
 		$AppName,
 		IRequest $request,
-		\OCP\IL10N $l10n,
+		IL10N $l10n,
 		UserStoragesService $userStoragesService
 	){
 		parent::__construct(
