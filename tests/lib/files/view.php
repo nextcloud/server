@@ -978,7 +978,7 @@ class View extends \Test\TestCase {
 	}
 
 	public function testSetMountOptionsInStorage() {
-		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/asd/', [[]], Filesystem::getLoader(), ['foo' => 'bar']);
+		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/asd/', [[]], \OC\Files\Filesystem::getLoader(), ['foo' => 'bar']);
 		\OC\Files\Filesystem::getMountManager()->addMount($mount);
 		/** @var \OC\Files\Storage\Common $storage */
 		$storage = $mount->getStorage();
@@ -986,7 +986,7 @@ class View extends \Test\TestCase {
 	}
 
 	public function testSetMountOptionsWatcherPolicy() {
-		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/asd/', [[]], Filesystem::getLoader(), ['filesystem_check_changes' => Watcher::CHECK_NEVER]);
+		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/asd/', [[]], \OC\Files\Filesystem::getLoader(), ['filesystem_check_changes' => Watcher::CHECK_NEVER]);
 		\OC\Files\Filesystem::getMountManager()->addMount($mount);
 		/** @var \OC\Files\Storage\Common $storage */
 		$storage = $mount->getStorage();
