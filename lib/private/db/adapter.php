@@ -46,6 +46,7 @@ class Adapter {
 	 * @param array $input data that should be inserted into the table  (column name => value)
 	 * @param array|null $compare List of values that should be checked for "if not exists"
 	 *				If this is null or an empty array, all keys of $input will be compared
+	 *				Please note: text fields (clob) must not be used in the compare array
 	 * @return int number of inserted rows
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
