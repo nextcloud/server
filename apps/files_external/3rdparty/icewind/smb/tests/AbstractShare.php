@@ -331,7 +331,7 @@ abstract class AbstractShare extends \PHPUnit_Framework_TestCase {
 		$this->share->put($this->getTextFile(), $this->root . '/foo.txt');
 		$dir = $this->share->dir($this->root);
 		$mtime = $dir[0]->getMTime();
-		$this->assertTrue(abs($now - $mtime) <= 1, 'Modified time differs by ' . abs($now - $mtime) . ' seconds');
+		$this->assertTrue(abs($now - $mtime) <= 2, 'Modified time differs by ' . abs($now - $mtime) . ' seconds');
 		$this->share->del($this->root . '/foo.txt');
 	}
 
@@ -530,5 +530,10 @@ abstract class AbstractShare extends \PHPUnit_Framework_TestCase {
 		$content = $this->share->dir($this->root . '/' . $name);
 		$this->assertCount(1, $content);
 		$this->assertEquals($name, $content[0]->getName());
+	}
+
+	public function testStatRoot() {
+		$info = $this->share->stat('/');
+		$this->assertInstanceOf('\Icewind\SMB\IFileInfo', $info);
 	}
 }
