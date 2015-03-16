@@ -43,6 +43,7 @@ describe('OCA.External.Settings tests', function() {
 			'<td class="applicable">' +
 			'<input type="hidden" class="applicableUsers">' +
 			'</td>' +
+			'<td class="mountOptionsToggle"><input type="hidden" class="mountOptions"/><img class="svg action"/></td>' +
 			'<td><img alt="Delete" title="Delete" class="svg action"/></td>' +
 			'</tr>' +
 			'</tbody>' +
@@ -116,29 +117,56 @@ describe('OCA.External.Settings tests', function() {
 			// TODO: test suggested mount point logic
 		});
 		describe('saving storages', function() {
-			it('saves storage after editing config', function() {
-				var $tr = view.$el.find('tr:first');
-				selectBackend('\\OC\\TestBackend');
+			var $tr;
 
+			beforeEach(function() {
+				$tr = view.$el.find('tr:first');
+				selectBackend('\\OC\\TestBackend');
+			});
+			it('saves storage after editing config', function() {
 				var $field1 = $tr.find('input[data-parameter=field1]');
 				expect($field1.length).toEqual(1);
 				$field1.val('test');
 				$field1.trigger(new $.Event('keyup', {keyCode: 97}));
+
+				var $mountOptionsField = $tr.find('input.mountOptions');
+				expect($mountOptionsField.length).toEqual(1);
+				$mountOptionsField.val(JSON.stringify({previews:true}));
 
 				clock.tick(4000);
 
 				expect(fakeServer.requests.length).toEqual(1);
 				var request = fakeServer.requests[0];
 				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_external/globalstorages');
-				expect(OC.parseQueryString(request.requestBody)).toEqual({
+				expect(JSON.parse(request.requestBody)).toEqual({
 					backendClass: '\\OC\\TestBackend',
-					'backendOptions[field1]': 'test',
-					'backendOptions[field2]': '',
+					backendOptions: {
+						'field1': 'test',
+						'field2': ''
+					},
 					mountPoint: 'TestBackend',
-					priority: '11'
+					priority: 11,
+					applicableUsers: [],
+					applicableGroups: [],
+					mountOptions: {
+						'previews': true
+					}
 				});
 
 				// TODO: respond and check data-id
+			});
+			it('saves storage after closing mount options dropdown', function() {
+				$tr.find('.mountOptionsToggle img').click();
+				$tr.find('[name=previews]').trigger(new $.Event('keyup', {keyCode: 97}));
+				$tr.find('input[data-parameter=field1]').val('test');
+
+				// does not save inside the dropdown
+				expect(fakeServer.requests.length).toEqual(0);
+
+				$('body').mouseup();
+
+				// but after closing the dropdown
+				expect(fakeServer.requests.length).toEqual(1);
 			});
 			// TODO: tests with "applicableUsers" and "applicableGroups"
 			// TODO: test with non-optional config parameters
@@ -156,6 +184,52 @@ describe('OCA.External.Settings tests', function() {
 		});
 		describe('recheck storages', function() {
 			// TODO
+		});
+		describe('mount options dropdown', function() {
+			var $tr;
+			var $td;
+
+			beforeEach(function() {
+				$tr = view.$el.find('tr:first');
+				$td = $tr.find('.mountOptionsToggle');
+				selectBackend('\\OC\\TestBackend');
+			});
+
+			it('shows dropdown when clicking on toggle button, hides when clicking outside', function() {
+				$td.find('img').click();
+
+				expect($td.find('.dropdown').length).toEqual(1);
+
+				$('body').mouseup();
+
+				expect($td.find('.dropdown').length).toEqual(0);
+			});
+
+			it('reads config from mountOptions field', function() {
+				$tr.find('input.mountOptions').val(JSON.stringify({previews:false}));
+
+				$td.find('img').click();
+				expect($td.find('.dropdown [name=previews]').prop('checked')).toEqual(false);
+				$('body').mouseup();
+
+				$tr.find('input.mountOptions').val(JSON.stringify({previews:true}));
+				$td.find('img').click();
+				expect($td.find('.dropdown [name=previews]').prop('checked')).toEqual(true);
+			});
+
+			it('writes config into mountOptions field', function() {
+				$td.find('img').click();
+				// defaults to true
+				var $field = $td.find('.dropdown [name=previews]');
+				expect($field.prop('checked')).toEqual(true);
+				$td.find('.dropdown [name=filesystem_check_changes]').val(2);
+				$('body').mouseup();
+
+				expect(JSON.parse($tr.find('input.mountOptions').val())).toEqual({
+					previews: true,
+					filesystem_check_changes: 2
+				});
+			});
 		});
 	});
 	describe('applicable user list', function() {

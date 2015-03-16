@@ -226,3 +226,7 @@ window.t = _.bind(OC.L10N.translate, OC.L10N);
  */
 window.n = _.bind(OC.L10N.translatePlural, OC.L10N);
 
+Handlebars.registerHelper('t', function(app, text) {
+	return OC.L10N.translate(app, text);
+});
+

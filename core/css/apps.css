@@ -528,3 +528,19 @@ em {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	opacity: .5;
 }
+
+/* generic dropdown style */
+.dropdown {
+	background:#eee;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	box-shadow:0 1px 1px #777;
+	display:block;
+	margin-right: 0;
+	position:absolute;
+	right:0;
+	width:420px;
+	z-index:500;
+	padding:16px;
+}
+

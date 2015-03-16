@@ -6,10 +6,11 @@ td.status > span {
 }
 
 td.mountPoint, td.backend { width:160px; }
-td.remove>img { visibility:hidden; padding-top:7px; }
-tr:hover>td.remove>img { visibility:visible; cursor:pointer; }
+#externalStorage td>img.action { visibility:hidden; padding-top:7px; }
+#externalStorage tr:hover>td>img.action { visibility:visible; cursor:pointer; }
 #addMountPoint>td { border:none; }
 #addMountPoint>td.applicable { visibility:hidden; }
+#addMountPoint>td.hidden { visibility:hidden; }
 
 #selectBackend {
 	margin-left: -10px;
@@ -66,4 +67,12 @@ tr:hover>td.remove>img { visibility:visible; cursor:pointer; }
 	vertical-align: top;
 	top: 6px;
 	position: relative;
+}
+
+#externalStorage .mountOptionsToggle .dropdown {
+	width: auto;
+}
+
+#externalStorage .mountOptionsDropdown {
+	margin-right: 40px;
 }
