@@ -13,6 +13,7 @@ use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Storage;
 use OC\Files\Filesystem;
 use OC\Files\Cache\Watcher;
+use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
@@ -460,6 +461,10 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * @inheritdoc
 	 */
 	public function verifyPath($path, $fileName) {
+		if (isset($fileName[255])) {
+			throw new FileNameTooLongException();
+		}
+
 		// NOTE: $path will remain unverified for now
 		if (\OC_Util::runningOnWindows()) {
 			$this->verifyWindowsPath($fileName);

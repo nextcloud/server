@@ -11,6 +11,7 @@ namespace OC\Files;
 
 use OC\Files\Cache\Updater;
 use OC\Files\Mount\MoveableMount;
+use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
@@ -585,6 +586,8 @@ class View {
 				);
 			}
 			if ($run) {
+				$this->verifyPath(dirname($path2), basename($path2));
+
 				$mp1 = $this->getMountPoint($path1 . $postFix1);
 				$mp2 = $this->getMountPoint($path2 . $postFix2);
 				$manager = Filesystem::getMountManager();
@@ -1573,6 +1576,8 @@ class View {
 			throw new InvalidPathException($l10n->t('File name is a reserved word'));
 		} catch (InvalidCharacterInPathException $ex) {
 			throw new InvalidPathException($l10n->t('File name contains at least one invalid character'));
+		} catch (FileNameTooLongException $ex) {
+			throw new InvalidPathException($l10n->t('File name is too long'));
 		}
 	}
 }
