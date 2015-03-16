@@ -283,9 +283,12 @@ class OC_Image {
 	}
 
 	/**
-	 * @return string Returns the raw image data.
+	 * @return null|string Returns the raw image data.
 	 */
 	function data() {
+		if (!$this->valid()) {
+			return null;
+		}
 		ob_start();
 		switch ($this->mimeType) {
 			case "image/png":

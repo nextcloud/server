@@ -144,6 +144,11 @@ class Test_Image extends \Test\TestCase {
 		$this->assertEquals($expected, $img->data());
 	}
 
+	public function testDataNoResource() {
+		$img = new \OC_Image();
+		$this->assertNull($img->data());
+	}
+
 	/**
 	 * @depends testData
 	 */
