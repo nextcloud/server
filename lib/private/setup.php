@@ -328,6 +328,11 @@ class Setup {
 				self::protectDataDirectory();
 			}
 
+			//try to write logtimezone
+			if (date_default_timezone_get()) {
+				OC_Config::setValue('logtimezone', date_default_timezone_get());
+			}
+
 			//and we are done
 			$config->setSystemValue('installed', true);
 		}
