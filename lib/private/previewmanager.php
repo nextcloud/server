@@ -15,8 +15,11 @@ class PreviewManager implements IPreview {
 	/** @var \OCP\IConfig */
 	protected $config;
 
-	/** @var array */
+	/** @var bool */
 	protected $providerListDirty = false;
+
+	/** @var bool */
+	protected $registeredCoreProviders = false;
 
 	/** @var array */
 	protected $providers = [];
@@ -34,11 +37,6 @@ class PreviewManager implements IPreview {
 	 */
 	public function __construct(\OCP\IConfig $config) {
 		$this->config = $config;
-
-		if ($this->config->getSystemValue('enable_previews', true)) {
-			// Register the default providers like txt, image, ...
-			$this->registerCoreProviders();
-		}
 	}
 
 	/**
@@ -72,6 +70,7 @@ class PreviewManager implements IPreview {
 			return [];
 		}
 
+		$this->registerCoreProviders();
 		if ($this->providerListDirty) {
 			$keys = array_map('strlen', array_keys($this->providers));
 			array_multisort($keys, SORT_DESC, $this->providers);
@@ -86,6 +85,7 @@ class PreviewManager implements IPreview {
 	 * @return bool
 	 */
 	public function hasProviders() {
+		$this->registerCoreProviders();
 		return !empty($this->providers);
 	}
 
@@ -118,6 +118,7 @@ class PreviewManager implements IPreview {
 			return $this->mimeTypeSupportMap[$mimeType];
 		}
 
+		$this->registerCoreProviders();
 		$providerMimeTypes = array_keys($this->providers);
 		foreach ($providerMimeTypes as $supportedMimeType) {
 			if (preg_match($supportedMimeType, $mimeType)) {
@@ -140,6 +141,7 @@ class PreviewManager implements IPreview {
 			return false;
 		}
 
+		$this->registerCoreProviders();
 		if (!$this->isMimeSupported($file->getMimetype())) {
 			return false;
 		}
@@ -225,6 +227,11 @@ class PreviewManager implements IPreview {
 	 * Register the default providers (if enabled)
 	 */
 	protected function registerCoreProviders() {
+		if ($this->registeredCoreProviders) {
+			return;
+		}
+		$this->registeredCoreProviders = true;
+
 		$this->registerCoreProvider('OC\Preview\TXT', '/text\/plain/');
 		$this->registerCoreProvider('OC\Preview\MarkDown', '/text\/(x-)?markdown/');
 		$this->registerCoreProvider('OC\Preview\Image', '/image\/(?!tiff$)(?!svg.*).*/');
