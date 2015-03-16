@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
- * Copyright (c) 2014 Olivier Paroz owncloud@oparoz.com
+ * Copyright (c) 2014-2015 Olivier Paroz owncloud@oparoz.com
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -192,6 +192,61 @@ class TestRepairMimeTypes extends \Test\TestCase {
 	}
 
 	/**
+	 * Test renaming the postscript mime types
+	 */
+	public function testRenameRawMimeType() {
+		$this->addEntries(
+			array(
+				array('test.arw', 'application/octet-stream'),
+				array('test.cr2', 'application/octet-stream'),
+				array('test.dcr', 'application/octet-stream'),
+				array('test.dng', 'application/octet-stream'),
+				array('test.erf', 'application/octet-stream'),
+				array('test.iiq', 'application/octet-stream'),
+				array('test.k25', 'application/octet-stream'),
+				array('test.kdc', 'application/octet-stream'),
+				array('test.mef', 'application/octet-stream'),
+				array('test.nef', 'application/octet-stream'),
+				array('test.orf', 'application/octet-stream'),
+				array('test.pef', 'application/octet-stream'),
+				array('test.raf', 'application/octet-stream'),
+				array('test.rw2', 'application/octet-stream'),
+				array('test.srf', 'application/octet-stream'),
+				array('test.sr2', 'application/octet-stream'),
+				array('test.xrf', 'application/octet-stream'),
+			)
+		);
+
+		$this->repair->run();
+
+		// force mimetype reload
+		DummyFileCache::clearCachedMimeTypes();
+		$this->storage->getCache()->loadMimeTypes();
+
+		$this->checkEntries(
+			array(
+				array('test.arw', 'image/x-dcraw'),
+				array('test.cr2', 'image/x-dcraw'),
+				array('test.dcr', 'image/x-dcraw'),
+				array('test.dng', 'image/x-dcraw'),
+				array('test.erf', 'image/x-dcraw'),
+				array('test.iiq', 'image/x-dcraw'),
+				array('test.k25', 'image/x-dcraw'),
+				array('test.kdc', 'image/x-dcraw'),
+				array('test.mef', 'image/x-dcraw'),
+				array('test.nef', 'image/x-dcraw'),
+				array('test.orf', 'image/x-dcraw'),
+				array('test.pef', 'image/x-dcraw'),
+				array('test.raf', 'image/x-dcraw'),
+				array('test.rw2', 'image/x-dcraw'),
+				array('test.srf', 'image/x-dcraw'),
+				array('test.sr2', 'image/x-dcraw'),
+				array('test.xrf', 'image/x-dcraw'),
+			)
+		);
+	}
+
+	/**
 	 * Test renaming and splitting old office mime types when
 	 * new ones already exist
 	 */
@@ -301,6 +356,23 @@ class TestRepairMimeTypes extends \Test\TestCase {
 				array('test.pfb', 'application/x-font'),
 				array('test.eps', 'application/postscript'),
 				array('test.ps', 'application/postscript'),
+				array('test.arw', 'image/x-dcraw'),
+				array('test.cr2', 'image/x-dcraw'),
+				array('test.dcr', 'image/x-dcraw'),
+				array('test.dng', 'image/x-dcraw'),
+				array('test.erf', 'image/x-dcraw'),
+				array('test.iiq', 'image/x-dcraw'),
+				array('test.k25', 'image/x-dcraw'),
+				array('test.kdc', 'image/x-dcraw'),
+				array('test.mef', 'image/x-dcraw'),
+				array('test.nef', 'image/x-dcraw'),
+				array('test.orf', 'image/x-dcraw'),
+				array('test.pef', 'image/x-dcraw'),
+				array('test.raf', 'image/x-dcraw'),
+				array('test.rw2', 'image/x-dcraw'),
+				array('test.srf', 'image/x-dcraw'),
+				array('test.sr2', 'image/x-dcraw'),
+				array('test.xrf', 'image/x-dcraw'),
 			)
 		);
 
@@ -324,6 +396,23 @@ class TestRepairMimeTypes extends \Test\TestCase {
 				array('test.pfb', 'application/x-font'),
 				array('test.eps', 'application/postscript'),
 				array('test.ps', 'application/postscript'),
+				array('test.arw', 'image/x-dcraw'),
+				array('test.cr2', 'image/x-dcraw'),
+				array('test.dcr', 'image/x-dcraw'),
+				array('test.dng', 'image/x-dcraw'),
+				array('test.erf', 'image/x-dcraw'),
+				array('test.iiq', 'image/x-dcraw'),
+				array('test.k25', 'image/x-dcraw'),
+				array('test.kdc', 'image/x-dcraw'),
+				array('test.mef', 'image/x-dcraw'),
+				array('test.nef', 'image/x-dcraw'),
+				array('test.orf', 'image/x-dcraw'),
+				array('test.pef', 'image/x-dcraw'),
+				array('test.raf', 'image/x-dcraw'),
+				array('test.rw2', 'image/x-dcraw'),
+				array('test.srf', 'image/x-dcraw'),
+				array('test.sr2', 'image/x-dcraw'),
+				array('test.xrf', 'image/x-dcraw'),
 			)
 		);
 	}
