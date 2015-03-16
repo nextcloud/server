@@ -172,7 +172,13 @@ $(document).ready(function () {
 		$('#pass2').showPassword().keyup();
 	}
 	$("#passwordbutton").click(function () {
-		if ($('#pass1').val() !== '' && $('#pass2').val() !== '') {
+		var isIE8or9 = html.hasClass('lte9');
+		// FIXME - TODO - once support for IE8 and IE9 is dropped
+		// for IE8 and IE9 this will check additionally if the typed in password
+		// is different from the placeholder, because in IE8/9 the placeholder
+		// is simply set as the value to look like a placeholder
+		if ($('#pass1').val() !== '' && $('#pass2').val() !== ''
+			&& !(isIE8or9 && $('#pass2').val() === $('#pass2').attr('placeholder'))) {
 			// Serialize the data
 			var post = $("#passwordform").serialize();
 			$('#passwordchanged').hide();
