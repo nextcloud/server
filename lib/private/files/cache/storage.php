@@ -21,6 +21,7 @@ class Storage {
 
 	/**
 	 * @param \OC\Files\Storage\Storage|string $storage
+	 * @throws \RuntimeException
 	 */
 	public function __construct($storage) {
 		if ($storage instanceof \OC\Files\Storage\Storage) {
@@ -35,9 +36,17 @@ class Storage {
 		if ($row = $result->fetchRow()) {
 			$this->numericId = $row['numeric_id'];
 		} else {
-			$sql = 'INSERT INTO `*PREFIX*storages` (`id`) VALUES(?)';
-			\OC_DB::executeAudited($sql, array($this->storageId));
-			$this->numericId = \OC_DB::insertid('*PREFIX*storages');
+			$connection = \OC_DB::getConnection();
+			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId])) {
+				$this->numericId = \OC_DB::insertid('*PREFIX*storages');
+			} else {
+				$result = \OC_DB::executeAudited($sql, array($this->storageId));
+				if ($row = $result->fetchRow()) {
+					$this->numericId = $row['numeric_id'];
+				} else {
+					throw new \RuntimeException('Storage exists when inserting and does not exist on select... go away');
+				}
+			}
 		}
 	}
 

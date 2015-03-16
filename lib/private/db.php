@@ -20,8 +20,6 @@
  *
  */
 
-define('MDB2_SCHEMA_DUMP_STRUCTURE', '1');
-
 /**
  * This class manages the access to the database. It basically is a wrapper for
  * Doctrine with some adaptions.
@@ -40,8 +38,7 @@ class OC_DB {
 	 *
 	 * @return \OC\DB\MDB2SchemaManager
 	 */
-	private static function getMDB2SchemaManager()
-	{
+	private static function getMDB2SchemaManager() {
 		return new \OC\DB\MDB2SchemaManager(\OC::$server->getDatabaseConnection());
 	}
 
@@ -167,16 +164,6 @@ class OC_DB {
 	}
 
 	/**
-	 * Insert a row if a matching row doesn't exists.
-	 * @param string $table The table to insert into in the form '*PREFIX*tableName'
-	 * @param array $input An array of fieldname/value pairs
-	 * @return boolean number of updated rows
-	 */
-	public static function insertIfNotExist($table, $input) {
-		return \OC::$server->getDatabaseConnection()->insertIfNotExist($table, $input);
-	}
-
-	/**
 	 * Start a transaction
 	 */
 	public static function beginTransaction() {
@@ -205,7 +192,7 @@ class OC_DB {
 	 *
 	 * TODO: write more documentation
 	 */
-	public static function getDbStructure( $file, $mode = 0) {
+	public static function getDbStructure($file) {
 		$schemaManager = self::getMDB2SchemaManager();
 		return $schemaManager->getDbStructure($file);
 	}

@@ -189,11 +189,18 @@ class AllConfig implements \OCP\IConfig {
 			return;
 		}
 
-		$data = array($value, $userId, $appName, $key);
+		$affectedRows = 0;
 		if (!$exists && $preCondition === null) {
-			$sql  = 'INSERT INTO `*PREFIX*preferences` (`configvalue`, `userid`, `appid`, `configkey`)'.
-					'VALUES (?, ?, ?, ?)';
+			$this->connection->insertIfNotExist('*PREFIX*preferences', [
+				'configvalue'	=> $value,
+				'userid'		=> $userId,
+				'appid'			=> $appName,
+				'configkey'		=> $key,
+			], ['configvalue', 'userid', 'appid']);
+			$affectedRows = 1;
 		} elseif ($exists) {
+			$data = array($value, $userId, $appName, $key);
+
 			$sql  = 'UPDATE `*PREFIX*preferences` SET `configvalue` = ? '.
 					'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? ';
 
@@ -206,8 +213,8 @@ class AllConfig implements \OCP\IConfig {
 				}
 				$data[] = $preCondition;
 			}
+			$affectedRows = $this->connection->executeUpdate($sql, $data);
 		}
-		$affectedRows = $this->connection->executeUpdate($sql, $data);
 
 		// only add to the cache if we already loaded data for the user
 		if ($affectedRows > 0 && isset($this->userCache[$userId])) {

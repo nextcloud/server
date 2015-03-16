@@ -32,13 +32,18 @@ class Test_DB extends \Test\TestCase {
 	 */
 	private $table4;
 
+	/**
+	 * @var string
+	 */
+	private $table5;
+
 	protected function setUp() {
 		parent::setUp();
 
-		$dbfile = OC::$SERVERROOT.'/tests/data/db_structure.xml';
+		$dbFile = OC::$SERVERROOT.'/tests/data/db_structure.xml';
 
-		$r = '_'.OC_Util::generateRandomBytes(4).'_';
-		$content = file_get_contents( $dbfile );
+		$r = $this->getUniqueID('_', 4).'_';
+		$content = file_get_contents( $dbFile );
 		$content = str_replace( '*dbprefix*', '*dbprefix*'.$r, $content );
 		file_put_contents( self::$schema_file, $content );
 		OC_DB::createDbFromStructure(self::$schema_file);
@@ -48,6 +53,7 @@ class Test_DB extends \Test\TestCase {
 		$this->table2 = $this->test_prefix.'cntcts_cards';
 		$this->table3 = $this->test_prefix.'vcategory';
 		$this->table4 = $this->test_prefix.'decimal';
+		$this->table5 = $this->test_prefix.'uniconst';
 	}
 
 	protected function tearDown() {
@@ -110,7 +116,7 @@ class Test_DB extends \Test\TestCase {
 	}
 	
 	public function testinsertIfNotExist() {
-		$categoryentries = array(
+		$categoryEntries = array(
 				array('user' => 'test', 'type' => 'contact', 'category' => 'Family',    'expectedResult' => 1),
 				array('user' => 'test', 'type' => 'contact', 'category' => 'Friends',   'expectedResult' => 1),
 				array('user' => 'test', 'type' => 'contact', 'category' => 'Coworkers', 'expectedResult' => 1),
@@ -118,8 +124,8 @@ class Test_DB extends \Test\TestCase {
 				array('user' => 'test', 'type' => 'contact', 'category' => 'School',    'expectedResult' => 1),
 			);
 
-		foreach($categoryentries as $entry) {
-			$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table3,
+		foreach($categoryEntries as $entry) {
+			$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table3,
 				array(
 					'uid' => $entry['user'],
 					'type' => $entry['type'],
@@ -135,14 +141,14 @@ class Test_DB extends \Test\TestCase {
 	}
 
 	public function testInsertIfNotExistNull() {
-		$categoryentries = array(
+		$categoryEntries = array(
 			array('addressbookid' => 123, 'fullname' => null, 'expectedResult' => 1),
 			array('addressbookid' => 123, 'fullname' => null, 'expectedResult' => 0),
 			array('addressbookid' => 123, 'fullname' => 'test', 'expectedResult' => 1),
 		);
 
-		foreach($categoryentries as $entry) {
-			$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table2,
+		foreach($categoryEntries as $entry) {
+			$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table2,
 				array(
 					'addressbookid' => $entry['addressbookid'],
 					'fullname' => $entry['fullname'],
@@ -156,14 +162,14 @@ class Test_DB extends \Test\TestCase {
 		$this->assertEquals(2, count($result->fetchAll()));
 	}
 
-	public function testinsertIfNotExistDontOverwrite() {
-		$fullname = 'fullname test';
+	public function testInsertIfNotExistDonTOverwrite() {
+		$fullName = 'fullname test';
 		$uri = 'uri_1';
 		$carddata = 'This is a vCard';
 
 		// Normal test to have same known data inserted.
 		$query = OC_DB::prepare('INSERT INTO `*PREFIX*'.$this->table2.'` (`fullname`, `uri`, `carddata`) VALUES (?, ?, ?)');
-		$result = $query->execute(array($fullname, $uri, $carddata));
+		$result = $query->execute(array($fullName, $uri, $carddata));
 		$this->assertEquals(1, $result);
 		$query = OC_DB::prepare('SELECT `fullname`, `uri`, `carddata` FROM `*PREFIX*'.$this->table2.'` WHERE `uri` = ?');
 		$result = $query->execute(array($uri));
@@ -174,9 +180,9 @@ class Test_DB extends \Test\TestCase {
 		$this->assertEquals($carddata, $rowset[0]['carddata']);
 
 		// Try to insert a new row
-		$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table2,
+		$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table2,
 			array(
-				'fullname' => $fullname,
+				'fullname' => $fullName,
 				'uri' => $uri,
 			));
 		$this->assertEquals(0, $result);
@@ -190,6 +196,57 @@ class Test_DB extends \Test\TestCase {
 		$this->assertEquals(1, count($rowset));
 		$this->assertArrayHasKey('carddata', $rowset[0]);
 		$this->assertEquals($carddata, $rowset[0]['carddata']);
+	}
+
+	public function testInsertIfNotExistsViolating() {
+		$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table5,
+			array(
+				'storage' => 1,
+				'path_hash' => md5('welcome.txt'),
+				'etag' => $this->getUniqueID()
+			));
+		$this->assertEquals(1, $result);
+
+		$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table5,
+			array(
+				'storage' => 1,
+				'path_hash' => md5('welcome.txt'),
+				'etag' => $this->getUniqueID()
+			),['storage', 'path_hash']);
+
+		$this->assertEquals(0, $result);
+	}
+
+	public function insertIfNotExistsViolatingThrows() {
+		return [
+			[null],
+			[['etag']],
+		];
+	}
+
+	/**
+	 * @dataProvider insertIfNotExistsViolatingThrows
+	 * @expectedException \Doctrine\DBAL\Exception\UniqueConstraintViolationException
+	 *
+	 * @param array $compareKeys
+	 */
+	public function testInsertIfNotExistsViolatingThrows($compareKeys) {
+		$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table5,
+			array(
+				'storage' => 1,
+				'path_hash' => md5('welcome.txt'),
+				'etag' => $this->getUniqueID()
+			));
+		$this->assertEquals(1, $result);
+
+		$result = \OCP\DB::insertIfNotExist('*PREFIX*'.$this->table5,
+			array(
+				'storage' => 1,
+				'path_hash' => md5('welcome.txt'),
+				'etag' => $this->getUniqueID()
+			), $compareKeys);
+
+		$this->assertEquals(0, $result);
 	}
 
 	public function testUtf8Data() {

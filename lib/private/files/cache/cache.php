@@ -214,6 +214,7 @@ class Cache {
 	 * @param array $data
 	 *
 	 * @return int file id
+	 * @throws \RuntimeException
 	 */
 	public function put($file, array $data) {
 		if (($id = $this->getId($file)) > -1) {
@@ -251,11 +252,20 @@ class Cache {
 				return trim($item, "`");
 			}, $queryParts);
 			$values = array_combine($queryParts, $params);
-			if (\OC::$server->getDatabaseConnection()->insertIfNotExist('*PREFIX*filecache', $values)) {
+			if (\OC::$server->getDatabaseConnection()->insertIfNotExist('*PREFIX*filecache', $values, [
+				'storage',
+				'path_hash',
+			])) {
 				return (int)\OC_DB::insertid('*PREFIX*filecache');
 			}
 
-			return $this->getId($file);
+			// The file was created in the mean time
+			if (($id = $this->getId($file)) > -1) {
+				$this->update($id, $data);
+				return $id;
+			} else {
+				throw new \RuntimeException('File entry exists when inserting and does not exist on select... go away');
+			}
 		}
 	}
 

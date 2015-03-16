@@ -18,38 +18,38 @@ class AdapterSqlite extends Adapter {
 		return $statement;
 	}
 
-	public function insertIfNotExist($table, $input) {
+	/**
+	 * Insert a row if the matching row does not exists.
+	 *
+	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
+	 * @param array $input data that should be inserted into the table  (column name => value)
+	 * @param array|null $compare List of values that should be checked for "if not exists"
+	 *				If this is null or an empty array, all keys of $input will be compared
+	 * @return int number of inserted rows
+	 * @throws \Doctrine\DBAL\DBALException
+	 */
+	public function insertIfNotExist($table, $input, array $compare = null) {
+		if (empty($compare)) {
+			$compare = array_keys($input);
+		}
 		$fieldList = '`' . implode('`,`', array_keys($input)) . '`';
 		$query = "INSERT INTO `$table` ($fieldList) SELECT "
 			. str_repeat('?,', count($input)-1).'? '
 			. " WHERE NOT EXISTS (SELECT 1 FROM `$table` WHERE ";
 
 		$inserts = array_values($input);
-		foreach($input as $key => $value) {
+		foreach($compare as $key) {
 			$query .= '`' . $key . '`';
-			if (is_null($value)) {
+			if (is_null($input[$key])) {
 				$query .= ' IS NULL AND ';
 			} else {
-				$inserts[] = $value;
+				$inserts[] = $input[$key];
 				$query .= ' = ? AND ';
 			}
 		}
 		$query = substr($query, 0, strlen($query) - 5);
 		$query .= ')';
 
-		try {
-			return $this->conn->executeUpdate($query, $inserts);
-		} catch(\Doctrine\DBAL\DBALException $e) {
-			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
-			$entry .= 'Offending command was: ' . $query.'<br />';
-			\OC_Log::write('core', $entry, \OC_Log::FATAL);
-			$l = \OC::$server->getL10N('lib');
-			throw new \OC\HintException(
-				$l->t('Database Error'),
-				$l->t('Please contact your system administrator.'),
-				0,
-				$e
-			);
-		}
+		return $this->conn->executeUpdate($query, $inserts);
 	}
 }
