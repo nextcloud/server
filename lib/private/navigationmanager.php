@@ -14,13 +14,23 @@ namespace OC;
  */
 class NavigationManager implements \OCP\INavigationManager {
 	protected $entries = array();
+	protected $closureEntries = array();
 	protected $activeEntry;
 
 	/**
 	 * Creates a new navigation entry
-	 * @param array $entry containing: id, name, order, icon and href key
+	 *
+	 * @param array|\Closure $entry Array containing: id, name, order, icon and href key
+	 *					The use of a closure is preferred, because it will avoid
+	 * 					loading the routing of your app, unless required.
+	 * @return void
 	 */
-	public function add(array $entry) {
+	public function add($entry) {
+		if ($entry instanceof \Closure) {
+			$this->closureEntries[] = $entry;
+			return;
+		}
+
 		$entry['active'] = false;
 		if(!isset($entry['icon'])) {
 			$entry['icon'] = '';
@@ -33,6 +43,10 @@ class NavigationManager implements \OCP\INavigationManager {
 	 * @return array an array of the added entries
 	 */
 	public function getAll() {
+		foreach ($this->closureEntries as $c) {
+			$this->add($c());
+		}
+		$this->closureEntries = array();
 		return $this->entries;
 	}
 
@@ -41,6 +55,7 @@ class NavigationManager implements \OCP\INavigationManager {
 	 */
 	public function clear() {
 		$this->entries = array();
+		$this->closureEntries = array();
 	}
 
 	/**
