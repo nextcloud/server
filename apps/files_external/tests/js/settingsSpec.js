@@ -56,14 +56,16 @@ describe('OCA.External.Settings tests', function() {
 					'configuration': {
 						'field1': 'Display Name 1',
 						'field2': '&Display Name 2'
-					}
+					},
+					'priority': 11
 				},
 				'\\OC\\AnotherTestBackend': {
 					'backend': 'Another Test Backend Name',
 					'configuration': {
 						'field1': 'Display Name 1',
 						'field2': '&Display Name 2'
-					}
+					},
+					'priority': 12
 				}
 			}
 		);
@@ -132,7 +134,8 @@ describe('OCA.External.Settings tests', function() {
 					backendClass: '\\OC\\TestBackend',
 					'backendOptions[field1]': 'test',
 					'backendOptions[field2]': '',
-					mountPoint: 'TestBackend'
+					mountPoint: 'TestBackend',
+					priority: '11'
 				});
 
 				// TODO: respond and check data-id
