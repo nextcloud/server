@@ -196,7 +196,7 @@ class AllConfig implements \OCP\IConfig {
 				'userid'		=> $userId,
 				'appid'			=> $appName,
 				'configkey'		=> $key,
-			], ['configvalue', 'userid', 'appid']);
+			], ['configkey', 'userid', 'appid']);
 			$affectedRows = 1;
 		} elseif ($exists) {
 			$data = array($value, $userId, $appName, $key);
