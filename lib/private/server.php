@@ -314,7 +314,11 @@ class Server extends SimpleContainer implements IServerContainer {
 			);
 		});
 		$this->registerService('Mailer', function(Server $c) {
-			return new Mailer($c->getConfig(), new \OC_Defaults());
+			return new Mailer(
+				$c->getConfig(),
+				$c->getLogger(),
+				new \OC_Defaults()
+			);
 		});
 	}
 

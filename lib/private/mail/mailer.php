@@ -10,6 +10,7 @@ namespace OC\Mail;
 
 use OCP\IConfig;
 use OCP\Mail\IMailer;
+use OCP\ILogger;
 
 /**
  * Class Mailer provides some basic functions to create a mail message that can be used in combination with
@@ -34,15 +35,21 @@ class Mailer implements IMailer {
 	private $instance = null;
 	/** @var IConfig */
 	private $config;
+	/** @var ILogger */
+	private $logger;
 	/** @var \OC_Defaults */
 	private $defaults;
 
 	/**
 	 * @param IConfig $config
+	 * @param ILogger $logger
 	 * @param \OC_Defaults $defaults
 	 */
-	function __construct(IConfig $config, \OC_Defaults $defaults) {
+	function __construct(IConfig $config,
+						 ILogger $logger,
+						 \OC_Defaults $defaults) {
 		$this->config = $config;
+		$this->logger = $logger;
 		$this->defaults = $defaults;
 	}
 
@@ -67,12 +74,14 @@ class Mailer implements IMailer {
 	 */
 	public function send(Message $message) {
 		if (sizeof($message->getFrom()) === 0) {
-			$message->setFrom(array(\OCP\Util::getDefaultEmailAddress($this->defaults->getName())));
+			$message->setFrom([\OCP\Util::getDefaultEmailAddress($this->defaults->getName())]);
 		}
 
-		$failedRecipients = array();
+		$failedRecipients = [];
 
 		$this->getInstance()->send($message->getSwiftMessage(), $failedRecipients);
+		$logMessage = sprintf('Sent mail to "%s" with subject "%s"', print_r($message->getTo(), true), $message->getSubject());
+		$this->logger->debug($logMessage, ['app' => 'core']);
 
 		return $failedRecipients;
 	}

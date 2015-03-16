@@ -10,12 +10,15 @@ namespace Test;
 use OC\Mail\Mailer;
 use OCP\IConfig;
 use OC_Defaults;
+use OCP\ILogger;
 
 class MailerTest extends TestCase {
 	/** @var IConfig */
 	private $config;
 	/** @var OC_Defaults */
 	private $defaults;
+	/** @var ILogger */
+	private $logger;
 	/** @var Mailer */
 	private $mailer;
 
@@ -26,7 +29,9 @@ class MailerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->defaults = $this->getMockBuilder('\OC_Defaults')
 			->disableOriginalConstructor()->getMock();
-		$this->mailer = new Mailer($this->config, $this->defaults);
+		$this->logger = $this->getMockBuilder('\OCP\ILogger')
+			->disableOriginalConstructor()->getMock();
+		$this->mailer = new Mailer($this->config, $this->logger, $this->defaults);
 	}
 
 	public function testGetMailInstance() {
