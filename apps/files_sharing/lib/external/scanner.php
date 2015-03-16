@@ -33,7 +33,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	 * @param int $reuseExisting
 	 * @return array an array of metadata of the scanned file
 	 */
-	public function scanFile($file, $reuseExisting = 0) {
+	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null) {
 		try {
 			return parent::scanFile($file, $reuseExisting);
 		} catch (ForbiddenException $e) {
