@@ -60,7 +60,7 @@ class OC_App {
 	 * @return bool
 	 *
 	 * This function walks through the ownCloud directory and loads all apps
-	 * it can find. A directory contains an app if the file /appinfo/app.php
+	 * it can find. A directory contains an app if the file /appinfo/info.xml
 	 * exists.
 	 *
 	 * if $types is set, only apps of those types will be loaded
@@ -746,7 +746,7 @@ class OC_App {
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
 
-					if ($file[0] != '.' and is_file($apps_dir['path'] . '/' . $file . '/appinfo/app.php')) {
+					if ($file[0] != '.' and is_file($apps_dir['path'] . '/' . $file . '/appinfo/info.xml')) {
 
 						$apps[] = $file;
 
@@ -880,7 +880,7 @@ class OC_App {
 
 	/**
 	 * get a list of all apps on apps.owncloud.com
-	 * 
+	 *
 	 * @return array|false multi-dimensional array of apps.
 	 *     Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
 	 */
