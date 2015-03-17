@@ -36,10 +36,13 @@ namespace OCP;
 interface INavigationManager {
 	/**
 	 * Creates a new navigation entry
-	 * @param array $entry containing: id, name, order, icon and href key
+	 *
+	 * @param array|\Closure $entry Array containing: id, name, order, icon and href key
+	 *					The use of a closure is preferred, because it will avoid
+	 * 					loading the routing of your app, unless required.
 	 * @return void
 	 */
-	public function add(array $entry);
+	public function add($entry);
 
 	/**
 	 * Sets the current navigation entry of the currently running app
