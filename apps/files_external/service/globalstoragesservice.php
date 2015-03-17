@@ -22,7 +22,6 @@ class GlobalStoragesService extends StoragesService {
 	/**
 	 * Write the storages to the configuration.
 	 *
-	 * @param string $user user or null for global config
 	 * @param array $storages map of storage id to storage config
 	 */
 	public function writeConfig($storages) {
@@ -121,8 +120,8 @@ class GlobalStoragesService extends StoragesService {
 	 * accomodate for additions/deletions in applicableUsers
 	 * and applicableGroups fields.
 	 *
-	 * @param StorageConfig $oldStorage old storage data
-	 * @param StorageConfig $newStorage new storage data
+	 * @param StorageConfig $oldStorage old storage config
+	 * @param StorageConfig $newStorage new storage config
 	 */
 	protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage) {
 		// if mount point changed, it's like a deletion + creation

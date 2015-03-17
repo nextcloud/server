@@ -23,6 +23,9 @@ use \OCA\Files_external\Service\UserStoragesService;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;
 
+/**
+ * User storages controller
+ */
 class UserStoragesController extends StoragesController {
 	/**
 	 * Creates a new user storages controller.
@@ -37,7 +40,7 @@ class UserStoragesController extends StoragesController {
 		IRequest $request,
 		IL10N $l10n,
 		UserStoragesService $userStoragesService
-	){
+	) {
 		parent::__construct(
 			$AppName,
 			$request,
@@ -76,8 +79,11 @@ class UserStoragesController extends StoragesController {
 	}
 
 	/**
+	 * Return storage
+	 *
 	 * @NoAdminRequired
-	 * @{inheritdoc}
+	 *
+	 * {@inheritdoc}
 	 */
 	public function show($id) {
 		return parent::show($id);
@@ -131,6 +137,8 @@ class UserStoragesController extends StoragesController {
 	 * @param array $mountOptions backend-specific mount options
 	 *
 	 * @return DataResponse
+	 *
+	 * @NoAdminRequired
 	 */
 	public function update(
 		$id,
@@ -171,11 +179,13 @@ class UserStoragesController extends StoragesController {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Delete storage
+	 *
 	 * @NoAdminRequired
+	 *
+	 * {@inheritdoc}
 	 */
 	public function destroy($id) {
 		return parent::destroy($id);
 	}
 }
-

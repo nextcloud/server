@@ -36,9 +36,15 @@ abstract class StoragesService {
 	 * @param string $mountType mount type
 	 * @param string $applicable applicable user or group
 	 * @param array $storageOptions legacy storage options
+	 *
 	 * @return StorageConfig populated storage config
 	 */
-	protected function populateStorageConfigWithLegacyOptions(&$storageConfig, $mountType, $applicable, $storageOptions) {
+	protected function populateStorageConfigWithLegacyOptions(
+		&$storageConfig,
+		$mountType,
+		$applicable,
+		$storageOptions
+	) {
 		$storageConfig->setBackendClass($storageOptions['class']);
 		$storageConfig->setBackendOptions($storageOptions['options']);
 		if (isset($storageOptions['mountOptions'])) {
@@ -225,9 +231,10 @@ abstract class StoragesService {
 	/**
 	 * Get a storage with status
 	 *
-	 * @param int $id
+	 * @param int $id storage id
 	 *
 	 * @return StorageConfig
+	 * @throws NotFoundException if the storage with the given id was not found
 	 */
 	public function getStorage($id) {
 		$allStorages = $this->readConfig();
@@ -319,7 +326,7 @@ abstract class StoragesService {
 	 * @param StorageConfig $updatedStorage storage attributes
 	 *
 	 * @return StorageConfig storage config
-	 * @throws NotFoundException
+	 * @throws NotFoundException if the given storage does not exist in the config
 	 */
 	public function updateStorage(StorageConfig $updatedStorage) {
 		$allStorages = $this->readConfig();
@@ -344,7 +351,7 @@ abstract class StoragesService {
 	 *
 	 * @param int $id storage id
 	 *
-	 * @throws NotFoundException
+	 * @throws NotFoundException if no storage was found with the given id
 	 */
 	public function removeStorage($id) {
 		$allStorages = $this->readConfig();
@@ -376,7 +383,7 @@ abstract class StoragesService {
 		// but so did the mount.json. This horribly hack
 		// will disappear once we move to DB tables to
 		// store the config
-		return max(array_keys($allStorages)) + 1;
+		return (max(array_keys($allStorages)) + 1);
 	}
 
 }

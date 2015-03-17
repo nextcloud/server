@@ -14,51 +14,71 @@ namespace OCA\Files_external\Lib;
 class StorageConfig implements \JsonSerializable {
 
 	/**
+	 * Storage config id
+	 *
 	 * @var int
 	 */
 	private $id;
 
 	/**
+	 * Backend class name
+	 *
 	 * @var string
 	 */
 	private $backendClass;
 
 	/**
+	 * Backend options
+	 *
 	 * @var array
 	 */
 	private $backendOptions = [];
 
 	/**
+	 * Mount point path, relative to the user's "files" folder
+	 *
 	 * @var string
 	 */
 	private $mountPoint;
 
 	/**
+	 * Storage status
+	 *
 	 * @var int
 	 */
 	private $status;
 
 	/**
+	 * Priority
+	 *
 	 * @var int
 	 */
 	private $priority;
 
 	/**
+	 * List of users who have access to this storage
+	 *
 	 * @var array
 	 */
 	private $applicableUsers = [];
 
 	/**
+	 * List of groups that have access to this storage
+	 *
 	 * @var array
 	 */
 	private $applicableGroups = [];
 
 	/**
+	 * Mount-specific options
+	 *
 	 * @var array
 	 */
 	private $mountOptions = [];
 
 	/**
+	 * Creates a storage config
+	 *
 	 * @param int|null $id config id or null for a new config
 	 */
 	public function __construct($id = null) {
@@ -77,7 +97,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the configuration id
 	 *
-	 * @param int configuration id
+	 * @param int $id configuration id
 	 */
 	public function setId($id) {
 		$this->id = $id;
@@ -98,7 +118,7 @@ class StorageConfig implements \JsonSerializable {
 	 * "files" folder.
 	 * The path will be normalized.
 	 *
-	 * @param string path
+	 * @param string $mountPoint path
 	 */
 	public function setMountPoint($mountPoint) {
 		$this->mountPoint = \OC\Files\Filesystem::normalizePath($mountPoint);
@@ -134,7 +154,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the external storage backend-specific options
 	 *
-	 * @param array backend options
+	 * @param array $backendOptions backend options
 	 */
 	public function setBackendOptions($backendOptions) {
 		$this->backendOptions = $backendOptions;
@@ -152,7 +172,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the mount priotity
 	 *
-	 * @param int priority
+	 * @param int $priority priority
 	 */
 	public function setPriority($priority) {
 		$this->priority = $priority;
@@ -170,7 +190,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the users for which to mount this storage
 	 *
-	 * @param array applicable users
+	 * @param array|null $applicableUsers applicable users
 	 */
 	public function setApplicableUsers($applicableUsers) {
 		if (is_null($applicableUsers)) {
@@ -191,7 +211,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the groups for which to mount this storage
 	 *
-	 * @param array applicable groups
+	 * @param array|null $applicableGroups applicable groups
 	 */
 	public function setApplicableGroups($applicableGroups) {
 		if (is_null($applicableGroups)) {
@@ -212,7 +232,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the mount-specific options
 	 *
-	 * @param array applicable groups
+	 * @param array $mountOptions applicable groups
 	 */
 	public function setMountOptions($mountOptions) {
 		if (is_null($mountOptions)) {

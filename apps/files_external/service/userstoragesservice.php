@@ -19,11 +19,19 @@ use \OCA\Files_external\NotFoundException;
  * (aka personal storages)
  */
 class UserStoragesService extends StoragesService {
+
 	/**
+	 * User session
+	 *
 	 * @var IUserSession
 	 */
 	private $userSession;
 
+	/**
+	 * Create a user storages service
+	 *
+	 * @param IUserSession $userSession user session
+	 */
 	public function __construct(
 		IUserSession $userSession
 	) {

@@ -23,14 +23,21 @@ use \OCA\Files_external\Service\StoragesService;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;
 
+/**
+ * Base class for storages controllers
+ */
 abstract class StoragesController extends Controller {
 
 	/**
+	 * L10N service
+	 *
 	 * @var IL10N
 	 */
 	protected $l10n;
 
 	/**
+	 * Storages service
+	 *
 	 * @var StoragesService
 	 */
 	protected $service;
@@ -48,7 +55,7 @@ abstract class StoragesController extends Controller {
 		IRequest $request,
 		IL10N $l10n,
 		StoragesService $storagesService
-	){
+	) {
 		parent::__construct($AppName, $request);
 		$this->l10n = $l10n;
 		$this->service = $storagesService;
@@ -94,7 +101,7 @@ abstract class StoragesController extends Controller {
 	 * Note that this operation can be time consuming depending
 	 * on whether the remote storage is available or not.
 	 *
-	 * @param StorageConfig $storage
+	 * @param StorageConfig $storage storage configuration
 	 */
 	protected function updateStorageStatus(StorageConfig &$storage) {
 		// update status (can be time-consuming)

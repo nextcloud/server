@@ -23,9 +23,8 @@
 namespace OCA\Files_External\Appinfo;
 
 /**
- * @var $this OC\Route\Router
+ * @var $this \OC\Route\Router
  **/
-
 $application = new Application();
 $application->registerRoutes(
 	$this,

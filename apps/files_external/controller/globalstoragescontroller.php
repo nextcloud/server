@@ -23,6 +23,9 @@ use \OCA\Files_external\Service\GlobalStoragesService;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;
 
+/**
+ * Global storages controller
+ */
 class GlobalStoragesController extends StoragesController {
 	/**
 	 * Creates a new global storages controller.
@@ -37,7 +40,7 @@ class GlobalStoragesController extends StoragesController {
 		IRequest $request,
 		IL10N $l10n,
 		GlobalStoragesService $globalStoragesService
-	){
+	) {
 		parent::__construct(
 			$AppName,
 			$request,
@@ -151,4 +154,3 @@ class GlobalStoragesController extends StoragesController {
 	}
 
 }
-
