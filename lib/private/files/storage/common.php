@@ -512,7 +512,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			}
 		}
 
-		$sanitizedFileName = filter_var($fileName, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+		$sanitizedFileName = filter_var($fileName, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW);
 		if($sanitizedFileName !== $fileName) {
 			throw new InvalidCharacterInPathException();
 		}
