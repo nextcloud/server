@@ -11,6 +11,7 @@ use OC\Command\AsyncBus;
 use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
+use OC\Mail\Mailer;
 use OC\Security\CertificateManager;
 use OC\Files\Node\Root;
 use OC\Files\View;
@@ -310,6 +311,13 @@ class Server extends SimpleContainer implements IServerContainer {
 				$this->getSecureRandom(),
 				$this->getConfig(),
 				$stream
+			);
+		});
+		$this->registerService('Mailer', function(Server $c) {
+			return new Mailer(
+				$c->getConfig(),
+				$c->getLogger(),
+				new \OC_Defaults()
 			);
 		});
 	}
@@ -710,6 +718,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getAppManager() {
 		return $this->query('AppManager');
+	}
+
+	/**
+	 * Creates a new mailer
+	 *
+	 * @return \OCP\Mail\IMailer
+	 */
+	function getMailer() {
+		return $this->query('Mailer');
 	}
 
 	/**

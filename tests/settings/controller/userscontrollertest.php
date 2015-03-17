@@ -45,7 +45,7 @@ class UsersControllerTest extends \Test\TestCase {
 			}));
 		$this->container['Defaults'] = $this->getMockBuilder('\OC_Defaults')
 			->disableOriginalConstructor()->getMock();
-		$this->container['Mail'] = $this->getMockBuilder('\OC_Mail')
+		$this->container['Mailer'] = $this->getMockBuilder('\OCP\Mail\IMailer')
 			->disableOriginalConstructor()->getMock();
 		$this->container['DefaultMailAddress'] = 'no-reply@owncloud.com';
 		$this->container['Logger'] = $this->getMockBuilder('\OCP\ILogger')
@@ -1151,24 +1151,12 @@ class UsersControllerTest extends \Test\TestCase {
 	public function testCreateUnsuccessfulWithInvalidEmailAdmin() {
 		$this->container['IsAdmin'] = true;
 
-		/**
-		 * FIXME: Disabled due to missing DI on mail class.
-		 * TODO: Re-enable when https://github.com/owncloud/core/pull/12085 is merged.
-		 */
-		$this->markTestSkipped('Disable test until OC_Mail is rewritten.');
-
-		$this->container['Mail']
-			->expects($this->once())
-			->method('validateAddress')
-			->will($this->returnValue(false));
-
-		$expectedResponse = new DataResponse(
-			array(
-				'message' => 'Invalid mail address'
-			),
+		$expectedResponse = new DataResponse([
+				'message' => 'Invalid mail address',
+			],
 			Http::STATUS_UNPROCESSABLE_ENTITY
 		);
-		$response = $this->container['UsersController']->create('foo', 'password', array(), 'invalidMailAdress');
+		$response = $this->container['UsersController']->create('foo', 'password', [], 'invalidMailAdress');
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -1177,35 +1165,84 @@ class UsersControllerTest extends \Test\TestCase {
 	 */
 	public function testCreateSuccessfulWithValidEmailAdmin() {
 		$this->container['IsAdmin'] = true;
+		$message = $this->getMockBuilder('\OC\Mail\Message')
+			->disableOriginalConstructor()->getMock();
+		$message
+			->expects($this->at(0))
+			->method('setTo')
+			->with(['validMail@Adre.ss' => 'foo']);
+		$message
+			->expects($this->at(1))
+			->method('setSubject')
+			->with('Your  account was created');
+		$htmlBody = new Http\TemplateResponse(
+			'settings',
+			'email.new_user',
+			[
+				'username' => 'foo',
+				'url' => '',
+			],
+			'blank'
+		);
+		$message
+			->expects($this->at(2))
+			->method('setHtmlBody')
+			->with($htmlBody->render());
+		$plainBody = new Http\TemplateResponse(
+			'settings',
+			'email.new_user_plain_text',
+			[
+				'username' => 'foo',
+				'url' => '',
+			],
+			'blank'
+		);
+		$message
+			->expects($this->at(3))
+			->method('setPlainBody')
+			->with($plainBody->render());
+		$message
+			->expects($this->at(4))
+			->method('setFrom')
+			->with(['no-reply@owncloud.com' => null]);
 
-		/**
-		 * FIXME: Disabled due to missing DI on mail class.
-		 * TODO: Re-enable when https://github.com/owncloud/core/pull/12085 is merged.
-		 */
-		$this->markTestSkipped('Disable test until OC_Mail is rewritten.');
-
-		$this->container['Mail']
-			->expects($this->once())
-			->method('validateAddress')
+		$this->container['Mailer']
+			->expects($this->at(0))
+			->method('validateMailAddress')
+			->with('validMail@Adre.ss')
 			->will($this->returnValue(true));
-		$this->container['Mail']
-			->expects($this->once())
+		$this->container['Mailer']
+			->expects($this->at(1))
+			->method('createMessage')
+			->will($this->returnValue($message));
+		$this->container['Mailer']
+			->expects($this->at(2))
 			->method('send')
-			->with(
-				$this->equalTo('validMail@Adre.ss'),
-				$this->equalTo('foo'),
-				$this->anything(),
-				$this->anything(),
-				$this->anything(),
-				$this->equalTo('no-reply@owncloud.com'),
-				$this->equalTo(1),
-				$this->anything()
-			);
-		$this->container['Logger']
-			->expects($this->never())
-			->method('error');
+			->with($message);
 
-		$response = $this->container['UsersController']->create('foo', 'password', array(), 'validMail@Adre.ss');
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->method('getHome')
+			->will($this->returnValue('/home/user'));
+		$user
+			->method('getHome')
+			->will($this->returnValue('/home/user'));
+		$user
+			->method('getUID')
+			->will($this->returnValue('foo'));
+		$user
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('bar'));
+
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('createUser')
+			->will($this->onConsecutiveCalls($user));
+
+
+		$response = $this->container['UsersController']->create('foo', 'password', [], 'validMail@Adre.ss');
 		$this->assertEquals(Http::STATUS_CREATED, $response->getStatus());
 	}
 

@@ -26,6 +26,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Mail\IMailer;
 
 /**
  * @package OC\Settings\Controller
@@ -47,8 +48,8 @@ class UsersController extends Controller {
 	private $log;
 	/** @var \OC_Defaults */
 	private $defaults;
-	/** @var \OC_Mail */
-	private $mail;
+	/** @var IMailer */
+	private $mailer;
 	/** @var string */
 	private $fromMailAddress;
 	/** @var IURLGenerator */
@@ -71,7 +72,7 @@ class UsersController extends Controller {
 	 * @param IL10N $l10n
 	 * @param ILogger $log
 	 * @param \OC_Defaults $defaults
-	 * @param \OC_Mail $mail
+	 * @param IMailer $mailer
 	 * @param string $fromMailAddress
 	 * @param IURLGenerator $urlGenerator
 	 * @param IAppManager $appManager
@@ -87,7 +88,7 @@ class UsersController extends Controller {
 								IL10N $l10n,
 								ILogger $log,
 								\OC_Defaults $defaults,
-								\OC_Mail $mail,
+								IMailer $mailer,
 								$fromMailAddress,
 								IURLGenerator $urlGenerator,
 								IAppManager $appManager,
@@ -101,7 +102,7 @@ class UsersController extends Controller {
 		$this->l10n = $l10n;
 		$this->log = $log;
 		$this->defaults = $defaults;
-		$this->mail = $mail;
+		$this->mailer = $mailer;
 		$this->fromMailAddress = $fromMailAddress;
 		$this->urlGenerator = $urlGenerator;
 		$this->subAdminFactory = $subAdminFactory;
@@ -262,8 +263,7 @@ class UsersController extends Controller {
 	 * @return DataResponse
 	 */
 	public function create($username, $password, array $groups=array(), $email='') {
-
-		if($email !== '' && !$this->mail->validateAddress($email)) {
+		if($email !== '' && !$this->mailer->validateMailAddress($email)) {
 			return new DataResponse(
 				array(
 					'message' => (string)$this->l10n->t('Invalid mail address')
@@ -329,15 +329,13 @@ class UsersController extends Controller {
 				$subject = $this->l10n->t('Your %s account was created', [$this->defaults->getName()]);
 
 				try {
-					$this->mail->send(
-						$email,
-						$username,
-						$subject,
-						$mailContent,
-						$this->fromMailAddress,
-						$this->defaults->getName(),
-						1,
-						$plainTextMailContent);
+					$message = $this->mailer->createMessage();
+					$message->setTo([$email => $username]);
+					$message->setSubject($subject);
+					$message->setHtmlBody($mailContent);
+					$message->setPlainBody($plainTextMailContent);
+					$message->setFrom([$this->fromMailAddress => $this->defaults->getName()]);
+					$this->mailer->send($message);
 				} catch(\Exception $e) {
 					$this->log->error("Can't send new user mail to $email: " . $e->getMessage(), array('app' => 'settings'));
 				}
@@ -444,7 +442,7 @@ class UsersController extends Controller {
 			);
 		}
 
-		if($mailAddress !== '' && !$this->mail->validateAddress($mailAddress)) {
+		if($mailAddress !== '' && !$this->mailer->validateMailAddress($mailAddress)) {
 			return new DataResponse(
 				array(
 					'status' => 'error',

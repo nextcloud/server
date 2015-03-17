@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
+ * Copyright (c) 2014-2015 Lukas Reschke <lukas@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -42,6 +42,8 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->container['Config'] = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
 		$this->container['URLGenerator'] = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()->getMock();
+		$this->container['Mailer'] = $this->getMockBuilder('\OCP\Mail\IMailer')
 			->disableOriginalConstructor()->getMock();
 		$this->container['SecureRandom'] = $this->getMockBuilder('\OCP\Security\ISecureRandom')
 			->disableOriginalConstructor()->getMock();
@@ -103,14 +105,6 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testEmailSuccessful() {
-		/**
-		 * FIXME: Disable test for systems where no sendmail is available since code is static.
-		 * @link https://github.com/owncloud/core/pull/12085
-		 */
-		if (is_null(\OC_Helper::findBinaryPath('sendmail'))) {
-			$this->markTestSkipped('sendmail is not available');
-		}
-
 		$randomToken = $this->container['SecureRandom'];
 		$this->container['SecureRandom']
 			->expects($this->once())
@@ -140,9 +134,98 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('linkToRouteAbsolute')
 			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
 			->will($this->returnValue('https://ownCloud.com/index.php/lostpassword/'));
+		$message = $this->getMockBuilder('\OC\Mail\Message')
+			->disableOriginalConstructor()->getMock();
+		$message
+			->expects($this->at(0))
+			->method('setTo')
+			->with(['test@example.com' => 'ExistingUser']);
+		$message
+			->expects($this->at(1))
+			->method('setSubject')
+			->with(' password reset');
+		$message
+			->expects($this->at(2))
+			->method('setPlainBody')
+			->with('Use the following link to reset your password: https://ownCloud.com/index.php/lostpassword/');
+		$message
+			->expects($this->at(3))
+			->method('setFrom')
+			->with(['lostpassword-noreply@localhost' => null]);
+		$this->container['Mailer']
+			->expects($this->at(0))
+			->method('createMessage')
+			->will($this->returnValue($message));
+		$this->container['Mailer']
+			->expects($this->at(1))
+			->method('send')
+			->with($message);
 
 		$response = $this->lostController->email('ExistingUser');
 		$expectedResponse = array('status' => 'success');
+		$this->assertSame($expectedResponse, $response);
+	}
+
+	public function testEmailCantSendException() {
+		$randomToken = $this->container['SecureRandom'];
+		$this->container['SecureRandom']
+			->expects($this->once())
+			->method('generate')
+			->with('21')
+			->will($this->returnValue('ThisIsMaybeANotSoSecretToken!'));
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('userExists')
+			->with('ExistingUser')
+			->will($this->returnValue(true));
+		$this->container['Config']
+			->expects($this->once())
+			->method('getUserValue')
+			->with('ExistingUser', 'settings', 'email')
+			->will($this->returnValue('test@example.com'));
+		$this->container['SecureRandom']
+			->expects($this->once())
+			->method('getMediumStrengthGenerator')
+			->will($this->returnValue($randomToken));
+		$this->container['Config']
+			->expects($this->once())
+			->method('setUserValue')
+			->with('ExistingUser', 'owncloud', 'lostpassword', 'ThisIsMaybeANotSoSecretToken!');
+		$this->container['URLGenerator']
+			->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
+			->will($this->returnValue('https://ownCloud.com/index.php/lostpassword/'));
+		$message = $this->getMockBuilder('\OC\Mail\Message')
+			->disableOriginalConstructor()->getMock();
+		$message
+			->expects($this->at(0))
+			->method('setTo')
+			->with(['test@example.com' => 'ExistingUser']);
+		$message
+			->expects($this->at(1))
+			->method('setSubject')
+			->with(' password reset');
+		$message
+			->expects($this->at(2))
+			->method('setPlainBody')
+			->with('Use the following link to reset your password: https://ownCloud.com/index.php/lostpassword/');
+		$message
+			->expects($this->at(3))
+			->method('setFrom')
+			->with(['lostpassword-noreply@localhost' => null]);
+		$this->container['Mailer']
+			->expects($this->at(0))
+			->method('createMessage')
+			->will($this->returnValue($message));
+		$this->container['Mailer']
+			->expects($this->at(1))
+			->method('send')
+			->with($message)
+			->will($this->throwException(new \Exception()));
+
+		$response = $this->lostController->email('ExistingUser');
+		$expectedResponse = ['status' => 'error', 'msg' => 'Couldn\'t send reset email. Please contact your administrator.'];
 		$this->assertSame($expectedResponse, $response);
 	}
 

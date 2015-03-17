@@ -30,7 +30,10 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->container['AppName'] = 'settings';
 		$this->container['UserSession'] = $this->getMockBuilder('\OC\User\Session')
 			->disableOriginalConstructor()->getMock();
-		$this->container['Mail'] = $this->getMockBuilder('\OC_Mail')
+		$this->container['MailMessage'] = $this->getMockBuilder('\OCP\Mail\IMessage')
+			->disableOriginalConstructor()->getMock();
+		$this->container['Mailer'] = $this->getMockBuilder('\OC\Mail\Mailer')
+			->setMethods(['send'])
 			->disableOriginalConstructor()->getMock();
 		$this->container['Defaults'] = $this->getMockBuilder('\OC_Defaults')
 			->disableOriginalConstructor()->getMock();
@@ -152,12 +155,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 	}
 
 	public function testSendTestMail() {
-		/**
-		 * FIXME: Disabled due to missing DI on mail class. 
-		 * TODO: Re-enable when https://github.com/owncloud/core/pull/12085 is merged.
-		 */
-		$this->markTestSkipped('Disable test until OC_Mail is rewritten.');
-		
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()
 			->getMock();
