@@ -477,7 +477,7 @@ var OC={
 		$menuEl.addClass('menu');
 		$toggle.on('click.menu', function(event) {
 			if ($menuEl.is(OC._currentMenu)) {
-				$menuEl.slideUp(OC.menuSpeed);
+				$menuEl.hide();
 				OC._currentMenu = null;
 				OC._currentMenuToggle = null;
 				return false;
@@ -487,7 +487,7 @@ var OC={
 				// close it
 				OC._currentMenu.hide();
 			}
-			$menuEl.slideToggle(OC.menuSpeed);
+			$menuEl.toggle();
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
 			return false;
@@ -500,7 +500,7 @@ var OC={
 	unregisterMenu: function($toggle, $menuEl) {
 		// close menu if opened
 		if ($menuEl.is(OC._currentMenu)) {
-			$menuEl.slideUp(OC.menuSpeed);
+			$menuEl.hide();
 			OC._currentMenu = null;
 			OC._currentMenuToggle = null;
 		}
@@ -1128,7 +1128,7 @@ function initCore() {
 		}
 	});
 	$('#settings #expand').click(function(event) {
-		$('#settings #expanddiv').slideToggle(OC.menuSpeed);
+		$('#settings #expanddiv').toggle();
 		event.stopPropagation();
 	});
 	$('#settings #expanddiv').click(function(event){
@@ -1136,7 +1136,7 @@ function initCore() {
 	});
 	//hide the user menu when clicking outside it
 	$(document).click(function(){
-		$('#settings #expanddiv').slideUp(OC.menuSpeed);
+		$('#settings #expanddiv').hide();
 	});
 
 	// all the tipsy stuff needs to be here (in reverse order) to work
@@ -1159,7 +1159,7 @@ function initCore() {
 			return false;
 		}
 		if (OC._currentMenu) {
-			OC._currentMenu.slideUp(OC.menuSpeed);
+			OC._currentMenu.hide();
 		}
 		OC._currentMenu = null;
 		OC._currentMenuToggle = null;

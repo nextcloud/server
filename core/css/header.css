@@ -139,19 +139,39 @@
 
 #navigation {
 	position: fixed;
-	top: 45px;
+	top: 55px;
+	left: 10px;
 	width: 265px;
 	max-height: 85%;
 	margin-top: 0;
 	padding-bottom: 10px;
-	background-color: rgba(36, 40, 47, .97);
-	border-bottom-right-radius: 7px;
-	box-shadow: 0 0 7px rgba(29,45,68,.97);
+	background-color: rgba(0, 0, 0, .97);
+	/*box-shadow: 0 0 7px rgba(30, 30, 30, .97);*/
+	border-radius: 5px;
 	display: none;
-	overflow-y: auto;
-	overflow-x: hidden;
+	/*overflow-y: auto;
+	overflow-x: hidden;*/
 	z-index: 2000;
 }
+/* arrow look */
+#navigation:after, #expanddiv:after {
+	bottom: 100%;
+	left: 47%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(0, 0, 0, 0);
+	border-bottom-color: rgba(0, 0, 0, .97);
+	border-width: 10px;
+	margin-left: -10px;
+}
+#expanddiv:after {
+	left: 75%;
+}
+
 #navigation, #navigation * {
 	-moz-box-sizing:border-box;
 	box-sizing:border-box;
@@ -182,15 +202,15 @@
 	/* icon opacity and hover effect */
 	#navigation a img,
 	#navigation a span {
-		/* 50% opacity when inactive */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-		opacity: .5;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+		opacity: .7;
 	}
-	#navigation a:hover img, #navigation a:focus img,
-	#navigation a:hover span, #navigation a:focus span,
+	#navigation a:hover img,
+	#navigation a:focus img,
+	#navigation a:hover span,
+	#navigation a:focus span,
 	#navigation a.active img,
 	#navigation a.active span {
-		 /* full opacity for the active app or when hovered/focused */
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 		opacity: 1;
 	}
@@ -289,13 +309,13 @@
 }
 #expanddiv {
 	position: absolute;
-	right: 0;
-	top: 45px;
+	right: 10px;
+	top: 55px;
 	z-index: 2000;
 	display: none;
-	background-color: #383c43;
-	border-bottom-left-radius: 7px;
-	box-shadow: 0 0 7px rgb(29,45,68);
+	background-color: rgba(0, 0, 0, .97);
+	/*box-shadow: 0 0 7px rgba(30, 30, 30, .97);*/
+	border-radius: 5px;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
 	#expanddiv a {
