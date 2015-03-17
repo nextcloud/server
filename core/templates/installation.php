@@ -42,18 +42,18 @@ script('core', [
 			<input type="text" name="adminlogin" id="adminlogin"
 				placeholder="<?php p($l->t( 'Username' )); ?>"
 				value="<?php p($_['adminlogin']); ?>"
-				autocomplete="off" autocapitalize="off" autocorrect="off" autofocus required />
+				autocomplete="off" autocapitalize="off" autocorrect="off" autofocus required>
 			<label for="adminlogin" class="infield"><?php p($l->t( 'Username' )); ?></label>
-			<img class="svg" src="<?php p(image_path('', 'actions/user.svg')); ?>" alt="" />
+			<img class="svg" src="<?php p(image_path('', 'actions/user.svg')); ?>" alt="">
 		</p>
 		<p class="groupbottom">
 			<input type="password" name="adminpass" data-typetoggle="#show" id="adminpass"
 				placeholder="<?php p($l->t( 'Password' )); ?>"
 				value="<?php p($_['adminpass']); ?>"
-				autocomplete="off" autocapitalize="off" autocorrect="off" required />
+				autocomplete="off" autocapitalize="off" autocorrect="off" required>
 			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
-			<img class="svg" id="adminpass-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt="" />
-			<input type="checkbox" id="show" name="show" />
+			<img class="svg" id="adminpass-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt="">
+			<input type="checkbox" id="show" name="show">
 			<label for="show"></label>
 			<div class="strengthify-wrapper"></div>
 		</p>
@@ -72,7 +72,7 @@ script('core', [
 			<input type="text" name="directory" id="directory"
 				placeholder="<?php p(OC::$SERVERROOT.'/data'); ?>"
 				value="<?php p($_['directory']); ?>"
-				autocomplete="off" autocapitalize="off" autocorrect="off" />
+				autocomplete="off" autocapitalize="off" autocorrect="off">
 		</div>
 	</fieldset>
 	<?php endif; ?>
@@ -86,7 +86,7 @@ script('core', [
 		<?php foreach($_['databases'] as $type => $label): ?>
 		<?php if(count($_['databases']) === 1): ?>
 		<p class="info"><?php p($l->t( 'Only %s is available.', array($label) )); ?>.</p>
-		<input type="hidden" id="dbtype" name="dbtype" value="<?php p($type) ?>" />
+		<input type="hidden" id="dbtype" name="dbtype" value="<?php p($type) ?>">
 		<?php else: ?>
 		<input type="radio" name="dbtype" value="<?php p($type) ?>" id="<?php p($type) ?>"
 			<?php print_unescaped($_['dbtype'] === $type ? 'checked="checked" ' : '') ?>/>
@@ -104,15 +104,15 @@ script('core', [
 				<input type="text" name="dbuser" id="dbuser"
 					placeholder="<?php p($l->t( 'Database user' )); ?>"
 					value="<?php p($_['dbuser']); ?>"
-					autocomplete="off" autocapitalize="off" autocorrect="off" />
+					autocomplete="off" autocapitalize="off" autocorrect="off">
 			</p>
 			<p class="groupmiddle">
 				<input type="password" name="dbpass" id="dbpass" data-typetoggle="#dbpassword"
 					placeholder="<?php p($l->t( 'Database password' )); ?>"
 					value="<?php p($_['dbpass']); ?>"
-					autocomplete="off" autocapitalize="off" autocorrect="off" />
+					autocomplete="off" autocapitalize="off" autocorrect="off">
 				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
-				<input type="checkbox" id="dbpassword" name="dbpassword" />
+				<input type="checkbox" id="dbpassword" name="dbpassword">
 				<label for="dbpassword"></label>
 			</p>
 			<p class="groupmiddle">
@@ -121,7 +121,7 @@ script('core', [
 					placeholder="<?php p($l->t( 'Database name' )); ?>"
 					value="<?php p($_['dbname']); ?>"
 					autocomplete="off" autocapitalize="off" autocorrect="off"
-					pattern="[0-9a-zA-Z$_-]+" />
+					pattern="[0-9a-zA-Z$_-]+">
 			</p>
 			<?php if($_['hasOracle']): ?>
 			<div id="use_oracle_db">
@@ -130,7 +130,7 @@ script('core', [
 					<input type="text" name="dbtablespace" id="dbtablespace"
 						placeholder="<?php p($l->t( 'Database tablespace' )); ?>"
 						value="<?php p($_['dbtablespace']); ?>"
-						autocomplete="off" autocapitalize="off" autocorrect="off" />
+						autocomplete="off" autocapitalize="off" autocorrect="off">
 				</p>
 			</div>
 			<?php endif; ?>
@@ -139,7 +139,7 @@ script('core', [
 				<input type="text" name="dbhost" id="dbhost"
 					placeholder="<?php p($l->t( 'Database host' )); ?>"
 					value="<?php p($_['dbhost']); ?>"
-					autocomplete="off" autocapitalize="off" autocorrect="off" />
+					autocomplete="off" autocapitalize="off" autocorrect="off">
 			</p>
 		</div>
 		</fieldset>
@@ -157,5 +157,5 @@ script('core', [
 		</fieldset>
 	<?php endif ?>
 
-	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>" /></div>
+	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>"></div>
 </form>
