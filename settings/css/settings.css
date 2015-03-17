@@ -55,6 +55,23 @@ table.nostyle td { padding: 0.2em 0; }
 	content: '+'; font-weight: bold; font-size: 150%;
 }
 
+#newgroup-form {
+	height: 44px;
+}
+#newgroupname {
+	margin: 6px;
+	width: 95%;
+	padding-right: 32px;
+	box-sizing: border-box
+}
+#newgroup-form .button {
+	position: absolute;
+	right: 0;
+	top: 3px;
+	height: 32px;
+	width: 32px;
+}
+
 .ie8 #newgroup-form .icon-add {
 	height: 30px;
 }
@@ -78,7 +95,6 @@ span.utils .delete, .rename { display: none; }
 #app-navigation ul li.active > span.utils .rename { display: block; }
 #usersearchform { position: absolute; top: 2px; right: 250px; }
 #usersearchform label { font-weight: 700; }
-form { display:inline; }
 
 /* display table at full width */
 table.grid {
