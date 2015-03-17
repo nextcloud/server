@@ -87,13 +87,30 @@ EOD;
 
 	function handleFile($path) {
 		$source = file_get_contents($path);
+		if ($this->isMITLicensed($source)) {
+			echo "MIT licensed file: $path" . PHP_EOL;
+			return;
+		}
 		$source = $this->eatOldLicense($source);
 		$authors = $this->getAuthors($path);
 		$license = str_replace('@AUTHORS@', $authors, $this->licenseText);
 
 		$source = "<?php" . PHP_EOL . $license . PHP_EOL . $source;
 		file_put_contents($path,$source);
-		echo "License updated: $path\n";
+		echo "License updated: $path" . PHP_EOL;
+	}
+
+	private function isMITLicensed($source) {
+		$lines = explode(PHP_EOL, $source);
+		while(!empty($lines)) {
+			$line = $lines[0];
+			array_shift($lines);
+			if (strpos($line, 'The MIT License') !== false) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private function eatOldLicense($source) {
