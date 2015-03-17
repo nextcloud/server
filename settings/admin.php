@@ -118,7 +118,6 @@ $formsAndMore = array_merge($formsAndMore, $formsMap);
 // add bottom hardcoded forms from the template
 $formsAndMore[] = array('anchor' => 'backgroundjobs', 'section-name' => $l->t('Cron'));
 $formsAndMore[] = array('anchor' => 'shareAPI', 'section-name' => $l->t('Sharing'));
-$formsAndMore[] = array('anchor' => 'security', 'section-name' => $l->t('Security'));
 $formsAndMore[] = array('anchor' => 'mail_general_settings', 'section-name' => $l->t('Email Server'));
 $formsAndMore[] = array('anchor' => 'log-section', 'section-name' => $l->t('Log'));
 
