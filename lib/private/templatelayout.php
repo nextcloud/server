@@ -242,7 +242,11 @@ class OC_TemplateLayout extends OC_Template {
 
 	private static function hashFileNames($files) {
 		foreach($files as $i => $file) {
-			$files[$i] = self::convertToRelativePath($file[0]).'/'.$file[2];
+			try {
+				$files[$i] = self::convertToRelativePath($file[0]).'/'.$file[2];
+			} catch (\Exception $e) {
+				$files[$i] = $file[0].'/'.$file[2];
+			}
 		}
 
 		sort($files);
