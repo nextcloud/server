@@ -105,8 +105,10 @@
 
 /* move Deleted Files to bottom of sidebar */
 .nav-trashbin {
-	position: absolute !important;
-	bottom: 0;
+	position: fixed !important;
+	bottom: 44px;
+	width: inherit !important;
+	background-color: #f5f5f5;
 }
 
 #filestable tbody tr { background-color:#fff; height:40px; }
