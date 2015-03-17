@@ -66,7 +66,7 @@ class Manager {
 	 * @param boolean $accepted
 	 * @param string $user
 	 * @param int $remoteId
-	 * @return mixed
+	 * @return Mount|null
 	 */
 	public function addShare($remote, $token, $password, $name, $owner, $accepted=false, $user = null, $remoteId = -1) {
 
@@ -74,31 +74,40 @@ class Manager {
 		$accepted = $accepted ? 1 : 0;
 		$name = Filesystem::normalizePath('/' . $name);
 
-		if ($accepted) {
-			$mountPoint = Files::buildNotExistingFileName('/', $name);
-			$mountPoint = Filesystem::normalizePath('/' . $mountPoint);
-			$hash = md5($mountPoint);
-		} else {
+		if (!$accepted) {
 			// To avoid conflicts with the mount point generation later,
 			// we only use a temporary mount point name here. The real
 			// mount point name will be generated when accepting the share,
 			// using the original share item name.
-			$tmpMountPointName = Filesystem::normalizePath('/TemporaryMountPointName-' . $name);
+			$tmpMountPointName = '{{TemporaryMountPointName#' . $name . '}}';
 			$mountPoint = $tmpMountPointName;
 			$hash = md5($tmpMountPointName);
-
-			$query = $this->connection->prepare('SELECT `id` FROM `*PREFIX*share_external` WHERE `user` = ? AND `mountpoint_hash` = ?', 1);
-			$query->execute([$user, $hash]);
+			$data = [
+				'remote'		=> $remote,
+				'share_token'	=> $token,
+				'password'		=> $password,
+				'name'			=> $name,
+				'owner'			=> $owner,
+				'user'			=> $user,
+				'mountpoint'	=> $mountPoint,
+				'mountpoint_hash'	=> $hash,
+				'accepted'		=> $accepted,
+				'remote_id'		=> $remoteId,
+			];
 
 			$i = 1;
-			while ($query->fetch()) {
+			while (!$this->connection->insertIfNotExist('*PREFIX*share_external', $data, ['user', 'mountpoint_hash'])) {
 				// The external share already exists for the user
-				$mountPoint = $tmpMountPointName . '-' . $i;
-				$hash = md5($mountPoint);
-				$query->execute([$user, $hash]);
+				$data['mountpoint'] = $tmpMountPointName . '-' . $i;
+				$data['mountpoint_hash'] = md5($data['mountpoint']);
 				$i++;
 			}
+			return null;
 		}
+
+		$mountPoint = Files::buildNotExistingFileName('/', $name);
+		$mountPoint = Filesystem::normalizePath('/' . $mountPoint);
+		$hash = md5($mountPoint);
 
 		$query = $this->connection->prepare('
 				INSERT INTO `*PREFIX*share_external`
@@ -107,16 +116,14 @@ class Manager {
 			');
 		$query->execute(array($remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId));
 
-		if ($accepted) {
-			$options = array(
-				'remote' => $remote,
-				'token' => $token,
-				'password' => $password,
-				'mountpoint' => $mountPoint,
-				'owner' => $owner
-			);
-			return $this->mountShare($options);
-		}
+		$options = array(
+			'remote'	=> $remote,
+			'token'		=> $token,
+			'password'	=> $password,
+			'mountpoint'	=> $mountPoint,
+			'owner'		=> $owner
+		);
+		return $this->mountShare($options);
 	}
 
 	private function setupMounts() {
