@@ -171,6 +171,30 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 		self::updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceRawMimeType() {
+		$updatedMimetypes = array(
+			'arw' => 'image/x-dcraw',
+			'cr2' => 'image/x-dcraw',
+			'dcr' => 'image/x-dcraw',
+			'dng' => 'image/x-dcraw',
+			'erf' => 'image/x-dcraw',
+			'iiq' => 'image/x-dcraw',
+			'k25' => 'image/x-dcraw',
+			'kdc' => 'image/x-dcraw',
+			'mef' => 'image/x-dcraw',
+			'nef' => 'image/x-dcraw',
+			'orf' => 'image/x-dcraw',
+			'pef' => 'image/x-dcraw',
+			'raf' => 'image/x-dcraw',
+			'rw2' => 'image/x-dcraw',
+			'srf' => 'image/x-dcraw',
+			'sr2' => 'image/x-dcraw',
+			'xrf' => 'image/x-dcraw',
+		);
+
+		self::updateMimetypes($updatedMimetypes);
+	}
+
 	/**
 	 * Fix mime types
 	 */
@@ -189,6 +213,10 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 		
 		if ($this->fixPostscriptMimeType()) {
 			$this->emit('\OC\Repair', 'info', array('Fixed Postscript mime types'));
+		}
+
+		if ($this->introduceRawMimeType()) {
+			$this->emit('\OC\Repair', 'info', array('Fixed Raw mime types'));
 		}
 	}
 }

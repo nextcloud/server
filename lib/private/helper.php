@@ -39,6 +39,7 @@ class OC_Helper {
 		'application/coreldraw' => 'image',
 		'application/x-gimp' => 'image',
 		'application/x-photoshop' => 'image',
+		'application/x-dcraw' => 'image',
 
 		'application/font-sfnt' => 'font',
 		'application/x-font' => 'font',
