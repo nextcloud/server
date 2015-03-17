@@ -132,6 +132,7 @@ OC.L10N.register(
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "Не удается запустить задачу планировщика через CLI. Произошли следующие технические ошибки:",
     "Configuration Checks" : "Проверка конфигурации",
     "No problems found" : "Проблемы не найдены",
+    "Please double check the <a href=\"%s\">installation guides</a>, and check for any errors or warnings in the <a href=\"#log-section\">log</a>." : "Пожалуйста, дважды проверьте <a href=\"%s\">инструкцию по установке</a> и проверьте ошибки или предупреждения в <a href=\"#log-section\">журнале</a>.",
     "Last cron job execution: %s." : "Последнее выполненное Cron задание: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Последнее выполненное Cron задание: %s. Что-то кажется неправильным.",
     "Cron was not executed yet!" : "Задачи cron ещё не запускались!",

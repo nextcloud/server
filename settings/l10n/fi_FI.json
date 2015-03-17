@@ -124,6 +124,7 @@
     "Cronjob encountered misconfiguration" : "Cron-työ epäonnistui väärien asetusten vuoksi",
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "Cron-työn suorittaminen komentorivin kautta ei onnistunut. Ilmeni seuraavia teknisiä virheitä:",
     "No problems found" : "Ongelmia ei löytynyt",
+    "Please double check the <a href=\"%s\">installation guides</a>, and check for any errors or warnings in the <a href=\"#log-section\">log</a>." : "Lue <a href=\"%s\">asennusohjeet</a> uudelleen. Tarkista myös virheet ja varoitukset <a href=\"#log-section\">lokista</a>.",
     "Last cron job execution: %s." : "Viimeisin cron-työn suoritus: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Viimeisin cron-työn suoritus: %s. Jokin vaikuttaa menneen pieleen.",
     "Cron was not executed yet!" : "Cronia ei suoritettu vielä!",

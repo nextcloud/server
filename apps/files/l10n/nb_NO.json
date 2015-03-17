@@ -68,6 +68,7 @@
     "{dirs} and {files}" : "{dirs} og {files}",
     "Favorited" : "Er favoritt",
     "Favorite" : "Gjør til favoritt",
+    "An error occurred while trying to update the tags" : "En feil oppstod under oppdatering av taggene",
     "A new file or folder has been <strong>created</strong>" : "En ny fil eller mappe ble <strong>opprettet</strong>",
     "A file or folder has been <strong>changed</strong>" : "En fil eller mappe ble <strong>endret</strong>",
     "A file or folder has been <strong>deleted</strong>" : "En fil eller mappe ble <strong>slettet</strong>",

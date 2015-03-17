@@ -54,7 +54,6 @@
     "PostgreSQL username and/or password not valid" : "PostgreSQL 数据库用户名和/或密码无效",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X 不被支持并且 %s 在这个平台上无法正常工作。请自行承担风险！",
     "For the best results, please consider using a GNU/Linux server instead." : "为了达到最好的效果，请考虑使用 GNU/Linux 服务器。",
-    "Please install the cURL extension and restart your webserver." : "请安装 cURL 扩展并重启网页服务器.",
     "Set an admin username." : "请设置一个管理员用户名。",
     "Set an admin password." : "请设置一个管理员密码。",
     "%s shared »%s« with you" : "%s 向您分享了 »%s«",

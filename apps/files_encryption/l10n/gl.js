@@ -30,7 +30,7 @@ OC.L10N.register(
     "Following users are not set up for encryption:" : "Os seguintes usuarios non teñen configuración para o cifrado:",
     "Go directly to your %spersonal settings%s." : "Vaia directamente aos seus %saxustes persoais%s.",
     "Server-side Encryption" : "Cifrado na parte do servidor",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A aplicación de cifrado está activada, mais as chaves non foron inicializadas, saia da sesión e volva a acceder de novo",
+    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A aplicación de cifrado está activada, mais as chaves non foron preparadas, saia da sesión e volva a acceder de novo",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Activar a chave de recuperación (permitirá recuperar os ficheiros dos usuarios no caso de perda do contrasinal):",
     "Recovery key password" : "Contrasinal da chave de recuperación",
     "Repeat Recovery key password" : "Repita o contrasinal da chave de recuperación",
