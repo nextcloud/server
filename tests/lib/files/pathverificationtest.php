@@ -230,4 +230,30 @@ class PathVerification extends \Test\TestCase {
 		];
 	}
 
+	/**
+	 * @dataProvider providesValidPosixPaths
+	 */
+	public function testPathVerificationValidPaths($fileName) {
+		$storage = new Local(['datadir' => '']);
+
+		\Test_Helper::invokePrivate($storage, 'verifyPosixPath', [$fileName]);
+		\Test_Helper::invokePrivate($storage, 'verifyWindowsPath', [$fileName]);
+		// nothing thrown
+		$this->assertTrue(true);
+	}
+
+	public function providesValidPosixPaths() {
+		return [
+			['simple'],
+			['simple.txt'],
+			['\''],
+			['`'],
+			['%'],
+			['()'],
+			['[]'],
+			['!'],
+			['$'],
+			['_'],
+		];
+	}
 }
