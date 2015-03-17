@@ -87,6 +87,7 @@
 
 #dropdown input[type="checkbox"] {
 	margin:0 3px 0 8px;
+	vertical-align: middle;
 }
 
 a.showCruds {
