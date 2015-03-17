@@ -133,13 +133,16 @@ select.quota.active { background: #fff; }
 input.userFilter {width: 200px;}
 
 /* positioning fixes */
+#newuser {
+	padding-left: 3px;
+}
 #newuser .multiselect {
 	min-width: 150px !important;
 }
 #newuser .multiselect,
 #newusergroups + input[type='submit'] {
 	position: relative;
-	top: 1px;
+	top: -1px;
 }
 #headerGroups, #headerSubAdmins, #headerQuota { padding-left:18px; }
 
