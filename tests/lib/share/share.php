@@ -857,8 +857,10 @@ class Test_Share extends \Test\TestCase {
 	public function testShareItemWithLinkAndDefaultExpireDate() {
 		OC_User::setUserId($this->user1);
 
-		\OC_Appconfig::setValue('core', 'shareapi_default_expire_date', 'yes');
-		\OC_Appconfig::setValue('core', 'shareapi_expire_after_n_days', '2');
+		$config = \OC::$server->getConfig();
+
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'yes');
+		$config->setAppValue('core', 'shareapi_expire_after_n_days', '2');
 
 		$token = OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_LINK, null, \OCP\Constants::PERMISSION_READ);
 		$this->assertInternalType(
@@ -875,8 +877,8 @@ class Test_Share extends \Test\TestCase {
 			'Failed asserting that the returned row has an default expiration date.'
 		);
 
-		\OC_Appconfig::deleteKey('core', 'shareapi_default_expire_date');
-		\OC_Appconfig::deleteKey('core', 'shareapi_expire_after_n_days');
+		$config->deleteAppValue('core', 'shareapi_default_expire_date');
+		$config->deleteAppValue('core', 'shareapi_expire_after_n_days');
 
 	}
 
