@@ -1283,9 +1283,19 @@ class Test_Files_Sharing_Api extends TestCase {
 
 	public function testDefaultExpireDate() {
 		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_default_expire_date', 'yes');
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_enforce_expire_date', 'yes');
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_expire_after_n_days', '2');
+
+		// TODO drop this once all code paths use the DI version - otherwise
+		// the cache inside this config object is out of date because
+		// OC_Appconfig is used and bypasses this cache which lead to integrity
+		// constraint violations
+		$config = \OC::$server->getConfig();
+		$config->deleteAppValue('core', 'shareapi_default_expire_date');
+		$config->deleteAppValue('core', 'shareapi_enforce_expire_date');
+		$config->deleteAppValue('core', 'shareapi_expire_after_n_days');
+
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'yes');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'yes');
+		$config->setAppValue('core', 'shareapi_expire_after_n_days', '2');
 
 		// default expire date is set to 2 days
 		// the time when the share was created is set to 3 days in the past
@@ -1329,8 +1339,8 @@ class Test_Files_Sharing_Api extends TestCase {
 		//cleanup
 		$result = \OCP\Share::unshare('file', $info->getId(), \OCP\Share::SHARE_TYPE_USER, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue($result);
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_default_expire_date', 'no');
-		\OC::$server->getAppConfig()->setValue('core', 'shareapi_enforce_expire_date', 'no');
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
 
 	}
 }
