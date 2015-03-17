@@ -21,6 +21,9 @@ abstract class Cache implements \ArrayAccess, \OCP\ICache {
 		$this->prefix = $prefix;
 	}
 
+	/**
+	 * @return string Prefix used for caching purposes
+	 */
 	public function getPrefix() {
 		return $this->prefix;
 	}

@@ -157,8 +157,13 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('MemCacheFactory', function ($c) {
 			$config = $c->getConfig();
+			$v = \OC_App::getAppVersions();
+			$v['core'] = implode('.', \OC_Util::getVersion());
+			$version = implode(',', $v);
 			$instanceId = \OC_Util::getInstanceId();
-			return new \OC\Memcache\Factory($instanceId,
+			$path = \OC::$SERVERROOT;
+			$prefix = md5($instanceId.'-'.$version.'-'.$path);
+			return new \OC\Memcache\Factory($prefix,
 				$config->getSystemValue('memcache.local', null),
 				$config->getSystemValue('memcache.distributed', null)
 			);
