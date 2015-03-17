@@ -69,7 +69,7 @@ interface IStorage {
 	 *
 	 * @param string $path path to file
 	 * @param string $keyId id of the key
-	 * @param boolean
+	 * @param mixed $key
 	 */
 	public function setFileKey($path, $keyId, $key);
 

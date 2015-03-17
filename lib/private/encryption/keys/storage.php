@@ -67,7 +67,8 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @return mixed key
 	 */
 	public function getUserKey($uid, $keyId) {
-		$path = $this->constructUserKeyPath($keyId, $uid);
+		$path = '/' . $uid . $this->encryption_base_dir . '/'
+			. $this->encryptionModuleId . '/' . $uid . '.' . $keyId;
 		return $this->getKey($path);
 	}
 
@@ -93,7 +94,7 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @return mixed key
 	 */
 	public function getSystemUserKey($keyId) {
-		$path = $this->constructUserKeyPath($keyId);
+		$path = $this->encryption_base_dir . '/' . $this->encryptionModuleId . '/' . $keyId;
 		return $this->getKey($path);
 	}
 
@@ -105,7 +106,8 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @param mixed $key
 	 */
 	public function setUserKey($uid, $keyId, $key) {
-		$path = $this->constructUserKeyPath($keyId, $uid);
+		$path = '/' . $uid . $this->encryption_base_dir . '/'
+			. $this->encryptionModuleId . '/' . $uid . '.' . $keyId;
 		return $this->setKey($path, $key);
 	}
 
@@ -114,7 +116,7 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 *
 	 * @param string $path path to file
 	 * @param string $keyId id of the key
-	 * @param boolean
+	 * @param mixed $key
 	 */
 	public function setFileKey($path, $keyId, $key) {
 		$keyDir = $this->getFileKeyDir($path);
@@ -131,79 +133,11 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @return mixed key
 	 */
 	public function setSystemUserKey($keyId, $key) {
-		$path = $this->constructUserKeyPath($keyId);
+		$path = $this->encryption_base_dir . '/'
+			. $this->encryptionModuleId . '/' . $keyId;
 		return $this->setKey($path, $key);
 	}
 
-	/**
-	 * delete user specific key
-	 *
-	 * @param string $uid ID if the user for whom we want to delete the key
-	 * @param string $keyId id of the key
-	 *
-	 * @return boolean
-	 */
-	public function deleteUserKey($uid, $keyId) {
-		$path = $this->constructUserKeyPath($keyId, $uid);
-		return $this->view->unlink($path);
-	}
-
-	/**
-	 * delete file specific key
-	 *
-	 * @param string $path path to file
-	 * @param string $keyId id of the key
-	 *
-	 * @return boolean
-	 */
-	public function deleteFileKey($path, $keyId) {
-		$keyDir = $this->getFileKeyDir($path);
-		return $this->view->unlink($keyDir . $keyId);
-	}
-
-	/**
-	 * delete all file keys for a given file
-	 *
-	 * @param string $path to the file
-	 * @return boolean
-	 */
-	public function deleteAllFileKeys($path) {
-		$keyDir = $this->getFileKeyDir($path);
-		return $this->view->deleteAll(dirname($keyDir));
-	}
-
-	/**
-	 * delete system-wide encryption keys not related to a specific user,
-	 * e.g something like a key for public link shares
-	 *
-	 * @param string $keyId id of the key
-	 *
-	 * @return boolean
-	 */
-	public function deleteSystemUserKey($keyId) {
-		$path = $this->constructUserKeyPath($keyId);
-		return $this->view->unlink($path);
-	}
-
-
-	/**
-	 * construct path to users key
-	 *
-	 * @param string $keyId
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function constructUserKeyPath($keyId, $uid = null) {
-
-		if ($uid === null) {
-			$path = $this->encryption_base_dir . '/' . $this->encryptionModuleId . '/' . $keyId;
-		} else {
-			$path = '/' . $uid . $this->encryption_base_dir . '/'
-				. $this->encryptionModuleId . '/' . $uid . '.' . $keyId;
-		}
-
-		return $path;
-	}
 
 	/**
 	 * read key from hard disk
@@ -273,29 +207,6 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 		}
 
 		return \OC\Files\Filesystem::normalizePath($keyPath . $this->encryptionModuleId . '/', false);
-	}
-
-	/**
-	 * move keys if a file was renamed
-	 *
-	 * @param string $source
-	 * @param string $target
-	 * @param string $owner
-	 * @param bool $systemWide
-	 */
-	public function renameKeys($source, $target, $owner, $systemWide) {
-		if ($systemWide) {
-			$sourcePath = $this->keys_base_dir . $source . '/';
-			$targetPath = $this->keys_base_dir . $target . '/';
-		} else {
-			$sourcePath = '/' . $owner . $this->keys_base_dir . $source . '/';
-			$targetPath = '/' . $owner . $this->keys_base_dir . $target . '/';
-		}
-
-		if ($this->view->file_exists($sourcePath)) {
-			$this->keySetPreparation(dirname($targetPath));
-			$this->view->rename($sourcePath, $targetPath);
-		}
 	}
 
 	/**
