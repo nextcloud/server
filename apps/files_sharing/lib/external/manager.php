@@ -30,7 +30,7 @@ class Manager {
 	private $mountManager;
 
 	/**
-	 * @var \OC\Files\Storage\StorageFactory
+	 * @var \OCP\Files\Storage\IStorageFactory
 	 */
 	private $storageLoader;
 
@@ -42,12 +42,12 @@ class Manager {
 	/**
 	 * @param \OCP\IDBConnection $connection
 	 * @param \OC\Files\Mount\Manager $mountManager
-	 * @param \OC\Files\Storage\StorageFactory $storageLoader
+	 * @param \OCP\Files\Storage\IStorageFactory $storageLoader
 	 * @param \OC\HTTPHelper $httpHelper
 	 * @param string $uid
 	 */
 	public function __construct(\OCP\IDBConnection $connection, \OC\Files\Mount\Manager $mountManager,
-								\OC\Files\Storage\StorageFactory $storageLoader, \OC\HTTPHelper $httpHelper, $uid) {
+								\OCP\Files\Storage\IStorageFactory $storageLoader, \OC\HTTPHelper $httpHelper, $uid) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
 		$this->storageLoader = $storageLoader;
@@ -353,10 +353,29 @@ class Manager {
 	 * @return array list of open server-to-server shares
 	 */
 	public function getOpenShares() {
-		$openShares = $this->connection->prepare('SELECT * FROM `*PREFIX*share_external` WHERE `accepted` = ? AND `user` = ?');
-		$result = $openShares->execute(array(0, $this->uid));
+		return $this->getShares(false);
+	}
 
-		return $result ? $openShares->fetchAll() : array();
+	/**
+	 * return a list of shares for the user
+	 *
+	 * @param bool|null $accepted True for accepted only,
+	 *                            false for not accepted,
+	 *                            null for all shares of the user
+	 * @return array list of open server-to-server shares
+	 */
+	private function getShares($accepted) {
+		$query = 'SELECT * FROM `*PREFIX*share_external` WHERE `user` = ?';
+		$parameters = [$this->uid];
+		if (!is_null($accepted)) {
+			$query .= 'AND `accepted` = ?';
+			$parameters[] = (int) $accepted;
+		}
+		$query .= ' ORDER BY `id` ASC';
 
+		$shares = $this->connection->prepare($query);
+		$result = $shares->execute($parameters);
+
+		return $result ? $shares->fetchAll() : [];
 	}
 }
