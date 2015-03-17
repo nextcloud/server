@@ -49,8 +49,6 @@ class App {
 
 	/**
 	 * Adds an entry to the navigation
-	 * @param array $data containing the data
-	 * @return boolean
 	 *
 	 * This function adds a new entry to the navigation visible to users. $data
 	 * is an associative array.
@@ -62,10 +60,17 @@ class App {
 	 * The following keys are optional:
 	 *   - icon: path to the icon of the app
 	 *   - order: integer, that influences the position of your application in
-	 *	 the navigation. Lower values come first.
+	 *     the navigation. Lower values come first.
+	 *
+	 * @param array $data containing the data
+	 * @return boolean
+	 *
+	 * @deprecated Use \OC::$server->getNavigationManager()->add() instead to
+	 * register a closure, this helps to speed up all requests against ownCloud
 	 */
-	public static function addNavigationEntry( $data ) {
-		return \OC_App::addNavigationEntry( $data );
+	public static function addNavigationEntry($data) {
+		\OC::$server->getNavigationManager()->add($data);
+		return true;
 	}
 
 	/**
@@ -76,6 +81,8 @@ class App {
 	 * This function sets a navigation entry as active and removes the 'active'
 	 * property from all other entries. The templates can use this for
 	 * highlighting the current position of the user.
+	 *
+	 * @deprecated Use \OC::$server->getNavigationManager()->setActiveEntry() instead
 	 */
 	public static function setActiveNavigationEntry( $id ) {
 		return \OC_App::setActiveNavigationEntry( $id );

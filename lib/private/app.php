@@ -319,29 +319,6 @@ class OC_App {
 	}
 
 	/**
-	 * adds an entry to the navigation
-	 *
-	 * @param array $data array containing the data
-	 * @return bool
-	 *
-	 * This function adds a new entry to the navigation visible to users. $data
-	 * is an associative array.
-	 * The following keys are required:
-	 *   - id: unique id for this entry ('addressbook_index')
-	 *   - href: link to the page
-	 *   - name: Human readable name ('Addressbook')
-	 *
-	 * The following keys are optional:
-	 *   - icon: path to the icon of the app
-	 *   - order: integer, that influences the position of your application in
-	 *     the navigation. Lower values come first.
-	 */
-	public static function addNavigationEntry($data) {
-		OC::$server->getNavigationManager()->add($data);
-		return true;
-	}
-
-	/**
 	 * marks a navigation entry as active
 	 *
 	 * @param string $id id of the entry
@@ -350,6 +327,8 @@ class OC_App {
 	 * This function sets a navigation entry as active and removes the 'active'
 	 * property from all other entries. The templates can use this for
 	 * highlighting the current position of the user.
+	 *
+	 * @deprecated Use \OC::$server->getNavigationManager()->setActiveEntry() instead
 	 */
 	public static function setActiveNavigationEntry($id) {
 		OC::$server->getNavigationManager()->setActiveEntry($id);
@@ -380,6 +359,8 @@ class OC_App {
 	 *
 	 * This function returns the id of the active navigation entry (set by
 	 * setActiveNavigationEntry
+	 *
+	 * @deprecated Use \OC::$server->getNavigationManager()->getActiveEntry() instead
 	 */
 	public static function getActiveNavigationEntry() {
 		return OC::$server->getNavigationManager()->getActiveEntry();
