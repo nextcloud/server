@@ -73,15 +73,30 @@ class Mailer implements IMailer {
 	 * has been supplied.)
 	 */
 	public function send(Message $message) {
+		$debugMode = $this->config->getSystemValue('mail_smtpdebug', false);
+
 		if (sizeof($message->getFrom()) === 0) {
 			$message->setFrom([\OCP\Util::getDefaultEmailAddress($this->defaults->getName())]);
 		}
 
 		$failedRecipients = [];
 
-		$this->getInstance()->send($message->getSwiftMessage(), $failedRecipients);
+		$mailer = $this->getInstance();
+
+		// Enable logger if debug mode is enabled
+		if($debugMode) {
+			$mailLogger = new \Swift_Plugins_Loggers_ArrayLogger();
+			$mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($mailLogger));
+		}
+
+		$mailer->send($message->getSwiftMessage(), $failedRecipients);
+
+		// Debugging logging
 		$logMessage = sprintf('Sent mail to "%s" with subject "%s"', print_r($message->getTo(), true), $message->getSubject());
 		$this->logger->debug($logMessage, ['app' => 'core']);
+		if($debugMode && isset($mailLogger)) {
+			$this->logger->debug($mailLogger->dump(), ['app' => 'core']);
+		}
 
 		return $failedRecipients;
 	}
