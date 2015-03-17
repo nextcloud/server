@@ -147,7 +147,11 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('URLGenerator', function (Server $c) {
 			$config = $c->getConfig();
-			return new \OC\URLGenerator($config);
+			$cacheFactory = $c->getMemCacheFactory();
+			return new \OC\URLGenerator(
+				$config,
+				$cacheFactory
+			);
 		});
 		$this->registerService('AppHelper', function ($c) {
 			return new \OC\AppHelper();

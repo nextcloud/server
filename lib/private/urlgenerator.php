@@ -9,6 +9,8 @@
 
 namespace OC;
 use OC_Defaults;
+use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use RuntimeException;
 
@@ -16,17 +18,19 @@ use RuntimeException;
  * Class to generate URLs
  */
 class URLGenerator implements IURLGenerator {
-
-	/**
-	 * @var \OCP\IConfig
-	 */
+	/** @var IConfig */
 	private $config;
+	/** @var ICacheFactory */
+	private $cacheFactory;
 
 	/**
-	 * @param \OCP\IConfig $config
+	 * @param IConfig $config
+	 * @param ICacheFactory $cacheFactory
 	 */
-	public function __construct($config) {
+	public function __construct(IConfig $config,
+								ICacheFactory $cacheFactory) {
 		$this->config = $config;
+		$this->cacheFactory = $cacheFactory;
 	}
 
 	/**
@@ -116,37 +120,49 @@ class URLGenerator implements IURLGenerator {
 		// Read the selected theme from the config file
 		$theme = \OC_Util::getTheme();
 
+		$cache = $this->cacheFactory->create('imagePath');
+		$cacheKey = $app.'-'.$image;
+		if($cache->hasKey($cacheKey)) {
+			return $cache->get($cacheKey);
+		}
+
 		//if a theme has a png but not an svg always use the png
 		$basename = substr(basename($image),0,-4);
 
 		// Check if the app is in the app folder
+		$path = '';
 		if (file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$image")) {
-			return \OC::$WEBROOT . "/themes/$theme/apps/$app/img/$image";
+			$path = \OC::$WEBROOT . "/themes/$theme/apps/$app/img/$image";
 		} elseif (!file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$basename.svg")
 			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$basename.png")) {
-			return \OC::$WEBROOT . "/themes/$theme/apps/$app/img/$basename.png";
+			$path =  \OC::$WEBROOT . "/themes/$theme/apps/$app/img/$basename.png";
 		} elseif (file_exists(\OC_App::getAppPath($app) . "/img/$image")) {
-			return \OC_App::getAppWebPath($app) . "/img/$image";
+			$path =  \OC_App::getAppWebPath($app) . "/img/$image";
 		} elseif (!file_exists(\OC_App::getAppPath($app) . "/img/$basename.svg")
 			&& file_exists(\OC_App::getAppPath($app) . "/img/$basename.png")) {
-			return \OC_App::getAppPath($app) . "/img/$basename.png";
+			$path =  \OC_App::getAppPath($app) . "/img/$basename.png";
 		} elseif (!empty($app) and file_exists(\OC::$SERVERROOT . "/themes/$theme/$app/img/$image")) {
-			return \OC::$WEBROOT . "/themes/$theme/$app/img/$image";
+			$path =  \OC::$WEBROOT . "/themes/$theme/$app/img/$image";
 		} elseif (!empty($app) and (!file_exists(\OC::$SERVERROOT . "/themes/$theme/$app/img/$basename.svg")
 			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/$app/img/$basename.png"))) {
-			return \OC::$WEBROOT . "/themes/$theme/$app/img/$basename.png";
+			$path =  \OC::$WEBROOT . "/themes/$theme/$app/img/$basename.png";
 		} elseif (!empty($app) and file_exists(\OC::$SERVERROOT . "/$app/img/$image")) {
-			return \OC::$WEBROOT . "/$app/img/$image";
+			$path =  \OC::$WEBROOT . "/$app/img/$image";
 		} elseif (!empty($app) and (!file_exists(\OC::$SERVERROOT . "/$app/img/$basename.svg")
 			&& file_exists(\OC::$SERVERROOT . "/$app/img/$basename.png"))) {
-			return \OC::$WEBROOT . "/$app/img/$basename.png";
+			$path =  \OC::$WEBROOT . "/$app/img/$basename.png";
 		} elseif (file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$image")) {
-			return \OC::$WEBROOT . "/themes/$theme/core/img/$image";
+			$path =  \OC::$WEBROOT . "/themes/$theme/core/img/$image";
 		} elseif (!file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$basename.svg")
 			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$basename.png")) {
-			return \OC::$WEBROOT . "/themes/$theme/core/img/$basename.png";
+			$path =  \OC::$WEBROOT . "/themes/$theme/core/img/$basename.png";
 		} elseif (file_exists(\OC::$SERVERROOT . "/core/img/$image")) {
-			return \OC::$WEBROOT . "/core/img/$image";
+			$path =  \OC::$WEBROOT . "/core/img/$image";
+		}
+
+		if($path !== '') {
+			$cache->set($cacheKey, $path);
+			return $path;
 		} else {
 			throw new RuntimeException('image not found: image:' . $image . ' webroot:' . \OC::$WEBROOT . ' serverroot:' . \OC::$SERVERROOT);
 		}
