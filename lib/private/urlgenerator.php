@@ -119,8 +119,8 @@ class URLGenerator implements IURLGenerator {
 	public function imagePath($app, $image) {
 		$cache = $this->cacheFactory->create('imagePath');
 		$cacheKey = $app.'-'.$image;
-		if($cache->hasKey($cacheKey)) {
-			return $cache->get($cacheKey);
+		if($key = $cache->get($cacheKey)) {
+			return $key;
 		}
 
 		// Read the selected theme from the config file
