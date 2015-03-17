@@ -99,10 +99,14 @@ span.usersLastLoginTooltip { white-space: nowrap; }
 	display : none;
 }
 
-td.remove { width:1em; padding-right:1em; }
 tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:pointer; }
 tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
-tr:hover>td.remove>a { float:right; }
+td.remove {
+	width: 25px;
+}
+tr:hover>td.remove>a {
+	float: left;
+}
 
 div.recoveryPassword { left:50em; display:block; position:absolute; top:-1px; }
 input#recoveryPassword {width:15em;}

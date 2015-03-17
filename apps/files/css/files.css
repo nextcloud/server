@@ -488,7 +488,7 @@ table td.filename .uploadtext {
 #fileList img.move2trash { display:inline; margin:-8px 0; padding:16px 8px 16px 8px !important; float:right; }
 #fileList a.action.delete {
 	position: absolute;
-	right: 0;
+	right: 15px;
 	padding: 17px 14px;
 }
 
