@@ -14,11 +14,10 @@ use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 
 class Scanner extends \OC\Files\Cache\Scanner {
-	/**
-	 * @var \OCA\Files_Sharing\External\Storage
-	 */
+	/** @var \OCA\Files_Sharing\External\Storage */
 	protected $storage;
 
+	/** {@inheritDoc} */
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1) {
 		$this->scanAll();
 	}
@@ -31,6 +30,8 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	 *
 	 * @param string $file file to scan
 	 * @param int $reuseExisting
+	 * @param int $parentId
+	 * @param array | null $cacheData existing data in the cache for the file to be scanned
 	 * @return array an array of metadata of the scanned file
 	 */
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null) {
@@ -54,6 +55,9 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	 * Checks the remote share for changes.
 	 * If changes are available, scan them and update
 	 * the cache.
+	 * @throws NotFoundException
+	 * @throws StorageInvalidException
+	 * @throws \Exception
 	 */
 	public function scanAll() {
 		try {
@@ -76,10 +80,14 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		}
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $path
+	 */
 	private function addResult($data, $path) {
 		$id = $this->cache->put($path, $data);
 		if (isset($data['children'])) {
-			$children = array();
+			$children = [];
 			foreach ($data['children'] as $child) {
 				$children[$child['name']] = true;
 				$this->addResult($child, ltrim($path . '/' . $child['name'], '/'));
