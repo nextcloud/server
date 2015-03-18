@@ -27,6 +27,7 @@
 namespace OCP\AppFramework\Db;
 
 use OCP\IDBConnection;
+use OCP\IDb;
 
 
 /**
@@ -193,7 +194,11 @@ abstract class Mapper {
 	 * @return \PDOStatement the database query result
 	 */
 	protected function execute($sql, array $params=[], $limit=null, $offset=null){
-		$query = $this->db->prepare($sql, $limit, $offset);
+		if ($this->db instanceof IDb) {
+			$query = $this->db->prepareQuery($sql, $limit, $offset);
+		} else {
+			$query = $this->db->prepare($sql, $limit, $offset);
+		}
 
 		$index = 1;  // bindParam is 1 indexed
 		foreach($params as $param) {
