@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cron" : "Cron",
     "Sharing" : "Deling",
-    "Security" : "Tryggleik",
     "Log" : "Logg",
     "Authentication error" : "Autentiseringsfeil",
     "Language changed" : "Språk endra",

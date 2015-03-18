@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cron" : "Cron",
     "Sharing" : "שיתוף",
-    "Security" : "אבטחה",
     "Log" : "יומן",
     "Authentication error" : "שגיאת הזדהות",
     "Language changed" : "שפה השתנתה",

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cron" : "Cron",
     "Sharing" : "Compartiendo",
-    "Security" : "Seguridad",
     "Log" : "Registro",
     "Authentication error" : "Error de autenticación",
     "Your full name has been changed." : "Se ha cambiado su nombre completo.",

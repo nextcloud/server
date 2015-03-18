@@ -41,6 +41,7 @@
     "4-byte characters are not supported in file names" : "4-Byte Zeichen sind in Dateinamen nicht erlaubt",
     "File name is a reserved word" : "Der Dateiname ist ein reserviertes Wort",
     "File name contains at least one invalid character" : "Der Dateiname enthält mindestens ein ungültiges Zeichen",
+    "File name is too long" : "Dateiname ist zu lang",
     "App directory already exists" : "Das Applikationsverzeichnis existiert bereits",
     "Can't create app folder. Please fix permissions. %s" : "Es kann kein Applikationsordner erstellt werden. Bitte passe die  Berechtigungen an. %s",
     "No source specified when installing app" : "Für die Installation der Applikation wurde keine Quelle angegeben",

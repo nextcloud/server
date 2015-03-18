@@ -91,6 +91,7 @@ OC.L10N.register(
     "Maximum upload size" : "Maximální velikost pro odesílání",
     "max. possible: " : "největší možná: ",
     "Save" : "Uložit",
+    "Can not be edited from here due to insufficient permissions." : "Nelze odsud upravovat z důvodu nedostatečných oprávnění.",
     "Settings" : "Nastavení",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\">přístup k vašim souborům přes WebDAV</a>",

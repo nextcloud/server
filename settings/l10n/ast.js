@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cron" : "Cron",
     "Sharing" : "Compartiendo",
-    "Security" : "Seguridá",
     "Email Server" : "Sirvidor de corréu-e",
     "Log" : "Rexistru",
     "Authentication error" : "Fallu d'autenticación",
@@ -33,8 +32,6 @@ OC.L10N.register(
     "Recommended" : "Recomendáu",
     "Saved" : "Guardáu",
     "test email settings" : "probar configuración de corréu",
-    "If you received this email, the settings seem to be correct." : "Si recibisti esti mensaxe de corréu-e, la to configuración ta correuta.",
-    "A problem occurred while sending the email. Please revise your settings." : "Hebo un problema al unviar el mensaxe. Revisa la configuración.",
     "Email sent" : "Corréu-e unviáu",
     "You need to set your user email before being able to send test emails." : "Tienes de configurar la direición de corréu-e enantes de poder unviar mensaxes de prueba.",
     "Email saved" : "Corréu-e guardáu",

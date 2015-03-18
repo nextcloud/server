@@ -2,7 +2,6 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "ھەمبەھىر",
-    "Security" : "بىخەتەرلىك",
     "Log" : "خاتىرە",
     "Authentication error" : "سالاھىيەت دەلىللەش خاتالىقى",
     "Language changed" : "تىل ئۆزگەردى",

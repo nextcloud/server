@@ -4,7 +4,6 @@ OC.L10N.register(
     "Security & Setup Warnings" : "Аюулгүй байдал болон Тохиргооны анхааруулга",
     "Cron" : "Крон",
     "Sharing" : "Түгээлт",
-    "Security" : "Аюулгүй байдал",
     "Email Server" : "И-мэйл сервер",
     "Log" : "Лог бичилт",
     "Authentication error" : "Нотолгооны алдаа",

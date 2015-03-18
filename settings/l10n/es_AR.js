@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cron" : "Cron",
     "Sharing" : "Compartiendo",
-    "Security" : "Seguridad",
     "Email Server" : "Servidor de correo electrónico",
     "Log" : "Log",
     "Authentication error" : "Error al autenticar",
@@ -24,7 +23,6 @@ OC.L10N.register(
     "Enabled" : "Habilitado",
     "Saved" : "Guardado",
     "test email settings" : "Configuración de correo de prueba.",
-    "If you received this email, the settings seem to be correct." : "Si recibió este correo, la configuración parece estar correcta.",
     "Email sent" : "e-mail mandado",
     "You need to set your user email before being able to send test emails." : "Necesita especificar el usuario de correo electrónico antes de poder enviar correos electrónicos de prueba.",
     "Email saved" : "e-mail guardado",

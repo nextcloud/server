@@ -11,7 +11,7 @@ OC.L10N.register(
     "Nothing shared with you yet" : "Ніхто з вами ще не поділився файлами",
     "Files and folders others share with you will show up here" : "Розшарені для вас файли і папки з'являться тут",
     "Nothing shared yet" : "Немає нічого розшареного",
-    "Files and folders you share will show up here" : "Файли і папки, які розшарені для вас відображатимуться тут",
+    "Files and folders you share will show up here" : "Файли і папки, які розшарені вами відображатимуться тут",
     "No shared links" : "Немає опублікованих посилань",
     "Files and folders you share by link will show up here" : "Файли і папки, якими ви поділитися по посиланню будуть відображатися тут",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Додати віддалену загальну теку {name} з {owner}@{remote}?",

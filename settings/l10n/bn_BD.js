@@ -2,7 +2,6 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "ভাগাভাগিরত",
-    "Security" : "নিরাপত্তা",
     "Email Server" : "ইমেইল সার্ভার",
     "Authentication error" : "অনুমোদন ঘটিত সমস্যা",
     "Your full name has been changed." : "আপনার পূর্ণ নাম পরিবর্তন করা হয়েছে।",
@@ -21,7 +20,6 @@ OC.L10N.register(
     "Enabled" : "কার্যকর",
     "Saved" : "সংরক্ষণ করা হলো",
     "test email settings" : "ইমেইল নিয়ামকসমূহ পরীক্ষা করুন",
-    "If you received this email, the settings seem to be correct." : "এই ইমেইলের অর্থ নিয়ামকসমূহ সঠিক।",
     "Email sent" : "ই-মেইল পাঠানো হয়েছে",
     "Email saved" : "ই-মেইল সংরক্ষন করা হয়েছে",
     "All" : "সবাই",

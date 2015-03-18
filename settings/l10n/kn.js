@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Security & Setup Warnings" : "﻿ಭದ್ರತಾ ಮತ್ತು ಸೆಟಪ್ ಎಚ್ಚರಿಕೆಗಳು",
     "Sharing" : "﻿ಹಂಚಿಕೆ",
-    "Security" : "﻿ಭದ್ರತೆ",
     "Email Server" : "ಇ-ಅಂಚೆಯ ﻿ಪರಿಚಾರಕ ಗಣಕಯಂತ್ರ",
     "Log" : "ಹಿನ್ನೆಲೆಯ ದಾಖಲೆ",
     "Authentication error" : "ದೃಢೀಕರಣ ದೋಷ",
@@ -32,8 +31,6 @@ OC.L10N.register(
     "Unable to delete group." : "﻿ಗುಂಪುನ್ನು ಅಳಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.",
     "Saved" : "﻿ಉಳಿಸಿದ",
     "test email settings" : "ಪರೀರ್ಕ್ಷಾತ ﻿ಇ-ಅಂಚೆಯ ಆಯ್ಕೇ",
-    "If you received this email, the settings seem to be correct." : "﻿ನೀವು ಈ ಇ-ಅಂಚೆಯನ್ನು ಪಡೆದ ಪಕ್ಷದಲ್ಲಿ, ಆಯ್ಕೇ ಸರಿಯಾಗಿದೆ ಎಂದು ತೋರುತ್ತದೆ.",
-    "A problem occurred while sending the email. Please revise your settings." : "﻿ಇ-ಅಂಚೆಯನ್ನು ಕಳುಹಿಸುವ ದೋಷವೊಂದು ಸಂಭವಿಸಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಆಯ್ಕೆಗಳನ್ನು ಪರಿಷ್ಕರಿಸಿಕೊಳ್ಳಿ .",
     "Email sent" : "ಇ-ಅಂಚೆ ಕಳುಹಿಸಲಾಗಿದೆ",
     "You need to set your user email before being able to send test emails." : "ನೀವು ಪರೀಕ್ಷಾ ಇ-ಅಂಚೆಯನ್ನು ಕಳುಹಿಸುವ ಮುನ್ನ ನಿಮ್ಮ ಬಳಕೆದಾರ ಇ-ಅಂಚೆಯನ್ನು  ಹೊಂದಿಸಬೇಕಾಗುತ್ತದೆ.",
     "Invalid mail address" : "﻿ಅಮಾನ್ಯ ಇ-ಅಂಚೆ ವಿಳಾಸ",

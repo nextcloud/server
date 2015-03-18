@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cron" : "Cron–ი",
     "Sharing" : "გაზიარება",
-    "Security" : "უსაფრთხოება",
     "Log" : "ლოგი",
     "Authentication error" : "ავთენტიფიკაციის შეცდომა",
     "Language changed" : "ენა შეცვლილია",

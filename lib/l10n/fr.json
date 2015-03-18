@@ -41,6 +41,7 @@
     "4-byte characters are not supported in file names" : "Les caractères sur 4 octets ne sont pas pris en charge dans les noms de fichiers",
     "File name is a reserved word" : "Ce nom de fichier est un mot réservé",
     "File name contains at least one invalid character" : "Le nom de fichier contient un (des) caractère(s) non valide(s)",
+    "File name is too long" : "Nom de fichier trop long",
     "App directory already exists" : "Le dossier de l'application existe déjà",
     "Can't create app folder. Please fix permissions. %s" : "Impossible de créer le dossier de l'application. Corrigez les droits d'accès. %s",
     "No source specified when installing app" : "Aucune source spécifiée pour installer l'application",

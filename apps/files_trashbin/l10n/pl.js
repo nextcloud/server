@@ -8,6 +8,10 @@ OC.L10N.register(
     "Delete permanently" : "Trwale usuń",
     "Error" : "Błąd",
     "restored" : "przywrócony",
+    "No deleted files" : "Brak skasowanych plików",
+    "You will be able to recover deleted files from here" : "Możesz przywrócić skasowane pliki stąd",
+    "No entries found in this folder" : "Brak wpisów w tym folderze",
+    "Select all" : "Wybierz wszystko",
     "Name" : "Nazwa",
     "Deleted" : "Usunięte",
     "Delete" : "Usuń"

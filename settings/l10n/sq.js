@@ -4,7 +4,6 @@ OC.L10N.register(
     "Security & Setup Warnings" : "Paralajmërimet e Sigurisë dhe Konfigurimit",
     "Cron" : "Cron",
     "Sharing" : "Ndarje",
-    "Security" : "Siguria",
     "Email Server" : "Serveri Email",
     "Log" : "Historik aktiviteti",
     "Authentication error" : "Gabim autentifikimi",

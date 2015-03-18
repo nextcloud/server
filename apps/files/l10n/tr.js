@@ -91,6 +91,7 @@ OC.L10N.register(
     "Maximum upload size" : "Azami yükleme boyutu",
     "max. possible: " : "mümkün olan en fazla: ",
     "Save" : "Kaydet",
+    "Can not be edited from here due to insufficient permissions." : "Yetersiz izinler buradan düzenlenemez.",
     "Settings" : "Ayarlar",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\">Dosyalarınıza WebDAV aracılığıyla erişmek için</a> bu adresi kullanın",

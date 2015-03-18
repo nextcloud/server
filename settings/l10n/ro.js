@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cron" : "Cron",
     "Sharing" : "Partajare",
-    "Security" : "Securitate",
     "Log" : "Jurnal de activitate",
     "Authentication error" : "Eroare la autentificare",
     "Your full name has been changed." : "Numele tău complet a fost schimbat.",
@@ -24,7 +23,6 @@ OC.L10N.register(
     "Recommended" : "Recomandat",
     "Saved" : "Salvat",
     "test email settings" : "verifică setările de e-mail",
-    "If you received this email, the settings seem to be correct." : "Dacă ai primit acest e-mail atunci setările par a fi corecte.",
     "Email sent" : "Mesajul a fost expediat",
     "Email saved" : "E-mail salvat",
     "Sending..." : "Se expediază...",

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cron" : "زمانبند",
     "Sharing" : "اشتراک گذاری",
-    "Security" : "امنیت",
     "Email Server" : "سرور ایمیل",
     "Log" : "کارنامه",
     "Authentication error" : "خطا در اعتبار سنجی",

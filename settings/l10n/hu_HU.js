@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cron" : "Ütemezett feladatok",
     "Sharing" : "Megosztás",
-    "Security" : "Biztonság",
     "Email Server" : "E-mail kiszolgáló",
     "Log" : "Naplózás",
     "Authentication error" : "Azonosítási hiba",
@@ -32,7 +31,6 @@ OC.L10N.register(
     "Recommended" : "Ajánlott",
     "Saved" : "Elmentve",
     "test email settings" : "e-mail beállítások ellenőrzése",
-    "If you received this email, the settings seem to be correct." : "Amennyiben megérkezett ez az e-mail akkor a beállítások megfelelők.",
     "Email sent" : "Az e-mailt elküldtük",
     "You need to set your user email before being able to send test emails." : "Előbb meg kell adnia az e-mail címét, mielőtt tesztelni tudná az e-mail küldést.",
     "Email saved" : "Elmentettük az e-mail címet",

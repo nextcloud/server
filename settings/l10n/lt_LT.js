@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cron" : "Cron",
     "Sharing" : "Dalijimasis",
-    "Security" : "Saugumas",
     "Log" : "Žurnalas",
     "Authentication error" : "Autentikacijos klaida",
     "Language changed" : "Kalba pakeista",

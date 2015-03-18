@@ -89,6 +89,7 @@
     "Maximum upload size" : "Tamaño máximo do envío",
     "max. possible: " : "máx. posíbel: ",
     "Save" : "Gardar",
+    "Can not be edited from here due to insufficient permissions." : "Non pode ser editado desde aquí por mor de falta de permisos.",
     "Settings" : "Axustes",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Empregue esta ligazón para  <a href=\"%s\" target=\"_blank\">acceder aos seus ficheiros mediante WebDAV</a>",

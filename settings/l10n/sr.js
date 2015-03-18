@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Security & Setup Warnings" : "Упозорења поставки и безбедности",
     "Sharing" : "Дељење",
-    "Security" : "Безбедност",
     "Email Server" : "Сервер е-поште",
     "Log" : "Бележење",
     "Authentication error" : "Грешка при провери идентитета",
@@ -38,8 +37,6 @@ OC.L10N.register(
     "log-level out of allowed range" : "ниво бележења је ван дозвољеног опсега",
     "Saved" : "Сачувано",
     "test email settings" : "тестирајте поставке е-поште",
-    "If you received this email, the settings seem to be correct." : "Уколико сте примили ову поруку, подешавања за е-пошту су исправна.",
-    "A problem occurred while sending the email. Please revise your settings." : "Проблем приликом слања е-поште. Проверите поставке.",
     "Email sent" : "Порука је послата",
     "You need to set your user email before being able to send test emails." : "Морате поставити адресу е-поште пре слања тестне поруке.",
     "Invalid mail address" : "Неисправна е-адреса",

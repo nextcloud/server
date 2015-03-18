@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cron" : "Крон",
     "Sharing" : "Споделување",
-    "Security" : "Безбедност",
     "Email Server" : "Сервер за електронска пошта",
     "Log" : "Записник",
     "Authentication error" : "Грешка во автентикација",

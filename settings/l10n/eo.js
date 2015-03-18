@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cron" : "Cron",
     "Sharing" : "Kunhavigo",
-    "Security" : "Sekuro",
     "Email Server" : "Retpoŝtoservilo",
     "Log" : "Protokolo",
     "Authentication error" : "Aŭtentiga eraro",

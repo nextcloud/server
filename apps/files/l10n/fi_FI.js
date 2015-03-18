@@ -91,6 +91,7 @@ OC.L10N.register(
     "Maximum upload size" : "Lähetettävän tiedoston suurin sallittu koko",
     "max. possible: " : "suurin mahdollinen:",
     "Save" : "Tallenna",
+    "Can not be edited from here due to insufficient permissions." : "Ei muokattavissa täällä puutteellisten oikeuksien vuoksi.",
     "Settings" : "Asetukset",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\">käyttääksesi tiedostojasi WebDAVin kautta</a>",
