@@ -29,6 +29,7 @@ use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Tree;
+use Sabre\DAV\Exception\NotFound;
 
 class CustomPropertiesBackend implements BackendInterface {
 
@@ -94,8 +95,19 @@ class CustomPropertiesBackend implements BackendInterface {
      * @return void
      */
 	public function propFind($path, PropFind $propFind) {
-		$node = $this->tree->getNodeForPath($path);
-		if (!($node instanceof Node)) {
+		try {
+			$node = $this->tree->getNodeForPath($path);
+			if (!($node instanceof Node)) {
+				return;
+			}
+		} catch (NotFound $e) {
+			// in some rare (buggy) cases the node might not be found,
+			// we catch the exception to prevent breaking the whole list with a 404
+			// (soft fail)
+			\OC::$server->getLogger()->warning(
+				'Could not get node for path: \"' . $path . '\" : ' . $e->getMessage(),
+				array('app' => 'files')
+			);
 			return;
 		}
 

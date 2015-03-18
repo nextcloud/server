@@ -102,6 +102,34 @@ class CustomPropertiesBackend extends \Test\TestCase {
 	}
 
 	/**
+	 * Test that propFind on a missing file soft fails
+	 */
+	public function testPropFindMissingFileSoftFail() {
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->with('/dummypath')
+			->will($this->throwException(new \Sabre\DAV\Exception\NotFound()));
+
+		$propFind = new \Sabre\DAV\PropFind(
+			'/dummypath',
+			array(
+				'customprop',
+				'customprop2',
+				'unsetprop',
+			),
+			0
+		);
+
+		$this->plugin->propFind(
+			'/dummypath',
+			$propFind
+		);
+
+		// no exception, soft fail
+		$this->assertTrue(true);
+	}
+
+	/**
 	 * Test setting/getting properties
 	 */
 	public function testSetGetPropertiesForFile() {
