@@ -127,9 +127,6 @@ class OC_Util {
 			//jail the user into his "home" directory
 			\OC\Files\Filesystem::init($user, $userDir);
 
-			$fileOperationProxy = new OC_FileProxy_FileOperations();
-			OC_FileProxy::register($fileOperationProxy);
-
 			//trigger creation of user home and /files folder
 			\OC::$server->getUserFolder($user);
 
