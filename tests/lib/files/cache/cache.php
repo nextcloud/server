@@ -260,6 +260,28 @@ class Cache extends \Test\TestCase {
 		$this->assertEquals(\OC\Files\Cache\Cache::COMPLETE, $this->cache->getStatus('foo'));
 	}
 
+	public function putWithAllKindOfQuotesData() {
+		return [
+			['`backtick`'],
+			['´forward´'],
+			['\'single\''],
+		];
+	}
+
+	/**
+	 * @dataProvider putWithAllKindOfQuotesData
+	 * @param $fileName
+	 */
+	public function testPutWithAllKindOfQuotes($fileName) {
+
+		$this->assertEquals(\OC\Files\Cache\Cache::NOT_FOUND, $this->cache->get($fileName));
+		$this->cache->put($fileName, array('size' => 20, 'mtime' => 25, 'mimetype' => 'foo/file', 'etag' => $fileName));
+
+		$cacheEntry = $this->cache->get($fileName);
+		$this->assertEquals($fileName, $cacheEntry['etag']);
+		$this->assertEquals($fileName, $cacheEntry['path']);
+	}
+
 	function testSearch() {
 		$file1 = 'folder';
 		$file2 = 'folder/foobar';
