@@ -48,6 +48,8 @@ class FileGlobalGC extends Job {
 			return;
 		}
 		$paths = $this->getExpiredPaths($cacheDir, $now);
-		array_walk($paths, 'unlink');
+		array_walk($paths, function($file) {
+			unlink($file);
+		});
 	}
 }
