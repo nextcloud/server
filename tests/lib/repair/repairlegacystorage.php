@@ -24,6 +24,8 @@ class TestRepairLegacyStorages extends \Test\TestCase {
 	private $legacyStorageId;
 	private $newStorageId;
 
+	private $warnings;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -32,6 +34,12 @@ class TestRepairLegacyStorages extends \Test\TestCase {
 		$this->oldDataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/');
 
 		$this->repair = new \OC\Repair\RepairLegacyStorages($this->config, $this->connection);
+
+		$this->warnings = [];
+
+		$this->repair->listen('\OC\Repair', 'warning', function ($description){
+			$this->warnings[] = $description;
+		});
 	}
 
 	protected function tearDown() {
@@ -181,21 +189,16 @@ class TestRepairLegacyStorages extends \Test\TestCase {
 		$this->createData($this->legacyStorageId);
 		$this->createData($this->newStorageId);
 
-		try {
-			$thrown = false;
-			$this->repair->run();
-		}
-		catch (\OC\RepairException $e) {
-			$thrown = true;
-		}
+		$this->repair->run();
 
-		$this->assertTrue($thrown);
+		$this->assertEquals(2, count($this->warnings));
+		$this->assertEquals('Could not repair legacy storage ', substr(current($this->warnings), 0, 32));
 
 		// storages left alone
 		$this->assertEquals($legacyStorageNumId, $this->getStorageId($this->legacyStorageId));
 		$this->assertEquals($newStorageNumId, $this->getStorageId($this->newStorageId));
 
-		// did not set the done flag
+		// do not set the done flag
 		$this->assertNotEquals('yes', $this->config->getAppValue('core', 'repairlegacystoragesdone'));
 	}
 
