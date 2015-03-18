@@ -87,6 +87,7 @@
 
 #dropdown input[type="checkbox"] {
 	margin:0 3px 0 8px;
+	vertical-align: middle;
 }
 
 a.showCruds {
@@ -126,8 +127,10 @@ a.unshare {
 	width:12px;
 }
 
-.reshare,#link label,#expiration label {
-	padding-left:8px;
+.reshare,#link label,
+#expiration label {
+	display: inline-block;
+	padding: 6px 4px;
 }
 
 a.showCruds:hover,a.unshare:hover {
