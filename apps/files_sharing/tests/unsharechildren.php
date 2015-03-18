@@ -37,9 +37,7 @@ class UnshareChildren extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		// load proxies
-		\OC::$CLASSPATH['OCA\Files\Share\Proxy'] = 'files_sharing/lib/proxy.php';
-		\OC_FileProxy::register(new \OCA\Files\Share\Proxy());
+		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
 
 		$this->folder = self::TEST_FOLDER_NAME;
 		$this->subfolder  = '/subfolder_share_api_test';

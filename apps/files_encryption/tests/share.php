@@ -62,9 +62,6 @@ class Share extends TestCase {
 		\OC::registerShareHooks();
 		\OCA\Files_Sharing\Helper::registerHooks();
 
-		// clear and register hooks
-		\OC_FileProxy::register(new \OCA\Files\Share\Proxy());
-
 		// create users
 		self::loginHelper(self::TEST_ENCRYPTION_SHARE_USER1, true);
 		self::loginHelper(self::TEST_ENCRYPTION_SHARE_USER2, true);
