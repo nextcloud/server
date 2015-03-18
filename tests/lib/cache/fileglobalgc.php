@@ -70,4 +70,38 @@ class FileGlobalGC extends TestCase {
 		mkdir($this->cacheDir . 'asd');
 		$this->assertEquals([$this->cacheDir . 'foo'], $this->gc->getExpiredPaths($this->cacheDir, $time));
 	}
+
+	public function testGcUnlink() {
+		$time = time();
+		$this->addCacheFile('foo', $time - 10);
+		$this->addCacheFile('bar', $time - 10);
+		$this->addCacheFile('asd', $time + 10);
+
+		$config = $this->getMock('\OCP\IConfig');
+		$config->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'global_cache_gc_lastrun', 0)
+			->willReturn($time - \OC\Cache\FileGlobalGC::CLEANUP_TTL_SEC - 1);
+		$config->expects($this->once())
+			->method('setAppValue');
+
+		$this->gc->gc($config, $this->cacheDir);
+		$this->assertFileNotExists($this->cacheDir . 'foo');
+		$this->assertFileNotExists($this->cacheDir . 'bar');
+		$this->assertFileExists($this->cacheDir . 'asd');
+	}
+
+	public function testGcLastRun() {
+		$time = time();
+
+		$config = $this->getMock('\OCP\IConfig');
+		$config->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'global_cache_gc_lastrun', 0)
+			->willReturn($time);
+		$config->expects($this->never())
+			->method('setAppValue');
+
+		$this->gc->gc($config, $this->cacheDir);
+	}
 }
