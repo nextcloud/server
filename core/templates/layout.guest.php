@@ -25,7 +25,7 @@
 		<div class="wrapper"><!-- for sticky footer -->
 			<div class="v-align"><!-- vertically centred box -->
 				<?php if ($_['bodyid'] === 'body-login' ): ?>
-					<header>
+					<header role="banner">
 						<div id="header">
 							<div class="logo svg">
 								<h1 class="hidden-visually">
@@ -40,7 +40,7 @@
 				<div class="push"></div><!-- for sticky footer -->
 			</div>
 		</div>
-		<footer>
+		<footer role="contentinfo">
 			<p class="info">
 				<?php print_unescaped($theme->getLongFooter()); ?>
 			</p>

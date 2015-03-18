@@ -35,7 +35,7 @@
 			<div id="update-notification" style="display: inline;"><a href="<?php print_unescaped($_['updateLink']); ?>"><?php p($l->t('%s is available. Get more information on how to update.', array($_['updateVersion']))); ?></a></div>
 		<?php endif; ?>
 	</div>
-	<header><div id="header">
+	<header role="banner"><div id="header">
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
 				title="" id="owncloud" tabindex="-1">
 				<div class="logo-icon svg">
@@ -70,7 +70,7 @@
 					</div>
 					<?php endif; ?>
 					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
-					<img class="svg" alt="" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" />
+					<img class="svg" alt="" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>">
 				</div>
 				<div id="expanddiv">
 				<ul>
@@ -93,7 +93,7 @@
 				</div>
 			</div>
 
-			<form class="searchbox" action="#" method="post">
+			<form class="searchbox" action="#" method="post" role="search">
 				<label for="searchbox" class="hidden-visually">
 					<?php p($l->t('Search'));?>
 				</label>
@@ -103,7 +103,7 @@
 			</form>
 		</div></header>
 
-		<nav><div id="navigation">
+		<nav role="navigation"><div id="navigation">
 			<div id="apps" class="svg">
 				<ul>
 				<?php foreach($_['navigation'] as $entry): ?>
@@ -138,7 +138,7 @@
 		</div></nav>
 
 		<div id="content-wrapper">
-			<div id="content" class="app-<?php p($_['appid']) ?>">
+			<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
 				<?php print_unescaped($_['content']); ?>
 			</div>
 		</div>
