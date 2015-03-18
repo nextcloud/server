@@ -182,11 +182,20 @@ GroupList = {
 			$('#newgroup-form').show();
 			$('#newgroup-init').hide();
 			$('#newgroupname').focus();
+			GroupList.handleAddGroupInput('');
 		}
 		else {
 			$('#newgroup-form').hide();
 			$('#newgroup-init').show();
 			$('#newgroupname').val('');
+		}
+	},
+
+	handleAddGroupInput: function (input) {
+		if(input.length) {
+			$('#newgroup-form input[type="submit"]').attr('disabled', null);
+		} else {
+			$('#newgroup-form input[type="submit"]').attr('disabled', 'disabled');
 		}
 	},
 
@@ -294,5 +303,9 @@ $(document).ready( function () {
 	// click on group name
 	$userGroupList.on('click', '.isgroup', function () {
 		GroupList.showGroup(GroupList.getElementGID(this));
+	});
+
+	$('#newgroupname').on('input', function(){
+		GroupList.handleAddGroupInput(this.value);
 	});
 });
