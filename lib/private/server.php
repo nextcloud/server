@@ -12,6 +12,7 @@ use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\Mail\Mailer;
+use OC\Memcache\ArrayCache;
 use OC\Security\CertificateManager;
 use OC\Files\Node\Root;
 use OC\Files\View;
@@ -159,17 +160,25 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('UserCache', function ($c) {
 			return new UserCache();
 		});
-		$this->registerService('MemCacheFactory', function ($c) {
+		$this->registerService('MemCacheFactory', function (Server $c) {
 			$config = $c->getConfig();
-			$v = \OC_App::getAppVersions();
-			$v['core'] = implode('.', \OC_Util::getVersion());
-			$version = implode(',', $v);
-			$instanceId = \OC_Util::getInstanceId();
-			$path = \OC::$SERVERROOT;
-			$prefix = md5($instanceId.'-'.$version.'-'.$path);
-			return new \OC\Memcache\Factory($prefix,
-				$config->getSystemValue('memcache.local', null),
-				$config->getSystemValue('memcache.distributed', null)
+
+			if($config->getSystemValue('installed', false)) {
+				$v = \OC_App::getAppVersions();
+				$v['core'] = implode('.', \OC_Util::getVersion());
+				$version = implode(',', $v);
+				$instanceId = \OC_Util::getInstanceId();
+				$path = \OC::$SERVERROOT;
+				$prefix = md5($instanceId.'-'.$version.'-'.$path);
+				return new \OC\Memcache\Factory($prefix,
+					$config->getSystemValue('memcache.local', null),
+					$config->getSystemValue('memcache.distributed', null)
+				);
+			}
+
+			return new \OC\Memcache\Factory('',
+				new ArrayCache(),
+				new ArrayCache()
 			);
 		});
 		$this->registerService('ActivityManager', function ($c) {
