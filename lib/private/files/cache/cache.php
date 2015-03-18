@@ -245,9 +245,6 @@ class Cache {
 			$queryParts[] = '`storage`';
 			$params[] = $this->getNumericStorageId();
 
-			$params = array_map(function($item) {
-				return trim($item, "`");
-			}, $params);
 			$queryParts = array_map(function($item) {
 				return trim($item, "`");
 			}, $queryParts);
