@@ -26,7 +26,7 @@
 
 namespace OCP\AppFramework\Db;
 
-use \OCP\IDBConnection;
+use OCP\IDBConnection;
 
 
 /**
@@ -217,7 +217,16 @@ abstract class Mapper {
 			$index++;
 		}
 
-		$query->execute();
+		$result = $query->execute();
+
+		// this is only for backwards compatibility reasons and can be removed
+		// in owncloud 10. IDb returns a StatementWrapper from execute, PDO,
+		// Doctrine and IDbConnection don't so this needs to be done in order
+		// to stay backwards compatible for the things that rely on the
+		// StatementWrapper being returned
+		if ($result instanceof \OC_DB_StatementWrapper) {
+			return $result;
+		}
 
 		return $query;
 	}
