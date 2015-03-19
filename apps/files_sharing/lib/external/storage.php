@@ -70,7 +70,7 @@ class Storage extends DAV implements ISharedStorage {
 			'host' => $host,
 			'root' => $root,
 			'user' => $options['token'],
-			'password' => $options['password']
+			'password' => (string)$options['password']
 		));
 	}
 
