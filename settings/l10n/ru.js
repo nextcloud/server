@@ -38,6 +38,7 @@ OC.L10N.register(
     "log-level out of allowed range" : "уровень журнала вышел за разрешенный диапазон",
     "Saved" : "Сохранено",
     "test email settings" : "проверить настройки почты",
+    "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Во время отправки email произошла ошибка. Пожалуйста проверьте настройки. (Ошибка: %s)",
     "Email sent" : "Письмо отправлено",
     "You need to set your user email before being able to send test emails." : "Вы должны настроить свой e-mail пользователя прежде чем отправлять тестовые сообщения.",
     "Invalid mail address" : "Некорректный адрес email",

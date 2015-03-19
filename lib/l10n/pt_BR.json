@@ -40,6 +40,8 @@
     "Dot files are not allowed" : "Dot arquivos não são permitidos",
     "4-byte characters are not supported in file names" : "Caracteres de 4-bytes não são suportados em nomes de arquivos",
     "File name is a reserved word" : "O nome do arquivo é uma palavra reservada",
+    "File name contains at least one invalid character" : "O nome do arquivo contém pelo menos um caractere inválido",
+    "File name is too long" : "O nome do arquivo é muito longo",
     "App directory already exists" : "Diretório App  já existe",
     "Can't create app folder. Please fix permissions. %s" : "Não é possível criar pasta app. Corrija as permissões. %s",
     "No source specified when installing app" : "Nenhuma fonte foi especificada enquanto instalava o aplicativo",

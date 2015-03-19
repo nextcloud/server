@@ -4,6 +4,8 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "На даному сервері вимкнута можливість передачі даних між серверами",
     "The mountpoint name contains invalid characters." : "Ім'я точки монтування містить неприпустимі символи.",
     "Invalid or untrusted SSL certificate" : "Недійсній або не довірений SSL-сертифікат",
+    "Could not authenticate to remote share, password might be wrong" : "Не вдалося провести аутентифікацію для доступу до віддаленого сховища, можливо неправильно вказано пароль",
+    "Storage not valid" : "Cховище недоступне",
     "Couldn't add remote share" : "Неможливо додати віддалену загальну теку",
     "Shared with you" : "Доступне для вас",
     "Shared with others" : "Доступне для інших",
@@ -53,6 +55,7 @@ OC.L10N.register(
     "Download" : "Завантажити",
     "Download %s" : "Завантажити %s",
     "Direct link" : "Пряме посилання",
+    "Federated Cloud Sharing" : "Об'єднання хмарних сховищ",
     "Allow users on this server to send shares to other servers" : "Дозволити користувачам цього сервера публікувати на інших серверах",
     "Allow users on this server to receive shares from other servers" : "Дозволити користувачам на цьому сервері отримувати публікації з інших серверів"
 },

@@ -23,7 +23,7 @@
     "Unknown error. Please check your system settings or contact your administrator" : "Непозната грешка. Проверите поставке вашег система или контактирајте администратора.",
     "Initial encryption started... This can take some time. Please wait." : "Почетно шифровање је покренуто... Ово може потрајати. Молим, сачекајте.",
     "Initial encryption running... Please try again later." : "Почетно шифровање ради... Покушајте касније.",
-    "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Проверите да је „OpenSSL“ заједно са „PHP“ проширењем, укључен и прописно подешен. За сада, шифровање је искључено.",
+    "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Проверите да је ОпенССЛ заједно са ПХП проширењем, укључен и прописно подешен. За сада, шифровање је искључено.",
     "Following users are not set up for encryption:" : "Следећи корисници нису подешени за шифровање:",
     "Go directly to your %spersonal settings%s." : "Идите право на ваше %sличне поставке%s.",
     "Server-side Encryption" : "Шифровање на страни сервера",

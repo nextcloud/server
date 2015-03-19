@@ -16,7 +16,7 @@
     "mappings cleared" : "limpadas as asignacións",
     "Success" : "Correcto",
     "Error" : "Erro",
-    "Please specify a Base DN" : "Por favor indique un DN base",
+    "Please specify a Base DN" : "Indique un DN base",
     "Could not determine Base DN" : "Non se puido determinar o DN base",
     "Please specify the port" : "Especifique un porto",
     "Configuration OK" : "Configuración correcta",

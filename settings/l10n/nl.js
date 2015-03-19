@@ -38,6 +38,7 @@ OC.L10N.register(
     "log-level out of allowed range" : "loggingniveau buiten toegestane bereik",
     "Saved" : "Bewaard",
     "test email settings" : "test e-mailinstellingen",
+    "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Er ontstond een probleem bij het versturen van de e-mail. Controleer uw instellingen.  (Fout: %s)",
     "Email sent" : "E-mail verzonden",
     "You need to set your user email before being able to send test emails." : "U moet uw e-mailadres invoeren voordat u testberichten kunt versturen.",
     "Invalid mail address" : "Ongeldig e-mailadres",

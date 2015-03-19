@@ -38,6 +38,7 @@ OC.L10N.register(
     "log-level out of allowed range" : "úroveň logování z povoleného rozpětí",
     "Saved" : "Uloženo",
     "test email settings" : "otestovat nastavení emailu",
+    "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Při odesílání emailu nastala chyba. Překontrolujte prosím svá nastavení. (Error: %s)",
     "Email sent" : "Email odeslán",
     "You need to set your user email before being able to send test emails." : "Pro možnost odeslání zkušebních emailů musíte nejprve nastavit svou emailovou adresu.",
     "Invalid mail address" : "Neplatná emailová adresa",

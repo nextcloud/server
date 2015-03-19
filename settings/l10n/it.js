@@ -38,6 +38,7 @@ OC.L10N.register(
     "log-level out of allowed range" : "livello di log fuori dall'intervallo consentito",
     "Saved" : "Salvato",
     "test email settings" : "prova impostazioni email",
+    "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Si è verificato un problema durante l'invio dell'email. Controlla le tue impostazioni. (Errore: %s)",
     "Email sent" : "Email inviata",
     "You need to set your user email before being able to send test emails." : "Devi impostare l'indirizzo del tuo utente prima di poter provare l'invio delle email.",
     "Invalid mail address" : "Indirizzo email non valido",

@@ -36,6 +36,7 @@
     "log-level out of allowed range" : "lokitaso ei sallittujen rajojen sisäpuolella",
     "Saved" : "Tallennettu",
     "test email settings" : "testaa sähköpostiasetukset",
+    "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Sähköpostia lähettäessä tapahtui virhe. Tarkista asetukset. (Virhe: %s)",
     "Email sent" : "Sähköposti lähetetty",
     "You need to set your user email before being able to send test emails." : "Aseta sähköpostiosoite, jotta voit testata sähköpostin toimivuutta.",
     "Invalid mail address" : "Virheellinen sähköpostiosoite",

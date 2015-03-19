@@ -36,6 +36,7 @@
     "log-level out of allowed range" : "Log-Level außerhalb des erlaubten Bereichs",
     "Saved" : "Gespeichert",
     "test email settings" : "E-Mail-Einstellungen testen",
+    "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Beim Senden der E-Mail ist ein Problem aufgetreten. Bitte überprüfe Deine Einstellungen. (Fehler: %s)",
     "Email sent" : "E-Mail wurde verschickt",
     "You need to set your user email before being able to send test emails." : "Du musst zunächst Deine Benutzer-E-Mail-Adresse angeben, bevor Du Test-E-Mail verschicken kannst.",
     "Invalid mail address" : "Ungültige E-Mail-Adresse",

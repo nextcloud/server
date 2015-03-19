@@ -111,6 +111,6 @@ OC.L10N.register(
     "Files are being scanned, please wait." : "Файли скануються, зачекайте, будь-ласка.",
     "Currently scanning" : "Триває перевірка",
     "No favorites" : "Немає обраних",
-    "Files and folders you mark as favorite will show up here" : "Файли і папки, які ви помітити як улюблені з'явиться тут"
+    "Files and folders you mark as favorite will show up here" : "Файли і папки, які ви помітити як улюблені з'являться тут"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

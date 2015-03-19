@@ -91,6 +91,7 @@ OC.L10N.register(
     "Maximum upload size" : "Maximale bestandsgrootte voor uploads",
     "max. possible: " : "max. mogelijk: ",
     "Save" : "Bewaren",
+    "Can not be edited from here due to insufficient permissions." : "Kan hier niet worden bewerkt wegens onvoldoende permissies.",
     "Settings" : "Instellingen",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Gebruik deze link <a href=\"%s\" target=\"_blank\">om uw bestanden via WebDAV te benaderen</a>",

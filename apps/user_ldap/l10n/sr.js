@@ -23,7 +23,7 @@ OC.L10N.register(
     "User Display Name Field" : "Име приказа корисника",
     "Base User Tree" : "Основно стабло корисника",
     "Group Display Name Field" : "Име приказа групе",
-    "Base Group Tree" : "Основна стабло група",
+    "Base Group Tree" : "Стабло основне групе",
     "Group-Member association" : "Придруживање чланова у групу",
     "Quota Field" : "Поље квоте",
     "Quota Default" : "Подразумевана квота",

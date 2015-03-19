@@ -53,6 +53,8 @@ OC.L10N.register(
     "All users. Type to select user or group." : "Всі користувачі. Введіть ім'я користувача або групи.",
     "(group)" : "(група)",
     "Saved" : "Збереженно",
+    "Generate keys" : "Створити ключі",
+    "Error generating key pair" : "Помилка створення ключової пари",
     "<b>Note:</b> " : "<b>Примітка:</b>",
     "and" : "і",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примітка:</b> Підтримку cURL в PHP не ввімкнено чи не встановлена. Під'єднатися до %s неможливо. Зверніться до системного адміністратора.",
