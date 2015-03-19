@@ -158,8 +158,9 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
 		}
 
+		$targetNodeExists = $this->nodeExists($destinationPath);
 		$sourceNode = $this->getNodeForPath($sourcePath);
-		if ($sourceNode instanceof \Sabre\DAV\ICollection and $this->nodeExists($destinationPath)) {
+		if ($sourceNode instanceof \Sabre\DAV\ICollection && $targetNodeExists) {
 			throw new \Sabre\DAV\Exception\Forbidden('Could not copy directory ' . $sourceNode . ', target exists');
 		}
 		list($sourceDir,) = \Sabre\HTTP\URLUtil::splitPath($sourcePath);
@@ -173,14 +174,22 @@ class ObjectTree extends \Sabre\DAV\Tree {
 		}
 
 		try {
-			// check update privileges
-			if (!$this->fileView->isUpdatable($sourcePath) && !$isMovableMount) {
-				throw new \Sabre\DAV\Exception\Forbidden();
-			}
-			if ($sourceDir !== $destinationDir) {
+			$sameFolder = ($sourceDir === $destinationDir);
+			// if we're overwriting or same folder
+			if ($targetNodeExists || $sameFolder) {
+				// note that renaming a share mount point is always allowed
+				if (!$this->fileView->isUpdatable($destinationDir) && !$isMovableMount) {
+					throw new \Sabre\DAV\Exception\Forbidden();
+				}
+			} else {
 				if (!$this->fileView->isCreatable($destinationDir)) {
 					throw new \Sabre\DAV\Exception\Forbidden();
 				}
+			}
+
+			if (!$sameFolder) {
+				// moving to a different folder, source will be gone, like a deletion
+				// note that moving a share mount point is always allowed
 				if (!$this->fileView->isDeletable($sourcePath) && !$isMovableMount) {
 					throw new \Sabre\DAV\Exception\Forbidden();
 				}
