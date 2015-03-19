@@ -293,28 +293,34 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		// we need the paths relative to data/user/files
 		$relPath1 = $this->getMountPoint() . '/' . $path1;
 		$relPath2 = $this->getMountPoint() . '/' . $path2;
+		$pathinfo = pathinfo($relPath1);
 
+		$isPartFile = (isset($pathinfo['extension']) && $pathinfo['extension'] === 'part');
 		$targetExists = $this->file_exists($path2);
-
-		// check for update permissions on the share
-		if (($targetExists && $this->isUpdatable('')) || (!$targetExists && $this->isCreatable(''))) {
-
-			$pathinfo = pathinfo($relPath1);
-			// for part files we need to ask for the owner and path from the parent directory because
-			// the file cache doesn't return any results for part files
-			if (isset($pathinfo['extension']) && $pathinfo['extension'] === 'part') {
-				list($user1, $path1) = \OCA\Files_Sharing\Helper::getUidAndFilename($pathinfo['dirname']);
-				$path1 = $path1 . '/' . $pathinfo['basename'];
-			} else {
-				list($user1, $path1) = \OCA\Files_Sharing\Helper::getUidAndFilename($relPath1);
+		$sameFolder = (dirname($relPath1) === dirname($relPath2));
+		if ($targetExists || ($sameFolder && !$isPartFile)) {
+			// note that renaming a share mount point is always allowed
+			if (!$this->isUpdatable('')) {
+				return false;
 			}
-			$targetFilename = basename($relPath2);
-			list($user2, $path2) = \OCA\Files_Sharing\Helper::getUidAndFilename(dirname($relPath2));
-			$rootView = new \OC\Files\View('');
-			return $rootView->rename('/' . $user1 . '/files/' . $path1, '/' . $user2 . '/files/' . $path2 . '/' . $targetFilename);
+		} else {
+			if (!$this->isCreatable('')) {
+				return false;
+			}
 		}
 
-		return false;
+		// for part files we need to ask for the owner and path from the parent directory because
+		// the file cache doesn't return any results for part files
+		if ($isPartFile) {
+			list($user1, $path1) = \OCA\Files_Sharing\Helper::getUidAndFilename($pathinfo['dirname']);
+			$path1 = $path1 . '/' . $pathinfo['basename'];
+		} else {
+			list($user1, $path1) = \OCA\Files_Sharing\Helper::getUidAndFilename($relPath1);
+		}
+		$targetFilename = basename($relPath2);
+		list($user2, $path2) = \OCA\Files_Sharing\Helper::getUidAndFilename(dirname($relPath2));
+		$rootView = new \OC\Files\View('');
+		return $rootView->rename('/' . $user1 . '/files/' . $path1, '/' . $user2 . '/files/' . $path2 . '/' . $targetFilename);
 	}
 
 	public function copy($path1, $path2) {
