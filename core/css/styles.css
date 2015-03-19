@@ -133,7 +133,8 @@ input[type="url"]:hover, input[type="url"]:focus, input[type="url"]:active,
 input[type="time"]:hover, input[type="time"]:focus, input[type="time"]:active,
 textarea:hover, textarea:focus, textarea:active {
 	color: #333;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	opacity: 1;
 }
 input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
 input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
@@ -243,7 +244,8 @@ textarea:disabled {
 	background: #fff url('../img/actions/search.svg') no-repeat .5em center;
 	border: 0;
 	border-radius: 2em;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity: .7;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	opacity: .7;
 	margin-top: 6px;
 	float: right;
 }
@@ -343,7 +345,6 @@ input[type="submit"].enabled {
 	width: 64px;
 	margin: 0 auto 15px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
 	opacity: .5;
 }
 
@@ -368,7 +369,6 @@ input[type="submit"].enabled {
 	text-align: center;
 	color: #ccc;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-	filter: alpha(opacity=60);
 	opacity: .6;
 }
 /* overrides another !important statement that sets this to unreadable black */
@@ -468,7 +468,6 @@ input[name='password-clone'] {
 	left: 16px;
 	top: 22px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-	filter: alpha(opacity=30);
 	opacity: .3;
 }
 #adminpass-icon, #password-icon {
@@ -572,7 +571,6 @@ label.infield {
 }
 #show:checked + label, #dbpassword:checked + label, #personal-show:checked + label {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-	filter: alpha(opacity=80);
 	opacity: .8;
 }
 #show + label, #dbpassword + label, #personal-show + label {
@@ -583,7 +581,6 @@ label.infield {
 	background-repeat: no-repeat;
 	background-position: center;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-	filter: alpha(opacity=30);
 	opacity: .3;
 }
 #pass2, input[name="personal-password-clone"] {
@@ -675,7 +672,6 @@ label.infield {
 }
 #body-login .warning legend {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	filter: alpha(opacity=100);
 	opacity: 1;
 }
 #body-login a.warning {
@@ -763,8 +759,7 @@ label.infield {
 	top: 0;
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
-	filter:alpha(opacity=90);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
 	opacity: .9;
 }
 #notification span, #update-notification span {
@@ -775,7 +770,6 @@ label.infield {
 tr .action:not(.permanent),
 .selectedActions a {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-	filter: alpha(opacity=0);
 	opacity: 0;
 }
 tr:hover .action,
@@ -783,7 +777,6 @@ tr:focus .action,
 tr .action.permanent,
 .selectedActions a {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
 	opacity: .5;
 }
 tr .action {
@@ -792,7 +785,6 @@ tr .action {
 }
 .header-action {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-	filter: alpha(opacity=80);
 	opacity: .8;
 }
 tr:hover .action:hover,
@@ -802,7 +794,6 @@ tr:focus .action:focus,
 .header-action:hover,
 .header-action:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	filter: alpha(opacity=100);
 	opacity: 1;
 }
 tbody tr:hover,
@@ -981,7 +972,6 @@ div.crumb:focus,
 div.crumb a:focus,
 div.crumb:active {
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
-	filter:alpha(opacity=70);
 	opacity:.7;
 }
 

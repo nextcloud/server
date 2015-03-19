@@ -65,7 +65,7 @@
 					<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown"'); } else { print_unescaped('" style="display: none"'); } ?>>
 						<?php if ($_['userAvatarSet']): ?>
 							<img src="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 32]));?>?requesttoken=<?php p(urlencode($_['requesttoken'])); ?>"
-								alt="" />
+								alt="">
 						<?php endif; ?>
 					</div>
 					<?php endif; ?>
@@ -99,7 +99,7 @@
 				</label>
 				<input id="searchbox" class="svg" type="search" name="query"
 					value="<?php if(isset($_POST['query'])) {p($_POST['query']);};?>"
-					autocomplete="off" tabindex="3" />
+					autocomplete="off" tabindex="3">
 			</form>
 		</div></header>
 
@@ -110,7 +110,7 @@
 					<li data-id="<?php p($entry['id']); ?>">
 						<a href="<?php print_unescaped($entry['href']); ?>" title=""
 							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
-							<img class="app-icon svg" alt="" src="<?php print_unescaped($entry['icon']); ?>"/>
+							<img class="app-icon svg" alt="" src="<?php print_unescaped($entry['icon']); ?>">
 							<div class="icon-loading-dark" style="display:none;"></div>
 							<span>
 								<?php p($entry['name']); ?>
@@ -124,7 +124,7 @@
 					<li id="apps-management">
 						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps')); ?>" title=""
 							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
-							<img class="app-icon svg" alt="" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>"/>
+							<img class="app-icon svg" alt="" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>">
 							<div class="icon-loading-dark" style="display:none;"></div>
 							<span>
 								<?php p($l->t('Apps')); ?>

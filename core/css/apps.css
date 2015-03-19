@@ -524,6 +524,5 @@ button.loading {
 em {
 	font-style: normal;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
 	opacity: .5;
 }

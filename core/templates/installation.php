@@ -10,7 +10,7 @@ script('core', [
 <input type='hidden' id='hasOracle' value='<?php p($_['hasOracle']) ?>'>
 <input type='hidden' id='hasMSSQL' value='<?php p($_['hasMSSQL']) ?>'>
 <form action="index.php" method="post">
-<input type="hidden" name="install" value="true" />
+<input type="hidden" name="install" value="true">
 	<?php if(count($_['errors']) > 0): ?>
 	<fieldset class="warning">
 		<legend><strong><?php p($l->t('Error'));?></strong></legend>

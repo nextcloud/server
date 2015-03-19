@@ -109,14 +109,10 @@
 	z-index: 149;
 	background-color: rgba(255, 255, 255, .7);
 	cursor: pointer;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-	filter: alpha(opacity=60);
 	opacity: .6;
 }
 #app-navigation-toggle:hover,
 #app-navigation-toggle:focus {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	filter: alpha(opacity=100);
 	opacity: 1;
 }
 
