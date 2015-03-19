@@ -66,7 +66,7 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 				SELECT `id`
 				FROM `*PREFIX*mimetypes`
 				WHERE `mimetype` = ?
-			) WHERE `name` LIKE ?
+			) WHERE `name` ILIKE ?
 		');
 	}
 	

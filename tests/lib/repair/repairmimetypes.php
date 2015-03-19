@@ -192,7 +192,7 @@ class TestRepairMimeTypes extends \Test\TestCase {
 	}
 
 	/**
-	 * Test renaming the postscript mime types
+	 * Test renaming the Raw mime types
 	 */
 	public function testRenameRawMimeType() {
 		$this->addEntries(
@@ -214,6 +214,7 @@ class TestRepairMimeTypes extends \Test\TestCase {
 				array('test.srf', 'application/octet-stream'),
 				array('test.sr2', 'application/octet-stream'),
 				array('test.xrf', 'application/octet-stream'),
+				array('CapitalExtension.DNG', 'application/octet-stream'),
 			)
 		);
 
@@ -242,6 +243,7 @@ class TestRepairMimeTypes extends \Test\TestCase {
 				array('test.srf', 'image/x-dcraw'),
 				array('test.sr2', 'image/x-dcraw'),
 				array('test.xrf', 'image/x-dcraw'),
+				array('CapitalExtension.DNG', 'image/x-dcraw'),
 			)
 		);
 	}
@@ -373,6 +375,7 @@ class TestRepairMimeTypes extends \Test\TestCase {
 				array('test.srf', 'image/x-dcraw'),
 				array('test.sr2', 'image/x-dcraw'),
 				array('test.xrf', 'image/x-dcraw'),
+				array('test.DNG', 'image/x-dcraw'),
 			)
 		);
 
@@ -413,6 +416,7 @@ class TestRepairMimeTypes extends \Test\TestCase {
 				array('test.srf', 'image/x-dcraw'),
 				array('test.sr2', 'image/x-dcraw'),
 				array('test.xrf', 'image/x-dcraw'),
+				array('test.DNG', 'image/x-dcraw'),
 			)
 		);
 	}
