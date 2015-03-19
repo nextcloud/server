@@ -47,6 +47,7 @@ class ExampleMapper extends Mapper {
 	public function findOneEntity($table, $id){ return $this->findEntity($table, $id); }
 	public function findAllEntities($table){ return $this->findEntities($table); }
 	public function mapRow($row){ return $this->mapRowToEntity($row); }
+	public function execSql($sql, $params){ return $this->execute($sql, $params); }
 }
 
 
@@ -184,6 +185,15 @@ class MapperTest extends MapperTestUtility {
 		$result = $this->mapper->insert($entity);
 
 		$this->assertEquals(3, $result->getId());
+	}
+
+
+	public function testAssocParameters() {
+		$sql = 'test';
+		$params = [':test' => 1, ':a' => 2];
+
+		$this->setMapperResult($sql, $params);
+		$this->mapper->execSql($sql, $params);
 	}
 
 
