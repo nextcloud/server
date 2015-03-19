@@ -35,6 +35,8 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	protected $watcher;
 	protected $storageCache;
 
+	protected $mountOptions = [];
+
 	/**
 	 * @var string[]
 	 */
@@ -330,7 +332,8 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		}
 		if (!isset($this->watcher)) {
 			$this->watcher = new Watcher($storage);
-			$this->watcher->setPolicy(\OC::$server->getConfig()->getSystemValue('filesystem_check_changes', Watcher::CHECK_ONCE));
+			$globalPolicy = \OC::$server->getConfig()->getSystemValue('filesystem_check_changes', Watcher::CHECK_ONCE);
+			$this->watcher->setPolicy($this->getMountOption('filesystem_check_changes', $globalPolicy));
 		}
 		return $this->watcher;
 	}
@@ -516,5 +519,21 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		if($sanitizedFileName !== $fileName) {
 			throw new InvalidCharacterInPathException();
 		}
+	}
+	
+	/**
+	 * @param array $options
+	 */
+	public function setMountOptions(array $options) {
+		$this->mountOptions = $options;
+	}
+
+	/**
+	 * @param string $name
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public function getMountOption($name, $default = null) {
+		return isset($this->mountOptions[$name]) ? $this->mountOptions[$name] : $default;
 	}
 }

@@ -8,6 +8,7 @@
 namespace Test\Files;
 
 use OC\Files\Cache\Watcher;
+use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
 
 class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
@@ -974,5 +975,22 @@ class View extends \Test\TestCase {
 		\OC\Files\Filesystem::mount($storage, array(), '/test/');
 		$view = new \OC\Files\View('');
 		$this->assertTrue($view->rename('/test/foo.txt', '/test/foo/bar.txt'));
+	}
+
+	public function testSetMountOptionsInStorage() {
+		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/asd/', [[]], \OC\Files\Filesystem::getLoader(), ['foo' => 'bar']);
+		\OC\Files\Filesystem::getMountManager()->addMount($mount);
+		/** @var \OC\Files\Storage\Common $storage */
+		$storage = $mount->getStorage();
+		$this->assertEquals($storage->getMountOption('foo'), 'bar');
+	}
+
+	public function testSetMountOptionsWatcherPolicy() {
+		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/asd/', [[]], \OC\Files\Filesystem::getLoader(), ['filesystem_check_changes' => Watcher::CHECK_NEVER]);
+		\OC\Files\Filesystem::getMountManager()->addMount($mount);
+		/** @var \OC\Files\Storage\Common $storage */
+		$storage = $mount->getStorage();
+		$watcher = $storage->getWatcher();
+		$this->assertEquals(Watcher::CHECK_NEVER, $watcher->getPolicy());
 	}
 }

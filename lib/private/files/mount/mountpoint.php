@@ -71,9 +71,10 @@ class MountPoint implements IMountPoint {
 		}
 
 		$mountpoint = $this->formatPath($mountpoint);
+		$this->mountPoint = $mountpoint;
 		if ($storage instanceof Storage) {
 			$this->class = get_class($storage);
-			$this->storage = $this->loader->wrap($mountpoint, $storage);
+			$this->storage = $this->loader->wrap($this, $storage);
 		} else {
 			// Update old classes to new namespace
 			if (strpos($storage, 'OC_Filestorage_') !== false) {
@@ -82,7 +83,6 @@ class MountPoint implements IMountPoint {
 			$this->class = $storage;
 			$this->arguments = $arguments;
 		}
-		$this->mountPoint = $mountpoint;
 	}
 
 	/**
@@ -113,7 +113,7 @@ class MountPoint implements IMountPoint {
 
 		if (class_exists($this->class)) {
 			try {
-				return $this->loader->getInstance($this->mountPoint, $this->class, $this->arguments);
+				return $this->loader->getInstance($this, $this->class, $this->arguments);
 			} catch (\Exception $exception) {
 				$this->invalidStorage = true;
 				if ($this->mountPoint === '/') {
@@ -195,7 +195,7 @@ class MountPoint implements IMountPoint {
 		$storage = $this->getStorage();
 		// storage can be null if it couldn't be initialized
 		if ($storage != null) {
-			$this->storage = $wrapper($this->mountPoint, $storage);
+			$this->storage = $wrapper($this->mountPoint, $storage, $this);
 		}
 	}
 
@@ -208,5 +208,14 @@ class MountPoint implements IMountPoint {
 	 */
 	public function getOption($name, $default) {
 		return isset($this->mountOptions[$name]) ? $this->mountOptions[$name] : $default;
+	}
+
+	/**
+	 * Get all options for the mount
+	 *
+	 * @return array
+	 */
+	public function getOptions() {
+		return $this->mountOptions;
 	}
 }
