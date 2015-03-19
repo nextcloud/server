@@ -1097,9 +1097,17 @@ class Share extends \OC\Share\Constants {
 	 */
 	public static function setExpirationDate($itemType, $itemSource, $date, $shareTime = null) {
 		$user = \OC_User::getUser();
+		$l = \OC::$server->getL10N('lib');
 
 		if ($date == '') {
-			$date = null;
+			if (\OCP\Util::isDefaultExpireDateEnforced()) {
+				$warning = 'Cannot clear expiration date. Shares are required to have an expiration date.';
+				$warning_t = $l->t('Cannot clear expiration date. Shares are required to have an expiration date.');
+				\OCP\Util::writeLog('OCP\Share', $warning, \OCP\Util::WARN);
+				throw new \Exception($warning_t);
+			} else {
+				$date = null;
+			}
 		} else {
 			$date = self::validateExpireDate($date, $shareTime, $itemType, $itemSource);
 		}
