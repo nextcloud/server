@@ -1079,6 +1079,24 @@ class Test_Files_Sharing_Api extends TestCase {
 		$this->assertTrue(is_array($updatedLinkShare));
 		$this->assertEquals($dateWithinRange->format('Y-m-d') . ' 00:00:00', $updatedLinkShare['expiration']);
 
+
+		// Try to remove expire date
+		$params = array();
+		$params['id'] = $linkShare['id'];
+		$params['_put'] = ['expireDate' => ''];
+
+		$result = \OCA\Files_Sharing\API\Local::updateShare($params);
+
+		$this->assertFalse($result->succeeded());
+
+		$items = \OCP\Share::getItemShared('file', $linkShare['file_source']);
+
+		$updatedLinkShare = reset($items);
+
+		// date shouldn't be changed
+		$this->assertTrue(is_array($updatedLinkShare));
+		$this->assertEquals($dateWithinRange->format('Y-m-d') . ' 00:00:00', $updatedLinkShare['expiration']);
+
 		// cleanup
 		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
