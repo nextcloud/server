@@ -30,7 +30,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			return parent::connect();
 		} catch (DBALException $e) {
 			// throw a new exception to prevent leaking info from the stacktrace
-			throw new DBALException($e->getMessage(), $e->getCode());
+			throw new DBALException('Failed to connect to the database: ' . $e->getMessage(), $e->getCode());
 		}
 	}
 
