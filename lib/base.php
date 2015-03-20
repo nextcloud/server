@@ -80,6 +80,10 @@ class OC {
 	 */
 	public static $server = null;
 
+	/**
+	 * @throws \RuntimeException when the 3rdparty directory is missing or
+	 * the app path list is empty or contains an invalid path
+	 */
 	public static function initPaths() {
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
@@ -155,10 +159,9 @@ class OC {
 			}
 		}
 		if (empty(OC::$THIRDPARTYROOT) || !file_exists(OC::$THIRDPARTYROOT)) {
-			echo('3rdparty directory not found! Please put the ownCloud 3rdparty'
+			throw new \RuntimeException('3rdparty directory not found! Please put the ownCloud 3rdparty'
 				. ' folder in the ownCloud folder or the folder above.'
 				. ' You can also configure the location in the config.php file.');
-			return;
 		}
 		
 		// search the apps folder
@@ -182,12 +185,17 @@ class OC {
 		}
 
 		if (empty(OC::$APPSROOTS)) {
-			throw new Exception('apps directory not found! Please put the ownCloud apps folder in the ownCloud folder'
+			throw new \RuntimeException('apps directory not found! Please put the ownCloud apps folder in the ownCloud folder'
 				. ' or the folder above. You can also configure the location in the config.php file.');
 		}
 		$paths = array();
 		foreach (OC::$APPSROOTS as $path) {
 			$paths[] = $path['path'];
+			if (!is_dir($path['path'])) {
+				throw new \RuntimeException(sprintf('App directory "%s" not found! Please put the ownCloud apps folder in the'
+					. ' ownCloud folder or the folder above. You can also configure the location in the'
+					. ' config.php file.', $path['path']));
+			}
 		}
 
 		// set the right include path
@@ -465,17 +473,20 @@ class OC {
 
 		self::$CLI = (php_sapi_name() == 'cli');
 
-		self::initPaths();
-
-		// setup 3rdparty autoloader
-		$vendorAutoLoad = OC::$THIRDPARTYROOT . '/3rdparty/autoload.php';
-		if (file_exists($vendorAutoLoad)) {
+		try {
+			self::initPaths();
+			// setup 3rdparty autoloader
+			$vendorAutoLoad = OC::$THIRDPARTYROOT . '/3rdparty/autoload.php';
+			if (!file_exists($vendorAutoLoad)) {
+				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty".');
+			}
 			require_once $vendorAutoLoad;
-		} else {
+
+		} catch (\RuntimeException $e) {
 			OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
 			// we can't use the template error page here, because this needs the
 			// DI container which isn't available yet
-			print('Composer autoloader not found, unable to continue. Check the folder "3rdparty".');
+			print($e->getMessage());
 			exit();
 		}
 
