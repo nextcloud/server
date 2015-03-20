@@ -6,6 +6,8 @@
     "Checked database schema update" : "Mise à jour du schéma de la base de données vérifiée",
     "Checked database schema update for apps" : "Mise à jour du schéma de la base de données pour les applications vérifiée",
     "Updated \"%s\" to %s" : "Mise à jour de « %s » vers %s",
+    "Repair warning: " : "Avertissement de réparation :",
+    "Repair error: " : "Erreur de réparation :",
     "Following incompatible apps have been disabled: %s" : "Les applications incompatibles suivantes ont été désactivées : %s",
     "Following 3rd party apps have been disabled: %s" : "Les applications tierce partie suivantes ont été désactivées : %s",
     "Invalid file provided" : "Fichier non valide",

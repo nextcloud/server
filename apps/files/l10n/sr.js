@@ -91,6 +91,7 @@ OC.L10N.register(
     "Maximum upload size" : "Највећа величина отпремања",
     "max. possible: " : "највише могуће:",
     "Save" : "Сачувај",
+    "Can not be edited from here due to insufficient permissions." : "Не може да се мења одавде због недостатка права.",
     "Settings" : "Поставке",
     "WebDAV" : "ВебДАВ",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Користите ову адресу да <a href=\"%s\" target=\"_blank\"> приступите фајловима преко ВебДАВ-а</a>",
