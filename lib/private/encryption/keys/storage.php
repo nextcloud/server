@@ -67,8 +67,7 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @return mixed key
 	 */
 	public function getUserKey($uid, $keyId) {
-		$path = '/' . $uid . $this->encryption_base_dir . '/'
-			. $this->encryptionModuleId . '/' . $uid . '.' . $keyId;
+		$path = $this->constructUserKeyPath($keyId, $uid);
 		return $this->getKey($path);
 	}
 
@@ -94,7 +93,7 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @return mixed key
 	 */
 	public function getSystemUserKey($keyId) {
-		$path = $this->encryption_base_dir . '/' . $this->encryptionModuleId . '/' . $keyId;
+		$path = $this->constructUserKeyPath($keyId);
 		return $this->getKey($path);
 	}
 
@@ -106,8 +105,7 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @param mixed $key
 	 */
 	public function setUserKey($uid, $keyId, $key) {
-		$path = '/' . $uid . $this->encryption_base_dir . '/'
-			. $this->encryptionModuleId . '/' . $uid . '.' . $keyId;
+		$path = $this->constructUserKeyPath($keyId, $uid);
 		return $this->setKey($path, $key);
 	}
 
@@ -133,11 +131,68 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @return mixed key
 	 */
 	public function setSystemUserKey($keyId, $key) {
-		$path = $this->encryption_base_dir . '/'
-			. $this->encryptionModuleId . '/' . $keyId;
+		$path = $this->constructUserKeyPath($keyId);
 		return $this->setKey($path, $key);
 	}
 
+	/**
+	 * delete user specific key
+	 *
+	 * @param string $uid ID if the user for whom we want to delete the key
+	 * @param string $keyId id of the key
+	 *
+	 * @return boolean
+	 */
+	public function deleteUserKey($uid, $keyId) {
+		$path = $this->constructUserKeyPath($keyId, $uid);
+		return $this->view->unlink($path);
+	}
+
+	/**
+	 * delete file specific key
+	 *
+	 * @param string $path path to file
+	 * @param string $keyId id of the key
+	 *
+	 * @return boolean
+	 */
+	public function deleteFileKey($path, $keyId) {
+		$keyDir = $this->getFileKeyDir($path);
+		return $this->view->unlink($keyDir . $keyId);
+	}
+
+	/**
+	 * delete system-wide encryption keys not related to a specific user,
+	 * e.g something like a key for public link shares
+	 *
+	 * @param string $keyId id of the key
+	 *
+	 * @return boolean
+	 */
+	public function deleteSystemUserKey($keyId) {
+		$path = $this->constructUserKeyPath($keyId);
+		return $this->view->unlink($path);
+	}
+
+
+	/**
+	 * construct path to users key
+	 *
+	 * @param string $keyId
+	 * @param string $uid
+	 * @return string
+	 */
+	protected function constructUserKeyPath($keyId, $uid = null) {
+
+		if ($uid === null) {
+			$path = $this->encryption_base_dir . '/' . $this->encryptionModuleId . '/' . $keyId;
+		} else {
+			$path = '/' . $uid . $this->encryption_base_dir . '/'
+				. $this->encryptionModuleId . '/' . $uid . '.' . $keyId;
+		}
+
+		return $path;
+	}
 
 	/**
 	 * read key from hard disk

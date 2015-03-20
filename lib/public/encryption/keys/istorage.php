@@ -113,6 +113,7 @@ interface IStorage {
 	public function deleteAllFileKeys($path);
 
 	/**
+
 	 * delete system-wide encryption keys not related to a specific user,
 	 * e.g something like a key for public link shares
 	 *
