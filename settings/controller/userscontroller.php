@@ -286,6 +286,15 @@ class UsersController extends Controller {
 			}
 		}
 
+		if ($this->userManager->userExists($username)) {
+			return new DataResponse(
+				array(
+					'message' => (string)$this->l10n->t('A user with that name already exists.')
+				),
+				Http::STATUS_CONFLICT
+			);
+		}
+
 		try {
 			$user = $this->userManager->createUser($username, $password);
 		} catch (\Exception $exception) {
