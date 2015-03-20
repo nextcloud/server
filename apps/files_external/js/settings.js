@@ -437,6 +437,7 @@ MountConfigListView.prototype = {
 	 * @param {int} [options.userListLimit] page size in applicable users dropdown
 	 */
 	initialize: function($el, options) {
+		var self = this;
 		this.$el = $el;
 		this._isPersonal = ($el.data('admin') !== true);
 		if (this._isPersonal) {
@@ -473,6 +474,10 @@ MountConfigListView.prototype = {
 		});
 
 		addSelect2(this.$el.find('tr:not(#addMountPoint) .applicableUsers'), this._userListLimit);
+
+		this.$el.find('tr:not(#addMountPoint)').each(function(i, tr) {
+			self.recheckStorageConfig($(tr));
+		});
 
 		this._initEvents();
 	},
@@ -537,7 +542,6 @@ MountConfigListView.prototype = {
 			$tr.find('.mountPoint input').val(this._suggestMountPoint(selected));
 		}
 		$tr.addClass(backendClass);
-		$tr.find('.status').append('<span></span>');
 		$tr.find('.backend').data('class', backendClass);
 		var configurations = this._allBackends;
 		var $td = $tr.find('td.configuration');

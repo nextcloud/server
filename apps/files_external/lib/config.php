@@ -352,8 +352,7 @@ class OC_Mount_Config {
 						'backend' => $backends[$mount['class']]['backend'],
 						'priority' => $mount['priority'],
 						'options' => $mount['options'],
-						'applicable' => array('groups' => array($group), 'users' => array()),
-						'status' => self::getBackendStatus($mount['class'], $mount['options'], false)
+						'applicable' => array('groups' => array($group), 'users' => array())
 					);
 					if (isset($mount['id'])) {
 						$config['id'] = (int)$mount['id'];
@@ -395,8 +394,7 @@ class OC_Mount_Config {
 						'backend' => $backends[$mount['class']]['backend'],
 						'priority' => $mount['priority'],
 						'options' => $mount['options'],
-						'applicable' => array('groups' => array(), 'users' => array($user)),
-						'status' => self::getBackendStatus($mount['class'], $mount['options'], false)
+						'applicable' => array('groups' => array(), 'users' => array($user))
 					);
 					if (isset($mount['id'])) {
 						$config['id'] = (int)$mount['id'];
@@ -445,8 +443,7 @@ class OC_Mount_Config {
 					// Remove '/uid/files/' from mount point
 					'mountpoint' => substr($mountPoint, strlen($uid) + 8),
 					'backend' => $backEnds[$mount['class']]['backend'],
-					'options' => $mount['options'],
-					'status' => self::getBackendStatus($mount['class'], $mount['options'], true)
+					'options' => $mount['options']
 				);
 				if (isset($mount['id'])) {
 					$config['id'] = (int)$mount['id'];
