@@ -29,13 +29,12 @@ if ($maxX === 0 || $maxY === 0) {
 	exit;
 }
 
-$preview = new \OC\Preview(\OC_User::getUser(), 'files');
-
 $info = \OC\Files\Filesystem::getFileInfo($file);
 
-if (!$info instanceof OCP\Files\FileInfo || !$always && !$preview->isAvailable($info)) {
+if (!$info instanceof OCP\Files\FileInfo || !$always && !\OC::$server->getPreviewManager()->isAvailable($info)) {
 	\OC_Response::setStatus(404);
 } else {
+	$preview = new \OC\Preview(\OC_User::getUser(), 'files');
 	$preview->setFile($file);
 	$preview->setMaxX($maxX);
 	$preview->setMaxY($maxY);

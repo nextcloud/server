@@ -29,7 +29,7 @@ class Avatar implements \OCP\IAvatar {
 	/**
 	 * get the users avatar
 	 * @param int $size size in px of the avatar, avatars are square, defaults to 64
-	 * @return boolean|\OC_Image containing the avatar or false if there's no image
+	 * @return boolean|\OCP\IImage containing the avatar or false if there's no image
 	*/
 	public function get ($size = 64) {
 		if ($this->view->file_exists('avatar.jpg')) {
@@ -57,14 +57,14 @@ class Avatar implements \OCP\IAvatar {
 
 	/**
 	 * sets the users avatar
-	 * @param \OC_Image|resource|string $data OC_Image, imagedata or path to set a new avatar
+	 * @param \OCP\IImage|resource|string $data An image object, imagedata or path to set a new avatar
 	 * @throws \Exception if the provided file is not a jpg or png image
 	 * @throws \Exception if the provided image is not valid
 	 * @throws \OC\NotSquareException if the image is not square
 	 * @return void
 	*/
 	public function set ($data) {
-		if($data instanceOf OC_Image) {
+		if($data instanceOf \OCP\IImage) {
 			$img = $data;
 			$data = $img->data();
 		} else {

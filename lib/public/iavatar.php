@@ -16,7 +16,7 @@ interface IAvatar {
 	/**
 	 * get the users avatar
 	 * @param int $size size in px of the avatar, avatars are square, defaults to 64
-	 * @return boolean|\OC_Image containing the avatar or false if there's no image
+	 * @return boolean|\OCP\IImage containing the avatar or false if there's no image
 	 */
 	function get($size = 64);
 
@@ -29,7 +29,7 @@ interface IAvatar {
 
 	/**
 	 * sets the users avatar
-	 * @param \OC_Image|resource|string $data OC_Image, imagedata or path to set a new avatar
+	 * @param \OCP\IImage|resource|string $data An image object, imagedata or path to set a new avatar
 	 * @throws \Exception if the provided file is not a jpg or png image
 	 * @throws \Exception if the provided image is not valid
 	 * @throws \OC\NotSquareException if the image is not square

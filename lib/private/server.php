@@ -45,8 +45,8 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('ContactsManager', function ($c) {
 			return new ContactsManager();
 		});
-		$this->registerService('PreviewManager', function ($c) {
-			return new PreviewManager();
+		$this->registerService('PreviewManager', function (Server $c) {
+			return new PreviewManager($c->getConfig());
 		});
 		$this->registerService('TagMapper', function(Server $c) {
 			return new TagMapper($c->getDatabaseConnection());

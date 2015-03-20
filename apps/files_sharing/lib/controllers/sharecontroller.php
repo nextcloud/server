@@ -170,6 +170,7 @@ class ShareController extends Controller {
 		$shareTmpl['filename'] = $file;
 		$shareTmpl['directory_path'] = $linkItem['file_target'];
 		$shareTmpl['mimetype'] = Filesystem::getMimeType($originalSharePath);
+		$shareTmpl['previewSupported'] = \OC::$server->getPreviewManager()->isMimeSupported($shareTmpl['mimetype']);
 		$shareTmpl['dirToken'] = $linkItem['token'];
 		$shareTmpl['sharingToken'] = $token;
 		$shareTmpl['server2serversharing'] = Helper::isOutgoingServer2serverShareEnabled();
