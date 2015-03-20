@@ -415,6 +415,7 @@ class OC {
 			}
 			// if session cant be started break with http 500 error
 		} catch (Exception $e) {
+			\OCP\Util::logException('base', $e);
 			//show the user a detailed error page
 			OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
 			OC_Template::printExceptionErrorPage($e);

@@ -18,7 +18,9 @@ namespace OC\Session;
 class Internal extends Session {
 	public function __construct($name) {
 		session_name($name);
+		set_error_handler(array($this, 'trapError'));
 		session_start();
+		restore_error_handler();
 		if (!isset($_SESSION)) {
 			throw new \Exception('Failed to start session');
 		}
@@ -82,7 +84,11 @@ class Internal extends Session {
         throw new \Exception('The session cannot be reopened - reopen() is ony to be used in unit testing.');
     }
 
-    private function validateSession() {
+	public function trapError($errorNumber, $errorString) {
+		throw new \ErrorException($errorString);
+	}
+
+	private function validateSession() {
 		if ($this->sessionClosed) {
 			throw new \Exception('Session has been closed - no further changes to the session as allowed');
 		}
