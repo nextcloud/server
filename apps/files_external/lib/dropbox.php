@@ -100,7 +100,12 @@ class Dropbox extends \OC\Files\Storage\Common {
 				return $contents;
 			} else {
 				try {
-					$response = $this->dropbox->getMetaData($path, 'false');
+					$requestPath = $path;
+					if ($path === '.') {
+						$requestPath = '';
+					}
+
+					$response = $this->dropbox->getMetaData($requestPath, 'false');
 					if (!isset($response['is_deleted']) || !$response['is_deleted']) {
 						$this->metaData[$path] = $response;
 						return $response;
