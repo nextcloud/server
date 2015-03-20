@@ -78,7 +78,6 @@ class AppSettingsController extends Controller {
 			}
 		}
 
-		$categories['status'] = 'success';
 		$this->cache->set('listCategories', $categories, 3600);
 
 		return $categories;
