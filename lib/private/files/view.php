@@ -1133,7 +1133,7 @@ class View {
 		}
 
 		if ($mount instanceof MoveableMount && $internalPath === '') {
-			$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+			$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
 		}
 
 		$data = \OC_FileProxy::runPostProxies('getFileInfo', $path, $data);
