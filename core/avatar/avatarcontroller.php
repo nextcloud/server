@@ -244,7 +244,7 @@ class AvatarController extends Controller {
 		}
 
 		$image = new \OC_Image($tmpAvatar);
-		$image->crop($crop['x'], $crop['y'], $crop['w'], $crop['h']);
+		$image->crop($crop['x'], $crop['y'], round($crop['w']), round($crop['h']));
 		try {
 			$avatar = $this->avatarManager->getAvatar($userId);
 			$avatar->set($image);
