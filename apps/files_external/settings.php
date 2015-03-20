@@ -42,9 +42,29 @@ foreach ($backends as $class => $backend)
 	}
 }
 
+$mounts = OC_Mount_Config::getSystemMountPoints();
+$hasId = true;
+foreach ($mounts as $mount) {
+	if (!isset($mount['id'])) {
+		// some mount points are missing ids
+		$hasId = false;
+		break;
+	}
+}
+
+if (!$hasId) {
+	$service = new \OCA\Files_external\Service\GlobalStoragesService();
+	// this will trigger the new storage code which will automatically
+	// generate storage config ids
+	$service->getAllStorages();
+	// re-read updated config
+	$mounts = OC_Mount_Config::getSystemMountPoints();
+	// TODO: use the new storage config format in the template
+}
+
 $tmpl = new OCP\Template('files_external', 'settings');
 $tmpl->assign('isAdminPage', true);
-$tmpl->assign('mounts', OC_Mount_Config::getSystemMountPoints());
+$tmpl->assign('mounts', $mounts);
 $tmpl->assign('backends', $backends);
 $tmpl->assign('personal_backends', $personal_backends);
 $tmpl->assign('dependencies', OC_Mount_Config::checkDependencies());

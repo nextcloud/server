@@ -12,12 +12,13 @@ use \OCA\Files_External\Controller\AjaxController;
 use \OCP\AppFramework\App;
 use \OCP\IContainer;
 
- /**
-  * @package OCA\Files_External\Appinfo
-  */
+/**
+ * @package OCA\Files_External\Appinfo
+ */
 class Application extends App {
 	public function __construct(array $urlParams=array()) {
 		parent::__construct('files_external', $urlParams);
+
 		$container = $this->getContainer();
 
 		/**

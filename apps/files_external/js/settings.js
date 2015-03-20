@@ -1,20 +1,24 @@
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
 (function(){
 
-function updateStatus(statusEl, result){
-	statusEl.removeClass('success error loading-small');
-	if (result && result.status === 'success' && result.data.message) {
-		statusEl.addClass('success');
-		return true;
-	} else {
-		statusEl.addClass('error');
-		return false;
-	}
-}
-
+/**
+ * Returns the selection of applicable users in the given configuration row
+ *
+ * @param $row configuration row
+ * @return array array of user names
+ */
 function getSelection($row) {
 	var values = $row.find('.applicableUsers').select2('val');
 	if (!values || values.length === 0) {
-		values = ['all'];
+		values = [];
 	}
 	return values;
 }
@@ -31,298 +35,515 @@ function highlightInput($input) {
 	}
 }
 
-OC.MountConfig={
-	saveStorage:function($tr, callback) {
-		var mountPoint = $tr.find('.mountPoint input').val();
-		var oldMountPoint = $tr.find('.mountPoint input').data('mountpoint');
-		if (mountPoint === '') {
-			return false;
-		}
-		var statusSpan = $tr.find('.status span');
-		var backendClass = $tr.find('.backend').data('class');
-		var configuration = $tr.find('.configuration input');
-		var addMountPoint = true;
-		if (configuration.length < 1) {
-			return false;
-		}
-		var classOptions = {};
-		$.each(configuration, function(index, input) {
-			if ($(input).val() === '' && !$(input).hasClass('optional')) {
-				addMountPoint = false;
-				return false;
-			}
-			if ($(input).is(':checkbox')) {
-				if ($(input).is(':checked')) {
-					classOptions[$(input).data('parameter')] = true;
+/**
+ * Initialize select2 plugin on the given elements
+ *
+ * @param {Array<Object>} array of jQuery elements
+ * @param {int} userListLimit page size for result list
+ */
+function addSelect2 ($elements, userListLimit) {
+	if (!$elements.length) {
+		return;
+	}
+	$elements.select2({
+		placeholder: t('files_external', 'All users. Type to select user or group.'),
+		allowClear: true,
+		multiple: true,
+		//minimumInputLength: 1,
+		ajax: {
+			url: OC.generateUrl('apps/files_external/applicable'),
+			dataType: 'json',
+			quietMillis: 100,
+			data: function (term, page) { // page is the one-based page number tracked by Select2
+				return {
+					pattern: term, //search term
+					limit: userListLimit, // page size
+					offset: userListLimit*(page-1) // page number starts with 0
+				};
+			},
+			results: function (data) {
+				if (data.status === 'success') {
+
+					var results = [];
+					var userCount = 0; // users is an object
+
+					// add groups
+					$.each(data.groups, function(i, group) {
+						results.push({name:group+'(group)', displayname:group, type:'group' });
+					});
+					// add users
+					$.each(data.users, function(id, user) {
+						userCount++;
+						results.push({name:id, displayname:user, type:'user' });
+					});
+
+
+					var more = (userCount >= userListLimit) || (data.groups.length >= userListLimit);
+					return {results: results, more: more};
 				} else {
-					classOptions[$(input).data('parameter')] = false;
+					//FIXME add error handling
 				}
+			}
+		},
+		initSelection: function(element, callback) {
+			var users = {};
+			users['users'] = [];
+			var toSplit = element.val().split(",");
+			for (var i = 0; i < toSplit.length; i++) {
+				users['users'].push(toSplit[i]);
+			}
+
+			$.ajax(OC.generateUrl('displaynames'), {
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(users),
+				dataType: 'json'
+			}).done(function(data) {
+				var results = [];
+				if (data.status === 'success') {
+					$.each(data.users, function(user, displayname) {
+						if (displayname !== false) {
+							results.push({name:user, displayname:displayname, type:'user'});
+						}
+					});
+					callback(results);
+				} else {
+					//FIXME add error handling
+				}
+			});
+		},
+		id: function(element) {
+			return element.name;
+		},
+		formatResult: function (element) {
+			var $result = $('<span><div class="avatardiv"/><span>'+escapeHTML(element.displayname)+'</span></span>');
+			var $div = $result.find('.avatardiv')
+				.attr('data-type', element.type)
+				.attr('data-name', element.name)
+				.attr('data-displayname', element.displayname);
+			if (element.type === 'group') {
+				var url = OC.imagePath('core','places/contacts-dark'); // TODO better group icon
+				$div.html('<img width="32" height="32" src="'+url+'">');
+			}
+			return $result.get(0).outerHTML;
+		},
+		formatSelection: function (element) {
+			if (element.type === 'group') {
+				return '<span title="'+escapeHTML(element.name)+'" class="group">'+escapeHTML(element.displayname+' '+t('files_external', '(group)'))+'</span>';
 			} else {
-				classOptions[$(input).data('parameter')] = $(input).val();
+				return '<span title="'+escapeHTML(element.name)+'" class="user">'+escapeHTML(element.displayname)+'</span>';
+			}
+		},
+		escapeMarkup: function (m) { return m; } // we escape the markup in formatResult and formatSelection
+	}).on('select2-loaded', function() {
+		$.each($('.avatardiv'), function(i, div) {
+			var $div = $(div);
+			if ($div.data('type') === 'user') {
+				$div.avatar($div.data('name'),32);
 			}
 		});
-		if ($('#externalStorage').data('admin') === true) {
-			var multiselect = getSelection($tr);
+	});
+}
+
+/**
+ * @class OCA.External.Settings.StorageConfig
+ *
+ * @classdesc External storage config
+ */
+var StorageConfig = function(id) {
+	this.id = id;
+	this.backendOptions = {};
+};
+// Keep this in sync with \OC_Mount_Config::STATUS_*
+StorageConfig.Status = {
+	IN_PROGRESS: -1,
+	SUCCESS: 0,
+	ERROR: 1
+};
+/**
+ * @memberof OCA.External.Settings
+ */
+StorageConfig.prototype = {
+	_url: null,
+
+	/**
+	 * Storage id
+	 *
+	 * @type int
+	 */
+	id: null,
+
+	/**
+	 * Mount point
+	 *
+	 * @type string
+	 */
+	mountPoint: '',
+
+	/**
+	 * Backend class name
+	 *
+	 * @type string
+	 */
+	backendClass: null,
+
+	/**
+	 * Backend-specific configuration
+	 *
+	 * @type Object.<string,object>
+	 */
+	backendOptions: null,
+
+	/**
+	 * Mount-specific options
+	 *
+	 * @type Object.<string,object>
+	 */
+	mountOptions: null,
+
+	/**
+	 * Creates or saves the storage.
+	 *
+	 * @param {Function} [options.success] success callback, receives result as argument
+	 * @param {Function} [options.error] error callback
+	 */
+	save: function(options) {
+		var self = this;
+		var url = OC.generateUrl(this._url);
+		var method = 'POST';
+		if (_.isNumber(this.id)) {
+			method = 'PUT';
+			url = OC.generateUrl(this._url + '/{id}', {id: this.id});
 		}
-		if (addMountPoint) {
-			var status = false;
-			if ($('#externalStorage').data('admin') === true) {
-				var isPersonal = false;
-				var oldGroups = $tr.find('.applicable').data('applicable-groups');
-				var oldUsers = $tr.find('.applicable').data('applicable-users');
-				var groups = [];
-				var users = [];
-				$.each(multiselect, function(index, value) {
-					var pos = value.indexOf('(group)');
-					if (pos != -1) {
-						var mountType = 'group';
-						var applicable = value.substr(0, pos);
-						if ($.inArray(applicable, oldGroups) != -1) {
-							oldGroups.splice($.inArray(applicable, oldGroups), 1);
-						}
-						groups.push(applicable);
-					} else {
-						var mountType = 'user';
-						var applicable = value;
-						if ($.inArray(applicable, oldUsers) != -1) {
-							oldUsers.splice($.inArray(applicable, oldUsers), 1);
-						}
-						users.push(applicable);
-					}
-					statusSpan.addClass('loading-small').removeClass('error success');
-					$.ajax({type: 'POST',
-						url: OC.filePath('files_external', 'ajax', 'addMountPoint.php'),
-						data: {
-							mountPoint: mountPoint,
-							'class': backendClass,
-							classOptions: classOptions,
-							mountType: mountType,
-							applicable: applicable,
-							isPersonal: isPersonal,
-							oldMountPoint: oldMountPoint
-						},
-						success: function(result) {
-							$tr.find('.mountPoint input').data('mountpoint', mountPoint);
-							status = updateStatus(statusSpan, result);
-							if (callback) {
-								callback(status);
-							}
-						},
-						error: function(result){
-							status = updateStatus(statusSpan, result);
-							if (callback) {
-								callback(status);
-							}
-						}
-					});
-				});
-				$tr.find('.applicable').data('applicable-groups', groups);
-				$tr.find('.applicable').data('applicable-users', users);
-				var mountType = 'group';
-				$.each(oldGroups, function(index, applicable) {
-					$.ajax({type: 'POST',
-						url: OC.filePath('files_external', 'ajax', 'removeMountPoint.php'),
-						data: {
-							mountPoint: mountPoint,
-							'class': backendClass,
-							classOptions: classOptions,
-							mountType: mountType,
-							applicable: applicable,
-							isPersonal: isPersonal
-						}
-					});
-				});
-				var mountType = 'user';
-				$.each(oldUsers, function(index, applicable) {
-					$.ajax({type: 'POST',
-						url: OC.filePath('files_external', 'ajax', 'removeMountPoint.php'),
-						data: {
-							mountPoint: mountPoint,
-							'class': backendClass,
-							classOptions: classOptions,
-							mountType: mountType,
-							applicable: applicable,
-							isPersonal: isPersonal
-						}
-					});
-				});
-			} else {
-				var isPersonal = true;
-				var mountType = 'user';
-				var applicable = OC.currentUser;
-				statusSpan.addClass('loading-small').removeClass('error success');
-				$.ajax({type: 'POST',
-					url: OC.filePath('files_external', 'ajax', 'addMountPoint.php'),
-					data: {
-						mountPoint: mountPoint,
-						'class': backendClass,
-						classOptions: classOptions,
-						mountType: mountType,
-						applicable: applicable,
-						isPersonal: isPersonal,
-						oldMountPoint: oldMountPoint
-					},
-					success: function(result) {
-						$tr.find('.mountPoint input').data('mountpoint', mountPoint);
-						status = updateStatus(statusSpan, result);
-						if (callback) {
-							callback(status);
-						}
-					},
-					error: function(result){
-						status = updateStatus(statusSpan, result);
-						if (callback) {
-							callback(status);
-						}
-					}
-				});
+
+		$.ajax({
+			type: method,
+			url: url,
+			data: this.getData(),
+			success: function(result) {
+				self.id = result.id;
+				if (_.isFunction(options.success)) {
+					options.success(result);
+				}
+			},
+			error: options.error
+		});
+	},
+
+	/**
+	 * Returns the data from this object
+	 *
+	 * @return {Array} JSON array of the data
+	 */
+	getData: function() {
+		var data = {
+			mountPoint: this.mountPoint,
+			backendClass: this.backendClass,
+			backendOptions: this.backendOptions
+		};
+		if (this.id) {
+			data.id = this.id;
+		}
+		if (this.mountOptions) {
+			data.mountOptions = this.mountOptions;
+		}
+		return data;
+	},
+
+	/**
+	 * Recheck the storage
+	 *
+	 * @param {Function} [options.success] success callback, receives result as argument
+	 * @param {Function} [options.error] error callback
+	 */
+	recheck: function(options) {
+		if (!_.isNumber(this.id)) {
+			if (_.isFunction(options.error)) {
+				options.error();
 			}
-			return status;
+			return;
 		}
+		$.ajax({
+			type: 'GET',
+			url: OC.generateUrl(this._url + '/{id}', {id: this.id}),
+			success: options.success,
+			error: options.error
+		});
+	},
+
+	/**
+	 * Deletes the storage
+	 *
+	 * @param {Function} [options.success] success callback
+	 * @param {Function} [options.error] error callback
+	 */
+	destroy: function(options) {
+		if (!_.isNumber(this.id)) {
+			// the storage hasn't even been created => success
+			if (_.isFunction(options.success)) {
+				options.success();
+			}
+			return;
+		}
+		var self = this;
+		$.ajax({
+			type: 'DELETE',
+			url: OC.generateUrl(this._url + '/{id}', {id: this.id}),
+			success: options.success,
+			error: options.error
+		});
+	},
+
+	/**
+	 * Validate this model
+	 *
+	 * @return {boolean} false if errors exist, true otherwise
+	 */
+	validate: function() {
+		if (this.mountPoint === '') {
+			return false;
+		}
+		if (this.errors) {
+			return false;
+		}
+		return true;
 	}
 };
 
-$(document).ready(function() {
-	var $externalStorage = $('#externalStorage');
+/**
+ * @class OCA.External.Settings.GlobalStorageConfig
+ * @augments OCA.External.Settings.StorageConfig
+ *
+ * @classdesc Global external storage config
+ */
+var GlobalStorageConfig = function(id) {
+	this.id = id;
+	this.applicableUsers = [];
+	this.applicableGroups = [];
+};
+/**
+ * @memberOf OCA.External.Settings
+ */
+GlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
+	/** @lends OCA.External.Settings.GlobalStorageConfig.prototype */ {
+	_url: 'apps/files_external/globalstorages',
 
-	//initialize hidden input field with list of users and groups
-	$externalStorage.find('tr:not(#addMountPoint)').each(function(i,tr) {
-		var $tr = $(tr);
-		var $applicable = $tr.find('.applicable');
-		if ($applicable.length > 0) {
-			var groups = $applicable.data('applicable-groups');
-			var groupsId = [];
-			$.each(groups, function () {
-				groupsId.push(this + '(group)');
-			});
-			var users = $applicable.data('applicable-users');
-			if (users.indexOf('all') > -1) {
-				$tr.find('.applicableUsers').val('');
-			} else {
-				$tr.find('.applicableUsers').val(groupsId.concat(users).join(','));
-			}
-		}
-	});
+	/**
+	 * Applicable users
+	 *
+	 * @type Array.<string>
+	 */
+	applicableUsers: null,
 
-	var userListLimit = 30;
-	function addSelect2 ($elements) {
-		if ($elements.length > 0) {
-			$elements.select2({
-				placeholder: t('files_external', 'All users. Type to select user or group.'),
-				allowClear: true,
-				multiple: true,
-				//minimumInputLength: 1,
-				ajax: {
-					url: OC.generateUrl('apps/files_external/applicable'),
-					dataType: 'json',
-					quietMillis: 100,
-					data: function (term, page) { // page is the one-based page number tracked by Select2
-						return {
-							pattern: term, //search term
-							limit: userListLimit, // page size
-							offset: userListLimit*(page-1) // page number starts with 0
-						};
-					},
-					results: function (data, page) {
-						if (data.status === 'success') {
+	/**
+	 * Applicable groups
+	 *
+	 * @type Array.<string>
+	 */
+	applicableGroups: null,
 
-							var results = [];
-							var userCount = 0; // users is an object
+	/**
+	 * Storage priority
+	 *
+	 * @type int
+	 */
+	priority: null,
 
-							// add groups
-							$.each(data.groups, function(i, group) {
-								results.push({name:group+'(group)', displayname:group, type:'group' });
-							});
-							// add users
-							$.each(data.users, function(id, user) {
-								userCount++;
-								results.push({name:id, displayname:user, type:'user' });
-							});
-
-
-							var more = (userCount >= userListLimit) || (data.groups.length >= userListLimit);
-							return {results: results, more: more};
-						} else {
-							//FIXME add error handling
-						}
-					}
-				},
-				initSelection: function(element, callback) {
-					var users = {};
-					users['users'] = [];
-					var toSplit = element.val().split(",");
-					for (var i = 0; i < toSplit.length; i++) {
-						users['users'].push(toSplit[i]);
-					}
-
-					$.ajax(OC.generateUrl('displaynames'), {
-						type: 'POST',
-						contentType: 'application/json',
-						data: JSON.stringify(users),
-						dataType: 'json'
-					}).done(function(data) {
-						var results = [];
-						if (data.status === 'success') {
-							$.each(data.users, function(user, displayname) {
-								if (displayname !== false) {
-									results.push({name:user, displayname:displayname, type:'user'});
-								}
-							});
-							callback(results);
-						} else {
-							//FIXME add error handling
-						}
-					});
-				},
-				id: function(element) {
-					return element.name;
-				},
-				formatResult: function (element) {
-					var $result = $('<span><div class="avatardiv"/><span>'+escapeHTML(element.displayname)+'</span></span>');
-					var $div = $result.find('.avatardiv')
-						.attr('data-type', element.type)
-						.attr('data-name', element.name)
-						.attr('data-displayname', element.displayname);
-					if (element.type === 'group') {
-						var url = OC.imagePath('core','places/contacts-dark'); // TODO better group icon
-						$div.html('<img width="32" height="32" src="'+url+'">');
-					}
-					return $result.get(0).outerHTML;
-				},
-				formatSelection: function (element) {
-					if (element.type === 'group') {
-						return '<span title="'+escapeHTML(element.name)+'" class="group">'+escapeHTML(element.displayname+' '+t('files_external', '(group)'))+'</span>';
-					} else {
-						return '<span title="'+escapeHTML(element.name)+'" class="user">'+escapeHTML(element.displayname)+'</span>';
-					}
-				},
-				escapeMarkup: function (m) { return m; } // we escape the markup in formatResult and formatSelection
-			}).on('select2-loaded', function() {
-				$.each($('.avatardiv'), function(i, div) {
-					var $div = $(div);
-					if ($div.data('type') === 'user') {
-						$div.avatar($div.data('name'),32);
-					}
-				})
-			});
-		}
+	/**
+	 * Returns the data from this object
+	 *
+	 * @return {Array} JSON array of the data
+	 */
+	getData: function() {
+		var data = StorageConfig.prototype.getData.apply(this, arguments);
+		return _.extend(data, {
+			applicableUsers: this.applicableUsers,
+			applicableGroups: this.applicableGroups,
+			priority: this.priority,
+		});
 	}
-	addSelect2($('tr:not(#addMountPoint) .applicableUsers'));
-	
-	$externalStorage.on('change', '#selectBackend', function() {
-		var $tr = $(this).closest('tr');
-		$externalStorage.find('tbody').append($tr.clone());
-		$externalStorage.find('tbody tr').last().find('.mountPoint input').val('');
-		var selected = $(this).find('option:selected').text();
-		var backendClass = $(this).val();
+});
+
+/**
+ * @class OCA.External.Settings.UserStorageConfig
+ * @augments OCA.External.Settings.StorageConfig
+ *
+ * @classdesc User external storage config
+ */
+var UserStorageConfig = function(id) {
+	this.id = id;
+};
+UserStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
+	/** @lends OCA.External.Settings.UserStorageConfig.prototype */ {
+	_url: 'apps/files_external/userstorages'
+});
+
+/**
+ * @class OCA.External.Settings.MountConfigListView
+ *
+ * @classdesc Mount configuration list view
+ *
+ * @param {Object} $el DOM object containing the list
+ * @param {Object} [options]
+ * @param {int} [options.userListLimit] page size in applicable users dropdown
+ */
+var MountConfigListView = function($el, options) {
+	this.initialize($el, options);
+};
+/**
+ * @memberOf OCA.External.Settings
+ */
+MountConfigListView.prototype = {
+
+	/**
+	 * jQuery element containing the config list
+	 *
+	 * @type Object
+	 */
+	$el: null,
+
+	/**
+	 * Storage config class
+	 *
+	 * @type Class
+	 */
+	_storageConfigClass: null,
+
+	/**
+	 * Flag whether the list is about user storage configs (true)
+	 * or global storage configs (false)
+	 * 
+	 * @type bool
+	 */
+	_isPersonal: false,
+
+	/**
+	 * Page size in applicable users dropdown
+	 *
+	 * @type int
+	 */
+	_userListLimit: 30,
+
+	/**
+	 * List of supported backends
+	 *
+	 * @type Object.<string,Object>
+	 */
+	_allBackends: null,
+
+	/**
+	 * @param {Object} $el DOM object containing the list
+	 * @param {Object} [options]
+	 * @param {int} [options.userListLimit] page size in applicable users dropdown
+	 */
+	initialize: function($el, options) {
+		var self = this;
+		this.$el = $el;
+		this._isPersonal = ($el.data('admin') !== true);
+		if (this._isPersonal) {
+			this._storageConfigClass = OCA.External.Settings.UserStorageConfig;
+		} else {
+			this._storageConfigClass = OCA.External.Settings.GlobalStorageConfig;
+		}
+
+		if (options && !_.isUndefined(options.userListLimit)) {
+			this._userListLimit = options.userListLimit;
+		}
+
+		// read the backend config that was carefully crammed
+		// into the data-configurations attribute of the select
+		this._allBackends = this.$el.find('.selectBackend').data('configurations');
+
+		//initialize hidden input field with list of users and groups
+		this.$el.find('tr:not(#addMountPoint)').each(function(i,tr) {
+			var $tr = $(tr);
+			var $applicable = $tr.find('.applicable');
+			if ($applicable.length > 0) {
+				var groups = $applicable.data('applicable-groups');
+				var groupsId = [];
+				$.each(groups, function () {
+					groupsId.push(this + '(group)');
+				});
+				var users = $applicable.data('applicable-users');
+				if (users.indexOf('all') > -1 || users === '') {
+					$tr.find('.applicableUsers').val('');
+				} else {
+					$tr.find('.applicableUsers').val(groupsId.concat(users).join(','));
+				}
+			}
+		});
+
+		addSelect2(this.$el.find('tr:not(#addMountPoint) .applicableUsers'), this._userListLimit);
+
+		this.$el.find('tr:not(#addMountPoint)').each(function(i, tr) {
+			self.recheckStorageConfig($(tr));
+		});
+
+		this._initEvents();
+	},
+
+	/**
+	 * Initialize DOM event handlers
+	 */
+	_initEvents: function() {
+		var self = this;
+
+		this.$el.on('paste', 'td input', function() {
+			var $me = $(this);
+			var $tr = $me.closest('tr');
+			setTimeout(function() {
+				highlightInput($me);
+				self.saveStorageConfig($tr);
+			}, 20);
+		});
+
+		var timer;
+
+		this.$el.on('keyup', 'td input', function() {
+			clearTimeout(timer);
+			var $tr = $(this).closest('tr');
+			highlightInput($(this));
+			if ($(this).val) {
+				timer = setTimeout(function() {
+					self.saveStorageConfig($tr);
+				}, 2000);
+			}
+		});
+
+		this.$el.on('change', 'td input:checkbox', function() {
+			self.saveStorageConfig($(this).closest('tr'));
+		});
+
+		this.$el.on('change', '.applicable', function() {
+			self.saveStorageConfig($(this).closest('tr'));
+		});
+
+		this.$el.on('click', '.status>span', function() {
+			self.recheckStorageConfig($(this).closest('tr'));
+		});
+
+		this.$el.on('click', 'td.remove>img', function() {
+			self.deleteStorageConfig($(this).closest('tr'));
+		});
+
+		this.$el.on('change', '.selectBackend', _.bind(this._onSelectBackend, this));
+	},
+
+	_onSelectBackend: function(event) {
+		var $target = $(event.target);
+		var $el = this.$el;
+		var $tr = $target.closest('tr');
+		$el.find('tbody').append($tr.clone());
+		$el.find('tbody tr').last().find('.mountPoint input').val('');
+		var selected = $target.find('option:selected').text();
+		var backendClass = $target.val();
 		$tr.find('.backend').text(selected);
 		if ($tr.find('.mountPoint input').val() === '') {
-			$tr.find('.mountPoint input').val(suggestMountPoint(selected));
+			$tr.find('.mountPoint input').val(this._suggestMountPoint(selected));
 		}
 		$tr.addClass(backendClass);
-		$tr.find('.status').append('<span></span>');
 		$tr.find('.backend').data('class', backendClass);
-		var configurations = $(this).data('configurations');
+		var configurations = this._allBackends;
 		var $td = $tr.find('td.configuration');
 		$.each(configurations, function(backend, parameters) {
 			if (backend === backendClass) {
@@ -347,7 +568,9 @@ $(document).ready(function() {
 					highlightInput(newElement);
 					$td.append(newElement);
 				});
-				if (parameters['custom'] && $externalStorage.find('tbody tr.'+backendClass.replace(/\\/g, '\\\\')).length === 1) {
+				var priorityEl = $('<input type="hidden" class="priority" value="' + parameters['priority'] + '" />');
+				$tr.append(priorityEl);
+				if (parameters['custom'] && $el.find('tbody tr.'+backendClass.replace(/\\/g, '\\\\')).length === 1) {
 					OC.addScript('files_external', parameters['custom']);
 				}
 				$td.children().not('[type=hidden]').first().focus();
@@ -357,11 +580,197 @@ $(document).ready(function() {
 		$tr.find('td').last().attr('class', 'remove');
 		$tr.find('td').last().removeAttr('style');
 		$tr.removeAttr('id');
-		$(this).remove();
-		addSelect2($tr.find('.applicableUsers'));
-	});
+		$target.remove();
+		addSelect2($tr.find('.applicableUsers'), this._userListLimit);
+	},
 
-	function suggestMountPoint(defaultMountPoint) {
+	/**
+	 * Gets the storage model from the given row
+	 *
+	 * @param $tr row element
+	 * @return {OCA.External.StorageConfig} storage model instance
+	 */
+	getStorageConfig: function($tr) {
+		var storageId = parseInt($tr.attr('data-id'), 10);
+		if (!storageId) {
+			// new entry
+			storageId = null;
+		}
+		var storage = new this._storageConfigClass(storageId);
+		storage.mountPoint = $tr.find('.mountPoint input').val();
+		storage.backendClass = $tr.find('.backend').data('class');
+
+		var classOptions = {};
+		var configuration = $tr.find('.configuration input');
+		var missingOptions = [];
+		$.each(configuration, function(index, input) {
+			var $input = $(input);
+			var parameter = $input.data('parameter');
+			if ($input.attr('type') === 'button') {
+				return;
+			}
+			if ($input.val() === '' && !$input.hasClass('optional')) {
+				missingOptions.push(parameter);
+				return;
+			}
+			if ($(input).is(':checkbox')) {
+				if ($(input).is(':checked')) {
+					classOptions[parameter] = true;
+				} else {
+					classOptions[parameter] = false;
+				}
+			} else {
+				classOptions[parameter] = $(input).val();
+			}
+		});
+
+		storage.backendOptions = classOptions;
+		if (missingOptions.length) {
+			storage.errors = {
+				backendOptions: missingOptions
+			};
+		}
+
+		// gather selected users and groups
+		if (!this._isPersonal) {
+			var groups = [];
+			var users = [];
+			var multiselect = getSelection($tr);
+			$.each(multiselect, function(index, value) {
+				var pos = value.indexOf('(group)');
+				if (pos !== -1) {
+					groups.push(value.substr(0, pos));
+				} else {
+					users.push(value);
+				}
+			});
+			// FIXME: this should be done in the multiselect change event instead
+			$tr.find('.applicable')
+				.data('applicable-groups', groups)
+				.data('applicable-users', users);
+
+			storage.applicableUsers = users;
+			storage.applicableGroups = groups;
+
+			storage.priority = $tr.find('input.priority').val();
+		}
+
+		var mountOptions = $tr.find('input.mountOptions').val();
+		if (mountOptions) {
+			storage.mountOptions = JSON.parse(mountOptions);
+		}
+
+		return storage;
+	},
+
+	/**
+	 * Deletes the storage from the given tr
+	 *
+	 * @param $tr storage row
+	 * @param Function callback callback to call after save
+	 */
+	deleteStorageConfig: function($tr) {
+		var self = this;
+		var configId = $tr.data('id');
+		if (!_.isNumber(configId)) {
+			// deleting unsaved storage
+			$tr.remove();
+			return;
+		}
+		var storage = new this._storageConfigClass(configId);
+		this.updateStatus($tr, StorageConfig.Status.IN_PROGRESS);
+
+		storage.destroy({
+			success: function() {
+				$tr.remove();
+			},
+			error: function() {
+				self.updateStatus($tr, StorageConfig.Status.ERROR);
+			}
+		});
+	},
+
+	/**
+	 * Saves the storage from the given tr
+	 *
+	 * @param $tr storage row
+	 * @param Function callback callback to call after save
+	 */
+	saveStorageConfig:function($tr, callback) {
+		var self = this;
+		var storage = this.getStorageConfig($tr);
+		if (!storage.validate()) {
+			return false;
+		}
+
+		this.updateStatus($tr, StorageConfig.Status.IN_PROGRESS);
+		storage.save({
+			success: function(result) {
+				self.updateStatus($tr, result.status);
+				$tr.attr('data-id', result.id);
+
+				if (_.isFunction(callback)) {
+					callback(storage);
+				}
+			},
+			error: function() {
+				self.updateStatus($tr, StorageConfig.Status.ERROR);
+			}
+		});
+	},
+
+	/**
+	 * Recheck storage availability
+	 *
+	 * @param {jQuery} $tr storage row
+	 * @return {boolean} success
+	 */
+	recheckStorageConfig: function($tr) {
+		var self = this;
+		var storage = this.getStorageConfig($tr);
+		if (!storage.validate()) {
+			return false;
+		}
+
+		this.updateStatus($tr, StorageConfig.Status.IN_PROGRESS);
+		storage.recheck({
+			success: function(result) {
+				self.updateStatus($tr, result.status);
+			},
+			error: function() {
+				self.updateStatus($tr, StorageConfig.Status.ERROR);
+			}
+		});
+	},
+
+	/**
+	 * Update status display
+	 *
+	 * @param {jQuery} $tr
+	 * @param {int} status
+	 */
+	updateStatus: function($tr, status) {
+		var $statusSpan = $tr.find('.status span');
+		$statusSpan.removeClass('success error loading-small');
+		switch (status) {
+			case StorageConfig.Status.IN_PROGRESS:
+				$statusSpan.addClass('loading-small');
+				break;
+			case StorageConfig.Status.SUCCESS:
+				$statusSpan.addClass('success');
+				break;
+			default:
+				$statusSpan.addClass('error');
+		}
+	},
+
+	/**
+	 * Suggest mount point name that doesn't conflict with the existing names in the list
+	 *
+	 * @param {string} defaultMountPoint default name
+	 */
+	_suggestMountPoint: function(defaultMountPoint) {
+		var $el = this.$el;
 		var pos = defaultMountPoint.indexOf('/');
 		if (pos !== -1) {
 			defaultMountPoint = defaultMountPoint.substring(0, pos);
@@ -372,7 +781,7 @@ $(document).ready(function() {
 		var match = true;
 		while (match && i < 20) {
 			match = false;
-			$externalStorage.find('tbody td.mountPoint input').each(function(index, mountPoint) {
+			$el.find('tbody td.mountPoint input').each(function(index, mountPoint) {
 				if ($(mountPoint).val() === defaultMountPoint+append) {
 					match = true;
 					return false;
@@ -385,42 +794,12 @@ $(document).ready(function() {
 				break;
 			}
 		}
-		return defaultMountPoint+append;
+		return defaultMountPoint + append;
 	}
+};
 
-	$externalStorage.on('paste', 'td input', function() {
-		var $me = $(this);
-		var $tr = $me.closest('tr');
-		setTimeout(function() {
-			highlightInput($me);
-			OC.MountConfig.saveStorage($tr);
-		}, 20);
-	});
-
-	var timer;
-
-	$externalStorage.on('keyup', 'td input', function() {
-		clearTimeout(timer);
-		var $tr = $(this).closest('tr');
-		highlightInput($(this));
-		if ($(this).val) {
-			timer = setTimeout(function() {
-				OC.MountConfig.saveStorage($tr);
-			}, 2000);
-		}
-	});
-
-	$externalStorage.on('change', 'td input:checkbox', function() {
-		OC.MountConfig.saveStorage($(this).closest('tr'));
-	});
-
-	$externalStorage.on('change', '.applicable', function() {
-		OC.MountConfig.saveStorage($(this).closest('tr'));
-	});
-
-	$externalStorage.on('click', '.status>span', function() {
-		OC.MountConfig.saveStorage($(this).closest('tr'));
-	});
+$(document).ready(function() {
+	var mountConfigListView = new MountConfigListView($('#externalStorage'));
 
 	$('#sslCertificate').on('click', 'td.remove>img', function() {
 		var $tr = $(this).closest('tr');
@@ -429,33 +808,7 @@ $(document).ready(function() {
 		return true;
 	});
 
-	$externalStorage.on('click', 'td.remove>img', function() {
-		var $tr = $(this).closest('tr');
-		var mountPoint = $tr.find('.mountPoint input').val();
-
-		if ($externalStorage.data('admin') === true) {
-			var isPersonal = false;
-			var multiselect = getSelection($tr);
-			$.each(multiselect, function(index, value) {
-				var pos = value.indexOf('(group)');
-				if (pos != -1) {
-					var mountType = 'group';
-					var applicable = value.substr(0, pos);
-				} else {
-					var mountType = 'user';
-					var applicable = value;
-				}
-				$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
-			});
-		} else {
-			var mountType = 'user';
-			var applicable = OC.currentUser;
-			var isPersonal = true;
-			$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
-		}
-		$tr.remove();
-	});
-
+	// TODO: move this into its own View class
 	var $allowUserMounting = $('#allowUserMounting');
 	$allowUserMounting.bind('change', function() {
 		OC.msg.startSaving('#userMountingMsg');
@@ -484,6 +837,31 @@ $(document).ready(function() {
 
 		}
 	});
+
+	// global instance
+	OCA.External.Settings.mountConfig = mountConfigListView;
+
+	/**
+	 * Legacy
+	 *
+	 * @namespace
+	 * @deprecated use OCA.External.Settings.mountConfig instead
+	 */
+	OC.MountConfig = {
+		saveStorage: _.bind(mountConfigListView.saveStorageConfig, mountConfigListView)
+	};
 });
+
+// export
+
+OCA.External = OCA.External || {};
+/**
+ * @namespace
+ */
+OCA.External.Settings = OCA.External.Settings || {};
+
+OCA.External.Settings.GlobalStorageConfig = GlobalStorageConfig;
+OCA.External.Settings.UserStorageConfig = UserStorageConfig;
+OCA.External.Settings.MountConfigListView = MountConfigListView;
 
 })();

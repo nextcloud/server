@@ -6,6 +6,8 @@
  * later.
  * See the COPYING-README file.
  */
+$app = new \OCA\Files_external\Appinfo\Application();
+
 $l = \OC::$server->getL10N('files_external');
 
 OC::$CLASSPATH['OC\Files\Storage\StreamWrapper'] = 'files_external/lib/streamwrapper.php';

@@ -42,7 +42,7 @@ $(document).ready(function() {
 			if (result && result.status === 'success') {
 				$(config).find('[data-parameter="public_key"]').val(result.data.public_key);
 				$(config).find('[data-parameter="private_key"]').val(result.data.private_key);
-				OC.MountConfig.saveStorage(tr, function() {
+				OCA.External.mountConfig.saveStorageConfig(tr, function() {
 					// Nothing to do
 				});
 			} else {

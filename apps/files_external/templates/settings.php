@@ -13,13 +13,11 @@
 			</tr>
 		</thead>
 		<tbody>
-		<?php $_['mounts'] = array_merge($_['mounts'], array('' => array())); ?>
+		<?php $_['mounts'] = array_merge($_['mounts'], array('' => array('id' => ''))); ?>
 		<?php foreach ($_['mounts'] as $mount): ?>
-			<tr <?php print_unescaped(isset($mount['mountpoint']) ? 'class="'.OC_Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?>>
+			<tr <?php print_unescaped(isset($mount['mountpoint']) ? 'class="'.OC_Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?> data-id="<?php p($mount['id']) ?>">
 				<td class="status">
-				<?php if (isset($mount['status'])): ?>
-					<span class="<?php p(($mount['status']) ? 'success' : 'error'); ?>"></span>
-				<?php endif; ?>
+					<span></span>
 				</td>
 				<td class="mountPoint"><input type="text" name="mountPoint"
 											  value="<?php p(isset($mount['mountpoint']) ? $mount['mountpoint'] : ''); ?>"
@@ -28,7 +26,7 @@
 				</td>
 				<?php if (!isset($mount['mountpoint'])): ?>
 					<td class="backend">
-						<select id="selectBackend" data-configurations='<?php p(json_encode($_['backends'])); ?>'>
+						<select id="selectBackend" class="selectBackend" data-configurations='<?php p(json_encode($_['backends'])); ?>'>
 							<option value="" disabled selected
 									style="display:none;"><?php p($l->t('Add storage')); ?></option>
 							<?php foreach ($_['backends'] as $class => $backend): ?>
@@ -79,6 +77,14 @@
 						<?php if (isset($_['backends'][$mount['class']]['custom'])): ?>
 							<?php OCP\Util::addScript('files_external', $_['backends'][$mount['class']]['custom']); ?>
 						<?php endif; ?>
+					<?php endif; ?>
+					<?php if (isset($mount['mountOptions'])): ?>
+					<input type="hidden" class="mountOptions" value="<?php p(json_encode($mount['mountOptions'])) ?>" />
+					<?php endif; ?>
+					<?php if ($_['isAdminPage']): ?>
+					<?php if (isset($mount['priority'])): ?>
+					<input type="hidden" class="priority" value="<?php p($mount['priority']) ?>" />
+					<?php endif; ?>
 					<?php endif; ?>
 				</td>
 				<?php if ($_['isAdminPage']): ?>

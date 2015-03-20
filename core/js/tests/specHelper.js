@@ -123,6 +123,9 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 
 		// reset plugins
 		OC.Plugins._plugins = [];
+
+		// dummy select2 (which isn't loaded during the tests)
+		$.fn.select2 = function() {};
 	});
 
 	afterEach(function() {
@@ -131,6 +134,8 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 		fakeServer.restore();
 
 		$testArea.remove();
+
+		delete($.fn.select2);
 	});
 })();
 
