@@ -184,6 +184,31 @@ abstract class Mapper {
 		return $entity;
 	}
 
+	/**
+	 * Checks if an array is associative
+	 * @param array $array
+	 * @return bool true if associative
+	 */
+	private function isAssocArray(array $array) {
+		return array_values($array) !== $array;
+	}
+
+	/**
+	 * Returns the correct PDO constant based on the value type
+	 * @param $value
+	 * @return PDO constant
+	 */
+	private function getPDOType($value) {
+		switch (gettype($value)) {
+			case 'integer':
+				return \PDO::PARAM_INT;
+			case 'boolean':
+				return \PDO::PARAM_BOOL;
+			default:
+				return \PDO::PARAM_STR;
+		}
+	}
+
 
 	/**
 	 * Runs an sql query
@@ -200,26 +225,18 @@ abstract class Mapper {
 			$query = $this->db->prepare($sql, $limit, $offset);
 		}
 
-		$index = 1;  // bindParam is 1 indexed
-		foreach($params as $param) {
-
-			switch (gettype($param)) {
-				case 'integer':
-					$pdoConstant = \PDO::PARAM_INT;
-					break;
-
-				case 'boolean':
-					$pdoConstant = \PDO::PARAM_BOOL;
-					break;
-
-				default:
-					$pdoConstant = \PDO::PARAM_STR;
-					break;
+		if ($this->isAssocArray($params)) {
+			foreach ($params as $key => $param) {
+				$pdoConstant = $this->getPDOType($param);
+				$query->bindValue($key, $param, $pdoConstant);
 			}
-
-			$query->bindValue($index, $param, $pdoConstant);
-
-			$index++;
+		} else {
+			$index = 1;  // bindParam is 1 indexed
+			foreach ($params as $param) {
+				$pdoConstant = $this->getPDOType($param);
+				$query->bindValue($index, $param, $pdoConstant);
+				$index++;
+			}
 		}
 
 		$result = $query->execute();
