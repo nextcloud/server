@@ -124,37 +124,13 @@ function execute_tests {
 	fi
 	if [ "$1" == "oci" ] ; then
 		echo "Fire up the oracle docker"
-		DOCKER_CONTAINER_ID=`docker run -d wnameless/oracle-xe-11g`
+		DOCKER_CONTAINER_ID=`docker run -d deepdiver/docker-oracle-xe-11g`
 		DATABASEHOST=`docker inspect $DOCKER_CONTAINER_ID | grep IPAddress | cut -d '"' -f 4`
 
 		echo "Waiting 60 seconds for Oracle initialization ... "
 		sleep 60
 
-		echo "drop the database"
-		echo "sqlplus -s -l system/oracle@//$DATABASEHOST:1521/xe"
-
-		sqlplus -s -l system/oracle@//$DATABASEHOST:1521/xe <<EOF
-			drop user $DATABASENAME cascade;
-EOF
-
-		echo "create the database"
-		sqlplus -s -l system/oracle@//$DATABASEHOST:1521/xe <<EOF
-			create user $DATABASENAME identified by owncloud;
-			alter user $DATABASENAME default tablespace users
-			temporary tablespace temp
-			quota unlimited on users;
-			grant create session
-			, create table
-			, create procedure
-			, create sequence
-			, create trigger
-			, create view
-			, create synonym
-			, alter session
-			to $DATABASENAME;
-			exit;
-EOF
-		DATABASEUSER=$DATABASENAME
+		DATABASEUSER=autotest
 		DATABASENAME='XE'
 	fi
 
