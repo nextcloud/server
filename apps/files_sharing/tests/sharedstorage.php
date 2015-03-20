@@ -182,9 +182,8 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		// for the share root we expect:
 		// the shared permissions (1)
 		// the delete permission (8), to enable unshare
-		// the update permission (2), to allow renaming of the mount point
 		$rootInfo = \OC\Files\Filesystem::getFileInfo($this->folder);
-		$this->assertSame(11, $rootInfo->getPermissions());
+		$this->assertSame(9, $rootInfo->getPermissions());
 
 		// for the file within the shared folder we expect:
 		// the shared permissions (1)
