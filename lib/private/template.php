@@ -217,6 +217,7 @@ class OC_Template extends \OC\Template\Base {
 	public static function printExceptionErrorPage(Exception $exception) {
 		$request = \OC::$server->getRequest();
 		$content = new \OC_Template('', 'exception', 'error', false);
+		$content->assign('errorClass', get_class($exception));
 		$content->assign('errorMsg', $exception->getMessage());
 		$content->assign('errorCode', $exception->getCode());
 		$content->assign('file', $exception->getFile());
