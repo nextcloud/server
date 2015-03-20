@@ -199,7 +199,7 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertTrue($result);
 	}
 
-	function testFopenWithReadOnlyPermission() {
+	public function testFopenWithReadOnlyPermission() {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 		$fileinfoFolder = $this->view->getFileInfo($this->folder);
 		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
@@ -230,7 +230,7 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertTrue($result);
 	}
 
-	function testFopenWithCreateOnlyPermission() {
+	public function testFopenWithCreateOnlyPermission() {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 		$fileinfoFolder = $this->view->getFileInfo($this->folder);
 		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
@@ -250,9 +250,9 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertNotFalse($handle);
 		fclose($handle);
 
-		// rename file allowed as long as target did not exist
-		$this->assertTrue($user2View->rename($this->folder . '/test-create.txt', $this->folder . '/newtarget.txt'));
-		$this->assertTrue($user2View->file_exists($this->folder . '/newtarget.txt'));
+		// rename file never allowed
+		$this->assertFalse($user2View->rename($this->folder . '/test-create.txt', $this->folder . '/newtarget.txt'));
+		$this->assertFalse($user2View->file_exists($this->folder . '/newtarget.txt'));
 
 		// rename file not allowed if target exists 
 		$this->assertFalse($user2View->rename($this->folder . '/newtarget.txt', $this->folder . '/existing.txt'));
@@ -274,7 +274,7 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertTrue($result);
 	}
 
-	function testFopenWithUpdateOnlyPermission() {
+	public function testFopenWithUpdateOnlyPermission() {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 		$fileinfoFolder = $this->view->getFileInfo($this->folder);
 
@@ -301,13 +301,17 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertTrue($user2View->rename($this->folder . '/test.txt.part', $this->folder . '/existing.txt'));
 		$this->assertTrue($user2View->file_exists($this->folder . '/existing.txt'));
 
+		// rename regular file allowed
+		$this->assertTrue($user2View->rename($this->folder . '/existing.txt', $this->folder . '/existing-renamed.txt'));
+		$this->assertTrue($user2View->file_exists($this->folder . '/existing-renamed.txt'));
+
 		// overwriting file directly is allowed
-		$handle = $user2View->fopen($this->folder . '/existing.txt', 'w');
+		$handle = $user2View->fopen($this->folder . '/existing-renamed.txt', 'w');
 		$this->assertNotFalse($handle);
 		fclose($handle);
 
 		// delete forbidden
-		$this->assertFalse($user2View->unlink($this->folder . '/existing.txt'));
+		$this->assertFalse($user2View->unlink($this->folder . '/existing-renamed.txt'));
 
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -316,7 +320,7 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertTrue($result);
 	}
 
-	function testFopenWithDeleteOnlyPermission() {
+	public function testFopenWithDeleteOnlyPermission() {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 		$fileinfoFolder = $this->view->getFileInfo($this->folder);
 		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
