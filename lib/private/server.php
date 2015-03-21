@@ -59,6 +59,7 @@ use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Tagging\TagMapper;
 use OCP\IServerContainer;
+use OC\CapabilitiesManager;
 
 /**
  * Class Server
@@ -448,6 +449,9 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new \OC\Files\Type\Detection(
 				$c->getURLGenerator(),
 				\OC::$configDir);
+		});
+		$this->registerService('CapabilitiesManager', function () {
+			return new CapabilitiesManager();
 		});
 	}
 
@@ -944,5 +948,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	public function getMimeTypeDetector() {
 		return $this->query('MimeTypeDetector');
+	}
+
+	/**
+	 * Get the manager of all the capabilities
+	 *
+	 * @return \OCP\Capabilities\IManager
+	 * @since 8.2.0
+	 */
+	public function getCapabilitiesManager() {
+		return $this->query('CapabilitiesManager');
 	}
 }
