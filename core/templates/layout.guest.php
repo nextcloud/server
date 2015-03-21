@@ -22,8 +22,8 @@
 	</head>
 	<body id="<?php p($_['bodyid']);?>">
 		<?php include('layout.noscript.warning.php'); ?>
-		<div class="wrapper"><!-- for sticky footer -->
-			<div class="v-align"><!-- vertically centred box -->
+		<div class="wrapper">
+			<div class="v-align">
 				<?php if ($_['bodyid'] === 'body-login' ): ?>
 					<header role="banner">
 						<div id="header">
