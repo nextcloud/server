@@ -23,7 +23,7 @@
  *
  */
 
-namespace OCA\Files_External\Appinfo;
+namespace OCA\Files_External\AppInfo;
 
 /**
  * @var $this \OC\Route\Router

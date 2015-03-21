@@ -97,8 +97,3 @@ API::register('delete',
 		array('\OCA\Files_Sharing\API\Remote', 'declineShare'),
 		'files_sharing');
 
-// Register with the capabilities API
-API::register('get',
-		'/cloud/capabilities',
-		array('OCA\Files_Sharing\Capabilities', 'getCapabilities'),
-		'files_sharing', API::USER_AUTH);

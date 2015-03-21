@@ -1,9 +1,6 @@
 <?php
 /**
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tom Needham <tom@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -21,23 +18,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
- 
-namespace OCA\Files_Versions; 
 
-use OCP\Capabilities\ICapability;
+namespace OCA\Files_Trashbin\AppInfo;
 
-class Capabilities implements ICapability {
-	
-	/**
-	 * Return this classes capabilities
-	 *
-	 * @return array
-	 */
-	public function getCapabilities() {
-		return [
-			'files' => [
-				'versioning' => true
-			]
-		];
+use OCP\AppFramework\App;
+use OCA\Files_Trashbin\Capabilities;
+
+class Application extends App {
+	public function __construct(array $urlParams = array()) {
+		parent::__construct('files_trashbin', $urlParams);
+
+		$container = $this->getContainer();
+
+		/*
+		 * Register capabilities
+		 */
+		$server->getCapabilitiesManager()->registerCapability(function() {
+			return new Capabilities();
+		});
 	}
 }

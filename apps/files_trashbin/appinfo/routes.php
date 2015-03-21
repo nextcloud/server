@@ -1,9 +1,8 @@
 <?php
 /**
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -22,6 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+namespace OCA\Files_Trashbin\AppInfo;
+
+$application = new Application();
+
 $this->create('core_ajax_trashbin_preview', 'ajax/preview.php')
 	->actionInclude('files_trashbin/ajax/preview.php');
 $this->create('files_trashbin_ajax_delete', 'ajax/delete.php')
@@ -33,6 +37,3 @@ $this->create('files_trashbin_ajax_list', 'ajax/list.php')
 $this->create('files_trashbin_ajax_undelete', 'ajax/undelete.php')
 	->actionInclude('files_trashbin/ajax/undelete.php');
 
-
-// Register with the capabilities API
-\OCP\API::register('get', '/cloud/capabilities', array('OCA\Files_Trashbin\Capabilities', 'getCapabilities'), 'files_trashbin', \OCP\API::USER_AUTH);

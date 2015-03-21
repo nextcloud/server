@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Files_External\Appinfo;
+namespace OCA\Files_External\AppInfo;
 
 use \OCA\Files_External\Controller\AjaxController;
 use \OCP\AppFramework\App;

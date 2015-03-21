@@ -36,9 +36,8 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 	 * @return string[]
 	 */
 	private function getFilesSharingPart(array $data) {
-		$this->assertArrayHasKey('capabilities', $data);
-		$this->assertArrayHasKey('files_sharing', $data['capabilities']);
-		return $data['capabilities']['files_sharing'];
+		$this->assertArrayHasKey('files_sharing', $data);
+		return $data['files_sharing'];
 	}
 
 	/**
@@ -53,7 +52,7 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 		$stub = $this->getMockBuilder('\OCP\IConfig')->disableOriginalConstructor()->getMock();
 		$stub->method('getAppValue')->will($this->returnValueMap($map));
 		$cap = new Capabilities($stub);
-		$result = $this->getFilesSharingPart($cap->getCaps()->getData());
+		$result = $this->getFilesSharingPart($cap->getCapabilities());
 		return $result;
 	}
 
