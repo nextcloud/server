@@ -99,6 +99,7 @@
     "Setting permissions for %s failed, because the item was not found" : "Impostazione permessi per %s non riuscita, poiché l'elemento non è stato trovato",
     "Cannot set expiration date. Shares cannot expire later than %s after they have been shared" : "Impossibile impostare la data di scadenza. Le condivisioni non possono scadere più tardi di %s dalla loro attivazione",
     "Cannot set expiration date. Expiration date is in the past" : "Impossibile impostare la data di scadenza. La data di scadenza è nel passato.",
+    "Cannot clear expiration date. Shares are required to have an expiration date." : "Impossibile cancellare la data di scadenza. Le condivisioni devono avere una data di scadenza.",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Il motore di condivisione %s deve implementare l'interfaccia OCP\\Share_Backend",
     "Sharing backend %s not found" : "Motore di condivisione %s non trovato",
     "Sharing backend for %s not found" : "Motore di condivisione di %s non trovato",

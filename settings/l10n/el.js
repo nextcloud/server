@@ -106,6 +106,7 @@ OC.L10N.register(
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Ο PHP φαίνεται να είναι ρυθμισμένος ώστε να αφαιρεί μπλοκ εσωτερικών κειμένων (inline doc). Αυτό θα καταστήσει κύριες εφαρμογές μη-διαθέσιμες.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Αυτό πιθανόν προκλήθηκε από προσωρινή μνήμη (cache)/επιταχυντή όπως τη Zend OPcache ή τον eAccelerator.",
     "Database Performance Info" : "Πληροφορίες Επίδοσης Βάσης Δεδομένων",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Ειδικά όταν χρησιμοποιείτε τον πελάτη για συγχρονισμό στον υπολογιστή σας, δεν συνίσταται η χρήση της SQLite.",
     "Microsoft Windows Platform" : "Πλατφόρμα Microsoft Windows",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Ο διακομιστής σας τρέχει σε Microsoft Windows. Συστήνουμε ιδιαίτερα Linux για τη βέλτιστη εμπειρία του χρήστη.",
     "Module 'fileinfo' missing" : "Η ενοτητα 'fileinfo' λειπει",

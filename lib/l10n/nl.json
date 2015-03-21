@@ -99,6 +99,7 @@
     "Setting permissions for %s failed, because the item was not found" : "Instellen van de permissies voor %s is mislukt, omdat het object niet is gevonden",
     "Cannot set expiration date. Shares cannot expire later than %s after they have been shared" : "Kon vervaldatum niet instellen. Shares kunnen niet langer dan %s vervallen na het moment van delen",
     "Cannot set expiration date. Expiration date is in the past" : "Kon vervaldatum niet instellen. De vervaldatum ligt in het verleden",
+    "Cannot clear expiration date. Shares are required to have an expiration date." : "Kon vervaldatum niet weghalen. Shares moeten een vervaldatum hebben.",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Het share-backend %s moet de OCP\\Share_Backend interface implementeren",
     "Sharing backend %s not found" : "Het share-backend %s is niet gevonden",
     "Sharing backend for %s not found" : "Het share-backend voor %s is niet gevonden",
