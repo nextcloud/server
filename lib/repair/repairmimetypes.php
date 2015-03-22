@@ -17,7 +17,7 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 	public function getName() {
 		return 'Repair mime types';
 	}
-	
+
 	private static function existsStmt() {
 		return \OC_DB::prepare('
 			SELECT count(`mimetype`)
@@ -51,14 +51,14 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 			) WHERE `mimetype` = ?
 		');
 	}
-	
+
 	private static function deleteStmt() {
 		return \OC_DB::prepare('
 			DELETE FROM `*PREFIX*mimetypes`
 			WHERE `id` = ?
 		');
-	}	
-		
+	}
+
 	private static function updateByNameStmt() {
 		return \OC_DB::prepare('
 			UPDATE `*PREFIX*filecache`
@@ -69,7 +69,7 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 			) WHERE `name` ILIKE ?
 		');
 	}
-	
+
 	private function repairMimetypes($wrongMimetypes) {
 		foreach ($wrongMimetypes as $wrong => $correct) {
 			// do we need to remove a wrong mimetype?
@@ -81,8 +81,8 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 				$result = \OC_DB::executeAudited(self::existsStmt(), array($correct));
 				$exists = $result->fetchOne();
 
-				if ( ! is_null($correct) ) {
-					if ( ! $exists ) {
+				if (!is_null($correct)) {
+					if (!$exists) {
 						// insert mimetype
 						\OC_DB::executeAudited(self::insertStmt(), array($correct));
 					}
@@ -90,27 +90,27 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 					// change wrong mimetype to correct mimetype in filecache
 					\OC_DB::executeAudited(self::updateWrongStmt(), array($correct, $wrongId));
 				}
-				
+
 				// delete wrong mimetype
 				\OC_DB::executeAudited(self::deleteStmt(), array($wrongId));
 
 			}
 		}
 	}
-	
+
 	private function updateMimetypes($updatedMimetypes) {
-	
-		foreach ($updatedMimetypes as $extension => $mimetype ) {
+
+		foreach ($updatedMimetypes as $extension => $mimetype) {
 			$result = \OC_DB::executeAudited(self::existsStmt(), array($mimetype));
 			$exists = $result->fetchOne();
 
-			if ( ! $exists ) {
+			if (!$exists) {
 				// insert mimetype
 				\OC_DB::executeAudited(self::insertStmt(), array($mimetype));
 			}
 
 			// change mimetype for files with x extension
-			\OC_DB::executeAudited(self::updateByNameStmt(), array($mimetype, '%.'.$extension));
+			\OC_DB::executeAudited(self::updateByNameStmt(), array($mimetype, '%.' . $extension));
 		}
 	}
 
@@ -132,9 +132,9 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 
 		// separate doc from docx etc
 		self::updateMimetypes($updatedMimetypes);
-		
+
 	}
-	
+
 	private function fixApkMimeType() {
 		$updatedMimetypes = array(
 			'apk' => 'application/vnd.android.package-archive',
@@ -142,7 +142,7 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 
 		self::updateMimetypes($updatedMimetypes);
 	}
-	
+
 	private function fixFontsMimeTypes() {
 		// update wrong mimetypes
 		$wrongMimetypes = array(
@@ -152,7 +152,7 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 		);
 
 		self::repairMimetypes($wrongMimetypes);
-	
+
 		$updatedMimetypes = array(
 			'ttf' => 'application/font-sfnt',
 			'otf' => 'application/font-sfnt',
@@ -161,7 +161,7 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 
 		self::updateMimetypes($updatedMimetypes);
 	}
-	
+
 	private function fixPostscriptMimeType() {
 		$updatedMimetypes = array(
 			'eps' => 'application/postscript',
@@ -195,6 +195,15 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 		self::updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduce3dImagesMimeType() {
+		$updatedMimetypes = array(
+			'jps' => 'image/jpeg',
+			'mpo' => 'image/jpeg',
+		);
+
+		self::updateMimetypes($updatedMimetypes);
+	}
+
 	/**
 	 * Fix mime types
 	 */
@@ -202,21 +211,25 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 		if ($this->fixOfficeMimeTypes()) {
 			$this->emit('\OC\Repair', 'info', array('Fixed office mime types'));
 		}
-		
+
 		if ($this->fixApkMimeType()) {
 			$this->emit('\OC\Repair', 'info', array('Fixed APK mime type'));
 		}
-		
+
 		if ($this->fixFontsMimeTypes()) {
 			$this->emit('\OC\Repair', 'info', array('Fixed fonts mime types'));
 		}
-		
+
 		if ($this->fixPostscriptMimeType()) {
 			$this->emit('\OC\Repair', 'info', array('Fixed Postscript mime types'));
 		}
 
 		if ($this->introduceRawMimeType()) {
 			$this->emit('\OC\Repair', 'info', array('Fixed Raw mime types'));
+		}
+
+		if ($this->introduce3dImagesMimeType()) {
+			$this->emit('\OC\Repair', 'info', array('Fixed 3D images mime types'));
 		}
 	}
 }
