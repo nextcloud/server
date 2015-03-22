@@ -97,6 +97,8 @@ OC.L10N.register(
     "Folder" : "Folder",
     "Upload" : "Wyślij",
     "Cancel upload" : "Anuluj wysyłanie",
+    "No entries found in this folder" : "Brak wpisów w tym folderze",
+    "Select all" : "Wybierz wszystko",
     "Upload too large" : "Ładowany plik jest za duży",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Pliki, które próbujesz przesłać, przekraczają maksymalną dopuszczalną wielkość.",
     "Files are being scanned, please wait." : "Skanowanie plików, proszę czekać.",

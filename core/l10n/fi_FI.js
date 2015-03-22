@@ -171,6 +171,7 @@ OC.L10N.register(
     "Technical details" : "Tekniset tiedot",
     "Remote Address: %s" : "Etäosoite: %s",
     "Request ID: %s" : "Pyynnön tunniste: %s",
+    "Type: %s" : "Tyyppi: %s",
     "Code: %s" : "Koodi: %s",
     "Message: %s" : "Viesti: %s",
     "File: %s" : "Tiedosto: %s",

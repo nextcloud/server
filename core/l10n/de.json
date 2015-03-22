@@ -169,6 +169,7 @@
     "Technical details" : "Technische Details",
     "Remote Address: %s" : "Entfernte Adresse: %s",
     "Request ID: %s" : "Anforderungskennung: %s",
+    "Type: %s" : "Typ: %s",
     "Code: %s" : "Code: %s",
     "Message: %s" : "Nachricht: %s",
     "File: %s" : "Datei: %s",

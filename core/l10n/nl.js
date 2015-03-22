@@ -171,6 +171,7 @@ OC.L10N.register(
     "Technical details" : "Technische details",
     "Remote Address: %s" : "Extern adres: %s",
     "Request ID: %s" : "Aanvraag ID: %s",
+    "Type: %s" : "Type: %s",
     "Code: %s" : "Code: %s",
     "Message: %s" : "Boodschap: %s",
     "File: %s" : "Bestand: %s",

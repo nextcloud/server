@@ -171,6 +171,7 @@ OC.L10N.register(
     "Technical details" : "Technické detaily",
     "Remote Address: %s" : "Vzdálená adresa: %s",
     "Request ID: %s" : "ID požadavku: %s",
+    "Type: %s" : "Typ: %s",
     "Code: %s" : "Kód: %s",
     "Message: %s" : "Zpráva: %s",
     "File: %s" : "Soubor: %s",

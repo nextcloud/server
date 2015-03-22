@@ -2,7 +2,9 @@ OC.L10N.register(
     "user_ldap",
     {
     "Deletion failed" : "Брисање није успело",
+    "Keep settings?" : "Задржати поставке?",
     "Error" : "Грешка",
+    "Confirm Deletion" : "Потврдите брисање",
     "_%s group found_::_%s groups found_" : ["","",""],
     "_%s user found_::_%s users found_" : ["","",""],
     "Server" : "Сервер",

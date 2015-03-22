@@ -38,6 +38,7 @@ OC.L10N.register(
     "URL" : "Verkko-osoite",
     "Secure https://" : "Salattu https://",
     "Public key" : "Julkinen avain",
+    "Invalid mount point" : "Virheellinen liitoskohta",
     "Access granted" : "Pääsy sallittu",
     "Error configuring Dropbox storage" : "Virhe Dropbox levyn asetuksia tehtäessä",
     "Grant access" : "Salli pääsy",

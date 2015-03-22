@@ -33,6 +33,7 @@ OC.L10N.register(
     "This share is password-protected" : "Udział ten jest chroniony hasłem",
     "The password is wrong. Try again." : "To hasło jest niewłaściwe. Spróbuj ponownie.",
     "Password" : "Hasło",
+    "No entries found in this folder" : "Brak wpisów w tym folderze",
     "Name" : "Nazwa",
     "Share time" : "Czas współdzielenia",
     "Sorry, this link doesn’t seem to work anymore." : "Przepraszamy ale wygląda na to, że ten link już nie działa.",
