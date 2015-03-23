@@ -14,6 +14,10 @@ input#openid, input#webdav { width:20em; }
 }
 
 /* Sync clients */
+.clientsbox {
+	padding-top: 30px;
+	margin-top: -30px;
+}
 .clientsbox h2 {
 	font-size: 20px;
 	margin: 35px 0 10px;

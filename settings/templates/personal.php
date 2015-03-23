@@ -21,7 +21,7 @@
 
 <div id="app-content">
 
-<div class="clientsbox center">
+<div id="clientsbox" class="clientsbox center">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
 	<a href="<?php p($_['clients']['desktop']); ?>" target="_blank">
 		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'desktopapp.png')); ?>"
@@ -94,7 +94,7 @@ if($_['displayNameChangeSupported']) {
 ?>
 <form id="displaynameform" class="section">
 	<h2>
-		<label for="displayName"><?php echo $l->t('Full Name');?></label>
+		<label for="displayName"><?php echo $l->t('Full name');?></label>
 	</h2>
 	<input type="text" id="displayName" name="displayName"
 		value="<?php p($_['displayName'])?>"
@@ -106,7 +106,7 @@ if($_['displayNameChangeSupported']) {
 } else {
 ?>
 <div class="section">
-	<h2><?php echo $l->t('Full Name');?></h2>
+	<h2><?php echo $l->t('Full name');?></h2>
 	<span><?php if(isset($_['displayName'][0])) { p($_['displayName']); } else { p($l->t('No display name set')); } ?></span>
 </div>
 <?php
@@ -236,7 +236,7 @@ if($_['passwordChangeSupported']) {
 	</table>
 	<form class="uploadButton" method="post" action="<?php p(\OC_Helper::linkToRoute('settings_cert_post')); ?>" target="certUploadFrame">
 		<input type="file" id="rootcert_import" name="rootcert_import" class="hidden">
-		<input type="button" id="rootcert_import_button" value="<?php p($l->t('Import Root Certificate')); ?>"/>
+		<input type="button" id="rootcert_import_button" value="<?php p($l->t('Import root certificate')); ?>"/>
 	</form>
 </div>
 
