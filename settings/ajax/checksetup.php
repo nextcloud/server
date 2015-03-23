@@ -19,6 +19,7 @@ if (OC_Util::isInternetConnectionEnabled()) {
 OCP\JSON::success(
 	array (
 		'serverHasInternetConnection' => $hasInternet,
-		'dataDirectoryProtected' => OC_Util::isHtaccessWorking()
+		'dataDirectoryProtected' => OC_Util::isHtaccessWorking(),
+		'hasCurlInstalled' => function_exists('curl_init'),
 	)
 );

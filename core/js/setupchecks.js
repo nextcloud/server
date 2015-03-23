@@ -59,6 +59,11 @@
 							t('core', 'Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.')
 						);
 					}
+					if(!data.hasCurlInstalled) {
+						messages.push(
+							t('core', 'cURL is not installed, some functionality might not work. Please install the PHP cURL extension. Future versions will require installed cURL.')
+						);
+					}
 				} else {
 					messages.push(t('core', 'Error occurred while checking server setup'));
 				}
