@@ -42,6 +42,7 @@ class OC_App {
 	static private $appTypes = array();
 	static private $loadedApps = array();
 	static private $altLogin = array();
+	private static $shippedApps = null;
 
 	/**
 	 * clean the appId
@@ -182,12 +183,18 @@ class OC_App {
 	 * Check if an app that is installed is a shipped app or installed from the appstore.
 	 */
 	public static function isShipped($appId) {
-		$info = self::getAppInfo($appId);
-		if (isset($info['shipped']) && $info['shipped'] == 'true') {
-			return true;
-		} else {
-			return false;
+		if (is_null(self::$shippedApps)) {
+			$shippedJson = \OC::$SERVERROOT . '/core/shipped.json';
+			if (file_exists($shippedJson)) {
+				self::$shippedApps = json_decode(file_get_contents($shippedJson), true);
+				self::$shippedApps = self::$shippedApps['shippedApps'];
+			} else {
+				self::$shippedApps = ['files', 'files_encryption', 'files_external',
+					'files_sharing', 'files_trashbin', 'files_versions', 'provisioning_api',
+					'user_ldap', 'user_webdavauth'];
+			}
 		}
+		return in_array($appId, self::$shippedApps);
 	}
 
 	/**
