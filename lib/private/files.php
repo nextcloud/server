@@ -184,8 +184,8 @@ class OC_Files {
 		if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
 			if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_PREFIX'])) {
 				$prefix = $_SERVER['MOD_X_ACCEL_REDIRECT_PREFIX'];
-				// nginx is picky about double slashes
-				while($prefix[strlen($prefix) - 1] === '/'){
+				// nginx is picky about double slashes when matching locations
+				if($prefix[strlen($prefix) - 1] === '/'){
 					$prefix = substr($prefix, 0, -1);
 				}
 				$filename = $prefix . \OC\Files\Filesystem::getLocalFile($filename);
