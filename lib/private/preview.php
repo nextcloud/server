@@ -1302,6 +1302,13 @@ class Preview {
 
 	/**
 	 * @param array $args
+	 */
+	public static function post_delete_versions($args) {
+		self::post_delete($args, 'files/');
+	}
+
+	/**
+	 * @param array $args
 	 * @param string $prefix
 	 */
 	public static function post_delete($args, $prefix = '') {
