@@ -17,6 +17,16 @@ use \OCA\user_ldap\lib\Helper;
 use \OCA\user_ldap\lib\Configuration;
 
 class ShowConfig extends Command {
+	/** @var \OCA\User_LDAP\lib\Helper */
+	protected $helper;
+
+	/**
+	 * @param Helper $helper
+	 */
+	public function __construct(Helper $helper) {
+		$this->helper = $helper;
+		parent::__construct();
+	}
 
 	protected function configure() {
 		$this
@@ -37,8 +47,7 @@ class ShowConfig extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$helper = new Helper();
-		$availableConfigs = $helper->getServerConfigurationPrefixes();
+		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if(!is_null($configID)) {
 			$configIDs[] = $configID;
