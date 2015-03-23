@@ -299,9 +299,10 @@ table.grid td.date{
 }
 
 /* ADMIN */
-span.securitywarning, span.connectionwarning, .setupwarning {
-	color:#C33;
-	font-weight:bold;
+#security-warning li {
+	list-style: initial;
+	margin: 10px 0;
+	color: #c33;
 }
 #shareAPI p { padding-bottom: 0.8em; }
 #shareAPI input#shareapiExpireAfterNDays {width: 25px;}
@@ -401,12 +402,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 #postsetupchecks .hint {
 	margin-top: 15px;
-}
-
-#postsetupchecks .setupwarning {
-	list-style: initial;
-	font-weight: normal;
-	margin-top: 5px;
 }
 
 #admin-tips li {

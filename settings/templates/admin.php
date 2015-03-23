@@ -63,111 +63,71 @@ if ($_['mail_smtpmode'] == 'qmail') {
 
 <div id="app-content">
 
-<div id="security-warning">
+<div id="security-warning" class="section">
+	<h2><?php p($l->t('Security & setup warnings'));?></h2>
+	<ul>
 <?php
-
 // is read only config enabled
 if ($_['readOnlyConfigEnabled']) {
 ?>
-<div class="section">
-	<h2><?php p($l->t('Read-Only config enabled'));?></h2>
-
-	<span class="securitywarning">
+	<li>
 		<?php p($l->t('The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update.')); ?>
-	</span>
-
-	</div>
+	</li>
 <?php
 }
+
 // Are doc blocks accessible?
 if (!$_['isAnnotationsWorking']) {
 	?>
-<div class="section">
-	<h2><?php p($l->t('Setup Warning'));?></h2>
-
-	<span class="securitywarning">
-		<?php p($l->t('PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible.')); ?>
+	<li>
+		<?php p($l->t('PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible.')); ?><br>
 		<?php p($l->t('This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.')); ?>
-	</span>
-
-</div>
+	</li>
 <?php
 }
 
 // SQLite database performance issue
 if ($_['databaseOverload']) {
 	?>
-<div class="section">
-	<h2><?php p($l->t('Database Performance Info'));?></h2>
-
-	<p>
-		<strong>
-			<?php p($l->t('SQLite is used as database. For larger installations we recommend to switch to a different database backend.')); ?>
-		</strong>
-	</p>
-	<p>
-		<strong>
-			<?php p($l->t('Especially when using the desktop client for file syncing the use of SQLite is discouraged.')); ?>
-		</strong>
-	</p>
-	<p>
+	<li>
+		<?php p($l->t('SQLite is used as database. For larger installations we recommend to switch to a different database backend.')); ?><br>
+		<?php p($l->t('Especially when using the desktop client for file syncing the use of SQLite is discouraged.')); ?><br>
 		<?php print_unescaped($l->t('To migrate to another database use the command line tool: \'occ db:convert-type\', or see the <a target="_blank" href="%s">documentation ↗</a>.', link_to_docs('admin-db-conversion') )); ?>
-	</p>
-
-</div>
+	</li>
 <?php
 }
 
 // Windows Warning
 if ($_['WindowsWarning']) {
 	?>
-<div class="section">
-	<h2><?php p($l->t('Microsoft Windows Platform'));?></h2>
-
-	<p class="securitywarning">
+	<li>
 		<?php p($l->t('Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience.')); ?>
-	</p>
-
-</div>
-
+	</li>
 <?php
 }
 
 // APCU Warning if outdated
 if ($_['ApcuOutdatedWarning']) {
 	?>
-	<div class="section">
-		<h2><?php p($l->t('APCu below version 4.0.6 installed'));?></h2>
-
-		<p class="securitywarning">
-			<?php p($l->t('APCu below version 4.0.6 is installed, for stability and performance reasons we recommend to update to a newer APCu version.')); ?>
-		</p>
-
-	</div>
-
+	<li>
+		<?php p($l->t('APCu below version 4.0.6 is installed, for stability and performance reasons we recommend to update to a newer APCu version.')); ?>
+	</li>
 <?php
 }
+
 // if module fileinfo available?
 if (!$_['has_fileinfo']) {
 	?>
-<div class="section">
-	<h2><?php p($l->t('Module \'fileinfo\' missing'));?></h2>
-
-		<span class="connectionwarning">
+	<li>
 		<?php p($l->t('The PHP module \'fileinfo\' is missing. We strongly recommend to enable this module to get best results with mime-type detection.')); ?>
-	</span>
-
-</div>
+	</li>
 <?php
 }
 
 // is locale working ?
 if (!$_['isLocaleWorking']) {
 	?>
-<div class="section">
-	<h2><?php p($l->t('Locale not working'));?></h2>
-
-		<span class="connectionwarning">
+	<li>
 		<?php
 			$locales = 'en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8';
 			p($l->t('System locale can not be set to a one which supports UTF-8.'));
@@ -180,33 +140,23 @@ if (!$_['isLocaleWorking']) {
 			<?php
 			p($l->t('We strongly suggest installing the required packages on your system to support one of the following locales: %s.', array($locales)));
 			?>
-	</span>
-
-</div>
+	</li>
 <?php
 }
 
 if ($_['suggestedOverwriteCliUrl']) {
 	?>
-	<div class="section">
-		<h2><?php p($l->t('URL generation in notification emails'));?></h2>
-
-		<span class="connectionwarning">
+	<li>
 		<?php p($l->t('If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the "overwrite.cli.url" option in your config.php file to the webroot path of your installation (Suggested: "%s")', $_['suggestedOverwriteCliUrl'])); ?>
-	</span>
-
-	</div>
+	</li>
 <?php
 }
 
 if ($_['cronErrors']) {
 	?>
-	<div class="section">
-		<h2><?php p($l->t('Cronjob encountered misconfiguration'));?></h2>
-
-		<span class="connectionwarning">
+	<li>
 			<?php p($l->t('It was not possible to execute the cronjob via CLI. The following technical errors have appeared:')); ?>
-			<br/>
+			<br>
 			<ol>
 				<?php foreach(json_decode($_['cronErrors']) as $error) { if(isset($error->error)) {?>
 					<li><?php p($error->error) ?></li>
@@ -214,25 +164,22 @@ if ($_['cronErrors']) {
 
 				<?php }};?>
 			</ol>
-		</span>
-
-	</div>
+	</li>
 <?php
 }
 ?>
+</ul>
 
-<div id="postsetupchecks" class="section">
-	<h2><?php p($l->t('Configuration Checks'));?></h2>
+<div id="postsetupchecks">
 	<div class="loading"></div>
 	<div class="success hidden"><?php p($l->t('No problems found'));?></div>
 	<ul class="errors hidden"></ul>
-	<div class="hint hidden">
-		<span class="setupwarning"><?php
-			print_unescaped($l->t('Please double check the <a target="_blank" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="#log-section">log</a>.', link_to_docs('admin-install')));
-		?></span>
-	</div>
+	<p class="hint hidden">
+		<?php print_unescaped($l->t('Please double check the <a target="_blank" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="#log-section">log</a>.', link_to_docs('admin-install'))); ?>
+	</p>
 </div>
 </div>
+
 <?php foreach($_['forms'] as $form) {
 	if (isset($form['form'])) {?>
 		<div id="<?php isset($form['anchor']) ? p($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
