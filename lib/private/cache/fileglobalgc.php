@@ -6,6 +6,9 @@ use OC\BackgroundJob\Job;
 use OCP\IConfig;
 
 class FileGlobalGC extends Job {
+	// only do cleanup every 5 minutes
+	const CLEANUP_TTL_SEC = 300;
+
 	public function run($argument) {
 		$this->gc(\OC::$server->getConfig(), $this->getCacheDir());
 	}
@@ -39,8 +42,7 @@ class FileGlobalGC extends Job {
 	public function gc(IConfig $config, $cacheDir) {
 		$lastRun = $config->getAppValue('core', 'global_cache_gc_lastrun', 0);
 		$now = time();
-		if (($now - $lastRun) < 300) {
-			// only do cleanup every 5 minutes
+		if (($now - $lastRun) < self::CLEANUP_TTL_SEC) {
 			return;
 		}
 		$config->setAppValue('core', 'global_cache_gc_lastrun', $now);
@@ -48,6 +50,8 @@ class FileGlobalGC extends Job {
 			return;
 		}
 		$paths = $this->getExpiredPaths($cacheDir, $now);
-		array_walk($paths, 'unlink');
+		array_walk($paths, function($file) {
+			unlink($file);
+		});
 	}
 }
