@@ -1189,10 +1189,10 @@ $(document).ready(function() {
 					$('#email').prop('disabled', false);
 					$('#emailButton').prop('disabled', false);
 				if (result && result.status == 'success') {
-					$('#email').css('font-weight', 'bold');
-					$('#email').animate({ fontWeight: 'normal' }, 2000, function() {
-						$(this).val('');
-					}).val(t('core','Email sent'));
+					$('#email').css('font-weight', 'bold').val(t('core','Email sent'));
+					setTimeout(function() {
+						$('#email').css('font-weight', 'normal').val('');
+					}, 2000);
 				} else {
 					OC.dialogs.alert(result.data.message, t('core', 'Error while sharing'));
 				}
