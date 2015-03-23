@@ -52,13 +52,11 @@ class Test_Util extends \Test\TestCase {
 		OC_Util::formatDate(1350129205, false, 'Mordor/Barad-dûr');
 	}
 
-	public function formatDateWithTZFromSessionData()
-	{
+	public function formatDateWithTZFromSessionData() {
 		return array(
 			array(3, 'October 13, 2012 at 2:53:25 PM GMT+3'),
 			array(15, 'October 13, 2012 at 11:53:25 AM GMT+0'),
 			array(-13, 'October 13, 2012 at 11:53:25 AM GMT+0'),
-			array(3.5, 'October 13, 2012 at 3:23:25 PM GMT+3:30'),
 			array(9.5, 'October 13, 2012 at 9:23:25 PM GMT+9:30'),
 			array(-4.5, 'October 13, 2012 at 7:23:25 AM GMT-4:30'),
 			array(15.5, 'October 13, 2012 at 11:53:25 AM GMT+0'),
