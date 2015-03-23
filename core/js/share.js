@@ -674,23 +674,23 @@ OC.Share={
 				html += '<label><input type="checkbox" name="mailNotification" class="mailNotification" ' + checked + ' />'+t('core', 'notify by email')+'</label> ';
 			}
 			if (oc_appconfig.core.resharingAllowed && (possiblePermissions & OC.PERMISSION_SHARE)) {
-				html += '<input id="canShare-'+escapeHTML(shareWith)+'" type="checkbox" name="share" class="permissions" '+shareChecked+' data-permissions="'+OC.PERMISSION_SHARE+'" /><label for="canShare-'+escapeHTML(shareWith)+'">'+t('core', 'can share')+'</label>';
+				html += '<label><input id="canShare-'+escapeHTML(shareWith)+'" type="checkbox" name="share" class="permissions" '+shareChecked+' data-permissions="'+OC.PERMISSION_SHARE+'" />'+t('core', 'can share')+'</label>';
 			}
 			if (possiblePermissions & OC.PERMISSION_CREATE || possiblePermissions & OC.PERMISSION_UPDATE || possiblePermissions & OC.PERMISSION_DELETE) {
-				html += '<input id="canEdit-'+escapeHTML(shareWith)+'" type="checkbox" name="edit" class="permissions" '+editChecked+' /><label for="canEdit-'+escapeHTML(shareWith)+'">'+t('core', 'can edit')+'</label>';
+				html += '<label><input id="canEdit-'+escapeHTML(shareWith)+'" type="checkbox" name="edit" class="permissions" '+editChecked+' />'+t('core', 'can edit')+'</label>';
 			}
 			if (shareType !== OC.Share.SHARE_TYPE_REMOTE) {
 				showCrudsButton = '<a href="#" class="showCruds"><img class="svg" alt="'+t('core', 'access control')+'" src="'+OC.imagePath('core', 'actions/triangle-s')+'"/></a>';
 			}
 			html += '<div class="cruds" style="display:none;">';
 			if (possiblePermissions & OC.PERMISSION_CREATE) {
-				html += '<input id="canCreate-' + escapeHTML(shareWith) + '" type="checkbox" name="create" class="permissions" ' + createChecked + ' data-permissions="' + OC.PERMISSION_CREATE + '"/><label for="canCreate-' + escapeHTML(shareWith) + '">' + t('core', 'create') + '</label>';
+				html += '<label><input id="canCreate-' + escapeHTML(shareWith) + '" type="checkbox" name="create" class="permissions" ' + createChecked + ' data-permissions="' + OC.PERMISSION_CREATE + '"/>' + t('core', 'create') + '</label>';
 			}
 			if (possiblePermissions & OC.PERMISSION_UPDATE) {
-				html += '<input id="canUpdate-' + escapeHTML(shareWith) + '" type="checkbox" name="update" class="permissions" ' + updateChecked + ' data-permissions="' + OC.PERMISSION_UPDATE + '"/><label for="canUpdate-' + escapeHTML(shareWith) + '">' + t('core', 'change') + '</label>';
+				html += '<label><input id="canUpdate-' + escapeHTML(shareWith) + '" type="checkbox" name="update" class="permissions" ' + updateChecked + ' data-permissions="' + OC.PERMISSION_UPDATE + '"/>' + t('core', 'change') + '</label>';
 			}
 			if (possiblePermissions & OC.PERMISSION_DELETE) {
-				html += '<input id="canDelete-' + escapeHTML(shareWith) + '" type="checkbox" name="delete" class="permissions" ' + deleteChecked + ' data-permissions="' + OC.PERMISSION_DELETE + '"/><label for="canDelete-' + escapeHTML(shareWith) + '">' + t('core', 'delete') + '</label>';
+				html += '<label><input id="canDelete-' + escapeHTML(shareWith) + '" type="checkbox" name="delete" class="permissions" ' + deleteChecked + ' data-permissions="' + OC.PERMISSION_DELETE + '"/>' + t('core', 'delete') + '</label>';
 			}
 			html += '</div>';
 			html += '</li>';
