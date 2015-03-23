@@ -673,7 +673,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 		$maxGroups = 100000; // limit max results (just for safety reasons)
 		if ($limit > -1) {
-		   $overallLimit = min($limit, $maxGroups);
+		   $overallLimit = min($limit + $offset, $maxGroups);
 		} else {
 		   $overallLimit = $maxGroups;
 		}
