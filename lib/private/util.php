@@ -587,7 +587,6 @@ class OC_Util {
 				'iconv' => 'iconv',
 				'simplexml_load_string' => 'SimpleXML',
 				'hash' => 'HASH Message Digest Framework',
-				'curl_init' => 'cURL',
 			],
 			'defined' => array(
 				'PDO::ATTR_DRIVER_NAME' => 'PDO'
