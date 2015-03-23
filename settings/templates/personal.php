@@ -21,7 +21,7 @@
 
 <div id="app-content">
 
-<div class="clientsbox center">
+<div id="clientsbox" class="clientsbox center">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
 	<a href="<?php p($_['clients']['desktop']); ?>" target="_blank">
 		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'desktopapp.png')); ?>"

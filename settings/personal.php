@@ -108,8 +108,9 @@ $tmpl->assign('groups', $groups2);
 
 // add hardcoded forms from the template
 $l = OC_L10N::get('settings');
-$formsAndMore = array();
-$formsAndMore[]= array( 'anchor' => 'passwordform', 'section-name' => $l->t('Personal Info') );
+$formsAndMore = [];
+$formsAndMore[]= ['anchor' => 'clientsbox', 'section-name' => $l->t('Sync clients')];
+$formsAndMore[]= ['anchor' => 'passwordform', 'section-name' => $l->t('Personal info')];
 
 $forms=OC_App::getForms('personal');
 
