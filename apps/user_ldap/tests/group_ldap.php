@@ -298,4 +298,18 @@ class Test_Group_Ldap extends \Test\TestCase {
 		$groupBackend->inGroup($uid, $gid);
 	}
 
+	public function testGetGroupsWithOffset() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$access->expects($this->once())
+			->method('ownCloudGroupNames')
+			->will($this->returnValue(array('group1', 'group2')));
+
+		$groupBackend = new GroupLDAP($access);
+		$groups = $groupBackend->getGroups('', 2, 2);
+
+		$this->assertSame(2, count($groups));
+	}
+
 }
