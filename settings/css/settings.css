@@ -148,7 +148,15 @@ input.userFilter {width: 200px;}
 	position: relative;
 	top: -1px;
 }
-#headerGroups, #headerSubAdmins, #headerQuota { padding-left:18px; }
+#headerGroups,
+#headerSubAdmins,
+#headerQuota {
+	padding-left: 18px;
+}
+#headerAvatar {
+	width: 32px;
+}
+
 
 .ie8 table.hascontrols{border-collapse:collapse;width: 100%;}
 .ie8 table.hascontrols tbody tr{border-collapse:collapse;border: 1px solid #ddd !important;}
