@@ -11,11 +11,20 @@ namespace OCA\user_ldap\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use \OCA\user_ldap\lib\Helper;
 
 class DeleteConfig extends Command {
+	/** @var \OCA\User_LDAP\lib\Helper */
+	protected $helper;
+
+	/**
+	 * @param Helper $helper
+	 */
+	public function __construct(Helper $helper) {
+		$this->helper = $helper;
+		parent::__construct();
+	}
 
 	protected function configure() {
 		$this
@@ -31,9 +40,9 @@ class DeleteConfig extends Command {
 
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$configPrefix = $input->getArgument('configID');;
+		$configPrefix = $input->getArgument('configID');
 
-		$success = Helper::deleteServerConfiguration($configPrefix);
+		$success = $this->helper->deleteServerConfiguration($configPrefix);
 
 		if($success) {
 			$output->writeln("Deleted configuration with configID '{$configPrefix}'");

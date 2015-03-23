@@ -17,6 +17,16 @@ use \OCA\user_ldap\lib\Helper;
 use \OCA\user_ldap\lib\Configuration;
 
 class CreateEmptyConfig extends Command {
+	/** @var \OCA\User_LDAP\lib\Helper */
+	protected $helper;
+
+	/**
+	 * @param Helper $helper
+	 */
+	public function __construct(Helper $helper) {
+		$this->helper = $helper;
+		parent::__construct();
+	}
 
 	protected function configure() {
 		$this
@@ -24,7 +34,6 @@ class CreateEmptyConfig extends Command {
 			->setDescription('creates an empty LDAP configuration')
 		;
 	}
-
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$configPrefix = $this->getNewConfigurationPrefix();
@@ -35,7 +44,7 @@ class CreateEmptyConfig extends Command {
 	}
 
 	protected function getNewConfigurationPrefix() {
-		$serverConnections = Helper::getServerConfigurationPrefixes();
+		$serverConnections = $this->helper->getServerConfigurationPrefixes();
 
 		// first connection uses no prefix
 		if(sizeof($serverConnections) == 0) {
