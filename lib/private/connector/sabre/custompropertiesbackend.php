@@ -30,6 +30,7 @@ use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Tree;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\ServiceUnavailable;
 
 class CustomPropertiesBackend implements BackendInterface {
 
@@ -100,6 +101,9 @@ class CustomPropertiesBackend implements BackendInterface {
 			if (!($node instanceof Node)) {
 				return;
 			}
+		} catch (ServiceUnavailable $e) {
+			// might happen for unavailable mount points, skip
+			return;
 		} catch (NotFound $e) {
 			// in some rare (buggy) cases the node might not be found,
 			// we catch the exception to prevent breaking the whole list with a 404
