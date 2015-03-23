@@ -266,11 +266,20 @@ OC.Upload = {
 					// in case folder drag and drop is not supported file will point to a directory
 					// http://stackoverflow.com/a/20448357
 					if ( ! file.type && file.size%4096 === 0 && file.size <= 102400) {
+						var dirUploadFailure = false;
 						try {
 							var reader = new FileReader();
 							reader.readAsBinaryString(file);
 						} catch (NS_ERROR_FILE_ACCESS_DENIED) {
 							//file is a directory
+							dirUploadFailure = true;
+						}
+						if (file.size === 0) {
+							// file is empty or a directory
+							dirUploadFailure = true;
+						}
+
+						if (dirUploadFailure) {
 							data.textStatus = 'dirorzero';
 							data.errorThrown = t('files',
 								'Unable to upload {filename} as it is a directory or has 0 bytes',
