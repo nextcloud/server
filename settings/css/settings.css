@@ -76,6 +76,16 @@ table.nostyle td { padding: 0.2em 0; }
 	height: 30px;
 }
 
+.isgroup .groupname {
+	width: 85%;
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.isgroup.active .groupname {
+	width: 65%;
+}
+
 .usercount { float: left; margin: 5px; }
 li.active span.utils .delete {
 	float: left; position: relative; opacity: 0.5;
