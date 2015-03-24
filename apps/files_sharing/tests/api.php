@@ -103,6 +103,11 @@ class Test_Files_Sharing_Api extends TestCase {
 		// check if we have a token
 		$this->assertTrue(is_string($data['token']));
 
+		// check for correct link
+		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
+		$this->assertEquals($url, $data['url']);
+
+
 		$share = $this->getShareFromId($data['id']);
 
 		$items = \OCP\Share::getItemShared('file', $share['item_source']);

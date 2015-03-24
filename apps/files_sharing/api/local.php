@@ -303,8 +303,7 @@ class Local {
 						break;
 					}
 				}
-				$url = \OCP\Util::linkToPublic('files&t='.$token);
-				$data['url'] = $url; // '&' gets encoded to $amp;
+				$data['url'] = \OC::$server->getURLGenerator()->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $token]);
 				$data['token'] = $token;
 
 			} else {
