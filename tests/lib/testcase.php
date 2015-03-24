@@ -40,6 +40,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		});
 	}
 
+	protected function tearDown() {
+		$hookExceptions = \OC_Hook::$thrownExceptions;
+		\OC_Hook::$thrownExceptions = [];
+		if(!empty($hookExceptions)) {
+			throw $hookExceptions[0];
+		}
+	}
+
 	/**
 	 * Returns a unique identifier as uniqid() is not reliable sometimes
 	 *
