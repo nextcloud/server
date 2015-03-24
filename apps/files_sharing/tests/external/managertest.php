@@ -22,6 +22,7 @@
 
 namespace OCA\Files_Sharing\Tests\External;
 
+use OC\Files\Storage\StorageFactory;
 use OCA\Files_Sharing\Tests\TestCase;
 
 class ManagerTest extends TestCase {
@@ -29,16 +30,20 @@ class ManagerTest extends TestCase {
 	/** @var \OCA\Files_Sharing\External\Manager **/
 	private $manager;
 
+	/** @var \OC\Files\Mount\Manager */
+	private $mountManager;
+
 	private $uid;
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->uid = $this->getUniqueID('user');
+		$this->mountManager = new \OC\Files\Mount\Manager();
 		$this->manager = new \OCA\Files_Sharing\External\Manager(
 			\OC::$server->getDatabaseConnection(),
-			$this->getMockBuilder('\OC\Files\Mount\Manager')->disableOriginalConstructor()->getMock(),
-			$this->getMockBuilder('\OCP\Files\Storage\IStorageFactory')->disableOriginalConstructor()->getMock(),
+			$this->mountManager,
+			new StorageFactory(),
 			$this->getMockBuilder('\OC\HTTPHelper')->disableOriginalConstructor()->getMock(),
 			$this->uid
 		);
@@ -46,7 +51,7 @@ class ManagerTest extends TestCase {
 
 	public function testAddShare() {
 		$shareData1 = [
-			'remote' => 'localhost',
+			'remote' => 'http://localhost',
 			'token' => 'token1',
 			'password' => '',
 			'name' => '/SharedFolder',
@@ -65,6 +70,10 @@ class ManagerTest extends TestCase {
 		$this->assertCount(1, $openShares);
 		$this->assertExternalShareEntry($shareData1, $openShares[0], 1, '{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 
+		\Test_Helper::invokePrivate($this->manager, 'setupMounts');
+		$this->assertNotMount('SharedFolder');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
+
 		// Add a second share for "user" with the same name
 		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], $shareData2));
 		$openShares = $this->manager->getOpenShares();
@@ -72,6 +81,11 @@ class ManagerTest extends TestCase {
 		$this->assertExternalShareEntry($shareData1, $openShares[0], 1, '{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		// New share falls back to "-1" appendix, because the name is already taken
 		$this->assertExternalShareEntry($shareData2, $openShares[1], 2, '{{TemporaryMountPointName#' . $shareData2['name'] . '}}-1');
+
+		\Test_Helper::invokePrivate($this->manager, 'setupMounts');
+		$this->assertNotMount('SharedFolder');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
 		// Accept the first share
 		$this->manager->acceptShare($openShares[0]['id']);
@@ -86,6 +100,11 @@ class ManagerTest extends TestCase {
 		$this->assertCount(1, $openShares);
 		$this->assertExternalShareEntry($shareData2, $openShares[0], 2, '{{TemporaryMountPointName#' . $shareData2['name'] . '}}-1');
 
+		\Test_Helper::invokePrivate($this->manager, 'setupMounts');
+		$this->assertMount($shareData1['name']);
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
+
 		// Add another share for "user" with the same name
 		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], $shareData3));
 		$openShares = $this->manager->getOpenShares();
@@ -94,8 +113,18 @@ class ManagerTest extends TestCase {
 		// New share falls back to the original name (no "-\d", because the name is not taken)
 		$this->assertExternalShareEntry($shareData3, $openShares[1], 3, '{{TemporaryMountPointName#' . $shareData3['name'] . '}}');
 
+		\Test_Helper::invokePrivate($this->manager, 'setupMounts');
+		$this->assertMount($shareData1['name']);
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
+
 		// Decline the third share
 		$this->manager->declineShare($openShares[1]['id']);
+
+		\Test_Helper::invokePrivate($this->manager, 'setupMounts');
+		$this->assertMount($shareData1['name']);
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
 		// Check remaining shares - Accepted
 		$acceptedShares = \Test_Helper::invokePrivate($this->manager, 'getShares', [true]);
@@ -107,8 +136,19 @@ class ManagerTest extends TestCase {
 		$this->assertCount(1, $openShares);
 		$this->assertExternalShareEntry($shareData2, $openShares[0], 2, '{{TemporaryMountPointName#' . $shareData2['name'] . '}}-1');
 
+		\Test_Helper::invokePrivate($this->manager, 'setupMounts');
+		$this->assertMount($shareData1['name']);
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
+
 		$this->manager->removeUserShares($this->uid);
 		$this->assertEmpty(\Test_Helper::invokePrivate($this->manager, 'getShares', [null]), 'Asserting all shares for the user have been deleted');
+
+		$this->mountManager->clear();
+		\Test_Helper::invokePrivate($this->manager, 'setupMounts');
+		$this->assertNotMount($shareData1['name']);
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 	}
 
 	/**
@@ -125,6 +165,30 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected['accepted'], (int) $actual['accepted'], 'Asserting accept of a share #' . $share);
 		$this->assertEquals($expected['user'], $actual['user'], 'Asserting user of a share #' . $share);
 		$this->assertEquals($mountPoint, $actual['mountpoint'], 'Asserting mountpoint of a share #' . $share);
+	}
 
+	private function assertMount($mountPoint) {
+		$mountPoint = rtrim($mountPoint, '/');
+		$mount = $this->mountManager->find($this->getFullPath($mountPoint));
+		$this->assertInstanceOf('\OCA\Files_Sharing\External\Mount', $mount);
+		$this->assertInstanceOf('\OCP\Files\Mount\IMountPoint', $mount);
+		$this->assertEquals($this->getFullPath($mountPoint), rtrim($mount->getMountPoint(), '/'));
+		$storage = $mount->getStorage();
+		$this->assertInstanceOf('\OCA\Files_Sharing\External\Storage', $storage);
+	}
+
+	private function assertNotMount($mountPoint) {
+		$mountPoint = rtrim($mountPoint, '/');
+		$mount = $this->mountManager->find($this->getFullPath($mountPoint));
+		if ($mount) {
+			$this->assertInstanceOf('\OCP\Files\Mount\IMountPoint', $mount);
+			$this->assertNotEquals($this->getFullPath($mountPoint), rtrim($mount->getMountPoint(), '/'));
+		} else {
+			$this->assertNull($mount);
+		}
+	}
+
+	private function getFullPath($path) {
+		return '/' . $this->uid . '/files' . $path;
 	}
 }
