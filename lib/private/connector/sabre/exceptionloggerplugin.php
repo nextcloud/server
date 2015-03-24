@@ -24,6 +24,9 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		// exactly the same time from two clients, only one client
 		// wins, the second one gets "Precondition failed"
 		'Sabre\DAV\Exception\PreconditionFailed' => true,
+		// forbidden can be expected when trying to upload to
+		// read-only folders for example
+		'Sabre\DAV\Exception\Forbidden' => true,
 	);
 
 	/** @var string */
