@@ -679,4 +679,40 @@ class Folder extends \Test\TestCase {
 		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
 		$this->assertEquals('/bar/foo/asd/foo/qwerty', $result[1]->getPath());
 	}
+
+	public function uniqueNameProvider() {
+		return [
+			// input, existing, expected
+			['foo', []					, 'foo'],
+			['foo', ['foo']				, 'foo (2)'],
+			['foo', ['foo', 'foo (2)']	, 'foo (3)']
+		];
+	}
+
+	/**
+	 * @dataProvider uniqueNameProvider
+	 */
+	public function testGetUniqueName($name, $existingFiles, $expected) {
+		$manager = $this->getMock('\OC\Files\Mount\Manager');
+		$folderPath = '/bar/foo';
+		/**
+		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 */
+		$view = $this->getMock('\OC\Files\View');
+		$root = $this->getMock('\OC\Files\Node\Root', array('getUser', 'getMountsIn', 'getMount'), array($manager, $view, $this->user));
+
+		$view->expects($this->any())
+			->method('file_exists')
+			->will($this->returnCallback(function ($path) use ($existingFiles, $folderPath) {
+				foreach ($existingFiles as $existing) {
+					if ($folderPath . '/' . $existing === $path){
+						return true;
+					}
+				}
+				return false;
+			}));
+
+		$node = new \OC\Files\Node\Folder($root, $view, $folderPath);
+		$this->assertEquals($expected, $node->getNonExistingName($name));
+	}
 }
