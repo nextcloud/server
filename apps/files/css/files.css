@@ -625,26 +625,3 @@ table.dragshadow td.size {
 .mask.transparent{
 	opacity: 0;
 }
-
-.nofilterresults {
-	font-size: 16px;
-	color: #888;
-	position: absolute;
-	text-align: center;
-	top: 30%;
-	width: 100%;
-}
-.nofilterresults h2 {
-	font-size: 22px;
-	margin-bottom: 10px;
-}
-.nofilterresults [class^="icon-"],
-.nofilterresults [class*=" icon-"] {
-	background-size: 64px;
-	height: 64px;
-	width: 64px;
-	margin: 0 auto 15px;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
-	opacity: .5;
-}
