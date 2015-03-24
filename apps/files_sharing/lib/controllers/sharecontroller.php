@@ -17,12 +17,12 @@ use OC_Files;
 use OC_Util;
 use OCP;
 use OCP\Template;
-use OCP\JSON;
 use OCP\Share;
 use OCP\AppFramework\Controller;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OC\URLGenerator;
 use OC\AppConfig;
 use OCP\ILogger;
@@ -60,7 +60,7 @@ class ShareController extends Controller {
 	 * @param AppConfig $appConfig
 	 * @param OCP\IConfig $config
 	 * @param URLGenerator $urlGenerator
-	 * @param OC\User\Manager $userManager
+	 * @param OCP\IUserManager $userManager
 	 * @param ILogger $logger
 	 * @param OCP\Activity\IManager $activityManager
 	 */
@@ -70,7 +70,7 @@ class ShareController extends Controller {
 								AppConfig $appConfig,
 								OCP\IConfig $config,
 								URLGenerator $urlGenerator,
-								OC\User\Manager $userManager,
+								OCP\IUserManager $userManager,
 								ILogger $logger,
 								OCP\Activity\IManager $activityManager) {
 		parent::__construct($appName, $request);
@@ -113,7 +113,7 @@ class ShareController extends Controller {
 	public function authenticate($token, $password = '') {
 		$linkItem = Share::getShareByToken($token, false);
 		if($linkItem === false) {
-			return new TemplateResponse('core', '404', array(), 'guest');
+			return new NotFoundResponse();
 		}
 
 		$authenticate = Helper::authenticate($linkItem, $password);
@@ -139,18 +139,11 @@ class ShareController extends Controller {
 		// Check whether share exists
 		$linkItem = Share::getShareByToken($token, false);
 		if($linkItem === false) {
-			return new TemplateResponse('core', '404', array(), 'guest');
+			return new NotFoundResponse();
 		}
 
 		$shareOwner = $linkItem['uid_owner'];
-		$originalSharePath = null;
-		$rootLinkItem = OCP\Share::resolveReShare($linkItem);
-		if (isset($rootLinkItem['uid_owner'])) {
-			OCP\JSON::checkUserExists($rootLinkItem['uid_owner']);
-			OC_Util::tearDownFS();
-			OC_Util::setupFS($rootLinkItem['uid_owner']);
-			$originalSharePath = Filesystem::getPath($linkItem['file_source']);
-		}
+		$originalSharePath = $this->getPath($token);
 
 		// Share is password protected - check whether the user is permitted to access the share
 		if (isset($linkItem['share_with']) && !Helper::authenticate($linkItem)) {
@@ -165,7 +158,7 @@ class ShareController extends Controller {
 
 		$file = basename($originalSharePath);
 
-		$shareTmpl = array();
+		$shareTmpl = [];
 		$shareTmpl['displayName'] = User::getDisplayName($shareOwner);
 		$shareTmpl['filename'] = $file;
 		$shareTmpl['directory_path'] = $linkItem['file_target'];
@@ -289,22 +282,29 @@ class ShareController extends Controller {
 	}
 
 	/**
-	 * @param $token
-	 * @return null|string
+	 * @param string $token
+	 * @return string Resolved file path of the token
+	 * @throws \Exception In case share could not get properly resolved
 	 */
 	private function getPath($token) {
 		$linkItem = Share::getShareByToken($token, false);
-		$path = null;
 		if (is_array($linkItem) && isset($linkItem['uid_owner'])) {
 			// seems to be a valid share
 			$rootLinkItem = Share::resolveReShare($linkItem);
 			if (isset($rootLinkItem['uid_owner'])) {
-				JSON::checkUserExists($rootLinkItem['uid_owner']);
+				if(!$this->userManager->userExists($rootLinkItem['uid_owner'])) {
+					throw new \Exception('Owner of the share does not exist anymore');
+				}
 				OC_Util::tearDownFS();
 				OC_Util::setupFS($rootLinkItem['uid_owner']);
 				$path = Filesystem::getPath($linkItem['file_source']);
+
+				if(!empty($path) && Filesystem::isReadable($path)) {
+					return $path;
+				}
 			}
 		}
-		return $path;
+
+		throw new \Exception('No file found belonging to file.');
 	}
 }

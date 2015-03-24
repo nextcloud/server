@@ -42,7 +42,7 @@ class Application extends App {
 				$server->getAppConfig(),
 				$server->getConfig(),
 				$c->query('URLGenerator'),
-				$server->getUserManager(),
+				$c->query('UserManager'),
 				$server->getLogger(),
 				$server->getActivityManager()
 			);
@@ -64,6 +64,9 @@ class Application extends App {
 		});
 		$container->registerService('URLGenerator', function(SimpleContainer $c) use ($server){
 			return $server->getUrlGenerator();
+		});
+		$container->registerService('UserManager', function(SimpleContainer $c) use ($server){
+			return $server->getUserManager();
 		});
 		$container->registerService('IsIncomingShareEnabled', function(SimpleContainer $c) {
 			return Helper::isIncomingServer2serverShareEnabled();
