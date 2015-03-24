@@ -368,7 +368,7 @@ class Manager {
 		$query = 'SELECT * FROM `*PREFIX*share_external` WHERE `user` = ?';
 		$parameters = [$this->uid];
 		if (!is_null($accepted)) {
-			$query .= 'AND `accepted` = ?';
+			$query .= ' AND `accepted` = ?';
 			$parameters[] = (int) $accepted;
 		}
 		$query .= ' ORDER BY `id` ASC';
