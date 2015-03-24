@@ -18,23 +18,23 @@
 	box-sizing: content-box;
 }
 
-#searchresults #status {
+#searchresults .status {
 	background-color: rgba(255, 255, 255, .85);
 	height: 12px;
 	padding: 28px 0 28px 56px;
 	font-size: 18px;
 }
-.has-favorites:not(.hidden) ~ #searchresults #status {
+.has-favorites:not(.hidden) ~ #searchresults .status {
 	padding-left: 102px;
 }
-#searchresults #status.fixed {
+#searchresults .status.fixed {
 	position: fixed;
 	bottom: 0;
 	width: 100%;
 	z-index: 10;
 }
 
-#searchresults #status .spinner {
+#searchresults .status .spinner {
 	height: 16px;
 	width: 16px;
 	vertical-align: middle;
