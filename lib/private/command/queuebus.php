@@ -39,7 +39,10 @@ class QueueBus implements IBus {
 	 */
 	private function runCommand($command) {
 		if ($command instanceof ICommand) {
-			$command->handle();
+			// ensure the command can be serialized
+			$serialized = serialize($command);
+			$unserialized = unserialize($serialized);
+			$unserialized->handle();
 		} else {
 			$command();
 		}
