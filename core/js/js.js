@@ -1338,7 +1338,7 @@ OC.Util = {
 	 * @returns {string} timestamp formatted as requested
 	 */
 	formatDate: function (timestamp, format) {
-		format = format || "MMMM D, YYYY H:mm";
+		format = format || "LLL";
 		return moment(timestamp).format(format);
 	},
 
