@@ -389,4 +389,16 @@ class Folder extends Node implements \OCP\Files\Folder {
 			throw new NotPermittedException();
 		}
 	}
+
+	/**
+	 * Add a suffix to the name in case the file exists
+	 *
+	 * @param string $name
+	 * @return string
+	 * @throws NotPermittedException
+	 */
+	public function getNonExistingName($name) {
+		$uniqueName = \OC_Helper::buildNotExistingFileNameForView($this->getPath(), $name, $this->view);
+		return trim($this->getRelativePath($uniqueName), '/');
+	}
 }
