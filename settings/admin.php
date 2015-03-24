@@ -92,7 +92,7 @@ if ($request->getServerProtocol()  !== 'https' || !OC_Util::isAnnotationsWorking
 	$suggestedOverwriteCliUrl || !OC_Util::isSetLocaleWorking()  ||
 	!OC_Util::fileInfoLoaded() || $databaseOverload
 ) {
-	$formsAndMore[] = array('anchor' => 'security-warning', 'section-name' => $l->t('Security & Setup Warnings'));
+	$formsAndMore[] = array('anchor' => 'security-warning', 'section-name' => $l->t('Security & setup warnings'));
 }
 
 $formsMap = array_map(function ($form) {
