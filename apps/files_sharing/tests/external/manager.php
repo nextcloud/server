@@ -21,7 +21,7 @@
 namespace OCA\Files_sharing\Tests\External;
 
 use OC\Files\Storage\StorageFactory;
-use Test\TestCase;
+use OCA\Files_Sharing\Tests\TestCase;
 
 class Manager extends TestCase {
 	private $uid;
@@ -37,14 +37,23 @@ class Manager extends TestCase {
 	private $instance;
 
 	public function setUp() {
-		$this->uid = uniqid();
+		parent::setUp();
+
+		$this->uid = $this->getUniqueID('user');
+
 		$this->mountManager = new \OC\Files\Mount\Manager();
-		$this->instance = new \OCA\Files_Sharing\External\Manager(\OC::$server->getDatabaseConnection(),
-			$this->mountManager, new StorageFactory(), \OC::$server->getHTTPHelper(), $this->uid);
+		$this->instance = new \OCA\Files_Sharing\External\Manager(
+			\OC::$server->getDatabaseConnection(),
+			$this->mountManager,
+			new StorageFactory(),
+			$this->getMockBuilder('\OC\HTTPHelper')->disableOriginalConstructor()->getMock(),
+			$this->uid
+		);
 	}
 
 	public function tearDown() {
 		$this->instance->removeUserShares($this->uid);
+		parent::tearDown();
 	}
 
 	private function getFullPath($path) {
