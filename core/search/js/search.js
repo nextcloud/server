@@ -125,6 +125,7 @@
 
 						//show spinner
 						$searchResults.removeClass('hidden');
+						$status.addClass('status');
 						$status.html(t('core', 'Searching other places')+'<img class="spinner" alt="search in progress" src="'+OC.webroot+'/core/img/loading.gif" />');
 
 						// do the actual search query
@@ -209,8 +210,12 @@
 				var count = $searchResults.find('tr.result').length;
 				$status.data('count', count);
 				if (count === 0) {
-					$status.text(t('core', 'No search result in other places'));
+					$status.addClass('emptycontent').removeClass('status');
+					$status.html('');
+					$status.append('<div class="icon-search"></div>');
+					$status.append('<h2>' + t('core', 'No search result in other places') + '</h2>');
 				} else {
+					$status.removeClass('emptycontent').addClass('status');
 					$status.text(n('core', '{count} search result in other places', '{count} search results in other places', count, {count:count}));
 				}
 			}
