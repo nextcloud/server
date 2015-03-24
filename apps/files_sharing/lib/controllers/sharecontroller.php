@@ -154,6 +154,8 @@ class ShareController extends Controller {
 		if (Filesystem::isReadable($originalSharePath . $path)) {
 			$getPath = Filesystem::normalizePath($path);
 			$originalSharePath .= $path;
+		} else {
+			throw new OCP\Files\NotFoundException();
 		}
 
 		$file = basename($originalSharePath);
