@@ -582,6 +582,9 @@ table tr.summary td {
 .summary .info {
 	margin-left: 40px;
 }
+.has-favorites .summary .info {
+	margin-left: 90px;
+}
 
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
 
