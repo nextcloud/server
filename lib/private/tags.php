@@ -34,8 +34,8 @@
 
 namespace OC;
 
-use \OC\Tagging\Tag,
-    \OC\Tagging\TagMapper;
+use \OC\Tagging\Tag;
+use \OC\Tagging\TagMapper;
 
 class Tags implements \OCP\ITags {
 
@@ -248,6 +248,7 @@ class Tags implements \OCP\ITags {
 	*
 	* @param string $tag Tag id or name.
 	* @return array|false An array of object ids or false on error.
+	* @throws \Exception
 	*/
 	public function getIdsForTag($tag) {
 		$result = null;

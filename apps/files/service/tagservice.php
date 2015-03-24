@@ -48,7 +48,7 @@ class TagService {
 	 * @param string $path path
 	 * @param array  $tags array of tags
 	 * @return array list of tags
-	 * @throws \OCP\NotFoundException if the file does not exist
+	 * @throws \OCP\Files\NotFoundException if the file does not exist
 	 */
 	public function updateFileTags($path, $tags) {
 		$fileId = $this->homeFolder->get($path)->getId();
@@ -74,30 +74,27 @@ class TagService {
 	}
 
 	/**
-	 * Updates the tags of the specified file path.
-	 * The passed tags are absolute, which means they will
-	 * replace the actual tag selection.
+	 * Get all files for the given tag
 	 *
 	 * @param array $tagName tag name to filter by
 	 * @return FileInfo[] list of matching files
 	 * @throws \Exception if the tag does not exist
 	 */
 	public function getFilesByTag($tagName) {
-		$nodes = $this->homeFolder->searchByTag(
-			$tagName, $this->userSession->getUser()->getUId()
-		);
-		$fileInfos = [];
-		foreach ($nodes as $node) {
-			try {
-				/** @var \OC\Files\Node\Node $node */
-				$fileInfos[] = $node->getFileInfo();
-			} catch (\Exception $e) {
-				// FIXME Should notify the user, when this happens
-				// Can not get FileInfo, maybe the connection to the external
-				// storage is interrupted.
-			}
+		try {
+			$fileIds = $this->tagger->getIdsForTag($tagName);
+		} catch (\Exception $e) {
+			return [];
 		}
 
+		$fileInfos = [];
+		foreach ($fileIds as $fileId) {
+			$nodes = $this->homeFolder->getById((int) $fileId);
+			foreach ($nodes as $node) {
+				/** @var \OC\Files\Node\Node $node */
+				$fileInfos[] = $node->getFileInfo();
+			}
+		}
 		return $fileInfos;
 	}
 }
