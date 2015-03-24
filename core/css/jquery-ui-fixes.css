@@ -128,13 +128,11 @@
 .ui-widget-overlay {
 	background: #666666 url(images/ui-bg_diagonals-thick_20_666666_40x40.png) 50% 50% repeat;
 	opacity: .5;
-	filter: Alpha(Opacity=50);
 }
 .ui-widget-shadow {
 	margin: -5px 0 0 -5px;
 	padding: 5px;
 	background: #000000 url(images/ui-bg_flat_10_000000_40x100.png) 50% 50% repeat-x;
 	opacity: .2;
-	filter: Alpha(Opacity=20);
 	border-radius: 5px;
 }

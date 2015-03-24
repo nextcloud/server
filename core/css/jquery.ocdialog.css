@@ -52,7 +52,7 @@
 
 .oc-dialog-dim {
 	background-color: #000;
-	opacity: .20;filter:Alpha(Opacity=20);
+	opacity: .20;
 	z-index: 999;
 	position: fixed;
 	top: 0; left: 0;
