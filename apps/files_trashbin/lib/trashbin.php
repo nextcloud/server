@@ -508,6 +508,8 @@ class Trashbin {
 		$view->deleteAll('files_trashbin');
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
 		$query->execute(array($user));
+		$view->mkdir('files_trashbin');
+		$view->mkdir('files_trashbin/files');
 
 		return true;
 	}
