@@ -22,21 +22,27 @@
 namespace OCA\Encryption;
 
 
+use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Exceptions\PrivateKeyMissingException;
 use OC\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Crypto\Crypt;
-use OCP\Encryption\IKeyStorage;
+use OCP\Encryption\Keys\IStorage;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\IUser;
+use OCP\ILogger;
 use OCP\IUserSession;
 
 class KeyManager {
 
 	/**
-	 * @var IKeyStorage
+	 * @var ICache
+	 */
+	public static $cacheFactory;
+	/**
+	 * @var IStorage
 	 */
 	private $keyStorage;
-
 	/**
 	 * @var Crypt
 	 */
@@ -53,63 +59,55 @@ class KeyManager {
 	 * @var string UserID
 	 */
 	private $keyId;
+	/**
+	 * @var string
+	 */
+	private $publicKeyId = 'public';
+	/**
+	 * @var string
+	 */
+	private $privateKeyId = 'private';
 
 	/**
 	 * @var string
 	 */
-	private $publicKeyId = '.public';
+	private $shareKeyId = 'sharekey';
+
 	/**
 	 * @var string
 	 */
-	private $privateKeyId = '.private';
+	private $fileKeyId = 'filekey';
 	/**
 	 * @var IConfig
 	 */
 	private $config;
+	/**
+	 * @var ILogger
+	 */
+	private $log;
 
 	/**
-	 * @param IKeyStorage $keyStorage
+	 * @param IStorage $keyStorage
 	 * @param Crypt $crypt
 	 * @param IConfig $config
 	 * @param IUserSession $userSession
+	 * @param ICacheFactory $cacheFactory
+	 * @param ILogger $log
 	 */
-	public function __construct(IKeyStorage $keyStorage, Crypt $crypt, IConfig $config, IUserSession $userSession) {
+	public function __construct(IStorage $keyStorage, Crypt $crypt, IConfig $config, IUserSession $userSession, ICacheFactory $cacheFactory, ILogger $log) {
 
 		$this->keyStorage = $keyStorage;
 		$this->crypt = $crypt;
 		$this->config = $config;
-		$this->recoveryKeyId = $this->config->getAppValue('encryption', 'recoveryKeyId');
-		$this->publicShareKeyId = $this->config->getAppValue('encryption', 'publicShareKeyId');
+		$this->recoveryKeyId = $this->config->getAppValue('encryption',
+			'recoveryKeyId');
+		$this->publicShareKeyId = $this->config->getAppValue('encryption',
+			'publicShareKeyId');
 		$this->keyId = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : false;
 
-	}
-
-	/**
-	 * @param $userId
-	 * @return mixed
-	 * @throws PrivateKeyMissingException
-	 */
-	public function getPrivateKey($userId) {
-		$privateKey = $this->keyStorage->getUserKey($userId, $this->privateKeyId);
-
-		if (strlen($privateKey) !== 0) {
-			return $privateKey;
-		}
-		throw new PrivateKeyMissingException();
-	}
-
-	/**
-	 * @param $userId
-	 * @return mixed
-	 * @throws PublicKeyMissingException
-	 */
-	public function getPublicKey($userId) {
-		$publicKey = $this->keyStorage->getUserKey($userId, $this->publicKeyId);
-
-		if (strlen($publicKey) !== 0) {
-			return $publicKey;
-		}
-		throw new PublicKeyMissingException();
+		self::$cacheFactory = $cacheFactory;
+		self::$cacheFactory = self::$cacheFactory->create('encryption');
+		$this->log = $log;
 	}
 
 	/**
@@ -120,30 +118,36 @@ class KeyManager {
 	}
 
 	/**
-	 * @param $userId
-	 * @return bool
-	 */
-	public function userHasKeys($userId) {
-		try {
-			$this->getPrivateKey($userId);
-			$this->getPublicKey($userId);
-		} catch (PrivateKeyMissingException $e) {
-			return false;
-		} catch (PublicKeyMissingException $e) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * @param $password
 	 * @return bool
 	 */
 	public function checkRecoveryPassword($password) {
 		$recoveryKey = $this->keyStorage->getSystemUserKey($this->recoveryKeyId);
-		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey, $password);
+		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey,
+			$password);
 
 		if ($decryptedRecoveryKey) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @param string $uid
+	 * @param string $password
+	 * @param string $keyPair
+	 * @return bool
+	 */
+	public function storeKeyPair($uid, $password, $keyPair) {
+		// Save Public Key
+		$this->setPublicKey($uid, $keyPair['publicKey']);
+
+		$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'],
+			$password);
+
+		if ($encryptedKey) {
+			$this->setPrivateKey($uid, $encryptedKey);
+			$this->config->setAppValue('encryption', 'recoveryAdminEnabled', 1);
 			return true;
 		}
 		return false;
@@ -164,54 +168,234 @@ class KeyManager {
 	 * @return bool
 	 */
 	public function setPrivateKey($userId, $key) {
-		return $this->keyStorage->setUserKey($userId, $this->privateKeyId, $key);
-	}
-
-
-	/**
-	 * @param $password
-	 * @param $keyPair
-	 * @return bool
-	 */
-	public function storeKeyPair($password, $keyPair) {
-		// Save Public Key
-		$this->setPublicKey($this->keyId, $keyPair['publicKey']);
-
-		$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'], $password);
-
-		if ($encryptedKey) {
-			$this->setPrivateKey($this->keyId, $encryptedKey);
-			$this->config->setAppValue('encryption', 'recoveryAdminEnabled', 1);
-			return true;
-		}
-		return false;
+		return $this->keyStorage->setUserKey($userId,
+			$this->privateKeyId,
+			$key);
 	}
 
 	/**
-	 * @return bool
+	 * Decrypt private key and store it
+	 *
+	 * @param string $uid userid
+	 * @param string $passPhrase users password
+	 * @return ICache
 	 */
-	public function ready() {
-		return $this->keyStorage->ready();
-	}
-
-
-	/**
-	 * @return \OCP\ICache
-	 * @throws PrivateKeyMissingException
-	 */
-	public function init() {
+	public function init($uid, $passPhrase) {
 		try {
-			$privateKey = $this->getPrivateKey($this->keyId);
+			$privateKey = $this->getPrivateKey($uid);
+			$privateKey = $this->crypt->decryptPrivateKey($privateKey,
+				$passPhrase);
 		} catch (PrivateKeyMissingException $e) {
+			return false;
+		} catch (DecryptionFailedException $e) {
 			return false;
 		}
 
-		$cache = \OC::$server->getMemCacheFactory();
+		self::$cacheFactory->set('privateKey', $privateKey);
+		self::$cacheFactory->set('initStatus', true);
 
-		$cacheInstance = $cache->create('Encryption');
-		$cacheInstance->set('privateKey', $privateKey);
 
-		return $cacheInstance;
+		return self::$cacheFactory;
 	}
 
+	/**
+	 * @param $userId
+	 * @return mixed
+	 * @throws PrivateKeyMissingException
+	 */
+	public function getPrivateKey($userId) {
+		$privateKey = $this->keyStorage->getUserKey($userId,
+			$this->privateKeyId);
+
+		if (strlen($privateKey) !== 0) {
+			return $privateKey;
+		}
+		throw new PrivateKeyMissingException();
+	}
+
+	/**
+	 * @param $path
+	 * @return mixed
+	 */
+	public function getFileKey($path) {
+		return $this->keyStorage->getFileKey($path, $this->fileKeyId);
+	}
+
+	/**
+	 * @param $path
+	 * @return mixed
+	 */
+	public function getShareKey($path) {
+		return $this->keyStorage->getFileKey($path, $this->keyId . $this->shareKeyId);
+	}
+
+	/**
+	 * Change a user's encryption passphrase
+	 *
+	 * @param array $params keys: uid, password
+	 * @param IUserSession $user
+	 * @param Util $util
+	 * @return bool
+	 */
+	public function setPassphrase($params, IUserSession $user, Util $util) {
+
+		// Only attempt to change passphrase if server-side encryption
+		// is in use (client-side encryption does not have access to
+		// the necessary keys)
+		if ($this->crypt->mode() === 'server') {
+
+			// Get existing decrypted private key
+			$privateKey = self::$cacheFactory->get('privateKey');
+
+			if ($params['uid'] === $user->getUser()->getUID() && $privateKey) {
+
+				// Encrypt private key with new user pwd as passphrase
+				$encryptedPrivateKey = $this->crypt->symmetricEncryptFileContent($privateKey,
+					$params['password']);
+
+				// Save private key
+				if ($encryptedPrivateKey) {
+					$this->setPrivateKey($user->getUser()->getUID(),
+						$encryptedPrivateKey);
+				} else {
+					$this->log->error('Encryption could not update users encryption password');
+				}
+
+				// NOTE: Session does not need to be updated as the
+				// private key has not changed, only the passphrase
+				// used to decrypt it has changed
+
+
+			} else { // admin changed the password for a different user, create new keys and reencrypt file keys
+
+				$user = $params['uid'];
+				$recoveryPassword = isset($params['recoveryPassword']) ? $params['recoveryPassword'] : null;
+
+				// we generate new keys if...
+				// ...we have a recovery password and the user enabled the recovery key
+				// ...encryption was activated for the first time (no keys exists)
+				// ...the user doesn't have any files
+				if (($util->recoveryEnabledForUser() && $recoveryPassword)
+
+					|| !$this->userHasKeys($user)
+					|| !$util->userHasFiles($user)
+				) {
+
+					// backup old keys
+					$this->backupAllKeys('recovery');
+
+					$newUserPassword = $params['password'];
+
+					$keypair = $this->crypt->createKeyPair();
+
+					// Disable encryption proxy to prevent recursive calls
+					$proxyStatus = \OC_FileProxy::$enabled;
+					\OC_FileProxy::$enabled = false;
+
+					// Save public key
+					$this->setPublicKey($user, $keypair['publicKey']);
+
+					// Encrypt private key with new password
+					$encryptedKey = $this->crypt->symmetricEncryptFileContent($keypair['privateKey'],
+						$newUserPassword);
+
+					if ($encryptedKey) {
+						$this->setPrivateKey($user, $encryptedKey);
+
+						if ($recoveryPassword) { // if recovery key is set we can re-encrypt the key files
+							$util->recoverUsersFiles($recoveryPassword);
+						}
+					} else {
+						$this->log->error('Encryption Could not update users encryption password');
+					}
+
+					\OC_FileProxy::$enabled = $proxyStatus;
+				}
+			}
+		}
+	}
+
+	/**
+	 * @param $userId
+	 * @return bool
+	 */
+	public function userHasKeys($userId) {
+		try {
+			$this->getPrivateKey($userId);
+			$this->getPublicKey($userId);
+		} catch (PrivateKeyMissingException $e) {
+			return false;
+		} catch (PublicKeyMissingException $e) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @param $userId
+	 * @return mixed
+	 * @throws PublicKeyMissingException
+	 */
+	public function getPublicKey($userId) {
+		$publicKey = $this->keyStorage->getUserKey($userId, $this->publicKeyId);
+
+		if (strlen($publicKey) !== 0) {
+			return $publicKey;
+		}
+		throw new PublicKeyMissingException();
+	}
+
+	/**
+	 * @param $purpose
+	 * @param bool $timestamp
+	 * @param bool $includeUserKeys
+	 */
+	public function backupAllKeys($purpose, $timestamp = true, $includeUserKeys = true) {
+//		$backupDir = $this->keyStorage->;
+	}
+
+	/**
+	 * @param string $uid
+	 */
+	public function replaceUserKeys($uid) {
+		$this->backupAllKeys('password_reset');
+		$this->deletePublicKey($uid);
+		$this->deletePrivateKey($uid);
+	}
+
+	/**
+	 * @param $uid
+	 * @return bool
+	 */
+	public function deletePublicKey($uid) {
+		return $this->keyStorage->deleteUserKey($uid, $this->publicKeyId);
+	}
+
+	/**
+	 * @param $uid
+	 * @return bool
+	 */
+	private function deletePrivateKey($uid) {
+		return $this->keyStorage->deleteUserKey($uid, $this->privateKeyId);
+	}
+
+	/**
+	 * @param array $userIds
+	 * @return array
+	 * @throws PublicKeyMissingException
+	 */
+	public function getPublicKeys(array $userIds) {
+		$keys = [];
+
+		foreach ($userIds as $userId) {
+			try {
+				$keys[$userId] = $this->getPublicKey($userId);
+			} catch (PublicKeyMissingException $e) {
+				continue;
+			}
+		}
+
+		return $keys;
+
+	}
 }

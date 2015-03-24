@@ -22,15 +22,14 @@
 namespace OCA\Encryption\Hooks;
 
 
+use OCP\Util as OCUtil;
 use OCA\Encryption\Hooks\Contracts\IHook;
 use OCA\Encryption\KeyManager;
-use OCA\Encryption\Migrator;
-use OCA\Encryption\RequirementsChecker;
 use OCA\Encryption\Users\Setup;
 use OCP\App;
 use OCP\ILogger;
 use OCP\IUserSession;
-use OCP\Util;
+use OCA\Encryption\Util;
 use Test\User;
 
 class UserHooks implements IHook {
@@ -47,13 +46,13 @@ class UserHooks implements IHook {
 	 */
 	private $userSetup;
 	/**
-	 * @var Migrator
-	 */
-	private $migrator;
-	/**
 	 * @var IUserSession
 	 */
 	private $user;
+	/**
+	 * @var Util
+	 */
+	private $util;
 
 	/**
 	 * UserHooks constructor.
@@ -61,17 +60,19 @@ class UserHooks implements IHook {
 	 * @param KeyManager $keyManager
 	 * @param ILogger $logger
 	 * @param Setup $userSetup
-	 * @param Migrator $migrator
 	 * @param IUserSession $user
+	 * @param OCUtil $ocUtil
+	 * @param Util $util
+	 * @internal param Migrator $migrator
 	 */
 	public function __construct(
-		KeyManager $keyManager, ILogger $logger, Setup $userSetup, Migrator $migrator, IUserSession $user) {
+		KeyManager $keyManager, ILogger $logger, Setup $userSetup, IUserSession $user, OCUtil $ocUtil, Util $util) {
 
 		$this->keyManager = $keyManager;
 		$this->logger = $logger;
 		$this->userSetup = $userSetup;
-		$this->migrator = $migrator;
 		$this->user = $user;
+		$this->util = $util;
 	}
 
 	/**
@@ -80,12 +81,24 @@ class UserHooks implements IHook {
 	 * @return null
 	 */
 	public function addHooks() {
-		Util::connectHook('OC_User', 'post_login', $this, 'login');
-		Util::connectHook('OC_User', 'logout', $this, 'logout');
-		Util::connectHook('OC_User', 'post_setPassword', $this, 'setPassphrase');
-		Util::connectHook('OC_User', 'pre_setPassword', $this, 'preSetPassphrase');
-		Util::connectHook('OC_User', 'post_createUser', $this, 'postCreateUser');
-		Util::connectHook('OC_User', 'post_deleteUser', $this, 'postDeleteUser');
+		OCUtil::connectHook('OC_User', 'post_login', $this, 'login');
+		OCUtil::connectHook('OC_User', 'logout', $this, 'logout');
+		OCUtil::connectHook('OC_User',
+			'post_setPassword',
+			$this,
+			'setPassphrase');
+		OCUtil::connectHook('OC_User',
+			'pre_setPassword',
+			$this,
+			'preSetPassphrase');
+		OCUtil::connectHook('OC_User',
+			'post_createUser',
+			$this,
+			'postCreateUser');
+		OCUtil::connectHook('OC_User',
+			'post_deleteUser',
+			$this,
+			'postDeleteUser');
 	}
 
 
@@ -93,6 +106,8 @@ class UserHooks implements IHook {
 	 * Startup encryption backend upon user login
 	 *
 	 * @note This method should never be called for users using client side encryption
+	 * @param array $params
+	 * @return bool
 	 */
 	public function login($params) {
 
@@ -107,187 +122,66 @@ class UserHooks implements IHook {
 		}
 
 		// setup user, if user not ready force relogin
-		if (!$this->userSetup->setupUser($params['password'])) {
+		if (!$this->userSetup->setupUser($params['uid'], $params['password'])) {
 			return false;
 		}
 
-		$cache = $this->keyManager->init();
-
-		// Check if first-run file migration has already been performed
-		$ready = false;
-		$migrationStatus = $this->migrator->getStatus($params['uid']);
-		if ($migrationStatus === Migrator::$migrationOpen && $cache !== false) {
-			$ready = $this->migrator->beginMigration();
-		} elseif ($migrationStatus === Migrator::$migrationInProgress) {
-			// refuse login as long as the initial encryption is running
-			sleep(5);
-			$this->user->logout();
-			return false;
-		}
-
-		$result = true;
-
-		// If migration not yet done
-		if ($ready) {
-
-			// Encrypt existing user files
-			try {
-				$result = $util->encryptAll('/' . $params['uid'] . '/' . 'files');
-			} catch (\Exception $ex) {
-				\OCP\Util::writeLog('Encryption library', 'Initial encryption failed! Error: ' . $ex->getMessage(), \OCP\Util::FATAL);
-				$result = false;
-			}
-
-			if ($result) {
-				\OC_Log::write(
-					'Encryption library', 'Encryption of existing files belonging to "' . $params['uid'] . '" completed'
-					, \OC_Log::INFO
-				);
-				// Register successful migration in DB
-				$util->finishMigration();
-			} else {
-				\OCP\Util::writeLog('Encryption library', 'Initial encryption failed!', \OCP\Util::FATAL);
-				$util->resetMigrationStatus();
-				\OCP\User::logout();
-			}
-		}
-
-		return $result;
+		$this->keyManager->init($params['uid'], $params['password']);
 	}
 
 	/**
 	 * remove keys from session during logout
 	 */
 	public function logout() {
-		$session = new Session(new \OC\Files\View());
-		$session->removeKeys();
+		KeyManager::$cacheFactory->clear();
 	}
 
 	/**
 	 * setup encryption backend upon user created
 	 *
 	 * @note This method should never be called for users using client side encryption
+	 * @param array $params
 	 */
 	public function postCreateUser($params) {
 
-		if (App::isEnabled('files_encryption')) {
-			$view = new \OC\Files\View('/');
-			$util = new Util($view, $params['uid']);
-			Helper::setupUser($util, $params['password']);
+		if (App::isEnabled('encryption')) {
+			$this->userSetup->setupUser($params['uid'], $params['password']);
 		}
 	}
 
 	/**
 	 * cleanup encryption backend upon user deleted
 	 *
+	 * @param array $params : uid, password
 	 * @note This method should never be called for users using client side encryption
 	 */
 	public function postDeleteUser($params) {
 
-		if (App::isEnabled('files_encryption')) {
-			Keymanager::deletePublicKey(new \OC\Files\View(), $params['uid']);
+		if (App::isEnabled('encryption')) {
+			$this->keyManager->deletePublicKey($params['uid']);
 		}
 	}
 
 	/**
 	 * If the password can't be changed within ownCloud, than update the key password in advance.
+	 *
+	 * @param array $params : uid, password
+	 * @return bool
 	 */
 	public function preSetPassphrase($params) {
-		if (App::isEnabled('files_encryption')) {
-			if (!\OC_User::canUserChangePassword($params['uid'])) {
-				self::setPassphrase($params);
+		if (App::isEnabled('encryption')) {
+
+			if (!$this->user->getUser()->canChangePassword()) {
+				if (App::isEnabled('encryption') === false) {
+					return true;
+				}
+				$this->keyManager->setPassphrase($params,
+					$this->user,
+					$this->util);
 			}
 		}
 	}
 
-	/**
-	 * Change a user's encryption passphrase
-	 *
-	 * @param array $params keys: uid, password
-	 */
-	public function setPassphrase($params) {
-		if (App::isEnabled('files_encryption') === false) {
-			return true;
-		}
-
-		// Only attempt to change passphrase if server-side encryption
-		// is in use (client-side encryption does not have access to
-		// the necessary keys)
-		if (Crypt::mode() === 'server') {
-
-			$view = new \OC\Files\View('/');
-			$session = new Session($view);
-
-			// Get existing decrypted private key
-			$privateKey = $session->getPrivateKey();
-
-			if ($params['uid'] === \OCP\User::getUser() && $privateKey) {
-
-				// Encrypt private key with new user pwd as passphrase
-				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($privateKey, $params['password'], Helper::getCipher());
-
-				// Save private key
-				if ($encryptedPrivateKey) {
-					Keymanager::setPrivateKey($encryptedPrivateKey, \OCP\User::getUser());
-				} else {
-					\OCP\Util::writeLog('files_encryption', 'Could not update users encryption password', \OCP\Util::ERROR);
-				}
-
-				// NOTE: Session does not need to be updated as the
-				// private key has not changed, only the passphrase
-				// used to decrypt it has changed
-
-
-			} else { // admin changed the password for a different user, create new keys and reencrypt file keys
-
-				$user = $params['uid'];
-				$util = new Util($view, $user);
-				$recoveryPassword = isset($params['recoveryPassword']) ? $params['recoveryPassword'] : null;
-
-				// we generate new keys if...
-				// ...we have a recovery password and the user enabled the recovery key
-				// ...encryption was activated for the first time (no keys exists)
-				// ...the user doesn't have any files
-				if (($util->recoveryEnabledForUser() && $recoveryPassword)
-					|| !$util->userKeysExists()
-					|| !$view->file_exists($user . '/files')
-				) {
-
-					// backup old keys
-					$util->backupAllKeys('recovery');
-
-					$newUserPassword = $params['password'];
-
-					// make sure that the users home is mounted
-					\OC\Files\Filesystem::initMountPoints($user);
-
-					$keypair = Crypt::createKeypair();
-
-					// Disable encryption proxy to prevent recursive calls
-					$proxyStatus = \OC_FileProxy::$enabled;
-					\OC_FileProxy::$enabled = false;
-
-					// Save public key
-					Keymanager::setPublicKey($keypair['publicKey'], $user);
-
-					// Encrypt private key with new password
-					$encryptedKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], $newUserPassword, Helper::getCipher());
-					if ($encryptedKey) {
-						Keymanager::setPrivateKey($encryptedKey, $user);
-
-						if ($recoveryPassword) { // if recovery key is set we can re-encrypt the key files
-							$util = new Util($view, $user);
-							$util->recoverUsersFiles($recoveryPassword);
-						}
-					} else {
-						\OCP\Util::writeLog('files_encryption', 'Could not update users encryption password', \OCP\Util::ERROR);
-					}
-
-					\OC_FileProxy::$enabled = $proxyStatus;
-				}
-			}
-		}
-	}
 
 	/**
 	 * after password reset we create a new key pair for the user
@@ -295,10 +189,9 @@ class UserHooks implements IHook {
 	 * @param array $params
 	 */
 	public function postPasswordReset($params) {
-		$uid = $params['uid'];
 		$password = $params['password'];
 
-		$util = new Util(new \OC\Files\View(), $uid);
-		$util->replaceUserKeys($password);
+		$this->keyManager->replaceUserKeys($params['uid']);
+		$this->userSetup->setupServerSide($params['uid'], $password);
 	}
 }

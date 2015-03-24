@@ -51,8 +51,7 @@ class MigratorTest extends TestCase {
 		parent::setUp();
 
 		$cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')->disableOriginalConstructor()->getMock();
-		$this->instance = new Migrator($this->getMock('OCP\IUser'),
-			$this->getMock('OCP\IConfig'),
+		$this->instance = new Migrator($this->getMock('OCP\IConfig'),
 			$this->getMock('OCP\IUserManager'),
 			$this->getMock('OCP\ILogger'),
 			$cryptMock);

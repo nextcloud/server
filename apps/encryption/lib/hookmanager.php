@@ -54,6 +54,8 @@ class HookManager {
 	public function fireHooks() {
 		foreach ($this->hookInstances as $instance) {
 			/**
+			 * Fire off the add hooks method of each instance stored in cache
+			 *
 			 * @var $instance IHook
 			 */
 			$instance->addHooks();

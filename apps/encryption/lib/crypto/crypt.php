@@ -25,6 +25,8 @@ namespace OCA\Encryption\Crypto;
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Exceptions\EncryptionFailedException;
 use OC\Encryption\Exceptions\GenericEncryptionException;
+use OCA\Files_Encryption\Exception\MultiKeyDecryptException;
+use OCA\Files_Encryption\Exception\MultiKeyEncryptException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
@@ -83,12 +85,17 @@ class Crypt {
 		$res = $this->getOpenSSLPKey();
 
 		if (!$res) {
-			$log->error("Encryption Library could'nt generate users key-pair for {$this->user->getUID()}", ['app' => 'encryption']);
+			$log->error("Encryption Library could'nt generate users key-pair for {$this->user->getUID()}",
+				['app' => 'encryption']);
 
 			if (openssl_error_string()) {
-				$log->error('Encryption library openssl_pkey_new() fails: ' . openssl_error_string(), ['app' => 'encryption']);
+				$log->error('Encryption library openssl_pkey_new() fails: ' . openssl_error_string(),
+					['app' => 'encryption']);
 			}
-		} elseif (openssl_pkey_export($res, $privateKey, null, $this->getOpenSSLConfig())) {
+		} elseif (openssl_pkey_export($res,
+			$privateKey,
+			null,
+			$this->getOpenSSLConfig())) {
 			$keyDetails = openssl_pkey_get_details($res);
 			$publicKey = $keyDetails['key'];
 
@@ -97,9 +104,11 @@ class Crypt {
 				'privateKey' => $privateKey
 			];
 		}
-		$log->error('Encryption library couldn\'t export users private key, please check your servers openSSL configuration.' . $user->getUID(), ['app' => 'encryption']);
+		$log->error('Encryption library couldn\'t export users private key, please check your servers openSSL configuration.' . $user->getUID(),
+			['app' => 'encryption']);
 		if (openssl_error_string()) {
-			$log->error('Encryption Library:' . openssl_error_string(), ['app' => 'encryption']);
+			$log->error('Encryption Library:' . openssl_error_string(),
+				['app' => 'encryption']);
 		}
 
 		return false;
@@ -118,7 +127,9 @@ class Crypt {
 	 */
 	private function getOpenSSLConfig() {
 		$config = ['private_key_bits' => 4096];
-		$config = array_merge(\OC::$server->getConfig()->getSystemValue('openssl', []), $config);
+		$config = array_merge(\OC::$server->getConfig()->getSystemValue('openssl',
+			[]),
+			$config);
 		return $config;
 	}
 
@@ -131,14 +142,18 @@ class Crypt {
 	public function symmetricEncryptFileContent($plainContent, $passphrase) {
 
 		if (!$plainContent) {
-			$this->logger->error('Encryption Library, symmetrical encryption failed no content given', ['app' => 'encryption']);
+			$this->logger->error('Encryption Library, symmetrical encryption failed no content given',
+				['app' => 'encryption']);
 			return false;
 		}
 
 		$iv = $this->generateIv();
 
 		try {
-			$encryptedContent = $this->encrypt($plainContent, $iv, $passphrase, $this->getCipher());
+			$encryptedContent = $this->encrypt($plainContent,
+				$iv,
+				$passphrase,
+				$this->getCipher());
 			// combine content to encrypt the IV identifier and actual IV
 			$catFile = $this->concatIV($encryptedContent, $iv);
 			$padded = $this->addPadding($catFile);
@@ -146,7 +161,8 @@ class Crypt {
 			return $padded;
 		} catch (EncryptionFailedException $e) {
 			$message = 'Could not encrypt file content (code: ' . $e->getCode() . '): ';
-			$this->logger->error('files_encryption' . $message . $e->getMessage(), ['app' => 'encryption']);
+			$this->logger->error('files_encryption' . $message . $e->getMessage(),
+				['app' => 'encryption']);
 			return false;
 		}
 
@@ -161,11 +177,16 @@ class Crypt {
 	 * @throws EncryptionFailedException
 	 */
 	private function encrypt($plainContent, $iv, $passphrase = '', $cipher = self::DEFAULT_CIPHER) {
-		$encryptedContent = openssl_encrypt($plainContent, $cipher, $passphrase, false, $iv);
+		$encryptedContent = openssl_encrypt($plainContent,
+			$cipher,
+			$passphrase,
+			false,
+			$iv);
 
 		if (!$encryptedContent) {
 			$error = 'Encryption (symmetric) of content failed';
-			$this->logger->error($error . openssl_error_string(), ['app' => 'encryption']);
+			$this->logger->error($error . openssl_error_string(),
+				['app' => 'encryption']);
 			throw new EncryptionFailedException($error);
 		}
 
@@ -177,8 +198,9 @@ class Crypt {
 	 */
 	public function getCipher() {
 		$cipher = $this->config->getSystemValue('cipher', self::DEFAULT_CIPHER);
-		if ($cipher !== 'AES-256-CFB' || $cipher !== 'AES-128-CFB') {
-			$this->logger->warning('Wrong cipher defined in config.php only AES-128-CFB and AES-256-CFB are supported. Fall back' . self::DEFAULT_CIPHER, ['app' => 'encryption']);
+		if ($cipher !== 'AES-256-CFB' && $cipher !== 'AES-128-CFB') {
+			$this->logger->warning('Wrong cipher defined in config.php only AES-128-CFB and AES-256-CFB are supported. Fall back' . self::DEFAULT_CIPHER,
+				['app' => 'encryption']);
 			$cipher = self::DEFAULT_CIPHER;
 		}
 
@@ -214,10 +236,14 @@ class Crypt {
 
 		// If we found a header we need to remove it from the key we want to decrypt
 		if (!empty($header)) {
-			$recoveryKey = substr($recoveryKey, strpos($recoveryKey, self::HEADEREND) + strlen(self::HEADERSTART));
+			$recoveryKey = substr($recoveryKey,
+				strpos($recoveryKey,
+					self::HEADEREND) + strlen(self::HEADERSTART));
 		}
 
-		$plainKey = $this->symmetricDecryptFileContent($recoveryKey, $password, $cipher);
+		$plainKey = $this->symmetricDecryptFileContent($recoveryKey,
+			$password,
+			$cipher);
 
 		// Check if this is a valid private key
 		$res = openssl_get_privatekey($plainKey);
@@ -246,7 +272,10 @@ class Crypt {
 
 		$catFile = $this->splitIv($noPadding);
 
-		$plainContent = $this->decrypt($catFile['encrypted'], $catFile['iv'], $passphrase, $cipher);
+		$plainContent = $this->decrypt($catFile['encrypted'],
+			$catFile['iv'],
+			$passphrase,
+			$cipher);
 
 		if ($plainContent) {
 			return $plainContent;
@@ -296,7 +325,11 @@ class Crypt {
 	 * @throws DecryptionFailedException
 	 */
 	private function decrypt($encryptedContent, $iv, $passphrase = '', $cipher = self::DEFAULT_CIPHER) {
-		$plainContent = openssl_decrypt($encryptedContent, $cipher, $passphrase, false, $iv);
+		$plainContent = openssl_decrypt($encryptedContent,
+			$cipher,
+			$passphrase,
+			false,
+			$iv);
 
 		if ($plainContent) {
 			return $plainContent;
@@ -317,7 +350,8 @@ class Crypt {
 			$header = substr($data, 0, $endAt + strlen(self::HEADEREND));
 
 			// +1 not to start with an ':' which would result in empty element at the beginning
-			$exploded = explode(':', substr($header, strlen(self::HEADERSTART) + 1));
+			$exploded = explode(':',
+				substr($header, strlen(self::HEADERSTART) + 1));
 
 			$element = array_shift($exploded);
 
@@ -339,7 +373,8 @@ class Crypt {
 		if ($random) {
 			if (!$strong) {
 				// If OpenSSL indicates randomness is insecure log error
-				$this->logger->error('Encryption Library: Insecure symmetric key was generated using openssl_random_psudo_bytes()', ['app' => 'encryption']);
+				$this->logger->error('Encryption Library: Insecure symmetric key was generated using openssl_random_psudo_bytes()',
+					['app' => 'encryption']);
 			}
 
 			/*
@@ -350,6 +385,86 @@ class Crypt {
 		}
 		// If we ever get here we've failed anyway no need for an else
 		throw new GenericEncryptionException('Generating IV Failed');
+	}
+
+	/**
+	 * Check if a file's contents contains an IV and is symmetrically encrypted
+	 *
+	 * @param $content
+	 * @return bool
+	 */
+	public function isCatFileContent($content) {
+		if (!$content) {
+			return false;
+		}
+
+		$noPadding = $this->removePadding($content);
+
+		// Fetch encryption metadata from end of file
+		$meta = substr($noPadding, -22);
+
+		// Fetch identifier from start of metadata
+		$identifier = substr($meta, 0, 6);
+
+		if ($identifier === '00iv00') {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @param $encKeyFile
+	 * @param $shareKey
+	 * @param $privateKey
+	 * @return mixed
+	 * @throws MultiKeyDecryptException
+	 */
+	public function multiKeyDecrypt($encKeyFile, $shareKey, $privateKey) {
+		if (!$encKeyFile) {
+			throw new MultiKeyDecryptException('Cannot multikey decrypt empty plain content');
+		}
+
+		if (openssl_open($encKeyFile, $plainContent, $shareKey, $privateKey)) {
+			return $plainContent;
+		} else {
+			throw new MultiKeyDecryptException('multikeydecrypt with share key failed');
+		}
+	}
+
+	/**
+	 * @param $plainContent
+	 * @param array $keyFiles
+	 * @return array
+	 * @throws MultiKeyEncryptException
+	 */
+	public function multiKeyEncrypt($plainContent, array $keyFiles) {
+		// openssl_seal returns false without errors if plaincontent is empty
+		// so trigger our own error
+		if (empty($plainContent)) {
+			throw new MultiKeyEncryptException('Cannot multikeyencrypt empty plain content');
+		}
+
+		// Set empty vars to be set by openssl by reference
+		$sealed = '';
+		$shareKeys = [];
+		$mappedShareKeys = [];
+
+		if (openssl_seal($plainContent, $sealed, $shareKeys, $keyFiles)) {
+			$i = 0;
+
+			// Ensure each shareKey is labelled with its coreesponding keyid
+			foreach ($keyFiles as $userId => $publicKey) {
+				$mappedShareKeys[$userId] = $shareKeys[$i];
+				$i++;
+			}
+
+			return [
+				'keys' => $mappedShareKeys,
+				'data' => $sealed
+			];
+		} else {
+			throw new MultiKeyEncryptException('multikeyencryption failed ' . openssl_error_string());
+		}
 	}
 }
 

@@ -18,7 +18,7 @@ class Encryption extends Crypt implements IEncryptionModule {
    * @return string defining the technical unique id
    */
   public function getId() {
-    // TODO: Implement getId() method.
+    return md5($this->getDisplayName());
   }
 
   /**
@@ -27,7 +27,7 @@ class Encryption extends Crypt implements IEncryptionModule {
    * @return string
    */
   public function getDisplayName() {
-    // TODO: Implement getDisplayName() method.
+    return 'ownCloud Default Encryption';
   }
 
   /**
@@ -44,7 +44,9 @@ class Encryption extends Crypt implements IEncryptionModule {
    *                       or if no additional data is needed return a empty array
    */
   public function begin($path, $header, $accessList) {
+
     // TODO: Implement begin() method.
+    // return additional header information that needs to be written i.e. cypher used
   }
 
   /**
@@ -68,6 +70,7 @@ class Encryption extends Crypt implements IEncryptionModule {
    */
   public function encrypt($data) {
     // Todo: xxx Update Signature and usages
+    // passphrase is file key decrypted with user private/share key
     $this->symmetricEncryptFileContent($data);
   }
 
@@ -112,5 +115,15 @@ class Encryption extends Crypt implements IEncryptionModule {
    */
   public function calculateUnencryptedSize($path) {
     // TODO: Implement calculateUnencryptedSize() method.
+  }
+
+  /**
+   * get size of the unencrypted payload per block.
+   * ownCloud read/write files with a block size of 8192 byte
+   *
+   * @return integer
+   */
+  public function getUnencryptedBlockSize() {
+    // TODO: Implement getUnencryptedBlockSize() method.
   }
 }

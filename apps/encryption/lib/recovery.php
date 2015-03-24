@@ -22,11 +22,12 @@
 namespace OCA\Encryption;
 
 
-use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
-use OCP\Encryption\IKeyStorage;
+use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
 use OCP\IUser;
+use OCP\IUserSession;
+use OCP\PreConditionNotMetException;
 use OCP\Security\ISecureRandom;
 
 class Recovery {
@@ -58,20 +59,20 @@ class Recovery {
 	private $keyStorage;
 
 	/**
-	 * @param IUser $user
+	 * @param IUserSession $user
 	 * @param Crypt $crypt
 	 * @param ISecureRandom $random
 	 * @param KeyManager $keyManager
 	 * @param IConfig $config
-	 * @param IKeyStorage $keyStorage
+	 * @param IStorage $keyStorage
 	 */
-	public function __construct(IUser $user,
+	public function __construct(IUserSession $user,
 								Crypt $crypt,
 								ISecureRandom $random,
 								KeyManager $keyManager,
 								IConfig $config,
-								IKeyStorage $keyStorage) {
-		$this->user = $user;
+								IStorage $keyStorage) {
+		$this->user = $user && $user->isLoggedIn() ? $user->getUser() : false;
 		$this->crypt = $crypt;
 		$this->random = $random;
 		$this->keyManager = $keyManager;
@@ -97,7 +98,7 @@ class Recovery {
 		if (!$keyManager->recoveryKeyExists()) {
 			$keyPair = $this->crypt->createKeyPair();
 
-			return $this->keyManager->storeKeyPair($password, $keyPair);
+			return $this->keyManager->storeKeyPair($this->user->getUID(), $password, $keyPair);
 		}
 
 		if ($keyManager->checkRecoveryPassword($password)) {
@@ -129,6 +130,47 @@ class Recovery {
 
 	public function removeRecoveryKeys() {
 		// No idea new way to do this....
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function recoveryEnabledForUser() {
+		$recoveryMode = $this->config->getUserValue($this->user->getUID(),
+			'encryption',
+			'recoveryEnabled',
+			0);
+
+		return ($recoveryMode === '1');
+	}
+	/**
+	 * @param $enabled
+	 * @return bool
+	 */
+	public function setRecoveryForUser($enabled) {
+		$value = $enabled ? '1' : '0';
+
+		try {
+			$this->config->setUserValue($this->user->getUID(),
+				'encryption',
+				'recoveryEnabled',
+				$value);
+			return true;
+		} catch (PreConditionNotMetException $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * @param $recoveryPassword
+	 */
+	public function recoverUsersFiles($recoveryPassword) {
+		// todo: get system private key here
+//		$this->keyManager->get
+		$privateKey = $this->crypt->decryptPrivateKey($encryptedKey,
+			$recoveryPassword);
+
+		$this->recoverAllFiles('/', $privateKey);
 	}
 
 }

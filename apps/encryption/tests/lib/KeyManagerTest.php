@@ -27,33 +27,42 @@ class KeyManagerTest extends TestCase {
 	 */
 	private $dummyKeys;
 
+	/**
+	 *
+	 */
 	public function setUp() {
 		parent::setUp();
-		$keyStorageMock = $this->getMock('OCP\Encryption\IKeyStorage');
-		$cryptMock = $this->getMockBuilder('OCA\Encryption\Crypt')
+		$keyStorageMock = $this->getMock('OCP\Encryption\Keys\IStorage');
+		$keyStorageMock->method('getUserKey')
+			->will($this->returnValue(false));
+		$keyStorageMock->method('setUserKey')
+			->will($this->returnValue(true));
+		$cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
 			->disableOriginalConstructor()
 			->getMock();
 		$configMock = $this->getMock('OCP\IConfig');
-		$userMock = $this->getMock('OCP\IUser');
-		$userMock->expects($this->once())
+		$userMock = $this->getMock('OCP\IUserSession');
+		$userMock
 			->method('getUID')
 			->will($this->returnValue('admin'));
+		$cacheMock = $this->getMock('OCP\ICacheFactory');
+		$logMock = $this->getMock('OCP\ILogger');
 		$this->userId = 'admin';
-		$this->instance = new KeyManager($keyStorageMock, $cryptMock, $configMock, $userMock);
+		$this->instance = new KeyManager($keyStorageMock, $cryptMock, $configMock, $userMock, $cacheMock, $logMock);
 
 		$this->dummyKeys = ['public' => 'randomweakpublickeyhere',
 			'private' => 'randomweakprivatekeyhere'];
 	}
 
 	/**
-	 * @expectedException OC\Encryption\Exceptions\PrivateKeyMissingException
+	 * @expectedException \OC\Encryption\Exceptions\PrivateKeyMissingException
 	 */
 	public function testGetPrivateKey() {
 		$this->assertFalse($this->instance->getPrivateKey($this->userId));
 	}
 
 	/**
-	 * @expectedException OC\Encryption\Exceptions\PublicKeyMissingException
+	 * @expectedException \OC\Encryption\Exceptions\PublicKeyMissingException
 	 */
 	public function testGetPublicKey() {
 		$this->assertFalse($this->instance->getPublicKey($this->userId));
@@ -73,17 +82,33 @@ class KeyManagerTest extends TestCase {
 		$this->assertFalse($this->instance->checkRecoveryPassword('pass'));
 	}
 
+	/**
+	 *
+	 */
 	public function testSetPublicKey() {
 
 		$this->assertTrue($this->instance->setPublicKey($this->userId, $this->dummyKeys['public']));
 	}
 
+	/**
+	 *
+	 */
 	public function testSetPrivateKey() {
 		$this->assertTrue($this->instance->setPrivateKey($this->userId, $this->dummyKeys['private']));
 	}
 
+	/**
+	 *
+	 */
 	public function testUserHasKeys() {
 		$this->assertFalse($this->instance->userHasKeys($this->userId));
+	}
+
+	/**
+	 *
+	 */
+	public function testInit() {
+		$this->assertFalse($this->instance->init($this->userId, 'pass'));
 	}
 
 

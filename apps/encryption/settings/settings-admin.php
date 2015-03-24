@@ -6,17 +6,17 @@
  * See the COPYING-README file.
  */
 
+use OCA\Encryption\KeyManager;
+
 \OC_Util::checkAdminUser();
 
 $tmpl = new OCP\Template('files_encryption', 'settings-admin');
 
 // Check if an adminRecovery account is enabled for recovering files after lost pwd
-$recoveryAdminEnabled = \OC::$server->getAppConfig()->getValue('files_encryption', 'recoveryAdminEnabled', '0');
-$session = new \OCA\Files_Encryption\Session(new \OC\Files\View('/'));
-$initStatus = $session->getInitialized();
+$recoveryAdminEnabled = \OC::$server->getConfig()->getAppValue('encryption', 'recoveryAdminEnabled', '0');
 
 $tmpl->assign('recoveryEnabled', $recoveryAdminEnabled);
-$tmpl->assign('initStatus', $initStatus);
+$tmpl->assign('initStatus', KeyManager::$cacheFactory->get('initStatus'));
 
 \OCP\Util::addscript('files_encryption', 'settings-admin');
 \OCP\Util::addscript('core', 'multiselect');

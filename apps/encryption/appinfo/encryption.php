@@ -21,16 +21,16 @@
 namespace OCA\Encryption\AppInfo;
 
 
+use OC\Files\Filesystem;
+use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\HookManager;
-use OCA\Encryption\Hooks\AppHooks;
-use OCA\Encryption\Hooks\FileSystemHooks;
-use OCA\Encryption\Hooks\ShareHooks;
 use OCA\Encryption\Hooks\UserHooks;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Migrator;
 use OCA\Encryption\Recovery;
 use OCA\Encryption\Users\Setup;
+use OCA\Encryption\Util;
 use OCP\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\Encryption\IManager;
@@ -81,14 +81,7 @@ class Encryption extends \OCP\AppFramework\App {
 			$hookManager = new HookManager();
 
 			$hookManager->registerHook([
-				new UserHooks($container->query('KeyManager'),
-					$server->getLogger(),
-					$container->query('UserSetup'),
-					$container->query('Migrator'),
-					$server->getUserSession()),
-//				new ShareHooks(),
-//				new FileSystemHooks(),
-//				new AppHooks()
+				new UserHooks($container->query('KeyManager'), $server->getLogger(), $container->query('UserSetup'), $server->getUserSession(), new \OCP\Util(), $container->query('Util')),
 			]);
 
 			$hookManager->fireHooks();
@@ -103,7 +96,7 @@ class Encryption extends \OCP\AppFramework\App {
 	 *
 	 */
 	public function registerEncryptionModule() {
-//		$this->encryptionManager->registerEncryptionModule(new \OCA\Encryption\Crypto\Encryption());
+		$this->encryptionManager->registerEncryptionModule(new \OCA\Encryption\Crypto\Encryption());
 	}
 
 	/**
@@ -124,10 +117,13 @@ class Encryption extends \OCP\AppFramework\App {
 			function (IAppContainer $c) {
 				$server = $c->getServer();
 
-				return new KeyManager($server->getEncryptionKeyStorage(),
+				return new KeyManager($server->getEncryptionKeyStorage('encryption'),
 					$c->query('Crypt'),
 					$server->getConfig(),
-					$server->getUserSession());
+					$server->getUserSession(),
+					$server->getMemCacheFactory(),
+					$server->getLogger()
+				);
 			});
 
 
@@ -141,7 +137,7 @@ class Encryption extends \OCP\AppFramework\App {
 					$server->getSecureRandom(),
 					$c->query('KeyManager'),
 					$server->getConfig(),
-					$server->getEncryptionKeyStorage());
+					$server->getEncryptionKeyStorage('encryption'));
 			});
 
 		$container->registerService('UserSetup',
@@ -157,11 +153,24 @@ class Encryption extends \OCP\AppFramework\App {
 			function (IAppContainer $c) {
 				$server = $c->getServer();
 
-				return new Migrator($server->getUserSession(),
-					$server->getConfig(),
+				return new Migrator($server->getConfig(),
 					$server->getUserManager(),
 					$server->getLogger(),
 					$c->query('Crypt'));
+			});
+
+		$container->registerService('Util',
+			function (IAppContainer $c) {
+				$server = $c->getServer();
+
+				return new Util(new View(),
+					new Filesystem(),
+					$c->query('Crypt'),
+					$c->query('KeyManager'),
+					$server->getLogger(),
+					$server->getUserSession(),
+					$server->getConfig()
+				);
 			});
 
 	}
