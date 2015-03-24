@@ -247,7 +247,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 			}
 
 			do {
-				$filteredUsers = $this->userManager->search($search, $searchLimit, $searchOffset);
+				$filteredUsers = $this->userManager->searchDisplayName($search, $searchLimit, $searchOffset);
 				foreach($filteredUsers as $filteredUser) {
 					if($group->inGroup($filteredUser)) {
 						$groupUsers[]= $filteredUser;
