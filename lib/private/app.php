@@ -269,7 +269,15 @@ class OC_App {
 
 		$appManager = \OC::$server->getAppManager();
 		if (!is_null($groups)) {
-			$appManager->enableAppForGroups($app, $groups);
+			$groupManager = \OC::$server->getGroupManager();
+			$groupsList = [];
+			foreach ($groups as $group) {
+				$groupItem = $groupManager->get($group);
+				if ($groupItem instanceof \OCP\IGroup) {
+					$groupsList[] = $groupManager->get($group);
+				}
+			}
+			$appManager->enableAppForGroups($app, $groupsList);
 		} else {
 			$appManager->enableApp($app);
 		}
