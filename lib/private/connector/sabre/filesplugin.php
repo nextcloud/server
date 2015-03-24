@@ -70,7 +70,6 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 		$this->server->on('propPatch', array($this, 'handleUpdateProperties'));
 		$this->server->on('afterBind', array($this, 'sendFileIdHeader'));
 		$this->server->on('afterWriteContent', array($this, 'sendFileIdHeader'));
-		$this->server->on('beforeMethod:GET', array($this, 'handleRangeHeaders'));
 	}
 
 	/**
@@ -175,19 +174,6 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 			if (!is_null($fileId)) {
 				$this->server->httpResponse->setHeader('OC-FileId', $fileId);
 			}
-		}
-	}
-
-	/**
-	 * Remove range headers if encryption is enabled.
-	 *
-	 * @param RequestInterface $request
-	 * @param ResponseInterface $response
-	 */
-	public function handleRangeHeaders(RequestInterface $request, ResponseInterface $response) {
-		if (\OC_App::isEnabled('files_encryption')) {
-			// encryption does not support range requests (yet)
-			$request->removeHeader('range');
 		}
 	}
 
