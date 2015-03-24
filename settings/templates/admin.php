@@ -111,7 +111,7 @@ if ($_['databaseOverload']) {
 		</strong>
 	</p>
 	<p>
-		<?php p($l->t('To migrate to another database use the command line tool: \'occ db:convert-type\'')); ?>
+		<?php print_unescaped($l->t('To migrate to another database use the command line tool: \'occ db:convert-type\', or see the <a target="_blank" href="%s">documentation ↗</a>.', link_to_docs('admin-db-conversion') )); ?>
 	</p>
 
 </div>
@@ -228,7 +228,7 @@ if ($_['cronErrors']) {
 	<ul class="errors hidden"></ul>
 	<div class="hint hidden">
 		<span class="setupwarning"><?php
-			print_unescaped($l->t('Please double check the <a href="%s">installation guides</a>, and check for any errors or warnings in the <a href="#log-section">log</a>.', \OC_Helper::linkToDocs('admin-install')));
+			print_unescaped($l->t('Please double check the <a target="_blank" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="#log-section">log</a>.', link_to_docs('admin-install')));
 		?></span>
 	</div>
 </div>
@@ -489,6 +489,17 @@ if ($_['cronErrors']) {
 	</em>
 	<?php endif; ?>
 	<?php endif; ?>
+</div>
+
+<div class="section" id="admin-tips">
+	<h2><?php p($l->t('Tips & tricks'));?></h2>
+	<ul>
+		<li><a target="_blank" href="<?php p(link_to_docs('admin-backup')); ?>"><?php p($l->t('How to do backups'));?> ↗</a></li>
+		<li><a target="_blank" href="<?php p(link_to_docs('admin-monitoring')); ?>"><?php p($l->t('Advanced monitoring'));?> ↗</a></li>
+		<li><a target="_blank" href="<?php p(link_to_docs('admin-performance')); ?>"><?php p($l->t('Performance tuning'));?> ↗</a></li>
+		<li><a target="_blank" href="<?php p(link_to_docs('admin-config')); ?>"><?php p($l->t('Improving the config.php'));?> ↗</a></li>
+		<li><a target="_blank" href="<?php p(link_to_docs('developer-theming')); ?>"><?php p($l->t('Theming'));?> ↗</a></li>
+	</ul>
 </div>
 
 <div class="section">

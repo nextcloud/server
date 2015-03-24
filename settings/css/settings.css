@@ -408,3 +408,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	font-weight: normal;
 	margin-top: 5px;
 }
+
+#admin-tips li {
+	list-style: initial;
+}
+#admin-tips li a {
+	display: inline-block;
+	padding: 3px 0;
+}
