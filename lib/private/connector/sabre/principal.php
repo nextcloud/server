@@ -177,9 +177,10 @@ class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 
 	/**
 	 * @param string $uri
+	 * @param string $principalPrefix
 	 * @return string
 	 */
-	function findByUri($uri) {
+	function findByUri($uri, $principalPrefix) {
 		return '';
 	}
 }
