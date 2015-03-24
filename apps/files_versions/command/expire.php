@@ -11,6 +11,7 @@ namespace OCA\Files_Versions\Command;
 use OC\Command\FileAccess;
 use OCA\Files_Versions\Storage;
 use OCP\Command\ICommand;
+use OCP\IUser;
 
 class Expire implements ICommand {
 	use FileAccess;
@@ -31,18 +32,26 @@ class Expire implements ICommand {
 	private $neededSpace = 0;
 
 	/**
+	 * @var int
+	 */
+	private $user;
+
+	/**
+	 * @param IUser $user
 	 * @param string $fileName
 	 * @param int|null $versionsSize
 	 * @param int $neededSpace
 	 */
-	function __construct($fileName, $versionsSize = null, $neededSpace = 0) {
+	function __construct(IUser $user, $fileName, $versionsSize = null, $neededSpace = 0) {
+		$this->user = $user;
 		$this->fileName = $fileName;
 		$this->versionsSize = $versionsSize;
 		$this->neededSpace = $neededSpace;
 	}
 
 
-	public function handle(){
+	public function handle() {
+		$this->setupFS($this->user);
 		Storage::expire($this->fileName, $this->versionsSize, $this->neededSpace);
 	}
 }

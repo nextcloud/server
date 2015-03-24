@@ -243,6 +243,8 @@ class Test_Files_Versioning extends \Test\TestCase {
 		// execute rename hook of versions app
 		\OC\Files\Filesystem::rename("test.txt", "test2.txt");
 
+		$this->runCommands();
+
 		$this->assertFalse($this->rootView->file_exists($v1));
 		$this->assertFalse($this->rootView->file_exists($v2));
 
@@ -285,7 +287,10 @@ class Test_Files_Versioning extends \Test\TestCase {
 		// execute rename hook of versions app
 		\OC\Files\Filesystem::rename('/folder1/test.txt', '/folder1/folder2/test.txt');
 
+
 		self::loginHelper(self::TEST_VERSIONS_USER2);
+
+		$this->runCommands();
 
 		$this->assertFalse($this->rootView->file_exists($v1));
 		$this->assertFalse($this->rootView->file_exists($v2));
@@ -330,6 +335,8 @@ class Test_Files_Versioning extends \Test\TestCase {
 
 		self::loginHelper(self::TEST_VERSIONS_USER);
 
+		$this->runCommands();
+
 		$this->assertTrue($this->rootView->file_exists($v1));
 		$this->assertTrue($this->rootView->file_exists($v2));
 
@@ -360,6 +367,8 @@ class Test_Files_Versioning extends \Test\TestCase {
 
 		// execute copy hook of versions app
 		\OC\Files\Filesystem::copy("test.txt", "test2.txt");
+
+		$this->runCommands();
 
 		$this->assertTrue($this->rootView->file_exists($v1));
 		$this->assertTrue($this->rootView->file_exists($v2));
@@ -414,7 +423,9 @@ class Test_Files_Versioning extends \Test\TestCase {
 	public static function loginHelper($user, $create = false) {
 
 		if ($create) {
-			\OC_User::createUser($user, $user);
+			$backend  = new \OC_User_Dummy();
+			$backend->createUser($user, $user);
+			\OC::$server->getUserManager()->registerBackend($backend);
 		}
 
 		\OC_Util::tearDownFS();
