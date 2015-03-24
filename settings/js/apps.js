@@ -413,7 +413,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			var element = $(this).parent().find('input.enable');
 			var groups = $(this).val();
 			if (groups && groups !== '') {
-				groups = groups.split(',');
+				groups = groups.split('|');
 			} else {
 				groups = [];
 			}
