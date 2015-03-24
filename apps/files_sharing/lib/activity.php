@@ -202,6 +202,7 @@ class Activity implements IExtension {
 		} else if ($app === 'files') {
 			switch ($text) {
 				case self::SUBJECT_SHARED_LINK_SELF:
+					return [0 => 'file'];
 				case self::SUBJECT_SHARED_USER_SELF:
 				case self::SUBJECT_SHARED_WITH_BY:
 					return [0 => 'file', 1 => 'username'];
@@ -225,6 +226,19 @@ class Activity implements IExtension {
 	 * @return integer|false
 	 */
 	public function getGroupParameter($activity) {
+		if ($activity['app'] === 'files') {
+			switch ($activity['subject']) {
+				case self::SUBJECT_SHARED_LINK_SELF:
+				case self::SUBJECT_SHARED_WITH_BY:
+					// Group by file name
+					return 0;
+				case self::SUBJECT_SHARED_USER_SELF:
+				case self::SUBJECT_SHARED_GROUP_SELF:
+					// Group by user/group
+					return 1;
+			}
+		}
+
 		return false;
 	}
 
