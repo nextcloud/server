@@ -23,6 +23,7 @@
 namespace Test;
 
 use OC\Command\QueueBus;
+use OC\Files\Filesystem;
 use OCP\Security\ISecureRandom;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase {
@@ -34,7 +35,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		// overwrite the command bus with one we can run ourselves
 		$this->commandBus = new QueueBus();
-		\OC::$server->registerService('AsyncCommandBus', function(){
+		\OC::$server->registerService('AsyncCommandBus', function () {
 			return $this->commandBus;
 		});
 	}
@@ -190,6 +191,20 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	 * Run all commands pushed to the bus
 	 */
 	protected function runCommands() {
+		// get the user for which the fs is setup
+		$view = Filesystem::getView();
+		if ($view) {
+			list(, $user) = explode('/', $view->getRoot());
+		} else {
+			$user = null;
+		}
+
+		\OC_Util::tearDownFS(); // command cant reply on the fs being setup
 		$this->commandBus->run();
+		\OC_Util::tearDownFS();
+
+		if ($user) {
+			\OC_Util::setupFS($user);
+		}
 	}
 }
