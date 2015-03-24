@@ -67,7 +67,6 @@ OC.L10N.register(
     "Cancel" : "უარყოფა",
     "Language" : "ენა",
     "Help translate" : "თარგმნის დახმარება",
-    "Import Root Certificate" : "Root სერთიფიკატის იმპორტირება",
     "Username" : "მომხმარებლის სახელი",
     "Create" : "შექმნა",
     "Default Quota" : "საწყისი ქვოტა",

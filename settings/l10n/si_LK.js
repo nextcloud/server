@@ -36,7 +36,6 @@ OC.L10N.register(
     "Cancel" : "එපා",
     "Language" : "භාෂාව",
     "Help translate" : "පරිවර්ථන සහය",
-    "Import Root Certificate" : "මූල සහතිකය ආයාත කරන්න",
     "Username" : "පරිශීලක නම",
     "Create" : "තනන්න",
     "Default Quota" : "සාමාන්‍ය සලාකය",

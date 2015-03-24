@@ -36,7 +36,6 @@ OC.L10N.register(
     "Cancel" : "இரத்து செய்க",
     "Language" : "மொழி",
     "Help translate" : "மொழிபெயர்க்க உதவி",
-    "Import Root Certificate" : "வேர் சான்றிதழை இறக்குமதி செய்க",
     "Username" : "பயனாளர் பெயர்",
     "Create" : "உருவாக்குக",
     "Default Quota" : "பொது இருப்பு பங்கு",

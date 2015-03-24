@@ -44,7 +44,6 @@ OC.L10N.register(
     "Cancel" : "Hætta við",
     "Language" : "Tungumál",
     "Help translate" : "Hjálpa við þýðingu",
-    "Import Root Certificate" : "Flytja inn rótar skilríki",
     "Username" : "Notendanafn",
     "Create" : "Búa til",
     "Unlimited" : "Ótakmarkað",

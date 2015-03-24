@@ -68,7 +68,6 @@ OC.L10N.register(
     "Cancel" : "ביטול",
     "Language" : "פה",
     "Help translate" : "עזרה בתרגום",
-    "Import Root Certificate" : "ייבוא אישור אבטחת שורש",
     "Username" : "שם משתמש",
     "Create" : "יצירה",
     "Admin Recovery Password" : "ססמת השחזור של המנהל",

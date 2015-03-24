@@ -59,7 +59,6 @@ OC.L10N.register(
     "Cancel" : "ยกเลิก",
     "Language" : "ภาษา",
     "Help translate" : "ช่วยกันแปล",
-    "Import Root Certificate" : "นำเข้าข้อมูลใบรับรองความปลอดภัยจาก Root",
     "Username" : "ชื่อผู้ใช้งาน",
     "Create" : "สร้าง",
     "Default Quota" : "โควต้าที่กำหนดไว้เริ่มต้น",

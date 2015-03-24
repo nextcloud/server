@@ -46,6 +46,7 @@ OC.L10N.register(
     "Public key" : "Veřejný klíč",
     "Storage with id \"%i\" not found" : "Úložiště s id \"%i\" nebylo nalezeno",
     "Invalid mount point" : "Neplatný přípojný bod",
+    "Invalid storage backend \"%s\"" : "Neplatná služba úložiště \"%s\"",
     "Access granted" : "Přístup povolen",
     "Error configuring Dropbox storage" : "Chyba při nastavení úložiště Dropbox",
     "Grant access" : "Povolit přístup",

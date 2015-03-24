@@ -171,6 +171,7 @@ OC.L10N.register(
     "Technical details" : "Технички детаљи",
     "Remote Address: %s" : "Удаљена адреса: %s",
     "Request ID: %s" : "ИД захтева: %s",
+    "Type: %s" : "Тип: %s",
     "Code: %s" : "Кôд: %s",
     "Message: %s" : "Порука: %s",
     "File: %s" : "Фајл: %s",

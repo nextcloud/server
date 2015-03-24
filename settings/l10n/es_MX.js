@@ -82,7 +82,6 @@ OC.L10N.register(
     "Current password" : "Contraseña actual",
     "New password" : "Nueva contraseña",
     "Change password" : "Cambiar contraseña",
-    "Full Name" : "Nombre completo",
     "Email" : "Correo electrónico",
     "Your email address" : "Su dirección de correo",
     "Profile picture" : "Foto de perfil",
@@ -95,7 +94,6 @@ OC.L10N.register(
     "Choose as profile image" : "Seleccionar como imagen de perfil",
     "Language" : "Idioma",
     "Help translate" : "Ayúdanos a traducir",
-    "Import Root Certificate" : "Importar certificado raíz",
     "The encryption app is no longer enabled, please decrypt all your files" : "La aplicación de cifrado ya no está activada, descifre todos sus archivos",
     "Log-in password" : "Contraseña de acceso",
     "Decrypt all Files" : "Descifrar archivos",
@@ -106,6 +104,7 @@ OC.L10N.register(
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "Por favor indique la cúota de almacenamiento (ej: \"512 MB\" o \"12 GB\")",
     "Unlimited" : "Ilimitado",
     "Other" : "Otro",
+    "Full Name" : "Nombre completo",
     "change full name" : "cambiar el nombre completo",
     "set new password" : "establecer nueva contraseña",
     "Default" : "Predeterminado"
