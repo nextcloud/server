@@ -17,6 +17,8 @@ use Test\TestCase;
 use OCP\IRequest;
 use OCA\Files\Service\TagService;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IPreview;
+use OCP\Image;
 
 /**
  * Class ApiController
@@ -30,6 +32,8 @@ class ApiControllerTest extends TestCase {
 	private $request;
 	/** @var TagService */
 	private $tagService;
+	/** @var IPreview */
+	private $preview;
 	/** @var ApiController */
 	private $apiController;
 
@@ -40,11 +44,15 @@ class ApiControllerTest extends TestCase {
 		$this->tagService = $this->getMockBuilder('\OCA\Files\Service\TagService')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->preview = $this->getMockBuilder('\OCP\IPreview')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->apiController = new ApiController(
 			$this->appName,
 			$this->request,
-			$this->tagService
+			$this->tagService,
+			$this->preview
 		);
 	}
 
@@ -239,5 +247,30 @@ class ApiControllerTest extends TestCase {
 
 		$expected = new DataResponse(['message' => 'My error message'], Http::STATUS_NOT_FOUND);
 		$this->assertEquals($expected, $this->apiController->updateFileTags('/path.txt', ['Tag1', 'Tag2']));
+	}
+
+	public function testGetThumbnailInvalidSize() {
+		$expected = new DataResponse(['message' => 'Requested size must be numeric and a positive value.'], Http::STATUS_BAD_REQUEST);
+		$this->assertEquals($expected, $this->apiController->getThumbnail(0, 0, ''));
+	}
+
+	public function testGetThumbnailInvaidImage() {
+		$this->preview->expects($this->once())
+			->method('createPreview')
+			->with('files/unknown.jpg', 10, 10, true)
+			->willReturn(new Image);
+		$expected = new DataResponse(['message' => 'File not found.'], Http::STATUS_NOT_FOUND);
+		$this->assertEquals($expected, $this->apiController->getThumbnail(10, 10, 'unknown.jpg'));
+	}
+
+	public function testGetThumbnail() {
+		$this->preview->expects($this->once())
+			->method('createPreview')
+			->with('files/known.jpg', 10, 10, true)
+			->willReturn(new Image(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+
+		$ret = $this->apiController->getThumbnail(10, 10, 'known.jpg');
+
+		$this->assertEquals(Http::STATUS_OK, $ret->getStatus());
 	}
 }

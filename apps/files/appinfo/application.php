@@ -8,7 +8,6 @@
 
 namespace OCA\Files\Appinfo;
 
-use OC\AppFramework\Utility\SimpleContainer;
 use OCA\Files\Controller\ApiController;
 use OCP\AppFramework\App;
 use \OCA\Files\Service\TagService;
@@ -18,15 +17,17 @@ class Application extends App {
 	public function __construct(array $urlParams=array()) {
 		parent::__construct('files', $urlParams);
 		$container = $this->getContainer();
+		$server = $container->getServer();
 
 		/**
 		 * Controllers
 		 */
-		$container->registerService('APIController', function (IContainer $c) {
+		$container->registerService('APIController', function (IContainer $c) use ($server) {
 			return new ApiController(
 				$c->query('AppName'),
 				$c->query('Request'),
-				$c->query('TagService')
+				$c->query('TagService'),
+				$server->getPreviewManager()
 			);
 		});
 
