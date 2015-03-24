@@ -52,7 +52,7 @@ try {
 		\OCP\Util::writeLog('cron', 'Update required, skipping cron', \OCP\Util::DEBUG);
 		exit;
 	}
-	if (\OC::$server->getSystemConfig()->getValue('maintenance', false)) {
+	if (\OC_Config::getValue('maintenance', false)) {
 		\OCP\Util::writeLog('cron', 'We are in maintenance mode, skipping cron', \OCP\Util::DEBUG);
 		exit;
 	}
