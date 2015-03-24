@@ -12,6 +12,7 @@ namespace OCA\Files_Sharing\Controllers;
 
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\Application;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\IAppContainer;
 use OCP\Files;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -48,6 +49,8 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->container['UserSession'] = $this->getMockBuilder('\OC\User\Session')
 			->disableOriginalConstructor()->getMock();
 		$this->container['URLGenerator'] = $this->getMockBuilder('\OC\URLGenerator')
+			->disableOriginalConstructor()->getMock();
+		$this->container['UserManager'] = $this->getMockBuilder('\OCP\IUserManager')
 			->disableOriginalConstructor()->getMock();
 		$this->urlGenerator = $this->container['URLGenerator'];
 		$this->shareController = $this->container['ShareController'];
@@ -115,7 +118,7 @@ class ShareControllerTest extends \Test\TestCase {
 	public function testAuthenticate() {
 		// Test without a not existing token
 		$response = $this->shareController->authenticate('ThisTokenShouldHopefullyNeverExistSoThatTheUnitTestWillAlwaysPass :)');
-		$expectedResponse =  new TemplateResponse('core', '404', array(), 'guest');
+		$expectedResponse =  new NotFoundResponse();
 		$this->assertEquals($expectedResponse, $response);
 
 		// Test with a valid password
@@ -130,9 +133,14 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testShowShare() {
+		$this->container['UserManager']->expects($this->exactly(2))
+			->method('userExists')
+			->with($this->user)
+			->will($this->returnValue(true));
+
 		// Test without a not existing token
 		$response = $this->shareController->showShare('ThisTokenShouldHopefullyNeverExistSoThatTheUnitTestWillAlwaysPass :)');
-		$expectedResponse =  new TemplateResponse('core', '404', array(), 'guest');
+		$expectedResponse =  new NotFoundResponse();
 		$this->assertEquals($expectedResponse, $response);
 
 		// Test with a password protected share and no authentication
@@ -176,4 +184,54 @@ class ShareControllerTest extends \Test\TestCase {
 			array('token' => $this->token)));
 		$this->assertEquals($expectedResponse, $response);
 	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage No file found belonging to file.
+	 */
+	public function testShowShareWithDeletedFile() {
+		$this->container['UserManager']->expects($this->once())
+			->method('userExists')
+			->with($this->user)
+			->will($this->returnValue(true));
+
+		$view = new View('/'. $this->user . '/files');
+		$view->unlink('file1.txt');
+		$linkItem = Share::getShareByToken($this->token, false);
+		\OC::$server->getSession()->set('public_link_authenticated', $linkItem['id']);
+		$this->shareController->showShare($this->token);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage No file found belonging to file.
+	 */
+	public function testDownloadShareWithDeletedFile() {
+		$this->container['UserManager']->expects($this->once())
+			->method('userExists')
+			->with($this->user)
+			->will($this->returnValue(true));
+
+		$view = new View('/'. $this->user . '/files');
+		$view->unlink('file1.txt');
+		$linkItem = Share::getShareByToken($this->token, false);
+		\OC::$server->getSession()->set('public_link_authenticated', $linkItem['id']);
+		$this->shareController->downloadShare($this->token);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Owner of the share does not exist anymore
+	 */
+	public function testShowShareWithNotExistingUser() {
+		$this->container['UserManager']->expects($this->once())
+			->method('userExists')
+			->with($this->user)
+			->will($this->returnValue(false));
+
+		$linkItem = Share::getShareByToken($this->token, false);
+		\OC::$server->getSession()->set('public_link_authenticated', $linkItem['id']);
+		$this->shareController->showShare($this->token);
+	}
+
 }

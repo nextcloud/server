@@ -11,6 +11,7 @@
 namespace OCA\Files_Sharing\Middleware;
 
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -59,7 +60,7 @@ class SharingCheckMiddleware extends Middleware {
 	 * @return TemplateResponse
 	 */
 	public function afterException($controller, $methodName, \Exception $exception){
-		return new TemplateResponse('core', '404', array(), 'guest');
+		return new NotFoundResponse();
 	}
 
 	/**
