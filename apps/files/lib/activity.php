@@ -29,11 +29,13 @@ use OCP\IURLGenerator;
 
 class Activity implements IExtension {
 	const FILTER_FILES = 'files';
+	const FILTER_FAVORITES = 'files_favorites';
 
 	const TYPE_SHARE_CREATED = 'file_created';
 	const TYPE_SHARE_CHANGED = 'file_changed';
 	const TYPE_SHARE_DELETED = 'file_deleted';
 	const TYPE_SHARE_RESTORED = 'file_restored';
+	const TYPE_FAVORITES = 'files_favorites';
 
 	/** @var IL10N */
 	protected $l;
@@ -74,6 +76,7 @@ class Activity implements IExtension {
 		return [
 			self::TYPE_SHARE_CREATED => (string) $l->t('A new file or folder has been <strong>created</strong>'),
 			self::TYPE_SHARE_CHANGED => (string) $l->t('A file or folder has been <strong>changed</strong>'),
+			self::TYPE_FAVORITES => (string) $l->t('Limit notifications about creation and changes to your <strong>favorite files</strong>'),
 			self::TYPE_SHARE_DELETED => (string) $l->t('A file or folder has been <strong>deleted</strong>'),
 			self::TYPE_SHARE_RESTORED => (string) $l->t('A file or folder has been <strong>restored</strong>'),
 		];
@@ -230,6 +233,11 @@ class Activity implements IExtension {
 	public function getNavigation() {
 		return [
 			'apps' => [
+				self::FILTER_FAVORITES => [
+					'id' => self::FILTER_FAVORITES,
+					'name' => (string) $this->l->t('Favorites'),
+					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::FILTER_FAVORITES]),
+				],
 				self::FILTER_FILES => [
 					'id' => self::FILTER_FILES,
 					'name' => (string) $this->l->t('Files'),
@@ -247,7 +255,7 @@ class Activity implements IExtension {
 	 * @return boolean
 	 */
 	public function isFilterValid($filterValue) {
-		return $filterValue === self::FILTER_FILES;
+		return $filterValue === self::FILTER_FILES || $filterValue === self::FILTER_FAVORITES;
 	}
 
 	/**
@@ -259,7 +267,7 @@ class Activity implements IExtension {
 	 * @return array|false
 	 */
 	public function filterNotificationTypes($types, $filter) {
-		if ($filter === self::FILTER_FILES) {
+		if ($filter === self::FILTER_FILES || $filter === self::FILTER_FAVORITES) {
 			return array_intersect([
 				self::TYPE_SHARE_CREATED,
 				self::TYPE_SHARE_CHANGED,
@@ -280,9 +288,68 @@ class Activity implements IExtension {
 	 * @return array|false
 	 */
 	public function getQueryForFilter($filter) {
+		$user = \OC::$server->getActivityManager()->getCurrentUserId();
+		// Display actions from all files
 		if ($filter === self::FILTER_FILES) {
 			return ['`app` = ?', ['files']];
 		}
+
+		if (!$user) {
+			// Remaining filters only work with a user/token
+			return false;
+		}
+
+		// Display actions from favorites only
+		if ($filter === self::FILTER_FAVORITES || $filter === 'all' && $this->userSettingFavoritesOnly($user)) {
+			$tagManager = \OC::$server->getTagManager();
+
+			$tags = $tagManager->load('files', [], false, $user);
+			$favorites = $tags->getFavorites();
+
+			if (isset($favorites[50])) {
+				// Too many favorites, can not put them into one query anymore...
+				return ['`app` = ?', ['files']];
+			}
+
+			$rootFolder = \OC::$server->getUserFolder($user);
+			$parameters = $fileQueryList = [];
+			foreach ($favorites as $favorite) {
+				$nodes = $rootFolder->getById($favorite);
+				if ($nodes) {
+					/** @var \OCP\Files\Node $node */
+					$node = array_shift($nodes);
+
+					$fileQueryList[] = '`file` = ?';
+					$parameters[] = substr($node->getPath(), strlen($user . '/files/'));
+
+					if ($node instanceof \OCP\Files\Folder) {
+						// Also look for subfolders and files
+						$fileQueryList[] = '`file` LIKE ?';
+						$parameters[] = substr($node->getPath(), strlen($user . '/files/')) . '/%';
+					}
+				}
+			}
+
+			if (empty($fileQueryList)) {
+				// No favorites...
+				return ['`app` = ?', ['files']];
+			}
+
+			return [
+				' CASE WHEN `app` = \'files\' THEN (' . implode(' OR ', $fileQueryList) . ') ELSE `app` <> \'files\' END ',
+				$parameters,
+			];
+		}
 		return false;
+	}
+
+	/**
+	 * Is the file actions favorite limitation enabled?
+	 *
+	 * @param string $user
+	 * @return bool
+	 */
+	protected function userSettingFavoritesOnly($user) {
+		return (bool) \OC::$server->getConfig()->getUserValue($user, 'activity', 'notify_stream_' . self::TYPE_FAVORITES, false);
 	}
 }
