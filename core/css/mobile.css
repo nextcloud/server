@@ -54,6 +54,11 @@
 	display: none;
 }
 
+/* do not show update notification on mobile */
+#update-notification {
+	display: none !important;
+}
+
 /* position share dropdown */
 #dropdown {
 	margin-right: 10% !important;
