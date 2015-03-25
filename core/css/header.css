@@ -271,7 +271,11 @@
 #expand * {
 	cursor: pointer;
 }
-#expand:hover, #expand:focus, #expand:active { color:#fff; }
+#expand:hover,
+#expand:focus,
+#expand:active {
+	color: #fff;
+}
 #expand img { 
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; 
 	opacity: .7;
@@ -310,7 +314,8 @@
 	}
 	#expanddiv a:hover, 
 	#expanddiv a:focus, 
-	#expanddiv a:active {
+	#expanddiv a:active,
+	#expanddiv a.active {
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 		opacity: 1;
 	}
