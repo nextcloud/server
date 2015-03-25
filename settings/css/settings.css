@@ -394,14 +394,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 #postsetupchecks .loading {
 	height: 50px;
-}
-
-#postsetupchecks.section .loading {
 	background-position: left center;
-}
-
-#postsetupchecks .hint {
-	margin-top: 15px;
 }
 
 #admin-tips li {

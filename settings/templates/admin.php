@@ -172,7 +172,6 @@ if ($_['cronErrors']) {
 
 <div id="postsetupchecks">
 	<div class="loading"></div>
-	<div class="success hidden"><?php p($l->t('No problems found'));?></div>
 	<ul class="errors hidden"></ul>
 	<p class="hint hidden">
 		<?php print_unescaped($l->t('Please double check the <a target="_blank" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="#log-section">log</a>.', link_to_docs('admin-install'))); ?>
