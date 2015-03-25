@@ -466,11 +466,11 @@
 			var $el = $(e.target).closest('.crumb'),
 				$targetDir = $el.data('dir');
 
-			if ($targetDir !== undefined) {
+			if ($targetDir !== undefined && e.which === 1) {
 				e.preventDefault();
 				this.changeDirectory($targetDir);
+				this.updateSearch();
 			}
-			this.updateSearch();
 		},
 
 		/**
