@@ -105,8 +105,14 @@
 
 /* move Deleted Files to bottom of sidebar */
 .nav-trashbin {
-	position: absolute !important;
-	bottom: 0;
+	position: fixed !important;
+	bottom: 44px;
+	width: inherit !important;
+	background-color: #f5f5f5;
+}
+/* double padding to account for Deleted files entry, issue with Firefox */
+.app-files #app-navigation > ul li:nth-last-child(2) {
+	margin-bottom: 44px;
 }
 
 #filestable tbody tr { background-color:#fff; height:40px; }
