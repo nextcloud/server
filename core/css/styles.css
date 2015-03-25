@@ -240,14 +240,21 @@ textarea:disabled {
 .searchbox input[type="search"] {
 	position: relative;
 	font-size: 1.2em;
+	padding: 3px;
 	padding-left: 1.5em;
 	background: #fff url('../img/actions/search.svg') no-repeat .5em center;
 	border: 0;
-	border-radius: 2em;
+	border-radius: 3px;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	opacity: .3;
+	margin-top: 9px;
+	float: right;
+}
+.searchbox input[type="search"]:hover,
+.searchbox input[type="search"]:focus,
+.searchbox input[type="search"]:active {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	opacity: .7;
-	margin-top: 6px;
-	float: right;
 }
 
 input[type="submit"].enabled {

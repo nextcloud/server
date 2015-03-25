@@ -139,15 +139,17 @@
 
 #navigation {
 	position: fixed;
-	top: 55px;
+	top: 45px;
 	left: 10px;
 	width: 265px;
 	max-height: 85%;
 	margin-top: 0;
 	padding-bottom: 10px;
 	background-color: rgba(0, 0, 0, .97);
-	/*box-shadow: 0 0 7px rgba(30, 30, 30, .97);*/
-	border-radius: 5px;
+	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
+	border-radius: 3px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 	display: none;
 	/*overflow-y: auto;
 	overflow-x: hidden;*/
@@ -285,7 +287,7 @@
 }
 #expand {
 	display: block;
-	padding: 7px 12px 6px 7px;
+	padding: 7px 30px 6px 22px;
 	cursor: pointer;
 }
 #expand * {
@@ -310,12 +312,14 @@
 #expanddiv {
 	position: absolute;
 	right: 10px;
-	top: 55px;
+	top: 45px;
 	z-index: 2000;
 	display: none;
 	background-color: rgba(0, 0, 0, .97);
-	/*box-shadow: 0 0 7px rgba(30, 30, 30, .97);*/
-	border-radius: 5px;
+	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
+	border-radius: 3px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
 	#expanddiv a {

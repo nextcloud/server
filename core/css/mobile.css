@@ -39,6 +39,8 @@
 	-moz-transition: all 100ms;
 	-o-transition: all 100ms;
 	transition: all 100ms;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	opacity: .7;
 }
 .searchbox input[type="search"]:focus,
 .searchbox input[type="search"]:active {
@@ -47,11 +49,17 @@
 	cursor: text;
 	background-color: #fff;
 	background-image: url('../img/actions/search.svg');
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	opacity: 1;
 }
 
 /* do not show display name on mobile when profile picture is present */
 #header .avatardiv.avatardiv-shown + #expandDisplayName {
 	display: none;
+}
+#header #expand {
+	display: block;
+	padding: 7px 30px 6px 7px;
 }
 
 /* do not show update notification on mobile */
