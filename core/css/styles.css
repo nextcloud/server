@@ -241,7 +241,7 @@ textarea:disabled {
 	position: relative;
 	font-size: 1.2em;
 	padding: 3px;
-	padding-left: 1.5em;
+	padding-left: 28px;
 	background: #fff url('../img/actions/search.svg') no-repeat .5em center;
 	border: 0;
 	border-radius: 3px;

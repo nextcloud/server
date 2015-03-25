@@ -158,7 +158,6 @@
 /* arrow look */
 #navigation:after, #expanddiv:after {
 	bottom: 100%;
-	left: 47%;
 	border: solid transparent;
 	content: " ";
 	height: 0;
@@ -170,8 +169,11 @@
 	border-width: 10px;
 	margin-left: -10px;
 }
+#navigation:after {
+	left: 47%;
+}
 #expanddiv:after {
-	left: 75%;
+	right: 15px;
 }
 
 #navigation, #navigation * {
@@ -298,16 +300,16 @@
 #expand:active {
 	color: #fff;
 }
-#expand img { 
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; 
+#expand img {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	opacity: .7;
 	margin-bottom: -2px;
 }
-#expand:hover img, 
-#expand:focus img, 
-#expand:active img { 
+#expand:hover img,
+#expand:focus img,
+#expand:active img {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	opacity:1;
+	opacity: 1;
 }
 #expanddiv {
 	position: absolute;
