@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Security & Setup Warnings" : "Drošības & iestatījumu brīdinājumi",
     "Cron" : "Cron",
     "Sharing" : "Dalīšanās",
     "Email Server" : "E-pasta serveris",
@@ -100,10 +99,7 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN Pārvaldnieks",
     "SSL" : "SSL",
     "TLS" : "TLS",
-    "Setup Warning" : "Iestatīšanas brīdinājums",
-    "Module 'fileinfo' missing" : "Trūkst modulis “fileinfo”",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Trūkst PHP modulis “fileinfo”. Mēs iesakām to aktivēt, lai pēc iespējas labāk noteiktu mime tipus.",
-    "Locale not working" : "Lokāle nestrādā",
     "Execute one task with each page loaded" : "Izpildīt vienu uzdevumu ar katru ielādēto lapu",
     "Allow apps to use the Share API" : "Ļauj lietotnēm izmantot koplietošanas API",
     "Allow users to share via link" : "Ļaut lietotājiem dalīties caur saitēm",

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "user_webdavauth",
     {
-    "WebDAV Authentication" : "ВебДАВ провера идентитета",
+    "WebDAV Authentication" : "ВебДАВ аутентификација",
     "Address:" : "Адреса:",
     "Save" : "Сачувај",
     "The user credentials will be sent to this address. This plugin checks the response and will interpret the HTTP statuscodes 401 and 403 as invalid credentials, and all other responses as valid credentials." : "Кориснички акредитиви биће послати на ову адресу. Прикључак проверава одговор и ХТТП кодове 401 и 403 тумачиће као неисправне акредитиве а све остале одговоре као исправне."

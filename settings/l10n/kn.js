@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Security & Setup Warnings" : "﻿ಭದ್ರತಾ ಮತ್ತು ಸೆಟಪ್ ಎಚ್ಚರಿಕೆಗಳು",
     "Sharing" : "﻿ಹಂಚಿಕೆ",
     "Email Server" : "ಇ-ಅಂಚೆಯ ﻿ಪರಿಚಾರಕ ಗಣಕಯಂತ್ರ",
     "Log" : "ಹಿನ್ನೆಲೆಯ ದಾಖಲೆ",
@@ -89,11 +88,6 @@ OC.L10N.register(
     "None" : "﻿ಯಾವುದೂ ಇಲ್ಲ",
     "Login" : "ಖಾತೆ ಪ್ರವೇಶಿಸು",
     "Plain" : "﻿ಸರಳ",
-    "Read-Only config enabled" : "ಸಂರಚನೆಯಲ್ಲಿ ಓದವ ಹಕ್ಕುನ್ನು ಮಾತ್ರ ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
-    "Setup Warning" : "﻿ಸಿದ್ಧತೆಯ ಎಚ್ಚರಿಕೆ",
-    "Database Performance Info" : "ದತ್ತಸಂಚಯದ ಸಾಧನೆ ಮಾಹಿತಿ",
-    "Module 'fileinfo' missing" : "ಕಾರ್ಯಕ್ರಮದ 'fileinfo' ಭಾಗ ಕಾಣೆಯಾದಂತ್ತಿದೆ",
-    "Locale not working" : "ಲಿಪಿ ಸಂಯೋಜಕದಲಿ ವ್ಯತೆ",
     "No problems found" : "﻿ಯಾವ ವ್ಯಕ್ತಿಯೂ ಕಂಡುಬಂದಿಲ್ಲ",
     "Expire after " : "ನಿಶ್ವಸಿಸುವ ಅವಧಿ",
     "days" : "﻿ದಿನಗಳು",

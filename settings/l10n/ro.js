@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Security & Setup Warnings" : "Nu am putut sterge aplicatia",
     "Cron" : "Cron",
     "Sharing" : "Partajare",
     "Log" : "Jurnal de activitate",
@@ -64,10 +63,7 @@ OC.L10N.register(
     "Login" : "Autentificare",
     "SSL" : "SSL",
     "TLS" : "TLS",
-    "Setup Warning" : "Atenţie la implementare",
-    "Module 'fileinfo' missing" : "Modulul \"Fileinfo\" lipsește",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Modulul PHP \"Fileinfo\" lipsește. Va recomandam sa activaţi acest modul pentru a obține cele mai bune rezultate cu detectarea mime-type.",
-    "Locale not working" : "Localizarea nu funcționează",
     "Execute one task with each page loaded" : "Execută o sarcină la fiecare pagină încărcată",
     "Allow apps to use the Share API" : "Permite aplicațiilor să folosească API-ul de partajare",
     "Allow public uploads" : "Permite încărcări publice",

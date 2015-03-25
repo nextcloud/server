@@ -89,6 +89,7 @@
     "Maximum upload size" : "Maksimal yükləmə həcmi",
     "max. possible: " : "maks. ola bilər: ",
     "Save" : "Saxlamaq",
+    "Can not be edited from here due to insufficient permissions." : "Yetki çatışmamazlığına görə, burdan başlayaraq dəyişiklik edə bilməzsiniz.",
     "Settings" : "Quraşdırmalar",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Bu ünvanı <a href=\"%s\" target=\"_blank\">WebDAV vasitəsilə fayllarınızı əldə etmək üçün</a> istifadə edə bilərsiniz. ",

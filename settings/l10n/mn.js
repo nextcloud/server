@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Security & Setup Warnings" : "Аюулгүй байдал болон Тохиргооны анхааруулга",
     "Cron" : "Крон",
     "Sharing" : "Түгээлт",
     "Email Server" : "И-мэйл сервер",

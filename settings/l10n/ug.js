@@ -30,8 +30,6 @@ OC.L10N.register(
     "Encryption" : "شىفىرلاش",
     "None" : "يوق",
     "Login" : "تىزىمغا كىرىڭ",
-    "Setup Warning" : "ئاگاھلاندۇرۇش تەڭشەك",
-    "Module 'fileinfo' missing" : "بۆلەك «ھۆججەت ئۇچۇرى» يوقالغان",
     "Server address" : "مۇلازىمېتىر ئادرىسى",
     "Port" : "ئېغىز",
     "Log level" : "خاتىرە دەرىجىسى",

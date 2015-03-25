@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Security & Setup Warnings" : "Varnostna in nastavitvena opozorila",
     "Cron" : "Periodično opravilo",
     "Sharing" : "Souporaba",
     "Email Server" : "Poštni strežnik",
@@ -100,15 +99,9 @@ OC.L10N.register(
     "NT LAN Manager" : "Upravljalnik NT LAN",
     "SSL" : "SSL",
     "TLS" : "TLS",
-    "Setup Warning" : "Opozorilo nastavitve",
-    "Database Performance Info" : "Podrobnosti delovanja podatkovne zbirke",
-    "Module 'fileinfo' missing" : "Manjka modul 'fileinfo'.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Manjka modul PHP 'fileinfo'. Priporočljivo je omogočiti ta modul za popolno zaznavanje vrst MIME.",
-    "Locale not working" : "Jezikovne prilagoditve ne delujejo.",
     "System locale can not be set to a one which supports UTF-8." : "Sistemskih jezikovnih nastavitev ni mogoče nastaviti na možnost, ki podpira nabor UTF-8.",
     "This means that there might be problems with certain characters in file names." : "To pomeni, da se lahko pojavijo napake pri nekaterih znakih v imenih datotek.",
-    "URL generation in notification emails" : "Ustvarjanje naslova URL v elektronskih sporočilih",
-    "Configuration Checks" : "Preverjanje nastavitev",
     "No problems found" : "Ni zaznanih težav",
     "Cron was not executed yet!" : "Periodično opravilo cron še ni zagnano!",
     "Execute one task with each page loaded" : "Izvedi eno nalogo z vsako naloženo stranjo.",

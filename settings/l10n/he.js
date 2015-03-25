@@ -34,8 +34,6 @@ OC.L10N.register(
     "Encryption" : "הצפנה",
     "None" : "כלום",
     "Login" : "התחברות",
-    "Setup Warning" : "שגיאת הגדרה",
-    "Module 'fileinfo' missing" : "המודול „fileinfo“ חסר",
     "Execute one task with each page loaded" : "יש להפעיל משימה אחת עם כל עמוד שנטען",
     "Allow apps to use the Share API" : "לאפשר ליישום להשתמש ב־API השיתוף",
     "Allow resharing" : "לאפשר שיתוף מחדש",

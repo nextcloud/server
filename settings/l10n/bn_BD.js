@@ -41,7 +41,6 @@ OC.L10N.register(
     "Encryption" : "সংকেতায়ন",
     "None" : "কোনটিই নয়",
     "Login" : "প্রবেশ",
-    "Module 'fileinfo' missing" : "'fileinfo' মডিউল নেই",
     "No problems found" : "কোন সমস্যা পাওয়া গেল না",
     "Expire after " : "এরপর মেয়াদোত্তীর্ণ হও",
     "days" : "দিনগুলি",

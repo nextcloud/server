@@ -16,6 +16,8 @@
     "Invalid image" : "無効な画像",
     "No temporary profile picture available, try again" : "一時的なプロファイル用画像が利用できません。もう一度試してください",
     "No crop data provided" : "クロップデータは提供されません",
+    "No valid crop data provided" : "有効なクロップデータは提供されません",
+    "Crop is not square" : "クロップが正方形ではありません",
     "Sunday" : "日",
     "Monday" : "月",
     "Tuesday" : "火",
@@ -66,7 +68,10 @@
     "Good password" : "良好なパスワード",
     "Strong password" : "強いパスワード",
     "Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken." : "WebDAVインタフェースが動作していないと考えられるため、あなたのWEBサーバはまだファイルの同期を許可するように適切な設定がされていません。",
+    "This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features." : "このサーバーはインターネットに接続されていません。この場合、外部ストレージのマウント、更新の通知やサードパーティ製のアプリ、といったいくつかの機能が使えません。また、リモート接続でのファイルアクセス、通知メールの送信のような機能も利用できない可能性があります。全ての機能を利用するためには、このサーバーからインターネットに接続できるようにすることをお勧めします。",
+    "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "データディレクトリとファイルがインターネットからアクセス可能になっている可能性があります。.htaccessファイルが機能していません。データディレクトリがアクセスされないようにウェブサーバーを設定するか、ウェブサーバーのドキュメントルートからデータディレクトリを移動するように強くお勧めします。",
     "Error occurred while checking server setup" : "サーバー設定のチェック中にエラーが発生しました",
+    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "HTTP経由でアクセスしています。HTTPSを使用するようサーバーを設定することを強くおすすめします。",
     "Shared" : "共有中",
     "Shared with {recipients}" : "{recipients} と共有",
     "Share" : "共有",
@@ -162,6 +167,7 @@
     "Technical details" : "技術詳細",
     "Remote Address: %s" : "リモートアドレス: %s",
     "Request ID: %s" : "リクエスト ID: %s",
+    "Type: %s" : "種類: %s",
     "Code: %s" : "コード: %s",
     "Message: %s" : "メッセージ: %s",
     "File: %s" : "ファイル: %s",
@@ -212,6 +218,7 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "データベースを確認してください。実行前にconfigフォルダーとdataフォルダーをバックアップします。",
     "Start update" : "アップデートを開始",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "大規模なサイトの場合、ブラウザーがタイムアウトする可能性があるため、インストールディレクトリで次のコマンドを実行しても構いません。",
+    "This %s instance is currently in maintenance mode, which may take a while." : "このサーバー %s は現在メンテナンスモードです。しばらくお待ちください。",
     "This page will refresh itself when the %s instance is available again." : "この画面は、サーバー %s の再起動後に自動的に更新されます。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
