@@ -602,6 +602,11 @@ class DAV extends \OC\Files\Storage\Common {
 					return false;
 				}
 			} else {
+				// This resolves issues that are flooding the log file due to some malformed
+				// WebDAV response e.g. T-Mobile's cloud named "Mediencenter"
+				if (!isset($response['{DAV:}getlastmodified']))
+					return false;
+				
 				$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
 				return $remoteMtime > $time;
 			}
