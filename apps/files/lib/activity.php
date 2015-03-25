@@ -24,7 +24,10 @@ namespace OCA\Files;
 
 use OC\L10N\Factory;
 use OCP\Activity\IExtension;
+use OCP\Activity\IManager;
+use OCP\IConfig;
 use OCP\IL10N;
+use OCP\ITagManager;
 use OCP\IURLGenerator;
 
 class Activity implements IExtension {
@@ -46,14 +49,29 @@ class Activity implements IExtension {
 	/** @var IURLGenerator */
 	protected $URLGenerator;
 
+	/** @var \OCP\Activity\IManager */
+	protected $activityManager;
+
+	/** @var \OCP\IConfig */
+	protected $config;
+
+	/** @var \OCP\ITagManager */
+	protected $tagManager;
+
 	/**
 	 * @param Factory $languageFactory
 	 * @param IURLGenerator $URLGenerator
+	 * @param IManager $activityManager
+	 * @param ITagManager $tagManager
+	 * @param IConfig $config
 	 */
-	public function __construct(Factory $languageFactory, IURLGenerator $URLGenerator) {
+	public function __construct(Factory $languageFactory, IURLGenerator $URLGenerator, IManager $activityManager, ITagManager $tagManager, IConfig $config) {
 		$this->languageFactory = $languageFactory;
 		$this->URLGenerator = $URLGenerator;
 		$this->l = $this->getL10N();
+		$this->activityManager = $activityManager;
+		$this->tagManager = $tagManager;
+		$this->config = $config;
 	}
 
 	/**
@@ -288,7 +306,7 @@ class Activity implements IExtension {
 	 * @return array|false
 	 */
 	public function getQueryForFilter($filter) {
-		$user = \OC::$server->getActivityManager()->getCurrentUserId();
+		$user = $this->activityManager->getCurrentUserId();
 		// Display actions from all files
 		if ($filter === self::FILTER_FILES) {
 			return ['`app` = ?', ['files']];
@@ -301,9 +319,7 @@ class Activity implements IExtension {
 
 		// Display actions from favorites only
 		if ($filter === self::FILTER_FAVORITES || $filter === 'all' && $this->userSettingFavoritesOnly($user)) {
-			$tagManager = \OC::$server->getTagManager();
-
-			$tags = $tagManager->load('files', [], false, $user);
+			$tags = $this->tagManager->load('files', [], false, $user);
 			$favorites = $tags->getFavorites();
 
 			if (isset($favorites[50])) {
@@ -311,6 +327,7 @@ class Activity implements IExtension {
 				return ['`app` = ?', ['files']];
 			}
 
+			// Can not DI because the user is not known on instantiation
 			$rootFolder = \OC::$server->getUserFolder($user);
 			$parameters = $fileQueryList = [];
 			foreach ($favorites as $favorite) {
@@ -350,6 +367,6 @@ class Activity implements IExtension {
 	 * @return bool
 	 */
 	protected function userSettingFavoritesOnly($user) {
-		return (bool) \OC::$server->getConfig()->getUserValue($user, 'activity', 'notify_stream_' . self::TYPE_FAVORITES, false);
+		return (bool) $this->config->getUserValue($user, 'activity', 'notify_stream_' . self::TYPE_FAVORITES, false);
 	}
 }
