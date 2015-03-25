@@ -136,4 +136,14 @@ interface IManager {
 	 * @return array
 	 */
 	function getQueryForFilter($filter);
+
+	/**
+	 * Get the user we need to use
+	 *
+	 * Either the user is logged in, or we try to get it from the token
+	 *
+	 * @return string
+	 * @throws \UnexpectedValueException If the token is invalid, does not exist or is not unique
+	 */
+	public function getCurrentUserId();
 }

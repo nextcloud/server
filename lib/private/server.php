@@ -223,8 +223,12 @@ class Server extends SimpleContainer implements IServerContainer {
 				new ArrayCache()
 			);
 		});
-		$this->registerService('ActivityManager', function ($c) {
-			return new ActivityManager();
+		$this->registerService('ActivityManager', function (Server $c) {
+			return new ActivityManager(
+				$c->getRequest(),
+				$c->getUserSession(),
+				$c->getConfig()
+			);
 		});
 		$this->registerService('AvatarManager', function ($c) {
 			return new AvatarManager();
