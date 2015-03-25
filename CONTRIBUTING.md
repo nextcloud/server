@@ -4,7 +4,7 @@ If you have questions about how to install or use ownCloud, please direct these 
 
 ### TL;DR
 
- * The [issue template can be found here][template] but be aware of the different repositories! See list below.
+ * The [**issue template can be found here**][template] but be aware of the different repositories! See list below.
 
 ### Guidelines
 * Please search the existing issues first, it's likely that your issue was already reported or even fixed.
