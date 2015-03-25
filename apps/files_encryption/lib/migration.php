@@ -84,6 +84,7 @@ class Migration {
 
 	public function reorganizeFolderStructureForUser($user) {
 		// backup all keys
+		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user);
 		if ($this->backupUserKeys($user)) {
 			// create new 'key' folder
