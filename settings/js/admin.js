@@ -140,11 +140,10 @@ $(document).ready(function(){
 		var $errorsEl;
 		$el.find('.loading').addClass('hidden');
 		if (errors.length === 0) {
-			$el.find('.success').removeClass('hidden');
 		} else {
 			$errorsEl = $el.find('.errors');
 			for (var i = 0; i < errors.length; i++ ) {
-				$errorsEl.append('<li class="setupwarning">' + errors[i] + '</li>');
+				$errorsEl.append('<li>' + errors[i] + '</li>');
 			}
 			$errorsEl.removeClass('hidden');
 			$el.find('.hint').removeClass('hidden');
