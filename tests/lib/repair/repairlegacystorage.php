@@ -5,13 +5,14 @@
  * later.
  * See the COPYING-README file.
  */
+namespace Test\Repair;
 
 /**
  * Tests for the converting of legacy storages to home storages.
  *
  * @see \OC\Repair\RepairLegacyStorages
  */
-class TestRepairLegacyStorages extends \Test\TestCase {
+class RepairLegacyStorages extends \Test\TestCase {
 
 	private $connection;
 	private $config;

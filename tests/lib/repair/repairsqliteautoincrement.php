@@ -11,7 +11,7 @@ namespace Test\Repair;
 /**
  * Tests for fixing the SQLite id recycling
  */
-class TestRepairSqliteAutoincrement extends \Test\TestCase {
+class RepairSqliteAutoincrement extends \Test\TestCase {
 
 	/**
 	 * @var \OC\Repair\SqliteAutoincrement
