@@ -408,7 +408,7 @@ if ($_['cronErrors']) {
 			<td>
 				<?php p($entry->app);?>
 			</td>
-			<td>
+			<td class="log-message">
 				<?php p($entry->message);?>
 			</td>
 			<td class="date">
