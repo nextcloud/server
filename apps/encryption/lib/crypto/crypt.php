@@ -69,14 +69,6 @@ class Crypt {
 	}
 
 	/**
-	 * @param null $user
-	 * @return string
-	 */
-	public function mode($user = null) {
-		return 'server';
-	}
-
-	/**
 	 *
 	 */
 	public function createKeyPair() {

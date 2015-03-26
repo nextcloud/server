@@ -239,78 +239,63 @@ class KeyManager {
 	 */
 	public function setPassphrase($params, IUserSession $user, Util $util) {
 
-		// Only attempt to change passphrase if server-side encryption
-		// is in use (client-side encryption does not have access to
-		// the necessary keys)
-		if ($this->crypt->mode() === 'server') {
+		// Get existing decrypted private key
+		$privateKey = self::$cacheFactory->get('privateKey');
 
-			// Get existing decrypted private key
-			$privateKey = self::$cacheFactory->get('privateKey');
+		if ($params['uid'] === $user->getUser()->getUID() && $privateKey) {
 
-			if ($params['uid'] === $user->getUser()->getUID() && $privateKey) {
+			// Encrypt private key with new user pwd as passphrase
+			$encryptedPrivateKey = $this->crypt->symmetricEncryptFileContent($privateKey, $params['password']);
 
-				// Encrypt private key with new user pwd as passphrase
-				$encryptedPrivateKey = $this->crypt->symmetricEncryptFileContent($privateKey,
-					$params['password']);
+			// Save private key
+			if ($encryptedPrivateKey) {
+				$this->setPrivateKey($user->getUser()->getUID(), $encryptedPrivateKey);
+			} else {
+				$this->log->error('Encryption could not update users encryption password');
+			}
 
-				// Save private key
-				if ($encryptedPrivateKey) {
-					$this->setPrivateKey($user->getUser()->getUID(),
-						$encryptedPrivateKey);
-				} else {
-					$this->log->error('Encryption could not update users encryption password');
-				}
+			// NOTE: Session does not need to be updated as the
+			// private key has not changed, only the passphrase
+			// used to decrypt it has changed
+		} else { // admin changed the password for a different user, create new keys and reencrypt file keys
+			$user = $params['uid'];
+			$recoveryPassword = isset($params['recoveryPassword']) ? $params['recoveryPassword'] : null;
 
-				// NOTE: Session does not need to be updated as the
-				// private key has not changed, only the passphrase
-				// used to decrypt it has changed
+			// we generate new keys if...
+			// ...we have a recovery password and the user enabled the recovery key
+			// ...encryption was activated for the first time (no keys exists)
+			// ...the user doesn't have any files
+			if (($util->recoveryEnabledForUser() && $recoveryPassword) || !$this->userHasKeys($user) || !$util->userHasFiles($user)
+			) {
 
+				// backup old keys
+				$this->backupAllKeys('recovery');
 
-			} else { // admin changed the password for a different user, create new keys and reencrypt file keys
+				$newUserPassword = $params['password'];
 
-				$user = $params['uid'];
-				$recoveryPassword = isset($params['recoveryPassword']) ? $params['recoveryPassword'] : null;
+				$keypair = $this->crypt->createKeyPair();
 
-				// we generate new keys if...
-				// ...we have a recovery password and the user enabled the recovery key
-				// ...encryption was activated for the first time (no keys exists)
-				// ...the user doesn't have any files
-				if (($util->recoveryEnabledForUser() && $recoveryPassword)
+				// Disable encryption proxy to prevent recursive calls
+				$proxyStatus = \OC_FileProxy::$enabled;
+				\OC_FileProxy::$enabled = false;
 
-					|| !$this->userHasKeys($user)
-					|| !$util->userHasFiles($user)
-				) {
+				// Save public key
+				$this->setPublicKey($user, $keypair['publicKey']);
 
-					// backup old keys
-					$this->backupAllKeys('recovery');
+				// Encrypt private key with new password
+				$encryptedKey = $this->crypt->symmetricEncryptFileContent($keypair['privateKey'], $newUserPassword);
 
-					$newUserPassword = $params['password'];
+				if ($encryptedKey) {
+					$this->setPrivateKey($user, $encryptedKey);
 
-					$keypair = $this->crypt->createKeyPair();
-
-					// Disable encryption proxy to prevent recursive calls
-					$proxyStatus = \OC_FileProxy::$enabled;
-					\OC_FileProxy::$enabled = false;
-
-					// Save public key
-					$this->setPublicKey($user, $keypair['publicKey']);
-
-					// Encrypt private key with new password
-					$encryptedKey = $this->crypt->symmetricEncryptFileContent($keypair['privateKey'],
-						$newUserPassword);
-
-					if ($encryptedKey) {
-						$this->setPrivateKey($user, $encryptedKey);
-
-						if ($recoveryPassword) { // if recovery key is set we can re-encrypt the key files
-							$util->recoverUsersFiles($recoveryPassword);
-						}
-					} else {
-						$this->log->error('Encryption Could not update users encryption password');
+					if ($recoveryPassword) { // if recovery key is set we can re-encrypt the key files
+						$util->recoverUsersFiles($recoveryPassword);
 					}
-
-					\OC_FileProxy::$enabled = $proxyStatus;
+				} else {
+					$this->log->error('Encryption Could not update users encryption password');
 				}
+
+				\OC_FileProxy::$enabled = $proxyStatus;
 			}
 		}
 	}
