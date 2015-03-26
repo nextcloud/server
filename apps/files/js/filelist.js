@@ -743,8 +743,12 @@
 			// from here work on the display name
 			name = fileData.displayName || name;
 
+			// show hidden files (starting with a dot) completely in gray
+			if(name.indexOf('.') === 0) {
+				basename = '';
+				extension = name;
 			// split extension from filename for non dirs
-			if (type !== 'dir' && name.indexOf('.') !== -1) {
+			} else if (type !== 'dir' && name.indexOf('.') !== -1) {
 				basename = name.substr(0, name.lastIndexOf('.'));
 				extension = name.substr(name.lastIndexOf('.'));
 			} else {
