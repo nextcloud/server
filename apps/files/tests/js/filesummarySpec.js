@@ -148,4 +148,37 @@ describe('OCA.Files.FileSummary tests', function() {
 		expect(s.summary.totalFiles).toEqual(1);
 		expect(s.summary.totalSize).toEqual(127903);
 	});
+	it('properly sum up pending folder sizes after adding', function() {
+		var s = new FileSummary($container);
+		s.setSummary({
+			totalDirs: 0,
+			totalFiles: 0,
+			totalSize: 0
+		});
+		s.add({type: 'dir', size: -1});
+		s.update();
+		expect($container.hasClass('hidden')).toEqual(false);
+		expect($container.find('.info').text()).toEqual('1 folder and 0 files');
+		expect($container.find('.filesize').text()).toEqual('Pending');
+		expect(s.summary.totalDirs).toEqual(1);
+		expect(s.summary.totalFiles).toEqual(0);
+		expect(s.summary.totalSize).toEqual(0);
+	});
+	it('properly sum up pending folder sizes after remove', function() {
+		var s = new FileSummary($container);
+		s.setSummary({
+			totalDirs: 0,
+			totalFiles: 0,
+			totalSize: 0
+		});
+		s.add({type: 'dir', size: -1});
+		s.remove({type: 'dir', size: -1});
+		s.update();
+		expect($container.hasClass('hidden')).toEqual(true);
+		expect($container.find('.info').text()).toEqual('0 folders and 0 files');
+		expect($container.find('.filesize').text()).toEqual('0 B');
+		expect(s.summary.totalDirs).toEqual(0);
+		expect(s.summary.totalFiles).toEqual(0);
+		expect(s.summary.totalSize).toEqual(0);
+	});
 });

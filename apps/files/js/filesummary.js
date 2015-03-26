@@ -40,7 +40,8 @@
 			totalFiles: 0,
 			totalDirs: 0,
 			totalSize: 0,
-			filter:''
+			filter:'',
+			sumIsPending:false
 		},
 
 		/**
@@ -58,7 +59,12 @@
 			else {
 				this.summary.totalFiles++;
 			}
-			this.summary.totalSize += parseInt(file.size, 10) || 0;
+			var size = parseInt(file.size, 10) || 0;
+			if (size >=0) {
+				this.summary.totalSize += size;
+			} else {
+				this.summary.sumIsPending = true;
+			}
 			if (!!update) {
 				this.update();
 			}
@@ -78,7 +84,10 @@
 			else {
 				this.summary.totalFiles--;
 			}
-			this.summary.totalSize -= parseInt(file.size, 10) || 0;
+			var size = parseInt(file.size, 10) || 0;
+			if (size >=0) {
+				this.summary.totalSize -= size;
+			}
 			if (!!update) {
 				this.update();
 			}
@@ -103,7 +112,8 @@
 				totalDirs: 0,
 				totalFiles: 0,
 				totalSize: 0,
-				filter: this.summary.filter
+				filter: this.summary.filter,
+				sumIsPending: false
 			};
 
 			for (var i = 0; i < files.length; i++) {
@@ -117,7 +127,12 @@
 				else {
 					summary.totalFiles++;
 				}
-				summary.totalSize += parseInt(file.size, 10) || 0;
+				var size = parseInt(file.size, 10) || 0;
+				if (size >=0) {
+					summary.totalSize += size;
+				} else {
+					summary.sumIsPending = true;
+				}
 			}
 			this.setSummary(summary);
 		},
@@ -160,7 +175,8 @@
 			// Substitute old content with new translations
 			$dirInfo.html(n('files', '%n folder', '%n folders', this.summary.totalDirs));
 			$fileInfo.html(n('files', '%n file', '%n files', this.summary.totalFiles));
-			this.$el.find('.filesize').html(OC.Util.humanFileSize(this.summary.totalSize));
+			var fileSize = this.summary.sumIsPending ? t('files', 'Pending') : OC.Util.humanFileSize(this.summary.totalSize);
+			this.$el.find('.filesize').html(fileSize);
 
 			// Show only what's necessary (may be hidden)
 			if (this.summary.totalDirs === 0) {
@@ -194,10 +210,9 @@
 			var summary = this.summary;
 			var directoryInfo = n('files', '%n folder', '%n folders', summary.totalDirs);
 			var fileInfo = n('files', '%n file', '%n files', summary.totalFiles);
-			if (this.summary.filter === '') {
-				var filterInfo = '';
-			} else {
-				var filterInfo = ' ' + n('files', 'matches \'{filter}\'', 'match \'{filter}\'', summary.totalFiles + summary.totalDirs, {filter: summary.filter});
+			var filterInfo = '';
+			if (this.summary.filter !== '') {
+				filterInfo = ' ' + n('files', 'matches \'{filter}\'', 'match \'{filter}\'', summary.totalFiles + summary.totalDirs, {filter: summary.filter});
 			}
 
 			var infoVars = {
@@ -208,7 +223,8 @@
 			// don't show the filesize column, if filesize is NaN (e.g. in trashbin)
 			var fileSize = '';
 			if (!isNaN(summary.totalSize)) {
-				fileSize = '<td class="filesize">' + OC.Util.humanFileSize(summary.totalSize) + '</td>';
+				fileSize = summary.sumIsPending ? t('files', 'Pending') : OC.Util.humanFileSize(summary.totalSize);
+				fileSize = '<td class="filesize">' + fileSize + '</td>';
 			}
 
 			var info = t('files', '{dirs} and {files}', infoVars, null, {'escape': false});
