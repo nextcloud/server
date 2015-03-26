@@ -548,7 +548,9 @@ if ($_['cronErrors']) {
 	<?php include('settings.development.notice.php'); ?>
 </div>
 
-<?php print_unescaped($_['updaterAppPanel']); ?>
+<?php if (!empty($_['updaterAppPanel'])): ?>
+	<div id="updater"><?php print_unescaped($_['updaterAppPanel']); ?></div>
+<?php endif; ?>
 
 <div class="section credits-footer">
 	<p><?php print_unescaped($theme->getShortFooter()); ?></p>
