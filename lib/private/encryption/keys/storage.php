@@ -162,6 +162,17 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	}
 
 	/**
+	 * delete all file keys for a given file
+	 *
+	 * @param string $path to the file
+	 * @return boolean
+	 */
+	public function deleteAllFileKeys($path) {
+		$keyDir = $this->getFileKeyDir($path);
+		return $this->view->deleteAll(dirname($keyDir));
+	}
+
+	/**
 	 * delete system-wide encryption keys not related to a specific user,
 	 * e.g something like a key for public link shares
 	 *
@@ -262,6 +273,29 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 		}
 
 		return \OC\Files\Filesystem::normalizePath($keyPath . $this->encryptionModuleId . '/', false);
+	}
+
+	/**
+	 * move keys if a file was renamed
+	 *
+	 * @param string $source
+	 * @param string $target
+	 * @param string $owner
+	 * @param bool $systemWide
+	 */
+	public function renameKeys($source, $target, $owner, $systemWide) {
+		if ($systemWide) {
+			$sourcePath = $this->keys_base_dir . $source . '/';
+			$targetPath = $this->keys_base_dir . $target . '/';
+		} else {
+			$sourcePath = '/' . $owner . $this->keys_base_dir . $source . '/';
+			$targetPath = '/' . $owner . $this->keys_base_dir . $target . '/';
+		}
+
+		if ($this->view->file_exists($sourcePath)) {
+			$this->keySetPreparation(dirname($targetPath));
+			$this->view->rename($sourcePath, $targetPath);
+		}
 	}
 
 	/**
