@@ -48,6 +48,10 @@ var UserList = {
 	 * @returns table row created for this user
 	 */
 	add: function (user, sort) {
+		if (this.currentGid && _.indexOf(user.groups, this.currentGid) < 0) {
+			return;
+		}
+
 		var $tr = $userListBody.find('tr:first-child').clone();
 		// this removes just the `display:none` of the template row
 		$tr.removeAttr('style');
