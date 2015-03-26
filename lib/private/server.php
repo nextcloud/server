@@ -78,8 +78,17 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('ContactsManager', function ($c) {
 			return new ContactsManager();
 		});
+
 		$this->registerService('PreviewManager', function (Server $c) {
 			return new PreviewManager($c->getConfig());
+		});
+
+		$this->registerService('EncryptionManager', function (Server $c) {
+			return new Encryption\Manager($c->getConfig());
+		});
+
+		$this->registerService('EncryptionKeyStorageFactory', function ($c) {
+			return new Encryption\Keys\Factory();
 		});
 		$this->registerService('TagMapper', function(Server $c) {
 			return new TagMapper($c->getDatabaseConnection());
@@ -387,6 +396,24 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getContactsManager() {
 		return $this->query('ContactsManager');
+	}
+
+	/**
+	 * @return \OC\Encryption\Manager
+	 */
+	function getEncryptionManager() {
+		return $this->query('EncryptionManager');
+	}
+
+	/**
+	 * @param string $encryptionModuleId encryption module ID
+	 *
+	 * @return \OCP\Encryption\Keys\IStorage
+	 */
+	function getEncryptionKeyStorage($encryptionModuleId) {
+		$view = new \OC\Files\View();
+		$util = new \OC\Encryption\Util($view, \OC::$server->getUserManager());
+		return $this->query('EncryptionKeyStorageFactory')->get($encryptionModuleId, $view, $util);
 	}
 
 	/**

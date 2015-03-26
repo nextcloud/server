@@ -178,7 +178,7 @@ class OC {
 		// search the 3rdparty folder
 		OC::$THIRDPARTYROOT = OC_Config::getValue('3rdpartyroot', null);
 		OC::$THIRDPARTYWEBROOT = OC_Config::getValue('3rdpartyurl', null);
-		
+
 		if (empty(OC::$THIRDPARTYROOT) && empty(OC::$THIRDPARTYWEBROOT)) {
 			if (file_exists(OC::$SERVERROOT . '/3rdparty')) {
 				OC::$THIRDPARTYROOT = OC::$SERVERROOT;
@@ -193,7 +193,7 @@ class OC {
 				. ' folder in the ownCloud folder or the folder above.'
 				. ' You can also configure the location in the config.php file.');
 		}
-		
+
 		// search the apps folder
 		$config_paths = OC_Config::getValue('apps_paths', array());
 		if (!empty($config_paths)) {
@@ -642,6 +642,8 @@ class OC {
 		self::registerShareHooks();
 		self::registerLogRotate();
 		self::registerLocalAddressBook();
+		self::registerEncryptionWrapper();
+		self::registerEncryptionHooks();
 
 		//make sure temporary files are cleaned up
 		$tmpManager = \OC::$server->getTempManager();
@@ -696,6 +698,45 @@ class OC {
 			\OC::$server->getContactsManager()->registerAddressBook(
 				new \OC\Contacts\LocalAddressBook($userManager));
 		});
+	}
+
+	private static function registerEncryptionWrapper() {
+		$enabled = self::$server->getEncryptionManager()->isEnabled();
+		if ($enabled) {
+			\OC\Files\Filesystem::addStorageWrapper('oc_encryption', function ($mountPoint, $storage) {
+				$parameters = array('storage' => $storage, 'mountPoint' => $mountPoint);
+				$manager = \OC::$server->getEncryptionManager();
+				$util = new \OC\Encryption\Util(new \OC\Files\View(), \OC::$server->getUserManager());
+				$user = \OC::$server->getUserSession()->getUser();
+				$logger = \OC::$server->getLogger();
+				$uid = $user ? $user->getUID() : null;
+				return new \OC\Files\Storage\Wrapper\Encryption($parameters, $manager,$util, $logger, $uid);
+			});
+		}
+
+	}
+
+	private static function registerEncryptionHooks() {
+		$enabled = self::$server->getEncryptionManager()->isEnabled();
+		if ($enabled) {
+			$user = \OC::$server->getUserSession()->getUser();
+			$uid = '';
+			if ($user) {
+				$uid = $user->getUID();
+			}
+			$updater = new \OC\Encryption\Update(
+				new \OC\Files\View(),
+				new \OC\Encryption\Util(new \OC\Files\View(), \OC::$server->getUserManager()),
+				\OC\Files\Filesystem::getMountManager(),
+				\OC::$server->getEncryptionManager(),
+				$uid
+			);
+			\OCP\Util::connectHook('OCP\Share', 'post_shared', $updater, 'postShared');
+			\OCP\Util::connectHook('OCP\Share', 'post_unshare', $updater, 'postUnshared');
+
+			//\OCP\Util::connectHook('OC_Filesystem', 'post_umount', 'OCA\Files_Encryption\Hooks', 'postUnmount');
+			//\OCP\Util::connectHook('OC_Filesystem', 'umount', 'OCA\Files_Encryption\Hooks', 'preUnmount');
+		}
 	}
 
 	/**

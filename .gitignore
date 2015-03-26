@@ -11,6 +11,8 @@
 /apps*/*
 !/apps/files
 !/apps/files_encryption
+!/apps/encryption
+!/apps/encryption_dummy
 !/apps/files_external
 !/apps/files_sharing
 !/apps/files_trashbin

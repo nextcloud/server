@@ -407,3 +407,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	display: inline-block;
 	padding: 3px 0;
 }
+
+#selectEncryptionModules {
+	margin-left: 30px;
+	padding: 10px;
+}
+
+#encryptionModules {
+	padding: 10px;
+}

@@ -291,6 +291,30 @@ if ($_['cronErrors']) {
 			</p>
 </div>
 
+<div class="section" id='encryptionAPI'>
+	<h2><?php p($l->t('Server Side Encryption'));?></h2>
+		<p id="enable">
+			<input type="checkbox" name="encryption_enabled" id="encryptionEnabled"
+				   value="1" <?php if ($_['encryptionEnabled']) print_unescaped('checked="checked"'); ?> />
+			<label for="encryptionEnabled"><?php p($l->t('Enable Server-Side-Encryption'));?></label><br/>
+		</p>
+		<div id='selectEncryptionModules' class="<?php if (!$_['encryptionEnabled']) { p('hidden'); }?>">
+			<?php if (empty($_['encryptionModules'])): p('No encryption module loaded, please load a encryption module in the app menu');
+			else: ?>
+				<h3>Select default encryption module:</h3>
+				<fieldset id='encryptionModules'>
+					 <?php foreach ($_['encryptionModules'] as $id => $module): ?>
+					<input type="radio" id="<?php p($id) ?>"
+						   name="default_encryption_module"
+						   value="<?php p($id) ?>"
+						   <?php if($module['default']) { p('checked'); } ?>>
+					<label for="<?php p($id) ?>"><?php p($module['displayName']) ?></label><br />
+					 <?php endforeach;?>
+				</fieldset>
+			<?php endif; ?>
+		</div>
+</div>
+
 <div class="section">
 	<form id="mail_general_settings" class="mail_settings">
 		<h2><?php p($l->t('Email Server'));?></h2>
