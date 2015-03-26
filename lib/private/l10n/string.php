@@ -41,11 +41,6 @@ class OC_L10N_String{
 	protected $parameters;
 
 	/**
-	 * @var array
-	 */
-	protected $plurals;
-
-	/**
 	 * @var integer
 	 */
 	protected $count;
@@ -53,12 +48,11 @@ class OC_L10N_String{
 	/**
 	 * @param OC_L10N $l10n
 	 */
-	public function __construct($l10n, $text, $parameters, $count = 1, $plurals = array()) {
+	public function __construct($l10n, $text, $parameters, $count = 1) {
 		$this->l10n = $l10n;
 		$this->text = $text;
 		$this->parameters = $parameters;
 		$this->count = $count;
-		$this->plurals = $plurals;
 	}
 
 	public function __toString() {
@@ -69,19 +63,7 @@ class OC_L10N_String{
 			if(is_array($translations[$this->text])) {
 				$fn = $this->l10n->getPluralFormFunction();
 				$id = $fn($this->count);
-
-				if ($translations[$this->text][$id] !== '') {
-					// The translation of this plural case is not empty, so use it
-					$text = $translations[$this->text][$id];
-				} else {
-					// We didn't find the plural in the language,
-					// so we fall back to english.
-					$id = ($id != 0) ? 1 : 0;
-					if (isset($this->plurals[$id])) {
-						// Fallback to the english plural
-						$text = $this->plurals[$id];
-					}
-				}
+				$text = $translations[$this->text][$id];
 			}
 			else{
 				$text = $translations[$this->text];
