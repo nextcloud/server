@@ -69,7 +69,7 @@ class ObjectTree extends \Test\TestCase {
 
 	function moveFailedInvalidCharsProvider() {
 		return array(
-			array('a/b', 'a/*', array('a' => false, 'a/b' => true, 'a/c*' => false), array()),
+			array('a/b', 'a/*', array('a' => true, 'a/b' => true, 'a/c*' => false), array()),
 		);
 	}
 
@@ -80,12 +80,12 @@ class ObjectTree extends \Test\TestCase {
 			array('a/b', 'b/b', array('a' => false, 'a/b' => true, 'b' => false, 'b/b' => false), array()),
 			array('a/b', 'b/b', array('a' => true, 'a/b' => true, 'b' => false, 'b/b' => false), array()),
 			array('a/b', 'b/b', array('a' => true, 'a/b' => true, 'b' => true, 'b/b' => false), array('a/b' => false)),
+			array('a/b', 'a/c', array('a' => false, 'a/b' => true, 'a/c' => false), array()),
 		);
 	}
 
 	function moveSuccessProvider() {
 		return array(
-			array('a/b', 'a/c', array('a' => false, 'a/b' => true, 'a/c' => false), array()),
 			array('a/b', 'b/b', array('a' => true, 'a/b' => true, 'b' => true, 'b/b' => false), array('a/b' => true)),
 			// older files with special chars can still be renamed to valid names
 			array('a/b*', 'b/b', array('a' => true, 'a/b*' => true, 'b' => true, 'b/b' => false), array('a/b*' => true)),

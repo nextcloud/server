@@ -63,6 +63,22 @@ class Storage extends Wrapper {
 	}
 
 	/**
+	 * Rename path1 to path2 by calling the wrapped storage.
+	 *
+	 * @param string $path1 first path
+	 * @param string $path2 second path
+	 */
+	public function rename($path1, $path2) {
+		$result = $this->storage->rename($path1, $path2);
+		if ($result === false) {
+			// when rename failed, the post_rename hook isn't triggered,
+			// but we still want to reenable the trash logic
+			self::$disableTrash = false;
+		}
+		return $result;
+	}
+
+	/**
 	 * Deletes the given file by moving it into the trashbin.
 	 *
 	 * @param string $path
