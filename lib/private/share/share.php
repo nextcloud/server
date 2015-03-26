@@ -1685,7 +1685,8 @@ class Share extends \OC\Share\Constants {
 			}
 			$groupItemTarget = Helper::generateTarget($itemType, $itemSource, $shareType, $shareWith['group'],
 					$uidOwner, $suggestedItemTarget);
-			$groupFileTarget = $filePath;
+			$groupFileTarget = Helper::generateTarget($itemType, $itemSource, $shareType, $shareWith['group'],
+					$uidOwner, $filePath);
 
 			// add group share to table and remember the id as parent
 			$queriesToExecute['groupShare'] = array(
@@ -1698,7 +1699,7 @@ class Share extends \OC\Share\Constants {
 				'permissions'		=> $permissions,
 				'shareTime'			=> time(),
 				'fileSource'		=> $fileSource,
-				'fileTarget'		=> $filePath,
+				'fileTarget'		=> $groupFileTarget,
 				'token'				=> $token,
 				'parent'			=> $parent,
 				'expiration'		=> $expirationDate,
