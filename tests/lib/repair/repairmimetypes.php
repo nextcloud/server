@@ -6,13 +6,14 @@
  * later.
  * See the COPYING-README file.
  */
+namespace Test\Repair;
 
 /**
  * Tests for the converting of legacy storages to home storages.
  *
  * @see \OC\Repair\RepairMimeTypes
  */
-class TestRepairMimeTypes extends \Test\TestCase {
+class RepairMimeTypes extends \Test\TestCase {
 
 	/** @var \OC\RepairStep */
 	private $repair;

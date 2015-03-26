@@ -5,13 +5,14 @@
  * later.
  * See the COPYING-README file.
  */
+namespace Test\Repair;
 
 /**
  * Tests for the converting of MySQL tables to InnoDB engine
  *
  * @see \OC\Repair\RepairMimeTypes
  */
-class TestRepairInnoDB extends \Test\TestCase {
+class RepairInnoDB extends \Test\TestCase {
 
 	/** @var \OC\RepairStep */
 	private $repair;
