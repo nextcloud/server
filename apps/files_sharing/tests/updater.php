@@ -66,7 +66,6 @@ class Test_Files_Sharing_Updater extends OCA\Files_sharing\Tests\TestCase {
 		\OC_App::enable('files_trashbin');
 
 		\OCA\Files_Trashbin\Trashbin::registerHooks();
-		OC_FileProxy::register(new OCA\Files\Share\Proxy());
 
 		$fileinfo = \OC\Files\Filesystem::getFileInfo($this->folder);
 		$this->assertTrue($fileinfo instanceof \OC\Files\FileInfo);

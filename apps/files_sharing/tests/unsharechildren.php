@@ -22,13 +22,13 @@
  *
  */
 
+namespace OCA\Files_sharing\Tests;
 
 use OCA\Files\Share;
 
-/**
- * Class Test_Files_Sharing_Proxy
- */
-class Test_Files_Sharing_Proxy extends OCA\Files_sharing\Tests\TestCase {
+class UnshareChildren extends TestCase {
+
+	protected $subsubfolder;
 
 	const TEST_FOLDER_NAME = '/folder_share_api_test';
 
@@ -37,9 +37,7 @@ class Test_Files_Sharing_Proxy extends OCA\Files_sharing\Tests\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		// load proxies
-		OC::$CLASSPATH['OCA\Files\Share\Proxy'] = 'files_sharing/lib/proxy.php';
-		OC_FileProxy::register(new OCA\Files\Share\Proxy());
+		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
 
 		$this->folder = self::TEST_FOLDER_NAME;
 		$this->subfolder  = '/subfolder_share_api_test';
@@ -66,7 +64,7 @@ class Test_Files_Sharing_Proxy extends OCA\Files_sharing\Tests\TestCase {
 	/**
 	 * @medium
 	 */
-	function testpreUnlink() {
+	function testUnshareChildren() {
 
 		$fileInfo2 = \OC\Files\Filesystem::getFileInfo($this->folder);
 

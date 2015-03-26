@@ -51,8 +51,6 @@ OCP\Share::registerBackend('folder', 'OC_Share_Backend_Folder', 'file');
 OCP\Util::addScript('files_sharing', 'share');
 OCP\Util::addScript('files_sharing', 'external');
 
-OC_FileProxy::register(new OCA\Files\Share\Proxy());
-
 \OC::$server->getActivityManager()->registerExtension(function() {
 		return new \OCA\Files_Sharing\Activity(
 			\OC::$server->query('L10NFactory'),
