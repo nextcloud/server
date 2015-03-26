@@ -63,7 +63,6 @@ class UserHooks implements IHook {
 	 * @param IUserSession $user
 	 * @param OCUtil $ocUtil
 	 * @param Util $util
-	 * @internal param Migrator $migrator
 	 */
 	public function __construct(
 		KeyManager $keyManager, ILogger $logger, Setup $userSetup, IUserSession $user, OCUtil $ocUtil, Util $util) {

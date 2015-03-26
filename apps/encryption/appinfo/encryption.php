@@ -64,8 +64,8 @@ class Encryption extends \OCP\AppFramework\App {
 	 */
 	public function boot() {
 		$this->registerServices();
-		$this->registerHooks();
 		$this->registerEncryptionModule();
+		$this->registerHooks();
 		$this->registerSettings();
 	}
 
@@ -96,7 +96,12 @@ class Encryption extends \OCP\AppFramework\App {
 	 *
 	 */
 	public function registerEncryptionModule() {
-		$this->encryptionManager->registerEncryptionModule(new \OCA\Encryption\Crypto\Encryption());
+		$container = $this->getContainer();
+		$container->registerService('EncryptionModule', function (IAppContainer $c) {
+			return new \OCA\Encryption\Crypto\Encryption($c->query('Crypt'));
+		});
+		$module = $container->query('EncryptionModule');
+		$this->encryptionManager->registerEncryptionModule($module);
 	}
 
 	/**
@@ -117,7 +122,8 @@ class Encryption extends \OCP\AppFramework\App {
 			function (IAppContainer $c) {
 				$server = $c->getServer();
 
-				return new KeyManager($server->getEncryptionKeyStorage('encryption'),
+				$moduleId = $c->query('EncryptionModule')->getId();
+				return new KeyManager($server->getEncryptionKeyStorage($moduleId),
 					$c->query('Crypt'),
 					$server->getConfig(),
 					$server->getUserSession(),
@@ -131,13 +137,14 @@ class Encryption extends \OCP\AppFramework\App {
 			function (IAppContainer $c) {
 				$server = $c->getServer();
 
+				$moduleId = $c->query('EncryptionModule')->getId();
 				return new Recovery(
 					$server->getUserSession(),
 					$c->query('Crypt'),
 					$server->getSecureRandom(),
 					$c->query('KeyManager'),
 					$server->getConfig(),
-					$server->getEncryptionKeyStorage('encryption'));
+					$server->getEncryptionKeyStorage($moduleId));
 			});
 
 		$container->registerService('UserSetup',
@@ -147,16 +154,6 @@ class Encryption extends \OCP\AppFramework\App {
 					$server->getUserSession(),
 					$c->query('Crypt'),
 					$c->query('KeyManager'));
-			});
-
-		$container->registerService('Migrator',
-			function (IAppContainer $c) {
-				$server = $c->getServer();
-
-				return new Migrator($server->getConfig(),
-					$server->getUserManager(),
-					$server->getLogger(),
-					$c->query('Crypt'));
 			});
 
 		$container->registerService('Util',
