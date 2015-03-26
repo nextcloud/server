@@ -95,7 +95,7 @@ class Encryption implements IEncryptionModule {
 		$this->writeCache = '';
 		$this->isWriteOperation = false;
 
-		$this->fileKey = $this->keymanager->getFileKey($path);
+		$this->fileKey = $this->keymanager->getFileKey($path, $this->user);
 
 		return array('cipher' => $this->cipher);
 	}

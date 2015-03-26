@@ -125,6 +125,7 @@ class Encryption extends \OCP\AppFramework\App {
 					$c->query('Crypt'),
 					$server->getConfig(),
 					$server->getUserSession(),
+					$server->getSession(),
 					$server->getMemCacheFactory(),
 					$server->getLogger()
 				);

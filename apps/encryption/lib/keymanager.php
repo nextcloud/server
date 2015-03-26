@@ -32,6 +32,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserSession;
+use \OCP\ISession;
 
 class KeyManager {
 
@@ -87,15 +88,23 @@ class KeyManager {
 	private $log;
 
 	/**
+	 * @var \OCP\ISession
+	 */
+	private $session;
+
+	/**
 	 * @param IStorage $keyStorage
 	 * @param Crypt $crypt
 	 * @param IConfig $config
-	 * @param IUserSession $userSession
+	 * @param Session $userSession
+	 * @param \OCP\ISession $session
 	 * @param ICacheFactory $cacheFactory
 	 * @param ILogger $log
 	 */
-	public function __construct(IStorage $keyStorage, Crypt $crypt, IConfig $config, IUserSession $userSession, ICacheFactory $cacheFactory, ILogger $log) {
+	public function __construct(IStorage $keyStorage, Crypt $crypt, IConfig $config,
+		IUserSession $userSession, ISession $session ,ICacheFactory $cacheFactory, ILogger $log) {
 
+		$this->session = $session;
 		$this->keyStorage = $keyStorage;
 		$this->crypt = $crypt;
 		$this->config = $config;
@@ -215,6 +224,9 @@ class KeyManager {
 			return false;
 		}
 
+
+		$this->session->set('privateKey', $privateKey);
+		$this->session->set('initStatus', true);
 		self::$cacheFactory->set('privateKey', $privateKey);
 		self::$cacheFactory->set('initStatus', true);
 
@@ -239,18 +251,30 @@ class KeyManager {
 
 	/**
 	 * @param $path
-	 * @return mixed
+	 * @param $uid
+	 * @return string
 	 */
-	public function getFileKey($path) {
-		return $this->keyStorage->getFileKey($path, $this->fileKeyId);
+	public function getFileKey($path, $uid) {
+		$key = '';
+		$encryptedFileKey = $this->keyStorage->getFileKey($path, $this->fileKeyId);
+		$shareKey = $this->getShareKey($path, $uid);
+		$privateKey = $this->session->get('privateKey');
+
+		if ($encryptedFileKey && $shareKey && $privateKey) {
+			$key = $this->crypt->multiKeyDecrypt($encryptedFileKey, $shareKey, $privateKey);
+		}
+
+		return $key;
 	}
 
 	/**
 	 * @param $path
+	 * @param $uid
 	 * @return mixed
 	 */
-	public function getShareKey($path) {
-		return $this->keyStorage->getFileKey($path, $this->keyId . $this->shareKeyId);
+	public function getShareKey($path, $uid) {
+		$keyId = $uid . '.' . $this->shareKeyId;
+		return $this->keyStorage->getFileKey($path, $keyId);
 	}
 
 	/**
