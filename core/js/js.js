@@ -1139,13 +1139,6 @@ function initCore() {
 		$('#settings #expanddiv').slideUp(OC.menuSpeed);
 	});
 
-	// move triangle of apps dropdown to align with app name triangle
-	// 68 is the additional offset coming from the logo width
-	if($('#navigation').length) {
-		var caretPosition = $('.header-appname + .icon-caret').offset().left - 2;
-		$('head').append('<style>#navigation:after { left: '+ caretPosition +'px; }</style>');
-	}
-
 	// all the tipsy stuff needs to be here (in reverse order) to work
 	$('.displayName .action').tipsy({gravity:'se', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
@@ -1202,6 +1195,20 @@ function initCore() {
 	}
 
 	setupMainMenu();
+
+	// move triangle of apps dropdown to align with app name triangle
+	// 68 is the additional offset coming from the logo width
+	if($('#navigation').length) {
+		$('#header #owncloud + .menutoggle').one('click', function(){
+			var caretPosition = $('.header-appname + .icon-caret').offset().left - 2;
+			if(caretPosition > 255) {
+				// if the app name is longer than the menu, just put the triangle in the middle
+				return;
+			} else {
+				$('head').append('<style>#navigation:after { left: '+ caretPosition +'px; }</style>');
+			}
+		});
+	}
 
 	// just add snapper for logged in users
 	if($('#app-navigation').length && !$('html').hasClass('lte9')) {
