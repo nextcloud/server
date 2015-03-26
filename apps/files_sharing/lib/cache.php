@@ -346,6 +346,28 @@ class Shared_Cache extends Cache {
 	}
 
 	/**
+	 * update the folder size and the size of all parent folders
+	 *
+	 * @param string|boolean $path
+	 * @param array $data (optional) meta data of the folder
+	 */
+	public function correctFolderSize($path, $data = null) {
+		$this->calculateFolderSize($path, $data);
+		if ($path !== '') {
+			$parent = dirname($path);
+			if ($parent === '.' or $parent === '/') {
+				$parent = '';
+			}
+			$this->correctFolderSize($parent);
+		} else {
+			// bubble up to source cache
+			$sourceCache = $this->getSourceCache($path);
+			$parent = dirname($this->files[$path]);
+			$sourceCache->correctFolderSize($parent);
+		}
+	}
+
+	/**
 	 * get the size of a folder and set it in the cache
 	 *
 	 * @param string $path
