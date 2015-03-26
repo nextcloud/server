@@ -48,7 +48,7 @@ class OC_Files {
 			$filesize = \OC\Files\Filesystem::filesize($filename);
 			header('Content-Type: '.\OC_Helper::getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename)));
 			if ($filesize > -1) {
-				header("Content-Length: ".$filesize);
+				OC_Response::setContentLengthHeader($filesize);
 			}
 		}
 	}

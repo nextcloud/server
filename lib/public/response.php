@@ -64,6 +64,14 @@ class Response {
 	}
 
 	/**
+	 * Sets the content length header (with possible workarounds)
+	 * @param string|int|float $length Length to be sent
+	 */
+	static public function setContentLengthHeader($length) {
+		\OC_Response::setContentLengthHeader($length);
+	}
+
+	/**
 	 * Disable browser caching
 	 * @see enableCaching with cache_time = 0
 	 */
