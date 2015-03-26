@@ -359,6 +359,25 @@ describe('OCA.Files.FileList tests', function() {
 			expect($('#emptycontent').hasClass('hidden')).toEqual(true);
 			expect(fileList.isEmpty).toEqual(false);
 		});
+		it('correctly adds the extension markup and show hidden files completely in gray', function() {
+			var $tr;
+			var testDataAndExpectedResult = [
+				{file: {type: 'file', name: 'ZZZ.txt'}, extension: '.txt'},
+				{file: {type: 'file', name: 'ZZZ.tar.gz'}, extension: '.gz'},
+				{file: {type: 'file', name: 'test.with.some.dots.in.it.txt'}, extension: '.txt'},
+				// we render hidden files completely in gray
+				{file: {type: 'file', name: '.test.with.some.dots.in.it.txt'}, extension: '.test.with.some.dots.in.it.txt'},
+				{file: {type: 'file', name: '.hidden'}, extension: '.hidden'},
+			];
+			fileList.setFiles(testFiles);
+
+			for(var i = 0; i < testDataAndExpectedResult.length; i++) {
+				var testSet = testDataAndExpectedResult[i];
+				var fileData = testSet['file'];
+				$tr = fileList.add(fileData);
+				expect($tr.find('.nametext .extension').text()).toEqual(testSet['extension']);
+			}
+		});
 	});
 	describe('Removing files from the list', function() {
 		it('Removes file from list when calling remove() and updates summary', function() {
