@@ -99,7 +99,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	function httpGet(RequestInterface $request, ResponseInterface $response) {
 		// Only handle valid files
-		$node = $this->tree->getNodeForPath($request->getPath(), 0);
+		$node = $this->tree->getNodeForPath($request->getPath());
 		if (!($node instanceof IFile)) return;
 
 		$response->addHeader('Content-Disposition', 'attachment');
