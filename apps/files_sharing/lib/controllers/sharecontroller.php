@@ -27,7 +27,6 @@
 
 namespace OCA\Files_Sharing\Controllers;
 
-use Hoa\Core\Data\Data;
 use OC;
 use OC\Files\Filesystem;
 use OC_Files;
