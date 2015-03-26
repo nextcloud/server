@@ -58,7 +58,7 @@ class Upgrade extends Command {
 	protected function configure() {
 		$this
 			->setName('upgrade')
-			->setDescription('run upgrade routines')
+			->setDescription('run upgrade routines after installation of a new release. The release has to be installed before.')
 			->addOption(
 				'--skip-migration-test',
 				null,
