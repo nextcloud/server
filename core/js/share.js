@@ -393,7 +393,7 @@ OC.Share={
 
 			var sharePlaceholder = t('core', 'Share with users or groups …');
 			if(oc_appconfig.core.remoteShareAllowed) {
-				sharePlaceholder = t('core', 'Share with users, groups or remote (user@domain) …');
+				sharePlaceholder = t('core', 'Share with users, groups or remote users …');
 			}
 
 			html += '<label for="shareWith" class="hidden-visually">'+t('core', 'Share')+'</label>';
