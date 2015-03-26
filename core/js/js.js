@@ -1197,7 +1197,7 @@ function initCore() {
 	setupMainMenu();
 
 	// move triangle of apps dropdown to align with app name triangle
-	// 68 is the additional offset coming from the logo width
+	// 2 is the additional offset between the triangles
 	if($('#navigation').length) {
 		$('#header #owncloud + .menutoggle').one('click', function(){
 			var caretPosition = $('.header-appname + .icon-caret').offset().left - 2;
