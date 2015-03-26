@@ -483,7 +483,7 @@ class Storage {
 	 * @param int $neededSpace
 	 */
 	private static function scheduleExpire($fileName, $versionsSize = null, $neededSpace = 0) {
-		$command = new Expire(\OC::$server->getUserSession()->getUser(), $fileName, $versionsSize, $neededSpace);
+		$command = new Expire(\OC::$server->getUserSession()->getUser()->getUID(), $fileName, $versionsSize, $neededSpace);
 		\OC::$server->getCommandBus()->push($command);
 	}
 

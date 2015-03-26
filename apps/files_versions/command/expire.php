@@ -32,17 +32,17 @@ class Expire implements ICommand {
 	private $neededSpace = 0;
 
 	/**
-	 * @var int
+	 * @var string
 	 */
 	private $user;
 
 	/**
-	 * @param IUser $user
+	 * @param string $user
 	 * @param string $fileName
 	 * @param int|null $versionsSize
 	 * @param int $neededSpace
 	 */
-	function __construct(IUser $user, $fileName, $versionsSize = null, $neededSpace = 0) {
+	function __construct($user, $fileName, $versionsSize = null, $neededSpace = 0) {
 		$this->user = $user;
 		$this->fileName = $fileName;
 		$this->versionsSize = $versionsSize;
@@ -51,7 +51,7 @@ class Expire implements ICommand {
 
 
 	public function handle() {
-		$this->setupFS($this->user);
+		\OC_Util::setupFS($this->user);
 		Storage::expire($this->fileName, $this->versionsSize, $this->neededSpace);
 	}
 }
