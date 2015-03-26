@@ -62,21 +62,21 @@ class KeyManager {
 	/**
 	 * @var string
 	 */
-	private $publicKeyId = 'public';
+	private $publicKeyId = 'publicKey';
 	/**
 	 * @var string
 	 */
-	private $privateKeyId = 'private';
+	private $privateKeyId = 'privateKey';
 
 	/**
 	 * @var string
 	 */
-	private $shareKeyId = 'sharekey';
+	private $shareKeyId = 'shareKey';
 
 	/**
 	 * @var string
 	 */
-	private $fileKeyId = 'filekey';
+	private $fileKeyId = 'fileKey';
 	/**
 	 * @var IConfig
 	 */

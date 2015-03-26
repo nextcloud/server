@@ -25,6 +25,7 @@ namespace OCA\Encryption\Crypto;
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Exceptions\EncryptionFailedException;
 use OC\Encryption\Exceptions\GenericEncryptionException;
+use OCA\Encryption\KeyManager;
 use OCA\Files_Encryption\Exception\MultiKeyDecryptException;
 use OCA\Files_Encryption\Exception\MultiKeyEncryptException;
 use OCP\IConfig;
@@ -377,6 +378,21 @@ class Crypt {
 		}
 		// If we ever get here we've failed anyway no need for an else
 		throw new GenericEncryptionException('Generating IV Failed');
+	}
+
+	/**
+	 * Generate a pseudo random 256-bit ASCII key, used as file key
+	 * @return string
+	 */
+	public static function generateFileKey() {
+		// Generate key
+		$key = base64_encode(openssl_random_pseudo_bytes(32, $strong));
+		if (!$key || !$strong) {
+				// If OpenSSL indicates randomness is insecure, log error
+				throw new \Exception('Encryption library, Insecure symmetric key was generated using openssl_random_pseudo_bytes()');
+		}
+
+		return $key;
 	}
 
 	/**

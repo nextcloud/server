@@ -27,7 +27,6 @@ use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\HookManager;
 use OCA\Encryption\Hooks\UserHooks;
 use OCA\Encryption\KeyManager;
-use OCA\Encryption\Migrator;
 use OCA\Encryption\Recovery;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
@@ -98,7 +97,7 @@ class Encryption extends \OCP\AppFramework\App {
 	public function registerEncryptionModule() {
 		$container = $this->getContainer();
 		$container->registerService('EncryptionModule', function (IAppContainer $c) {
-			return new \OCA\Encryption\Crypto\Encryption($c->query('Crypt'));
+			return new \OCA\Encryption\Crypto\Encryption($c->query('Crypt'), $c->query('KeyManager'));
 		});
 		$module = $container->query('EncryptionModule');
 		$this->encryptionManager->registerEncryptionModule($module);
@@ -122,8 +121,7 @@ class Encryption extends \OCP\AppFramework\App {
 			function (IAppContainer $c) {
 				$server = $c->getServer();
 
-				$moduleId = $c->query('EncryptionModule')->getId();
-				return new KeyManager($server->getEncryptionKeyStorage($moduleId),
+				return new KeyManager($server->getEncryptionKeyStorage(\OCA\Encryption\Crypto\Encryption::ID),
 					$c->query('Crypt'),
 					$server->getConfig(),
 					$server->getUserSession(),
@@ -137,14 +135,13 @@ class Encryption extends \OCP\AppFramework\App {
 			function (IAppContainer $c) {
 				$server = $c->getServer();
 
-				$moduleId = $c->query('EncryptionModule')->getId();
 				return new Recovery(
 					$server->getUserSession(),
 					$c->query('Crypt'),
 					$server->getSecureRandom(),
 					$c->query('KeyManager'),
 					$server->getConfig(),
-					$server->getEncryptionKeyStorage($moduleId));
+					$server->getEncryptionKeyStorage(\OCA\Encryption\Crypto\Encryption::ID));
 			});
 
 		$container->registerService('UserSetup',

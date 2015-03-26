@@ -11,24 +11,51 @@ namespace OCA\Encryption\Crypto;
 
 
 use OCP\Encryption\IEncryptionModule;
+use OCA\Encryption\KeyManager;
 
 class Encryption implements IEncryptionModule {
+
+	const ID = '42';
 
 	/**
 	 * @var Crypt
 	 */
 	private $crypt;
 
-	public function __construct(Crypt $crypt) {
+	/** @var string */
+	private $cipher;
+
+	/** @var string */
+	private $path;
+
+	/** @var string */
+	private $user;
+
+	/** @var string */
+	private $fileKey;
+
+	/** @var string */
+	private $writeCache;
+
+	/** @var KeyManager */
+	private $keymanager;
+
+	/** @var array */
+	private $accessList;
+
+	/** @var boolean */
+	private $isWriteOperation;
+
+	public function __construct(Crypt $crypt, KeyManager $keymanager) {
 		$this->crypt = $crypt;
+		$this->keymanager = $keymanager;
 	}
 
 	/**
 	 * @return string defining the technical unique id
 	 */
 	public function getId() {
-		// we need to hard code this value
-		return md5($this->getDisplayName());
+		return self::ID;
 	}
 
 	/**
@@ -46,6 +73,7 @@ class Encryption implements IEncryptionModule {
 	 * chunks
 	 *
 	 * @param string $path to the file
+	 * @param string $user who read/write the file
 	 * @param array $header contains the header data read from the file
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 *
@@ -53,9 +81,23 @@ class Encryption implements IEncryptionModule {
 	 *                       written to the header, in case of a write operation
 	 *                       or if no additional data is needed return a empty array
 	 */
-	public function begin($path, $header, $accessList) {
+	public function begin($path, $user, $header, $accessList) {
 
-		$cipher = $header[''];
+		if (isset($header['cipher'])) {
+			$this->cipher = $header['cipher'];
+		} else {
+			$this->cipher = $this->crypt->getCipher();
+		}
+
+		$this->path = $path;
+		$this->accessList = $accessList;
+		$this->user = $user;
+		$this->writeCache = '';
+		$this->isWriteOperation = false;
+
+		$this->fileKey = $this->keymanager->getFileKey($path);
+
+		return array('cipher' => $this->cipher);
 	}
 
 	/**
@@ -68,7 +110,20 @@ class Encryption implements IEncryptionModule {
 	 *                of a write operation
 	 */
 	public function end($path) {
-		// TODO: Implement end() method.
+		$result = '';
+		if ($this->isWriteOperation) {
+			if (!empty($this->writeCache)) {
+				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey);
+				$this->writeCache = '';
+			}
+			$publicKeys = array();
+			foreach ($this->accessList['users'] as $user) {
+				$publicKeys[] = $this->keymanager->getPublicKey($user);
+			}
+
+			$result = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
+		}
+		return $result;
 	}
 
 	/**
@@ -78,21 +133,80 @@ class Encryption implements IEncryptionModule {
 	 * @return mixed encrypted data
 	 */
 	public function encrypt($data) {
-		// Todo: xxx Update Signature and usages
-		// passphrase is file key decrypted with user private/share key
-		$this->symmetricEncryptFileContent($data);
+		$this->isWriteOperation = true;
+		if (empty($this->fileKey)) {
+			$this->fileKey = $this->crypt->generateFileKey();
+		}
+
+		// If extra data is left over from the last round, make sure it
+		// is integrated into the next 6126 / 8192 block
+		if ($this->writeCache) {
+
+			// Concat writeCache to start of $data
+			$data = $this->writeCache . $data;
+
+			// Clear the write cache, ready for reuse - it has been
+			// flushed and its old contents processed
+			$this->writeCache = '';
+
+		}
+
+		$encrypted = '';
+		// While there still remains some data to be processed & written
+		while (strlen($data) > 0) {
+
+			// Remaining length for this iteration, not of the
+			// entire file (may be greater than 8192 bytes)
+			$remainingLength = strlen($data);
+
+			// If data remaining to be written is less than the
+			// size of 1 6126 byte block
+			if ($remainingLength < 6126) {
+
+				// Set writeCache to contents of $data
+				// The writeCache will be carried over to the
+				// next write round, and added to the start of
+				// $data to ensure that written blocks are
+				// always the correct length. If there is still
+				// data in writeCache after the writing round
+				// has finished, then the data will be written
+				// to disk by $this->flush().
+				$this->writeCache = $data;
+
+				// Clear $data ready for next round
+				$data = '';
+
+			} else {
+
+				// Read the chunk from the start of $data
+				$chunk = substr($data, 0, 6126);
+
+				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey);
+
+				// Remove the chunk we just processed from
+				// $data, leaving only unprocessed data in $data
+				// var, for handling on the next round
+				$data = substr($data, 6126);
+
+			}
+
+		}
+
+		return $encrypted;
 	}
 
 	/**
 	 * decrypt data
 	 *
 	 * @param string $data you want to decrypt
-	 * @param string $user decrypt as user (null for public access)
 	 * @return mixed decrypted data
 	 */
-	public function decrypt($data, $user) {
-		// Todo: xxx Update Usages?
-		$this->symmetricDecryptFileContent($data, $user);
+	public function decrypt($data) {
+		$result = '';
+		if (!empty($data)) {
+			$result = $this->crypt->symmetricDecryptFileContent($data, $this->fileKey);
+		}
+		return $result;
 	}
 
 	/**
@@ -113,7 +227,7 @@ class Encryption implements IEncryptionModule {
 	 * @return boolean
 	 */
 	public function shouldEncrypt($path) {
-		// TODO: Implement shouldEncrypt() method.
+		return true;
 	}
 
 	/**
@@ -133,6 +247,6 @@ class Encryption implements IEncryptionModule {
 	 * @return integer
 	 */
 	public function getUnencryptedBlockSize() {
-		// TODO: Implement getUnencryptedBlockSize() method.
+		return 6126;
 	}
 }
