@@ -52,6 +52,7 @@ OC.Log = {
 			row.append(appTd);
 
 			var messageTd = $('<td/>');
+			messageTd.addClass('log-message');
 			messageTd.text(entry.message);
 			row.append(messageTd);
 

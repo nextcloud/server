@@ -328,14 +328,12 @@ table.grid td.date{
 .cronlog {
 	margin-left: 10px;
 }
-
 .cronstatus {
 	display: inline-block;
 	height: 16px;
 	width: 16px;
 	vertical-align: text-bottom;
 }
-
 .cronstatus.success {
 	border-radius: 50%;
 }
@@ -347,6 +345,11 @@ table.grid td.date{
 	display: inline-block;
 	height: 36px;
 	padding: 7px 10px
+}
+
+#log .log-message {
+	word-break: break-all;
+	min-width: 180px;
 }
 
 span.success {
