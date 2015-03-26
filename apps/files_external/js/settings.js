@@ -7,7 +7,26 @@
  * See the COPYING-README file.
  *
  */
+
 (function(){
+
+// TODO: move to a separate file
+var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
+	'<div class="drop dropdown mountOptionsDropdown">' +
+	// FIXME: options are hard-coded for now
+	'	<div class="optionRow">' +
+	'		<label for="mountOptionsPreviews">{{t "files_external" "Enable previews"}}</label>' +
+	'		<input id="mountOptionsPreviews" name="previews" type="checkbox" value="true" checked="checked"/>' +
+	'	</div>' +
+	'	<div class="optionRow">' +
+	'		<label for="mountOptionsFilesystemCheck">{{t "files_external" "Check for changes"}}</label>' +
+	'		<select id="mountOptionsFilesystemCheck" name="filesystem_check_changes" data-type="int">' +
+	'			<option value="0">{{t "files_external" "Never"}}</option>' +
+	'			<option value="1" selected="selected">{{t "files_external" "Once every direct access"}}</option>' +
+	'			<option value="2">{{t "files_external" "Every time the filesystem is used"}}</option>' +
+	'		</select>' +
+	'	</div>' +
+	'</div>';
 
 /**
  * Returns the selection of applicable users in the given configuration row
@@ -219,7 +238,8 @@ StorageConfig.prototype = {
 		$.ajax({
 			type: method,
 			url: url,
-			data: this.getData(),
+			contentType: 'application/json',
+			data: JSON.stringify(this.getData()),
 			success: function(result) {
 				self.id = result.id;
 				if (_.isFunction(options.success)) {
@@ -285,7 +305,6 @@ StorageConfig.prototype = {
 			}
 			return;
 		}
-		var self = this;
 		$.ajax({
 			type: 'DELETE',
 			url: OC.generateUrl(this._url + '/{id}', {id: this.id}),
@@ -377,6 +396,110 @@ UserStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
 	/** @lends OCA.External.Settings.UserStorageConfig.prototype */ {
 	_url: 'apps/files_external/userstorages'
 });
+
+/**
+ * @class OCA.External.Settings.MountOptionsDropdown
+ *
+ * @classdesc Dropdown for mount options
+ *
+ * @param {Object} $container container DOM object
+ */
+var MountOptionsDropdown = function() {
+};
+/**
+ * @memberof OCA.External.Settings
+ */
+MountOptionsDropdown.prototype = {
+	/**
+	 * Dropdown element
+	 *
+	 * @var Object
+	 */
+	$el: null,
+
+	/**
+	 * Show dropdown
+	 *
+	 * @param {Object} $container container
+	 * @param {Object} mountOptions mount options
+	 */
+	show: function($container, mountOptions) {
+		if (MountOptionsDropdown._last) {
+			MountOptionsDropdown._last.hide();
+		}
+
+		var template = MountOptionsDropdown._template;
+		if (!template) {
+			template = Handlebars.compile(MOUNT_OPTIONS_DROPDOWN_TEMPLATE);
+			MountOptionsDropdown._template = template;
+		}
+
+		var $el = $(template());
+		this.$el = $el;
+		$el.addClass('hidden');
+
+		this.setOptions(mountOptions);
+
+		this.$el.appendTo($container);
+		MountOptionsDropdown._last = this;
+
+		this.$el.trigger('show');
+	},
+
+	hide: function() {
+		if (this.$el) {
+			this.$el.trigger('hide');
+			this.$el.remove();
+			this.$el = null;
+			MountOptionsDropdown._last = null;
+		}
+	},
+
+	/**
+	 * Returns the mount options from the dropdown controls
+	 *
+	 * @return {Object} options mount options
+	 */
+	getOptions: function() {
+		var options = {};
+
+		this.$el.find('input, select').each(function() {
+			var $this = $(this);
+			var key = $this.attr('name');
+			var value = null;
+			if ($this.attr('type') === 'checkbox') {
+				value = $this.prop('checked');
+			} else {
+				value = $this.val();
+			}
+			if ($this.attr('data-type') === 'int') {
+				value = parseInt(value, 10);
+			}
+			options[key] = value;
+		});
+		return options;
+	},
+
+	/**
+	 * Sets the mount options to the dropdown controls
+	 *
+	 * @param {Object} options mount options
+	 */
+	setOptions: function(options) {
+		var $el = this.$el;
+		_.each(options, function(value, key) {
+			var $optionEl = $el.find('input, select').filterAttr('name', key);
+			if ($optionEl.attr('type') === 'checkbox') {
+				if (_.isString(value)) {
+					value = (value === 'true');
+				}
+				$optionEl.prop('checked', !!value);
+			} else {
+				$optionEl.val(value);
+			}
+		});
+	}
+};
 
 /**
  * @class OCA.External.Settings.MountConfigListView
@@ -503,12 +626,20 @@ MountConfigListView.prototype = {
 			self.deleteStorageConfig($(this).closest('tr'));
 		});
 
+		this.$el.on('click', 'td.mountOptionsToggle>img', function() {
+			self._showMountOptionsDropdown($(this).closest('tr'));
+		});
+
 		this.$el.on('change', '.selectBackend', _.bind(this._onSelectBackend, this));
 	},
 
 	_onChange: function(event) {
 		var self = this;
 		var $target = $(event.target);
+		if ($target.closest('.dropdown').length) {
+			// ignore dropdown events
+			return;
+		}
 		highlightInput($target);
 		var $tr = $target.closest('tr');
 
@@ -569,6 +700,7 @@ MountConfigListView.prototype = {
 			}
 		});
 		$tr.find('td').last().attr('class', 'remove');
+		$tr.find('td.mountOptionsToggle').removeClass('hidden');
 		$tr.find('td').last().removeAttr('style');
 		$tr.removeAttr('id');
 		$target.remove();
@@ -643,7 +775,7 @@ MountConfigListView.prototype = {
 			storage.applicableUsers = users;
 			storage.applicableGroups = groups;
 
-			storage.priority = $tr.find('input.priority').val();
+			storage.priority = parseInt($tr.find('input.priority').val() || '100', 10);
 		}
 
 		var mountOptions = $tr.find('input.mountOptions').val();
@@ -786,6 +918,47 @@ MountConfigListView.prototype = {
 			}
 		}
 		return defaultMountPoint + append;
+	},
+	
+	/**
+	 * Toggles the mount options dropdown
+	 *
+	 * @param {Object} $tr configuration row
+	 */	
+	_showMountOptionsDropdown: function($tr) {
+		if (this._preventNextDropdown) {
+			// prevented because the click was on the toggle
+			this._preventNextDropdown = false;
+			return;
+		}
+		var self = this;
+		var storage = this.getStorageConfig($tr);
+		var $toggle = $tr.find('.mountOptionsToggle');
+		var dropDown = new MountOptionsDropdown();
+		dropDown.show($toggle, storage.mountOptions || []);
+
+		$('body').on('mouseup.mountOptionsDropdown', function(event) {
+			var $target = $(event.target);
+			if ($toggle.has($target).length) {
+				// why is it always so hard to make dropdowns behave ?
+				// this prevents the click on the toggle to cause
+				// the dropdown to reopen itself
+				// (preventDefault doesn't work here because the click
+				// event is already in the queue and cannot be cancelled)
+				self._preventNextDropdown = true;
+			}
+			if ($target.closest('.dropdown').length) {
+				return;
+			}
+			dropDown.hide();
+		});
+
+		dropDown.$el.on('hide', function() {
+			var mountOptions = dropDown.getOptions();
+			$('body').off('mouseup.mountOptionsDropdown');
+			$tr.find('input.mountOptions').val(JSON.stringify(mountOptions));
+			self.saveStorageConfig($tr);
+		});
 	}
 };
 

@@ -123,7 +123,6 @@ class Test_Mount_Config extends \Test\TestCase {
 	private $dataDir;
 	private $userHome;
 	private $oldAllowedBackends;
-	private $allBackends;
 
 	const TEST_USER1 = 'user1';
 	const TEST_USER2 = 'user2';
@@ -211,6 +210,11 @@ class Test_Mount_Config extends \Test\TestCase {
 	private function readGlobalConfig() {
 		$configFile = $this->dataDir . '/mount.json';
 		return json_decode(file_get_contents($configFile), true);
+	}
+
+	private function writeGlobalConfig($config) {
+		$configFile = $this->dataDir . '/mount.json';
+		file_put_contents($configFile, json_encode($config));
 	}
 
 	/**
@@ -629,6 +633,51 @@ class Test_Mount_Config extends \Test\TestCase {
 		$savedMountConfig = $config[0]['options'];
 		$this->assertEquals($mountConfig, $savedMountConfig);
 	}
+
+	public function testVariableSubstitution() {
+		$legacyBackendOptions = [
+			'user' => 'someuser',
+			'password' => 'somepassword',
+			'replacethis' => '$user',
+		];
+		$legacyBackendOptions = \OC_Mount_Config::encryptPasswords($legacyBackendOptions);
+
+		$legacyConfig = [
+			'class' => '\OC\Files\Storage\SMB',
+			'options' => $legacyBackendOptions,
+			'mountOptions' => ['preview' => false, 'int' => 1],
+		];
+		// different mount options
+		$legacyConfig2 = [
+			'class' => '\OC\Files\Storage\SMB',
+			'options' => $legacyBackendOptions,
+			'mountOptions' => ['preview' => true, 'string' => 'abc'],
+		];
+
+		$json = [
+			'user' => [
+				self::TEST_USER1 => [
+					'/$user/files/somemount' => $legacyConfig,
+					'/$user/files/anothermount' => $legacyConfig2,
+				],
+			],
+		];
+
+		$this->writeGlobalConfig($json);
+
+		// re-read config, password was read correctly
+		$config = OC_Mount_Config::getAbsoluteMountPoints(self::TEST_USER1);
+
+		$config1 = $config['/' . self::TEST_USER1 . '/files/somemount'];
+		$config2 = $config['/' . self::TEST_USER1 . '/files/anothermount'];
+
+		$this->assertSame(self::TEST_USER1, $config1['options']['replacethis']);
+		$this->assertSame(self::TEST_USER1, $config1['options']['replacethis']);
+		$this->assertSame(1, $config1['mountOptions']['int']);
+		$this->assertSame(true, $config2['mountOptions']['preview']);
+		$this->assertSame('abc', $config2['mountOptions']['string']);
+	}
+
 
 	public function mountDataProvider() {
 		return array(
