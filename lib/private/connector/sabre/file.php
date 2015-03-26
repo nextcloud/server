@@ -247,8 +247,7 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 	 * @throws \Sabre\DAV\Exception\NotImplemented
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
-	private function createFileChunked($data)
-	{
+	private function createFileChunked($data) {
 		list($path, $name) = \Sabre\HTTP\URLUtil::splitPath($this->path);
 
 		$info = \OC_FileChunking::decodeName($name);
@@ -305,6 +304,8 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 					}
 				}
 
+				// mark chunking complete
+				$_SERVER['X-CHUNKING_COMPLETE'] = true;
 				$info = $this->fileView->getFileInfo($targetPath);
 				return $info->getEtag();
 			} catch (\OCP\Files\StorageNotAvailableException $e) {
