@@ -181,7 +181,8 @@ class Setup {
 			\OC\Setup::protectDataDirectory();
 
 			try {
-				$htAccessWorking = \OC_Util::isHtaccessWorking();
+				$util = new \OC_Util();
+				$htAccessWorking = $util->isHtaccessWorking(\OC::$server->getConfig());
 			} catch (\OC\HintException $e) {
 				$errors[] = array(
 					'error' => $e->getMessage(),

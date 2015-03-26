@@ -24,6 +24,7 @@
 namespace OC\Settings;
 
 use OC\Settings\Controller\AppSettingsController;
+use OC\Settings\Controller\CheckSetupController;
 use OC\Settings\Controller\GroupsController;
 use OC\Settings\Controller\LogSettingsController;
 use OC\Settings\Controller\MailSettingsController;
@@ -44,7 +45,7 @@ class Application extends App {
 	/**
 	 * @param array $urlParams
 	 */
-	public function __construct(array $urlParams=array()){
+	public function __construct(array $urlParams=[]){
 		parent::__construct('settings', $urlParams);
 
 		$container = $this->getContainer();
@@ -117,6 +118,15 @@ class Application extends App {
 				$c->query('L10N')
 			);
 		});
+		$container->registerService('CheckSetupController', function(IContainer $c) {
+			return new CheckSetupController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('Config'),
+				$c->query('ClientService'),
+				$c->query('Util')
+			);
+		});
 
 		/**
 		 * Middleware
@@ -177,6 +187,12 @@ class Application extends App {
 		});
 		$container->registerService('URLGenerator', function(IContainer $c) {
 			return $c->query('ServerContainer')->getURLGenerator();
+		});
+		$container->registerService('ClientService', function(IContainer $c) {
+			return $c->query('ServerContainer')->getHTTPClientService();
+		});
+		$container->registerService('Util', function(IContainer $c) {
+			return new \OC_Util();
 		});
 	}
 }

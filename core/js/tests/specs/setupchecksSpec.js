@@ -66,11 +66,11 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json'
 				},
-				JSON.stringify({data: {serverHasInternetConnection: false}})
+				JSON.stringify({serverHasInternetConnection: false})
 			);
 
 			async.done(function( data, s, x ){
-				expect(data).toEqual(['This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.', 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.']);
+				expect(data).toEqual(['This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.', 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.', 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="https://doc.owncloud.org/server/8.0/admin_manual/configuration_server/performance_tuning.html">documentation</a>.']);
 				done();
 			});
 		});
@@ -83,7 +83,24 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json'
 				},
-				JSON.stringify({data: {serverHasInternetConnection: false, dataDirectoryProtected: false}})
+				JSON.stringify({serverHasInternetConnection: false, dataDirectoryProtected: false})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual(['This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.', 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.', 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="https://doc.owncloud.org/server/8.0/admin_manual/configuration_server/performance_tuning.html">documentation</a>.']);
+				done();
+			});
+		});
+
+		it('should return an error if server has no internet connection and data directory is not protected and memcache is available', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({serverHasInternetConnection: false, dataDirectoryProtected: false, isMemcacheConfigured: true})
 			);
 
 			async.done(function( data, s, x ){
@@ -91,6 +108,7 @@ describe('OC.SetupChecks tests', function() {
 				done();
 			});
 		});
+
 
 		it('should return an error if the response has no statuscode 200', function(done) {
 			var async = OC.SetupChecks.checkSetup();
