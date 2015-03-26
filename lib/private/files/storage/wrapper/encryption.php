@@ -62,7 +62,6 @@ class Encryption extends Wrapper {
 
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->encryptionManager = $encryptionManager;
-		$this->keyStorage = $keyStorage;
 		$this->util = $util;
 		$this->logger = $logger;
 		$this->uid = $uid;
