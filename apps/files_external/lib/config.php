@@ -146,8 +146,6 @@ class OC_Mount_Config {
 	public static function getAbsoluteMountPoints($user) {
 		$mountPoints = array();
 
-		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
-
 		$backends = self::getBackends();
 
 		// Load system mount points
@@ -277,12 +275,21 @@ class OC_Mount_Config {
 	/**
 	 * fill in the correct values for $user
 	 *
-	 * @param string $user
-	 * @param string $input
+	 * @param string $user user value
+	 * @param string|array $input
 	 * @return string
 	 */
 	private static function setUserVars($user, $input) {
-		return str_replace('$user', $user, $input);
+		if (is_array($input)) {
+			foreach ($input as &$value) {
+				if (is_string($value)) {
+					$value = str_replace('$user', $user, $value);
+				}
+			}
+		} else {
+			$input = str_replace('$user', $user, $input);
+		}
+		return $input;
 	}
 
 
