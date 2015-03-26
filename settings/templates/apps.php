@@ -1,6 +1,8 @@
 <script id="categories-template" type="text/x-handlebars-template">
 {{#each this}}
-	<li id="app-category-{{id}}" data-category-id="{{id}}"><a>{{displayName}}</a></li>
+	<li id="app-category-{{id}}" data-category-id="{{id}}" tabindex="0">
+		<a>{{displayName}}</a>
+	</li>
 {{/each}}
 
 <?php if(OC_Config::getValue('appstoreenabled', true) === true): ?>

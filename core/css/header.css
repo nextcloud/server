@@ -56,6 +56,17 @@
 	height: 45px; /* header height */
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	opacity: 1;
+}
+#owncloud:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+	opacity: .75;
+}
+#owncloud:hover,
+#owncloud:active {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	opacity: 1;
 }
 
 #header .logo {
@@ -169,6 +180,7 @@
 	border-width: 10px;
 	margin-left: -10px;
 }
+/* position of dropdown arrow */
 #navigation:after {
 	left: 47%;
 }

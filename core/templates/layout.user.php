@@ -37,7 +37,7 @@
 	</div>
 	<header role="banner"><div id="header">
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
-				title="" id="owncloud" tabindex="-1">
+				title="" id="owncloud" tabindex="1">
 				<div class="logo-icon svg">
 					<h1 class="hidden-visually">
 						<?php p($theme->getName()); ?>
@@ -60,9 +60,9 @@
 
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			<div id="settings" class="svg">
-				<div id="expand" tabindex="4" role="link">
+				<div id="expand" tabindex="6" role="link">
 					<?php if ($_['enableAvatars']): ?>
-					<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown"'); } else { print_unescaped('" style="display: none"'); } ?>>
+					<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown'); } else { print_unescaped('" style="display: none'); } ?>">
 						<?php if ($_['userAvatarSet']): ?>
 							<img src="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 32]));?>?requesttoken=<?php p(urlencode($_['requesttoken'])); ?>"
 								alt="">
@@ -99,7 +99,7 @@
 				</label>
 				<input id="searchbox" class="svg" type="search" name="query"
 					value="<?php if(isset($_POST['query'])) {p($_POST['query']);};?>"
-					autocomplete="off" tabindex="3">
+					autocomplete="off" tabindex="5">
 			</form>
 		</div></header>
 
@@ -108,7 +108,7 @@
 				<ul>
 				<?php foreach($_['navigation'] as $entry): ?>
 					<li data-id="<?php p($entry['id']); ?>">
-						<a href="<?php print_unescaped($entry['href']); ?>" title=""
+						<a href="<?php print_unescaped($entry['href']); ?>" title="" tabindex="3"
 							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
 							<img class="app-icon svg" alt="" src="<?php print_unescaped($entry['icon']); ?>">
 							<div class="icon-loading-dark" style="display:none;"></div>
@@ -118,12 +118,12 @@
 						</a>
 					</li>
 				<?php endforeach; ?>
-				<?php 
+				<?php
 					/* show "More apps" link to app administration directly in app navigation, as last entry */
-					if(OC_User::isAdminUser(OC_User::getUser())): 
+					if(OC_User::isAdminUser(OC_User::getUser())):
 				?>
 					<li id="apps-management">
-						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps')); ?>" title=""
+						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps')); ?>" title="" tabindex="4"
 							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
 							<img class="app-icon svg" alt="" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>">
 							<div class="icon-loading-dark" style="display:none;"></div>
