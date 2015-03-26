@@ -201,11 +201,13 @@ class Filesystem {
 	private static $loader;
 
 	/**
+	 * @param string $wrapperName
 	 * @param callable $wrapper
+	 * @param int $priority
 	 */
-	public static function addStorageWrapper($wrapperName, $wrapper) {
+	public static function addStorageWrapper($wrapperName, $wrapper, $priority = 50) {
 		$mounts = self::getMountManager()->getAll();
-		if (!self::getLoader()->addStorageWrapper($wrapperName, $wrapper, $mounts)) {
+		if (!self::getLoader()->addStorageWrapper($wrapperName, $wrapper, $priority, $mounts)) {
 			// do not re-wrap if storage with this name already existed
 			return;
 		}
