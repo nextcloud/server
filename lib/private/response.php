@@ -172,6 +172,27 @@ class OC_Response {
 	}
 
 	/**
+	 * Sets the content length header (with possible workarounds)
+	 * @param string|int|float $length Length to be sent
+	 */
+	static public function setContentLengthHeader($length) {
+		if (PHP_INT_SIZE === 4) {
+			if ($length > PHP_INT_MAX && stripos(PHP_SAPI, 'apache') === 0) {
+				// Apache PHP SAPI casts Content-Length headers to PHP integers.
+				// This enforces a limit of PHP_INT_MAX (2147483647 on 32-bit
+				// platforms). So, if the length is greater than PHP_INT_MAX,
+				// we just do not send a Content-Length header to prevent
+				// bodies from being received incompletely.
+				return;
+			}
+			// Convert signed integer or float to unsigned base-10 string.
+			$lfh = new \OC\LargeFileHelper;
+			$length = $lfh->formatUnsignedInteger($length);
+		}
+		header('Content-Length: '.$length);
+	}
+
+	/**
 	* Send file as response, checking and setting caching headers
 	* @param string $filepath of file to send
 	*/
@@ -181,7 +202,7 @@ class OC_Response {
 			self::setLastModifiedHeader(filemtime($filepath));
 			self::setETagHeader(md5_file($filepath));
 
-			header('Content-Length: '.filesize($filepath));
+			self::setContentLengthHeader(filesize($filepath));
 			fpassthru($fp);
 		}
 		else {

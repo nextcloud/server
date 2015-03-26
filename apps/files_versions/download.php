@@ -38,7 +38,7 @@ $ftype = $view->getMimeType('/'.$uid.'/files/'.$filename);
 header('Content-Type:'.$ftype);
 OCP\Response::setContentDispositionHeader(basename($filename), 'attachment');
 OCP\Response::disableCaching();
-header('Content-Length: '.$view->filesize($versionName));
+OCP\Response::setContentLengthHeader($view->filesize($versionName));
 
 OC_Util::obEnd();
 
