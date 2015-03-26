@@ -75,7 +75,7 @@ var OC={
 	appConfig: window.oc_appconfig || {},
 	theme: window.oc_defaults || {},
 	coreApps:['', 'admin','log','core/search','settings','core','3rdparty'],
-	menuSpeed: 100,
+	menuSpeed: 50,
 
 	/**
 	 * Get an absolute url to a file in an app
@@ -477,7 +477,7 @@ var OC={
 		$menuEl.addClass('menu');
 		$toggle.on('click.menu', function(event) {
 			if ($menuEl.is(OC._currentMenu)) {
-				$menuEl.hide();
+				$menuEl.slideUp(OC.menuSpeed);
 				OC._currentMenu = null;
 				OC._currentMenuToggle = null;
 				return false;
@@ -487,7 +487,7 @@ var OC={
 				// close it
 				OC._currentMenu.hide();
 			}
-			$menuEl.toggle();
+			$menuEl.slideToggle(OC.menuSpeed);
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
 			return false;
@@ -500,7 +500,7 @@ var OC={
 	unregisterMenu: function($toggle, $menuEl) {
 		// close menu if opened
 		if ($menuEl.is(OC._currentMenu)) {
-			$menuEl.hide();
+			$menuEl.slideUp(OC.menuSpeed);
 			OC._currentMenu = null;
 			OC._currentMenuToggle = null;
 		}
@@ -1128,7 +1128,7 @@ function initCore() {
 		}
 	});
 	$('#settings #expand').click(function(event) {
-		$('#settings #expanddiv').toggle();
+		$('#settings #expanddiv').slideToggle(OC.menuSpeed);
 		event.stopPropagation();
 	});
 	$('#settings #expanddiv').click(function(event){
@@ -1136,7 +1136,7 @@ function initCore() {
 	});
 	//hide the user menu when clicking outside it
 	$(document).click(function(){
-		$('#settings #expanddiv').hide();
+		$('#settings #expanddiv').slideUp(OC.menuSpeed);
 	});
 
 	// move triangle of apps dropdown to align with app name triangle
@@ -1166,7 +1166,7 @@ function initCore() {
 			return false;
 		}
 		if (OC._currentMenu) {
-			OC._currentMenu.hide();
+			OC._currentMenu.slideUp(OC.menuSpeed);
 		}
 		OC._currentMenu = null;
 		OC._currentMenuToggle = null;
