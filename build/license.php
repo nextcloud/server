@@ -87,13 +87,30 @@ EOD;
 
 	function handleFile($path) {
 		$source = file_get_contents($path);
+		if ($this->isMITLicensed($source)) {
+			echo "MIT licensed file: $path" . PHP_EOL;
+			return;
+		}
 		$source = $this->eatOldLicense($source);
 		$authors = $this->getAuthors($path);
 		$license = str_replace('@AUTHORS@', $authors, $this->licenseText);
 
 		$source = "<?php" . PHP_EOL . $license . PHP_EOL . $source;
 		file_put_contents($path,$source);
-		echo "License updated: $path\n";
+		echo "License updated: $path" . PHP_EOL;
+	}
+
+	private function isMITLicensed($source) {
+		$lines = explode(PHP_EOL, $source);
+		while(!empty($lines)) {
+			$line = $lines[0];
+			array_shift($lines);
+			if (strpos($line, 'The MIT License') !== false) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private function eatOldLicense($source) {
@@ -108,11 +125,11 @@ EOD;
 				array_shift($lines);
 				continue;
 			}
-			if (strpos($line, '*') !== false) {
+			if (strpos($line, '*/') !== false ) {
 				array_shift($lines);
-				continue;
+				break;
 			}
-			if (strpos($line, '*/') !== false) {
+			if (strpos($line, '*') !== false) {
 				array_shift($lines);
 				continue;
 			}
@@ -131,7 +148,10 @@ EOD;
 		$authors = explode(PHP_EOL, $out);
 
 		$authors = array_filter($authors, function($author) {
-			return !in_array($author, ['', 'Not Committed Yet', 'Jenkins for ownCloud <owncloud-bot@tmit.eu>']);
+			return !in_array($author, [
+				'',
+				'Not Committed Yet <not.committed.yet>',
+				'Jenkins for ownCloud <owncloud-bot@tmit.eu>']);
 		});
 		$authors = array_map(function($author){
 			return " * @author $author";
@@ -141,26 +161,30 @@ EOD;
 }
 
 $licenses = new Licenses;
-$licenses->exec([
-	'../apps/files',
-	'../apps/files_encryption',
-	'../apps/files_external',
-	'../apps/files_sharing',
-	'../apps/files_trashbin',
-	'../apps/files_versions',
-	'../apps/provisioning_api',
-	'../apps/user_ldap',
-	'../apps/user_webdavauth',
-	'../core',
-	'../lib',
-	'../ocs',
-	'../settings',
-	'../console.php',
-	'../cron.php',
-	'../index.php',
-	'../public.php',
-	'../remote.php',
-	'../status.php',
-	'../version.php',
-]);
+if (isset($argv[1])) {
+	$licenses->exec($argv[1]);
+} else {
+	$licenses->exec([
+		'../apps/files',
+		'../apps/files_encryption',
+		'../apps/files_external',
+		'../apps/files_sharing',
+		'../apps/files_trashbin',
+		'../apps/files_versions',
+		'../apps/provisioning_api',
+		'../apps/user_ldap',
+		'../apps/user_webdavauth',
+		'../core',
+		'../lib',
+		'../ocs',
+		'../settings',
+		'../console.php',
+		'../cron.php',
+		'../index.php',
+		'../public.php',
+		'../remote.php',
+		'../status.php',
+		'../version.php',
+	]);
+}
 
