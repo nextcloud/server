@@ -146,4 +146,13 @@ interface Folder extends Node {
 	 * @return bool
 	 */
 	public function isCreatable();
+
+	/**
+	 * Add a suffix to the name in case the file exists
+	 *
+	 * @param string $name
+	 * @return string
+	 * @throws NotPermittedException
+	 */
+	public function getNonExistingName($name);
 }
