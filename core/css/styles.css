@@ -241,8 +241,8 @@ textarea:disabled {
 	position: relative;
 	font-size: 1.2em;
 	padding: 3px;
-	padding-left: 28px;
-	background: #fff url('../img/actions/search.svg') no-repeat .5em center;
+	padding-left: 25px;
+	background: #fff url('../img/actions/search.svg') no-repeat 6px center;
 	border: 0;
 	border-radius: 3px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
