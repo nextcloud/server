@@ -1051,6 +1051,41 @@ class Test_Share extends \Test\TestCase {
 				),
 		);
 	}
+
+	/**
+	 * Ensure that we do not allow removing a an expiration date from a link share if this
+	 * is enforced by the settings.
+	 */
+	public function testClearExpireDateWhileEnforced() {
+		OC_User::setUserId($this->user1);
+
+		\OC_Appconfig::setValue('core', 'shareapi_default_expire_date', 'yes');
+		\OC_Appconfig::setValue('core', 'shareapi_expire_after_n_days', '2');
+		\OC_Appconfig::setValue('core', 'shareapi_enforce_expire_date', 'yes');
+
+		$token = OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_LINK, null, \OCP\Constants::PERMISSION_READ);
+		$this->assertInternalType(
+			'string',
+			$token,
+			'Failed asserting that user 1 successfully shared text.txt as link with token.'
+		);
+
+		$setExpireDateFailed = false;
+		try {
+			$this->assertTrue(
+					OCP\Share::setExpirationDate('test', 'test.txt', '', ''),
+					'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
+			);
+		} catch (\Exception $e) {
+			$setExpireDateFailed = true;
+		}
+
+		$this->assertTrue($setExpireDateFailed);
+
+		\OC_Appconfig::deleteKey('core', 'shareapi_default_expire_date');
+		\OC_Appconfig::deleteKey('core', 'shareapi_expire_after_n_days');
+		\OC_Appconfig::deleteKey('core', 'shareapi_enforce_expire_date');
+	}
 }
 
 class DummyShareClass extends \OC\Share\Share {
