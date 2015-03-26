@@ -103,8 +103,9 @@ class CodeChecker extends BasicEmitter {
 		foreach ($iterator as $file) {
 			/** @var SplFileInfo $file */
 			$this->emit('CodeChecker', 'analyseFileBegin', [$file->getPathname()]);
-			$errors = array_merge($this->analyseFile($file), $errors);
-			$this->emit('CodeChecker', 'analyseFileFinished', [$errors]);
+			$fileErrors = $this->analyseFile($file);
+			$this->emit('CodeChecker', 'analyseFileFinished', [$fileErrors]);
+			$errors = array_merge($fileErrors, $errors);
 		}
 
 		return $errors;
