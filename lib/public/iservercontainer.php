@@ -267,8 +267,16 @@ interface IServerContainer {
 	/**
 	 * Returns an instance of the HTTP helper class
 	 * @return \OC\HTTPHelper
+	 * @deprecated Use \OCP\Http\Client\IClientService
 	 */
 	function getHTTPHelper();
+
+	/**
+	 * Returns an instance of the HTTP client service
+	 *
+	 * @return \OCP\Http\Client\IClientService
+	 */
+	function getHTTPClientService();
 
 	/**
 	 * Get the active event logger

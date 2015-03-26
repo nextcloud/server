@@ -210,37 +210,23 @@ class Storage extends DAV implements ISharedStorage {
 		}
 	}
 
+	/**
+	 * @return mixed
+	 * @throws ForbiddenException
+	 * @throws NotFoundException
+	 * @throws \Exception
+	 */
 	public function getShareInfo() {
 		$remote = $this->getRemote();
 		$token = $this->getToken();
 		$password = $this->getPassword();
 		$url = rtrim($remote, '/') . '/index.php/apps/files_sharing/shareinfo?t=' . $token;
 
-		$ch = curl_init();
+		// TODO: DI
+		$client = \OC::$server->getHTTPClientService()->newClient();
+		$response = $client->post($url, ['body' => ['password' => $password]]);
 
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS,
-			http_build_query(array('password' => $password)));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-		$path = $this->certificateManager->getCertificateBundle();
-		if (is_readable($path)) {
-			curl_setopt($ch, CURLOPT_CAINFO, $path);
-		}
-
-		$result = curl_exec($ch);
-
-		$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		$errorMessage = curl_error($ch);
-		curl_close($ch);
-		if (!empty($errorMessage)) {
-			throw new \Exception($errorMessage);
-		}
-
-		switch ($status) {
+		switch ($response->getStatusCode()) {
 			case 401:
 			case 403:
 				throw new ForbiddenException();
@@ -250,6 +236,6 @@ class Storage extends DAV implements ISharedStorage {
 				throw new \Exception();
 		}
 
-		return json_decode($result, true);
+		return json_decode($response->getBody(), true);
 	}
 }

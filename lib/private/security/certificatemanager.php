@@ -63,11 +63,13 @@ class CertificateManager implements ICertificateManager {
 	/**
 	 * create the certificate bundle of all trusted certificated
 	 */
-	protected function createCertificateBundle() {
+	public function createCertificateBundle() {
 		$path = $this->getPathToCertificates();
 		$certs = $this->listCertificates();
 
 		$fh_certs = $this->view->fopen($path . '/rootcerts.crt', 'w');
+
+		// Write user certificates
 		foreach ($certs as $cert) {
 			$file = $path . '/uploads/' . $cert->getName();
 			$data = $this->view->file_get_contents($file);
@@ -77,6 +79,9 @@ class CertificateManager implements ICertificateManager {
 			}
 		}
 
+		// Append the default certificates
+		$defaultCertificates = file_get_contents(\OC::$SERVERROOT . '/config/ca-bundle.crt');
+		fwrite($fh_certs, $defaultCertificates);
 		fclose($fh_certs);
 	}
 
@@ -137,6 +142,9 @@ class CertificateManager implements ICertificateManager {
 		return $this->getPathToCertificates() . 'rootcerts.crt';
 	}
 
+	/**
+	 * @return string
+	 */
 	private function getPathToCertificates() {
 		$path = is_null($this->uid) ? '/files_external/' : '/' . $this->uid . '/files_external/';
 

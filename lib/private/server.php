@@ -13,6 +13,7 @@ use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
+use OC\Http\Client\ClientService;
 use OC\Security\CertificateManager;
 use OC\Files\Node\Root;
 use OC\Files\View;
@@ -236,9 +237,18 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('HTTPHelper', function (Server $c) {
 			$config = $c->getConfig();
-			$user = $c->getUserSession()->getUser();
-			$uid = $user ? $user->getUID() : null;
-			return new HTTPHelper($config, new \OC\Security\CertificateManager($uid, new \OC\Files\View()));
+			return new HTTPHelper(
+				$config,
+				$c->getHTTPClientService()
+			);
+		});
+		$this->registerService('HttpClientService', function (Server $c) {
+			$user = \OC_User::getUser();
+			$uid = $user ? $user : null;
+			return new ClientService(
+				$c->getConfig(),
+				new \OC\Security\CertificateManager($uid, new \OC\Files\View())
+			);
 		});
 		$this->registerService('EventLogger', function (Server $c) {
 			if (defined('DEBUG') and DEBUG) {
@@ -664,7 +674,7 @@ class Server extends SimpleContainer implements IServerContainer {
 
 	/**
 	 * Returns an instance of the HTTP helper class
-	 *
+	 * @deprecated Use getHTTPClientService()
 	 * @return \OC\HTTPHelper
 	 */
 	function getHTTPHelper() {
@@ -687,6 +697,15 @@ class Server extends SimpleContainer implements IServerContainer {
 			$uid = $user->getUID();
 		}
 		return new CertificateManager($uid, new \OC\Files\View());
+	}
+
+	/**
+	 * Returns an instance of the HTTP client service
+	 *
+	 * @return \OCP\Http\Client\IClientService
+	 */
+	function getHTTPClientService() {
+		return $this->query('HttpClientService');
 	}
 
 	/**
