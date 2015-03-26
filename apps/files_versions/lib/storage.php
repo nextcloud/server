@@ -39,6 +39,8 @@
 
 namespace OCA\Files_Versions;
 
+use OCA\Files_Versions\Command\Expire;
+
 class Storage {
 
 	const DEFAULTENABLED=true;
@@ -156,7 +158,7 @@ class Storage {
 			// 1.5 times as large as the current version -> 2.5
 			$neededSpace = $files_view->filesize($filename) * 2.5;
 
-			self::expire($filename, $versionsSize, $neededSpace);
+			self::scheduleExpire($filename, $versionsSize, $neededSpace);
 
 			// disable proxy to prevent multiple fopen calls
 			$proxyStatus = \OC_FileProxy::$enabled;
@@ -261,7 +263,7 @@ class Storage {
 		}
 
 		if (!$files_view->is_dir($newpath)) {
-			self::expire($newpath);
+			self::scheduleExpire($newpath);
 		}
 
 	}
@@ -296,7 +298,7 @@ class Storage {
 			// rollback
 			if( @$users_view->rename('files_versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
 				$files_view->touch($file, $revision);
-				Storage::expire($file);
+				Storage::scheduleExpire($file);
 				return true;
 
 			}else if ( $versionCreated ) {
@@ -500,9 +502,24 @@ class Storage {
 	}
 
 	/**
-	 * Erase a file's versions which exceed the set quota
+	 * @param string $fileName
+	 * @param int|null $versionsSize
+	 * @param int $neededSpace
 	 */
-	private static function expire($filename, $versionsSize = null, $offset = 0) {
+	private static function scheduleExpire($fileName, $versionsSize = null, $neededSpace = 0) {
+		$command = new Expire(\OC::$server->getUserSession()->getUser()->getUID(), $fileName, $versionsSize, $neededSpace);
+		\OC::$server->getCommandBus()->push($command);
+	}
+
+	/**
+	 * Expire versions which exceed the quota
+	 *
+	 * @param $filename
+	 * @param int|null $versionsSize
+	 * @param int $offset
+	 * @return bool|int|null
+	 */
+	public static function expire($filename, $versionsSize = null, $offset = 0) {
 		$config = \OC::$server->getConfig();
 		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);

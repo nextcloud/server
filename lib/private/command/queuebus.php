@@ -28,7 +28,7 @@ class QueueBus implements IBus {
 	/**
 	 * @var (ICommand|callable)[]
 	 */
-	private $queue;
+	private $queue = [];
 
 	/**
 	 * Schedule a command to be fired
@@ -52,7 +52,13 @@ class QueueBus implements IBus {
 	 */
 	private function runCommand($command) {
 		if ($command instanceof ICommand) {
-			$command->handle();
+			// ensure the command can be serialized
+			$serialized = serialize($command);
+			if(strlen($serialized) > 4000) {
+				throw new \InvalidArgumentException('Trying to push a command which serialized form can not be stored in the database (>4000 character)');
+			}
+			$unserialized = unserialize($serialized);
+			$unserialized->handle();
 		} else {
 			$command();
 		}
