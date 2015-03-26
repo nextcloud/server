@@ -1141,9 +1141,10 @@ function initCore() {
 
 	// move triangle of apps dropdown to align with app name triangle
 	// 68 is the additional offset coming from the logo width
-	var caretPosition = $('.header-appname + .icon-caret').position().left + 68;
-	document.styleSheets[2].addRule('#navigation:after',
-		'left: '+ caretPosition +'px;');
+	if($('#navigation').length) {
+		var caretPosition = $('.header-appname + .icon-caret').offset().left - 2;
+		$('head').append('<style>#navigation:after { left: '+ caretPosition +'px; }</style>');
+	}
 
 	// all the tipsy stuff needs to be here (in reverse order) to work
 	$('.displayName .action').tipsy({gravity:'se', fade:true, live:true});
