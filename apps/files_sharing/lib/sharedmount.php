@@ -50,8 +50,8 @@ class SharedMount extends MountPoint implements MoveableMount {
 		$mountPoint = basename($share['file_target']);
 		$parent = dirname($share['file_target']);
 
-		while (!\OC\Files\Filesystem::is_dir($parent)) {
-			$parent = dirname($parent);
+		if (!\OC\Files\Filesystem::is_dir($parent)) {
+			$parent = Helper::getShareFolder();
 		}
 
 		$newMountPoint = \OCA\Files_Sharing\Helper::generateUniqueTarget(
