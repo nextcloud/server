@@ -594,6 +594,19 @@ class Cache extends \Test\TestCase {
 		$this->assertEquals($newData, $newDataFromBogus);
 	}
 
+	public function testNoReuseOfFileId() {
+		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain');
+		$this->cache->put('somefile.txt', $data1);
+		$info = $this->cache->get('somefile.txt');
+		$fileId = $info['fileid'];
+		$this->cache->remove('somefile.txt');
+		$data2 = array('size' => 200, 'mtime' => 100, 'mimetype' => 'text/plain');
+		$this->cache->put('anotherfile.txt', $data2);
+		$info2 = $this->cache->get('anotherfile.txt');
+		$fileId2 = $info2['fileid'];
+		$this->assertNotEquals($fileId, $fileId2);
+	}
+
 	protected function tearDown() {
 		if ($this->cache) {
 			$this->cache->clear();

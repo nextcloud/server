@@ -32,6 +32,7 @@ use OC\Hooks\Emitter;
 use OC\Repair\AssetCache;
 use OC\Repair\CleanTags;
 use OC\Repair\Collation;
+use OC\Repair\SqliteAutoincrement;
 use OC\Repair\DropOldTables;
 use OC\Repair\FillETags;
 use OC\Repair\InnoDB;
@@ -118,6 +119,7 @@ class Repair extends BasicEmitter {
 		$steps = array(
 			new InnoDB(),
 			new Collation(\OC::$server->getConfig(), \OC_DB::getConnection()),
+			new SqliteAutoincrement(\OC_DB::getConnection()),
 			new SearchLuceneTables(),
 			new RepairConfig()
 		);
