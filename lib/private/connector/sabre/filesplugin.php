@@ -184,8 +184,11 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	/**
 	 * @param \OC\Connector\Sabre\Node $node
 	 */
-	public function getETag($node) {
-		if (isset($_SERVER['HTTP_OC_CHUNKED']) && !isset($_SERVER['X-CHUNKING_COMPLETE'])) {
+	private function getETag($node) {
+		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+			if (isset($_SERVER['X-CHUNKING_COMPLETE'])) {
+				return $node->getETag();
+			}
 			return null;
 		}
 		return $node->getETag();
