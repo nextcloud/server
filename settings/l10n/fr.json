@@ -115,7 +115,6 @@
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Nous vous recommandons d'installer sur votre système les paquets requis à la prise en charge de l'un des paramètres régionaux suivants : %s",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Si votre installation n'a pas été effectuée à la racine du domaine et qu'elle utilise le cron du système, il peut y avoir des problèmes avec la génération d'URL. Pour les éviter, veuillez configurer l'option \"overwrite.cli.url\" de votre fichier config.php avec le chemin de la racine de votre installation (suggéré : \"%s\")",
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "La tâche cron n'a pu s'exécuter via CLI. Ces erreurs techniques sont apparues :",
-    "No problems found" : "Aucun problème trouvé",
     "Last cron job execution: %s." : "Dernière tâche cron exécutée : %s.",
     "Last cron job execution: %s. Something seems wrong." : "Dernière tâche cron exécutée : %s. Quelque chose s'est mal passé.",
     "Cron was not executed yet!" : "Le cron n'a pas encore été exécuté !",

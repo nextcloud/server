@@ -119,7 +119,6 @@ OC.L10N.register(
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Biz təkidlə təklif edirik ki, göstərilən dillər üçün tələb edilən paketləri sisteminizdə yükləyəsiniz: %s.",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Eger sizin yüklənməniz root domain-də yüklənməyibsə və sistem cron-u istifadə edirsə, orda URL generasiyası ilə bağlı problemləriniz ola bilər. Bu problemləri aşmaq üçün xahiş olunur yüklənmə vaxtı \"overwrite.cli.url\" opsiyasını config.php faylında webroot ünvanı olaraq təyin edəsiniz (Məsləhətdir: \"%s\")",
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "CRON işini CLİ-dan yerinə yetirmək mümkün olmadı. Görünən texniki səhv baş verdi.",
-    "No problems found" : "Heç bir problem tapılmadı",
     "Last cron job execution: %s." : "Son cron yerinə yetirilməsi işi: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Son cron yerinə yetirilməsi: %s. Nə isə yalnış görünür.",
     "Cron was not executed yet!" : "Cron hələ yerinə yetirilməyib!",

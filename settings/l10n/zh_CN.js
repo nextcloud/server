@@ -90,7 +90,6 @@ OC.L10N.register(
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP模块'文件信息'丢失. 我们强烈建议启用此模块以便mime类型检测取得最佳结果.",
     "System locale can not be set to a one which supports UTF-8." : "系统语系无法设置为支持 UTF-8 的语系。",
     "This means that there might be problems with certain characters in file names." : "这意味着一些文件名中的特定字符可能有问题。",
-    "No problems found" : "未发现问题",
     "Cron was not executed yet!" : "定时任务还未被执行！",
     "Execute one task with each page loaded" : "每个页面加载后执行一个任务",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php 已注册于一个 webcron 服务来通过 http 每 15 分钟执行 cron.php。",

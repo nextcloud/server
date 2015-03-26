@@ -106,7 +106,6 @@ OC.L10N.register(
     "System locale can not be set to a one which supports UTF-8." : "Regionalnu šemu sustava nemoguće je postaviti na neku koja podržava UTF-8.",
     "This means that there might be problems with certain characters in file names." : "To znači da se mogu javiti problemi s određenim znakovima u nazivu datoteke.",
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Strogo se preporučuje instaliranje zahtjevnih paketa na vašem sistemu koji podržavaju jednu od slijedećih regionalnih šemi: %s.",
-    "No problems found" : "Problemi nisu pronađeni",
     "Cron was not executed yet!" : "Cron još nije izvršen!",
     "Execute one task with each page loaded" : "Izvrši jedan zadatak sa svakom učitanom stranicom",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php je registrovan na webcron usluzi da poziva cron.php svakih 15 minuta preko http.",

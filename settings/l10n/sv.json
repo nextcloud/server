@@ -107,7 +107,6 @@
     "This means that there might be problems with certain characters in file names." : "Detta betyder att där kan komma att uppstå problem med vissa tecken i filnamn.",
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Vi rekommenderar starkt att installera de nödvändiga paketen på ditt system för att stödja en av följande språkversioner: %s.",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Om din installation inte installerades på roten av domänen och använder system cron så kan det uppstå problem med URL-genereringen. För att undvika dessa problem, var vänlig sätt \"overwrite.cli.url\"-inställningen i din config.php-fil till webbrotsökvägen av din installation (Föreslagen: \"%s\")",
-    "No problems found" : "Inga problem hittades",
     "Cron was not executed yet!" : "Cron kördes inte ännu!",
     "Execute one task with each page loaded" : "Exekvera en uppgift vid varje sidladdning",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php är registrerad som en webcron service att ropa på cron.php varje 15 minuter över http.",

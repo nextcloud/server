@@ -110,7 +110,6 @@ OC.L10N.register(
     "This means that there might be problems with certain characters in file names." : "Ini artinya mungkin ada masalah dengan karakter tertentu pada nama berkas.",
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Kamu sangat menyarankan untuk menginstal paket-paket yang dibutuhkan pada sistem agar mendukung lokal berikut: %s.",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Jika instalasi Anda tidak di root domain dan menggunakan sistem cron, hal tersebut dapat menyebabkan masalah dengan pembuatan URL. Untuk mencegah masalah tersebut, mohon atur opsi \"overwrite.cli.url\" pada berkas config.php Anda ke jalur lokasi webroot instalasi Anda (Disarankan: \"%s\")",
-    "No problems found" : "Masalah tidak ditemukan",
     "Cron was not executed yet!" : "Cron masih belum dieksekusi!",
     "Execute one task with each page loaded" : "Jalankan tugas setiap kali halaman dimuat",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php didaftarkan pada layanan webcron untuk memanggil cron.php setiap 15 menit melalui http.",

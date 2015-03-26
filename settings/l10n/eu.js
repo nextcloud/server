@@ -110,7 +110,6 @@ OC.L10N.register(
     "This means that there might be problems with certain characters in file names." : "Honek esan nahi du fitxategien izenetako karaktere batzuekin arazoak egon daitezkeela.",
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Biziki gomendatzen dizugu beharrezkoak diren paketea zure sisteman instalatzea honi euskarria eman ahal izateko: %s.",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Zure instalazioa ez badago domeinuaren sustraian egina eta erabiltzen badu sistemaren cron-a, arazoak izan daitezke URL sorreran. Arazo horiek saihesteko ezarri  \"overwrite.cli.url\" opzioa zure config.php fitxategian zure instalazioaren webroot bidera (Proposatua: \"%s\")",
-    "No problems found" : "Ez da problemarik aurkitu",
     "Cron was not executed yet!" : "Cron-a oraindik ez da exekutatu!",
     "Execute one task with each page loaded" : "Exekutatu zeregin bat orri karga bakoitzean",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php webcron zerbitzu batean erregistratua dago cron.php  15 minuturo http bidez deitzeko.",

@@ -102,7 +102,6 @@ OC.L10N.register(
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Manjka modul PHP 'fileinfo'. Priporočljivo je omogočiti ta modul za popolno zaznavanje vrst MIME.",
     "System locale can not be set to a one which supports UTF-8." : "Sistemskih jezikovnih nastavitev ni mogoče nastaviti na možnost, ki podpira nabor UTF-8.",
     "This means that there might be problems with certain characters in file names." : "To pomeni, da se lahko pojavijo napake pri nekaterih znakih v imenih datotek.",
-    "No problems found" : "Ni zaznanih težav",
     "Cron was not executed yet!" : "Periodično opravilo cron še ni zagnano!",
     "Execute one task with each page loaded" : "Izvedi eno nalogo z vsako naloženo stranjo.",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "Datoteka cron.php je vpisana za periodično opravilo webcron za potrditev sklica vsakih 15 minut pri povezavi preko HTTP.",

@@ -112,7 +112,6 @@ OC.L10N.register(
     "This means that there might be problems with certain characters in file names." : "Dette betyr at det kan forekomme problemer med visse tegn i filnavn.",
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Vi anbefaler sterkt å installere de påkrevde pakkene på systemet ditt for å støtte en av følgende nasjonale innstillinger: %s.",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Hvis installasjonen din ikke er installert i roten av domenet og bruker systemets cron, kan det bli problemer med URL-genereringen. For å unngå disse problemene, sett \"overwrite.cli.url\" i filen config.php til web-roten for installasjonen din (Foreslått: \"%s\")",
-    "No problems found" : "Ingen problemer funnet",
     "Cron was not executed yet!" : "Cron er ikke utført ennå!",
     "Execute one task with each page loaded" : "Utfør en oppgave med hver side som blir lastet",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php er registrert i en webcron-tjeneste for å kalle cron.php hvert 15. minutt over http.",

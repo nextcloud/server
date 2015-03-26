@@ -117,7 +117,6 @@
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "We strongly suggest installing the required packages on your system to support one of the following locales: %s.",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")",
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:",
-    "No problems found" : "No problems found",
     "Last cron job execution: %s." : "Last cron job execution: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Last cron job execution: %s. Something seems wrong.",
     "Cron was not executed yet!" : "Cron was not executed yet!",

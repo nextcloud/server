@@ -119,7 +119,6 @@ OC.L10N.register(
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "We adviseren met klem om de noodzakelijke pakketten op uw systeem te installeren om een van de volgende talen te ondersteunen: %s.",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Als uw installatie niet in de hoofddirectory van het domein staat, maar wel cron gebruikt, dan kunnen er problemen ontstaan bij het genereren van URL's. Om deze problemen te voorkomen zou u de \"overwrite.cli.url\" optie in config.php moeten instellen op het webroot pad van uw ownCloud (aanbevolen: \"%s\") ",
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "het was niet mogelijk om de cronjob via CLI uit te voeren. De volgende technische problemen traden op:",
-    "No problems found" : "Geen problemen gevonden",
     "Last cron job execution: %s." : "Laatst uitgevoerde cronjob: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Laatst uitgevoerde cronjob: %s. Er lijkt iets fout gegaan.",
     "Cron was not executed yet!" : "Cron is nog niet uitgevoerd!",

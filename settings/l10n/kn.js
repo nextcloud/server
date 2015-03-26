@@ -88,7 +88,6 @@ OC.L10N.register(
     "None" : "﻿ಯಾವುದೂ ಇಲ್ಲ",
     "Login" : "ಖಾತೆ ಪ್ರವೇಶಿಸು",
     "Plain" : "﻿ಸರಳ",
-    "No problems found" : "﻿ಯಾವ ವ್ಯಕ್ತಿಯೂ ಕಂಡುಬಂದಿಲ್ಲ",
     "Expire after " : "ನಿಶ್ವಸಿಸುವ ಅವಧಿ",
     "days" : "﻿ದಿನಗಳು",
     "Enforce expiration date" : "﻿ಮುಕ್ತಾಯ ದಿನಾಂಕವನ್ನು ಬಲವ೦ತವಾಗಿ ಜಾರಿಗೆ ಮಾಡಿ",

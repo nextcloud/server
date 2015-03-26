@@ -170,6 +170,7 @@
     "Database name" : "Nom de la base de dades",
     "Database tablespace" : "Espai de taula de la base de dades",
     "Database host" : "Ordinador central de la base de dades",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "L'ús de SQLite està desaconsellat especialment quan s'usa el client d'escriptori per sincronitzar els fitxers.",
     "Finish setup" : "Acaba la configuració",
     "Finishing …" : "Acabant...",
     "%s is available. Get more information on how to update." : "%s està disponible. Obtingueu més informació de com actualitzar.",

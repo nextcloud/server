@@ -110,7 +110,6 @@
     "This means that there might be problems with certain characters in file names." : "파일 이름의 일부 문자에 문제가 생길 수도 있습니다.",
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "다음 중 하나 이상의 로캘을 지원하기 위하여 필요한 패키지를 시스템에 설치하는 것을 추천합니다: %s.",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "도메인의 루트 디렉터리 아래에 설치되어 있지 않고 시스템 cron을 사용한다면 URL 생성에 문제가 발생할 수도 있습니다. 이 문제를 해결하려면 설치본의 웹 루트 경로에 있는 config.php 파일의 \"overwrite.cli.url\" 옵션을 변경하십시오(제안: \"%s\")",
-    "No problems found" : "문제를 찾을 수 없음",
     "Cron was not executed yet!" : "Cron이 실행되지 않았습니다!",
     "Execute one task with each page loaded" : "개별 페이지를 불러올 때마다 실행",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php는 webcron 서비스에 등록되어 HTTP로 15분마다 cron.php에 접근합니다.",
