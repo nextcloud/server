@@ -40,6 +40,7 @@ $(document).ready(function(){
 					if ( $('#dropdown').hasClass('drop-versions') && file == $('#dropdown').data('file')) {
 						createDropDown = false;
 					}
+					$('#dropdown').slideUp(OC.menuSpeed);
 					$('#dropdown').remove();
 					$('tr').removeClass('mouseOver');
 				}
@@ -71,7 +72,7 @@ function revertFile(file, revision) {
 			if (response.status === 'error') {
 				OC.Notification.show( t('files_version', 'Failed to revert {file} to revision {timestamp}.', {file:file, timestamp:formatDate(revision * 1000)}) );
 			} else {
-				$('#dropdown').hide('blind', function() {
+				$('#dropdown').slideUp(OC.menuSpeed, function() {
 					$('#dropdown').closest('tr').find('.modified:first').html(relative_modified_date(revision));
 					$('#dropdown').remove();
 					$('tr').removeClass('mouseOver');
@@ -175,13 +176,13 @@ function createVersionsDropdown(filename, files, fileList) {
 		version.appendTo('#found_versions');
 	}
 
-	$('#dropdown').show('blind');
+	$('#dropdown').slideDown(1000);
 }
 
 $(this).click(
 	function(event) {
 	if ($('#dropdown').has(event.target).length === 0 && $('#dropdown').hasClass('drop-versions')) {
-		$('#dropdown').hide('blind', function() {
+		$('#dropdown').slideUp(OC.menuSpeed, function() {
 			$('#dropdown').remove();
 			$('tr').removeClass('mouseOver');
 		});

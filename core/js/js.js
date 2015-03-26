@@ -75,7 +75,7 @@ var OC={
 	appConfig: window.oc_appconfig || {},
 	theme: window.oc_defaults || {},
 	coreApps:['', 'admin','log','core/search','settings','core','3rdparty'],
-	menuSpeed: 100,
+	menuSpeed: 50,
 
 	/**
 	 * Get an absolute url to a file in an app
@@ -1195,6 +1195,20 @@ function initCore() {
 	}
 
 	setupMainMenu();
+
+	// move triangle of apps dropdown to align with app name triangle
+	// 2 is the additional offset between the triangles
+	if($('#navigation').length) {
+		$('#header #owncloud + .menutoggle').one('click', function(){
+			var caretPosition = $('.header-appname + .icon-caret').offset().left - 2;
+			if(caretPosition > 255) {
+				// if the app name is longer than the menu, just put the triangle in the middle
+				return;
+			} else {
+				$('head').append('<style>#navigation:after { left: '+ caretPosition +'px; }</style>');
+			}
+		});
+	}
 
 	// just add snapper for logged in users
 	if($('#app-navigation').length && !$('html').hasClass('lte9')) {

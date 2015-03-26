@@ -3,17 +3,17 @@
  See the COPYING-README file. */
 
 #dropdown {
-	background:#eee;
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-	box-shadow:0 1px 1px #777;
-	display:block;
+	background: #eee;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	box-shadow: 0 2px 3px rgba(50, 50, 50, .4);
+	display: block;
 	margin-right: 0;
-	position:absolute;
-	right:0;
-	width:420px;
-	z-index:500;
-	padding:16px;
+	position: absolute;
+	right: 0;
+	width: 420px;
+	z-index: 500;
+	padding: 16px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 990px) {

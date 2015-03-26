@@ -56,6 +56,17 @@
 	height: 45px; /* header height */
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	opacity: 1;
+}
+#owncloud:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+	opacity: .75;
+}
+#owncloud:hover,
+#owncloud:active {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	opacity: 1;
 }
 
 #header .logo {
@@ -140,18 +151,43 @@
 #navigation {
 	position: fixed;
 	top: 45px;
+	left: 10px;
 	width: 265px;
 	max-height: 85%;
 	margin-top: 0;
 	padding-bottom: 10px;
-	background-color: rgba(36, 40, 47, .97);
-	border-bottom-right-radius: 7px;
-	box-shadow: 0 0 7px rgba(29,45,68,.97);
+	background-color: rgba(0, 0, 0, .97);
+	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
+	border-radius: 3px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 	display: none;
-	overflow-y: auto;
-	overflow-x: hidden;
+	/*overflow-y: auto;
+	overflow-x: hidden;*/
 	z-index: 2000;
 }
+/* arrow look */
+#navigation:after, #expanddiv:after {
+	bottom: 100%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(0, 0, 0, 0);
+	border-bottom-color: rgba(0, 0, 0, .97);
+	border-width: 10px;
+	margin-left: -10px;
+}
+/* position of dropdown arrow */
+#navigation:after {
+	left: 47%;
+}
+#expanddiv:after {
+	right: 15px;
+}
+
 #navigation, #navigation * {
 	-moz-box-sizing:border-box;
 	box-sizing:border-box;
@@ -182,15 +218,15 @@
 	/* icon opacity and hover effect */
 	#navigation a img,
 	#navigation a span {
-		/* 50% opacity when inactive */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-		opacity: .5;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+		opacity: .7;
 	}
-	#navigation a:hover img, #navigation a:focus img,
-	#navigation a:hover span, #navigation a:focus span,
+	#navigation a:hover img,
+	#navigation a:focus img,
+	#navigation a:hover span,
+	#navigation a:focus span,
 	#navigation a.active img,
 	#navigation a.active span {
-		 /* full opacity for the active app or when hovered/focused */
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 		opacity: 1;
 	}
@@ -248,7 +284,7 @@
 #header .avatardiv {
 	float: left;
 	display: inline-block;
-	margin-right: 5px;
+	margin-right: 8px;
 	cursor: pointer;
 	height: 32px;
 	width: 32px;
@@ -265,7 +301,7 @@
 }
 #expand {
 	display: block;
-	padding: 7px 12px 6px 7px;
+	padding: 7px 30px 6px 22px;
 	cursor: pointer;
 }
 #expand * {
@@ -276,26 +312,28 @@
 #expand:active {
 	color: #fff;
 }
-#expand img { 
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; 
+#expand img {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	opacity: .7;
 	margin-bottom: -2px;
 }
-#expand:hover img, 
-#expand:focus img, 
-#expand:active img { 
+#expand:hover img,
+#expand:focus img,
+#expand:active img {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	opacity:1;
+	opacity: 1;
 }
 #expanddiv {
 	position: absolute;
-	right: 0;
+	right: 10px;
 	top: 45px;
 	z-index: 2000;
 	display: none;
-	background-color: #383c43;
-	border-bottom-left-radius: 7px;
-	box-shadow: 0 0 7px rgb(29,45,68);
+	background-color: rgba(0, 0, 0, .97);
+	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
+	border-radius: 3px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
 	#expanddiv a {

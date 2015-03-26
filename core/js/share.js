@@ -590,7 +590,7 @@ OC.Share={
 			dropDownEl.appendTo(appendTo);
 		}
 		dropDownEl.attr('data-item-source-name', filename);
-		$('#dropdown').show('blind', function() {
+		$('#dropdown').slideDown(OC.menuSpeed, function() {
 			OC.Share.droppedDown = true;
 		});
 		if ($('html').hasClass('lte9')){
@@ -600,7 +600,7 @@ OC.Share={
 	},
 	hideDropDown:function(callback) {
 		OC.Share.currentShares = null;
-		$('#dropdown').hide('blind', function() {
+		$('#dropdown').slideUp(OC.menuSpeed, function() {
 			OC.Share.droppedDown = false;
 			$('#dropdown').remove();
 			if (typeof FileActions !== 'undefined') {
@@ -753,14 +753,14 @@ OC.Share={
 			}
 		}
 		$('#linkText').val(link);
-		$('#linkText').show('blind');
+		$('#linkText').slideDown(OC.menuSpeed);
 		$('#linkText').css('display','block');
 		if (oc_appconfig.core.enforcePasswordForPublicLink === false || password === null) {
 			$('#showPassword').show();
 			$('#showPassword+label').show();
 		}
 		if (password != null) {
-			$('#linkPass').show('blind');
+			$('#linkPass').slideDown(OC.menuSpeed);
 			$('#showPassword').attr('checked', true);
 			$('#linkPassText').attr('placeholder', '**********');
 		}
@@ -770,11 +770,11 @@ OC.Share={
 		$('#allowPublicUploadWrapper').show();
 	},
 	hideLink:function() {
-		$('#linkText').hide('blind');
+		$('#linkText').slideUp(OC.menuSpeed);
 		$('#defaultExpireMessage').hide();
 		$('#showPassword').hide();
 		$('#showPassword+label').hide();
-		$('#linkPass').hide('blind');
+		$('#linkPass').slideUp(OC.menuSpeed);
 		$('#emailPrivateLink #email').hide();
 		$('#emailPrivateLink #emailButton').hide();
 		$('#allowPublicUploadWrapper').hide();
@@ -805,7 +805,7 @@ OC.Share={
 		}
 		$('#expirationCheckbox').attr('checked', true);
 		$('#expirationDate').val(date);
-		$('#expirationDate').show('blind');
+		$('#expirationDate').slideDown(OC.menuSpeed);
 		$('#expirationDate').css('display','block');
 		$('#expirationDate').datepicker({
 			dateFormat : 'dd-mm-yy'
@@ -817,7 +817,7 @@ OC.Share={
 			datePickerOptions.maxDate = new Date(shareTime + oc_appconfig.core.defaultExpireDate * 24 * 3600 * 1000);
 		}
 		if(oc_appconfig.core.defaultExpireDateEnabled) {
-			$('#defaultExpireMessage').show('blind');
+			$('#defaultExpireMessage').slideDown(OC.menuSpeed);
 		}
 		$.datepicker.setDefaults(datePickerOptions);
 	}
@@ -905,7 +905,7 @@ $(document).ready(function() {
 			$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 			OC.Share.updateIcon(itemType, itemSource);
 			if (typeof OC.Share.statuses[itemSource] === 'undefined') {
-				$('#expiration').hide('blind');
+				$('#expiration').slideUp(OC.menuSpeed);
 			}
 		});
 
@@ -988,7 +988,7 @@ $(document).ready(function() {
 					OC.Share.updateIcon(itemType, itemSource);
 				});
 			} else {
-				$('#linkPass').toggle('blind');
+				$('#linkPass').slideToggle(OC.menuSpeed);
 				$('#linkPassText').focus();
 			}
 			if (expireDateString !== '') {
@@ -997,7 +997,7 @@ $(document).ready(function() {
 		} else {
 			// Delete private link
 			OC.Share.hideLink();
-			$('#expiration').hide('blind');
+			$('#expiration').slideUp(OC.menuSpeed);
 			if ($('#linkText').val() !== '') {
 				$loading.removeClass('hidden');
 				$button.addClass('hidden');
@@ -1010,7 +1010,7 @@ $(document).ready(function() {
 					$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 					OC.Share.updateIcon(itemType, itemSource);
 					if (typeof OC.Share.statuses[itemSource] === 'undefined') {
-						$('#expiration').hide('blind');
+						$('#expiration').slideUp(OC.menuSpeed);
 					}
 				});
 			}
@@ -1063,7 +1063,7 @@ $(document).ready(function() {
 	});
 
 	$(document).on('click', '#dropdown #showPassword', function() {
-		$('#linkPass').toggle('blind');
+		$('#linkPass').slideToggle(OC.menuSpeed);
 		if (!$('#showPassword').is(':checked') ) {
 			var itemType = $('#dropdown').data('item-type');
 			var itemSource = $('#dropdown').data('item-source');
@@ -1133,9 +1133,9 @@ $(document).ready(function() {
 				if (!result || result.status !== 'success') {
 					OC.dialogs.alert(t('core', 'Error unsetting expiration date'), t('core', 'Error'));
 				}
-				$('#expirationDate').hide('blind');
+				$('#expirationDate').slideUp(OC.menuSpeed);
 				if (oc_appconfig.core.defaultExpireDateEnforced === false) {
-					$('#defaultExpireMessage').show('blind');
+					$('#defaultExpireMessage').slideDown(OC.menuSpeed);
 				}
 			});
 		}
@@ -1161,7 +1161,7 @@ $(document).ready(function() {
 				expirationDateField.addClass('error');
 			} else {
 				if (oc_appconfig.core.defaultExpireDateEnforced === 'no') {
-					$('#defaultExpireMessage'). hide('blind');
+					$('#defaultExpireMessage').slideUp(OC.menuSpeed);
 				}
 			}
 		});
