@@ -500,8 +500,9 @@ button.loading {
 	font-weight: normal;
 }
 .section h3 {
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: normal;
+	margin: 12px 0;
 }
 /* slight position correction of checkboxes and radio buttons */
 .section input[type="checkbox"],
