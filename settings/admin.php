@@ -144,6 +144,7 @@ $formsAndMore[] = array('anchor' => 'backgroundjobs', 'section-name' => $l->t('C
 $formsAndMore[] = array('anchor' => 'shareAPI', 'section-name' => $l->t('Sharing'));
 $formsAndMore[] = array('anchor' => 'mail_general_settings', 'section-name' => $l->t('Email Server'));
 $formsAndMore[] = array('anchor' => 'log-section', 'section-name' => $l->t('Log'));
+$formsAndMore[] = array('anchor' => 'admin-tips', 'section-name' => $l->t('Tips & tricks'));
 
 $template->assign('forms', $formsAndMore);
 
