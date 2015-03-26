@@ -58,6 +58,9 @@ if ($defaultExpireDateEnabled) {
 	$value = \OCP\Config::getAppValue('core', 'shareapi_enforce_expire_date', 'no');
 	$enforceDefaultExpireDate = ($value === 'yes') ? true : false;
 }
+$appConfig = \OC::$server->getAppConfig();
+$result = $appConfig->getValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
+$outgoingServer2serverShareEnabled = ($result === 'yes') ? true : false;
 
 $array = array(
 	"oc_debug" => (defined('DEBUG') && DEBUG) ? 'true' : 'false',
@@ -110,6 +113,7 @@ $array = array(
 				'enforcePasswordForPublicLink' => \OCP\Util::isPublicLinkPasswordRequired(),
 				'sharingDisabledForUser' => \OCP\Util::isSharingDisabledForUser(),
 				'resharingAllowed' => \OCP\Share::isResharingAllowed(),
+				'remoteShareAllowed' =>  $outgoingServer2serverShareEnabled
 				)
 			)
 	),
