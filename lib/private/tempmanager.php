@@ -55,6 +55,9 @@ class TempManager implements ITempManager {
 	}
 
 	protected function generatePath($postFix) {
+		if ($postFix) {
+			$postFix = '.' . ltrim($postFix, '.');
+		}
 		return $this->tmpBaseDir . '/oc_tmp_' . md5(time() . rand()) . $postFix;
 	}
 

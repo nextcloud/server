@@ -51,7 +51,7 @@ class TempManager extends \Test\TestCase {
 
 	public function testGetFile() {
 		$manager = $this->getManager();
-		$file = $manager->getTemporaryFile('.txt');
+		$file = $manager->getTemporaryFile('txt');
 		$this->assertStringEndsWith('.txt', $file);
 		$this->assertTrue(is_file($file));
 		$this->assertTrue(is_writable($file));
@@ -73,8 +73,8 @@ class TempManager extends \Test\TestCase {
 
 	public function testCleanFiles() {
 		$manager = $this->getManager();
-		$file1 = $manager->getTemporaryFile('.txt');
-		$file2 = $manager->getTemporaryFile('.txt');
+		$file1 = $manager->getTemporaryFile('txt');
+		$file2 = $manager->getTemporaryFile('txt');
 		$this->assertTrue(file_exists($file1));
 		$this->assertTrue(file_exists($file2));
 
@@ -105,8 +105,8 @@ class TempManager extends \Test\TestCase {
 
 	public function testCleanOld() {
 		$manager = $this->getManager();
-		$oldFile = $manager->getTemporaryFile('.txt');
-		$newFile = $manager->getTemporaryFile('.txt');
+		$oldFile = $manager->getTemporaryFile('txt');
+		$newFile = $manager->getTemporaryFile('txt');
 		$folder = $manager->getTemporaryFolder();
 		$nonOcFile = $this->baseDir . '/foo.txt';
 		file_put_contents($nonOcFile, 'bar');
@@ -135,7 +135,7 @@ class TempManager extends \Test\TestCase {
 		$logger->expects($this->once())
 			->method('warning')
 			->with($this->stringContains('Can not create a temporary file in directory'));
-		$this->assertFalse($manager->getTemporaryFile('.txt'));
+		$this->assertFalse($manager->getTemporaryFile('txt'));
 	}
 
 	public function testLogCantCreateFolder() {

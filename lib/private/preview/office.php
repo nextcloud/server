@@ -45,12 +45,16 @@ abstract class Office extends Provider {
 		shell_exec($exec);
 
 		//create imagick object from pdf
+		$pdfPreview = null;
 		try{
-			$pdf = new \imagick($absPath . '.pdf' . '[0]');
+			list( $dirname, , , $filename ) = array_values( pathinfo($absPath) );
+			$pdfPreview = $dirname . '/' . $filename . '.pdf';
+
+			$pdf = new \imagick($pdfPreview . '[0]');
 			$pdf->setImageFormat('jpg');
 		} catch (\Exception $e) {
 			unlink($absPath);
-			unlink($absPath . '.pdf');
+			unlink($pdfPreview);
 			\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
 			return false;
 		}
@@ -59,7 +63,7 @@ abstract class Office extends Provider {
 		$image->loadFromData($pdf);
 
 		unlink($absPath);
-		unlink($absPath . '.pdf');
+		unlink($pdfPreview);
 
 		return $image->valid() ? $image : false;
 	}
