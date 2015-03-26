@@ -989,6 +989,11 @@ $(document).ready(function() {
 				});
 			} else {
 				$('#linkPass').slideToggle(OC.menuSpeed);
+				// TODO drop with IE8 drop
+				if(html.hasClass('ie8')) {
+					$('#linkPassText').attr('placeholder', null);
+					$('#linkPassText').val('');
+				}
 				$('#linkPassText').focus();
 			}
 			if (expireDateString !== '') {
