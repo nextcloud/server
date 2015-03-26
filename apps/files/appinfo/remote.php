@@ -27,6 +27,10 @@
  *
  */
 
+// no php execution timeout for webdav
+set_time_limit(0);
+
+
 // Backends
 $authBackend = new \OC\Connector\Sabre\Auth();
 
