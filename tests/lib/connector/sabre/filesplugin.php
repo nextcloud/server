@@ -171,35 +171,4 @@ class FilesPlugin extends \Test\TestCase {
 		$this->assertEquals(200, $result[self::GETETAG_PROPERTYNAME]);
 	}
 
-	/**
-	 * @dataProvider providesETagTestData
-	 * @param $expectedETag
-	 * @param $isChunked
-	 * @param $isChunkComplete
-	 */
-	public function testETag($expectedETag, $isChunked, $isChunkComplete) {
-		if (!is_null($isChunked)) {
-			$_SERVER['HTTP_OC_CHUNKED'] = $isChunked;
-		}
-		if (!is_null($isChunkComplete)) {
-			$_SERVER['X-CHUNKING_COMPLETE'] = $isChunkComplete;
-		}
-		$node = $this->createTestNode('\OC\Connector\Sabre\File');
-
-		$etag = $this->plugin->getETag($node);
-
-		$this->assertEquals($expectedETag, $etag);
-	}
-
-	public function providesETagTestData() {
-		return [
-			// non-chunked tests
-			['"abc"', null, null],
-			['"abc"', null, false],
-
-			// chunked tests
-			[null, true, null],
-			['"abc"', true, true],
-		];
-	}
 }
