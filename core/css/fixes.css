@@ -91,8 +91,9 @@ select {
 }
 
 /* fix background of navigation popup in IE8 */
-.ie8 #navigation {
-	background-color: #24282F;
+.ie8 #navigation,
+.ie8 #expanddiv {
+	background-color: #111;
 }
 
 /* needed else IE8 will randomly hide the borders... */
