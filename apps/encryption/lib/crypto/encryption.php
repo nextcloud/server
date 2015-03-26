@@ -117,11 +117,16 @@ class Encryption implements IEncryptionModule {
 				$this->writeCache = '';
 			}
 			$publicKeys = array();
-			foreach ($this->accessList['users'] as $user) {
-				$publicKeys[] = $this->keymanager->getPublicKey($user);
+			foreach ($this->accessList['users'] as $uid) {
+				$publicKeys[$uid] = $this->keymanager->getPublicKey($uid);
 			}
 
-			$result = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
+			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
+
+			$this->keymanager->setFileKey($path, $encryptedKeyfiles['data']);
+			foreach ($encryptedKeyfiles['keys'] as $uid => $keyFile) {
+				$this->keymanager->setShareKey($path, $uid, $keyFile);
+			}
 		}
 		return $result;
 	}

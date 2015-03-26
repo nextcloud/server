@@ -174,6 +174,30 @@ class KeyManager {
 	}
 
 	/**
+	 * write file key to key storage
+	 *
+	 * @param string $path
+	 * @param string $key
+	 * @return boolean
+	 */
+	public function setFileKey($path, $key) {
+		return $this->keyStorage->setFileKey($path, $this->fileKeyId, $key);
+	}
+
+	/**
+	 * write share key to the key storage
+	 *
+	 * @param string $path
+	 * @param string $uid
+	 * @param string $key
+	 * @return boolean
+	 */
+	public function setShareKey($path, $uid, $key) {
+		$keyId = $uid . '.' . $this->shareKeyId;
+		return $this->keyStorage->setFileKey($path, $keyId, $key);
+	}
+
+	/**
 	 * Decrypt private key and store it
 	 *
 	 * @param string $uid userid
