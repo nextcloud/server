@@ -355,8 +355,8 @@ input[type="submit"].enabled {
 	height: 64px;
 	width: 64px;
 	margin: 0 auto 15px;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	opacity: .5;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
+	opacity: .4;
 }
 
 
