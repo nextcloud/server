@@ -98,4 +98,39 @@ class UtilTest extends TestCase {
 		$u->createHeader($header, $em);
 	}
 
+	/**
+	 * @dataProvider providePathsForTestIsExcluded
+	 */
+	public function testIsEcluded($path, $expected) {
+		$this->userManager
+			->expects($this->any())
+			->method('userExists')
+			->will($this->returnCallback(array($this, 'isExcludedCallback')));
+
+		$u = new Util($this->view, $this->userManager);
+
+		$this->assertSame($expected,
+			$u->isExcluded($path)
+		);
+	}
+
+	public function providePathsForTestIsExcluded() {
+		return array(
+			array('files_encryption/foo.txt', true),
+			array('test/foo.txt', false),
+			array('/user1/files_encryption/foo.txt', true),
+			array('/user1/files/foo.txt', false),
+
+		);
+	}
+
+	public function isExcludedCallback() {
+		$args = func_get_args();
+		if ($args[0] === 'user1') {
+			return true;
+		}
+
+		return false;
+	}
+
 }
