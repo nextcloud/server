@@ -15,7 +15,14 @@ use Test\TestCase;
 use OC\Files\Storage\Wrapper\Wrapper;
 
 class DummyWrapper extends Wrapper {
+	public $data;
 
+	public function __construct($arguments) {
+		parent::__construct($arguments);
+		if (isset($arguments['data'])) {
+			$this->data = $arguments['data'];
+		}
+	}
 }
 
 class StorageFactory extends TestCase {
@@ -41,5 +48,25 @@ class StorageFactory extends TestCase {
 		$instance->removeStorageWrapper('dummy');
 		$wrapped = $mount->getStorage();
 		$this->assertInstanceOf('\OC\Files\Storage\Temporary', $wrapped);
+	}
+
+	public function testWrapperPriority() {
+		$instance = new \OC\Files\Storage\StorageFactory();
+		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/foo', [[]], $instance);
+		$instance->addStorageWrapper('dummy1', function ($mountPoint, IStorage $storage) {
+			return new DummyWrapper(['storage' => $storage, 'data' => 1]);
+		}, 1);
+		$instance->addStorageWrapper('dummy2', function ($mountPoint, IStorage $storage) {
+			return new DummyWrapper(['storage' => $storage, 'data' => 100]);
+		}, 100);
+		$instance->addStorageWrapper('dummy3', function ($mountPoint, IStorage $storage) {
+			return new DummyWrapper(['storage' => $storage, 'data' => 50]);
+		}, 50);
+		/** @var \Test\Files\Storage\DummyWrapper $wrapped */
+		$wrapped = $mount->getStorage();
+		$this->assertInstanceOf('\Test\Files\Storage\DummyWrapper', $wrapped);
+		$this->assertEquals(1, $wrapped->data);// lowest priority is applied last, called first
+		$this->assertEquals(50, $wrapped->getWrapperStorage()->data);
+		$this->assertEquals(100, $wrapped->getWrapperStorage()->getWrapperStorage()->data);
 	}
 }

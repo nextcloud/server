@@ -37,7 +37,6 @@ namespace OC\Files\Storage;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\Scanner;
-use OC\Files\Cache\Storage;
 use OC\Files\Filesystem;
 use OC\Files\Cache\Watcher;
 use OCP\Files\FileNameTooLongException;
@@ -56,7 +55,7 @@ use OCP\Files\ReservedWordException;
  * Some \OC\Files\Storage\Common methods call functions which are first defined
  * in classes which extend it, e.g. $this->stat() .
  */
-abstract class Common implements \OC\Files\Storage\Storage {
+abstract class Common implements Storage {
 	protected $cache;
 	protected $scanner;
 	protected $watcher;
@@ -370,7 +369,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			$storage = $this;
 		}
 		if (!isset($this->storageCache)) {
-			$this->storageCache = new Storage($storage);
+			$this->storageCache = new \OC\Files\Cache\Storage($storage);
 		}
 		return $this->storageCache;
 	}

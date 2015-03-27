@@ -31,9 +31,9 @@ use OCP\Files\Storage\IStorageFactory;
 
 class StorageFactory implements IStorageFactory {
 	/**
-	 * @var callable[] $storageWrappers
+	 * @var array[] [$name=>['priority'=>$priority, 'wrapper'=>$callable] $storageWrappers
 	 */
-	private $storageWrappers = array();
+	private $storageWrappers = [];
 
 	/**
 	 * allow modifier storage behaviour by adding wrappers around storages
@@ -42,11 +42,12 @@ class StorageFactory implements IStorageFactory {
 	 *
 	 * @param string $wrapperName name of the wrapper
 	 * @param callable $callback callback
+	 * @param int $priority wrappers with the lower priority are applied last (meaning they get called first)
 	 * @param \OCP\Files\Mount\IMountPoint[] $existingMounts existing mount points to apply the wrapper to
 	 * @return bool true if the wrapper was added, false if there was already a wrapper with this
 	 * name registered
 	 */
-	public function addStorageWrapper($wrapperName, $callback, $existingMounts = []) {
+	public function addStorageWrapper($wrapperName, $callback, $priority = 50, $existingMounts = []) {
 		if (isset($this->storageWrappers[$wrapperName])) {
 			return false;
 		}
@@ -56,7 +57,7 @@ class StorageFactory implements IStorageFactory {
 			$mount->wrapStorage($callback);
 		}
 
-		$this->storageWrappers[$wrapperName] = $callback;
+		$this->storageWrappers[$wrapperName] = ['wrapper' => $callback, 'priority' => $priority];
 		return true;
 	}
 
@@ -89,7 +90,15 @@ class StorageFactory implements IStorageFactory {
 	 * @return \OCP\Files\Storage
 	 */
 	public function wrap(IMountPoint $mountPoint, $storage) {
-		foreach ($this->storageWrappers as $wrapper) {
+		$wrappers = array_values($this->storageWrappers);
+		usort($wrappers, function ($a, $b) {
+			return $b['priority'] - $a['priority'];
+		});
+		/** @var callable[] $wrappers */
+		$wrappers = array_map(function ($wrapper) {
+			return $wrapper['wrapper'];
+		}, $wrappers);
+		foreach ($wrappers as $wrapper) {
 			$storage = $wrapper($mountPoint->getMountPoint(), $storage, $mountPoint);
 		}
 		return $storage;
