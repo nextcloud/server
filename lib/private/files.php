@@ -52,6 +52,8 @@ class OC_Files {
 	const ZIP_FILES = 2;
 	const ZIP_DIR = 3;
 
+	const UPLOAD_MIN_LIMIT_BYTES = 1048576; // 1 MiB
+
 	/**
 	 * @param string $filename
 	 * @param string $name
@@ -246,15 +248,17 @@ class OC_Files {
 	 * @return bool false on failure, size on success
 	 */
 	static function setUploadLimit($size) {
-		//don't allow user to break his config -- upper boundary
+		//don't allow user to break his config
 		if ($size > PHP_INT_MAX) {
 			//max size is always 1 byte lower than computerFileSize returns
 			if ($size > PHP_INT_MAX + 1)
 				return false;
 			$size -= 1;
-		} else {
-			$size = OC_Helper::phpFileSize($size);
 		}
+		if ($size < self::UPLOAD_MIN_LIMIT_BYTES) {
+			return false;
+		}
+		$size = OC_Helper::phpFileSize($size);
 
 		//don't allow user to break his config -- broken or malicious size input
 		if (intval($size) === 0) {
