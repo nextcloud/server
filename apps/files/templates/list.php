@@ -53,7 +53,7 @@
 
 <div id="emptycontent" class="hidden">
 	<div class="icon-folder"></div>
-	<h2><?php p($l->t('No files yet')); ?></h2>
+	<h2><?php p($l->t('No files in here')); ?></h2>
 	<p><?php p($l->t('Upload some content or sync with your devices!')); ?></p>
 </div>
 
