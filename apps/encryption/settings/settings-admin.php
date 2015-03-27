@@ -10,7 +10,7 @@ use OCA\Encryption\KeyManager;
 
 \OC_Util::checkAdminUser();
 
-$tmpl = new OCP\Template('files_encryption', 'settings-admin');
+$tmpl = new OCP\Template('encryption', 'settings-admin');
 
 // Check if an adminRecovery account is enabled for recovering files after lost pwd
 $recoveryAdminEnabled = \OC::$server->getConfig()->getAppValue('encryption', 'recoveryAdminEnabled', '0');

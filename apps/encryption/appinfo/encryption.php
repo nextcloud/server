@@ -85,7 +85,7 @@ class Encryption extends \OCP\AppFramework\App {
 					$container->query('UserSetup'),
 					$server->getUserSession(),
 					new \OCP\Util(),
-					$container->query('Util'),),
+					$container->query('Util')),
 			]);
 
 			$hookManager->fireHooks();
