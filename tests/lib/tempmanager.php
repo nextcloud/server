@@ -151,4 +151,17 @@ class TempManager extends \Test\TestCase {
 			->with($this->stringContains('Can not create a temporary folder in directory'));
 		$this->assertFalse($manager->getTemporaryFolder());
 	}
+
+	public function testGeneratePathTraversal() {
+		$logger = $this->getMock('\Test\NullLogger');
+		$tmpManager = \Test_Helper::invokePrivate(
+			$this->getManager($logger),
+			'generatePath',
+			['../Traversal\\../FileName']
+		);
+
+		$this->assertStringEndsNotWith('./Traversal\\../FileName', $tmpManager);
+		$this->assertStringEndsWith('.Traversal..FileName', $tmpManager);
+
+	}
 }
