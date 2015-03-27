@@ -220,9 +220,15 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function update($path, $uid, $accessList) {
 		$fileKey = $this->keymanager->getFileKey($path, $uid);
+		$publicKeys = array();
 		foreach ($accessList['users'] as $user) {
 			$publicKeys[$user] = $this->keymanager->getPublicKey($user);
 		}
+
+		if (!empty($accessList['public'])) {
+			$publicKeys[$this->keymanager->getPublicShareKeyId()] = $this->keymanager->getPublicShareKey();
+		}
+
 		$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 
 		$this->keymanager->deleteAllFileKeys($path);

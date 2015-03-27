@@ -95,7 +95,13 @@ class KeyManager {
 	 * @param \OCP\ISession $session
 	 * @param ILogger $log
 	 */
-	public function __construct(IStorage $keyStorage, Crypt $crypt, IConfig $config, IUserSession $userSession, ISession $session, ILogger $log) {
+	public function __construct(
+		IStorage $keyStorage,
+		Crypt $crypt,
+		IConfig $config,
+		IUserSession $userSession,
+		ISession $session,
+		ILogger $log) {
 
 		self::$session = $session;
 		$this->keyStorage = $keyStorage;
@@ -105,6 +111,28 @@ class KeyManager {
 			'recoveryKeyId');
 		$this->publicShareKeyId = $this->config->getAppValue('encryption',
 			'publicShareKeyId');
+
+		if (empty($this->publicShareKeyId)) {
+			$this->publicShareKeyId = 'pubShare_' . substr(md5(time()), 0, 8);
+			$this->config->setAppValue('encryption', 'publicShareKeyId', $this->publicShareKeyId);
+
+			$keypair = $this->crypt->createKeyPair();
+
+			// Save public key
+			$this->keyStorage->setSystemUserKey(
+				$this->publicShareKeyId . '.publicKey',
+				$keypair['publicKey']);
+
+			// Encrypt private key empty passphrase
+			$encryptedKey = $this->crypt->symmetricEncryptFileContent($keypair['privateKey'], '');
+			if ($encryptedKey) {
+				$this->keyStorage->setSystemUserKey($this->publicShareKeyId . '.privateKey', $encryptedKey);
+			} else {
+				$this->log->error('Could not create public share keys');
+			}
+
+		}
+
 		$this->keyId = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : false;
 		$this->log = $log;
 	}
@@ -259,7 +287,7 @@ class KeyManager {
 		$encryptedFileKey = $this->keyStorage->getFileKey($path,
 			$this->fileKeyId);
 		$shareKey = $this->getShareKey($path, $uid);
-		$privateKey = $this->session->get('privateKey');
+		$privateKey = self::$session->get('privateKey');
 
 		if ($encryptedFileKey && $shareKey && $privateKey) {
 			$key = $this->crypt->multiKeyDecrypt($encryptedFileKey,
@@ -382,6 +410,19 @@ class KeyManager {
 			return $publicKey;
 		}
 		throw new PublicKeyMissingException();
+	}
+
+	public function getPublicShareKeyId() {
+		return $this->publicShareKeyId;
+	}
+
+	/**
+	 * get public key  for public link shares
+	 *
+	 * @return string
+	 */
+	public function getPublicShareKey() {
+		return $this->keyStorage->getSystemUserKey($this->publicShareKeyId . '.publicKey');
 	}
 
 	/**

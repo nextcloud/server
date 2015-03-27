@@ -36,7 +36,7 @@ class Setup extends \OCA\Encryption\Setup {
 		parent::__construct($logger, $userSession);
 		$this->crypt = $crypt;
 		$this->keyManager = $keyManager;
-	}
+ 	}
 
 	/**
 	 * @param $uid userid

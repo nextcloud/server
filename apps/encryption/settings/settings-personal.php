@@ -10,13 +10,35 @@
 \OC_Util::addStyle('encryption', 'settings-personal');
 
 $tmpl = new OCP\Template('encryption', 'settings-personal');
+$crypt = new \OCA\Encryption\Crypto\Crypt(
+	\OC::$server->getLogger(),
+	\OC::$server->getUserSession(),
+	\OC::$server->getConfig());
+$keymanager = new \OCA\Encryption\KeyManager(
+	\OC::$server->getEncryptionKeyStorage(\OCA\Encryption\Crypto\Encryption::ID),
+	$crypt,
+	\OC::$server->getConfig(),
+	\OC::$server->getUserSession(),
+	\OC::$server->getSession(),
+	\OC::$server->getLogger());
 
 $user = \OCP\User::getUser();
-$view = new \OC\Files\View('/');
-$util = new \OCA\Files_Encryption\Util($view, $user);
-$session = new \OCA\Files_Encryption\Session($view);
 
-$privateKeySet = $session->getPrivateKey() !== false;
+$view = new \OC\Files\View('/');
+
+$util = new \OCA\Encryption\Util(
+	new \OC\Files\View(),
+	new \OC\Files\Filesystem(),
+	$crypt,
+	$keymanager,
+	\OC::$server->getLogger(),
+	\OC::$server->getUserSession(),
+	\OC::$server->getConfig());
+
+$session = new \OCA\Files_Encryption\Session($view);
+$session = \OC::$server->getSession();
+
+$privateKeySet = $session->get('privateKey') !== false;
 // did we tried to initialize the keys for this session?
 $initialized = $session->getInitialized();
 
