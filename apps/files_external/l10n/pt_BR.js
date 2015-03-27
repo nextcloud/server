@@ -61,7 +61,6 @@ OC.L10N.register(
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> O suporte FTP no PHP não está habilitado ou instalado. Montagem de %s não é possível. Por favor, solicite ao seu administrador do sistema para instalá-lo.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> \"%s\" não está instalado. Montagem de %s não é possível. Por favor, solicite ao seu administrador do sistema para instalá-lo.",
     "No external storage configured" : "Nenhum armazendo externo foi configurado",
-    "You can configure external storages in the personal settings" : "Você pode configurar armazenamentos externos nas configurações pessoais",
     "Name" : "Nome",
     "Storage type" : "Tipo de armazenamento",
     "Scope" : "Escopo",

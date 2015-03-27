@@ -30,8 +30,6 @@
     "Name" : "Name",
     "Size" : "Grösse",
     "Modified" : "Geändert",
-    "_%n folder_::_%n folders_" : ["","%n Ordner"],
-    "_%n file_::_%n files_" : ["","%n Dateien"],
     "_Uploading %n file_::_Uploading %n files_" : ["%n Datei wird hochgeladen","%n Dateien werden hochgeladen"],
     "Your storage is full, files can not be updated or synced anymore!" : "Ihr Speicher ist voll, daher können keine Dateien mehr aktualisiert oder synchronisiert werden!",
     "Your storage is almost full ({usedSpacePercent}%)" : "Ihr Speicher ist fast voll ({usedSpacePercent}%)",

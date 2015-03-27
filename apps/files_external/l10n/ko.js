@@ -59,7 +59,6 @@ OC.L10N.register(
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>메모:</b> PHP FTP 모듈이 비활성화되어 있거나 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>메모:</b> \"%s\"이(가) 설치되어 있지 않습니다. %s을(를) 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
     "No external storage configured" : "외부 저장소가 설정되지 않았음",
-    "You can configure external storages in the personal settings" : "개인 설정에서 외부 저장소를 설정할 수 있습니다",
     "Name" : "이름",
     "Storage type" : "저장소 종류",
     "Scope" : "범위",

@@ -101,7 +101,6 @@ OC.L10N.register(
     "Folder" : "Mapa",
     "Upload" : "Pošlji",
     "Cancel upload" : "Prekliči pošiljanje",
-    "No files yet" : "Ni datotek",
     "Upload some content or sync with your devices!" : "Uvozite vsebino ali pa omogočite usklajevanje z napravami!",
     "No entries found in this folder" : "V tej mapi ni najdenih predmetov.",
     "Select all" : "izberi vse",

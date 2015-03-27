@@ -1,9 +1,5 @@
 { "translations": {
     "Files" : "Archivos",
-    "_%n folder_::_%n folders_" : ["",""],
-    "_%n file_::_%n files_" : ["",""],
-    "_Uploading %n file_::_Uploading %n files_" : ["",""],
-    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "A new file or folder has been <strong>created</strong>" : "Un nuevo archivo o carpeta ha sido <strong>creado</strong>",
     "A file or folder has been <strong>changed</strong>" : "Un archivo o carpeta ha sido <strong>cambiado</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Un archivo o carpeta ha sido <strong>eliminado</strong>",

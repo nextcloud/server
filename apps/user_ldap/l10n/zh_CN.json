@@ -15,8 +15,6 @@
     "Connection test failed" : "连接测试失败",
     "Do you really want to delete the current Server Configuration?" : "您真的想要删除当前服务器配置吗？",
     "Confirm Deletion" : "确认删除",
-    "_%s group found_::_%s groups found_" : [""],
-    "_%s user found_::_%s users found_" : [""],
     "Invalid Host" : "无效的主机",
     "Group Filter" : "组过滤",
     "Save" : "保存",

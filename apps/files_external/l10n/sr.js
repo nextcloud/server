@@ -46,7 +46,6 @@ OC.L10N.register(
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Напомена:</b> ФТП подршка за ПХП није омогућена или инсталирана. Монтирање %s није могуће. Затражите од вашег администратора система да је инсталира.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Напомена:</b> „%s“ није инсталирана. Монтирање %s није могуће. Затражите од вашег администратора система да је инсталира.",
     "No external storage configured" : "Нема подешеног спољашњег складишта",
-    "You can configure external storages in the personal settings" : "Спољашња складишта можете подесити у личним поставкама",
     "Name" : "Назив",
     "Storage type" : "Тип складишта",
     "Scope" : "Распон",

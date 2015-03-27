@@ -17,8 +17,6 @@ OC.L10N.register(
     "Connection test failed" : "連線測試失敗",
     "Do you really want to delete the current Server Configuration?" : "您真的要刪除現在的伺服器設定嗎？",
     "Confirm Deletion" : "確認刪除",
-    "_%s group found_::_%s groups found_" : [""],
-    "_%s user found_::_%s users found_" : [""],
     "Server" : "伺服器",
     "Group Filter" : "Group Filter",
     "Save" : "儲存",

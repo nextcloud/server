@@ -29,8 +29,6 @@
     "Connection test failed" : "Verbindungsversuch gescheitert",
     "Do you really want to delete the current Server Configuration?" : "Soll die momentane Server-Konfiguration wirklich gelöscht werden?",
     "Confirm Deletion" : "Löschen bestätigen",
-    "_%s group found_::_%s groups found_" : ["",""],
-    "_%s user found_::_%s users found_" : ["",""],
     "Could not find the desired feature" : "Funktion konnte nicht gefunden werden",
     "Invalid Host" : "Ungültiger Host",
     "Server" : "Server",

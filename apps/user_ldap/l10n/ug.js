@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "Deletion failed" : "ئۆچۈرۈش مەغلۇپ بولدى",
     "Error" : "خاتالىق",
-    "_%s group found_::_%s groups found_" : [""],
-    "_%s user found_::_%s users found_" : [""],
     "Group Filter" : "گۇرۇپپا سۈزگۈچ",
     "Save" : "ساقلا",
     "Help" : "ياردەم",

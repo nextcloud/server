@@ -58,7 +58,6 @@ OC.L10N.register(
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b> OBS: </ b> cURL-stöd i PHP inte är aktiverat eller installerat. Montering av %s är inte möjlig. Be din systemadministratör att installera det.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b> OBS: </ b> FTP-stödet i PHP inte är aktiverat eller installerat. Montering av %s är inte möjlig. Be din systemadministratör att installera det.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b> OBS: </ b> \"%s\" är inte installerat. Montering av %s är inte möjlig. Be din systemadministratör att installera det.",
-    "You can configure external storages in the personal settings" : "Du kan konfigurera externa laringsplatser i personliga inställningar",
     "Name" : "Namn",
     "Storage type" : "Lagringstyp",
     "Scope" : "Scope",

@@ -63,7 +63,6 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'aplicación Encryption ta habilitada pero les tos claves nun s'aniciaron, por favor zarra sesión y aníciala de nueves",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Clave privada non válida pa Encryption. Por favor, anueva la to contraseña de clave nos tos axustes personales pa recuperar l'accesu a los tos ficheros cifraos.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Deshabilitose'l cifráu pero los tos ficheros tovía tán cifraos.  Por favor, vete a los axustes personales pa descrifrar los tos ficheros.",
-    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} y {files}",
     "Favorite" : "Favoritu",
     "A new file or folder has been <strong>created</strong>" : "<strong>Creóse</strong> un ficheru o carpeta nuevos",

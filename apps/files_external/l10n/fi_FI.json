@@ -54,7 +54,6 @@
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Huomio:</b> PHP:n FTP-tuki ei ole käytössä tai sitä ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää ottamaan FTP-tuki käyttöön.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Huomio:</b> \"%s\" ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää asentamaan puuttuva kohde.",
     "No external storage configured" : "Erillistä tallennustilaa ei ole määritetty",
-    "You can configure external storages in the personal settings" : "Voit määrittää erillisten tallennustilojen asetukset henkilökohtaisissa asetuksissasi",
     "Name" : "Nimi",
     "Storage type" : "Tallennustilan tyyppi",
     "External Storage" : "Erillinen tallennusväline",

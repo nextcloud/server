@@ -64,7 +64,6 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Krüpteerimisrakend on lubatud, kuid võtmeid pole lähtestatud. Palun logi välja ning uuesti sisse.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Vigane Krüpteerimisrakendi privaatvõti . Palun uuenda oma privaatse võtme parool oma personaasete seadete all taastamaks ligipääsu oma krüpteeritud failidele.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Krüpteering on keelatud, kuid sinu failid on endiselt krüpteeritud. Palun vaata oma personaalseid seadeid oma failide dekrüpteerimiseks.",
-    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} ja {files}",
     "Favorite" : "Lemmik",
     "A new file or folder has been <strong>created</strong>" : "Uus fail või kataloog on <strong>loodud</strong>",

@@ -9,8 +9,6 @@ OC.L10N.register(
     "Connection test failed" : "בדיקת החיבור נכשלה",
     "Do you really want to delete the current Server Configuration?" : "האם אכן למחוק את הגדרות השרת הנוכחיות?",
     "Confirm Deletion" : "אישור המחיקה",
-    "_%s group found_::_%s groups found_" : ["",""],
-    "_%s user found_::_%s users found_" : ["",""],
     "Group Filter" : "סנן קבוצה",
     "Save" : "שמירה",
     "Help" : "עזרה",

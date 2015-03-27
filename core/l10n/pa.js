@@ -26,7 +26,6 @@ OC.L10N.register(
     "Yes" : "ਹਾਂ",
     "Choose" : "ਚੁਣੋ",
     "Ok" : "ਠੀਕ ਹੈ",
-    "_{count} file conflict_::_{count} file conflicts_" : ["",""],
     "Cancel" : "ਰੱਦ ਕਰੋ",
     "Share" : "ਸਾਂਝਾ ਕਰੋ",
     "Error" : "ਗਲ",
@@ -34,8 +33,6 @@ OC.L10N.register(
     "Send" : "ਭੇਜੋ",
     "Warning" : "ਚੇਤਾਵਨੀ",
     "Delete" : "ਹਟਾਓ",
-    "_download %n file_::_download %n files_" : ["",""],
-    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Security Warning" : "ਸੁਰੱਖਿਆ ਚੇਤਾਵਨੀ",
     "Username" : "ਯੂਜ਼ਰ-ਨਾਂ",
     "Search" : "ਖੋਜ"

@@ -64,7 +64,6 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'aplicació d'encriptació està activada però les claus no estan inicialitzades, sortiu i acrediteu-vos de nou.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "La clau privada de l'aplicació d'encriptació no és vàlida! Actualitzeu la contrasenya de la clau privada a l'arranjament personal per recuperar els fitxers encriptats.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "L'encriptació s'ha desactivat però els vostres fitxers segueixen encriptats. Aneu a la vostra configuració personal per desencriptar els vostres fitxers.",
-    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} i {files}",
     "Favorite" : "Preferits",
     "A new file or folder has been <strong>created</strong>" : "S'ha <strong>creat</strong> un nou fitxer o una nova carpeta",

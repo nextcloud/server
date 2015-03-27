@@ -64,7 +64,6 @@ OC.L10N.register(
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Not:</b> PHP'de FTP desteği etkin veya kurulu değil. %s bağlaması mümkün olmayacak. Lütfen kurulumu için sistem yöneticilerinizle iletişime geçin.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Not:</b> \"%s\" kurulu değil. %s bağlaması mümkün olmayacak. Lütfen kurulumu için sistem yöneticilerinizle iletişime geçin.",
     "No external storage configured" : "Yapılandırılmış harici depolama yok",
-    "You can configure external storages in the personal settings" : "Harici depolamaları kişisel ayarlar içerisinden yapılandırabilirsiniz",
     "Name" : "Ad",
     "Storage type" : "Depolama türü",
     "Scope" : "Kapsam",

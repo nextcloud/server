@@ -1,9 +1,5 @@
 { "translations": {
     "Files" : "Файлууд",
-    "_%n folder_::_%n folders_" : ["",""],
-    "_%n file_::_%n files_" : ["",""],
-    "_Uploading %n file_::_Uploading %n files_" : ["",""],
-    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "A new file or folder has been <strong>created</strong>" : "Файл эсвэл хавтас амжилттай <strong>үүсгэгдлээ</strong>",
     "A file or folder has been <strong>changed</strong>" : "Файл эсвэл хавтас амжилттай <strong>солигдлоо</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Файл эсвэл хавтас амжилттай <strong>устгагдлаа</strong>",

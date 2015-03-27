@@ -21,7 +21,6 @@ OC.L10N.register(
     "November" : "November",
     "December" : "Dezember",
     "Settings" : "Einstellungen",
-    "_{count} file conflict_::_{count} file conflicts_" : ["",""],
     "Cancel" : "Abbrechen",
     "Continue" : "Weiter",
     "Share" : "Freigeben",
@@ -33,8 +32,6 @@ OC.L10N.register(
     "can edit" : "kann bearbeiten",
     "Delete" : "Löschen",
     "Add" : "Hinzufügen",
-    "_download %n file_::_download %n files_" : ["",""],
-    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "Persönlich",
     "Help" : "Hilfe"
 },

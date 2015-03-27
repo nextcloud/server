@@ -131,7 +131,6 @@ OC.L10N.register(
     "Reset password" : "Ponastavi geslo",
     "Searching other places" : "Iskanje drugih mest",
     "No search result in other places" : "Ni zadetkov iskanja drugih mest",
-    "_{count} search result in other places_::_{count} search results in other places_" : ["","","",""],
     "Personal" : "Osebno",
     "Users" : "Uporabniki",
     "Apps" : "Programi",

@@ -8,8 +8,6 @@ OC.L10N.register(
     "Connection test succeeded" : "Тестот за поврзување е успешен",
     "Connection test failed" : "Тестот за поврзување не е успешен",
     "Confirm Deletion" : "Потврдете го бришењето",
-    "_%s group found_::_%s groups found_" : ["",""],
-    "_%s user found_::_%s users found_" : ["",""],
     "Save" : "Сними",
     "Help" : "Помош",
     "Host" : "Домаќин",

@@ -16,8 +16,6 @@ OC.L10N.register(
     "Connection test failed" : "Prova e lidhjes dështoi",
     "Do you really want to delete the current Server Configuration?" : "Jeni vërtetë të sigurt të fshini konfigurimet aktuale të serverit?",
     "Confirm Deletion" : "Konfirmoni Fshirjen",
-    "_%s group found_::_%s groups found_" : ["",""],
-    "_%s user found_::_%s users found_" : ["",""],
     "Group Filter" : "Filtri i grupeve",
     "Save" : "Ruaj",
     "Test Configuration" : "Provoni konfigurimet",

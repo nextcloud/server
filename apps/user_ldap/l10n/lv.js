@@ -14,8 +14,6 @@ OC.L10N.register(
     "Connection test failed" : "Savienojuma tests cieta neveiksmi",
     "Do you really want to delete the current Server Configuration?" : "Vai tiešām vēlaties dzēst pašreizējo servera konfigurāciju?",
     "Confirm Deletion" : "Apstiprināt dzēšanu",
-    "_%s group found_::_%s groups found_" : ["","",""],
-    "_%s user found_::_%s users found_" : ["","",""],
     "Group Filter" : "Grupu filtrs",
     "Save" : "Saglabāt",
     "Test Configuration" : "Testa konfigurācija",

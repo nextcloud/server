@@ -102,7 +102,6 @@ OC.L10N.register(
     "Folder" : "Тека",
     "Upload" : "Вивантажити",
     "Cancel upload" : "Перервати завантаження",
-    "No files yet" : "Немає нічого",
     "Upload some content or sync with your devices!" : "Завантажте вміст або синхронізуйте з пристроями!",
     "No entries found in this folder" : "Записів не знайдено в цій папці",
     "Select all" : "Вибрати всі",

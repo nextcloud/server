@@ -101,7 +101,6 @@ OC.L10N.register(
     "Folder" : "Mape",
     "Upload" : "Augšupielādēt",
     "Cancel upload" : "Atcelt augšupielādi",
-    "No files yet" : "Vēl nav neviena datne",
     "Upload some content or sync with your devices!" : "Augšupielādē kaut ko vai sinhronizē saturu ar savām ierīcēm!",
     "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
     "Select all" : "Atzīmēt visu",

@@ -21,7 +21,6 @@ OC.L10N.register(
     "November" : "November",
     "December" : "December",
     "Settings" : "Nastavenia",
-    "_{count} file conflict_::_{count} file conflicts_" : ["","",""],
     "Cancel" : "Zrušiť",
     "Share" : "Zdieľať",
     "group" : "skupina",

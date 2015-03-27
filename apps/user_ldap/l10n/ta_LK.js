@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "Deletion failed" : "நீக்கம் தோல்வியடைந்தது",
     "Error" : "வழு",
-    "_%s group found_::_%s groups found_" : ["",""],
-    "_%s user found_::_%s users found_" : ["",""],
     "Save" : "சேமிக்க ",
     "Help" : "உதவி",
     "Host" : "ஓம்புனர்",

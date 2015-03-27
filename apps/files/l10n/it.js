@@ -102,7 +102,6 @@ OC.L10N.register(
     "Folder" : "Cartella",
     "Upload" : "Carica",
     "Cancel upload" : "Annulla caricamento",
-    "No files yet" : "Nessun file ancora",
     "Upload some content or sync with your devices!" : "Carica alcuni contenuti o sincronizza con i tuoi dispositivi!",
     "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
     "Select all" : "Seleziona tutto",

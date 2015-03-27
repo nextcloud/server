@@ -102,7 +102,6 @@ OC.L10N.register(
     "Folder" : "Kansio",
     "Upload" : "Lähetä",
     "Cancel upload" : "Peru lähetys",
-    "No files yet" : "EI yhtäkään tiedostoa vielä",
     "Upload some content or sync with your devices!" : "Lähetä tiedostoja tai synkronoi sisältö laitteidesi kanssa!",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Select all" : "Valitse kaikki",

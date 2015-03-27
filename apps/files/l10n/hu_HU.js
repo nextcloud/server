@@ -102,7 +102,6 @@ OC.L10N.register(
     "Folder" : "Mappa",
     "Upload" : "Feltöltés",
     "Cancel upload" : "A feltöltés megszakítása",
-    "No files yet" : "Még nincsenek fájlok",
     "Upload some content or sync with your devices!" : "Tölts fel néhány tartalmat, vagy szinkronizálj az eszközöddel!",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a könyvtárban",
     "Select all" : "Összes kijelölése",

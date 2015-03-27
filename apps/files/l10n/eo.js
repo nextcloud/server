@@ -49,7 +49,6 @@ OC.L10N.register(
     "File name cannot be empty." : "Dosiernomo devas ne malpleni.",
     "Your storage is full, files can not be updated or synced anymore!" : "Via memoro plenas, ne plu eblas ĝisdatigi aŭ sinkronigi dosierojn!",
     "Your storage is almost full ({usedSpacePercent}%)" : "Via memoro preskaŭ plenas ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} kaj {files}",
     "Favorite" : "Favorato",
     "You created %1$s" : "Vi kreis %1$s",

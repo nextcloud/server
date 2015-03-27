@@ -12,8 +12,6 @@
     "Connection test failed" : "ทดสอบการเชื่อมต่อล้มเหลว",
     "Do you really want to delete the current Server Configuration?" : "คุณแน่ใจแล้วหรือว่าต้องการลบการกำหนดค่าเซิร์ฟเวอร์ปัจจุบันทิ้งไป?",
     "Confirm Deletion" : "ยืนยันการลบทิ้ง",
-    "_%s group found_::_%s groups found_" : [""],
-    "_%s user found_::_%s users found_" : [""],
     "Group Filter" : "ตัวกรองข้อมูลกลุ่ม",
     "Save" : "บันทึก",
     "Help" : "ช่วยเหลือ",

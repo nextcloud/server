@@ -4,8 +4,6 @@ OC.L10N.register(
     "Deletion failed" : "Feil ved sletting",
     "Error" : "Feil",
     "Select groups" : "Vel grupper",
-    "_%s group found_::_%s groups found_" : ["",""],
-    "_%s user found_::_%s users found_" : ["",""],
     "Save" : "Lagra",
     "Help" : "Hjelp",
     "Host" : "Tenar",

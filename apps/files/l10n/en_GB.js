@@ -102,7 +102,6 @@ OC.L10N.register(
     "Folder" : "Folder",
     "Upload" : "Upload",
     "Cancel upload" : "Cancel upload",
-    "No files yet" : "No files yet",
     "Upload some content or sync with your devices!" : "Upload some content or sync with your devices!",
     "No entries found in this folder" : "No entries found in this folder",
     "Select all" : "Select all",

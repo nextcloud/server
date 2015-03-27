@@ -122,7 +122,6 @@ OC.L10N.register(
     "New password" : "Kodi i ri",
     "New Password" : "Fjalëkalim i ri",
     "Reset password" : "Rivendos kodin",
-    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "Personale",
     "Users" : "Përdoruesit",
     "Apps" : "App",

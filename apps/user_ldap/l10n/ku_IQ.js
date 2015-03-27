@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "Success" : "سه‌رکه‌وتن",
     "Error" : "هه‌ڵه",
-    "_%s group found_::_%s groups found_" : ["",""],
-    "_%s user found_::_%s users found_" : ["",""],
     "Save" : "پاشکه‌وتکردن",
     "Help" : "یارمەتی",
     "Password" : "وشەی تێپەربو",

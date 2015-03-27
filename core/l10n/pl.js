@@ -136,7 +136,6 @@ OC.L10N.register(
     "Reset password" : "Zresetuj hasło",
     "Searching other places" : "Przeszukaj inne miejsca",
     "No search result in other places" : "Brak wyników wyszukiwania w innych miejscach",
-    "_{count} search result in other places_::_{count} search results in other places_" : ["","",""],
     "Personal" : "Osobiste",
     "Users" : "Użytkownicy",
     "Apps" : "Aplikacje",

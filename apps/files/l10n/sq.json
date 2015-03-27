@@ -60,7 +60,6 @@
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacioni i Shifrimit është i aktivizuar por çelësat tuaj nuk janë aktivizuar, ju lutem dilni dhe ri-hyni përseri në sistem",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Çelësi privat për Aplikacionin e Shifrimit është i pavlefshëm. Ju lutem përditësoni fjalëkalimin e çelësit tuaj privat në parametrat tuaj për të rimarrë qasje në skedarët tuaj të shifruar.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Kodifikimi u çaktivizua por skedarët tuaj vazhdojnë të jenë të kodifikuar. Ju lutem shkoni tek parametrat personale për të dekodifikuar skedarët tuaj.",
-    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} dhe {files}",
     "A new file or folder has been <strong>created</strong>" : "Një skedar ose një dosje e re është <strong>krijuar</strong>",
     "A file or folder has been <strong>changed</strong>" : "Një skedar ose një dosje ka <strong>ndryshuar</strong>",

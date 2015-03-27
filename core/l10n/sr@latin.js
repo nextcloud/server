@@ -128,7 +128,6 @@ OC.L10N.register(
     "New password" : "Nova lozinka",
     "New Password" : "Nova lozinka",
     "Reset password" : "Resetuj lozinku",
-    "_{count} search result in other places_::_{count} search results in other places_" : ["","",""],
     "Personal" : "Lično",
     "Users" : "Korisnici",
     "Apps" : "Programi",

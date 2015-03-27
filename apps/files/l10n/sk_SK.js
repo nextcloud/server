@@ -101,7 +101,6 @@ OC.L10N.register(
     "Folder" : "Priečinok",
     "Upload" : "Nahrať",
     "Cancel upload" : "Zrušiť nahrávanie",
-    "No files yet" : "Zatiaľ žiadne súbory.",
     "Upload some content or sync with your devices!" : "Nahrajte nejaký obsah alebo synchronizujte zo svojimi zariadeniami!",
     "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
     "Select all" : "Vybrať všetko",

@@ -15,8 +15,6 @@ OC.L10N.register(
     "Connection test failed" : "Ryšio patikrinimas nepavyko",
     "Do you really want to delete the current Server Configuration?" : "Ar tikrai norite ištrinti dabartinę serverio konfigūraciją?",
     "Confirm Deletion" : "Patvirtinkite trynimą",
-    "_%s group found_::_%s groups found_" : ["","",""],
-    "_%s user found_::_%s users found_" : ["","",""],
     "Group Filter" : "Grupės filtras",
     "Save" : "Išsaugoti",
     "Test Configuration" : "Bandyti konfigūraciją",

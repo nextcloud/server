@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "Deletion failed" : "Brisanje neuspelo",
     "Error" : "Greška",
-    "_%s group found_::_%s groups found_" : ["","",""],
-    "_%s user found_::_%s users found_" : ["","",""],
     "Save" : "Snimi",
     "Help" : "Pomoć",
     "Host" : "Računar",

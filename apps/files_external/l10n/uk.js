@@ -64,7 +64,6 @@ OC.L10N.register(
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примітка:</b> Підтримку FTP в PHP не ввімкнено чи не встановлена. Під'єднатися до %s неможливо. Зверніться до системного адміністратора.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примітка:</b> \"%s\" не встановлено. Під'єднатися до %s неможливо. Зверніться до системного адміністратора.",
     "No external storage configured" : "Немає налаштованих зовнішніх сховищ",
-    "You can configure external storages in the personal settings" : "Ви можете налаштувати зовнішні сховища в особистих налаштуваннях",
     "Name" : "Ім'я",
     "Storage type" : "Тип сховища",
     "Scope" : "Область",

@@ -127,7 +127,6 @@ OC.L10N.register(
     "New password" : "新密码",
     "New Password" : "新密码",
     "Reset password" : "重置密码",
-    "_{count} search result in other places_::_{count} search results in other places_" : [""],
     "Personal" : "个人",
     "Users" : "用户",
     "Apps" : "应用",

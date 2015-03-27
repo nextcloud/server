@@ -58,7 +58,6 @@ OC.L10N.register(
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Oharra:</b> :PHPko FTP euskarria ez dago instalatuta edo gaitua. Ezinezko da %s muntatzea. Mesedez eskatu sistema administratzaleari instala dezan. ",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Oharra:</b>\"%s\" euskarria ez dago instalatuta Ezinezko da %s muntatzea. Mesedez eskatu sistema administratzaleari instala dezan. ",
     "No external storage configured" : "Ez da kanpo biltegiratzerik konfiguratu",
-    "You can configure external storages in the personal settings" : "Ezarpen pertsonaletan kanpo biltegiratzeak konfigura ditzazkezu",
     "Name" : "Izena",
     "Storage type" : "Biltegiratze mota",
     "External Storage" : "Kanpoko biltegiratzea",

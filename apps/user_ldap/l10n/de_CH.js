@@ -17,8 +17,6 @@ OC.L10N.register(
     "Connection test failed" : "Verbindungstest fehlgeschlagen",
     "Do you really want to delete the current Server Configuration?" : "Möchten Sie die aktuelle Serverkonfiguration wirklich löschen?",
     "Confirm Deletion" : "Löschung bestätigen",
-    "_%s group found_::_%s groups found_" : ["",""],
-    "_%s user found_::_%s users found_" : ["",""],
     "Group Filter" : "Gruppen-Filter",
     "Save" : "Speichern",
     "Test Configuration" : "Testkonfiguration",

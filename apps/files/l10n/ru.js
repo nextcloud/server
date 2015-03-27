@@ -102,7 +102,6 @@ OC.L10N.register(
     "Folder" : "Каталог",
     "Upload" : "Загрузить",
     "Cancel upload" : "Отменить загрузку",
-    "No files yet" : "Пока ещё нет файлов",
     "Upload some content or sync with your devices!" : "Загрузите что-нибудь или синхронизируйте со своими устройствами!",
     "No entries found in this folder" : "Ничего не найдено",
     "Select all" : "Выбрать все",

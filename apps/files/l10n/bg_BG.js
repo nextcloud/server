@@ -99,7 +99,6 @@ OC.L10N.register(
     "Folder" : "Папка",
     "Upload" : "Качване",
     "Cancel upload" : "Отказване на качването",
-    "No files yet" : "Все още няма файлове",
     "Upload some content or sync with your devices!" : "Качи съдържание или синхронизирай с твоите устройства!",
     "No entries found in this folder" : "Няма намерени записи в тази папка",
     "Select all" : "Избери всички",

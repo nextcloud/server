@@ -5,10 +5,6 @@
     "Could not move %s - File with this name already exists" : "ບໍ່ສາມາດຍ້າຍໄຟລ໌ %s ນີ້ໄດ້ - ຊື່ໄຟລ໌ນີ້ຖືກນຳໃຊ້ແລ້ວ",
     "Could not move %s" : "ບໍ່ສາມາດຍ້າຍ %s ໄດ້",
     "Permission denied" : "ບໍ່ທີສິດໃນການເຂົ້າເຖິງ",
-    "The target folder has been moved or deleted." : "ໂຟນເດີທີ່ທ່ານເລືອກໄດ້ຖືກຍ້າຍ ຫຼື ລຶບອອກແລ້ວ",
-    "_%n folder_::_%n folders_" : [""],
-    "_%n file_::_%n files_" : [""],
-    "_Uploading %n file_::_Uploading %n files_" : [""],
-    "_matches '{filter}'_::_match '{filter}'_" : [""]
+    "The target folder has been moved or deleted." : "ໂຟນເດີທີ່ທ່ານເລືອກໄດ້ຖືກຍ້າຍ ຫຼື ລຶບອອກແລ້ວ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

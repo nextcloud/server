@@ -55,7 +55,6 @@
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Obratite pažnju</b> Podrška za cURL u PHP-u nije uključena ili instalirana. Montiranje %s nije moguće. Molimo Vas da se obratite Vašem sistem administratoru da je instalira.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Obratite pažnju:</b> FTP podrška u PHP-u nije uključena ili instalirana. Montiranje %s nije moguće. Molimo Vas da tražite od Vašeg sistem administratora da je instalira.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Obratite pažnju:</b> \"%s\" nije instaliran. Monitranje %s nije moguće. Molimo Vas da se obratite Vašem sistem administratoru da to instalira.",
-    "You can configure external storages in the personal settings" : "Možete da podešavate spoljašnja skladišta u ličnim podešavanjima",
     "Name" : "Ime",
     "Storage type" : "Tip skladišta",
     "Scope" : "Opseg",

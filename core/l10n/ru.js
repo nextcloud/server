@@ -171,6 +171,7 @@ OC.L10N.register(
     "Technical details" : "Технические детали",
     "Remote Address: %s" : "Удаленный адрес: %s",
     "Request ID: %s" : "ID Запроса: %s",
+    "Type: %s" : "Тип: %s",
     "Code: %s" : "Код: %s",
     "Message: %s" : "Сообщение: %s",
     "File: %s" : "Файл: %s",

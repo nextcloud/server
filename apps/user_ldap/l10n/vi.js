@@ -7,8 +7,6 @@ OC.L10N.register(
     "Success" : "Thành công",
     "Error" : "Lỗi",
     "Select groups" : "Chọn nhóm",
-    "_%s group found_::_%s groups found_" : [""],
-    "_%s user found_::_%s users found_" : [""],
     "Invalid Host" : "Host không hợp lệ",
     "Server" : "Máy chủ",
     "User Filter" : "Bộ lọc người dùng",

@@ -61,7 +61,6 @@ OC.L10N.register(
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Opomba:</b> Podpora za protokol FTP v PHP ni omogočena, ali pa ni ustrezno nameščenih programov. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Opomba:</b> Program \"%s\" ni nameščen. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika.",
     "No external storage configured" : "Ni določene zunanje shrambe",
-    "You can configure external storages in the personal settings" : "Zunanjo shrambo je mogoče določiti med osebnimi nastavitvami",
     "Name" : "Ime",
     "Storage type" : "Vrsta shrambe",
     "Scope" : "Obseg",

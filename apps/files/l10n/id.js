@@ -100,7 +100,6 @@ OC.L10N.register(
     "Folder" : "Folder",
     "Upload" : "Unggah",
     "Cancel upload" : "Batal unggah",
-    "No files yet" : "Masih tidak ada berkas",
     "Upload some content or sync with your devices!" : "Unggah beberapa konten dan sinkronisasikan dengan perangkat Anda!",
     "No entries found in this folder" : "Tidak ada entri yang ditemukan dalam folder ini",
     "Select all" : "Pilih Semua",

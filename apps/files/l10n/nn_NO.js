@@ -43,7 +43,6 @@ OC.L10N.register(
     "Your storage is full, files can not be updated or synced anymore!" : "Lagringa di er full, kan ikkje lenger oppdatera eller synkronisera!",
     "Your storage is almost full ({usedSpacePercent}%)" : "Lagringa di er nesten full ({usedSpacePercent} %)",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Kryptering er skrudd av, men filene dine er enno krypterte. Du kan dekryptera filene i personlege innstillingar.",
-    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} og {files}",
     "Favorite" : "Favoritt",
     "A new file or folder has been <strong>created</strong>" : "Ei ny fil eller mappe er <strong>oppretta</strong>",

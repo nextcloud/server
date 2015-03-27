@@ -1,4 +1,5 @@
 { "translations": {
+    "Security & setup warnings" : "Guvenlik & kurma uyarı",
     "Cron" : "Cron",
     "Sharing" : "Paylaşım",
     "Email Server" : "E-Posta Sunucusu",
@@ -105,8 +106,6 @@
     "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Salt Okunur yapılandırma etkinleştirilmiş. Bu, bazı ayarların web arayüzü ile yapılandırılmasını önler. Ayrıca, bu dosya her güncelleme sırasında el ile yazılabilir yapılmalıdır.",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP satırıçi doc bloklarını ayıklamak üzere yapılandırılmış gibi görünüyor. Bu, bazı çekirdek (core) uygulamalarını erişilemez yapacak.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Bu, muhtemelen Zend OPcache veya eAccelerator gibi bir önbellek/hızlandırıcı nedeniyle gerçekleşir.",
-    "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "Veritabanı olarak SQLite kullanılıyor. Daha büyük kurulumlar için farklı bir veritabanı arka ucuna geçmenizi öneriyoruz.",
-    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Özellikle dosya eşitleme için masaüstü istemcisi kullanılırken SQLite kullanımı önerilmez.",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Sunucunuz, Microsoft Windows ile çalışıyor. En uygun kullanıcı deneyimi için şiddetle Linux'u öneriyoruz.",
     "APCu below version 4.0.6 is installed, for stability and performance reasons we recommend to update to a newer APCu version." : "APCu 4.0.6 sürümünden eskisi yüklü. Kararlılık ve performans nedenleri ile daha yeni bir APCu sürümüne güncellemenizi öneriyoruz.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP modülü 'fileinfo' kayıp. MIME türü tanıma ile en iyi sonuçları elde etmek için bu modülü etkinleştirmenizi öneririz.",
@@ -154,6 +153,8 @@
     "More" : "Daha fazla",
     "Less" : "Daha az",
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Günlük dosyası 100 MB'dan daha büyük. İndirmek zaman alabilir!",
+    "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "Veritabanı olarak SQLite kullanılıyor. Daha büyük kurulumlar için farklı bir veritabanı arka ucuna geçmenizi öneriyoruz.",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Özellikle dosya eşitleme için masaüstü istemcisi kullanılırken SQLite kullanımı önerilmez.",
     "Version" : "Sürüm",
     "More apps" : "Daha fazla uygulama",
     "Developer documentation" : "Geliştirici belgelendirmesi",

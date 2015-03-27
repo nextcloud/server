@@ -18,8 +18,6 @@ OC.L10N.register(
     "Connection test failed" : "Testul de conectare a eşuat ",
     "Do you really want to delete the current Server Configuration?" : "Sunteţi sigur ca vreţi sa ştergeţi configuraţia actuala a serverului ?",
     "Confirm Deletion" : "Confirmaţi Ştergerea ",
-    "_%s group found_::_%s groups found_" : ["","",""],
-    "_%s user found_::_%s users found_" : ["","",""],
     "Group Filter" : "Fitrare Grup",
     "Save" : "Salvează",
     "Test Configuration" : "Configurare test",

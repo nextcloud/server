@@ -102,7 +102,6 @@ OC.L10N.register(
     "Folder" : "Mappe",
     "Upload" : "Upload",
     "Cancel upload" : "Fortryd upload",
-    "No files yet" : "Endnu ingen filer",
     "Upload some content or sync with your devices!" : "Overfør indhold eller synkronisér med dine enheder!",
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
     "Select all" : "Vælg alle",

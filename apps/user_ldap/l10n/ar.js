@@ -32,7 +32,6 @@ OC.L10N.register(
     "Do you really want to delete the current Server Configuration?" : "هل ترغب فعلاً في حذف إعدادات الخادم الحالي؟",
     "Confirm Deletion" : "تأكيد الحذف",
     "_%s group found_::_%s groups found_" : ["لا توجد مجموعات: %s","تم إيجاد %s مجموعة واحدة","تم إيجاد %s مجموعتين","تم إيجاد %s مجموعات","تم إيجاد %s مجموعة","تم إيجاد %s مجموعة/مجموعات"],
-    "_%s user found_::_%s users found_" : ["","","","","",""],
     "Server" : "خادم",
     "Save" : "حفظ",
     "Help" : "المساعدة",

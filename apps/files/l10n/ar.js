@@ -45,7 +45,6 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "تم تمكين تشفير البرامج لكن لم يتم تهيئة المفاتيح لذا يرجى تسجيل الخروج ثم تسجيل الدخول مرة آخرى.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "المفتاح الخاص بتشفير التطبيقات غير صالح. يرجى تحديث كلمة السر الخاصة بالمفتاح الخاص من الإعدادت الشخصية حتى تتمكن من الوصول للملفات المشفرة.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "تم تعطيل التشفير لكن ملفاتك لا تزال مشفرة. فضلا اذهب إلى الإعدادات الشخصية لإزالة التشفير عن ملفاتك.",
-    "_matches '{filter}'_::_match '{filter}'_" : ["","","","","",""],
     "{dirs} and {files}" : "{dirs} و {files}",
     "Favorite" : "المفضلة",
     "A new file or folder has been <strong>created</strong>" : "تم <strong>  إنشاء</strong> ملف جديد أو مجلد ",

@@ -57,7 +57,6 @@ OC.L10N.register(
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> PHP подръжката на FTP не е включена или инсталирана. Прикачването на %s не е възможно. Моля, поискай системния администратор да я инсталира.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> \"%s\" не е инсталиран. Прикачването на %s не е възможно. Моля, поискай системния администратор да я инсталира.",
     "No external storage configured" : "Няма настроено външно дисково пространство",
-    "You can configure external storages in the personal settings" : "Можеш да промениш виншните дискови пространства в личните си настройки",
     "Name" : "Име",
     "Storage type" : "Тип дисково пространство",
     "Scope" : "Обхват",

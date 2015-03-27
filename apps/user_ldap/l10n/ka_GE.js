@@ -15,8 +15,6 @@ OC.L10N.register(
     "Connection test failed" : "კავშირის ტესტირება ვერ მოხერხდა",
     "Do you really want to delete the current Server Configuration?" : "ნამდვილად გინდათ წაშალოთ სერვერის მიმდინარე პარამეტრები?",
     "Confirm Deletion" : "წაშლის დადასტურება",
-    "_%s group found_::_%s groups found_" : [""],
-    "_%s user found_::_%s users found_" : [""],
     "Group Filter" : "ჯგუფის ფილტრი",
     "Save" : "შენახვა",
     "Test Configuration" : "კავშირის ტესტირება",

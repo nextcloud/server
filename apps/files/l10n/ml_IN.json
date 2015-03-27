@@ -1,9 +1,5 @@
 { "translations": {
     "Files" : "ഫയലുകൾ",
-    "_%n folder_::_%n folders_" : ["",""],
-    "_%n file_::_%n files_" : ["",""],
-    "_Uploading %n file_::_Uploading %n files_" : ["",""],
-    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "You created %1$s" : "നിങ്ങൾ %1$s സൃഷ്ടിച്ചു",
     "%2$s created %1$s" : "%2$s %1$s സൃഷ്ടിച്ചു",
     "You changed %1$s" : "നിങ്ങൾ %1$s പരിഷ്കരിച്ചു",

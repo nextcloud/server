@@ -100,7 +100,6 @@ OC.L10N.register(
     "Folder" : "Direktorijum",
     "Upload" : "Pošalji",
     "Cancel upload" : "Otkaži otpremanje",
-    "No files yet" : "Još nema fajlova",
     "Upload some content or sync with your devices!" : "Otpremite neki sadržaj ili sinhronizujte sa svojim uređajima!",
     "No entries found in this folder" : "Nema pronađenih unosa u ovom direktorijumu",
     "Select all" : "Odaberi sve",

@@ -4,8 +4,6 @@ OC.L10N.register(
     "Deletion failed" : "මකාදැමීම අසාර්ථකයි",
     "Success" : "සාර්ථකයි",
     "Error" : "දෝෂයක්",
-    "_%s group found_::_%s groups found_" : ["",""],
-    "_%s user found_::_%s users found_" : ["",""],
     "Group Filter" : "කණ්ඩායම් පෙරහන",
     "Save" : "සුරකින්න",
     "Help" : "උදව්",

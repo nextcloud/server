@@ -2,10 +2,6 @@ OC.L10N.register(
     "files",
     {
     "Files" : "Archivos",
-    "_%n folder_::_%n folders_" : ["",""],
-    "_%n file_::_%n files_" : ["",""],
-    "_Uploading %n file_::_Uploading %n files_" : ["",""],
-    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "A new file or folder has been <strong>created</strong>" : "Ha sido <strong>creado</strong> un nuevo archivo o carpeta",
     "A file or folder has been <strong>changed</strong>" : "Ha sido <strong>modificado</strong> un archivo o carpeta",
     "A file or folder has been <strong>deleted</strong>" : "Ha sido <strong>eliminado</strong> un archivo o carpeta",
