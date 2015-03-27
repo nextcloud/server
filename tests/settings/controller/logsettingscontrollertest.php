@@ -66,15 +66,9 @@ class LogSettingsControllerTest extends \Test\TestCase {
 		];
 	}
 
-	public function testGetFilenameForDownload() {
-		$timestamp = 42;
-		$this->container['Config']
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('instanceid')
-			->will($this->returnValue('0xF'));
-		$filename = \Test_Helper::invokePrivate($this->logSettingsController, 'getFilenameForDownload', [$timestamp]);
+	public function testDownload() {
+		$response = $this->logSettingsController->download();
 
-		$this->assertSame('ownCloud-0xF-42.log', $filename);
+		$this->assertInstanceOf('\OCP\AppFramework\Http\StreamResponse', $response);
 	}
 }

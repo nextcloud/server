@@ -25,9 +25,8 @@ namespace OC\Settings\Controller;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\DataDownloadResponse;
+use OCP\AppFramework\Http\StreamResponse;
 use OCP\IL10N;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
 use OCP\IConfig;
 
@@ -48,11 +47,6 @@ class LogSettingsController extends Controller {
 	private $l10n;
 
 	/**
-	 * @var \OCP\ITimeFactory
-	 */
-	private $timefactory;
-
-	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IConfig $config
@@ -60,13 +54,10 @@ class LogSettingsController extends Controller {
 	public function __construct($appName,
 								IRequest $request,
 								IConfig $config,
-								IL10N $l10n,
-								ITimeFactory $timeFactory) {
-
+								IL10N $l10n) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->l10n = $l10n;
-		$this->timefactory = $timeFactory;
 	}
 
 	/**
@@ -107,32 +98,11 @@ class LogSettingsController extends Controller {
 	 *
 	 * @NoCSRFRequired
 	 *
-	 * @return DataDownloadResponse
+	 * @return StreamResponse
 	 */
 	public function download() {
-		return new DataDownloadResponse(
-			json_encode(\OC_Log_Owncloud::getEntries(null, null)),
-			$this->getFilenameForDownload(),
-			'application/json'
-		);
-	}
-
-	/**
-	 * get filename for the logfile that's being downloaded
-	 *
-	 * @param int $timestamp (defaults to time())
-	 * @return string
-	 */
-	private function getFilenameForDownload($timestamp=null) {
-		$instanceId = $this->config->getSystemValue('instanceid');
-
-		$filename = implode([
-			'ownCloud',
-			$instanceId,
-			(!is_null($timestamp)) ? $timestamp : $this->timefactory->getTime()
-		], '-');
-		$filename .= '.log';
-
-		return $filename;
+		$resp = new StreamResponse(\OC_Log_Owncloud::getLogFilePath());
+		$resp->addHeader('Content-Disposition', 'attachment; filename="owncloud.log"');
+		return $resp;
 	}
 }
