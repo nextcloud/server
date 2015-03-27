@@ -27,6 +27,10 @@ namespace OCP;
 /**
  * This class provides an easy way for apps to store config values in the
  * database.
+ *
+ * @deprecated This interface will be dropped with ownCloud 10.1 which will be
+ *             released in the first quarter of 2017. Use the methods of
+ *             \OCP\IConfig instead
  */
 interface IAppConfig {
 	/**
@@ -34,6 +38,7 @@ interface IAppConfig {
 	 * @param string $app
 	 * @param string $key
 	 * @return bool
+	 * @deprecated use method hasAppKey of \OCP\IConfig
 	 */
 	public function hasKey($app, $key);
 
@@ -76,6 +81,7 @@ interface IAppConfig {
 	 * @param string|false $key
 	 * @param string|false $app
 	 * @return array|false
+	 * @deprecated use method getAppValuesByApp or getAppValuesByKey of \OCP\IConfig
 	 */
 	public function getValues($app, $key);
 
@@ -94,6 +100,7 @@ interface IAppConfig {
 	/**
 	 * Get all apps using the config
 	 * @return array an array of app ids
+	 * @deprecated use method getApps of \OCP\IConfig
 	 *
 	 * This function returns a list of all apps that have at least one
 	 * entry in the appconfig table.

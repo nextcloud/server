@@ -170,14 +170,16 @@ class Helper extends \OC\Share\Constants {
 	 */
 	public static function getDefaultExpireSetting() {
 
+		$config = \OC::$server->getConfig();
+
 		$defaultExpireSettings = array('defaultExpireDateSet' => false);
 
 		// get default expire settings
-		$defaultExpireDate = \OC_Appconfig::getValue('core', 'shareapi_default_expire_date', 'no');
+		$defaultExpireDate = $config->getAppValue('core', 'shareapi_default_expire_date', 'no');
 		if ($defaultExpireDate === 'yes') {
-			$enforceExpireDate = \OC_Appconfig::getValue('core', 'shareapi_enforce_expire_date', 'no');
+			$enforceExpireDate = $config->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
 			$defaultExpireSettings['defaultExpireDateSet'] = true;
-			$defaultExpireSettings['expireAfterDays'] = (int)\OC_Appconfig::getValue('core', 'shareapi_expire_after_n_days', '7');
+			$defaultExpireSettings['expireAfterDays'] = (int)($config->getAppValue('core', 'shareapi_expire_after_n_days', '7'));
 			$defaultExpireSettings['enforceExpireDate'] = $enforceExpireDate === 'yes' ? true : false;
 		}
 

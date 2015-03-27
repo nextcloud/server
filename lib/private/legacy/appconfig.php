@@ -27,7 +27,7 @@
  * This class provides an easy way for apps to store config values in the
  * database.
  *
- * @deprecated use \OC::$server->getAppConfig() to get an \OCP\IAppConfig instance
+ * @deprecated use \OC::$server->getConfig() to get an \OCP\IConfig instance
  */
 class OC_Appconfig {
 	/**
