@@ -73,9 +73,11 @@ if($_['passwordChangeSupported']) {
 	<div class="hidden icon-checkmark" id="password-changed"></div>
 	<div class="hidden" id="password-error"><?php p($l->t('Unable to change your password'));?></div>
 	<br>
+	<label for="pass1" class="onlyInIE8"><?php echo $l->t('Current password');?>: </label>
 	<input type="password" id="pass1" name="oldpassword"
 		placeholder="<?php echo $l->t('Current password');?>"
 		autocomplete="off" autocapitalize="off" autocorrect="off" />
+	<label for="pass2" class="onlyInIE8"><?php echo $l->t('New password');?>: </label>
 	<input type="password" id="pass2" name="personal-password"
 		placeholder="<?php echo $l->t('New password');?>"
 		data-typetoggle="#personal-show"

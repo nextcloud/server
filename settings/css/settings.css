@@ -370,6 +370,18 @@ span.error {
 	margin-top: -7px;
 }
 
+.ie8 .strengthify-wrapper {
+	left: 389px;
+}
+
+.onlyInIE8 {
+	display: none;
+}
+
+.ie8 .onlyInIE8 {
+	display: inline;
+}
+
 /* OPERA hack for strengthify*/
 doesnotexist:-o-prefocus, .strengthify-wrapper {
 	left: 185px;
