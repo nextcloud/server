@@ -140,7 +140,7 @@ describe('OC.SetupChecks tests', function() {
 			);
 
 			async.done(function( data, s, x ){
-				expect(data).toEqual(['The "X-XSS-Protection" HTTP header is not configured to equal to "1; mode=block". This is a potential security risk and we recommend adjusting this setting.', 'The "X-Content-Type-Options" HTTP header is not configured to equal to "nosniff". This is a potential security risk and we recommend adjusting this setting.', 'The "X-Robots-Tag" HTTP header is not configured to equal to "none". This is a potential security risk and we recommend adjusting this setting.', 'The "X-Frame-Options" HTTP header is not configured to equal to "SAMEORIGIN". This is a potential security risk and we recommend adjusting this setting.']);
+				expect(data).toEqual(['The "X-XSS-Protection" HTTP header is not configured to equal to "1; mode=block". This is a potential security or privacy risk and we recommend adjusting this setting.', 'The "X-Content-Type-Options" HTTP header is not configured to equal to "nosniff". This is a potential security or privacy risk and we recommend adjusting this setting.', 'The "X-Robots-Tag" HTTP header is not configured to equal to "none". This is a potential security or privacy risk and we recommend adjusting this setting.', 'The "X-Frame-Options" HTTP header is not configured to equal to "SAMEORIGIN". This is a potential security or privacy risk and we recommend adjusting this setting.']);
 				done();
 			});
 		});
@@ -155,12 +155,11 @@ describe('OC.SetupChecks tests', function() {
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
 					'Strict-Transport-Security': '2678400'
-
 				}
 			);
 
 			async.done(function( data, s, x ){
-				expect(data).toEqual(['The "X-XSS-Protection" HTTP header is not configured to equal to "1; mode=block". This is a potential security risk and we recommend adjusting this setting.', 'The "X-Content-Type-Options" HTTP header is not configured to equal to "nosniff". This is a potential security risk and we recommend adjusting this setting.']);
+				expect(data).toEqual(['The "X-XSS-Protection" HTTP header is not configured to equal to "1; mode=block". This is a potential security or privacy risk and we recommend adjusting this setting.', 'The "X-Content-Type-Options" HTTP header is not configured to equal to "nosniff". This is a potential security or privacy risk and we recommend adjusting this setting.']);
 				done();
 			});
 		});
@@ -202,7 +201,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual(['You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead.']);
-				done();
+			done();
 		});
 	});
 
@@ -218,7 +217,7 @@ describe('OC.SetupChecks tests', function() {
 		);
 		async.done(function( data, s, x ){
 			expect(data).toEqual(['Error occurred while checking server setup', 'Error occurred while checking server setup']);
-				done();
+			done();
 		});
 	});
 
@@ -237,7 +236,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual(['The "Strict-Transport-Security" HTTP header is not configured to least "2,678,400" seconds. This is a potential security risk and we recommend adjusting this setting.']);
-				done();
+			done();
 		});
 	});
 

@@ -115,9 +115,9 @@
 				};
 
 				for (var header in securityHeaders) {
-					if(xhr.getResponseHeader(header) !== securityHeaders[header]) {
+					if(!xhr.getResponseHeader(header) || xhr.getResponseHeader(header).toLowerCase() !== securityHeaders[header].toLowerCase()) {
 						messages.push(
-							t('core', 'The "{header}" HTTP header is not configured to equal to "{expected}". This is a potential security risk and we recommend adjusting this setting.', {header: header, expected: securityHeaders[header]})
+							t('core', 'The "{header}" HTTP header is not configured to equal to "{expected}". This is a potential security or privacy risk and we recommend adjusting this setting.', {header: header, expected: securityHeaders[header]})
 						);
 					}
 				}
