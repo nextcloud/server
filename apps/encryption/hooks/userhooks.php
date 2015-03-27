@@ -22,6 +22,7 @@
 namespace OCA\Encryption\Hooks;
 
 
+use OCP\ISession;
 use OCP\Util as OCUtil;
 use OCA\Encryption\Hooks\Contracts\IHook;
 use OCA\Encryption\KeyManager;
@@ -53,6 +54,10 @@ class UserHooks implements IHook {
 	 * @var Util
 	 */
 	private $util;
+	/**
+	 * @var ISession
+	 */
+	private $session;
 
 	/**
 	 * UserHooks constructor.
@@ -63,15 +68,22 @@ class UserHooks implements IHook {
 	 * @param IUserSession $user
 	 * @param OCUtil $ocUtil
 	 * @param Util $util
+	 * @param ISession $session
 	 */
-	public function __construct(
-		KeyManager $keyManager, ILogger $logger, Setup $userSetup, IUserSession $user, OCUtil $ocUtil, Util $util) {
+	public function __construct(KeyManager $keyManager,
+								ILogger $logger,
+								Setup $userSetup,
+								IUserSession $user,
+								OCUtil $ocUtil,
+								Util $util,
+								ISession $session) {
 
 		$this->keyManager = $keyManager;
 		$this->logger = $logger;
 		$this->userSetup = $userSetup;
 		$this->user = $user;
 		$this->util = $util;
+		$this->session = $session;
 	}
 
 	/**
@@ -132,7 +144,7 @@ class UserHooks implements IHook {
 	 * remove keys from session during logout
 	 */
 	public function logout() {
-		KeyManager::$cacheFactory->clear();
+		KeyManager::$session->clear();
 	}
 
 	/**

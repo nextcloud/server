@@ -95,120 +95,6 @@ class Util {
 	}
 
 	/**
-	 * @param $dirPath
-	 * @param bool $found
-	 * @return array|bool
-	 */
-	private function findEncryptedFiles($dirPath, &$found = false) {
-
-		if ($found === false) {
-			$found = [
-				'plain' => [],
-				'encrypted' => [],
-				'broken' => [],
-			];
-		}
-
-		if ($this->files->is_dir($dirPath) && $handle = $this->files->opendir($dirPath)) {
-			if (is_resource($handle)) {
-				while (($file = readdir($handle) !== false)) {
-					if ($file !== '.' && $file !== '..') {
-
-						// Skip stray part files
-						if ($this->isPartialFilePath($file)) {
-							continue;
-						}
-
-						$filePath = $dirPath . '/' . $this->files->getRelativePath('/' . $file);
-						$relPath = $this->stripUserFilesPath($filePath);
-
-						// If the path is a directory, search its contents
-						if ($this->files->is_dir($filePath)) {
-							// Recurse back
-							$this->findEncryptedFiles($filePath);
-
-							/*
-							 * If the path is a file,
-							 * determine where they got re-enabled :/
-							*/
-						} elseif ($this->files->is_file($filePath)) {
-							$isEncryptedPath = $this->isEncryptedPath($filePath);
-
-							/**
-							 * If the file is encrypted
-							 *
-							 * @note: if the userId is
-							 * empty or not set, file will
-							 * be detected as plain
-							 * @note: this is inefficient;
-							 * scanning every file like this
-							 * will eat server resources :(
-							 * fixMe: xxx find better way
-							 */
-							if ($isEncryptedPath) {
-								$fileKey = $this->keyManager->getFileKey($relPath);
-								$shareKey = $this->keyManager->getShareKey($relPath);
-								// If file is encrypted but now file key is available, throw exception
-								if (!$fileKey || !$shareKey) {
-									$this->logger->error('Encryption library, no keys avilable to decrypt the file: ' . $file);
-									$found['broken'][] = [
-										'name' => $file,
-										'path' => $filePath,
-									];
-								} else {
-									$found['encrypted'][] = [
-										'name' => $file,
-										'path' => $filePath
-									];
-								}
-							} else {
-								$found['plain'][] = [
-									'name' => $file,
-									'path' => $filePath
-								];
-							}
-						}
-					}
-
-				}
-			}
-		}
-
-		return $found;
-	}
-
-	/**
-	 * @param $path
-	 * @return bool
-	 */
-	private function isPartialFilePath($path) {
-		$extension = pathinfo($path, PATHINFO_EXTENSION);
-
-		if ($extension === 'part') {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * @param $filePath
-	 * @return bool|string
-	 */
-	private function stripUserFilesPath($filePath) {
-		$split = $this->splitPath($filePath);
-
-		// It is not a file relative to data/user/files
-		if (count($split) < 4 || $split[2] !== 'files') {
-			return false;
-		}
-
-		$sliced = array_slice($split, 3);
-
-		return implode('/', $sliced);
-
-	}
-
-	/**
 	 * @param $filePath
 	 * @return array
 	 */
@@ -216,41 +102,6 @@ class Util {
 		$normalized = $this->filesystem->normalizePath($filePath);
 
 		return explode('/', $normalized);
-	}
-
-	/**
-	 * @param $filePath
-	 * @return bool
-	 */
-	private function isEncryptedPath($filePath) {
-		$data = '';
-
-		// We only need 24 bytes from the last chunck
-		if ($this->files->file_exists($filePath)) {
-			$handle = $this->files->fopen($filePath, 'r');
-			if (is_resource($handle)) {
-				// Suppress fseek warning, we handle the case that fseek
-				// doesn't work in the else branch
-				if (@fseek($handle, -24, SEEK_END) === 0) {
-					$data = fgets($handle);
-				} else {
-					// if fseek failed on the storage we create a local copy
-					// from the file and read this one
-					fclose($handle);
-					$localFile = $this->files->getLocalFile($filePath);
-					$handle = fopen($localFile, 'r');
-
-					if (is_resource($handle) && fseek($handle,
-							-24,
-							SEEK_END) === 0
-					) {
-						$data = fgets($handle);
-					}
-				}
-				fclose($handle);
-				return $this->crypt->isCatfileContent($data);
-			}
-		}
 	}
 
 	/**
@@ -287,8 +138,8 @@ class Util {
 	 * @param $recoveryPassword
 	 */
 	public function recoverUsersFiles($recoveryPassword) {
-		// todo: get system private key here
-//		$this->keyManager->get
+		$encryptedKey = $this->keyManager->getSystemPrivateKey();
+
 		$privateKey = $this->crypt->decryptPrivateKey($encryptedKey,
 			$recoveryPassword);
 
@@ -329,25 +180,30 @@ class Util {
 	 */
 	private function recoverFile($filePath, $privateKey) {
 		$sharingEnabled = Share::isEnabled();
+		$uid = $this->user->getUID();
 
 		// Find out who, if anyone, is sharing the file
 		if ($sharingEnabled) {
 			$result = Share::getUsersSharingFile($filePath,
-				$this->user->getUID(),
+				$uid,
 				true);
 			$userIds = $result['users'];
 			$userIds[] = 'public';
 		} else {
 			$userIds = [
-				$this->user->getUID(),
+				$uid,
 				$this->recoveryKeyId
 			];
 		}
 		$filteredUids = $this->filterShareReadyUsers($userIds);
 
 		// Decrypt file key
-		$encKeyFile = $this->keyManager->getFileKey($filePath);
-		$shareKey = $this->keyManager->getShareKey($filePath);
+		$encKeyFile = $this->keyManager->getFileKey($filePath,
+			$uid);
+
+		$shareKey = $this->keyManager->getShareKey($filePath,
+			$uid);
+
 		$plainKeyFile = $this->crypt->multiKeyDecrypt($encKeyFile,
 			$shareKey,
 			$privateKey);
@@ -357,38 +213,12 @@ class Util {
 		$multiEncryptionKey = $this->crypt->multiKeyEncrypt($plainKeyFile,
 			$userPublicKeys);
 
-		$this->keyManager->setFileKeys($multiEncryptionKey['data']);
-		$this->keyManager->setShareKeys($multiEncryptionKey['keys']);
-	}
+		$this->keyManager->setFileKey($multiEncryptionKey['data'],
+			$uid);
 
-	/**
-	 * @param $userIds
-	 * @return array
-	 */
-	private function filterShareReadyUsers($userIds) {
-		// This array will collect the filtered IDs
-		$readyIds = $unreadyIds = [];
-
-		// Loop though users and create array of UIDs that need new keyfiles
-		foreach ($userIds as $user) {
-			// Check that the user is encryption capable, or is the
-			// public system user (for public shares)
-			if ($this->isUserReady($user)) {
-				// construct array of ready UIDs for keymanager
-				$readyIds[] = $user;
-			} else {
-				// Construct array of unready UIDs for keymanager
-				$unreadyIds[] = $user;
-
-				// Log warning; we cant do necessary setup here
-				// because we don't have the user passphrase
-				$this->logger->warning('Encryption Library ' . $this->user->getUID() . ' is not setup for encryption');
-			}
-		}
-		return [
-			'ready' => $readyIds,
-			'unready' => $unreadyIds
-		];
+		$this->keyManager->setShareKey($filePath,
+			$uid,
+			$multiEncryptionKey['keys']);
 	}
 
 }

@@ -45,10 +45,15 @@ class KeyManagerTest extends TestCase {
 		$userMock
 			->method('getUID')
 			->will($this->returnValue('admin'));
-		$cacheMock = $this->getMock('OCP\ICacheFactory');
+		$sessionMock = $this->getMock('OCP\ISession');
 		$logMock = $this->getMock('OCP\ILogger');
 		$this->userId = 'admin';
-		$this->instance = new KeyManager($keyStorageMock, $cryptMock, $configMock, $userMock, $cacheMock, $logMock);
+		$this->instance = new KeyManager($keyStorageMock,
+			$cryptMock,
+			$configMock,
+			$userMock,
+			$sessionMock,
+			$logMock);
 
 		$this->dummyKeys = ['public' => 'randomweakpublickeyhere',
 			'private' => 'randomweakprivatekeyhere'];
@@ -87,14 +92,16 @@ class KeyManagerTest extends TestCase {
 	 */
 	public function testSetPublicKey() {
 
-		$this->assertTrue($this->instance->setPublicKey($this->userId, $this->dummyKeys['public']));
+		$this->assertTrue($this->instance->setPublicKey($this->userId,
+			$this->dummyKeys['public']));
 	}
 
 	/**
 	 *
 	 */
 	public function testSetPrivateKey() {
-		$this->assertTrue($this->instance->setPrivateKey($this->userId, $this->dummyKeys['private']));
+		$this->assertTrue($this->instance->setPrivateKey($this->userId,
+			$this->dummyKeys['private']));
 	}
 
 	/**

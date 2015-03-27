@@ -80,7 +80,12 @@ class Encryption extends \OCP\AppFramework\App {
 			$hookManager = new HookManager();
 
 			$hookManager->registerHook([
-				new UserHooks($container->query('KeyManager'), $server->getLogger(), $container->query('UserSetup'), $server->getUserSession(), new \OCP\Util(), $container->query('Util')),
+				new UserHooks($container->query('KeyManager'),
+					$server->getLogger(),
+					$container->query('UserSetup'),
+					$server->getUserSession(),
+					new \OCP\Util(),
+					$container->query('Util'),),
 			]);
 
 			$hookManager->fireHooks();
@@ -126,7 +131,6 @@ class Encryption extends \OCP\AppFramework\App {
 					$server->getConfig(),
 					$server->getUserSession(),
 					$server->getSession(),
-					$server->getMemCacheFactory(),
 					$server->getLogger()
 				);
 			});

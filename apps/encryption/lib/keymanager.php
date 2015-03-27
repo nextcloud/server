@@ -37,9 +37,9 @@ use \OCP\ISession;
 class KeyManager {
 
 	/**
-	 * @var ICache
+	 * @var ISession
 	 */
-	public static $cacheFactory;
+	public static $session;
 	/**
 	 * @var IStorage
 	 */
@@ -88,23 +88,16 @@ class KeyManager {
 	private $log;
 
 	/**
-	 * @var \OCP\ISession
-	 */
-	private $session;
-
-	/**
 	 * @param IStorage $keyStorage
 	 * @param Crypt $crypt
 	 * @param IConfig $config
-	 * @param Session $userSession
+	 * @param IUserSession $userSession
 	 * @param \OCP\ISession $session
-	 * @param ICacheFactory $cacheFactory
 	 * @param ILogger $log
 	 */
-	public function __construct(IStorage $keyStorage, Crypt $crypt, IConfig $config,
-		IUserSession $userSession, ISession $session ,ICacheFactory $cacheFactory, ILogger $log) {
+	public function __construct(IStorage $keyStorage, Crypt $crypt, IConfig $config, IUserSession $userSession, ISession $session, ILogger $log) {
 
-		$this->session = $session;
+		self::$session = $session;
 		$this->keyStorage = $keyStorage;
 		$this->crypt = $crypt;
 		$this->config = $config;
@@ -113,9 +106,6 @@ class KeyManager {
 		$this->publicShareKeyId = $this->config->getAppValue('encryption',
 			'publicShareKeyId');
 		$this->keyId = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : false;
-
-		self::$cacheFactory = $cacheFactory;
-		self::$cacheFactory = self::$cacheFactory->create('encryption');
 		$this->log = $log;
 	}
 
@@ -211,7 +201,7 @@ class KeyManager {
 	 *
 	 * @param string $uid userid
 	 * @param string $passPhrase users password
-	 * @return ICache
+	 * @return ISession
 	 */
 	public function init($uid, $passPhrase) {
 		try {
@@ -225,13 +215,10 @@ class KeyManager {
 		}
 
 
-		$this->session->set('privateKey', $privateKey);
-		$this->session->set('initStatus', true);
-		self::$cacheFactory->set('privateKey', $privateKey);
-		self::$cacheFactory->set('initStatus', true);
+		self::$session->set('privateKey', $privateKey);
+		self::$session->set('initStatus', true);
 
-
-		return self::$cacheFactory;
+		return self::$session;
 	}
 
 	/**
@@ -256,12 +243,15 @@ class KeyManager {
 	 */
 	public function getFileKey($path, $uid) {
 		$key = '';
-		$encryptedFileKey = $this->keyStorage->getFileKey($path, $this->fileKeyId);
+		$encryptedFileKey = $this->keyStorage->getFileKey($path,
+			$this->fileKeyId);
 		$shareKey = $this->getShareKey($path, $uid);
 		$privateKey = $this->session->get('privateKey');
 
 		if ($encryptedFileKey && $shareKey && $privateKey) {
-			$key = $this->crypt->multiKeyDecrypt($encryptedFileKey, $shareKey, $privateKey);
+			$key = $this->crypt->multiKeyDecrypt($encryptedFileKey,
+				$shareKey,
+				$privateKey);
 		}
 
 		return $key;
@@ -293,11 +283,13 @@ class KeyManager {
 		if ($params['uid'] === $user->getUser()->getUID() && $privateKey) {
 
 			// Encrypt private key with new user pwd as passphrase
-			$encryptedPrivateKey = $this->crypt->symmetricEncryptFileContent($privateKey, $params['password']);
+			$encryptedPrivateKey = $this->crypt->symmetricEncryptFileContent($privateKey,
+				$params['password']);
 
 			// Save private key
 			if ($encryptedPrivateKey) {
-				$this->setPrivateKey($user->getUser()->getUID(), $encryptedPrivateKey);
+				$this->setPrivateKey($user->getUser()->getUID(),
+					$encryptedPrivateKey);
 			} else {
 				$this->log->error('Encryption could not update users encryption password');
 			}
@@ -331,7 +323,8 @@ class KeyManager {
 				$this->setPublicKey($user, $keypair['publicKey']);
 
 				// Encrypt private key with new password
-				$encryptedKey = $this->crypt->symmetricEncryptFileContent($keypair['privateKey'], $newUserPassword);
+				$encryptedKey = $this->crypt->symmetricEncryptFileContent($keypair['privateKey'],
+					$newUserPassword);
 
 				if ($encryptedKey) {
 					$this->setPrivateKey($user, $encryptedKey);
@@ -430,5 +423,12 @@ class KeyManager {
 
 		return $keys;
 
+	}
+
+	/**
+	 * @return string returns openssl key
+	 */
+	public function getSystemPrivateKey() {
+		return $this->keyStorage->getSystemUserKey($this->privateKeyId);
 	}
 }
