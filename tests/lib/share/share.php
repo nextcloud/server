@@ -101,6 +101,7 @@ class Test_Share extends \Test\TestCase {
 		OC_Group::deleteGroup($this->group2);
 		OC_Group::deleteGroup($this->groupAndUser);
 
+		$this->logout();
 		parent::tearDown();
 	}
 
