@@ -635,6 +635,8 @@
 		 * @param filesArray array of file data (map)
 		 */
 		setFiles: function(filesArray) {
+			var self = this;
+
 			// detach to make adding multiple rows faster
 			this.files = filesArray;
 
@@ -655,7 +657,10 @@
 			this.updateSelectionSummary();
 			$(window).scrollTop(0);
 
-			this.$fileList.trigger(jQuery.Event("updated"));
+			this.$fileList.trigger(jQuery.Event('updated'));
+			_.defer(function() {
+				self.$el.closest('#app-content').trigger(jQuery.Event('apprendered'));
+			});
 		},
 		/**
 		 * Creates a new table row element using the given file data.
