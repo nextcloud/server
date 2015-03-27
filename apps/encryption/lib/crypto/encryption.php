@@ -122,11 +122,7 @@ class Encryption implements IEncryptionModule {
 			}
 
 			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
-
-			$this->keymanager->setFileKey($path, $encryptedKeyfiles['data']);
-			foreach ($encryptedKeyfiles['keys'] as $uid => $keyFile) {
-				$this->keymanager->setShareKey($path, $uid, $keyFile);
-			}
+			$this->keymanager->setAllFileKeys($path, $encryptedKeyfiles);
 		}
 		return $result;
 	}
@@ -218,11 +214,22 @@ class Encryption implements IEncryptionModule {
 	 * update encrypted file, e.g. give additional users access to the file
 	 *
 	 * @param string $path path to the file which should be updated
+	 * @param string $uid of the user who performs the operation
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 * @return boolean
 	 */
-	public function update($path, $accessList) {
-		// TODO: Implement update() method.
+	public function update($path, $uid, $accessList) {
+		$fileKey = $this->keymanager->getFileKey($path, $uid);
+		foreach ($accessList['users'] as $user) {
+			$publicKeys[$user] = $this->keymanager->getPublicKey($user);
+		}
+		$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
+
+		$this->keymanager->deleteAllFileKeys($path);
+
+		$this->keymanager->setAllFileKeys($path, $encryptedFileKey);
+
+		return true;
 	}
 
 	/**

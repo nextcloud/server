@@ -184,6 +184,19 @@ class KeyManager {
 	}
 
 	/**
+	 * set all file keys (the file key and the corresponding share keys)
+	 *
+	 * @param string $path
+	 * @param array $keys
+	 */
+	public function setAllFileKeys($path, $keys) {
+		$this->setFileKey($path, $keys['data']);
+		foreach ($keys['keys'] as $uid => $keyFile) {
+			$this->setShareKey($path, $uid, $keyFile);
+		}
+	}
+
+	/**
 	 * write share key to the key storage
 	 *
 	 * @param string $path
@@ -403,6 +416,10 @@ class KeyManager {
 	 */
 	private function deletePrivateKey($uid) {
 		return $this->keyStorage->deleteUserKey($uid, $this->privateKeyId);
+	}
+
+	public function deleteAllFileKeys($path) {
+		return $this->keyStorage->deleteAllFileKeys($path);
 	}
 
 	/**
