@@ -1261,6 +1261,33 @@ function initCore() {
 		// initial call
 		toggleSnapperOnSize();
 
+		// adjust controls bar width
+		var adjustControlsWidth = function() {
+			if($('#controls').length) {
+				var controlsWidth;
+				// if there is a scrollbar …
+				if($('#app-content').get(0).scrollHeight > $('#app-content').height()) {
+					if($(window).width() > 768) {
+						controlsWidth = $('#content').width() - $('#app-navigation').width() - getScrollBarWidth();
+					} else {
+						controlsWidth = $('#content').width() - getScrollBarWidth();
+					}
+				} else { // if there is none
+					if($(window).width() > 768) {
+						controlsWidth = $('#content').width() - $('#app-navigation').width();
+					} else {
+						controlsWidth = $('#content').width();
+					}
+				}
+				$('#controls').css('width', controlsWidth);
+				$('#controls').css('min-width', controlsWidth);
+			}
+		};
+
+		$(window).resize(_.debounce(adjustControlsWidth, 250));
+
+		$('body').delegate('#app-content', 'apprendered', adjustControlsWidth);
+
 	}
 
 }
@@ -1685,3 +1712,31 @@ jQuery.fn.selectRange = function(start, end) {
 jQuery.fn.exists = function(){
 	return this.length > 0;
 };
+
+function getScrollBarWidth() {
+	var inner = document.createElement('p');
+	inner.style.width = "100%";
+	inner.style.height = "200px";
+
+	var outer = document.createElement('div');
+	outer.style.position = "absolute";
+	outer.style.top = "0px";
+	outer.style.left = "0px";
+	outer.style.visibility = "hidden";
+	outer.style.width = "200px";
+	outer.style.height = "150px";
+	outer.style.overflow = "hidden";
+	outer.appendChild (inner);
+
+	document.body.appendChild (outer);
+	var w1 = inner.offsetWidth;
+	outer.style.overflow = 'scroll';
+	var w2 = inner.offsetWidth;
+	if(w1 === w2) {
+		w2 = outer.clientWidth;
+	}
+
+	document.body.removeChild (outer);
+
+	return (w1 - w2);
+}
