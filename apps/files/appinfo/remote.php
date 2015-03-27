@@ -73,6 +73,7 @@ $server->on('beforeMethod', function () use ($server, $objectTree) {
 			)
 		)
 	);
+	$server->addPlugin(new \OC\Connector\Sabre\CopyEtagHeaderPlugin());
 }, 30); // priority 30: after auth (10) and acl(20), before lock(50) and handling the request
 
 // And off we go!
