@@ -1264,18 +1264,19 @@ function initCore() {
 		// adjust controls bar width
 		var adjustControlsWidth = function() {
 			if($('#controls').length) {
+				var controlsWidth;
 				// if there is a scrollbar …
 				if($('#app-content').get(0).scrollHeight > $('#app-content').height()) {
 					if($(window).width() > 768) {
-						var controlsWidth = $('#content').width() - $('#app-navigation').width() - getScrollBarWidth();
+						controlsWidth = $('#content').width() - $('#app-navigation').width() - getScrollBarWidth();
 					} else {
-						var controlsWidth = $('#content').width() - getScrollBarWidth();
+						controlsWidth = $('#content').width() - getScrollBarWidth();
 					}
 				} else { // if there is none
 					if($(window).width() > 768) {
-						var controlsWidth = $('#content').width() - $('#app-navigation').width();
+						controlsWidth = $('#content').width() - $('#app-navigation').width();
 					} else {
-						var controlsWidth = $('#content').width();
+						controlsWidth = $('#content').width();
 					}
 				}
 				$('#controls').css('width', controlsWidth);
@@ -1731,9 +1732,11 @@ function getScrollBarWidth() {
 	var w1 = inner.offsetWidth;
 	outer.style.overflow = 'scroll';
 	var w2 = inner.offsetWidth;
-	if (w1 == w2) w2 = outer.clientWidth;
+	if(w1 === w2) {
+		w2 = outer.clientWidth;
+	}
 
 	document.body.removeChild (outer);
 
 	return (w1 - w2);
-};
+}
