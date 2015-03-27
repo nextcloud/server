@@ -105,6 +105,14 @@ interface IStorage {
 	public function deleteFileKey($path, $keyId);
 
 	/**
+	 * delete all file keys for a given file
+	 *
+	 * @param string $path to the file
+	 * @return boolean
+	 */
+	public function deleteAllFileKeys($path);
+
+	/**
 	 * delete system-wide encryption keys not related to a specific user,
 	 * e.g something like a key for public link shares
 	 *

@@ -254,7 +254,7 @@ class Encryption extends Wrapper {
 				'" not found, file will be stored unencrypted');
 		}
 
-		if($shouldEncrypt === true && !$this->util->isExcluded($path) && $encryptionModule !== null) {
+		if($shouldEncrypt === true && !$this->util->isExcluded($fullPath) && $encryptionModule !== null) {
 			$source = $this->storage->fopen($path, $mode);
 			$handle = \OC\Files\Stream\Encryption::wrap($source, $path, $fullPath, $header,
 				$this->uid, $encryptionModule, $this->storage, $this, $this->util, $mode,

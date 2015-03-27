@@ -84,10 +84,11 @@ interface IEncryptionModule {
 	 * update encrypted file, e.g. give additional users access to the file
 	 *
 	 * @param string $path path to the file which should be updated
+	 * @param string $uid of the user who performs the operation
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 * @return boolean
 	 */
-	public function update($path, $accessList);
+	public function update($path, $uid, $accessList);
 
 	/**
 	 * should the file be encrypted or not

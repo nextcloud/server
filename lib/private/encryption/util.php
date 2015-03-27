@@ -389,9 +389,22 @@ class Util {
 	 * @return boolean
 	 */
 	public function isExcluded($path) {
-		$root = explode('/', $path, 2);
-		if (isset($root[0])) {
-			if (in_array($root[0], $this->excludedPaths)) {
+		$normalizedPath = \OC\Files\Filesystem::normalizePath($path);
+		$root = explode('/', $normalizedPath, 4);
+		if (count($root) > 2) {
+
+			//detect system wide folders
+			if (in_array($root[1], $this->excludedPaths)) {
+				return true;
+			}
+
+			$v1 = $this->userManager->userExists($root[1]);
+			$v2 = in_array($root[2], $this->excludedPaths);
+
+			// detect user specific folders
+			if ($this->userManager->userExists($root[1])
+				&& in_array($root[2], $this->excludedPaths)) {
+
 				return true;
 			}
 		}
