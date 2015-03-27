@@ -82,25 +82,6 @@ class Shared_Updater {
 	}
 
 	/**
-	 * remove all shares for a given file if the file was deleted
-	 *
-	 * @param string $path
-	 */
-	private static function removeShare($path) {
-		$fileSource = self::$toRemove[$path];
-
-		if (!\OC\Files\Filesystem::file_exists($path)) {
-			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `file_source`=?');
-			try	{
-				\OC_DB::executeAudited($query, array($fileSource));
-			} catch (\Exception $e) {
-				\OCP\Util::writeLog('files_sharing', "can't remove share: " . $e->getMessage(), \OCP\Util::WARN);
-			}
-		}
-		unset(self::$toRemove[$path]);
-	}
-
-	/**
 	 * @param array $params
 	 */
 	static public function writeHook($params) {
@@ -122,19 +103,6 @@ class Shared_Updater {
 	static public function deleteHook($params) {
 		$path = $params['path'];
 		self::correctFolders($path);
-
-		$fileInfo = \OC\Files\Filesystem::getFileInfo($path);
-
-		// mark file as deleted so that we can clean up the share table if
-		// the file was deleted successfully
-		self::$toRemove[$path] =  $fileInfo['fileid'];
-	}
-
-	/**
-	 * @param array $params
-	 */
-	static public function postDeleteHook($params) {
-		self::removeShare($params['path']);
 	}
 
 	/**
