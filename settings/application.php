@@ -114,8 +114,7 @@ class Application extends App {
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('Config'),
-				$c->query('L10N'),
-				$c->query('TimeFactory')
+				$c->query('L10N')
 			);
 		});
 
