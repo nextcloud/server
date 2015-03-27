@@ -104,7 +104,7 @@ class Update {
 
 			foreach ($allFiles as $path) {
 				$usersSharing = $this->util->getSharingUsersArray($path);
-				$encryptionModule->update($absPath, $usersSharing);
+				$encryptionModule->update($absPath, $this->uid, $usersSharing);
 			}
 	}
 
