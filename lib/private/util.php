@@ -886,17 +886,23 @@ class OC_Util {
 	 * checking the existence of the ".ocdata" file.
 	 *
 	 * @param string $dataDirectory data directory path
-	 * @return bool true if the data directory is valid, false otherwise
+	 * @return array errors found
 	 */
 	public static function checkDataDirectoryValidity($dataDirectory) {
 		$l = \OC::$server->getL10N('lib');
-		$errors = array();
+		$errors = [];
+		if (!self::runningOnWindows() && $dataDirectory[0] !== '/') {
+			$errors[] = [
+				'error' => $l->t('Data directory (%s) must be an absolute path', [$dataDirectory]),
+				'hint' => $l->t('Check the value of "datadirectory" in your configuration')
+			];
+		}
 		if (!file_exists($dataDirectory . '/.ocdata')) {
-			$errors[] = array(
-				'error' => $l->t('Data directory (%s) is invalid', array($dataDirectory)),
+			$errors[] = [
+				'error' => $l->t('Data directory (%s) is invalid', [$dataDirectory]),
 				'hint' => $l->t('Please check that the data directory contains a file' .
 					' ".ocdata" in its root.')
-			);
+			];
 		}
 		return $errors;
 	}
