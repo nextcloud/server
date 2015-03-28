@@ -419,6 +419,25 @@ class Test_Util extends \Test\TestCase {
 
 		$this->assertFalse(\OCP\Util::needUpgrade());
 	}
+
+	public function testCheckDataDirectoryValidity() {
+		$dataDir = \OCP\Files::tmpFolder();
+		touch($dataDir . '/.ocdata');
+		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
+		$this->assertEmpty($errors);
+		\OCP\Files::rmdirr($dataDir);
+
+		$dataDir = \OCP\Files::tmpFolder();
+		// no touch
+		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
+		$this->assertNotEmpty($errors);
+		\OCP\Files::rmdirr($dataDir);
+
+		if (!\OC_Util::runningOnWindows()) {
+			$errors = \OC_Util::checkDataDirectoryValidity('relative/path');
+			$this->assertNotEmpty($errors);
+		}
+	}
 }
 
 /**
