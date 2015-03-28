@@ -26,6 +26,7 @@ namespace OC\Encryption;
 use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
 use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
 use OCP\Encryption\IEncryptionModule;
+use OCP\IConfig;
 
 class Util {
 
@@ -58,19 +59,27 @@ class Util {
 	/** @var \OC\User\Manager */
 	protected $userManager;
 
+	/** @var IConfig */
+	protected $config;
+
 	/** @var array paths excluded from encryption */
 	protected $excludedPaths;
 
 	/**
 	 * @param \OC\Files\View $view root view
 	 */
-	public function __construct(\OC\Files\View $view, \OC\User\Manager $userManager) {
+	public function __construct(
+		\OC\Files\View $view,
+		\OC\User\Manager $userManager,
+		IConfig $config) {
+
 		$this->ocHeaderKeys = [
 			self::HEADER_ENCRYPTION_MODULE_KEY
 		];
 
 		$this->view = $view;
 		$this->userManager = $userManager;
+		$this->config = $config;
 
 		$this->excludedPaths[] = 'files_encryption';
 	}
@@ -409,6 +418,18 @@ class Util {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * check if recovery key is enabled for user
+	 *
+	 * @param string $uid
+	 * @return boolean
+	 */
+	public function recoveryEnabled($uid) {
+		$enabled = $this->config->getUserValue($uid, 'encryption', 'recovery_enabled', '0');
+
+		return ($enabled === '1') ? true : false;
 	}
 
 }

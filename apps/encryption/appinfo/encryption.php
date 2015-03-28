@@ -102,7 +102,10 @@ class Encryption extends \OCP\AppFramework\App {
 	public function registerEncryptionModule() {
 		$container = $this->getContainer();
 		$container->registerService('EncryptionModule', function (IAppContainer $c) {
-			return new \OCA\Encryption\Crypto\Encryption($c->query('Crypt'), $c->query('KeyManager'));
+			return new \OCA\Encryption\Crypto\Encryption(
+				$c->query('Crypt'),
+				$c->query('KeyManager'),
+				$c->query('Util'));
 		});
 		$module = $container->query('EncryptionModule');
 		$this->encryptionManager->registerEncryptionModule($module);

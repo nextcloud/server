@@ -46,9 +46,19 @@ class Encryption implements IEncryptionModule {
 	/** @var boolean */
 	private $isWriteOperation;
 
-	public function __construct(Crypt $crypt, KeyManager $keymanager) {
+	/** @var \OC\Encryption\Util */
+	private $util;
+
+	/**
+	 *
+	 * @param \OCA\Encryption\Crypto\Crypt $crypt
+	 * @param KeyManager $keymanager
+	 * @param \OC\Encryption\Util $util
+	 */
+	public function __construct(Crypt $crypt, KeyManager $keymanager, \OC\Encryption\Util $util) {
 		$this->crypt = $crypt;
 		$this->keymanager = $keymanager;
+		$this->util = $util;
 	}
 
 	/**
@@ -225,9 +235,7 @@ class Encryption implements IEncryptionModule {
 			$publicKeys[$user] = $this->keymanager->getPublicKey($user);
 		}
 
-		if (!empty($accessList['public'])) {
-			$publicKeys[$this->keymanager->getPublicShareKeyId()] = $this->keymanager->getPublicShareKey();
-		}
+		$publicKeys = $this->addSystemKeys($accessList, $publicKeys);
 
 		$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 
@@ -237,6 +245,29 @@ class Encryption implements IEncryptionModule {
 
 		return true;
 	}
+
+	/**
+	 * add system keys such as the public share key and the recovery key
+	 *
+	 * @param array $accessList
+	 * @param array $publicKeys
+	 * @return array
+	 */
+	public function addSystemKeys(array $accessList, array $publicKeys) {
+		if (!empty($accessList['public'])) {
+			$publicKeys[$this->keymanager->getPublicShareKeyId()] = $this->keymanager->getPublicShareKey();
+		}
+
+		if ($this->keymanager->recoveryKeyExists() &&
+			$this->util->recoveryEnabled($this->user)) {
+
+			$publicKeys[$this->keymanager->getRecoveryKeyId()] = $this->keymanager->getRecoveryKey();
+		}
+
+
+		return $publicKeys;
+	}
+
 
 	/**
 	 * should the file be encrypted or not

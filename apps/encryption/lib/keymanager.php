@@ -141,7 +141,25 @@ class KeyManager {
 	 * @return bool
 	 */
 	public function recoveryKeyExists() {
-		return (strlen($this->keyStorage->getSystemUserKey($this->recoveryKeyId)) !== 0);
+		return (!empty($this->keyStorage->getSystemUserKey($this->recoveryKeyId)));
+	}
+
+	/**
+	 * get recovery key
+	 *
+	 * @return string
+	 */
+	public function getRecoveryKey() {
+		return $this->keyStorage->getSystemUserKey($this->recoveryKeyId . '.publicKey');
+	}
+
+	/**
+	 * get recovery key ID
+	 *
+	 * @return string
+	 */
+	public function getRecoveryKeyId() {
+		return $this->recoveryKeyId;
 	}
 
 	/**
