@@ -693,7 +693,7 @@ var OCdialogs = {
 		}
 		$template.octemplate({
 			dir: '',
-			name: '&nbsp;&nbsp;&nbsp;&nbsp;' // Ugly but works ;)
+			name: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' // Ugly but works ;)
 		}, {escapeFunction: null}).addClass('home svg').prependTo(this.$dirTree);
 	},
 	/**
