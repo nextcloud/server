@@ -102,6 +102,7 @@ OC.L10N.register(
     "Folder" : "フォルダー",
     "Upload" : "アップロード",
     "Cancel upload" : "アップロードをキャンセル",
+    "No files in here" : "ファイルがありません",
     "Upload some content or sync with your devices!" : "何かコンテンツをアップロードするか、デバイスからファイルを同期してください。",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",
     "Select all" : "すべて選択",

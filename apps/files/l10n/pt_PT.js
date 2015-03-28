@@ -102,6 +102,7 @@ OC.L10N.register(
     "Folder" : "Pasta",
     "Upload" : "Enviar",
     "Cancel upload" : "Cancelar o envio",
+    "No files in here" : "Nenhuns ficheiros aqui",
     "Upload some content or sync with your devices!" : "Carregue algum conteúdo ou sincronize com os seus aparelhos!",
     "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",
     "Select all" : "Seleccionar todos",

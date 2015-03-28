@@ -101,6 +101,7 @@ OC.L10N.register(
     "Folder" : "Map",
     "Upload" : "Uploaden",
     "Cancel upload" : "Upload afbreken",
+    "No files in here" : "Hier geen bestanden",
     "Upload some content or sync with your devices!" : "Upload bestanden of synchroniseer met uw apparaten!",
     "No entries found in this folder" : "Niets",
     "Select all" : "Alles selecteren",

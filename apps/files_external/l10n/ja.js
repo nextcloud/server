@@ -44,6 +44,7 @@ OC.L10N.register(
     "URL" : "URL",
     "Secure https://" : "セキュア https://",
     "Public key" : "公開鍵",
+    "Invalid mount point" : "無効なマウントポイント",
     "Access granted" : "アクセスは許可されました",
     "Error configuring Dropbox storage" : "Dropboxストレージの設定エラー",
     "Grant access" : "アクセスを許可",
@@ -61,6 +62,7 @@ OC.L10N.register(
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> PHPにFTPのエクステンションが入っていないか、有効ではありません。%s をマウントすることができません。このシステムの管理者にインストールをお願いしてください。",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> \"%s\" がインストールされていません。%sをマウントできません。このシステムの管理者にインストールをお願いしてください。",
     "No external storage configured" : "外部ストレージは設定されていません",
+    "You can add external storages in the personal settings" : "個人設定で外部ストレージを設定することができます。",
     "Name" : "名前",
     "Storage type" : "ストレージ種別",
     "Scope" : "スコープ",
@@ -69,6 +71,7 @@ OC.L10N.register(
     "Configuration" : "設定",
     "Available for" : "利用可能",
     "Add storage" : "ストレージを追加",
+    "Advanced settings" : "詳細設定",
     "Delete" : "削除",
     "Enable User External Storage" : "ユーザーの外部ストレージを有効にする",
     "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する"

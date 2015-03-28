@@ -62,6 +62,7 @@
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Poznámka:</b> FTP podpora v PHP není povolena nebo nainstalována. Není možné připojení %s. Prosím požádejte svého správce systému ať ji nainstaluje.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Poznámka:</b> \"%s\" není instalováno. Není možné připojení %s. Prosím požádejte svého správce systému o instalaci.",
     "No external storage configured" : "Není nakonfigurováno žádné externí úložiště",
+    "You can add external storages in the personal settings" : "Můžete přidat externí úložiště v osobních nastaveních",
     "Name" : "Název",
     "Storage type" : "Typ úložiště",
     "Scope" : "Rozsah",
@@ -70,6 +71,7 @@
     "Configuration" : "Nastavení",
     "Available for" : "Dostupné pro",
     "Add storage" : "Přidat úložiště",
+    "Advanced settings" : "Pokročilá nastavení",
     "Delete" : "Smazat",
     "Enable User External Storage" : "Zapnout externí uživatelské úložiště",
     "Allow users to mount the following external storage" : "Povolit uživatelů připojit následující externí úložiště"

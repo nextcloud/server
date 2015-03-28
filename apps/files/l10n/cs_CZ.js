@@ -102,6 +102,7 @@ OC.L10N.register(
     "Folder" : "Složka",
     "Upload" : "Odeslat",
     "Cancel upload" : "Zrušit odesílání",
+    "No files in here" : "Žádné soubory",
     "Upload some content or sync with your devices!" : "Nahrajte nějaký obsah nebo synchronizujte se svými přístroji!",
     "No entries found in this folder" : "V této složce nebylo nic nalezeno",
     "Select all" : "Vybrat vše",

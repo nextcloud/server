@@ -64,6 +64,7 @@ OC.L10N.register(
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Σημείωση:</b> Η υποστήριξη FTP στην PHP δεν είναι ενεργοποιημένη ή εγκατεστημένη. Δεν είναι δυνατή η προσάρτηση του %s. Παρακαλώ ζητήστε από τον διαχειριστή συστημάτων σας να την εγκαταστήσει.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Σημείωση:</b> Η επέκταση \"%s\" δεν είναι εγκατεστημένη. Δεν είναι δυνατή η προσάρτηση %s. Παρακαλώ ζητήστε από τον διαχειριστή συστημάτων σας να την εγκαταστήσει.",
     "No external storage configured" : "Δεν έχει ρυθμιστεί κανένα εξωτερικό μέσο αποθήκευσης",
+    "You can add external storages in the personal settings" : "Μπορείτε να προσθέσετε εξωτερικά μέσα αποθήκευσης στις προσωπικές ρυθμίσεις",
     "Name" : "Όνομα",
     "Storage type" : "Τύπος αποθηκευτικού χώρου",
     "Scope" : "Εύρος",
@@ -72,6 +73,7 @@ OC.L10N.register(
     "Configuration" : "Ρυθμίσεις",
     "Available for" : "Διαθέσιμο για",
     "Add storage" : "Προσθηκη αποθηκευσης",
+    "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Delete" : "Διαγραφή",
     "Enable User External Storage" : "Ενεργοποίηση Εξωτερικού Αποθηκευτικού Χώρου Χρήστη",
     "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης"

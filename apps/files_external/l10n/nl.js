@@ -64,6 +64,7 @@ OC.L10N.register(
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Let op:</b> FTP ondersteuning in PHP is niet geactiveerd of geïnstalleerd. Mounten van %s is niet mogelijk. Vraag uw beheerder dit te installeren.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Let op:</b> \"%s\" is niet geïnstalleerd. Mounten van %s is niet mogelijk. Vraag uw beheerder om dit te installeren.",
     "No external storage configured" : "Geen externe opslag geconfigureerd",
+    "You can add external storages in the personal settings" : "U kunt externe opslag toevogene in persoonlijke instellingen",
     "Name" : "Naam",
     "Storage type" : "Opslagtype",
     "Scope" : "Scope",
@@ -72,6 +73,7 @@ OC.L10N.register(
     "Configuration" : "Configuratie",
     "Available for" : "Beschikbaar voor",
     "Add storage" : "Toevoegen opslag",
+    "Advanced settings" : "Geavanceerde instellingen",
     "Delete" : "Verwijder",
     "Enable User External Storage" : "Externe opslag voor gebruikers activeren",
     "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen"

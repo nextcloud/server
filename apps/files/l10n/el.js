@@ -102,6 +102,7 @@ OC.L10N.register(
     "Folder" : "Φάκελος",
     "Upload" : "Μεταφόρτωση",
     "Cancel upload" : "Ακύρωση μεταφόρτωσης",
+    "No files in here" : "Δεν υπάρχουν αρχεία",
     "Upload some content or sync with your devices!" : "Μεταφόρτωση περιεχομένου ή συγχρονισμός με τις συσκευές σας!",
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
     "Select all" : "Επιλογή όλων",

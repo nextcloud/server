@@ -102,6 +102,7 @@ OC.L10N.register(
     "Folder" : "Cartafol",
     "Upload" : "Enviar",
     "Cancel upload" : "Cancelar o envío",
+    "No files in here" : "Aquí non hai ficheiros",
     "Upload some content or sync with your devices!" : "Envíe algún contido ou sincronice cos seus dispositivos!",
     "No entries found in this folder" : "Non se atoparon entradas neste cartafol",
     "Select all" : "Seleccionar todo",

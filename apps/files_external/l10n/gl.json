@@ -62,6 +62,7 @@
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> A compatibilidade de FTP en PHP non está activada, ou non está instalado. Non é posíbel a montaxe de %s. Consulte co administrador do sistema como instalalo.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> «%s»  non está instalado. Non é posíbel a montaxe de %s. Consulte co administrador do sistema como instalalo.",
     "No external storage configured" : "Non hai un almacenamento externo configurado",
+    "You can add external storages in the personal settings" : "Pode engadir almacenamentos externos nos axustes persoais",
     "Name" : "Nome",
     "Storage type" : "Tipo de almacenamento",
     "Scope" : "Ámbito",
@@ -70,6 +71,7 @@
     "Configuration" : "Configuración",
     "Available for" : "Dispoñíbel para",
     "Add storage" : "Engadir almacenamento",
+    "Advanced settings" : "Axustes avanzados",
     "Delete" : "Eliminar",
     "Enable User External Storage" : "Activar o almacenamento externo do usuario",
     "Allow users to mount the following external storage" : "Permitirlle aos usuarios montar o seguinte almacenamento externo"

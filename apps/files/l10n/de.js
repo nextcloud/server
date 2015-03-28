@@ -102,6 +102,7 @@ OC.L10N.register(
     "Folder" : "Ordner",
     "Upload" : "Hochladen",
     "Cancel upload" : "Upload abbrechen",
+    "No files in here" : "Keine Dateien vorhanden",
     "Upload some content or sync with your devices!" : "Lade Inhalte hoch oder synchronisiere mit Deinen Geräten!",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner",
     "Select all" : "Alle auswählen",
