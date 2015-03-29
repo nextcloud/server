@@ -162,6 +162,7 @@ OC.L10N.register(
     "Performance tuning" : "Suorituskyvyn hienosäätö",
     "Improving the config.php" : "Config.php-tiedoston parantaminen",
     "Theming" : "Teemojen käyttö",
+    "Hardening and security guidance" : "Turvaamis- ja tietoturvaopas",
     "Version" : "Versio",
     "More apps" : "Lisää sovelluksia",
     "Developer documentation" : "Kehittäjädokumentaatio",

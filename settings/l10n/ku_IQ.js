@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Invalid request" : "داواکارى نادروستە",
+    "All" : "هەمووی",
     "Enable" : "چالاککردن",
     "Encryption" : "نهێنیکردن",
     "None" : "هیچ",

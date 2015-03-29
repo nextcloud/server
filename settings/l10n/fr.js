@@ -182,7 +182,7 @@ OC.L10N.register(
     "Desktop client" : "Client de bureau",
     "Android app" : "Application Android",
     "iOS app" : "Application iOS",
-    "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Si vous souhaitez apporter votre support au projet\n        <a href=\"https://owncloud.org/contribute\"\n            target=\"_blank\" rel=\"noreferrer\">rejoignez le développement</a>\n        ou\n        <a href=\"https://owncloud.org/promote\"\n            target=\"_blank\" rel=\"noreferrer\">faîtes passer le mot</a> !",
+    "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Si vous souhaitez apporter votre support au projet\n        <a href=\"https://owncloud.org/contribute\"\n            target=\"_blank\" rel=\"noreferrer\">rejoignez le développement</a>\n        ou\n        <a href=\"https://owncloud.org/promote\"\n            target=\"_blank\" rel=\"noreferrer\">faites passer le mot</a> !",
     "Show First Run Wizard again" : "Revoir la fenêtre d'accueil affichée lors de votre première connexion",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Vous utilisez <strong>%s</strong> des <strong>%s<strong> disponibles",
     "Password" : "Mot de passe",

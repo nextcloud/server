@@ -102,6 +102,7 @@ OC.L10N.register(
     "Folder" : "Carpeta",
     "Upload" : "Subir",
     "Cancel upload" : "Cancelar la subida",
+    "No files in here" : "Aquí no hay archivos",
     "Upload some content or sync with your devices!" : "Suba contenidos o sincronice sus dispositivos.",
     "No entries found in this folder" : "No hay entradas en esta carpeta",
     "Select all" : "Seleccionar todo",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "files",
     {
     "Files" : "په‌ڕگەکان",
+    "Favorites" : "دڵخوازەکان",
     "Download" : "داگرتن",
     "Select" : "دیاریکردنی",
     "Error" : "هه‌ڵه",

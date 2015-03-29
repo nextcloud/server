@@ -169,6 +169,7 @@ OC.L10N.register(
     "Performance tuning" : "Ladění výkonu",
     "Improving the config.php" : "Vylepšení souboru config.php",
     "Theming" : "Vzhledy",
+    "Hardening and security guidance" : "Průvodce vylepšením bezpečnosti",
     "Version" : "Verze",
     "More apps" : "Více aplikací",
     "Developer documentation" : "Vývojářská dokumentace",

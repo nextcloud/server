@@ -169,6 +169,7 @@ OC.L10N.register(
     "Performance tuning" : "Afinación do rendemento",
     "Improving the config.php" : "Mellorando o config.php",
     "Theming" : "Tematización",
+    "Hardening and security guidance" : "Orientacións sobre endurecemento e seguridade",
     "Version" : "Versión",
     "More apps" : "Máis aplicativos",
     "Developer documentation" : "Documentación do desenvolvedor",
