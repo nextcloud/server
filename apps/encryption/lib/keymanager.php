@@ -111,20 +111,21 @@ class KeyManager {
 			'recoveryKeyId');
 		$this->publicShareKeyId = $this->config->getAppValue('encryption',
 			'publicShareKeyId');
+		$this->log = $log;
 
 		if (empty($this->publicShareKeyId)) {
 			$this->publicShareKeyId = 'pubShare_' . substr(md5(time()), 0, 8);
 			$this->config->setAppValue('encryption', 'publicShareKeyId', $this->publicShareKeyId);
 
-			$keypair = $this->crypt->createKeyPair();
+			$keyPair = $this->crypt->createKeyPair();
 
 			// Save public key
 			$this->keyStorage->setSystemUserKey(
 				$this->publicShareKeyId . '.publicKey',
-				$keypair['publicKey']);
+				$keyPair['publicKey']);
 
 			// Encrypt private key empty passphrase
-			$encryptedKey = $this->crypt->symmetricEncryptFileContent($keypair['privateKey'], '');
+			$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'], '');
 			if ($encryptedKey) {
 				$this->keyStorage->setSystemUserKey($this->publicShareKeyId . '.privateKey', $encryptedKey);
 			} else {
@@ -337,7 +338,7 @@ class KeyManager {
 	public function setPassphrase($params, IUserSession $user, Util $util) {
 
 		// Get existing decrypted private key
-		$privateKey = self::$cacheFactory->get('privateKey');
+		$privateKey = self::$session->get('privateKey');
 
 		if ($params['uid'] === $user->getUser()->getUID() && $privateKey) {
 
@@ -372,17 +373,17 @@ class KeyManager {
 
 				$newUserPassword = $params['password'];
 
-				$keypair = $this->crypt->createKeyPair();
+				$keyPair = $this->crypt->createKeyPair();
 
 				// Disable encryption proxy to prevent recursive calls
 				$proxyStatus = \OC_FileProxy::$enabled;
 				\OC_FileProxy::$enabled = false;
 
 				// Save public key
-				$this->setPublicKey($user, $keypair['publicKey']);
+				$this->setPublicKey($user, $keyPair['publicKey']);
 
 				// Encrypt private key with new password
-				$encryptedKey = $this->crypt->symmetricEncryptFileContent($keypair['privateKey'],
+				$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'],
 					$newUserPassword);
 
 				if ($encryptedKey) {
