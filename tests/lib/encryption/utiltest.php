@@ -20,6 +20,9 @@ class UtilTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $config;
+
 	public function setUp() {
 		parent::setUp();
 		$this->view = $this->getMockBuilder('OC\Files\View')
@@ -29,13 +32,18 @@ class UtilTest extends TestCase {
 		$this->userManager = $this->getMockBuilder('OC\User\Manager')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$this->config = $this->getMockBuilder('OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+
 	}
 
 	/**
 	 * @dataProvider providesHeadersForEncryptionModule
 	 */
 	public function testGetEncryptionModuleId($expected, $header) {
-		$u = new Util($this->view, $this->userManager);
+		$u = new Util($this->view, $this->userManager, $this->config);
 		$id = $u->getEncryptionModuleId($header);
 		$this->assertEquals($expected, $id);
 	}
@@ -53,7 +61,7 @@ class UtilTest extends TestCase {
 	 */
 	public function testReadHeader($header, $expected, $moduleId) {
 		$expected['oc_encryption_module'] = $moduleId;
-		$u = new Util($this->view, $this->userManager);
+		$u = new Util($this->view, $this->userManager, $this->config);
 		$result = $u->readHeader($header);
 		$this->assertSameSize($expected, $result);
 		foreach ($expected as $key => $value) {
@@ -70,7 +78,7 @@ class UtilTest extends TestCase {
 		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
 		$em->expects($this->any())->method('getId')->willReturn($moduleId);
 
-		$u = new Util($this->view, $this->userManager);
+		$u = new Util($this->view, $this->userManager, $this->config);
 		$result = $u->createHeader($header, $em);
 		$this->assertEquals($expected, $result);
 	}
@@ -94,7 +102,7 @@ class UtilTest extends TestCase {
 		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
 		$em->expects($this->any())->method('getId')->willReturn('moduleId');
 
-		$u = new Util($this->view, $this->userManager);
+		$u = new Util($this->view, $this->userManager, $this->config);
 		$u->createHeader($header, $em);
 	}
 
@@ -107,7 +115,7 @@ class UtilTest extends TestCase {
 			->method('userExists')
 			->will($this->returnCallback(array($this, 'isExcludedCallback')));
 
-		$u = new Util($this->view, $this->userManager);
+		$u = new Util($this->view, $this->userManager, $this->config);
 
 		$this->assertSame($expected,
 			$u->isExcluded($path)
