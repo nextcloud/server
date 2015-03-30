@@ -79,3 +79,9 @@ $this->create('sharing_external_test_remote', '/testremote')
 		'/apps/files_sharing/api/v1/shares/{id}',
 		array('\OCA\Files_Sharing\API\Local', 'deleteShare'),
 		'files_sharing');
+
+// Register with the capabilities API
+\OC_API::register('get',
+		'/cloud/capabilities',
+		array('OCA\Files_Sharing\Capabilities', 'getCapabilities'),
+		'files_sharing', \OC_API::USER_AUTH);
