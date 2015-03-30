@@ -43,6 +43,9 @@ class Encryption extends Wrapper {
 	/** @var string */
 	protected $internalPath;
 
+	/** @var string */
+	protected $cache;
+
 	/** @var integer */
 	protected $size;
 
@@ -78,6 +81,9 @@ class Encryption extends Wrapper {
 
 	/** @var bool */
 	protected $readOnly;
+
+	/** @var bool */
+	protected $writeFlag;
 
 	/** @var array */
 	protected $expectedContextProperties;
@@ -235,18 +241,18 @@ class Encryption extends Wrapper {
 		while ($count > 0) {
 			$remainingLength = $count;
 			// update the cache of the current block
-			$data = parent::stream_read($this->util->getBlockSize());
-			$decrypted = $this->encryptionModule->decrypt($data);
+			$this->readCache();
 			// determine the relative position in the current block
 			$blockPosition = ($this->position % $this->unencryptedBlockSize);
 			// if entire read inside current block then only position needs to be updated
 			if ($remainingLength < ($this->unencryptedBlockSize - $blockPosition)) {
-				$result .= substr($decrypted, $blockPosition, $remainingLength);
+				$result .= substr($this->cache, $blockPosition, $remainingLength);
 				$this->position += $remainingLength;
 				$count = 0;
 			// otherwise remainder of current block is fetched, the block is flushed and the position updated
 			} else {
-				$result .= substr($decrypted, $blockPosition);
+				$result .= substr($this->cache, $blockPosition);
+				$this->flush();
 				$this->position += ($this->unencryptedBlockSize - $blockPosition);
 				$count -= ($this->unencryptedBlockSize - $blockPosition);
 			}
@@ -266,9 +272,8 @@ class Encryption extends Wrapper {
 		while (strlen($data) > 0) {
 			$remainingLength = strlen($data);
 
-			// read current block
-			$currentBlock = parent::stream_read($this->util->getBlockSize());
-			$decrypted = $this->encryptionModule->decrypt($currentBlock, $this->uid);
+			// set the cache to the current 6126 block
+			$this->readCache();
 
 			// for seekable streams the pointer is moved back to the beginning of the encrypted block
 			// flush will start writing there when the position moves to another block
@@ -277,7 +282,10 @@ class Encryption extends Wrapper {
 			$resultFseek = parent::stream_seek($positionInFile);
 
 			// only allow writes on seekable streams, or at the end of the encrypted stream
-			if ($resultFseek || $positionInFile === $this->size) {
+			if (!($this->readOnly) && ($resultFseek || $positionInFile === $this->size)) {
+
+				// switch the writeFlag so flush() will write the block
+				$this->writeFlag=true;
 
 				// determine the relative position in the current block
 				$blockPosition = ($this->position % $this->unencryptedBlockSize);
@@ -285,28 +293,22 @@ class Encryption extends Wrapper {
 				// if so, overwrite existing data (if any)
 				// update position and liberate $data
 				if ($remainingLength < ($this->unencryptedBlockSize - $blockPosition)) {
-					$decrypted = substr($decrypted, 0, $blockPosition)
-						. $data . substr($decrypted, $blockPosition + $remainingLength);
-					$encrypted = $this->encryptionModule->encrypt($decrypted);
-					parent::stream_write($encrypted);
+					$this->cache = substr($this->cache, 0, $blockPosition)
+						. $data . substr($this->cache, $blockPosition + $remainingLength);
 					$this->position += $remainingLength;
 					$length += $remainingLength;
 					$data = '';
 				// if $data doens't fit the current block, the fill the current block and reiterate
 				// after the block is filled, it is flushed and $data is updatedxxx
 				} else {
-					$decrypted = substr($decrypted, 0, $blockPosition) .
+					$this->cache = substr($this->cache, 0, $blockPosition) .
 						substr($data, 0, $this->unencryptedBlockSize - $blockPosition);
-					$encrypted = $this->encryptionModule->encrypt($decrypted);
-					parent::stream_write($encrypted);
+					$this->flush();
 					$this->position += ($this->unencryptedBlockSize - $blockPosition);
-					$this->size = max($this->size, $this->stream_tell());
 					$length += ($this->unencryptedBlockSize - $blockPosition);
 					$data = substr($data, $this->unencryptedBlockSize - $blockPosition);
 				}
 			} else {
-				$encrypted = $this->encryptionModule->encrypt($data);
-				parent::stream_write($encrypted);
 				$data = '';
 			}
 		}
@@ -346,6 +348,7 @@ class Encryption extends Wrapper {
 			* $this->util->getBlockSize() + $this->util->getHeaderSize();
 
 		if (parent::stream_seek($newFilePosition)) {
+			$this->flush();
 			$this->position = $newPosition;
 			$return = true;
 		}
@@ -359,18 +362,37 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * tell encryption module that we are done and write remaining data to the file
+	 * write block to file
 	 */
 	protected function flush() {
-		$remainingData = $this->encryptionModule->end($this->fullPath);
-		if ($this->readOnly === false) {
-			if(!empty($remainingData)) {
-				parent::stream_write($remainingData);
-			}
+		// write to disk only when writeFlag was set to 1
+		if ($this->writeFlag) {
+			// Disable the file proxies so that encryption is not
+			// automatically attempted when the file is written to disk -
+			// we are handling that separately here and we don't want to
+			// get into an infinite loop
+			$encrypted = $this->encryptionModule->encrypt($this->cache);
+			parent::stream_write($encrypted);
+			$this->writeFlag = false;
 			$this->encryptionStorage->updateUnencryptedSize($this->fullPath, $this->unencryptedSize);
+			$this->size = max($this->size,parent::stream_tell());
 		}
+		// always empty the cache (otherwise readCache() will not fill it with the new block)
+		$this->cache = '';
 	}
 
+	/**
+	 * read block to file
+	 */
+	protected function readCache() {
+		// cache should always be empty string when this function is called
+		// don't try to fill the cache when trying to write at the end of the unencrypted file when it coincides with new block
+		if ($this->cache === '' && !($this->position===$this->unencryptedSize && ($this->position % $this->unencryptedBlockSize)===0)) {
+			// Get the data from the file handle
+			$data = parent::stream_read($this->util->getBlockSize());
+			$this->cache = $this->encryptionModule->decrypt($data);
+		}
+	}
 
 	/**
 	 * write header at beginning of encrypted file
