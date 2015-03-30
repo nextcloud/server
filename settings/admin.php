@@ -135,6 +135,33 @@ if ($request->getServerProtocol()  !== 'https' || !OC_Util::isAnnotationsWorking
 ) {
 	$formsAndMore[] = array('anchor' => 'security-warning', 'section-name' => $l->t('Security & setup warnings'));
 }
+$formsAndMore[] = array('anchor' => 'shareAPI', 'section-name' => $l->t('Sharing'));
+
+// Prioritize fileSharingSettings and files_external and move updater to the version
+$fileSharingSettings = $filesExternal = $updaterAppPanel = '';
+foreach ($forms as $index => $form) {
+	if (strpos($form, 'id="fileSharingSettings"')) {
+		$fileSharingSettings = $form;
+		unset($forms[$index]);
+		continue;
+	}
+	if (strpos($form, 'id="files_external"')) {
+		$filesExternal = $form;
+		unset($forms[$index]);
+		continue;
+	}
+	if (strpos($form, 'class="updater-admin"')) {
+		$updaterAppPanel = $form;
+		unset($forms[$index]);
+		continue;
+	}
+}
+if ($filesExternal) {
+	$formsAndMore[] = array('anchor' => 'files_external', 'section-name' => $l->t('External Storage'));
+}
+$template->assign('fileSharingSettings', $fileSharingSettings);
+$template->assign('filesExternal', $filesExternal);
+$template->assign('updaterAppPanel', $updaterAppPanel);
 
 $formsMap = array_map(function ($form) {
 	if (preg_match('%(<h2[^>]*>.*?</h2>)%i', $form, $regs)) {
@@ -158,11 +185,12 @@ $formsAndMore = array_merge($formsAndMore, $formsMap);
 
 // add bottom hardcoded forms from the template
 $formsAndMore[] = array('anchor' => 'backgroundjobs', 'section-name' => $l->t('Cron'));
-$formsAndMore[] = array('anchor' => 'shareAPI', 'section-name' => $l->t('Sharing'));
-$formsAndMore[] = array('anchor' => 'encryptionAPI', 'section-name' => $l->t('Server Side Encryption'));
 $formsAndMore[] = array('anchor' => 'mail_general_settings', 'section-name' => $l->t('Email Server'));
 $formsAndMore[] = array('anchor' => 'log-section', 'section-name' => $l->t('Log'));
 $formsAndMore[] = array('anchor' => 'admin-tips', 'section-name' => $l->t('Tips & tricks'));
+if ($updaterAppPanel) {
+	$formsAndMore[] = array('anchor' => 'updater', 'section-name' => $l->t('Updates'));
+}
 
 $template->assign('forms', $formsAndMore);
 
