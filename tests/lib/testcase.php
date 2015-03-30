@@ -71,7 +71,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		self::tearDownAfterClassCleanFileCache();
 		self::tearDownAfterClassCleanStrayDataFiles($dataDir);
 		self::tearDownAfterClassCleanStrayHooks();
-		self::tearDownAfterClassCleanProxies();
 
 		parent::tearDownAfterClass();
 	}
@@ -162,16 +161,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	 */
 	static protected function tearDownAfterClassCleanStrayHooks() {
 		\OC_Hook::clear();
-	}
-
-	/**
-	 * Clean up the list of file proxies
-	 *
-	 * Also reenables file proxies, in case a test disabled them
-	 */
-	static protected function tearDownAfterClassCleanProxies() {
-		\OC_FileProxy::$enabled = true;
-		\OC_FileProxy::clearProxies();
 	}
 
 	/**

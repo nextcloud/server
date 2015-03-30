@@ -183,8 +183,6 @@ class Trashbin {
 		$userTrashSize = self::getTrashbinSize($user);
 
 		// disable proxy to prevent recursive calls
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
 		$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
 		try {
 			$sizeOfAddedFiles = $view->filesize('/files/' . $file_path);
@@ -199,7 +197,6 @@ class Trashbin {
 			}
 			\OC_Log::write('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OC_log::ERROR);
 		}
-		\OC_FileProxy::$enabled = $proxyStatus;
 
 		if ($view->file_exists('/files/' . $file_path)) { // failed to delete the original file, abort
 			$view->unlink($trashPath);
@@ -251,10 +248,6 @@ class Trashbin {
 		$size = 0;
 		if (\OCP\App::isEnabled('files_versions')) {
 
-			// disable proxy to prevent recursive calls
-			$proxyStatus = \OC_FileProxy::$enabled;
-			\OC_FileProxy::$enabled = false;
-
 			$user = \OCP\User::getUser();
 			$rootView = new \OC\Files\View('/');
 
@@ -279,9 +272,6 @@ class Trashbin {
 					$rootView->rename($owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $user . '/files_trashbin/versions/' . $filename . '.v' . $v['version'] . '.d' . $timestamp);
 				}
 			}
-
-			// enable proxy
-			\OC_FileProxy::$enabled = $proxyStatus;
 		}
 
 		return $size;
@@ -369,10 +359,6 @@ class Trashbin {
 		$target = \OC\Files\Filesystem::normalizePath('files/' . $location . '/' . $uniqueFilename);
 		$mtime = $view->filemtime($source);
 
-		// disable proxy to prevent recursive calls
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
 		// restore file
 		$restoreResult = $view->rename($source, $target);
 
@@ -393,14 +379,8 @@ class Trashbin {
 				$query->execute(array($user, $filename, $timestamp));
 			}
 
-			// enable proxy
-			\OC_FileProxy::$enabled = $proxyStatus;
-
 			return true;
 		}
-
-		// enable proxy
-		\OC_FileProxy::$enabled = $proxyStatus;
 
 		return false;
 	}
@@ -419,9 +399,6 @@ class Trashbin {
 	private static function restoreVersions(\OC\Files\View $view, $file, $filename, $uniqueFilename, $location, $timestamp) {
 
 		if (\OCP\App::isEnabled('files_versions')) {
-			// disable proxy to prevent recursive calls
-			$proxyStatus = \OC_FileProxy::$enabled;
-			\OC_FileProxy::$enabled = false;
 
 			$user = \OCP\User::getUser();
 			$rootView = new \OC\Files\View('/');
@@ -432,7 +409,6 @@ class Trashbin {
 
 			// file has been deleted in between
 			if (empty($ownerPath)) {
-				\OC_FileProxy::$enabled = $proxyStatus;
 				return false;
 			}
 
@@ -453,9 +429,6 @@ class Trashbin {
 					}
 				}
 			}
-
-			// enable proxy
-			\OC_FileProxy::$enabled = $proxyStatus;
 		}
 	}
 

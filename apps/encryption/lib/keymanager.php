@@ -375,10 +375,6 @@ class KeyManager {
 
 				$keyPair = $this->crypt->createKeyPair();
 
-				// Disable encryption proxy to prevent recursive calls
-				$proxyStatus = \OC_FileProxy::$enabled;
-				\OC_FileProxy::$enabled = false;
-
 				// Save public key
 				$this->setPublicKey($user, $keyPair['publicKey']);
 
@@ -395,8 +391,6 @@ class KeyManager {
 				} else {
 					$this->log->error('Encryption Could not update users encryption password');
 				}
-
-				\OC_FileProxy::$enabled = $proxyStatus;
 			}
 		}
 	}

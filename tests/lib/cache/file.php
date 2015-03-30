@@ -38,7 +38,6 @@ class FileCache extends \Test_Cache {
 		parent::setUp();
 
 		//clear all proxies and hooks so we can do clean testing
-		\OC_FileProxy::clearProxies();
 		\OC_Hook::clear('OC_Filesystem');
 
 		//set up temporary storage
