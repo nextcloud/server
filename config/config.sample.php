@@ -577,6 +577,15 @@ $CONFIG = array(
 'appstoreurl' => 'https://api.owncloud.com/v1',
 
 /**
+ * Whether to experimental apps in the appstore interface
+ *
+ * Experimental apps are not checked for security issues and are new or known
+ * to be unstable and under heavy development. Installing these can cause data
+ * loss or security breaches.
+ */
+'appstore.experimental.enabled' => false,
+
+/**
  * Use the ``apps_paths`` parameter to set the location of the Apps directory,
  * which should be scanned for available apps, and where user-specific apps
  * should be installed from the Apps store. The ``path`` defines the absolute

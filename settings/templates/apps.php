@@ -1,3 +1,27 @@
+<?php
+style('settings', 'settings');
+vendor_style(
+	'core',
+	[
+		'select2/select2',
+	]
+);
+vendor_script(
+	'core',
+	[
+		'handlebars/handlebars',
+		'select2/select2'
+	]
+);
+script(
+	'settings',
+	[
+		'settings',
+		'apps',
+	]
+);
+/** @var array $_ */
+?>
 <script id="categories-template" type="text/x-handlebars-template">
 {{#each this}}
 	<li id="app-category-{{id}}" data-category-id="{{id}}" tabindex="0">
@@ -16,6 +40,18 @@
 </script>
 
 <script id="app-template" type="text/x-handlebars">
+	{{#if firstExperimental}}
+		<div style="background-color: lightyellow; border-top:1px solid black; border-bottom:  1px solid black;">
+			<h2><?php p($l->t('Experimental applications ahead')) ?></h2>
+			<p>
+				<?php p($l->t('Experimental apps are not checked for security ' .
+			'issues and are new or known to be unstable and under heavy ' .
+			'development. Installing these can cause data loss or security ' .
+			'breaches.')) ?>
+			</p>
+		</div>
+	{{/if}}
+
 	<div class="section" id="app-{{id}}">
 	{{#if preview}}
 	<div class="app-image{{#if previewAsIcon}} app-image-icon{{/if}} hidden">
@@ -23,6 +59,9 @@
 	{{/if}}
 	<h2 class="app-name"><a href="{{detailpage}}" target="_blank">{{name}}</a></h2>
 	<div class="app-version"> {{version}}</div>
+	<div class="app-level">
+		{{{level}}}
+	</div>
 	<div class="app-author"><?php p($l->t('by')); ?> {{author}}
 		{{#if licence}}
 		({{licence}}-<?php p($l->t('licensed')); ?>)
@@ -95,6 +134,24 @@
 	<ul id="apps-categories">
 
 	</ul>
+	<div id="app-settings">
+		<div id="app-settings-header">
+			<button class="settings-button" data-apps-slide-toggle="#app-settings-content"></button>
+		</div>
+
+		<div id="app-settings-content" style="color: #c33">
+			<input type="checkbox" id="enable-experimental-apps" <?php if($_['experimentalEnabled']) { print_unescaped('checked="checked"'); }?>>
+			<label for="enable-experimental-apps"><?php p($l->t('Enable experimental apps')) ?></label>
+			<p>
+				<small>
+					<?php p($l->t('Experimental apps are not checked for security ' .
+						'issues and are new or known to be unstable and under heavy ' .
+						'development. Installing these can cause data loss or security ' .
+						'breaches.')) ?>
+				</small>
+			</p>
+		</div>
+	</div>
 </div>
 <div id="app-content">
 	<div id="apps-list" class="icon-loading"></div>

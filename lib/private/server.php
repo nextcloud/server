@@ -391,6 +391,13 @@ class Server extends SimpleContainer implements IServerContainer {
 				new \OC_Defaults()
 			);
 		});
+		$this->registerService('OcsClient', function(Server $c) {
+			return new OCSClient(
+				$this->getHTTPClientService(),
+				$this->getConfig(),
+				$this->getLogger()
+			);
+		});
 	}
 
 	/**
@@ -834,6 +841,13 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getWebRoot() {
 		return $this->webRoot;
+	}
+
+	/**
+	 * @return \OC\OCSClient
+	 */
+	public function getOcsClient() {
+		return $this->query('OcsClient');
 	}
 
 	/**

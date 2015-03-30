@@ -210,6 +210,24 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 	opacity: .5;
 }
 
+.app-level {
+	color: white;
+}
+
+.app-level .official, .app-level .approved {
+	background-color: #E8C805;
+	border-radius: 2px;
+	margin-left: 5px;
+	padding: 3px;
+}
+
+.app-level .experimental {
+	background-color: #F02405;
+	border-radius: 2px;
+	margin-left: 5px;
+	padding: 3px;
+}
+
 #apps-list {
 	position: relative;
 	height: 100%;
@@ -236,6 +254,7 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 .app-name,
 .app-version,
 .app-score,
+.app-level,
 .recommendedapp {
 	display: inline-block;
 }
@@ -261,7 +280,7 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 	white-space: pre-line;
 }
 
-#app-category-2 {
+#app-category-1 {
 	border-bottom: 1px solid #e8e8e8;
 }
 

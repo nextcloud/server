@@ -61,6 +61,7 @@ class OC_App {
 	static private $loadedApps = array();
 	static private $altLogin = array();
 	private static $shippedApps = null;
+	const officialApp = 200;
 
 	/**
 	 * clean the appId
@@ -306,8 +307,13 @@ class OC_App {
 	 * @return int
 	 */
 	public static function downloadApp($app) {
-		$appData= OCSClient::getApplication($app);
-		$download= OCSClient::getApplicationDownload($app, 1);
+		$ocsClient = new OCSClient(
+			\OC::$server->getHTTPClientService(),
+			\OC::$server->getConfig(),
+			\OC::$server->getLogger()
+		);
+		$appData = $ocsClient->getApplication($app);
+		$download= $ocsClient->getApplicationDownload($app);
 		if(isset($download['downloadlink']) and $download['downloadlink']!='') {
 			// Replace spaces in download link without encoding entire URL
 			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
@@ -780,8 +786,9 @@ class OC_App {
 	}
 
 	/**
-	 * Lists all apps, this is used in apps.php
+	 * List all apps, this is used in apps.php
 	 *
+	 * @param bool $onlyLocal
 	 * @return array
 	 */
 	public static function listAllApps($onlyLocal = false) {
@@ -819,8 +826,7 @@ class OC_App {
 
 				if (isset($info['shipped']) and ($info['shipped'] == 'true')) {
 					$info['internal'] = true;
-					$info['internallabel'] = (string)$l->t('Recommended');
-					$info['internalclass'] = 'recommendedapp';
+					$info['level'] = self::officialApp;
 					$info['removable'] = false;
 				} else {
 					$info['internal'] = false;
@@ -845,7 +851,7 @@ class OC_App {
 			}
 		}
 		if ($onlyLocal) {
-			$remoteApps = array();
+			$remoteApps = [];
 		} else {
 			$remoteApps = OC_App::getAppstoreApps();
 		}
@@ -865,34 +871,6 @@ class OC_App {
 		} else {
 			$combinedApps = $appList;
 		}
-		// bring the apps into the right order with a custom sort function
-		usort($combinedApps, function ($a, $b) {
-
-			// priority 1: active
-			if ($a['active'] != $b['active']) {
-				return $b['active'] - $a['active'];
-			}
-
-			// priority 2: shipped
-			$aShipped = (array_key_exists('shipped', $a) && $a['shipped'] === 'true') ? 1 : 0;
-			$bShipped = (array_key_exists('shipped', $b) && $b['shipped'] === 'true') ? 1 : 0;
-			if ($aShipped !== $bShipped) {
-				return ($bShipped - $aShipped);
-			}
-
-			// priority 3: recommended
-			$internalClassA = isset($a['internalclass']) ? $a['internalclass'] : '';
-			$internalClassB = isset($b['internalclass']) ? $b['internalclass'] : '';
-			if ($internalClassA != $internalClassB) {
-				$aTemp = ($internalClassA == 'recommendedapp' ? 1 : 0);
-				$bTemp = ($internalClassB == 'recommendedapp' ? 1 : 0);
-				return ($bTemp - $aTemp);
-			}
-
-			// priority 4: alphabetical
-			return strcasecmp($a['name'], $b['name']);
-
-		});
 
 		return $combinedApps;
 	}
@@ -913,15 +891,24 @@ class OC_App {
 	}
 
 	/**
-	 * get a list of all apps on apps.owncloud.com
-	 *
-	 * @return array|false multi-dimensional array of apps.
-	 *     Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
+	 * Get a list of all apps on the appstore
+	 * @param string $filter
+	 * @param string $category
+	 * @return array|bool  multi-dimensional array of apps.
+	 *                     Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
 	 */
 	public static function getAppstoreApps($filter = 'approved', $category = null) {
-		$categories = array($category);
+		$categories = [$category];
+
+		$ocsClient = new OCSClient(
+			\OC::$server->getHTTPClientService(),
+			\OC::$server->getConfig(),
+			\OC::$server->getLogger()
+		);
+
+
 		if (is_null($category)) {
-			$categoryNames = OCSClient::getCategories();
+			$categoryNames = $ocsClient->getCategories();
 			if (is_array($categoryNames)) {
 				// Check that categories of apps were retrieved correctly
 				if (!$categories = array_keys($categoryNames)) {
@@ -933,34 +920,36 @@ class OC_App {
 		}
 
 		$page = 0;
-		$remoteApps = OCSClient::getApplications($categories, $page, $filter);
-		$app1 = array();
+		$remoteApps = $ocsClient->getApplications($categories, $page, $filter);
+		$apps = [];
 		$i = 0;
 		$l = \OC::$server->getL10N('core');
 		foreach ($remoteApps as $app) {
 			$potentialCleanId = self::getInternalAppIdByOcs($app['id']);
 			// enhance app info (for example the description)
-			$app1[$i] = OC_App::parseAppInfo($app);
-			$app1[$i]['author'] = $app['personid'];
-			$app1[$i]['ocs_id'] = $app['id'];
-			$app1[$i]['internal'] = 0;
-			$app1[$i]['active'] = ($potentialCleanId !== false) ? self::isEnabled($potentialCleanId) : false;
-			$app1[$i]['update'] = false;
-			$app1[$i]['groups'] = false;
-			$app1[$i]['score'] = $app['score'];
-			$app1[$i]['removable'] = false;
+			$apps[$i] = OC_App::parseAppInfo($app);
+			$apps[$i]['author'] = $app['personid'];
+			$apps[$i]['ocs_id'] = $app['id'];
+			$apps[$i]['internal'] = 0;
+			$apps[$i]['active'] = ($potentialCleanId !== false) ? self::isEnabled($potentialCleanId) : false;
+			$apps[$i]['update'] = false;
+			$apps[$i]['groups'] = false;
+			$apps[$i]['score'] = $app['score'];
+			$apps[$i]['removable'] = false;
 			if ($app['label'] == 'recommended') {
-				$app1[$i]['internallabel'] = (string)$l->t('Recommended');
-				$app1[$i]['internalclass'] = 'recommendedapp';
+				$apps[$i]['internallabel'] = (string)$l->t('Recommended');
+				$apps[$i]['internalclass'] = 'recommendedapp';
 			}
 
 			$i++;
 		}
 
-		if (empty($app1)) {
+
+
+		if (empty($apps)) {
 			return false;
 		} else {
-			return $app1;
+			return $apps;
 		}
 	}
 
@@ -1084,7 +1073,12 @@ class OC_App {
 	public static function installApp($app) {
 		$l = \OC::$server->getL10N('core');
 		$config = \OC::$server->getConfig();
-		$appData=OCSClient::getApplication($app);
+		$ocsClient = new OCSClient(
+			\OC::$server->getHTTPClientService(),
+			$config,
+			\OC::$server->getLogger()
+		);
+		$appData = $ocsClient->getApplication($app);
 
 		// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string
 		if (!is_numeric($app)) {

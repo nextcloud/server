@@ -222,8 +222,13 @@ class OC_Installer{
 	 * @throws Exception
 	 */
 	public static function updateAppByOCSId($ocsId) {
-		$appData = OCSClient::getApplication($ocsId);
-		$download = OCSClient::getApplicationDownload($ocsId, 1);
+		$ocsClient = new OCSClient(
+			\OC::$server->getHTTPClientService(),
+			\OC::$server->getConfig(),
+			\OC::$server->getLogger()
+		);
+		$appData = $ocsClient->getApplication($ocsId);
+		$download = $ocsClient->getApplicationDownload($ocsId);
 
 		if (isset($download['downloadlink']) && trim($download['downloadlink']) !== '') {
 			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
@@ -385,8 +390,12 @@ class OC_Installer{
 		$ocsid=OC_Appconfig::getValue( $app, 'ocsid', '');
 
 		if($ocsid<>'') {
-
-			$ocsdata=OCSClient::getApplication($ocsid);
+			$ocsClient = new OCSClient(
+				\OC::$server->getHTTPClientService(),
+				\OC::$server->getConfig(),
+				\OC::$server->getLogger()
+			);
+			$ocsdata = $ocsClient->getApplication($ocsid);
 			$ocsversion= (string) $ocsdata['version'];
 			$currentversion=OC_App::getAppVersion($app);
 			if (version_compare($ocsversion, $currentversion, '>')) {

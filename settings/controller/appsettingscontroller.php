@@ -27,8 +27,13 @@ namespace OC\Settings\Controller;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OC\OCSClient;
+use OCP\App\IAppManager;
 use \OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\ICacheFactory;
+use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IL10N;
 use OCP\IConfig;
@@ -44,6 +49,12 @@ class AppSettingsController extends Controller {
 	private $config;
 	/** @var \OCP\ICache */
 	private $cache;
+	/** @var INavigationManager */
+	private $navigationManager;
+	/** @var IAppManager */
+	private $appManager;
+	/** @var OCSClient */
+	private $ocsClient;
 
 	/**
 	 * @param string $appName
@@ -51,16 +62,53 @@ class AppSettingsController extends Controller {
 	 * @param IL10N $l10n
 	 * @param IConfig $config
 	 * @param ICacheFactory $cache
+	 * @param INavigationManager $navigationManager
+	 * @param IAppManager $appManager
+	 * @param OCSClient $ocsClient
 	 */
 	public function __construct($appName,
 								IRequest $request,
 								IL10N $l10n,
 								IConfig $config,
-								ICacheFactory $cache) {
+								ICacheFactory $cache,
+								INavigationManager $navigationManager,
+								IAppManager $appManager,
+								OCSClient $ocsClient) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
 		$this->cache = $cache->create($appName);
+		$this->navigationManager = $navigationManager;
+		$this->appManager = $appManager;
+		$this->ocsClient = $ocsClient;
+	}
+
+	/**
+	 * Enables or disables the display of experimental apps
+	 * @param bool $state
+	 * @return DataResponse
+	 */
+	public function changeExperimentalConfigState($state) {
+		$this->config->setSystemValue('appstore.experimental.enabled', $state);
+		$this->appManager->clearAppsCache();
+		return new DataResponse();
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @return TemplateResponse
+	 */
+	public function viewApps() {
+		$params = [];
+		$params['experimentalEnabled'] = $this->config->getSystemValue('appstore.experimental.enabled', false);
+		$this->navigationManager->setActiveEntry('core_apps');
+
+		$templateResponse = new TemplateResponse($this->appName, 'apps', $params, 'user');
+		$policy = new ContentSecurityPolicy();
+		$policy->addAllowedImageDomain('https://apps.owncloud.com');
+		$templateResponse->setContentSecurityPolicy($policy);
+
+		return $templateResponse;
 	}
 
 	/**
@@ -77,16 +125,15 @@ class AppSettingsController extends Controller {
 			['id' => 1, 'displayName' => (string)$this->l10n->t('Not enabled')],
 		];
 
-		if(OCSClient::isAppStoreEnabled()) {
-			$categories[] = ['id' => 2, 'displayName' => (string)$this->l10n->t('Recommended')];
+		if($this->ocsClient->isAppStoreEnabled()) {
 			// apps from external repo via OCS
-			$ocs = OCSClient::getCategories();
+			$ocs = $this->ocsClient->getCategories();
 			if ($ocs) {
 				foreach($ocs as $k => $v) {
-					$categories[] = array(
+					$categories[] = [
 						'id' => $k,
 						'displayName' => str_replace('ownCloud ', '', $v)
-					);
+					];
 				}
 			}
 		}
@@ -97,7 +144,8 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
-	 * Get all available categories
+	 * Get all available apps in a category
+	 *
 	 * @param int $category
 	 * @return array
 	 */
@@ -134,16 +182,9 @@ class AppSettingsController extends Controller {
 					});
 					break;
 				default:
-					if ($category === 2) {
-						$apps = \OC_App::getAppstoreApps('approved');
-						if ($apps) {
-							$apps = array_filter($apps, function ($app) {
-								return isset($app['internalclass']) && $app['internalclass'] === 'recommendedapp';
-							});
-						}
-					} else {
-						$apps = \OC_App::getAppstoreApps('approved', $category);
-					}
+					$filter = $this->config->getSystemValue('appstore.experimental.enabled', false) ? 'all' : 'approved';
+
+					$apps = \OC_App::getAppstoreApps($filter, $category);
 					if (!$apps) {
 						$apps = array();
 					} else {
