@@ -270,6 +270,7 @@ class Encryption extends Wrapper {
 
 		if ($this->position === 0) {
 			$this->writeHeader();
+			$this->size+=$this->util->getBlockSize();
 		}
 
 		$length = 0;
