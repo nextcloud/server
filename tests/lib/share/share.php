@@ -1230,6 +1230,7 @@ class Test_Share extends \Test\TestCase {
 		$qb->method('andWhere')->will($this->returnSelf());
 		$qb->method('select')->will($this->returnSelf());
 		$qb->method('from')->will($this->returnSelf());
+		$qb->method('setParameter')->will($this->returnSelf());
 		$qb->method('expr')->willReturn($ex);
 
 		$ret = $this->getMockBuilder('\Doctrine\DBAL\Driver\ResultStatement')
@@ -1284,6 +1285,7 @@ class Test_Share extends \Test\TestCase {
 		$qb->method('set')->will($this->returnSelf());
 		$qb->method('where')->will($this->returnSelf());
 		$qb->method('andWhere')->will($this->returnSelf());
+		$qb->method('setParameter')->will($this->returnSelf());
 		$qb->method('expr')->willReturn($ex);
 
 		$ret = $this->getMockBuilder('\Doctrine\DBAL\Driver\ResultStatement')
@@ -1336,6 +1338,7 @@ class Test_Share extends \Test\TestCase {
 		$qb->method('andWhere')->will($this->returnSelf());
 		$qb->method('select')->will($this->returnSelf());
 		$qb->method('from')->will($this->returnSelf());
+		$qb->method('setParameter')->will($this->returnSelf());
 		$qb->method('expr')->willReturn($ex);
 
 		$ret = $this->getMockBuilder('\Doctrine\DBAL\Driver\ResultStatement')
@@ -1388,6 +1391,7 @@ class Test_Share extends \Test\TestCase {
 		$qb->method('andWhere')->will($this->returnSelf());
 		$qb->method('select')->will($this->returnSelf());
 		$qb->method('from')->will($this->returnSelf());
+		$qb->method('setParameter')->will($this->returnSelf());
 		$qb->method('expr')->willReturn($ex);
 
 		$ret = $this->getMockBuilder('\Doctrine\DBAL\Driver\ResultStatement')
