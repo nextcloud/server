@@ -29,6 +29,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 use OCP\Security\ISecureRandom;
+use OCP\Share;
 
 class Recovery {
 
@@ -54,9 +55,11 @@ class Recovery {
 	 */
 	private $config;
 	/**
-	 * @var IEncryptionKeyStorage
+	 * @var IStorage
 	 */
 	private $keyStorage;
+
+	private $recoveryKeyId;
 
 	/**
 	 * @param IUserSession $user
@@ -90,7 +93,9 @@ class Recovery {
 
 		if ($recoveryKeyId === null) {
 			$recoveryKeyId = $this->random->getLowStrengthGenerator();
-			$appConfig->setAppValue('encryption', 'recoveryKeyId', $recoveryKeyId);
+			$appConfig->setAppValue('encryption',
+				'recoveryKeyId',
+				$recoveryKeyId);
 		}
 
 		$keyManager = $this->keyManager;
@@ -98,7 +103,9 @@ class Recovery {
 		if (!$keyManager->recoveryKeyExists()) {
 			$keyPair = $this->crypt->createKeyPair();
 
-			return $this->keyManager->storeKeyPair($this->user->getUID(), $password, $keyPair);
+			return $this->keyManager->storeKeyPair($this->user->getUID(),
+				$password,
+				$keyPair);
 		}
 
 		if ($keyManager->checkRecoveryPassword($password)) {
@@ -143,6 +150,7 @@ class Recovery {
 
 		return ($recoveryMode === '1');
 	}
+
 	/**
 	 * @param $enabled
 	 * @return bool
@@ -165,12 +173,79 @@ class Recovery {
 	 * @param $recoveryPassword
 	 */
 	public function recoverUsersFiles($recoveryPassword) {
-		// todo: get system private key here
-//		$this->keyManager->get
+		$encryptedKey = $this->keyManager->getSystemPrivateKey();
+
 		$privateKey = $this->crypt->decryptPrivateKey($encryptedKey,
 			$recoveryPassword);
 
 		$this->recoverAllFiles('/', $privateKey);
 	}
+
+	/**
+	 * @param $path
+	 * @param $privateKey
+	 */
+	private function recoverAllFiles($path, $privateKey) {
+		$dirContent = $this->files->getDirectoryContent($path);
+
+		foreach ($dirContent as $item) {
+			// Get relative path from encryption/keyfiles
+			$filePath = substr($item['path'], strlen('encryption/keys'));
+			if ($this->files->is_dir($this->user->getUID() . '/files' . '/' . $filePath)) {
+				$this->recoverAllFiles($filePath . '/', $privateKey);
+			} else {
+				$this->recoverFile($filePath, $privateKey);
+			}
+		}
+
+	}
+
+	/**
+	 * @param $filePath
+	 * @param $privateKey
+	 */
+	private function recoverFile($filePath, $privateKey) {
+		$sharingEnabled = Share::isEnabled();
+		$uid = $this->user->getUID();
+
+		// Find out who, if anyone, is sharing the file
+		if ($sharingEnabled) {
+			$result = Share::getUsersSharingFile($filePath,
+				$uid,
+				true);
+			$userIds = $result['users'];
+			$userIds[] = 'public';
+		} else {
+			$userIds = [
+				$uid,
+				$this->recoveryKeyId
+			];
+		}
+		$filteredUids = $this->filterShareReadyUsers($userIds);
+
+		// Decrypt file key
+		$encKeyFile = $this->keyManager->getFileKey($filePath,
+			$uid);
+
+		$shareKey = $this->keyManager->getShareKey($filePath,
+			$uid);
+
+		$plainKeyFile = $this->crypt->multiKeyDecrypt($encKeyFile,
+			$shareKey,
+			$privateKey);
+
+		// Encrypt the file key again to all users, this time with the new publick keyt for the recovered user
+		$userPublicKeys = $this->keyManager->getPublicKeys($filteredUids['ready']);
+		$multiEncryptionKey = $this->crypt->multiKeyEncrypt($plainKeyFile,
+			$userPublicKeys);
+
+		$this->keyManager->setFileKey($multiEncryptionKey['data'],
+			$uid);
+
+		$this->keyManager->setShareKey($filePath,
+			$uid,
+			$multiEncryptionKey['keys']);
+	}
+
 
 }

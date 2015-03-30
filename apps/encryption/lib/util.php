@@ -26,7 +26,6 @@ namespace OCA\Encryption;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
-use OCA\Files_Versions\Storage;
 use OCP\App;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -40,10 +39,6 @@ class Util {
 	 * @var View
 	 */
 	private $files;
-	/**
-	 * @var Filesystem
-	 */
-	private $filesystem;
 	/**
 	 * @var Crypt
 	 */
@@ -69,39 +64,25 @@ class Util {
 	 * Util constructor.
 	 *
 	 * @param View $files
-	 * @param Filesystem $filesystem
 	 * @param Crypt $crypt
 	 * @param KeyManager $keyManager
 	 * @param ILogger $logger
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 */
-	public function __construct(
-		View $files,
-		Filesystem $filesystem,
-		Crypt $crypt,
-		KeyManager $keyManager,
-		ILogger $logger,
-		IUserSession $userSession,
-		IConfig $config
+	public function __construct(View $files,
+								Crypt $crypt,
+								KeyManager $keyManager,
+								ILogger $logger,
+								IUserSession $userSession,
+								IConfig $config
 	) {
 		$this->files = $files;
-		$this->filesystem = $filesystem;
 		$this->crypt = $crypt;
 		$this->keyManager = $keyManager;
 		$this->logger = $logger;
 		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser() : false;
 		$this->config = $config;
-	}
-
-	/**
-	 * @param $filePath
-	 * @return array
-	 */
-	private function splitPath($filePath) {
-		$normalized = $this->filesystem->normalizePath($filePath);
-
-		return explode('/', $normalized);
 	}
 
 	/**
@@ -154,71 +135,5 @@ class Util {
 		return $this->files->file_exists($uid . '/files');
 	}
 
-	/**
-	 * @param $path
-	 * @param $privateKey
-	 */
-	private function recoverAllFiles($path, $privateKey) {
-		// Todo relocate to storage
-		$dirContent = $this->files->getDirectoryContent($path);
-
-		foreach ($dirContent as $item) {
-			// Get relative path from encryption/keyfiles
-			$filePath = substr($item['path'], strlen('encryption/keys'));
-			if ($this->files->is_dir($this->user->getUID() . '/files' . '/' . $filePath)) {
-				$this->recoverAllFiles($filePath . '/', $privateKey);
-			} else {
-				$this->recoverFile($filePath, $privateKey);
-			}
-		}
-
-	}
-
-	/**
-	 * @param $filePath
-	 * @param $privateKey
-	 */
-	private function recoverFile($filePath, $privateKey) {
-		$sharingEnabled = Share::isEnabled();
-		$uid = $this->user->getUID();
-
-		// Find out who, if anyone, is sharing the file
-		if ($sharingEnabled) {
-			$result = Share::getUsersSharingFile($filePath,
-				$uid,
-				true);
-			$userIds = $result['users'];
-			$userIds[] = 'public';
-		} else {
-			$userIds = [
-				$uid,
-				$this->recoveryKeyId
-			];
-		}
-		$filteredUids = $this->filterShareReadyUsers($userIds);
-
-		// Decrypt file key
-		$encKeyFile = $this->keyManager->getFileKey($filePath,
-			$uid);
-
-		$shareKey = $this->keyManager->getShareKey($filePath,
-			$uid);
-
-		$plainKeyFile = $this->crypt->multiKeyDecrypt($encKeyFile,
-			$shareKey,
-			$privateKey);
-
-		// Encrypt the file key again to all users, this time with the new publick keyt for the recovered user
-		$userPublicKeys = $this->keyManager->getPublicKeys($filteredUids['ready']);
-		$multiEncryptionKey = $this->crypt->multiKeyEncrypt($plainKeyFile,
-			$userPublicKeys);
-
-		$this->keyManager->setFileKey($multiEncryptionKey['data'],
-			$uid);
-
-		$this->keyManager->setShareKey($filePath,
-			$uid,
-			$multiEncryptionKey['keys']);
-	}
 
 }

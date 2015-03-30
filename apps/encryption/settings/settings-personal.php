@@ -20,20 +20,14 @@ $keymanager = new \OCA\Encryption\KeyManager(
 	\OC::$server->getConfig(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getSession(),
-	\OC::$server->getLogger());
+	\OC::$server->getLogger(),);
 
 $user = \OCP\User::getUser();
 
 $view = new \OC\Files\View('/');
 
 $util = new \OCA\Encryption\Util(
-	new \OC\Files\View(),
-	new \OC\Files\Filesystem(),
-	$crypt,
-	$keymanager,
-	\OC::$server->getLogger(),
-	\OC::$server->getUserSession(),
-	\OC::$server->getConfig());
+	new \OC\Files\View(), $crypt, $keymanager, \OC::$server->getLogger(), \OC::$server->getUserSession(), \OC::$server->getConfig());
 
 $session = \OC::$server->getSession();
 

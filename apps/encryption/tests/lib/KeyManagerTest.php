@@ -10,26 +10,64 @@
 namespace OCA\Encryption\Tests;
 
 
+use OC\Files\View;
 use OCA\Encryption\KeyManager;
 use Test\TestCase;
 
 class KeyManagerTest extends TestCase {
 	/**
+	 * @var bool
+	 */
+	private static $trashbinState;
+	/**
 	 * @var KeyManager
 	 */
 	private $instance;
 	/**
-	 * @var
+	 * @var string
 	 */
-	private $userId;
+	private static $testUser = 'test-keyManager-user.dot';
 	/**
 	 * @var
 	 */
 	private $dummyKeys;
+	/**
+	 * @var string
+	 */
+	private $userId;
+	/**
+	 * @var string
+	 */
+	private $userPassword;
+	/**
+	 * @var \OC\Files\View
+	 */
+	private $view;
+	/**
+	 * @var string
+	 */
+	private $dataDir;
 
 	/**
 	 *
 	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		// Remember files_trashbin state
+		self::$trashbinState = \OC_App::isEnabled('files_trashbin');
+
+		// We dont want tests with app files_trashbin enabled
+		\OC_App::disable('files_trashbin');
+
+		$userManager = \OC::$server->getUserManager();
+		$userManager->createUser(self::$testUser,
+			self::$testUser);
+
+		// Create test user
+		parent::loginAsUser(self::$testUser);
+	}
+
 	public function setUp() {
 		parent::setUp();
 		$keyStorageMock = $this->getMock('OCP\Encryption\Keys\IStorage');
@@ -47,17 +85,51 @@ class KeyManagerTest extends TestCase {
 			->will($this->returnValue('admin'));
 		$sessionMock = $this->getMock('OCP\ISession');
 		$logMock = $this->getMock('OCP\ILogger');
-		$this->userId = 'admin';
+		$recoveryMock = $this->getMockBuilder('OCA\Encryption\Recovery')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->instance = new KeyManager($keyStorageMock,
 			$cryptMock,
 			$configMock,
 			$userMock,
 			$sessionMock,
-			$logMock);
+			$logMock,
+			$recoveryMock);
 
-		$this->dummyKeys = ['public' => 'randomweakpublickeyhere',
-			'private' => 'randomweakprivatekeyhere'];
+		self::loginAsUser(self::$testUser);
+		$this->userId = self::$testUser;
+		$this->userPassword = self::$testUser;
+		$this->view = new View('/');
+
+		$this->dummyKeys = [
+			'privateKey' => 'superinsecureprivatekey',
+			'publicKey' => 'superinsecurepublickey'
+		];
+
+
+		$userManager = \OC::$server->getUserManager();
+
+		$userHome = $userManager->get($this->userId)->getHome();
+
+		$this->dataDir = str_replace('/' . $this->userId, '', $userHome);
 	}
+
+	protected function tearDown() {
+		parent::tearDown();
+		$this->view->deleteAll('/' . self::$testUser . '/files_encryption/keys');
+	}
+
+	public static function tearDownAfterClass() {
+		parent::tearDownAfterClass();
+		// Cleanup Test user
+		\OC::$server->getUserManager()->get(self::$testUser)->delete();
+		// Reset app files_trashbin
+		if (self::$trashbinState) {
+			\OC_App::enable('files_trashbin');
+		}
+	}
+
 
 	/**
 	 * @expectedException \OC\Encryption\Exceptions\PrivateKeyMissingException
@@ -93,7 +165,7 @@ class KeyManagerTest extends TestCase {
 	public function testSetPublicKey() {
 
 		$this->assertTrue($this->instance->setPublicKey($this->userId,
-			$this->dummyKeys['public']));
+			$this->dummyKeys['publicKey']));
 	}
 
 	/**
@@ -101,7 +173,7 @@ class KeyManagerTest extends TestCase {
 	 */
 	public function testSetPrivateKey() {
 		$this->assertTrue($this->instance->setPrivateKey($this->userId,
-			$this->dummyKeys['private']));
+			$this->dummyKeys['privateKey']));
 	}
 
 	/**

@@ -27,8 +27,6 @@ use OC\Encryption\Exceptions\PrivateKeyMissingException;
 use OC\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\Encryption\Keys\IStorage;
-use OCP\ICache;
-use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserSession;
@@ -86,6 +84,10 @@ class KeyManager {
 	 * @var ILogger
 	 */
 	private $log;
+	/**
+	 * @var Recovery
+	 */
+	private $recovery;
 
 	/**
 	 * @param IStorage $keyStorage
@@ -94,6 +96,7 @@ class KeyManager {
 	 * @param IUserSession $userSession
 	 * @param \OCP\ISession $session
 	 * @param ILogger $log
+	 * @param Recovery $recovery
 	 */
 	public function __construct(
 		IStorage $keyStorage,
@@ -101,7 +104,9 @@ class KeyManager {
 		IConfig $config,
 		IUserSession $userSession,
 		ISession $session,
-		ILogger $log) {
+		ILogger $log,
+		Recovery $recovery
+	) {
 
 		self::$session = $session;
 		$this->keyStorage = $keyStorage;
@@ -115,7 +120,9 @@ class KeyManager {
 
 		if (empty($this->publicShareKeyId)) {
 			$this->publicShareKeyId = 'pubShare_' . substr(md5(time()), 0, 8);
-			$this->config->setAppValue('encryption', 'publicShareKeyId', $this->publicShareKeyId);
+			$this->config->setAppValue('encryption',
+				'publicShareKeyId',
+				$this->publicShareKeyId);
 
 			$keyPair = $this->crypt->createKeyPair();
 
@@ -125,9 +132,11 @@ class KeyManager {
 				$keyPair['publicKey']);
 
 			// Encrypt private key empty passphrase
-			$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'], '');
+			$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'],
+				'');
 			if ($encryptedKey) {
-				$this->keyStorage->setSystemUserKey($this->publicShareKeyId . '.privateKey', $encryptedKey);
+				$this->keyStorage->setSystemUserKey($this->publicShareKeyId . '.privateKey',
+					$encryptedKey);
 			} else {
 				$this->log->error('Could not create public share keys');
 			}
@@ -136,6 +145,7 @@ class KeyManager {
 
 		$this->keyId = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : false;
 		$this->log = $log;
+		$this->recovery = $recovery;
 	}
 
 	/**
@@ -386,7 +396,7 @@ class KeyManager {
 					$this->setPrivateKey($user, $encryptedKey);
 
 					if ($recoveryPassword) { // if recovery key is set we can re-encrypt the key files
-						$util->recoverUsersFiles($recoveryPassword);
+						$this->recovery->recoverUsersFiles($recoveryPassword);
 					}
 				} else {
 					$this->log->error('Encryption Could not update users encryption password');

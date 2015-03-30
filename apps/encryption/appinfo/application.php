@@ -127,7 +127,8 @@ class Application extends \OCP\AppFramework\App {
 					$server->getConfig(),
 					$server->getUserSession(),
 					$server->getSession(),
-					$server->getLogger()
+					$server->getLogger(),
+					$c->query('Recovery')
 				);
 			});
 
@@ -168,13 +169,7 @@ class Application extends \OCP\AppFramework\App {
 			function (IAppContainer $c) {
 				$server = $c->getServer();
 
-				return new Util(new View(),
-					new Filesystem(),
-					$c->query('Crypt'),
-					$c->query('KeyManager'),
-					$server->getLogger(),
-					$server->getUserSession(),
-					$server->getConfig()
+				return new Util(new View(), $c->query('Crypt'), $c->query('KeyManager'), $server->getLogger(), $server->getUserSession(), $server->getConfig()
 				);
 			});
 
