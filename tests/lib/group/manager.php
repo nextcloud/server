@@ -448,7 +448,7 @@ class Manager extends \Test\TestCase {
 		$userBackend = $this->getMock('\OC_User_Backend');
 
 		$userManager->expects($this->any())
-			->method('search')
+			->method('searchDisplayName')
 			->with('user3')
 			->will($this->returnCallback(function($search, $limit, $offset) use ($userBackend) {
                                 switch($offset) {
@@ -513,7 +513,7 @@ class Manager extends \Test\TestCase {
 		$userBackend = $this->getMock('\OC_User_Backend');
 
 		$userManager->expects($this->any())
-			->method('search')
+			->method('searchDisplayName')
 			->with('user3')
 			->will($this->returnCallback(function($search, $limit, $offset) use ($userBackend) {
                                 switch($offset) {
@@ -580,7 +580,7 @@ class Manager extends \Test\TestCase {
 		$userBackend = $this->getMock('\OC_User_Backend');
 
 		$userManager->expects($this->any())
-			->method('search')
+			->method('searchDisplayName')
 			->with('user3')
 			->will($this->returnCallback(function($search, $limit, $offset) use ($userBackend) {
                                 switch($offset) {
