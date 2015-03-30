@@ -35,6 +35,8 @@
 
 namespace OC\Connector\Sabre;
 
+use OC\Encryption\Exceptions\GenericEncryptionException;
+
 class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 
 	/**
@@ -125,7 +127,7 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 		} catch (\OCP\Files\LockNotAcquiredException $e) {
 			// the file is currently being written to by another process
 			throw new \OC\Connector\Sabre\Exception\FileLocked($e->getMessage(), $e->getCode(), $e);
-		} catch (\OCA\Files_Encryption\Exception\EncryptionException $e) {
+		} catch (GenericEncryptionException $e) {
 			throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to write file contents: ".$e->getMessage());

@@ -18,7 +18,6 @@ function enableApp($app) {
 
 enableApp('files_sharing');
 enableApp('files_trashbin');
-enableApp('files_encryption');
 enableApp('encryption');
 enableApp('user_ldap');
 enableApp('files_versions');

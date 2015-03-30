@@ -207,7 +207,7 @@ class OC_App {
 				self::$shippedApps = json_decode(file_get_contents($shippedJson), true);
 				self::$shippedApps = self::$shippedApps['shippedApps'];
 			} else {
-				self::$shippedApps = ['files', 'files_encryption', 'files_external',
+				self::$shippedApps = ['files', 'encryption', 'files_external',
 					'files_sharing', 'files_trashbin', 'files_versions', 'provisioning_api',
 					'user_ldap', 'user_webdavauth'];
 			}

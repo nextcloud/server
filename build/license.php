@@ -166,7 +166,7 @@ if (isset($argv[1])) {
 } else {
 	$licenses->exec([
 		'../apps/files',
-		'../apps/files_encryption',
+		'../apps/encryption',
 		'../apps/files_external',
 		'../apps/files_sharing',
 		'../apps/files_trashbin',

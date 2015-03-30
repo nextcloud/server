@@ -743,9 +743,6 @@ class OC {
 			);
 			\OCP\Util::connectHook('OCP\Share', 'post_shared', $updater, 'postShared');
 			\OCP\Util::connectHook('OCP\Share', 'post_unshare', $updater, 'postUnshared');
-
-			//\OCP\Util::connectHook('OC_Filesystem', 'post_umount', 'OCA\Files_Encryption\Hooks', 'postUnmount');
-			//\OCP\Util::connectHook('OC_Filesystem', 'umount', 'OCA\Files_Encryption\Hooks', 'preUnmount');
 		}
 	}
 

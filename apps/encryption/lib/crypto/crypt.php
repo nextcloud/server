@@ -25,20 +25,12 @@ namespace OCA\Encryption\Crypto;
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Exceptions\EncryptionFailedException;
 use OC\Encryption\Exceptions\GenericEncryptionException;
-use OCA\Encryption\KeyManager;
-use OCA\Files_Encryption\Exception\MultiKeyDecryptException;
-use OCA\Files_Encryption\Exception\MultiKeyEncryptException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
 
 class Crypt {
-
-	const ENCRYPTION_UKNOWN_ERROR = -1;
-	const ENCRYPTION_NOT_INIALIZED_ERROR = 1;
-	const ENCRYPTIION_PRIVATE_KEY_NOT_VALID_ERROR = 2;
-	const ENCRYPTION_NO_SHARE_KEY_FOUND = 3;
 
 	const BLOCKSIZE = 8192;
 	const DEFAULT_CIPHER = 'AES-256-CFB';
@@ -97,7 +89,7 @@ class Crypt {
 				'privateKey' => $privateKey
 			];
 		}
-		$log->error('Encryption library couldn\'t export users private key, please check your servers openSSL configuration.' . $user->getUID(),
+		$log->error('Encryption library couldn\'t export users private key, please check your servers openSSL configuration.' . $this->user->getUID(),
 			['app' => 'encryption']);
 		if (openssl_error_string()) {
 			$log->error('Encryption Library:' . openssl_error_string(),
