@@ -62,6 +62,7 @@
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примечание:</b> Поддержка FTP в PHP не включена или не установлена. Монтирование %s невозможно. Пожалуйста, обратитесь к системному администратору.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Примечание:</b> \"%s\" не установлен. Монтирование %s невозможно. Пожалуйста, обратитесь к системному администратору.",
     "No external storage configured" : "Нет внешних хранилищ",
+    "You can add external storages in the personal settings" : "Вы можете добавить внешние накопители в личных настройках",
     "Name" : "Имя",
     "Storage type" : "Тип хранилища",
     "Scope" : "Область",
@@ -70,6 +71,7 @@
     "Configuration" : "Конфигурация",
     "Available for" : "Доступно для",
     "Add storage" : "Добавить хранилище",
+    "Advanced settings" : "Расширенные настройки",
     "Delete" : "Удалить",
     "Enable User External Storage" : "Включить пользовательские внешние хранилища",
     "Allow users to mount the following external storage" : "Разрешить пользователям монтировать следующие сервисы хранения данных"

@@ -1,4 +1,10 @@
 { "translations": {
+    "Cannot write into \"config\" directory!" : "¡No se puede escribir en el directorio «config»!",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "¡No se puede escribir en el directorio «config»!\n\nNormalmente esto se soluciona dándole al servidor web acceso para escribir en el directorio config. \n\nConfiguración de muestra detectado",
+    "See %s" : "ver %s",
+    "This can usually be fixed by %sgiving the webserver write access to the config directory%s." : "Normalmente esto se soluciona %s dándole al servidor web acceso para escribir en el directorio config %s",
+    "Sample configuration detected" : "Configuración de muestra detectada",
+    "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Se detectó que la configuración de muestra se había copiado. Esto puede romper su instalacón y no está respaldado. Por favor lea la documentación antes de realizar cambios en la config.php",
     "Help" : "Ayuda",
     "Personal" : "Personal",
     "Users" : "Usuarios",

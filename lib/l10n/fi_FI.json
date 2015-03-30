@@ -117,6 +117,8 @@
     "Error occurred while checking PostgreSQL version" : "Virhe PostgreSQL:n versiota tarkistaessa",
     "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" : "Varmista, että käytössäsi on PostgreSQL >= 9 tai tarkista lokit saadaksesi lisätietoja virheestä",
     "Data directory (%s) is readable by other users" : "Datakansio (%s) on muiden käyttäjien luettavissa",
+    "Data directory (%s) must be an absolute path" : "Datahakemiston (%s) tulee olla absoluuttinen polku",
+    "Check the value of \"datadirectory\" in your configuration" : "Tarkista \"datadirectory\"-arvo asetuksistasi",
     "Data directory (%s) is invalid" : "Datakansio (%s) on virheellinen",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Varmista, että datakansion juuressa on tiedosto \".ocdata\".",
     "Could not obtain lock type %d on \"%s\"." : "Lukitustapaa %d ei saatu kohteelle \"%s\"."

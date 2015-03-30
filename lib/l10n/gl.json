@@ -139,6 +139,8 @@
     "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" : "Asegúrese de que dispón do PostgreSQL >= 9 ou comprobe os rexistros para obter máis información sobre este erro",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Cambie os permisos a 0770 para que o directorio non poida seren listado por outros usuarios.",
     "Data directory (%s) is readable by other users" : "O directorio de datos (%s) é lexíbel por outros usuarios",
+    "Data directory (%s) must be an absolute path" : "O directorio de datos (%s) debe ser unha ruta absoluta",
+    "Check the value of \"datadirectory\" in your configuration" : "Comprobe o valor de «datadirectory» na configuración",
     "Data directory (%s) is invalid" : "O directorio de datos (%s) non é correcto",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Comprobe que o directorio de datos conten un ficheiro «.ocdata» na súa raíz.",
     "Could not obtain lock type %d on \"%s\"." : "Non foi posíbel obter un bloqueo do tipo %d en «%s»."

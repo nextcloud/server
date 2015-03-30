@@ -139,6 +139,8 @@
     "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" : "Убедитесь что версия PostgreSQL >= 9 или проверьте журналы для получения дополнительной информацией об ошибке",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Измените права доступа на 0770, чтобы другие пользователи не могли получить список файлов этого каталога.",
     "Data directory (%s) is readable by other users" : "Каталог данных (%s) доступен для чтения другим пользователям",
+    "Data directory (%s) must be an absolute path" : "Директория данных (%s) должна иметь абсолютный путь",
+    "Check the value of \"datadirectory\" in your configuration" : "Проверьте значение \"datadirectory\" в настройках.",
     "Data directory (%s) is invalid" : "Каталог данных (%s) не верен",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Убедитесь, что файл \".ocdata\" присутствует в корне каталога данных.",
     "Could not obtain lock type %d on \"%s\"." : "Не удалось получить блокировку типа %d для \"%s\""
