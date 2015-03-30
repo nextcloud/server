@@ -205,6 +205,8 @@ class Encryption extends Wrapper {
 		$this->loadContext('ocencryption');
 
 		$this->position = 0;
+		$this->cache = '';
+		$this->writeFlag = false;
 		$this->unencryptedBlockSize = $this->encryptionModule->getUnencryptedBlockSize();
 
 		if (
