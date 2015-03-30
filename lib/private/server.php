@@ -414,7 +414,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getEncryptionKeyStorage($encryptionModuleId) {
 		$view = new \OC\Files\View();
-		$util = new \OC\Encryption\Util($view, \OC::$server->getUserManager());
+		$util = new \OC\Encryption\Util($view, \OC::$server->getUserManager(), \OC::$server->getConfig());
 		return $this->query('EncryptionKeyStorageFactory')->get($encryptionModuleId, $view, $util);
 	}
 

@@ -66,7 +66,10 @@ class Util {
 	protected $excludedPaths;
 
 	/**
-	 * @param \OC\Files\View $view root view
+	 *
+	 * @param \OC\Files\View $view
+	 * @param \OC\User\Manager $userManager
+	 * @param IConfig $config
 	 */
 	public function __construct(
 		\OC\Files\View $view,
