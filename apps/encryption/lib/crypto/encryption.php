@@ -46,16 +46,16 @@ class Encryption implements IEncryptionModule {
 	/** @var boolean */
 	private $isWriteOperation;
 
-	/** @var \OC\Encryption\Util */
+	/** @var \OCA\Encryption\Util */
 	private $util;
 
 	/**
 	 *
 	 * @param \OCA\Encryption\Crypto\Crypt $crypt
 	 * @param KeyManager $keymanager
-	 * @param \OC\Encryption\Util $util
+	 * @param \OCA\Encryption\Util $util
 	 */
-	public function __construct(Crypt $crypt, KeyManager $keymanager, \OC\Encryption\Util $util) {
+	public function __construct(Crypt $crypt, KeyManager $keymanager, \OCA\Encryption\Util $util) {
 		$this->crypt = $crypt;
 		$this->keymanager = $keymanager;
 		$this->util = $util;
