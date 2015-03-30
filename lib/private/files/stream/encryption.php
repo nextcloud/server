@@ -75,7 +75,7 @@ class Encryption extends Wrapper {
 	/**
 	 * user who perform the read/write operation null for public access
 	 *
-	 *  @var string
+	 * @var string
 	 */
 	protected $uid;
 
@@ -112,10 +112,10 @@ class Encryption extends Wrapper {
 	 * @param string $internalPath relative to mount point
 	 * @param string $fullPath relative to data/
 	 * @param array $header
-	 * @param sting $uid
+	 * @param string $uid
 	 * @param \OCP\Encryption\IEncryptionModule $encryptionModule
 	 * @param \OC\Files\Storage\Storage $storage
-	 * @param OC\Files\Storage\Wrapper\Encryption $encStorage
+	 * @param \OC\Files\Storage\Wrapper\Encryption $encStorage
 	 * @param \OC\Encryption\Util $util
 	 * @param string $mode
 	 * @param int $size
@@ -125,9 +125,14 @@ class Encryption extends Wrapper {
 	 * @throws \BadMethodCallException
 	 */
 	public static function wrap($source, $internalPath, $fullPath, array $header,
-		$uid, \OCP\Encryption\IEncryptionModule $encryptionModule,
-		\OC\Files\Storage\Storage $storage, \OC\Files\Storage\Wrapper\Encryption $encStorage,
-		\OC\Encryption\Util $util, $mode, $size, $unencryptedSize) {
+								$uid,
+								\OCP\Encryption\IEncryptionModule $encryptionModule,
+								\OC\Files\Storage\Storage $storage,
+								\OC\Files\Storage\Wrapper\Encryption $encStorage,
+								\OC\Encryption\Util $util,
+								$mode,
+								$size,
+								$unencryptedSize) {
 
 		$context = stream_context_create(array(
 			'ocencryption' => array(
@@ -249,7 +254,7 @@ class Encryption extends Wrapper {
 				$result .= substr($this->cache, $blockPosition, $remainingLength);
 				$this->position += $remainingLength;
 				$count = 0;
-			// otherwise remainder of current block is fetched, the block is flushed and the position updated
+				// otherwise remainder of current block is fetched, the block is flushed and the position updated
 			} else {
 				$result .= substr($this->cache, $blockPosition);
 				$this->flush();
@@ -285,7 +290,7 @@ class Encryption extends Wrapper {
 			if (!($this->readOnly) && ($resultFseek || $positionInFile === $this->size)) {
 
 				// switch the writeFlag so flush() will write the block
-				$this->writeFlag=true;
+				$this->writeFlag = true;
 
 				// determine the relative position in the current block
 				$blockPosition = ($this->position % $this->unencryptedBlockSize);
@@ -298,8 +303,8 @@ class Encryption extends Wrapper {
 					$this->position += $remainingLength;
 					$length += $remainingLength;
 					$data = '';
-				// if $data doens't fit the current block, the fill the current block and reiterate
-				// after the block is filled, it is flushed and $data is updatedxxx
+					// if $data doesn't fit the current block, the fill the current block and reiterate
+					// after the block is filled, it is flushed and $data is updatedxxx
 				} else {
 					$this->cache = substr($this->cache, 0, $blockPosition) .
 						substr($data, 0, $this->unencryptedBlockSize - $blockPosition);
@@ -358,6 +363,7 @@ class Encryption extends Wrapper {
 
 	public function stream_close() {
 		$this->flush();
+		$this->encryptionStorage->updateUnencryptedSize($this->fullPath, $this->unencryptedSize);
 		return parent::stream_close();
 	}
 
@@ -374,8 +380,7 @@ class Encryption extends Wrapper {
 			$encrypted = $this->encryptionModule->encrypt($this->cache);
 			parent::stream_write($encrypted);
 			$this->writeFlag = false;
-			$this->encryptionStorage->updateUnencryptedSize($this->fullPath, $this->unencryptedSize);
-			$this->size = max($this->size,parent::stream_tell());
+			$this->size = max($this->size, parent::stream_tell());
 		}
 		// always empty the cache (otherwise readCache() will not fill it with the new block)
 		$this->cache = '';
@@ -387,7 +392,7 @@ class Encryption extends Wrapper {
 	protected function readCache() {
 		// cache should always be empty string when this function is called
 		// don't try to fill the cache when trying to write at the end of the unencrypted file when it coincides with new block
-		if ($this->cache === '' && !($this->position===$this->unencryptedSize && ($this->position % $this->unencryptedBlockSize)===0)) {
+		if ($this->cache === '' && !($this->position === $this->unencryptedSize && ($this->position % $this->unencryptedBlockSize) === 0)) {
 			// Get the data from the file handle
 			$data = parent::stream_read($this->util->getBlockSize());
 			$this->cache = $this->encryptionModule->decrypt($data);
