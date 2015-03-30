@@ -173,6 +173,18 @@ interface IServerContainer {
 	function getL10N($app, $lang = null);
 
 	/**
+	 * @return \OC\Encryption\Manager
+	 */
+	function getEncryptionManager();
+
+	/**
+	 * @param string $encryptionModuleId encryption module ID
+	 *
+	 * @return \OCP\Encryption\Keys\IStorage
+	 */
+	function getEncryptionKeyStorage($encryptionModuleId);
+
+	/**
 	 * Returns the URL generator
 	 *
 	 * @return \OCP\IURLGenerator

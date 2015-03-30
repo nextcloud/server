@@ -1,6 +1,8 @@
 <?php
-	/** @var array $_ */
-	/** @var OC_L10N $l */
+/** @var array $_ */
+/** @var OC_L10N $l */
+script('encryption', 'settings-admin');
+script('core', 'multiselect');
 ?>
 <form id="encryption" class="section">
 	<h2><?php p($l->t('ownCloud basic encryption module')); ?></h2>

@@ -17,7 +17,7 @@ $(document).ready(function(){
 			var confirmPassword = $( '#repeatEncryptionRecoveryPassword' ).val();
 			OC.msg.startSaving('#encryptionSetRecoveryKey .msg');
 			$.post(
-				OC.filePath( 'files_encryption', 'ajax', 'adminrecovery.php' )
+				OC.generateUrl('/apps/encryption/ajax/adminRecovery')
 				, { adminEnableRecovery: recoveryStatus, recoveryPassword: recoveryPassword, confirmPassword: confirmPassword }
 				,  function( result ) {
 					OC.msg.finishedSaving('#encryptionSetRecoveryKey .msg', result);
@@ -44,7 +44,7 @@ $(document).ready(function(){
 		var confirmNewPassword = $('#repeatedNewEncryptionRecoveryPassword').val();
 		OC.msg.startSaving('#encryptionChangeRecoveryKey .msg');
 		$.post(
-		OC.filePath( 'files_encryption', 'ajax', 'changeRecoveryPassword.php' )
+		OC.filePath( 'encryption', 'ajax', 'changeRecoveryPassword.php' )
 			, { oldPassword: oldRecoveryPassword, newPassword: newRecoveryPassword, confirmPassword: confirmNewPassword }
 			,  function( data ) {
 					OC.msg.finishedSaving('#encryptionChangeRecoveryKey .msg', data);

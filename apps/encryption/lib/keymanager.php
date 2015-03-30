@@ -193,7 +193,7 @@ class KeyManager {
 
 		if ($encryptedKey) {
 			$this->setPrivateKey($uid, $encryptedKey);
-			$this->config->setAppValue('encryption', 'recoveryAdminEnabled', 1);
+			$this->config->setAppValue('encryption', 'recoveryAdminEnabled', 0);
 			return true;
 		}
 		return false;

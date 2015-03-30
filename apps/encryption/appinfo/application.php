@@ -36,7 +36,7 @@ use OCP\Encryption\IManager;
 use OCP\IConfig;
 
 
-class Encryption extends \OCP\AppFramework\App {
+class Application extends \OCP\AppFramework\App {
 	/**
 	 * @var IManager
 	 */
@@ -49,19 +49,11 @@ class Encryption extends \OCP\AppFramework\App {
 	/**
 	 * @param $appName
 	 * @param array $urlParams
-	 * @param IManager $encryptionManager
-	 * @param IConfig $config
 	 */
-	public function __construct($appName, $urlParams = array(), IManager $encryptionManager, IConfig $config) {
-		parent::__construct($appName, $urlParams);
-		$this->encryptionManager = $encryptionManager;
-		$this->config = $config;
-	}
-
-	/**
-	 *
-	 */
-	public function boot() {
+	public function __construct($urlParams = array()) {
+		parent::__construct('encryption', $urlParams);
+		$this->encryptionManager = \OC::$server->getEncryptionManager();
+		$this->config = \OC::$server->getConfig();
 		$this->registerServices();
 		$this->registerEncryptionModule();
 		$this->registerHooks();
@@ -152,6 +144,16 @@ class Encryption extends \OCP\AppFramework\App {
 					$server->getConfig(),
 					$server->getEncryptionKeyStorage(\OCA\Encryption\Crypto\Encryption::ID));
 			});
+
+			$container->registerService('RecoveryController', function (IAppContainer $c) {
+			$server = $c->getServer();
+			return new \OCA\Encryption\Controller\RecoveryController(
+				$c->getAppName(),
+				$server->getRequest(),
+				$server->getConfig(),
+				$server->getL10N($c->getAppName()),
+				$c->query('Recovery'));
+		});
 
 		$container->registerService('UserSetup',
 			function (IAppContainer $c) {

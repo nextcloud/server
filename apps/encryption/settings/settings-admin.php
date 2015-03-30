@@ -18,7 +18,4 @@ $recoveryAdminEnabled = \OC::$server->getConfig()->getAppValue('encryption', 're
 $tmpl->assign('recoveryEnabled', $recoveryAdminEnabled);
 $tmpl->assign('initStatus', KeyManager::$session->get('initStatus'));
 
-\OCP\Util::addscript('files_encryption', 'settings-admin');
-\OCP\Util::addscript('core', 'multiselect');
-
 return $tmpl->fetchPage();

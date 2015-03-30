@@ -19,15 +19,10 @@
  *
  */
 
-use OCA\Encryption\AppInfo\Encryption;
+namespace OCA\Encryption\AppInfo;
 
-if (!OC::$CLI) {
+if (!\OC::$CLI) {
 	$di = \OC::$server;
-	$app = new Encryption('encryption',
-		[],
-		$di->getEncryptionManager(),
-		$di->getConfig());
-
-	$app->boot();
+	$app = new Application();
 }
 
