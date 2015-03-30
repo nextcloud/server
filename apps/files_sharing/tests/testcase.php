@@ -45,7 +45,6 @@ abstract class TestCase extends \Test\TestCase {
 
 	const TEST_FILES_SHARING_API_GROUP1 = "test-share-group1";
 
-	public static $stateFilesEncryption;
 	public $filename;
 	public $data;
 	/**
@@ -57,12 +56,6 @@ abstract class TestCase extends \Test\TestCase {
 
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-
-		// remember files_encryption state
-		self::$stateFilesEncryption = \OC_App::isEnabled('files_encryption');
-
-		//we don't want to tests with app files_encryption enabled
-		\OC_App::disable('files_encryption');
 
 		// reset backend
 		\OC_User::clearBackends();
@@ -100,8 +93,6 @@ abstract class TestCase extends \Test\TestCase {
 
 		$this->data = 'foobar';
 		$this->view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
-
-		$this->assertFalse(\OC_App::isEnabled('files_encryption'));
 	}
 
 	protected function tearDown() {
@@ -119,13 +110,6 @@ abstract class TestCase extends \Test\TestCase {
 
 		// delete group
 		\OC_Group::deleteGroup(self::TEST_FILES_SHARING_API_GROUP1);
-
-		// reset app files_encryption
-		if (self::$stateFilesEncryption) {
-			\OC_App::enable('files_encryption');
-		} else {
-			\OC_App::disable('files_encryption');
-		}
 
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');

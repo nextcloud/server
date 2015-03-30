@@ -35,7 +35,6 @@ $util = new \OCA\Encryption\Util(
 	\OC::$server->getUserSession(),
 	\OC::$server->getConfig());
 
-$session = new \OCA\Files_Encryption\Session($view);
 $session = \OC::$server->getSession();
 
 $privateKeySet = $session->get('privateKey') !== false;

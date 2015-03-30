@@ -190,7 +190,7 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 		} else {
 			try {
 				return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
-			} catch (\OCA\Files_Encryption\Exception\EncryptionException $e) {
+			} catch (\OCP\Encryption\Exception\EncryptionException $e) {
 				throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
 			} catch (\OCP\Files\StorageNotAvailableException $e) {
 				throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to open file: ".$e->getMessage());

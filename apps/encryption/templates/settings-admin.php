@@ -7,7 +7,7 @@ script('core', 'multiselect');
 <form id="encryption" class="section">
 	<h2><?php p($l->t('ownCloud basic encryption module')); ?></h2>
 
-	<?php if($_["initStatus"] === \OCA\Files_Encryption\Session::NOT_INITIALIZED): ?>
+	<?php if(!$_["initStatus"]): ?>
 		<?php p($l->t("Encryption App is enabled but your keys are not initialized, please log-out and log-in again")); ?>
 	<?php else: ?>
 	<p id="encryptionSetRecoveryKey">

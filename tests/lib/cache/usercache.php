@@ -37,12 +37,6 @@ class UserCache extends \Test_Cache {
 		\OC_FileProxy::clearProxies();
 		\OC_Hook::clear('OC_Filesystem');
 
-		//disabled atm
-		//enable only the encryption hook if needed
-		//if(OC_App::isEnabled('files_encryption')) {
-		//	OC_FileProxy::register(new OC_FileProxy_Encryption());
-		//}
-
 		//set up temporary storage
 		$this->storage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::clearMounts();

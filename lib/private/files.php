@@ -122,7 +122,7 @@ class OC_Files {
 
 		if ($get_type === self::FILE) {
 			$zip = false;
-			if ($xsendfile && OC_App::isEnabled('files_encryption')) {
+			if ($xsendfile && \OC::$server->getEncryptionManager()->isEnabled()) {
 				$xsendfile = false;
 			}
 		} else {
