@@ -244,8 +244,13 @@ class Encryption extends Wrapper {
 
 		if($shouldEncrypt === true && !$this->util->isExcluded($fullPath) && $encryptionModule !== null) {
 			$source = $this->storage->fopen($path, $mode);
+			$uid = $this->uid;
+			if (is_null($uid)) {
+				list($owner, ) = $this->util->getUidAndFilename($fullPath);
+				$uid = $owner;
+			}
 			$handle = \OC\Files\Stream\Encryption::wrap($source, $path, $fullPath, $header,
-				$this->uid, $encryptionModule, $this->storage, $this, $this->util, $mode,
+				$uid, $encryptionModule, $this->storage, $this, $this->util, $mode,
 				$size, $unencryptedSize);
 			return $handle;
 		} else {
