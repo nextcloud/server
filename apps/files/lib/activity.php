@@ -27,7 +27,6 @@ use OCP\Activity\IExtension;
 use OCP\Activity\IManager;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ITagManager;
 use OCP\IURLGenerator;
 
 class Activity implements IExtension {
@@ -55,22 +54,22 @@ class Activity implements IExtension {
 	/** @var \OCP\IConfig */
 	protected $config;
 
-	/** @var \OCP\ITagManager */
-	protected $tagManager;
+	/** @var \OCA\Files\ActivityHelper */
+	protected $helper;
 
 	/**
 	 * @param Factory $languageFactory
 	 * @param IURLGenerator $URLGenerator
 	 * @param IManager $activityManager
-	 * @param ITagManager $tagManager
+	 * @param ActivityHelper $helper
 	 * @param IConfig $config
 	 */
-	public function __construct(Factory $languageFactory, IURLGenerator $URLGenerator, IManager $activityManager, ITagManager $tagManager, IConfig $config) {
+	public function __construct(Factory $languageFactory, IURLGenerator $URLGenerator, IManager $activityManager, ActivityHelper $helper, IConfig $config) {
 		$this->languageFactory = $languageFactory;
 		$this->URLGenerator = $URLGenerator;
 		$this->l = $this->getL10N();
 		$this->activityManager = $activityManager;
-		$this->tagManager = $tagManager;
+		$this->helper = $helper;
 		$this->config = $config;
 	}
 
@@ -94,7 +93,7 @@ class Activity implements IExtension {
 		return [
 			self::TYPE_SHARE_CREATED => (string) $l->t('A new file or folder has been <strong>created</strong>'),
 			self::TYPE_SHARE_CHANGED => (string) $l->t('A file or folder has been <strong>changed</strong>'),
-			self::TYPE_FAVORITES => (string) $l->t('Limit notifications about creation and changes to your <strong>favorite files</strong>'),
+			self::TYPE_FAVORITES => (string) $l->t('Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>'),
 			self::TYPE_SHARE_DELETED => (string) $l->t('A file or folder has been <strong>deleted</strong>'),
 			self::TYPE_SHARE_RESTORED => (string) $l->t('A file or folder has been <strong>restored</strong>'),
 		];
@@ -250,19 +249,20 @@ class Activity implements IExtension {
 	 */
 	public function getNavigation() {
 		return [
-			'apps' => [
+			'top' => [
 				self::FILTER_FAVORITES => [
 					'id' => self::FILTER_FAVORITES,
 					'name' => (string) $this->l->t('Favorites'),
 					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::FILTER_FAVORITES]),
 				],
+			],
+			'apps' => [
 				self::FILTER_FILES => [
 					'id' => self::FILTER_FILES,
 					'name' => (string) $this->l->t('Files'),
 					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::FILTER_FILES]),
 				],
 			],
-			'top' => [],
 		];
 	}
 
@@ -319,41 +319,38 @@ class Activity implements IExtension {
 
 		// Display actions from favorites only
 		if ($filter === self::FILTER_FAVORITES || $filter === 'all' && $this->userSettingFavoritesOnly($user)) {
-			$tags = $this->tagManager->load('files', [], false, $user);
-			$favorites = $tags->getFavorites();
-
-			if (isset($favorites[50])) {
+			try {
+				$favorites = $this->helper->getFavoriteFilePaths($user);
+			} catch (\RuntimeException $e) {
 				// Too many favorites, can not put them into one query anymore...
 				return ['`app` = ?', ['files']];
 			}
 
-			// Can not DI because the user is not known on instantiation
-			$rootFolder = \OC::$server->getUserFolder($user);
+			/*
+			 * Display activities only, when they are not `type` create/change
+			 * or `file` is a favorite or in a favorite folder
+			 */
 			$parameters = $fileQueryList = [];
-			foreach ($favorites as $favorite) {
-				$nodes = $rootFolder->getById($favorite);
-				if ($nodes) {
-					/** @var \OCP\Files\Node $node */
-					$node = array_shift($nodes);
+			$parameters[] = 'files';
 
-					$fileQueryList[] = '`file` = ?';
-					$parameters[] = substr($node->getPath(), strlen($user . '/files/'));
+			$fileQueryList[] = '`type` <> ?';
+			$parameters[] = self::TYPE_SHARE_CREATED;
+			$fileQueryList[] = '`type` <> ?';
+			$parameters[] = self::TYPE_SHARE_CHANGED;
 
-					if ($node instanceof \OCP\Files\Folder) {
-						// Also look for subfolders and files
-						$fileQueryList[] = '`file` LIKE ?';
-						$parameters[] = substr($node->getPath(), strlen($user . '/files/')) . '/%';
-					}
-				}
+			foreach ($favorites['items'] as $favorite) {
+				$fileQueryList[] = '`file` = ?';
+				$parameters[] = $favorite;
+			}
+			foreach ($favorites['folders'] as $favorite) {
+				$fileQueryList[] = '`file` LIKE ?';
+				$parameters[] = $favorite . '/%';
 			}
 
-			if (empty($fileQueryList)) {
-				// No favorites...
-				return ['`app` = ?', ['files']];
-			}
+			$parameters[] = 'files';
 
 			return [
-				' CASE WHEN `app` = \'files\' THEN (' . implode(' OR ', $fileQueryList) . ') ELSE `app` <> \'files\' END ',
+				' CASE WHEN `app` = ? THEN (' . implode(' OR ', $fileQueryList) . ') ELSE `app` <> ? END ',
 				$parameters,
 			];
 		}

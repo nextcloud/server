@@ -61,7 +61,9 @@ $templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadshe
 		\OC::$server->query('L10NFactory'),
 		\OC::$server->getURLGenerator(),
 		\OC::$server->getActivityManager(),
-		\OC::$server->getTagManager(),
+		new \OCA\Files\ActivityHelper(
+			\OC::$server->getTagManager()
+		),
 		\OC::$server->getConfig()
 	);
 });
