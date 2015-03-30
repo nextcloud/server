@@ -271,7 +271,8 @@ class Encryption extends Wrapper {
 	public function stream_write($data) {
 
 		if ($this->position === 0) {
-			$this->size+=$this->writeHeader();
+			$this->writeHeader();
+			$this->size+=$this->util->getHeaderSize();
 		}
 
 		$length = 0;

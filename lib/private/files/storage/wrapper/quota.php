@@ -60,11 +60,6 @@ class Quota extends Wrapper {
 		$cache = $this->getCache();
 		$data = $cache->get($path);
 		if (is_array($data) and isset($data['size'])) {
-			if (isset($data['unencrypted_size'])
-				&& $data['unencrypted_size'] > 0
-			) {
-				return $data['unencrypted_size'];
-			}
 			return $data['size'];
 		} else {
 			return \OCP\Files\FileInfo::SPACE_NOT_COMPUTED;
