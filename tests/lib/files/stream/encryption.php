@@ -23,7 +23,10 @@ class Encryption extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$encStorage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
 			->disableOriginalConstructor()->getMock();
-		$util = new \OC\Encryption\Util(new View(), new \OC\User\Manager());;
+		$config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+		$util = new \OC\Encryption\Util(new View(), new \OC\User\Manager(), $config);
 		$size = 12;
 		$unencryptedSize = 8000;
 

@@ -20,11 +20,14 @@ class Encryption extends \Test\Files\Storage\Storage {
 			->disableOriginalConstructor()
 			->setMethods(['getDefaultEncryptionModule', 'getEncryptionModule'])
 			->getMock();
+		$config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
 		$encryptionManager->expects($this->any())
 			->method('getDefaultEncryptionModule')
 			->willReturn(new DummyModule());
 
-		$util = new \OC\Encryption\Util(new View(), new \OC\User\Manager());
+		$util = new \OC\Encryption\Util(new View(), new \OC\User\Manager(), $config);
 
 		$logger = $this->getMock('\OC\Log');
 
