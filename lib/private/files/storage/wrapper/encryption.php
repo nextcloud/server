@@ -295,7 +295,9 @@ class Encryption extends Wrapper {
 	 * read encryption module needed to read/write the file located at $path
 	 *
 	 * @param string $path
-	 * @return \OCP\Encryption\IEncryptionModule|null
+	 * @return null|\OCP\Encryption\IEncryptionModule
+	 * @throws ModuleDoesNotExistsException
+	 * @throws \Exception
 	 */
 	protected function getEncryptionModule($path) {
 		$encryptionModule = null;
@@ -305,7 +307,7 @@ class Encryption extends Wrapper {
 			try {
 				$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
 			} catch (ModuleDoesNotExistsException $e) {
-				$this->logger->critical('Encryption module defined in "' . $path . '" mot loaded!');
+				$this->logger->critical('Encryption module defined in "' . $path . '" not loaded!');
 				throw $e;
 			}
 		}

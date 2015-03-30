@@ -27,3 +27,7 @@ namespace OC\Encryption\Exceptions;
 class EncryptionHeaderKeyExistsException extends \Exception {
 
 }
+
+class EncryptionHeaderToLargeException extends \Exception {
+
+}

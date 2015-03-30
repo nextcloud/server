@@ -9,10 +9,6 @@
 namespace Test\Files\Storage\Wrapper;
 
 class Jail extends \Test\Files\Storage\Storage {
-	/**
-	 * @var string tmpDir
-	 */
-	private $tmpDir;
 
 	/**
 	 * @var \OC\Files\Storage\Temporary

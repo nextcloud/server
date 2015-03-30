@@ -23,8 +23,9 @@
 
 namespace OC\Encryption;
 
-use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
 use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
+use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
+use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
 
@@ -50,13 +51,13 @@ class Util {
 	 */
 	protected $blockSize = 8192;
 
-	/** @var \OC\Files\View */
+	/** @var View */
 	protected $view;
 
 	/** @var array */
 	protected $ocHeaderKeys;
 
-	/** @var \OC\User\Manager */
+	/** @var Manager */
 	protected $userManager;
 
 	/** @var IConfig */
@@ -93,7 +94,7 @@ class Util {
 	 * @param array $header
 	 * @return string
 	 */
-	public function getEncryptionModuleId(array $header) {
+	public function getEncryptionModuleId(array $header = null) {
 		$id = '';
 		$encryptionModuleKey = self::HEADER_ENCRYPTION_MODULE_KEY;
 
@@ -153,7 +154,7 @@ class Util {
 		$header .= self::HEADER_END;
 
 		if (strlen($header) > $this->getHeaderSize()) {
-			throw new EncryptionHeaderToLargeException('max header size exceeded', EncryptionException::ENCRYPTION_HEADER_TO_LARGE);
+			throw new EncryptionHeaderToLargeException('max header size exceeded');
 		}
 
 		$paddedHeader = str_pad($header, $this->headerSize, self::HEADER_PADDING_CHAR, STR_PAD_RIGHT);
@@ -208,7 +209,7 @@ class Util {
 	 * go recursively through a dir and collect all files and sub files.
 	 *
 	 * @param string $dir relative to the users files folder
-	 * @param strinf $mountPoint
+	 * @param string $mountPoint
 	 * @return array with list of files relative to the users files folder
 	 */
 	public function getAllFiles($dir, $mountPoint = '') {
@@ -285,19 +286,19 @@ class Util {
 			throw new \BadMethodCallException('path needs to be relative to the system wide data folder and point to a user specific file');
 		}
 
-		$pathinfo = pathinfo($path);
-		$partfile = false;
+		$pathInfo = pathinfo($path);
+		$partFile = false;
 		$parentFolder = false;
-		if (array_key_exists('extension', $pathinfo) && $pathinfo['extension'] === 'part') {
+		if (array_key_exists('extension', $pathInfo) && $pathInfo['extension'] === 'part') {
 			// if the real file exists we check this file
-			$filePath = $pathinfo['dirname'] . '/' . $pathinfo['filename'];
+			$filePath = $pathInfo['dirname'] . '/' . $pathInfo['filename'];
 			if ($this->view->file_exists($filePath)) {
-				$pathToCheck = $pathinfo['dirname'] . '/' . $pathinfo['filename'];
+				$pathToCheck = $pathInfo['dirname'] . '/' . $pathInfo['filename'];
 			} else { // otherwise we look for the parent
-				$pathToCheck = $pathinfo['dirname'];
+				$pathToCheck = $pathInfo['dirname'];
 				$parentFolder = true;
 			}
-			$partfile = true;
+			$partFile = true;
 		} else {
 			$pathToCheck = $path;
 		}
@@ -320,11 +321,11 @@ class Util {
 		$this->view->chroot('/');
 
 		if ($parentFolder) {
-			$ownerPath = $ownerPath . '/'. $pathinfo['filename'];
+			$ownerPath = $ownerPath . '/'. $pathInfo['filename'];
 		}
 
-		if ($partfile) {
-			$ownerPath = $ownerPath . '.' . $pathinfo['extension'];
+		if ($partFile) {
+			$ownerPath = $ownerPath . '.' . $pathInfo['extension'];
 		}
 
 		return array(
