@@ -271,8 +271,7 @@ class Encryption extends Wrapper {
 	public function stream_write($data) {
 
 		if ($this->position === 0) {
-			$this->writeHeader();
-			$this->size+=$this->util->getBlockSize();
+			$this->size+=$this->writeHeader();
 		}
 
 		$length = 0;
@@ -411,11 +410,12 @@ class Encryption extends Wrapper {
 	/**
 	 * write header at beginning of encrypted file
 	 *
+	 * @return integer
 	 * @throws EncryptionHeaderKeyExistsException if header key is already in use
 	 */
 	private function writeHeader() {
 		$header = $this->util->createHeader($this->newHeader, $this->encryptionModule);
-		parent::stream_write($header);
+		return parent::stream_write($header);
 	}
 
 }
