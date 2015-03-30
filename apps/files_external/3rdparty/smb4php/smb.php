@@ -112,6 +112,11 @@ class smb {
 
 
 	function execute ($command, $purl, $regexp = NULL) {
+		if (strpos($command,';') !== false) {
+			trigger_error('Semicolon not supported in commands');
+			exit();
+		}
+
 		return smb::client ('-d 0 '
 				. escapeshellarg ('//' . $purl['host'] . '/' . $purl['share'])
 				. ' -c ' . escapeshellarg ($command), $purl, $regexp
