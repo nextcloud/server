@@ -59,6 +59,11 @@
 							t('core', 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.')
 						);
 					}
+					if(!data.isMemcacheConfigured) {
+						messages.push(
+							t('core', 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="https://doc.owncloud.org/server/8.0/admin_manual/configuration_server/performance_tuning.html">documentation</a>.')
+						);
+					}
 				} else {
 					messages.push(t('core', 'Error occurred while checking server setup'));
 				}

@@ -1155,14 +1155,13 @@ class OC_Util {
 
 	/**
 	 * Check if the .htaccess file is working
-	 *
-	 * @throws OC\HintException If the testfile can't get written.
+	 * @param \OCP\IConfig $config
 	 * @return bool
-	 * @description Check if the .htaccess file is working by creating a test
-	 * file in the data directory and trying to access via http
+	 * @throws Exception
+	 * @throws \OC\HintException If the test file can't get written.
 	 */
-	public static function isHtaccessWorking() {
-		if (\OC::$CLI || !OC::$server->getConfig()->getSystemValue('check_for_working_htaccess', true)) {
+	public function isHtaccessWorking(\OCP\IConfig $config) {
+		if (\OC::$CLI || !$config->getSystemValue('check_for_working_htaccess', true)) {
 			return true;
 		}
 
@@ -1176,7 +1175,7 @@ class OC_Util {
 		$testContent = 'testcontent';
 
 		// creating a test file
-		$testFile = OC::$server->getConfig()->getSystemValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
+		$testFile = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
 
 		if (file_exists($testFile)) {// already running this test, possible recursive call
 			return false;
@@ -1242,36 +1241,6 @@ class OC_Util {
 	 */
 	public static function fileInfoLoaded() {
 		return function_exists('finfo_open');
-	}
-
-	/**
-	 * Check if the ownCloud server can connect to the internet
-	 *
-	 * @param \OCP\Http\Client\IClientService $clientService
-	 * @return bool
-	 */
-	public static function isInternetConnectionWorking(\OCP\Http\Client\IClientService $clientService) {
-		// in case there is no internet connection on purpose return false
-		if (self::isInternetConnectionEnabled() === false) {
-			return false;
-		}
-
-		try {
-			$client = $clientService->newClient();
-			$response = $client->get('https://www.owncloud.org/');
-			return $response->getStatusCode() === 200;
-		} catch (\Exception $e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Check if the connection to the internet is disabled on purpose
-	 *
-	 * @return string
-	 */
-	public static function isInternetConnectionEnabled() {
-		return \OC_Config::getValue("has_internet_connection", true);
 	}
 
 	/**

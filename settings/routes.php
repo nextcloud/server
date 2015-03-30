@@ -49,6 +49,7 @@ $application->registerRoutes($this, array(
 		array('name' => 'LogSettings#setLogLevel', 'url' => '/settings/admin/log/level', 'verb' => 'POST'),
 		array('name' => 'LogSettings#getEntries', 'url' => '/settings/admin/log/entries', 'verb' => 'GET'),
 		array('name' => 'LogSettings#download', 'url' => '/settings/admin/log/download', 'verb' => 'GET'),
+		['name' => 'CheckSetup#check', 'url' => '/settings/ajax/checksetup', 'verb' => 'GET'],
 	)
 ));
 
@@ -112,5 +113,3 @@ $this->create('settings_ajax_navigationdetect', '/settings/ajax/navigationdetect
 // admin
 $this->create('settings_ajax_excludegroups', '/settings/ajax/excludegroups.php')
 	->actionInclude('settings/ajax/excludegroups.php');
-$this->create('settings_ajax_checksetup', '/settings/ajax/checksetup')
-	->actionInclude('settings/ajax/checksetup.php');
