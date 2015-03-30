@@ -363,7 +363,13 @@ class Encryption extends Wrapper {
 
 	public function stream_close() {
 		$this->flush();
-		$this->encryptionStorage->updateUnencryptedSize($this->fullPath, $this->unencryptedSize);
+		$remainingData = $this->encryptionModule->end($this->fullPath);
+		if ($this->readOnly === false) {
+			if(!empty($remainingData)) {
+				parent::stream_write($remainingData);
+			}
+			$this->encryptionStorage->updateUnencryptedSize($this->fullPath, $this->unencryptedSize);
+		}
 		return parent::stream_close();
 	}
 
