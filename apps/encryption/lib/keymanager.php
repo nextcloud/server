@@ -27,6 +27,7 @@ use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OC\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\Encryption\Keys\IStorage;
+use OCA\Encryption\Util;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserSession;
@@ -84,6 +85,10 @@ class KeyManager {
 	 * @var ILogger
 	 */
 	private $log;
+	/**
+	 * @var Util
+	 */
+	private $util;
 
 	/**
 	 * @param IStorage $keyStorage
@@ -92,6 +97,7 @@ class KeyManager {
 	 * @param IUserSession $userSession
 	 * @param Session $session
 	 * @param ILogger $log
+	 * @param Util $util
 	 */
 	public function __construct(
 		IStorage $keyStorage,
@@ -99,9 +105,11 @@ class KeyManager {
 		IConfig $config,
 		IUserSession $userSession,
 		Session $session,
-		ILogger $log
+		ILogger $log,
+		Util $util
 	) {
 
+		$this->util = $util;
 		$this->session = $session;
 		$this->keyStorage = $keyStorage;
 		$this->crypt = $crypt;
@@ -153,7 +161,7 @@ class KeyManager {
 	 * @return bool
 	 */
 	public function recoveryKeyExists() {
-		return (!empty($this->keyStorage->getSystemUserKey($this->recoveryKeyId)));
+		return (!empty($this->keyStorage->getSystemUserKey($this->recoveryKeyId . '.publicKey')));
 	}
 
 	/**
@@ -470,5 +478,26 @@ class KeyManager {
 	 */
 	public function setSystemPrivateKey($keyId, $key) {
 		return $this->keyStorage->setSystemUserKey($keyId . '.' . $this->privateKeyId, $key);
+	}
+
+	/**
+	 * add system keys such as the public share key and the recovery key
+	 *
+	 * @param array $accessList
+	 * @param array $publicKeys
+	 * @return array
+	 */
+	public function addSystemKeys(array $accessList, array $publicKeys) {
+		if (!empty($accessList['public'])) {
+			$publicKeys[$this->getPublicShareKeyId()] = $this->getPublicShareKey();
+		}
+
+		if ($this->recoveryKeyExists() &&
+			$this->util->isRecoveryEnabledForUser()) {
+
+			$publicKeys[$this->getRecoveryKeyId()] = $this->getRecoveryKey();
+		}
+
+		return $publicKeys;
 	}
 }

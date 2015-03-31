@@ -9,7 +9,7 @@ function updatePrivateKeyPasswd() {
 	var newPrivateKeyPassword = $('input:password[id="newPrivateKeyPassword"]').val();
 	OC.msg.startSaving('#encryption .msg');
 	$.post(
-	OC.filePath( 'files_encryption', 'ajax', 'updatePrivateKeyPassword.php' )
+	OC.generateUrl('/apps/encryption/ajax/updatePrivateKeyPassword')
 		, { oldPassword: oldPrivateKeyPassword, newPassword: newPrivateKeyPassword }
 		,  function( data ) {
 			if (data.status === "error") {

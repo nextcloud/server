@@ -90,7 +90,7 @@ class Recovery {
 								IStorage $keyStorage,
 								IFile $file,
 								View $view) {
-		$this->user = $user && $user->isLoggedIn() ? $user->getUser() : false;
+		$this->user = ($user && $user->isLoggedIn()) ? $user->getUser() : false;
 		$this->crypt = $crypt;
 		$this->random = $random;
 		$this->keyManager = $keyManager;
@@ -180,7 +180,7 @@ class Recovery {
 				$value);
 
 			if ($value === '1') {
-				$this->addRecoveryKeys('/' . $this->user . '/files/');
+				$this->addRecoveryKeys('/' . $this->user->getUID() . '/files/');
 			} else {
 				$this->removeRecoveryKeys();
 			}
@@ -198,20 +198,22 @@ class Recovery {
 		$dirContent = $this->view->getDirectoryContent($path);
 		foreach ($dirContent as $item) {
 			// get relative path from files_encryption/keyfiles/
-			$filePath = $item['path'];
+			$filePath = $item->getPath();
 			if ($item['type'] === 'dir') {
 				$this->addRecoveryKeys($filePath . '/');
 			} else {
-				$fileKey = $this->keyManager->getFileKey($filePath, $this->user);
+				$fileKey = $this->keyManager->getFileKey($filePath, $this->user->getUID());
 				if (!empty($fileKey)) {
-					$accessList = $this->file->getAccessList($path);
+					$accessList = $this->file->getAccessList($filePath);
 					$publicKeys = array();
 					foreach ($accessList['users'] as $uid) {
-						$publicKeys[$uid] = $this->keymanager->getPublicKey($uid);
+						$publicKeys[$uid] = $this->keyManager->getPublicKey($uid);
 					}
 
+					$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys);
+
 					$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
-					$this->keymanager->setAllFileKeys($path, $encryptedKeyfiles);
+					$this->keyManager->setAllFileKeys($filePath, $encryptedKeyfiles);
 				}
 			}
 		}
@@ -221,6 +223,7 @@ class Recovery {
 	 * remove recovery key to all encrypted files
 	 */
 	private function removeRecoveryKeys($path = '/') {
+		return true;
 		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
 		foreach ($dirContent as $item) {
 			// get relative path from files_encryption/keyfiles

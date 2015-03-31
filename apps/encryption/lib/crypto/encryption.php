@@ -131,6 +131,8 @@ class Encryption implements IEncryptionModule {
 				$publicKeys[$uid] = $this->keymanager->getPublicKey($uid);
 			}
 
+			$publicKeys = $this->keymanager->addSystemKeys($this->accessList, $publicKeys);
+
 			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
 			$this->keymanager->setAllFileKeys($path, $encryptedKeyfiles);
 		}
@@ -235,7 +237,7 @@ class Encryption implements IEncryptionModule {
 			$publicKeys[$user] = $this->keymanager->getPublicKey($user);
 		}
 
-		$publicKeys = $this->addSystemKeys($accessList, $publicKeys);
+		$publicKeys = $this->keymanager->addSystemKeys($accessList, $publicKeys);
 
 		$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 

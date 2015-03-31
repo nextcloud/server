@@ -23,16 +23,13 @@
 namespace OCA\Encryption;
 
 
-use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
-use OCP\App;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
-use OCP\Share;
 
 class Util {
 	/**
@@ -43,10 +40,6 @@ class Util {
 	 * @var Crypt
 	 */
 	private $crypt;
-	/**
-	 * @var KeyManager
-	 */
-	private $keyManager;
 	/**
 	 * @var ILogger
 	 */
@@ -65,21 +58,18 @@ class Util {
 	 *
 	 * @param View $files
 	 * @param Crypt $crypt
-	 * @param KeyManager $keyManager
 	 * @param ILogger $logger
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 */
 	public function __construct(View $files,
 								Crypt $crypt,
-								KeyManager $keyManager,
 								ILogger $logger,
 								IUserSession $userSession,
 								IConfig $config
 	) {
 		$this->files = $files;
 		$this->crypt = $crypt;
-		$this->keyManager = $keyManager;
 		$this->logger = $logger;
 		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser() : false;
 		$this->config = $config;
@@ -88,7 +78,7 @@ class Util {
 	/**
 	 * @return bool
 	 */
-	public function recoveryEnabledForUser() {
+	public function isRecoveryEnabledForUser() {
 		$recoveryMode = $this->config->getUserValue($this->user->getUID(),
 			'encryption',
 			'recoveryEnabled',
@@ -113,18 +103,6 @@ class Util {
 		} catch (PreConditionNotMetException $e) {
 			return false;
 		}
-	}
-
-	/**
-	 * @param $recoveryPassword
-	 */
-	public function recoverUsersFiles($recoveryPassword) {
-		$encryptedKey = $this->keyManager->getSystemPrivateKey();
-
-		$privateKey = $this->crypt->decryptPrivateKey($encryptedKey,
-			$recoveryPassword);
-
-		$this->recoverAllFiles('/', $privateKey);
 	}
 
 	/**
