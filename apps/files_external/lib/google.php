@@ -113,7 +113,7 @@ class Google extends \OC\Files\Storage\Common {
 				if (isset($this->driveFiles[$path])) {
 					$parentId = $this->driveFiles[$path]->getId();
 				} else {
-					$q = "title='" . rawurlencode($name) . "' and '" . rawurlencode($parentId) . "' in parents and trashed = false";
+					$q = "title='".$name."' and '".$parentId."' in parents and trashed = false";
 					$result = $this->service->files->listFiles(array('q' => $q))->getItems();
 					if (!empty($result)) {
 						// Google Drive allows files with the same name, ownCloud doesn't
@@ -257,7 +257,7 @@ class Google extends \OC\Files\Storage\Common {
 				if ($pageToken !== true) {
 					$params['pageToken'] = $pageToken;
 				}
-				$params['q'] = "'" . rawurlencode($folder->getId()) . "' in parents and trashed = false";
+				$params['q'] = "'".$folder->getId()."' in parents and trashed = false";
 				$children = $this->service->files->listFiles($params);
 				foreach ($children->getItems() as $child) {
 					$name = $child->getTitle();

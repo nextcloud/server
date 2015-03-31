@@ -104,14 +104,13 @@ abstract class Storage extends \Test\TestCase {
 	}
 
 	public function directoryProvider() {
-		return [
-			['folder'],
-			[' folder'],
-			['folder '],
-			['folder with space'],
-			['spéciäl földer'],
-			['test single\'quote'],
-		];
+		return array(
+			array('folder'),
+			array(' folder'),
+			array('folder '),
+			array('folder with space'),
+			array('spéciäl földer'),
+		);
 	}
 
 	function loremFileProvider() {
@@ -164,16 +163,15 @@ abstract class Storage extends \Test\TestCase {
 
 
 	public function copyAndMoveProvider() {
-		return [
-			['/source.txt', '/target.txt'],
-			['/source.txt', '/target with space.txt'],
-			['/source with space.txt', '/target.txt'],
-			['/source with space.txt', '/target with space.txt'],
-			['/source.txt', '/tärgét.txt'],
-			['/sòurcē.txt', '/target.txt'],
-			['/sòurcē.txt', '/tärgét.txt'],
-			['/single \' quote.txt', '/tar\'get.txt'],
-		];
+		return array(
+			array('/source.txt', '/target.txt'),
+			array('/source.txt', '/target with space.txt'),
+			array('/source with space.txt', '/target.txt'),
+			array('/source with space.txt', '/target with space.txt'),
+			array('/source.txt', '/tärgét.txt'),
+			array('/sòurcē.txt', '/target.txt'),
+			array('/sòurcē.txt', '/tärgét.txt'),
+		);
 	}
 
 	public function initSourceAndTarget ($source, $target = null) {
