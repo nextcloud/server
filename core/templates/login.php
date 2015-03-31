@@ -24,6 +24,12 @@ script('core', [
 				<?php p($message); ?><br>
 			</div>
 		<?php endforeach; ?>
+		<?php if (isset($_['internalexception']) && ($_['internalexception'])): ?>
+			<div class="warning">
+				<?php p($l->t('An internal error occured.')); ?><br>
+				<small><?php p($l->t('Please try again or contact your administrator.')); ?></small>
+			</div>
+		<?php endif; ?>
 		<p id="message" class="hidden">
 			<img class="float-spinner" alt=""
 				src="<?php p(\OCP\Util::imagePath('core', 'loading-dark.gif'));?>">

@@ -957,6 +957,10 @@ class OC {
 			}
 		} catch (\OC\User\LoginException $e) {
 			$messages[] = $e->getMessage();
+		} catch (\Exception $ex) {
+			\OCP\Util::logException('handleLogin', $ex);
+			// do not disclose information. show generic error
+			$error[] = 'internalexception';
 		}
 
 		OC_Util::displayLoginPage(array_unique($error), $messages);
