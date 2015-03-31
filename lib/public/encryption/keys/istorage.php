@@ -113,7 +113,6 @@ interface IStorage {
 	public function deleteAllFileKeys($path);
 
 	/**
-
 	 * delete system-wide encryption keys not related to a specific user,
 	 * e.g something like a key for public link shares
 	 *
@@ -122,5 +121,15 @@ interface IStorage {
 	 * @return boolean
 	 */
 	public function deleteSystemUserKey($keyId);
+
+	/**
+	 * move keys if a file was renamed
+	 *
+	 * @param string $source
+	 * @param string $target
+	 * @param string $owner
+	 * @param bool $systemWide
+	 */
+	public function renameKeys($source, $target, $owner, $systemWide);
 
 }
