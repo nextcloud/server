@@ -108,6 +108,14 @@ class KeyManager {
 		$this->config = $config;
 		$this->recoveryKeyId = $this->config->getAppValue('encryption',
 			'recoveryKeyId');
+		if (empty($this->recoveryKeyId)) {
+			$this->recoveryKeyId = 'recoveryKey_' . substr(md5(time()), 0, 8);
+			$this->config->setAppValue('encryption',
+				'recoveryKeyId',
+				$this->recoveryKeyId);
+		}
+
+
 		$this->publicShareKeyId = $this->config->getAppValue('encryption',
 			'publicShareKeyId');
 		$this->log = $log;
@@ -171,7 +179,7 @@ class KeyManager {
 	 * @return bool
 	 */
 	public function checkRecoveryPassword($password) {
-		$recoveryKey = $this->keyStorage->getSystemUserKey($this->recoveryKeyId);
+		$recoveryKey = $this->keyStorage->getSystemUserKey($this->recoveryKeyId . '.privateKey');
 		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey,
 			$password);
 
@@ -197,6 +205,26 @@ class KeyManager {
 		if ($encryptedKey) {
 			$this->setPrivateKey($uid, $encryptedKey);
 			$this->config->setAppValue('encryption', 'recoveryAdminEnabled', 0);
+			return true;
+		}
+		return false;
+	}
+
+		/**
+	 * @param string $uid
+	 * @param string $password
+	 * @param array $keyPair
+	 * @return bool
+	 */
+	public function setRecoveryKey($password, $keyPair) {
+		// Save Public Key
+		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId(). '.publicKey', $keyPair['publicKey']);
+
+		$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'],
+			$password);
+
+		if ($encryptedKey) {
+			$this->setSystemPrivateKey($this->getRecoveryKeyId(), $encryptedKey);
 			return true;
 		}
 		return false;
@@ -428,9 +456,19 @@ class KeyManager {
 	}
 
 	/**
+	 * @param string $keyId
 	 * @return string returns openssl key
 	 */
-	public function getSystemPrivateKey() {
-		return $this->keyStorage->getSystemUserKey($this->privateKeyId);
+	public function getSystemPrivateKey($keyId) {
+		return $this->keyStorage->getSystemUserKey($keyId . '.' . $this->privateKeyId);
+	}
+
+	/**
+	 * @param string $keyId
+	 * @param string $key
+	 * @return string returns openssl key
+	 */
+	public function setSystemPrivateKey($keyId, $key) {
+		return $this->keyStorage->setSystemUserKey($keyId . '.' . $this->privateKeyId, $key);
 	}
 }

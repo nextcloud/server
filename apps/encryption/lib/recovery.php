@@ -88,24 +88,14 @@ class Recovery {
 	 * @param $password
 	 * @return bool
 	 */
-	public function enableAdminRecovery($recoveryKeyId, $password) {
+	public function enableAdminRecovery($password) {
 		$appConfig = $this->config;
-
-		if ($recoveryKeyId === null) {
-			$recoveryKeyId = $this->random->getLowStrengthGenerator();
-			$appConfig->setAppValue('encryption',
-				'recoveryKeyId',
-				$recoveryKeyId);
-		}
-
 		$keyManager = $this->keyManager;
 
 		if (!$keyManager->recoveryKeyExists()) {
 			$keyPair = $this->crypt->createKeyPair();
 
-			return $this->keyManager->storeKeyPair($this->user->getUID(),
-				$password,
-				$keyPair);
+			$this->keyManager->setRecoveryKey($password, $keyPair);
 		}
 
 		if ($keyManager->checkRecoveryPassword($password)) {
@@ -113,6 +103,23 @@ class Recovery {
 			return true;
 		}
 
+		return false;
+	}
+
+	/**
+	 * change recovery key id
+	 *
+	 * @param string $newPassword
+	 * @param string $oldPassword
+	 */
+	public function changeRecoveryKeyPassword($newPassword, $oldPassword) {
+		$recoveryKey = $this->keyManager->getSystemPrivateKey($this->keyManager->getRecoveryKeyId());
+		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey, $oldPassword);
+		$encryptedRecoveryKey = $this->crypt->symmetricEncryptFileContent($decryptedRecoveryKey, $newPassword);
+		if ($encryptedRecoveryKey) {
+			$this->keyManager->setSystemPrivateKey($this->keyManager->getRecoveryKeyId(), $encryptedRecoveryKey);
+			return true;
+		}
 		return false;
 	}
 

@@ -23,6 +23,6 @@
 namespace OCA\Encryption\Exceptions;
 
 
-class PrivateKeyMissingException extends GenericEncryptionException{
+class PrivateKeyMissingException extends \Exception{
 
 }

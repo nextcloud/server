@@ -28,7 +28,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\JSON;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use OCP\AppFramework\Http\DataResponse;
 
 class RecoveryController extends Controller {
 	/**
@@ -62,32 +62,60 @@ class RecoveryController extends Controller {
 		// Check if both passwords are the same
 		if (empty($recoveryPassword)) {
 			$errorMessage = $this->l->t('Missing recovery key password');
-			return new JsonResponse(['data' => ['message' => $errorMessage]], 500);
+			return new DataResponse(['data' => ['message' => $errorMessage]], 500);
 		}
 
 		if (empty($confirmPassword)) {
 			$errorMessage = $this->l->t('Please repeat the recovery key password');
-			return new JsonResponse(['data' => ['message' => $errorMessage]], 500);
+			return new DataResponse(['data' => ['message' => $errorMessage]], 500);
 		}
 
 		if ($recoveryPassword !== $confirmPassword) {
 			$errorMessage = $this->l->t('Repeated recovery key password does not match the provided recovery key password');
-			return new JsonResponse(['data' => ['message' => $errorMessage]], 500);
+			return new DataResponse(['data' => ['message' => $errorMessage]], 500);
 		}
 
-		// Enable recoveryAdmin
-		$recoveryKeyId = $this->config->getAppValue('encryption', 'recoveryKeyId');
-
 		if (isset($adminEnableRecovery) && $adminEnableRecovery === '1') {
-			if ($this->recovery->enableAdminRecovery($recoveryKeyId, $recoveryPassword)) {
-				return new JsonResponse(['data' => array('message' => $this->l->t('Recovery key successfully enabled'))]);
+			if ($this->recovery->enableAdminRecovery($recoveryPassword)) {
+				return new DataResponse(['status'	=>'success', 'data' => array('message' => $this->l->t('Recovery key successfully enabled'))]);
 			}
-			return new JsonResponse(['data' => array('message' => $this->l->t('Could not enable recovery key. Please check your recovery key password!'))]);
+			return new DataResponse(['data' => array('message' => $this->l->t('Could not enable recovery key. Please check your recovery key password!'))]);
 		} elseif (isset($adminEnableRecovery) && $adminEnableRecovery === '0') {
-			if ($this->recovery->disableAdminRecovery($recoveryKeyId, $recoveryPassword)) {
-				return new JsonResponse(['data' => array('message' => $this->l->t('Recovery key successfully disabled'))]);
+			if ($this->recovery->disableAdminRecovery($recoveryPassword)) {
+				return new DataResponse(['data' => array('message' => $this->l->t('Recovery key successfully disabled'))]);
 			}
-			return new JsonResponse(['data' => array('message' => $this->l->t('Could not disable recovery key. Please check your recovery key password!'))]);
+			return new DataResponse(['data' => array('message' => $this->l->t('Could not disable recovery key. Please check your recovery key password!'))]);
+		}
+	}
+
+	public function changeRecoveryPassword($newPassword, $oldPassword, $confirmPassword) {
+		//check if both passwords are the same
+		if (empty($oldPassword)) {
+			$errorMessage = $this->l->t('Please provide the old recovery password');
+			return new DataResponse(array('data' => array('message' => $errorMessage)));
+		}
+
+		if (empty($newPassword)) {
+			$errorMessage = $this->l->t('Please provide a new recovery password');
+			return new DataResponse (array('data' => array('message' => $errorMessage)));
+		}
+
+		if (empty($confirmPassword)) {
+			$errorMessage = $this->l->t('Please repeat the new recovery password');
+			return new DataResponse(array('data' => array('message' => $errorMessage)));
+		}
+
+		if ($newPassword !== $confirmPassword) {
+			$errorMessage = $this->l->t('Repeated recovery key password does not match the provided recovery key password');
+			return new DataResponse(array('data' => array('message' => $errorMessage)));
+		}
+
+		$result = $this->recovery->changeRecoveryKeyPassword($newPassword, $oldPassword);
+
+		if ($result) {
+			return new DataResponse(array('status' => 'success' ,'data' => array('message' => $this->l->t('Password successfully changed.'))));
+		} else {
+			return new DataResponse(array('data' => array('message' => $this->l->t('Could not change the password. Maybe the old password was not correct.'))));
 		}
 	}
 

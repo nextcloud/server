@@ -44,7 +44,7 @@ $(document).ready(function(){
 		var confirmNewPassword = $('#repeatedNewEncryptionRecoveryPassword').val();
 		OC.msg.startSaving('#encryptionChangeRecoveryKey .msg');
 		$.post(
-		OC.filePath( 'encryption', 'ajax', 'changeRecoveryPassword.php' )
+				OC.generateUrl('/apps/encryption/ajax/changeRecoveryPassword')
 			, { oldPassword: oldRecoveryPassword, newPassword: newRecoveryPassword, confirmPassword: confirmNewPassword }
 			,  function( data ) {
 					OC.msg.finishedSaving('#encryptionChangeRecoveryKey .msg', data);
