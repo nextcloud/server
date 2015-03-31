@@ -333,9 +333,8 @@ class Activity implements IExtension {
 			$parameters = $fileQueryList = [];
 			$parameters[] = 'files';
 
-			$fileQueryList[] = '`type` <> ?';
+			$fileQueryList[] = '(`type` <> ? AND `type` <> ?)';
 			$parameters[] = self::TYPE_SHARE_CREATED;
-			$fileQueryList[] = '`type` <> ?';
 			$parameters[] = self::TYPE_SHARE_CHANGED;
 
 			foreach ($favorites['items'] as $favorite) {
