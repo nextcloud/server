@@ -69,14 +69,11 @@ class Manager implements \OCP\Encryption\IManager {
 		$id = $module->getId();
 		$name = $module->getDisplayName();
 
-		// FIXME why do we load the same encryption module multiple times
-		/*
 		if (isset($this->encryptionModules[$id])) {
 			$message = 'Id "' . $id . '" already used by encryption module "' . $name . '"';
 			throw new Exceptions\ModuleAlreadyExistsException($message);
-
 		}
-*/
+
 		$defaultEncryptionModuleId = $this->getDefaultEncryptionModuleId();
 
 		if (empty($defaultEncryptionModuleId)) {

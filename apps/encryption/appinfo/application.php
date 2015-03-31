@@ -55,7 +55,7 @@ class Application extends \OCP\AppFramework\App {
 		$this->encryptionManager = \OC::$server->getEncryptionManager();
 		$this->config = \OC::$server->getConfig();
 		$this->registerServices();
-		$this->registerEncryptionModule();
+//		$this->registerEncryptionModule();
 		$this->registerHooks();
 		$this->registerSettings();
 	}

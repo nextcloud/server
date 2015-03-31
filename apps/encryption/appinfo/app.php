@@ -21,8 +21,5 @@
 
 namespace OCA\Encryption\AppInfo;
 
-if (!\OC::$CLI) {
-	$di = \OC::$server;
-	$app = new Application();
-}
-
+$app = new Application();
+$app->registerEncryptionModule();
