@@ -23,7 +23,9 @@
 
 namespace OC\Encryption;
 
+use OC\Files\Storage\Wrapper\Encryption;
 use OCP\Encryption\IEncryptionModule;
+use OCP\Files\Mount\IMountPoint;
 
 class Manager implements \OCP\Encryption\IManager {
 
@@ -181,5 +183,21 @@ class Manager implements \OCP\Encryption\IManager {
 		}
 	}
 
-
+	public static function setupStorage() {
+		\OC\Files\Filesystem::addStorageWrapper('oc_encryption', function ($mountPoint, $storage, IMountPoint $mount) {
+			$parameters = [
+				'storage' => $storage,
+				'mountPoint' => $mountPoint,
+				'mount' => $mount];
+			$manager = \OC::$server->getEncryptionManager();
+			$util = new \OC\Encryption\Util(
+				new \OC\Files\View(),
+				\OC::$server->getUserManager(),
+				\OC::$server->getConfig());
+			$user = \OC::$server->getUserSession()->getUser();
+			$logger = \OC::$server->getLogger();
+			$uid = $user ? $user->getUID() : null;
+			return new Encryption($parameters, $manager, $util, $logger, $uid);
+		});
+	}
 }
