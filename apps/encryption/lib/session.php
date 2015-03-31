@@ -54,7 +54,7 @@ class Session {
 	 */
 	public function getStatus() {
 		$status = $this->session->get('encryptionInitialized');
-		if (is_null($status)) {
+		if (!$status) {
 			$status = self::NOT_INITIALIZED;
 		}
 
@@ -69,7 +69,8 @@ class Session {
 	 */
 	public function getPrivateKey() {
 		$key = $this->session->get('privateKey');
-		if (is_null($key)) {
+		
+		if (!$key) {
 			throw new Exceptions\PrivateKeyMissingException('no private key stored in session');
 		}
 		return $key;
@@ -82,7 +83,7 @@ class Session {
 	 */
 	public function isPrivateKeySet() {
 		$key = $this->session->get('privateKey');
-		if (is_null($key)) {
+		if (!$key) {
 			return false;
 		}
 
