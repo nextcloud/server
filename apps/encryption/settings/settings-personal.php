@@ -22,7 +22,7 @@ $keymanager = new \OCA\Encryption\KeyManager(
 	\OC::$server->getConfig(),
 	\OC::$server->getUserSession(),
 	$session,
-	\OC::$server->getLogger());
+	\OC::$server->getLogger(), null);
 
 $user = \OCP\User::getUser();
 
