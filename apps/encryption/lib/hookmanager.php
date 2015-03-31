@@ -40,7 +40,6 @@ class HookManager {
 					return false;
 				}
 				$this->hookInstances[] = $instance;
-				return true;
 			}
 
 		}
