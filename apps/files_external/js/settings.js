@@ -15,6 +15,10 @@ var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
 	'<div class="drop dropdown mountOptionsDropdown">' +
 	// FIXME: options are hard-coded for now
 	'	<div class="optionRow">' +
+	'		<label for="mountOptionsEncrypt">{{t "files_external" "Enable encryption"}}</label>' +
+	'		<input id="mountOptionsEncrypt" name="encrypt" type="checkbox" value="true" checked="checked"/>' +
+	'	</div>' +
+	'	<div class="optionRow">' +
 	'		<label for="mountOptionsPreviews">{{t "files_external" "Enable previews"}}</label>' +
 	'		<input id="mountOptionsPreviews" name="previews" type="checkbox" value="true" checked="checked"/>' +
 	'	</div>' +
@@ -422,8 +426,9 @@ MountOptionsDropdown.prototype = {
 	 *
 	 * @param {Object} $container container
 	 * @param {Object} mountOptions mount options
+	 * @param {Array} enabledOptions enabled mount options
 	 */
-	show: function($container, mountOptions) {
+	show: function($container, mountOptions, enabledOptions) {
 		if (MountOptionsDropdown._last) {
 			MountOptionsDropdown._last.hide();
 		}
@@ -438,7 +443,7 @@ MountOptionsDropdown.prototype = {
 		this.$el = $el;
 		$el.addClass('hidden');
 
-		this.setOptions(mountOptions);
+		this.setOptions(mountOptions, enabledOptions);
 
 		this.$el.appendTo($container);
 		MountOptionsDropdown._last = this;
@@ -484,8 +489,9 @@ MountOptionsDropdown.prototype = {
 	 * Sets the mount options to the dropdown controls
 	 *
 	 * @param {Object} options mount options
+	 * @param {Array} enabledOptions enabled mount options
 	 */
-	setOptions: function(options) {
+	setOptions: function(options, enabledOptions) {
 		var $el = this.$el;
 		_.each(options, function(value, key) {
 			var $optionEl = $el.find('input, select').filterAttr('name', key);
@@ -496,6 +502,13 @@ MountOptionsDropdown.prototype = {
 				$optionEl.prop('checked', !!value);
 			} else {
 				$optionEl.val(value);
+			}
+		});
+		$el.find('.optionRow').each(function(i, row){
+			var $row = $(row);
+			var optionId = $row.find('input, select').attr('name');
+			if (enabledOptions.indexOf(optionId) === -1) {
+				$row.hide();
 			}
 		});
 	}
@@ -554,6 +567,8 @@ MountConfigListView.prototype = {
 	 */
 	_allBackends: null,
 
+	_encryptionEnabled: false,
+
 	/**
 	 * @param {Object} $el DOM object containing the list
 	 * @param {Object} [options]
@@ -572,6 +587,8 @@ MountConfigListView.prototype = {
 		if (options && !_.isUndefined(options.userListLimit)) {
 			this._userListLimit = options.userListLimit;
 		}
+
+		this._encryptionEnabled = options.encryptionEnabled;
 
 		// read the backend config that was carefully crammed
 		// into the data-configurations attribute of the select
@@ -935,8 +952,11 @@ MountConfigListView.prototype = {
 		var storage = this.getStorageConfig($tr);
 		var $toggle = $tr.find('.mountOptionsToggle');
 		var dropDown = new MountOptionsDropdown();
-		dropDown.show($toggle, storage.mountOptions || []);
-
+		var enabledOptions = ['previews', 'filesystem_check_changes'];
+		if (this._encryptionEnabled) {
+			enabledOptions.push('encrypt');
+		}
+		dropDown.show($toggle, storage.mountOptions || [], enabledOptions);
 		$('body').on('mouseup.mountOptionsDropdown', function(event) {
 			var $target = $(event.target);
 			if ($toggle.has($target).length) {
@@ -963,7 +983,10 @@ MountConfigListView.prototype = {
 };
 
 $(document).ready(function() {
-	var mountConfigListView = new MountConfigListView($('#externalStorage'));
+	var encryptionEnabled = JSON.parse($('#files_external').attr('data-encryption-enabled'));
+	var mountConfigListView = new MountConfigListView($('#externalStorage'), {
+		encryptionEnabled: encryptionEnabled
+	});
 
 	$('#sslCertificate').on('click', 'td.remove>img', function() {
 		var $tr = $(this).closest('tr');

@@ -703,14 +703,18 @@ class OC {
 	private static function registerEncryptionWrapper() {
 		$enabled = self::$server->getEncryptionManager()->isEnabled();
 		if ($enabled) {
-			\OC\Files\Filesystem::addStorageWrapper('oc_encryption', function ($mountPoint, $storage) {
-				$parameters = array('storage' => $storage, 'mountPoint' => $mountPoint);
-				$manager = \OC::$server->getEncryptionManager();
-				$util = new \OC\Encryption\Util(new \OC\Files\View(), \OC::$server->getUserManager());
-				$user = \OC::$server->getUserSession()->getUser();
-				$logger = \OC::$server->getLogger();
-				$uid = $user ? $user->getUID() : null;
-				return new \OC\Files\Storage\Wrapper\Encryption($parameters, $manager,$util, $logger, $uid);
+			\OC\Files\Filesystem::addStorageWrapper('oc_encryption', function ($mountPoint, $storage, \OCP\Files\Mount\IMountPoint $mount) {
+				if($mount->getOption('encrypt', true)) {
+					$parameters = array('storage' => $storage, 'mountPoint' => $mountPoint);
+					$manager = \OC::$server->getEncryptionManager();
+					$util = new \OC\Encryption\Util(new \OC\Files\View(), \OC::$server->getUserManager());
+					$user = \OC::$server->getUserSession()->getUser();
+					$logger = \OC::$server->getLogger();
+					$uid = $user ? $user->getUID() : null;
+					return new \OC\Files\Storage\Wrapper\Encryption($parameters, $manager, $util, $logger, $uid);
+				} else {
+					return $storage;
+				}
 			});
 		}
 

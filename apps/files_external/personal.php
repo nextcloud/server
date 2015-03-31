@@ -48,6 +48,7 @@ if (!$hasId) {
 }
 
 $tmpl = new OCP\Template('files_external', 'settings');
+$tmpl->assign('encryptionEnabled', \OC::$server->getEncryptionManager()->isEnabled());
 $tmpl->assign('isAdminPage', false);
 $tmpl->assign('mounts', $mounts);
 $tmpl->assign('dependencies', OC_Mount_Config::checkDependencies());
