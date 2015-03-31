@@ -76,11 +76,6 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable("File is not updatable: ".$e->getMessage());
 		}
 
-		// throw an exception if encryption was disabled but the files are still encrypted
-		if (\OC_Util::encryptedFiles()) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable("Encryption is disabled");
-		}
-
 		// verify path of the target
 		$this->verifyPath();
 
@@ -187,18 +182,13 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 	public function get() {
 
 		//throw exception if encryption is disabled but files are still encrypted
-		if (\OC_Util::encryptedFiles()) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable("Encryption is disabled");
-		} else {
-			try {
-				return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
-			} catch (\OCP\Encryption\Exception\EncryptionException $e) {
-				throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
-			} catch (\OCP\Files\StorageNotAvailableException $e) {
-				throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to open file: ".$e->getMessage());
-			}
+		try {
+			return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
+		} catch (\OCP\Encryption\Exception\EncryptionException $e) {
+			throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
+		} catch (\OCP\Files\StorageNotAvailableException $e) {
+			throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to open file: ".$e->getMessage());
 		}
-
 	}
 
 	/**

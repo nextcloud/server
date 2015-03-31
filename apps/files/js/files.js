@@ -126,7 +126,6 @@
 				return;
 			}
 
-			var encryptedFiles = $('#encryptedFiles').val();
 			var initStatus = $('#encryptionInitStatus').val();
 			if (initStatus === '0') { // enc not initialized, but should be
 				OC.Notification.show(t('files', 'Encryption App is enabled but your keys are not initialized, please log-out and log-in again'));
@@ -134,11 +133,6 @@
 			}
 			if (initStatus === '1') { // encryption tried to init but failed
 				OC.Notification.show(t('files', 'Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.'));
-				return;
-			}
-			if (encryptedFiles === '1') {
-				OC.Notification.show(t('files', 'Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.'));
-				return;
 			}
 		},
 

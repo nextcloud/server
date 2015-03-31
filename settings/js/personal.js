@@ -230,40 +230,6 @@ $(document).ready(function () {
 		return false;
 	});
 
-	$('button:button[name="submitDecryptAll"]').click(function () {
-		var privateKeyPassword = $('#decryptAll input:password[id="privateKeyPassword"]').val();
-		$('#decryptAll button:button[name="submitDecryptAll"]').prop("disabled", true);
-		$('#decryptAll input:password[name="privateKeyPassword"]').prop("disabled", true);
-		OC.Encryption.decryptAll(privateKeyPassword);
-	});
-
-
-	$('button:button[name="submitRestoreKeys"]').click(function () {
-		$('#restoreBackupKeys button:button[name="submitDeleteKeys"]').prop("disabled", true);
-		$('#restoreBackupKeys button:button[name="submitRestoreKeys"]').prop("disabled", true);
-		OC.Encryption.restoreKeys();
-	});
-
-	$('button:button[name="submitDeleteKeys"]').click(function () {
-		$('#restoreBackupKeys button:button[name="submitDeleteKeys"]').prop("disabled", true);
-		$('#restoreBackupKeys button:button[name="submitRestoreKeys"]').prop("disabled", true);
-		OC.Encryption.deleteKeys();
-	});
-
-	$('#decryptAll input:password[name="privateKeyPassword"]').keyup(function (event) {
-		var privateKeyPassword = $('#decryptAll input:password[id="privateKeyPassword"]').val();
-		if (privateKeyPassword !== '') {
-			$('#decryptAll button:button[name="submitDecryptAll"]').prop("disabled", false);
-			if (event.which === 13) {
-				$('#decryptAll button:button[name="submitDecryptAll"]').prop("disabled", true);
-				$('#decryptAll input:password[name="privateKeyPassword"]').prop("disabled", true);
-				OC.Encryption.decryptAll(privateKeyPassword);
-			}
-		} else {
-			$('#decryptAll button:button[name="submitDecryptAll"]').prop("disabled", true);
-		}
-	});
-
 	var uploadparms = {
 		done: function (e, data) {
 			avatarResponseHandler(data.result);
@@ -380,47 +346,6 @@ $(document).ready(function () {
 });
 
 OC.Encryption = {
-	decryptAll: function (password) {
-		var message = t('settings', 'Decrypting files... Please wait, this can take some time.');
-		OC.Encryption.msg.start('#decryptAll .msg', message);
-		$.post('ajax/decryptall.php', {password: password}, function (data) {
-			if (data.status === "error") {
-				OC.Encryption.msg.finished('#decryptAll .msg', data);
-				$('#decryptAll input:password[name="privateKeyPassword"]').prop("disabled", false);
-			} else {
-				OC.Encryption.msg.finished('#decryptAll .msg', data);
-			}
-			$('#restoreBackupKeys').removeClass('hidden');
-		});
-	},
-
-	deleteKeys: function () {
-		var message = t('settings', 'Delete encryption keys permanently.');
-		OC.Encryption.msg.start('#restoreBackupKeys .msg', message);
-		$.post('ajax/deletekeys.php', null, function (data) {
-			if (data.status === "error") {
-				OC.Encryption.msg.finished('#restoreBackupKeys .msg', data);
-				$('#restoreBackupKeys button:button[name="submitDeleteKeys"]').prop("disabled", false);
-				$('#restoreBackupKeys button:button[name="submitRestoreKeys"]').prop("disabled", false);
-			} else {
-				OC.Encryption.msg.finished('#restoreBackupKeys .msg', data);
-			}
-		});
-	},
-
-	restoreKeys: function () {
-		var message = t('settings', 'Restore encryption keys.');
-		OC.Encryption.msg.start('#restoreBackupKeys .msg', message);
-		$.post('ajax/restorekeys.php', {}, function (data) {
-			if (data.status === "error") {
-				OC.Encryption.msg.finished('#restoreBackupKeys .msg', data);
-				$('#restoreBackupKeys button:button[name="submitDeleteKeys"]').prop("disabled", false);
-				$('#restoreBackupKeys button:button[name="submitRestoreKeys"]').prop("disabled", false);
-			} else {
-				OC.Encryption.msg.finished('#restoreBackupKeys .msg', data);
-			}
-		});
-	}
 };
 
 OC.Encryption.msg = {

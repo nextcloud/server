@@ -219,9 +219,11 @@ class Util {
 	/**
 	 * check if some encrypted files are stored
 	 * @return bool
+	 *
+	 * @deprecated No longer required
 	 */
 	public static function encryptedFiles() {
-		return \OC_Util::encryptedFiles();
+		return false;
 	}
 
 	/**
