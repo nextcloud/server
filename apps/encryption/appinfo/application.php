@@ -77,7 +77,8 @@ class Application extends \OCP\AppFramework\App {
 					$container->query('UserSetup'),
 					$server->getUserSession(),
 					$container->query('Util'),
-					new \OCA\Encryption\Session($server->getSession())),
+					new \OCA\Encryption\Session($server->getSession()),
+					$container->query('Recovery'))
 			]);
 
 			$hookManager->fireHooks();
@@ -126,8 +127,7 @@ class Application extends \OCP\AppFramework\App {
 					$server->getConfig(),
 					$server->getUserSession(),
 					new \OCA\Encryption\Session($server->getSession()),
-					$server->getLogger(),
-					$c->query('Recovery')
+					$server->getLogger()
 				);
 			});
 

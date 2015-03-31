@@ -100,4 +100,15 @@ class Session {
 		$this->session->set('privateKey', $key);
 	}
 
+
+	/**
+	 * remove keys from session
+	 */
+	public function clear() {
+		$this->session->remove('publicSharePrivateKey');
+		$this->session->remove('privateKey');
+		$this->session->remove('encryptionInitialized');
+
+	}
+
 }
