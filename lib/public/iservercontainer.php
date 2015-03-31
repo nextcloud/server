@@ -150,12 +150,18 @@ interface IServerContainer {
 	function getHasher();
 
 	/**
+	 * Returns a SecureRandom instance
+	 *
+	 * @return \OCP\Security\ISecureRandom
+	 */
+	function getSecureRandom();
+
+	/**
 	 * Returns an instance of the db facade
 	 * @deprecated use getDatabaseConnection, will be removed in ownCloud 10
 	 * @return \OCP\IDb
 	 */
 	function getDb();
-
 
 	/**
 	 * Returns the app config manager
