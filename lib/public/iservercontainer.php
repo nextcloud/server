@@ -184,6 +184,11 @@ interface IServerContainer {
 	function getEncryptionManager();
 
 	/**
+	 * @return \OC\Encryption\File
+	 */
+	function getEncryptionFilesHelper();
+
+	/**
 	 * @param string $encryptionModuleId encryption module ID
 	 *
 	 * @return \OCP\Encryption\Keys\IStorage

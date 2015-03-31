@@ -723,6 +723,7 @@ class OC {
 					\OC::$server->getConfig()),
 				\OC\Files\Filesystem::getMountManager(),
 				\OC::$server->getEncryptionManager(),
+				\OC::$server->getEncryptionFilesHelper(),
 				$uid
 			);
 			\OCP\Util::connectHook('OCP\Share', 'post_shared', $updater, 'postShared');

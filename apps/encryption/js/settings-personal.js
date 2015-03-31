@@ -29,7 +29,7 @@ $(document).ready(function(){
 			var recoveryStatus = $( this ).val();
 			OC.msg.startAction('#userEnableRecovery .msg', 'Updating recovery keys. This can take some time...');
 			$.post(
-				OC.filePath( 'files_encryption', 'ajax', 'userrecovery.php' )
+					OC.generateUrl('/apps/encryption/ajax/userSetRecovery')
 				, { userEnableRecovery: recoveryStatus }
 				,  function( data ) {
 					OC.msg.finishedAction('#userEnableRecovery .msg', data);
@@ -38,33 +38,6 @@ $(document).ready(function(){
 			// Ensure page is not reloaded on form submit
 			return false;
 		}
-	);
-
-	$("#encryptAll").click(
-		function(){
-
-			// Hide feedback messages in case they're already visible
-			$('#encryptAllSuccess').hide();
-			$('#encryptAllError').hide();
-
-			var userPassword = $( '#userPassword' ).val();
-			var encryptAll = $( '#encryptAll' ).val();
-
-			$.post(
-				OC.filePath( 'files_encryption', 'ajax', 'encryptall.php' )
-				, { encryptAll: encryptAll, userPassword: userPassword }
-				,  function( data ) {
-					if ( data.status == "success" ) {
-						$('#encryptAllSuccess').show();
-					} else {
-						$('#encryptAllError').show();
-					}
-				}
-			);
-			// Ensure page is not reloaded on form submit
-			return false;
-		}
-
 	);
 
 	// update private key password

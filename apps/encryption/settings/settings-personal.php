@@ -29,7 +29,11 @@ $user = \OCP\User::getUser();
 $view = new \OC\Files\View('/');
 
 $util = new \OCA\Encryption\Util(
-	new \OC\Files\View(), $crypt, $keymanager, \OC::$server->getLogger(), \OC::$server->getUserSession(), \OC::$server->getConfig());
+	new \OC\Files\View(),
+	$crypt, $keymanager,
+	\OC::$server->getLogger(),
+	\OC::$server->getUserSession(),
+	\OC::$server->getConfig());
 
 $privateKeySet = $session->isPrivateKeySet();
 // did we tried to initialize the keys for this session?

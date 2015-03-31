@@ -38,6 +38,11 @@ namespace OCA\Encryption\AppInfo;
 		'name' => 'Recovery#changeRecoveryPassword',
 		'url' => '/ajax/changeRecoveryPassword',
 		'verb' => 'POST'
+	],
+		[
+		'name' => 'Recovery#userSetRecovery',
+		'url' => '/ajax/userSetRecovery',
+		'verb' => 'POST'
 	]
 
 

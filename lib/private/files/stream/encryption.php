@@ -31,6 +31,9 @@ class Encryption extends Wrapper {
 	/** @var \OC\Encryption\Util */
 	protected $util;
 
+	/** @var \OC\Encryption\File */
+	protected $file;
+
 	/** @var \OCP\Encryption\IEncryptionModule */
 	protected $encryptionModule;
 
@@ -97,6 +100,7 @@ class Encryption extends Wrapper {
 			'encryptionModule',
 			'header',
 			'uid',
+			'file',
 			'util',
 			'size',
 			'unencryptedSize',
@@ -117,6 +121,7 @@ class Encryption extends Wrapper {
 	 * @param \OC\Files\Storage\Storage $storage
 	 * @param \OC\Files\Storage\Wrapper\Encryption $encStorage
 	 * @param \OC\Encryption\Util $util
+	 * @param \OC\Encryption\File $file
 	 * @param string $mode
 	 * @param int $size
 	 * @param int $unencryptedSize
@@ -130,6 +135,7 @@ class Encryption extends Wrapper {
 								\OC\Files\Storage\Storage $storage,
 								\OC\Files\Storage\Wrapper\Encryption $encStorage,
 								\OC\Encryption\Util $util,
+								 \OC\Encryption\File $file,
 								$mode,
 								$size,
 								$unencryptedSize) {
@@ -144,6 +150,7 @@ class Encryption extends Wrapper {
 				'header' => $header,
 				'uid' => $uid,
 				'util' => $util,
+				'file' => $file,
 				'size' => $size,
 				'unencryptedSize' => $unencryptedSize,
 				'encryptionStorage' => $encStorage
@@ -229,7 +236,7 @@ class Encryption extends Wrapper {
 			$sharePath = dirname($path);
 		}
 
-		$accessList = $this->util->getSharingUsersArray($sharePath);
+		$accessList = $this->file->getAccessList($sharePath);
 		$this->newHeader = $this->encryptionModule->begin($this->fullPath, $this->uid, $this->header, $accessList);
 
 		return true;

@@ -87,6 +87,11 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new Encryption\Manager($c->getConfig());
 		});
 
+		$this->registerService('EncryptionFileHelper', function (Server $c) {
+			$util = new \OC\Encryption\Util(new \OC\Files\View(), $c->getUserManager(), $c->getConfig());
+			return new Encryption\File($util);
+		});
+
 		$this->registerService('EncryptionKeyStorageFactory', function ($c) {
 			return new Encryption\Keys\Factory();
 		});
@@ -405,6 +410,13 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getEncryptionManager() {
 		return $this->query('EncryptionManager');
+	}
+
+	/**
+	 * @return \OC\Encryption\File
+	 */
+	function getEncryptionFilesHelper() {
+		return $this->query('EncryptionFileHelper');
 	}
 
 	/**

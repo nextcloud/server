@@ -139,7 +139,9 @@ class Application extends \OCP\AppFramework\App {
 					$server->getSecureRandom(),
 					$c->query('KeyManager'),
 					$server->getConfig(),
-					$server->getEncryptionKeyStorage(\OCA\Encryption\Crypto\Encryption::ID));
+					$server->getEncryptionKeyStorage(\OCA\Encryption\Crypto\Encryption::ID),
+					$server->getEncryptionFilesHelper(),
+					new \OC\Files\View());
 			});
 
 			$container->registerService('RecoveryController', function (IAppContainer $c) {

@@ -163,49 +163,6 @@ class Util {
 	}
 
 	/**
-	 * Find, sanitise and format users sharing a file
-	 * @note This wraps other methods into a portable bundle
-	 * @param string $path path relative to current users files folder
-	 * @return array
-	 */
-	public function getSharingUsersArray($path) {
-
-		// Make sure that a share key is generated for the owner too
-		list($owner, $ownerPath) = $this->getUidAndFilename($path);
-
-		// always add owner to the list of users with access to the file
-		$userIds = array($owner);
-
-		if (!$this->isFile($ownerPath)) {
-			return array('users' => $userIds, 'public' => false);
-		}
-
-		$ownerPath = substr($ownerPath, strlen('/files'));
-		$ownerPath = $this->stripPartialFileExtension($ownerPath);
-
-		// Find out who, if anyone, is sharing the file
-		$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner);
-		$userIds = \array_merge($userIds, $result['users']);
-		$public = $result['public'] || $result['remote'];
-
-		// check if it is a group mount
-		if (\OCP\App::isEnabled("files_external")) {
-			$mounts = \OC_Mount_Config::getSystemMountPoints();
-			foreach ($mounts as $mount) {
-				if ($mount['mountpoint'] == substr($ownerPath, 1, strlen($mount['mountpoint']))) {
-					$mountedFor = $this->getUserWithAccessToMountPoint($mount['applicable']['users'], $mount['applicable']['groups']);
-					$userIds = array_merge($userIds, $mountedFor);
-				}
-			}
-		}
-
-		// Remove duplicate UIDs
-		$uniqueUserIds = array_unique($userIds);
-
-		return array('users' => $uniqueUserIds, 'public' => $public);
-	}
-
-	/**
 	 * go recursively through a dir and collect all files and sub files.
 	 *
 	 * @param string $dir relative to the users files folder
@@ -243,7 +200,7 @@ class Util {
 	 * @param string $path
 	 * @return boolean
 	 */
-	protected function isFile($path) {
+	public function isFile($path) {
 		if (substr($path, 0, strlen('/files/')) === '/files/') {
 			return true;
 		}
@@ -361,7 +318,7 @@ class Util {
 		}
 	}
 
-	protected function getUserWithAccessToMountPoint($users, $groups) {
+	public function getUserWithAccessToMountPoint($users, $groups) {
 		$result = array();
 		if (in_array('all', $users)) {
 			$result = \OCP\User::getUsers();

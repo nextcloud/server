@@ -46,12 +46,16 @@ class Update {
 	/** @var string */
 	protected $uid;
 
+	/** @var \OC\Encryption\File */
+	protected $file;
+
 	/**
 	 *
 	 * @param \OC\Files\View $view
 	 * @param \OC\Encryption\Util $util
 	 * @param \OC\Files\Mount\Manager $mountManager
 	 * @param \OC\Encryption\Manager $encryptionManager
+	 * @param \OC\Encryption\File $file
 	 * @param string $uid
 	 */
 	public function __construct(
@@ -59,6 +63,7 @@ class Update {
 			Util $util,
 			Mount\Manager $mountManager,
 			Manager $encryptionManager,
+			File $file,
 			$uid
 		) {
 
@@ -66,6 +71,7 @@ class Update {
 		$this->util = $util;
 		$this->mountManager = $mountManager;
 		$this->encryptionManager = $encryptionManager;
+		$this->file = $file;
 		$this->uid = $uid;
 	}
 
@@ -103,7 +109,7 @@ class Update {
 			$encryptionModule = $this->encryptionManager->getDefaultEncryptionModule();
 
 			foreach ($allFiles as $path) {
-				$usersSharing = $this->util->getSharingUsersArray($path);
+				$usersSharing = $this->file->getAccessList($path);
 				$encryptionModule->update($absPath, $this->uid, $usersSharing);
 			}
 	}

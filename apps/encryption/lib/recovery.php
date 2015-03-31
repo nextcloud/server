@@ -29,7 +29,8 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 use OCP\Security\ISecureRandom;
-use OCP\Share;
+use OC\Files\View;
+use OCP\Encryption\IFile;
 
 class Recovery {
 
@@ -58,7 +59,17 @@ class Recovery {
 	 * @var IStorage
 	 */
 	private $keyStorage;
-
+	/**
+	 * @var View
+	 */
+	private $view;
+	/**
+	 * @var IFile
+	 */
+	private $file;
+	/**
+	 * @var string
+	 */
 	private $recoveryKeyId;
 
 	/**
@@ -68,19 +79,25 @@ class Recovery {
 	 * @param KeyManager $keyManager
 	 * @param IConfig $config
 	 * @param IStorage $keyStorage
+	 * @param IFile $file
+	 * @param View $view
 	 */
 	public function __construct(IUserSession $user,
 								Crypt $crypt,
 								ISecureRandom $random,
 								KeyManager $keyManager,
 								IConfig $config,
-								IStorage $keyStorage) {
+								IStorage $keyStorage,
+								IFile $file,
+								View $view) {
 		$this->user = $user && $user->isLoggedIn() ? $user->getUser() : false;
 		$this->crypt = $crypt;
 		$this->random = $random;
 		$this->keyManager = $keyManager;
 		$this->config = $config;
 		$this->keyStorage = $keyStorage;
+		$this->view = $view;
+		$this->file = $file;
 	}
 
 	/**
@@ -138,14 +155,6 @@ class Recovery {
 		return false;
 	}
 
-	public function addRecoveryKeys($keyId) {
-		// No idea new way to do this....
-	}
-
-	public function removeRecoveryKeys() {
-		// No idea new way to do this....
-	}
-
 	/**
 	 * @return bool
 	 */
@@ -159,20 +168,70 @@ class Recovery {
 	}
 
 	/**
-	 * @param $enabled
+	 * @param string $value
 	 * @return bool
 	 */
-	public function setRecoveryForUser($enabled) {
-		$value = $enabled ? '1' : '0';
+	public function setRecoveryForUser($value) {
 
 		try {
 			$this->config->setUserValue($this->user->getUID(),
 				'encryption',
 				'recoveryEnabled',
 				$value);
+
+			if ($value === '1') {
+				$this->addRecoveryKeys('/' . $this->user . '/files/');
+			} else {
+				$this->removeRecoveryKeys();
+			}
+
 			return true;
 		} catch (PreConditionNotMetException $e) {
 			return false;
+		}
+	}
+
+	/**
+	 * add recovery key to all encrypted files
+	 */
+	private function addRecoveryKeys($path = '/') {
+		$dirContent = $this->view->getDirectoryContent($path);
+		foreach ($dirContent as $item) {
+			// get relative path from files_encryption/keyfiles/
+			$filePath = $item['path'];
+			if ($item['type'] === 'dir') {
+				$this->addRecoveryKeys($filePath . '/');
+			} else {
+				$fileKey = $this->keyManager->getFileKey($filePath, $this->user);
+				if (!empty($fileKey)) {
+					$accessList = $this->file->getAccessList($path);
+					$publicKeys = array();
+					foreach ($accessList['users'] as $uid) {
+						$publicKeys[$uid] = $this->keymanager->getPublicKey($uid);
+					}
+
+					$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
+					$this->keymanager->setAllFileKeys($path, $encryptedKeyfiles);
+				}
+			}
+		}
+	}
+
+	/**
+	 * remove recovery key to all encrypted files
+	 */
+	private function removeRecoveryKeys($path = '/') {
+		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
+		foreach ($dirContent as $item) {
+			// get relative path from files_encryption/keyfiles
+			$filePath = substr($item['path'], strlen('files_encryption/keyfiles'));
+			if ($item['type'] === 'dir') {
+				$this->removeRecoveryKeys($filePath . '/');
+			} else {
+				// remove '.key' extension from path e.g. 'file.txt.key' to 'file.txt'
+				$file = substr($filePath, 0, -4);
+				$this->view->unlink($this->shareKeysPath . '/' . $file . '.' . $this->recoveryKeyId . '.shareKey');
+			}
 		}
 	}
 
