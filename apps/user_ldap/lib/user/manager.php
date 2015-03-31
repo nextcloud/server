@@ -165,6 +165,7 @@ class Manager {
 	 * @brief returns a User object by it's DN or ownCloud username
 	 * @param string the DN or username of the user
 	 * @return \OCA\user_ldap\lib\user\User|\OCA\user_ldap\lib\user\OfflineUser|null
+	 * @throws \Exception when connection could not be established
 	 */
 	public function get($id) {
 		$this->checkAccess();
@@ -181,12 +182,7 @@ class Manager {
 			}
 		}
 
-		try {
-			$user = $this->createInstancyByUserName($id);
-			return $user;
-		} catch (\Exception $e) {
-			return null;
-		}
+		return $this->createInstancyByUserName($id);
 	}
 
 }

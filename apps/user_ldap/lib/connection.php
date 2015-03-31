@@ -167,7 +167,8 @@ class Connection extends LDAPUtility {
 			$this->establishConnection();
 		}
 		if(is_null($this->ldapConnectionRes)) {
-			\OCP\Util::writeLog('user_ldap', 'Connection could not be established', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('user_ldap', 'No LDAP Connection to server ' . $this->connection->ldapHost, \OCP\Util::ERROR);
+			throw new \Exception('Connection to LDAP server could not be established');
 		}
 		return $this->ldapConnectionRes;
 	}
