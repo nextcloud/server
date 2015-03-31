@@ -10,7 +10,6 @@
 namespace OCA\Encryption\Tests;
 
 
-use OC\Files\View;
 use OCA\Encryption\KeyManager;
 use Test\TestCase;
 
@@ -28,25 +27,9 @@ class KeyManagerTest extends TestCase {
 	 */
 	private static $testUser = 'test-keyManager-user.dot';
 	/**
-	 * @var
-	 */
-	private $dummyKeys;
-	/**
 	 * @var string
 	 */
 	private $userId;
-	/**
-	 * @var string
-	 */
-	private $userPassword;
-	/**
-	 * @var \OC\Files\View
-	 */
-	private $view;
-	/**
-	 * @var string
-	 */
-	private $dataDir;
 
 	/** @var string */
 	private $systemKeyId;
@@ -97,14 +80,6 @@ class KeyManagerTest extends TestCase {
 		$this->userId = 'user1';
 		$this->systemKeyId = 'systemKeyId';
 		$this->keyStorageMock = $this->getMock('OCP\Encryption\Keys\IStorage');
-
-		/*
-		$keyStorageMock->method('getUserKey')
-			->will($this->returnValue(false));
-		$keyStorageMock->method('setUserKey')
-			->will($this->returnValue(true));
-		 */
-
 		$this->cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
 			->disableOriginalConstructor()
 			->getMock();
@@ -113,13 +88,6 @@ class KeyManagerTest extends TestCase {
 			->method('getAppValue')
 			->willReturn($this->systemKeyId);
 		$this->userMock = $this->getMock('OCP\IUserSession');
-
-		/*
-		$userMock
-			->method('getUID')
-			->will($this->returnValue('admin'));
-		 */
-
 		$this->sessionMock = $this->getMockBuilder('OCA\Encryption\Session')
 			->disableOriginalConstructor()
 			->getMock();
