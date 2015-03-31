@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Cron" : "Крон",
     "Sharing" : "Споделување",
+    "Cron" : "Крон",
     "Email Server" : "Сервер за електронска пошта",
     "Log" : "Записник",
     "Authentication error" : "Грешка во автентикација",
@@ -66,7 +66,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN Менаџер",
     "SSL" : "SSL",
     "TLS" : "TLS",
-    "Execute one task with each page loaded" : "Изврши по една задача со секоја вчитана страница",
     "Allow apps to use the Share API" : "Дозволете апликациите да го користат API-то за споделување",
     "Allow users to share via link" : "Допушти корисниците да споделуваат со линкови",
     "Enforce password protection" : "Наметни заштита на лозинка",
@@ -78,6 +77,7 @@ OC.L10N.register(
     "Allow resharing" : "Овозможи повторно споделување",
     "Restrict users to only share with users in their groups" : "Ограничи корисниците да споделуваат со корисници во своите групи",
     "Exclude groups from sharing" : "Исклучи групи од споделување",
+    "Execute one task with each page loaded" : "Изврши по една задача со секоја вчитана страница",
     "This is used for sending out notifications." : "Ова се користи за испраќање на известувања.",
     "Send mode" : "Мод на испраќање",
     "From address" : "Од адреса",

@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Cron" : "Cron",
     "Sharing" : "Dalijimasis",
+    "Cron" : "Cron",
     "Log" : "Žurnalas",
     "Authentication error" : "Autentikacijos klaida",
     "Language changed" : "Kalba pakeista",
@@ -45,11 +45,11 @@ OC.L10N.register(
     "None" : "Nieko",
     "Login" : "Prisijungti",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Trūksta PHP modulio „fileinfo“. Labai rekomenduojame įjungti šį modulį, kad gauti geriausius rezultatus nustatant mime-tipą.",
-    "Execute one task with each page loaded" : "Įvykdyti vieną užduotį su kiekvieno puslapio įkėlimu",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php yra registruotas tinklapio suplanuotų užduočių paslaugose, kad iškviesti cron.php kas 15 minučių per http.",
     "Allow apps to use the Share API" : "Leidžia programoms naudoti Share API",
     "Allow public uploads" : "Leisti viešus įkėlimus",
     "Allow resharing" : "Leisti dalintis",
+    "Execute one task with each page loaded" : "Įvykdyti vieną užduotį su kiekvieno puslapio įkėlimu",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php yra registruotas tinklapio suplanuotų užduočių paslaugose, kad iškviesti cron.php kas 15 minučių per http.",
     "Server address" : "Serverio adresas",
     "Port" : "Prievadas",
     "Log level" : "Žurnalo išsamumas",

@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Cron" : "Cron",
     "Sharing" : "Ndarje",
+    "Cron" : "Cron",
     "Email Server" : "Serveri Email",
     "Log" : "Historik aktiviteti",
     "Authentication error" : "Gabim autentifikimi",
@@ -63,12 +63,12 @@ OC.L10N.register(
     "None" : "Asgjë",
     "Login" : "Hyr",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Moduli PHP 'fileinfo' mungon. Ju këshillojmë me këmbngulje të aktivizoni këtë modul për të arritur rezultate më të mirame identifikimin e tipeve te ndryshme MIME.",
-    "Execute one task with each page loaded" : "Kryeni vetëm një veprim me secilën prej faqeve të ngarkuara",
     "Allow apps to use the Share API" : "Lejoni aplikacionet të përdorin share API",
     "Allow public uploads" : "Lejo ngarkimin publik",
     "Expire after " : "Skadon pas",
     "days" : "diitë",
     "Allow resharing" : "Lejo ri-ndarjen",
+    "Execute one task with each page loaded" : "Kryeni vetëm një veprim me secilën prej faqeve të ngarkuara",
     "Send mode" : "Mënyra e dërgimit",
     "From address" : "Nga adresa",
     "mail" : "postë",

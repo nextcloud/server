@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Cron" : "Cron",
     "Sharing" : "שיתוף",
+    "Cron" : "Cron",
     "Log" : "יומן",
     "Authentication error" : "שגיאת הזדהות",
     "Language changed" : "שפה השתנתה",
@@ -34,9 +34,9 @@ OC.L10N.register(
     "Encryption" : "הצפנה",
     "None" : "כלום",
     "Login" : "התחברות",
-    "Execute one task with each page loaded" : "יש להפעיל משימה אחת עם כל עמוד שנטען",
     "Allow apps to use the Share API" : "לאפשר ליישום להשתמש ב־API השיתוף",
     "Allow resharing" : "לאפשר שיתוף מחדש",
+    "Execute one task with each page loaded" : "יש להפעיל משימה אחת עם כל עמוד שנטען",
     "Server address" : "כתובת שרת",
     "Port" : "פורט",
     "Credentials" : "פרטי גישה",

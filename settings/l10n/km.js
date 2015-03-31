@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Cron" : "Cron",
     "Sharing" : "ការ​ចែក​រំលែក",
+    "Cron" : "Cron",
     "Email Server" : "ម៉ាស៊ីន​បម្រើ​អ៊ីមែល",
     "Log" : "Log",
     "Authentication error" : "កំហុស​ការ​ផ្ទៀង​ផ្ទាត់​ភាព​ត្រឹម​ត្រូវ",

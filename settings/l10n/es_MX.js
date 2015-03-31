@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Cron" : "Cron",
     "Sharing" : "Compartiendo",
+    "Cron" : "Cron",
     "Log" : "Registro",
     "Authentication error" : "Error de autenticación",
     "Your full name has been changed." : "Se ha cambiado su nombre completo.",
@@ -52,11 +52,11 @@ OC.L10N.register(
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "No se ha encontrado el modulo PHP 'fileinfo'. Le recomendamos encarecidamente que habilite este módulo para obtener mejores resultados con la detección de tipos MIME.",
     "System locale can not be set to a one which supports UTF-8." : "No se puede escoger una configuración regional que soporte UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Esto significa que puede haber problemas con ciertos caracteres en los nombres de los archivos.",
-    "Execute one task with each page loaded" : "Ejecutar una tarea con cada página cargada",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php se registra en un servicio webcron para llamar a cron.php cada 15 minutos a través de HTTP.",
     "Allow apps to use the Share API" : "Permitir a las aplicaciones utilizar la API de Compartición",
     "Allow public uploads" : "Permitir subidas públicas",
     "Allow resharing" : "Permitir re-compartición",
+    "Execute one task with each page loaded" : "Ejecutar una tarea con cada página cargada",
+    "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php se registra en un servicio webcron para llamar a cron.php cada 15 minutos a través de HTTP.",
     "Server address" : "Dirección del servidor",
     "Port" : "Puerto",
     "Log level" : "Nivel de registro",

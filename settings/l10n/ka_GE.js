@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Cron" : "Cron–ი",
     "Sharing" : "გაზიარება",
+    "Cron" : "Cron–ი",
     "Log" : "ლოგი",
     "Authentication error" : "ავთენტიფიკაციის შეცდომა",
     "Language changed" : "ენა შეცვლილია",
@@ -34,9 +34,9 @@ OC.L10N.register(
     "None" : "არა",
     "Login" : "ლოგინი",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP მოდული 'fileinfo' არ არსებობს. ჩვენ გირჩევთ რომ აუცილებლად ჩართოთ ეს მოდული, რომ მიიღოთ კარგი შედეგები mime-type–ს აღმოჩენისას.",
-    "Execute one task with each page loaded" : "გაუშვი თითო მოქმედება ყველა ჩატვირთულ გვერდზე",
     "Allow apps to use the Share API" : "დაუშვი აპლიკაციების უფლება  Share API –ზე",
     "Allow resharing" : "გადაზიარების დაშვება",
+    "Execute one task with each page loaded" : "გაუშვი თითო მოქმედება ყველა ჩატვირთულ გვერდზე",
     "Server address" : "სერვერის მისამართი",
     "Port" : "პორტი",
     "Credentials" : "იუზერ/პაროლი",

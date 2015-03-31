@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Cron" : "Cron",
     "Sharing" : "Al partejar",
+    "Cron" : "Cron",
     "Log" : "Jornal",
     "Authentication error" : "Error d'autentificacion",
     "Language changed" : "Lengas cambiadas",

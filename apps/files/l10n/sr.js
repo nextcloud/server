@@ -102,6 +102,7 @@ OC.L10N.register(
     "Folder" : "фасцикла",
     "Upload" : "Отпреми",
     "Cancel upload" : "Откажи отпремање",
+    "No files in here" : "Непостоје датотеке овде",
     "Upload some content or sync with your devices!" : "Отпремите неки садржај или синхронизујте са вашим уређајима!",
     "No entries found in this folder" : "Нема ничега у овој фасцикли",
     "Select all" : "Означи све",

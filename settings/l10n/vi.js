@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Cron" : "Cron",
     "Sharing" : "Chia sẻ",
+    "Cron" : "Cron",
     "Log" : "Log",
     "Authentication error" : "Lỗi xác thực",
     "Your full name has been changed." : "Họ và tên đã được thay đổi.",
@@ -32,9 +32,9 @@ OC.L10N.register(
     "Encryption" : "Mã hóa",
     "None" : "Không gì cả",
     "Login" : "Đăng nhập",
-    "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải",
     "Allow apps to use the Share API" : "Cho phép các ứng dụng sử dụng chia sẻ API",
     "Allow resharing" : "Cho phép chia sẻ lại",
+    "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải",
     "Server address" : "Địa chỉ máy chủ",
     "Port" : "Cổng",
     "Credentials" : "Giấy chứng nhận",

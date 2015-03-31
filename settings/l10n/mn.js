@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Cron" : "Крон",
     "Sharing" : "Түгээлт",
+    "Cron" : "Крон",
     "Email Server" : "И-мэйл сервер",
     "Log" : "Лог бичилт",
     "Authentication error" : "Нотолгооны алдаа",

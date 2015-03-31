@@ -139,6 +139,8 @@
     "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" : "Sørg venligst for at du har PostgreSQL >= 9 eller tjek loggen for flere informationer om fejlen",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Tilpas venligst rettigheder til 0770, så mappen ikke fremvises for andre brugere.",
     "Data directory (%s) is readable by other users" : "Datamappen (%s) kan læses af andre brugere",
+    "Data directory (%s) must be an absolute path" : "Databibliotek (%s) skal have en absolut sti",
+    "Check the value of \"datadirectory\" in your configuration" : "Tjek cærdien for \"databibliotek\" i din konfiguration",
     "Data directory (%s) is invalid" : "Datamappen (%s) er ugyldig",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Tjek venligst at datamappen indeholder en fil, \".ocdata\" i dens rod.",
     "Could not obtain lock type %d on \"%s\"." : "Kunne ikke opnå en låsetype %d på \"%s\"."

@@ -139,8 +139,8 @@
     "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" : "Stellen Sie sicher, dass Sie PostgreSQL >= 9 verwenden oder prüfen Sie die Logs für weitere Informationen über den Fehler",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Bitte ändern Sie die Berechtigungen auf 0770, so dass das Verzeichnis nicht von anderen Benutzern angezeigt werden kann.",
     "Data directory (%s) is readable by other users" : "Daten-Verzeichnis (%s) ist von anderen Benutzern lesbar",
-    "Data directory (%s) must be an absolute path" : "Das Daten-Verzeichnis (%s) muss ein absoluter Pfad sein",
-    "Check the value of \"datadirectory\" in your configuration" : "Prüfen Sie bitte die Angabe unter \"datadirectory\" in Ihrer Konfiguration",
+    "Data directory (%s) must be an absolute path" : "Das Datenverzeichnis (%s) muss ein absoluter Pfad sein",
+    "Check the value of \"datadirectory\" in your configuration" : "Überprüfen Sie bitte die Angabe unter „datadirectory“ in Ihrer Konfiguration",
     "Data directory (%s) is invalid" : "Daten-Verzeichnis (%s) ist ungültig",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Bitte stellen Sie sicher, dass das Datenverzeichnis auf seiner ersten Ebene eine Datei namens „.ocdata“ enthält.",
     "Could not obtain lock type %d on \"%s\"." : "Sperrtyp %d auf „%s“ konnte nicht ermittelt werden."

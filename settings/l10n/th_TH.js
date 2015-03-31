@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Cron" : "Cron",
     "Sharing" : "การแชร์ข้อมูล",
+    "Cron" : "Cron",
     "Log" : "บันทึกการเปลี่ยนแปลง",
     "Authentication error" : "เกิดข้อผิดพลาดในสิทธิ์การเข้าใช้งาน",
     "Language changed" : "เปลี่ยนภาษาเรียบร้อยแล้ว",
@@ -29,9 +29,9 @@ OC.L10N.register(
     "Encryption" : "การเข้ารหัส",
     "None" : "ไม่มี",
     "Login" : "เข้าสู่ระบบ",
-    "Execute one task with each page loaded" : "ประมวลคำสั่งหนึ่งงานในแต่ละครั้งที่มีการโหลดหน้าเว็บ",
     "Allow apps to use the Share API" : "อนุญาตให้แอปฯสามารถใช้ API สำหรับแชร์ข้อมูลได้",
     "Allow resharing" : "อนุญาตให้แชร์ข้อมูลซ้ำใหม่ได้",
+    "Execute one task with each page loaded" : "ประมวลคำสั่งหนึ่งงานในแต่ละครั้งที่มีการโหลดหน้าเว็บ",
     "Server address" : "ที่อยู่เซิร์ฟเวอร์",
     "Port" : "พอร์ต",
     "Credentials" : "ข้อมูลส่วนตัวสำหรับเข้าระบบ",

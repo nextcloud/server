@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Cron" : "Cron",
     "Sharing" : "Partajare",
+    "Cron" : "Cron",
     "Log" : "Jurnal de activitate",
     "Authentication error" : "Eroare la autentificare",
     "Your full name has been changed." : "Numele tău complet a fost schimbat.",
@@ -64,11 +64,11 @@ OC.L10N.register(
     "SSL" : "SSL",
     "TLS" : "TLS",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Modulul PHP \"Fileinfo\" lipsește. Va recomandam sa activaţi acest modul pentru a obține cele mai bune rezultate cu detectarea mime-type.",
-    "Execute one task with each page loaded" : "Execută o sarcină la fiecare pagină încărcată",
     "Allow apps to use the Share API" : "Permite aplicațiilor să folosească API-ul de partajare",
     "Allow public uploads" : "Permite încărcări publice",
     "Allow users to send mail notification for shared files" : "Permite utilizatorilor sa expedieze notificări prin e-mail pentru dosarele comune",
     "Allow resharing" : "Permite repartajarea",
+    "Execute one task with each page loaded" : "Execută o sarcină la fiecare pagină încărcată",
     "Send mode" : "Modul de expediere",
     "Authentication method" : "Modul de autentificare",
     "Authentication required" : "Autentificare necesară",

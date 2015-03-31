@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Cron" : "Cron",
     "Sharing" : "Deling",
+    "Cron" : "Cron",
     "Log" : "Logg",
     "Authentication error" : "Autentiseringsfeil",
     "Language changed" : "Språk endra",
@@ -43,10 +43,10 @@ OC.L10N.register(
     "Encryption" : "Kryptering",
     "Login" : "Logg inn",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP-modulen «fileinfo» manglar. Me rår sterkt til å slå på denne modulen for å best mogleg oppdaga MIME-typar.",
-    "Execute one task with each page loaded" : "Utfør éi oppgåve for kvar sidelasting",
     "Allow apps to use the Share API" : "La app-ar bruka API-et til deling",
     "Allow public uploads" : "Tillat offentlege opplastingar",
     "Allow resharing" : "Tillat vidaredeling",
+    "Execute one task with each page loaded" : "Utfør éi oppgåve for kvar sidelasting",
     "Server address" : "Tenaradresse",
     "Log level" : "Log nivå",
     "More" : "Meir",
