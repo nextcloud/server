@@ -104,7 +104,7 @@ class SessionTest extends TestCase {
 		if (!empty(self::$tempStorage[$key])) {
 			return self::$tempStorage[$key];
 		}
-		return false;
+		return null;
 	}
 
 	/**
