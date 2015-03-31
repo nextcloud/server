@@ -23,3 +23,5 @@ namespace OCA\Encryption\AppInfo;
 
 $app = new Application();
 $app->registerEncryptionModule();
+$app->registerHooks();
+$app->registerSettings();

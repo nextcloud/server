@@ -55,9 +55,6 @@ class Application extends \OCP\AppFramework\App {
 		$this->encryptionManager = \OC::$server->getEncryptionManager();
 		$this->config = \OC::$server->getConfig();
 		$this->registerServices();
-//		$this->registerEncryptionModule();
-		$this->registerHooks();
-		$this->registerSettings();
 	}
 
 	/**
@@ -178,11 +175,6 @@ class Application extends \OCP\AppFramework\App {
 	 *
 	 */
 	public function registerSettings() {
-
-//		script('encryption', 'encryption');
-//		script('encryption', 'detect-migration');
-
-
 		// Register settings scripts
 		App::registerAdmin('encryption', 'settings/settings-admin');
 		App::registerPersonal('encryption', 'settings/settings-personal');
