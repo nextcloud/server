@@ -30,14 +30,14 @@ use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserSession;
-use \OCP\ISession;
+use \OCA\Encryption\Session;
 
 class KeyManager {
 
 	/**
-	 * @var ISession
+	 * @var Session
 	 */
-	public static $session;
+	protected $session;
 	/**
 	 * @var IStorage
 	 */
@@ -84,17 +84,13 @@ class KeyManager {
 	 * @var ILogger
 	 */
 	private $log;
-	/**
-	 * @var Recovery
-	 */
-	private $recovery;
 
 	/**
 	 * @param IStorage $keyStorage
 	 * @param Crypt $crypt
 	 * @param IConfig $config
 	 * @param IUserSession $userSession
-	 * @param \OCP\ISession $session
+	 * @param Session $session
 	 * @param ILogger $log
 	 * @param Recovery $recovery
 	 */
@@ -103,12 +99,12 @@ class KeyManager {
 		Crypt $crypt,
 		IConfig $config,
 		IUserSession $userSession,
-		ISession $session,
+		Session $session,
 		ILogger $log,
 		Recovery $recovery
 	) {
 
-		self::$session = $session;
+		$this->session = $session;
 		$this->keyStorage = $keyStorage;
 		$this->crypt = $crypt;
 		$this->config = $config;
@@ -271,7 +267,6 @@ class KeyManager {
 	 *
 	 * @param string $uid userid
 	 * @param string $passPhrase users password
-	 * @return ISession
 	 */
 	public function init($uid, $passPhrase) {
 		try {
@@ -284,11 +279,8 @@ class KeyManager {
 			return false;
 		}
 
-
-		self::$session->set('privateKey', $privateKey);
-		self::$session->set('initStatus', true);
-
-		return self::$session;
+		$this->session->setPrivateKey($privateKey);
+		$this->session->setStatus(Session::INIT_SUCCESSFUL);
 	}
 
 	/**
@@ -316,7 +308,7 @@ class KeyManager {
 		$encryptedFileKey = $this->keyStorage->getFileKey($path,
 			$this->fileKeyId);
 		$shareKey = $this->getShareKey($path, $uid);
-		$privateKey = self::$session->get('privateKey');
+		$privateKey = $this->session->getPrivateKey();
 
 		if ($encryptedFileKey && $shareKey && $privateKey) {
 			$key = $this->crypt->multiKeyDecrypt($encryptedFileKey,
@@ -348,7 +340,7 @@ class KeyManager {
 	public function setPassphrase($params, IUserSession $user, Util $util) {
 
 		// Get existing decrypted private key
-		$privateKey = self::$session->get('privateKey');
+		$privateKey = $this->session->getPrivateKey();
 
 		if ($params['uid'] === $user->getUser()->getUID() && $privateKey) {
 

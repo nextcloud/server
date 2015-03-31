@@ -22,7 +22,6 @@
 namespace OCA\Encryption\Hooks;
 
 
-use OCP\ISession;
 use OCP\Util as OCUtil;
 use OCA\Encryption\Hooks\Contracts\IHook;
 use OCA\Encryption\KeyManager;
@@ -31,7 +30,7 @@ use OCP\App;
 use OCP\ILogger;
 use OCP\IUserSession;
 use OCA\Encryption\Util;
-use Test\User;
+use OCA\Encryption\Session;
 
 class UserHooks implements IHook {
 	/**
@@ -55,7 +54,7 @@ class UserHooks implements IHook {
 	 */
 	private $util;
 	/**
-	 * @var ISession
+	 * @var Session
 	 */
 	private $session;
 
@@ -66,17 +65,15 @@ class UserHooks implements IHook {
 	 * @param ILogger $logger
 	 * @param Setup $userSetup
 	 * @param IUserSession $user
-	 * @param OCUtil $ocUtil
 	 * @param Util $util
-	 * @param ISession $session
+	 * @param Session $session
 	 */
 	public function __construct(KeyManager $keyManager,
 								ILogger $logger,
 								Setup $userSetup,
 								IUserSession $user,
-								OCUtil $ocUtil,
 								Util $util,
-								ISession $session) {
+								Session $session) {
 
 		$this->keyManager = $keyManager;
 		$this->logger = $logger;

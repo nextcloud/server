@@ -9,6 +9,8 @@
 // Add CSS stylesheet
 \OC_Util::addStyle('encryption', 'settings-personal');
 
+$session = new \OCA\Encryption\Session(\OC::$server->getSession());
+
 $tmpl = new OCP\Template('encryption', 'settings-personal');
 $crypt = new \OCA\Encryption\Crypto\Crypt(
 	\OC::$server->getLogger(),
@@ -19,8 +21,8 @@ $keymanager = new \OCA\Encryption\KeyManager(
 	$crypt,
 	\OC::$server->getConfig(),
 	\OC::$server->getUserSession(),
-	\OC::$server->getSession(),
-	\OC::$server->getLogger(),);
+	$session,
+	\OC::$server->getLogger());
 
 $user = \OCP\User::getUser();
 
@@ -29,11 +31,9 @@ $view = new \OC\Files\View('/');
 $util = new \OCA\Encryption\Util(
 	new \OC\Files\View(), $crypt, $keymanager, \OC::$server->getLogger(), \OC::$server->getUserSession(), \OC::$server->getConfig());
 
-$session = \OC::$server->getSession();
-
-$privateKeySet = $session->get('privateKey') !== false;
+$privateKeySet = $session->isPrivateKeySet();
 // did we tried to initialize the keys for this session?
-$initialized = $session->getInitialized();
+$initialized = $session->getStatus();
 
 $recoveryAdminEnabled = \OC::$server->getConfig()->getAppValue('encryption', 'recoveryAdminEnabled');
 $recoveryEnabledForUser = $util->recoveryEnabledForUser();

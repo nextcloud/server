@@ -20,7 +20,7 @@
  */
 
 
-namespace OC\Encryption\Exceptions;
+namespace OCA\Encryption\Exceptions;
 
 
 class PrivateKeyMissingException extends GenericEncryptionException{
