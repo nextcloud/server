@@ -150,6 +150,11 @@ class Manager {
 			$this->access->getUserMapper());
 	}
 
+	/**
+	 * @brief returns a User object by it's ownCloud username
+	 * @param string the DN or username of the user
+	 * @return \OCA\user_ldap\lib\user\User|\OCA\user_ldap\lib\user\OfflineUser|null
+	 */
 	protected function createInstancyByUserName($id) {
 		//most likely a uid. Check whether it is a deleted user
 		if($this->isDeletedUser($id)) {
@@ -159,12 +164,12 @@ class Manager {
 		if($dn !== false) {
 			return $this->createAndCache($dn, $id);
 		}
-		throw new \Exception('Could not create User instance');
+		return null;
 	}
 
 	/**
 	 * @brief returns a User object by it's DN or ownCloud username
-	 * @param string the DN or username of the user
+	 * @param string the username of the user
 	 * @return \OCA\user_ldap\lib\user\User|\OCA\user_ldap\lib\user\OfflineUser|null
 	 * @throws \Exception when connection could not be established
 	 */
