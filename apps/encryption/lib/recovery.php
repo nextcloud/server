@@ -228,7 +228,7 @@ class Recovery {
 			if ($item['type'] === 'dir') {
 				$this->removeRecoveryKeys($filePath . '/');
 			} else {
-				$this->keyManager->deleteFileKey($filePath, $this->keyManager->getRecoveryKeyId() . '.shareKey');
+				$this->keyManager->deleteShareKey($filePath, $this->keyManager->getRecoveryKeyId());
 			}
 		}
 	}

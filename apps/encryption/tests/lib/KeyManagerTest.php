@@ -48,6 +48,30 @@ class KeyManagerTest extends TestCase {
 	 */
 	private $dataDir;
 
+	/** @var string */
+	private $systemKeyId;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $keyStorageMock;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $cryptMock;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $userMock;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $sessionMock;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $logMock;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $utilMock;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $configMock;
+
 	/**
 	 *
 	 */
@@ -70,124 +94,290 @@ class KeyManagerTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$keyStorageMock = $this->getMock('OCP\Encryption\Keys\IStorage');
+		$this->userId = 'user1';
+		$this->systemKeyId = 'systemKeyId';
+		$this->keyStorageMock = $this->getMock('OCP\Encryption\Keys\IStorage');
+
+		/*
 		$keyStorageMock->method('getUserKey')
 			->will($this->returnValue(false));
 		$keyStorageMock->method('setUserKey')
 			->will($this->returnValue(true));
-		$cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
+		 */
+
+		$this->cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
 			->disableOriginalConstructor()
 			->getMock();
-		$configMock = $this->getMock('OCP\IConfig');
-		$userMock = $this->getMock('OCP\IUserSession');
+		$this->configMock = $this->getMock('OCP\IConfig');
+		$this->configMock->expects($this->any())
+			->method('getAppValue')
+			->willReturn($this->systemKeyId);
+		$this->userMock = $this->getMock('OCP\IUserSession');
+
+		/*
 		$userMock
 			->method('getUID')
 			->will($this->returnValue('admin'));
-		$sessionMock = $this->getMock('OCP\ISession');
-		$logMock = $this->getMock('OCP\ILogger');
-		$recoveryMock = $this->getMockBuilder('OCA\Encryption\Recovery')
+		 */
+
+		$this->sessionMock = $this->getMockBuilder('OCA\Encryption\Session')
 			->disableOriginalConstructor()
 			->getMock();
-
-		$this->instance = new KeyManager($keyStorageMock,
-			$cryptMock,
-			$configMock,
-			$userMock,
-			$sessionMock,
-			$logMock,
-			$recoveryMock);
-
-		self::loginAsUser(self::$testUser);
-		$this->userId = self::$testUser;
-		$this->userPassword = self::$testUser;
-		$this->view = new View('/');
-
-		$this->dummyKeys = [
-			'privateKey' => 'superinsecureprivatekey',
-			'publicKey' => 'superinsecurepublickey'
-		];
-
-
-		$userManager = \OC::$server->getUserManager();
-
-		$userHome = $userManager->get($this->userId)->getHome();
-
-		$this->dataDir = str_replace('/' . $this->userId, '', $userHome);
+		$this->logMock = $this->getMock('OCP\ILogger');
+		$this->utilMock = $this->getMockBuilder('OCA\Encryption\Util')
+			->disableOriginalConstructor()
+			->getMock();
 	}
 
-	protected function tearDown() {
-		parent::tearDown();
-		$this->view->deleteAll('/' . self::$testUser . '/files_encryption/keys');
-	}
+	public function testDeleteShareKey() {
+		$this->keyStorageMock->expects($this->any())
+			->method('deleteFileKey')
+			->with($this->equalTo('/path'), $this->equalTo('keyId.shareKey'))
+			->willReturn(true);
+		$keymanager = new KeyManager(
+			$this->keyStorageMock,
+			$this->cryptMock,
+			$this->configMock,
+			$this->userMock,
+			$this->sessionMock,
+			$this->logMock,
+			$this->utilMock);
 
-	public static function tearDownAfterClass() {
-		parent::tearDownAfterClass();
-		// Cleanup Test user
-		\OC::$server->getUserManager()->get(self::$testUser)->delete();
-		// Reset app files_trashbin
-		if (self::$trashbinState) {
-			\OC_App::enable('files_trashbin');
-		}
+		$this->assertTrue(
+			$keymanager->deleteShareKey('/path', 'keyId')
+		);
 	}
 
 
-	/**
-	 * @expectedException \OC\Encryption\Exceptions\PrivateKeyMissingException
-	 */
 	public function testGetPrivateKey() {
-		$this->assertFalse($this->instance->getPrivateKey($this->userId));
+		$this->keyStorageMock->expects($this->any())
+			->method('getUserKey')
+			->with($this->equalTo($this->userId), $this->equalTo('privateKey'))
+			->willReturn('privateKey');
+		$keymanager = new KeyManager(
+			$this->keyStorageMock,
+			$this->cryptMock,
+			$this->configMock,
+			$this->userMock,
+			$this->sessionMock,
+			$this->logMock,
+			$this->utilMock);
+
+		$this->assertSame('privateKey',
+			$keymanager->getPrivateKey($this->userId)
+		);
 	}
 
-	/**
-	 * @expectedException \OC\Encryption\Exceptions\PublicKeyMissingException
-	 */
 	public function testGetPublicKey() {
-		$this->assertFalse($this->instance->getPublicKey($this->userId));
+		$this->keyStorageMock->expects($this->any())
+			->method('getUserKey')
+			->with($this->equalTo($this->userId), $this->equalTo('publicKey'))
+			->willReturn('publicKey');
+		$keymanager = new KeyManager(
+			$this->keyStorageMock,
+			$this->cryptMock,
+			$this->configMock,
+			$this->userMock,
+			$this->sessionMock,
+			$this->logMock,
+			$this->utilMock);
+
+		$this->assertSame('publicKey',
+			$keymanager->getPublicKey($this->userId)
+		);
 	}
 
-	/**
-	 *
-	 */
 	public function testRecoveryKeyExists() {
-		$this->assertFalse($this->instance->recoveryKeyExists());
+		$this->keyStorageMock->expects($this->any())
+			->method('getSystemUserKey')
+			->with($this->equalTo($this->systemKeyId . '.publicKey'))
+			->willReturn('recoveryKey');
+		$keymanager = new KeyManager(
+			$this->keyStorageMock,
+			$this->cryptMock,
+			$this->configMock,
+			$this->userMock,
+			$this->sessionMock,
+			$this->logMock,
+			$this->utilMock);
+
+		$this->assertTrue($keymanager->recoveryKeyExists());
 	}
 
 	/**
 	 *
 	 */
 	public function testCheckRecoveryKeyPassword() {
-		$this->assertFalse($this->instance->checkRecoveryPassword('pass'));
+		$this->keyStorageMock->expects($this->any())
+			->method('getSystemUserKey')
+			->with($this->equalTo($this->systemKeyId . '.privateKey'))
+			->willReturn('recoveryKey');
+		$this->cryptMock->expects($this->any())
+			->method('decryptPrivateKey')
+			->with($this->equalTo('recoveryKey'), $this->equalTo('pass'))
+			->willReturn('decryptedRecoveryKey');
+		$keymanager = new KeyManager(
+			$this->keyStorageMock,
+			$this->cryptMock,
+			$this->configMock,
+			$this->userMock,
+			$this->sessionMock,
+			$this->logMock,
+			$this->utilMock);
+
+		$this->assertTrue($keymanager->checkRecoveryPassword('pass'));
 	}
 
-	/**
-	 *
-	 */
+
 	public function testSetPublicKey() {
+		$this->keyStorageMock->expects($this->any())
+			->method('setUserKey')
+			->with(
+				$this->equalTo($this->userId),
+				$this->equalTo('publicKey'),
+				$this->equalTo('key'))
+			->willReturn(true);
+		$keymanager = new KeyManager(
+			$this->keyStorageMock,
+			$this->cryptMock,
+			$this->configMock,
+			$this->userMock,
+			$this->sessionMock,
+			$this->logMock,
+			$this->utilMock);
 
-		$this->assertTrue($this->instance->setPublicKey($this->userId,
-			$this->dummyKeys['publicKey']));
+		$this->assertTrue(
+			$keymanager->setPublicKey($this->userId, 'key')
+		);
+
 	}
 
-	/**
-	 *
-	 */
 	public function testSetPrivateKey() {
-		$this->assertTrue($this->instance->setPrivateKey($this->userId,
-			$this->dummyKeys['privateKey']));
+		$this->keyStorageMock->expects($this->any())
+			->method('setUserKey')
+			->with(
+				$this->equalTo($this->userId),
+				$this->equalTo('privateKey'),
+				$this->equalTo('key'))
+			->willReturn(true);
+		$keymanager = new KeyManager(
+			$this->keyStorageMock,
+			$this->cryptMock,
+			$this->configMock,
+			$this->userMock,
+			$this->sessionMock,
+			$this->logMock,
+			$this->utilMock);
+
+		$this->assertTrue(
+			$keymanager->setPrivateKey($this->userId, 'key')
+		);
 	}
 
-	/**
-	 *
-	 */
 	public function testUserHasKeys() {
-		$this->assertFalse($this->instance->userHasKeys($this->userId));
+		$this->keyStorageMock->expects($this->exactly(2))
+			->method('getUserKey')
+			->with($this->equalTo($this->userId), $this->anything())
+			->willReturn('key');
+		$keymanager = new KeyManager(
+			$this->keyStorageMock,
+			$this->cryptMock,
+			$this->configMock,
+			$this->userMock,
+			$this->sessionMock,
+			$this->logMock,
+			$this->utilMock);
+
+		$this->assertTrue(
+			$keymanager->userHasKeys($this->userId)
+		);
 	}
 
 	/**
 	 *
 	 */
 	public function testInit() {
-		$this->assertFalse($this->instance->init($this->userId, 'pass'));
+		$this->keyStorageMock->expects($this->any())
+			->method('getUserKey')
+			->with($this->equalTo($this->userId), $this->equalTo('privateKey'))
+			->willReturn('privateKey');
+		$this->cryptMock->expects($this->any())
+			->method('decryptPrivateKey')
+			->with($this->equalTo('privateKey'), $this->equalTo('pass'))
+			->willReturn('decryptedPrivateKey');
+		$keymanager = new KeyManager(
+			$this->keyStorageMock,
+			$this->cryptMock,
+			$this->configMock,
+			$this->userMock,
+			$this->sessionMock,
+			$this->logMock,
+			$this->utilMock);
+
+		$this->assertTrue(
+			$keymanager->init($this->userId, 'pass')
+		);
+
+	}
+
+	public function testSetRecoveryKey() {
+		$this->keyStorageMock->expects($this->exactly(2))
+			->method('setSystemUserKey')
+			->willReturn(true);
+		$this->cryptMock->expects($this->any())
+			->method('symmetricEncryptFileContent')
+			->with($this->equalTo('privateKey'), $this->equalTo('pass'))
+			->willReturn('decryptedPrivateKey');
+		$keymanager = new KeyManager(
+			$this->keyStorageMock,
+			$this->cryptMock,
+			$this->configMock,
+			$this->userMock,
+			$this->sessionMock,
+			$this->logMock,
+			$this->utilMock);
+
+		$this->assertTrue(
+			$keymanager->setRecoveryKey('pass', array('publicKey' => 'publicKey', 'privateKey' => 'privateKey'))
+		);
+	}
+
+	public function setSystemPrivateKey() {
+		$this->keyStorageMock->expects($this->exactly(1))
+			->method('setSystemUserKey')
+			->with($this->equalTo('keyId.privateKey'), $this->equalTo('key'))
+			->willReturn(true);
+		$keymanager = new KeyManager(
+			$this->keyStorageMock,
+			$this->cryptMock,
+			$this->configMock,
+			$this->userMock,
+			$this->sessionMock,
+			$this->logMock,
+			$this->utilMock);
+
+		$this->assertTrue(
+			$keymanager->setSystemPrivateKey('keyId', 'key')
+		);
+	}
+
+	public function getSystemPrivateKey() {
+		$this->keyStorageMock->expects($this->exactly(1))
+			->method('setSystemUserKey')
+			->with($this->equalTo('keyId.privateKey'))
+			->willReturn('systemPrivateKey');
+		$keymanager = new KeyManager(
+			$this->keyStorageMock,
+			$this->cryptMock,
+			$this->configMock,
+			$this->userMock,
+			$this->sessionMock,
+			$this->logMock,
+			$this->utilMock);
+
+		$this->assertSame('systemPrivateKey',
+			$keymanager->getSystemPrivateKey('keyId')
+		);
 	}
 
 

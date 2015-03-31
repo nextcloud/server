@@ -300,6 +300,7 @@ class KeyManager {
 	 *
 	 * @param string $uid userid
 	 * @param string $passPhrase users password
+	 * @return boolean
 	 */
 	public function init($uid, $passPhrase) {
 		try {
@@ -314,6 +315,8 @@ class KeyManager {
 
 		$this->session->setPrivateKey($privateKey);
 		$this->session->setStatus(Session::INIT_SUCCESSFUL);
+
+		return true;
 	}
 
 	/**
@@ -353,14 +356,14 @@ class KeyManager {
 	}
 
 	/**
-	 * delete file key
+	 * delete share key
 	 *
 	 * @param string $path
 	 * @param string $keyId
 	 * @return boolean
 	 */
-	public function deleteFileKey($path, $keyId) {
-		return $this->keyStorage->deleteFileKey($path, $keyId);
+	public function deleteShareKey($path, $keyId) {
+		return $this->keyStorage->deleteFileKey($path, $keyId . '.' . $this->shareKeyId);
 	}
 
 
