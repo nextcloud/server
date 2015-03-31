@@ -159,6 +159,7 @@ foreach ($forms as $index => $form) {
 if ($filesExternal) {
 	$formsAndMore[] = array('anchor' => 'files_external', 'section-name' => $l->t('External Storage'));
 }
+
 $template->assign('fileSharingSettings', $fileSharingSettings);
 $template->assign('filesExternal', $filesExternal);
 $template->assign('updaterAppPanel', $updaterAppPanel);
@@ -184,12 +185,13 @@ $formsMap = array_map(function ($form) {
 $formsAndMore = array_merge($formsAndMore, $formsMap);
 
 // add bottom hardcoded forms from the template
-$formsAndMore[] = array('anchor' => 'backgroundjobs', 'section-name' => $l->t('Cron'));
-$formsAndMore[] = array('anchor' => 'mail_general_settings', 'section-name' => $l->t('Email Server'));
-$formsAndMore[] = array('anchor' => 'log-section', 'section-name' => $l->t('Log'));
-$formsAndMore[] = array('anchor' => 'admin-tips', 'section-name' => $l->t('Tips & tricks'));
+$formsAndMore[] = ['anchor' => 'encryptionAPI', 'section-name' => $l->t('Server Side Encryption')];
+$formsAndMore[] = ['anchor' => 'backgroundjobs', 'section-name' => $l->t('Cron')];
+$formsAndMore[] = ['anchor' => 'mail_general_settings', 'section-name' => $l->t('Email Server')];
+$formsAndMore[] = ['anchor' => 'log-section', 'section-name' => $l->t('Log')];
+$formsAndMore[] = ['anchor' => 'admin-tips', 'section-name' => $l->t('Tips & tricks')];
 if ($updaterAppPanel) {
-	$formsAndMore[] = array('anchor' => 'updater', 'section-name' => $l->t('Updates'));
+	$formsAndMore[] = ['anchor' => 'updater', 'section-name' => $l->t('Updates')];
 }
 
 $template->assign('forms', $formsAndMore);
