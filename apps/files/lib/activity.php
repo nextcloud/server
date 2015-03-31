@@ -318,7 +318,7 @@ class Activity implements IExtension {
 		}
 
 		// Display actions from favorites only
-		if ($filter === self::FILTER_FAVORITES || $filter === 'all' && $this->userSettingFavoritesOnly($user)) {
+		if ($filter === self::FILTER_FAVORITES || in_array($filter, ['all', 'by', 'self']) && $this->userSettingFavoritesOnly($user)) {
 			try {
 				$favorites = $this->helper->getFavoriteFilePaths($user);
 			} catch (\RuntimeException $e) {

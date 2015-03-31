@@ -234,7 +234,7 @@ class ActivityTest extends TestCase {
 					'items' => [],
 					'folders' => [],
 				],
-				' CASE WHEN `app` = ? THEN (`type` <> ? OR `type` <> ?) ELSE `app` <> ? END ',
+				' CASE WHEN `app` = ? THEN ((`type` <> ? AND `type` <> ?)) ELSE `app` <> ? END ',
 				['files', Activity::TYPE_SHARE_CREATED, Activity::TYPE_SHARE_CHANGED, 'files']
 			],
 			[
@@ -242,7 +242,7 @@ class ActivityTest extends TestCase {
 					'items' => ['file.txt', 'folder'],
 					'folders' => ['folder'],
 				],
-				' CASE WHEN `app` = ? THEN (`type` <> ? OR `type` <> ? OR `file` = ? OR `file` = ? OR `file` LIKE ?) ELSE `app` <> ? END ',
+				' CASE WHEN `app` = ? THEN ((`type` <> ? AND `type` <> ?) OR `file` = ? OR `file` = ? OR `file` LIKE ?) ELSE `app` <> ? END ',
 				['files', Activity::TYPE_SHARE_CREATED, Activity::TYPE_SHARE_CHANGED, 'file.txt', 'folder', 'folder/%', 'files']
 			],
 		];
