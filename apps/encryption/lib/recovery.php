@@ -182,7 +182,7 @@ class Recovery {
 			if ($value === '1') {
 				$this->addRecoveryKeys('/' . $this->user->getUID() . '/files/');
 			} else {
-				$this->removeRecoveryKeys();
+				$this->removeRecoveryKeys('/' . $this->user->getUID() . '/files/');
 			}
 
 			return true;
@@ -194,10 +194,9 @@ class Recovery {
 	/**
 	 * add recovery key to all encrypted files
 	 */
-	private function addRecoveryKeys($path = '/') {
+	private function addRecoveryKeys($path) {
 		$dirContent = $this->view->getDirectoryContent($path);
 		foreach ($dirContent as $item) {
-			// get relative path from files_encryption/keyfiles/
 			$filePath = $item->getPath();
 			if ($item['type'] === 'dir') {
 				$this->addRecoveryKeys($filePath . '/');
@@ -222,18 +221,14 @@ class Recovery {
 	/**
 	 * remove recovery key to all encrypted files
 	 */
-	private function removeRecoveryKeys($path = '/') {
-		return true;
-		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
+	private function removeRecoveryKeys($path) {
+		$dirContent = $this->view->getDirectoryContent($path);
 		foreach ($dirContent as $item) {
-			// get relative path from files_encryption/keyfiles
-			$filePath = substr($item['path'], strlen('files_encryption/keyfiles'));
+			$filePath = $item->getPath();
 			if ($item['type'] === 'dir') {
 				$this->removeRecoveryKeys($filePath . '/');
 			} else {
-				// remove '.key' extension from path e.g. 'file.txt.key' to 'file.txt'
-				$file = substr($filePath, 0, -4);
-				$this->view->unlink($this->shareKeysPath . '/' . $file . '.' . $this->recoveryKeyId . '.shareKey');
+				$this->keyManager->deleteFileKey($filePath, $this->keyManager->getRecoveryKeyId() . '.shareKey');
 			}
 		}
 	}

@@ -353,6 +353,18 @@ class KeyManager {
 	}
 
 	/**
+	 * delete file key
+	 *
+	 * @param string $path
+	 * @param string $keyId
+	 * @return boolean
+	 */
+	public function deleteFileKey($path, $keyId) {
+		return $this->keyStorage->deleteFileKey($path, $keyId);
+	}
+
+
+	/**
 	 * @param $path
 	 * @param $uid
 	 * @return mixed
