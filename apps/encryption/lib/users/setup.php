@@ -15,7 +15,7 @@ use OCA\Encryption\KeyManager;
 use OCP\ILogger;
 use OCP\IUserSession;
 
-class Setup extends \OCA\Encryption\Setup {
+class Setup {
 	/**
 	 * @var Crypt
 	 */
@@ -24,6 +24,14 @@ class Setup extends \OCA\Encryption\Setup {
 	 * @var KeyManager
 	 */
 	private $keyManager;
+	/**
+	 * @var ILogger
+	 */
+	private $logger;
+	/**
+	 * @var bool|string
+	 */
+	private $user;
 
 
 	/**
@@ -33,7 +41,8 @@ class Setup extends \OCA\Encryption\Setup {
 	 * @param KeyManager $keyManager
 	 */
 	public function __construct(ILogger $logger, IUserSession $userSession, Crypt $crypt, KeyManager $keyManager) {
-		parent::__construct($logger, $userSession);
+		$this->logger = $logger;
+		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : false;
 		$this->crypt = $crypt;
 		$this->keyManager = $keyManager;
  	}
