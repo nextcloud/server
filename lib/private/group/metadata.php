@@ -143,7 +143,7 @@ class MetaData {
 		return array(
 				'id' => $group->getGID(),
 				'name' => $group->getGID(),
-				'usercount' => $group->count($userSearch)
+				'usercount' => 1 #$group->count($userSearch)
 			);
 	}
 
