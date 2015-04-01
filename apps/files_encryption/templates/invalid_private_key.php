@@ -1,6 +1,6 @@
 <ul>
 	<li class='error'>
-		<?php $location = \OC_Helper::linkToRoute( "settings_personal" ).'#changePKPasswd' ?>
+		<?php $location = \OCP\Util::linkToRoute( "settings_personal" ).'#changePKPasswd' ?>
 
 		<?php p($_['message']); ?>
 		<br/>

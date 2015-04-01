@@ -118,7 +118,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 			$permissions |= \OCP\Constants::PERMISSION_DELETE;
 		}
 
-		if (\OC_Util::isSharingDisabledForUser()) {
+		if (\OCP\Util::isSharingDisabledForUser()) {
 			$permissions &= ~\OCP\Constants::PERMISSION_SHARE;
 		}
 
