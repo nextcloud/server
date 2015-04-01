@@ -54,22 +54,55 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		return $config;
 	}
 
+	/** @var \OCP\IUserSession */
+	protected $userSession;
+
+	/** @var \OCP\IGroupManager */
+	protected $groupManager;
+
+	/** @var \OCP\IAppConfig */
+	protected $appConfig;
+
+	/** @var \OCP\ICache */
+	protected $cache;
+
+	/** @var \OCP\ICacheFactory */
+	protected $cacheFactory;
+
+	/** @var \OCP\App\IAppManager */
+	protected $manager;
+
+	protected function setUp() {
+		parent::setUp();
+
+		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->groupManager = $this->getMock('\OCP\IGroupManager');
+		$this->appConfig = $this->getAppConfig();
+		$this->cacheFactory = $this->getMock('\OCP\ICacheFactory');
+		$this->cache = $this->getMock('\OCP\ICache');
+		$this->cacheFactory->expects($this->any())
+			->method('create')
+			->with('settings')
+			->willReturn($this->cache);
+		$this->manager = new \OC\App\AppManager($this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory);
+	}
+
+	protected function expectClearCache() {
+		$this->cache->expects($this->once())
+			->method('clear')
+			->with('listApps');
+	}
+
 	public function testEnableApp() {
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$groupManager = $this->getMock('\OCP\IGroupManager');
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$manager->enableApp('test');
-		$this->assertEquals('yes', $appConfig->getValue('test', 'enabled', 'no'));
+		$this->expectClearCache();
+		$this->manager->enableApp('test');
+		$this->assertEquals('yes', $this->appConfig->getValue('test', 'enabled', 'no'));
 	}
 
 	public function testDisableApp() {
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$groupManager = $this->getMock('\OCP\IGroupManager');
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$manager->disableApp('test');
-		$this->assertEquals('no', $appConfig->getValue('test', 'enabled', 'no'));
+		$this->expectClearCache();
+		$this->manager->disableApp('test');
+		$this->assertEquals('no', $this->appConfig->getValue('test', 'enabled', 'no'));
 	}
 
 	public function testEnableAppForGroups() {
@@ -77,151 +110,98 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			new Group('group1', array(), null),
 			new Group('group2', array(), null)
 		);
-		$groupManager = $this->getMock('\OCP\IGroupManager');
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$manager->enableAppForGroups('test', $groups);
-		$this->assertEquals('["group1","group2"]', $appConfig->getValue('test', 'enabled', 'no'));
+		$this->expectClearCache();
+		$this->manager->enableAppForGroups('test', $groups);
+		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
 	}
 
 	public function testIsInstalledEnabled() {
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$groupManager = $this->getMock('\OCP\IGroupManager');
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$appConfig->setValue('test', 'enabled', 'yes');
-		$this->assertTrue($manager->isInstalled('test'));
+		$this->appConfig->setValue('test', 'enabled', 'yes');
+		$this->assertTrue($this->manager->isInstalled('test'));
 	}
 
 	public function testIsInstalledDisabled() {
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$groupManager = $this->getMock('\OCP\IGroupManager');
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$appConfig->setValue('test', 'enabled', 'no');
-		$this->assertFalse($manager->isInstalled('test'));
+		$this->appConfig->setValue('test', 'enabled', 'no');
+		$this->assertFalse($this->manager->isInstalled('test'));
 	}
 
 	public function testIsInstalledEnabledForGroups() {
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$groupManager = $this->getMock('\OCP\IGroupManager');
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$appConfig->setValue('test', 'enabled', '["foo"]');
-		$this->assertTrue($manager->isInstalled('test'));
+		$this->appConfig->setValue('test', 'enabled', '["foo"]');
+		$this->assertTrue($this->manager->isInstalled('test'));
 	}
 
 	public function testIsEnabledForUserEnabled() {
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$groupManager = $this->getMock('\OCP\IGroupManager');
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$appConfig->setValue('test', 'enabled', 'yes');
+		$this->appConfig->setValue('test', 'enabled', 'yes');
 		$user = new User('user1', null);
-		$this->assertTrue($manager->isEnabledForUser('test', $user));
+		$this->assertTrue($this->manager->isEnabledForUser('test', $user));
 	}
 
 	public function testIsEnabledForUserDisabled() {
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$groupManager = $this->getMock('\OCP\IGroupManager');
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$appConfig->setValue('test', 'enabled', 'no');
+		$this->appConfig->setValue('test', 'enabled', 'no');
 		$user = new User('user1', null);
-		$this->assertFalse($manager->isEnabledForUser('test', $user));
+		$this->assertFalse($this->manager->isEnabledForUser('test', $user));
 	}
 
 	public function testIsEnabledForUserEnabledForGroup() {
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$groupManager = $this->getMock('\OCP\IGroupManager');
 		$user = new User('user1', null);
-
-		$groupManager->expects($this->once())
+		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
 			->will($this->returnValue(array('foo', 'bar')));
 
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$appConfig->setValue('test', 'enabled', '["foo"]');
-		$this->assertTrue($manager->isEnabledForUser('test', $user));
+		$this->appConfig->setValue('test', 'enabled', '["foo"]');
+		$this->assertTrue($this->manager->isEnabledForUser('test', $user));
 	}
 
 	public function testIsEnabledForUserDisabledForGroup() {
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$groupManager = $this->getMock('\OCP\IGroupManager');
 		$user = new User('user1', null);
-
-		$groupManager->expects($this->once())
+		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
 			->will($this->returnValue(array('bar')));
 
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$appConfig->setValue('test', 'enabled', '["foo"]');
-		$this->assertFalse($manager->isEnabledForUser('test', $user));
+		$this->appConfig->setValue('test', 'enabled', '["foo"]');
+		$this->assertFalse($this->manager->isEnabledForUser('test', $user));
 	}
 
 	public function testIsEnabledForUserLoggedOut() {
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$groupManager = $this->getMock('\OCP\IGroupManager');
-
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$appConfig->setValue('test', 'enabled', '["foo"]');
-		$this->assertFalse($manager->IsEnabledForUser('test'));
+		$this->appConfig->setValue('test', 'enabled', '["foo"]');
+		$this->assertFalse($this->manager->IsEnabledForUser('test'));
 	}
 
 	public function testIsEnabledForUserLoggedIn() {
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$groupManager = $this->getMock('\OCP\IGroupManager');
 		$user = new User('user1', null);
 
-		$userSession->expects($this->once())
+		$this->userSession->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($user));
-		$groupManager->expects($this->once())
+		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
 			->will($this->returnValue(array('foo', 'bar')));
 
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$appConfig->setValue('test', 'enabled', '["foo"]');
-		$this->assertTrue($manager->isEnabledForUser('test'));
+		$this->appConfig->setValue('test', 'enabled', '["foo"]');
+		$this->assertTrue($this->manager->isEnabledForUser('test'));
 	}
 
 	public function testGetInstalledApps() {
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$groupManager = $this->getMock('\OCP\IGroupManager');
-
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$appConfig->setValue('test1', 'enabled', 'yes');
-		$appConfig->setValue('test2', 'enabled', 'no');
-		$appConfig->setValue('test3', 'enabled', '["foo"]');
-		$this->assertEquals(['test1', 'test3'], $manager->getInstalledApps());
+		$this->appConfig->setValue('test1', 'enabled', 'yes');
+		$this->appConfig->setValue('test2', 'enabled', 'no');
+		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
+		$this->assertEquals(['test1', 'test3'], $this->manager->getInstalledApps());
 	}
 
 	public function testGetAppsForUser() {
-		$userSession = $this->getMock('\OCP\IUserSession');
-		$groupManager = $this->getMock('\OCP\IGroupManager');
-
 		$user = new User('user1', null);
-
-		$groupManager->expects($this->any())
+		$this->groupManager->expects($this->any())
 			->method('getUserGroupIds')
 			->with($user)
 			->will($this->returnValue(array('foo', 'bar')));
 
-		$appConfig = $this->getAppConfig();
-		$manager = new \OC\App\AppManager($userSession, $appConfig, $groupManager);
-		$appConfig->setValue('test1', 'enabled', 'yes');
-		$appConfig->setValue('test2', 'enabled', 'no');
-		$appConfig->setValue('test3', 'enabled', '["foo"]');
-		$appConfig->setValue('test4', 'enabled', '["asd"]');
-		$this->assertEquals(['test1', 'test3'], $manager->getEnabledAppsForUser($user));
+		$this->appConfig->setValue('test1', 'enabled', 'yes');
+		$this->appConfig->setValue('test2', 'enabled', 'no');
+		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
+		$this->appConfig->setValue('test4', 'enabled', '["asd"]');
+		$this->assertEquals(['test1', 'test3'], $this->manager->getEnabledAppsForUser($user));
 	}
 }
