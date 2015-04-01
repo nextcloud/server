@@ -3,10 +3,12 @@ OC.L10N.register(
     {
     "Security & setup warnings" : "Avvisi di sicurezza e di configurazione",
     "Sharing" : "Condivisione",
+    "External Storage" : "Archiviazione esterna",
     "Cron" : "Cron",
     "Email Server" : "Server di posta",
     "Log" : "Log",
     "Tips & tricks" : "Suggerimenti e trucchi",
+    "Updates" : "Aggiornamenti",
     "Authentication error" : "Errore di autenticazione",
     "Your full name has been changed." : "Il tuo nome completo è stato cambiato.",
     "Unable to change full name" : "Impossibile cambiare il nome completo",

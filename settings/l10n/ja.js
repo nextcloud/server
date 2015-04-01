@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "共有",
+    "External Storage" : "外部ストレージ",
     "Cron" : "Cron",
     "Email Server" : "メールサーバー",
     "Log" : "ログ",
+    "Updates" : "アップデート",
     "Authentication error" : "認証エラー",
     "Your full name has been changed." : "名前を変更しました。",
     "Unable to change full name" : "名前を変更できません",

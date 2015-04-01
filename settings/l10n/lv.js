@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Dalīšanās",
+    "External Storage" : "Ārējā krātuve",
     "Cron" : "Cron",
     "Email Server" : "E-pasta serveris",
     "Log" : "Žurnāls",

@@ -3,10 +3,12 @@ OC.L10N.register(
     {
     "Security & setup warnings" : "Upozornění zabezpečení a nastavení",
     "Sharing" : "Sdílení",
+    "External Storage" : "Externí úložiště",
     "Cron" : "Cron",
     "Email Server" : "Emailový server",
     "Log" : "Záznam",
     "Tips & tricks" : "Tipy a triky",
+    "Updates" : "Aktualizace",
     "Authentication error" : "Chyba přihlášení",
     "Your full name has been changed." : "Vaše celé jméno bylo změněno.",
     "Unable to change full name" : "Nelze změnit celé jméno",

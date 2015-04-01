@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "שיתוף",
+    "External Storage" : "אחסון חיצוני",
     "Cron" : "Cron",
     "Log" : "יומן",
     "Authentication error" : "שגיאת הזדהות",

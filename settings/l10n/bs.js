@@ -5,6 +5,7 @@ OC.L10N.register(
     "Cron" : "Cron",
     "Email Server" : "Server e-pošte",
     "Log" : "Zapisnik",
+    "Updates" : "Ažuriranja",
     "Authentication error" : "Grešna autentifikacije",
     "Your full name has been changed." : "Vaše puno ime je promijenjeno.",
     "Unable to change full name" : "Puno ime nije moguće promijeniti",

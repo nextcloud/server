@@ -3,10 +3,12 @@ OC.L10N.register(
     {
     "Security & setup warnings" : "Προειδοποιήσεις ασφάλειας & ρυθμίσεων",
     "Sharing" : "Διαμοιρασμός",
+    "External Storage" : "Εξωτερικό Αποθηκευτικό Μέσο",
     "Cron" : "Cron",
     "Email Server" : "Διακομιστής Email",
     "Log" : "Καταγραφές",
     "Tips & tricks" : "Συμβουλές & τεχνάσματα",
+    "Updates" : "Ενημερώσεις",
     "Authentication error" : "Σφάλμα πιστοποίησης",
     "Your full name has been changed." : "Το πλήρες όνομά σας άλλαξε.",
     "Unable to change full name" : "Δεν ήταν δυνατή η αλλαγή του πλήρους ονόματός σας",

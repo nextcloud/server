@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "共享",
+    "External Storage" : "外部存储",
     "Cron" : "计划任务",
     "Email Server" : "电子邮件服务器",
     "Log" : "日志",
+    "Updates" : "更新",
     "Authentication error" : "认证错误",
     "Your full name has been changed." : "您的全名已修改。",
     "Unable to change full name" : "无法修改全名",

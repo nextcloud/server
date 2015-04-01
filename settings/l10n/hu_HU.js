@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Megosztás",
+    "External Storage" : "Külső tárolási szolgáltatások becsatolása",
     "Cron" : "Ütemezett feladatok",
     "Email Server" : "E-mail kiszolgáló",
     "Log" : "Naplózás",
+    "Updates" : "Frissítések",
     "Authentication error" : "Azonosítási hiba",
     "Your full name has been changed." : "Az Ön teljes nevét módosítottuk.",
     "Unable to change full name" : "Nem sikerült megváltoztatni a teljes nevét",

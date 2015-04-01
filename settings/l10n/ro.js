@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Partajare",
+    "External Storage" : "Stocare externă",
     "Cron" : "Cron",
     "Log" : "Jurnal de activitate",
     "Authentication error" : "Eroare la autentificare",

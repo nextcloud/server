@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "External Storage" : "Ytri gagnageymsla",
     "Authentication error" : "Villa við auðkenningu",
     "Language changed" : "Tungumáli breytt",
     "Invalid request" : "Ógild fyrirspurn",

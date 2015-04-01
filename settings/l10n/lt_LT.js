@@ -2,8 +2,10 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Dalijimasis",
+    "External Storage" : "Išorinės saugyklos",
     "Cron" : "Cron",
     "Log" : "Žurnalas",
+    "Updates" : "Atnaujinimai",
     "Authentication error" : "Autentikacijos klaida",
     "Language changed" : "Kalba pakeista",
     "Invalid request" : "Klaidinga užklausa",

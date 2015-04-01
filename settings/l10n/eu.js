@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Partekatzea",
+    "External Storage" : "Kanpoko biltegiratzea",
     "Cron" : "Cron",
     "Email Server" : "Eposta zerbitzaria",
     "Log" : "Log",
+    "Updates" : "Eguneraketak",
     "Authentication error" : "Autentifikazio errorea",
     "Your full name has been changed." : "Zure izena aldatu egin da.",
     "Unable to change full name" : "Ezin izan da izena aldatu",

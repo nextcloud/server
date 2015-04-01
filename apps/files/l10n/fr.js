@@ -102,6 +102,7 @@ OC.L10N.register(
     "Folder" : "Dossier",
     "Upload" : "Chargement",
     "Cancel upload" : "Annuler l'envoi",
+    "No files in here" : "Pas de fichier ici",
     "Upload some content or sync with your devices!" : "Déposez du contenu ou synchronisez vos appareils !",
     "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
     "Select all" : "Tout sélectionner",

@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Berbagi",
+    "External Storage" : "Penyimpanan Eksternal",
     "Cron" : "Cron",
     "Email Server" : "Server Email",
     "Log" : "Log",
+    "Updates" : "Pembaruan",
     "Authentication error" : "Terjadi kesalahan saat otentikasi",
     "Your full name has been changed." : "Nama lengkap Anda telah diubah",
     "Unable to change full name" : "Tidak dapat mengubah nama lengkap",

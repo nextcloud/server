@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Chia sẻ",
+    "External Storage" : "Lưu trữ ngoài",
     "Cron" : "Cron",
     "Log" : "Log",
     "Authentication error" : "Lỗi xác thực",

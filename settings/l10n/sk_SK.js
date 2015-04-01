@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Zdieľanie",
+    "External Storage" : "Externé úložisko",
     "Cron" : "Cron",
     "Email Server" : "Email server",
     "Log" : "Záznam",
+    "Updates" : "Aktualizácie",
     "Authentication error" : "Chyba autentifikácie",
     "Your full name has been changed." : "Vaše meno a priezvisko bolo zmenené.",
     "Unable to change full name" : "Nemožno zmeniť meno a priezvisko",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "ការ​ចែក​រំលែក",
+    "External Storage" : "ឃ្លាំងផ្ទុក​ខាងក្រៅ",
     "Cron" : "Cron",
     "Email Server" : "ម៉ាស៊ីន​បម្រើ​អ៊ីមែល",
     "Log" : "Log",

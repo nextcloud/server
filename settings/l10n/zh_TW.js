@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "分享",
+    "External Storage" : "外部儲存",
     "Cron" : "工作排程",
     "Email Server" : "郵件伺服器",
     "Log" : "紀錄",
+    "Updates" : "更新",
     "Authentication error" : "認證錯誤",
     "Your full name has been changed." : "您的全名已變更。",
     "Unable to change full name" : "無法變更全名",

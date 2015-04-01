@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Dela",
+    "External Storage" : "Extern lagring",
     "Cron" : "Cron",
     "Email Server" : "E-postserver",
     "Log" : "Logg",
+    "Updates" : "Uppdateringar",
     "Authentication error" : "Fel vid autentisering",
     "Your full name has been changed." : "Hela ditt namn har ändrats",
     "Unable to change full name" : "Kunde inte ändra hela namnet",

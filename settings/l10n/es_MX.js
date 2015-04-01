@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Compartiendo",
+    "External Storage" : "Almacenamiento externo",
     "Cron" : "Cron",
     "Log" : "Registro",
     "Authentication error" : "Error de autenticación",

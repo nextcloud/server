@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Paylaşılır",
+    "External Storage" : "Kənar depo",
     "Cron" : "Cron",
     "Email Server" : "Email server",
     "Log" : "Jurnal",
+    "Updates" : "Yenilənmələr",
     "Authentication error" : "Təyinat metodikası",
     "Your full name has been changed." : "Sizin tam adınız dəyişdirildi.",
     "Unable to change full name" : "Tam adı dəyişmək olmur",

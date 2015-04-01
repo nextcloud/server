@@ -3,9 +3,11 @@ OC.L10N.register(
     {
     "Security & setup warnings" : "Предупреждения за сигурност и настройки",
     "Sharing" : "Споделяне",
+    "External Storage" : "Външно Дисково Пространство",
     "Cron" : "Крон",
     "Email Server" : "Имейл Сървър",
     "Log" : "Лог",
+    "Updates" : "Обновления",
     "Authentication error" : "Възникна проблем с идентификацията",
     "Your full name has been changed." : "Вашето пълно име е променено.",
     "Unable to change full name" : "Неуспешна промяна на пълното име.",

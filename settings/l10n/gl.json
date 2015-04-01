@@ -1,10 +1,12 @@
 { "translations": {
     "Security & setup warnings" : "Avisos de seguridade e configuración",
     "Sharing" : "Compartindo",
+    "External Storage" : "Almacenamento externo",
     "Cron" : "Cron",
     "Email Server" : "Servidor de correo",
     "Log" : "Rexistro",
     "Tips & tricks" : "Trucos e consellos",
+    "Updates" : "Actualizacións",
     "Authentication error" : "Produciuse un erro de autenticación",
     "Your full name has been changed." : "O seu nome completo foi cambiado",
     "Unable to change full name" : "Non é posíbel cambiar o nome completo",

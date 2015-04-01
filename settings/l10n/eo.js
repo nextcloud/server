@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Kunhavigo",
+    "External Storage" : "Malena memorilo",
     "Cron" : "Cron",
     "Email Server" : "Retpoŝtoservilo",
     "Log" : "Protokolo",
+    "Updates" : "Ĝisdatigoj",
     "Authentication error" : "Aŭtentiga eraro",
     "Your full name has been changed." : "Via plena nomo ŝanĝitas.",
     "Unable to change full name" : "Ne eblis ŝanĝi la plenan nomon",

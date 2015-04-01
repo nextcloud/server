@@ -3,10 +3,12 @@ OC.L10N.register(
     {
     "Security & setup warnings" : "Turvallisuus- ja asetusvaroitukset",
     "Sharing" : "Jakaminen",
+    "External Storage" : "Erillinen tallennusväline",
     "Cron" : "Cron",
     "Email Server" : "Sähköpostipalvelin",
     "Log" : "Loki",
     "Tips & tricks" : "Vinkit",
+    "Updates" : "Päivitykset",
     "Authentication error" : "Tunnistautumisvirhe",
     "Your full name has been changed." : "Koko nimesi on muutettu.",
     "Unable to change full name" : "Koko nimen muuttaminen epäonnistui",

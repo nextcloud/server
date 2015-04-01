@@ -1,8 +1,10 @@
 { "translations": {
     "Sharing" : "Compartiendo",
+    "External Storage" : "Almacenamientu esternu",
     "Cron" : "Cron",
     "Email Server" : "Sirvidor de corréu-e",
     "Log" : "Rexistru",
+    "Updates" : "Anovamientos",
     "Authentication error" : "Fallu d'autenticación",
     "Your full name has been changed." : "Camudóse'l nome completu.",
     "Unable to change full name" : "Nun pue camudase'l nome completu",

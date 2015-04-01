@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Souporaba",
+    "External Storage" : "Zunanja podatkovna shramba",
     "Cron" : "Periodično opravilo",
     "Email Server" : "Poštni strežnik",
     "Log" : "Dnevnik",
+    "Updates" : "Posodobitve",
     "Authentication error" : "Napaka med overjanjem",
     "Your full name has been changed." : "Vaše polno ime je spremenjeno.",
     "Unable to change full name" : "Ni mogoče spremeniti polnega imena",

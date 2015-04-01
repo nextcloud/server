@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Спільний доступ",
+    "External Storage" : "Зовнішні сховища",
     "Cron" : "Планувальник Cron",
     "Email Server" : "Сервер електронної пошти",
     "Log" : "Журнал",
+    "Updates" : "Оновлення",
     "Authentication error" : "Помилка автентифікації",
     "Your full name has been changed." : "Ваше ім'я було змінене",
     "Unable to change full name" : "Неможливо змінити ім'я",

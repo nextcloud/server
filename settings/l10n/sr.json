@@ -1,10 +1,12 @@
 { "translations": {
     "Security & setup warnings" : "Безбедносна и упозорења поставе",
     "Sharing" : "Дељење",
+    "External Storage" : "Спољашње складиште",
     "Cron" : "Крон",
     "Email Server" : "Сервер е-поште",
     "Log" : "Бележење",
     "Tips & tricks" : "Савети и трикови",
+    "Updates" : "Ажурирања",
     "Authentication error" : "Грешка при провери идентитета",
     "Your full name has been changed." : "Ваше пуно име је промењено.",
     "Unable to change full name" : "Не могу да променим пуно име",

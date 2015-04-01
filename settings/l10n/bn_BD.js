@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "ভাগাভাগিরত",
+    "External Storage" : "বাহ্যিক সংরক্ষণাগার",
     "Email Server" : "ইমেইল সার্ভার",
     "Authentication error" : "অনুমোদন ঘটিত সমস্যা",
     "Your full name has been changed." : "আপনার পূর্ণ নাম পরিবর্তন করা হয়েছে।",

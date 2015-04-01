@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Споделување",
+    "External Storage" : "Надворешно складиште",
     "Cron" : "Крон",
     "Email Server" : "Сервер за електронска пошта",
     "Log" : "Записник",

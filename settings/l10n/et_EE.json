@@ -1,8 +1,10 @@
 { "translations": {
     "Sharing" : "Jagamine",
+    "External Storage" : "Väline salvestuskoht",
     "Cron" : "Cron",
     "Email Server" : "Postiserver",
     "Log" : "Logi",
+    "Updates" : "Uuendused",
     "Authentication error" : "Autentimise viga",
     "Your full name has been changed." : "Sinu täispikk nimi on muudetud.",
     "Unable to change full name" : "Täispika nime muutmine ebaõnnestus",

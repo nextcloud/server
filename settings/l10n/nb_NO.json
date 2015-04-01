@@ -1,8 +1,10 @@
 { "translations": {
     "Sharing" : "Deling",
+    "External Storage" : "Ekstern lagring",
     "Cron" : "Cron",
     "Email Server" : "E-postserver",
     "Log" : "Logg",
+    "Updates" : "Oppdateringer",
     "Authentication error" : "Autentiseringsfeil",
     "Your full name has been changed." : "Ditt fulle navn er blitt endret.",
     "Unable to change full name" : "Klarte ikke å endre fullt navn",

@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "Sharing",
+    "External Storage" : "External Storage",
     "Cron" : "Cron",
     "Email Server" : "Email Server",
     "Log" : "Log",
+    "Updates" : "Updates",
     "Authentication error" : "Authentication error",
     "Your full name has been changed." : "Your full name has been changed.",
     "Unable to change full name" : "Unable to change full name",

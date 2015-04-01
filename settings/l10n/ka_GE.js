@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "გაზიარება",
+    "External Storage" : "ექსტერნალ საცავი",
     "Cron" : "Cron–ი",
     "Log" : "ლოგი",
     "Authentication error" : "ავთენტიფიკაციის შეცდომა",

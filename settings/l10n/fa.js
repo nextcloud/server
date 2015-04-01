@@ -2,9 +2,11 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "اشتراک گذاری",
+    "External Storage" : "حافظه خارجی",
     "Cron" : "زمانبند",
     "Email Server" : "سرور ایمیل",
     "Log" : "کارنامه",
+    "Updates" : "به روز رسانی ها",
     "Authentication error" : "خطا در اعتبار سنجی",
     "Your full name has been changed." : "نام کامل شما تغییر یافت",
     "Unable to change full name" : "امکان تغییر نام کامل وجود ندارد",

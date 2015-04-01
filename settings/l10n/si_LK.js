@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "හුවමාරු කිරීම",
+    "External Storage" : "භාහිර ගබඩාව",
     "Log" : "ලඝුව",
     "Authentication error" : "සත්‍යාපන දෝෂයක්",
     "Language changed" : "භාෂාව ාවනස් කිරීම",

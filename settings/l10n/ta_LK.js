@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "External Storage" : "வெளி சேமிப்பு",
     "Authentication error" : "அத்தாட்சிப்படுத்தலில் வழு",
     "Language changed" : "மொழி மாற்றப்பட்டது",
     "Invalid request" : "செல்லுபடியற்ற வேண்டுகோள்",
