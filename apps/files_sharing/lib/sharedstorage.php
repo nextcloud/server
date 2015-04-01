@@ -39,6 +39,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 
 	private $share;   // the shared resource
 	private $files = array();
+	private static $isInitialized = false;
 
 	public function __construct($arguments) {
 		$this->share = $arguments['share'];
@@ -426,8 +427,12 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		$shares = \OCP\Share::getItemsSharedWithUser('file', $options['user']);
 		$manager = Filesystem::getMountManager();
 		$loader = Filesystem::getLoader();
-		if (!\OCP\User::isLoggedIn() || \OCP\User::getUser() != $options['user']
-			|| $shares
+		if (
+			!self::$isInitialized && (
+				!\OCP\User::isLoggedIn()
+				|| \OCP\User::getUser() != $options['user']
+				|| $shares
+			)
 		) {
 			foreach ($shares as $share) {
 				// don't mount shares where we have no permissions
@@ -445,6 +450,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 				}
 			}
 		}
+		self::$isInitialized = true;
 	}
 
 	/**
