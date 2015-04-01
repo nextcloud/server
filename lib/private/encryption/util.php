@@ -226,7 +226,7 @@ class Util {
 	}
 
 	/**
-	 * get the owner and the path for the owner
+	 * get the owner and the path for the file relative to the owners files folder
 	 *
 	 * @param string $path
 	 * @return array
@@ -240,55 +240,15 @@ class Util {
 			$uid = $parts[1];
 		}
 		if (!$this->userManager->userExists($uid)) {
-			throw new \BadMethodCallException('path needs to be relative to the system wide data folder and point to a user specific file');
+			throw new \BadMethodCallException(
+				'path needs to be relative to the system wide data folder and point to a user specific file'
+			);
 		}
 
-		$pathInfo = pathinfo($path);
-		$partFile = false;
-		$parentFolder = false;
-		if (array_key_exists('extension', $pathInfo) && $pathInfo['extension'] === 'part') {
-			// if the real file exists we check this file
-			$filePath = $pathInfo['dirname'] . '/' . $pathInfo['filename'];
-			if ($this->view->file_exists($filePath)) {
-				$pathToCheck = $pathInfo['dirname'] . '/' . $pathInfo['filename'];
-			} else { // otherwise we look for the parent
-				$pathToCheck = $pathInfo['dirname'];
-				$parentFolder = true;
-			}
-			$partFile = true;
-		} else {
-			$pathToCheck = $path;
-		}
+		$ownerPath = implode('/', array_slice($parts, 2));
 
-		$pathToCheck = substr($pathToCheck, strlen('/' . $uid));
+		return array($uid, \OC\Files\Filesystem::normalizePath($ownerPath));
 
-		$this->view->chroot('/' . $uid);
-		$owner = $this->view->getOwner($pathToCheck);
-
-		// Check that UID is valid
-		if (!$this->userManager->userExists($owner)) {
-				throw new \BadMethodCallException('path needs to be relative to the system wide data folder and point to a user specific file');
-		}
-
-		\OC\Files\Filesystem::initMountPoints($owner);
-
-		$info = $this->view->getFileInfo($pathToCheck);
-		$this->view->chroot('/' . $owner);
-		$ownerPath = $this->view->getPath($info->getId());
-		$this->view->chroot('/');
-
-		if ($parentFolder) {
-			$ownerPath = $ownerPath . '/'. $pathInfo['filename'];
-		}
-
-		if ($partFile) {
-			$ownerPath = $ownerPath . '.' . $pathInfo['extension'];
-		}
-
-		return array(
-			$owner,
-			\OC\Files\Filesystem::normalizePath($ownerPath)
-		);
 	}
 
 	/**
