@@ -37,7 +37,7 @@
 	</div>
 	<header role="banner"><div id="header">
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
-				title="" id="owncloud" tabindex="1">
+				id="owncloud" tabindex="1">
 				<div class="logo-icon svg">
 					<h1 class="hidden-visually">
 						<?php p($theme->getName()); ?>
@@ -76,7 +76,7 @@
 				<ul>
 				<?php foreach($_['settingsnavigation'] as $entry):?>
 					<li>
-						<a href="<?php print_unescaped($entry['href']); ?>" title=""
+						<a href="<?php print_unescaped($entry['href']); ?>"
 							<?php if( $entry["active"] ): ?> class="active"<?php endif; ?>>
 							<img class="svg" alt="" src="<?php print_unescaped($entry['icon']); ?>">
 							<?php p($entry['name']) ?>
@@ -108,7 +108,7 @@
 				<ul>
 				<?php foreach($_['navigation'] as $entry): ?>
 					<li data-id="<?php p($entry['id']); ?>">
-						<a href="<?php print_unescaped($entry['href']); ?>" title="<?php p($entry['name']); ?>" tabindex="3"
+						<a href="<?php print_unescaped($entry['href']); ?>" tabindex="3"
 							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
 							<img class="app-icon svg" alt="" src="<?php print_unescaped($entry['icon']); ?>">
 							<div class="icon-loading-dark" style="display:none;"></div>
@@ -123,7 +123,7 @@
 					if(OC_User::isAdminUser(OC_User::getUser())):
 				?>
 					<li id="apps-management">
-						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps')); ?>" title="<?php p($l->t('Apps')); ?>" tabindex="4"
+						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps')); ?>" tabindex="4"
 							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
 							<img class="app-icon svg" alt="" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>">
 							<div class="icon-loading-dark" style="display:none;"></div>
