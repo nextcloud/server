@@ -117,7 +117,7 @@ class Storage extends Wrapper {
 	public static function setupStorage() {
 		\OC\Files\Filesystem::addStorageWrapper('oc_trashbin', function ($mountPoint, $storage) {
 			return new \OCA\Files_Trashbin\Storage(array('storage' => $storage, 'mountPoint' => $mountPoint));
-		});
+		}, 1);
 	}
 
 }
