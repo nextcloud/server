@@ -260,6 +260,7 @@ class Util {
 	 * @param array $parameters
 	 * @internal param array $args with param=>value, will be appended to the returned url
 	 * @return string the url
+	 * @deprecated Use \OC::$server->getURLGenerator()->linkToRoute($route, $parameters)
 	 */
 	public static function linkToRoute( $route, $parameters = array() ) {
 		return \OC_Helper::linkToRoute($route, $parameters);
@@ -272,6 +273,7 @@ class Util {
 	* @param array $args array with param=>value, will be appended to the returned url
 	* 	The value of $args will be urlencoded
 	* @return string the url
+	* @deprecated Use \OC::$server->getURLGenerator()->linkTo($app, $file, $args)
 	*/
 	public static function linkTo( $app, $file, $args = array() ) {
 		return(\OC_Helper::linkTo( $app, $file, $args ));
@@ -362,6 +364,7 @@ class Util {
 	 * @param string $app app
 	 * @param string $image image name
 	 * @return string the url
+	 * @deprecated Use \OC::$server->getURLGenerator()->imagePath($app, $image)
 	 */
 	public static function imagePath( $app, $image ) {
 		return(\OC_Helper::imagePath( $app, $image ));

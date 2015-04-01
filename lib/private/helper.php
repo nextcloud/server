@@ -132,6 +132,7 @@ class OC_Helper {
 	 * @return
 	 * @internal param array $args with param=>value, will be appended to the returned url
 	 * @return string the url
+	 * @deprecated Use \OC::$server->getURLGenerator()->linkToRoute($route, $parameters)
 	 *
 	 * Returns a url to the given app and file.
 	 */
@@ -146,6 +147,7 @@ class OC_Helper {
 	 * @param array $args array with param=>value, will be appended to the returned url
 	 *    The value of $args will be urlencoded
 	 * @return string the url
+	 * @deprecated Use \OC::$server->getURLGenerator()->linkTo($app, $file, $args)
 	 *
 	 * Returns a url to the given app and file.
 	 */
@@ -156,6 +158,7 @@ class OC_Helper {
 	/**
 	 * @param string $key
 	 * @return string url to the online documentation
+	 * @deprecated Use \OC::$server->getURLGenerator()->linkToDocs($key)
 	 */
 	public static function linkToDocs($key) {
 		return OC::$server->getURLGenerator()->linkToDocs($key);
@@ -181,6 +184,7 @@ class OC_Helper {
 	 * Makes an $url absolute
 	 * @param string $url the url
 	 * @return string the absolute url
+	 * @deprecated Use \OC::$server->getURLGenerator()->getAbsoluteURL($url)
 	 *
 	 * Returns a absolute url to the given app and file.
 	 */
@@ -236,6 +240,7 @@ class OC_Helper {
 	 * @param string $app app
 	 * @param string $image image name
 	 * @return string the url
+	 * @deprecated Use \OC::$server->getURLGenerator()->imagePath($app, $image)
 	 *
 	 * Returns the path to the image.
 	 */
