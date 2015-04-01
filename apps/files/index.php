@@ -84,8 +84,6 @@ $config = \OC::$server->getConfig();
 // mostly for the home storage's free space
 $dirInfo = \OC\Files\Filesystem::getFileInfo('/', false);
 $storageInfo=OC_Helper::getStorageInfo('/', $dirInfo);
-// if the encryption app is disabled, than everything is fine (INIT_SUCCESSFUL status code)
-$encryptionInitStatus = 2;
 
 $nav = new OCP\Template('files', 'appnavigation', '');
 
@@ -145,7 +143,6 @@ $tmpl->assign('isPublic', false);
 $tmpl->assign("mailNotificationEnabled", $config->getAppValue('core', 'shareapi_allow_mail_notification', 'no'));
 $tmpl->assign("mailPublicNotificationEnabled", $config->getAppValue('core', 'shareapi_allow_public_notification', 'no'));
 $tmpl->assign("allowShareWithLink", $config->getAppValue('core', 'shareapi_allow_links', 'yes'));
-$tmpl->assign("encryptionInitStatus", $encryptionInitStatus);
 $tmpl->assign('appNavigation', $nav);
 $tmpl->assign('appContents', $contentItems);
 

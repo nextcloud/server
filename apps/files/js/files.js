@@ -120,22 +120,6 @@
 			}
 		},
 
-		displayEncryptionWarning: function() {
-
-			if (!OC.Notification.isHidden()) {
-				return;
-			}
-
-			var initStatus = $('#encryptionInitStatus').val();
-			if (initStatus === '0') { // enc not initialized, but should be
-				OC.Notification.show(t('files', 'Encryption App is enabled but your keys are not initialized, please log-out and log-in again'));
-				return;
-			}
-			if (initStatus === '1') { // encryption tried to init but failed
-				OC.Notification.show(t('files', 'Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.'));
-			}
-		},
-
 		/**
 		 * Returns the download URL of the given file(s)
 		 * @param filename string or array of file names to download
@@ -214,7 +198,6 @@
 		 */
 		initialize: function() {
 			Files.getMimeIcon.cache = {};
-			Files.displayEncryptionWarning();
 			Files.bindKeyboardShortcuts(document, $);
 
 			// TODO: move file list related code (upload) to OCA.Files.FileList
