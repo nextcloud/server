@@ -72,8 +72,9 @@ class OC_Hook{
 
 	/**
 	 * emits a signal
-	 * @param string $signalclass class name of emitter
-	 * @param string $signalname name of signal
+	 *
+	 * @param string $signalClass class name of emitter
+	 * @param string $signalName name of signal
 	 * @param mixed $params default: array() array with additional data
 	 * @return bool true if slots exists or false if not
 	 *
@@ -81,28 +82,36 @@ class OC_Hook{
 	 *
 	 * TODO: write example
 	 */
-	static public function emit( $signalclass, $signalname, $params = array()) {
+	static public function emit($signalClass, $signalName, $params = array()) {
 
 		// Return false if no hook handlers are listening to this
 		// emitting class
-		if( !array_key_exists( $signalclass, self::$registered )) {
+		if( !array_key_exists($signalClass, self::$registered )) {
 			return false;
 		}
 
 		// Return false if no hook handlers are listening to this
 		// emitting method
-		if( !array_key_exists( $signalname, self::$registered[$signalclass] )) {
+		if( !array_key_exists( $signalName, self::$registered[$signalClass] )) {
 			return false;
 		}
 
 		// Call all slots
-		foreach( self::$registered[$signalclass][$signalname] as $i ) {
+		foreach( self::$registered[$signalClass][$signalName] as $i ) {
 			try {
 				call_user_func( array( $i["class"], $i["name"] ), $params );
 			} catch (Exception $e){
 				self::$thrownExceptions[] = $e;
+				$class = $i["class"];
+				if (is_object($i["class"])) {
+					$class = get_class($i["class"]);
+				}
+				$message = $e->getMessage();
+				if (empty($message)) {
+					$message = get_class($e);
+				}
 				OC_Log::write('hook',
-					'error while running hook (' . $i["class"] . '::' . $i["name"] . '): '.$e->getMessage(),
+					'error while running hook (' . $class . '::' . $i["name"] . '): ' . $message,
 					OC_Log::ERROR);
 			}
 		}
