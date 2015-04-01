@@ -131,6 +131,9 @@ class Test_Mount_Config extends \Test\TestCase {
 	const TEST_GROUP2 = 'group2';
 	const TEST_GROUP2B = 'group2b';
 
+	private $users = [];
+	private $groups = [];
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -147,32 +150,43 @@ class Test_Mount_Config extends \Test\TestCase {
 			)
 		);
 
-		\OC_User::createUser(self::TEST_USER1, self::TEST_USER1);
-		\OC_User::createUser(self::TEST_USER2, self::TEST_USER2);
+		$userManager = \OC::$server->getUserManager();
+		$groupManager = \OC::$server->getGroupManager();
 
-		\OC_Group::createGroup(self::TEST_GROUP1);
-		\OC_Group::createGroup(self::TEST_GROUP1B);
-		\OC_Group::addToGroup(self::TEST_USER1, self::TEST_GROUP1);
-		\OC_Group::addToGroup(self::TEST_USER1, self::TEST_GROUP1B);
-		\OC_Group::createGroup(self::TEST_GROUP2);
-		\OC_Group::createGroup(self::TEST_GROUP2B);
-		\OC_Group::addToGroup(self::TEST_USER2, self::TEST_GROUP2);
-		\OC_Group::addToGroup(self::TEST_USER2, self::TEST_GROUP2B);
+		$this->users[self::TEST_USER1] = $userManager->createUser(
+			self::TEST_USER1,
+			self::TEST_USER1
+		);
+		$this->users[self::TEST_USER2] = $userManager->createUser(
+			self::TEST_USER2,
+			self::TEST_USER2
+		);
 
-		\OC_User::setUserId(self::TEST_USER1);
-		$this->userHome = \OC_User::getHome(self::TEST_USER1);
+		$this->groups[self::TEST_GROUP1] = $groupManager->createGroup(self::TEST_GROUP1);
+		$this->groups[self::TEST_GROUP1B] = $groupManager->createGroup(self::TEST_GROUP1B);
+		$this->groups[self::TEST_GROUP2] = $groupManager->createGroup(self::TEST_GROUP2);
+		$this->groups[self::TEST_GROUP2B] = $groupManager->createGroup(self::TEST_GROUP2B);
+
+		$this->groups[self::TEST_GROUP1]->addUser($this->users[self::TEST_USER1]);
+		$this->groups[self::TEST_GROUP1B]->addUser($this->users[self::TEST_USER1]);
+		$this->groups[self::TEST_GROUP2]->addUser($this->users[self::TEST_USER2]);
+		$this->groups[self::TEST_GROUP2B]->addUser($this->users[self::TEST_USER2]);
+
+		\OC::$server->getUserSession()->setUser($this->users[self::TEST_USER1]);
+		$this->userHome = $this->users[self::TEST_USER1]->getHome();
 		@mkdir($this->userHome);
 
-		$this->dataDir = \OC_Config::getValue(
+		$config = \OC::$server->getConfig();
+		$this->dataDir = $config->getSystemValue(
 			'datadirectory',
 			\OC::$SERVERROOT . '/data/'
 		);
-		$this->oldAllowedBackends = OCP\Config::getAppValue(
+		$this->oldAllowedBackends = $config->getAppValue(
 			'files_external',
 			'user_mounting_backends',
 			''
 		);
-		OCP\Config::setAppValue(
+		$config->setAppValue(
 			'files_external',
 			'user_mounting_backends',
 			'Test_Mount_Config_Dummy_Storage'
@@ -186,16 +200,19 @@ class Test_Mount_Config extends \Test\TestCase {
 		Test_Mount_Config_Hook_Test::clear();
 		OC_Mount_Config::$skipTest = false;
 
-		\OC_User::deleteUser(self::TEST_USER2);
-		\OC_User::deleteUser(self::TEST_USER1);
-		\OC_Group::deleteGroup(self::TEST_GROUP1);
-		\OC_Group::deleteGroup(self::TEST_GROUP1B);
-		\OC_Group::deleteGroup(self::TEST_GROUP2);
-		\OC_Group::deleteGroup(self::TEST_GROUP2B);
+		foreach ($this->users as $user) {
+			$user->delete();
+		}
+		foreach ($this->groups as $group) {
+			$group->delete();
+		}
+		$this->users = [];
+		$this->groups = [];
 
 		@unlink($this->dataDir . '/mount.json');
 
-		OCP\Config::setAppValue(
+		$config = \OC::$server->getConfig();
+		$config->setAppValue(
 			'files_external',
 			'user_mounting_backends',
 			$this->oldAllowedBackends
@@ -778,7 +795,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		);
 
 		// check mount points in the perspective of user $testUser
-		\OC_User::setUserId($testUser);
+		\OC::$server->getUserSession()->setUser($this->users[$testUser]);
 
 		$mountPoints = OC_Mount_Config::getAbsoluteMountPoints($testUser);
 		if ($expectVisible) {
@@ -1116,7 +1133,7 @@ class Test_Mount_Config extends \Test\TestCase {
 		);
 
 		// Ensure other user can read mount points
-		\OC_User::setUserId(self::TEST_USER2);
+		\OC::$server->getUserSession()->setUser($this->users[self::TEST_USER2]);
 		$mountPointsMe = OC_Mount_Config::getAbsoluteMountPoints(self::TEST_USER2);
 		$mountPointsOther = OC_Mount_Config::getAbsoluteMountPoints(self::TEST_USER1);
 

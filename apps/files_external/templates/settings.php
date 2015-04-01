@@ -16,7 +16,7 @@
 		<tbody>
 		<?php $_['mounts'] = array_merge($_['mounts'], array('' => array('id' => ''))); ?>
 		<?php foreach ($_['mounts'] as $mount): ?>
-			<tr <?php print_unescaped(isset($mount['mountpoint']) ? 'class="'.OC_Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?> data-id="<?php p($mount['id']) ?>">
+			<tr <?php print_unescaped(isset($mount['mountpoint']) ? 'class="'.\OCP\Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?> data-id="<?php p($mount['id']) ?>">
 				<td class="status">
 					<span></span>
 				</td>
