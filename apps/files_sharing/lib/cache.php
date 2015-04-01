@@ -416,7 +416,9 @@ class Shared_Cache extends Cache {
 			// bubble up to source cache
 			$sourceCache = $this->getSourceCache($path);
 			$parent = dirname($this->files[$path]);
-			$sourceCache->correctFolderSize($parent);
+			if ($sourceCache) {
+				$sourceCache->correctFolderSize($parent);
+			}
 		}
 	}
 
