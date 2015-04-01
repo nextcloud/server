@@ -28,7 +28,7 @@ interface IFile {
 	/**
 	 * get list of users with access to the file
 	 *
-	 * @param $path to the file
+	 * @param string $path to the file
 	 * @return array
 	 */
 	public function getAccessList($path);

@@ -23,8 +23,6 @@
 
 namespace OC\Encryption;
 
-use OC\Encryption\Util;
-
 class File implements \OCP\Encryption\IFile {
 
 	/** @var Util */
@@ -38,7 +36,7 @@ class File implements \OCP\Encryption\IFile {
 	/**
 	 * get list of users with access to the file
 	 *
-	 * @param $path to the file
+	 * @param string $path to the file
 	 * @return array
 	 */
 	public function getAccessList($path) {
