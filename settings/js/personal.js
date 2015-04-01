@@ -172,7 +172,7 @@ $(document).ready(function () {
 		$('#pass2').showPassword().keyup();
 	}
 	$("#passwordbutton").click(function () {
-		var isIE8or9 = html.hasClass('lte9');
+		var isIE8or9 = $('html').hasClass('lte9');
 		// FIXME - TODO - once support for IE8 and IE9 is dropped
 		// for IE8 and IE9 this will check additionally if the typed in password
 		// is different from the placeholder, because in IE8/9 the placeholder
