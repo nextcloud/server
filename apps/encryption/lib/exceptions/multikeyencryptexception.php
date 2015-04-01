@@ -2,6 +2,8 @@
 
 namespace OCA\Encryption\Exceptions;
 
-class MultiKeyEncryptException extends \Exception {
+use OCP\Encryption\Exceptions\GenericEncryptionException;
+
+class MultiKeyEncryptException extends GenericEncryptionException {
 
 }

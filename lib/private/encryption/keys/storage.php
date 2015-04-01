@@ -23,9 +23,9 @@
 
 namespace OC\Encryption\Keys;
 
-use OC\Encryption\Exceptions\GenericEncryptionException;
 use OC\Encryption\Util;
 use OC\Files\View;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
 
 class Storage implements \OCP\Encryption\Keys\IStorage {
 
@@ -259,7 +259,7 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	private function getFileKeyDir($path) {
 
 		if ($this->view->is_dir($path)) {
-			throw new GenericEncryptionException('file was expected but directory was given');
+			throw new GenericEncryptionException("file was expected but directory was given: $path");
 		}
 
 		list($owner, $filename) = $this->util->getUidAndFilename($path);

@@ -147,14 +147,14 @@ class Util {
 		$header = self::HEADER_START . ':' . self::HEADER_ENCRYPTION_MODULE_KEY . ':' . $encryptionModule->getId() . ':';
 		foreach ($headerData as $key => $value) {
 			if (in_array($key, $this->ocHeaderKeys)) {
-				throw new EncryptionHeaderKeyExistsException('header key "'. $key . '" already reserved by ownCloud');
+				throw new EncryptionHeaderKeyExistsException($key);
 			}
 			$header .= $key . ':' . $value . ':';
 		}
 		$header .= self::HEADER_END;
 
 		if (strlen($header) > $this->getHeaderSize()) {
-			throw new EncryptionHeaderToLargeException('max header size exceeded');
+			throw new EncryptionHeaderToLargeException();
 		}
 
 		$paddedHeader = str_pad($header, $this->headerSize, self::HEADER_PADDING_CHAR, STR_PAD_RIGHT);

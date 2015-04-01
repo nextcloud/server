@@ -35,7 +35,7 @@
 
 namespace OC\Connector\Sabre;
 
-use OC\Encryption\Exceptions\GenericEncryptionException;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
 
 class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 
@@ -184,7 +184,7 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 		//throw exception if encryption is disabled but files are still encrypted
 		try {
 			return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
-		} catch (\OCP\Encryption\Exception\EncryptionException $e) {
+		} catch (\OCP\Encryption\Exceptions\GenericEncryptionException $e) {
 			throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to open file: ".$e->getMessage());

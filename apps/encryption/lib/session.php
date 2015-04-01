@@ -70,7 +70,7 @@ class Session {
 	public function getPrivateKey() {
 		$key = $this->session->get('privateKey');
 		if (is_null($key)) {
-			throw new Exceptions\PrivateKeyMissingException('no private key stored in session');
+			throw new Exceptions\PrivateKeyMissingException('no private key stored in session', 0);
 		}
 		return $key;
 	}

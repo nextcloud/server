@@ -1,7 +1,7 @@
 <?php
   /**
  * @author Clark Tomlinson  <clark@owncloud.com>
- * @since 2/25/15, 9:34 AM
+ * @since 2/25/15, 9:30 AM
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
  *
@@ -19,10 +19,16 @@
  *
  */
 
+namespace OCP\Encryption\Exceptions;
 
-namespace OC\Encryption\Exceptions;
 
+class GenericEncryptionException extends \Exception {
 
-class UnexpectedEndOfEncryptionHeaderException extends GenericEncryptionException {
+	public function __construct($message = "", $code = 0, \Exception $previous = null) {
+		if (empty($message)) {
+			$message = 'Unspecified encryption exception';
+		}
+		parent::__construct($message, $code, $previous);
+	}
 
 }

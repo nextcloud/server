@@ -4,7 +4,7 @@ namespace OCA\Encryption;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OCA\Encryption\Exceptions\PrivateKeyMissingException;
-use OC\Encryption\Exceptions\PublicKeyMissingException;
+use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
@@ -301,7 +301,7 @@ class KeyManager {
 		if (strlen($privateKey) !== 0) {
 			return $privateKey;
 		}
-		throw new PrivateKeyMissingException();
+		throw new PrivateKeyMissingException($userId);
 	}
 
 	/**
@@ -393,7 +393,7 @@ class KeyManager {
 		if (strlen($publicKey) !== 0) {
 			return $publicKey;
 		}
-		throw new PublicKeyMissingException();
+		throw new PublicKeyMissingException($userId);
 	}
 
 	public function getPublicShareKeyId() {
@@ -496,7 +496,7 @@ class KeyManager {
 		if (!empty($accessList['public'])) {
 			$publicShareKey = $this->getPublicShareKey();
 			if (empty($publicShareKey)) {
-				throw new PublicKeyMissingException();
+				throw new PublicKeyMissingException($this->getPublicShareKeyId());
 			}
 			$publicKeys[$this->getPublicShareKeyId()] = $publicShareKey;
 		}

@@ -24,9 +24,9 @@ namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Exceptions\EncryptionFailedException;
-use OC\Encryption\Exceptions\GenericEncryptionException;
 use OCA\Encryption\Exceptions\MultiKeyDecryptException;
 use OCA\Encryption\Exceptions\MultiKeyEncryptException;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
