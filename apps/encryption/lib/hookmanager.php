@@ -42,8 +42,9 @@ class HookManager {
 				$this->hookInstances[] = $instance;
 			}
 
+		} elseif ($instances instanceof IHook) {
+			$this->hookInstances[] = $instances;
 		}
-		$this->hookInstances[] = $instances;
 		return true;
 	}
 
