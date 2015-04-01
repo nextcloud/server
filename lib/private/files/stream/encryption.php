@@ -198,7 +198,7 @@ class Encryption extends Wrapper {
 		$context = parent::loadContext($name);
 
 		foreach ($this->expectedContextProperties as $property) {
-			if (isset($context[$property])) {
+			if (array_key_exists($property, $context)) {
 				$this->{$property} = $context[$property];
 			} else {
 				throw new \BadMethodCallException('Invalid context, "' . $property . '" options not set');

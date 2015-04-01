@@ -23,6 +23,7 @@ namespace OCA\Encryption;
 
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
+use OCA\Encryption\Exceptions\FileKeyMissingException;
 use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OC\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Crypto\Crypt;
@@ -114,6 +115,8 @@ class KeyManager {
 		$this->keyStorage = $keyStorage;
 		$this->crypt = $crypt;
 		$this->config = $config;
+		$this->log = $log;
+
 		$this->recoveryKeyId = $this->config->getAppValue('encryption',
 			'recoveryKeyId');
 		if (empty($this->recoveryKeyId)) {
@@ -123,34 +126,24 @@ class KeyManager {
 				$this->recoveryKeyId);
 		}
 
-
 		$this->publicShareKeyId = $this->config->getAppValue('encryption',
 			'publicShareKeyId');
-		$this->log = $log;
-
 		if (empty($this->publicShareKeyId)) {
 			$this->publicShareKeyId = 'pubShare_' . substr(md5(time()), 0, 8);
-			$this->config->setAppValue('encryption',
-				'publicShareKeyId',
-				$this->publicShareKeyId);
+			$this->config->setAppValue('encryption', 'publicShareKeyId', $this->publicShareKeyId);
+		}
 
+		$shareKey = $this->getPublicShareKey();
+		if (empty($shareKey)) {
 			$keyPair = $this->crypt->createKeyPair();
 
 			// Save public key
 			$this->keyStorage->setSystemUserKey(
-				$this->publicShareKeyId . '.publicKey',
-				$keyPair['publicKey']);
+				$this->publicShareKeyId . '.publicKey', $keyPair['publicKey']);
 
 			// Encrypt private key empty passphrase
-			$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'],
-				'');
-			if ($encryptedKey) {
-				$this->keyStorage->setSystemUserKey($this->publicShareKeyId . '.privateKey',
-					$encryptedKey);
-			} else {
-				$this->log->error('Could not create public share keys');
-			}
-
+			$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'], '');
+			$this->keyStorage->setSystemUserKey($this->publicShareKeyId . '.privateKey', $encryptedKey);
 		}
 
 		$this->keyId = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : false;
@@ -161,7 +154,8 @@ class KeyManager {
 	 * @return bool
 	 */
 	public function recoveryKeyExists() {
-		return (!empty($this->keyStorage->getSystemUserKey($this->recoveryKeyId . '.publicKey')));
+		$key = $this->getRecoveryKey();
+		return (!empty($key));
 	}
 
 	/**
@@ -340,19 +334,25 @@ class KeyManager {
 	 * @return string
 	 */
 	public function getFileKey($path, $uid) {
-		$key = '';
-		$encryptedFileKey = $this->keyStorage->getFileKey($path,
-			$this->fileKeyId);
-		$shareKey = $this->getShareKey($path, $uid);
-		$privateKey = $this->session->getPrivateKey();
+		$encryptedFileKey = $this->keyStorage->getFileKey($path, $this->fileKeyId);
+
+		if (is_null($uid)) {
+			$uid = $this->getPublicShareKeyId();
+			$shareKey = $this->getShareKey($path, $uid);
+			$privateKey = $this->keyStorage->getSystemUserKey($this->publicShareKeyId . '.privateKey');
+			$privateKey = $this->crypt->symmetricDecryptFileContent($privateKey);
+		} else {
+			$shareKey = $this->getShareKey($path, $uid);
+			$privateKey = $this->session->getPrivateKey();
+		}
 
 		if ($encryptedFileKey && $shareKey && $privateKey) {
-			$key = $this->crypt->multiKeyDecrypt($encryptedFileKey,
+			return $this->crypt->multiKeyDecrypt($encryptedFileKey,
 				$shareKey,
 				$privateKey);
 		}
 
-		return $key;
+		throw new FileKeyMissingException();
 	}
 
 	/**
@@ -412,7 +412,7 @@ class KeyManager {
 	}
 
 	/**
-	 * get public key  for public link shares
+	 * get public key for public link shares
 	 *
 	 * @return string
 	 */
@@ -504,7 +504,11 @@ class KeyManager {
 	 */
 	public function addSystemKeys(array $accessList, array $publicKeys) {
 		if (!empty($accessList['public'])) {
-			$publicKeys[$this->getPublicShareKeyId()] = $this->getPublicShareKey();
+			$publicShareKey = $this->getPublicShareKey();
+			if (empty($publicShareKey)) {
+				throw new PublicKeyMissingException();
+			}
+			$publicKeys[$this->getPublicShareKeyId()] = $publicShareKey;
 		}
 
 		if ($this->recoveryKeyExists() &&

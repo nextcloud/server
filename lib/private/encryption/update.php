@@ -93,25 +93,25 @@ class Update {
 	 * @param int $fileSource file source id
 	 */
 	private function update($fileSource) {
-			$path = \OC\Files\Filesystem::getPath($fileSource);
-			$absPath = '/' . $this->uid . '/files' . $path;
+		$path = \OC\Files\Filesystem::getPath($fileSource);
+		$absPath = '/' . $this->uid . '/files' . $path;
 
-			$mount = $this->mountManager->find($path);
-			$mountPoint = $mount->getMountPoint();
+		$mount = $this->mountManager->find($path);
+		$mountPoint = $mount->getMountPoint();
 
-			// if a folder was shared, get a list of all (sub-)folders
-			if ($this->view->is_dir($absPath)) {
-				$allFiles = $this->util->getAllFiles($absPath, $mountPoint);
-			} else {
-				$allFiles = array($absPath);
-			}
+		// if a folder was shared, get a list of all (sub-)folders
+		if ($this->view->is_dir($absPath)) {
+			$allFiles = $this->util->getAllFiles($absPath, $mountPoint);
+		} else {
+			$allFiles = array($absPath);
+		}
 
-			$encryptionModule = $this->encryptionManager->getDefaultEncryptionModule();
+		$encryptionModule = $this->encryptionManager->getDefaultEncryptionModule();
 
-			foreach ($allFiles as $path) {
-				$usersSharing = $this->file->getAccessList($path);
-				$encryptionModule->update($absPath, $this->uid, $usersSharing);
-			}
+		foreach ($allFiles as $path) {
+			$usersSharing = $this->file->getAccessList($path);
+			$encryptionModule->update($absPath, $this->uid, $usersSharing);
+		}
 	}
 
 }
