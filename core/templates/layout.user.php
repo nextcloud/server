@@ -108,7 +108,7 @@
 				<ul>
 				<?php foreach($_['navigation'] as $entry): ?>
 					<li data-id="<?php p($entry['id']); ?>">
-						<a href="<?php print_unescaped($entry['href']); ?>" title="" tabindex="3"
+						<a href="<?php print_unescaped($entry['href']); ?>" title="<?php p($entry['name']); ?>" tabindex="3"
 							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
 							<img class="app-icon svg" alt="" src="<?php print_unescaped($entry['icon']); ?>">
 							<div class="icon-loading-dark" style="display:none;"></div>
@@ -123,7 +123,7 @@
 					if(OC_User::isAdminUser(OC_User::getUser())):
 				?>
 					<li id="apps-management">
-						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps')); ?>" title="" tabindex="4"
+						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps')); ?>" title="<?php p($l->t('Apps')); ?>" tabindex="4"
 							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
 							<img class="app-icon svg" alt="" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>">
 							<div class="icon-loading-dark" style="display:none;"></div>
