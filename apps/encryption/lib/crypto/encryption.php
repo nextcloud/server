@@ -10,6 +10,7 @@
 namespace OCA\Encryption\Crypto;
 
 
+use OCA\Encryption\Util;
 use OCP\Encryption\IEncryptionModule;
 use OCA\Encryption\KeyManager;
 
@@ -38,7 +39,7 @@ class Encryption implements IEncryptionModule {
 	private $writeCache;
 
 	/** @var KeyManager */
-	private $keymanager;
+	private $keyManager;
 
 	/** @var array */
 	private $accessList;
@@ -46,18 +47,18 @@ class Encryption implements IEncryptionModule {
 	/** @var boolean */
 	private $isWriteOperation;
 
-	/** @var \OCA\Encryption\Util */
+	/** @var Util */
 	private $util;
 
 	/**
 	 *
 	 * @param \OCA\Encryption\Crypto\Crypt $crypt
-	 * @param KeyManager $keymanager
-	 * @param \OCA\Encryption\Util $util
+	 * @param KeyManager $keyManager
+	 * @param Util $util
 	 */
-	public function __construct(Crypt $crypt, KeyManager $keymanager, \OCA\Encryption\Util $util) {
+	public function __construct(Crypt $crypt, KeyManager $keyManager, Util $util) {
 		$this->crypt = $crypt;
-		$this->keymanager = $keymanager;
+		$this->keyManager = $keyManager;
 		$this->util = $util;
 	}
 
@@ -105,7 +106,7 @@ class Encryption implements IEncryptionModule {
 		$this->writeCache = '';
 		$this->isWriteOperation = false;
 
-		$this->fileKey = $this->keymanager->getFileKey($path, $this->user);
+		$this->fileKey = $this->keyManager->getFileKey($path, $this->user);
 
 		return array('cipher' => $this->cipher);
 	}
@@ -128,13 +129,13 @@ class Encryption implements IEncryptionModule {
 			}
 			$publicKeys = array();
 			foreach ($this->accessList['users'] as $uid) {
-				$publicKeys[$uid] = $this->keymanager->getPublicKey($uid);
+				$publicKeys[$uid] = $this->keyManager->getPublicKey($uid);
 			}
 
-			$publicKeys = $this->keymanager->addSystemKeys($this->accessList, $publicKeys);
+			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys);
 
 			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
-			$this->keymanager->setAllFileKeys($path, $encryptedKeyfiles);
+			$this->keyManager->setAllFileKeys($path, $encryptedKeyfiles);
 		}
 		return $result;
 	}
@@ -231,19 +232,19 @@ class Encryption implements IEncryptionModule {
 	 * @return boolean
 	 */
 	public function update($path, $uid, $accessList) {
-		$fileKey = $this->keymanager->getFileKey($path, $uid);
+		$fileKey = $this->keyManager->getFileKey($path, $uid);
 		$publicKeys = array();
 		foreach ($accessList['users'] as $user) {
-			$publicKeys[$user] = $this->keymanager->getPublicKey($user);
+			$publicKeys[$user] = $this->keyManager->getPublicKey($user);
 		}
 
-		$publicKeys = $this->keymanager->addSystemKeys($accessList, $publicKeys);
+		$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys);
 
 		$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 
-		$this->keymanager->deleteAllFileKeys($path);
+		$this->keyManager->deleteAllFileKeys($path);
 
-		$this->keymanager->setAllFileKeys($path, $encryptedFileKey);
+		$this->keyManager->setAllFileKeys($path, $encryptedFileKey);
 
 		return true;
 	}
@@ -257,13 +258,13 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function addSystemKeys(array $accessList, array $publicKeys) {
 		if (!empty($accessList['public'])) {
-			$publicKeys[$this->keymanager->getPublicShareKeyId()] = $this->keymanager->getPublicShareKey();
+			$publicKeys[$this->keyManager->getPublicShareKeyId()] = $this->keyManager->getPublicShareKey();
 		}
 
-		if ($this->keymanager->recoveryKeyExists() &&
+		if ($this->keyManager->recoveryKeyExists() &&
 			$this->util->recoveryEnabled($this->user)) {
 
-			$publicKeys[$this->keymanager->getRecoveryKeyId()] = $this->keymanager->getRecoveryKey();
+			$publicKeys[$this->keyManager->getRecoveryKeyId()] = $this->keyManager->getRecoveryKey();
 		}
 
 
@@ -283,10 +284,10 @@ class Encryption implements IEncryptionModule {
 			return false;
 		}
 
-		if ($parts[2] == '/files/') {
+		if ($parts[2] == 'files') {
 			return true;
 		}
-		if ($parts[2] == '/files_versions/') {
+		if ($parts[2] == 'files_versions') {
 			return true;
 		}
 

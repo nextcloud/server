@@ -1,38 +1,15 @@
 <?php
-/**
- * @author Clark Tomlinson  <clark@owncloud.com>
- * @since 2/19/15, 1:20 PM
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
- */
 
 namespace OCA\Encryption;
 
-
 use OC\Encryption\Exceptions\DecryptionFailedException;
-use OCA\Encryption\Exceptions\FileKeyMissingException;
 use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OC\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\Encryption\Keys\IStorage;
-use OCA\Encryption\Util;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserSession;
-use \OCA\Encryption\Session;
 
 class KeyManager {
 
@@ -211,11 +188,11 @@ class KeyManager {
 		return false;
 	}
 
-		/**
-	 * @param string $uid
+	/**
 	 * @param string $password
 	 * @param array $keyPair
 	 * @return bool
+	 * @internal param string $uid
 	 */
 	public function setRecoveryKey($password, $keyPair) {
 		// Save Public Key
@@ -351,7 +328,7 @@ class KeyManager {
 				$privateKey);
 		}
 
-		throw new FileKeyMissingException();
+		return '';
 	}
 
 	/**
@@ -513,6 +490,7 @@ class KeyManager {
 	 * @param array $accessList
 	 * @param array $publicKeys
 	 * @return array
+	 * @throws PublicKeyMissingException
 	 */
 	public function addSystemKeys(array $accessList, array $publicKeys) {
 		if (!empty($accessList['public'])) {
