@@ -395,7 +395,7 @@ class Helper {
 			}
 		}
 
-		$location = \OC_Helper::linkToAbsolute('apps/files_encryption/files', 'error.php');
+		$location = \OCP\Util::linkToAbsolute('apps/files_encryption/files', 'error.php');
 		$post = 0;
 		if(count($_POST) > 0) {
 			$post = 1;

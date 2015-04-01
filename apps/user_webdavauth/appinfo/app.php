@@ -33,6 +33,6 @@ OC_User::useBackend( "WEBDAVAUTH" );
 $entry = array(
 	'id' => "user_webdavauth_settings",
 	'order'=>1,
-	'href' => OC_Helper::linkTo( "user_webdavauth", "settings.php" ),
+	'href' => \OCP\Util::linkTo( "user_webdavauth", "settings.php" ),
 	'name' => 'WEBDAVAUTH'
 );

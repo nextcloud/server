@@ -26,7 +26,7 @@
  */
 
 // Add CSS stylesheet
-\OC_Util::addStyle('files_encryption', 'settings-personal');
+\OCP\Util::addStyle('files_encryption', 'settings-personal');
 
 $tmpl = new OCP\Template('files_encryption', 'settings-personal');
 
