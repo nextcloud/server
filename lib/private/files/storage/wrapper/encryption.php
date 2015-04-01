@@ -135,8 +135,9 @@ class Encryption extends Wrapper {
 	public function file_put_contents($path, $data) {
 		// file put content will always be translated to a stream write
 		$handle = $this->fopen($path, 'w');
-		fwrite($handle, $data);
-		return fclose($handle);
+		$written = fwrite($handle, $data);
+		fclose($handle);
+		return $written;
 	}
 
 	/**
@@ -250,13 +251,8 @@ class Encryption extends Wrapper {
 
 		if($shouldEncrypt === true && !$this->util->isExcluded($fullPath) && $encryptionModule !== null) {
 			$source = $this->storage->fopen($path, $mode);
-			$uid = $this->uid;
-			if (is_null($uid)) {
-				list($owner, ) = $this->util->getUidAndFilename($fullPath);
-				$uid = $owner;
-			}
 			$handle = \OC\Files\Stream\Encryption::wrap($source, $path, $fullPath, $header,
-				$uid, $encryptionModule, $this->storage, $this, $this->util, $this->fileHelper, $mode,
+				$this->uid, $encryptionModule, $this->storage, $this, $this->util, $this->fileHelper, $mode,
 				$size, $unencryptedSize);
 			return $handle;
 		} else {
