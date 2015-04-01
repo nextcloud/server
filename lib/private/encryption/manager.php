@@ -185,16 +185,19 @@ class Manager implements \OCP\Encryption\IManager {
 				'storage' => $storage,
 				'mountPoint' => $mountPoint,
 				'mount' => $mount];
-			$manager = \OC::$server->getEncryptionManager();
-			$util = new \OC\Encryption\Util(
-				new \OC\Files\View(),
-				\OC::$server->getUserManager(),
-				\OC::$server->getConfig());
-			$user = \OC::$server->getUserSession()->getUser();
-			$logger = \OC::$server->getLogger();
-			$uid = $user ? $user->getUID() : null;
-			$fileHelper = \OC::$server->getEncryptionFilesHelper();
-			return new Encryption($parameters, $manager, $util, $logger, $fileHelper, $uid);
-		});
+
+			if (!($storage instanceof \OC\Files\Storage\Shared)) {
+				$manager = \OC::$server->getEncryptionManager();
+				$util = new \OC\Encryption\Util(
+					new \OC\Files\View(), \OC::$server->getUserManager(), \OC::$server->getConfig());
+				$user = \OC::$server->getUserSession()->getUser();
+				$logger = \OC::$server->getLogger();
+				$uid = $user ? $user->getUID() : null;
+				$fileHelper = \OC::$server->getEncryptionFilesHelper();
+				return new Encryption($parameters, $manager, $util, $logger, $fileHelper, $uid);
+			} else {
+				return $storage;
+			}
+		}, 2);
 	}
 }
