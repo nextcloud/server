@@ -25,6 +25,8 @@ namespace OCA\Encryption\Crypto;
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Exceptions\EncryptionFailedException;
 use OC\Encryption\Exceptions\GenericEncryptionException;
+use OCA\Encryption\Exceptions\MultiKeyDecryptException;
+use OCA\Encryption\Exceptions\MultiKeyEncryptException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
@@ -120,11 +122,11 @@ class Crypt {
 
 	/**
 	 * @param $plainContent
-	 * @param $passphrase
+	 * @param $passPhrase
 	 * @return bool|string
 	 * @throws GenericEncryptionException
 	 */
-	public function symmetricEncryptFileContent($plainContent, $passphrase) {
+	public function symmetricEncryptFileContent($plainContent, $passPhrase) {
 
 		if (!$plainContent) {
 			$this->logger->error('Encryption Library, symmetrical encryption failed no content given',
@@ -134,37 +136,29 @@ class Crypt {
 
 		$iv = $this->generateIv();
 
-		try {
-			$encryptedContent = $this->encrypt($plainContent,
-				$iv,
-				$passphrase,
-				$this->getCipher());
-			// combine content to encrypt the IV identifier and actual IV
-			$catFile = $this->concatIV($encryptedContent, $iv);
-			$padded = $this->addPadding($catFile);
+		$encryptedContent = $this->encrypt($plainContent,
+			$iv,
+			$passPhrase,
+			$this->getCipher());
+		// combine content to encrypt the IV identifier and actual IV
+		$catFile = $this->concatIV($encryptedContent, $iv);
+		$padded = $this->addPadding($catFile);
 
-			return $padded;
-		} catch (EncryptionFailedException $e) {
-			$message = 'Could not encrypt file content (code: ' . $e->getCode() . '): ';
-			$this->logger->error('files_encryption' . $message . $e->getMessage(),
-				['app' => 'encryption']);
-			return false;
-		}
-
+		return $padded;
 	}
 
 	/**
 	 * @param $plainContent
 	 * @param $iv
-	 * @param string $passphrase
+	 * @param string $passPhrase
 	 * @param string $cipher
 	 * @return string
 	 * @throws EncryptionFailedException
 	 */
-	private function encrypt($plainContent, $iv, $passphrase = '', $cipher = self::DEFAULT_CIPHER) {
+	private function encrypt($plainContent, $iv, $passPhrase = '', $cipher = self::DEFAULT_CIPHER) {
 		$encryptedContent = openssl_encrypt($plainContent,
 			$cipher,
-			$passphrase,
+			$passPhrase,
 			false,
 			$iv);
 
@@ -246,27 +240,21 @@ class Crypt {
 
 	/**
 	 * @param $keyFileContents
-	 * @param string $passphrase
+	 * @param string $passPhrase
 	 * @param string $cipher
-	 * @return bool|string
+	 * @return string
 	 * @throws DecryptionFailedException
 	 */
-	public function symmetricDecryptFileContent($keyFileContents, $passphrase = '', $cipher = self::DEFAULT_CIPHER) {
+	public function symmetricDecryptFileContent($keyFileContents, $passPhrase = '', $cipher = self::DEFAULT_CIPHER) {
 		// Remove Padding
 		$noPadding = $this->removePadding($keyFileContents);
 
 		$catFile = $this->splitIv($noPadding);
 
-		$plainContent = $this->decrypt($catFile['encrypted'],
+		return $this->decrypt($catFile['encrypted'],
 			$catFile['iv'],
-			$passphrase,
+			$passPhrase,
 			$cipher);
-
-		if ($plainContent) {
-			return $plainContent;
-		}
-
-		return false;
 	}
 
 	/**
@@ -304,22 +292,22 @@ class Crypt {
 	/**
 	 * @param $encryptedContent
 	 * @param $iv
-	 * @param string $passphrase
+	 * @param string $passPhrase
 	 * @param string $cipher
 	 * @return string
 	 * @throws DecryptionFailedException
 	 */
-	private function decrypt($encryptedContent, $iv, $passphrase = '', $cipher = self::DEFAULT_CIPHER) {
+	private function decrypt($encryptedContent, $iv, $passPhrase = '', $cipher = self::DEFAULT_CIPHER) {
 		$plainContent = openssl_decrypt($encryptedContent,
 			$cipher,
-			$passphrase,
+			$passPhrase,
 			false,
 			$iv);
 
 		if ($plainContent) {
 			return $plainContent;
 		} else {
-			throw new DecryptionFailedException('Encryption library: Decryption (symmetric) of content failed');
+			throw new DecryptionFailedException('Encryption library: Decryption (symmetric) of content failed: ' . openssl_error_string());
 		}
 	}
 
@@ -427,7 +415,7 @@ class Crypt {
 		if (openssl_open($encKeyFile, $plainContent, $shareKey, $privateKey)) {
 			return $plainContent;
 		} else {
-			throw new MultiKeyDecryptException('multikeydecrypt with share key failed');
+			throw new MultiKeyDecryptException('multikeydecrypt with share key failed:' . openssl_error_string());
 		}
 	}
 
@@ -452,7 +440,7 @@ class Crypt {
 		if (openssl_seal($plainContent, $sealed, $shareKeys, $keyFiles)) {
 			$i = 0;
 
-			// Ensure each shareKey is labelled with its coreesponding keyid
+			// Ensure each shareKey is labelled with its corresponding key id
 			foreach ($keyFiles as $userId => $publicKey) {
 				$mappedShareKeys[$userId] = $shareKeys[$i];
 				$i++;
