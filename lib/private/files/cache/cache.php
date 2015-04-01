@@ -464,6 +464,43 @@ class Cache {
 	}
 
 	/**
+	 * Move a file or folder in the cache
+	 *
+	 * @param \OC\Files\Cache\Cache $sourceCache
+	 * @param string $sourcePath
+	 * @param string $targetPath
+	 * @throws \OC\DatabaseException
+	 */
+	public function moveFromCache(Cache $sourceCache, $sourcePath, $targetPath) {
+		// normalize source and target
+		$sourcePath = $this->normalize($sourcePath);
+		$targetPath = $this->normalize($targetPath);
+
+		$sourceData = $sourceCache->get($sourcePath);
+		$sourceId = $sourceData['fileid'];
+		$newParentId = $this->getParentId($targetPath);
+
+		if ($sourceData['mimetype'] === 'httpd/unix-directory') {
+			//find all child entries
+			$sql = 'SELECT `path`, `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path` LIKE ?';
+			$result = \OC_DB::executeAudited($sql, [$sourceCache->getNumericStorageId(), $sourcePath . '/%']);
+			$childEntries = $result->fetchAll();
+			$sourceLength = strlen($sourcePath);
+			\OC_DB::beginTransaction();
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET `storage` = ?, `path` = ?, `path_hash` = ? WHERE `fileid` = ?');
+
+			foreach ($childEntries as $child) {
+				$newTargetPath = $targetPath . substr($child['path'], $sourceLength);
+				\OC_DB::executeAudited($query, [$this->getNumericStorageId(), $newTargetPath, md5($newTargetPath), $child['fileid']]);
+			}
+			\OC_DB::commit();
+		}
+
+		$sql = 'UPDATE `*PREFIX*filecache` SET `storage` =  ?, `path` = ?, `path_hash` = ?, `name` = ?, `parent` =? WHERE `fileid` = ?';
+		\OC_DB::executeAudited($sql, [$this->getNumericStorageId(), $targetPath, md5($targetPath), basename($targetPath), $newParentId, $sourceId]);
+	}
+
+	/**
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
