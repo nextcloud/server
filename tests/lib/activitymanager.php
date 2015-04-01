@@ -155,17 +155,7 @@ class Test_ActivityManager extends \Test\TestCase {
 	 * @param array $users
 	 */
 	public function testGetUserFromTokenThrowInvalidToken($token, $users) {
-		if ($token !== null) {
-			$this->request->expects($this->any())
-				->method('getParam')
-				->with('token', '')
-				->willReturn($token);
-		}
-		$this->config->expects($this->any())
-			->method('getUsersForUserValue')
-			->with('activity', 'rsstoken', $token)
-			->willReturn($users);
-
+		$this->mockRSSToken($token, $token, $users);
 		\Test_Helper::invokePrivate($this->activityManager, 'getUserFromToken');
 	}
 
@@ -188,20 +178,23 @@ class Test_ActivityManager extends \Test\TestCase {
 		if ($userLoggedIn !== null) {
 			$this->mockUserSession($userLoggedIn);
 		}
+		$this->mockRSSToken($token, '123456789012345678901234567890', ['user1']);
 
-		if ($token !== null) {
+		$this->assertEquals($expected, $this->activityManager->getCurrentUserId());
+	}
+
+	protected function mockRSSToken($requestToken, $userToken, $users) {
+		if ($requestToken !== null) {
 			$this->request->expects($this->any())
 				->method('getParam')
 				->with('token', '')
-				->willReturn($token);
+				->willReturn($requestToken);
 		}
 
 		$this->config->expects($this->any())
 			->method('getUsersForUserValue')
-			->with('activity', 'rsstoken', '123456789012345678901234567890')
-			->willReturn(['user1']);
-
-		$this->assertEquals($expected, $this->activityManager->getCurrentUserId());
+			->with('activity', 'rsstoken', $userToken)
+			->willReturn($users);
 	}
 
 	protected function mockUserSession($user) {

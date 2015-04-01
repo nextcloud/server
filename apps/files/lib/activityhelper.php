@@ -60,7 +60,7 @@ class ActivityHelper {
 		$folders = $items = [];
 		foreach ($favorites as $favorite) {
 			$nodes = $rootFolder->getById($favorite);
-			if ($nodes) {
+			if (!empty($nodes)) {
 				/** @var \OCP\Files\Node $node */
 				$node = array_shift($nodes);
 				$path = substr($node->getPath(), strlen($user . '/files/'));

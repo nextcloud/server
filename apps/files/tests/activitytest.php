@@ -95,7 +95,7 @@ class ActivityTest extends TestCase {
 
 	public function testTranslate() {
 		$this->assertFalse(
-			$this->activityExtension->translate('files_sharing', '', '', array(), false, false, 'en'),
+			$this->activityExtension->translate('files_sharing', '', [], false, false, 'en'),
 			'Asserting that no translations are set for files_sharing'
 		);
 	}
