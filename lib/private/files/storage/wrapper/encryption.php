@@ -219,6 +219,12 @@ class Encryption extends Wrapper {
 
 		$size = $unencryptedSize = 0;
 		if ($this->file_exists($path)) {
+			// in case the file exists we require the explicit module as
+			// specified in the file header - otherwise we need to fail hard to
+			// prevent data loss on client side
+			if (!empty($encryptionModuleId)) {
+				$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
+			}
 			$size = $this->storage->filesize($path);
 			$unencryptedSize = $this->filesize($path);
 		}
