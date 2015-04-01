@@ -278,7 +278,19 @@ class Encryption implements IEncryptionModule {
 	 * @return boolean
 	 */
 	public function shouldEncrypt($path) {
-		return true;
+		$parts = explode('/', $path);
+		if (count($parts) < 3) {
+			return false;
+		}
+
+		if ($parts[2] == '/files/') {
+			return true;
+		}
+		if ($parts[2] == '/files_versions/') {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
