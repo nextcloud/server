@@ -194,7 +194,8 @@ class Manager implements \OCP\Encryption\IManager {
 			$user = \OC::$server->getUserSession()->getUser();
 			$logger = \OC::$server->getLogger();
 			$uid = $user ? $user->getUID() : null;
-			return new Encryption($parameters, $manager, $util, $logger, $uid);
+			$fileHelper = \OC::$server->getEncryptionFilesHelper();
+			return new Encryption($parameters, $manager, $util, $logger, $fileHelper, $uid);
 		});
 	}
 }

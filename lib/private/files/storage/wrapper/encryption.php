@@ -45,11 +45,15 @@ class Encryption extends Wrapper {
 	/** @var array */
 	private $unencryptedSize;
 
+	/** @var \OC\Encryption\File */
+	private $fileHelper;
+
 	/**
 	 * @param array $parameters
 	 * @param \OC\Encryption\Manager $encryptionManager
 	 * @param \OC\Encryption\Util $util
 	 * @param \OC\Log $logger
+	 * @param \OC\Encryption\File $fileHelper
 	 * @param string $uid user who perform the read/write operation (null for public access)
 	 */
 	public function __construct(
@@ -57,6 +61,7 @@ class Encryption extends Wrapper {
 			\OC\Encryption\Manager $encryptionManager = null,
 			\OC\Encryption\Util $util = null,
 			\OC\Log $logger = null,
+			\OC\Encryption\File $fileHelper = null,
 			$uid = null
 		) {
 
@@ -65,6 +70,7 @@ class Encryption extends Wrapper {
 		$this->util = $util;
 		$this->logger = $logger;
 		$this->uid = $uid;
+		$this->fileHelper = $fileHelper;
 		$this->unencryptedSize = array();
 		parent::__construct($parameters);
 	}
@@ -250,7 +256,7 @@ class Encryption extends Wrapper {
 				$uid = $owner;
 			}
 			$handle = \OC\Files\Stream\Encryption::wrap($source, $path, $fullPath, $header,
-				$uid, $encryptionModule, $this->storage, $this, $this->util, $mode,
+				$uid, $encryptionModule, $this->storage, $this, $this->util, $this->fileHelper, $mode,
 				$size, $unencryptedSize);
 			return $handle;
 		} else {
