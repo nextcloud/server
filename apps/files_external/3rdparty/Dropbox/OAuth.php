@@ -61,7 +61,34 @@ abstract class Dropbox_OAuth {
      */
     protected $oauth_token_secret = null;
 
-
+    /**
+     * Get OAuth request last responce
+     * 
+     * @var array
+     */
+    protected $lastResponse = array();
+    
+    /**
+     * Input file stream pointer or file path for PUT method
+     * 
+     * @var resource|string
+     */
+    protected $inFile = null;
+    
+    /**
+     * Input file size for PUT method
+     * 
+     * @var resource | string
+     */
+    protected $inFileSize = null;
+    
+    /**
+     * Is support PUT method on OAuth consumer 
+     * 
+     * @var bool
+     */
+    protected $putSupported = false;
+    
     /**
      * Constructor
      * 
@@ -123,6 +150,44 @@ abstract class Dropbox_OAuth {
         return $uri;
     }
 
+    /**
+     * Set input file for PUT method
+     * 
+     * @param resource|string $file
+     * @throws Dropbox_Exception
+     */
+    public function setInfile($file) {
+        if (is_resource($file)) {
+            $stat = fstat($file);
+            $this->inFileSize = $stat['size'];
+        } else if (is_string($file) && is_readable($file)) {
+            $this->inFileSize = filesize($file);
+            $file = fopen($file, 'rb');
+        }
+        if (!is_resource($file)) {
+            throw new Dropbox_Exception('File must be a file-resource or a string');
+        }
+        $this->inFile = $file;
+    }
+
+    /**
+     * Return is PUT method supported
+     * 
+     * @return boolean
+     */
+    public function isPutSupport() {
+    	return $this->putSupported;
+    }
+ 
+    /**
+     * Get last request response
+     *
+     * @return array:
+     */
+    public function getLastResponse() {
+    	return $this->lastResponse;
+    }
+ 
     /**
      * Fetches a secured oauth url and returns the response body. 
      * 
