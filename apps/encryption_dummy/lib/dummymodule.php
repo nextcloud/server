@@ -34,7 +34,7 @@ class DummyModule implements IEncryptionModule {
 	 * @return string defining the technical unique id
 	 */
 	public function getId() {
-		return "34876934";
+		return "OC_DUMMY_MODULE";
 	}
 
 	/**

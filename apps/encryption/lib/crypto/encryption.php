@@ -16,7 +16,7 @@ use OCA\Encryption\KeyManager;
 
 class Encryption implements IEncryptionModule {
 
-	const ID = '42';
+	const ID = 'OC_DEFAULT_MODULE';
 
 	/**
 	 * @var Crypt
