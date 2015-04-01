@@ -75,6 +75,7 @@ class Application extends \OCP\AppFramework\App {
 					$server->getUserSession(),
 					$container->query('Util'),
 					new \OCA\Encryption\Session($server->getSession()),
+					$container->query('Crypt'),
 					$container->query('Recovery'))
 			]);
 

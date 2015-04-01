@@ -25,6 +25,7 @@ namespace OCA\Encryption\Hooks;
 use OCP\Util as OCUtil;
 use OCA\Encryption\Hooks\Contracts\IHook;
 use OCA\Encryption\KeyManager;
+use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Users\Setup;
 use OCP\App;
 use OCP\ILogger;
@@ -62,6 +63,10 @@ class UserHooks implements IHook {
 	 * @var Recovery
 	 */
 	private $recovery;
+	/**
+	 * @var Crypt
+	 */
+	private $crypt;
 
 	/**
 	 * UserHooks constructor.
@@ -72,6 +77,7 @@ class UserHooks implements IHook {
 	 * @param IUserSession $user
 	 * @param Util $util
 	 * @param Session $session
+	 * @param Crypt $crypt
 	 * @param Recovery $recovery
 	 */
 	public function __construct(KeyManager $keyManager,
@@ -80,6 +86,7 @@ class UserHooks implements IHook {
 								IUserSession $user,
 								Util $util,
 								Session $session,
+								Crypt $crypt,
 								Recovery $recovery) {
 
 		$this->keyManager = $keyManager;
@@ -89,6 +96,7 @@ class UserHooks implements IHook {
 		$this->util = $util;
 		$this->session = $session;
 		$this->recovery = $recovery;
+		$this->crypt = $crypt;
 	}
 
 	/**
@@ -214,7 +222,7 @@ class UserHooks implements IHook {
 
 			// Save private key
 			if ($encryptedPrivateKey) {
-				$this->setPrivateKey($this->user->getUser()->getUID(),
+				$this->keyManager->setPrivateKey($this->user->getUser()->getUID(),
 					$encryptedPrivateKey);
 			} else {
 				$this->log->error('Encryption could not update users encryption password');
@@ -231,28 +239,31 @@ class UserHooks implements IHook {
 			// ...we have a recovery password and the user enabled the recovery key
 			// ...encryption was activated for the first time (no keys exists)
 			// ...the user doesn't have any files
-			if (($util->recoveryEnabledForUser() && $recoveryPassword) || !$this->userHasKeys($user) || !$util->userHasFiles($user)
+			if (
+				($this->recovery->isRecoveryEnabledForUser($user) && $recoveryPassword)
+				|| !$this->keyManager->userHasKeys($user)
+				|| !$this->util->userHasFiles($user)
 			) {
 
 				// backup old keys
-				$this->backupAllKeys('recovery');
+				//$this->backupAllKeys('recovery');
 
 				$newUserPassword = $params['password'];
 
 				$keyPair = $this->crypt->createKeyPair();
 
 				// Save public key
-				$this->setPublicKey($user, $keyPair['publicKey']);
+				$this->keyManager->setPublicKey($user, $keyPair['publicKey']);
 
 				// Encrypt private key with new password
 				$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'],
 					$newUserPassword);
 
 				if ($encryptedKey) {
-					$this->setPrivateKey($user, $encryptedKey);
+					$this->keyManager->setPrivateKey($user, $encryptedKey);
 
 					if ($recoveryPassword) { // if recovery key is set we can re-encrypt the key files
-						$this->recovery->recoverUsersFiles($recoveryPassword);
+						$this->recovery->recoverUsersFiles($recoveryPassword, $user);
 					}
 				} else {
 					$this->log->error('Encryption Could not update users encryption password');

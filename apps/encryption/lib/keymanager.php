@@ -206,7 +206,6 @@ class KeyManager {
 
 		if ($encryptedKey) {
 			$this->setPrivateKey($uid, $encryptedKey);
-			$this->config->setAppValue('encryption', 'recoveryAdminEnabled', 0);
 			return true;
 		}
 		return false;
@@ -353,6 +352,19 @@ class KeyManager {
 		}
 
 		throw new FileKeyMissingException();
+	}
+
+	/**
+	 * get the encrypted file key
+	 *
+	 * @param $path
+	 * @return string
+	 */
+	public function getEncryptedFileKey($path) {
+		$encryptedFileKey = $this->keyStorage->getFileKey($path,
+			$this->fileKeyId);
+
+		return $encryptedFileKey;
 	}
 
 	/**

@@ -156,15 +156,31 @@ class Recovery {
 	}
 
 	/**
+	 * check if recovery is enabled for user
+	 *
+	 * @param string $user if no user is given we check the current logged-in user
+	 *
 	 * @return bool
 	 */
-	public function recoveryEnabledForUser() {
-		$recoveryMode = $this->config->getUserValue($this->user->getUID(),
+	public function isRecoveryEnabledForUser($user = '') {
+		$uid = empty($user) ? $this->user->getUID() : $user;
+		$recoveryMode = $this->config->getUserValue($uid,
 			'encryption',
 			'recoveryEnabled',
 			0);
 
 		return ($recoveryMode === '1');
+	}
+
+	/**
+	 * check if recovery is key is enabled by the administrator
+	 *
+	 * @return bool
+	 */
+	public function isRecoveryKeyEnabled() {
+		$enabled = $this->config->getAppValue('encryption', 'recoveryAdminEnabled', 0);
+
+		return ($enabled === '1');
 	}
 
 	/**
@@ -234,15 +250,18 @@ class Recovery {
 	}
 
 	/**
-	 * @param $recoveryPassword
+	 * recover users files with the recovery key
+	 *
+	 * @param string $recoveryPassword
+	 * @param string $user
 	 */
-	public function recoverUsersFiles($recoveryPassword) {
-		$encryptedKey = $this->keyManager->getSystemPrivateKey();
+	public function recoverUsersFiles($recoveryPassword, $user) {
+		$encryptedKey = $this->keyManager->getSystemPrivateKey($this->keyManager->getRecoveryKeyId());
 
 		$privateKey = $this->crypt->decryptPrivateKey($encryptedKey,
 			$recoveryPassword);
 
-		$this->recoverAllFiles('/', $privateKey);
+		$this->recoverAllFiles('/' . $user . '/files/', $privateKey);
 	}
 
 	/**
@@ -250,12 +269,12 @@ class Recovery {
 	 * @param $privateKey
 	 */
 	private function recoverAllFiles($path, $privateKey) {
-		$dirContent = $this->files->getDirectoryContent($path);
+		$dirContent = $this->view->getDirectoryContent($path);
 
 		foreach ($dirContent as $item) {
 			// Get relative path from encryption/keyfiles
-			$filePath = substr($item['path'], strlen('encryption/keys'));
-			if ($this->files->is_dir($this->user->getUID() . '/files' . '/' . $filePath)) {
+			$filePath = $item->getPath();
+			if ($this->view->is_dir($filePath)) {
 				$this->recoverAllFiles($filePath . '/', $privateKey);
 			} else {
 				$this->recoverFile($filePath, $privateKey);
@@ -265,50 +284,32 @@ class Recovery {
 	}
 
 	/**
-	 * @param $filePath
-	 * @param $privateKey
+	 * @param string $path
+	 * @param string $privateKey
 	 */
-	private function recoverFile($filePath, $privateKey) {
-		$sharingEnabled = Share::isEnabled();
-		$uid = $this->user->getUID();
+	private function recoverFile($path, $privateKey) {
+		$encryptedFileKey = $this->keyManager->getEncryptedFileKey($path);
+		$shareKey = $this->keyManager->getShareKey($path, $this->keyManager->getRecoveryKeyId());
 
-		// Find out who, if anyone, is sharing the file
-		if ($sharingEnabled) {
-			$result = Share::getUsersSharingFile($filePath,
-				$uid,
-				true);
-			$userIds = $result['users'];
-			$userIds[] = 'public';
-		} else {
-			$userIds = [
-				$uid,
-				$this->recoveryKeyId
-			];
+		if ($encryptedFileKey && $shareKey && $privateKey) {
+			$fileKey = $this->crypt->multiKeyDecrypt($encryptedFileKey,
+				$shareKey,
+				$privateKey);
 		}
-		$filteredUids = $this->filterShareReadyUsers($userIds);
 
-		// Decrypt file key
-		$encKeyFile = $this->keyManager->getFileKey($filePath,
-			$uid);
+		if (!empty($fileKey)) {
+			$accessList = $this->file->getAccessList($path);
+			$publicKeys = array();
+			foreach ($accessList['users'] as $uid) {
+				$publicKeys[$uid] = $this->keyManager->getPublicKey($uid);
+			}
 
-		$shareKey = $this->keyManager->getShareKey($filePath,
-			$uid);
+			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys);
 
-		$plainKeyFile = $this->crypt->multiKeyDecrypt($encKeyFile,
-			$shareKey,
-			$privateKey);
+			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
+			$this->keyManager->setAllFileKeys($path, $encryptedKeyfiles);
+		}
 
-		// Encrypt the file key again to all users, this time with the new publick keyt for the recovered user
-		$userPublicKeys = $this->keyManager->getPublicKeys($filteredUids['ready']);
-		$multiEncryptionKey = $this->crypt->multiKeyEncrypt($plainKeyFile,
-			$userPublicKeys);
-
-		$this->keyManager->setFileKey($multiEncryptionKey['data'],
-			$uid);
-
-		$this->keyManager->setShareKey($filePath,
-			$uid,
-			$multiEncryptionKey['keys']);
 	}
 
 

@@ -142,6 +142,9 @@ class RecoveryController extends Controller {
 		}
 	}
 
+	/**
+	 * @NoAdminRequired
+	 */
 	public function userSetRecovery($userEnableRecovery) {
 		if ($userEnableRecovery === '0' || $userEnableRecovery === '1') {
 
