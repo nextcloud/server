@@ -57,8 +57,12 @@ class AppManager implements IAppManager {
 	 * @param \OCP\IUserSession $userSession
 	 * @param \OCP\IAppConfig $appConfig
 	 * @param \OCP\IGroupManager $groupManager
+	 * @param \OCP\ICacheFactory $memCacheFactory
 	 */
-	public function __construct(IUserSession $userSession, IAppConfig $appConfig, IGroupManager $groupManager, ICacheFactory $memCacheFactory) {
+	public function __construct(IUserSession $userSession,
+								IAppConfig $appConfig,
+								IGroupManager $groupManager,
+								ICacheFactory $memCacheFactory) {
 		$this->userSession = $userSession;
 		$this->appConfig = $appConfig;
 		$this->groupManager = $groupManager;
