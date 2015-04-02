@@ -349,7 +349,7 @@ class Filesystem {
 		return true;
 	}
 
-	static public function initMounts() {
+	static public function initMountManager() {
 		if (!self::$mounts) {
 			self::$mounts = new Mount\Manager();
 		}

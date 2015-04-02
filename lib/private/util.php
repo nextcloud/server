@@ -67,7 +67,7 @@ class OC_Util {
 		// mount local file backend as root
 		$configDataDirectory = OC_Config::getValue("datadirectory", OC::$SERVERROOT . "/data");
 		//first set up the local "root" storage
-		\OC\Files\Filesystem::initMounts();
+		\OC\Files\Filesystem::initMountManager();
 		if (!self::$rootMounted) {
 			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir' => $configDataDirectory), '/');
 			self::$rootMounted = true;
@@ -96,7 +96,7 @@ class OC_Util {
 		$config['class'] = '\OC\Files\ObjectStore\ObjectStoreStorage';
 
 		// mount object storage as root
-		\OC\Files\Filesystem::initMounts();
+		\OC\Files\Filesystem::initMountManager();
 		if (!self::$rootMounted) {
 			\OC\Files\Filesystem::mount($config['class'], $config['arguments'], '/');
 			self::$rootMounted = true;
@@ -132,6 +132,8 @@ class OC_Util {
 		if ($user != '') {
 			self::$fsSetup = true;
 		}
+
+		\OC\Files\Filesystem::initMountManager();
 
 		\OC\Files\Filesystem::addStorageWrapper('mount_options', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
 			if ($storage->instanceOfStorage('\OC\Files\Storage\Common')) {
