@@ -252,7 +252,7 @@ class Encryption extends Wrapper {
 			parent::stream_read($this->util->getHeaderSize());
 		}
 
-		$count = min($count, $this->unencryptedSize - $this->position);
+//		$count = min($count, $this->unencryptedSize - $this->position);
 		while ($count > 0) {
 			$remainingLength = $count;
 			// update the cache of the current block
