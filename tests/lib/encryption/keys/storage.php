@@ -277,4 +277,80 @@ class StorageTest extends TestCase {
 		);
 	}
 
+	/**
+	 * @dataProvider dataProviderCopyRename
+	 */
+	public function testRenameKeys($source, $target, $systemWideMount, $expectedSource, $expectedTarget) {
+		$this->view->expects($this->any())
+			->method('file_exists')
+			->willReturn(true);
+		$this->view->expects($this->any())
+			->method('is_dir')
+			->willReturn(true);
+		$this->view->expects($this->once())
+			->method('rename')
+			->with(
+				$this->equalTo($expectedSource),
+				$this->equalTo($expectedTarget))
+			->willReturn(true);
+		$this->util->expects($this->any())
+			->method('getUidAndFilename')
+			->will($this->returnCallback(array($this, 'getUidAndFilenameCallback')));
+		$this->util->expects($this->any())
+			->method('isSystemWideMountPoint')
+			->willReturn($systemWideMount);
+
+		$storage = new Storage('encModule', $this->view, $this->util);
+		$storage->renameKeys($source, $target);
+	}
+
+	/**
+	 * @dataProvider dataProviderCopyRename
+	 */
+	public function testCopyKeys($source, $target, $systemWideMount, $expectedSource, $expectedTarget) {
+		$this->view->expects($this->any())
+			->method('file_exists')
+			->willReturn(true);
+		$this->view->expects($this->any())
+			->method('is_dir')
+			->willReturn(true);
+		$this->view->expects($this->once())
+			->method('copy')
+			->with(
+				$this->equalTo($expectedSource),
+				$this->equalTo($expectedTarget))
+			->willReturn(true);
+		$this->util->expects($this->any())
+			->method('getUidAndFilename')
+			->will($this->returnCallback(array($this, 'getUidAndFilenameCallback')));
+		$this->util->expects($this->any())
+			->method('isSystemWideMountPoint')
+			->willReturn($systemWideMount);
+
+		$storage = new Storage('encModule', $this->view, $this->util);
+		$storage->copyKeys($source, $target);
+	}
+
+	public function getUidAndFilenameCallback() {
+		$args = func_get_args();
+
+		$path = $args[0];
+		$parts = explode('/', $path);
+
+		return array($parts[1], '/' . implode('/', array_slice($parts, 2)));
+	}
+
+	public function dataProviderCopyRename() {
+		return array(
+			array('/user1/files/foo.txt', '/user1/files/bar.txt', false,
+				'/user1/files_encryption/keys/files/foo.txt/', '/user1/files_encryption/keys/files/bar.txt/'),
+				array('/user1/files/foo/foo.txt', '/user1/files/bar.txt', false,
+				'/user1/files_encryption/keys/files/foo/foo.txt/', '/user1/files_encryption/keys/files/bar.txt/'),
+			array('/user1/files/foo.txt', '/user1/files/foo/bar.txt', false,
+				'/user1/files_encryption/keys/files/foo.txt/', '/user1/files_encryption/keys/files/foo/bar.txt/'),
+			array('/user1/files/foo.txt', '/user1/files/foo/bar.txt', true,
+				'/files_encryption/keys/files/foo.txt/', '/files_encryption/keys/files/foo/bar.txt/'),
+		);
+	}
+
 }

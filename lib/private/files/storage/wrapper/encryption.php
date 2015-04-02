@@ -173,17 +173,14 @@ class Encryption extends Wrapper {
 			return $this->storage->rename($path1, $path2);
 		}
 
-		$fullPath1 = $this->getFullPath($path1);
-		list($owner, $source) = $this->util->getUidAndFilename($fullPath1);
+		$source = $this->getFullPath($path1);
 		$result = $this->storage->rename($path1, $path2);
 		if ($result) {
-			$fullPath2 = $this->getFullPath($path2);
-			$systemWide = $this->util->isSystemWideMountPoint($this->mountPoint);
-			list(, $target) = $this->util->getUidAndFilename($fullPath2);
+			$target = $this->getFullPath($path2);
 			$encryptionModule = $this->getEncryptionModule($path2);
 			if ($encryptionModule) {
 				$keyStorage = $this->getKeyStorage($encryptionModule->getId());
-				$keyStorage->renameKeys($source, $target, $owner, $systemWide);
+				$keyStorage->renameKeys($source, $target);
 			}
 		}
 
@@ -198,9 +195,22 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	public function copy($path1, $path2) {
-		// todo copy encryption keys, get users with access to the file and reencrypt
-		// or is this to encryption module specific? Then we can hand this over
-		return $this->storage->copy($path1, $path2);
+		if ($this->util->isExcluded($path1)) {
+			return $this->storage->rename($path1, $path2);
+		}
+
+		$source = $this->getFullPath($path1);
+		$result = $this->storage->copy($path1, $path2);
+		if ($result) {
+			$target = $this->getFullPath($path2);
+			$encryptionModule = $this->getEncryptionModule($path2);
+			if ($encryptionModule) {
+				$keyStorage = $this->getKeyStorage($encryptionModule->getId());
+				$keyStorage->copyKeys($source, $target);
+			}
+		}
+
+		return $result;
 	}
 
 	/**

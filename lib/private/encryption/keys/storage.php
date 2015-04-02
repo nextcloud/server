@@ -283,7 +283,12 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @param string $owner
 	 * @param bool $systemWide
 	 */
-	public function renameKeys($source, $target, $owner, $systemWide) {
+	public function renameKeys($source, $target) {
+
+		list($owner, $source) = $this->util->getUidAndFilename($source);
+		list(, $target) = $this->util->getUidAndFilename($target);
+		$systemWide = $this->util->isSystemWideMountPoint($target);
+
 		if ($systemWide) {
 			$sourcePath = $this->keys_base_dir . $source . '/';
 			$targetPath = $this->keys_base_dir . $target . '/';
@@ -295,6 +300,34 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 		if ($this->view->file_exists($sourcePath)) {
 			$this->keySetPreparation(dirname($targetPath));
 			$this->view->rename($sourcePath, $targetPath);
+		}
+	}
+
+	/**
+	 * copy keys if a file was renamed
+	 *
+	 * @param string $source
+	 * @param string $target
+	 * @param string $owner
+	 * @param bool $systemWide
+	 */
+	public function copyKeys($source, $target) {
+
+		list($owner, $source) = $this->util->getUidAndFilename($source);
+		list(, $target) = $this->util->getUidAndFilename($target);
+		$systemWide = $this->util->isSystemWideMountPoint($target);
+
+		if ($systemWide) {
+			$sourcePath = $this->keys_base_dir . $source . '/';
+			$targetPath = $this->keys_base_dir . $target . '/';
+		} else {
+			$sourcePath = '/' . $owner . $this->keys_base_dir . $source . '/';
+			$targetPath = '/' . $owner . $this->keys_base_dir . $target . '/';
+		}
+
+		if ($this->view->file_exists($sourcePath)) {
+			$this->keySetPreparation(dirname($targetPath));
+			$this->view->copy($sourcePath, $targetPath);
 		}
 	}
 
