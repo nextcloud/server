@@ -67,7 +67,7 @@ class OC_Util {
 		// mount local file backend as root
 		$configDataDirectory = OC_Config::getValue("datadirectory", OC::$SERVERROOT . "/data");
 		//first set up the local "root" storage
-		\OC\Files\Filesystem::initMounts();
+		\OC\Files\Filesystem::initMountManager();
 		if (!self::$rootMounted) {
 			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir' => $configDataDirectory), '/');
 			self::$rootMounted = true;
@@ -96,7 +96,7 @@ class OC_Util {
 		$config['class'] = '\OC\Files\ObjectStore\ObjectStoreStorage';
 
 		// mount object storage as root
-		\OC\Files\Filesystem::initMounts();
+		\OC\Files\Filesystem::initMountManager();
 		if (!self::$rootMounted) {
 			\OC\Files\Filesystem::mount($config['class'], $config['arguments'], '/');
 			self::$rootMounted = true;
@@ -133,6 +133,41 @@ class OC_Util {
 			self::$fsSetup = true;
 		}
 
+		\OC\Files\Filesystem::initMountManager();
+
+		\OC\Files\Filesystem::addStorageWrapper('mount_options', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
+			if ($storage->instanceOfStorage('\OC\Files\Storage\Common')) {
+				/** @var \OC\Files\Storage\Common $storage */
+				$storage->setMountOptions($mount->getOptions());
+			}
+			return $storage;
+		});
+
+		\OC\Files\Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage) {
+			// set up quota for home storages, even for other users
+			// which can happen when using sharing
+
+			/**
+			 * @var \OC\Files\Storage\Storage $storage
+			 */
+			if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
+				|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
+			) {
+				/** @var \OC\Files\Storage\Home $storage */
+				if (is_object($storage->getUser())) {
+					$user = $storage->getUser()->getUID();
+					$quota = OC_Util::getUserQuota($user);
+					if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
+						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota, 'root' => 'files'));
+					}
+				}
+			}
+
+			return $storage;
+		});
+
+		OC_Hook::emit('OC_Filesystem', 'preSetup', array('user' => $user));
+
 		//check if we are using an object storage
 		$objectStore = OC_Config::getValue('objectstore');
 		if (isset($objectStore)) {
@@ -146,37 +181,8 @@ class OC_Util {
 			return false;
 		}
 
-		\OC\Files\Filesystem::addStorageWrapper('mount_options', function($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
-			if($storage->instanceOfStorage('\OC\Files\Storage\Common')) {
-				/** @var \OC\Files\Storage\Common $storage */
-				$storage->setMountOptions($mount->getOptions());
-			}
-			return $storage;
-		});
-
 		//if we aren't logged in, there is no use to set up the filesystem
 		if ($user != "") {
-			\OC\Files\Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage) {
-				// set up quota for home storages, even for other users
-				// which can happen when using sharing
-
-				/**
-				 * @var \OC\Files\Storage\Storage $storage
-				 */
-				if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
-					|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
-				) {
-					if (is_object($storage->getUser())) {
-						$user = $storage->getUser()->getUID();
-						$quota = OC_Util::getUserQuota($user);
-						if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-							return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota, 'root' => 'files'));
-						}
-					}
-				}
-
-				return $storage;
-			});
 
 			$userDir = '/' . $user . '/files';
 

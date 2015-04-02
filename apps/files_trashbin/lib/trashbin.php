@@ -957,7 +957,7 @@ class Trashbin {
 	 */
 	public static function registerHooks() {
 		// create storage wrapper on setup
-		\OCP\Util::connectHook('OC_Filesystem', 'setup', 'OCA\Files_Trashbin\Storage', 'setupStorage');
+		\OCP\Util::connectHook('OC_Filesystem', 'preSetup', 'OCA\Files_Trashbin\Storage', 'setupStorage');
 		//Listen to delete user signal
 		\OCP\Util::connectHook('OC_User', 'pre_deleteUser', 'OCA\Files_Trashbin\Hooks', 'deleteUser_hook');
 		//Listen to post write hook
