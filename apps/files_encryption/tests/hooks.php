@@ -37,6 +37,7 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 
 	const TEST_ENCRYPTION_HOOKS_USER1 = "test-encryption-hooks-user1.dot";
 	const TEST_ENCRYPTION_HOOKS_USER2 = "test-encryption-hooks-user2.dot";
+	const TEST_ENCRYPTION_HOOKS_USER3 = "test-encryption-hooks-user3.dot";
 
 	/** @var \OC\Files\View */
 	public $user1View;     // view on /data/user1/files
@@ -120,6 +121,7 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 		// cleanup test user
 		\OC_User::deleteUser(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
 		\OC_User::deleteUser(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2);
+		\OC_User::deleteUser(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER3);
 
 		\OC_Hook::clear();
 		\OC_FileProxy::clearProxies();
@@ -444,31 +446,35 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 		$view = new \OC\Files\View();
 
 		// set user password for the first time
-		\OCA\Encryption\Hooks::postCreateUser(array('uid' => 'newUser', 'password' => 'newUserPassword'));
+		\OC_User::createUser(self::TEST_ENCRYPTION_HOOKS_USER3, 'newUserPassword');
+		\OCA\Encryption\Hooks::postCreateUser(array(
+			'uid' => self::TEST_ENCRYPTION_HOOKS_USER3,
+			'password' => 'newUserPassword')
+		);
 
-		$this->assertTrue($view->file_exists('public-keys/newUser.public.key'));
-		$this->assertTrue($view->file_exists('newUser/files_encryption/newUser.private.key'));
+		$this->assertTrue($view->file_exists('public-keys/'.self::TEST_ENCRYPTION_HOOKS_USER3.'.public.key'));
+		$this->assertTrue($view->file_exists(self::TEST_ENCRYPTION_HOOKS_USER3.'/files_encryption/'.self::TEST_ENCRYPTION_HOOKS_USER3.'.private.key'));
 
 		// check if we are able to decrypt the private key
-		$encryptedKey = \OCA\Encryption\Keymanager::getPrivateKey($view, 'newUser');
+		$encryptedKey = \OCA\Encryption\Keymanager::getPrivateKey($view, self::TEST_ENCRYPTION_HOOKS_USER3);
 		$privateKey = \OCA\Encryption\Crypt::decryptPrivateKey($encryptedKey, 'newUserPassword');
 		$this->assertTrue(is_string($privateKey));
 
 		// change the password before the user logged-in for the first time,
 		// we can replace the encryption keys
-		\OCA\Encryption\Hooks::setPassphrase(array('uid' => 'newUser', 'password' => 'passwordChanged'));
+		\OCA\Encryption\Hooks::setPassphrase(array('uid' => self::TEST_ENCRYPTION_HOOKS_USER3, 'password' => 'passwordChanged'));
 
-		$encryptedKey = \OCA\Encryption\Keymanager::getPrivateKey($view, 'newUser');
+		$encryptedKey = \OCA\Encryption\Keymanager::getPrivateKey($view, self::TEST_ENCRYPTION_HOOKS_USER3);
 		$privateKey = \OCA\Encryption\Crypt::decryptPrivateKey($encryptedKey, 'passwordChanged');
 		$this->assertTrue(is_string($privateKey));
 
 		// now create a files folder to simulate a already used account
-		$view->mkdir('/newUser/files');
+		$view->mkdir('/'.self::TEST_ENCRYPTION_HOOKS_USER3.'/files');
 
 		// change the password after the user logged in, now the password should not change
-		\OCA\Encryption\Hooks::setPassphrase(array('uid' => 'newUser', 'password' => 'passwordChanged2'));
+		\OCA\Encryption\Hooks::setPassphrase(array('uid' => self::TEST_ENCRYPTION_HOOKS_USER3, 'password' => 'passwordChanged2'));
 
-		$encryptedKey = \OCA\Encryption\Keymanager::getPrivateKey($view, 'newUser');
+		$encryptedKey = \OCA\Encryption\Keymanager::getPrivateKey($view, self::TEST_ENCRYPTION_HOOKS_USER3);
 		$privateKey = \OCA\Encryption\Crypt::decryptPrivateKey($encryptedKey, 'passwordChanged2');
 		$this->assertFalse($privateKey);
 
