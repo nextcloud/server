@@ -24,8 +24,11 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
+use OC\Files\Storage\LocalTempFileTrait;
 
 class Encryption extends Wrapper {
+
+	use LocalTempFileTrait;
 
 	/** @var string */
 	private $mountPoint;
@@ -156,8 +159,8 @@ class Encryption extends Wrapper {
 
 		$encryptionModule = $this->getEncryptionModule($path);
 		if ($encryptionModule) {
-				$keyStorage = \OC::$server->getEncryptionKeyStorage($encryptionModule->getId());
-				$keyStorage->deleteAllFileKeys($this->getFullPath($path));
+			$keyStorage = $this->getKeyStorage($encryptionModule->getId());
+			$keyStorage->deleteAllFileKeys($this->getFullPath($path));
 		}
 
 		return $this->storage->unlink($path);
@@ -184,7 +187,7 @@ class Encryption extends Wrapper {
 			list(, $target) = $this->util->getUidAndFilename($fullPath2);
 			$encryptionModule = $this->getEncryptionModule($path2);
 			if ($encryptionModule) {
-				$keyStorage = \OC::$server->getEncryptionKeyStorage($encryptionModule->getId());
+				$keyStorage = $this->getKeyStorage($encryptionModule->getId());
 				$keyStorage->renameKeys($source, $target, $owner, $systemWide);
 			}
 		}
@@ -270,6 +273,57 @@ class Encryption extends Wrapper {
 	}
 
 	/**
+	 * get the path to a local version of the file.
+	 * The local version of the file can be temporary and doesn't have to be persistent across requests
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	public function getLocalFile($path) {
+		return $this->getCachedFile($path);
+	}
+
+	/**
+	 * Returns the wrapped storage's value for isLocal()
+	 *
+	 * @return bool wrapped storage's isLocal() value
+	 */
+	public function isLocal() {
+		return false;
+	}
+
+	/**
+	 * see http://php.net/manual/en/function.stat.php
+	 * only the following keys are required in the result: size and mtime
+	 *
+	 * @param string $path
+	 * @return array
+	 */
+	public function stat($path) {
+		$stat = $this->storage->stat($path);
+		$fileSize = $this->filesize($path);
+		$stat['size'] = $fileSize;
+		$stat[7] = $fileSize;
+		return $stat;
+	}
+
+	/**
+	 * see http://php.net/manual/en/function.hash.php
+	 *
+	 * @param string $type
+	 * @param string $path
+	 * @param bool $raw
+	 * @return string
+	 */
+	public function hash($type, $path, $raw = false) {
+		$fh = $this->fopen($path, 'rb');
+		$ctx = hash_init($type);
+		hash_update_stream($ctx, $fh);
+		fclose($fh);
+		return hash_final($ctx, $raw);
+	}
+
+	/**
 	 * return full path, including mount point
 	 *
 	 * @param string $path relative to mount point
@@ -320,6 +374,15 @@ class Encryption extends Wrapper {
 
 	public function updateUnencryptedSize($path, $unencryptedSize) {
 		$this->unencryptedSize[$path] = $unencryptedSize;
+	}
+
+	/**
+	 * @param string $encryptionModule
+	 * @return \OCP\Encryption\Keys\IStorage
+	 */
+	protected function getKeyStorage($encryptionModuleId) {
+		$keyStorage = \OC::$server->getEncryptionKeyStorage($encryptionModuleId);
+		return $keyStorage;
 	}
 
 }

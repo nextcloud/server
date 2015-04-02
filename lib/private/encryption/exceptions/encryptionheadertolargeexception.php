@@ -26,7 +26,7 @@ use OCP\Encryption\Exceptions\GenericEncryptionException;
 
 class EncryptionHeaderToLargeException extends GenericEncryptionException {
 
-	public function __construct($key) {
+	public function __construct() {
 		parent::__construct('max header size exceeded');
 	}
 

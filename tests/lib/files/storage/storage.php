@@ -253,7 +253,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile));
 		$localFile = $this->instance->getLocalFile('/lorem.txt');
 		$this->assertTrue(file_exists($localFile));
-		$this->assertEquals(file_get_contents($localFile), file_get_contents($textFile));
+		$this->assertEquals(file_get_contents($textFile), file_get_contents($localFile));
 
 		$this->instance->mkdir('/folder');
 		$this->instance->file_put_contents('/folder/lorem.txt', file_get_contents($textFile));
