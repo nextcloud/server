@@ -11,8 +11,9 @@ class Encryption extends \Test\TestCase {
 	 * @param string $mode
 	 * @param integer $limit
 	 */
-	protected function getStream($fileName, $mode) {
+	protected function getStream($fileName, $mode, $unencryptedSize) {
 
+		$size = filesize($fileName);
 		$source = fopen($fileName, $mode);
 		$internalPath = $fileName;
 		$fullPath = $fileName;
@@ -33,8 +34,6 @@ class Encryption extends \Test\TestCase {
 		$util->expects($this->any())
 			->method('getUidAndFilename')
 			->willReturn(['user1', $internalPath]);
-		$size = 12;
-		$unencryptedSize = 8000;
 
 		return \OC\Files\Stream\Encryption::wrap($source, $internalPath,
 			$fullPath, $header, $uid, $encryptionModule, $storage, $encStorage,
@@ -43,24 +42,24 @@ class Encryption extends \Test\TestCase {
 
 	public function testWriteRead() {
 		$fileName = tempnam("/tmp", "FOO");
-		$stream = $this->getStream($fileName, 'w+');
+		$stream = $this->getStream($fileName, 'w+', 0);
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
 		fclose($stream);
 
-		$stream = $this->getStream($fileName, 'r');
+		$stream = $this->getStream($fileName, 'r', 6);
 		$this->assertEquals('foobar', fread($stream, 100));
 		fclose($stream);
 	}
 
 	public function testSeek() {
 		$fileName = tempnam("/tmp", "FOO");
-		$stream = $this->getStream($fileName, 'w+');
+		$stream = $this->getStream($fileName, 'w+', 0);
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
 		$this->assertEquals(0, fseek($stream, 3));
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
 		fclose($stream);
 
-		$stream = $this->getStream($fileName, 'r');
+		$stream = $this->getStream($fileName, 'r', 9);
 		$this->assertEquals('foofoobar', fread($stream, 100));
 		fclose($stream);
 	}
@@ -69,12 +68,12 @@ class Encryption extends \Test\TestCase {
 		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/lorem-big.txt');
 		// write it
 		$fileName = tempnam("/tmp", "FOO");
-		$stream = $this->getStream($fileName, 'w+');
+		$stream = $this->getStream($fileName, 'w+', 0);
 		fwrite($stream, $expectedData);
 		fclose($stream);
 
 		// read it all
-		$stream = $this->getStream($fileName, 'r');
+		$stream = $this->getStream($fileName, 'r', strlen($expectedData));
 		$data = stream_get_contents($stream);
 		fclose($stream);
 
