@@ -26,7 +26,7 @@
 use OCA\Files_Trashbin;
 
 /**
- * Class Test_Encryption_Crypt
+ * Class Test_Encryption
  */
 class Test_Trashbin extends \Test\TestCase {
 
@@ -305,6 +305,12 @@ class Test_Trashbin extends \Test\TestCase {
 
 			}
 		}
+
+		$storage = new \ReflectionClass('\OC\Files\Storage\Shared');
+		$isInitialized = $storage->getProperty('isInitialized');
+		$isInitialized->setAccessible(true);
+		$isInitialized->setValue(array());
+		$isInitialized->setAccessible(false);
 
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
