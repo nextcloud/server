@@ -2,29 +2,28 @@
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author BjÃ¶rn SchieÃŸle <schiessle@owncloud.com>
- * @author Christopher SchÃ¤pers <kondou@ts.unde.re>
+ * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Fabian Henze <flyser42@gmx.de>
  * @author Felix Moeller <mail@felixmoeller.de>
- * @author FranÃ§ois Kubler <francois@kubler.org>
+ * @author François Kubler <francois@kubler.org>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Georg Ehrke <georg@ownCloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author JÃ¶rn Friedrich Dreyer <jfd@butonic.de>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Olivier Paroz <github@oparoz.com>
+ * @author Olivier Paroz <owncloud@interfasys.ch>
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Pellaeon Lin <nfsmwlin@gmail.com>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Simon KÃ¶nnecke <simonkoennecke@gmail.com>
- * @author Thomas MÃ¼ller <thomas.mueller@tmit.eu>
+ * @author Simon Könnecke <simonkoennecke@gmail.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Valerio Ponte <valerio.ponte@gmail.com>
  * @author Vincent Petry <pvince81@owncloud.com>
@@ -45,6 +44,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+use Symfony\Component\Process\ExecutableFinder;
 
 /**
  * Collection of useful functions
@@ -926,9 +926,16 @@ class OC_Helper {
 		}
 		$result = null;
 		if (!\OC_Util::runningOnWindows() && self::is_function_enabled('exec')) {
-			exec('command -v ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
-			if ($returnCode === 0 && count($output) > 0) {
-				$result = escapeshellcmd($output[0]);
+			$exeSniffer = new ExecutableFinder();
+			// Returns null if nothing is found
+			$result = $exeSniffer->find($program);
+			if (empty($result)) {
+				$paths = str_replace(':','/ ',getenv('PATH'));
+				$command = 'find ' . $paths . ' -name ' . escapeshellarg($program) . ' 2> /dev/null';
+				exec($command, $output, $returnCode);
+				if (count($output) > 0) {
+					$result = escapeshellcmd($output[0]);
+				}
 			}
 		}
 		$memcache->set($program, $result, 3600);
