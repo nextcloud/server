@@ -188,7 +188,11 @@ class PreviewManager implements IPreview {
 	 * List of enabled default providers
 	 *
 	 * The following providers are enabled by default:
-	 *  - OC\Preview\Image
+	 *  - OC\Preview\PNG
+	 *  - OC\Preview\JPEG
+	 *  - OC\Preview\GIF
+	 *  - OC\Preview\BMP
+	 *  - OC\Preview\XBitmap
 	 *  - OC\Preview\MarkDown
 	 *  - OC\Preview\MP3
 	 *  - OC\Preview\TXT
@@ -215,12 +219,24 @@ class PreviewManager implements IPreview {
 			return $this->defaultProviders;
 		}
 
-		$this->defaultProviders = $this->config->getSystemValue('enabledPreviewProviders', [
-			'OC\Preview\Image',
+		$imageProviders = [
+			'OC\Preview\PNG',
+			'OC\Preview\JPEG',
+			'OC\Preview\GIF',
+			'OC\Preview\BMP',
+			'OC\Preview\XBitmap'
+		];
+
+		$this->defaultProviders = $this->config->getSystemValue('enabledPreviewProviders', array_merge([
 			'OC\Preview\MarkDown',
 			'OC\Preview\MP3',
 			'OC\Preview\TXT',
-		]);
+		], $imageProviders));
+
+		if (in_array('OC\Preview\Image', $this->defaultProviders)) {
+			$this->defaultProviders = array_merge($this->defaultProviders, $imageProviders);
+		}
+		$this->defaultProviders = array_unique($this->defaultProviders);
 		return $this->defaultProviders;
 	}
 
@@ -249,7 +265,11 @@ class PreviewManager implements IPreview {
 
 		$this->registerCoreProvider('OC\Preview\TXT', '/text\/plain/');
 		$this->registerCoreProvider('OC\Preview\MarkDown', '/text\/(x-)?markdown/');
-		$this->registerCoreProvider('OC\Preview\Image', '/image\/(?!tiff$)(?!svg.*).*/');
+		$this->registerCoreProvider('OC\Preview\PNG', '/image\/png/');
+		$this->registerCoreProvider('OC\Preview\JPEG', '/image\/jpeg/');
+		$this->registerCoreProvider('OC\Preview\GIF', '/image\/gif/');
+		$this->registerCoreProvider('OC\Preview\BMP', '/image\/bmp/');
+		$this->registerCoreProvider('OC\Preview\XBitmap', '/image\/x-xbitmap/');
 		$this->registerCoreProvider('OC\Preview\MP3', '/audio\/mpeg/');
 
 		// SVG, Office and Bitmap require imagick
