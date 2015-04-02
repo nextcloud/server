@@ -22,6 +22,8 @@
 
 namespace Test\Files;
 
+use OC\User\NoUserException;
+
 class Filesystem extends \Test\TestCase {
 	/**
 	 * @var array tmpDirs
@@ -259,19 +261,14 @@ class Filesystem extends \Test\TestCase {
 	}
 
 	/**
-	 * Tests that a local storage mount is used when passed user
-	 * does not exist.
+	 * Tests that an exception is thrown when passed user does not exist.
+	 * @expectedException \OC\User\NoUserException
 	 */
 	public function testLocalMountWhenUserDoesNotExist() {
 		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
 		$userId = $this->getUniqueID('user_');
 
 		\OC\Files\Filesystem::initMountPoints($userId);
-
-		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
-
-		$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\Storage\Local'));
-		$this->assertEquals('local::' . $datadir . '/' . $userId . '/', $homeMount->getId());
 	}
 
 	/**
