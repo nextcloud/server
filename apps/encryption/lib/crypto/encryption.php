@@ -100,13 +100,13 @@ class Encryption implements IEncryptionModule {
 			$this->cipher = $this->crypt->getCipher();
 		}
 
-		$this->path = $path;
+		$this->path = $this->getPathToRealFile($path);
 		$this->accessList = $accessList;
 		$this->user = $user;
 		$this->writeCache = '';
 		$this->isWriteOperation = false;
 
-		$this->fileKey = $this->keyManager->getFileKey($path, $this->user);
+		$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user);
 
 		return array('cipher' => $this->cipher);
 	}
@@ -135,7 +135,7 @@ class Encryption implements IEncryptionModule {
 			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys);
 
 			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
-			$this->keyManager->setAllFileKeys($path, $encryptedKeyfiles);
+			$this->keyManager->setAllFileKeys($this->path, $encryptedKeyfiles);
 		}
 		return $result;
 	}
@@ -312,5 +312,17 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function getUnencryptedBlockSize() {
 		return 6126;
+	}
+
+	protected function getPathToRealFile($path) {
+		$realPath = $path;
+		$parts = explode('/', $path);
+		if ($parts[2] === 'files_versions') {
+			$realPath = '/' . $parts[1] . '/files/' . implode('/', array_slice($parts, 3));
+			$length = strrpos($realPath, '.');
+			$realPath = substr($realPath, 0, $length);
+		}
+
+		return $realPath;
 	}
 }
