@@ -132,7 +132,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			page.find("label[for='groups_enable-"+app.id+"']").hide();
 			page.find(".groups-enable").attr('checked', null);
 		} else {
-			page.find('#group_select').val((app.groups || []).join(','));
+			page.find('#group_select').val((app.groups || []).join('|'));
 			if (app.active) {
 				if (app.groups.length) {
 					OC.Settings.Apps.setupGroupsSelect(page.find('#group_select'));
