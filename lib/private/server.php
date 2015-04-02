@@ -309,10 +309,12 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new TempManager(get_temp_dir(), $c->getLogger());
 		});
 		$this->registerService('AppManager', function(Server $c) {
-			$userSession = $c->getUserSession();
-			$appConfig = $c->getAppConfig();
-			$groupManager = $c->getGroupManager();
-			return new \OC\App\AppManager($userSession, $appConfig, $groupManager);
+			return new \OC\App\AppManager(
+				$c->getUserSession(),
+				$c->getAppConfig(),
+				$c->getGroupManager(),
+				$c->getMemCacheFactory()
+			);
 		});
 		$this->registerService('DateTimeZone', function(Server $c) {
 			return new DateTimeZone(
