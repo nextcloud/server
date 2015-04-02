@@ -85,7 +85,7 @@ describe('OCA.External.Settings tests', function() {
 
 		beforeEach(function() {
 			var $el = $('#externalStorage');
-			view = new OCA.External.Settings.MountConfigListView($el);
+			view = new OCA.External.Settings.MountConfigListView($el, {encryptionEnabled: false});
 		});
 		afterEach(function() {
 			view = null;
@@ -226,6 +226,7 @@ describe('OCA.External.Settings tests', function() {
 				$('body').mouseup();
 
 				expect(JSON.parse($tr.find('input.mountOptions').val())).toEqual({
+					encrypt: true,
 					previews: true,
 					filesystem_check_changes: 2
 				});

@@ -983,7 +983,8 @@ MountConfigListView.prototype = {
 };
 
 $(document).ready(function() {
-	var encryptionEnabled = JSON.parse($('#files_external').attr('data-encryption-enabled'));
+	var enabled = $('#files_external').attr('data-encryption-enabled');
+	var encryptionEnabled = (enabled ==='true')? true: false;
 	var mountConfigListView = new MountConfigListView($('#externalStorage'), {
 		encryptionEnabled: encryptionEnabled
 	});
