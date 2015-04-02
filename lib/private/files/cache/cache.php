@@ -287,7 +287,7 @@ class Cache {
 				$this->update($id, $data);
 				return $id;
 			} else {
-				throw new \RuntimeException('File entry exists when inserting and does not exist on select... go away');
+				throw new \RuntimeException('File entry could not be inserted with insertIfNotExist() but could also not be selected with getId() in order to perform an update. Please try again.');
 			}
 		}
 	}

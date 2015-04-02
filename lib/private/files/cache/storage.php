@@ -62,7 +62,7 @@ class Storage {
 				if ($row = $result->fetchRow()) {
 					$this->numericId = $row['numeric_id'];
 				} else {
-					throw new \RuntimeException('Storage exists when inserting and does not exist on select... go away');
+					throw new \RuntimeException('Storage could neither be inserted nor be selected from the database');
 				}
 			}
 		}
