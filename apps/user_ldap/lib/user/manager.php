@@ -168,7 +168,7 @@ class Manager {
 
 	/**
 	 * @brief returns a User object by it's DN or ownCloud username
-	 * @param string the username of the user
+	 * @param string the DN or username of the user
 	 * @return \OCA\user_ldap\lib\user\User|\OCA\user_ldap\lib\user\OfflineUser|null
 	 * @throws \Exception when connection could not be established
 	 */
