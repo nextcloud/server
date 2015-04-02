@@ -65,6 +65,22 @@ class Encryption extends \Test\TestCase {
 		fclose($stream);
 	}
 
+	public function testWriteReadBigFile() {
+		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/lorem-big.txt');
+		// write it
+		$fileName = tempnam("/tmp", "FOO");
+		$stream = $this->getStream($fileName, 'w+');
+		fwrite($stream, $expectedData);
+		fclose($stream);
+
+		// read it all
+		$stream = $this->getStream($fileName, 'r');
+		$data = stream_get_contents($stream);
+		fclose($stream);
+
+		$this->assertEquals($expectedData, $data);
+	}
+
 	/**
 	 * @return \PHPUnit_Framework_MockObject_MockObject
 	 */
