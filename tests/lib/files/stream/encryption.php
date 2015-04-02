@@ -11,14 +11,14 @@ class Encryption extends \Test\TestCase {
 	 * @param string $mode
 	 * @param integer $limit
 	 */
-	protected function getStream($mode) {
+	protected function getStream($fileName, $mode) {
 
-		$source = fopen('php://temp', $mode);
-		$internalPath = '';
-		$fullPath = '';
+		$source = fopen($fileName, $mode);
+		$internalPath = $fileName;
+		$fullPath = $fileName;
 		$header = [];
 		$uid = '';
-		$encryptionModule = new DummyModule();
+		$encryptionModule = $this->buildMockModule();
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()->getMock();
 		$encStorage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
@@ -26,19 +26,51 @@ class Encryption extends \Test\TestCase {
 		$config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
-		$util = new \OC\Encryption\Util(new View(), new \OC\User\Manager(), $config);
+		$file = $this->getMockBuilder('\OC\Encryption\File')
+			->disableOriginalConstructor()
+			->getMock();
+		$util = $this->getMock('\OC\Encryption\Util', ['getUidAndFilename'], [new View(), new \OC\User\Manager(), $config]);
+		$util->expects($this->any())
+			->method('getUidAndFilename')
+			->willReturn(['user1', $internalPath]);
 		$size = 12;
 		$unencryptedSize = 8000;
 
 		return \OC\Files\Stream\Encryption::wrap($source, $internalPath,
 			$fullPath, $header, $uid, $encryptionModule, $storage, $encStorage,
-			$util, $mode, $size, $unencryptedSize);
+			$util, $file, $mode, $size, $unencryptedSize);
 	}
 
-	public function testWriteEnoughSpace() {
-		$stream = $this->getStream('w+');
+	public function testWriteRead() {
+		$fileName = tempnam("/tmp", "FOO");
+		$stream = $this->getStream($fileName, 'w+');
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
-		rewind($stream);
+		fclose($stream);
+
+		$stream = $this->getStream($fileName, 'r');
 		$this->assertEquals('foobar', fread($stream, 100));
+		fclose($stream);
+	}
+
+	/**
+	 * @return \PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected function buildMockModule() {
+		$encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
+			->disableOriginalConstructor()
+			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'calculateUnencryptedSize', 'getUnencryptedBlockSize'])
+			->getMock();
+
+		$encryptionModule->expects($this->any())->method('getId')->willReturn('UNIT_TEST_MODULE');
+		$encryptionModule->expects($this->any())->method('getDisplayName')->willReturn('Unit test module');
+		$encryptionModule->expects($this->any())->method('begin')->willReturn([]);
+		$encryptionModule->expects($this->any())->method('end')->willReturn('');
+		$encryptionModule->expects($this->any())->method('encrypt')->willReturnArgument(0);
+		$encryptionModule->expects($this->any())->method('decrypt')->willReturnArgument(0);
+		$encryptionModule->expects($this->any())->method('update')->willReturn(true);
+		$encryptionModule->expects($this->any())->method('shouldEncrypt')->willReturn(true);
+		$encryptionModule->expects($this->any())->method('calculateUnencryptedSize')->willReturn(42);
+		$encryptionModule->expects($this->any())->method('getUnencryptedBlockSize')->willReturn(6126);
+		return $encryptionModule;
 	}
 }

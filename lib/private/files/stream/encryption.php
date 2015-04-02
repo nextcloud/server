@@ -248,7 +248,7 @@ class Encryption extends Wrapper {
 		$result = '';
 
 		// skip the header if we read the file from the beginning
-		if ($this->position === 0 && !empty($this->header)) {
+		if ($this->position === 0) {
 			parent::stream_read($this->util->getBlockSize());
 		}
 
