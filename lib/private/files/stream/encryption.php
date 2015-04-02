@@ -362,8 +362,11 @@ class Encryption extends Wrapper {
 		$newFilePosition = floor($newPosition / $this->unencryptedBlockSize)
 			* $this->util->getBlockSize() + $this->util->getHeaderSize();
 
+		$oldFilePosition = parent::stream_tell();
 		if (parent::stream_seek($newFilePosition)) {
+			parent::stream_seek($oldFilePosition);
 			$this->flush();
+			parent::stream_seek($newFilePosition);
 			$this->position = $newPosition;
 			$return = true;
 		}
