@@ -130,18 +130,6 @@ class RecoveryController extends Controller {
 		}
 	}
 
-	public function userRecovery($userEnableRecovery) {
-		if (isset($userEnableRecovery) && ($userEnableRecovery === '0' || $userEnableRecovery === '1')) {
-			$userId = $this->user->getUID();
-			if ($userEnableRecovery === '1') {
-				// Todo xxx figure out if we need keyid's here or what.
-				return $this->recovery->addRecoveryKeys();
-			}
-			// Todo xxx see :98
-			return $this->recovery->removeRecoveryKeys();
-		}
-	}
-
 	/**
 	 * @NoAdminRequired
 	 */
