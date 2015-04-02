@@ -56,17 +56,15 @@ use OCP\Files\ReservedWordException;
  * in classes which extend it, e.g. $this->stat() .
  */
 abstract class Common implements Storage {
+
+	use LocalTempFileTrait;
+
 	protected $cache;
 	protected $scanner;
 	protected $watcher;
 	protected $storageCache;
 
 	protected $mountOptions = [];
-
-	/**
-	 * @var string[]
-	 */
-	protected $cachedFiles = array();
 
 	public function __construct($parameters) {
 	}
@@ -245,27 +243,6 @@ abstract class Common implements Storage {
 
 	public function getLocalFile($path) {
 		return $this->getCachedFile($path);
-	}
-
-	/**
-	 * @param string $path
-	 * @return string
-	 */
-	protected function toTmpFile($path) { //no longer in the storage api, still useful here
-		$source = $this->fopen($path, 'r');
-		if (!$source) {
-			return false;
-		}
-		if ($pos = strrpos($path, '.')) {
-			$extension = substr($path, $pos);
-		} else {
-			$extension = '';
-		}
-		$tmpFile = \OC_Helper::tmpFile($extension);
-		$target = fopen($tmpFile, 'w');
-		\OC_Helper::streamCopy($source, $target);
-		fclose($target);
-		return $tmpFile;
 	}
 
 	public function getLocalFolder($path) {
@@ -448,20 +425,6 @@ abstract class Common implements Storage {
 		// the common implementation returns a temporary file by
 		// default, which is not local
 		return false;
-	}
-
-	/**
-	 * @param string $path
-	 */
-	protected function getCachedFile($path) {
-		if (!isset($this->cachedFiles[$path])) {
-			$this->cachedFiles[$path] = $this->toTmpFile($path);
-		}
-		return $this->cachedFiles[$path];
-	}
-
-	protected function removeCachedFile($path) {
-		unset($this->cachedFiles[$path]);
 	}
 
 	/**
