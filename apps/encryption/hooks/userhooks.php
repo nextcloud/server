@@ -201,7 +201,7 @@ class UserHooks implements IHook {
 		}
 	}
 
-		/**
+	/**
 	 * Change a user's encryption passphrase
 	 *
 	 * @param array $params keys: uid, password
@@ -225,7 +225,7 @@ class UserHooks implements IHook {
 				$this->keyManager->setPrivateKey($this->user->getUser()->getUID(),
 					$encryptedPrivateKey);
 			} else {
-				$this->log->error('Encryption could not update users encryption password');
+				$this->logger->error('Encryption could not update users encryption password');
 			}
 
 			// NOTE: Session does not need to be updated as the
@@ -266,7 +266,7 @@ class UserHooks implements IHook {
 						$this->recovery->recoverUsersFiles($recoveryPassword, $user);
 					}
 				} else {
-					$this->log->error('Encryption Could not update users encryption password');
+					$this->logger->error('Encryption Could not update users encryption password');
 				}
 			}
 		}

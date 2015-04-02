@@ -6,33 +6,31 @@
  * See the COPYING-README file.
  */
 
-// Add CSS stylesheet
-\OC_Util::addStyle('encryption', 'settings-personal');
-
 $session = new \OCA\Encryption\Session(\OC::$server->getSession());
+$userSession = \OC::$server->getUserSession();
 
-$tmpl = new OCP\Template('encryption', 'settings-personal');
+$template = new OCP\Template('encryption', 'settings-personal');
 $crypt = new \OCA\Encryption\Crypto\Crypt(
 	\OC::$server->getLogger(),
-	\OC::$server->getUserSession(),
+	$userSession,
 	\OC::$server->getConfig());
 
 $util = new \OCA\Encryption\Util(
 	new \OC\Files\View(),
 	$crypt,
 	\OC::$server->getLogger(),
-	\OC::$server->getUserSession(),
+	$userSession,
 	\OC::$server->getConfig());
 
-$keymanager = new \OCA\Encryption\KeyManager(
+$keyManager = new \OCA\Encryption\KeyManager(
 	\OC::$server->getEncryptionKeyStorage(\OCA\Encryption\Crypto\Encryption::ID),
 	$crypt,
 	\OC::$server->getConfig(),
-	\OC::$server->getUserSession(),
+	$userSession,
 	$session,
 	\OC::$server->getLogger(), $util);
 
-$user = \OCP\User::getUser();
+$user = $userSession->getUser()->getUID();
 
 $view = new \OC\Files\View('/');
 
@@ -48,12 +46,12 @@ $recoveryEnabledForUser = $util->isRecoveryEnabledForUser();
 $result = false;
 
 if ($recoveryAdminEnabled || !$privateKeySet) {
-	$tmpl->assign('recoveryEnabled', $recoveryAdminEnabled);
-	$tmpl->assign('recoveryEnabledForUser', $recoveryEnabledForUser);
-	$tmpl->assign('privateKeySet', $privateKeySet);
-	$tmpl->assign('initialized', $initialized);
+	$template->assign('recoveryEnabled', $recoveryAdminEnabled);
+	$template->assign('recoveryEnabledForUser', $recoveryEnabledForUser);
+	$template->assign('privateKeySet', $privateKeySet);
+	$template->assign('initialized', $initialized);
 
-	$result = $tmpl->fetchPage();
+	$result = $template->fetchPage();
 }
 
 return $result;
