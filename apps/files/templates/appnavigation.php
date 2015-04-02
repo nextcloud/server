@@ -7,7 +7,7 @@
 	<div id="app-settings">
 		<div id="app-settings-header">
 			<button class="settings-button" data-apps-slide-toggle="#app-settings-content">
-				<span class="hidden-visually"><?php p($l->t('Settings'));?></span>
+				<span><?php p($l->t('Settings'));?></span>
 			</button>
 		</div>
 		<div id="app-settings-content">
