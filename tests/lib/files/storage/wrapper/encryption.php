@@ -2,13 +2,13 @@
 
 namespace Test\Files\Storage\Wrapper;
 
+use OC\Files\Storage\Temporary;
 use OC\Files\View;
-use OCA\Encryption_Dummy\DummyModule;
 
 class Encryption extends \Test\Files\Storage\Storage {
 
 	/**
-	 * @var \OC\Files\Storage\Temporary
+	 * @var Temporary
 	 */
 	private $sourceStorage;
 
@@ -19,10 +19,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$mockModule = $this->buildMockModule();
 		$encryptionManager = $this->getMockBuilder('\OC\Encryption\Manager')
 			->disableOriginalConstructor()
-			->setMethods(['getDefaultEncryptionModule', 'getEncryptionModule'])
-			->getMock();
-		$config = $this->getMockBuilder('\OCP\IConfig')
-			->disableOriginalConstructor()
+			->setMethods(['getDefaultEncryptionModule', 'getEncryptionModule', 'isEnabled'])
 			->getMock();
 		$encryptionManager->expects($this->any())
 			->method('getDefaultEncryptionModule')
@@ -30,6 +27,13 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$encryptionManager->expects($this->any())
 			->method('getEncryptionModule')
 			->willReturn($mockModule);
+		$encryptionManager->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
+
+		$config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$util = $this->getMock('\OC\Encryption\Util', ['getUidAndFilename'], [new View(), new \OC\User\Manager(), $config]);
 		$util->expects($this->any())
@@ -37,13 +41,14 @@ class Encryption extends \Test\Files\Storage\Storage {
 			->willReturnCallback(function ($path) {
 				return ['user1', $path];
 			});
+
 		$file = $this->getMockBuilder('\OC\Encryption\File')
 			->disableOriginalConstructor()
 			->getMock();
 
 		$logger = $this->getMock('\OC\Log');
 
-		$this->sourceStorage = new \OC\Files\Storage\Temporary(array());
+		$this->sourceStorage = new Temporary(array());
 		$keyStore = $this->getMockBuilder('\OC\Encryption\Keys\Storage')
 			->disableOriginalConstructor()->getMock();
 		$this->instance = new EncryptionWrapper([
