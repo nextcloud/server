@@ -35,10 +35,10 @@ class SessionTest extends TestCase {
 	private $sessionMock;
 
 	/**
-	 * @throws \OCA\Encryption\Exceptions\PrivateKeyMissingException
+	 * @expectedException \OCA\Encryption\Exceptions\PrivateKeyMissingException
+	 * @expectedExceptionMessage Private Key missing for user: please try to log-out and log-in again
 	 */
 	public function testThatGetPrivateKeyThrowsExceptionWhenNotSet() {
-		$this->setExpectedException('OCA\Encryption\Exceptions\PrivateKeyMissingException', 'no private key stored in session');
 		$this->instance->getPrivateKey();
 	}
 

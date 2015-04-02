@@ -15,17 +15,9 @@ use Test\TestCase;
 
 class KeyManagerTest extends TestCase {
 	/**
-	 * @var bool
-	 */
-	private static $trashbinState;
-	/**
 	 * @var KeyManager
 	 */
 	private $instance;
-	/**
-	 * @var string
-	 */
-	private static $testUser = 'test-keyManager-user.dot';
 	/**
 	 * @var string
 	 */
@@ -54,27 +46,6 @@ class KeyManagerTest extends TestCase {
 
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	private $configMock;
-
-	/**
-	 *
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		// Remember files_trashbin state
-		self::$trashbinState = \OC_App::isEnabled('files_trashbin');
-
-		// We dont want tests with app files_trashbin enabled
-		\OC_App::disable('files_trashbin');
-
-		$userManager = \OC::$server->getUserManager();
-		$userManager->get(self::$testUser)->delete();
-		$userManager->createUser(self::$testUser,
-			self::$testUser);
-
-		// Create test user
-		parent::loginAsUser(self::$testUser);
-	}
 
 	public function setUp() {
 		parent::setUp();
@@ -118,7 +89,6 @@ class KeyManagerTest extends TestCase {
 		);
 	}
 
-
 	public function testGetPrivateKey() {
 		$this->keyStorageMock->expects($this->any())
 			->method('getUserKey')
@@ -153,9 +123,6 @@ class KeyManagerTest extends TestCase {
 		$this->assertTrue($this->instance->recoveryKeyExists());
 	}
 
-	/**
-	 *
-	 */
 	public function testCheckRecoveryKeyPassword() {
 		$this->keyStorageMock->expects($this->any())
 			->method('getSystemUserKey')
@@ -165,11 +132,9 @@ class KeyManagerTest extends TestCase {
 			->method('decryptPrivateKey')
 			->with($this->equalTo('recoveryKey'), $this->equalTo('pass'))
 			->willReturn('decryptedRecoveryKey');
-		
 
 		$this->assertTrue($this->instance->checkRecoveryPassword('pass'));
 	}
-
 
 	public function testSetPublicKey() {
 		$this->keyStorageMock->expects($this->any())
@@ -184,7 +149,6 @@ class KeyManagerTest extends TestCase {
 		$this->assertTrue(
 			$this->instance->setPublicKey($this->userId, 'key')
 		);
-
 	}
 
 	public function testSetPrivateKey() {
@@ -214,9 +178,6 @@ class KeyManagerTest extends TestCase {
 		);
 	}
 
-	/**
-	 *
-	 */
 	public function testInit() {
 		$this->keyStorageMock->expects($this->any())
 			->method('getUserKey')
@@ -249,7 +210,7 @@ class KeyManagerTest extends TestCase {
 		);
 	}
 
-	public function setSystemPrivateKey() {
+	public function testSetSystemPrivateKey() {
 		$this->keyStorageMock->expects($this->exactly(1))
 			->method('setSystemUserKey')
 			->with($this->equalTo('keyId.privateKey'), $this->equalTo('key'))
@@ -261,9 +222,9 @@ class KeyManagerTest extends TestCase {
 		);
 	}
 
-	public function getSystemPrivateKey() {
+	public function testGetSystemPrivateKey() {
 		$this->keyStorageMock->expects($this->exactly(1))
-			->method('setSystemUserKey')
+			->method('getSystemUserKey')
 			->with($this->equalTo('keyId.privateKey'))
 			->willReturn('systemPrivateKey');
 		
@@ -272,6 +233,4 @@ class KeyManagerTest extends TestCase {
 			$this->instance->getSystemPrivateKey('keyId')
 		);
 	}
-
-
 }

@@ -192,7 +192,6 @@ class KeyManager {
 	 * @param string $password
 	 * @param array $keyPair
 	 * @return bool
-	 * @internal param string $uid
 	 */
 	public function setRecoveryKey($password, $keyPair) {
 		// Save Public Key
