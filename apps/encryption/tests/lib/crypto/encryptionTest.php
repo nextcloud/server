@@ -60,7 +60,6 @@ class EncryptionTest extends TestCase {
 	 * @dataProvider dataProviderForTestGetPathToRealFile
 	 */
 	public function testGetPathToRealFile($path, $expected) {
-		$result = \Test_Helper::invokePrivate($this->instance, 'getPathToRealFile', array($path));
 		$this->assertSame($expected,
 			\Test_Helper::invokePrivate($this->instance, 'getPathToRealFile', array($path))
 		);
