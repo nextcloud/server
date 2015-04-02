@@ -218,6 +218,24 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 		self::updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceConfMimeType() {
+		$updatedMimetypes = array(
+			'conf' => 'text/plain',
+			'cnf' => 'text/plain',
+		);
+
+		self::updateMimetypes($updatedMimetypes);
+	}
+
+	private function introduceYamlMimeType() {
+		$updatedMimetypes = array(
+			'yaml' => 'application/yaml',
+			'yml' => 'application/yaml',
+		);
+
+		self::updateMimetypes($updatedMimetypes);
+	}
+
 	/**
 	 * Fix mime types
 	 */
@@ -244,6 +262,14 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 
 		if ($this->introduce3dImagesMimeType()) {
 			$this->emit('\OC\Repair', 'info', array('Fixed 3D images mime types'));
+		}
+
+		if ($this->introduceConfMimeType()) {
+			$this->emit('\OC\Repair', 'info', array('Fixed Conf/cnf mime types'));
+		}
+
+		if ($this->introduceYamlMimeType()) {
+			$this->emit('\OC\Repair', 'info', array('Fixed Yaml/Yml mime types'));
 		}
 	}
 }

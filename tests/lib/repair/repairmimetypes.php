@@ -221,15 +221,52 @@ class RepairMimeTypes extends \Test\TestCase {
 		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
 	}
 
+	/**
+	 * Test renaming the 3D image media type
+	 */
 	public function testRename3dImagesMimeType() {
 		$currentMimeTypes = [
-			['test.eps', 'application/octet-stream'],
-			['test.ps', 'application/octet-stream'],
+			['test.jps', 'application/octet-stream'],
+			['test.mpo', 'application/octet-stream'],
 		];
 
 		$fixedMimeTypes = [
-			['test.eps', 'application/postscript'],
-			['test.ps', 'application/postscript'],
+			['test.jps', 'image/jpeg'],
+			['test.mpo', 'image/jpeg'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
+	 * Test renaming the conf/cnf media type
+	 */
+	public function testRenameConfMimeType() {
+		$currentMimeTypes = [
+			['test.conf', 'application/octet-stream'],
+			['test.cnf', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.conf', 'text/plain'],
+			['test.cnf', 'text/plain'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
+	 * Test renaming the yaml media type
+	 */
+	public function testRenameYamlMimeType() {
+		$currentMimeTypes = [
+			['test.yaml', 'application/octet-stream'],
+			['test.yml', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.yaml', 'application/yaml'],
+			['test.yml', 'application/yaml'],
 		];
 
 		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
@@ -348,6 +385,10 @@ class RepairMimeTypes extends \Test\TestCase {
 			['test.DNG', 'image/x-dcraw'],
 			['test.jps', 'image/jpeg'],
 			['test.MPO', 'image/jpeg'],
+			['test.conf', 'text/plain'],
+			['test.cnf', 'text/plain'],
+			['test.yaml', 'application/yaml'],
+			['test.yml', 'application/yaml'],
 		];
 
 		$fixedMimeTypes = [
@@ -383,6 +424,10 @@ class RepairMimeTypes extends \Test\TestCase {
 			['test.DNG', 'image/x-dcraw'],
 			['test.jps', 'image/jpeg'],
 			['test.MPO', 'image/jpeg'],
+			['test.conf', 'text/plain'],
+			['test.cnf', 'text/plain'],
+			['test.yaml', 'application/yaml'],
+			['test.yml', 'application/yaml'],
 		];
 
 		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
