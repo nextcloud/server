@@ -509,6 +509,8 @@ MountOptionsDropdown.prototype = {
 			var optionId = $row.find('input, select').attr('name');
 			if (enabledOptions.indexOf(optionId) === -1) {
 				$row.hide();
+			} else {
+				$row.show();
 			}
 		});
 	}
