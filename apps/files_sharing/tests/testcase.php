@@ -141,11 +141,24 @@ abstract class TestCase extends \Test\TestCase {
 			\OC_Group::addToGroup($user, 'group');
 		}
 
+		self::resetStorage();
+
 		\OC_Util::tearDownFS();
 		\OC::$server->getUserSession()->setUser(null);
 		\OC\Files\Filesystem::tearDown();
 		\OC::$server->getUserSession()->login($user, $password);
 		\OC_Util::setupFS($user);
+	}
+
+	/**
+	 * reset init status for the share storage
+	 */
+	protected static function resetStorage() {
+		$storage = new \ReflectionClass('\OC\Files\Storage\Shared');
+		$isInitialized = $storage->getProperty('isInitialized');
+		$isInitialized->setAccessible(true);
+		$isInitialized->setValue(false);
+		$isInitialized->setAccessible(false);
 	}
 
 	/**
