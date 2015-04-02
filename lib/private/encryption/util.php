@@ -180,11 +180,11 @@ class Util {
 			foreach ($content as $c) {
 				// getDirectoryContent() returns the paths relative to the mount points, so we need
 				// to re-construct the complete path
-				$path = ($mountPoint !== '') ? $mountPoint . '/' .  $c['path'] : $c['path'];
+				$path = ($mountPoint !== '') ? $mountPoint . '/' .  $c->getPath() : $c->getPath();
 				if ($c['type'] === 'dir') {
-					$dirList[] = $path;
+					$dirList[] = \OC\Files\Filesystem::normalizePath($path);
 				} else {
-					$result[] = $path;
+					$result[] =  \OC\Files\Filesystem::normalizePath($path);
 				}
 			}
 

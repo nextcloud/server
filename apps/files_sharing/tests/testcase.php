@@ -157,7 +157,7 @@ abstract class TestCase extends \Test\TestCase {
 		$storage = new \ReflectionClass('\OC\Files\Storage\Shared');
 		$isInitialized = $storage->getProperty('isInitialized');
 		$isInitialized->setAccessible(true);
-		$isInitialized->setValue(false);
+		$isInitialized->setValue(array());
 		$isInitialized->setAccessible(false);
 	}
 

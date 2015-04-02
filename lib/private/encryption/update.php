@@ -94,7 +94,11 @@ class Update {
 	 */
 	private function update($fileSource) {
 		$path = \OC\Files\Filesystem::getPath($fileSource);
-		$absPath = '/' . $this->uid . '/files' . $path;
+		$info = \OC\Files\Filesystem::getFileInfo($path);
+		$owner = \OC\Files\Filesystem::getOwner($path);
+		$view = new \OC\Files\View('/' . $owner . '/files');
+		$ownerPath = $view->getPath($info->getId());
+		$absPath = '/' . $owner . '/files' . $ownerPath;
 
 		$mount = $this->mountManager->find($path);
 		$mountPoint = $mount->getMountPoint();
@@ -110,7 +114,7 @@ class Update {
 
 		foreach ($allFiles as $path) {
 			$usersSharing = $this->file->getAccessList($path);
-			$encryptionModule->update($absPath, $this->uid, $usersSharing);
+			$encryptionModule->update($path, $this->uid, $usersSharing);
 		}
 	}
 
