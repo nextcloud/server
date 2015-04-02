@@ -229,13 +229,17 @@ class Encryption extends Wrapper {
 		$encryptionModuleId = $this->util->getEncryptionModuleId($header);
 
 		$size = $unencryptedSize = 0;
-		if ($this->file_exists($path)) {
+		$targetExists = $this->file_exists($path);
+		$targetIsEncrypted = false;
+		if ($targetExists) {
 			// in case the file exists we require the explicit module as
 			// specified in the file header - otherwise we need to fail hard to
 			// prevent data loss on client side
 			if (!empty($encryptionModuleId)) {
+				$targetIsEncrypted = true;
 				$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
 			}
+
 			$size = $this->storage->filesize($path);
 			$unencryptedSize = $this->filesize($path);
 		}
@@ -264,6 +268,14 @@ class Encryption extends Wrapper {
 		} catch (ModuleDoesNotExistsException $e) {
 			$this->logger->warning('Encryption module "' . $encryptionModuleId .
 				'" not found, file will be stored unencrypted');
+		}
+
+		// encryption disabled on write of new file and write to existing unencrypted file -> don't encrypt
+		$encEnabled = $this->encryptionManager->isEnabled();
+		if (!$encEnabled ) {
+			if (!$targetExists || !$targetIsEncrypted) {
+				$shouldEncrypt = false;
+			}
 		}
 
 		if($shouldEncrypt === true && !$this->util->isExcluded($fullPath) && $encryptionModule !== null) {

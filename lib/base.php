@@ -701,10 +701,7 @@ class OC {
 	}
 
 	private static function registerEncryptionWrapper() {
-		$enabled = self::$server->getEncryptionManager()->isEnabled();
-		if ($enabled) {
-			\OCP\Util::connectHook('OC_Filesystem', 'setup', 'OC\Encryption\Manager', 'setupStorage');
-		}
+		\OCP\Util::connectHook('OC_Filesystem', 'setup', 'OC\Encryption\Manager', 'setupStorage');
 	}
 
 	private static function registerEncryptionHooks() {
