@@ -1,6 +1,8 @@
 OC.L10N.register(
     "user_ldap",
     {
+    "Failed to clear the mappings." : "Неуспело чишћење мапирања.",
+    "Failed to delete the server configuration" : "Неуспело брисање серверске конфугирације",
     "Deletion failed" : "Брисање није успело",
     "Keep settings?" : "Задржати поставке?",
     "Error" : "Грешка",

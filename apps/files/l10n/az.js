@@ -102,6 +102,7 @@ OC.L10N.register(
     "Folder" : "Qovluq",
     "Upload" : "Serverə yüklə",
     "Cancel upload" : "Yüklənməni dayandır",
+    "No files in here" : "Burda fayl yoxdur",
     "Upload some content or sync with your devices!" : "Bezi kontenti yüklə yada, öz avadanlıqlarınızla sinxronizasiya edin!",
     "No entries found in this folder" : "Bu qovluqda heç bir verilən tapılmadı",
     "Select all" : "Hamısıı seç",

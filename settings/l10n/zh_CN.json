@@ -123,6 +123,7 @@
     "Log level" : "日志级别",
     "More" : "更多",
     "Less" : "更少",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "特别当使用桌面客户端来同步文件时，不鼓励使用 SQLite 。",
     "Version" : "版本",
     "More apps" : "更多应用",
     "by" : "被",

@@ -64,6 +64,7 @@ OC.L10N.register(
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Qeyd:</b> PHP-də FTP dəstəyi aktiv deyil və ya yüklənməyib. %s -in birləşdirilməsi mümkün deyil. Xahiş edilir onun yüklənilməsi barəsində inzibatşınıza məlumat verəsiniz.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Qeyd:</b> \"%s\" yüklənməyib. %s -in birləşdirilməsi mümkün deyil. Xahiş edilir onun yüklənilməsi barəsində inzibatşınıza məlumat verəsiniz.",
     "No external storage configured" : "Kənar depo konfiq edilməyib",
+    "You can add external storages in the personal settings" : "Siz şəxsi quraşdırmalarınızda kənar depo əlavə edə bilərsiniz",
     "Name" : "Ad",
     "Storage type" : "Depo tipi",
     "Scope" : "Həcm",
@@ -72,6 +73,7 @@ OC.L10N.register(
     "Configuration" : "Konfiqurasiya",
     "Available for" : "Üçün mövcuddur",
     "Add storage" : "Deponu əlavə et",
+    "Advanced settings" : "İrəliləmiş quraşdırmalar",
     "Delete" : "Sil",
     "Enable User External Storage" : "İstifadəçi kənar deponu aktivləşdir",
     "Allow users to mount the following external storage" : "Göstərilən kənar deponun bərkidilməsi üçün istifadəçilərə izin ver"
