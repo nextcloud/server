@@ -249,9 +249,10 @@ class Encryption extends Wrapper {
 
 		// skip the header if we read the file from the beginning
 		if ($this->position === 0) {
-			parent::stream_read($this->util->getBlockSize());
+			parent::stream_read($this->util->getHeaderSize());
 		}
 
+		$count = min($count, $this->unencryptedSize - $this->position);
 		while ($count > 0) {
 			$remainingLength = $count;
 			// update the cache of the current block
