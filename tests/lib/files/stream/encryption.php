@@ -52,6 +52,19 @@ class Encryption extends \Test\TestCase {
 		fclose($stream);
 	}
 
+	public function testSeek() {
+		$fileName = tempnam("/tmp", "FOO");
+		$stream = $this->getStream($fileName, 'w+');
+		$this->assertEquals(6, fwrite($stream, 'foobar'));
+		$this->assertEquals(0, fseek($stream, 3));
+		$this->assertEquals(6, fwrite($stream, 'foobar'));
+		fclose($stream);
+
+		$stream = $this->getStream($fileName, 'r');
+		$this->assertEquals('foofoobar', fread($stream, 100));
+		fclose($stream);
+	}
+
 	/**
 	 * @return \PHPUnit_Framework_MockObject_MockObject
 	 */
