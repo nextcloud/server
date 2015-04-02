@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Georg Ehrke <georg@ownCloud.com>
+ * @author Olivier Paroz <owncloud@interfasys.ch>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -25,13 +25,7 @@
  */
 namespace OC\Preview;
 
-class Image extends Provider {
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getMimeType() {
-		return '/image\/(?!tiff$)(?!svg.*).*/';
-	}
+abstract class Image extends Provider {
 
 	/**
 	 * {@inheritDoc}
