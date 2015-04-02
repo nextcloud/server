@@ -112,23 +112,18 @@ class Encryption extends Wrapper {
 	 */
 	public function file_get_contents($path) {
 
-		$data = null;
 		$encryptionModule = $this->getEncryptionModule($path);
 
 		if ($encryptionModule) {
-
-			$handle = $this->fopen($path, 'r');
-
-			if (is_resource($handle)) {
-				while (!feof($handle)) {
-					$data .= fread($handle, $this->util->getBlockSize());
-				}
+			$handle = $this->fopen($path, "r");
+			if (!$handle) {
+				return false;
 			}
-		} else {
-			$data = $this->storage->file_get_contents($path);
+			$data = stream_get_contents($handle);
+			fclose($handle);
+			return $data;
 		}
-
-		return $data;
+		return $this->storage->file_get_contents($path);
 	}
 
 	/**
