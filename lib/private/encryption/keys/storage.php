@@ -339,7 +339,7 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	protected function keySetPreparation($path) {
 		// If the file resides within a subdirectory, create it
 		if (!$this->view->file_exists($path)) {
-			$sub_dirs = explode('/', $path);
+			$sub_dirs = explode('/', ltrim($path, '/'));
 			$dir = '';
 			foreach ($sub_dirs as $sub_dir) {
 				$dir .= '/' . $sub_dir;

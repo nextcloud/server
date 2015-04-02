@@ -28,6 +28,9 @@ use Test\TestCase;
 
 class StorageTest extends TestCase {
 
+	/** @var Storage */
+	protected $storage;
+
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	protected $util;
 
@@ -44,6 +47,8 @@ class StorageTest extends TestCase {
 		$this->view = $this->getMockBuilder('OC\Files\View')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$this->storage = new Storage('encModule', $this->view, $this->util);
 
 	}
 
@@ -63,10 +68,8 @@ class StorageTest extends TestCase {
 				$this->equalTo('key'))
 			->willReturn(strlen('key'));
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-
 		$this->assertTrue(
-			$storage->setFileKey('user1/files/foo.txt', 'fileKey', 'key')
+			$this->storage->setFileKey('user1/files/foo.txt', 'fileKey', 'key')
 		);
 	}
 
@@ -89,10 +92,8 @@ class StorageTest extends TestCase {
 			->with($this->equalTo('/user1/files_encryption/keys/files/foo.txt/encModule/fileKey'))
 			->willReturn(true);
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-
 		$this->assertSame('key',
-			$storage->getFileKey('user1/files/foo.txt', 'fileKey')
+			$this->storage->getFileKey('user1/files/foo.txt', 'fileKey')
 		);
 	}
 
@@ -112,10 +113,8 @@ class StorageTest extends TestCase {
 				$this->equalTo('key'))
 			->willReturn(strlen('key'));
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-
 		$this->assertTrue(
-			$storage->setFileKey('user1/files/foo.txt', 'fileKey', 'key')
+			$this->storage->setFileKey('user1/files/foo.txt', 'fileKey', 'key')
 		);
 	}
 
@@ -138,10 +137,8 @@ class StorageTest extends TestCase {
 			->with($this->equalTo('/files_encryption/keys/files/foo.txt/encModule/fileKey'))
 			->willReturn(true);
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-
 		$this->assertSame('key',
-			$storage->getFileKey('user1/files/foo.txt', 'fileKey')
+			$this->storage->getFileKey('user1/files/foo.txt', 'fileKey')
 		);
 	}
 
@@ -152,10 +149,8 @@ class StorageTest extends TestCase {
 				$this->equalTo('key'))
 			->willReturn(strlen('key'));
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-
 		$this->assertTrue(
-			$storage->setSystemUserKey('shareKey_56884', 'key')
+			$this->storage->setSystemUserKey('shareKey_56884', 'key')
 		);
 	}
 
@@ -166,10 +161,8 @@ class StorageTest extends TestCase {
 				$this->equalTo('key'))
 			->willReturn(strlen('key'));
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-
 		$this->assertTrue(
-			$storage->setUserKey('user1', 'publicKey', 'key')
+			$this->storage->setUserKey('user1', 'publicKey', 'key')
 		);
 	}
 
@@ -183,10 +176,8 @@ class StorageTest extends TestCase {
 			->with($this->equalTo('/files_encryption/encModule/shareKey_56884'))
 			->willReturn(true);
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-
 		$this->assertSame('key',
-			$storage->getSystemUserKey('shareKey_56884')
+			$this->storage->getSystemUserKey('shareKey_56884')
 		);
 	}
 
@@ -200,10 +191,8 @@ class StorageTest extends TestCase {
 			->with($this->equalTo('/user1/files_encryption/encModule/user1.publicKey'))
 			->willReturn(true);
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-
 		$this->assertSame('key',
-			$storage->getUserKey('user1', 'publicKey')
+			$this->storage->getUserKey('user1', 'publicKey')
 		);
 	}
 
@@ -213,10 +202,8 @@ class StorageTest extends TestCase {
 			->with($this->equalTo('/user1/files_encryption/encModule/user1.publicKey'))
 			->willReturn(true);
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-
 		$this->assertTrue(
-			$storage->deleteUserKey('user1', 'publicKey')
+			$this->storage->deleteUserKey('user1', 'publicKey')
 		);
 	}
 
@@ -226,10 +213,8 @@ class StorageTest extends TestCase {
 			->with($this->equalTo('/files_encryption/encModule/shareKey_56884'))
 			->willReturn(true);
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-
 		$this->assertTrue(
-			$storage->deleteSystemUserKey('shareKey_56884')
+			$this->storage->deleteSystemUserKey('shareKey_56884')
 		);
 	}
 
@@ -248,10 +233,8 @@ class StorageTest extends TestCase {
 			->with($this->equalTo('/files_encryption/keys/files/foo.txt/encModule/fileKey'))
 			->willReturn(true);
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-
 		$this->assertTrue(
-			$storage->deleteFileKey('user1/files/foo.txt', 'fileKey')
+			$this->storage->deleteFileKey('user1/files/foo.txt', 'fileKey')
 		);
 	}
 
@@ -270,10 +253,8 @@ class StorageTest extends TestCase {
 			->with($this->equalTo('/user1/files_encryption/keys/files/foo.txt/encModule/fileKey'))
 			->willReturn(true);
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-
 		$this->assertTrue(
-			$storage->deleteFileKey('user1/files/foo.txt', 'fileKey')
+			$this->storage->deleteFileKey('user1/files/foo.txt', 'fileKey')
 		);
 	}
 
@@ -300,8 +281,7 @@ class StorageTest extends TestCase {
 			->method('isSystemWideMountPoint')
 			->willReturn($systemWideMount);
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-		$storage->renameKeys($source, $target);
+		$this->storage->renameKeys($source, $target);
 	}
 
 	/**
@@ -327,8 +307,7 @@ class StorageTest extends TestCase {
 			->method('isSystemWideMountPoint')
 			->willReturn($systemWideMount);
 
-		$storage = new Storage('encModule', $this->view, $this->util);
-		$storage->copyKeys($source, $target);
+		$this->storage->copyKeys($source, $target);
 	}
 
 	public function getUidAndFilenameCallback() {
@@ -351,6 +330,32 @@ class StorageTest extends TestCase {
 			array('/user1/files/foo.txt', '/user1/files/foo/bar.txt', true,
 				'/files_encryption/keys/files/foo.txt/', '/files_encryption/keys/files/foo/bar.txt/'),
 		);
+	}
+
+	public function testKeySetPreparation() {
+		$this->view->expects($this->any())
+			->method('file_exists')
+			->willReturn(false);
+		$this->view->expects($this->any())
+			->method('is_dir')
+			->willReturn(false);
+		$this->view->expects($this->any())
+			->method('mkdir')
+			->will($this->returnCallback(array($this, 'mkdirCallback')));
+
+		$this->mkdirStack = array(
+			'/user1/files_encryption/keys/foo',
+			'/user1/files_encryption/keys',
+			'/user1/files_encryption',
+			'/user1');
+
+		\Test_Helper::invokePrivate($this->storage, 'keySetPreparation', array('/user1/files_encryption/keys/foo'));
+	}
+
+	public function mkdirCallback() {
+		$args = func_get_args();
+		$expected = array_pop($this->mkdirStack);
+		$this->assertSame($expected, $args[0]);
 	}
 
 }
