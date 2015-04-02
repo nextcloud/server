@@ -57,7 +57,7 @@ class Util {
 	/** @var array */
 	protected $ocHeaderKeys;
 
-	/** @var Manager */
+	/** @var \OC\User\Manager */
 	protected $userManager;
 
 	/** @var IConfig */

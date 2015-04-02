@@ -394,18 +394,19 @@ class Util {
 
 	/**
 	 * connects a function to a hook
-	 * @param string $signalclass class name of emitter
-	 * @param string $signalname name of signal
-	 * @param string $slotclass class name of slot
-	 * @param string $slotname name of slot
+	 *
+	 * @param string $signalClass class name of emitter
+	 * @param string $signalName name of signal
+	 * @param string|object $slotClass class name of slot
+	 * @param string $slotName name of slot
 	 * @return bool
 	 *
 	 * This function makes it very easy to connect to use hooks.
 	 *
 	 * TODO: write example
 	 */
-	static public function connectHook( $signalclass, $signalname, $slotclass, $slotname ) {
-		return(\OC_Hook::connect( $signalclass, $signalname, $slotclass, $slotname ));
+	static public function connectHook($signalClass, $signalName, $slotClass, $slotName ) {
+		return(\OC_Hook::connect($signalClass, $signalName, $slotClass, $slotName ));
 	}
 
 	/**

@@ -205,8 +205,6 @@ class UserHooks implements IHook {
 	 * Change a user's encryption passphrase
 	 *
 	 * @param array $params keys: uid, password
-	 * @param IUserSession $user
-	 * @param Util $util
 	 * @return bool
 	 */
 	public function setPassphrase($params) {

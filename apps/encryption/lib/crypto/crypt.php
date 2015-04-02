@@ -34,11 +34,10 @@ use OCP\IUserSession;
 
 class Crypt {
 
-	const BLOCKSIZE = 8192;
 	const DEFAULT_CIPHER = 'AES-256-CFB';
 
-	const HEADERSTART = 'HBEGIN';
-	const HEADEREND = 'HEND';
+	const HEADER_START = 'HBEGIN';
+	const HEADER_END = 'HEND';
 	/**
 	 * @var ILogger
 	 */
@@ -64,7 +63,7 @@ class Crypt {
 	}
 
 	/**
-	 *
+	 * @return array|bool
 	 */
 	public function createKeyPair() {
 
@@ -121,8 +120,8 @@ class Crypt {
 	}
 
 	/**
-	 * @param $plainContent
-	 * @param $passPhrase
+	 * @param string $plainContent
+	 * @param string $passPhrase
 	 * @return bool|string
 	 * @throws GenericEncryptionException
 	 */
@@ -148,8 +147,8 @@ class Crypt {
 	}
 
 	/**
-	 * @param $plainContent
-	 * @param $iv
+	 * @param string $plainContent
+	 * @param string $iv
 	 * @param string $passPhrase
 	 * @param string $cipher
 	 * @return string
@@ -187,8 +186,8 @@ class Crypt {
 	}
 
 	/**
-	 * @param $encryptedContent
-	 * @param $iv
+	 * @param string $encryptedContent
+	 * @param string $iv
 	 * @return string
 	 */
 	private function concatIV($encryptedContent, $iv) {
@@ -204,20 +203,20 @@ class Crypt {
 	}
 
 	/**
-	 * @param $recoveryKey
-	 * @param $password
+	 * @param string $recoveryKey
+	 * @param string $password
 	 * @return bool|string
 	 */
 	public function decryptPrivateKey($recoveryKey, $password) {
 
 		$header = $this->parseHeader($recoveryKey);
-		$cipher = $this->getCipher($header);
+		$cipher = $this->getCipher();
 
 		// If we found a header we need to remove it from the key we want to decrypt
 		if (!empty($header)) {
 			$recoveryKey = substr($recoveryKey,
 				strpos($recoveryKey,
-					self::HEADEREND) + strlen(self::HEADERSTART));
+					self::HEADER_END) + strlen(self::HEADER_START));
 		}
 
 		$plainKey = $this->symmetricDecryptFileContent($recoveryKey,
@@ -318,17 +317,17 @@ class Crypt {
 	private function parseHeader($data) {
 		$result = [];
 
-		if (substr($data, 0, strlen(self::HEADERSTART)) === self::HEADERSTART) {
-			$endAt = strpos($data, self::HEADEREND);
-			$header = substr($data, 0, $endAt + strlen(self::HEADEREND));
+		if (substr($data, 0, strlen(self::HEADER_START)) === self::HEADER_START) {
+			$endAt = strpos($data, self::HEADER_END);
+			$header = substr($data, 0, $endAt + strlen(self::HEADER_END));
 
 			// +1 not to start with an ':' which would result in empty element at the beginning
 			$exploded = explode(':',
-				substr($header, strlen(self::HEADERSTART) + 1));
+				substr($header, strlen(self::HEADER_START) + 1));
 
 			$element = array_shift($exploded);
 
-			while ($element != self::HEADEREND) {
+			while ($element != self::HEADER_END) {
 				$result[$element] = array_shift($exploded);
 				$element = array_shift($exploded);
 			}

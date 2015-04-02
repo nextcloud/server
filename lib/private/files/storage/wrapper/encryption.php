@@ -394,7 +394,7 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * @param string $encryptionModule
+	 * @param string $encryptionModuleId
 	 * @return \OCP\Encryption\Keys\IStorage
 	 */
 	protected function getKeyStorage($encryptionModuleId) {

@@ -32,38 +32,39 @@ class OC_Hook{
 
 	/**
 	 * connects a function to a hook
-	 * @param string $signalclass class name of emitter
-	 * @param string $signalname name of signal
-	 * @param string $slotclass class name of slot
-	 * @param string $slotname name of slot
+	 *
+	 * @param string $signalClass class name of emitter
+	 * @param string $signalName name of signal
+	 * @param string|object $slotClass class name of slot
+	 * @param string $slotName name of slot
 	 * @return bool
 	 *
 	 * This function makes it very easy to connect to use hooks.
 	 *
 	 * TODO: write example
 	 */
-	static public function connect( $signalclass, $signalname, $slotclass, $slotname ) {
+	static public function connect($signalClass, $signalName, $slotClass, $slotName ) {
 		// If we're trying to connect to an emitting class that isn't
 		// yet registered, register it
-		if( !array_key_exists( $signalclass, self::$registered )) {
-			self::$registered[$signalclass] = array();
+		if( !array_key_exists($signalClass, self::$registered )) {
+			self::$registered[$signalClass] = array();
 		}
 		// If we're trying to connect to an emitting method that isn't
 		// yet registered, register it with the emitting class
-		if( !array_key_exists( $signalname, self::$registered[$signalclass] )) {
-			self::$registered[$signalclass][$signalname] = array();
+		if( !array_key_exists( $signalName, self::$registered[$signalClass] )) {
+			self::$registered[$signalClass][$signalName] = array();
 		}
 
 		// dont connect hooks twice
-		foreach (self::$registered[$signalclass][$signalname] as $hook) {
-			if ($hook['class'] === $slotclass and $hook['name'] === $slotname) {
+		foreach (self::$registered[$signalClass][$signalName] as $hook) {
+			if ($hook['class'] === $slotClass and $hook['name'] === $slotName) {
 				return false;
 			}
 		}
 		// Connect the hook handler to the requested emitter
-		self::$registered[$signalclass][$signalname][] = array(
-				"class" => $slotclass,
-				"name" => $slotname
+		self::$registered[$signalClass][$signalName][] = array(
+				"class" => $slotClass,
+				"name" => $slotName
 		);
 
 		// No chance for failure ;-)
