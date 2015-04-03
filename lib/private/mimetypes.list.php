@@ -53,6 +53,8 @@ return array(
 	'cbz' => array('application/x-cbr', null),
 	'cc' => array('text/x-c', null),
 	'cdr' => array('application/coreldraw', null),
+	'cnf' => array('text/plain', null),
+	'conf' => array('text/plain', null),
 	'cpp' => array('text/x-c++src', null),
 	'cr2' => array('image/x-dcraw', null),
 	'css' => array('text/css', null),
@@ -183,5 +185,7 @@ return array(
 	'xltx' => array('application/vnd.openxmlformats-officedocument.spreadsheetml.template', null),
 	'xml' => array('application/xml', 'text/plain'),
 	'xrf' => array('image/x-dcraw', null),
+	'yaml' => array('application/yaml', 'text/plain'),
+	'yml' => array('application/yaml', 'text/plain'),
 	'zip' => array('application/zip', null),
 );

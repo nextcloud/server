@@ -2,17 +2,17 @@
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author BjÃ¶rn SchieÃŸle <schiessle@owncloud.com>
+ * @author Christopher SchÃ¤pers <kondou@ts.unde.re>
  * @author Fabian Henze <flyser42@gmx.de>
  * @author Felix Moeller <mail@felixmoeller.de>
- * @author François Kubler <francois@kubler.org>
+ * @author FranÃ§ois Kubler <francois@kubler.org>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author JÃ¶rn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -22,8 +22,8 @@
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Simon Könnecke <simonkoennecke@gmail.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Simon KÃ¶nnecke <simonkoennecke@gmail.com>
+ * @author Thomas MÃ¼ller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Valerio Ponte <valerio.ponte@gmail.com>
  * @author Vincent Petry <pvince81@owncloud.com>
@@ -75,6 +75,7 @@ class OC_Helper {
 		'application/x-perl' => 'text/code',
 		'application/x-php' => 'text/code',
 		'text/x-shellscript' => 'text/code',
+		'application/yaml' => 'text/code',
 		'application/xml' => 'text/html',
 		'text/css' => 'text/code',
 		'application/x-tex' => 'text',
