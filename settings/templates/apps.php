@@ -62,11 +62,13 @@ script(
 	<div class="app-level">
 		{{{level}}}
 	</div>
+	{{#if profilepage}}<a href="{{profilepage}}" target="_blank" rel="noreferrer">{{/if}}
 	<div class="app-author"><?php p($l->t('by')); ?> {{author}}
 		{{#if licence}}
 		({{licence}}-<?php p($l->t('licensed')); ?>)
 		{{/if}}
 	</div>
+	{{#if profilepage}}</a>{{/if}}
 	{{#if score}}
 	<div class="app-score">{{{score}}}</div>
 	{{/if}}

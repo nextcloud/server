@@ -517,6 +517,7 @@ class OCSClientTest extends \Test\TestCase {
 				'score' => '60',
 				'downloads' => 5393,
 				'level' => 0,
+				'profilepage' => 'http://opendesktop.org/usermanager/search.php?username=owncloud',
 			],
 			[
 				'id' => '168708',
@@ -535,6 +536,7 @@ class OCSClientTest extends \Test\TestCase {
 				'score' => '58',
 				'downloads' => 4237,
 				'level' => 200,
+				'profilepage' => 'http://opendesktop.org/usermanager/search.php?username=owncloud',
 			],
 		];
 		$this->assertEquals($expected, $this->ocsClient->getApplications([815, 1337], 1, 'approved'));
@@ -760,6 +762,7 @@ class OCSClientTest extends \Test\TestCase {
 			'label' => 'recommended',
 			'typename' => 'ownCloud other',
 			'personid' => 'owncloud',
+			'profilepage' => 'http://opendesktop.org/usermanager/search.php?username=owncloud',
 			'detailpage' => 'https://apps.owncloud.com/content/show.php?content=166053',
 			'preview1' => '',
 			'preview2' => '',

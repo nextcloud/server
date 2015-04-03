@@ -202,6 +202,7 @@ class OCSClient {
 			$app['type'] = (string)$tmp[$i]->typeid;
 			$app['typename'] = (string)$tmp[$i]->typename;
 			$app['personid'] = (string)$tmp[$i]->personid;
+			$app['profilepage'] = (string)$tmp[$i]->profilepage;
 			$app['license'] = (string)$tmp[$i]->license;
 			$app['detailpage'] = (string)$tmp[$i]->detailpage;
 			$app['preview'] = (string)$tmp[$i]->smallpreviewpic1;
@@ -274,6 +275,7 @@ class OCSClient {
 		$app['label'] = (string)$tmp->label;
 		$app['typename'] = (string)$tmp->typename;
 		$app['personid'] = (string)$tmp->personid;
+		$app['profilepage'] = (string)$tmp->profilepage;
 		$app['detailpage'] = (string)$tmp->detailpage;
 		$app['preview1'] = (string)$tmp->smallpreviewpic1;
 		$app['preview2'] = (string)$tmp->smallpreviewpic2;
