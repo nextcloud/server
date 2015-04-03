@@ -98,7 +98,7 @@ class Encryption extends \Test\TestCase {
 		$encryptionModule->expects($this->any())->method('update')->willReturn(true);
 		$encryptionModule->expects($this->any())->method('shouldEncrypt')->willReturn(true);
 		$encryptionModule->expects($this->any())->method('calculateUnencryptedSize')->willReturn(42);
-		$encryptionModule->expects($this->any())->method('getUnencryptedBlockSize')->willReturn(6126);
+		$encryptionModule->expects($this->any())->method('getUnencryptedBlockSize')->willReturn(8192);
 		return $encryptionModule;
 	}
 }
