@@ -43,7 +43,7 @@ $ftype=\OC_Helper::getSecureMimeType(\OC\Files\Filesystem::getMimeType( $filenam
 header('Content-Type:'.$ftype);
 OCP\Response::setContentDispositionHeader(basename($filename), 'attachment');
 OCP\Response::disableCaching();
-header('Content-Length: '.\OC\Files\Filesystem::filesize($filename));
+OCP\Response::setContentLengthHeader(\OC\Files\Filesystem::filesize($filename));
 
 OC_Util::obEnd();
 \OC\Files\Filesystem::readfile( $filename );
