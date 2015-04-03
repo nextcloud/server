@@ -125,7 +125,7 @@ class OC_L10N implements \OCP\IL10N {
 				$preferred_language = str_replace('-', '_', $preferred_language);
 				foreach ($available as $available_language) {
 					if ($preferred_language === strtolower($available_language)) {
-						if (is_null($app)) {
+						if (!is_array($app)) {
 							self::$language = $available_language;
 						}
 						return $available_language;
@@ -133,7 +133,7 @@ class OC_L10N implements \OCP\IL10N {
 				}
 				foreach ($available as $available_language) {
 					if (substr($preferred_language, 0, 2) === $available_language) {
-						if (is_null($app)) {
+						if (!is_array($app)) {
 							self::$language = $available_language;
 						}
 						return $available_language;
@@ -142,6 +142,7 @@ class OC_L10N implements \OCP\IL10N {
 			}
 		}
 
+		self::$language = 'en';
 		// Last try: English
 		return 'en';
 	}
