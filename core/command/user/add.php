@@ -81,7 +81,7 @@ class Add extends Command {
 		$uid = $input->getArgument('uid');
 		if ($this->userManager->userExists($uid)) {
 			$output->writeln('<error>The user "' . $uid . '" already exists.</error>');
-			return;
+			return 1;
 		}
 
 		$password = $input->getOption('password');
@@ -103,6 +103,7 @@ class Add extends Command {
 			$output->writeln('The user "' . $user->getUID() . '" was created successfully');
 		} else {
 			$output->writeln('<error>An error occurred while creating the user</error>');
+			return 1;
 		}
 
 		if ($input->getOption('display-name')) {
