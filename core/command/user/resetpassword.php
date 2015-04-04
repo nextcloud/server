@@ -26,6 +26,7 @@ namespace OC\Core\Command\User;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ResetPassword extends Command {
@@ -47,6 +48,12 @@ class ResetPassword extends Command {
 				InputArgument::REQUIRED,
 				'Username to reset password'
 			)
+			->addOption(
+				'password-from-env',
+				null,
+				InputOption::VALUE_NONE,
+				'read password from environment variable OC_PASS'
+			)
 		;
 	}
 
@@ -60,7 +67,13 @@ class ResetPassword extends Command {
 			return 1;
 		}
 
-		if ($input->isInteractive()) {
+		if ($input->getOption('password-from-env')) {
+			$password = getenv('OC_PASS');
+			if (!$password) {
+				$output->writeln('<error>--password-from-env given, but OC_PASS is empty!</error>');
+				return 1;
+			}
+		} elseif ($input->isInteractive()) {
 			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
 			$dialog = $this->getHelperSet()->get('dialog');
 
@@ -84,20 +97,20 @@ class ResetPassword extends Command {
 				false
 			);
 
-			if ($password === $confirm) {
-				$success = $user->setPassword($password);
-				if ($success) {
-					$output->writeln("<info>Successfully reset password for " . $username . "</info>");
-				} else {
-					$output->writeln("<error>Error while resetting password!</error>");
-					return 1;
-				}
-			} else {
+			if ($password !== $confirm) {
 				$output->writeln("<error>Passwords did not match!</error>");
 				return 1;
 			}
 		} else {
-			$output->writeln("<error>Interactive input is needed for entering a new password!</error>");
+			$output->writeln("<error>Interactive input or --password-from-env is needed for entering a new password!</error>");
+			return 1;
+		}
+
+		$success = $user->setPassword($password);
+		if ($success) {
+			$output->writeln("<info>Successfully reset password for " . $username . "</info>");
+		} else {
+			$output->writeln("<error>Error while resetting password!</error>");
 			return 1;
 		}
 	}
