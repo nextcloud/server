@@ -85,7 +85,7 @@ describe('OCA.External.Settings tests', function() {
 
 		beforeEach(function() {
 			var $el = $('#externalStorage');
-			view = new OCA.External.Settings.MountConfigListView($el);
+			view = new OCA.External.Settings.MountConfigListView($el, {encryptionEnabled: false});
 		});
 		afterEach(function() {
 			view = null;
@@ -205,6 +205,17 @@ describe('OCA.External.Settings tests', function() {
 				expect($td.find('.dropdown').length).toEqual(0);
 			});
 
+			it('doesnt show the encryption option when encryption is disabled', function () {
+				view._encryptionEnabled = false;
+				$td.find('img').click();
+
+				expect($td.find('.dropdown [name=encrypt]:visible').length).toEqual(0);
+
+				$('body').mouseup();
+
+				expect($td.find('.dropdown').length).toEqual(0);
+			});
+
 			it('reads config from mountOptions field', function() {
 				$tr.find('input.mountOptions').val(JSON.stringify({previews:false}));
 
@@ -226,6 +237,7 @@ describe('OCA.External.Settings tests', function() {
 				$('body').mouseup();
 
 				expect(JSON.parse($tr.find('input.mountOptions').val())).toEqual({
+					encrypt: true,
 					previews: true,
 					filesystem_check_changes: 2
 				});
