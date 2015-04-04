@@ -8,6 +8,7 @@ OC.L10N.register(
     "Checked database schema update" : "Izbrana posodobitev sheme podatkovne zbirke",
     "Checked database schema update for apps" : "Izbrana posodobitev sheme podatkovne zbirke za programe",
     "Updated \"%s\" to %s" : "Datoteka \"%s\" je posodobljena na %s",
+    "Following incompatible apps have been disabled: %s" : "Navedeni neskladni programi so onemogočeni: %s",
     "No image or file provided" : "Ni podane datoteke ali slike",
     "Unknown filetype" : "Neznana vrsta datoteke",
     "Invalid image" : "Neveljavna slika",

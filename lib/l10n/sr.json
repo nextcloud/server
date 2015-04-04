@@ -1,10 +1,10 @@
 { "translations": {
-    "Cannot write into \"config\" directory!" : "Немогу да уписујем у \"конфигурациони\" директоријум!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Ово се обично може поправити давањем права веб серверу да уписује у конфигурациони директоријум",
+    "Cannot write into \"config\" directory!" : "Не могу да уписујем у \"config\" директоријум!",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Ово се обично може средити давањем права веб серверу да пише у директоријум са подешавањима",
     "See %s" : "Погледајте %s",
-    "This can usually be fixed by %sgiving the webserver write access to the config directory%s." : "Ово се обично може поправити %sдавањем права веб серверу да уписује у конфигурациони директоријум%s.",
-    "Sample configuration detected" : "Детектована пробна конфигурација",
-    "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Откривено је да је пробна конфигурација копирана. Ово може прекинути инсталацију и није подржано. Прочитајте документацију пре вршења промена на датотеци config.php",
+    "This can usually be fixed by %sgiving the webserver write access to the config directory%s." : "Ово се обично може средити %sдавањем права веб серверу да пише у директоријум са подешавањима%s.",
+    "Sample configuration detected" : "Откривен је узорак подешавања",
+    "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Откривено је да је узорак подешавања ископиран. Ово може покварити инсталацију и није подржано. Прочитајте документацију пре вршења промена у фајлу config.php",
     "PHP %s or higher is required." : "Потребан је ПХП %s или новији.",
     "PHP with a version lower than %s is required." : "Потребан је ПХП старији од %s.",
     "Following databases are supported: %s" : "Следеће базе података су подржане: %s",
@@ -65,12 +65,14 @@
     "You need to enter either an existing account or the administrator." : "Потребно је да унесете или постојећи налог или администраторски.",
     "MySQL/MariaDB username and/or password not valid" : "MySQL/MariaDB корисничко име и/или лозинка нису важећи",
     "DB Error: \"%s\"" : "Грешка базе података: \"%s\"",
+    "Offending command was: \"%s\"" : "Неисправна команда је: „%s“",
     "MySQL/MariaDB user '%s'@'localhost' exists already." : "MySQL/MariaDB корисник '%s'@'localhost' већ постоји.",
     "Drop this user from MySQL/MariaDB" : "Обришите овог корисника из MySQL/MariaDB",
     "MySQL/MariaDB user '%s'@'%%' already exists" : "MySQL/MariaDB корисник '%s'@'%%' већ постоји",
     "Drop this user from MySQL/MariaDB." : "Обришите овог корисника из MySQL/MariaDB.",
     "Oracle connection could not be established" : "Веза са базом података Oracle не може бити успостављена",
     "Oracle username and/or password not valid" : "Oracle корисничко име и/или лозинка нису важећи",
+    "Offending command was: \"%s\", name: %s, password: %s" : "Неисправна команда је: „%s“, назив: %s, лозинка: %s",
     "PostgreSQL username and/or password not valid" : "PostgreSQL корисничко име и/или лозинка нису важећи",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Мек ОС Икс није подржан и %s неће радити исправно на овој платформи. Користите га на сопствени ризик!",
     "For the best results, please consider using a GNU/Linux server instead." : "За најбоље резултате, размотрите употребу ГНУ/Линукс сервера.",
@@ -125,6 +127,7 @@
     "PHP setting \"%s\" is not set to \"%s\"." : "ПХП поставка „%s“ није постављена на „%s“.",
     "Adjusting this setting in php.ini will make ownCloud run again" : "Подешавање ове поставке у php.ini датотеци ће омогућитит програму ownCloud да се поново покрене",
     "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Замолите вашег администратора сервера да ажурира PHP на најновију верзију. PHP верзија вашег система више није подржана од страна програма ownCloud и PHP заједнице.",
+    "PHP is configured to populate raw post data. Since PHP 5.6 this will lead to PHP throwing notices for perfectly valid code." : "ПХП је подешен да попуњава сирове податке. Од верзије 5.6 то може довести да ПХП шаље упозорења и за потпуно исправан код.",
     "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "Да би решили овај проблем подесите <code>always_populate_raw_post_data</code> на <code>-1</code> у датотеци php.ini",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "ПХП је очигледно подешен да се скида уметнуте док блокова. То ће учинити неколико кључних апликација недоступним.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Ово је вероватно изазвано кешом или акцелератором као што су ЗендОПкеш или еАкцелератор.",
@@ -139,6 +142,7 @@
     "Data directory (%s) must be an absolute path" : "Директоријум података (%s) мора бити апсолутна путања",
     "Check the value of \"datadirectory\" in your configuration" : "Проверите податак за \"datadirectory\" у вашој конфигурацији",
     "Data directory (%s) is invalid" : "Директоријум података (%s) није валидан",
-    "Please check that the data directory contains a file \".ocdata\" in its root." : "Проверите да ли директоријум података садржи датотеку \".ocdata\" у свом основном директоријуму."
+    "Please check that the data directory contains a file \".ocdata\" in its root." : "Проверите да ли директоријум података садржи датотеку \".ocdata\" у свом основном директоријуму.",
+    "Could not obtain lock type %d on \"%s\"." : "Не могу да остварим закључаност %d за „%s“."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }
