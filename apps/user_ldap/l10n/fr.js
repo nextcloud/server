@@ -58,7 +58,7 @@ OC.L10N.register(
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Définit le filtre à appliquer lors d'une tentative de connexion. %%uid remplace le nom d'utilisateur. Exemple : \"uid=%%uid\"",
     "1. Server" : "1. Serveur",
     "%s. Server:" : "%s. Serveur :",
-    "Add Server Configuration" : "Ajouter une configuration du serveur",
+    "Add Server Configuration" : "Ajouter une configuration de serveur",
     "Delete Configuration" : "Suppression de la configuration",
     "Host" : "Hôte",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Vous pouvez omettre le protocole, sauf si vous avez besoin de SSL. Dans ce cas préfixez avec ldaps://",

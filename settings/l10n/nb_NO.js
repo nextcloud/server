@@ -163,7 +163,7 @@ OC.L10N.register(
     "More" : "Mer",
     "Less" : "Mindre",
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Loggfilen er over 100 MB, nedlastingen kan ta en stund!",
-    "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite er brukt som database. For større installasjoner anbefaler vi å bytte til en annen database-server.",
+    "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite brukes som database. For større installasjoner anbefaler vi å bytte til en annen database-server.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "SQLite er spesielt frarådet om man bruker desktopklienten til filsynkronisering",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" href=\"%s\">documentation ↗</a>." : "For å migrere til en annen database, bruk kommandolinjeverktøyet: 'occ db:convert-type', eller les i <a target=\"_blank\" href=\"%s\">dokumentasjonen ↗</a>.",
     "How to do backups" : "Hvordan ta sikkerhetskopier",
