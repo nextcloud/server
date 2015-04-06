@@ -31,6 +31,10 @@ class RecoveryTest extends TestCase {
 	/**
 	 * @var \PHPUnit_Framework_MockObject_MockObject
 	 */
+	private $fileMock;
+	/**
+	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 */
 	private $viewMock;
 	/**
 	 * @var \PHPUnit_Framework_MockObject_MockObject
@@ -143,6 +147,43 @@ class RecoveryTest extends TestCase {
 			'admin'));
 	}
 
+	public function testRecoverFile() {
+		$this->keyManagerMock->expects($this->once())
+			->method('getEncryptedFileKey')
+			->willReturn(true);
+
+		$this->keyManagerMock->expects($this->once())
+			->method('getShareKey')
+			->willReturn(true);
+
+		$this->cryptMock->expects($this->once())
+			->method('multiKeyDecrypt')
+			->willReturn(true);
+
+		$this->fileMock->expects($this->once())
+			->method('getAccessList')
+			->willReturn(['users' => ['admin']]);
+
+		$this->keyManagerMock->expects($this->once())
+			->method('getPublicKey')
+			->willReturn('publicKey');
+
+		$this->keyManagerMock->expects($this->once())
+			->method('addSystemKeys')
+			->willReturn(['admin' => 'publicKey']);
+
+
+		$this->cryptMock->expects($this->once())
+			->method('multiKeyEncrypt');
+
+		$this->keyManagerMock->expects($this->once())
+			->method('setAllFileKeys');
+
+		$this->assertNull(\Test_Helper::invokePrivate($this->instance,
+			'recoverFile',
+			['/', 'testkey']));
+	}
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -170,7 +211,7 @@ class RecoveryTest extends TestCase {
 		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')->disableOriginalConstructor()->getMock();
 		$this->configMock = $this->getMock('OCP\IConfig');
 		$keyStorageMock = $this->getMock('OCP\Encryption\Keys\IStorage');
-		$fileMock = $this->getMock('OCP\Encryption\IFile');
+		$this->fileMock = $this->getMock('OCP\Encryption\IFile');
 		$this->viewMock = $this->getMock('OC\Files\View');
 
 		$this->configMock->expects($this->any())
@@ -187,7 +228,7 @@ class RecoveryTest extends TestCase {
 			$this->keyManagerMock,
 			$this->configMock,
 			$keyStorageMock,
-			$fileMock,
+			$this->fileMock,
 			$this->viewMock);
 	}
 
