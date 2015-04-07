@@ -614,7 +614,8 @@ class View {
 			}
 			if ($run) {
 				$this->verifyPath(dirname($path2), basename($path2));
-				
+
+				$manager = Filesystem::getMountManager();
 				$mount1 = $this->getMount($path1);
 				$mount2 = $this->getMount($path2);
 				$storage1 = $mount1->getStorage();
@@ -642,7 +643,6 @@ class View {
 				} else {
 					$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
 				}
-				\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
 				if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
 					$this->updater->update($path2);
