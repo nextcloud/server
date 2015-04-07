@@ -1,7 +1,7 @@
 <?php
 /**
- * @author Clark Tomlinson  <clark@owncloud.com>
- * @since 4/6/15, 11:50 AM
+ * @author Clark Tomlinson <fallen013@gmail.com>
+ *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
  *
