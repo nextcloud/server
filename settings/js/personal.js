@@ -335,10 +335,6 @@ $(document).ready(function () {
 			cert: row.data('name')
 		});
 		row.remove();
-
-		if ($('#sslCertificate > tbody > tr').length === 0) {
-			$('#sslCertificate').hide();
-		}
 		return true;
 	});
 
@@ -366,17 +362,12 @@ $(document).ready(function () {
 			));
 
 			$('#sslCertificate tbody').append(row);
-			$('#sslCertificate').show();
 		}
 	});
 
 	$('#rootcert_import_button').click(function () {
 		$('#rootcert_import').click();
 	});
-
-	if ($('#sslCertificate > tbody > tr').length === 0) {
-		$('#sslCertificate').hide();
-	}
 });
 
 OC.Encryption = {
