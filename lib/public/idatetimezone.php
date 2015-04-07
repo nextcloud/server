@@ -25,7 +25,8 @@ namespace OCP;
 
 interface IDateTimeZone {
 	/**
+	 * @param bool|int $timestamp
 	 * @return \DateTimeZone
 	 */
-	public function getTimeZone();
+	public function getTimeZone($timestamp = false);
 }

@@ -48,13 +48,14 @@ class DateTimeZone implements IDateTimeZone {
 	/**
 	 * Get the timezone of the current user, based on his session information and config data
 	 *
+	 * @param bool|int $timestamp
 	 * @return \DateTimeZone
 	 */
-	public function getTimeZone() {
+	public function getTimeZone($timestamp = false) {
 		$timeZone = $this->config->getUserValue($this->session->get('user_id'), 'core', 'timezone', null);
 		if ($timeZone === null) {
 			if ($this->session->exists('timezone')) {
-				return $this->guessTimeZoneFromOffset($this->session->get('timezone'));
+				return $this->guessTimeZoneFromOffset($this->session->get('timezone'), $timestamp);
 			}
 			$timeZone = $this->getDefaultTimeZone();
 		}
@@ -74,9 +75,10 @@ class DateTimeZone implements IDateTimeZone {
 	 * we try to find it manually, before falling back to UTC.
 	 *
 	 * @param mixed $offset
+	 * @param bool|int $timestamp
 	 * @return \DateTimeZone
 	 */
-	protected function guessTimeZoneFromOffset($offset) {
+	protected function guessTimeZoneFromOffset($offset, $timestamp) {
 		try {
 			// Note: the timeZone name is the inverse to the offset,
 			// so a positive offset means negative timeZone
@@ -93,7 +95,13 @@ class DateTimeZone implements IDateTimeZone {
 			// we try to guess one timezone that has the same offset
 			foreach (\DateTimeZone::listIdentifiers() as $timeZone) {
 				$dtz = new \DateTimeZone($timeZone);
-				$dtOffset = $dtz->getOffset(new \DateTime());
+				$dateTime = new \DateTime();
+
+				if ($timestamp !== false) {
+					$dateTime->setTimestamp($timestamp);
+				}
+
+				$dtOffset = $dtz->getOffset($dateTime);
 				if ($dtOffset == 3600 * $offset) {
 					return $dtz;
 				}
