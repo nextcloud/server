@@ -51,10 +51,16 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$this->sourceStorage = new Temporary(array());
 		$keyStore = $this->getMockBuilder('\OC\Encryption\Keys\Storage')
 			->disableOriginalConstructor()->getMock();
+		$mount = $this->getMockBuilder('\OC\Files\Mount\MountPoint')
+			->disableOriginalConstructor()
+			->setMethods(['getOption'])
+			->getMock();
+		$mount->expects($this->any())->method('getOption')->willReturn(true);
 		$this->instance = new EncryptionWrapper([
 			'storage' => $this->sourceStorage,
 			'root' => 'foo',
-			'mountPoint' => '/'
+			'mountPoint' => '/',
+			'mount' => $mount
 		],
 			$encryptionManager, $util, $logger, $file, null, $keyStore
 		);
