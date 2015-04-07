@@ -21,6 +21,20 @@
  */
 
 class Test_StreamWrappers extends \Test\TestCase {
+
+	private static $trashBinStatus;
+
+	public static function setUpBeforeClass() {
+		self::$trashBinStatus = \OC_App::isEnabled('files_trashbin');
+		\OC_App::disable('files_trashbin');
+	}
+
+	public static function tearDownAfterClass() {
+		if (self::$trashBinStatus) {
+			\OC_App::enable('files_trashbin');
+		}
+	}
+
 	public function testFakeDir() {
 		$items = array('foo', 'bar');
 		\OC\Files\Stream\Dir::register('test', $items);
