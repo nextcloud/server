@@ -61,7 +61,7 @@
 					}
 					if(!data.isMemcacheConfigured) {
 						messages.push(
-							t('core', 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="https://doc.owncloud.org/server/8.0/admin_manual/configuration_server/performance_tuning.html">documentation</a>.')
+							t('core', 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="{docLink}">documentation</a>.', {docLink: data.memcacheDocs})
 						);
 					}
 				} else {

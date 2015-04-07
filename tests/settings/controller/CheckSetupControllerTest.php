@@ -22,11 +22,12 @@
 namespace OC\Settings\Controller;
 
 use OCP\AppFramework\Http\DataResponse;
-use Test\TestCase;
-use OCP\IRequest;
-use OCP\IConfig;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
+use OCP\IRequest;
+use OCP\IURLGenerator;
 use OC_Util;
+use Test\TestCase;
 
 /**
  * Class CheckSetupControllerTest
@@ -42,6 +43,8 @@ class CheckSetupControllerTest extends TestCase {
 	private $config;
 	/** @var IClientService */
 	private $clientService;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 	/** @var OC_Util */
 	private $util;
 
@@ -58,12 +61,15 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->util = $this->getMockBuilder('\OC_Util')
 			->disableOriginalConstructor()->getMock();
+		$this->urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()->getMock();
 
 		$this->checkSetupController = new CheckSetupController(
 			'settings',
 			$this->request,
 			$this->config,
 			$this->clientService,
+			$this->urlGenerator,
 			$this->util
 		);
 	}
@@ -218,12 +224,17 @@ class CheckSetupControllerTest extends TestCase {
 		$this->util->expects($this->once())
 			->method('isHtaccessWorking')
 			->will($this->returnValue(true));
+		$this->urlGenerator->expects($this->once())
+			->method('linkToDocs')
+			->with('admin-performance')
+			->willReturn('http://doc.owncloud.org/server/go.php?to=admin-performance');
 
 		$expected = new DataResponse(
 			[
 				'serverHasInternetConnection' => false,
 				'dataDirectoryProtected' => true,
 				'isMemcacheConfigured' => true,
+				'memcacheDocs' => 'http://doc.owncloud.org/server/go.php?to=admin-performance',
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());

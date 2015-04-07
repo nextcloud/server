@@ -27,6 +27,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IRequest;
 use OC_Util;
+use OCP\IURLGenerator;
 
 /**
  * @package OC\Settings\Controller
@@ -38,23 +39,28 @@ class CheckSetupController extends Controller {
 	private $clientService;
 	/** @var \OC_Util */
 	private $util;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	/**
 	 * @param string $AppName
 	 * @param IRequest $request
 	 * @param IConfig $config
 	 * @param IClientService $clientService
+	 * @param IURLGenerator $urlGenerator
 	 * @param \OC_Util $util
 	 */
 	public function __construct($AppName,
 								IRequest $request,
 								IConfig $config,
 								IClientService $clientService,
+								IURLGenerator $urlGenerator,
 								\OC_Util $util) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
 		$this->util = $util;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -93,6 +99,7 @@ class CheckSetupController extends Controller {
 				'serverHasInternetConnection' => $this->isInternetConnectionWorking(),
 				'dataDirectoryProtected' => $this->util->isHtaccessWorking($this->config),
 				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
+				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
 			]
 		);
 	}
