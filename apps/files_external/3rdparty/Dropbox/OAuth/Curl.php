@@ -72,8 +72,14 @@ class Dropbox_OAuth_Curl extends Dropbox_OAuth {
 		if (strtoupper($method) == 'POST') {
 			curl_setopt($ch, CURLOPT_URL, $uri);
 			curl_setopt($ch, CURLOPT_POST, true);
-// 			if (is_array($arguments))
-// 				$arguments=http_build_query($arguments);
+
+ 			//if (is_array($arguments))
+ 			//	$arguments=http_build_query($arguments);
+ 			foreach ($arguments as $key => $value) {
+ 				if($value[0] === '@') {
+					exit();
+				}
+			}
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $arguments);
 // 			$httpHeaders['Content-Length']=strlen($arguments);
 		} else {
