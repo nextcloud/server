@@ -81,6 +81,29 @@ class OCSClient {
 	}
 
 	/**
+	 * @param string $body
+	 * @param string $action
+	 * @return null|\SimpleXMLElement
+	 */
+	private function loadData($body, $action) {
+		$loadEntities = libxml_disable_entity_loader(true);
+		$data = @simplexml_load_string($body);
+		libxml_disable_entity_loader($loadEntities);
+
+		if($data === false) {
+			$this->logger->error(
+				sprintf('Could not get %s, content was no valid XML', $action),
+				[
+					'app' => 'core',
+				]
+			);
+			return null;
+		}
+
+		return $data;
+	}
+
+	/**
 	 * Get all the categories from the OCS server
 	 *
 	 * @return array|null an array of category ids or null
@@ -110,17 +133,8 @@ class OCSClient {
 			return null;
 		}
 
-		$loadEntities = libxml_disable_entity_loader(true);
-		$data = @simplexml_load_string($response->getBody());
-		libxml_disable_entity_loader($loadEntities);
-
-		if($data === false) {
-			$this->logger->error(
-				'Could not get categories, content was no valid XML',
-				[
-					'app' => 'core',
-				]
-			);
+		$data = $this->loadData($response->getBody(), 'categories');
+		if($data === null) {
 			return null;
 		}
 
@@ -175,17 +189,8 @@ class OCSClient {
 			return [];
 		}
 
-		$loadEntities = libxml_disable_entity_loader(true);
-		$data = @simplexml_load_string($response->getBody());
-		libxml_disable_entity_loader($loadEntities);
-
-		if($data === false) {
-			$this->logger->error(
-				'Could not get applications, content was no valid XML',
-				[
-					'app' => 'core',
-				]
-			);
+		$data = $this->loadData($response->getBody(), 'applications');
+		if($data === null) {
 			return [];
 		}
 
@@ -251,17 +256,8 @@ class OCSClient {
 			return null;
 		}
 
-		$loadEntities = libxml_disable_entity_loader(true);
-		$data = @simplexml_load_string($response->getBody());
-		libxml_disable_entity_loader($loadEntities);
-
-		if($data === false) {
-			$this->logger->error(
-				'Could not get application, content was no valid XML',
-				[
-					'app' => 'core',
-				]
-			);
+		$data = $this->loadData($response->getBody(), 'application');
+		if($data === null) {
 			return null;
 		}
 
@@ -316,17 +312,8 @@ class OCSClient {
 			return null;
 		}
 
-		$loadEntities = libxml_disable_entity_loader(true);
-		$data = @simplexml_load_string($response->getBody());
-		libxml_disable_entity_loader($loadEntities);
-
-		if($data === false) {
-			$this->logger->error(
-				'Could not get application download URL, content was no valid XML',
-				[
-					'app' => 'core',
-				]
-			);
+		$data = $this->loadData($response->getBody(), 'application download URL');
+		if($data === null) {
 			return null;
 		}
 
