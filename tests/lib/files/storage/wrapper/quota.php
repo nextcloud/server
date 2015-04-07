@@ -87,7 +87,7 @@ class Quota extends \Test\Files\Storage\Storage {
 		$instance->getCache()->put(
 			'', array('size' => 7)
 		);
-		$this->assertEquals(6, $instance->free_space(''));
+		$this->assertEquals(2, $instance->free_space(''));
 	}
 
 	public function testFWriteNotEnoughSpace() {

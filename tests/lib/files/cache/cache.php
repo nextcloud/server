@@ -205,7 +205,7 @@ class Cache extends \Test\TestCase {
 		$fileData['unkownSize'] = array('size' => 5, 'mtime' => 25, 'mimetype' => 'foo/file');
 		$this->cache->put($file4, $fileData['unkownSize']);
 
-		$this->assertEquals(916, $this->cache->calculateFolderSize($file1));
+		$this->assertEquals(1025, $this->cache->calculateFolderSize($file1));
 		// direct cache entry retrieval returns the original values
 		$entry = $this->cache->get($file1);
 		$this->assertEquals(1025, $entry['size']);
