@@ -102,6 +102,7 @@ OC.L10N.register(
     "Folder" : "Klasör",
     "Upload" : "Yükle",
     "Cancel upload" : "Yüklemeyi iptal et",
+    "No files in here" : "Burada hiç dosya yok",
     "Upload some content or sync with your devices!" : "Bir şeyler yükleyin veya aygıtlarınızla eşitleyin!",
     "No entries found in this folder" : "Bu klasörde hiçbir girdi bulunamadı",
     "Select all" : "Tümünü seç",
