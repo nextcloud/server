@@ -25,6 +25,7 @@ namespace OC\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Files\Storage\LocalTempFileTrait;
+use OCP\Files\Mount\IMountPoint;
 
 class Encryption extends Wrapper {
 
@@ -51,6 +52,9 @@ class Encryption extends Wrapper {
 	/** @var \OC\Encryption\File */
 	private $fileHelper;
 
+	/** @var IMountPoint */
+	private $mount;
+
 	/**
 	 * @param array $parameters
 	 * @param \OC\Encryption\Manager $encryptionManager
@@ -69,6 +73,7 @@ class Encryption extends Wrapper {
 		) {
 
 		$this->mountPoint = $parameters['mountPoint'];
+		$this->mount = $parameters['mount'];
 		$this->encryptionManager = $encryptionManager;
 		$this->util = $util;
 		$this->logger = $logger;
@@ -272,7 +277,7 @@ class Encryption extends Wrapper {
 
 		// encryption disabled on write of new file and write to existing unencrypted file -> don't encrypt
 		$encEnabled = $this->encryptionManager->isEnabled();
-		if (!$encEnabled ) {
+		if (!$encEnabled || !$this->mount->getOption('encrypt', true)) {
 			if (!$targetExists || !$targetIsEncrypted) {
 				$shouldEncrypt = false;
 			}
