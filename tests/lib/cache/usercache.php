@@ -34,14 +34,7 @@ class UserCache extends \Test_Cache {
 		parent::setUp();
 
 		//clear all proxies and hooks so we can do clean testing
-		\OC_FileProxy::clearProxies();
 		\OC_Hook::clear('OC_Filesystem');
-
-		//disabled atm
-		//enable only the encryption hook if needed
-		//if(OC_App::isEnabled('files_encryption')) {
-		//	OC_FileProxy::register(new OC_FileProxy_Encryption());
-		//}
 
 		//set up temporary storage
 		$this->storage = \OC\Files\Filesystem::getStorage('/');

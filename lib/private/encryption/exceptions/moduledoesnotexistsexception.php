@@ -23,6 +23,8 @@
 
 namespace OC\Encryption\Exceptions;
 
-class ModuleDoesNotExistsException extends \Exception {
+use OCP\Encryption\Exceptions\GenericEncryptionException;
+
+class ModuleDoesNotExistsException extends GenericEncryptionException {
 
 }

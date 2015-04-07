@@ -23,7 +23,9 @@
 
 namespace OC\Encryption;
 
+use OC\Files\Storage\Wrapper\Encryption;
 use OCP\Encryption\IEncryptionModule;
+use OCP\Files\Mount\IMountPoint;
 
 class Manager implements \OCP\Encryption\IManager {
 
@@ -66,10 +68,9 @@ class Manager implements \OCP\Encryption\IManager {
 	public function registerEncryptionModule(IEncryptionModule $module) {
 		$id = $module->getId();
 		$name = $module->getDisplayName();
-		if (isset($this->encryptionModules[$id])) {
-			$message = 'Id "' . $id . '" already used by encryption module "' . $name . '"';
-			throw new Exceptions\ModuleAlreadyExistsException($message);
 
+		if (isset($this->encryptionModules[$id])) {
+			throw new Exceptions\ModuleAlreadyExistsException($id, $name);
 		}
 
 		$defaultEncryptionModuleId = $this->getDefaultEncryptionModuleId();
@@ -106,12 +107,24 @@ class Manager implements \OCP\Encryption\IManager {
 	 * @return IEncryptionModule
 	 * @throws Exceptions\ModuleDoesNotExistsException
 	 */
-	public function getEncryptionModule($moduleId) {
-		if (isset($this->encryptionModules[$moduleId])) {
-			return $this->encryptionModules[$moduleId];
-		} else {
-			$message = "Module with id: $moduleId does not exists.";
-			throw new Exceptions\ModuleDoesNotExistsException($message);
+	public function getEncryptionModule($moduleId = '') {
+		if (!empty($moduleId)) {
+			if (isset($this->encryptionModules[$moduleId])) {
+				return $this->encryptionModules[$moduleId];
+			} else {
+				$message = "Module with id: $moduleId does not exists.";
+				throw new Exceptions\ModuleDoesNotExistsException($message);
+			}
+		} else { // get default module and return this
+				 // For now we simply return the first module until we have a way
+	             // to enable multiple modules and define a default module
+			$module = reset($this->encryptionModules);
+			if ($module) {
+				return $module;
+			} else {
+				$message = 'No encryption module registered';
+				throw new Exceptions\ModuleDoesNotExistsException($message);
+			}
 		}
 	}
 
@@ -166,5 +179,25 @@ class Manager implements \OCP\Encryption\IManager {
 		}
 	}
 
+	public static function setupStorage() {
+		\OC\Files\Filesystem::addStorageWrapper('oc_encryption', function ($mountPoint, $storage, IMountPoint $mount) {
+			$parameters = [
+				'storage' => $storage,
+				'mountPoint' => $mountPoint,
+				'mount' => $mount];
 
+			if (!($storage instanceof \OC\Files\Storage\Shared)) {
+				$manager = \OC::$server->getEncryptionManager();
+				$util = new \OC\Encryption\Util(
+					new \OC\Files\View(), \OC::$server->getUserManager(), \OC::$server->getConfig());
+				$user = \OC::$server->getUserSession()->getUser();
+				$logger = \OC::$server->getLogger();
+				$uid = $user ? $user->getUID() : null;
+				$fileHelper = \OC::$server->getEncryptionFilesHelper();
+				return new Encryption($parameters, $manager, $util, $logger, $fileHelper, $uid);
+			} else {
+				return $storage;
+			}
+		}, 2);
+	}
 }

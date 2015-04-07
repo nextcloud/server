@@ -128,12 +128,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 
 				$storage = \OC\Files\Filesystem::getStorage('/');
 				$cache = $storage->getCache();
-				if ($item['encrypted'] or ($item['unencrypted_size'] > 0 and $cache->getMimetype($item['mimetype']) === 'httpd/unix-directory')) {
-					$file['size'] = $item['unencrypted_size'];
-					$file['encrypted_size'] = $item['size'];
-				} else {
-					$file['size'] = $item['size'];
-				}
+				$file['size'] = $item['size'];
 				$files[] = $file;
 			}
 			return $files;

@@ -812,51 +812,6 @@ class OC_Util {
 		return $errors;
 	}
 
-
-	/**
-	 * check if there are still some encrypted files stored
-	 *
-	 * @return boolean
-	 */
-	public static function encryptedFiles() {
-		//check if encryption was enabled in the past
-		$encryptedFiles = false;
-		if (OC_App::isEnabled('files_encryption') === false) {
-			$view = new OC\Files\View('/' . OCP\User::getUser());
-			$keysPath = '/files_encryption/keys';
-			if ($view->is_dir($keysPath)) {
-				$dircontent = $view->getDirectoryContent($keysPath);
-				if (!empty($dircontent)) {
-					$encryptedFiles = true;
-				}
-			}
-		}
-
-		return $encryptedFiles;
-	}
-
-	/**
-	 * check if a backup from the encryption keys exists
-	 *
-	 * @return boolean
-	 */
-	public static function backupKeysExists() {
-		//check if encryption was enabled in the past
-		$backupExists = false;
-		if (OC_App::isEnabled('files_encryption') === false) {
-			$view = new OC\Files\View('/' . OCP\User::getUser());
-			$backupPath = '/files_encryption/backup.decryptAll';
-			if ($view->is_dir($backupPath)) {
-				$dircontent = $view->getDirectoryContent($backupPath);
-				if (!empty($dircontent)) {
-					$backupExists = true;
-				}
-			}
-		}
-
-		return $backupExists;
-	}
-
 	/**
 	 * Check for correct file permissions of data directory
 	 *

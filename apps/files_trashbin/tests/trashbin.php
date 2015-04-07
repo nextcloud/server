@@ -26,7 +26,7 @@
 use OCA\Files_Trashbin;
 
 /**
- * Class Test_Encryption_Crypt
+ * Class Test_Encryption
  */
 class Test_Trashbin extends \Test\TestCase {
 
@@ -36,7 +36,6 @@ class Test_Trashbin extends \Test\TestCase {
 	private $trashRoot1;
 	private $trashRoot2;
 
-	private static $encryptionStatus;
 	private static $rememberRetentionObligation;
 	private static $rememberAutoExpire;
 
@@ -58,7 +57,6 @@ class Test_Trashbin extends \Test\TestCase {
 		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
 
 		//disable encryption
-		self::$encryptionStatus = \OC_App::isEnabled('files_encryption');
 		\OC_App::disable('files_encryption');
 
 		//configure trashbin
@@ -81,10 +79,6 @@ class Test_Trashbin extends \Test\TestCase {
 	public static function tearDownAfterClass() {
 		// cleanup test user
 		\OC_User::deleteUser(self::TEST_TRASHBIN_USER1);
-
-		if (self::$encryptionStatus === true) {
-			\OC_App::enable('files_encryption');
-		}
 
 		\OC_Config::setValue('trashbin_retention_obligation', self::$rememberRetentionObligation);
 		\OC_Config::setValue('trashbin_auto_expire', self::$rememberAutoExpire);
@@ -311,6 +305,12 @@ class Test_Trashbin extends \Test\TestCase {
 
 			}
 		}
+
+		$storage = new \ReflectionClass('\OC\Files\Storage\Shared');
+		$isInitialized = $storage->getProperty('isInitialized');
+		$isInitialized->setAccessible(true);
+		$isInitialized->setValue(array());
+		$isInitialized->setAccessible(false);
 
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');

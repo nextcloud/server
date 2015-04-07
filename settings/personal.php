@@ -59,11 +59,6 @@ $email=$config->getUserValue(OC_User::getUser(), 'settings', 'email', '');
 $userLang=$config->getUserValue( OC_User::getUser(), 'core', 'lang', OC_L10N::findLanguage() );
 $languageCodes=OC_L10N::findAvailableLanguages();
 
-//check if encryption was enabled in the past
-$filesStillEncrypted = OC_Util::encryptedFiles();
-$backupKeysExists = OC_Util::backupKeysExists();
-$enableDecryptAll = $filesStillEncrypted || $backupKeysExists;
-
 // array of common languages
 $commonlangcodes = array(
 	'en', 'es', 'fr', 'de', 'de_DE', 'ja', 'ar', 'ru', 'nl', 'it', 'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
@@ -120,9 +115,6 @@ $tmpl->assign('activelanguage', $userLang);
 $tmpl->assign('passwordChangeSupported', OC_User::canUserChangePassword(OC_User::getUser()));
 $tmpl->assign('displayNameChangeSupported', OC_User::canUserChangeDisplayName(OC_User::getUser()));
 $tmpl->assign('displayName', OC_User::getDisplayName());
-$tmpl->assign('enableDecryptAll' , $enableDecryptAll);
-$tmpl->assign('backupKeysExists' , $backupKeysExists);
-$tmpl->assign('filesStillEncrypted' , $filesStillEncrypted);
 $tmpl->assign('enableAvatars', $config->getSystemValue('enable_avatars', true));
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 $tmpl->assign('certs', $certificateManager->listCertificates());
@@ -163,9 +155,6 @@ $formsAndMore = array_merge($formsAndMore, $formsMap);
 
 // add bottom hardcoded forms from the template
 $formsAndMore[]= array( 'anchor' => 'ssl-root-certificates', 'section-name' => $l->t('SSL root certificates') );
-if($enableDecryptAll) {
-	$formsAndMore[]= array( 'anchor' => 'encryption', 'section-name' => $l->t('Encryption') );
-}
 
 $tmpl->assign('forms', $formsAndMore);
 $tmpl->printPage();

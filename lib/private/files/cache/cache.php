@@ -152,7 +152,7 @@ class Cache {
 			$params = array($file);
 		}
 		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
-					   `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`, `permissions`
+					   `storage_mtime`, `encrypted`, `etag`, `permissions`
 				FROM `*PREFIX*filecache` ' . $where;
 		$result = \OC_DB::executeAudited($sql, $params);
 		$data = $result->fetchRow();
@@ -175,7 +175,6 @@ class Cache {
 			$data['mtime'] = (int)$data['mtime'];
 			$data['storage_mtime'] = (int)$data['storage_mtime'];
 			$data['encrypted'] = (bool)$data['encrypted'];
-			$data['unencrypted_size'] = 0 + $data['unencrypted_size'];
 			$data['storage'] = $this->storageId;
 			$data['mimetype'] = $this->getMimetype($data['mimetype']);
 			$data['mimepart'] = $this->getMimetype($data['mimepart']);
@@ -208,7 +207,7 @@ class Cache {
 	public function getFolderContentsById($fileId) {
 		if ($fileId > -1) {
 			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
-						   `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`, `permissions`
+						   `storage_mtime`, `encrypted`, `etag`, `permissions`
 					FROM `*PREFIX*filecache` WHERE `parent` = ? ORDER BY `name` ASC';
 			$result = \OC_DB::executeAudited($sql, array($fileId));
 			$files = $result->fetchAll();
@@ -217,10 +216,6 @@ class Cache {
 				$file['mimepart'] = $this->getMimetype($file['mimepart']);
 				if ($file['storage_mtime'] == 0) {
 					$file['storage_mtime'] = $file['mtime'];
-				}
-				if ($file['encrypted'] or ($file['unencrypted_size'] > 0 and $file['mimetype'] === 'httpd/unix-directory')) {
-					$file['encrypted_size'] = $file['size'];
-					$file['size'] = $file['unencrypted_size'];
 				}
 				$file['permissions'] = (int)$file['permissions'];
 				$file['mtime'] = (int)$file['mtime'];
@@ -325,7 +320,7 @@ class Cache {
 	 */
 	function buildParts(array $data) {
 		$fields = array(
-			'path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted', 'unencrypted_size',
+			'path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted',
 			'etag', 'permissions');
 		$params = array();
 		$queryParts = array();
@@ -521,7 +516,7 @@ class Cache {
 		$sql = '
 			SELECT `fileid`, `storage`, `path`, `parent`, `name`,
 				`mimetype`, `mimepart`, `size`, `mtime`, `encrypted`,
-				`unencrypted_size`, `etag`, `permissions`
+				`etag`, `permissions`
 			FROM `*PREFIX*filecache`
 			WHERE `storage` = ? AND `name` ILIKE ?';
 		$result = \OC_DB::executeAudited($sql,
@@ -549,7 +544,7 @@ class Cache {
 		} else {
 			$where = '`mimepart` = ?';
 		}
-		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`, `permissions`
+		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `etag`, `permissions`
 				FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `storage` = ?';
 		$mimetype = $this->getMimetypeId($mimetype);
 		$result = \OC_DB::executeAudited($sql, array($mimetype, $this->getNumericStorageId()));
@@ -574,7 +569,7 @@ class Cache {
 	public function searchByTag($tag, $userId) {
 		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, ' .
 			'`mimetype`, `mimepart`, `size`, `mtime`, ' .
-			'`encrypted`, `unencrypted_size`, `etag`, `permissions` ' .
+			'`encrypted`, `etag`, `permissions` ' .
 			'FROM `*PREFIX*filecache` `file`, ' .
 			'`*PREFIX*vcategory_to_object` `tagmap`, ' .
 			'`*PREFIX*vcategory` `tag` ' .
@@ -638,17 +633,15 @@ class Cache {
 		}
 		if (isset($entry['mimetype']) && $entry['mimetype'] === 'httpd/unix-directory') {
 			$id = $entry['fileid'];
-			$sql = 'SELECT SUM(`size`) AS f1, MIN(`size`) AS f2, ' .
-				'SUM(`unencrypted_size`) AS f3 ' .
+			$sql = 'SELECT SUM(`size`) AS f1, MIN(`size`) AS f2 ' .
 				'FROM `*PREFIX*filecache` ' .
 				'WHERE `parent` = ? AND `storage` = ?';
 			$result = \OC_DB::executeAudited($sql, array($id, $this->getNumericStorageId()));
 			if ($row = $result->fetchRow()) {
 				$result->closeCursor();
-				list($sum, $min, $unencryptedSum) = array_values($row);
+				list($sum, $min) = array_values($row);
 				$sum = 0 + $sum;
 				$min = 0 + $min;
-				$unencryptedSum = 0 + $unencryptedSum;
 				if ($min === -1) {
 					$totalSize = $min;
 				} else {
@@ -658,14 +651,8 @@ class Cache {
 				if ($entry['size'] !== $totalSize) {
 					$update['size'] = $totalSize;
 				}
-				if (!isset($entry['unencrypted_size']) or $entry['unencrypted_size'] !== $unencryptedSum) {
-					$update['unencrypted_size'] = $unencryptedSum;
-				}
 				if (count($update) > 0) {
 					$this->update($id, $update);
-				}
-				if ($totalSize !== -1 and $unencryptedSum > 0) {
-					$totalSize = $unencryptedSum;
 				}
 			} else {
 				$result->closeCursor();

@@ -170,13 +170,6 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	/**
 	 * @return int
 	 */
-	public function getUnencryptedSize() {
-		return isset($this->data['unencrypted_size']) ? $this->data['unencrypted_size'] : 0;
-	}
-
-	/**
-	 * @return int
-	 */
 	public function getPermissions() {
 		return $this->data['permissions'];
 	}

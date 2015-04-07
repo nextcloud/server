@@ -515,8 +515,7 @@ class View {
 	public function file_put_contents($path, $data) {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
-			if (\OC_FileProxy::runPreProxies('file_put_contents', $absolutePath, $data)
-				and Filesystem::isValidPath($path)
+			if (Filesystem::isValidPath($path)
 				and !Filesystem::isFileBlacklisted($path)
 			) {
 				$path = $this->getRelativePath($absolutePath);
@@ -537,7 +536,6 @@ class View {
 					if ($this->shouldEmitHooks($path) && $result !== false) {
 						$this->emit_file_hooks_post($exists, $path);
 					}
-					\OC_FileProxy::runPostProxies('file_put_contents', $absolutePath, $count);
 					return $result;
 				} else {
 					return false;
@@ -591,8 +589,7 @@ class View {
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($path2));
 		if (
-			\OC_FileProxy::runPreProxies('rename', $absolutePath1, $absolutePath2)
-			and Filesystem::isValidPath($path2)
+			Filesystem::isValidPath($path2)
 			and Filesystem::isValidPath($path1)
 			and !Filesystem::isFileBlacklisted($path2)
 		) {
@@ -635,14 +632,12 @@ class View {
 						$sourceMountPoint = $mount->getMountPoint();
 						$result = $mount->moveMount($absolutePath2);
 						$manager->moveMount($sourceMountPoint, $mount->getMountPoint());
-						\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
 					} else {
 						$result = false;
 					}
 				} elseif ($mp1 == $mp2) {
 					if ($storage1) {
 						$result = $storage1->rename($internalPath1, $internalPath2);
-						\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
 					} else {
 						$result = false;
 					}
@@ -718,8 +713,7 @@ class View {
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($path2));
 		if (
-			\OC_FileProxy::runPreProxies('copy', $absolutePath1, $absolutePath2)
-			and Filesystem::isValidPath($path2)
+			Filesystem::isValidPath($path2)
 			and Filesystem::isValidPath($path1)
 			and !Filesystem::isFileBlacklisted($path2)
 		) {
@@ -927,7 +921,7 @@ class View {
 	public function hash($type, $path, $raw = false) {
 		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
-		if (\OC_FileProxy::runPreProxies('hash', $absolutePath) && Filesystem::isValidPath($path)) {
+		if (Filesystem::isValidPath($path)) {
 			$path = $this->getRelativePath($absolutePath);
 			if ($path == null) {
 				return false;
@@ -942,7 +936,6 @@ class View {
 			list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($storage) {
 				$result = $storage->hash($type, $internalPath, $raw);
-				$result = \OC_FileProxy::runPostProxies('hash', $absolutePath, $result);
 				return $result;
 			}
 		}
@@ -975,8 +968,7 @@ class View {
 	private function basicOperation($operation, $path, $hooks = array(), $extraParam = null) {
 		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
-		if (\OC_FileProxy::runPreProxies($operation, $absolutePath, $extraParam)
-			and Filesystem::isValidPath($path)
+		if (Filesystem::isValidPath($path)
 			and !Filesystem::isFileBlacklisted($path)
 		) {
 			$path = $this->getRelativePath($absolutePath);
@@ -992,8 +984,6 @@ class View {
 				} else {
 					$result = $storage->$operation($internalPath);
 				}
-
-				$result = \OC_FileProxy::runPostProxies($operation, $this->getAbsolutePath($path), $result);
 
 				if (in_array('delete', $hooks) and $result) {
 					$this->updater->remove($path);
@@ -1167,8 +1157,6 @@ class View {
 		if ($mount instanceof MoveableMount && $internalPath === '') {
 			$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
 		}
-
-		$data = \OC_FileProxy::runPostProxies('getFileInfo', $path, $data);
 
 		return new FileInfo($path, $storage, $internalPath, $data, $mount);
 	}

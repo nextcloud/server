@@ -22,9 +22,7 @@
  */
 
 namespace OCP\Encryption;
-//
-// TODO: move exceptions to OCP
-//
+
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
 

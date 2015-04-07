@@ -122,7 +122,7 @@ class Shared_Cache extends Cache {
 			}
 			$query = \OC_DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`,'
-				. ' `size`, `mtime`, `encrypted`, `unencrypted_size`, `storage_mtime`, `etag`, `permissions`'
+				. ' `size`, `mtime`, `encrypted`, `storage_mtime`, `etag`, `permissions`'
 				. ' FROM `*PREFIX*filecache` WHERE `fileid` = ?');
 			$result = $query->execute(array($sourceId));
 			$data = $result->fetchRow();
@@ -135,12 +135,7 @@ class Shared_Cache extends Cache {
 			if ($data['storage_mtime'] === 0) {
 				$data['storage_mtime'] = $data['mtime'];
 			}
-			if ($data['encrypted'] or ($data['unencrypted_size'] > 0 and $data['mimetype'] === 'httpd/unix-directory')) {
-				$data['encrypted_size'] = (int)$data['size'];
-				$data['size'] = (int)$data['unencrypted_size'];
-			} else {
-				$data['size'] = (int)$data['size'];
-			}
+			$data['size'] = (int)$data['size'];
 			$data['permissions'] = (int)$data['permissions'];
 			if (!is_int($file) || $file === 0) {
 				$data['path'] = '';

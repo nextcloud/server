@@ -27,7 +27,7 @@
 /**
  * Class Test_Files_Sharing_Updater
  */
-class Test_Files_Sharing_Updater extends OCA\Files_sharing\Tests\TestCase {
+class Test_Files_Sharing_Updater extends OCA\Files_Sharing\Tests\TestCase {
 
 	const TEST_FOLDER_NAME = '/folder_share_updater_test';
 

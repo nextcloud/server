@@ -46,12 +46,16 @@ class Update {
 	/** @var string */
 	protected $uid;
 
+	/** @var \OC\Encryption\File */
+	protected $file;
+
 	/**
 	 *
 	 * @param \OC\Files\View $view
 	 * @param \OC\Encryption\Util $util
 	 * @param \OC\Files\Mount\Manager $mountManager
 	 * @param \OC\Encryption\Manager $encryptionManager
+	 * @param \OC\Encryption\File $file
 	 * @param string $uid
 	 */
 	public function __construct(
@@ -59,6 +63,7 @@ class Update {
 			Util $util,
 			Mount\Manager $mountManager,
 			Manager $encryptionManager,
+			File $file,
 			$uid
 		) {
 
@@ -66,6 +71,7 @@ class Update {
 		$this->util = $util;
 		$this->mountManager = $mountManager;
 		$this->encryptionManager = $encryptionManager;
+		$this->file = $file;
 		$this->uid = $uid;
 	}
 
@@ -87,25 +93,29 @@ class Update {
 	 * @param int $fileSource file source id
 	 */
 	private function update($fileSource) {
-			$path = \OC\Files\Filesystem::getPath($fileSource);
-			$absPath = '/' . $this->uid . '/files' . $path;
+		$path = \OC\Files\Filesystem::getPath($fileSource);
+		$info = \OC\Files\Filesystem::getFileInfo($path);
+		$owner = \OC\Files\Filesystem::getOwner($path);
+		$view = new \OC\Files\View('/' . $owner . '/files');
+		$ownerPath = $view->getPath($info->getId());
+		$absPath = '/' . $owner . '/files' . $ownerPath;
 
-			$mount = $this->mountManager->find($path);
-			$mountPoint = $mount->getMountPoint();
+		$mount = $this->mountManager->find($path);
+		$mountPoint = $mount->getMountPoint();
 
-			// if a folder was shared, get a list of all (sub-)folders
-			if ($this->view->is_dir($absPath)) {
-				$allFiles = $this->util->getAllFiles($absPath, $mountPoint);
-			} else {
-				$allFiles = array($absPath);
-			}
+		// if a folder was shared, get a list of all (sub-)folders
+		if ($this->view->is_dir($absPath)) {
+			$allFiles = $this->util->getAllFiles($absPath, $mountPoint);
+		} else {
+			$allFiles = array($absPath);
+		}
 
-			$encryptionModule = $this->encryptionManager->getDefaultEncryptionModule();
+		$encryptionModule = $this->encryptionManager->getDefaultEncryptionModule();
 
-			foreach ($allFiles as $path) {
-				$usersSharing = $this->util->getSharingUsersArray($path);
-				$encryptionModule->update($absPath, $this->uid, $usersSharing);
-			}
+		foreach ($allFiles as $path) {
+			$usersSharing = $this->file->getAccessList($path);
+			$encryptionModule->update($path, $this->uid, $usersSharing);
+		}
 	}
 
 }

@@ -23,7 +23,9 @@
 
 namespace OCA\Encryption_Dummy;
 
-class DummyModule implements \OCP\Encryption\IEncryptionModule {
+use OCP\Encryption\IEncryptionModule;
+
+class DummyModule implements IEncryptionModule {
 
 	/** @var boolean */
 	protected $isWriteOperation;
@@ -32,7 +34,7 @@ class DummyModule implements \OCP\Encryption\IEncryptionModule {
 	 * @return string defining the technical unique id
 	 */
 	public function getId() {
-		return "34876934";
+		return "OC_DUMMY_MODULE";
 	}
 
 	/**
@@ -104,17 +106,6 @@ class DummyModule implements \OCP\Encryption\IEncryptionModule {
 	}
 
 	/**
-	 * update encrypted file, e.g. give additional users access to the file
-	 *
-	 * @param string $path path to the file which should be updated
-	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
-	 * @return boolean
-	 */
-	public function update($path, $accessList) {
-		return true;
-	}
-
-	/**
 	 * should the file be encrypted or not
 	 *
 	 * @param string $path
@@ -142,4 +133,15 @@ class DummyModule implements \OCP\Encryption\IEncryptionModule {
 		return 6126;
 	}
 
+	/**
+	 * update encrypted file, e.g. give additional users access to the file
+	 *
+	 * @param string $path path to the file which should be updated
+	 * @param string $uid of the user who performs the operation
+	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
+	 * @return boolean
+	 */
+	public function update($path, $uid, $accessList) {
+		return true;
+	}
 }

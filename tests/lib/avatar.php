@@ -10,7 +10,9 @@
 use OC\Avatar;
 
 class Test_Avatar extends \Test\TestCase {
+	private static $trashBinStatus;
 
+	/** @var  @var string */
 	private $user;
 
 	protected function setUp() {
@@ -19,6 +21,17 @@ class Test_Avatar extends \Test\TestCase {
 		$this->user = $this->getUniqueID();
 		$storage = new \OC\Files\Storage\Temporary(array());
 		\OC\Files\Filesystem::mount($storage, array(), '/' . $this->user . '/');
+	}
+
+	public static function setUpBeforeClass() {
+		self::$trashBinStatus = \OC_App::isEnabled('files_trashbin');
+		\OC_App::disable('files_trashbin');
+	}
+
+	public static function tearDownAfterClass() {
+		if (self::$trashBinStatus) {
+			\OC_App::enable('files_trashbin');
+		}
 	}
 
 	public function testAvatar() {

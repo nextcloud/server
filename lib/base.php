@@ -701,23 +701,7 @@ class OC {
 	}
 
 	private static function registerEncryptionWrapper() {
-		$enabled = self::$server->getEncryptionManager()->isEnabled();
-		if ($enabled) {
-			\OC\Files\Filesystem::addStorageWrapper('oc_encryption', function ($mountPoint, $storage, \OCP\Files\Mount\IMountPoint $mount) {
-				if($mount->getOption('encrypt', true)) {
-					$parameters = array('storage' => $storage, 'mountPoint' => $mountPoint);
-					$manager = \OC::$server->getEncryptionManager();
-					$util = new \OC\Encryption\Util(new \OC\Files\View(), \OC::$server->getUserManager());
-					$user = \OC::$server->getUserSession()->getUser();
-					$logger = \OC::$server->getLogger();
-					$uid = $user ? $user->getUID() : null;
-					return new \OC\Files\Storage\Wrapper\Encryption($parameters, $manager, $util, $logger, $uid);
-				} else {
-					return $storage;
-				}
-			});
-		}
-
+		\OCP\Util::connectHook('OC_Filesystem', 'setup', 'OC\Encryption\Manager', 'setupStorage');
 	}
 
 	private static function registerEncryptionHooks() {
@@ -730,16 +714,17 @@ class OC {
 			}
 			$updater = new \OC\Encryption\Update(
 				new \OC\Files\View(),
-				new \OC\Encryption\Util(new \OC\Files\View(), \OC::$server->getUserManager()),
+				new \OC\Encryption\Util(
+					new \OC\Files\View(),
+					\OC::$server->getUserManager(),
+					\OC::$server->getConfig()),
 				\OC\Files\Filesystem::getMountManager(),
 				\OC::$server->getEncryptionManager(),
+				\OC::$server->getEncryptionFilesHelper(),
 				$uid
 			);
 			\OCP\Util::connectHook('OCP\Share', 'post_shared', $updater, 'postShared');
 			\OCP\Util::connectHook('OCP\Share', 'post_unshare', $updater, 'postUnshared');
-
-			//\OCP\Util::connectHook('OC_Filesystem', 'post_umount', 'OCA\Files_Encryption\Hooks', 'postUnmount');
-			//\OCP\Util::connectHook('OC_Filesystem', 'umount', 'OCA\Files_Encryption\Hooks', 'preUnmount');
 		}
 	}
 

@@ -160,18 +160,11 @@ class Storage {
 
 			self::scheduleExpire($filename, $versionsSize, $neededSpace);
 
-			// disable proxy to prevent multiple fopen calls
-			$proxyStatus = \OC_FileProxy::$enabled;
-			\OC_FileProxy::$enabled = false;
-
 			// store a new version of a file
 			$mtime = $users_view->filemtime('files/' . $filename);
 			$users_view->copy('files/' . $filename, 'files_versions/' . $filename . '.v' . $mtime);
 			// call getFileInfo to enforce a file cache entry for the new version
 			$users_view->getFileInfo('files_versions/' . $filename . '.v' . $mtime);
-
-			// reset proxy state
-			\OC_FileProxy::$enabled = $proxyStatus;
 		}
 	}
 
@@ -283,14 +276,7 @@ class Storage {
 			$version = 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename);
 			if ( !$users_view->file_exists($version)) {
 
-				// disable proxy to prevent multiple fopen calls
-				$proxyStatus = \OC_FileProxy::$enabled;
-				\OC_FileProxy::$enabled = false;
-
 				$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
-
-				// reset proxy state
-				\OC_FileProxy::$enabled = $proxyStatus;
 
 				$versionCreated = true;
 			}

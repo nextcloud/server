@@ -122,4 +122,20 @@ interface IStorage {
 	 */
 	public function deleteSystemUserKey($keyId);
 
+	/**
+	 * copy keys if a file was renamed
+	 *
+	 * @param string $source
+	 * @param string $target
+	 */
+	public function renameKeys($source, $target);
+
+	/**
+	 * move keys if a file was renamed
+	 *
+	 * @param string $source
+	 * @param string $target
+	 */
+	public function copyKeys($source, $target);
+
 }

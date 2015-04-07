@@ -88,8 +88,8 @@ class Application extends App {
 		/**
 		 * Core class wrappers
 		 */
-		$container->registerService('IsEncryptionEnabled', function() {
-			return \OC_App::isEnabled('files_encryption');
+		$container->registerService('IsEncryptionEnabled', function(SimpleContainer $c) {
+			return $c->query('ServerContainer')->getEncryptionManager()->isEnabled();
 		});
 		$container->registerService('URLGenerator', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getURLGenerator();

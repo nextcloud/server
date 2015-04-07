@@ -23,9 +23,11 @@
 
 namespace OC\Encryption;
 
-use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
 use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
+use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
+use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
+use OCP\IConfig;
 
 class Util {
 
@@ -49,7 +51,7 @@ class Util {
 	 */
 	protected $blockSize = 8192;
 
-	/** @var \OC\Files\View */
+	/** @var View */
 	protected $view;
 
 	/** @var array */
@@ -58,19 +60,30 @@ class Util {
 	/** @var \OC\User\Manager */
 	protected $userManager;
 
+	/** @var IConfig */
+	protected $config;
+
 	/** @var array paths excluded from encryption */
 	protected $excludedPaths;
 
 	/**
-	 * @param \OC\Files\View $view root view
+	 *
+	 * @param \OC\Files\View $view
+	 * @param \OC\User\Manager $userManager
+	 * @param IConfig $config
 	 */
-	public function __construct(\OC\Files\View $view, \OC\User\Manager $userManager) {
+	public function __construct(
+		\OC\Files\View $view,
+		\OC\User\Manager $userManager,
+		IConfig $config) {
+
 		$this->ocHeaderKeys = [
 			self::HEADER_ENCRYPTION_MODULE_KEY
 		];
 
 		$this->view = $view;
 		$this->userManager = $userManager;
+		$this->config = $config;
 
 		$this->excludedPaths[] = 'files_encryption';
 	}
@@ -81,7 +94,7 @@ class Util {
 	 * @param array $header
 	 * @return string
 	 */
-	public function getEncryptionModuleId(array $header) {
+	public function getEncryptionModuleId(array $header = null) {
 		$id = '';
 		$encryptionModuleKey = self::HEADER_ENCRYPTION_MODULE_KEY;
 
@@ -134,14 +147,14 @@ class Util {
 		$header = self::HEADER_START . ':' . self::HEADER_ENCRYPTION_MODULE_KEY . ':' . $encryptionModule->getId() . ':';
 		foreach ($headerData as $key => $value) {
 			if (in_array($key, $this->ocHeaderKeys)) {
-				throw new EncryptionHeaderKeyExistsException('header key "'. $key . '" already reserved by ownCloud');
+				throw new EncryptionHeaderKeyExistsException($key);
 			}
 			$header .= $key . ':' . $value . ':';
 		}
 		$header .= self::HEADER_END;
 
 		if (strlen($header) > $this->getHeaderSize()) {
-			throw new EncryptionHeaderToLargeException('max header size exceeded', EncryptionException::ENCRYPTION_HEADER_TO_LARGE);
+			throw new EncryptionHeaderToLargeException();
 		}
 
 		$paddedHeader = str_pad($header, $this->headerSize, self::HEADER_PADDING_CHAR, STR_PAD_RIGHT);
@@ -150,53 +163,10 @@ class Util {
 	}
 
 	/**
-	 * Find, sanitise and format users sharing a file
-	 * @note This wraps other methods into a portable bundle
-	 * @param string $path path relative to current users files folder
-	 * @return array
-	 */
-	public function getSharingUsersArray($path) {
-
-		// Make sure that a share key is generated for the owner too
-		list($owner, $ownerPath) = $this->getUidAndFilename($path);
-
-		// always add owner to the list of users with access to the file
-		$userIds = array($owner);
-
-		if (!$this->isFile($ownerPath)) {
-			return array('users' => $userIds, 'public' => false);
-		}
-
-		$ownerPath = substr($ownerPath, strlen('/files'));
-		$ownerPath = $this->stripPartialFileExtension($ownerPath);
-
-		// Find out who, if anyone, is sharing the file
-		$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner);
-		$userIds = \array_merge($userIds, $result['users']);
-		$public = $result['public'] || $result['remote'];
-
-		// check if it is a group mount
-		if (\OCP\App::isEnabled("files_external")) {
-			$mounts = \OC_Mount_Config::getSystemMountPoints();
-			foreach ($mounts as $mount) {
-				if ($mount['mountpoint'] == substr($ownerPath, 1, strlen($mount['mountpoint']))) {
-					$mountedFor = $this->getUserWithAccessToMountPoint($mount['applicable']['users'], $mount['applicable']['groups']);
-					$userIds = array_merge($userIds, $mountedFor);
-				}
-			}
-		}
-
-		// Remove duplicate UIDs
-		$uniqueUserIds = array_unique($userIds);
-
-		return array('users' => $uniqueUserIds, 'public' => $public);
-	}
-
-	/**
 	 * go recursively through a dir and collect all files and sub files.
 	 *
 	 * @param string $dir relative to the users files folder
-	 * @param strinf $mountPoint
+	 * @param string $mountPoint
 	 * @return array with list of files relative to the users files folder
 	 */
 	public function getAllFiles($dir, $mountPoint = '') {
@@ -210,11 +180,11 @@ class Util {
 			foreach ($content as $c) {
 				// getDirectoryContent() returns the paths relative to the mount points, so we need
 				// to re-construct the complete path
-				$path = ($mountPoint !== '') ? $mountPoint . '/' .  $c['path'] : $c['path'];
+				$path = ($mountPoint !== '') ? $mountPoint . '/' .  $c->getPath() : $c->getPath();
 				if ($c['type'] === 'dir') {
-					$dirList[] = $path;
+					$dirList[] = \OC\Files\Filesystem::normalizePath($path);
 				} else {
-					$result[] = $path;
+					$result[] =  \OC\Files\Filesystem::normalizePath($path);
 				}
 			}
 
@@ -230,7 +200,7 @@ class Util {
 	 * @param string $path
 	 * @return boolean
 	 */
-	protected function isFile($path) {
+	public function isFile($path) {
 		if (substr($path, 0, strlen('/files/')) === '/files/') {
 			return true;
 		}
@@ -256,7 +226,7 @@ class Util {
 	}
 
 	/**
-	 * get the owner and the path for the owner
+	 * get the owner and the path for the file relative to the owners files folder
 	 *
 	 * @param string $path
 	 * @return array
@@ -270,55 +240,15 @@ class Util {
 			$uid = $parts[1];
 		}
 		if (!$this->userManager->userExists($uid)) {
-			throw new \BadMethodCallException('path needs to be relative to the system wide data folder and point to a user specific file');
+			throw new \BadMethodCallException(
+				'path needs to be relative to the system wide data folder and point to a user specific file'
+			);
 		}
 
-		$pathinfo = pathinfo($path);
-		$partfile = false;
-		$parentFolder = false;
-		if (array_key_exists('extension', $pathinfo) && $pathinfo['extension'] === 'part') {
-			// if the real file exists we check this file
-			$filePath = $pathinfo['dirname'] . '/' . $pathinfo['filename'];
-			if ($this->view->file_exists($filePath)) {
-				$pathToCheck = $pathinfo['dirname'] . '/' . $pathinfo['filename'];
-			} else { // otherwise we look for the parent
-				$pathToCheck = $pathinfo['dirname'];
-				$parentFolder = true;
-			}
-			$partfile = true;
-		} else {
-			$pathToCheck = $path;
-		}
+		$ownerPath = implode('/', array_slice($parts, 2));
 
-		$pathToCheck = substr($pathToCheck, strlen('/' . $uid));
+		return array($uid, \OC\Files\Filesystem::normalizePath($ownerPath));
 
-		$this->view->chroot('/' . $uid);
-		$owner = $this->view->getOwner($pathToCheck);
-
-		// Check that UID is valid
-		if (!$this->userManager->userExists($owner)) {
-				throw new \BadMethodCallException('path needs to be relative to the system wide data folder and point to a user specific file');
-		}
-
-		\OC\Files\Filesystem::initMountPoints($owner);
-
-		$info = $this->view->getFileInfo($pathToCheck);
-		$this->view->chroot('/' . $owner);
-		$ownerPath = $this->view->getPath($info->getId());
-		$this->view->chroot('/');
-
-		if ($parentFolder) {
-			$ownerPath = $ownerPath . '/'. $pathinfo['filename'];
-		}
-
-		if ($partfile) {
-			$ownerPath = $ownerPath . '.' . $pathinfo['extension'];
-		}
-
-		return array(
-			$owner,
-			\OC\Files\Filesystem::normalizePath($ownerPath)
-		);
 	}
 
 	/**
@@ -348,7 +278,7 @@ class Util {
 		}
 	}
 
-	protected function getUserWithAccessToMountPoint($users, $groups) {
+	public function getUserWithAccessToMountPoint($users, $groups) {
 		$result = array();
 		if (in_array('all', $users)) {
 			$result = \OCP\User::getUsers();
@@ -398,9 +328,6 @@ class Util {
 				return true;
 			}
 
-			$v1 = $this->userManager->userExists($root[1]);
-			$v2 = in_array($root[2], $this->excludedPaths);
-
 			// detect user specific folders
 			if ($this->userManager->userExists($root[1])
 				&& in_array($root[2], $this->excludedPaths)) {
@@ -409,6 +336,18 @@ class Util {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * check if recovery key is enabled for user
+	 *
+	 * @param string $uid
+	 * @return boolean
+	 */
+	public function recoveryEnabled($uid) {
+		$enabled = $this->config->getUserValue($uid, 'encryption', 'recovery_enabled', '0');
+
+		return ($enabled === '1') ? true : false;
 	}
 
 }

@@ -45,8 +45,8 @@ $groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), $isAdmin, $groupManager
 $groupsInfo->setSorting($groupsInfo::SORT_USERCOUNT);
 list($adminGroup, $groups) = $groupsInfo->get();
 
-$recoveryAdminEnabled = OC_App::isEnabled('files_encryption') &&
-					    $config->getAppValue( 'files_encryption', 'recoveryAdminEnabled', null );
+$recoveryAdminEnabled = OC_App::isEnabled('encryption') &&
+					    $config->getAppValue( 'encryption', 'recoveryAdminEnabled', null );
 
 if($isAdmin) {
 	$subadmins = OC_SubAdmin::getAllSubAdmins();

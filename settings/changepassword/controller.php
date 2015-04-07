@@ -77,16 +77,43 @@ class Controller {
 			exit();
 		}
 
-		if (\OC_App::isEnabled('files_encryption')) {
+		if (\OC_App::isEnabled('encryption')) {
 			//handle the recovery case
-			$util = new \OCA\Files_Encryption\Util(new \OC\Files\View('/'), $username);
-			$recoveryAdminEnabled = \OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled');
+			$crypt = new \OCA\Encryption\Crypto\Crypt(
+				\OC::$server->getLogger(),
+				\OC::$server->getUserSession(),
+				\OC::$server->getConfig());
+			$keyStorage = \OC::$server->getEncryptionKeyStorage(\OCA\Encryption\Crypto\Encryption::ID);
+			$util = new \OCA\Encryption\Util(
+				new \OC\Files\View(),
+				$crypt,
+				\OC::$server->getLogger(),
+				\OC::$server->getUserSession(),
+				\OC::$server->getConfig());
+			$keyManager = new \OCA\Encryption\KeyManager(
+				$keyStorage,
+				$crypt,
+				\OC::$server->getConfig(),
+				\OC::$server->getUserSession(),
+				new \OCA\Encryption\Session(\OC::$server->getSession()),
+				\OC::$server->getLogger(),
+				$util);
+			$recovery = new \OCA\Encryption\Recovery(
+				\OC::$server->getUserSession(),
+				$crypt,
+				\OC::$server->getSecureRandom(),
+				$keyManager,
+				\OC::$server->getConfig(),
+				$keyStorage,
+				\OC::$server->getEncryptionFilesHelper(),
+				new \OC\Files\View());
+			$recoveryAdminEnabled = $recovery->isRecoveryKeyEnabled();
 
 			$validRecoveryPassword = false;
 			$recoveryEnabledForUser = false;
 			if ($recoveryAdminEnabled) {
-				$validRecoveryPassword = $util->checkRecoveryPassword($recoveryPassword);
-				$recoveryEnabledForUser = $util->recoveryEnabledForUser();
+				$validRecoveryPassword = $keyManager->checkRecoveryPassword($recoveryPassword);
+				$recoveryEnabledForUser = $recovery->isRecoveryEnabledForUser();
 			}
 
 			if ($recoveryEnabledForUser && $recoveryPassword === '') {

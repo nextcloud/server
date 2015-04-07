@@ -35,7 +35,24 @@
 
 namespace OC\Connector\Sabre;
 
-class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
+use OC\Connector\Sabre\Exception\EntityTooLarge;
+use OC\Connector\Sabre\Exception\FileLocked;
+use OC\Connector\Sabre\Exception\UnsupportedMediaType;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\Files\EntityTooLargeException;
+use OCP\Files\InvalidContentException;
+use OCP\Files\InvalidPathException;
+use OCP\Files\LockNotAcquiredException;
+use OCP\Files\NotPermittedException;
+use OCP\Files\StorageNotAvailableException;
+use Sabre\DAV\Exception;
+use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotImplemented;
+use Sabre\DAV\Exception\ServiceUnavailable;
+use Sabre\DAV\IFile;
+
+class File extends Node implements IFile {
 
 	/**
 	 * Updates the data
@@ -56,27 +73,22 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 	 *
 	 * @param resource $data
 	 *
-	 * @throws \Sabre\DAV\Exception\Forbidden
-	 * @throws \OC\Connector\Sabre\Exception\UnsupportedMediaType
-	 * @throws \Sabre\DAV\Exception\BadRequest
-	 * @throws \Sabre\DAV\Exception
-	 * @throws \OC\Connector\Sabre\Exception\EntityTooLarge
-	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
+	 * @throws Forbidden
+	 * @throws UnsupportedMediaType
+	 * @throws BadRequest
+	 * @throws Exception
+	 * @throws EntityTooLarge
+	 * @throws ServiceUnavailable
 	 * @return string|null
 	 */
 	public function put($data) {
 		try {
 			if ($this->info && $this->fileView->file_exists($this->path) &&
 				!$this->info->isUpdateable()) {
-				throw new \Sabre\DAV\Exception\Forbidden();
+				throw new Forbidden();
 			}
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable("File is not updatable: ".$e->getMessage());
-		}
-
-		// throw an exception if encryption was disabled but the files are still encrypted
-		if (\OC_Util::encryptedFiles()) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable("Encryption is disabled");
+		} catch (StorageNotAvailableException $e) {
+			throw new ServiceUnavailable("File is not updatable: ".$e->getMessage());
 		}
 
 		// verify path of the target
@@ -104,31 +116,29 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 				\OC_Log::write('webdav', '\OC\Files\Filesystem::file_put_contents() failed', \OC_Log::ERROR);
 				$this->fileView->unlink($partFilePath);
 				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
-				throw new \Sabre\DAV\Exception('Could not write file contents');
+				throw new Exception('Could not write file contents');
 			}
-		} catch (\OCP\Files\NotPermittedException $e) {
+		} catch (NotPermittedException $e) {
 			// a more general case - due to whatever reason the content could not be written
-			throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
-
-		} catch (\OCP\Files\EntityTooLargeException $e) {
+			throw new Forbidden($e->getMessage());
+		} catch (EntityTooLargeException $e) {
 			// the file is too big to be stored
-			throw new \OC\Connector\Sabre\Exception\EntityTooLarge($e->getMessage());
-
-		} catch (\OCP\Files\InvalidContentException $e) {
+			throw new EntityTooLarge($e->getMessage());
+		} catch (InvalidContentException $e) {
 			// the file content is not permitted
-			throw new \OC\Connector\Sabre\Exception\UnsupportedMediaType($e->getMessage());
-
-		} catch (\OCP\Files\InvalidPathException $e) {
+			throw new UnsupportedMediaType($e->getMessage());
+		} catch (InvalidPathException $e) {
 			// the path for the file was not valid
 			// TODO: find proper http status code for this case
-			throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
-		} catch (\OCP\Files\LockNotAcquiredException $e) {
+			throw new Forbidden($e->getMessage());
+		} catch (LockNotAcquiredException $e) {
 			// the file is currently being written to by another process
-			throw new \OC\Connector\Sabre\Exception\FileLocked($e->getMessage(), $e->getCode(), $e);
-		} catch (\OCA\Files_Encryption\Exception\EncryptionException $e) {
-			throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to write file contents: ".$e->getMessage());
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+		} catch (GenericEncryptionException $e) {
+			// returning 503 will allow retry of the operation at a later point in time
+			throw new ServiceUnavailable("Encryption not ready: " . $e->getMessage());
+		} catch (StorageNotAvailableException $e) {
+			throw new ServiceUnavailable("Failed to write file contents: ".$e->getMessage());
 		}
 
 		try {
@@ -140,7 +150,7 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 				$actual = $this->fileView->filesize($partFilePath);
 				if ($actual != $expected) {
 					$this->fileView->unlink($partFilePath);
-					throw new \Sabre\DAV\Exception\BadRequest('expected filesize ' . $expected . ' got ' . $actual);
+					throw new BadRequest('expected filesize ' . $expected . ' got ' . $actual);
 				}
 			}
 
@@ -152,12 +162,12 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 					if ($renameOkay === false || $fileExists === false) {
 						\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
 						$this->fileView->unlink($partFilePath);
-						throw new \Sabre\DAV\Exception('Could not rename part file to final file');
+						throw new Exception('Could not rename part file to final file');
 					}
 				}
-				catch (\OCP\Files\LockNotAcquiredException $e) {
+				catch (LockNotAcquiredException $e) {
 					// the file is currently being written to by another process
-					throw new \OC\Connector\Sabre\Exception\FileLocked($e->getMessage(), $e->getCode(), $e);
+					throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 				}
 			}
 
@@ -169,8 +179,8 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 				}
 			}
 			$this->refreshInfo();
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to check file size: ".$e->getMessage());
+		} catch (StorageNotAvailableException $e) {
+			throw new ServiceUnavailable("Failed to check file size: ".$e->getMessage());
 		}
 
 		return '"' . $this->info->getEtag() . '"';
@@ -179,43 +189,39 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 	/**
 	 * Returns the data
 	 * @return string|resource
-	 * @throws \Sabre\DAV\Exception\Forbidden
-	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
+	 * @throws Forbidden
+	 * @throws ServiceUnavailable
 	 */
 	public function get() {
 
 		//throw exception if encryption is disabled but files are still encrypted
-		if (\OC_Util::encryptedFiles()) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable("Encryption is disabled");
-		} else {
-			try {
-				return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
-			} catch (\OCA\Files_Encryption\Exception\EncryptionException $e) {
-				throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
-			} catch (\OCP\Files\StorageNotAvailableException $e) {
-				throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to open file: ".$e->getMessage());
-			}
+		try {
+			return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
+		} catch (GenericEncryptionException $e) {
+			// returning 503 will allow retry of the operation at a later point in time
+			throw new ServiceUnavailable("Encryption not ready: " . $e->getMessage());
+		} catch (StorageNotAvailableException $e) {
+			throw new ServiceUnavailable("Failed to open file: ".$e->getMessage());
 		}
-
 	}
 
 	/**
 	 * Delete the current file
-	 * @throws \Sabre\DAV\Exception\Forbidden
-	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
+	 * @throws Forbidden
+	 * @throws ServiceUnavailable
 	 */
 	public function delete() {
 		if (!$this->info->isDeletable()) {
-			throw new \Sabre\DAV\Exception\Forbidden();
+			throw new Forbidden();
 		}
 
 		try {
 			if (!$this->fileView->unlink($this->path)) {
 				// assume it wasn't possible to delete due to permissions
-				throw new \Sabre\DAV\Exception\Forbidden();
+				throw new Forbidden();
 			}
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to unlink: ".$e->getMessage());
+		} catch (StorageNotAvailableException $e) {
+			throw new ServiceUnavailable("Failed to unlink: ".$e->getMessage());
 		}
 	}
 
@@ -255,10 +261,10 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 	/**
 	 * @param resource $data
 	 * @return null|string
-	 * @throws \Sabre\DAV\Exception
-	 * @throws \Sabre\DAV\Exception\BadRequest
-	 * @throws \Sabre\DAV\Exception\NotImplemented
-	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
+	 * @throws Exception
+	 * @throws BadRequest
+	 * @throws NotImplemented
+	 * @throws ServiceUnavailable
 	 */
 	private function createFileChunked($data)
 	{
@@ -266,7 +272,7 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 
 		$info = \OC_FileChunking::decodeName($name);
 		if (empty($info)) {
-			throw new \Sabre\DAV\Exception\NotImplemented();
+			throw new NotImplemented();
 		}
 		$chunk_handler = new \OC_FileChunking($info);
 		$bytesWritten = $chunk_handler->store($info['index'], $data);
@@ -277,7 +283,7 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 				$expected = $_SERVER['CONTENT_LENGTH'];
 				if ($bytesWritten != $expected) {
 					$chunk_handler->remove($info['index']);
-					throw new \Sabre\DAV\Exception\BadRequest(
+					throw new BadRequest(
 						'expected filesize ' . $expected . ' got ' . $bytesWritten);
 				}
 			}
@@ -303,7 +309,7 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 						if ($fileExists) {
 							$this->fileView->unlink($targetPath);
 						}
-						throw new \Sabre\DAV\Exception('Could not rename part file assembled from chunks');
+						throw new Exception('Could not rename part file assembled from chunks');
 					}
 				} else {
 					// assemble directly into the final file
@@ -320,8 +326,8 @@ class File extends \OC\Connector\Sabre\Node implements \Sabre\DAV\IFile {
 
 				$info = $this->fileView->getFileInfo($targetPath);
 				return $info->getEtag();
-			} catch (\OCP\Files\StorageNotAvailableException $e) {
-				throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to put file: ".$e->getMessage());
+			} catch (StorageNotAvailableException $e) {
+				throw new ServiceUnavailable("Failed to put file: ".$e->getMessage());
 			}
 		}
 

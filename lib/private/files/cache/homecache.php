@@ -48,25 +48,17 @@ class HomeCache extends Cache {
 		}
 		if ($entry && $entry['mimetype'] === 'httpd/unix-directory') {
 			$id = $entry['fileid'];
-			$sql = 'SELECT SUM(`size`) AS f1, ' .
-			   'SUM(`unencrypted_size`) AS f2 FROM `*PREFIX*filecache` ' .
+			$sql = 'SELECT SUM(`size`) AS f1 ' .
+			   'FROM `*PREFIX*filecache` ' .
 				'WHERE `parent` = ? AND `storage` = ? AND `size` >= 0';
 			$result = \OC_DB::executeAudited($sql, array($id, $this->getNumericStorageId()));
 			if ($row = $result->fetchRow()) {
 				$result->closeCursor();
-				list($sum, $unencryptedSum) = array_values($row);
+				list($sum) = array_values($row);
 				$totalSize = 0 + $sum;
-				$unencryptedSize = 0 + $unencryptedSum;
 				$entry['size'] += 0;
-				if (!isset($entry['unencrypted_size'])) {
-					$entry['unencrypted_size'] = 0;
-				}
-				$entry['unencrypted_size'] += 0;
 				if ($entry['size'] !== $totalSize) {
 					$this->update($id, array('size' => $totalSize));
-				}
-				if ($entry['unencrypted_size'] !== $unencryptedSize) {
-					$this->update($id, array('unencrypted_size' => $unencryptedSize));
 				}
 			}
 		}

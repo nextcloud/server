@@ -150,12 +150,18 @@ interface IServerContainer {
 	function getHasher();
 
 	/**
+	 * Returns a SecureRandom instance
+	 *
+	 * @return \OCP\Security\ISecureRandom
+	 */
+	function getSecureRandom();
+
+	/**
 	 * Returns an instance of the db facade
 	 * @deprecated use getDatabaseConnection, will be removed in ownCloud 10
 	 * @return \OCP\IDb
 	 */
 	function getDb();
-
 
 	/**
 	 * Returns the app config manager
@@ -171,6 +177,23 @@ interface IServerContainer {
 	 * @return \OCP\IL10N
 	 */
 	function getL10N($app, $lang = null);
+
+	/**
+	 * @return \OC\Encryption\Manager
+	 */
+	function getEncryptionManager();
+
+	/**
+	 * @return \OC\Encryption\File
+	 */
+	function getEncryptionFilesHelper();
+
+	/**
+	 * @param string $encryptionModuleId encryption module ID
+	 *
+	 * @return \OCP\Encryption\Keys\IStorage
+	 */
+	function getEncryptionKeyStorage($encryptionModuleId);
 
 	/**
 	 * Returns the URL generator

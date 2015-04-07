@@ -22,8 +22,6 @@ class UpdaterLegacy extends \Test\TestCase {
 	 */
 	private $scanner;
 
-	private $stateFilesEncryption;
-
 	/**
 	 * @var \OC\Files\Cache\Cache $cache
 	 */
@@ -36,11 +34,6 @@ class UpdaterLegacy extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-
-		// remember files_encryption state
-		$this->stateFilesEncryption = \OC_App::isEnabled('files_encryption');
-		// we want to tests with the encryption app disabled
-		\OC_App::disable('files_encryption');
 
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 		$textData = "dummy file data\n";
@@ -80,10 +73,6 @@ class UpdaterLegacy extends \Test\TestCase {
 		$this->assertTrue($result);
 		Filesystem::tearDown();
 		Filesystem::mount($this->originalStorage, array(), '/');
-		// reset app files_encryption
-		if ($this->stateFilesEncryption) {
-			\OC_App::enable('files_encryption');
-		}
 
 		parent::tearDown();
 	}

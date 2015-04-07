@@ -89,12 +89,6 @@ $this->create('settings_personal_changepassword', '/settings/personal/changepass
 	->action('OC\Settings\ChangePassword\Controller', 'changePersonalPassword');
 $this->create('settings_ajax_setlanguage', '/settings/ajax/setlanguage.php')
 	->actionInclude('settings/ajax/setlanguage.php');
-$this->create('settings_ajax_decryptall', '/settings/ajax/decryptall.php')
-	->actionInclude('settings/ajax/decryptall.php');
-$this->create('settings_ajax_restorekeys', '/settings/ajax/restorekeys.php')
-	->actionInclude('settings/ajax/restorekeys.php');
-$this->create('settings_ajax_deletekeys', '/settings/ajax/deletekeys.php')
-	->actionInclude('settings/ajax/deletekeys.php');
 $this->create('settings_cert_post', '/settings/ajax/addRootCertificate')
 	->actionInclude('settings/ajax/addRootCertificate.php');
 $this->create('settings_cert_remove', '/settings/ajax/removeRootCertificate')

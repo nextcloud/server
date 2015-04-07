@@ -25,7 +25,7 @@ namespace OC\Encryption\Keys;
 
 use OC\Encryption\Util;
 use OC\Files\View;
-use OCA\Files_Encryption\Exception\EncryptionException;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
 
 class Storage implements \OCP\Encryption\Keys\IStorage {
 
@@ -253,13 +253,13 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 *
 	 * @param string $path path to the file, relative to data/
 	 * @return string
-	 * @throws EncryptionException
+	 * @throws GenericEncryptionException
 	 * @internal param string $keyId
 	 */
 	private function getFileKeyDir($path) {
 
 		if ($this->view->is_dir($path)) {
-			throw new EncryptionException('file was expected but directory was given', EncryptionException::GENERIC);
+			throw new GenericEncryptionException("file was expected but directory was given: $path");
 		}
 
 		list($owner, $filename) = $this->util->getUidAndFilename($path);
@@ -283,7 +283,12 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @param string $owner
 	 * @param bool $systemWide
 	 */
-	public function renameKeys($source, $target, $owner, $systemWide) {
+	public function renameKeys($source, $target) {
+
+		list($owner, $source) = $this->util->getUidAndFilename($source);
+		list(, $target) = $this->util->getUidAndFilename($target);
+		$systemWide = $this->util->isSystemWideMountPoint($target);
+
 		if ($systemWide) {
 			$sourcePath = $this->keys_base_dir . $source . '/';
 			$targetPath = $this->keys_base_dir . $target . '/';
@@ -299,6 +304,34 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	}
 
 	/**
+	 * copy keys if a file was renamed
+	 *
+	 * @param string $source
+	 * @param string $target
+	 * @param string $owner
+	 * @param bool $systemWide
+	 */
+	public function copyKeys($source, $target) {
+
+		list($owner, $source) = $this->util->getUidAndFilename($source);
+		list(, $target) = $this->util->getUidAndFilename($target);
+		$systemWide = $this->util->isSystemWideMountPoint($target);
+
+		if ($systemWide) {
+			$sourcePath = $this->keys_base_dir . $source . '/';
+			$targetPath = $this->keys_base_dir . $target . '/';
+		} else {
+			$sourcePath = '/' . $owner . $this->keys_base_dir . $source . '/';
+			$targetPath = '/' . $owner . $this->keys_base_dir . $target . '/';
+		}
+
+		if ($this->view->file_exists($sourcePath)) {
+			$this->keySetPreparation(dirname($targetPath));
+			$this->view->copy($sourcePath, $targetPath);
+		}
+	}
+
+	/**
 	 * Make preparations to filesystem for saving a keyfile
 	 *
 	 * @param string $path relative to the views root
@@ -306,7 +339,7 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	protected function keySetPreparation($path) {
 		// If the file resides within a subdirectory, create it
 		if (!$this->view->file_exists($path)) {
-			$sub_dirs = explode('/', $path);
+			$sub_dirs = explode('/', ltrim($path, '/'));
 			$dir = '';
 			foreach ($sub_dirs as $sub_dir) {
 				$dir .= '/' . $sub_dir;

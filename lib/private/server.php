@@ -87,6 +87,11 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new Encryption\Manager($c->getConfig());
 		});
 
+		$this->registerService('EncryptionFileHelper', function (Server $c) {
+			$util = new \OC\Encryption\Util(new \OC\Files\View(), $c->getUserManager(), $c->getConfig());
+			return new Encryption\File($util);
+		});
+
 		$this->registerService('EncryptionKeyStorageFactory', function ($c) {
 			return new Encryption\Keys\Factory();
 		});
@@ -408,13 +413,20 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
+	 * @return \OC\Encryption\File
+	 */
+	function getEncryptionFilesHelper() {
+		return $this->query('EncryptionFileHelper');
+	}
+
+	/**
 	 * @param string $encryptionModuleId encryption module ID
 	 *
 	 * @return \OCP\Encryption\Keys\IStorage
 	 */
 	function getEncryptionKeyStorage($encryptionModuleId) {
 		$view = new \OC\Files\View();
-		$util = new \OC\Encryption\Util($view, \OC::$server->getUserManager());
+		$util = new \OC\Encryption\Util($view, \OC::$server->getUserManager(), \OC::$server->getConfig());
 		return $this->query('EncryptionKeyStorageFactory')->get($encryptionModuleId, $view, $util);
 	}
 
@@ -496,19 +508,7 @@ class Server extends SimpleContainer implements IServerContainer {
 		$dir = '/files';
 		if (!$folder->nodeExists($dir)) {
 			$folder = $folder->newFolder($dir);
-
-			if (\OCP\App::isEnabled('files_encryption')) {
-				// disable encryption proxy to prevent recursive calls
-				$proxyStatus = \OC_FileProxy::$enabled;
-				\OC_FileProxy::$enabled = false;
-			}
-
 			\OC_Util::copySkeleton($user, $folder);
-
-			if (\OCP\App::isEnabled('files_encryption')) {
-				// re-enable proxy - our work is done
-				\OC_FileProxy::$enabled = $proxyStatus;
-			}
 		} else {
 			$folder = $folder->get($dir);
 		}
