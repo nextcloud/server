@@ -24,6 +24,7 @@
  */
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
 
 define('OC_CONSOLE', 1);
 
@@ -71,6 +72,18 @@ try {
 	} else {
 		echo "ownCloud is not installed - only a limited number of commands are available" . PHP_EOL;
 	}
+	$input = new ArgvInput();
+	if ($input->getFirstArgument() !== 'check') {
+		$errors = \OC_Util::checkServer(\OC::$server->getConfig());
+		if (!empty($errors)) {
+			foreach ($errors as $error) {
+				echo $error['error'] . "\n";
+				echo $error['hint'] . "\n\n";
+			}
+			exit(1);
+		}
+	}
+
 	$application->run();
 } catch (Exception $ex) {
 	echo "An unhandled exception has been thrown:" . PHP_EOL;
