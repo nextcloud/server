@@ -1,7 +1,9 @@
 <?php
 /**
- * @author Clark Tomlinson  <clark@owncloud.com>
- * @since 2/19/15, 9:52 AM
+ * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
  *
