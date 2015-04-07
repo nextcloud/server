@@ -620,12 +620,12 @@ $CONFIG = array(
  * The maximum width, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
  */
-'preview_max_x' => null,
+'preview_max_x' => 2048,
 /**
  * The maximum height, in pixels, of a preview. A value of ``null`` means there
  * is no limit.
  */
-'preview_max_y' => null,
+'preview_max_y' => 2048,
 /**
  * If a lot of small pictures are stored on the ownCloud instance and the
  * preview system generates blurry previews, you might want to consider setting

@@ -48,6 +48,77 @@ class Preview extends TestCase {
 		parent::tearDown();
 	}
 
+	public function testIsMaxSizeWorking() {
+		// Max size from config
+		$maxX = 1024;
+		$maxY = 1024;
+
+		\OC::$server->getConfig()->setSystemValue('preview_max_x', $maxX);
+		\OC::$server->getConfig()->setSystemValue('preview_max_y', $maxY);
+
+		// Sample is 1680x1050 JPEG
+		$sampleFile = '/' . $this->user . '/files/testimage.jpg';
+		$this->rootView->file_put_contents($sampleFile, file_get_contents(\OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		$fileInfo = $this->rootView->getFileInfo($sampleFile);
+		$fileId = $fileInfo['fileid'];
+
+		$largeX = 1920;
+		$largeY = 1080;
+		$preview = new \OC\Preview($this->user, 'files/', 'testimage.jpg', $largeX, $largeY);
+
+		$this->assertEquals($preview->isFileValid(), true);
+
+		// There should be no cached copy
+		$isCached = $preview->isCached($fileId);
+
+		$this->assertNotEquals(\OC\Preview::THUMBNAILS_FOLDER . '/' . $fileId . '/' . $maxX . '-' . $maxY . '-max.png', $isCached);
+		$this->assertNotEquals(\OC\Preview::THUMBNAILS_FOLDER . '/' . $fileId . '/' . $maxX . '-' . $maxY . '.png', $isCached);
+		$this->assertNotEquals(\OC\Preview::THUMBNAILS_FOLDER . '/' . $fileId . '/' . $largeX . '-' . $largeY . '.png', $isCached);
+
+		// The returned preview should be of max size
+		$image = $preview->getPreview();
+
+		$this->assertEquals($image->width(), $maxX);
+		$this->assertEquals($image->height(), $maxY);
+
+		// The max thumbnail should be created
+		$maxThumbCacheFile = '/' . $this->user . '/' . \OC\Preview::THUMBNAILS_FOLDER . '/' . $fileId . '/' . $maxX . '-' . $maxY . '-max.png';
+
+		$this->assertEquals($this->rootView->file_exists($maxThumbCacheFile), true);
+
+		// A preview of the asked size should not have been created
+		$thumbCacheFile = \OC\Preview::THUMBNAILS_FOLDER . '/' . $fileId . '/' . $largeX . '-' . $largeY . '.png';
+
+		$this->assertEquals($this->rootView->file_exists($thumbCacheFile), false);
+
+		// 2nd request should indicate that we have a cached copy of max dimension
+		$isCached = $preview->isCached($fileId);
+		$this->assertEquals(\OC\Preview::THUMBNAILS_FOLDER . '/' . $fileId . '/' . $maxX . '-' . $maxY . '.png', $isCached);
+
+		// Smaller previews should be based on the cached max preview
+		$smallX = 50;
+		$smallY = 50;
+		$preview = new \OC\Preview($this->user, 'files/', 'testimage.jpg', $smallX, $smallY);
+		$isCached = $preview->isCached($fileId);
+
+		$this->assertEquals(\OC\Preview::THUMBNAILS_FOLDER . '/' . $fileId . '/' . $maxX . '-' . $maxY . '.png', $isCached);
+
+		// A small preview should be created
+		$image = $preview->getPreview();
+		$this->assertEquals($image->width(), $smallX);
+		$this->assertEquals($image->height(), $smallY);
+
+		// The cache should contain the small preview
+		$thumbCacheFile = '/' . $this->user . '/' . \OC\Preview::THUMBNAILS_FOLDER . '/' . $fileId . '/' . $smallX . '-' . $smallY . '.png';
+
+		$this->assertEquals($this->rootView->file_exists($thumbCacheFile), true);
+
+		// 2nd request should indicate that we have a cached copy of the exact dimension
+		$isCached = $preview->isCached($fileId);
+
+		$this->assertEquals(\OC\Preview::THUMBNAILS_FOLDER . '/' . $fileId . '/' . $smallX . '-' . $smallY . '.png', $isCached);
+	}
+
 	public function testIsPreviewDeleted() {
 
 		$sampleFile = '/'.$this->user.'/files/test.txt';
@@ -94,25 +165,6 @@ class Preview extends TestCase {
 		$preview->deleteAllPreviews();
 
 		$this->assertEquals($this->rootView->is_dir($thumbCacheFolder), false);
-	}
-
-	public function testIsMaxSizeWorking() {
-
-		$maxX = 250;
-		$maxY = 250;
-
-		\OC_Config::setValue('preview_max_x', $maxX);
-		\OC_Config::setValue('preview_max_y', $maxY);
-
-		$sampleFile = '/'.$this->user.'/files/test.txt';
-
-		$this->rootView->file_put_contents($sampleFile, 'dummy file data');
-
-		$preview = new \OC\Preview($this->user, 'files/', 'test.txt', 1000, 1000);
-		$image = $preview->getPreview();
-
-		$this->assertEquals($image->width(), $maxX);
-		$this->assertEquals($image->height(), $maxY);
 	}
 
 	public function txtBlacklist() {
