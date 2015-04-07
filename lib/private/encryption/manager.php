@@ -22,24 +22,34 @@
 
 namespace OC\Encryption;
 
+use OC\Files\Storage\Shared;
 use OC\Files\Storage\Wrapper\Encryption;
+use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
+use OCP\Encryption\IManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\IConfig;
+use OCP\ILogger;
 
-class Manager implements \OCP\Encryption\IManager {
+class Manager implements IManager {
 
 	/** @var array */
 	protected $encryptionModules;
 
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	protected $config;
 
+	/** @var ILogger */
+	protected $logger;
+
 	/**
-	 * @param \OCP\IConfig $config
+	 * @param IConfig $config
+	 * @param ILogger $logger
 	 */
-	public function __construct(\OCP\IConfig $config) {
+	public function __construct(IConfig $config, ILogger $logger) {
 		$this->encryptionModules = array();
 		$this->config = $config;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -56,6 +66,24 @@ class Manager implements \OCP\Encryption\IManager {
 
 		$enabled = $this->config->getAppValue('core', 'encryption_enabled', 'no');
 		return $enabled === 'yes';
+	}
+
+	/**
+	 * check if new encryption is ready
+	 *
+	 * @return boolean
+	 */
+	public function isReady() {
+		// check if we are still in transit between the old and the new encryption
+		$oldEncryption = $this->config->getAppValue('files_encryption', 'installed_version');
+		if (!empty($oldEncryption)) {
+			$warning = 'Installation is in transit between the old Encryption (ownCloud <= 8.0)
+			and the new encryption. Please enable the "ownCloud Default Encryption Module"
+			and run \'occ encryption:migrate\'';
+			$this->logger->warning($warning);
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -185,10 +213,10 @@ class Manager implements \OCP\Encryption\IManager {
 				'mountPoint' => $mountPoint,
 				'mount' => $mount];
 
-			if (!($storage instanceof \OC\Files\Storage\Shared)) {
+			if (!($storage instanceof Shared)) {
 				$manager = \OC::$server->getEncryptionManager();
-				$util = new \OC\Encryption\Util(
-					new \OC\Files\View(), \OC::$server->getUserManager(), \OC::$server->getConfig());
+				$util = new Util(
+					new View(), \OC::$server->getUserManager(), \OC::$server->getConfig());
 				$user = \OC::$server->getUserSession()->getUser();
 				$logger = \OC::$server->getLogger();
 				$uid = $user ? $user->getUID() : null;

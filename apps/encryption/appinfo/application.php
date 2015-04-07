@@ -40,13 +40,10 @@ use OCP\IConfig;
 
 
 class Application extends \OCP\AppFramework\App {
-	/**
-	 * @var IManager
-	 */
+
+	/** @var IManager */
 	private $encryptionManager;
-	/**
-	 * @var IConfig
-	 */
+	/** @var IConfig */
 	private $config;
 
 	/**
@@ -58,6 +55,10 @@ class Application extends \OCP\AppFramework\App {
 		$this->config = \OC::$server->getConfig();
 		$this->registerServices();
 	}
+
+	/**
+	 * register hooks
+	 */
 
 	public function registerHooks() {
 		if (!$this->config->getSystemValue('maintenance', false)) {

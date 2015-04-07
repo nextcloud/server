@@ -24,6 +24,7 @@ namespace OC\Encryption;
 
 use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
 use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
+use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
@@ -92,6 +93,7 @@ class Util {
 	 *
 	 * @param array $header
 	 * @return string
+	 * @throws ModuleDoesNotExistsException
 	 */
 	public function getEncryptionModuleId(array $header = null) {
 		$id = '';
@@ -99,6 +101,14 @@ class Util {
 
 		if (isset($header[$encryptionModuleKey])) {
 			$id = $header[$encryptionModuleKey];
+		} elseif (isset($header['cipher'])) {
+			if (class_exists('\OCA\Encryption\Crypto\Encryption')) {
+				// fall back to default encryption if the user migrated from
+				// ownCloud <= 8.0 with the old encryption
+				$id = \OCA\Encryption\Crypto\Encryption::ID;
+			} else {
+				throw new ModuleDoesNotExistsException('ownCloud default encryption module missing');
+			}
 		}
 
 		return $id;

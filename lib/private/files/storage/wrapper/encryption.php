@@ -154,7 +154,8 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	public function unlink($path) {
-		if ($this->util->isExcluded($path)) {
+		$fullPath = $this->getFullPath($path);
+		if ($this->util->isExcluded($fullPath)) {
 			return $this->storage->unlink($path);
 		}
 
@@ -175,7 +176,8 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	public function rename($path1, $path2) {
-		if ($this->util->isExcluded($path1)) {
+		$fullPath1 = $this->getFullPath($path1);
+		if ($this->util->isExcluded($fullPath1)) {
 			return $this->storage->rename($path1, $path2);
 		}
 
@@ -204,8 +206,9 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	public function copy($path1, $path2) {
-		if ($this->util->isExcluded($path1)) {
-			return $this->storage->rename($path1, $path2);
+		$fullPath1 = $this->getFullPath($path1);
+		if ($this->util->isExcluded($fullPath1)) {
+			return $this->storage->copy($path1, $path2);
 		}
 
 		$source = $this->getFullPath($path1);

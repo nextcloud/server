@@ -84,7 +84,7 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 
 		$this->registerService('EncryptionManager', function (Server $c) {
-			return new Encryption\Manager($c->getConfig());
+			return new Encryption\Manager($c->getConfig(), $c->getLogger());
 		});
 
 		$this->registerService('EncryptionFileHelper', function (Server $c) {
