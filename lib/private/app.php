@@ -513,7 +513,7 @@ class OC_App {
 	/**
 	 * search for an app in all app-directories
 	 *
-	 * @param $appId
+	 * @param string $appId
 	 * @return mixed (bool|string)
 	 */
 	protected static function findAppInDirectories($appId) {
@@ -732,6 +732,8 @@ class OC_App {
 
 	/**
 	 * register a personal form to be shown
+	 * @param string $app
+	 * @param string $page
 	 */
 	public static function registerPersonal($app, $page) {
 		self::$personalForms[] = $app . '/' . $page . '.php';
