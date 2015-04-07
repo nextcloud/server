@@ -12,7 +12,7 @@ Handlebars.registerHelper('score', function() {
 Handlebars.registerHelper('level', function() {
 	if(typeof this.level !== 'undefined') {
 		if(this.level === 200) {
-			return new Handlebars.SafeString('<span class="official">Official</span>');
+			return new Handlebars.SafeString('<span class="official icon-checkmark">Official</span>');
 		} else if(this.level === 100) {
 			return new Handlebars.SafeString('<span class="approved">Approved</span>');
 		} else {
