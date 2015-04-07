@@ -41,12 +41,12 @@ script(
 
 <script id="app-template" type="text/x-handlebars">
 	{{#if firstExperimental}}
-		<div style="background-color: lightyellow; border-top:1px solid black; border-bottom:  1px solid black;">
+		<div class="section apps-experimental">
 			<h2><?php p($l->t('Experimental applications ahead')) ?></h2>
 			<p>
 				<?php p($l->t('Experimental apps are not checked for security ' .
-			'issues and are new or known to be unstable and under heavy ' .
-			'development. Installing these can cause data loss or security ' .
+			'issues, new or known to be unstable and under heavy ' .
+			'development. Installing them can cause data loss or security ' .
 			'breaches.')) ?>
 			</p>
 		</div>
@@ -66,12 +66,12 @@ script(
 		{{/if}}
 	</div>
 	{{#if profilepage}}</a>{{/if}}
-	{{#if score}}
-	<div class="app-score">{{{score}}}</div>
-	{{/if}}
 	<div class="app-level">
 		{{{level}}}
 	</div>
+	{{#if score}}
+	<div class="app-score">{{{score}}}</div>
+	{{/if}}
 	<div class="app-detailpage"></div>
 
 	<div class="app-description-container hidden">
@@ -138,14 +138,14 @@ script(
 			<button class="settings-button" data-apps-slide-toggle="#app-settings-content"></button>
 		</div>
 
-		<div id="app-settings-content" style="color: #ce3702">
+		<div id="app-settings-content" class="apps-experimental">
 			<input type="checkbox" id="enable-experimental-apps" <?php if($_['experimentalEnabled']) { print_unescaped('checked="checked"'); }?>>
 			<label for="enable-experimental-apps"><?php p($l->t('Enable experimental apps')) ?></label>
 			<p>
 				<small>
 					<?php p($l->t('Experimental apps are not checked for security ' .
-						'issues and are new or known to be unstable and under heavy ' .
-						'development. Installing these can cause data loss or security ' .
+						'issues, new or known to be unstable and under heavy ' .
+						'development. Installing them can cause data loss or security ' .
 						'breaches.')) ?>
 				</small>
 			</p>

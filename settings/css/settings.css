@@ -231,6 +231,14 @@ span.version {
 	border-color: #ce3702;
 	color: #fff;
 }
+.apps-experimental {
+	color: #ce3702;
+}
+
+.app-score {
+	position: relative;
+	top: 4px;
+}
 
 #apps-list {
 	position: relative;
@@ -288,6 +296,10 @@ span.version {
 
 #app-category-1 {
 	border-bottom: 1px solid #e8e8e8;
+}
+/* capitalize "Other" category */
+#app-category-925 {
+	text-transform: capitalize;
 }
 
 .app-dependencies {
