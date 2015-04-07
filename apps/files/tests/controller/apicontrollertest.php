@@ -87,7 +87,7 @@ class ApiControllerTest extends TestCase {
 				[
 					'id' => null,
 					'parentId' => null,
-					'date' => 'January 1, 1970 at 12:00:55 AM GMT+0',
+					'date' => \OCP\Util::formatDate(55),
 					'mtime' => 55000,
 					'icon' => \OCA\Files\Helper::determineIcon($fileInfo),
 					'name' => 'root.txt',
@@ -152,7 +152,7 @@ class ApiControllerTest extends TestCase {
 				[
 					'id' => null,
 					'parentId' => null,
-					'date' => 'January 1, 1970 at 12:00:55 AM GMT+0',
+					'date' => \OCP\Util::formatDate(55),
 					'mtime' => 55000,
 					'icon' => \OCA\Files\Helper::determineIcon($fileInfo1),
 					'name' => 'root.txt',
@@ -171,7 +171,7 @@ class ApiControllerTest extends TestCase {
 				[
 					'id' => null,
 					'parentId' => null,
-					'date' => 'January 1, 1970 at 12:16:39 AM GMT+0',
+					'date' => \OCP\Util::formatDate(999),
 					'mtime' => 999000,
 					'icon' => \OCA\Files\Helper::determineIcon($fileInfo2),
 					'name' => 'root.txt',
