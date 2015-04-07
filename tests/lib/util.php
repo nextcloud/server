@@ -54,24 +54,27 @@ class Test_Util extends \Test\TestCase {
 
 	public function formatDateWithTZFromSessionData() {
 		return array(
-			array(3, 'October 13, 2012 at 2:53:25 PM GMT+3'),
-			array(15, 'October 13, 2012 at 11:53:25 AM GMT+0'),
-			array(-13, 'October 13, 2012 at 11:53:25 AM GMT+0'),
-			array(9.5, 'October 13, 2012 at 9:23:25 PM GMT+9:30'),
-			array(-4.5, 'October 13, 2012 at 7:23:25 AM GMT-4:30'),
-			array(15.5, 'October 13, 2012 at 11:53:25 AM GMT+0'),
+			array(3, 'October 13, 2012 at 2:53:25 PM GMT+3', 'Etc/GMT-3'),
+			array(15, 'October 13, 2012 at 11:53:25 AM GMT+0', 'UTC'),
+			array(-13, 'October 13, 2012 at 11:53:25 AM GMT+0', 'UTC'),
+			array(9.5, 'October 13, 2012 at 9:23:25 PM GMT+9:30', 'Australia/Darwin'),
+			array(-4.5, 'October 13, 2012 at 7:23:25 AM GMT-4:30', 'America/Caracas'),
+			array(15.5, 'October 13, 2012 at 11:53:25 AM GMT+0', 'UTC'),
 		);
 	}
 
 	/**
 	 * @dataProvider formatDateWithTZFromSessionData
 	 */
-	function testFormatDateWithTZFromSession($offset, $expected) {
+	function testFormatDateWithTZFromSession($offset, $expected, $expectedTimeZone) {
 		date_default_timezone_set("UTC");
 
 		$oldDateTimeFormatter = \OC::$server->query('DateTimeFormatter');
 		\OC::$server->getSession()->set('timezone', $offset);
-		$newDateTimeFormatter = new \OC\DateTimeFormatter(\OC::$server->getDateTimeZone()->getTimeZone(), new \OC_L10N('lib', 'en'));
+
+		$selectedTimeZone = \OC::$server->getDateTimeZone()->getTimeZone(1350129205);
+		$this->assertEquals($expectedTimeZone, $selectedTimeZone->getName());
+		$newDateTimeFormatter = new \OC\DateTimeFormatter($selectedTimeZone, new \OC_L10N('lib', 'en'));
 		$this->setDateFormatter($newDateTimeFormatter);
 
 		$result = OC_Util::formatDate(1350129205, false);
