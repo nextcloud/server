@@ -28,9 +28,6 @@ class Filesystem extends \Test\TestCase {
 	 */
 	private $tmpDirs = array();
 
-	/** @var \OC\Files\Storage\Storage */
-	private $originalStorage;
-
 	/**
 	 * @return array
 	 */
@@ -42,20 +39,15 @@ class Filesystem extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-
-		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
-		\OC_User::setUserId('');
-		\OC\Files\Filesystem::clearMounts();
+		$this->loginAsUser();
 	}
 
 	protected function tearDown() {
 		foreach ($this->tmpDirs as $dir) {
 			\OC_Helper::rmdirr($dir);
 		}
-		\OC\Files\Filesystem::clearMounts();
-		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
-		\OC_User::setUserId('');
 
+		$this->logout();
 		parent::tearDown();
 	}
 

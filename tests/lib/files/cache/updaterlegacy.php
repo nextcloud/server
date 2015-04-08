@@ -27,9 +27,6 @@ class UpdaterLegacy extends \Test\TestCase {
 	 */
 	private $cache;
 
-	/** @var \OC\Files\Storage\Storage */
-	private $originalStorage;
-
 	private static $user;
 
 	protected function setUp() {
@@ -48,14 +45,12 @@ class UpdaterLegacy extends \Test\TestCase {
 		$this->scanner->scan('');
 		$this->cache = $this->storage->getCache();
 
-		$this->originalStorage = Filesystem::getStorage('/');
-		Filesystem::tearDown();
 		if (!self::$user) {
 			self::$user = $this->getUniqueID();
 		}
 
 		\OC_User::createUser(self::$user, 'password');
-		\OC_User::setUserId(self::$user);
+		$this->loginAsUser(self::$user);
 
 		Filesystem::init(self::$user, '/' . self::$user . '/files');
 
@@ -71,9 +66,8 @@ class UpdaterLegacy extends \Test\TestCase {
 		}
 		$result = \OC_User::deleteUser(self::$user);
 		$this->assertTrue($result);
-		Filesystem::tearDown();
-		Filesystem::mount($this->originalStorage, array(), '/');
 
+		$this->logout();
 		parent::tearDown();
 	}
 

@@ -167,9 +167,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	 * Login and setup FS as a given user,
 	 * sets the given user as the current user.
 	 *
-	 * @param string $user user id
+	 * @param string $user user id or empty for a generic FS
 	 */
-	static protected function loginAsUser($user) {
+	static protected function loginAsUser($user = '') {
 		self::logout();
 		\OC\Files\Filesystem::tearDown();
 		\OC_User::setUserId($user);

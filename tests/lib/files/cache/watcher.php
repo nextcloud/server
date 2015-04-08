@@ -15,14 +15,10 @@ class Watcher extends \Test\TestCase {
 	 */
 	private $storages = array();
 
-	/** @var \OC\Files\Storage\Storage */
-	private $originalStorage;
-
 	protected function setUp() {
 		parent::setUp();
 
-		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
-		\OC\Files\Filesystem::clearMounts();
+		$this->loginAsUser();
 	}
 
 	protected function tearDown() {
@@ -32,9 +28,7 @@ class Watcher extends \Test\TestCase {
 			$cache->clear();
 		}
 
-		\OC\Files\Filesystem::clearMounts();
-		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
-
+		$this->logout();
 		parent::tearDown();
 	}
 

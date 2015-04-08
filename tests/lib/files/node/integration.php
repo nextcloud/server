@@ -20,9 +20,6 @@ class IntegrationTests extends \Test\TestCase {
 	 */
 	private $root;
 
-	/** @var \OC\Files\Storage\Storage */
-	private $originalStorage;
-
 	/**
 	 * @var \OC\Files\Storage\Storage[]
 	 */
@@ -36,9 +33,6 @@ class IntegrationTests extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
-		\OC\Files\Filesystem::init('', '');
-		\OC\Files\Filesystem::clearMounts();
 		$manager = \OC\Files\Filesystem::getMountManager();
 
 		\OC_Hook::clear('OC_Filesystem');
@@ -49,7 +43,8 @@ class IntegrationTests extends \Test\TestCase {
 		\OC_Hook::connect('OC_Filesystem', 'post_touch', '\OC\Files\Cache\Updater', 'touchHook');
 
 		$user = new User($this->getUniqueID('user'), new \OC_User_Dummy);
-		\OC_User::setUserId($user->getUID());
+		$this->loginAsUser($user->getUID());
+
 		$this->view = new View();
 		$this->root = new Root($manager, $this->view, $user);
 		$storage = new Temporary(array());
@@ -64,9 +59,8 @@ class IntegrationTests extends \Test\TestCase {
 		foreach ($this->storages as $storage) {
 			$storage->getCache()->clear();
 		}
-		\OC\Files\Filesystem::clearMounts();
-		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
 
+		$this->logout();
 		parent::tearDown();
 	}
 
