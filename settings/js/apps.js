@@ -109,7 +109,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					$('#apps-list-empty').removeClass('hidden');
 				}
 
-				$('.app-level .official').tipsy({fallback: t('core', 'Official apps are developed by and within the ownCloud community and its GitHub repository and offer functionality central to ownCloud. They are ready for serious use.')});
+				$('.app-level .official').tipsy({fallback: t('core', 'Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use.')});
 				$('.app-level .approved').tipsy({fallback: t('core', 'Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use.')});
 				$('.app-level .experimental').tipsy({fallback: t('core', 'This app is not checked for security issues and is new or known to be unstable. Install on your own risk.')});
 			},

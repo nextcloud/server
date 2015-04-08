@@ -577,7 +577,7 @@ $CONFIG = array(
 'appstoreurl' => 'https://api.owncloud.com/v1',
 
 /**
- * Whether to experimental apps in the appstore interface
+ * Whether to show experimental apps in the appstore interface
  *
  * Experimental apps are not checked for security issues and are new or known
  * to be unstable and under heavy development. Installing these can cause data
