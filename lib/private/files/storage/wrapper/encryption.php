@@ -226,6 +226,7 @@ class Encryption extends Wrapper {
 	 */
 	public function fopen($path, $mode) {
 
+		$encryptionEnabled = $this->encryptionManager->isEnabled();
 		$shouldEncrypt = false;
 		$encryptionModule = null;
 		$header = $this->getHeader($path);
@@ -258,10 +259,11 @@ class Encryption extends Wrapper {
 			) {
 				if (!empty($encryptionModuleId)) {
 					$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
-				} else {
+					$shouldEncrypt = $encryptionModule->shouldEncrypt($fullPath);
+				} elseif ($encryptionEnabled) {
 					$encryptionModule = $this->encryptionManager->getDefaultEncryptionModule();
+					$shouldEncrypt = $encryptionModule->shouldEncrypt($fullPath);
 				}
-				$shouldEncrypt = $encryptionModule->shouldEncrypt($fullPath);
 			} else {
 				// only get encryption module if we found one in the header
 				if (!empty($encryptionModuleId)) {
@@ -271,12 +273,11 @@ class Encryption extends Wrapper {
 			}
 		} catch (ModuleDoesNotExistsException $e) {
 			$this->logger->warning('Encryption module "' . $encryptionModuleId .
-				'" not found, file will be stored unencrypted');
+				'" not found, file will be stored unencrypted (' . $e->getMessage() . ')');
 		}
 
 		// encryption disabled on write of new file and write to existing unencrypted file -> don't encrypt
-		$encEnabled = $this->encryptionManager->isEnabled();
-		if (!$encEnabled || !$this->mount->getOption('encrypt', true)) {
+		if (!$encryptionEnabled || !$this->mount->getOption('encrypt', true)) {
 			if (!$targetExists || !$targetIsEncrypted) {
 				$shouldEncrypt = false;
 			}
