@@ -7,14 +7,14 @@ function checkStatus() {
 		0, location.pathname.indexOf('index.php')
 	);
 	request.open("GET", ocroot+'status.php', true);
-	request.send();
 	request.onreadystatechange = function() {
 		if (request.readyState === 4) {
 			var response = request.responseText;
 			var responseobj = JSON.parse(response);
-			if (responseobj.maintenance === 'false') {
+			if (responseobj.maintenance === false) {
 				window.location.reload();
 			}
 		}
 	};
+	request.send();
 }
