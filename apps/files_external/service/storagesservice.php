@@ -227,8 +227,10 @@ abstract class StoragesService {
 		if (!is_null($storageConfig->getPriority())) {
 			$options['priority'] = $storageConfig->getPriority();
 		}
-		if (!empty($storageConfig->getMountOptions())) {
-			$options['mountOptions'] = $storageConfig->getMountOptions();
+
+		$mountOptions = $storageConfig->getMountOptions();
+		if (!empty($mountOptions)) {
+			$options['mountOptions'] = $mountOptions;
 		}
 
 		$mountPoints[$mountType][$applicable][$rootMountPoint] = $options;
