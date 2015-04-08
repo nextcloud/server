@@ -41,6 +41,7 @@ try {
 	if (OC::$CLI) {
 		print_r($values);
 	} else {
+		header('Content-Type: application/json');
 		echo json_encode($values);
 	}
 
