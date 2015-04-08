@@ -27,6 +27,11 @@ use OCA\Files_sharing\Lib\DeleteOrphanedSharesJob;
 class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 	/**
+	 * @var bool
+	 */
+	private static $trashBinStatus;
+
+	/**
 	 * @var DeleteOrphanedSharesJob
 	 */
 	private $job;
@@ -45,6 +50,18 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	 * @var string
 	 */
 	private $user2;
+
+	public static function setUpBeforeClass() {
+		$appManager = \OC::$server->getAppManager();
+		self::$trashBinStatus = $appManager->isEnabledForUser('files_trashbin');
+		$appManager->disableApp('files_trashbin');
+	}
+
+	public static function tearDownAfterClass() {
+		if (self::$trashBinStatus) {
+			\OC::$server->getAppManager()->enableApp('files_trashbin');
+		}
+	}
 
 	protected function setup() {
 		parent::setUp();
