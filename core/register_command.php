@@ -26,6 +26,7 @@
 
 /** @var $application Symfony\Component\Console\Application */
 $application->add(new OC\Core\Command\Status);
+$application->add(new OC\Core\Command\Check(\OC::$server->getConfig()));
 $application->add(new OC\Core\Command\App\CheckCode());
 $application->add(new OC\Core\Command\L10n\CreateJs());
 
