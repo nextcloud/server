@@ -37,6 +37,8 @@ use OCP\IUserSession;
 class Crypt {
 
 	const DEFAULT_CIPHER = 'AES-256-CFB';
+	// default cipher from old ownCloud versions
+	const LEGACY_CIPHER = 'AES-128-CFB';
 
 	const HEADER_START = 'HBEGIN';
 	const HEADER_END = 'HEND';
@@ -149,6 +151,16 @@ class Crypt {
 	}
 
 	/**
+	 * generate header for encrypted file
+	 */
+	public function generateHeader() {
+		$cipher = $this->getCipher();
+		$header = self::HEADER_START . ':cipher:' . $cipher . ':' . self::HEADER_END;
+
+		return $header;
+	}
+
+	/**
 	 * @param string $plainContent
 	 * @param string $iv
 	 * @param string $passPhrase
@@ -205,23 +217,28 @@ class Crypt {
 	}
 
 	/**
-	 * @param string $recoveryKey
+	 * @param string $privateKey
 	 * @param string $password
 	 * @return bool|string
 	 */
-	public function decryptPrivateKey($recoveryKey, $password) {
+	public function decryptPrivateKey($privateKey, $password) {
 
-		$header = $this->parseHeader($recoveryKey);
-		$cipher = $this->getCipher();
+		$header = $this->parseHeader($privateKey);
+
+		if (isset($header['cipher'])) {
+			$cipher = $header['cipher'];
+		} else {
+			$cipher = self::LEGACY_CIPHER;
+		}
 
 		// If we found a header we need to remove it from the key we want to decrypt
 		if (!empty($header)) {
-			$recoveryKey = substr($recoveryKey,
-				strpos($recoveryKey,
+			$privateKey = substr($privateKey,
+				strpos($privateKey,
 					self::HEADER_END) + strlen(self::HEADER_START));
 		}
 
-		$plainKey = $this->symmetricDecryptFileContent($recoveryKey,
+		$plainKey = $this->symmetricDecryptFileContent($privateKey,
 			$password,
 			$cipher);
 

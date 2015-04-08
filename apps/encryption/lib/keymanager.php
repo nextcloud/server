@@ -200,9 +200,10 @@ class KeyManager {
 
 		$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'],
 			$password);
+		$header = $this->crypt->generateHeader();
 
 		if ($encryptedKey) {
-			$this->setPrivateKey($uid, $encryptedKey);
+			$this->setPrivateKey($uid, $header . $encryptedKey);
 			return true;
 		}
 		return false;
@@ -219,9 +220,10 @@ class KeyManager {
 
 		$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'],
 			$password);
+		$header = $this->crypt->generateHeader();
 
 		if ($encryptedKey) {
-			$this->setSystemPrivateKey($this->getRecoveryKeyId(), $encryptedKey);
+			$this->setSystemPrivateKey($this->getRecoveryKeyId(), $header . $encryptedKey);
 			return true;
 		}
 		return false;
