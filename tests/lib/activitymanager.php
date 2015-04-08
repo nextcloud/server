@@ -13,10 +13,34 @@ class Test_ActivityManager extends \Test\TestCase {
 	/** @var \OC\ActivityManager */
 	private $activityManager;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	protected $request;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	protected $session;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	protected $config;
+
 	protected function setUp() {
 		parent::setUp();
 
-		$this->activityManager = new \OC\ActivityManager();
+		$this->request = $this->getMockBuilder('OCP\IRequest')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->session = $this->getMockBuilder('OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->config = $this->getMockBuilder('OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->activityManager = new \OC\ActivityManager(
+			$this->request,
+			$this->session,
+			$this->config
+		);
+
 		$this->activityManager->registerExtension(function() {
 			return new NoOpExtension();
 		});
@@ -110,6 +134,83 @@ class Test_ActivityManager extends \Test\TestCase {
 
 		$result = $this->activityManager->getQueryForFilter('InvalidFilter');
 		$this->assertEquals(array(null, null), $result);
+	}
+
+	public function getUserFromTokenThrowInvalidTokenData() {
+		return [
+			[null, []],
+			['', []],
+			['12345678901234567890123456789', []],
+			['1234567890123456789012345678901', []],
+			['123456789012345678901234567890', []],
+			['123456789012345678901234567890', ['user1', 'user2']],
+		];
+	}
+
+	/**
+	 * @expectedException \UnexpectedValueException
+	 * @dataProvider getUserFromTokenThrowInvalidTokenData
+	 *
+	 * @param string $token
+	 * @param array $users
+	 */
+	public function testGetUserFromTokenThrowInvalidToken($token, $users) {
+		$this->mockRSSToken($token, $token, $users);
+		\Test_Helper::invokePrivate($this->activityManager, 'getUserFromToken');
+	}
+
+	public function getUserFromTokenData() {
+		return [
+			[null, '123456789012345678901234567890', 'user1'],
+			['user2', null, 'user2'],
+			['user2', '123456789012345678901234567890', 'user2'],
+		];
+	}
+
+	/**
+	 * @dataProvider getUserFromTokenData
+	 *
+	 * @param string $userLoggedIn
+	 * @param string $token
+	 * @param string $expected
+	 */
+	public function testGetUserFromToken($userLoggedIn, $token, $expected) {
+		if ($userLoggedIn !== null) {
+			$this->mockUserSession($userLoggedIn);
+		}
+		$this->mockRSSToken($token, '123456789012345678901234567890', ['user1']);
+
+		$this->assertEquals($expected, $this->activityManager->getCurrentUserId());
+	}
+
+	protected function mockRSSToken($requestToken, $userToken, $users) {
+		if ($requestToken !== null) {
+			$this->request->expects($this->any())
+				->method('getParam')
+				->with('token', '')
+				->willReturn($requestToken);
+		}
+
+		$this->config->expects($this->any())
+			->method('getUsersForUserValue')
+			->with('activity', 'rsstoken', $userToken)
+			->willReturn($users);
+	}
+
+	protected function mockUserSession($user) {
+		$mockUser = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$mockUser->expects($this->any())
+			->method('getUID')
+			->willReturn($user);
+
+		$this->session->expects($this->any())
+			->method('isLoggedIn')
+			->willReturn(true);
+		$this->session->expects($this->any())
+			->method('getUser')
+			->willReturn($mockUser);
 	}
 }
 

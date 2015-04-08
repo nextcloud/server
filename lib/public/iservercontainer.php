@@ -60,7 +60,7 @@ interface IServerContainer {
 	 * is returned from this method.
 	 * In case the current execution was not initiated by a web request null is returned
 	 *
-	 * @return \OCP\IRequest|null
+	 * @return \OCP\IRequest
 	 */
 	function getRequest();
 

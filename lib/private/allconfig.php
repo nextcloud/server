@@ -253,7 +253,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
-	 * @param string $default the default value to be returned if the value isn't set
+	 * @param mixed $default the default value to be returned if the value isn't set
 	 * @return string
 	 */
 	public function getUserValue($userId, $appName, $key, $default = '') {

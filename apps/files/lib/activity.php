@@ -24,16 +24,20 @@ namespace OCA\Files;
 
 use OC\L10N\Factory;
 use OCP\Activity\IExtension;
+use OCP\Activity\IManager;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class Activity implements IExtension {
 	const FILTER_FILES = 'files';
+	const FILTER_FAVORITES = 'files_favorites';
 
 	const TYPE_SHARE_CREATED = 'file_created';
 	const TYPE_SHARE_CHANGED = 'file_changed';
 	const TYPE_SHARE_DELETED = 'file_deleted';
 	const TYPE_SHARE_RESTORED = 'file_restored';
+	const TYPE_FAVORITES = 'files_favorites';
 
 	/** @var IL10N */
 	protected $l;
@@ -44,14 +48,29 @@ class Activity implements IExtension {
 	/** @var IURLGenerator */
 	protected $URLGenerator;
 
+	/** @var \OCP\Activity\IManager */
+	protected $activityManager;
+
+	/** @var \OCP\IConfig */
+	protected $config;
+
+	/** @var \OCA\Files\ActivityHelper */
+	protected $helper;
+
 	/**
 	 * @param Factory $languageFactory
 	 * @param IURLGenerator $URLGenerator
+	 * @param IManager $activityManager
+	 * @param ActivityHelper $helper
+	 * @param IConfig $config
 	 */
-	public function __construct(Factory $languageFactory, IURLGenerator $URLGenerator) {
+	public function __construct(Factory $languageFactory, IURLGenerator $URLGenerator, IManager $activityManager, ActivityHelper $helper, IConfig $config) {
 		$this->languageFactory = $languageFactory;
 		$this->URLGenerator = $URLGenerator;
 		$this->l = $this->getL10N();
+		$this->activityManager = $activityManager;
+		$this->helper = $helper;
+		$this->config = $config;
 	}
 
 	/**
@@ -74,6 +93,7 @@ class Activity implements IExtension {
 		return [
 			self::TYPE_SHARE_CREATED => (string) $l->t('A new file or folder has been <strong>created</strong>'),
 			self::TYPE_SHARE_CHANGED => (string) $l->t('A file or folder has been <strong>changed</strong>'),
+			self::TYPE_FAVORITES => (string) $l->t('Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>'),
 			self::TYPE_SHARE_DELETED => (string) $l->t('A file or folder has been <strong>deleted</strong>'),
 			self::TYPE_SHARE_RESTORED => (string) $l->t('A file or folder has been <strong>restored</strong>'),
 		];
@@ -229,6 +249,13 @@ class Activity implements IExtension {
 	 */
 	public function getNavigation() {
 		return [
+			'top' => [
+				self::FILTER_FAVORITES => [
+					'id' => self::FILTER_FAVORITES,
+					'name' => (string) $this->l->t('Favorites'),
+					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::FILTER_FAVORITES]),
+				],
+			],
 			'apps' => [
 				self::FILTER_FILES => [
 					'id' => self::FILTER_FILES,
@@ -236,7 +263,6 @@ class Activity implements IExtension {
 					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::FILTER_FILES]),
 				],
 			],
-			'top' => [],
 		];
 	}
 
@@ -247,7 +273,7 @@ class Activity implements IExtension {
 	 * @return boolean
 	 */
 	public function isFilterValid($filterValue) {
-		return $filterValue === self::FILTER_FILES;
+		return $filterValue === self::FILTER_FILES || $filterValue === self::FILTER_FAVORITES;
 	}
 
 	/**
@@ -259,7 +285,7 @@ class Activity implements IExtension {
 	 * @return array|false
 	 */
 	public function filterNotificationTypes($types, $filter) {
-		if ($filter === self::FILTER_FILES) {
+		if ($filter === self::FILTER_FILES || $filter === self::FILTER_FAVORITES) {
 			return array_intersect([
 				self::TYPE_SHARE_CREATED,
 				self::TYPE_SHARE_CHANGED,
@@ -280,9 +306,63 @@ class Activity implements IExtension {
 	 * @return array|false
 	 */
 	public function getQueryForFilter($filter) {
+		$user = $this->activityManager->getCurrentUserId();
+		// Display actions from all files
 		if ($filter === self::FILTER_FILES) {
 			return ['`app` = ?', ['files']];
 		}
+
+		if (!$user) {
+			// Remaining filters only work with a user/token
+			return false;
+		}
+
+		// Display actions from favorites only
+		if ($filter === self::FILTER_FAVORITES || in_array($filter, ['all', 'by', 'self']) && $this->userSettingFavoritesOnly($user)) {
+			try {
+				$favorites = $this->helper->getFavoriteFilePaths($user);
+			} catch (\RuntimeException $e) {
+				// Too many favorites, can not put them into one query anymore...
+				return ['`app` = ?', ['files']];
+			}
+
+			/*
+			 * Display activities only, when they are not `type` create/change
+			 * or `file` is a favorite or in a favorite folder
+			 */
+			$parameters = $fileQueryList = [];
+			$parameters[] = 'files';
+
+			$fileQueryList[] = '(`type` <> ? AND `type` <> ?)';
+			$parameters[] = self::TYPE_SHARE_CREATED;
+			$parameters[] = self::TYPE_SHARE_CHANGED;
+
+			foreach ($favorites['items'] as $favorite) {
+				$fileQueryList[] = '`file` = ?';
+				$parameters[] = $favorite;
+			}
+			foreach ($favorites['folders'] as $favorite) {
+				$fileQueryList[] = '`file` LIKE ?';
+				$parameters[] = $favorite . '/%';
+			}
+
+			$parameters[] = 'files';
+
+			return [
+				' CASE WHEN `app` = ? THEN (' . implode(' OR ', $fileQueryList) . ') ELSE `app` <> ? END ',
+				$parameters,
+			];
+		}
 		return false;
+	}
+
+	/**
+	 * Is the file actions favorite limitation enabled?
+	 *
+	 * @param string $user
+	 * @return bool
+	 */
+	protected function userSettingFavoritesOnly($user) {
+		return (bool) $this->config->getUserValue($user, 'activity', 'notify_stream_' . self::TYPE_FAVORITES, false);
 	}
 }

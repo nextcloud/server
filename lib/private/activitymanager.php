@@ -28,8 +28,34 @@ namespace OC;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IExtension;
 use OCP\Activity\IManager;
+use OCP\IConfig;
+use OCP\IRequest;
+use OCP\IUserSession;
 
 class ActivityManager implements IManager {
+	/** @var IRequest */
+	protected $request;
+
+	/** @var IUserSession */
+	protected $session;
+
+	/** @var IConfig */
+	protected $config;
+
+	/**
+	 * constructor of the controller
+	 *
+	 * @param IRequest $request
+	 * @param IUserSession $session
+	 * @param IConfig $config
+	 */
+	public function __construct(IRequest $request,
+								IUserSession $session,
+								IConfig $config) {
+		$this->request = $request;
+		$this->session = $session;
+		$this->config = $config;
+	}
 
 	/**
 	 * @var \Closure[]
@@ -347,5 +373,44 @@ class ActivityManager implements IManager {
 		}
 
 		return array(' and ((' . implode(') or (', $conditions) . '))', $parameters);
+	}
+
+	/**
+	 * Get the user we need to use
+	 *
+	 * Either the user is logged in, or we try to get it from the token
+	 *
+	 * @return string
+	 * @throws \UnexpectedValueException If the token is invalid, does not exist or is not unique
+	 */
+	public function getCurrentUserId() {
+		if (!$this->session->isLoggedIn()) {
+			return $this->getUserFromToken();
+		} else {
+			return $this->session->getUser()->getUID();
+		}
+	}
+
+	/**
+	 * Get the user for the token
+	 *
+	 * @return string
+	 * @throws \UnexpectedValueException If the token is invalid, does not exist or is not unique
+	 */
+	protected function getUserFromToken() {
+		$token = (string) $this->request->getParam('token', '');
+		if (strlen($token) !== 30) {
+			throw new \UnexpectedValueException('The token is invalid');
+		}
+
+		$users = $this->config->getUsersForUserValue('activity', 'rsstoken', $token);
+
+		if (sizeof($users) !== 1) {
+			// No unique user found
+			throw new \UnexpectedValueException('The token is invalid');
+		}
+
+		// Token found login as that user
+		return array_shift($users);
 	}
 }
