@@ -72,6 +72,8 @@ class Test_StreamWrappers extends \Test\TestCase {
 	}
 
 	public function testOC() {
+		// FIXME: use proper tearDown with $this->loginAsUser() and $this->logout()
+		// (would currently break the tests for some reason)
 		$originalStorage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::clearMounts();
 

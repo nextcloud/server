@@ -33,16 +33,12 @@ class Updater extends \Test\TestCase {
 	 */
 	protected $updater;
 
-	/** @var \OC\Files\Storage\Storage */
-	private $originalStorage;
-
 	protected function setUp() {
 		parent::setUp();
 
-		$this->originalStorage = Filesystem::getStorage('/');
+		$this->loginAsUser();
 
 		$this->storage = new Temporary(array());
-		Filesystem::clearMounts();
 		Filesystem::mount($this->storage, array(), '/');
 		$this->view = new View('');
 		$this->updater = new \OC\Files\Cache\Updater($this->view);
@@ -51,8 +47,8 @@ class Updater extends \Test\TestCase {
 
 	protected function tearDown() {
 		Filesystem::clearMounts();
-		Filesystem::mount($this->originalStorage, array(), '/');
 
+		$this->logout();
 		parent::tearDown();
 	}
 

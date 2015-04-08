@@ -35,11 +35,6 @@ class Storage extends \Test\TestCase {
 	private $user;
 
 	/**
-	 * @var \OC\Files\Storage\Storage
-	 **/
-	private $originalStorage;
-
-	/**
 	 * @var \OC\Files\View
 	 */
 	private $rootView;
@@ -61,8 +56,6 @@ class Storage extends \Test\TestCase {
 		// this will setup the FS
 		$this->loginAsUser($this->user);
 
-		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
-
 		\OCA\Files_Trashbin\Storage::setupStorage();
 
 		$this->rootView = new \OC\Files\View('/');
@@ -73,7 +66,6 @@ class Storage extends \Test\TestCase {
 
 	protected function tearDown() {
 		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
-		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
 		$this->logout();
 		\OC_User::deleteUser($this->user);
 		\OC_Hook::clear();

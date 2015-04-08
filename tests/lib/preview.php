@@ -26,6 +26,8 @@ class Preview extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
+		// FIXME: use proper tearDown with $this->loginAsUser() and $this->logout()
+		// (would currently break the tests for some reason)
 		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
 
 		// create a new user with his own filesystem view

@@ -39,18 +39,14 @@ class TestScanner extends \OC\Files\Utils\Scanner {
 }
 
 class Scanner extends \Test\TestCase {
-	/** @var \OC\Files\Storage\Storage */
-	private $originalStorage;
-
 	protected function setUp() {
 		parent::setUp();
 
-		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
+		$this->loginAsUser();
 	}
 
 	protected function tearDown() {
-		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
-
+		$this->logout();
 		parent::tearDown();
 	}
 

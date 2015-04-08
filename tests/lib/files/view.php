@@ -27,9 +27,6 @@ class View extends \Test\TestCase {
 	/** @var \OC\Files\Storage\Storage */
 	private $tempStorage;
 
-	/** @var \OC\Files\Storage\Storage */
-	private $originalStorage;
-
 	protected function setUp() {
 		parent::setUp();
 
@@ -39,9 +36,10 @@ class View extends \Test\TestCase {
 		//login
 		\OC_User::createUser('test', 'test');
 		$this->user = \OC_User::getUser();
-		\OC_User::setUserId('test');
 
-		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
+		$this->loginAsUser('test');
+		// clear mounts but somehow keep the root storage
+		// that was initialized above...
 		\OC\Files\Filesystem::clearMounts();
 
 		$this->tempStorage = null;
@@ -59,9 +57,7 @@ class View extends \Test\TestCase {
 			system('rm -rf ' . escapeshellarg($this->tempStorage->getDataDir()));
 		}
 
-		\OC\Files\Filesystem::clearMounts();
-		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
-
+		$this->logout();
 		parent::tearDown();
 	}
 
