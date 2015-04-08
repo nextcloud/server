@@ -129,6 +129,7 @@ class Recovery {
 	 *
 	 * @param string $newPassword
 	 * @param string $oldPassword
+	 * @return bool
 	 */
 	public function changeRecoveryKeyPassword($newPassword, $oldPassword) {
 		$recoveryKey = $this->keyManager->getSystemPrivateKey($this->keyManager->getRecoveryKeyId());
