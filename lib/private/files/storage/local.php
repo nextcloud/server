@@ -228,6 +228,19 @@ if (\OC_Util::runningOnWindows()) {
 				$this->unlink($path2);
 			}
 
+			if ($this->is_dir($path1)) {
+				// we cant move folders across devices, use copy instead
+				$stat1 = stat(dirname($this->getSourcePath($path1)));
+				$stat2 = stat(dirname($this->getSourcePath($path2)));
+				if ($stat1['dev'] !== $stat2['dev']) {
+					$result = $this->copy($path1, $path2);
+					if ($result) {
+						$result &= $this->rmdir($path1);
+					}
+					return $result;
+				}
+			}
+
 			return rename($this->getSourcePath($path1), $this->getSourcePath($path2));
 		}
 
