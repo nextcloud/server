@@ -58,6 +58,11 @@ class DAV extends \OC\Files\Storage\Common {
 	 */
 	private $client;
 
+	/**
+	 * @var \OC\MemCache\ArrayCache
+	 */
+	private $statCache;
+
 	/** @var array */
 	private static $tempFiles = [];
 
@@ -66,6 +71,7 @@ class DAV extends \OC\Files\Storage\Common {
 	 * @throws \Exception
 	 */
 	public function __construct($params) {
+		$this->statCache = new \OC\MemCache\ArrayCache();
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
@@ -121,6 +127,13 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * Clear the stat cache
+	 */
+	public function clearStatCache() {
+		$this->statCache->clear();
+	}
+
 	/** {@inheritdoc} */
 	public function getId() {
 		return 'webdav::' . $this->user . '@' . $this->host . '/' . $this->root;
@@ -140,16 +153,23 @@ class DAV extends \OC\Files\Storage\Common {
 	public function mkdir($path) {
 		$this->init();
 		$path = $this->cleanPath($path);
-		return $this->simpleResponse('MKCOL', $path, null, 201);
+		$result = $this->simpleResponse('MKCOL', $path, null, 201);
+		if ($result) {
+			$this->statCache->set($path, true);
+		}
+		return $result;
 	}
 
 	/** {@inheritdoc} */
 	public function rmdir($path) {
 		$this->init();
-		$path = $this->cleanPath($path) . '/';
+		$path = $this->cleanPath($path);
 		// FIXME: some WebDAV impl return 403 when trying to DELETE
 		// a non-empty folder
-		return $this->simpleResponse('DELETE', $path, null, 204);
+		$result = $this->simpleResponse('DELETE', $path . '/', null, 204);
+		$this->statCache->clear($path . '/');
+		$this->statCache->remove($path);
+		return $result;
 	}
 
 	/** {@inheritdoc} */
@@ -157,19 +177,34 @@ class DAV extends \OC\Files\Storage\Common {
 		$this->init();
 		$path = $this->cleanPath($path);
 		try {
-			$response = $this->client->propfind($this->encodePath($path), array(), 1);
+			$response = $this->client->propfind(
+				$this->encodePath($path),
+				array(),
+				1
+			);
 			$id = md5('webdav' . $this->root . $path);
 			$content = array();
 			$files = array_keys($response);
 			array_shift($files); //the first entry is the current directory
+
+			if (!$this->statCache->hasKey($path)) {
+				$this->statCache->set($path, true);
+			}
 			foreach ($files as $file) {
-				$file = urldecode(basename($file));
+				$file = urldecode($file);
+				// do not store the real entry, we might not have all properties
+				if (!$this->statCache->hasKey($path)) {
+					$this->statCache->set($file, true);
+				}
+				$file = basename($file);
 				$content[] = $file;
 			}
 			\OC\Files\Stream\Dir::register($id, $content);
 			return opendir('fakedir://' . $id);
 		} catch (ClientHttpException $e) {
 			if ($e->getHttpStatus() === 404) {
+				$this->statCache->clear($path . '/');
+				$this->statCache->set($path, false);
 				return false;
 			}
 			$this->convertSabreException($e);
@@ -181,12 +216,57 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * Propfind call with cache handling.
+	 *
+	 * First checks if information is cached.
+	 * If not, request it from the server then store to cache.
+	 *
+	 * @param string $path path to propfind
+	 * 
+	 * @return array propfind response
+	 *
+	 * @throws Exception\NotFound
+	 */
+	private function propfind($path) {
+		$path = $this->cleanPath($path);
+		$cachedResponse = $this->statCache->get($path);
+		if ($cachedResponse === false) {
+			// we know it didn't exist
+			throw new Exception\NotFound();
+		}
+		// we either don't know it, or we know it exists but need more details
+		if (is_null($cachedResponse) || $cachedResponse === true) {
+			$this->init();
+			try {
+				$response = $this->client->propfind(
+					$this->encodePath($path),
+					array(
+						'{DAV:}getlastmodified',
+						'{DAV:}getcontentlength',
+						'{DAV:}getcontenttype',
+						'{http://owncloud.org/ns}permissions',
+						'{DAV:}resourcetype',
+						'{DAV:}getetag',
+					)
+				);
+				$this->statCache->set($path, $response);
+			} catch (Exception\NotFound $e) {
+				// remember that this path did not exist
+				$this->statCache->clear($path . '/');
+				$this->statCache->set($path, false);
+				throw $e;
+			}
+		} else {
+			$response = $cachedResponse;
+		}
+		return $response;
+	}
+
 	/** {@inheritdoc} */
 	public function filetype($path) {
-		$this->init();
-		$path = $this->cleanPath($path);
 		try {
-			$response = $this->client->propfind($this->encodePath($path), array('{DAV:}resourcetype'));
+			$response = $this->propfind($path);
 			$responseType = array();
 			if (isset($response["{DAV:}resourcetype"])) {
 				$responseType = $response["{DAV:}resourcetype"]->resourceType;
@@ -207,10 +287,17 @@ class DAV extends \OC\Files\Storage\Common {
 
 	/** {@inheritdoc} */
 	public function file_exists($path) {
-		$this->init();
-		$path = $this->cleanPath($path);
 		try {
-			$this->client->propfind($this->encodePath($path), array('{DAV:}resourcetype'));
+			$path = $this->cleanPath($path);
+			$cachedState = $this->statCache->get($path);
+			if ($cachedState === false) {
+				// we know the file doesn't exist
+				return false;
+			} else if (!is_null($cachedState)) {
+				return true;
+			}
+			// need to get from server
+			$this->propfind($path);
 			return true; //no 404 exception
 		} catch (ClientHttpException $e) {
 			if ($e->getHttpStatus() === 404) {
@@ -228,7 +315,11 @@ class DAV extends \OC\Files\Storage\Common {
 	/** {@inheritdoc} */
 	public function unlink($path) {
 		$this->init();
-		return $this->simpleResponse('DELETE', $path, null, 204);
+		$path = $this->cleanPath($path);
+		$result = $this->simpleResponse('DELETE', $path, null, 204);
+		$this->statCache->clear($path . '/');
+		$this->statCache->remove($path);
+		return $result;
 	}
 
 	/** {@inheritdoc} */
@@ -316,6 +407,7 @@ class DAV extends \OC\Files\Storage\Common {
 		$this->init();
 		$path = $this->cleanPath($path);
 		try {
+			// TODO: cacheable ?
 			$response = $this->client->propfind($this->encodePath($path), array('{DAV:}quota-available-bytes'));
 			if (isset($response['{DAV:}quota-available-bytes'])) {
 				return (int)$response['{DAV:}quota-available-bytes'];
@@ -338,6 +430,7 @@ class DAV extends \OC\Files\Storage\Common {
 		// if file exists, update the mtime, else create a new empty file
 		if ($this->file_exists($path)) {
 			try {
+				$this->statCache->remove($path);
 				$this->client->proppatch($this->encodePath($path), array('{DAV:}lastmodified' => $mtime));
 			} catch (ClientHttpException $e) {
 				if ($e->getHttpStatus() === 501) {
@@ -358,10 +451,24 @@ class DAV extends \OC\Files\Storage\Common {
 
 	/**
 	 * @param string $path
+	 * @param string $data
+	 */
+	public function file_put_contents($path, $data) {
+		$path = $this->cleanPath($path);
+		$result = parent::file_put_contents($path, $data);
+		$this->statCache->remove($path);
+		return $result;
+	}
+
+	/**
+	 * @param string $path
 	 * @param string $target
 	 */
 	protected function uploadFile($path, $target) {
 		$this->init();
+		// invalidate
+		$target = $this->cleanPath($target);
+		$this->statCache->remove($target);
 		$source = fopen($path, 'r');
 
 		$curl = curl_init();
@@ -394,10 +501,21 @@ class DAV extends \OC\Files\Storage\Common {
 	/** {@inheritdoc} */
 	public function rename($path1, $path2) {
 		$this->init();
-		$path1 = $this->encodePath($this->cleanPath($path1));
-		$path2 = $this->createBaseUri() . $this->encodePath($this->cleanPath($path2));
+		$path1 = $this->cleanPath($path1);
+		$path2 = $this->cleanPath($path2);
 		try {
-			$this->client->request('MOVE', $path1, null, array('Destination' => $path2));
+			$this->client->request(
+				'MOVE',
+				$this->encodePath($path1),
+				null,
+				array(
+					'Destination' => $this->createBaseUri() . $this->encodePath($path2)
+				)
+			);
+			$this->statCache->clear($path1 . '/');
+			$this->statCache->clear($path2 . '/');
+			$this->statCache->set($path1, false);
+			$this->statCache->set($path2, true);
 			$this->removeCachedFile($path1);
 			$this->removeCachedFile($path2);
 			return true;
@@ -418,6 +536,8 @@ class DAV extends \OC\Files\Storage\Common {
 		$path2 = $this->createBaseUri() . $this->encodePath($this->cleanPath($path2));
 		try {
 			$this->client->request('COPY', $path1, null, array('Destination' => $path2));
+			$this->statCache->clear($path2 . '/');
+			$this->statCache->set($path2, true);
 			$this->removeCachedFile($path2);
 			return true;
 		} catch (ClientHttpException $e) {
@@ -432,10 +552,8 @@ class DAV extends \OC\Files\Storage\Common {
 
 	/** {@inheritdoc} */
 	public function stat($path) {
-		$this->init();
-		$path = $this->cleanPath($path);
 		try {
-			$response = $this->client->propfind($this->encodePath($path), array('{DAV:}getlastmodified', '{DAV:}getcontentlength'));
+			$response = $this->propfind($path);
 			return array(
 				'mtime' => strtotime($response['{DAV:}getlastmodified']),
 				'size' => (int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
@@ -455,10 +573,8 @@ class DAV extends \OC\Files\Storage\Common {
 
 	/** {@inheritdoc} */
 	public function getMimeType($path) {
-		$this->init();
-		$path = $this->cleanPath($path);
 		try {
-			$response = $this->client->propfind($this->encodePath($path), array('{DAV:}getcontenttype', '{DAV:}resourcetype'));
+			$response = $this->propfind($path);
 			$responseType = array();
 			if (isset($response["{DAV:}resourcetype"])) {
 				$responseType = $response["{DAV:}resourcetype"]->resourceType;
@@ -489,7 +605,7 @@ class DAV extends \OC\Files\Storage\Common {
 	 * @return string
 	 */
 	public function cleanPath($path) {
-		if ($path === "") {
+		if ($path === '') {
 			return $path;
 		}
 		$path = \OC\Files\Filesystem::normalizePath($path);
@@ -524,6 +640,8 @@ class DAV extends \OC\Files\Storage\Common {
 			return $response['statusCode'] == $expected;
 		} catch (ClientHttpException $e) {
 			if ($e->getHttpStatus() === 404 && $method === 'DELETE') {
+				$this->statCache->clear($path . '/');
+				$this->statCache->set($path, false);
 				return false;
 			}
 
@@ -613,11 +731,9 @@ class DAV extends \OC\Files\Storage\Common {
 		$this->init();
 		$path = $this->cleanPath($path);
 		try {
-			$response = $this->client->propfind($this->encodePath($path), array(
-				'{DAV:}getlastmodified',
-				'{DAV:}getetag',
-				'{http://owncloud.org/ns}permissions'
-			));
+			// force refresh for $path
+			$this->statCache->remove($path);
+			$response = $this->propfind($path);
 			if (isset($response['{DAV:}getetag'])) {
 				$cachedData = $this->getCache()->get($path);
 				$etag = trim($response['{DAV:}getetag'], '"');
