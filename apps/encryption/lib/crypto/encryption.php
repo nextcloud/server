@@ -276,11 +276,10 @@ class Encryption implements IEncryptionModule {
 		}
 
 		if ($this->keyManager->recoveryKeyExists() &&
-			$this->util->recoveryEnabled($this->user)) {
+			$this->util->isRecoveryEnabledForUser()) {
 
 			$publicKeys[$this->keyManager->getRecoveryKeyId()] = $this->keyManager->getRecoveryKey();
 		}
-
 
 		return $publicKeys;
 	}
