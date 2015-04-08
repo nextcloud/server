@@ -133,8 +133,6 @@ class Tags implements \OCP\ITags {
 		if(count($defaultTags) > 0 && count($this->tags) === 0) {
 			$this->addMultiple($defaultTags, true);
 		}
-		\OCP\Util::writeLog('core', __METHOD__.', tags: ' . print_r($this->tags, true),
-			\OCP\Util::DEBUG);
 	}
 
 	/**
