@@ -27,7 +27,7 @@
 
 require_once '../lib/base.php';
 
-if (\OCP\Util::needUpgrade()) {
+if (\OCP\Util::needUpgrade() || \OC::$server->getSystemConfig()->getValue('maintenance', false)) {
 	// since the behavior of apps or remotes are unpredictable during
 	// an upgrade, return a 503 directly
 	OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
