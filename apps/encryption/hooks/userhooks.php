@@ -142,7 +142,6 @@ class UserHooks implements IHook {
 		}
 
 		// ensure filesystem is loaded
-		// Todo: update?
 		if (!\OC\Files\Filesystem::$loaded) {
 			\OC_Util::setupFS($params['uid']);
 		}
