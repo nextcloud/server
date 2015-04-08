@@ -1234,6 +1234,7 @@ class OC_Util {
 	 * @return string of the response or false on error
 	 * This function get the content of a page via curl, if curl is enabled.
 	 * If not, file_get_contents is used.
+	 * @deprecated Use \OCP\Http\Client\IClientService
 	 */
 	public static function getUrlContent($url) {
 		try {
