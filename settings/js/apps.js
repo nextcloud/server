@@ -464,7 +464,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		});
 
 		$(document).on('click', '#enable-experimental-apps', function () {
-			var state = $('#enable-experimental-apps').prop('checked');
+			var state = $(this).prop('checked')
 			$.ajax(OC.generateUrl('settings/apps/experimental'), {
 				data: {state: state},
 				type: 'POST',
