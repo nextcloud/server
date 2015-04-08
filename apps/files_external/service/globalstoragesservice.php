@@ -101,6 +101,7 @@ class GlobalStoragesService extends StoragesService {
 	 * @param string $signal signal to trigger
 	 */
 	protected function triggerHooks(StorageConfig $storage, $signal) {
+		// FIXME: Use as expression in empty once PHP 5.4 support is dropped
 		$applicableUsers = $storage->getApplicableUsers();
 		$applicableGroups = $storage->getApplicableGroups();
 		if (empty($applicableUsers) && empty($applicableGroups)) {
@@ -149,8 +150,11 @@ class GlobalStoragesService extends StoragesService {
 		$groupAdditions = array_diff($newStorage->getApplicableGroups(), $oldStorage->getApplicableGroups());
 		$groupDeletions = array_diff($oldStorage->getApplicableGroups(), $newStorage->getApplicableGroups());
 
+		// FIXME: Use as expression in empty once PHP 5.4 support is dropped
 		// if no applicable were set, raise a signal for "all"
-		if (empty($oldStorage->getApplicableUsers()) && empty($oldStorage->getApplicableGroups())) {
+		$oldApplicableUsers = $oldStorage->getApplicableUsers();
+		$oldApplicableGroups = $oldStorage->getApplicableGroups();
+		if (empty($oldApplicableUsers) && empty($oldApplicableGroups)) {
 			$this->triggerApplicableHooks(
 				Filesystem::signal_delete_mount,
 				$oldStorage->getMountPoint(),
@@ -191,8 +195,11 @@ class GlobalStoragesService extends StoragesService {
 			$groupAdditions
 		);
 
+		// FIXME: Use as expression in empty once PHP 5.4 support is dropped
 		// if no applicable, raise a signal for "all"
-		if (empty($newStorage->getApplicableUsers()) && empty($newStorage->getApplicableGroups())) {
+		$newApplicableUsers = $newStorage->getApplicableUsers();
+		$newApplicableGroups = $newStorage->getApplicableGroups();
+		if (empty($newApplicableUsers) && empty($newApplicableGroups)) {
 			$this->triggerApplicableHooks(
 				Filesystem::signal_create_mount,
 				$newStorage->getMountPoint(),

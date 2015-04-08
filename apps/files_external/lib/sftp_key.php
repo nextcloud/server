@@ -135,11 +135,16 @@ class SFTP_Key extends \OC\Files\Storage\SFTP {
 	}
 
 	public function test() {
-		if (empty($this->getHost())) {
+
+		// FIXME: Use as expression in empty once PHP 5.4 support is dropped
+		$host = $this->getHost();
+		if (empty($host)) {
 			\OC::$server->getLogger()->warning('Hostname has not been specified');
 			return false;
 		}
-		if (empty($this->getUser())) {
+		// FIXME: Use as expression in empty once PHP 5.4 support is dropped
+		$user = $this->getUser();
+		if (empty($user)) {
 			\OC::$server->getLogger()->warning('Username has not been specified');
 			return false;
 		}
