@@ -183,7 +183,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 		if (isset($source['parent'])) {
 			$parent = $source['parent'];
 			while (isset($parent)) {
-				$query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
+				$query = \OCP\DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
 				$item = $query->execute(array($parent))->fetchRow();
 				if (isset($item['parent'])) {
 					$parent = $item['parent'];

@@ -163,7 +163,7 @@ class Local {
 		}
 
 		$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path` , `*PREFIX*share`.`permissions`, `stime`, `expiration`, `token`, `storage`, `mail_send`, `mail_send`';
-		$getReshares = \OC_DB::prepare('SELECT ' . $select . ' FROM `*PREFIX*share` INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` WHERE `*PREFIX*share`.`file_source` = ? AND `*PREFIX*share`.`item_type` IN (\'file\', \'folder\') AND `uid_owner` != ?');
+		$getReshares = \OCP\DB::prepare('SELECT ' . $select . ' FROM `*PREFIX*share` INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` WHERE `*PREFIX*share`.`file_source` = ? AND `*PREFIX*share`.`item_type` IN (\'file\', \'folder\') AND `uid_owner` != ?');
 		$reshares = $getReshares->execute(array($itemSource, \OCP\User::getUser()))->fetchAll();
 
 		foreach ($reshares as $key => $reshare) {
@@ -572,7 +572,7 @@ class Local {
 		$result = $query->execute($args);
 
 		if (\OCP\DB::isError($result)) {
-			\OCP\Util::writeLog('files_sharing', \OC_DB::getErrorMessage(), \OCP\Util::ERROR);
+			\OCP\Util::writeLog('files_sharing', \OCP\DB::getErrorMessage(), \OCP\Util::ERROR);
 			return null;
 		}
 		if ($share = $result->fetchRow()) {
