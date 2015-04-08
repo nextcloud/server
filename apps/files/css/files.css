@@ -103,6 +103,27 @@
 	min-height: 100%;
 }
 
+/* icons for sidebar */
+.nav-icon-files {
+	background-image: url('../img/folder.svg');
+}
+.nav-icon-favorites {
+	background-image: url('../img/star.svg');
+}
+.nav-icon-sharingin,
+.nav-icon-sharingout {
+	background-image: url('../img/share.svg');
+}
+.nav-icon-sharinglinks {
+	background-image: url('../img/public.svg');
+}
+.nav-icon-extstoragemounts {
+	background-image: url('../img/external.svg');
+}
+.nav-icon-trashbin {
+	background-image: url('../img/delete.svg');
+}
+
 /* move Deleted Files to bottom of sidebar */
 .nav-trashbin {
 	position: fixed !important;
