@@ -457,11 +457,16 @@
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background-color: transparent; background-image: url('../img/actions/settings.svg');
-	background-position: 10px center; background-repeat: no-repeat;
+	background-color: transparent;
+	background-image: url('../img/actions/settings.svg');
+	background-position: 14px center;
+	background-repeat: no-repeat;
 	box-shadow: none;
 	border: 0;
 	border-radius: 0;
+	text-align: left;
+	padding-left: 42px;
+	font-weight: normal;
 }
 .settings-button:hover,
 .settings-button:focus {
