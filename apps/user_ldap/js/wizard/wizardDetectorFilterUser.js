@@ -22,6 +22,7 @@ OCA = OCA || {};
 				'ldap_userfilter_objectclass'
 			]);
 			this.setTargetKey('ldap_userlist_filter');
+			this.runsOnRequest = true;
 
 			this.wizardMethod = 'getUserListFilter';
 		}

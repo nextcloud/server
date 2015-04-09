@@ -23,6 +23,7 @@ OCA = OCA || {};
 				'ldap_loginfilter_attributes'
 			]);
 			this.setTargetKey('ldap_login_filter');
+			this.runsOnRequest = true;
 
 			this.wizardMethod = 'getUserLoginFilter';
 		}

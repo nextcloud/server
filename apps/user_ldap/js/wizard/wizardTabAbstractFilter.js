@@ -294,6 +294,11 @@ OCA = OCA || {};
 		onFeatureReceived: function(view, payload) {
 			if(payload.feature === view.getObjectClassItem().featureName) {
 				view.equipMultiSelect(view.getObjectClassItem().$element, payload.data);
+				if(    !view.getFilterItem().$element.val()
+					&& view.parsedFilterMode === view.configModel.FILTER_MODE_ASSISTED
+				) {
+					view.configModel.requestWizard(view.getFilterItem().keyName)
+				}
 			} else if (payload.feature === view.getGroupsItem().featureName) {
 				if(view.manyGroupsSupport && payload.data.length > view._groupElementSwitchThreshold) {
 					// we need to fill the left list box, excluding the values

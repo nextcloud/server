@@ -185,6 +185,9 @@ OCA = OCA || {};
 		 */
 		onActivate: function() {
 			this.considerFeatureRequests();
+			if(!this.managedItems.ldap_login_filter.$element.val()) {
+				this.configModel.requestWizard('ldap_login_filter');
+			}
 		},
 
 		/**
