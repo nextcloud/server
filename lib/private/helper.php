@@ -183,6 +183,7 @@ class OC_Helper {
 	 * @return string the url
 	 *
 	 * Returns the path to the image of this file type.
+	 * @deprecated Use \OC::$server->getMimeTypeDetector()->mimeTypeIcon($mimetype)
 	 */
 	public static function mimetypeIcon($mimetype) {
 
@@ -465,6 +466,7 @@ class OC_Helper {
 	 *
 	 * @param string $path
 	 * @return string
+	 * @deprecated Use \OC::$server->getMimeTypeDetector()->detectPath($path)
 	 */
 	static public function getFileNameMimeType($path) {
 		return self::getMimetypeDetector()->detectPath($path);
@@ -476,6 +478,7 @@ class OC_Helper {
 	 * @param string $path
 	 * @return string
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
+	 * @deprecated Use \OC::$server->getMimeTypeDetector()->detect($path)
 	 */
 	static function getMimeType($path) {
 		return self::getMimetypeDetector()->detect($path);
@@ -486,6 +489,7 @@ class OC_Helper {
 	 *
 	 * @param string $mimeType
 	 * @return string
+	 * @deprecated Use \OC::$server->getMimeTypeDetector()->getSecureMimeType($mimeType)
 	 */
 	static function getSecureMimeType($mimeType) {
 		return self::getMimetypeDetector()->getSecureMimeType($mimeType);
@@ -496,6 +500,7 @@ class OC_Helper {
 	 *
 	 * @param string $data
 	 * @return string
+	 * @deprecated Use \OC::$server->getMimeTypeDetector->detectString($data)
 	 */
 	static function getStringMimeType($data) {
 		return self::getMimetypeDetector()->detectString($data);

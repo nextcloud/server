@@ -12,6 +12,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sander <brantje@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
@@ -58,6 +59,7 @@ use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Tagging\TagMapper;
 use OCP\IServerContainer;
+use OC\Files\Type\Detection;
 
 /**
  * Class Server
@@ -442,6 +444,13 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('MountManager', function () {
 			return new \OC\Files\Mount\Manager();
+		});
+		$this->registerService('MimeTypeDetector', function(Server $c) {
+			$mimeTypeDetector = new Detection();
+			$dist = file_get_contents(\OC::$configDir . '/mimetypemapping.dist.json');
+			$mimetypemapping = get_object_vars(json_decode($dist));
+			$mimeTypeDetector->registerTypeArray($mimetypemapping);
+			return $mimeTypeDetector;
 		});
 	}
 
@@ -929,5 +938,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	 **/
 	function getMountManager() {
 		return $this->query('MountManager');
+	}
+
+	/*
+	 * Get the MimeTypeDetector
+	 *
+	 * @return \OCP\Files\IMimeTypeDetector
+	 */
+	public function getMimeTypeDetector() {
+		return $this->query('MimeTypeDetector');
 	}
 }
