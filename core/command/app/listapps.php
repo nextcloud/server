@@ -39,8 +39,7 @@ class ListApps extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$apps = \OC_App::getAllApps();
-		$enabledApps = array();
-		$disabledApps = array();
+		$enabledApps = $disabledApps = [];
 		$versions = \OC_App::getAppVersions();
 
 		//sort enabled apps above disabled apps
@@ -52,39 +51,38 @@ class ListApps extends Base {
 			}
 		}
 
-		sort($enabledApps);
-		sort($disabledApps);
 		$apps = ['enabled' => [], 'disabled' => []];
+
+		sort($enabledApps);
 		foreach ($enabledApps as $app) {
-			if (isset($versions[$app])) {
-				$apps['enabled'][$app] = $versions[$app];
-			} else {
-				$apps['enabled'][$app] = true;
-			}
+			$apps['enabled'][$app] = (isset($versions[$app])) ? $versions[$app] : '';
 		}
 
+		sort($disabledApps);
 		foreach ($disabledApps as $app) {
-			if (isset($versions[$app])) {
-				$apps['disabled'][$app] = $versions[$app];
-			} else {
-				$apps['disabled'][$app] = false;
-			}
+			$apps['disabled'][$app] = (isset($versions[$app])) ? $versions[$app] : '';
 		}
-		$this->writeArrayInOutputFormat($input, $output, $apps);
+
+		$this->writeAppList($input, $output, $apps);
 	}
 
-	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, $items) {
-		$outputFormat = $input->getOption('output');
-		switch ($outputFormat) {
-			case 'json':
-			case 'print':
-				parent::writeArrayInOutputFormat($input, $output, $items);
-			break;
-			default:
+	/**
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @param array $items
+	 */
+	protected function writeAppList(InputInterface $input, OutputInterface $output, $items) {
+		switch ($input->getOption('output')) {
+			case 'plain':
 				$output->writeln('Enabled:');
 				parent::writeArrayInOutputFormat($input, $output, $items['enabled']);
+
 				$output->writeln('Disabled:');
 				parent::writeArrayInOutputFormat($input, $output, $items['disabled']);
+			break;
+
+			default:
+				parent::writeArrayInOutputFormat($input, $output, $items);
 			break;
 		}
 	}

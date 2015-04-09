@@ -39,6 +39,11 @@ class Base extends Command {
 		;
 	}
 
+	/**
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @param array $items
+	 */
 	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, $items) {
 		switch ($input->getOption('output')) {
 			case 'json':
