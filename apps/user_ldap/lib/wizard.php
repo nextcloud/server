@@ -461,8 +461,6 @@ class Wizard extends LDAPUtility {
 		}
 		$this->configuration->setConfiguration(array('ldapGroupMemberAssocAttr' => $attribute));
 		$this->result->addChange('ldap_group_member_assoc_attribute', $attribute);
-		//so it will be saved on destruct
-		//$this->result->markChange();
 
 		return $this->result;
 	}
