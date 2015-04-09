@@ -23,8 +23,10 @@
 
 namespace OC\Settings;
 
+use OC\Files\View;
 use OC\Settings\Controller\AppSettingsController;
 use OC\Settings\Controller\CheckSetupController;
+use OC\Settings\Controller\EncryptionController;
 use OC\Settings\Controller\GroupsController;
 use OC\Settings\Controller\LogSettingsController;
 use OC\Settings\Controller\MailSettingsController;
@@ -63,6 +65,17 @@ class Application extends App {
 				$c->query('Defaults'),
 				$c->query('Mailer'),
 				$c->query('DefaultMailAddress')
+			);
+		});
+		$container->registerService('EncryptionController', function(IContainer $c) {
+			return new EncryptionController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('L10N'),
+				$c->query('Config'),
+				$c->query('DatabaseConnection'),
+				$c->query('UserManager'),
+				new View()
 			);
 		});
 		$container->registerService('AppSettingsController', function(IContainer $c) {
@@ -206,6 +219,9 @@ class Application extends App {
 		});
 		$container->registerService('Util', function(IContainer $c) {
 			return new \OC_Util();
+		});
+		$container->registerService('DatabaseConnection', function(IContainer $c) {
+			return $c->query('ServerContainer')->getDatabaseConnection();
 		});
 	}
 }
