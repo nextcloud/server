@@ -124,7 +124,7 @@ OCA = OCA || {};
 				'ldap_base', 'ldap_userlist_filter', 'ldap_login_filter'
 			];
 			for(var key in changeSet) {
-				if($.inArray(key, testTriggers)) {
+				if($.inArray(key, testTriggers) >= 0) {
 					this.functionalityCheck();
 					return;
 				}
