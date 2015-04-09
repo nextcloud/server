@@ -10,8 +10,8 @@ OCA = OCA || {};
 (function() {
 
 	/**
-	 * @classdesc a Port Detector. It executes the auto-detection of the port
-	 * by the ownCloud server, if requirements are met.
+	 * @classdesc checks whether the provided log in name can be resolved into
+	 * a DN using the current login filter
 	 *
 	 * @constructor
 	 */
