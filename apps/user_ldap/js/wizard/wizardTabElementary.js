@@ -205,8 +205,8 @@ OCA = OCA || {};
 		onNewConfiguration: function(view, result) {
 			if(result.isSuccess === true) {
 				$(view.configChooserID + ' option:selected').removeAttr('selected');
-				var html = '<option value="'+result.configPrefix+'" selected="selected">'+t('user_ldap','{nthServer}. Server', {nthServer: $(view.configChooserID + ' option').length})+'</option>';
-				$(view.configChooserID + ' option:last').before(html);
+				var html = '<option value="'+result.configPrefix+'" selected="selected">'+t('user_ldap','{nthServer}. Server', {nthServer: $(view.configChooserID + ' option').length + 1})+'</option>';
+				$(view.configChooserID + ' option:last').after(html);
 			}
 		},
 
