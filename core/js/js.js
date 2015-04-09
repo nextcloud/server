@@ -476,11 +476,14 @@ var OC={
 	registerMenu: function($toggle, $menuEl) {
 		$menuEl.addClass('menu');
 		$toggle.on('click.menu', function(event) {
+			// prevent the link event (append anchor to URL)
+			event.preventDefault();
+
 			if ($menuEl.is(OC._currentMenu)) {
 				$menuEl.slideUp(OC.menuSpeed);
 				OC._currentMenu = null;
 				OC._currentMenuToggle = null;
-				return false;
+				return;
 			}
 			// another menu was open?
 			else if (OC._currentMenu) {
@@ -490,7 +493,6 @@ var OC={
 			$menuEl.slideToggle(OC.menuSpeed);
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
-			return false;
 		});
 	},
 
