@@ -2,6 +2,7 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -33,6 +34,9 @@ class Session {
 	const INIT_EXECUTED = '1';
 	const INIT_SUCCESSFUL = '2';
 
+	/**
+	 * @param ISession $session
+	 */
 	public function __construct(ISession $session) {
 		$this->session = $session;
 	}

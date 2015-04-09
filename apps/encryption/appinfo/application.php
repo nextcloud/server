@@ -3,6 +3,7 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Lukas Reschke <lukas@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -49,7 +50,6 @@ class Application extends \OCP\AppFramework\App {
 	private $config;
 
 	/**
-	 * @param $appName
 	 * @param array $urlParams
 	 */
 	public function __construct($urlParams = array()) {
@@ -59,9 +59,6 @@ class Application extends \OCP\AppFramework\App {
 		$this->registerServices();
 	}
 
-	/**
-	 *
-	 */
 	public function registerHooks() {
 		if (!$this->config->getSystemValue('maintenance', false)) {
 
@@ -89,9 +86,6 @@ class Application extends \OCP\AppFramework\App {
 		}
 	}
 
-	/**
-	 *
-	 */
 	public function registerEncryptionModule() {
 		$container = $this->getContainer();
 		$container->registerService('EncryptionModule', function (IAppContainer $c) {
@@ -104,9 +98,6 @@ class Application extends \OCP\AppFramework\App {
 		$this->encryptionManager->registerEncryptionModule($module);
 	}
 
-	/**
-	 *
-	 */
 	public function registerServices() {
 		$container = $this->getContainer();
 
@@ -131,7 +122,6 @@ class Application extends \OCP\AppFramework\App {
 					$c->query('Util')
 				);
 			});
-
 
 		$container->registerService('Recovery',
 			function (IAppContainer $c) {
@@ -181,9 +171,6 @@ class Application extends \OCP\AppFramework\App {
 
 	}
 
-	/**
-	 *
-	 */
 	public function registerSettings() {
 		// Register settings scripts
 		App::registerAdmin('encryption', 'settings/settings-admin');

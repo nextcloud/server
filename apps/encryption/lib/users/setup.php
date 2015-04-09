@@ -2,6 +2,7 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -53,7 +54,10 @@ class Setup {
 	 * @param Crypt $crypt
 	 * @param KeyManager $keyManager
 	 */
-	public function __construct(ILogger $logger, IUserSession $userSession, Crypt $crypt, KeyManager $keyManager) {
+	public function __construct(ILogger $logger,
+								IUserSession $userSession,
+								Crypt $crypt,
+								KeyManager $keyManager) {
 		$this->logger = $logger;
 		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : false;
 		$this->crypt = $crypt;
@@ -61,8 +65,8 @@ class Setup {
  	}
 
 	/**
-	 * @param $uid userid
-	 * @param $password user password
+	 * @param string $uid userid
+	 * @param string $password user password
 	 * @return bool
 	 */
 	public function setupUser($uid, $password) {
@@ -70,8 +74,8 @@ class Setup {
 	}
 
 	/**
-	 * @param $uid userid
-	 * @param $password user password
+	 * @param string $uid userid
+	 * @param string $password user password
 	 * @return bool
 	 */
 	public function setupServerSide($uid, $password) {
