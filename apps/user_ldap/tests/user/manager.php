@@ -143,6 +143,8 @@ class Test_User_Manager extends \Test\TestCase {
         $manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc);
         $manager->setLdapAccess($access);
         $user = $manager->get($inputDN);
+
+        $this->assertNull($user);
     }
 
     public function testGetByUidExisting() {
@@ -190,6 +192,8 @@ class Test_User_Manager extends \Test\TestCase {
         $manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc);
         $manager->setLdapAccess($access);
         $user = $manager->get($uid);
+
+        $this->assertNull($user);
     }
 
 }
