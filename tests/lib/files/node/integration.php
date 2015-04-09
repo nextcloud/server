@@ -37,11 +37,6 @@ class IntegrationTests extends \Test\TestCase {
 
 		\OC_Hook::clear('OC_Filesystem');
 
-		\OC_Hook::connect('OC_Filesystem', 'post_write', '\OC\Files\Cache\Updater', 'writeHook');
-		\OC_Hook::connect('OC_Filesystem', 'post_delete', '\OC\Files\Cache\Updater', 'deleteHook');
-		\OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Updater', 'renameHook');
-		\OC_Hook::connect('OC_Filesystem', 'post_touch', '\OC\Files\Cache\Updater', 'touchHook');
-
 		$user = new User($this->getUniqueID('user'), new \OC_User_Dummy);
 		$this->loginAsUser($user->getUID());
 
@@ -83,7 +78,7 @@ class IntegrationTests extends \Test\TestCase {
 		$this->assertEquals('bar.txt', $file->getInternalPath());
 
 		$file->move('/substorage/bar.txt');
-		$this->assertNotEquals($id, $file->getId());
+		$this->assertEquals($id, $file->getId());
 		$this->assertEquals('qwerty', $file->getContent());
 	}
 
