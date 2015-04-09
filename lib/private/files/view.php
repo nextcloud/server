@@ -762,7 +762,9 @@ class View {
 						if (is_resource($dh)) {
 							while (($file = readdir($dh)) !== false) {
 								if (!Filesystem::isIgnoredDir($file)) {
-									$result = $this->copy($path1 . '/' . $file, $path2 . '/' . $file, $preserveMtime);
+									if (!$this->copy($path1 . '/' . $file, $path2 . '/' . $file, $preserveMtime)) {
+										$result = false;
+									}
 								}
 							}
 						}
