@@ -44,7 +44,9 @@ class Encryption extends \Test\Files\Storage\Storage {
 
 		$file = $this->getMockBuilder('\OC\Encryption\File')
 			->disableOriginalConstructor()
+			->setMethods(['getAccessList'])
 			->getMock();
+		$file->expects($this->any())->method('getAccessList')->willReturn([]);
 
 		$logger = $this->getMock('\OC\Log');
 
