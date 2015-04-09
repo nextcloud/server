@@ -41,6 +41,11 @@ try {
 		exit;
 	}
 
+	if (\OC::$server->getSystemConfig()->getValue('singleuser', false)) {
+		\OCP\Util::writeLog('cron', 'We are in admin only mode, skipping cron', \OCP\Util::DEBUG);
+		exit;
+	}
+
 	// load all apps to get all api routes properly setup
 	OC_App::loadApps();
 
