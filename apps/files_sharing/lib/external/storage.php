@@ -199,6 +199,11 @@ class Storage extends DAV implements ISharedStorage {
 			$this->manager->removeShare($this->mountPoint);
 			$this->manager->getMountManager()->removeMount($this->mountPoint);
 			throw new StorageInvalidException();
+		} catch (\GuzzleHttp\Exception\RequestException $e) {
+			if ($e->getCode() === 503) {
+				throw new StorageNotAvailableException();
+			}
+			throw $e;
 		} catch (\Exception $e) {
 			throw $e;
 		}
