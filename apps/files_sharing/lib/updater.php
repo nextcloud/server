@@ -27,9 +27,6 @@ namespace OC\Files\Cache;
 
 class Shared_Updater {
 
-	// shares which can be removed from oc_share after the delete operation was successful
-	static private $toRemove = array();
-
 	/**
 	 * walk up the users file tree and update the etags
 	 * @param string $user
