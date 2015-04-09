@@ -459,6 +459,9 @@ input[type="submit"].enabled {
 	vertical-align: bottom; /* adjust position of Advanced dropdown arrow */
 	margin-left: -4px;
 }
+#body-login .icon-info-white {
+	padding: 10px;
+}
 
 /* strengthify wrapper */
 #body-login .strengthify-wrapper {

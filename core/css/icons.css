@@ -79,6 +79,9 @@
 .icon-info {
 	background-image: url('../img/actions/info.svg');
 }
+.icon-info-white {
+	background-image: url('../img/actions/info-white.svg');
+}
 
 .icon-logout {
 	background-image: url('../img/actions/logout.svg');

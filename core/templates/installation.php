@@ -28,7 +28,7 @@ script('core', [
 	<?php endif; ?>
 	<?php if(!$_['htaccessWorking']): ?>
 	<fieldset class="warning">
-		<legend><strong><?php p($l->t('Security Warning'));?></strong></legend>
+		<legend><strong><?php p($l->t('Security warning'));?></strong></legend>
 		<p><?php p($l->t('Your data directory and files are probably accessible from the internet because the .htaccess file does not work.'));?><br>
 		<?php print_unescaped($l->t(
 			'For information how to properly configure your server, please see the <a href="%s" target="_blank">documentation</a>.',
@@ -150,7 +150,7 @@ script('core', [
 
 	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 		<fieldset id="sqliteInformation" class="warning">
-			<legend><?php p($l->t('Performance Warning'));?></legend>
+			<legend><?php p($l->t('Performance warning'));?></legend>
 			<p><?php p($l->t('SQLite will be used as database.'));?></p>
 			<p><?php p($l->t('For larger installations we recommend to choose a different database backend.'));?></p>
 			<p><?php p($l->t('Especially when using the desktop client for file syncing the use of SQLite is discouraged.')); ?></p>
@@ -158,4 +158,10 @@ script('core', [
 	<?php endif ?>
 
 	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>"></div>
+
+	<p class="info">
+		<span class="icon-info-white svg"></span>
+		<?php p($l->t('Need help?'));?>
+		<a target="_blank" href="<?php p(link_to_docs('admin-install')); ?>"><?php p($l->t('See the documentation'));?> ↗</a>
+	</p>
 </form>
