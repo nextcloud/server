@@ -50,17 +50,16 @@ foreach(OC_App::getEnabledApps() as $app) {
 	$apps_paths[$app] = OC_App::getAppWebPath($app);
 }
 
-$value = \OCP\Config::getAppValue('core', 'shareapi_default_expire_date', 'no');
+$config = \OC::$server->getConfig();
+$value = $config->getAppValue('core', 'shareapi_default_expire_date', 'no');
 $defaultExpireDateEnabled = ($value === 'yes') ? true :false;
 $defaultExpireDate = $enforceDefaultExpireDate = null;
 if ($defaultExpireDateEnabled) {
-	$defaultExpireDate = (int)\OCP\Config::getAppValue('core', 'shareapi_expire_after_n_days', '7');
-	$value = \OCP\Config::getAppValue('core', 'shareapi_enforce_expire_date', 'no');
+	$defaultExpireDate = (int) $config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+	$value = $config->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
 	$enforceDefaultExpireDate = ($value === 'yes') ? true : false;
 }
-$appConfig = \OC::$server->getAppConfig();
-$result = $appConfig->getValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
-$outgoingServer2serverShareEnabled = ($result === 'yes') ? true : false;
+$outgoingServer2serverShareEnabled = $config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
 
 $array = array(
 	"oc_debug" => (defined('DEBUG') && DEBUG) ? 'true' : 'false',
