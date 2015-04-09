@@ -255,6 +255,14 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					$usergroups = OC_Group::getUserGroups(OC_User::getUser());
 					$groups = array_intersect($groups, $usergroups);
 				}
+
+				$sharedUsers = [];
+				$sharedGroups = [];
+				if (isset($_GET['itemShares'])) {
+					$sharedUsers = isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_USER]) ? $_GET['itemShares'][OCP\Share::SHARE_TYPE_USER] : [];
+					$sharedGroups = isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]) ? $_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP] : [];
+				}
+
 				$count = 0;
 				$users = array();
 				$limit = 0;
@@ -266,8 +274,13 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					} else {
 						$users = OC_User::getDisplayNames((string)$_GET['search'], $limit, $offset);
 					}
+
 					$offset += $limit;
 					foreach ($users as $uid => $displayName) {
+						if (in_array($uid, $sharedUsers)) {
+							continue;
+						}
+
 						if ((!isset($_GET['itemShares'])
 							|| !is_array((string)$_GET['itemShares'][OCP\Share::SHARE_TYPE_USER])
 							|| !in_array($uid, (string)$_GET['itemShares'][OCP\Share::SHARE_TYPE_USER]))
@@ -288,6 +301,10 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				$l = \OC::$server->getL10N('core');
 
 				foreach ($groups as $group) {
+					if (in_array($group, $sharedGroups)) {
+						continue;
+					}
+
 					if ($count < 15) {
 						if (!isset($_GET['itemShares'])
 							|| !isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])
