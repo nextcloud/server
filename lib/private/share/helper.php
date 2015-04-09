@@ -50,24 +50,9 @@ class Helper extends \OC\Share\Constants {
 			}
 			return $backend->generateTarget($itemSource, false);
 		} else {
-			if ($itemType == 'file' || $itemType == 'folder') {
-				$column = 'file_target';
-				$columnSource = 'file_source';
-			} else {
-				$column = 'item_target';
-				$columnSource = 'item_source';
-			}
 			if ($shareType == self::SHARE_TYPE_USER) {
 				// Share with is a user, so set share type to user and groups
 				$shareType = self::$shareTypeUserAndGroups;
-			}
-			$exclude = array();
-
-			$result = \OCP\Share::getItemsSharedWithUser($itemType, $shareWith);
-			foreach ($result as $row) {
-				if ($row['permissions'] > 0) {
-					$exclude[] = $row[$column];
-				}
 			}
 
 			// Check if suggested target exists first
@@ -75,9 +60,9 @@ class Helper extends \OC\Share\Constants {
 				$suggestedTarget = $itemSource;
 			}
 			if ($shareType == self::SHARE_TYPE_GROUP) {
-				$target = $backend->generateTarget($suggestedTarget, false, $exclude);
+				$target = $backend->generateTarget($suggestedTarget, false);
 			} else {
-				$target = $backend->generateTarget($suggestedTarget, $shareWith, $exclude);
+				$target = $backend->generateTarget($suggestedTarget, $shareWith);
 			}
 
 			return $target;
