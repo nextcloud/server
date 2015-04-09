@@ -52,9 +52,9 @@ OCA = OCA || {};
 		var filterOnTypeFactory = new OCA.LDAP.Wizard.FilterOnTypeFactory();
 
 		var tabs = [];
-		tabs.push(new OCA.LDAP.Wizard.WizardTabUserFilter(filterOnTypeFactory));
-		tabs.push(new OCA.LDAP.Wizard.WizardTabLoginFilter());
-		tabs.push(new OCA.LDAP.Wizard.WizardTabGroupFilter(filterOnTypeFactory));
+		tabs.push(new OCA.LDAP.Wizard.WizardTabUserFilter(filterOnTypeFactory, 1));
+		tabs.push(new OCA.LDAP.Wizard.WizardTabLoginFilter(2));
+		tabs.push(new OCA.LDAP.Wizard.WizardTabGroupFilter(filterOnTypeFactory, 3));
 		tabs.push(new OCA.LDAP.Wizard.WizardTabAdvanced());
 		tabs.push(new OCA.LDAP.Wizard.WizardTabExpert());
 

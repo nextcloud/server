@@ -225,6 +225,10 @@ OCA = OCA || {};
 			} else {
 				console.warn('Unreferenced left tab ' + oldTabID);
 			}
+
+			if(!_.isUndefined(this.tabs[newTabID])) {
+				this._controlUpdate(this.tabs[newTabID].tabIndex);
+			}
 		},
 
 		/**

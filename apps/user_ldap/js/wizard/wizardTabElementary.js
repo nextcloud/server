@@ -21,6 +21,7 @@ OCA = OCA || {};
 		 * @param tabID
 		 */
 		init: function (tabIndex, tabID) {
+			tabIndex = 0;
 			this._super(tabIndex, tabID);
 			this.isActive = true;
 			this.configChooserID = '#ldap_serverconfig_chooser';
