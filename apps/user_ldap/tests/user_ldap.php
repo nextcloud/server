@@ -108,12 +108,6 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	 * @return void
 	 */
 	private function prepareAccessForCheckPassword(&$access, $noDisplayName = false) {
-		$access->expects($this->once())
-			   ->method('escapeFilterPart')
-			   ->will($this->returnCallback(function($uid) {
-				   return $uid;
-			   }));
-
 		$access->connection->expects($this->any())
 			   ->method('__get')
 			   ->will($this->returnCallback(function($name) {
@@ -131,6 +125,15 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 					}
 					return array();
 			   }));
+
+		$access->expects($this->any())
+			->method('fetchUsersByLoginName')
+			->will($this->returnCallback(function($uid) {
+				if($uid === 'roland') {
+					return array(array('dn' => 'dnOfRoland,dc=test'));
+				}
+				return array();
+			}));
 
 		$retVal = 'gunslinger';
 		if($noDisplayName === true) {
