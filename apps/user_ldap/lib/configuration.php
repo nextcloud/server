@@ -377,7 +377,7 @@ class Configuration {
 			'ldap_groupfilter_groups'           => '',
 			'ldap_display_name'                 => 'displayName',
 			'ldap_group_display_name'           => 'cn',
-			'ldap_tls'                          => 1,
+			'ldap_tls'                          => 0,
 			'ldap_nocase'                       => 0,
 			'ldap_quota_def'                    => '',
 			'ldap_quota_attr'                   => '',

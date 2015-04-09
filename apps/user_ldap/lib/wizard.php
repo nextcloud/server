@@ -165,6 +165,9 @@ class Wizard extends LDAPUtility {
 	public function countInBaseDN() {
 		// we don't need to provide a filter in this case
 		$total = $this->countEntries(null, 'objects');
+		if($total === false) {
+			throw new \Exception('invalid results received');
+		}
 		$this->result->addChange('ldap_test_base', $total);
 		return $this->result;
 	}
