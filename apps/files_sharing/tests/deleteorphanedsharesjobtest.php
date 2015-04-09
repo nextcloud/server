@@ -55,6 +55,9 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 		$appManager = \OC::$server->getAppManager();
 		self::$trashBinStatus = $appManager->isEnabledForUser('files_trashbin');
 		$appManager->disableApp('files_trashbin');
+
+		// just in case...
+		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 	}
 
 	public static function tearDownAfterClass() {
