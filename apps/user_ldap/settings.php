@@ -29,13 +29,6 @@
 
 OC_Util::checkAdminUser();
 
-OCP\Util::addScript('user_ldap', 'ldapFilter');
-OCP\Util::addScript('user_ldap', 'experiencedAdmin');
-OCP\Util::addScript('user_ldap', 'settings');
-\OC_Util::addVendorScript('user_ldap', 'ui-multiselect/src/jquery.multiselect');
-OCP\Util::addStyle('user_ldap', 'settings');
-\OC_Util::addVendorStyle('user_ldap', 'ui-multiselect/jquery.multiselect');
-
 // fill template
 $tmpl = new OCP\Template('user_ldap', 'settings');
 
@@ -55,9 +48,9 @@ $l = \OC::$server->getL10N('user_ldap');
 
 $wizTabs = array();
 $wizTabs[] = array('tpl' => 'part.wizard-server',      'cap' => $l->t('Server'));
-$wizTabs[] = array('tpl' => 'part.wizard-userfilter',  'cap' => $l->t('User Filter'));
-$wizTabs[] = array('tpl' => 'part.wizard-loginfilter', 'cap' => $l->t('Login Filter'));
-$wizTabs[] = array('tpl' => 'part.wizard-groupfilter', 'cap' => $l->t('Group Filter'));
+$wizTabs[] = array('tpl' => 'part.wizard-userfilter',  'cap' => $l->t('Users'));
+$wizTabs[] = array('tpl' => 'part.wizard-loginfilter', 'cap' => $l->t('Login Attributes'));
+$wizTabs[] = array('tpl' => 'part.wizard-groupfilter', 'cap' => $l->t('Groups'));
 $wizTabsCount = count($wizTabs);
 for($i = 0; $i < $wizTabsCount; $i++) {
 	$tab = new OCP\Template('user_ldap', $wizTabs[$i]['tpl']);

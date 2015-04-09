@@ -72,13 +72,11 @@ switch($action) {
 	case 'determineGroupsForGroups':
 	case 'determineAttributes':
 	case 'getUserListFilter':
-	case 'getLoginFilterMode':
 	case 'getUserLoginFilter':
-	case 'getUserFilterMode':
 	case 'getGroupFilter':
-	case 'getGroupFilterMode':
 	case 'countUsers':
 	case 'countGroups':
+	case 'countInBaseDN':
 		try {
 			$result = $wizard->$action();
 			if($result !== false) {
@@ -92,6 +90,23 @@ switch($action) {
 		\OCP\JSON::error();
 		exit;
 		break;
+
+	case 'testLoginName': {
+		try {
+			$loginName = $_POST['ldap_test_loginname'];
+			$result = $wizard->$action($loginName);
+			if($result !== false) {
+				OCP\JSON::success($result->getResultArray());
+				exit;
+			}
+		} catch (\Exception $e) {
+			\OCP\JSON::error(array('message' => $e->getMessage()));
+			exit;
+		}
+		\OCP\JSON::error();
+		exit;
+		break;
+	}
 
 	case 'save':
 		$key = isset($_POST['cfgkey']) ? $_POST['cfgkey'] : false;
@@ -115,6 +130,6 @@ switch($action) {
 		OCP\JSON::success();
 		break;
 	default:
-		//TODO: return 4xx error
+		\OCP\JSON::error(array('message' => $l->t('Action does not exist')));
 		break;
 }

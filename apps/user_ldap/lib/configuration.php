@@ -201,11 +201,14 @@ class Configuration {
 					case 'ldapAgentPassword':
 						$readMethod = 'getPwd';
 						break;
-					case 'ldapUserDisplayName':
 					case 'ldapGroupDisplayName':
 						$readMethod = 'getLcValue';
 						break;
+					case 'ldapUserDisplayName':
 					default:
+						// user display name does not lower case because
+						// we rely on an upper case N as indicator whether to
+						// auto-detect it or not. FIXME
 						$readMethod = 'getValue';
 						break;
 				}
@@ -374,7 +377,7 @@ class Configuration {
 			'ldap_groupfilter_groups'           => '',
 			'ldap_display_name'                 => 'displayName',
 			'ldap_group_display_name'           => 'cn',
-			'ldap_tls'                          => 1,
+			'ldap_tls'                          => 0,
 			'ldap_nocase'                       => 0,
 			'ldap_quota_def'                    => '',
 			'ldap_quota_attr'                   => '',

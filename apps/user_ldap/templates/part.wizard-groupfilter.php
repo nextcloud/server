@@ -5,31 +5,48 @@
 		</p>
 		<p>
 			<label for="ldap_groupfilter_objectclass">
-				<?php p($l->t('only those object classes:'));?>
+				<?php p($l->t('Only these object classes:'));?>
 			</label>
 
 			<select id="ldap_groupfilter_objectclass" multiple="multiple"
-			 name="ldap_groupfilter_objectclass">
+			 name="ldap_groupfilter_objectclass" class="multiSelectPlugin">
 			</select>
 		</p>
 		<p>
 			<label for="ldap_groupfilter_groups">
-				<?php p($l->t('only from those groups:'));?>
+				<?php p($l->t('Only from these groups:'));?>
 			</label>
 
+			<input type="text" class="ldapManyGroupsSupport ldapManyGroupsSearch hidden" placeholder="<?php p($l->t('Search groups'));?>" />
+
 			<select id="ldap_groupfilter_groups" multiple="multiple"
-			 name="ldap_groupfilter_groups">
+			 name="ldap_groupfilter_groups" class="multiSelectPlugin">
 			</select>
+
+		</p>
+		<p class="ldapManyGroupsSupport hidden">
+			<label></label>
+			<select class="ldapGroupList ldapGroupListAvailable" multiple="multiple"
+					title="<?php p($l->t('Available groups'));?>"></select>
+			<span>
+				<button class="ldapGroupListSelect" type="button">&gt;</button><br/>
+				<button class="ldapGroupListDeselect" type="button">&lt;</button>
+			</span>
+			<select class="ldapGroupList ldapGroupListSelected" multiple="multiple"
+					title="<?php p($l->t('Selected groups'));?>"></select>
 		</p>
 		<p>
-			<label><a id='toggleRawGroupFilter'>↓ <?php p($l->t('Edit raw filter instead'));?></a></label>
+			<label><a id='toggleRawGroupFilter' class='ldapToggle'>↓ <?php p($l->t('Edit LDAP Query'));?></a></label>
+		</p>
+		<p id="ldapReadOnlyGroupFilterContainer" class="hidden ldapReadOnlyFilterContainer">
+			<label><?php p($l->t('LDAP Filter:'));?></label>
+			<span class="ldapFilterReadOnlyElement ldapInputColElement"></span>
 		</p>
 		<p id="rawGroupFilterContainer" class="invisible">
-			<input type="text" id="ldap_group_filter" name="ldap_group_filter"
-			class="lwautosave"
-			placeholder="<?php p($l->t('Raw LDAP filter'));?>"
-			title="<?php p($l->t('The filter specifies which LDAP groups shall have access to the %s instance.', $theme->getName()));?>"
-			/>
+			<textarea type="text" id="ldap_group_filter" name="ldap_group_filter"
+					  placeholder="<?php p($l->t('Edit LDAP Query'));?>"
+					  title="<?php p($l->t('The filter specifies which LDAP groups shall have access to the %s instance.', $theme->getName()));?>">
+			</textarea>
 			<button class="ldapGetEntryCount hidden" name="ldapGetEntryCount" type="button">
 				<?php p($l->t('Test Filter'));?>
 			</button>
@@ -38,7 +55,10 @@
 			<div class="ldapWizardInfo invisible">&nbsp;</div>
 		</p>
 		<p class="ldap_count">
-			<span id="ldap_group_count">0 <?php p($l->t('groups found'));?></span>
+			<button class="ldapGetEntryCount ldapGetGroupCount" name="ldapGetEntryCount" type="button">
+				<?php p($l->t('Verify settings and count groups'));?>
+			</button>
+			<span id="ldap_group_count"></span>
 		</p>
 		<?php print_unescaped($_['wizardControls']); ?>
 	</div>

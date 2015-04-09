@@ -1,6 +1,6 @@
 .table {
 	display: table;
-	width: 60%;
+	width: 85%;
 }
 
 .tablerow {
@@ -21,8 +21,16 @@
 	margin-left: 3px;
 }
 
+.ldapIconCopy {
+	background-image: url('../img/copy.svg');
+}
+
 .invisible {
 	visibility: hidden;
+}
+
+.forceHidden {
+	display: none !important;
 }
 
 .ldapSettingsTabs {
@@ -49,13 +57,16 @@
 }
 
 #ldapWizard1 .hostPortCombinator div span {
-	width: 7%;
-	display: table-cell;
+	width: 14.5%;
+	display: inline-block;
 	text-align: right;
 }
 
 #ldapWizard1 .host {
-	width: 96.5% !important;
+	width: 100%;
+	margin-left: 0;
+	margin-right: 0;
+	border: 0;
 }
 
 .tableCellInput {
@@ -77,7 +88,7 @@
 	color: #FF3B3B;
 }
 
-.wizSpinner {
+.ldapSpinner {
 	height: 15px;
 	margin: 5px;
 }
@@ -104,8 +115,49 @@
 	width: auto;
 }
 
+.ldapManyGroupsSupport span {
+	display: inline-block;
+	vertical-align: top;
+	height: 150px;
+}
+
+.ldapManyGroupsSupport span button {
+	margin-top: 35px;
+}
+
+.ldapManyGroupsSearch {
+	width: 425px !important;
+}
+
+.ldapGroupList {
+	height: 150px;
+	width: 200px;
+}
+
 #ldap fieldset input, #ldap fieldset textarea {
  	width: 60%;
+}
+
+#ldap fieldset textarea ~ button {
+	vertical-align: text-bottom;
+}
+
+input.ldapVerifyInput {
+	width: 150px !important;
+}
+
+.ldapInputColElement {
+	width: 35%;
+	display: inline-block;
+	padding-left: 10px;
+}
+
+.ldapToggle {
+	text-decoration: underline;
+}
+
+span.ldapInputColElement {
+	margin-top: 9px;
 }
 
 #ldap fieldset p input[type=checkbox] {

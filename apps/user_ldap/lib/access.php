@@ -596,6 +596,22 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
+	 * fetches a list of users according to a provided loginName and utilizing
+	 * the login filter.
+	 *
+	 * @param string $loginName
+	 * @param array $attributes optional, list of attributes to read
+	 * @return array
+	 */
+	public function fetchUsersByLoginName($loginName, $attributes = array('dn')) {
+		$loginName = $this->escapeFilterPart($loginName);
+		$filter = \OCP\Util::mb_str_replace(
+			'%uid', $loginName, $this->connection->ldapLoginFilter, 'UTF-8');
+		$users = $this->fetchListOfUsers($filter, $attributes);
+		return $users;
+	}
+
+	/**
 	 * @param string $filter
 	 * @param string|string[] $attr
 	 * @param int $limit
@@ -684,6 +700,17 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 */
 	public function countGroups($filter, $attr = array('dn'), $limit = null, $offset = null) {
 		return $this->count($filter, $this->connection->ldapBaseGroups, $attr, $limit, $offset);
+	}
+
+	/**
+	 * returns the number of available objects on the base DN
+	 *
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return int|bool
+	 */
+	public function countObjects($limit = null, $offset = null) {
+		return $this->count('objectclass=*', $this->connection->ldapBase, array('dn'), $limit, $offset);
 	}
 
 	/**
