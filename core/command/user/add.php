@@ -58,10 +58,10 @@ class Add extends Command {
 				'User ID used to login (must only contain a-z, A-Z, 0-9, -, _ and @)'
 			)
 			->addOption(
-				'password',
-				'p',
-				InputOption::VALUE_OPTIONAL,
-				''
+				'password-from-env',
+				null,
+				InputOption::VALUE_NONE,
+				'read password from environment variable OC_PASS'
 			)
 			->addOption(
 				'display-name',
@@ -84,14 +84,33 @@ class Add extends Command {
 			return 1;
 		}
 
-		$password = $input->getOption('password');
-		while (!$password) {
-			$question = new Question('Please enter a non-empty password:');
-			$question->setHidden(true);
-			$question->setHiddenFallback(false);
+		if ($input->getOption('password-from-env')) {
+			$password = getenv('OC_PASS');
+			if (!$password) {
+				$output->writeln('<error>--password-from-env given, but OC_PASS is empty!</error>');
+				return 1;
+			}
+		} elseif ($input->isInteractive()) {
+			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
+			$dialog = $this->getHelperSet()->get('dialog');
+			$password = $dialog->askHiddenResponse(
+				$output,
+				'<question>Enter password: </question>',
+				false
+			);
+			$confirm = $dialog->askHiddenResponse(
+				$output,
+				'<question>Confirm password: </question>',
+				false
+			);
 
-			$helper = $this->getHelper('question');
-			$password = $helper->ask($input, $output, $question);
+			if ($password !== $confirm) {
+				$output->writeln("<error>Passwords did not match!</error>");
+				return 1;
+			}
+		} else {
+			$output->writeln("<error>Interactive input or --password-from-env is needed for entering a password!</error>");
+			return 1;
 		}
 
 		$user = $this->userManager->createUser(
