@@ -409,7 +409,9 @@ input[type="submit"].enabled {
 	padding: 5px;
 }
 
-#body-login div.buttons { text-align:center; }
+#body-login div.buttons {
+	text-align: center;
+}
 #body-login p.info {
 	width: 22em;
 	margin: 0 auto;
@@ -420,14 +422,26 @@ input[type="submit"].enabled {
 	padding: 13px;
 	margin: -13px;
 }
-#body-login #submit.login { margin-right:7px; } /* quick fix for log in button not being aligned with input fields, should be properly fixed by input field width later */
-
-#body-login form { width:22em; margin:2em auto 2em; padding:0; }
+/* quick fix for log in button not being aligned with input fields, should be properly fixed by input field width later */
+#body-login #submit.login {
+	margin-right: 7px;
+}
+#body-login form {
+	width: 22em;
+	margin: 2em auto 2em;
+	padding: 0;
+}
 #body-login form fieldset {
 	margin-bottom: 20px;
 	text-align: left;
 }
-#body-login form #adminaccount { margin-bottom:15px; }
+#body-login form #sqliteInformation {
+	margin-top: -20px;
+	margin-bottom: 20px;
+}
+#body-login form #adminaccount {
+	margin-bottom: 15px;
+}
 #body-login form fieldset legend, #datadirContent label {
 	width: 100%;
 }
@@ -444,6 +458,9 @@ input[type="submit"].enabled {
 #body-login #showAdvanced img {
 	vertical-align: bottom; /* adjust position of Advanced dropdown arrow */
 	margin-left: -4px;
+}
+#body-login .icon-info-white {
+	padding: 10px;
 }
 
 /* strengthify wrapper */
@@ -618,7 +635,9 @@ label.infield {
 
 
 /* Warnings and errors are the same */
-#body-login .warning, #body-login .update, #body-login .error {
+#body-login .warning,
+#body-login .update,
+#body-login .error {
 	display: block;
 	padding: 10px;
 	background-color: rgba(0,0,0,.3);
