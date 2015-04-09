@@ -15,9 +15,13 @@ class File extends \Test\TestCase {
 	 */
 	public function testSimplePutFails() {
 		// setup
-		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath'), array());
+		$storage = $this->getMock('\OC\Files\Storage\Local', ['fopen'], [['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]]);
+		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath', 'resolvePath'), array());
 		$view->expects($this->any())
-			->method('file_put_contents')
+			->method('resolvePath')
+			->will($this->returnValue(array($storage, '')));
+		$storage->expects($this->once())
+			->method('fopen')
 			->will($this->returnValue(false));
 
 		$view->expects($this->any())
@@ -36,8 +40,9 @@ class File extends \Test\TestCase {
 
 	public function testPutSingleFileShare() {
 		// setup
-		$storage = $this->getMock('\OCP\Files\Storage');
-		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath'), array());
+		$stream = fopen('php://temp', 'w+');
+		$storage = $this->getMock('\OC\Files\Storage\Local', ['fopen'], [['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]]);
+		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath', 'resolvePath'), array());
 		$view->expects($this->any())
 			->method('resolvePath')
 			->with('')
@@ -49,6 +54,9 @@ class File extends \Test\TestCase {
 			->method('file_put_contents')
 			->with('')
 			->will($this->returnValue(true));
+		$storage->expects($this->once())
+			->method('fopen')
+			->will($this->returnValue($stream));
 
 		$info = new \OC\Files\FileInfo('/foo.txt', null, null, array(
 			'permissions' => \OCP\Constants::PERMISSION_ALL

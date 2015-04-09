@@ -71,7 +71,7 @@ class File extends Node implements IFile {
 	 * different object on a subsequent GET you are strongly recommended to not
 	 * return an ETag, and just return null.
 	 *
-	 * @param resource $data
+	 * @param resource|string $data
 	 *
 	 * @throws Forbidden
 	 * @throws UnsupportedMediaType
@@ -82,13 +82,18 @@ class File extends Node implements IFile {
 	 * @return string|null
 	 */
 	public function put($data) {
+		if (is_string($data)) {
+			$stream = fopen('php://temp', 'r+');
+			fwrite($stream, $data);
+			$data = $stream;
+		};
 		try {
 			$exists = $this->fileView->file_exists($this->path);
 			if ($this->info && $exists && !$this->info->isUpdateable()) {
 				throw new Forbidden();
 			}
 		} catch (StorageNotAvailableException $e) {
-			throw new ServiceUnavailable("File is not updatable: ".$e->getMessage());
+			throw new ServiceUnavailable("File is not updatable: " . $e->getMessage());
 		}
 
 		// verify path of the target
@@ -155,7 +160,7 @@ class File extends Node implements IFile {
 			// returning 503 will allow retry of the operation at a later point in time
 			throw new ServiceUnavailable("Encryption not ready: " . $e->getMessage());
 		} catch (StorageNotAvailableException $e) {
-			throw new ServiceUnavailable("Failed to write file contents: ".$e->getMessage());
+			throw new ServiceUnavailable("Failed to write file contents: " . $e->getMessage());
 		}
 
 		try {
@@ -178,30 +183,33 @@ class File extends Node implements IFile {
 			// since we skipped the view we need to scan and emit the hooks ourselves
 			$storage->getScanner()->scanFile($internalPath);
 
-			$hookPath = \OC\Files\Filesystem::getView()->getRelativePath($this->fileView->getAbsolutePath($this->path));
-			if (!$exists) {
-				\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_create, array(
-					\OC\Files\Filesystem::signal_param_path => $hookPath
-				));
-			} else {
-				\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_update, array(
+			$view = \OC\Files\Filesystem::getView();
+			if ($view) {
+				$hookPath = $view->getRelativePath($this->fileView->getAbsolutePath($this->path));
+				if (!$exists) {
+					\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_create, array(
+						\OC\Files\Filesystem::signal_param_path => $hookPath
+					));
+				} else {
+					\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_update, array(
+						\OC\Files\Filesystem::signal_param_path => $hookPath
+					));
+				}
+				\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_write, array(
 					\OC\Files\Filesystem::signal_param_path => $hookPath
 				));
 			}
-			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_write, array(
-				\OC\Files\Filesystem::signal_param_path => $hookPath
-			));
 
 			// allow sync clients to send the mtime along in a header
 			$request = \OC::$server->getRequest();
 			if (isset($request->server['HTTP_X_OC_MTIME'])) {
-				if($this->fileView->touch($this->path, $request->server['HTTP_X_OC_MTIME'])) {
+				if ($this->fileView->touch($this->path, $request->server['HTTP_X_OC_MTIME'])) {
 					header('X-OC-MTime: accepted');
 				}
 			}
 			$this->refreshInfo();
 		} catch (StorageNotAvailableException $e) {
-			throw new ServiceUnavailable("Failed to check file size: ".$e->getMessage());
+			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage());
 		}
 
 		return '"' . $this->info->getEtag() . '"';
@@ -209,6 +217,7 @@ class File extends Node implements IFile {
 
 	/**
 	 * Returns the data
+	 *
 	 * @return string|resource
 	 * @throws Forbidden
 	 * @throws ServiceUnavailable
@@ -222,12 +231,13 @@ class File extends Node implements IFile {
 			// returning 503 will allow retry of the operation at a later point in time
 			throw new ServiceUnavailable("Encryption not ready: " . $e->getMessage());
 		} catch (StorageNotAvailableException $e) {
-			throw new ServiceUnavailable("Failed to open file: ".$e->getMessage());
+			throw new ServiceUnavailable("Failed to open file: " . $e->getMessage());
 		}
 	}
 
 	/**
 	 * Delete the current file
+	 *
 	 * @throws Forbidden
 	 * @throws ServiceUnavailable
 	 */
@@ -242,7 +252,7 @@ class File extends Node implements IFile {
 				throw new Forbidden();
 			}
 		} catch (StorageNotAvailableException $e) {
-			throw new ServiceUnavailable("Failed to unlink: ".$e->getMessage());
+			throw new ServiceUnavailable("Failed to unlink: " . $e->getMessage());
 		}
 	}
 
@@ -257,7 +267,7 @@ class File extends Node implements IFile {
 		$mimeType = $this->info->getMimetype();
 
 		// PROPFIND needs to return the correct mime type, for consistency with the web UI
-		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PROPFIND' ) {
+		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PROPFIND') {
 			return $mimeType;
 		}
 		return \OC_Helper::getSecureMimeType($mimeType);
@@ -310,7 +320,7 @@ class File extends Node implements IFile {
 		}
 
 		if ($chunk_handler->isComplete()) {
-			list($storage, ) = $this->fileView->resolvePath($path);
+			list($storage,) = $this->fileView->resolvePath($path);
 			$needsPartFile = $this->needsPartFile($storage);
 
 			try {
@@ -339,7 +349,7 @@ class File extends Node implements IFile {
 				// allow sync clients to send the mtime along in a header
 				$request = \OC::$server->getRequest();
 				if (isset($request->server['HTTP_X_OC_MTIME'])) {
-					if($this->fileView->touch($targetPath, $request->server['HTTP_X_OC_MTIME'])) {
+					if ($this->fileView->touch($targetPath, $request->server['HTTP_X_OC_MTIME'])) {
 						header('X-OC-MTime: accepted');
 					}
 				}
@@ -347,7 +357,7 @@ class File extends Node implements IFile {
 				$info = $this->fileView->getFileInfo($targetPath);
 				return $info->getEtag();
 			} catch (StorageNotAvailableException $e) {
-				throw new ServiceUnavailable("Failed to put file: ".$e->getMessage());
+				throw new ServiceUnavailable("Failed to put file: " . $e->getMessage());
 			}
 		}
 
@@ -358,6 +368,7 @@ class File extends Node implements IFile {
 	 * Returns whether a part file is needed for the given storage
 	 * or whether the file can be assembled/uploaded directly on the
 	 * target storage.
+	 *
 	 * @param \OCP\Files\Storage $storage
 	 * @return bool true if the storage needs part file handling
 	 */
@@ -365,6 +376,6 @@ class File extends Node implements IFile {
 		// TODO: in the future use ChunkHandler provided by storage
 		// and/or add method on Storage called "needsPartFile()"
 		return !$storage->instanceOfStorage('OCA\Files_Sharing\External\Storage') &&
-			!$storage->instanceOfStorage('OC\Files\Storage\OwnCloud');
+		!$storage->instanceOfStorage('OC\Files\Storage\OwnCloud');
 	}
 }
