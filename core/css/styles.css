@@ -435,6 +435,10 @@ input[type="submit"].enabled {
 	margin-bottom: 20px;
 	text-align: left;
 }
+#body-login form #sqliteInformation {
+	margin-top: -20px;
+	margin-bottom: 20px;
+}
 #body-login form #adminaccount {
 	margin-bottom: 15px;
 }
