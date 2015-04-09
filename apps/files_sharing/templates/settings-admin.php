@@ -4,6 +4,9 @@
 ?>
 <div id="fileSharingSettings">
 	<h3><?php p($l->t('Federated Cloud Sharing'));?></h3>
+	<a target="_blank" class="icon-info svg"
+		title="<?php p($l->t('Open documentation'));?>"
+		href="<?php p(link_to_docs('admin-sharing-federated')); ?>"></a>
 
 	<p>
 		<input type="checkbox" name="outgoing_server2server_share_enabled" id="outgoingServer2serverShareEnabled"
