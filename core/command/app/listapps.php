@@ -23,21 +23,23 @@
 
 namespace OC\Core\Command\App;
 
-use Symfony\Component\Console\Command\Command;
+use OC\Core\Command\Base;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ListApps extends Command {
+class ListApps extends Base {
 	protected function configure() {
+		parent::configure();
+
 		$this
 			->setName('app:list')
-			->setDescription('List all available apps');
+			->setDescription('List all available apps')
+		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$apps = \OC_App::getAllApps();
-		$enabledApps = array();
-		$disabledApps = array();
+		$enabledApps = $disabledApps = [];
 		$versions = \OC_App::getAppVersions();
 
 		//sort enabled apps above disabled apps
@@ -49,15 +51,39 @@ class ListApps extends Command {
 			}
 		}
 
+		$apps = ['enabled' => [], 'disabled' => []];
+
 		sort($enabledApps);
-		sort($disabledApps);
-		$output->writeln('Enabled:');
 		foreach ($enabledApps as $app) {
-			$output->writeln(' - ' . $app . (isset($versions[$app]) ? ' (' . $versions[$app] . ')' : ''));
+			$apps['enabled'][$app] = (isset($versions[$app])) ? $versions[$app] : '';
 		}
-		$output->writeln('Disabled:');
+
+		sort($disabledApps);
 		foreach ($disabledApps as $app) {
-			$output->writeln(' - ' . $app . (isset($versions[$app]) ? ' (' . $versions[$app] . ')' : ''));
+			$apps['disabled'][$app] = (isset($versions[$app])) ? $versions[$app] : '';
+		}
+
+		$this->writeAppList($input, $output, $apps);
+	}
+
+	/**
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @param array $items
+	 */
+	protected function writeAppList(InputInterface $input, OutputInterface $output, $items) {
+		switch ($input->getOption('output')) {
+			case 'plain':
+				$output->writeln('Enabled:');
+				parent::writeArrayInOutputFormat($input, $output, $items['enabled']);
+
+				$output->writeln('Disabled:');
+				parent::writeArrayInOutputFormat($input, $output, $items['disabled']);
+			break;
+
+			default:
+				parent::writeArrayInOutputFormat($input, $output, $items);
+			break;
 		}
 	}
 }
