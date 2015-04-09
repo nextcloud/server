@@ -29,52 +29,6 @@
 
 OC_Util::checkAdminUser();
 
-\OC_Util::addVendorScript('user_ldap', 'ui-multiselect/src/jquery.multiselect');
-\OC_Util::addVendorStyle('user_ldap', 'ui-multiselect/jquery.multiselect');
-
-\OCP\Util::addScript('user_ldap', 'wizard/controller');
-\OCP\Util::addScript('user_ldap', 'wizard/configModel');
-\OCP\Util::addScript('user_ldap', 'wizard/view');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardObject');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardTabGeneric');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardTabElementary');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardTabAbstractFilter');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardTabUserFilter');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardTabLoginFilter');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardTabGroupFilter');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardTabAdvanced');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardTabExpert');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorQueue');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorGeneric');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorPort');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorBaseDN');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorFeatureAbstract');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorUserObjectClasses');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorGroupObjectClasses');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorGroupsForUsers');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorGroupsForGroups');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorSimpleRequestAbstract');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorFilterUser');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorFilterLogin');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorFilterGroup');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorUserCount');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorGroupCount');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorEmailAttribute');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorUserDisplayNameAttribute');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorUserGroupAssociation');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorAvailableAttributes');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorTestAbstract');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorTestLoginName');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorTestBaseDN');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorTestConfiguration');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorClearUserMappings');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardDetectorClearGroupMappings');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardFilterOnType');
-\OCP\Util::addScript('user_ldap', 'wizard/wizardFilterOnTypeFactory');
-\OCP\Util::addScript('user_ldap', 'wizard/wizard');
-
-OCP\Util::addStyle('user_ldap', 'settings');
-
 // fill template
 $tmpl = new OCP\Template('user_ldap', 'settings');
 
