@@ -89,7 +89,7 @@ interface IStorage {
 	 * @param string $uid ID if the user for whom we want to delete the key
 	 * @param string $keyId id of the key
 	 *
-	 * @return boolean
+	 * @return boolean False when the key could not be deleted
 	 */
 	public function deleteUserKey($uid, $keyId);
 
@@ -99,7 +99,7 @@ interface IStorage {
 	 * @param string $path path to file
 	 * @param string $keyId id of the key
 	 *
-	 * @return boolean
+	 * @return boolean False when the key could not be deleted
 	 */
 	public function deleteFileKey($path, $keyId);
 
@@ -107,7 +107,7 @@ interface IStorage {
 	 * delete all file keys for a given file
 	 *
 	 * @param string $path to the file
-	 * @return boolean
+	 * @return boolean False when the keys could not be deleted
 	 */
 	public function deleteAllFileKeys($path);
 
@@ -117,7 +117,7 @@ interface IStorage {
 	 *
 	 * @param string $keyId id of the key
 	 *
-	 * @return boolean
+	 * @return boolean False when the key could not be deleted
 	 */
 	public function deleteSystemUserKey($keyId);
 
