@@ -33,22 +33,19 @@ class Base extends Command {
 				'output',
 				null,
 				InputOption::VALUE_OPTIONAL,
-				'Output format (plain, print or json, default is plain)',
+				'Output format (plain, json or json_pretty, default is plain)',
 				'plain'
 			)
 		;
 	}
 
 	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, $items) {
-		$outputFormat = $input->getOption('output');
-		switch ($outputFormat) {
+		switch ($input->getOption('output')) {
 			case 'json':
-			case 'print':
-				if ($outputFormat === 'json') {
-					$output->writeln(json_encode($items));
-				} else {
-					print_r($items);
-				}
+				$output->writeln(json_encode($items));
+				break;
+			case 'json_pretty':
+				$output->writeln(json_encode($items, JSON_PRETTY_PRINT));
 				break;
 			default:
 				foreach ($items as $key => $item) {
