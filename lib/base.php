@@ -294,27 +294,33 @@ class OC {
 			header('Retry-After: 120');
 
 			// render error page
-			$tmpl = new OC_Template('', 'update.user', 'guest');
+			$template = new OC_Template('', 'update.user', 'guest');
 			OC_Util::addscript('maintenance-check');
-			$tmpl->printPage();
+			$template->printPage();
 			die();
 		}
 	}
 
 	public static function checkSingleUserMode() {
-		$user = OC_User::getUserSession()->getUser();
-		$group = OC_Group::getManager()->get('admin');
-		if ($user && \OC::$server->getSystemConfig()->getValue('singleuser', false) && !$group->inGroup($user)) {
-			// send http status 503
-			header('HTTP/1.1 503 Service Temporarily Unavailable');
-			header('Status: 503 Service Temporarily Unavailable');
-			header('Retry-After: 120');
-
-			// render error page
-			$tmpl = new OC_Template('', 'singleuser.user', 'guest');
-			$tmpl->printPage();
-			die();
+		if (!\OC::$server->getSystemConfig()->getValue('singleuser', false)) {
+			return;
 		}
+		$user = OC_User::getUserSession()->getUser();
+		if ($user) {
+			$group = \OC::$server->getGroupManager()->get('admin');
+			if ($group->inGroup($user)) {
+				return;
+			}
+		}
+		// send http status 503
+		header('HTTP/1.1 503 Service Temporarily Unavailable');
+		header('Status: 503 Service Temporarily Unavailable');
+		header('Retry-After: 120');
+
+		// render error page
+		$template = new OC_Template('', 'singleuser.user', 'guest');
+		$template->printPage();
+		die();
 	}
 
 	/**
