@@ -52,7 +52,11 @@ class RecoveryController extends Controller {
 	 * @param IL10N $l10n
 	 * @param Recovery $recovery
 	 */
-	public function __construct($AppName, IRequest $request, IConfig $config, IL10N $l10n, Recovery $recovery) {
+	public function __construct($AppName,
+								IRequest $request,
+								IConfig $config,
+								IL10N $l10n,
+								Recovery $recovery) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->l = $l10n;
@@ -145,6 +149,9 @@ class RecoveryController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * @param string $userEnableRecovery
+	 * @return DataResponse
 	 */
 	public function userSetRecovery($userEnableRecovery) {
 		if ($userEnableRecovery === '0' || $userEnableRecovery === '1') {
