@@ -9,6 +9,17 @@ Handlebars.registerHelper('score', function() {
 	}
 	return new Handlebars.SafeString('');
 });
+Handlebars.registerHelper('level', function() {
+	if(typeof this.level !== 'undefined') {
+		if(this.level === 200) {
+			return new Handlebars.SafeString('<span class="official icon-checkmark">Official</span>');
+		} else if(this.level === 100) {
+			return new Handlebars.SafeString('<span class="approved">Approved</span>');
+		} else {
+			return new Handlebars.SafeString('<span class="experimental">Experimental</span>');
+		}
+	}
+});
 
 OC.Settings = OC.Settings || {};
 OC.Settings.Apps = OC.Settings.Apps || {
@@ -73,7 +84,6 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		this._loadCategoryCall = $.ajax(OC.generateUrl('settings/apps/list?category={categoryId}', {
 			categoryId: categoryId
 		}), {
-			data:{},
 			type:'GET',
 			success: function (apps) {
 				OC.Settings.Apps.State.apps = _.indexBy(apps.apps, 'id');
@@ -81,13 +91,27 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				var template = Handlebars.compile(source);
 
 				if (apps.apps.length) {
+					apps.apps.sort(function(a,b) {
+						return b.level - a.level;
+					});
+
+					var firstExperimental = false;
 					_.each(apps.apps, function(app) {
-						OC.Settings.Apps.renderApp(app, template, null);
+						if(app.level === 0 && firstExperimental === false) {
+							firstExperimental = true;
+							OC.Settings.Apps.renderApp(app, template, null, true);
+						} else {
+							OC.Settings.Apps.renderApp(app, template, null, false);
+						}
 					});
 				} else {
 					$('#apps-list').addClass('hidden');
 					$('#apps-list-empty').removeClass('hidden');
 				}
+
+				$('.app-level .official').tipsy({fallback: t('core', 'Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use.')});
+				$('.app-level .approved').tipsy({fallback: t('core', 'Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use.')});
+				$('.app-level .experimental').tipsy({fallback: t('core', 'This app is not checked for security issues and is new or known to be unstable. Install on your own risk.')});
 			},
 			complete: function() {
 				$('#apps-list').removeClass('icon-loading');
@@ -95,7 +119,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		});
 	},
 
-	renderApp: function(app, template, selector) {
+	renderApp: function(app, template, selector, firstExperimental) {
 		if (!template) {
 			var source   = $("#app-template").html();
 			template = Handlebars.compile(source);
@@ -103,6 +127,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (typeof app === 'string') {
 			app = OC.Settings.Apps.State.apps[app];
 		}
+		app.firstExperimental = firstExperimental;
 
 		var html = template(app);
 		if (selector) {
@@ -438,6 +463,16 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			$select.change();
 		});
 
+		$(document).on('click', '#enable-experimental-apps', function () {
+			var state = $(this).prop('checked')
+			$.ajax(OC.generateUrl('settings/apps/experimental'), {
+				data: {state: state},
+				type: 'POST',
+				success:function () {
+					location.reload();
+				}
+			});
+		});
 	}
 };
 

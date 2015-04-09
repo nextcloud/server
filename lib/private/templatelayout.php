@@ -107,7 +107,7 @@ class OC_TemplateLayout extends OC_Template {
 			$userDisplayName = OC_User::getDisplayName();
 			$this->assign('user_displayname', $userDisplayName);
 			$this->assign('user_uid', OC_User::getUser());
-			$this->assign('appsmanagement_active', strpos(\OC::$server->getRequest()->getRequestUri(), OC_Helper::linkToRoute('settings_apps')) === 0 );
+			$this->assign('appsmanagement_active', strpos(\OC::$server->getRequest()->getRequestUri(), \OC::$server->getURLGenerator()->linkToRoute('settings.AppSettings.viewApps')) === 0 );
 			$this->assign('enableAvatars', $this->config->getSystemValue('enable_avatars', true));
 			$this->assign('userAvatarSet', \OC_Helper::userAvatarSet(OC_User::getUser()));
 		} else if ($renderAs == 'error') {

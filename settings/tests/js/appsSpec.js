@@ -98,4 +98,58 @@ describe('OC.Settings.Apps tests', function() {
 			expect(results[0]).toEqual('somestuff');
 		});
 	});
+
+	describe('loading categories', function() {
+		var suite = this;
+
+		beforeEach( function(){
+			suite.server = sinon.fakeServer.create();
+		});
+
+		afterEach( function(){
+			suite.server.restore();
+		});
+
+		function getResultsFromDom() {
+			var results = [];
+			$('#apps-list .section:not(.hidden)').each(function() {
+				results.push($(this).attr('data-id'));
+			});
+			return results;
+		}
+
+		it('sorts all applications using the level', function() {
+			Apps.loadCategory('TestId');
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json'
+				},
+				JSON.stringify({
+					apps: [
+						{
+							id: 'foo',
+							level: 0
+						},
+						{
+							id: 'alpha',
+							level: 300
+						},
+						{
+							id: 'delta',
+							level: 200
+						}
+					]
+				})
+			);
+
+			var results = getResultsFromDom();
+			expect(results.length).toEqual(3);
+			expect(results[0]).toEqual('alpha');
+			expect(results[1]).toEqual('delta');
+			expect(results[2]).toEqual('foo');
+		});
+	});
+
 });

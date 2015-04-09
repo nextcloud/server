@@ -123,7 +123,7 @@
 					if(OC_User::isAdminUser(OC_User::getUser())):
 				?>
 					<li id="apps-management">
-						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps')); ?>" tabindex="4"
+						<a href="<?php print_unescaped(\OC::$server->getURLGenerator()->linkToRoute('settings.AppSettings.viewApps')); ?>" tabindex="4"
 							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
 							<img class="app-icon svg" alt="" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>">
 							<div class="icon-loading-dark" style="display:none;"></div>

@@ -78,4 +78,9 @@ interface IAppManager {
 	 * @return string[]
 	 */
 	public function getInstalledApps();
+
+	/**
+	 * Clear the cached list of apps when enabling/disabling an app
+	 */
+	public function clearAppsCache();
 }

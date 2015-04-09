@@ -71,7 +71,10 @@ class Application extends App {
 				$c->query('Request'),
 				$c->query('L10N'),
 				$c->query('Config'),
-				$c->query('ICacheFactory')
+				$c->query('ICacheFactory'),
+				$c->query('INavigationManager'),
+				$c->query('IAppManager'),
+				$c->query('OcsClient')
 			);
 		});
 		$container->registerService('SecuritySettingsController', function(IContainer $c) {
@@ -191,6 +194,15 @@ class Application extends App {
 		});
 		$container->registerService('ClientService', function(IContainer $c) {
 			return $c->query('ServerContainer')->getHTTPClientService();
+		});
+		$container->registerService('INavigationManager', function(IContainer $c) {
+			return $c->query('ServerContainer')->getNavigationManager();
+		});
+		$container->registerService('IAppManager', function(IContainer $c) {
+			return $c->query('ServerContainer')->getAppManager();
+		});
+		$container->registerService('OcsClient', function(IContainer $c) {
+			return $c->query('ServerContainer')->getOcsClient();
 		});
 		$container->registerService('Util', function(IContainer $c) {
 			return new \OC_Util();

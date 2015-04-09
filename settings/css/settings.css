@@ -203,20 +203,50 @@ input.userFilter {width: 200px;}
 	background: #fbb;
 }
 
-.recommendedapp {
-	font-size: 11px;
-	background-position: left center;
-	padding-left: 18px;
-	vertical-align: top;
+span.version {
+	margin-left: 1em;
+	margin-right: 1em;
+	color: #555;
 }
-span.version { margin-left:1em; margin-right:1em; color:#555; }
 
 #app-navigation .app-external,
-.app-version,
-.recommendedapp {
+.app-version {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	filter: alpha(opacity=50);
 	opacity: .5;
+}
+
+.app-level {
+	margin-top: 8px;
+}
+.app-level span {
+	color: #555;
+	background-color: transparent;
+	border: 1px solid #555;
+	border-radius: 3px;
+	padding: 3px 6px;
+}
+.app-level .official {
+	border-color: #37ce02;
+	background-position: left center;
+	background-position: 5px center;
+	padding-left: 25px;
+}
+.app-level .approved {
+	border-color: #e8c805;
+}
+.app-level .experimental {
+	background-color: #ce3702;
+	border-color: #ce3702;
+	color: #fff;
+}
+.apps-experimental {
+	color: #ce3702;
+}
+
+.app-score {
+	position: relative;
+	top: 4px;
 }
 
 #apps-list {
@@ -225,6 +255,9 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 }
 .section {
 	position: relative;
+}
+.section h2.app-name {
+	margin-bottom: 8px;
 }
 .app-image {
 	float: left;
@@ -245,7 +278,7 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 .app-name,
 .app-version,
 .app-score,
-.recommendedapp {
+.app-level {
 	display: inline-block;
 }
 
@@ -270,13 +303,17 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 	white-space: pre-line;
 }
 
-#app-category-2 {
+#app-category-1 {
 	border-bottom: 1px solid #e8e8e8;
+}
+/* capitalize "Other" category */
+#app-category-925 {
+	text-transform: capitalize;
 }
 
 .app-dependencies {
 	margin-top: 10px;
-	color: #c33;
+	color: #ce3702;
 }
 
 .missing-dependencies {
@@ -311,7 +348,7 @@ table.grid td.date{
 #security-warning li {
 	list-style: initial;
 	margin: 10px 0;
-	color: #c33;
+	color: #ce3702;
 }
 #shareAPI p { padding-bottom: 0.8em; }
 #shareAPI input#shareapiExpireAfterNDays {width: 25px;}
@@ -362,12 +399,12 @@ table.grid td.date{
 }
 
 span.success {
-        background: #37ce02;
-        border-radius: 3px;
+	 background: #37ce02;
+	 border-radius: 3px;
 }
 
 span.error {
-        background: #ce3702;
+	 background: #ce3702;
 }
 
 

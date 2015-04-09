@@ -32,36 +32,75 @@
 
 namespace OC;
 
-/**
- * This class provides an easy way for apps to store config values in the
- * database.
- */
+use OCP\Http\Client\IClientService;
+use OCP\IConfig;
+use OCP\ILogger;
 
+/**
+ * Class OCSClient is a class for communication with the ownCloud appstore
+ *
+ * @package OC
+ */
 class OCSClient {
+	/** @var IClientService */
+	private $httpClientService;
+	/** @var IConfig */
+	private $config;
+	/** @var ILogger */
+	private $logger;
+
+	/**
+	 * @param IClientService $httpClientService
+	 * @param IConfig $config
+	 * @param ILogger $logger
+	 */
+	public function __construct(IClientService $httpClientService,
+								IConfig $config,
+								ILogger $logger) {
+		$this->httpClientService = $httpClientService;
+		$this->config = $config;
+		$this->logger = $logger;
+	}
 
 	/**
 	 * Returns whether the AppStore is enabled (i.e. because the AppStore is disabled for EE)
 	 *
 	 * @return bool
 	 */
-	public static function isAppStoreEnabled() {
-		if (\OC::$server->getConfig()->getSystemValue('appstoreenabled', true) === false ) {
-			return false;
-		}
-
-		return true;
+	public function isAppStoreEnabled() {
+		return $this->config->getSystemValue('appstoreenabled', true) === true;
 	}
 
 	/**
 	 * Get the url of the OCS AppStore server.
 	 *
 	 * @return string of the AppStore server
-	 *
-	 * This function returns the url of the OCS AppStore server. It´s possible
-	 * to set it in the config file or it will fallback to the default
 	 */
-	private static function getAppStoreURL() {
-		return \OC::$server->getConfig()->getSystemValue('appstoreurl', 'https://api.owncloud.com/v1');
+	private function getAppStoreUrl() {
+		return $this->config->getSystemValue('appstoreurl', 'https://api.owncloud.com/v1');
+	}
+
+	/**
+	 * @param string $body
+	 * @param string $action
+	 * @return null|\SimpleXMLElement
+	 */
+	private function loadData($body, $action) {
+		$loadEntities = libxml_disable_entity_loader(true);
+		$data = @simplexml_load_string($body);
+		libxml_disable_entity_loader($loadEntities);
+
+		if($data === false) {
+			$this->logger->error(
+				sprintf('Could not get %s, content was no valid XML', $action),
+				[
+					'app' => 'core',
+				]
+			);
+			return null;
+		}
+
+		return $data;
 	}
 
 	/**
@@ -71,36 +110,41 @@ class OCSClient {
 	 * @note returns NULL if config value appstoreenabled is set to false
 	 * This function returns a list of all the application categories on the OCS server
 	 */
-	public static function getCategories() {
-		if (!self::isAppStoreEnabled()) {
+	public function getCategories() {
+		if (!$this->isAppStoreEnabled()) {
 			return null;
 		}
-		$url = self::getAppStoreURL() . '/content/categories';
 
-		$client = \OC::$server->getHTTPClientService()->newClient();
+		$client = $this->httpClientService->newClient();
 		try {
-			$response = $client->get($url, ['timeout' => 5]);
+			$response = $client->get(
+				$this->getAppStoreUrl() . '/content/categories',
+				[
+					'timeout' => 5,
+				]
+			);
 		} catch(\Exception $e) {
+			$this->logger->error(
+				sprintf('Could not get categories: %s', $e->getMessage()),
+				[
+					'app' => 'core',
+				]
+			);
 			return null;
 		}
 
-		if($response->getStatusCode() !== 200) {
+		$data = $this->loadData($response->getBody(), 'categories');
+		if($data === null) {
 			return null;
 		}
-
-		$loadEntities = libxml_disable_entity_loader(true);
-		$data = simplexml_load_string($response->getBody());
-		libxml_disable_entity_loader($loadEntities);
 
 		$tmp = $data->data;
 		$cats = [];
 
 		foreach ($tmp->category as $value) {
-
 			$id = (int)$value->id;
 			$name = (string)$value->name;
 			$cats[$id] = $name;
-
 		}
 
 		return $cats;
@@ -108,50 +152,54 @@ class OCSClient {
 
 	/**
 	 * Get all the applications from the OCS server
-	 *
-	 * @return array|null an array of application data or null
-	 *
-	 * This function returns a list of all the applications on the OCS server
-	 * @param array|string $categories
+	 * @param array $categories
 	 * @param int $page
 	 * @param string $filter
+	 * @return array An array of application data
 	 */
-	public static function getApplications($categories, $page, $filter) {
-		if (!self::isAppStoreEnabled()) {
-			return (array());
+	public function getApplications(array $categories, $page, $filter) {
+		if (!$this->isAppStoreEnabled()) {
+			return [];
 		}
 
-		if (is_array($categories)) {
-			$categoriesString = implode('x', $categories);
-		} else {
-			$categoriesString = $categories;
-		}
-
-		$version = '&version=' . implode('x', \OC_Util::getVersion());
-		$filterUrl = '&filter=' . urlencode($filter);
-		$url = self::getAppStoreURL() . '/content/data?categories=' . urlencode($categoriesString)
-			. '&sortmode=new&page=' . urlencode($page) . '&pagesize=100' . $filterUrl . $version;
-		$apps = [];
-
-		$client = \OC::$server->getHTTPClientService()->newClient();
+		$client = $this->httpClientService->newClient();
 		try {
-			$response = $client->get($url, ['timeout' => 5]);
+			$response = $client->get(
+				$this->getAppStoreUrl() . '/content/data',
+				[
+					'timeout' => 5,
+					'query' => [
+						'version' => implode('x', \OC_Util::getVersion()),
+						'filter' => $filter,
+						'categories' => implode('x', $categories),
+						'sortmode' => 'new',
+						'page' => $page,
+						'pagesize' => 100,
+						'approved' => $filter
+					],
+				]
+			);
 		} catch(\Exception $e) {
-			return null;
+			$this->logger->error(
+				sprintf('Could not get applications: %s', $e->getMessage()),
+				[
+					'app' => 'core',
+				]
+			);
+			return [];
 		}
 
-		if($response->getStatusCode() !== 200) {
-			return null;
+		$data = $this->loadData($response->getBody(), 'applications');
+		if($data === null) {
+			return [];
 		}
-
-		$loadEntities = libxml_disable_entity_loader(true);
-		$data = simplexml_load_string($response->getBody());
-		libxml_disable_entity_loader($loadEntities);
 
 		$tmp = $data->data->content;
 		$tmpCount = count($tmp);
+
+		$apps = [];
 		for ($i = 0; $i < $tmpCount; $i++) {
-			$app = array();
+			$app = [];
 			$app['id'] = (string)$tmp[$i]->id;
 			$app['name'] = (string)$tmp[$i]->name;
 			$app['label'] = (string)$tmp[$i]->label;
@@ -159,6 +207,7 @@ class OCSClient {
 			$app['type'] = (string)$tmp[$i]->typeid;
 			$app['typename'] = (string)$tmp[$i]->typename;
 			$app['personid'] = (string)$tmp[$i]->personid;
+			$app['profilepage'] = (string)$tmp[$i]->profilepage;
 			$app['license'] = (string)$tmp[$i]->license;
 			$app['detailpage'] = (string)$tmp[$i]->detailpage;
 			$app['preview'] = (string)$tmp[$i]->smallpreviewpic1;
@@ -167,9 +216,11 @@ class OCSClient {
 			$app['description'] = (string)$tmp[$i]->description;
 			$app['score'] = (string)$tmp[$i]->score;
 			$app['downloads'] = (int)$tmp[$i]->downloads;
+			$app['level'] = (int)$tmp[$i]->approved;
 
 			$apps[] = $app;
 		}
+
 		return $apps;
 	}
 
@@ -182,84 +233,94 @@ class OCSClient {
 	 *
 	 * This function returns an applications from the OCS server
 	 */
-	public static function getApplication($id) {
-		if (!self::isAppStoreEnabled()) {
+	public function getApplication($id) {
+		if (!$this->isAppStoreEnabled()) {
 			return null;
 		}
-		$url = self::getAppStoreURL() . '/content/data/' . urlencode($id);
-		$client = \OC::$server->getHTTPClientService()->newClient();
+
+		$client = $this->httpClientService->newClient();
 		try {
-			$response = $client->get($url, ['timeout' => 5]);
+			$response = $client->get(
+				$this->getAppStoreUrl() . '/content/data/' . urlencode($id),
+				[
+					'timeout' => 5,
+				]
+			);
 		} catch(\Exception $e) {
+			$this->logger->error(
+				sprintf('Could not get application: %s', $e->getMessage()),
+				[
+					'app' => 'core',
+				]
+			);
 			return null;
 		}
 
-		if($response->getStatusCode() !== 200) {
+		$data = $this->loadData($response->getBody(), 'application');
+		if($data === null) {
 			return null;
 		}
-
-		$loadEntities = libxml_disable_entity_loader(true);
-		$data = simplexml_load_string($response->getBody());
-		libxml_disable_entity_loader($loadEntities);
 
 		$tmp = $data->data->content;
-		if (is_null($tmp)) {
-			\OC_Log::write('core', 'Invalid OCS content returned for app ' . $id, \OC_Log::FATAL);
-			return null;
-		}
+
 		$app = [];
-		$app['id'] = $tmp->id;
-		$app['name'] = $tmp->name;
-		$app['version'] = $tmp->version;
-		$app['type'] = $tmp->typeid;
-		$app['label'] = $tmp->label;
-		$app['typename'] = $tmp->typename;
-		$app['personid'] = $tmp->personid;
-		$app['detailpage'] = $tmp->detailpage;
-		$app['preview1'] = $tmp->smallpreviewpic1;
-		$app['preview2'] = $tmp->smallpreviewpic2;
-		$app['preview3'] = $tmp->smallpreviewpic3;
+		$app['id'] = (int)$tmp->id;
+		$app['name'] = (string)$tmp->name;
+		$app['version'] = (string)$tmp->version;
+		$app['type'] = (string)$tmp->typeid;
+		$app['label'] = (string)$tmp->label;
+		$app['typename'] = (string)$tmp->typename;
+		$app['personid'] = (string)$tmp->personid;
+		$app['profilepage'] = (string)$tmp->profilepage;
+		$app['detailpage'] = (string)$tmp->detailpage;
+		$app['preview1'] = (string)$tmp->smallpreviewpic1;
+		$app['preview2'] = (string)$tmp->smallpreviewpic2;
+		$app['preview3'] = (string)$tmp->smallpreviewpic3;
 		$app['changed'] = strtotime($tmp->changed);
-		$app['description'] = $tmp->description;
-		$app['detailpage'] = $tmp->detailpage;
-		$app['score'] = $tmp->score;
+		$app['description'] = (string)$tmp->description;
+		$app['detailpage'] = (string)$tmp->detailpage;
+		$app['score'] = (int)$tmp->score;
 
 		return $app;
 	}
 
 	/**
 	 * Get the download url for an application from the OCS server
-	 *
+	 * @param $id
 	 * @return array|null an array of application data or null
-	 *
-	 * This function returns an download url for an applications from the OCS server
-	 * @param string $id
-	 * @param integer $item
 	 */
-	public static function getApplicationDownload($id, $item) {
-		if (!self::isAppStoreEnabled()) {
+	public function getApplicationDownload($id) {
+		if (!$this->isAppStoreEnabled()) {
 			return null;
 		}
-		$url = self::getAppStoreURL() . '/content/download/' . urlencode($id) . '/' . urlencode($item);
-		$client = \OC::$server->getHTTPClientService()->newClient();
+		$url = $this->getAppStoreUrl() . '/content/download/' . urlencode($id) . '/1';
+		$client = $this->httpClientService->newClient();
 		try {
-			$response = $client->get($url, ['timeout' => 5]);
+			$response = $client->get(
+				$url,
+				[
+					'timeout' => 5,
+				]
+			);
 		} catch(\Exception $e) {
+			$this->logger->error(
+				sprintf('Could not get application download URL: %s', $e->getMessage()),
+				[
+					'app' => 'core',
+				]
+			);
 			return null;
 		}
 
-		if($response->getStatusCode() !== 200) {
+		$data = $this->loadData($response->getBody(), 'application download URL');
+		if($data === null) {
 			return null;
 		}
-
-		$loadEntities = libxml_disable_entity_loader(true);
-		$data = simplexml_load_string($response->getBody());
-		libxml_disable_entity_loader($loadEntities);
 
 		$tmp = $data->data->content;
-		$app = array();
+		$app = [];
 		if (isset($tmp->downloadlink)) {
-			$app['downloadlink'] = $tmp->downloadlink;
+			$app['downloadlink'] = (string)$tmp->downloadlink;
 		} else {
 			$app['downloadlink'] = '';
 		}
