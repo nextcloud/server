@@ -56,6 +56,7 @@ class Application {
 					$output->writeln($error['hint']);
 					$output->writeln('');
 				}
+				throw new \Exception("Environment not properly prepared.");
 			}
 		}
 	}
