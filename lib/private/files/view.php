@@ -677,7 +677,9 @@ class View {
 						$this->emit_file_hooks_post($exists, $path2);
 					}
 				} elseif ($result) {
-					$this->updater->rename($path1, $path2);
+					if ($internalPath1 !== '') { // dont do a cache update for moved mounts
+						$this->updater->rename($path1, $path2);
+					}
 					if ($this->shouldEmitHooks($path1) and $this->shouldEmitHooks($path2)) {
 						\OC_Hook::emit(
 							Filesystem::CLASSNAME,
