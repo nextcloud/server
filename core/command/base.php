@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -22,27 +21,40 @@
 
 namespace OC\Core\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Status extends Base {
+class Base extends Command {
 	protected function configure() {
-		parent::configure();
-
 		$this
-			->setName('status')
-			->setDescription('show some status information')
+			->addOption(
+				'output',
+				null,
+				InputOption::VALUE_OPTIONAL,
+				'Output format (plain, print or json, default is plain)',
+				'plain'
+			)
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
-		$values = array(
-			'installed' => \OC_Config::getValue('installed') ? 'true' : 'false',
-			'version' => implode('.', \OC_Util::getVersion()),
-			'versionstring' => \OC_Util::getVersionString(),
-			'edition' => \OC_Util::getEditionString(),
-		);
-
-		$this->writeArrayInOutputFormat($input, $output, $values);
+	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, $items) {
+		$outputFormat = $input->getOption('output');
+		switch ($outputFormat) {
+			case 'json':
+			case 'print':
+				if ($outputFormat === 'json') {
+					$output->writeln(json_encode($items));
+				} else {
+					print_r($items);
+				}
+				break;
+			default:
+				foreach ($items as $key => $item) {
+					$output->writeln(' - ' . (!is_int($key) ? $key . ': ' : '') . $item);
+				}
+				break;
+		}
 	}
 }

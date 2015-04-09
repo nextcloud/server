@@ -23,15 +23,18 @@
 
 namespace OC\Core\Command\App;
 
-use Symfony\Component\Console\Command\Command;
+use OC\Core\Command\Base;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ListApps extends Command {
+class ListApps extends Base {
 	protected function configure() {
+		parent::configure();
+
 		$this
 			->setName('app:list')
-			->setDescription('List all available apps');
+			->setDescription('List all available apps')
+		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
@@ -51,13 +54,38 @@ class ListApps extends Command {
 
 		sort($enabledApps);
 		sort($disabledApps);
-		$output->writeln('Enabled:');
+		$apps = ['enabled' => [], 'disabled' => []];
 		foreach ($enabledApps as $app) {
-			$output->writeln(' - ' . $app . (isset($versions[$app]) ? ' (' . $versions[$app] . ')' : ''));
+			if (isset($versions[$app])) {
+				$apps['enabled'][$app] = $versions[$app];
+			} else {
+				$apps['enabled'][$app] = true;
+			}
 		}
-		$output->writeln('Disabled:');
+
 		foreach ($disabledApps as $app) {
-			$output->writeln(' - ' . $app . (isset($versions[$app]) ? ' (' . $versions[$app] . ')' : ''));
+			if (isset($versions[$app])) {
+				$apps['disabled'][$app] = $versions[$app];
+			} else {
+				$apps['disabled'][$app] = false;
+			}
+		}
+		$this->writeArrayInOutputFormat($input, $output, $apps);
+	}
+
+	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, $items) {
+		$outputFormat = $input->getOption('output');
+		switch ($outputFormat) {
+			case 'json':
+			case 'print':
+				parent::writeArrayInOutputFormat($input, $output, $items);
+			break;
+			default:
+				$output->writeln('Enabled:');
+				parent::writeArrayInOutputFormat($input, $output, $items['enabled']);
+				$output->writeln('Disabled:');
+				parent::writeArrayInOutputFormat($input, $output, $items['disabled']);
+			break;
 		}
 	}
 }

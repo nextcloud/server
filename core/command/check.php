@@ -3,11 +3,10 @@
 namespace OC\Core\Command;
 
 use OCP\IConfig;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Check extends Command {
+class Check extends Base {
 	/**
 	 * @var IConfig
 	 */
@@ -19,6 +18,8 @@ class Check extends Command {
 	}
 
 	protected function configure() {
+		parent::configure();
+
 		$this
 			->setName('check')
 			->setDescription('check dependencies of the server environment')
@@ -28,10 +29,11 @@ class Check extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$errors = \OC_Util::checkServer($this->config);
 		if (!empty($errors)) {
-			$errors = array_map( function($items) {
-				return (string)$items['error'];
+			$errors = array_map(function($item) {
+				return (string) $item['error'];
 			}, $errors);
-			echo json_encode($errors);
+
+			$this->writeArrayInOutputFormat($input, $output, $errors);
 			return 1;
 		}
 		return 0;
