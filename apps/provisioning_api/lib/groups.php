@@ -62,7 +62,7 @@ class Groups{
 		// Validate name
 		$groupid = isset($_POST['groupid']) ? $_POST['groupid'] : '';
 		if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $groupid ) || empty($groupid)){
-			\OC_Log::write('provisioning_api', 'Attempt made to create group using invalid characters.', \OC_Log::ERROR);
+			\OCP\Util::writeLog('provisioning_api', 'Attempt made to create group using invalid characters.', \OCP\Util::ERROR);
 			return new OC_OCS_Result(null, 101, 'Invalid group name');
 		}
 		// Check if it exists

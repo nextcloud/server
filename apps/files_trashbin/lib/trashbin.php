@@ -148,7 +148,7 @@ class Trashbin {
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
 			$result = $query->execute(array($ownerFilename, $timestamp, $ownerLocation, $owner));
 			if (!$result) {
-				\OC_Log::write('files_trashbin', 'trash bin database couldn\'t be updated for the files owner', \OC_log::ERROR);
+				\OCP\Util::writeLog('files_trashbin', 'trash bin database couldn\'t be updated for the files owner', \OC_log::ERROR);
 			}
 		}
 	}
@@ -195,7 +195,7 @@ class Trashbin {
 			if ($view->file_exists($trashPath)) {
 				$view->deleteAll($trashPath);
 			}
-			\OC_Log::write('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OC_log::ERROR);
+			\OCP\Util::writeLog('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OC_log::ERROR);
 		}
 
 		if ($view->file_exists('/files/' . $file_path)) { // failed to delete the original file, abort
@@ -208,7 +208,7 @@ class Trashbin {
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
 			$result = $query->execute(array($filename, $timestamp, $location, $user));
 			if (!$result) {
-				\OC_Log::write('files_trashbin', 'trash bin database couldn\'t be updated', \OC_log::ERROR);
+				\OCP\Util::writeLog('files_trashbin', 'trash bin database couldn\'t be updated', \OC_log::ERROR);
 			}
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', array('filePath' => \OC\Files\Filesystem::normalizePath($file_path),
 				'trashPath' => \OC\Files\Filesystem::normalizePath($filename . '.d' . $timestamp)));
@@ -294,7 +294,7 @@ class Trashbin {
 		if ($timestamp) {
 			$location = self::getLocation($user, $filename, $timestamp);
 			if ($location === false) {
-				\OC_Log::write('files_trashbin', 'trash bin database inconsistent!', \OC_Log::ERROR);
+				\OCP\Util::writeLog('files_trashbin', 'trash bin database inconsistent!', \OCP\Util::ERROR);
 			} else {
 				// if location no longer exists, restore file in the root directory
 				if ($location !== '/' &&
@@ -635,7 +635,7 @@ class Trashbin {
 			foreach ($files as $file) {
 				if ($availableSpace < 0) {
 					$tmp = self::delete($file['name'], $user, $file['mtime']);
-					\OC_Log::write('files_trashbin', 'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota)', \OC_log::INFO);
+					\OCP\Util::writeLog('files_trashbin', 'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota)', \OC_log::INFO);
 					$availableSpace += $tmp;
 					$size += $tmp;
 				} else {
@@ -664,7 +664,7 @@ class Trashbin {
 			if ($timestamp <= $limit) {
 				$count++;
 				$size += self::delete($filename, $user, $timestamp);
-				\OC_Log::write('files_trashbin', 'remove "' . $filename . '" from trash bin because it is older than ' . $retention_obligation, \OC_log::INFO);
+				\OCP\Util::writeLog('files_trashbin', 'remove "' . $filename . '" from trash bin because it is older than ' . $retention_obligation, \OCP\Util::INFO);
 			} else {
 				break;
 			}

@@ -65,7 +65,7 @@ foreach ($list as $file) {
 	OCA\Files_Trashbin\Trashbin::delete($filename, \OCP\User::getUser(), $timestamp);
 	if (OCA\Files_Trashbin\Trashbin::file_exists($filename, $timestamp)) {
 		$error[] = $filename;
-		OC_Log::write('trashbin','can\'t delete ' . $filename . ' permanently.', OC_Log::ERROR);
+		\OCP\Util::writeLog('trashbin','can\'t delete ' . $filename . ' permanently.', \OCP\Util::ERROR);
 	}
 	// only list deleted files if not deleting everything
 	else if (!$deleteAll) {

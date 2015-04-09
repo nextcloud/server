@@ -44,15 +44,15 @@ class Users {
 		$userId = isset($_POST['userid']) ? $_POST['userid'] : null;
 		$password = isset($_POST['password']) ? $_POST['password'] : null;
 		if(OC_User::userExists($userId)) {
-			\OC_Log::write('ocs_api', 'Failed addUser attempt: User already exists.', \OC_Log::ERROR);
+			\OCP\Util::writeLog('ocs_api', 'Failed addUser attempt: User already exists.', \OCP\Util::ERROR);
 			return new OC_OCS_Result(null, 102, 'User already exists');
 		} else {
 			try {
 				OC_User::createUser($userId, $password);
-				\OC_Log::write('ocs_api', 'Successful addUser call with userid: '.$_POST['userid'], \OC_Log::INFO);
+				\OCP\Util::writeLog('ocs_api', 'Successful addUser call with userid: '.$_POST['userid'], \OCP\Util::INFO);
 				return new OC_OCS_Result(null, 100);
 			} catch (\Exception $e) {
-				\OC_Log::write('ocs_api', 'Failed addUser attempt with exception: '.$e->getMessage(), \OC_Log::ERROR);
+				\OCP\Util::writeLog('ocs_api', 'Failed addUser attempt with exception: '.$e->getMessage(), \OCP\Util::ERROR);
 				return new OC_OCS_Result(null, 101, 'Bad request');
 			}
 		}
