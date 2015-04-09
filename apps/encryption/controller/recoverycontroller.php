@@ -2,6 +2,7 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -28,7 +29,6 @@ use OCP\AppFramework\Controller;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\JSON;
 use OCP\AppFramework\Http\DataResponse;
 
 class RecoveryController extends Controller {
@@ -59,6 +59,12 @@ class RecoveryController extends Controller {
 		$this->recovery = $recovery;
 	}
 
+	/**
+	 * @param string $recoveryPassword
+	 * @param string $confirmPassword
+	 * @param string $adminEnableRecovery
+	 * @return DataResponse
+	 */
 	public function adminRecovery($recoveryPassword, $confirmPassword, $adminEnableRecovery) {
 		// Check if both passwords are the same
 		if (empty($recoveryPassword)) {
@@ -89,6 +95,12 @@ class RecoveryController extends Controller {
 		}
 	}
 
+	/**
+	 * @param string $newPassword
+	 * @param string $oldPassword
+	 * @param string $confirmPassword
+	 * @return DataResponse
+	 */
 	public function changeRecoveryPassword($newPassword, $oldPassword, $confirmPassword) {
 		//check if both passwords are the same
 		if (empty($oldPassword)) {
