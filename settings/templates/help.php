@@ -36,7 +36,7 @@
 	<?php } ?>
 
 	<li>
-		<a href="https://owncloud.com" target="_blank" rel="noreferrer">
+		<a href="https://owncloud.com/subscriptions/" target="_blank" rel="noreferrer">
 			<?php p($l->t( 'Commercial Support' )); ?> ↗
 		</a>
 	</li>
