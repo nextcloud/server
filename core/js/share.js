@@ -399,9 +399,9 @@ OC.Share={
 			html += '<label for="shareWith" class="hidden-visually">'+t('core', 'Share')+'</label>';
 			html += '<input id="shareWith" type="text" placeholder="' + sharePlaceholder + '" />';
 			if(oc_appconfig.core.remoteShareAllowed) {
-				html += '<a target="_blank" class="icon-info svg shareWithRemoteInfo" '
-					+ 'title="'+t('core', 'Share with people on other ownClouds using the syntax username@example.com/owncloud')+'" '
-					+ 'href="https://doc.owncloud.org/server/8.0/user_manual/files/federated_cloud_sharing.html"></a>';
+				var federatedCloudSharingDoc = '<a target="_blank" class="icon-info svg shareWithRemoteInfo" href="{docLink}" '
+					+ 'title="' + t('core', 'Share with people on other ownClouds using the syntax username@example.com/owncloud') + '"></a>';
+				html += federatedCloudSharingDoc.replace('{docLink}', oc_appconfig.core.federatedCloudShareDoc);
 			}
 			html += '<span class="shareWithLoading icon-loading-small hidden"></span>';
 			html += '<ul id="shareWithList">';

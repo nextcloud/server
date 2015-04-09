@@ -112,7 +112,8 @@ $array = array(
 				'enforcePasswordForPublicLink' => \OCP\Util::isPublicLinkPasswordRequired(),
 				'sharingDisabledForUser' => \OCP\Util::isSharingDisabledForUser(),
 				'resharingAllowed' => \OCP\Share::isResharingAllowed(),
-				'remoteShareAllowed' =>  $outgoingServer2serverShareEnabled
+				'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
+				'federatedCloudShareDoc' => \OC::$server->getURLGenerator()->linkToDocs('user-sharing-federated')
 				)
 			)
 	),
