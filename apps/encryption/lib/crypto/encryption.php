@@ -107,7 +107,7 @@ class Encryption implements IEncryptionModule {
 	 *                       written to the header, in case of a write operation
 	 *                       or if no additional data is needed return a empty array
 	 */
-	public function begin($path, $user, $header, $accessList) {
+	public function begin($path, $user, array $header, array $accessList) {
 
 		if (isset($header['cipher'])) {
 			$this->cipher = $header['cipher'];
@@ -246,7 +246,7 @@ class Encryption implements IEncryptionModule {
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 * @return boolean
 	 */
-	public function update($path, $uid, $accessList) {
+	public function update($path, $uid, array $accessList) {
 		$fileKey = $this->keyManager->getFileKey($path, $uid);
 		$publicKeys = array();
 		foreach ($accessList['users'] as $user) {

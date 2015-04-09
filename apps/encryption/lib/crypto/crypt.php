@@ -75,7 +75,7 @@ class Crypt {
 		$res = $this->getOpenSSLPKey();
 
 		if (!$res) {
-			$log->error("Encryption Library could'nt generate users key-pair for {$this->user->getUID()}",
+			$log->error("Encryption Library couldn't generate users key-pair for {$this->user->getUID()}",
 				['app' => 'encryption']);
 
 			if (openssl_error_string()) {
@@ -94,7 +94,7 @@ class Crypt {
 				'privateKey' => $privateKey
 			];
 		}
-		$log->error('Encryption library couldn\'t export users private key, please check your servers openSSL configuration.' . $this->user->getUID(),
+		$log->error('Encryption library couldn\'t export users private key, please check your servers OpenSSL configuration.' . $this->user->getUID(),
 			['app' => 'encryption']);
 		if (openssl_error_string()) {
 			$log->error('Encryption Library:' . openssl_error_string(),
@@ -379,8 +379,11 @@ class Crypt {
 	}
 
 	/**
-	 * Generate a pseudo random 256-bit ASCII key, used as file key
+	 * Generate a cryptographically secure pseudo-random base64 encoded 256-bit
+	 * ASCII key, used as file key
+	 *
 	 * @return string
+	 * @throws \Exception
 	 */
 	public static function generateFileKey() {
 		// Generate key
@@ -438,7 +441,7 @@ class Crypt {
 	}
 
 	/**
-	 * @param $plainContent
+	 * @param string $plainContent
 	 * @param array $keyFiles
 	 * @return array
 	 * @throws MultiKeyEncryptException

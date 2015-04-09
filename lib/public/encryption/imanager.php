@@ -73,7 +73,7 @@ interface IManager {
 	 * get default encryption module
 	 *
 	 * @return \OCP\Encryption\IEncryptionModule
-	 * @throws Exceptions\ModuleDoesNotExistsException
+	 * @throws ModuleDoesNotExistsException
 	 */
 	public function getDefaultEncryptionModule();
 
