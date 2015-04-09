@@ -3,6 +3,7 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Lukas Reschke <lukas@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -327,6 +328,10 @@ class Encryption implements IEncryptionModule {
 		return 6126;
 	}
 
+	/**
+	 * @param string $path
+	 * @return string
+	 */
 	protected function getPathToRealFile($path) {
 		$realPath = $path;
 		$parts = explode('/', $path);
