@@ -37,8 +37,12 @@
 	display: none !important;
 }
 
+#dropdown .shareWithRemoteInfo {
+	padding: 11px 20px;
+}
+
 #dropdown .avatar {
-	margin-right: 2px;
+	margin-right: 8px;
 	display: inline-block;
 	overflow: hidden;
 	vertical-align: middle;
@@ -108,7 +112,8 @@ a.unshare {
 }
 
 #dropdown input[type="text"],#dropdown input[type="password"] {
-	width:90%;
+	width: 86%;
+	margin-left: 7px;
 }
 
 #dropdown form {

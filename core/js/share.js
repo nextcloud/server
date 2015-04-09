@@ -391,8 +391,18 @@ OC.Share={
 				}
 			});
 
+			var sharePlaceholder = t('core', 'Share with users or groups …');
+			if(oc_appconfig.core.remoteShareAllowed) {
+				sharePlaceholder = t('core', 'Share with users, groups or remote users …');
+			}
+
 			html += '<label for="shareWith" class="hidden-visually">'+t('core', 'Share')+'</label>';
-			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Share with user or group …')+'" />';
+			html += '<input id="shareWith" type="text" placeholder="' + sharePlaceholder + '" />';
+			if(oc_appconfig.core.remoteShareAllowed) {
+				var federatedCloudSharingDoc = '<a target="_blank" class="icon-info svg shareWithRemoteInfo" href="{docLink}" '
+					+ 'title="' + t('core', 'Share with people on other ownClouds using the syntax username@example.com/owncloud') + '"></a>';
+				html += federatedCloudSharingDoc.replace('{docLink}', oc_appconfig.core.federatedCloudShareDoc);
+			}
 			html += '<span class="shareWithLoading icon-loading-small hidden"></span>';
 			html += '<ul id="shareWithList">';
 			html += '</ul>';
@@ -442,6 +452,11 @@ OC.Share={
 			html += '</div>';
 			dropDownEl = $(html);
 			dropDownEl = dropDownEl.appendTo(appendTo);
+
+			// trigger remote share info tooltip
+			if(oc_appconfig.core.remoteShareAllowed) {
+				$('.shareWithRemoteInfo').tipsy({gravity: 'e'});
+			}
 
 			//Get owner avatars
 			if (oc_config.enable_avatars === true && data !== false && data.reshare !== false && data.reshare.uid_owner !== undefined) {
