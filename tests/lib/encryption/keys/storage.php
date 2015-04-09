@@ -198,6 +198,10 @@ class StorageTest extends TestCase {
 
 	public function testDeleteUserKey() {
 		$this->view->expects($this->once())
+			->method('file_exists')
+			->with($this->equalTo('/user1/files_encryption/encModule/user1.publicKey'))
+			->willReturn(true);
+		$this->view->expects($this->once())
 			->method('unlink')
 			->with($this->equalTo('/user1/files_encryption/encModule/user1.publicKey'))
 			->willReturn(true);
@@ -208,6 +212,10 @@ class StorageTest extends TestCase {
 	}
 
 	public function testDeleteSystemUserKey() {
+		$this->view->expects($this->once())
+			->method('file_exists')
+			->with($this->equalTo('/files_encryption/encModule/shareKey_56884'))
+			->willReturn(true);
 		$this->view->expects($this->once())
 			->method('unlink')
 			->with($this->equalTo('/files_encryption/encModule/shareKey_56884'))
@@ -229,6 +237,10 @@ class StorageTest extends TestCase {
 			->method('isSystemWideMountPoint')
 			->willReturn(true);
 		$this->view->expects($this->once())
+			->method('file_exists')
+			->with($this->equalTo('/files_encryption/keys/files/foo.txt/encModule/fileKey'))
+			->willReturn(true);
+		$this->view->expects($this->once())
 			->method('unlink')
 			->with($this->equalTo('/files_encryption/keys/files/foo.txt/encModule/fileKey'))
 			->willReturn(true);
@@ -248,6 +260,10 @@ class StorageTest extends TestCase {
 		$this->util->expects($this->any())
 			->method('isSystemWideMountPoint')
 			->willReturn(false);
+		$this->view->expects($this->once())
+			->method('file_exists')
+			->with($this->equalTo('/user1/files_encryption/keys/files/foo.txt/encModule/fileKey'))
+			->willReturn(true);
 		$this->view->expects($this->once())
 			->method('unlink')
 			->with($this->equalTo('/user1/files_encryption/keys/files/foo.txt/encModule/fileKey'))

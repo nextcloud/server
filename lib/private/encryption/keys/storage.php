@@ -140,11 +140,11 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @param string $uid ID if the user for whom we want to delete the key
 	 * @param string $keyId id of the key
 	 *
-	 * @return boolean
+	 * @return boolean False when the key could not be deleted
 	 */
 	public function deleteUserKey($uid, $keyId) {
 		$path = $this->constructUserKeyPath($keyId, $uid);
-		return $this->view->unlink($path);
+		return !$this->view->file_exists($path) || $this->view->unlink($path);
 	}
 
 	/**
@@ -153,22 +153,23 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @param string $path path to file
 	 * @param string $keyId id of the key
 	 *
-	 * @return boolean
+	 * @return boolean False when the key could not be deleted
 	 */
 	public function deleteFileKey($path, $keyId) {
 		$keyDir = $this->getFileKeyDir($path);
-		return $this->view->unlink($keyDir . $keyId);
+		return !$this->view->file_exists($keyDir . $keyId) || $this->view->unlink($keyDir . $keyId);
 	}
 
 	/**
 	 * delete all file keys for a given file
 	 *
 	 * @param string $path to the file
-	 * @return boolean
+	 * @return boolean False when the key could not be deleted
 	 */
 	public function deleteAllFileKeys($path) {
 		$keyDir = $this->getFileKeyDir($path);
-		return $this->view->deleteAll(dirname($keyDir));
+		$path = dirname($keyDir);
+		return !$this->view->file_exists($path) || $this->view->deleteAll($path);
 	}
 
 	/**
@@ -177,11 +178,11 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 *
 	 * @param string $keyId id of the key
 	 *
-	 * @return boolean
+	 * @return boolean False when the key could not be deleted
 	 */
 	public function deleteSystemUserKey($keyId) {
 		$path = $this->constructUserKeyPath($keyId);
-		return $this->view->unlink($path);
+		return !$this->view->file_exists($path) || $this->view->unlink($path);
 	}
 
 
