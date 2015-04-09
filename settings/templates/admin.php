@@ -269,6 +269,10 @@ if ($_['cronErrors']) {
 		endif; ?>
 	</p>
 	<?php endif; ?>
+	<a target="_blank" class="icon-info svg"
+		title="<?php p($l->t('Open documentation'));?>"
+		href="<?php p(link_to_docs('admin-background-jobs')); ?>"></a>
+
 	<p>
 				<input type="radio" name="mode" value="ajax"
 					   id="backgroundjobs_ajax" <?php if ($_['backgroundjobs_mode'] === "ajax") {

@@ -350,6 +350,7 @@ table.grid td.date{
 	margin: 10px 0;
 	color: #ce3702;
 }
+
 #shareAPI p { padding-bottom: 0.8em; }
 #shareAPI input#shareapiExpireAfterNDays {width: 25px;}
 #shareAPI .indent {
@@ -357,6 +358,13 @@ table.grid td.date{
 }
 #shareAPI .double-indent {
 	padding-left: 56px;
+}
+#fileSharingSettings h3 {
+	display: inline-block;
+}
+
+.icon-info {
+	padding: 11px 20px;
 }
 
 .mail_settings p label:first-child {
