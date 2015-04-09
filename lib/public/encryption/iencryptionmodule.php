@@ -49,7 +49,7 @@ interface IEncryptionModule {
 	 *                       written to the header, in case of a write operation
 	 *                       or if no additional data is needed return a empty array
 	 */
-	public function begin($path, $user, $header, $accessList);
+	public function begin($path, $user, array $header, array $accessList);
 
 	/**
 	 * last chunk received. This is the place where you can perform some final
@@ -86,7 +86,7 @@ interface IEncryptionModule {
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 * @return boolean
 	 */
-	public function update($path, $uid, $accessList);
+	public function update($path, $uid, array $accessList);
 
 	/**
 	 * should the file be encrypted or not

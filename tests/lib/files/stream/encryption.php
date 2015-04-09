@@ -29,7 +29,9 @@ class Encryption extends \Test\TestCase {
 			->getMock();
 		$file = $this->getMockBuilder('\OC\Encryption\File')
 			->disableOriginalConstructor()
+			->setMethods(['getAccessList'])
 			->getMock();
+		$file->expects($this->any())->method('getAccessList')->willReturn([]);
 		$util = $this->getMock('\OC\Encryption\Util', ['getUidAndFilename'], [new View(), new \OC\User\Manager(), $config]);
 		$util->expects($this->any())
 			->method('getUidAndFilename')
