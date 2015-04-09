@@ -435,7 +435,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	 */
 	public function testUserExistsForDeleted() {
 		$access = $this->getAccessMock();
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		$this->prepareMockForUserExists($access);
 
 		$access->expects($this->any())
@@ -453,7 +453,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 
 	public function testUserExistsForNeverExisting() {
 		$access = $this->getAccessMock();
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		$this->prepareMockForUserExists($access);
 
 		$access->expects($this->any())
@@ -495,7 +495,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	 */
 	public function testUserExistsPublicAPIForDeleted() {
 		$access = $this->getAccessMock();
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		$this->prepareMockForUserExists($access);
 		\OC_User::useBackend($backend);
 
@@ -514,7 +514,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 
 	public function testUserExistsPublicAPIForNeverExisting() {
 		$access = $this->getAccessMock();
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		$this->prepareMockForUserExists($access);
 		\OC_User::useBackend($backend);
 
@@ -571,19 +571,15 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 				}
 			}));
 
-		$datadir = '/my/data/dir';
-		$config->expects($this->once())
-			->method('getSystemValue')
-			->will($this->returnValue($datadir));
-
 		//absolut path
 		$result = $backend->getHome('gunslinger');
 		$this->assertEquals('/tmp/rolandshome/', $result);
 	}
 
-	public function testGetHomeDatadirRelative() {
+	public function testGetHomeRelative() {
 		$access = $this->getAccessMock();
-		$backend = new UserLDAP($access);
+		$config = $this->getMock('\OCP\IConfig');
+		$backend = new UserLDAP($access, $config);
 		$this->prepareMockForUserExists($access);
 
 		$access->connection->expects($this->any())
@@ -610,9 +606,12 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 				}
 			}));
 		//datadir-relativ path
+		$datadir = '/my/data/dir';
+		$config->expects($this->once())
+			->method('getSystemValue')
+			->will($this->returnValue($datadir));
+
 		$result = $backend->getHome('ladyofshadows');
-		$datadir = \OCP\Config::getSystemValue('datadirectory',
-			\OC::$SERVERROOT.'/data');
 		$this->assertEquals($datadir.'/susannah/', $result);
 	}
 
@@ -621,7 +620,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	 */
 	public function testGetHomeNoPath() {
 		$access = $this->getAccessMock();
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		$this->prepareMockForUserExists($access);
 
 		$access->connection->expects($this->any())

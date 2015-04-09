@@ -114,7 +114,7 @@ class OC_Hook{
 				OC_Log::write('hook',
 					'error while running hook (' . $class . '::' . $i["name"] . '): ' . $message,
 					OC_Log::ERROR);
-				if($e instanceof \OC\ServerNotAvailableException && $signalclass === 'OC_Filesystem' && $signalname === 'setup') {
+				if($e instanceof \OC\ServerNotAvailableException && $signalClass === 'OC_Filesystem' && $signalName === 'setup') {
 					throw $e;
 				}
 			}
