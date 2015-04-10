@@ -120,6 +120,12 @@ class Share implements IShare {
 	public function stat($path) {
 		$escapedPath = $this->escapePath($path);
 		$output = $this->execute('allinfo ' . $escapedPath);
+		// Windows and non Windows Fileserver may respond different
+		// to the allinfo command for directories. If the result is a single
+		// line = error line, redo it with a different allinfo parameter
+		if ($escapedPath == '""' && count($output) < 2) {
+			$output = $this->execute('allinfo ' . '"."');
+		}
 		if (count($output) < 3) {
 			$this->parseOutput($output, $path);
 		}

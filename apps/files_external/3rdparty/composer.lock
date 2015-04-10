@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c854ee7f5bdcb3f2c8ee0a8cfe5e193a",
+    "hash": "2554253c9f91c67cd0db753a69105bc0",
     "packages": [
         {
             "name": "icewind/smb",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/SMB.git",
-                "reference": "ef4b128143b7272e97665b84862d77faabf7d36d"
+                "reference": "4f5d9db3a9397e30476f92eb753751b54d6d4fa5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/ef4b128143b7272e97665b84862d77faabf7d36d",
-                "reference": "ef4b128143b7272e97665b84862d77faabf7d36d",
+                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/4f5d9db3a9397e30476f92eb753751b54d6d4fa5",
+                "reference": "4f5d9db3a9397e30476f92eb753751b54d6d4fa5",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 }
             ],
             "description": "php wrapper for smbclient and libsmbclient-php",
-            "time": "2015-03-13 12:17:14"
+            "time": "2015-04-10 12:10:08"
         },
         {
             "name": "icewind/streams",
@@ -91,9 +91,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "icewind/smb": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

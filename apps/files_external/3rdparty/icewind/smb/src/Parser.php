@@ -92,6 +92,11 @@ class Parser {
 		$size = 0;
 		foreach ($output as $line) {
 			list($name, $value) = explode(':', $line, 2);
+			// A line = explode statement may not fill all array elements
+			// properly. May happen when accessing non Windows Fileservers
+			$words = explode(':', $line, 2);
+			$name = isset($words[0]) ? $words[0] : '';
+			$value = isset($words[1]) ? $words[1] : '';
 			$value = trim($value);
 			if ($name === 'write_time') {
 				$mtime = strtotime($value);
