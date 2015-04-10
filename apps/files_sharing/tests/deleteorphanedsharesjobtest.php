@@ -70,6 +70,8 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
+		// clear occasional leftover shares from other tests
+		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
 
 		$this->user1 = $this->getUniqueID('user1_');
 		$this->user2 = $this->getUniqueID('user2_');
@@ -84,7 +86,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	}
 
 	protected function tearDown() {
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share` WHERE `item_type` in (\'file\', \'folder\')');
+		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
 
 		$userManager = \OC::$server->getUserManager();
 		$user1 = $userManager->get($this->user1);
