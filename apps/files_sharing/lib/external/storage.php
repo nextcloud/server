@@ -199,6 +199,8 @@ class Storage extends DAV implements ISharedStorage {
 			$this->manager->removeShare($this->mountPoint);
 			$this->manager->getMountManager()->removeMount($this->mountPoint);
 			throw new StorageInvalidException();
+		} catch (\GuzzleHttp\Exception\ConnectException $e) {
+			throw new StorageNotAvailableException();
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
 			if ($e->getCode() === 503) {
 				throw new StorageNotAvailableException();
@@ -246,16 +248,19 @@ class Storage extends DAV implements ISharedStorage {
 
 		// TODO: DI
 		$client = \OC::$server->getHTTPClientService()->newClient();
-		$response = $client->post($url, ['body' => ['password' => $password]]);
-
-		switch ($response->getStatusCode()) {
-			case 401:
-			case 403:
-				throw new ForbiddenException();
-			case 404:
-				throw new NotFoundException();
-			case 500:
-				throw new \Exception();
+		try {
+			$response = $client->post($url, ['body' => ['password' => $password]]);
+		} catch (\GuzzleHttp\Exception\RequestException $e) {
+			switch ($e->getCode()) {
+				case 401:
+				case 403:
+					throw new ForbiddenException();
+				case 404:
+					throw new NotFoundException();
+				case 500:
+					throw new \Exception();
+			}
+			throw $e;
 		}
 
 		return json_decode($response->getBody(), true);

@@ -38,6 +38,7 @@ namespace OC\Files\Storage;
 
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
+use Sabre\HTTP\ClientException;
 use Sabre\HTTP\ClientHttpException;
 
 /**
@@ -207,13 +208,11 @@ class DAV extends \OC\Files\Storage\Common {
 				$this->statCache->set($path, false);
 				return false;
 			}
-			$this->convertSabreException($e);
-			return false;
+			$this->convertException($e);
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	/**
@@ -276,13 +275,11 @@ class DAV extends \OC\Files\Storage\Common {
 			if ($e->getHttpStatus() === 404) {
 				return false;
 			}
-			$this->convertSabreException($e);
-			return false;
+			$this->convertException($e);
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	/** {@inheritdoc} */
@@ -303,13 +300,11 @@ class DAV extends \OC\Files\Storage\Common {
 			if ($e->getHttpStatus() === 404) {
 				return false;
 			}
-			$this->convertSabreException($e);
-			return false;
+			$this->convertException($e);
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	/** {@inheritdoc} */
@@ -436,11 +431,10 @@ class DAV extends \OC\Files\Storage\Common {
 				if ($e->getHttpStatus() === 501) {
 					return false;
 				}
-				$this->convertSabreException($e);
+				$this->convertException($e);
 				return false;
 			} catch (\Exception $e) {
-				// TODO: log for now, but in the future need to wrap/rethrow exception
-				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+				$this->convertException($e);
 				return false;
 			}
 		} else {
@@ -519,14 +513,10 @@ class DAV extends \OC\Files\Storage\Common {
 			$this->removeCachedFile($path1);
 			$this->removeCachedFile($path2);
 			return true;
-		} catch (ClientHttpException $e) {
-			$this->convertSabreException($e);
-			return false;
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	/** {@inheritdoc} */
@@ -540,14 +530,10 @@ class DAV extends \OC\Files\Storage\Common {
 			$this->statCache->set($path2, true);
 			$this->removeCachedFile($path2);
 			return true;
-		} catch (ClientHttpException $e) {
-			$this->convertSabreException($e);
-			return false;
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	/** {@inheritdoc} */
@@ -562,13 +548,11 @@ class DAV extends \OC\Files\Storage\Common {
 			if ($e->getHttpStatus() === 404) {
 				return array();
 			}
-			$this->convertSabreException($e);
-			return array();
+			$this->convertException($e);
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return array();
+			$this->convertException($e);
 		}
+		return array();
 	}
 
 	/** {@inheritdoc} */
@@ -591,13 +575,11 @@ class DAV extends \OC\Files\Storage\Common {
 			if ($e->getHttpStatus() === 404) {
 				return false;
 			}
-			$this->convertSabreException($e);
-			return false;
+			$this->convertException($e);
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	/**
@@ -645,13 +627,11 @@ class DAV extends \OC\Files\Storage\Common {
 				return false;
 			}
 
-			$this->convertSabreException($e);
-			return false;
+			$this->convertException($e);
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	/**
@@ -749,36 +729,55 @@ class DAV extends \OC\Files\Storage\Common {
 				$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
 				return $remoteMtime > $time;
 			}
-		} catch (\Exception $e) {
+		} catch (ClientHttpException $e) {
 			if ($e->getHttpStatus() === 404) {
 				return false;
 			}
-			$this->convertSabreException($e);
+			$this->convertException($e);
+			return false;
+		} catch (\Exception $e) {
+			$this->convertException($e);
 			return false;
 		}
 	}
 
 	/**
-	 * Convert sabre DAV exception to a storage exception,
-	 * then throw it
+	 * Interpret the given exception and decide whether it is due to an
+	 * unavailable storage, invalid storage or other.
+	 * This will either throw StorageInvalidException, StorageNotAvailableException
+	 * or do nothing.
 	 *
-	 * @param ClientHttpException $e sabre exception
+	 * @param Exception $e sabre exception
+	 *
 	 * @throws StorageInvalidException if the storage is invalid, for example
 	 * when the authentication expired or is invalid
 	 * @throws StorageNotAvailableException if the storage is not available,
 	 * which might be temporary
 	 */
-	private function convertSabreException(ClientHttpException $e) {
+	private function convertException(Exception $e) {
 		\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-		if ($e->getHttpStatus() === 401) {
-			// either password was changed or was invalid all along
-			throw new StorageInvalidException(get_class($e).': '.$e->getMessage());
-		} else if ($e->getHttpStatus() === 405) {
-			// ignore exception for MethodNotAllowed, false will be returned
-			return;
+		if ($e instanceof ClientHttpException) {
+			if ($e->getHttpStatus() === 401) {
+				// either password was changed or was invalid all along
+				throw new StorageInvalidException(get_class($e).': '.$e->getMessage());
+			} else if ($e->getHttpStatus() === 405) {
+				// ignore exception for MethodNotAllowed, false will be returned
+				return;
+			}
+			throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
+		} else if ($e instanceof ClientException) {
+			// connection timeout or refused, server could be temporarily down
+			throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
+		} else if ($e instanceof \InvalidArgumentException) {
+			// parse error because the server returned HTML instead of XML,
+			// possibly temporarily down
+			throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
+		} else if (($e instanceof StorageNotAvailableException) || ($e instanceof StorageInvalidException)) {
+			// rethrow
+			throw $e;
 		}
 
-		throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
+		// TODO: only log for now, but in the future need to wrap/rethrow exception
 	}
 }
 
