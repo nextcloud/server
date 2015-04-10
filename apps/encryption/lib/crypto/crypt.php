@@ -67,6 +67,8 @@ class Crypt {
 	}
 
 	/**
+	 * create new private/public key-pair for user
+	 *
 	 * @return array|bool
 	 */
 	public function createKeyPair() {
@@ -105,6 +107,8 @@ class Crypt {
 	}
 
 	/**
+	 * Generates a new private key
+	 *
 	 * @return resource
 	 */
 	public function getOpenSSLPKey() {
@@ -113,13 +117,16 @@ class Crypt {
 	}
 
 	/**
+	 * get openSSL Config
+	 *
 	 * @return array
 	 */
 	private function getOpenSSLConfig() {
 		$config = ['private_key_bits' => 4096];
-		$config = array_merge(\OC::$server->getConfig()->getSystemValue('openssl',
-			[]),
-			$config);
+		$config = array_merge(
+			$config,
+			$this->config->getSystemValue('openssl', [])
+		);
 		return $config;
 	}
 
@@ -186,7 +193,10 @@ class Crypt {
 	}
 
 	/**
-	 * @return mixed|string
+	 * return Cipher either from config.php or the default cipher defined in
+	 * this class
+	 *
+	 * @return string
 	 */
 	public function getCipher() {
 		$cipher = $this->config->getSystemValue('cipher', self::DEFAULT_CIPHER);
@@ -276,6 +286,8 @@ class Crypt {
 	}
 
 	/**
+	 * remove padding
+	 *
 	 * @param $padded
 	 * @return bool|string
 	 */
@@ -287,6 +299,8 @@ class Crypt {
 	}
 
 	/**
+	 * split iv from encrypted content
+	 *
 	 * @param $catFile
 	 * @return array
 	 */
@@ -356,6 +370,8 @@ class Crypt {
 	}
 
 	/**
+	 * generate initialization vector
+	 *
 	 * @return string
 	 * @throws GenericEncryptionException
 	 */
@@ -394,31 +410,6 @@ class Crypt {
 		}
 
 		return $key;
-	}
-
-	/**
-	 * Check if a file's contents contains an IV and is symmetrically encrypted
-	 *
-	 * @param $content
-	 * @return bool
-	 */
-	public function isCatFileContent($content) {
-		if (!$content) {
-			return false;
-		}
-
-		$noPadding = $this->removePadding($content);
-
-		// Fetch encryption metadata from end of file
-		$meta = substr($noPadding, -22);
-
-		// Fetch identifier from start of metadata
-		$identifier = substr($meta, 0, 6);
-
-		if ($identifier === '00iv00') {
-			return true;
-		}
-		return false;
 	}
 
 	/**
