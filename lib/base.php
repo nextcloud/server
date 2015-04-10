@@ -260,7 +260,7 @@ class OC {
 		}
 	}
 
-	public static function checkSingleUserMode() {
+	public static function checkSingleUserMode($lockIfNoUserLoggedIn = false) {
 		if (!\OCP\Config::getSystemValue('singleuser', false)) {
 			return;
 		}
@@ -268,6 +268,10 @@ class OC {
 		if ($user) {
 			$group = \OC::$server->getGroupManager()->get('admin');
 			if ($group->inGroup($user)) {
+				return;
+			}
+		} else {
+			if(!$lockIfNoUserLoggedIn) {
 				return;
 			}
 		}
