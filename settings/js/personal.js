@@ -301,6 +301,10 @@ $(document).ready(function () {
 			type: 'DELETE'
 		});
 		row.remove();
+
+		if ($('#sslCertificate > tbody > tr').length === 0) {
+			$('#sslCertificate').hide();
+		}
 		return true;
 	});
 
@@ -329,6 +333,7 @@ $(document).ready(function () {
 			));
 
 			$('#sslCertificate tbody').append(row);
+			$('#sslCertificate').show();
 		},
 		fail: function () {
 			OC.Notification.showTemporary(
@@ -339,6 +344,10 @@ $(document).ready(function () {
 	$('#rootcert_import_button').click(function () {
 		$('#rootcert_import').click();
 	});
+
+	if ($('#sslCertificate > tbody > tr').length === 0) {
+		$('#sslCertificate').hide();
+	}
 });
 
 if (!OC.Encryption) {
