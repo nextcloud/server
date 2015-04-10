@@ -156,7 +156,10 @@ class Manager extends PublicEmitter implements IGroupManager {
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getGroups($search, $limit, $offset);
 			foreach ($groupIds as $groupId) {
-				$groups[$groupId] = $this->get($groupId);
+				$group = $this->get($groupId);
+				if (!is_null($group)) {
+					$groups[$groupId] = $group;
+				}
 			}
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($groups);
