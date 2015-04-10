@@ -32,7 +32,11 @@
 	display: inline-block !important;
 	padding-left: 10px;
 }
-
+#dropdown.shareDropDown .shareWithLoading {
+	position: relative;
+	right: 70px;
+	top: 2px;
+}
 #dropdown.shareDropDown .icon-loading-small.hidden {
 	display: none !important;
 }
