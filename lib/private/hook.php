@@ -80,7 +80,7 @@ class OC_Hook{
 				OC_Log::write('hook',
 					'error while running hook (' . $i["class"] . '::' . $i["name"] . '): '.$e->getMessage(),
 					OC_Log::ERROR);
-				if($e instanceof \OC\ServerNotAvailableException && $signalClass === 'OC_Filesystem' && $signalName === 'setup') {
+				if($e instanceof \OC\ServerNotAvailableException) {
 					throw $e;
 				}
 			}
