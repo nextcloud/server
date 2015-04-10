@@ -22,7 +22,12 @@
 
 namespace Test\Files;
 
+use OC\User\NoUserException;
+
 class Filesystem extends \Test\TestCase {
+
+	const TEST_FILESYSTEM_USER1 = "test-filesystem-user1";
+
 	/**
 	 * @var array tmpDirs
 	 */
@@ -236,8 +241,14 @@ class Filesystem extends \Test\TestCase {
 		if (\OC\Files\Filesystem::getView()) {
 			$user = \OC_User::getUser();
 		} else {
-			$user = $this->getUniqueID();
+			$user = self::TEST_FILESYSTEM_USER1;
+			$backend = new \OC_User_Dummy();
+			\OC_User::useBackend($backend);
+			$backend->createUser($user, $user);
+			$userObj = \OC::$server->getUserManager()->get($user);
+			\OC::$server->getUserSession()->setUser($userObj);
 			\OC\Files\Filesystem::init($user, '/' . $user . '/files');
+
 		}
 		\OC_Hook::clear('OC_Filesystem');
 		\OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHook');
@@ -259,19 +270,14 @@ class Filesystem extends \Test\TestCase {
 	}
 
 	/**
-	 * Tests that a local storage mount is used when passed user
-	 * does not exist.
+	 * Tests that an exception is thrown when passed user does not exist.
+	 * @expectedException \OC\User\NoUserException
 	 */
 	public function testLocalMountWhenUserDoesNotExist() {
 		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
 		$userId = $this->getUniqueID('user_');
 
 		\OC\Files\Filesystem::initMountPoints($userId);
-
-		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
-
-		$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\Storage\Local'));
-		$this->assertEquals('local::' . $datadir . '/' . $userId . '/', $homeMount->getId());
 	}
 
 	/**

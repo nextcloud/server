@@ -499,6 +499,10 @@ OC.Share={
 					} else {
 						response();
 					}
+				}).fail(function(){
+					$('#dropdown').find('.shareWithLoading').addClass('hidden');
+					OC.Notification.show(t('core', 'An error occured. Please try again'));
+					window.setTimeout(OC.Notification.hide, 5000);
 				});
 			},
 			focus: function(event, focused) {

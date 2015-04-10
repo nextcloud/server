@@ -114,6 +114,9 @@ class OC_Hook{
 				OC_Log::write('hook',
 					'error while running hook (' . $class . '::' . $i["name"] . '): ' . $message,
 					OC_Log::ERROR);
+				if($e instanceof \OC\ServerNotAvailableException) {
+					throw $e;
+				}
 			}
 		}
 
