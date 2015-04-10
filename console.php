@@ -23,8 +23,8 @@
  *
  */
 
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\ArgvInput;
+use OC\Console\Application;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 define('OC_CONSOLE', 1);
 
@@ -54,36 +54,8 @@ try {
 		}
 	}
 
-	$defaults = new OC_Defaults;
-	$application = new Application($defaults->getName(), \OC_Util::getVersionString());
-	require_once 'core/register_command.php';
-	if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
-		if (!\OCP\Util::needUpgrade()) {
-			OC_App::loadApps();
-			foreach (OC_App::getAllApps() as $app) {
-				$file = OC_App::getAppPath($app) . '/appinfo/register_command.php';
-				if (file_exists($file)) {
-					require $file;
-				}
-			}
-		} else {
-			echo "ownCloud or one of the apps require upgrade - only a limited number of commands are available" . PHP_EOL;
-		}
-	} else {
-		echo "ownCloud is not installed - only a limited number of commands are available" . PHP_EOL;
-	}
-	$input = new ArgvInput();
-	if ($input->getFirstArgument() !== 'check') {
-		$errors = \OC_Util::checkServer(\OC::$server->getConfig());
-		if (!empty($errors)) {
-			foreach ($errors as $error) {
-				echo $error['error'] . "\n";
-				echo $error['hint'] . "\n\n";
-			}
-			exit(1);
-		}
-	}
-
+	$application = new Application(\OC::$server->getConfig());
+	$application->loadCommands(new ConsoleOutput());
 	$application->run();
 } catch (Exception $ex) {
 	echo "An unhandled exception has been thrown:" . PHP_EOL;
