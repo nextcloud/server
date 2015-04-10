@@ -60,6 +60,9 @@ class MaintenancePlugin extends \Sabre\DAV\ServerPlugin
 	 * @return bool
 	 */
 	public function checkMaintenanceMode() {
+		if (\OC::$server->getSystemConfig()->getValue('singleuser', false)) {
+			throw new \Sabre\DAV\Exception\ServiceUnavailable();
+		}
 		if (\OC_Config::getValue('maintenance', false)) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable();
 		}
