@@ -306,10 +306,16 @@ class Cache {
 		}
 
 		list($queryParts, $params) = $this->buildParts($data);
+
+		$params = array_merge($params, $params);
 		$params[] = $id;
 
-		$sql = 'UPDATE `*PREFIX*filecache` SET ' . implode(' = ?, ', $queryParts) . '=? WHERE `fileid` = ?';
+		// don't update if the data we try to set is the same as the one in the record
+		// some databases (Postgres) don't like superfluous updates
+		$sql = 'UPDATE `*PREFIX*filecache` SET ' . implode(' = ?, ', $queryParts) . '=? ' .
+			'WHERE (' . implode(' <> ? OR ', $queryParts) . ' <> ? ) AND `fileid` = ? ';
 		\OC_DB::executeAudited($sql, $params);
+
 	}
 
 	/**
