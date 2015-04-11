@@ -71,7 +71,14 @@ body {
 }
 
 
+
 /* INPUTS */
+
+/* specifically override browser styles */
+input, textarea, select, button {
+	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+}
+
 input[type="text"],
 input[type="password"],
 input[type="search"],
