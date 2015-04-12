@@ -48,7 +48,7 @@ var UserList = {
 	 * @returns table row created for this user
 	 */
 	add: function (user, sort) {
-		if (this.currentGid && _.indexOf(user.groups, this.currentGid) < 0) {
+		if (this.currentGid && this.currentGid !== '_everyone' && _.indexOf(user.groups, this.currentGid) < 0) {
 			return;
 		}
 
