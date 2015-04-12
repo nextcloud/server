@@ -306,7 +306,8 @@ class Cache {
 		}
 
 		list($queryParts, $params) = $this->buildParts($data);
-
+		// duplicate $params because we need the parts twice in the SQL statement
+		// once for the SET part, once in the WHERE clause
 		$params = array_merge($params, $params);
 		$params[] = $id;
 
