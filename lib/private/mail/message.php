@@ -93,6 +93,28 @@ class Message {
 	}
 
 	/**
+	 * Set the Reply-To address of this message
+	 *
+	 * @param array $addresses
+	 * @return $this
+	 */
+	public function setReplyTo(array $addresses) {
+		$addresses = $this->convertAddresses($addresses);
+
+		$this->swiftMessage->setReplyTo($addresses);
+		return $this;
+	}
+
+	/**
+	 * Returns the Reply-To address of this message
+	 *
+	 * @return array
+	 */
+	public function getReplyTo() {
+		return $this->swiftMessage->getReplyTo();
+	}
+
+	/**
 	 * Set the to addresses of this message.
 	 *
 	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')

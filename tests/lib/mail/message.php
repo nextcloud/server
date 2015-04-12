@@ -62,6 +62,23 @@ class MessageTest extends TestCase {
 		$this->assertSame(array('lukas@owncloud.com'), $this->message->getFrom());
 	}
 
+	public function testSetReplyTo() {
+		$this->swiftMessage
+			->expects($this->once())
+			->method('setReplyTo')
+			->with(['lukas@owncloud.com']);
+		$this->message->setReplyTo(['lukas@owncloud.com']);
+	}
+
+	public function testGetReplyTo() {
+		$this->swiftMessage
+			->expects($this->once())
+			->method('getReplyTo')
+			->will($this->returnValue(['lukas@owncloud.com']));
+
+		$this->assertSame(['lukas@owncloud.com'], $this->message->getReplyTo());
+	}
+
 	public function testSetTo() {
 		$this->swiftMessage
 			->expects($this->once())
