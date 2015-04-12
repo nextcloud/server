@@ -37,6 +37,9 @@ class MailNotifications {
 	 */
 	private $from;
 
+	/** @var string Mail address used for reply to */
+	private $replyTo;
+
 	/**
 	 * @var string
 	 */
@@ -49,20 +52,16 @@ class MailNotifications {
 
 	/**
 	 *
-	 * @param string $sender user id (if nothing is set we use the currently logged-in user)
+	 * @param string $sender user id
 	 */
-	public function __construct($sender = null) {
+	public function __construct($sender) {
 		$this->l = \OC::$server->getL10N('lib');
 
 		$this->senderId = $sender;
 
 		$this->from = \OCP\Util::getDefaultEmailAddress('sharing-noreply');
-		if ($this->senderId) {
-			$this->from = \OCP\Config::getUserValue($this->senderId, 'settings', 'email', $this->from);
-			$this->senderDisplayName = \OCP\User::getDisplayName($this->senderId);
-		} else {
-			$this->senderDisplayName = \OCP\User::getDisplayName();
-		}
+		$this->replyTo = \OCP\Config::getUserValue($this->senderId, 'settings', 'email', $this->from);
+		$this->senderDisplayName = \OCP\User::getDisplayName($this->senderId);
 	}
 
 	/**
@@ -118,7 +117,7 @@ class MailNotifications {
 
 			// send it out now
 			try {
-				\OCP\Util::sendMail($to, $recipientDisplayName, $subject, $htmlMail, $this->from, $this->senderDisplayName, 1, $alttextMail);
+				\OC_MAIL::send($to, $recipientDisplayName, $subject, $htmlMail, $this->from, $this->senderDisplayName, 1, $alttextMail, '', '', '', $this->replyTo);
 			} catch (\Exception $e) {
 				\OCP\Util::writeLog('sharing', "Can't send mail to inform the user about an internal share: " . $e->getMessage() , \OCP\Util::ERROR);
 				$noMail[] = $recipientDisplayName;
@@ -145,7 +144,7 @@ class MailNotifications {
 		$failed = array();
 		foreach ($rs as $r) {
 			try {
-				\OCP\Util::sendMail($r, $r, $subject, $htmlMail, $this->from, $this->senderDisplayName, 1, $alttextMail);
+				\OC_MAIL::send($r, $r, $subject, $htmlMail, $this->from, $this->senderDisplayName, 1, $alttextMail, '', '', '', $this->replyTo);
 			} catch (\Exception $e) {
 				\OCP\Util::writeLog('sharing', "Can't send mail with public link to $r: " . $e->getMessage(), \OCP\Util::ERROR);
 				$failed[] = $r;

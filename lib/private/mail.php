@@ -28,10 +28,11 @@ class OC_Mail {
 	 * @param string $ccaddress
 	 * @param string $ccname
 	 * @param string $bcc
+	 * @param string $replyTo
 	 * @throws Exception
 	 */
 	public static function send($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname,
-		$html=0, $altbody='', $ccaddress='', $ccname='', $bcc='') {
+		$html=0, $altbody='', $ccaddress='', $ccname='', $bcc='', $replyTo='') {
 
 		$SMTPMODE = OC_Config::getValue( 'mail_smtpmode', 'sendmail' );
 		$SMTPHOST = OC_Config::getValue( 'mail_smtphost', '127.0.0.1' );
@@ -78,7 +79,9 @@ class OC_Mail {
 			if($ccaddress<>'') $mailo->AddCC($ccaddress, $ccname);
 			if($bcc<>'') $mailo->AddBCC($bcc);
 
-			$mailo->AddReplyTo($fromaddress, $fromname);
+			if($replyTo !== '') {
+				$mailo->addReplyTo($replyTo);
+			}
 
 			$mailo->WordWrap = 50;
 			if($html==1) $mailo->IsHTML(true); else $mailo->IsHTML(false);
