@@ -79,6 +79,8 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 		parent::__construct($params, $driver, $config, $eventManager);
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
+
+		parent::setTransactionIsolation(parent::TRANSACTION_READ_COMMITTED);
 	}
 
 	/**
