@@ -138,7 +138,7 @@ var OCdialogs = {
 	 * @param title dialog title
 	 * @param callback which will be triggered when user presses Choose
 	 * @param multiselect whether it should be possible to select multiple files
-	 * @param mimetypeFilter mimetype to filter by
+	 * @param mimetypeFilter mimetype to filter by - directories will always be included
 	 * @param modal make the dialog modal
 	*/
 	filepicker:function(title, callback, multiselect, mimetypeFilter, modal) {
