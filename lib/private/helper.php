@@ -264,39 +264,44 @@ class OC_Helper {
 		if (isset(self::$mimetypeIcons[$mimetype])) {
 			return self::$mimetypeIcons[$mimetype];
 		}
+
 		// Replace slash and backslash with a minus
 		$icon = str_replace('/', '-', $mimetype);
 		$icon = str_replace('\\', '-', $icon);
 
 		// Is it a dir?
 		if ($mimetype === 'dir') {
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/folder.png';
-			return OC::$WEBROOT . '/core/img/filetypes/folder.png';
+			self::$mimetypeIcons[$mimetype] = \OC::$server->getURLGenerator()->imagePath('core', 'filetypes/folder.png');
+			return self::$mimetypeIcons[$mimetype];
 		}
 		if ($mimetype === 'dir-shared') {
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/folder-shared.png';
-			return OC::$WEBROOT . '/core/img/filetypes/folder-shared.png';
+			self::$mimetypeIcons[$mimetype] = \OC::$server->getURLGenerator()->imagePath('core', 'filetypes/folder-shared.png');
+			return self::$mimetypeIcons[$mimetype];
 		}
 		if ($mimetype === 'dir-external') {
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/folder-external.png';
-			return OC::$WEBROOT . '/core/img/filetypes/folder-external.png';
+			self::$mimetypeIcons[$mimetype] = \OC::$server->getURLGenerator()->imagePath('core', 'filetypes/folder-external.png');
+			return self::$mimetypeIcons[$mimetype];
 		}
 
 		// Icon exists?
-		if (file_exists(OC::$SERVERROOT . '/core/img/filetypes/' . $icon . '.png')) {
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/' . $icon . '.png';
-			return OC::$WEBROOT . '/core/img/filetypes/' . $icon . '.png';
+		try {
+			self::$mimetypeIcons[$mimetype] = \OC::$server->getURLGenerator()->imagePath('core', 'filetypes/' . $icon . '.png');
+			return self::$mimetypeIcons[$mimetype];
+		} catch (\RuntimeException $e) {
+			// Specified image not found
 		}
 
 		// Try only the first part of the filetype
 		$mimePart = substr($icon, 0, strpos($icon, '-'));
-		if (file_exists(OC::$SERVERROOT . '/core/img/filetypes/' . $mimePart . '.png')) {
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/' . $mimePart . '.png';
-			return OC::$WEBROOT . '/core/img/filetypes/' . $mimePart . '.png';
-		} else {
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/file.png';
-			return OC::$WEBROOT . '/core/img/filetypes/file.png';
+		try {
+			self::$mimetypeIcons[$mimetype] = \OC::$server->getURLGenerator()->imagePath('core', 'filetypes/' . $mimePart . '.png');
+			return self::$mimetypeIcons[$mimetype];
+		} catch (\RuntimeException $e) {
+			// Image for the first part of the mimetype not found
 		}
+
+		self::$mimetypeIcons[$mimetype] = \OC::$server->getURLGenerator()->imagePath('core', 'filetypes/file.png');
+		return self::$mimetypeIcons[$mimetype];
 	}
 
 	/**
