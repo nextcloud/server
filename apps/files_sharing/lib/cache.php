@@ -235,18 +235,15 @@ class Shared_Cache extends Cache {
 	}
 
 	/**
-	 * Move a file or folder in the cache
+	 * Get the storage id and path needed for a move
 	 *
-	 * @param string $source
-	 * @param string $target
+	 * @param string $path
+	 * @return array [$storageId, $internalPath]
 	 */
-	public function move($source, $target) {
-		if ($cache = $this->getSourceCache($source)) {
-			$file = \OC_Share_Backend_File::getSource($target, $this->storage->getMountPoint(), $this->storage->getItemType());
-			if ($file && isset($file['path'])) {
-				$cache->move($this->files[$source], $file['path']);
-			}
-		}
+	protected function getMoveInfo($path) {
+		$cache = $this->getSourceCache($path);
+		$file = \OC_Share_Backend_File::getSource($path, $this->storage->getMountPoint(), $this->storage->getItemType());
+		return [$cache->getNumericStorageId(), $file['path']];
 	}
 
 	/**

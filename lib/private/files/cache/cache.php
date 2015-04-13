@@ -439,6 +439,16 @@ class Cache {
 	}
 
 	/**
+	 * Get the storage id and path needed for a move
+	 *
+	 * @param string $path
+	 * @return array [$storageId, $internalPath]
+	 */
+	protected function getMoveInfo($path) {
+		return [$this->getNumericStorageId(), $path];
+	}
+
+	/**
 	 * Move a file or folder in the cache
 	 *
 	 * @param \OC\Files\Cache\Cache $sourceCache
@@ -455,10 +465,13 @@ class Cache {
 		$sourceId = $sourceData['fileid'];
 		$newParentId = $this->getParentId($targetPath);
 
+		list($sourceStorageId, $sourcePath) = $sourceCache->getMoveInfo($sourcePath);
+		list($targetStorageId, $targetPath) = $this->getMoveInfo($targetPath);
+
 		if ($sourceData['mimetype'] === 'httpd/unix-directory') {
 			//find all child entries
 			$sql = 'SELECT `path`, `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path` LIKE ?';
-			$result = \OC_DB::executeAudited($sql, [$sourceCache->getNumericStorageId(), $sourcePath . '/%']);
+			$result = \OC_DB::executeAudited($sql, [$sourceStorageId, $sourcePath . '/%']);
 			$childEntries = $result->fetchAll();
 			$sourceLength = strlen($sourcePath);
 			\OC_DB::beginTransaction();
@@ -466,13 +479,13 @@ class Cache {
 
 			foreach ($childEntries as $child) {
 				$newTargetPath = $targetPath . substr($child['path'], $sourceLength);
-				\OC_DB::executeAudited($query, [$this->getNumericStorageId(), $newTargetPath, md5($newTargetPath), $child['fileid']]);
+				\OC_DB::executeAudited($query, [$targetStorageId, $newTargetPath, md5($newTargetPath), $child['fileid']]);
 			}
 			\OC_DB::commit();
 		}
 
 		$sql = 'UPDATE `*PREFIX*filecache` SET `storage` =  ?, `path` = ?, `path_hash` = ?, `name` = ?, `parent` =? WHERE `fileid` = ?';
-		\OC_DB::executeAudited($sql, [$this->getNumericStorageId(), $targetPath, md5($targetPath), basename($targetPath), $newParentId, $sourceId]);
+		\OC_DB::executeAudited($sql, [$targetStorageId, $targetPath, md5($targetPath), basename($targetPath), $newParentId, $sourceId]);
 	}
 
 	/**
