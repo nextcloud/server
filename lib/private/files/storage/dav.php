@@ -36,8 +36,19 @@
 
 namespace OC\Files\Storage;
 
+use Exception;
+use OC\Files\Filesystem;
+use OC\Files\Stream\Close;
+use OC\Files\Stream\Dir;
+use OC\MemCache\ArrayCache;
+use OCP\Constants;
+use OCP\Files;
+use OCP\Files\FileInfo;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Util;
+use Sabre\DAV\Client;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\HTTP\ClientException;
 use Sabre\HTTP\ClientHttpException;
 
@@ -46,24 +57,25 @@ use Sabre\HTTP\ClientHttpException;
  *
  * @package OC\Files\Storage
  */
-class DAV extends \OC\Files\Storage\Common {
+class DAV extends Common {
+	/** @var string */
 	protected $password;
+	/** @var string */
 	protected $user;
+	/** @var string */
 	protected $host;
+	/** @var bool */
 	protected $secure;
+	/** @var string */
 	protected $root;
+	/** @var string */
 	protected $certPath;
+	/** @var bool */
 	protected $ready;
-	/**
-	 * @var \Sabre\DAV\Client
-	 */
+	/** @var Client */
 	private $client;
-
-	/**
-	 * @var \OC\MemCache\ArrayCache
-	 */
+	/** @var ArrayCache */
 	private $statCache;
-
 	/** @var array */
 	private static $tempFiles = [];
 
@@ -72,7 +84,7 @@ class DAV extends \OC\Files\Storage\Common {
 	 * @throws \Exception
 	 */
 	public function __construct($params) {
-		$this->statCache = new \OC\MemCache\ArrayCache();
+		$this->statCache = new ArrayCache();
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
@@ -120,7 +132,7 @@ class DAV extends \OC\Files\Storage\Common {
 			'password' => $this->password,
 		);
 
-		$this->client = new \Sabre\DAV\Client($settings);
+		$this->client = new Client($settings);
 		$this->client->setThrowExceptions(true);
 
 		if ($this->secure === true && $this->certPath) {
@@ -200,7 +212,7 @@ class DAV extends \OC\Files\Storage\Common {
 				$file = basename($file);
 				$content[] = $file;
 			}
-			\OC\Files\Stream\Dir::register($id, $content);
+			Dir::register($id, $content);
 			return opendir('fakedir://' . $id);
 		} catch (ClientHttpException $e) {
 			if ($e->getHttpStatus() === 404) {
@@ -225,14 +237,14 @@ class DAV extends \OC\Files\Storage\Common {
 	 * 
 	 * @return array propfind response
 	 *
-	 * @throws Exception\NotFound
+	 * @throws NotFound
 	 */
 	private function propfind($path) {
 		$path = $this->cleanPath($path);
 		$cachedResponse = $this->statCache->get($path);
 		if ($cachedResponse === false) {
 			// we know it didn't exist
-			throw new Exception\NotFound();
+			throw new NotFound();
 		}
 		// we either don't know it, or we know it exists but need more details
 		if (is_null($cachedResponse) || $cachedResponse === true) {
@@ -250,7 +262,7 @@ class DAV extends \OC\Files\Storage\Common {
 					)
 				);
 				$this->statCache->set($path, $response);
-			} catch (Exception\NotFound $e) {
+			} catch (NotFound $e) {
 				// remember that this path did not exist
 				$this->statCache->clear($path . '/');
 				$this->statCache->set($path, false);
@@ -347,7 +359,7 @@ class DAV extends \OC\Files\Storage\Common {
 				curl_exec($curl);
 				$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 				if ($statusCode !== 200) {
-					\OCP\Util::writeLog("webdav client", 'curl GET ' . curl_getinfo($curl, CURLINFO_EFFECTIVE_URL) . ' returned status code ' . $statusCode, \OCP\Util::ERROR);
+					Util::writeLog("webdav client", 'curl GET ' . curl_getinfo($curl, CURLINFO_EFFECTIVE_URL) . ' returned status code ' . $statusCode, Util::ERROR);
 				}
 				curl_close($curl);
 				rewind($fp);
@@ -379,9 +391,9 @@ class DAV extends \OC\Files\Storage\Common {
 					if (!$this->isCreatable(dirname($path))) {
 						return false;
 					}
-					$tmpFile = \OCP\Files::tmpFile($ext);
+					$tmpFile = Files::tmpFile($ext);
 				}
-				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
+				Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				self::$tempFiles[$tmpFile] = $path;
 				return fopen('close://' . $tmpFile, $mode);
 		}
@@ -407,10 +419,10 @@ class DAV extends \OC\Files\Storage\Common {
 			if (isset($response['{DAV:}quota-available-bytes'])) {
 				return (int)$response['{DAV:}quota-available-bytes'];
 			} else {
-				return \OCP\Files\FileInfo::SPACE_UNKNOWN;
+				return FileInfo::SPACE_UNKNOWN;
 			}
 		} catch (\Exception $e) {
-			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
+			return FileInfo::SPACE_UNKNOWN;
 		}
 	}
 
@@ -446,6 +458,7 @@ class DAV extends \OC\Files\Storage\Common {
 	/**
 	 * @param string $path
 	 * @param string $data
+	 * @return int
 	 */
 	public function file_put_contents($path, $data) {
 		$path = $this->cleanPath($path);
@@ -485,7 +498,7 @@ class DAV extends \OC\Files\Storage\Common {
 		curl_exec($curl);
 		$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		if ($statusCode !== 200) {
-			\OCP\Util::writeLog("webdav client", 'curl GET ' . curl_getinfo($curl, CURLINFO_EFFECTIVE_URL) . ' returned status code ' . $statusCode, \OCP\Util::ERROR);
+			Util::writeLog("webdav client", 'curl GET ' . curl_getinfo($curl, CURLINFO_EFFECTIVE_URL) . ' returned status code ' . $statusCode, Util::ERROR);
 		}
 		curl_close($curl);
 		fclose($source);
@@ -590,7 +603,7 @@ class DAV extends \OC\Files\Storage\Common {
 		if ($path === '') {
 			return $path;
 		}
-		$path = \OC\Files\Filesystem::normalizePath($path);
+		$path = Filesystem::normalizePath($path);
 		// remove leading slash
 		return substr($path, 1);
 	}
@@ -643,22 +656,22 @@ class DAV extends \OC\Files\Storage\Common {
 
 	/** {@inheritdoc} */
 	public function isUpdatable($path) {
-		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_UPDATE);
+		return (bool)($this->getPermissions($path) & Constants::PERMISSION_UPDATE);
 	}
 
 	/** {@inheritdoc} */
 	public function isCreatable($path) {
-		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_CREATE);
+		return (bool)($this->getPermissions($path) & Constants::PERMISSION_CREATE);
 	}
 
 	/** {@inheritdoc} */
 	public function isSharable($path) {
-		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_SHARE);
+		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);
 	}
 
 	/** {@inheritdoc} */
 	public function isDeletable($path) {
-		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_DELETE);
+		return (bool)($this->getPermissions($path) & Constants::PERMISSION_DELETE);
 	}
 
 	/** {@inheritdoc} */
@@ -669,9 +682,9 @@ class DAV extends \OC\Files\Storage\Common {
 		if (isset($response['{http://owncloud.org/ns}permissions'])) {
 			return $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
 		} else if ($this->is_dir($path)) {
-			return \OCP\Constants::PERMISSION_ALL;
+			return Constants::PERMISSION_ALL;
 		} else if ($this->file_exists($path)) {
-			return \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE;
+			return Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
 		} else {
 			return 0;
 		}
@@ -682,19 +695,19 @@ class DAV extends \OC\Files\Storage\Common {
 	 * @return int
 	 */
 	protected function parsePermissions($permissionsString) {
-		$permissions = \OCP\Constants::PERMISSION_READ;
+		$permissions = Constants::PERMISSION_READ;
 		if (strpos($permissionsString, 'R') !== false) {
-			$permissions |= \OCP\Constants::PERMISSION_SHARE;
+			$permissions |= Constants::PERMISSION_SHARE;
 		}
 		if (strpos($permissionsString, 'D') !== false) {
-			$permissions |= \OCP\Constants::PERMISSION_DELETE;
+			$permissions |= Constants::PERMISSION_DELETE;
 		}
 		if (strpos($permissionsString, 'W') !== false) {
-			$permissions |= \OCP\Constants::PERMISSION_UPDATE;
+			$permissions |= Constants::PERMISSION_UPDATE;
 		}
 		if (strpos($permissionsString, 'CK') !== false) {
-			$permissions |= \OCP\Constants::PERMISSION_CREATE;
-			$permissions |= \OCP\Constants::PERMISSION_UPDATE;
+			$permissions |= Constants::PERMISSION_CREATE;
+			$permissions |= Constants::PERMISSION_UPDATE;
 		}
 		return $permissions;
 	}
@@ -755,7 +768,7 @@ class DAV extends \OC\Files\Storage\Common {
 	 * which might be temporary
 	 */
 	private function convertException(Exception $e) {
-		\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+		Util::writeLog('files_external', $e->getMessage(), Util::ERROR);
 		if ($e instanceof ClientHttpException) {
 			if ($e->getHttpStatus() === 401) {
 				// either password was changed or was invalid all along
