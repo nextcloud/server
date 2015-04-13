@@ -92,16 +92,15 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	/**
 	 * returns an LDAP record based on a given login name
 	 *
-	 * @param $loginName
+	 * @param string $loginName
 	 * @return array
 	 * @throws \Exception
 	 */
 	public function getLDAPUserByLoginName($loginName) {
-		$uid = $this->access->escapeFilterPart($loginName);
 		//find out dn of the user name
 		$attrs = array($this->access->connection->ldapUserDisplayName, 'dn',
 			'uid', 'samaccountname');
-		$users = $this->access->fetchUsersByLoginName($uid, $attrs);
+		$users = $this->access->fetchUsersByLoginName($loginName, $attrs);
 		if(count($users) < 1) {
 			throw new \Exception('No user available for the given login name.');
 		}
