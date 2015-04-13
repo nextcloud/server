@@ -262,6 +262,9 @@ class OCSClient {
 		}
 
 		$tmp = $data->data->content;
+		if (is_null($tmp)) {
+			return null;
+		}
 
 		$app = [];
 		$app['id'] = (int)$tmp->id;
