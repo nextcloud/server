@@ -22,7 +22,9 @@
 
 namespace OC\Repair;
 
+use OC\Files\Cache\Storage;
 use OC\Hooks\BasicEmitter;
+use OC\RepairException;
 
 class RepairLegacyStorages extends BasicEmitter {
 	/**
@@ -31,7 +33,7 @@ class RepairLegacyStorages extends BasicEmitter {
 	protected $config;
 
 	/**
-	 * @var \OC\DB\Connection
+	 * @var \OCP\IDBConnection
 	 */
 	protected $connection;
 
@@ -40,7 +42,7 @@ class RepairLegacyStorages extends BasicEmitter {
 
 	/**
 	 * @param \OCP\IConfig $config
-	 * @param \OC\DB\Connection $connection
+	 * @param \OCP\IDBConnection $connection
 	 */
 	public function __construct($config, $connection) {
 		$this->connection = $connection;
@@ -83,8 +85,9 @@ class RepairLegacyStorages extends BasicEmitter {
 	 *
 	 * @param string $oldId old storage id
 	 * @param int $oldNumericId old storage numeric id
-	 *
+	 * @param string $userId
 	 * @return bool true if fixed, false otherwise
+	 * @throws RepairException
 	 */
 	private function fixLegacyStorage($oldId, $oldNumericId, $userId = null) {
 		// check whether the new storage already exists
@@ -94,7 +97,7 @@ class RepairLegacyStorages extends BasicEmitter {
 		$newId = 'home::' . $userId;
 
 		// check if target id already exists
-		$newNumericId = \OC\Files\Cache\Storage::getNumericStorageId($newId);
+		$newNumericId = Storage::getNumericStorageId($newId);
 		if (!is_null($newNumericId)) {
 			$newNumericId = (int)$newNumericId;
 			// try and resolve the conflict
@@ -105,7 +108,7 @@ class RepairLegacyStorages extends BasicEmitter {
 			$this->findStorageInCacheStatement->closeCursor();
 			if ($row2 !== false) {
 				// two results means both storages have data, not auto-fixable
-				throw new \OC\RepairException(
+				throw new RepairException(
 					'Could not automatically fix legacy storage '
 					. '"' . $oldId . '" => "' . $newId . '"'
 					. ' because they both have data.'
@@ -123,7 +126,7 @@ class RepairLegacyStorages extends BasicEmitter {
 			}
 
 			// delete storage including file cache
-			\OC\Files\Cache\Storage::remove($toDelete);
+			Storage::remove($toDelete);
 
 			// if we deleted the old id, the new id will be used
 			// automatically
@@ -134,8 +137,8 @@ class RepairLegacyStorages extends BasicEmitter {
 		}
 
 		// rename old id to new id
-		$newId = \OC\Files\Cache\Storage::adjustStorageId($newId);
-		$oldId = \OC\Files\Cache\Storage::adjustStorageId($oldId);
+		$newId = Storage::adjustStorageId($newId);
+		$oldId = Storage::adjustStorageId($oldId);
 		$rowCount = $this->renameStorageStatement->execute(array($newId, $oldId));
 		$this->renameStorageStatement->closeCursor();
 		return ($rowCount === 1);
@@ -180,7 +183,7 @@ class RepairLegacyStorages extends BasicEmitter {
 					$count++;
 				}
 			}
-			catch (\OC\RepairException $e) {
+			catch (RepairException $e) {
 				$hasWarnings = true;
 				$this->emit(
 					'\OC\Repair',
@@ -199,7 +202,7 @@ class RepairLegacyStorages extends BasicEmitter {
 		// find at least one to make sure it's worth
 		// querying the user list
 		if ((int)$row['c'] > 0) {
-			$userManager = \OC_User::getManager();
+			$userManager = \OC::$server->getUserManager();
 
 			// use chunks to avoid caching too many users in memory
 			$limit = 30;
@@ -209,7 +212,6 @@ class RepairLegacyStorages extends BasicEmitter {
 				// query the next page of users
 				$results = $userManager->search('', $limit, $offset);
 				$storageIds = array();
-				$userIds = array();
 				foreach ($results as $uid => $userObject) {
 					$storageId = $dataDirId . $uid . '/';
 					if (strlen($storageId) <= 64) {
@@ -222,13 +224,13 @@ class RepairLegacyStorages extends BasicEmitter {
 				if (count($storageIds) > 0) {
 					// update the storages of these users
 					foreach ($storageIds as $uid => $storageId) {
-						$numericId = \OC\Files\Cache\Storage::getNumericStorageId($storageId);
+						$numericId = Storage::getNumericStorageId($storageId);
 						try {
 							if (!is_null($numericId) && $this->fixLegacyStorage($storageId, (int)$numericId)) {
 								$count++;
 							}
 						}
-						catch (\OC\RepairException $e) {
+						catch (RepairException $e) {
 							$hasWarnings = true;
 							$this->emit(
 								'\OC\Repair',

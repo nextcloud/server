@@ -5,18 +5,25 @@
  * later.
  * See the COPYING-README file.
  */
+
 namespace Test\Repair;
+
+use OC\Files\Cache\Cache;
+use OC\Files\Cache\Storage;
+use Test\TestCase;
 
 /**
  * Tests for the converting of legacy storages to home storages.
  *
  * @see \OC\Repair\RepairLegacyStorages
  */
-class RepairLegacyStorages extends \Test\TestCase {
-
+class RepairLegacyStorages extends TestCase {
+	/** @var \OCP\IDBConnection */
 	private $connection;
+	/** @var \OCP\IConfig */
 	private $config;
 	private $user;
+	/** @var \OC\Repair\RepairLegacyStorages */
 	private $repair;
 
 	private $dataDir;
@@ -31,7 +38,7 @@ class RepairLegacyStorages extends \Test\TestCase {
 		parent::setUp();
 
 		$this->config = \OC::$server->getConfig();
-		$this->connection = \OC_DB::getConnection();
+		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->oldDataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/');
 
 		$this->repair = new \OC\Repair\RepairLegacyStorages($this->config, $this->connection);
@@ -44,40 +51,49 @@ class RepairLegacyStorages extends \Test\TestCase {
 	}
 
 	protected function tearDown() {
-		\OC_User::deleteUser($this->user);
+		$user = \OC::$server->getUserManager()->get($this->user);
+		if ($user) {
+			$user->delete();
+		}
 
 		$sql = 'DELETE FROM `*PREFIX*storages`';
 		$this->connection->executeQuery($sql);
 		$sql = 'DELETE FROM `*PREFIX*filecache`';
 		$this->connection->executeQuery($sql);
-		\OCP\Config::setSystemValue('datadirectory', $this->oldDataDir);
+		$this->config->setSystemValue('datadirectory', $this->oldDataDir);
 		$this->config->setAppValue('core', 'repairlegacystoragesdone', 'no');
 
 		parent::tearDown();
 	}
 
+	/**
+	 * @param string $dataDir
+	 * @param string $userId
+	 * @throws \Exception
+	 */
 	function prepareSettings($dataDir, $userId) {
 		// hard-coded string as we want a predictable fixed length
 		// no data will be written there
 		$this->dataDir = $dataDir;
-		\OCP\Config::setSystemValue('datadirectory', $this->dataDir);
+		$this->config->setSystemValue('datadirectory', $this->dataDir);
 
 		$this->user = $userId;
 		$this->legacyStorageId = 'local::' . $this->dataDir . $this->user . '/';
 		$this->newStorageId = 'home::' . $this->user;
-		\OC_User::createUser($this->user, $this->user);
+		\OC::$server->getUserManager()->createUser($this->user, $this->user);
 	}
 
 	/**
 	 * Create a storage entry
 	 *
 	 * @param string $storageId
+	 * @return int
 	 */
 	private function createStorage($storageId) {
 		$sql = 'INSERT INTO `*PREFIX*storages` (`id`)'
 			. ' VALUES (?)';
 
-		$storageId = \OC\Files\Cache\Storage::adjustStorageId($storageId);
+		$storageId = Storage::adjustStorageId($storageId);
 		$numRows = $this->connection->executeUpdate($sql, array($storageId));
 		$this->assertEquals(1, $numRows);
 
@@ -87,11 +103,11 @@ class RepairLegacyStorages extends \Test\TestCase {
 	/**
 	 * Returns the storage id based on the numeric id
 	 *
-	 * @param int $numericId numeric id of the storage
+	 * @param int $storageId numeric id of the storage
 	 * @return string storage id or null if not found
 	 */
 	private function getStorageId($storageId) {
-		$numericId = \OC\Files\Cache\Storage::getNumericStorageId($storageId);
+		$numericId = Storage::getNumericStorageId($storageId);
 		if (!is_null($numericId)) {
 			return (int)$numericId;
 		}
@@ -104,7 +120,7 @@ class RepairLegacyStorages extends \Test\TestCase {
 	 * @param string $storageId storage id
 	 */
 	private function createData($storageId) {
-		$cache = new \OC\Files\Cache\Cache($storageId);
+		$cache = new Cache($storageId);
 		$cache->put(
 			'dummyfile.txt',
 			array('size' => 5, 'mtime' => 12, 'mimetype' => 'text/plain')
@@ -113,7 +129,11 @@ class RepairLegacyStorages extends \Test\TestCase {
 
 	/**
 	 * Test that existing home storages are left alone when valid.
+	 *
 	 * @dataProvider settingsProvider
+	 *
+	 * @param string $dataDir
+	 * @param string $userId
 	 */
 	public function testNoopWithExistingHomeStorage($dataDir, $userId) {
 		$this->prepareSettings($dataDir, $userId);
@@ -128,7 +148,11 @@ class RepairLegacyStorages extends \Test\TestCase {
 	/**
 	 * Test that legacy storages are converted to home storages when
 	 * the latter does not exist.
+	 *
 	 * @dataProvider settingsProvider
+	 *
+	 * @param string $dataDir
+	 * @param string $userId
 	 */
 	public function testConvertLegacyToHomeStorage($dataDir, $userId) {
 		$this->prepareSettings($dataDir, $userId);
@@ -143,12 +167,16 @@ class RepairLegacyStorages extends \Test\TestCase {
 	/**
 	 * Test that legacy storages are converted to home storages
 	 * when home storage already exists but has no data.
+	 *
 	 * @dataProvider settingsProvider
+	 *
+	 * @param string $dataDir
+	 * @param string $userId
 	 */
 	public function testConvertLegacyToExistingEmptyHomeStorage($dataDir, $userId) {
 		$this->prepareSettings($dataDir, $userId);
 		$legacyStorageNumId = $this->createStorage($this->legacyStorageId);
-		$newStorageNumId = $this->createStorage($this->newStorageId);
+		$this->createStorage($this->newStorageId);
 
 		$this->createData($this->legacyStorageId);
 
@@ -162,11 +190,15 @@ class RepairLegacyStorages extends \Test\TestCase {
 	 * Test that legacy storages are converted to home storages
 	 * when home storage already exists and the legacy storage
 	 * has no data.
+	 *
 	 * @dataProvider settingsProvider
+	 *
+	 * @param string $dataDir
+	 * @param string $userId
 	 */
 	public function testConvertEmptyLegacyToHomeStorage($dataDir, $userId) {
 		$this->prepareSettings($dataDir, $userId);
-		$legacyStorageNumId = $this->createStorage($this->legacyStorageId);
+		$this->createStorage($this->legacyStorageId);
 		$newStorageNumId = $this->createStorage($this->newStorageId);
 
 		$this->createData($this->newStorageId);
@@ -180,7 +212,11 @@ class RepairLegacyStorages extends \Test\TestCase {
 	/**
 	 * Test that nothing is done when both conflicting legacy
 	 * and home storage have data.
+	 *
 	 * @dataProvider settingsProvider
+	 *
+	 * @param string $dataDir
+	 * @param string $userId
 	 */
 	public function testConflictNoop($dataDir, $userId) {
 		$this->prepareSettings($dataDir, $userId);
@@ -205,7 +241,11 @@ class RepairLegacyStorages extends \Test\TestCase {
 
 	/**
 	 * Test that the data dir local entry is left alone
+	 *
 	 * @dataProvider settingsProvider
+	 *
+	 * @param string $dataDir
+	 * @param string $userId
 	 */
 	public function testDataDirEntryNoop($dataDir, $userId) {
 		$this->prepareSettings($dataDir, $userId);
@@ -219,7 +259,11 @@ class RepairLegacyStorages extends \Test\TestCase {
 
 	/**
 	 * Test that external local storages are left alone
+	 *
 	 * @dataProvider settingsProvider
+	 *
+	 * @param string $dataDir
+	 * @param string $userId
 	 */
 	public function testLocalExtStorageNoop($dataDir, $userId) {
 		$this->prepareSettings($dataDir, $userId);
@@ -233,7 +277,11 @@ class RepairLegacyStorages extends \Test\TestCase {
 
 	/**
 	 * Test that other external storages are left alone
+	 *
 	 * @dataProvider settingsProvider
+	 *
+	 * @param string $dataDir
+	 * @param string $userId
 	 */
 	public function testExtStorageNoop($dataDir, $userId) {
 		$this->prepareSettings($dataDir, $userId);

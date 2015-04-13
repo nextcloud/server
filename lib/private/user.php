@@ -216,7 +216,7 @@ class OC_User {
 	 * @return bool
 	 *
 	 * Deletes a user
-	 * @deprecated Use \OC::$server->getUserManager->delete()
+	 * @deprecated Use \OC::$server->getUserManager()->get() and then run delete() on the return
 	 */
 	public static function deleteUser($uid) {
 		$user = self::getManager()->get($uid);
