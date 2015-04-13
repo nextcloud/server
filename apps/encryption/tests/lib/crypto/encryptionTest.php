@@ -21,6 +21,7 @@
 
 namespace OCA\Encryption\Tests\Crypto;
 
+use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use Test\TestCase;
 use OCA\Encryption\Crypto\Encryption;
 
@@ -63,6 +64,74 @@ class EncryptionTest extends TestCase {
 			$this->utilMock,
 			$this->loggerMock
 		);
+
+	}
+
+	/**
+	 * test if public key from one of the recipients is missing
+	 */
+	public function testEndUser1() {
+		$this->instance->begin('/foo/bar', 'user1', 'r', array(), array('users' => array('user1', 'user2', 'user3')));
+		$this->endTest();
+	}
+
+	/**
+	 * test if public key from owner is missing
+	 *
+	 * @expectedException \OCA\Encryption\Exceptions\PublicKeyMissingException
+	 */
+	public function testEndUser2() {
+		$this->instance->begin('/foo/bar', 'user2', 'r', array(), array('users' => array('user1', 'user2', 'user3')));
+		$this->endTest();
+	}
+
+	/**
+	 * common part of testEndUser1 and testEndUser2
+	 *
+	 * @throws PublicKeyMissingException
+	 */
+	public function endTest() {
+		// prepare internal variables
+		$class = get_class($this->instance);
+		$module = new \ReflectionClass($class);
+		$isWriteOperation = $module->getProperty('isWriteOperation');
+		$writeCache = $module->getProperty('writeCache');
+		$isWriteOperation->setAccessible(true);
+		$writeCache->setAccessible(true);
+		$isWriteOperation->setValue($this->instance, true);
+		$writeCache->setValue($this->instance, '');
+		$isWriteOperation->setAccessible(false);
+		$writeCache->setAccessible(false);
+
+		$this->keyManagerMock->expects($this->any())
+			->method('getPublicKey')
+			->will($this->returnCallback([$this, 'getPublicKeyCallback']));
+		$this->keyManagerMock->expects($this->any())
+			->method('addSystemKeys')
+			->will($this->returnCallback([$this, 'addSystemKeysCallback']));
+		$this->cryptMock->expects($this->any())
+			->method('multiKeyEncrypt')
+			->willReturn(true);
+		$this->cryptMock->expects($this->any())
+			->method('setAllFileKeys')
+			->willReturn(true);
+
+		$this->instance->end('/foo/bar');
+	}
+
+
+	public function getPublicKeyCallback($uid) {
+		if ($uid === 'user2') {
+			throw new PublicKeyMissingException($uid);
+		}
+		return $uid;
+	}
+
+	public function addSystemKeysCallback($accessList, $publicKeys) {
+		$this->assertSame(2, count($publicKeys));
+		$this->assertArrayHasKey('user1', $publicKeys);
+		$this->assertArrayHasKey('user3', $publicKeys);
+		return $publicKeys;
 	}
 
 	/**

@@ -94,10 +94,12 @@ class Application extends \OCP\AppFramework\App {
 	public function registerEncryptionModule() {
 		$container = $this->getContainer();
 
+
 		$this->encryptionManager->registerEncryptionModule(
 			Encryption::ID,
 			Encryption::DISPLAY_NAME,
 			function() use ($container) {
+
 			return new Encryption(
 				$container->query('Crypt'),
 				$container->query('KeyManager'),
@@ -105,6 +107,7 @@ class Application extends \OCP\AppFramework\App {
 				$container->getServer()->getLogger()
 			);
 		});
+
 	}
 
 	public function registerServices() {
