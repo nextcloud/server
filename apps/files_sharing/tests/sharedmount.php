@@ -144,14 +144,20 @@ class Test_Files_Sharing_Mount extends OCA\Files_sharing\Tests\TestCase {
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		\OC\Files\Filesystem::rename($this->filename, "newFileName");
+		\OC\Files\Filesystem::rename($this->filename, $this->filename . '_renamed');
 
-		$this->assertTrue(\OC\Files\Filesystem::file_exists('newFileName'));
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename . '_renamed'));
 		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->filename));
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
-		$this->assertFalse(\OC\Files\Filesystem::file_exists("newFileName"));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->filename . '_renamed'));
+
+		// rename back to original name
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		\OC\Files\Filesystem::rename($this->filename . '_renamed', $this->filename);
+		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->filename . '_renamed'));
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
 
 		//cleanup
 		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
