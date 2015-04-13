@@ -144,30 +144,29 @@ class Updater {
 		list($targetStorage, $targetInternalPath) = $this->view->resolvePath($target);
 
 		if ($sourceStorage && $targetStorage) {
-			if ($sourceStorage === $targetStorage) {
-				$cache = $sourceStorage->getCache($sourceInternalPath);
-				if ($cache->inCache($targetInternalPath)) {
-					$cache->remove($targetInternalPath);
-				}
-				$cache->move($sourceInternalPath, $targetInternalPath);
-
-				if (pathinfo($sourceInternalPath, PATHINFO_EXTENSION) !== pathinfo($targetInternalPath, PATHINFO_EXTENSION)) {
-					// handle mime type change
-					$mimeType = $sourceStorage->getMimeType($targetInternalPath);
-					$fileId = $cache->getId($targetInternalPath);
-					$cache->update($fileId, array('mimetype' => $mimeType));
-				}
-
-				$cache->correctFolderSize($sourceInternalPath);
-				$cache->correctFolderSize($targetInternalPath);
-				$this->correctParentStorageMtime($sourceStorage, $sourceInternalPath);
-				$this->correctParentStorageMtime($targetStorage, $targetInternalPath);
-				$this->propagator->addChange($source);
-				$this->propagator->addChange($target);
-			} else {
-				$this->remove($source);
-				$this->update($target);
+			$targetCache = $targetStorage->getCache($sourceInternalPath);
+			if ($targetCache->inCache($targetInternalPath)) {
+				$targetCache->remove($targetInternalPath);
 			}
+			if ($sourceStorage === $targetStorage) {
+				$targetCache->move($sourceInternalPath, $targetInternalPath);
+			} else {
+				$targetCache->moveFromCache($sourceStorage->getCache(), $sourceInternalPath, $targetInternalPath);
+			}
+
+			if (pathinfo($sourceInternalPath, PATHINFO_EXTENSION) !== pathinfo($targetInternalPath, PATHINFO_EXTENSION)) {
+				// handle mime type change
+				$mimeType = $sourceStorage->getMimeType($targetInternalPath);
+				$fileId = $targetCache->getId($targetInternalPath);
+				$targetCache->update($fileId, array('mimetype' => $mimeType));
+			}
+
+			$targetCache->correctFolderSize($sourceInternalPath);
+			$targetCache->correctFolderSize($targetInternalPath);
+			$this->correctParentStorageMtime($sourceStorage, $sourceInternalPath);
+			$this->correctParentStorageMtime($targetStorage, $targetInternalPath);
+			$this->propagator->addChange($source);
+			$this->propagator->addChange($target);
 			$this->propagator->propagateChanges();
 		}
 	}

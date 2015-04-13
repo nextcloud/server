@@ -327,7 +327,10 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		$targetFilename = basename($relPath2);
 		list($user2, $path2) = \OCA\Files_Sharing\Helper::getUidAndFilename(dirname($relPath2));
 		$rootView = new \OC\Files\View('');
-		return $rootView->rename('/' . $user1 . '/files/' . $path1, '/' . $user2 . '/files/' . $path2 . '/' . $targetFilename);
+		$rootView->getUpdater()->disable(); // dont update the cache here
+		$result = $rootView->rename('/' . $user1 . '/files/' . $path1, '/' . $user2 . '/files/' . $path2 . '/' . $targetFilename);
+		$rootView->getUpdater()->enable();
+		return $result;
 	}
 
 	public function copy($path1, $path2) {
