@@ -138,6 +138,11 @@ span.usersLastLoginTooltip { white-space: nowrap; }
 	display : none;
 }
 
+/* because of accessibility the name cell is <th> - therefore we enforce the black color */
+#userlist th.name {
+	color: #000000;
+}
+
 tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:pointer; }
 tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 td.remove {
