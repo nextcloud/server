@@ -773,6 +773,51 @@ class OCSClientTest extends \Test\TestCase {
 		];
 		$this->assertSame($expected, $this->ocsClient->getApplication('MyId'));
 	}
+	public function testGetApplicationEmptyXml() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->will($this->returnValue(true));
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('appstoreurl', 'https://api.owncloud.com/v1')
+			->will($this->returnValue('https://api.owncloud.com/v1'));
+
+		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response
+			->expects($this->once())
+			->method('getBody')
+			->will($this->returnValue('<?xml version="1.0"?>
+				<ocs>
+				 <meta>
+				  <status>ok</status>
+				  <statuscode>100</statuscode>
+				  <message></message>
+				 </meta>
+			</ocs>
+			'));
+
+		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client
+			->expects($this->once())
+			->method('get')
+			->with(
+				'https://api.owncloud.com/v1/content/data/MyId',
+				[
+					'timeout' => 5,
+				]
+			)
+			->will($this->returnValue($response));
+
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->will($this->returnValue($client));
+
+		$this->assertSame(null, $this->ocsClient->getApplication('MyId'));
+	}
 
 	public function testGetApplicationDownloadDisabledAppStore() {
 		$this->config
