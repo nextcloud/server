@@ -74,7 +74,7 @@ var UserList = {
 		$tr.data('displayname', user.displayname);
 		$tr.data('mailAddress', user.email);
 		$tr.data('restoreDisabled', user.isRestoreDisabled);
-		$tr.find('td.name').text(user.name);
+		$tr.find('.name').text(user.name);
 		$tr.find('td.displayName > span').text(user.displayname);
 		$tr.find('td.mailAddress > span').text(user.email);
 
@@ -259,8 +259,8 @@ var UserList = {
 		rows.sort(function(a, b) {
 			// FIXME: inefficient way of getting the names,
 			// better use a data attribute
-			a = $(a).find('td.name').text();
-			b = $(b).find('td.name').text();
+			a = $(a).find('.name').text();
+			b = $(b).find('.name').text();
 			var firstSort = UserList.preSortSearchString(a, b);
 			if(typeof firstSort !== 'undefined') {
 				return firstSort;
