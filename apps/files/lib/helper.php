@@ -196,10 +196,11 @@ class Helper {
 	 * @param string $dir path to the directory
 	 * @param string $sortAttribute attribute to sort on
 	 * @param bool $sortDescending true for descending sort, false otherwise
+	 * @param string $mimetypeFilter limit returned content to this mimetype or mimepart
 	 * @return \OCP\Files\FileInfo[] files
 	 */
-	public static function getFiles($dir, $sortAttribute = 'name', $sortDescending = false) {
-		$content = \OC\Files\Filesystem::getDirectoryContent($dir);
+	public static function getFiles($dir, $sortAttribute = 'name', $sortDescending = false, $mimetypeFilter = '') {
+		$content = \OC\Files\Filesystem::getDirectoryContent($dir, $mimetypeFilter);
 
 		return self::sortFiles($content, $sortAttribute, $sortDescending);
 	}

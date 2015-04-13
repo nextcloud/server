@@ -45,10 +45,32 @@ try {
 
 	$sortAttribute = isset($_GET['sort']) ? (string)$_GET['sort'] : 'name';
 	$sortDirection = isset($_GET['sortdirection']) ? ($_GET['sortdirection'] === 'desc') : false;
+	$mimetypeFilters = isset($_GET['mimetypes']) ? json_decode($_GET['mimetypes']) : '';
 
-	// make filelist
+	$files = [];
+	// Clean up duplicates from array
+	if (is_array($mimetypeFilters) && count($mimetypeFilters)) {
+		$mimetypeFilters = array_unique($mimetypeFilters);
 
-	$files = \OCA\Files\Helper::getFiles($dir, $sortAttribute, $sortDirection);
+		if (!in_array('httpd/unix-directory', $mimetypeFilters)) {
+			// append folder filter to be able to browse folders
+			$mimetypeFilters[] = 'httpd/unix-directory';
+		}
+
+		// create filelist with mimetype filter - as getFiles only supports on
+		// mimetype filter at once we will filter this folder for each
+		// mimetypeFilter
+		foreach ($mimetypeFilters as $mimetypeFilter) {
+			$files = array_merge($files, \OCA\Files\Helper::getFiles($dir, $sortAttribute, $sortDirection, $mimetypeFilter));
+		}
+
+		// sort the files accordingly
+		$files = \OCA\Files\Helper::sortFiles($files, $sortAttribute, $sortDirection);
+	} else {
+		// create file list without mimetype filter
+		$files = \OCA\Files\Helper::getFiles($dir, $sortAttribute, $sortDirection);
+	}
+
 	$files = \OCA\Files\Helper::populateTags($files);
 	$data['directory'] = $dir;
 	$data['files'] = \OCA\Files\Helper::formatFileInfos($files);
