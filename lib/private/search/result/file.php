@@ -25,6 +25,7 @@
 namespace OC\Search\Result;
 use OC\Files\Filesystem;
 use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 
 /**
  * A found file
@@ -92,14 +93,22 @@ class File extends \OCP\Search\Result {
 	}
 
 	/**
+	 * @var Folder $userFolderCache
+	 */
+	static protected $userFolderCache = null;
+
+	/**
 	 * converts a path relative to the users files folder
 	 * eg /user/files/foo.txt -> /foo.txt
 	 * @param string $path
 	 * @return string relative path
 	 */
 	protected function getRelativePath ($path) {
-		$root = \OC::$server->getUserFolder();
-		return $root->getRelativePath($path);
+		if (!isset(self::$userFolderCache)) {
+			$user = \OC::$server->getUserSession()->getUser()->getUID();
+			self::$userFolderCache = \OC::$server->getUserFolder($user);
+		}
+		return self::$userFolderCache->getRelativePath($path);
 	}
 
 }
