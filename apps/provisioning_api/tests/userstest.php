@@ -766,4 +766,29 @@ class UsersTest extends TestCase {
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(101, $result->getStatusCode());
 	}
+
+	public function testSubAdminOfGroupAlreadySubAdmin() {
+		$user1 = $this->generateUsers();
+		$user2 = $this->generateUsers();
+		\OC_User::setUserId($user1);
+		\OC_Group::addToGroup($user1, 'admin');
+		$group1 = $this->getUniqueID();
+		\OC_Group::createGroup($group1);
+
+		//Make user2 subadmin of group1
+		$_POST['groupid'] = $group1;
+		$result = \OCA\provisioning_api\Users::addSubAdmin([
+			'userid' => $user2,
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertTrue($result->succeeded());
+
+		//Make user2 subadmin of group1 again
+		$_POST['groupid'] = $group1;
+		$result = \OCA\provisioning_api\Users::addSubAdmin([
+			'userid' => $user2,
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertTrue($result->succeeded());
+	}
 }

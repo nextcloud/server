@@ -292,6 +292,10 @@ class Users {
 		if(strtolower($group) == 'admin') {
 			return new OC_OCS_Result(null, 103, 'Cannot create subadmins for admin group');
 		}
+		// We cannot be subadmin twice
+		if (OC_Subadmin::isSubAdminOfGroup($user, $group)) {
+			return new OC_OCS_Result(null, 100);
+		}
 		// Go
 		if(OC_Subadmin::createSubAdmin($user, $group)) {
 			return new OC_OCS_Result(null, 100);
