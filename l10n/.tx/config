@@ -27,8 +27,8 @@ source_lang = en
 type = PO
 
 [owncloud.files_encryption]
-file_filter = <lang>/files_encryption.po
-source_file = templates/files_encryption.pot
+file_filter = <lang>/encryption.po
+source_file = templates/encryption.pot
 source_lang = en
 type = PO
 
