@@ -8,6 +8,10 @@ OC.L10N.register(
     "Delete permanently" : "Esborra permanentment",
     "Error" : "Error",
     "restored" : "restaurat",
+    "No deleted files" : "No hi ha cap arxiu eliminat",
+    "You will be able to recover deleted files from here" : "Des d'aquí es podran recuperar arxius eliminats",
+    "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",
+    "Select all" : "Seleccionar tot",
     "Name" : "Nom",
     "Deleted" : "Eliminat",
     "Delete" : "Esborra"

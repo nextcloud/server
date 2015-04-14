@@ -62,7 +62,6 @@ OC.L10N.register(
     "Admin" : "நிர்வாகம்",
     "Help" : "உதவி",
     "Access forbidden" : "அணுக தடை",
-    "Security Warning" : "பாதுகாப்பு எச்சரிக்கை",
     "Create an <strong>admin account</strong>" : "<strong> நிர்வாக கணக்கொன்றை </strong> உருவாக்குக",
     "Username" : "பயனாளர் பெயர்",
     "Data folder" : "தரவு கோப்புறை",

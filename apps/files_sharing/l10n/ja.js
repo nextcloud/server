@@ -56,6 +56,7 @@ OC.L10N.register(
     "Download %s" : "%s をダウンロード",
     "Direct link" : "リンク",
     "Federated Cloud Sharing" : "統合されたクラウド共有",
+    "Open documentation" : "ドキュメントを開く",
     "Allow users on this server to send shares to other servers" : "ユーザーがこのサーバーから他のサーバーに共有することを許可する",
     "Allow users on this server to receive shares from other servers" : "ユーザーが他のサーバーからこのサーバーに共有することを許可する"
 },

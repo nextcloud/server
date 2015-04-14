@@ -1,9 +1,8 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Keep settings?" : "Geyma stillingar ?",
-    "Error" : "Villa",
-    "Save" : "Vista",
+    "Users" : "Notendur",
+    "Groups" : "Hópar",
     "Test Configuration" : "Prúfa uppsetningu",
     "Help" : "Hjálp",
     "Host" : "Netþjónn",

@@ -56,6 +56,7 @@ OC.L10N.register(
     "Download %s" : "Преузми %s",
     "Direct link" : "Директна веза",
     "Federated Cloud Sharing" : "Здружено дељење у облаку",
+    "Open documentation" : "Отвори документацију",
     "Allow users on this server to send shares to other servers" : "Дозвољава корисницима овог сервера да шаљу дељења на друге сервере",
     "Allow users on this server to receive shares from other servers" : "Дозвољава корисницима овог сервера да примају дељења са других сервера"
 },

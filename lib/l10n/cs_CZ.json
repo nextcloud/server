@@ -114,6 +114,8 @@
     "A valid password must be provided" : "Musíte zadat platné heslo",
     "The username is already being used" : "Uživatelské jméno je již využíváno",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Nejsou instalovány ovladače databází (sqlite, mysql nebo postresql).",
+    "Microsoft Windows Platform is not supported" : "Platforma Microsoft Windows není podporována",
+    "Running ownCloud Server on the Microsoft Windows platform is not supported. We suggest you use a Linux server in a virtual machine if you have no option for migrating the server itself. Find Linux packages as well as easy to deploy virtual machine images on <a href=\"%s\">%s</a>. For migrating existing installations to Linux you can find some tips and a migration script in <a href=\"%s\">our documentation</a>." : "Použití ownCloud Server na platformě Microsoft Windows není podporováno. Doporučujeme použít Linux server ve virtuálním stroji, pokud nemáte možnost migrace na samostatný stroj. Najití Linux balíčků je stejně snadné jako nasazení virtuálních strojů na <a href=\"%s\">%s</a>. Pro migraci stávajících zařízení na Linuxu najdete několik tipů a migrační skript v <a href=\"%s\"> naší dokumentaci</a>.",
     "Cannot write into \"config\" directory" : "Nelze zapisovat do adresáře \"config\"",
     "Cannot write into \"apps\" directory" : "Nelze zapisovat do adresáře \"apps\"",
     "This can usually be fixed by %sgiving the webserver write access to the apps directory%s or disabling the appstore in the config file." : "To lze obvykle vyřešit %spovolením zápisu webovému serveru do adresáře apps%s nebo zakázáním appstore v konfiguračním souboru.",

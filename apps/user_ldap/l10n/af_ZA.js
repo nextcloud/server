@@ -1,7 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Error" : "Fout",
+    "Users" : "Gebruikers",
     "Help" : "Hulp",
     "Password" : "Wagwoord",
     "Continue" : "Gaan voort",

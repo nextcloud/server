@@ -1,10 +1,8 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Deletion failed" : "ئۆچۈرۈش مەغلۇپ بولدى",
-    "Error" : "خاتالىق",
-    "Group Filter" : "گۇرۇپپا سۈزگۈچ",
-    "Save" : "ساقلا",
+    "Users" : "ئىشلەتكۈچىلەر",
+    "Groups" : "گۇرۇپپا",
     "Help" : "ياردەم",
     "Host" : "باش ئاپپارات",
     "Port" : "ئېغىز",

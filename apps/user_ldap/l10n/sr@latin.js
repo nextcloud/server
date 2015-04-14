@@ -1,9 +1,8 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Deletion failed" : "Brisanje neuspelo",
-    "Error" : "Greška",
-    "Save" : "Snimi",
+    "Users" : "Korisnici",
+    "Groups" : "Grupe",
     "Help" : "Pomoć",
     "Host" : "Računar",
     "Port" : "Port",

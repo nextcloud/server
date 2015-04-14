@@ -1,14 +1,9 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Deletion failed" : "Бришењето е неуспешно",
-    "Keep settings?" : "Да ги сочувам нагодувањата?",
-    "Cannot add server configuration" : "Не можам да ја додадам конфигурацијата на серверот",
-    "Error" : "Грешка",
-    "Connection test succeeded" : "Тестот за поврзување е успешен",
-    "Connection test failed" : "Тестот за поврзување не е успешен",
     "Confirm Deletion" : "Потврдете го бришењето",
-    "Save" : "Сними",
+    "Users" : "Корисници",
+    "Groups" : "Групи",
     "Help" : "Помош",
     "Host" : "Домаќин",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Може да го скокнете протколот освен ако не ви треба SSL. Тогаш ставете ldaps://",

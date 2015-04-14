@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Could not revert: %s" : "Не могу да вратим: %s",
     "Versions" : "Верзије",
-    "Failed to revert {file} to revision {timestamp}." : "Не могу давратим {file} на ревизију {timestamp}.",
+    "Failed to revert {file} to revision {timestamp}." : "Не могу да вратим {file} на ревизију {timestamp}.",
     "More versions..." : "Још верзија...",
     "No other versions available" : "Нема других верзија",
     "Restore" : "Врати"

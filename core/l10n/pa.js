@@ -33,7 +33,6 @@ OC.L10N.register(
     "Send" : "ਭੇਜੋ",
     "Warning" : "ਚੇਤਾਵਨੀ",
     "Delete" : "ਹਟਾਓ",
-    "Security Warning" : "ਸੁਰੱਖਿਆ ਚੇਤਾਵਨੀ",
     "Username" : "ਯੂਜ਼ਰ-ਨਾਂ",
     "Search" : "ਖੋਜ"
 },

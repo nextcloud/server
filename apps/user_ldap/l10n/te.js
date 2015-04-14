@@ -1,8 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Error" : "పొరపాటు",
-    "Save" : "భద్రపరచు",
+    "Users" : "వాడుకరులు",
     "Help" : "సహాయం",
     "Password" : "సంకేతపదం",
     "Continue" : "కొనసాగించు",

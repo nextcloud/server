@@ -1,9 +1,8 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Deletion failed" : "Konnt net läschen",
-    "Error" : "Fehler",
-    "Save" : "Späicheren",
+    "Users" : "Benotzer",
+    "Groups" : "Gruppen",
     "Help" : "Hëllef",
     "Host" : "Host",
     "Password" : "Passwuert",

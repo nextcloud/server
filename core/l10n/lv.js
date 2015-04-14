@@ -86,7 +86,6 @@ OC.L10N.register(
     "Admin" : "Administratori",
     "Help" : "Palīdzība",
     "Access forbidden" : "Pieeja ir liegta",
-    "Security Warning" : "Brīdinājums par drošību",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Visticamāk, jūsu datu direktorija un datnes ir pieejamas no interneta, jo .htaccess datne nedarbojas.",
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Vairāk informācijai kā konfigurēt serveri, lūdzu skatiet <a href=\"%s\" target=\"_blank\">dokumentāciju</a>.",
     "Create an <strong>admin account</strong>" : "Izveidot <strong>administratora kontu</strong>",

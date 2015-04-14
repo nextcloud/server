@@ -61,7 +61,6 @@ OC.L10N.register(
     "Admin" : "İnzibatçı",
     "Help" : "Kömək",
     "Cheers!" : "Şərəfə!",
-    "Security Warning" : "Təhlükəsizlik xəbərdarlığı",
     "Username" : "İstifadəçi adı",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Xüsusilə fayl sinxronizasiyası üçün desktop client-dən istifadə edilərsə, SQLite məsləhət görülmür.",
     "Search" : "Axtarış",

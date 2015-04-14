@@ -1,9 +1,8 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Deletion failed" : "Methwyd dileu",
-    "Error" : "Gwall",
-    "Save" : "Cadw",
+    "Users" : "Defnyddwyr",
+    "Groups" : "Grwpiau",
     "Help" : "Cymorth",
     "Password" : "Cyfrinair",
     "Advanced" : "Uwch"

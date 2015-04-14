@@ -32,7 +32,6 @@ OC.L10N.register(
     "Apps" : "Apps",
     "Admin" : "အက်ဒမင်",
     "Help" : "အကူအညီ",
-    "Security Warning" : "လုံခြုံရေးသတိပေးချက်",
     "Create an <strong>admin account</strong>" : "<strong>အက်ဒမင်အကောင့်</strong>တစ်ခုဖန်တီးမည်",
     "Username" : "သုံးစွဲသူအမည်",
     "Data folder" : "အချက်အလက်ဖိုလ်ဒါလ်",

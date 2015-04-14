@@ -1,10 +1,9 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Deletion failed" : "Feil ved sletting",
-    "Error" : "Feil",
     "Select groups" : "Vel grupper",
-    "Save" : "Lagra",
+    "Users" : "Brukarar",
+    "Groups" : "Grupper",
     "Help" : "Hjelp",
     "Host" : "Tenar",
     "Password" : "Passord",

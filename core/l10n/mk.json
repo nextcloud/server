@@ -97,7 +97,6 @@
     "Access forbidden" : "Забранет пристап",
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "Здраво,\n\nСамо да ве известам дека  %s shared %s with you.\nView it: %s\n\n",
     "Cheers!" : "Поздрав!",
-    "Security Warning" : "Безбедносно предупредување",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Вашиот директориум со податоци и датотеки се веројатно достапни преку интенернт поради што .htaccess датотеката не функционира.",
     "Create an <strong>admin account</strong>" : "Направете <strong>администраторска сметка</strong>",
     "Username" : "Корисничко име",

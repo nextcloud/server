@@ -45,7 +45,7 @@ OC.L10N.register(
     "Secure https://" : "Sicherer HTTPS://",
     "Public key" : "Öffentlicher Schlüssel",
     "Storage with id \"%i\" not found" : "Der Speicher mit der ID „%i“ wurde nicht gefunden",
-    "Invalid mount point" : "Ungültiger Einhängepunkt",
+    "Invalid mount point" : "Ungültiger mount point",
     "Invalid storage backend \"%s\"" : "Ungültiges Speicher-Backend „%s“",
     "Access granted" : "Zugriff gestattet",
     "Error configuring Dropbox storage" : "Fehler beim Einrichten von Dropbox",

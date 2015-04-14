@@ -56,6 +56,7 @@ OC.L10N.register(
     "Download %s" : "Скачать %s",
     "Direct link" : "Прямая ссылка",
     "Federated Cloud Sharing" : "Объединение облачных хранилищ",
+    "Open documentation" : "Открыть документацию",
     "Allow users on this server to send shares to other servers" : "Разрешить пользователям делиться с пользователями других серверов",
     "Allow users on this server to receive shares from other servers" : "Разрешить пользователям использовать общие ресурсы с других серверов"
 },

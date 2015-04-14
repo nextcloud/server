@@ -1,6 +1,4 @@
 { "translations": {
-    "Error" : "ভুল",
-    "Save" : "সেভ",
     "Host" : "হোস্ট"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -70,7 +70,6 @@ OC.L10N.register(
     "Admin" : "ผู้ดูแล",
     "Help" : "ช่วยเหลือ",
     "Access forbidden" : "การเข้าถึงถูกหวงห้าม",
-    "Security Warning" : "คำเตือนเกี่ยวกับความปลอดภัย",
     "Create an <strong>admin account</strong>" : "สร้าง <strong>บัญชีผู้ดูแลระบบ</strong>",
     "Username" : "ชื่อผู้ใช้งาน",
     "Data folder" : "โฟลเดอร์เก็บข้อมูล",

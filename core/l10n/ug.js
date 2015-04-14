@@ -41,7 +41,6 @@ OC.L10N.register(
     "Users" : "ئىشلەتكۈچىلەر",
     "Apps" : "ئەپلەر",
     "Help" : "ياردەم",
-    "Security Warning" : "بىخەتەرلىك ئاگاھلاندۇرۇش",
     "Username" : "ئىشلەتكۈچى ئاتى",
     "Finish setup" : "تەڭشەك تامام",
     "Log out" : "تىزىمدىن چىق",

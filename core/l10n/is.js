@@ -67,7 +67,6 @@ OC.L10N.register(
     "Admin" : "Stjórnun",
     "Help" : "Hjálp",
     "Access forbidden" : "Aðgangur bannaður",
-    "Security Warning" : "Öryggis aðvörun",
     "Create an <strong>admin account</strong>" : "Útbúa <strong>vefstjóra aðgang</strong>",
     "Username" : "Notendanafn",
     "Data folder" : "Gagnamappa",

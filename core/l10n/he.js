@@ -71,7 +71,6 @@ OC.L10N.register(
     "Admin" : "מנהל",
     "Help" : "עזרה",
     "Access forbidden" : "הגישה נחסמה",
-    "Security Warning" : "אזהרת אבטחה",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "תיקיית וקבצי המידע שלך כנראה נגישים מהאינטרנט מכיוון שקובץ ה.htaccess לא עובד.",
     "Create an <strong>admin account</strong>" : "יצירת <strong>חשבון מנהל</strong>",
     "Username" : "שם משתמש",

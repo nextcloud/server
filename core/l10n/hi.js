@@ -37,7 +37,6 @@ OC.L10N.register(
     "Users" : "उपयोगकर्ता",
     "Apps" : "Apps",
     "Help" : "सहयोग",
-    "Security Warning" : "सुरक्षा चेतावनी ",
     "Create an <strong>admin account</strong>" : "व्यवस्थापक खाता बनाएँ",
     "Username" : "प्रयोक्ता का नाम",
     "Data folder" : "डाटा फोल्डर",

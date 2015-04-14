@@ -77,7 +77,6 @@ OC.L10N.register(
     "Admin" : "អ្នក​គ្រប់​គ្រង",
     "Help" : "ជំនួយ",
     "Access forbidden" : "បាន​ហាមឃាត់​ការ​ចូល",
-    "Security Warning" : "បម្រាម​សុវត្ថិភាព",
     "Create an <strong>admin account</strong>" : "បង្កើត​<strong>គណនី​អភិបាល</strong>",
     "Username" : "ឈ្មោះ​អ្នកប្រើ",
     "Storage & database" : "ឃ្លាំង​ផ្ទុក & មូលដ្ឋាន​ទិន្នន័យ",

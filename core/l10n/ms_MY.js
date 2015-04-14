@@ -44,7 +44,6 @@ OC.L10N.register(
     "Admin" : "Admin",
     "Help" : "Bantuan",
     "Access forbidden" : "Larangan akses",
-    "Security Warning" : "Amaran keselamatan",
     "Create an <strong>admin account</strong>" : "buat <strong>akaun admin</strong>",
     "Username" : "Nama pengguna",
     "Data folder" : "Fail data",

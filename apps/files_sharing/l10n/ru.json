@@ -54,6 +54,7 @@
     "Download %s" : "Скачать %s",
     "Direct link" : "Прямая ссылка",
     "Federated Cloud Sharing" : "Объединение облачных хранилищ",
+    "Open documentation" : "Открыть документацию",
     "Allow users on this server to send shares to other servers" : "Разрешить пользователям делиться с пользователями других серверов",
     "Allow users on this server to receive shares from other servers" : "Разрешить пользователям использовать общие ресурсы с других серверов"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"

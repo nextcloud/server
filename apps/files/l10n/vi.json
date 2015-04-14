@@ -49,8 +49,6 @@
     "File name cannot be empty." : "Tên file không được rỗng",
     "Your storage is full, files can not be updated or synced anymore!" : "Your storage is full, files can not be updated or synced anymore!",
     "Your storage is almost full ({usedSpacePercent}%)" : "Your storage is almost full ({usedSpacePercent}%)",
-    "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Ứng dụng mã hóa đã được kích hoạt nhưng bạn chưa khởi tạo khóa. Vui lòng đăng xuất ra và đăng nhập lại",
-    "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Mã hóa đã bị vô hiệu nhưng những tập tin của bạn vẫn được mã hóa. Vui lòng vào phần thiết lập cá nhân để giải mã chúng.",
     "{dirs} and {files}" : "{dirs} và {files}",
     "Favorite" : "Ưu thích",
     "%s could not be renamed" : "%s không thể đổi tên",

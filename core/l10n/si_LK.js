@@ -53,7 +53,6 @@ OC.L10N.register(
     "Admin" : "පරිපාලක",
     "Help" : "උදව්",
     "Access forbidden" : "ඇතුල් වීම තහනම්",
-    "Security Warning" : "ආරක්ෂක නිවේදනයක්",
     "Username" : "පරිශීලක නම",
     "Data folder" : "දත්ත ෆෝල්ඩරය",
     "Configure the database" : "දත්ත සමුදාය හැඩගැසීම",

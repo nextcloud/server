@@ -70,7 +70,6 @@ OC.L10N.register(
     "Admin" : "ადმინისტრატორი",
     "Help" : "დახმარება",
     "Access forbidden" : "წვდომა აკრძალულია",
-    "Security Warning" : "უსაფრთხოების გაფრთხილება",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "თქვენი data დირექტორია და ფაილები დაშვებადია ინტერნეტში რადგან  .htaccess ფაილი არ მუშაობს.",
     "Create an <strong>admin account</strong>" : "შექმენი <strong>ადმინ ექაუნტი</strong>",
     "Username" : "მომხმარებლის სახელი",

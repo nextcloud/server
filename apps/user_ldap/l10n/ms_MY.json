@@ -1,7 +1,6 @@
 { "translations": {
-    "Deletion failed" : "Pemadaman gagal",
-    "Error" : "Ralat",
-    "Save" : "Simpan",
+    "Users" : "Pengguna",
+    "Groups" : "Kumpulan",
     "Help" : "Bantuan",
     "Password" : "Kata laluan",
     "Back" : "Kembali",

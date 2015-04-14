@@ -1,15 +1,13 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Keep settings?" : "儲存設定？",
-    "{nthServer}. Server" : "{nthServer}. 伺服器",
-    "Success" : "成功",
-    "Error" : "錯誤",
     "Select groups" : "選擇群組",
+    "{nthServer}. Server" : "{nthServer}. 伺服器",
     "_%s group found_::_%s groups found_" : ["找到 %s 群組"],
     "_%s user found_::_%s users found_" : ["找到 %s 用戶"],
     "Server" : "伺服器",
-    "Save" : "儲存",
+    "Users" : "用戶",
+    "Groups" : "群組",
     "Test Configuration" : "測試配置",
     "Help" : "幫助",
     "1. Server" : "1. 伺服器",

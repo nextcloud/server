@@ -68,7 +68,6 @@ OC.L10N.register(
     "Admin" : "Gweinyddu",
     "Help" : "Cymorth",
     "Access forbidden" : "Mynediad wedi'i wahardd",
-    "Security Warning" : "Rhybudd Diogelwch",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Mwy na thebyg fod modd cyrraedd eich cyfeiriadur data a ffeilau o'r rhyngrwyd oherwydd nid yw'r ffeil .htaccess yn gweithio. ",
     "Create an <strong>admin account</strong>" : "Crewch <strong>gyfrif gweinyddol</strong>",
     "Username" : "Enw defnyddiwr",

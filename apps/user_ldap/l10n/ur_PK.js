@@ -1,8 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Error" : "ایرر",
-    "Save" : "حفظ",
+    "Users" : "صارفین",
     "Help" : "مدد",
     "Password" : "پاسورڈ",
     "Continue" : "جاری",

@@ -1,9 +1,8 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Deletion failed" : "Il falleva deler",
-    "Error" : "Error",
-    "Save" : "Salveguardar",
+    "Users" : "Usatores",
+    "Groups" : "Gruppos",
     "Help" : "Adjuta",
     "Password" : "Contrasigno",
     "Back" : "Retro",

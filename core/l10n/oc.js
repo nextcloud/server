@@ -57,7 +57,6 @@ OC.L10N.register(
     "Admin" : "Admin",
     "Help" : "Ajuda",
     "Access forbidden" : "Acces enebit",
-    "Security Warning" : "Avertiment de securitat",
     "Create an <strong>admin account</strong>" : "Crea un <strong>compte admin</strong>",
     "Username" : "Non d'usancièr",
     "Data folder" : "Dorsièr de donadas",

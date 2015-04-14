@@ -1,9 +1,8 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Deletion failed" : "Fracàs d'escafatge",
-    "Error" : "Error",
-    "Save" : "Enregistra",
+    "Users" : "Usancièrs",
+    "Groups" : "Grops",
     "Help" : "Ajuda",
     "Password" : "Senhal",
     "Advanced" : "Avançat"

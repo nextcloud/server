@@ -56,6 +56,7 @@ OC.L10N.register(
     "Download %s" : "Lataa %s",
     "Direct link" : "Suora linkki",
     "Federated Cloud Sharing" : "Federoitu pilvijakaminen",
+    "Open documentation" : "Avaa dokumentaatio",
     "Allow users on this server to send shares to other servers" : "Salli tämän palvelimen käyttäjien lähettää jakoja muille palvelimille",
     "Allow users on this server to receive shares from other servers" : "Salli tämän palvelimen käyttäjien vastaanottaa jakoja muilta palvelimilta"
 },
