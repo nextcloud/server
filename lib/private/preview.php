@@ -701,9 +701,12 @@ class Preview {
 			$this->generatePreview($fileId);
 		}
 
-		// We still don't have a preview, so we generate an empty object which can't be displayed
+		// We still don't have a preview, so we send back the mime icon
 		if (is_null($this->preview)) {
 			$this->preview = new \OC_Image();
+			$mimeIconWebPath = \OC_Helper::mimetypeIcon($this->mimeType);
+			$mimeIconServerPath =  str_replace(\OC::$WEBROOT, \OC::$SERVERROOT, $mimeIconWebPath);
+			$this->preview->loadFromFile($mimeIconServerPath);
 		}
 
 		return $this->preview;
