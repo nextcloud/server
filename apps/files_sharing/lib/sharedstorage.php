@@ -586,4 +586,38 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		return $result;
 	}
 
+	/**
+	 * Resolve the path for the source of the share
+	 *
+	 * @param string $path
+	 * @return array
+	 */
+	private function resolvePath($path) {
+		$source = $this->getSourcePath($path);
+		return \OC\Files\Filesystem::resolvePath($source);
+	}
+
+	/**
+	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param string $sourceInternalPath
+	 * @param string $targetInternalPath
+	 * @return bool
+	 */
+	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		/** @var \OCP\Files\Storage $targetStorage */
+		list($targetStorage, $targetInternalPath) = $this->resolvePath($targetInternalPath);
+		return $targetStorage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+	}
+
+	/**
+	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param string $sourceInternalPath
+	 * @param string $targetInternalPath
+	 * @return bool
+	 */
+	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		/** @var \OCP\Files\Storage $targetStorage */
+		list($targetStorage, $targetInternalPath) = $this->resolvePath($targetInternalPath);
+		return $targetStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+	}
 }

@@ -202,12 +202,13 @@ class Storage extends \Test\TestCase {
 
 		$cache = $storage->getCache();
 
-		Filesystem::mount($storage, [], '/' . $this->user . '/files');
+		Filesystem::mount($storage, [], '/' . $this->user);
+		$storage->mkdir('files');
 		$this->userView->file_put_contents('test.txt', 'foo');
-		$this->assertTrue($storage->file_exists('test.txt'));
+		$this->assertTrue($storage->file_exists('files/test.txt'));
 		$this->assertFalse($this->userView->unlink('test.txt'));
-		$this->assertTrue($storage->file_exists('test.txt'));
-		$this->assertTrue($cache->inCache('test.txt'));
+		$this->assertTrue($storage->file_exists('files/test.txt'));
+		$this->assertTrue($cache->inCache('files/test.txt'));
 
 		// file should not be in the trashbin
 		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files/');
