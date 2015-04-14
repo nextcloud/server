@@ -136,6 +136,7 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["λήψη %n αρχείου","λήψη %n αρχείων"],
     "Updating {productName} to version {version}, this may take a while." : "Ενημέρωση του {productName} στην έκδοση {version}, αυτό μπορεί να διαρκέσει λίγη ώρα.",
     "Please reload the page." : "Παρακαλώ επαναφορτώστε τη σελίδα.",
+    "The update was unsuccessful. " : "Η ενημέρωση ήταν ανεπιτυχής.",
     "The update was successful. Redirecting you to ownCloud now." : "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο ownCloud.",
     "Couldn't reset password because the token is invalid" : "Αδυναμία επαναφοράς κωδικού πρόσβασης καθώς το τεκμήριο είναι άκυρο",
     "Couldn't send reset email. Please make sure your username is correct." : "Αδυναμία αποστολής ηλ. μηνύματος επαναφοράς. Παρακαλώ ελέγξτε ότι το όνομα χρήστη σας είναι ορθό.",
