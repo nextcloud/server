@@ -74,7 +74,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 	protected function buildMockModule() {
 		$encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 			->disableOriginalConstructor()
-			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'calculateUnencryptedSize', 'getUnencryptedBlockSize'])
+			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize'])
 			->getMock();
 
 		$encryptionModule->expects($this->any())->method('getId')->willReturn('UNIT_TEST_MODULE');
@@ -85,20 +85,9 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$encryptionModule->expects($this->any())->method('decrypt')->willReturnArgument(0);
 		$encryptionModule->expects($this->any())->method('update')->willReturn(true);
 		$encryptionModule->expects($this->any())->method('shouldEncrypt')->willReturn(true);
-		$encryptionModule->expects($this->any())->method('calculateUnencryptedSize')->willReturn(42);
 		$encryptionModule->expects($this->any())->method('getUnencryptedBlockSize')->willReturn(8192);
 		return $encryptionModule;
 	}
-
-//	public function testMkDirRooted() {
-//		$this->instance->mkdir('bar');
-//		$this->assertTrue($this->sourceStorage->is_dir('foo/bar'));
-//	}
-//
-//	public function testFilePutContentsRooted() {
-//		$this->instance->file_put_contents('bar', 'asd');
-//		$this->assertEquals('asd', $this->sourceStorage->file_get_contents('foo/bar'));
-//	}
 }
 
 //
