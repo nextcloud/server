@@ -982,6 +982,10 @@ $(document).ready(function() {
 		}
 
 		if (this.checked) {
+			// Reset password placeholder
+			$('#linkPassText').attr('placeholder', t('core', 'Choose a password for the public link'));
+			// Reset link
+			$('#linkText').val('');
 			var expireDateString = '';
 			if (oc_appconfig.core.defaultExpireDateEnabled) {
 				var date = new Date().getTime();
