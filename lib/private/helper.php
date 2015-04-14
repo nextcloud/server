@@ -931,7 +931,12 @@ class OC_Helper {
 			// Returns null if nothing is found
 			$result = $exeSniffer->find($program);
 			if (empty($result)) {
-				$paths = str_replace(':','/ ',getenv('PATH'));
+				$paths = getenv('PATH');
+				if (empty($paths)) {
+					$paths = '/usr/local/bin /usr/bin /opt/bin /bin';
+				} else {
+					$paths = str_replace(':',' ',getenv('PATH'));
+				}
 				$command = 'find ' . $paths . ' -name ' . escapeshellarg($program) . ' 2> /dev/null';
 				exec($command, $output, $returnCode);
 				if (count($output) > 0) {
