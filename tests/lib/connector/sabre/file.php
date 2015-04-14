@@ -10,6 +10,13 @@ namespace Test\Connector\Sabre;
 
 class File extends \Test\TestCase {
 
+	private function getStream($string) {
+		$stream = fopen('php://temp', 'r+');
+		fwrite($stream, $string);
+		fseek($stream, 0);
+		return $stream;
+	}
+
 	/**
 	 * @expectedException \Sabre\DAV\Exception
 	 */
@@ -29,7 +36,7 @@ class File extends \Test\TestCase {
 			->will($this->returnValue('/test.txt'));
 
 		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
-			'permissions'=>\OCP\Constants::PERMISSION_ALL
+			'permissions' => \OCP\Constants::PERMISSION_ALL
 		), null);
 
 		$file = new \OC\Connector\Sabre\File($view, $info);
@@ -64,7 +71,7 @@ class File extends \Test\TestCase {
 
 		$file = new \OC\Connector\Sabre\File($view, $info);
 
-		$this->assertNotEmpty($file->put('test data'));
+		$this->assertNotEmpty($file->put($this->getStream('test data')));
 	}
 
 	/**
@@ -99,7 +106,7 @@ class File extends \Test\TestCase {
 		$file = new \OC\Connector\Sabre\File($view, $info);
 
 		// action
-		$file->put('test data');
+		$file->put($this->getStream('test data'));
 	}
 
 	/**
@@ -122,11 +129,12 @@ class File extends \Test\TestCase {
 		$file = new \OC\Connector\Sabre\File($view, $info);
 
 		// action
-		$file->put('test data');
+		$file->put($this->getStream('test data'));
 	}
 
 	/**
 	 * Test setting name with setName() with invalid chars
+	 *
 	 * @expectedException \OC\Connector\Sabre\Exception\InvalidPath
 	 */
 	public function testSetNameInvalidChars() {
@@ -176,7 +184,7 @@ class File extends \Test\TestCase {
 		$file = new \OC\Connector\Sabre\File($view, $info);
 
 		// action
-		$file->put('test data');
+		$file->put($this->getStream('test data'));
 	}
 
 	/**

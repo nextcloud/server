@@ -82,12 +82,6 @@ class File extends Node implements IFile {
 	 * @return string|null
 	 */
 	public function put($data) {
-		if (is_string($data)) {
-			$stream = fopen('php://temp', 'r+');
-			fwrite($stream, $data);
-			fseek($stream, 0);
-			$data = $stream;
-		};
 		try {
 			$exists = $this->fileView->file_exists($this->path);
 			if ($this->info && $exists && !$this->info->isUpdateable()) {
