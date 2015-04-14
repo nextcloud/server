@@ -71,7 +71,7 @@ class File extends Node implements IFile {
 	 * different object on a subsequent GET you are strongly recommended to not
 	 * return an ETag, and just return null.
 	 *
-	 * @param resource|string $data
+	 * @param resource $data
 	 *
 	 * @throws Forbidden
 	 * @throws UnsupportedMediaType
