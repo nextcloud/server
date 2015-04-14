@@ -51,7 +51,12 @@ class Redis extends Cache {
 			} else {
 				$timeout = 0.0; // unlimited
 			}
+
 			self::$cache->connect( $host, $port, $timeout );
+
+			if (isset($config['dbindex'])) {
+				self::$cache->select( $config['dbindex'] );
+			}
 		}
 	}
 
