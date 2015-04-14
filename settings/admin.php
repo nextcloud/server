@@ -96,10 +96,10 @@ try {
 }
 $encModulues = array();
 foreach ($encryptionModules as $module) {
-	$encModulues[$module->getId()]['displayName'] = $module->getDisplayName();
-	$encModulues[$module->getId()]['default'] = false;
-	if ($defaultEncryptionModule && $module->getId() === $defaultEncryptionModuleId) {
-		$encModulues[$module->getId()]['default'] = true;
+	$encModulues[$module['id']]['displayName'] = $module['displayName'];
+	$encModulues[$module['id']]['default'] = false;
+	if ($defaultEncryptionModule && $module['id'] === $defaultEncryptionModuleId) {
+		$encModulues[$module['id']]['default'] = true;
 	}
 }
 $template->assign('encryptionModules', $encModulues);
