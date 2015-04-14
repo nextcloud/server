@@ -91,21 +91,23 @@ class Encryption extends Wrapper {
 	 */
 	public function filesize($path) {
 		$fullPath = $this->getFullPath($path);
-		$size = $this->storage->filesize($path);
 
 		$info = $this->getCache()->get($path);
-
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
+
+			if (isset($info['fileid'])) {
+				$info['encrypted'] = true;
+				$info['size'] = $size;
+				$this->getCache()->put($path, $info);
+			}
+			return $size;
 		}
 
-		if (isset($info['fileid'])) {
-			$info['encrypted'] = true;
-			$info['size'] = $size;
-			$this->getCache()->put($path, $info);
+		if (isset($info['fileid']) && $info['encrypted']) {
+			return $info['size'];
 		}
-
-		return $size;
+		return $this->storage->filesize($path);
 	}
 
 	/**
@@ -181,6 +183,9 @@ class Encryption extends Wrapper {
 		$result = $this->storage->rename($path1, $path2);
 		if ($result) {
 			$target = $this->getFullPath($path2);
+			if (isset($this->unencryptedSize[$source])) {
+				$this->unencryptedSize[$target] = $this->unencryptedSize[$source];
+			}
 			$encryptionModule = $this->getEncryptionModule($path2);
 			if ($encryptionModule) {
 				$keyStorage = $this->getKeyStorage($encryptionModule->getId());

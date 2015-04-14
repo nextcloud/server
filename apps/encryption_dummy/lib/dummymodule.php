@@ -119,16 +119,6 @@ class DummyModule implements IEncryptionModule {
 		return false;
 	}
 
-	/**
-	 * calculate unencrypted size
-	 *
-	 * @param string $path to file
-	 * @return integer unencrypted size
-	 */
-	public function calculateUnencryptedSize($path) {
-		return 42;
-	}
-
 	public function getUnencryptedBlockSize() {
 		return 6126;
 	}

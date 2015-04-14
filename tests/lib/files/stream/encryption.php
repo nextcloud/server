@@ -88,7 +88,7 @@ class Encryption extends \Test\TestCase {
 	protected function buildMockModule() {
 		$encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 			->disableOriginalConstructor()
-			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'calculateUnencryptedSize', 'getUnencryptedBlockSize'])
+			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize'])
 			->getMock();
 
 		$encryptionModule->expects($this->any())->method('getId')->willReturn('UNIT_TEST_MODULE');
@@ -99,7 +99,6 @@ class Encryption extends \Test\TestCase {
 		$encryptionModule->expects($this->any())->method('decrypt')->willReturnArgument(0);
 		$encryptionModule->expects($this->any())->method('update')->willReturn(true);
 		$encryptionModule->expects($this->any())->method('shouldEncrypt')->willReturn(true);
-		$encryptionModule->expects($this->any())->method('calculateUnencryptedSize')->willReturn(42);
 		$encryptionModule->expects($this->any())->method('getUnencryptedBlockSize')->willReturn(8192);
 		return $encryptionModule;
 	}
