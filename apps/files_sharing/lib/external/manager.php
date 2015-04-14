@@ -235,7 +235,7 @@ class Manager {
 	 */
 	private function sendFeedbackToRemote($remote, $token, $id, $feedback) {
 
-		$url = $remote . \OCP\Share::BASE_PATH_TO_SHARE_API . '/' . $id . '/' . $feedback . '?format=' . \OCP\Share::RESPONSE_FORMAT;
+		$url = rtrim($remote, '/') . \OCP\Share::BASE_PATH_TO_SHARE_API . '/' . $id . '/' . $feedback . '?format=' . \OCP\Share::RESPONSE_FORMAT;
 		$fields = array('token' => $token);
 
 		$result = $this->httpHelper->post($url, $fields);
