@@ -583,6 +583,12 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		return $result;
 	}
 
+	/**
+	 * Resolve the path for the source of the share
+	 *
+	 * @param string $path
+	 * @return array
+	 */
 	private function resolvePath($path) {
 		$source = $this->getSourcePath($path);
 		return \OC\Files\Filesystem::resolvePath($source);
