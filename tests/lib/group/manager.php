@@ -846,4 +846,39 @@ class Manager extends \Test\TestCase {
 		$groups = $manager->getUserGroups($user1);
 		$this->assertEquals(array(), $groups);
 	}
+
+	public function testGetUserIdGroups() {
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend
+		 */
+		$backend = $this->getMock('\OC_Group_Database');
+		$backend->expects($this->any())
+			->method('getUserGroups')
+			->with('user1')
+			->will($this->returnValue(null));
+//		$backend->expects($this->any())
+//			->method('groupExists')
+//			->with('group1')
+//			->will($this->returnValue(true));
+//		$backend->expects($this->once())
+//			->method('implementsActions')
+//			->will($this->returnValue(true));
+//		$backend->expects($this->once())
+//			->method('inGroup')
+//			->will($this->returnValue(true));
+//		$backend->expects($this->once())
+//			->method('removeFromGroup')
+//			->will($this->returnValue(true));
+
+		/**
+		 * @var \OC\User\Manager $userManager
+		 */
+		$userManager = $this->getMock('\OC\User\Manager');
+		$manager = new \OC\Group\Manager($userManager);
+		$manager->addBackend($backend);
+
+		$groups = $manager->getUserIdGroups('user1');
+		$this->assertEquals([], $groups);
+	}
+
 }
