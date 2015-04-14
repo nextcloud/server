@@ -292,12 +292,13 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	public function getUsersInPrimaryGroup($groupDN, $search = '', $limit = -1, $offset = 0) {
 		try {
 			$filter = $this->prepareFilterForUsersInPrimaryGroup($groupDN, $search);
-			return $this->access->fetchListOfUsers(
+			$users = $this->access->fetchListOfUsers(
 				$filter,
 				array($this->access->connection->ldapUserDisplayName, 'dn'),
 				$limit,
 				$offset
 			);
+			return $this->access->ownCloudUserNames($users);
 		} catch (\Exception $e) {
 			return array();
 		}
@@ -476,8 +477,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			return array();
 		}
 
+		$primaryUsers = $this->getUsersInPrimaryGroup($groupDN, $search, $limit, $offset);
 		$members = array_keys($this->_groupMembers($groupDN));
-		if(!$members) {
+		if(!$members && empty($primaryUsers)) {
 			//in case users could not be retrieved, return empty result set
 			$this->access->connection->writeToCache($cacheKey, array());
 			return array();
@@ -517,9 +519,6 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		natsort($groupUsers);
 		$this->access->connection->writeToCache('usersInGroup-'.$gid.'-'.$search, $groupUsers);
 		$groupUsers = array_slice($groupUsers, $offset, $limit);
-
-		//and get users that have the group as primary
-		$primaryUsers = $this->getUsersInPrimaryGroup($groupDN, $search, $limit, $offset);
 		$groupUsers = array_unique(array_merge($groupUsers, $primaryUsers));
 
 		$this->access->connection->writeToCache($cacheKey, $groupUsers);
@@ -551,16 +550,15 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 
 		$members = array_keys($this->_groupMembers($groupDN));
-		if(!$members) {
+		$primaryUserCount = $this->countUsersInPrimaryGroup($groupDN, '');
+		if(!$members && $primaryUserCount === 0) {
 			//in case users could not be retrieved, return empty result set
 			$this->access->connection->writeToCache($cacheKey, false);
 			return false;
 		}
 
 		if(empty($search)) {
-			$primaryUsers = $this->countUsersInPrimaryGroup($groupDN, '');
-			$groupUsers = count($members) + $primaryUsers;
-
+			$groupUsers = count($members) + $primaryUserCount;
 			$this->access->connection->writeToCache($cacheKey, $groupUsers);
 			return $groupUsers;
 		}
