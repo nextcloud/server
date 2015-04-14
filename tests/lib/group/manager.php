@@ -856,19 +856,6 @@ class Manager extends \Test\TestCase {
 			->method('getUserGroups')
 			->with('user1')
 			->will($this->returnValue(null));
-//		$backend->expects($this->any())
-//			->method('groupExists')
-//			->with('group1')
-//			->will($this->returnValue(true));
-//		$backend->expects($this->once())
-//			->method('implementsActions')
-//			->will($this->returnValue(true));
-//		$backend->expects($this->once())
-//			->method('inGroup')
-//			->will($this->returnValue(true));
-//		$backend->expects($this->once())
-//			->method('removeFromGroup')
-//			->will($this->returnValue(true));
 
 		/**
 		 * @var \OC\User\Manager $userManager
