@@ -88,7 +88,12 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 
 		$this->registerService('EncryptionFileHelper', function (Server $c) {
-			$util = new \OC\Encryption\Util(new \OC\Files\View(), $c->getUserManager(), $c->getConfig());
+			$util = new \OC\Encryption\Util(
+				new \OC\Files\View(),
+				$c->getUserManager(),
+				$c->getGroupManager(),
+				$c->getConfig()
+			);
 			return new Encryption\File($util);
 		});
 
@@ -437,7 +442,12 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getEncryptionKeyStorage($encryptionModuleId) {
 		$view = new \OC\Files\View();
-		$util = new \OC\Encryption\Util($view, \OC::$server->getUserManager(), \OC::$server->getConfig());
+		$util = new \OC\Encryption\Util(
+			$view,
+			\OC::$server->getUserManager(),
+			\OC::$server->getGroupManager(),
+			\OC::$server->getConfig()
+		);
 		return $this->query('EncryptionKeyStorageFactory')->get($encryptionModuleId, $view, $util);
 	}
 

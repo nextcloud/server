@@ -216,7 +216,11 @@ class Manager implements IManager {
 			if (!($storage instanceof Shared)) {
 				$manager = \OC::$server->getEncryptionManager();
 				$util = new Util(
-					new View(), \OC::$server->getUserManager(), \OC::$server->getConfig());
+					new View(),
+					\OC::$server->getUserManager(),
+					\OC::$server->getGroupManager(),
+					\OC::$server->getConfig()
+				);
 				$user = \OC::$server->getUserSession()->getUser();
 				$logger = \OC::$server->getLogger();
 				$uid = $user ? $user->getUID() : null;

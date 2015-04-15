@@ -66,15 +66,20 @@ class Util {
 	/** @var array paths excluded from encryption */
 	protected $excludedPaths;
 
+	/** @var \OC\Group\Manager $manager */
+	protected $groupManager;
+
 	/**
 	 *
 	 * @param \OC\Files\View $view
 	 * @param \OC\User\Manager $userManager
+	 * @param \OC\Group\Manager $groupManager
 	 * @param IConfig $config
 	 */
 	public function __construct(
 		\OC\Files\View $view,
 		\OC\User\Manager $userManager,
+		\OC\Group\Manager $groupManager,
 		IConfig $config) {
 
 		$this->ocHeaderKeys = [
@@ -83,6 +88,7 @@ class Util {
 
 		$this->view = $view;
 		$this->userManager = $userManager;
+		$this->groupManager = $groupManager;
 		$this->config = $config;
 
 		$this->excludedPaths[] = 'files_encryption';
@@ -304,18 +310,41 @@ class Util {
 	/**
 	 * check if the file is stored on a system wide mount point
 	 * @param string $path relative to /data/user with leading '/'
+	 * @param string $uid
 	 * @return boolean
 	 */
-	public function isSystemWideMountPoint($path) {
-		$normalizedPath = ltrim($path, '/');
+	public function isSystemWideMountPoint($path, $uid) {
 		if (\OCP\App::isEnabled("files_external")) {
 			$mounts = \OC_Mount_Config::getSystemMountPoints();
 			foreach ($mounts as $mount) {
-				if ($mount['mountpoint'] == substr($normalizedPath, 0, strlen($mount['mountpoint']))) {
-					if ($this->isMountPointApplicableToUser($mount)) {
+				if (strpos($path, '/files/' . $mount['mountpoint']) === 0) {
+					if ($this->isMountPointApplicableToUser($mount, $uid)) {
 						return true;
 					}
 				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * check if mount point is applicable to user
+	 *
+	 * @param array $mount contains $mount['applicable']['users'], $mount['applicable']['groups']
+	 * @param string $uid
+	 * @return boolean
+	 */
+	private function isMountPointApplicableToUser($mount, $uid) {
+		$acceptedUids = array('all', $uid);
+		// check if mount point is applicable for the user
+		$intersection = array_intersect($acceptedUids, $mount['applicable']['users']);
+		if (!empty($intersection)) {
+			return true;
+		}
+		// check if mount point is applicable for group where the user is a member
+		foreach ($mount['applicable']['groups'] as $gid) {
+			if ($this->groupManager->isInGroup($uid, $gid)) {
+				return true;
 			}
 		}
 		return false;
