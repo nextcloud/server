@@ -317,7 +317,7 @@ $(document).ready(function () {
 			row.data('name', data.name);
 			row.addClass(isExpired? 'expired': 'valid');
 			row.append($('<td/>').attr('title', data.organization).text(data.commonName));
-			row.append($('<td/>').attr('title', t('core,', 'Valid until {date}', {date: data.validFromString}))
+			row.append($('<td/>').attr('title', t('core,', 'Valid until {date}', {date: data.validTillString}))
 				.text(data.validTillString));
 			row.append($('<td/>').attr('title', data.issuerOrganization).text(data.issuer));
 			row.append($('<td/>').addClass('remove').append(
