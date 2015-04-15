@@ -643,7 +643,7 @@ $(document).ready(function () {
 		if(isRestoreDisabled) {
 			$tr.addClass('row-warning');
 			// add tipsy if the password change could cause data loss - no recovery enabled
-			$input.tipsy({gravity:'s', fade:false});
+			$input.tipsy({gravity:'s'});
 			$input.attr('title', t('settings', 'Changing the password will result in data loss, because data recovery is not available for this user'));
 		}
 		$td.find('img').hide();

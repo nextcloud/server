@@ -39,7 +39,7 @@ $(document).ready(function(){
 		} );
 	});
 
-	$('#backgroundjobs span.crondate').tipsy({fade: true, gravity: 's', live: true});
+	$('#backgroundjobs span.crondate').tipsy({gravity: 's', live: true});
 
 	$('#backgroundjobs input').change(function(){
 		if($(this).attr('checked')){
