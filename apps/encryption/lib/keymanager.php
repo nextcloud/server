@@ -140,7 +140,8 @@ class KeyManager {
 
 			// Encrypt private key empty passphrase
 			$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'], '');
-			$this->keyStorage->setSystemUserKey($this->publicShareKeyId . '.privateKey', $encryptedKey);
+			$header = $this->crypt->generateHeader();
+			$this->setSystemPrivateKey($this->publicShareKeyId, $header . $encryptedKey);
 		}
 
 		$this->keyId = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : false;

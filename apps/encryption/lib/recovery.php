@@ -135,8 +135,9 @@ class Recovery {
 		$recoveryKey = $this->keyManager->getSystemPrivateKey($this->keyManager->getRecoveryKeyId());
 		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey, $oldPassword);
 		$encryptedRecoveryKey = $this->crypt->symmetricEncryptFileContent($decryptedRecoveryKey, $newPassword);
+		$header = $this->crypt->generateHeader();
 		if ($encryptedRecoveryKey) {
-			$this->keyManager->setSystemPrivateKey($this->keyManager->getRecoveryKeyId(), $encryptedRecoveryKey);
+			$this->keyManager->setSystemPrivateKey($this->keyManager->getRecoveryKeyId(), $header . $encryptedRecoveryKey);
 			return true;
 		}
 		return false;
