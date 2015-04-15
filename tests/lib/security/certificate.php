@@ -1,9 +1,22 @@
 <?php
 /**
- * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * @author Lukas Reschke <lukas@owncloud.com>
+ *
+ * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @license AGPL-3.0
+ *
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 use \OC\Security\Certificate;
@@ -32,33 +45,34 @@ class CertificateTest extends \Test\TestCase {
 	 * @expectedException \Exception
 	 * @expectedExceptionMessage Certificate could not get parsed.
 	 */
-	function testBogusData() {
-		new Certificate('foo', 'bar');
+	public function testBogusData() {
+		$certificate = new Certificate('foo', 'bar');
+		$certificate->getIssueDate();
 	}
 
-	function testGetName() {
+	public function testGetName() {
 		$this->assertSame('GoodCertificate', $this->goodCertificate->getName());
 		$this->assertSame('BadCertificate', $this->invalidCertificate->getName());
 	}
 
-	function testGetCommonName() {
+	public function testGetCommonName() {
 		$this->assertSame('security.owncloud.com', $this->goodCertificate->getCommonName());
 		$this->assertSame(null, $this->invalidCertificate->getCommonName());
 	}
 
-	function testGetOrganization() {
+	public function testGetOrganization() {
 		$this->assertSame('ownCloud Inc.', $this->goodCertificate->getOrganization());
 		$this->assertSame('Internet Widgits Pty Ltd', $this->invalidCertificate->getOrganization());
 	}
 
-	function testGetIssueDate() {
+	public function testGetIssueDate() {
 		$expected = new DateTime('2014-08-27 08:45:52 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->goodCertificate->getIssueDate()->getTimestamp());
 		$expected = new DateTime('2014-08-27 08:48:51 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->invalidCertificate->getIssueDate()->getTimestamp());
 	}
 
-	function testGetExpireDate() {
+	public function testGetExpireDate() {
 		$expected = new DateTime('2015-08-27 08:45:52 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->goodCertificate->getExpireDate()->getTimestamp());
 		$expected = new DateTime('2015-08-27 08:48:51 GMT');
@@ -70,19 +84,19 @@ class CertificateTest extends \Test\TestCase {
 	/**
 	 * Obviously the following test case might fail after 2015-08-27, just create a new certificate with longer validity then
 	 */
-	function testIsExpired() {
+	public function testIsExpired() {
 		$this->assertSame(false, $this->goodCertificate->isExpired());
 		$this->assertSame(false, $this->invalidCertificate->isExpired());
 		$this->assertSame(true, $this->expiredCertificate->isExpired());
 	}
 
-	function testGetIssuerName() {
+	public function testGetIssuerName() {
 		$this->assertSame('security.owncloud.com', $this->goodCertificate->getIssuerName());
 		$this->assertSame(null, $this->invalidCertificate->getIssuerName());
 		$this->assertSame(null, $this->expiredCertificate->getIssuerName());
 	}
 
-	function testGetIssuerOrganization() {
+	public function testGetIssuerOrganization() {
 		$this->assertSame('ownCloud Inc.', $this->goodCertificate->getIssuerOrganization());
 		$this->assertSame('Internet Widgits Pty Ltd', $this->invalidCertificate->getIssuerOrganization());
 		$this->assertSame('Internet Widgits Pty Ltd', $this->expiredCertificate->getIssuerOrganization());
