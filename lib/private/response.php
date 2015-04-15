@@ -212,9 +212,10 @@ class OC_Response {
 	}
 
 	/**
-	* Send file as response, checking and setting caching headers
-	* @param string $filepath of file to send
-	*/
+	 * Send file as response, checking and setting caching headers
+	 * @param string $filepath of file to send
+	 * @deprecated Use \OCP\AppFramework\Http\StreamResponse or another AppFramework controller instead
+	 */
 	static public function sendFile($filepath) {
 		$fp = fopen($filepath, 'rb');
 		if ($fp) {
