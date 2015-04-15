@@ -67,9 +67,13 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->certificateManager->addCertificate('InvalidCertificate', 'invalidCertificate');
 	}
 
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Filename is not valid
+	 */
 	function testAddDangerousFile() {
-		$this->assertFalse($this->certificateManager->addCertificate(file_get_contents(__DIR__.'/../../data/certificates/expiredCertificate.crt'), '.htaccess'));
-		$this->assertFalse($this->certificateManager->addCertificate(file_get_contents(__DIR__.'/../../data/certificates/expiredCertificate.crt'), '../../foo.txt'));
+		$this->certificateManager->addCertificate(file_get_contents(__DIR__.'/../../data/certificates/expiredCertificate.crt'), '.htaccess');
+		$this->certificateManager->addCertificate(file_get_contents(__DIR__.'/../../data/certificates/expiredCertificate.crt'), '../../foo.txt');
 	}
 
 	function testRemoveDangerousFile() {
