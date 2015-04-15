@@ -1180,7 +1180,7 @@ $(document).ready(function() {
 				} else {
 					expirationDateField.attr('original-title', result.data.message);
 				}
-				expirationDateField.tipsy({gravity: 'n', fade: true});
+				expirationDateField.tipsy({gravity: 'n'});
 				expirationDateField.tipsy('show');
 				expirationDateField.addClass('error');
 			} else {
