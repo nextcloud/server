@@ -47,4 +47,61 @@ class SFTP extends Storage {
 
 		parent::tearDown();
 	}
+
+	/**
+	 * @dataProvider configProvider
+	 */
+	public function testStorageId($config, $expectedStorageId) {
+		$instance = new \OC\Files\Storage\SFTP($config);
+		$this->assertEquals($expectedStorageId, $instance->getId());
+	}
+
+	function configProvider() {
+		return [
+			[
+				// no root path
+				[
+					'run' => true,
+					'host' => 'somehost',
+					'user' => 'someuser',
+					'password' => 'somepassword',
+					'root' => '',
+				],
+				'sftp::someuser@somehost//',
+			],
+			[
+				// without leading nor trailing slash
+				[
+					'run' => true,
+					'host' => 'somehost',
+					'user' => 'someuser',
+					'password' => 'somepassword',
+					'root' => 'remotedir/subdir',
+				],
+				'sftp::someuser@somehost//remotedir/subdir/',
+			],
+			[
+				// regular path
+				[
+					'run' => true,
+					'host' => 'somehost',
+					'user' => 'someuser',
+					'password' => 'somepassword',
+					'root' => '/remotedir/subdir/',
+				],
+				'sftp::someuser@somehost//remotedir/subdir/',
+			],
+			[
+				// different port
+				[
+					'run' => true,
+					'host' => 'somehost:8822',
+					'user' => 'someuser',
+					'password' => 'somepassword',
+					'root' => 'remotedir/subdir/',
+				],
+				'sftp::someuser@somehost:8822//remotedir/subdir/',
+			],
+		];
+	}
 }

@@ -133,7 +133,15 @@ class SFTP extends \OC\Files\Storage\Common {
 	 * {@inheritdoc}
 	 */
 	public function getId(){
-		return 'sftp::' . $this->user . '@' . $this->host . ':' . $this->port . '/' . $this->root;
+		$id = 'sftp::' . $this->user . '@' . $this->host;
+		if ($this->port !== 22) {
+			$id .= ':' . $this->port;
+		}
+		// note: this will double the root slash,
+		// we should not change it to keep compatible with
+		// old storage ids
+		$id .= '/' . $this->root;
+		return $id;
 	}
 
 	/**
