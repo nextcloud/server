@@ -25,6 +25,7 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\View;
 
 /**
  * Shared mount points can be moved by the user
@@ -55,8 +56,9 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 		$mountPoint = basename($share['file_target']);
 		$parent = dirname($share['file_target']);
+		$view = new View('/' . $user . '/files');
 
-		if (!\OC\Files\Filesystem::is_dir($parent)) {
+		if (!$view->is_dir($parent)) {
 			$parent = Helper::getShareFolder();
 		}
 

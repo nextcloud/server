@@ -8,6 +8,7 @@
 
 namespace OCA\Files_Sharing;
 
+use OC\Files\Filesystem;
 use OCA\Files_Sharing\Propagation\PropagationManager;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
@@ -50,6 +51,7 @@ class MountProvider implements IMountProvider {
 			return $share['permissions'] > 0;
 		});
 		return array_map(function ($share) use ($user, $storageFactory) {
+			Filesystem::initMountPoints($share['uid_owner']);
 			// for updating etags for the share owner when we make changes to this share.
 			$ownerPropagator = $this->propagationManager->getChangePropagator($share['uid_owner']);
 
