@@ -107,12 +107,12 @@ class CertificateManager implements ICertificateManager {
 	 *
 	 * @param string $certificate the certificate data
 	 * @param string $name the filename for the certificate
-	 * @return \OCP\ICertificate|void|bool
+	 * @return \OCP\ICertificate
 	 * @throws \Exception If the certificate could not get added
 	 */
 	public function addCertificate($certificate, $name) {
 		if (!Filesystem::isValidPath($name) or Filesystem::isFileBlacklisted($name)) {
-			return false;
+			throw new \Exception('Filename is not valid');
 		}
 
 		$dir = $this->getPathToCertificates() . 'uploads/';
