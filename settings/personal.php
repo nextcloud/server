@@ -37,6 +37,7 @@ OC_Util::checkLoggedIn();
 $defaults = new OC_Defaults(); // initialize themable default strings and urls
 $certificateManager = \OC::$server->getCertificateManager();
 $config = \OC::$server->getConfig();
+$urlGenerator = \OC::$server->getURLGenerator();
 
 // Highlight navigation entry
 OC_Util::addScript( 'settings', 'personal' );
@@ -118,6 +119,7 @@ $tmpl->assign('displayName', OC_User::getDisplayName());
 $tmpl->assign('enableAvatars', $config->getSystemValue('enable_avatars', true));
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 $tmpl->assign('certs', $certificateManager->listCertificates());
+$tmpl->assign('urlGenerator', $urlGenerator);
 
 // Get array of group ids for this user
 $groups = \OC::$server->getGroupManager()->getUserIdGroups(OC_User::getUser());

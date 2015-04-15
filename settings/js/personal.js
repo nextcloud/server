@@ -297,8 +297,8 @@ $(document).ready(function () {
 
 	$('#sslCertificate').on('click', 'td.remove > img', function () {
 		var row = $(this).parent().parent();
-		$.post(OC.generateUrl('settings/ajax/removeRootCertificate'), {
-			cert: row.data('name')
+		$.ajax(OC.generateUrl('settings/personal/certificate/{certificate}', {certificate: row.data('name')}), {
+			type: 'DELETE'
 		});
 		row.remove();
 		return true;
@@ -307,18 +307,19 @@ $(document).ready(function () {
 	$('#sslCertificate tr > td').tipsy({gravity: 'n', live: true});
 
 	$('#rootcert_import').fileupload({
-		done: function (e, data) {
-			var issueDate = new Date(data.result.validFrom * 1000);
-			var expireDate = new Date(data.result.validTill * 1000);
+		success: function (data) {
+			var issueDate = new Date(data.validFrom * 1000);
+			var expireDate = new Date(data.validTill * 1000);
 			var now = new Date();
 			var isExpired = !(issueDate <= now && now <= expireDate);
 
 			var row = $('<tr/>');
+			row.data('name', data.name);
 			row.addClass(isExpired? 'expired': 'valid');
-			row.append($('<td/>').attr('title', data.result.organization).text(data.result.commonName));
-			row.append($('<td/>').attr('title', t('core,', 'Valid until {date}', {date: data.result.validFromString}))
-				.text(data.result.validTillString));
-			row.append($('<td/>').attr('title', data.result.issuerOrganization).text(data.result.issuer));
+			row.append($('<td/>').attr('title', data.organization).text(data.commonName));
+			row.append($('<td/>').attr('title', t('core,', 'Valid until {date}', {date: data.validFromString}))
+				.text(data.validTillString));
+			row.append($('<td/>').attr('title', data.issuerOrganization).text(data.issuer));
 			row.append($('<td/>').addClass('remove').append(
 				$('<img/>').attr({
 					alt: t('core', 'Delete'),
@@ -328,6 +329,9 @@ $(document).ready(function () {
 			));
 
 			$('#sslCertificate tbody').append(row);
+		},
+		fail: function (e, data) {
+			OC.Notification.showTemporary(t('settings', 'An error occured. Please upload an ASCII-encoded PEM certificate.'));
 		}
 	});
 

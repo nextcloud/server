@@ -46,12 +46,6 @@ $application->registerRoutes(
 	)
 );
 
-// TODO: move these to app framework
-$this->create('files_external_add_root_certificate', 'ajax/addRootCertificate.php')
-	->actionInclude('files_external/ajax/addRootCertificate.php');
-$this->create('files_external_remove_root_certificate', 'ajax/removeRootCertificate.php')
-	->actionInclude('files_external/ajax/removeRootCertificate.php');
-
 $this->create('files_external_dropbox', 'ajax/dropbox.php')
 	->actionInclude('files_external/ajax/dropbox.php');
 $this->create('files_external_google', 'ajax/google.php')
