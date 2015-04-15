@@ -106,15 +106,17 @@ class Encryption extends \Test\Files\Storage\Storage {
 			->willReturn(['encrypted' => false]);
 
 		$this->instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
-			->setConstructorArgs([
+			->setConstructorArgs(
 				[
-					'storage' => $this->sourceStorage,
-					'root' => 'foo',
-					'mountPoint' => '/',
-					'mount' => $mount
-				],
-				$this->encryptionManager, $this->util, $logger, $file, null, $this->keyStore, $this->update
-			])
+					[
+						'storage' => $this->sourceStorage,
+						'root' => 'foo',
+						'mountPoint' => '/',
+						'mount' => $mount
+					],
+					$this->encryptionManager, $this->util, $logger, $file, null, $this->keyStore, $this->update
+				]
+			)
 			->setMethods(['getMetaData', 'getCache'])
 			->getMock();
 
@@ -125,7 +127,6 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$this->instance->expects($this->any())
 			->method('getCache')
 			->willReturn($this->cache);
-
 	}
 
 	/**
