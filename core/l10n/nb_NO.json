@@ -129,6 +129,7 @@
     "_download %n file_::_download %n files_" : ["last ned %n fil","last ned %n filer"],
     "Updating {productName} to version {version}, this may take a while." : "Oppdaterer {productName} til versjon {version}. Dette kan ta litt tid.",
     "Please reload the page." : "Vennligst last siden på nytt.",
+    "The update was unsuccessful. " : "Oppdateringen var mislykket.",
     "The update was successful. Redirecting you to ownCloud now." : "Oppdateringen var vellykket. Du omdirigeres nå til ownCloud.",
     "Couldn't reset password because the token is invalid" : "Klarte ikke å tilbakestille passordet fordi token er ugyldig.",
     "Couldn't send reset email. Please make sure your username is correct." : "Klarte ikke å sende e-post for tilbakestilling av passord. Sjekk at brukernavnet ditt er korrekt.",

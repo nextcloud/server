@@ -134,6 +134,7 @@
     "_download %n file_::_download %n files_" : ["scarica %n file","scarica %s file"],
     "Updating {productName} to version {version}, this may take a while." : "Aggiornamento di {productName} alla versione {version}, potrebbe richiedere del tempo.",
     "Please reload the page." : "Ricarica la pagina.",
+    "The update was unsuccessful. " : "L'aggiornamento non è riuscito.",
     "The update was successful. Redirecting you to ownCloud now." : "L'aggiornamento è stato effettuato correttamente. Stai per essere reindirizzato a ownCloud.",
     "Couldn't reset password because the token is invalid" : "Impossibile reimpostare la password poiché il token non è valido",
     "Couldn't send reset email. Please make sure your username is correct." : "Impossibile inviare l'email di reimpostazione. Assicurati che il nome utente sia corretto.",

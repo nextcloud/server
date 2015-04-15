@@ -127,6 +127,7 @@
     "_download %n file_::_download %n files_" : ["%n個のファイルをダウンロード"],
     "Updating {productName} to version {version}, this may take a while." : "{productName} を バージョン {version} に更新しています。しばらくお待ちください。",
     "Please reload the page." : "ページをリロードしてください。",
+    "The update was unsuccessful. " : "アップデートに失敗しました。",
     "The update was successful. Redirecting you to ownCloud now." : "アップデートに成功しました。今すぐownCloudにリダイレクトします。",
     "Couldn't reset password because the token is invalid" : "トークンが無効なため、パスワードをリセットできませんでした",
     "Couldn't send reset email. Please make sure your username is correct." : "リセットメールを送信できませんでした。ユーザー名が正しいことを確認してください。",

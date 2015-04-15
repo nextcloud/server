@@ -121,6 +121,7 @@
     "_download %n file_::_download %n files_" : ["stiahnuť %n súbor","stiahnuť %n súbory","stiahnuť %n súborov"],
     "Updating {productName} to version {version}, this may take a while." : "Aktualizujem {productName} na verziu {version}, chvíľu to môže trvať.",
     "Please reload the page." : "Obnovte prosím stránku.",
+    "The update was unsuccessful. " : "Aktualizácia bola neúspešná.",
     "The update was successful. Redirecting you to ownCloud now." : "Aktualizácia bola úspešná. Presmerovávam vás na prihlasovaciu stránku.",
     "Couldn't reset password because the token is invalid" : "Nemožno zmeniť heslo pre neplatnosť tokenu.",
     "Couldn't send reset email. Please make sure your username is correct." : "Nemožno poslať email pre obnovu. Uistite sa, či vkladáte správne používateľské meno.",

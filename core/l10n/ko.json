@@ -116,6 +116,7 @@
     "_download %n file_::_download %n files_" : ["파일 %n개 다운로드"],
     "Updating {productName} to version {version}, this may take a while." : "{productName}을(를) 버전 {version}으로 업데이트하고 있습니다. 시간이 걸릴 수 있습니다.",
     "Please reload the page." : "페이지를 새로 고치십시오.",
+    "The update was unsuccessful. " : "업데이트가 실패하였습니다. ",
     "The update was successful. Redirecting you to ownCloud now." : "업데이트가 성공하였습니다. ownCloud로 돌아갑니다.",
     "Couldn't reset password because the token is invalid" : "토큰이 잘못되었기 때문에 암호를 초기화할 수 없습니다",
     "Couldn't send reset email. Please make sure your username is correct." : "재설정 메일을 보낼 수 없습니다. 사용자 이름이 올바른지 확인하십시오.",

@@ -136,6 +136,7 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["Télécharger %n fichier","Télécharger %n fichiers"],
     "Updating {productName} to version {version}, this may take a while." : "La mise à jour de {productName} vers la version {version} est en cours. Cela peut prendre un certain temps.",
     "Please reload the page." : "Veuillez recharger la page.",
+    "The update was unsuccessful. " : "La mise à jour a échoué.",
     "The update was successful. Redirecting you to ownCloud now." : "La mise à jour a réussi. Vous êtes maintenant redirigé vers ownCloud.",
     "Couldn't reset password because the token is invalid" : "Impossible de réinitialiser le mot de passe car le jeton n'est pas valable.",
     "Couldn't send reset email. Please make sure your username is correct." : "Impossible d'envoyer le courriel de réinitialisation. Veuillez vérifier que votre nom d'utilisateur est correct.",

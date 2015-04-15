@@ -118,6 +118,7 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["unduh %n berkas"],
     "Updating {productName} to version {version}, this may take a while." : "Memperbarui {productName} ke versi {version}, ini memerlukan waktu.",
     "Please reload the page." : "Silakan muat ulang halaman.",
+    "The update was unsuccessful. " : "Pembaruan tidak berhasil.",
     "The update was successful. Redirecting you to ownCloud now." : "Pembaruan sukses. Anda akan diarahkan ulang ke ownCloud.",
     "Couldn't reset password because the token is invalid" : "Tidak dapat menyetel ulang sandi karena token tidak sah",
     "Couldn't send reset email. Please make sure your username is correct." : "Tidak dapat menyetel ulang email. Mohon pastikan nama pengguna Anda benar.",

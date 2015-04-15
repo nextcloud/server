@@ -130,6 +130,7 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["завантяження %n файлу","завантаження %n файлів","завантаження %n файлів"],
     "Updating {productName} to version {version}, this may take a while." : "Оновлення {productName} до версії {version}, це може займати деякий час.",
     "Please reload the page." : "Будь ласка, перезавантажте сторінку.",
+    "The update was unsuccessful. " : "Оновлення завершилось невдачею.",
     "The update was successful. Redirecting you to ownCloud now." : "Оновлення виконалось успішно. Перенаправляємо вас на  ownCloud.",
     "Couldn't reset password because the token is invalid" : "Неможливо скинути пароль, бо маркер є недійсним",
     "Couldn't send reset email. Please make sure your username is correct." : "Не вдалося відправити скидання паролю. Будь ласка, переконайтеся, що ваше ім'я користувача є правильним.",

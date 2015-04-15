@@ -127,6 +127,7 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["изтегли %n файл","изтегли %n файла"],
     "Updating {productName} to version {version}, this may take a while." : "Обновяване на {productName} към версия {version}. Това може да отнеме време.",
     "Please reload the page." : "Моля, презаредете страницата.",
+    "The update was unsuccessful. " : "Обновяването бе неуспешно.",
     "The update was successful. Redirecting you to ownCloud now." : "Обновяването е успешно. Сега Ви пренасочваме към ownCloud.",
     "Couldn't reset password because the token is invalid" : "Промяната на паролата е невъзможно, защото връзката за удостоверение не е валидна",
     "Couldn't send reset email. Please make sure your username is correct." : "Неуспешно изпращане на имейл за възстановяване на паролата. Моля, уверете се, че потребителското име е правилно.",

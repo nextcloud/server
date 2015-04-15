@@ -129,6 +129,7 @@
     "_download %n file_::_download %n files_" : ["%n dosya indir","%n dosya indir"],
     "Updating {productName} to version {version}, this may take a while." : "{productName}, {version} sürümüne güncelleniyor, bu biraz zaman alabilir.",
     "Please reload the page." : "Lütfen sayfayı yeniden yükleyin.",
+    "The update was unsuccessful. " : "Güncelleştirme başarısız.",
     "The update was successful. Redirecting you to ownCloud now." : "Güncelleme başarılı. Şimdi ownCloud'a yönlendiriliyorsunuz.",
     "Couldn't reset password because the token is invalid" : "Belirteç geçersiz olduğundan parola sıfırlanamadı",
     "Couldn't send reset email. Please make sure your username is correct." : "Sıfırlama e-postası gönderilemedi. Lütfen kullanıcı adınızın doğru olduğundan emin olun.",

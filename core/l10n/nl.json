@@ -134,6 +134,7 @@
     "_download %n file_::_download %n files_" : ["download %n bestand","download %n bestanden"],
     "Updating {productName} to version {version}, this may take a while." : "Bijwerken {productName} naar versie {version}, dit kan even duren.",
     "Please reload the page." : "Herlaad deze pagina.",
+    "The update was unsuccessful. " : "De update is niet geslaagd.",
     "The update was successful. Redirecting you to ownCloud now." : "De update is geslaagd. U wordt teruggeleid naar uw eigen ownCloud.",
     "Couldn't reset password because the token is invalid" : "Kon het wachtwoord niet herstellen, omdat het token ongeldig is",
     "Couldn't send reset email. Please make sure your username is correct." : "Kon e-mail niet versturen. Verifieer of uw gebruikersnaam correct is.",

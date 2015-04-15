@@ -135,6 +135,7 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["скачать %n файл","скачать %n файла","скачать %n файлов"],
     "Updating {productName} to version {version}, this may take a while." : "Идет обновление {productName} до версии {version}, пожалуйста, подождите.",
     "Please reload the page." : "Обновите страницу.",
+    "The update was unsuccessful. " : "Обновление не удалось.",
     "The update was successful. Redirecting you to ownCloud now." : "Обновление прошло успешно. Перенаправляем в ownCloud.",
     "Couldn't reset password because the token is invalid" : "Невозможно сбросить пароль из-за неверного токена",
     "Couldn't send reset email. Please make sure your username is correct." : "Не удалось отправить письмо для сброса пароля. Убедитесь, что имя пользователя указано верно.",

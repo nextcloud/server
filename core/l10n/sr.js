@@ -135,6 +135,7 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["преузми %n фајл","преузми %n фајла","преузми %n фајлова"],
     "Updating {productName} to version {version}, this may take a while." : "Надограђујем {productName} на издање {version}. Ово би могло да потраје.",
     "Please reload the page." : "Поново учитајте страницу.",
+    "The update was unsuccessful. " : "Ажурирање није успело.",
     "The update was successful. Redirecting you to ownCloud now." : "Ажурирање је успело. Преусмеравам вас на ОунКлауд.",
     "Couldn't reset password because the token is invalid" : "Није могуће ресетовати лозинку, јер je дигитални кључ неважећи",
     "Couldn't send reset email. Please make sure your username is correct." : "Не могу да пошаљем поруку за обнављање лозинке. Проверите да ли је корисничко име исправно.",

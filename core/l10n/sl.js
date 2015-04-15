@@ -119,6 +119,7 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["prejmi %n datoteko","prejmi %n datoteki","prejmi %n datoteke","prejmi %n datotek"],
     "Updating {productName} to version {version}, this may take a while." : "Poteka posodabljanje {productName} na različico {version}. Opravilo je lahko dolgotrajno.",
     "Please reload the page." : "Stran je treba ponovno naložiti",
+    "The update was unsuccessful. " : "Posodobitev je spodletela.",
     "The update was successful. Redirecting you to ownCloud now." : "Posodobitev je uspešno končana. Stran bo preusmerjena na oblak ownCloud.",
     "Couldn't reset password because the token is invalid" : "Ni mogoče ponastaviti gesla zaradi neustreznega žetona.",
     "Couldn't send reset email. Please make sure your username is correct." : "Ni mogoče poslati elektronskega sporočila. Prepričajte se, da je uporabniško ime pravilno.",

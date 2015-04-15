@@ -133,6 +133,7 @@
     "_download %n file_::_download %n files_" : ["transferir %n ficheiro","transferir %n ficheiros"],
     "Updating {productName} to version {version}, this may take a while." : "A atualizar {productName} para a versão {version}, isto poderá demorar algum tempo.",
     "Please reload the page." : "Por favor, recarregue a página.",
+    "The update was unsuccessful. " : "Não foi possível atualizar.",
     "The update was successful. Redirecting you to ownCloud now." : "A actualização foi concluída com sucesso. Vai ser redireccionado para o ownCloud agora.",
     "Couldn't reset password because the token is invalid" : "Não foi possível repor a palavra-passe porque a senha é inválida",
     "Couldn't send reset email. Please make sure your username is correct." : "Ocorreu um problema com o envio do e-mail, por favor confirme o seu utilizador.",

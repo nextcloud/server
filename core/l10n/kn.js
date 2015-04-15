@@ -111,6 +111,7 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "ನಮಸ್ಕಾರ {name}, ಸದ್ಯ {weather} ಹವಾಮಾನವಿದೆ",
     "_download %n file_::_download %n files_" : ["%n ಕಡತಗಳನ್ನು ಸ್ಥಳೀಯ ಪ್ರತಿಯಾಗಿಸಿ"],
     "Please reload the page." : "﻿ಪುಟವನ್ನು ಪುನಃ ನವೀಕರಿಸಿ.",
+    "The update was unsuccessful. " : "ಆಧುನೀಕರಿಣೆ ಯಶಸ್ವಿಯಾಗಿಲ್ಲ.",
     "Couldn't reset password because the token is invalid" : "﻿ಚಿಹ್ನೆ ಅಮಾನ್ಯವಾಗಿದೆ, ಗುಪ್ತಪದ ಮರುಹೊಂದಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ",
     "Couldn't send reset email. Please make sure your username is correct." : "ಬದಲಾವಣೆಯ ಇ-ಅಂಚೆಯನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ನಿಮ್ಮ ಬಳಕೆದಾರ ಹೆಸರು ಸರಿಯಾಗಿದೆ ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
     "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "﻿ಈ ಬಳಕೆದಾರನ ಹೆಸರಿನ್ನಲ್ಲಿ ಯಾವುದೇ ಇ-ಅಂಚೆ ವಿಳಾಸ ಇಲ್ಲದರಿರುವುದರಿಂದ ಬದಲಾವಣೆಯ ಇ-ಅಂಚೆಯನ್ನು  ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ. ನಿಮ್ಮ ನಿರ್ವಾಹಕರನ್ನು ಸಂಪರ್ಕಿಸಿ.",

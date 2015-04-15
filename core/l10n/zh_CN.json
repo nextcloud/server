@@ -130,6 +130,7 @@
     "_download %n file_::_download %n files_" : ["下载 %n 个文件"],
     "Updating {productName} to version {version}, this may take a while." : "更新 {productName} 到版本 {version}，这可能需要一些时间。",
     "Please reload the page." : "请重新加载页面。",
+    "The update was unsuccessful. " : "升级未成功",
     "The update was successful. Redirecting you to ownCloud now." : "更新成功。正在重定向至 ownCloud。",
     "Couldn't reset password because the token is invalid" : "令牌无效，无法重置密码",
     "Couldn't send reset email. Please make sure your username is correct." : "无法发送重置邮件，请检查您的用户名是否正确。",

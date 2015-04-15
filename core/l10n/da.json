@@ -134,6 +134,7 @@
     "_download %n file_::_download %n files_" : ["hent %n fil","hent %n filer"],
     "Updating {productName} to version {version}, this may take a while." : "Opdaterer {productName} til version {version}, det kan tage et stykke tid.",
     "Please reload the page." : "Genindlæs venligst siden",
+    "The update was unsuccessful. " : "Opdateringen blev ikke gennemført.",
     "The update was successful. Redirecting you to ownCloud now." : "Opdateringen blev udført korrekt. Du bliver nu viderestillet til ownCloud.",
     "Couldn't reset password because the token is invalid" : "Kunne ikke nulstille kodeordet, fordi symboludtrykket er ugyldigt",
     "Couldn't send reset email. Please make sure your username is correct." : "Der opstod et problem under afsendelse af nulstillings-e-mailen. Kontroller venligst om dit brugernavnet er korrekt",

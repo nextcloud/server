@@ -136,6 +136,7 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["lataa %n tiedosto","lataa %n tiedostoa"],
     "Updating {productName} to version {version}, this may take a while." : "Päivitetään {productName} versioon {version}, tämä saattaa kestää hetken.",
     "Please reload the page." : "Päivitä sivu.",
+    "The update was unsuccessful. " : "Päivitys epäonnistui.",
     "The update was successful. Redirecting you to ownCloud now." : "Päivitys onnistui. Selain ohjautuu nyt ownCloudiisi.",
     "Couldn't reset password because the token is invalid" : "Salasanaa ei voitu palauttaa koska valtuutus on virheellinen",
     "Couldn't send reset email. Please make sure your username is correct." : "Palautussähköpostin lähettäminen ei onnistunut. Varmista, että käyttäjätunnuksesi on oikein.",
