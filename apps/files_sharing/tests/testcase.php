@@ -43,6 +43,7 @@ abstract class TestCase extends \Test\TestCase {
 	const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
 	const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
 	const TEST_FILES_SHARING_API_USER3 = "test-share-user3";
+	const TEST_FILES_SHARING_API_USER4 = "test-share-user4";
 
 	const TEST_FILES_SHARING_API_GROUP1 = "test-share-group1";
 
@@ -76,6 +77,7 @@ abstract class TestCase extends \Test\TestCase {
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER1);
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER2);
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER3, self::TEST_FILES_SHARING_API_USER3);
+		$backend->createUser(self::TEST_FILES_SHARING_API_USER4, self::TEST_FILES_SHARING_API_USER4);
 
 		// create group
 		$groupBackend = new \OC_Group_Dummy();
