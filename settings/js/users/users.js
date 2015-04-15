@@ -162,7 +162,7 @@ var UserList = {
 		//original title. We use a temporary div to get back the html that we
 		//can pass later. It is also required to initialise tipsy.
 		var tooltip = $('<div>').html($($tdLastLogin.attr('original-title')).text(lastLoginAbs)).html();
-		$tdLastLogin.tipsy({gravity:'s', fade:true, html:true});
+		$tdLastLogin.tipsy({gravity:'s', html:true});
 		$tdLastLogin.attr('title', tooltip);
 
 		/**

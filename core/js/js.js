@@ -1142,16 +1142,16 @@ function initCore() {
 	});
 
 	// all the tipsy stuff needs to be here (in reverse order) to work
-	$('.displayName .action').tipsy({gravity:'se', fade:true, live:true});
-	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
-	$('#upload').tipsy({gravity:'w', fade:true});
-	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
-	$('a.action.delete').tipsy({gravity:'e', fade:true, live:true});
-	$('a.action').tipsy({gravity:'s', fade:true, live:true});
-	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
-	$('td.lastLogin').tipsy({gravity:'s', fade:true, html:true});
-	$('input').tipsy({gravity:'w', fade:true});
-	$('.extra-data').tipsy({gravity:'w', fade:true, live:true});
+	$('.displayName .action').tipsy({gravity:'se', live:true});
+	$('.password .action').tipsy({gravity:'se', live:true});
+	$('#upload').tipsy({gravity:'w'});
+	$('.selectedActions a').tipsy({gravity:'s', live:true});
+	$('a.action.delete').tipsy({gravity:'e', live:true});
+	$('a.action').tipsy({gravity:'s', live:true});
+	$('td .modified').tipsy({gravity:'s', live:true});
+	$('td.lastLogin').tipsy({gravity:'s', html:true});
+	$('input').tipsy({gravity:'w'});
+	$('.extra-data').tipsy({gravity:'w', live:true});
 
 	// toggle for menus
 	$(document).on('mouseup.closemenus', function(event) {
