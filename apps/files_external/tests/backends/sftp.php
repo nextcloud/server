@@ -56,7 +56,7 @@ class SFTP extends Storage {
 		$this->assertEquals($expectedStorageId, $instance->getId());
 	}
 
-	function configProvider() {
+	public function configProvider() {
 		return [
 			[
 				// no root path
