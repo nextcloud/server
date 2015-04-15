@@ -268,7 +268,7 @@ class KeyManagerTest extends TestCase {
 			->willReturn(true);
 
 		$this->cryptMock->expects($this->once())
-			->method('symmetricDecryptFileContent')
+			->method('decryptPrivateKey')
 			->willReturn(true);
 
 		$this->cryptMock->expects($this->once())

@@ -337,7 +337,7 @@ class KeyManager {
 			$uid = $this->getPublicShareKeyId();
 			$shareKey = $this->getShareKey($path, $uid);
 			$privateKey = $this->keyStorage->getSystemUserKey($this->publicShareKeyId . '.privateKey');
-			$privateKey = $this->crypt->symmetricDecryptFileContent($privateKey);
+			$privateKey = $this->crypt->decryptPrivateKey($privateKey);
 		} else {
 			$shareKey = $this->getShareKey($path, $uid);
 			$privateKey = $this->session->getPrivateKey();
