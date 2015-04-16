@@ -799,6 +799,14 @@ $CONFIG = array(
  */
 'cipher' => 'AES-256-CFB',
 
+/**
+ * The minimum ownCloud desktop client version that is required to sync with
+ * this instance. Defaults to the official supported releases by ownCloud.
+ *
+ * When adjusting this please be aware of the fact that older versions may
+ * be buggy and for best user experience we recommend setting
+ */
+'minimum.supported.desktop.version' => '1.7.0',
 
 /**
  * Memory caching backend configuration
