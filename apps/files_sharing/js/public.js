@@ -87,6 +87,7 @@ OCA.Sharing.PublicApp = {
 
 
 		// dynamically load image previews
+		var token = $('#sharingToken').val();
 		var bottomMargin = 350;
 		var previewWidth = $(window).width() * window.devicePixelRatio;
 		var previewHeight = $(window).height() - bottomMargin * window.devicePixelRatio;
@@ -96,7 +97,7 @@ OCA.Sharing.PublicApp = {
 			y: previewHeight,
 			a: 'true',
 			file: encodeURIComponent(this.initialDir + $('#filename').val()),
-			t: $('#sharingToken').val(),
+			t: token,
 			scalingup: 0
 		};
 
@@ -144,7 +145,6 @@ OCA.Sharing.PublicApp = {
 					filename = JSON.stringify(filename);
 				}
 				var path = dir || FileList.getCurrentDirectory();
-				var token = $('#sharingToken').val();
 				var params = {
 					path: path,
 					files: filename
@@ -154,12 +154,11 @@ OCA.Sharing.PublicApp = {
 
 			this.fileList.getAjaxUrl = function (action, params) {
 				params = params || {};
-				params.t = $('#sharingToken').val();
+				params.t = token;
 				return OC.filePath('files_sharing', 'ajax', action + '.php') + '?' + OC.buildQueryString(params);
 			};
 
 			this.fileList.linkTo = function (dir) {
-				var token = $('#sharingToken').val();
 				var params = {
 					dir: dir
 				};
