@@ -295,6 +295,9 @@ class KeyManager {
 	 * @return boolean
 	 */
 	public function init($uid, $passPhrase) {
+
+		$this->session->setStatus(Session::INIT_EXECUTED);
+
 		try {
 			$privateKey = $this->getPrivateKey($uid);
 			$privateKey = $this->crypt->decryptPrivateKey($privateKey,
@@ -305,10 +308,13 @@ class KeyManager {
 			return false;
 		}
 
-		$this->session->setPrivateKey($privateKey);
-		$this->session->setStatus(Session::INIT_SUCCESSFUL);
+		if ($privateKey) {
+			$this->session->setPrivateKey($privateKey);
+			$this->session->setStatus(Session::INIT_SUCCESSFUL);
+			return true;
+		}
 
-		return true;
+		return false;
 	}
 
 	/**

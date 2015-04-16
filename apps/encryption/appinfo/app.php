@@ -23,6 +23,8 @@
 
 namespace OCA\Encryption\AppInfo;
 
+\OCP\Util::addscript('encryption', 'encryption');
+
 $app = new Application();
 if (\OC::$server->getEncryptionManager()->isReady()) {
 	$app->registerEncryptionModule();

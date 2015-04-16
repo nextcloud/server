@@ -31,6 +31,7 @@ use OCA\Encryption\HookManager;
 use OCA\Encryption\Hooks\UserHooks;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Recovery;
+use OCA\Encryption\Session;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
 use OCP\App;
@@ -74,7 +75,7 @@ class Application extends \OCP\AppFramework\App {
 					$container->query('UserSetup'),
 					$server->getUserSession(),
 					$container->query('Util'),
-					new \OCA\Encryption\Session($server->getSession()),
+					$container->query('Session'),
 					$container->query('Crypt'),
 					$container->query('Recovery'))
 			]);
@@ -110,6 +111,13 @@ class Application extends \OCP\AppFramework\App {
 					$server->getConfig());
 			});
 
+		$container->registerService('Session',
+			function (IAppContainer $c) {
+				$server = $c->getServer();
+				return new Session($server->getSession());
+			}
+		);
+
 		$container->registerService('KeyManager',
 			function (IAppContainer $c) {
 				$server = $c->getServer();
@@ -139,7 +147,7 @@ class Application extends \OCP\AppFramework\App {
 					new \OC\Files\View());
 			});
 
-			$container->registerService('RecoveryController', function (IAppContainer $c) {
+		$container->registerService('RecoveryController', function (IAppContainer $c) {
 			$server = $c->getServer();
 			return new \OCA\Encryption\Controller\RecoveryController(
 				$c->getAppName(),
@@ -147,6 +155,16 @@ class Application extends \OCP\AppFramework\App {
 				$server->getConfig(),
 				$server->getL10N($c->getAppName()),
 				$c->query('Recovery'));
+		});
+
+		$container->registerService('StatusController', function (IAppContainer $c) {
+			$server = $c->getServer();
+			return new \OCA\Encryption\Controller\StatusController(
+				$c->getAppName(),
+				$server->getRequest(),
+				$server->getL10N($c->getAppName()),
+				$c->query('Session')
+			);
 		});
 
 		$container->registerService('UserSetup',
