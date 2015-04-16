@@ -111,8 +111,11 @@ OCA.Sharing.PublicApp = {
 			img.attr('src', $('#downloadURL').val());
 			img.appendTo('#imgframe');
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text') {
+			// Undocumented Url to public WebDAV endpoint
+			var url = parent.location.protocol + '//' +
+				token + '@' + location.host + OC.linkTo('', 'public.php/webdav');
 			$.ajax({
-				url: $('#downloadURL').val(),
+				url: url,
 				headers: {Range: "bytes=0-1000"}
 			}).then(function (data) {
 				var textDiv = $('<span/>').addClass('text-preview');
