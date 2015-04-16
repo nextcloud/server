@@ -101,17 +101,17 @@ class Manager implements IManager {
 			throw new Exceptions\ModuleAlreadyExistsException($id, $displayName);
 		}
 
-		$defaultEncryptionModuleId = $this->getDefaultEncryptionModuleId();
-
-		if (empty($defaultEncryptionModuleId)) {
-			$this->setDefaultEncryptionModule($id);
-		}
-
 		$this->encryptionModules[$id] = [
 			'id' => $id,
 			'displayName' => $displayName,
 			'callback' => $callback,
 		];
+
+		$defaultEncryptionModuleId = $this->getDefaultEncryptionModuleId();
+
+		if (empty($defaultEncryptionModuleId)) {
+			$this->setDefaultEncryptionModule($id);
+		}
 	}
 
 	/**
@@ -182,6 +182,7 @@ class Manager implements IManager {
 	 */
 	public function setDefaultEncryptionModule($moduleId) {
 		try {
+			$this->getEncryptionModule($moduleId);
 			$this->config->setAppValue('core', 'default_encryption_module', $moduleId);
 			return true;
 		} catch (\Exception $e) {
