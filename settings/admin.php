@@ -82,7 +82,12 @@ $excludedGroupsList = $appConfig->getValue('core', 'shareapi_exclude_groups_list
 $excludedGroupsList = explode(',', $excludedGroupsList); // FIXME: this should be JSON!
 $template->assign('shareExcludedGroupsList', implode('|', $excludedGroupsList));
 $template->assign('encryptionEnabled', \OC::$server->getEncryptionManager()->isEnabled());
+$backends = \OC::$server->getUserManager()->getBackends();
+$externalBackends = (count($backends) > 1) ? true : false;
+$template->assign('encryptionReady', \OC::$server->getEncryptionManager()->isReady());
+$template->assign('externalBackendsEnabled', $externalBackends);
 $encryptionModules = \OC::$server->getEncryptionManager()->getEncryptionModules();
+
 try {
 	$defaultEncryptionModule = \OC::$server->getEncryptionManager()->getDefaultEncryptionModule();
 	$defaultEncryptionModuleId = $defaultEncryptionModule->getId();

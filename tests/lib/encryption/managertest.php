@@ -7,36 +7,45 @@ use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
+	/** @var Manager */
+	private $manager;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $config;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $logger;
+
+	public function setUp() {
+		parent::setUp();
+		$this->config = $this->getMock('\OCP\IConfig');
+		$this->logger = $this->getMock('\OCP\ILogger');
+		$this->manager = new Manager($this->config, $this->logger);
+
+	}
+
 	public function testManagerIsDisabled() {
-		$config = $this->getMock('\OCP\IConfig');
-		$m = new Manager($config);
-		$this->assertFalse($m->isEnabled());
+		$this->assertFalse($this->manager->isEnabled());
 	}
 
 	public function testManagerIsDisabledIfEnabledButNoModules() {
-		$config = $this->getMock('\OCP\IConfig');
-		$config->expects($this->any())->method('getAppValue')->willReturn(true);
-		$m = new Manager($config);
-		$this->assertFalse($m->isEnabled());
+		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
+		$this->assertFalse($this->manager->isEnabled());
 	}
 
 	public function testManagerIsDisabledIfDisabledButModules() {
-		$config = $this->getMock('\OCP\IConfig');
-		$config->expects($this->any())->method('getAppValue')->willReturn(false);
+		$this->config->expects($this->any())->method('getAppValue')->willReturn(false);
 		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
 		$em->expects($this->any())->method('getId')->willReturn(0);
 		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
-		$m = new Manager($config);
-		$m->registerEncryptionModule($em);
-		$this->assertFalse($m->isEnabled());
+		$this->manager->registerEncryptionModule($em);
+		$this->assertFalse($this->manager->isEnabled());
 	}
 
 	public function testManagerIsEnabled() {
-		$config = $this->getMock('\OCP\IConfig');
-		$config->expects($this->any())->method('getSystemValue')->willReturn(true);
-		$config->expects($this->any())->method('getAppValue')->willReturn('yes');
-		$m = new Manager($config);
-		$this->assertTrue($m->isEnabled());
+		$this->config->expects($this->any())->method('getSystemValue')->willReturn(true);
+		$this->config->expects($this->any())->method('getAppValue')->willReturn('yes');
+		$this->assertTrue($this->manager->isEnabled());
 	}
 
 	/**
@@ -44,30 +53,26 @@ class ManagerTest extends TestCase {
 	 * @expectedExceptionMessage Id "0" already used by encryption module "TestDummyModule0"
 	 */
 	public function testModuleRegistration() {
-		$config = $this->getMock('\OCP\IConfig');
-		$config->expects($this->any())->method('getAppValue')->willReturn('yes');
+		$this->config->expects($this->any())->method('getAppValue')->willReturn('yes');
 		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
 		$em->expects($this->any())->method('getId')->willReturn(0);
 		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
-		$m = new Manager($config);
-		$m->registerEncryptionModule($em);
-		$this->assertSame(1, count($m->getEncryptionModules()));
-		$m->registerEncryptionModule($em);
+		$this->manager->registerEncryptionModule($em);
+		$this->assertSame(1, count($this->manager->getEncryptionModules()));
+		$this->manager->registerEncryptionModule($em);
 	}
 
 	public function testModuleUnRegistration() {
-		$config = $this->getMock('\OCP\IConfig');
-		$config->expects($this->any())->method('getAppValue')->willReturn(true);
+		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
 		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
 		$em->expects($this->any())->method('getId')->willReturn(0);
 		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
-		$m = new Manager($config);
-		$m->registerEncryptionModule($em);
+		$this->manager->registerEncryptionModule($em);
 		$this->assertSame(1,
-			count($m->getEncryptionModules())
+			count($this->manager->getEncryptionModules())
 		);
-		$m->unregisterEncryptionModule($em);
-		$this->assertEmpty($m->getEncryptionModules());
+		$this->manager->unregisterEncryptionModule($em);
+		$this->assertEmpty($this->manager->getEncryptionModules());
 	}
 
 	/**
@@ -75,40 +80,34 @@ class ManagerTest extends TestCase {
 	 * @expectedExceptionMessage Module with id: unknown does not exists.
 	 */
 	public function testGetEncryptionModuleUnknown() {
-		$config = $this->getMock('\OCP\IConfig');
-		$config->expects($this->any())->method('getAppValue')->willReturn(true);
+		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
 		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
 		$em->expects($this->any())->method('getId')->willReturn(0);
 		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
-		$m = new Manager($config);
-		$m->registerEncryptionModule($em);
-		$this->assertSame(1, count($m->getEncryptionModules()));
-		$m->getEncryptionModule('unknown');
+		$this->manager->registerEncryptionModule($em);
+		$this->assertSame(1, count($this->manager->getEncryptionModules()));
+		$this->manager->getEncryptionModule('unknown');
 	}
 
 	public function testGetEncryptionModule() {
-		$config = $this->getMock('\OCP\IConfig');
-		$config->expects($this->any())->method('getAppValue')->willReturn(true);
+		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
 		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
 		$em->expects($this->any())->method('getId')->willReturn(0);
 		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
-		$m = new Manager($config);
-		$m->registerEncryptionModule($em);
-		$this->assertSame(1, count($m->getEncryptionModules()));
-		$en0 = $m->getEncryptionModule(0);
+		$this->manager->registerEncryptionModule($em);
+		$this->assertSame(1, count($this->manager->getEncryptionModules()));
+		$en0 = $this->manager->getEncryptionModule(0);
 		$this->assertEquals(0, $en0->getId());
 	}
 
 	public function testGetDefaultEncryptionModule() {
-		$config = $this->getMock('\OCP\IConfig');
-		$config->expects($this->any())->method('getAppValue')->willReturn(true);
+		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
 		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
 		$em->expects($this->any())->method('getId')->willReturn(0);
 		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
-		$m = new Manager($config);
-		$m->registerEncryptionModule($em);
-		$this->assertSame(1, count($m->getEncryptionModules()));
-		$en0 = $m->getEncryptionModule(0);
+		$this->manager->registerEncryptionModule($em);
+		$this->assertSame(1, count($this->manager->getEncryptionModules()));
+		$en0 = $this->manager->getEncryptionModule(0);
 		$this->assertEquals(0, $en0->getId());
 	}
 

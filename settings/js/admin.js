@@ -55,7 +55,7 @@ $(document).ready(function(){
 	});
 
 	$('#encryptionEnabled').change(function() {
-		$('#encryptionAPI div#selectEncryptionModules').toggleClass('hidden');
+		$('#encryptionAPI div#EncryptionSettingsArea').toggleClass('hidden');
 	});
 
 	$('#encryptionAPI input').change(function() {
@@ -68,6 +68,26 @@ $(document).ready(function(){
 			}
 		}
 		OC.AppConfig.setValue('core', $(this).attr('name'), value);
+	});
+
+	$('#startmigration').click(function(event){
+		$(window).on('beforeunload.encryption', function(e) {
+			return t('settings', 'Migration in progress. Please wait until the migration is finished');
+		});
+		event.preventDefault();
+		$('#startmigration').prop('disabled', true);
+		OC.msg.startAction('#startmigration_msg', t('settings', 'Migration started …'));
+		$.post(OC.generateUrl('/settings/admin/startmigration'), '', function(data){
+			OC.msg.finishedAction('#startmigration_msg', data);
+			if (data['status'] === 'success') {
+				$('#encryptionAPI div#selectEncryptionModules').toggleClass('hidden');
+				$('#encryptionAPI div#migrationWarning').toggleClass('hidden');
+			} else {
+				$('#startmigration').prop('disabled', false);
+			}
+			$(window).off('beforeunload.encryption');
+
+		});
 	});
 
 	$('#shareAPI input:not(#excludedGroups)').change(function() {

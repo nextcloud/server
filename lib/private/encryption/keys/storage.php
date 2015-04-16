@@ -266,7 +266,7 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 		$filename = $this->util->stripPartialFileExtension($filename);
 
 		// in case of system wide mount points the keys are stored directly in the data directory
-		if ($this->util->isSystemWideMountPoint($filename)) {
+		if ($this->util->isSystemWideMountPoint($filename, $owner)) {
 			$keyPath = $this->keys_base_dir . $filename . '/';
 		} else {
 			$keyPath = '/' . $owner . $this->keys_base_dir . $filename . '/';
@@ -287,7 +287,7 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 
 		list($owner, $source) = $this->util->getUidAndFilename($source);
 		list(, $target) = $this->util->getUidAndFilename($target);
-		$systemWide = $this->util->isSystemWideMountPoint($target);
+		$systemWide = $this->util->isSystemWideMountPoint($target, $owner);
 
 		if ($systemWide) {
 			$sourcePath = $this->keys_base_dir . $source . '/';
@@ -315,7 +315,7 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 
 		list($owner, $source) = $this->util->getUidAndFilename($source);
 		list(, $target) = $this->util->getUidAndFilename($target);
-		$systemWide = $this->util->isSystemWideMountPoint($target);
+		$systemWide = $this->util->isSystemWideMountPoint($target, $owner);
 
 		if ($systemWide) {
 			$sourcePath = $this->keys_base_dir . $source . '/';

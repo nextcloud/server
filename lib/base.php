@@ -728,6 +728,7 @@ class OC {
 				new \OC\Encryption\Util(
 					new \OC\Files\View(),
 					\OC::$server->getUserManager(),
+					\OC::$server->getGroupManager(),
 					\OC::$server->getConfig()),
 				\OC\Files\Filesystem::getMountManager(),
 				\OC::$server->getEncryptionManager(),

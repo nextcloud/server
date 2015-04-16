@@ -231,7 +231,7 @@ class Crypt {
 	 * @param string $password
 	 * @return bool|string
 	 */
-	public function decryptPrivateKey($privateKey, $password) {
+	public function decryptPrivateKey($privateKey, $password = '') {
 
 		$header = $this->parseHeader($privateKey);
 
@@ -273,7 +273,7 @@ class Crypt {
 	 * @return string
 	 * @throws DecryptionFailedException
 	 */
-	public function symmetricDecryptFileContent($keyFileContents, $passPhrase = '', $cipher = self::DEFAULT_CIPHER) {
+	public function symmetricDecryptFileContent($keyFileContents, $passPhrase, $cipher = self::DEFAULT_CIPHER) {
 		// Remove Padding
 		$noPadding = $this->removePadding($keyFileContents);
 

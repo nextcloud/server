@@ -300,27 +300,50 @@ if ($_['cronErrors']) {
 </div>
 
 <div class="section" id='encryptionAPI'>
-	<h2><?php p($l->t('Server Side Encryption'));?></h2>
-		<p id="enable">
-			<input type="checkbox" name="encryption_enabled" id="encryptionEnabled"
-				   value="1" <?php if ($_['encryptionEnabled']) print_unescaped('checked="checked"'); ?> />
-			<label for="encryptionEnabled"><?php p($l->t('Enable Server-Side-Encryption'));?></label><br/>
-		</p>
-		<div id='selectEncryptionModules' class="<?php if (!$_['encryptionEnabled']) { p('hidden'); }?>">
-			<?php if (empty($_['encryptionModules'])): p('No encryption module loaded, please load a encryption module in the app menu');
-			else: ?>
+	<h2><?php p($l->t('Server Side Encryption')); ?> </h2>
+
+	<p id="enable">
+		<input type="checkbox" name="encryption_enabled"
+			   id="encryptionEnabled"
+			   value="1" <?php if ($_['encryptionEnabled']) print_unescaped('checked="checked"'); ?> />
+		<label
+			for="encryptionEnabled"><?php p($l->t('Enable Server-Side-Encryption')); ?> <span id="startmigration_msg" class="msg"></span> </label><br/>
+	</p>
+
+	<div id="EncryptionSettingsArea" class="<?php if (!$_['encryptionEnabled']) p('hidden'); ?>">
+		<div id='selectEncryptionModules' class="<?php if (!$_['encryptionReady']) p('hidden'); ?>">
+			<?php
+			if (empty($_['encryptionModules'])) {
+				p('No encryption module loaded, please load a encryption module in the app menu');
+			} else { ?>
 				<h3>Select default encryption module:</h3>
 				<fieldset id='encryptionModules'>
-					 <?php foreach ($_['encryptionModules'] as $id => $module): ?>
-					<input type="radio" id="<?php p($id) ?>"
-						   name="default_encryption_module"
-						   value="<?php p($id) ?>"
-						   <?php if($module['default']) { p('checked'); } ?>>
-					<label for="<?php p($id) ?>"><?php p($module['displayName']) ?></label><br />
-					 <?php endforeach;?>
+					<?php foreach ($_['encryptionModules'] as $id => $module): ?>
+						<input type="radio" id="<?php p($id) ?>"
+							   name="default_encryption_module"
+							   value="<?php p($id) ?>"
+							<?php if ($module['default']) {
+								p('checked');
+							} ?>>
+						<label
+							for="<?php p($id) ?>"><?php p($module['displayName']) ?></label>
+						<br/>
+					<?php endforeach; ?>
 				</fieldset>
-			<?php endif; ?>
+			<?php } ?>
 		</div>
+		<div id="migrationWarning" class="<?php if ($_['encryptionReady']) p('hidden'); ?>">
+			<?php
+			if ($_['encryptionReady'] === false && $_['externalBackendsEnabled'] === true) {
+				p('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. '
+					. 'Please enable the "ownCloud Default Encryption Module" and run \'occ encryption:migrate\'');
+			} elseif ($_['encryptionReady'] === false && $_['externalBackendsEnabled'] === false) {
+				p('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one.'); ?>
+				<input type="submit" name="startmigration" id="startmigration"
+					   value="<?php p($l->t('Start migration')); ?>"/>
+			<?php } ?>
+		</div>
+	</div>
 </div>
 
 <div class="section" id="mail_general_settings">

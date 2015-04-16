@@ -280,7 +280,7 @@ class Encryption extends Wrapper {
 
 		if ($this->position === 0) {
 			$this->writeHeader();
-			$this->size+=$this->util->getHeaderSize();
+			$this->size = $this->util->getHeaderSize();
 		}
 
 		$length = 0;
@@ -293,7 +293,7 @@ class Encryption extends Wrapper {
 
 			// for seekable streams the pointer is moved back to the beginning of the encrypted block
 			// flush will start writing there when the position moves to another block
-			$positionInFile = floor($this->position / $this->unencryptedBlockSize) *
+			$positionInFile = (int)floor($this->position / $this->unencryptedBlockSize) *
 				$this->util->getBlockSize() + $this->util->getHeaderSize();
 			$resultFseek = parent::stream_seek($positionInFile);
 

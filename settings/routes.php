@@ -42,6 +42,7 @@ $application->registerRoutes($this, [
 		['name' => 'MailSettings#setMailSettings', 'url' => '/settings/admin/mailsettings', 'verb' => 'POST'],
 		['name' => 'MailSettings#storeCredentials', 'url' => '/settings/admin/mailsettings/credentials', 'verb' => 'POST'],
 		['name' => 'MailSettings#sendTestMail', 'url' => '/settings/admin/mailtest', 'verb' => 'POST'],
+		['name' => 'Encryption#startMigration', 'url' => '/settings/admin/startmigration', 'verb' => 'POST'],
 		['name' => 'AppSettings#listCategories', 'url' => '/settings/apps/categories', 'verb' => 'GET'],
 		['name' => 'AppSettings#viewApps', 'url' => '/settings/apps', 'verb' => 'GET'],
 		['name' => 'AppSettings#listApps', 'url' => '/settings/apps/list', 'verb' => 'GET'],

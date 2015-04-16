@@ -34,8 +34,11 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
+		$groupManager = $this->getMockBuilder('\OC\Group\Manager')
+			->disableOriginalConstructor()
+			->getMock();
 
-		$util = $this->getMock('\OC\Encryption\Util', ['getUidAndFilename'], [new View(), new \OC\User\Manager(), $config]);
+		$util = $this->getMock('\OC\Encryption\Util', ['getUidAndFilename'], [new View(), new \OC\User\Manager(), $groupManager, $config]);
 		$util->expects($this->any())
 			->method('getUidAndFilename')
 			->willReturnCallback(function ($path) {
