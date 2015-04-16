@@ -52,8 +52,8 @@ class Application {
 			$errors = \OC_Util::checkServer(\OC::$server->getConfig());
 			if (!empty($errors)) {
 				foreach ($errors as $error) {
-					$output->writeln($error['error']);
-					$output->writeln($error['hint']);
+					$output->writeln((string)$error['error']);
+					$output->writeln((string)$error['hint']);
 					$output->writeln('');
 				}
 				throw new \Exception("Environment not properly prepared.");
