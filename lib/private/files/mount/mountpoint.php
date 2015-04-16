@@ -95,12 +95,10 @@ class MountPoint implements IMountPoint {
 	}
 
 	/**
-	 * Sets the mount point path, relative to data/
-	 *
 	 * @param string $mountPoint new mount point
 	 */
 	public function setMountPoint($mountPoint) {
-		$this->mountPoint = $this->formatPath($mountPoint);
+		$this->mountPoint = $mountPoint;
 	}
 
 	/**

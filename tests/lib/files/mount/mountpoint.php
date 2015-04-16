@@ -31,10 +31,6 @@ class MountPoint extends \Test\TestCase {
 
 		$this->assertEquals($storage, $mountPoint->getStorage());
 		$this->assertEquals(123, $mountPoint->getStorageId());
-		$this->assertEquals('/mountpoint/', $mountPoint->getMountPoint());
-
-		$mountPoint->setMountPoint('another');
-		$this->assertEquals('/another/', $mountPoint->getMountPoint());
 	}
 
 	public function testInvalidStorage() {
