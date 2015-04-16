@@ -141,7 +141,7 @@ class CertificateControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->certificateController->addPersonalRootCertificate());
 	}
 
-	public function testAddPersonalRootCertificateInValidCertificate() {
+	public function testAddPersonalRootCertificateInvalidCertificate() {
 		$uploadedFile = [
 			'tmp_name' => __DIR__ . '/../../data/certificates/badCertificate.crt',
 			'name' => 'badCertificate.crt',
@@ -155,10 +155,10 @@ class CertificateControllerTest extends \Test\TestCase {
 		$this->certificateManager
 			->expects($this->once())
 			->method('addCertificate')
-			->with(file_get_contents($uploadedFile['tmp_name'], 'goodCertificate.crt'))
+			->with(file_get_contents($uploadedFile['tmp_name'], 'badCertificate.crt'))
 			->will($this->throwException(new \Exception()));
 
-		$expected = new DataResponse('An error occurred.', Http::STATUS_INTERNAL_SERVER_ERROR);
+		$expected = new DataResponse('An error occurred.', Http::STATUS_UNPROCESSABLE_ENTITY);
 		$this->assertEquals($expected, $this->certificateController->addPersonalRootCertificate());
 	}
 

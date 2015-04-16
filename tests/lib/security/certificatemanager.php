@@ -14,8 +14,6 @@ class CertificateManagerTest extends \Test\TestCase {
 	private $certificateManager;
 	/** @var String */
 	private $username;
-	/** @var  \OC\User\User */
-	private $user;
 
 	protected function setUp() {
 		parent::setUp();
@@ -68,12 +66,24 @@ class CertificateManagerTest extends \Test\TestCase {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function dangerousFileProvider() {
+		return [
+			['.htaccess'],
+			['../../foo.txt'],
+			['..\..\foo.txt'],
+		];
+	}
+
+	/**
 	 * @expectedException \Exception
 	 * @expectedExceptionMessage Filename is not valid
+	 * @dataProvider dangerousFileProvider
+	 * @param string $filename
 	 */
-	function testAddDangerousFile() {
-		$this->certificateManager->addCertificate(file_get_contents(__DIR__.'/../../data/certificates/expiredCertificate.crt'), '.htaccess');
-		$this->certificateManager->addCertificate(file_get_contents(__DIR__.'/../../data/certificates/expiredCertificate.crt'), '../../foo.txt');
+	function testAddDangerousFile($filename) {
+		$this->certificateManager->addCertificate(file_get_contents(__DIR__.'/../../data/certificates/expiredCertificate.crt'), $filename);
 	}
 
 	function testRemoveDangerousFile() {

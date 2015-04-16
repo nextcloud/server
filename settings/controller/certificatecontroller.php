@@ -76,7 +76,7 @@ class CertificateController extends Controller {
 				'issuerOrganization' => $certificate->getIssuerOrganization(),
 			]);
 		} catch (\Exception $e) {
-			return new DataResponse('An error occurred.', Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse('An error occurred.', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 	}
 
