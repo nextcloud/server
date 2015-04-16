@@ -35,10 +35,15 @@ namespace OCA\Encryption\AppInfo;
 		'url' => '/ajax/changeRecoveryPassword',
 		'verb' => 'POST'
 	],
-		[
+	[
 		'name' => 'Recovery#userSetRecovery',
 		'url' => '/ajax/userSetRecovery',
 		'verb' => 'POST'
+	],
+	[
+		'name' => 'Status#getStatus',
+		'url' => '/ajax/getStatus',
+		'verb' => 'GET'
 	]
 
 

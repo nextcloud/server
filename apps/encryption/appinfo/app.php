@@ -23,6 +23,8 @@
 
 namespace OCA\Encryption\AppInfo;
 
+\OCP\Util::addscript('encryption', 'encryption');
+
 $app = new Application();
 $app->registerEncryptionModule();
 $app->registerHooks();
