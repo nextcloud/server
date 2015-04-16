@@ -7,7 +7,7 @@
     "external",
     "files",
     "files_antivirus",
-    "files_encryption",
+    "encryption",
     "files_external",
     "files_ldap_home",
     "files_locking",
