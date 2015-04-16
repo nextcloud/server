@@ -9,6 +9,7 @@
 namespace OCA\Files_Sharing\Propagation;
 
 use OC\Files\Cache\ChangePropagator;
+use OC\Files\View;
 use OC\Share\Share;
 
 /**
@@ -91,6 +92,7 @@ class RecipientPropagator {
 		}
 		$this->config->setAppValue('files_sharing', $share['id'], $time);
 	}
+
 	/**
 	 * Listen on the propagator for updates made to shares owned by a user
 	 *
@@ -101,7 +103,15 @@ class RecipientPropagator {
 		$propagator->listen('\OC\Files', 'propagate', function ($path, $entry) use ($owner) {
 			$shares = Share::getAllSharesForFileId($entry['fileid']);
 			foreach ($shares as $share) {
+				// propagate down the share tree
 				$this->markDirty($share, time());
+
+				// propagate up the share tree
+				$user = $share['uid_owner'];
+				$view = new View('/' . $user . '/files');
+				$path = $view->getPath($share['file_source']);
+				$watcher = new ChangeWatcher($view);
+				$watcher->writeHook(['path' => $path]);
 			}
 		});
 	}
