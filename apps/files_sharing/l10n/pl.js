@@ -45,6 +45,7 @@ OC.L10N.register(
     "Add to your ownCloud" : "Dodaj do twojego ownCloud",
     "Download" : "Pobierz",
     "Download %s" : "Pobierz %s",
-    "Direct link" : "Bezpośredni link"
+    "Direct link" : "Bezpośredni link",
+    "Open documentation" : "Otwórz dokumentację"
 },
 "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

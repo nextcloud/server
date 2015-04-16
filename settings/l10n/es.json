@@ -126,6 +126,7 @@
     "Last cron job execution: %s." : "Cron se ejecutó por última vez: %s",
     "Last cron job execution: %s. Something seems wrong." : "Cron se ejecutó por última vez: %s. Algo va mal.",
     "Cron was not executed yet!" : "¡Cron aún no ha sido ejecutado!",
+    "Open documentation" : "Documentación abierta",
     "Execute one task with each page loaded" : "Ejecutar una tarea con cada página cargada",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php se registra en un servicio webcron para llamar a cron.php cada 15 minutos a través de HTTP.",
     "Use system's cron service to call the cron.php file every 15 minutes." : "Usar el servicio cron del sistema para llamar al archivo cron.php cada 15 minutos.",

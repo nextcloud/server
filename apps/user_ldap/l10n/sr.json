@@ -8,6 +8,7 @@
     "No configuration specified" : "Није наведена постава",
     "No data specified" : "Нису наведени подаци",
     " Could not set configuration %s" : "Нисам могао да подесим конфигурацију %s",
+    "Action does not exist" : "Акција не постоји",
     "Configuration incorrect" : "Конфигурација је неисправна",
     "Configuration incomplete" : "Конфигурација није комплетна",
     "Configuration OK" : "Конфигурација је у реду",

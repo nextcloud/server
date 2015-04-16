@@ -50,7 +50,7 @@
     "Archives of type %s are not supported" : "Archive des Typs %s werden nicht unterstützt.",
     "Failed to open archive when installing app" : "Das Archiv konnte bei der Installation der Applikation nicht geöffnet werden",
     "App does not provide an info.xml file" : "Die Applikation enthält keine info.xml Datei",
-    "App can't be installed because of not allowed code in the App" : "Die Applikation kann auf Grund von unerlaubten Code nicht installiert werden",
+    "App can't be installed because of not allowed code in the App" : "Die App kann nicht installiert werden, weil sie unerlaubten Code enthält",
     "App can't be installed because it is not compatible with this version of ownCloud" : "Die Anwendung konnte nicht installiert werden, weil Sie nicht mit dieser Version von ownCloud kompatibel ist.",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "Die App kann nicht installiert werden, weil sie den <shipped>true</shipped>-Tag enthält, der bei Apps, die nicht zum Standardumfang von ownCloud gehören, nicht erlaubt ist",
     "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" : "Die Applikation konnte nicht installiert werden, da die Version in der info.xml nicht die gleiche Version wie im App-Store ist",

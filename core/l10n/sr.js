@@ -88,6 +88,7 @@ OC.L10N.register(
     "Shared with you by {owner}" : "{owner} дели са вама",
     "Share with users or groups …" : "Дели са корисницима или групама...",
     "Share with users, groups or remote users …" : "Дели са корисницима, групама или удаљеним корисницима...",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Подели са људима на осталим ownCloud-има користећи синтаксу username@example.com/owncloud",
     "Share link" : "Веза дељења",
     "The public link will expire no later than {days} days after it is created" : "Јавна веза ће престати да важи {days} дана након стварања",
     "Link" : "Веза",
