@@ -2,7 +2,6 @@
 	background: #fff;
 	text-align: center;
 	margin: 45px auto 0;
-	min-height: 600px;
 }
 
 #preview .notCreatable {
@@ -26,6 +25,22 @@
 #imgframe video {
 	max-height:100%;
 	max-width:100%;
+}
+
+#imgframe .text-preview {
+	display: inline-block;
+	text-align: left;
+	white-space: pre-wrap;
+	overflow-y: auto;
+	height: auto;
+	min-height: 200px;
+	max-height: 800px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 /* fix multiselect bar offset on shared page */

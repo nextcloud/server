@@ -87,9 +87,13 @@ OCA.Sharing.PublicApp = {
 
 
 		// dynamically load image previews
+		var bottomMargin = 350;
+		var previewWidth = $(window).width() * window.devicePixelRatio;
+		var previewHeight = $(window).height() - bottomMargin * window.devicePixelRatio;
+		previewHeight = Math.max(200, previewHeight);
 		var params = {
-			x: $(document).width() * window.devicePixelRatio,
-			y: $(document).height() * window.devicePixelRatio,
+			x: previewWidth,
+			y: previewHeight,
 			a: 'true',
 			file: encodeURIComponent(this.initialDir + $('#filename').val()),
 			t: $('#sharingToken').val(),
@@ -105,6 +109,23 @@ OCA.Sharing.PublicApp = {
 			(maxGifSize === -1 || fileSize <= (maxGifSize * 1024 * 1024))) {
 			img.attr('src', $('#downloadURL').val());
 			img.appendTo('#imgframe');
+		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text') {
+			$.ajax({
+				url: $('#downloadURL').val(),
+				headers: {Range: "bytes=0-1000"}
+			}).then(function (data) {
+				var textDiv = $('<span/>').addClass('text-preview');
+				textDiv.text(data);
+				textDiv.appendTo('#imgframe');
+				var divHeight = textDiv.height();
+				if (data.length > 999) {
+					textDiv.append('</br></br><strong>(...)</strong>');
+					divHeight += 50;
+				}
+				if (divHeight > previewHeight) {
+					textDiv.height(previewHeight);
+				}
+			});
 		} else if (previewSupported === 'true' ||
 			mimetype.substr(0, mimetype.indexOf('/')) === 'image' &&
 			mimetype !== 'image/svg+xml') {
@@ -128,7 +149,7 @@ OCA.Sharing.PublicApp = {
 					path: path,
 					files: filename
 				};
-				return OC.generateUrl('/s/'+token+'/download') + '?' + OC.buildQueryString(params);
+				return OC.generateUrl('/s/' + token + '/download') + '?' + OC.buildQueryString(params);
 			};
 
 			this.fileList.getAjaxUrl = function (action, params) {
@@ -142,7 +163,7 @@ OCA.Sharing.PublicApp = {
 				var params = {
 					dir: dir
 				};
-				return OC.generateUrl('/s/'+token+'') + '?' + OC.buildQueryString(params);
+				return OC.generateUrl('/s/' + token + '') + '?' + OC.buildQueryString(params);
 			};
 
 			this.fileList.generatePreviewUrl = function (urlSpec) {
@@ -225,7 +246,7 @@ OCA.Sharing.PublicApp = {
 		this.fileList.changeDirectory(params.path || params.dir, false, true);
 	},
 
-	_saveToOwnCloud: function(remote, token, owner, name, isProtected) {
+	_saveToOwnCloud: function (remote, token, owner, name, isProtected) {
 		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
 
 		var url = remote + '/index.php/apps/files#' + 'remote=' + encodeURIComponent(location) // our location is the remote for the other server
