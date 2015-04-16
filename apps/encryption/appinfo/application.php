@@ -167,6 +167,20 @@ class Application extends \OCP\AppFramework\App {
 			);
 		});
 
+		$container->registerService('SettingsController', function (IAppContainer $c) {
+			$server = $c->getServer();
+			return new \OCA\Encryption\Controller\SettingsController(
+				$c->getAppName(),
+				$server->getRequest(),
+				$server->getL10N($c->getAppName()),
+				$server->getUserManager(),
+				$server->getUserSession(),
+				$c->query('KeyManager'),
+				$c->query('Crypt'),
+				$c->query('Session')
+			);
+		});
+
 		$container->registerService('UserSetup',
 			function (IAppContainer $c) {
 				$server = $c->getServer();
