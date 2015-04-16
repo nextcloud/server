@@ -26,6 +26,7 @@ use OCP\Files\Mount\IMountPoint;
 
 /**
  * Creates storage instances and manages and applies storage wrappers
+ * @since 8.0.0
  */
 interface IStorageFactory {
 	/**
@@ -37,6 +38,7 @@ interface IStorageFactory {
 	 * @param callable $callback
 	 * @return bool true if the wrapper was added, false if there was already a wrapper with this
 	 * name registered
+	 * @since 8.0.0
 	 */
 	public function addStorageWrapper($wrapperName, $callback);
 
@@ -45,6 +47,7 @@ interface IStorageFactory {
 	 * @param string $class
 	 * @param array $arguments
 	 * @return \OCP\Files\Storage
+	 * @since 8.0.0
 	 */
 	public function getInstance(IMountPoint $mountPoint, $class, $arguments);
 }

@@ -24,6 +24,12 @@
 
 namespace OCP\BackgroundJob;
 
+/**
+ * Interface IJobList
+ *
+ * @package OCP\BackgroundJob
+ * @since 7.0.0
+ */
 interface IJobList {
 	/**
 	 * Add a job to the list
@@ -32,6 +38,7 @@ interface IJobList {
 	 * @param mixed $argument The argument to be passed to $job->run() when the job is exectured
 	 * @param string $job
 	 * @return void
+	 * @since 7.0.0
 	 */
 	public function add($job, $argument = null);
 
@@ -41,6 +48,7 @@ interface IJobList {
 	 * @param \OCP\BackgroundJob\IJob|string $job
 	 * @param mixed $argument
 	 * @return void
+	 * @since 7.0.0
 	 */
 	public function remove($job, $argument = null);
 
@@ -50,6 +58,7 @@ interface IJobList {
 	 * @param \OCP\BackgroundJob\IJob|string $job
 	 * @param mixed $argument
 	 * @return bool
+	 * @since 7.0.0
 	 */
 	public function has($job, $argument);
 
@@ -57,6 +66,7 @@ interface IJobList {
 	 * get all jobs in the list
 	 *
 	 * @return \OCP\BackgroundJob\IJob[]
+	 * @since 7.0.0
 	 */
 	public function getAll();
 
@@ -64,12 +74,14 @@ interface IJobList {
 	 * get the next job in the list
 	 *
 	 * @return \OCP\BackgroundJob\IJob
+	 * @since 7.0.0
 	 */
 	public function getNext();
 
 	/**
 	 * @param int $id
 	 * @return \OCP\BackgroundJob\IJob
+	 * @since 7.0.0
 	 */
 	public function getById($id);
 
@@ -78,6 +90,7 @@ interface IJobList {
 	 *
 	 * @param \OCP\BackgroundJob\IJob $job
 	 * @return void
+	 * @since 7.0.0
 	 */
 	public function setLastJob($job);
 
@@ -85,6 +98,7 @@ interface IJobList {
 	 * get the id of the last ran job
 	 *
 	 * @return int
+	 * @since 7.0.0
 	 */
 	public function getLastJob();
 
@@ -93,6 +107,7 @@ interface IJobList {
 	 *
 	 * @param \OCP\BackgroundJob\IJob $job
 	 * @return void
+	 * @since 7.0.0
 	 */
 	public function setLastRun($job);
 }

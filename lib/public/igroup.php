@@ -22,9 +22,16 @@
 
 namespace OCP;
 
+/**
+ * Interface IGroup
+ *
+ * @package OCP
+ * @since 8.0.0
+ */
 interface IGroup {
 	/**
 	 * @return string
+	 * @since 8.0.0
 	 */
 	public function getGID();
 
@@ -32,6 +39,7 @@ interface IGroup {
 	 * get all users in the group
 	 *
 	 * @return \OCP\IUser[]
+	 * @since 8.0.0
 	 */
 	public function getUsers();
 
@@ -40,6 +48,7 @@ interface IGroup {
 	 *
 	 * @param \OCP\IUser $user
 	 * @return bool
+	 * @since 8.0.0
 	 */
 	public function inGroup($user);
 
@@ -47,6 +56,7 @@ interface IGroup {
 	 * add a user to the group
 	 *
 	 * @param \OCP\IUser $user
+	 * @since 8.0.0
 	 */
 	public function addUser($user);
 
@@ -54,6 +64,7 @@ interface IGroup {
 	 * remove a user from the group
 	 *
 	 * @param \OCP\IUser $user
+	 * @since 8.0.0
 	 */
 	public function removeUser($user);
 
@@ -64,6 +75,7 @@ interface IGroup {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return \OCP\IUser[]
+	 * @since 8.0.0
 	 */
 	public function searchUsers($search, $limit = null, $offset = null);
 
@@ -72,6 +84,7 @@ interface IGroup {
 	 *
 	 * @param string $search
 	 * @return int|bool
+	 * @since 8.0.0
 	 */
 	public function count($search = '');
 
@@ -82,6 +95,7 @@ interface IGroup {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return \OCP\IUser[]
+	 * @since 8.0.0
 	 */
 	public function searchDisplayName($search, $limit = null, $offset = null);
 
@@ -89,6 +103,7 @@ interface IGroup {
 	 * delete the group
 	 *
 	 * @return bool
+	 * @since 8.0.0
 	 */
 	public function delete();
 }

@@ -31,6 +31,12 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP\Activity;
 
+/**
+ * Interface IExtension
+ *
+ * @package OCP\Activity
+ * @since 8.0.0
+ */
 interface IExtension {
 
 	const PRIORITY_VERYLOW 	= 10;
@@ -45,6 +51,7 @@ interface IExtension {
 	 *
 	 * @param string $languageCode
 	 * @return array|false
+	 * @since 8.0.0
 	 */
 	public function getNotificationTypes($languageCode);
 
@@ -54,6 +61,7 @@ interface IExtension {
 	 *
 	 * @param string $method
 	 * @return array|false
+	 * @since 8.0.0
 	 */
 	public function getDefaultTypes($method);
 
@@ -63,6 +71,7 @@ interface IExtension {
 	 *
 	 * @param string $type
 	 * @return string|false
+	 * @since 8.0.0
 	 */
 	public function getTypeIcon($type);
 
@@ -77,6 +86,7 @@ interface IExtension {
 	 * @param boolean $highlightParams
 	 * @param string $languageCode
 	 * @return string|false
+	 * @since 8.0.0
 	 */
 	public function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode);
 
@@ -90,6 +100,7 @@ interface IExtension {
 	 * @param string $app
 	 * @param string $text
 	 * @return array|false
+	 * @since 8.0.0
 	 */
 	public function getSpecialParameterList($app, $text);
 
@@ -99,6 +110,7 @@ interface IExtension {
 	 *
 	 * @param array $activity
 	 * @return integer|false
+	 * @since 8.0.0
 	 */
 	public function getGroupParameter($activity);
 
@@ -108,6 +120,7 @@ interface IExtension {
 	 * If no further entries are to be added false is no be returned.
 	 *
 	 * @return array|false
+	 * @since 8.0.0
 	 */
 	public function getNavigation();
 
@@ -116,6 +129,7 @@ interface IExtension {
 	 *
 	 * @param string $filterValue
 	 * @return boolean
+	 * @since 8.0.0
 	 */
 	public function isFilterValid($filterValue);
 
@@ -126,6 +140,7 @@ interface IExtension {
 	 * @param array $types
 	 * @param string $filter
 	 * @return array|false
+	 * @since 8.0.0
 	 */
 	public function filterNotificationTypes($types, $filter);
 
@@ -137,6 +152,7 @@ interface IExtension {
 	 *
 	 * @param string $filter
 	 * @return array|false
+	 * @since 8.0.0
 	 */
 	public function getQueryForFilter($filter);
 }

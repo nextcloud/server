@@ -36,6 +36,7 @@ namespace OCP;
  * IContainer is the basic interface to be used for any internal dependency injection mechanism
  *
  * @package OCP
+ * @since 6.0.0
  */
 interface IContainer {
 
@@ -44,6 +45,7 @@ interface IContainer {
 	 *
 	 * @param string $name
 	 * @return mixed
+	 * @since 6.0.0
 	 */
 	function query($name);
 
@@ -53,6 +55,7 @@ interface IContainer {
 	 * @param string $name
 	 * @param mixed $value
 	 * @return void
+	 * @since 6.0.0
 	 */
 	function registerParameter($name, $value);
 
@@ -67,6 +70,7 @@ interface IContainer {
 	 * @param \Closure $closure
 	 * @param bool $shared
 	 * @return void
+	 * @since 6.0.0
 	 */
 	function registerService($name, \Closure $closure, $shared = true);
 }

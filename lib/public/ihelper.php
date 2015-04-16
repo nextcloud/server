@@ -32,6 +32,7 @@ namespace OCP;
 
 /**
  * Functions that don't have any specific interface to place
+ * @since 6.0.0
  */
 interface IHelper {
 	/**
@@ -39,6 +40,7 @@ interface IHelper {
 	 * installed
 	 * @param string $url the url that should be fetched
 	 * @return string the content of the webpage
+	 * @since 6.0.0
 	 */
 	public function getUrlContent($url);
 }

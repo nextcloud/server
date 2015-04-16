@@ -34,6 +34,7 @@ use OCP\IRequest;
 
 /**
  * Base class to inherit your controllers from that are used for RESTful APIs
+ * @since 8.1.0
  */
 abstract class OCSController extends ApiController {
 
@@ -49,6 +50,7 @@ abstract class OCSController extends ApiController {
 	 * defaults to 'Authorization, Content-Type, Accept'
 	 * @param int $corsMaxAge number in seconds how long a preflighted OPTIONS
 	 * request should be cached, defaults to 1728000 seconds
+	 * @since 8.1.0
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -70,6 +72,7 @@ abstract class OCSController extends ApiController {
 	 * Unwrap data and build ocs response
 	 * @param string $format json or xml
 	 * @param array|DataResponse $data the data which should be transformed
+	 * @since 8.1.0
 	 */
 	private function buildOCSResponse($format, $data) {
 		if ($data instanceof DataResponse) {

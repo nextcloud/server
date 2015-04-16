@@ -22,6 +22,12 @@
 
 namespace OCP\Encryption\Keys;
 
+/**
+ * Interface IStorage
+ *
+ * @package OCP\Encryption\Keys
+ * @since 8.1.0
+ */
 interface IStorage {
 
 	/**
@@ -31,6 +37,7 @@ interface IStorage {
 	 * @param string $keyId id of the key
 	 *
 	 * @return mixed key
+	 * @since 8.1.0
 	 */
 	public function getUserKey($uid, $keyId);
 
@@ -41,6 +48,7 @@ interface IStorage {
 	 * @param string $keyId id of the key
 	 *
 	 * @return mixed key
+	 * @since 8.1.0
 	 */
 	public function getFileKey($path, $keyId);
 
@@ -51,6 +59,7 @@ interface IStorage {
 	 * @param string $keyId id of the key
 	 *
 	 * @return mixed key
+	 * @since 8.1.0
 	 */
 	public function getSystemUserKey($keyId);
 
@@ -60,6 +69,7 @@ interface IStorage {
 	 * @param string $uid ID if the user for whom we want the key
 	 * @param string $keyId id of the key
 	 * @param mixed $key
+	 * @since 8.1.0
 	 */
 	public function setUserKey($uid, $keyId, $key);
 
@@ -69,6 +79,7 @@ interface IStorage {
 	 * @param string $path path to file
 	 * @param string $keyId id of the key
 	 * @param boolean
+	 * @since 8.1.0
 	 */
 	public function setFileKey($path, $keyId, $key);
 
@@ -80,6 +91,7 @@ interface IStorage {
 	 * @param mixed $key
 	 *
 	 * @return mixed key
+	 * @since 8.1.0
 	 */
 	public function setSystemUserKey($keyId, $key);
 
@@ -90,6 +102,7 @@ interface IStorage {
 	 * @param string $keyId id of the key
 	 *
 	 * @return boolean False when the key could not be deleted
+	 * @since 8.1.0
 	 */
 	public function deleteUserKey($uid, $keyId);
 
@@ -100,6 +113,7 @@ interface IStorage {
 	 * @param string $keyId id of the key
 	 *
 	 * @return boolean False when the key could not be deleted
+	 * @since 8.1.0
 	 */
 	public function deleteFileKey($path, $keyId);
 
@@ -108,6 +122,7 @@ interface IStorage {
 	 *
 	 * @param string $path to the file
 	 * @return boolean False when the keys could not be deleted
+	 * @since 8.1.0
 	 */
 	public function deleteAllFileKeys($path);
 
@@ -118,6 +133,7 @@ interface IStorage {
 	 * @param string $keyId id of the key
 	 *
 	 * @return boolean False when the key could not be deleted
+	 * @since 8.1.0
 	 */
 	public function deleteSystemUserKey($keyId);
 
@@ -126,6 +142,7 @@ interface IStorage {
 	 *
 	 * @param string $source
 	 * @param string $target
+	 * @since 8.1.0
 	 */
 	public function renameKeys($source, $target);
 
@@ -134,6 +151,7 @@ interface IStorage {
 	 *
 	 * @param string $source
 	 * @param string $target
+	 * @since 8.1.0
 	 */
 	public function copyKeys($source, $target);
 

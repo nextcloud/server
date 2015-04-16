@@ -29,6 +29,12 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP\Activity;
 
+/**
+ * Interface IConsumer
+ *
+ * @package OCP\Activity
+ * @since 6.0.0
+ */
 interface IConsumer {
 	/**
 	 * @param $app
@@ -42,6 +48,7 @@ interface IConsumer {
 	 * @param $type
 	 * @param $priority
 	 * @return mixed
+	 * @since 6.0.0
 	 */
 	function receive($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority );
 }

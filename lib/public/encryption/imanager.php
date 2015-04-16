@@ -27,6 +27,7 @@ use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
 /**
  * This class provides access to files encryption apps.
  *
+ * @since 8.1.0
  */
 interface IManager {
 
@@ -34,6 +35,7 @@ interface IManager {
 	 * Check if encryption is available (at least one encryption module needs to be enabled)
 	 *
 	 * @return bool true if enabled, false if not
+	 * @since 8.1.0
 	 */
 	function isEnabled();
 
@@ -42,6 +44,7 @@ interface IManager {
 	 *
 	 * @param IEncryptionModule $module
 	 * @throws ModuleAlreadyExistsException
+	 * @since 8.1.0
 	 */
 	function registerEncryptionModule(IEncryptionModule $module);
 
@@ -49,6 +52,7 @@ interface IManager {
 	 * Unregisters an encryption module
 	 *
 	 * @param IEncryptionModule $module
+	 * @since 8.1.0
 	 */
 	function unregisterEncryptionModule(IEncryptionModule $module);
 
@@ -56,6 +60,7 @@ interface IManager {
 	 * get a list of all encryption modules
 	 *
 	 * @return array
+	 * @since 8.1.0
 	 */
 	function getEncryptionModules();
 
@@ -66,6 +71,7 @@ interface IManager {
 	 * @param string $moduleId
 	 * @return IEncryptionModule
 	 * @throws ModuleDoesNotExistsException
+	 * @since 8.1.0
 	 */
 	function getEncryptionModule($moduleId);
 
@@ -74,6 +80,7 @@ interface IManager {
 	 *
 	 * @return \OCP\Encryption\IEncryptionModule
 	 * @throws ModuleDoesNotExistsException
+	 * @since 8.1.0
 	 */
 	public function getDefaultEncryptionModule();
 
@@ -82,6 +89,7 @@ interface IManager {
 	 *
 	 * @param string $moduleId
 	 * @return string
+	 * @since 8.1.0
 	 */
 	public function setDefaultEncryptionModule($moduleId);
 

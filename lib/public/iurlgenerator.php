@@ -34,6 +34,7 @@ namespace OCP;
 
 /**
  * Class to generate URLs
+ * @since 6.0.0
  */
 interface IURLGenerator {
 	/**
@@ -41,6 +42,7 @@ interface IURLGenerator {
 	 * @param string $routeName the name of the route
 	 * @param array $arguments an array with arguments which will be filled into the url
 	 * @return string the url
+	 * @since 6.0.0
 	 */
 	public function linkToRoute($routeName, $arguments = array());
 
@@ -49,6 +51,7 @@ interface IURLGenerator {
 	 * @param string $routeName the name of the route
 	 * @param array $arguments an array with arguments which will be filled into the url
 	 * @return string the absolute url
+	 * @since 8.0.0
 	 */
 	public function linkToRouteAbsolute($routeName, $arguments = array());
 
@@ -57,6 +60,7 @@ interface IURLGenerator {
 	 * @param string $appName the name of the app
 	 * @param string $file the name of the file
 	 * @return string the url
+	 * @since 6.0.0
 	 */
 	public function linkTo($appName, $file);
 
@@ -65,6 +69,7 @@ interface IURLGenerator {
 	 * @param string $appName the name of the app
 	 * @param string $file the name of the file
 	 * @return string the url
+	 * @since 6.0.0
 	 */
 	public function imagePath($appName, $file);
 
@@ -73,12 +78,14 @@ interface IURLGenerator {
 	 * Makes an URL absolute
 	 * @param string $url the url in the ownCloud host
 	 * @return string the absolute version of the url
+	 * @since 6.0.0
 	 */
 	public function getAbsoluteURL($url);
 
 	/**
 	 * @param string $key
 	 * @return string url to the online documentation
+	 * @since 8.0.0
 	 */
 	public function linkToDocs($key);
 }

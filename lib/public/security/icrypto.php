@@ -31,6 +31,7 @@ namespace OCP\Security;
  * $encryptWithCustomPassword = \OC::$server->getCrypto()->encrypt('EncryptedText', 'password');
  *
  * @package OCP\Security
+ * @since 8.0.0
  */
 interface ICrypto {
 
@@ -38,6 +39,7 @@ interface ICrypto {
 	 * @param string $message The message to authenticate
 	 * @param string $password Password to use (defaults to `secret` in config.php)
 	 * @return string Calculated HMAC
+	 * @since 8.0.0
 	 */
 	public function calculateHMAC($message, $password = '');
 
@@ -46,6 +48,7 @@ interface ICrypto {
 	 * @param string $plaintext
 	 * @param string $password Password to encrypt, if not specified the secret from config.php will be taken
 	 * @return string Authenticated ciphertext
+	 * @since 8.0.0
 	 */
 	public function encrypt($plaintext, $password = '');
 
@@ -55,6 +58,7 @@ interface ICrypto {
 	 * @param string $password Password to encrypt, if not specified the secret from config.php will be taken
 	 * @return string plaintext
 	 * @throws \Exception If the HMAC does not match
+	 * @since 8.0.0
 	 */
 	public function decrypt($authenticatedCiphertext, $password = '');
 }

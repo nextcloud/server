@@ -40,11 +40,13 @@ namespace OCP;
 /**
  * This class provides access to the internal filesystem abstraction layer. Use
  * this class exlusively if you want to access files
+ * @since 5.0.0
  */
 class Files {
 	/**
 	 * Recusive deletion of folders
 	 * @return bool
+	 * @since 5.0.0
 	 */
 	static function rmdirr( $dir ) {
 		return \OC_Helper::rmdirr( $dir );
@@ -55,6 +57,7 @@ class Files {
 	 * @param string $path
 	 * @return string
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
+	 * @since 5.0.0
 	 */
 	static function getMimeType( $path ) {
 		return(\OC_Helper::getMimeType( $path ));
@@ -64,6 +67,7 @@ class Files {
 	 * Search for files by mimetype
 	 * @param string $mimetype
 	 * @return array
+	 * @since 6.0.0
 	 */
 	static public function searchByMime( $mimetype ) {
 		return(\OC\Files\Filesystem::searchByMime( $mimetype ));
@@ -74,6 +78,7 @@ class Files {
 	 * @param resource $source
 	 * @param resource $target
 	 * @return int the number of bytes copied
+	 * @since 5.0.0
 	 */
 	public static function streamCopy( $source, $target ) {
 		list($count, $result) = \OC_Helper::streamCopy( $source, $target );
@@ -86,6 +91,7 @@ class Files {
 	 * @return string
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
+	 * @since 5.0.0
 	 */
 	public static function tmpFile( $postfix='' ) {
 		return(\OC_Helper::tmpFile( $postfix ));
@@ -96,6 +102,7 @@ class Files {
 	 * @return string
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
+	 * @since 5.0.0
 	 */
 	public static function tmpFolder() {
 		return(\OC_Helper::tmpFolder());
@@ -106,6 +113,7 @@ class Files {
 	 * @param string $path
 	 * @param string $filename
 	 * @return string
+	 * @since 5.0.0
 	 */
 	public static function buildNotExistingFileName( $path, $filename ) {
 		return(\OC_Helper::buildNotExistingFileName( $path, $filename ));
@@ -116,6 +124,7 @@ class Files {
 	 * existant
 	 * @param string $app
 	 * @return \OC\Files\View
+	 * @since 5.0.0
 	 */
 	public static function getStorage( $app ) {
 		return \OC_App::getStorage( $app );

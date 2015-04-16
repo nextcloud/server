@@ -33,6 +33,7 @@ namespace OCP;
 
 /**
  * This class provides functions to manage apps in ownCloud
+ * @since 5.0.0
  */
 class API {
 
@@ -45,6 +46,7 @@ class API {
 	 * @param int $authLevel the level of authentication required for the call (See OC_API constants)
 	 * @param array $defaults
 	 * @param array $requirements
+	 * @since 5.0.0
 	 */
 	public static function register($method, $url, $action, $app, $authLevel = OC_API::USER_AUTH,
 		$defaults = array(), $requirements = array()){

@@ -31,6 +31,12 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP\Activity;
 
+/**
+ * Interface IManager
+ *
+ * @package OCP\Activity
+ * @since 6.0.0
+ */
 interface IManager {
 
 	/**
@@ -45,6 +51,7 @@ interface IManager {
 	 * @param $type
 	 * @param $priority
 	 * @return mixed
+	 * @since 6.0.0
 	 */
 	function publishActivity($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority);
 
@@ -56,6 +63,7 @@ interface IManager {
 	 *
 	 * @param \Closure $callable
 	 * @return void
+	 * @since 6.0.0
 	 */
 	function registerConsumer(\Closure $callable);
 
@@ -67,6 +75,7 @@ interface IManager {
 	 *
 	 * @param \Closure $callable
 	 * @return void
+	 * @since 8.0.0
 	 */
 	function registerExtension(\Closure $callable);
 
@@ -74,18 +83,21 @@ interface IManager {
 	 * Will return additional notification types as specified by other apps
 	 * @param string $languageCode
 	 * @return array
+	 * @since 8.0.0
 	 */
 	function getNotificationTypes($languageCode);
 
 	/**
 	 * @param string $method
 	 * @return array
+	 * @since 8.0.0
 	 */
 	function getDefaultTypes($method);
 
 	/**
 	 * @param string $type
 	 * @return string
+	 * @since 8.0.0
 	 */
 	function getTypeIcon($type);
 
@@ -97,6 +109,7 @@ interface IManager {
 	 * @param boolean $highlightParams
 	 * @param string $languageCode
 	 * @return string|false
+	 * @since 8.0.0
 	 */
 	function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode);
 
@@ -104,23 +117,27 @@ interface IManager {
 	 * @param string $app
 	 * @param string $text
 	 * @return array|false
+	 * @since 8.0.0
 	 */
 	function getSpecialParameterList($app, $text);
 
 	/**
 	 * @param array $activity
 	 * @return integer|false
+	 * @since 8.0.0
 	 */
 	function getGroupParameter($activity);
 
 	/**
 	 * @return array
+	 * @since 8.0.0
 	 */
 	function getNavigation();
 
 	/**
 	 * @param string $filterValue
 	 * @return boolean
+	 * @since 8.0.0
 	 */
 	function isFilterValid($filterValue);
 
@@ -128,12 +145,14 @@ interface IManager {
 	 * @param array $types
 	 * @param string $filter
 	 * @return array
+	 * @since 8.0.0
 	 */
 	function filterNotificationTypes($types, $filter);
 
 	/**
 	 * @param string $filter
 	 * @return array
+	 * @since 8.0.0
 	 */
 	function getQueryForFilter($filter);
 
@@ -144,6 +163,7 @@ interface IManager {
 	 *
 	 * @return string
 	 * @throws \UnexpectedValueException If the token is invalid, does not exist or is not unique
+	 * @since 8.1.0
 	 */
 	public function getCurrentUserId();
 }

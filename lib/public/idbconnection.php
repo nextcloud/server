@@ -34,7 +34,10 @@
 namespace OCP;
 
 /**
- * TODO: Description
+ * Interface IDBConnection
+ *
+ * @package OCP
+ * @since 6.0.0
  */
 interface IDBConnection {
 	/**
@@ -43,6 +46,7 @@ interface IDBConnection {
 	 * @param int $limit the maximum number of rows
 	 * @param int $offset from which row we want to start
 	 * @return \Doctrine\DBAL\Driver\Statement The prepared statement.
+	 * @since 6.0.0
 	 */
 	public function prepare($sql, $limit=null, $offset=null);
 
@@ -56,6 +60,7 @@ interface IDBConnection {
 	 * @param string[] $params The parameters to bind to the query, if any.
 	 * @param array $types The types the previous parameters are in.
 	 * @return \Doctrine\DBAL\Driver\Statement The executed statement.
+	 * @since 8.0.0
 	 */
 	public function executeQuery($query, array $params = array(), $types = array());
 
@@ -69,6 +74,7 @@ interface IDBConnection {
 	 * @param array $params The query parameters.
 	 * @param array $types The parameter types.
 	 * @return integer The number of affected rows.
+	 * @since 8.0.0
 	 */
 	public function executeUpdate($query, array $params = array(), array $types = array());
 
@@ -76,6 +82,7 @@ interface IDBConnection {
 	 * Used to get the id of the just inserted element
 	 * @param string $table the name of the table where we inserted the item
 	 * @return int the id of the inserted element
+	 * @since 6.0.0
 	 */
 	public function lastInsertId($table = null);
 
@@ -89,27 +96,32 @@ interface IDBConnection {
 	 *				Please note: text fields (clob) must not be used in the compare array
 	 * @return int number of inserted rows
 	 * @throws \Doctrine\DBAL\DBALException
+	 * @since 6.0.0 - parameter $compare was added in 8.1.0, return type changed from boolean in 8.1.0
 	 */
 	public function insertIfNotExist($table, $input, array $compare = null);
 
 	/**
 	 * Start a transaction
+	 * @since 6.0.0
 	 */
 	public function beginTransaction();
 
 	/**
 	 * Commit the database changes done during a transaction that is in progress
+	 * @since 6.0.0
 	 */
 	public function commit();
 
 	/**
 	 * Rollback the database changes done during a transaction that is in progress
+	 * @since 6.0.0
 	 */
 	public function rollBack();
 
 	/**
 	 * Gets the error code and message as a string for logging
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getError();
 
@@ -117,6 +129,7 @@ interface IDBConnection {
 	 * Fetch the SQLSTATE associated with the last database operation.
 	 *
 	 * @return integer The last error code.
+	 * @since 8.0.0
 	 */
 	public function errorCode();
 
@@ -124,6 +137,7 @@ interface IDBConnection {
 	 * Fetch extended error information associated with the last database operation.
 	 *
 	 * @return array The last error information.
+	 * @since 8.0.0
 	 */
 	public function errorInfo();
 
@@ -131,11 +145,13 @@ interface IDBConnection {
 	 * Establishes the connection with the database.
 	 *
 	 * @return bool
+	 * @since 8.0.0
 	 */
 	public function connect();
 
 	/**
 	 * Close the database connection
+	 * @since 8.0.0
 	 */
 	public function close();
 
@@ -145,6 +161,7 @@ interface IDBConnection {
 	 * @param mixed $input Parameter to be quoted.
 	 * @param int $type Type of the parameter.
 	 * @return string The quoted parameter.
+	 * @since 8.0.0
 	 */
 	public function quote($input, $type = \PDO::PARAM_STR);
 
@@ -153,6 +170,7 @@ interface IDBConnection {
 	 * the platform this driver connects to.
 	 *
 	 * @return \Doctrine\DBAL\Platforms\AbstractPlatform The database platform.
+	 * @since 8.0.0
 	 */
 	public function getDatabasePlatform();
 
@@ -160,6 +178,7 @@ interface IDBConnection {
 	 * Drop a table from the database if it exists
 	 *
 	 * @param string $table table name without the prefix
+	 * @since 8.0.0
 	 */
 	public function dropTable($table);
 
@@ -168,6 +187,7 @@ interface IDBConnection {
 	 *
 	 * @param string $table table name without the prefix
 	 * @return bool
+	 * @since 8.0.0
 	 */
 	public function tableExists($table);
 }

@@ -40,6 +40,7 @@ namespace OCP\Security;
  * var_dump($newHash);
  *
  * @package OCP\Security
+ * @since 8.0.0
  */
 interface IHasher {
 	/**
@@ -49,6 +50,7 @@ interface IHasher {
 	 *
 	 * @param string $message Message to generate hash from
 	 * @return string Hash of the message with appended version parameter
+	 * @since 8.0.0
 	 */
 	public function hash($message);
 
@@ -57,6 +59,7 @@ interface IHasher {
 	 * @param string $hash Assumed hash of the message
 	 * @param null|string &$newHash Reference will contain the updated hash if necessary. Update the existing hash with this one.
 	 * @return bool Whether $hash is a valid hash of $message
+	 * @since 8.0.0
 	 */
 	public function verify($message, $hash, &$newHash = null);
 }

@@ -22,6 +22,12 @@
 
 namespace OCP;
 
+/**
+ * Interface ICacheFactory
+ *
+ * @package OCP
+ * @since 7.0.0
+ */
 interface ICacheFactory{
 	/**
 	 * Get a memory cache instance
@@ -30,6 +36,7 @@ interface ICacheFactory{
 	 *
 	 * @param string $prefix
 	 * @return \OCP\ICache
+	 * @since 7.0.0
 	 */
 	public function create($prefix = '');
 
@@ -37,6 +44,7 @@ interface ICacheFactory{
 	 * Check if any memory cache backend is available
 	 *
 	 * @return bool
+	 * @since 7.0.0
 	 */
 	public function isAvailable();
 }

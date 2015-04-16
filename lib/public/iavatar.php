@@ -27,14 +27,15 @@ namespace OCP;
 
 /**
  * This class provides avatar functionality
+ * @since 6.0.0
  */
-
 interface IAvatar {
 
 	/**
 	 * get the users avatar
 	 * @param int $size size in px of the avatar, avatars are square, defaults to 64
 	 * @return boolean|\OCP\IImage containing the avatar or false if there's no image
+	 * @since 6.0.0
 	 */
 	function get($size = 64);
 
@@ -42,6 +43,7 @@ interface IAvatar {
 	 * Check if an avatar exists for the user
 	 *
 	 * @return bool
+	 * @since 8.1.0
 	 */
 	public function exists();
 
@@ -52,12 +54,14 @@ interface IAvatar {
 	 * @throws \Exception if the provided image is not valid
 	 * @throws \OC\NotSquareException if the image is not square
 	 * @return void
+	 * @since 6.0.0
 	 */
 	function set($data);
 
 	/**
 	 * remove the users avatar
 	 * @return void
+	 * @since 6.0.0
 	 */
 	function remove();
 }

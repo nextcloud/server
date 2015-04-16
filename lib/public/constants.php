@@ -49,6 +49,12 @@ const PERMISSION_ALL = 31;
 /** @deprecated Use \OCP\Constants::FILENAME_INVALID_CHARS instead */
 const FILENAME_INVALID_CHARS = "\\/<>:\"|?*\n";
 
+/**
+ * Class Constants
+ *
+ * @package OCP
+ * @since 8.0.0
+ */
 class Constants {
 	/**
 	 * CRUDS permissions.

@@ -21,10 +21,17 @@
 
 namespace OCP\Encryption;
 
+/**
+ * Interface IEncryptionModule
+ *
+ * @package OCP\Encryption
+ * @since 8.1.0
+ */
 interface IEncryptionModule {
 
 	/**
 	 * @return string defining the technical unique id
+	 * @since 8.1.0
 	 */
 	public function getId();
 
@@ -32,6 +39,7 @@ interface IEncryptionModule {
 	 * In comparison to getKey() this function returns a human readable (maybe translated) name
 	 *
 	 * @return string
+	 * @since 8.1.0
 	 */
 	public function getDisplayName();
 
@@ -48,6 +56,7 @@ interface IEncryptionModule {
 	 * $return array $header contain data as key-value pairs which should be
 	 *                       written to the header, in case of a write operation
 	 *                       or if no additional data is needed return a empty array
+	 * @since 8.1.0
 	 */
 	public function begin($path, $user, array $header, array $accessList);
 
@@ -59,6 +68,7 @@ interface IEncryptionModule {
 	 * @param string $path to the file
 	 * @return string remained data which should be written to the file in case
 	 *                of a write operation
+	 * @since 8.1.0
 	 */
 	public function end($path);
 
@@ -67,6 +77,7 @@ interface IEncryptionModule {
 	 *
 	 * @param string $data you want to encrypt
 	 * @return mixed encrypted data
+	 * @since 8.1.0
 	 */
 	public function encrypt($data);
 
@@ -75,6 +86,7 @@ interface IEncryptionModule {
 	 *
 	 * @param string $data you want to decrypt
 	 * @return mixed decrypted data
+	 * @since 8.1.0
 	 */
 	public function decrypt($data);
 
@@ -85,6 +97,7 @@ interface IEncryptionModule {
 	 * @param string $uid of the user who performs the operation
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 * @return boolean
+	 * @since 8.1.0
 	 */
 	public function update($path, $uid, array $accessList);
 
@@ -93,6 +106,7 @@ interface IEncryptionModule {
 	 *
 	 * @param string $path
 	 * @return boolean
+	 * @since 8.1.0
 	 */
 	public function shouldEncrypt($path);
 
@@ -101,6 +115,7 @@ interface IEncryptionModule {
 	 * ownCloud read/write files with a block size of 8192 byte
 	 *
 	 * @return integer
+	 * @since 8.1.0
 	 */
 	public function getUnencryptedBlockSize();
 }

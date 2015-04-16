@@ -28,6 +28,7 @@ namespace OCP;
 
 /**
  * Interface that apps must implement to share content.
+ * @since 5.0.0
  */
 interface Share_Backend {
 
@@ -38,6 +39,7 @@ interface Share_Backend {
 	 * @return boolean|null Source
 	 *
 	 * Return false if the item does not exist for the user
+	 * @since 5.0.0
 	 */
 	public function isValidSource($itemSource, $uidOwner);
 
@@ -50,6 +52,7 @@ interface Share_Backend {
 	 *
 	 * This function needs to verify that the user does not already have an item with this name.
 	 * If it does generate a new name e.g. name_#
+	 * @since 5.0.0
 	 */
 	public function generateTarget($itemSource, $shareWith, $exclude = null);
 
@@ -73,6 +76,7 @@ interface Share_Backend {
 	 *
 	 * This function allows the backend to control the output of shared items with custom formats.
 	 * It is only called through calls to the public getItem(s)Shared(With) functions.
+	 * @since 5.0.0
 	 */
 	public function formatItems($items, $format, $parameters = null);
 
@@ -85,6 +89,7 @@ interface Share_Backend {
 	 * The back-end can enable/disable specific share types. Just return true if
 	 * the back-end doesn't provide any specific settings for it and want to allow
 	 * all share types defined by the share API
+	 * @since 8.0.0
 	 */
 	public function isShareTypeAllowed($shareType);
 

@@ -46,6 +46,7 @@ namespace OCP {
 	 * For updating it is mandatory to keep the id.
 	 * Without an id a new contact will be created.
 	 *
+	 * @since 5.0.0
 	 */
 	class Contacts {
 
@@ -90,6 +91,7 @@ namespace OCP {
 		 * @param array $searchProperties defines the properties within the query pattern should match
 		 * @param array $options - for future use. One should always have options!
 		 * @return array an array of contacts which are arrays of key-value-pairs
+		 * @since 5.0.0
 		 */
 		public static function search($pattern, $searchProperties = array(), $options = array()) {
 			$cm = \OC::$server->getContactsManager();
@@ -102,6 +104,7 @@ namespace OCP {
 		 * @param object $id the unique identifier to a contact
 		 * @param string $address_book_key
 		 * @return bool successful or not
+		 * @since 5.0.0
 		 */
 		public static function delete($id, $address_book_key) {
 			$cm = \OC::$server->getContactsManager();
@@ -115,6 +118,7 @@ namespace OCP {
 		 * @param array $properties this array if key-value-pairs defines a contact
 		 * @param string $address_book_key identifier of the address book in which the contact shall be created or updated
 		 * @return array an array representing the contact just created or updated
+		 * @since 5.0.0
 		 */
 		public static function createOrUpdate($properties, $address_book_key) {
 			$cm = \OC::$server->getContactsManager();
@@ -125,6 +129,7 @@ namespace OCP {
 		 * Check if contacts are available (e.g. contacts app enabled)
 		 *
 		 * @return bool true if enabled, false if not
+		 * @since 5.0.0
 		 */
 		public static function isEnabled() {
 			$cm = \OC::$server->getContactsManager();
@@ -133,6 +138,7 @@ namespace OCP {
 
 		/**
 		 * @param \OCP\IAddressBook $address_book
+		 * @since 5.0.0
 		 */
 		public static function registerAddressBook(\OCP\IAddressBook $address_book) {
 			$cm = \OC::$server->getContactsManager();
@@ -141,6 +147,7 @@ namespace OCP {
 
 		/**
 		 * @param \OCP\IAddressBook $address_book
+		 * @since 5.0.0
 		 */
 		public static function unregisterAddressBook(\OCP\IAddressBook $address_book) {
 			$cm = \OC::$server->getContactsManager();
@@ -149,6 +156,7 @@ namespace OCP {
 
 		/**
 		 * @return array
+		 * @since 5.0.0
 		 */
 		public static function getAddressBooks() {
 			$cm = \OC::$server->getContactsManager();
@@ -157,6 +165,7 @@ namespace OCP {
 
 		/**
 		 * removes all registered address book instances
+		 * @since 5.0.0
 		 */
 		public static function clear() {
 			$cm = \OC::$server->getContactsManager();

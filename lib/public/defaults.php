@@ -34,12 +34,14 @@ namespace OCP;
 
 /**
  * public api to access default strings and urls for your templates
+ * @since 6.0.0
  */
 class Defaults {
 
 	/**
 	 * \OC_Defaults instance to retrieve the defaults
 	 * @return string
+	 * @since 6.0.0
 	 */
 	private $defaults;
 
@@ -54,6 +56,7 @@ class Defaults {
 	/**
 	 * get base URL for the organisation behind your ownCloud instance
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getBaseUrl() {
 		return $this->defaults->getBaseUrl();
@@ -62,6 +65,7 @@ class Defaults {
 	/**
 	 * link to the desktop sync client
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getSyncClientUrl() {
 		return $this->defaults->getSyncClientUrl();
@@ -70,6 +74,7 @@ class Defaults {
 	/**
 	 * link to the iOS client
 	 * @return string
+	 * @since 8.0.0
 	 */
 	public function getiOSClientUrl() {
 		return $this->defaults->getiOSClientUrl();
@@ -78,6 +83,7 @@ class Defaults {
 	/**
 	 * link to the Android client
 	 * @return string
+	 * @since 8.0.0
 	 */
 	public function getAndroidClientUrl() {
 		return $this->defaults->getAndroidClientUrl();
@@ -86,6 +92,7 @@ class Defaults {
 	/**
 	 * base URL to the documentation of your ownCloud instance
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getDocBaseUrl() {
 		return $this->defaults->getDocBaseUrl();
@@ -94,6 +101,7 @@ class Defaults {
 	/**
 	 * name of your ownCloud instance
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getName() {
 		return $this->defaults->getName();
@@ -102,6 +110,7 @@ class Defaults {
 	/**
 	 * name of your ownCloud instance containing HTML styles
 	 * @return string
+	 * @since 8.0.0
 	 */
 	public function getHTMLName() {
 		return $this->defaults->getHTMLName();
@@ -110,6 +119,7 @@ class Defaults {
 	/**
 	 * Entity behind your onwCloud instance
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getEntity() {
 		return $this->defaults->getEntity();
@@ -118,6 +128,7 @@ class Defaults {
 	/**
 	 * ownCloud slogan
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getSlogan() {
 		return $this->defaults->getSlogan();
@@ -126,6 +137,7 @@ class Defaults {
 	/**
 	 * logo claim
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getLogoClaim() {
 		return $this->defaults->getLogoClaim();
@@ -134,6 +146,7 @@ class Defaults {
 	/**
 	 * footer, short version
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getShortFooter() {
 		return $this->defaults->getShortFooter();
@@ -142,6 +155,7 @@ class Defaults {
 	/**
 	 * footer, long version
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getLongFooter() {
 		return $this->defaults->getLongFooter();
@@ -150,6 +164,7 @@ class Defaults {
 	/**
 	 * Returns the AppId for the App Store for the iOS Client
 	 * @return string AppId
+	 * @since 8.0.0
 	 */
 	public function getiTunesAppId() {
 		return $this->defaults->getiTunesAppId();

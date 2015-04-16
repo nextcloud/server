@@ -39,12 +39,14 @@ use OC\Mail\Message;
  * This message can then be passed to send() of \OC\Mail\Mailer
  *
  * @package OCP\Mail
+ * @since 8.1.0
  */
 interface IMailer {
 	/**
 	 * Creates a new message object that can be passed to send()
 	 *
 	 * @return Message
+	 * @since 8.1.0
 	 */
 	public function createMessage();
 
@@ -57,6 +59,7 @@ interface IMailer {
 	 * therefore should be considered
 	 * @throws \Exception In case it was not possible to send the message. (for example if an invalid mail address
 	 * has been supplied.)
+	 * @since 8.1.0
 	 */
 	public function send(Message $message);
 
@@ -65,6 +68,7 @@ interface IMailer {
 	 *
 	 * @param string $email Email address to be validated
 	 * @return bool True if the mail address is valid, false otherwise
+	 * @since 8.1.0
 	 */
 	public function validateMailAddress($email);
 }

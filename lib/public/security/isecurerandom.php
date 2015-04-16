@@ -31,6 +31,7 @@ namespace OCP\Security;
  * $randomString = $rng->getMediumStrengthGenerator()->generateString(30);
  *
  * @package OCP\Security
+ * @since 8.0.0
  */
 interface ISecureRandom {
 
@@ -50,6 +51,7 @@ interface ISecureRandom {
 	 * used as keys or salts. They are however useful for one-time use tokens.
 	 *
 	 * @return $this
+	 * @since 8.0.0
 	 */
 	public function getLowStrengthGenerator();
 
@@ -61,6 +63,7 @@ interface ISecureRandom {
 	 * take some time and resources to generate, so they should not be over-used
 	 *
 	 * @return $this
+	 * @since 8.0.0
 	 */
 	public function getMediumStrengthGenerator();
 
@@ -71,6 +74,7 @@ interface ISecureRandom {
 	 * 							specified all valid base64 characters are used.
 	 * @return string
 	 * @throws \Exception If the generator is not initialized.
+	 * @since 8.0.0
 	 */
 	public function generate($length, $characters = '');
 }

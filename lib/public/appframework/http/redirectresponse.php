@@ -31,6 +31,7 @@ use OCP\AppFramework\Http;
 
 /**
  * Redirects to a different URL
+ * @since 7.0.0
  */
 class RedirectResponse extends Response {
 
@@ -39,6 +40,7 @@ class RedirectResponse extends Response {
 	/**
 	 * Creates a response that redirects to a url
 	 * @param string $redirectURL the url to redirect to
+	 * @since 7.0.0
 	 */
 	public function __construct($redirectURL) {
 		$this->redirectURL = $redirectURL;
@@ -49,6 +51,7 @@ class RedirectResponse extends Response {
 
 	/**
 	 * @return string the url to redirect
+	 * @since 7.0.0
 	 */
 	public function getRedirectURL() {
 		return $this->redirectURL;

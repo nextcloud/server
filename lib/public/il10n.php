@@ -35,7 +35,10 @@
 namespace OCP;
 
 /**
- * TODO: Description
+ * Interface IL10N
+ *
+ * @package OCP
+ * @since 6.0.0
  */
 interface IL10N {
 	/**
@@ -46,6 +49,7 @@ interface IL10N {
 	 *
 	 * Returns the translation. If no translation is found, $text will be
 	 * returned.
+	 * @since 6.0.0
 	 */
 	public function t($text, $parameters = array());
 
@@ -62,6 +66,7 @@ interface IL10N {
 	 *
 	 * The correct plural is determined by the plural_forms-function
 	 * provided by the po file.
+	 * @since 6.0.0
 	 *
 	 */
 	public function n($text_singular, $text_plural, $count, $parameters = array());
@@ -87,6 +92,7 @@ interface IL10N {
 	 *    - Creates a time
 	 *    - l10n-field: time
 	 *    - params: timestamp (int/string)
+	 * @since 6.0.0
 	 */
 	public function l($type, $data);
 
@@ -95,6 +101,7 @@ interface IL10N {
 	 * The code (en, de, ...) of the language that is used for this OC_L10N object
 	 *
 	 * @return string language
+	 * @since 7.0.0
 	 */
 	public function getLanguageCode();
 }
