@@ -22,13 +22,19 @@
 
 namespace OCP\Encryption\Exceptions;
 
-
+/**
+ * Class GenericEncryptionException
+ *
+ * @package OCP\Encryption\Exceptions
+ * @since 8.1.0
+ */
 class GenericEncryptionException extends \Exception {
 
 	/**
 	 * @param string $message
 	 * @param int $code
 	 * @param \Exception $previous
+	 * @since 8.1.0
 	 */
 	public function __construct($message = '', $code = 0, \Exception $previous = null) {
 		if (empty($message)) {

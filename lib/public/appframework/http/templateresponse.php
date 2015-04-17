@@ -32,6 +32,7 @@ namespace OCP\AppFramework\Http;
 
 /**
  * Response for a normal template
+ * @since 6.0.0
  */
 class TemplateResponse extends Response {
 
@@ -66,6 +67,7 @@ class TemplateResponse extends Response {
 	 * @param array $params an array of parameters which should be passed to the
 	 * template
 	 * @param string $renderAs how the page should be rendered, defaults to user
+	 * @since 6.0.0 - parameters $params and $renderAs were added in 7.0.0
 	 */
 	public function __construct($appName, $templateName, array $params=array(),
 	                            $renderAs='user') {
@@ -81,6 +83,7 @@ class TemplateResponse extends Response {
 	 * @param array $params an array with key => value structure which sets template
 	 *                      variables
 	 * @return TemplateResponse Reference to this object
+	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
 	public function setParams(array $params){
 		$this->params = $params;
@@ -92,6 +95,7 @@ class TemplateResponse extends Response {
 	/**
 	 * Used for accessing the set parameters
 	 * @return array the params
+	 * @since 6.0.0
 	 */
 	public function getParams(){
 		return $this->params;
@@ -101,6 +105,7 @@ class TemplateResponse extends Response {
 	/**
 	 * Used for accessing the name of the set template
 	 * @return string the name of the used template
+	 * @since 6.0.0
 	 */
 	public function getTemplateName(){
 		return $this->templateName;
@@ -114,6 +119,7 @@ class TemplateResponse extends Response {
 	 *                         normal page including footer and header and blank
 	 *                         just renders the plain template
 	 * @return TemplateResponse Reference to this object
+	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
 	public function renderAs($renderAs){
 		$this->renderAs = $renderAs;
@@ -125,6 +131,7 @@ class TemplateResponse extends Response {
 	/**
 	 * Returns the set renderAs
 	 * @return string the renderAs value
+	 * @since 6.0.0
 	 */
 	public function getRenderAs(){
 		return $this->renderAs;
@@ -134,6 +141,7 @@ class TemplateResponse extends Response {
 	/**
 	 * Returns the rendered html
 	 * @return string the rendered html
+	 * @since 6.0.0
 	 */
 	public function render(){
 		// \OCP\Template needs an empty string instead of 'blank' for an unwrapped response

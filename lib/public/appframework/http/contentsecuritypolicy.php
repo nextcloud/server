@@ -35,6 +35,7 @@ use OCP\AppFramework\Http;
  * should require no modification at all for most use-cases.
  *
  * @package OCP\AppFramework\Http
+ * @since 8.1.0
  */
 class ContentSecurityPolicy {
 	/** @var bool Whether inline JS snippets are allowed */
@@ -86,6 +87,7 @@ class ContentSecurityPolicy {
 	 * Whether inline JavaScript snippets are allowed or forbidden
 	 * @param bool $state
 	 * @return $this
+	 * @since 8.1.0
 	 */
 	public function allowInlineScript($state = false) {
 		$this->inlineScriptAllowed = $state;
@@ -96,6 +98,7 @@ class ContentSecurityPolicy {
 	 * Whether eval in JavaScript is allowed or forbidden
 	 * @param bool $state
 	 * @return $this
+	 * @since 8.1.0
 	 */
 	public function allowEvalScript($state = true) {
 		$this->evalScriptAllowed= $state;
@@ -107,6 +110,7 @@ class ContentSecurityPolicy {
 	 * allow JavaScript from all domains.
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
+	 * @since 8.1.0
 	 */
 	public function addAllowedScriptDomain($domain) {
 		$this->allowedScriptDomains[] = $domain;
@@ -117,6 +121,7 @@ class ContentSecurityPolicy {
 	 * Whether inline CSS snippets are allowed or forbidden
 	 * @param bool $state
 	 * @return $this
+	 * @since 8.1.0
 	 */
 	public function allowInlineStyle($state = true) {
 		$this->inlineStyleAllowed = $state;
@@ -128,6 +133,7 @@ class ContentSecurityPolicy {
 	 * CSS from all domains.
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
+	 * @since 8.1.0
 	 */
 	public function addAllowedStyleDomain($domain) {
 		$this->allowedStyleDomains[] = $domain;
@@ -139,6 +145,7 @@ class ContentSecurityPolicy {
 	 * fonts from all domains.
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
+	 * @since 8.1.0
 	 */
 	public function addAllowedFontDomain($domain) {
 		$this->allowedFontDomains[] = $domain;
@@ -150,6 +157,7 @@ class ContentSecurityPolicy {
 	 * images from all domains.
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
+	 * @since 8.1.0
 	 */
 	public function addAllowedImageDomain($domain) {
 		$this->allowedImageDomains[] = $domain;
@@ -160,6 +168,7 @@ class ContentSecurityPolicy {
 	 * To which remote domains the JS connect to.
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
+	 * @since 8.1.0
 	 */
 	public function addAllowedConnectDomain($domain) {
 		$this->allowedConnectDomains[] = $domain;
@@ -170,6 +179,7 @@ class ContentSecurityPolicy {
 	 * From whoch domains media elements can be embedded.
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
+	 * @since 8.1.0
 	 */
 	public function addAllowedMediaDomain($domain) {
 		$this->allowedMediaDomains[] = $domain;
@@ -180,6 +190,7 @@ class ContentSecurityPolicy {
 	 * From which domains objects such as <object>, <embed> or <applet> are executed
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
+	 * @since 8.1.0
 	 */
 	public function addAllowedObjectDomain($domain) {
 		$this->allowedObjectDomains[] = $domain;
@@ -190,6 +201,7 @@ class ContentSecurityPolicy {
 	 * Which domains can be embedded in an iframe
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
+	 * @since 8.1.0
 	 */
 	public function addAllowedFrameDomain($domain) {
 		$this->allowedFrameDomains[] = $domain;
@@ -200,6 +212,7 @@ class ContentSecurityPolicy {
 	 * Domains from which web-workers and nested browsing content can load elements
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
+	 * @since 8.1.0
 	 */
 	public function addAllowedChildSrcDomain($domain) {
 		$this->allowedChildSrcDomains[] = $domain;
@@ -209,6 +222,7 @@ class ContentSecurityPolicy {
 	/**
 	 * Get the generated Content-Security-Policy as a string
 	 * @return string
+	 * @since 8.1.0
 	 */
 	public function buildPolicy() {
 		$policy = "default-src 'none';";

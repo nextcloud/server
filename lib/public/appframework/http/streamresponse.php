@@ -28,6 +28,7 @@ use OCP\AppFramework\Http;
  * Class StreamResponse
  *
  * @package OCP\AppFramework\Http
+ * @since 8.1.0
  */
 class StreamResponse extends Response implements ICallbackResponse {
 	/** @var string */
@@ -35,6 +36,7 @@ class StreamResponse extends Response implements ICallbackResponse {
 
 	/**
 	 * @param string $filePath the path to the file which should be streamed
+	 * @since 8.1.0
 	 */
 	public function __construct ($filePath) {
 		$this->filePath = $filePath;
@@ -45,6 +47,7 @@ class StreamResponse extends Response implements ICallbackResponse {
 	 * Streams the file using readfile
 	 *
 	 * @param IOutput $output a small wrapper that handles output
+	 * @since 8.1.0
 	 */
 	public function callback (IOutput $output) {
 		// handle caching

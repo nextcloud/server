@@ -38,6 +38,7 @@ namespace OCP;
 
 /**
  * This class provides functions to manage apps in ownCloud
+ * @since 4.0.0
  */
 class App {
 	/**
@@ -73,6 +74,7 @@ class App {
 	 *
 	 * @deprecated Use \OC::$server->getNavigationManager()->add() instead to
 	 * register a closure, this helps to speed up all requests against ownCloud
+	 * @since 4.0.0
 	 */
 	public static function addNavigationEntry($data) {
 		\OC::$server->getNavigationManager()->add($data);
@@ -89,6 +91,7 @@ class App {
 	 * highlighting the current position of the user.
 	 *
 	 * @deprecated Use \OC::$server->getNavigationManager()->setActiveEntry() instead
+	 * @since 4.0.0
 	 */
 	public static function setActiveNavigationEntry( $id ) {
 		return \OC_App::setActiveNavigationEntry( $id );
@@ -99,6 +102,7 @@ class App {
 	 * @param string $app appid
 	 * @param string $page page to be included
 	 * @return void
+	 * @since 4.0.0
 	*/
 	public static function registerPersonal( $app, $page ) {
 		\OC_App::registerPersonal( $app, $page );
@@ -109,6 +113,7 @@ class App {
 	 * @param string $app string appid
 	 * @param string $page string page to be included
 	 * @return void
+	 * @since 4.0.0
 	 */
 	public static function registerAdmin( $app, $page ) {
 		\OC_App::registerAdmin( $app, $page );
@@ -119,6 +124,7 @@ class App {
 	 * @param string $app id of the app or the path of the info.xml file
 	 * @param boolean $path (optional)
 	 * @return array
+	 * @since 4.0.0
 	*/
 	public static function getAppInfo( $app, $path=false ) {
 		return \OC_App::getAppInfo( $app, $path);
@@ -130,6 +136,7 @@ class App {
 	 * @return boolean
 	 *
 	 * This function checks whether or not an app is enabled.
+	 * @since 4.0.0
 	 */
 	public static function isEnabled( $app ) {
 		return \OC_App::isEnabled( $app );
@@ -139,6 +146,7 @@ class App {
 	 * Check if the app is enabled, redirects to home if not
 	 * @param string $app
 	 * @return void
+	 * @since 4.0.0
 	*/
 	public static function checkAppEnabled( $app ) {
 		\OC_Util::checkAppEnabled( $app );
@@ -148,6 +156,7 @@ class App {
 	 * Get the last version of the app, either from appinfo/version or from appinfo/info.xml
 	 * @param string $app
 	 * @return string
+	 * @since 4.0.0
 	 */
 	public static function getAppVersion( $app ) {
 		return \OC_App::getAppVersion( $app );

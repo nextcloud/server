@@ -23,10 +23,17 @@
  */
 namespace OCP\Route;
 
+/**
+ * Interface IRoute
+ *
+ * @package OCP\Route
+ * @since 7.0.0
+ */
 interface IRoute {
 	/**
 	 * Specify PATCH as the method to use with this route
 	 * @return \OCP\Route\IRoute
+	 * @since 7.0.0
 	 */
 	public function patch();
 
@@ -35,6 +42,7 @@ interface IRoute {
 	 *
 	 * @param string $method HTTP method (uppercase)
 	 * @return \OCP\Route\IRoute
+	 * @since 7.0.0
 	 */
 	public function method($method);
 
@@ -44,24 +52,28 @@ interface IRoute {
 	 *
 	 * @param string $file
 	 * @return void
+	 * @since 7.0.0
 	 */
 	public function actionInclude($file);
 
 	/**
 	 * Specify GET as the method to use with this route
 	 * @return \OCP\Route\IRoute
+	 * @since 7.0.0
 	 */
 	public function get();
 
 	/**
 	 * Specify POST as the method to use with this route
 	 * @return \OCP\Route\IRoute
+	 * @since 7.0.0
 	 */
 	public function post();
 
 	/**
 	 * Specify DELETE as the method to use with this route
 	 * @return \OCP\Route\IRoute
+	 * @since 7.0.0
 	 */
 	public function delete();
 
@@ -74,6 +86,7 @@ interface IRoute {
 	 *
 	 * This function is called with $class set to a callable or
 	 * to the class with $function
+	 * @since 7.0.0
 	 */
 	public function action($class, $function = null);
 
@@ -82,6 +95,7 @@ interface IRoute {
 	 *
 	 * @param array $defaults The defaults
 	 * @return \OCP\Route\IRoute
+	 * @since 7.0.0
 	 */
 	public function defaults($defaults);
 
@@ -90,12 +104,14 @@ interface IRoute {
 	 *
 	 * @param array $requirements The requirements
 	 * @return \OCP\Route\IRoute
+	 * @since 7.0.0
 	 */
 	public function requirements($requirements);
 
 	/**
 	 * Specify PUT as the method to use with this route
 	 * @return \OCP\Route\IRoute
+	 * @since 7.0.0
 	 */
 	public function put();
 }

@@ -24,11 +24,18 @@
 
 namespace OCP;
 
+/**
+ * Interface IUser
+ *
+ * @package OCP
+ * @since 8.0.0
+ */
 interface IUser {
 	/**
 	 * get the user id
 	 *
 	 * @return string
+	 * @since 8.0.0
 	 */
 	public function getUID();
 
@@ -36,6 +43,7 @@ interface IUser {
 	 * get the display name for the user, if no specific display name is set it will fallback to the user id
 	 *
 	 * @return string
+	 * @since 8.0.0
 	 */
 	public function getDisplayName();
 
@@ -44,6 +52,7 @@ interface IUser {
 	 *
 	 * @param string $displayName
 	 * @return bool
+	 * @since 8.0.0
 	 */
 	public function setDisplayName($displayName);
 
@@ -52,11 +61,13 @@ interface IUser {
 	 * login
 	 *
 	 * @return int
+	 * @since 8.0.0
 	 */
 	public function getLastLogin();
 
 	/**
 	 * updates the timestamp of the most recent login of this user
+	 * @since 8.0.0
 	 */
 	public function updateLastLoginTimestamp();
 
@@ -64,6 +75,7 @@ interface IUser {
 	 * Delete the user
 	 *
 	 * @return bool
+	 * @since 8.0.0
 	 */
 	public function delete();
 
@@ -73,6 +85,7 @@ interface IUser {
 	 * @param string $password
 	 * @param string $recoveryPassword for the encryption app to reset encryption keys
 	 * @return bool
+	 * @since 8.0.0
 	 */
 	public function setPassword($password, $recoveryPassword = null);
 
@@ -87,6 +100,7 @@ interface IUser {
 	 * Get the name of the backend class the user is connected with
 	 *
 	 * @return string
+	 * @since 8.0.0
 	 */
 	public function getBackendClassName();
 
@@ -94,6 +108,7 @@ interface IUser {
 	 * check if the backend allows the user to change his avatar on Personal page
 	 *
 	 * @return bool
+	 * @since 8.0.0
 	 */
 	public function canChangeAvatar();
 
@@ -108,6 +123,7 @@ interface IUser {
 	 * check if the backend supports changing display names
 	 *
 	 * @return bool
+	 * @since 8.0.0
 	 */
 	public function canChangeDisplayName();
 
@@ -115,6 +131,7 @@ interface IUser {
 	 * check if the user is enabled
 	 *
 	 * @return bool
+	 * @since 8.0.0
 	 */
 	public function isEnabled();
 
@@ -122,6 +139,7 @@ interface IUser {
 	 * set the enabled status for the user
 	 *
 	 * @param bool $enabled
+	 * @since 8.0.0
 	 */
 	public function setEnabled($enabled);
 }

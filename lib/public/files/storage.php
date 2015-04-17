@@ -38,6 +38,7 @@ use OCP\Files\InvalidPathException;
  * Provide a common interface to all different storage options
  *
  * All paths passed to the storage are relative to the storage and should NOT have a leading slash.
+ * @since 6.0.0
  */
 interface Storage {
 	/**
@@ -45,6 +46,7 @@ interface Storage {
 	 *
 	 * @param array $parameters
 	 * @return void
+	 * @since 6.0.0
 	 */
 	public function __construct($parameters);
 
@@ -54,6 +56,7 @@ interface Storage {
 	 * and two storage objects with the same id should refer to two storages that display the same files.
 	 *
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getId();
 
@@ -62,6 +65,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function mkdir($path);
 
@@ -70,6 +74,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function rmdir($path);
 
@@ -78,6 +83,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return resource|false
+	 * @since 6.0.0
 	 */
 	public function opendir($path);
 
@@ -86,6 +92,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function is_dir($path);
 
@@ -94,6 +101,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function is_file($path);
 
@@ -103,6 +111,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return array|false
+	 * @since 6.0.0
 	 */
 	public function stat($path);
 
@@ -111,6 +120,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return string|false
+	 * @since 6.0.0
 	 */
 	public function filetype($path);
 
@@ -120,6 +130,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return int|false
+	 * @since 6.0.0
 	 */
 	public function filesize($path);
 
@@ -128,6 +139,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function isCreatable($path);
 
@@ -136,6 +148,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function isReadable($path);
 
@@ -144,6 +157,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function isUpdatable($path);
 
@@ -152,6 +166,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function isDeletable($path);
 
@@ -160,6 +175,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function isSharable($path);
 
@@ -169,6 +185,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return int
+	 * @since 6.0.0
 	 */
 	public function getPermissions($path);
 
@@ -177,6 +194,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function file_exists($path);
 
@@ -185,6 +203,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return int|false
+	 * @since 6.0.0
 	 */
 	public function filemtime($path);
 
@@ -193,6 +212,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return string|false
+	 * @since 6.0.0
 	 */
 	public function file_get_contents($path);
 
@@ -202,6 +222,7 @@ interface Storage {
 	 * @param string $path
 	 * @param string $data
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function file_put_contents($path, $data);
 
@@ -210,6 +231,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function unlink($path);
 
@@ -219,6 +241,7 @@ interface Storage {
 	 * @param string $path1
 	 * @param string $path2
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function rename($path1, $path2);
 
@@ -228,6 +251,7 @@ interface Storage {
 	 * @param string $path1
 	 * @param string $path2
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function copy($path1, $path2);
 
@@ -237,6 +261,7 @@ interface Storage {
 	 * @param string $path
 	 * @param string $mode
 	 * @return resource|false
+	 * @since 6.0.0
 	 */
 	public function fopen($path, $mode);
 
@@ -246,6 +271,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return string|false
+	 * @since 6.0.0
 	 */
 	public function getMimeType($path);
 
@@ -256,6 +282,7 @@ interface Storage {
 	 * @param string $path
 	 * @param bool $raw
 	 * @return string|false
+	 * @since 6.0.0
 	 */
 	public function hash($type, $path, $raw = false);
 
@@ -264,6 +291,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return int|false
+	 * @since 6.0.0
 	 */
 	public function free_space($path);
 
@@ -272,6 +300,7 @@ interface Storage {
 	 *
 	 * @param string $query
 	 * @return array|false
+	 * @since 6.0.0
 	 */
 	public function search($query);
 
@@ -282,6 +311,7 @@ interface Storage {
 	 * @param string $path
 	 * @param int $mtime
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function touch($path, $mtime = null);
 
@@ -291,6 +321,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return string|false
+	 * @since 6.0.0
 	 */
 	public function getLocalFile($path);
 
@@ -300,6 +331,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return string|false
+	 * @since 6.0.0
 	 */
 	public function getLocalFolder($path);
 	/**
@@ -308,6 +340,7 @@ interface Storage {
 	 * @param string $path
 	 * @param int $time
 	 * @return bool
+	 * @since 6.0.0
 	 *
 	 * hasUpdated for folders should return at least true if a file inside the folder is add, removed or renamed.
 	 * returning true for other changes in the folder is optional
@@ -319,6 +352,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return string|false
+	 * @since 6.0.0
 	 */
 	public function getETag($path);
 
@@ -330,6 +364,7 @@ interface Storage {
 	 * it might return a temporary file.
 	 *
 	 * @return bool true if the files are stored locally, false otherwise
+	 * @since 7.0.0
 	 */
 	public function isLocal();
 
@@ -338,6 +373,7 @@ interface Storage {
 	 *
 	 * @param string $class
 	 * @return bool
+	 * @since 7.0.0
 	 */
 	public function instanceOfStorage($class);
 
@@ -348,6 +384,7 @@ interface Storage {
 	 *
 	 * @param string $path
 	 * @return array|false
+	 * @since 8.0.0
 	 */
 	public function getDirectDownload($path);
 
@@ -356,6 +393,7 @@ interface Storage {
 	 * @param string $fileName the name of the file itself
 	 * @return void
 	 * @throws InvalidPathException
+	 * @since 8.1.0
 	 */
 	public function verifyPath($path, $fileName);
 
@@ -364,6 +402,7 @@ interface Storage {
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @return bool
+	 * @since 8.1.0
 	 */
 	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath);
 
@@ -372,6 +411,7 @@ interface Storage {
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @return bool
+	 * @since 8.1.0
 	 */
 	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath);
 }

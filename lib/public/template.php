@@ -148,6 +148,7 @@ class Template extends \OC_Template {
 	 * @param string $app
 	 * @param string $image
 	 * @return string to the image
+	 * @since 8.0.0
 	 */
 	public static function image_path($app, $image) {
 		return \image_path($app, $image);
@@ -159,6 +160,7 @@ class Template extends \OC_Template {
 	 *
 	 * @param string $mimetype
 	 * @return string to the image of this file type.
+	 * @since 8.0.0
 	 */
 	public static function mimetype_icon($mimetype) {
 		return \mimetype_icon($mimetype);
@@ -169,6 +171,7 @@ class Template extends \OC_Template {
 	 *
 	 * @param string $path path to file
 	 * @return string to the preview of the image
+	 * @since 8.0.0
 	 */
 	public static function preview_icon($path) {
 		return \preview_icon($path);
@@ -181,6 +184,7 @@ class Template extends \OC_Template {
 	 * @param string $path of file
 	 * @param string $token
 	 * @return string link to the preview
+	 * @since 8.0.0
 	 */
 	public static function publicPreview_icon($path, $token) {
 		return \publicPreview_icon($path, $token);
@@ -192,18 +196,20 @@ class Template extends \OC_Template {
 	 *
 	 * @param int $bytes in bytes
 	 * @return string size as string
+	 * @since 8.0.0
 	 */
 	public static function human_file_size($bytes) {
 		return \human_file_size($bytes);
 	}
 
 	/**
-	* Return the relative date in relation to today. Returns something like "last hour" or "two month ago"
-	*
-	* @param int $timestamp unix timestamp
-	* @param boolean $dateOnly
-	* @return string human readable interpretation of the timestamp
-	*/
+	 * Return the relative date in relation to today. Returns something like "last hour" or "two month ago"
+	 *
+	 * @param int $timestamp unix timestamp
+	 * @param boolean $dateOnly
+	 * @return string human readable interpretation of the timestamp
+	 * @since 8.0.0
+	 */
 	public static function relative_modified_date($timestamp, $dateOnly = false) {
 		return \relative_modified_date($timestamp, null, $dateOnly);
 	}
@@ -215,6 +221,7 @@ class Template extends \OC_Template {
 	 * @param mixed $selected which one is selected?
 	 * @param array $params the parameters
 	 * @return string html options
+	 * @since 8.0.0
 	 */
 	public static function html_select_options($options, $selected, $params=array()) {
 		return \html_select_options($options, $selected, $params);

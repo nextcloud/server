@@ -37,6 +37,7 @@ use OCP\AppFramework\Http\Response;
  * deal with possible exceptions raised in the controller methods.
  * They're modeled after Django's middleware system:
  * https://docs.djangoproject.com/en/dev/topics/http/middleware/
+ * @since 6.0.0
  */
 abstract class Middleware {
 
@@ -48,6 +49,7 @@ abstract class Middleware {
 	 * @param Controller $controller the controller that is being called
 	 * @param string $methodName the name of the method that will be called on
 	 *                           the controller
+	 * @since 6.0.0
 	 */
 	public function beforeController($controller, $methodName){
 
@@ -67,6 +69,7 @@ abstract class Middleware {
 	 * @param \Exception $exception the thrown exception
 	 * @throws \Exception the passed in exception if it cant handle it
 	 * @return Response a Response object in case that the exception was handled
+	 * @since 6.0.0
 	 */
 	public function afterException($controller, $methodName, \Exception $exception){
 		throw $exception;
@@ -82,6 +85,7 @@ abstract class Middleware {
 	 *                           the controller
 	 * @param Response $response the generated response from the controller
 	 * @return Response a Response object
+	 * @since 6.0.0
 	 */
 	public function afterController($controller, $methodName, Response $response){
 		return $response;
@@ -97,6 +101,7 @@ abstract class Middleware {
 	 *                           the controller
 	 * @param string $output the generated output from a response
 	 * @return string the output that should be printed
+	 * @since 6.0.0
 	 */
 	public function beforeOutput($controller, $methodName, $output){
 		return $output;

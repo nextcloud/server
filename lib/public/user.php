@@ -42,12 +42,14 @@ namespace OCP;
 /**
  * This class provides access to the user management. You can get information
  * about the currently logged in user and the permissions for example
+ * @since 5.0.0
  */
 class User {
 	/**
 	 * Get the user id of the user currently logged in.
 	 * @return string uid or false
 	 * @deprecated Use \OC::$server->getUserSession()->getUser()->getUID()
+	 * @since 5.0.0
 	 */
 	public static function getUser() {
 		return \OC_User::getUser();
@@ -59,6 +61,7 @@ class User {
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 * @return array an array of all uids
+	 * @since 5.0.0
 	 */
 	public static function getUsers( $search = '', $limit = null, $offset = null ) {
 		return \OC_User::getUsers( $search, $limit, $offset );
@@ -68,6 +71,7 @@ class User {
 	 * Get the user display name of the user currently logged in.
 	 * @param string|null $user user id or null for current user
 	 * @return string display name
+	 * @since 5.0.0
 	 */
 	public static function getDisplayName( $user = null ) {
 		return \OC_User::getDisplayName( $user );
@@ -79,6 +83,7 @@ class User {
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 * @return array an array of all display names (value) and the correspondig uids (key)
+	 * @since 5.0.0
 	 */
 	public static function getDisplayNames( $search = '', $limit = null, $offset = null ) {
 		return \OC_User::getDisplayNames( $search, $limit, $offset );
@@ -87,6 +92,7 @@ class User {
 	/**
 	 * Check if the user is logged in
 	 * @return boolean
+	 * @since 5.0.0
 	 */
 	public static function isLoggedIn() {
 		return \OC_User::isLoggedIn();
@@ -97,6 +103,7 @@ class User {
 	 * @param string $uid the username
 	 * @param string $excludingBackend (default none)
 	 * @return boolean
+	 * @since 5.0.0
 	 */
 	public static function userExists( $uid, $excludingBackend = null ) {
 		return \OC_User::userExists( $uid, $excludingBackend );
@@ -105,6 +112,7 @@ class User {
 	 * Logs the user out including all the session data
 	 * Logout, destroys session
 	 * @deprecated Use \OC::$server->getUserSession()->logout();
+	 * @since 5.0.0
 	 */
 	public static function logout() {
 		\OC_User::logout();
@@ -118,22 +126,25 @@ class User {
 	 *
 	 * Check if the password is correct without logging in the user
 	 * @deprecated Use \OC::$server->getUserManager()->checkPassword();
+	 * @since 5.0.0
 	 */
 	public static function checkPassword( $uid, $password ) {
 		return \OC_User::checkPassword( $uid, $password );
 	}
 
 	/**
-	* Check if the user is a admin, redirects to home if not
-	*/
+	 * Check if the user is a admin, redirects to home if not
+	 * @since 5.0.0
+	 */
 	public static function checkAdminUser() {
 		\OC_Util::checkAdminUser();
 	}
 
 	/**
-	* Check if the user is logged in, redirects to home if not. With
-	* redirect URL parameter to the request URI.
-	*/
+	 * Check if the user is logged in, redirects to home if not. With
+	 * redirect URL parameter to the request URI.
+	 * @since 5.0.0
+	 */
 	public static function checkLoggedIn() {
 		\OC_Util::checkLoggedIn();
 	}

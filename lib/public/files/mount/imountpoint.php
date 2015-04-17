@@ -24,6 +24,7 @@ namespace OCP\Files\Mount;
 
 /**
  * A storage mounted to folder on the filesystem
+ * @since 8.0.0
  */
 interface IMountPoint {
 
@@ -31,6 +32,7 @@ interface IMountPoint {
 	 * get complete path to the mount point
 	 *
 	 * @return string
+	 * @since 8.0.0
 	 */
 	public function getMountPoint();
 
@@ -38,6 +40,7 @@ interface IMountPoint {
 	 * Set the mountpoint
 	 *
 	 * @param string $mountPoint new mount point
+	 * @since 8.0.0
 	 */
 	public function setMountPoint($mountPoint);
 
@@ -45,6 +48,7 @@ interface IMountPoint {
 	 * Get the storage that is mounted
 	 *
 	 * @return \OC\Files\Storage\Storage
+	 * @since 8.0.0
 	 */
 	public function getStorage();
 
@@ -52,6 +56,7 @@ interface IMountPoint {
 	 * Get the id of the storages
 	 *
 	 * @return string
+	 * @since 8.0.0
 	 */
 	public function getStorageId();
 
@@ -60,6 +65,7 @@ interface IMountPoint {
 	 *
 	 * @param string $path absolute path to a file or folder
 	 * @return string
+	 * @since 8.0.0
 	 */
 	public function getInternalPath($path);
 
@@ -67,6 +73,7 @@ interface IMountPoint {
 	 * Apply a storage wrapper to the mounted storage
 	 *
 	 * @param callable $wrapper
+	 * @since 8.0.0
 	 */
 	public function wrapStorage($wrapper);
 
@@ -76,6 +83,7 @@ interface IMountPoint {
 	 * @param string $name Name of the mount option to get
 	 * @param mixed $default Default value for the mount option
 	 * @return mixed
+	 * @since 8.0.0
 	 */
 	public function getOption($name, $default);
 
@@ -83,6 +91,7 @@ interface IMountPoint {
 	 * Get all options for the mount
 	 *
 	 * @return array
+	 * @since 8.1.0
 	 */
 	public function getOptions();
 }

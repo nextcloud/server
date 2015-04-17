@@ -26,6 +26,7 @@ namespace OCP\AppFramework\Db;
 /**
  * @method integer getId()
  * @method void setId(integer $id)
+ * @since 7.0.0
  */
 abstract class Entity {
 
@@ -40,6 +41,7 @@ abstract class Entity {
 	 * @param array $params the array which was obtained via $this->params('key')
 	 * in the controller
 	 * @return Entity
+	 * @since 7.0.0
 	 */
 	public static function fromParams(array $params) {
 		$instance = new static();
@@ -56,6 +58,7 @@ abstract class Entity {
 	/**
 	 * Maps the keys of the row array to the attributes
 	 * @param array $row the row to map onto the entity
+	 * @since 7.0.0
 	 */
 	public static function fromRow(array $row){
 		$instance = new static();
@@ -73,7 +76,8 @@ abstract class Entity {
 
 
 	/**
-	 * @return an array with attribute and type
+	 * @return array with attribute and type
+	 * @since 7.0.0
 	 */
 	public function getFieldTypes() {
 		return $this->_fieldTypes;
@@ -82,11 +86,11 @@ abstract class Entity {
 	
 	/**
 	 * Marks the entity as clean needed for setting the id after the insertion
+	 * @since 7.0.0
 	 */
 	public function resetUpdatedFields(){
 		$this->_updatedFields = array();
 	}
-
 
 	protected function setter($name, $args) {
 		// setters should only work for existing attributes
@@ -108,7 +112,6 @@ abstract class Entity {
 		}
 	}
 
-
 	protected function getter($name) {
 		// getters should only work for existing attributes
 		if(property_exists($this, $name)){
@@ -125,6 +128,7 @@ abstract class Entity {
 	 * into an array: for instance setId will save Id in the 
 	 * updated fields array so it can be easily used to create the
 	 * getter method
+	 * @since 7.0.0
 	 */
 	public function __call($methodName, $args){
 		$attr = lcfirst( substr($methodName, 3) );
@@ -154,6 +158,7 @@ abstract class Entity {
 	 * Transform a database columnname to a property 
 	 * @param string $columnName the name of the column
 	 * @return string the property name
+	 * @since 7.0.0
 	 */
 	public function columnToProperty($columnName){
 		$parts = explode('_', $columnName);
@@ -175,6 +180,7 @@ abstract class Entity {
 	 * Transform a property to a database column name
 	 * @param string $property the name of the property
 	 * @return string the column name
+	 * @since 7.0.0
 	 */
 	public function propertyToColumn($property){
 		$parts = preg_split('/(?=[A-Z])/', $property);
@@ -194,6 +200,7 @@ abstract class Entity {
 
 	/**
 	 * @return array array of updated fields for update query
+	 * @since 7.0.0
 	 */
 	public function getUpdatedFields(){
 		return $this->_updatedFields;
@@ -216,6 +223,7 @@ abstract class Entity {
 	 * Warning: This doesn't result in a unique value
 	 * @param string $attributeName the name of the attribute, which value should be slugified
 	 * @return string slugified value
+	 * @since 7.0.0
 	 */
 	public function slugify($attributeName){
 		// toSlug should only work for existing attributes

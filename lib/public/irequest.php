@@ -58,6 +58,7 @@ namespace OCP;
  *
  * @property-read string[] $server
  * @property-read string[] $urlParams
+ * @since 6.0.0
  */
 interface IRequest {
 
@@ -65,6 +66,7 @@ interface IRequest {
 	 * @param string $name
 	 *
 	 * @return string
+	 * @since 6.0.0
 	 */
 	function getHeader($name);
 
@@ -80,6 +82,7 @@ interface IRequest {
 	 *                     3. GET parameters
 	 * @param mixed $default If the key is not found, this value will be returned
 	 * @return mixed the content of the array
+	 * @since 6.0.0
 	 */
 	public function getParam($key, $default = null);
 
@@ -89,6 +92,7 @@ interface IRequest {
 	 *
 	 * (as GET or POST) or through the URL by the route
 	 * @return array the array with all parameters
+	 * @since 6.0.0
 	 */
 	public function getParams();
 
@@ -96,6 +100,7 @@ interface IRequest {
 	 * Returns the method of the request
 	 *
 	 * @return string the method of the request (POST, GET, etc)
+	 * @since 6.0.0
 	 */
 	public function getMethod();
 
@@ -104,6 +109,7 @@ interface IRequest {
 	 *
 	 * @param string $key the key that will be taken from the $_FILES array
 	 * @return array the file in the $_FILES element
+	 * @since 6.0.0
 	 */
 	public function getUploadedFile($key);
 
@@ -113,6 +119,7 @@ interface IRequest {
 	 *
 	 * @param string $key the key that will be taken from the $_ENV array
 	 * @return array the value in the $_ENV element
+	 * @since 6.0.0
 	 */
 	public function getEnv($key);
 
@@ -122,6 +129,7 @@ interface IRequest {
 	 *
 	 * @param string $key the key that will be taken from the $_COOKIE array
 	 * @return array the value in the $_COOKIE element
+	 * @since 6.0.0
 	 */
 	function getCookie($key);
 
@@ -129,6 +137,7 @@ interface IRequest {
 	/**
 	 * Checks if the CSRF check was correct
 	 * @return bool true if CSRF check passed
+	 * @since 6.0.0
 	 */
 	public function passesCSRFCheck();
 
@@ -136,6 +145,7 @@ interface IRequest {
 	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
 	 * If `mod_unique_id` is installed this value will be taken.
 	 * @return string
+	 * @since 8.1.0
 	 */
 	public function getId();
 
@@ -145,6 +155,7 @@ interface IRequest {
 	 * specified in this header will be returned instead.
 	 * Do always use this instead of $_SERVER['REMOTE_ADDR']
 	 * @return string IP address
+	 * @since 8.1.0
 	 */
 	public function getRemoteAddress();
 
@@ -152,6 +163,7 @@ interface IRequest {
 	 * Returns the server protocol. It respects reverse proxy servers and load
 	 * balancers.
 	 * @return string Server protocol (http or https)
+	 * @since 8.1.0
 	 */
 	public function getServerProtocol();
 
@@ -159,6 +171,7 @@ interface IRequest {
 	* Returns the request uri, even if the website uses one or more
 	* reverse proxies
 	* @return string
+	 * @since 8.1.0
 	*/
 	public function getRequestUri();
 
@@ -166,6 +179,7 @@ interface IRequest {
 	 * Get raw PathInfo from request (not urldecoded)
 	 * @throws \Exception
 	 * @return string Path info
+	 * @since 8.1.0
 	 */
 	public function getRawPathInfo();
 
@@ -173,6 +187,7 @@ interface IRequest {
 	 * Get PathInfo from request
 	 * @throws \Exception
 	 * @return string|false Path info or false when not found
+	 * @since 8.1.0
 	 */
 	public function getPathInfo();
 
@@ -180,6 +195,7 @@ interface IRequest {
 	 * Returns the script name, even if the website uses one or more
 	 * reverse proxies
 	 * @return string the script name
+	 * @since 8.1.0
 	 */
 	public function getScriptName();
 
@@ -187,6 +203,7 @@ interface IRequest {
 	 * Checks whether the user agent matches a given regex
 	 * @param array $agent array of agent names
 	 * @return bool true if at least one of the given agent matches, false otherwise
+	 * @since 8.1.0
 	 */
 	public function isUserAgent(array $agent);
 
@@ -194,6 +211,7 @@ interface IRequest {
 	 * Returns the unverified server host from the headers without checking
 	 * whether it is a trusted domain
 	 * @return string Server host
+	 * @since 8.1.0
 	 */
 	public function getInsecureServerHost();
 
@@ -201,6 +219,7 @@ interface IRequest {
 	 * Returns the server host from the headers, or the first configured
 	 * trusted domain if the host isn't in the trusted list
 	 * @return string Server host
+	 * @since 8.1.0
 	 */
 	public function getServerHost();
 }

@@ -47,6 +47,7 @@ use \OC\BackgroundJob\JobList;
  * A regular Job will be executed every time cron.php is run, a QueuedJob will only run once and a TimedJob
  * will only run at a specific interval which is to be specified in the constructor of the job by calling
  * $this->setInterval($interval) with $interval in seconds.
+ * @since 4.5.0
  */
 class BackgroundJob {
 	/**
@@ -56,6 +57,7 @@ class BackgroundJob {
 	 *
 	 * This method returns the type how background jobs are executed. If the user
 	 * did not select something, the type is ajax.
+	 * @since 5.0.0
 	 */
 	public static function getExecutionType() {
 		return \OC_BackgroundJob::getExecutionType();
@@ -69,6 +71,7 @@ class BackgroundJob {
 	 *
 	 * This method sets the execution type of the background jobs. Possible types
 	 * are "none", "ajax", "webcron", "cron"
+	 * @since 5.0.0
 	 */
 	public static function setExecutionType($type) {
 		return \OC_BackgroundJob::setExecutionType($type);
@@ -77,6 +80,7 @@ class BackgroundJob {
 	/**
 	 * @param string $job
 	 * @param mixed $argument
+	 * @since 6.0.0
 	 */
 	public static function registerJob($job, $argument = null) {
 		$jobList = \OC::$server->getJobList();
@@ -89,6 +93,7 @@ class BackgroundJob {
 	 * @param string $klass class name
 	 * @param string $method method name
 	 * @return boolean|null
+	 * @since 4.5.0
 	 */
 	public static function addRegularTask($klass, $method) {
 		if (!\OC::needUpgrade()) {
@@ -103,6 +108,7 @@ class BackgroundJob {
 	 * @return array
 	 *
 	 * key is string "$klass-$method", value is array( $klass, $method )
+	 * @since 4.5.0
 	 */
 	static public function allRegularTasks() {
 		$jobList = \OC::$server->getJobList();
@@ -122,6 +128,7 @@ class BackgroundJob {
 	 * Gets one queued task
 	 * @param int $id ID of the task
 	 * @return BackgroundJob\IJob|null
+	 * @since 4.5.0
 	 */
 	public static function findQueuedTask($id) {
 		$jobList = \OC::$server->getJobList();
@@ -132,6 +139,7 @@ class BackgroundJob {
 	 * @deprecated
 	 * Gets all queued tasks
 	 * @return array an array of associative arrays
+	 * @since 4.5.0
 	 */
 	public static function allQueuedTasks() {
 		$jobList = \OC::$server->getJobList();
@@ -152,6 +160,7 @@ class BackgroundJob {
 	 * Gets all queued tasks of a specific app
 	 * @param string $app app name
 	 * @return array an array of associative arrays
+	 * @since 4.5.0
 	 */
 	public static function queuedTaskWhereAppIs($app) {
 		$jobList = \OC::$server->getJobList();
@@ -177,6 +186,7 @@ class BackgroundJob {
 	 * @param string $method method name
 	 * @param string $parameters all useful data as text
 	 * @return boolean id of task
+	 * @since 4.5.0
 	 */
 	public static function addQueuedTask($app, $class, $method, $parameters) {
 		self::registerJob('OC\BackgroundJob\Legacy\QueuedJob', array('app' => $app, 'klass' => $class, 'method' => $method, 'parameters' => $parameters));
@@ -190,6 +200,7 @@ class BackgroundJob {
 	 * @return boolean|null
 	 *
 	 * Deletes a report
+	 * @since 4.5.0
 	 */
 	public static function deleteQueuedTask($id) {
 		$jobList = \OC::$server->getJobList();

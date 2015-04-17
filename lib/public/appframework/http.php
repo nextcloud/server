@@ -30,6 +30,7 @@ namespace OCP\AppFramework;
 
 /**
  * Base class which contains constants for HTTP status codes
+ * @since 6.0.0
  */
 class Http {
 

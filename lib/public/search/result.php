@@ -26,6 +26,7 @@ namespace OCP\Search;
 
 /**
  * The generic result of a search
+ * @since 7.0.0
  */
 class Result {
 
@@ -33,6 +34,7 @@ class Result {
 	 * A unique identifier for the result, usually given as the item ID in its
 	 * corresponding application.
 	 * @var string
+	 * @since 7.0.0
 	 */
 	public $id;
 
@@ -40,12 +42,14 @@ class Result {
 	 * The name of the item returned; this will be displayed in the search
 	 * results.
 	 * @var string
+	 * @since 7.0.0
 	 */
 	public $name;
 
 	/**
 	 * URL to the application item.
 	 * @var string
+	 * @since 7.0.0
 	 */
 	public $link;
 
@@ -53,6 +57,7 @@ class Result {
 	 * The type of search result returned; for consistency, name this the same
 	 * as the class name (e.g. \OC\Search\File -> 'file') in lowercase. 
 	 * @var string
+	 * @since 7.0.0
 	 */
 	public $type = 'generic';
 
@@ -61,6 +66,7 @@ class Result {
 	 * @param string $id unique identifier from application: '[app_name]/[item_identifier_in_app]'
 	 * @param string $name displayed text of result
 	 * @param string $link URL to the result within its app
+	 * @since 7.0.0
 	 */
 	public function __construct($id = null, $name = null, $link = null) {
 		$this->id = $id;

@@ -37,30 +37,38 @@ namespace OCP;
  * - postCreate(\OC\Group\Group $group)
  *
  * @package OC\Group
+ * @since 8.0.0
  */
 interface IGroupManager {
 	/**
 	 * @param \OCP\UserInterface $backend
+	 * @since 8.0.0
 	 */
 	public function addBackend($backend);
 
+	/**
+	 * @since 8.0.0
+	 */
 	public function clearBackends();
 
 	/**
 	 * @param string $gid
 	 * @return \OCP\IGroup
+	 * @since 8.0.0
 	 */
 	public function get($gid);
 
 	/**
 	 * @param string $gid
 	 * @return bool
+	 * @since 8.0.0
 	 */
 	public function groupExists($gid);
 
 	/**
 	 * @param string $gid
 	 * @return \OCP\IGroup
+	 * @since 8.0.0
 	 */
 	public function createGroup($gid);
 
@@ -69,18 +77,21 @@ interface IGroupManager {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return \OCP\IGroup[]
+	 * @since 8.0.0
 	 */
 	public function search($search, $limit = null, $offset = null);
 
 	/**
 	 * @param \OCP\IUser $user
 	 * @return \OCP\IGroup[]
+	 * @since 8.0.0
 	 */
 	public function getUserGroups($user);
 
 	/**
 	 * @param \OCP\IUser $user
 	 * @return array with group names
+	 * @since 8.0.0
 	 */
 	public function getUserGroupIds($user);
 
@@ -92,6 +103,7 @@ interface IGroupManager {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return array an array of display names (value) and user ids (key)
+	 * @since 8.0.0
 	 */
 	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0);
 
@@ -99,6 +111,7 @@ interface IGroupManager {
 	 * Checks if a userId is in the admin group
 	 * @param string $userId
 	 * @return bool if admin
+	 * @since 8.0.0
 	 */
 	public function isAdmin($userId);
 
@@ -107,6 +120,7 @@ interface IGroupManager {
 	 * @param string $userId
 	 * @param group $group
 	 * @return bool if in group
+	 * @since 8.0.0
 	 */
 	public function isInGroup($userId, $group);
 }

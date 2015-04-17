@@ -27,6 +27,7 @@ namespace OCP;
 /**
  * This class provides an easy way for apps to store config values in the
  * database.
+ * @since 7.0.0
  */
 interface IAppConfig {
 	/**
@@ -34,6 +35,7 @@ interface IAppConfig {
 	 * @param string $app
 	 * @param string $key
 	 * @return bool
+	 * @since 7.0.0
 	 */
 	public function hasKey($app, $key);
 
@@ -47,6 +49,7 @@ interface IAppConfig {
 	 *
 	 * This function gets a value from the appconfig table. If the key does
 	 * not exist the default value will be returned
+	 * @since 7.0.0
 	 */
 	public function getValue($app, $key, $default = null);
 
@@ -56,6 +59,7 @@ interface IAppConfig {
 	 * @param string $key key
 	 * @return bool
 	 * @deprecated use method deleteAppValue of \OCP\IConfig
+	 * @since 7.0.0
 	 */
 	public function deleteKey($app, $key);
 
@@ -67,6 +71,7 @@ interface IAppConfig {
 	 *
 	 * This function gets all keys of an app. Please note that the values are
 	 * not returned.
+	 * @since 7.0.0
 	 */
 	public function getKeys($app);
 
@@ -76,6 +81,7 @@ interface IAppConfig {
 	 * @param string|false $key
 	 * @param string|false $app
 	 * @return array|false
+	 * @since 7.0.0
 	 */
 	public function getValues($app, $key);
 
@@ -88,6 +94,7 @@ interface IAppConfig {
 	 *
 	 * Sets a value. If the key did not exist before it will be created.
 	 * @return void
+	 * @since 7.0.0
 	 */
 	public function setValue($app, $key, $value);
 
@@ -97,6 +104,7 @@ interface IAppConfig {
 	 *
 	 * This function returns a list of all apps that have at least one
 	 * entry in the appconfig table.
+	 * @since 7.0.0
 	 */
 	public function getApps();
 
@@ -107,6 +115,7 @@ interface IAppConfig {
 	 * @deprecated use method deleteAppValue of \OCP\IConfig
 	 *
 	 * Removes all keys in appconfig belonging to the app.
+	 * @since 7.0.0
 	 */
 	public function deleteApp($app);
 }

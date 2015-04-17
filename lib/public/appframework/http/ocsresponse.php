@@ -33,6 +33,7 @@ use OC_OCS;
 
 /**
  * A renderer for OCS responses
+ * @since 8.1.0
  */
 class OCSResponse extends Response {
 
@@ -58,6 +59,7 @@ class OCSResponse extends Response {
 	 * @param int $dimension
 	 * @param int|string $itemscount
 	 * @param int|string $itemsperpage
+	 * @since 8.1.0
 	 */
 	public function __construct($format, $status, $statuscode, $message,
 								$data=[], $tag='', $tagattribute='',
@@ -86,7 +88,10 @@ class OCSResponse extends Response {
 		}
 	}
 
-
+	/**
+	 * @return string
+	 * @since 8.1.0
+	 */
 	public function render() {
 		return OC_OCS::generateXml(
 			$this->format, $this->status, $this->statuscode, $this->message,

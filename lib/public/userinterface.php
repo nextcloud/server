@@ -31,4 +31,10 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
+/**
+ * Interface UserInterface
+ *
+ * @package OCP
+ * @since 4.5.0
+ */
 interface UserInterface extends \OC_User_Interface {}

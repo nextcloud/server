@@ -30,12 +30,19 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP\Files;
 
+/**
+ * Interface File
+ *
+ * @package OCP\Files
+ * @since 6.0.0
+ */
 interface File extends Node {
 	/**
 	 * Get the content of the file as string
 	 *
 	 * @return string
 	 * @throws \OCP\Files\NotPermittedException
+	 * @since 6.0.0
 	 */
 	public function getContent();
 
@@ -45,6 +52,7 @@ interface File extends Node {
 	 * @param string $data
 	 * @throws \OCP\Files\NotPermittedException
 	 * @return void
+	 * @since 6.0.0
 	 */
 	public function putContent($data);
 
@@ -52,6 +60,7 @@ interface File extends Node {
 	 * Get the mimetype of the file
 	 *
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getMimeType();
 
@@ -61,6 +70,7 @@ interface File extends Node {
 	 * @param string $mode
 	 * @return resource
 	 * @throws \OCP\Files\NotPermittedException
+	 * @since 6.0.0
 	 */
 	public function fopen($mode);
 
@@ -71,6 +81,7 @@ interface File extends Node {
 	 * @param string $type
 	 * @param bool $raw
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function hash($type, $raw = false);
 }

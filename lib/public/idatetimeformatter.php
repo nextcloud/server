@@ -22,6 +22,12 @@
 
 namespace OCP;
 
+/**
+ * Interface IDateTimeFormatter
+ *
+ * @package OCP
+ * @since 8.0.0
+ */
 interface IDateTimeFormatter {
 	/**
 	 * Formats the date of the given timestamp
@@ -36,6 +42,7 @@ interface IDateTimeFormatter {
 	 * @param \DateTimeZone	$timeZone	The timezone to use
 	 * @param \OCP\IL10N	$l			The locale to use
 	 * @return string Formatted date string
+	 * @since 8.0.0
 	 */
 	public function formatDate($timestamp, $format = 'long', \DateTimeZone $timeZone = null, \OCP\IL10N $l = null);
 
@@ -53,6 +60,7 @@ interface IDateTimeFormatter {
 	 * @param \DateTimeZone	$timeZone	The timezone to use
 	 * @param \OCP\IL10N	$l			The locale to use
 	 * @return string Formatted relative date string
+	 * @since 8.0.0
 	 */
 	public function formatDateRelativeDay($timestamp, $format = 'long', \DateTimeZone $timeZone = null, \OCP\IL10N $l = null);
 
@@ -68,6 +76,7 @@ interface IDateTimeFormatter {
 	 * 				>= 13 month	=> last year, n years ago
 	 * @param \OCP\IL10N		$l			The locale to use
 	 * @return string Formatted date span
+	 * @since 8.0.0
 	 */
 	public function formatDateSpan($timestamp, $baseTimestamp = null, \OCP\IL10N $l = null);
 
@@ -84,6 +93,7 @@ interface IDateTimeFormatter {
 	 * @param \DateTimeZone	$timeZone	The timezone to use
 	 * @param \OCP\IL10N		$l			The locale to use
 	 * @return string Formatted time string
+	 * @since 8.0.0
 	 */
 	public function formatTime($timestamp, $format = 'medium', \DateTimeZone $timeZone = null, \OCP\IL10N $l = null);
 
@@ -101,6 +111,7 @@ interface IDateTimeFormatter {
 	 * 				>= 13 month	=> last year, n years ago
 	 * @param \OCP\IL10N		$l			The locale to use
 	 * @return string Formatted time span
+	 * @since 8.0.0
 	 */
 	public function formatTimeSpan($timestamp, $baseTimestamp = null, \OCP\IL10N $l = null);
 
@@ -113,6 +124,7 @@ interface IDateTimeFormatter {
 	 * @param \DateTimeZone	$timeZone	The timezone to use
 	 * @param \OCP\IL10N		$l			The locale to use
 	 * @return string Formatted date and time string
+	 * @since 8.0.0
 	 */
 	public function formatDateTime($timestamp, $formatDate = 'long', $formatTime = 'medium', \DateTimeZone $timeZone = null, \OCP\IL10N $l = null);
 
@@ -126,6 +138,7 @@ interface IDateTimeFormatter {
 	 * @param \DateTimeZone	$timeZone	The timezone to use
 	 * @param \OCP\IL10N		$l			The locale to use
 	 * @return string Formatted relative date and time string
+	 * @since 8.0.0
 	 */
 	public function formatDateTimeRelativeDay($timestamp, $formatDate = 'long', $formatTime = 'medium', \DateTimeZone $timeZone = null, \OCP\IL10N $l = null);
 }

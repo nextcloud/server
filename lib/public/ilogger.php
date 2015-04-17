@@ -25,6 +25,7 @@ namespace OCP;
 /**
  * Interface ILogger
  * @package OCP
+ * @since 7.0.0
  *
  * This logger interface follows the design guidelines of PSR-3
  * https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md#3-psrlogloggerinterface
@@ -36,6 +37,7 @@ interface ILogger {
 	 * @param string $message
 	 * @param array $context
 	 * @return null
+	 * @since 7.0.0
 	 */
 	function emergency($message, array $context = array());
 
@@ -45,6 +47,7 @@ interface ILogger {
 	 * @param string $message
 	 * @param array $context
 	 * @return null
+	 * @since 7.0.0
 	 */
 	function alert($message, array $context = array());
 
@@ -54,6 +57,7 @@ interface ILogger {
 	 * @param string $message
 	 * @param array $context
 	 * @return null
+	 * @since 7.0.0
 	 */
 	function critical($message, array $context = array());
 
@@ -64,6 +68,7 @@ interface ILogger {
 	 * @param string $message
 	 * @param array $context
 	 * @return null
+	 * @since 7.0.0
 	 */
 	function error($message, array $context = array());
 
@@ -73,6 +78,7 @@ interface ILogger {
 	 * @param string $message
 	 * @param array $context
 	 * @return null
+	 * @since 7.0.0
 	 */
 	function warning($message, array $context = array());
 
@@ -82,6 +88,7 @@ interface ILogger {
 	 * @param string $message
 	 * @param array $context
 	 * @return null
+	 * @since 7.0.0
 	 */
 	function notice($message, array $context = array());
 
@@ -91,6 +98,7 @@ interface ILogger {
 	 * @param string $message
 	 * @param array $context
 	 * @return null
+	 * @since 7.0.0
 	 */
 	function info($message, array $context = array());
 
@@ -100,6 +108,7 @@ interface ILogger {
 	 * @param string $message
 	 * @param array $context
 	 * @return null
+	 * @since 7.0.0
 	 */
 	function debug($message, array $context = array());
 
@@ -110,6 +119,7 @@ interface ILogger {
 	 * @param string $message
 	 * @param array $context
 	 * @return mixed
+	 * @since 7.0.0
 	 */
 	function log($level, $message, array $context = array());
 }

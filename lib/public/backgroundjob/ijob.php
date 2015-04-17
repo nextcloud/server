@@ -23,6 +23,12 @@
 
 namespace OCP\BackgroundJob;
 
+/**
+ * Interface IJob
+ *
+ * @package OCP\BackgroundJob
+ * @since 7.0.0
+ */
 interface IJob {
 	/**
 	 * Run the background job with the registered argument
@@ -30,6 +36,7 @@ interface IJob {
 	 * @param \OCP\BackgroundJob\IJobList $jobList The job list that manages the state of this job
 	 * @param \OC\Log $logger
 	 * @return void
+	 * @since 7.0.0
 	 */
 	public function execute($jobList, $logger = null);
 
@@ -38,6 +45,7 @@ interface IJob {
 	 * This id is determined by the job list when a job is added to the list
 	 *
 	 * @return int
+	 * @since 7.0.0
 	 */
 	public function getId();
 
@@ -45,6 +53,7 @@ interface IJob {
 	 * Get the last time this job was run as unix timestamp
 	 *
 	 * @return int
+	 * @since 7.0.0
 	 */
 	public function getLastRun();
 
@@ -53,6 +62,7 @@ interface IJob {
 	 * This is the argument that will be passed to the background job
 	 *
 	 * @return mixed
+	 * @since 7.0.0
 	 */
 	public function getArgument();
 }

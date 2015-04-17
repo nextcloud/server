@@ -33,6 +33,7 @@ namespace OCP;
 
 /**
  * This interface defines method for accessing the file based user cache.
+ * @since 6.0.0
  */
 interface ICache {
 
@@ -40,6 +41,7 @@ interface ICache {
 	 * Get a value from the user cache
 	 * @param string $key
 	 * @return mixed
+	 * @since 6.0.0
 	 */
 	public function get($key);
 
@@ -49,6 +51,7 @@ interface ICache {
 	 * @param mixed $value
 	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function set($key, $value, $ttl = 0);
 
@@ -56,6 +59,7 @@ interface ICache {
 	 * Check if a value is set in the user cache
 	 * @param string $key
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function hasKey($key);
 
@@ -63,6 +67,7 @@ interface ICache {
 	 * Remove an item from the user cache
 	 * @param string $key
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function remove($key);
 
@@ -70,6 +75,7 @@ interface ICache {
 	 * Clear the user cache of all entries starting with a prefix
 	 * @param string $prefix (optional)
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function clear($prefix = '');
 }

@@ -26,6 +26,7 @@ namespace OCP;
 
 /**
  * This class provides avatar functionality
+ * @since 6.0.0
  */
 
 interface IAvatarManager {
@@ -35,6 +36,7 @@ interface IAvatarManager {
 	 * @see \OCP\IAvatar
 	 * @param string $user the ownCloud user id
 	 * @return \OCP\IAvatar
+	 * @since 6.0.0
 	 */
 	function getAvatar($user);
 }

@@ -35,6 +35,7 @@ namespace OCP;
 
 /**
  * Manages the ownCloud navigation
+ * @since 6.0.0
  */
 interface INavigationManager {
 	/**
@@ -44,6 +45,7 @@ interface INavigationManager {
 	 *					The use of a closure is preferred, because it will avoid
 	 * 					loading the routing of your app, unless required.
 	 * @return void
+	 * @since 6.0.0
 	 */
 	public function add($entry);
 
@@ -51,6 +53,7 @@ interface INavigationManager {
 	 * Sets the current navigation entry of the currently running app
 	 * @param string $appId id of the app entry to activate (from added $entry)
 	 * @return void
+	 * @since 6.0.0
 	 */
 	public function setActiveEntry($appId);
 }

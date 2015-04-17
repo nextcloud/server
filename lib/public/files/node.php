@@ -32,6 +32,12 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP\Files;
 
+/**
+ * Interface Node
+ *
+ * @package OCP\Files
+ * @since 6.0.0 - extends FileInfo was added in 8.0.0
+ */
 interface Node extends FileInfo {
 	/**
 	 * Move the file or folder to a new location
@@ -39,12 +45,14 @@ interface Node extends FileInfo {
 	 * @param string $targetPath the absolute target path
 	 * @throws \OCP\Files\NotPermittedException
 	 * @return \OCP\Files\Node
+	 * @since 6.0.0
 	 */
 	public function move($targetPath);
 
 	/**
 	 * Delete the file or folder
 	 * @return void
+	 * @since 6.0.0
 	 */
 	public function delete();
 
@@ -53,6 +61,7 @@ interface Node extends FileInfo {
 	 *
 	 * @param string $targetPath the absolute target path
 	 * @return \OCP\Files\Node
+	 * @since 6.0.0
 	 */
 	public function copy($targetPath);
 
@@ -63,6 +72,7 @@ interface Node extends FileInfo {
 	 * @param int $mtime (optional) modified date as unix timestamp
 	 * @throws \OCP\Files\NotPermittedException
 	 * @return void
+	 * @since 6.0.0
 	 */
 	public function touch($mtime = null);
 
@@ -71,6 +81,7 @@ interface Node extends FileInfo {
 	 *
 	 * @return \OCP\Files\Storage
 	 * @throws \OCP\Files\NotFoundException
+	 * @since 6.0.0
 	 */
 	public function getStorage();
 
@@ -78,6 +89,7 @@ interface Node extends FileInfo {
 	 * Get the full path of the file or folder
 	 *
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getPath();
 
@@ -85,6 +97,7 @@ interface Node extends FileInfo {
 	 * Get the path of the file or folder relative to the mountpoint of it's storage
 	 *
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getInternalPath();
 
@@ -94,6 +107,7 @@ interface Node extends FileInfo {
 	 * @return int
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @since 6.0.0
 	 */
 	public function getId();
 
@@ -104,6 +118,7 @@ interface Node extends FileInfo {
 	 *  - size
 	 *
 	 * @return array
+	 * @since 6.0.0
 	 */
 	public function stat();
 
@@ -113,6 +128,7 @@ interface Node extends FileInfo {
 	 * @return int
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @since 6.0.0
 	 */
 	public function getMTime();
 
@@ -122,6 +138,7 @@ interface Node extends FileInfo {
 	 * @return int
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @since 6.0.0
 	 */
 	public function getSize();
 
@@ -133,6 +150,7 @@ interface Node extends FileInfo {
 	 * @return string
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @since 6.0.0
 	 */
 	public function getEtag();
 
@@ -148,6 +166,7 @@ interface Node extends FileInfo {
 	 * @return int
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @since 6.0.0 - namespace of constants has changed in 8.0.0
 	 */
 	public function getPermissions();
 
@@ -157,6 +176,7 @@ interface Node extends FileInfo {
 	 * @return bool
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @since 6.0.0
 	 */
 	public function isReadable();
 
@@ -166,6 +186,7 @@ interface Node extends FileInfo {
 	 * @return bool
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @since 6.0.0
 	 */
 	public function isUpdateable();
 
@@ -175,6 +196,7 @@ interface Node extends FileInfo {
 	 * @return bool
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @since 6.0.0
 	 */
 	public function isDeletable();
 
@@ -184,6 +206,7 @@ interface Node extends FileInfo {
 	 * @return bool
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @since 6.0.0
 	 */
 	public function isShareable();
 
@@ -191,6 +214,7 @@ interface Node extends FileInfo {
 	 * Get the parent folder of the file or folder
 	 *
 	 * @return Folder
+	 * @since 6.0.0
 	 */
 	public function getParent();
 
@@ -198,6 +222,7 @@ interface Node extends FileInfo {
 	 * Get the filename of the file or folder
 	 *
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getName();
 }

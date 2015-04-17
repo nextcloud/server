@@ -32,6 +32,7 @@ namespace OCP\Files;
 
 /**
  * Exception for a file that is locked
+ * @since 7.0.0
  */
 class LockNotAcquiredException extends \Exception {
 	/** @var string $path The path that could not be locked */

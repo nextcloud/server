@@ -30,6 +30,9 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP\Files;
 
+/**
+ * @since 6.0.0
+ */
 interface Folder extends Node {
 	/**
 	 * Get the full path of an item in the folder within owncloud's filesystem
@@ -37,6 +40,7 @@ interface Folder extends Node {
 	 * @param string $path relative path of an item in the folder
 	 * @return string
 	 * @throws \OCP\Files\NotPermittedException
+	 * @since 6.0.0
 	 */
 	public function getFullPath($path);
 
@@ -46,6 +50,7 @@ interface Folder extends Node {
 	 * @param string $path absolute path of an item in the folder
 	 * @throws \OCP\Files\NotFoundException
 	 * @return string
+	 * @since 6.0.0
 	 */
 	public function getRelativePath($path);
 
@@ -54,6 +59,7 @@ interface Folder extends Node {
 	 *
 	 * @param \OCP\Files\Node $node
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function isSubNode($node);
 
@@ -62,6 +68,7 @@ interface Folder extends Node {
 	 *
 	 * @throws \OCP\Files\NotFoundException
 	 * @return \OCP\Files\Node[]
+	 * @since 6.0.0
 	 */
 	public function getDirectoryListing();
 
@@ -71,6 +78,7 @@ interface Folder extends Node {
 	 * @param string $path relative path of the file or folder
 	 * @return \OCP\Files\Node
 	 * @throws \OCP\Files\NotFoundException
+	 * @since 6.0.0
 	 */
 	public function get($path);
 
@@ -79,6 +87,7 @@ interface Folder extends Node {
 	 *
 	 * @param string $path relative path of the file or folder
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function nodeExists($path);
 
@@ -88,6 +97,7 @@ interface Folder extends Node {
 	 * @param string $path relative path of the new folder
 	 * @return \OCP\Files\Folder
 	 * @throws \OCP\Files\NotPermittedException
+	 * @since 6.0.0
 	 */
 	public function newFolder($path);
 
@@ -105,6 +115,7 @@ interface Folder extends Node {
 	 *
 	 * @param string $query
 	 * @return \OCP\Files\Node[]
+	 * @since 6.0.0
 	 */
 	public function search($query);
 
@@ -114,6 +125,7 @@ interface Folder extends Node {
 	 *
 	 * @param string $mimetype
 	 * @return \OCP\Files\Node[]
+	 * @since 6.0.0
 	 */
 	public function searchByMime($mimetype);
 
@@ -123,6 +135,7 @@ interface Folder extends Node {
 	 * @param string|int $tag tag name or tag id
 	 * @param string $userId owner of the tags
 	 * @return \OCP\Files\Node[]
+	 * @since 8.0.0
 	 */
 	public function searchByTag($tag, $userId);
 
@@ -131,6 +144,7 @@ interface Folder extends Node {
 	 *
 	 * @param int $id
 	 * @return \OCP\Files\Node[]
+	 * @since 6.0.0
 	 */
 	public function getById($id);
 
@@ -138,6 +152,7 @@ interface Folder extends Node {
 	 * Get the amount of free space inside the folder
 	 *
 	 * @return int
+	 * @since 6.0.0
 	 */
 	public function getFreeSpace();
 
@@ -145,6 +160,7 @@ interface Folder extends Node {
 	 * Check if new files or folders can be created within the folder
 	 *
 	 * @return bool
+	 * @since 6.0.0
 	 */
 	public function isCreatable();
 
@@ -154,6 +170,7 @@ interface Folder extends Node {
 	 * @param string $name
 	 * @return string
 	 * @throws NotPermittedException
+	 * @since 8.1.0
 	 */
 	public function getNonExistingName($name);
 }
