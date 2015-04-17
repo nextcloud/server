@@ -59,30 +59,30 @@ class StatusController extends Controller {
 	 */
 	public function getStatus() {
 
+		$status = 'error';
+		$message = '';
 		switch( $this->session->getStatus()) {
 			case Session::INIT_EXECUTED:
 				$status = 'success';
 				$message = (string)$this->l->t(
 					'Invalid private key for Encryption App. Please update your private'
 					. ' key password in your personal settings to recover access to your'
-					. ' encrypted files.', array('app' => 'encryption'));
+					. ' encrypted files.');
 				break;
 			case Session::NOT_INITIALIZED:
 				$status = 'success';
 				$message = (string)$this->l->t(
 					'Encryption App is enabled but your keys are not initialized,'
-					. ' please log-out and log-in again', array('app' => 'encryption'));
+					. ' please log-out and log-in again');
 				break;
-			default:
-				$status = 'error';
 		}
 
 		return new DataResponse(
-			array(
+			[
 				'status' => $status,
-				'data' => array(
-					'message' => $message)
-			)
+				'data' => [
+					'message' => $message]
+			]
 		);
 	}
 
