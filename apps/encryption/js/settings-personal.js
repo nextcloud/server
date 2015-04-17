@@ -4,14 +4,14 @@
  * See the COPYING-README file.
  */
 
-function updatePrivateKeyPasswd() {
+function updatePrivateKeyPassword() {
 	var oldPrivateKeyPassword = $('input:password[id="oldPrivateKeyPassword"]').val();
 	var newPrivateKeyPassword = $('input:password[id="newPrivateKeyPassword"]').val();
 	OC.msg.startSaving('#encryption .msg');
 	$.post(
-	OC.generateUrl('/apps/encryption/ajax/updatePrivateKeyPassword')
-		, { oldPassword: oldPrivateKeyPassword, newPassword: newPrivateKeyPassword }
-		,  function( data ) {
+	OC.generateUrl('/apps/encryption/ajax/updatePrivateKeyPassword'),
+		{ oldPassword: oldPrivateKeyPassword, newPassword: newPrivateKeyPassword },
+		function( data ) {
 			if (data.status === "error") {
 				OC.msg.finishedSaving('#encryption .msg', data);
 			} else {
@@ -29,9 +29,9 @@ $(document).ready(function(){
 			var recoveryStatus = $( this ).val();
 			OC.msg.startAction('#userEnableRecovery .msg', 'Updating recovery keys. This can take some time...');
 			$.post(
-					OC.generateUrl('/apps/encryption/ajax/userSetRecovery')
-				, { userEnableRecovery: recoveryStatus }
-				,  function( data ) {
+					OC.generateUrl('/apps/encryption/ajax/userSetRecovery'),
+				{ userEnableRecovery: recoveryStatus },
+				function( data ) {
 					OC.msg.finishedAction('#userEnableRecovery .msg', data);
 				}
 			);
@@ -48,7 +48,7 @@ $(document).ready(function(){
 		if (newPrivateKeyPassword !== '' && oldPrivateKeyPassword !== '' ) {
 			$('button:button[name="submitChangePrivateKeyPassword"]').removeAttr("disabled");
 			if(event.which === 13) {
-				updatePrivateKeyPasswd();
+				updatePrivateKeyPassword();
 			}
 		} else {
 			$('button:button[name="submitChangePrivateKeyPassword"]').attr("disabled", "true");
@@ -56,7 +56,7 @@ $(document).ready(function(){
 	});
 
 	$('button:button[name="submitChangePrivateKeyPassword"]').click(function() {
-		updatePrivateKeyPasswd();
+		updatePrivateKeyPassword();
 	});
 
 });
