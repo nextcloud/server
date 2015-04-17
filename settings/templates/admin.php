@@ -300,14 +300,14 @@ if ($_['cronErrors']) {
 </div>
 
 <div class="section" id='encryptionAPI'>
-	<h2><?php p($l->t('Server Side Encryption')); ?> </h2>
+	<h2><?php p($l->t('Server-side encryption')); ?> </h2>
 
 	<p id="enable">
 		<input type="checkbox" name="encryption_enabled"
 			   id="encryptionEnabled"
 			   value="1" <?php if ($_['encryptionEnabled']) print_unescaped('checked="checked"'); ?> />
 		<label
-			for="encryptionEnabled"><?php p($l->t('Enable Server-Side-Encryption')); ?> <span id="startmigration_msg" class="msg"></span> </label><br/>
+			for="encryptionEnabled"><?php p($l->t('Enable server-side encryption')); ?> <span id="startmigration_msg" class="msg"></span> </label><br/>
 	</p>
 
 	<div id="EncryptionSettingsArea" class="<?php if (!$_['encryptionEnabled']) p('hidden'); ?>">
@@ -348,7 +348,7 @@ if ($_['cronErrors']) {
 
 <div class="section" id="mail_general_settings">
 	<form id="mail_general_settings_form" class="mail_settings">
-		<h2><?php p($l->t('Email Server'));?></h2>
+		<h2><?php p($l->t('Email server'));?></h2>
 
 		<p><?php p($l->t('This is used for sending out notifications.')); ?> <span id="mail_settings_msg" class="msg"></span></p>
 
