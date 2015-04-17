@@ -134,6 +134,37 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('id', $en0->getId());
 	}
 
+	public function testSetDefaultEncryptionModule() {
+		global $defaultId;
+		$defaultId = null;
+
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->with('core', 'default_encryption_module')
+			->willReturnCallback(function() { global $defaultId; return $defaultId; });
+
+		$this->addNewEncryptionModule($this->manager, 0);
+		$this->assertCount(1, $this->manager->getEncryptionModules());
+		$this->addNewEncryptionModule($this->manager, 1);
+		$this->assertCount(2, $this->manager->getEncryptionModules());
+
+		// Default module is the first we set
+		$defaultId = 'ID0';
+		$this->assertEquals('ID0', \Test_Helper::invokePrivate($this->manager, 'getDefaultEncryptionModuleId'));
+
+		// Set to an existing module
+		$this->config->expects($this->once())
+			->method('setAppValue')
+			->with('core', 'default_encryption_module', 'ID1');
+		$this->assertTrue($this->manager->setDefaultEncryptionModule('ID1'));
+		$defaultId = 'ID1';
+		$this->assertEquals('ID1', \Test_Helper::invokePrivate($this->manager, 'getDefaultEncryptionModuleId'));
+
+		// Set to an unexisting module
+		$this->assertFalse($this->manager->setDefaultEncryptionModule('ID2'));
+		$this->assertEquals('ID1', \Test_Helper::invokePrivate($this->manager, 'getDefaultEncryptionModuleId'));
+	}
+
 //	/**
 //	 * @expectedException \OC\Encryption\Exceptions\ModuleAlreadyExistsException
 //	 * @expectedExceptionMessage Id "0" already used by encryption module "TestDummyModule0"
