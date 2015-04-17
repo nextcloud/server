@@ -47,32 +47,30 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($this->manager->isEnabled());
 	}
 
-	/**
-	 * @expectedException \OC\Encryption\Exceptions\ModuleAlreadyExistsException
-	 * @expectedExceptionMessage Id "id" already used by encryption module "TestDummyModule0"
-	 */
 	public function testModuleRegistration() {
 		$this->config->expects($this->any())->method('getAppValue')->willReturn('yes');
-		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
-		$em->expects($this->any())->method('getId')->willReturn('id');
-		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
 
-		$this->manager->registerEncryptionModule('id', 'TestDummyModule0', function () use ($em) { return $em;});
-		$this->assertSame(1, count($this->manager->getEncryptionModules()));
-		$this->manager->registerEncryptionModule('id', 'TestDummyModule0', function () use ($em) { return $em;});
+		$this->addNewEncryptionModule($this->manager, 0);
+		$this->assertCount(1, $this->manager->getEncryptionModules());
+
+		return $this->manager;
+	}
+
+	/**
+	 * @depends testModuleRegistration
+	 * @expectedException \OC\Encryption\Exceptions\ModuleAlreadyExistsException
+	 * @expectedExceptionMessage Id "ID0" already used by encryption module "TestDummyModule0"
+	 */
+	public function testModuleReRegistration($manager) {
+		$this->addNewEncryptionModule($manager, 0);
 	}
 
 	public function testModuleUnRegistration() {
 		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
-		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
-		$em->expects($this->any())->method('getId')->willReturn('id');
-		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
-		$this->manager->registerEncryptionModule('id', 'TestDummyModule0', function () use ($em) { return $em;});
-		$this->assertSame(1,
-			count($this->manager->getEncryptionModules())
-		);
+		$this->addNewEncryptionModule($this->manager, 0);
+		$this->assertCount(1, $this->manager->getEncryptionModules());
 
-		$this->manager->unregisterEncryptionModule('id');
+		$this->manager->unregisterEncryptionModule('ID0');
 		$this->assertEmpty($this->manager->getEncryptionModules());
 
 	}
@@ -83,11 +81,8 @@ class ManagerTest extends TestCase {
 	 */
 	public function testGetEncryptionModuleUnknown() {
 		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
-		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
-		$em->expects($this->any())->method('getId')->willReturn('id');
-		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
-		$this->manager->registerEncryptionModule('id', 'TestDummyModule0', function () use ($em) { return $em;});
-		$this->assertSame(1, count($this->manager->getEncryptionModules()));
+		$this->addNewEncryptionModule($this->manager, 0);
+		$this->assertCount(1, $this->manager->getEncryptionModules());
 		$this->manager->getEncryptionModule('unknown');
 	}
 
@@ -113,25 +108,23 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetEncryptionModule() {
-		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
-		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
-		$em->expects($this->any())->method('getId')->willReturn('id');
-		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
-		$this->manager->registerEncryptionModule('id', 'TestDummyModule0', function () use ($em) { return $em;});
-		$this->assertSame(1, count($this->manager->getEncryptionModules()));
-		$en0 = $this->manager->getEncryptionModule('id');
-		$this->assertEquals('id', $en0->getId());
-	}
+		global $defaultId;
+		$defaultId = null;
 
-	public function testGetDefaultEncryptionModule() {
-		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
-		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
-		$em->expects($this->any())->method('getId')->willReturn('id');
-		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
-		$this->manager->registerEncryptionModule('id', 'TestDummyModule0', function () use ($em) { return $em;});
-		$this->assertSame(1, count($this->manager->getEncryptionModules()));
-		$en0 = $this->manager->getEncryptionModule('id');
-		$this->assertEquals('id', $en0->getId());
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->with('core', 'default_encryption_module')
+			->willReturnCallback(function() { global $defaultId; return $defaultId; });
+
+		$this->addNewEncryptionModule($this->manager, 0);
+		$defaultId = 'ID0';
+		$this->assertCount(1, $this->manager->getEncryptionModules());
+
+		$en0 = $this->manager->getEncryptionModule('ID0');
+		$this->assertEquals('ID0', $en0->getId());
+
+		$en0 = $this->manager->getDefaultEncryptionModule();
+		$this->assertEquals('ID0', $en0->getId());
 	}
 
 	public function testSetDefaultEncryptionModule() {
