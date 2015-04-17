@@ -419,6 +419,7 @@ describe('OC.Share tests', function() {
 					};
 					loadItemStub.returns(shareData);
 					oc_appconfig.core.defaultExpireDate = 7;
+					oc_appconfig.core.enforcePasswordForPublicLink = false;
 					oc_appconfig.core.defaultExpireDateEnabled = false;
 					oc_appconfig.core.defaultExpireDateEnforced = false;
 				});
@@ -465,6 +466,32 @@ describe('OC.Share tests', function() {
 					oc_appconfig.core.defaultExpireDateEnforced = true;
 					showDropDown();
 					$('#dropdown [name=linkCheckbox]').click();
+					expect($('#dropdown [name=expirationCheckbox]').prop('checked')).toEqual(true);
+					// TODO: those zeros must go...
+					expect($('#dropdown #expirationDate').val()).toEqual('2014-1-27 00:00:00');
+
+					// disabling is not allowed
+					expect($('#dropdown [name=expirationCheckbox]').prop('disabled')).toEqual(true);
+					$('#dropdown [name=expirationCheckbox]').click();
+					expect($('#dropdown [name=expirationCheckbox]').prop('checked')).toEqual(true);
+				});
+				it('enforces default date when enforced date setting is enabled and password is enforced', function() {
+					/* jshint camelcase:false */
+					oc_appconfig.core.enforcePasswordForPublicLink = true;
+					oc_appconfig.core.defaultExpireDateEnabled = true;
+					oc_appconfig.core.defaultExpireDateEnforced = true;
+					showDropDown();
+					$('#dropdown [name=linkCheckbox]').click();
+
+					//Enter password
+					$('#dropdown #linkPassText').val('foo');
+					$('#dropdown #linkPassText').trigger(new $.Event('keyup', {keyCode: 13}));
+					fakeServer.requests[0].respond(
+						200,
+						{ 'Content-Type': 'application/json' },
+						JSON.stringify({data: {token: 'xyz'}, status: 'success'})
+					);
+
 					expect($('#dropdown [name=expirationCheckbox]').prop('checked')).toEqual(true);
 					// TODO: those zeros must go...
 					expect($('#dropdown #expirationDate').val()).toEqual('2014-1-27 00:00:00');
