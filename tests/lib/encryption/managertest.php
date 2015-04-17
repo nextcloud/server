@@ -21,7 +21,6 @@ class ManagerTest extends TestCase {
 		$this->config = $this->getMock('\OCP\IConfig');
 		$this->logger = $this->getMock('\OCP\ILogger');
 		$this->manager = new Manager($this->config, $this->logger);
-
 	}
 
 	public function testManagerIsDisabled() {
@@ -90,6 +89,27 @@ class ManagerTest extends TestCase {
 		$this->manager->registerEncryptionModule('id', 'TestDummyModule0', function () use ($em) { return $em;});
 		$this->assertSame(1, count($this->manager->getEncryptionModules()));
 		$this->manager->getEncryptionModule('unknown');
+	}
+
+	public function testGetEncryptionModuleEmpty() {
+		global $defaultId;
+		$defaultId = null;
+
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->with('core', 'default_encryption_module')
+			->willReturnCallback(function() { global $defaultId; return $defaultId; });
+
+		$this->addNewEncryptionModule($this->manager, 0);
+		$this->assertCount(1, $this->manager->getEncryptionModules());
+		$this->addNewEncryptionModule($this->manager, 1);
+		$this->assertCount(2, $this->manager->getEncryptionModules());
+
+		// Should return the default module
+		$defaultId = 'ID0';
+		$this->assertEquals('ID0', $this->manager->getEncryptionModule()->getId());
+		$defaultId = 'ID1';
+		$this->assertEquals('ID1', $this->manager->getEncryptionModule()->getId());
 	}
 
 	public function testGetEncryptionModule() {
@@ -171,4 +191,18 @@ class ManagerTest extends TestCase {
 //		$en0 = $m->getEncryptionModule(0);
 //		$this->assertEquals(0, $en0->getId());
 //	}
+
+	protected function addNewEncryptionModule(Manager $manager, $id) {
+		$encryptionModule = $this->getMock('\OCP\Encryption\IEncryptionModule');
+		$encryptionModule->expects($this->any())
+			->method('getId')
+			->willReturn('ID' . $id);
+		$encryptionModule->expects($this->any())
+			->method('getDisplayName')
+			->willReturn('TestDummyModule' . $id);
+		/** @var \OCP\Encryption\IEncryptionModule $encryptionModule */
+		$manager->registerEncryptionModule('ID' . $id, 'TestDummyModule' . $id, function() use ($encryptionModule) {
+			return $encryptionModule;
+		});
+	}
 }
