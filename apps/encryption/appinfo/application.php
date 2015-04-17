@@ -27,6 +27,7 @@ namespace OCA\Encryption\AppInfo;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
+use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\HookManager;
 use OCA\Encryption\Hooks\UserHooks;
 use OCA\Encryption\KeyManager;
@@ -90,14 +91,17 @@ class Application extends \OCP\AppFramework\App {
 
 	public function registerEncryptionModule() {
 		$container = $this->getContainer();
-		$container->registerService('EncryptionModule', function (IAppContainer $c) {
-			return new \OCA\Encryption\Crypto\Encryption(
-				$c->query('Crypt'),
-				$c->query('KeyManager'),
-				$c->query('Util'));
+
+		$this->encryptionManager->registerEncryptionModule(
+			Encryption::ID,
+			Encryption::DISPLAY_NAME,
+			function() use ($container) {
+			return new Encryption(
+				$container->query('Crypt'),
+				$container->query('KeyManager'),
+				$container->query('Util')
+			);
 		});
-		$module = $container->query('EncryptionModule');
-		$this->encryptionManager->registerEncryptionModule($module);
 	}
 
 	public function registerServices() {

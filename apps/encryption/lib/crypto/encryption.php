@@ -32,6 +32,7 @@ use OCA\Encryption\KeyManager;
 class Encryption implements IEncryptionModule {
 
 	const ID = 'OC_DEFAULT_MODULE';
+	const DISPLAY_NAME = 'ownCloud Default Encryption';
 
 	/**
 	 * @var Crypt
@@ -90,7 +91,7 @@ class Encryption implements IEncryptionModule {
 	 * @return string
 	 */
 	public function getDisplayName() {
-		return 'ownCloud Default Encryption';
+		return self::DISPLAY_NAME;
 	}
 
 	/**

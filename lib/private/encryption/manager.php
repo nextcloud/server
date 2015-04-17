@@ -87,17 +87,17 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Registers an encryption module
+	 * Registers an callback function which must return an encryption module instance
 	 *
-	 * @param IEncryptionModule $module
+	 * @param string $id
+	 * @param string $displayName
+	 * @param callable $callback
 	 * @throws Exceptions\ModuleAlreadyExistsException
 	 */
-	public function registerEncryptionModule(IEncryptionModule $module) {
-		$id = $module->getId();
-		$name = $module->getDisplayName();
+	public function registerEncryptionModule($id, $displayName, callable $callback) {
 
 		if (isset($this->encryptionModules[$id])) {
-			throw new Exceptions\ModuleAlreadyExistsException($id, $name);
+			throw new Exceptions\ModuleAlreadyExistsException($id, $displayName);
 		}
 
 		$defaultEncryptionModuleId = $this->getDefaultEncryptionModuleId();
@@ -106,22 +106,26 @@ class Manager implements IManager {
 			$this->setDefaultEncryptionModule($id);
 		}
 
-		$this->encryptionModules[$id] = $module;
+		$this->encryptionModules[$id] = array(
+			'id' => $id,
+			'displayName' => 'displayName',
+			'callback' => $callback
+		);
 	}
 
 	/**
 	 * Unregisters an encryption module
 	 *
-	 * @param IEncryptionModule $module
+	 * @param string $moduleId
 	 */
-	public function unregisterEncryptionModule(IEncryptionModule $module) {
-		unset($this->encryptionModules[$module->getId()]);
+	public function unregisterEncryptionModule($moduleId) {
+		unset($this->encryptionModules[$moduleId]);
 	}
 
 	/**
 	 * get a list of all encryption modules
 	 *
-	 * @return IEncryptionModule[]
+	 * @return array [id => ['id' => $id, 'displayName' => $displayName, 'callback' => callback]]
 	 */
 	public function getEncryptionModules() {
 		return $this->encryptionModules;
@@ -137,21 +141,13 @@ class Manager implements IManager {
 	public function getEncryptionModule($moduleId = '') {
 		if (!empty($moduleId)) {
 			if (isset($this->encryptionModules[$moduleId])) {
-				return $this->encryptionModules[$moduleId];
+				return call_user_func($this->encryptionModules[$moduleId]['callback']);
 			} else {
 				$message = "Module with id: $moduleId does not exists.";
 				throw new Exceptions\ModuleDoesNotExistsException($message);
 			}
-		} else { // get default module and return this
-				 // For now we simply return the first module until we have a way
-	             // to enable multiple modules and define a default module
-			$module = reset($this->encryptionModules);
-			if ($module) {
-				return $module;
-			} else {
-				$message = 'No encryption module registered';
-				throw new Exceptions\ModuleDoesNotExistsException($message);
-			}
+		} else {
+			return $this->getDefaultEncryptionModule();
 		}
 	}
 
@@ -165,7 +161,7 @@ class Manager implements IManager {
 		$defaultModuleId = $this->getDefaultEncryptionModuleId();
 		if (!empty($defaultModuleId)) {
 			if (isset($this->encryptionModules[$defaultModuleId])) {
-				return $this->encryptionModules[$defaultModuleId];
+				return call_user_func($this->encryptionModules[$defaultModuleId]['callback']);
 			} else {
 				$message = 'Default encryption module not loaded';
 				throw new Exceptions\ModuleDoesNotExistsException($message);
