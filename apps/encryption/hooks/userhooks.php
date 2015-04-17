@@ -196,7 +196,9 @@ class UserHooks implements IHook {
 	public function preSetPassphrase($params) {
 		if (App::isEnabled('encryption')) {
 
-			if (!$this->user->getUser()->canChangePassword()) {
+			$user = $this->user->getUser();
+
+			if ($user && !$user->canChangePassword()) {
 				$this->setPassphrase($params);
 			}
 		}
@@ -212,8 +214,10 @@ class UserHooks implements IHook {
 
 		// Get existing decrypted private key
 		$privateKey = $this->session->getPrivateKey();
+		$user = $this->user->getUser();
 
-		if ($params['uid'] === $this->user->getUser()->getUID() && $privateKey) {
+		// current logged in user changes his own password
+		if ($user && $params['uid'] === $user->getUID() && $privateKey) {
 
 			// Encrypt private key with new user pwd as passphrase
 			$encryptedPrivateKey = $this->crypt->symmetricEncryptFileContent($privateKey,
@@ -230,7 +234,7 @@ class UserHooks implements IHook {
 			// NOTE: Session does not need to be updated as the
 			// private key has not changed, only the passphrase
 			// used to decrypt it has changed
-		} else { // admin changed the password for a different user, create new keys and reencrypt file keys
+		} else { // admin changed the password for a different user, create new keys and re-encrypt file keys
 			$user = $params['uid'];
 			$recoveryPassword = isset($params['recoveryPassword']) ? $params['recoveryPassword'] : null;
 

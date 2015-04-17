@@ -143,6 +143,35 @@ class UserHooksTest extends TestCase {
 		$this->assertNull($this->instance->setPassphrase($this->params));
 	}
 
+	public function testSetPasswordNoUser() {
+		$this->sessionMock->expects($this->once())
+			->method('getPrivateKey')
+			->willReturn(true);
+
+		$userSessionMock = $this->getMockBuilder('OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$userSessionMock->expects($this->any())->method('getUser')->will($this->returnValue(null));
+
+		$this->recoveryMock->expects($this->once())
+			->method('isRecoveryEnabledForUser')
+			->with('testUser')
+			->willReturn(false);
+
+		$userHooks = new UserHooks($this->keyManagerMock,
+			$this->loggerMock,
+			$this->userSetupMock,
+			$userSessionMock,
+			$this->utilMock,
+			$this->sessionMock,
+			$this->cryptMock,
+			$this->recoveryMock
+		);
+
+		$this->assertNull($userHooks->setPassphrase($this->params));
+	}
+
 	public function testPostPasswordReset() {
 		$this->keyManagerMock->expects($this->once())
 			->method('replaceUserKeys')
@@ -157,7 +186,7 @@ class UserHooksTest extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$loggerMock = $this->getMock('OCP\ILogger');
+		$this->loggerMock = $this->getMock('OCP\ILogger');
 		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')
 			->disableOriginalConstructor()
 			->getMock();
@@ -203,7 +232,7 @@ class UserHooksTest extends TestCase {
 		$this->recoveryMock = $recoveryMock;
 		$this->utilMock = $utilMock;
 		$this->instance = new UserHooks($this->keyManagerMock,
-			$loggerMock,
+			$this->loggerMock,
 			$this->userSetupMock,
 			$this->userSessionMock,
 			$this->utilMock,
