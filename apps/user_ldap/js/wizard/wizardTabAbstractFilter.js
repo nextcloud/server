@@ -237,6 +237,7 @@ OCA = OCA || {};
 		 * @inheritdoc
 		 */
 		onActivate: function() {
+			this._super();
 			this.considerFeatureRequests();
 		},
 

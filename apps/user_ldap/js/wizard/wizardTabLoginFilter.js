@@ -184,6 +184,7 @@ OCA = OCA || {};
 		 * @inheritdoc
 		 */
 		onActivate: function() {
+			this._super();
 			this.considerFeatureRequests();
 			if(!this.managedItems.ldap_login_filter.$element.val()) {
 				this.configModel.requestWizard('ldap_login_filter');
