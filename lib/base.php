@@ -718,25 +718,8 @@ class OC {
 	private static function registerEncryptionHooks() {
 		$enabled = self::$server->getEncryptionManager()->isEnabled();
 		if ($enabled) {
-			$user = \OC::$server->getUserSession()->getUser();
-			$uid = '';
-			if ($user) {
-				$uid = $user->getUID();
-			}
-			$updater = new \OC\Encryption\Update(
-				new \OC\Files\View(),
-				new \OC\Encryption\Util(
-					new \OC\Files\View(),
-					\OC::$server->getUserManager(),
-					\OC::$server->getGroupManager(),
-					\OC::$server->getConfig()),
-				\OC\Files\Filesystem::getMountManager(),
-				\OC::$server->getEncryptionManager(),
-				\OC::$server->getEncryptionFilesHelper(),
-				$uid
-			);
-			\OCP\Util::connectHook('OCP\Share', 'post_shared', $updater, 'postShared');
-			\OCP\Util::connectHook('OCP\Share', 'post_unshare', $updater, 'postUnshared');
+			\OCP\Util::connectHook('OCP\Share', 'post_shared', 'OC\Encryption\HookManager', 'postShared');
+			\OCP\Util::connectHook('OCP\Share', 'post_unshare', 'OC\Encryption\HookManager', 'postUnshared');
 		}
 	}
 
