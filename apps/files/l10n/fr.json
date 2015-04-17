@@ -65,7 +65,7 @@
     "{dirs} and {files}" : "{dirs} et {files}",
     "Favorited" : "Marqué comme favori",
     "Favorite" : "Favoris",
-    "An error occurred while trying to update the tags" : "Une erreur est survenue lors de la tentative de mise à jour des étiquettes",
+    "An error occurred while trying to update the tags" : "Une erreur est survenue lors de la mise à jour des étiquettes",
     "A new file or folder has been <strong>created</strong>" : "Un nouveau fichier ou répertoire a été <strong>créé</strong>",
     "A file or folder has been <strong>changed</strong>" : "Un fichier ou un répertoire a été <strong>modifié</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limiter les notifications à ce qui concerne la création et la modification de vos <strong>fichiers favoris</strong> <em>(Flux uniquement)</em>",

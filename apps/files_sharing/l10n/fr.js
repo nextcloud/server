@@ -56,6 +56,7 @@ OC.L10N.register(
     "Download %s" : "Télécharger %s",
     "Direct link" : "Lien direct",
     "Federated Cloud Sharing" : "Federated Cloud Sharing",
+    "Open documentation" : "Voir la documentation",
     "Allow users on this server to send shares to other servers" : "Autoriser les utilisateurs de ce serveur à envoyer des partages vers d'autres serveurs",
     "Allow users on this server to receive shares from other servers" : "Autoriser les utilisateurs de ce serveur à recevoir des partages d'autres serveurs"
 },

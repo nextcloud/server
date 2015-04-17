@@ -66,7 +66,7 @@ OC.L10N.register(
     "No external storage configured" : "Aucun stockage externe configuré",
     "You can add external storages in the personal settings" : "Vous pouvez ajouter des stockages externes dans les paramètres personnels",
     "Name" : "Nom",
-    "Storage type" : "Type de support de stockage",
+    "Storage type" : "Type de stockage",
     "Scope" : "Portée",
     "External Storage" : "Stockage externe",
     "Folder name" : "Nom du dossier",
