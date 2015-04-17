@@ -75,9 +75,13 @@ OCA = OCA || {};
 
 		/**
 		 * this is called by the main view, if the tab is being switched to.
-		 * The concrete tab view can implement this if necessary.
 		 */
-		onActivate: function() { },
+		onActivate: function() {
+			if(!_.isUndefined(this.filterModeKey)
+				&& this.configModel.configuration.ldap_experienced_admin === '1') {
+				this.setFilterMode(this.configModel.FILTER_MODE_RAW);
+			}
+		},
 
 		/**
 		 * updates the tab when the model loaded a configuration and notified
