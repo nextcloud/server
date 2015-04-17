@@ -66,7 +66,7 @@ class OCSResponse extends Response {
 								$dimension=-1, $itemscount='',
 								$itemsperpage='') {
 		$this->format = $format;
-		$this->status = $status;
+		$this->setStatus($status);
 		$this->statuscode = $statuscode;
 		$this->message = $message;
 		$this->data = $data;
@@ -94,7 +94,7 @@ class OCSResponse extends Response {
 	 */
 	public function render() {
 		return OC_OCS::generateXml(
-			$this->format, $this->status, $this->statuscode, $this->message,
+			$this->format, $this->getStatus(), $this->statuscode, $this->message,
 			$this->data, $this->tag, $this->tagattribute, $this->dimension,
 			$this->itemscount, $this->itemsperpage
 		);
