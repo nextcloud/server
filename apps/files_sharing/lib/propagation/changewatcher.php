@@ -37,6 +37,21 @@ class ChangeWatcher {
 		}
 	}
 
+	public function renameHook($params) {
+		$path1 = $params['oldpath'];
+		$path2 = $params['newpath'];
+		$fullPath1 = $this->baseView->getAbsolutePath($path1);
+		$fullPath2 = $this->baseView->getAbsolutePath($path2);
+		$mount1 = $this->baseView->getMount($path1);
+		$mount2 = $this->baseView->getMount($path2);
+		if ($mount1 instanceof SharedMount) {
+			$this->propagateForOwner($mount1->getShare(), $mount1->getInternalPath($fullPath1), $mount1->getOwnerPropagator());
+		}
+		if ($mount1 !== $mount2 and $mount2 instanceof SharedMount) {
+			$this->propagateForOwner($mount2->getShare(), $mount2->getInternalPath($fullPath2), $mount2->getOwnerPropagator());
+		}
+	}
+
 	/**
 	 * @param array $share
 	 * @param string $internalPath

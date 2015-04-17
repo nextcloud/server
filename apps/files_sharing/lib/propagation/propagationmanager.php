@@ -109,5 +109,6 @@ class PropagationManager {
 		$this->listenToOwnerChanges($user->getUID(), $user->getUID());
 		\OC_Hook::connect('OC_Filesystem', 'write', $watcher, 'writeHook');
 		\OC_Hook::connect('OC_Filesystem', 'delete', $watcher, 'writeHook');
+		\OC_Hook::connect('OC_Filesystem', 'rename', $watcher, 'renameHook');
 	}
 }
