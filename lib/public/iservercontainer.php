@@ -175,7 +175,7 @@ interface IServerContainer {
 
 	/**
 	 * Returns an instance of the db facade
-	 * @deprecated use getDatabaseConnection, will be removed in ownCloud 10
+	 * @deprecated 8.1.0 use getDatabaseConnection, will be removed in ownCloud 10
 	 * @return \OCP\IDb
 	 * @since 7.0.0
 	 */
@@ -334,7 +334,7 @@ interface IServerContainer {
 	/**
 	 * Returns an instance of the HTTP helper class
 	 * @return \OC\HTTPHelper
-	 * @deprecated Use \OCP\Http\Client\IClientService
+	 * @deprecated 8.1.0 Use \OCP\Http\Client\IClientService
 	 * @since 8.0.0
 	 */
 	public function getHTTPHelper();

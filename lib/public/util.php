@@ -83,7 +83,7 @@ class Util {
 	 * @param string $ccaddress
 	 * @param string $ccname
 	 * @param string $bcc
-	 * @deprecated Use \OCP\Mail\IMailer instead
+	 * @deprecated 8.1.0 Use \OCP\Mail\IMailer instead
 	 * @since 4.0.0
 	 */
 	public static function sendMail($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname,
@@ -222,7 +222,7 @@ class Util {
 	 * @param DateTimeZone|string $timeZone where the given timestamp shall be converted to
 	 * @return string timestamp
 	 *
-	 * @deprecated Use \OC::$server->query('DateTimeFormatter') instead
+	 * @deprecated 8.0.0 Use \OC::$server->query('DateTimeFormatter') instead
 	 * @since 4.0.0
 	 */
 	public static function formatDate($timestamp, $dateOnly=false, $timeZone = null) {
@@ -233,7 +233,7 @@ class Util {
 	 * check if some encrypted files are stored
 	 * @return bool
 	 *
-	 * @deprecated No longer required
+	 * @deprecated 8.1.0 No longer required
 	 * @since 6.0.0
 	 */
 	public static function encryptedFiles() {
@@ -279,7 +279,7 @@ class Util {
 	 * @param array $parameters
 	 * @internal param array $args with param=>value, will be appended to the returned url
 	 * @return string the url
-	 * @deprecated Use \OC::$server->getURLGenerator()->linkToRoute($route, $parameters)
+	 * @deprecated 8.1.0 Use \OC::$server->getURLGenerator()->linkToRoute($route, $parameters)
 	 * @since 5.0.0
 	 */
 	public static function linkToRoute( $route, $parameters = array() ) {
@@ -293,7 +293,7 @@ class Util {
 	 * @param array $args array with param=>value, will be appended to the returned url
 	 * 	The value of $args will be urlencoded
 	 * @return string the url
-	 * @deprecated Use \OC::$server->getURLGenerator()->linkTo($app, $file, $args)
+	 * @deprecated 8.1.0 Use \OC::$server->getURLGenerator()->linkTo($app, $file, $args)
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
 	public static function linkTo( $app, $file, $args = array() ) {
@@ -303,7 +303,7 @@ class Util {
 	/**
 	 * Returns the server host, even if the website uses one or more reverse proxy
 	 * @return string the server host
-	 * @deprecated Use \OCP\IRequest::getServerHost
+	 * @deprecated 8.1.0 Use \OCP\IRequest::getServerHost
 	 * @since 4.0.0
 	 */
 	public static function getServerHost() {
@@ -359,7 +359,7 @@ class Util {
 	/**
 	 * Returns the server protocol. It respects reverse proxy servers and load balancers
 	 * @return string the server protocol
-	 * @deprecated Use \OCP\IRequest::getServerProtocol
+	 * @deprecated 8.1.0 Use \OCP\IRequest::getServerProtocol
 	 * @since 4.5.0
 	 */
 	public static function getServerProtocol() {
@@ -369,7 +369,7 @@ class Util {
 	/**
 	 * Returns the request uri, even if the website uses one or more reverse proxies
 	 * @return string the request uri
-	 * @deprecated Use \OCP\IRequest::getRequestUri
+	 * @deprecated 8.1.0 Use \OCP\IRequest::getRequestUri
 	 * @since 5.0.0
 	 */
 	public static function getRequestUri() {
@@ -379,7 +379,7 @@ class Util {
 	/**
 	 * Returns the script name, even if the website uses one or more reverse proxies
 	 * @return string the script name
-	 * @deprecated Use \OCP\IRequest::getScriptName
+	 * @deprecated 8.1.0 Use \OCP\IRequest::getScriptName
 	 * @since 5.0.0
 	 */
 	public static function getScriptName() {
@@ -391,7 +391,7 @@ class Util {
 	 * @param string $app app
 	 * @param string $image image name
 	 * @return string the url
-	 * @deprecated Use \OC::$server->getURLGenerator()->imagePath($app, $image)
+	 * @deprecated 8.1.0 Use \OC::$server->getURLGenerator()->imagePath($app, $image)
 	 * @since 4.0.0
 	 */
 	public static function imagePath( $app, $image ) {
@@ -591,7 +591,7 @@ class Util {
 	 * Returns whether the given file name is valid
 	 * @param string $file file name to check
 	 * @return bool true if the file name is valid, false otherwise
-	 * @deprecated use \OC\Files\View::verifyPath()
+	 * @deprecated 8.1.0 use \OC\Files\View::verifyPath()
 	 * @since 7.0.0
 	 */
 	public static function isValidFileName($file) {
@@ -602,7 +602,7 @@ class Util {
 	 * Generates a cryptographic secure pseudo-random string
 	 * @param int $length of the random string
 	 * @return string
-	 * @deprecated Use \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length); instead
+	 * @deprecated 8.0.0 Use \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length); instead
 	 * @since 7.0.0
 	 */
 	public static function generateRandomBytes($length = 30) {

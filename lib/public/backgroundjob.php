@@ -88,7 +88,7 @@ class BackgroundJob {
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated 6.0.0
 	 * creates a regular task
 	 * @param string $klass class name
 	 * @param string $method method name
@@ -103,7 +103,7 @@ class BackgroundJob {
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated 6.0.0
 	 * gets all regular tasks
 	 * @return array
 	 *
@@ -124,7 +124,7 @@ class BackgroundJob {
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated 6.0.0
 	 * Gets one queued task
 	 * @param int $id ID of the task
 	 * @return BackgroundJob\IJob|null
@@ -136,7 +136,7 @@ class BackgroundJob {
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated 6.0.0
 	 * Gets all queued tasks
 	 * @return array an array of associative arrays
 	 * @since 4.5.0
@@ -156,7 +156,7 @@ class BackgroundJob {
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated 6.0.0
 	 * Gets all queued tasks of a specific app
 	 * @param string $app app name
 	 * @return array an array of associative arrays
@@ -179,7 +179,7 @@ class BackgroundJob {
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated 6.0.0
 	 * queues a task
 	 * @param string $app app name
 	 * @param string $class class name
@@ -194,7 +194,7 @@ class BackgroundJob {
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated 6.0.0
 	 * deletes a queued task
 	 * @param int $id id of task
 	 * @return boolean|null
