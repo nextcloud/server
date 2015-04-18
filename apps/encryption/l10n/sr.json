@@ -13,6 +13,7 @@
     "Could not change the password. Maybe the old password was not correct." : "Не могу да променим лозинку. Можда стара лозинка није исправна.",
     "Recovery Key enabled" : "Кључ опоравка укључен",
     "Could not enable the recovery key, please try again or contact your administrator" : "Не могу да укључим кључ опоравка. Покушајте поново или контактирајте администратора",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Неисправан лични кључ за апликацију шифровања. Ажурирајте лозинку личног кључа у личним поставкама да бисте опоравили приступ вашим шифрованим фајловима.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Апликација шифровања је укључена али ваши кључеви нису иницијализовани. Одјавите се и поново се пријавите.",
     "ownCloud basic encryption module" : "оунКлауд основни шифрарски модул",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Омогући кључ за опоравак (омогућава опоравак корисничких фајлова у случају губитка лозинке):",

@@ -3,9 +3,7 @@ OC.L10N.register(
     {
     "Sharing" : "Souporaba",
     "External Storage" : "Zunanja podatkovna shramba",
-    "Server Side Encryption" : "Strežniško šifriranje",
     "Cron" : "Periodično opravilo",
-    "Email Server" : "Poštni strežnik",
     "Log" : "Dnevnik",
     "Updates" : "Posodobitve",
     "Authentication error" : "Napaka med overjanjem",

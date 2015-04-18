@@ -2,7 +2,6 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "﻿ಹಂಚಿಕೆ",
-    "Email Server" : "ಇ-ಅಂಚೆಯ ﻿ಪರಿಚಾರಕ ಗಣಕಯಂತ್ರ",
     "Log" : "ಹಿನ್ನೆಲೆಯ ದಾಖಲೆ",
     "Authentication error" : "ದೃಢೀಕರಣ ದೋಷ",
     "Your full name has been changed." : "﻿ನಿಮ್ಮ ಪೂರ್ಣ ಹೆಸರನ್ನು ಬದಲಾಯಿಸಲಾಗಿದೆ.",

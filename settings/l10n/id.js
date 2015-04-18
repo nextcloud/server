@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "Berbagi",
     "External Storage" : "Penyimpanan Eksternal",
     "Cron" : "Cron",
-    "Email Server" : "Server Email",
     "Log" : "Log",
     "Updates" : "Pembaruan",
     "Authentication error" : "Terjadi kesalahan saat otentikasi",

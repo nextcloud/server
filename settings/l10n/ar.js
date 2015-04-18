@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Sharing" : "مشاركة",
     "Cron" : "مجدول",
-    "Email Server" : "خادم البريد الالكتروني",
     "Log" : "سجل",
     "Authentication error" : "لم يتم التأكد من الشخصية بنجاح",
     "Your full name has been changed." : "اسمك الكامل تم تغييره.",

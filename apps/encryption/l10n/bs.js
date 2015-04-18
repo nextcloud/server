@@ -1,6 +1,7 @@
 OC.L10N.register(
     "encryption",
     {
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Neispravan privatni ključ za šifriranje. Molim ažurirajte lozinku svoga privatnog ključa u svojim osobnim postavkama da biste obnovili pristup svojim šifriranim datotekama.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacija šifriranja je uključena, ali vaši ključevi nisu inicializirani, molim odjavite se i ponovno prijavite",
     "Enabled" : "Aktivirano",
     "Disabled" : "Onemogućeno"

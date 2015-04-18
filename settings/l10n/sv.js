@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "Dela",
     "External Storage" : "Extern lagring",
     "Cron" : "Cron",
-    "Email Server" : "E-postserver",
     "Log" : "Logg",
     "Updates" : "Uppdateringar",
     "Authentication error" : "Fel vid autentisering",

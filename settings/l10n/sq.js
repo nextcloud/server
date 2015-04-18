@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Sharing" : "Ndarje",
     "Cron" : "Cron",
-    "Email Server" : "Serveri Email",
     "Log" : "Historik aktiviteti",
     "Authentication error" : "Gabim autentifikimi",
     "Your full name has been changed." : "Emri juaj i plotë ka ndryshuar.",

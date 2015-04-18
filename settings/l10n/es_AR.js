@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "Compartiendo",
     "External Storage" : "Almacenamiento externo",
     "Cron" : "Cron",
-    "Email Server" : "Servidor de correo electrónico",
     "Log" : "Log",
     "Updates" : "Actualizaciones",
     "Authentication error" : "Error al autenticar",

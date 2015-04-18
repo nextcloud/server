@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Sharing" : "Түгээлт",
     "Cron" : "Крон",
-    "Email Server" : "И-мэйл сервер",
     "Log" : "Лог бичилт",
     "Authentication error" : "Нотолгооны алдаа",
     "Your full name has been changed." : "Таны бүтэн нэр солигдлоо.",

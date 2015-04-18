@@ -10,6 +10,7 @@
     "Please repeat the new recovery password" : "Будь ласка, введіть новий пароль відновлення ще раз",
     "Password successfully changed." : "Пароль змінено.",
     "Could not change the password. Maybe the old password was not correct." : "Не вдалося змінити пароль. Можливо ви неправильно ввели старий пароль.",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Невірний закритий ключ для доданку шифрування. Оновіть пароль до вашого закритого ключа в особистих налаштуваннях.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Доданок шифрування ввімкнено, але ваші ключі не ініціалізовано, вийдіть та зайдіть знову",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Ввімкнути ключ відновлення (дозволяє користувачам відновлювати файли при втраті паролю):",
     "Recovery key password" : "Пароль ключа відновлення",

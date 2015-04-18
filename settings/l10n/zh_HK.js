@@ -2,7 +2,6 @@ OC.L10N.register(
     "settings",
     {
     "Sharing" : "分享",
-    "Email Server" : "電子郵件伺服器",
     "Log" : "日誌",
     "Updates" : "更新",
     "Wrong password" : "密碼錯誤",

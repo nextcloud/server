@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "Sharing",
     "External Storage" : "External Storage",
     "Cron" : "Cron",
-    "Email Server" : "Email Server",
     "Log" : "Log",
     "Updates" : "Updates",
     "Authentication error" : "Authentication error",

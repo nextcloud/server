@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "Compartiendo",
     "External Storage" : "Almacenamientu esternu",
     "Cron" : "Cron",
-    "Email Server" : "Sirvidor de corréu-e",
     "Log" : "Rexistru",
     "Updates" : "Anovamientos",
     "Authentication error" : "Fallu d'autenticación",

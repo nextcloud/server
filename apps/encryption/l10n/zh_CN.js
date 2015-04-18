@@ -12,6 +12,7 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "请替换新的恢复密码",
     "Password successfully changed." : "密码修改成功。",
     "Could not change the password. Maybe the old password was not correct." : "不能修改密码。旧密码可能不正确。",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "无效的私有密钥。请到您的个人配置里去更新私有密钥，来恢复对加密文件的访问。",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "加密应用被启用了，但是你的加密密钥没有初始化，请重新登出登录系统一次。",
     "Enable recovery key (allow to recover users files in case of password loss):" : "启用恢复密钥（允许你在密码丢失后恢复文件）：",
     "Recovery key password" : "恢复密钥密码",

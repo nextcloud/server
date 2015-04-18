@@ -13,6 +13,7 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "新しい復旧キーのパスワードをもう一度入力",
     "Password successfully changed." : "パスワードを変更できました。",
     "Could not change the password. Maybe the old password was not correct." : "パスワードを変更できませんでした。古いパスワードが間違っているかもしれません。",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "暗号化アプリの無効なプライベートキーです。あなたの暗号化されたファイルへアクセスするために、個人設定からプライベートキーのパスワードを更新してください。",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "暗号化アプリは有効ですが、あなたの暗号化キーは初期化されていません。ログアウトした後に、再度ログインしてください",
     "Enable recovery key (allow to recover users files in case of password loss):" : "リカバリキーを有効にする (パスワードを忘れた場合にユーザーのファイルを回復できます):",
     "Recovery key password" : "リカバリキーのパスワード",

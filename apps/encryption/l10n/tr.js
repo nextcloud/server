@@ -13,6 +13,7 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "Lütfen yeni kurtarma parolasını yenileyin",
     "Password successfully changed." : "Parola başarıyla değiştirildi.",
     "Could not change the password. Maybe the old password was not correct." : "Parola değiştirilemedi. Eski parolanız doğru olmayabilir.",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Şifreleme Uygulaması için geçersiz özel anahtar. Lütfen şifreli dosyalarınıza erişimi tekrar kazanabilmek için kişisel ayarlarınızdan özel anahtar parolanızı güncelleyin.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Şifreleme Uygulaması etkin ancak anahtarlarınız başlatılmamış. Lütfen oturumu kapatıp yeniden açın",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Kurtarma anahtarını etkinleştir (parola kaybı durumunda kullanıcı dosyalarının kurtarılmasına izin verir):",
     "Recovery key password" : "Kurtarma anahtarı parolası",

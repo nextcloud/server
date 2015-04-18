@@ -13,6 +13,7 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "Моля, въведи повторна новата парола за възстановяване",
     "Password successfully changed." : "Паролата е успешно променена.",
     "Could not change the password. Maybe the old password was not correct." : "Грешка при промяна на паролата. Може би старата ти парола е сгрешена.",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Невалиден личен ключ за Криптиращата Програма. Моля, обнови личния си ключ в Лични настройки, за да възстановиш достъпа до криптираните си файловете.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Програмата за криптиране е включена, но твоите ключове не са зададени, моля отпиши си и се впиши отново.",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Включи опцията възстановяване на ключ (разрешава да възстанови файловете на потребителите в случай на загубена парола):",
     "Recovery key password" : "Парола за възстановяане на ключа",

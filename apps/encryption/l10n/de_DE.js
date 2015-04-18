@@ -15,6 +15,7 @@ OC.L10N.register(
     "Could not change the password. Maybe the old password was not correct." : "Das Passwort konnte nicht geändert werden. Vielleicht war das alte Passwort nicht richtig.",
     "Recovery Key enabled" : "Wiederherstellungsschlüssel aktiviert",
     "Could not enable the recovery key, please try again or contact your administrator" : "Der Wiederherstellungsschlüssel konnte nicht aktiviert werden, bitte versuchen Sie es noch einmal oder kontaktieren Sie Ihren Administrator",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ungültiger privater Schlüssel für die Verschlüsselungs-App. Bitte aktualisieren Sie Ihr privates Schlüsselpasswort, um den Zugriff auf Ihre verschlüsselten Dateien wiederherzustellen.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Verschlüsselung-App ist aktiviert, aber Ihre Schlüssel sind nicht initialisiert. Bitte nochmals ab- und wieder anmelden.",
     "ownCloud basic encryption module" : "ownCloud-Basisverschlüsselungsmodul",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Aktivieren Sie den Wiederherstellungsschlüssel (erlaubt die Wiederherstellung des Zugangs zu den Benutzerdateien, wenn das Passwort verloren geht):",

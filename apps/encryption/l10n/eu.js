@@ -13,6 +13,7 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "Mesedez errepikatu berreskuratze pasahitz berria",
     "Password successfully changed." : "Pasahitza behar bezala aldatu da.",
     "Could not change the password. Maybe the old password was not correct." : "Ezin izan da pasahitza aldatu. Agian pasahitz zaharra okerrekoa da.",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Enkriptazio aplikaziorako gako pribatu okerra. Mesedez eguneratu zure gako pribatuaren pasahitza zure ezarpen pertsonaletan zure enkriptatuko fitxategietarako sarrera berreskuratzeko.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Enkriptazio aplikazioa gaituta dago baina zure gakoak ez daude konfiguratuta, mesedez saioa bukatu eta berriro hasi",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Gaitu berreskurapen gakoa (erabiltzaileen fitxategiak berreskuratzea ahalbidetzen du pasahitza galtzen badute ere):",
     "Recovery key password" : "Berreskuratze gako pasahitza",

@@ -13,6 +13,7 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "Please repeat the new recovery password",
     "Password successfully changed." : "Password changed successfully.",
     "Could not change the password. Maybe the old password was not correct." : "Could not change the password. Maybe the old password was incorrect.",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Encryption App is enabled but your keys are not initialised, please log-out and log-in again",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Enable recovery key (allow to recover users files in case of password loss):",
     "Recovery key password" : "Recovery key password",

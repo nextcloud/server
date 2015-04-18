@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "공유",
     "External Storage" : "외부 저장소",
     "Cron" : "Cron",
-    "Email Server" : "전자우편 서버",
     "Log" : "로그",
     "Updates" : "업데이트",
     "Authentication error" : "인증 오류",

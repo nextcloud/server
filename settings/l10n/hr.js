@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "Dijeljenje zajedničkih resursa",
     "External Storage" : "Vanjsko spremište",
     "Cron" : "Cron",
-    "Email Server" : "Poslužitelj e-pošte",
     "Log" : "Zapisnik",
     "Updates" : "nadogradnje",
     "Authentication error" : "Pogrešna autentikacija",

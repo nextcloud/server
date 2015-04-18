@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "Dalīšanās",
     "External Storage" : "Ārējā krātuve",
     "Cron" : "Cron",
-    "Email Server" : "E-pasta serveris",
     "Log" : "Žurnāls",
     "Authentication error" : "Autentifikācijas kļūda",
     "Your full name has been changed." : "Jūsu pilnais vārds tika mainīts.",

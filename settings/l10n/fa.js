@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "اشتراک گذاری",
     "External Storage" : "حافظه خارجی",
     "Cron" : "زمانبند",
-    "Email Server" : "سرور ایمیل",
     "Log" : "کارنامه",
     "Updates" : "به روز رسانی ها",
     "Authentication error" : "خطا در اعتبار سنجی",

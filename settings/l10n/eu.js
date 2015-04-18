@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "Partekatzea",
     "External Storage" : "Kanpoko biltegiratzea",
     "Cron" : "Cron",
-    "Email Server" : "Eposta zerbitzaria",
     "Log" : "Log",
     "Updates" : "Eguneraketak",
     "Authentication error" : "Autentifikazio errorea",

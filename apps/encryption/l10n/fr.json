@@ -13,6 +13,7 @@
     "Could not change the password. Maybe the old password was not correct." : "Erreur lors du changement de mot de passe. L'ancien mot de passe est peut-être incorrect.",
     "Recovery Key enabled" : "Clé de récupération activée",
     "Could not enable the recovery key, please try again or contact your administrator" : "Impossible d'activer la clé de récupération. Veuillez essayer à nouveau ou contacter votre administrateur",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Votre clef privée pour le chiffrement n'est pas valide ! Veuillez mettre à jour le mot de passe de votre clef privée dans vos paramètres personnels pour récupérer l'accès à vos fichiers chiffrés.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'application de chiffrement est activée mais vos clefs ne sont pas initialisées. Veuillez vous déconnecter et ensuite vous reconnecter.",
     "ownCloud basic encryption module" : "Module de chiffrement de base d'ownCloud",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Activer la clef de récupération (permet de récupérer les fichiers des utilisateurs en cas de perte de mot de passe).",

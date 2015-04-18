@@ -13,6 +13,7 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "Gjenta det nye gjenopprettingspassordet",
     "Password successfully changed." : "Passordet ble endret.",
     "Could not change the password. Maybe the old password was not correct." : "Klarte ikke å endre passordet. Kanskje gammelt passord ikke var korrekt.",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ugyldig privat nøkkel for Krypterings-app. Oppdater passordet for din private nøkkel i dine personlige innstillinger for å gjenopprette tilgang til de krypterte filene dine.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "App for kryptering er aktivert men nøklene dine er ikke satt opp. Logg ut og logg inn igjen.",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Aktiver gjenopprettingsnøkkel (tillat å gjenopprette brukerfiler i tilfelle tap av passord):",
     "Recovery key password" : "Passord for gjenopprettingsnøkkel",

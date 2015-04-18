@@ -13,6 +13,7 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "Herhaal het nieuwe herstelwachtwoord",
     "Password successfully changed." : "Wachtwoord succesvol gewijzigd.",
     "Could not change the password. Maybe the old password was not correct." : "Kon wachtwoord niet wijzigen. Wellicht oude wachtwoord niet juist ingevoerd.",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ongeldige privésleutel voor crypto app. Werk het privésleutel wachtwoord bij in uw persoonlijke instellingen om opnieuw toegang te krijgen tot uw versleutelde bestanden.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Crypto app is geactiveerd, maar uw sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in.",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Activeren herstelsleutel (maakt het mogelijk om gebruikersbestanden terug te halen in geval van verlies van het wachtwoord):",
     "Recovery key password" : "Wachtwoord herstelsleulel",

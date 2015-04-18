@@ -13,6 +13,7 @@
     "Could not change the password. Maybe the old password was not correct." : "Salasanan vaihto epäonnistui. Kenties vanha salasana oli väärin.",
     "Recovery Key enabled" : "Palautusavain käytössä",
     "Could not enable the recovery key, please try again or contact your administrator" : "Palautusavaimen käyttöönotto epäonnistui, yritä myöhemmin uudelleen tai ota yhteys ylläpitäjään",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Salaussovelluksen salausavain on virheellinen. Ole hyvä ja päivitä salausavain henkilökohtaisissa asetuksissasi jotta voit taas avata salatuskirjoitetut tiedostosi.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Salaussovellus on käytössä, mutta salausavaimia ei ole alustettu. Ole hyvä ja kirjaudu sisään uudelleen.",
     "ownCloud basic encryption module" : "ownCloudin perussalausmoduuli",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Käytä palautusavainta (salli käyttäjien tiedostojen palauttaminen, jos heidän salasana unohtuu):",

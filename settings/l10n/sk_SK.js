@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "Zdieľanie",
     "External Storage" : "Externé úložisko",
     "Cron" : "Cron",
-    "Email Server" : "Email server",
     "Log" : "Záznam",
     "Tips & tricks" : "Tipy a triky",
     "Updates" : "Aktualizácie",

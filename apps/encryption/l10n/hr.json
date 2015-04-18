@@ -5,6 +5,7 @@
     "Could not disable recovery key. Please check your recovery key password!" : "Ključ za oporavak nije moguće deaktivirati. Molimo provjerite svoju lozinku ključa za oporavak!",
     "Password successfully changed." : "Lozinka uspješno promijenjena.",
     "Could not change the password. Maybe the old password was not correct." : "Lozinku nije moguće promijeniti. Možda je stara lozinka bila neispravna.",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Neispravan privatni ključ za šifriranje. Molimo ažurirajte lozinku svoga privatnog ključa u svojim osobnimpostavkama da biste obnovili pristup svojim šifriranim datotekama.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacija šifriranja je aktivirana ali vaši ključevi nisu inicijalizirani, molimo odjavite se iponovno prijavite.",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Aktivirajte ključ za oporavak (u slučaju gubitka lozinke dozvolite oporavak korisničkih datoteka):",
     "Recovery key password" : "Lozinka ključa za oporavak",

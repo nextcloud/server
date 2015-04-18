@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "Megosztás",
     "External Storage" : "Külső tárolási szolgáltatások becsatolása",
     "Cron" : "Ütemezett feladatok",
-    "Email Server" : "E-mail kiszolgáló",
     "Log" : "Naplózás",
     "Updates" : "Frissítések",
     "Authentication error" : "Azonosítási hiba",

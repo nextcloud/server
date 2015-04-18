@@ -82,6 +82,7 @@
     "Set an admin password." : "Задать пароль для admin.",
     "Can't create or write into the data directory %s" : "Невозможно создать или записать в каталог данных %s",
     "%s shared »%s« with you" : "%s поделился »%s« с вами",
+    "%s via %s" : "%s через %s",
     "Sharing %s failed, because the backend does not allow shares from type %i" : "Не удалось поделиться %s, общий доступ не допускает публикации из элементов типа %i",
     "Sharing %s failed, because the file does not exist" : "Не удалось поделиться %s, файл не существует",
     "You are not allowed to share %s" : "Вам запрещено делиться %s",

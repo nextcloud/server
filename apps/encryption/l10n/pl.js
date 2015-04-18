@@ -13,6 +13,7 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "Proszę powtórz nowe hasło odzyskiwania",
     "Password successfully changed." : "Zmiana hasła udana.",
     "Could not change the password. Maybe the old password was not correct." : "Nie można zmienić hasła. Może stare hasło nie było poprawne.",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Klucz prywatny nie jest poprawny! Może Twoje hasło zostało zmienione z zewnątrz. Można zaktualizować hasło klucza prywatnego w ustawieniach osobistych w celu odzyskania dostępu do plików",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacja szyfrująca jest aktywna, ale twoje klucze nie zostały zainicjowane, prosze wyloguj się i zaloguj ponownie.",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Włączhasło klucza odzyskiwania (pozwala odzyskać pliki użytkowników w przypadku utraty hasła):",
     "Recovery key password" : "Hasło klucza odzyskiwania",

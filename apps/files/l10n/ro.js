@@ -93,6 +93,7 @@ OC.L10N.register(
     "Folder" : "Dosar",
     "Upload" : "Încărcă",
     "Cancel upload" : "Anulează încărcarea",
+    "Select all" : "Selectează tot",
     "Upload too large" : "Fișierul încărcat este prea mare",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fișierele pe care încerci să le încarci depășesc limita de încărcare maximă admisă pe acest server.",
     "Files are being scanned, please wait." : "Fișierele sunt scanate, te rog așteaptă.",

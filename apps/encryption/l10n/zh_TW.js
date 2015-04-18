@@ -7,6 +7,7 @@ OC.L10N.register(
     "Could not disable recovery key. Please check your recovery key password!" : "無法停用還原金鑰。請檢查您的還原金鑰密碼!",
     "Password successfully changed." : "成功變更密碼。",
     "Could not change the password. Maybe the old password was not correct." : "無法變更密碼，或許是輸入的舊密碼不正確。",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "無效的檔案加密私鑰，請在個人設定中更新您的私鑰密語以存取加密的檔案。",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "檔案加密已啓用，但是您的金鑰尚未初始化，請重新登入一次",
     "Enable recovery key (allow to recover users files in case of password loss):" : "啟用還原金鑰 (因忘記密碼仍允許還原使用者檔案):",
     "Recovery key password" : "還原金鑰密碼",

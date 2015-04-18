@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "Kunhavigo",
     "External Storage" : "Malena memorilo",
     "Cron" : "Cron",
-    "Email Server" : "Retpoŝtoservilo",
     "Log" : "Protokolo",
     "Updates" : "Ĝisdatigoj",
     "Authentication error" : "Aŭtentiga eraro",

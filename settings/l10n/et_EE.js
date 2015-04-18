@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "Jagamine",
     "External Storage" : "Väline salvestuskoht",
     "Cron" : "Cron",
-    "Email Server" : "Postiserver",
     "Log" : "Logi",
     "Updates" : "Uuendused",
     "Authentication error" : "Autentimise viga",

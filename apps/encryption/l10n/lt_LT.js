@@ -7,6 +7,7 @@ OC.L10N.register(
     "Could not disable recovery key. Please check your recovery key password!" : "Neišėjo išjungti jūsų atkūrimo rakto. Prašome jį patikrinti!",
     "Password successfully changed." : "Slaptažodis sėkmingai pakeistas",
     "Could not change the password. Maybe the old password was not correct." : "Slaptažodis nebuvo pakeistas. Gali būti, kad buvo neteisingai suvestas senasis.",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Netinkamas privatus raktas Šifravimo programai. Prašome atnaujinti savo privataus rakto slaptažodį asmeniniuose nustatymuose, kad atkurti prieigą prie šifruotų failų.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Šifravimo programa įjungta, bet Jūsų raktai nėra pritaikyti. Prašome atsijungti ir vėl prisijungti",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Įjunkite atkūrimo raktą, (leisti atkurti naudotojų failus praradus slaptažodį):",
     "Recovery key password" : "Atkūrimo rakto slaptažodis",

@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "ការ​ចែក​រំលែក",
     "External Storage" : "ឃ្លាំងផ្ទុក​ខាងក្រៅ",
     "Cron" : "Cron",
-    "Email Server" : "ម៉ាស៊ីន​បម្រើ​អ៊ីមែល",
     "Log" : "Log",
     "Authentication error" : "កំហុស​ការ​ផ្ទៀង​ផ្ទាត់​ភាព​ត្រឹម​ត្រូវ",
     "Language changed" : "បាន​ប្ដូរ​ភាសា",

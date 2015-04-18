@@ -4,7 +4,6 @@ OC.L10N.register(
     "Sharing" : "Споделување",
     "External Storage" : "Надворешно складиште",
     "Cron" : "Крон",
-    "Email Server" : "Сервер за електронска пошта",
     "Log" : "Записник",
     "Authentication error" : "Грешка во автентикација",
     "Your full name has been changed." : "Вашето целосно име е променето.",

@@ -13,6 +13,7 @@
     "Could not change the password. Maybe the old password was not correct." : "Non foi posíbel cambiar o contrasinal. Probabelmente o contrasinal antigo non é o  correcto.",
     "Recovery Key enabled" : "Activada a chave de recuperación",
     "Could not enable the recovery key, please try again or contact your administrator" : "Non foi posíbel activar a chave de recuperación, tenteo de novo ou póñase en contacto co administrador.",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "A chave privada para a aplicación de cifrado non é correcta. Actualice o contrasinal da súa chave privada nos seus axustes persoais para recuperar o acceso aos seus ficheiros cifrados.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A aplicación de cifrado está activada, mais as chaves non foron preparadas, saia da sesión e volva a acceder de novo",
     "ownCloud basic encryption module" : "Módulo básico de cifrado de ownCloud",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Activar a chave de recuperación (permitirá recuperar os ficheiros dos usuarios no caso de perda do contrasinal):",

@@ -13,6 +13,7 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "Palun korda uut taastevõtme parooli",
     "Password successfully changed." : "Parool edukalt vahetatud.",
     "Could not change the password. Maybe the old password was not correct." : "Ei suutnud vahetada parooli. Võib-olla on vana parool valesti sisestatud.",
+    "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Vigane Krüpteerimisrakendi privaatvõti . Palun uuenda oma privaatse võtme parool oma personaasete seadete all taastamaks ligipääsu oma krüpteeritud failidele.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Krüpteerimisrakend on lubatud, kuid võtmeid pole lähtestatud. Palun logi välja ning uuesti sisse.",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Luba taastevõti (võimalda kasutaja failide taastamine parooli kaotuse puhul):",
     "Recovery key password" : "Taastevõtme parool",
