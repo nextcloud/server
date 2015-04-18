@@ -106,11 +106,11 @@ class Manager implements IManager {
 			$this->setDefaultEncryptionModule($id);
 		}
 
-		$this->encryptionModules[$id] = array(
+		$this->encryptionModules[$id] = [
 			'id' => $id,
-			'displayName' => 'displayName',
-			'callback' => $callback
-		);
+			'displayName' => $displayName,
+			'callback' => $callback,
+		];
 	}
 
 	/**
