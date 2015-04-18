@@ -290,11 +290,11 @@ class OC_DB {
 	public static function raiseExceptionOnError($result, $message = null) {
 		if(self::isError($result)) {
 			if ($message === null) {
-				$message = self::getErrorMessage($result);
+				$message = self::getErrorMessage();
 			} else {
-				$message .= ', Root cause:' . self::getErrorMessage($result);
+				$message .= ', Root cause:' . self::getErrorMessage();
 			}
-			throw new \OC\DatabaseException($message, self::getErrorCode($result));
+			throw new \OC\DatabaseException($message, self::getErrorCode());
 		}
 	}
 
