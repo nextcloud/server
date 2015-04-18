@@ -153,7 +153,7 @@ class Share extends \OC\Share\Constants {
 			$result = $query->execute(array($source, self::SHARE_TYPE_USER));
 
 			if (\OCP\DB::isError($result)) {
-				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage(), \OC_Log::ERROR);
 			} else {
 				while ($row = $result->fetchRow()) {
 					$shares[] = $row['share_with'];
@@ -175,7 +175,7 @@ class Share extends \OC\Share\Constants {
 			$result = $query->execute(array($source, self::SHARE_TYPE_GROUP));
 
 			if (\OCP\DB::isError($result)) {
-				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage(), \OC_Log::ERROR);
 			} else {
 				while ($row = $result->fetchRow()) {
 					$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
@@ -199,7 +199,7 @@ class Share extends \OC\Share\Constants {
 				$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
 
 				if (\OCP\DB::isError($result)) {
-					\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
+					\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage(), \OCP\Util::ERROR);
 				} else {
 					if ($result->fetchRow()) {
 						$publicShare = true;
@@ -218,7 +218,7 @@ class Share extends \OC\Share\Constants {
 				$result = $query->execute(array($source, self::SHARE_TYPE_REMOTE));
 
 				if (\OCP\DB::isError($result)) {
-					\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
+					\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage(), \OCP\Util::ERROR);
 				} else {
 					if ($result->fetchRow()) {
 						$remoteShare = true;
@@ -256,7 +256,7 @@ class Share extends \OC\Share\Constants {
 				$result = $query->execute();
 
 				if (\OCP\DB::isError($result)) {
-					\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+					\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage(), \OC_Log::ERROR);
 				} else {
 					while ($row = $result->fetchRow()) {
 						foreach ($fileTargets[$row['fileid']] as $uid => $shareData) {
@@ -447,7 +447,7 @@ class Share extends \OC\Share\Constants {
 		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `token` = ?', 1);
 		$result = $query->execute(array($token));
 		if (\OC_DB::isError($result)) {
-			\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result) . ', token=' . $token, \OC_Log::ERROR);
+			\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage() . ', token=' . $token, \OC_Log::ERROR);
 		}
 		$row = $result->fetchRow();
 		if ($row === false) {
@@ -1598,7 +1598,7 @@ class Share extends \OC\Share\Constants {
 		$result = $query->execute($queryArgs);
 		if (\OC_DB::isError($result)) {
 			\OC_Log::write('OCP\Share',
-				\OC_DB::getErrorMessage($result) . ', select=' . $select . ' where=',
+				\OC_DB::getErrorMessage() . ', select=' . $select . ' where=',
 				\OC_Log::ERROR);
 		}
 		$items = array();
@@ -1662,7 +1662,7 @@ class Share extends \OC\Share\Constants {
 					$parentResult = $query->execute(array($row['parent']));
 					if (\OC_DB::isError($result)) {
 						\OC_Log::write('OCP\Share', 'Can\'t select parent: ' .
-							\OC_DB::getErrorMessage($result) . ', select=' . $select . ' where=' . $where,
+							\OC_DB::getErrorMessage() . ', select=' . $select . ' where=' . $where,
 							\OC_Log::ERROR);
 					} else {
 						$parentRow = $parentResult->fetchRow();

@@ -571,7 +571,7 @@ class Local {
 		$result = $query->execute($args);
 
 		if (\OCP\DB::isError($result)) {
-			\OCP\Util::writeLog('files_sharing', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
+			\OCP\Util::writeLog('files_sharing', \OC_DB::getErrorMessage(), \OCP\Util::ERROR);
 			return null;
 		}
 		if ($share = $result->fetchRow()) {

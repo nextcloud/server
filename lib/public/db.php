@@ -125,12 +125,11 @@ class DB {
 	/**
 	 * returns the error code and message as a string for logging
 	 * works with DoctrineException
-	 * @param mixed $error
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public static function getErrorMessage($error) {
-		return(\OC_DB::getErrorMessage($error));
+	public static function getErrorMessage() {
+		return(\OC_DB::getErrorMessage());
 	}
 
 }
