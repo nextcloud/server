@@ -75,6 +75,8 @@ interface IL10N {
 	 * Localization
 	 * @param string $type Type of localization
 	 * @param array $data parameters for this localization
+	 * @param array $options currently supports following options:
+	 * 			- 'width': handed into \Punic\Calendar::formatDate as second parameter
 	 * @return string|false
 	 *
 	 * Returns the localized data.
@@ -92,9 +94,9 @@ interface IL10N {
 	 *    - Creates a time
 	 *    - l10n-field: time
 	 *    - params: timestamp (int/string)
-	 * @since 6.0.0
+	 * @since 6.0.0 - parameter $options was added in 8.0.0
 	 */
-	public function l($type, $data);
+	public function l($type, $data, $options = array());
 
 
 	/**
