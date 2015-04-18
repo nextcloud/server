@@ -39,6 +39,7 @@ class API {
 
 	/**
 	 * API authentication levels
+	 * @since 8.1.0
 	 */
 	const GUEST_AUTH = 0;
 	const USER_AUTH = 1;
@@ -47,6 +48,7 @@ class API {
 
 	/**
 	 * API Response Codes
+	 * @since 8.1.0
 	 */
 	const RESPOND_UNAUTHORISED = 997;
 	const RESPOND_SERVER_ERROR = 996;
