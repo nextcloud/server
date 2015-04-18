@@ -141,6 +141,7 @@ class Util {
 	 */
 	public static function logException( $app, \Exception $ex, $level = \OCP\Util::FATAL ) {
 		$exception = array(
+			'Exception' => get_class($ex),
 			'Message' => $ex->getMessage(),
 			'Code' => $ex->getCode(),
 			'Trace' => $ex->getTraceAsString(),
