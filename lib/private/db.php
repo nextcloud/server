@@ -298,17 +298,16 @@ class OC_DB {
 		}
 	}
 
-	public static function getErrorCode($error) {
+	public static function getErrorCode() {
 		$connection = \OC::$server->getDatabaseConnection();
 		return $connection->errorCode();
 	}
 	/**
 	 * returns the error code and message as a string for logging
 	 * works with DoctrineException
-	 * @param mixed $error
 	 * @return string
 	 */
-	public static function getErrorMessage($error) {
+	public static function getErrorMessage() {
 		$connection = \OC::$server->getDatabaseConnection();
 		return $connection->getError();
 	}
