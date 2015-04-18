@@ -55,7 +55,7 @@ interface IServerContainer {
 	 * @return \OCP\Contacts\IManager
 	 * @since 6.0.0
 	 */
-	function getContactsManager();
+	public function getContactsManager();
 
 	/**
 	 * The current request object holding all information about the request currently being processed
@@ -65,7 +65,7 @@ interface IServerContainer {
 	 * @return \OCP\IRequest
 	 * @since 6.0.0
 	 */
-	function getRequest();
+	public function getRequest();
 
 	/**
 	 * Returns the preview manager which can create preview images for a given file
@@ -73,7 +73,7 @@ interface IServerContainer {
 	 * @return \OCP\IPreview
 	 * @since 6.0.0
 	 */
-	function getPreviewManager();
+	public function getPreviewManager();
 
 	/**
 	 * Returns the tag manager which can get and set tags for different object types
@@ -82,7 +82,7 @@ interface IServerContainer {
 	 * @return \OCP\ITagManager
 	 * @since 6.0.0
 	 */
-	function getTagManager();
+	public function getTagManager();
 
 	/**
 	 * Returns the root folder of ownCloud's data directory
@@ -90,7 +90,7 @@ interface IServerContainer {
 	 * @return \OCP\Files\Folder
 	 * @since 6.0.0
 	 */
-	function getRootFolder();
+	public function getRootFolder();
 
 	/**
 	 * Returns a view to ownCloud's files folder
@@ -99,7 +99,7 @@ interface IServerContainer {
 	 * @return \OCP\Files\Folder
 	 * @since 6.0.0 - parameter $userId was added in 8.0.0
 	 */
-	function getUserFolder($userId = null);
+	public function getUserFolder($userId = null);
 
 	/**
 	 * Returns an app-specific view in ownClouds data directory
@@ -107,7 +107,7 @@ interface IServerContainer {
 	 * @return \OCP\Files\Folder
 	 * @since 6.0.0
 	 */
-	function getAppFolder();
+	public function getAppFolder();
 
 	/**
 	 * Returns a user manager
@@ -115,7 +115,7 @@ interface IServerContainer {
 	 * @return \OCP\IUserManager
 	 * @since 8.0.0
 	 */
-	function getUserManager();
+	public function getUserManager();
 
 	/**
 	 * Returns a group manager
@@ -123,7 +123,7 @@ interface IServerContainer {
 	 * @return \OCP\IGroupManager
 	 * @since 8.0.0
 	 */
-	function getGroupManager();
+	public function getGroupManager();
 
 	/**
 	 * Returns the user session
@@ -131,7 +131,7 @@ interface IServerContainer {
 	 * @return \OCP\IUserSession
 	 * @since 6.0.0
 	 */
-	function getUserSession();
+	public function getUserSession();
 
 	/**
 	 * Returns the navigation manager
@@ -139,7 +139,7 @@ interface IServerContainer {
 	 * @return \OCP\INavigationManager
 	 * @since 6.0.0
 	 */
-	function getNavigationManager();
+	public function getNavigationManager();
 
 	/**
 	 * Returns the config manager
@@ -147,7 +147,7 @@ interface IServerContainer {
 	 * @return \OCP\IConfig
 	 * @since 6.0.0
 	 */
-	function getConfig();
+	public function getConfig();
 
 	/**
 	 * Returns a Crypto instance
@@ -155,7 +155,7 @@ interface IServerContainer {
 	 * @return \OCP\Security\ICrypto
 	 * @since 8.0.0
 	 */
-	function getCrypto();
+	public function getCrypto();
 
 	/**
 	 * Returns a Hasher instance
@@ -163,7 +163,7 @@ interface IServerContainer {
 	 * @return \OCP\Security\IHasher
 	 * @since 8.0.0
 	 */
-	function getHasher();
+	public function getHasher();
 
 	/**
 	 * Returns a SecureRandom instance
@@ -171,7 +171,7 @@ interface IServerContainer {
 	 * @return \OCP\Security\ISecureRandom
 	 * @since 8.1.0
 	 */
-	function getSecureRandom();
+	public function getSecureRandom();
 
 	/**
 	 * Returns an instance of the db facade
@@ -179,7 +179,7 @@ interface IServerContainer {
 	 * @return \OCP\IDb
 	 * @since 7.0.0
 	 */
-	function getDb();
+	public function getDb();
 
 	/**
 	 * Returns the app config manager
@@ -187,7 +187,7 @@ interface IServerContainer {
 	 * @return \OCP\IAppConfig
 	 * @since 7.0.0
 	 */
-	function getAppConfig();
+	public function getAppConfig();
 
 	/**
 	 * get an L10N instance
@@ -196,19 +196,19 @@ interface IServerContainer {
 	 * @return \OCP\IL10N
 	 * @since 6.0.0 - parameter $lang was added in 8.0.0
 	 */
-	function getL10N($app, $lang = null);
+	public function getL10N($app, $lang = null);
 
 	/**
 	 * @return \OC\Encryption\Manager
 	 * @since 8.1.0
 	 */
-	function getEncryptionManager();
+	public function getEncryptionManager();
 
 	/**
 	 * @return \OC\Encryption\File
 	 * @since 8.1.0
 	 */
-	function getEncryptionFilesHelper();
+	public function getEncryptionFilesHelper();
 
 	/**
 	 * @param string $encryptionModuleId encryption module ID
@@ -216,7 +216,7 @@ interface IServerContainer {
 	 * @return \OCP\Encryption\Keys\IStorage
 	 * @since 8.1.0
 	 */
-	function getEncryptionKeyStorage($encryptionModuleId);
+	public function getEncryptionKeyStorage($encryptionModuleId);
 
 	/**
 	 * Returns the URL generator
@@ -224,7 +224,7 @@ interface IServerContainer {
 	 * @return \OCP\IURLGenerator
 	 * @since 6.0.0
 	 */
-	function getURLGenerator();
+	public function getURLGenerator();
 
 	/**
 	 * Returns the Helper
@@ -232,7 +232,7 @@ interface IServerContainer {
 	 * @return \OCP\IHelper
 	 * @since 6.0.0
 	 */
-	function getHelper();
+	public function getHelper();
 
 	/**
 	 * Returns an ICache instance
@@ -240,7 +240,7 @@ interface IServerContainer {
 	 * @return \OCP\ICache
 	 * @since 6.0.0
 	 */
-	function getCache();
+	public function getCache();
 
 	/**
 	 * Returns an \OCP\CacheFactory instance
@@ -248,7 +248,7 @@ interface IServerContainer {
 	 * @return \OCP\ICacheFactory
 	 * @since 7.0.0
 	 */
-	function getMemCacheFactory();
+	public function getMemCacheFactory();
 
 	/**
 	 * Returns the current session
@@ -256,7 +256,7 @@ interface IServerContainer {
 	 * @return \OCP\ISession
 	 * @since 6.0.0
 	 */
-	function getSession();
+	public function getSession();
 
 	/**
 	 * Returns the activity manager
@@ -264,7 +264,7 @@ interface IServerContainer {
 	 * @return \OCP\Activity\IManager
 	 * @since 6.0.0
 	 */
-	function getActivityManager();
+	public function getActivityManager();
 
 	/**
 	 * Returns the current session
@@ -272,7 +272,7 @@ interface IServerContainer {
 	 * @return \OCP\IDBConnection
 	 * @since 6.0.0
 	 */
-	function getDatabaseConnection();
+	public function getDatabaseConnection();
 
 	/**
 	 * Returns an avatar manager, used for avatar functionality
@@ -280,7 +280,7 @@ interface IServerContainer {
 	 * @return \OCP\IAvatarManager
 	 * @since 6.0.0
 	 */
-	function getAvatarManager();
+	public function getAvatarManager();
 
 	/**
 	 * Returns an job list for controlling background jobs
@@ -288,7 +288,7 @@ interface IServerContainer {
 	 * @return \OCP\BackgroundJob\IJobList
 	 * @since 7.0.0
 	 */
-	function getJobList();
+	public function getJobList();
 
 	/**
 	 * Returns a logger instance
@@ -296,7 +296,7 @@ interface IServerContainer {
 	 * @return \OCP\ILogger
 	 * @since 8.0.0
 	 */
-	function getLogger();
+	public function getLogger();
 
 	/**
 	 * Returns a router for generating and matching urls
@@ -304,7 +304,7 @@ interface IServerContainer {
 	 * @return \OCP\Route\IRouter
 	 * @since 7.0.0
 	 */
-	function getRouter();
+	public function getRouter();
 
 	/**
 	 * Returns a search instance
@@ -312,7 +312,7 @@ interface IServerContainer {
 	 * @return \OCP\ISearch
 	 * @since 7.0.0
 	 */
-	function getSearch();
+	public function getSearch();
 
 	/**
 	 * Get the certificate manager for the user
@@ -321,7 +321,7 @@ interface IServerContainer {
 	 * @return \OCP\ICertificateManager
 	 * @since 8.0.0
 	 */
-	function getCertificateManager($user = null);
+	public function getCertificateManager($user = null);
 
 	/**
 	 * Create a new event source
@@ -329,7 +329,7 @@ interface IServerContainer {
 	 * @return \OCP\IEventSource
 	 * @since 8.0.0
 	 */
-	function createEventSource();
+	public function createEventSource();
 
 	/**
 	 * Returns an instance of the HTTP helper class
@@ -337,7 +337,7 @@ interface IServerContainer {
 	 * @deprecated Use \OCP\Http\Client\IClientService
 	 * @since 8.0.0
 	 */
-	function getHTTPHelper();
+	public function getHTTPHelper();
 
 	/**
 	 * Returns an instance of the HTTP client service
@@ -345,7 +345,7 @@ interface IServerContainer {
 	 * @return \OCP\Http\Client\IClientService
 	 * @since 8.1.0
 	 */
-	function getHTTPClientService();
+	public function getHTTPClientService();
 
 	/**
 	 * Get the active event logger
@@ -353,7 +353,7 @@ interface IServerContainer {
 	 * @return \OCP\Diagnostics\IEventLogger
 	 * @since 8.0.0
 	 */
-	function getEventLogger();
+	public function getEventLogger();
 
 	/**
 	 * Get the active query logger
@@ -363,7 +363,7 @@ interface IServerContainer {
 	 * @return \OCP\Diagnostics\IQueryLogger
 	 * @since 8.0.0
 	 */
-	function getQueryLogger();
+	public function getQueryLogger();
 
 	/**
 	 * Get the manager for temporary files and folders
@@ -371,7 +371,7 @@ interface IServerContainer {
 	 * @return \OCP\ITempManager
 	 * @since 8.0.0
 	 */
-	function getTempManager();
+	public function getTempManager();
 
 	/**
 	 * Get the app manager
@@ -379,7 +379,7 @@ interface IServerContainer {
 	 * @return \OCP\App\IAppManager
 	 * @since 8.0.0
 	 */
-	function getAppManager();
+	public function getAppManager();
 
 	/**
 	 * Get the webroot
@@ -387,13 +387,13 @@ interface IServerContainer {
 	 * @return string
 	 * @since 8.0.0
 	 */
-	function getWebRoot();
+	public function getWebRoot();
 
 	/**
 	 * @return \OCP\Files\Config\IMountProviderCollection
 	 * @since 8.0.0
 	 */
-	function getMountProviderCollection();
+	public function getMountProviderCollection();
 
 	/**
 	 * Get the IniWrapper
@@ -401,12 +401,12 @@ interface IServerContainer {
 	 * @return \bantu\IniGetWrapper\IniGetWrapper
 	 * @since 8.0.0
 	 */
-	 function getIniWrapper();
+	public function getIniWrapper();
 	/**
 	 * @return \OCP\Command\IBus
 	 * @since 8.1.0
 	 */
-	function getCommandBus();
+	public function getCommandBus();
 
 	/**
 	 * Creates a new mailer
@@ -414,5 +414,5 @@ interface IServerContainer {
 	 * @return \OCP\Mail\IMailer
 	 * @since 8.1.0
 	 */
-	function getMailer();
+	public function getMailer();
 }
