@@ -29,6 +29,7 @@
 
 #imgframe .text-preview {
 	display: inline-block;
+	position: relative;
 	text-align: left;
 	white-space: pre-wrap;
 	overflow-y: auto;
@@ -41,6 +42,16 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	z-index: 1;
+}
+
+#imgframe .watermark {
+	color: #E3E3E3;
+	font-size: 75pt;
+	position: absolute;
+	width: 80%;
+	top: 100px;
+	z-index: 0;
 }
 
 /* fix multiselect bar offset on shared page */

@@ -118,7 +118,7 @@ OCA.Sharing.PublicApp = {
 				url: url,
 				headers: {Range: "bytes=0-1000"}
 			}).then(function (data) {
-				var textDiv = $('<span/>').addClass('text-preview');
+				var textDiv = $('<div/>').addClass('text-preview');
 				textDiv.text(data);
 				textDiv.appendTo('#imgframe');
 				var divHeight = textDiv.height();
@@ -129,6 +129,9 @@ OCA.Sharing.PublicApp = {
 				if (divHeight > previewHeight) {
 					textDiv.height(previewHeight);
 				}
+				var watermark = $('<div/>').addClass('watermark');
+				watermark.text('SAMPLE');
+				watermark.appendTo('#imgframe');
 			});
 		} else if (previewSupported === 'true' ||
 			mimetype.substr(0, mimetype.indexOf('/')) === 'image' &&
