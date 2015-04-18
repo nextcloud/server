@@ -59,10 +59,12 @@ interface IURLGenerator {
 	 * Returns an URL for an image or file
 	 * @param string $appName the name of the app
 	 * @param string $file the name of the file
+	 * @param array $args array with param=>value, will be appended to the returned url
+	 *    The value of $args will be urlencoded
 	 * @return string the url
 	 * @since 6.0.0
 	 */
-	public function linkTo($appName, $file);
+	public function linkTo($appName, $file, $args = array());
 
 	/**
 	 * Returns the link to an image, like linkTo but only with prepending img/
