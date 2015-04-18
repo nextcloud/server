@@ -32,11 +32,9 @@ class MSSQL extends AbstractDatabase {
 
 		$masterConnection = @sqlsrv_connect($this->dbhost, $masterConnectionInfo);
 		if(!$masterConnection) {
-			$entry = null;
+			$entry = '';
 			if( ($errors = sqlsrv_errors() ) != null) {
 				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
-			} else {
-				$entry = '';
 			}
 			throw new \OC\DatabaseSetupException($this->trans->t('MS SQL username and/or password not valid: %s', array($entry)),
 					$this->trans->t('You need to enter either an existing account or the administrator.'));

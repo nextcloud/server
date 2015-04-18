@@ -391,13 +391,10 @@ class OC_L10N implements \OCP\IL10N {
 		switch($type) {
 			case 'date':
 				return Punic\Calendar::formatDate($value, $width, $locale);
-				break;
 			case 'datetime':
 				return Punic\Calendar::formatDatetime($value, $width, $locale);
-				break;
 			case 'time':
 				return Punic\Calendar::formatTime($value, $width, $locale);
-				break;
 			default:
 				return false;
 		}

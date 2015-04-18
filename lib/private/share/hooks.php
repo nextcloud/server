@@ -32,7 +32,7 @@ class Hooks extends \OC\Share\Constants {
 		// Delete any items shared with the deleted user
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share`'
 			.' WHERE `share_with` = ? AND `share_type` = ? OR `share_type` = ?');
-		$result = $query->execute(array($arguments['uid'], self::SHARE_TYPE_USER, self::$shareTypeGroupUserUnique));
+		$query->execute(array($arguments['uid'], self::SHARE_TYPE_USER, self::$shareTypeGroupUserUnique));
 		// Delete any items the deleted user shared
 		$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*share` WHERE `uid_owner` = ?');
 		$result = $query->execute(array($arguments['uid']));

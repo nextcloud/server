@@ -102,7 +102,7 @@ class RepairLegacyStorages extends BasicEmitter {
 			$newNumericId = (int)$newNumericId;
 			// try and resolve the conflict
 			// check which one of "local::" or "home::" needs to be kept
-			$result = $this->findStorageInCacheStatement->execute(array($oldNumericId, $newNumericId));
+			$this->findStorageInCacheStatement->execute(array($oldNumericId, $newNumericId));
 			$row1 = $this->findStorageInCacheStatement->fetch();
 			$row2 = $this->findStorageInCacheStatement->fetch();
 			$this->findStorageInCacheStatement->closeCursor();

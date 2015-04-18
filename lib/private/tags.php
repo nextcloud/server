@@ -228,9 +228,9 @@ class Tags implements \OCP\ITags {
 				while ($row = $result->fetch()) {
 					$objId = (int)$row['objid'];
 					if (!isset($entries[$objId])) {
-						$entry = $entries[$objId] = array();
+						$entries[$objId] = array();
 					}
-					$entry = $entries[$objId][] = $row['category'];
+					$entries[$objId][] = $row['category'];
 				}
 				if (\OCP\DB::isError($result)) {
 					\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);

@@ -978,7 +978,6 @@ class OC_Helper {
 			$quota = OC_Util::getUserQuota(\OCP\User::getUser());
 			if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 				// always get free space / total space from root + mount points
-				$path = '';
 				return self::getGlobalStorageInfo();
 			}
 		}
