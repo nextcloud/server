@@ -40,6 +40,7 @@ namespace OCP;
 
 /**
  * This class provides access to the internal database system. Use this class exlusively if you want to access databases
+ * @deprecated 8.1.0 use methods of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
  * @since 4.5.0
  */
 class DB {
@@ -51,6 +52,7 @@ class DB {
 	 * @return \OC_DB_StatementWrapper prepared SQL query
 	 *
 	 * SQL query via Doctrine prepare(), needs to be execute()'d!
+	 * @deprecated 8.1.0 use prepare() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
 	 * @since 4.5.0
 	 */
 	static public function prepare( $query, $limit=null, $offset=null ) {
@@ -66,6 +68,7 @@ class DB {
 	 *				If this is null or an empty array, all keys of $input will be compared
 	 * @return int number of inserted rows
 	 * @throws \Doctrine\DBAL\DBALException
+	 * @deprecated 8.1.0 use insertIfNotExist() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
 	 * @since 5.0.0 - parameter $compare was added in 8.1.0
 	 *
 	 */
@@ -82,6 +85,7 @@ class DB {
 	 *
 	 * Call this method right after the insert command or other functions may
 	 * cause trouble!
+	 * @deprecated 8.1.0 use lastInsertId() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
 	 * @since 4.5.0
 	 */
 	public static function insertid($table=null) {
@@ -90,6 +94,7 @@ class DB {
 
 	/**
 	 * Start a transaction
+	 * @deprecated 8.1.0 use beginTransaction() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
 	 * @since 4.5.0
 	 */
 	public static function beginTransaction() {
@@ -98,6 +103,7 @@ class DB {
 
 	/**
 	 * Commit the database changes done during a transaction that is in progress
+	 * @deprecated 8.1.0 use commit() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
 	 * @since 4.5.0
 	 */
 	public static function commit() {
@@ -106,6 +112,7 @@ class DB {
 
 	/**
 	 * Rollback the database changes done during a transaction that is in progress
+	 * @deprecated 8.1.0 use rollback() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
 	 * @since 8.0.0
 	 */
 	public static function rollback() {
@@ -116,6 +123,7 @@ class DB {
 	 * Check if a result is an error, works with Doctrine
 	 * @param mixed $result
 	 * @return bool
+	 * @deprecated 8.1.0 Doctrine returns false on error (and throws an exception)
 	 * @since 4.5.0
 	 */
 	public static function isError($result) {
@@ -126,6 +134,7 @@ class DB {
 	 * returns the error code and message as a string for logging
 	 * works with DoctrineException
 	 * @return string
+	 * @deprecated 8.1.0 use getError() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
 	 * @since 6.0.0
 	 */
 	public static function getErrorMessage() {
