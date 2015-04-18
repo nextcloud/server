@@ -34,4 +34,4 @@ $this->create('files_trashbin_ajax_undelete', 'ajax/undelete.php')
 
 
 // Register with the capabilities API
-\OC_API::register('get', '/cloud/capabilities', array('OCA\Files_Trashbin\Capabilities', 'getCapabilities'), 'files_trashbin', \OC_API::USER_AUTH);
+\OCP\API::register('get', '/cloud/capabilities', array('OCA\Files_Trashbin\Capabilities', 'getCapabilities'), 'files_trashbin', \OCP\API::USER_AUTH);

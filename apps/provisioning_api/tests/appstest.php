@@ -36,7 +36,7 @@ class AppsTest extends TestCase {
 		$result = \OCA\provisioning_API\Apps::getAppInfo(array('appid' => 'not_provisioning_api'));
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
-		$this->assertEquals(\OC_API::RESPOND_NOT_FOUND, $result->getStatusCode());
+		$this->assertEquals(\OCP\API::RESPOND_NOT_FOUND, $result->getStatusCode());
 
 	}
 

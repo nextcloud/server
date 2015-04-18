@@ -188,7 +188,7 @@ class OC_API {
 			// Which shipped response do we use if they all failed?
 			// They may have failed for different reasons (different status codes)
 			// Which response code should we return?
-			// Maybe any that are not OC_API::RESPOND_SERVER_ERROR
+			// Maybe any that are not \OCP\API::RESPOND_SERVER_ERROR
 			// Merge failed responses if more than one
 			$data = array();
 			foreach($shipped['failed'] as $failure) {
@@ -400,7 +400,7 @@ class OC_API {
 	 * Based on the requested format the response content type is set
 	 */
 	public static function setContentType() {
-		$format = \OC_API::requestedFormat();
+		$format = self::requestedFormat();
 		if ($format === 'xml') {
 			header('Content-type: text/xml; charset=UTF-8');
 			return;

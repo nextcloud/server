@@ -85,4 +85,4 @@ $this->create('download', 'download{file}')
 	->actionInclude('files/download.php');
 	
 // Register with the capabilities API
-\OC_API::register('get', '/cloud/capabilities', array('OCA\Files\Capabilities', 'getCapabilities'), 'files', \OC_API::USER_AUTH);
+\OCP\API::register('get', '/cloud/capabilities', array('OCA\Files\Capabilities', 'getCapabilities'), 'files', \OCP\API::USER_AUTH);
