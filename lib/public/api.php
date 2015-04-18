@@ -43,12 +43,12 @@ class API {
 	 * @param string $url the url to match
 	 * @param callable $action the function to run
 	 * @param string $app the id of the app registering the call
-	 * @param int $authLevel the level of authentication required for the call (See OC_API constants)
+	 * @param int $authLevel the level of authentication required for the call (See \OC_API constants)
 	 * @param array $defaults
 	 * @param array $requirements
 	 * @since 5.0.0
 	 */
-	public static function register($method, $url, $action, $app, $authLevel = OC_API::USER_AUTH,
+	public static function register($method, $url, $action, $app, $authLevel = \OC_API::USER_AUTH,
 		$defaults = array(), $requirements = array()){
 		\OC_API::register($method, $url, $action, $app, $authLevel, $defaults, $requirements);
 	}
