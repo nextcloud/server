@@ -92,13 +92,13 @@ try {
 	$defaultEncryptionModule = \OC::$server->getEncryptionManager()->getDefaultEncryptionModule();
 	$defaultEncryptionModuleId = $defaultEncryptionModule->getId();
 } catch (Exception $e) {
-	$defaultEncryptionModule = null;
+	$defaultEncryptionModuleId = null;
 }
 $encModulues = array();
 foreach ($encryptionModules as $module) {
 	$encModulues[$module['id']]['displayName'] = $module['displayName'];
 	$encModulues[$module['id']]['default'] = false;
-	if ($defaultEncryptionModule && $module['id'] === $defaultEncryptionModuleId) {
+	if ($module['id'] === $defaultEncryptionModuleId) {
 		$encModulues[$module['id']]['default'] = true;
 	}
 }
