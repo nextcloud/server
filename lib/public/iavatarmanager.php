@@ -38,5 +38,5 @@ interface IAvatarManager {
 	 * @return \OCP\IAvatar
 	 * @since 6.0.0
 	 */
-	function getAvatar($user);
+	public function getAvatar($user);
 }
