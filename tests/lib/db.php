@@ -261,31 +261,33 @@ class Test_DB extends \Test\TestCase {
 		$this->assertSame($expected, $actual);
 	}
 
-	public function testDecimal() {
+	/**
+	 * Insert, select and delete decimal(12,2) values
+	 * @dataProvider decimalData
+	 */
+	public function testDecimal($insert, $expect) {
 		$table = "*PREFIX*" . $this->table4;
 		$rowname = 'decimaltest';
 
-		// Insert, select and delete decimal(12,2) values
-		$inserts = array('1337133713.37', '1234567890');
-		$expects = array('1337133713.37', '1234567890.00');
+		$query = OC_DB::prepare('INSERT INTO `' . $table . '` (`' . $rowname . '`) VALUES (?)');
+		$result = $query->execute(array($insert));
+		$this->assertEquals(1, $result);
+		$query = OC_DB::prepare('SELECT `' . $rowname . '` FROM `' . $table . '`');
+		$result = $query->execute();
+		$this->assertTrue((bool)$result);
+		$row = $result->fetchRow();
+		$this->assertArrayHasKey($rowname, $row);
+		$this->assertEquals($expect, $row[$rowname]);
+		$query = OC_DB::prepare('DELETE FROM `' . $table . '`');
+		$result = $query->execute();
+		$this->assertTrue((bool)$result);
+	}
 
-		for ($i = 0; $i < count($inserts); $i++) {
-			$insert = $inserts[$i];
-			$expect = $expects[$i];
-
-			$query = OC_DB::prepare('INSERT INTO `' . $table . '` (`' . $rowname . '`) VALUES (?)');
-			$result = $query->execute(array($insert));
-			$this->assertEquals(1, $result);
-			$query = OC_DB::prepare('SELECT `' . $rowname . '` FROM `' . $table . '`');
-			$result = $query->execute();
-			$this->assertTrue((bool)$result);
-			$row = $result->fetchRow();
-			$this->assertArrayHasKey($rowname, $row);
-			$this->assertEquals($expect, $row[$rowname]);
-			$query = OC_DB::prepare('DELETE FROM `' . $table . '`');
-			$result = $query->execute();
-			$this->assertTrue((bool)$result);
-		}
+	public function decimalData() {
+		return [
+			['1337133713.37', '1337133713.37'],
+			['1234567890', '1234567890.00'],
+		];
 	}
 
 	public function testUpdateAffectedRowsNoMatch() {
