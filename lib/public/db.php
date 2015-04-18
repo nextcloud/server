@@ -85,7 +85,7 @@ class DB {
 	 * @since 4.5.0
 	 */
 	public static function insertid($table=null) {
-		return(\OC_DB::insertid($table));
+		return \OC::$server->getDatabaseConnection()->lastInsertId($table);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class DB {
 	 * @since 4.5.0
 	 */
 	public static function beginTransaction() {
-		\OC_DB::beginTransaction();
+		\OC::$server->getDatabaseConnection()->beginTransaction();
 	}
 
 	/**
@@ -101,7 +101,7 @@ class DB {
 	 * @since 4.5.0
 	 */
 	public static function commit() {
-		\OC_DB::commit();
+		\OC::$server->getDatabaseConnection()->commit();
 	}
 
 	/**
@@ -109,7 +109,7 @@ class DB {
 	 * @since 8.0.0
 	 */
 	public static function rollback() {
-		\OC_DB::rollback();
+		\OC::$server->getDatabaseConnection()->rollback();
 	}
 
 	/**
@@ -119,7 +119,8 @@ class DB {
 	 * @since 4.5.0
 	 */
 	public static function isError($result) {
-		return(\OC_DB::isError($result));
+		// Doctrine returns false on error (and throws an exception)
+		return $result === false;
 	}
 
 	/**
@@ -129,7 +130,7 @@ class DB {
 	 * @since 6.0.0
 	 */
 	public static function getErrorMessage() {
-		return(\OC_DB::getErrorMessage());
+		return \OC::$server->getDatabaseConnection()->getError();
 	}
 
 }

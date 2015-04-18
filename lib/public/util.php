@@ -395,7 +395,7 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function imagePath( $app, $image ) {
-		return(\OC_Helper::imagePath( $app, $image ));
+		return \OC::$server->getURLGenerator()->imagePath($app, $image);
 	}
 
 	/**
