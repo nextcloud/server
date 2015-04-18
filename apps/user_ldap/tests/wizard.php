@@ -275,7 +275,7 @@ class Test_Wizard extends \Test\TestCase {
 				} else if($filter === 'mailPrimaryAddress') {
 					return 17;
 				}
-				var_dump($filter);
+				throw new \Exception('Untested filter: ' . $filter);
 			}));
 
 		$result = $wizard->detectEmailAttribute()->getResultArray();
@@ -314,7 +314,7 @@ class Test_Wizard extends \Test\TestCase {
 				} else if($filter === 'mailPrimaryAddress') {
 					return 17;
 				}
-				var_dump($filter);
+				throw new \Exception('Untested filter: ' . $filter);
 			}));
 
 		$result = $wizard->detectEmailAttribute()->getResultArray();
@@ -353,7 +353,7 @@ class Test_Wizard extends \Test\TestCase {
 				} else if($filter === 'mailPrimaryAddress') {
 					return 0;
 				}
-				var_dump($filter);
+				throw new \Exception('Untested filter: ' . $filter);
 			}));
 
 		$result = $wizard->detectEmailAttribute();
