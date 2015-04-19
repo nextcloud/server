@@ -355,11 +355,11 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
 	public function implementsActions($actions) {
-		return (bool)((OC_USER_BACKEND_CHECK_PASSWORD
-			| OC_USER_BACKEND_GET_HOME
-			| OC_USER_BACKEND_GET_DISPLAYNAME
-			| OC_USER_BACKEND_PROVIDE_AVATAR
-			| OC_USER_BACKEND_COUNT_USERS)
+		return (bool)((\OC_User_Backend::CHECK_PASSWORD
+			| \OC_User_Backend::GET_HOME
+			| \OC_User_Backend::GET_DISPLAYNAME
+			| \OC_User_Backend::PROVIDE_AVATAR
+			| \OC_User_Backend::COUNT_USERS)
 			& $actions);
 	}
 
