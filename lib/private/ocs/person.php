@@ -23,7 +23,7 @@
 
 class OC_OCS_Person {
 
-	public static function check($parameters) {
+	public static function check() {
 		$login = isset($_POST['login']) ? $_POST['login'] : false;
 		$password = isset($_POST['password']) ? $_POST['password'] : false;
 		if($login && $password) {

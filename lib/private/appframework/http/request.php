@@ -238,7 +238,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			case 'params':
 			case 'urlParams':
 				if(in_array($name, array('put', 'patch'))) {
-					return $this->getContent($name);
+					return $this->getContent();
 				} else {
 					return isset($this->items[$name])
 						? $this->items[$name]
@@ -252,7 +252,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				return isset($this[$name])
 					? $this[$name]
 					: null;
-				break;
 		}
 	}
 

@@ -43,7 +43,7 @@ class OC_SubAdmin{
 	 */
 	public static function createSubAdmin($uid, $gid) {
 		$stmt = OC_DB::prepare('INSERT INTO `*PREFIX*group_admin` (`gid`,`uid`) VALUES(?,?)');
-		$result = $stmt->execute(array($gid, $uid));
+		$stmt->execute(array($gid, $uid));
 		OC_Hook::emit( "OC_SubAdmin", "post_createSubAdmin", array( "gid" => $gid ));
 		return true;
 	}
@@ -56,7 +56,7 @@ class OC_SubAdmin{
 	 */
 	public static function deleteSubAdmin($uid, $gid) {
 		$stmt = OC_DB::prepare('DELETE FROM `*PREFIX*group_admin` WHERE `gid` = ? AND `uid` = ?');
-		$result = $stmt->execute(array($gid, $uid));
+		$stmt->execute(array($gid, $uid));
 		OC_Hook::emit( "OC_SubAdmin", "post_deleteSubAdmin", array( "gid" => $gid ));
 		return true;
 	}
@@ -177,7 +177,7 @@ class OC_SubAdmin{
 	 */
 	public static function post_deleteUser($parameters) {
 		$stmt = OC_DB::prepare('DELETE FROM `*PREFIX*group_admin` WHERE `uid` = ?');
-		$result = $stmt->execute(array($parameters['uid']));
+		$stmt->execute(array($parameters['uid']));
 		return true;
 	}
 
@@ -188,7 +188,7 @@ class OC_SubAdmin{
 	 */
 	public static function post_deleteGroup($parameters) {
 		$stmt = OC_DB::prepare('DELETE FROM `*PREFIX*group_admin` WHERE `gid` = ?');
-		$result = $stmt->execute(array($parameters['gid']));
+		$stmt->execute(array($parameters['gid']));
 		return true;
 	}
 }
