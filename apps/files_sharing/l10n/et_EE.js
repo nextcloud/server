@@ -25,6 +25,7 @@ OC.L10N.register(
     "This share is password-protected" : "See jagamine on parooliga kaitstud",
     "The password is wrong. Try again." : "Parool on vale. Proovi uuesti.",
     "Password" : "Parool",
+    "No entries found in this folder" : "Selles kaustas ei leitud kirjeid",
     "Name" : "Nimi",
     "Share time" : "Jagamise aeg",
     "Sorry, this link doesn’t seem to work anymore." : "Vabandust, see link ei tundu enam toimivat.",

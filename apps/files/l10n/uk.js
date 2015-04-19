@@ -102,13 +102,13 @@ OC.L10N.register(
     "Cancel upload" : "Перервати завантаження",
     "No files in here" : "Тут немає файлів",
     "Upload some content or sync with your devices!" : "Завантажте вміст або синхронізуйте з пристроями!",
-    "No entries found in this folder" : "Записів не знайдено в цій папці",
+    "No entries found in this folder" : "Записів не знайдено в цій теці",
     "Select all" : "Вибрати всі",
     "Upload too large" : "Файл занадто великий",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файли,що ви намагаєтесь відвантажити перевищують максимальний дозволений розмір файлів на цьому сервері.",
     "Files are being scanned, please wait." : "Файли скануються, зачекайте, будь-ласка.",
     "Currently scanning" : "Триває перевірка",
     "No favorites" : "Немає обраних",
-    "Files and folders you mark as favorite will show up here" : "Файли і папки, які ви помітили як улюблені з’являться тут"
+    "Files and folders you mark as favorite will show up here" : "Файли і теки, які ви помітили як улюблені, з’являться тут"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

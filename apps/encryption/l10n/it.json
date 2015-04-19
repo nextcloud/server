@@ -12,6 +12,7 @@
     "Password successfully changed." : "Password modificata correttamente.",
     "Could not change the password. Maybe the old password was not correct." : "Impossibile cambiare la password. Forse la vecchia password non era corretta.",
     "Recovery Key enabled" : "Chiave di ripristino abilitata",
+    "Could not enable the recovery key, please try again or contact your administrator" : "Impossibile abilitare la chiave di ripristino, prova ancora o contatta il tuo amministratore",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chiave privata non valida per l'applicazione di cifratura. Aggiorna la password della chiave privata nelle impostazioni personali per ripristinare l'accesso ai tuoi file cifrati.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'applicazione di cifratura è abilitata, ma le chiavi non sono state inizializzate, disconnettiti ed effettua nuovamente l'accesso",
     "ownCloud basic encryption module" : "Modulo di cifratura di base di ownCloud",

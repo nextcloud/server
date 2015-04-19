@@ -43,6 +43,7 @@
     "Download" : "Lae alla",
     "Select" : "Vali",
     "Pending" : "Ootel",
+    "Unable to determine date" : "Kuupäeva tuvastamine ei õnnestunud",
     "Error moving file." : "Viga faili liigutamisel.",
     "Error moving file" : "Viga faili eemaldamisel",
     "Error" : "Viga",
@@ -60,6 +61,7 @@
     "Your storage is full, files can not be updated or synced anymore!" : "Sinu andmemaht on täis! Faile ei uuendata ega sünkroniseerita!",
     "Your storage is almost full ({usedSpacePercent}%)" : "Su andmemaht on peaaegu täis ({usedSpacePercent}%)",
     "{dirs} and {files}" : "{dirs} ja {files}",
+    "Favorited" : "Lemmikud",
     "Favorite" : "Lemmik",
     "A new file or folder has been <strong>created</strong>" : "Uus fail või kataloog on <strong>loodud</strong>",
     "A file or folder has been <strong>changed</strong>" : "Fail või kataloog on <strong>muudetud</strong>",
@@ -91,9 +93,15 @@
     "Folder" : "Kaust",
     "Upload" : "Lae üles",
     "Cancel upload" : "Tühista üleslaadimine",
+    "No files in here" : "Siin ei ole faile",
+    "Upload some content or sync with your devices!" : "Laadi sisu üles või süngi oma seadmetega!",
+    "No entries found in this folder" : "Selles kaustas ei leitud kirjeid",
+    "Select all" : "Vali kõik",
     "Upload too large" : "Üleslaadimine on liiga suur",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Failid, mida sa proovid üles laadida, ületab serveri poolt üleslaetavatele failidele määratud maksimaalse suuruse.",
     "Files are being scanned, please wait." : "Faile skannitakse, palun oota.",
-    "Currently scanning" : "Praegu skännimisel"
+    "Currently scanning" : "Praegu skännimisel",
+    "No favorites" : "Lemmikuid pole",
+    "Files and folders you mark as favorite will show up here" : "Siin kuvatakse faile ja kaustasid, mille oled märkinud lemmikuteks"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

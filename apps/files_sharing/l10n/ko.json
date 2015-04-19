@@ -54,6 +54,7 @@
     "Download %s" : "%s 다운로드",
     "Direct link" : "직접 링크",
     "Federated Cloud Sharing" : "클라우드 연합 공유",
+    "Open documentation" : "문서 열기",
     "Allow users on this server to send shares to other servers" : "이 서버의 사용자가 다른 서버와 공유할 수 있도록 허용",
     "Allow users on this server to receive shares from other servers" : "이 서버의 사용자가 다른 서버에서 공유한 파일을 받을 수 있도록 허용"
 },"pluralForm" :"nplurals=1; plural=0;"
