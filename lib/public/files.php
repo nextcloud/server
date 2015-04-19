@@ -94,7 +94,7 @@ class Files {
 	 * @since 5.0.0
 	 */
 	public static function tmpFile( $postfix='' ) {
-		return(\OC_Helper::tmpFile( $postfix ));
+		return \OC::$server->getTempManager()->getTemporaryFile($postfix);
 	}
 
 	/**
@@ -105,7 +105,7 @@ class Files {
 	 * @since 5.0.0
 	 */
 	public static function tmpFolder() {
-		return(\OC_Helper::tmpFolder());
+		return \OC::$server->getTempManager()->getTemporaryFolder();
 	}
 
 	/**
