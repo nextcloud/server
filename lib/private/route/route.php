@@ -37,7 +37,7 @@ class Route extends SymfonyRoute implements IRoute {
 	 * @return \OC\Route\Route
 	 */
 	public function method($method) {
-		$this->setRequirement('_method', strtoupper($method));
+		$this->setMethods($method);
 		return $this;
 	}
 
@@ -109,7 +109,7 @@ class Route extends SymfonyRoute implements IRoute {
 	 * @return \OC\Route\Route
 	 */
 	public function requirements($requirements) {
-		$method = $this->getRequirement('_method');
+		$method = $this->getMethods();
 		$this->setRequirements($requirements);
 		if (isset($requirements['_method'])) {
 			$method = $requirements['_method'];
