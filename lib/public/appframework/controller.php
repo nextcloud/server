@@ -154,7 +154,7 @@ abstract class Controller {
 
 	/**
 	 * Lets you access post and get parameters by the index
-	 * @deprecated write your parameters as method arguments instead
+	 * @deprecated 7.0.0 write your parameters as method arguments instead
 	 * @param string $key the key which you want to access in the URL Parameter
 	 *                     placeholder, $_POST or $_GET array.
 	 *                     The priority how they're returned is the following:
@@ -173,7 +173,7 @@ abstract class Controller {
 	/**
 	 * Returns all params that were received, be it from the request
 	 * (as GET or POST) or through the URL by the route
-	 * @deprecated use $this->request instead
+	 * @deprecated 7.0.0 use $this->request instead
 	 * @return array the array with all parameters
 	 * @since 6.0.0
 	 */
@@ -184,7 +184,7 @@ abstract class Controller {
 
 	/**
 	 * Returns the method of the request
-	 * @deprecated use $this->request instead
+	 * @deprecated 7.0.0 use $this->request instead
 	 * @return string the method of the request (POST, GET, etc)
 	 * @since 6.0.0
 	 */
@@ -195,7 +195,7 @@ abstract class Controller {
 
 	/**
 	 * Shortcut for accessing an uploaded file through the $_FILES array
-	 * @deprecated use $this->request instead
+	 * @deprecated 7.0.0 use $this->request instead
 	 * @param string $key the key that will be taken from the $_FILES array
 	 * @return array the file in the $_FILES element
 	 * @since 6.0.0
@@ -207,7 +207,7 @@ abstract class Controller {
 
 	/**
 	 * Shortcut for getting env variables
-	 * @deprecated use $this->request instead
+	 * @deprecated 7.0.0 use $this->request instead
 	 * @param string $key the key that will be taken from the $_ENV array
 	 * @return array the value in the $_ENV element
 	 * @since 6.0.0
@@ -219,7 +219,7 @@ abstract class Controller {
 
 	/**
 	 * Shortcut for getting cookie variables
-	 * @deprecated use $this->request instead
+	 * @deprecated 7.0.0 use $this->request instead
 	 * @param string $key the key that will be taken from the $_COOKIE array
 	 * @return array the value in the $_COOKIE element
 	 * @since 6.0.0
@@ -231,7 +231,7 @@ abstract class Controller {
 
 	/**
 	 * Shortcut for rendering a template
-	 * @deprecated return a template response instead
+	 * @deprecated 7.0.0 return a template response instead
 	 * @param string $templateName the name of the template
 	 * @param array $params the template parameters in key => value structure
 	 * @param string $renderAs user renders a full page, blank only your template

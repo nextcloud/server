@@ -36,14 +36,14 @@ namespace OCP;
 
 /**
  * This class provides convenient functions to generate and send JSON data. Useful for Ajax calls
- * @deprecated Use a AppFramework JSONResponse instead
+ * @deprecated 8.1.0 Use a AppFramework JSONResponse instead
  */
 class JSON {
 	/**
 	 * Encode and print $data in JSON format
 	 * @param array $data The data to use
 	 * @param bool $setContentType the optional content type
-	 * @deprecated Use a AppFramework JSONResponse instead
+	 * @deprecated 8.1.0 Use a AppFramework JSONResponse instead
 	 */
 	public static function encodedPrint( $data, $setContentType=true ) {
 		\OC_JSON::encodedPrint($data, $setContentType);
@@ -61,7 +61,7 @@ class JSON {
 	 *
 	 * Add this call to the start of all ajax method files that requires
 	 * an authenticated user.
-	 * @deprecated Use annotation based ACLs from the AppFramework instead
+	 * @deprecated 8.1.0 Use annotation based ACLs from the AppFramework instead
 	 */
 	public static function checkLoggedIn() {
 		\OC_JSON::checkLoggedIn();
@@ -84,7 +84,7 @@ class JSON {
 	 * a submittable form, you will need to add the requesttoken first as a
 	 * parameter to the ajax call, then assign it to the template and finally
 	 * add a hidden input field also named 'requesttoken' containing the value.
-	 * @deprecated Use annotation based CSRF checks from the AppFramework instead
+	 * @deprecated 8.1.0 Use annotation based CSRF checks from the AppFramework instead
 	 */
 	public static function callCheck() {
 		\OC_JSON::callCheck();
@@ -98,7 +98,7 @@ class JSON {
 	 *
 	 * @param array $data The data to use
 	 * @return string json formatted string.
-	 * @deprecated Use a AppFramework JSONResponse instead
+	 * @deprecated 8.1.0 Use a AppFramework JSONResponse instead
 	 */
 	public static function success( $data = array() ) {
 		\OC_JSON::success($data);
@@ -121,7 +121,7 @@ class JSON {
 	 *
 	 * @param array $data The data to use
 	 * @return string json formatted error string.
-	 * @deprecated Use a AppFramework JSONResponse instead
+	 * @deprecated 8.1.0 Use a AppFramework JSONResponse instead
 	 */
 	public static function error( $data = array() ) {
 		\OC_JSON::error( $data );
@@ -130,7 +130,7 @@ class JSON {
 	/**
 	 * Set Content-Type header to jsonrequest
 	 * @param string $type The content type header
-	 * @deprecated Use a AppFramework JSONResponse instead
+	 * @deprecated 8.1.0 Use a AppFramework JSONResponse instead
 	 */
 	public static function setContentTypeHeader( $type='application/json' ) {
 		\OC_JSON::setContentTypeHeader($type);
@@ -150,7 +150,7 @@ class JSON {
 	 * a specific app to be enabled.
 	 *
 	 * @param string $app The app to check
-	 * @deprecated Use the AppFramework instead. It will automatically check if the app is enabled.
+	 * @deprecated 8.1.0 Use the AppFramework instead. It will automatically check if the app is enabled.
 	 */
 	public static function checkAppEnabled( $app ) {
 		\OC_JSON::checkAppEnabled($app);
@@ -169,7 +169,7 @@ class JSON {
 	 * Add this call to the start of all ajax method files that requires
 	 * administrative rights.
 	 *
-	 * @deprecated Use annotation based ACLs from the AppFramework instead
+	 * @deprecated 8.1.0 Use annotation based ACLs from the AppFramework instead
 	 */
 	public static function checkAdminUser() {
 		\OC_JSON::checkAdminUser();
@@ -179,7 +179,7 @@ class JSON {
 	 * Encode JSON
 	 * @param array $data
 	 * @return string
-	 * @deprecated Use a AppFramework JSONResponse instead
+	 * @deprecated 8.1.0 Use a AppFramework JSONResponse instead
 	 */
 	public static function encode($data) {
 		return \OC_JSON::encode($data);
@@ -188,7 +188,7 @@ class JSON {
 	/**
 	 * Check is a given user exists - send json error msg if not
 	 * @param string $user
-	 * @deprecated Use a AppFramework JSONResponse instead
+	 * @deprecated 8.1.0 Use a AppFramework JSONResponse instead
 	 */
 	public static function checkUserExists($user) {
 		\OC_JSON::checkUserExists($user);

@@ -48,7 +48,7 @@ class User {
 	/**
 	 * Get the user id of the user currently logged in.
 	 * @return string uid or false
-	 * @deprecated Use \OC::$server->getUserSession()->getUser()->getUID()
+	 * @deprecated 8.0.0 Use \OC::$server->getUserSession()->getUser()->getUID()
 	 * @since 5.0.0
 	 */
 	public static function getUser() {
@@ -111,7 +111,7 @@ class User {
 	/**
 	 * Logs the user out including all the session data
 	 * Logout, destroys session
-	 * @deprecated Use \OC::$server->getUserSession()->logout();
+	 * @deprecated 8.0.0 Use \OC::$server->getUserSession()->logout();
 	 * @since 5.0.0
 	 */
 	public static function logout() {
@@ -125,7 +125,7 @@ class User {
 	 * @return string|false username on success, false otherwise
 	 *
 	 * Check if the password is correct without logging in the user
-	 * @deprecated Use \OC::$server->getUserManager()->checkPassword();
+	 * @deprecated 8.0.0 Use \OC::$server->getUserManager()->checkPassword();
 	 * @since 5.0.0
 	 */
 	public static function checkPassword( $uid, $password ) {

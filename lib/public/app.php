@@ -46,7 +46,7 @@ class App {
 	 * @param array $data with all information
 	 * @return boolean
 	 *
-	 * @deprecated This method is deprecated. Do not call it anymore.
+	 * @deprecated 4.5.0 This method is deprecated. Do not call it anymore.
 	 * It'll remain in our public API for compatibility reasons.
 	 *
 	 */
@@ -72,7 +72,7 @@ class App {
 	 * @param array $data containing the data
 	 * @return boolean
 	 *
-	 * @deprecated Use \OC::$server->getNavigationManager()->add() instead to
+	 * @deprecated 8.1.0 Use \OC::$server->getNavigationManager()->add() instead to
 	 * register a closure, this helps to speed up all requests against ownCloud
 	 * @since 4.0.0
 	 */
@@ -90,7 +90,7 @@ class App {
 	 * property from all other entries. The templates can use this for
 	 * highlighting the current position of the user.
 	 *
-	 * @deprecated Use \OC::$server->getNavigationManager()->setActiveEntry() instead
+	 * @deprecated 8.1.0 Use \OC::$server->getNavigationManager()->setActiveEntry() instead
 	 * @since 4.0.0
 	 */
 	public static function setActiveNavigationEntry( $id ) {

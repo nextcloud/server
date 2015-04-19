@@ -43,7 +43,7 @@ namespace OCP;
 /**
  * This class provides functions to read and write configuration data.
  * configuration can be on a system, application or user level
- * @deprecated use methods of \OCP\IConfig
+ * @deprecated 8.0.0 use methods of \OCP\IConfig
  */
 class Config {
 	/**
@@ -51,7 +51,7 @@ class Config {
 	 * @param string $key key
 	 * @param mixed $default = null default value
 	 * @return mixed the value or $default
-	 * @deprecated use method getSystemValue of \OCP\IConfig
+	 * @deprecated 8.0.0 use method getSystemValue of \OCP\IConfig
 	 *
 	 * This function gets the value from config.php. If it does not exist,
 	 * $default will be returned.
@@ -65,7 +65,7 @@ class Config {
 	 * @param string $key key
 	 * @param mixed $value value
 	 * @return bool
-	 * @deprecated use method setSystemValue of \OCP\IConfig
+	 * @deprecated 8.0.0 use method setSystemValue of \OCP\IConfig
 	 *
 	 * This function sets the value and writes the config.php. If the file can
 	 * not be written, false will be returned.
@@ -82,7 +82,7 @@ class Config {
 	/**
 	 * Deletes a value from config.php
 	 * @param string $key key
-	 * @deprecated use method deleteSystemValue of \OCP\IConfig
+	 * @deprecated 8.0.0 use method deleteSystemValue of \OCP\IConfig
 	 *
 	 * This function deletes the value from config.php.
 	 */
@@ -96,7 +96,7 @@ class Config {
 	 * @param string $key key
 	 * @param string $default = null, default value if the key does not exist
 	 * @return string the value or $default
-	 * @deprecated use method getAppValue of \OCP\IConfig
+	 * @deprecated 8.0.0 use method getAppValue of \OCP\IConfig
 	 *
 	 * This function gets a value from the appconfig table. If the key does
 	 * not exist the default value will be returned
@@ -111,7 +111,7 @@ class Config {
 	 * @param string $key key
 	 * @param string $value value
 	 * @return boolean true/false
-	 * @deprecated use method setAppValue of \OCP\IConfig
+	 * @deprecated 8.0.0 use method setAppValue of \OCP\IConfig
 	 *
 	 * Sets a value. If the key did not exist before it will be created.
 	 */
@@ -131,7 +131,7 @@ class Config {
 	 * @param string $key key
 	 * @param string $default = null, default value if the key does not exist
 	 * @return string the value or $default
-	 * @deprecated use method getUserValue of \OCP\IConfig
+	 * @deprecated 8.0.0 use method getUserValue of \OCP\IConfig
 	 *
 	 * This function gets a value from the preferences table. If the key does
 	 * not exist the default value will be returned
@@ -147,7 +147,7 @@ class Config {
 	 * @param string $key key
 	 * @param string $value value
 	 * @return bool
-	 * @deprecated use method setUserValue of \OCP\IConfig
+	 * @deprecated 8.0.0 use method setUserValue of \OCP\IConfig
 	 *
 	 * Adds a value to the preferences. If the key did not exist before, it
 	 * will be added automagically.
