@@ -184,8 +184,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 	}
 
 	public function getShare() {
-		$this->getStorage(); //ensure it exists
-		return $this->storage->getShare();
+		return $this->getStorage()->getShare();
 	}
 
 	/**

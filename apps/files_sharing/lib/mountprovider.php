@@ -30,14 +30,14 @@ class MountProvider implements IMountProvider {
 	 * @param \OCP\IConfig $config
 	 * @param \OCA\Files_Sharing\Propagation\PropagationManager $propagationManager
 	 */
-	function __construct(IConfig $config, PropagationManager $propagationManager) {
+	public function __construct(IConfig $config, PropagationManager $propagationManager) {
 		$this->config = $config;
 		$this->propagationManager = $propagationManager;
 	}
 
 
 	/**
-	 * Get all mountpoints applicable for the user
+	 * Get all mountpoints applicable for the user and check for shares where we need to update the etags
 	 *
 	 * @param \OCP\IUser $user
 	 * @param \OCP\Files\Storage\IStorageFactory $storageFactory
