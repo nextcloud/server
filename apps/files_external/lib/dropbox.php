@@ -77,7 +77,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 	 * @return mixed directory contents if $list is true, file metadata if $list is
 	 * false, null if the file doesn't exist or "false" if the operation failed
 	 */
-	private function getMetaData($path, $list = false) {
+	private function getDropBoxMetaData($path, $list = false) {
 		$path = $this->root.$path;
 		if ( ! $list && isset($this->metaData[$path])) {
 			return $this->metaData[$path];
@@ -150,7 +150,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 	}
 
 	public function opendir($path) {
-		$contents = $this->getMetaData($path, true);
+		$contents = $this->getDropBoxMetaData($path, true);
 		if ($contents !== false) {
 			$files = array();
 			foreach ($contents as $file) {
@@ -163,7 +163,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 	}
 
 	public function stat($path) {
-		$metaData = $this->getMetaData($path);
+		$metaData = $this->getDropBoxMetaData($path);
 		if ($metaData) {
 			$stat['size'] = $metaData['bytes'];
 			$stat['atime'] = time();
@@ -177,7 +177,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 		if ($path == '' || $path == '/') {
 			return 'dir';
 		} else {
-			$metaData = $this->getMetaData($path);
+			$metaData = $this->getDropBoxMetaData($path);
 			if ($metaData) {
 				if ($metaData['is_dir'] == 'true') {
 					return 'dir';
@@ -193,7 +193,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 		if ($path == '' || $path == '/') {
 			return true;
 		}
-		if ($this->getMetaData($path)) {
+		if ($this->getDropBoxMetaData($path)) {
 			return true;
 		}
 		return false;
@@ -213,7 +213,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 	public function rename($path1, $path2) {
 		try {
 			// overwrite if target file exists and is not a directory
-			$destMetaData = $this->getMetaData($path2);
+			$destMetaData = $this->getDropBoxMetaData($path2);
 			if (isset($destMetaData) && $destMetaData !== false && !$destMetaData['is_dir']) {
 				$this->unlink($path2);
 			}
@@ -297,7 +297,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 		if ($this->filetype($path) == 'dir') {
 			return 'httpd/unix-directory';
 		} else {
-			$metaData = $this->getMetaData($path);
+			$metaData = $this->getDropBoxMetaData($path);
 			if ($metaData) {
 				return $metaData['mime_type'];
 			}
