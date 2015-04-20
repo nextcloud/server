@@ -18,6 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace Test\Connector\Sabre;
 
 use OC\Connector\Sabre\BlockLegacyClientPlugin;
@@ -58,7 +59,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 	/**
 	 * @dataProvider oldDesktopClientProvider
 	 * @param string $userAgent
-	 * @expectedException \OC\ServiceUnavailableException
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 * @expectedExceptionMessage Unsupported client version.
 	 */
 	public function testBeforeHandlerException($userAgent) {

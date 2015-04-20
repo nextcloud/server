@@ -21,20 +21,19 @@
 
 namespace OC\Connector\Sabre;
 
-use OC\ServiceUnavailableException;
 use OCP\IConfig;
 use Sabre\HTTP\RequestInterface;
 use Sabre\DAV\ServerPlugin;
-use Sabre\DAV\Server;
+use Sabre\DAV\Exception;
 
 /**
  * Class BlockLegacyClientPlugin is used to detect old legacy sync clients and
- * returns a 503 status to those clients.
+ * returns a 403 status to those clients
  *
  * @package OC\Connector\Sabre
  */
 class BlockLegacyClientPlugin extends ServerPlugin {
-	/** @var Server */
+	/** @var \Sabre\DAV\Server */
 	protected $server;
 	/** @var IConfig */
 	protected $config;
@@ -47,19 +46,19 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 	}
 
 	/**
-	 * @param Server $server
+	 * @param \Sabre\DAV\ $server
 	 * @return void
 	 */
-	public function initialize(Server  $server) {
+	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
 		$this->server->on('beforeMethod', [$this, 'beforeHandler'], 200);
 	}
 
 	/**
-	 * Detects all unsupported clients and throws a ServiceUnavailableException
-	 * which will result in a 503 to them.
+	 * Detects all unsupported clients and throws a \Sabre\DAV\Exception\Forbidden
+	 * exception which will result in a 403 to them.
 	 * @param RequestInterface $request
-	 * @throws ServiceUnavailableException If the client version is not supported
+	 * @throws \Sabre\DAV\Exception\Forbidden If the client version is not supported
 	 */
 	public function beforeHandler(RequestInterface $request) {
 		$userAgent = $request->getHeader('User-Agent');
@@ -70,7 +69,7 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 		preg_match("/(?:mirall\\/)([\d.]+)/i", $userAgent, $versionMatches);
 		if(isset($versionMatches[1]) &&
 			version_compare($versionMatches[1], $minimumSupportedDesktopVersion) === -1) {
-			throw new ServiceUnavailableException('Unsupported client version.');
+			throw new \Sabre\DAV\Exception\Forbidden('Unsupported client version.');
 		}
 	}
 }
