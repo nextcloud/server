@@ -525,4 +525,12 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
 		return $this->storage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
+
+	/**
+	 * @param $path
+	 * @return array
+	 */
+	public function getData($path) {
+		return $this->storage->getData($path);
+	}
 }

@@ -109,17 +109,10 @@ class Scanner extends BasicEmitter {
 			\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! Path '$path' is not accessible or present !!!", \OCP\Util::DEBUG);
 			return null;
 		}
-		$data = array();
-		$data['mimetype'] = $this->storage->getMimeType($path);
-		$data['mtime'] = $this->storage->filemtime($path);
-		if ($data['mimetype'] == 'httpd/unix-directory') {
-			$data['size'] = -1; //unknown
-		} else {
-			$data['size'] = $this->storage->filesize($path);
-		}
-		$data['etag'] = $this->storage->getETag($path);
-		$data['storage_mtime'] = $data['mtime'];
+
+		$data = $this->storage->getData($path);
 		$data['permissions'] = $permissions;
+
 		return $data;
 	}
 

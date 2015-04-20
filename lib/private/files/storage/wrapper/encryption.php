@@ -111,6 +111,29 @@ class Encryption extends Wrapper {
 	}
 
 	/**
+	 * @param $path
+	 * @return array
+	 */
+	public function getData($path) {
+		$data = $this->storage->getData($path);
+		$fullPath = $this->getFullPath($path);
+
+		if (isset($this->unencryptedSize[$fullPath])) {
+			$size = $this->unencryptedSize[$fullPath];
+
+			$data['encrypted'] = true;
+			$data['size'] = $size;
+		} else {
+			$info = $this->getCache()->get($path);
+			if (isset($info['fileid']) && $info['encrypted']) {
+				$data['encrypted'] = true;
+				$data['size'] = $info['size'];
+			}
+		}
+
+		return $data;
+	}
+	/**
 	 * see http://php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
