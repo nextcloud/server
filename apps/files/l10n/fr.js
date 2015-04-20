@@ -89,7 +89,7 @@ OC.L10N.register(
     "Maximum upload size" : "Taille max. d'envoi",
     "max. possible: " : "Max. possible :",
     "Save" : "Sauvegarder",
-    "Can not be edited from here due to insufficient permissions." : "Ne peut être modifié ici à cause de permissions insufisantes.",
+    "Can not be edited from here due to insufficient permissions." : "Ne peut être modifié ici à cause de permissions insuffisantes.",
     "Settings" : "Paramètres",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Utilisez cette adresse pour <a href=\"%s\" target=\"_blank\">accéder à vos fichiers par WebDAV</a>",

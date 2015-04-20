@@ -70,6 +70,7 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "タグを更新する際にエラーが発生しました",
     "A new file or folder has been <strong>created</strong>" : "新しいファイルまたはフォルダーを<strong>作成</strong>したとき",
     "A file or folder has been <strong>changed</strong>" : "ファイルまたはフォルダーを<strong>変更</strong>したとき",
+    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "<strong>お気に入りファイル</strong>に対する作成と変更の通知は制限されています。<em>(表示のみ)</em>",
     "A file or folder has been <strong>deleted</strong>" : "ファイルまたはフォルダーを<strong>削除</strong>したとき",
     "A file or folder has been <strong>restored</strong>" : "ファイルまたはフォルダーを<strong>復元</strong>したとき",
     "You created %1$s" : "あなたは %1$s を作成しました",
