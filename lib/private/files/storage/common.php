@@ -580,4 +580,29 @@ abstract class Common implements Storage {
 		}
 		return $result;
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getMetaData($path) {
+		$permissions = $this->getPermissions($path);
+		if (!$permissions & \OCP\Constants::PERMISSION_READ) {
+			//cant read, nothing we can do
+			return null;
+		}
+
+		$data = [];
+		$data['mimetype'] = $this->getMimeType($path);
+		$data['mtime'] = $this->filemtime($path);
+		if ($data['mimetype'] == 'httpd/unix-directory') {
+			$data['size'] = -1; //unknown
+		} else {
+			$data['size'] = $this->filesize($path);
+		}
+		$data['etag'] = $this->getETag($path);
+		$data['storage_mtime'] = $data['mtime'];
+		$data['permissions'] = $this->getPermissions($path);
+
+		return $data;
+	}
 }
