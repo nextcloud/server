@@ -243,6 +243,10 @@ class Encryption extends Wrapper {
 
 	}
 
+	public function stream_eof() {
+		return $this->position >= $this->unencryptedSize;
+	}
+
 	public function stream_read($count) {
 
 		$result = '';
