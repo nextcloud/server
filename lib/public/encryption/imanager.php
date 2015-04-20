@@ -78,13 +78,12 @@ interface IManager {
 	function getEncryptionModule($moduleId);
 
 	/**
-	 * get default encryption module
+	 * get default encryption module Id
 	 *
-	 * @return \OCP\Encryption\IEncryptionModule
-	 * @throws ModuleDoesNotExistsException
+	 * @return string
 	 * @since 8.1.0
 	 */
-	public function getDefaultEncryptionModule();
+	public function getDefaultEncryptionModuleId();
 
 	/**
 	 * set default encryption module Id

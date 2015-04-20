@@ -311,11 +311,9 @@ class Encryption extends Wrapper {
 				|| $mode === 'wb'
 				|| $mode === 'wb+'
 			) {
-				if (!empty($encryptionModuleId)) {
+				if ($encryptionEnabled) {
+					// if $encryptionModuleId is empty, the default module will be used
 					$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
-					$shouldEncrypt = $encryptionModule->shouldEncrypt($fullPath);
-				} elseif ($encryptionEnabled) {
-					$encryptionModule = $this->encryptionManager->getDefaultEncryptionModule();
 					$shouldEncrypt = $encryptionModule->shouldEncrypt($fullPath);
 				}
 			} else {

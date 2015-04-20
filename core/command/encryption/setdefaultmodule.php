@@ -56,22 +56,13 @@ class SetDefaultModule extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$moduleId = $input->getArgument('module');
-		$currentDefaultModuleId = '';
-		try {
-			$currentDefaultModule = $this->encryptionManager->getDefaultEncryptionModule();
-			$currentDefaultModuleId = $currentDefaultModule->getId();
-		} catch (\Exception $e) {}
 
-		if ($moduleId === $currentDefaultModuleId) {
+		if ($moduleId === $this->encryptionManager->getDefaultEncryptionModuleId()) {
 			$output->writeln('"' . $moduleId . '"" is already the default module');
 		} else if ($this->encryptionManager->setDefaultEncryptionModule($moduleId)) {
 			$output->writeln('Set default module to "' . $moduleId . '"');
 		} else {
 			$output->writeln('The specified module "' . $moduleId . '" does not exist');
 		}
-
-		if ($moduleId === $currentDefaultModuleId) {
-		}
-
 	}
 }

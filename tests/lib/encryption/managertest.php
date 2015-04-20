@@ -123,8 +123,10 @@ class ManagerTest extends TestCase {
 		$en0 = $this->manager->getEncryptionModule('ID0');
 		$this->assertEquals('ID0', $en0->getId());
 
-		$en0 = $this->manager->getDefaultEncryptionModule();
+		$en0 = \Test_Helper::invokePrivate($this->manager, 'getDefaultEncryptionModule');
 		$this->assertEquals('ID0', $en0->getId());
+
+		$this->assertEquals('ID0', $this->manager->getDefaultEncryptionModuleId());
 	}
 
 	public function testSetDefaultEncryptionModule() {
@@ -143,7 +145,7 @@ class ManagerTest extends TestCase {
 
 		// Default module is the first we set
 		$defaultId = 'ID0';
-		$this->assertEquals('ID0', \Test_Helper::invokePrivate($this->manager, 'getDefaultEncryptionModuleId'));
+		$this->assertEquals('ID0', $this->manager->getDefaultEncryptionModuleId());
 
 		// Set to an existing module
 		$this->config->expects($this->once())
@@ -151,11 +153,11 @@ class ManagerTest extends TestCase {
 			->with('core', 'default_encryption_module', 'ID1');
 		$this->assertTrue($this->manager->setDefaultEncryptionModule('ID1'));
 		$defaultId = 'ID1';
-		$this->assertEquals('ID1', \Test_Helper::invokePrivate($this->manager, 'getDefaultEncryptionModuleId'));
+		$this->assertEquals('ID1', $this->manager->getDefaultEncryptionModuleId());
 
 		// Set to an unexisting module
 		$this->assertFalse($this->manager->setDefaultEncryptionModule('ID2'));
-		$this->assertEquals('ID1', \Test_Helper::invokePrivate($this->manager, 'getDefaultEncryptionModuleId'));
+		$this->assertEquals('ID1', $this->manager->getDefaultEncryptionModuleId());
 	}
 
 //	/**

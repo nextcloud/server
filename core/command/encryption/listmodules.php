@@ -49,16 +49,12 @@ class ListModules extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$encryptionModules = $this->encryptionManager->getEncryptionModules();
-		$defaultEncryptionModuleId = '';
-		try {
-			$defaultEncryptionModule = $this->encryptionManager->getDefaultEncryptionModule();
-			$defaultEncryptionModuleId = $defaultEncryptionModule->getId();
-		} catch (\Exception $e) {}
+		$defaultEncryptionModuleId = $this->encryptionManager->getDefaultEncryptionModuleId();
 
 		$encModules = array();
 		foreach ($encryptionModules as $module) {
-			$encModules[$module->getId()]['displayName'] = $module->getDisplayName();
-			$encModules[$module->getId()]['default'] .= $module->getId() === $defaultEncryptionModuleId;
+			$encModules[$module['id']]['displayName'] = $module['displayName'];
+			$encModules[$module['id']]['default'] .= $module['id'] === $defaultEncryptionModuleId;
 		}
 		$this->writeModuleList($input, $output, $encModules);
 	}
@@ -69,20 +65,16 @@ class ListModules extends Base {
 	 * @param array $items
 	 */
 	protected function writeModuleList(InputInterface $input, OutputInterface $output, $items) {
-		switch ($input->getOption('output')) {
-			case 'plain':
-				array_walk($items, function(&$item) {
-					if (!$item['default']) {
-						$item = $item['displayName'];
-					} else {
-						$item = $item['displayName'] . ' [default*]';
-					}
-				});
-				// no break;
-
-			default:
-				parent::writeArrayInOutputFormat($input, $output, $items);
-				break;
+		if ($input->getOption('output') === 'plain') {
+			array_walk($items, function(&$item) {
+				if (!$item['default']) {
+					$item = $item['displayName'];
+				} else {
+					$item = $item['displayName'] . ' [default*]';
+				}
+			});
 		}
+
+		parent::writeArrayInOutputFormat($input, $output, $items);
 	}
 }
