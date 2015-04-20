@@ -110,7 +110,7 @@ class Scanner extends BasicEmitter {
 			return null;
 		}
 
-		$data = $this->storage->getData($path);
+		$data = $this->storage->getMetaData($path);
 		$data['permissions'] = $permissions;
 
 		return $data;

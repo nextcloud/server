@@ -527,10 +527,10 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	}
 
 	/**
-	 * @param $path
+	 * @param string $path
 	 * @return array
 	 */
-	public function getData($path) {
-		return $this->storage->getData($path);
+	public function getMetaData($path) {
+		return $this->storage->getMetaData($path);
 	}
 }

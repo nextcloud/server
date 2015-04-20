@@ -71,9 +71,9 @@ interface Storage extends \OCP\Files\Storage {
 	public function getStorageCache();
 
 	/**
-	 * @param $path
+	 * @param string $path
 	 * @return array
 	 */
-	public function getData($path);
+	public function getMetaData($path);
 
 }

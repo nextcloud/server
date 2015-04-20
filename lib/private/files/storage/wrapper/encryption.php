@@ -111,11 +111,11 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * @param $path
+	 * @param string $path
 	 * @return array
 	 */
-	public function getData($path) {
-		$data = $this->storage->getData($path);
+	public function getMetaData($path) {
+		$data = $this->storage->getMetaData($path);
 		$fullPath = $this->getFullPath($path);
 
 		if (isset($this->unencryptedSize[$fullPath])) {

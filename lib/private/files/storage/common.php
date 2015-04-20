@@ -584,7 +584,7 @@ abstract class Common implements Storage {
 	/**
 	 * @inheritdoc
 	 */
-	public function getData($path) {
+	public function getMetaData($path) {
 		$data = [];
 		$data['mimetype'] = $this->getMimeType($path);
 		$data['mtime'] = $this->filemtime($path);
