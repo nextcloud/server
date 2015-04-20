@@ -5,6 +5,7 @@
  */
 
 /** @var $_ array */
+/** @var $_['urlGenerator'] */
 ?>
 
 <div id="app-navigation">
@@ -236,7 +237,7 @@ if($_['passwordChangeSupported']) {
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	<form class="uploadButton" method="post" action="<?php p(\OC_Helper::linkToRoute('settings_cert_post')); ?>" target="certUploadFrame">
+	<form class="uploadButton" method="post" action="<?php p($_['urlGenerator']->linkToRoute('settings.Certificate.addPersonalRootCertificate')); ?>" target="certUploadFrame">
 		<input type="file" id="rootcert_import" name="rootcert_import" class="hidden">
 		<input type="button" id="rootcert_import_button" value="<?php p($l->t('Import root certificate')); ?>"/>
 	</form>

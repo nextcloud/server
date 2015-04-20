@@ -53,6 +53,8 @@ $application->registerRoutes($this, [
 		['name' => 'LogSettings#getEntries', 'url' => '/settings/admin/log/entries', 'verb' => 'GET'],
 		['name' => 'LogSettings#download', 'url' => '/settings/admin/log/download', 'verb' => 'GET'],
 		['name' => 'CheckSetup#check', 'url' => '/settings/ajax/checksetup', 'verb' => 'GET'],
+		['name' => 'Certificate#addPersonalRootCertificate', 'url' => '/settings/personal/certificate', 'verb' => 'POST'],
+		['name' => 'Certificate#removePersonalRootCertificate', 'url' => '/settings/personal/certificate/{certificateIdentifier}', 'verb' => 'DELETE'],
 	]
 ]);
 
@@ -90,10 +92,6 @@ $this->create('settings_personal_changepassword', '/settings/personal/changepass
 	->action('OC\Settings\ChangePassword\Controller', 'changePersonalPassword');
 $this->create('settings_ajax_setlanguage', '/settings/ajax/setlanguage.php')
 	->actionInclude('settings/ajax/setlanguage.php');
-$this->create('settings_cert_post', '/settings/ajax/addRootCertificate')
-	->actionInclude('settings/ajax/addRootCertificate.php');
-$this->create('settings_cert_remove', '/settings/ajax/removeRootCertificate')
-	->actionInclude('settings/ajax/removeRootCertificate.php');
 // apps
 $this->create('settings_ajax_enableapp', '/settings/ajax/enableapp.php')
 	->actionInclude('settings/ajax/enableapp.php');
