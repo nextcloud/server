@@ -9,16 +9,13 @@ function updatePrivateKeyPasswd() {
 	var newPrivateKeyPassword = $('input:password[id="newPrivateKeyPassword"]').val();
 	OC.msg.startSaving('#encryption .msg');
 	$.post(
-	OC.generateUrl('/apps/encryption/ajax/updatePrivateKeyPassword')
-		, { oldPassword: oldPrivateKeyPassword, newPassword: newPrivateKeyPassword }
-		,  function( data ) {
-			if (data.status === "error") {
-				OC.msg.finishedSaving('#encryption .msg', data);
-			} else {
-				OC.msg.finishedSaving('#encryption .msg', data);
-			}
-		}
-	);
+		OC.generateUrl('/apps/encryption/ajax/updatePrivateKeyPassword'),
+		{ oldPassword: oldPrivateKeyPassword, newPassword: newPrivateKeyPassword }
+	).success(function(response) {
+		OC.msg.finishedSuccess('#encryption .msg', response.message);
+	}).fail(function(response) {
+		OC.msg.finishedError('#encryption .msg', response.responseJSON.message);
+	});
 }
 
 $(document).ready(function(){
