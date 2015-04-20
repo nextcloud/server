@@ -9,6 +9,7 @@
 namespace OCA\Files_Sharing\Propagation;
 
 use OC\Files\Cache\ChangePropagator;
+use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files_Sharing\SharedMount;
 
@@ -47,10 +48,10 @@ class ChangeWatcher {
 		$fullPath2 = $this->baseView->getAbsolutePath($path2);
 		$mount1 = $this->baseView->getMount($path1);
 		$mount2 = $this->baseView->getMount($path2);
-		if ($mount1 instanceof SharedMount) {
+		if ($mount1 instanceof SharedMount and $mount1->getInternalPath($fullPath1) !== '') {
 			$this->propagateForOwner($mount1->getShare(), $mount1->getInternalPath($fullPath1), $mount1->getOwnerPropagator());
 		}
-		if ($mount1 !== $mount2 and $mount2 instanceof SharedMount) {
+		if ($mount1 !== $mount2 and $mount2 instanceof SharedMount and $mount2->getInternalPath($fullPath2) !== '') {
 			$this->propagateForOwner($mount2->getShare(), $mount2->getInternalPath($fullPath2), $mount2->getOwnerPropagator());
 		}
 	}
@@ -67,6 +68,7 @@ class ChangeWatcher {
 		$shareRootPath = $view->getPath($share['item_source']);
 		if (!is_null($shareRootPath)) {
 			$path = $shareRootPath . '/' . $internalPath;
+			$path = Filesystem::normalizePath($path);
 			$propagator->addChange($path);
 			$propagator->propagateChanges();
 		}
