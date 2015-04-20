@@ -68,7 +68,8 @@ class ResourceLocator extends \Test\TestCase {
 			->with('foo')
 			->will($this->throwException(new ResourceNotFoundException('foo', 'map')));
 		$this->logger->expects($this->exactly(2))
-			->method('error');
+			->method('error')
+			->with($this->stringContains('map/foo'));
 		/** @var \OC\Template\ResourceLocator $locator */
 		$locator->find(array('foo'));
 	}
