@@ -31,6 +31,11 @@ namespace OCA\Encryption\AppInfo;
 		'verb' => 'POST'
 	],
 	[
+		'name' => 'Settings#updatePrivateKeyPassword',
+		'url' => '/ajax/updatePrivateKeyPassword',
+		'verb' => 'POST'
+	],
+	[
 		'name' => 'Recovery#changeRecoveryPassword',
 		'url' => '/ajax/changeRecoveryPassword',
 		'verb' => 'POST'
