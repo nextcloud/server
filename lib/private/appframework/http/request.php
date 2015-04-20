@@ -360,7 +360,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $key the key that will be taken from the $_COOKIE array
 	 * @return array the value in the $_COOKIE element
 	 */
-	function getCookie($key) {
+	public function getCookie($key) {
 		return isset($this->cookies[$key]) ? $this->cookies[$key] : null;
 	}
 
