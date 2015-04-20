@@ -64,7 +64,7 @@ try {
 	\OC::$server->getTempManager()->cleanOld();
 
 	// Exit if background jobs are disabled!
-	$appMode = OC_BackgroundJob::getExecutionType();
+	$appMode = \OCP\BackgroundJob::getExecutionType();
 	if ($appMode == 'none') {
 		if (OC::$CLI) {
 			echo 'Background Jobs are disabled!' . PHP_EOL;
@@ -107,7 +107,7 @@ try {
 
 		// We call ownCloud from the CLI (aka cron)
 		if ($appMode != 'cron') {
-			OC_BackgroundJob::setExecutionType('cron');
+			\OCP\BackgroundJob::setExecutionType('cron');
 		}
 
 		// open the file and try to lock if. If it is not locked, the background

@@ -60,7 +60,7 @@ class BackgroundJob {
 	 * @since 5.0.0
 	 */
 	public static function getExecutionType() {
-		return \OC_BackgroundJob::getExecutionType();
+		return \OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax');
 	}
 
 	/**
@@ -74,7 +74,10 @@ class BackgroundJob {
 	 * @since 5.0.0
 	 */
 	public static function setExecutionType($type) {
-		return \OC_BackgroundJob::setExecutionType($type);
+		if( !in_array( $type, array('none', 'ajax', 'webcron', 'cron'))) {
+			return false;
+		}
+		\OC::$server->getConfig()->setAppValue('core', 'backgroundjobs_mode', $type);
 	}
 
 	/**
