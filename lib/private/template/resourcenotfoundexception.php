@@ -39,6 +39,6 @@ class ResourceNotFoundException extends \LogicException {
 	 * @return string
 	 */
 	public function getResourcePath() {
-		return $this->resource . '/' . $this->webPath;
+		return $this->webPath . '/' . $this->resource;
 	}
 }
