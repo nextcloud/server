@@ -54,9 +54,30 @@ class Base extends Command {
 				break;
 			default:
 				foreach ($items as $key => $item) {
-					$output->writeln(' - ' . (!is_int($key) ? $key . ': ' : '') . $item);
+					if (!is_int($key)) {
+						$value = $this->valueToString($item);
+						if (!is_null($value)) {
+							$output->writeln(' - ' . $key . ': ' . $value);
+						} else {
+							$output->writeln(' - ' . $key);
+						}
+					} else {
+						$output->writeln(' - ' . $this->valueToString($item));
+					}
 				}
 				break;
+		}
+	}
+
+	protected function valueToString($value) {
+		if ($value === false) {
+			return 'false';
+		} else if ($value === true) {
+			return 'true';
+		} else if ($value === null) {
+			null;
+		} else {
+			return $value;
 		}
 	}
 }

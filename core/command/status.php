@@ -37,7 +37,7 @@ class Status extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$values = array(
-			'installed' => \OC_Config::getValue('installed') ? 'true' : 'false',
+			'installed' => (bool) \OC_Config::getValue('installed'),
 			'version' => implode('.', \OC_Util::getVersion()),
 			'versionstring' => \OC_Util::getVersionString(),
 			'edition' => \OC_Util::getEditionString(),
