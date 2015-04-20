@@ -37,7 +37,7 @@ interface IAvatar {
 	 * @return boolean|\OCP\IImage containing the avatar or false if there's no image
 	 * @since 6.0.0
 	 */
-	function get($size = 64);
+	public function get($size = 64);
 
 	/**
 	 * Check if an avatar exists for the user
@@ -56,12 +56,12 @@ interface IAvatar {
 	 * @return void
 	 * @since 6.0.0
 	 */
-	function set($data);
+	public function set($data);
 
 	/**
 	 * remove the users avatar
 	 * @return void
 	 * @since 6.0.0
 	 */
-	function remove();
+	public function remove();
 }

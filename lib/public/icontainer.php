@@ -47,7 +47,7 @@ interface IContainer {
 	 * @return mixed
 	 * @since 6.0.0
 	 */
-	function query($name);
+	public function query($name);
 
 	/**
 	 * A value is stored in the container with it's corresponding name
@@ -57,7 +57,7 @@ interface IContainer {
 	 * @return void
 	 * @since 6.0.0
 	 */
-	function registerParameter($name, $value);
+	public function registerParameter($name, $value);
 
 	/**
 	 * A service is registered in the container where a closure is passed in which will actually
@@ -72,5 +72,5 @@ interface IContainer {
 	 * @return void
 	 * @since 6.0.0
 	 */
-	function registerService($name, \Closure $closure, $shared = true);
+	public function registerService($name, \Closure $closure, $shared = true);
 }

@@ -68,7 +68,7 @@ interface IRequest {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	function getHeader($name);
+	public function getHeader($name);
 
 	/**
 	 * Lets you access post and get parameters by the index
@@ -131,7 +131,7 @@ interface IRequest {
 	 * @return array the value in the $_COOKIE element
 	 * @since 6.0.0
 	 */
-	function getCookie($key);
+	public function getCookie($key);
 
 
 	/**

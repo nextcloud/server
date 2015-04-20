@@ -38,7 +38,7 @@ class AvatarManager implements IAvatarManager {
 	 * @param string $user the ownCloud user id
 	 * @return \OCP\IAvatar
 	 */
-	function getAvatar($user) {
+	public function getAvatar($user) {
 		return new Avatar($user);
 	}
 }

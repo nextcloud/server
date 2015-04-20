@@ -106,7 +106,7 @@ class SimpleContainer extends \Pimple\Container implements \OCP\IContainer {
 	 * @param string $name
 	 * @param mixed $value
 	 */
-	function registerParameter($name, $value) {
+	public function registerParameter($name, $value) {
 		$this[$name] = $value;
 	}
 
@@ -119,7 +119,7 @@ class SimpleContainer extends \Pimple\Container implements \OCP\IContainer {
 	 * @param \Closure $closure the closure to be called on service creation
 	 * @param bool $shared
 	 */
-	function registerService($name, \Closure $closure, $shared = true) {
+	public function registerService($name, \Closure $closure, $shared = true) {
 		if (isset($this[$name]))  {
 			unset($this[$name]);
 		}
