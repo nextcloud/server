@@ -103,16 +103,10 @@ class Scanner extends BasicEmitter {
 	 * @return array an array of metadata of the file
 	 */
 	public function getData($path) {
-		$permissions = $this->storage->getPermissions($path);
-		if (!$permissions & \OCP\PERMISSION_READ) {
-			//cant read, nothing we can do
-			\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! Path '$path' is not accessible or present !!!", \OCP\Util::DEBUG);
-			return null;
-		}
-
 		$data = $this->storage->getMetaData($path);
-		$data['permissions'] = $permissions;
-
+		if (is_null($data)) {
+			\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! Path '$path' is not accessible or present !!!", \OCP\Util::DEBUG);
+		}
 		return $data;
 	}
 

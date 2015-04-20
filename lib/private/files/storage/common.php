@@ -585,6 +585,12 @@ abstract class Common implements Storage {
 	 * @inheritdoc
 	 */
 	public function getMetaData($path) {
+		$permissions = $this->getPermissions($path);
+		if (!$permissions & \OCP\Constants::PERMISSION_READ) {
+			//cant read, nothing we can do
+			return null;
+		}
+
 		$data = [];
 		$data['mimetype'] = $this->getMimeType($path);
 		$data['mtime'] = $this->filemtime($path);
@@ -595,6 +601,8 @@ abstract class Common implements Storage {
 		}
 		$data['etag'] = $this->getETag($path);
 		$data['storage_mtime'] = $data['mtime'];
+		$data['permissions'] = $this->getPermissions($path);
+
 		return $data;
 	}
 }

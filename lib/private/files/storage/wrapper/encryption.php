@@ -23,6 +23,8 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
+use OC\Encryption\File;
+use OC\Files\Filesystem;
 use OC\Files\Storage\LocalTempFileTrait;
 use OCP\Files\Mount\IMountPoint;
 
@@ -48,7 +50,7 @@ class Encryption extends Wrapper {
 	/** @var array */
 	private $unencryptedSize;
 
-	/** @var \OC\Encryption\File */
+	/** @var File */
 	private $fileHelper;
 
 	/** @var IMountPoint */
@@ -59,7 +61,7 @@ class Encryption extends Wrapper {
 	 * @param \OC\Encryption\Manager $encryptionManager
 	 * @param \OC\Encryption\Util $util
 	 * @param \OC\Log $logger
-	 * @param \OC\Encryption\File $fileHelper
+	 * @param File $fileHelper
 	 * @param string $uid user who perform the read/write operation (null for public access)
 	 */
 	public function __construct(
@@ -67,7 +69,7 @@ class Encryption extends Wrapper {
 			\OC\Encryption\Manager $encryptionManager = null,
 			\OC\Encryption\Util $util = null,
 			\OC\Log $logger = null,
-			\OC\Encryption\File $fileHelper = null,
+			File $fileHelper = null,
 			$uid = null
 		) {
 
@@ -116,13 +118,14 @@ class Encryption extends Wrapper {
 	 */
 	public function getMetaData($path) {
 		$data = $this->storage->getMetaData($path);
+		if (is_null($data)) {
+			return null;
+		}
 		$fullPath = $this->getFullPath($path);
 
 		if (isset($this->unencryptedSize[$fullPath])) {
-			$size = $this->unencryptedSize[$fullPath];
-
 			$data['encrypted'] = true;
-			$data['size'] = $size;
+			$data['size'] = $this->unencryptedSize[$fullPath];
 		} else {
 			$info = $this->getCache()->get($path);
 			if (isset($info['fileid']) && $info['encrypted']) {
@@ -383,7 +386,7 @@ class Encryption extends Wrapper {
 	 * @return string full path including mount point
 	 */
 	protected function getFullPath($path) {
-		return \OC\Files\Filesystem::normalizePath($this->mountPoint . '/' . $path);
+		return Filesystem::normalizePath($this->mountPoint . '/' . $path);
 	}
 
 	/**
