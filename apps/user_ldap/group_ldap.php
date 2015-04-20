@@ -746,6 +746,6 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
 	public function implementsActions($actions) {
-		return (bool)(OC_GROUP_BACKEND_COUNT_USERS & $actions);
+		return (bool)(\OC_Group_Backend::COUNT_USERS & $actions);
 	}
 }
