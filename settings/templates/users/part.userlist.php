@@ -34,7 +34,7 @@
 				src="<?php print_unescaped(image_path('core', 'actions/rename.svg'))?>"
 				alt="<?php p($l->t("set new password"))?>" title="<?php p($l->t("set new password"))?>"/>
 			</td>
-			<td class="mailAddress"><span></span> <img class="svg action"
+			<td class="mailAddress"><span></span><div class="loading-small hidden"></div> <img class="svg action"
 				src="<?php p(image_path('core', 'actions/rename.svg'))?>"
 				alt="<?php p($l->t('change email address'))?>" title="<?php p($l->t('change email address'))?>"/>
 			</td>

@@ -194,6 +194,14 @@ span.usersLastLoginTooltip { white-space: nowrap; }
 	color: #000000;
 }
 
+#userlist .mailAddress .loading-small {
+	width: 16px;
+	height: 16px;
+	margin-left: -26px;
+	position: relative;
+	top: 3px;
+}
+
 tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:pointer; }
 tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 td.remove {
