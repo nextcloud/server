@@ -7,10 +7,11 @@
  */
 
 
-namespace OC\apps\encryption\tests\lib\controller;
+namespace OCA\Encryption\Tests\Controller;
 
 
 use OCA\Encryption\Controller\RecoveryController;
+use OCP\AppFramework\Http;
 use Test\TestCase;
 
 class RecoveryControllerTest extends TestCase {
@@ -36,114 +37,110 @@ class RecoveryControllerTest extends TestCase {
 	 */
 	private $recoveryMock;
 
-	public function testAdminRecovery() {
+	public function adminRecoveryProvider() {
+		return [
+			['test', 'test', '1', 'Recovery key successfully enabled', HTTP::STATUS_OK],
+			['', 'test', '1', 'Missing recovery key password', HTTP::STATUS_INTERNAL_SERVER_ERROR],
+			['test', '', '1', 'Please repeat the recovery key password', HTTP::STATUS_INTERNAL_SERVER_ERROR],
+			['test', 'soimething that doesn\'t match', '1', 'Repeated recovery key password does not match the provided recovery key password', HTTP::STATUS_INTERNAL_SERVER_ERROR],
+			['test', 'test', '0', 'Recovery key successfully disabled', HTTP::STATUS_OK],
+		];
+	}
 
-		$recoveryPassword = 'test';
-		$enableRecovery = '1';
+	/**
+	 * @dataProvider adminRecoveryProvider
+	 * @param $recoveryPassword
+	 * @param $passconfirm
+	 * @param $enableRecovery
+	 * @param $expectedMessage
+	 * @param $expectedStatus
+	 */
+	public function testAdminRecovery($recoveryPassword, $passconfirm, $enableRecovery, $expectedMessage, $expectedStatus) {
+
 
 		$this->recoveryMock->expects($this->any())
 			->method('enableAdminRecovery')
 			->willReturn(true);
 
-		$response = $this->controller->adminRecovery($recoveryPassword,
-			$recoveryPassword,
-			$enableRecovery)->getData();
-
-
-		$this->assertEquals('Recovery key successfully enabled',
-			$response['data']['message']);
-
-		$response = $this->controller->adminRecovery('',
-			$recoveryPassword,
-			$enableRecovery)->getData();
-
-		$this->assertEquals('Missing recovery key password',
-			$response['data']['message']);
-
-		$response = $this->controller->adminRecovery($recoveryPassword,
-			'',
-			$enableRecovery)->getData();
-
-		$this->assertEquals('Please repeat the recovery key password',
-			$response['data']['message']);
-
-		$response = $this->controller->adminRecovery($recoveryPassword,
-			'something that doesn\'t match',
-			$enableRecovery)->getData();
-
-		$this->assertEquals('Repeated recovery key password does not match the provided recovery key password',
-			$response['data']['message']);
-
-		$this->recoveryMock->expects($this->once())
+		$this->recoveryMock->expects($this->any())
 			->method('disableAdminRecovery')
 			->willReturn(true);
 
 		$response = $this->controller->adminRecovery($recoveryPassword,
-			$recoveryPassword,
-			'0')->getData();
+			$passconfirm,
+			$enableRecovery);
 
-		$this->assertEquals('Recovery key successfully disabled',
-			$response['data']['message']);
+
+		$this->assertEquals($expectedMessage, $response->getData()['data']['message']);
+		$this->assertEquals($expectedStatus, $response->getStatus());
+
+
 	}
 
-	public function testChangeRecoveryPassword() {
-		$password = 'test';
-		$oldPassword = 'oldtest';
+	public function changeRecoveryPasswordProvider() {
+		return [
+			['test', 'test', 'oldtestFail', 'Could not change the password. Maybe the old password was not correct.', HTTP::STATUS_INTERNAL_SERVER_ERROR],
+			['test', 'test', 'oldtest', 'Password successfully changed.', HTTP::STATUS_OK],
+			['test', 'notmatch', 'oldtest', 'Repeated recovery key password does not match the provided recovery key password', HTTP::STATUS_INTERNAL_SERVER_ERROR],
+			['', 'test', 'oldtest', 'Please provide a new recovery password', HTTP::STATUS_INTERNAL_SERVER_ERROR],
+			['test', 'test', '', 'Please provide the old recovery password', HTTP::STATUS_INTERNAL_SERVER_ERROR]
+		];
+	}
 
-		$data = $this->controller->changeRecoveryPassword($password,
-			$oldPassword,
-			$password)->getData();
-
-		$this->assertEquals('Could not change the password. Maybe the old password was not correct.',
-			$data['data']['message']);
-
-		$this->recoveryMock->expects($this->once())
+	/**
+	 * @dataProvider changeRecoveryPasswordProvider
+	 * @param $password
+	 * @param $confirmPassword
+	 * @param $oldPassword
+	 * @param $expectedMessage
+	 * @param $expectedStatus
+	 */
+	public function testChangeRecoveryPassword($password, $confirmPassword, $oldPassword, $expectedMessage, $expectedStatus) {
+		$this->recoveryMock->expects($this->any())
 			->method('changeRecoveryKeyPassword')
 			->with($password, $oldPassword)
-			->willReturn(true);
+			->will($this->returnValueMap([
+				['test', 'oldTestFail', false],
+				['test', 'oldtest', true]
+			]));
 
-		$data = $this->controller->changeRecoveryPassword($password,
+		$response = $this->controller->changeRecoveryPassword($password,
 			$oldPassword,
-			$password)->getData();
+			$confirmPassword);
 
-		$this->assertEquals('Password successfully changed.',
-			$data['data']['message']);
+		$this->assertEquals($expectedMessage, $response->getData()['data']['message']);
+		$this->assertEquals($expectedStatus, $response->getStatus());
 
-		$data = $this->controller->changeRecoveryPassword($password,
-			$oldPassword,
-			'not match')->getData();
 
-		$this->assertEquals('Repeated recovery key password does not match the provided recovery key password',
-			$data['data']['message']);
-
-		$data = $this->controller->changeRecoveryPassword('',
-			$oldPassword,
-			$password)->getData();
-
-		$this->assertEquals('Please provide a new recovery password',
-			$data['data']['message']);
-
-		$data = $this->controller->changeRecoveryPassword($password,
-			'',
-			$password)->getData();
-
-		$this->assertEquals('Please provide the old recovery password',
-			$data['data']['message']);
 	}
 
-	public function testUserSetRecovery() {
-		$this->recoveryMock->expects($this->exactly(2))
+	public function userSetRecoveryProvider() {
+		return [
+			['1', 'Recovery Key enabled', Http::STATUS_OK],
+			['0', 'Could not enable the recovery key, please try again or contact your administrator', Http::STATUS_INTERNAL_SERVER_ERROR]
+		];
+	}
+
+	/**
+	 * @dataProvider userSetRecoveryProvider
+	 * @param $enableRecovery
+	 * @param $expectedMessage
+	 * @param $expectedStatus
+	 */
+	public function testUserSetRecovery($enableRecovery, $expectedMessage, $expectedStatus) {
+		$this->recoveryMock->expects($this->any())
 			->method('setRecoveryForUser')
-			->willReturnOnConsecutiveCalls(true, false);
+			->with($enableRecovery)
+			->will($this->returnValueMap([
+				['1', true],
+				['0', false]
+			]));
 
-		$data = $this->controller->userSetRecovery('1')->getData();
 
-		$this->assertEquals('Recovery Key enabled', $data['data']['message']);
+		$response = $this->controller->userSetRecovery($enableRecovery);
 
-		$data = $this->controller->userSetRecovery('1')->getData();
-
-		$this->assertEquals('Could not enable the recovery key, please try again or contact your administrator',
-			$data['data']['message']);
+		$this->assertEquals($expectedMessage, $response->getData()['data']['message']);
+		$this->assertEquals($expectedStatus, $response->getStatus());
 
 	}
 

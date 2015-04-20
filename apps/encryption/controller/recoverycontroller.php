@@ -93,15 +93,15 @@ class RecoveryController extends Controller {
 			if ($this->recovery->enableAdminRecovery($recoveryPassword)) {
 				return new DataResponse(['status' => 'success', 'data' => array('message' => (string)$this->l->t('Recovery key successfully enabled'))]);
 			}
-			return new DataResponse(['data' => array('message' => (string)$this->l->t('Could not enable recovery key. Please check your recovery key password!'))]);
+			return new DataResponse(['data' => array('message' => (string)$this->l->t('Could not enable recovery key. Please check your recovery key password!'))], 500);
 		} elseif (isset($adminEnableRecovery) && $adminEnableRecovery === '0') {
 			if ($this->recovery->disableAdminRecovery($recoveryPassword)) {
 				return new DataResponse(['data' => array('message' => (string)$this->l->t('Recovery key successfully disabled'))]);
 			}
-			return new DataResponse(['data' => array('message' => (string)$this->l->t('Could not disable recovery key. Please check your recovery key password!'))]);
+			return new DataResponse(['data' => array('message' => (string)$this->l->t('Could not disable recovery key. Please check your recovery key password!'))], 500);
 		}
 		// this response should never be sent but just in case.
-		return new DataResponse(['data' => ['message' => (string)$this->l->t('Missing parameters')]]);
+		return new DataResponse(['data' => ['message' => (string)$this->l->t('Missing parameters')]], 500);
 	}
 
 	/**
@@ -114,22 +114,22 @@ class RecoveryController extends Controller {
 		//check if both passwords are the same
 		if (empty($oldPassword)) {
 			$errorMessage = (string)$this->l->t('Please provide the old recovery password');
-			return new DataResponse(array('data' => array('message' => $errorMessage)));
+			return new DataResponse(array('data' => array('message' => $errorMessage)), 500);
 		}
 
 		if (empty($newPassword)) {
 			$errorMessage = (string)$this->l->t('Please provide a new recovery password');
-			return new DataResponse (array('data' => array('message' => $errorMessage)));
+			return new DataResponse (array('data' => array('message' => $errorMessage)), 500);
 		}
 
 		if (empty($confirmPassword)) {
 			$errorMessage = (string)$this->l->t('Please repeat the new recovery password');
-			return new DataResponse(array('data' => array('message' => $errorMessage)));
+			return new DataResponse(array('data' => array('message' => $errorMessage)), 500);
 		}
 
 		if ($newPassword !== $confirmPassword) {
 			$errorMessage = (string)$this->l->t('Repeated recovery key password does not match the provided recovery key password');
-			return new DataResponse(array('data' => array('message' => $errorMessage)));
+			return new DataResponse(array('data' => array('message' => $errorMessage)), 500);
 		}
 
 		$result = $this->recovery->changeRecoveryKeyPassword($newPassword,
@@ -139,18 +139,17 @@ class RecoveryController extends Controller {
 			return new DataResponse(
 				array(
 					'status' => 'success',
-					'data' => array(
-						'message' => (string)$this->l->t('Password successfully changed.'))
-				)
-			);
-		} else {
-			return new DataResponse(
-				array(
-					'data' => array
-					('message' => (string)$this->l->t('Could not change the password. Maybe the old password was not correct.'))
+					'data' => [
+						'message' => (string)$this->l->t('Password successfully changed.')]
 				)
 			);
 		}
+		return new DataResponse(
+			array(
+				'data' => [
+					'message' => (string)$this->l->t('Could not change the password. Maybe the old password was not correct.')
+				]
+			), 500);
 	}
 
 	/**
@@ -168,19 +167,19 @@ class RecoveryController extends Controller {
 				return new DataResponse(
 					array(
 						'status' => 'success',
-						'data' => array(
-							'message' => (string)$this->l->t('Recovery Key enabled'))
+						'data' => [
+							'message' => (string)$this->l->t('Recovery Key enabled')]
 					)
 				);
 			}
 
-			return new DataResponse(
-				array(
-					'data' => array
-					('message' => (string)$this->l->t('Could not enable the recovery key, please try again or contact your administrator'))
-				)
-			);
 		}
+		return new DataResponse(
+			array(
+				'data' => [
+					'message' => (string)$this->l->t('Could not enable the recovery key, please try again or contact your administrator')
+				]
+			), 500);
 	}
 
 }
