@@ -19,14 +19,13 @@
  *
  */
 
-
 namespace OCA\Encryption\Controller;
-
 
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -110,31 +109,28 @@ class SettingsController extends Controller {
 					$result = true;
 				}
 			} else {
-				$result = false;
-				$errorMessage = $this->l->t(
-					'The old password was not correct, please try again.');
+				$errorMessage = $this->l->t('The old password was not correct, please try again.');
 			}
 		} else {
-			$result = false;
-			$errorMessage = $this->l->t(
-				'The current log-in password was not correct, please try again.');
+			$errorMessage = $this->l->t('The current log-in password was not correct, please try again.');
 		}
 
 		if ($result === true) {
 			$this->session->setStatus(Session::INIT_SUCCESSFUL);
 			return new DataResponse(
-				array(
-					'status' => 'success',
-					'data' => array(
-						'message' => (string) $this->l->t('Private key password successfully updated.'))
-				)
+				['data' => [
+						'status' => 'success',
+						'message' => (string) $this->l->t('Private key password successfully updated.'),
+					],
+				]
 			);
 		} else {
 			return new DataResponse(
-				array(
-					'data' => array
-					('message' => (string) $errorMessage)
-				)
+				['data' => [
+						'message' => (string) $errorMessage,
+					],
+				],
+				Http::STATUS_BAD_REQUEST
 			);
 		}
 

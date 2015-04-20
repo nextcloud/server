@@ -19,12 +19,11 @@
  *
  */
 
-
 namespace OCA\Encryption\Tests\Controller;
-
 
 use OCA\Encryption\Controller\SettingsController;
 use OCA\Encryption\Session;
+use OCP\AppFramework\Http;
 use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
@@ -53,7 +52,7 @@ class SettingsControllerTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	private $sessionMock;
 
-	public function setUp() {
+	protected function setUp() {
 
 		parent::setUp();
 
@@ -65,7 +64,8 @@ class SettingsControllerTest extends TestCase {
 		$this->l10nMock->expects($this->any())
 			->method('t')
 			->will($this->returnCallback(function($message) {
-				return $message; }));
+				return $message;
+			}));
 
 		$this->userManagerMock = $this->getMockBuilder('OCP\IUserManager')
 			->disableOriginalConstructor()->getMock();
@@ -85,7 +85,7 @@ class SettingsControllerTest extends TestCase {
 				'logout',
 				'setUser',
 				'getUser',
-				'canChangePassword'
+				'canChangePassword',
 			])
 			->getMock();
 
@@ -129,6 +129,7 @@ class SettingsControllerTest extends TestCase {
 
 		$data = $result->getData();
 
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
 		$this->assertSame('The current log-in password was not correct, please try again.',
 			$data['data']['message']);
 	}
@@ -155,6 +156,7 @@ class SettingsControllerTest extends TestCase {
 
 		$data = $result->getData();
 
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
 		$this->assertSame('The old password was not correct, please try again.',
 			$data['data']['message']);
 	}
@@ -212,8 +214,7 @@ class SettingsControllerTest extends TestCase {
 
 		$data = $result->getData();
 
-		$this->assertSame('success', $data['status']);
-
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
 		$this->assertSame('Private key password successfully updated.',
 			$data['data']['message']);
 	}
