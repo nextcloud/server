@@ -112,26 +112,15 @@ OCA.Sharing.PublicApp = {
 			img.appendTo('#imgframe');
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text') {
 			// Undocumented Url to public WebDAV endpoint
-			var url = parent.location.protocol + '//' +
-				token + '@' + location.host + OC.linkTo('', 'public.php/webdav');
+			var url = parent.location.protocol + '//' + location.host + OC.linkTo('', 'public.php/webdav');
 			$.ajax({
 				url: url,
-				headers: {Range: "bytes=0-1000"}
+				headers: {
+					Authorization: 'Basic ' + btoa(token + ':'),
+					Range: 'bytes=0-1000'
+				}
 			}).then(function (data) {
-				var textDiv = $('<div/>').addClass('text-preview');
-				textDiv.text(data);
-				textDiv.appendTo('#imgframe');
-				var divHeight = textDiv.height();
-				if (data.length > 999) {
-					textDiv.append('</br></br><strong>(...)</strong>');
-					divHeight += 50;
-				}
-				if (divHeight > previewHeight) {
-					textDiv.height(previewHeight);
-				}
-				var watermark = $('<div/>').addClass('watermark');
-				watermark.text('SAMPLE');
-				watermark.appendTo('#imgframe');
+				self._showTextPreview(data, previewHeight);
 			});
 		} else if (previewSupported === 'true' ||
 			mimetype.substr(0, mimetype.indexOf('/')) === 'image' &&
@@ -155,7 +144,7 @@ OCA.Sharing.PublicApp = {
 					path: path,
 					files: filename
 				};
-				return OC.generateUrl('/s/' + token + '/download') + '?' + OC.buildQueryString(params);
+				return OC.generateUrl('/s/' + token + '/download', params);
 			};
 
 			this.fileList.getAjaxUrl = function (action, params) {
@@ -165,10 +154,7 @@ OCA.Sharing.PublicApp = {
 			};
 
 			this.fileList.linkTo = function (dir) {
-				var params = {
-					dir: dir
-				};
-				return OC.generateUrl('/s/' + token + '') + '?' + OC.buildQueryString(params);
+				return OC.generateUrl('/s/' + token + '', {dir: dir});
 			};
 
 			this.fileList.generatePreviewUrl = function (urlSpec) {
@@ -238,6 +224,23 @@ OCA.Sharing.PublicApp = {
 
 		// legacy
 		window.FileList = this.fileList;
+	},
+
+	_showTextPreview: function (data, previewHeight) {
+		var textDiv = $('<div/>').addClass('text-preview');
+		textDiv.text(data);
+		textDiv.appendTo('#imgframe');
+		var divHeight = textDiv.height();
+		if (data.length > 999) {
+			textDiv.append('</br></br><strong>(&#133;)</strong>');
+			divHeight += 50;
+		}
+		if (divHeight > previewHeight) {
+			textDiv.height(previewHeight);
+		}
+		var watermark = $('<div/>').addClass('watermark');
+		watermark.text('SAMPLE');
+		watermark.appendTo('#imgframe');
 	},
 
 	_onDirectoryChanged: function (e) {
