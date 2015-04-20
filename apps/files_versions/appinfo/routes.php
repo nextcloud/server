@@ -38,4 +38,4 @@ $this->create('files_versions_ajax_rollbackVersion', 'ajax/rollbackVersion.php')
 	->actionInclude('files_versions/ajax/rollbackVersion.php');
 
 // Register with the capabilities API
-OC_API::register('get', '/cloud/capabilities', array('OCA\Files_Versions\Capabilities', 'getCapabilities'), 'files_versions', OC_API::USER_AUTH);
+\OCP\API::register('get', '/cloud/capabilities', array('OCA\Files_Versions\Capabilities', 'getCapabilities'), 'files_versions', \OCP\API::USER_AUTH);

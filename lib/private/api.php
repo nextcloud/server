@@ -34,17 +34,33 @@ class OC_API {
 	/**
 	 * API authentication levels
 	 */
+
+	/** @deprecated Use \OCP\API::GUEST_AUTH instead */
 	const GUEST_AUTH = 0;
+
+	/** @deprecated Use \OCP\API::USER_AUTH instead */
 	const USER_AUTH = 1;
+
+	/** @deprecated Use \OCP\API::SUBADMIN_AUTH instead */
 	const SUBADMIN_AUTH = 2;
+
+	/** @deprecated Use \OCP\API::ADMIN_AUTH instead */
 	const ADMIN_AUTH = 3;
 
 	/**
 	 * API Response Codes
 	 */
+
+	/** @deprecated Use \OCP\API::RESPOND_UNAUTHORISED instead */
 	const RESPOND_UNAUTHORISED = 997;
+
+	/** @deprecated Use \OCP\API::RESPOND_SERVER_ERROR instead */
 	const RESPOND_SERVER_ERROR = 996;
+
+	/** @deprecated Use \OCP\API::RESPOND_NOT_FOUND instead */
 	const RESPOND_NOT_FOUND = 998;
+
+	/** @deprecated Use \OCP\API::RESPOND_UNKNOWN_ERROR instead */
 	const RESPOND_UNKNOWN_ERROR = 999;
 
 	/**
@@ -65,7 +81,7 @@ class OC_API {
 	 * @param array $requirements
 	 */
 	public static function register($method, $url, $action, $app,
-				$authLevel = OC_API::USER_AUTH,
+				$authLevel = \OCP\API::USER_AUTH,
 				$defaults = array(),
 				$requirements = array()) {
 		$name = strtolower($method).$url;
@@ -106,7 +122,7 @@ class OC_API {
 			if(!self::isAuthorised($action)) {
 				$responses[] = array(
 					'app' => $action['app'],
-					'response' => new OC_OCS_Result(null, OC_API::RESPOND_UNAUTHORISED, 'Unauthorised'),
+					'response' => new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED, 'Unauthorised'),
 					'shipped' => OC_App::isShipped($action['app']),
 					);
 				continue;
@@ -114,7 +130,7 @@ class OC_API {
 			if(!is_callable($action['action'])) {
 				$responses[] = array(
 					'app' => $action['app'],
-					'response' => new OC_OCS_Result(null, OC_API::RESPOND_NOT_FOUND, 'Api method not found'),
+					'response' => new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, 'Api method not found'),
 					'shipped' => OC_App::isShipped($action['app']),
 					);
 				continue;
@@ -172,7 +188,7 @@ class OC_API {
 			// Which shipped response do we use if they all failed?
 			// They may have failed for different reasons (different status codes)
 			// Which response code should we return?
-			// Maybe any that are not OC_API::RESPOND_SERVER_ERROR
+			// Maybe any that are not \OCP\API::RESPOND_SERVER_ERROR
 			// Merge failed responses if more than one
 			$data = array();
 			foreach($shipped['failed'] as $failure) {
@@ -235,15 +251,15 @@ class OC_API {
 	private static function isAuthorised($action) {
 		$level = $action['authlevel'];
 		switch($level) {
-			case OC_API::GUEST_AUTH:
+			case \OCP\API::GUEST_AUTH:
 				// Anyone can access
 				return true;
 				break;
-			case OC_API::USER_AUTH:
+			case \OCP\API::USER_AUTH:
 				// User required
 				return self::loginUser();
 				break;
-			case OC_API::SUBADMIN_AUTH:
+			case \OCP\API::SUBADMIN_AUTH:
 				// Check for subadmin
 				$user = self::loginUser();
 				if(!$user) {
@@ -258,7 +274,7 @@ class OC_API {
 					}
 				}
 				break;
-			case OC_API::ADMIN_AUTH:
+			case \OCP\API::ADMIN_AUTH:
 				// Check for admin
 				$user = self::loginUser();
 				if(!$user) {
@@ -325,7 +341,7 @@ class OC_API {
 	 */
 	public static function respond($result, $format='xml') {
 		// Send 401 headers if unauthorised
-		if($result->getStatusCode() === self::RESPOND_UNAUTHORISED) {
+		if($result->getStatusCode() === \OCP\API::RESPOND_UNAUTHORISED) {
 			header('WWW-Authenticate: Basic realm="Authorisation Required"');
 			header('HTTP/1.0 401 Unauthorized');
 		}
@@ -384,7 +400,7 @@ class OC_API {
 	 * Based on the requested format the response content type is set
 	 */
 	public static function setContentType() {
-		$format = \OC_API::requestedFormat();
+		$format = self::requestedFormat();
 		if ($format === 'xml') {
 			header('Content-type: text/xml; charset=UTF-8');
 			return;

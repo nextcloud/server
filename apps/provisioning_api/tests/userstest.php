@@ -101,7 +101,7 @@ class UsersTest extends TestCase {
 		$result = \OCA\provisioning_API\Users::getUser($params);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
-		$this->assertEquals(\OC_API::RESPOND_NOT_FOUND, $result->getStatusCode());
+		$this->assertEquals(\OCP\API::RESPOND_NOT_FOUND, $result->getStatusCode());
 
 	}
 

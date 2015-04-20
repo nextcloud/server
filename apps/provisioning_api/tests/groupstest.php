@@ -39,7 +39,7 @@ class GroupsTest extends TestCase {
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
-		$this->assertEquals(\OC_API::RESPOND_UNAUTHORISED, $result->getStatusCode());
+		$this->assertEquals(\OCP\API::RESPOND_UNAUTHORISED, $result->getStatusCode());
 
 	}
 
@@ -92,7 +92,7 @@ class GroupsTest extends TestCase {
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
-		$this->assertEquals(\OC_API::RESPOND_UNAUTHORISED, $result->getStatusCode());
+		$this->assertEquals(\OCP\API::RESPOND_UNAUTHORISED, $result->getStatusCode());
 
 	}
 

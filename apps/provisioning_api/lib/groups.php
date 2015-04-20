@@ -44,14 +44,14 @@ class Groups{
 	public static function getGroup($parameters){
 		// Check the group exists
 		if(!OC_Group::groupExists($parameters['groupid'])){
-			return new OC_OCS_Result(null, \OC_API::RESPOND_NOT_FOUND, 'The requested group could not be found');
+			return new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, 'The requested group could not be found');
 		}
 		// Check subadmin has access to this group
 		if(\OC_User::isAdminUser(\OC_User::getUser())
 			|| in_array($parameters['groupid'], \OC_SubAdmin::getSubAdminsGroups(\OC_User::getUser()))){
 			return new OC_OCS_Result(array('users' => OC_Group::usersInGroup($parameters['groupid'])));
 		} else {
-			return new OC_OCS_Result(null, \OC_API::RESPOND_UNAUTHORISED, 'User does not have access to specified group');
+			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED, 'User does not have access to specified group');
 		}
 	}
 

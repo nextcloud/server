@@ -60,7 +60,7 @@ class Apps {
 		if(!is_null($info)) {
 			return new OC_OCS_Result(OC_App::getAppInfo($app));
 		} else {
-			return new OC_OCS_Result(null, \OC_API::RESPOND_NOT_FOUND, 'The request app was not found');
+			return new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, 'The request app was not found');
 		}
 	}
 

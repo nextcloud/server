@@ -67,7 +67,7 @@ class Users {
 		if(OC_User::isAdminUser(OC_User::getUser()) || OC_SubAdmin::isUserAccessible(OC_User::getUser(), $userId)) {
 			// Check they exist
 			if(!OC_User::userExists($userId)) {
-				return new OC_OCS_Result(null, \OC_API::RESPOND_NOT_FOUND, 'The requested user could not be found');
+				return new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, 'The requested user could not be found');
 			}
 			// Show all
 			$return = array(
@@ -80,7 +80,7 @@ class Users {
 		} else {
 			// Check they are looking up themselves
 			if(OC_User::getUser() != $userId) {
-				return new OC_OCS_Result(null, \OC_API::RESPOND_UNAUTHORISED);
+				return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 			}
 			// Return some additional information compared to the core route
 			$return = array(
@@ -226,7 +226,7 @@ class Users {
 		// Check they're an admin
 		if(!OC_Group::inGroup(OC_User::getUser(), 'admin')){
 			// This user doesn't have rights to add a user to this group
-			return new OC_OCS_Result(null, \OC_API::RESPOND_UNAUTHORISED);
+			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 		// Check if the group exists
 		if(!OC_Group::groupExists($group)){
