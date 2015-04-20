@@ -804,7 +804,7 @@ $CONFIG = array(
  * this instance. Defaults to the official supported releases by ownCloud.
  *
  * When adjusting this please be aware of the fact that older versions may
- * be buggy and for best user experience we recommend setting
+ * be buggy and for best user experience we recommend to not change this value.
  */
 'minimum.supported.desktop.version' => '1.7.0',
 
