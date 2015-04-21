@@ -8,8 +8,10 @@ use OCA\Encryption_Dummy\DummyModule;
 class Encryption extends \Test\TestCase {
 
 	/**
+	 * @param string $fileName
 	 * @param string $mode
-	 * @param integer $limit
+	 * @param integer $unencryptedSize
+	 * @return resource
 	 */
 	protected function getStream($fileName, $mode, $unencryptedSize) {
 
@@ -43,6 +45,98 @@ class Encryption extends \Test\TestCase {
 		return \OC\Files\Stream\Encryption::wrap($source, $internalPath,
 			$fullPath, $header, $uid, $encryptionModule, $storage, $encStorage,
 			$util, $file, $mode, $size, $unencryptedSize);
+	}
+
+	/**
+	 * @dataProvider dataProviderStreamOpen()
+	 */
+	public function testStreamOpen($mode,
+								   $fullPath,
+								   $fileExists,
+								   $expectedSharePath,
+								   $expectedSize,
+								   $expectedReadOnly) {
+
+		// build mocks
+		$encryptionModuleMock = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
+		->disableOriginalConstructor()->getMock();
+		$encryptionModuleMock->expects($this->once())
+			->method('getUnencryptedBlockSize')->willReturn(99);
+		$encryptionModuleMock->expects($this->once())
+			->method('begin')->willReturn(true);
+
+		$storageMock = $this->getMockBuilder('\OC\Files\Storage\Storage')
+			->disableOriginalConstructor()->getMock();
+		$storageMock->expects($this->once())->method('file_exists')->willReturn($fileExists);
+
+		$fileMock = $this->getMockBuilder('\OC\Encryption\File')
+			->disableOriginalConstructor()->getMock();
+		$fileMock->expects($this->once())->method('getAccessList')
+			->will($this->returnCallback(function($sharePath) use ($expectedSharePath) {
+				$this->assertSame($expectedSharePath, $sharePath);
+				return array();
+			}));
+
+		// get a instance of the stream wrapper
+		$streamWrapper = $this->getMockBuilder('\OC\Files\Stream\Encryption')
+			->setMethods(['loadContext'])->disableOriginalConstructor()->getMock();
+
+		// set internal properties of the stream wrapper
+		$stream = new \ReflectionClass('\OC\Files\Stream\Encryption');
+		$encryptionModule = $stream->getProperty('encryptionModule');
+		$encryptionModule->setAccessible(true);
+		$encryptionModule->setValue($streamWrapper, $encryptionModuleMock);
+		$encryptionModule->setAccessible(false);
+		$storage = $stream->getProperty('storage');
+		$storage->setAccessible(true);
+		$storage->setValue($streamWrapper, $storageMock);
+		$storage->setAccessible(false);
+		$file = $stream->getProperty('file');
+		$file->setAccessible(true);
+		$file->setValue($streamWrapper, $fileMock);
+		$file->setAccessible(false);
+		$fullPathP = $stream->getProperty('fullPath');
+		$fullPathP->setAccessible(true);
+		$fullPathP->setValue($streamWrapper, $fullPath);
+		$fullPathP->setAccessible(false);
+		$header = $stream->getProperty('header');
+		$header->setAccessible(true);
+		$header->setValue($streamWrapper, array());
+		$header->setAccessible(false);
+
+		// call stream_open, that's the method we want to test
+		$dummyVar = 'foo';
+		$streamWrapper->stream_open('', $mode, '', $dummyVar);
+
+		// check internal properties
+		$size = $stream->getProperty('size');
+		$size->setAccessible(true);
+		$this->assertSame($expectedSize,
+			$size->getValue($streamWrapper)
+		);
+		$size->setAccessible(false);
+
+		$unencryptedSize = $stream->getProperty('unencryptedSize');
+		$unencryptedSize->setAccessible(true);
+		$this->assertSame($expectedSize,
+			$unencryptedSize->getValue($streamWrapper)
+		);
+		$unencryptedSize->setAccessible(false);
+
+		$readOnly = $stream->getProperty('readOnly');
+		$readOnly->setAccessible(true);
+		$this->assertSame($expectedReadOnly,
+			$readOnly->getValue($streamWrapper)
+		);
+		$readOnly->setAccessible(false);
+	}
+
+	public function dataProviderStreamOpen() {
+		return array(
+			array('r', '/foo/bar/test.txt', true, '/foo/bar/test.txt', null, true),
+			array('r', '/foo/bar/test.txt', false, '/foo/bar', null, true),
+			array('w', '/foo/bar/test.txt', true, '/foo/bar/test.txt', 0, false),
+		);
 	}
 
 	public function testWriteRead() {
