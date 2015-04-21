@@ -12,17 +12,20 @@ $(document).ready(function(){
 	$( 'input:radio[name="adminEnableRecovery"]' ).change(
 		function() {
 			var recoveryStatus = $( this ).val();
-			var oldStatus = (1+parseInt(recoveryStatus)) % 2;
+			var oldStatus = (1+parseInt(recoveryStatus, 10)) % 2;
 			var recoveryPassword = $( '#encryptionRecoveryPassword' ).val();
 			var confirmPassword = $( '#repeatEncryptionRecoveryPassword' ).val();
 			OC.msg.startSaving('#encryptionSetRecoveryKey .msg');
 			$.post(
-				OC.generateUrl('/apps/encryption/ajax/adminRecovery')
-				, { adminEnableRecovery: recoveryStatus, recoveryPassword: recoveryPassword, confirmPassword: confirmPassword }
-				,  function( result ) {
+				OC.generateUrl('/apps/encryption/ajax/adminRecovery'),
+				{ adminEnableRecovery: recoveryStatus,
+					recoveryPassword: recoveryPassword,
+					confirmPassword: confirmPassword },
+				function( result ) {
 					OC.msg.finishedSaving('#encryptionSetRecoveryKey .msg', result);
 					if (result.status === "error") {
-						$('input:radio[name="adminEnableRecovery"][value="'+oldStatus.toString()+'"]').attr("checked", "true");
+						$('input:radio[name="adminEnableRecovery"][value="'+oldStatus.toString()+'"]')
+							.attr("checked", "true");
 					} else {
 						if (recoveryStatus === "0") {
 							$('p[name="changeRecoveryPasswordBlock"]').addClass("hidden");
@@ -44,9 +47,9 @@ $(document).ready(function(){
 		var confirmNewPassword = $('#repeatedNewEncryptionRecoveryPassword').val();
 		OC.msg.startSaving('#encryptionChangeRecoveryKey .msg');
 		$.post(
-				OC.generateUrl('/apps/encryption/ajax/changeRecoveryPassword')
-			, { oldPassword: oldRecoveryPassword, newPassword: newRecoveryPassword, confirmPassword: confirmNewPassword }
-			,  function( data ) {
+				OC.generateUrl('/apps/encryption/ajax/changeRecoveryPassword'),
+			{ oldPassword: oldRecoveryPassword, newPassword: newRecoveryPassword, confirmPassword: confirmNewPassword },
+			function( data ) {
 					OC.msg.finishedSaving('#encryptionChangeRecoveryKey .msg', data);
 				}
 		);
