@@ -181,6 +181,7 @@ class File extends Node implements IFile {
 			$view = \OC\Files\Filesystem::getView();
 			if ($view) {
 				$hookPath = $view->getRelativePath($this->fileView->getAbsolutePath($this->path));
+				$this->fileView->getUpdater()->propagate($hookPath);
 				if (!$exists) {
 					\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_create, array(
 						\OC\Files\Filesystem::signal_param_path => $hookPath
