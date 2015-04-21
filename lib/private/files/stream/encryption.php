@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
- * @author jknockaert <jasper@knockaert.nl>
+ * @author Jasper Knockaert <jasper@knockaert.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
