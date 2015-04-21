@@ -17,10 +17,10 @@ OC.Encryption = {
 			OC.generateUrl('/apps/encryption/ajax/updatePrivateKeyPassword'),
 			{oldPassword: oldPrivateKeyPassword, newPassword: newPrivateKeyPassword}
 		).success(function (response) {
-				OC.msg.finishedSuccess('#encryption .msg', response.message);
-			}).fail(function (response) {
-				OC.msg.finishedError('#encryption .msg', response.responseJSON.message);
-			});
+			OC.msg.finishedSuccess('#encryption .msg', response.message);
+		}).fail(function (response) {
+			OC.msg.finishedError('#encryption .msg', response.responseJSON.message);
+		});
 	}
 };
 

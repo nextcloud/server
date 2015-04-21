@@ -9,6 +9,10 @@ if (!OC.Encryption) {
 	OC.Encryption = {};
 }
 
+/**
+ * @namespace
+ * @memberOf OC
+ */
 OC.Encryption = {
 	displayEncryptionWarning: function () {
 		if (!OC.Notification.isHidden()) {
