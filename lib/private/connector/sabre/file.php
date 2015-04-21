@@ -117,7 +117,7 @@ class File extends Node implements IFile {
 			$target = $storage->fopen($internalPartPath, 'wb');
 			if ($target === false) {
 				\OC_Log::write('webdav', '\OC\Files\Filesystem::fopen() failed', \OC_Log::ERROR);
-				$this->fileView->unlink($partFilePath);
+				$storage->unlink($internalPartPath);
 				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 				throw new Exception('Could not write file contents');
 			}
@@ -166,7 +166,7 @@ class File extends Node implements IFile {
 					$fileExists = $storage->file_exists($internalPath);
 					if ($renameOkay === false || $fileExists === false) {
 						\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-						$this->fileView->unlink($partFilePath);
+						$storage->unlink($internalPartPath);
 						throw new Exception('Could not rename part file to final file');
 					}
 				} catch (\OCP\Files\LockNotAcquiredException $e) {
