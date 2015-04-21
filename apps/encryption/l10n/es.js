@@ -1,11 +1,11 @@
 OC.L10N.register(
     "encryption",
     {
-    "Missing recovery key password" : "Falta contraseña de recuperación.",
+    "Missing recovery key password" : "Falta contraseña de recuperación",
     "Please repeat the recovery key password" : "Por favor, repita la contraseña de recuperación",
-    "Repeated recovery key password does not match the provided recovery key password" : "La contraseña de recuperación reintroducida no coincide con la contraseña de recuperación proporcionada.",
+    "Repeated recovery key password does not match the provided recovery key password" : "La contraseña de recuperación reintroducida no coincide con la contraseña de recuperación proporcionada",
     "Recovery key successfully enabled" : "Se ha habilitado la recuperación de archivos",
-    "Could not enable recovery key. Please check your recovery key password!" : "No se pudo habilitar la clave de recuperación. Por favor compruebe su contraseña.",
+    "Could not enable recovery key. Please check your recovery key password!" : "No se pudo habilitar la contraseña de recuperación. Por favor compruebe su contraseña de recuperación!",
     "Recovery key successfully disabled" : "Clave de recuperación deshabilitada",
     "Could not disable recovery key. Please check your recovery key password!" : "No se pudo deshabilitar la clave de recuperación. Por favor, ¡compruebe su contraseña!",
     "Please provide the old recovery password" : "Por favor, ingrese su antigua contraseña de recuperación",
@@ -17,7 +17,7 @@ OC.L10N.register(
     "Could not enable the recovery key, please try again or contact your administrator" : "No se pudo habilitar la clave de recuperación, por favor vuelva a intentarlo o póngase en contacto con el administrador",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "La clave privada no es válida para la app de cifrado. Por favor, actualiza la contraseña de tu clave privada en tus ajustes personales para recuperar el acceso a tus archivos cifrados.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "La app de cifrado está habilitada pero sus claves no se han inicializado, por favor, cierre la sesión y vuelva a iniciarla de nuevo.",
-    "ownCloud basic encryption module" : "Módulo base de encriptación ownCloud",
+    "ownCloud basic encryption module" : "Módulo básico de encriptación ownCloud",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Habilitar la clave de recuperación (permite recuperar los ficheros del usuario en caso de pérdida de la contraseña);",
     "Recovery key password" : "Contraseña de clave de recuperación",
     "Repeat Recovery key password" : "Repite la contraseña de clave de recuperación",
