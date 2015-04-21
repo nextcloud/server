@@ -274,7 +274,16 @@ table.multiselect #headerName {
 	position: relative;
 	width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
 }
-table td.selection, table th.selection, table td.fileaction { width:32px; text-align:center; }
+table.multiselect #modified {
+	display: none;
+}
+
+table td.selection,
+table th.selection,
+table td.fileaction {
+	width: 32px;
+	text-align: center;
+}
 table td.filename a.name {
 	position:relative; /* Firefox needs to explicitly have this default set … */
 	-moz-box-sizing: border-box;
