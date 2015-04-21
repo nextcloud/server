@@ -61,6 +61,7 @@ class User {
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 * @return array an array of all uids
+	 * @deprecated 8.1.0 use method search() of \OCP\IUserManager - \OC::$server->getUserManager()
 	 * @since 5.0.0
 	 */
 	public static function getUsers( $search = '', $limit = null, $offset = null ) {
@@ -71,6 +72,8 @@ class User {
 	 * Get the user display name of the user currently logged in.
 	 * @param string|null $user user id or null for current user
 	 * @return string display name
+	 * @deprecated 8.1.0 fetch \OCP\IUser (has getDisplayName()) by using method
+	 *                   get() of \OCP\IUserManager - \OC::$server->getUserManager()
 	 * @since 5.0.0
 	 */
 	public static function getDisplayName( $user = null ) {
@@ -83,6 +86,7 @@ class User {
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 * @return array an array of all display names (value) and the correspondig uids (key)
+	 * @deprecated 8.1.0 use method searchDisplayName() of \OCP\IUserManager - \OC::$server->getUserManager()
 	 * @since 5.0.0
 	 */
 	public static function getDisplayNames( $search = '', $limit = null, $offset = null ) {
@@ -103,6 +107,7 @@ class User {
 	 * @param string $uid the username
 	 * @param string $excludingBackend (default none)
 	 * @return boolean
+	 * @deprecated 8.1.0 use method userExists() of \OCP\IUserManager - \OC::$server->getUserManager()
 	 * @since 5.0.0
 	 */
 	public static function userExists( $uid, $excludingBackend = null ) {

@@ -83,6 +83,7 @@ class BackgroundJob {
 	/**
 	 * @param string $job
 	 * @param mixed $argument
+	 * @deprecated 8.1.0 Use \OC::$server->getJobList()->add() instead
 	 * @since 6.0.0
 	 */
 	public static function registerJob($job, $argument = null) {

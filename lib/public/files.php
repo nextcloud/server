@@ -91,6 +91,7 @@ class Files {
 	 * @return string
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
+	 * @deprecated 8.1.0 use getTemporaryFile() of \OCP\ITempManager - \OC::$server->getTempManager()
 	 * @since 5.0.0
 	 */
 	public static function tmpFile( $postfix='' ) {
@@ -102,6 +103,7 @@ class Files {
 	 * @return string
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
+	 * @deprecated 8.1.0 use getTemporaryFolder() of \OCP\ITempManager - \OC::$server->getTempManager()
 	 * @since 5.0.0
 	 */
 	public static function tmpFolder() {

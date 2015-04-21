@@ -46,6 +46,7 @@ namespace OCP {
 	 * For updating it is mandatory to keep the id.
 	 * Without an id a new contact will be created.
 	 *
+	 * @deprecated 8.1.0 use methods of \OCP\Contacts\IManager - \OC::$server->getContactsManager();
 	 * @since 5.0.0
 	 */
 	class Contacts {
@@ -91,6 +92,7 @@ namespace OCP {
 		 * @param array $searchProperties defines the properties within the query pattern should match
 		 * @param array $options - for future use. One should always have options!
 		 * @return array an array of contacts which are arrays of key-value-pairs
+		 * @deprecated 8.1.0 use search() of \OCP\Contacts\IManager - \OC::$server->getContactsManager();
 		 * @since 5.0.0
 		 */
 		public static function search($pattern, $searchProperties = array(), $options = array()) {
@@ -104,6 +106,7 @@ namespace OCP {
 		 * @param object $id the unique identifier to a contact
 		 * @param string $address_book_key
 		 * @return bool successful or not
+		 * @deprecated 8.1.0 use delete() of \OCP\Contacts\IManager - \OC::$server->getContactsManager();
 		 * @since 5.0.0
 		 */
 		public static function delete($id, $address_book_key) {
@@ -118,6 +121,7 @@ namespace OCP {
 		 * @param array $properties this array if key-value-pairs defines a contact
 		 * @param string $address_book_key identifier of the address book in which the contact shall be created or updated
 		 * @return array an array representing the contact just created or updated
+		 * @deprecated 8.1.0 use createOrUpdate() of \OCP\Contacts\IManager - \OC::$server->getContactsManager();
 		 * @since 5.0.0
 		 */
 		public static function createOrUpdate($properties, $address_book_key) {
@@ -129,6 +133,7 @@ namespace OCP {
 		 * Check if contacts are available (e.g. contacts app enabled)
 		 *
 		 * @return bool true if enabled, false if not
+		 * @deprecated 8.1.0 use isEnabled() of \OCP\Contacts\IManager - \OC::$server->getContactsManager();
 		 * @since 5.0.0
 		 */
 		public static function isEnabled() {
@@ -138,6 +143,7 @@ namespace OCP {
 
 		/**
 		 * @param \OCP\IAddressBook $address_book
+		 * @deprecated 8.1.0 use registerAddressBook() of \OCP\Contacts\IManager - \OC::$server->getContactsManager();
 		 * @since 5.0.0
 		 */
 		public static function registerAddressBook(\OCP\IAddressBook $address_book) {
@@ -147,6 +153,7 @@ namespace OCP {
 
 		/**
 		 * @param \OCP\IAddressBook $address_book
+		 * @deprecated 8.1.0 use unregisterAddressBook() of \OCP\Contacts\IManager - \OC::$server->getContactsManager();
 		 * @since 5.0.0
 		 */
 		public static function unregisterAddressBook(\OCP\IAddressBook $address_book) {
@@ -156,6 +163,7 @@ namespace OCP {
 
 		/**
 		 * @return array
+		 * @deprecated 8.1.0 use getAddressBooks() of \OCP\Contacts\IManager - \OC::$server->getContactsManager();
 		 * @since 5.0.0
 		 */
 		public static function getAddressBooks() {
@@ -165,6 +173,7 @@ namespace OCP {
 
 		/**
 		 * removes all registered address book instances
+		 * @deprecated 8.1.0 use clear() of \OCP\Contacts\IManager - \OC::$server->getContactsManager();
 		 * @since 5.0.0
 		 */
 		public static function clear() {
