@@ -223,9 +223,8 @@ class Encryption extends Wrapper {
 			|| $mode === 'wb+'
 		) {
 			// We're writing a new file so start write counter with 0 bytes
-			// TODO can we remove this completely?
-			//$this->unencryptedSize = 0;
-			//$this->size = 0;
+			$this->unencryptedSize = 0;
+			$this->size = 0;
 			$this->readOnly = false;
 		} else {
 			$this->readOnly = true;
