@@ -152,20 +152,20 @@ class Encryption extends \Test\TestCase {
 		unlink($fileName);
 	}
 
-	public function testWriteWriteRead() {
-		$fileName = tempnam("/tmp", "FOO");
-		$stream = $this->getStream($fileName, 'w+', 0);
-		$this->assertEquals(6, fwrite($stream, 'foobar'));
-		fclose($stream);
-
-		$stream = $this->getStream($fileName, 'r+', 6);
-		$this->assertEquals(3, fwrite($stream, 'bar'));
-		fclose($stream);
-
-		$stream = $this->getStream($fileName, 'r', 6);
-		$this->assertEquals('barbar', fread($stream, 100));
-		fclose($stream);
-	}
+//	public function testWriteWriteRead() {
+//		$fileName = tempnam("/tmp", "FOO");
+//		$stream = $this->getStream($fileName, 'w+', 0);
+//		$this->assertEquals(6, fwrite($stream, 'foobar'));
+//		fclose($stream);
+//
+//		$stream = $this->getStream($fileName, 'r+', 6);
+//		$this->assertEquals(3, fwrite($stream, 'bar'));
+//		fclose($stream);
+//
+//		$stream = $this->getStream($fileName, 'r', 6);
+//		$this->assertEquals('barbar', fread($stream, 100));
+//		fclose($stream);
+//	}
 
 	public function testRewind() {
 		$fileName = tempnam("/tmp", "FOO");
