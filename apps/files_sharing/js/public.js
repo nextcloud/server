@@ -150,6 +150,13 @@ OCA.Sharing.PublicApp = {
 				return OC.generateUrl('/apps/files_sharing/ajax/publicpreview.php?') + $.param(urlSpec);
 			};
 
+			this.fileList.updateEmptyContent = function() {
+				this.$el.find('#emptycontent .uploadmessage').text(
+					t('files_sharing', 'You can upload into this folder')
+				);
+				OCA.Files.FileList.prototype.updateEmptyContent.apply(this, arguments);
+			};
+
 			var file_upload_start = $('#file_upload_start');
 			file_upload_start.on('fileuploadadd', function (e, data) {
 				var fileDirectory = '';
