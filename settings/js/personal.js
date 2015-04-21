@@ -330,8 +330,9 @@ $(document).ready(function () {
 
 			$('#sslCertificate tbody').append(row);
 		},
-		fail: function (e, data) {
-			OC.Notification.showTemporary(t('settings', 'An error occured. Please upload an ASCII-encoded PEM certificate.'));
+		fail: function () {
+			OC.Notification.showTemporary(
+				t('settings', 'An error occurred. Please upload an ASCII-encoded PEM certificate.'));
 		}
 	});
 
@@ -340,8 +341,9 @@ $(document).ready(function () {
 	});
 });
 
-OC.Encryption = {
-};
+if (!OC.Encryption) {
+	OC.Encryption = {};
+}
 
 OC.Encryption.msg = {
 	start: function (selector, msg) {
