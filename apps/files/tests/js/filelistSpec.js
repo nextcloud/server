@@ -87,7 +87,8 @@ describe('OCA.Files.FileList tests', function() {
 			'<tbody id="fileList"></tbody>' +
 			'<tfoot></tfoot>' +
 			'</table>' +
-			'<div id="emptycontent">Empty content message</div>' +
+			// TODO: move to handlebars template
+			'<div id="emptycontent"><h2>Empty content message</h2><p class="uploadmessage">Upload message</p></div>' +
 			'<div class="nofilterresults hidden"></div>' +
 			'</div>'
 		);
@@ -845,13 +846,15 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.setFiles([]);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(true);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(false);
+			expect($('#emptycontent .uploadmessage').hasClass('hidden')).toEqual(false);
 			expect(fileList.$el.find('.summary').hasClass('hidden')).toEqual(true);
 		});
-		it('hides headers, empty content message, and summary when list is empty and user has no creation permission', function(){
+		it('hides headers, upload message, and summary when list is empty and user has no creation permission', function(){
 			$('#permissions').val(0);
 			fileList.setFiles([]);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(true);
-			expect($('#emptycontent').hasClass('hidden')).toEqual(true);
+			expect($('#emptycontent').hasClass('hidden')).toEqual(false);
+			expect($('#emptycontent .uploadmessage').hasClass('hidden')).toEqual(true);
 			expect(fileList.$el.find('.summary').hasClass('hidden')).toEqual(true);
 		});
 		it('calling findFileEl() can find existing file element', function() {
