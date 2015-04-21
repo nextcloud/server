@@ -229,6 +229,14 @@ class Encryption extends Wrapper {
 			$this->readOnly = true;
 		}
 
+		$sharePath = $this->fullPath;
+		if (!$this->storage->file_exists($this->internalPath)) {
+			$sharePath = dirname($sharePath);
+		}
+
+		$accessList = $this->file->getAccessList($sharePath);
+		$this->newHeader = $this->encryptionModule->begin($this->fullPath, $this->uid, $this->header, $accessList);
+
 		if (
 			$mode === 'w'
 			|| $mode === 'w+'
@@ -242,14 +250,6 @@ class Encryption extends Wrapper {
 		} else {
 			parent::stream_read($this->util->getHeaderSize());
 		}
-
-		$sharePath = $this->fullPath;
-		if (!$this->storage->file_exists($this->internalPath)) {
-			$sharePath = dirname($sharePath);
-		}
-
-		$accessList = $this->file->getAccessList($sharePath);
-		$this->newHeader = $this->encryptionModule->begin($this->fullPath, $this->uid, $this->header, $accessList);
 
 		return true;
 
