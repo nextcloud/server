@@ -28,13 +28,15 @@ namespace OC\Files\Cache;
 class Shared_Updater {
 
 	/**
-	 * walk up the users file tree and update the etags
-	 * @param string $user
-	 * @param string $path
+	 * Walk up the users file tree and update the etags.
+	 *
+	 * @param string $user user id
+	 * @param string $path share mount point path, relative to the user's "files" folder
 	 */
 	static private function correctUsersFolder($user, $path) {
 		// $path points to the mount point which is a virtual folder, so we start with
 		// the parent
+		$path = '/' . ltrim($path, '/');
 		$path = '/files' . dirname($path);
 		\OC\Files\Filesystem::initMountPoints($user);
 		$view = new \OC\Files\View('/' . $user);
@@ -101,10 +103,10 @@ class Shared_Updater {
 			foreach ($deletedShares as $share) {
 				if ($share['shareType'] === \OCP\Share::SHARE_TYPE_GROUP) {
 					foreach (\OC_Group::usersInGroup($share['shareWith']) as $user) {
-						self::correctUsersFolder($user, dirname($share['fileTarget']));
+						self::correctUsersFolder($user, $share['fileTarget']);
 					}
 				} else {
-					self::correctUsersFolder($share['shareWith'], dirname($share['fileTarget']));
+					self::correctUsersFolder($share['shareWith'], $share['fileTarget']);
 				}
 			}
 		}
@@ -119,10 +121,10 @@ class Shared_Updater {
 			foreach ($params['unsharedItems'] as $item) {
 				if ($item['shareType'] === \OCP\Share::SHARE_TYPE_GROUP) {
 					foreach (\OC_Group::usersInGroup($item['shareWith']) as $user) {
-						self::correctUsersFolder($user, dirname($item['fileTarget']));
+						self::correctUsersFolder($user, $item['fileTarget']);
 					}
 				} else {
-					self::correctUsersFolder($item['shareWith'], dirname($item['fileTarget']));
+					self::correctUsersFolder($item['shareWith'], $item['fileTarget']);
 				}
 			}
 		}

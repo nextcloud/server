@@ -32,6 +32,11 @@ class EtagPropagation extends TestCase {
 	protected $fileIds = []; // [$user=>[$path=>$id]]
 	protected $fileEtags = []; // [$id=>$etag]
 
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+		\OCA\Files_Sharing\Helper::registerHooks();
+	}
+
 	protected function setUp() {
 		parent::setUp();
 		$this->setUpShares();
@@ -235,6 +240,43 @@ class EtagPropagation extends TestCase {
 		Filesystem::unlink('/sub1/sub2/folder/inside/file.txt');
 		$this->assertEtagsForFoldersChanged([self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER3, self::TEST_FILES_SHARING_API_USER4]);
+
+		$this->assertAllUnchaged();
+	}
+
+	public function testOwnerUnshares() {
+		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
+		$folderInfo = $this->rootView->getFileInfo('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/sub1/sub2/folder');
+		$folderId = $folderInfo->getId();
+		$this->assertTrue(
+			\OCP\Share::unshare(
+				'folder',
+				$folderId,
+			   	\OCP\Share::SHARE_TYPE_USER,
+				self::TEST_FILES_SHARING_API_USER2
+			)
+		);
+		$this->assertEtagsForFoldersChanged([
+			// direct recipient affected
+		   	self::TEST_FILES_SHARING_API_USER2,
+			// reshare recipient affected
+		   	self::TEST_FILES_SHARING_API_USER4,
+		]);
+
+		$this->assertAllUnchaged();
+	}
+
+	public function testRecipientUnsharesFromSelf() {
+		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue(
+			$this->rootView->unlink('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/sub1/sub2/folder')
+		);
+		$this->assertEtagsForFoldersChanged([
+			// direct recipient affected
+		   	self::TEST_FILES_SHARING_API_USER2,
+			// reshare recipient affected
+		   	self::TEST_FILES_SHARING_API_USER4,
+		]);
 
 		$this->assertAllUnchaged();
 	}
