@@ -30,7 +30,7 @@ class TemporaryNoCross extends \OC\Files\Storage\Temporary {
 
 class TemporaryNoLocal extends \OC\Files\Storage\Temporary {
 	public function instanceOfStorage($className) {
-		if($className === '\OC\Files\Storage\Local') {
+		if ($className === '\OC\Files\Storage\Local') {
 			return false;
 		} else {
 			return parent::instanceOfStorage($className);
@@ -952,7 +952,7 @@ class View extends \Test\TestCase {
 
 		$storage2->expects($this->any())
 			->method('fopen')
-			->will($this->returnCallback(function($path, $mode) use($storage2) {
+			->will($this->returnCallback(function ($path, $mode) use ($storage2) {
 				$source = fopen($storage2->getSourcePath($path), $mode);
 				return \OC\Files\Stream\Quota::wrap($source, 9);
 			}));
@@ -1062,5 +1062,22 @@ class View extends \Test\TestCase {
 		$storage = $mount->getStorage();
 		$watcher = $storage->getWatcher();
 		$this->assertEquals(Watcher::CHECK_NEVER, $watcher->getPolicy());
+	}
+
+	public function testGetAbsolutePathOnNull() {
+		$view = new \OC\Files\View();
+		$this->assertNull($view->getAbsolutePath(null));
+	}
+
+	public function testGetRelativePathOnNull() {
+		$view = new \OC\Files\View();
+		$this->assertNull($view->getRelativePath(null));
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testNullAsRoot() {
+		new \OC\Files\View(null);
 	}
 }
