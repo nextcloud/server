@@ -20,10 +20,10 @@ OC.Encryption = {
 				newPassword: newPrivateKeyPassword
 			}
 		).done(function (data) {
-				OC.msg.finishedSuccess('#encryption .msg', data.data.message);
+				OC.msg.finishedSuccess('#encryption .msg', data.message);
 			})
 			.fail(function (jqXHR) {
-				OC.msg.finishedError('#encryption .msg', JSON.parse(jqXHR.responseText).data.message);
+				OC.msg.finishedError('#encryption .msg', JSON.parse(jqXHR.responseText).message);
 			});
 	}
 };
