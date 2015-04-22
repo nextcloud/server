@@ -9,35 +9,43 @@ if (!OC.Encryption) {
 }
 
 OC.Encryption = {
-	updatePrivateKeyPassword: function() {
+	updatePrivateKeyPassword: function () {
 		var oldPrivateKeyPassword = $('input:password[id="oldPrivateKeyPassword"]').val();
 		var newPrivateKeyPassword = $('input:password[id="newPrivateKeyPassword"]').val();
 		OC.msg.startSaving('#encryption .msg');
 		$.post(
 			OC.generateUrl('/apps/encryption/ajax/updatePrivateKeyPassword'),
-			{oldPassword: oldPrivateKeyPassword, newPassword: newPrivateKeyPassword}
-		).success(function (response) {
-			OC.msg.finishedSuccess('#encryption .msg', response.message);
-		}).fail(function (response) {
-			OC.msg.finishedError('#encryption .msg', response.responseJSON.message);
-		});
+			{
+				oldPassword: oldPrivateKeyPassword,
+				newPassword: newPrivateKeyPassword
+			}
+		).done(function (data) {
+				OC.msg.finishedSuccess('#encryption .msg', data.data.message);
+			})
+			.fail(function (jqXHR) {
+				OC.msg.finishedError('#encryption .msg', JSON.parse(jqXHR.responseText).data.message);
+			});
 	}
 };
 
-$(document).ready(function(){
+$(document).ready(function () {
 
 	// Trigger ajax on recoveryAdmin status change
-	$( 'input:radio[name="userEnableRecovery"]' ).change(
-		function() {
-			var recoveryStatus = $( this ).val();
+	$('input:radio[name="userEnableRecovery"]').change(
+		function () {
+			var recoveryStatus = $(this).val();
 			OC.msg.startAction('#userEnableRecovery .msg', 'Updating recovery keys. This can take some time...');
 			$.post(
-					OC.generateUrl('/apps/encryption/ajax/userSetRecovery'),
-				{ userEnableRecovery: recoveryStatus },
-				function( data ) {
-					OC.msg.finishedAction('#userEnableRecovery .msg', data);
+				OC.generateUrl('/apps/encryption/ajax/userSetRecovery'),
+				{
+					userEnableRecovery: recoveryStatus
 				}
-			);
+			).done(function (data) {
+					OC.msg.finishedSuccess('#userEnableRecovery .msg', data.data.message);
+				})
+				.fail(function (jqXHR) {
+					OC.msg.finishedError('#userEnableRecovery .msg', JSON.parse(jqXHR.responseText).data.message);
+				});
 			// Ensure page is not reloaded on form submit
 			return false;
 		}
@@ -45,12 +53,12 @@ $(document).ready(function(){
 
 	// update private key password
 
-	$('input:password[name="changePrivateKeyPassword"]').keyup(function(event) {
+	$('input:password[name="changePrivateKeyPassword"]').keyup(function (event) {
 		var oldPrivateKeyPassword = $('input:password[id="oldPrivateKeyPassword"]').val();
 		var newPrivateKeyPassword = $('input:password[id="newPrivateKeyPassword"]').val();
-		if (newPrivateKeyPassword !== '' && oldPrivateKeyPassword !== '' ) {
+		if (newPrivateKeyPassword !== '' && oldPrivateKeyPassword !== '') {
 			$('button:button[name="submitChangePrivateKeyPassword"]').removeAttr("disabled");
-			if(event.which === 13) {
+			if (event.which === 13) {
 				OC.Encryption.updatePrivateKeyPassword();
 			}
 		} else {
@@ -58,7 +66,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$('button:button[name="submitChangePrivateKeyPassword"]').click(function() {
+	$('button:button[name="submitChangePrivateKeyPassword"]').click(function () {
 		OC.Encryption.updatePrivateKeyPassword();
 	});
 
