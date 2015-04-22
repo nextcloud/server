@@ -829,15 +829,21 @@ class OC {
 		OC_App::loadApps(array('prelogin'));
 		$error = array();
 
-		// auth possible via apache module?
-		if (OC::tryApacheAuth()) {
-			$error[] = 'apacheauthfailed';
-		} // remember was checked after last login
-		elseif (OC::tryRememberLogin()) {
-			$error[] = 'invalidcookie';
-		} // logon via web form
-		elseif (OC::tryFormLogin()) {
-			$error[] = 'invalidpassword';
+		try {
+			// auth possible via apache module?
+			if (OC::tryApacheAuth()) {
+				$error[] = 'apacheauthfailed';
+			} // remember was checked after last login
+			elseif (OC::tryRememberLogin()) {
+				$error[] = 'invalidcookie';
+			} // logon via web form
+			elseif (OC::tryFormLogin()) {
+				$error[] = 'invalidpassword';
+			}
+		} catch (\Exception $ex) {
+			\OCP\Util::logException('handleLogin', $ex);
+			// do not disclose information. show generic error
+			$error[] = 'internalexception';
 		}
 
 		OC_Util::displayLoginPage(array_unique($error));

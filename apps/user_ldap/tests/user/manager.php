@@ -142,8 +142,6 @@ class Test_User_Manager extends \PHPUnit_Framework_TestCase {
         $manager = new Manager($config, $filesys, $log, $avaMgr, $image);
         $manager->setLdapAccess($access);
         $user = $manager->get($inputDN);
-
-        $this->assertNull($user);
     }
 
     public function testGetByUidExisting() {
@@ -191,8 +189,6 @@ class Test_User_Manager extends \PHPUnit_Framework_TestCase {
         $manager = new Manager($config, $filesys, $log, $avaMgr, $image);
         $manager->setLdapAccess($access);
         $user = $manager->get($uid);
-
-        $this->assertNull($user);
     }
 
 }

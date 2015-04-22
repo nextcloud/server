@@ -24,6 +24,8 @@
 namespace OCA\user_ldap\lib;
 
 //magic properties (incomplete)
+use OC\ServerNotAvailableException;
+
 /**
  * responsible for LDAP connections in context with the provided configuration
  *
@@ -45,7 +47,7 @@ class Connection extends LDAPUtility {
 	//cache handler
 	protected $cache;
 
-	//settings handler
+	/** @var Configuration settings handler **/
 	protected $configuration;
 
 	protected $doNotValidate = false;
@@ -158,7 +160,8 @@ class Connection extends LDAPUtility {
 			$this->establishConnection();
 		}
 		if(is_null($this->ldapConnectionRes)) {
-			\OCP\Util::writeLog('user_ldap', 'Connection could not be established', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('user_ldap', 'No LDAP Connection to server ' . $this->configuration->ldapHost, \OCP\Util::ERROR);
+			throw new ServerNotAvailableException('Connection to LDAP server could not be established');
 		}
 		return $this->ldapConnectionRes;
 	}
