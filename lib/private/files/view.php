@@ -76,6 +76,9 @@ class View {
 	 * @throws \Exception If $root contains an invalid path
 	 */
 	public function __construct($root = '') {
+		if (is_null($root)) {
+			throw new \InvalidArgumentException('Root cant be null');
+		}
 		if(!Filesystem::isValidPath($root)) {
 			throw new \Exception();
 		}
@@ -85,6 +88,9 @@ class View {
 	}
 
 	public function getAbsolutePath($path = '/') {
+		if ($path === null) {
+			return null;
+		}
 		$this->assertPathLength($path);
 		if ($path === '') {
 			$path = '/';
