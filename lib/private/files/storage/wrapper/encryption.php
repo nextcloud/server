@@ -215,11 +215,8 @@ class Encryption extends Wrapper {
 			if (isset($this->unencryptedSize[$source])) {
 				$this->unencryptedSize[$target] = $this->unencryptedSize[$source];
 			}
-			$encryptionModule = $this->getEncryptionModule($path2);
-			if ($encryptionModule) {
-				$keyStorage = $this->getKeyStorage($encryptionModule->getId());
-				$keyStorage->renameKeys($source, $target);
-			}
+			$keyStorage = $this->getKeyStorage();
+			$keyStorage->renameKeys($source, $target);
 		}
 
 		return $result;
@@ -438,8 +435,7 @@ class Encryption extends Wrapper {
 	 * @return \OCP\Encryption\Keys\IStorage
 	 */
 	protected function getKeyStorage() {
-		$keyStorage = \OC::$server->getEncryptionKeyStorage();
-		return $keyStorage;
+		return \OC::$server->getEncryptionKeyStorage();
 	}
 
 }
