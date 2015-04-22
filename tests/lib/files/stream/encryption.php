@@ -14,7 +14,7 @@ class Encryption extends \Test\TestCase {
 	 * @return resource
 	 */
 	protected function getStream($fileName, $mode, $unencryptedSize) {
-
+		clearstatcache();
 		$size = filesize($fileName);
 		$source = fopen($fileName, $mode);
 		$internalPath = $fileName;
@@ -163,8 +163,19 @@ class Encryption extends \Test\TestCase {
 		fclose($stream);
 	}
 
-	public function testWriteReadBigFile() {
-		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/lorem-big.txt');
+	function dataFilesProvider() {
+		return [
+			['lorem-big.txt'],
+			['block-aligned.txt'],
+			['block-aligned-plus-one.txt'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataFilesProvider
+	 */
+	public function testWriteReadBigFile($testFile) {
+		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
 		// write it
 		$fileName = tempnam("/tmp", "FOO");
 		$stream = $this->getStream($fileName, 'w+', 0);
@@ -174,6 +185,16 @@ class Encryption extends \Test\TestCase {
 		// read it all
 		$stream = $this->getStream($fileName, 'r', strlen($expectedData));
 		$data = stream_get_contents($stream);
+		fclose($stream);
+
+		$this->assertEquals($expectedData, $data);
+
+		// another read test with a loop like we do in several places:
+		$stream = $this->getStream($fileName, 'r', strlen($expectedData));
+		$data = '';
+		while (!feof($stream)) {
+			$data .= fread($stream, 8192);
+		}
 		fclose($stream);
 
 		$this->assertEquals($expectedData, $data);
@@ -192,11 +213,24 @@ class Encryption extends \Test\TestCase {
 		$encryptionModule->expects($this->any())->method('getDisplayName')->willReturn('Unit test module');
 		$encryptionModule->expects($this->any())->method('begin')->willReturn([]);
 		$encryptionModule->expects($this->any())->method('end')->willReturn('');
-		$encryptionModule->expects($this->any())->method('encrypt')->willReturnArgument(0);
-		$encryptionModule->expects($this->any())->method('decrypt')->willReturnArgument(0);
+		$encryptionModule->expects($this->any())->method('encrypt')->willReturnCallback(function($data) {
+			// simulate different block size by adding some padding to the data
+			if (isset($data[6125])) {
+				return str_pad($data, 8192, 'X');
+			}
+			// last block
+			return $data;
+		});
+		$encryptionModule->expects($this->any())->method('decrypt')->willReturnCallback(function($data) {
+			if (isset($data[8191])) {
+				return substr($data, 0, 6126);
+			}
+			// last block
+			return $data;
+		});
 		$encryptionModule->expects($this->any())->method('update')->willReturn(true);
 		$encryptionModule->expects($this->any())->method('shouldEncrypt')->willReturn(true);
-		$encryptionModule->expects($this->any())->method('getUnencryptedBlockSize')->willReturn(8192);
+		$encryptionModule->expects($this->any())->method('getUnencryptedBlockSize')->willReturn(6126);
 		return $encryptionModule;
 	}
 }
