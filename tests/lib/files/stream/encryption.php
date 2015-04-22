@@ -167,20 +167,20 @@ class Encryption extends \Test\TestCase {
 //		fclose($stream);
 //	}
 
-//	public function testRewind() {
-//		$fileName = tempnam("/tmp", "FOO");
-//		$stream = $this->getStream($fileName, 'w+', 0);
-//		$this->assertEquals(6, fwrite($stream, 'foobar'));
-//		$this->assertEquals(TRUE, rewind($stream));
-//		$this->assertEquals('foobar', fread($stream, 100));
-//		$this->assertEquals(TRUE, rewind($stream));
-//		$this->assertEquals(3, fwrite($stream, 'bar'));
-//		fclose($stream);
-//
-//		$stream = $this->getStream($fileName, 'r', 6);
-//		$this->assertEquals('barbar', fread($stream, 100));
-//		fclose($stream);
-//	}
+	public function testRewind() {
+		$fileName = tempnam("/tmp", "FOO");
+		$stream = $this->getStream($fileName, 'w+', 0);
+		$this->assertEquals(6, fwrite($stream, 'foobar'));
+		$this->assertEquals(TRUE, rewind($stream));
+		$this->assertEquals('foobar', fread($stream, 100));
+		$this->assertEquals(TRUE, rewind($stream));
+		$this->assertEquals(3, fwrite($stream, 'bar'));
+		fclose($stream);
+
+		$stream = $this->getStream($fileName, 'r', 6);
+		$this->assertEquals('barbar', fread($stream, 100));
+		fclose($stream);
+	}
 
 	public function testSeek() {
 		$fileName = tempnam("/tmp", "FOO");
