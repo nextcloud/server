@@ -23,7 +23,9 @@
 
 namespace OCA\Files_Sharing;
 
+use OC\Files\Cache\Wrapper\CachePermissionsMask;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCP\Constants;
 
 class ReadOnlyWrapper extends Wrapper {
 	public function isUpdatable($path) {
@@ -66,6 +68,7 @@ class ReadOnlyWrapper extends Wrapper {
 		if (!$storage) {
 			$storage = $this;
 		}
-		return new ReadOnlyCache($storage);
+		$sourceCache = $this->storage->getCache($path, $storage);
+		return new CachePermissionsMask($sourceCache, Constants::PERMISSION_READ | Constants::PERMISSION_SHARE);
 	}
 }
