@@ -237,6 +237,7 @@ class Encryption extends Wrapper {
 		$accessList = $this->file->getAccessList($sharePath);
 		$this->newHeader = $this->encryptionModule->begin($this->fullPath, $this->uid, $this->header, $accessList);
 
+		if (!($path==='')){
 		if (
 			$mode === 'w'
 			|| $mode === 'w+'
@@ -250,7 +251,7 @@ class Encryption extends Wrapper {
 		} else {
 			parent::stream_read($this->util->getHeaderSize());
 		}
-
+		}
 		return true;
 
 	}
