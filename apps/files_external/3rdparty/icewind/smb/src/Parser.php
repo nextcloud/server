@@ -91,7 +91,6 @@ class Parser {
 		$mode = 0;
 		$size = 0;
 		foreach ($output as $line) {
-			list($name, $value) = explode(':', $line, 2);
 			// A line = explode statement may not fill all array elements
 			// properly. May happen when accessing non Windows Fileservers
 			$words = explode(':', $line, 2);

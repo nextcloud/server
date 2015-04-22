@@ -6,7 +6,7 @@
 		"vendor-dir": "."
 	},
 	"require": {
-		"icewind/smb": "1.0.0",
+		"icewind/smb": "1.0.1",
 		"icewind/streams": "0.2"
 	}
 }
