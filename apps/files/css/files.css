@@ -602,18 +602,19 @@ a.action>img {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 	filter: alpha(opacity=30);
 	opacity: .3;
-	height: 60px;
+	/* add whitespace to bottom of files list to correctly show dropdowns */
+	height: 300px;
 }
-
 .summary:hover,
 .summary:focus,
 .summary,
 table tr.summary td {
 	background-color: transparent;
 }
-
 .summary td {
 	border-bottom: none;
+	vertical-align: top;
+	padding-top: 20px;
 }
 .summary .info {
 	margin-left: 40px;
