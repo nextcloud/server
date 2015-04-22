@@ -38,7 +38,7 @@ $util = new \OCA\Encryption\Util(
 	\OC::$server->getConfig());
 
 $keyManager = new \OCA\Encryption\KeyManager(
-	\OC::$server->getEncryptionKeyStorage(\OCA\Encryption\Crypto\Encryption::ID),
+	\OC::$server->getEncryptionKeyStorage(),
 	$crypt,
 	\OC::$server->getConfig(),
 	$userSession,

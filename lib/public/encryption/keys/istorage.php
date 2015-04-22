@@ -35,33 +35,36 @@ interface IStorage {
 	 *
 	 * @param string $uid ID if the user for whom we want the key
 	 * @param string $keyId id of the key
+	 * @param string $encryptionModuleId
 	 *
 	 * @return mixed key
 	 * @since 8.1.0
 	 */
-	public function getUserKey($uid, $keyId);
+	public function getUserKey($uid, $keyId, $encryptionModuleId);
 
 	/**
 	 * get file specific key
 	 *
 	 * @param string $path path to file
 	 * @param string $keyId id of the key
+	 * @param string $encryptionModuleId
 	 *
 	 * @return mixed key
 	 * @since 8.1.0
 	 */
-	public function getFileKey($path, $keyId);
+	public function getFileKey($path, $keyId, $encryptionModuleId);
 
 	/**
 	 * get system-wide encryption keys not related to a specific user,
 	 * e.g something like a key for public link shares
 	 *
 	 * @param string $keyId id of the key
+	 * @param string $encryptionModuleId
 	 *
 	 * @return mixed key
 	 * @since 8.1.0
 	 */
-	public function getSystemUserKey($keyId);
+	public function getSystemUserKey($keyId, $encryptionModuleId);
 
 	/**
 	 * set user specific key
@@ -69,19 +72,21 @@ interface IStorage {
 	 * @param string $uid ID if the user for whom we want the key
 	 * @param string $keyId id of the key
 	 * @param mixed $key
+	 * @param string $encryptionModuleId
 	 * @since 8.1.0
 	 */
-	public function setUserKey($uid, $keyId, $key);
+	public function setUserKey($uid, $keyId, $key, $encryptionModuleId);
 
 	/**
 	 * set file specific key
 	 *
 	 * @param string $path path to file
 	 * @param string $keyId id of the key
-	 * @param boolean
+	 * @param mixed $key
+	 * @param string $encryptionModuleId
 	 * @since 8.1.0
 	 */
-	public function setFileKey($path, $keyId, $key);
+	public function setFileKey($path, $keyId, $key, $encryptionModuleId);
 
 	/**
 	 * set system-wide encryption keys not related to a specific user,
@@ -89,53 +94,59 @@ interface IStorage {
 	 *
 	 * @param string $keyId id of the key
 	 * @param mixed $key
+	 * @param string $encryptionModuleId
 	 *
 	 * @return mixed key
 	 * @since 8.1.0
 	 */
-	public function setSystemUserKey($keyId, $key);
+	public function setSystemUserKey($keyId, $key, $encryptionModuleId);
 
 	/**
 	 * delete user specific key
 	 *
 	 * @param string $uid ID if the user for whom we want to delete the key
 	 * @param string $keyId id of the key
+	 * @param string $encryptionModuleId
 	 *
 	 * @return boolean False when the key could not be deleted
 	 * @since 8.1.0
 	 */
-	public function deleteUserKey($uid, $keyId);
+	public function deleteUserKey($uid, $keyId, $encryptionModuleId);
 
 	/**
 	 * delete file specific key
 	 *
 	 * @param string $path path to file
 	 * @param string $keyId id of the key
+	 * @param string $encryptionModuleId
 	 *
 	 * @return boolean False when the key could not be deleted
 	 * @since 8.1.0
 	 */
-	public function deleteFileKey($path, $keyId);
+	public function deleteFileKey($path, $keyId, $encryptionModuleId);
 
 	/**
 	 * delete all file keys for a given file
 	 *
 	 * @param string $path to the file
+	 * @param string $encryptionModuleId
+	 *
 	 * @return boolean False when the keys could not be deleted
 	 * @since 8.1.0
 	 */
-	public function deleteAllFileKeys($path);
+	public function deleteAllFileKeys($path, $encryptionModuleId);
 
 	/**
 	 * delete system-wide encryption keys not related to a specific user,
 	 * e.g something like a key for public link shares
 	 *
 	 * @param string $keyId id of the key
+	 * @param string $encryptionModuleId
 	 *
 	 * @return boolean False when the key could not be deleted
 	 * @since 8.1.0
 	 */
-	public function deleteSystemUserKey($keyId);
+	public function deleteSystemUserKey($keyId, $encryptionModuleId);
 
 	/**
 	 * copy keys if a file was renamed

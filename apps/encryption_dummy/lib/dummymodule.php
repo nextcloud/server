@@ -76,8 +76,8 @@ class DummyModule implements IEncryptionModule {
 	public function end($path) {
 
 		if ($this->isWriteOperation) {
-			$storage = \OC::$server->getEncryptionKeyStorage($this->getId());
-			$storage->setFileKey($path, 'fileKey', 'foo');
+			$storage = \OC::$server->getEncryptionKeyStorage();
+			$storage->setFileKey($path, 'fileKey', 'foo', $this->getId());
 		}
 		return '';
 	}

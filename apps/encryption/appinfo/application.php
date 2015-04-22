@@ -24,8 +24,10 @@
 namespace OCA\Encryption\AppInfo;
 
 
-use OC\Files\Filesystem;
 use OC\Files\View;
+use OCA\Encryption\Controller\RecoveryController;
+use OCA\Encryption\Controller\SettingsController;
+use OCA\Encryption\Controller\StatusController;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\HookManager;
@@ -126,11 +128,11 @@ class Application extends \OCP\AppFramework\App {
 			function (IAppContainer $c) {
 				$server = $c->getServer();
 
-				return new KeyManager($server->getEncryptionKeyStorage(\OCA\Encryption\Crypto\Encryption::ID),
+				return new KeyManager($server->getEncryptionKeyStorage(),
 					$c->query('Crypt'),
 					$server->getConfig(),
 					$server->getUserSession(),
-					new \OCA\Encryption\Session($server->getSession()),
+					new Session($server->getSession()),
 					$server->getLogger(),
 					$c->query('Util')
 				);
@@ -146,14 +148,14 @@ class Application extends \OCP\AppFramework\App {
 					$server->getSecureRandom(),
 					$c->query('KeyManager'),
 					$server->getConfig(),
-					$server->getEncryptionKeyStorage(\OCA\Encryption\Crypto\Encryption::ID),
+					$server->getEncryptionKeyStorage(),
 					$server->getEncryptionFilesHelper(),
-					new \OC\Files\View());
+					new View());
 			});
 
 		$container->registerService('RecoveryController', function (IAppContainer $c) {
 			$server = $c->getServer();
-			return new \OCA\Encryption\Controller\RecoveryController(
+			return new RecoveryController(
 				$c->getAppName(),
 				$server->getRequest(),
 				$server->getConfig(),
@@ -163,7 +165,7 @@ class Application extends \OCP\AppFramework\App {
 
 		$container->registerService('StatusController', function (IAppContainer $c) {
 			$server = $c->getServer();
-			return new \OCA\Encryption\Controller\StatusController(
+			return new StatusController(
 				$c->getAppName(),
 				$server->getRequest(),
 				$server->getL10N($c->getAppName()),
@@ -173,7 +175,7 @@ class Application extends \OCP\AppFramework\App {
 
 		$container->registerService('SettingsController', function (IAppContainer $c) {
 			$server = $c->getServer();
-			return new \OCA\Encryption\Controller\SettingsController(
+			return new SettingsController(
 				$c->getAppName(),
 				$server->getRequest(),
 				$server->getL10N($c->getAppName()),

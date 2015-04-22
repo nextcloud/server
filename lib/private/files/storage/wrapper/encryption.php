@@ -187,8 +187,9 @@ class Encryption extends Wrapper {
 
 		$encryptionModule = $this->getEncryptionModule($path);
 		if ($encryptionModule) {
-			$keyStorage = $this->getKeyStorage($encryptionModule->getId());
-			$keyStorage->deleteAllFileKeys($this->getFullPath($path));
+			$keyStorage = $this->getKeyStorage();
+			$keyStorage->deleteAllFileKeys($this->getFullPath($path),
+				$encryptionModule->getId());
 		}
 
 		return $this->storage->unlink($path);
@@ -436,8 +437,8 @@ class Encryption extends Wrapper {
 	 * @param string $encryptionModuleId
 	 * @return \OCP\Encryption\Keys\IStorage
 	 */
-	protected function getKeyStorage($encryptionModuleId) {
-		$keyStorage = \OC::$server->getEncryptionKeyStorage($encryptionModuleId);
+	protected function getKeyStorage() {
+		$keyStorage = \OC::$server->getEncryptionKeyStorage();
 		return $keyStorage;
 	}
 

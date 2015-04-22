@@ -23,6 +23,7 @@
 namespace OCA\Encryption;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
+use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Crypto\Crypt;
@@ -136,7 +137,8 @@ class KeyManager {
 
 			// Save public key
 			$this->keyStorage->setSystemUserKey(
-				$this->publicShareKeyId . '.publicKey', $keyPair['publicKey']);
+				$this->publicShareKeyId . '.publicKey', $keyPair['publicKey'],
+				Encryption::ID);
 
 			// Encrypt private key empty passphrase
 			$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'], '');
@@ -162,7 +164,7 @@ class KeyManager {
 	 * @return string
 	 */
 	public function getRecoveryKey() {
-		return $this->keyStorage->getSystemUserKey($this->recoveryKeyId . '.publicKey');
+		return $this->keyStorage->getSystemUserKey($this->recoveryKeyId . '.publicKey', Encryption::ID);
 	}
 
 	/**
@@ -179,7 +181,7 @@ class KeyManager {
 	 * @return bool
 	 */
 	public function checkRecoveryPassword($password) {
-		$recoveryKey = $this->keyStorage->getSystemUserKey($this->recoveryKeyId . '.privateKey');
+		$recoveryKey = $this->keyStorage->getSystemUserKey($this->recoveryKeyId . '.privateKey', Encryption::ID);
 		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey,
 			$password);
 
@@ -217,7 +219,10 @@ class KeyManager {
 	 */
 	public function setRecoveryKey($password, $keyPair) {
 		// Save Public Key
-		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId(). '.publicKey', $keyPair['publicKey']);
+		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId().
+			'.publicKey',
+			$keyPair['publicKey'],
+			Encryption::ID);
 
 		$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'],
 			$password);
@@ -236,7 +241,7 @@ class KeyManager {
 	 * @return bool
 	 */
 	public function setPublicKey($userId, $key) {
-		return $this->keyStorage->setUserKey($userId, $this->publicKeyId, $key);
+		return $this->keyStorage->setUserKey($userId, $this->publicKeyId, $key, Encryption::ID);
 	}
 
 	/**
@@ -247,7 +252,8 @@ class KeyManager {
 	public function setPrivateKey($userId, $key) {
 		return $this->keyStorage->setUserKey($userId,
 			$this->privateKeyId,
-			$key);
+			$key,
+			Encryption::ID);
 	}
 
 	/**
@@ -258,7 +264,7 @@ class KeyManager {
 	 * @return boolean
 	 */
 	public function setFileKey($path, $key) {
-		return $this->keyStorage->setFileKey($path, $this->fileKeyId, $key);
+		return $this->keyStorage->setFileKey($path, $this->fileKeyId, $key, Encryption::ID);
 	}
 
 	/**
@@ -284,7 +290,7 @@ class KeyManager {
 	 */
 	public function setShareKey($path, $uid, $key) {
 		$keyId = $uid . '.' . $this->shareKeyId;
-		return $this->keyStorage->setFileKey($path, $keyId, $key);
+		return $this->keyStorage->setFileKey($path, $keyId, $key, Encryption::ID);
 	}
 
 	/**
@@ -324,7 +330,7 @@ class KeyManager {
 	 */
 	public function getPrivateKey($userId) {
 		$privateKey = $this->keyStorage->getUserKey($userId,
-			$this->privateKeyId);
+			$this->privateKeyId, Encryption::ID);
 
 		if (strlen($privateKey) !== 0) {
 			return $privateKey;
@@ -338,12 +344,12 @@ class KeyManager {
 	 * @return string
 	 */
 	public function getFileKey($path, $uid) {
-		$encryptedFileKey = $this->keyStorage->getFileKey($path, $this->fileKeyId);
+		$encryptedFileKey = $this->keyStorage->getFileKey($path, $this->fileKeyId, Encryption::ID);
 
 		if (is_null($uid)) {
 			$uid = $this->getPublicShareKeyId();
 			$shareKey = $this->getShareKey($path, $uid);
-			$privateKey = $this->keyStorage->getSystemUserKey($this->publicShareKeyId . '.privateKey');
+			$privateKey = $this->keyStorage->getSystemUserKey($this->publicShareKeyId . '.privateKey', Encryption::ID);
 			$privateKey = $this->crypt->decryptPrivateKey($privateKey);
 		} else {
 			$shareKey = $this->getShareKey($path, $uid);
@@ -367,7 +373,7 @@ class KeyManager {
 	 */
 	public function getEncryptedFileKey($path) {
 		$encryptedFileKey = $this->keyStorage->getFileKey($path,
-			$this->fileKeyId);
+			$this->fileKeyId, Encryption::ID);
 
 		return $encryptedFileKey;
 	}
@@ -380,7 +386,10 @@ class KeyManager {
 	 * @return boolean
 	 */
 	public function deleteShareKey($path, $keyId) {
-		return $this->keyStorage->deleteFileKey($path, $keyId . '.' . $this->shareKeyId);
+		return $this->keyStorage->deleteFileKey(
+			$path,
+			$keyId . '.' . $this->shareKeyId,
+			Encryption::ID);
 	}
 
 
@@ -391,7 +400,7 @@ class KeyManager {
 	 */
 	public function getShareKey($path, $uid) {
 		$keyId = $uid . '.' . $this->shareKeyId;
-		return $this->keyStorage->getFileKey($path, $keyId);
+		return $this->keyStorage->getFileKey($path, $keyId, Encryption::ID);
 	}
 
 	/**
@@ -416,7 +425,7 @@ class KeyManager {
 	 * @throws PublicKeyMissingException
 	 */
 	public function getPublicKey($userId) {
-		$publicKey = $this->keyStorage->getUserKey($userId, $this->publicKeyId);
+		$publicKey = $this->keyStorage->getUserKey($userId, $this->publicKeyId, Encryption::ID);
 
 		if (strlen($publicKey) !== 0) {
 			return $publicKey;
@@ -434,7 +443,7 @@ class KeyManager {
 	 * @return string
 	 */
 	public function getPublicShareKey() {
-		return $this->keyStorage->getSystemUserKey($this->publicShareKeyId . '.publicKey');
+		return $this->keyStorage->getSystemUserKey($this->publicShareKeyId . '.publicKey', Encryption::ID);
 	}
 
 	/**
@@ -460,7 +469,7 @@ class KeyManager {
 	 * @return bool
 	 */
 	public function deletePublicKey($uid) {
-		return $this->keyStorage->deleteUserKey($uid, $this->publicKeyId);
+		return $this->keyStorage->deleteUserKey($uid, $this->publicKeyId, Encryption::ID);
 	}
 
 	/**
@@ -468,11 +477,11 @@ class KeyManager {
 	 * @return bool
 	 */
 	private function deletePrivateKey($uid) {
-		return $this->keyStorage->deleteUserKey($uid, $this->privateKeyId);
+		return $this->keyStorage->deleteUserKey($uid, $this->privateKeyId, Encryption::ID);
 	}
 
 	public function deleteAllFileKeys($path) {
-		return $this->keyStorage->deleteAllFileKeys($path);
+		return $this->keyStorage->deleteAllFileKeys($path, Encryption::ID);
 	}
 
 	/**
@@ -500,7 +509,7 @@ class KeyManager {
 	 * @return string returns openssl key
 	 */
 	public function getSystemPrivateKey($keyId) {
-		return $this->keyStorage->getSystemUserKey($keyId . '.' . $this->privateKeyId);
+		return $this->keyStorage->getSystemUserKey($keyId . '.' . $this->privateKeyId, Encryption::ID);
 	}
 
 	/**
@@ -509,7 +518,10 @@ class KeyManager {
 	 * @return string returns openssl key
 	 */
 	public function setSystemPrivateKey($keyId, $key) {
-		return $this->keyStorage->setSystemUserKey($keyId . '.' . $this->privateKeyId, $key);
+		return $this->keyStorage->setSystemUserKey(
+			$keyId . '.' . $this->privateKeyId,
+			$key,
+			Encryption::ID);
 	}
 
 	/**

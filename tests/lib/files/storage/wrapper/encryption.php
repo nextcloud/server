@@ -112,7 +112,7 @@ class EncryptionWrapper extends \OC\Files\Storage\Wrapper\Encryption {
 		parent::__construct($parameters, $encryptionManager, $util, $logger, $fileHelper, $uid);
 	}
 
-	protected function getKeyStorage($encryptionModuleId) {
+	protected function getKeyStorage() {
 		return $this->keyStore;
 	}
 

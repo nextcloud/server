@@ -23,10 +23,12 @@
 namespace OC\Encryption\Keys;
 
 use OC\Encryption\Util;
+use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\Encryption\Keys\IStorage;
 
-class Storage implements \OCP\Encryption\Keys\IStorage {
+class Storage implements IStorage {
 
 	/** @var View */
 	private $view;
@@ -40,151 +42,99 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 
 	private $keyCache = array();
 
-	/** @var string */
-	private $encryptionModuleId;
-
 	/**
 	 * @param string $encryptionModuleId
 	 * @param View $view
 	 * @param Util $util
 	 */
-	public function __construct($encryptionModuleId, View $view, Util $util) {
+	public function __construct(View $view, Util $util) {
 		$this->view = $view;
 		$this->util = $util;
-		$this->encryptionModuleId = $encryptionModuleId;
 
 		$this->encryption_base_dir = '/files_encryption';
 		$this->keys_base_dir = $this->encryption_base_dir .'/keys';
 	}
 
 	/**
-	 * get user specific key
-	 *
-	 * @param string $uid ID if the user for whom we want the key
-	 * @param string $keyId id of the key
-	 *
-	 * @return mixed key
+	 * @inheritdoc
 	 */
-	public function getUserKey($uid, $keyId) {
-		$path = $this->constructUserKeyPath($keyId, $uid);
+	public function getUserKey($uid, $keyId, $encryptionModuleId) {
+		$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, $uid);
 		return $this->getKey($path);
 	}
 
 	/**
-	 * get file specific key
-	 *
-	 * @param string $path path to file
-	 * @param string $keyId id of the key
-	 *
-	 * @return mixed key
+	 * @inheritdoc
 	 */
-	public function getFileKey($path, $keyId) {
-		$keyDir = $this->getFileKeyDir($path);
+	public function getFileKey($path, $keyId, $encryptionModuleId) {
+		$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
 		return $this->getKey($keyDir . $keyId);
 	}
 
 	/**
-	 * get system-wide encryption keys not related to a specific user,
-	 * e.g something like a key for public link shares
-	 *
-	 * @param string $keyId id of the key
-	 *
-	 * @return mixed key
+	 * @inheritdoc
 	 */
-	public function getSystemUserKey($keyId) {
-		$path = $this->constructUserKeyPath($keyId);
+	public function getSystemUserKey($keyId, $encryptionModuleId) {
+		$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, null);
 		return $this->getKey($path);
 	}
 
 	/**
-	 * set user specific key
-	 *
-	 * @param string $uid ID if the user for whom we want the key
-	 * @param string $keyId id of the key
-	 * @param mixed $key
+	 * @inheritdoc
 	 */
-	public function setUserKey($uid, $keyId, $key) {
-		$path = $this->constructUserKeyPath($keyId, $uid);
+	public function setUserKey($uid, $keyId, $key, $encryptionModuleId) {
+		$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, $uid);
 		return $this->setKey($path, $key);
 	}
 
 	/**
-	 * set file specific key
-	 *
-	 * @param string $path path to file
-	 * @param string $keyId id of the key
-	 * @param boolean
+	 * @inheritdoc
 	 */
-	public function setFileKey($path, $keyId, $key) {
-		$keyDir = $this->getFileKeyDir($path);
+	public function setFileKey($path, $keyId, $key, $encryptionModuleId) {
+		$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
 		return $this->setKey($keyDir . $keyId, $key);
 	}
 
 	/**
-	 * set system-wide encryption keys not related to a specific user,
-	 * e.g something like a key for public link shares
-	 *
-	 * @param string $keyId id of the key
-	 * @param mixed $key
-	 *
-	 * @return mixed key
+	 * @inheritdoc
 	 */
-	public function setSystemUserKey($keyId, $key) {
-		$path = $this->constructUserKeyPath($keyId);
+	public function setSystemUserKey($keyId, $key, $encryptionModuleId) {
+		$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, null);
 		return $this->setKey($path, $key);
 	}
 
 	/**
-	 * delete user specific key
-	 *
-	 * @param string $uid ID if the user for whom we want to delete the key
-	 * @param string $keyId id of the key
-	 *
-	 * @return boolean False when the key could not be deleted
+	 * @inheritdoc
 	 */
-	public function deleteUserKey($uid, $keyId) {
-		$path = $this->constructUserKeyPath($keyId, $uid);
+	public function deleteUserKey($uid, $keyId, $encryptionModuleId) {
+		$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, $uid);
 		return !$this->view->file_exists($path) || $this->view->unlink($path);
 	}
 
 	/**
-	 * delete file specific key
-	 *
-	 * @param string $path path to file
-	 * @param string $keyId id of the key
-	 *
-	 * @return boolean False when the key could not be deleted
+	 * @inheritdoc
 	 */
-	public function deleteFileKey($path, $keyId) {
-		$keyDir = $this->getFileKeyDir($path);
+	public function deleteFileKey($path, $keyId, $encryptionModuleId) {
+		$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
 		return !$this->view->file_exists($keyDir . $keyId) || $this->view->unlink($keyDir . $keyId);
 	}
 
 	/**
-	 * delete all file keys for a given file
-	 *
-	 * @param string $path to the file
-	 * @return boolean False when the key could not be deleted
+	 * @inheritdoc
 	 */
-	public function deleteAllFileKeys($path) {
-		$keyDir = $this->getFileKeyDir($path);
+	public function deleteAllFileKeys($path, $encryptionModuleId) {
+		$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
 		$path = dirname($keyDir);
 		return !$this->view->file_exists($path) || $this->view->deleteAll($path);
 	}
 
 	/**
-	 * delete system-wide encryption keys not related to a specific user,
-	 * e.g something like a key for public link shares
-	 *
-	 * @param string $keyId id of the key
-	 *
-	 * @return boolean False when the key could not be deleted
+	 * @inheritdoc
 	 */
-	public function deleteSystemUserKey($keyId) {
-		$path = $this->constructUserKeyPath($keyId);
+	public function deleteSystemUserKey($keyId, $encryptionModuleId) {
+		$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, null);
 		return !$this->view->file_exists($path) || $this->view->unlink($path);
 	}
-
 
 	/**
 	 * construct path to users key
@@ -193,13 +143,13 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @param string $uid
 	 * @return string
 	 */
-	protected function constructUserKeyPath($keyId, $uid = null) {
+	protected function constructUserKeyPath($encryptionModuleId, $keyId, $uid) {
 
 		if ($uid === null) {
-			$path = $this->encryption_base_dir . '/' . $this->encryptionModuleId . '/' . $keyId;
+			$path = $this->encryption_base_dir . '/' . $encryptionModuleId . '/' . $keyId;
 		} else {
 			$path = '/' . $uid . $this->encryption_base_dir . '/'
-				. $this->encryptionModuleId . '/' . $uid . '.' . $keyId;
+				. $encryptionModuleId . '/' . $uid . '.' . $keyId;
 		}
 
 		return $path;
@@ -256,7 +206,7 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 	 * @throws GenericEncryptionException
 	 * @internal param string $keyId
 	 */
-	private function getFileKeyDir($path) {
+	private function getFileKeyDir($encryptionModuleId, $path) {
 
 		if ($this->view->is_dir($path)) {
 			throw new GenericEncryptionException("file was expected but directory was given: $path");
@@ -272,7 +222,7 @@ class Storage implements \OCP\Encryption\Keys\IStorage {
 			$keyPath = '/' . $owner . $this->keys_base_dir . $filename . '/';
 		}
 
-		return \OC\Files\Filesystem::normalizePath($keyPath . $this->encryptionModuleId . '/', false);
+		return Filesystem::normalizePath($keyPath . $encryptionModuleId . '/', false);
 	}
 
 	/**
