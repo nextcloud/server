@@ -66,7 +66,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 			->setMethods(['getOption'])
 			->getMock();
 		$mount->expects($this->any())->method('getOption')->willReturn(true);
-		$this->instance = new EncryptionWrapper([
+		$this->instance = new \OC\Files\Storage\Wrapper\Encryption([
 			'storage' => $this->sourceStorage,
 			'root' => 'foo',
 			'mountPoint' => '/',
@@ -104,29 +104,4 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$this->instance->mkdir('folder');
 		$this->instance->rename('folder', 'flodder');
 	}
-}
-
-//
-// FIXME: this is too bad and needs adjustment
-//
-class EncryptionWrapper extends \OC\Files\Storage\Wrapper\Encryption {
-	private $keyStore;
-
-	public function __construct(
-		$parameters,
-		\OC\Encryption\Manager $encryptionManager = null,
-		\OC\Encryption\Util $util = null,
-		\OC\Log $logger = null,
-		\OC\Encryption\File $fileHelper = null,
-		$uid = null,
-		$keyStore = null
-	) {
-		$this->keyStore = $keyStore;
-		parent::__construct($parameters, $encryptionManager, $util, $logger, $fileHelper, $uid);
-	}
-
-	protected function getKeyStorage() {
-		return $this->keyStore;
-	}
-
 }
