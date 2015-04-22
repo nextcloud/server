@@ -14,6 +14,7 @@ OC.L10N.register(
     "Could not change the password. Maybe the old password was not correct." : "Parola nu a putut fi schimbata. Poate ca parola veche este incorecta.",
     "Recovery Key enabled" : "Cheie de recuperare activată",
     "Could not enable the recovery key, please try again or contact your administrator" : "Nu poate fi activată cheia de recuperare, te rog încearcă din nou sau contactează administratorul",
+    "Private key password successfully updated." : "Cheia privata a fost actualizata cu succes",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Cheie privată nevalidă pentru aplicația Încriptare. Te rog, actualizează-ți parola cheii private folosind setările personale pentru a reaccesa fișierele tale încriptate.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplicatia de criptare este activata dar tastatura nu este initializata , va rugam deconectati-va si reconectati-va",
     "ownCloud basic encryption module" : "modul de ecnriptie bazic ownCloud",

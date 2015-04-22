@@ -7,6 +7,7 @@ OC.L10N.register(
     "Could not disable recovery key. Please check your recovery key password!" : "Không thể vô hiệu hóa khóa khôi phục. Vui lòng kiểm tra mật khẩu khóa khôi phục!",
     "Password successfully changed." : "Đã đổi mật khẩu.",
     "Could not change the password. Maybe the old password was not correct." : "Không thể đổi mật khẩu. Có lẽ do mật khẩu cũ không đúng.",
+    "Private key password successfully updated." : "Cập nhật thành công mật khẩu khóa cá nhân",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Ứng dụng mã hóa đã được kích hoạt nhưng bạn chưa khởi tạo khóa. Vui lòng đăng xuất ra và đăng nhập lại",
     "Enabled" : "Bật",
     "Disabled" : "Tắt",

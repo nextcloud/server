@@ -27,6 +27,8 @@ OC.L10N.register(
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Si è verificato un errore. Controlla il DN base, così come le impostazioni di connessione e le credenziali.",
     "Do you really want to delete the current Server Configuration?" : "Vuoi davvero eliminare la configurazione attuale del server?",
     "Confirm Deletion" : "Conferma l'eliminazione",
+    "Mappings cleared successfully!" : "Associazioni cancellate correttamente!",
+    "Error while clearing the mappings." : "Errore durante la cancellazione delle associazioni.",
     "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "Salvataggio non riuscito. Assicurati che il database sia operativo. Ricarica prima di continuare.",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Il cambio di modalità abiliterà le query LDAP automatiche. In base alla dimensione di LDAP, potrebbero richiedere del tempo. Vuoi ancora cambiare modalità?",
     "Mode switch" : "Cambio modalità",

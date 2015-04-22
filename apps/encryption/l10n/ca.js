@@ -7,6 +7,7 @@ OC.L10N.register(
     "Could not disable recovery key. Please check your recovery key password!" : "No s'ha pogut desactivar la calu de recuperació. Comproveu la contrasenya de la clau de recuperació!",
     "Password successfully changed." : "La contrasenya s'ha canviat.",
     "Could not change the password. Maybe the old password was not correct." : "No s'ha pogut canviar la contrasenya. Potser la contrasenya anterior no era correcta.",
+    "Private key password successfully updated." : "La contrasenya de la clau privada s'ha actualitzat.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "La clau privada de l'aplicació d'encriptació no és vàlida! Actualitzeu la contrasenya de la clau privada a l'arranjament personal per recuperar els fitxers encriptats.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'aplicació d'encriptació està activada però les claus no estan inicialitzades, sortiu i acrediteu-vos de nou.",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Activa la clau de recuperació (permet recuperar fitxers d'usuaris en cas de pèrdua de contrasenya):",

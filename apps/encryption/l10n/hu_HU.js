@@ -7,6 +7,7 @@ OC.L10N.register(
     "Could not disable recovery key. Please check your recovery key password!" : "A helyreállítási kulcsot nem lehetett kikapcsolni. Ellenőrizze a helyreállítási kulcsa jelszavát!",
     "Password successfully changed." : "A jelszót sikeresen megváltoztattuk.",
     "Could not change the password. Maybe the old password was not correct." : "A jelszót nem lehet megváltoztatni! Lehet, hogy hibás volt a régi jelszó.",
+    "Private key password successfully updated." : "A személyes kulcsának jelszava frissítésre került.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Az állományok titkosításához használt titkos kulcsa érvénytelen. Kérjük frissítse a titkos kulcs jelszót a személyes beállításokban, hogy ismét hozzáférjen a titkosított állományaihoz!",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Az állományok titkosítása engedélyezve van, de az Ön titkos kulcsai nincsenek beállítva. Ezért kérjük, hogy jelentkezzen ki, és lépjen be újra!",
     "Enable recovery key (allow to recover users files in case of password loss):" : "A helyreállítási kulcs beállítása (lehetővé teszi a felhasználók állományainak visszaállítását, ha elfelejtik a jelszavukat):",

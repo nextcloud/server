@@ -48,6 +48,7 @@
     "Email saved" : "Email uložen",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Jste si jisti, že chcete přidat \"{domain}\" mezi důvěryhodné domény?",
     "Add trusted domain" : "Přidat důvěryhodnou doménu",
+    "Migration started …" : "Migrace spuštěna ...",
     "Sending..." : "Odesílání...",
     "All" : "Vše",
     "This app is not checked for security issues and is new or known to be unstable. Install on your own risk." : "U této aplikace nebyla provedena kontrola bezpečnostních problémů. Aplikace je nová nebo nestabilní. Instalujete na vlastní nebezpečí.",

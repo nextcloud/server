@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Password successfully changed." : "La pasvorto sukcese ŝanĝiĝis.",
     "Could not change the password. Maybe the old password was not correct." : "Ne eblis ŝanĝi la pasvorton. Eble la malnova pasvorto malĝustis.",
+    "Private key password successfully updated." : "La pasvorto de la malpublika klavo sukcese ĝisdatiĝis.",
     "Enabled" : "Kapabligita",
     "Disabled" : "Malkapabligita",
     "Change Password" : "Ŝarĝi pasvorton",

@@ -21,7 +21,7 @@
     "Wrong password" : "Contrasinal incorrecto",
     "No user supplied" : "Non subministrado polo usuario",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Forneza un contrasinal de recuperación do administrador de recuperación, senón perderanse todos os datos do usuario",
-    "Wrong admin recovery password. Please check the password and try again." : "Contrasinal de recuperación do administrador incorrecto. Comprobe o contrasinal e tenteo de novo.",
+    "Wrong admin recovery password. Please check the password and try again." : "Contrasinal de recuperación do administrador incorrecto. Comprobe o contrasinal e ténteo de novo.",
     "Backend doesn't support password change, but the user's encryption key was successfully updated." : "A infraestrutura non admite o cambio de contrasinal, mais a chave de cifrado do usuario foi actualizada correctamente.",
     "Unable to change password" : "Non é posíbel cambiar o contrasinal",
     "Enabled" : "Activado",
