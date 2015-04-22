@@ -77,7 +77,7 @@ class View {
 	 */
 	public function __construct($root = '') {
 		if (is_null($root)) {
-			throw new \InvalidArgumentException('Root cant be null');
+			throw new \InvalidArgumentException('Root can\'t be null');
 		}
 		if(!Filesystem::isValidPath($root)) {
 			throw new \Exception();
