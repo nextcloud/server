@@ -84,7 +84,10 @@ class Storage extends Wrapper {
 	 * @param string $path
 	 */
 	public function unlink($path) {
-		if (self::$disableTrash || !\OC_App::isEnabled('files_trashbin')) {
+		if (self::$disableTrash
+			|| !\OC_App::isEnabled('files_trashbin')
+			|| (pathinfo($path, PATHINFO_EXTENSION) === 'part')
+		) {
 			return $this->storage->unlink($path);
 		}
 		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
