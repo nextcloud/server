@@ -37,13 +37,16 @@ class Storage implements IStorage {
 	private $util;
 
 	// base dir where all the file related keys are stored
+	/** @var string */
 	private $keys_base_dir;
+
+	/** @var string */
 	private $encryption_base_dir;
 
-	private $keyCache = array();
+	/** @var array */
+	private $keyCache = [];
 
 	/**
-	 * @param string $encryptionModuleId
 	 * @param View $view
 	 * @param Util $util
 	 */
@@ -139,6 +142,7 @@ class Storage implements IStorage {
 	/**
 	 * construct path to users key
 	 *
+	 * @param string $encryptionModuleId
 	 * @param string $keyId
 	 * @param string $uid
 	 * @return string
@@ -201,6 +205,7 @@ class Storage implements IStorage {
 	/**
 	 * get path to key folder for a given file
 	 *
+	 * @param string $encryptionModuleId
 	 * @param string $path path to the file, relative to data/
 	 * @return string
 	 * @throws GenericEncryptionException
@@ -230,8 +235,6 @@ class Storage implements IStorage {
 	 *
 	 * @param string $source
 	 * @param string $target
-	 * @param string $owner
-	 * @param bool $systemWide
 	 */
 	public function renameKeys($source, $target) {
 
@@ -258,8 +261,6 @@ class Storage implements IStorage {
 	 *
 	 * @param string $source
 	 * @param string $target
-	 * @param string $owner
-	 * @param bool $systemWide
 	 */
 	public function copyKeys($source, $target) {
 
@@ -282,7 +283,7 @@ class Storage implements IStorage {
 	}
 
 	/**
-	 * Make preparations to filesystem for saving a keyfile
+	 * Make preparations to filesystem for saving a key file
 	 *
 	 * @param string $path relative to the views root
 	 */
