@@ -982,6 +982,10 @@ $(document).ready(function() {
 		}
 
 		if (this.checked) {
+			// Reset password placeholder
+			$('#linkPassText').attr('placeholder', t('core', 'Choose a password for the public link'));
+			// Reset link
+			$('#linkText').val('');
 			var expireDateString = '';
 			if (oc_appconfig.core.defaultExpireDateEnabled) {
 				var date = new Date().getTime();
@@ -1009,7 +1013,7 @@ $(document).ready(function() {
 			} else {
 				$('#linkPass').slideToggle(OC.menuSpeed);
 				// TODO drop with IE8 drop
-				if(html.hasClass('ie8')) {
+				if($('html').hasClass('ie8')) {
 					$('#linkPassText').attr('placeholder', null);
 					$('#linkPassText').val('');
 				}
@@ -1116,7 +1120,6 @@ $(document).ready(function() {
 	$(document).on('focusout keyup', '#dropdown #linkPassText', function(event) {
 		var linkPassText = $('#linkPassText');
 		if ( linkPassText.val() != '' && (event.type == 'focusout' || event.keyCode == 13) ) {
-
 			var allowPublicUpload = $('#sharingDialogAllowPublicUpload').is(':checked');
 			var dropDown = $('#dropdown');
 			var itemType = dropDown.data('item-type');

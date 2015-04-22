@@ -129,6 +129,100 @@ describe('OC.Share tests', function() {
 				);
 				expect($('#dropdown #linkCheckbox').length).toEqual(0);
 			});
+			it('Reset link when password is enforced and link is toggled', function() { 
+				var old = oc_appconfig.core.enforcePasswordForPublicLink;
+				oc_appconfig.core.enforcePasswordForPublicLink = true;
+				$('#allowShareWithLink').val('yes');
+
+				OC.Share.showDropDown(
+					'file',
+					123,
+					$container,
+					true,
+					31,
+					'shared_file_name.txt'
+				);
+
+				// Toggle linkshare
+				$('#dropdown [name=linkCheckbox]').click();
+				expect($('#dropdown #linkText').val()).toEqual('');
+
+				// Set password
+				$('#dropdown #linkPassText').val('foo');
+				$('#dropdown #linkPassText').trigger(new $.Event('keyup', {keyCode: 13}));
+				fakeServer.requests[0].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({data: {token: 'xyz'}, status: 'success'})
+				);
+
+				// Remove link
+				$('#dropdown [name=linkCheckbox]').click();
+				fakeServer.requests[1].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({status: 'success'})
+				);
+
+				/*
+				 * Try to share again
+				 * The linkText should be emptied
+				 */
+				$('#dropdown [name=linkCheckbox]').click();
+				expect($('#dropdown #linkText').val()).toEqual('');
+
+				/*
+				 * Do not set password but untoggle
+				 * Since there is no share this should not result in another request to the server
+				 */
+				$('#dropdown [name=linkCheckbox]').click();
+				expect(fakeServer.requests.length).toEqual(2);
+
+				oc_appconfig.core.enforcePasswordForPublicLink = old;
+			});
+
+			it('Reset password placeholder when password is enforced and link is toggled', function() { 
+				var old = oc_appconfig.core.enforcePasswordForPublicLink;
+				oc_appconfig.core.enforcePasswordForPublicLink = true;
+				$('#allowShareWithLink').val('yes');
+
+				OC.Share.showDropDown(
+					'file',
+					123,
+					$container,
+					true,
+					31,
+					'shared_file_name.txt'
+				);
+
+				// Toggle linkshare
+				$('#dropdown [name=linkCheckbox]').click();
+				expect($('#dropdown #linkPassText').attr('placeholder')).toEqual('Choose a password for the public link');
+
+				// Set password
+				$('#dropdown #linkPassText').val('foo');
+				$('#dropdown #linkPassText').trigger(new $.Event('keyup', {keyCode: 13}));
+				fakeServer.requests[0].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({data: {token: 'xyz'}, status: 'success'})
+				);
+				expect($('#dropdown #linkPassText').attr('placeholder')).toEqual('**********');
+
+				// Remove link
+				$('#dropdown [name=linkCheckbox]').click();
+				fakeServer.requests[1].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({status: 'success'})
+				);
+
+				// Try to share again
+				$('#dropdown [name=linkCheckbox]').click();
+				expect($('#dropdown #linkPassText').attr('placeholder')).toEqual('Choose a password for the public link');
+
+				oc_appconfig.core.enforcePasswordForPublicLink = old;
+			});
 			it('shows populated link share when a link share exists', function() {
 				loadItemStub.returns({
 					reshare: [],
