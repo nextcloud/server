@@ -12,6 +12,11 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 */
 	private $sourceStorage;
 
+	/**
+	 * @var \OC\Encryption\Keys\Storage | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $keyStore;
+
 	public function setUp() {
 
 		parent::setUp();
@@ -54,20 +59,20 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$logger = $this->getMock('\OC\Log');
 
 		$this->sourceStorage = new Temporary(array());
-		$keyStore = $this->getMockBuilder('\OC\Encryption\Keys\Storage')
+		$this->keyStore = $this->getMockBuilder('\OC\Encryption\Keys\Storage')
 			->disableOriginalConstructor()->getMock();
 		$mount = $this->getMockBuilder('\OC\Files\Mount\MountPoint')
 			->disableOriginalConstructor()
 			->setMethods(['getOption'])
 			->getMock();
 		$mount->expects($this->any())->method('getOption')->willReturn(true);
-		$this->instance = new EncryptionWrapper([
+		$this->instance = new \OC\Files\Storage\Wrapper\Encryption([
 			'storage' => $this->sourceStorage,
 			'root' => 'foo',
 			'mountPoint' => '/',
 			'mount' => $mount
 		],
-			$encryptionManager, $util, $logger, $file, null, $keyStore
+			$encryptionManager, $util, $logger, $file, null, $this->keyStore
 		);
 	}
 
@@ -91,29 +96,12 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$encryptionModule->expects($this->any())->method('getUnencryptedBlockSize')->willReturn(8192);
 		return $encryptionModule;
 	}
-}
 
-//
-// FIXME: this is too bad and needs adjustment
-//
-class EncryptionWrapper extends \OC\Files\Storage\Wrapper\Encryption {
-	private $keyStore;
-
-	public function __construct(
-		$parameters,
-		\OC\Encryption\Manager $encryptionManager = null,
-		\OC\Encryption\Util $util = null,
-		\OC\Log $logger = null,
-		\OC\Encryption\File $fileHelper = null,
-		$uid = null,
-		$keyStore = null
-	) {
-		$this->keyStore = $keyStore;
-		parent::__construct($parameters, $encryptionManager, $util, $logger, $fileHelper, $uid);
+	public function testRename() {
+		$this->keyStore
+			->expects($this->once())
+			->method('renameKeys');
+		$this->instance->mkdir('folder');
+		$this->instance->rename('folder', 'flodder');
 	}
-
-	protected function getKeyStorage($encryptionModuleId) {
-		return $this->keyStore;
-	}
-
 }

@@ -221,7 +221,8 @@ class Manager implements IManager {
 				$logger = \OC::$server->getLogger();
 				$uid = $user ? $user->getUID() : null;
 				$fileHelper = \OC::$server->getEncryptionFilesHelper();
-				return new Encryption($parameters, $manager, $util, $logger, $fileHelper, $uid);
+				$keyStorage = \OC::$server->getEncryptionKeyStorage();
+				return new Encryption($parameters, $manager, $util, $logger, $fileHelper, $uid, $keyStorage);
 			} else {
 				return $storage;
 			}

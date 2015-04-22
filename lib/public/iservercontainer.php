@@ -211,12 +211,10 @@ interface IServerContainer {
 	public function getEncryptionFilesHelper();
 
 	/**
-	 * @param string $encryptionModuleId encryption module ID
-	 *
 	 * @return \OCP\Encryption\Keys\IStorage
 	 * @since 8.1.0
 	 */
-	public function getEncryptionKeyStorage($encryptionModuleId);
+	public function getEncryptionKeyStorage();
 
 	/**
 	 * Returns the URL generator

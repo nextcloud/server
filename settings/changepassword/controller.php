@@ -83,7 +83,7 @@ class Controller {
 				\OC::$server->getLogger(),
 				\OC::$server->getUserSession(),
 				\OC::$server->getConfig());
-			$keyStorage = \OC::$server->getEncryptionKeyStorage(\OCA\Encryption\Crypto\Encryption::ID);
+			$keyStorage = \OC::$server->getEncryptionKeyStorage();
 			$util = new \OCA\Encryption\Util(
 				new \OC\Files\View(),
 				$crypt,

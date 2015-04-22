@@ -48,8 +48,7 @@ class StorageTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->storage = new Storage('encModule', $this->view, $this->util);
-
+		$this->storage = new Storage($this->view, $this->util);
 	}
 
 	public function testSetFileKey() {
@@ -69,7 +68,7 @@ class StorageTest extends TestCase {
 			->willReturn(strlen('key'));
 
 		$this->assertTrue(
-			$this->storage->setFileKey('user1/files/foo.txt', 'fileKey', 'key')
+			$this->storage->setFileKey('user1/files/foo.txt', 'fileKey', 'key', 'encModule')
 		);
 	}
 
@@ -93,7 +92,7 @@ class StorageTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertSame('key',
-			$this->storage->getFileKey('user1/files/foo.txt', 'fileKey')
+			$this->storage->getFileKey('user1/files/foo.txt', 'fileKey', 'encModule')
 		);
 	}
 
@@ -114,7 +113,7 @@ class StorageTest extends TestCase {
 			->willReturn(strlen('key'));
 
 		$this->assertTrue(
-			$this->storage->setFileKey('user1/files/foo.txt', 'fileKey', 'key')
+			$this->storage->setFileKey('user1/files/foo.txt', 'fileKey', 'key', 'encModule')
 		);
 	}
 
@@ -138,7 +137,7 @@ class StorageTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertSame('key',
-			$this->storage->getFileKey('user1/files/foo.txt', 'fileKey')
+			$this->storage->getFileKey('user1/files/foo.txt', 'fileKey', 'encModule')
 		);
 	}
 
@@ -150,7 +149,7 @@ class StorageTest extends TestCase {
 			->willReturn(strlen('key'));
 
 		$this->assertTrue(
-			$this->storage->setSystemUserKey('shareKey_56884', 'key')
+			$this->storage->setSystemUserKey('shareKey_56884', 'key', 'encModule')
 		);
 	}
 
@@ -162,7 +161,7 @@ class StorageTest extends TestCase {
 			->willReturn(strlen('key'));
 
 		$this->assertTrue(
-			$this->storage->setUserKey('user1', 'publicKey', 'key')
+			$this->storage->setUserKey('user1', 'publicKey', 'key', 'encModule')
 		);
 	}
 
@@ -177,7 +176,7 @@ class StorageTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertSame('key',
-			$this->storage->getSystemUserKey('shareKey_56884')
+			$this->storage->getSystemUserKey('shareKey_56884', 'encModule')
 		);
 	}
 
@@ -192,7 +191,7 @@ class StorageTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertSame('key',
-			$this->storage->getUserKey('user1', 'publicKey')
+			$this->storage->getUserKey('user1', 'publicKey', 'encModule')
 		);
 	}
 
@@ -207,7 +206,7 @@ class StorageTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertTrue(
-			$this->storage->deleteUserKey('user1', 'publicKey')
+			$this->storage->deleteUserKey('user1', 'publicKey', 'encModule')
 		);
 	}
 
@@ -222,7 +221,7 @@ class StorageTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertTrue(
-			$this->storage->deleteSystemUserKey('shareKey_56884')
+			$this->storage->deleteSystemUserKey('shareKey_56884', 'encModule')
 		);
 	}
 
@@ -246,7 +245,7 @@ class StorageTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertTrue(
-			$this->storage->deleteFileKey('user1/files/foo.txt', 'fileKey')
+			$this->storage->deleteFileKey('user1/files/foo.txt', 'fileKey', 'encModule')
 		);
 	}
 
@@ -270,7 +269,7 @@ class StorageTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertTrue(
-			$this->storage->deleteFileKey('user1/files/foo.txt', 'fileKey')
+			$this->storage->deleteFileKey('user1/files/foo.txt', 'fileKey', 'encModule')
 		);
 	}
 
