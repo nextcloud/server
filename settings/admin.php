@@ -123,6 +123,9 @@ $databaseOverload = (strpos(\OCP\Config::getSystemValue('dbtype'), 'sqlite') !==
 $template->assign('databaseOverload', $databaseOverload);
 $template->assign('cronErrors', $appConfig->getValue('core', 'cronErrors'));
 
+// warn if php is not setup properly to get system variables with getenv
+$template->assign('getenvServerNotWorking', empty(getenv('PATH')));
+
 // warn if Windows is used
 $template->assign('WindowsWarning', OC_Util::runningOnWindows());
 
