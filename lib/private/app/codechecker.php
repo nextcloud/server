@@ -99,7 +99,7 @@ class CodeChecker extends BasicEmitter {
 
 		$excludes = array_map(function($item) use ($folder) {
 			return $folder . '/' . $item;
-		}, ['vendor', '3rdparty', '.git', 'l10n']);
+		}, ['vendor', '3rdparty', '.git', 'l10n', 'tests', 'test']);
 
 		$iterator = new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS);
 		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($folder, $excludes){
