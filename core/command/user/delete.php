@@ -22,19 +22,20 @@
 
 namespace OC\Core\Command\User;
 
+use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
 class Delete extends Command {
-	/** @var \OC\User\Manager */
+	/** @var IUserManager */
 	protected $userManager;
 
 	/**
-	 * @param \OC\User\Manager $userManager
+	 * @param IUserManager $userManager
 	 */
-	public function __construct(\OC\User\Manager $userManager) {
+	public function __construct(IUserManager $userManager) {
 		$this->userManager = $userManager;
 		parent::__construct();
 	}
@@ -51,11 +52,17 @@ class Delete extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$wasSuccessful = $this->userManager->get($input->getArgument('uid'))->delete();
-		if($wasSuccessful === true) {
-			$output->writeln('The specified user was deleted');
+		$user = $this->userManager->get($input->getArgument('uid'));
+		if (is_null($user)) {
+			$output->writeln('<error>User does not exist</error>');
 			return;
 		}
+
+		if ($user->delete()) {
+			$output->writeln('<info>The specified user was deleted</info>');
+			return;
+		}
+
 		$output->writeln('<error>The specified could not be deleted. Please check the logs.</error>');
 	}
 }

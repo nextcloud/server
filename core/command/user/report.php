@@ -23,11 +23,23 @@
 
 namespace OC\Core\Command\User;
 
+use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Report extends Command {
+	/** @var IUserManager */
+	protected $userManager;
+
+	/**
+	 * @param IUserManager $userManager
+	 */
+	public function __construct(IUserManager $userManager) {
+		$this->userManager = $userManager;
+		parent::__construct();
+	}
+
 	protected function configure() {
 		$this
 			->setName('user:report')
@@ -35,6 +47,7 @@ class Report extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		/** @var \Symfony\Component\Console\Helper\TableHelper $table */
 		$table = $this->getHelperSet()->get('table');
 		$table->setHeaders(array('User Report', ''));
 		$userCountArray = $this->countUsers();
@@ -61,8 +74,7 @@ class Report extends Command {
 	}
 
 	private function countUsers() {
-		$userManager = \OC::$server->getUserManager();
-		return $userManager->countUsers();
+		return $this->userManager->countUsers();
 	}
 
 	private function countUserDirectories() {

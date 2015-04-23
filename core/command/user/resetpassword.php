@@ -23,6 +23,7 @@
 
 namespace OC\Core\Command\User;
 
+use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -31,10 +32,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ResetPassword extends Command {
 
-	/** @var \OC\User\Manager */
+	/** @var IUserManager */
 	protected $userManager;
 
-	public function __construct(\OC\User\Manager $userManager) {
+	public function __construct(IUserManager $userManager) {
 		$this->userManager = $userManager;
 		parent::__construct();
 	}
@@ -60,10 +61,10 @@ class ResetPassword extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$username = $input->getArgument('user');
 
-		/** @var $user \OC\User\User */
+		/** @var $user \OCP\IUser */
 		$user = $this->userManager->get($username);
 		if (is_null($user)) {
-			$output->writeln("<error>There is no user called " . $username . "</error>");
+			$output->writeln('<error>User does not exist</error>');
 			return 1;
 		}
 
