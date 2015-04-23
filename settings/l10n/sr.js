@@ -76,6 +76,7 @@ OC.L10N.register(
     "Strong password" : "Јака лозинка",
     "Valid until {date}" : "Важи до {date}",
     "Delete" : "Обриши",
+    "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Дошло је до грешке. Отпремите АСКИ кодирани ПЕМ сертификат.",
     "Groups" : "Групе",
     "Unable to delete {objName}" : "Не могу да обришем {objName}",
     "Error creating group" : "Грешка при прављењу групе",

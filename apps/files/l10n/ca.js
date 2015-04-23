@@ -70,6 +70,7 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "S'ha produït un error en tractar d'actualitzar les etiquetes",
     "A new file or folder has been <strong>created</strong>" : "S'ha <strong>creat</strong> un nou fitxer o una nova carpeta",
     "A file or folder has been <strong>changed</strong>" : "S'ha <strong>canviat</strong> un fitxer o una carpeta",
+    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitar les notificacions sobre la creació i canvis dels seus <strong>arxius favorits</strong><em>(solament Stream)</em>",
     "A file or folder has been <strong>deleted</strong>" : "S'ha <strong>elminiat</strong> un fitxer o una carpeta",
     "A file or folder has been <strong>restored</strong>" : "S'ha <strong>restaurat</strong> un fitxer o una carpeta",
     "You created %1$s" : "Has creat %1$s",

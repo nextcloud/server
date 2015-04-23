@@ -76,6 +76,7 @@ OC.L10N.register(
     "Strong password" : "Vahva salasana",
     "Valid until {date}" : "Kelvollinen {date} asti",
     "Delete" : "Poista",
+    "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Tapahtu virhe. Lähetä ASCII-koodattu PEM-varmenne.",
     "Groups" : "Ryhmät",
     "Unable to delete {objName}" : "Kohteen {objName} poistaminen epäonnistui",
     "Error creating group" : "Virhe ryhmää luotaessa",

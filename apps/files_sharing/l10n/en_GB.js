@@ -21,6 +21,7 @@ OC.L10N.register(
     "Remote share password" : "Remote share password",
     "Cancel" : "Cancel",
     "Add remote share" : "Add remote share",
+    "You can upload into this folder" : "You can upload into this folder",
     "No ownCloud installation (7 or higher) found at {remote}" : "No ownCloud installation (7 or higher) found at {remote}",
     "Invalid ownCloud url" : "Invalid ownCloud URL",
     "Share" : "Share",
@@ -56,6 +57,7 @@ OC.L10N.register(
     "Download %s" : "Download %s",
     "Direct link" : "Direct link",
     "Federated Cloud Sharing" : "Federated Cloud Sharing",
+    "Open documentation" : "Open documentation",
     "Allow users on this server to send shares to other servers" : "Allow users on this server to send shares to other servers",
     "Allow users on this server to receive shares from other servers" : "Allow users on this server to receive shares from other servers"
 },

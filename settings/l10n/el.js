@@ -76,6 +76,7 @@ OC.L10N.register(
     "Strong password" : "Δυνατό συνθηματικό",
     "Valid until {date}" : "Έγκυρο έως {date}",
     "Delete" : "Διαγραφή",
+    "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Προέκυψε σφάλμα. Παρακαλούμε μεταφορτώστε ένα πιστοποιητικό PEM κωδικοποιημένο κατά ASCII.",
     "Groups" : "Ομάδες",
     "Unable to delete {objName}" : "Αδυναμία διαγραφής του {objName}",
     "Error creating group" : "Σφάλμα δημιουργίας ομάδας",

@@ -76,6 +76,7 @@ OC.L10N.register(
     "Strong password" : "Password forte",
     "Valid until {date}" : "Valido fino al {date}",
     "Delete" : "Elimina",
+    "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Si è verificato un errore. Carica un certificato PEM codificato in ASCII.",
     "Groups" : "Gruppi",
     "Unable to delete {objName}" : "Impossibile eliminare {objName}",
     "Error creating group" : "Errore durante la creazione del gruppo",

@@ -21,6 +21,7 @@ OC.L10N.register(
     "Remote share password" : "Mot de passe du partage distant",
     "Cancel" : "Annuler",
     "Add remote share" : "Ajouter un partage distant",
+    "You can upload into this folder" : "Vous pouvez téléverser dans ce dossier",
     "No ownCloud installation (7 or higher) found at {remote}" : "Aucune installation ownCloud (7 ou supérieur) trouvée sur {remote}",
     "Invalid ownCloud url" : "URL ownCloud non valide",
     "Share" : "Partager",

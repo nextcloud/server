@@ -19,6 +19,7 @@
     "Remote share password" : "Κωδικός πρόσβασης απομακρυσμένου κοινόχρηστου φακέλου",
     "Cancel" : "Άκυρο",
     "Add remote share" : "Προσθήκη απομακρυσμένου κοινόχρηστου φακέλου",
+    "You can upload into this folder" : "Μπορείτε να μεταφορτώσετε σε αυτόν τον φάκελο",
     "No ownCloud installation (7 or higher) found at {remote}" : "Δεν βρέθηκε εγκατάστση ownCloud (7 ή νεώτερη) στο {remote}",
     "Invalid ownCloud url" : "Άκυρη url ownCloud ",
     "Share" : "Διαμοιράστε",
