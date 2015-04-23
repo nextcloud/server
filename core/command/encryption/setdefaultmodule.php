@@ -22,20 +22,20 @@
 namespace OC\Core\Command\Encryption;
 
 
-use OC\Encryption\Manager;
+use OCP\Encryption\IManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SetDefaultModule extends Command {
-	/** @var Manager */
+	/** @var IManager */
 	protected $encryptionManager;
 
 	/**
-	 * @param Manager $encryptionManager
+	 * @param IManager $encryptionManager
 	 */
-	public function __construct(Manager $encryptionManager) {
+	public function __construct(IManager $encryptionManager) {
 		parent::__construct();
 		$this->encryptionManager = $encryptionManager;
 	}
@@ -60,9 +60,9 @@ class SetDefaultModule extends Command {
 		if ($moduleId === $this->encryptionManager->getDefaultEncryptionModuleId()) {
 			$output->writeln('"' . $moduleId . '"" is already the default module');
 		} else if ($this->encryptionManager->setDefaultEncryptionModule($moduleId)) {
-			$output->writeln('Set default module to "' . $moduleId . '"');
+			$output->writeln('<info>Set default module to "' . $moduleId . '"</info>');
 		} else {
-			$output->writeln('The specified module "' . $moduleId . '" does not exist');
+			$output->writeln('<error>The specified module "' . $moduleId . '" does not exist</error>');
 		}
 	}
 }
