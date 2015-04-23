@@ -2,6 +2,7 @@
 /**
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -26,24 +27,14 @@ use OCP\ILogger;
 use OCP\ITempManager;
 
 class TempManager implements ITempManager {
-	/**
-	 * Current temporary files and folders
-	 *
-	 * @var string[]
-	 */
-	protected $current = array();
-
-	/**
-	 * i.e. /tmp on linux systems
-	 *
-	 * @var string
-	 */
+	/** @var string[] Current temporary files and folders, used for cleanup */
+	protected $current = [];
+	/** @var string i.e. /tmp on linux systems */
 	protected $tmpBaseDir;
-
-	/**
-	 * @var \OCP\ILogger
-	 */
+	/** @var ILogger */
 	protected $log;
+	/** Prefix */
+	const TMP_PREFIX = 'oc_tmp_';
 
 	/**
 	 * @param string $baseDir
@@ -55,35 +46,55 @@ class TempManager implements ITempManager {
 	}
 
 	/**
-	 * @param string $postFix
+	 * Builds the filename with suffix and removes potential dangerous characters
+	 * such as directory separators.
+	 *
+	 * @param string $absolutePath Absolute path to the file / folder
+	 * @param string $postFix Postfix appended to the temporary file name, may be user controlled
 	 * @return string
 	 */
-	protected function generatePath($postFix) {
-		if ($postFix) {
+	private function buildFileNameWithSuffix($absolutePath, $postFix = '') {
+		if($postFix !== '') {
 			$postFix = '.' . ltrim($postFix, '.');
+			$postFix = str_replace(['\\', '/'], '', $postFix);
+			$absolutePath .= '-';
 		}
-		$postFix = str_replace(['\\', '/'], '', $postFix);
-		return $this->tmpBaseDir . '/oc_tmp_' . md5(time() . rand()) . $postFix;
+
+		return $absolutePath . $postFix;
 	}
 
 	/**
 	 * Create a temporary file and return the path
 	 *
-	 * @param string $postFix
+	 * @param string $postFix Postfix appended to the temporary file name
 	 * @return string
 	 */
 	public function getTemporaryFile($postFix = '') {
-		$file = $this->generatePath($postFix);
 		if (is_writable($this->tmpBaseDir)) {
-			touch($file);
+			// To create an unique file and prevent the risk of race conditions
+			// or duplicated temporary files by other means such as collisions
+			// we need to create the file using `tempnam` and append a possible
+			// postfix to it later
+			$file = tempnam($this->tmpBaseDir, self::TMP_PREFIX);
 			$this->current[] = $file;
+
+			// If a postfix got specified sanitize it and create a postfixed
+			// temporary file
+			if($postFix !== '') {
+				$fileNameWithPostfix = $this->buildFileNameWithSuffix($file, $postFix);
+				touch($fileNameWithPostfix);
+				chmod($fileNameWithPostfix, 0600);
+				$this->current[] = $fileNameWithPostfix;
+				return $fileNameWithPostfix;
+			}
+
 			return $file;
 		} else {
 			$this->log->warning(
 				'Can not create a temporary file in directory {dir}. Check it exists and has correct permissions',
-				array(
-					'dir' => $this->tmpBaseDir
-				)
+				[
+					'dir' => $this->tmpBaseDir,
+				]
 			);
 			return false;
 		}
@@ -92,21 +103,30 @@ class TempManager implements ITempManager {
 	/**
 	 * Create a temporary folder and return the path
 	 *
-	 * @param string $postFix
+	 * @param string $postFix Postfix appended to the temporary folder name
 	 * @return string
 	 */
 	public function getTemporaryFolder($postFix = '') {
-		$path = $this->generatePath($postFix);
 		if (is_writable($this->tmpBaseDir)) {
-			mkdir($path);
+			// To create an unique directory and prevent the risk of race conditions
+			// or duplicated temporary files by other means such as collisions
+			// we need to create the file using `tempnam` and append a possible
+			// postfix to it later
+			$uniqueFileName = tempnam($this->tmpBaseDir, self::TMP_PREFIX);
+			$this->current[] = $uniqueFileName;
+
+			// Build a name without postfix
+			$path = $this->buildFileNameWithSuffix($uniqueFileName . '-folder', $postFix);
+			mkdir($path, 0700);
 			$this->current[] = $path;
+
 			return $path . '/';
 		} else {
 			$this->log->warning(
 				'Can not create a temporary folder in directory {dir}. Check it exists and has correct permissions',
-				array(
-					'dir' => $this->tmpBaseDir
-				)
+				[
+					'dir' => $this->tmpBaseDir,
+				]
 			);
 			return false;
 		}
@@ -119,6 +139,9 @@ class TempManager implements ITempManager {
 		$this->cleanFiles($this->current);
 	}
 
+	/**
+	 * @param string[] $files
+	 */
 	protected function cleanFiles($files) {
 		foreach ($files as $file) {
 			if (file_exists($file)) {
@@ -127,10 +150,10 @@ class TempManager implements ITempManager {
 				} catch (\UnexpectedValueException $ex) {
 					$this->log->warning(
 						"Error deleting temporary file/folder: {file} - Reason: {error}",
-						array(
+						[
 							'file' => $file,
-							'error' => $ex->getMessage()
-						)
+							'error' => $ex->getMessage(),
+						]
 					);
 				}
 			}
@@ -151,11 +174,11 @@ class TempManager implements ITempManager {
 	 */
 	protected function getOldFiles() {
 		$cutOfTime = time() - 3600;
-		$files = array();
+		$files = [];
 		$dh = opendir($this->tmpBaseDir);
 		if ($dh) {
 			while (($file = readdir($dh)) !== false) {
-				if (substr($file, 0, 7) === 'oc_tmp_') {
+				if (substr($file, 0, 7) === self::TMP_PREFIX) {
 					$path = $this->tmpBaseDir . '/' . $file;
 					$mtime = filemtime($path);
 					if ($mtime < $cutOfTime) {

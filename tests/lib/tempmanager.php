@@ -152,16 +152,37 @@ class TempManager extends \Test\TestCase {
 		$this->assertFalse($manager->getTemporaryFolder());
 	}
 
-	public function testGeneratePathTraversal() {
+	public function testBuildFileNameWithPostfix() {
 		$logger = $this->getMock('\Test\NullLogger');
 		$tmpManager = \Test_Helper::invokePrivate(
 			$this->getManager($logger),
-			'generatePath',
-			['../Traversal\\../FileName']
+			'buildFileNameWithSuffix',
+			['/tmp/myTemporaryFile', 'postfix']
+		);
+
+		$this->assertEquals('/tmp/myTemporaryFile-.postfix', $tmpManager);
+	}
+
+	public function testBuildFileNameWithoutPostfix() {
+		$logger = $this->getMock('\Test\NullLogger');
+		$tmpManager = \Test_Helper::invokePrivate(
+			$this->getManager($logger),
+					'buildFileNameWithSuffix',
+			['/tmp/myTemporaryFile', '']
+		);
+
+		$this->assertEquals('/tmp/myTemporaryFile', $tmpManager);
+	}
+
+	public function testBuildFileNameWithSuffixPathTraversal() {
+		$logger = $this->getMock('\Test\NullLogger');
+		$tmpManager = \Test_Helper::invokePrivate(
+			$this->getManager($logger),
+			'buildFileNameWithSuffix',
+			['foo', '../Traversal\\../FileName']
 		);
 
 		$this->assertStringEndsNotWith('./Traversal\\../FileName', $tmpManager);
 		$this->assertStringEndsWith('.Traversal..FileName', $tmpManager);
-
 	}
 }
