@@ -56,7 +56,8 @@ $server->addPlugin(new \OC\Connector\Sabre\ExceptionLoggerPlugin('webdav', \OC::
 // wait with registering these until auth is handled and the filesystem is setup
 $server->on('beforeMethod', function () use ($server, $objectTree, $authBackend) {
 	$share = $authBackend->getShare();
-	$owner = $share['uid_owner'];
+	$rootShare = \OCP\Share::resolveReShare($share);
+	$owner = $rootShare['uid_owner'];
 	$isWritable = $share['permissions'] & (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_CREATE);
 	$fileId = $share['file_source'];
 
