@@ -37,6 +37,13 @@ class EtagPropagation extends TestCase {
 		$this->setUpShares();
 	}
 
+	protected function tearDown() {
+		\OC_Hook::clear('OC_Filesystem', 'post_write');
+		\OC_Hook::clear('OC_Filesystem', 'post_delete');
+		\OC_Hook::clear('OC_Filesystem', 'post_rename');
+		parent::tearDown();
+	}
+
 	/**
 	 * "user1" is the admin who shares a folder "sub1/sub2/folder" with "user2" and "user3"
 	 * "user2" receives the folder and puts it in "sub1/sub2/folder"
