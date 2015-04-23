@@ -148,6 +148,8 @@ class Encryption extends \Test\TestCase {
 		$stream = $this->getStream($fileName, 'r', 6);
 		$this->assertEquals('foobar', fread($stream, 100));
 		fclose($stream);
+
+		unlink($fileName);
 	}
 
 	public function testSeek() {
@@ -161,6 +163,8 @@ class Encryption extends \Test\TestCase {
 		$stream = $this->getStream($fileName, 'r', 9);
 		$this->assertEquals('foofoobar', fread($stream, 100));
 		fclose($stream);
+
+		unlink($fileName);
 	}
 
 	function dataFilesProvider() {
@@ -198,6 +202,8 @@ class Encryption extends \Test\TestCase {
 		fclose($stream);
 
 		$this->assertEquals($expectedData, $data);
+
+		unlink($fileName);
 	}
 
 	/**
