@@ -27,6 +27,18 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 */
 	private $util;
 
+
+	/**
+	 * @var \OC\Encryption\Manager | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $encryptionManager;
+
+	/**
+	 * @var \OCP\Encryption\IEncryptionModule | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $encryptionModule;
+
+
 	/**
 	 * @var \OC\Encryption\Update | \PHPUnit_Framework_MockObject_MockObject
 	 */
@@ -37,17 +49,17 @@ class Encryption extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$mockModule = $this->buildMockModule();
-		$encryptionManager = $this->getMockBuilder('\OC\Encryption\Manager')
+		$this->encryptionManager = $this->getMockBuilder('\OC\Encryption\Manager')
 			->disableOriginalConstructor()
 			->setMethods(['getDefaultEncryptionModule', 'getEncryptionModule', 'isEnabled'])
 			->getMock();
-		$encryptionManager->expects($this->any())
+		$this->encryptionManager->expects($this->any())
 			->method('getDefaultEncryptionModule')
 			->willReturn($mockModule);
-		$encryptionManager->expects($this->any())
+		$this->encryptionManager->expects($this->any())
 			->method('getEncryptionModule')
 			->willReturn($mockModule);
-		$encryptionManager->expects($this->any())
+		$this->encryptionManager->expects($this->any())
 			->method('isEnabled')
 			->willReturn(true);
 
@@ -89,7 +101,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 			'mountPoint' => '/',
 			'mount' => $mount
 		],
-			$encryptionManager, $this->util, $logger, $file, null, $this->keyStore, $this->update
+			$this->encryptionManager, $this->util, $logger, $file, null, $this->keyStore, $this->update
 		);
 	}
 
@@ -97,21 +109,21 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 * @return \PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function buildMockModule() {
-		$encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
+		$this->encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 			->disableOriginalConstructor()
 			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize'])
 			->getMock();
 
-		$encryptionModule->expects($this->any())->method('getId')->willReturn('UNIT_TEST_MODULE');
-		$encryptionModule->expects($this->any())->method('getDisplayName')->willReturn('Unit test module');
-		$encryptionModule->expects($this->any())->method('begin')->willReturn([]);
-		$encryptionModule->expects($this->any())->method('end')->willReturn('');
-		$encryptionModule->expects($this->any())->method('encrypt')->willReturnArgument(0);
-		$encryptionModule->expects($this->any())->method('decrypt')->willReturnArgument(0);
-		$encryptionModule->expects($this->any())->method('update')->willReturn(true);
-		$encryptionModule->expects($this->any())->method('shouldEncrypt')->willReturn(true);
-		$encryptionModule->expects($this->any())->method('getUnencryptedBlockSize')->willReturn(8192);
-		return $encryptionModule;
+		$this->encryptionModule->expects($this->any())->method('getId')->willReturn('UNIT_TEST_MODULE');
+		$this->encryptionModule->expects($this->any())->method('getDisplayName')->willReturn('Unit test module');
+		$this->encryptionModule->expects($this->any())->method('begin')->willReturn([]);
+		$this->encryptionModule->expects($this->any())->method('end')->willReturn('');
+		$this->encryptionModule->expects($this->any())->method('encrypt')->willReturnArgument(0);
+		$this->encryptionModule->expects($this->any())->method('decrypt')->willReturnArgument(0);
+		$this->encryptionModule->expects($this->any())->method('update')->willReturn(true);
+		$this->encryptionModule->expects($this->any())->method('shouldEncrypt')->willReturn(true);
+		$this->encryptionModule->expects($this->any())->method('getUnencryptedBlockSize')->willReturn(8192);
+		return $this->encryptionModule;
 	}
 
 	/**
@@ -151,4 +163,43 @@ class Encryption extends \Test\Files\Storage\Storage {
 			array('source', '/subFolder/target', true),
 		);
 	}
+
+	/**
+	 * @dataProvider dataTestCopy
+	 *
+	 * @param string $source
+	 * @param string $target
+	 * @param boolean $shouldUpdate
+	 */
+	public function testCopy($source, $target, $shouldUpdate) {
+		$this->keyStore
+			->expects($this->once())
+			->method('copyKeys');
+		$this->util->expects($this->any())
+			->method('isFile')->willReturn(true);
+		if ($shouldUpdate) {
+			$this->update->expects($this->once())
+				->method('update');
+		} else {
+			$this->update->expects($this->never())
+				->method('update');
+		}
+
+		$this->instance->mkdir($source);
+		$this->instance->mkdir(dirname($target));
+		$this->instance->copy($source, $target);
+	}
+
+	/**
+	 * data provider for testRename()
+	 *
+	 * @return array
+	 */
+	public function dataTestCopy() {
+		return array(
+			array('source', 'target', false),
+			array('source', '/subFolder/target', true),
+		);
+	}
+
 }

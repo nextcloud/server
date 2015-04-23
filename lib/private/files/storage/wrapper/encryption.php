@@ -256,9 +256,9 @@ class Encryption extends Wrapper {
 		$result = $this->storage->copy($path1, $path2);
 		if ($result) {
 			$target = $this->getFullPath($path2);
-			$encryptionModule = $this->getEncryptionModule($path2);
-			if ($encryptionModule) {
-				$this->keyStorage->copyKeys($source, $target);
+			$this->keyStorage->copyKeys($source, $target);
+			if (dirname($source) !== dirname($target) && $this->util->isFile($target)) {
+				$this->update->update($target);
 			}
 		}
 
