@@ -13,9 +13,24 @@ class Encryption extends \Test\Files\Storage\Storage {
 	private $sourceStorage;
 
 	/**
+	 * @var \OC\Files\Storage\Wrapper\Encryption
+	 */
+	protected $instance;
+
+	/**
 	 * @var \OC\Encryption\Keys\Storage | \PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $keyStore;
+
+	/**
+	 * @var \OC\Encryption\Util | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $util;
+
+	/**
+	 * @var \OC\Encryption\Update | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $update;
 
 	public function setUp() {
 
@@ -43,8 +58,8 @@ class Encryption extends \Test\Files\Storage\Storage {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$util = $this->getMock('\OC\Encryption\Util', ['getUidAndFilename'], [new View(), new \OC\User\Manager(), $groupManager, $config]);
-		$util->expects($this->any())
+		$this->util = $this->getMock('\OC\Encryption\Util', ['getUidAndFilename', 'isFile'], [new View(), new \OC\User\Manager(), $groupManager, $config]);
+		$this->util->expects($this->any())
 			->method('getUidAndFilename')
 			->willReturnCallback(function ($path) {
 				return ['user1', $path];
@@ -61,6 +76,8 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$this->sourceStorage = new Temporary(array());
 		$this->keyStore = $this->getMockBuilder('\OC\Encryption\Keys\Storage')
 			->disableOriginalConstructor()->getMock();
+		$this->update = $this->getMockBuilder('\OC\Encryption\Update')
+			->disableOriginalConstructor()->getMock();
 		$mount = $this->getMockBuilder('\OC\Files\Mount\MountPoint')
 			->disableOriginalConstructor()
 			->setMethods(['getOption'])
@@ -72,7 +89,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 			'mountPoint' => '/',
 			'mount' => $mount
 		],
-			$encryptionManager, $util, $logger, $file, null, $this->keyStore
+			$encryptionManager, $this->util, $logger, $file, null, $this->keyStore, $this->update
 		);
 	}
 
@@ -97,11 +114,41 @@ class Encryption extends \Test\Files\Storage\Storage {
 		return $encryptionModule;
 	}
 
-	public function testRename() {
+	/**
+	 * @dataProvider dataTestRename
+	 *
+	 * @param string $source
+	 * @param string $target
+	 * @param boolean $shouldUpdate
+	 */
+	public function testRename($source, $target, $shouldUpdate) {
 		$this->keyStore
 			->expects($this->once())
 			->method('renameKeys');
-		$this->instance->mkdir('folder');
-		$this->instance->rename('folder', 'flodder');
+		$this->util->expects($this->any())
+			->method('isFile')->willReturn(true);
+		if ($shouldUpdate) {
+			$this->update->expects($this->once())
+				->method('update');
+		} else {
+			$this->update->expects($this->never())
+				->method('update');
+		}
+
+		$this->instance->mkdir($source);
+		$this->instance->mkdir(dirname($target));
+		$this->instance->rename($source, $target);
+	}
+
+	/**
+	 * data provider for testRename()
+	 *
+	 * @return array
+	 */
+	public function dataTestRename() {
+		return array(
+			array('source', 'target', false),
+			array('source', '/subFolder/target', true),
+		);
 	}
 }

@@ -22,6 +22,7 @@
 
 namespace OC\Encryption;
 
+use OC\Files\Filesystem;
 use OC\Files\Storage\Shared;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
@@ -222,7 +223,24 @@ class Manager implements IManager {
 				$uid = $user ? $user->getUID() : null;
 				$fileHelper = \OC::$server->getEncryptionFilesHelper();
 				$keyStorage = \OC::$server->getEncryptionKeyStorage();
-				return new Encryption($parameters, $manager, $util, $logger, $fileHelper, $uid, $keyStorage);
+				$update = new Update(
+					new View(),
+					$util,
+					Filesystem::getMountManager(),
+					$manager,
+					$fileHelper,
+					$uid
+				);
+				return new Encryption(
+					$parameters,
+					$manager,
+					$util,
+					$logger,
+					$fileHelper,
+					$uid,
+					$keyStorage,
+					$update
+				);
 			} else {
 				return $storage;
 			}

@@ -25,6 +25,7 @@ namespace OC\Encryption;
 use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
 use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
+use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
@@ -181,10 +182,9 @@ class Util {
 	 * go recursively through a dir and collect all files and sub files.
 	 *
 	 * @param string $dir relative to the users files folder
-	 * @param string $mountPoint
 	 * @return array with list of files relative to the users files folder
 	 */
-	public function getAllFiles($dir, $mountPoint = '') {
+	public function getAllFiles($dir) {
 		$result = array();
 		$dirList = array($dir);
 
@@ -193,13 +193,10 @@ class Util {
 			$content = $this->view->getDirectoryContent($dir);
 
 			foreach ($content as $c) {
-				// getDirectoryContent() returns the paths relative to the mount points, so we need
-				// to re-construct the complete path
-				$path = ($mountPoint !== '') ? $mountPoint . '/' .  $c->getPath() : $c->getPath();
-				if ($c['type'] === 'dir') {
-					$dirList[] = \OC\Files\Filesystem::normalizePath($path);
+				if ($c->getType() === 'dir') {
+					$dirList[] = $c->getPath();
 				} else {
-					$result[] =  \OC\Files\Filesystem::normalizePath($path);
+					$result[] =  $c->getPath();
 				}
 			}
 
@@ -212,11 +209,12 @@ class Util {
 	 * check if it is a file uploaded by the user stored in data/user/files
 	 * or a metadata file
 	 *
-	 * @param string $path
+	 * @param string $path relative to the data/ folder
 	 * @return boolean
 	 */
 	public function isFile($path) {
-		if (substr($path, 0, strlen('/files/')) === '/files/') {
+		$parts = explode('/', Filesystem::normalizePath($path), 4);
+		if (isset($parts[2]) && $parts[2] === 'files') {
 			return true;
 		}
 		return false;
@@ -262,7 +260,7 @@ class Util {
 
 		$ownerPath = implode('/', array_slice($parts, 2));
 
-		return array($uid, \OC\Files\Filesystem::normalizePath($ownerPath));
+		return array($uid, Filesystem::normalizePath($ownerPath));
 
 	}
 

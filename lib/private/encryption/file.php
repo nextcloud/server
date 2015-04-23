@@ -36,7 +36,7 @@ class File implements \OCP\Encryption\IFile {
 	 * get list of users with access to the file
 	 *
 	 * @param string $path to the file
-	 * @return array
+	 * @return array  ['users' => $uniqueUserIds, 'public' => $public]
 	 */
 	public function getAccessList($path) {
 
@@ -46,7 +46,7 @@ class File implements \OCP\Encryption\IFile {
 		// always add owner to the list of users with access to the file
 		$userIds = array($owner);
 
-		if (!$this->util->isFile($ownerPath)) {
+		if (!$this->util->isFile($owner . '/' . $ownerPath)) {
 			return array('users' => $userIds, 'public' => false);
 		}
 

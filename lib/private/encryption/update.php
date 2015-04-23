@@ -22,6 +22,7 @@
 
 namespace OC\Encryption;
 
+use OC\Files\Filesystem;
 use \OC\Files\Mount;
 use \OC\Files\View;
 
@@ -74,46 +75,73 @@ class Update {
 		$this->uid = $uid;
 	}
 
+	/**
+	 * hook after file was shared
+	 *
+	 * @param array $params
+	 */
 	public function postShared($params) {
 		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
-			$this->update($params['fileSource']);
-		}
-	}
-
-	public function postUnshared($params) {
-		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
-			$this->update($params['fileSource']);
+			$path = Filesystem::getPath($params['fileSource']);
+			list($owner, $ownerPath) = $this->getOwnerPath($path);
+			$absPath = '/' . $owner . '/files/' . $ownerPath;
+			$this->update($absPath);
 		}
 	}
 
 	/**
-	 * update keyfiles and share keys recursively
+	 * hook after file was unshared
 	 *
-	 * @param int $fileSource file source id
+	 * @param array $params
 	 */
-	private function update($fileSource) {
-		$path = \OC\Files\Filesystem::getPath($fileSource);
-		$info = \OC\Files\Filesystem::getFileInfo($path);
-		$owner = \OC\Files\Filesystem::getOwner($path);
-		$view = new \OC\Files\View('/' . $owner . '/files');
-		$ownerPath = $view->getPath($info->getId());
-		$absPath = '/' . $owner . '/files' . $ownerPath;
+	public function postUnshared($params) {
+		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
+			$path = Filesystem::getPath($params['fileSource']);
+			list($owner, $ownerPath) = $this->getOwnerPath($path);
+			$absPath = '/' . $owner . '/files/' . $ownerPath;
+			$this->update($absPath);
+		}
+	}
 
-		$mount = $this->mountManager->find($path);
-		$mountPoint = $mount->getMountPoint();
+	/**
+	 * get owner and path relative to data/<owner>/files
+	 *
+	 * @param string $path path to file for current user
+	 * @return array ['owner' => $owner, 'path' => $path]
+	 * @throw \InvalidArgumentException
+	 */
+	private function getOwnerPath($path) {
+		$info = Filesystem::getFileInfo($path);
+		$owner = Filesystem::getOwner($path);
+		$view = new View('/' . $owner . '/files');
+		$path = $view->getPath($info->getId());
+		if ($path === null) {
+			throw new \InvalidArgumentException('No file found for ' . $info->getId());
+		}
+
+		return array($owner, $path);
+	}
+
+	/**
+	 * notify encryption module about added/removed users from a file/folder
+	 *
+	 * @param string $path relative to data/
+	 * @throws Exceptions\ModuleDoesNotExistsException
+	 */
+	public function update($path) {
 
 		// if a folder was shared, get a list of all (sub-)folders
-		if ($this->view->is_dir($absPath)) {
-			$allFiles = $this->util->getAllFiles($absPath, $mountPoint);
+		if ($this->view->is_dir($path)) {
+			$allFiles = $this->util->getAllFiles($path);
 		} else {
-			$allFiles = array($absPath);
+			$allFiles = array($path);
 		}
 
 		$encryptionModule = $this->encryptionManager->getDefaultEncryptionModule();
 
-		foreach ($allFiles as $path) {
-			$usersSharing = $this->file->getAccessList($path);
-			$encryptionModule->update($path, $this->uid, $usersSharing);
+		foreach ($allFiles as $file) {
+			$usersSharing = $this->file->getAccessList($file);
+			$encryptionModule->update($file, $this->uid, $usersSharing);
 		}
 	}
 

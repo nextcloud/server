@@ -152,4 +152,25 @@ class UtilTest extends TestCase {
 		return false;
 	}
 
+	/**
+	 * @dataProvider dataTestIsFile
+	 */
+	public function testIsFile($path, $expected) {
+		$this->assertSame($expected,
+			$this->util->isFile($path)
+		);
+	}
+
+	public function dataTestIsFile() {
+		return array(
+			array('/user/files/test.txt', true),
+			array('/user/files', true),
+			array('/user/files_versions/test.txt', false),
+			array('/user/foo/files/test.txt', false),
+			array('/files/foo/files/test.txt', false),
+			array('/user', false),
+			array('/user/test.txt', false),
+		);
+	}
+
 }

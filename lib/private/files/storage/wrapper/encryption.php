@@ -24,8 +24,13 @@ namespace OC\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\File;
+use OC\Encryption\Manager;
+use OC\Encryption\Update;
+use OC\Encryption\Util;
 use OC\Files\Filesystem;
 use OC\Files\Storage\LocalTempFileTrait;
+use OC\Log;
+use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Mount\IMountPoint;
 
 class Encryption extends Wrapper {
@@ -59,6 +64,9 @@ class Encryption extends Wrapper {
 	/** @var \OCP\Encryption\Keys\IStorage */
 	private $keyStorage;
 
+	/** @var \OC\Encryption\Update */
+	private $update;
+
 	/**
 	 * @param array $parameters
 	 * @param \OC\Encryption\Manager $encryptionManager
@@ -66,15 +74,18 @@ class Encryption extends Wrapper {
 	 * @param \OC\Log $logger
 	 * @param File $fileHelper
 	 * @param string $uid user who perform the read/write operation (null for public access)
+	 * @param IStorage $keyStorage
+	 * @param Update $update
 	 */
 	public function __construct(
 			$parameters,
-			\OC\Encryption\Manager $encryptionManager = null,
-			\OC\Encryption\Util $util = null,
-			\OC\Log $logger = null,
+			Manager $encryptionManager = null,
+			Util $util = null,
+			Log $logger = null,
 			File $fileHelper = null,
 			$uid = null,
-			$keyStorage = null
+			IStorage $keyStorage = null,
+			Update $update = null
 		) {
 
 		$this->mountPoint = $parameters['mountPoint'];
@@ -86,6 +97,7 @@ class Encryption extends Wrapper {
 		$this->fileHelper = $fileHelper;
 		$this->keyStorage = $keyStorage;
 		$this->unencryptedSize = array();
+		$this->update = $update;
 		parent::__construct($parameters);
 	}
 
@@ -207,12 +219,11 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	public function rename($path1, $path2) {
-		$fullPath1 = $this->getFullPath($path1);
-		if ($this->util->isExcluded($fullPath1)) {
+		$source = $this->getFullPath($path1);
+		if ($this->util->isExcluded($source)) {
 			return $this->storage->rename($path1, $path2);
 		}
 
-		$source = $this->getFullPath($path1);
 		$result = $this->storage->rename($path1, $path2);
 		if ($result) {
 			$target = $this->getFullPath($path2);
@@ -220,6 +231,9 @@ class Encryption extends Wrapper {
 				$this->unencryptedSize[$target] = $this->unencryptedSize[$source];
 			}
 			$this->keyStorage->renameKeys($source, $target);
+			if (dirname($source) !== dirname($target) && $this->util->isFile($target)) {
+				$this->update->update($target);
+			}
 		}
 
 		return $result;
