@@ -67,6 +67,16 @@ if ($_['mail_smtpmode'] == 'qmail') {
 	<h2><?php p($l->t('Security & setup warnings'));?></h2>
 	<ul>
 <?php
+// is php setup properly to query system environment variables like getenv('PATH')
+if ($_['getenvServerNotWorking']) {
+?>
+	<li>
+		<?php p($l->t('php does not seem to be setup properly to query system environment variables. The test with getenv("PATH") only returns an empty response.')); ?><br>
+		<?php p($l->t('Please check the installation documentation for php configuration notes and the php configuration of your server, especially when using php-fpm.')); ?>
+	</li>
+<?php
+}
+
 // is read only config enabled
 if ($_['readOnlyConfigEnabled']) {
 ?>
