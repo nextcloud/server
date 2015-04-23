@@ -58,8 +58,8 @@ $server->on('beforeMethod', function () use ($server, $objectTree, $authBackend)
 	$share = $authBackend->getShare();
 	$rootShare = \OCP\Share::resolveReShare($share);
 	$owner = $rootShare['uid_owner'];
-	$isWritable = $rootShare['permissions'] & (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_CREATE);
-	$fileId = $rootShare['file_source'];
+	$isWritable = $share['permissions'] & (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_CREATE);
+	$fileId = $share['file_source'];
 
 	if (!$isWritable) {
 		\OC\Files\Filesystem::addStorageWrapper('readonly', function ($mountPoint, $storage) {
