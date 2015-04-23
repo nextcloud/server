@@ -52,7 +52,7 @@ class RecipientPropagator {
 	 */
 	public function propagateDirtyMountPoints(array $shares, $time = null) {
 		if ($time === null) {
-			$time = time();
+			$time = microtime(true);
 		}
 		$dirtyShares = $this->getDirtyShares($shares);
 		foreach ($dirtyShares as $share) {
@@ -88,7 +88,7 @@ class RecipientPropagator {
 	 */
 	public function markDirty($share, $time = null) {
 		if ($time === null) {
-			$time = time();
+			$time = microtime(true);
 		}
 		$this->config->setAppValue('files_sharing', $share['id'], $time);
 	}
@@ -104,7 +104,7 @@ class RecipientPropagator {
 			$shares = Share::getAllSharesForFileId($entry['fileid']);
 			foreach ($shares as $share) {
 				// propagate down the share tree
-				$this->markDirty($share, time());
+				$this->markDirty($share, microtime(true));
 
 				// propagate up the share tree
 				$user = $share['uid_owner'];
