@@ -32,7 +32,7 @@
 	position: relative;
 	text-align: left;
 	white-space: pre-wrap;
-	overflow-y: auto;
+	overflow-y: hidden;
 	height: auto;
 	min-height: 200px;
 	max-height: 800px;
@@ -42,16 +42,10 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	z-index: 1;
 }
 
-#imgframe .watermark {
-	color: #E3E3E3;
-	font-size: 75pt;
-	position: absolute;
-	width: 80%;
-	top: 100px;
-	z-index: 0;
+#imgframe .ellipsis {
+	font-size: 1.2em;
 }
 
 /* fix multiselect bar offset on shared page */

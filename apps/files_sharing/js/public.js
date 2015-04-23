@@ -232,15 +232,13 @@ OCA.Sharing.PublicApp = {
 		textDiv.appendTo('#imgframe');
 		var divHeight = textDiv.height();
 		if (data.length > 999) {
-			textDiv.append('</br></br><strong>(&#133;)</strong>');
-			divHeight += 50;
+			var ellipsis = $('<div/>').addClass('ellipsis');
+			ellipsis.html('(&#133;)');
+			ellipsis.appendTo('#imgframe');
 		}
 		if (divHeight > previewHeight) {
 			textDiv.height(previewHeight);
 		}
-		var watermark = $('<div/>').addClass('watermark');
-		watermark.text('SAMPLE');
-		watermark.appendTo('#imgframe');
 	},
 
 	_onDirectoryChanged: function (e) {
