@@ -42,11 +42,11 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\App\Enable());
 	$application->add(new OC\Core\Command\App\ListApps());
 	$application->add(new OC\Core\Command\Maintenance\Repair($repair, \OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\User\Report());
-	$application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->getUserManager()));
-	$application->add(new OC\Core\Command\User\LastSeen());
-	$application->add(new OC\Core\Command\User\Delete(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\Add(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
+	$application->add(new OC\Core\Command\User\Delete(\OC::$server->getUserManager()));
+	$application->add(new OC\Core\Command\User\LastSeen(\OC::$server->getUserManager()));
+	$application->add(new OC\Core\Command\User\Report(\OC::$server->getUserManager()));
+	$application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\Background\Cron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\WebCron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\Ajax(\OC::$server->getConfig()));

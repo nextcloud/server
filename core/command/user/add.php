@@ -119,7 +119,7 @@ class Add extends Command {
 		);
 
 		if ($user instanceof IUser) {
-			$output->writeln('The user "' . $user->getUID() . '" was created successfully');
+			$output->writeln('<info>The user "' . $user->getUID() . '" was created successfully</info>');
 		} else {
 			$output->writeln('<error>An error occurred while creating the user</error>');
 			return 1;
