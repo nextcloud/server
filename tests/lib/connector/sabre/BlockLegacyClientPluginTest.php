@@ -97,7 +97,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 	 * @dataProvider newAndAlternateDesktopClientProvider
 	 * @param string $userAgent
 	 */
-	public function testBeforeHandlerSucess($userAgent) {
+	public function testBeforeHandlerSuccess($userAgent) {
 		/** @var \Sabre\HTTP\RequestInterface $request */
 		$request = $this->getMock('\Sabre\HTTP\RequestInterface');
 		$request
@@ -112,6 +112,17 @@ class BlockLegacyClientPluginTest extends TestCase {
 			->with('minimum.supported.desktop.version', '1.7.0')
 			->will($this->returnValue('1.7.0'));
 
+		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
+	}
+
+	public function testBeforeHandlerNoUserAgent() {
+		/** @var \Sabre\HTTP\RequestInterface $request */
+		$request = $this->getMock('\Sabre\HTTP\RequestInterface');
+		$request
+			->expects($this->once())
+			->method('getHeader')
+			->with('User-Agent')
+			->will($this->returnValue(null));
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
 	}
 

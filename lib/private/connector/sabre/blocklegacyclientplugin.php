@@ -46,7 +46,7 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 	}
 
 	/**
-	 * @param \Sabre\DAV\ $server
+	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
@@ -62,6 +62,10 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 	 */
 	public function beforeHandler(RequestInterface $request) {
 		$userAgent = $request->getHeader('User-Agent');
+		if($userAgent === null) {
+			return;
+		}
+
 		$minimumSupportedDesktopVersion = $this->config->getSystemValue('minimum.supported.desktop.version', '1.7.0');
 
 		// Match on the mirall version which is in scheme "Mozilla/5.0 (%1) mirall/%2" or
