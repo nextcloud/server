@@ -288,9 +288,15 @@
 			} else if (mountType === 'shared-root') {
 				deleteTitle = t('files', 'Unshare');
 			}
+			var cssClasses = 'action delete icon-delete';
+			if((context.$file.data('permissions') & OC.PERMISSION_DELETE) === 0) {
+				// add css class no-permission to delete icon
+				cssClasses += ' no-permission';
+				deleteTitle = t('files', 'No permission to delete');
+			}
 			var $actionLink = $('<a href="#" original-title="' +
 				escapeHTML(deleteTitle) +
-				'" class="action delete icon-delete">' +
+				'" class="' +cssClasses + '">' +
 				'<span class="hidden-visually">' + escapeHTML(deleteTitle) + '</span>' +
 				'</a>'
 			);
@@ -426,12 +432,17 @@
 				name: 'Delete',
 				displayName: '',
 				mime: 'all',
-				permissions: OC.PERMISSION_DELETE,
+				// permission is READ because we show a hint instead if there is no permission
+				permissions: OC.PERMISSION_READ,
 				icon: function() {
 					return OC.imagePath('core', 'actions/delete');
 				},
 				render: _.bind(this._renderDeleteAction, this),
 				actionHandler: function(fileName, context) {
+					// if there is no permission to delete do nothing
+					if((context.$file.data('permissions') & OC.PERMISSION_DELETE) === 0) {
+						return;
+					}
 					context.fileList.do_delete(fileName, context.dir);
 					$('.tipsy').remove();
 				}

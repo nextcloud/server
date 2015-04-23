@@ -128,7 +128,7 @@ describe('OCA.External.FileList tests', function() {
 				'?dir=/another%20mount%20points/sftp%20mount'
 			);
 			expect($tr.find('.nametext').text().trim()).toEqual('sftp mount');
-			expect($tr.find('.column-scope').text().trim()).toEqual('System');
+			expect($tr.find('.column-scope > span').text().trim()).toEqual('System');
 			expect($tr.find('.column-backend').text().trim()).toEqual('SFTP');
 
 			$tr = $rows.eq(1);
