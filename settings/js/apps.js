@@ -321,8 +321,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						var img= $('<img class="app-icon"/>').attr({ src: entry.icon});
 						var a=$('<a></a>').attr('href', entry.href);
 						var filename=$('<span></span>');
+						var loading = $('<div class="icon-loading-dark"></div>').css('display', 'none');
 						filename.text(entry.name);
 						a.prepend(filename);
+						a.prepend(loading);
 						a.prepend(img);
 						li.append(a);
 
