@@ -15,7 +15,7 @@ if (!OC.Encryption) {
  */
 OC.Encryption = {
 	displayEncryptionWarning: function () {
-		if (!OC.Notification.isHidden()) {
+		if (!OC.currentUser || !OC.Notification.isHidden()) {
 			return;
 		}
 
