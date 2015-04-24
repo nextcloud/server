@@ -136,7 +136,8 @@ class Encryption extends \Test\Files\Storage\Storage {
 	public function testRename($source, $target, $shouldUpdate) {
 		$this->keyStore
 			->expects($this->once())
-			->method('renameKeys');
+			->method('renameKeys')
+			->willReturn(true);
 		$this->util->expects($this->any())
 			->method('isFile')->willReturn(true);
 		if ($shouldUpdate) {
@@ -174,7 +175,8 @@ class Encryption extends \Test\Files\Storage\Storage {
 	public function testCopy($source, $target, $shouldUpdate) {
 		$this->keyStore
 			->expects($this->once())
-			->method('copyKeys');
+			->method('copyKeys')
+			->willReturn(true);
 		$this->util->expects($this->any())
 			->method('isFile')->willReturn(true);
 		if ($shouldUpdate) {
