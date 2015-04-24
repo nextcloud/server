@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
- * @author jknockaert <jasper@knockaert.nl>
+ * @author Jasper Knockaert <jasper@knockaert.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -221,10 +221,9 @@ class Encryption extends Wrapper {
 			|| $mode === 'w+'
 			|| $mode === 'wb'
 			|| $mode === 'wb+'
+			|| $mode === 'r+'
+			|| $mode === 'rb+'
 		) {
-			// We're writing a new file so start write counter with 0 bytes
-			$this->unencryptedSize = 0;
-			$this->size = 0;
 			$this->readOnly = false;
 		} else {
 			$this->readOnly = true;
@@ -238,6 +237,20 @@ class Encryption extends Wrapper {
 		$accessList = $this->file->getAccessList($sharePath);
 		$this->newHeader = $this->encryptionModule->begin($this->fullPath, $this->uid, $this->header, $accessList);
 
+		if (
+			$mode === 'w'
+			|| $mode === 'w+'
+			|| $mode === 'wb'
+			|| $mode === 'wb+'
+		) {
+			// We're writing a new file so start write counter with 0 bytes
+			$this->unencryptedSize = 0;
+			$this->writeHeader();
+			$this->size = $this->util->getHeaderSize();
+		} else {
+			$this->skipHeader();
+		}
+
 		return true;
 
 	}
@@ -249,11 +262,6 @@ class Encryption extends Wrapper {
 	public function stream_read($count) {
 
 		$result = '';
-
-		// skip the header if we read the file from the beginning
-		if ($this->position === 0) {
-			parent::stream_read($this->util->getHeaderSize());
-		}
 
 //		$count = min($count, $this->unencryptedSize - $this->position);
 		while ($count > 0) {
@@ -280,11 +288,6 @@ class Encryption extends Wrapper {
 	}
 
 	public function stream_write($data) {
-
-		if ($this->position === 0) {
-			$this->writeHeader();
-			$this->size = $this->util->getHeaderSize();
-		}
 
 		$length = 0;
 		// loop over $data to fit it in 6126 sized unencrypted blocks
@@ -428,9 +431,16 @@ class Encryption extends Wrapper {
 	 * @return integer
 	 * @throws EncryptionHeaderKeyExistsException if header key is already in use
 	 */
-	private function writeHeader() {
+	protected function writeHeader() {
 		$header = $this->util->createHeader($this->newHeader, $this->encryptionModule);
 		return parent::stream_write($header);
+	}
+
+	/**
+	 * read first block to skip the header
+	 */
+	protected function skipHeader() {
+		parent::stream_read($this->util->getHeaderSize());
 	}
 
 }

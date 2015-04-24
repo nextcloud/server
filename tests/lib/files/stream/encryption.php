@@ -55,6 +55,7 @@ class Encryption extends \Test\TestCase {
 								   $fileExists,
 								   $expectedSharePath,
 								   $expectedSize,
+								   $expectedUnencryptedSize,
 								   $expectedReadOnly) {
 
 		// build mocks
@@ -77,9 +78,15 @@ class Encryption extends \Test\TestCase {
 				return array();
 			}));
 
+		$utilMock = $this->getMockBuilder('\OC\Encryption\Util')
+			->disableOriginalConstructor()->getMock();
+		$utilMock->expects($this->any())
+			->method('getHeaderSize')
+			->willReturn(8192);
+
 		// get a instance of the stream wrapper
 		$streamWrapper = $this->getMockBuilder('\OC\Files\Stream\Encryption')
-			->setMethods(['loadContext'])->disableOriginalConstructor()->getMock();
+			->setMethods(['loadContext', 'writeHeader', 'skipHeader'])->disableOriginalConstructor()->getMock();
 
 		// set internal properties of the stream wrapper
 		$stream = new \ReflectionClass('\OC\Files\Stream\Encryption');
@@ -95,6 +102,10 @@ class Encryption extends \Test\TestCase {
 		$file->setAccessible(true);
 		$file->setValue($streamWrapper, $fileMock);
 		$file->setAccessible(false);
+		$util = $stream->getProperty('util');
+		$util->setAccessible(true);
+		$util->setValue($streamWrapper, $utilMock);
+		$util->setAccessible(false);
 		$fullPathP = $stream->getProperty('fullPath');
 		$fullPathP->setAccessible(true);
 		$fullPathP->setValue($streamWrapper, $fullPath);
@@ -118,7 +129,7 @@ class Encryption extends \Test\TestCase {
 
 		$unencryptedSize = $stream->getProperty('unencryptedSize');
 		$unencryptedSize->setAccessible(true);
-		$this->assertSame($expectedSize,
+		$this->assertSame($expectedUnencryptedSize,
 			$unencryptedSize->getValue($streamWrapper)
 		);
 		$unencryptedSize->setAccessible(false);
@@ -133,9 +144,9 @@ class Encryption extends \Test\TestCase {
 
 	public function dataProviderStreamOpen() {
 		return array(
-			array('r', '/foo/bar/test.txt', true, '/foo/bar/test.txt', null, true),
-			array('r', '/foo/bar/test.txt', false, '/foo/bar', null, true),
-			array('w', '/foo/bar/test.txt', true, '/foo/bar/test.txt', 0, false),
+			array('r', '/foo/bar/test.txt', true, '/foo/bar/test.txt', null, null, true),
+			array('r', '/foo/bar/test.txt', false, '/foo/bar', null, null, true),
+			array('w', '/foo/bar/test.txt', true, '/foo/bar/test.txt', 8192, 0, false),
 		);
 	}
 
@@ -150,6 +161,36 @@ class Encryption extends \Test\TestCase {
 		fclose($stream);
 
 		unlink($fileName);
+	}
+
+	public function testWriteWriteRead() {
+		$fileName = tempnam("/tmp", "FOO");
+		$stream = $this->getStream($fileName, 'w+', 0);
+		$this->assertEquals(6, fwrite($stream, 'foobar'));
+		fclose($stream);
+
+		$stream = $this->getStream($fileName, 'r+', 6);
+		$this->assertEquals(3, fwrite($stream, 'bar'));
+		fclose($stream);
+
+		$stream = $this->getStream($fileName, 'r', 6);
+		$this->assertEquals('barbar', fread($stream, 100));
+		fclose($stream);
+	}
+
+	public function testRewind() {
+		$fileName = tempnam("/tmp", "FOO");
+		$stream = $this->getStream($fileName, 'w+', 0);
+		$this->assertEquals(6, fwrite($stream, 'foobar'));
+		$this->assertEquals(TRUE, rewind($stream));
+		$this->assertEquals('foobar', fread($stream, 100));
+		$this->assertEquals(TRUE, rewind($stream));
+		$this->assertEquals(3, fwrite($stream, 'bar'));
+		fclose($stream);
+
+		$stream = $this->getStream($fileName, 'r', 6);
+		$this->assertEquals('barbar', fread($stream, 100));
+		fclose($stream);
 	}
 
 	public function testSeek() {
