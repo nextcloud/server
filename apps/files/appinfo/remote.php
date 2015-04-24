@@ -43,6 +43,7 @@ $server->setBaseUri($baseuri);
 
 // Load plugins
 $defaults = new OC_Defaults();
+$server->addPlugin(new \OC\Connector\Sabre\BlockLegacyClientPlugin(\OC::$server->getConfig()));
 $server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, $defaults->getName()));
 // FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 $server->addPlugin(new \OC\Connector\Sabre\DummyGetResponsePlugin());
