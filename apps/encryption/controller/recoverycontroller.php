@@ -75,34 +75,34 @@ class RecoveryController extends Controller {
 		if (empty($recoveryPassword)) {
 			$errorMessage = (string)$this->l->t('Missing recovery key password');
 			return new DataResponse(['data' => ['message' => $errorMessage]],
-				Http::STATUS_INTERNAL_SERVER_ERROR);
+				Http::STATUS_BAD_REQUEST);
 		}
 
 		if (empty($confirmPassword)) {
 			$errorMessage = (string)$this->l->t('Please repeat the recovery key password');
 			return new DataResponse(['data' => ['message' => $errorMessage]],
-				Http::STATUS_INTERNAL_SERVER_ERROR);
+				Http::STATUS_BAD_REQUEST);
 		}
 
 		if ($recoveryPassword !== $confirmPassword) {
 			$errorMessage = (string)$this->l->t('Repeated recovery key password does not match the provided recovery key password');
 			return new DataResponse(['data' => ['message' => $errorMessage]],
-				Http::STATUS_INTERNAL_SERVER_ERROR);
+				Http::STATUS_BAD_REQUEST);
 		}
 
 		if (isset($adminEnableRecovery) && $adminEnableRecovery === '1') {
 			if ($this->recovery->enableAdminRecovery($recoveryPassword)) {
 				return new DataResponse(['data' => ['message' => (string)$this->l->t('Recovery key successfully enabled')]]);
 			}
-			return new DataResponse(['data' => ['message' => (string)$this->l->t('Could not enable recovery key. Please check your recovery key password!')]], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse(['data' => ['message' => (string)$this->l->t('Could not enable recovery key. Please check your recovery key password!')]], Http::STATUS_BAD_REQUEST);
 		} elseif (isset($adminEnableRecovery) && $adminEnableRecovery === '0') {
 			if ($this->recovery->disableAdminRecovery($recoveryPassword)) {
 				return new DataResponse(['data' => ['message' => (string)$this->l->t('Recovery key successfully disabled')]]);
 			}
-			return new DataResponse(['data' => ['message' => (string)$this->l->t('Could not disable recovery key. Please check your recovery key password!')]], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse(['data' => ['message' => (string)$this->l->t('Could not disable recovery key. Please check your recovery key password!')]], Http::STATUS_BAD_REQUEST);
 		}
 		// this response should never be sent but just in case.
-		return new DataResponse(['data' => ['message' => (string)$this->l->t('Missing parameters')]], Http::STATUS_INTERNAL_SERVER_ERROR);
+		return new DataResponse(['data' => ['message' => (string)$this->l->t('Missing parameters')]], Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -115,22 +115,22 @@ class RecoveryController extends Controller {
 		//check if both passwords are the same
 		if (empty($oldPassword)) {
 			$errorMessage = (string)$this->l->t('Please provide the old recovery password');
-			return new DataResponse(['data' => ['message' => $errorMessage]], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse(['data' => ['message' => $errorMessage]], Http::STATUS_BAD_REQUEST);
 		}
 
 		if (empty($newPassword)) {
 			$errorMessage = (string)$this->l->t('Please provide a new recovery password');
-			return new DataResponse (['data' => ['message' => $errorMessage]], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse (['data' => ['message' => $errorMessage]], Http::STATUS_BAD_REQUEST);
 		}
 
 		if (empty($confirmPassword)) {
 			$errorMessage = (string)$this->l->t('Please repeat the new recovery password');
-			return new DataResponse(['data' => ['message' => $errorMessage]], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse(['data' => ['message' => $errorMessage]], Http::STATUS_BAD_REQUEST);
 		}
 
 		if ($newPassword !== $confirmPassword) {
 			$errorMessage = (string)$this->l->t('Repeated recovery key password does not match the provided recovery key password');
-			return new DataResponse(['data' => ['message' => $errorMessage]], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse(['data' => ['message' => $errorMessage]], Http::STATUS_BAD_REQUEST);
 		}
 
 		$result = $this->recovery->changeRecoveryKeyPassword($newPassword,
@@ -149,7 +149,7 @@ class RecoveryController extends Controller {
 				'data' => [
 					'message' => (string)$this->l->t('Could not change the password. Maybe the old password was not correct.')
 				]
-			], Http::STATUS_INTERNAL_SERVER_ERROR);
+			], Http::STATUS_BAD_REQUEST);
 	}
 
 	/**
@@ -186,7 +186,7 @@ class RecoveryController extends Controller {
 				'data' => [
 					'message' => (string)$this->l->t('Could not enable the recovery key, please try again or contact your administrator')
 				]
-			], Http::STATUS_INTERNAL_SERVER_ERROR);
+			], Http::STATUS_BAD_REQUEST);
 	}
 
 }

@@ -40,9 +40,9 @@ class RecoveryControllerTest extends TestCase {
 	public function adminRecoveryProvider() {
 		return [
 			['test', 'test', '1', 'Recovery key successfully enabled', HTTP::STATUS_OK],
-			['', 'test', '1', 'Missing recovery key password', HTTP::STATUS_INTERNAL_SERVER_ERROR],
-			['test', '', '1', 'Please repeat the recovery key password', HTTP::STATUS_INTERNAL_SERVER_ERROR],
-			['test', 'soimething that doesn\'t match', '1', 'Repeated recovery key password does not match the provided recovery key password', HTTP::STATUS_INTERNAL_SERVER_ERROR],
+			['', 'test', '1', 'Missing recovery key password', HTTP::STATUS_BAD_REQUEST],
+			['test', '', '1', 'Please repeat the recovery key password', HTTP::STATUS_BAD_REQUEST],
+			['test', 'soimething that doesn\'t match', '1', 'Repeated recovery key password does not match the provided recovery key password', HTTP::STATUS_BAD_REQUEST],
 			['test', 'test', '0', 'Recovery key successfully disabled', HTTP::STATUS_OK],
 		];
 	}
@@ -79,11 +79,11 @@ class RecoveryControllerTest extends TestCase {
 
 	public function changeRecoveryPasswordProvider() {
 		return [
-			['test', 'test', 'oldtestFail', 'Could not change the password. Maybe the old password was not correct.', HTTP::STATUS_INTERNAL_SERVER_ERROR],
+			['test', 'test', 'oldtestFail', 'Could not change the password. Maybe the old password was not correct.', HTTP::STATUS_BAD_REQUEST],
 			['test', 'test', 'oldtest', 'Password successfully changed.', HTTP::STATUS_OK],
-			['test', 'notmatch', 'oldtest', 'Repeated recovery key password does not match the provided recovery key password', HTTP::STATUS_INTERNAL_SERVER_ERROR],
-			['', 'test', 'oldtest', 'Please provide a new recovery password', HTTP::STATUS_INTERNAL_SERVER_ERROR],
-			['test', 'test', '', 'Please provide the old recovery password', HTTP::STATUS_INTERNAL_SERVER_ERROR]
+			['test', 'notmatch', 'oldtest', 'Repeated recovery key password does not match the provided recovery key password', HTTP::STATUS_BAD_REQUEST],
+			['', 'test', 'oldtest', 'Please provide a new recovery password', HTTP::STATUS_BAD_REQUEST],
+			['test', 'test', '', 'Please provide the old recovery password', HTTP::STATUS_BAD_REQUEST]
 		];
 	}
 
@@ -117,7 +117,7 @@ class RecoveryControllerTest extends TestCase {
 	public function userSetRecoveryProvider() {
 		return [
 			['1', 'Recovery Key enabled', Http::STATUS_OK],
-			['0', 'Could not enable the recovery key, please try again or contact your administrator', Http::STATUS_INTERNAL_SERVER_ERROR]
+			['0', 'Could not enable the recovery key, please try again or contact your administrator', Http::STATUS_BAD_REQUEST]
 		];
 	}
 
