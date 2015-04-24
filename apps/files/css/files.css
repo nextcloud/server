@@ -581,7 +581,9 @@ a.action>img {
 #fileList tr:hover a.action,
 #fileList a.action.permanent,
 #fileList tr:focus a.action,
-#fileList a.action.permanent
+#fileList a.action.permanent,
+#fileList tr:hover a.action.no-permission:hover,
+#fileList tr:focus a.action.no-permission:focus
 /*#fileList .name:focus .action*/ {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	filter: alpha(opacity=50);

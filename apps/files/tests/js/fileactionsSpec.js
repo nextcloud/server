@@ -157,6 +157,48 @@ describe('OCA.Files.FileActions tests', function() {
 		expect(deleteStub.getCall(0).args[1]).toEqual('/somepath/dir');
 		deleteStub.restore();
 	});
+	it('shows delete hint when no permission to delete', function() {
+		var deleteStub = sinon.stub(fileList, 'do_delete');
+		var fileData = {
+			id: 18,
+			type: 'file',
+			name: 'testName.txt',
+			path: '/somepath/dir',
+			mimetype: 'text/plain',
+			size: '1234',
+			etag: 'a01234c',
+			mtime: '123456',
+			permissions: OC.PERMISSION_READ
+		};
+		var $tr = fileList.add(fileData);
+		FileActions.display($tr.find('td.filename'), true, fileList);
+
+		var $action = $tr.find('.action.delete');
+
+		expect($action.hasClass('no-permission')).toEqual(true);
+		deleteStub.restore();
+	});
+	it('shows delete hint not when permission to delete', function() {
+		var deleteStub = sinon.stub(fileList, 'do_delete');
+		var fileData = {
+			id: 18,
+			type: 'file',
+			name: 'testName.txt',
+			path: '/somepath/dir',
+			mimetype: 'text/plain',
+			size: '1234',
+			etag: 'a01234c',
+			mtime: '123456',
+			permissions: OC.PERMISSION_DELETE
+		};
+		var $tr = fileList.add(fileData);
+		FileActions.display($tr.find('td.filename'), true, fileList);
+
+		var $action = $tr.find('.action.delete');
+
+		expect($action.hasClass('no-permission')).toEqual(false);
+		deleteStub.restore();
+	});
 	it('passes context to action handler', function() {
 		var actionStub = sinon.stub();
 		var fileData = {
