@@ -23,15 +23,15 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
-use OC\Encryption\File;
-use OC\Encryption\Manager;
 use OC\Encryption\Update;
 use OC\Encryption\Util;
 use OC\Files\Filesystem;
 use OC\Files\Storage\LocalTempFileTrait;
-use OC\Log;
+use OCP\Encryption\IFile;
+use OCP\Encryption\IManager;
 use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Mount\IMountPoint;
+use OCP\ILogger;
 
 class Encryption extends Wrapper {
 
@@ -43,10 +43,10 @@ class Encryption extends Wrapper {
 	/** @var \OC\Encryption\Util */
 	private $util;
 
-	/** @var \OC\Encryption\Manager */
+	/** @var \OCP\Encryption\IManager */
 	private $encryptionManager;
 
-	/** @var \OC\Log */
+	/** @var \OCP\ILogger */
 	private $logger;
 
 	/** @var string */
@@ -55,7 +55,7 @@ class Encryption extends Wrapper {
 	/** @var array */
 	private $unencryptedSize;
 
-	/** @var File */
+	/** @var \OCP\Encryption\IFile */
 	private $fileHelper;
 
 	/** @var IMountPoint */
@@ -69,20 +69,20 @@ class Encryption extends Wrapper {
 
 	/**
 	 * @param array $parameters
-	 * @param \OC\Encryption\Manager $encryptionManager
+	 * @param \OCP\Encryption\IManager $encryptionManager
 	 * @param \OC\Encryption\Util $util
-	 * @param \OC\Log $logger
-	 * @param File $fileHelper
+	 * @param \OCP\ILogger $logger
+	 * @param \OCP\Encryption\IFile $fileHelper
 	 * @param string $uid user who perform the read/write operation (null for public access)
 	 * @param IStorage $keyStorage
 	 * @param Update $update
 	 */
 	public function __construct(
 			$parameters,
-			Manager $encryptionManager = null,
+			IManager $encryptionManager = null,
 			Util $util = null,
-			Log $logger = null,
-			File $fileHelper = null,
+			ILogger $logger = null,
+			IFile $fileHelper = null,
 			$uid = null,
 			IStorage $keyStorage = null,
 			Update $update = null

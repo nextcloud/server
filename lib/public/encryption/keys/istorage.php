@@ -163,7 +163,7 @@ interface IStorage {
 	 *
 	 * @param string $source
 	 * @param string $target
-	 * @retrun boolean
+	 * @return boolean
 	 * @since 8.1.0
 	 */
 	public function copyKeys($source, $target);
