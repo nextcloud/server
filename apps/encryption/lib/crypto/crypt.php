@@ -210,6 +210,15 @@ class Crypt {
 	}
 
 	/**
+	 * get legacy cipher
+	 *
+	 * @return string
+	 */
+	public function getLegacyCipher() {
+		return self::LEGACY_CIPHER;
+	}
+
+	/**
 	 * @param string $encryptedContent
 	 * @param string $iv
 	 * @return string

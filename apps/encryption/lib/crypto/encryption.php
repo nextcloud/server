@@ -101,6 +101,7 @@ class Encryption implements IEncryptionModule {
 	 *
 	 * @param string $path to the file
 	 * @param string $user who read/write the file
+	 * @param string $mode php stream open mode
 	 * @param array $header contains the header data read from the file
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 *
@@ -108,12 +109,19 @@ class Encryption implements IEncryptionModule {
 	 *                       written to the header, in case of a write operation
 	 *                       or if no additional data is needed return a empty array
 	 */
-	public function begin($path, $user, array $header, array $accessList) {
+	public function begin($path, $user, $mode, array $header, array $accessList) {
 
 		if (isset($header['cipher'])) {
 			$this->cipher = $header['cipher'];
-		} else {
+		} else if (
+			$mode === 'w'
+			|| $mode === 'w+'
+			|| $mode === 'wb'
+			|| $mode === 'wb+'
+		) {
 			$this->cipher = $this->crypt->getCipher();
+		} else {
+			$this->cipher = $this->crypt->getLegacyCipher();
 		}
 
 		$this->path = $this->getPathToRealFile($path);
@@ -234,7 +242,7 @@ class Encryption implements IEncryptionModule {
 	public function decrypt($data) {
 		$result = '';
 		if (!empty($data)) {
-			$result = $this->crypt->symmetricDecryptFileContent($data, $this->fileKey);
+			$result = $this->crypt->symmetricDecryptFileContent($data, $this->fileKey, $this->cipher);
 		}
 		return $result;
 	}

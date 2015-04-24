@@ -53,6 +53,7 @@ class DummyModule implements IEncryptionModule {
 	 *
 	 * @param string $path to the file
 	 * @param string $user who read/write the file (null for public access)
+	 * @param string $mode php stream open mode
 	 * @param array $header contains the header data read from the file
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 *
@@ -60,7 +61,7 @@ class DummyModule implements IEncryptionModule {
 	 *                       written to the header, in case of a write operation
 	 *                       or if no additional data is needed return a empty array
 	 */
-	public function begin($path, $user, array $header, array $accessList) {
+	public function begin($path, $user, $mode, array $header, array $accessList) {
 		return array();
 	}
 

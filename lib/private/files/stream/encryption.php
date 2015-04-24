@@ -59,6 +59,9 @@ class Encryption extends Wrapper {
 	protected $unencryptedSize;
 
 	/** @var integer */
+	protected $headerSize;
+
+	/** @var integer */
 	protected $unencryptedBlockSize;
 
 	/** @var array */
@@ -104,7 +107,8 @@ class Encryption extends Wrapper {
 			'util',
 			'size',
 			'unencryptedSize',
-			'encryptionStorage'
+			'encryptionStorage',
+			'headerSize'
 		);
 	}
 
@@ -125,6 +129,7 @@ class Encryption extends Wrapper {
 	 * @param string $mode
 	 * @param int $size
 	 * @param int $unencryptedSize
+	 * @param int $headerSize
 	 * @return resource
 	 *
 	 * @throws \BadMethodCallException
@@ -138,7 +143,8 @@ class Encryption extends Wrapper {
 								 \OC\Encryption\File $file,
 								$mode,
 								$size,
-								$unencryptedSize) {
+								$unencryptedSize,
+								$headerSize) {
 
 		$context = stream_context_create(array(
 			'ocencryption' => array(
@@ -153,7 +159,8 @@ class Encryption extends Wrapper {
 				'file' => $file,
 				'size' => $size,
 				'unencryptedSize' => $unencryptedSize,
-				'encryptionStorage' => $encStorage
+				'encryptionStorage' => $encStorage,
+				'headerSize' => $headerSize
 			)
 		));
 
@@ -235,7 +242,7 @@ class Encryption extends Wrapper {
 		}
 
 		$accessList = $this->file->getAccessList($sharePath);
-		$this->newHeader = $this->encryptionModule->begin($this->fullPath, $this->uid, $this->header, $accessList);
+		$this->newHeader = $this->encryptionModule->begin($this->fullPath, $this->uid, $mode, $this->header, $accessList);
 
 		if (
 			$mode === 'w'
@@ -246,7 +253,8 @@ class Encryption extends Wrapper {
 			// We're writing a new file so start write counter with 0 bytes
 			$this->unencryptedSize = 0;
 			$this->writeHeader();
-			$this->size = $this->util->getHeaderSize();
+			$this->headerSize = $this->util->getHeaderSize();
+			$this->size = $this->headerSize;
 		} else {
 			$this->skipHeader();
 		}
@@ -300,7 +308,7 @@ class Encryption extends Wrapper {
 			// for seekable streams the pointer is moved back to the beginning of the encrypted block
 			// flush will start writing there when the position moves to another block
 			$positionInFile = (int)floor($this->position / $this->unencryptedBlockSize) *
-				$this->util->getBlockSize() + $this->util->getHeaderSize();
+				$this->util->getBlockSize() + $this->headerSize;
 			$resultFseek = parent::stream_seek($positionInFile);
 
 			// only allow writes on seekable streams, or at the end of the encrypted stream
@@ -367,7 +375,7 @@ class Encryption extends Wrapper {
 		}
 
 		$newFilePosition = floor($newPosition / $this->unencryptedBlockSize)
-			* $this->util->getBlockSize() + $this->util->getHeaderSize();
+			* $this->util->getBlockSize() + $this->headerSize;
 
 		$oldFilePosition = parent::stream_tell();
 		if (parent::stream_seek($newFilePosition)) {
@@ -440,7 +448,7 @@ class Encryption extends Wrapper {
 	 * read first block to skip the header
 	 */
 	protected function skipHeader() {
-		parent::stream_read($this->util->getHeaderSize());
+		parent::stream_read($this->headerSize);
 	}
 
 }

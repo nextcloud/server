@@ -44,7 +44,7 @@ class Encryption extends \Test\TestCase {
 
 		return \OC\Files\Stream\Encryption::wrap($source, $internalPath,
 			$fullPath, $header, $uid, $encryptionModule, $storage, $encStorage,
-			$util, $file, $mode, $size, $unencryptedSize);
+			$util, $file, $mode, $size, $unencryptedSize, 8192);
 	}
 
 	/**

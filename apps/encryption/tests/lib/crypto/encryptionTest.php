@@ -72,5 +72,32 @@ class EncryptionTest extends TestCase {
 		);
 	}
 
+	/**
+	 * @dataProvider dataTestBegin
+	 */
+	public function testBegin($mode, $header, $legacyCipher, $defaultCipher, $expected) {
+
+		$this->cryptMock->expects($this->any())
+			->method('getCipher')
+			->willReturn($defaultCipher);
+		$this->cryptMock->expects($this->any())
+			->method('getLegacyCipher')
+			->willReturn($legacyCipher);
+
+		$result = $this->instance->begin('/user/files/foo.txt', 'user', $mode, $header, []);
+
+		$this->assertArrayHasKey('cipher', $result);
+		$this->assertSame($expected, $result['cipher']);
+	}
+
+	public function dataTestBegin() {
+		return array(
+			array('w', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'myCipher'),
+			array('r', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'myCipher'),
+			array('w', [], 'legacyCipher', 'defaultCipher', 'defaultCipher'),
+			array('r', [], 'legacyCipher', 'defaultCipher', 'legacyCipher'),
+		);
+	}
+
 
 }
