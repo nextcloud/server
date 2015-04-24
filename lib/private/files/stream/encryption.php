@@ -237,7 +237,6 @@ class Encryption extends Wrapper {
 		$accessList = $this->file->getAccessList($sharePath);
 		$this->newHeader = $this->encryptionModule->begin($this->fullPath, $this->uid, $this->header, $accessList);
 
-		if (!($path==='')){
 		if (
 			$mode === 'w'
 			|| $mode === 'w+'
@@ -249,9 +248,9 @@ class Encryption extends Wrapper {
 			$this->writeHeader();
 			$this->size = $this->util->getHeaderSize();
 		} else {
-			parent::stream_read($this->util->getHeaderSize());
+			$this->skipHeader();
 		}
-		}
+
 		return true;
 
 	}
@@ -432,9 +431,16 @@ class Encryption extends Wrapper {
 	 * @return integer
 	 * @throws EncryptionHeaderKeyExistsException if header key is already in use
 	 */
-	private function writeHeader() {
+	protected function writeHeader() {
 		$header = $this->util->createHeader($this->newHeader, $this->encryptionModule);
 		return parent::stream_write($header);
+	}
+
+	/**
+	 * read first block to skip the header
+	 */
+	protected function skipHeader() {
+		parent::stream_read($this->util->getHeaderSize());
 	}
 
 }
