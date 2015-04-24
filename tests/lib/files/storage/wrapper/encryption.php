@@ -131,13 +131,14 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 *
 	 * @param string $source
 	 * @param string $target
+	 * @param boolean $renameKeysReturn
 	 * @param boolean $shouldUpdate
 	 */
-	public function testRename($source, $target, $shouldUpdate) {
+	public function testRename($source, $target, $renameKeysReturn, $shouldUpdate) {
 		$this->keyStore
 			->expects($this->once())
 			->method('renameKeys')
-			->willReturn(true);
+			->willReturn($renameKeysReturn);
 		$this->util->expects($this->any())
 			->method('isFile')->willReturn(true);
 		if ($shouldUpdate) {
@@ -158,13 +159,14 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 *
 	 * @param string $source
 	 * @param string $target
+	 * @param boolean $copyKeysReturn
 	 * @param boolean $shouldUpdate
 	 */
-	public function testCopyTesting($source, $target, $shouldUpdate) {
+	public function testCopyTesting($source, $target, $copyKeysReturn, $shouldUpdate) {
 		$this->keyStore
 			->expects($this->once())
 			->method('copyKeys')
-			->willReturn(true);
+			->willReturn($copyKeysReturn);
 		$this->util->expects($this->any())
 			->method('isFile')->willReturn(true);
 		if ($shouldUpdate) {
@@ -194,9 +196,10 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 */
 	public function dataTestCopyAndRename() {
 		return array(
-			array('source', 'target', false),
-			array('source', 'target', false),
-			array('source', '/subFolder/target', true),
+			array('source', 'target', false, false),
+			array('source', 'target', true, false),
+			array('source', '/subFolder/target', false, false),
+			array('source', '/subFolder/target', true, true),
 		);
 	}
 
