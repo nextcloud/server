@@ -235,6 +235,7 @@ class Storage implements IStorage {
 	 *
 	 * @param string $source
 	 * @param string $target
+	 * @return boolean
 	 */
 	public function renameKeys($source, $target) {
 
@@ -253,7 +254,11 @@ class Storage implements IStorage {
 		if ($this->view->file_exists($sourcePath)) {
 			$this->keySetPreparation(dirname($targetPath));
 			$this->view->rename($sourcePath, $targetPath);
+
+			return true;
 		}
+
+		return false;
 	}
 
 	/**
@@ -261,6 +266,7 @@ class Storage implements IStorage {
 	 *
 	 * @param string $source
 	 * @param string $target
+	 * @return boolean
 	 */
 	public function copyKeys($source, $target) {
 
@@ -279,7 +285,10 @@ class Storage implements IStorage {
 		if ($this->view->file_exists($sourcePath)) {
 			$this->keySetPreparation(dirname($targetPath));
 			$this->view->copy($sourcePath, $targetPath);
+			return true;
 		}
+
+		return false;
 	}
 
 	/**

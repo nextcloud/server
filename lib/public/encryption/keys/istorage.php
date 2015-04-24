@@ -153,6 +153,7 @@ interface IStorage {
 	 *
 	 * @param string $source
 	 * @param string $target
+	 * @return boolean
 	 * @since 8.1.0
 	 */
 	public function renameKeys($source, $target);
@@ -162,6 +163,7 @@ interface IStorage {
 	 *
 	 * @param string $source
 	 * @param string $target
+	 * @return boolean
 	 * @since 8.1.0
 	 */
 	public function copyKeys($source, $target);

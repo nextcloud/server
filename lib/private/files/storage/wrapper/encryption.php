@@ -23,10 +23,15 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
-use OC\Encryption\File;
+use OC\Encryption\Update;
+use OC\Encryption\Util;
 use OC\Files\Filesystem;
 use OC\Files\Storage\LocalTempFileTrait;
+use OCP\Encryption\IFile;
+use OCP\Encryption\IManager;
+use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Mount\IMountPoint;
+use OCP\ILogger;
 
 class Encryption extends Wrapper {
 
@@ -38,10 +43,10 @@ class Encryption extends Wrapper {
 	/** @var \OC\Encryption\Util */
 	private $util;
 
-	/** @var \OC\Encryption\Manager */
+	/** @var \OCP\Encryption\IManager */
 	private $encryptionManager;
 
-	/** @var \OC\Log */
+	/** @var \OCP\ILogger */
 	private $logger;
 
 	/** @var string */
@@ -50,7 +55,7 @@ class Encryption extends Wrapper {
 	/** @var array */
 	private $unencryptedSize;
 
-	/** @var File */
+	/** @var \OCP\Encryption\IFile */
 	private $fileHelper;
 
 	/** @var IMountPoint */
@@ -59,22 +64,28 @@ class Encryption extends Wrapper {
 	/** @var \OCP\Encryption\Keys\IStorage */
 	private $keyStorage;
 
+	/** @var \OC\Encryption\Update */
+	private $update;
+
 	/**
 	 * @param array $parameters
-	 * @param \OC\Encryption\Manager $encryptionManager
+	 * @param \OCP\Encryption\IManager $encryptionManager
 	 * @param \OC\Encryption\Util $util
-	 * @param \OC\Log $logger
-	 * @param File $fileHelper
+	 * @param \OCP\ILogger $logger
+	 * @param \OCP\Encryption\IFile $fileHelper
 	 * @param string $uid user who perform the read/write operation (null for public access)
+	 * @param IStorage $keyStorage
+	 * @param Update $update
 	 */
 	public function __construct(
 			$parameters,
-			\OC\Encryption\Manager $encryptionManager = null,
-			\OC\Encryption\Util $util = null,
-			\OC\Log $logger = null,
-			File $fileHelper = null,
+			IManager $encryptionManager = null,
+			Util $util = null,
+			ILogger $logger = null,
+			IFile $fileHelper = null,
 			$uid = null,
-			$keyStorage = null
+			IStorage $keyStorage = null,
+			Update $update = null
 		) {
 
 		$this->mountPoint = $parameters['mountPoint'];
@@ -86,6 +97,7 @@ class Encryption extends Wrapper {
 		$this->fileHelper = $fileHelper;
 		$this->keyStorage = $keyStorage;
 		$this->unencryptedSize = array();
+		$this->update = $update;
 		parent::__construct($parameters);
 	}
 
@@ -207,19 +219,24 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	public function rename($path1, $path2) {
-		$fullPath1 = $this->getFullPath($path1);
-		if ($this->util->isExcluded($fullPath1)) {
+		$source = $this->getFullPath($path1);
+		if ($this->util->isExcluded($source)) {
 			return $this->storage->rename($path1, $path2);
 		}
 
-		$source = $this->getFullPath($path1);
 		$result = $this->storage->rename($path1, $path2);
 		if ($result) {
 			$target = $this->getFullPath($path2);
 			if (isset($this->unencryptedSize[$source])) {
 				$this->unencryptedSize[$target] = $this->unencryptedSize[$source];
 			}
-			$this->keyStorage->renameKeys($source, $target);
+			$keysRenamed = $this->keyStorage->renameKeys($source, $target);
+			if ($keysRenamed &&
+				dirname($source) !== dirname($target) &&
+				$this->util->isFile($target)
+			) {
+				$this->update->update($target);
+			}
 		}
 
 		return $result;
@@ -242,9 +259,12 @@ class Encryption extends Wrapper {
 		$result = $this->storage->copy($path1, $path2);
 		if ($result) {
 			$target = $this->getFullPath($path2);
-			$encryptionModule = $this->getEncryptionModule($path2);
-			if ($encryptionModule) {
-				$this->keyStorage->copyKeys($source, $target);
+			$keysCopied = $this->keyStorage->copyKeys($source, $target);
+			if ($keysCopied &&
+				dirname($source) !== dirname($target) &&
+				$this->util->isFile($target)
+			) {
+				$this->update->update($target);
 			}
 		}
 
