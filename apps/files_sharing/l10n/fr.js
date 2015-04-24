@@ -28,7 +28,7 @@ OC.L10N.register(
     "Shared by" : "Partagé par",
     "A file or folder has been <strong>shared</strong>" : "Un fichier ou un répertoire a été <strong>partagé</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Un fichier ou un répertoire a été partagé depuis <strong>un autre serveur</strong>",
-    "A public shared file or folder was <strong>downloaded</strong>" : "Un fichier ou un répertoire partagé a été <strong>téléchargé</strong>",
+    "A public shared file or folder was <strong>downloaded</strong>" : "Un fichier ou un répertoire partagé publiquement a été <strong>téléchargé</strong>",
     "You received a new remote share from %s" : "Vous avez reçu un partage distant de %s",
     "%1$s accepted remote share %2$s" : "%1$s a accepté le partage distant %2$s",
     "%1$s declined remote share %2$s" : "%1$s a refusé le partage distant %2$s",
