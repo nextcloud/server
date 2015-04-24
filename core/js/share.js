@@ -986,6 +986,11 @@ $(document).ready(function() {
 			$('#linkPassText').attr('placeholder', t('core', 'Choose a password for the public link'));
 			// Reset link
 			$('#linkText').val('');
+			$('#showPassword').prop('checked', false);
+			$('#linkPass').hide();
+			$('#sharingDialogAllowPublicUpload').prop('checked', false);
+			$('#expirationCheckbox').prop('checked', false);
+			$('#expirationDate').hide();
 			var expireDateString = '';
 			if (oc_appconfig.core.defaultExpireDateEnabled) {
 				var date = new Date().getTime();

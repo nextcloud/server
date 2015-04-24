@@ -228,6 +228,112 @@ describe('OC.Share tests', function() {
 
 				oc_appconfig.core.enforcePasswordForPublicLink = old;
 			});
+			it('reset password on toggle of share', function() {
+				$('#allowShareWithLink').val('yes');
+				OC.Share.showDropDown(
+					'file',
+					123,
+					$container,
+					true,
+					31,
+					'shared_file_name.txt'
+				);
+				$('#dropdown [name=linkCheckbox]').click();
+				fakeServer.requests[0].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({data: {token: 'xyz'}, status: 'success'})
+				);
+
+				//Password protection should be unchecked and password field not visible
+				expect($('#dropdown [name=showPassword]').prop('checked')).toEqual(false);
+				expect($('#dropdown #linkPass').is(":visible")).toEqual(false);
+
+				// Toggle and set password
+				$('#dropdown [name=showPassword]').click();
+				$('#dropdown #linkPassText').val('foo');
+				$('#dropdown #linkPassText').trigger(new $.Event('keyup', {keyCode: 13}));
+				fakeServer.requests[1].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({data: {token: 'xyz2'}, status: 'success'})
+				);
+
+				// Unshare
+				$('#dropdown [name=linkCheckbox]').click();
+				fakeServer.requests[2].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({status: 'success'})
+				);
+
+				// Toggle share again
+				$('#dropdown [name=linkCheckbox]').click();
+				fakeServer.requests[3].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({data: {token: 'xyz3'}, status: 'success'})
+				);
+
+
+				// Password checkbox should be unchecked
+				expect($('#dropdown [name=showPassword]').prop('checked')).toEqual(false);
+				expect($('#dropdown #linkPass').is(":visible")).toEqual(false);
+			});
+			it('reset expiration on toggle of share', function() {
+				$('#allowShareWithLink').val('yes');
+				OC.Share.showDropDown(
+					'file',
+					123,
+					$container,
+					true,
+					31,
+					'shared_file_name.txt'
+				);
+				$('#dropdown [name=linkCheckbox]').click();
+				fakeServer.requests[0].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({data: {token: 'xyz'}, status: 'success'})
+				);
+
+				//Expiration should be unchecked and expiration field not visible
+				expect($('#dropdown [name=expirationCheckbox]').prop('checked')).toEqual(false);
+				expect($('#dropdown #expirationDate').is(":visible")).toEqual(false);
+
+				// Toggle and set password
+				$('#dropdown [name=expirationCheckbox]').click();
+				d = new Date();
+				d.setDate(d.getDate() + 1);
+				date=d.getDate() + '-' + (d.getMonth()+1) + '-' + d.getFullYear();
+				$('#dropdown #expirationDate').val(date);
+				$('#dropdown #expirationDate').change();
+				fakeServer.requests[1].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({data: {token: 'xyz2'}, status: 'success'})
+				);
+
+				// Unshare
+				$('#dropdown [name=linkCheckbox]').click();
+				fakeServer.requests[2].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({status: 'success'})
+				);
+
+				// Toggle share again
+				$('#dropdown [name=linkCheckbox]').click();
+				fakeServer.requests[3].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({data: {token: 'xyz3'}, status: 'success'})
+				);
+
+				// Recheck expire visibility
+				expect($('#dropdown [name=expirationCheckbox]').prop('checked')).toEqual(false);
+				expect($('#dropdown #expirationDate').is(":visible")).toEqual(false);
+			});
 			it('shows populated link share when a link share exists', function() {
 				loadItemStub.returns({
 					reshare: [],
