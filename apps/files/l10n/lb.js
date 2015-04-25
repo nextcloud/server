@@ -29,6 +29,7 @@ OC.L10N.register(
     "Settings" : "Astellungen",
     "New" : "Nei",
     "Text file" : "Text Fichier",
+    "New folder" : "Neien Dossier",
     "Folder" : "Dossier",
     "Upload" : "Eroplueden",
     "Cancel upload" : "Upload ofbriechen",

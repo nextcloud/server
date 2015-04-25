@@ -1,4 +1,5 @@
 { "translations": {
+    "Server" : "Server",
     "Users" : "Korisnici",
     "Groups" : "Grupe",
     "Help" : "Pomoć",

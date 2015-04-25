@@ -21,6 +21,7 @@ OC.L10N.register(
     "Remote share password" : "Senha do compartilhamento remoto",
     "Cancel" : "Cancelar",
     "Add remote share" : "Adicionar compartilhamento remoto",
+    "You can upload into this folder" : "Você não pode enviar arquivos para esta pasta",
     "No ownCloud installation (7 or higher) found at {remote}" : "Nenhuma instalação ownCloud (7 ou superior) foi encontrada em {remote}",
     "Invalid ownCloud url" : "Url invalida para ownCloud",
     "Share" : "Compartilhar",

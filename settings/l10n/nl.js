@@ -107,6 +107,8 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN Manager",
     "SSL" : "SSL",
     "TLS" : "TLS",
+    "php does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "php lijkt niet goed te zijn ingesteld om systeemomgevingsvariabelen te bevragen. De test met getenv(\"PATH\") gaf een leeg resultaat.",
+    "Please check the installation documentation for php configuration notes and the php configuration of your server, especially when using php-fpm." : "Verifieer de documentatie voor php configuratieinstellingen en de php configuratie van uw server, zeker als php-fpm wordt gebruikt.",
     "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "De Alleen-lezen config is geactiveerd. Dit voorkomt het via de webinterface wijzigen van verschillende instellingen. Bovendien moet het bestand voor elke aanpassing handmatig op beschrijfbaar worden ingesteld.",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP is blijkbaar zo ingesteld dat inline doc blokken worden gestript. Hierdoor worden verschillende kernmodules onbruikbaar.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dit wordt vermoedelijk veroorzaakt door een cache/accelerator, zoals Zend OPcache of eAccelerator.",

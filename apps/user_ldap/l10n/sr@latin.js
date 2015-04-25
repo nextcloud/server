@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
+    "Server" : "Server",
     "Users" : "Korisnici",
     "Groups" : "Grupe",
     "Help" : "Pomoć",

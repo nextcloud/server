@@ -107,6 +107,8 @@ OC.L10N.register(
     "NT LAN Manager" : "Διαχειριστης NT LAN",
     "SSL" : "SSL",
     "TLS" : "TLS",
+    "php does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "Η php δεν φαίνεται να είναι σωστά ρυθμισμένη για ερωτήματα σε μεταβλητές περιβάλλοντος του συστήματος. Η δοκιμή με την εντολή getenv(\"PATH\") επιστρέφει κενή απάντηση.",
+    "Please check the installation documentation for php configuration notes and the php configuration of your server, especially when using php-fpm." : "Παρακαλούμε ελέγξτε την τεκμηρίωση της εγκατάστασης για τις σημειώσεις σχετικά με τη διαμόρφωση της php και τη διαμόρφωση της php στο διακομιστή σας, ειδικά όταν χρησιμοποιείτε php-fpm.",
     "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Η ρύθμιση  \"μόνο ανάγνωση\"  έχει ενεργοποιηθεί. Αυτό εμποδίζει τον καθορισμό κάποιων ρυθμίσεων μέσω της διεπαφής web. Επιπλέον, το αρχείο πρέπει να γίνει χειροκίνητα εγγράψιμο πριν από κάθε διαδικασία ενημέρωσης.",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Ο PHP φαίνεται να είναι ρυθμισμένος ώστε να αφαιρεί μπλοκ εσωτερικών κειμένων (inline doc). Αυτό θα καταστήσει κύριες εφαρμογές μη-διαθέσιμες.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Αυτό πιθανόν προκλήθηκε από προσωρινή μνήμη (cache)/επιταχυντή όπως τη Zend OPcache ή τον eAccelerator.",
