@@ -213,6 +213,10 @@ input[type="submit"] img, input[type="button"] img, button img, .button img { cu
 	border: none;
 	box-shadow: none;
 }
+/* fix layout for multiline buttons which are <a class="button"> */
+.button {
+	display: inline-block;
+}
 
 /* disabled input fields and buttons */
 input:disabled, input:disabled:hover, input:disabled:focus,
@@ -1061,4 +1065,3 @@ fieldset.warning legend + p, fieldset.update legend + p {
 @-ms-viewport {
 	width: device-width;
 }
-
