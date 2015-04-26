@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete" : "Poista",
     "Disconnect storage" : "Katkaise yhteys tallennustilaan",
     "Unshare" : "Peru jakaminen",
+    "No permission to delete" : "Ei oikeutta poistaa",
     "Download" : "Lataa",
     "Select" : "Valitse",
     "Pending" : "Odottaa",

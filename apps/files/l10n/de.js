@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete" : "Löschen",
     "Disconnect storage" : "Speicher trennen",
     "Unshare" : "Freigabe aufheben",
+    "No permission to delete" : "Keine Berechtigung zum Löschen",
     "Download" : "Herunterladen",
     "Select" : "Auswählen",
     "Pending" : "Ausstehend",

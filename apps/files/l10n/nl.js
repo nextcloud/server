@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete" : "Verwijderen",
     "Disconnect storage" : "Verbinding met opslag verbreken",
     "Unshare" : "Stop met delen",
+    "No permission to delete" : "Geen permissie om te verwijderen",
     "Download" : "Downloaden",
     "Select" : "Selecteer",
     "Pending" : "In behandeling",
