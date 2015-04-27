@@ -611,7 +611,7 @@ OC.Upload = {
 			var lastPos;
 			var checkInput = function () {
 				var filename = input.val();
-				if (Files.isFileNameValid(filename)) {
+				if (!Files.isFileNameValid(filename)) {
 					// Files.isFileNameValid(filename) throws an exception itself
 				} else if (FileList.inList(filename)) {
 					throw t('files', '{new_name} already exists', {new_name: filename});
@@ -651,12 +651,6 @@ OC.Upload = {
 						FileList.lastAction();
 					}
 					var name = FileList.getUniqueName(newname);
-					if (newname !== name) {
-						FileList.checkName(name, newname, true);
-						var hidden = true;
-					} else {
-						var hidden = false;
-					}
 					switch(type) {
 						case 'file':
 							$.post(
@@ -667,7 +661,7 @@ OC.Upload = {
 								},
 								function(result) {
 									if (result.status === 'success') {
-										FileList.add(result.data, {hidden: hidden, animate: true, scrollTo: true});
+										FileList.add(result.data, {animate: true, scrollTo: true});
 									} else {
 										OC.dialogs.alert(result.data.message, t('core', 'Could not create file'));
 									}
@@ -683,7 +677,7 @@ OC.Upload = {
 								},
 								function(result) {
 									if (result.status === 'success') {
-										FileList.add(result.data, {hidden: hidden, animate: true, scrollTo: true});
+										FileList.add(result.data, {animate: true, scrollTo: true});
 									} else {
 										OC.dialogs.alert(result.data.message, t('core', 'Could not create folder'));
 									}
