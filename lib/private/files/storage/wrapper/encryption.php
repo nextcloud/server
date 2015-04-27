@@ -373,7 +373,10 @@ class Encryption extends Wrapper {
 	 * @return bool wrapped storage's isLocal() value
 	 */
 	public function isLocal() {
-		return false;
+		if ($this->encryptionManager->isEnabled()) {
+			return false;
+		}
+		return $this->storage->isLocal();
 	}
 
 	/**

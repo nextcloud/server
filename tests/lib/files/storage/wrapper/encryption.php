@@ -200,4 +200,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 		);
 	}
 
+	public function testIsLocal() {
+		$this->assertFalse($this->instance->isLocal());
+	}
 }
