@@ -3,6 +3,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Olivier Paroz <owncloud@oparoz.com>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
@@ -26,6 +27,8 @@
 
 namespace OC;
 
+use InterfaSys\LogNormalizer\Normalizer;
+
 use \OCP\ILogger;
 use OCP\Security\StringUtils;
 
@@ -48,12 +51,15 @@ class Log implements ILogger {
 
 	/** @var boolean|null cache the result of the log condition check for the request */
 	private $logConditionSatisfied = null;
+	/** @var Normalizer */
+	private $normalizer;
 
 	/**
 	 * @param string $logger The logger that should be used
 	 * @param SystemConfig $config the system config object
+	 * @param null $normalizer
 	 */
-	public function __construct($logger=null, SystemConfig $config=null) {
+	public function __construct($logger=null, SystemConfig $config=null, $normalizer = null) {
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if($config === null) {
 			$config = \OC::$server->getSystemConfig();
@@ -67,6 +73,11 @@ class Log implements ILogger {
 			call_user_func(array($this->logger, 'init'));
 		} else {
 			$this->logger = $logger;
+		}
+		if ($normalizer === null) {
+			$this->normalizer = new Normalizer();
+		} else {
+			$this->normalizer = $normalizer;
 		}
 
 	}
@@ -174,6 +185,8 @@ class Log implements ILogger {
 	public function log($level, $message, array $context = array()) {
 		$minLevel = min($this->config->getValue('loglevel', \OCP\Util::WARN), \OCP\Util::ERROR);
 		$logCondition = $this->config->getValue('log.condition', []);
+
+		array_walk($context, [$this->normalizer, 'format']);
 
 		if (isset($context['app'])) {
 			$app = $context['app'];
