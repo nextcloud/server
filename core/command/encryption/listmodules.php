@@ -75,6 +75,6 @@ class ListModules extends Base {
 			});
 		}
 
-		parent::writeArrayInOutputFormat($input, $output, $items);
+		$this->writeArrayInOutputFormat($input, $output, $items);
 	}
 }
