@@ -22,15 +22,19 @@
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Files\Storage\StorageFactory;
+use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\Tests\TestCase;
 
 class ManagerTest extends TestCase {
 
-	/** @var \OCA\Files_Sharing\External\Manager **/
+	/** @var Manager **/
 	private $manager;
 
 	/** @var \OC\Files\Mount\Manager */
 	private $mountManager;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $httpHelper;
 
 	private $uid;
 
@@ -39,16 +43,22 @@ class ManagerTest extends TestCase {
 
 		$this->uid = $this->getUniqueID('user');
 		$this->mountManager = new \OC\Files\Mount\Manager();
-		$this->manager = new \OCA\Files_Sharing\External\Manager(
+		$this->httpHelper = $httpHelper = $this->getMockBuilder('\OC\HTTPHelper')->disableOriginalConstructor()->getMock();
+		/** @var \OC\HTTPHelper $httpHelper */
+		$this->manager = new Manager(
 			\OC::$server->getDatabaseConnection(),
 			$this->mountManager,
 			new StorageFactory(),
-			$this->getMockBuilder('\OC\HTTPHelper')->disableOriginalConstructor()->getMock(),
+			$httpHelper,
 			$this->uid
 		);
 	}
 
 	public function testAddShare() {
+		$this->httpHelper->expects($this->exactly(4))
+			->method('post')
+			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares'), $this->anything());
+
 		$shareData1 = [
 			'remote' => 'http://localhost',
 			'token' => 'token1',
