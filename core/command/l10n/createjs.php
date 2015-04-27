@@ -28,6 +28,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use UnexpectedValueException;
 
 class CreateJs extends Command {
 
@@ -126,6 +127,9 @@ class CreateJs extends Command {
 		$phpFile = "$path/l10n/$lang.php";
 		$TRANSLATIONS = array();
 		$PLURAL_FORMS = '';
+		if (!file_exists($phpFile)) {
+			throw new UnexpectedValueException("Php translation file <$phpFile> does not exist.");
+		}
 		require $phpFile;
 
 		return array($TRANSLATIONS, $PLURAL_FORMS);
