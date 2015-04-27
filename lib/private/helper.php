@@ -129,9 +129,7 @@ class OC_Helper {
 	/**
 	 * Creates an url using a defined route
 	 * @param string $route
-	 * @param array $parameters
-	 * @return
-	 * @internal param array $args with param=>value, will be appended to the returned url
+	 * @param array $parameters with param=>value, will be appended to the returned url
 	 * @return string the url
 	 * @deprecated Use \OC::$server->getURLGenerator()->linkToRoute($route, $parameters)
 	 *
@@ -694,6 +692,7 @@ class OC_Helper {
 				$match_length = strlen($matches[0][$last_match][0]);
 			} else {
 				$counter = 2;
+				$match_length = 0;
 				$offset = false;
 			}
 			do {
@@ -876,7 +875,7 @@ class OC_Helper {
 	/**
 	 * Calculate PHP upload limit
 	 *
-	 * @return PHP upload file size limit
+	 * @return int PHP upload file size limit
 	 */
 	public static function uploadLimit() {
 		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
@@ -954,6 +953,7 @@ class OC_Helper {
 	 * @param string $path
 	 * @param \OCP\Files\FileInfo $rootInfo (optional)
 	 * @return array
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public static function getStorageInfo($path, $rootInfo = null) {
 		// return storage info without adding mount points
@@ -984,6 +984,7 @@ class OC_Helper {
 
 		// TODO: need a better way to get total space from storage
 		if ($storage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
+			/** @var \OC\Files\Storage\Wrapper\Quota $storage */
 			$quota = $storage->getQuota();
 		}
 		$free = $storage->free_space('');
