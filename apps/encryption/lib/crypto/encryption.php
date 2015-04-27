@@ -179,8 +179,10 @@ class Encryption implements IEncryptionModule {
 				try {
 					$publicKeys[$uid] = $this->keyManager->getPublicKey($uid);
 				} catch (PublicKeyMissingException $e) {
-					$this->logger->warning('no public key found for user \'' . $uid .
-						'\', user will not be able to read the file', array('app' => 'encryption'));
+					$this->logger->warning(
+						'no public key found for user "{uid}", user will not be able to read the file',
+						['app' => 'encryption', 'uid' => $uid]
+					);
 					// if the public key of the owner is missing we should fail
 					if ($uid === $this->user) {
 						throw $e;

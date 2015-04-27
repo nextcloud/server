@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\Encryption\Tests\Crypto;
+namespace OCA\Encryption\Tests\lib\Crypto;
 
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use Test\TestCase;
@@ -92,16 +92,8 @@ class EncryptionTest extends TestCase {
 	 */
 	public function endTest() {
 		// prepare internal variables
-		$class = get_class($this->instance);
-		$module = new \ReflectionClass($class);
-		$isWriteOperation = $module->getProperty('isWriteOperation');
-		$writeCache = $module->getProperty('writeCache');
-		$isWriteOperation->setAccessible(true);
-		$writeCache->setAccessible(true);
-		$isWriteOperation->setValue($this->instance, true);
-		$writeCache->setValue($this->instance, '');
-		$isWriteOperation->setAccessible(false);
-		$writeCache->setAccessible(false);
+		\Test_Helper::invokePrivate($this->instance, 'isWriteOperation', [true]);
+		\Test_Helper::invokePrivate($this->instance, 'writeCache', ['']);
 
 		$this->keyManagerMock->expects($this->any())
 			->method('getPublicKey')
