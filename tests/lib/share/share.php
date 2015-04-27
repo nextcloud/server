@@ -105,6 +105,12 @@ class Test_Share extends \Test\TestCase {
 		parent::tearDown();
 	}
 
+	protected function setHttpHelper($httpHelper) {
+		\OC::$server->registerService('HTTPHelper', function ($c) use ($httpHelper) {
+			return $httpHelper;
+		});
+	}
+
 	public function testShareInvalidShareType() {
 		$message = 'Share type foobar is not valid for test.txt';
 		try {
@@ -1015,10 +1021,55 @@ class Test_Share extends \Test\TestCase {
 		);
 	}
 
+	public function dataRemoteShareUrlCalls() {
+		return [
+			['admin@localhost', 'localhost'],
+			['admin@https://localhost', 'localhost'],
+			['admin@http://localhost', 'localhost'],
+			['admin@localhost/subFolder', 'localhost/subFolder'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataRemoteShareUrlCalls
+	 *
+	 * @param string $shareWith
+	 * @param string $urlHost
+	 */
+	public function testRemoteShareUrlCalls($shareWith, $urlHost) {
+		$oldHttpHelper = \OC::$server->query('HTTPHelper');
+		$httpHelperMock = $this->getMockBuilder('OC\HttpHelper')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->setHttpHelper($httpHelperMock);
+
+		$httpHelperMock->expects($this->at(0))
+			->method('post')
+			->with($this->stringStartsWith('https://' . $urlHost . '/ocs/v1.php/cloud/shares'), $this->anything())
+			->willReturn(['success' => false, 'result' => 'Exception']);
+		$httpHelperMock->expects($this->at(1))
+			->method('post')
+			->with($this->stringStartsWith('http://' . $urlHost . '/ocs/v1.php/cloud/shares'), $this->anything())
+			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
+
+		$httpHelperMock->expects($this->at(2))
+			->method('post')
+			->with($this->stringStartsWith('https://' . $urlHost . '/ocs/v1.php/cloud/shares'), $this->anything())
+			->willReturn(['success' => false, 'result' => 'Exception']);
+		$httpHelperMock->expects($this->at(3))
+			->method('post')
+			->with($this->stringStartsWith('http://' . $urlHost . '/ocs/v1.php/cloud/shares'), $this->anything())
+			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
+
+		\OCP\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, $shareWith, \OCP\Constants::PERMISSION_READ);
+		\OCP\Share::unshare('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, $shareWith);
+		$this->setHttpHelper($oldHttpHelper);
+	}
+
 	/**
 	 * @dataProvider dataProviderTestGroupItems
-	 * @param type $ungrouped
-	 * @param type $grouped
+	 * @param array $ungrouped
+	 * @param array $grouped
 	 */
 	function testGroupItems($ungrouped, $grouped) {
 
