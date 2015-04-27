@@ -128,7 +128,7 @@ class CreateJs extends Command {
 		$TRANSLATIONS = array();
 		$PLURAL_FORMS = '';
 		if (!file_exists($phpFile)) {
-			throw new UnexpectedValueException("Php translation file <$phpFile> does not exist.");
+			throw new UnexpectedValueException("PHP translation file <$phpFile> does not exist.");
 		}
 		require $phpFile;
 
