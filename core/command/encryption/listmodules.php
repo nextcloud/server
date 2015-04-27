@@ -22,18 +22,18 @@
 namespace OC\Core\Command\Encryption;
 
 use OC\Core\Command\Base;
-use OC\Encryption\Manager;
+use OCP\Encryption\IManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListModules extends Base {
-	/** @var Manager */
+	/** @var IManager */
 	protected $encryptionManager;
 
 	/**
-	 * @param Manager $encryptionManager
+	 * @param IManager $encryptionManager
 	 */
-	public function __construct(Manager $encryptionManager) {
+	public function __construct(IManager $encryptionManager) {
 		parent::__construct();
 		$this->encryptionManager = $encryptionManager;
 	}
