@@ -81,11 +81,13 @@ class Update {
 	 * @param array $params
 	 */
 	public function postShared($params) {
-		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
-			$path = Filesystem::getPath($params['fileSource']);
-			list($owner, $ownerPath) = $this->getOwnerPath($path);
-			$absPath = '/' . $owner . '/files/' . $ownerPath;
-			$this->update($absPath);
+		if ($this->encryptionManager->isEnabled()) {
+			if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
+				$path = Filesystem::getPath($params['fileSource']);
+				list($owner, $ownerPath) = $this->getOwnerPath($path);
+				$absPath = '/' . $owner . '/files/' . $ownerPath;
+				$this->update($absPath);
+			}
 		}
 	}
 
@@ -95,11 +97,13 @@ class Update {
 	 * @param array $params
 	 */
 	public function postUnshared($params) {
-		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
-			$path = Filesystem::getPath($params['fileSource']);
-			list($owner, $ownerPath) = $this->getOwnerPath($path);
-			$absPath = '/' . $owner . '/files/' . $ownerPath;
-			$this->update($absPath);
+		if ($this->encryptionManager->isEnabled()) {
+			if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
+				$path = Filesystem::getPath($params['fileSource']);
+				list($owner, $ownerPath) = $this->getOwnerPath($path);
+				$absPath = '/' . $owner . '/files/' . $ownerPath;
+				$this->update($absPath);
+			}
 		}
 	}
 
