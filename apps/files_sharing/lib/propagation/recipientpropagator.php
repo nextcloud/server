@@ -60,7 +60,7 @@ class RecipientPropagator {
 		}
 		if (count($dirtyShares)) {
 			$this->config->setUserValue($this->userId, 'files_sharing', 'last_propagate', $time);
-			$this->changePropagator->propagateChanges($time);
+			$this->changePropagator->propagateChanges(floor($time));
 		}
 	}
 
