@@ -22,6 +22,8 @@
 
 namespace Test\Files\Storage;
 
+use OC\Files\Cache\Watcher;
+
 abstract class Storage extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage instance
@@ -307,6 +309,19 @@ abstract class Storage extends \Test\TestCase {
 
 		$this->instance->unlink('/lorem.txt');
 		$this->assertTrue($this->instance->hasUpdated('/', $mtimeStart - 5));
+	}
+
+	/**
+	 * Test whether checkUpdate properly returns false when there was
+	 * no change.
+	 */
+	public function testCheckUpdate() {
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$watcher = $this->instance->getWatcher();
+		$watcher->setPolicy(Watcher::CHECK_ALWAYS);
+		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile));
+		$this->assertTrue($watcher->checkUpdate('/lorem.txt'), 'Update detected');
+		$this->assertFalse($watcher->checkUpdate('/lorem.txt'), 'No update');
 	}
 
 	public function testUnlink() {
