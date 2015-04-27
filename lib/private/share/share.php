@@ -2355,6 +2355,7 @@ class Share extends \OC\Share\Constants {
 	private static function sendRemoteUnshare($remote, $id, $token) {
 		$url = rtrim($remote, '/') . self::BASE_PATH_TO_SHARE_API . '/' . $id . '/unshare?format=' . self::RESPONSE_FORMAT;
 		$fields = array('token' => $token, 'format' => 'json');
+		$url = self::removeProtocolFromUrl($url);
 		$result = self::tryHttpPost($url, $fields);
 		$status = json_decode($result['result'], true);
 
