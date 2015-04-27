@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete" : "Удалить",
     "Disconnect storage" : "Отсоединить хранилище",
     "Unshare" : "Закрыть доступ",
+    "No permission to delete" : "Недостаточно прав для удаления",
     "Download" : "Скачать",
     "Select" : "Выбрать",
     "Pending" : "Ожидание",

@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete" : "Διαγραφή",
     "Disconnect storage" : "Αποσυνδεδεμένος αποθηκευτικός χώρος",
     "Unshare" : "Διακοπή διαμοιρασμού",
+    "No permission to delete" : "Δεν έχετε άδεια να το διαγράψετε",
     "Download" : "Λήψη",
     "Select" : "Επιλογή",
     "Pending" : "Εκκρεμεί",

@@ -83,6 +83,7 @@ OC.L10N.register(
     "Error while changing permissions" : "権限変更でエラー発生",
     "Shared with you and the group {group} by {owner}" : "あなたと {owner} のグループ {group} で共有中",
     "Shared with you by {owner}" : "{owner} と共有中",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "次の形式で指定して他のownCloudのユーザーと、共有",
     "Share link" : "URLで共有",
     "The public link will expire no later than {days} days after it is created" : "URLによる共有は、作成してから {days} 日以内に有効期限切れになります",
     "Link" : "リンク",

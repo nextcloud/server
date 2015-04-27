@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete" : "Обриши",
     "Disconnect storage" : "Искључи складиште",
     "Unshare" : "Не дели",
+    "No permission to delete" : "Без дозволе за брисање",
     "Download" : "Преузми",
     "Select" : "Изабери",
     "Pending" : "На чекању",

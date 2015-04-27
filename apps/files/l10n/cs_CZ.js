@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete" : "Smazat",
     "Disconnect storage" : "Odpojit úložiště",
     "Unshare" : "Zrušit sdílení",
+    "No permission to delete" : "Chybí oprávnění mazat",
     "Download" : "Stáhnout",
     "Select" : "Vybrat",
     "Pending" : "Nevyřízené",
