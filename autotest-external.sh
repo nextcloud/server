@@ -32,6 +32,11 @@ if ! [ -x "$PHPUNIT" ]; then
 	exit 3
 fi
 
+if ! which replace > /dev/null 2>&1; then
+	echo "The command 'replace' is not available on this system. Please install it first." >&2
+	exit 5
+fi
+
 PHPUNIT_VERSION=$("$PHPUNIT" --version | cut -d" " -f2)
 PHPUNIT_MAJOR_VERSION=$(echo $PHPUNIT_VERSION | cut -d"." -f1)
 PHPUNIT_MINOR_VERSION=$(echo $PHPUNIT_VERSION | cut -d"." -f2)
