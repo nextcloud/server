@@ -254,7 +254,7 @@ class Encryption extends Wrapper {
 
 		$fullPath1 = $this->getFullPath($path1);
 		$fullPath2 = $this->getFullPath($path2);
-		
+
 		if ($this->util->isExcluded($fullPath1)) {
 			return $this->storage->copy($path1, $path2);
 		}
