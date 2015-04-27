@@ -54,7 +54,7 @@ class ListModules extends Base {
 		$encModules = array();
 		foreach ($encryptionModules as $module) {
 			$encModules[$module['id']]['displayName'] = $module['displayName'];
-			$encModules[$module['id']]['default'] .= $module['id'] === $defaultEncryptionModuleId;
+			$encModules[$module['id']]['default'] = $module['id'] === $defaultEncryptionModuleId;
 		}
 		$this->writeModuleList($input, $output, $encModules);
 	}
