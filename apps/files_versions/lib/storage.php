@@ -223,40 +223,60 @@ class Storage {
 	}
 
 	/**
-	 * rename or copy versions of a file
-	 * @param string $old_path
-	 * @param string $new_path
+	 * Rename or copy versions of a file of the given paths
+	 *
+	 * @param string $sourcePath source path of the file to move, relative to
+	 * the currently logged in user's "files" folder
+	 * @param string $targetPath target path of the file to move, relative to
+	 * the currently logged in user's "files" folder
 	 * @param string $operation can be 'copy' or 'rename'
 	 */
-	public static function renameOrCopy($old_path, $new_path, $operation) {
-		list($uid, $oldpath) = self::getSourcePathAndUser($old_path);
+	public static function renameOrCopy($sourcePath, $targetPath, $operation) {
+		list($sourceOwner, $sourcePath) = self::getSourcePathAndUser($sourcePath);
 
 		// it was a upload of a existing file if no old path exists
 		// in this case the pre-hook already called the store method and we can
 		// stop here
-		if ($oldpath === false) {
+		if ($sourcePath === false) {
 			return true;
 		}
 
-		list($uidn, $newpath) = self::getUidAndFilename($new_path);
-		$versions_view = new \OC\Files\View('/'.$uid .'/files_versions');
-		$files_view = new \OC\Files\View('/'.$uid .'/files');
+		list($targetOwner, $targetPath) = self::getUidAndFilename($targetPath);
 
+		$sourcePath = ltrim($sourcePath, '/');
+		$targetPath = ltrim($targetPath, '/');
 
+		$rootView = new \OC\Files\View('');
 
-		if ( $files_view->is_dir($oldpath) && $versions_view->is_dir($oldpath) ) {
-			$versions_view->$operation($oldpath, $newpath);
-		} else  if ( ($versions = Storage::getVersions($uid, $oldpath)) ) {
+		// did we move a directory ?
+		if ($rootView->is_dir('/' . $targetOwner . '/files/' . $targetPath)) {
+			// does the directory exists for versions too ?
+			if ($rootView->is_dir('/' . $sourceOwner . '/files_versions/' . $sourcePath)) {
+				// create missing dirs if necessary
+				self::createMissingDirectories($targetPath, new \OC\Files\View('/'. $targetOwner));
+
+				// move the directory containing the versions
+				$rootView->$operation(
+					'/' . $sourceOwner . '/files_versions/' . $sourcePath,
+					'/' . $targetOwner . '/files_versions/' . $targetPath
+				);
+			}
+		} else if ($versions = Storage::getVersions($sourceOwner, '/' . $sourcePath)) {
 			// create missing dirs if necessary
-			self::createMissingDirectories($newpath, new \OC\Files\View('/'. $uidn));
+			self::createMissingDirectories($targetPath, new \OC\Files\View('/'. $targetOwner));
 
 			foreach ($versions as $v) {
-				$versions_view->$operation($oldpath.'.v'.$v['version'], $newpath.'.v'.$v['version']);
+				// move each version one by one to the target directory
+				$rootView->$operation(
+					'/' . $sourceOwner . '/files_versions/' . $sourcePath.'.v' . $v['version'],
+					'/' . $targetOwner . '/files_versions/' . $targetPath.'.v'.$v['version']
+				);
 			}
 		}
 
-		if (!$files_view->is_dir($newpath)) {
-			self::scheduleExpire($newpath);
+		// if we moved versions directly for a file, schedule expiration check for that file
+		if (!$rootView->is_dir('/' . $targetOwner . '/files/' . $targetPath)) {
+			self::scheduleExpire($targetPath);
 		}
 
 	}
@@ -601,8 +621,11 @@ class Storage {
 	}
 
 	/**
-	 * create recursively missing directories
-	 * @param string $filename $path to a file
+	 * Create recursively missing directories inside of files_versions
+	 * that match the given path to a file.
+	 *
+	 * @param string $filename $path to a file, relative to the user's
+	 * "files" folder
 	 * @param \OC\Files\View $view view on data/user/
 	 */
 	private static function createMissingDirectories($filename, $view) {
