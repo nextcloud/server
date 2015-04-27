@@ -2,9 +2,9 @@
 
 If you have questions about how to install or use ownCloud, please direct these to the [mailing list][mailinglist] or our [forum][forum]. We are also available on [IRC][irc].
 
-### Important: In a nutshell
+### Short version
 
- * The [**issue template can be found here**][template] but be aware of the different repositories! See list below.
+ * The [**issue template can be found here**][template] but be aware of the different repositories! See list below. Please always use the issue template when reporting issues.
 
 ### Guidelines
 * Please search the existing issues first, it's likely that your issue was already reported or even fixed.
