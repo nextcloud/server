@@ -51,11 +51,8 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$mockModule = $this->buildMockModule();
 		$this->encryptionManager = $this->getMockBuilder('\OC\Encryption\Manager')
 			->disableOriginalConstructor()
-			->setMethods(['getDefaultEncryptionModule', 'getEncryptionModule', 'isEnabled'])
+			->setMethods(['getEncryptionModule', 'isEnabled'])
 			->getMock();
-		$this->encryptionManager->expects($this->any())
-			->method('getDefaultEncryptionModule')
-			->willReturn($mockModule);
 		$this->encryptionManager->expects($this->any())
 			->method('getEncryptionModule')
 			->willReturn($mockModule);

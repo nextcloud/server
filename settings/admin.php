@@ -86,14 +86,10 @@ $backends = \OC::$server->getUserManager()->getBackends();
 $externalBackends = (count($backends) > 1) ? true : false;
 $template->assign('encryptionReady', \OC::$server->getEncryptionManager()->isReady());
 $template->assign('externalBackendsEnabled', $externalBackends);
-$encryptionModules = \OC::$server->getEncryptionManager()->getEncryptionModules();
 
-try {
-	$defaultEncryptionModule = \OC::$server->getEncryptionManager()->getDefaultEncryptionModule();
-	$defaultEncryptionModuleId = $defaultEncryptionModule->getId();
-} catch (Exception $e) {
-	$defaultEncryptionModuleId = null;
-}
+$encryptionModules = \OC::$server->getEncryptionManager()->getEncryptionModules();
+$defaultEncryptionModuleId = \OC::$server->getEncryptionManager()->getDefaultEncryptionModuleId();
+
 $encModulues = array();
 foreach ($encryptionModules as $module) {
 	$encModulues[$module['id']]['displayName'] = $module['displayName'];

@@ -101,17 +101,17 @@ class Manager implements IManager {
 			throw new Exceptions\ModuleAlreadyExistsException($id, $displayName);
 		}
 
-		$defaultEncryptionModuleId = $this->getDefaultEncryptionModuleId();
-
-		if (empty($defaultEncryptionModuleId)) {
-			$this->setDefaultEncryptionModule($id);
-		}
-
 		$this->encryptionModules[$id] = [
 			'id' => $id,
 			'displayName' => $displayName,
 			'callback' => $callback,
 		];
+
+		$defaultEncryptionModuleId = $this->getDefaultEncryptionModuleId();
+
+		if (empty($defaultEncryptionModuleId)) {
+			$this->setDefaultEncryptionModule($id);
+		}
 	}
 
 	/**
@@ -158,7 +158,7 @@ class Manager implements IManager {
 	 * @return \OCP\Encryption\IEncryptionModule
 	 * @throws Exceptions\ModuleDoesNotExistsException
 	 */
-	public function getDefaultEncryptionModule() {
+	protected function getDefaultEncryptionModule() {
 		$defaultModuleId = $this->getDefaultEncryptionModuleId();
 		if (!empty($defaultModuleId)) {
 			if (isset($this->encryptionModules[$defaultModuleId])) {
@@ -182,12 +182,13 @@ class Manager implements IManager {
 	 */
 	public function setDefaultEncryptionModule($moduleId) {
 		try {
-			$this->config->setAppValue('core', 'default_encryption_module', $moduleId);
-			return true;
+			$this->getEncryptionModule($moduleId);
 		} catch (\Exception $e) {
 			return false;
 		}
 
+		$this->config->setAppValue('core', 'default_encryption_module', $moduleId);
+		return true;
 	}
 
 	/**
@@ -195,12 +196,8 @@ class Manager implements IManager {
 	 *
 	 * @return string
 	 */
-	protected function getDefaultEncryptionModuleId() {
-		try {
-			return $this->config->getAppValue('core', 'default_encryption_module');
-		} catch (\Exception $e) {
-			return '';
-		}
+	public function getDefaultEncryptionModuleId() {
+		return $this->config->getAppValue('core', 'default_encryption_module');
 	}
 
 	public static function setupStorage() {

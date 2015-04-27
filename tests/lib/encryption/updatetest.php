@@ -69,7 +69,7 @@ class UpdateTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 
 		$this->encryptionManager->expects($this->once())
-			->method('getDefaultEncryptionModule')
+			->method('getEncryptionModule')
 			->willReturn($this->encryptionModule);
 
 		$this->uid = 'testUser1';

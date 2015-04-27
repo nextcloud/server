@@ -50,6 +50,10 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Background\Cron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\WebCron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\Ajax(\OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Encryption\Disable(\OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Encryption\Enable(\OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Encryption\ListModules(\OC::$server->getEncryptionManager()));
+	$application->add(new OC\Core\Command\Encryption\SetDefaultModule(\OC::$server->getEncryptionManager()));
 } else {
 	$application->add(new OC\Core\Command\Maintenance\Install(\OC::$server->getConfig()));
 }

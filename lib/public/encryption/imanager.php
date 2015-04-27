@@ -37,7 +37,7 @@ interface IManager {
 	 * @return bool true if enabled, false if not
 	 * @since 8.1.0
 	 */
-	function isEnabled();
+	public function isEnabled();
 
 	/**
 	 * Registers an callback function which must return an encryption module instance
@@ -48,7 +48,7 @@ interface IManager {
 	 * @throws ModuleAlreadyExistsException
 	 * @since 8.1.0
 	 */
-	function registerEncryptionModule($id, $displayName, callable $callback);
+	public function registerEncryptionModule($id, $displayName, callable $callback);
 
 	/**
 	 * Unregisters an encryption module
@@ -56,7 +56,7 @@ interface IManager {
 	 * @param string $moduleId
 	 * @since 8.1.0
 	 */
-	function unregisterEncryptionModule($moduleId);
+	public function unregisterEncryptionModule($moduleId);
 
 	/**
 	 * get a list of all encryption modules
@@ -64,27 +64,26 @@ interface IManager {
 	 * @return array [id => ['id' => $id, 'displayName' => $displayName, 'callback' => callback]]
 	 * @since 8.1.0
 	 */
-	function getEncryptionModules();
+	public function getEncryptionModules();
 
 
 	/**
 	 * get a specific encryption module
 	 *
-	 * @param string $moduleId
+	 * @param string $moduleId Empty to get the default module
 	 * @return IEncryptionModule
 	 * @throws ModuleDoesNotExistsException
 	 * @since 8.1.0
 	 */
-	function getEncryptionModule($moduleId);
+	public function getEncryptionModule($moduleId = '');
 
 	/**
-	 * get default encryption module
+	 * get default encryption module Id
 	 *
-	 * @return \OCP\Encryption\IEncryptionModule
-	 * @throws ModuleDoesNotExistsException
+	 * @return string
 	 * @since 8.1.0
 	 */
-	public function getDefaultEncryptionModule();
+	public function getDefaultEncryptionModuleId();
 
 	/**
 	 * set default encryption module Id
