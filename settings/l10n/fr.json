@@ -105,6 +105,8 @@
     "NT LAN Manager" : "Gestionnaire du réseau NT",
     "SSL" : "SSL",
     "TLS" : "TLS",
+    "php does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "php ne semble pas être configuré de manière à récupérer les valeurs des variables d’environnement. Le test de la commande getenv(\"PATH\") retourne seulement une réponse vide. ",
+    "Please check the installation documentation for php configuration notes and the php configuration of your server, especially when using php-fpm." : "Veuillez verifier la documentation d'installation concernant les instructions de configuration de php ainsi que la configuration de votre serveur, en particulier dans le cas où vous utilisez php-fpm.",
     "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "La configuration est en mode lecture seule. Ceci empêche la modification de certaines configurations via l'interface web. De plus, le fichier doit être passé manuellement en lecture-écriture pour chaque mise à jour.",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP est apparemment configuré pour supprimer les blocs de documentation internes. Cela rendra plusieurs applications de base inaccessibles.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "La raison est probablement l'utilisation d'un cache / accélérateur tel que Zend OPcache ou eAccelerator.",
