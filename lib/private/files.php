@@ -161,11 +161,12 @@ class OC_Files {
 	 * @param false|string $filename
 	 */
 	private static function addSendfileHeader($filename) {
-		$filename = \OC\Files\Filesystem::getLocalFile($filename);
 		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED'])) {
+			$filename = \OC\Files\Filesystem::getLocalFile($filename);
 			header("X-Sendfile: " . $filename);
  		}
  		if (isset($_SERVER['MOD_X_SENDFILE2_ENABLED'])) {
+			$filename = \OC\Files\Filesystem::getLocalFile($filename);
 			if (isset($_SERVER['HTTP_RANGE']) &&
 				preg_match("/^bytes=([0-9]+)-([0-9]*)$/", $_SERVER['HTTP_RANGE'], $range)) {
 				$filelength = filesize($filename);
@@ -181,6 +182,11 @@ class OC_Files {
 		}
 
 		if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
+			if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_PREFIX'])) {
+				$filename = $_SERVER['MOD_X_ACCEL_REDIRECT_PREFIX'] . \OC\Files\Filesystem::getLocalFile($filename);
+			} else {
+				$filename = \OC::$WEBROOT . '/data' . \OC\Files\Filesystem::getRoot() . $filename;
+			}
 			header("X-Accel-Redirect: " . $filename);
 		}
 	}
