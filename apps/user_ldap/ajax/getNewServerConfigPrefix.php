@@ -35,14 +35,14 @@ $nk = 's'.str_pad($ln+1, 2, '0', STR_PAD_LEFT);
 
 $resultData = array('configPrefix' => $nk);
 
+$newConfig = new \OCA\user_ldap\lib\Configuration($nk, false);
 if(isset($_POST['copyConfig'])) {
 	$originalConfig = new \OCA\user_ldap\lib\Configuration($_POST['copyConfig']);
-	$newConfig = new \OCA\user_ldap\lib\Configuration($nk, false);
 	$newConfig->setConfiguration($originalConfig->getConfiguration());
-	$newConfig->saveConfiguration();
 } else {
 	$configuration = new \OCA\user_ldap\lib\Configuration($nk, false);
 	$resultData['defaults'] = $configuration->getDefaults();
 }
+$newConfig->saveConfiguration();
 
 OCP\JSON::success($resultData);

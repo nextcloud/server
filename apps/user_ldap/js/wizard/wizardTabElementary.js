@@ -14,6 +14,9 @@ OCA = OCA || {};
 	 * in the LDAP wizard.
 	 */
 	var WizardTabElementary = OCA.LDAP.Wizard.WizardTabGeneric.subClass({
+		/** @property {number} */
+		_configChooserNextServerNumber: 1,
+
 		/**
 		 * initializes the instance. Always call it after initialization.
 		 *
@@ -24,7 +27,7 @@ OCA = OCA || {};
 			tabIndex = 0;
 			this._super(tabIndex, tabID);
 			this.isActive = true;
-			this.configChooserID = '#ldap_serverconfig_chooser';
+			this.$configChooser = $('#ldap_serverconfig_chooser');
 
 			var items = {
 				ldap_host: {
@@ -88,7 +91,7 @@ OCA = OCA || {};
 		 * @returns {string}
 		 */
 		getConfigID: function() {
-			return $(this.configChooserID).val();
+			return this.$configChooser.val();
 		},
 
 		/**
@@ -204,9 +207,17 @@ OCA = OCA || {};
 		 */
 		onNewConfiguration: function(view, result) {
 			if(result.isSuccess === true) {
-				$(view.configChooserID + ' option:selected').removeAttr('selected');
-				var html = '<option value="'+result.configPrefix+'" selected="selected">'+t('user_ldap','{nthServer}. Server', {nthServer: $(view.configChooserID + ' option').length + 1})+'</option>';
-				$(view.configChooserID + ' option:last').after(html);
+				console.log('new config');
+				var nthServer = view._configChooserNextServerNumber;
+				view.$configChooser.find('option:selected').removeAttr('selected');
+				var html = '<option value="'+result.configPrefix+'" selected="selected">'+t('user_ldap','{nthServer}. Server', {nthServer: nthServer})+'</option>';
+				if(view.$configChooser.find('option:last').length > 0) {
+					view.$configChooser.find('option:last').after(html);
+				} else {
+					view.$configChooser.html(html);
+				}
+
+				view._configChooserNextServerNumber++;
 			}
 		},
 
@@ -222,16 +233,16 @@ OCA = OCA || {};
 				if(view.getConfigID() === result.configPrefix) {
 					// if the deleted value is still the selected one (99% of
 					// the cases), remove it from the list and load the topmost
-					$(view.configChooserID + ' option:selected').remove();
-					$(view.configChooserID + ' option:first').select();
-					if($(view.configChooserID +  ' option').length < 2) {
+					view.$configChooser.find('option:selected').remove();
+					view.$configChooser.find('option:first').select();
+					if(view.$configChooser.find(' option').length < 1) {
 						view.configModel.newConfig(false);
 					} else {
 						view.configModel.load(view.getConfigID());
 					}
 				} else {
 					// otherwise just remove the entry
-					$(view.configChooserID + ' option[value=' + result.configPrefix + ']').remove();
+					view.$configChooser.find('option[value=' + result.configPrefix + ']').remove();
 				}
 			} else {
 				OC.Notification.showTemporary(result.errorMessage);
@@ -303,9 +314,10 @@ OCA = OCA || {};
 		 * @private
 		 */
 		_enableConfigChooser: function() {
+			this._configChooserNextServerNumber = this.$configChooser.find(' option').length + 1;
 			var view = this;
-			$(this.configChooserID).change(function(){
-				var value = $(view.configChooserID + ' option:selected:first').attr('value');
+			this.$configChooser.change(function(){
+				var value = view.$configChooser.find(' option:selected:first').attr('value');
 				view.configModel.load(value);
 			});
 		},
