@@ -106,7 +106,7 @@ class Test_Share extends \Test\TestCase {
 	}
 
 	protected function setHttpHelper($httpHelper) {
-		\OC::$server->registerService('HTTPHelper', function ($c) use ($httpHelper) {
+		\OC::$server->registerService('HTTPHelper', function () use ($httpHelper) {
 			return $httpHelper;
 		});
 	}
