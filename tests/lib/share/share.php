@@ -101,6 +101,7 @@ class Test_Share extends \Test\TestCase {
 		OC_Group::deleteGroup($this->group2);
 		OC_Group::deleteGroup($this->groupAndUser);
 
+		$this->logout();
 		parent::tearDown();
 	}
 
@@ -386,6 +387,45 @@ class Test_Share extends \Test\TestCase {
 		$this->assertSame(1, count($shares));
 		$share = reset($shares);
 		$this->assertSame(\OCP\Share::SHARE_TYPE_USER, $share['share_type']);
+	}
+
+	public function testGetShareFromOutsideFilesFolder() {
+		OC_User::setUserId($this->user1);
+		$view = new \OC\Files\View('/' . $this->user1 . '/');
+		$view->mkdir('files/test');
+		$view->mkdir('files/test/sub');
+
+		$view->mkdir('files_trashbin');
+		$view->mkdir('files_trashbin/files');
+
+		$fileInfo = $view->getFileInfo('files/test/sub');
+		$fileId = $fileInfo->getId();
+
+		$this->assertTrue(
+			OCP\Share::shareItem('folder', $fileId, OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_READ),
+			'Failed asserting that user 1 successfully shared "test/sub" with user 2.'
+		);
+
+		$result = OCP\Share::getItemShared('folder', $fileId, Test_Share_Backend::FORMAT_SOURCE);
+		$this->assertNotEmpty($result);
+
+		$result = OCP\Share::getItemSharedWithUser('folder', $fileId, $this->user2);
+		$this->assertNotEmpty($result);
+
+		$result = OCP\Share::getItemsSharedWithUser('folder', $this->user2);
+		$this->assertNotEmpty($result);
+
+		// move to trash (keeps file id)
+		$view->rename('files/test', 'files_trashbin/files/test');
+
+		$result = OCP\Share::getItemShared('folder', $fileId, Test_Share_Backend::FORMAT_SOURCE);
+		$this->assertEmpty($result, 'Share must not be returned for files outside of "files"');
+
+		$result = OCP\Share::getItemSharedWithUser('folder', $fileId, $this->user2);
+		$this->assertEmpty($result, 'Share must not be returned for files outside of "files"');
+
+		$result = OCP\Share::getItemsSharedWithUser('folder', $this->user2);
+		$this->assertEmpty($result, 'Share must not be returned for files outside of "files"');
 	}
 
 	public function testSetExpireDateInPast() {
