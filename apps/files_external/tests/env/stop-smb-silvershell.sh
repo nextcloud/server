@@ -17,7 +17,7 @@ fi
 echo "Docker executable found - stop and remove docker containers"
 
 # retrieve current folder to remove the config from the parent folder
-thisFolder=`echo $0 | replace "env/stop-smb-silvershell.sh" ""`
+thisFolder=`echo $0 | sed 's#env/stop-smb-silvershell\.sh##'`
 
 if [ -z "$thisFolder" ]; then
     thisFolder="."
