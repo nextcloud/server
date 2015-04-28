@@ -34,6 +34,29 @@ class Test_Avatar extends \Test\TestCase {
 		}
 	}
 
+	/**
+	 * @return array
+	 */
+	public function traversalProvider() {
+		return [
+			['Pot\..\entiallyDangerousUsername'],
+			['Pot/..\entiallyDangerousUsername'],
+			['PotentiallyDangerousUsername/..'],
+			['PotentiallyDangerousUsername\../'],
+			['/../PotentiallyDangerousUsername'],
+		];
+	}
+
+	/**
+	 * @dataProvider traversalProvider
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Username may not contain slashes
+	 * @param string $dangerousUsername
+	 */
+	public function testAvatarTraversal($dangerousUsername) {
+		new Avatar($dangerousUsername);
+	}
+
 	public function testAvatar() {
 
 		$avatar = new Avatar($this->user);
