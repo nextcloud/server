@@ -170,7 +170,7 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemType
 	 * @param string $itemSource
 	 * @param string $uidOwner Owner of link
-	 * @return Item
+	 * @return array
 	 * @since 5.0.0
 	 */
 	public static function getItemSharedWithByLink($itemType, $itemSource, $uidOwner) {
@@ -180,6 +180,7 @@ class Share extends \OC\Share\Constants {
 	/**
 	 * Based on the given token the share information will be returned - password protected shares will be verified
 	 * @param string $token
+	 * @param bool $checkPasswordProtection
 	 * @return array|bool false will be returned in case the token is unknown or unauthorized
 	 * @since 5.0.0 - parameter $checkPasswordProtection was added in 7.0.0
 	 */
@@ -289,7 +290,8 @@ class Share extends \OC\Share\Constants {
 	/**
 	 * Unshare an item shared with the current user
 	 * @param string $itemType
-	 * @param string $itemTarget
+	 * @param string $itemOrigin Item target or source
+	 * @param boolean $originIsSource true if $itemOrigin is the source, false if $itemOrigin is the target (optional)
 	 * @return boolean true on success or false on failure
 	 *
 	 * Unsharing from self is not allowed for items inside collections

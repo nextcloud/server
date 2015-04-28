@@ -48,7 +48,7 @@ use OCP\IConfig;
  * It provides the following hooks:
  *  - post_shared
  */
-class Share extends \OC\Share\Constants {
+class Share extends Constants {
 
 	/** CRUDS permissions (Create, Read, Update, Delete, Share) using a bitmask
 	 * Construct permissions for share() and setPermissions with Or (|) e.g.
@@ -441,6 +441,7 @@ class Share extends \OC\Share\Constants {
 	/**
 	 * Based on the given token the share information will be returned - password protected shares will be verified
 	 * @param string $token
+	 * @param bool $checkPasswordProtection
 	 * @return array|boolean false will be returned in case the token is unknown or unauthorized
 	 */
 	public static function getShareByToken($token, $checkPasswordProtection = true) {
@@ -981,6 +982,7 @@ class Share extends \OC\Share\Constants {
 	 * @param string $shareWith User or group the item is being shared with
 	 * @param int $permissions CRUDS permissions
 	 * @return boolean true on success or false on failure
+	 * @throws \Exception when trying to grant more permissions then the user has himself
 	 */
 	public static function setPermissions($itemType, $itemSource, $shareType, $shareWith, $permissions) {
 		$l = \OC::$server->getL10N('lib');
@@ -1069,8 +1071,8 @@ class Share extends \OC\Share\Constants {
 	 * @param string $shareTime timestamp when the file was shared
 	 * @param string $itemType
 	 * @param string $itemSource
-	 * @return DateTime validated date
-	 * @throws \Exception
+	 * @return \DateTime validated date
+	 * @throws \Exception when the expire date is in the past or further in the future then the enforced date
 	 */
 	private static function validateExpireDate($expireDate, $shareTime, $itemType, $itemSource) {
 		$l = \OC::$server->getL10N('lib');
@@ -1116,8 +1118,8 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemSource
 	 * @param string $date expiration date
 	 * @param int $shareTime timestamp from when the file was shared
-	 * @throws \Exception
 	 * @return boolean
+	 * @throws \Exception when the expire date is not set, in the past or further in the future then the enforced date
 	 */
 	public static function setExpirationDate($itemType, $itemSource, $date, $shareTime = null) {
 		$user = \OC_User::getUser();
@@ -1266,7 +1268,7 @@ class Share extends \OC\Share\Constants {
 	/**
 	 * Unshares a share given a share data array
 	 * @param array $item Share data (usually database row)
-	 * @param int new parent ID
+	 * @param int $newParent parent ID
 	 * @return null
 	 */
 	protected static function unshareItem(array $item, $newParent = null) {
@@ -2176,8 +2178,8 @@ class Share extends \OC\Share\Constants {
 	 * @param array $shareData
 	 * @return mixed false in case of a failure or the id of the new share
 	 */
-	private static function insertShare(array $shareData)
-	{
+	private static function insertShare(array $shareData) {
+
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` ('
 			.' `item_type`, `item_source`, `item_target`, `share_type`,'
 			.' `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
@@ -2220,6 +2222,7 @@ class Share extends \OC\Share\Constants {
 		return $id;
 
 	}
+
 	/**
 	 * Delete all shares with type SHARE_TYPE_LINK
 	 */
@@ -2450,7 +2453,7 @@ class Share extends \OC\Share\Constants {
 	/**
 	 * send server-to-server unshare to remote server
 	 *
-	 * @param string remote url
+	 * @param string $remote url
 	 * @param int $id share id
 	 * @param string $token
 	 * @return bool
@@ -2473,16 +2476,25 @@ class Share extends \OC\Share\Constants {
 		return ($value === 'yes') ? true : false;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public static function isDefaultExpireDateEnabled() {
 		$defaultExpireDateEnabled = \OCP\Config::getAppValue('core', 'shareapi_default_expire_date', 'no');
 		return ($defaultExpireDateEnabled === "yes") ? true : false;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public static function enforceDefaultExpireDate() {
 		$enforceDefaultExpireDate = \OCP\Config::getAppValue('core', 'shareapi_enforce_expire_date', 'no');
 		return ($enforceDefaultExpireDate === "yes") ? true : false;
 	}
 
+	/**
+	 * @return int
+	 */
 	public static function getExpireInterval() {
 		return (int)\OCP\Config::getAppValue('core', 'shareapi_expire_after_n_days', '7');
 	}
