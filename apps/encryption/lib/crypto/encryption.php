@@ -120,26 +120,35 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function begin($path, $user, $mode, array $header, array $accessList) {
 
-		if (isset($header['cipher'])) {
-			$this->cipher = $header['cipher'];
-		} else if (
+		$this->path = $this->getPathToRealFile($path);
+		$this->accessList = $accessList;
+		$this->user = $user;
+		$this->isWriteOperation = false;
+		$this->writeCache = '';
+
+		$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user);
+
+		if (
 			$mode === 'w'
 			|| $mode === 'w+'
 			|| $mode === 'wb'
 			|| $mode === 'wb+'
 		) {
-			$this->cipher = $this->crypt->getCipher();
-		} else {
-			$this->cipher = $this->crypt->getLegacyCipher();
+			$this->isWriteOperation = true;
+			if (empty($this->fileKey)) {
+				$this->fileKey = $this->crypt->generateFileKey();
+			}
 		}
 
-		$this->path = $this->getPathToRealFile($path);
-		$this->accessList = $accessList;
-		$this->user = $user;
-		$this->writeCache = '';
-		$this->isWriteOperation = false;
-
-		$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user);
+		if (isset($header['cipher'])) {
+			$this->cipher = $header['cipher'];
+		} elseif ($this->isWriteOperation) {
+			$this->cipher = $this->crypt->getCipher();
+		} else {
+			// if we read a file without a header we fall-back to the legacy cipher
+			// which was used in <=oC6
+			$this->cipher = $this->crypt->getLegacyCipher();
+		}
 
 		return array('cipher' => $this->cipher);
 	}
@@ -180,10 +189,6 @@ class Encryption implements IEncryptionModule {
 	 * @return mixed encrypted data
 	 */
 	public function encrypt($data) {
-		$this->isWriteOperation = true;
-		if (empty($this->fileKey)) {
-			$this->fileKey = $this->crypt->generateFileKey();
-		}
 
 		// If extra data is left over from the last round, make sure it
 		// is integrated into the next 6126 / 8192 block
