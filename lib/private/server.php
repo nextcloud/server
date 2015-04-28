@@ -492,7 +492,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	/**
 	 * Returns the root folder of ownCloud's data directory
 	 *
-	 * @return \OCP\Files\Folder
+	 * @return \OCP\Files\IRootFolder
 	 */
 	public function getRootFolder() {
 		return $this->query('RootFolder');
