@@ -113,7 +113,9 @@ class Test_Files_Sharing_Cache extends TestCase {
 	}
 
 	protected function tearDown() {
-		$this->sharedCache->clear();
+		if($this->sharedCache) {
+			$this->sharedCache->clear();
+		}
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 

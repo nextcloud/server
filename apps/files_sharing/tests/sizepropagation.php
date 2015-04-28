@@ -19,11 +19,11 @@
  *
  */
 
-namespace OCA\Files_Sharing\Tests;
+namespace OCA\Files_sharing\Tests;
 
 use OC\Files\View;
 
-class Propagation extends TestCase {
+class SizePropagation extends TestCase {
 
 	public function testSizePropagationWhenOwnerChangesFile() {
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);

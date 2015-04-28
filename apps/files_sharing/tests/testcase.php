@@ -31,6 +31,7 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
 use OCA\Files\Share;
+use OCA\Files_Sharing\Appinfo\Application;
 
 /**
  * Class Test_Files_Sharing_Base
@@ -42,6 +43,7 @@ abstract class TestCase extends \Test\TestCase {
 	const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
 	const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
 	const TEST_FILES_SHARING_API_USER3 = "test-share-user3";
+	const TEST_FILES_SHARING_API_USER4 = "test-share-user4";
 
 	const TEST_FILES_SHARING_API_GROUP1 = "test-share-group1";
 
@@ -57,6 +59,10 @@ abstract class TestCase extends \Test\TestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
+		$application = new Application();
+		$application->registerMountProviders();
+		$application->setupPropagation();
+		
 		// reset backend
 		\OC_User::clearBackends();
 		\OC_Group::clearBackends();
@@ -64,7 +70,6 @@ abstract class TestCase extends \Test\TestCase {
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
 		\OC::registerShareHooks();
-		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
 
 		// create users
 		$backend = new \OC_User_Dummy();
@@ -72,6 +77,7 @@ abstract class TestCase extends \Test\TestCase {
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER1);
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER2);
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER3, self::TEST_FILES_SHARING_API_USER3);
+		$backend->createUser(self::TEST_FILES_SHARING_API_USER4, self::TEST_FILES_SHARING_API_USER4);
 
 		// create group
 		$groupBackend = new \OC_Group_Dummy();
@@ -147,6 +153,7 @@ abstract class TestCase extends \Test\TestCase {
 		\OC::$server->getUserSession()->setUser(null);
 		\OC\Files\Filesystem::tearDown();
 		\OC::$server->getUserSession()->login($user, $password);
+
 		\OC_Util::setupFS($user);
 	}
 

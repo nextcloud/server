@@ -54,7 +54,9 @@ class Test_Trashbin extends \Test\TestCase {
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
 		\OC::registerShareHooks();
-		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
+		$application = new \OCA\Files_Sharing\AppInfo\Application();
+		$application->registerMountProviders();
+		$application->setupPropagation();
 
 		//disable encryption
 		\OC_App::disable('files_encryption');

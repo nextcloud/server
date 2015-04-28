@@ -25,7 +25,6 @@
  */
 namespace OCA\Files_Sharing\AppInfo;
 
-use OCA\Files_Sharing\Application;
 use OCP\API;
 
 $application = new Application();

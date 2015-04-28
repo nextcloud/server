@@ -658,6 +658,10 @@ class View {
 				} elseif ($result) {
 					if ($internalPath1 !== '') { // dont do a cache update for moved mounts
 						$this->updater->rename($path1, $path2);
+					} else { // only do etag propagation
+						$this->getUpdater()->getPropagator()->addChange($path1);
+						$this->getUpdater()->getPropagator()->addChange($path2);
+						$this->getUpdater()->getPropagator()->propagateChanges();
 					}
 					if ($this->shouldEmitHooks($path1) and $this->shouldEmitHooks($path2)) {
 						\OC_Hook::emit(

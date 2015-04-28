@@ -47,7 +47,9 @@ class Test_Files_Versioning extends \Test\TestCase {
 		\OC_Hook::clear('OCP\\Share');
 		\OC::registerShareHooks();
 		\OCA\Files_Versions\Hooks::connectHooks();
-		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
+		$application = new \OCA\Files_Sharing\AppInfo\Application();
+		$application->registerMountProviders();
+		$application->setupPropagation();
 
 		// create test user
 		self::loginHelper(self::TEST_VERSIONS_USER2, true);

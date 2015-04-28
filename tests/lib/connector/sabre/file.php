@@ -52,7 +52,6 @@ class File extends \Test\TestCase {
 		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath', 'resolvePath'), array());
 		$view->expects($this->any())
 			->method('resolvePath')
-			->with('')
 			->will($this->returnValue(array($storage, '')));
 		$view->expects($this->any())
 			->method('getRelativePath')

@@ -2530,4 +2530,28 @@ class Share extends Constants {
 		$enforcePassword = $config->getAppValue('core', 'shareapi_enforce_links_password', 'no');
 		return ($enforcePassword === "yes") ? true : false;
 	}
+
+	/**
+	 * Get all share entries, including non-unique group items
+	 *
+	 * @param string $owner
+	 * @return array
+	 */
+	public static function getAllSharesForOwner($owner) {
+		$query = 'SELECT * FROM `*PREFIX*share` WHERE `uid_owner` = ?';
+		$result = \OC::$server->getDatabaseConnection()->executeQuery($query, [$owner]);
+		return $result->fetchAll();
+	}
+
+	/**
+	 * Get all share entries, including non-unique group items for a file
+	 *
+	 * @param int $id
+	 * @return array
+	 */
+	public static function getAllSharesForFileId($id) {
+		$query = 'SELECT * FROM `*PREFIX*share` WHERE `file_source` = ?';
+		$result = \OC::$server->getDatabaseConnection()->executeQuery($query, [$id]);
+		return $result->fetchAll();
+	}
 }

@@ -26,7 +26,7 @@
 namespace OCA\Files_Sharing\Controllers;
 
 use OC\Files\Filesystem;
-use OCA\Files_Sharing\Application;
+use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\IAppContainer;
 use OCP\Files;

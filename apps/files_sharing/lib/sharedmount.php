@@ -25,6 +25,7 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\View;
 
 /**
  * Shared mount points can be moved by the user
@@ -35,8 +36,14 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	protected $storage = null;
 
+	/**
+	 * @var \OC\Files\Cache\ChangePropagator
+	 */
+	protected $ownerPropagator;
+
 	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
 		// first update the mount point before creating the parent
+		$this->ownerPropagator = $arguments['propagator'];
 		$newMountPoint = $this->verifyMountPoint($arguments['share'], $arguments['user']);
 		$absMountPoint = '/' . $arguments['user'] . '/files' . $newMountPoint;
 		parent::__construct($storage, $absMountPoint, $arguments, $loader);
@@ -49,8 +56,9 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 		$mountPoint = basename($share['file_target']);
 		$parent = dirname($share['file_target']);
+		$view = new View('/' . $user . '/files');
 
-		if (!\OC\Files\Filesystem::is_dir($parent)) {
+		if (!$view->is_dir($parent)) {
 			$parent = Helper::getShareFolder();
 		}
 
@@ -173,5 +181,16 @@ class SharedMount extends MountPoint implements MoveableMount {
 		$mountManager->removeMount($this->mountPoint);
 
 		return $result;
+	}
+
+	public function getShare() {
+		return $this->getStorage()->getShare();
+	}
+
+	/**
+	 * @return \OC\Files\Cache\ChangePropagator
+	 */
+	public function getOwnerPropagator() {
+		return $this->ownerPropagator;
 	}
 }
