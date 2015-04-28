@@ -109,19 +109,19 @@ $this->create('core_ajax_update', '/core/ajax/update.php')
 
 // Sharing routes
 $this->create('files_sharing.sharecontroller.showShare', '/s/{token}')->action(function($urlParams) {
-	$app = new \OCA\Files_Sharing\Application($urlParams);
+	$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
 	$app->dispatch('ShareController', 'showShare');
 });
 $this->create('files_sharing.sharecontroller.authenticate', '/s/{token}/authenticate')->post()->action(function($urlParams) {
-	$app = new \OCA\Files_Sharing\Application($urlParams);
+	$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
 	$app->dispatch('ShareController', 'authenticate');
 });
 $this->create('files_sharing.sharecontroller.showAuthenticate', '/s/{token}/authenticate')->get()->action(function($urlParams) {
-	$app = new \OCA\Files_Sharing\Application($urlParams);
+	$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
 	$app->dispatch('ShareController', 'showAuthenticate');
 });
 $this->create('files_sharing.sharecontroller.downloadShare', '/s/{token}/download')->get()->action(function($urlParams) {
-	$app = new \OCA\Files_Sharing\Application($urlParams);
+	$app = new \OCA\Files_Sharing\AppInfo\Application($urlParams);
 	$app->dispatch('ShareController', 'downloadShare');
 });
 
