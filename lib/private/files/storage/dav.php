@@ -126,14 +126,10 @@ class DAV extends \OC\Files\Storage\Common {
 			return opendir('fakedir://' . $id);
 		} catch (Exception\NotFound $e) {
 			return false;
-		} catch (\Sabre\DAV\Exception $e) {
-			$this->convertSabreException($e);
-			return false;
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	public function filetype($path) {
@@ -148,14 +144,10 @@ class DAV extends \OC\Files\Storage\Common {
 			return (count($responseType) > 0 and $responseType[0] == "{DAV:}collection") ? 'dir' : 'file';
 		} catch (Exception\NotFound $e) {
 			return false;
-		} catch (\Sabre\DAV\Exception $e) {
-			$this->convertSabreException($e);
-			return false;
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	public function file_exists($path) {
@@ -166,14 +158,10 @@ class DAV extends \OC\Files\Storage\Common {
 			return true; //no 404 exception
 		} catch (Exception\NotFound $e) {
 			return false;
-		} catch (\Sabre\DAV\Exception $e) {
-			$this->convertSabreException($e);
-			return false;
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	public function unlink($path) {
@@ -285,12 +273,8 @@ class DAV extends \OC\Files\Storage\Common {
 				$this->client->proppatch($this->encodePath($path), array('{DAV:}lastmodified' => $mtime));
 			} catch (Exception\NotImplemented $e) {
 				return false;
-			} catch (\Sabre\DAV\Exception $e) {
-				$this->convertSabreException($e);
-				return false;
 			} catch (\Exception $e) {
-				// TODO: log for now, but in the future need to wrap/rethrow exception
-				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+				$this->convertException($e);
 				return false;
 			}
 		} else {
@@ -339,14 +323,10 @@ class DAV extends \OC\Files\Storage\Common {
 			$this->removeCachedFile($path1);
 			$this->removeCachedFile($path2);
 			return true;
-		} catch (\Sabre\DAV\Exception $e) {
-			$this->convertSabreException($e);
-			return false;
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	public function copy($path1, $path2) {
@@ -357,14 +337,10 @@ class DAV extends \OC\Files\Storage\Common {
 			$this->client->request('COPY', $path1, null, array('Destination' => $path2));
 			$this->removeCachedFile($path2);
 			return true;
-		} catch (\Sabre\DAV\Exception $e) {
-			$this->convertSabreException($e);
-			return false;
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	public function stat($path) {
@@ -378,14 +354,10 @@ class DAV extends \OC\Files\Storage\Common {
 			);
 		} catch (Exception\NotFound $e) {
 			return array();
-		} catch (\Sabre\DAV\Exception $e) {
-			$this->convertSabreException($e);
-			return false;
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return array();
+			$this->convertException($e);
 		}
+		return array();
 	}
 
 	public function getMimeType($path) {
@@ -407,14 +379,10 @@ class DAV extends \OC\Files\Storage\Common {
 			}
 		} catch (Exception\NotFound $e) {
 			return false;
-		} catch (\Sabre\DAV\Exception $e) {
-			$this->convertSabreException($e);
-			return false;
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	/**
@@ -455,16 +423,11 @@ class DAV extends \OC\Files\Storage\Common {
 				return false;
 			}
 
-			$this->convertSabreException($e);
-			return false;
-		} catch (\Sabre\DAV\Exception $e) {
-			$this->convertSabreException($e);
-			return false;
+			$this->convertException($e);
 		} catch (\Exception $e) {
-			// TODO: log for now, but in the future need to wrap/rethrow exception
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
+			$this->convertException($e);
 		}
+		return false;
 	}
 
 	/**
@@ -565,23 +528,26 @@ class DAV extends \OC\Files\Storage\Common {
 			}
 		} catch (Exception\NotFound $e) {
 			return false;
-		} catch (Exception $e) {
-			$this->convertSabreException($e);
+		} catch (\Exception $e) {
+			$this->convertException($e);
 			return false;
 		}
 	}
 
 	/**
-	 * Convert sabre DAV exception to a storage exception,
-	 * then throw it
+	 * Interpret the given exception and decide whether it is due to an
+	 * unavailable storage, invalid storage or other.
+	 * This will either throw StorageInvalidException, StorageNotAvailableException
+	 * or do nothing.
 	 *
 	 * @param \Sabre\Dav\Exception $e sabre exception
+	 *
 	 * @throws StorageInvalidException if the storage is invalid, for example
 	 * when the authentication expired or is invalid
 	 * @throws StorageNotAvailableException if the storage is not available,
 	 * which might be temporary
 	 */
-	private function convertSabreException(\Sabre\Dav\Exception $e) {
+	private function convertException(\Exception $e) {
 		\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 		if ($e instanceof \Sabre\DAV\Exception\NotAuthenticated) {
 			// either password was changed or was invalid all along
@@ -589,9 +555,18 @@ class DAV extends \OC\Files\Storage\Common {
 		} else if ($e instanceof \Sabre\DAV\Exception\MethodNotAllowed) {
 			// ignore exception, false will be returned
 			return;
+		} else if ($e instanceof \Sabre\Dav\Exception) {
+			throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
+		} else if ($e instanceof \InvalidArgumentException) {
+			// parse error because the server returned HTML instead of XML,
+			// possibly temporarily down
+			throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
+		} else if (($e instanceof StorageNotAvailableException) || ($e instanceof StorageInvalidException)) {
+			// rethrow
+			throw $e;
 		}
 
-		throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
+		// TODO: only log for now, but in the future need to wrap/rethrow exception
 	}
 }
 
