@@ -56,9 +56,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testAddShare() {
-		$this->httpHelper->expects($this->exactly(4))
-			->method('post')
-			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares'), $this->anything());
 
 		$shareData1 = [
 			'remote' => 'http://localhost',
@@ -97,6 +94,10 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
+		$this->httpHelper->expects($this->at(0))
+			->method('post')
+			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $openShares[0]['remote_id']), $this->anything());
+
 		// Accept the first share
 		$this->manager->acceptShare($openShares[0]['id']);
 
@@ -128,6 +129,10 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
+		$this->httpHelper->expects($this->at(0))
+			->method('post')
+			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $openShares[1]['remote_id'] . '/decline'), $this->anything());
+
 		// Decline the third share
 		$this->manager->declineShare($openShares[1]['id']);
 
@@ -150,6 +155,13 @@ class ManagerTest extends TestCase {
 		$this->assertMount($shareData1['name']);
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
+
+		$this->httpHelper->expects($this->at(0))
+			->method('post')
+			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $openShares[0]['remote_id'] . '/decline'), $this->anything());
+		$this->httpHelper->expects($this->at(1))
+			->method('post')
+			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $acceptedShares[0]['remote_id'] . '/decline'), $this->anything());
 
 		$this->manager->removeUserShares($this->uid);
 		$this->assertEmpty(\Test_Helper::invokePrivate($this->manager, 'getShares', [null]), 'Asserting all shares for the user have been deleted');
