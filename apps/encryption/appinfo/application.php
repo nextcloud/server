@@ -101,7 +101,8 @@ class Application extends \OCP\AppFramework\App {
 			return new Encryption(
 				$container->query('Crypt'),
 				$container->query('KeyManager'),
-				$container->query('Util')
+				$container->query('Util'),
+				$container->getServer()->getLogger()
 			);
 		});
 	}

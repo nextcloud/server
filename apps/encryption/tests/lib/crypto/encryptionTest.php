@@ -38,6 +38,9 @@ class EncryptionTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	private $utilMock;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $loggerMock;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -50,8 +53,16 @@ class EncryptionTest extends TestCase {
 		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->loggerMock = $this->getMockBuilder('OCP\ILogger')
+			->disableOriginalConstructor()
+			->getMock();
 
-		$this->instance = new Encryption($this->cryptMock, $this->keyManagerMock, $this->utilMock);
+		$this->instance = new Encryption(
+			$this->cryptMock,
+			$this->keyManagerMock,
+			$this->utilMock,
+			$this->loggerMock
+		);
 	}
 
 	/**
@@ -83,6 +94,9 @@ class EncryptionTest extends TestCase {
 		$this->cryptMock->expects($this->any())
 			->method('getLegacyCipher')
 			->willReturn($legacyCipher);
+		$this->cryptMock->expects($this->any())
+			->method('generateFileKey')
+			->willReturn('fileKey');
 
 		$result = $this->instance->begin('/user/files/foo.txt', 'user', $mode, $header, []);
 
@@ -99,5 +113,36 @@ class EncryptionTest extends TestCase {
 		);
 	}
 
+	/**
+	 * @dataProvider dataTestUpdate
+	 *
+	 * @param string $fileKey
+	 * @param boolean $expected
+	 */
+	public function testUpdate($fileKey, $expected) {
+		$this->keyManagerMock->expects($this->once())
+			->method('getFileKey')->willReturn($fileKey);
+
+		$this->keyManagerMock->expects($this->any())
+			->method('getPublicKey')->willReturn('publicKey');
+
+		$this->keyManagerMock->expects($this->any())
+			->method('addSystemKeys')
+			->willReturnCallback(function($accessList, $publicKeys) {
+				return $publicKeys;
+			});
+
+		$this->assertSame($expected,
+			$this->instance->update('path', 'user1', ['users' => ['user1']])
+		);
+
+	}
+
+	public function dataTestUpdate() {
+		return array(
+			array('', false),
+			array('fileKey', true)
+		);
+	}
 
 }

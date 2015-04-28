@@ -28,6 +28,7 @@ namespace OCA\Encryption\Crypto;
 use OCA\Encryption\Util;
 use OCP\Encryption\IEncryptionModule;
 use OCA\Encryption\KeyManager;
+use OCP\ILogger;
 
 class Encryption implements IEncryptionModule {
 
@@ -66,16 +67,24 @@ class Encryption implements IEncryptionModule {
 	/** @var Util */
 	private $util;
 
+	/** @var  ILogger */
+	private $logger;
+
 	/**
 	 *
-	 * @param \OCA\Encryption\Crypto\Crypt $crypt
+	 * @param Crypt $crypt
 	 * @param KeyManager $keyManager
 	 * @param Util $util
+	 * @param ILogger $logger
 	 */
-	public function __construct(Crypt $crypt, KeyManager $keyManager, Util $util) {
+	public function __construct(Crypt $crypt,
+								KeyManager $keyManager,
+								Util $util,
+								ILogger $logger) {
 		$this->crypt = $crypt;
 		$this->keyManager = $keyManager;
 		$this->util = $util;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -257,18 +266,28 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function update($path, $uid, array $accessList) {
 		$fileKey = $this->keyManager->getFileKey($path, $uid);
-		$publicKeys = array();
-		foreach ($accessList['users'] as $user) {
-			$publicKeys[$user] = $this->keyManager->getPublicKey($user);
+
+		if (!empty($fileKey)) {
+
+			$publicKeys = array();
+			foreach ($accessList['users'] as $user) {
+				$publicKeys[$user] = $this->keyManager->getPublicKey($user);
+			}
+
+			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys);
+
+			$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
+
+			$this->keyManager->deleteAllFileKeys($path);
+
+			$this->keyManager->setAllFileKeys($path, $encryptedFileKey);
+
+		} else {
+			$this->logger->debug('no file key found, we assume that the file "{file}" is not encrypted',
+				array('file' => $path, 'app' => 'encryption'));
+
+			return false;
 		}
-
-		$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys);
-
-		$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
-
-		$this->keyManager->deleteAllFileKeys($path);
-
-		$this->keyManager->setAllFileKeys($path, $encryptedFileKey);
 
 		return true;
 	}
