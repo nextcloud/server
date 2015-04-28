@@ -226,7 +226,7 @@ class UserHooks implements IHook {
 			// Save private key
 			if ($encryptedPrivateKey) {
 				$this->keyManager->setPrivateKey($this->user->getUser()->getUID(),
-					$encryptedPrivateKey);
+					$this->crypt->generateHeader() . $encryptedPrivateKey);
 			} else {
 				$this->logger->error('Encryption could not update users encryption password');
 			}
@@ -263,7 +263,7 @@ class UserHooks implements IHook {
 					$newUserPassword);
 
 				if ($encryptedKey) {
-					$this->keyManager->setPrivateKey($user, $encryptedKey);
+					$this->keyManager->setPrivateKey($user, $this->crypt->generateHeader() . $encryptedKey);
 
 					if ($recoveryPassword) { // if recovery key is set we can re-encrypt the key files
 						$this->recovery->recoverUsersFiles($recoveryPassword, $user);
