@@ -24,7 +24,9 @@
 
 namespace OC\Memcache;
 
-class Memcached extends Cache {
+use OCP\IMemcache;
+
+class Memcached extends Cache implements IMemcache {
 	/**
 	 * @var \Memcached $cache
 	 */
@@ -98,6 +100,41 @@ class Memcached extends Cache {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Set a value in the cache if it's not already stored
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
+	 * @return bool
+	 */
+	public function add($key, $value, $ttl = 0) {
+		return self::$cache->add($this->getPrefix() . $key, $value, $ttl);
+	}
+
+	/**
+	 * Increase a stored number
+	 *
+	 * @param string $key
+	 * @param int $step
+	 * @return int | bool
+	 */
+	public function inc($key, $step = 1) {
+		$this->add($key, 0);
+		return self::$cache->increment($this->getPrefix() . $key, $step);
+	}
+
+	/**
+	 * Decrease a stored number
+	 *
+	 * @param string $key
+	 * @param int $step
+	 * @return int | bool
+	 */
+	public function dec($key, $step = 1) {
+		return self::$cache->decrement($this->getPrefix() . $key, $step);
 	}
 
 	static public function isAvailable() {

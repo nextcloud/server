@@ -22,7 +22,9 @@
 
 namespace OC\Memcache;
 
-class ArrayCache extends Cache {
+use OCP\IMemcache;
+
+class ArrayCache extends Cache implements IMemcache {
 	/** @var array Array with the cached data */
 	protected $cachedData = array();
 
@@ -74,6 +76,58 @@ class ArrayCache extends Cache {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Set a value in the cache if it's not already stored
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
+	 * @return bool
+	 */
+	public function add($key, $value, $ttl = 0) {
+		// since this cache is not shared race conditions aren't an issue
+		if ($this->hasKey($key)) {
+			return false;
+		} else {
+			return $this->set($key, $value, $ttl);
+		}
+	}
+
+	/**
+	 * Increase a stored number
+	 *
+	 * @param string $key
+	 * @param int $step
+	 * @return int | bool
+	 */
+	public function inc($key, $step = 1) {
+		$oldValue = $this->get($key);
+		if (is_int($oldValue)) {
+			$this->set($key, $oldValue + $step);
+			return $oldValue + $step;
+		} else {
+			$success = $this->add($key, $step);
+			return ($success) ? $step : false;
+		}
+	}
+
+	/**
+	 * Decrease a stored number
+	 *
+	 * @param string $key
+	 * @param int $step
+	 * @return int | bool
+	 */
+	public function dec($key, $step = 1) {
+		$oldValue = $this->get($key);
+		if (is_int($oldValue)) {
+			$this->set($key, $oldValue - $step);
+			return $oldValue - $step;
+		} else {
+			return false;
+		}
 	}
 
 	/**
