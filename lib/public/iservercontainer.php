@@ -87,7 +87,7 @@ interface IServerContainer {
 	/**
 	 * Returns the root folder of ownCloud's data directory
 	 *
-	 * @return \OCP\Files\Folder
+	 * @return \OCP\Files\IRootFolder
 	 * @since 6.0.0
 	 */
 	public function getRootFolder();
