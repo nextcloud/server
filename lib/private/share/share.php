@@ -2289,15 +2289,17 @@ class Share extends \OC\Share\Constants {
 	 *
 	 * @param string $url
 	 * @param array $fields post parameters
-	 * @return bool
+	 * @return array
 	 */
 	private static function tryHttpPost($url, $fields) {
 		$protocol = 'https://';
-		$success = false;
+		$result = [
+			'success' => false,
+			'result' => '',
+		];
 		$try = 0;
-		while ($success === false && $try < 2) {
+		while ($result['success'] === false && $try < 2) {
 			$result = \OC::$server->getHTTPHelper()->post($protocol . $url, $fields);
-			$success = $result['success'];
 			$try++;
 			$protocol = 'http://';
 		}
