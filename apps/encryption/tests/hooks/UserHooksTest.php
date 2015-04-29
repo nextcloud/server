@@ -11,6 +11,7 @@
 namespace OCA\Encryption\Tests\Hooks;
 
 
+use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Hooks\UserHooks;
 use Test\TestCase;
 
@@ -101,8 +102,18 @@ class UserHooksTest extends TestCase {
 			->method('symmetricEncryptFileContent')
 			->willReturn(true);
 
+		$this->cryptMock->expects($this->any())
+			->method('generateHeader')
+			->willReturn(Crypt::HEADER_START . ':Cipher:test:' . Crypt::HEADER_END);
+
 		$this->keyManagerMock->expects($this->exactly(4))
-			->method('setPrivateKey');
+			->method('setPrivateKey')
+			->willReturnCallback(function ($user, $key) {
+				$header = substr($key, 0, strlen(Crypt::HEADER_START));
+				$this->assertSame(
+					Crypt::HEADER_START,
+					$header, 'every encrypted file should start with a header');
+			});
 
 		$this->assertNull($this->instance->setPassphrase($this->params));
 		$this->params['recoveryPassword'] = 'password';
