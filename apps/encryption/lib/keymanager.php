@@ -131,6 +131,11 @@ class KeyManager {
 			$this->config->setAppValue('encryption', 'publicShareKeyId', $this->publicShareKeyId);
 		}
 
+		$this->keyId = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : false;
+		$this->log = $log;
+	}
+
+	public function validateShareKey() {
 		$shareKey = $this->getPublicShareKey();
 		if (empty($shareKey)) {
 			$keyPair = $this->crypt->createKeyPair();
@@ -145,9 +150,6 @@ class KeyManager {
 			$header = $this->crypt->generateHeader();
 			$this->setSystemPrivateKey($this->publicShareKeyId, $header . $encryptedKey);
 		}
-
-		$this->keyId = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : false;
-		$this->log = $log;
 	}
 
 	/**
