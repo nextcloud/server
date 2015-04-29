@@ -22,15 +22,19 @@
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Files\Storage\StorageFactory;
+use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\Tests\TestCase;
 
 class ManagerTest extends TestCase {
 
-	/** @var \OCA\Files_Sharing\External\Manager **/
+	/** @var Manager **/
 	private $manager;
 
 	/** @var \OC\Files\Mount\Manager */
 	private $mountManager;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $httpHelper;
 
 	private $uid;
 
@@ -39,16 +43,19 @@ class ManagerTest extends TestCase {
 
 		$this->uid = $this->getUniqueID('user');
 		$this->mountManager = new \OC\Files\Mount\Manager();
-		$this->manager = new \OCA\Files_Sharing\External\Manager(
+		$this->httpHelper = $httpHelper = $this->getMockBuilder('\OC\HTTPHelper')->disableOriginalConstructor()->getMock();
+		/** @var \OC\HTTPHelper $httpHelper */
+		$this->manager = new Manager(
 			\OC::$server->getDatabaseConnection(),
 			$this->mountManager,
 			new StorageFactory(),
-			$this->getMockBuilder('\OC\HTTPHelper')->disableOriginalConstructor()->getMock(),
+			$httpHelper,
 			$this->uid
 		);
 	}
 
 	public function testAddShare() {
+
 		$shareData1 = [
 			'remote' => 'http://localhost',
 			'token' => 'token1',
@@ -86,6 +93,10 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
+		$this->httpHelper->expects($this->at(0))
+			->method('post')
+			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $openShares[0]['remote_id']), $this->anything());
+
 		// Accept the first share
 		$this->manager->acceptShare($openShares[0]['id']);
 
@@ -117,6 +128,10 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
+		$this->httpHelper->expects($this->at(0))
+			->method('post')
+			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $openShares[1]['remote_id'] . '/decline'), $this->anything());
+
 		// Decline the third share
 		$this->manager->declineShare($openShares[1]['id']);
 
@@ -139,6 +154,13 @@ class ManagerTest extends TestCase {
 		$this->assertMount($shareData1['name']);
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
+
+		$this->httpHelper->expects($this->at(0))
+			->method('post')
+			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $openShares[0]['remote_id'] . '/decline'), $this->anything());
+		$this->httpHelper->expects($this->at(1))
+			->method('post')
+			->with($this->stringStartsWith('http://localhost/ocs/v1.php/cloud/shares/' . $acceptedShares[0]['remote_id'] . '/decline'), $this->anything());
 
 		$this->manager->removeUserShares($this->uid);
 		$this->assertEmpty(\Test_Helper::invokePrivate($this->manager, 'getShares', [null]), 'Asserting all shares for the user have been deleted');

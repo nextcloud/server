@@ -174,7 +174,7 @@ class Manager {
 	 */
 	private function getShare($id) {
 		$getShare = $this->connection->prepare('
-			SELECT `remote`, `share_token`, `name`
+			SELECT `remote`, `remote_id`, `share_token`, `name`
 			FROM  `*PREFIX*share_external`
 			WHERE `id` = ? AND `user` = ?');
 		$result = $getShare->execute(array($id, $this->uid));
@@ -203,7 +203,7 @@ class Manager {
 					`mountpoint_hash` = ?
 				WHERE `id` = ? AND `user` = ?');
 			$acceptShare->execute(array(1, $mountPoint, $hash, $id, $this->uid));
-			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $id, 'accept');
+			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
 		}
 	}
 
@@ -220,7 +220,7 @@ class Manager {
 			$removeShare = $this->connection->prepare('
 				DELETE FROM `*PREFIX*share_external` WHERE `id` = ? AND `user` = ?');
 			$removeShare->execute(array($id, $this->uid));
-			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $id, 'decline');
+			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
 		}
 	}
 
@@ -229,13 +229,13 @@ class Manager {
 	 *
 	 * @param string $remote
 	 * @param string $token
-	 * @param int $id
+	 * @param int $remoteId Share id on the remote host
 	 * @param string $feedback
 	 * @return boolean
 	 */
-	private function sendFeedbackToRemote($remote, $token, $id, $feedback) {
+	private function sendFeedbackToRemote($remote, $token, $remoteId, $feedback) {
 
-		$url = $remote . \OCP\Share::BASE_PATH_TO_SHARE_API . '/' . $id . '/' . $feedback . '?format=' . \OCP\Share::RESPONSE_FORMAT;
+		$url = rtrim($remote, '/') . \OCP\Share::BASE_PATH_TO_SHARE_API . '/' . $remoteId . '/' . $feedback . '?format=' . \OCP\Share::RESPONSE_FORMAT;
 		$fields = array('token' => $token);
 
 		$result = $this->httpHelper->post($url, $fields);

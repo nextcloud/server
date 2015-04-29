@@ -2395,15 +2395,17 @@ class Share extends Constants {
 	 *
 	 * @param string $url
 	 * @param array $fields post parameters
-	 * @return bool
+	 * @return array
 	 */
 	private static function tryHttpPost($url, $fields) {
 		$protocol = 'https://';
-		$success = false;
+		$result = [
+			'success' => false,
+			'result' => '',
+		];
 		$try = 0;
-		while ($success === false && $try < 2) {
+		while ($result['success'] === false && $try < 2) {
 			$result = \OC::$server->getHTTPHelper()->post($protocol . $url, $fields);
-			$success = $result['success'];
 			$try++;
 			$protocol = 'http://';
 		}
@@ -2426,7 +2428,7 @@ class Share extends Constants {
 		list($user, $remote) = explode('@', $shareWith, 2);
 
 		if ($user && $remote) {
-			$url = $remote . self::BASE_PATH_TO_SHARE_API . '?format=' . self::RESPONSE_FORMAT;
+			$url = rtrim($remote, '/') . self::BASE_PATH_TO_SHARE_API . '?format=' . self::RESPONSE_FORMAT;
 
 			$local = \OC::$server->getURLGenerator()->getAbsoluteURL('/');
 
@@ -2459,8 +2461,9 @@ class Share extends Constants {
 	 * @return bool
 	 */
 	private static function sendRemoteUnshare($remote, $id, $token) {
-		$url = $remote . self::BASE_PATH_TO_SHARE_API . '/' . $id . '/unshare?format=' . self::RESPONSE_FORMAT;
+		$url = rtrim($remote, '/') . self::BASE_PATH_TO_SHARE_API . '/' . $id . '/unshare?format=' . self::RESPONSE_FORMAT;
 		$fields = array('token' => $token, 'format' => 'json');
+		$url = self::removeProtocolFromUrl($url);
 		$result = self::tryHttpPost($url, $fields);
 		$status = json_decode($result['result'], true);
 
