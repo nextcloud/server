@@ -38,6 +38,9 @@ class EncryptionTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	private $utilMock;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $loggerMock;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -50,8 +53,16 @@ class EncryptionTest extends TestCase {
 		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->loggerMock = $this->getMockBuilder('OCP\ILogger')
+			->disableOriginalConstructor()
+			->getMock();
 
-		$this->instance = new Encryption($this->cryptMock, $this->keyManagerMock, $this->utilMock);
+		$this->instance = new Encryption(
+			$this->cryptMock,
+			$this->keyManagerMock,
+			$this->utilMock,
+			$this->loggerMock
+		);
 	}
 
 	/**
@@ -75,7 +86,7 @@ class EncryptionTest extends TestCase {
 	/**
 	 * @dataProvider dataTestBegin
 	 */
-	public function testBegin($mode, $header, $legacyCipher, $defaultCipher, $expected) {
+	public function testBegin($mode, $header, $legacyCipher, $defaultCipher, $fileKey, $expected) {
 
 		$this->cryptMock->expects($this->any())
 			->method('getCipher')
@@ -83,21 +94,69 @@ class EncryptionTest extends TestCase {
 		$this->cryptMock->expects($this->any())
 			->method('getLegacyCipher')
 			->willReturn($legacyCipher);
+		if (empty($fileKey)) {
+			$this->cryptMock->expects($this->once())
+				->method('generateFileKey')
+				->willReturn('fileKey');
+		} else {
+			$this->cryptMock->expects($this->never())
+				->method('generateFileKey');
+		}
+
+		$this->keyManagerMock->expects($this->once())
+			->method('getFileKey')
+			->willReturn($fileKey);
 
 		$result = $this->instance->begin('/user/files/foo.txt', 'user', $mode, $header, []);
 
 		$this->assertArrayHasKey('cipher', $result);
 		$this->assertSame($expected, $result['cipher']);
+		if ($mode === 'w') {
+			$this->assertTrue(\Test_Helper::invokePrivate($this->instance, 'isWriteOperation'));
+		} else {
+			$this->assertFalse(\Test_Helper::invokePrivate($this->instance, 'isWriteOperation'));
+		}
 	}
 
 	public function dataTestBegin() {
 		return array(
-			array('w', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'myCipher'),
-			array('r', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'myCipher'),
-			array('w', [], 'legacyCipher', 'defaultCipher', 'defaultCipher'),
-			array('r', [], 'legacyCipher', 'defaultCipher', 'legacyCipher'),
+			array('w', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'fileKey', 'myCipher'),
+			array('r', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'fileKey', 'myCipher'),
+			array('w', [], 'legacyCipher', 'defaultCipher', '', 'defaultCipher'),
+			array('r', [], 'legacyCipher', 'defaultCipher', 'file_key', 'legacyCipher'),
 		);
 	}
 
+	/**
+	 * @dataProvider dataTestUpdate
+	 *
+	 * @param string $fileKey
+	 * @param boolean $expected
+	 */
+	public function testUpdate($fileKey, $expected) {
+		$this->keyManagerMock->expects($this->once())
+			->method('getFileKey')->willReturn($fileKey);
+
+		$this->keyManagerMock->expects($this->any())
+			->method('getPublicKey')->willReturn('publicKey');
+
+		$this->keyManagerMock->expects($this->any())
+			->method('addSystemKeys')
+			->willReturnCallback(function($accessList, $publicKeys) {
+				return $publicKeys;
+			});
+
+		$this->assertSame($expected,
+			$this->instance->update('path', 'user1', ['users' => ['user1']])
+		);
+
+	}
+
+	public function dataTestUpdate() {
+		return array(
+			array('', false),
+			array('fileKey', true)
+		);
+	}
 
 }

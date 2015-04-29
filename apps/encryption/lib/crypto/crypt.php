@@ -410,7 +410,7 @@ class Crypt {
 	 * @return string
 	 * @throws \Exception
 	 */
-	public static function generateFileKey() {
+	public function generateFileKey() {
 		// Generate key
 		$key = base64_encode(openssl_random_pseudo_bytes(32, $strong));
 		if (!$key || !$strong) {

@@ -28,6 +28,7 @@ namespace OCA\Encryption\Crypto;
 use OCA\Encryption\Util;
 use OCP\Encryption\IEncryptionModule;
 use OCA\Encryption\KeyManager;
+use OCP\ILogger;
 
 class Encryption implements IEncryptionModule {
 
@@ -66,16 +67,24 @@ class Encryption implements IEncryptionModule {
 	/** @var Util */
 	private $util;
 
+	/** @var  ILogger */
+	private $logger;
+
 	/**
 	 *
-	 * @param \OCA\Encryption\Crypto\Crypt $crypt
+	 * @param Crypt $crypt
 	 * @param KeyManager $keyManager
 	 * @param Util $util
+	 * @param ILogger $logger
 	 */
-	public function __construct(Crypt $crypt, KeyManager $keyManager, Util $util) {
+	public function __construct(Crypt $crypt,
+								KeyManager $keyManager,
+								Util $util,
+								ILogger $logger) {
 		$this->crypt = $crypt;
 		$this->keyManager = $keyManager;
 		$this->util = $util;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -111,26 +120,35 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function begin($path, $user, $mode, array $header, array $accessList) {
 
-		if (isset($header['cipher'])) {
-			$this->cipher = $header['cipher'];
-		} else if (
+		$this->path = $this->getPathToRealFile($path);
+		$this->accessList = $accessList;
+		$this->user = $user;
+		$this->isWriteOperation = false;
+		$this->writeCache = '';
+
+		$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user);
+
+		if (
 			$mode === 'w'
 			|| $mode === 'w+'
 			|| $mode === 'wb'
 			|| $mode === 'wb+'
 		) {
-			$this->cipher = $this->crypt->getCipher();
-		} else {
-			$this->cipher = $this->crypt->getLegacyCipher();
+			$this->isWriteOperation = true;
+			if (empty($this->fileKey)) {
+				$this->fileKey = $this->crypt->generateFileKey();
+			}
 		}
 
-		$this->path = $this->getPathToRealFile($path);
-		$this->accessList = $accessList;
-		$this->user = $user;
-		$this->writeCache = '';
-		$this->isWriteOperation = false;
-
-		$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user);
+		if (isset($header['cipher'])) {
+			$this->cipher = $header['cipher'];
+		} elseif ($this->isWriteOperation) {
+			$this->cipher = $this->crypt->getCipher();
+		} else {
+			// if we read a file without a header we fall-back to the legacy cipher
+			// which was used in <=oC6
+			$this->cipher = $this->crypt->getLegacyCipher();
+		}
 
 		return array('cipher' => $this->cipher);
 	}
@@ -171,10 +189,6 @@ class Encryption implements IEncryptionModule {
 	 * @return mixed encrypted data
 	 */
 	public function encrypt($data) {
-		$this->isWriteOperation = true;
-		if (empty($this->fileKey)) {
-			$this->fileKey = $this->crypt->generateFileKey();
-		}
 
 		// If extra data is left over from the last round, make sure it
 		// is integrated into the next 6126 / 8192 block
@@ -257,18 +271,28 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function update($path, $uid, array $accessList) {
 		$fileKey = $this->keyManager->getFileKey($path, $uid);
-		$publicKeys = array();
-		foreach ($accessList['users'] as $user) {
-			$publicKeys[$user] = $this->keyManager->getPublicKey($user);
+
+		if (!empty($fileKey)) {
+
+			$publicKeys = array();
+			foreach ($accessList['users'] as $user) {
+				$publicKeys[$user] = $this->keyManager->getPublicKey($user);
+			}
+
+			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys);
+
+			$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
+
+			$this->keyManager->deleteAllFileKeys($path);
+
+			$this->keyManager->setAllFileKeys($path, $encryptedFileKey);
+
+		} else {
+			$this->logger->debug('no file key found, we assume that the file "{file}" is not encrypted',
+				array('file' => $path, 'app' => 'encryption'));
+
+			return false;
 		}
-
-		$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys);
-
-		$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
-
-		$this->keyManager->deleteAllFileKeys($path);
-
-		$this->keyManager->setAllFileKeys($path, $encryptedFileKey);
 
 		return true;
 	}
