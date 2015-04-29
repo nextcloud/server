@@ -63,6 +63,17 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this['AppName'] = $appName;
 		$this['urlParams'] = $urlParams;
 
+		// aliases
+		$this->registerService('appName', function($c) {
+			return $c->query('AppName');
+		});
+		$this->registerService('webRoot', function($c) {
+			return $c->query('WebRoot');
+		});
+		$this->registerService('userId', function($c) {
+			return $c->query('UserId');
+		});
+
 		/**
 		 * Core services
 		 */
