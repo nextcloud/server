@@ -77,10 +77,13 @@ class Util {
 	}
 
 	/**
+	 * check if recovery key is enabled for user
+	 *
+	 * @param string $uid
 	 * @return bool
 	 */
-	public function isRecoveryEnabledForUser() {
-		$recoveryMode = $this->config->getUserValue($this->user->getUID(),
+	public function isRecoveryEnabledForUser($uid) {
+		$recoveryMode = $this->config->getUserValue($uid,
 			'encryption',
 			'recoveryEnabled',
 			0);

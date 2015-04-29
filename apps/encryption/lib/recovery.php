@@ -228,7 +228,7 @@ class Recovery {
 						$publicKeys[$uid] = $this->keyManager->getPublicKey($uid);
 					}
 
-					$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys);
+					$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $this->user->getUID());
 
 					$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 					$this->keyManager->setAllFileKeys($filePath, $encryptedKeyfiles);
@@ -264,33 +264,39 @@ class Recovery {
 		$privateKey = $this->crypt->decryptPrivateKey($encryptedKey,
 			$recoveryPassword);
 
-		$this->recoverAllFiles('/' . $user . '/files/', $privateKey);
+		$this->recoverAllFiles('/' . $user . '/files/', $privateKey, $user);
 	}
 
 	/**
-	 * @param $path
-	 * @param $privateKey
+	 * recover users files
+	 *
+	 * @param string $path
+	 * @param string $privateKey
+	 * @param string $uid
 	 */
-	private function recoverAllFiles($path, $privateKey) {
+	private function recoverAllFiles($path, $privateKey, $uid) {
 		$dirContent = $this->view->getDirectoryContent($path);
 
 		foreach ($dirContent as $item) {
 			// Get relative path from encryption/keyfiles
 			$filePath = $item->getPath();
 			if ($this->view->is_dir($filePath)) {
-				$this->recoverAllFiles($filePath . '/', $privateKey);
+				$this->recoverAllFiles($filePath . '/', $privateKey, $uid);
 			} else {
-				$this->recoverFile($filePath, $privateKey);
+				$this->recoverFile($filePath, $privateKey, $uid);
 			}
 		}
 
 	}
 
 	/**
+	 * recover file
+	 *
 	 * @param string $path
 	 * @param string $privateKey
+	 * @param string $uid
 	 */
-	private function recoverFile($path, $privateKey) {
+	private function recoverFile($path, $privateKey, $uid) {
 		$encryptedFileKey = $this->keyManager->getEncryptedFileKey($path);
 		$shareKey = $this->keyManager->getShareKey($path, $this->keyManager->getRecoveryKeyId());
 
@@ -303,11 +309,11 @@ class Recovery {
 		if (!empty($fileKey)) {
 			$accessList = $this->file->getAccessList($path);
 			$publicKeys = array();
-			foreach ($accessList['users'] as $uid) {
-				$publicKeys[$uid] = $this->keyManager->getPublicKey($uid);
+			foreach ($accessList['users'] as $user) {
+				$publicKeys[$user] = $this->keyManager->getPublicKey($user);
 			}
 
-			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys);
+			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $uid);
 
 			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 			$this->keyManager->setAllFileKeys($path, $encryptedKeyfiles);

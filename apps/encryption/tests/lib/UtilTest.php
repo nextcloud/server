@@ -44,11 +44,11 @@ class UtilTest extends TestCase {
 	 *
 	 */
 	public function testIsRecoveryEnabledForUser() {
-		$this->assertTrue($this->instance->isRecoveryEnabledForUser());
+		$this->assertTrue($this->instance->isRecoveryEnabledForUser('admin'));
 
 		// Assert recovery will return default value if not set
 		unset(self::$tempStorage['recoveryEnabled']);
-		$this->assertEquals(0, $this->instance->isRecoveryEnabledForUser());
+		$this->assertEquals(0, $this->instance->isRecoveryEnabledForUser('admin'));
 	}
 
 	public function testUserHasFiles() {

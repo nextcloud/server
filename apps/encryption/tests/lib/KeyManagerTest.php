@@ -297,4 +297,63 @@ class KeyManagerTest extends TestCase {
 
 		$this->assertTrue($this->instance->deleteAllFileKeys('/'));
 	}
+
+	/**
+	 * test add public share key and or recovery key to the list of public keys
+	 *
+	 * @dataProvider dataTestAddSystemKeys
+	 *
+	 * @param array $accessList
+	 * @param array $publicKeys
+	 * @param string $uid
+	 * @param array $expectedKeys
+	 */
+	public function testAddSystemKeys($accessList, $publicKeys, $uid, $expectedKeys) {
+
+		$publicShareKeyId = 'publicShareKey';
+		$recoveryKeyId = 'recoveryKey';
+
+		$this->keyStorageMock->expects($this->any())
+			->method('getSystemUserKey')
+			->willReturnCallback(function($keyId, $encryptionModuleId) {
+				return $keyId;
+			});
+
+		$this->utilMock->expects($this->any())
+			->method('isRecoveryEnabledForUser')
+			->willReturnCallback(function($uid) {
+				if ($uid === 'user1') {
+					return true;
+				}
+				return false;
+			});
+
+		// set key IDs
+		\Test_Helper::invokePrivate($this->instance, 'publicShareKeyId', [$publicShareKeyId]);
+		\Test_Helper::invokePrivate($this->instance, 'recoveryKeyId', [$recoveryKeyId]);
+
+		$result = $this->instance->addSystemKeys($accessList, $publicKeys, $uid);
+
+		foreach ($expectedKeys as $expected) {
+			$this->assertArrayHasKey($expected, $result);
+		}
+
+		$this->assertSameSize($expectedKeys, $result);
+	}
+
+	/**
+	 * data provider for testAddSystemKeys()
+	 *
+	 * @return array
+	 */
+	public function dataTestAddSystemKeys() {
+		return array(
+			array(['public' => true],[], 'user1', ['publicShareKey', 'recoveryKey']),
+			array(['public' => false], [], 'user1', ['recoveryKey']),
+			array(['public' => true],[], 'user2', ['publicShareKey']),
+			array(['public' => false], [], 'user2', []),
+		);
+	}
+
+
 }
