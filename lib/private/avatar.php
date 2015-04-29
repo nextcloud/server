@@ -8,6 +8,7 @@
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Lukas Reschke <lukas@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -26,23 +27,28 @@
  *
  */
 
- namespace OC;
+namespace OC;
 
- use OC_Image;
+use OC\Files\Filesystem;
+use OC_Image;
 
 /**
  * This class gets and sets users avatars.
  */
 
 class Avatar implements \OCP\IAvatar {
-
+	/** @var Files\View  */
 	private $view;
 
 	/**
 	 * constructor
 	 * @param string $user user to do avatar-management with
-	*/
+	 * @throws \Exception In case the username is potentially dangerous
+	 */
 	public function __construct ($user) {
+		if(!Filesystem::isValidPath($user)) {
+			throw new \Exception('Username may not contain slashes');
+		}
 		$this->view = new \OC\Files\View('/'.$user);
 	}
 
