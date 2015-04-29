@@ -1158,6 +1158,52 @@ class Test_Share extends \Test\TestCase {
 		\OC\Share\Share::setPassword($userSession, $connection, $config, 1, 'pass');
 	}
 
+	public function testPasswords() {
+		$pass = 'secret';
+
+		$this->shareUserTestFileAsLink();
+
+		$userSession = \OC::$server->getUserSession();
+		$connection = \OC::$server->getDatabaseConnection();
+		$config = $this->getMockBuilder('\OCP\IConfig')
+		               ->disableOriginalConstructor()
+		               ->getMock();
+
+		// Find the share ID in the db
+		$qb = $connection->createQueryBuilder();
+		$qb->select('`id`')
+		   ->from('`*PREFIX*share`')
+		   ->where('`item_type` = :type')
+		   ->andWhere('`item_source` = :source')
+		   ->andWhere('`uid_owner` = :owner')
+		   ->andWhere('`share_type` = :share_type')
+		   ->setParameter('type', 'test')
+		   ->setParameter('source', 'test.txt')
+		   ->setParameter('owner', $this->user1)
+		   ->setParameter('share_type', \OCP\Share::SHARE_TYPE_LINK);
+
+		$res = $qb->execute()->fetchAll();
+		$this->assertCount(1, $res);
+		$id = $res[0]['id'];
+
+		// Set password on share
+		$res = \OC\Share\Share::setPassword($userSession, $connection, $config, $id, $pass);
+		$this->assertTrue($res);
+
+		// Fetch the hash from the database
+		$qb = $connection->createQueryBuilder();
+		$qb->select('`share_with`')
+		   ->from('`*PREFIX*share`')
+		   ->where('`id` = :id')
+		   ->setParameter('id', $id);
+		$hash = $qb->execute()->fetch()['share_with'];
+
+		$hasher = \OC::$server->getHasher();
+
+		// Verify hash
+		$this->assertTrue($hasher->verify($pass, $hash));
+	}
+
 	/**
 	 * Test setting a password when everything is fine
 	 */

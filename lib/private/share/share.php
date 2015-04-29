@@ -1220,7 +1220,7 @@ class Share extends Constants {
 		$qb->update('`*PREFIX*share`')
 			->set('`share_with`', ':pass')
 			->where('`id` = :shareId')
-			->setParameter(':pass', is_null($password) ? 'NULL' : $qb->expr()->literal(\OC::$server->getHasher()->hash($password)))
+			->setParameter(':pass', is_null($password) ? 'NULL' : \OC::$server->getHasher()->hash($password))
 			->setParameter(':shareId', $shareId);
 
 		$qb->execute();
