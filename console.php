@@ -47,9 +47,9 @@ try {
 		$user = posix_getpwuid(posix_getuid());
 		$configUser = posix_getpwuid(fileowner(OC::$SERVERROOT . '/config/config.php'));
 		if ($user['name'] !== $configUser['name']) {
-			echo "Console has to be executed with the same user as the web server is operated" . PHP_EOL;
+			echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
 			echo "Current user: " . $user['name'] . PHP_EOL;
-			echo "Web server user: " . $configUser['name'] . PHP_EOL;
+			echo "Owner of config.php: " . $configUser['name'] . PHP_EOL;
 			exit(0);
 		}
 	}
