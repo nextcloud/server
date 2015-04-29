@@ -2100,7 +2100,9 @@ class Share extends Constants {
 				\OC_Log::write('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OC_Log::ERROR);
 				throw new \Exception($message_t);
 			}
+		}
 
+		if ($checkReshare && $checkReshare['uid_owner'] !== \OC_User::getUser()) {
 			// Check if share permissions is granted
 			if (self::isResharingAllowed() && (int)$checkReshare['permissions'] & \OCP\Constants::PERMISSION_SHARE) {
 				if (~(int)$checkReshare['permissions'] & $permissions) {
