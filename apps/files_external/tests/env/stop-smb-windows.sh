@@ -7,7 +7,7 @@
 #
 
 # retrieve current folder to remove the config from the parent folder
-thisFolder=`echo $0 | replace "env/stop-smb-windows.sh" ""`
+thisFolder=`echo $0 | sed 's#env/stop-smb-windows\.sh##'`
 
 if [ -z "$thisFolder" ]; then
     thisFolder="."

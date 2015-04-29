@@ -23,7 +23,7 @@ echo "Fetch recent morrisjobke/docker-proftpd docker image"
 docker pull morrisjobke/docker-proftpd
 
 # retrieve current folder to place the config in the parent folder
-thisFolder=`echo $0 | replace "env/start-ftp-morrisjobke.sh" ""`
+thisFolder=`echo $0 | sed 's#env/start-ftp-morrisjobke\.sh##'`
 
 if [ -z "$thisFolder" ]; then
     thisFolder="."

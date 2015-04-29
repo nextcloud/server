@@ -17,7 +17,7 @@ fi
 echo "Docker executable found - stop and remove docker containers"
 
 # retrieve current folder to remove the config from the parent folder
-thisFolder=`echo $0 | replace "env/stop-webdav-ownCloud.sh" ""`
+thisFolder=`echo $0 | sed 's#env/stop-webdav-ownCloud\.sh##'`
 
 if [ -z "$thisFolder" ]; then
     thisFolder="."
