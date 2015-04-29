@@ -27,6 +27,8 @@ namespace OC\Memcache;
 use OCP\IMemcache;
 
 class Memcached extends Cache implements IMemcache {
+	use CASTrait;
+
 	/**
 	 * @var \Memcached $cache
 	 */

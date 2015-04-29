@@ -24,6 +24,7 @@
  */
 
 namespace OC\Memcache;
+
 use OCP\IMemcache;
 
 /**
@@ -92,7 +93,6 @@ class XCache extends Cache implements IMemcache {
 	 * @return int | bool
 	 */
 	public function inc($key, $step = 1) {
-		$this->add($key, 0);
 		return xcache_inc($this->getPrefix() . $key, $step);
 	}
 
@@ -107,11 +107,35 @@ class XCache extends Cache implements IMemcache {
 		return xcache_dec($this->getPrefix() . $key, $step);
 	}
 
+	/**
+	 * Compare and set
+	 *
+	 * @param string $key
+	 * @param mixed $old
+	 * @param mixed $new
+	 * @return bool
+	 */
+	public function cas($key, $old, $new) {
+		//no native cas, emulate with locking
+		if ($this->add($key . '_lock', true)) {
+			if ($this->get($key) === $old) {
+				$this->set($key, $new);
+				$this->remove($key . '_lock');
+				return true;
+			} else {
+				$this->remove($key . '_lock');
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
 	static public function isAvailable() {
 		if (!extension_loaded('xcache')) {
 			return false;
 		}
-		if (\OC::$CLI) {
+		if (\OC::$CLI && !getenv('XCACHE_TEST')) {
 			return false;
 		}
 		if (!function_exists('xcache_unset_by_prefix') && ini_get('xcache.admin.enable_auth')) {

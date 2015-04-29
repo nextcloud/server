@@ -27,6 +27,10 @@ namespace OC\Memcache;
 use OCP\IMemcache;
 
 class APC extends Cache implements IMemcache {
+	use CASTrait {
+		cas as casEmulated;
+	}
+
 	public function get($key) {
 		$result = apc_fetch($this->getPrefix() . $key, $success);
 		if (!$success) {
@@ -87,6 +91,23 @@ class APC extends Cache implements IMemcache {
 	 */
 	public function dec($key, $step = 1) {
 		return apc_dec($this->getPrefix() . $key, $step);
+	}
+
+	/**
+	 * Compare and set
+	 *
+	 * @param string $key
+	 * @param mixed $old
+	 * @param mixed $new
+	 * @return bool
+	 */
+	public function cas($key, $old, $new) {
+		// apc only does cas for ints
+		if (is_int($old) and is_int($new)) {
+			return apc_cas($this->getPrefix() . $key, $old, $new);
+		} else {
+			return $this->casEmulated($key, $old, $new);
+		}
 	}
 
 	static public function isAvailable() {

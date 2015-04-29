@@ -26,6 +26,7 @@ namespace OC\Memcache;
 use OCP\IMemcache;
 
 class Redis extends Cache implements IMemcache {
+	use CASTrait;
 
 	/**
 	 * @var \Redis $cache

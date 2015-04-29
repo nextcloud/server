@@ -131,6 +131,22 @@ class ArrayCache extends Cache implements IMemcache {
 	}
 
 	/**
+	 * Compare and set
+	 *
+	 * @param string $key
+	 * @param mixed $old
+	 * @param mixed $new
+	 * @return bool
+	 */
+	public function cas($key, $old, $new) {
+		if ($this->get($key) === $old) {
+			return $this->set($key, $new);
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	static public function isAvailable() {

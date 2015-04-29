@@ -65,4 +65,14 @@ interface IMemcache extends ICache {
 	 * @since 8.0.0
 	 */
 	public function dec($key, $step = 1);
+
+	/**
+	 * Compare and set
+	 *
+	 * @param string $key
+	 * @param mixed $old
+	 * @param mixed $new
+	 * @return bool
+	 */
+	public function cas($key, $old, $new);
 }
