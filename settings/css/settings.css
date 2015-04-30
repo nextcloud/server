@@ -368,8 +368,15 @@ table.grid td.date{
 	display: inline-block;
 }
 
+/* correctly display help icons next to headings */
 .icon-info {
 	padding: 11px 20px;
+	vertical-align: text-bottom;
+}
+#shareAPI h2,
+#encryptionAPI h2,
+#mail_general_settings h2 {
+	display: inline-block;
 }
 
 .mail_settings p label:first-child {
