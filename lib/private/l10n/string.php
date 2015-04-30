@@ -24,8 +24,6 @@
  *
  */
 
-use JsonSerializable;
-
 class OC_L10N_String implements JsonSerializable {
 	/**
 	 * @var OC_L10N
