@@ -20,7 +20,6 @@
     "Could not detect Base DN, please enter it manually." : "Не возможно обнаружить Base DN, пожалуйста задайте в ручную.",
     "{nthServer}. Server" : "Сервер {nthServer}.",
     "No object found in the given Base DN. Please revise." : "Не найдено объектов в Base DN. Пожалуйста перепроверьте.",
-    "More then 1.000 directory entries available." : "Доступно более 1.000 папок.",
     " entries available within the provided Base DN" : "элементы доступные в Базе",
     "Do you really want to delete the current Server Configuration?" : "Вы действительно хотите удалить существующую конфигурацию сервера?",
     "Confirm Deletion" : "Подтверждение удаления",

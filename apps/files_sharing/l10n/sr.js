@@ -52,7 +52,7 @@ OC.L10N.register(
     "the link expired" : "веза је истекла",
     "sharing is disabled" : "дељење је искључено",
     "For more info, please ask the person who sent this link." : "За више информација, питајте особу која вам је послала везу.",
-    "Add to your ownCloud" : "Додај у свој оунКлауд",
+    "Add to your ownCloud" : "Додај у свој облак",
     "Download" : "Преузми",
     "Download %s" : "Преузми %s",
     "Direct link" : "Директна веза",

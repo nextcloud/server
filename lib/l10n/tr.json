@@ -82,6 +82,7 @@
     "Set an admin password." : "Bir yönetici kullanıcı parolası ayarlayın.",
     "Can't create or write into the data directory %s" : "Veri dizini %s oluşturulamıyor veya yazılamıyor",
     "%s shared »%s« with you" : "%s sizinle »%s« paylaşımında bulundu",
+    "%s via %s" : "%s ile %s",
     "Sharing %s failed, because the backend does not allow shares from type %i" : "Arka uç %i türündeki paylaşımlara izin vermediğinden %s paylaşımı başarısız",
     "Sharing %s failed, because the file does not exist" : "%s paylaşımı, dosya mevcut olmadığından başarısız oldu",
     "You are not allowed to share %s" : "%s paylaşımını yapma izniniz yok",

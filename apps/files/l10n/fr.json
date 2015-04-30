@@ -71,7 +71,7 @@
     "A file or folder has been <strong>changed</strong>" : "Un fichier ou un répertoire a été <strong>modifié</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limiter les notifications à ce qui concerne la création et la modification de vos <strong>fichiers favoris</strong> <em>(Flux uniquement)</em>",
     "A file or folder has been <strong>deleted</strong>" : "Un fichier ou un répertoire a été <strong>supprimé</strong>",
-    "A file or folder has been <strong>restored</strong>" : "Un fichier ou répertoire a été <strong>restauré</strong>",
+    "A file or folder has been <strong>restored</strong>" : "Un fichier ou un répertoire a été <strong>restauré</strong>",
     "You created %1$s" : "Vous avez créé %1$s",
     "%2$s created %1$s" : "%2$s a créé %1$s",
     "%1$s was created in a public folder" : "%1$s a été créé dans un dossier public",

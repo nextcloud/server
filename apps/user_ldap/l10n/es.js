@@ -22,7 +22,6 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "No se pudo detectar Base DN, por favor ingrésela manualmente.",
     "{nthServer}. Server" : "{nthServer}. servidor",
     "No object found in the given Base DN. Please revise." : "No se encuentra ningún objeto en la Base DN dada. Por favor revisar.",
-    "More then 1.000 directory entries available." : "Más de 1.000 entradas de directorios disponibles.",
     " entries available within the provided Base DN" : "entradas disponibles dentro de la BaseDN provista",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Un error ocurrió. Por favor revise la Base DN, también como la configuración de la conexión y credenciales.",
     "Do you really want to delete the current Server Configuration?" : "¿Realmente desea eliminar la configuración actual del servidor?",

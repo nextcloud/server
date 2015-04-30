@@ -22,7 +22,6 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "Kon basis DN niet vaststellen, voer de gegevens handmatig in.",
     "{nthServer}. Server" : "{nthServer}. Server",
     "No object found in the given Base DN. Please revise." : "Geen object gevonden in de basis DN. Review instellingen.",
-    "More then 1.000 directory entries available." : "Meer dan 1.000 directoryobjecten beschikbaar.",
     " entries available within the provided Base DN" : "accounts beschikbaar binnen de provider Basis DN",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Er trad een fout op. Controleer de Basis DN en de verbindingsinstellingen en inloggegevens.",
     "Do you really want to delete the current Server Configuration?" : "Wilt u werkelijk de huidige Serverconfiguratie verwijderen?",

@@ -22,7 +22,6 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "Αδυναμία ανίχνευσης Base DN, παρακαλώ να το εισάγετε χειροκίνητα.",
     "{nthServer}. Server" : "{nthServer}. Διακομιστής",
     "No object found in the given Base DN. Please revise." : "Δεν βρέθηκε αντικείμενο στο δηλωθέν Base DN. Παρακαλώ αναθεωρήστε.",
-    "More then 1.000 directory entries available." : "Είναι διαθέσιμες περισσότερες από 1.000 εγγραφές καταλόγου.",
     " entries available within the provided Base DN" : "διαθέσιμες καταχωρήσεις εντός του δηλωθέντος ",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Παρουσιάστηκε σφάλμα. Παρακαλούμε ελέγξτε το Base DN καθώς και τις ρυθμίσεις και τα διαπιστευτήρια σύνδεσης.",
     "Do you really want to delete the current Server Configuration?" : "Θέλετε να διαγράψετε τις τρέχουσες ρυθμίσεις του διακομιστή;",

@@ -19,6 +19,7 @@
     "Remote share password" : "Uzak paylaşım parolası",
     "Cancel" : "İptal",
     "Add remote share" : "Uzak paylaşım ekle",
+    "You can upload into this folder" : "Bu dizine yükleme yapabilirsin",
     "No ownCloud installation (7 or higher) found at {remote}" : "{remote} üzerinde ownCloud (7 veya daha üstü) kurulumu bulunamadı",
     "Invalid ownCloud url" : "Geçersiz ownCloud adresi",
     "Share" : "Paylaş",
@@ -54,6 +55,7 @@
     "Download %s" : "İndir: %s",
     "Direct link" : "Doğrudan bağlantı",
     "Federated Cloud Sharing" : "Birleşmiş Bulut Paylaşımı",
+    "Open documentation" : "Dokümantasyonu aç",
     "Allow users on this server to send shares to other servers" : "Bu sunucudaki kullanıcıların diğer sunuculara paylaşım göndermelerine izin ver",
     "Allow users on this server to receive shares from other servers" : "Bu sunucudaki kullanıcıların diğer sunuculardan paylaşım almalarına izin ver"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

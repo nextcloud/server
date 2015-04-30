@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete" : "Sil",
     "Disconnect storage" : "Depolama bağlantısını kes",
     "Unshare" : "Paylaşmayı Kaldır",
+    "No permission to delete" : "Silmeye izin yok",
     "Download" : "İndir",
     "Select" : "Seç",
     "Pending" : "Bekliyor",
