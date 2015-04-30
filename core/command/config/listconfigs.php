@@ -122,8 +122,8 @@ class ListConfigs extends Base {
 				continue;
 			}
 
-			$value = $this->systemConfig->getValue($key, new \Exception('Not set'));
-			if (!($value instanceof \Exception)) {
+			$value = $this->systemConfig->getValue($key, serialize(null));
+			if ($value !== 'N;') {
 				$configs[$key] = $value;
 			}
 		}
