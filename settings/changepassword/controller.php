@@ -115,28 +115,25 @@ class Controller {
 				$validRecoveryPassword = $keyManager->checkRecoveryPassword($recoveryPassword);
 				$recoveryEnabledForUser = $recovery->isRecoveryEnabledForUser();
 			}
+			$l = new \OC_L10n('settings');
 
 			if ($recoveryEnabledForUser && $recoveryPassword === '') {
-				$l = new \OC_L10n('settings');
 				\OC_JSON::error(array('data' => array(
 					'message' => $l->t('Please provide an admin recovery password, otherwise all user data will be lost')
 				)));
 			} elseif ($recoveryEnabledForUser && ! $validRecoveryPassword) {
-				$l = new \OC_L10n('settings');
 				\OC_JSON::error(array('data' => array(
 					'message' => $l->t('Wrong admin recovery password. Please check the password and try again.')
 				)));
 			} else { // now we know that everything is fine regarding the recovery password, let's try to change the password
 				$result = \OC_User::setPassword($username, $password, $recoveryPassword);
 				if (!$result && $recoveryEnabledForUser) {
-					$l = new \OC_L10n('settings');
 					\OC_JSON::error(array(
 						"data" => array(
 							"message" => $l->t("Backend doesn't support password change, but the user's encryption key was successfully updated.")
 						)
 					));
 				} elseif (!$result && !$recoveryEnabledForUser) {
-					$l = new \OC_L10n('settings');
 					\OC_JSON::error(array("data" => array( "message" => $l->t("Unable to change password" ) )));
 				} else {
 					\OC_JSON::success(array("data" => array( "username" => $username )));
@@ -147,7 +144,6 @@ class Controller {
 			if (!is_null($password) && \OC_User::setPassword($username, $password)) {
 				\OC_JSON::success(array('data' => array('username' => $username)));
 			} else {
-				$l = new \OC_L10n('settings');
 				\OC_JSON::error(array('data' => array('message' => $l->t('Unable to change password'))));
 			}
 		}
