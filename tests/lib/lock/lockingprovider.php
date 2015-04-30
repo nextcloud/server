@@ -22,6 +22,7 @@
 namespace Test\Lock;
 
 use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
 use Test\TestCase;
 
 abstract class LockingProvider extends TestCase {
@@ -114,5 +115,23 @@ abstract class LockingProvider extends TestCase {
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 		$this->assertTrue($this->instance->isLocked('foo', ILockingProvider::LOCK_EXCLUSIVE));
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+	}
+
+	public function testLockedExceptionHasPathForShared() {
+		try {
+			$this->testSharedLockAfterExclusive();
+			$this->fail('Expected locked exception');
+		} catch (LockedException $e) {
+			$this->assertEquals('foo', $e->getPath());
+		}
+	}
+
+	public function testLockedExceptionHasPathForExclusive() {
+		try {
+			$this->testExclusiveLockAfterShared();
+			$this->fail('Expected locked exception');
+		} catch (LockedException $e) {
+			$this->assertEquals('foo', $e->getPath());
+		}
 	}
 }

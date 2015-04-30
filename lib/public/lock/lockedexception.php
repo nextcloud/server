@@ -22,4 +22,25 @@
 namespace OCP\Lock;
 
 class LockedException extends \Exception {
+	/**
+	 * @var string
+	 */
+	private $path;
+
+	/**
+	 * LockedException constructor.
+	 *
+	 * @param string $path
+	 */
+	public function __construct($path) {
+		parent::__construct($path . ' is locked');
+		$this->path = $path;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPath() {
+		return $this->path;
+	}
 }

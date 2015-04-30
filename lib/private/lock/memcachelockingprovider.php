@@ -62,12 +62,12 @@ class MemcacheLockingProvider implements ILockingProvider {
 	public function acquireLock($path, $type) {
 		if ($type === self::LOCK_SHARED) {
 			if (!$this->memcache->inc($path)) {
-				throw new LockedException($path . ' is locked');
+				throw new LockedException($path);
 			}
 		} else {
 			$this->memcache->add($path, 0);
 			if (!$this->memcache->cas($path, 0, 'exclusive')) {
-				throw new LockedException($path . ' is locked');
+				throw new LockedException($path);
 			}
 		}
 	}
