@@ -26,9 +26,20 @@ use OC\SystemConfig;
 use OCP\IAppConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListConfigs extends Base {
+	/** @var array */
+	protected $sensitiveValues = [
+		'dbpassword',
+		'dbuser',
+		'mail_smtpname',
+		'mail_smtppassword',
+		'passwordsalt',
+		'secret',
+	];
+
 	/** * @var SystemConfig */
 	protected $systemConfig;
 
@@ -55,16 +66,29 @@ class ListConfigs extends Base {
 				'app',
 				InputArgument::OPTIONAL,
 				'Name of the app ("system" to get the config.php values, "all" for all apps and system)',
-				'system'
+				'all'
+			)
+			->addOption(
+				'public',
+				null,
+				InputOption::VALUE_NONE,
+				'Use this option when you want to exclude sensitive configs like passwords, salts, ...'
 			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$app = $input->getArgument('app');
+		$noSensitiveValues = $input->getOption('public');
+
+		if ($noSensitiveValues && !$input->hasParameterOption('--output')) {
+			// If you post this publicly we prefer the json format
+			$input->setOption('output', 'json_pretty');
+		}
+
 		switch ($app) {
 			case 'system':
-				$configs = $this->getSystemConfigs();
+				$configs = $this->getSystemConfigs($noSensitiveValues);
 			break;
 
 			case 'all':
@@ -73,7 +97,7 @@ class ListConfigs extends Base {
 				foreach ($apps as $appName) {
 					$configs[$appName] = $this->appConfig->getValues($appName, false);
 				}
-				$configs['system'] = $this->getSystemConfigs();
+				$configs['system'] = $this->getSystemConfigs($noSensitiveValues);
 			break;
 
 			default:
@@ -85,13 +109,19 @@ class ListConfigs extends Base {
 
 	/**
 	 * Get the system configs
+	 *
+	 * @param bool $noSensitiveValues
 	 * @return array
 	 */
-	protected function getSystemConfigs() {
+	protected function getSystemConfigs($noSensitiveValues) {
 		$keys = $this->systemConfig->getKeys();
 
 		$configs = [];
 		foreach ($keys as $key) {
+			if ($noSensitiveValues && in_array($key, $this->sensitiveValues)) {
+				continue;
+			}
+
 			$value = $this->systemConfig->getValue($key, new \Exception('Not set'));
 			if (!($value instanceof \Exception)) {
 				$configs[$key] = $value;
