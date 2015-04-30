@@ -180,6 +180,9 @@ if ($_['cronErrors']) {
 
 	<div class="section" id="shareAPI">
 		<h2><?php p($l->t('Sharing'));?></h2>
+		<a target="_blank" class="icon-info svg"
+			title="<?php p($l->t('Open documentation'));?>"
+			href="<?php p(link_to_docs('admin-sharing')); ?>"></a>
 		<p id="enable">
 			<input type="checkbox" name="shareapi_enabled" id="shareAPIEnabled"
 				   value="1" <?php if ($_['shareAPIEnabled'] === 'yes') print_unescaped('checked="checked"'); ?> />
@@ -310,7 +313,10 @@ if ($_['cronErrors']) {
 </div>
 
 <div class="section" id='encryptionAPI'>
-	<h2><?php p($l->t('Server-side encryption')); ?> </h2>
+	<h2><?php p($l->t('Server-side encryption')); ?></h2>
+	<a target="_blank" class="icon-info svg"
+		title="<?php p($l->t('Open documentation'));?>"
+		href="<?php p(link_to_docs('admin-encryption')); ?>"></a>
 
 	<p id="enable">
 		<input type="checkbox" name="encryption_enabled"
@@ -359,6 +365,9 @@ if ($_['cronErrors']) {
 <div class="section" id="mail_general_settings">
 	<form id="mail_general_settings_form" class="mail_settings">
 		<h2><?php p($l->t('Email server'));?></h2>
+		<a target="_blank" class="icon-info svg"
+			title="<?php p($l->t('Open documentation'));?>"
+			href="<?php p(link_to_docs('admin-email')); ?>"></a>
 
 		<p><?php p($l->t('This is used for sending out notifications.')); ?> <span id="mail_settings_msg" class="msg"></span></p>
 
