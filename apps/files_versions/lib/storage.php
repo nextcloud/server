@@ -312,20 +312,7 @@ class Storage {
 		list($storage1, $internalPath1) = $view->resolvePath($path1);
 		list($storage2, $internalPath2) = $view->resolvePath($path2);
 
-		if ($storage1 === $storage2) {
-			return $storage1->rename($internalPath1, $internalPath2);
-		}
-		$source = $storage1->fopen($internalPath1, 'r');
-		$target = $storage2->fopen($internalPath2, 'w');
-		// FIXME: might need to use part file to avoid concurrent writes
-		// (this would be an issue anyway when renaming/restoring cross-storage)
-		list(, $result) = \OC_Helper::streamCopy($source, $target);
-		fclose($source);
-		fclose($target);
-
-		if ($result !== false) {
-			$storage1->unlink($internalPath1);
-		}
+		$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
 
 		return ($result !== false);
 	}
