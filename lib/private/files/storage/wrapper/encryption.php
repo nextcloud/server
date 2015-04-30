@@ -373,8 +373,14 @@ class Encryption extends Wrapper {
 	 * @param bool $preserveMtime
 	 * @return bool
 	 */
-	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
-		$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, true);
+	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = true) {
+
+		// TODO clean this up once the underlying moveFromStorage in OC\Files\Storage\Wrapper\Common is fixed:
+		// - call $this->storage->moveFromStorage() instead of $this->copyBetweenStorage
+		// - copy the file cache update from  $this->copyBetweenStorage to this method
+		// - remove $this->copyBetweenStorage
+
+		$result = $this->copyBetweenStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, true);
 		if ($result) {
 			if ($sourceStorage->is_dir($sourceInternalPath)) {
 				$result &= $sourceStorage->rmdir($sourceInternalPath);
@@ -394,6 +400,26 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+
+		// TODO clean this up once the underlying moveFromStorage in OC\Files\Storage\Wrapper\Common is fixed:
+		// - call $this->storage->moveFromStorage() instead of $this->copyBetweenStorage
+		// - copy the file cache update from  $this->copyBetweenStorage to this method
+		// - remove $this->copyBetweenStorage
+
+		return $this->copyBetweenStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, false);
+	}
+
+	/**
+	 * copy file between two storages
+	 *
+	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param $sourceInternalPath
+	 * @param $targetInternalPath
+	 * @param $preserveMtime
+	 * @param $isRename
+	 * @return bool
+	 */
+	private function copyBetweenStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, $isRename) {
 		if ($sourceStorage->is_dir($sourceInternalPath)) {
 			$dh = $sourceStorage->opendir($sourceInternalPath);
 			$result = $this->mkdir($targetInternalPath);
@@ -408,13 +434,23 @@ class Encryption extends Wrapper {
 			$source = $sourceStorage->fopen($sourceInternalPath, 'r');
 			$target = $this->fopen($targetInternalPath, 'w');
 			list(, $result) = \OC_Helper::streamCopy($source, $target);
-			if ($result and $preserveMtime) {
-				$this->touch($targetInternalPath, $sourceStorage->filemtime($sourceInternalPath));
-			}
 			fclose($source);
 			fclose($target);
 
-			if (!$result) {
+			if($result) {
+				if ($preserveMtime) {
+					$this->touch($targetInternalPath, $sourceStorage->filemtime($sourceInternalPath));
+				}
+				$isEncrypted = $this->mount->getOption('encrypt', true) ? 1 : 0;
+
+				// in case of a rename we need to manipulate the source cache because
+				// this information will be kept for the new target
+				if ($isRename) {
+					$sourceStorage->getCache()->put($sourceInternalPath, ['encrypted' => $isEncrypted]);
+				} else {
+					$this->getCache()->put($targetInternalPath, ['encrypted' => $isEncrypted]);
+				}
+			} else {
 				// delete partially written target file
 				$this->unlink($targetInternalPath);
 				// delete cache entry that was created by fopen
