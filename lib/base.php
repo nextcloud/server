@@ -712,7 +712,7 @@ class OC {
 	}
 
 	private static function registerEncryptionWrapper() {
-		\OCP\Util::connectHook('OC_Filesystem', 'setup', 'OC\Encryption\Manager', 'setupStorage');
+		\OCP\Util::connectHook('OC_Filesystem', 'preSetup', 'OC\Encryption\Manager', 'setupStorage');
 	}
 
 	private static function registerEncryptionHooks() {
