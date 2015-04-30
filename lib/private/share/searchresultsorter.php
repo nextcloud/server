@@ -23,6 +23,8 @@
  */
 namespace OC\Share;
 
+use OCP\ILogger;
+
 class SearchResultSorter {
 	private $search;
 	private $encoding;
@@ -34,9 +36,9 @@ class SearchResultSorter {
 	 * @param string $key the array key containing the value that should be compared
 	 * against
 	 * @param string $encoding optional, encoding to use, defaults to UTF-8
-	 * @param \OC\Log $log optional
+	 * @param ILogger $log optional
 	 */
-	public function __construct($search, $key, \OC\Log $log = null, $encoding = 'UTF-8') {
+	public function __construct($search, $key, ILogger $log = null, $encoding = 'UTF-8') {
 		$this->encoding = $encoding;
 		$this->key = $key;
 		$this->log = $log;

@@ -21,6 +21,7 @@
  */
 
 namespace OC\BackgroundJob;
+use OCP\ILogger;
 
 /**
  * Class QueuedJob
@@ -45,9 +46,9 @@ abstract class TimedJob extends Job {
 	 * run the job if
 	 *
 	 * @param JobList $jobList
-	 * @param \OC\Log $logger
+	 * @param ILogger $logger
 	 */
-	public function execute($jobList, $logger = null) {
+	public function execute($jobList, ILogger $logger = null) {
 		if ((time() - $this->lastRun) > $this->interval) {
 			parent::execute($jobList, $logger);
 		}

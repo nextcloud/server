@@ -21,6 +21,7 @@
  */
 
 namespace OC\BackgroundJob;
+use OCP\ILogger;
 
 /**
  * Class QueuedJob
@@ -34,9 +35,9 @@ abstract class QueuedJob extends Job {
 	 * run the job, then remove it from the joblist
 	 *
 	 * @param JobList $jobList
-	 * @param \OC\Log $logger
+	 * @param ILogger $logger
 	 */
-	public function execute($jobList, $logger = null) {
+	public function execute($jobList, ILogger $logger = null) {
 		$jobList->remove($this, $this->argument);
 		parent::execute($jobList, $logger);
 	}

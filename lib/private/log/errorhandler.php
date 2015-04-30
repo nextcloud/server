@@ -23,10 +23,10 @@
 
 namespace OC\Log;
 
-use OC\Log as LoggerInterface;
+use OCP\ILogger;
 
 class ErrorHandler {
-	/** @var LoggerInterface */
+	/** @var ILogger */
 	private static $logger;
 
 	/**
@@ -50,7 +50,7 @@ class ErrorHandler {
 		set_exception_handler(array($handler, 'onException'));
 	}
 
-	public static function setLogger(LoggerInterface $logger) {
+	public static function setLogger(ILogger $logger) {
 		self::$logger = $logger;
 	}
 

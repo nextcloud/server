@@ -37,6 +37,7 @@ use OC_Installer;
 use OC_Util;
 use OCP\IConfig;
 use OC\Setup;
+use OCP\ILogger;
 
 /**
  * Class that handles autoupdating of ownCloud
@@ -49,7 +50,7 @@ use OC\Setup;
  */
 class Updater extends BasicEmitter {
 
-	/** @var \OC\Log $log */
+	/** @var ILogger $log */
 	private $log;
 	
 	/** @var \OC\HTTPHelper $helper */
@@ -67,9 +68,9 @@ class Updater extends BasicEmitter {
 	/**
 	 * @param HTTPHelper $httpHelper
 	 * @param IConfig $config
-	 * @param \OC\Log $log
+	 * @param ILogger $log
 	 */
-	public function __construct(HTTPHelper $httpHelper, IConfig $config, $log = null) {
+	public function __construct(HTTPHelper $httpHelper, IConfig $config, ILogger $log = null) {
 		$this->httpHelper = $httpHelper;
 		$this->log = $log;
 		$this->config = $config;
