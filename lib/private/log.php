@@ -172,7 +172,13 @@ class Log implements ILogger {
 		// interpolate replacement values into the message and return
 		$message = strtr($message, $replace);
 
-		$logger = $this->logger;
-		call_user_func(array($logger, 'write'), $app, $message, $level);
+		$config = \OC::$server->getSystemConfig();
+
+		$minLevel = min($config->getValue('loglevel', \OC_Log::WARN), \OC_Log::ERROR);
+
+		if ($level >= $minLevel) {
+			$logger = $this->logger;
+			call_user_func(array($logger, 'write'), $app, $message, $level);
+		}
 	}
 }
