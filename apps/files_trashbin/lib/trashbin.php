@@ -476,7 +476,7 @@ class Trashbin {
 	 */
 	private static function deleteEncryptionKeys(\OC\Files\View $view, $file, $filename, $timestamp, $user) {
 		$size = 0;
-		if (\OCP\App::isEnabled('files_encryption')) {
+		if (\OCP\App::isEnabled('encryption')) {
 
 			$keyfiles = \OC\Files\Filesystem::normalizePath('files_trashbin/keys/' . $filename);
 
