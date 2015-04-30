@@ -44,7 +44,7 @@ class Base extends Command {
 	 * @param OutputInterface $output
 	 * @param array $items
 	 */
-	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, $items) {
+	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, $items, $prefix = '  - ') {
 		switch ($input->getOption('output')) {
 			case 'json':
 				$output->writeln(json_encode($items));
@@ -54,15 +54,20 @@ class Base extends Command {
 				break;
 			default:
 				foreach ($items as $key => $item) {
+					if (is_array($item)) {
+						$output->writeln($prefix . $key . ':');
+						$this->writeArrayInOutputFormat($input, $output, $item, '  ' . $prefix);
+						continue;
+					}
 					if (!is_int($key)) {
 						$value = $this->valueToString($item);
 						if (!is_null($value)) {
-							$output->writeln(' - ' . $key . ': ' . $value);
+							$output->writeln($prefix . $key . ': ' . $value);
 						} else {
-							$output->writeln(' - ' . $key);
+							$output->writeln($prefix . $key);
 						}
 					} else {
-						$output->writeln(' - ' . $this->valueToString($item));
+						$output->writeln($prefix . $this->valueToString($item));
 					}
 				}
 				break;
