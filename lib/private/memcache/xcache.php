@@ -32,6 +32,8 @@ use OCP\IMemcache;
  * functions etc.
  */
 class XCache extends Cache implements IMemcache {
+	use CASTrait;
+
 	/**
 	 * entries in XCache gets namespaced to prevent collisions between ownCloud instances and users
 	 */
@@ -105,30 +107,6 @@ class XCache extends Cache implements IMemcache {
 	 */
 	public function dec($key, $step = 1) {
 		return xcache_dec($this->getPrefix() . $key, $step);
-	}
-
-	/**
-	 * Compare and set
-	 *
-	 * @param string $key
-	 * @param mixed $old
-	 * @param mixed $new
-	 * @return bool
-	 */
-	public function cas($key, $old, $new) {
-		//no native cas, emulate with locking
-		if ($this->add($key . '_lock', true)) {
-			if ($this->get($key) === $old) {
-				$this->set($key, $new);
-				$this->remove($key . '_lock');
-				return true;
-			} else {
-				$this->remove($key . '_lock');
-				return false;
-			}
-		} else {
-			return false;
-		}
 	}
 
 	static public function isAvailable() {
