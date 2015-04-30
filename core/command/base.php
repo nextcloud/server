@@ -43,6 +43,7 @@ class Base extends Command {
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 * @param array $items
+	 * @param string $prefix
 	 */
 	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, $items, $prefix = '  - ') {
 		switch ($input->getOption('output')) {
