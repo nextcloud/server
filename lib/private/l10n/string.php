@@ -24,7 +24,9 @@
  *
  */
 
-class OC_L10N_String{
+use JsonSerializable;
+
+class OC_L10N_String implements JsonSerializable {
 	/**
 	 * @var OC_L10N
 	 */
@@ -74,4 +76,10 @@ class OC_L10N_String{
 		$text = str_replace('%n', $this->count, $text);
 		return vsprintf($text, $this->parameters);
 	}
+
+
+	public function jsonSerialize() {
+		return $this->__toString();
+	}
+
 }
