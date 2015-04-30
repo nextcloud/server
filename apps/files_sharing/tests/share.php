@@ -321,4 +321,131 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 		);
 	}
 
+	/**
+	 * @dataProvider dataProviderGetUsersSharingFile
+	 *
+	 * @param string $groupName name of group to share with
+	 * @param bool $includeOwner whether to include the owner in the result
+	 * @param bool $includePaths whether to include paths in the result
+	 * @param array $expectedResult expected result of the API call
+	 */
+	function testGetUsersSharingFile($groupName, $includeOwner, $includePaths, $expectedResult) {
+
+		$fileinfo = $this->view->getFileInfo($this->folder);
+
+		$result = \OCP\Share::shareItem('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
+				$groupName, \OCP\Constants::PERMISSION_READ);
+		$this->assertTrue($result);
+
+		// public share
+		$result = \OCP\Share::shareItem('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK,
+				null, \OCP\Constants::PERMISSION_READ);
+		$this->assertNotNull($result); // returns the token!
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+		$user2View->rename($this->folder, $this->folder . '_renamed');
+
+		$ownerPath = $this->folder;
+		$owner = self::TEST_FILES_SHARING_API_USER1;
+
+		$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner, $includeOwner, $includePaths);
+
+		// sort users to make sure it matches
+		if ($includePaths) {
+			ksort($result);
+		} else {
+			sort($result['users']);
+		}
+		
+		$this->assertEquals(
+			$expectedResult,
+			$result
+		);
+	}
+
+	function dataProviderGetUsersSharingFile() {
+		// note: "group" contains user1 (the owner), user2 and user3
+		// and self::TEST_FILES_SHARING_API_GROUP1 contains only user2
+		return [
+			// share with group that contains owner
+			[
+				'group',
+				false,
+				false,
+				[
+					'users' =>
+					[
+						// because user1 was in group
+						self::TEST_FILES_SHARING_API_USER1,
+						self::TEST_FILES_SHARING_API_USER2,
+						self::TEST_FILES_SHARING_API_USER3,
+					],
+					'public' => true,
+					'remote' => false,
+				],
+			],
+			// share with group that does not contain owner
+			[
+				self::TEST_FILES_SHARING_API_GROUP1,
+				false,
+				false,
+				[
+					'users' =>
+					[
+						self::TEST_FILES_SHARING_API_USER2,
+					],
+					'public' => true,
+					'remote' => false,
+				],
+			],
+			// share with group that does not contain owner, include owner
+			[
+				self::TEST_FILES_SHARING_API_GROUP1,
+				true,
+				false,
+				[
+					'users' =>
+					[
+						self::TEST_FILES_SHARING_API_USER1,
+						self::TEST_FILES_SHARING_API_USER2,
+					],
+					'public' => true,
+					'remote' => false,
+				],
+			],
+			// include paths, with owner
+			[
+				'group',
+				true,
+				true,
+				[
+					self::TEST_FILES_SHARING_API_USER1 => self::TEST_FOLDER_NAME,
+					self::TEST_FILES_SHARING_API_USER2 => self::TEST_FOLDER_NAME. '_renamed',
+					self::TEST_FILES_SHARING_API_USER3 => self::TEST_FOLDER_NAME,
+				],
+			],
+			// include paths, group without owner
+			[
+				self::TEST_FILES_SHARING_API_GROUP1,
+				false,
+				true,
+				[
+					self::TEST_FILES_SHARING_API_USER2 => self::TEST_FOLDER_NAME. '_renamed',
+				],
+			],
+			// include paths, include owner, group without owner
+			[
+				self::TEST_FILES_SHARING_API_GROUP1,
+				true,
+				true,
+				[
+					self::TEST_FILES_SHARING_API_USER1 => self::TEST_FOLDER_NAME,
+					self::TEST_FILES_SHARING_API_USER2 => self::TEST_FOLDER_NAME. '_renamed',
+				],
+			],
+		];
+	}
+
 }
