@@ -342,12 +342,15 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 				null, \OCP\Constants::PERMISSION_READ);
 		$this->assertNotNull($result); // returns the token!
 
+		// owner renames after sharing
+		$this->view->rename($this->folder, $this->folder . '_owner_renamed');
+
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 		$user2View->rename($this->folder, $this->folder . '_renamed');
 
-		$ownerPath = $this->folder;
+		$ownerPath = $this->folder . '_owner_renamed';
 		$owner = self::TEST_FILES_SHARING_API_USER1;
 
 		$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner, $includeOwner, $includePaths);
@@ -421,8 +424,8 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 				true,
 				true,
 				[
-					self::TEST_FILES_SHARING_API_USER1 => self::TEST_FOLDER_NAME,
-					self::TEST_FILES_SHARING_API_USER2 => self::TEST_FOLDER_NAME. '_renamed',
+					self::TEST_FILES_SHARING_API_USER1 => self::TEST_FOLDER_NAME . '_owner_renamed',
+					self::TEST_FILES_SHARING_API_USER2 => self::TEST_FOLDER_NAME . '_renamed',
 					self::TEST_FILES_SHARING_API_USER3 => self::TEST_FOLDER_NAME,
 				],
 			],
@@ -441,8 +444,8 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 				true,
 				true,
 				[
-					self::TEST_FILES_SHARING_API_USER1 => self::TEST_FOLDER_NAME,
-					self::TEST_FILES_SHARING_API_USER2 => self::TEST_FOLDER_NAME. '_renamed',
+					self::TEST_FILES_SHARING_API_USER1 => self::TEST_FOLDER_NAME . '_owner_renamed',
+					self::TEST_FILES_SHARING_API_USER2 => self::TEST_FOLDER_NAME . '_renamed',
 				],
 			],
 		];
