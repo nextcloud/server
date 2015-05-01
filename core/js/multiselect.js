@@ -191,7 +191,8 @@
 			});
 			button.parent().data('preventHide',false);
 			if(settings.createText){
-				var li=$('<li class="creator">+ '+settings.createText+'</li>');
+				var li=$('<li class="creator" title="' + settings.createText +
+					'">+ ' + settings.createText + '</li>');
 				li.click(function(event){
 					li.empty();
 					var input=$('<input type="text" class="new">');
