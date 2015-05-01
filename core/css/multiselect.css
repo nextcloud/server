@@ -51,7 +51,7 @@ ul.multiselectoptions > li input[type='checkbox']:checked+label {
 div.multiselect, select.multiselect {
 	display: inline-block;
 	max-width: 200px;
-	min-width: 150px;
+	min-width: 150px !important;
 	padding-right: 10px;
 	min-height: 20px;
 	position: relative;
