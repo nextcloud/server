@@ -23,7 +23,10 @@
 
 namespace OC\Memcache;
 
-class Redis extends Cache {
+use OCP\IMemcache;
+
+class Redis extends Cache implements IMemcache {
+	use CASTrait;
 
 	/**
 	 * @var \Redis $cache
@@ -52,10 +55,10 @@ class Redis extends Cache {
 				$timeout = 0.0; // unlimited
 			}
 
-			self::$cache->connect( $host, $port, $timeout );
+			self::$cache->connect($host, $port, $timeout);
 
 			if (isset($config['dbindex'])) {
-				self::$cache->select( $config['dbindex'] );
+				self::$cache->select($config['dbindex']);
 			}
 		}
 	}
@@ -94,17 +97,57 @@ class Redis extends Cache {
 		} else {
 			return false;
 		}
-
 	}
 
 	public function clear($prefix = '') {
-		$prefix = $this->getNamespace() . $prefix.'*';
+		$prefix = $this->getNamespace() . $prefix . '*';
 		$it = null;
 		self::$cache->setOption(\Redis::OPT_SCAN, \Redis::SCAN_RETRY);
-		while($keys = self::$cache->scan($it, $prefix)) {
+		while ($keys = self::$cache->scan($it, $prefix)) {
 			self::$cache->delete($keys);
 		}
 		return true;
+	}
+
+	/**
+	 * Set a value in the cache if it's not already stored
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
+	 * @return bool
+	 */
+	public function add($key, $value, $ttl = 0) {
+		// dont encode ints for inc/dec
+		if (!is_int($value)) {
+			$value = json_encode($value);
+		}
+		return self::$cache->setnx($this->getPrefix() . $key, $value);
+	}
+
+	/**
+	 * Increase a stored number
+	 *
+	 * @param string $key
+	 * @param int $step
+	 * @return int | bool
+	 */
+	public function inc($key, $step = 1) {
+		return self::$cache->incrBy($this->getNamespace() . $key, $step);
+	}
+
+	/**
+	 * Decrease a stored number
+	 *
+	 * @param string $key
+	 * @param int $step
+	 * @return int | bool
+	 */
+	public function dec($key, $step = 1) {
+		if (!$this->hasKey($key)) {
+			return false;
+		}
+		return self::$cache->decrBy($this->getNamespace() . $key, $step);
 	}
 
 	static public function isAvailable() {

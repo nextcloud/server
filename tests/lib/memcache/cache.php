@@ -10,6 +10,11 @@
 namespace Test\Memcache;
 
 abstract class Cache extends \Test_Cache {
+	/**
+	 * @var \OCP\IMemcache cache;
+	 */
+	protected $instance;
+
 	public function testExistsAfterSet() {
 		$this->assertFalse($this->instance->hasKey('foo'));
 		$this->instance->set('foo', 'bar');
@@ -55,6 +60,49 @@ abstract class Cache extends \Test_Cache {
 		unset($this->instance['foo']);
 		$this->assertFalse($this->instance->hasKey('foo'));
 	}
+
+	public function testAdd() {
+		$this->assertTrue($this->instance->add('foo', 'bar'));
+		$this->assertEquals('bar', $this->instance->get('foo'));
+		$this->assertFalse($this->instance->add('foo', 'asd'));
+		$this->assertEquals('bar', $this->instance->get('foo'));
+	}
+
+	public function testInc() {
+		$this->assertEquals(1, $this->instance->inc('foo'));
+		$this->assertEquals(1, $this->instance->get('foo'));
+		$this->assertEquals(2, $this->instance->inc('foo'));
+		$this->assertEquals(12, $this->instance->inc('foo', 10));
+
+		$this->instance->set('foo', 'bar');
+		$this->assertFalse($this->instance->inc('foo'));
+		$this->assertEquals('bar', $this->instance->get('foo'));
+	}
+
+	public function testDec() {
+		$this->assertEquals(false, $this->instance->dec('foo'));
+		$this->instance->set('foo', 20);
+		$this->assertEquals(19, $this->instance->dec('foo'));
+		$this->assertEquals(19, $this->instance->get('foo'));
+		$this->assertEquals(9, $this->instance->dec('foo', 10));
+
+		$this->instance->set('foo', 'bar');
+		$this->assertFalse($this->instance->dec('foo'));
+		$this->assertEquals('bar', $this->instance->get('foo'));
+	}
+
+	public function testCasNotChanged() {
+		$this->instance->set('foo', 'bar');
+		$this->assertTrue($this->instance->cas('foo', 'bar', 'asd'));
+		$this->assertEquals('asd', $this->instance->get('foo'));
+	}
+
+	public function testCasChanged() {
+		$this->instance->set('foo', 'bar1');
+		$this->assertFalse($this->instance->cas('foo', 'bar', 'asd'));
+		$this->assertEquals('bar1', $this->instance->get('foo'));
+	}
+
 
 	protected function tearDown() {
 		if ($this->instance) {
