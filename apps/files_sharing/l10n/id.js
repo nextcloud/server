@@ -56,6 +56,7 @@ OC.L10N.register(
     "Download %s" : "Unduh %s",
     "Direct link" : "Tautan langsung",
     "Federated Cloud Sharing" : "Federated Cloud Sharing",
+    "Open documentation" : "Buka dokumentasi",
     "Allow users on this server to send shares to other servers" : "Izinkan para pengguna di server ini untuk mengirimkan berbagi ke server lainnya.",
     "Allow users on this server to receive shares from other servers" : "Izinkan para pengguna di server ini untuk menerima berbagi ke server lainnya."
 },

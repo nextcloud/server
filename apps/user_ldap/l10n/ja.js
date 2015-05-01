@@ -10,6 +10,7 @@ OC.L10N.register(
     "No configuration specified" : "構成が指定されていません",
     "No data specified" : "データが指定されていません",
     " Could not set configuration %s" : "構成 %s を設定できませんでした",
+    "Action does not exist" : "アクションが存在しません",
     "Configuration incorrect" : "設定に誤りがあります",
     "Configuration incomplete" : "設定が不完全です",
     "Configuration OK" : "設定OK",
