@@ -28,6 +28,7 @@
 namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
