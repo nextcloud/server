@@ -51,7 +51,7 @@ OC.L10N.register(
     "Error" : "エラー",
     "Could not rename file" : "ファイルの名前変更ができませんでした",
     "Error deleting file." : "ファイルの削除エラー。",
-    "No entries in this folder match '{filter}'" : "このフォルダで '{filter}' にマッチするものはありません",
+    "No entries in this folder match '{filter}'" : "このフォルダー内で '{filter}' にマッチするものはありません",
     "Name" : "名前",
     "Size" : "サイズ",
     "Modified" : "更新日時",

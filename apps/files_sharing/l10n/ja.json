@@ -30,7 +30,7 @@
     "%1$s accepted remote share %2$s" : "%1$s は %2$s のリモート共有を承認しました。",
     "%1$s declined remote share %2$s" : "%1$s は %2$s のリモート共有を拒否しました。",
     "%1$s unshared %2$s from you" : "%1$s は あなたと%2$s の共有を止めました。",
-    "Public shared folder %1$s was downloaded" : "公開共有フォルダ %1$s がダウンロードされました",
+    "Public shared folder %1$s was downloaded" : "公開共有フォルダー %1$s がダウンロードされました",
     "Public shared file %1$s was downloaded" : "公開共有ファイル %1$s がダウンロードされました",
     "You shared %1$s with %2$s" : "あなたは %1$s を %2$s と共有しました",
     "You shared %1$s with group %2$s" : "あなたは %1$s をグループ %2$s と共有しました",
