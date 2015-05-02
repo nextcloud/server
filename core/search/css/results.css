@@ -3,12 +3,14 @@
  See the COPYING-README file. */
 
 #searchresults {
-	background-color:#fff;
-	overflow-x:hidden;
-	text-overflow:ellipsis;
+	background-color: #fff;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
 	padding-top: 65px;
 	box-sizing: border-box;
-	z-index:75;
+	z-index: 75;
+	/* account for margin-bottom in files list */
+	margin-top: -250px;
 }
 
 #searchresults.hidden {
