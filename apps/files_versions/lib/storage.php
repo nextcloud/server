@@ -262,11 +262,16 @@ class Storage {
 	}
 
 	/**
-	 * rollback to an old version of a file.
+	 * Rollback to an old version of a file.
+	 *
+	 * @param string $file file name
+	 * @param int $revision revision timestamp
 	 */
 	public static function rollback($file, $revision) {
 
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+			// add expected leading slash
+			$file = '/' . ltrim($file, '/');
 			list($uid, $filename) = self::getUidAndFilename($file);
 			$users_view = new \OC\Files\View('/'.$uid);
 			$files_view = new \OC\Files\View('/'.\OCP\User::getUser().'/files');
@@ -282,12 +287,11 @@ class Storage {
 			}
 
 			// rollback
-			if( @$users_view->rename('files_versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
+			if (self::copyFileContents($users_view, 'files_versions' . $filename . '.v' . $revision, 'files' . $filename)) {
 				$files_view->touch($file, $revision);
 				Storage::scheduleExpire($file);
 				return true;
-
-			}else if ( $versionCreated ) {
+			} else if ($versionCreated) {
 				self::deleteVersion($users_view, $version);
 			}
 		}
@@ -295,6 +299,23 @@ class Storage {
 
 	}
 
+	/**
+	 * Stream copy file contents from $path1 to $path2
+	 *
+	 * @param \OC\Files\View $view view to use for copying
+	 * @param string $path1 source file to copy
+	 * @param string $path2 target file
+	 *
+	 * @return bool true for success, false otherwise
+	 */
+	private static function copyFileContents($view, $path1, $path2) {
+		list($storage1, $internalPath1) = $view->resolvePath($path1);
+		list($storage2, $internalPath2) = $view->resolvePath($path2);
+
+		$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
+
+		return ($result !== false);
+	}
 
 	/**
 	 * get a list of all available versions of a file in descending chronological order

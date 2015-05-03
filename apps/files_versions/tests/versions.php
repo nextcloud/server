@@ -25,6 +25,8 @@
 
 require_once __DIR__ . '/../appinfo/app.php';
 
+use OC\Files\Storage\Temporary;
+
 /**
  * Class Test_Files_versions
  * this class provide basic files versions test
@@ -418,6 +420,100 @@ class Test_Files_Versioning extends \Test\TestCase {
 
 		//cleanup
 		$this->rootView->deleteAll(self::USERS_VERSIONS_ROOT . '/subfolder');
+	}
+
+	public function testRestoreSameStorage() {
+		\OC\Files\Filesystem::mkdir('sub');
+		$this->doTestRestore();
+	}
+
+	public function testRestoreCrossStorage() {
+		$storage2 = new Temporary(array());
+		\OC\Files\Filesystem::mount($storage2, array(), self::TEST_VERSIONS_USER . '/files/sub');
+
+		$this->doTestRestore();
+	}
+
+	private function doTestRestore() {
+		$filePath = self::TEST_VERSIONS_USER . '/files/sub/test.txt';
+		$this->rootView->file_put_contents($filePath, 'test file');
+
+		$t0 = $this->rootView->filemtime($filePath);
+
+		// not exactly the same timestamp as the file
+		$t1 = time() - 60;
+		// second version is two weeks older
+		$t2 = $t1 - 60 * 60 * 24 * 14;
+
+		// create some versions
+		$v1 = self::USERS_VERSIONS_ROOT . '/sub/test.txt.v' . $t1;
+		$v2 = self::USERS_VERSIONS_ROOT . '/sub/test.txt.v' . $t2;
+
+		$this->rootView->mkdir(self::USERS_VERSIONS_ROOT . '/sub');
+		$this->rootView->file_put_contents($v1, 'version1');
+		$this->rootView->file_put_contents($v2, 'version2');
+
+		$oldVersions = \OCA\Files_Versions\Storage::getVersions(
+			self::TEST_VERSIONS_USER, '/sub/test.txt'
+		);
+
+		$this->assertCount(2, $oldVersions);
+
+		$this->assertEquals('test file', $this->rootView->file_get_contents($filePath));
+		$info1 = $this->rootView->getFileInfo($filePath);
+
+		\OCA\Files_Versions\Storage::rollback('sub/test.txt', $t2);
+
+		$this->assertEquals('version2', $this->rootView->file_get_contents($filePath));
+		$info2 = $this->rootView->getFileInfo($filePath);
+
+		$this->assertNotEquals(
+			$info2['etag'],
+			$info1['etag'],
+			'Etag must change after rolling back version'
+		);
+		$this->assertEquals(
+			$info2['fileid'],
+			$info1['fileid'],
+			'File id must not change after rolling back version'
+		);
+		$this->assertEquals(
+			$info2['mtime'],
+			$t2,
+			'Restored file has mtime from version'
+		);
+
+		$newVersions = \OCA\Files_Versions\Storage::getVersions(
+			self::TEST_VERSIONS_USER, '/sub/test.txt'
+		);
+
+		$this->assertTrue(
+			$this->rootView->file_exists(self::USERS_VERSIONS_ROOT . '/sub/test.txt.v' . $t0),
+			'A version file was created for the file before restoration'
+		);
+		$this->assertTrue(
+			$this->rootView->file_exists($v1),
+			'Untouched version file is still there'
+		);
+		$this->assertFalse(
+			$this->rootView->file_exists($v2),
+			'Restored version file gone from files_version folder'
+		);
+
+		$this->assertCount(2, $newVersions, 'Additional version created');
+
+		$this->assertTrue(
+			isset($newVersions[$t0 . '#' . 'test.txt']),
+			'A version was created for the file before restoration'
+		);
+		$this->assertTrue(
+			isset($newVersions[$t1 . '#' . 'test.txt']),
+			'Untouched version is still there'
+		);
+		$this->assertFalse(
+			isset($newVersions[$t2 . '#' . 'test.txt']),
+			'Restored version is not in the list any more'
+		);
 	}
 
 	/**
