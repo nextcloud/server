@@ -503,6 +503,12 @@ class OC {
 		}
 	}
 
+	/**
+	 * Try to set some values to the required ownCloud default
+	 */
+	public static function setRequiredIniValues() {
+		@ini_set('default_charset', 'UTF-8');
+	}
 
 	public static function init() {
 		// register autoloader
@@ -559,6 +565,7 @@ class OC {
 		@ini_set('post_max_size', '10G');
 		@ini_set('file_uploads', '50');
 
+		self::setRequiredIniValues();
 		self::handleAuthHeaders();
 		self::registerAutoloaderCache();
 
