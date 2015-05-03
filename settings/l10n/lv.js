@@ -103,7 +103,6 @@ OC.L10N.register(
     "More" : "Vairāk",
     "Less" : "Mazāk",
     "Version" : "Versija",
-    "More apps" : "Vairāk programmu",
     "by" : "līdz",
     "User Documentation" : "Lietotāja dokumentācija",
     "Forum" : "Forums",

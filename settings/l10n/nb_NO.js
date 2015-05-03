@@ -159,7 +159,6 @@ OC.L10N.register(
     "Theming" : "Temaer",
     "Hardening and security guidance" : "Herding og sikkerhetsveiledning",
     "Version" : "Versjon",
-    "More apps" : "Flere apper",
     "Developer documentation" : "Utviklerdokumentasjon",
     "by" : "av",
     "licensed" : "lisensiert",

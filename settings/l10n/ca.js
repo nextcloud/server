@@ -159,7 +159,6 @@ OC.L10N.register(
     "Theming" : "Tematització",
     "Hardening and security guidance" : "Guia de protecció i seguretat",
     "Version" : "Versió",
-    "More apps" : "Més aplicacions",
     "Developer documentation" : "Documentació para desenvolupadors",
     "by" : "per",
     "licensed" : "llicenciat/da",

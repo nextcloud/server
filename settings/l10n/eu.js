@@ -137,7 +137,6 @@ OC.L10N.register(
     "More" : "Gehiago",
     "Less" : "Gutxiago",
     "Version" : "Bertsioa",
-    "More apps" : "App gehiago",
     "by" : " Egilea:",
     "licensed" : "lizentziatua",
     "Documentation:" : "Dokumentazioa:",

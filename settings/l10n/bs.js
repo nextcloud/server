@@ -131,7 +131,6 @@ OC.L10N.register(
     "More" : "Više",
     "Less" : "Manje",
     "Version" : "Verzija",
-    "More apps" : "Više aplikacija",
     "by" : "od strane",
     "licensed" : "licenciran",
     "Documentation:" : "Dokumentacija:",

@@ -156,7 +156,6 @@ OC.L10N.register(
     "Performance tuning" : "パフォーマンスチューニング",
     "Improving the config.php" : "config.phpの改善",
     "Version" : "バージョン",
-    "More apps" : "他のアプリ",
     "Developer documentation" : "デベロッパードキュメント",
     "by" : "by",
     "licensed" : "ライセンス",

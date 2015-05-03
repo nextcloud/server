@@ -136,7 +136,6 @@ OC.L10N.register(
     "More" : "Mer",
     "Less" : "Mindre",
     "Version" : "Version",
-    "More apps" : "Fler appar",
     "by" : "av",
     "licensed" : "licensierad",
     "Documentation:" : "Dokumentation:",

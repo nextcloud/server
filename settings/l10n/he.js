@@ -45,7 +45,6 @@ OC.L10N.register(
     "More" : "יותר",
     "Less" : "פחות",
     "Version" : "גרסא",
-    "More apps" : "יישומים נוספים",
     "by" : "על ידי",
     "User Documentation" : "תיעוד משתמש",
     "Forum" : "פורום",

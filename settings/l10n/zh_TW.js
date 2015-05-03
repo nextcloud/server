@@ -94,7 +94,6 @@ OC.L10N.register(
     "More" : "更多",
     "Less" : "更少",
     "Version" : "版本",
-    "More apps" : "更多 Apps",
     "by" : "由",
     "Documentation:" : "文件:",
     "User Documentation" : "用戶說明文件",

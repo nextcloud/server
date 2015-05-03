@@ -129,7 +129,6 @@ OC.L10N.register(
     "More" : "Več",
     "Less" : "Manj",
     "Version" : "Različica",
-    "More apps" : "Več programov",
     "by" : "od",
     "Documentation:" : "Dokumentacija:",
     "User Documentation" : "Uporabniška dokumentacija",

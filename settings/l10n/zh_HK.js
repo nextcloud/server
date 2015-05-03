@@ -35,7 +35,6 @@ OC.L10N.register(
     "Log level" : "日誌等級",
     "More" : "更多",
     "Version" : "版本",
-    "More apps" : "更多應用程式",
     "Forum" : "討論區",
     "Android app" : "Android 應用程式",
     "iOS app" : "iOS 應用程式",

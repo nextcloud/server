@@ -152,7 +152,6 @@ OC.L10N.register(
     "How to do backups" : "Rezerv nüsxələr neçə edilisin",
     "Advanced monitoring" : "İrəliləmiş monitoring",
     "Version" : "Versiya",
-    "More apps" : "Çoxlu proqramlar",
     "Developer documentation" : "Yaradıcı sənədləşməsi",
     "by" : "onunla",
     "licensed" : "Lisenziyalaşdırılıb",

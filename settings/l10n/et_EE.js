@@ -118,7 +118,6 @@ OC.L10N.register(
     "More" : "Rohkem",
     "Less" : "Vähem",
     "Version" : "Versioon",
-    "More apps" : "Rohkem rakendusi",
     "by" : "lisas",
     "licensed" : "litsenseeritud",
     "Documentation:" : "Dokumentatsioon:",

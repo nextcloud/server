@@ -57,7 +57,6 @@ OC.L10N.register(
     "More" : "Daugiau",
     "Less" : "Mažiau",
     "Version" : "Versija",
-    "More apps" : "Daugiau programų",
     "by" : " ",
     "User Documentation" : "Naudotojo dokumentacija",
     "Cheers!" : "Sveikinimai!",

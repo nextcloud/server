@@ -142,7 +142,6 @@
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "Ako databáza je použitá SQLite. Pre veľké inštalácie odporúčame prejsť na inú databázu.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Najmä pri používaní aplikácie na synchronizáciu s desktopom nie je databáza SQLite doporučená.",
     "Version" : "Verzia",
-    "More apps" : "Viac aplikácií",
     "Developer documentation" : "Dokumentácia vývojára",
     "by" : "od",
     "licensed" : "licencované",

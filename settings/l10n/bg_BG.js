@@ -153,7 +153,6 @@ OC.L10N.register(
     "Improving the config.php" : "Подобряване на config.php",
     "Theming" : "Промяна на облика",
     "Version" : "Версия",
-    "More apps" : "Още приложения",
     "Developer documentation" : "Документация за разработчици",
     "by" : "от",
     "licensed" : "лицензирано",
