@@ -43,6 +43,7 @@ class ExternalSharesController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
+	 * @param bool $incomingShareEnabled
 	 * @param \OCA\Files_Sharing\External\Manager $externalManager
 	 */
 	public function __construct($appName,
