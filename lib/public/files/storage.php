@@ -33,6 +33,7 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP\Files;
 use OCP\Files\InvalidPathException;
+use OCP\Lock\ILockingProvider;
 
 /**
  * Provide a common interface to all different storage options
@@ -413,4 +414,19 @@ interface Storage {
 	 * @since 8.1.0
 	 */
 	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath);
+
+	/**
+	 * @param string $path
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param \OCP\Lock\ILockingProvider $provider
+	 * @throws \OCP\Lock\LockedException
+	 */
+	public function acquireLock($path, $type, ILockingProvider $provider);
+
+	/**
+	 * @param string $path
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param \OCP\Lock\ILockingProvider $provider
+	 */
+	public function releaseLock($path, $type, ILockingProvider $provider);
 }

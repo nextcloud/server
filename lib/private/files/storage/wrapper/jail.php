@@ -23,6 +23,7 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheJail;
+use OCP\Lock\ILockingProvider;
 
 /**
  * Jail to a subdirectory of the wrapped storage
@@ -423,5 +424,24 @@ class Jail extends Wrapper {
 	 */
 	public function getETag($path) {
 		return $this->storage->getETag($this->getSourcePath($path));
+	}
+
+	/**
+	 * @param string $path
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param \OCP\Lock\ILockingProvider $provider
+	 * @throws \OCP\Lock\LockedException
+	 */
+	public function acquireLock($path, $type, ILockingProvider $provider) {
+		$this->storage->acquireLock($this->getSourcePath($path), $type, $provider);
+	}
+
+	/**
+	 * @param string $path
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param \OCP\Lock\ILockingProvider $provider
+	 */
+	public function releaseLock($path, $type, ILockingProvider $provider) {
+		$this->storage->releaseLock($this->getSourcePath($path), $type, $provider);
 	}
 }

@@ -43,6 +43,7 @@ use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
+use OCP\Lock\ILockingProvider;
 
 /**
  * Storage backend class for providing common filesystem operation methods
@@ -620,5 +621,24 @@ abstract class Common implements Storage {
 		$data['permissions'] = $this->getPermissions($path);
 
 		return $data;
+	}
+
+	/**
+	 * @param string $path
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param \OCP\Lock\ILockingProvider $provider
+	 * @throws \OCP\Lock\LockedException
+	 */
+	public function acquireLock($path, $type, ILockingProvider $provider) {
+		$provider->acquireLock($this->getId() . '::' . $path, $type);
+	}
+
+	/**
+	 * @param string $path
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param \OCP\Lock\ILockingProvider $provider
+	 */
+	public function releaseLock($path, $type, ILockingProvider $provider) {
+		$provider->releaseLock($this->getId() . '::' . $path, $type);
 	}
 }

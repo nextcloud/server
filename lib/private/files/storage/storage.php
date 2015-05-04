@@ -21,6 +21,7 @@
  */
 
 namespace OC\Files\Storage;
+use OCP\Lock\ILockingProvider;
 
 /**
  * Provide a common interface to all different storage options
@@ -76,4 +77,18 @@ interface Storage extends \OCP\Files\Storage {
 	 */
 	public function getMetaData($path);
 
+	/**
+	 * @param string $path
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param \OCP\Lock\ILockingProvider $provider
+	 * @throws \OCP\Lock\LockedException
+	 */
+	public function acquireLock($path, $type, ILockingProvider $provider);
+
+	/**
+	 * @param string $path
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param \OCP\Lock\ILockingProvider $provider
+	 */
+	public function releaseLock($path, $type, ILockingProvider $provider);
 }
