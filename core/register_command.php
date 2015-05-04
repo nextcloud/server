@@ -54,6 +54,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Encryption\Enable(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Encryption\ListModules(\OC::$server->getEncryptionManager()));
 	$application->add(new OC\Core\Command\Encryption\SetDefaultModule(\OC::$server->getEncryptionManager()));
+	$application->add(new OC\Core\Command\Encryption\Status(\OC::$server->getEncryptionManager()));
 } else {
 	$application->add(new OC\Core\Command\Maintenance\Install(\OC::$server->getConfig()));
 }
