@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password successfully changed." : "Geslo je uspešno spremenjeno.",
     "Could not change the password. Maybe the old password was not correct." : "Gesla ni mogoče spremeniti. Morda vnos starega gesla ni pravilen.",
     "Could not update the private key password." : "Ni mogoče posodobiti gesla zasebnega ključa.",
-    "The old password was not correct, please try again." : "Staro geslo ni vpisana pravilno. Poskusite znova.",
+    "The old password was not correct, please try again." : "Staro geslo ni vpisano pravilno. Poskusite znova.",
     "The current log-in password was not correct, please try again." : "Trenutno geslo za prijavo ni vpisano pravilno. Poskusite znova.",
     "Private key password successfully updated." : "Zasebni ključ za geslo je uspešno posodobljen.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ni ustreznega osebnega ključa za program za šifriranje. Posodobite osebni ključ za dostop do šifriranih datotek med nastavitvami.",

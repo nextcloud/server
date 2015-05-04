@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete" : "Izbriši",
     "Disconnect storage" : "Odklopi shrambo",
     "Unshare" : "Prekini souporabo",
+    "No permission to delete" : "Nimate pravic za brisanje",
     "Download" : "Prejmi",
     "Select" : "Izberi",
     "Pending" : "V čakanju ...",
