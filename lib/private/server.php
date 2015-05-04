@@ -224,7 +224,7 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('MemCacheFactory', function (Server $c) {
 			$config = $c->getConfig();
 
-			if($config->getSystemValue('installed', false)) {
+			if($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				$v = \OC_App::getAppVersions();
 				$v['core'] = implode('.', \OC_Util::getVersion());
 				$version = implode(',', $v);
