@@ -672,7 +672,6 @@ class OC_Util {
 			),
 			'ini' => [
 				'mbstring.func_overload' => 0,
-				'output_buffering' => false,
 				'default_charset' => 'UTF-8',
 			],
 		);

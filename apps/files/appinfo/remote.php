@@ -30,6 +30,8 @@
 // no php execution timeout for webdav
 set_time_limit(0);
 
+// Turn off output buffering to prevent memory problems
+\OC_Util::obEnd();
 
 // Backends
 $authBackend = new \OC\Connector\Sabre\Auth();
