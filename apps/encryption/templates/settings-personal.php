@@ -4,7 +4,7 @@
 script('encryption', 'settings-personal');
 script('core', 'multiselect');
 ?>
-<form id="encryption" class="section">
+<form id="ocDefaultEncryptionModule" class="section">
 	<h2><?php p($l->t('ownCloud basic encryption module')); ?></h2>
 
 	<?php if ($_["initialized"] === \OCA\Encryption\Session::NOT_INITIALIZED ): ?>

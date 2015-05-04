@@ -12,7 +12,7 @@ OC.Encryption = {
 	updatePrivateKeyPassword: function () {
 		var oldPrivateKeyPassword = $('input:password[id="oldPrivateKeyPassword"]').val();
 		var newPrivateKeyPassword = $('input:password[id="newPrivateKeyPassword"]').val();
-		OC.msg.startSaving('#encryption .msg');
+		OC.msg.startSaving('#ocDefaultEncryptionModule .msg');
 		$.post(
 			OC.generateUrl('/apps/encryption/ajax/updatePrivateKeyPassword'),
 			{
@@ -20,10 +20,10 @@ OC.Encryption = {
 				newPassword: newPrivateKeyPassword
 			}
 		).done(function (data) {
-				OC.msg.finishedSuccess('#encryption .msg', data.message);
+				OC.msg.finishedSuccess('#ocDefaultEncryptionModule .msg', data.message);
 			})
 			.fail(function (jqXHR) {
-				OC.msg.finishedError('#encryption .msg', JSON.parse(jqXHR.responseText).message);
+				OC.msg.finishedError('#ocDefaultEncryptionModule .msg', JSON.parse(jqXHR.responseText).message);
 			});
 	}
 };

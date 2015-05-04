@@ -4,9 +4,7 @@
 script('encryption', 'settings-admin');
 script('core', 'multiselect');
 ?>
-<form id="encryption" class="section">
-	<h2><?php p($l->t('ownCloud basic encryption module')); ?></h2>
-
+<form id="ocDefaultEncryptionModule" class="sub-section">
 	<?php if(!$_["initStatus"]): ?>
 		<?php p($l->t("Encryption App is enabled but your keys are not initialized, please log-out and log-in again")); ?>
 	<?php else: ?>
