@@ -54,7 +54,13 @@ script(
 	<div class="app-image{{#if previewAsIcon}} app-image-icon{{/if}} hidden">
 	</div>
 	{{/if}}
-	<h2 class="app-name"><a href="{{detailpage}}" target="_blank">{{name}}</a></h2>
+	<h2 class="app-name">
+		{{#if detailpage}}
+			<a href="{{detailpage}}" target="_blank">{{name}}</a>
+		{{else}}
+			{{name}}
+		{{/if}}
+	</h2>
 	<div class="app-version"> {{version}}</div>
 	{{#if profilepage}}<a href="{{profilepage}}" target="_blank" rel="noreferrer">{{/if}}
 	<div class="app-author"><?php p($l->t('by')); ?> {{author}}
