@@ -22,8 +22,6 @@
 
 namespace OCA\Files_sharing\Lib;
 
-use Doctrine\DBAL\Platforms\SqlitePlatform;
-use OCP\IDBConnection;
 use OC\BackgroundJob\TimedJob;
 
 /**
@@ -37,6 +35,13 @@ class DeleteOrphanedSharesJob extends TimedJob {
 	 * @var int $defaultIntervalMin
 	 **/
 	protected $defaultIntervalMin = 15;
+
+	/**
+	 * sets the correct interval for this timed job
+	 */
+	public function __construct(){
+		$this->interval = $this->defaultIntervalMin * 60;
+	}
 
 	/**
 	 * Makes the background job do its work
@@ -53,7 +58,7 @@ class DeleteOrphanedSharesJob extends TimedJob {
 			'AND NOT EXISTS (SELECT `fileid` FROM `*PREFIX*filecache` WHERE `file_source` = `fileid`)';
 
 		$deletedEntries = $connection->executeUpdate($sql);
-		$logger->info("$deletedEntries orphaned share(s) deleted", ['app' => 'DeleteOrphanedSharesJob']);
+		$logger->debug("$deletedEntries orphaned share(s) deleted", ['app' => 'DeleteOrphanedSharesJob']);
 	}
 
 }
