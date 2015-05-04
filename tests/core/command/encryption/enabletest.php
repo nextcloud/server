@@ -29,6 +29,8 @@ class EnableTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	protected $manager;
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	protected $consoleInput;
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	protected $consoleOutput;
@@ -42,18 +44,25 @@ class EnableTest extends TestCase {
 		$config = $this->config = $this->getMockBuilder('OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
+		$manager = $this->manager = $this->getMockBuilder('OCP\Encryption\IManager')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->consoleInput = $this->getMock('Symfony\Component\Console\Input\InputInterface');
 		$this->consoleOutput = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
 
 		/** @var \OCP\IConfig $config */
-		$this->command = new Enable($config);
+		/** @var \OCP\Encryption\IManager $manager */
+		$this->command = new Enable($config, $manager);
 	}
 
 
 	public function dataEnable() {
 		return [
-			['no', true, 'Encryption enabled'],
-			['yes', false, 'Encryption is already enabled'],
+			['no', null, [], true, 'Encryption enabled', 'No encryption module is loaded'],
+			['yes', null, [], false, 'Encryption is already enabled', 'No encryption module is loaded'],
+			['no', null, ['OC_TEST_MODULE' => []], true, 'Encryption enabled', 'No default module is set'],
+			['no', 'OC_NO_MODULE', ['OC_TEST_MODULE' => []], true, 'Encryption enabled', 'The current default module does not exist: OC_NO_MODULE'],
+			['no', 'OC_TEST_MODULE', ['OC_TEST_MODULE' => []], true, 'Encryption enabled', 'Default module: OC_TEST_MODULE'],
 		];
 	}
 
@@ -61,36 +70,49 @@ class EnableTest extends TestCase {
 	 * @dataProvider dataEnable
 	 *
 	 * @param string $oldStatus
+	 * @param string $defaultModule
+	 * @param array $availableModules
 	 * @param bool $isUpdating
 	 * @param string $expectedString
+	 * @param string $expectedDefaultModuleString
 	 */
-	public function testEnable($oldStatus, $isUpdating, $expectedString) {
-		$invoceCount = 0;
-		$this->config->expects($this->at($invoceCount))
+	public function testEnable($oldStatus, $defaultModule, $availableModules, $isUpdating, $expectedString, $expectedDefaultModuleString) {
+		$invokeCount = 0;
+		$this->config->expects($this->at($invokeCount))
 			->method('getAppValue')
 			->with('core', 'encryption_enabled', $this->anything())
 			->willReturn($oldStatus);
-		$invoceCount++;
+		$invokeCount++;
 
 		if ($isUpdating) {
 			$this->config->expects($this->once())
 				->method('setAppValue')
 				->with('core', 'encryption_enabled', 'yes');
-			$invoceCount++;
+			$invokeCount++;
 		}
 
-		$this->config->expects($this->at($invoceCount))
-			->method('getAppValue')
-			->with('core', 'default_encryption_module', $this->anything())
-			->willReturnArgument(2);
+		$this->manager->expects($this->atLeastOnce())
+			->method('getEncryptionModules')
+			->willReturn($availableModules);
+
+		if (!empty($availableModules)) {
+			$this->config->expects($this->at($invokeCount))
+				->method('getAppValue')
+				->with('core', 'default_encryption_module', $this->anything())
+				->willReturn($defaultModule);
+		}
 
 		$this->consoleOutput->expects($this->at(0))
 			->method('writeln')
-			->with($expectedString);
+			->with($this->stringContains($expectedString));
 
 		$this->consoleOutput->expects($this->at(1))
 			->method('writeln')
-			->with($this->stringContains('Default module'));
+			->with('');
+
+		$this->consoleOutput->expects($this->at(2))
+			->method('writeln')
+			->with($this->stringContains($expectedDefaultModuleString));
 
 		\Test_Helper::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

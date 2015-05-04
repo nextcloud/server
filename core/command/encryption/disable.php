@@ -50,7 +50,7 @@ class Disable extends Command {
 			$output->writeln('Encryption is already disabled');
 		} else {
 			$this->config->setAppValue('core', 'encryption_enabled', 'no');
-			$output->writeln('Encryption disabled');
+			$output->writeln('<info>Encryption disabled</info>');
 		}
 	}
 }
