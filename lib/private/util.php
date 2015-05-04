@@ -739,15 +739,6 @@ class OC_Util {
 			$webServerRestart = true;
 		}
 
-		if (version_compare(phpversion(), '5.4.0', '<')) {
-			$errors[] = array(
-				'error' => $l->t('PHP %s or higher is required.', '5.4.0'),
-				'hint' => $l->t('Please ask your server administrator to update PHP to the latest version.'
-					. ' Your PHP version is no longer supported by ownCloud and the PHP community.')
-			);
-			$webServerRestart = true;
-		}
-
 		/**
 		 * PHP 5.6 ships with a PHP setting which throws notices by default for a
 		 * lot of endpoints. Thus we need to ensure that the value is set to -1
