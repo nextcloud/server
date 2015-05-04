@@ -87,12 +87,17 @@ OCA.Sharing.PublicApp = {
 
 
 		// dynamically load image previews
+		var token = $('#sharingToken').val();
+		var bottomMargin = 350;
+		var previewWidth = $(window).width() * window.devicePixelRatio;
+		var previewHeight = $(window).height() - bottomMargin * window.devicePixelRatio;
+		previewHeight = Math.max(200, previewHeight);
 		var params = {
-			x: $(document).width() * window.devicePixelRatio,
-			y: $(document).height() * window.devicePixelRatio,
+			x: previewWidth,
+			y: previewHeight,
 			a: 'true',
 			file: encodeURIComponent(this.initialDir + $('#filename').val()),
-			t: $('#sharingToken').val(),
+			t: token,
 			scalingup: 0
 		};
 
@@ -105,6 +110,18 @@ OCA.Sharing.PublicApp = {
 			(maxGifSize === -1 || fileSize <= (maxGifSize * 1024 * 1024))) {
 			img.attr('src', $('#downloadURL').val());
 			img.appendTo('#imgframe');
+		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text') {
+			// Undocumented Url to public WebDAV endpoint
+			var url = parent.location.protocol + '//' + location.host + OC.linkTo('', 'public.php/webdav');
+			$.ajax({
+				url: url,
+				headers: {
+					Authorization: 'Basic ' + btoa(token + ':'),
+					Range: 'bytes=0-1000'
+				}
+			}).then(function (data) {
+				self._showTextPreview(data, previewHeight);
+			});
 		} else if (previewSupported === 'true' ||
 			mimetype.substr(0, mimetype.indexOf('/')) === 'image' &&
 			mimetype !== 'image/svg+xml') {
@@ -123,26 +140,21 @@ OCA.Sharing.PublicApp = {
 					filename = JSON.stringify(filename);
 				}
 				var path = dir || FileList.getCurrentDirectory();
-				var token = $('#sharingToken').val();
 				var params = {
 					path: path,
 					files: filename
 				};
-				return OC.generateUrl('/s/'+token+'/download') + '?' + OC.buildQueryString(params);
+				return OC.generateUrl('/s/' + token + '/download', params);
 			};
 
 			this.fileList.getAjaxUrl = function (action, params) {
 				params = params || {};
-				params.t = $('#sharingToken').val();
+				params.t = token;
 				return OC.filePath('files_sharing', 'ajax', action + '.php') + '?' + OC.buildQueryString(params);
 			};
 
 			this.fileList.linkTo = function (dir) {
-				var token = $('#sharingToken').val();
-				var params = {
-					dir: dir
-				};
-				return OC.generateUrl('/s/'+token+'') + '?' + OC.buildQueryString(params);
+				return OC.generateUrl('/s/' + token + '', {dir: dir});
 			};
 
 			this.fileList.generatePreviewUrl = function (urlSpec) {
@@ -214,6 +226,21 @@ OCA.Sharing.PublicApp = {
 		window.FileList = this.fileList;
 	},
 
+	_showTextPreview: function (data, previewHeight) {
+		var textDiv = $('<div/>').addClass('text-preview');
+		textDiv.text(data);
+		textDiv.appendTo('#imgframe');
+		var divHeight = textDiv.height();
+		if (data.length > 999) {
+			var ellipsis = $('<div/>').addClass('ellipsis');
+			ellipsis.html('(&#133;)');
+			ellipsis.appendTo('#imgframe');
+		}
+		if (divHeight > previewHeight) {
+			textDiv.height(previewHeight);
+		}
+	},
+
 	_onDirectoryChanged: function (e) {
 		OC.Util.History.pushState({
 			// arghhhh, why is this not called "dir" !?
@@ -225,7 +252,7 @@ OCA.Sharing.PublicApp = {
 		this.fileList.changeDirectory(params.path || params.dir, false, true);
 	},
 
-	_saveToOwnCloud: function(remote, token, owner, name, isProtected) {
+	_saveToOwnCloud: function (remote, token, owner, name, isProtected) {
 		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
 
 		var url = remote + '/index.php/apps/files#' + 'remote=' + encodeURIComponent(location) // our location is the remote for the other server
