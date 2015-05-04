@@ -41,10 +41,7 @@ script(
 		<div class="section apps-experimental">
 			<h2><?php p($l->t('Experimental applications ahead')) ?></h2>
 			<p>
-				<?php p($l->t('Experimental apps are not checked for security ' .
-			'issues, new or known to be unstable and under heavy ' .
-			'development. Installing them can cause data loss or security ' .
-			'breaches.')) ?>
+				<?php p($l->t('Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches.')) ?>
 			</p>
 		</div>
 	{{/if}}
@@ -146,10 +143,7 @@ script(
 			<label for="enable-experimental-apps"><?php p($l->t('Enable experimental apps')) ?></label>
 			<p>
 				<small>
-					<?php p($l->t('Experimental apps are not checked for security ' .
-						'issues, new or known to be unstable and under heavy ' .
-						'development. Installing them can cause data loss or security ' .
-						'breaches.')) ?>
+					<?php p($l->t('Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches.')) ?>
 				</small>
 			</p>
 		</div>
