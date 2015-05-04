@@ -321,10 +321,14 @@ if ($_['cronErrors']) {
 	<p id="enable">
 		<input type="checkbox" name="encryption_enabled"
 			   id="encryptionEnabled"
-			   value="1" <?php if ($_['encryptionEnabled']) print_unescaped('checked="checked"'); ?> />
+			   value="1" <?php if ($_['encryptionEnabled']) print_unescaped('checked="checked" disabled="disabled"'); ?> />
 		<label
 			for="encryptionEnabled"><?php p($l->t('Enable server-side encryption')); ?> <span id="startmigration_msg" class="msg"></span> </label><br/>
 	</p>
+
+	<div id="EncryptionWarning" class="warning hidden">
+		<?php p($l->t('Once encryption is enabled there is no way to disable it again. This is your last chance to disable it again.')) ?>
+	</div>
 
 	<div id="EncryptionSettingsArea" class="<?php if (!$_['encryptionEnabled']) p('hidden'); ?>">
 		<div id='selectEncryptionModules' class="<?php if (!$_['encryptionReady']) p('hidden'); ?>">

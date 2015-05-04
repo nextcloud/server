@@ -55,6 +55,7 @@ $(document).ready(function(){
 	});
 
 	$('#encryptionEnabled').change(function() {
+		$('#encryptionAPI div#EncryptionWarning').toggleClass('hidden');
 		$('#encryptionAPI div#EncryptionSettingsArea').toggleClass('hidden');
 	});
 
