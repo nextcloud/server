@@ -257,6 +257,7 @@ class Tags implements \OCP\ITags {
 	*/
 	public function getIdsForTag($tag) {
 		$result = null;
+		$tagId = false;
 		if(is_numeric($tag)) {
 			$tagId = $tag;
 		} elseif(is_string($tag)) {
