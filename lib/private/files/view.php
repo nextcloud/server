@@ -47,6 +47,7 @@ use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
+use OCP\Lock\ILockingProvider;
 
 /**
  * Class to provide access to ownCloud filesystem via a "view", and methods for
@@ -72,6 +73,11 @@ class View {
 	protected $updater;
 
 	/**
+	 * @var \OCP\Lock\ILockingProvider
+	 */
+	private $lockingProvider;
+
+	/**
 	 * @param string $root
 	 * @throws \Exception If $root contains an invalid path
 	 */
@@ -79,12 +85,13 @@ class View {
 		if (is_null($root)) {
 			throw new \InvalidArgumentException('Root can\'t be null');
 		}
-		if(!Filesystem::isValidPath($root)) {
+		if (!Filesystem::isValidPath($root)) {
 			throw new \Exception();
 		}
 
 		$this->fakeRoot = $root;
 		$this->updater = new Updater($this);
+		$this->lockingProvider = \OC::$server->getLockingProvider();
 	}
 
 	public function getAbsolutePath($path = '/') {
@@ -137,7 +144,7 @@ class View {
 			return $path;
 		}
 
-		if (rtrim($path,'/') === rtrim($this->fakeRoot, '/')) {
+		if (rtrim($path, '/') === rtrim($this->fakeRoot, '/')) {
 			return '/';
 		}
 
@@ -1551,6 +1558,68 @@ class View {
 			throw new InvalidPathException($l10n->t('File name contains at least one invalid character'));
 		} catch (FileNameTooLongException $ex) {
 			throw new InvalidPathException($l10n->t('File name is too long'));
+		}
+	}
+
+	/**
+	 * get all parent folders of $path
+	 *
+	 * @param string $path
+	 * @return string[]
+	 */
+	private function getParents($path) {
+		$parts = explode('/', $path);
+
+		// remove the singe file
+		array_pop($parts);
+		$result = array('/');
+		$resultPath = '';
+		foreach ($parts as $part) {
+			if ($part) {
+				$resultPath .= '/' . $part;
+				$result[] = $resultPath;
+			}
+		}
+		return $result;
+	}
+
+	private function lockPath($path, $type) {
+		$mount = $this->getMount($path);
+		$mount->getStorage()->acquireLock($mount->getInternalPath($path), $type, $this->lockingProvider);
+	}
+
+	private function unlockPath($path, $type) {
+		$mount = $this->getMount($path);
+		$mount->getStorage()->releaseLock($mount->getInternalPath($path), $type, $this->lockingProvider);
+	}
+
+	/**
+	 * Lock a path and all it's parents
+	 *
+	 * @param string $path
+	 * @param int $type
+	 */
+	public function lockFile($path, $type) {
+		$this->lockPath($path, $type);
+
+		$parents = $this->getParents($path);
+		foreach ($parents as $parent) {
+			$this->lockPath($parent, ILockingProvider::LOCK_SHARED);
+		}
+	}
+
+	/**
+	 * Unlock a path and all it's parents
+	 *
+	 * @param string $path
+	 * @param int $type
+	 */
+	public function unlockFile($path, $type) {
+		$this->unlockPath($path, $type);
+
+		$parents = $this->getParents($path);
+		foreach ($parents as $parent) {
+			$this->unlockPath($parent, ILockingProvider::LOCK_SHARED);
 		}
 	}
 }
