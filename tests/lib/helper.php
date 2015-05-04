@@ -523,6 +523,10 @@ class Test_Helper extends \Test\TestCase {
 
 			$property->setAccessible(true);
 
+			if (!empty($parameters)) {
+				$property->setValue($object, array_pop($parameters));
+			}
+
 			return $property->getValue($object);
 		}
 
