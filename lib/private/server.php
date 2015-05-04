@@ -43,6 +43,7 @@ use OC\Command\AsyncBus;
 use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
+use OC\Lock\MemcacheLockingProvider;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Http\Client\ClientService;
@@ -418,6 +419,13 @@ class Server extends SimpleContainer implements IServerContainer {
 				$this->getHTTPClientService(),
 				$this->getConfig(),
 				$this->getLogger()
+			);
+		});
+		$this->registerService('LockingProvider', function (Server $c) {
+			/** @var \OC\Memcache\Factory $memcacheFactory */
+			$memcacheFactory = $c->getMemCacheFactory();
+			return new MemcacheLockingProvider(
+				$memcacheFactory->createDistributed('lock')
 			);
 		});
 	}
@@ -907,5 +915,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	public function getTrustedDomainHelper() {
 		return $this->query('TrustedDomainHelper');
+	}
+
+	/**
+	 * Get the locking provider
+	 *
+	 * @return \OCP\Lock\ILockingProvider
+	 * @since 8.1.0
+	 */
+	public function getLockingProvider() {
+		return $this->query('LockingProvider');
 	}
 }

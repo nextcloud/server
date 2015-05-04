@@ -413,4 +413,12 @@ interface IServerContainer {
 	 * @since 8.1.0
 	 */
 	public function getMailer();
+
+	/**
+	 * Get the locking provider
+	 *
+	 * @return \OCP\Lock\ILockingProvider
+	 * @since 8.1.0
+	 */
+	public function getLockingProvider();
 }
