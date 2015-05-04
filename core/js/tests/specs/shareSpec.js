@@ -29,6 +29,7 @@ describe('OC.Share tests', function() {
 		var oldEnableAvatars;
 		var avatarStub;
 		var placeholderStub;
+		var oldCurrentUser;
 
 		beforeEach(function() {
 			$('#testArea').append($('<div id="shareContainer"></div>'));
@@ -62,8 +63,12 @@ describe('OC.Share tests', function() {
 			oc_config.enable_avatars = false;
 			avatarStub = sinon.stub($.fn, 'avatar');
 			placeholderStub = sinon.stub($.fn, 'imageplaceholder');
+
+			oldCurrentUser = OC.currentUser;
+			OC.currentUser = 'user0';
 		});
 		afterEach(function() {
+			OC.currentUser = oldCurrentUser;
 			/* jshint camelcase:false */
 			oc_appconfig.core = oldAppConfig;
 			loadItemStub.restore();
@@ -863,6 +868,26 @@ describe('OC.Share tests', function() {
 						'shared_file_name.txt'
 					);
 					expect($('#dropdown #shareWithList').length).toEqual(0);
+				});
+				it('allows owner to share their own share when they are also the recipient', function() {
+					OC.currentUser = 'user1';
+					loadItemStub.returns({
+						reshare: {
+							permissions: OC.PERMISSION_READ,
+							uid_owner: 'user1'
+						},
+						shares: []
+					});
+					OC.Share.showDropDown(
+						'file',
+						123,
+						$container,
+						true,
+						OC.PERMISSION_ALL,
+						'shared_file_name.txt'
+					);
+					// sharing still allowed
+					expect($('#dropdown #shareWithList').length).toEqual(1);
 				});
 			});
 		});

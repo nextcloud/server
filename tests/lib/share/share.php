@@ -501,6 +501,38 @@ class Test_Share extends \Test\TestCase {
 
 	}
 
+	public function testSharingAFolderThatIsSharedWithAGroupOfTheOwner() {
+		OC_User::setUserId($this->user1);
+		$view = new \OC\Files\View('/' . $this->user1 . '/');
+		$view->mkdir('files/test');
+		$view->mkdir('files/test/sub1');
+		$view->mkdir('files/test/sub1/sub2');
+
+		$fileInfo = $view->getFileInfo('files/test/sub1');
+		$fileId = $fileInfo->getId();
+
+		$this->assertTrue(
+			OCP\Share::shareItem('folder', $fileId, OCP\Share::SHARE_TYPE_GROUP, $this->group1, \OCP\Constants::PERMISSION_READ + \OCP\Constants::PERMISSION_CREATE),
+			'Failed asserting that user 1 successfully shared "test/sub1" with group 1.'
+		);
+
+		$result = OCP\Share::getItemShared('folder', $fileId, Test_Share_Backend::FORMAT_SOURCE);
+		$this->assertNotEmpty($result);
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ + \OCP\Constants::PERMISSION_CREATE, $result['permissions']);
+
+		$fileInfo = $view->getFileInfo('files/test/sub1/sub2');
+		$fileId = $fileInfo->getId();
+
+		$this->assertTrue(
+			OCP\Share::shareItem('folder', $fileId, OCP\Share::SHARE_TYPE_USER, $this->user4, \OCP\Constants::PERMISSION_READ),
+			'Failed asserting that user 1 successfully shared "test/sub1/sub2" with user 4.'
+		);
+
+		$result = OCP\Share::getItemShared('folder', $fileId, Test_Share_Backend::FORMAT_SOURCE);
+		$this->assertNotEmpty($result);
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $result['permissions']);
+	}
+
 	protected function shareUserOneTestFileWithGroupOne() {
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(
@@ -766,6 +798,7 @@ class Test_Share extends \Test\TestCase {
 
 	/**
 	 * @param boolean|string $token
+	 * @return array
 	 */
 	protected function getShareByValidToken($token) {
 		$row = OCP\Share::getShareByToken($token);

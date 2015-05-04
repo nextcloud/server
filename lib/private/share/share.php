@@ -333,15 +333,15 @@ class Share extends Constants {
 		$shares = array();
 		$fileDependent = false;
 
+		$where = 'WHERE';
+		$fileDependentWhere = '';
 		if ($itemType === 'file' || $itemType === 'folder') {
 			$fileDependent = true;
 			$column = 'file_source';
-			$where = 'INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` ';
-			$where .= 'INNER JOIN `*PREFIX*storages` ON `numeric_id` = `*PREFIX*filecache`.`storage` ';
-			$where .= ' WHERE';
+			$fileDependentWhere = 'INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` ';
+			$fileDependentWhere .= 'INNER JOIN `*PREFIX*storages` ON `numeric_id` = `*PREFIX*filecache`.`storage` ';
 		} else {
 			$column = 'item_source';
-			$where = 'WHERE';
 		}
 
 		$select = self::createSelectStatement(self::FORMAT_NONE, $fileDependent);
@@ -364,7 +364,7 @@ class Share extends Constants {
 			$arguments[] = $owner;
 		}
 
-		$query = \OC_DB::prepare('SELECT ' . $select . ' FROM `*PREFIX*share` '. $where);
+		$query = \OC_DB::prepare('SELECT ' . $select . ' FROM `*PREFIX*share` '. $fileDependentWhere . $where);
 
 		$result = \OC_DB::executeAudited($query, $arguments);
 
@@ -380,7 +380,7 @@ class Share extends Constants {
 			$groups = \OC_Group::getUserGroups($user);
 
 			if (!empty($groups)) {
-				$where = 'WHERE `' . $column . '` = ? AND `item_type` = ? AND `share_with` in (?)';
+				$where = $fileDependentWhere . ' WHERE `' . $column . '` = ? AND `item_type` = ? AND `share_with` in (?)';
 				$arguments = array($itemSource, $itemType, $groups);
 				$types = array(null, null, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
 
@@ -394,7 +394,7 @@ class Share extends Constants {
 				// class isn't static anymore...
 				$conn = \OC_DB::getConnection();
 				$result = $conn->executeQuery(
-					'SELECT * FROM `*PREFIX*share` ' . $where,
+					'SELECT ' . $select . ' FROM `*PREFIX*share` ' . $where,
 					$arguments,
 					$types
 				);
@@ -2100,7 +2100,9 @@ class Share extends Constants {
 				\OC_Log::write('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OC_Log::ERROR);
 				throw new \Exception($message_t);
 			}
+		}
 
+		if ($checkReshare && $checkReshare['uid_owner'] !== \OC_User::getUser()) {
 			// Check if share permissions is granted
 			if (self::isResharingAllowed() && (int)$checkReshare['permissions'] & \OCP\Constants::PERMISSION_SHARE) {
 				if (~(int)$checkReshare['permissions'] & $permissions) {
