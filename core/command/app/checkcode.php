@@ -43,16 +43,27 @@ class CheckCode extends Command {
 		$appId = $input->getArgument('app-id');
 		$codeChecker = new \OC\App\CodeChecker();
 		$codeChecker->listen('CodeChecker', 'analyseFileBegin', function($params) use ($output) {
-			$output->writeln("<info>Analysing {$params}</info>");
+			if(OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
+				$output->writeln("<info>Analysing {$params}</info>");
+			}
 		});
-		$codeChecker->listen('CodeChecker', 'analyseFileFinished', function($params) use ($output) {
-			$count = count($params);
-			$output->writeln(" {$count} errors");
-			usort($params, function($a, $b) {
+		$codeChecker->listen('CodeChecker', 'analyseFileFinished', function($filename, $errors) use ($output) {
+			$count = count($errors);
+
+			// show filename if the verbosity is low, but there are errors in a file
+			if($count > 0 && OutputInterface::VERBOSITY_VERBOSE > $output->getVerbosity()) {
+				$output->writeln("<info>Analysing {$filename}</info>");
+			}
+
+			// show error count if there are errros present or the verbosity is high
+			if($count > 0 || OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
+				$output->writeln(" {$count} errors");
+			}
+			usort($errors, function($a, $b) {
 				return $a['line'] >$b['line'];
 			});
 
-			foreach($params as $p) {
+			foreach($errors as $p) {
 				$line = sprintf("%' 4d", $p['line']);
 				$output->writeln("    <error>line $line: {$p['disallowedToken']} - {$p['reason']}</error>");
 			}

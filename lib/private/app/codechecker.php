@@ -118,7 +118,7 @@ class CodeChecker extends BasicEmitter {
 			/** @var SplFileInfo $file */
 			$this->emit('CodeChecker', 'analyseFileBegin', [$file->getPathname()]);
 			$fileErrors = $this->analyseFile($file);
-			$this->emit('CodeChecker', 'analyseFileFinished', [$fileErrors]);
+			$this->emit('CodeChecker', 'analyseFileFinished', [$file->getPathname(), $fileErrors]);
 			$errors = array_merge($fileErrors, $errors);
 		}
 
