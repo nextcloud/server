@@ -504,7 +504,12 @@ class UsersController extends Controller {
 			);
 		}
 
-		$this->config->setUserValue($id, 'settings', 'email', $mailAddress);
+		// delete user value if email address is empty
+		if($mailAddress === '') {
+			$this->config->deleteUserValue($id, 'settings', 'email');
+		} else {
+			$this->config->setUserValue($id, 'settings', 'email', $mailAddress);
+		}
 
 		return new DataResponse(
 			array(
