@@ -35,7 +35,7 @@ class CheckCode extends Command {
 			->addArgument(
 				'app-id',
 				InputArgument::REQUIRED,
-				'enable the specified app'
+				'check the specified app'
 			);
 	}
 
