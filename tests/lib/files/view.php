@@ -11,6 +11,7 @@ use OC\Files\Cache\Watcher;
 use OC\Files\Storage\Common;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
+use OCP\Lock\ILockingProvider;
 
 class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
 	public function touch($path, $mtime = null) {
@@ -1079,5 +1080,31 @@ class View extends \Test\TestCase {
 	 */
 	public function testNullAsRoot() {
 		new \OC\Files\View(null);
+	}
+
+	/**
+	 * e.g. reading from a folder that's being renamed
+	 *
+	 * @expectedException \OCP\Lock\LockedException
+	 */
+	public function testReadFromWriteLockedPath() {
+		$view = new \OC\Files\View();
+		$storage = new Temporary(array());
+		Filesystem::mount($storage, [], '/');
+		$view->lockFile('/foo/bar', ILockingProvider::LOCK_EXCLUSIVE);
+		$view->lockFile('/foo/bar/asd', ILockingProvider::LOCK_SHARED);
+	}
+
+	/**
+	 * e.g. writing a file that's being downloaded
+	 *
+	 * @expectedException \OCP\Lock\LockedException
+	 */
+	public function testWriteToReadLockedFile() {
+		$view = new \OC\Files\View();
+		$storage = new Temporary(array());
+		Filesystem::mount($storage, [], '/');
+		$view->lockFile('/foo/bar', ILockingProvider::LOCK_SHARED);
+		$view->lockFile('/foo/bar', ILockingProvider::LOCK_EXCLUSIVE);
 	}
 }

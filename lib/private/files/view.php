@@ -41,6 +41,7 @@
 
 namespace OC\Files;
 
+use Icewind\Streams\CallbackWrapper;
 use OC\Files\Cache\Updater;
 use OC\Files\Mount\MoveableMount;
 use OCP\Files\FileNameTooLongException;
@@ -636,6 +637,9 @@ class View {
 				$internalPath1 = $mount1->getInternalPath($absolutePath1);
 				$internalPath2 = $mount2->getInternalPath($absolutePath2);
 
+				$this->lockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
+				$this->lockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
+
 				if ($internalPath1 === '' and $mount1 instanceof MoveableMount) {
 					if ($this->isTargetAllowed($absolutePath2)) {
 						/**
@@ -656,6 +660,10 @@ class View {
 				} else {
 					$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
 				}
+
+				$this->unlockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
+				$this->unlockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
+
 				if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
 					$this->updater->update($path2);
@@ -734,6 +742,9 @@ class View {
 				$internalPath1 = $mount1->getInternalPath($absolutePath1);
 				$storage2 = $mount2->getStorage();
 				$internalPath2 = $mount2->getInternalPath($absolutePath2);
+
+				$this->lockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
+
 				if ($mount1->getMountPoint() == $mount2->getMountPoint()) {
 					if ($storage1) {
 						$result = $storage1->copy($internalPath1, $internalPath2);
@@ -744,6 +755,9 @@ class View {
 					$result = $storage2->copyFromStorage($storage1, $internalPath1, $internalPath2);
 				}
 				$this->updater->update($path2);
+
+				$this->unlockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
+
 				if ($this->shouldEmitHooks() && $result !== false) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
@@ -939,10 +953,24 @@ class View {
 			$run = $this->runHooks($hooks, $path);
 			list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($run and $storage) {
-				if (!is_null($extraParam)) {
-					$result = $storage->$operation($internalPath, $extraParam);
+				if (in_array('write', $hooks) || in_array('delete', $hooks)) {
+					$this->lockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
 				} else {
-					$result = $storage->$operation($internalPath);
+					$this->lockFile($path, ILockingProvider::LOCK_SHARED);
+				}
+				try {
+					if (!is_null($extraParam)) {
+						$result = $storage->$operation($internalPath, $extraParam);
+					} else {
+						$result = $storage->$operation($internalPath);
+					}
+				} catch (\Exception $e) {
+					if (in_array('write', $hooks) || in_array('delete', $hooks)) {
+						$this->lockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
+					} else {
+						$this->lockFile($path, ILockingProvider::LOCK_SHARED);
+					}
+					throw $e;
 				}
 
 				if (in_array('delete', $hooks) and $result) {
@@ -954,6 +982,23 @@ class View {
 				if (in_array('touch', $hooks)) {
 					$this->updater->update($path, $extraParam);
 				}
+
+				if ($operation === 'fopen') {
+					$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path) {
+						if (in_array('write', $hooks)) {
+							$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
+						} else {
+							$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
+						}
+					});
+				} else {
+					if (in_array('write', $hooks) || in_array('delete', $hooks)) {
+						$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
+					} else {
+						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
+					}
+				}
+
 
 				if ($this->shouldEmitHooks($path) && $result !== false) {
 					if ($operation != 'fopen') { //no post hooks for fopen, the file stream is still open
@@ -1568,6 +1613,9 @@ class View {
 	 * @return string[]
 	 */
 	private function getParents($path) {
+		if (!$path) {
+			return [];
+		}
 		$parts = explode('/', $path);
 
 		// remove the singe file
@@ -1585,12 +1633,16 @@ class View {
 
 	private function lockPath($path, $type) {
 		$mount = $this->getMount($path);
-		$mount->getStorage()->acquireLock($mount->getInternalPath($path), $type, $this->lockingProvider);
+		if ($mount) {
+			$mount->getStorage()->acquireLock($mount->getInternalPath($this->getAbsolutePath($path)), $type, $this->lockingProvider);
+		}
 	}
 
 	private function unlockPath($path, $type) {
 		$mount = $this->getMount($path);
-		$mount->getStorage()->releaseLock($mount->getInternalPath($path), $type, $this->lockingProvider);
+		if ($mount) {
+			$mount->getStorage()->releaseLock($mount->getInternalPath($this->getAbsolutePath($path)), $type, $this->lockingProvider);
+		}
 	}
 
 	/**
@@ -1600,6 +1652,7 @@ class View {
 	 * @param int $type
 	 */
 	public function lockFile($path, $type) {
+		$path = rtrim($path, '/');
 		$this->lockPath($path, $type);
 
 		$parents = $this->getParents($path);
@@ -1615,6 +1668,7 @@ class View {
 	 * @param int $type
 	 */
 	public function unlockFile($path, $type) {
+		$path = rtrim($path, '/');
 		$this->unlockPath($path, $type);
 
 		$parents = $this->getParents($path);
