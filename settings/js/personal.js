@@ -12,8 +12,9 @@
  * user or 1 second after the last data entry
  *
  * @param callback
+ * @param allowEmptyValue if this is set to true the callback is also called when the value is empty
  */
-jQuery.fn.keyUpDelayedOrEnter = function (callback) {
+jQuery.fn.keyUpDelayedOrEnter = function (callback, allowEmptyValue) {
 	var cb = callback;
 	var that = this;
 	this.keyup(_.debounce(function (event) {
@@ -21,13 +22,13 @@ jQuery.fn.keyUpDelayedOrEnter = function (callback) {
 		if (event.keyCode === 13) {
 			return;
 		}
-		if (that.val() !== '') {
+		if (allowEmptyValue || that.val() !== '') {
 			cb();
 		}
 	}, 1000));
 
 	this.keypress(function (event) {
-		if (event.keyCode === 13 && that.val() !== '') {
+		if (event.keyCode === 13 && (allowEmptyValue || that.val() !== '')) {
 			event.preventDefault();
 			cb();
 		}
@@ -213,7 +214,7 @@ $(document).ready(function () {
 	});
 
 	$('#displayName').keyUpDelayedOrEnter(changeDisplayName);
-	$('#email').keyUpDelayedOrEnter(changeEmailAddress);
+	$('#email').keyUpDelayedOrEnter(changeEmailAddress, true);
 
 	$("#languageinput").change(function () {
 		// Serialize the data
