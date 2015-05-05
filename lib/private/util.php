@@ -189,9 +189,6 @@ class OC_Util {
 			//jail the user into his "home" directory
 			\OC\Files\Filesystem::init($user, $userDir);
 
-			//trigger creation of user home and /files folder
-			\OC::$server->getUserFolder($user);
-
 			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $userDir));
 		}
 		\OC::$server->getEventLogger()->end('setup_fs');
