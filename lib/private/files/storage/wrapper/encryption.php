@@ -364,7 +364,10 @@ class Encryption extends Wrapper {
 	 * @return string
 	 */
 	public function getLocalFile($path) {
-		return $this->getCachedFile($path);
+		if ($this->encryptionManager->isEnabled()) {
+			return $this->getCachedFile($path);
+		}
+		return $this->storage->getLocalFile($path);
 	}
 
 	/**
