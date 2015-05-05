@@ -489,12 +489,11 @@ class OC {
 		\OC::$server->getEventLogger()->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
 		\OC::$server->getEventLogger()->start('boot', 'Initialize');
 
-		// set some stuff
-		//ob_start();
+		// Don't display errors and log them
 		error_reporting(E_ALL | E_STRICT);
-		if (defined('DEBUG') && DEBUG) {
-			ini_set('display_errors', 1);
-		}
+		@ini_set('display_errors', 0);
+		@ini_set('log_errors', 1);
+
 		self::$CLI = (php_sapi_name() == 'cli');
 
 		date_default_timezone_set('UTC');
