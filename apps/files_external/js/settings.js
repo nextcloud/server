@@ -233,40 +233,23 @@ $(document).ready(function() {
 					}
 				},
 				initSelection: function(element, callback) {
-
-					var promises = [];
-
-					var results = [];
-
-					$(element.val().split(",")).each(function (i,userId) {
-						var def = new $.Deferred();
-						promises.push(def.promise());
-
-						var pos = userId.indexOf('(group)');
-						if (pos !== -1) {
-							//add as group
-							results.push({name:userId, displayname:userId.substr(0, pos), type:'group'});
-							def.resolve();
-						} else {
-							$.ajax(OC.generateUrl('apps/files_external/applicable'), {
-								data: {
-									pattern: userId
-								},
-								dataType: "json"
-							}).done(function(data) {
-								if (data.status === "success") {
-									if (data.users[userId]) {
-										results.push({name:userId, displayname:data.users[userId], type:'user'});
-									}
-									def.resolve();
-								} else {
-									//FIXME add error handling
+					$.ajax(OC.generateUrl('displaynames'), {
+						data: {
+							users: element.val().split(",")
+						},
+						dataType: "json"
+					}).done(function(data) {
+						var results = [];
+						if (data.status === "success") {
+							$.each(data.users, function(user, displayname) {
+								if (displayname !== false) {
+									results.push({name:user, displayname:displayname, type:'user'});
 								}
 							});
+							callback(results);
+						} else {
+							//FIXME add error handling
 						}
-					});
-					$.when.apply(undefined, promises).then(function(){
-						callback(results);
 					});
 				},
 				id: function(element) {
