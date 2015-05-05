@@ -39,4 +39,21 @@ class CodeChecker extends TestCase {
 			['!=', 1005, 'test-not-equal.php'],
 		];
 	}
+
+	/**
+	 * @dataProvider validFilesData
+	 * @param $fileToVerify
+	 */
+	public function testPassValidUsage($fileToVerify) {
+		$checker = new OC\App\CodeChecker();
+		$errors = $checker->analyseFile(OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
+
+		$this->assertEquals(0, count($errors));
+	}
+
+	public function validFilesData() {
+		return [
+			['test-identical-operator.php'],
+		];
+	}
 }
