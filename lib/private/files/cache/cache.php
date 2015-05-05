@@ -35,9 +35,14 @@
 namespace OC\Files\Cache;
 
 /**
- * Metadata cache for the filesystem
+ * Metadata cache for a storage
  *
- * don't use this class directly if you need to get metadata, use \OC\Files\Filesystem::getFileInfo instead
+ * The cache stores the metadata for all files and folders in a storage and is kept up to date trough the following mechanisms:
+ *
+ * - Scanner: scans the storage and updates the cache where needed
+ * - Watcher: checks for changes made to the filesystem outside of the ownCloud instance and rescans files and folder when a change is detected
+ * - Updater: listens to changes made to the filesystem inside of the ownCloud instance and updates the cache where needed
+ * - ChangePropagator: updates the mtime and etags of parent folders whenever a change to the cache is made to the cache by the updater
  */
 class Cache {
 	const NOT_FOUND = 0;
@@ -79,12 +84,20 @@ class Cache {
 		$this->storageCache = new Storage($storage);
 	}
 
+	/**
+	 * Get the numeric storage id for this cache's storage
+	 *
+	 * @return int
+	 */
 	public function getNumericStorageId() {
 		return $this->storageCache->getNumericId();
 	}
 
 	/**
-	 * normalize mimetypes
+	 * Get the numeric id for a mimetype
+	 *
+	 * Mimetypes are stored as integers in the cache to prevent duplicated data of the (usually) fairly limited amount of unique mimetypes
+	 * If the supplied mimetype does not yet have a numeric id a new one will be generated
 	 *
 	 * @param string $mime
 	 * @return int
@@ -114,6 +127,13 @@ class Cache {
 		return self::$mimetypeIds[$mime];
 	}
 
+
+	/**
+	 * Get the mimetype (as string) from a mimetype id
+	 *
+	 * @param int $id
+	 * @return string | null the mimetype for the id or null if the id is not known
+	 */
 	public function getMimetype($id) {
 		if (empty(self::$mimetypes)) {
 			$this->loadMimetypes();
@@ -122,6 +142,11 @@ class Cache {
 		return isset(self::$mimetypes[$id]) ? self::$mimetypes[$id] : null;
 	}
 
+	/**
+	 * Load all known mimetypes and mimetype ids from the database
+	 *
+	 * @throws \OC\DatabaseException
+	 */
 	public function loadMimetypes() {
 		self::$mimetypeIds = self::$mimetypes = array();
 
@@ -137,8 +162,28 @@ class Cache {
 	/**
 	 * get the stored metadata of a file or folder
 	 *
-	 * @param string /int $file
-	 * @return array|false
+	 * the returned cache entry contains at least the following values:
+	 * [
+	 * 		'fileid' => int, the numeric id of a file (see getId)
+	 * 		'storage' => int, the numeric id of the storage the file is stored on
+	 * 		'path' => string, the path of the file within the storage ('foo/bar.txt')
+	 * 		'name' => string, the basename of a file ('bar.txt)
+	 * 		'mimetype' => string, the full mimetype of the file ('text/plain')
+	 * 		'mimepart' => string, the first half of the mimetype ('text')
+	 * 		'size' => int, the size of the file or folder in bytes
+	 * 		'mtime' => int, the last modified date of the file as unix timestamp as shown in the ui
+	 * 		'storage_mtime' => int, the last modified date of the file as unix timestamp as stored on the storage
+	 * 			Note that when a file is updated we also update the mtime of all parent folders to make it visible to the user which folder has had updates most recently
+	 * 			This can differ from the mtime on the underlying storage which usually only changes when a direct child is added, removed or renamed
+	 * 		'etag' => string, the etag for the file
+	 * 			An etag is used for change detection of files and folders, an etag of a file changes whenever the content of the file changes
+	 * 			Etag for folders change whenever a file in the folder has changed
+	 * 		'permissions' int, the permissions for the file stored as bitwise combination of \OCP\PERMISSION_READ, \OCP\PERMISSION_CREATE
+	 * 			\OCP\PERMISSION_UPDATE, \OCP\PERMISSION_DELETE and \OCP\PERMISSION_SHARE
+	 * ]
+	 *
+	 * @param string | int $file either the path of a file or folder or the file id for a file or folder
+	 * @return array|false the cache entry as array of false if the file is not found in the cache
 	 */
 	public function get($file) {
 		if (is_string($file) or $file == '') {
@@ -288,10 +333,10 @@ class Cache {
 	}
 
 	/**
-	 * update the metadata in the cache
+	 * update the metadata of an existing file or folder in the cache
 	 *
-	 * @param int $id
-	 * @param array $data
+	 * @param int $id the fileid of the existing file or folder
+	 * @param array $data [$key => $value] the metadata to update, only the fields provided in the array will be updated, non-provided values will remain unchanged
 	 */
 	public function update($id, array $data) {
 
@@ -323,9 +368,11 @@ class Cache {
 	 * extract query parts and params array from data array
 	 *
 	 * @param array $data
-	 * @return array
+	 * @return array [$queryParts, $params]
+	 * 		$queryParts: string[], the (escaped) column names to be set in the query
+	 *		$params: mixed[], the new values for the columns, to be passed as params to the query
 	 */
-	function buildParts(array $data) {
+	protected function buildParts(array $data) {
 		$fields = array(
 			'path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted',
 			'etag', 'permissions');
@@ -358,6 +405,10 @@ class Cache {
 
 	/**
 	 * get the file id for a file
+	 *
+	 * A file id is a numeric id for a file or folder that's unique within an owncloud instance which stays the same for the lifetime of a file
+	 *
+	 * File ids are easiest way for apps to store references to a file since unlike paths they are not affected by renames or sharing
 	 *
 	 * @param string $file
 	 * @return int
@@ -408,6 +459,8 @@ class Cache {
 	/**
 	 * remove a file or folder from the cache
 	 *
+	 * when removing a folder from the cache all files and folders inside the folder will be removed as well
+	 *
 	 * @param string $file
 	 */
 	public function remove($file) {
@@ -419,6 +472,12 @@ class Cache {
 		}
 	}
 
+	/**
+	 * Get all sub folders of a folder
+	 *
+	 * @param array $entry the cache entry of the folder to get the subfolders for
+	 * @return array[] the cache entries for the subfolders
+	 */
 	private function getSubFolders($entry) {
 		$children = $this->getFolderContentsById($entry['fileid']);
 		return array_filter($children, function ($child) {
@@ -426,6 +485,12 @@ class Cache {
 		});
 	}
 
+	/**
+	 * Recursively remove all children of a folder
+	 *
+	 * @param array $entry the cache entry of the folder to remove the children of
+	 * @throws \OC\DatabaseException
+	 */
 	private function removeChildren($entry) {
 		$subFolders = $this->getSubFolders($entry);
 		foreach ($subFolders as $folder) {
@@ -507,6 +572,13 @@ class Cache {
 	}
 
 	/**
+	 * Get the scan status of a file
+	 *
+	 * - Cache::NOT_FOUND: File is not in the cache
+	 * - Cache::PARTIAL: File is not stored in the cache but some incomplete data is known
+	 * - Cache::SHALLOW: The folder and it's direct children are in the cache but not all sub folders are fully scanned
+	 * - Cache::COMPLETE: The file or folder, with all it's children) are fully scanned
+	 *
 	 * @param string $file
 	 *
 	 * @return int Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
@@ -536,8 +608,8 @@ class Cache {
 	/**
 	 * search for files matching $pattern
 	 *
-	 * @param string $pattern
-	 * @return array an array of file data
+	 * @param string $pattern the search pattern using SQL search syntax (e.g. '%searchstring%')
+	 * @return array an array of cache entries where the name matches the search pattern
 	 */
 	public function search($pattern) {
 
@@ -567,8 +639,9 @@ class Cache {
 	/**
 	 * search for files by mimetype
 	 *
-	 * @param string $mimetype
-	 * @return array
+	 * @param string $mimetype either a full mimetype to search ('text/plain') or only the first part of a mimetype ('image')
+	 * 		where it will search for all mimetypes in the group ('image/*')
+	 * @return array  an array of cache entries where the mimetype matches the search
 	 */
 	public function searchByMime($mimetype) {
 		if (strpos($mimetype, '/')) {
@@ -635,7 +708,7 @@ class Cache {
 	}
 
 	/**
-	 * update the folder size and the size of all parent folders
+	 * Re-calculate the folder size and the size of all parent folders
 	 *
 	 * @param string|boolean $path
 	 * @param array $data (optional) meta data of the folder
@@ -652,7 +725,7 @@ class Cache {
 	}
 
 	/**
-	 * get the size of a folder and set it in the cache
+	 * calculate the size of a folder and set it in the cache
 	 *
 	 * @param string $path
 	 * @param array $entry (optional) meta data of the folder
@@ -729,10 +802,10 @@ class Cache {
 	}
 
 	/**
-	 * get the path of a file on this storage by it's id
+	 * get the path of a file on this storage by it's file id
 	 *
-	 * @param int $id
-	 * @return string|null
+	 * @param int $id the file id of the file or folder to search
+	 * @return string|null the path of the file (relative to the storage) or null if a file with the given id does not exists within this cache
 	 */
 	public function getPathById($id) {
 		$sql = 'SELECT `path` FROM `*PREFIX*filecache` WHERE `fileid` = ? AND `storage` = ?';
@@ -754,6 +827,7 @@ class Cache {
 	 * instead does a global search in the cache table
 	 *
 	 * @param int $id
+	 * @deprecated use getPathById() instead
 	 * @return array first element holding the storage id, second the path
 	 */
 	static public function getById($id) {
