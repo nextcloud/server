@@ -224,6 +224,10 @@ textarea:disabled {
 	color: #999;
 	cursor: default;
 }
+input:disabled+label, input:disabled:hover+label, input:disabled:focus+label {
+	color: #999 !important;
+	cursor: default;
+}
 
 /* Primary action button, use sparingly */
 .primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
