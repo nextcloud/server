@@ -1388,4 +1388,74 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResult, $result);
 	}
 
+	public function setEmailAddressData() {
+		return [
+			['', true, false, true],
+			['foobar@localhost', true, true, false],
+			['foo@bar@localhost', false, false, false],
+		];
+	}
+
+	/**
+	 * @dataProvider setEmailAddressData
+	 *
+	 * @param string $mailAddress
+	 * @param bool $isValid
+	 * @param bool $expectsUpdate
+	 * @param bool $expectsDelete
+	 */
+	public function testSetEmailAddress($mailAddress, $isValid, $expectsUpdate, $expectsDelete) {
+		$this->container['IsAdmin'] = true;
+
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('foo'));
+		$this->container['UserSession']
+			->expects($this->atLeastOnce())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->container['Mailer']
+			->expects($this->any())
+			->method('validateMailAddress')
+			->with($mailAddress)
+			->willReturn($isValid);
+
+		if ($isValid) {
+			$user->expects($this->atLeastOnce())
+				->method('canChangeDisplayName')
+				->willReturn(true);
+
+			$this->container['UserManager']
+				->expects($this->atLeastOnce())
+				->method('get')
+				->with('foo')
+				->will($this->returnValue($user));
+		}
+
+		$this->container['Config']
+			->expects(($expectsUpdate) ? $this->once() : $this->never())
+			->method('setUserValue')
+			->with(
+				$this->equalTo($user->getUID()),
+				$this->equalTo('settings'),
+				$this->equalTo('email'),
+				$this->equalTo($mailAddress)
+
+			);
+		$this->container['Config']
+			->expects(($expectsDelete) ? $this->once() : $this->never())
+			->method('deleteUserValue')
+			->with(
+				$this->equalTo($user->getUID()),
+				$this->equalTo('settings'),
+				$this->equalTo('email')
+
+			);
+
+		$this->container['UsersController']->setMailAddress($user->getUID(), $mailAddress);
+	}
+
 }
