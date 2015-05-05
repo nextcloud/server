@@ -190,7 +190,7 @@ class Encryption implements IEncryptionModule {
 				}
 			}
 
-			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys);
+			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys, $this->user);
 
 			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
 			$this->keyManager->setAllFileKeys($this->path, $encryptedKeyfiles);
@@ -287,7 +287,7 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function update($path, $uid, array $accessList) {
 		$fileKey = $this->keyManager->getFileKey($path, $uid);
-
+		
 		if (!empty($fileKey)) {
 
 			$publicKeys = array();
@@ -295,7 +295,7 @@ class Encryption implements IEncryptionModule {
 				$publicKeys[$user] = $this->keyManager->getPublicKey($user);
 			}
 
-			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys);
+			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $uid);
 
 			$encryptedFileKey = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 
@@ -312,28 +312,6 @@ class Encryption implements IEncryptionModule {
 
 		return true;
 	}
-
-	/**
-	 * add system keys such as the public share key and the recovery key
-	 *
-	 * @param array $accessList
-	 * @param array $publicKeys
-	 * @return array
-	 */
-	public function addSystemKeys(array $accessList, array $publicKeys) {
-		if (!empty($accessList['public'])) {
-			$publicKeys[$this->keyManager->getPublicShareKeyId()] = $this->keyManager->getPublicShareKey();
-		}
-
-		if ($this->keyManager->recoveryKeyExists() &&
-			$this->util->isRecoveryEnabledForUser()) {
-
-			$publicKeys[$this->keyManager->getRecoveryKeyId()] = $this->keyManager->getRecoveryKey();
-		}
-
-		return $publicKeys;
-	}
-
 
 	/**
 	 * should the file be encrypted or not

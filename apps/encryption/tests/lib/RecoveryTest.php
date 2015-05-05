@@ -170,6 +170,7 @@ class RecoveryTest extends TestCase {
 
 		$this->keyManagerMock->expects($this->once())
 			->method('addSystemKeys')
+			->with($this->anything(), $this->anything(), $this->equalTo('admin'))
 			->willReturn(['admin' => 'publicKey']);
 
 
@@ -181,7 +182,7 @@ class RecoveryTest extends TestCase {
 
 		$this->assertNull(\Test_Helper::invokePrivate($this->instance,
 			'recoverFile',
-			['/', 'testkey']));
+			['/', 'testkey', 'admin']));
 	}
 
 	protected function setUp() {

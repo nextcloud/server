@@ -56,7 +56,7 @@ $privateKeySet = $session->isPrivateKeySet();
 $initialized = $session->getStatus();
 
 $recoveryAdminEnabled = \OC::$server->getConfig()->getAppValue('encryption', 'recoveryAdminEnabled');
-$recoveryEnabledForUser = $util->isRecoveryEnabledForUser();
+$recoveryEnabledForUser = $util->isRecoveryEnabledForUser($user);
 
 $result = false;
 

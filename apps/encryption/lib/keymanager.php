@@ -531,10 +531,11 @@ class KeyManager {
 	 *
 	 * @param array $accessList
 	 * @param array $publicKeys
+	 * @param string $uid
 	 * @return array
 	 * @throws PublicKeyMissingException
 	 */
-	public function addSystemKeys(array $accessList, array $publicKeys) {
+	public function addSystemKeys(array $accessList, array $publicKeys, $uid) {
 		if (!empty($accessList['public'])) {
 			$publicShareKey = $this->getPublicShareKey();
 			if (empty($publicShareKey)) {
@@ -544,7 +545,7 @@ class KeyManager {
 		}
 
 		if ($this->recoveryKeyExists() &&
-			$this->util->isRecoveryEnabledForUser()) {
+			$this->util->isRecoveryEnabledForUser($uid)) {
 
 			$publicKeys[$this->getRecoveryKeyId()] = $this->getRecoveryKey();
 		}
