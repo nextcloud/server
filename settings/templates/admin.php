@@ -319,12 +319,22 @@ if ($_['cronErrors']) {
 		href="<?php p(link_to_docs('admin-encryption')); ?>"></a>
 
 	<p id="enable">
-		<input type="checkbox" name="encryption_enabled"
-			   id="encryptionEnabled"
-			   value="1" <?php if ($_['encryptionEnabled']) print_unescaped('checked="checked"'); ?> />
+		<input type="checkbox"
+			   id="enableEncryption"
+			   value="1" <?php if ($_['encryptionEnabled']) print_unescaped('checked="checked" disabled="disabled"'); ?> />
 		<label
-			for="encryptionEnabled"><?php p($l->t('Enable server-side encryption')); ?> <span id="startmigration_msg" class="msg"></span> </label><br/>
+			for="enableEncryption"><?php p($l->t('Enable server-side encryption')); ?> <span id="startmigration_msg" class="msg"></span> </label><br/>
 	</p>
+
+	<div id="EncryptionWarning" class="warning hidden">
+		<?php p($l->t('Encryption is a one way process. Once encryption is enabled,
+		all files from that point forward will be encrypted on the server and it
+		will not be possible to disable encryption at a later date. This is the final warning:
+		Do you really want to enable encryption?')) ?>
+		<input type="button"
+			   id="reallyEnableEncryption"
+			   value="<?php p($l->t("Enable encryption")); ?>" />
+	</div>
 
 	<div id="EncryptionSettingsArea" class="<?php if (!$_['encryptionEnabled']) p('hidden'); ?>">
 		<div id='selectEncryptionModules' class="<?php if (!$_['encryptionReady']) p('hidden'); ?>">

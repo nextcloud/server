@@ -54,20 +54,15 @@ $(document).ready(function(){
 		$('#shareAPI p:not(#enable)').toggleClass('hidden', !this.checked);
 	});
 
-	$('#encryptionEnabled').change(function() {
-		$('#encryptionAPI div#EncryptionSettingsArea').toggleClass('hidden');
+	$('#enableEncryption').change(function() {
+		$('#encryptionAPI div#EncryptionWarning').toggleClass('hidden');
 	});
 
-	$('#encryptionAPI input').change(function() {
-		var value = $(this).val();
-		if ($(this).attr('type') === 'checkbox') {
-			if (this.checked) {
-				value = 'yes';
-			} else {
-				value = 'no';
-			}
-		}
-		OC.AppConfig.setValue('core', $(this).attr('name'), value);
+	$('#reallyEnableEncryption').click(function() {
+		$('#encryptionAPI div#EncryptionWarning').toggleClass('hidden');
+		$('#encryptionAPI div#EncryptionSettingsArea').toggleClass('hidden');
+		OC.AppConfig.setValue('core', 'encryption_enabled', 'yes');
+		$('#enableEncryption').attr('disabled', 'disabled');
 	});
 
 	$('#startmigration').click(function(event){

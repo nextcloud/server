@@ -494,3 +494,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 #encryptionModules {
 	padding: 10px;
 }
+
+#warning {
+	color: red;
+}
