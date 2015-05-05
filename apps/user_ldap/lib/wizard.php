@@ -958,7 +958,6 @@ class Wizard extends LDAPUtility {
 				$userAttributes = array_change_key_case(array_flip($userAttributes));
 				$parts = 0;
 
-				$x = $this->configuration->ldapLoginFilterUsername;
 				if($this->configuration->ldapLoginFilterUsername === '1') {
 					$attr = '';
 					if(isset($userAttributes['uid'])) {
