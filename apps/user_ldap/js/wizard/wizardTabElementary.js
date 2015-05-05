@@ -207,7 +207,6 @@ OCA = OCA || {};
 		 */
 		onNewConfiguration: function(view, result) {
 			if(result.isSuccess === true) {
-				console.log('new config');
 				var nthServer = view._configChooserNextServerNumber;
 				view.$configChooser.find('option:selected').removeAttr('selected');
 				var html = '<option value="'+result.configPrefix+'" selected="selected">'+t('user_ldap','{nthServer}. Server', {nthServer: nthServer})+'</option>';
