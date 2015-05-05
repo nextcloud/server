@@ -358,7 +358,7 @@ if ($_['cronErrors']) {
 		<div id="migrationWarning" class="<?php if ($_['encryptionReady']) p('hidden'); ?>">
 			<?php
 			if ($_['encryptionReady'] === false && $_['externalBackendsEnabled'] === true) {
-				p($l->t('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the "ownCloud Default Encryption Module" and run \'occ encryption:migrate\''));
+				p($l->t('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the "Default encryption module" and run \'occ encryption:migrate\''));
 			} elseif ($_['encryptionReady'] === false && $_['externalBackendsEnabled'] === false) {
 				p($l->t('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one.')); ?>
 				<input type="submit" name="startmigration" id="startmigration"

@@ -16,7 +16,7 @@
 		based on AES 128 or 256 bit keys. More information is available in
 		the Encryption documentation
 	</description>
-	<name>ownCloud Default Encryption Module</name>
+	<name>Default encryption module</name>
 	<license>AGPL</license>
 	<author>Bjoern Schiessle, Clark Tomlinson</author>
 	<requiremin>8</requiremin>

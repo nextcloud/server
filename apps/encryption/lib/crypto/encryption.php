@@ -34,7 +34,7 @@ use OCP\ILogger;
 class Encryption implements IEncryptionModule {
 
 	const ID = 'OC_DEFAULT_MODULE';
-	const DISPLAY_NAME = 'ownCloud Default Encryption';
+	const DISPLAY_NAME = 'Default encryption module';
 
 	/**
 	 * @var Crypt
@@ -287,7 +287,7 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function update($path, $uid, array $accessList) {
 		$fileKey = $this->keyManager->getFileKey($path, $uid);
-		
+
 		if (!empty($fileKey)) {
 
 			$publicKeys = array();
