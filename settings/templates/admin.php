@@ -323,7 +323,7 @@ if ($_['cronErrors']) {
 			   id="enableEncryption"
 			   value="1" <?php if ($_['encryptionEnabled']) print_unescaped('checked="checked" disabled="disabled"'); ?> />
 		<label
-			for="encryptionEnabled"><?php p($l->t('Enable server-side encryption')); ?> <span id="startmigration_msg" class="msg"></span> </label><br/>
+			for="enableEncryption"><?php p($l->t('Enable server-side encryption')); ?> <span id="startmigration_msg" class="msg"></span> </label><br/>
 	</p>
 
 	<div id="EncryptionWarning" class="warning hidden">
