@@ -252,6 +252,7 @@ class Encryption extends Wrapper {
 	 */
 	public function copy($path1, $path2) {
 		$fullPath1 = $this->getFullPath($path1);
+		$fullPath2 = $this->getFullPath($path2);
 		if ($this->util->isExcluded($fullPath1)) {
 			return $this->storage->copy($path1, $path2);
 		}
@@ -267,6 +268,9 @@ class Encryption extends Wrapper {
 			) {
 				$this->update->update($target);
 			}
+			$data = $this->getMetaData($path1);
+			$this->getCache()->put($path2, ['encrypted' => $data['encrypted']]);
+			$this->updateUnencryptedSize($fullPath2, $data['size']);
 		}
 
 		return $result;

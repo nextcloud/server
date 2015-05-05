@@ -13,7 +13,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 	private $sourceStorage;
 
 	/**
-	 * @var \OC\Files\Storage\Wrapper\Encryption
+	 * @var \OC\Files\Storage\Wrapper\Encryption | \PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected $instance;
 
@@ -27,7 +27,6 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 */
 	private $util;
 
-
 	/**
 	 * @var \OC\Encryption\Manager | \PHPUnit_Framework_MockObject_MockObject
 	 */
@@ -38,11 +37,15 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 */
 	private $encryptionModule;
 
-
 	/**
 	 * @var \OC\Encryption\Update | \PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $update;
+
+	/**
+	 * @var \OC\Files\Cache\Cache | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $cache;
 
 	protected function setUp() {
 
@@ -92,14 +95,25 @@ class Encryption extends \Test\Files\Storage\Storage {
 			->setMethods(['getOption'])
 			->getMock();
 		$mount->expects($this->any())->method('getOption')->willReturn(true);
-		$this->instance = new \OC\Files\Storage\Wrapper\Encryption([
-			'storage' => $this->sourceStorage,
-			'root' => 'foo',
-			'mountPoint' => '/',
-			'mount' => $mount
-		],
-			$this->encryptionManager, $this->util, $logger, $file, null, $this->keyStore, $this->update
-		);
+		$this->cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
+			->disableOriginalConstructor()->getMock();
+		$this->cache->expects($this->any())->method('get')->willReturn(array());
+
+		$this->instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
+			->setConstructorArgs([
+				[
+					'storage' => $this->sourceStorage,
+					'root' => 'foo',
+					'mountPoint' => '/',
+					'mount' => $mount
+				],
+				$this->encryptionManager, $this->util, $logger, $file, null, $this->keyStore, $this->update
+			])
+			->setMethods(['getMetaData', 'getCache'])
+			->getMock();
+
+		$this->instance->expects($this->any())->method('getCache')->willReturn($this->cache);
+
 	}
 
 	/**
@@ -160,6 +174,18 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 * @param boolean $shouldUpdate
 	 */
 	public function testCopyTesting($source, $target, $copyKeysReturn, $shouldUpdate) {
+
+		$dummySize = -1;
+
+		$this->instance->expects($this->any())
+			->method('getMetaData')
+			->willReturn(['encrypted' => true, 'size' => $dummySize]);
+
+		$this->cache->expects($this->once())
+			->method('put')
+			->with($this->anything(), ['encrypted' => true])
+			->willReturn(true);
+
 		$this->keyStore
 			->expects($this->once())
 			->method('copyKeys')
@@ -177,6 +203,10 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$this->instance->mkdir($source);
 		$this->instance->mkdir(dirname($target));
 		$this->instance->copy($source, $target);
+
+		$this->assertSame($dummySize,
+			$this->instance->filesize($target)
+		);
 	}
 
 	/**
