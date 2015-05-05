@@ -9,12 +9,14 @@
 namespace Test\App;
 
 use OC;
+use Test\TestCase;
 
-class CodeChecker extends \Test\TestCase {
+class CodeChecker extends TestCase {
 
 	/**
 	 * @dataProvider providesFilesToCheck
-	 * @param $expectedErrors
+	 * @param $expectedErrorToken
+	 * @param $expectedErrorCode
 	 * @param $fileToVerify
 	 */
 	public function testFindInvalidUsage($expectedErrorToken, $expectedErrorCode, $fileToVerify) {
@@ -33,6 +35,25 @@ class CodeChecker extends \Test\TestCase {
 			['OC_App', 1002, 'test-static-call.php'],
 			['OC_API', 1003, 'test-const.php'],
 			['OC_AppConfig', 1004, 'test-new.php'],
+			['==', 1005, 'test-equal.php'],
+			['!=', 1005, 'test-not-equal.php'],
+		];
+	}
+
+	/**
+	 * @dataProvider validFilesData
+	 * @param $fileToVerify
+	 */
+	public function testPassValidUsage($fileToVerify) {
+		$checker = new OC\App\CodeChecker();
+		$errors = $checker->analyseFile(OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
+
+		$this->assertEquals(0, count($errors));
+	}
+
+	public function validFilesData() {
+		return [
+			['test-identical-operator.php'],
 		];
 	}
 }
