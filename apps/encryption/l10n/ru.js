@@ -22,11 +22,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Закрытый ключ приложения шифрования недействителен. Обновите закрытый ключ в личных настройках, чтобы восстановить доступ к зашифрованным файлам.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Приложение шифрования активно, но ваши ключи не инициализированы, выйдите из системы и войдите заново",
     "ownCloud basic encryption module" : "Базовый модуль шифрования ownCloud",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Включить ключ восстановления (позволяет пользователям восстановить файлы при потере пароля):",
     "Recovery key password" : "Пароль ключа восстановления",
     "Repeat Recovery key password" : "Повторите пароль ключа восстановления",
-    "Enabled" : "Включено",
-    "Disabled" : "Отключено",
     "Change recovery key password:" : "Смена пароля ключа восстановления:",
     "Old Recovery key password" : "Старый пароль ключа восстановления",
     "New Recovery key password" : "Новый пароль ключа восстановления",
@@ -39,6 +36,8 @@ OC.L10N.register(
     "Current log-in password" : "Текущий пароль учётной записи",
     "Update Private Key Password" : "Обновить пароль закрытого ключа",
     "Enable password recovery:" : "Включить восстановление пароля:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включение этой опции позволит вам получить доступ к своим зашифрованным файлам в случае утери пароля"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включение этой опции позволит вам получить доступ к своим зашифрованным файлам в случае утери пароля",
+    "Enabled" : "Включено",
+    "Disabled" : "Отключено"
 },
-"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
+"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

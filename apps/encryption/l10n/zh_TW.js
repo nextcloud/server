@@ -10,11 +10,8 @@ OC.L10N.register(
     "Private key password successfully updated." : "私人金鑰密碼已成功更新。",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "無效的檔案加密私鑰，請在個人設定中更新您的私鑰密語以存取加密的檔案。",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "檔案加密已啓用，但是您的金鑰尚未初始化，請重新登入一次",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "啟用還原金鑰 (因忘記密碼仍允許還原使用者檔案):",
     "Recovery key password" : "還原金鑰密碼",
     "Repeat Recovery key password" : "再輸入還原金鑰密碼一次",
-    "Enabled" : "已啓用",
-    "Disabled" : "已停用",
     "Change recovery key password:" : "變更還原金鑰密碼:",
     "Old Recovery key password" : "舊的還原金鑰密碼",
     "New Recovery key password" : "新的還原金鑰密碼",
@@ -25,6 +22,8 @@ OC.L10N.register(
     "Current log-in password" : "目前的登入密碼",
     "Update Private Key Password" : "更新私人金鑰密碼",
     "Enable password recovery:" : "啟用密碼還原:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案",
+    "Enabled" : "已啓用",
+    "Disabled" : "已停用"
 },
 "nplurals=1; plural=0;");

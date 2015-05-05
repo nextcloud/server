@@ -20,11 +20,8 @@
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Salaussovelluksen salausavain on virheellinen. Ole hyvä ja päivitä salausavain henkilökohtaisissa asetuksissasi jotta voit taas avata salatuskirjoitetut tiedostosi.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Salaussovellus on käytössä, mutta salausavaimia ei ole alustettu. Ole hyvä ja kirjaudu sisään uudelleen.",
     "ownCloud basic encryption module" : "ownCloudin perussalausmoduuli",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Käytä palautusavainta (salli käyttäjien tiedostojen palauttaminen, jos heidän salasana unohtuu):",
     "Recovery key password" : "Palautusavaimen salasana",
     "Repeat Recovery key password" : "Toista palautusavaimen salasana",
-    "Enabled" : "Käytössä",
-    "Disabled" : "Ei käytössä",
     "Change recovery key password:" : "Vaihda palautusavaimen salasana:",
     "Old Recovery key password" : "Vanha palautusavaimen salasana",
     "New Recovery key password" : "Uusi palautusavaimen salasana",
@@ -37,6 +34,8 @@
     "Current log-in password" : "Nykyinen kirjautumissalasana",
     "Update Private Key Password" : "Päivitä yksityisen avaimen salasana",
     "Enable password recovery:" : "Ota salasanan palautus käyttöön:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Tämän valinnan käyttäminen mahdollistaa pääsyn salattuihin tiedostoihisi, jos salasana unohtuu"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Tämän valinnan käyttäminen mahdollistaa pääsyn salattuihin tiedostoihisi, jos salasana unohtuu",
+    "Enabled" : "Käytössä",
+    "Disabled" : "Ei käytössä"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

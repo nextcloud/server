@@ -8,11 +8,8 @@
     "Private key password successfully updated." : "Lozinka privatnog ključa uspješno ažurirana.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Neispravan privatni ključ za šifriranje. Molimo ažurirajte lozinku svoga privatnog ključa u svojim osobnimpostavkama da biste obnovili pristup svojim šifriranim datotekama.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacija šifriranja je aktivirana ali vaši ključevi nisu inicijalizirani, molimo odjavite se iponovno prijavite.",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Aktivirajte ključ za oporavak (u slučaju gubitka lozinke dozvolite oporavak korisničkih datoteka):",
     "Recovery key password" : "Lozinka ključa za oporavak",
     "Repeat Recovery key password" : "Ponovite lozinku ključa za oporavak",
-    "Enabled" : "Aktivirano",
-    "Disabled" : "Onemogućeno",
     "Change recovery key password:" : "Promijenite lozinku ključa za oporavak",
     "Old Recovery key password" : "Stara lozinka ključa za oporavak",
     "New Recovery key password" : "Nova lozinka ključa za oporavak",
@@ -25,6 +22,8 @@
     "Current log-in password" : "Aktualna lozinka za prijavu",
     "Update Private Key Password" : "Ažurirajte lozinku privatnog ključa",
     "Enable password recovery:" : "Omogućite oporavak lozinke:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "U slučaju gubitka lozinke, aktiviranje ove opcije ponovno će vam pribaviti pristup vašim šifriranim datotekama"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "U slučaju gubitka lozinke, aktiviranje ove opcije ponovno će vam pribaviti pristup vašim šifriranim datotekama",
+    "Enabled" : "Aktivirano",
+    "Disabled" : "Onemogućeno"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

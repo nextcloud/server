@@ -19,11 +19,8 @@ OC.L10N.register(
     "Private key password successfully updated." : "Heslo súkromného kľúča je úspešne aktualizované.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chybný súkromný kľúč na šifrovanie aplikácií. Zaktualizujte si heslo súkromného kľúča v svojom osobnom nastavení, aby ste znovu získali prístup k svojim zašifrovaným súborom.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikácia na šifrovanie je zapnutá, ale vaše kľúče nie sú inicializované. Odhláste sa a znovu sa prihláste.",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Povoliť obnovovací kľúč (umožňuje obnoviť používateľské súbory v prípade straty hesla):",
     "Recovery key password" : "Heslo obnovovacieho kľúča",
     "Repeat Recovery key password" : "Zopakujte heslo kľúča pre obnovu",
-    "Enabled" : "Povolené",
-    "Disabled" : "Zakázané",
     "Change recovery key password:" : "Zmeniť heslo obnovovacieho kľúča:",
     "Old Recovery key password" : "Staré heslo obnovovacieho kľúča",
     "New Recovery key password" : "Nové heslo obnovovacieho kľúča",
@@ -36,6 +33,8 @@ OC.L10N.register(
     "Current log-in password" : "Súčasné prihlasovacie heslo",
     "Update Private Key Password" : "Aktualizovať heslo súkromného kľúča",
     "Enable password recovery:" : "Povoliť obnovu hesla:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Povolenie Vám umožní znovu získať prístup k Vašim zašifrovaným súborom, ak stratíte heslo"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Povolenie Vám umožní znovu získať prístup k Vašim zašifrovaným súborom, ak stratíte heslo",
+    "Enabled" : "Povolené",
+    "Disabled" : "Zakázané"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

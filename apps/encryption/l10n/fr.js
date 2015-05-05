@@ -22,11 +22,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Votre clef privée pour le chiffrement n'est pas valide ! Veuillez mettre à jour le mot de passe de votre clef privée dans vos paramètres personnels pour récupérer l'accès à vos fichiers chiffrés.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'application de chiffrement est activée mais vos clefs ne sont pas initialisées. Veuillez vous déconnecter et ensuite vous reconnecter.",
     "ownCloud basic encryption module" : "Module de chiffrement de base d'ownCloud",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Activer la clef de récupération (permet de récupérer les fichiers des utilisateurs en cas de perte de mot de passe).",
     "Recovery key password" : "Mot de passe de la clef de récupération",
     "Repeat Recovery key password" : "Répétez le mot de passe de la clef de récupération",
-    "Enabled" : "Activé",
-    "Disabled" : "Désactivé",
     "Change recovery key password:" : "Modifier le mot de passe de la clef de récupération :",
     "Old Recovery key password" : "Ancien mot de passe de la clef de récupération",
     "New Recovery key password" : "Nouveau mot de passe de la clef de récupération",
@@ -39,6 +36,8 @@ OC.L10N.register(
     "Current log-in password" : "Actuel mot de passe de connexion",
     "Update Private Key Password" : "Mettre à jour le mot de passe de votre clef privée",
     "Enable password recovery:" : "Activer la récupération du mot de passe :",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Activer cette option vous permettra d'obtenir à nouveau l'accès à vos fichiers chiffrés en cas de perte de mot de passe"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Activer cette option vous permettra d'obtenir à nouveau l'accès à vos fichiers chiffrés en cas de perte de mot de passe",
+    "Enabled" : "Activé",
+    "Disabled" : "Désactivé"
 },
 "nplurals=2; plural=(n > 1);");

@@ -22,11 +22,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Невірний закритий ключ для доданку шифрування. Оновіть пароль до вашого закритого ключа в особистих налаштуваннях.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Доданок шифрування ввімкнено, але ваші ключі не ініціалізовано, вийдіть та зайдіть знову",
     "ownCloud basic encryption module" : "базовий модуль шифрування ownCloud",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Ввімкнути ключ відновлення (дозволяє користувачам відновлювати файли при втраті паролю):",
     "Recovery key password" : "Пароль ключа відновлення",
     "Repeat Recovery key password" : "Введіть ще раз пароль ключа відновлення",
-    "Enabled" : "Увімкнено",
-    "Disabled" : "Вимкнено",
     "Change recovery key password:" : "Змінити пароль ключа відновлення:",
     "Old Recovery key password" : "Старий пароль ключа відновлення",
     "New Recovery key password" : "Новий пароль ключа відновлення",
@@ -39,6 +36,8 @@ OC.L10N.register(
     "Current log-in password" : "Поточний пароль входу",
     "Update Private Key Password" : "Оновити пароль для закритого ключа",
     "Enable password recovery:" : "Ввімкнути відновлення паролю:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включення цієї опції дозволить вам отримати доступ до своїх зашифрованих файлів у випадку втрати паролю"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включення цієї опції дозволить вам отримати доступ до своїх зашифрованих файлів у випадку втрати паролю",
+    "Enabled" : "Увімкнено",
+    "Disabled" : "Вимкнено"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

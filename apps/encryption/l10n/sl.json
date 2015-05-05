@@ -17,11 +17,8 @@
     "Private key password successfully updated." : "Zasebni ključ za geslo je uspešno posodobljen.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ni ustreznega osebnega ključa za program za šifriranje. Posodobite osebni ključ za dostop do šifriranih datotek med nastavitvami.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Program za šifriranje je omogočen, vendar ni začet. Odjavite se in nato ponovno prijavite.",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Omogoči ključ za obnovitev datotek (v primeru izgube gesla):",
     "Recovery key password" : "Ključ za obnovitev gesla",
     "Repeat Recovery key password" : "Ponovi ključ za obnovitev gesla",
-    "Enabled" : "Omogočeno",
-    "Disabled" : "Onemogočeno",
     "Change recovery key password:" : "Spremeni ključ za obnovitev gesla:",
     "Old Recovery key password" : "Stari ključ za obnovitev gesla",
     "New Recovery key password" : "Novi ključ za obnovitev gesla",
@@ -34,6 +31,8 @@
     "Current log-in password" : "Trenutno geslo",
     "Update Private Key Password" : "Posodobi zasebni ključ",
     "Enable password recovery:" : "Omogoči obnovitev gesla:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Nastavitev te možnosti omogoča ponovno pridobitev dostopa do šifriranih datotek, v primeru, da boste geslo pozabili."
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Nastavitev te možnosti omogoča ponovno pridobitev dostopa do šifriranih datotek, v primeru, da boste geslo pozabili.",
+    "Enabled" : "Omogočeno",
+    "Disabled" : "Onemogočeno"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

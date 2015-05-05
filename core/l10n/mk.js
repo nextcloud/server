@@ -64,6 +64,7 @@ OC.L10N.register(
     "Shared in {item} with {user}" : "Споделено во {item} со {user}",
     "Unshare" : "Не споделувај",
     "notify by email" : "извести преку електронска пошта",
+    "can share" : "може да споделува",
     "can edit" : "може да се измени",
     "access control" : "контрола на пристап",
     "create" : "креирај",

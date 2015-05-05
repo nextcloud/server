@@ -22,11 +22,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ungültiger privater Schlüssel für die Verschlüsselung-App. Bitte aktualisiere Dein privates Schlüssel-Passwort, um den Zugriff auf Deine verschlüsselten Dateien wiederherzustellen.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Die Verschlüsselung-App ist aktiviert, aber Deine Schlüssel sind nicht initialisiert. Bitte melde Dich nochmals ab und wieder an.",
     "ownCloud basic encryption module" : "ownCloud-Basisverschlüsselungsmodul",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Wiederherstellungsschlüssel aktivieren (ermöglicht das Wiederherstellen von Dateien, falls das Passwort vergessen wurde):",
     "Recovery key password" : "Wiederherstellungsschlüssel-Passwort",
     "Repeat Recovery key password" : "Schlüssel-Passwort zur Wiederherstellung wiederholen",
-    "Enabled" : "Aktiviert",
-    "Disabled" : "Deaktiviert",
     "Change recovery key password:" : "Wiederherstellungsschlüssel-Passwort ändern:",
     "Old Recovery key password" : "Altes Wiederherstellungsschlüssel-Passwort",
     "New Recovery key password" : "Neues Wiederherstellungsschlüssel-Passwort",
@@ -39,6 +36,8 @@ OC.L10N.register(
     "Current log-in password" : "Aktuelles Passwort",
     "Update Private Key Password" : "Passwort für den privaten Schlüssel aktualisieren",
     "Enable password recovery:" : "Passwortwiederherstellung aktivieren:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Wenn Du diese Option aktivierst, kannst Du Deine verschlüsselten Dateien wiederherstellen, falls Du Dein Passwort vergisst"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Wenn Du diese Option aktivierst, kannst Du Deine verschlüsselten Dateien wiederherstellen, falls Du Dein Passwort vergisst",
+    "Enabled" : "Aktiviert",
+    "Disabled" : "Deaktiviert"
 },
 "nplurals=2; plural=(n != 1);");

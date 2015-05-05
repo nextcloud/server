@@ -8,10 +8,7 @@ OC.L10N.register(
     "Password successfully changed." : "رمزعبور با موفقیت تغییر یافت.",
     "Could not change the password. Maybe the old password was not correct." : "رمزعبور را نمیتواند تغییر دهد. شاید رمزعبورقدیمی صحیح نمی باشد.",
     "Private key password successfully updated." : "رمزعبور کلید خصوصی با موفقیت به روز شد.",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "فعال کردن کلید بازیابی(اجازه بازیابی فایل های کاربران در صورت از دست دادن رمزعبور):",
     "Recovery key password" : "رمزعبور کلید بازیابی",
-    "Enabled" : "فعال شده",
-    "Disabled" : "غیرفعال شده",
     "Change recovery key password:" : "تغییر رمزعبور کلید بازیابی:",
     "Old Recovery key password" : "رمزعبور قدیمی  کلید بازیابی ",
     "New Recovery key password" : "رمزعبور جدید کلید بازیابی",
@@ -21,6 +18,8 @@ OC.L10N.register(
     "Current log-in password" : "رمزعبور فعلی",
     "Update Private Key Password" : "به روز رسانی رمزعبور کلید خصوصی",
     "Enable password recovery:" : "فعال سازی بازیابی رمزعبور:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "فعال کردن این گزینه به شما اجازه خواهد داد در صورت از دست دادن رمزعبور به فایل های رمزگذاری شده خود دسترسی داشته باشید."
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "فعال کردن این گزینه به شما اجازه خواهد داد در صورت از دست دادن رمزعبور به فایل های رمزگذاری شده خود دسترسی داشته باشید.",
+    "Enabled" : "فعال شده",
+    "Disabled" : "غیرفعال شده"
 },
 "nplurals=1; plural=0;");

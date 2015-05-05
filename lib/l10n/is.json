@@ -13,5 +13,5 @@
     "Authentication error" : "Villa við auðkenningu",
     "Token expired. Please reload page." : "Auðkenning útrunnin. Vinsamlegast skráðu þig aftur inn.",
     "Could not find category \"%s\"" : "Fann ekki flokkinn \"%s\""
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+},"pluralForm" :"nplurals=2; plural=(n % 10 == 1 || n % 100 != 11);"
 }

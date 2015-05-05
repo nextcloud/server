@@ -19,11 +19,8 @@ OC.L10N.register(
     "Private key password successfully updated." : "Pomyślnie zaktualizowano hasło klucza prywatnego.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Klucz prywatny nie jest poprawny! Może Twoje hasło zostało zmienione z zewnątrz. Można zaktualizować hasło klucza prywatnego w ustawieniach osobistych w celu odzyskania dostępu do plików",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacja szyfrująca jest aktywna, ale twoje klucze nie zostały zainicjowane, prosze wyloguj się i zaloguj ponownie.",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Włączhasło klucza odzyskiwania (pozwala odzyskać pliki użytkowników w przypadku utraty hasła):",
     "Recovery key password" : "Hasło klucza odzyskiwania",
     "Repeat Recovery key password" : "Powtórz hasło klucza odzyskiwania",
-    "Enabled" : "Włączone",
-    "Disabled" : "Wyłączone",
     "Change recovery key password:" : "Zmień hasło klucza odzyskiwania",
     "Old Recovery key password" : "Stare hasło klucza odzyskiwania",
     "New Recovery key password" : "Nowe hasło klucza odzyskiwania",
@@ -36,6 +33,8 @@ OC.L10N.register(
     "Current log-in password" : "Bieżące hasło logowania",
     "Update Private Key Password" : "Aktualizacja hasła klucza prywatnego",
     "Enable password recovery:" : "Włącz hasło odzyskiwania:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Włączenie tej opcji umożliwia otrzymać dostęp do zaszyfrowanych plików w przypadku utraty hasła"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Włączenie tej opcji umożliwia otrzymać dostęp do zaszyfrowanych plików w przypadku utraty hasła",
+    "Enabled" : "Włączone",
+    "Disabled" : "Wyłączone"
 },
 "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

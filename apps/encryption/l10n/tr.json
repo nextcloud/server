@@ -20,11 +20,8 @@
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Şifreleme Uygulaması için geçersiz özel anahtar. Lütfen şifreli dosyalarınıza erişimi tekrar kazanabilmek için kişisel ayarlarınızdan özel anahtar parolanızı güncelleyin.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Şifreleme Uygulaması etkin ancak anahtarlarınız başlatılmamış. Lütfen oturumu kapatıp yeniden açın",
     "ownCloud basic encryption module" : "ownCloud basit şifreleme modülü",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Kurtarma anahtarını etkinleştir (parola kaybı durumunda kullanıcı dosyalarının kurtarılmasına izin verir):",
     "Recovery key password" : "Kurtarma anahtarı parolası",
     "Repeat Recovery key password" : "Kurtarma anahtarı parolasını yineleyin",
-    "Enabled" : "Etkin",
-    "Disabled" : "Devre Dışı",
     "Change recovery key password:" : "Kurtarma anahtarı parolasını değiştir:",
     "Old Recovery key password" : "Eski Kurtarma anahtarı parolası",
     "New Recovery key password" : "Yeni Kurtarma anahtarı parolası",
@@ -37,6 +34,8 @@
     "Current log-in password" : "Geçerli oturum açma parolası",
     "Update Private Key Password" : "Özel Anahtar Parolasını Güncelle",
     "Enable password recovery:" : "Parola kurtarmayı etkinleştir:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Bu seçeneği etkinleştirmek, parola kaybı durumunda şifrelenmiş dosyalarınıza erişimi yeniden kazanmanızı sağlayacaktır"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Bu seçeneği etkinleştirmek, parola kaybı durumunda şifrelenmiş dosyalarınıza erişimi yeniden kazanmanızı sağlayacaktır",
+    "Enabled" : "Etkin",
+    "Disabled" : "Devre Dışı"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

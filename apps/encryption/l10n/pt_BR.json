@@ -20,11 +20,8 @@
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chave do App de Criptografia é inválida. Por favor, atualize sua senha de chave privada em suas configurações pessoais para recuperar o acesso a seus arquivos criptografados.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "App de criptografia está ativado, mas as chaves não estão inicializadas, por favor log-out e faça login novamente",
     "ownCloud basic encryption module" : "Modo de criptografia básico ownCloud",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Habilitar chave de recuperação (permite recuperar arquivos de usuários em caso de perda de senha):",
     "Recovery key password" : "Senha da chave de recuperação",
     "Repeat Recovery key password" : "Repita Recuperação de senha da chave",
-    "Enabled" : "Habilitado",
-    "Disabled" : "Desabilitado",
     "Change recovery key password:" : "Mudar a senha da chave de recuperação:",
     "Old Recovery key password" : "Senha antiga da chave de recuperação",
     "New Recovery key password" : "Nova senha da chave de recuperação",
@@ -37,6 +34,8 @@
     "Current log-in password" : "Senha de login atual",
     "Update Private Key Password" : "Atualizar Senha de Chave Privada",
     "Enable password recovery:" : "Habilitar recuperação de senha:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar essa opção vai permitir que você obtenha novamente acesso aos seus arquivos encriptados em caso de perda de senha"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar essa opção vai permitir que você obtenha novamente acesso aos seus arquivos encriptados em caso de perda de senha",
+    "Enabled" : "Habilitado",
+    "Disabled" : "Desabilitado"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

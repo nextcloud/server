@@ -111,7 +111,6 @@
     "Please install one of these locales on your system and restart your webserver." : "Proszę zainstalować jedno z poniższych locale w Twoim systemie i uruchomić ponownie serwer www.",
     "Please ask your server administrator to install the module." : "Proszę poproś administratora serwera aby zainstalował ten moduł.",
     "PHP module %s not installed." : "Moduł PHP %s nie jest zainstalowany.",
-    "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Proszę poproś administratora serwera aby zaktualizował PHP do najnowszej wersji. Twoja wersja PHP nie jest już dłużej wspierana przez ownCloud i społeczność PHP.",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Wygląda na to, że ustawienia PHP ucinają bloki wklejonych dokumentów. To sprawi, że niektóre wbudowane aplikacje będą niedostępne.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dzieje się tak prawdopodobnie przez cache lub akcelerator taki jak Zend OPcache lub eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Moduły PHP zostały zainstalowane, ale nadal brakuje ich na liście?",

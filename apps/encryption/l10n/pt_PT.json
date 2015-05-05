@@ -20,11 +20,8 @@
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chave privada inválida da Aplicação de Encriptação. Por favor atualize a sua senha de chave privada nas definições pessoais, para recuperar o acesso aos seus ficheiros encriptados.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A Aplicação de Encriptação está ativada, mas as suas chaves não inicializaram. Por favor termine e inicie a sessão novamente",
     "ownCloud basic encryption module" : "módulo de encriptação básico da ownCloud",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Ativar a chave de recuperação (permite recuperar os ficheiros do utilizador, se perder a senha):",
     "Recovery key password" : "Senha da chave de recuperação",
     "Repeat Recovery key password" : "Contrassenha da chave de recuperação",
-    "Enabled" : "Ativada",
-    "Disabled" : "Desactivada",
     "Change recovery key password:" : "Alterar a senha da chave de recuperação:",
     "Old Recovery key password" : "Senha da chave de recuperação antiga",
     "New Recovery key password" : "Nova senha da chave de recuperação",
@@ -37,6 +34,8 @@
     "Current log-in password" : "Senha de iniciar sessão atual",
     "Update Private Key Password" : "Atualizar Senha da Chave Privada ",
     "Enable password recovery:" : "Ativar a recuperação da senha:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ao ativar esta opção, irá poder obter o acesso aos seus ficheiros encriptados, se perder a senha"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ao ativar esta opção, irá poder obter o acesso aos seus ficheiros encriptados, se perder a senha",
+    "Enabled" : "Ativada",
+    "Disabled" : "Desactivada"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -129,7 +129,6 @@
     "PHP module %s not installed." : "O módulo PHP %s non está instalado.",
     "PHP setting \"%s\" is not set to \"%s\"." : "O axuste de PHP «%s» non está estabelecido a «%s».",
     "Adjusting this setting in php.ini will make ownCloud run again" : "Facer este axuste en php.ini fará que ownCloud volva executarse",
-    "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Pregúntelle ao administrador do servidor pola actualización de PHP á versión máis recente. A súa versión de PHP xa non é asistida polas comunidades de ownCloud e PHP.",
     "PHP is configured to populate raw post data. Since PHP 5.6 this will lead to PHP throwing notices for perfectly valid code." : "PHP está configurado para encher datos de código en bruto. Desde PHP 5.6 isto levará a que PHP forneza avisos con código perfectamente correcto.",
     "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "Para arranxar este incidencia estabeleza <code>always_populate_raw_post_data</code> a <code>-1</code> no seu php.ini",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Parece que PHP foi configuración para substituír bloques de documentos en liña. Isto fará que varias aplicacións sexan inaccesíbeis.",

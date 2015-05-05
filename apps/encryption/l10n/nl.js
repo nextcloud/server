@@ -22,11 +22,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ongeldige privésleutel voor crypto app. Werk het privésleutel wachtwoord bij in uw persoonlijke instellingen om opnieuw toegang te krijgen tot uw versleutelde bestanden.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Crypto app is geactiveerd, maar uw sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in.",
     "ownCloud basic encryption module" : "ownCloud basis versleutelingsmodule",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Activeren herstelsleutel (maakt het mogelijk om gebruikersbestanden terug te halen in geval van verlies van het wachtwoord):",
     "Recovery key password" : "Wachtwoord herstelsleulel",
     "Repeat Recovery key password" : "Herhaal het herstelsleutel wachtwoord",
-    "Enabled" : "Geactiveerd",
-    "Disabled" : "Gedeactiveerd",
     "Change recovery key password:" : "Wijzig wachtwoord herstelsleutel:",
     "Old Recovery key password" : "Oude wachtwoord herstelsleutel",
     "New Recovery key password" : "Nieuwe wachtwoord herstelsleutel",
@@ -39,6 +36,8 @@ OC.L10N.register(
     "Current log-in password" : "Huidige wachtwoord",
     "Update Private Key Password" : "Bijwerken wachtwoord Privésleutel",
     "Enable password recovery:" : "Activeren wachtwoord herstel:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Het activeren van deze optie maakt het mogelijk om uw versleutelde bestanden te benaderen als uw wachtwoord kwijt is"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Het activeren van deze optie maakt het mogelijk om uw versleutelde bestanden te benaderen als uw wachtwoord kwijt is",
+    "Enabled" : "Geactiveerd",
+    "Disabled" : "Gedeactiveerd"
 },
 "nplurals=2; plural=(n != 1);");

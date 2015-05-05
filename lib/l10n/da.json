@@ -129,7 +129,6 @@
     "PHP module %s not installed." : "PHP-modulet %s er ikke installeret.",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP-indstillingen \"%s\" er ikke angivet til \"%s\".",
     "Adjusting this setting in php.ini will make ownCloud run again" : "Justeres denne indstilling i php.ini, så vil ownCloud kunne køre igen",
-    "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Bed venligst din serveradministrator om at opdatere PHP til seneste version. Din PHP-version understøttes ikke længere af ownCload og PHP-fællesskabet.",
     "PHP is configured to populate raw post data. Since PHP 5.6 this will lead to PHP throwing notices for perfectly valid code." : "PHP er konfigureret til at udfylde rå postdata. Siden PHP 5.6 har dette ført til, at PHP smider med notitser for fuldstændig gyldig kode.",
     "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "For at rette dette problem, så angiv <code>always_populate_raw_post_data</code> til <code>-1</code> i din php.ini",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP opsætning blokere \"inline doc blocks\". dette gør at flere grundlæggende apps utilgængelige",

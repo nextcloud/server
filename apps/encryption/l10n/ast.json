@@ -8,11 +8,8 @@
     "Private key password successfully updated." : "Contraseña de clave privada anovada correchamente.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Clave privada non válida pa Encryption. Por favor, anueva la to contraseña de clave nos tos axustes personales pa recuperar l'accesu a los tos ficheros cifraos.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'aplicación Encryption ta habilitada pero les tos claves nun s'aniciaron, por favor zarra sesión y aníciala de nueves",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Habilitar la clave de recuperación (permite recuperar los ficheros del usuariu en casu de perda de la contraseña);",
     "Recovery key password" : "Contraseña de clave de recuperación",
     "Repeat Recovery key password" : "Repeti la contraseña de clave de recuperación",
-    "Enabled" : "Habilitar",
-    "Disabled" : "Deshabilitáu",
     "Change recovery key password:" : "Camudar la contraseña de la clave de recuperación",
     "Old Recovery key password" : "Clave de recuperación vieya",
     "New Recovery key password" : "Clave de recuperación nueva",
@@ -24,6 +21,8 @@
     "Current log-in password" : "Contraseña d'accesu actual",
     "Update Private Key Password" : "Anovar Contraseña de Clave Privada",
     "Enable password recovery:" : "Habilitar la recuperación de contraseña:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar esta opción va permitite volver a tener accesu a los ficheros cifraos en casu de perda de contraseña"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar esta opción va permitite volver a tener accesu a los ficheros cifraos en casu de perda de contraseña",
+    "Enabled" : "Habilitar",
+    "Disabled" : "Deshabilitáu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

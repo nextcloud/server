@@ -109,7 +109,6 @@
     "PHP module %s not installed." : "PHP-moduulia %s ei ole asennettu.",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP-asetusta \"%s\" ei ole asetettu arvoon \"%s\".",
     "Adjusting this setting in php.ini will make ownCloud run again" : "Tämän asetuksen muuttaminen php.ini-tiedostossa saattaa ownCloudin jälleen toimintakykyiseksi",
-    "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Pyydä palvelimen ylläpitäjää päivittämään PHP uusimpaan versioon. Käyttämäsi PHP-versio ei ole enää tuettu ownCloud- ja PHP-yhteisön toimesta.",
     "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "Korjaa ongelma asettamalla asetuksen <code>always_populate_raw_post_data</code> arvoksi <code>-1</code> php.ini-tiedostossa",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP-moduulit on asennettu, mutta ovatko ne vieläkin listattu puuttuviksi?",
     "Please ask your server administrator to restart the web server." : "Pyydä palvelimen ylläpitäjää käynnistämään web-palvelin uudelleen.",

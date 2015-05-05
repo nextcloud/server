@@ -10,11 +10,8 @@ OC.L10N.register(
     "Private key password successfully updated." : "Contraseña de clave privada actualizada con éxito.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Llave privada inválida para la aplicación de encriptación. Por favor actualice la clave de la llave privada en las configuraciones personales para recobrar el acceso a sus archivos encriptados.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "La aplicación de encriptación está habilitada pero las llaves no fueron inicializadas, por favor termine y vuelva a iniciar la sesión",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Habilitar clave de recuperación (te permite recuperar los archivos de usuario en el caso que pierdas la contraseña):",
     "Recovery key password" : "Contraseña de recuperación de clave",
     "Repeat Recovery key password" : "Repetir la contraseña de la clave de recuperación",
-    "Enabled" : "Habilitado",
-    "Disabled" : "Deshabilitado",
     "Change recovery key password:" : "Cambiar contraseña para recuperar la clave:",
     "Old Recovery key password" : "Contraseña antigua de recuperación de clave",
     "New Recovery key password" : "Nueva contraseña de recuperación de clave",
@@ -25,6 +22,8 @@ OC.L10N.register(
     "Current log-in password" : "Contraseña actual",
     "Update Private Key Password" : "Actualizar contraseña de la clave privada",
     "Enable password recovery:" : "Habilitar recuperación de contraseña:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitando esta opción, vas a tener acceso a tus archivos encriptados, incluso si perdés la contraseña"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitando esta opción, vas a tener acceso a tus archivos encriptados, incluso si perdés la contraseña",
+    "Enabled" : "Habilitado",
+    "Disabled" : "Deshabilitado"
 },
 "nplurals=2; plural=(n != 1);");

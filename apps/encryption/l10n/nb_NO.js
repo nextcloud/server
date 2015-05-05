@@ -19,11 +19,8 @@ OC.L10N.register(
     "Private key password successfully updated." : "Passord for privat nøkkel ble oppdatert.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ugyldig privat nøkkel for Krypterings-app. Oppdater passordet for din private nøkkel i dine personlige innstillinger for å gjenopprette tilgang til de krypterte filene dine.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "App for kryptering er aktivert men nøklene dine er ikke satt opp. Logg ut og logg inn igjen.",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Aktiver gjenopprettingsnøkkel (tillat å gjenopprette brukerfiler i tilfelle tap av passord):",
     "Recovery key password" : "Passord for gjenopprettingsnøkkel",
     "Repeat Recovery key password" : "Gjenta passord for gjenopprettingsnøkkel",
-    "Enabled" : "Aktiv",
-    "Disabled" : "Inaktiv",
     "Change recovery key password:" : "Endre passord for gjenopprettingsnøkkel:",
     "Old Recovery key password" : "Gammelt passord for gjenopprettingsnøkkel",
     "New Recovery key password" : "Nytt passord for gjenopprettingsnøkkel",
@@ -36,6 +33,8 @@ OC.L10N.register(
     "Current log-in password" : "Nåværende påloggingspassord",
     "Update Private Key Password" : "Oppdater passord for privat nøkkel",
     "Enable password recovery:" : "Aktiver gjenoppretting av passord:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivering av dette valget tillater deg å gjenerobre tilgang til dine krypterte filer i tilfelle du mister passordet ditt."
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivering av dette valget tillater deg å gjenerobre tilgang til dine krypterte filer i tilfelle du mister passordet ditt.",
+    "Enabled" : "Aktiv",
+    "Disabled" : "Inaktiv"
 },
 "nplurals=2; plural=(n != 1);");

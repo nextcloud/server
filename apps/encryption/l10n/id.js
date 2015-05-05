@@ -19,11 +19,8 @@ OC.L10N.register(
     "Private key password successfully updated." : "Sandi kunci privat berhasil diperbarui.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Kunci privat tidak sah untuk Aplikasi Enskripsi. Silakan perbarui sandi kunci privat anda pada pengaturan pribadi untuk memulihkan akses ke berkas anda yang dienskripsi.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikasi Enskripsi telah diaktifkan tetapi kunci tidak diinisialisasi, silakan log-out dan log-in lagi",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Aktifkan kunci pemulihan (memungkinkan pengguna untuk memulihkan berkas dalam kasus kehilangan sandi):",
     "Recovery key password" : "Sandi kunci pemulihan",
     "Repeat Recovery key password" : "Ulangi sandi kunci Pemulihan",
-    "Enabled" : "Diaktifkan",
-    "Disabled" : "Dinonaktifkan",
     "Change recovery key password:" : "Ubah sandi kunci pemulihan:",
     "Old Recovery key password" : "Sandi kunci Pemulihan Lama",
     "New Recovery key password" : "Sandi kunci Pemulihan Baru",
@@ -36,6 +33,8 @@ OC.L10N.register(
     "Current log-in password" : "Sandi masuk saat ini",
     "Update Private Key Password" : "Perbarui Sandi Kunci Private",
     "Enable password recovery:" : "Aktifkan sandi pemulihan:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Mengaktifkan opsi ini memungkinkan Anda untuk mendapatkan kembali akses ke berkas terenkripsi Anda dalam kasus kehilangan sandi"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Mengaktifkan opsi ini memungkinkan Anda untuk mendapatkan kembali akses ke berkas terenkripsi Anda dalam kasus kehilangan sandi",
+    "Enabled" : "Diaktifkan",
+    "Disabled" : "Dinonaktifkan"
 },
 "nplurals=1; plural=0;");

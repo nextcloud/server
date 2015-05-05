@@ -9,6 +9,7 @@ OC.L10N.register(
     "Share" : "Deelen",
     "URL" : "URL",
     "Personal" : "Perséinlech",
+    "Saved" : "Gespäichert",
     "Name" : "Numm",
     "Folder name" : "Dossiers Numm:",
     "Delete" : "Läschen"

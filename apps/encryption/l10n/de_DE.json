@@ -20,11 +20,8 @@
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ungültiger privater Schlüssel für die Verschlüsselungs-App. Bitte aktualisieren Sie Ihr privates Schlüsselpasswort, um den Zugriff auf Ihre verschlüsselten Dateien wiederherzustellen.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Verschlüsselung-App ist aktiviert, aber Ihre Schlüssel sind nicht initialisiert. Bitte nochmals ab- und wieder anmelden.",
     "ownCloud basic encryption module" : "ownCloud-Basisverschlüsselungsmodul",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Aktivieren Sie den Wiederherstellungsschlüssel (erlaubt die Wiederherstellung des Zugangs zu den Benutzerdateien, wenn das Passwort verloren geht):",
     "Recovery key password" : "Wiederherstellungschlüsselpasswort",
     "Repeat Recovery key password" : "Schlüsselpasswort zur Wiederherstellung wiederholen",
-    "Enabled" : "Aktiviert",
-    "Disabled" : "Deaktiviert",
     "Change recovery key password:" : "Wiederherstellungsschlüsselpasswort ändern",
     "Old Recovery key password" : "Altes Wiederherstellungsschlüsselpasswort",
     "New Recovery key password" : "Neues Wiederherstellungsschlüsselpasswort ",
@@ -37,6 +34,8 @@
     "Current log-in password" : "Aktuelles Anmeldepasswort",
     "Update Private Key Password" : "Das Passwort des privaten Schlüssels aktualisieren",
     "Enable password recovery:" : "Die Passwort-Wiederherstellung aktivieren:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Durch die Aktivierung dieser Option haben Sie die Möglichkeit, wieder auf Ihre verschlüsselten Dateien zugreifen zu können, wenn Sie Ihr Passwort verloren haben."
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Durch die Aktivierung dieser Option haben Sie die Möglichkeit, wieder auf Ihre verschlüsselten Dateien zugreifen zu können, wenn Sie Ihr Passwort verloren haben.",
+    "Enabled" : "Aktiviert",
+    "Disabled" : "Deaktiviert"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

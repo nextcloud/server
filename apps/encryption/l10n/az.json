@@ -17,11 +17,8 @@
     "Private key password successfully updated." : "Gizli aşar şifrəsi uğurla yeniləndi.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Şifrələnmə proqramı üçün yalnış şəxsi açar. Xahiş olunur öz şəxsi quraşdırmalarınızda şəxsi açarınızı yeniləyəsiniz ki, şifrələnmiş fayllara yetki ala biləsiniz.   ",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Proqram şifrələnməsi işə salınıb ancaq, sizin açarlar inisializasiya edilməyib. Xahiş edilir çıxıb yenidən daxil olasınız",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Bərpa açarını aktivləşdir(şifrə itirilməsi hadısələrində, istifadəçi fayllarının bərpasına izin verir)",
     "Recovery key password" : "Açar şifrənin bərpa edilməsi",
     "Repeat Recovery key password" : "Bərpa açarın şifrəsini təkrar edin",
-    "Enabled" : "İşə salınıb",
-    "Disabled" : "Dayandırılıb",
     "Change recovery key password:" : "Bərpa açarın şifrəsini dəyişdir:",
     "Old Recovery key password" : "Köhnə bərpa açarı şifrəsi",
     "New Recovery key password" : "Yeni bərpa açarı şifrəsi",
@@ -34,6 +31,8 @@
     "Current log-in password" : "Hal-hazırki giriş şifrəsi",
     "Update Private Key Password" : "Gizli açar şifrəsini yenilə",
     "Enable password recovery:" : "Şifrə bərpasını işə sal:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Bu opsiyanın aktiv edilməsi sizə, şifrənin itdiyi hallarda bütün şifrələnmiş fayllarınıza yetkinin yenidən əldə edilməsinə şərait yaradacaq"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Bu opsiyanın aktiv edilməsi sizə, şifrənin itdiyi hallarda bütün şifrələnmiş fayllarınıza yetkinin yenidən əldə edilməsinə şərait yaradacaq",
+    "Enabled" : "İşə salınıb",
+    "Disabled" : "Dayandırılıb"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

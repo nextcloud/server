@@ -22,11 +22,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "La clave privada no es válida para la app de cifrado. Por favor, actualiza la contraseña de tu clave privada en tus ajustes personales para recuperar el acceso a tus archivos cifrados.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "La app de cifrado está habilitada pero sus claves no se han inicializado, por favor, cierre la sesión y vuelva a iniciarla de nuevo.",
     "ownCloud basic encryption module" : "Módulo básico de encriptación ownCloud",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Habilitar la clave de recuperación (permite recuperar los ficheros del usuario en caso de pérdida de la contraseña);",
     "Recovery key password" : "Contraseña de clave de recuperación",
     "Repeat Recovery key password" : "Repite la contraseña de clave de recuperación",
-    "Enabled" : "Habilitar",
-    "Disabled" : "Deshabilitado",
     "Change recovery key password:" : "Cambiar la contraseña de la clave de recuperación",
     "Old Recovery key password" : "Antigua clave de recuperación",
     "New Recovery key password" : "Nueva clave de recuperación",
@@ -39,6 +36,8 @@ OC.L10N.register(
     "Current log-in password" : "Contraseña de acceso actual",
     "Update Private Key Password" : "Actualizar contraseña de clave privada",
     "Enable password recovery:" : "Habilitar la recuperación de contraseña:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar esta opción le permitirá volver a tener acceso a sus ficheros cifrados en caso de pérdida de contraseña"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar esta opción le permitirá volver a tener acceso a sus ficheros cifrados en caso de pérdida de contraseña",
+    "Enabled" : "Habilitar",
+    "Disabled" : "Deshabilitado"
 },
 "nplurals=2; plural=(n != 1);");

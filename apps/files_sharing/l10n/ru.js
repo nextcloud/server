@@ -21,6 +21,7 @@ OC.L10N.register(
     "Remote share password" : "Пароль для удаленного общего ресурса",
     "Cancel" : "Отменить",
     "Add remote share" : "Добавить удалённый общий ресурс",
+    "You can upload into this folder" : "Вы можете загружать в эту папку",
     "No ownCloud installation (7 or higher) found at {remote}" : "На удаленном ресурсе {remote} не установлен ownCloud версии 7 или выше",
     "Invalid ownCloud url" : "Неверный адрес ownCloud",
     "Share" : "Поделиться",
@@ -60,4 +61,4 @@ OC.L10N.register(
     "Allow users on this server to send shares to other servers" : "Разрешить пользователям делиться с пользователями других серверов",
     "Allow users on this server to receive shares from other servers" : "Разрешить пользователям использовать общие ресурсы с других серверов"
 },
-"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
+"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

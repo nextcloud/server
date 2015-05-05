@@ -17,11 +17,8 @@
     "Private key password successfully updated." : "Privaatse võtme parool edukalt uuendatud.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Vigane Krüpteerimisrakendi privaatvõti . Palun uuenda oma privaatse võtme parool oma personaasete seadete all taastamaks ligipääsu oma krüpteeritud failidele.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Krüpteerimisrakend on lubatud, kuid võtmeid pole lähtestatud. Palun logi välja ning uuesti sisse.",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Luba taastevõti (võimalda kasutaja failide taastamine parooli kaotuse puhul):",
     "Recovery key password" : "Taastevõtme parool",
     "Repeat Recovery key password" : "Korda taastevõtme parooli",
-    "Enabled" : "Sisse lülitatud",
-    "Disabled" : "Väljalülitatud",
     "Change recovery key password:" : "Muuda taastevõtme parooli:",
     "Old Recovery key password" : "Vana taastevõtme parool",
     "New Recovery key password" : "Uus taastevõtme parool",
@@ -34,6 +31,8 @@
     "Current log-in password" : "Praegune sisselogimise parool",
     "Update Private Key Password" : "Uuenda privaatse võtme parooli",
     "Enable password recovery:" : "Luba parooli taaste:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Valiku lubamine võimaldab taastada ligipääsu krüpteeritud failidele kui parooli kaotuse puhul"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Valiku lubamine võimaldab taastada ligipääsu krüpteeritud failidele kui parooli kaotuse puhul",
+    "Enabled" : "Sisse lülitatud",
+    "Disabled" : "Väljalülitatud"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

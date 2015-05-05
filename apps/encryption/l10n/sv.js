@@ -19,11 +19,8 @@ OC.L10N.register(
     "Private key password successfully updated." : "Den privata nyckelns lösenord uppdaterades utan problem.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ogiltig privat nyckel i krypteringsprogrammet. Vänligen uppdatera lösenordet till din privata nyckel under dina personliga inställningar för att återfå tillgång till dina krypterade filer.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Krypteringsprogrammet är aktiverat men dina nycklar är inte initierade. Vänligen logga ut och  in igen",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Aktivera återställningsnyckel (för att kunna återfå användarens filer vid glömt eller förlorat lösenord):",
     "Recovery key password" : "Lösenord för återställningsnyckel",
     "Repeat Recovery key password" : "Upprepa återställningsnyckelns lösenord",
-    "Enabled" : "Aktiverad",
-    "Disabled" : "Inaktiverad",
     "Change recovery key password:" : "Ändra lösenord för återställningsnyckel:",
     "Old Recovery key password" : "Gammalt lösenord för återställningsnyckel",
     "New Recovery key password" : "Nytt lösenord för återställningsnyckel",
@@ -36,6 +33,8 @@ OC.L10N.register(
     "Current log-in password" : "Nuvarande inloggningslösenord",
     "Update Private Key Password" : "Uppdatera lösenordet för din privata nyckel",
     "Enable password recovery:" : "Aktivera lösenordsåterställning",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Genom att aktivera detta alternativ kommer du kunna återfå tillgång till dina krypterade filer om du skulle förlora/glömma ditt lösenord"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Genom att aktivera detta alternativ kommer du kunna återfå tillgång till dina krypterade filer om du skulle förlora/glömma ditt lösenord",
+    "Enabled" : "Aktiverad",
+    "Disabled" : "Inaktiverad"
 },
 "nplurals=2; plural=(n != 1);");

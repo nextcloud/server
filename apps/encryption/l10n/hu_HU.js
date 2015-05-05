@@ -10,11 +10,8 @@ OC.L10N.register(
     "Private key password successfully updated." : "A személyes kulcsának jelszava frissítésre került.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Az állományok titkosításához használt titkos kulcsa érvénytelen. Kérjük frissítse a titkos kulcs jelszót a személyes beállításokban, hogy ismét hozzáférjen a titkosított állományaihoz!",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Az állományok titkosítása engedélyezve van, de az Ön titkos kulcsai nincsenek beállítva. Ezért kérjük, hogy jelentkezzen ki, és lépjen be újra!",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "A helyreállítási kulcs beállítása (lehetővé teszi a felhasználók állományainak visszaállítását, ha elfelejtik a jelszavukat):",
     "Recovery key password" : "A helyreállítási kulcs jelszava",
     "Repeat Recovery key password" : "Ismételje meg a helyreállítási kulcs jelszavát",
-    "Enabled" : "Bekapcsolva",
-    "Disabled" : "Kikapcsolva",
     "Change recovery key password:" : "A helyreállítási kulcs jelszavának módosítása:",
     "Old Recovery key password" : "Régi Helyreállítási Kulcs Jelszava",
     "New Recovery key password" : "Új Helyreállítási kulcs jelszava",
@@ -25,6 +22,8 @@ OC.L10N.register(
     "Current log-in password" : "Jelenlegi bejelentkezési jelszó",
     "Update Private Key Password" : "A személyest kulcs jelszó frissítése",
     "Enable password recovery:" : "Jelszó-visszaállítás bekapcsolása",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ez az opció lehetővé teszi, hogy a titkosított állományok tartalmát visszanyerjük abban az esetben, ha elfelejti a jelszavát"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ez az opció lehetővé teszi, hogy a titkosított állományok tartalmát visszanyerjük abban az esetben, ha elfelejti a jelszavát",
+    "Enabled" : "Bekapcsolva",
+    "Disabled" : "Kikapcsolva"
 },
 "nplurals=2; plural=(n != 1);");

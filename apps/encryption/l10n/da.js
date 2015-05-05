@@ -22,11 +22,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ugyldig privat nøgle for krypteringsprogrammet. Opdater venligst dit kodeord for den private nøgle i dine personlige indstillinger. Det kræves for at få adgang til dine krypterede filer.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Krypteringsprogrammet er aktiveret, men din nøgler er ikke igangsat. Log venligst ud og ind igen.",
     "ownCloud basic encryption module" : "ownCloud basis krypteringsmodul",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Aktiver gendannelsesnøgle (Tillad gendannelse af brugerfiler i tilfælde af tab af kodeord):",
     "Recovery key password" : "Gendannelsesnøgle kodeord",
     "Repeat Recovery key password" : "Gentag gendannelse af nøglekoden",
-    "Enabled" : "Aktiveret",
-    "Disabled" : "Deaktiveret",
     "Change recovery key password:" : "Skift gendannelsesnøgle kodeord:",
     "Old Recovery key password" : "Gammel Gendannelsesnøgle kodeord",
     "New Recovery key password" : "Ny Gendannelsesnøgle kodeord",
@@ -39,6 +36,8 @@ OC.L10N.register(
     "Current log-in password" : "Nuvrende login kodeord",
     "Update Private Key Password" : "Opdater Privat Nøgle Kodeord",
     "Enable password recovery:" : "Aktiver kodeord gendannelse:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivering af denne valgmulighed tillader dig at generhverve adgang til dine krypterede filer i tilfælde af tab af kodeord"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivering af denne valgmulighed tillader dig at generhverve adgang til dine krypterede filer i tilfælde af tab af kodeord",
+    "Enabled" : "Aktiveret",
+    "Disabled" : "Deaktiveret"
 },
 "nplurals=2; plural=(n != 1);");

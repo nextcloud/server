@@ -22,11 +22,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chybný soukromý klíč pro šifrovací aplikaci. Aktualizujte prosím heslo svého soukromého klíče ve vašem osobním nastavení, abyste znovu získali přístup k vašim zašifrovaným souborům.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikace pro šifrování je zapnuta, ale vaše klíče nejsou inicializované. Prosím odhlaste se a znovu přihlaste",
     "ownCloud basic encryption module" : "ownCloud základní šifrovací modul",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Povolit klíč pro obnovu (umožňuje obnovu uživatelských souborů v případě ztráty hesla)",
     "Recovery key password" : "Heslo klíče pro obnovu",
     "Repeat Recovery key password" : "Zopakujte heslo klíče pro obnovu",
-    "Enabled" : "Povoleno",
-    "Disabled" : "Zakázáno",
     "Change recovery key password:" : "Změna hesla klíče pro obnovu:",
     "Old Recovery key password" : "Původní heslo klíče pro obnovu",
     "New Recovery key password" : "Nové heslo klíče pro obnovu",
@@ -39,6 +36,8 @@ OC.L10N.register(
     "Current log-in password" : "Aktuální přihlašovací heslo",
     "Update Private Key Password" : "Změnit heslo soukromého klíče",
     "Enable password recovery:" : "Povolit obnovu hesla:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Zapnutí této volby vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Zapnutí této volby vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo",
+    "Enabled" : "Povoleno",
+    "Disabled" : "Zakázáno"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

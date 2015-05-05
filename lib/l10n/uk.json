@@ -126,7 +126,6 @@
     "PHP module %s not installed." : "%s модуль PHP не встановлено.",
     "PHP setting \"%s\" is not set to \"%s\"." : "Параметр PHP \"%s\" не встановлено в \"%s\".",
     "Adjusting this setting in php.ini will make ownCloud run again" : "Установка цього параметру в php.ini дозволяє запуститися ownCloud знову.",
-    "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Будь ласка, зверніться до адміністратора серверу, щоб оновити PHP до останньої версії. Встановлена версія PHP більше не підтримується ownCloud і співтовариством PHP.",
     "PHP is configured to populate raw post data. Since PHP 5.6 this will lead to PHP throwing notices for perfectly valid code." : "У PHP включена директива \"always_populate_raw_post_data\". PHP версії 5.6 і вище, при включеній директиві, додає повідомлення в журнал навіть для абсолютно робочого коду.",
     "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "Щоб виправити цю помилку, вкажіть значення <code> -1 </ code> як значення параметра <code> always_populate_raw_post_data </ code> у вашому php.ini",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Схоже, що PHP налаштовано на вичищення блоків вбудованої документації. Це зробить кілька основних додатків недоступними.",

@@ -22,11 +22,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Άκυρο προσωπικό κλειδί για την εφαρμογή κρυπτογράφησης. Παρακαλώ ενημερώστε τον κωδικό του προσωπικού κλειδίου σας στις προσωπικές ρυθμίσεις για να επανακτήσετε πρόσβαση στα κρυπτογραφημένα σας αρχεία.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Η εφαρμογή κρυπτογράφησης είναι ενεργοποιημένη αλλά τα κλειδιά σας δεν έχουν καταγραφεί, παρακαλώ αποσυνδεθείτε και επανασυνδεθείτε.",
     "ownCloud basic encryption module" : "Βασική μονάδα κρυπτογράφησης του ",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Ενεργοποίηση κλειδιού ανάκτησης (επιτρέψτε την ανάκτηση αρχείων χρηστών σε περίπτωση απώλειας κωδικού):",
     "Recovery key password" : "Επαναφορά κωδικού κλειδιού",
     "Repeat Recovery key password" : "Επαναλάβετε το κλειδί επαναφοράς κωδικού",
-    "Enabled" : "Ενεργοποιημένο",
-    "Disabled" : "Απενεργοποιημένο",
     "Change recovery key password:" : "Αλλαγή κλειδιού επαναφοράς κωδικού:",
     "Old Recovery key password" : "Παλιό κλειδί επαναφοράς κωδικού",
     "New Recovery key password" : "Νέο κλειδί επαναφοράς κωδικού",
@@ -39,6 +36,8 @@ OC.L10N.register(
     "Current log-in password" : "Τρέχον συνθηματικό πρόσβασης",
     "Update Private Key Password" : "Ενημέρωση Προσωπικού Κλειδού Πρόσβασης",
     "Enable password recovery:" : "Ενεργοποιήστε την ανάκτηση κωδικού πρόσβασης",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Η ενεργοποίηση αυτής της επιλογής θα σας επιτρέψει να επανακτήσετε πρόσβαση στα κρυπτογραφημένα σας αρχεία σε περίπτωση απώλειας του κωδικού σας"
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Η ενεργοποίηση αυτής της επιλογής θα σας επιτρέψει να επανακτήσετε πρόσβαση στα κρυπτογραφημένα σας αρχεία σε περίπτωση απώλειας του κωδικού σας",
+    "Enabled" : "Ενεργοποιημένο",
+    "Disabled" : "Απενεργοποιημένο"
 },
 "nplurals=2; plural=(n != 1);");

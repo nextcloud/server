@@ -19,11 +19,8 @@ OC.L10N.register(
     "Private key password successfully updated." : "Успешно променена тайната парола за ключа.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Невалиден личен ключ за Криптиращата Програма. Моля, обнови личния си ключ в Лични настройки, за да възстановиш достъпа до криптираните си файловете.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Програмата за криптиране е включена, но твоите ключове не са зададени, моля отпиши си и се впиши отново.",
-    "Enable recovery key (allow to recover users files in case of password loss):" : "Включи опцията възстановяване на ключ (разрешава да възстанови файловете на потребителите в случай на загубена парола):",
     "Recovery key password" : "Парола за възстановяане на ключа",
     "Repeat Recovery key password" : "Повтори паролата за възстановяване на ключа",
-    "Enabled" : "Включено",
-    "Disabled" : "Изключено",
     "Change recovery key password:" : "Промени паролата за въстановяване на ключа:",
     "Old Recovery key password" : "Старата парола за въстановяване на ключа",
     "New Recovery key password" : "Новата парола за възстановяване на ключа",
@@ -36,6 +33,8 @@ OC.L10N.register(
     "Current log-in password" : "Текуща парола за вписване",
     "Update Private Key Password" : "Промени Тайната Парола за Ключа",
     "Enable password recovery:" : "Включи опцията възстановяване на паролата:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Избирането на тази опция ще ти позволи да възстановиш достъпа си до файловете в случай на изгубена парола."
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Избирането на тази опция ще ти позволи да възстановиш достъпа си до файловете в случай на изгубена парола.",
+    "Enabled" : "Включено",
+    "Disabled" : "Изключено"
 },
 "nplurals=2; plural=(n != 1);");
