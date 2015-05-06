@@ -129,6 +129,8 @@
     "PHP module %s not installed." : "PHP modul %s není nainstalován.",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP hodnota \"%s\" není nastavena na \"%s\".",
     "Adjusting this setting in php.ini will make ownCloud run again" : "Úprava tohoto nastavení v php.ini opět rozběhne ownCloud",
+    "mbstring.func_overload is set to \"%s\" instead to the expected value \"0\"" : "mbstring.func_overload je nastaveno na \"%s\" místo očekávané hodnoty \"0\"",
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini" : "Pro nápravu nastavte <code>mbstring.func_overload</code> na <code>0</code> v souboru php.ini",
     "PHP is configured to populate raw post data. Since PHP 5.6 this will lead to PHP throwing notices for perfectly valid code." : "PHP je nakonfigurováno vytvářet raw post data. Od verze 5.6 bude toto nastavení vést PHP k vypisování hlášení i pro perfektně správný kód.",
     "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "Pro nápravu tohoto chování nastavte <code>always_populate_raw_post_data</code> na <code>-1</code> ve svém php.ini",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP je patrně nastaveno tak, aby odstraňovalo bloky komentářů. Toto bude mít za následek nedostupnost množství hlavních aplikací.",

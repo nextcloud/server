@@ -12,6 +12,7 @@ OC.L10N.register(
     "Unable to add user to group %s" : "ไม่สามารถเพิ่มผู้ใช้งานเข้าไปที่กลุ่ม %s ได้",
     "Unable to remove user from group %s" : "ไม่สามารถลบผู้ใช้งานออกจากกลุ่ม %s ได้",
     "Couldn't update app." : "ไม่สามารถอัพเดทแอปฯ",
+    "Saved" : "บันทึกแล้ว",
     "Email sent" : "ส่งอีเมล์แล้ว",
     "Email saved" : "อีเมลถูกบันทึกแล้ว",
     "All" : "ทั้งหมด",

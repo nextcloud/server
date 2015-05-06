@@ -13,6 +13,7 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "Повторите новый пароль восстановления",
     "Password successfully changed." : "Пароль успешно изменен.",
     "Could not change the password. Maybe the old password was not correct." : "Невозможно изменить пароль. Возможно, указанный старый пароль не верен.",
+    "Recovery Key disabled" : "Ключ Восстановления отключен",
     "Recovery Key enabled" : "Ключ Восстановления включен",
     "Could not enable the recovery key, please try again or contact your administrator" : "Не возможно задействовать ключ восстановления, попробуйте снова или обратитесь к вашему системному администатору",
     "Could not update the private key password." : "Невозможно обновить пароль закрытого ключа.",

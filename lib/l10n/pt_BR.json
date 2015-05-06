@@ -126,6 +126,8 @@
     "PHP module %s not installed." : "Módulo PHP %s não instalado.",
     "PHP setting \"%s\" is not set to \"%s\"." : "Configurações \"%s\" PHP não está configurado para \"%s\".",
     "Adjusting this setting in php.ini will make ownCloud run again" : "Ajustando esta configuração no php.ini irá fazer o ownCloud rodar novamente",
+    "mbstring.func_overload is set to \"%s\" instead to the expected value \"0\"" : "mbstring.func_overload está definido para \"%s\" em vez do valor esperado \"0\"",
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini" : "Para corrigir esse problema defina <code>mbstring.func_overload</code> para <code>0</code> em seu php.ini",
     "PHP is configured to populate raw post data. Since PHP 5.6 this will lead to PHP throwing notices for perfectly valid code." : "PHP está configurado para preencher os dados pós-dados. Desde o PHP 5.6 isto levará o PHP a enviar avisos para códigos perfeitamente válidos.",
     "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "Para corrigir esse problema configure <code> always_populate_raw_post_data </code> para <code> -1 </code> em seu arquivo de configuração php.ini",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP é, aparentemente, a configuração para retirar blocos doc inline. Isso fará com que vários aplicativos do núcleo fiquem inacessíveis.",

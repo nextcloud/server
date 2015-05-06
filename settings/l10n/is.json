@@ -44,5 +44,5 @@
     "Unlimited" : "Ótakmarkað",
     "Other" : "Annað",
     "Default" : "Sjálfgefið"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+},"pluralForm" :"nplurals=2; plural=(n % 10 == 1 || n % 100 != 11);"
 }
