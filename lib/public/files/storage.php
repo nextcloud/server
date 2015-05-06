@@ -45,7 +45,6 @@ interface Storage {
 	 * $parameters is a free form array with the configuration options needed to construct the storage
 	 *
 	 * @param array $parameters
-	 * @return void
 	 * @since 6.0.0
 	 */
 	public function __construct($parameters);

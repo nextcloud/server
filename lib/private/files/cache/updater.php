@@ -27,6 +27,9 @@ namespace OC\Files\Cache;
 
 /**
  * Update the cache and propagate changes
+ *
+ * Unlike most other classes an Updater is not related to a specific storage but handles updates for all storages in a users filesystem.
+ * This is needed because the propagation of mtime and etags need to cross storage boundaries
  */
 class Updater {
 	/**
@@ -45,25 +48,42 @@ class Updater {
 	protected $propagator;
 
 	/**
-	 * @param \OC\Files\View $view
+	 * @param \OC\Files\View $view the view the updater works on, usually the view of the logged in user
 	 */
 	public function __construct($view) {
 		$this->view = $view;
 		$this->propagator = new ChangePropagator($view);
 	}
 
+	/**
+	 * Disable updating the cache trough this updater
+	 */
 	public function disable() {
 		$this->enabled = false;
 	}
 
+	/**
+	 * Re-enable the updating of the cache trough this updater
+	 */
 	public function enable() {
 		$this->enabled = true;
 	}
 
+	/**
+	 * Get the propagator for etags and mtime for the view the updater works on
+	 *
+	 * @return ChangePropagator
+	 */
 	public function getPropagator() {
 		return $this->propagator;
 	}
 
+	/**
+	 * Propagate etag and mtime changes for the parent folders of $path up to the root of the filesystem
+	 *
+	 * @param string $path the path of the file to propagate the changes for
+	 * @param int|null $time the timestamp to set as mtime for the parent folders, if left out the current time is used
+	 */
 	public function propagate($path, $time = null) {
 		if (Scanner::isPartialFile($path)) {
 			return;
@@ -73,7 +93,7 @@ class Updater {
 	}
 
 	/**
-	 * Update the cache for $path
+	 * Update the cache for $path and update the size, etag and mtime of the parent folders
 	 *
 	 * @param string $path
 	 * @param int $time
@@ -99,7 +119,7 @@ class Updater {
 	}
 
 	/**
-	 * Remove $path from the cache
+	 * Remove $path from the cache and update the size, etag and mtime of the parent folders
 	 *
 	 * @param string $path
 	 */
@@ -127,6 +147,8 @@ class Updater {
 	}
 
 	/**
+	 * Rename a file or folder in the cache and update the size, etag and mtime of the parent folders
+	 *
 	 * @param string $source
 	 * @param string $target
 	 */
@@ -176,7 +198,7 @@ class Updater {
 	}
 
 	/**
-	 * update the storage_mtime of the parent
+	 * update the storage_mtime of the direct parent in the cache to the mtime from the storage
 	 *
 	 * @param \OC\Files\Storage\Storage $storage
 	 * @param string $internalPath
