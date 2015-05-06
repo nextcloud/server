@@ -545,6 +545,11 @@ abstract class Common implements Storage {
 			}
 		} else {
 			$source = $sourceStorage->fopen($sourceInternalPath, 'r');
+			// TODO: call fopen in a way that we execute again all storage wrappers
+			// to avoid that we bypass storage wrappers which perform important actions
+			// for this operation. Same is true for all other operations which
+			// are not the same as the original one.Once this is fixed we also
+			// need to adjust the encryption wrapper.
 			$target = $this->fopen($targetInternalPath, 'w');
 			list(, $result) = \OC_Helper::streamCopy($source, $target);
 			if ($result and $preserveMtime) {
