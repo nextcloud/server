@@ -122,6 +122,11 @@ class MailNotifications {
 				$args = array(
 					'dir' => $filename,
 				);
+			} else if (strpos($filename, '/')) {
+				$args = array(
+					'dir' => '/' . dirname($filename),
+					'scrollto' => basename($filename),
+				);
 			} else {
 				$args = array(
 					'dir' => '/',
