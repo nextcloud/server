@@ -220,23 +220,23 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	public function rename($path1, $path2) {
-		$source = $this->getFullPath($path1);
-		if ($this->util->isExcluded($source)) {
-			return $this->storage->rename($path1, $path2);
-		}
 
 		$result = $this->storage->rename($path1, $path2);
-		if ($result) {
-			$target = $this->getFullPath($path2);
-			if (isset($this->unencryptedSize[$source])) {
-				$this->unencryptedSize[$target] = $this->unencryptedSize[$source];
-			}
-			$keysRenamed = $this->keyStorage->renameKeys($source, $target);
-			if ($keysRenamed &&
-				dirname($source) !== dirname($target) &&
-				$this->util->isFile($target)
-			) {
-				$this->update->update($target);
+
+		if ($result && $this->encryptionManager->isEnabled()) {
+			$source = $this->getFullPath($path1);
+			if (!$this->util->isExcluded($source)) {
+				$target = $this->getFullPath($path2);
+				if (isset($this->unencryptedSize[$source])) {
+					$this->unencryptedSize[$target] = $this->unencryptedSize[$source];
+				}
+				$keysRenamed = $this->keyStorage->renameKeys($source, $target);
+				if ($keysRenamed &&
+					dirname($source) !== dirname($target) &&
+					$this->util->isFile($target)
+				) {
+					$this->update->update($target);
+				}
 			}
 		}
 
@@ -251,22 +251,27 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	public function copy($path1, $path2) {
+
 		$fullPath1 = $this->getFullPath($path1);
 		$fullPath2 = $this->getFullPath($path2);
+
 		if ($this->util->isExcluded($fullPath1)) {
 			return $this->storage->copy($path1, $path2);
 		}
 
-		$source = $this->getFullPath($path1);
 		$result = $this->storage->copy($path1, $path2);
-		if ($result) {
-			$target = $this->getFullPath($path2);
-			$keysCopied = $this->keyStorage->copyKeys($source, $target);
-			if ($keysCopied &&
-				dirname($source) !== dirname($target) &&
-				$this->util->isFile($target)
-			) {
-				$this->update->update($target);
+
+		if ($result && $this->encryptionManager->isEnabled()) {
+			$source = $this->getFullPath($path1);
+			if (!$this->util->isExcluded($source)) {
+				$target = $this->getFullPath($path2);
+				$keysCopied = $this->keyStorage->copyKeys($source, $target);
+				if ($keysCopied &&
+					dirname($source) !== dirname($target) &&
+					$this->util->isFile($target)
+				) {
+					$this->update->update($target);
+				}
 			}
 			$data = $this->getMetaData($path1);
 			$this->getCache()->put($path2, ['encrypted' => $data['encrypted']]);

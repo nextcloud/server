@@ -47,6 +47,9 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 */
 	private $cache;
 
+	/** @var  integer dummy unencrypted size */
+	private $dummySize = -1;
+
 	protected function setUp() {
 
 		parent::setUp();
@@ -59,9 +62,6 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$this->encryptionManager->expects($this->any())
 			->method('getEncryptionModule')
 			->willReturn($mockModule);
-		$this->encryptionManager->expects($this->any())
-			->method('isEnabled')
-			->willReturn(true);
 
 		$config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
@@ -86,18 +86,24 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$logger = $this->getMock('\OC\Log');
 
 		$this->sourceStorage = new Temporary(array());
+
 		$this->keyStore = $this->getMockBuilder('\OC\Encryption\Keys\Storage')
 			->disableOriginalConstructor()->getMock();
+
 		$this->update = $this->getMockBuilder('\OC\Encryption\Update')
 			->disableOriginalConstructor()->getMock();
+
 		$mount = $this->getMockBuilder('\OC\Files\Mount\MountPoint')
 			->disableOriginalConstructor()
 			->setMethods(['getOption'])
 			->getMock();
 		$mount->expects($this->any())->method('getOption')->willReturn(true);
+
 		$this->cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
 			->disableOriginalConstructor()->getMock();
-		$this->cache->expects($this->any())->method('get')->willReturn(array());
+		$this->cache->expects($this->any())
+			->method('get')
+			->willReturn(['encrypted' => false]);
 
 		$this->instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
 			->setConstructorArgs([
@@ -112,7 +118,13 @@ class Encryption extends \Test\Files\Storage\Storage {
 			->setMethods(['getMetaData', 'getCache'])
 			->getMock();
 
-		$this->instance->expects($this->any())->method('getCache')->willReturn($this->cache);
+		$this->instance->expects($this->any())
+			->method('getMetaData')
+			->willReturn(['encrypted' => true, 'size' => $this->dummySize]);
+
+		$this->instance->expects($this->any())
+			->method('getCache')
+			->willReturn($this->cache);
 
 	}
 
@@ -142,16 +154,28 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 *
 	 * @param string $source
 	 * @param string $target
+	 * @param $encryptionEnabled
 	 * @param boolean $renameKeysReturn
 	 * @param boolean $shouldUpdate
 	 */
-	public function testRename($source, $target, $renameKeysReturn, $shouldUpdate) {
-		$this->keyStore
-			->expects($this->once())
-			->method('renameKeys')
-			->willReturn($renameKeysReturn);
+	public function testRename($source,
+							   $target,
+							   $encryptionEnabled,
+							   $renameKeysReturn,
+							   $shouldUpdate) {
+		if ($encryptionEnabled) {
+			$this->keyStore
+				->expects($this->once())
+				->method('renameKeys')
+				->willReturn($renameKeysReturn);
+		} else {
+			$this->keyStore
+				->expects($this->never())->method('renameKeys');
+		}
 		$this->util->expects($this->any())
 			->method('isFile')->willReturn(true);
+		$this->encryptionManager->expects($this->once())
+			->method('isEnabled')->willReturn($encryptionEnabled);
 		if ($shouldUpdate) {
 			$this->update->expects($this->once())
 				->method('update');
@@ -170,28 +194,33 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 *
 	 * @param string $source
 	 * @param string $target
+	 * @param $encryptionEnabled
 	 * @param boolean $copyKeysReturn
 	 * @param boolean $shouldUpdate
 	 */
-	public function testCopyTesting($source, $target, $copyKeysReturn, $shouldUpdate) {
+	public function testCopy($source,
+							 $target,
+							 $encryptionEnabled,
+							 $copyKeysReturn,
+							 $shouldUpdate) {
 
-		$dummySize = -1;
-
-		$this->instance->expects($this->any())
-			->method('getMetaData')
-			->willReturn(['encrypted' => true, 'size' => $dummySize]);
-
-		$this->cache->expects($this->once())
-			->method('put')
-			->with($this->anything(), ['encrypted' => true])
-			->willReturn(true);
-
-		$this->keyStore
-			->expects($this->once())
-			->method('copyKeys')
-			->willReturn($copyKeysReturn);
+		if ($encryptionEnabled) {
+			$this->keyStore
+				->expects($this->once())
+				->method('copyKeys')
+				->willReturn($copyKeysReturn);
+			$this->cache->expects($this->once())
+				->method('put')
+				->with($this->anything(), ['encrypted' => true])
+				->willReturn(true);
+		} else {
+			$this->cache->expects($this->never())->method('put');
+			$this->keyStore->expects($this->never())->method('copyKeys');
+		}
 		$this->util->expects($this->any())
 			->method('isFile')->willReturn(true);
+		$this->encryptionManager->expects($this->once())
+			->method('isEnabled')->willReturn($encryptionEnabled);
 		if ($shouldUpdate) {
 			$this->update->expects($this->once())
 				->method('update');
@@ -204,16 +233,11 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$this->instance->mkdir(dirname($target));
 		$this->instance->copy($source, $target);
 
-		$this->assertSame($dummySize,
-			$this->instance->filesize($target)
-		);
-	}
-
-	/**
-	 * @dataProvider copyAndMoveProvider
-	 */
-	public function testCopy($source, $target) {
-		$this->assertTrue(true, 'Replaced by testCopyTesting()');
+		if ($encryptionEnabled) {
+			$this->assertSame($this->dummySize,
+				$this->instance->filesize($target)
+			);
+		}
 	}
 
 	/**
@@ -223,14 +247,17 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 */
 	public function dataTestCopyAndRename() {
 		return array(
-			array('source', 'target', false, false),
-			array('source', 'target', true, false),
-			array('source', '/subFolder/target', false, false),
-			array('source', '/subFolder/target', true, true),
+			array('source', 'target', true, false, false),
+			array('source', 'target', true, true, false),
+			array('source', '/subFolder/target', true, false, false),
+			array('source', '/subFolder/target', true, true, true),
+			array('source', '/subFolder/target', false, true, false),
 		);
 	}
 
 	public function testIsLocal() {
+		$this->encryptionManager->expects($this->once())
+			->method('isEnabled')->willReturn(true);
 		$this->assertFalse($this->instance->isLocal());
 	}
 }
