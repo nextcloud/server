@@ -327,10 +327,7 @@ if ($_['cronErrors']) {
 	</p>
 
 	<div id="EncryptionWarning" class="warning hidden">
-		<?php p($l->t('Encryption is a one way process. Once encryption is enabled,
-		all files from that point forward will be encrypted on the server and it
-		will not be possible to disable encryption at a later date. This is the final warning:
-		Do you really want to enable encryption?')) ?>
+		<?php p($l->t('Encryption is a one way process. Once encryption is enabled, all files from that point forward will be encrypted on the server and it will not be possible to disable encryption at a later date. This is the final warning: Do you really want to enable encryption?')) ?>
 		<input type="button"
 			   id="reallyEnableEncryption"
 			   value="<?php p($l->t("Enable encryption")); ?>" />
@@ -361,8 +358,7 @@ if ($_['cronErrors']) {
 		<div id="migrationWarning" class="<?php if ($_['encryptionReady']) p('hidden'); ?>">
 			<?php
 			if ($_['encryptionReady'] === false && $_['externalBackendsEnabled'] === true) {
-				p($l->t('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. '
-					. 'Please enable the "ownCloud Default Encryption Module" and run \'occ encryption:migrate\''));
+				p($l->t('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the "ownCloud Default Encryption Module" and run \'occ encryption:migrate\''));
 			} elseif ($_['encryptionReady'] === false && $_['externalBackendsEnabled'] === false) {
 				p($l->t('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one.')); ?>
 				<input type="submit" name="startmigration" id="startmigration"
