@@ -170,6 +170,7 @@ OCA = OCA || {};
 			} else {
 				var $element = $(this.tabID).find('.ldapGroupListSelected');
 				this.equipMultiSelect($element, groups);
+				this.updateFilterOnType('selected');
 			}
 		},
 
@@ -360,7 +361,7 @@ OCA = OCA || {};
 
 			this._saveGroups(selected.concat($available.val()));
 			$available.find('option:selected').prependTo($selected);
-			this.updateFilterOnType();
+			this.updateFilterOnType('available');  // selected groups are not updated yet
 		},
 
 		/**
@@ -373,7 +374,7 @@ OCA = OCA || {};
 
 			this._saveGroups(selected);
 			$selected.find('option:selected').appendTo($available);
-			this.updateFilterOnType();
+			this.updateFilterOnType('available');  // selected groups are not updated yet
 		}
 
 	});
