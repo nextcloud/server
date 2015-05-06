@@ -327,10 +327,7 @@ if ($_['cronErrors']) {
 	</p>
 
 	<div id="EncryptionWarning" class="warning hidden">
-		<?php p($l->t('Encryption is a one way process. Once encryption is enabled,
-		all files from that point forward will be encrypted on the server and it
-		will not be possible to disable encryption at a later date. This is the final warning:
-		Do you really want to enable encryption?')) ?>
+		<?php p($l->t('Encryption is a one way process. Once encryption is enabled, all files from that point forward will be encrypted on the server and it will not be possible to disable encryption at a later date. This is the final warning: Do you really want to enable encryption?')) ?>
 		<input type="button"
 			   id="reallyEnableEncryption"
 			   value="<?php p($l->t("Enable encryption")); ?>" />
@@ -340,9 +337,9 @@ if ($_['cronErrors']) {
 		<div id='selectEncryptionModules' class="<?php if (!$_['encryptionReady']) p('hidden'); ?>">
 			<?php
 			if (empty($_['encryptionModules'])) {
-				p('No encryption module loaded, please load a encryption module in the app menu');
+				p($l->t('No encryption module loaded, please load a encryption module in the app menu'));
 			} else { ?>
-				<h3>Select default encryption module:</h3>
+				<h3><?php p($l->t('Select default encryption module:')) ?></h3>
 				<fieldset id='encryptionModules'>
 					<?php foreach ($_['encryptionModules'] as $id => $module): ?>
 						<input type="radio" id="<?php p($id) ?>"
@@ -361,10 +358,9 @@ if ($_['cronErrors']) {
 		<div id="migrationWarning" class="<?php if ($_['encryptionReady']) p('hidden'); ?>">
 			<?php
 			if ($_['encryptionReady'] === false && $_['externalBackendsEnabled'] === true) {
-				p('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. '
-					. 'Please enable the "ownCloud Default Encryption Module" and run \'occ encryption:migrate\'');
+				p($l->t('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the "ownCloud Default Encryption Module" and run \'occ encryption:migrate\''));
 			} elseif ($_['encryptionReady'] === false && $_['externalBackendsEnabled'] === false) {
-				p('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one.'); ?>
+				p($l->t('You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one.')); ?>
 				<input type="submit" name="startmigration" id="startmigration"
 					   value="<?php p($l->t('Start migration')); ?>"/>
 			<?php } ?>
