@@ -654,7 +654,9 @@ class OC {
 
 		self::registerCacheHooks();
 		self::registerFilesystemHooks();
-		self::registerPreviewHooks();
+		if (\OC::$server->getSystemConfig()->getValue('enable_previews', false)) {
+			self::registerPreviewHooks();
+		}	
 		self::registerShareHooks();
 		self::registerLogRotate();
 		self::registerLocalAddressBook();
