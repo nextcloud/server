@@ -49,19 +49,22 @@ class App {
 	 */
 	public static function buildAppNamespace($appId, $topNamespace='OCA\\') {
 		// first try to parse the app's appinfo/info.xml <namespace> tag
-		$filePath = OC_App::getAppPath($appId) . '/appinfo/info.xml';
-		$loadEntities = libxml_disable_entity_loader(false);
-		$xml = @simplexml_load_file($filePath);
-		libxml_disable_entity_loader($loadEntities);
-
-		if ($xml) {
-			$result = $xml->xpath('/info/namespace');
-			if ($result && count($result) > 0) {
-				// take first namespace result
-				return $topNamespace . trim((string) $result[0]);
+		$appPath = OC_App::getAppPath($appId);
+		if ($appPath !== false) {
+			$filePath = "$appPath/appinfo/info.xml";
+			if (is_file($filePath)) {
+				$loadEntities = libxml_disable_entity_loader(false);
+				$xml = @simplexml_load_file($filePath);
+				libxml_disable_entity_loader($loadEntities);
+				if ($xml) {
+					$result = $xml->xpath('/info/namespace');
+					if ($result && count($result) > 0) {
+						// take first namespace result
+						return $topNamespace . trim((string) $result[0]);
+					}
+				}
 			}
 		}
-
 		// if the tag is not found, fall back to uppercasing the first letter
 		return $topNamespace . ucfirst($appId);
 	}
