@@ -413,10 +413,10 @@ class Encryption extends Wrapper {
 	 * copy file between two storages
 	 *
 	 * @param \OCP\Files\Storage $sourceStorage
-	 * @param $sourceInternalPath
-	 * @param $targetInternalPath
-	 * @param $preserveMtime
-	 * @param $isRename
+	 * @param string $sourceInternalPath
+	 * @param string $targetInternalPath
+	 * @param bool $preserveMtime
+	 * @param bool $isRename
 	 * @return bool
 	 */
 	private function copyBetweenStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, $isRename) {

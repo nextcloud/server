@@ -199,7 +199,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 * @param boolean $copyKeysReturn
 	 * @param boolean $shouldUpdate
 	 */
-	public function testCopy($source,
+	public function testCopyEncryption($source,
 							 $target,
 							 $encryptionEnabled,
 							 $copyKeysReturn,
