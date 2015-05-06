@@ -158,15 +158,19 @@ OCA = OCA || {};
 		/**
 		 * sets the selected groups
 		 *
-		 * @param {Array} groups
+		 * @param {string} groups
 		 */
 		setGroups: function(groups) {
+			if(typeof groups === 'string') {
+				groups = groups.split("\n");
+			}
 			if(!this.isComplexGroupChooser) {
 				this.setElementValue(this.getGroupsItem().$element, groups);
 				this.getGroupsItem().$element.multiselect('refresh');
 			} else {
 				var $element = $(this.tabID).find('.ldapGroupListSelected');
 				this.equipMultiSelect($element, groups);
+				this.updateFilterOnType('selected');
 			}
 		},
 
@@ -224,10 +228,10 @@ OCA = OCA || {};
 					$selectedGroups, $(this.tabID).find('.ldapManyGroupsSearch')
 				));
 			} else {
-				if(_.isUndefined || only.toLowerCase() === 'available')  {
+				if(only.toLowerCase() === 'available')  {
 					this.filterOnType[0].updateOptions();
 				}
-				if(_.isUndefined || only.toLowerCase() === 'selected')  {
+				if(only.toLowerCase() === 'selected')  {
 					this.filterOnType[1].updateOptions();
 				}
 			}
@@ -357,7 +361,7 @@ OCA = OCA || {};
 
 			this._saveGroups(selected.concat($available.val()));
 			$available.find('option:selected').prependTo($selected);
-			this.updateFilterOnType();
+			this.updateFilterOnType('available');  // selected groups are not updated yet
 		},
 
 		/**
@@ -370,7 +374,7 @@ OCA = OCA || {};
 
 			this._saveGroups(selected);
 			$selected.find('option:selected').appendTo($available);
-			this.updateFilterOnType();
+			this.updateFilterOnType('available');  // selected groups are not updated yet
 		}
 
 	});
