@@ -766,13 +766,15 @@ class OC {
 	 * register hooks for previews
 	 */
 	public static function registerPreviewHooks() {
-		OC_Hook::connect('OC_Filesystem', 'post_write', 'OC\Preview', 'post_write');
-		OC_Hook::connect('OC_Filesystem', 'delete', 'OC\Preview', 'prepare_delete_files');
-		OC_Hook::connect('\OCP\Versions', 'preDelete', 'OC\Preview', 'prepare_delete');
-		OC_Hook::connect('\OCP\Trashbin', 'preDelete', 'OC\Preview', 'prepare_delete');
-		OC_Hook::connect('OC_Filesystem', 'post_delete', 'OC\Preview', 'post_delete_files');
-		OC_Hook::connect('\OCP\Versions', 'delete', 'OC\Preview', 'post_delete');
-		OC_Hook::connect('\OCP\Trashbin', 'delete', 'OC\Preview', 'post_delete');
+		if (\OC::$server->getSystemConfig()->getValue('enable_previews', false)) {
+			OC_Hook::connect('OC_Filesystem', 'post_write', 'OC\Preview', 'post_write');
+			OC_Hook::connect('OC_Filesystem', 'delete', 'OC\Preview', 'prepare_delete_files');
+			OC_Hook::connect('\OCP\Versions', 'preDelete', 'OC\Preview', 'prepare_delete');
+			OC_Hook::connect('\OCP\Trashbin', 'preDelete', 'OC\Preview', 'prepare_delete');
+			OC_Hook::connect('OC_Filesystem', 'post_delete', 'OC\Preview', 'post_delete_files');
+			OC_Hook::connect('\OCP\Versions', 'delete', 'OC\Preview', 'post_delete');
+			OC_Hook::connect('\OCP\Trashbin', 'delete', 'OC\Preview', 'post_delete');
+		}
 	}
 
 	/**
