@@ -122,6 +122,12 @@ OCA = OCA || {};
 		 * @inheritdoc
 		 */
 		overrideErrorMessage: function(message, key) {
+			var original = message;
+			message = this._super(message, key);
+			if(original !== message) {
+				// we pass the parents change
+				return message;
+			}
 			if(   key === 'ldap_userfilter_groups'
 			   && message === 'memberOf is not supported by the server'
 			) {

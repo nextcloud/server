@@ -70,6 +70,11 @@ OCA = OCA || {};
 		 * @returns {string}
 		 */
 		overrideErrorMessage: function(message, key) {
+			if(message === 'LDAP authentication method rejected'
+				&& !this.configModel.configuration.ldap_dn)
+			{
+				message = t('user_ldap', 'Anonymous bind is not allowed. Please provide a User DN and Password.');
+			}
 			return message;
 		},
 

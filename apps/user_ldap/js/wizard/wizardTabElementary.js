@@ -165,6 +165,12 @@ OCA = OCA || {};
 		 * @inheritdoc
 		 */
 		overrideErrorMessage: function(message, key) {
+			var original = message;
+			message = this._super(message, key);
+			if(original !== message) {
+				// we pass the parents change
+				return message;
+			}
 			switch(key) {
 				case 'ldap_port':
 					if (message === 'Invalid credentials') {
@@ -267,7 +273,8 @@ OCA = OCA || {};
 						message = t('user_ldap', objectsFound + ' entries available within the provided Base DN');
 					}
 				} else {
-					message = t('user_ldap', 'An error occurred. Please check the Base DN, as well as connection settings and credentials.');
+					message = view.overrideErrorMessage(payload.data.message);
+					message = message || t('user_ldap', 'An error occurred. Please check the Base DN, as well as connection settings and credentials.');
 					if(payload.data.message) {
 						console.warn(payload.data.message);
 					}

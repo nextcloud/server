@@ -287,6 +287,8 @@ class LDAP implements ILDAPWrapper {
 					//referrals, we switch them off, but then there is AD :)
 				} else if ($errorCode === -1) {
 					throw new ServerNotAvailableException('Lost connection to LDAP server.');
+				} else if ($errorCode === 48) {
+					throw new \Exception('LDAP authentication method rejected');
 				} else {
 					\OCP\Util::writeLog('user_ldap',
 										'LDAP error '.$errorMsg.' (' .
