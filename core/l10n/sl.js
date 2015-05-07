@@ -178,7 +178,6 @@ OC.L10N.register(
     "SQLite will be used as database." : "Kot podatkovna zbirka bo uporabljena zbirka SQLite",
     "Finish setup" : "Končaj nastavitev",
     "Finishing …" : "Poteka zaključevanje opravila ...",
-    "%s is available. Get more information on how to update." : "%s je na voljo. Pridobite več podrobnosti za posodobitev.",
     "Log out" : "Odjava",
     "Search" : "Poišči",
     "Server side authentication failed!" : "Overitev s strežnika je spodletela!",

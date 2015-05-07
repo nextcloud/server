@@ -202,7 +202,6 @@
     "Need help?" : "Butuh bantuan?",
     "See the documentation" : "Lihat dokumentasi",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Aplikasi ini memerlukan JavaScript untuk dapat beroperasi dengan benar. Mohon {linkstart}aktifkan JavaScript{linkend} dan muat ulang halaman ini.",
-    "%s is available. Get more information on how to update." : "%s tersedia. Dapatkan informasi lebih lanjut tentang cara memperbarui.",
     "Log out" : "Keluar",
     "Search" : "Cari",
     "Server side authentication failed!" : "Otentikasi dari sisi server gagal!",

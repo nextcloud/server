@@ -167,7 +167,6 @@ OC.L10N.register(
     "Database host" : "Pozicioni (host) i database-it",
     "Finish setup" : "Mbaro setup-in",
     "Finishing …" : "Duke përfunduar ...",
-    "%s is available. Get more information on how to update." : "%s është i disponueshëm. Merrni më shumë informacione mbi azhurnimin.",
     "Log out" : "Dalje",
     "Search" : "Kërko",
     "Server side authentication failed!" : "Verifikimi në krahun e serverit dështoi!",

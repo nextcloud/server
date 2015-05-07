@@ -191,7 +191,6 @@ OC.L10N.register(
     "Finish setup" : "Завършване на настройките",
     "Finishing …" : "Завършване...",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Това приложение изисква JavaScript, за да функционира правилно. Моля, {linkstart}включи JavaScript{linkend} и презареди страницата.",
-    "%s is available. Get more information on how to update." : "%s е на разположение. Прочети повече как да обновиш. ",
     "Log out" : "Отписване",
     "Search" : "Търсене",
     "Server side authentication failed!" : "Удостоверяването от страна на сървъра е неуспешно!",

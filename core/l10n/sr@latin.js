@@ -173,7 +173,6 @@ OC.L10N.register(
     "Database host" : "Domaćin baze",
     "Finish setup" : "Završi podešavanje",
     "Finishing …" : "Završavam ...",
-    "%s is available. Get more information on how to update." : "%s je dostupan. Pronađite više informacija kako da izvršite osvežavanje.",
     "Log out" : "Odjava",
     "Search" : "Traži",
     "Server side authentication failed!" : "Provera identiteta na stani servera nije uspela!",

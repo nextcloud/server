@@ -179,7 +179,6 @@ OC.L10N.register(
     "Database host" : "Adatbázis szerver",
     "Finish setup" : "A beállítások befejezése",
     "Finishing …" : "Befejezés ...",
-    "%s is available. Get more information on how to update." : "%s rendelkezésre áll. További információ a frissítéshez.",
     "Log out" : "Kilépés",
     "Search" : "Keresés",
     "Server side authentication failed!" : "A szerveroldali hitelesítés sikertelen!",

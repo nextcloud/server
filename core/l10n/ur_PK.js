@@ -108,7 +108,6 @@ OC.L10N.register(
     "Database host" : "ڈیٹابیس ہوسٹ",
     "Finish setup" : "سیٹ اپ ختم کریں",
     "Finishing …" : "تکمیل ...",
-    "%s is available. Get more information on how to update." : "%s دستیاب ہے. اپ ڈیٹ کرنے کے  بارے میں مزید معلومات حاصل کریں.",
     "Log out" : "لاگ آؤٹ",
     "Search" : "تلاش",
     "remember" : "یاد رکھیں",

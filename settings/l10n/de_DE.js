@@ -143,6 +143,7 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php ist als Webcron-Dienst registriert, der die cron.php alle 15 Minuten per HTTP aufruft.",
     "Use system's cron service to call the cron.php file every 15 minutes." : "Benutzen Sie den systemeigenen Cron-Dienst, um die cron.php alle 15 Minuten aufzurufen.",
     "Enable server-side encryption" : "Serverseitige Verschlüsselung aktivieren",
+    "Enable encryption" : "Verschlüsselung aktivieren",
     "Start migration" : "Migration beginnen",
     "This is used for sending out notifications." : "Dies wird für das Senden von Benachrichtigungen verwendet.",
     "Send mode" : "Sendemodus",

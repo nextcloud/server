@@ -128,7 +128,6 @@ OC.L10N.register(
     "Database tablespace" : "Tabela de spațiu a bazei de date",
     "Database host" : "Bază date",
     "Finish setup" : "Finalizează instalarea",
-    "%s is available. Get more information on how to update." : "%s este disponibil. Vezi mai multe informații despre procesul de actualizare.",
     "Log out" : "Ieșire",
     "Search" : "Căutare",
     "Forgot your password? Reset it!" : "Ți-ai uitat parola? Resetează!",

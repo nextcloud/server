@@ -171,7 +171,6 @@ OC.L10N.register(
     "Database host" : "Andmebaasi host",
     "Finish setup" : "Lõpeta seadistamine",
     "Finishing …" : "Lõpetamine ...",
-    "%s is available. Get more information on how to update." : "%s on saadaval. Vaata lähemalt kuidas uuendada.",
     "Log out" : "Logi välja",
     "Search" : "Otsi",
     "Server side authentication failed!" : "Serveripoolne autentimine ebaõnnestus!",

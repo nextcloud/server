@@ -141,6 +141,7 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php è registrato su un servizio webcron per invocare cron.php ogni 15 minuti su http.",
     "Use system's cron service to call the cron.php file every 15 minutes." : "Usa il servizio cron di sistema per invocare il file cron.php ogni 15 minuti.",
     "Enable server-side encryption" : "Abilita cifratura lato server",
+    "Enable encryption" : "Abilita cifratura",
     "Start migration" : "Avvia migrazione",
     "This is used for sending out notifications." : "Viene utilizzato per inviare le notifiche.",
     "Send mode" : "Modalità di invio",

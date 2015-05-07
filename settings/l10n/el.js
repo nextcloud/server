@@ -143,6 +143,7 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "Το cron.php είναι καταχωρημένο σε μια υπηρεσία webcron ώστε να καλεί το cron.php κάθε 15 λεπτά μέσω http.",
     "Use system's cron service to call the cron.php file every 15 minutes." : "Χρησιμοποιήστε την cron υπηρεσία του συτήματος για να καλέσετε το cron.php αρχείο κάθε 15 λεπτά.",
     "Enable server-side encryption" : "Ενεργοποίηση κρυπτογράφησης από το διακομιστή",
+    "Enable encryption" : "Ενεργοποίηση κρυπτογράφησης",
     "Start migration" : "Έναρξη μετάβασης",
     "This is used for sending out notifications." : "Χρησιμοποιείται για αποστολή ειδοποιήσεων.",
     "Send mode" : "Κατάσταση αποστολής",

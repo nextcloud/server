@@ -163,7 +163,6 @@ OC.L10N.register(
     "Database host" : "資料庫主機",
     "Finish setup" : "完成設定",
     "Finishing …" : "即將完成…",
-    "%s is available. Get more information on how to update." : "%s 已經釋出，瞭解更多資訊以進行更新。",
     "Log out" : "登出",
     "Search" : "搜尋",
     "Server side authentication failed!" : "伺服器端認證失敗！",

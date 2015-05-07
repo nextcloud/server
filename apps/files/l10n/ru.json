@@ -54,15 +54,15 @@
     "Name" : "Имя",
     "Size" : "Размер",
     "Modified" : "Изменён",
-    "_%n folder_::_%n folders_" : ["%n каталог","%n каталога","%n каталогов"],
-    "_%n file_::_%n files_" : ["%n файл","%n файла","%n файлов"],
+    "_%n folder_::_%n folders_" : ["%n каталог","%n каталога","%n каталогов","%n каталогов"],
+    "_%n file_::_%n files_" : ["%n файл","%n файла","%n файлов","%n файлов"],
     "You don’t have permission to upload or create files here" : "У вас нет прав для загрузки или создания файлов здесь.",
-    "_Uploading %n file_::_Uploading %n files_" : ["Закачка %n файла","Закачка %n файлов","Закачка %n файлов"],
+    "_Uploading %n file_::_Uploading %n files_" : ["Закачка %n файла","Закачка %n файлов","Закачка %n файлов","Закачка %n файлов"],
     "\"{name}\" is an invalid file name." : "\"{name}\" это неправильное имя файла.",
     "File name cannot be empty." : "Имя файла не может быть пустым.",
     "Your storage is full, files can not be updated or synced anymore!" : "Ваше хранилище заполнено, произведите очистку перед загрузкой новых файлов.",
     "Your storage is almost full ({usedSpacePercent}%)" : "Ваше хранилище почти заполнено ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["соответствует '{filter}'","соответствуют '{filter}'","соответствуют '{filter}'"],
+    "_matches '{filter}'_::_match '{filter}'_" : ["соответствует '{filter}'","соответствуют '{filter}'","соответствуют '{filter}'","соответствуют '{filter}'"],
     "{dirs} and {files}" : "{dirs} и {files}",
     "Favorited" : "Избранное",
     "Favorite" : "Избранное",
@@ -109,5 +109,5 @@
     "Currently scanning" : "В настоящее время сканируется",
     "No favorites" : "Нет избранного",
     "Files and folders you mark as favorite will show up here" : "Здесь появятся файлы и каталоги, отмеченные как избранные"
-},"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
+},"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

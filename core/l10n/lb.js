@@ -99,7 +99,6 @@ OC.L10N.register(
     "Database host" : "Datebank-Server",
     "Finish setup" : "Installatioun ofschléissen",
     "Finishing …" : "Schléissen of ...",
-    "%s is available. Get more information on how to update." : "%s ass verfügbar. Kréi méi Informatiounen doriwwer wéi d'Aktualiséierung ofleeft.",
     "Log out" : "Ofmellen",
     "Search" : "Sichen",
     "remember" : "verhalen",

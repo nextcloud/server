@@ -193,7 +193,6 @@
     "Finish setup" : "Kurulumu tamamla",
     "Finishing …" : "Tamamlanıyor ...",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Bu uygulama düzgün çalışabilmesi için JavaScript gerektirir. Lütfen {linkstart}JavaScript'i etkinleştirin{linkend} ve sayfayı yeniden yükleyin.",
-    "%s is available. Get more information on how to update." : "%s kullanılabilir. Nasıl güncelleyeceğiniz hakkında daha fazla bilgi alın.",
     "Log out" : "Çıkış yap",
     "Search" : "Ara",
     "Server side authentication failed!" : "Sunucu taraflı yetkilendirme başarısız!",

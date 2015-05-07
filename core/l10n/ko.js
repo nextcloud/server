@@ -180,7 +180,6 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "특히 파일 동기화를 위해 데스크톱 클라이언트를 사용할 예정일 때는, SQLite를 사용하지 않는 것이 좋습니다.",
     "Finish setup" : "설치 완료",
     "Finishing …" : "완료 중 ...",
-    "%s is available. Get more information on how to update." : "%s을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 자세한 정보를 얻으십시오.",
     "Log out" : "로그아웃",
     "Search" : "검색",
     "Server side authentication failed!" : "서버 인증 실패!",

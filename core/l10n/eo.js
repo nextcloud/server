@@ -107,7 +107,6 @@ OC.L10N.register(
     "Database host" : "Datumbaza gastigo",
     "Finish setup" : "Fini la instalon",
     "Finishing …" : "Finante...",
-    "%s is available. Get more information on how to update." : "%s haveblas. Ekhavi pli da informo pri kiel ĝisdatigi.",
     "Log out" : "Elsaluti",
     "Search" : "Serĉi",
     "Please contact your administrator." : "Bonvolu kontakti vian administranton.",

@@ -204,7 +204,6 @@ OC.L10N.register(
     "Need help?" : "Потрібна допомога?",
     "See the documentation" : "Дивіться документацію",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Ця програма вимагає увімкнений JavaScript для коректної роботи. Будь ласка, {linkstart} Увімкніть JavaScript {linkend}  та перезавантажте інтерфейс.",
-    "%s is available. Get more information on how to update." : "%s доступний. Отримай більше інформації про те, як оновити.",
     "Log out" : "Вихід",
     "Search" : "Знайти",
     "Server side authentication failed!" : "Невдала аутентифікація з сервером!",

@@ -195,7 +195,6 @@ OC.L10N.register(
     "Finish setup" : "Fullfør oppsetting",
     "Finishing …" : "Ferdigstiller ...",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Denne applikasjonen krever JavaScript for å fungere korrekt. Vennligst {linkstart}aktiver JavaScript{linkend} og last siden på nytt.",
-    "%s is available. Get more information on how to update." : "%s er tilgjengelig. Få mer informasjon om hvordan du kan oppdatere.",
     "Log out" : "Logg ut",
     "Search" : "Søk",
     "Server side authentication failed!" : "Autentisering feilet på serveren!",

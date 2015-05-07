@@ -194,7 +194,6 @@ OC.L10N.register(
     "Finish setup" : "セットアップを完了します",
     "Finishing …" : "作業を完了しています ...",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "このアプリケーションの動作にはJavaScriptが必要です。\n {linkstart}JavaScriptを有効にし{linkend} 、ページを更新してください。 ",
-    "%s is available. Get more information on how to update." : "%s が利用可能です。アップデート方法について詳細情報を確認してください。",
     "Log out" : "ログアウト",
     "Search" : "検索",
     "Server side authentication failed!" : "サーバーサイドの認証に失敗しました！",

@@ -120,7 +120,6 @@ OC.L10N.register(
     "Database host" : "Host de la base de datos",
     "Finish setup" : "Completar la instalación",
     "Finishing …" : "Finalizando …",
-    "%s is available. Get more information on how to update." : "%s esta disponible. Obtener mas información de como actualizar.",
     "Log out" : "Salir",
     "Search" : "Buscar",
     "Server side authentication failed!" : "La autenticación a fallado en el servidor.",

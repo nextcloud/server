@@ -204,7 +204,6 @@ OC.L10N.register(
     "Need help?" : "Potřebujete pomoc?",
     "See the documentation" : "Shlédnout dokumentaci",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Tato aplikace potřebuje pro správnou funkčnost JavaScript. Prosím {linkstart}povolte JavaScript{linkend} a znovu načtěte stránku.",
-    "%s is available. Get more information on how to update." : "%s je dostupná. Získejte více informací k postupu aktualizace.",
     "Log out" : "Odhlásit se",
     "Search" : "Hledat",
     "Server side authentication failed!" : "Autentizace na serveru selhala!",

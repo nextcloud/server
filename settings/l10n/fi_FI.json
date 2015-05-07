@@ -134,6 +134,7 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php kutsuu webcron-palvelun kautta cron.php:ta  15 minuutin välein http:tä käyttäen.",
     "Use system's cron service to call the cron.php file every 15 minutes." : "Käytä järjestelmän cron-palvelua cron.php-tiedoston kutsumista varten 15 minuutin välein.",
     "Enable server-side encryption" : "Käytä palvelinpään salausta",
+    "Enable encryption" : "Käytä salausta",
     "Start migration" : "Käynnistä migraatio",
     "This is used for sending out notifications." : "Tätä käytetään ilmoitusten lähettämiseen.",
     "Send mode" : "Lähetystila",

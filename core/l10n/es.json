@@ -202,7 +202,6 @@
     "Need help?" : "Necesita ayuda?",
     "See the documentation" : "Vea la documentación",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Esta aplicación requiere JavaScript para operar correctamente. Por favor, {linkstart}habilite JavaScript{linkend} y recargue la página.",
-    "%s is available. Get more information on how to update." : "%s está disponible. Obtener más información de como actualizar.",
     "Log out" : "Salir",
     "Search" : "Buscar",
     "Server side authentication failed!" : "La autenticación a fallado en el servidor.",

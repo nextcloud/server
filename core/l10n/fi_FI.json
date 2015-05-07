@@ -202,7 +202,6 @@
     "Need help?" : "Tarvitsetko apua?",
     "See the documentation" : "Tutustu dokumentaatioon",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Tämä sovellus vaatii toimiakseen JavaScript-tuen. {linkstart}Ota JavaScript käyttöön{linkend} ja päivitä sivu.",
-    "%s is available. Get more information on how to update." : "%s on saatavilla. Lue lisätietoja, miten päivitys asennetaan.",
     "Log out" : "Kirjaudu ulos",
     "Search" : "Etsi",
     "Server side authentication failed!" : "Palvelimen puoleinen tunnistautuminen epäonnistui!",

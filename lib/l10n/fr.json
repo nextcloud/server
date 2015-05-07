@@ -128,8 +128,6 @@
     "PHP module %s not installed." : "Le module PHP %s n’est pas installé.",
     "PHP setting \"%s\" is not set to \"%s\"." : "Le paramètre PHP \"%s\" n'est pas \"%s\".",
     "Adjusting this setting in php.ini will make ownCloud run again" : "Ajuster ce paramètre dans php.ini permettra à ownCloud de fonctionner à nouveau",
-    "PHP is configured to populate raw post data. Since PHP 5.6 this will lead to PHP throwing notices for perfectly valid code." : "PHP est configuré pour remplir des données brutes POST. A partir de PHP 5.6, cela va générer des Notices pour du code parfaitement valide.",
-    "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "Pour corriger ce problème, configurez <code>always_populate_raw_post_data</code> à <code>-1</code> dans votre php.ini",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP est apparemment configuré pour supprimer les blocs de documentation internes du code. Cela rendra plusieurs applications de base inaccessibles.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "La raison est probablement l'utilisation d'un cache / accélérateur tel que Zend OPcache ou eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Les modules PHP ont été installés mais sont toujours indiqués comme manquants ?",

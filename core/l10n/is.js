@@ -77,9 +77,8 @@ OC.L10N.register(
     "Database tablespace" : "Töflusvæði gagnagrunns",
     "Database host" : "Netþjónn gagnagrunns",
     "Finish setup" : "Virkja uppsetningu",
-    "%s is available. Get more information on how to update." : "%s er til boða. Fáðu meiri upplýsingar um hvernig þú uppfærir.",
     "Log out" : "Útskrá",
     "remember" : "muna eftir mér",
     "Log in" : "<strong>Skrá inn</strong>"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=2; plural=(n % 10 == 1 || n % 100 != 11);");

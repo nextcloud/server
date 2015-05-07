@@ -42,4 +42,4 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni.",
     "Files are being scanned, please wait." : "Verið er að skima skrár, vinsamlegast hinkraðu."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=2; plural=(n % 10 == 1 || n % 100 != 11);");

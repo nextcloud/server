@@ -202,7 +202,6 @@
     "Need help?" : "Треба вам помоћ?",
     "See the documentation" : "Погледајте документацију",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Ова апликација захтева Јава скрипт за исправан рад. {linkstart}Омогућите Јава скрипт{linkend} и поново учитајте страницу.",
-    "%s is available. Get more information on how to update." : "%s је доступан. Сазнајте више о томе како да ажурирате.",
     "Log out" : "Одјава",
     "Search" : "Претражи",
     "Server side authentication failed!" : "Аутентификација на серверу није успела!",

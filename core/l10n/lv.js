@@ -98,7 +98,6 @@ OC.L10N.register(
     "Database tablespace" : "Datubāzes tabulas telpa",
     "Database host" : "Datubāzes serveris",
     "Finish setup" : "Pabeigt iestatīšanu",
-    "%s is available. Get more information on how to update." : "%s ir pieejams. Uzziniet vairāk kā atjaunināt.",
     "Log out" : "Izrakstīties",
     "Search" : "Meklēt",
     "remember" : "atcerēties",

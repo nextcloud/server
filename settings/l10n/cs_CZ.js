@@ -143,6 +143,7 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php je registrován u služby webcron, aby volal cron.php jednou za 15 minut přes http.",
     "Use system's cron service to call the cron.php file every 15 minutes." : "Použít systémovou službu cron pro volání cron.php každých 15 minut.",
     "Enable server-side encryption" : "Povolit šifrování na straně serveru",
+    "Enable encryption" : "Povolit šifrování",
     "Start migration" : "Spustit migraci",
     "This is used for sending out notifications." : "Toto se používá pro odesílání upozornění.",
     "Send mode" : "Mód odesílání",

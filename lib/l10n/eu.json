@@ -114,7 +114,6 @@
     "Please install one of these locales on your system and restart your webserver." : "Instalatu hauetako lokal bat zure sisteman eta berrabiarazi zure web zerbitzaria.",
     "Please ask your server administrator to install the module." : "Mesedez eskatu zure zerbitzariaren kudeatzaileari modulua instala dezan.",
     "PHP module %s not installed." : "PHPren %s modulua ez dago instalaturik.",
-    "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "Hau konpontzeko ezarri <code>always_populate_raw_post_data</code> berdin <code>-1</code> zure php.inian",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Badirudi PHP konfiguratuta dagoela lineako dokumentu blokeak aldatzeko. Honek zenbait oinarrizko aplikazio eskuraezin bihurtuko ditu.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Hau ziur aski cache/accelerator batek eragin du, hala nola Zend OPcache edo eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP moduluak instalatu dira, baina oraindik faltan bezala markatuta daude?",

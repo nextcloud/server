@@ -124,7 +124,6 @@ OC.L10N.register(
     "Database host" : "هاست پایگاه داده",
     "Finish setup" : "اتمام نصب",
     "Finishing …" : "در حال اتمام ...",
-    "%s is available. Get more information on how to update." : "%s در دسترس است. برای چگونگی به روز رسانی اطلاعات بیشتر را دریافت نمایید.",
     "Log out" : "خروج",
     "Search" : "جست‌و‌جو",
     "remember" : "بیاد آوری",

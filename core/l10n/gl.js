@@ -204,7 +204,6 @@ OC.L10N.register(
     "Need help?" : "Precisa axuda?",
     "See the documentation" : "Vexa a documentación",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Esta aplicación require JavaScript para un correcto funcionamento. {linkstart}Active  JavaScript{linkend} e volva cargar a páxina.",
-    "%s is available. Get more information on how to update." : "%s está dispoñíbel. Obteña máis información sobre como actualizar.",
     "Log out" : "Desconectar",
     "Search" : "Buscar",
     "Server side authentication failed!" : "A autenticación fracasou do lado do servidor!",

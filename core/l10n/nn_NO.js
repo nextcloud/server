@@ -106,7 +106,6 @@ OC.L10N.register(
     "Database tablespace" : "Tabellnamnrom for database",
     "Database host" : "Databasetenar",
     "Finish setup" : "Fullfør oppsettet",
-    "%s is available. Get more information on how to update." : "%s er tilgjengeleg. Få meir informasjon om korleis du oppdaterer.",
     "Log out" : "Logg ut",
     "Search" : "Søk",
     "remember" : "hugs",

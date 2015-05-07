@@ -82,7 +82,6 @@ OC.L10N.register(
     "Database tablespace" : "מרחב הכתובות של מסד הנתונים",
     "Database host" : "שרת בסיס נתונים",
     "Finish setup" : "סיום התקנה",
-    "%s is available. Get more information on how to update." : "%s זמינה להורדה. ניתן ללחוץ כדי לקבל מידע נוסף כיצד לעדכן.",
     "Log out" : "התנתקות",
     "Search" : "חיפוש",
     "remember" : "שמירת הססמה",

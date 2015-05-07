@@ -177,7 +177,6 @@ OC.L10N.register(
     "Database host" : "Glavno računalo baze podataka",
     "Finish setup" : "Završite postavljanje",
     "Finishing …" : "Završavanje...",
-    "%s is available. Get more information on how to update." : "%s je dostupan. Saznajte više informacija o tome kako ažurirati.",
     "Log out" : "Odjavite se",
     "Search" : "pretraži",
     "Server side authentication failed!" : "Autentikacija na strani poslužitelja nije uspjela!",

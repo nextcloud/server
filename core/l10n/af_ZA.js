@@ -108,7 +108,6 @@ OC.L10N.register(
     "Database tablespace" : "Databasis tabelspasie",
     "Database host" : "Databasis gasheer",
     "Finish setup" : "Maak opstelling klaar",
-    "%s is available. Get more information on how to update." : "%s is beskikbaar. Kry meer inligting oor opdatering.",
     "Log out" : "Teken uit",
     "remember" : "onthou",
     "Log in" : "Teken aan",

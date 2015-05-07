@@ -204,7 +204,6 @@ OC.L10N.register(
     "Need help?" : "Θέλετε βοήθεια;",
     "See the documentation" : "Δείτε την τεκμηρίωση",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Αυτή η εφαρμογή απαιτεί JavaScript για σωστή λειτουργία. Παρακαλώ {linkstart} ενεργοποιήστε τη JavaScrip {linkend} και επαναφορτώστε τη σελίδα.",
-    "%s is available. Get more information on how to update." : "%s είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες στο πώς να αναβαθμίσετε.",
     "Log out" : "Αποσύνδεση",
     "Search" : "Αναζήτηση",
     "Server side authentication failed!" : "Η διαδικασία επικύρωσης απέτυχε από την πλευρά του διακομιστή!",

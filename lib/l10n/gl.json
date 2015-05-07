@@ -131,8 +131,6 @@
     "Adjusting this setting in php.ini will make ownCloud run again" : "Facer este axuste en php.ini fará que ownCloud volva executarse",
     "mbstring.func_overload is set to \"%s\" instead to the expected value \"0\"" : "mbstring.func_overload está estabelecido a «%s» no canto do valor «0» agardado",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini" : "Para arranxar este problema, estabeleza <code>mbstring.func_overload</code> a <code>0</code> no ficheiro php.ini",
-    "PHP is configured to populate raw post data. Since PHP 5.6 this will lead to PHP throwing notices for perfectly valid code." : "PHP está configurado para encher datos de código en bruto. Desde PHP 5.6 isto levará a que PHP forneza avisos con código perfectamente correcto.",
-    "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "Para arranxar este incidencia estabeleza <code>always_populate_raw_post_data</code> a <code>-1</code> no seu php.ini",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Parece que PHP foi configuración para substituír bloques de documentos en liña. Isto fará que varias aplicacións sexan inaccesíbeis.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Isto probabelmente se debe unha caché/acelerador como Zend OPcache ou eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Instaláronse os módulos de PHP, mais aínda aparecen listados como perdidos?",

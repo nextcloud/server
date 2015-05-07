@@ -53,7 +53,7 @@ OC.L10N.register(
     "Ok" : "Ок",
     "Error loading message template: {error}" : "Ошибка загрузки шаблона сообщений: {error}",
     "read-only" : "только для чтения",
-    "_{count} file conflict_::_{count} file conflicts_" : ["{count} конфликт в файлах","{count} конфликта в файлах","{count} конфликтов в файлах"],
+    "_{count} file conflict_::_{count} file conflicts_" : ["{count} конфликт в файлах","{count} конфликта в файлах","{count} конфликтов в файлах","{count} конфликтов в файлах"],
     "One file conflict" : "Один конфликт в файлах",
     "New Files" : "Новые файлы",
     "Already existing files" : "Существующие файлы",
@@ -133,7 +133,7 @@ OC.L10N.register(
     "sunny" : "солнечно",
     "Hello {name}, the weather is {weather}" : "Здравствуйте {name}, погода {weather}",
     "Hello {name}" : "Здравствуйте {name}",
-    "_download %n file_::_download %n files_" : ["скачать %n файл","скачать %n файла","скачать %n файлов"],
+    "_download %n file_::_download %n files_" : ["скачать %n файл","скачать %n файла","скачать %n файлов","скачать %n файлов"],
     "Updating {productName} to version {version}, this may take a while." : "Идет обновление {productName} до версии {version}, пожалуйста, подождите.",
     "Please reload the page." : "Обновите страницу.",
     "The update was unsuccessful. " : "Обновление не удалось.",
@@ -148,7 +148,7 @@ OC.L10N.register(
     "Reset password" : "Сбросить пароль",
     "Searching other places" : "Идет поиск в других местах",
     "No search result in other places" : "В других местах ничего не найдено",
-    "_{count} search result in other places_::_{count} search results in other places_" : ["{count} результат поиска в других местах","{count} результата поиска в других местах","{count} результатов поиска в других местах"],
+    "_{count} search result in other places_::_{count} search results in other places_" : ["{count} результат поиска в других местах","{count} результата поиска в других местах","{count} результатов поиска в других местах","{count} результатов поиска в других местах"],
     "Personal" : "Личное",
     "Users" : "Пользователи",
     "Apps" : "Приложения",
@@ -204,7 +204,6 @@ OC.L10N.register(
     "Need help?" : "Нужна помощь?",
     "See the documentation" : "Посмотреть документацию",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Это приложение требует включённый JavaScript для корректной работы. Пожалуйста, <a href=\"http://enable-javascript.com/\" target=\"_blank\">включите JavaScript</a> и перезагрузите интерфейс.",
-    "%s is available. Get more information on how to update." : "Доступна версия %s. Получить дополнительную информацию о порядке обновления.",
     "Log out" : "Выйти",
     "Search" : "Найти",
     "Server side authentication failed!" : "Неудачная аутентификация с сервером!",
@@ -233,4 +232,4 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Это %s находится в режиме технического обслуживания, которое может занять некоторое время.",
     "This page will refresh itself when the %s instance is available again." : "Эта страница обновится, когда экземпляр %s снова станет доступен."
 },
-"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
+"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

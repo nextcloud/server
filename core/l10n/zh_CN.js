@@ -196,7 +196,6 @@ OC.L10N.register(
     "Finish setup" : "安装完成",
     "Finishing …" : "正在结束 ...",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "对于正确的操作，该应用要求 JavaScript 。请 {linkstart} 打开 JavaScript {linkend} ，然后重新载入页面。",
-    "%s is available. Get more information on how to update." : "%s 可用。获取更多关于如何升级的信息。",
     "Log out" : "注销",
     "Search" : "搜索",
     "Server side authentication failed!" : "服务端验证失败！",

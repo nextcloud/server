@@ -118,7 +118,6 @@ OC.L10N.register(
     "Database host" : "Database host",
     "Finish setup" : "Cài đặt hoàn tất",
     "Finishing …" : "Đang hoàn thành ...",
-    "%s is available. Get more information on how to update." : "%s còn trống. Xem thêm thông tin cách cập nhật.",
     "Log out" : "Đăng xuất",
     "Search" : "Tìm kiếm",
     "Server side authentication failed!" : "Xác thực phía máy chủ không thành công!",

@@ -184,7 +184,6 @@ OC.L10N.register(
     "Finish setup" : "Zakończ konfigurowanie",
     "Finishing …" : "Kończę ...",
     "Need help?" : "Potrzebujesz pomocy?",
-    "%s is available. Get more information on how to update." : "%s jest dostępna. Dowiedz się więcej na temat aktualizacji.",
     "Log out" : "Wyloguj",
     "Search" : "Wyszukaj",
     "Server side authentication failed!" : "Uwierzytelnianie po stronie serwera nie powiodło się!",

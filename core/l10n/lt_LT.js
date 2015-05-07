@@ -120,7 +120,6 @@ OC.L10N.register(
     "Database host" : "Duomenų bazės serveris",
     "Finish setup" : "Baigti diegimą",
     "Finishing …" : "Baigiama ...",
-    "%s is available. Get more information on how to update." : "%s yra prieinama. Gaukite daugiau informacijos apie atnaujinimą.",
     "Log out" : "Atsijungti",
     "Search" : "Ieškoti",
     "Server side authentication failed!" : "Autentikacija serveryje nepavyko!",

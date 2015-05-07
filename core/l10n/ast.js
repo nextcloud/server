@@ -145,7 +145,6 @@ OC.L10N.register(
     "Database host" : "Agospiador de la base de datos",
     "Finish setup" : "Finar la configuración ",
     "Finishing …" : "Finando ...",
-    "%s is available. Get more information on how to update." : "Ta disponible %s. Consigui más información en cómo anovar·",
     "Log out" : "Zarrar sesión",
     "Search" : "Guetar",
     "Server side authentication failed!" : "Falló l'autenticación nel sirvidor!",

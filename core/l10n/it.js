@@ -204,7 +204,6 @@ OC.L10N.register(
     "Need help?" : "Ti serve aiuto?",
     "See the documentation" : "Leggi la documentazione",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Questa applicazione richiede JavaScript per un corretto funzionamento. {linkstart}Abilita JavaScript{linkend} e ricarica la pagina.",
-    "%s is available. Get more information on how to update." : "%s è disponibile. Ottieni ulteriori informazioni sull'aggiornamento.",
     "Log out" : "Esci",
     "Search" : "Cerca",
     "Server side authentication failed!" : "Autenticazione lato server non riuscita!",

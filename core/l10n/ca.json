@@ -191,7 +191,6 @@
     "Need help?" : "Necessites ajuda?",
     "See the documentation" : "Consulti la documentació",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Aquesta aplicació requereix Javascript per al seu correcte funcionament . Per favor, {linkstart}habiliti Javascript{linkend} i torni a carregar la pàgina.",
-    "%s is available. Get more information on how to update." : "%s està disponible. Obtingueu més informació de com actualitzar.",
     "Log out" : "Surt",
     "Search" : "Cerca",
     "Server side authentication failed!" : "L'autenticació del servidor ha fallat!",

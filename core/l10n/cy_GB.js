@@ -79,7 +79,6 @@ OC.L10N.register(
     "Database tablespace" : "Tablespace cronfa ddata",
     "Database host" : "Gwesteiwr cronfa ddata",
     "Finish setup" : "Gorffen sefydlu",
-    "%s is available. Get more information on how to update." : "%s ar gael. Mwy o wybodaeth am sut i ddiweddaru.",
     "Log out" : "Allgofnodi",
     "Search" : "Chwilio",
     "remember" : "cofio",
