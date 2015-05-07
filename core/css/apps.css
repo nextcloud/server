@@ -495,6 +495,12 @@ button.loading {
 .section.hidden {
 	display: none !important;
 }
+.sub-section {
+	position: relative;
+	margin-top: 10px;
+	margin-left: 27px;
+	margin-bottom: 10px;
+}
 /* no top border for first settings item */
 #app-content > .section:first-child {
 	border-top: none;

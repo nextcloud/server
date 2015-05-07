@@ -141,9 +141,10 @@ if ($request->getServerProtocol()  !== 'https' || !OC_Util::isAnnotationsWorking
 	$formsAndMore[] = array('anchor' => 'security-warning', 'section-name' => $l->t('Security & setup warnings'));
 }
 $formsAndMore[] = array('anchor' => 'shareAPI', 'section-name' => $l->t('Sharing'));
+$formsAndMore[] = ['anchor' => 'encryptionAPI', 'section-name' => $l->t('Server-side encryption')];
 
 // Prioritize fileSharingSettings and files_external and move updater to the version
-$fileSharingSettings = $filesExternal = $updaterAppPanel = '';
+$fileSharingSettings = $filesExternal = $updaterAppPanel = $ocDefaultEncryptionModulePanel = '';
 foreach ($forms as $index => $form) {
 	if (strpos($form, 'id="fileSharingSettings"')) {
 		$fileSharingSettings = $form;
@@ -160,6 +161,11 @@ foreach ($forms as $index => $form) {
 		unset($forms[$index]);
 		continue;
 	}
+	if (strpos($form, 'id="ocDefaultEncryptionModule"')) {
+		$ocDefaultEncryptionModulePanel = $form;
+		unset($forms[$index]);
+		continue;
+	}
 }
 if ($filesExternal) {
 	$formsAndMore[] = array('anchor' => 'files_external', 'section-name' => $l->t('External Storage'));
@@ -168,6 +174,7 @@ if ($filesExternal) {
 $template->assign('fileSharingSettings', $fileSharingSettings);
 $template->assign('filesExternal', $filesExternal);
 $template->assign('updaterAppPanel', $updaterAppPanel);
+$template->assign('ocDefaultEncryptionModulePanel', $ocDefaultEncryptionModulePanel);
 
 $formsMap = array_map(function ($form) {
 	if (preg_match('%(<h2[^>]*>.*?</h2>)%i', $form, $regs)) {
@@ -190,7 +197,6 @@ $formsMap = array_map(function ($form) {
 $formsAndMore = array_merge($formsAndMore, $formsMap);
 
 // add bottom hardcoded forms from the template
-$formsAndMore[] = ['anchor' => 'encryptionAPI', 'section-name' => $l->t('Server-side encryption')];
 $formsAndMore[] = ['anchor' => 'backgroundjobs', 'section-name' => $l->t('Cron')];
 $formsAndMore[] = ['anchor' => 'mail_general_settings', 'section-name' => $l->t('Email server')];
 $formsAndMore[] = ['anchor' => 'log-section', 'section-name' => $l->t('Log')];
