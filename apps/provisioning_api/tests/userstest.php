@@ -187,20 +187,36 @@ class UsersTest extends TestCase {
 
 	}
 
-	public function testEditOwnQuota() {
+	/**
+	 * @dataProvider providesQuotas
+	 * @param $expected
+	 * @param $quota
+	 */
+	public function testEditOwnQuota($expected, $quota) {
 		$user = $this->generateUsers();
+		\OC_Group::addToGroup($user, 'admin');
 		\OC_User::setUserId($user);
 		$result = \OCA\provisioning_API\Users::editUser(
-			array(
+			[
 				'userid' => $user,
-				'_put' => array(
+				'_put' => [
 					'key' => 'quota',
-					'value' => '20G',
-					),
-				)
+					'value' => $quota,
+				],
+			]
 			);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
-		$this->assertFalse($result->succeeded());
+		$this->assertEquals($expected, $result->succeeded());
+	}
+
+	public function providesQuotas() {
+		return [
+			[true, '20G'],
+			[true, '1234567'],
+			[true, 'none'],
+			[true, 'default'],
+			[false, 'qwertzu'],
+		];
 	}
 
 	public function testAdminEditOwnQuota() {

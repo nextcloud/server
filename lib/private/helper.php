@@ -413,6 +413,8 @@ class OC_Helper {
 
 		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && !empty($bytes_array[$matches[1]])) {
 			$bytes *= $bytes_array[$matches[1]];
+		} else {
+			return false;
 		}
 
 		$bytes = round($bytes);
