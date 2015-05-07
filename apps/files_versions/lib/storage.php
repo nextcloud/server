@@ -326,6 +326,9 @@ class Storage {
 	 */
 	public static function getVersions($uid, $filename, $userFullPath = '') {
 		$versions = array();
+		if ($filename === '') {
+			return $versions;
+		}
 		// fetch for old versions
 		$view = new \OC\Files\View('/' . $uid . '/');
 
