@@ -337,7 +337,7 @@ if ($_['cronErrors']) {
 		<div id='selectEncryptionModules' class="<?php if (!$_['encryptionReady']) p('hidden'); ?>">
 			<?php
 			if (empty($_['encryptionModules'])) {
-				p($l->t('No encryption module loaded, please load a encryption module in the app menu'));
+				p($l->t('No encryption module loaded, please enable an encryption module in the app menu.'));
 			} else { ?>
 				<h3><?php p($l->t('Select default encryption module:')) ?></h3>
 				<fieldset id='encryptionModules'>
