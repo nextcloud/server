@@ -228,10 +228,10 @@ OCA = OCA || {};
 					$selectedGroups, $(this.tabID).find('.ldapManyGroupsSearch')
 				));
 			} else {
-				if(only.toLowerCase() === 'available')  {
+				if(_.isUndefined(only) || only.toLowerCase() === 'available')  {
 					this.filterOnType[0].updateOptions();
 				}
-				if(only.toLowerCase() === 'selected')  {
+				if(_.isUndefined(only) || only.toLowerCase() === 'selected')  {
 					this.filterOnType[1].updateOptions();
 				}
 			}
