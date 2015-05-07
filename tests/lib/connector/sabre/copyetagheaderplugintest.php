@@ -18,7 +18,7 @@ class CopyEtagPluginTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->server = new \Sabre\DAV\Server();
-		$this->plugin = new \OC\Connector\Sabre\CopyEtagHeaderPlugin($this->tree);
+		$this->plugin = new \OC\Connector\Sabre\CopyEtagHeaderPlugin();
 		$this->plugin->initialize($this->server);
 	}
 
