@@ -115,9 +115,6 @@ class Helper
 			$entry['id'] = $id++;
 			$entry['etag'] = $entry['mtime']; // add fake etag, it is only needed to identify the preview image
 			$entry['permissions'] = \OCP\Constants::PERMISSION_READ;
-			if (\OCP\App::isEnabled('encryption')) {
-				$entry['isPreviewAvailable'] = false;
-			}
 			$files[] = $entry;
 		}
 		return $files;
