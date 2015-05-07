@@ -425,7 +425,6 @@ class Trashbin {
 		}
 
 		$size += self::deleteVersions($view, $file, $filename, $timestamp, $user);
-		$size += self::deleteEncryptionKeys($view, $file, $filename, $timestamp, $user);
 
 		if ($view->is_dir('/files_trashbin/files/' . $file)) {
 			$size += self::calculateSize(new \OC\Files\View('/' . $user . '/files_trashbin/files/' . $file));
@@ -462,31 +461,6 @@ class Trashbin {
 						$view->unlink('/files_trashbin/versions/' . $filename . '.v' . $v);
 					}
 				}
-			}
-		}
-		return $size;
-	}
-
-	/**
-	 * @param \OC\Files\View $view
-	 * @param $file
-	 * @param $filename
-	 * @param $timestamp
-	 * @return int
-	 */
-	private static function deleteEncryptionKeys(\OC\Files\View $view, $file, $filename, $timestamp, $user) {
-		$size = 0;
-		if (\OCP\App::isEnabled('encryption')) {
-
-			$keyfiles = \OC\Files\Filesystem::normalizePath('files_trashbin/keys/' . $filename);
-
-			if ($timestamp) {
-				$keyfiles .= '.d' . $timestamp;
-			}
-			if ($view->is_dir($keyfiles)) {
-				$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $keyfiles));
-				$view->deleteAll($keyfiles);
-
 			}
 		}
 		return $size;
