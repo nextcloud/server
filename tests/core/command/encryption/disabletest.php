@@ -72,7 +72,7 @@ class DisableTest extends TestCase {
 
 		$this->consoleOutput->expects($this->once())
 			->method('writeln')
-			->with($expectedString);
+			->with($this->stringContains($expectedString));
 
 		if ($isUpdating) {
 			$this->config->expects($this->once())
