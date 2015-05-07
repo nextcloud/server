@@ -22,12 +22,16 @@
 
 namespace OC\Files\Config;
 
+use OC\Hooks\Emitter;
+use OC\Hooks\EmitterTrait;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
 
-class MountProviderCollection implements IMountProviderCollection {
+class MountProviderCollection implements IMountProviderCollection, Emitter {
+	use EmitterTrait;
+
 	/**
 	 * @var \OCP\Files\Config\IMountProvider[]
 	 */
@@ -65,5 +69,6 @@ class MountProviderCollection implements IMountProviderCollection {
 	 */
 	public function registerProvider(IMountProvider $provider) {
 		$this->providers[] = $provider;
+		$this->emit('\OC\Files\Config', 'registerMountProvider', [$provider]);
 	}
 }

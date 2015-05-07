@@ -22,11 +22,32 @@
 
 namespace Test\Files;
 
+use OC\Files\Mount\MountPoint;
+use OC\Files\Storage\Temporary;
 use OC\User\NoUserException;
+use OCP\Files\Config\IMountProvider;
+use OCP\Files\Storage\IStorageFactory;
+use OCP\IUser;
+
+class DummyMountProvider implements IMountProvider {
+	private $mounts = [];
+
+	/**
+	 * @param array $mounts
+	 */
+	public function __construct(array $mounts) {
+		$this->mounts = $mounts;
+	}
+
+	public function  getMountsForUser(IUser $user, IStorageFactory $loader) {
+		return isset($this->mounts[$user->getUID()]) ? $this->mounts[$user->getUID()] : [];
+	}
+}
 
 class Filesystem extends \Test\TestCase {
 
 	const TEST_FILESYSTEM_USER1 = "test-filesystem-user1";
+	const TEST_FILESYSTEM_USER2 = "test-filesystem-user1";
 
 	/**
 	 * @var array tmpDirs
@@ -44,6 +65,10 @@ class Filesystem extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
+		$userBackend = new \OC_User_Dummy();
+		$userBackend->createUser(self::TEST_FILESYSTEM_USER1, self::TEST_FILESYSTEM_USER1);
+		$userBackend->createUser(self::TEST_FILESYSTEM_USER2, self::TEST_FILESYSTEM_USER2);
+		\OC::$server->getUserManager()->registerBackend($userBackend);
 		$this->loginAsUser();
 	}
 
@@ -271,6 +296,7 @@ class Filesystem extends \Test\TestCase {
 
 	/**
 	 * Tests that an exception is thrown when passed user does not exist.
+	 *
 	 * @expectedException \OC\User\NoUserException
 	 */
 	public function testLocalMountWhenUserDoesNotExist() {
@@ -379,5 +405,14 @@ class Filesystem extends \Test\TestCase {
 		\OC_User::deleteUser($userId);
 
 		\OC_Config::setValue('cache_path', $oldCachePath);
+	}
+
+	public function testRegisterMountProviderAfterSetup() {
+		\OC\Files\Filesystem::initMountPoints(self::TEST_FILESYSTEM_USER2);
+		$this->assertEquals('/', \OC\Files\Filesystem::getMountPoint('/foo/bar'));
+		$mount = new MountPoint(new Temporary([]), '/foo/bar');
+		$mountProvider = new DummyMountProvider([self::TEST_FILESYSTEM_USER2 => [$mount]]);
+		\OC::$server->getMountProviderCollection()->registerProvider($mountProvider);
+		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::getMountPoint('/foo/bar'));
 	}
 }
