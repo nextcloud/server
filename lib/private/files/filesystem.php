@@ -436,8 +436,10 @@ class Filesystem {
 			$mountConfigManager->listen('\OC\Files\Config', 'registerMountProvider', function (IMountProvider $provider) use ($userManager) {
 				foreach (Filesystem::$usersSetup as $user => $setup) {
 					$userObject = $userManager->get($user);
-					$mounts = $provider->getMountsForUser($userObject, Filesystem::getLoader());
-					array_walk($mounts, array(self::$mounts, 'addMount'));
+					if ($userObject) {
+						$mounts = $provider->getMountsForUser($userObject, Filesystem::getLoader());
+						array_walk($mounts, array(self::$mounts, 'addMount'));
+					}
 				}
 			});
 		}
