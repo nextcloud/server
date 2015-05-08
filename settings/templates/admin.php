@@ -158,9 +158,7 @@ if ($_['cronErrors']) {
 			<br>
 			<ol>
 				<?php foreach(json_decode($_['cronErrors']) as $error) { if(isset($error->error)) {?>
-					<li><?php p($error->error) ?></li>
-					<ul><li><?php p($error->hint) ?></li></ul>
-
+					<li><?php p($error->error) ?> <?php p($error->hint) ?></li>
 				<?php }};?>
 			</ol>
 	</li>
