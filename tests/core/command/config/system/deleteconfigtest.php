@@ -22,10 +22,10 @@
 namespace Tests\Core\Command\Config\System;
 
 
-use OC\Core\Command\Config\System\SetConfig;
+use OC\Core\Command\Config\System\DeleteConfig;
 use Test\TestCase;
 
-class SetConfigTest extends TestCase {
+class DeleteConfigTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	protected $systemConfig;
 
@@ -47,69 +47,74 @@ class SetConfigTest extends TestCase {
 		$this->consoleOutput = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
 
 		/** @var \OC\SystemConfig $systemConfig */
-		$this->command = new SetConfig($systemConfig);
+		$this->command = new DeleteConfig($systemConfig);
 	}
 
 
-	public function setData() {
+	public function deleteData() {
 		return [
 			[
 				'name',
-				'newvalue',
 				true,
 				true,
-				true,
+				0,
 				'info',
 			],
 			[
 				'name',
-				'newvalue',
-				false,
 				true,
 				false,
-				'comment',
+				0,
+				'info',
+			],
+			[
+				'name',
+				false,
+				false,
+				0,
+				'info',
+			],
+			[
+				'name',
+				false,
+				true,
+				1,
+				'error',
 			],
 		];
 	}
 
 	/**
-	 * @dataProvider setData
+	 * @dataProvider deleteData
 	 *
 	 * @param string $configName
-	 * @param mixed $newValue
 	 * @param bool $configExists
-	 * @param bool $updateOnly
-	 * @param bool $updated
+	 * @param bool $checkIfExists
+	 * @param int $expectedReturn
 	 * @param string $expectedMessage
 	 */
-	public function testSet($configName, $newValue, $configExists, $updateOnly, $updated, $expectedMessage) {
-		$this->systemConfig->expects($this->once())
+	public function testDelete($configName, $configExists, $checkIfExists, $expectedReturn, $expectedMessage) {
+		$this->systemConfig->expects(($checkIfExists) ? $this->once() : $this->never())
 			->method('getKeys')
 			->willReturn($configExists ? [$configName] : []);
 
-		if ($updated) {
-			$this->systemConfig->expects($this->once())
-				->method('setValue')
-				->with($configName, $newValue);
-		}
+		$this->systemConfig->expects(($expectedReturn === 0) ? $this->once() : $this->never())
+			->method('deleteValue')
+			->with($configName);
 
 		$this->consoleInput->expects($this->once())
 			->method('getArgument')
 			->with('name')
 			->willReturn($configName);
 		$this->consoleInput->expects($this->any())
-			->method('getOption')
-			->with('value')
-			->willReturn($newValue);
-		$this->consoleInput->expects($this->any())
 			->method('hasParameterOption')
-			->with('--update-only')
-			->willReturn($updateOnly);
+			->with('--error-if-not-exists')
+			->willReturn($checkIfExists);
 
 		$this->consoleOutput->expects($this->any())
 			->method('writeln')
 			->with($this->stringContains($expectedMessage));
 
-		\Test_Helper::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+		$this->assertSame($expectedReturn, \Test_Helper::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 }

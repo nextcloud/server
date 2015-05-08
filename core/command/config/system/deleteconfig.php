@@ -28,7 +28,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GetConfig extends Base {
+class DeleteConfig extends Base {
 	/** * @var SystemConfig */
 	protected $systemConfig;
 
@@ -44,44 +44,32 @@ class GetConfig extends Base {
 		parent::configure();
 
 		$this
-			->setName('config:system:get')
-			->setDescription('Set a system config value')
+			->setName('config:system:delete')
+			->setDescription('Delete a system config value')
 			->addArgument(
 				'name',
 				InputArgument::REQUIRED,
-				'Name of the config to get'
+				'Name of the config to set'
 			)
 			->addOption(
-				'default-value',
+				'error-if-not-exists',
 				null,
-				InputOption::VALUE_OPTIONAL,
-				'If no default value is set and the config does not exist, an error is thrown'
+				InputOption::VALUE_NONE,
+				'Checks whether the config exists before deleting it'
 			)
 		;
 	}
 
-	/**
-	 * Executes the current command.
-	 *
-	 * @param InputInterface  $input  An InputInterface instance
-	 * @param OutputInterface $output An OutputInterface instance
-	 * @return null|int null or 0 if everything went fine, or an error code
-	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$configName = $input->getArgument('name');
-		$defaultValue = $input->getOption('default-value');
 
-		if (!in_array($configName, $this->systemConfig->getKeys()) && !$input->hasParameterOption('--default-value')) {
+		if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys())) {
+			$output->writeln('<error>Config ' . $configName . ' could not be deleted because it did not exist</error>');
 			return 1;
 		}
 
-		if (!in_array($configName, $this->systemConfig->getKeys())) {
-			$configValue = $defaultValue;
-		} else {
-			$configValue = $this->systemConfig->getValue($configName);
-		}
-
-		$this->writeMixedInOutputFormat($input, $output, $configValue);
+		$this->systemConfig->deleteValue($configName);
+		$output->writeln('<info>System config value ' . $configName . ' deleted</info>');
 		return 0;
 	}
 }

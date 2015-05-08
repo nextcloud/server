@@ -23,7 +23,6 @@ namespace OC\Core\Command\Config\System;
 
 use OC\Core\Command\Base;
 use OC\SystemConfig;
-use OCP\IAppConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

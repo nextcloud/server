@@ -51,7 +51,7 @@ class GetConfigTest extends TestCase {
 	}
 
 
-	public function setData() {
+	public function getData() {
 		return [
 			// String output as json
 			['name', 'newvalue', true, null, false, 'json', 0, json_encode('newvalue')],
@@ -94,7 +94,7 @@ class GetConfigTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider setData
+	 * @dataProvider getData
 	 *
 	 * @param string $configName
 	 * @param mixed $value
@@ -105,7 +105,7 @@ class GetConfigTest extends TestCase {
 	 * @param int $expectedReturn
 	 * @param string $expectedMessage
 	 */
-	public function testList($configName, $value, $configExists, $defaultValue, $hasDefault, $outputFormat, $expectedReturn, $expectedMessage) {
+	public function testGet($configName, $value, $configExists, $defaultValue, $hasDefault, $outputFormat, $expectedReturn, $expectedMessage) {
 		$this->systemConfig->expects($this->atLeastOnce())
 			->method('getKeys')
 			->willReturn($configExists ? [$configName] : []);
