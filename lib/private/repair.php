@@ -142,7 +142,7 @@ class Repair extends BasicEmitter {
 	 *
 	 * Re-declared as public to allow invocation from within the closure above in php 5.3
 	 */
-	public function emit($scope, $method, $arguments = array()) {
+	public function emit($scope, $method, array $arguments = array()) {
 		parent::emit($scope, $method, $arguments);
 	}
 }
