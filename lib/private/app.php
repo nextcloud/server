@@ -385,7 +385,13 @@ class OC_App {
 	public static function getAppNavigationEntries($app) {
 		if (is_file(self::getAppPath($app) . '/appinfo/app.php')) {
 			OC::$server->getNavigationManager()->clear();
-			require $app . '/appinfo/app.php';
+			try {
+				require $app . '/appinfo/app.php';
+			} catch (\OC\Encryption\Exceptions\ModuleAlreadyExistsException $e) {
+				// FIXME we should avoid getting this exception in first place,
+				// For now we just catch it, since we don't care about encryption modules
+				// when trying to find out, whether the app has a navigation entry.
+			}
 			return OC::$server->getNavigationManager()->getAll();
 		}
 		return array();
