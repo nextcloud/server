@@ -394,6 +394,9 @@ class OC_Helper {
 	 */
 	public static function computerFileSize($str) {
 		$str = strtolower($str);
+		if (is_numeric($str)) {
+			return $str;
+		}
 
 		$bytes_array = array(
 			'b' => 1,
