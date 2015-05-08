@@ -12,7 +12,7 @@ try {
 	}
 
 	OC::checkMaintenanceMode();
-	OC::checkSingleUserMode();
+	OC::checkSingleUserMode(true);
 	$pathInfo = OC_Request::getPathInfo();
 	if (!$pathInfo && !isset($_GET['service'])) {
 		header('HTTP/1.0 404 Not Found');
