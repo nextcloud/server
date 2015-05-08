@@ -17,7 +17,7 @@ class DummyForwardingEmitter extends \OC\Hooks\ForwardingEmitter {
 	/**
 	 * @param \OC\Hooks\Emitter $emitter
 	 */
-	public function forward($emitter) {
+	public function forward(\OC\Hooks\Emitter $emitter) {
 		parent::forward($emitter);
 	}
 }

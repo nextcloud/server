@@ -40,7 +40,7 @@ abstract class ForwardingEmitter extends BasicEmitter {
 	 * @param string $method
 	 * @param callable $callback
 	 */
-	public function listen($scope, $method, $callback) {
+	public function listen($scope, $method, callable $callback) {
 		parent::listen($scope, $method, $callback);
 		foreach ($this->forwardEmitters as $emitter) {
 			$emitter->listen($scope, $method, $callback);
@@ -50,7 +50,7 @@ abstract class ForwardingEmitter extends BasicEmitter {
 	/**
 	 * @param \OC\Hooks\Emitter $emitter
 	 */
-	protected function forward($emitter) {
+	protected function forward(Emitter $emitter) {
 		$this->forwardEmitters[] = $emitter;
 
 		//forward all previously connected hooks
