@@ -39,6 +39,23 @@ try {
 	if ($connection->setConfiguration($_POST)) {
 		//Configuration is okay
 		if ($connection->bind()) {
+			/*
+			 * This shiny if block is an ugly hack to find out whether anonymous
+			 * bind is possible on AD or not. Because AD happily and constantly
+			 * replies with success to any anonymous bind request, we need to
+			 * fire up a broken operation. If AD does not allow anonymous bind,
+			 * it will end up with LDAP error code 1 which is turned into an
+			 * exception by the LDAP wrapper. We catch this. Other cases may
+			 * pass (like e.g. expected syntax error).
+			 */
+			try {
+				$ldapWrapper->read($connection->getConnectionResource(), 'neverwhere', 'objectClass=*', array('dn'));
+			} catch (\Exception $e) {
+				if($e->getCode() === 1) {
+					OCP\JSON::error(array('message' => $l->t('The configuration is invalid: anonymous bind is not allowed.')));
+					exit;
+				}
+			}
 			OCP\JSON::success(array('message'
 			=> $l->t('The configuration is valid and the connection could be established!')));
 		} else {
