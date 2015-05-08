@@ -23,7 +23,6 @@ namespace Tests\Core\Command\Config;
 
 
 use OC\Core\Command\Config\ListConfigs;
-use OC\Core\Command\Config\NoValue;
 use Test\TestCase;
 
 class ListConfigsTest extends TestCase {
@@ -58,7 +57,7 @@ class ListConfigsTest extends TestCase {
 	}
 
 
-	public function dataDisable() {
+	public function listData() {
 		return [
 			[
 				'all',
@@ -82,14 +81,16 @@ class ListConfigsTest extends TestCase {
 				],
 				true,
 				json_encode([
-					'core' => [
-						'global_cache_gc_lastrun' => '1430388388',
-					],
-					'files' => [
-						'enabled' => 'yes',
-					],
 					'system' => [
 						'overwrite.cli.url' => 'http://localhost',
+					],
+					'apps' => [
+						'core' => [
+							'global_cache_gc_lastrun' => '1430388388',
+						],
+						'files' => [
+							'enabled' => 'yes',
+						],
 					],
 				]),
 			],
@@ -115,15 +116,17 @@ class ListConfigsTest extends TestCase {
 				],
 				false,
 				json_encode([
-					'core' => [
-						'global_cache_gc_lastrun' => '1430388388',
-					],
-					'files' => [
-						'enabled' => 'yes',
-					],
 					'system' => [
 						'secret' => 'my secret',
 						'overwrite.cli.url' => 'http://localhost',
+					],
+					'apps' => [
+						'core' => [
+							'global_cache_gc_lastrun' => '1430388388',
+						],
+						'files' => [
+							'enabled' => 'yes',
+						],
 					],
 				]),
 			],
@@ -232,7 +235,7 @@ class ListConfigsTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDisable
+	 * @dataProvider listData
 	 *
 	 * @param string $app
 	 * @param array $systemConfigs

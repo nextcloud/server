@@ -93,11 +93,13 @@ class ListConfigs extends Base {
 
 			case 'all':
 				$apps = $this->appConfig->getApps();
-				$configs = [];
+				$configs = [
+					'system' => $this->getSystemConfigs($noSensitiveValues),
+					'apps' => [],
+				];
 				foreach ($apps as $appName) {
-					$configs[$appName] = $this->appConfig->getValues($appName, false);
+					$configs['apps'][$appName] = $this->appConfig->getValues($appName, false);
 				}
-				$configs['system'] = $this->getSystemConfigs($noSensitiveValues);
 			break;
 
 			default:
