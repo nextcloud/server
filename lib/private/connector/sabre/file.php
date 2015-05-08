@@ -99,8 +99,8 @@ class File extends Node implements IFile {
 			return $this->createFileChunked($data);
 		}
 
-		list($storage) = $this->fileView->resolvePath($this->path);
-		$needsPartFile = $this->needsPartFile($storage) && (strlen($this->path) > 1);
+		list($partStorage) = $this->fileView->resolvePath($this->path);
+		$needsPartFile = $this->needsPartFile($partStorage) && (strlen($this->path) > 1);
 
 		if ($needsPartFile) {
 			// mark file as partial while uploading (ignored by the scanner)
@@ -110,14 +110,16 @@ class File extends Node implements IFile {
 			$partFilePath = $this->path;
 		}
 
+		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
+		/** @var \OC\Files\Storage\Storage $partStorage */
+		list($partStorage, $internalPartPath) = $this->fileView->resolvePath($partFilePath);
 		/** @var \OC\Files\Storage\Storage $storage */
-		list($storage, $internalPartPath) = $this->fileView->resolvePath($partFilePath);
-		list(, $internalPath) = $this->fileView->resolvePath($this->path);
+		list($storage, $internalPath) = $this->fileView->resolvePath($this->path);
 		try {
-			$target = $storage->fopen($internalPartPath, 'wb');
+			$target = $partStorage->fopen($internalPartPath, 'wb');
 			if ($target === false) {
 				\OC_Log::write('webdav', '\OC\Files\Filesystem::fopen() failed', \OC_Log::ERROR);
-				$storage->unlink($internalPartPath);
+				$partStorage->unlink($internalPartPath);
 				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 				throw new Exception('Could not write file contents');
 			}
@@ -130,7 +132,7 @@ class File extends Node implements IFile {
 			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] !== 'LOCK') {
 				$expected = $_SERVER['CONTENT_LENGTH'];
 				if ($count != $expected) {
-					$storage->unlink($internalPartPath);
+					$partStorage->unlink($internalPartPath);
 					throw new BadRequest('expected filesize ' . $expected . ' got ' . $count);
 				}
 			}
@@ -162,11 +164,11 @@ class File extends Node implements IFile {
 			if ($needsPartFile) {
 				// rename to correct path
 				try {
-					$renameOkay = $storage->rename($internalPartPath, $internalPath);
+					$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
 					$fileExists = $storage->file_exists($internalPath);
 					if ($renameOkay === false || $fileExists === false) {
 						\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-						$storage->unlink($internalPartPath);
+						$partStorage->unlink($internalPartPath);
 						throw new Exception('Could not rename part file to final file');
 					}
 				} catch (\OCP\Files\LockNotAcquiredException $e) {
@@ -176,7 +178,7 @@ class File extends Node implements IFile {
 			}
 
 			// since we skipped the view we need to scan and emit the hooks ourselves
-			$storage->getScanner()->scanFile($internalPath);
+			$partStorage->getScanner()->scanFile($internalPath);
 
 			$view = \OC\Files\Filesystem::getView();
 			if ($view) {
