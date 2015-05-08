@@ -430,6 +430,12 @@ class Filesystem {
 		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', array('user' => $user, 'user_dir' => $root));
 	}
 
+	/**
+	 * Get mounts from mount providers that are registered after setup
+	 *
+	 * @param MountProviderCollection $mountConfigManager
+	 * @param IUserManager $userManager
+	 */
 	private static function listenForNewMountProviders(MountProviderCollection $mountConfigManager, IUserManager $userManager) {
 		if (!self::$listeningForProviders) {
 			self::$listeningForProviders = true;

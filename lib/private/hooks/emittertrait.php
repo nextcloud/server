@@ -34,12 +34,12 @@ trait EmitterTrait {
 	 * @param string $method
 	 * @param callable $callback
 	 */
-	public function listen($scope, $method, $callback) {
+	public function listen($scope, $method, callable $callback) {
 		$eventName = $scope . '::' . $method;
 		if (!isset($this->listeners[$eventName])) {
 			$this->listeners[$eventName] = array();
 		}
-		if (array_search($callback, $this->listeners[$eventName]) === false) {
+		if (array_search($callback, $this->listeners[$eventName], true) === false) {
 			$this->listeners[$eventName][] = $callback;
 		}
 	}
@@ -49,7 +49,7 @@ trait EmitterTrait {
 	 * @param string $method optional
 	 * @param callable $callback optional
 	 */
-	public function removeListener($scope = null, $method = null, $callback = null) {
+	public function removeListener($scope = null, $method = null, callable $callback = null) {
 		$names = array();
 		$allNames = array_keys($this->listeners);
 		if ($scope and $method) {
@@ -77,7 +77,7 @@ trait EmitterTrait {
 
 		foreach ($names as $name) {
 			if ($callback) {
-				$index = array_search($callback, $this->listeners[$name]);
+				$index = array_search($callback, $this->listeners[$name], true);
 				if ($index !== false) {
 					unset($this->listeners[$name][$index]);
 				}
@@ -92,7 +92,7 @@ trait EmitterTrait {
 	 * @param string $method
 	 * @param array $arguments optional
 	 */
-	protected function emit($scope, $method, $arguments = array()) {
+	protected function emit($scope, $method, array $arguments = array()) {
 		$eventName = $scope . '::' . $method;
 		if (isset($this->listeners[$eventName])) {
 			foreach ($this->listeners[$eventName] as $callback) {

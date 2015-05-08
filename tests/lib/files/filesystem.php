@@ -39,6 +39,13 @@ class DummyMountProvider implements IMountProvider {
 		$this->mounts = $mounts;
 	}
 
+	/**
+	 * Get the pre-registered mount points
+	 *
+	 * @param IUser $user
+	 * @param IStorageFactory $loader
+	 * @return \OCP\Files\Mount\IMountPoint[]
+	 */
 	public function  getMountsForUser(IUser $user, IStorageFactory $loader) {
 		return isset($this->mounts[$user->getUID()]) ? $this->mounts[$user->getUID()] : [];
 	}
