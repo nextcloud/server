@@ -411,7 +411,7 @@ class Test_Files_Versioning extends \Test\TestCase {
 		// execute copy hook of versions app
 		$versions = \OCA\Files_Versions\Storage::getVersions(self::TEST_VERSIONS_USER, '/subfolder/test.txt');
 
-		$this->assertSame(2, count($versions));
+		$this->assertCount(2, $versions);
 
 		foreach ($versions as $version) {
 			$this->assertSame('/subfolder/test.txt', $version['path']);
@@ -420,6 +420,17 @@ class Test_Files_Versioning extends \Test\TestCase {
 
 		//cleanup
 		$this->rootView->deleteAll(self::USERS_VERSIONS_ROOT . '/subfolder');
+	}
+
+	/**
+	 * test if we find all versions and if the versions array contain
+	 * the correct 'path' and 'name'
+	 */
+	public function testGetVersionsEmptyFile() {
+		// execute copy hook of versions app
+		$versions = \OCA\Files_Versions\Storage::getVersions(self::TEST_VERSIONS_USER, '');
+
+		$this->assertCount(0, $versions);
 	}
 
 	public function testRestoreSameStorage() {
