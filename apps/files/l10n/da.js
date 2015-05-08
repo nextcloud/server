@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete" : "Slet",
     "Disconnect storage" : "Frakobl lager",
     "Unshare" : "Fjern deling",
+    "No permission to delete" : "Ingen rettigheder at slette",
     "Download" : "Download",
     "Select" : "Vælg",
     "Pending" : "Afventer",

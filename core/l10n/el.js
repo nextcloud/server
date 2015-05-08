@@ -134,6 +134,7 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Γειά σου {name}, ο καιρός είναι {weather}",
     "Hello {name}" : "Γεια σου {name}",
     "_download %n file_::_download %n files_" : ["λήψη %n αρχείου","λήψη %n αρχείων"],
+    "{version} is available. Get more information on how to update." : "Η έκδοση {version} είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες για το πως να κάνετε την ενημέρωση.",
     "Updating {productName} to version {version}, this may take a while." : "Ενημέρωση του {productName} στην έκδοση {version}, αυτό μπορεί να διαρκέσει λίγη ώρα.",
     "Please reload the page." : "Παρακαλώ επαναφορτώστε τη σελίδα.",
     "The update was unsuccessful. " : "Η ενημέρωση ήταν ανεπιτυχής.",

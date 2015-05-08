@@ -132,6 +132,7 @@
     "Hello {name}, the weather is {weather}" : "Hei {name}, sää on {weather}",
     "Hello {name}" : "Hei {name}",
     "_download %n file_::_download %n files_" : ["lataa %n tiedosto","lataa %n tiedostoa"],
+    "{version} is available. Get more information on how to update." : "{version} on saatavilla. Tarjolla on lisätietoja päivittämisestä.",
     "Updating {productName} to version {version}, this may take a while." : "Päivitetään {productName} versioon {version}, tämä saattaa kestää hetken.",
     "Please reload the page." : "Päivitä sivu.",
     "The update was unsuccessful. " : "Päivitys epäonnistui.",
