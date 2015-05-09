@@ -1,8 +1,8 @@
 { "translations": {
     "Security & setup warnings" : "Предупреждения безопасности и установки",
     "Sharing" : "Общий доступ",
-    "External Storage" : "Внешнее хранилище",
     "Server-side encryption" : "Шифрование на стороне сервера",
+    "External Storage" : "Внешнее хранилище",
     "Cron" : "Cron (планировщик задач)",
     "Email server" : "Почтовый сервер",
     "Log" : "Журнал",

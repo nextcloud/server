@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Security & setup warnings" : "Попередження безпеки та налаштування",
     "Sharing" : "Спільний доступ",
-    "External Storage" : "Зовнішні сховища",
     "Server-side encryption" : "Серверне шіфрування",
+    "External Storage" : "Зовнішні сховища",
     "Cron" : "Планувальник Cron",
     "Email server" : "Сервер електронної пошти",
     "Log" : "Журнал",

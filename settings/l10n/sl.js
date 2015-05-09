@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Security & setup warnings" : "Varnost in namestitvena opozorila",
     "Sharing" : "Souporaba",
-    "External Storage" : "Zunanja podatkovna shramba",
     "Server-side encryption" : "Šifriranje na strežniku",
+    "External Storage" : "Zunanja podatkovna shramba",
     "Cron" : "Periodično opravilo",
     "Email server" : "Poštni strežnik",
     "Log" : "Dnevnik",

@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Security & setup warnings" : "Güvenlik ve kurulum uyarıları",
     "Sharing" : "Paylaşım",
-    "External Storage" : "Harici Depolama",
     "Server-side encryption" : "Sunucu taraflı şifreleme",
+    "External Storage" : "Harici Depolama",
     "Cron" : "Cron",
     "Email server" : "E-Posta sunucusu",
     "Log" : "Günlük",

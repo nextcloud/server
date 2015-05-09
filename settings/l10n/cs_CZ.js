@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Security & setup warnings" : "Upozornění zabezpečení a nastavení",
     "Sharing" : "Sdílení",
-    "External Storage" : "Externí úložiště",
     "Server-side encryption" : "Šifrování na serveru",
+    "External Storage" : "Externí úložiště",
     "Cron" : "Cron",
     "Email server" : "Emailový server",
     "Log" : "Záznam",

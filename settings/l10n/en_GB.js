@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Security & setup warnings" : "Security & setup warnings",
     "Sharing" : "Sharing",
-    "External Storage" : "External Storage",
     "Server-side encryption" : "Server-side encryption",
+    "External Storage" : "External Storage",
     "Cron" : "Cron",
     "Email server" : "Email server",
     "Log" : "Log",

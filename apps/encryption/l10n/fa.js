@@ -10,8 +10,6 @@ OC.L10N.register(
     "Private key password successfully updated." : "رمزعبور کلید خصوصی با موفقیت به روز شد.",
     "Recovery key password" : "رمزعبور کلید بازیابی",
     "Change recovery key password:" : "تغییر رمزعبور کلید بازیابی:",
-    "Old Recovery key password" : "رمزعبور قدیمی  کلید بازیابی ",
-    "New Recovery key password" : "رمزعبور جدید کلید بازیابی",
     "Change Password" : "تغییر رمزعبور",
     " If you don't remember your old password you can ask your administrator to recover your files." : "اگر رمزعبور قدیمی را فراموش کرده اید میتوانید از مدیر خود برای بازیابی فایل هایتان درخواست نمایید.",
     "Old log-in password" : "رمزعبور قدیمی",

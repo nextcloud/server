@@ -1,9 +1,6 @@
 { "translations": {
     "Password successfully changed." : "Лозинката е успешно променета.",
     "Could not change the password. Maybe the old password was not correct." : "Лозинката не можеше да се промени. Можеби старата лозинка не беше исправна.",
-    "Repeat Recovery key password" : "Повтори ја лозинката за клучот на обновување",
-    "Old Recovery key password" : "Старата лозинка за клучот на обновување ",
-    "Repeat New Recovery key password" : "Повтори ја лозинката за клучот на обновувањето",
     "Change Password" : "Смени лозинка",
     "Old log-in password" : "Старата лозинка за најавување",
     "Current log-in password" : "Тековната лозинка за најавување",

@@ -143,7 +143,6 @@
     "Enable server-side encryption" : "Server-side versleuteling inschakelen",
     "Encryption is a one way process. Once encryption is enabled, all files from that point forward will be encrypted on the server and it will not be possible to disable encryption at a later date. This is the final warning: Do you really want to enable encryption?" : "Versleuteling is een eenrichtingsproces. Als versleuteling is ingeschakeld, worden alle bestanden vanaf dat moment versleuteld op de server en is het niet meer mogelijk versleuteling later uit te schakelen. Dit is de laatste waarschuwing: Wilt u echt versleuteling inschakelen?",
     "Enable encryption" : "Versleuteling inschakelen",
-    "No encryption module loaded, please load a encryption module in the app menu" : "Geen cryptomodule geladen, laad een cryptomodule in het appmenu",
     "Select default encryption module:" : "Selecteer de standaard cryptomodule:",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the \"ownCloud Default Encryption Module\" and run 'occ encryption:migrate'" : "U moet uw cryptosleutels van de oude versleuteling (ownCloud <= 8.0) migreren naar de nieuwe. Activeer de \"ownCloud Standaard Cryptomodule\" en start 'occ encryption:migrate'",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "U moet uw cryptosleutels van de oude versleuteling (ownCloud <= 8.0) migreren naar de nieuwe.",

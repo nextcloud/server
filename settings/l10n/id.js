@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Security & setup warnings" : "Peringatan Keamanan & Pengaturan",
     "Sharing" : "Berbagi",
-    "External Storage" : "Penyimpanan Eksternal",
     "Server-side encryption" : "Enkripsi sisi-server",
+    "External Storage" : "Penyimpanan Eksternal",
     "Cron" : "Cron",
     "Email server" : "Server email",
     "Log" : "Log",

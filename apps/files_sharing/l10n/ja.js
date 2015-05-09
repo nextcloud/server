@@ -21,6 +21,7 @@ OC.L10N.register(
     "Remote share password" : "リモート共有のパスワード",
     "Cancel" : "キャンセル",
     "Add remote share" : "リモート共有を追加",
+    "You can upload into this folder" : "このフォルダーにアップロードできます",
     "No ownCloud installation (7 or higher) found at {remote}" : "{remote} にはownCloud (7以上)がインストールされていません",
     "Invalid ownCloud url" : "無効なownCloud URL です",
     "Share" : "共有",

@@ -130,7 +130,7 @@
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP設定の\"%s\"は \"%s\"に設定されていません",
     "Adjusting this setting in php.ini will make ownCloud run again" : "php.ini 中の設定を調整するとownCloudはもう一度動作するでしょう。 ",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHPでインラインドキュメントブロックを取り除く設定になっています。これによりコアアプリで利用できないものがいくつかあります。",
-    "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "これは、Zend OPcacheやeAccelerator 等のキャッシュ/アクセラレータが原因かもしれません。",
+    "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "これは、Zend OPcacheやeAccelerator 等のキャッシュ/アクセラレーターが原因かもしれません。",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP モジュールはインストールされていますが、まだ一覧に表示されていますか？",
     "Please ask your server administrator to restart the web server." : "サーバー管理者にWebサーバーを再起動するよう依頼してください。",
     "PostgreSQL >= 9 required" : "PostgreSQL >= 9 が必要です",
