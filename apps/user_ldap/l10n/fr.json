@@ -25,7 +25,7 @@
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Une erreur est survenue. Veuillez vérifier le DN de base, ainsi que les paramètres de connexion et les informations d'identification",
     "Do you really want to delete the current Server Configuration?" : "Êtes-vous vraiment sûr de vouloir effacer la configuration actuelle du serveur ?",
     "Confirm Deletion" : "Confirmer la suppression",
-    "Mappings cleared successfully!" : "Succès de la suppression des associations!",
+    "Mappings cleared successfully!" : "Associations supprimées avec succès !",
     "Error while clearing the mappings." : "Erreur lors de la suppression des associations.",
     "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "La sauvegarde a échoué. Veuillez vérifier que la base de données est opérationnelle. Rechargez avant de poursuivre.",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Changer de mode activera les requêtes LDAP automatiques. Selon la taille de votre annuaire LDAP, cela peut prendre du temps. Voulez-vous toujours changer de mode ?",

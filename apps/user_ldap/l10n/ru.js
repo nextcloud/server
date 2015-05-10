@@ -26,8 +26,8 @@ OC.L10N.register(
     "Do you really want to delete the current Server Configuration?" : "Вы действительно хотите удалить существующую конфигурацию сервера?",
     "Confirm Deletion" : "Подтверждение удаления",
     "Select attributes" : "Выберите атрибуты",
-    "_%s group found_::_%s groups found_" : ["%s группа найдена","%s группы найдены","%s групп найдено"],
-    "_%s user found_::_%s users found_" : ["%s пользователь найден","%s пользователя найдено","%s пользователей найдено"],
+    "_%s group found_::_%s groups found_" : ["%s группа найдена","%s группы найдены","%s групп найдено","%s групп найдено"],
+    "_%s user found_::_%s users found_" : ["%s пользователь найден","%s пользователя найдено","%s пользователей найдено","%s пользователей найдено"],
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Не удалось автоматически определить атрибут содержащий отображаемое имя пользователя. Зайдите в расширенные настройки ldap и укажите его вручную.",
     "Could not find the desired feature" : "Не удается найти требуемую функциональность",
     "Invalid Host" : "Некорректный адрес сервера",
@@ -117,4 +117,4 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Очистить соответствия Имя-Пользователь LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Очистить соответствия Группа-Группа LDAP"
 },
-"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
+"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -132,6 +132,7 @@
     "Hello {name}, the weather is {weather}" : "Hola {name}, el día es {weather}",
     "Hello {name}" : "Hola {name}",
     "_download %n file_::_download %n files_" : ["descargar %n ficheros","descargar %n ficheros"],
+    "{version} is available. Get more information on how to update." : "Una nueva {version} está disponible. Consiga mas información de como actualizar.",
     "Updating {productName} to version {version}, this may take a while." : "Actualizando {productName} a la versión {version}. Esto puede tardar un poco.",
     "Please reload the page." : "Recargue/Actualice la página",
     "The update was unsuccessful. " : "La actualización ha fallado.",

@@ -144,6 +144,8 @@ OC.L10N.register(
     "Use system's cron service to call the cron.php file every 15 minutes." : "Benutzen Sie den systemeigenen Cron-Dienst, um die cron.php alle 15 Minuten aufzurufen.",
     "Enable server-side encryption" : "Serverseitige Verschlüsselung aktivieren",
     "Enable encryption" : "Verschlüsselung aktivieren",
+    "No encryption module loaded, please enable an encryption module in the app menu." : "Kein Verschlüsselungs-Modul geladen, bitte aktiviere ein Verschlüsselungs-Modul im Anwendungs-Menü.",
+    "Select default encryption module:" : "Standard-Verschlüsselungs-Modul auswählen:",
     "Start migration" : "Migration beginnen",
     "This is used for sending out notifications." : "Dies wird für das Senden von Benachrichtigungen verwendet.",
     "Send mode" : "Sendemodus",

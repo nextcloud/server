@@ -33,6 +33,7 @@
     "Select attributes" : "Attribute auswählen",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "Benutzer nicht gefunden. Bitte überprüfen Sie Ihre Loginattribute und Ihren Benutzernamen. Gültiger Filter (zum Kopieren und Einfügen bei der Überprüfung auf der Kommandozeile): <br/>",
     "User found and settings verified." : "Benutzer gefunden und Einstellungen überprüft.",
+    "An unspecified error occurred. Please check the settings and the log." : "Ein nicht näher spezifizierter Fehler ist aufgetreten. Bitte überprüfe die Einstellungen und die Logdatei.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Es ist ein Verbindungsfehler zum LDAP/AD aufgetreten, bitte überprüfen Sie Host, Port und Anmeldeinformationen.",
     "_%s group found_::_%s groups found_" : ["%s Gruppe gefunden","%s Gruppen gefunden"],
     "_%s user found_::_%s users found_" : ["%s Benutzer gefunden","%s Benutzer gefunden"],

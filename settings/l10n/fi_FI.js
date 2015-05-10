@@ -137,6 +137,7 @@ OC.L10N.register(
     "Use system's cron service to call the cron.php file every 15 minutes." : "Käytä järjestelmän cron-palvelua cron.php-tiedoston kutsumista varten 15 minuutin välein.",
     "Enable server-side encryption" : "Käytä palvelinpään salausta",
     "Enable encryption" : "Käytä salausta",
+    "No encryption module loaded, please enable an encryption module in the app menu." : "Salausmoduulia ei ole käytössä. Ota salausmoduuli käyttöön sovellusvalikosta.",
     "Select default encryption module:" : "Valitse oletuksena käytettävä salausmoduuli:",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the \"ownCloud Default Encryption Module\" and run 'occ encryption:migrate'" : "Sinun täytyy siirtää salausavaimet vanhasta salaustekniikasta (ownCloud <= 8.0) uuteen. Ota \"ownCloud Default Encryption Module\" käyttöön ja suorita 'occ encryption:migrate'",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "Sinun täytyy siirtää salausavaimet vanhasta salaustekniikasta (ownCloud <= 8.0) uuteen.",
