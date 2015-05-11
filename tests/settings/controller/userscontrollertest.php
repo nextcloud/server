@@ -1303,14 +1303,14 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('isEnabledForUser')
 			->with(
-				$this->equalTo('files_encryption')
+				$this->equalTo('encryption')
 			)
 			->will($this->returnValue(true));
 		$this->container['Config']
 			->expects($this->once())
 			->method('getAppValue')
 			->with(
-				$this->equalTo('files_encryption'),
+				$this->equalTo('encryption'),
 				$this->equalTo('recoveryAdminEnabled'),
 				$this->anything()
 			)
@@ -1321,8 +1321,8 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getUserValue')
 			->with(
 				$this->anything(),
-				$this->equalTo('files_encryption'),
-				$this->equalTo('recovery_enabled'),
+				$this->equalTo('encryption'),
+				$this->equalTo('recoveryEnabled'),
 				$this->anything()
 			)
 			->will($this->returnValue('1'));
@@ -1339,7 +1339,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->container['OCP\\App\\IAppManager']
 			->method('isEnabledForUser')
 			->with(
-				$this->equalTo('files_encryption')
+				$this->equalTo('encryption')
 			)
 			->will($this->returnValue(true));
 
@@ -1358,14 +1358,14 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('isEnabledForUser')
 			->with(
-				$this->equalTo('files_encryption')
+				$this->equalTo('encryption')
 			)
 			->will($this->returnValue(true));
 		$this->container['Config']
 			->expects($this->once())
 			->method('getAppValue')
 			->with(
-				$this->equalTo('files_encryption'),
+				$this->equalTo('encryption'),
 				$this->equalTo('recoveryAdminEnabled'),
 				$this->anything()
 			)
@@ -1376,8 +1376,8 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getUserValue')
 			->with(
 				$this->anything(),
-				$this->equalTo('files_encryption'),
-				$this->equalTo('recovery_enabled'),
+				$this->equalTo('encryption'),
+				$this->equalTo('recoveryEnabled'),
 				$this->anything()
 			)
 			->will($this->returnValue('0'));
