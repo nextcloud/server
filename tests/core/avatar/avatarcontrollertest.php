@@ -88,11 +88,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->user = $this->getUniqueID('user');
 
 		OC::$server->getUserManager()->createUser($this->user, $this->user);
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
-		Filesystem::tearDown();
-		\OC_User::setUserId($this->user);
-		\OC_Util::setupFS($this->user);
+		$this->loginAsUser($this->user);
 
 		// Create Cache dir
 		$view = new \OC\Files\View('/'.$this->user);
