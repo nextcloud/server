@@ -385,6 +385,7 @@ class OC_L10N implements \OCP\IL10N {
 		if ($locale === null) {
 			$locale = self::findLanguage();
 		}
+		$locale = $this->transformToCLDRLocale($locale);
 
 		$options = array_merge(array('width' => 'long'), $options);
 		$width = $options['width'];
@@ -538,6 +539,7 @@ class OC_L10N implements \OCP\IL10N {
 	 */
 	public function getDateFormat() {
 		$locale = $this->getLanguageCode();
+		$locale = $this->transformToCLDRLocale($locale);
 		return Punic\Calendar::getDateFormat('short', $locale);
 	}
 
@@ -546,6 +548,15 @@ class OC_L10N implements \OCP\IL10N {
 	 */
 	public function getFirstWeekDay() {
 		$locale = $this->getLanguageCode();
+		$locale = $this->transformToCLDRLocale($locale);
 		return Punic\Calendar::getFirstWeekday($locale);
+	}
+
+	private function transformToCLDRLocale($locale) {
+		if ($locale === 'sr@latin') {
+			return 'sr_latn';
+		}
+
+		return $locale;
 	}
 }
