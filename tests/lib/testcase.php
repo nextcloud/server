@@ -174,6 +174,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		\OC\Files\Filesystem::tearDown();
 		\OC_User::setUserId($user);
 		\OC_Util::setupFS($user);
+		\OC::$server->getUserFolder($user);
 	}
 
 	/**

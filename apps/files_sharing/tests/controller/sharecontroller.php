@@ -78,10 +78,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		\OC_User::createUser($this->user, $this->user);
 		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
-		Filesystem::tearDown();
-		\OC_User::setUserId($this->user);
-		\OC_Util::setupFS($this->user);
+		$this->loginAsUser($this->user);
 
 		// Create a dummy shared file
 		$view = new View('/'. $this->user . '/files');

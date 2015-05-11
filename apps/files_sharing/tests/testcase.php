@@ -153,6 +153,7 @@ abstract class TestCase extends \Test\TestCase {
 		\OC::$server->getUserSession()->setUser(null);
 		\OC\Files\Filesystem::tearDown();
 		\OC::$server->getUserSession()->login($user, $password);
+		\OC::$server->getUserFolder($user);
 
 		\OC_Util::setupFS($user);
 	}
