@@ -21,11 +21,15 @@ OC.L10N.register(
     "November" : "November",
     "December" : "Dezember",
     "Settings" : "Einstellungen",
+    "No" : "Nein",
+    "Yes" : "Ja",
     "Cancel" : "Abbrechen",
     "Continue" : "Weiter",
     "Share" : "Freigeben",
     "Error" : "Fehler",
+    "Share link" : "Link teilen",
     "Password" : "Passwort",
+    "Send" : "Senden",
     "group" : "Gruppe",
     "Unshare" : "Teilung zurücknehmen",
     "can share" : "Kann teilen",
@@ -33,6 +37,7 @@ OC.L10N.register(
     "Delete" : "Löschen",
     "Add" : "Hinzufügen",
     "Personal" : "Persönlich",
-    "Help" : "Hilfe"
+    "Help" : "Hilfe",
+    "Username" : "Benutzername"
 },
 "nplurals=2; plural=(n != 1);");

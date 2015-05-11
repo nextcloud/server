@@ -19,11 +19,15 @@
     "November" : "November",
     "December" : "Dezember",
     "Settings" : "Einstellungen",
+    "No" : "Nein",
+    "Yes" : "Ja",
     "Cancel" : "Abbrechen",
     "Continue" : "Weiter",
     "Share" : "Freigeben",
     "Error" : "Fehler",
+    "Share link" : "Link teilen",
     "Password" : "Passwort",
+    "Send" : "Senden",
     "group" : "Gruppe",
     "Unshare" : "Teilung zurücknehmen",
     "can share" : "Kann teilen",
@@ -31,6 +35,7 @@
     "Delete" : "Löschen",
     "Add" : "Hinzufügen",
     "Personal" : "Persönlich",
-    "Help" : "Hilfe"
+    "Help" : "Hilfe",
+    "Username" : "Benutzername"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

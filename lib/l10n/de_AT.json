@@ -1,5 +1,6 @@
 { "translations": {
     "Help" : "Hilfe",
-    "Personal" : "Persönlich"
+    "Personal" : "Persönlich",
+    "seconds ago" : "Sekunden zuvor"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

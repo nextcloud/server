@@ -9,8 +9,10 @@ OC.L10N.register(
     "Port" : "Port",
     "by" : "von",
     "Password" : "Passwort",
+    "Change password" : "Passwort ändern",
     "Email" : "E-Mail",
     "Cancel" : "Abbrechen",
+    "Username" : "Benutzername",
     "Other" : "Anderes"
 },
 "nplurals=2; plural=(n != 1);");
