@@ -664,6 +664,11 @@ class View {
 				$this->unlockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
 				$this->unlockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
 
+				if ($internalPath1 === '' and $mount1 instanceof MoveableMount) {
+					// since $path2 now points to a different storage we need to unlock the path on the old storage separately
+					$storage2->releaseLock($internalPath2, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
+				}
+
 				if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
 					$this->updater->update($path2);
