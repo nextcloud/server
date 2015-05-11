@@ -157,13 +157,11 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 * @param string $target
 	 * @param $encryptionEnabled
 	 * @param boolean $renameKeysReturn
-	 * @param boolean $shouldUpdate
 	 */
 	public function testRename($source,
 							   $target,
 							   $encryptionEnabled,
-							   $renameKeysReturn,
-							   $shouldUpdate) {
+							   $renameKeysReturn) {
 		if ($encryptionEnabled) {
 			$this->keyStore
 				->expects($this->once())
@@ -177,13 +175,6 @@ class Encryption extends \Test\Files\Storage\Storage {
 			->method('isFile')->willReturn(true);
 		$this->encryptionManager->expects($this->once())
 			->method('isEnabled')->willReturn($encryptionEnabled);
-		if ($shouldUpdate) {
-			$this->update->expects($this->once())
-				->method('update');
-		} else {
-			$this->update->expects($this->never())
-				->method('update');
-		}
 
 		$this->instance->mkdir($source);
 		$this->instance->mkdir(dirname($target));

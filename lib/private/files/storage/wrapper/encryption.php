@@ -231,13 +231,7 @@ class Encryption extends Wrapper {
 				if (isset($this->unencryptedSize[$source])) {
 					$this->unencryptedSize[$target] = $this->unencryptedSize[$source];
 				}
-				$keysRenamed = $this->keyStorage->renameKeys($source, $target);
-				if ($keysRenamed &&
-					dirname($source) !== dirname($target) &&
-					$this->util->isFile($target)
-				) {
-					$this->update->update($target);
-				}
+				$this->keyStorage->renameKeys($source, $target);
 			}
 		}
 
