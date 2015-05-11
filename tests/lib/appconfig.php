@@ -113,11 +113,8 @@ class Test_Appconfig extends \Test\TestCase {
 	 * @param mixed $callable
 	 */
 	public function testGetValue($callable) {
-		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `configkey` = ?');
-		$result = $query->execute(array('testapp', 'installed_version'));
-		$expected = $result->fetchRow();
 		$value = call_user_func([$callable, 'getValue'], 'testapp', 'installed_version');
-		$this->assertEquals($expected['configvalue'], $value);
+		$this->assertConfigKey('testapp', 'installed_version', $value);
 
 		$value = call_user_func([$callable, 'getValue'], 'testapp', 'nonexistant');
 		$this->assertNull($value);
@@ -146,16 +143,10 @@ class Test_Appconfig extends \Test\TestCase {
 	 */
 	public function testSetValue($callable) {
 		call_user_func([$callable, 'setValue'], 'testapp', 'installed_version', '1.33.7');
-		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `configkey` = ?');
-		$result = $query->execute(array('testapp', 'installed_version'));
-		$value = $result->fetchRow();
-		$this->assertEquals('1.33.7', $value['configvalue']);
+		$this->assertConfigKey('testapp', 'installed_version', '1.33.7');
 
 		call_user_func([$callable, 'setValue'], 'someapp', 'somekey', 'somevalue');
-		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `configkey` = ?');
-		$result = $query->execute(array('someapp', 'somekey'));
-		$value = $result->fetchRow();
-		$this->assertEquals('somevalue', $value['configvalue']);
+		$this->assertConfigKey('someapp', 'somekey', 'somevalue');
 	}
 
 	/**
@@ -275,5 +266,31 @@ class Test_Appconfig extends \Test\TestCase {
 		$appconfig->setValue('bar', 'foo', 'v1');
 		$appconfig->setValue('bar', 'foo', 'v2');
 		$appconfig->setValue('bar', 'foo', 'v2');
+	}
+
+	public function testSettingConfigParallel() {
+		$appConfig1 = new OC\AppConfig(\OC::$server->getDatabaseConnection());
+		$appConfig2 = new OC\AppConfig(\OC::$server->getDatabaseConnection());
+		$appConfig1->getValue('testapp', 'foo', 'v1');
+		$appConfig2->getValue('testapp', 'foo', 'v1');
+
+		$appConfig1->setValue('testapp', 'foo', 'v1');
+		$this->assertConfigKey('testapp', 'foo', 'v1');
+
+		$appConfig2->setValue('testapp', 'foo', 'v2');
+		$this->assertConfigKey('testapp', 'foo', 'v2');
+	}
+
+	/**
+	 * @param string $app
+	 * @param string $key
+	 * @param string $expected
+	 * @throws \OC\DatabaseException
+	 */
+	protected function assertConfigKey($app, $key, $expected) {
+		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `configkey` = ?');
+		$result = $query->execute([$app, $key]);
+		$actual = $result->fetchRow();
+		$this->assertEquals($expected, $actual['configvalue']);
 	}
 }
