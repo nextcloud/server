@@ -1090,7 +1090,7 @@ class View extends \Test\TestCase {
 	public function testReadFromWriteLockedPath() {
 		$view = new \OC\Files\View();
 		$storage = new Temporary(array());
-		Filesystem::mount($storage, [], '/');
+		\OC\Files\Filesystem::mount($storage, [], '/');
 		$view->lockFile('/foo/bar', ILockingProvider::LOCK_EXCLUSIVE);
 		$view->lockFile('/foo/bar/asd', ILockingProvider::LOCK_SHARED);
 	}
@@ -1103,7 +1103,7 @@ class View extends \Test\TestCase {
 	public function testWriteToReadLockedFile() {
 		$view = new \OC\Files\View();
 		$storage = new Temporary(array());
-		Filesystem::mount($storage, [], '/');
+		\OC\Files\Filesystem::mount($storage, [], '/');
 		$view->lockFile('/foo/bar', ILockingProvider::LOCK_SHARED);
 		$view->lockFile('/foo/bar', ILockingProvider::LOCK_EXCLUSIVE);
 	}
