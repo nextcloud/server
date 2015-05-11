@@ -135,6 +135,7 @@ class UtilTest extends TestCase {
 
 	public function providePathsForTestIsExcluded() {
 		return array(
+			array('/files_encryption', true),
 			array('files_encryption/foo.txt', true),
 			array('test/foo.txt', false),
 			array('/user1/files_encryption/foo.txt', true),
