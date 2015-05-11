@@ -215,7 +215,7 @@ class Test_Appconfig extends \Test\TestCase {
 				.' WHERE `appid` = ?'), $this->equalTo(array('bar')))
 			->will($this->returnValue($statementMock));
 		$connectionMock->expects($this->once())
-			->method('insert')
+			->method('insertIfNotExist')
 			->with($this->equalTo('*PREFIX*appconfig'),
 				$this->equalTo(
 					array(
@@ -223,7 +223,8 @@ class Test_Appconfig extends \Test\TestCase {
 						'configkey' => 'foo',
 						'configvalue' => 'v1',
 					)
-				));
+				), $this->equalTo(['appid', 'configkey']))
+			->willReturn(1);
 		$connectionMock->expects($this->never())
 			->method('update');
 
@@ -246,7 +247,7 @@ class Test_Appconfig extends \Test\TestCase {
 				.' WHERE `appid` = ?'), $this->equalTo(array('bar')))
 			->will($this->returnValue($statementMock));
 		$connectionMock->expects($this->once())
-			->method('insert')
+			->method('insertIfNotExist')
 			->with($this->equalTo('*PREFIX*appconfig'),
 				$this->equalTo(
 					array(
@@ -254,7 +255,8 @@ class Test_Appconfig extends \Test\TestCase {
 						'configkey' => 'foo',
 						'configvalue' => 'v1',
 					)
-				));
+				), $this->equalTo(['appid', 'configkey']))
+			->willReturn(1);
 		$connectionMock->expects($this->once())
 			->method('update')
 			->with($this->equalTo('*PREFIX*appconfig'),
