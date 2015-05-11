@@ -42,13 +42,14 @@
 
 namespace OC;
 
-use \OC\DB\Connection;
+use OC\DB\Connection;
+use OCP\IAppConfig;
 
 /**
  * This class provides an easy way for apps to store config values in the
  * database.
  */
-class AppConfig implements \OCP\IAppConfig {
+class AppConfig implements IAppConfig {
 	/**
 	 * @var \OC\DB\Connection $conn
 	 */
@@ -64,7 +65,7 @@ class AppConfig implements \OCP\IAppConfig {
 	private $apps = null;
 
 	/**
-	 * @param \OC\DB\Connection $conn
+	 * @param Connection $conn
 	 */
 	public function __construct(Connection $conn) {
 		$this->conn = $conn;
@@ -172,27 +173,31 @@ class AppConfig implements \OCP\IAppConfig {
 	}
 
 	/**
-	 * sets a value in the appconfig
+	 * Sets a value. If the key did not exist before it will be created.
 	 *
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $value value
-	 *
-	 * Sets a value. If the key did not exist before it will be created.
+	 * @return void
 	 */
 	public function setValue($app, $key, $value) {
+		$inserted = false;
 		// Does the key exist? no: insert, yes: update.
 		if (!$this->hasKey($app, $key)) {
-			$data = array(
+			$inserted = (bool) $this->conn->insertIfNotExist('*PREFIX*appconfig', [
 				'appid' => $app,
 				'configkey' => $key,
 				'configvalue' => $value,
-			);
-			$this->conn->insert('*PREFIX*appconfig', $data);
-		} else {
+			], [
+				'appid',
+				'configkey',
+			]);
+		}
+
+		if (!$inserted) {
 			$oldValue = $this->getValue($app, $key);
 			if($oldValue === strval($value)) {
-				return true;
+				return;
 			}
 			$data = array(
 				'configvalue' => $value,

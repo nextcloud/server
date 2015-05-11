@@ -8,16 +8,25 @@
  */
 
 class Test_Appconfig extends \Test\TestCase {
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
+	/** @var \OCP\IAppConfig */
+	protected $appConfig;
 
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*appconfig` WHERE `appid` = ?');
+	/** @var \OCP\IDBConnection */
+	protected $connection;
+
+	public function setUp() {
+		parent::setUp();
+
+		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->registerAppConfig(new \OC\AppConfig(\OC::$server->getDatabaseConnection()));
+
+		$query = $this->connection->prepare('DELETE FROM `*PREFIX*appconfig` WHERE `appid` = ?');
 		$query->execute(array('testapp'));
 		$query->execute(array('someapp'));
 		$query->execute(array('123456'));
 		$query->execute(array('anotherapp'));
 
-		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*appconfig` VALUES (?, ?, ?)');
+		$query = $this->connection->prepare('INSERT INTO `*PREFIX*appconfig` VALUES (?, ?, ?)');
 
 		$query->execute(array('testapp', 'enabled', 'true'));
 		$query->execute(array('testapp', 'installed_version', '1.2.3'));
@@ -35,17 +44,41 @@ class Test_Appconfig extends \Test\TestCase {
 		$query->execute(array('anotherapp', 'enabled', 'false'));
 	}
 
-	public static function tearDownAfterClass() {
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*appconfig` WHERE `appid` = ?');
+	public function tearDown() {
+		$query = $this->connection->prepare('DELETE FROM `*PREFIX*appconfig` WHERE `appid` = ?');
 		$query->execute(array('testapp'));
 		$query->execute(array('someapp'));
 		$query->execute(array('123456'));
 		$query->execute(array('anotherapp'));
 
-		parent::tearDownAfterClass();
+		$this->registerAppConfig(new \OC\AppConfig(\OC::$server->getDatabaseConnection()));
+		parent::tearDown();
 	}
 
-	public function testGetApps() {
+	/**
+	 * Register an app config object for testing purposes.
+	 *
+	 * @param \OCP\IAppConfig $appConfig
+	 */
+	protected function registerAppConfig($appConfig) {
+		\OC::$server->registerService('AppConfig', function ($c) use ($appConfig) {
+			return $appConfig;
+		});
+	}
+
+	public function getAppConfigs() {
+		return [
+			['\OC_Appconfig'],
+			[new \OC\AppConfig(\OC::$server->getDatabaseConnection())],
+		];
+	}
+
+	/**
+	 * @dataProvider getAppConfigs
+	 *
+	 * @param mixed $callable
+	 */
+	public function testGetApps($callable) {
 		$query = \OC_DB::prepare('SELECT DISTINCT `appid` FROM `*PREFIX*appconfig` ORDER BY `appid`');
 		$result = $query->execute();
 		$expected = array();
@@ -53,11 +86,16 @@ class Test_Appconfig extends \Test\TestCase {
 			$expected[] = $row['appid'];
 		}
 		sort($expected);
-		$apps = \OC_Appconfig::getApps();
+		$apps = call_user_func([$callable, 'getApps']);
 		$this->assertEquals($expected, $apps);
 	}
 
-	public function testGetKeys() {
+	/**
+	 * @dataProvider getAppConfigs
+	 *
+	 * @param mixed $callable
+	 */
+	public function testGetKeys($callable) {
 		$query = \OC_DB::prepare('SELECT `configkey` FROM `*PREFIX*appconfig` WHERE `appid` = ?');
 		$result = $query->execute(array('testapp'));
 		$expected = array();
@@ -65,44 +103,103 @@ class Test_Appconfig extends \Test\TestCase {
 			$expected[] = $row["configkey"];
 		}
 		sort($expected);
-		$keys = \OC_Appconfig::getKeys('testapp');
+		$keys = call_user_func([$callable, 'getKeys'], 'testapp');
 		$this->assertEquals($expected, $keys);
 	}
 
-	public function testGetValue() {
-		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `configkey` = ?');
-		$result = $query->execute(array('testapp', 'installed_version'));
-		$expected = $result->fetchRow();
-		$value = \OC_Appconfig::getValue('testapp', 'installed_version');
-		$this->assertEquals($expected['configvalue'], $value);
+	/**
+	 * @dataProvider getAppConfigs
+	 *
+	 * @param mixed $callable
+	 */
+	public function testGetValue($callable) {
+		$value = call_user_func([$callable, 'getValue'], 'testapp', 'installed_version');
+		$this->assertConfigKey('testapp', 'installed_version', $value);
 
-		$value = \OC_Appconfig::getValue('testapp', 'nonexistant');
+		$value = call_user_func([$callable, 'getValue'], 'testapp', 'nonexistant');
 		$this->assertNull($value);
 
-		$value = \OC_Appconfig::getValue('testapp', 'nonexistant', 'default');
+		$value = call_user_func([$callable, 'getValue'], 'testapp', 'nonexistant', 'default');
 		$this->assertEquals('default', $value);
 	}
 
-	public function testHasKey() {
-		$value = \OC_Appconfig::hasKey('testapp', 'installed_version');
+	/**
+	 * @dataProvider getAppConfigs
+	 *
+	 * @param mixed $callable
+	 */
+	public function testHasKey($callable) {
+		$value = call_user_func([$callable, 'hasKey'], 'testapp', 'installed_version');
 		$this->assertTrue($value);
 
-		$value = \OC_Appconfig::hasKey('nonexistant', 'nonexistant');
+		$value = call_user_func([$callable, 'hasKey'], 'nonexistant', 'nonexistant');
 		$this->assertFalse($value);
 	}
 
-	public function testSetValue() {
-		\OC_Appconfig::setValue('testapp', 'installed_version', '1.33.7');
-		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `configkey` = ?');
-		$result = $query->execute(array('testapp', 'installed_version'));
-		$value = $result->fetchRow();
-		$this->assertEquals('1.33.7', $value['configvalue']);
+	/**
+	 * @dataProvider getAppConfigs
+	 *
+	 * @param mixed $callable
+	 */
+	public function testSetValue($callable) {
+		call_user_func([$callable, 'setValue'], 'testapp', 'installed_version', '1.33.7');
+		$this->assertConfigKey('testapp', 'installed_version', '1.33.7');
 
-		\OC_Appconfig::setValue('someapp', 'somekey', 'somevalue');
+		call_user_func([$callable, 'setValue'], 'someapp', 'somekey', 'somevalue');
+		$this->assertConfigKey('someapp', 'somekey', 'somevalue');
+	}
+
+	/**
+	 * @dataProvider getAppConfigs
+	 *
+	 * @param mixed $callable
+	 */
+	public function testDeleteKey($callable) {
+		call_user_func([$callable, 'deleteKey'], 'testapp', 'deletethis');
 		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `configkey` = ?');
-		$result = $query->execute(array('someapp', 'somekey'));
-		$value = $result->fetchRow();
-		$this->assertEquals('somevalue', $value['configvalue']);
+		$query->execute(array('testapp', 'deletethis'));
+		$result = (bool)$query->fetchRow();
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * @dataProvider getAppConfigs
+	 *
+	 * @param mixed $callable
+	 */
+	public function testDeleteApp($callable) {
+		call_user_func([$callable, 'deleteApp'], 'someapp');
+		$query = \OC_DB::prepare('SELECT `configkey` FROM `*PREFIX*appconfig` WHERE `appid` = ?');
+		$query->execute(array('someapp'));
+		$result = (bool)$query->fetchRow();
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * @dataProvider getAppConfigs
+	 *
+	 * @param mixed $callable
+	 */
+	public function testGetValues($callable) {
+		$this->assertFalse(call_user_func([$callable, 'getValues'], 'testapp', 'enabled'));
+
+		$query = \OC_DB::prepare('SELECT `configkey`, `configvalue` FROM `*PREFIX*appconfig` WHERE `appid` = ?');
+		$query->execute(array('testapp'));
+		$expected = array();
+		while ($row = $query->fetchRow()) {
+			$expected[$row['configkey']] = $row['configvalue'];
+		}
+		$values = call_user_func([$callable, 'getValues'], 'testapp', false);
+		$this->assertEquals($expected, $values);
+
+		$query = \OC_DB::prepare('SELECT `appid`, `configvalue` FROM `*PREFIX*appconfig` WHERE `configkey` = ?');
+		$query->execute(array('enabled'));
+		$expected = array();
+		while ($row = $query->fetchRow()) {
+			$expected[$row['appid']] = $row['configvalue'];
+		}
+		$values = call_user_func([$callable, 'getValues'], false, 'enabled');
+		$this->assertEquals($expected, $values);
 	}
 
 	public function testSetValueUnchanged() {
@@ -118,7 +215,7 @@ class Test_Appconfig extends \Test\TestCase {
 				.' WHERE `appid` = ?'), $this->equalTo(array('bar')))
 			->will($this->returnValue($statementMock));
 		$connectionMock->expects($this->once())
-			->method('insert')
+			->method('insertIfNotExist')
 			->with($this->equalTo('*PREFIX*appconfig'),
 				$this->equalTo(
 					array(
@@ -126,7 +223,8 @@ class Test_Appconfig extends \Test\TestCase {
 						'configkey' => 'foo',
 						'configvalue' => 'v1',
 					)
-				));
+				), $this->equalTo(['appid', 'configkey']))
+			->willReturn(1);
 		$connectionMock->expects($this->never())
 			->method('update');
 
@@ -149,7 +247,7 @@ class Test_Appconfig extends \Test\TestCase {
 				.' WHERE `appid` = ?'), $this->equalTo(array('bar')))
 			->will($this->returnValue($statementMock));
 		$connectionMock->expects($this->once())
-			->method('insert')
+			->method('insertIfNotExist')
 			->with($this->equalTo('*PREFIX*appconfig'),
 				$this->equalTo(
 					array(
@@ -157,7 +255,8 @@ class Test_Appconfig extends \Test\TestCase {
 						'configkey' => 'foo',
 						'configvalue' => 'v1',
 					)
-				));
+				), $this->equalTo(['appid', 'configkey']))
+			->willReturn(1);
 		$connectionMock->expects($this->once())
 			->method('update')
 			->with($this->equalTo('*PREFIX*appconfig'),
@@ -171,41 +270,29 @@ class Test_Appconfig extends \Test\TestCase {
 		$appconfig->setValue('bar', 'foo', 'v2');
 	}
 
-	public function testDeleteKey() {
-		\OC_Appconfig::deleteKey('testapp', 'deletethis');
+	public function testSettingConfigParallel() {
+		$appConfig1 = new OC\AppConfig(\OC::$server->getDatabaseConnection());
+		$appConfig2 = new OC\AppConfig(\OC::$server->getDatabaseConnection());
+		$appConfig1->getValue('testapp', 'foo', 'v1');
+		$appConfig2->getValue('testapp', 'foo', 'v1');
+
+		$appConfig1->setValue('testapp', 'foo', 'v1');
+		$this->assertConfigKey('testapp', 'foo', 'v1');
+
+		$appConfig2->setValue('testapp', 'foo', 'v2');
+		$this->assertConfigKey('testapp', 'foo', 'v2');
+	}
+
+	/**
+	 * @param string $app
+	 * @param string $key
+	 * @param string $expected
+	 * @throws \OC\DatabaseException
+	 */
+	protected function assertConfigKey($app, $key, $expected) {
 		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `configkey` = ?');
-		$query->execute(array('testapp', 'deletethis'));
-		$result = (bool)$query->fetchRow();
-		$this->assertFalse($result);
-	}
-
-	public function testDeleteApp() {
-		\OC_Appconfig::deleteApp('someapp');
-		$query = \OC_DB::prepare('SELECT `configkey` FROM `*PREFIX*appconfig` WHERE `appid` = ?');
-		$query->execute(array('someapp'));
-		$result = (bool)$query->fetchRow();
-		$this->assertFalse($result);
-	}
-
-	public function testGetValues() {
-		$this->assertFalse(\OC_Appconfig::getValues('testapp', 'enabled'));
-
-		$query = \OC_DB::prepare('SELECT `configkey`, `configvalue` FROM `*PREFIX*appconfig` WHERE `appid` = ?');
-		$query->execute(array('testapp'));
-		$expected = array();
-		while ($row = $query->fetchRow()) {
-			$expected[$row['configkey']] = $row['configvalue'];
-		}
-		$values = \OC_Appconfig::getValues('testapp', false);
-		$this->assertEquals($expected, $values);
-
-		$query = \OC_DB::prepare('SELECT `appid`, `configvalue` FROM `*PREFIX*appconfig` WHERE `configkey` = ?');
-		$query->execute(array('enabled'));
-		$expected = array();
-		while ($row = $query->fetchRow()) {
-			$expected[$row['appid']] = $row['configvalue'];
-		}
-		$values = \OC_Appconfig::getValues(false, 'enabled');
-		$this->assertEquals($expected, $values);
+		$result = $query->execute([$app, $key]);
+		$actual = $result->fetchRow();
+		$this->assertEquals($expected, $actual['configvalue']);
 	}
 }
