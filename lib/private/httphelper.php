@@ -68,9 +68,12 @@ class HTTPHelper {
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
 			curl_setopt($curl, CURLOPT_URL, $url);
-			curl_setopt($curl, CURLOPT_PROTOCOLS,  CURLPROTO_HTTP | CURLPROTO_HTTPS);
-			curl_setopt($curl, CURLOPT_REDIR_PROTOCOLS,  CURLPROTO_HTTP | CURLPROTO_HTTPS);
-
+			if(defined('CURLOPT_PROTOCOLS')) {
+				curl_setopt($curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
+			}
+			if(defined('CURLOPT_REDIR_PROTOCOLS')) {
+				curl_setopt($curl, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
+			}
 			curl_setopt($curl, CURLOPT_USERAGENT, self::USER_AGENT);
 			if ($proxy !== null) {
 				curl_setopt($curl, CURLOPT_PROXY, $proxy);
