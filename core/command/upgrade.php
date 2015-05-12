@@ -130,6 +130,9 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use($output) {
 				$output->writeln('<info>Disabled 3rd-party app: ' . $app . '</info>');
 			});
+			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use($output) {
+				$output->writeln('<info>Update 3rd-party app: ' . $app . '</info>');
+			});
 			$updater->listen('\OC\Updater', 'repairWarning', function ($app) use($output) {
 				$output->writeln('<error>Repair warning: ' . $app . '</error>');
 			});
