@@ -25,7 +25,6 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A aplicación de cifrado está activada, mais as chaves non foron preparadas, saia da sesión e volva a acceder de novo",
     "Enable recovery key" : "Activar a chave de recuperación",
     "Disable recovery key" : "Desactivar a chave de recuperación",
-    "The recovery key is an extra encryption key that is used\n\t\tto encrypt files. It allows recovery of a user's files if the user forgets their password." : "A chave de recuperación é unha chave de cifrado adicional utilizada\n\t\tpara cifrar ficheiros. Permite a recuperación de ficheiros dun usuario se este esquece o seu contrasinal.",
     "Recovery key password" : "Contrasinal da chave de recuperación",
     "Repeat recovery key password" : "Repita o contrasinal da chave de recuperación",
     "Change recovery key password:" : "Cambiar o contrasinal da chave de la recuperación:",

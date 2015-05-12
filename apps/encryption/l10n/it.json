@@ -23,7 +23,6 @@
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'applicazione di cifratura è abilitata, ma le chiavi non sono state inizializzate, disconnettiti ed effettua nuovamente l'accesso",
     "Enable recovery key" : "Abilita chiave di ripristino",
     "Disable recovery key" : "Disabilita chiave di ripristino",
-    "The recovery key is an extra encryption key that is used\n\t\tto encrypt files. It allows recovery of a user's files if the user forgets their password." : "La chiave di ripristino è un chiave di cifratura aggiuntiva utilizzata\n\t\tper cifrare i file. Consente il ripristino dei file di un utente nel caso in cui l'utente smarrisca la propria password.",
     "Recovery key password" : "Password della chiave di recupero",
     "Repeat recovery key password" : "Ripeti la password della chiave di ripristino",
     "Change recovery key password:" : "Cambia la password della chiave di recupero:",

@@ -25,7 +25,6 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Şifreleme Uygulaması etkin ancak anahtarlarınız başlatılmamış. Lütfen oturumu kapatıp yeniden açın",
     "Enable recovery key" : "Kurtarma anahtarını aktif et",
     "Disable recovery key" : "Kurtarma anahtarını kapat",
-    "The recovery key is an extra encryption key that is used\n\t\tto encrypt files. It allows recovery of a user's files if the user forgets their password." : "Kurtarma anahtarı, dosyaların şifrelenmesi için daha fazla \nşifreleme sunar. Bu kullanıcının dosyasının şifresini unuttuğunda kurtarmasına imkan verir.",
     "Recovery key password" : "Kurtarma anahtarı parolası",
     "Change recovery key password:" : "Kurtarma anahtarı parolasını değiştir:",
     "Change Password" : "Parola Değiştir",

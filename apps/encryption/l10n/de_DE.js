@@ -25,7 +25,6 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Verschlüsselung-App ist aktiviert, aber Ihre Schlüssel sind nicht initialisiert. Bitte nochmals ab- und wieder anmelden.",
     "Enable recovery key" : "Wiederherstellungsschlüssel aktivieren",
     "Disable recovery key" : "Wiederherstellungsschlüssel deaktivieren",
-    "The recovery key is an extra encryption key that is used\n\t\tto encrypt files. It allows recovery of a user's files if the user forgets their password." : "Der Wiederherstellungsschlüssel ist ein zusätzlicher Verschlüsselungsschlüssel, der zum Verschlüsseln von Dateien benutzt wird. Er erlaubt die Wiederherstellung von Benutzerdateien auch dann, wenn Benutzer ihr Passwort vergessen.",
     "Recovery key password" : "Wiederherstellungschlüsselpasswort",
     "Repeat recovery key password" : "Passwort für den Wiederherstellungsschlüssel wiederholen",
     "Change recovery key password:" : "Wiederherstellungsschlüsselpasswort ändern",
