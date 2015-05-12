@@ -54,6 +54,9 @@ class CertificateController extends Controller {
 
 	/**
 	 * Add a new personal root certificate to the users' trust store
+	 *
+	 * @NoAdminRequired
+	 * @NoSubadminRequired
 	 * @return array
 	 */
 	public function addPersonalRootCertificate() {
@@ -82,6 +85,9 @@ class CertificateController extends Controller {
 
 	/**
 	 * Removes a personal root certificate from the users' trust store
+	 *
+	 * @NoAdminRequired
+	 * @NoSubadminRequired
 	 * @param string $certificateIdentifier
 	 * @return DataResponse
 	 */
