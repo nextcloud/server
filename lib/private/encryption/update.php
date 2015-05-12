@@ -108,13 +108,45 @@ class Update {
 	}
 
 	/**
+	 * inform encryption module that a file was restored from the trash bin,
+	 * e.g. to update the encryption keys
+	 *
+	 * @param array $params
+	 */
+	public function postRestore($params) {
+		if ($this->encryptionManager->isEnabled()) {
+			$path = Filesystem::normalizePath('/' . $this->uid . '/files/' . $params['filePath']);
+			$this->update($path);
+		}
+	}
+
+	/**
+	 * inform encryption module that a file was renamed,
+	 * e.g. to update the encryption keys
+	 *
+	 * @param array $params
+	 */
+	public function postRename($params) {
+		$source = $params['oldpath'];
+		$target = $params['newpath'];
+		if(
+			$this->encryptionManager->isEnabled() &&
+			dirname($source) !== dirname($target)
+		) {
+				list($owner, $ownerPath) = $this->getOwnerPath($target);
+				$absPath = '/' . $owner . '/files/' . $ownerPath;
+				$this->update($absPath);
+		}
+	}
+
+	/**
 	 * get owner and path relative to data/<owner>/files
 	 *
 	 * @param string $path path to file for current user
 	 * @return array ['owner' => $owner, 'path' => $path]
 	 * @throw \InvalidArgumentException
 	 */
-	private function getOwnerPath($path) {
+	protected function getOwnerPath($path) {
 		$info = Filesystem::getFileInfo($path);
 		$owner = Filesystem::getOwner($path);
 		$view = new View('/' . $owner . '/files');

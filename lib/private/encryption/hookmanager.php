@@ -37,6 +37,14 @@ class HookManager {
 		self::getUpdate()->postUnshared($params);
 	}
 
+	public static function postRename($params) {
+		self::getUpdate()->postRename($params);
+	}
+
+	public static function postRestore($params) {
+		self::getUpdate()->postRestore($params);
+	}
+
 	/**
 	 * @return Update
 	 */

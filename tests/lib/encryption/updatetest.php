@@ -68,10 +68,6 @@ class UpdateTest extends TestCase {
 		$this->encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 			->disableOriginalConstructor()->getMock();
 
-		$this->encryptionManager->expects($this->once())
-			->method('getEncryptionModule')
-			->willReturn($this->encryptionModule);
-
 		$this->uid = 'testUser1';
 
 		$this->update = new Update(
@@ -92,6 +88,10 @@ class UpdateTest extends TestCase {
 	 * @param integer $numberOfFiles
 	 */
 	public function testUpdate($path, $isDir, $allFiles, $numberOfFiles) {
+
+		$this->encryptionManager->expects($this->once())
+			->method('getEncryptionModule')
+			->willReturn($this->encryptionModule);
 
 		$this->view->expects($this->once())
 			->method('is_dir')
@@ -124,6 +124,113 @@ class UpdateTest extends TestCase {
 			array('/user/files/foo', true, ['/user/files/foo/file1.txt', '/user/files/foo/file1.txt'], 2),
 			array('/user/files/test.txt', false, [], 1),
 		);
+	}
+
+	/**
+	 * @dataProvider dataTestPostRename
+	 *
+	 * @param string $source
+	 * @param string $target
+	 * @param boolean $encryptionEnabled
+	 */
+	public function testPostRename($source, $target, $encryptionEnabled) {
+
+		$updateMock = $this->getUpdateMock(['update', 'getOwnerPath']);
+
+		$this->encryptionManager->expects($this->once())
+			->method('isEnabled')
+			->willReturn($encryptionEnabled);
+
+		if (dirname($source) === dirname($target) || $encryptionEnabled === false) {
+			$updateMock->expects($this->never())->method('getOwnerPath');
+			$updateMock->expects($this->never())->method('update');
+		} else {
+			$updateMock->expects($this->once())
+				->method('getOwnerPath')
+				->willReturnCallback(function($path) use ($target) {
+					$this->assertSame(
+						$target,
+						$path,
+						'update needs to be executed for the target destination');
+					return ['owner', $path];
+
+				});
+			$updateMock->expects($this->once())->method('update');
+		}
+
+		$updateMock->postRename(['oldpath' => $source, 'newpath' => $target]);
+	}
+
+	/**
+	 * test data for testPostRename()
+	 *
+	 * @return array
+	 */
+	public function dataTestPostRename() {
+		return array(
+			array('/test.txt', '/testNew.txt', true),
+			array('/test.txt', '/testNew.txt', false),
+			array('/folder/test.txt', '/testNew.txt', true),
+			array('/folder/test.txt', '/testNew.txt', false),
+			array('/folder/test.txt', '/testNew.txt', true),
+			array('/test.txt', '/folder/testNew.txt', false),
+		);
+	}
+
+
+	/**
+	 * @dataProvider dataTestPostRestore
+	 *
+	 * @param boolean $encryptionEnabled
+	 */
+	public function testPostRestore($encryptionEnabled) {
+
+		$updateMock = $this->getUpdateMock(['update']);
+
+		$this->encryptionManager->expects($this->once())
+			->method('isEnabled')
+			->willReturn($encryptionEnabled);
+
+		if ($encryptionEnabled) {
+			$updateMock->expects($this->once())->method('update');
+
+		} else {
+			$updateMock->expects($this->never())->method('update');
+		}
+
+		$updateMock->postRestore(['filePath' => '/folder/test.txt']);
+	}
+
+	/**
+	 * test data for testPostRestore()
+	 *
+	 * @return array
+	 */
+	public function dataTestPostRestore() {
+		return array(
+			array(true),
+			array(false),
+		);
+	}
+
+	/**
+	 * create mock of the update method
+	 *
+	 * @param array$methods methods which should be set
+	 * @return \OC\Encryption\Update | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected function getUpdateMock($methods) {
+		return  $this->getMockBuilder('\OC\Encryption\Update')
+			->setConstructorArgs(
+				[
+					$this->view,
+					$this->util,
+					$this->mountManager,
+					$this->encryptionManager,
+					$this->fileHelper,
+					$this->uid
+				]
+			)->setMethods($methods)->getMock();
 	}
 
 }
