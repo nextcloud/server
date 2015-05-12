@@ -47,9 +47,6 @@
 					  placeholder="<?php p($l->t('Edit LDAP Query'));?>"
 					  title="<?php p($l->t('The filter specifies which LDAP groups shall have access to the %s instance.', $theme->getName()));?>">
 			</textarea>
-			<button class="ldapGetEntryCount hidden" name="ldapGetEntryCount" type="button">
-				<?php p($l->t('Test Filter'));?>
-			</button>
 		</p>
 		<p>
 			<div class="ldapWizardInfo invisible">&nbsp;</div>
