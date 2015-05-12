@@ -161,13 +161,37 @@ class File extends Node implements IFile {
 		}
 
 		try {
+			$view = \OC\Files\Filesystem::getView();
+			$run = true;
+			if ($view) {
+				$hookPath = $view->getRelativePath($this->fileView->getAbsolutePath($this->path));
+
+				if (!$exists) {
+					\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_create, array(
+						\OC\Files\Filesystem::signal_param_path => $hookPath,
+						\OC\Files\Filesystem::signal_param_run => &$run,
+					));
+				} else {
+					\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_update, array(
+						\OC\Files\Filesystem::signal_param_path => $hookPath,
+						\OC\Files\Filesystem::signal_param_run => &$run,
+					));
+				}
+				\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_write, array(
+					\OC\Files\Filesystem::signal_param_path => $hookPath,
+					\OC\Files\Filesystem::signal_param_run => &$run,
+				));
+			}
+
 			if ($needsPartFile) {
 				// rename to correct path
 				try {
-					$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
-					$fileExists = $storage->file_exists($internalPath);
-					if ($renameOkay === false || $fileExists === false) {
-						\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
+					if ($run) {
+						$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
+						$fileExists = $storage->file_exists($internalPath);
+					}
+					if (!$run || $renameOkay === false || $fileExists === false) {
+						\OC_Log::write('webdav', 'renaming part file to final file failed', \OC_Log::ERROR);
 						$partStorage->unlink($internalPartPath);
 						throw new Exception('Could not rename part file to final file');
 					}
@@ -180,9 +204,7 @@ class File extends Node implements IFile {
 			// since we skipped the view we need to scan and emit the hooks ourselves
 			$partStorage->getScanner()->scanFile($internalPath);
 
-			$view = \OC\Files\Filesystem::getView();
 			if ($view) {
-				$hookPath = $view->getRelativePath($this->fileView->getAbsolutePath($this->path));
 				$this->fileView->getUpdater()->propagate($hookPath);
 				if (!$exists) {
 					\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_create, array(
