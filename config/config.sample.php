@@ -807,6 +807,9 @@ $CONFIG = array(
 /**
  * All css and js files will be served by the web server statically in one js
  * file and one css file if this is set to ``true``.
+ *
+ * .. note:: Test this thoroughly on production systems as it should work reliably
+ *    with core apps, but you may encounter problems with community/third-party apps.
  */
 'asset-pipeline.enabled' => false,
 
