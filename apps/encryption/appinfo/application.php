@@ -209,7 +209,8 @@ class Application extends \OCP\AppFramework\App {
 					$c->query('Crypt'),
 					$server->getLogger(),
 					$server->getUserSession(),
-					$server->getConfig());
+					$server->getConfig(),
+					$server->getUserManager());
 			});
 
 	}

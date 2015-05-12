@@ -117,7 +117,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 					$this->encryptionManager, $this->util, $logger, $file, null, $this->keyStore, $this->update
 				]
 			)
-			->setMethods(['getMetaData', 'getCache'])
+			->setMethods(['getMetaData', 'getCache', 'getEncryptionModule'])
 			->getMock();
 
 		$this->instance->expects($this->any())
@@ -127,6 +127,10 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$this->instance->expects($this->any())
 			->method('getCache')
 			->willReturn($this->cache);
+
+		$this->instance->expects($this->any())
+			->method('getEncryptionModule')
+			->willReturn($mockModule);
 	}
 
 	/**
@@ -135,7 +139,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 	protected function buildMockModule() {
 		$this->encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 			->disableOriginalConstructor()
-			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize'])
+			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable'])
 			->getMock();
 
 		$this->encryptionModule->expects($this->any())->method('getId')->willReturn('UNIT_TEST_MODULE');
@@ -147,6 +151,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$this->encryptionModule->expects($this->any())->method('update')->willReturn(true);
 		$this->encryptionModule->expects($this->any())->method('shouldEncrypt')->willReturn(true);
 		$this->encryptionModule->expects($this->any())->method('getUnencryptedBlockSize')->willReturn(8192);
+		$this->encryptionModule->expects($this->any())->method('isReadable')->willReturn(true);
 		return $this->encryptionModule;
 	}
 

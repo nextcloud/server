@@ -28,11 +28,17 @@ use Test\TestCase;
 
 class UtilTest extends TestCase {
 	private static $tempStorage = [];
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	private $configMock;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	private $filesMock;
-	/**
-	 * @var Util
-	 */
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $userManagerMock;
+
+	/** @var Util */
 	private $instance;
 
 	public function testSetRecoveryForUser() {
@@ -40,9 +46,6 @@ class UtilTest extends TestCase {
 		$this->assertArrayHasKey('recoveryEnabled', self::$tempStorage);
 	}
 
-	/**
-	 *
-	 */
 	public function testIsRecoveryEnabledForUser() {
 		$this->assertTrue($this->instance->isRecoveryEnabledForUser('admin'));
 
@@ -62,6 +65,7 @@ class UtilTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->filesMock = $this->getMock('OC\Files\View');
+		$this->userManagerMock = $this->getMock('\OCP\IUserManager');
 
 		$cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
 			->disableOriginalConstructor()
@@ -98,7 +102,7 @@ class UtilTest extends TestCase {
 			->method('setUserValue')
 			->will($this->returnCallback([$this, 'setValueTester']));
 
-		$this->instance = new Util($this->filesMock, $cryptMock, $loggerMock, $userSessionMock, $configMock);
+		$this->instance = new Util($this->filesMock, $cryptMock, $loggerMock, $userSessionMock, $configMock, $this->userManagerMock);
 	}
 
 	/**
