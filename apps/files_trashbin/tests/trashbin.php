@@ -40,12 +40,20 @@ class Test_Trashbin extends \Test\TestCase {
 	private static $rememberAutoExpire;
 
 	/**
+	 * @var bool
+	 */
+	private static $trashBinStatus;
+
+	/**
 	 * @var \OC\Files\View
 	 */
 	private $rootView;
 
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
+
+		$appManager = \OC::$server->getAppManager();
+		self::$trashBinStatus = $appManager->isEnabledForUser('files_trashbin');
 
 		// reset backend
 		\OC_User::clearBackends();
@@ -89,11 +97,17 @@ class Test_Trashbin extends \Test\TestCase {
 
 		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 
+		if (self::$trashBinStatus) {
+			\OC::$server->getAppManager()->enableApp('files_trashbin');
+		}
+
 		parent::tearDownAfterClass();
 	}
 
 	protected function setUp() {
 		parent::setUp();
+
+		\OC::$server->getAppManager()->enableApp('files_trashbin');
 
 		$this->trashRoot1 = '/' . self::TEST_TRASHBIN_USER1 . '/files_trashbin';
 		$this->trashRoot2 = '/' . self::TEST_TRASHBIN_USER2 . '/files_trashbin';
@@ -102,8 +116,17 @@ class Test_Trashbin extends \Test\TestCase {
 	}
 
 	protected function tearDown() {
+		// disable trashbin to be able to properly clean up
+		\OC::$server->getAppManager()->disableApp('files_trashbin');
+
+		$this->rootView->deleteAll('/' . self::TEST_TRASHBIN_USER1 . '/files');
+		$this->rootView->deleteAll('/' . self::TEST_TRASHBIN_USER2 . '/files');
 		$this->rootView->deleteAll($this->trashRoot1);
 		$this->rootView->deleteAll($this->trashRoot2);
+
+		// clear trash table
+		$connection = \OC::$server->getDatabaseConnection();
+		$connection->executeUpdate('DELETE FROM `*PREFIX*files_trash`');
 
 		parent::tearDown();
 	}
@@ -292,6 +315,310 @@ class Test_Trashbin extends \Test\TestCase {
 		$this->assertSame(1, count($newTrashContent));
 		$element = reset($newTrashContent);
 		$this->assertSame('file1.txt', $element['name']);
+	}
+
+	/**
+	 * Test restoring a file
+	 */
+	public function testRestoreFileInRoot() {
+		$userFolder = \OC::$server->getUserFolder();
+		$file = $userFolder->newFile('file1.txt');
+		$file->putContent('foo');
+
+		$this->assertTrue($userFolder->nodeExists('file1.txt'));
+
+		$file->delete();
+
+		$this->assertFalse($userFolder->nodeExists('file1.txt'));
+
+		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
+		$this->assertCount(1, $filesInTrash);
+
+		/** @var \OCP\Files\FileInfo */
+		$trashedFile = $filesInTrash[0];
+
+		$this->assertTrue(
+			OCA\Files_Trashbin\Trashbin::restore(
+				'file1.txt.d' . $trashedFile->getMtime(),
+				$trashedFile->getName(),
+				$trashedFile->getMtime()
+			)
+		);
+
+		$file = $userFolder->get('file1.txt');
+		$this->assertEquals('foo', $file->getContent());
+	}
+
+	/**
+	 * Test restoring a file in subfolder
+	 */
+	public function testRestoreFileInSubfolder() {
+		$userFolder = \OC::$server->getUserFolder();
+		$folder = $userFolder->newFolder('folder');
+		$file = $folder->newFile('file1.txt');
+		$file->putContent('foo');
+
+		$this->assertTrue($userFolder->nodeExists('folder/file1.txt'));
+
+		$file->delete();
+
+		$this->assertFalse($userFolder->nodeExists('folder/file1.txt'));
+
+		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
+		$this->assertCount(1, $filesInTrash);
+
+		/** @var \OCP\Files\FileInfo */
+		$trashedFile = $filesInTrash[0];
+
+		$this->assertTrue(
+			OCA\Files_Trashbin\Trashbin::restore(
+				'file1.txt.d' . $trashedFile->getMtime(),
+				$trashedFile->getName(),
+				$trashedFile->getMtime()
+			)
+		);
+
+		$file = $userFolder->get('folder/file1.txt');
+		$this->assertEquals('foo', $file->getContent());
+	}
+
+	/**
+	 * Test restoring a folder
+	 */
+	public function testRestoreFolder() {
+		$userFolder = \OC::$server->getUserFolder();
+		$folder = $userFolder->newFolder('folder');
+		$file = $folder->newFile('file1.txt');
+		$file->putContent('foo');
+
+		$this->assertTrue($userFolder->nodeExists('folder'));
+
+		$folder->delete();
+
+		$this->assertFalse($userFolder->nodeExists('folder'));
+
+		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
+		$this->assertCount(1, $filesInTrash);
+
+		/** @var \OCP\Files\FileInfo */
+		$trashedFolder = $filesInTrash[0];
+
+		$this->assertTrue(
+			OCA\Files_Trashbin\Trashbin::restore(
+				'folder.d' . $trashedFolder->getMtime(),
+				$trashedFolder->getName(),
+				$trashedFolder->getMtime()
+			)
+		);
+
+		$file = $userFolder->get('folder/file1.txt');
+		$this->assertEquals('foo', $file->getContent());
+	}
+
+	/**
+	 * Test restoring a file from inside a trashed folder
+	 */
+	public function testRestoreFileFromTrashedSubfolder() {
+		$userFolder = \OC::$server->getUserFolder();
+		$folder = $userFolder->newFolder('folder');
+		$file = $folder->newFile('file1.txt');
+		$file->putContent('foo');
+
+		$this->assertTrue($userFolder->nodeExists('folder'));
+
+		$folder->delete();
+
+		$this->assertFalse($userFolder->nodeExists('folder'));
+
+		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
+		$this->assertCount(1, $filesInTrash);
+
+		/** @var \OCP\Files\FileInfo */
+		$trashedFile = $filesInTrash[0];
+
+		$this->assertTrue(
+				OCA\Files_Trashbin\Trashbin::restore(
+				'folder.d' . $trashedFile->getMtime() . '/file1.txt',
+				'file1.txt',
+				$trashedFile->getMtime()
+			)
+		);
+
+		$file = $userFolder->get('file1.txt');
+		$this->assertEquals('foo', $file->getContent());
+	}
+
+	/**
+	 * Test restoring a file whenever the source folder was removed.
+	 * The file should then land in the root.
+	 */
+	public function testRestoreFileWithMissingSourceFolder() {
+		$userFolder = \OC::$server->getUserFolder();
+		$folder = $userFolder->newFolder('folder');
+		$file = $folder->newFile('file1.txt');
+		$file->putContent('foo');
+
+		$this->assertTrue($userFolder->nodeExists('folder/file1.txt'));
+
+		$file->delete();
+
+		$this->assertFalse($userFolder->nodeExists('folder/file1.txt'));
+
+		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
+		$this->assertCount(1, $filesInTrash);
+
+		/** @var \OCP\Files\FileInfo */
+		$trashedFile = $filesInTrash[0];
+
+		// delete source folder
+		$folder->delete();
+
+		$this->assertTrue(
+			OCA\Files_Trashbin\Trashbin::restore(
+				'file1.txt.d' . $trashedFile->getMtime(),
+				$trashedFile->getName(),
+				$trashedFile->getMtime()
+			)
+		);
+
+		$file = $userFolder->get('file1.txt');
+		$this->assertEquals('foo', $file->getContent());
+	}
+
+	/**
+	 * Test restoring a file in the root folder whenever there is another file
+	 * with the same name in the root folder
+	 */
+	public function testRestoreFileDoesNotOverwriteExistingInRoot() {
+		$userFolder = \OC::$server->getUserFolder();
+		$file = $userFolder->newFile('file1.txt');
+		$file->putContent('foo');
+
+		$this->assertTrue($userFolder->nodeExists('file1.txt'));
+
+		$file->delete();
+
+		$this->assertFalse($userFolder->nodeExists('file1.txt'));
+
+		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
+		$this->assertCount(1, $filesInTrash);
+
+		/** @var \OCP\Files\FileInfo */
+		$trashedFile = $filesInTrash[0];
+
+		// create another file
+		$file = $userFolder->newFile('file1.txt');
+		$file->putContent('bar');
+
+		$this->assertTrue(
+			OCA\Files_Trashbin\Trashbin::restore(
+				'file1.txt.d' . $trashedFile->getMtime(),
+				$trashedFile->getName(),
+				$trashedFile->getMtime()
+			)
+		);
+
+		$anotherFile = $userFolder->get('file1.txt');
+		$this->assertEquals('bar', $anotherFile->getContent());
+
+		$restoredFile = $userFolder->get('file1 (restored).txt');
+		$this->assertEquals('foo', $restoredFile->getContent());
+	}
+
+	/**
+	 * Test restoring a file whenever there is another file
+	 * with the same name in the source folder
+	 */
+	public function testRestoreFileDoesNotOverwriteExistingInSubfolder() {
+		$userFolder = \OC::$server->getUserFolder();
+		$folder = $userFolder->newFolder('folder');
+		$file = $folder->newFile('file1.txt');
+		$file->putContent('foo');
+
+		$this->assertTrue($userFolder->nodeExists('folder/file1.txt'));
+
+		$file->delete();
+
+		$this->assertFalse($userFolder->nodeExists('folder/file1.txt'));
+
+		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
+		$this->assertCount(1, $filesInTrash);
+
+		/** @var \OCP\Files\FileInfo */
+		$trashedFile = $filesInTrash[0];
+
+		// create another file
+		$file = $folder->newFile('file1.txt');
+		$file->putContent('bar');
+
+		$this->assertTrue(
+			OCA\Files_Trashbin\Trashbin::restore(
+				'file1.txt.d' . $trashedFile->getMtime(),
+				$trashedFile->getName(),
+				$trashedFile->getMtime()
+			)
+		);
+
+		$anotherFile = $userFolder->get('folder/file1.txt');
+		$this->assertEquals('bar', $anotherFile->getContent());
+
+		$restoredFile = $userFolder->get('folder/file1 (restored).txt');
+		$this->assertEquals('foo', $restoredFile->getContent());
+	}
+
+	/**
+	 * Test restoring a non-existing file from trashbin, returns false
+	 */
+	public function testRestoreUnexistingFile() {
+		$this->assertFalse(
+			OCA\Files_Trashbin\Trashbin::restore(
+				'unexist.txt.d123456',
+				'unexist.txt',
+				'123456'
+			)
+		);
+	}
+
+	/**
+	 * Test restoring a file into a read-only folder, will restore
+	 * the file to root instead
+	 */
+	public function testRestoreFileIntoReadOnlySourceFolder() {
+		$userFolder = \OC::$server->getUserFolder();
+		$folder = $userFolder->newFolder('folder');
+		$file = $folder->newFile('file1.txt');
+		$file->putContent('foo');
+
+		$this->assertTrue($userFolder->nodeExists('folder/file1.txt'));
+
+		$file->delete();
+
+		$this->assertFalse($userFolder->nodeExists('folder/file1.txt'));
+
+		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
+		$this->assertCount(1, $filesInTrash);
+
+		/** @var \OCP\Files\FileInfo */
+		$trashedFile = $filesInTrash[0];
+
+		// delete source folder
+		list($storage, $internalPath) = $this->rootView->resolvePath('/' . self::TEST_TRASHBIN_USER1 . '/files/folder');
+		$folderAbsPath = $storage->getSourcePath($internalPath);
+		// make folder read-only
+		chmod($folderAbsPath, 0555);
+
+		$this->assertTrue(
+			OCA\Files_Trashbin\Trashbin::restore(
+				'file1.txt.d' . $trashedFile->getMtime(),
+				$trashedFile->getName(),
+				$trashedFile->getMtime()
+			)
+		);
+
+		$file = $userFolder->get('file1.txt');
+		$this->assertEquals('foo', $file->getContent());
+
+		chmod($folderAbsPath, 0755);
 	}
 
 	/**

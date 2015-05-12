@@ -277,16 +277,16 @@ class Trashbin {
 	}
 
 	/**
-	 * restore files from trash bin
+	 * Restore a file or folder from trash bin
 	 *
-	 * @param string $file path to the deleted file
-	 * @param string $filename name of the file
-	 * @param int $timestamp time when the file was deleted
+	 * @param string $file path to the deleted file/folder relative to "files_trashbin/files/",
+	 * including the timestamp suffix ".d12345678"
+	 * @param string $filename name of the file/folder
+	 * @param int $timestamp time when the file/folder was deleted
 	 *
-	 * @return bool
+	 * @return bool true on success, false otherwise
 	 */
 	public static function restore($file, $filename, $timestamp) {
-
 		$user = \OCP\User::getUser();
 		$view = new \OC\Files\View('/' . $user);
 
@@ -311,6 +311,9 @@ class Trashbin {
 
 		$source = \OC\Files\Filesystem::normalizePath('files_trashbin/files/' . $file);
 		$target = \OC\Files\Filesystem::normalizePath('files/' . $location . '/' . $uniqueFilename);
+		if (!$view->file_exists($source)) {
+			return false;
+		}
 		$mtime = $view->filemtime($source);
 
 		// restore file
@@ -761,6 +764,8 @@ class Trashbin {
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
 		$name = pathinfo($filename, PATHINFO_FILENAME);
 		$l = \OC::$server->getL10N('files_trashbin');
+
+		$location = '/' . trim($location, '/');
 
 		// if extension is not empty we set a dot in front of it
 		if ($ext !== '') {
