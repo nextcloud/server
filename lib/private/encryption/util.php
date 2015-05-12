@@ -357,7 +357,7 @@ class Util {
 	public function isExcluded($path) {
 		$normalizedPath = \OC\Files\Filesystem::normalizePath($path);
 		$root = explode('/', $normalizedPath, 4);
-		if (count($root) > 2) {
+		if (count($root) > 1) {
 
 			//detect system wide folders
 			if (in_array($root[1], $this->excludedPaths)) {
