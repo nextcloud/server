@@ -172,9 +172,6 @@ class JobList implements IJobList {
 		/**
 		 * @var Job $job
 		 */
-		if ($class === 'OC_Cache_FileGlobalGC') {
-			$class = '\OC\Cache\FileGlobalGC';
-		}
 		if (!class_exists($class)) {
 			// job from disabled app or old version of an app, no need to do anything
 			return null;
