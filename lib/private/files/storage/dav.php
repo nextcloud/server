@@ -346,8 +346,12 @@ class DAV extends Common {
 				curl_setopt($curl, CURLOPT_URL, $this->createBaseUri() . $this->encodePath($path));
 				curl_setopt($curl, CURLOPT_FILE, $fp);
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-				curl_setopt($curl, CURLOPT_PROTOCOLS,  CURLPROTO_HTTP | CURLPROTO_HTTPS);
-				curl_setopt($curl, CURLOPT_REDIR_PROTOCOLS,  CURLPROTO_HTTP | CURLPROTO_HTTPS);
+				if(defined('CURLOPT_PROTOCOLS')) {
+					curl_setopt($curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
+				}
+				if(defined('CURLOPT_REDIR_PROTOCOLS')) {
+					curl_setopt($curl, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
+				}
 				if ($this->secure === true) {
 					curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
 					curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
