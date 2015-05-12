@@ -288,7 +288,7 @@ class LDAP implements ILDAPWrapper {
 				} else if ($errorCode === -1) {
 					throw new ServerNotAvailableException('Lost connection to LDAP server.');
 				} else if ($errorCode === 48) {
-					throw new \Exception('LDAP authentication method rejected');
+					throw new \Exception('LDAP authentication method rejected', $errorCode);
 				} else if ($errorCode === 1) {
 					throw new \Exception('LDAP Operations error', $errorCode);
 				} else {

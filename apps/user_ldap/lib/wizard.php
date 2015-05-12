@@ -657,12 +657,26 @@ class Wizard extends LDAPUtility {
 			\OCP\Util::writeLog('user_ldap', 'Wiz: trying port '. $p . ', TLS '. $t, \OCP\Util::DEBUG);
 			//connectAndBind may throw Exception, it needs to be catched by the
 			//callee of this method
-			if($this->connectAndBind($p, $t) === true) {
-				$config = array('ldapPort' => $p,
-								'ldapTLS'  => intval($t)
-							);
+
+			// unallowed anonymous bind throws 48. But if it throws 48, we
+			// detected port and TLS, i.e. it is successful.
+			try {
+				$settingsFound = $this->connectAndBind($p, $t);
+			} catch (\Exception $e) {
+				if($e->getCode() === 48) {
+					$settingsFound = true;
+				} else {
+					throw $e;
+				}
+			}
+
+			if ($settingsFound === true) {
+				$config = array(
+					'ldapPort' => $p,
+					'ldapTLS' => intval($t)
+				);
 				$this->configuration->setConfiguration($config);
-				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port '. $p, \OCP\Util::DEBUG);
+				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port ' . $p, \OCP\Util::DEBUG);
 				$this->result->addChange('ldap_port', $p);
 				return $this->result;
 			}
