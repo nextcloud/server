@@ -176,6 +176,7 @@
 				.map(function(share) {
 					var file = {
 						id: share.file_source,
+						icon: share.icon,
 						mimetype: share.mimetype
 					};
 					if (share.item_type === 'folder') {

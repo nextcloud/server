@@ -68,6 +68,7 @@ class Local {
 					if (\OC::$server->getPreviewManager()->isMimeSupported($share['mimetype'])) {
 						$share['isPreviewAvailable'] = true;
 					}
+					$share['icon'] = substr(\OC_Helper::mimetypeIcon($share['mimetype']), 0, -3) . 'svg';
 				}
 			}
 			return new \OC_OCS_Result($shares);

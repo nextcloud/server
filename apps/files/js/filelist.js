@@ -950,7 +950,8 @@
 			if (fileData.isPreviewAvailable) {
 				var iconDiv = filenameTd.find('.thumbnail');
 				// lazy load / newly inserted td ?
-				if (options.animate) {
+				// the typeof check ensures that the default value of animate is true
+				if (typeof(options.animate) === 'undefined' || !!options.animate) {
 					this.lazyLoadPreview({
 						path: path + '/' + fileData.name,
 						mime: mime,
