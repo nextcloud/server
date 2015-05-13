@@ -1639,14 +1639,26 @@ class View {
 	private function lockPath($path, $type) {
 		$mount = $this->getMount($path);
 		if ($mount) {
-			$mount->getStorage()->acquireLock($mount->getInternalPath($this->getAbsolutePath($path)), $type, $this->lockingProvider);
+			$mount->getStorage()->acquireLock(
+				$mount->getInternalPath(
+					$this->getAbsolutePath($path)
+				),
+				$type,
+				$this->lockingProvider
+			);
 		}
 	}
 
 	private function unlockPath($path, $type) {
 		$mount = $this->getMount($path);
 		if ($mount) {
-			$mount->getStorage()->releaseLock($mount->getInternalPath($this->getAbsolutePath($path)), $type, $this->lockingProvider);
+			$mount->getStorage()->releaseLock(
+				$mount->getInternalPath(
+					$this->getAbsolutePath($path)
+				),
+				$type,
+				$this->lockingProvider
+			);
 		}
 	}
 

@@ -630,7 +630,7 @@ abstract class Common implements Storage {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function acquireLock($path, $type, ILockingProvider $provider) {
-		$provider->acquireLock($this->getId() . '::' . $path, $type);
+		$provider->acquireLock(md5($this->getId() . '::' . $path), $type);
 	}
 
 	/**
@@ -639,6 +639,6 @@ abstract class Common implements Storage {
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function releaseLock($path, $type, ILockingProvider $provider) {
-		$provider->releaseLock($this->getId() . '::' . $path, $type);
+		$provider->releaseLock(md5($this->getId() . '::' . $path), $type);
 	}
 }
