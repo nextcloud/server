@@ -388,10 +388,23 @@ class OC_Util {
 			$session->set('OC_Version', $OC_Version);
 			/** @var $OC_VersionString string */
 			$session->set('OC_VersionString', $OC_VersionString);
-			/** @var $OC_Channel string */
-			$session->set('OC_Channel', $OC_Channel);
 			/** @var $OC_Build string */
 			$session->set('OC_Build', $OC_Build);
+			
+			// Allow overriding update channel
+			
+			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
+				$channel = \OC::$server->getAppConfig()->getValue('core', 'OC_Channel');
+			} else {
+				$channel = $OC_Channel;
+			}
+			
+			if (!is_null($channel)) {
+				$session->set('OC_Channel', $channel);
+			} else {
+				/** @var $OC_Channel string */
+				$session->set('OC_Channel', $OC_Channel);
+			}
 		}
 	}
 

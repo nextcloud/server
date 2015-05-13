@@ -69,6 +69,24 @@ class Util {
 	public static function getVersion() {
 		return(\OC_Util::getVersion());
 	}
+	
+	/**
+	 * Set current update channel
+	 * @param string $channel
+	 */
+	public static function setChannel($channel) {
+		//Flush timestamp to reload version.php
+		\OC::$server->getSession()->set('OC_Version_Timestamp', 0);
+		return \OC::$server->getAppConfig()->setValue('core', 'OC_Channel', $channel);
+	}
+	
+	/**
+	 * Get current update channel
+	 * @return string
+	 */
+	public static function getChannel() {
+		return \OC_Util::getChannel();
+	}
 
 	/**
 	 * send an email
