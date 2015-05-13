@@ -960,7 +960,7 @@ class View {
 			if ($run and $storage) {
 				if (in_array('write', $hooks) || in_array('delete', $hooks)) {
 					$this->lockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-				} else {
+				} else if (in_array('read', $hooks)) {
 					$this->lockFile($path, ILockingProvider::LOCK_SHARED);
 				}
 				try {
@@ -972,7 +972,7 @@ class View {
 				} catch (\Exception $e) {
 					if (in_array('write', $hooks) || in_array('delete', $hooks)) {
 						$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-					} else {
+					} else if (in_array('read', $hooks)) {
 						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 					}
 					throw $e;
@@ -992,14 +992,14 @@ class View {
 					$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path) {
 						if (in_array('write', $hooks)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-						} else {
+						} else if (in_array('read', $hooks)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 						}
 					});
 				} else {
 					if (in_array('write', $hooks) || in_array('delete', $hooks)) {
 						$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-					} else {
+					} else if (in_array('read', $hooks)) {
 						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 					}
 				}
