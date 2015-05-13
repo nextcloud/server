@@ -1621,9 +1621,11 @@ class View {
 		if (!$path) {
 			return [];
 		}
+
+		$path = trim($path, '/');
 		$parts = explode('/', $path);
 
-		// remove the singe file
+		// remove the single file
 		array_pop($parts);
 		$result = array('/');
 		$resultPath = '';
