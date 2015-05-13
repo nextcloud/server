@@ -31,7 +31,6 @@ namespace OC\Files\Storage;
 
 use OC\Files\Cache\ChangePropagator;
 use OC\Files\Filesystem;
-use OC\Files\View;
 use OCA\Files_Sharing\ISharedStorage;
 use OCA\Files_Sharing\Propagator;
 use OCA\Files_Sharing\SharedMount;
@@ -327,30 +326,32 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 			}
 		}
 
-		// for part files we need to ask for the owner and path from the parent directory because
-		// the file cache doesn't return any results for part files
-		if ($isPartFile) {
-			list($user1, $path1) = \OCA\Files_Sharing\Helper::getUidAndFilename($pathinfo['dirname']);
-			$path1 = $path1 . '/' . $pathinfo['basename'];
-		} else {
-			list($user1, $path1) = \OCA\Files_Sharing\Helper::getUidAndFilename($relPath1);
-		}
-		$targetFilename = basename($relPath2);
-		list($user2, $path2) = \OCA\Files_Sharing\Helper::getUidAndFilename(dirname($relPath2));
-		$rootView = new \OC\Files\View('');
-		$rootView->getUpdater()->disable(); // dont update the cache here
-		$result = $rootView->rename('/' . $user1 . '/files/' . $path1, '/' . $user2 . '/files/' . $path2 . '/' . $targetFilename);
-		$rootView->getUpdater()->enable();
-		return $result;
+
+		/**
+		 * @var \OC\Files\Storage\Storage $sourceStorage
+		 */
+		list($sourceStorage, $sourceInternalPath) = $this->resolvePath($path1);
+		/**
+		 * @var \OC\Files\Storage\Storage $targetStorage
+		 */
+		list($targetStorage, $targetInternalPath) = $this->resolvePath($path2);
+
+		return $targetStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
 	public function copy($path1, $path2) {
 		// Copy the file if CREATE permission is granted
 		if ($this->isCreatable(dirname($path2))) {
-			$oldSource = $this->getSourcePath($path1);
-			$newSource = $this->getSourcePath(dirname($path2)) . '/' . basename($path2);
-			$rootView = new \OC\Files\View('');
-			return $rootView->copy($oldSource, $newSource);
+			/**
+			 * @var \OC\Files\Storage\Storage $sourceStorage
+			 */
+			list($sourceStorage, $sourceInternalPath) = $this->resolvePath($path1);
+			/**
+			 * @var \OC\Files\Storage\Storage $targetStorage
+			 */
+			list($targetStorage, $targetInternalPath) = $this->resolvePath($path2);
+
+			return $targetStorage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
 		return false;
 	}
