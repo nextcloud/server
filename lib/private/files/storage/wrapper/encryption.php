@@ -206,8 +206,7 @@ class Encryption extends Wrapper {
 
 		$encryptionModule = $this->getEncryptionModule($path);
 		if ($encryptionModule) {
-			$this->keyStorage->deleteAllFileKeys($this->getFullPath($path),
-				$encryptionModule->getId());
+			$this->keyStorage->deleteAllFileKeys($this->getFullPath($path));
 		}
 
 		return $this->storage->unlink($path);
@@ -233,6 +232,21 @@ class Encryption extends Wrapper {
 				}
 				$this->keyStorage->renameKeys($source, $target);
 			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * see http://php.net/manual/en/function.rmdir.php
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
+	public function rmdir($path) {
+		$result = $this->storage->rmdir($path);
+		if ($result && $this->encryptionManager->isEnabled()) {
+			$this->keyStorage->deleteAllFileKeys($this->getFullPath($path));
 		}
 
 		return $result;
@@ -269,8 +283,13 @@ class Encryption extends Wrapper {
 				}
 			}
 			$data = $this->getMetaData($path1);
-			$this->getCache()->put($path2, ['encrypted' => $data['encrypted']]);
-			$this->updateUnencryptedSize($fullPath2, $data['size']);
+
+			if (isset($data['encrypted'])) {
+				$this->getCache()->put($path2, ['encrypted' => $data['encrypted']]);
+			}
+			if (isset($data['size'])) {
+				$this->updateUnencryptedSize($fullPath2, $data['size']);
+			}
 		}
 
 		return $result;

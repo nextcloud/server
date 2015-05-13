@@ -129,12 +129,11 @@ interface IStorage {
 	 * delete all file keys for a given file
 	 *
 	 * @param string $path to the file
-	 * @param string $encryptionModuleId
 	 *
 	 * @return boolean False when the keys could not be deleted
 	 * @since 8.1.0
 	 */
-	public function deleteAllFileKeys($path, $encryptionModuleId);
+	public function deleteAllFileKeys($path);
 
 	/**
 	 * delete system-wide encryption keys not related to a specific user,

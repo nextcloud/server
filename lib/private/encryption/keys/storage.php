@@ -125,10 +125,9 @@ class Storage implements IStorage {
 	/**
 	 * @inheritdoc
 	 */
-	public function deleteAllFileKeys($path, $encryptionModuleId) {
-		$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
-		$path = dirname($keyDir);
-		return !$this->view->file_exists($path) || $this->view->deleteAll($path);
+	public function deleteAllFileKeys($path) {
+		$keyDir = $this->getFileKeyDir('', $path);
+		return !$this->view->file_exists($keyDir) || $this->view->deleteAll($keyDir);
 	}
 
 	/**
@@ -208,17 +207,10 @@ class Storage implements IStorage {
 	 * @param string $encryptionModuleId
 	 * @param string $path path to the file, relative to data/
 	 * @return string
-	 * @throws GenericEncryptionException
-	 * @internal param string $keyId
 	 */
 	private function getFileKeyDir($encryptionModuleId, $path) {
 
-		if ($this->view->is_dir($path)) {
-			throw new GenericEncryptionException("file was expected but directory was given: $path");
-		}
-
 		list($owner, $filename) = $this->util->getUidAndFilename($path);
-		$filename = $this->util->stripPartialFileExtension($filename);
 
 		// in case of system wide mount points the keys are stored directly in the data directory
 		if ($this->util->isSystemWideMountPoint($filename, $owner)) {
