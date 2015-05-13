@@ -24,6 +24,7 @@
  */
 
 namespace OCA\Files_Encryption;
+use OC\User\NoUserException;
 
 /**
  * Class for utilities relating to encrypted file storage system
@@ -945,8 +946,14 @@ class Util {
 		) {
 			return true;
 		}
-		$util = new Util($this->view, $user);
-		return $util->ready();
+		try {
+			$util = new Util($this->view, $user);
+			return $util->ready();
+		} catch (NoUserException $e) {
+			\OCP\Util::writeLog('Encryption library',
+				'No User object for '.$user, \OCP\Util::DEBUG);
+			return false;
+		}
 	}
 
 	/**

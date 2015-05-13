@@ -65,7 +65,7 @@ class TagServiceTest extends \Test\TestCase {
 			->withAnyParameters()
 			->will($this->returnValue($user));
 
-		$this->root = \OC::$server->getUserFolder();
+		$this->root = \OC::$server->getUserFolder($this->user);
 
 		$this->tagger = \OC::$server->getTagManager()->load('files');
 		$this->tagService = new TagService(

@@ -188,6 +188,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * check if a user exists
 	 * @param string $uid the username
 	 * @return boolean
+	 * @throws \Exception when connection could not be established
 	 */
 	public function userExists($uid) {
 		if($this->access->connection->isCached('userExists'.$uid)) {
@@ -206,17 +207,12 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			return true;
 		}
 
-		try {
-			$result = $this->userExistsOnLDAP($user);
-			$this->access->connection->writeToCache('userExists'.$uid, $result);
-			if($result === true) {
-				$user->update();
-			}
-			return $result;
-		} catch (\Exception $e) {
-			\OCP\Util::writeLog('user_ldap', $e->getMessage(), \OCP\Util::WARN);
-			return false;
+		$result = $this->userExistsOnLDAP($user);
+		$this->access->connection->writeToCache('userExists'.$uid, $result);
+		if($result === true) {
+			$user->update();
 		}
+		return $result;
 	}
 
 	/**
