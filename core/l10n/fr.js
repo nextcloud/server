@@ -134,7 +134,7 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Bonjour {name}, le temps est {weather}",
     "Hello {name}" : "Hello {name}",
     "_download %n file_::_download %n files_" : ["Télécharger %n fichier","Télécharger %n fichiers"],
-    "{version} is available. Get more information on how to update." : "La version {version} est disponible. Plus d'informations à propos de cette mise à jour.",
+    "{version} is available. Get more information on how to update." : "La version {version} est disponible. Obtenez plus d'informations à propos de cette mise à jour.",
     "Updating {productName} to version {version}, this may take a while." : "La mise à jour de {productName} vers la version {version} est en cours. Cela peut prendre un certain temps.",
     "Please reload the page." : "Veuillez recharger la page.",
     "The update was unsuccessful. " : "La mise à jour a échoué.",

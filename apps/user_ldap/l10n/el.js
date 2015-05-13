@@ -62,7 +62,6 @@ OC.L10N.register(
     "Edit LDAP Query" : "Επεξεργασία ερωτήματος ",
     "LDAP Filter:" : "Φίλτρο LDAP:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Το φίλτρο καθορίζει ποιες ομάδες LDAP θα έχουν πρόσβαση στην εγκατάσταση %s.",
-    "Test Filter" : "Φίλτρο Ελέγχου",
     "Verify settings and count groups" : "Επιβεβαίωση ρυθμίσεων και καταμέτρηση ομάδων",
     "When logging in, %s will find the user based on the following attributes:" : "Κατά τη σύνδεση, το %s θα βρει το χρήστη βασιζόμενος στις ακόλουθες ιδιότητες:",
     "LDAP / AD Username:" : "Όνομα χρήστη LDAP / AD:",

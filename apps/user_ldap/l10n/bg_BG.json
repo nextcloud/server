@@ -28,7 +28,6 @@
     "Help" : "Помощ",
     "Groups meeting these criteria are available in %s:" : "Групи спазващи тези критерии са разположени в %s:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Филтърът посочва кои LDAP групи ще имат достъп до %s инсталацията.",
-    "Test Filter" : "Тестов Филтър",
     "Other Attributes:" : "Други Атрибути:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Заявява филтърът, който да бъде приложен при опит за вписване. %%uid замества потребителското име в полето login action. Пример: \"uid=%%uid\".",
     "Test Loginname" : "Проверка на Потребителско име",

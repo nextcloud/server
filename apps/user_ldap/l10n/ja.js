@@ -38,7 +38,6 @@ OC.L10N.register(
     "Selected groups" : "選択されたグループ",
     "LDAP Filter:" : "LDAP フィルタ：",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "フィルターは、どの LDAP グループが %s にアクセスするかを指定します。",
-    "Test Filter" : "フィルターをテスト",
     "LDAP / AD Username:" : "LDAP/ADユーザー名:",
     "LDAP / AD Email Address:" : "LDAP / AD メールアドレス:",
     "Other Attributes:" : "その他の属性:",

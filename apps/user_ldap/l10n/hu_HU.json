@@ -28,7 +28,6 @@
     "Help" : "Súgó",
     "Groups meeting these criteria are available in %s:" : "A %s szolgáltatás azon csoportok létezését veszi figyelembe, amik a következő feltételeknek felelnek meg:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "A szűrő meghatározza, hogy mely LDAP csoportok lesznek jogosultak %s elérésére.",
-    "Test Filter" : "Test szűrő ",
     "Other Attributes:" : "Más attribútumok:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Ez a szűrő érvényes a bejelentkezés megkísérlésekor. Ekkor az %%uid változó helyére a bejelentkezési név kerül. Például: \"uid=%%uid\"",
     "1. Server" : "1. Kiszolgáló",

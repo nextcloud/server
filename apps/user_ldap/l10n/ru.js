@@ -41,7 +41,6 @@ OC.L10N.register(
     "Available groups" : "Доступные группы",
     "Selected groups" : "Выбранные группы",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Этот фильтр определяет какие LDAP группы должны иметь доступ к экземпляру %s.",
-    "Test Filter" : "Проверить фильтр",
     "LDAP / AD Username:" : "Имя пользователя LDAP/AD:",
     "Other Attributes:" : "Другие атрибуты:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Определяет фильтр для применения при попытке входа. %%uid заменяет имя пользователя при входе в систему. Например: \"uid=%%uid\"",

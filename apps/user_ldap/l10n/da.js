@@ -61,7 +61,6 @@ OC.L10N.register(
     "Edit LDAP Query" : "Redigér LDAP-forespørgsel",
     "LDAP Filter:" : "LDAP-filter:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filteret angiver hvilke LDAP-grupper, der skal have adgang til instansen %s.",
-    "Test Filter" : "Test filter",
     "Verify settings and count groups" : "Verificér indstillinger og optællingsgrupper",
     "When logging in, %s will find the user based on the following attributes:" : "Når der logges ind, så vil %s finde brugeren baseret på følgende attributter:",
     "LDAP / AD Username:" : "LDAP/AD-brugernavn:",

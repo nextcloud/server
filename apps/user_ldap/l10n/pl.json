@@ -29,7 +29,6 @@
     "Help" : "Pomoc",
     "Groups meeting these criteria are available in %s:" : "Przyłączenie do grupy z tymi ustawieniami dostępne jest w %s:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filtr określa, które grupy LDAP powinny mieć dostęp do instancji %s.",
-    "Test Filter" : "Testuj filtr",
     "Other Attributes:" : "Inne atrybuty:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Określa jakiego filtru użyć podczas próby zalogowania. %%uid zastępuje nazwę użytkownika w procesie logowania. Przykład: \"uid=%%uid\"",
     "1. Server" : "1. Serwer",

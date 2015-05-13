@@ -19,6 +19,7 @@
     "Remote share password" : "원격 공유 암호",
     "Cancel" : "취소",
     "Add remote share" : "원격 공유 추가",
+    "You can upload into this folder" : "이 폴더에 업로드할 수 있습니다",
     "No ownCloud installation (7 or higher) found at {remote}" : "{remote}에 ownCloud 7 이상이 설치되어 있지 않음",
     "Invalid ownCloud url" : "잘못된 ownCloud URL",
     "Share" : "공유",

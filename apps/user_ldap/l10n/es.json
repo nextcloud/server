@@ -60,7 +60,6 @@
     "Edit LDAP Query" : "Editar consulta LDAP",
     "LDAP Filter:" : "Filtro LDAP:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "El filtro especifica que grupos LDAP tendrán acceso a %s.",
-    "Test Filter" : "Filtro de prueba",
     "Verify settings and count groups" : "Verificar configuraciones y contar grupos",
     "When logging in, %s will find the user based on the following attributes:" : "Cuando se inicia sesión, %s encontrará al usuario basado en los siguientes atributos:",
     "LDAP / AD Username:" : "Nombre de usuario LDAP /AD:",

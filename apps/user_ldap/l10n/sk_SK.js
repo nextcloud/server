@@ -36,7 +36,6 @@ OC.L10N.register(
     "Selected groups" : "Vybrané skupiny",
     "LDAP Filter:" : "LDAP filter:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Tento filter LDAP určuje, ktoré skupiny budú mať prístup k %s inštancii.",
-    "Test Filter" : "Otestovať filter",
     "LDAP / AD Username:" : "Používateľské meno LDAP / AD:",
     "LDAP / AD Email Address:" : "LDAP / AD emailová adresa:",
     "Other Attributes:" : "Iné atribúty:",

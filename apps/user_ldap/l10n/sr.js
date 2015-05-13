@@ -62,7 +62,6 @@ OC.L10N.register(
     "Edit LDAP Query" : "Уреди ЛДАП упит",
     "LDAP Filter:" : "ЛДАП филтер:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Филтер прецизира које ће LDAP групе требају имати приступ %s случају.",
-    "Test Filter" : "Испробај филтер",
     "Verify settings and count groups" : "Провери поставке и преброј групе",
     "When logging in, %s will find the user based on the following attributes:" : "При пријављивању, %s ће пронаћи корисника на основу следећих атрибута:",
     "LDAP / AD Username:" : "ЛДАП / АД корисничко име:",

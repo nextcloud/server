@@ -56,7 +56,6 @@ OC.L10N.register(
     "Selected groups" : "Grup terpilih",
     "Edit LDAP Query" : "Sunting Kueri LDAP",
     "LDAP Filter:" : "Penyaring LDAP:",
-    "Test Filter" : "Uji Penyaring",
     "LDAP / AD Username:" : "Nama pengguna LDAP / AD:",
     "LDAP / AD Email Address:" : "Alamat Email LDAP / AD:",
     "Other Attributes:" : "Atribut Lain:",

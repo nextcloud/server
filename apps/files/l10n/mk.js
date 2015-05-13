@@ -51,6 +51,7 @@ OC.L10N.register(
     "You deleted %1$s" : "Вие избришавте %1$s",
     "%2$s deleted %1$s" : "%2$s избришани %1$s",
     "%s could not be renamed" : "%s не може да биде преименуван",
+    "Upload (max. %s)" : "Префрлање (макс. %s)",
     "File handling" : "Ракување со датотеки",
     "Maximum upload size" : "Максимална големина за подигање",
     "max. possible: " : "макс. можно:",

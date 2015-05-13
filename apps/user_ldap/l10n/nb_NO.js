@@ -31,7 +31,6 @@ OC.L10N.register(
     "Help" : "Hjelp",
     "Groups meeting these criteria are available in %s:" : "Grupper som tilfredsstiller disse kriteriene er tilgjengelige i %s:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filteret spesifiserer hvilke LDAP-grupper som skal ha tilgang til %s-instansen.",
-    "Test Filter" : "Test filter",
     "Other Attributes:" : "Andre attributter:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Definerer filteret som skal brukes når noen prøver å logge inn. %%uid erstatter brukernavnet i innloggingen. Eksempel: \"uid=%%uid\"",
     "1. Server" : "1. server",

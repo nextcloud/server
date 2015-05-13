@@ -36,7 +36,6 @@ OC.L10N.register(
     "Help" : "Yardım",
     "Groups meeting these criteria are available in %s:" : "Bu kriterlerle eşleşen gruplar %s içinde mevcut:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filtre, %s örneğine erişmesi gereken LDAP gruplarını belirtir.",
-    "Test Filter" : "Filtreyi Test Et",
     "Other Attributes:" : "Diğer Nitelikler:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Oturum açma girişimi olduğunda uygulanacak filtreyi tanımlar. %%uid, oturum işleminde kullanıcı adı ile değiştirilir. Örneğin: \"uid=%%uid\"",
     "1. Server" : "1. Sunucu",

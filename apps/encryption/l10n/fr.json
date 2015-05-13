@@ -23,6 +23,7 @@
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'application de chiffrement est activée mais vos clefs ne sont pas initialisées. Veuillez vous déconnecter et ensuite vous reconnecter.",
     "Enable recovery key" : "Activer la clé de récupération",
     "Disable recovery key" : "Désactiver la clé de récupération",
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La clé de récupération est une clé supplémentaire utilisée pour chiffrer les fichiers. Elle permet de récupérer les fichiers des utilisateurs en cas d'oubli de leur mot de passe.",
     "Recovery key password" : "Mot de passe de la clef de récupération",
     "Repeat recovery key password" : "Répétez le mot de passe de la clé de récupération",
     "Change recovery key password:" : "Modifier le mot de passe de la clef de récupération :",

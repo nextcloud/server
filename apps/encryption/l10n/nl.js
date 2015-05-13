@@ -25,6 +25,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Crypto app is geactiveerd, maar uw sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in.",
     "Enable recovery key" : "Activeer herstelsleutel",
     "Disable recovery key" : "Deactiveer herstelsleutel",
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "De herstelsleutel is een extra cryptografische sleutel die wordt gebruikt om bestanden te versleutelen. Die maakt het mogelijk bestanden te herstellen als de gebruiker zijn of haar wachtwoord vergeet.",
     "Recovery key password" : "Wachtwoord herstelsleulel",
     "Repeat recovery key password" : "Herhaal wachtwoord herstelsleutel",
     "Change recovery key password:" : "Wijzig wachtwoord herstelsleutel:",

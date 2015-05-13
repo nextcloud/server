@@ -62,7 +62,6 @@ OC.L10N.register(
     "Edit LDAP Query" : "Modifica query LDAP",
     "LDAP Filter:" : "Filtro LDAP:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Il filtro specifica quali gruppi LDAP devono avere accesso all'istanza %s.",
-    "Test Filter" : "Prova filtro",
     "Verify settings and count groups" : "Verifica le impostazioni e conta i gruppi",
     "When logging in, %s will find the user based on the following attributes:" : "Quando accedi, %s troverà l'utente sulla base dei seguenti attributi:",
     "LDAP / AD Username:" : "Nome utente LDAP / AD:",

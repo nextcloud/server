@@ -60,7 +60,6 @@
     "Edit LDAP Query" : "Upravit LDAP požadavek",
     "LDAP Filter:" : "LDAP filtr:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filtr určuje, kteří uživatelé LDAP mají mít přístup k instanci %s.",
-    "Test Filter" : "Otestovat filtr",
     "Verify settings and count groups" : "Ověřit nastavení a spočítat skupiny",
     "When logging in, %s will find the user based on the following attributes:" : "Při přihlašování, %s bude hledat uživatele na základě následujících atributů:",
     "LDAP / AD Username:" : "LDAP / AD uživatelské jméno:",

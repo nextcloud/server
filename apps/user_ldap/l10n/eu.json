@@ -29,7 +29,6 @@
     "Help" : "Laguntza",
     "Groups meeting these criteria are available in %s:" : "Baldintza horiek betetzen dituzten taldeak bertan eskuragarri %s:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Iragazkiak zehazten du  ze LDAP taldek izango duten sarrera %s instantziara:",
-    "Test Filter" : "Frogatu Iragazkia",
     "Other Attributes:" : "Bestelako atributuak:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Definitu aplikatu beharreko iragazkia sartzen saiatzean. %%uid erabiltzailearen izena ordezten du sartzeko ekintzan. Adibidez: \"uid=%%uid\"",
     "1. Server" : "1. Zerbitzaria",

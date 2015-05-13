@@ -28,7 +28,6 @@
     "Help" : "Abiinfo",
     "Groups meeting these criteria are available in %s:" : "Kriteeriumiga sobivad grupid on saadaval %s:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filter määrab millised LDAP grupid saavad ligipääsu sellele %s instantsile.",
-    "Test Filter" : "Testi filtrit",
     "Other Attributes:" : "Muud atribuudid:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Määrab sisselogimisel kasutatava filtri. %%uid asendab sisselogimistegevuses kasutajanime. Näide: \"uid=%%uid\"",
     "1. Server" : "1. Server",

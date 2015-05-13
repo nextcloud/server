@@ -42,7 +42,6 @@ OC.L10N.register(
     "Selected groups" : "Izbrane skupine",
     "LDAP Filter:" : "LDAP Filter:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filter določa, katere skupine LDAP bodo imele dostop do %s.",
-    "Test Filter" : "Preizkusi filter",
     "Other Attributes:" : "Drugi atributi:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Določi filter, ki bo uveljavljen ob poskusu prijave. %%uid zamenja uporabniško ime pri prijavi, na primer: \"uid=%%uid\"",
     "Verify settings" : "Preveri nastavitve",

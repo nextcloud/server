@@ -25,6 +25,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Апликација шифровања је укључена али ваши кључеви нису иницијализовани. Одјавите се и поново се пријавите.",
     "Enable recovery key" : "Омогући кључ за опоравак",
     "Disable recovery key" : "Онемогући кључ за опоравак",
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Кључ за опоравак је додатни шифрарски кључ који се користи за шифровање фајлова. Он омогућава опоравак корисничких фајлова ако корисник заборави своју лозинку.",
     "Recovery key password" : "Лозинка кључа за опоравак",
     "Repeat recovery key password" : "Поновите лозинку кључа за опоравак",
     "Change recovery key password:" : "Измена лозинке кључа опоравка:",

@@ -60,7 +60,6 @@
     "Edit LDAP Query" : "Bewerken LDAP bevraging",
     "LDAP Filter:" : "LDAP Filter:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Dit filter geeft aan welke LDAP groepen toegang hebben tot %s.",
-    "Test Filter" : "Testfilter",
     "Verify settings and count groups" : "Verifiëren instellingen en tel groepen",
     "When logging in, %s will find the user based on the following attributes:" : "Bij inloggen vindt %s de gebruiker gebaseerd op de volgende attributen:",
     "LDAP / AD Username:" : "LDAP / AD gebruikersnaam:",
