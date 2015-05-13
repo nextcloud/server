@@ -208,6 +208,8 @@ class Trashbin {
 			return false;
 		}
 
+		$view->getUpdater()->rename('/files/' . $file_path, $trashPath);
+
 		if ($sizeOfAddedFiles !== false) {
 			$size = $sizeOfAddedFiles;
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
