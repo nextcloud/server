@@ -92,7 +92,10 @@ class Test_OC_Connector_Sabre_QuotaPlugin extends \Test\TestCase {
 	private function buildFileViewMock($quota) {
 		// mock filesysten
 		$view = $this->getMock('\OC\Files\View', array('free_space'), array(), '', false);
-		$view->expects($this->any())->method('free_space')->withAnyParameters()->will($this->returnValue($quota));
+		$view->expects($this->any())
+			->method('free_space')
+			->with($this->identicalTo(''))
+			->will($this->returnValue($quota));
 
 		return $view;
 	}
