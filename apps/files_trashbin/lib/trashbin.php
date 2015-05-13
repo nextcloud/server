@@ -279,13 +279,17 @@ class Trashbin {
 				list($versionStorage, $versionsInternalPath) = $rootView->resolvePath($owner . '/files_versions/');
 				/** @var \OC\Files\Storage\Storage $trashStorage */
 				list($trashStorage, $trashInternalPath) = $rootView->resolvePath($user . '/files_trashbin/versions/');
+				/** @var \OC\Files\Storage\Storage $ownerTrashStorage */
+				list($ownerTrashStorage, $ownerTrashInternalPath) = $rootView->resolvePath($owner . '/files_trashbin/versions/');
 
 				foreach ($versions as $v) {
 					$size += $versionStorage->filesize($versionsInternalPath . $v['path'] . '.v' . $v['version']);
 					if ($owner !== $user) {
-						$trashStorage->copyFromStorage($versionStorage, $versionsInternalPath . $v['path'] . '.v' . $v['version'], $owner . $trashInternalPath . $v['name'] . '.v' . $v['version'] . '.d' . $timestamp);
+						$ownerTrashStorage->copyFromStorage($versionStorage, $versionsInternalPath . $v['path'] . '.v' . $v['version'], $ownerTrashInternalPath . $v['name'] . '.v' . $v['version'] . '.d' . $timestamp);
+						$rootView->getUpdater()->update($owner . '/files_trashbin/versions/' . $v['name'] . '.v' . $v['version'] . '.d' . $timestamp);
 					}
-					$trashStorage->moveFromStorage($versionStorage, $versionsInternalPath . $v['path'] . '.v' . $v['version'], $trashInternalPath . $filename . '.v' . $v['version'] . '.d' . $timestamp);
+					$trashStorage->moveFromStorage($versionStorage, $versionsInternalPath . $v['path'] . '.v' . $v['version'], $trashInternalPath . '/' . $filename . '.v' . $v['version'] . '.d' . $timestamp);
+					$rootView->getUpdater()->rename($owner . '/files_versions/' . $v['path'] . '.v' . $v['version'], $user . '/files_trashbin/versions/' . $v['name'] . '.v' . $v['version'] . '.d' . $timestamp);
 				}
 			}
 		}
