@@ -988,7 +988,7 @@ class View {
 					$this->updater->update($path, $extraParam);
 				}
 
-				if ($operation === 'fopen') {
+				if ($operation === 'fopen' and $result) {
 					$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path) {
 						if (in_array('write', $hooks)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
