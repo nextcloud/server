@@ -516,10 +516,11 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			}
 		}
 
+		$groupUsers = array_unique(array_merge($groupUsers, $primaryUsers));
 		natsort($groupUsers);
 		$this->access->connection->writeToCache('usersInGroup-'.$gid.'-'.$search, $groupUsers);
 		$groupUsers = array_slice($groupUsers, $offset, $limit);
-		$groupUsers = array_unique(array_merge($groupUsers, $primaryUsers));
+
 
 		$this->access->connection->writeToCache($cacheKey, $groupUsers);
 
