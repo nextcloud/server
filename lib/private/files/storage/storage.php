@@ -78,7 +78,7 @@ interface Storage extends \OCP\Files\Storage {
 	public function getMetaData($path);
 
 	/**
-	 * @param string $path
+	 * @param string $path The path of the file to acquire the lock for
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 * @throws \OCP\Lock\LockedException
@@ -86,7 +86,7 @@ interface Storage extends \OCP\Files\Storage {
 	public function acquireLock($path, $type, ILockingProvider $provider);
 
 	/**
-	 * @param string $path
+	 * @param string $path The path of the file to release the lock for
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */

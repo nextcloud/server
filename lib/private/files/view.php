@@ -971,9 +971,9 @@ class View {
 					}
 				} catch (\Exception $e) {
 					if (in_array('write', $hooks) || in_array('delete', $hooks)) {
-						$this->lockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
+						$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
 					} else {
-						$this->lockFile($path, ILockingProvider::LOCK_SHARED);
+						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 					}
 					throw $e;
 				}
@@ -1638,6 +1638,10 @@ class View {
 		return $result;
 	}
 
+	/**
+	 * @param string $path the path of the file to lock, relative to the view
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 */
 	private function lockPath($path, $type) {
 		$mount = $this->getMount($path);
 		if ($mount) {
@@ -1651,6 +1655,10 @@ class View {
 		}
 	}
 
+	/**
+	 * @param string $path the path of the file to unlock, relative to the view
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 */
 	private function unlockPath($path, $type) {
 		$mount = $this->getMount($path);
 		if ($mount) {
@@ -1665,13 +1673,13 @@ class View {
 	}
 
 	/**
-	 * Lock a path and all it's parents
+	 * Lock a path and all its parents up to the root of the view
 	 *
-	 * @param string $path
-	 * @param int $type
+	 * @param string $path the path of the file to lock relative to the view
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 */
 	public function lockFile($path, $type) {
-		$path = rtrim($path, '/');
+		$path = '/' . trim($path, '/');
 		$this->lockPath($path, $type);
 
 		$parents = $this->getParents($path);
@@ -1681,10 +1689,10 @@ class View {
 	}
 
 	/**
-	 * Unlock a path and all it's parents
+	 * Unlock a path and all its parents up to the root of the view
 	 *
-	 * @param string $path
-	 * @param int $type
+	 * @param string $path the path of the file to lock relative to the view
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 */
 	public function unlockFile($path, $type) {
 		$path = rtrim($path, '/');
