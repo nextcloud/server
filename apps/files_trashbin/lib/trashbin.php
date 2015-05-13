@@ -184,22 +184,27 @@ class Trashbin {
 
 		// disable proxy to prevent recursive calls
 		$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
+
+		/** @var \OC\Files\Storage\Storage $trashStorage */
+		list($trashStorage, $trashInternalPath) = $view->resolvePath($trashPath);
+		/** @var \OC\Files\Storage\Storage $sourceStorage */
+		list($sourceStorage, $sourceInternalPath) = $view->resolvePath('/files/' . $file_path);
 		try {
-			$sizeOfAddedFiles = $view->filesize('/files/' . $file_path);
-			if ($view->file_exists($trashPath)) {
-				$view->unlink($trashPath);
+			$sizeOfAddedFiles = $sourceStorage->filesize($sourceInternalPath);
+			if ($trashStorage->file_exists($trashInternalPath)) {
+				$trashStorage->unlink($trashInternalPath);
 			}
-			$view->rename('/files/' . $file_path, $trashPath);
+			$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 		} catch (\OCA\Files_Trashbin\Exceptions\CopyRecursiveException $e) {
 			$sizeOfAddedFiles = false;
-			if ($view->file_exists($trashPath)) {
-				$view->deleteAll($trashPath);
+			if ($trashStorage->file_exists($trashInternalPath)) {
+				$trashStorage->unlink($trashInternalPath);
 			}
 			\OC_Log::write('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OC_log::ERROR);
 		}
 
-		if ($view->file_exists('/files/' . $file_path)) { // failed to delete the original file, abort
-			$view->unlink($trashPath);
+		if ($sourceStorage->file_exists($sourceInternalPath)) { // failed to delete the original file, abort
+			$sourceStorage->unlink($sourceInternalPath);
 			return false;
 		}
 
@@ -257,18 +262,28 @@ class Trashbin {
 			}
 
 			if ($rootView->is_dir($owner . '/files_versions/' . $ownerPath)) {
+				/** @var \OC\Files\Storage\Storage $versionStorage */
+				list($versionStorage, $versionsInternalPath) = $rootView->resolvePath($owner . '/files_versions/' . $ownerPath);
+				/** @var \OC\Files\Storage\Storage $trashStorage */
+				list($trashStorage, $trashInternalPath) = $rootView->resolvePath($user . '/files_trashbin/versions/' . $filename . '.d' . $timestamp);
+
 				$size += self::calculateSize(new \OC\Files\View('/' . $owner . '/files_versions/' . $ownerPath));
 				if ($owner !== $user) {
 					self::copy_recursive($owner . '/files_versions/' . $ownerPath, $owner . '/files_trashbin/versions/' . basename($ownerPath) . '.d' . $timestamp, $rootView);
 				}
-				$rootView->rename($owner . '/files_versions/' . $ownerPath, $user . '/files_trashbin/versions/' . $filename . '.d' . $timestamp);
+				$trashStorage->moveFromStorage($versionStorage, $versionsInternalPath, $trashInternalPath);
 			} else if ($versions = \OCA\Files_Versions\Storage::getVersions($owner, $ownerPath)) {
+				/** @var \OC\Files\Storage\Storage $versionStorage */
+				list($versionStorage, $versionsInternalPath) = $rootView->resolvePath($owner . '/files_versions/');
+				/** @var \OC\Files\Storage\Storage $trashStorage */
+				list($trashStorage, $trashInternalPath) = $rootView->resolvePath($user . '/files_trashbin/versions/');
+
 				foreach ($versions as $v) {
-					$size += $rootView->filesize($owner . '/files_versions' . $v['path'] . '.v' . $v['version']);
+					$size += $versionStorage->filesize($versionsInternalPath . $v['path'] . '.v' . $v['version']);
 					if ($owner !== $user) {
-						$rootView->copy($owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $owner . '/files_trashbin/versions/' . $v['name'] . '.v' . $v['version'] . '.d' . $timestamp);
+						$trashStorage->copyFromStorage($versionStorage, $versionsInternalPath . $v['path'] . '.v' . $v['version'], $owner . $trashInternalPath . $v['name'] . '.v' . $v['version'] . '.d' . $timestamp);
 					}
-					$rootView->rename($owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $user . '/files_trashbin/versions/' . $filename . '.v' . $v['version'] . '.d' . $timestamp);
+					$trashStorage->moveFromStorage($versionStorage, $versionsInternalPath . $v['path'] . '.v' . $v['version'], $trashInternalPath . $filename . '.v' . $v['version'] . '.d' . $timestamp);
 				}
 			}
 		}
