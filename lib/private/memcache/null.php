@@ -39,6 +39,18 @@ class Null extends Cache {
 		return true;
 	}
 
+	public function inc($key) {
+		return true;
+	}
+
+	public function dec($key) {
+		return true;
+	}
+
+	public function cas($key, $old, $new) {
+		return true;
+	}
+
 	public function clear($prefix = '') {
 		return true;
 	}
