@@ -2,7 +2,7 @@ OC.L10N.register(
     "files_versions",
     {
     "Could not revert: %s" : "Не можев да го вратам: %s",
-    "Versions" : "Версии",
+    "Versions" : "Верзии",
     "Failed to revert {file} to revision {timestamp}." : "Не успеав да го вратам {file} на ревизијата {timestamp}.",
     "More versions..." : "Повеќе верзии...",
     "No other versions available" : "Не постојат други верзии",

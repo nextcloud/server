@@ -25,6 +25,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Η εφαρμογή κρυπτογράφησης είναι ενεργοποιημένη αλλά τα κλειδιά σας δεν έχουν καταγραφεί, παρακαλώ αποσυνδεθείτε και επανασυνδεθείτε.",
     "Enable recovery key" : "Ενεργοποίηση κλειδιού ανάκτησης",
     "Disable recovery key" : "Απενεργοποίηση κλειδιού ανάκτησης",
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Το κλειδί ανάκτησης είναι ένα επιπλέον κλειδί κρυπτογράφησης που χρησιμοποιείται για να κρυπτογραφήσει αρχεία. Επιτρέπει την ανάκτηση των αρχείων ενός χρήστη αν αυτός/αυτή ξεχάσει τον κωδικό πρόσβασης.",
     "Recovery key password" : "Επαναφορά κωδικού κλειδιού",
     "Repeat recovery key password" : "Επαναλάβετε τον κωδικό του κλειδιού ανάκτησης",
     "Change recovery key password:" : "Αλλαγή κλειδιού επαναφοράς κωδικού:",

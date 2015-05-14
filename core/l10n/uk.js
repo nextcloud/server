@@ -134,6 +134,7 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Привіт {name}, погода {weather} ",
     "Hello {name}" : "Привіт {name}",
     "_download %n file_::_download %n files_" : ["завантяження %n файлу","завантаження %n файлів","завантаження %n файлів"],
+    "{version} is available. Get more information on how to update." : "{version} вже є доступною. Отримати більш детальну інформацію про те, як оновити.",
     "Updating {productName} to version {version}, this may take a while." : "Оновлення {productName} до версії {version}, це може займати деякий час.",
     "Please reload the page." : "Будь ласка, перезавантажте сторінку.",
     "The update was unsuccessful. " : "Оновлення завершилось невдачею.",
