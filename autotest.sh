@@ -55,9 +55,9 @@ fi
 
 # PHPUnit might also be installed via a facade binary script
 if [[ "$PHPUNIT" =~ \.phar$ ]]; then
-  PHPUNIT="$PHP $PHPUNIT"
+  PHPUNIT=( "$PHP" "$PHPUNIT" )
 else
-  PHPUNIT="$PHPUNIT"
+  PHPUNIT=( "$PHPUNIT" )
 fi
 
 PHPUNIT_VERSION=$($PHPUNIT --version | cut -d" " -f2)
@@ -167,11 +167,11 @@ function execute_tests {
 	mkdir "coverage-html-$1"
 	"$PHP" -f enable_all.php | grep -i -C9999 error && echo "Error during setup" && exit 101
 	if [ -z "$NOCOVERAGE" ]; then
-		$PHPUNIT --configuration phpunit-autotest.xml --log-junit "autotest-results-$1.xml" --coverage-clover "autotest-clover-$1.xml" --coverage-html "coverage-html-$1" "$2" "$3"
+		"${PHPUNIT[@]}" --configuration phpunit-autotest.xml --log-junit "autotest-results-$1.xml" --coverage-clover "autotest-clover-$1.xml" --coverage-html "coverage-html-$1" "$2" "$3"
 		RESULT=$?
 	else
 		echo "No coverage"
-		$PHPUNIT --configuration phpunit-autotest.xml --log-junit "autotest-results-$1.xml" "$2" "$3"
+		"${PHPUNIT[@]}" --configuration phpunit-autotest.xml --log-junit "autotest-results-$1.xml" "$2" "$3"
 		RESULT=$?
 	fi
 }
