@@ -483,7 +483,7 @@ class KeyManager {
 	}
 
 	public function deleteAllFileKeys($path) {
-		return $this->keyStorage->deleteAllFileKeys($path, Encryption::ID);
+		return $this->keyStorage->deleteAllFileKeys($path);
 	}
 
 	/**
