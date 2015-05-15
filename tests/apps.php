@@ -7,6 +7,9 @@
  */
 
 function loadDirectory($path) {
+	if (strpos($path, 'integration')) {
+		return;
+	}
 	if ($dh = opendir($path)) {
 		while ($name = readdir($dh)) {
 			if ($name[0] !== '.') {
