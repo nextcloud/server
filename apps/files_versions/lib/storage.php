@@ -158,7 +158,7 @@ class Storage {
 			// 1.5 times as large as the current version -> 2.5
 			$neededSpace = $files_view->filesize($filename) * 2.5;
 
-			self::scheduleExpire($filename, $versionsSize, $neededSpace);
+			self::scheduleExpire($uid, $filename, $versionsSize, $neededSpace);
 
 			// store a new version of a file
 			$mtime = $users_view->filemtime('files/' . $filename);
@@ -276,7 +276,7 @@ class Storage {
 
 		// if we moved versions directly for a file, schedule expiration check for that file
 		if (!$rootView->is_dir('/' . $targetOwner . '/files/' . $targetPath)) {
-			self::scheduleExpire($targetPath);
+			self::scheduleExpire($targetOwner, $targetPath);
 		}
 
 	}
@@ -309,7 +309,7 @@ class Storage {
 			// rollback
 			if (self::copyFileContents($users_view, 'files_versions' . $filename . '.v' . $revision, 'files' . $filename)) {
 				$files_view->touch($file, $revision);
-				Storage::scheduleExpire($file);
+				Storage::scheduleExpire($uid, $file);
 				return true;
 			} else if ($versionCreated) {
 				self::deleteVersion($users_view, $version);
@@ -532,12 +532,15 @@ class Storage {
 	}
 
 	/**
-	 * @param string $fileName
-	 * @param int|null $versionsSize
-	 * @param int $neededSpace
+	 * Schedule versions expiration for the given file
+	 *
+	 * @param string $uid owner of the file
+	 * @param string $fileName file/folder for which to schedule expiration
+	 * @param int|null $versionsSize current versions size
+	 * @param int $neededSpace requested versions size
 	 */
-	private static function scheduleExpire($fileName, $versionsSize = null, $neededSpace = 0) {
-		$command = new Expire(\OC::$server->getUserSession()->getUser()->getUID(), $fileName, $versionsSize, $neededSpace);
+	private static function scheduleExpire($uid, $fileName, $versionsSize = null, $neededSpace = 0) {
+		$command = new Expire($uid, $fileName, $versionsSize, $neededSpace);
 		\OC::$server->getCommandBus()->push($command);
 	}
 
