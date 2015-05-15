@@ -129,6 +129,8 @@
     "PHP module %s not installed." : "PHP-Modul %s nicht installiert.",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP-Einstellung „%s“ ist nicht auf „%s“ gesetzt.",
     "Adjusting this setting in php.ini will make ownCloud run again" : "Durch das Anpassen dieser Einstellung in der php.ini wird ownCloud wieder laufen",
+    "mbstring.func_overload is set to \"%s\" instead to the expected value \"0\"" : "mbstring.func_overload ist auf \"%s\", anstatt dem erwarteteten Wert \"0\", eingestellt",
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini" : "Setzen Sie in Ihrer php.ini <code>mbstring.func_overload</code> auf <code>-0</code>, um dieses Problem zu beheben.",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP ist offenbar so konfiguriert, dass PHPDoc-Blöcke in der Anweisung entfernt werden. Dadurch sind mehrere Kern-Apps nicht erreichbar.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dies wird wahrscheinlich durch Zwischenspeicher/Beschleuniger wie etwa Zend OPcache oder eAccelerator verursacht.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP-Module wurden installiert, werden aber als noch fehlend gelistet?",

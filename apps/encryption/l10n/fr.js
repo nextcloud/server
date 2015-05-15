@@ -14,7 +14,7 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "Veuillez répéter le nouveau mot de passe de récupération",
     "Password successfully changed." : "Mot de passe changé avec succès.",
     "Could not change the password. Maybe the old password was not correct." : "Erreur lors du changement de mot de passe. L'ancien mot de passe est peut-être incorrect.",
-    "Recovery Key disabled" : "Clef de récupération désactivée",
+    "Recovery Key disabled" : "Clé de récupération désactivée",
     "Recovery Key enabled" : "Clef de récupération activée",
     "Could not enable the recovery key, please try again or contact your administrator" : "Impossible d'activer la clef de récupération. Veuillez essayer à nouveau ou contacter votre administrateur",
     "Could not update the private key password." : "Impossible de mettre à jour le mot de passe de la clef privée.",

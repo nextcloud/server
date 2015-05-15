@@ -25,6 +25,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikace pro šifrování je zapnuta, ale vaše klíče nejsou inicializované. Prosím odhlaste se a znovu přihlaste",
     "Enable recovery key" : "Povolit záchranný klíč",
     "Disable recovery key" : "Vypnout záchranný klíč",
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Záchranný klíč je dodatečný šifrovací klíč použitý pro\nšifrování souborů. S jeho pomocí lze obnovit soubory uživatele při zapomenutí hesla.",
     "Recovery key password" : "Heslo klíče pro obnovu",
     "Repeat recovery key password" : "Zopakovat heslo záchranného klíče",
     "Change recovery key password:" : "Změna hesla klíče pro obnovu:",
