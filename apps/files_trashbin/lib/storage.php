@@ -80,11 +80,36 @@ class Storage extends Wrapper {
 	/**
 	 * Deletes the given file by moving it into the trashbin.
 	 *
-	 * @param string $path
+	 * @param string $path path of file or folder to delete
+	 *
+	 * @return bool true if the operation succeeded, false otherwise
 	 */
 	public function unlink($path) {
+		return $this->doDelete($path, 'unlink');
+	}
+
+	/**
+	 * Deletes the given folder by moving it into the trashbin.
+	 *
+	 * @param string $path path of folder to delete
+	 *
+	 * @return bool true if the operation succeeded, false otherwise
+	 */
+	public function rmdir($path) {
+		return $this->doDelete($path, 'rmdir');
+	}
+
+	/**
+	 * Run the delete operation with the given method
+	 *
+	 * @param string $path path of file or folder to delete
+	 * @param string $method either "unlink" or "rmdir"
+	 *
+	 * @return bool true if the operation succeeded, false otherwise
+	 */
+	private function doDelete($path, $method) {
 		if (self::$disableTrash) {
-			return $this->storage->unlink($path);
+			return call_user_func_array([$this->storage, $method], [$path]);
 		}
 		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
 		$result = true;
@@ -97,14 +122,14 @@ class Storage extends Wrapper {
 				// in cross-storage cases the file will be copied
 				// but not deleted, so we delete it here
 				if ($result) {
-					$this->storage->unlink($path);
+					call_user_func_array([$this->storage, $method], [$path]);
 				}
 			} else {
-				$result = $this->storage->unlink($path);
+				$result = call_user_func_array([$this->storage, $method], [$path]);
 			}
 			unset($this->deletedFiles[$normalized]);
 		} else if ($this->storage->file_exists($path)) {
-			$result = $this->storage->unlink($path);
+			$result = call_user_func_array([$this->storage, $method], [$path]);
 		}
 
 		return $result;
