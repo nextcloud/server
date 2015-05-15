@@ -45,10 +45,6 @@ class Test_Files_Versioning extends \Test\TestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		// clear share hooks
-		\OC_Hook::clear('OCP\\Share');
-		\OC::registerShareHooks();
-		\OCA\Files_Versions\Hooks::connectHooks();
 		$application = new \OCA\Files_Sharing\AppInfo\Application();
 		$application->registerMountProviders();
 		$application->setupPropagation();
@@ -69,6 +65,11 @@ class Test_Files_Versioning extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
+		// clear hooks
+		\OC_Hook::clear();
+		\OC::registerShareHooks();
+		\OCA\Files_Versions\Hooks::connectHooks();
+
 		self::loginHelper(self::TEST_VERSIONS_USER);
 		$this->rootView = new \OC\Files\View();
 		if (!$this->rootView->file_exists(self::USERS_VERSIONS_ROOT)) {
@@ -81,6 +82,8 @@ class Test_Files_Versioning extends \Test\TestCase {
 		$this->rootView->deleteAll(self::TEST_VERSIONS_USER2 . '/files/');
 		$this->rootView->deleteAll(self::TEST_VERSIONS_USER . '/files_versions/');
 		$this->rootView->deleteAll(self::TEST_VERSIONS_USER2 . '/files_versions/');
+
+		\OC_Hook::clear();
 
 		parent::tearDown();
 	}
@@ -645,6 +648,85 @@ class Test_Files_Versioning extends \Test\TestCase {
 			isset($newVersions[$t2 . '#' . 'test.txt']),
 			'Restored version is not in the list any more'
 		);
+	}
+
+	/**
+	 * Test whether versions are created when overwriting as owner
+	 */
+	public function testStoreVersionAsOwner() {
+		$this->loginAsUser(self::TEST_VERSIONS_USER);
+
+		$this->createAndCheckVersions(
+			\OC\Files\Filesystem::getView(),
+			'test.txt'
+		);
+	}
+
+	/**
+	 * Test whether versions are created when overwriting as share recipient
+	 */
+	public function testStoreVersionAsRecipient() {
+		$this->loginAsUser(self::TEST_VERSIONS_USER);
+
+		\OC\Files\Filesystem::mkdir('folder');
+		\OC\Files\Filesystem::file_put_contents('folder/test.txt', 'test file');
+		$fileInfo = \OC\Files\Filesystem::getFileInfo('folder');
+
+		\OCP\Share::shareItem(
+			'folder',
+			$fileInfo['fileid'],
+			\OCP\Share::SHARE_TYPE_USER,
+			self::TEST_VERSIONS_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
+
+		$this->loginAsUser(self::TEST_VERSIONS_USER2);
+
+		$this->createAndCheckVersions(
+			\OC\Files\Filesystem::getView(),
+			'folder/test.txt'
+		);
+	}
+
+	/**
+	 * Test whether versions are created when overwriting anonymously.
+	 *
+	 * When uploading through a public link or publicwebdav, no user
+	 * is logged in. File modification must still be able to find
+	 * the owner and create versions.
+	 */
+	public function testStoreVersionAsAnonymous() {
+		$this->logout();
+
+		// note: public link upload does this,
+		// needed to make the hooks fire
+		\OC_Util::setupFS(self::TEST_VERSIONS_USER);
+
+		$userView = new \OC\Files\View('/' . self::TEST_VERSIONS_USER . '/files');
+		$this->createAndCheckVersions(
+			$userView,
+			'test.txt'
+		);
+	}
+
+	private function createAndCheckVersions($view, $path) {
+		$view->file_put_contents($path, 'test file');
+		$view->file_put_contents($path, 'version 1');
+		$view->file_put_contents($path, 'version 2');
+
+		$this->loginAsUser(self::TEST_VERSIONS_USER);
+
+		// need to scan for the versions
+		list($rootStorage,) = $this->rootView->resolvePath(self::TEST_VERSIONS_USER . '/files_versions');
+		$rootStorage->getScanner()->scan('files_versions');
+
+		$versions = \OCA\Files_Versions\Storage::getVersions(
+			self::TEST_VERSIONS_USER, '/' . $path
+		);
+
+		// note: we cannot predict how many versions are created due to
+		// test run timing
+		$this->assertGreaterThan(0, count($versions));
 	}
 
 	/**
