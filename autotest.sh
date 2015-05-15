@@ -53,11 +53,18 @@ if ! [ -x "$PHPUNIT" ]; then
 	exit 3
 fi
 
-PHPUNIT_VERSION=$("$PHP" "$PHPUNIT" --version | cut -d" " -f2)
-PHPUNIT_MAJOR_VERSION=$(echo $PHPUNIT_VERSION | cut -d"." -f1)
-PHPUNIT_MINOR_VERSION=$(echo $PHPUNIT_VERSION | cut -d"." -f2)
+# PHPUnit might also be installed via a facade binary script
+if [[ "$PHPUNIT" =~ \.phar$ ]]; then
+  PHPUNIT=( "$PHP" "$PHPUNIT" )
+else
+  PHPUNIT=( "$PHPUNIT" )
+fi
 
-if ! [ $PHPUNIT_MAJOR_VERSION -gt 3 -o \( $PHPUNIT_MAJOR_VERSION -eq 3 -a $PHPUNIT_MINOR_VERSION -ge 7 \) ]; then
+PHPUNIT_VERSION=$($PHPUNIT --version | cut -d" " -f2)
+PHPUNIT_MAJOR_VERSION=$(echo "$PHPUNIT_VERSION" | cut -d"." -f1)
+PHPUNIT_MINOR_VERSION=$(echo "$PHPUNIT_VERSION" | cut -d"." -f2)
+
+if ! [ "$PHPUNIT_MAJOR_VERSION" -gt 3 -o \( "$PHPUNIT_MAJOR_VERSION" -eq 3 -a "$PHPUNIT_MINOR_VERSION" -ge 7 \) ]; then
 	echo "phpunit version >= 3.7 required. Version found: $PHPUNIT_VERSION" >&2
 	exit 4
 fi
@@ -70,7 +77,7 @@ fi
 if [ "$1" ]; then
 	FOUND=0
 	for DBCONFIG in $DBCONFIGS; do
-		if [ "$1" = $DBCONFIG ]; then
+		if [ "$1" = "$DBCONFIG" ]; then
 			FOUND=1
 			break
 		fi
@@ -90,7 +97,7 @@ fi
 function cleanup_config {
 	if [ ! -z "$DOCKER_CONTAINER_ID" ]; then
 		echo "Kill the docker $DOCKER_CONTAINER_ID"
-		docker rm -f $DOCKER_CONTAINER_ID
+		docker rm -f "$DOCKER_CONTAINER_ID"
 	fi
 
 	cd "$BASEDIR"
@@ -132,15 +139,15 @@ function execute_tests {
 
 	# drop database
 	if [ "$1" == "mysql" ] ; then
-		mysql -u $DATABASEUSER -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+		mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
 	fi
 	if [ "$1" == "pgsql" ] ; then
-		dropdb -U $DATABASEUSER $DATABASENAME || true
+		dropdb -U "$DATABASEUSER" "$DATABASENAME" || true
 	fi
 	if [ "$1" == "oci" ] ; then
 		echo "Fire up the oracle docker"
-		DOCKER_CONTAINER_ID=`docker run -d deepdiver/docker-oracle-xe-11g`
-		DATABASEHOST=`docker inspect $DOCKER_CONTAINER_ID | grep IPAddress | cut -d '"' -f 4`
+		DOCKER_CONTAINER_ID=$(docker run -d deepdiver/docker-oracle-xe-11g)
+		DATABASEHOST=$(docker inspect "$DOCKER_CONTAINER_ID" | grep IPAddress | cut -d '"' -f 4)
 
 		echo "Waiting 60 seconds for Oracle initialization ... "
 		sleep 60
@@ -151,7 +158,7 @@ function execute_tests {
 
 	# trigger installation
 	echo "Installing ...."
-	"$PHP" ./occ maintenance:install --database=$1 --database-name=$DATABASENAME --database-host=$DATABASEHOST --database-user=$DATABASEUSER --database-pass=owncloud --database-table-prefix=oc_ --admin-user=$ADMINLOGIN --admin-pass=admin --data-dir=$DATADIR
+	"$PHP" ./occ maintenance:install --database="$1" --database-name="$DATABASENAME" --database-host="$DATABASEHOST" --database-user="$DATABASEUSER" --database-pass=owncloud --database-table-prefix=oc_ --admin-user="$ADMINLOGIN" --admin-pass=admin --data-dir="$DATADIR"
 
 	#test execution
 	echo "Testing with $1 ..."
@@ -160,11 +167,11 @@ function execute_tests {
 	mkdir "coverage-html-$1"
 	"$PHP" -f enable_all.php | grep -i -C9999 error && echo "Error during setup" && exit 101
 	if [ -z "$NOCOVERAGE" ]; then
-		"$PHP" "$PHPUNIT" --configuration phpunit-autotest.xml --log-junit "autotest-results-$1.xml" --coverage-clover "autotest-clover-$1.xml" --coverage-html "coverage-html-$1" "$2" "$3"
+		"${PHPUNIT[@]}" --configuration phpunit-autotest.xml --log-junit "autotest-results-$1.xml" --coverage-clover "autotest-clover-$1.xml" --coverage-html "coverage-html-$1" "$2" "$3"
 		RESULT=$?
 	else
 		echo "No coverage"
-		"$PHP" "$PHPUNIT" --configuration phpunit-autotest.xml --log-junit "autotest-results-$1.xml" "$2" "$3"
+		"${PHPUNIT[@]}" --configuration phpunit-autotest.xml --log-junit "autotest-results-$1.xml" "$2" "$3"
 		RESULT=$?
 	fi
 }
@@ -176,7 +183,7 @@ if [ -z "$1" ]
   then
 	# run all known database configs
 	for DBCONFIG in $DBCONFIGS; do
-		execute_tests $DBCONFIG
+		execute_tests "$DBCONFIG"
 	done
 else
 	FILENAME="$2"
