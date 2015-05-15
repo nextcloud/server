@@ -8,7 +8,34 @@
 
 namespace Test\Connector\Sabre;
 
+use Test\HookHelper;
+use OC\Files\Filesystem;
+
 class File extends \Test\TestCase {
+
+	/**
+	 * @var string
+	 */
+	private $user;
+
+	public function setUp() {
+		parent::setUp();
+
+		\OC_Hook::clear();
+
+		$this->user = $this->getUniqueID('user_');
+		$userManager = \OC::$server->getUserManager();
+		$userManager->createUser($this->user, 'pass');
+
+		$this->loginAsUser($this->user);
+	}
+
+	public function tearDown() {
+		$userManager = \OC::$server->getUserManager();
+		$userManager->get($this->user)->delete();
+
+		parent::tearDown();
+	}
 
 	private function getStream($string) {
 		$stream = fopen('php://temp', 'r+');
@@ -23,7 +50,7 @@ class File extends \Test\TestCase {
 	public function testSimplePutFails() {
 		// setup
 		$storage = $this->getMock('\OC\Files\Storage\Local', ['fopen'], [['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]]);
-		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath', 'resolvePath'), array());
+		$view = $this->getMock('\OC\Files\View', array('getRelativePath', 'resolvePath'), array());
 		$view->expects($this->any())
 			->method('resolvePath')
 			->will($this->returnValue(array($storage, '')));
@@ -45,32 +72,157 @@ class File extends \Test\TestCase {
 		$file->put('test data');
 	}
 
-	public function testPutSingleFileShare() {
-		// setup
-		$stream = fopen('php://temp', 'w+');
-		$storage = $this->getMock('\OC\Files\Storage\Local', ['fopen'], [['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]]);
-		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath', 'resolvePath'), array());
-		$view->expects($this->any())
-			->method('resolvePath')
-			->will($this->returnValue(array($storage, '')));
-		$view->expects($this->any())
-			->method('getRelativePath')
-			->will($this->returnValue(''));
-		$view->expects($this->any())
-			->method('file_put_contents')
-			->with('')
-			->will($this->returnValue(true));
-		$storage->expects($this->once())
-			->method('fopen')
-			->will($this->returnValue($stream));
+	private function doPut($path, $viewRoot = null) {
+		$view = \OC\Files\Filesystem::getView();
+		if (!is_null($viewRoot)) {
+			$view = new \OC\Files\View($viewRoot);
+		} else {
+			$viewRoot = '/' . $this->user . '/files';
+		}
 
-		$info = new \OC\Files\FileInfo('/foo.txt', null, null, array(
-			'permissions' => \OCP\Constants::PERMISSION_ALL
-		), null);
+		$info = new \OC\Files\FileInfo(
+			$viewRoot . '/' . ltrim($path, '/'),
+			null,
+			null,
+			['permissions' => \OCP\Constants::PERMISSION_ALL],
+			null
+		);
 
 		$file = new \OC\Connector\Sabre\File($view, $info);
 
 		$this->assertNotEmpty($file->put($this->getStream('test data')));
+	}
+
+	/**
+	 * Test putting a single file
+	 */
+	public function testPutSingleFile() {
+		$this->doPut('/foo.txt');
+	}
+
+	/**
+	 * Test that putting a file triggers create hooks
+	 */
+	public function testPutSingleFileTriggersHooks() {
+		HookHelper::setUpHooks();
+
+		$this->doPut('/foo.txt');
+
+		$this->assertCount(4, HookHelper::$hookCalls);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[0],
+			Filesystem::signal_create,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[1],
+			Filesystem::signal_write,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[2],
+			Filesystem::signal_post_create,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[3],
+			Filesystem::signal_post_write,
+			'/foo.txt'
+		);
+	}
+
+	/**
+	 * Test that putting a file triggers update hooks
+	 */
+	public function testPutOverwriteFileTriggersHooks() {
+		$view = \OC\Files\Filesystem::getView();
+		$view->file_put_contents('/foo.txt', 'some content that will be replaced');
+
+		HookHelper::setUpHooks();
+
+		$this->doPut('/foo.txt');
+
+		$this->assertCount(4, HookHelper::$hookCalls);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[0],
+			Filesystem::signal_update,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[1],
+			Filesystem::signal_write,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[2],
+			Filesystem::signal_post_update,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[3],
+			Filesystem::signal_post_write,
+			'/foo.txt'
+		);
+	}
+
+	/**
+	 * Test that putting a file triggers hooks with the correct path
+	 * if the passed view was chrooted (can happen with public webdav
+	 * where the root is the share root)
+	 */
+	public function testPutSingleFileTriggersHooksDifferentRoot() {
+		$view = \OC\Files\Filesystem::getView();
+		$view->mkdir('noderoot');
+
+		HookHelper::setUpHooks();
+
+		// happens with public webdav where the view root is the share root
+		$this->doPut('/foo.txt', '/' . $this->user . '/files/noderoot');
+
+		$this->assertCount(4, HookHelper::$hookCalls);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[0],
+			Filesystem::signal_create,
+			'/noderoot/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[1],
+			Filesystem::signal_write,
+			'/noderoot/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[2],
+			Filesystem::signal_post_create,
+			'/noderoot/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[3],
+			Filesystem::signal_post_write,
+			'/noderoot/foo.txt'
+		);
+	}
+
+	public static function cancellingHook($params) {
+		self::$hookCalls[] = array(
+			'signal' => Filesystem::signal_post_create,
+			'params' => $params
+		);
+	}
+
+	/**
+	 * Test put file with cancelled hook
+	 *
+	 * @expectedException \Sabre\DAV\Exception
+	 */
+	public function testPutSingleFileCancelPreHook() {
+		\OCP\Util::connectHook(
+			Filesystem::CLASSNAME,
+			Filesystem::signal_create,
+			'\Test\HookHelper',
+			'cancellingCallback'
+		);
+
+		$this->doPut('/foo.txt');
 	}
 
 	/**
@@ -79,11 +231,7 @@ class File extends \Test\TestCase {
 	public function testSimplePutFailsOnRename() {
 		// setup
 		$view = $this->getMock('\OC\Files\View',
-			array('file_put_contents', 'rename', 'getRelativePath', 'filesize'));
-		$view->expects($this->any())
-			->method('file_put_contents')
-			->withAnyParameters()
-			->will($this->returnValue(true));
+			array('rename', 'getRelativePath', 'filesize'));
 		$view->expects($this->any())
 			->method('rename')
 			->withAnyParameters()
@@ -113,11 +261,7 @@ class File extends \Test\TestCase {
 	 */
 	public function testSimplePutInvalidChars() {
 		// setup
-		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath'));
-		$view->expects($this->any())
-			->method('file_put_contents')
-			->will($this->returnValue(false));
-
+		$view = $this->getMock('\OC\Files\View', array('getRelativePath'));
 		$view->expects($this->any())
 			->method('getRelativePath')
 			->will($this->returnValue('/*'));
@@ -157,11 +301,7 @@ class File extends \Test\TestCase {
 	public function testUploadAbort() {
 		// setup
 		$view = $this->getMock('\OC\Files\View',
-			array('file_put_contents', 'rename', 'getRelativePath', 'filesize'));
-		$view->expects($this->any())
-			->method('file_put_contents')
-			->withAnyParameters()
-			->will($this->returnValue(true));
+			array('rename', 'getRelativePath', 'filesize'));
 		$view->expects($this->any())
 			->method('rename')
 			->withAnyParameters()
@@ -247,5 +387,21 @@ class File extends \Test\TestCase {
 
 		// action
 		$file->delete();
+	}
+
+	/**
+	 * Asserts hook call
+	 *
+	 * @param array $callData hook call data to check
+	 * @param string $signal signal name
+	 * @param string $hookPath hook path
+	 */
+	protected function assertHookCall($callData, $signal, $hookPath) {
+		$this->assertEquals($signal, $callData['signal']);
+		$params = $callData['params'];
+		$this->assertEquals(
+			$hookPath,
+			$params[Filesystem::signal_param_path]
+		);
 	}
 }
