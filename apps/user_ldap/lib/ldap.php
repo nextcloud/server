@@ -26,6 +26,8 @@
 
 namespace OCA\user_ldap\lib;
 
+use OC\ServerNotAvailableException;
+
 class LDAP implements ILDAPWrapper {
 	protected $curFunc = '';
 	protected $curArgs = array();
@@ -283,6 +285,8 @@ class LDAP implements ILDAPWrapper {
 					//for now
 				} else if ($errorCode === 10) {
 					//referrals, we switch them off, but then there is AD :)
+				} else if ($errorCode === -1) {
+					throw new ServerNotAvailableException('Lost connection to LDAP server.');
 				} else {
 					\OCP\Util::writeLog('user_ldap',
 										'LDAP error '.$errorMsg.' (' .
