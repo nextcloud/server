@@ -53,21 +53,22 @@ class Test_Helper extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider computerFileSizeProvider
+	 * @dataProvider providesComputerFileSize
 	 */
 	function testComputerFileSize($expected, $input) {
 		$result = OC_Helper::computerFileSize($input);
 		$this->assertEquals($expected, $result);
 	}
 
-	function computerFileSizeProvider(){
-		return array(
-			array(0.0, "0 B"),
-			array(1024.0, "1 kB"),
-			array(1395864371.0, '1.3 GB'),
-			array(9961472.0, "9.5 MB"),
-			array(500041567437.0, "465.7 GB"),
-		);
+	function providesComputerFileSize(){
+		return [
+			[0.0, "0 B"],
+			[1024.0, "1 kB"],
+			[1395864371.0, '1.3 GB'],
+			[9961472.0, "9.5 MB"],
+			[500041567437.0, "465.7 GB"],
+			[false, "12 GB etfrhzui"]
+		];
 	}
 
 	function testGetMimeType() {

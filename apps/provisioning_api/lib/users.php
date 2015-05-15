@@ -155,7 +155,14 @@ class Users {
 			case 'quota':
 				$quota = $parameters['_put']['value'];
 				if($quota !== 'none' and $quota !== 'default') {
-					$quota = OC_Helper::computerFileSize($quota);
+					if (is_numeric($quota)) {
+						$quota = floatval($quota);
+					} else {
+						$quota = OC_Helper::computerFileSize($quota);
+					}
+					if ($quota === false) {
+						return new OC_OCS_Result(null, 103, "Invalid quota value {$parameters['_put']['value']}");
+					}
 					if($quota == 0) {
 						$quota = 'default';
 					}else if($quota == -1){
