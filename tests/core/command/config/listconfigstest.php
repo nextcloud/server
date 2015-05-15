@@ -56,7 +56,6 @@ class ListConfigsTest extends TestCase {
 		$this->command = new ListConfigs($systemConfig, $appConfig);
 	}
 
-
 	public function listData() {
 		return [
 			[

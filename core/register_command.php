@@ -40,6 +40,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Background\WebCron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\Ajax(\OC::$server->getConfig()));
 
+	$application->add(new OC\Core\Command\Config\Import(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Config\ListConfigs(\OC::$server->getSystemConfig(), \OC::$server->getAppConfig()));
 	$application->add(new OC\Core\Command\Config\System\DeleteConfig(\OC::$server->getSystemConfig()));
 	$application->add(new OC\Core\Command\Config\System\GetConfig(\OC::$server->getSystemConfig()));
