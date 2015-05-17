@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete" : "Apagar",
     "Disconnect storage" : "Desconete o armazenamento",
     "Unshare" : "Deixar de partilhar",
+    "No permission to delete" : "Não tem permissão para apagar",
     "Download" : "Transferir",
     "Select" : "Selecionar",
     "Pending" : "Pendente",

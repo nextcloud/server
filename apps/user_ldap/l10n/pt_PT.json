@@ -8,6 +8,7 @@
     "No configuration specified" : "Nenhuma configuração especificada",
     "No data specified" : "Nenhuma data especificada",
     " Could not set configuration %s" : "Não foi possível definir a configuração %s",
+    "Action does not exist" : "Não existe esta acção",
     "Configuration incorrect" : "Configuração incorreta",
     "Configuration incomplete" : "Configuração incompleta",
     "Configuration OK" : "Configuração OK",
