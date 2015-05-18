@@ -35,6 +35,8 @@ OC.L10N.register(
     "Select attributes" : "Pilih atribut",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "Pengguna tidak ditemukan. Mohon periksa atribut login dan nama pengguna Anda. Penyaring efektif (salin dan tempel berikut untuk validasi baris perintah):\n<br/>",
     "User found and settings verified." : "Pengguna ditemukan dan pengaturan terverifikasi.",
+    "An unspecified error occurred. Please check the settings and the log." : "Terjadi kesalahan yang tidak disebutkan. Mohon periksa pengaturan dan log.",
+    "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Penyaring pencarian tidak sah, kemungkinan karena masalah sintaks seperti jumlah kurung buka dan tutup tidak sama. Mohon diperiksa.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Terjadi kesalahan sambungan ke LDAP / AD, mohon periksa host, port dan kredensial.",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Kotak grup telah diaktifkan, karena server LDAP / AD tidak mendukung keanggotaan.",
     "_%s group found_::_%s groups found_" : ["%s grup ditemukan"],
