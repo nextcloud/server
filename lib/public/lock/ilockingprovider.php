@@ -35,7 +35,7 @@ interface ILockingProvider {
 	/**
 	 * @param string $path
 	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
-	 * @throws \OCP\Files\Lock\LockedException
+	 * @throws \OCP\Lock\LockedException
 	 */
 	public function acquireLock($path, $type);
 
