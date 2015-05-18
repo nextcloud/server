@@ -35,7 +35,7 @@ class Application {
 		if ($this->config->getSystemValue('installed', false)) {
 			if (!\OCP\Util::needUpgrade()) {
 				OC_App::loadApps();
-				foreach (OC_App::getAllApps() as $app) {
+				foreach (\OC::$server->getAppManager()->getInstalledApps() as $app) {
 					$file = OC_App::getAppPath($app) . '/appinfo/register_command.php';
 					if (file_exists($file)) {
 						require $file;
