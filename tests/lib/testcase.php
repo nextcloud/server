@@ -168,5 +168,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	static protected function logout() {
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
+		// needed for fully logout
+		\OC::$server->getUserSession()->setUser(null);
 	}
 }
