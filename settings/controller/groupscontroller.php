@@ -76,7 +76,7 @@ class GroupsController extends Controller {
 
 		$groupsInfo = new \OC\Group\MetaData($this->userSession->getUser()->getUID(),
 			$this->isAdmin, $this->groupManager);
-		$groupsInfo->setSorting($groupsInfo::SORT_USERCOUNT);
+		$groupsInfo->setSorting($groupsInfo::SORT_GROUPNAME);
 		list($adminGroups, $groups) = $groupsInfo->get($groupPattern, $pattern);
 
 		return new DataResponse(

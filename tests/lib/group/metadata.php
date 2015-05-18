@@ -16,7 +16,7 @@ class Test_MetaData extends \Test\TestCase {
 			->getMock();
 	}
 
-	private function getGroupMock() {
+	private function getGroupMock($countCallCount = 0) {
 		$group = $this->getMockBuilder('\OC\Group\Group')
 			->disableOriginalConstructor()
 			->getMock();
@@ -28,7 +28,7 @@ class Test_MetaData extends \Test\TestCase {
 				'g2', 'g2', 'g2',
 				'g3', 'g3', 'g3'));
 
-		$group->expects($this->exactly(3))
+		$group->expects($this->exactly($countCallCount))
 			->method('count')
 			->with('')
 			->will($this->onConsecutiveCalls(2, 3, 5));
@@ -54,14 +54,15 @@ class Test_MetaData extends \Test\TestCase {
 		$this->assertSame(2, count($ordinaryGroups));
 
 		$this->assertSame('g2', $ordinaryGroups[0]['name']);
-		$this->assertSame(3, $ordinaryGroups[0]['usercount']);
+		// user count is not loaded
+		$this->assertSame(0, $ordinaryGroups[0]['usercount']);
 	}
 
 	public function testGetWithSorting() {
 		$groupManager = $this->getGroupManagerMock();
 		$groupMetaData = new \OC\Group\MetaData('foo', true, $groupManager);
 		$groupMetaData->setSorting($groupMetaData::SORT_USERCOUNT);
-		$group = $this->getGroupMock();
+		$group = $this->getGroupMock(3);
 		$groups = array_fill(0, 3, $group);
 
 		$groupManager->expects($this->once())

@@ -42,7 +42,7 @@ $config = \OC::$server->getConfig();
 $isAdmin = OC_User::isAdminUser(OC_User::getUser());
 
 $groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), $isAdmin, $groupManager);
-$groupsInfo->setSorting($groupsInfo::SORT_USERCOUNT);
+$groupsInfo->setSorting($groupsInfo::SORT_GROUPNAME);
 list($adminGroup, $groups) = $groupsInfo->get();
 
 $recoveryAdminEnabled = OC_App::isEnabled('encryption') &&
