@@ -299,7 +299,7 @@ class Encryption extends Wrapper {
 
 		$length = 0;
 		// loop over $data to fit it in 6126 sized unencrypted blocks
-		while (strlen($data) > 0) {
+		while (isset($data[0])) {
 			$remainingLength = strlen($data);
 
 			// set the cache to the current 6126 block
