@@ -42,6 +42,9 @@ class EncryptionTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	private $loggerMock;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $l10nMock;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -57,12 +60,16 @@ class EncryptionTest extends TestCase {
 		$this->loggerMock = $this->getMockBuilder('OCP\ILogger')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->l10nMock = $this->getMockBuilder('OCP\IL10N')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->instance = new Encryption(
 			$this->cryptMock,
 			$this->keyManagerMock,
 			$this->utilMock,
-			$this->loggerMock
+			$this->loggerMock,
+			$this->l10nMock
 		);
 
 	}

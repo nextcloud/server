@@ -104,7 +104,8 @@ class Application extends \OCP\AppFramework\App {
 				$container->query('Crypt'),
 				$container->query('KeyManager'),
 				$container->query('Util'),
-				$container->getServer()->getLogger()
+				$container->getServer()->getLogger(),
+				$container->getServer()->getL10N($container->getAppName())
 			);
 		});
 
