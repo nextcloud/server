@@ -200,10 +200,10 @@ class Encryption extends \Test\TestCase {
 		$this->assertEquals('foofoobar', fread($stream, 100));
 		$this->assertEquals(-1, fseek($stream, 10));
 		$this->assertEquals(0, fseek($stream, 9));
-		$this->assertEquals(-1, fseek($stream, -10, 'SEEK_CUR'));
-		$this->assertEquals(0, fseek($stream, -9, 'SEEK_CUR'));
-		$this->assertEquals(-1, fseek($stream, -10, 'SEEK_END'));
-		$this->assertEquals(0, fseek($stream, -9, 'SEEK_END'));
+		$this->assertEquals(-1, fseek($stream, -10, SEEK_CUR));
+		$this->assertEquals(0, fseek($stream, -9, SEEK_CUR));
+		$this->assertEquals(-1, fseek($stream, -10, SEEK_END));
+		$this->assertEquals(0, fseek($stream, -9, SEEK_END));
 		fclose($stream);
 
 		unlink($fileName);
