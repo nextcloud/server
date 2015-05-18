@@ -638,6 +638,9 @@ label.infield {
 
 /* Database selector */
 #body-login form #selectDbType { text-align:center; white-space: nowrap; }
+#body-login form #selectDbType .info {
+	white-space: normal;
+}
 #body-login form #selectDbType label {
 	position:static; margin:0 -3px 5px; padding:.4em;
 	font-size:12px; background:#f8f8f8; color:#888; cursor:pointer;
