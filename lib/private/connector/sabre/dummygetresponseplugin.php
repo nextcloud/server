@@ -20,6 +20,8 @@
  */
 
 namespace OC\Connector\Sabre;
+use Sabre\HTTP\ResponseInterface;
+use Sabre\HTTP\RequestInterface;
 
 /**
  * Class DummyGetResponsePlugin is a plugin used to not show a "Not implemented"
@@ -42,15 +44,25 @@ class DummyGetResponsePlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
-	function initialize(\Sabre\DAV\Server  $server) {
+	function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
-		$this->server->on('method:GET', [$this,'httpGet'], 200);
+		$this->server->on('method:GET', [$this, 'httpGet'], 200);
 	}
 
 	/**
+	 * @param RequestInterface $request
+	 * @param ResponseInterface $response
 	 * @return false
 	 */
-	function httpGet() {
+	function httpGet(RequestInterface $request, ResponseInterface $response) {
+		$string = 'This is the WebDAV interface. It can only be accessed by ' .
+			'WebDAV clients such as the ownCloud desktop sync client.';
+		$stream = fopen('php://memory','r+');
+		fwrite($stream, $string);
+		rewind($stream);
+
+		$response->setBody($stream);
+
 		return false;
 	}
 }
