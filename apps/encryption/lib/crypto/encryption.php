@@ -25,10 +25,12 @@
 namespace OCA\Encryption\Crypto;
 
 
+use OC\Encryption\Exceptions\DecryptionFailedException;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Util;
 use OCP\Encryption\IEncryptionModule;
 use OCA\Encryption\KeyManager;
+use OCP\IL10N;
 use OCP\ILogger;
 
 class Encryption implements IEncryptionModule {
@@ -68,9 +70,11 @@ class Encryption implements IEncryptionModule {
 	/** @var Util */
 	private $util;
 
-
 	/** @var  ILogger */
 	private $logger;
+
+	/** @var IL10N */
+	private $l;
 
 	/**
 	 *
@@ -78,15 +82,18 @@ class Encryption implements IEncryptionModule {
 	 * @param KeyManager $keyManager
 	 * @param Util $util
 	 * @param ILogger $logger
+	 * @param IL10N $il10n
 	 */
 	public function __construct(Crypt $crypt,
 								KeyManager $keyManager,
 								Util $util,
-								ILogger $logger) {
+								ILogger $logger,
+								IL10N $il10n) {
 		$this->crypt = $crypt;
 		$this->keyManager = $keyManager;
 		$this->util = $util;
 		$this->logger = $logger;
+		$this->l = $il10n;
 	}
 
 	/**
@@ -268,6 +275,7 @@ class Encryption implements IEncryptionModule {
 	 *
 	 * @param string $data you want to decrypt
 	 * @return mixed decrypted data
+	 * @throws DecryptionFailedException
 	 */
 	public function decrypt($data) {
 		if (empty($this->fileKey)) {

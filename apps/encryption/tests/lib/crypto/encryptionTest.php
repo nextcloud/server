@@ -42,6 +42,9 @@ class EncryptionTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	private $loggerMock;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $l10nMock;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -57,12 +60,20 @@ class EncryptionTest extends TestCase {
 		$this->loggerMock = $this->getMockBuilder('OCP\ILogger')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->l10nMock = $this->getMockBuilder('OCP\IL10N')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->l10nMock->expects($this->any())
+			->method('t')
+			->with($this->anything())
+			->willReturnArgument(0);
 
 		$this->instance = new Encryption(
 			$this->cryptMock,
 			$this->keyManagerMock,
 			$this->utilMock,
-			$this->loggerMock
+			$this->loggerMock,
+			$this->l10nMock
 		);
 
 	}
@@ -245,4 +256,11 @@ class EncryptionTest extends TestCase {
 		);
 	}
 
+	/**
+	 * @expectedException \OC\Encryption\Exceptions\DecryptionFailedException
+	 * @expectedExceptionMessage Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.
+	 */
+	public function testDecrypt() {
+		$this->instance->decrypt('abc');
+	}
 }
