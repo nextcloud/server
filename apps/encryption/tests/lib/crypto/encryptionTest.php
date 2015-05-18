@@ -231,6 +231,7 @@ class EncryptionTest extends TestCase {
 		);
 	}
 
+	/**
 	 * by default the encryption module should encrypt regular files, files in
 	 * files_versions and files in files_trashbin
 	 *

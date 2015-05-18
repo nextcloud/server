@@ -25,6 +25,7 @@
 namespace OCA\Encryption\Crypto;
 
 
+use OC\Encryption\Exceptions\DecryptionFailedException;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Util;
 use OCP\Encryption\IEncryptionModule;
@@ -274,6 +275,7 @@ class Encryption implements IEncryptionModule {
 	 *
 	 * @param string $data you want to decrypt
 	 * @return mixed decrypted data
+	 * @throws DecryptionFailedException
 	 */
 	public function decrypt($data) {
 		if (empty($this->fileKey)) {
