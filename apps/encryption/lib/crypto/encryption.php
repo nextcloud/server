@@ -330,7 +330,7 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function shouldEncrypt($path) {
 		$parts = explode('/', $path);
-		if (count($parts) < 3) {
+		if (count($parts) < 4) {
 			return false;
 		}
 
@@ -338,6 +338,9 @@ class Encryption implements IEncryptionModule {
 			return true;
 		}
 		if ($parts[2] == 'files_versions') {
+			return true;
+		}
+		if ($parts[2] == 'files_trashbin') {
 			return true;
 		}
 

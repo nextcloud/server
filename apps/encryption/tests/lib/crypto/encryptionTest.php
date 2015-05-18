@@ -220,4 +220,29 @@ class EncryptionTest extends TestCase {
 		);
 	}
 
+	/**
+	 * by default the encryption module should encrypt regular files, files in
+	 * files_versions and files in files_trashbin
+	 *
+	 * @dataProvider dataTestShouldEncrypt
+	 */
+	public function testShouldEncrypt($path, $expected) {
+		$this->assertSame($expected,
+			$this->instance->shouldEncrypt($path)
+		);
+	}
+
+	public function dataTestShouldEncrypt() {
+		return array(
+			array('/user1/files/foo.txt', true),
+			array('/user1/files_versions/foo.txt', true),
+			array('/user1/files_trashbin/foo.txt', true),
+			array('/user1/some_folder/foo.txt', false),
+			array('/user1/foo.txt', false),
+			array('/user1/files', false),
+			array('/user1/files_trashbin', false),
+			array('/user1/files_versions', false),
+		);
+	}
+
 }
