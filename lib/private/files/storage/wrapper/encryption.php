@@ -253,6 +253,30 @@ class Encryption extends Wrapper {
 	}
 
 	/**
+	 * check if a file can be read
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
+	public function isReadable($path) {
+
+		$isReadable = true;
+
+		$metaData = $this->getMetaData($path);
+		if (
+			!$this->is_dir($path) &&
+			isset($metaData['encrypted']) &&
+			$metaData['encrypted'] === true
+		) {
+			$fullPath = $this->getFullPath($path);
+			$module = $this->getEncryptionModule($path);
+			$isReadable = $module->isReadable($fullPath, $this->uid);
+		}
+
+		return $this->storage->isReadable($path) && $isReadable;
+	}
+
+	/**
 	 * see http://php.net/manual/en/function.copy.php
 	 *
 	 * @param string $path1

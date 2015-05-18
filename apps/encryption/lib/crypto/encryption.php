@@ -270,6 +270,15 @@ class Encryption implements IEncryptionModule {
 	 * @return mixed decrypted data
 	 */
 	public function decrypt($data) {
+		if (empty($this->fileKey)) {
+			$msg = $this->l->t('Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
+			$this->logger->error('Can not decrypt this file,
+			probably this is a shared file.
+			Please ask the file owner to reshare the file with you.');
+
+			throw new DecryptionFailedException($msg);
+		}
+
 		$result = '';
 		if (!empty($data)) {
 			$result = $this->crypt->symmetricDecryptFileContent($data, $this->fileKey, $this->cipher);
@@ -346,6 +355,36 @@ class Encryption implements IEncryptionModule {
 	}
 
 	/**
+	 * check if the encryption module is able to read the file,
+	 * e.g. if all encryption keys exists
+	 *
+	 * @param string $path
+	 * @param string $uid user for whom we want to check if he can read the file
+	 * @return bool
+	 * @throws DecryptionFailedException
+	 */
+	public function isReadable($path, $uid) {
+		$fileKey = $this->keyManager->getFileKey($path, $uid);
+		if (empty($fileKey)) {
+			$owner = $this->util->getOwner($path);
+			if ($owner !== $uid) {
+				// if it is a shared file we throw a exception with a useful
+				// error message because in this case it means that the file was
+				// shared with the user at a point where the user didn't had a
+				// valid private/public key
+				$msg = 'Encryption module "' . $this->getDisplayName() .
+					'" is not able to read ' . $path;
+				$hint = $this->l->t('Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
+				$this->logger->warning($msg);
+				throw new DecryptionFailedException($msg, 0, null, $hint);
+			}
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * @param string $path
 	 * @return string
 	 */
@@ -360,4 +399,5 @@ class Encryption implements IEncryptionModule {
 
 		return $realPath;
 	}
+
 }

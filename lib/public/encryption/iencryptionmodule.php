@@ -119,4 +119,16 @@ interface IEncryptionModule {
 	 * @since 8.1.0
 	 */
 	public function getUnencryptedBlockSize();
+
+	/**
+	 * check if the encryption module is able to read the file,
+	 * e.g. if all encryption keys exists
+	 *
+	 * @param string $path
+	 * @param string $uid user for whom we want to check if he can read the file
+	 * @return boolean
+	 * @since 8.1.0
+	 */
+	public function isReadable($path, $uid);
+
 }

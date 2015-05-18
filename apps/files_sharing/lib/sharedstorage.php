@@ -217,7 +217,13 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	}
 
 	public function isReadable($path) {
-		return $this->file_exists($path);
+		$isReadable = false;
+		if ($source = $this->getSourcePath($path)) {
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			$isReadable = $storage->isReadable($internalPath);
+		}
+
+		return $isReadable && $this->file_exists($path);
 	}
 
 	public function isUpdatable($path) {

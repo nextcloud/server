@@ -253,13 +253,14 @@ class Encryption extends \Test\TestCase {
 	protected function buildMockModule() {
 		$encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 			->disableOriginalConstructor()
-			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize'])
+			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable'])
 			->getMock();
 
 		$encryptionModule->expects($this->any())->method('getId')->willReturn('UNIT_TEST_MODULE');
 		$encryptionModule->expects($this->any())->method('getDisplayName')->willReturn('Unit test module');
 		$encryptionModule->expects($this->any())->method('begin')->willReturn([]);
 		$encryptionModule->expects($this->any())->method('end')->willReturn('');
+		$encryptionModule->expects($this->any())->method('isReadable')->willReturn(true);
 		$encryptionModule->expects($this->any())->method('encrypt')->willReturnCallback(function($data) {
 			// simulate different block size by adding some padding to the data
 			if (isset($data[6125])) {

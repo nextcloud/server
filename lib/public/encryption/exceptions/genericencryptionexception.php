@@ -30,17 +30,26 @@ namespace OCP\Encryption\Exceptions;
  */
 class GenericEncryptionException extends \Exception {
 
+	/** @var string */
+	protected $hint;
+
 	/**
 	 * @param string $message
 	 * @param int $code
 	 * @param \Exception $previous
 	 * @since 8.1.0
 	 */
-	public function __construct($message = '', $code = 0, \Exception $previous = null) {
+	public function __construct($message = '', $code = 0, \Exception $previous = null, $hint = '') {
 		if (empty($message)) {
 			$message = 'Unspecified encryption exception';
 		}
 		parent::__construct($message, $code, $previous);
+
+		$this->hint = $hint;
+	}
+
+	public function getHint() {
+		return $this->hint;
 	}
 
 }

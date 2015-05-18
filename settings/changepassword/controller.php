@@ -89,7 +89,8 @@ class Controller {
 				$crypt,
 				\OC::$server->getLogger(),
 				\OC::$server->getUserSession(),
-				\OC::$server->getConfig());
+				\OC::$server->getConfig(),
+				\OC::$server->getUserManager());
 			$keyManager = new \OCA\Encryption\KeyManager(
 				$keyStorage,
 				$crypt,

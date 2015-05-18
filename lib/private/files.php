@@ -129,52 +129,60 @@ class OC_Files {
 			$zip = new ZipStreamer(false);
 		}
 		OC_Util::obEnd();
-		if ($zip or \OC\Files\Filesystem::isReadable($filename)) {
-			self::sendHeaders($filename, $name, $zip);
-		} elseif (!\OC\Files\Filesystem::file_exists($filename)) {
-			header("HTTP/1.0 404 Not Found");
-			$tmpl = new OC_Template('', '404', 'guest');
-			$tmpl->printPage();
-		} else {
-			header("HTTP/1.0 403 Forbidden");
-			die('403 Forbidden');
-		}
-		if($only_header) {
-			return ;
-		}
-		if ($zip) {
-			$executionTime = intval(ini_get('max_execution_time'));
-			set_time_limit(0);
-			if ($get_type === self::ZIP_FILES) {
-				foreach ($files as $file) {
-					$file = $dir . '/' . $file;
-					if (\OC\Files\Filesystem::is_file($file)) {
-						$fh = \OC\Files\Filesystem::fopen($file, 'r');
-						$zip->addFileFromStream($fh, basename($file));
-						fclose($fh);
-					} elseif (\OC\Files\Filesystem::is_dir($file)) {
-						self::zipAddDir($file, $zip);
-					}
-				}
-			} elseif ($get_type === self::ZIP_DIR) {
-				$file = $dir . '/' . $files;
-				self::zipAddDir($file, $zip);
+
+		try {
+
+			if ($zip or \OC\Files\Filesystem::isReadable($filename)) {
+				self::sendHeaders($filename, $name, $zip);
+			} elseif (!\OC\Files\Filesystem::file_exists($filename)) {
+				header("HTTP/1.0 404 Not Found");
+				$tmpl = new OC_Template('', '404', 'guest');
+				$tmpl->printPage();
+			} else {
+				header("HTTP/1.0 403 Forbidden");
+				die('403 Forbidden');
 			}
-			$zip->finalize();
-			set_time_limit($executionTime);
-		} else {
-			if ($xsendfile) {
-				$view = \OC\Files\Filesystem::getView();
-				/** @var $storage \OC\Files\Storage\Storage */
-				list($storage) = $view->resolvePath($filename);
-				if ($storage->isLocal()) {
-					self::addSendfileHeader($filename);
+			if ($only_header) {
+				return;
+			}
+			if ($zip) {
+				$executionTime = intval(ini_get('max_execution_time'));
+				set_time_limit(0);
+				if ($get_type === self::ZIP_FILES) {
+					foreach ($files as $file) {
+						$file = $dir . '/' . $file;
+						if (\OC\Files\Filesystem::is_file($file)) {
+							$fh = \OC\Files\Filesystem::fopen($file, 'r');
+							$zip->addFileFromStream($fh, basename($file));
+							fclose($fh);
+						} elseif (\OC\Files\Filesystem::is_dir($file)) {
+							self::zipAddDir($file, $zip);
+						}
+					}
+				} elseif ($get_type === self::ZIP_DIR) {
+					$file = $dir . '/' . $files;
+					self::zipAddDir($file, $zip);
+				}
+				$zip->finalize();
+				set_time_limit($executionTime);
+			} else {
+				if ($xsendfile) {
+					$view = \OC\Files\Filesystem::getView();
+					/** @var $storage \OC\Files\Storage\Storage */
+					list($storage) = $view->resolvePath($filename);
+					if ($storage->isLocal()) {
+						self::addSendfileHeader($filename);
+					} else {
+						\OC\Files\Filesystem::readfile($filename);
+					}
 				} else {
 					\OC\Files\Filesystem::readfile($filename);
 				}
-			} else {
-				\OC\Files\Filesystem::readfile($filename);
 			}
+		} catch (\Exception $ex) {
+			$l = \OC::$server->getL10N('core');
+			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
+			\OC_Template::printErrorPage($l->t('Can\'t read file'), $hint);
 		}
 	}
 
