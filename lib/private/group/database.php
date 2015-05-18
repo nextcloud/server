@@ -180,8 +180,15 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * Returns a list with all groups
 	 */
 	public function getGroups($search = '', $limit = null, $offset = null) {
-		$stmt = OC_DB::prepare('SELECT `gid` FROM `*PREFIX*groups` WHERE LOWER(`gid`) LIKE LOWER(?) ORDER BY `gid` ASC', $limit, $offset);
-		$result = $stmt->execute(array('%' . $search . '%'));
+		$parameters = [];
+		$searchLike = '';
+		if ($search !== '') {
+			$parameters[] = '%' . $search . '%';
+			$searchLike = ' WHERE LOWER(`gid`) LIKE LOWER(?)';
+		}
+
+		$stmt = OC_DB::prepare('SELECT `gid` FROM `*PREFIX*groups`' . $searchLike . ' ORDER BY `gid` ASC', $limit, $offset);
+		$result = $stmt->execute($parameters);
 		$groups = array();
 		while ($row = $result->fetchRow()) {
 			$groups[] = $row['gid'];
@@ -212,10 +219,17 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * @return array an array of user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = null, $offset = null) {
-		$stmt = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` LIKE ? ORDER BY `uid` ASC',
+		$parameters = [$gid];
+		$searchLike = '';
+		if ($search !== '') {
+			$parameters[] = '%' . $search . '%';
+			$searchLike = ' AND `uid` LIKE ?';
+		}
+
+		$stmt = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ?' . $searchLike . ' ORDER BY `uid` ASC',
 			$limit,
 			$offset);
-		$result = $stmt->execute(array($gid, '%'.$search.'%'));
+		$result = $stmt->execute($parameters);
 		$users = array();
 		while ($row = $result->fetchRow()) {
 			$users[] = $row['uid'];
@@ -231,8 +245,15 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * @throws \OC\DatabaseException
 	 */
 	public function countUsersInGroup($gid, $search = '') {
-		$stmt = OC_DB::prepare('SELECT COUNT(`uid`) AS `count` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` LIKE ?');
-		$result = $stmt->execute(array($gid, '%' . $search . '%'));
+		$parameters = [$gid];
+		$searchLike = '';
+		if ($search !== '') {
+			$parameters[] = '%' . $search . '%';
+			$searchLike = ' AND `uid` LIKE ?';
+		}
+
+		$stmt = OC_DB::prepare('SELECT COUNT(`uid`) AS `count` FROM `*PREFIX*group_user` WHERE `gid` = ?' . $searchLike);
+		$result = $stmt->execute($parameters);
 		$count = $result->fetchOne();
 		if($count !== false) {
 			$count = intval($count);
