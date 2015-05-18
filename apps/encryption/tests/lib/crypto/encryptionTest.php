@@ -63,6 +63,10 @@ class EncryptionTest extends TestCase {
 		$this->l10nMock = $this->getMockBuilder('OCP\IL10N')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->l10nMock->expects($this->any())
+			->method('t')
+			->with($this->anything())
+			->willReturnArgument(0);
 
 		$this->instance = new Encryption(
 			$this->cryptMock,
@@ -227,7 +231,6 @@ class EncryptionTest extends TestCase {
 		);
 	}
 
-	/**
 	 * by default the encryption module should encrypt regular files, files in
 	 * files_versions and files in files_trashbin
 	 *
@@ -252,4 +255,11 @@ class EncryptionTest extends TestCase {
 		);
 	}
 
+	/**
+	 * @expectedException \OC\Encryption\Exceptions\DecryptionFailedException
+	 * @expectedExceptionMessage Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.
+	 */
+	public function testDecrypt() {
+		$this->instance->decrypt('abc');
+	}
 }
