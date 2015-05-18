@@ -839,6 +839,24 @@ OC.Share={
 			$('#defaultExpireMessage').slideDown(OC.menuSpeed);
 		}
 		$.datepicker.setDefaults(datePickerOptions);
+	},
+	/**
+	 * Get the default Expire date
+	 *
+	 * @return {String} The expire date
+	 */
+	getDefaultExpirationDate:function() {
+		var expireDateString = '';
+		if (oc_appconfig.core.defaultExpireDateEnabled) {
+			var date = new Date().getTime();
+			var expireAfterMs = oc_appconfig.core.defaultExpireDate * 24 * 60 * 60 * 1000;
+			var expireDate = new Date(date + expireAfterMs);
+			var month = expireDate.getMonth() + 1;
+			var year = expireDate.getFullYear();
+			var day = expireDate.getDate();
+			expireDateString = year + "-" + month + '-' + day + ' 00:00:00';
+		}
+		return expireDateString;
 	}
 };
 
@@ -992,17 +1010,9 @@ $(document).ready(function() {
 			$('#expirationCheckbox').prop('checked', false);
 			$('#expirationDate').hide();
 			var expireDateString = '';
-			if (oc_appconfig.core.defaultExpireDateEnabled) {
-				var date = new Date().getTime();
-				var expireAfterMs = oc_appconfig.core.defaultExpireDate * 24 * 60 * 60 * 1000;
-				var expireDate = new Date(date + expireAfterMs);
-				var month = expireDate.getMonth() + 1;
-				var year = expireDate.getFullYear();
-				var day = expireDate.getDate();
-				expireDateString = year + "-" + month + '-' + day + ' 00:00:00';
-			}
 			// Create a link
 			if (oc_appconfig.core.enforcePasswordForPublicLink === false) {
+				expireDateString = OC.Share.getDefaultExpirationDate();
 				$loading.removeClass('hidden');
 				$button.addClass('hidden');
 				$button.prop('disabled', true);
@@ -1140,8 +1150,10 @@ $(document).ready(function() {
 				permissions = OC.PERMISSION_READ;
 			}
 
+			var expireDateString = OC.Share.getDefaultExpirationDate();
+
 			$loading.removeClass('hidden');
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $('#linkPassText').val(), permissions, itemSourceName, function(data) {
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $('#linkPassText').val(), permissions, itemSourceName, expireDateString, function(data) {
 				$loading.addClass('hidden');
 				linkPassText.val('');
 				linkPassText.attr('placeholder', t('core', 'Password protected'));
@@ -1150,8 +1162,12 @@ $(document).ready(function() {
 					OC.Share.showLink(data.token, "password set", itemSource);
 					OC.Share.updateIcon(itemType, itemSource);
 				}
+				$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 			});
 
+			if (expireDateString !== '') {
+				OC.Share.showExpirationDate(expireDateString);
+			}
 		}
 	});
 
