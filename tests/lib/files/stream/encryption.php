@@ -7,6 +7,9 @@ use OCA\Encryption_Dummy\DummyModule;
 
 class Encryption extends \Test\TestCase {
 
+	/** @var  \OCP\Encryption\IEncryptionModule | \PHPUnit_Framework_MockObject_MockObject  */
+	private $encryptionModule;
+
 	/**
 	 * @param string $fileName
 	 * @param string $mode
@@ -21,7 +24,7 @@ class Encryption extends \Test\TestCase {
 		$fullPath = $fileName;
 		$header = [];
 		$uid = '';
-		$encryptionModule = $this->buildMockModule();
+		$this->encryptionModule = $this->buildMockModule();
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()->getMock();
 		$encStorage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
@@ -43,7 +46,7 @@ class Encryption extends \Test\TestCase {
 			->willReturn(['user1', $internalPath]);
 
 		return \OC\Files\Stream\Encryption::wrap($source, $internalPath,
-			$fullPath, $header, $uid, $encryptionModule, $storage, $encStorage,
+			$fullPath, $header, $uid, $this->encryptionModule, $storage, $encStorage,
 			$util, $file, $mode, $size, $unencryptedSize, 8192);
 	}
 
@@ -221,10 +224,15 @@ class Encryption extends \Test\TestCase {
 	 * @dataProvider dataFilesProvider
 	 */
 	public function testWriteReadBigFile($testFile) {
+
 		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
 		// write it
 		$fileName = tempnam("/tmp", "FOO");
 		$stream = $this->getStream($fileName, 'w+', 0);
+		// while writing the file from the beginning to the end we should never try
+		// to read parts of the file. This should only happen for write operations
+		// in the middle of a file
+		$this->encryptionModule->expects($this->never())->method('decrypt');
 		fwrite($stream, $expectedData);
 		fclose($stream);
 

@@ -341,8 +341,8 @@ class Encryption extends Wrapper {
 			} else {
 				$data = '';
 			}
+			$this->unencryptedSize = max($this->unencryptedSize, $this->position);
 		}
-		$this->unencryptedSize = max($this->unencryptedSize, $this->position);
 		return $length;
 	}
 
