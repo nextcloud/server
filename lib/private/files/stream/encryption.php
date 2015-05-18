@@ -356,22 +356,20 @@ class Encryption extends Wrapper {
 
 		switch ($whence) {
 			case SEEK_SET:
-				if ($offset < $this->unencryptedSize && $offset >= 0) {
-					$newPosition = $offset;
-				}
+				$newPosition = $offset;
 				break;
 			case SEEK_CUR:
-				if ($offset >= 0) {
-					$newPosition = $offset + $this->position;
-				}
+				$newPosition = $this->position + $offset;
 				break;
 			case SEEK_END:
-				if ($this->unencryptedSize + $offset >= 0) {
-					$newPosition = $this->unencryptedSize + $offset;
-				}
+				$newPosition = $this->unencryptedSize + $offset;
 				break;
 			default:
 				return $return;
+		}
+
+		if ($newPosition > $this->unencryptedSize || $newPosition < 0) {
+			return $return;
 		}
 
 		$newFilePosition = floor($newPosition / $this->unencryptedBlockSize)
