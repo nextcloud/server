@@ -245,8 +245,12 @@ class Encryption extends Wrapper {
 	 */
 	public function rmdir($path) {
 		$result = $this->storage->rmdir($path);
-		if ($result && $this->encryptionManager->isEnabled()) {
-			$this->keyStorage->deleteAllFileKeys($this->getFullPath($path));
+		$fullPath = $this->getFullPath($path);
+		if ($result &&
+			$this->util->isExcluded($fullPath) === false &&
+			$this->encryptionManager->isEnabled()
+		) {
+			$this->keyStorage->deleteAllFileKeys($fullPath);
 		}
 
 		return $result;

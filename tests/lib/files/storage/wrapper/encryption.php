@@ -47,6 +47,22 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 */
 	private $cache;
 
+	/**
+	 * @var \OC\Log | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $logger;
+
+	/**
+	 * @var \OC\Encryption\File | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $file;
+
+
+	/**
+	 * @var \OC\Files\Mount\MountPoint | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $mount;
+
 	/** @var  integer dummy unencrypted size */
 	private $dummySize = -1;
 
@@ -77,13 +93,13 @@ class Encryption extends \Test\Files\Storage\Storage {
 				return ['user1', $path];
 			});
 
-		$file = $this->getMockBuilder('\OC\Encryption\File')
+		$this->file = $this->getMockBuilder('\OC\Encryption\File')
 			->disableOriginalConstructor()
 			->setMethods(['getAccessList'])
 			->getMock();
-		$file->expects($this->any())->method('getAccessList')->willReturn([]);
+		$this->file->expects($this->any())->method('getAccessList')->willReturn([]);
 
-		$logger = $this->getMock('\OC\Log');
+		$this->logger = $this->getMock('\OC\Log');
 
 		$this->sourceStorage = new Temporary(array());
 
@@ -93,11 +109,11 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$this->update = $this->getMockBuilder('\OC\Encryption\Update')
 			->disableOriginalConstructor()->getMock();
 
-		$mount = $this->getMockBuilder('\OC\Files\Mount\MountPoint')
+		$this->mount = $this->getMockBuilder('\OC\Files\Mount\MountPoint')
 			->disableOriginalConstructor()
 			->setMethods(['getOption'])
 			->getMock();
-		$mount->expects($this->any())->method('getOption')->willReturn(true);
+		$this->mount->expects($this->any())->method('getOption')->willReturn(true);
 
 		$this->cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
 			->disableOriginalConstructor()->getMock();
@@ -112,9 +128,9 @@ class Encryption extends \Test\Files\Storage\Storage {
 						'storage' => $this->sourceStorage,
 						'root' => 'foo',
 						'mountPoint' => '/',
-						'mount' => $mount
+						'mount' => $this->mount
 					],
-					$this->encryptionManager, $this->util, $logger, $file, null, $this->keyStore, $this->update
+					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update
 				]
 			)
 			->setMethods(['getMetaData', 'getCache'])
@@ -251,5 +267,56 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$this->encryptionManager->expects($this->once())
 			->method('isEnabled')->willReturn(true);
 		$this->assertFalse($this->instance->isLocal());
+	}
+
+	/**
+	 * @dataProvider dataTestRmdir
+	 *
+	 * @param string $path
+	 * @param boolean $rmdirResult
+	 * @param boolean $isExcluded
+	 * @param boolean $encryptionEnabled
+	 */
+	public function testRmdir($path, $rmdirResult, $isExcluded, $encryptionEnabled) {
+		$sourceStorage = $this->getMockBuilder('\OC\Files\Storage\Storage')
+			->disableOriginalConstructor()->getMock();
+
+		$util = $this->getMockBuilder('\OC\Encryption\Util')->disableOriginalConstructor()->getMock();
+
+		$sourceStorage->expects($this->once())->method('rmdir')->willReturn($rmdirResult);
+		$util->expects($this->any())->method('isExcluded')-> willReturn($isExcluded);
+		$this->encryptionManager->expects($this->any())->method('isEnabled')->willReturn($encryptionEnabled);
+
+		$encryptionStorage = new \OC\Files\Storage\Wrapper\Encryption(
+					[
+						'storage' => $sourceStorage,
+						'root' => 'foo',
+						'mountPoint' => '/mountPoint',
+						'mount' => $this->mount
+					],
+					$this->encryptionManager, $util, $this->logger, $this->file, null, $this->keyStore, $this->update
+		);
+
+
+		if ($rmdirResult === true && $isExcluded === false && $encryptionEnabled === true) {
+			$this->keyStore->expects($this->once())->method('deleteAllFileKeys')->with('/mountPoint' . $path);
+		} else {
+			$this->keyStore->expects($this->never())->method('deleteAllFileKeys');
+		}
+
+		$encryptionStorage->rmdir($path);
+	}
+
+	public function dataTestRmdir() {
+		return array(
+			array('/file.txt', true, true, true),
+			array('/file.txt', false, true, true),
+			array('/file.txt', true, false, true),
+			array('/file.txt', false, false, true),
+			array('/file.txt', true, true, false),
+			array('/file.txt', false, true, false),
+			array('/file.txt', true, false, false),
+			array('/file.txt', false, false, false),
+		);
 	}
 }
