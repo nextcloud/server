@@ -277,6 +277,11 @@ OCA.Sharing.PublicApp = {
 };
 
 $(document).ready(function () {
+	// FIXME: replace with OC.Plugins.register()
+	if (window.TESTING) {
+		return;
+	}
+
 	var App = OCA.Sharing.PublicApp;
 	// defer app init, to give a chance to plugins to register file actions
 	_.defer(function () {
