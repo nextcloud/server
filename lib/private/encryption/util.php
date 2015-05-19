@@ -114,7 +114,7 @@ class Util {
 				// ownCloud <= 8.0 with the old encryption
 				$id = \OCA\Encryption\Crypto\Encryption::ID;
 			} else {
-				throw new ModuleDoesNotExistsException('ownCloud default encryption module missing');
+				throw new ModuleDoesNotExistsException('Default encryption module missing');
 			}
 		}
 

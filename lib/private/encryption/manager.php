@@ -79,7 +79,7 @@ class Manager implements IManager {
 		$oldEncryption = $this->config->getAppValue('files_encryption', 'installed_version');
 		if (!empty($oldEncryption)) {
 			$warning = 'Installation is in transit between the old Encryption (ownCloud <= 8.0)
-			and the new encryption. Please enable the "ownCloud Default Encryption Module"
+			and the new encryption. Please enable the "Default encryption module"
 			and run \'occ encryption:migrate\'';
 			$this->logger->warning($warning);
 			return false;
