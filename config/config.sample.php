@@ -487,6 +487,27 @@ $CONFIG = array(
 'loglevel' => 2,
 
 /**
+ * Log condition for log level increase based on conditions. Once one of these
+ * conditions is met, the required log level is set to debug. This allows to
+ * debug specific requests, users or apps
+ *
+ * Supported conditions:
+ *  - ``shared_secret``: if a request parameter with the name `log_secret` is set to
+ *                this value the condition is met
+ *  - ``users``:  if the current request is done by one of the specified users,
+ *                this condition is met
+ *  - ``apps``:   if the log message is invoked by one of the specified apps,
+ *                this condition is met
+ *
+ * Defaults to an empty array.
+ */
+'log.condition' => [
+	'shared_secret' => '57b58edb6637fe3059b3595cf9c41b9',
+	'users' => ['sample-user'],
+	'apps' => ['files'],
+],
+
+/**
  * This uses PHP.date formatting; see http://php.net/manual/en/function.date.php
  */
 'logdateformat' => 'F d, Y H:i:s',

@@ -39,10 +39,7 @@ class OC_Log_Errorlog {
 	 * @param int $level
 	 */
 	public static function write($app, $message, $level) {
-		$minLevel = min(OC_Config::getValue("loglevel", OC_Log::WARN), OC_Log::ERROR);
-		if ($level >= $minLevel) {
-			error_log('[owncloud]['.$app.'] '.$message);
-		}
+		error_log('[owncloud]['.$app.']['.$level.'] '.$message);
 	}
 }
 

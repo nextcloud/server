@@ -69,40 +69,40 @@ class OC_Log_Owncloud {
 	 * @param int $level
 	 */
 	public static function write($app, $message, $level) {
-		$minLevel=min(OC_Config::getValue( "loglevel", OC_Log::WARN ), OC_Log::ERROR);
-		if($level>=$minLevel) {
-			// default to ISO8601
-			$format = OC_Config::getValue('logdateformat', 'c');
-			$logtimezone=OC_Config::getValue( "logtimezone", 'UTC' );
-			try {
-				$timezone = new DateTimeZone($logtimezone);
-			} catch (Exception $e) {
-				$timezone = new DateTimeZone('UTC');
-			}
-			$time = new DateTime(null, $timezone);
-			$request = \OC::$server->getRequest();
-			$reqId = $request->getId();
-			$remoteAddr = $request->getRemoteAddress();
-			// remove username/passwords from URLs before writing the to the log file
-			$time = $time->format($format);
-			if($minLevel == OC_Log::DEBUG) {
-				$url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '--';
-				$method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '--';
-				$entry = compact('reqId', 'remoteAddr', 'app', 'message', 'level', 'time', 'method', 'url');
-			}
-			else {
-				$entry = compact('reqId', 'remoteAddr', 'app', 'message', 'level', 'time');
-			}
-			$entry = json_encode($entry);
-			$handle = @fopen(self::$logFile, 'a');
-			@chmod(self::$logFile, 0640);
-			if ($handle) {
-				fwrite($handle, $entry."\n");
-				fclose($handle);
-			} else {
-				// Fall back to error_log
-				error_log($entry);
-			}
+		$config = \OC::$server->getSystemConfig();
+
+		// default to ISO8601
+		$format = $config->getValue('logdateformat', 'c');
+		$logtimezone = $config->getValue( "logtimezone", 'UTC' );
+		try {
+			$timezone = new DateTimeZone($logtimezone);
+		} catch (Exception $e) {
+			$timezone = new DateTimeZone('UTC');
+		}
+		$time = new DateTime(null, $timezone);
+		$request = \OC::$server->getRequest();
+		$reqId = $request->getId();
+		$remoteAddr = $request->getRemoteAddress();
+		// remove username/passwords from URLs before writing the to the log file
+		$time = $time->format($format);
+		$minLevel=min($config->getValue( "loglevel", OC_Log::WARN ), OC_Log::ERROR);
+		if($minLevel == OC_Log::DEBUG) {
+			$url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '--';
+			$method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '--';
+			$entry = compact('reqId', 'remoteAddr', 'app', 'message', 'level', 'time', 'method', 'url');
+		}
+		else {
+			$entry = compact('reqId', 'remoteAddr', 'app', 'message', 'level', 'time');
+		}
+		$entry = json_encode($entry);
+		$handle = @fopen(self::$logFile, 'a');
+		@chmod(self::$logFile, 0640);
+		if ($handle) {
+			fwrite($handle, $entry."\n");
+			fclose($handle);
+		} else {
+			// Fall back to error_log
+			error_log($entry);
 		}
 	}
 
