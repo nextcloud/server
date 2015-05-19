@@ -220,7 +220,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			\OC\Files\Stream\Dir::register('objectstore' . $path . '/', $files);
 
 			return opendir('fakedir://objectstore' . $path . '/');
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			\OCP\Util::writeLog('objectstore', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}

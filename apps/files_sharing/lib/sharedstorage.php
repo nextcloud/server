@@ -70,7 +70,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	 * Get the source file path, permissions, and owner for a shared file
 	 *
 	 * @param string $target Shared target file path
-	 * @return Returns array with the keys path, permissions, and owner or false if not found
+	 * @return array Returns array with the keys path, permissions, and owner or false if not found
 	 */
 	public function getFile($target) {
 		if (!isset($this->files[$target])) {
