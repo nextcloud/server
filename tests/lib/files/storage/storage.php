@@ -176,7 +176,7 @@ abstract class Storage extends \Test\TestCase {
 		];
 	}
 
-	public function initSourceAndTarget ($source, $target = null) {
+	public function initSourceAndTarget($source, $target = null) {
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$this->instance->file_put_contents($source, file_get_contents($textFile));
 		if ($target) {
@@ -185,12 +185,12 @@ abstract class Storage extends \Test\TestCase {
 		}
 	}
 
-	public function assertSameAsLorem ($file) {
+	public function assertSameAsLorem($file) {
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$this->assertEquals(
 			file_get_contents($textFile),
 			$this->instance->file_get_contents($file),
-			'Expected '.$file.' to be a copy of '.$textFile
+			'Expected ' . $file . ' to be a copy of ' . $textFile
 		);
 	}
 
@@ -202,9 +202,9 @@ abstract class Storage extends \Test\TestCase {
 
 		$this->instance->copy($source, $target);
 
-		$this->assertTrue($this->instance->file_exists($target), $target.' was not created');
+		$this->assertTrue($this->instance->file_exists($target), $target . ' was not created');
 		$this->assertSameAsLorem($target);
-		$this->assertTrue($this->instance->file_exists($source), $source.' was deleted');
+		$this->assertTrue($this->instance->file_exists($source), $source . ' was deleted');
 	}
 
 	/**
@@ -216,8 +216,8 @@ abstract class Storage extends \Test\TestCase {
 		$this->instance->rename($source, $target);
 
 		$this->wait();
-		$this->assertTrue($this->instance->file_exists($target), $target.' was not created');
-		$this->assertFalse($this->instance->file_exists($source), $source.' still exists');
+		$this->assertTrue($this->instance->file_exists($target), $target . ' was not created');
+		$this->assertFalse($this->instance->file_exists($source), $source . ' still exists');
 		$this->assertSameAsLorem($target);
 	}
 
@@ -225,12 +225,12 @@ abstract class Storage extends \Test\TestCase {
 	 * @dataProvider copyAndMoveProvider
 	 */
 	public function testCopyOverwrite($source, $target) {
-		$this->initSourceAndTarget($source,$target);
+		$this->initSourceAndTarget($source, $target);
 
 		$this->instance->copy($source, $target);
 
-		$this->assertTrue($this->instance->file_exists($target), $target.' was not created');
-		$this->assertTrue($this->instance->file_exists($source), $source.' was deleted');
+		$this->assertTrue($this->instance->file_exists($target), $target . ' was not created');
+		$this->assertTrue($this->instance->file_exists($source), $source . ' was deleted');
 		$this->assertSameAsLorem($target);
 		$this->assertSameAsLorem($source);
 	}
@@ -243,8 +243,8 @@ abstract class Storage extends \Test\TestCase {
 
 		$this->instance->rename($source, $target);
 
-		$this->assertTrue($this->instance->file_exists($target), $target.' was not created');
-		$this->assertFalse($this->instance->file_exists($source), $source.' still exists');
+		$this->assertTrue($this->instance->file_exists($target), $target . ' was not created');
+		$this->assertFalse($this->instance->file_exists($source), $source . ' still exists');
 		$this->assertSameAsLorem($target);
 	}
 
@@ -534,5 +534,18 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertTrue($this->instance->instanceOfStorage('\OCP\Files\Storage'));
 		$this->assertTrue($this->instance->instanceOfStorage(get_class($this->instance)));
 		$this->assertFalse($this->instance->instanceOfStorage('\OC'));
+	}
+
+	/**
+	 * @dataProvider copyAndMoveProvider
+	 */
+	public function testCopyFromSameStorage($source, $target) {
+		$this->initSourceAndTarget($source);
+
+		$this->instance->copyFromStorage($this->instance, $source, $target);
+
+		$this->assertTrue($this->instance->file_exists($target), $target . ' was not created');
+		$this->assertSameAsLorem($target);
+		$this->assertTrue($this->instance->file_exists($source), $source . ' was deleted');
 	}
 }
