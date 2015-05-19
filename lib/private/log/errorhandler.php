@@ -64,10 +64,16 @@ class ErrorHandler {
 		}
 	}
 
-	// Uncaught exception handler
+	/**
+	 * 	Uncaught exception handler
+	 *
+	 * @param \Exception $exception
+	 */
 	public static function onException($exception) {
-		$msg = $exception->getMessage() . ' at ' . $exception->getFile() . '#' . $exception->getLine();
-		self::$logger->critical(self::removePassword($msg), array('app' => 'PHP'));
+		$class = get_class($exception);
+		$msg = $exception->getMessage();
+		$msg = "$class: $msg at " . $exception->getFile() . '#' . $exception->getLine();
+		self::$logger->critical(self::removePassword($msg), ['app' => 'PHP']);
 	}
 
 	//Recoverable errors handler
