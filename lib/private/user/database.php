@@ -148,11 +148,19 @@ class OC_User_Database extends OC_User_Backend implements \OCP\IUserBackend {
 	 * Get a list of all display names and user ids.
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
+		$parameters = [];
+		$searchLike = '';
+		if ($search !== '') {
+			$parameters[] = '%' . $search . '%';
+			$parameters[] = '%' . $search . '%';
+			$searchLike = ' WHERE LOWER(`displayname`) LIKE LOWER(?) OR '
+				. 'LOWER(`uid`) LIKE LOWER(?)';
+		}
+
 		$displayNames = array();
 		$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users`'
-			. ' WHERE LOWER(`displayname`) LIKE LOWER(?) OR '
-			. 'LOWER(`uid`) LIKE LOWER(?) ORDER BY `uid` ASC', $limit, $offset);
-		$result = $query->execute(array('%' . $search . '%', '%' . $search . '%'));
+			. $searchLike .' ORDER BY `uid` ASC', $limit, $offset);
+		$result = $query->execute($parameters);
 		while ($row = $result->fetchRow()) {
 			$displayNames[$row['uid']] = $row['displayname'];
 		}
@@ -220,8 +228,15 @@ class OC_User_Database extends OC_User_Backend implements \OCP\IUserBackend {
 	 * Get a list of all users.
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
-		$query = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users` WHERE LOWER(`uid`) LIKE LOWER(?) ORDER BY `uid` ASC', $limit, $offset);
-		$result = $query->execute(array('%' . $search . '%'));
+		$parameters = [];
+		$searchLike = '';
+		if ($search !== '') {
+			$parameters[] = '%' . $search . '%';
+			$searchLike = ' WHERE LOWER(`uid`) LIKE LOWER(?)';
+		}
+
+		$query = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users`' . $searchLike . ' ORDER BY `uid` ASC', $limit, $offset);
+		$result = $query->execute($parameters);
 		$users = array();
 		while ($row = $result->fetchRow()) {
 			$users[] = $row['uid'];
