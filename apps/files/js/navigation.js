@@ -124,7 +124,7 @@
 			var $target = $(ev.target);
 			var itemId = $target.closest('li').attr('data-id');
 			this.setActiveItem(itemId);
-			return false;
+			ev.preventDefault();
 		}
 	};
 
