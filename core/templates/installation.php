@@ -85,7 +85,12 @@ script('core', [
 		<div id="selectDbType">
 		<?php foreach($_['databases'] as $type => $label): ?>
 		<?php if(count($_['databases']) === 1): ?>
-		<p class="info"><?php p($l->t( 'Only %s is available.', array($label) )); ?>.</p>
+		<p class="info">
+			<?php p($l->t( 'Only %s is available.', array($label) )); ?>
+			<?php p($l->t( 'Install and activate additional PHP modules to choose other database types.' )); ?><br>
+			<a href="<?php print_unescaped(link_to_docs('admin-source_install')); ?>" target="_blank">
+				<?php p($l->t( 'For more details check out the documentation.' )); ?> ↗</a>
+		</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="<?php p($type) ?>">
 		<?php else: ?>
 		<input type="radio" name="dbtype" value="<?php p($type) ?>" id="<?php p($type) ?>"

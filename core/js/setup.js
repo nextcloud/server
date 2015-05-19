@@ -9,6 +9,8 @@ $(document).ready(function() {
 	};
 
 	$('#selectDbType').buttonset();
+	// change links inside an info box back to their default appearance
+	$('#selectDbType p.info a').button('destroy');
 
 	if($('#hasSQLite').val()){
 		$('#use_other_db').hide();
