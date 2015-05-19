@@ -498,18 +498,18 @@ abstract class Common implements Storage {
 	 * @throws InvalidPathException
 	 */
 	private function scanForInvalidCharacters($fileName, $invalidChars) {
-		foreach(str_split($invalidChars) as $char) {
+		foreach (str_split($invalidChars) as $char) {
 			if (strpos($fileName, $char) !== false) {
 				throw new InvalidCharacterInPathException();
 			}
 		}
 
 		$sanitizedFileName = filter_var($fileName, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW);
-		if($sanitizedFileName !== $fileName) {
+		if ($sanitizedFileName !== $fileName) {
 			throw new InvalidCharacterInPathException();
 		}
 	}
-	
+
 	/**
 	 * @param array $options
 	 */
@@ -525,6 +525,7 @@ abstract class Common implements Storage {
 	public function getMountOption($name, $default = null) {
 		return isset($this->mountOptions[$name]) ? $this->mountOptions[$name] : $default;
 	}
+
 	/**
 	 * @param \OCP\Files\Storage $sourceStorage
 	 * @param string $sourceInternalPath
@@ -533,6 +534,10 @@ abstract class Common implements Storage {
 	 * @return bool
 	 */
 	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+		if ($sourceStorage === $this) {
+			return $this->copy($sourceInternalPath, $targetInternalPath);
+		}
+
 		if ($sourceStorage->is_dir($sourceInternalPath)) {
 			$dh = $sourceStorage->opendir($sourceInternalPath);
 			$result = $this->mkdir($targetInternalPath);
@@ -575,6 +580,10 @@ abstract class Common implements Storage {
 	 * @return bool
 	 */
 	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		if ($sourceStorage === $this) {
+			return $this->rename($sourceInternalPath, $targetInternalPath);
+		}
+
 		$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, true);
 		if ($result) {
 			if ($sourceStorage->is_dir($sourceInternalPath)) {

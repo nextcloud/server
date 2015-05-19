@@ -513,6 +513,10 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	 * @return bool
 	 */
 	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		if ($sourceStorage === $this) {
+			return $this->copy($sourceInternalPath, $targetInternalPath);
+		}
+
 		return $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
@@ -523,6 +527,10 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	 * @return bool
 	 */
 	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		if ($sourceStorage === $this) {
+			return $this->rename($sourceInternalPath, $targetInternalPath);
+		}
+
 		return $this->storage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
