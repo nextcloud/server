@@ -31,6 +31,11 @@ class MemcacheLockingProvider implements ILockingProvider {
 	 */
 	private $memcache;
 
+	private $acquiredLocks = [
+		'shared' => [],
+		'exclusive' => []
+	];
+
 	/**
 	 * @param \OCP\IMemcache $memcache
 	 */
@@ -64,11 +69,16 @@ class MemcacheLockingProvider implements ILockingProvider {
 			if (!$this->memcache->inc($path)) {
 				throw new LockedException($path);
 			}
+			if (!isset($this->acquiredLocks['shared'][$path])) {
+				$this->acquiredLocks['shared'][$path] = 0;
+			}
+			$this->acquiredLocks['shared'][$path]++;
 		} else {
 			$this->memcache->add($path, 0);
 			if (!$this->memcache->cas($path, 0, 'exclusive')) {
 				throw new LockedException($path);
 			}
+			$this->acquiredLocks['exclusive'][$path] = true;
 		}
 	}
 
@@ -79,8 +89,25 @@ class MemcacheLockingProvider implements ILockingProvider {
 	public function releaseLock($path, $type) {
 		if ($type === self::LOCK_SHARED) {
 			$this->memcache->dec($path);
+			$this->acquiredLocks['shared'][$path]--;
 		} else if ($type === self::LOCK_EXCLUSIVE) {
 			$this->memcache->cas($path, 'exclusive', 0);
+			unset($this->acquiredLocks['exclusive'][$path]);
+		}
+	}
+
+	/**
+	 * release all lock acquired by this instance
+	 */
+	public function releaseAll() {
+		foreach ($this->acquiredLocks['shared'] as $path => $count) {
+			for ($i = 0; $i < $count; $i++) {
+				$this->releaseLock($path, self::LOCK_SHARED);
+			}
+		}
+
+		foreach ($this->acquiredLocks['exclusive'] as $path => $hasLock) {
+			$this->releaseLock($path, self::LOCK_EXCLUSIVE);
 		}
 	}
 }

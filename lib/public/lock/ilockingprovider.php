@@ -44,4 +44,9 @@ interface ILockingProvider {
 	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
 	 */
 	public function releaseLock($path, $type);
+
+	/**
+	 * release all lock acquired by this instance
+	 */
+	public function releaseAll();
 }
