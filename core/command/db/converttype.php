@@ -30,7 +30,6 @@ namespace OC\Core\Command\Db;
 use \OCP\IConfig;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

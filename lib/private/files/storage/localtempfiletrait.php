@@ -21,15 +21,6 @@
 
 namespace OC\Files\Storage;
 
-use OC\Files\Cache\Cache;
-use OC\Files\Cache\Scanner;
-use OC\Files\Filesystem;
-use OC\Files\Cache\Watcher;
-use OCP\Files\FileNameTooLongException;
-use OCP\Files\InvalidCharacterInPathException;
-use OCP\Files\InvalidPathException;
-use OCP\Files\ReservedWordException;
-
 /**
  * Storage backend class for providing common filesystem operation methods
  * which are not storage-backend specific.

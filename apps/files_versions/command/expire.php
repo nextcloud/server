@@ -11,7 +11,6 @@ namespace OCA\Files_Versions\Command;
 use OC\Command\FileAccess;
 use OCA\Files_Versions\Storage;
 use OCP\Command\ICommand;
-use OCP\IUser;
 
 class Expire implements ICommand {
 	use FileAccess;

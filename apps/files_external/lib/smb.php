@@ -33,7 +33,6 @@ use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\NativeServer;
 use Icewind\SMB\Server;
-use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Filesystem;
 

@@ -31,7 +31,6 @@ use OCP\AppFramework\Controller;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
-use OCP\AppFramework\Http\DownloadResponse;
 use OCA\Files\Service\TagService;
 use OCP\IPreview;
 

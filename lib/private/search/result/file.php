@@ -23,7 +23,6 @@
  */
 
 namespace OC\Search\Result;
-use OC\Files\Filesystem;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 
