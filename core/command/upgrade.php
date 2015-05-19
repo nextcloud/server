@@ -107,12 +107,17 @@ class Upgrade extends Command {
 			$updater->setSimulateStepEnabled($simulateStepEnabled);
 			$updater->setUpdateStepEnabled($updateStepEnabled);
 
-			$updater->listen('\OC\Updater', 'maintenanceStart', function () use($output) {
+			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use($output) {
 				$output->writeln('<info>Turned on maintenance mode</info>');
 			});
-			$updater->listen('\OC\Updater', 'maintenanceEnd',
+			$updater->listen('\OC\Updater', 'maintenanceDisabled', function () use($output) {
+				$output->writeln('<info>Turned off maintenance mode</info>');
+			});
+			$updater->listen('\OC\Updater', 'maintenanceActive', function () use($output) {
+				$output->writeln('<info>Maintenance mode is kept active</info>');
+			});
+			$updater->listen('\OC\Updater', 'updateEnd',
 				function () use($output, $updateStepEnabled, $self) {
-					$output->writeln('<info>Turned off maintenance mode</info>');
 					$mode = $updateStepEnabled ? 'Update' : 'Update simulation';
 					$status = $self->upgradeFailed ? 'failed' : 'successful';
 					$message = "<info>$mode $status</info>";
