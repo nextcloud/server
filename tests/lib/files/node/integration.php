@@ -8,7 +8,6 @@
 
 namespace Test\Files\Node;
 
-use OC\Files\Cache\Cache;
 use OC\Files\Node\Root;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;

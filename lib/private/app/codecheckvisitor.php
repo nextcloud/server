@@ -22,18 +22,9 @@
 
 namespace OC\App;
 
-use OC\Hooks\BasicEmitter;
-use PhpParser\Lexer;
 use PhpParser\Node;
 use PhpParser\Node\Name;
-use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
-use PhpParser\Parser;
-use RecursiveCallbackFilterIterator;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use RegexIterator;
-use SplFileInfo;
 
 class CodeCheckVisitor extends NodeVisitorAbstract {
 

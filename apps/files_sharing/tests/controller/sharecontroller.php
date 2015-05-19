@@ -29,7 +29,6 @@ use OC\Files\Filesystem;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\IAppContainer;
-use OCP\Files;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Security\ISecureRandom;

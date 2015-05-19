@@ -29,7 +29,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-use OCA\Files\Appinfo\Application;
 
 // Check if we are a user
 OCP\User::checkLoggedIn();

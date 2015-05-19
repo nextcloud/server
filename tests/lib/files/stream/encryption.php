@@ -3,7 +3,6 @@
 namespace Test\Files\Stream;
 
 use OC\Files\View;
-use OCA\Encryption_Dummy\DummyModule;
 
 class Encryption extends \Test\TestCase {
 

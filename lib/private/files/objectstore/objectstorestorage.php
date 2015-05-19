@@ -24,7 +24,6 @@
 
 namespace OC\Files\ObjectStore;
 
-use OC\Files\Filesystem;
 use OCP\Files\ObjectStore\IObjectStore;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common {

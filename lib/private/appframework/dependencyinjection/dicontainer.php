@@ -42,7 +42,6 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\IApi;
-use OCP\AppFramework\QueryException;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Middleware;
 use OCP\IServerContainer;

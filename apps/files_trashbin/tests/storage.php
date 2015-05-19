@@ -23,9 +23,7 @@
 
 namespace OCA\Files_trashbin\Tests\Storage;
 
-use OC\Files\Storage\Home;
 use OC\Files\Storage\Temporary;
-use OC\Files\Mount\MountPoint;
 use OC\Files\Filesystem;
 
 class Storage extends \Test\TestCase {

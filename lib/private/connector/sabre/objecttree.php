@@ -27,9 +27,7 @@ namespace OC\Connector\Sabre;
 
 use OC\Connector\Sabre\Exception\InvalidPath;
 use OC\Files\FileInfo;
-use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
-use OC_Connector_Sabre_Exception_InvalidPath;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 

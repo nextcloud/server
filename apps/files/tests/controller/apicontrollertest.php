@@ -25,7 +25,6 @@ namespace OCA\Files\Controller;
 
 use OC\Files\FileInfo;
 use OCP\AppFramework\Http;
-use OC\Preview;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use Test\TestCase;

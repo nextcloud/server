@@ -25,7 +25,6 @@
 
 namespace OCA\Files_Sharing\External;
 
-use OC\Files\Filesystem;
 use OC\Files\Storage\DAV;
 use OC\ForbiddenException;
 use OCA\Files_Sharing\ISharedStorage;

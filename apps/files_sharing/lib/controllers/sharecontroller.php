@@ -46,7 +46,6 @@ use OCA\Files_Sharing\Helper;
 use OCP\User;
 use OCP\Util;
 use OCA\Files_Sharing\Activity;
-use OCP\AppFramework\Http\DataResponse;
 
 /**
  * Class ShareController

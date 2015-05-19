@@ -25,14 +25,11 @@
 
 namespace OC\Files\Node;
 
-use OC\Files\Cache\Cache;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
-
 use OCP\Files\IRootFolder;
 
 /**

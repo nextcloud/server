@@ -29,11 +29,8 @@
 
 namespace OC\Files\Storage;
 
-use OC\Files\Cache\ChangePropagator;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\ISharedStorage;
-use OCA\Files_Sharing\Propagator;
-use OCA\Files_Sharing\SharedMount;
 
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
