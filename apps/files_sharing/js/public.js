@@ -144,7 +144,7 @@ OCA.Sharing.PublicApp = {
 					path: path,
 					files: filename
 				};
-				return OC.generateUrl('/s/' + token + '/download', params);
+				return OC.generateUrl('/s/' + token + '/download') + '?' + OC.buildQueryString(params);
 			};
 
 			this.fileList.getAjaxUrl = function (action, params) {
