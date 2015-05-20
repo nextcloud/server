@@ -101,7 +101,7 @@ class ContentSecurityPolicy {
 	 * @since 8.1.0
 	 */
 	public function allowEvalScript($state = true) {
-		$this->evalScriptAllowed= $state;
+		$this->evalScriptAllowed = $state;
 		return $this;
 	}
 
@@ -114,6 +114,18 @@ class ContentSecurityPolicy {
 	 */
 	public function addAllowedScriptDomain($domain) {
 		$this->allowedScriptDomains[] = $domain;
+		return $this;
+	}
+
+	/**
+	 * Remove the specified allowed script domain from the allowed domains.
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 8.1.0
+	 */
+	public function disallowScriptDomain($domain) {
+		$this->allowedScriptDomains = array_diff($this->allowedScriptDomains, [$domain]);
 		return $this;
 	}
 
@@ -141,6 +153,18 @@ class ContentSecurityPolicy {
 	}
 
 	/**
+	 * Remove the specified allowed style domain from the allowed domains.
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 8.1.0
+	 */
+	public function disallowStyleDomain($domain) {
+		$this->allowedStyleDomains = array_diff($this->allowedStyleDomains, [$domain]);
+		return $this;
+	}
+
+	/**
 	 * Allows using fonts from a specific domain. Use * to allow
 	 * fonts from all domains.
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
@@ -149,6 +173,18 @@ class ContentSecurityPolicy {
 	 */
 	public function addAllowedFontDomain($domain) {
 		$this->allowedFontDomains[] = $domain;
+		return $this;
+	}
+
+	/**
+	 * Remove the specified allowed font domain from the allowed domains.
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 8.1.0
+	 */
+	public function disallowFontDomain($domain) {
+		$this->allowedFontDomains = array_diff($this->allowedFontDomains, [$domain]);
 		return $this;
 	}
 
@@ -165,6 +201,18 @@ class ContentSecurityPolicy {
 	}
 
 	/**
+	 * Remove the specified allowed image domain from the allowed domains.
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 8.1.0
+	 */
+	public function disallowImageDomain($domain) {
+		$this->allowedImageDomains = array_diff($this->allowedImageDomains, [$domain]);
+		return $this;
+	}
+
+	/**
 	 * To which remote domains the JS connect to.
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
@@ -176,13 +224,37 @@ class ContentSecurityPolicy {
 	}
 
 	/**
-	 * From whoch domains media elements can be embedded.
+	 * Remove the specified allowed connect domain from the allowed domains.
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 8.1.0
+	 */
+	public function disallowConnectDomain($domain) {
+		$this->allowedConnectDomains = array_diff($this->allowedConnectDomains, [$domain]);
+		return $this;
+	}
+
+	/**
+	 * From which domains media elements can be embedded.
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
 	 * @since 8.1.0
 	 */
 	public function addAllowedMediaDomain($domain) {
 		$this->allowedMediaDomains[] = $domain;
+		return $this;
+	}
+
+	/**
+	 * Remove the specified allowed media domain from the allowed domains.
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 8.1.0
+	 */
+	public function disallowMediaDomain($domain) {
+		$this->allowedMediaDomains = array_diff($this->allowedMediaDomains, [$domain]);
 		return $this;
 	}
 
@@ -198,6 +270,18 @@ class ContentSecurityPolicy {
 	}
 
 	/**
+	 * Remove the specified allowed object domain from the allowed domains.
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 8.1.0
+	 */
+	public function disallowObjectDomain($domain) {
+		$this->allowedObjectDomains = array_diff($this->allowedObjectDomains, [$domain]);
+		return $this;
+	}
+
+	/**
 	 * Which domains can be embedded in an iframe
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
@@ -209,6 +293,18 @@ class ContentSecurityPolicy {
 	}
 
 	/**
+	 * Remove the specified allowed frame domain from the allowed domains.
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 8.1.0
+	 */
+	public function disallowFrameDomain($domain) {
+		$this->allowedFrameDomains = array_diff($this->allowedFrameDomains, [$domain]);
+		return $this;
+	}
+
+	/**
 	 * Domains from which web-workers and nested browsing content can load elements
 	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
 	 * @return $this
@@ -216,6 +312,18 @@ class ContentSecurityPolicy {
 	 */
 	public function addAllowedChildSrcDomain($domain) {
 		$this->allowedChildSrcDomains[] = $domain;
+		return $this;
+	}
+
+	/**
+	 * Remove the specified allowed child src domain from the allowed domains.
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 8.1.0
+	 */
+	public function disallowChildSrcDomain($domain) {
+		$this->allowedChildSrcDomains = array_diff($this->allowedChildSrcDomains, [$domain]);
 		return $this;
 	}
 
