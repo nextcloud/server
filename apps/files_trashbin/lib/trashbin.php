@@ -37,6 +37,7 @@
 namespace OCA\Files_Trashbin;
 
 use OC\Files\Filesystem;
+use OC\Files\View;
 use OCA\Files_Trashbin\Command\Expire;
 
 class Trashbin {
@@ -124,6 +125,7 @@ class Trashbin {
 
 	/**
 	 * copy file to owners trash
+	 *
 	 * @param string $sourcePath
 	 * @param string $owner
 	 * @param string $ownerPath
@@ -184,24 +186,31 @@ class Trashbin {
 
 		// disable proxy to prevent recursive calls
 		$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
+
+		/** @var \OC\Files\Storage\Storage $trashStorage */
+		list($trashStorage, $trashInternalPath) = $view->resolvePath($trashPath);
+		/** @var \OC\Files\Storage\Storage $sourceStorage */
+		list($sourceStorage, $sourceInternalPath) = $view->resolvePath('/files/' . $file_path);
 		try {
-			$sizeOfAddedFiles = $view->filesize('/files/' . $file_path);
-			if ($view->file_exists($trashPath)) {
-				$view->unlink($trashPath);
+			$sizeOfAddedFiles = $sourceStorage->filesize($sourceInternalPath);
+			if ($trashStorage->file_exists($trashInternalPath)) {
+				$trashStorage->unlink($trashInternalPath);
 			}
-			$view->rename('/files/' . $file_path, $trashPath);
+			$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 		} catch (\OCA\Files_Trashbin\Exceptions\CopyRecursiveException $e) {
 			$sizeOfAddedFiles = false;
-			if ($view->file_exists($trashPath)) {
-				$view->deleteAll($trashPath);
+			if ($trashStorage->file_exists($trashInternalPath)) {
+				$trashStorage->unlink($trashInternalPath);
 			}
 			\OC_Log::write('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OC_log::ERROR);
 		}
 
-		if ($view->file_exists('/files/' . $file_path)) { // failed to delete the original file, abort
-			$view->unlink($trashPath);
+		if ($sourceStorage->file_exists($sourceInternalPath)) { // failed to delete the original file, abort
+			$sourceStorage->unlink($sourceInternalPath);
 			return false;
 		}
+
+		$view->getUpdater()->rename('/files/' . $file_path, $trashPath);
 
 		if ($sizeOfAddedFiles !== false) {
 			$size = $sizeOfAddedFiles;
@@ -261,19 +270,64 @@ class Trashbin {
 				if ($owner !== $user) {
 					self::copy_recursive($owner . '/files_versions/' . $ownerPath, $owner . '/files_trashbin/versions/' . basename($ownerPath) . '.d' . $timestamp, $rootView);
 				}
-				$rootView->rename($owner . '/files_versions/' . $ownerPath, $user . '/files_trashbin/versions/' . $filename . '.d' . $timestamp);
+				self::move($rootView, $owner . '/files_versions/' . $ownerPath, $user . '/files_trashbin/versions/' . $filename . '.d' . $timestamp);
 			} else if ($versions = \OCA\Files_Versions\Storage::getVersions($owner, $ownerPath)) {
+
 				foreach ($versions as $v) {
-					$size += $rootView->filesize($owner . '/files_versions' . $v['path'] . '.v' . $v['version']);
+					$size += $rootView->filesize($owner . '/files_versions/' . $v['path'] . '.v' . $v['version']);
 					if ($owner !== $user) {
-						$rootView->copy($owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $owner . '/files_trashbin/versions/' . $v['name'] . '.v' . $v['version'] . '.d' . $timestamp);
+						self::copy($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $owner . '/files_trashbin/versions/' . $v['name'] . '.v' . $v['version'] . '.d' . $timestamp);
 					}
-					$rootView->rename($owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $user . '/files_trashbin/versions/' . $filename . '.v' . $v['version'] . '.d' . $timestamp);
+					self::move($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $user . '/files_trashbin/versions/' . $filename . '.v' . $v['version'] . '.d' . $timestamp);
 				}
 			}
 		}
 
 		return $size;
+	}
+
+	/**
+	 * Move a file or folder on storage level
+	 *
+	 * @param View $view
+	 * @param string $source
+	 * @param string $target
+	 * @return bool
+	 */
+	private static function move(View $view, $source, $target) {
+		/** @var \OC\Files\Storage\Storage $sourceStorage */
+		list($sourceStorage, $sourceInternalPath) = $view->resolvePath($source);
+		/** @var \OC\Files\Storage\Storage $targetStorage */
+		list($targetStorage, $targetInternalPath) = $view->resolvePath($target);
+		/** @var \OC\Files\Storage\Storage $ownerTrashStorage */
+
+		$result = $targetStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		if ($result) {
+			$view->getUpdater()->rename($source, $target);
+		}
+		return $result;
+	}
+
+	/**
+	 * Copy a file or folder on storage level
+	 *
+	 * @param View $view
+	 * @param string $source
+	 * @param string $target
+	 * @return bool
+	 */
+	private static function copy(View $view, $source, $target) {
+		/** @var \OC\Files\Storage\Storage $sourceStorage */
+		list($sourceStorage, $sourceInternalPath) = $view->resolvePath($source);
+		/** @var \OC\Files\Storage\Storage $targetStorage */
+		list($targetStorage, $targetInternalPath) = $view->resolvePath($target);
+		/** @var \OC\Files\Storage\Storage $ownerTrashStorage */
+
+		$result = $targetStorage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		if ($result) {
+			$view->getUpdater()->update($target);
+		}
+		return $result;
 	}
 
 	/**
@@ -299,7 +353,7 @@ class Trashbin {
 				// if location no longer exists, restore file in the root directory
 				if ($location !== '/' &&
 					(!$view->is_dir('files/' . $location) ||
-					!$view->isCreatable('files/' . $location))
+						!$view->isCreatable('files/' . $location))
 				) {
 					$location = '';
 				}
@@ -569,6 +623,7 @@ class Trashbin {
 
 	/**
 	 * resize trash bin if necessary after a new file was added to ownCloud
+	 *
 	 * @param string $user user id
 	 */
 	public static function resizeTrash($user) {
@@ -623,6 +678,7 @@ class Trashbin {
 	/**
 	 * if the size limit for the trash bin is reached, we delete the oldest
 	 * files in the trash bin until we meet the limit again
+	 *
 	 * @param array $files
 	 * @param string $user
 	 * @param int $availableSpace available disc space
@@ -725,7 +781,7 @@ class Trashbin {
 		//force rescan of versions, local storage may not have updated the cache
 		if (!self::$scannedVersions) {
 			/** @var \OC\Files\Storage\Storage $storage */
-			list($storage, ) = $view->resolvePath('/');
+			list($storage,) = $view->resolvePath('/');
 			$storage->getScanner()->scan('files_trashbin/versions');
 			self::$scannedVersions = true;
 		}
@@ -788,6 +844,7 @@ class Trashbin {
 
 	/**
 	 * get the size from a given root folder
+	 *
 	 * @param \OC\Files\View $view file view on the root folder
 	 * @return integer size of the folder
 	 */
@@ -799,7 +856,7 @@ class Trashbin {
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root), \RecursiveIteratorIterator::CHILD_FIRST);
 		$size = 0;
 
-                /**
+		/**
 		 * RecursiveDirectoryIterator on an NFS path isn't iterable with foreach
 		 * This bug is fixed in PHP 5.5.9 or before
 		 * See #8376
@@ -845,6 +902,7 @@ class Trashbin {
 
 	/**
 	 * check if trash bin is empty for a given user
+	 *
 	 * @param string $user
 	 * @return bool
 	 */
