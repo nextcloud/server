@@ -1618,11 +1618,11 @@ class View {
 	 * @return string[]
 	 */
 	private function getParents($path) {
+		$path = trim($path, '/');
 		if (!$path) {
 			return [];
 		}
 
-		$path = trim($path, '/');
 		$parts = explode('/', $path);
 
 		// remove the single file
