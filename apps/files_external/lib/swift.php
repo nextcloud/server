@@ -32,6 +32,7 @@
 
 namespace OC\Files\Storage;
 
+use Guzzle\Http\Url;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use Icewind\Streams\IteratorDirectory;
 use OpenCloud;
@@ -123,7 +124,14 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 
 		$this->id = 'swift::' . $params['user'] . md5($params['bucket']);
-		$this->bucket = $params['bucket'];
+
+		$bucketUrl = Url::factory($params['bucket']);
+		if ($bucketUrl->isAbsolute()) {
+			$this->bucket = end(($bucketUrl->getPathSegments()));
+			$params['endpoint_url'] = $bucketUrl->addPath('..')->normalizePath();
+		} else {
+			$this->bucket = $params['bucket'];
+		}
 
 		if (empty($params['url'])) {
 			$params['url'] = 'https://identity.api.rackspacecloud.com/v2.0/';
@@ -514,7 +522,16 @@ class Swift extends \OC\Files\Storage\Common {
 			$this->anchor = new OpenStack($this->params['url'], $settings);
 		}
 
-		$this->connection = $this->anchor->objectStoreService($this->params['service_name'], $this->params['region']);
+		$connection = $this->anchor->objectStoreService($this->params['service_name'], $this->params['region']);
+
+		if (!empty($this->params['endpoint_url'])) {
+			$endpoint = $connection->getEndpoint();
+			$endpoint->setPublicUrl($this->params['endpoint_url']);
+			$endpoint->setPrivateUrl($this->params['endpoint_url']);
+			$connection->setEndpoint($endpoint);
+		}
+
+		$this->connection = $connection;
 
 		return $this->connection;
 	}
