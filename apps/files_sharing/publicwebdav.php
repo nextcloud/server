@@ -24,10 +24,6 @@
  *
  */
 
-if (OCA\Files_Sharing\Helper::isOutgoingServer2serverShareEnabled() === false) {
-	return false;
-}
-
 // load needed apps
 $RUNTIME_APPTYPES = array('filesystem', 'authentication', 'logging');
 
@@ -56,6 +52,11 @@ $server->addPlugin(new \OC\Connector\Sabre\ExceptionLoggerPlugin('webdav', \OC::
 
 // wait with registering these until auth is handled and the filesystem is setup
 $server->on('beforeMethod', function () use ($server, $objectTree, $authBackend) {
+	if (OCA\Files_Sharing\Helper::isOutgoingServer2serverShareEnabled() === false) {
+		// this is what is thrown when trying to access a non-existing share
+		throw new \Sabre\DAV\Exception\NotAuthenticated();
+	}
+
 	$share = $authBackend->getShare();
 	$rootShare = \OCP\Share::resolveReShare($share);
 	$owner = $rootShare['uid_owner'];
