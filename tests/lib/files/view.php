@@ -853,22 +853,29 @@ class View extends \Test\TestCase {
 	/**
 	 * @dataProvider relativePathProvider
 	 */
-	function testGetRelativePath($absolutePath, $expectedPath) {
+	function testGetRelativePath($root, $absolutePath, $expectedPath) {
 		$view = new \OC\Files\View('/files');
-		// simulate a external storage mount point which has a trailing slash
-		$view->chroot('/files/');
+		$view->chroot($root);
 		$this->assertEquals($expectedPath, $view->getRelativePath($absolutePath));
 	}
 
 	function relativePathProvider() {
 		return array(
-			array('/files/', '/'),
-			array('/files', '/'),
-			array('/files/0', '0'),
-			array('/files/false', 'false'),
-			array('/files/true', 'true'),
-			array('/files/test', 'test'),
-			array('/files/test/foo', 'test/foo'),
+			// TODO: add many more cases with mixed slashes, which is only possible
+			// once getRelativePath's behavior is made consistent
+
+			// with slashes
+			array('/files/', '/files/', '/'),
+			array('/files/', '/files', '/'),
+			array('/files/', '/files/0', '0'),
+			array('/files/', '/files/false', 'false'),
+			array('/files/', '/files/true', 'true'),
+			array('/files/', '/files/test', 'test'),
+			array('/files/', '/files/test/foo', 'test/foo'),
+			// mix
+			array('files', 'files_trashbin/test', null),
+			array('/files', '/files_trashbin/test', null),
+			array('/files', 'files_trashbin/test', null),
 		);
 	}
 

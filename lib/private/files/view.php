@@ -153,7 +153,10 @@ class View {
 			return '/';
 		}
 
-		if (strpos($path, $this->fakeRoot) !== 0) {
+		// missing slashes can cause wrong matches!
+		$root = rtrim($this->fakeRoot, '/') . '/';
+
+		if (strpos($path, $root) !== 0) {
 			return null;
 		} else {
 			$path = substr($path, strlen($this->fakeRoot));
