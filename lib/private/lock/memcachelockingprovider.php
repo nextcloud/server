@@ -88,8 +88,10 @@ class MemcacheLockingProvider implements ILockingProvider {
 	 */
 	public function releaseLock($path, $type) {
 		if ($type === self::LOCK_SHARED) {
-			$this->memcache->dec($path);
-			$this->acquiredLocks['shared'][$path]--;
+			if (isset($this->acquiredLocks['shared'][$path]) and $this->acquiredLocks['shared'][$path] > 0) {
+				$this->memcache->dec($path);
+				$this->acquiredLocks['shared'][$path]--;
+			}
 		} else if ($type === self::LOCK_EXCLUSIVE) {
 			$this->memcache->cas($path, 'exclusive', 0);
 			unset($this->acquiredLocks['exclusive'][$path]);
