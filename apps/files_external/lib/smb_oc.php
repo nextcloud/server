@@ -18,13 +18,19 @@ class SMB_OC extends \OC\Files\Storage\SMB {
 	 * @throws \Exception
 	 */
 	public function __construct($params) {
-		if (isset($params['host']) && \OC::$session->exists('smb-credentials')) {
+		if (isset($params['host'])) {
 			$host=$params['host'];
 			$this->username_as_share = ($params['username_as_share'] === 'true');
 
-			$params_auth = json_decode(\OC::$server->getCrypto()->decrypt(\OC::$session->get('smb-credentials')), true);
-			$user = \OC::$session->get('loginname');
-			$password = $params_auth['password'];
+			$user = 'foo';
+			$password = 'bar';
+			if (\OC::$session->exists('smb-credentials')) {
+				$params_auth = json_decode(\OC::$server->getCrypto()->decrypt(\OC::$session->get('smb-credentials')), true);
+				$user = \OC::$session->get('loginname');
+				$password = $params_auth['password'];
+			} else {
+				// assume we are testing from the admin section
+			}
 
 			$root=isset($params['root'])?$params['root']:'/';
 			$share = '';
