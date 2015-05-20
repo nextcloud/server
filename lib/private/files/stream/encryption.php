@@ -412,7 +412,14 @@ class Encryption extends Wrapper {
 			$encrypted = $this->encryptionModule->encrypt($this->cache);
 			parent::stream_write($encrypted);
 			$this->writeFlag = false;
-			$this->size = max($this->size, parent::stream_tell());
+			// If the write concerns the last block then then update the encrypted filesize
+			// Note that the unencrypted pointer and filesize are NOT yet updated when flush() is called
+			// We recalculate the encrypted filesize as we do not know the context of calling flush()
+			if ((int)floor($this->unencryptedSize/$this->unencryptedBlockSize) === (int)floor($this->position/$this->unencryptedBlockSize)) {
+				$this->size = $this->util->getBlockSize() * (int)floor($this->unencryptedSize/$this->unencryptedBlockSize);
+				$this->size += strlen($encrypted);
+				$this->size += $this->headerSize;
+			}
 		}
 		// always empty the cache (otherwise readCache() will not fill it with the new block)
 		$this->cache = '';
