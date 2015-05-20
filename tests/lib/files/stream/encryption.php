@@ -16,7 +16,7 @@ class Encryption extends \Test\TestCase {
 	 * @param integer $unencryptedSize
 	 * @return resource
 	 */
-	protected function getStream($fileName, $mode, $unencryptedSize) {
+	protected function getStream($fileName, $mode, $unencryptedSize, $wrapper = '\OC\Files\Stream\Encryption') {
 		clearstatcache();
 		$size = filesize($fileName);
 		$source = fopen($fileName, $mode);
@@ -45,9 +45,10 @@ class Encryption extends \Test\TestCase {
 			->method('getUidAndFilename')
 			->willReturn(['user1', $internalPath]);
 
-		return \OC\Files\Stream\Encryption::wrap($source, $internalPath,
+
+		return $wrapper::wrap($source, $internalPath,
 			$fullPath, $header, $uid, $this->encryptionModule, $storage, $encStorage,
-			$util, $file, $mode, $size, $unencryptedSize, 8192);
+			$util, $file, $mode, $size, $unencryptedSize, 8192, $wrapper);
 	}
 
 	/**
@@ -254,6 +255,49 @@ class Encryption extends \Test\TestCase {
 		$this->assertEquals($expectedData, $data);
 
 		unlink($fileName);
+	}
+
+	/**
+	 * simulate a non-seekable storage
+	 *
+	 * @dataProvider dataFilesProvider
+	 */
+	public function testWriteToNonSeekableStorage($testFile) {
+
+		$wrapper = $this->getMockBuilder('\OC\Files\Stream\Encryption')
+			->setMethods(['parentSeekStream'])->getMock();
+		$wrapper->expects($this->any())->method('parentSeekStream')->willReturn(false);
+
+		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
+		// write it
+		$fileName = tempnam("/tmp", "FOO");
+		$stream = $this->getStream($fileName, 'w+', 0, '\Test\Files\Stream\DummyEncryptionWrapper');
+		// while writing the file from the beginning to the end we should never try
+		// to read parts of the file. This should only happen for write operations
+		// in the middle of a file
+		$this->encryptionModule->expects($this->never())->method('decrypt');
+		fwrite($stream, $expectedData);
+		fclose($stream);
+
+		// read it all
+		$stream = $this->getStream($fileName, 'r', strlen($expectedData), '\Test\Files\Stream\DummyEncryptionWrapper');
+		$data = stream_get_contents($stream);
+		fclose($stream);
+
+		$this->assertEquals($expectedData, $data);
+
+		// another read test with a loop like we do in several places:
+		$stream = $this->getStream($fileName, 'r', strlen($expectedData));
+		$data = '';
+		while (!feof($stream)) {
+			$data .= fread($stream, 8192);
+		}
+		fclose($stream);
+
+		$this->assertEquals($expectedData, $data);
+
+		unlink($fileName);
+
 	}
 
 	/**
