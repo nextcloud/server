@@ -749,14 +749,14 @@ class OC_Util {
 		if($iniWrapper->getBool('mbstring.func_overload') !== null &&
 			$iniWrapper->getBool('mbstring.func_overload') === true) {
 			$errors[] = array(
-				'error' => $l->t('mbstring.func_overload is set to "%s" instead to the expected value "0"', [$iniWrapper->getString('mbstring.func_overload')]),
+				'error' => $l->t('mbstring.func_overload is set to "%s" instead of the expected value "0"', [$iniWrapper->getString('mbstring.func_overload')]),
 				'hint' => $l->t('To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini')
 			);
 		}
 
 		if (!self::isAnnotationsWorking()) {
 			$errors[] = array(
-				'error' => $l->t('PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible.'),
+				'error' => $l->t('PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible.'),
 				'hint' => $l->t('This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.')
 			);
 		}
