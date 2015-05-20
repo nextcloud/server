@@ -753,6 +753,7 @@ class Test_Files_Versioning extends \Test\TestCase {
 		\OC\Files\Filesystem::tearDown();
 		\OC_User::setUserId($user);
 		\OC_Util::setupFS($user);
+		\OC::$server->getUserFolder($user);
 	}
 
 }

@@ -44,7 +44,7 @@ class AppsTest extends TestCase {
 
 		$user = $this->generateUsers();
 		\OC_Group::addToGroup($user, 'admin');
-		\OC_User::setUserId($user);
+		self::loginAsUser($user);
 
 		$result = \OCA\provisioning_API\Apps::getApps(array());
 

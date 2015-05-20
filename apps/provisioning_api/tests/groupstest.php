@@ -27,7 +27,7 @@ class GroupsTest extends TestCase {
 	public function testGetGroupAsUser() {
 
 		$users = $this->generateUsers(2);
-		\OC_User::setUserId($users[0]);
+		self::loginAsUser($users[0]);
 
 		$group = $this->getUniqueID();
 		\OC_Group::createGroup($group);
@@ -46,7 +46,7 @@ class GroupsTest extends TestCase {
 	public function testGetGroupAsSubadmin() {
 
 		$users = $this->generateUsers(2);
-		\OC_User::setUserId($users[0]);
+		self::loginAsUser($users[0]);
 
 		$group = $this->getUniqueID();
 		\OC_Group::createGroup($group);
@@ -75,7 +75,7 @@ class GroupsTest extends TestCase {
 	public function testGetGroupAsIrrelevantSubadmin() {
 
 		$users = $this->generateUsers(2);
-		\OC_User::setUserId($users[0]);
+		self::loginAsUser($users[0]);
 
 		$group = $this->getUniqueID();
 		\OC_Group::createGroup($group);
@@ -99,7 +99,7 @@ class GroupsTest extends TestCase {
 	public function testGetGroupAsAdmin() {
 
 		$users = $this->generateUsers(2);
-		\OC_User::setUserId($users[0]);
+		self::loginAsUser($users[0]);
 
 		$group = $this->getUniqueID();
 		\OC_Group::createGroup($group);
@@ -120,7 +120,7 @@ class GroupsTest extends TestCase {
 	public function testGetSubAdminsOfGroup() {
 		$user1 = $this->generateUsers();
 		$user2 = $this->generateUsers();
-		\OC_User::setUserId($user1);
+		self::loginAsUser($user1);
 		\OC_Group::addToGroup($user1, 'admin');
 		$group1 = $this->getUniqueID();
 		\OC_Group::createGroup($group1);
@@ -135,7 +135,7 @@ class GroupsTest extends TestCase {
 		\OC_Group::deleteGroup($group1);
 
 		$user1 = $this->generateUsers();
-		\OC_User::setUserId($user1);
+		self::loginAsUser($user1);
 		\OC_Group::addToGroup($user1, 'admin');
 		$result = \OCA\provisioning_api\Groups::getSubAdminsOfGroup(array(
 			'groupid' => $this->getUniqueID(),
