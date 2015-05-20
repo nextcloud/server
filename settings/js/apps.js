@@ -86,17 +86,25 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}), {
 			type:'GET',
 			success: function (apps) {
-				OC.Settings.Apps.State.apps = _.indexBy(apps.apps, 'id');
+				var appList = _.map(_.indexBy(apps.apps, 'id'), function(app) {
+					// default values for missing fields
+					return _.extend({level: 0}, app);
+				});
+				OC.Settings.Apps.State.apps = appList;
 				var source   = $("#app-template").html();
 				var template = Handlebars.compile(source);
 
-				if (apps.apps.length) {
-					apps.apps.sort(function(a,b) {
-						return b.level - a.level;
+				if (appList.length) {
+					appList.sort(function(a,b) {
+						var levelDiff = b.level - a.level;
+						if (levelDiff === 0) {
+							return OC.Util.naturalSortCompare(a.name, b.name);
+						}
+						return levelDiff;
 					});
 
 					var firstExperimental = false;
-					_.each(apps.apps, function(app) {
+					_.each(appList, function(app) {
 						if(app.level === 0 && firstExperimental === false) {
 							firstExperimental = true;
 							OC.Settings.Apps.renderApp(app, template, null, true);
