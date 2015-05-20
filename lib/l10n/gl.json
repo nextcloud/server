@@ -42,6 +42,7 @@
     "File name is a reserved word" : "O nome de ficheiro é unha palabra reservada",
     "File name contains at least one invalid character" : "O nome de ficheiro contén algún carácter incorrecto",
     "File name is too long" : "O nome de ficheiro é longo de máis",
+    "Can't read file" : "Non é posíbel ler o ficheiro",
     "App directory already exists" : "Xa existe o directorio da aplicación",
     "Can't create app folder. Please fix permissions. %s" : "Non é posíbel crear o cartafol de aplicacións. Corrixa os permisos. %s",
     "No source specified when installing app" : "Non foi especificada ningunha orixe ao instalar a aplicación",

@@ -23,6 +23,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "개인 키 암호가 성공적으로 업데이트 되었습니다.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "암호화 앱의 개인 키가 잘못되었습니다. 암호화된 파일에 다시 접근하려면 개인 설정에서 개인 키 암호를 업데이트해야 합니다.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "암호화 앱이 활성화되어 있지만 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "이 파일을 복호화할 수 없습니다. 공유된 파일일 수도 있습니다. 파일 소유자에게 공유를 다시 요청하십시오.",
     "Enable recovery key" : "복구 키 활성화",
     "Disable recovery key" : "복구 키 비활성화",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "복구 키는 파일을 암호화하는 추가 키입니다. 사용자가 암호를 잊었을 때 복구할 수 있도록 해 줍니다.",

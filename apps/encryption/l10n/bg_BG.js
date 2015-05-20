@@ -19,6 +19,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "Успешно променена тайната парола за ключа.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Невалиден личен ключ за Криптиращата Програма. Моля, обнови личния си ключ в Лични настройки, за да възстановиш достъпа до криптираните си файловете.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Програмата за криптиране е включена, но твоите ключове не са зададени, моля отпиши си и се впиши отново.",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Неуспешно разшифроване на този файл, вероятно това е споделен файл. Моля, поискай собственика на файла да го сподели повторно с теб.",
     "Recovery key password" : "Парола за възстановяане на ключа",
     "Change recovery key password:" : "Промени паролата за въстановяване на ключа:",
     "Change Password" : "Промени Паролата",

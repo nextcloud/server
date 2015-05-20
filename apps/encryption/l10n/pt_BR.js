@@ -23,6 +23,8 @@ OC.L10N.register(
     "Private key password successfully updated." : "Senha de chave privada atualizada com sucesso.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chave do App de Criptografia é inválida. Por favor, atualize sua senha de chave privada em suas configurações pessoais para recuperar o acesso a seus arquivos criptografados.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "App de criptografia está ativado, mas as chaves não estão inicializadas, por favor log-out e faça login novamente",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Este arquivo não pode ser decriptado, provavelmente este é um arquivo compartilhado. Por favor peça ao dono do arquivo para compartilha-lo com você.",
+    "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Não é possível ler este arquivo, provavelmente este é um arquivo compartilhado. Por favor, pergunte o dono do arquivo para recompartilhar o arquivo com você.",
     "Enable recovery key" : "Habilitar recuperação de chave",
     "Disable recovery key" : "Dasabilitar chave de recuperação",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "A chave de recuperação é uma chave de encriptação extra que é utilizada para encriptar arquivos. Ela permite a recuperação de arquivos de um usuário esquecer sua senha.",

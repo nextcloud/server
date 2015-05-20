@@ -21,6 +21,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "Privat nøgle kodeord succesfuldt opdateret.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ugyldig privat nøgle for krypteringsprogrammet. Opdater venligst dit kodeord for den private nøgle i dine personlige indstillinger. Det kræves for at få adgang til dine krypterede filer.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Krypteringsprogrammet er aktiveret, men din nøgler er ikke igangsat. Log venligst ud og ind igen.",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan ikke kryptere denne fil, sandsynligvis fordi filen er delt. Bed venligst filens ejer om at dele den med dig på ny.",
     "Recovery key password" : "Gendannelsesnøgle kodeord",
     "Change recovery key password:" : "Skift gendannelsesnøgle kodeord:",
     "Change Password" : "Skift Kodeord",

@@ -21,6 +21,7 @@
     "Private key password successfully updated." : "Heslo soukromého klíče úspěšně aktualizováno.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chybný soukromý klíč pro šifrovací aplikaci. Aktualizujte prosím heslo svého soukromého klíče ve vašem osobním nastavení, abyste znovu získali přístup k vašim zašifrovaným souborům.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikace pro šifrování je zapnuta, ale vaše klíče nejsou inicializované. Prosím odhlaste se a znovu přihlaste",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tento soubor se nepodařilo dešifrovat, pravděpodobně je sdílený. Požádejte prosím majitele souboru, aby jej s vámi znovu sdílel.",
     "Enable recovery key" : "Povolit záchranný klíč",
     "Disable recovery key" : "Vypnout záchranný klíč",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Záchranný klíč je dodatečný šifrovací klíč použitý pro\nšifrování souborů. S jeho pomocí lze obnovit soubory uživatele při zapomenutí hesla.",

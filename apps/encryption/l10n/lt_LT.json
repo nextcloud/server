@@ -8,6 +8,7 @@
     "Private key password successfully updated." : "Privataus rakto slaptažodis buvo sėkmingai atnaujintas.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Netinkamas privatus raktas Šifravimo programai. Prašome atnaujinti savo privataus rakto slaptažodį asmeniniuose nustatymuose, kad atkurti prieigą prie šifruotų failų.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Šifravimo programa įjungta, bet Jūsų raktai nėra pritaikyti. Prašome atsijungti ir vėl prisijungti",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Failo iššifruoti nepavyko, gali būti jog jis yra pasidalintas su jumis. Paprašykite failo savininko, kad jums iš naujo pateiktų šį failą.",
     "Recovery key password" : "Atkūrimo rakto slaptažodis",
     "Change recovery key password:" : "Pakeisti atkūrimo rakto slaptažodį:",
     "Change Password" : "Pakeisti slaptažodį",

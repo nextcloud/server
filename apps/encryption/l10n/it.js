@@ -23,6 +23,8 @@ OC.L10N.register(
     "Private key password successfully updated." : "Password della chiave privata aggiornata correttamente.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chiave privata non valida per l'applicazione di cifratura. Aggiorna la password della chiave privata nelle impostazioni personali per ripristinare l'accesso ai tuoi file cifrati.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'applicazione di cifratura è abilitata, ma le chiavi non sono state inizializzate, disconnettiti ed effettua nuovamente l'accesso",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossibile decifrare questo file, probabilmente è un file condiviso. Chiedi al proprietario del file di condividere nuovamente il file con te.",
+    "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossibile leggere questo file, probabilmente è un file condiviso. Chiedi al proprietario del file di condividere nuovamente il file con te.",
     "Enable recovery key" : "Abilita chiave di ripristino",
     "Disable recovery key" : "Disabilita chiave di ripristino",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La chiave di ripristino è una chiave di cifratura aggiuntiva utilizzata per cifrare i file. Consente di ripristinare i file di un utente se l'utente dimentica la propria password.",

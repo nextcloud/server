@@ -21,6 +21,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "Private key password updated successfully.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Encryption App is enabled but your keys are not initialised, please log-out and log-in again",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Cannot decrypt this file, which is probably a shared file. Please ask the file owner to reshare the file with you.",
     "Recovery key password" : "Recovery key password",
     "Change recovery key password:" : "Change recovery key password:",
     "Change Password" : "Change Password",

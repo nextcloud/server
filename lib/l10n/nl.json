@@ -42,6 +42,7 @@
     "File name is a reserved word" : "Bestandsnaam is een gereserveerd woord",
     "File name contains at least one invalid character" : "De bestandsnaam bevat ten minste één verboden teken",
     "File name is too long" : "De bestandsnaam is te lang",
+    "Can't read file" : "Kan bestand niet lezen",
     "App directory already exists" : "App directory bestaat al",
     "Can't create app folder. Please fix permissions. %s" : "Kan de app map niet aanmaken, Herstel de permissies. %s",
     "No source specified when installing app" : "Geen bron opgegeven bij installatie van de app",

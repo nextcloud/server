@@ -17,6 +17,7 @@
     "Private key password successfully updated." : "Passord for privat nøkkel ble oppdatert.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ugyldig privat nøkkel for Krypterings-app. Oppdater passordet for din private nøkkel i dine personlige innstillinger for å gjenopprette tilgang til de krypterte filene dine.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "App for kryptering er aktivert men nøklene dine er ikke satt opp. Logg ut og logg inn igjen.",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan ikke dekryptere denne filen. Dette er sannsynligvis en delt fil. Spør eieren av filen om å dele den med deg på nytt.",
     "Recovery key password" : "Passord for gjenopprettingsnøkkel",
     "Change recovery key password:" : "Endre passord for gjenopprettingsnøkkel:",
     "Change Password" : "Endre passord",

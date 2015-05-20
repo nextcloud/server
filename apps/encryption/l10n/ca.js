@@ -10,6 +10,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "La contrasenya de la clau privada s'ha actualitzat.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "La clau privada de l'aplicació d'encriptació no és vàlida! Actualitzeu la contrasenya de la clau privada a l'arranjament personal per recuperar els fitxers encriptats.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'aplicació d'encriptació està activada però les claus no estan inicialitzades, sortiu i acrediteu-vos de nou.",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "No es pot desencriptar aquest fitxer, probablement és un fitxer compartit. Demaneu al propietari del fitxer que el comparteixi de nou amb vós.",
     "Recovery key password" : "Clau de recuperació de la contrasenya",
     "Change recovery key password:" : "Canvia la clau de recuperació de contrasenya:",
     "Change Password" : "Canvia la contrasenya",

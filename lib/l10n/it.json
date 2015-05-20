@@ -42,6 +42,7 @@
     "File name is a reserved word" : "Il nome del file è una parola riservata",
     "File name contains at least one invalid character" : "Il nome del file contiene almeno un carattere non valido",
     "File name is too long" : "Il nome del file è troppo lungo",
+    "Can't read file" : "Impossibile leggere il file",
     "App directory already exists" : "La cartella dell'applicazione esiste già",
     "Can't create app folder. Please fix permissions. %s" : "Impossibile creare la cartella dell'applicazione. Correggi i permessi. %s",
     "No source specified when installing app" : "Nessuna fonte specificata durante l'installazione dell'applicazione",

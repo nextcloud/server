@@ -21,6 +21,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "Пароль секретного ключа оновлено.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Невірний закритий ключ для доданку шифрування. Оновіть пароль до вашого закритого ключа в особистих налаштуваннях.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Доданок шифрування ввімкнено, але ваші ключі не ініціалізовано, вийдіть та зайдіть знову",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не можу розшифрувати цей файл, можливо він опублікований. Будь ласка, попросіть власника опублікувати його заново.",
     "Recovery key password" : "Пароль ключа відновлення",
     "Change recovery key password:" : "Змінити пароль ключа відновлення:",
     "Change Password" : "Змінити Пароль",

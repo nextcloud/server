@@ -17,6 +17,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "私钥密码成功更新。",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "无效的私有密钥。请到您的个人配置里去更新私有密钥，来恢复对加密文件的访问。",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "加密应用被启用了，但是你的加密密钥没有初始化，请重新登出登录系统一次。",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : " 无法解密这个文件（或许这是一个共享文件？），请询问文件所有者重新与您分享这个文件。",
     "Recovery key password" : "恢复密钥密码",
     "Change recovery key password:" : "更改恢复密钥密码",
     "Change Password" : "修改密码",

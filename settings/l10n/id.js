@@ -147,7 +147,6 @@ OC.L10N.register(
     "Enable encryption" : "Aktifkan enkripsi",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Tidak ada modul enkripsi yang dimuat, mohon aktifkan modul enkripsi di menu aplikasi.",
     "Select default encryption module:" : "Pilih modul enkripsi baku:",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the \"ownCloud Default Encryption Module\" and run 'occ encryption:migrate'" : "Anda perlu untuk mengubah kunci enkripsi dari enkripsi lama (ownCloud <= 8.0) ke yang baru. Mohon aktifkan \"Modul Enkripsi Baku ownCloud\" dan jalankan 'occ encryption:migrate'",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "Anda perlu untuk mengubah kunci enkripsi dari enkripsi lama (ownCloud <= 8.0) ke yang baru.",
     "Start migration" : "Mulai migrasi",
     "This is used for sending out notifications." : "Ini digunakan untuk mengirim notifikasi keluar.",

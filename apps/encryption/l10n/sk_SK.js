@@ -19,6 +19,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "Heslo súkromného kľúča je úspešne aktualizované.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chybný súkromný kľúč na šifrovanie aplikácií. Zaktualizujte si heslo súkromného kľúča v svojom osobnom nastavení, aby ste znovu získali prístup k svojim zašifrovaným súborom.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikácia na šifrovanie je zapnutá, ale vaše kľúče nie sú inicializované. Odhláste sa a znovu sa prihláste.",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tento súbor sa nepodarilo dešifrovať, pravdepodobne je zdieľaný. Požiadajte majiteľa súboru, aby ho s vami znovu vyzdieľal.",
     "Recovery key password" : "Heslo obnovovacieho kľúča",
     "Change recovery key password:" : "Zmeniť heslo obnovovacieho kľúča:",
     "Change Password" : "Zmeniť heslo",

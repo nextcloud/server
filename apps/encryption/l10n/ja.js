@@ -21,6 +21,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "秘密鍵のパスワードが正常に更新されました。",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "暗号化アプリの無効なプライベートキーです。あなたの暗号化されたファイルへアクセスするために、個人設定からプライベートキーのパスワードを更新してください。",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "暗号化アプリは有効ですが、あなたの暗号化キーは初期化されていません。ログアウトした後に、再度ログインしてください",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "このファイルを復号化できません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。",
     "Recovery key password" : "リカバリキーのパスワード",
     "Change recovery key password:" : "リカバリキーのパスワードを変更:",
     "Change Password" : "パスワードを変更",

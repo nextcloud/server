@@ -17,6 +17,7 @@
     "Private key password successfully updated." : "Gako pasahitz pribatu behar bezala eguneratu da.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Enkriptazio aplikaziorako gako pribatu okerra. Mesedez eguneratu zure gako pribatuaren pasahitza zure ezarpen pertsonaletan zure enkriptatuko fitxategietarako sarrera berreskuratzeko.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Enkriptazio aplikazioa gaituta dago baina zure gakoak ez daude konfiguratuta, mesedez saioa bukatu eta berriro hasi",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Ezin izan da fitxategi hau deszifratu, ziurrenik elkarbanatutako fitxategi bat da. Mesdez, eskatu fitxategiaren jabeari fitxategia zurekin berriz elkarbana dezan.",
     "Recovery key password" : "Berreskuratze gako pasahitza",
     "Change recovery key password:" : "Aldatu berreskuratze gako pasahitza:",
     "Change Password" : "Aldatu Pasahitza",

@@ -19,6 +19,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "Pomyślnie zaktualizowano hasło klucza prywatnego.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Klucz prywatny nie jest poprawny! Może Twoje hasło zostało zmienione z zewnątrz. Można zaktualizować hasło klucza prywatnego w ustawieniach osobistych w celu odzyskania dostępu do plików",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacja szyfrująca jest aktywna, ale twoje klucze nie zostały zainicjowane, prosze wyloguj się i zaloguj ponownie.",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Nie można odszyfrować tego pliku, prawdopodobnie jest to plik udostępniony. Poproś właściciela pliku o ponowne udostępnianie pliku Tobie.",
     "Recovery key password" : "Hasło klucza odzyskiwania",
     "Change recovery key password:" : "Zmień hasło klucza odzyskiwania",
     "Change Password" : "Zmień hasło",

@@ -19,6 +19,7 @@
     "Private key password successfully updated." : "A senha da chave privada foi atualizada com sucesso. ",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chave privada inválida da Aplicação de Encriptação. Por favor atualize a sua senha de chave privada nas definições pessoais, para recuperar o acesso aos seus ficheiros encriptados.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A Aplicação de Encriptação está ativada, mas as suas chaves não inicializaram. Por favor termine e inicie a sessão novamente",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Não é possível desencriptar este ficheiro, provavelmente é um ficheiro partilhado. Por favor, peça ao proprietário do ficheiro para voltar a partilhar o ficheiro consigo.",
     "Recovery key password" : "Senha da chave de recuperação",
     "Change recovery key password:" : "Alterar a senha da chave de recuperação:",
     "Change Password" : "Alterar a Senha",

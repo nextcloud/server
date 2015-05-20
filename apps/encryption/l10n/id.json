@@ -21,6 +21,7 @@
     "Private key password successfully updated." : "Sandi kunci privat berhasil diperbarui.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Kunci privat tidak sah untuk Aplikasi Enskripsi. Silakan perbarui sandi kunci privat anda pada pengaturan pribadi untuk memulihkan akses ke berkas anda yang dienskripsi.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikasi Enskripsi telah diaktifkan tetapi kunci tidak diinisialisasi, silakan log-out dan log-in lagi",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tidak dapat mendekripsi berkas ini, mungkin ini adalah berkas bersama. Silakan meminta pemilik berkas ini untuk membagikan kembali dengan Anda.",
     "Enable recovery key" : "Aktifkan kunci pemulihan",
     "Disable recovery key" : "Nonaktifkan kunci pemulihan",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kunci pemulihan adalah kunci enkripsi tambahan yang digunakan untuk mengenkripsi berkas. Kunci pemulihan memungkinkan untuk memulihkan berkas-berkas pengguna ketika pengguna tersebut melupakan sandi mereka.",

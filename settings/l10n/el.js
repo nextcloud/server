@@ -147,7 +147,6 @@ OC.L10N.register(
     "Enable encryption" : "Ενεργοποίηση κρυπτογράφησης",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Δεν έχει φορτωθεί μονάδα κρυπτογράφησης, παρακαλούμε φορτώστε μια μονάδα κρυπτογράφησης από το μενού εφαρμογών.",
     "Select default encryption module:" : "Επιλογή προεπιλεγμένης μονάδας κρυπτογράφησης:",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the \"ownCloud Default Encryption Module\" and run 'occ encryption:migrate'" : "Πρέπει να μεταφέρετε τα κλειδιά κρυπτογράφησής σας από την παλιά κρυπτογράφηση (ownCloud <= 8.0) στην καινούρια. Παρακαλούμε ενεργοποιήστε την \"Προεπιλεγμένη Μονάδα Κρυπτογράφησης του ownCloud\" και εκτελέστε την εντολή 'occ encryption:migrate'",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "Πρέπει να μεταφέρετε τα κλειδιά σας κρυπτογράφησης από την παλιά κρυπτογράφηση (ownCloud <= 8.0) στην καινούρια.",
     "Start migration" : "Έναρξη μετάβασης",
     "This is used for sending out notifications." : "Χρησιμοποιείται για αποστολή ειδοποιήσεων.",

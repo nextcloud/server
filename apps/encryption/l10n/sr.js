@@ -23,6 +23,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "Лозинка личног кључа је успешно ажурирана.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Неисправан лични кључ за апликацију шифровања. Ажурирајте лозинку личног кључа у личним поставкама да бисте опоравили приступ вашим шифрованим фајловима.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Апликација шифровања је укључена али ваши кључеви нису иницијализовани. Одјавите се и поново се пријавите.",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не могу да дешифрујем фајл. Вероватно је то дељен фајл. Затражите од власника фајла да га поново подели са вама.",
     "Enable recovery key" : "Омогући кључ за опоравак",
     "Disable recovery key" : "Онемогући кључ за опоравак",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Кључ за опоравак је додатни шифрарски кључ који се користи за шифровање фајлова. Он омогућава опоравак корисничких фајлова ако корисник заборави своју лозинку.",

@@ -10,6 +10,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "Contraseña de clave privada anovada correchamente.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Clave privada non válida pa Encryption. Por favor, anueva la to contraseña de clave nos tos axustes personales pa recuperar l'accesu a los tos ficheros cifraos.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'aplicación Encryption ta habilitada pero les tos claves nun s'aniciaron, por favor zarra sesión y aníciala de nueves",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Nun pudo descifrase esti ficheru, dablemente seya un ficheru compartíu. Solicita al propietariu del mesmu que vuelva a compartilu contigo.",
     "Recovery key password" : "Contraseña de clave de recuperación",
     "Change recovery key password:" : "Camudar la contraseña de la clave de recuperación",
     "Change Password" : "Camudar contraseña",
