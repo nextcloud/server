@@ -144,7 +144,7 @@ OCA.Sharing.PublicApp = {
 					path: path,
 					files: filename
 				};
-				return OC.generateUrl('/s/' + token + '/download', params);
+				return OC.generateUrl('/s/' + token + '/download') + '?' + OC.buildQueryString(params);
 			};
 
 			this.fileList.getAjaxUrl = function (action, params) {
@@ -277,6 +277,11 @@ OCA.Sharing.PublicApp = {
 };
 
 $(document).ready(function () {
+	// FIXME: replace with OC.Plugins.register()
+	if (window.TESTING) {
+		return;
+	}
+
 	var App = OCA.Sharing.PublicApp;
 	// defer app init, to give a chance to plugins to register file actions
 	_.defer(function () {
