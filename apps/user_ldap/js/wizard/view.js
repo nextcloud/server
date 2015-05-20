@@ -168,6 +168,26 @@ OCA = OCA || {};
 		},
 
 		/**
+		 * Base DN test results will arrive here
+		 *
+		 * @param {WizardTabElementary} view
+		 * @param {FeaturePayload} payload
+		 */
+		onDetectionTestCompleted: function(view, payload) {
+			if(payload.feature === 'TestBaseDN') {
+				if(payload.data.status === 'success') {
+					var objectsFound = parseInt(payload.data.changes.ldap_test_base, 10);
+					if(objectsFound > 0) {
+						view._updateStatusIndicator(view.STATUS_SUCCESS);
+						return;
+					}
+				}
+				view._updateStatusIndicator(view.STATUS_ERROR);
+				OC.Notification.showTemporary(t('user_ldap', 'The Base DN appears to be wrong'));
+			}
+		},
+
+		/**
 		 * updates the status indicator based on the configuration test result
 		 *
 		 * @param {WizardView} [view]
@@ -176,7 +196,7 @@ OCA = OCA || {};
 		 */
 		onTestCompleted: function(view, result) {
 			if(result.isSuccess) {
-				view._updateStatusIndicator(view.STATUS_SUCCESS);
+				view.configModel.requestWizard('ldap_test_base');
 			} else {
 				view._updateStatusIndicator(view.STATUS_ERROR);
 			}
@@ -272,6 +292,7 @@ OCA = OCA || {};
 			this.configModel.on('setRequested', this.onSetRequested, this);
 			this.configModel.on('setCompleted', this.onSetRequestDone, this);
 			this.configModel.on('configurationTested', this.onTestCompleted, this);
+			this.configModel.on('receivedLdapFeature', this.onDetectionTestCompleted, this);
 		},
 
 		/**
