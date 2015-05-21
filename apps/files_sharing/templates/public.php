@@ -46,12 +46,22 @@ $thumbSize = 1024;
 <header><div id="header" class="<?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
 		<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
 		   title="" id="owncloud">
-			<div class="logo-wide svg">
-				<h1 class="hidden-visually">
-					<?php p($theme->getName()); ?>
-				</h1>
+			<div class="logo-icon svg">
 			</div>
 		</a>
+
+		<div class="header-appname-container">
+			<h1 class="header-appname">
+				<?php
+					if(OC_Util::getEditionString() === '') {
+						p($theme->getName());
+					} else {
+						print_unescaped($theme->getHTMLName());
+					}
+				?>
+			</h1>
+		</div>
+
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 		<div class="header-right">
 			<span id="details">

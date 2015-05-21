@@ -21,12 +21,9 @@
 	box-align: center;
 }
 
-/* on mobile, show logo-icon instead of logo-wide */
-#header .logo-wide {
-	background-image: url(../img/logo-icon.svg);
-	background-repeat: no-repeat;
-	width: 62px;
-	height: 34px;
+/* on mobile, show only the icon of the logo, hide the text */
+#header .header-appname-container {
+	display: none;
 }
 
 /* compress search box on mobile, expand when focused */
