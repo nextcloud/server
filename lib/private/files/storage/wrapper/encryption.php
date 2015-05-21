@@ -26,11 +26,13 @@ use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\Update;
 use OC\Encryption\Util;
 use OC\Files\Filesystem;
+use OC\Files\Mount\Manager;
 use OC\Files\Storage\LocalTempFileTrait;
 use OCP\Encryption\IFile;
 use OCP\Encryption\IManager;
 use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage;
 use OCP\ILogger;
 
 class Encryption extends Wrapper {
@@ -68,6 +70,9 @@ class Encryption extends Wrapper {
 	/** @var Update */
 	private $update;
 
+	/** @var Manager */
+	private $mountManager;
+
 	/**
 	 * @param array $parameters
 	 * @param IManager $encryptionManager
@@ -77,6 +82,7 @@ class Encryption extends Wrapper {
 	 * @param string $uid
 	 * @param IStorage $keyStorage
 	 * @param Update $update
+	 * @param Manager $mountManager
 	 */
 	public function __construct(
 			$parameters,
@@ -86,9 +92,10 @@ class Encryption extends Wrapper {
 			IFile $fileHelper = null,
 			$uid = null,
 			IStorage $keyStorage = null,
-			Update $update = null
+			Update $update = null,
+			Manager $mountManager = null
 		) {
-
+		
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->mount = $parameters['mount'];
 		$this->encryptionManager = $encryptionManager;
@@ -99,6 +106,7 @@ class Encryption extends Wrapper {
 		$this->keyStorage = $keyStorage;
 		$this->unencryptedSize = array();
 		$this->update = $update;
+		$this->mountManager = $mountManager;
 		parent::__construct($parameters);
 	}
 
@@ -289,34 +297,32 @@ class Encryption extends Wrapper {
 	 */
 	public function copy($path1, $path2) {
 
-		$fullPath1 = $this->getFullPath($path1);
-		$fullPath2 = $this->getFullPath($path2);
+		$source = $this->getFullPath($path1);
+		$target = $this->getFullPath($path2);
 
-		if ($this->util->isExcluded($fullPath1)) {
+		if ($this->util->isExcluded($source)) {
 			return $this->storage->copy($path1, $path2);
 		}
 
 		$result = $this->storage->copy($path1, $path2);
 
 		if ($result && $this->encryptionManager->isEnabled()) {
-			$source = $this->getFullPath($path1);
-			if (!$this->util->isExcluded($source)) {
-				$target = $this->getFullPath($path2);
-				$keysCopied = $this->keyStorage->copyKeys($source, $target);
-				if ($keysCopied &&
-					dirname($source) !== dirname($target) &&
-					$this->util->isFile($target)
-				) {
-					$this->update->update($target);
-				}
+			$keysCopied = $this->copyKeys($source, $target);
+
+			if ($keysCopied &&
+				dirname($source) !== dirname($target) &&
+				$this->util->isFile($target)
+			) {
+				$this->update->update($target);
 			}
+
 			$data = $this->getMetaData($path1);
 
 			if (isset($data['encrypted'])) {
 				$this->getCache()->put($path2, ['encrypted' => $data['encrypted']]);
 			}
 			if (isset($data['size'])) {
-				$this->updateUnencryptedSize($fullPath2, $data['size']);
+				$this->updateUnencryptedSize($target, $data['size']);
 			}
 		}
 
@@ -408,17 +414,18 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param Storage $sourceStorage
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @param bool $preserveMtime
 	 * @return bool
 	 */
-	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = true) {
+	public function moveFromStorage(Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = true) {
 
 		// TODO clean this up once the underlying moveFromStorage in OC\Files\Storage\Wrapper\Common is fixed:
 		// - call $this->storage->moveFromStorage() instead of $this->copyBetweenStorage
 		// - copy the file cache update from  $this->copyBetweenStorage to this method
+		// - copy the copyKeys() call from  $this->copyBetweenStorage to this method
 		// - remove $this->copyBetweenStorage
 
 		$result = $this->copyBetweenStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, true);
@@ -434,17 +441,18 @@ class Encryption extends Wrapper {
 
 
 	/**
-	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param Storage $sourceStorage
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @param bool $preserveMtime
 	 * @return bool
 	 */
-	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+	public function copyFromStorage(Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
 
 		// TODO clean this up once the underlying moveFromStorage in OC\Files\Storage\Wrapper\Common is fixed:
 		// - call $this->storage->moveFromStorage() instead of $this->copyBetweenStorage
 		// - copy the file cache update from  $this->copyBetweenStorage to this method
+		// - copy the copyKeys() call from  $this->copyBetweenStorage to this method
 		// - remove $this->copyBetweenStorage
 
 		return $this->copyBetweenStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, false);
@@ -453,14 +461,27 @@ class Encryption extends Wrapper {
 	/**
 	 * copy file between two storages
 	 *
-	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param Storage $sourceStorage
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
 	 * @param bool $preserveMtime
 	 * @param bool $isRename
 	 * @return bool
 	 */
-	private function copyBetweenStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, $isRename) {
+	private function copyBetweenStorage(Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, $isRename) {
+
+		// first copy the keys that we reuse the existing file key on the target location
+		// and don't create a new one which would break versions for example.
+		$mount = $this->mountManager->findByStorageId($sourceStorage->getId());
+		if (count($mount) === 1) {
+			$mountPoint = $mount[0]->getMountPoint();
+			$source = $mountPoint . '/' . $sourceInternalPath;
+			$target = $this->getFullPath($targetInternalPath);
+			$this->copyKeys($source, $target);
+		} else {
+			$this->logger->error('Could not find mount point, can\'t keep encryption keys');
+		}
+
 		if ($sourceStorage->is_dir($sourceInternalPath)) {
 			$dh = $sourceStorage->opendir($sourceInternalPath);
 			$result = $this->mkdir($targetInternalPath);
@@ -611,5 +632,20 @@ class Encryption extends Wrapper {
 
 	public function updateUnencryptedSize($path, $unencryptedSize) {
 		$this->unencryptedSize[$path] = $unencryptedSize;
+	}
+
+	/**
+	 * copy keys to new location
+	 *
+	 * @param string $source path relative to data/
+	 * @param string $target path relative to data/
+	 * @return bool
+	 */
+	protected function copyKeys($source, $target) {
+		if (!$this->util->isExcluded($source)) {
+			return $this->keyStorage->copyKeys($source, $target);
+		}
+
+		return false;
 	}
 }

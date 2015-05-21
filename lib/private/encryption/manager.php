@@ -26,6 +26,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Shared;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
+use OC\Search\Provider\File;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\Files\Mount\IMountPoint;
@@ -217,6 +218,7 @@ class Manager implements IManager {
 				);
 				$user = \OC::$server->getUserSession()->getUser();
 				$logger = \OC::$server->getLogger();
+				$mountManager = Filesystem::getMountManager();
 				$uid = $user ? $user->getUID() : null;
 				$fileHelper = \OC::$server->getEncryptionFilesHelper();
 				$keyStorage = \OC::$server->getEncryptionKeyStorage();
@@ -236,7 +238,8 @@ class Manager implements IManager {
 					$fileHelper,
 					$uid,
 					$keyStorage,
-					$update
+					$update,
+					$mountManager
 				);
 			} else {
 				return $storage;

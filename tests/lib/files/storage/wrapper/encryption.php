@@ -63,6 +63,11 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 */
 	private $mount;
 
+	/**
+	 * @var \OC\Files\Mount\Manager | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $mountManager;
+
 	/** @var  integer dummy unencrypted size */
 	private $dummySize = -1;
 
@@ -86,7 +91,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->util = $this->getMock('\OC\Encryption\Util', ['getUidAndFilename', 'isFile'], [new View(), new \OC\User\Manager(), $groupManager, $config]);
+		$this->util = $this->getMock('\OC\Encryption\Util', ['getUidAndFilename', 'isFile', 'isExcluded'], [new View(), new \OC\User\Manager(), $groupManager, $config]);
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
 			->willReturnCallback(function ($path) {
@@ -119,7 +124,10 @@ class Encryption extends \Test\Files\Storage\Storage {
 			->disableOriginalConstructor()->getMock();
 		$this->cache->expects($this->any())
 			->method('get')
-			->willReturn(['encrypted' => false]);
+			->willReturnCallback(function($path) {return ['encrypted' => false, 'path' => $path];});
+
+		$this->mountManager = $this->getMockBuilder('\OC\Files\Mount\Manager')
+			->disableOriginalConstructor()->getMock();
 
 		$this->instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
 			->setConstructorArgs(
@@ -130,7 +138,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 						'mountPoint' => '/',
 						'mount' => $this->mount
 					],
-					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update
+					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager
 				]
 			)
 			->setMethods(['getMetaData', 'getCache', 'getEncryptionModule'])
@@ -138,7 +146,9 @@ class Encryption extends \Test\Files\Storage\Storage {
 
 		$this->instance->expects($this->any())
 			->method('getMetaData')
-			->willReturn(['encrypted' => true, 'size' => $this->dummySize]);
+			->willReturnCallback(function ($path) {
+				return ['encrypted' => true, 'size' => $this->dummySize, 'path' => $path];
+			});
 
 		$this->instance->expects($this->any())
 			->method('getCache')
@@ -232,6 +242,8 @@ class Encryption extends \Test\Files\Storage\Storage {
 		}
 		$this->util->expects($this->any())
 			->method('isFile')->willReturn(true);
+		$this->util->expects($this->any())
+			->method('isExcluded')->willReturn(false);
 		$this->encryptionManager->expects($this->once())
 			->method('isEnabled')->willReturn($encryptionEnabled);
 		if ($shouldUpdate) {
@@ -322,6 +334,35 @@ class Encryption extends \Test\Files\Storage\Storage {
 			array('/file.txt', false, true, false),
 			array('/file.txt', true, false, false),
 			array('/file.txt', false, false, false),
+		);
+	}
+
+	/**
+	 * @dataProvider dataTestCopyKeys
+	 *
+	 * @param boolean $excluded
+	 * @param boolean $expected
+	 */
+	public function testCopyKeys($excluded, $expected) {
+		$this->util->expects($this->once())
+			->method('isExcluded')
+			->willReturn($excluded);
+
+		if ($excluded) {
+			$this->keyStore->expects($this->never())->method('copyKeys');
+		} else {
+			$this->keyStore->expects($this->once())->method('copyKeys')->willReturn(true);
+		}
+
+		$this->assertSame($expected,
+			\Test_Helper::invokePrivate($this->instance, 'copyKeys', ['/source', '/target'])
+		);
+	}
+
+	public function dataTestCopyKeys() {
+		return array(
+			array(true, false),
+			array(false, true),
 		);
 	}
 }
