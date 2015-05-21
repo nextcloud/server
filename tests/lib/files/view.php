@@ -193,7 +193,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testGetPath() {
+	public function testGetPath() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$storage3 = $this->getTestStorage();
@@ -219,7 +219,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testMountPointOverwrite() {
+	public function testMountPointOverwrite() {
 		$storage1 = $this->getTestStorage(false);
 		$storage2 = $this->getTestStorage();
 		$storage1->mkdir('substorage');
@@ -265,7 +265,7 @@ class View extends \Test\TestCase {
 		$appConfig->setValue('core', 'shareapi_exclude_groups_list', $oldExcludeGroupsList);
 	}
 
-	function testCacheIncompleteFolder() {
+	public function testCacheIncompleteFolder() {
 		$storage1 = $this->getTestStorage(false);
 		\OC\Files\Filesystem::clearMounts();
 		\OC\Files\Filesystem::mount($storage1, array(), '/incomplete');
@@ -300,7 +300,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testSearch() {
+	public function testSearch() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$storage3 = $this->getTestStorage();
@@ -350,7 +350,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testWatcher() {
+	public function testWatcher() {
 		$storage1 = $this->getTestStorage();
 		\OC\Files\Filesystem::mount($storage1, array(), '/');
 		$storage1->getWatcher()->setPolicy(Watcher::CHECK_ALWAYS);
@@ -371,7 +371,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testCopyBetweenStorageNoCross() {
+	public function testCopyBetweenStorageNoCross() {
 		$storage1 = $this->getTestStorage(true, '\Test\Files\TemporaryNoCross');
 		$storage2 = $this->getTestStorage(true, '\Test\Files\TemporaryNoCross');
 		$this->copyBetweenStorages($storage1, $storage2);
@@ -380,7 +380,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testCopyBetweenStorageCross() {
+	public function testCopyBetweenStorageCross() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$this->copyBetweenStorages($storage1, $storage2);
@@ -389,7 +389,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testCopyBetweenStorageCrossNonLocal() {
+	public function testCopyBetweenStorageCrossNonLocal() {
 		$storage1 = $this->getTestStorage(true, '\Test\Files\TemporaryNoLocal');
 		$storage2 = $this->getTestStorage(true, '\Test\Files\TemporaryNoLocal');
 		$this->copyBetweenStorages($storage1, $storage2);
@@ -417,7 +417,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testMoveBetweenStorageNoCross() {
+	public function testMoveBetweenStorageNoCross() {
 		$storage1 = $this->getTestStorage(true, '\Test\Files\TemporaryNoCross');
 		$storage2 = $this->getTestStorage(true, '\Test\Files\TemporaryNoCross');
 		$this->moveBetweenStorages($storage1, $storage2);
@@ -426,7 +426,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testMoveBetweenStorageCross() {
+	public function testMoveBetweenStorageCross() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$this->moveBetweenStorages($storage1, $storage2);
@@ -435,7 +435,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testMoveBetweenStorageCrossNonLocal() {
+	public function testMoveBetweenStorageCrossNonLocal() {
 		$storage1 = $this->getTestStorage(true, '\Test\Files\TemporaryNoLocal');
 		$storage2 = $this->getTestStorage(true, '\Test\Files\TemporaryNoLocal');
 		$this->moveBetweenStorages($storage1, $storage2);
@@ -458,7 +458,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testUnlink() {
+	public function testUnlink() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		\OC\Files\Filesystem::mount($storage1, array(), '/');
@@ -481,7 +481,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testUnlinkRootMustFail() {
+	public function testUnlinkRootMustFail() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		\OC\Files\Filesystem::mount($storage1, array(), '/');
@@ -500,7 +500,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testTouch() {
+	public function testTouch() {
 		$storage = $this->getTestStorage(true, '\Test\Files\TemporaryNoTouch');
 
 		\OC\Files\Filesystem::mount($storage, array(), '/');
@@ -524,7 +524,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testViewHooks() {
+	public function testViewHooks() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$defaultRoot = \OC\Files\Filesystem::getRoot();
@@ -590,7 +590,7 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testViewHooksIfRootStartsTheSame() {
+	public function testViewHooksIfRootStartsTheSame() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$defaultRoot = \OC\Files\Filesystem::getRoot();
@@ -851,28 +851,95 @@ class View extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider relativePathProvider
+	 * @dataProvider chrootRelativePathProvider
 	 */
-	function testGetRelativePath($root, $absolutePath, $expectedPath) {
+	function testChrootGetRelativePath($root, $absolutePath, $expectedPath) {
 		$view = new \OC\Files\View('/files');
 		$view->chroot($root);
 		$this->assertEquals($expectedPath, $view->getRelativePath($absolutePath));
 	}
 
-	function relativePathProvider() {
-		return array(
-			// TODO: add many more cases with mixed slashes, which is only possible
-			// once getRelativePath's behavior is made consistent
+	public function chrootRelativePathProvider() {
+		return $this->relativePathProvider('/');
+	}
 
-			// with slashes
+	/**
+	 * @dataProvider initRelativePathProvider
+	 */
+	public function testInitGetRelativePath($root, $absolutePath, $expectedPath) {
+		$view = new \OC\Files\View($root);
+		$this->assertEquals($expectedPath, $view->getRelativePath($absolutePath));
+	}
+
+	public function initRelativePathProvider() {
+		return $this->relativePathProvider(null);
+	}
+
+	public function relativePathProvider($missingRootExpectedPath) {
+		return array(
+			// No root - returns the path
+			array('', '/files', '/files'),
+			array('', '/files/', '/files/'),
+
+			// Root equals path - /
 			array('/files/', '/files/', '/'),
 			array('/files/', '/files', '/'),
+			array('/files', '/files/', '/'),
+			array('/files', '/files', '/'),
+
+			// False negatives: chroot fixes those by adding the leading slash.
+			// But setting them up with this root (instead of chroot($root))
+			// will fail them, althought they should be the same.
+			// TODO init should be fixed, so it also adds the leading slash
+			array('files/', '/files/', $missingRootExpectedPath),
+			array('files', '/files/', $missingRootExpectedPath),
+			array('files/', '/files', $missingRootExpectedPath),
+			array('files', '/files', $missingRootExpectedPath),
+
+			// False negatives: Paths provided to the method should have a leading slash
+			// TODO input should be checked to have a leading slash
+			array('/files/', 'files/', null),
+			array('/files', 'files/', null),
+			array('/files/', 'files', null),
+			array('/files', 'files', null),
+
+			// with trailing slashes
 			array('/files/', '/files/0', '0'),
 			array('/files/', '/files/false', 'false'),
 			array('/files/', '/files/true', 'true'),
 			array('/files/', '/files/test', 'test'),
 			array('/files/', '/files/test/foo', 'test/foo'),
-			// mix
+
+			// without trailing slashes
+			// TODO false expectation: Should match "with trailing slashes"
+			array('/files', '/files/0', '/0'),
+			array('/files', '/files/false', '/false'),
+			array('/files', '/files/true', '/true'),
+			array('/files', '/files/test', '/test'),
+			array('/files', '/files/test/foo', '/test/foo'),
+
+			// leading slashes
+			array('/files/', '/files_trashbin/', null),
+			array('/files', '/files_trashbin/', null),
+			array('/files/', '/files_trashbin', null),
+			array('/files', '/files_trashbin', null),
+
+			// no leading slashes
+			array('files/', 'files_trashbin/', null),
+			array('files', 'files_trashbin/', null),
+			array('files/', 'files_trashbin', null),
+			array('files', 'files_trashbin', null),
+
+			// mixed leading slashes
+			array('files/', '/files_trashbin/', null),
+			array('/files/', 'files_trashbin/', null),
+			array('files', '/files_trashbin/', null),
+			array('/files', 'files_trashbin/', null),
+			array('files/', '/files_trashbin', null),
+			array('/files/', 'files_trashbin', null),
+			array('files', '/files_trashbin', null),
+			array('/files', 'files_trashbin', null),
+
 			array('files', 'files_trashbin/test', null),
 			array('/files', '/files_trashbin/test', null),
 			array('/files', 'files_trashbin/test', null),
@@ -1019,6 +1086,7 @@ class View extends \Test\TestCase {
 		$storage2->expects($this->any())
 			->method('fopen')
 			->will($this->returnCallback(function ($path, $mode) use ($storage2) {
+				/** @var \PHPUnit_Framework_MockObject_MockObject | \OC\Files\Storage\Temporary $storage2 */
 				$source = fopen($storage2->getSourcePath($path), $mode);
 				return \OC\Files\Stream\Quota::wrap($source, 9);
 			}));
