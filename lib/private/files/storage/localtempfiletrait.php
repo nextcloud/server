@@ -34,13 +34,12 @@ namespace OC\Files\Storage;
  */
 trait LocalTempFileTrait {
 
-	/**
-	 * @var string[]
-	 */
-	protected $cachedFiles = array();
+	/** @var string[] */
+	protected $cachedFiles = [];
 
 	/**
 	 * @param string $path
+	 * @return string
 	 */
 	protected function getCachedFile($path) {
 		if (!isset($this->cachedFiles[$path])) {
@@ -49,6 +48,9 @@ trait LocalTempFileTrait {
 		return $this->cachedFiles[$path];
 	}
 
+	/**
+	 * @param string $path
+	 */
 	protected function removeCachedFile($path) {
 		unset($this->cachedFiles[$path]);
 	}

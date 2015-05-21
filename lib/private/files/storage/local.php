@@ -282,6 +282,8 @@ if (\OC_Util::runningOnWindows()) {
 
 		/**
 		 * @param string $query
+		 * @param string $dir
+		 * @return array
 		 */
 		protected function searchInDir($query, $dir = '') {
 			$files = array();
