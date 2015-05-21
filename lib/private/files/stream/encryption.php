@@ -273,7 +273,7 @@ class Encryption extends Wrapper {
 
 		$result = '';
 
-//		$count = min($count, $this->unencryptedSize - $this->position);
+		$count = min($count, $this->unencryptedSize - $this->position);
 		while ($count > 0) {
 			$remainingLength = $count;
 			// update the cache of the current block
