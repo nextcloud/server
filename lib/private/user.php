@@ -421,7 +421,7 @@ class OC_User {
 	/**
 	 * get the user id of the user currently logged in.
 	 *
-	 * @return string uid or false
+	 * @return string|bool uid or false
 	 */
 	public static function getUser() {
 		$uid = \OC::$server->getSession() ? \OC::$server->getSession()->get('user_id') : null;
