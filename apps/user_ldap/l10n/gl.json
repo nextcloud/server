@@ -1,6 +1,7 @@
 { "translations": {
     "Failed to clear the mappings." : "Non foi posíbel limpar as asignacións.",
     "Failed to delete the server configuration" : "Non foi posíbel eliminar a configuración do servidor",
+    "The configuration is invalid: anonymous bind is not allowed." : "A configuración é incorrecta: o vínculo anónimo non está permitido.",
     "The configuration is valid and the connection could be established!" : "A configuración é correcta e pode estabelecerse a conexión.",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "A configuración é correcta, mais a ligazón non. Comprobe a configuración do servidor e as credenciais.",
     "The configuration is invalid. Please have a look at the logs for further details." : "A configuración non é correcta. Vexa o rexistro de ownCloud para máis detalles",
@@ -27,6 +28,8 @@
     "Confirm Deletion" : "Confirmar a eliminación",
     "Mappings cleared successfully!" : "Limpáronse satisfactoriamente as asignacións!",
     "Error while clearing the mappings." : "Produciuse un erro ao limpar as asignacións.",
+    "Anonymous bind is not allowed. Please provide a User DN and Password." : "O vínculo anónimo non está permitido. Forneza un DN de usuario e un contrasinal.",
+    "LDAP Operations error. Anonymous bind might not be allowed." : "Produciuse un erro de operacións do LDAP. O vínculo anónimo podería non estar permitido.",
     "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "Non foi posíbel gardar. Asegúrese de que a base de datos está en funcionamento. Volva a cargar antes de continuar.",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "O cambio do modo permitirá consultas LDAP automáticas. Dependendo do tamaño de LDAP pode levarlle un chisco. Quere cambiar de modo aínda así?",
     "Mode switch" : "Cambio de modo",

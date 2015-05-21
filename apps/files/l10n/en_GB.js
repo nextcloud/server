@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete" : "Delete",
     "Disconnect storage" : "Disconnect storage",
     "Unshare" : "Unshare",
+    "No permission to delete" : "No permission to delete",
     "Download" : "Download",
     "Select" : "Select",
     "Pending" : "Pending",

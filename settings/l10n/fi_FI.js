@@ -239,6 +239,7 @@ OC.L10N.register(
     "E-Mail" : "Sähköposti",
     "Create" : "Luo",
     "Admin Recovery Password" : "Ylläpitäjän palautussalasana",
+    "Enter the recovery password in order to recover the users files during password change" : "Anna palautussalasana, jotta käyttäjien tiedostot on mahdollista palauttaa salasanan muuttamisen yhteydessä",
     "Search Users" : "Etsi käyttäjiä",
     "Add Group" : "Lisää ryhmä",
     "Group" : "Ryhmä",

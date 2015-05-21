@@ -147,6 +147,7 @@ OC.L10N.register(
     "Enable encryption" : "Abilita cifratura",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Nessun modulo di cifratura caricato, carica un modulo di cifratura nel menu delle applicazioni.",
     "Select default encryption module:" : "Seleziona il modulo di cifratura predefinito:",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the \"Default encryption module\" and run 'occ encryption:migrate'" : "Devi migrare le tue chiavi di cifratura dalla vecchia cifratura (ownCloud <= 8.0) alla nuova. Abilita il \"Modulo di cifratura predefinito\" ed esegui 'occ encryption:migrate'",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "Devi migrare le tue chiavi di cifratura dalla vecchia cifratura (ownCloud <= 8.0) alla nuova.",
     "Start migration" : "Avvia migrazione",
     "This is used for sending out notifications." : "Viene utilizzato per inviare le notifiche.",

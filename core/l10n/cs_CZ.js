@@ -191,6 +191,8 @@ OC.L10N.register(
     "Data folder" : "Složka s daty",
     "Configure the database" : "Nastavit databázi",
     "Only %s is available." : "Pouze %s je dostupný.",
+    "Install and activate additional PHP modules to choose other database types." : "Pro výběr jiných typů databáze je třeba nainstalovat a povolit dodatečné PHP moduly.",
+    "For more details check out the documentation." : "Více informací lze nalézt v dokumentaci.",
     "Database user" : "Uživatel databáze",
     "Database password" : "Heslo databáze",
     "Database name" : "Název databáze",

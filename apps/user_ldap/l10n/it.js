@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Failed to clear the mappings." : "Cancellazione delle associazioni non riuscita.",
     "Failed to delete the server configuration" : "Eliminazione della configurazione del server non riuscita",
+    "The configuration is invalid: anonymous bind is not allowed." : "La configurazione non è valida: l'associazione anonima non è consentita.",
     "The configuration is valid and the connection could be established!" : "La configurazione è valida e la connessione può essere stabilita.",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "La configurazione è valida, ma il Bind non è riuscito. Controlla le impostazioni del server e le credenziali.",
     "The configuration is invalid. Please have a look at the logs for further details." : "La configurazione non è valida. Controlla i log per ulteriori dettagli.",
@@ -29,6 +30,8 @@ OC.L10N.register(
     "Confirm Deletion" : "Conferma l'eliminazione",
     "Mappings cleared successfully!" : "Associazioni cancellate correttamente!",
     "Error while clearing the mappings." : "Errore durante la cancellazione delle associazioni.",
+    "Anonymous bind is not allowed. Please provide a User DN and Password." : "L'associazione anonima non è consentita. Fornisci un DN utente e la password.",
+    "LDAP Operations error. Anonymous bind might not be allowed." : "Errore delle operazioni LDAP. L'associazione anonima potrebbe non essere consentita.",
     "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "Salvataggio non riuscito. Assicurati che il database sia operativo. Ricarica prima di continuare.",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Il cambio di modalità abiliterà le query LDAP automatiche. In base alla dimensione di LDAP, potrebbero richiedere del tempo. Vuoi ancora cambiare modalità?",
     "Mode switch" : "Cambio modalità",

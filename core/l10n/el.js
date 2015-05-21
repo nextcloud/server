@@ -191,6 +191,8 @@ OC.L10N.register(
     "Data folder" : "Φάκελος δεδομένων",
     "Configure the database" : "Ρύθμιση της βάσης δεδομένων",
     "Only %s is available." : "Μόνο %s είναι διαθέσιμο.",
+    "Install and activate additional PHP modules to choose other database types." : "Εγκαταστήστε και ενεργοποιείστε επιπλέον αρθρώματα PHP για να επιλέξετε άλλους τύπους βάσεων δεδομένων.",
+    "For more details check out the documentation." : "Για περισσότερες πληροφορίες ανατρέξτε στην τεκμηρίωση.",
     "Database user" : "Χρήστης της βάσης δεδομένων",
     "Database password" : "Συνθηματικό βάσης δεδομένων",
     "Database name" : "Όνομα βάσης δεδομένων",

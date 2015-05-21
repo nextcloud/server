@@ -191,6 +191,8 @@ OC.L10N.register(
     "Data folder" : "Datakansio",
     "Configure the database" : "Muokkaa tietokantaa",
     "Only %s is available." : "Vain %s on käytettävissä.",
+    "Install and activate additional PHP modules to choose other database types." : "Asenna ja aktivoi erillisiä PHP-moduuleja valitaksesi muita tietokantatyyppejä.",
+    "For more details check out the documentation." : "Lisätietoja on saatavilla dokumentaatiossa.",
     "Database user" : "Tietokannan käyttäjä",
     "Database password" : "Tietokannan salasana",
     "Database name" : "Tietokannan nimi",

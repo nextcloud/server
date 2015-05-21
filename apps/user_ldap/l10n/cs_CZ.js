@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Failed to clear the mappings." : "Selhalo zrušení mapování.",
     "Failed to delete the server configuration" : "Selhalo smazání nastavení serveru",
+    "The configuration is invalid: anonymous bind is not allowed." : "Tato konfigurace není platná: anonymní bind není povolen.",
     "The configuration is valid and the connection could be established!" : "Nastavení je v pořádku a spojení bylo navázáno.",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "Konfigurace je v pořádku, ale spojení selhalo. Zkontrolujte, prosím, nastavení serveru a přihlašovací údaje.",
     "The configuration is invalid. Please have a look at the logs for further details." : "Konfigurace je neplatná. Pro bližší informace se podívejte do logu.",
@@ -29,6 +30,8 @@ OC.L10N.register(
     "Confirm Deletion" : "Potvrdit smazání",
     "Mappings cleared successfully!" : "Mapování úspěšně vyčištěno!",
     "Error while clearing the mappings." : "Chyba při čištění mapování.",
+    "Anonymous bind is not allowed. Please provide a User DN and Password." : "Anonymní bind není povolen. Zadejte prosím User DN a Heslo.",
+    "LDAP Operations error. Anonymous bind might not be allowed." : "Chyba LDAP operace. Anonymní bind nejspíše není povolen.",
     "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "Ukládání selhalo. Ujistěte se, že databáze funguje. Načtěte znovu, než budete pokračovat.",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Přepnutí módu povolí automatické LDAP dotazy. V závislosti na velikosti vašeho LDAP může vyhledávání chvíli trvat. Opravdu si přejete přepnout mód?",
     "Mode switch" : "Přepnutí módu",

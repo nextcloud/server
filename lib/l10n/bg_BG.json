@@ -111,7 +111,6 @@
     "Please install one of these locales on your system and restart your webserver." : "Моля, инсталирай едно от следните език-държава на сървъра и рестартирай уеб сървъра.",
     "Please ask your server administrator to install the module." : "Моля, поискай твоят администратор да инсталира модула.",
     "PHP module %s not installed." : "PHP модулът %s не е инсталиран.",
-    "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP е настроен да премахва inline doc блокове. Това може да превърне няколко основни приложения недостъпни.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Това може да се дължи на cache/accelerator като Zend OPache или eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP модулите са инсталирани, но все още се обявяват като липсващи?",
     "Please ask your server administrator to restart the web server." : "Моля, поискай от своя администратор да рестартира уеб сървъра.",

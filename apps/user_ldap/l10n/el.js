@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Failed to clear the mappings." : "Αποτυχία εκκαθάρισης των αντιστοιχιών.",
     "Failed to delete the server configuration" : "Αποτυχία διαγραφής ρυθμίσεων διακομιστή",
+    "The configuration is invalid: anonymous bind is not allowed." : "Η διαμόρφωση δεν είναι έγκυρη: δεν επιτρέπεται ανώνυμη δέσμευση.",
     "The configuration is valid and the connection could be established!" : "Οι ρυθμίσεις είναι έγκυρες και η σύνδεση μπορεί να πραγματοποιηθεί!",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "Οι ρυθμίσεις είναι έγκυρες, αλλά απέτυχε η σύνδεση. Παρακαλώ ελέγξτε τις ρυθμίσεις του διακομιστή και τα διαπιστευτήρια.",
     "The configuration is invalid. Please have a look at the logs for further details." : "Η διαμόρφωση είναι άκυρη. Παρακαλώ ελέγξτε τα αρχεία σφαλμάτων για περαιτέρω λεπτομέρειες.",
@@ -29,6 +30,8 @@ OC.L10N.register(
     "Confirm Deletion" : "Επιβεβαίωση Διαγραφής",
     "Mappings cleared successfully!" : "Η εκκαθάριση αντιστοιχιών ήταν επιτυχής!",
     "Error while clearing the mappings." : "Σφάλμα κατά την εκκαθάριση των αντιστοιχιών.",
+    "Anonymous bind is not allowed. Please provide a User DN and Password." : "Η ανώνυμη δέσμευση δεν επιτρέπεται. Παρακαλούμε δώστε ένα DN χρήστη και Κωδικό Πρόσβασης.",
+    "LDAP Operations error. Anonymous bind might not be allowed." : "Σφάλμα ενεργειών LDAP. Η ανώνυμη δέσμευση μπορεί να μην επιτρέπεται.",
     "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "Αποτυχία αποθήκευσης. Παρακαλούμε βεβαιωθείτε ότι η βάση δεδομένων λειτουργεί. Επαναφορτώστε πριν συνεχίσετε.",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Η αλλαγή της κατάστασης θα ενεργοποιήσει αυτόματα ερωτήματα LDAP. Ανάλογα με το μέγεθος του LDAP αυτό μπορεί να διαρκέσει αρκετά. Θέλετε ακόμη να αλλάξετε κατάσταση λειτουργίας;",
     "Mode switch" : "Αλλαγή κατάστασης",

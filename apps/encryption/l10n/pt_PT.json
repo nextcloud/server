@@ -6,6 +6,7 @@
     "Could not enable recovery key. Please check your recovery key password!" : "Não foi possível ativar a chave de recuperação. Por favor, verifique a sua senha da chave de recuperação!",
     "Recovery key successfully disabled" : "A chave de recuperação foi desativada com sucesso",
     "Could not disable recovery key. Please check your recovery key password!" : "Não foi possível desativar a chave de recuperação. Por favor, verifique a senha da chave de recuperação.",
+    "Missing parameters" : "Parametros em falta",
     "Please provide the old recovery password" : "Escreva a palavra-passe de recuperação antiga",
     "Please provide a new recovery password" : "Escreva a nova palavra-passe de recuperação",
     "Please repeat the new recovery password" : "Escreva de novo a nova palavra-passe de recuperação",

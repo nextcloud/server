@@ -191,6 +191,8 @@ OC.L10N.register(
     "Data folder" : "Gegevensmap",
     "Configure the database" : "Configureer de database",
     "Only %s is available." : "Alleen %s is beschikbaar.",
+    "Install and activate additional PHP modules to choose other database types." : "Installeer en activeer aanvullende PHP modules om andere soorten databases te kiezen.",
+    "For more details check out the documentation." : "Voor meer informatie wordt u verwezen naar de documentatie.",
     "Database user" : "Gebruiker database",
     "Database password" : "Wachtwoord database",
     "Database name" : "Naam database",

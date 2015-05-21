@@ -1,6 +1,7 @@
 { "translations": {
     "Failed to clear the mappings." : "Niet gelukt de vertalingen leeg te maken.",
     "Failed to delete the server configuration" : "Verwijderen serverconfiguratie mislukt",
+    "The configuration is invalid: anonymous bind is not allowed." : "De configuratie is ongeldig: anonieme bind is niet toegestaan.",
     "The configuration is valid and the connection could be established!" : "De configuratie is geldig en de verbinding is geslaagd!",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "De configuratie is geldig, maar Bind mislukte. Controleer de serverinstellingen en inloggegevens.",
     "The configuration is invalid. Please have a look at the logs for further details." : "De configuratie is ongeldig. Bekijk de logbestanden voor meer details.",
@@ -27,6 +28,8 @@
     "Confirm Deletion" : "Bevestig verwijderen",
     "Mappings cleared successfully!" : "Mappings succesvol schoongemaakt!",
     "Error while clearing the mappings." : "Fout bij opschonen mappings.",
+    "Anonymous bind is not allowed. Please provide a User DN and Password." : "Anonieme bind is niet toegestaan. Geef een gebruikers DN en wachrwoord op.",
+    "LDAP Operations error. Anonymous bind might not be allowed." : "LDAP operatie fout. Anonieme bind is misschien niet toegstaan.",
     "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "Opslaan mislukt. Verifieer dat de database draait. Herlaad voordat u verder gaat.",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Omschakelen van de modus schakelt automatische LDAP opvragingen in. Afhankelijk van uw LDAP omvang kan dat even duren. Wilt u nog steeds omschakelen?",
     "Mode switch" : "Omschakelen modus",

@@ -129,7 +129,6 @@
     "PHP module %s not installed." : "PHP modülü %s yüklü değil.",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP ayarı \"%s\", \"%s\" olarak ayarlanmamış.",
     "Adjusting this setting in php.ini will make ownCloud run again" : "Bu ayarı php.ini içerisinde ayarlamak ownCloud'ı tekrar çalıştıracak.",
-    "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP satıriçi doc bloklarını ayıklamak üzere yapılandırılmış gibi görünüyor. Bu, bazı çekirdek uygulamalarını erişilemez yapacak.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Bu, muhtemelen Zend OPcache veya eAccelerator gibi bir önbellek/hızlandırıcı nedeniyle meydana gelir.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP modülleri yüklü, ancak hala eksik olarak mı görünüyorlar?",
     "Please ask your server administrator to restart the web server." : "Lütfen web sunucusunu yeniden başlatması için sunucu yöneticinize danışın.",

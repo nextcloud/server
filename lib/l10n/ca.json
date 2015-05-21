@@ -99,7 +99,6 @@
     "Please install one of these locales on your system and restart your webserver." : "Siusplau, instal·li un d'aquests arxius de localització en el seu sistema, i reinicii el seu servidor web.",
     "Please ask your server administrator to install the module." : "Demaneu a l'administrador del sistema que instal·li el mòdul.",
     "PHP module %s not installed." : "El mòdul PHP %s no està instal·lat.",
-    "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Aparentment PHP està configurat per mostrar blocs en línia de documentació. Això farà que algunes aplicacions core siguin inaccessibles.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Això probablement està provocat per una cau/accelerador com Zend OPcache o eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "S'han instal·lat mòduls PHP, però encara es llisten com una mancança?",
     "Please ask your server administrator to restart the web server." : "Demaneu a l'administrador que reinici el servidor web.",

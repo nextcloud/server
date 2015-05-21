@@ -189,6 +189,8 @@
     "Data folder" : "Datenverzeichnis",
     "Configure the database" : "Datenbank einrichten",
     "Only %s is available." : "Es ist nur %s verfügbar.",
+    "Install and activate additional PHP modules to choose other database types." : "Installieren und aktivieren Sie zusätzliche PHP-Module, um andere Datenbank-Typen auswählen zu können.",
+    "For more details check out the documentation." : "Schauen Sie für weitere Informationen in die Dokumentation.",
     "Database user" : "Datenbank-Benutzer",
     "Database password" : "Datenbank-Passwort",
     "Database name" : "Datenbank-Name",

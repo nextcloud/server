@@ -180,7 +180,7 @@ OC.L10N.register(
     "Hardening and security guidance" : "Systemhärtung und Sicherheitsempfehlungen",
     "Version" : "Version",
     "Developer documentation" : "Dokumentation für Entwickler",
-    "Experimental applications ahead" : "Kommende experimentelle Apps",
+    "Experimental applications ahead" : "Experimentelle Apps nachfolgend",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Experimentelle Apps sind nicht auf Sicherheitsprobleme hin überprüft, sind neu oder bekanntermaßen instabil und befinden sich in intensiver Entwicklung. Ihre Installation kann Datenverlust oder Sicherheitslücken hervorrufen.",
     "by" : "von",
     "licensed" : "Lizenziert",

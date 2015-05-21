@@ -189,6 +189,8 @@
     "Data folder" : "Cartella dati",
     "Configure the database" : "Configura il database",
     "Only %s is available." : "È disponibile solo %s.",
+    "Install and activate additional PHP modules to choose other database types." : "Installa e attiva i moduli PHP aggiuntivi per scegliere gli altri tipi di database.",
+    "For more details check out the documentation." : "Per ulteriori dettagli, leggi la documentazione.",
     "Database user" : "Utente del database",
     "Database password" : "Password del database",
     "Database name" : "Nome del database",
