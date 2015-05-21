@@ -276,7 +276,7 @@ class StorageTest extends TestCase {
 	/**
 	 * @dataProvider dataProviderCopyRename
 	 */
-	public function testRenameKeys($source, $target, $systemWideMount, $expectedSource, $expectedTarget) {
+	public function testRenameKeys($source, $target, $systemWideMountSource, $systemWideMountTarget, $expectedSource, $expectedTarget) {
 		$this->view->expects($this->any())
 			->method('file_exists')
 			->willReturn(true);
@@ -294,7 +294,12 @@ class StorageTest extends TestCase {
 			->will($this->returnCallback(array($this, 'getUidAndFilenameCallback')));
 		$this->util->expects($this->any())
 			->method('isSystemWideMountPoint')
-			->willReturn($systemWideMount);
+			->willReturnCallback(function($path, $owner) use ($systemWideMountSource, $systemWideMountTarget) {
+				if(strpos($path, 'source.txt') !== false) {
+					return $systemWideMountSource;
+				}
+				return $systemWideMountTarget;
+			});
 
 		$this->storage->renameKeys($source, $target);
 	}
@@ -302,7 +307,7 @@ class StorageTest extends TestCase {
 	/**
 	 * @dataProvider dataProviderCopyRename
 	 */
-	public function testCopyKeys($source, $target, $systemWideMount, $expectedSource, $expectedTarget) {
+	public function testCopyKeys($source, $target, $systemWideMountSource, $systemWideMountTarget , $expectedSource, $expectedTarget) {
 		$this->view->expects($this->any())
 			->method('file_exists')
 			->willReturn(true);
@@ -320,7 +325,12 @@ class StorageTest extends TestCase {
 			->will($this->returnCallback(array($this, 'getUidAndFilenameCallback')));
 		$this->util->expects($this->any())
 			->method('isSystemWideMountPoint')
-			->willReturn($systemWideMount);
+			->willReturnCallback(function($path, $owner) use ($systemWideMountSource, $systemWideMountTarget) {
+				if(strpos($path, 'source.txt') !== false) {
+					return $systemWideMountSource;
+				}
+				return $systemWideMountTarget;
+			});
 
 		$this->storage->copyKeys($source, $target);
 	}
@@ -336,14 +346,20 @@ class StorageTest extends TestCase {
 
 	public function dataProviderCopyRename() {
 		return array(
-			array('/user1/files/foo.txt', '/user1/files/bar.txt', false,
-				'/user1/files_encryption/keys/files/foo.txt/', '/user1/files_encryption/keys/files/bar.txt/'),
-				array('/user1/files/foo/foo.txt', '/user1/files/bar.txt', false,
-				'/user1/files_encryption/keys/files/foo/foo.txt/', '/user1/files_encryption/keys/files/bar.txt/'),
-			array('/user1/files/foo.txt', '/user1/files/foo/bar.txt', false,
-				'/user1/files_encryption/keys/files/foo.txt/', '/user1/files_encryption/keys/files/foo/bar.txt/'),
-			array('/user1/files/foo.txt', '/user1/files/foo/bar.txt', true,
-				'/files_encryption/keys/files/foo.txt/', '/files_encryption/keys/files/foo/bar.txt/'),
+			array('/user1/files/source.txt', '/user1/files/target.txt', false, false,
+				'/user1/files_encryption/keys/files/source.txt/', '/user1/files_encryption/keys/files/target.txt/'),
+			array('/user1/files/foo/source.txt', '/user1/files/target.txt', false, false,
+				'/user1/files_encryption/keys/files/foo/source.txt/', '/user1/files_encryption/keys/files/target.txt/'),
+			array('/user1/files/source.txt', '/user1/files/foo/target.txt', false, false,
+				'/user1/files_encryption/keys/files/source.txt/', '/user1/files_encryption/keys/files/foo/target.txt/'),
+			array('/user1/files/source.txt', '/user1/files/foo/target.txt', true, true,
+				'/files_encryption/keys/files/source.txt/', '/files_encryption/keys/files/foo/target.txt/'),
+			array('/user1/files/source.txt', '/user1/files/target.txt', false, true,
+				'/user1/files_encryption/keys/files/source.txt/', '/files_encryption/keys/files/target.txt/'),
+			array('/user1/files/source.txt', '/user1/files/target.txt', true, false,
+				'/files_encryption/keys/files/source.txt/', '/user1/files_encryption/keys/files/target.txt/'),
+
+
 		);
 	}
 
