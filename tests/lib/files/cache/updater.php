@@ -216,27 +216,38 @@ class Updater extends \Test\TestCase {
 
 		$this->storage->getScanner()->scan('');
 
+		$this->assertTrue($this->cache->inCache('foo'));
 		$this->assertTrue($this->cache->inCache('foo/foo.txt'));
 		$this->assertTrue($this->cache->inCache('foo/bar.txt'));
+		$this->assertTrue($this->cache->inCache('foo/bar'));
 		$this->assertTrue($this->cache->inCache('foo/bar/bar.txt'));
 		$cached = [];
+		$cached[] = $this->cache->get('foo');
 		$cached[] = $this->cache->get('foo/foo.txt');
 		$cached[] = $this->cache->get('foo/bar.txt');
+		$cached[] = $this->cache->get('foo/bar');
 		$cached[] = $this->cache->get('foo/bar/bar.txt');
 
-		$this->view->rename('/foo', '/bar/foo');
+		// add extension to trigger the possible mimetype change
+		$this->view->rename('/foo', '/bar/foo.b');
 
+		$this->assertFalse($this->cache->inCache('foo'));
 		$this->assertFalse($this->cache->inCache('foo/foo.txt'));
 		$this->assertFalse($this->cache->inCache('foo/bar.txt'));
+		$this->assertFalse($this->cache->inCache('foo/bar'));
 		$this->assertFalse($this->cache->inCache('foo/bar/bar.txt'));
-		$this->assertTrue($cache2->inCache('foo/foo.txt'));
-		$this->assertTrue($cache2->inCache('foo/bar.txt'));
-		$this->assertTrue($cache2->inCache('foo/bar/bar.txt'));
+		$this->assertTrue($cache2->inCache('foo.b'));
+		$this->assertTrue($cache2->inCache('foo.b/foo.txt'));
+		$this->assertTrue($cache2->inCache('foo.b/bar.txt'));
+		$this->assertTrue($cache2->inCache('foo.b/bar'));
+		$this->assertTrue($cache2->inCache('foo.b/bar/bar.txt'));
 
 		$cachedTarget = [];
-		$cachedTarget[] = $cache2->get('foo/foo.txt');
-		$cachedTarget[] = $cache2->get('foo/bar.txt');
-		$cachedTarget[] = $cache2->get('foo/bar/bar.txt');
+		$cachedTarget[] = $cache2->get('foo.b');
+		$cachedTarget[] = $cache2->get('foo.b/foo.txt');
+		$cachedTarget[] = $cache2->get('foo.b/bar.txt');
+		$cachedTarget[] = $cache2->get('foo.b/bar');
+		$cachedTarget[] = $cache2->get('foo.b/bar/bar.txt');
 
 		foreach ($cached as $i => $old) {
 			$new = $cachedTarget[$i];
@@ -244,6 +255,7 @@ class Updater extends \Test\TestCase {
 			$this->assertEquals($old['size'], $new['size']);
 			$this->assertEquals($old['etag'], $new['etag']);
 			$this->assertEquals($old['fileid'], $new['fileid']);
+			$this->assertEquals($old['mimetype'], $new['mimetype']);
 		}
 	}
 }
