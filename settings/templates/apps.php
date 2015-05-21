@@ -31,7 +31,7 @@ script(
 
 <?php if(OC_Config::getValue('appstoreenabled', true) === true): ?>
 	<li>
-		<a class="app-external" target="_blank" href="https://owncloud.org/dev"><?php p($l->t('Developer documentation'));?> …</a>
+		<a class="app-external" target="_blank" href="https://owncloud.org/dev"><?php p($l->t('Developer documentation'));?> ↗</a>
 	</li>
 <?php endif; ?>
 </script>
