@@ -153,13 +153,13 @@ abstract class Storage extends \Test\TestCase {
 		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile, 'r'));
 		$this->assertEquals('text/plain', $this->instance->getMimeType('/lorem.txt'));
 
-		$pngFile = \OC::$SERVERROOT . '/tests/data/logo-wide.png';
-		$this->instance->file_put_contents('/logo-wide.png', file_get_contents($pngFile, 'r'));
-		$this->assertEquals('image/png', $this->instance->getMimeType('/logo-wide.png'));
+		$pngFile = \OC::$SERVERROOT . '/tests/data/desktopapp.png';
+		$this->instance->file_put_contents('/desktopapp.png', file_get_contents($pngFile, 'r'));
+		$this->assertEquals('image/png', $this->instance->getMimeType('/desktopapp.png'));
 
-		$svgFile = \OC::$SERVERROOT . '/tests/data/logo-wide.svg';
-		$this->instance->file_put_contents('/logo-wide.svg', file_get_contents($svgFile, 'r'));
-		$this->assertEquals('image/svg+xml', $this->instance->getMimeType('/logo-wide.svg'));
+		$svgFile = \OC::$SERVERROOT . '/tests/data/desktopapp.svg';
+		$this->instance->file_put_contents('/desktopapp.svg', file_get_contents($svgFile, 'r'));
+		$this->assertEquals('image/svg+xml', $this->instance->getMimeType('/desktopapp.svg'));
 	}
 
 
