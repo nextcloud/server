@@ -107,6 +107,30 @@ abstract class LockingProvider extends TestCase {
 		$this->assertTrue($this->instance->isLocked('foo', ILockingProvider::LOCK_EXCLUSIVE));
 	}
 
+	public function testReleaseAll() {
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+		$this->instance->acquireLock('bar', ILockingProvider::LOCK_SHARED);
+		$this->instance->acquireLock('asd', ILockingProvider::LOCK_EXCLUSIVE);
+
+		$this->instance->releaseAll();
+
+		$this->assertFalse($this->instance->isLocked('foo', ILockingProvider::LOCK_SHARED));
+		$this->assertFalse($this->instance->isLocked('bar', ILockingProvider::LOCK_SHARED));
+		$this->assertFalse($this->instance->isLocked('asd', ILockingProvider::LOCK_EXCLUSIVE));
+	}
+
+	public function testReleaseAfterReleaseAll() {
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+
+		$this->instance->releaseAll();
+
+		$this->assertFalse($this->instance->isLocked('foo', ILockingProvider::LOCK_SHARED));
+
+		$this->instance->releaseLock('foo', ILockingProvider::LOCK_SHARED);
+	}
+
 
 	/**
 	 * @expectedException \OCP\Lock\LockedException
