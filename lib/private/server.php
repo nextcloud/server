@@ -44,6 +44,7 @@ use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\Lock\MemcacheLockingProvider;
+use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Http\Client\ClientService;
@@ -422,11 +423,15 @@ class Server extends SimpleContainer implements IServerContainer {
 			);
 		});
 		$this->registerService('LockingProvider', function (Server $c) {
-			/** @var \OC\Memcache\Factory $memcacheFactory */
-			$memcacheFactory = $c->getMemCacheFactory();
-			return new MemcacheLockingProvider(
-				$memcacheFactory->createDistributed('lock')
-			);
+			if ($c->getConfig()->getSystemValue('filelocking.enabled', false)) {
+				/** @var \OC\Memcache\Factory $memcacheFactory */
+				$memcacheFactory = $c->getMemCacheFactory();
+				$memcache = $memcacheFactory->createDistributed('lock');
+				if (!($memcache instanceof \OC\Memcache\Null)) {
+					return new MemcacheLockingProvider($memcache);
+				}
+			}
+			return new NoopLockingProvider();
 		});
 	}
 

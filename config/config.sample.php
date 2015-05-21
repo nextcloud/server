@@ -1026,6 +1026,19 @@ $CONFIG = array(
  */
 'max_filesize_animated_gifs_public_sharing' => 10,
 
+
+/**
+ * Enables the EXPERIMENTAL file locking.
+ * This is disabled by default as it is experimental.
+ *
+ * Prevents concurrent processes to access the same files
+ * at the same time. Can help prevent side effects that would
+ * be caused by concurrent operations.
+ *
+ * WARNING: EXPERIMENTAL
+ */
+'filelocking.enabled' => false,
+
 /**
  * This entry is just here to show a warning in case somebody copied the sample
  * configuration. DO NOT ADD THIS SWITCH TO YOUR CONFIGURATION!
