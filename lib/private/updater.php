@@ -65,6 +65,9 @@ class Updater extends BasicEmitter {
 	/** @var bool */
 	private $updateStepEnabled;
 
+	/** @var bool */
+	private $skip3rdPartyAppsDisable;
+
 	/**
 	 * @param HTTPHelper $httpHelper
 	 * @param IConfig $config
@@ -97,6 +100,16 @@ class Updater extends BasicEmitter {
 	 */
 	public function setUpdateStepEnabled($flag) {
 		$this->updateStepEnabled = $flag;
+	}
+
+	/**
+	 * Sets whether the update disables 3rd party apps.
+	 * This can be set to true to skip the disable.
+	 *
+	 * @param bool $flag false to not disable, true otherwise
+	 */
+	public function setSkip3rdPartyAppsDisable($flag) {
+		$this->skip3rdPartyAppsDisable = $flag;
 	}
 
 	/**
@@ -407,10 +420,12 @@ class Updater extends BasicEmitter {
 				continue;
 			}
 
-			// disable any other 3rd party apps
-			\OC_App::disable($app);
-			$disabledApps[]= $app;
-			$this->emit('\OC\Updater', 'thirdPartyAppDisabled', array($app));
+			// disable any other 3rd party apps if not overriden
+			if(!$this->skip3rdPartyAppsDisable) {
+				\OC_App::disable($app);
+				$disabledApps[]= $app;
+				$this->emit('\OC\Updater', 'thirdPartyAppDisabled', array($app));
+			};
 		}
 		return $disabledApps;
 	}
