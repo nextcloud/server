@@ -70,6 +70,10 @@ class Local {
 					}
 					$share['icon'] = substr(\OC_Helper::mimetypeIcon($share['mimetype']), 0, -3) . 'svg';
 				}
+
+				if (!is_null($share['token'])) {
+					$share['url'] = \OC::$server->getURLGenerator()->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $share['token']]);
+				}
 			}
 			return new \OC_OCS_Result($shares);
 		}
@@ -142,6 +146,12 @@ class Local {
 		if ($shares === null || empty($shares)) {
 			return new \OC_OCS_Result(null, 404, 'share doesn\'t exist');
 		} else {
+			foreach ($shares as &$share) {
+				if (!is_null($share['token'])) {
+					$share['url'] = \OC::$server->getURLGenerator()->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $share['token']]);
+				}
+			}
+
 			return new \OC_OCS_Result($shares);
 		}
 	}
