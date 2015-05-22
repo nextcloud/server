@@ -59,7 +59,7 @@
 
 		// CSS rules
 		this.css('color', '#fff');
-		this.css('font-weight', 'bold');
+		this.css('font-weight', 'normal');
 		this.css('text-align', 'center');
 
 		// calculate the height
