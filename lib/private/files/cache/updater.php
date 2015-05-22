@@ -182,7 +182,7 @@ class Updater {
 
 			if (pathinfo($sourceInternalPath, PATHINFO_EXTENSION) !== pathinfo($targetInternalPath, PATHINFO_EXTENSION)) {
 				// handle mime type change
-				$mimeType = $sourceStorage->getMimeType($targetInternalPath);
+				$mimeType = $targetStorage->getMimeType($targetInternalPath);
 				$fileId = $targetCache->getId($targetInternalPath);
 				$targetCache->update($fileId, array('mimetype' => $mimeType));
 			}
