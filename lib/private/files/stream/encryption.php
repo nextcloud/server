@@ -412,14 +412,16 @@ class Encryption extends Wrapper {
 			// we are handling that separately here and we don't want to
 			// get into an infinite loop
 			$encrypted = $this->encryptionModule->encrypt($this->cache);
-			parent::stream_write($encrypted);
+			$bytesWritten = parent::stream_write($encrypted);
 			$this->writeFlag = false;
-			// If the write concerns the last block then then update the encrypted filesize
+			// Check whether the write concerns the last block
+			// If so then update the encrypted filesize
 			// Note that the unencrypted pointer and filesize are NOT yet updated when flush() is called
 			// We recalculate the encrypted filesize as we do not know the context of calling flush()
-			if ((int)floor($this->unencryptedSize/$this->unencryptedBlockSize) === (int)floor($this->position/$this->unencryptedBlockSize)) {
-				$this->size = $this->util->getBlockSize() * (int)floor($this->unencryptedSize/$this->unencryptedBlockSize);
-				$this->size += strlen($encrypted);
+			$completeBlocksInFile=(int)floor($this->unencryptedSize/$this->unencryptedBlockSize);
+			if ($completeBlocksInFile === (int)floor($this->position/$this->unencryptedBlockSize)) {
+				$this->size = $this->util->getBlockSize() * $completeBlocksInFile;
+				$this->size += $bytesWritten;
 				$this->size += $this->headerSize;
 			}
 		}
