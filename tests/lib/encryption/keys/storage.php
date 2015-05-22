@@ -76,7 +76,9 @@ class StorageTest extends TestCase {
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
 			->willReturn(array('user1', '/files/foo.txt'));
-		$this->util->expects($this->any())
+		// we need to strip away the part file extension in order to reuse a
+		// existing key if it exists, otherwise versions will break
+		$this->util->expects($this->once())
 			->method('stripPartialFileExtension')
 			->willReturnArgument(0);
 		$this->util->expects($this->any())
