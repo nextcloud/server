@@ -138,6 +138,7 @@ class OC_Files {
 				header("HTTP/1.0 404 Not Found");
 				$tmpl = new OC_Template('', '404', 'guest');
 				$tmpl->printPage();
+				exit();
 			} else {
 				header("HTTP/1.0 403 Forbidden");
 				die('403 Forbidden');
