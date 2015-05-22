@@ -86,14 +86,21 @@ class Activity implements IExtension {
 	 * If no additional types are to be added false is to be returned
 	 *
 	 * @param string $languageCode
-	 * @return array|false
+	 * @return array|false Array "stringID of the type" => "translated string description for the setting"
+	 * 				or Array "stringID of the type" => [
+	 * 					'desc' => "translated string description for the setting"
+	 * 					'methods' => [self::METHOD_*],
+	 * 				]
 	 */
 	public function getNotificationTypes($languageCode) {
 		$l = $this->getL10N($languageCode);
 		return [
 			self::TYPE_SHARE_CREATED => (string) $l->t('A new file or folder has been <strong>created</strong>'),
 			self::TYPE_SHARE_CHANGED => (string) $l->t('A file or folder has been <strong>changed</strong>'),
-			self::TYPE_FAVORITES => (string) $l->t('Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>'),
+			self::TYPE_FAVORITES => [
+				'desc' => (string) $l->t('Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>'),
+				'methods' => [self::METHOD_STREAM],
+			],
 			self::TYPE_SHARE_DELETED => (string) $l->t('A file or folder has been <strong>deleted</strong>'),
 			self::TYPE_SHARE_RESTORED => (string) $l->t('A file or folder has been <strong>restored</strong>'),
 		];
