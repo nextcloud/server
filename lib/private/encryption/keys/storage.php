@@ -70,7 +70,8 @@ class Storage implements IStorage {
 	 * @inheritdoc
 	 */
 	public function getFileKey($path, $keyId, $encryptionModuleId) {
-		$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
+		$realFile = $this->util->stripPartialFileExtension($path);
+		$keyDir = $this->getFileKeyDir($encryptionModuleId, $realFile);
 		return $this->getKey($keyDir . $keyId);
 	}
 
