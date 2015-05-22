@@ -423,7 +423,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			);
 		});
 		$this->registerService('LockingProvider', function (Server $c) {
-			if ($c->getConfig()->getSystemValue('filelocking.enabled', false)) {
+			if ($c->getConfig()->getSystemValue('filelocking.enabled', false) or (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				/** @var \OC\Memcache\Factory $memcacheFactory */
 				$memcacheFactory = $c->getMemCacheFactory();
 				$memcache = $memcacheFactory->createDistributed('lock');
