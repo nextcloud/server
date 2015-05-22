@@ -274,6 +274,8 @@ abstract class Common implements Storage {
 
 	/**
 	 * @param string $query
+	 * @param string $dir
+	 * @return array
 	 */
 	protected function searchInDir($query, $dir = '') {
 		$files = array();

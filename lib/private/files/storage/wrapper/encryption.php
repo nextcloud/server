@@ -609,6 +609,10 @@ class Encryption extends Wrapper {
 		return $encryptionModule;
 	}
 
+	/**
+	 * @param string $path
+	 * @param int $unencryptedSize
+	 */
 	public function updateUnencryptedSize($path, $unencryptedSize) {
 		$this->unencryptedSize[$path] = $unencryptedSize;
 	}

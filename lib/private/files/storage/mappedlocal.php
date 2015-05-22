@@ -342,6 +342,8 @@ class MappedLocal extends \OC\Files\Storage\Common {
 
 	/**
 	 * @param string $query
+	 * @param string $dir
+	 * @return array
 	 */
 	protected function searchInDir($query, $dir = '') {
 		$files = array();
