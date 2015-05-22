@@ -38,6 +38,8 @@ namespace OCP\Activity;
  * @since 8.0.0
  */
 interface IExtension {
+	const METHOD_STREAM = 'stream';
+	const METHOD_MAIL = 'email';
 
 	const PRIORITY_VERYLOW 	= 10;
 	const PRIORITY_LOW	= 20;
@@ -50,8 +52,13 @@ interface IExtension {
 	 * If no additional types are to be added false is to be returned
 	 *
 	 * @param string $languageCode
-	 * @return array|false
+	 * @return array|false Array "stringID of the type" => "translated string description for the setting"
+	 * 				or Array "stringID of the type" => [
+	 * 					'desc' => "translated string description for the setting"
+	 * 					'methods' => [self::METHOD_*],
+	 * 				]
 	 * @since 8.0.0
+	 * @changed 8.2.0 - Added support to allow limiting notifications to certain methods
 	 */
 	public function getNotificationTypes($languageCode);
 
