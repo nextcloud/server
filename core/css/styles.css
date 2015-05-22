@@ -40,6 +40,10 @@ body {
 	height: 32px;
 	display: none;
 }
+#body-login .float-spinner {
+	margin-top: -32px;
+	padding-top: 32px;
+}
 
 #nojavascript {
 	position: fixed;
@@ -1068,4 +1072,3 @@ fieldset.warning legend + p, fieldset.update legend + p {
 @-ms-viewport {
 	width: device-width;
 }
-
