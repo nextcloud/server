@@ -21,6 +21,7 @@ OC.L10N.register(
     "Remote share password" : "Uzaq yayımlanma şifrəsi",
     "Cancel" : "Dayandır",
     "Add remote share" : "Uzaq yayımlanmanı əlavə et",
+    "You can upload into this folder" : "Siz bu qovluğun içinə yükləyə bilərsiniz",
     "No ownCloud installation (7 or higher) found at {remote}" : "Yüklənmiş (7 yada yuxarı) ownCloud {uzaq} unvanında tapılmadı ",
     "Invalid ownCloud url" : "Yalnış ownCloud url-i",
     "Share" : "Yayımla",
@@ -56,6 +57,7 @@ OC.L10N.register(
     "Download %s" : "Endir %s",
     "Direct link" : "Birbaşa link",
     "Federated Cloud Sharing" : "Federal Cloud Paylaşım",
+    "Open documentation" : "Sənədləri aç",
     "Allow users on this server to send shares to other servers" : "Bu serverdən digər serverlərə istifadəçilər tərəfindən paylaşımın göndərilməsinə izin vermək",
     "Allow users on this server to receive shares from other servers" : "Digər serverlərdən bu serverə istifadəçilər tərəfindən paylaşımın ötürülməsinə izin vermək"
 },
