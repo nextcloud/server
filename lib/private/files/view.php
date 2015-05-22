@@ -49,6 +49,7 @@ use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
 use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
 
 /**
  * Class to provide access to ownCloud filesystem via a "view", and methods for
@@ -638,7 +639,12 @@ class View {
 				$internalPath2 = $mount2->getInternalPath($absolutePath2);
 
 				$this->lockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
-				$this->lockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
+				try {
+					$this->lockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
+				} catch (LockedException $e) {
+					$this->unlockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
+					throw $e;
+				}
 
 				if ($internalPath1 === '' and $mount1 instanceof MoveableMount) {
 					if ($this->isTargetAllowed($absolutePath2)) {
