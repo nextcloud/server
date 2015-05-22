@@ -110,6 +110,86 @@ describe('OC.Share tests', function() {
 		describe('Share with link', function() {
 			// TODO: test ajax calls
 			// TODO: test password field visibility (whenever enforced or not)
+			it('update password on focus out', function() {
+				$('#allowShareWithLink').val('yes');
+
+				OC.Share.showDropDown(
+					'file',
+					123,
+					$container,
+					true,
+					31,
+					'shared_file_name.txt'
+				);
+
+				// Toggle linkshare
+				$('#dropdown [name=linkCheckbox]').click();
+				fakeServer.requests[0].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({data: {token: 'xyz'}, status: 'success'})
+				);
+
+				// Enable password, enter password and focusout
+				$('#dropdown [name=showPassword]').click();
+				$('#dropdown #linkPassText').focus();
+				$('#dropdown #linkPassText').val('foo');
+				$('#dropdown #linkPassText').focusout();
+
+				expect(fakeServer.requests[1].method).toEqual('POST');
+				var body = OC.parseQueryString(fakeServer.requests[1].requestBody);
+				expect(body['shareWith']).toEqual('foo');
+
+				// Set password response
+				fakeServer.requests[1].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({data: {token: 'xyz'}, status: 'success'})
+				);
+
+				expect($('#dropdown #linkPassText').val()).toEqual('');
+				expect($('#dropdown #linkPassText').attr('placeholder')).toEqual('Password protected');
+			});
+			it('update password on enter', function() {
+				$('#allowShareWithLink').val('yes');
+
+				OC.Share.showDropDown(
+					'file',
+					123,
+					$container,
+					true,
+					31,
+					'shared_file_name.txt'
+				);
+
+				// Toggle linkshare
+				$('#dropdown [name=linkCheckbox]').click();
+				fakeServer.requests[0].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({data: {token: 'xyz'}, status: 'success'})
+				);
+
+				// Enable password and enter password
+				$('#dropdown [name=showPassword]').click();
+				$('#dropdown #linkPassText').focus();
+				$('#dropdown #linkPassText').val('foo');
+				$('#dropdown #linkPassText').trigger(new $.Event('keyup', {keyCode: 13}));
+
+				expect(fakeServer.requests[1].method).toEqual('POST');
+				var body = OC.parseQueryString(fakeServer.requests[1].requestBody);
+				expect(body['shareWith']).toEqual('foo');
+
+				// Set password response
+				fakeServer.requests[1].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({data: {token: 'xyz'}, status: 'success'})
+				);
+
+				expect($('#dropdown #linkPassText').val()).toEqual('');
+				expect($('#dropdown #linkPassText').attr('placeholder')).toEqual('Password protected');
+			});
 			it('shows share with link checkbox when allowed', function() {
 				$('#allowShareWithLink').val('yes');
 				OC.Share.showDropDown(
