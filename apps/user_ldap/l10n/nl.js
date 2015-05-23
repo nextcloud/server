@@ -12,6 +12,7 @@ OC.L10N.register(
     "No data specified" : "Geen gegevens verstrekt",
     " Could not set configuration %s" : "Kon configuratie %s niet instellen",
     "Action does not exist" : "Actie bestaat niet",
+    "The Base DN appears to be wrong" : "De Basis DN lijkt onjuist",
     "Configuration incorrect" : "Configuratie onjuist",
     "Configuration incomplete" : "Configuratie incompleet",
     "Configuration OK" : "Configuratie OK",

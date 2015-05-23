@@ -147,6 +147,7 @@ OC.L10N.register(
     "Enable encryption" : "Versleuteling inschakelen",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Er is geen cryptomodule geladen, activeer een cryptomodule in het appmenu",
     "Select default encryption module:" : "Selecteer de standaard cryptomodule:",
+    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the \"Default encryption module\" and run 'occ encryption:migrate'" : "U moet uw cryptosleutels van de oude versleuteling (ownCloud <= 8.0) migreren naar de nieuwe. Activeer de \"Standaard cryptomodule\" en start 'occ encryption:migrate'",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "U moet uw cryptosleutels van de oude versleuteling (ownCloud <= 8.0) migreren naar de nieuwe.",
     "Start migration" : "Start migratie",
     "This is used for sending out notifications." : "Dit wordt gebruikt voor het verzenden van meldingen.",
