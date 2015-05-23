@@ -270,9 +270,9 @@ class Local {
 		$shareType = isset($_POST['shareType']) ? (int)$_POST['shareType'] : null;
 
 		switch($shareType) {
+			case \OCP\Share::SHARE_TYPE_REMOTE:
+				$shareWith = rtrim($shareWith, '/');
 			case \OCP\Share::SHARE_TYPE_USER:
-				$permissions = isset($_POST['permissions']) ? (int)$_POST['permissions'] : 31;
-				break;
 			case \OCP\Share::SHARE_TYPE_GROUP:
 				$permissions = isset($_POST['permissions']) ? (int)$_POST['permissions'] : 31;
 				break;
