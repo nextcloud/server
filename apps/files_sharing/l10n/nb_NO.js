@@ -21,6 +21,7 @@ OC.L10N.register(
     "Remote share password" : "Passord for ekstern deling",
     "Cancel" : "Avbryt",
     "Add remote share" : "Legg til ekstern deling",
+    "You can upload into this folder" : "Du kan laste opp til denne mappen",
     "No ownCloud installation (7 or higher) found at {remote}" : "Ingen ownCloud-installasjon (7 eller høyere) funnet på {remote}",
     "Invalid ownCloud url" : "Ugyldig ownCloud-url",
     "Share" : "Del",
@@ -56,6 +57,7 @@ OC.L10N.register(
     "Download %s" : "Last ned %s",
     "Direct link" : "Direkte lenke",
     "Federated Cloud Sharing" : "Sammenknyttet sky-deling",
+    "Open documentation" : "Åpne dokumentasjonen",
     "Allow users on this server to send shares to other servers" : "Tillat at brukere på denne serveren sender delinger til andre servere",
     "Allow users on this server to receive shares from other servers" : "Tillat at brukere på denne serveren mottar delinger fra andre servere"
 },

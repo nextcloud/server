@@ -62,6 +62,7 @@
     "File name cannot be empty." : "O nome do arquivo não pode estar vazio.",
     "Your storage is full, files can not be updated or synced anymore!" : "Seu armazenamento está cheio, arquivos não podem mais ser atualizados ou sincronizados!",
     "Your storage is almost full ({usedSpacePercent}%)" : "Seu armazenamento está quase cheio ({usedSpacePercent}%)",
+    "_matches '{filter}'_::_match '{filter}'_" : ["coincide com '{filter}'","coincide com '{filter}'"],
     "{dirs} and {files}" : "{dirs} e {files}",
     "Favorited" : "Favorito",
     "Favorite" : "Favorito",
