@@ -12,6 +12,7 @@ OC.L10N.register(
     "No data specified" : "Δεν προσδιορίστηκαν δεδομένα",
     " Could not set configuration %s" : "Αδυναμία ρύθμισης %s",
     "Action does not exist" : "Η ενέργεια δεν υπάρχει",
+    "The Base DN appears to be wrong" : "Το Base DN φαίνεται να είναι εσφαλμένο",
     "Configuration incorrect" : "Η διαμόρφωση είναι λανθασμένη",
     "Configuration incomplete" : "Η διαμόρφωση είναι ελλιπής",
     "Configuration OK" : "Η διαμόρφωση είναι εντάξει",

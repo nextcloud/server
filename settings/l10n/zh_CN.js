@@ -121,7 +121,7 @@ OC.L10N.register(
     "User Documentation" : "用户文档",
     "Admin Documentation" : "管理员文档",
     "Enable only for specific groups" : "仅对特定的组开放",
-    "Uninstall App" : "下载应用",
+    "Uninstall App" : "卸载应用",
     "Cheers!" : "干杯！",
     "Forum" : "论坛",
     "Get the apps to sync your files" : "安装应用进行文件同步",

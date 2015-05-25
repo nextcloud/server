@@ -216,7 +216,7 @@
     "The theme %s has been disabled." : "%s 主题已被禁用。",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "在继续之前，请确认数据库、配置文件夹和数据文件夹已经备份。",
     "Start update" : "开始更新",
-    "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "为避免更大的安装演示，你能在你的安装目录下面运行这些命令：",
+    "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "为进行避免较大的安装时超时，你可以在你的安装目录下运行下面的命令：",
     "This %s instance is currently in maintenance mode, which may take a while." : "该 %s 实例当前处于维护模式，这将进行一些时间。",
     "This page will refresh itself when the %s instance is available again." : "当实例 %s 再次可用时这个页面将刷新。"
 },"pluralForm" :"nplurals=1; plural=0;"
