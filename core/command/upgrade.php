@@ -53,6 +53,12 @@ class Upgrade extends Command {
 				null,
 				InputOption::VALUE_NONE,
 				'only runs the database schema migration simulation, do not actually update'
+			)
+			->addOption(
+				'--no-app-disable',
+				null,
+				InputOption::VALUE_NONE,
+				'skips the disable of third party apps'
 			);
 	}
 
@@ -66,12 +72,16 @@ class Upgrade extends Command {
 
 		$simulateStepEnabled = true;
 		$updateStepEnabled = true;
+		$skip3rdPartyAppsDisable = false;
 
 		if ($input->getOption('skip-migration-test')) {
 			$simulateStepEnabled = false;
 		}
 	   	if ($input->getOption('dry-run')) {
 			$updateStepEnabled = false;
+		}
+		if ($input->getOption('no-app-disable')) {
+			$skip3rdPartyAppsDisable = true;
 		}
 
 		if (!$simulateStepEnabled && !$updateStepEnabled) {
@@ -89,6 +99,7 @@ class Upgrade extends Command {
 
 			$updater->setSimulateStepEnabled($simulateStepEnabled);
 			$updater->setUpdateStepEnabled($updateStepEnabled);
+			$updater->setSkip3rdPartyAppsDisable($skip3rdPartyAppsDisable);
 
 			$updater->listen('\OC\Updater', 'maintenanceStart', function () use($output) {
 				$output->writeln('<info>Turned on maintenance mode</info>');
@@ -110,7 +121,7 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use($output) {
 				$output->writeln('<info>Disabled incompatible app: ' . $app . '</info>');
 			});
-			$updater->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use($output) {
+			$updater->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use ($output) {
 				$output->writeln('<info>Disabled 3rd-party app: ' . $app . '</info>');
 			});
 			$updater->listen('\OC\Updater', 'repairWarning', function ($app) use($output) {
@@ -125,7 +136,6 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($output) {
 				$output->writeln("<info>Updated <$app> to $version</info>");
 			});
-
 			$updater->listen('\OC\Updater', 'failure', function ($message) use($output, $self) {
 				$output->writeln("<error>$message</error>");
 				$self->upgradeFailed = true;
