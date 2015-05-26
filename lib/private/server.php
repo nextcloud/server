@@ -241,6 +241,7 @@ class Server extends SimpleContainer implements IServerContainer {
 
 			return new \OC\Memcache\Factory('',
 				new ArrayCache(),
+				new ArrayCache(),
 				new ArrayCache()
 			);
 		});
