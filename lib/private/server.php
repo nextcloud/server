@@ -234,7 +234,8 @@ class Server extends SimpleContainer implements IServerContainer {
 				$prefix = md5($instanceId.'-'.$version.'-'.$path);
 				return new \OC\Memcache\Factory($prefix,
 					$config->getSystemValue('memcache.local', null),
-					$config->getSystemValue('memcache.distributed', null)
+					$config->getSystemValue('memcache.distributed', null),
+					$config->getSystemValue('memcache.locking', null)
 				);
 			}
 
@@ -426,7 +427,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			if ($c->getConfig()->getSystemValue('filelocking.enabled', false) or (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				/** @var \OC\Memcache\Factory $memcacheFactory */
 				$memcacheFactory = $c->getMemCacheFactory();
-				$memcache = $memcacheFactory->createDistributed('lock');
+				$memcache = $memcacheFactory->createLocking('lock');
 				if (!($memcache instanceof \OC\Memcache\Null)) {
 					return new MemcacheLockingProvider($memcache);
 				}

@@ -1040,6 +1040,12 @@ $CONFIG = array(
 'filelocking.enabled' => false,
 
 /**
+ * Memory caching backend for file locking
+ * Because most memcache backends can clean values without warning using redis is recommended
+ */
+'memcache.locking' => '\OC\Memcache\Redis',
+
+/**
  * This entry is just here to show a warning in case somebody copied the sample
  * configuration. DO NOT ADD THIS SWITCH TO YOUR CONFIGURATION!
  *
