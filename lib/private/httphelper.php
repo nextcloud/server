@@ -102,7 +102,13 @@ class HTTPHelper {
 		$client = $this->clientService->newClient();
 
 		try {
-			$response = $client->post($url, ['body' => $fields]);
+			$response = $client->post(
+				$url,
+				[
+					'body' => $fields,
+					'connect_timeout' => 10,
+				]
+			);
 		} catch (\Exception $e) {
 			return ['success' => false, 'result' => $e->getMessage()];
 		}

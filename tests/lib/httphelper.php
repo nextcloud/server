@@ -12,15 +12,17 @@ class TestHTTPHelper extends \Test\TestCase {
 	private $config;
 	/** @var \OC\HTTPHelper */
 	private $httpHelperMock;
+	/** @var \OCP\Http\Client\IClientService */
+	private $clientService;
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
-		$clientService = $this->getMock('\OCP\Http\Client\IClientService');
+		$this->clientService = $this->getMock('\OCP\Http\Client\IClientService');
 		$this->httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
-			->setConstructorArgs(array($this->config, $clientService))
+			->setConstructorArgs(array($this->config, $this->clientService))
 			->setMethods(array('getHeaders'))
 			->getMock();
 	}
@@ -44,4 +46,73 @@ class TestHTTPHelper extends \Test\TestCase {
 	public function testIsHTTP($url, $expected) {
 			$this->assertSame($expected, $this->httpHelperMock->isHTTPURL($url));
 	}
+
+	public function testPostSuccess() {
+		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')
+			->disableOriginalConstructor()->getMock();
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->will($this->returnValue($client));
+		$response = $this->getMockBuilder('\OCP\Http\Client\IResponse')
+			->disableOriginalConstructor()->getMock();
+		$client
+			->expects($this->once())
+			->method('post')
+			->with(
+				'https://owncloud.org',
+				[
+					'body' => [
+						'Foo' => 'Bar',
+					],
+					'connect_timeout' => 10,
+
+				]
+			)
+			->will($this->returnValue($response));
+		$response
+			->expects($this->once())
+			->method('getBody')
+			->will($this->returnValue('Body of the requested page'));
+
+
+		$response = $this->httpHelperMock->post('https://owncloud.org', ['Foo' => 'Bar']);
+		$expected = [
+			'success' => true,
+			'result' => 'Body of the requested page'
+		];
+		$this->assertSame($expected, $response);
+	}
+
+	public function testPostException() {
+		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')
+			->disableOriginalConstructor()->getMock();
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->will($this->returnValue($client));
+		$client
+			->expects($this->once())
+			->method('post')
+			->with(
+				'https://owncloud.org',
+				[
+					'body' => [
+						'Foo' => 'Bar',
+					],
+					'connect_timeout' => 10,
+
+				]
+			)
+			->will($this->throwException(new \Exception('Something failed')));
+
+
+		$response = $this->httpHelperMock->post('https://owncloud.org', ['Foo' => 'Bar']);
+		$expected = [
+			'success' => false,
+			'result' => 'Something failed'
+		];
+		$this->assertSame($expected, $response);
+	}
+
 }
