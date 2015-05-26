@@ -23,7 +23,8 @@
 namespace OC;
 
 /**
- * TODO: Description
+ * Class AppHelper
+ * @deprecated 8.1.0
  */
 class AppHelper implements \OCP\IHelper {
 	/**
@@ -31,6 +32,7 @@ class AppHelper implements \OCP\IHelper {
 	 * installed
 	 * @param string $url the url that should be fetched
 	 * @return string the content of the webpage
+	 * @deprecated 8.1.0 Use \OCP\IServerContainer::getHTTPClientService
 	 */
 	public function getUrlContent($url) {
 		return \OC_Util::getUrlContent($url);
