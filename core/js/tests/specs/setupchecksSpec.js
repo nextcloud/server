@@ -66,7 +66,7 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json'
 				},
-				JSON.stringify({serverHasInternetConnection: false, memcacheDocs: 'https://doc.owncloud.org/server/go.php?to=admin-performance'})
+				JSON.stringify({isUrandomAvailable: true, serverHasInternetConnection: false, memcacheDocs: 'https://doc.owncloud.org/server/go.php?to=admin-performance'})
 			);
 
 			async.done(function( data, s, x ){
@@ -83,7 +83,7 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json'
 				},
-				JSON.stringify({serverHasInternetConnection: false, dataDirectoryProtected: false, memcacheDocs: 'https://doc.owncloud.org/server/go.php?to=admin-performance'})
+				JSON.stringify({isUrandomAvailable: true, serverHasInternetConnection: false, dataDirectoryProtected: false, memcacheDocs: 'https://doc.owncloud.org/server/go.php?to=admin-performance'})
 			);
 
 			async.done(function( data, s, x ){
@@ -100,7 +100,7 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json',
 				},
-				JSON.stringify({serverHasInternetConnection: false, dataDirectoryProtected: false, isMemcacheConfigured: true})
+				JSON.stringify({isUrandomAvailable: true, serverHasInternetConnection: false, dataDirectoryProtected: false, isMemcacheConfigured: true})
 			);
 
 			async.done(function( data, s, x ){
@@ -109,6 +109,22 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
+		it('should return an error if /dev/urandom is not accessible', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({isUrandomAvailable: false, securityDocs: 'https://docs.owncloud.org/myDocs.html', serverHasInternetConnection: true, dataDirectoryProtected: true, isMemcacheConfigured: true})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual(['/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href="https://docs.owncloud.org/myDocs.html">documentation</a>.']);
+				done();
+			});
+		});
 
 		it('should return an error if the response has no statuscode 200', function(done) {
 			var async = OC.SetupChecks.checkSetup();

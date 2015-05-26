@@ -91,6 +91,23 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
+	 * Whether /dev/urandom is available to the PHP controller
+	 *
+	 * @return bool
+	 */
+	private function isUrandomAvailable() {
+		if(@file_exists('/dev/urandom')) {
+			$file = fopen('/dev/urandom', 'rb');
+			if($file) {
+				fclose($file);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * @return DataResponse
 	 */
 	public function check() {
@@ -100,6 +117,8 @@ class CheckSetupController extends Controller {
 				'dataDirectoryProtected' => $this->util->isHtaccessWorking($this->config),
 				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
 				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
+				'isUrandomAvailable' => $this->isUrandomAvailable(),
+				'securityDocs' => $this->urlGenerator->linkToDocs('admin-security'),
 			]
 		);
 	}

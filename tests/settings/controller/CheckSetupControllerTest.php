@@ -224,10 +224,14 @@ class CheckSetupControllerTest extends TestCase {
 		$this->util->expects($this->once())
 			->method('isHtaccessWorking')
 			->will($this->returnValue(true));
-		$this->urlGenerator->expects($this->once())
+		$this->urlGenerator->expects($this->at(0))
 			->method('linkToDocs')
 			->with('admin-performance')
 			->willReturn('http://doc.owncloud.org/server/go.php?to=admin-performance');
+		$this->urlGenerator->expects($this->at(1))
+			->method('linkToDocs')
+			->with('admin-security')
+			->willReturn('https://doc.owncloud.org/server/8.1/admin_manual/configuration_server/hardening.html');
 
 		$expected = new DataResponse(
 			[
@@ -235,6 +239,8 @@ class CheckSetupControllerTest extends TestCase {
 				'dataDirectoryProtected' => true,
 				'isMemcacheConfigured' => true,
 				'memcacheDocs' => 'http://doc.owncloud.org/server/go.php?to=admin-performance',
+				'isUrandomAvailable' => \Test_Helper::invokePrivate($this->checkSetupController, 'isUrandomAvailable'),
+				'securityDocs' => 'https://doc.owncloud.org/server/8.1/admin_manual/configuration_server/hardening.html',
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
