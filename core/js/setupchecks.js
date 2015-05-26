@@ -64,6 +64,11 @@
 							t('core', 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="{docLink}">documentation</a>.', {docLink: data.memcacheDocs})
 						);
 					}
+					if(!data.isUrandomAvailable) {
+						messages.push(
+							t('core', '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href="{docLink}">documentation</a>.', {docLink: data.securityDocs})
+						);
+					}
 				} else {
 					messages.push(t('core', 'Error occurred while checking server setup'));
 				}
