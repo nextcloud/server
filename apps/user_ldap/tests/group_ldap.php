@@ -77,10 +77,15 @@ class Test_Group_Ldap extends \PHPUnit_Framework_TestCase {
 			->method('readAttribute')
 			->will($this->returnValue(array('u11', 'u22', 'u33', 'u34')));
 
+		// for primary groups
+		$access->expects($this->once())
+			->method('countUsers')
+			->will($this->returnValue(2));
+
 		$groupBackend = new GroupLDAP($access);
 		$users = $groupBackend->countUsersInGroup('group');
 
-		$this->assertSame(4, $users);
+		$this->assertSame(6, $users);
 	}
 
 	public function testCountWithSearchString() {
@@ -306,6 +311,76 @@ class Test_Group_Ldap extends \PHPUnit_Framework_TestCase {
 		$groups = $groupBackend->getGroups('', 2, 2);
 
 		$this->assertSame(2, count($groups));
+	}
+
+	/**
+	 * tests that a user listing is complete, if all it's members have the group
+	 * as their primary.
+	 */
+	public function  testUsersInGroupPrimaryMembersOnly() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$access->connection->expects($this->any())
+			->method('getFromCache')
+			->will($this->returnValue(null));
+
+		$access->expects($this->any())
+			->method('readAttribute')
+			->will($this->returnCallback(function($dn, $attr) {
+				if($attr === 'primaryGroupToken') {
+					return array(1337);
+				}
+				return array();
+			}));
+
+		$access->expects($this->any())
+			->method('groupname2dn')
+			->will($this->returnValue('cn=foobar,dc=foo,dc=bar'));
+
+		$access->expects($this->once())
+			->method('ownCloudUserNames')
+			->will($this->returnValue(array('lisa', 'bart', 'kira', 'brad')));
+
+		$groupBackend = new GroupLDAP($access);
+		$users = $groupBackend->usersInGroup('foobar');
+
+		$this->assertSame(4, count($users));
+	}
+
+	/**
+	 * tests that a user counting is complete, if all it's members have the group
+	 * as their primary.
+	 */
+	public function  testCountUsersInGroupPrimaryMembersOnly() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$access->connection->expects($this->any())
+			->method('getFromCache')
+			->will($this->returnValue(null));
+
+		$access->expects($this->any())
+			->method('readAttribute')
+			->will($this->returnCallback(function($dn, $attr) {
+				if($attr === 'primaryGroupToken') {
+					return array(1337);
+				}
+				return array();
+			}));
+
+		$access->expects($this->any())
+			->method('groupname2dn')
+			->will($this->returnValue('cn=foobar,dc=foo,dc=bar'));
+
+		$access->expects($this->once())
+			->method('countUsers')
+			->will($this->returnValue(4));
+
+		$groupBackend = new GroupLDAP($access);
+		$users = $groupBackend->countUsersInGroup('foobar');
+
+		$this->assertSame(4, $users);
 	}
 
 }
