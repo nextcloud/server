@@ -29,8 +29,9 @@
 
 
 
-# ignore themes except the README
+# ignore themes except the example and the README
 /themes/*
+!/themes/example
 !/themes/README
 
 # just sane ignores
