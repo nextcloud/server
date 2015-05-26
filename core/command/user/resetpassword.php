@@ -78,7 +78,7 @@ class ResetPassword extends Command {
 			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
 			$dialog = $this->getHelperSet()->get('dialog');
 
-			if (\OCP\App::isEnabled('files_encryption')) {
+			if (\OCP\App::isEnabled('encryption')) {
 				$output->writeln(
 					'<error>Warning: Resetting the password when using encryption will result in data loss!</error>'
 				);
