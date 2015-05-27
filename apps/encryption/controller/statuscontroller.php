@@ -60,20 +60,29 @@ class StatusController extends Controller {
 	public function getStatus() {
 
 		$status = 'error';
-		$message = '';
+		$message = 'no valid init status';
 		switch( $this->session->getStatus()) {
+			case Session::RUN_MIGRATION:
+				$status = 'interactionNeeded';
+				$message = (string)$this->l->t(
+					'You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run \'occ encryption:migrate\' or contact your administrator'
+				);
+				break;
 			case Session::INIT_EXECUTED:
-				$status = 'success';
+				$status = 'interactionNeeded';
 				$message = (string)$this->l->t(
 					'Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.'
 				);
 				break;
 			case Session::NOT_INITIALIZED:
-				$status = 'success';
+				$status = 'interactionNeeded';
 				$message = (string)$this->l->t(
 					'Encryption App is enabled but your keys are not initialized, please log-out and log-in again'
 				);
 				break;
+			case Session::INIT_SUCCESSFUL:
+				$status = 'success';
+				$message = (string)$this->l->t('Encryption App is enabled and ready');
 		}
 
 		return new DataResponse(

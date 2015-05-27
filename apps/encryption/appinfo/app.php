@@ -25,8 +25,10 @@ namespace OCA\Encryption\AppInfo;
 
 \OCP\Util::addscript('encryption', 'encryption');
 
-$app = new Application();
-if (\OC::$server->getEncryptionManager()->isReady()) {
+$encryptionSystemReady = \OC::$server->getEncryptionManager()->isReady();
+
+$app = new Application([], $encryptionSystemReady);
+if ($encryptionSystemReady) {
 	$app->registerEncryptionModule();
 	$app->registerHooks();
 	$app->registerSettings();
