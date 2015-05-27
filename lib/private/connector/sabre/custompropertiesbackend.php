@@ -87,13 +87,13 @@ class CustomPropertiesBackend implements BackendInterface {
 		$this->user = $user->getUID();
 	}
 
-    /**
-     * Fetches properties for a path.
-     *
-     * @param string $path
-     * @param PropFind $propFind
-     * @return void
-     */
+	/**
+	 * Fetches properties for a path.
+	 *
+	 * @param string $path
+	 * @param PropFind $propFind
+	 * @return void
+	 */
 	public function propFind($path, PropFind $propFind) {
 		try {
 			$node = $this->tree->getNodeForPath($path);
@@ -139,14 +139,14 @@ class CustomPropertiesBackend implements BackendInterface {
 		}
 	}
 
-    /**
-     * Updates properties for a path
-     *
-     * @param string $path
-     * @param PropPatch $propPatch
+	/**
+	 * Updates properties for a path
 	 *
-     * @return void
-     */
+	 * @param string $path
+	 * @param PropPatch $propPatch
+	 *
+	 * @return void
+	 */
 	public function propPatch($path, PropPatch $propPatch) {
 		$node = $this->tree->getNodeForPath($path);
 		if (!($node instanceof Node)) {
@@ -158,11 +158,11 @@ class CustomPropertiesBackend implements BackendInterface {
 		});
 	}
 
-    /**
-     * This method is called after a node is deleted.
-     *
+	/**
+	 * This method is called after a node is deleted.
+	 *
 	 * @param string $path path of node for which to delete properties
-     */
+	 */
 	public function delete($path) {
 		$statement = $this->connection->prepare(
 			'DELETE FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ?'
@@ -173,14 +173,14 @@ class CustomPropertiesBackend implements BackendInterface {
 		unset($this->cache[$path]);
 	}
 
-    /**
-     * This method is called after a successful MOVE
-     *
-     * @param string $source
-     * @param string $destination
+	/**
+	 * This method is called after a successful MOVE
 	 *
-     * @return void
-     */
+	 * @param string $source
+	 * @param string $destination
+	 *
+	 * @return void
+	 */
 	public function move($source, $destination) {
 		$statement = $this->connection->prepare(
 			'UPDATE `*PREFIX*properties` SET `propertypath` = ?' .
