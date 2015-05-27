@@ -32,7 +32,7 @@ OC.L10N.register(
     "Mappings cleared successfully!" : "Associations supprimées avec succès !",
     "Error while clearing the mappings." : "Erreur lors de la suppression des associations.",
     "Anonymous bind is not allowed. Please provide a User DN and Password." : "Le lien anonyme n'est pas autorisé. Merci de fournir le DN d'un utilisateur et un mot de passe.",
-    "LDAP Operations error. Anonymous bind might not be allowed." : "Erreur d'opérations LDAP. Les liens anonymes peuvent ne pas être acceptés.",
+    "LDAP Operations error. Anonymous bind might not be allowed." : "Erreur d'opérations LDAP. Peut-être les liens anonymes ne sont-ils pas acceptés?",
     "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "La sauvegarde a échoué. Veuillez vérifier que la base de données est opérationnelle. Rechargez avant de poursuivre.",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Changer de mode activera les requêtes LDAP automatiques. Selon la taille de votre annuaire LDAP, cela peut prendre du temps. Voulez-vous toujours changer de mode ?",
     "Mode switch" : "Changer de mode",
