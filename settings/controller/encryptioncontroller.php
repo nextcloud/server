@@ -82,11 +82,12 @@ class EncryptionController extends Controller {
 	public function startMigration() {
         // allow as long execution on the web server as possible
 		set_time_limit(0);
-		$migration = new Migration($this->config, $this->view, $this->connection);
-		$migration->reorganizeSystemFolderStructure();
-		$migration->updateDB();
 
 		try {
+
+			$migration = new Migration($this->config, $this->view, $this->connection);
+			$migration->reorganizeSystemFolderStructure();
+			$migration->updateDB();
 
 			foreach ($this->userManager->getBackends() as $backend) {
 

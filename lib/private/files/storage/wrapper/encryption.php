@@ -340,71 +340,75 @@ class Encryption extends Wrapper {
 		$fullPath = $this->getFullPath($path);
 		$encryptionModuleId = $this->util->getEncryptionModuleId($header);
 
-		$size = $unencryptedSize = 0;
-		$targetExists = $this->file_exists($path);
-		$targetIsEncrypted = false;
-		if ($targetExists) {
-			// in case the file exists we require the explicit module as
-			// specified in the file header - otherwise we need to fail hard to
-			// prevent data loss on client side
-			if (!empty($encryptionModuleId)) {
-				$targetIsEncrypted = true;
-				$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
-			}
+		if ($this->util->isExcluded($fullPath) === false) {
 
-			$size = $this->storage->filesize($path);
-			$unencryptedSize = $this->filesize($path);
-		}
-
-		try {
-
-			if (
-				$mode === 'w'
-				|| $mode === 'w+'
-				|| $mode === 'wb'
-				|| $mode === 'wb+'
-			) {
-				if ($encryptionEnabled) {
-					// if $encryptionModuleId is empty, the default module will be used
-					$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
-					$shouldEncrypt = $encryptionModule->shouldEncrypt($fullPath);
-				}
-			} else {
-				$info = $this->getCache()->get($path);
-				// only get encryption module if we found one in the header
-				// or if file should be encrypted according to the file cache
+			$size = $unencryptedSize = 0;
+			$targetExists = $this->file_exists($path);
+			$targetIsEncrypted = false;
+			if ($targetExists) {
+				// in case the file exists we require the explicit module as
+				// specified in the file header - otherwise we need to fail hard to
+				// prevent data loss on client side
 				if (!empty($encryptionModuleId)) {
+					$targetIsEncrypted = true;
 					$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
-					$shouldEncrypt = true;
-				} else if(empty($encryptionModuleId) && $info['encrypted'] === true) {
-					// we come from a old installation. No header and/or no module defined
-					// but the file is encrypted. In this case we need to use the
-					// OC_DEFAULT_MODULE to read the file
-					$encryptionModule = $this->encryptionManager->getEncryptionModule('OC_DEFAULT_MODULE');
-					$shouldEncrypt = true;
+				}
+
+				$size = $this->storage->filesize($path);
+				$unencryptedSize = $this->filesize($path);
+			}
+
+			try {
+
+				if (
+					$mode === 'w'
+					|| $mode === 'w+'
+					|| $mode === 'wb'
+					|| $mode === 'wb+'
+				) {
+					if ($encryptionEnabled) {
+						// if $encryptionModuleId is empty, the default module will be used
+						$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
+						$shouldEncrypt = $encryptionModule->shouldEncrypt($fullPath);
+					}
+				} else {
+					$info = $this->getCache()->get($path);
+					// only get encryption module if we found one in the header
+					// or if file should be encrypted according to the file cache
+					if (!empty($encryptionModuleId)) {
+						$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
+						$shouldEncrypt = true;
+					} else if (empty($encryptionModuleId) && $info['encrypted'] === true) {
+						// we come from a old installation. No header and/or no module defined
+						// but the file is encrypted. In this case we need to use the
+						// OC_DEFAULT_MODULE to read the file
+						$encryptionModule = $this->encryptionManager->getEncryptionModule('OC_DEFAULT_MODULE');
+						$shouldEncrypt = true;
+					}
+				}
+			} catch (ModuleDoesNotExistsException $e) {
+				$this->logger->warning('Encryption module "' . $encryptionModuleId .
+					'" not found, file will be stored unencrypted (' . $e->getMessage() . ')');
+			}
+
+			// encryption disabled on write of new file and write to existing unencrypted file -> don't encrypt
+			if (!$encryptionEnabled || !$this->mount->getOption('encrypt', true)) {
+				if (!$targetExists || !$targetIsEncrypted) {
+					$shouldEncrypt = false;
 				}
 			}
-		} catch (ModuleDoesNotExistsException $e) {
-			$this->logger->warning('Encryption module "' . $encryptionModuleId .
-				'" not found, file will be stored unencrypted (' . $e->getMessage() . ')');
-		}
 
-		// encryption disabled on write of new file and write to existing unencrypted file -> don't encrypt
-		if (!$encryptionEnabled || !$this->mount->getOption('encrypt', true)) {
-			if (!$targetExists || !$targetIsEncrypted) {
-				$shouldEncrypt = false;
+			if ($shouldEncrypt === true && $encryptionModule !== null) {
+				$source = $this->storage->fopen($path, $mode);
+				$handle = \OC\Files\Stream\Encryption::wrap($source, $path, $fullPath, $header,
+					$this->uid, $encryptionModule, $this->storage, $this, $this->util, $this->fileHelper, $mode,
+					$size, $unencryptedSize, strlen($rawHeader));
+				return $handle;
 			}
+
 		}
 
-		if($shouldEncrypt === true && !$this->util->isExcluded($fullPath) && $encryptionModule !== null) {
-			$source = $this->storage->fopen($path, $mode);
-			$handle = \OC\Files\Stream\Encryption::wrap($source, $path, $fullPath, $header,
-				$this->uid, $encryptionModule, $this->storage, $this, $this->util, $this->fileHelper, $mode,
-				$size, $unencryptedSize, strlen($rawHeader));
-			return $handle;
-		} else {
-			return $this->storage->fopen($path, $mode);
-		}
+		return $this->storage->fopen($path, $mode);
 	}
 
 	/**
