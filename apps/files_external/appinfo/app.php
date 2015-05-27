@@ -227,7 +227,7 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP', [
 ]);
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP_Key', [
-	'backend' => 'SFTP with secret key login',
+	'backend' => (string)$l->t('SFTP with secret key login'),
 	'priority' => 100,
 	'configuration' => array(
 		'host' => (string)$l->t('Host'),
