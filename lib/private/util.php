@@ -393,6 +393,7 @@ class OC_Util {
 			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
 				$channel = \OC::$server->getAppConfig()->getValue('core', 'OC_Channel');
 			} else {
+				/** @var $OC_Channel string */
 				$channel = $OC_Channel;
 			}
 			
