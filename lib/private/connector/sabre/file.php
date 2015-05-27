@@ -45,6 +45,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Lock\ILockingProvider;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
@@ -109,6 +110,8 @@ class File extends Node implements IFile {
 			// upload file directly as the final path
 			$partFilePath = $this->path;
 		}
+
+		$this->fileView->lockFile($this->path, ILockingProvider::LOCK_EXCLUSIVE);
 
 		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
 		/** @var \OC\Files\Storage\Storage $partStorage */
@@ -231,6 +234,8 @@ class File extends Node implements IFile {
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage());
 		}
+
+		$this->fileView->unlockFile($this->path, ILockingProvider::LOCK_EXCLUSIVE);
 
 		return '"' . $this->info->getEtag() . '"';
 	}
