@@ -130,14 +130,26 @@ describe('OC.Settings.Apps tests', function() {
 					apps: [
 						{
 							id: 'foo',
+							name: 'Foo app',
 							level: 0
 						},
 						{
 							id: 'alpha',
+							name: 'Alpha app',
 							level: 300
 						},
 						{
+							id: 'nolevel',
+							name: 'No level'
+						},
+						{
+							id: 'zork',
+							name: 'Some famous adventure game',
+							level: 200
+						},
+						{
 							id: 'delta',
+							name: 'Mathematical symbol',
 							level: 200
 						}
 					]
@@ -145,10 +157,8 @@ describe('OC.Settings.Apps tests', function() {
 			);
 
 			var results = getResultsFromDom();
-			expect(results.length).toEqual(3);
-			expect(results[0]).toEqual('alpha');
-			expect(results[1]).toEqual('delta');
-			expect(results[2]).toEqual('foo');
+			expect(results.length).toEqual(5);
+			expect(results).toEqual(['alpha', 'delta', 'zork', 'foo', 'nolevel']);
 		});
 	});
 
