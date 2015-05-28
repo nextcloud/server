@@ -26,7 +26,7 @@ abstract class Test_Archive extends \Test\TestCase {
 	public function testGetFiles() {
 		$this->instance=$this->getExisting();
 		$allFiles=$this->instance->getFiles();
-		$expected=array('lorem.txt','desktopapp.png','dir/', 'dir/lorem.txt');
+		$expected=array('lorem.txt','logo-wide.png','dir/', 'dir/lorem.txt');
 		$this->assertEquals(4, count($allFiles), 'only found '.count($allFiles).' out of 4 expected files');
 		foreach($expected as $file) {
 			$this->assertContains($file, $allFiles, 'cant find '.  $file . ' in archive');
@@ -35,7 +35,7 @@ abstract class Test_Archive extends \Test\TestCase {
 		$this->assertFalse($this->instance->fileExists('non/existing/file'));
 
 		$rootContent=$this->instance->getFolder('');
-		$expected=array('lorem.txt','desktopapp.png', 'dir/');
+		$expected=array('lorem.txt','logo-wide.png', 'dir/');
 		$this->assertEquals(3, count($rootContent));
 		foreach($expected as $file) {
 			$this->assertContains($file, $rootContent, 'cant find '.  $file . ' in archive');
@@ -113,7 +113,7 @@ abstract class Test_Archive extends \Test\TestCase {
 		$this->instance->extract($tmpDir);
 		$this->assertEquals(true, file_exists($tmpDir.'lorem.txt'));
 		$this->assertEquals(true, file_exists($tmpDir.'dir/lorem.txt'));
-		$this->assertEquals(true, file_exists($tmpDir.'desktopapp.png'));
+		$this->assertEquals(true, file_exists($tmpDir.'logo-wide.png'));
 		$this->assertEquals(file_get_contents($dir.'/lorem.txt'), file_get_contents($tmpDir.'lorem.txt'));
 		OCP\Files::rmdirr($tmpDir);
 	}
