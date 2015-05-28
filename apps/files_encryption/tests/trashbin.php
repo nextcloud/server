@@ -38,6 +38,7 @@ use OCA\Encryption;
 class Test_Encryption_Trashbin extends \OCA\Files_Encryption\Tests\TestCase {
 
 	const TEST_ENCRYPTION_TRASHBIN_USER1 = "test-trashbin-user1";
+	const TEST_ENCRYPTION_TRASHBIN_USER2 = "test-trashbin-user2";
 
 	public $userId;
 	public $pass;
@@ -60,6 +61,7 @@ class Test_Encryption_Trashbin extends \OCA\Files_Encryption\Tests\TestCase {
 
 		\OC_Hook::clear('OC_Filesystem');
 		\OC_Hook::clear('OC_User');
+		\OC_Hook::clear('OCP\\Share');
 
 		// trashbin hooks
 		\OCA\Files_Trashbin\Trashbin::registerHooks();
@@ -67,11 +69,24 @@ class Test_Encryption_Trashbin extends \OCA\Files_Encryption\Tests\TestCase {
 		// Filesystem related hooks
 		\OCA\Encryption\Helper::registerFilesystemHooks();
 
+
+		// register share hooks
+		\OC::registerShareHooks();
+		\OCA\Files_Sharing\Helper::registerHooks();
+
+		// Sharing related hooks
+		\OCA\Encryption\Helper::registerShareHooks();
+
+		// Filesystem related hooks
+		\OCA\Encryption\Helper::registerFilesystemHooks();
+
 		// clear and register hooks
 		\OC_FileProxy::clearProxies();
+		\OC_FileProxy::register(new OCA\Files\Share\Proxy());
 		\OC_FileProxy::register(new OCA\Encryption\Proxy());
 
 		// create test user
+		self::loginHelper(self::TEST_ENCRYPTION_TRASHBIN_USER2, true);
 		self::loginHelper(self::TEST_ENCRYPTION_TRASHBIN_USER1, true);
 	}
 
@@ -95,6 +110,9 @@ class Test_Encryption_Trashbin extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// remember files_trashbin state
 		$this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
+
+		$this->view->deleteAll('/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '/files_trashbin');
+		$this->view->deleteAll('/' . self::TEST_ENCRYPTION_TRASHBIN_USER2 . '/files_trashbin');
 
 		// we want to tests with app files_trashbin enabled
 		\OC_App::enable('files_trashbin');
@@ -367,4 +385,58 @@ class Test_Encryption_Trashbin extends \OCA\Files_Encryption\Tests\TestCase {
 			. '.' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '.shareKey.' . $trashFileSuffix));
 	}
 
+
+	function testDeleteSharedFile() {
+
+		// generate filename
+		$filename = 'tmp-' . $this->getUniqueID() . '.txt';
+
+		// save file with content
+		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '/files/' . $filename, $this->dataShort);
+		// test that data was successfully written
+		$this->assertTrue(is_int($cryptedFile));
+
+		// get the file info from previous created file
+		$fileInfo = $this->view->getFileInfo(
+			'/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '/files/' . $filename);
+
+		// check if we have a valid file info
+		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
+
+		// share the file
+		$this->assertTrue(
+			\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_ENCRYPTION_TRASHBIN_USER2, OCP\PERMISSION_ALL)
+		);
+
+		self::loginHelper(self::TEST_ENCRYPTION_TRASHBIN_USER2);
+
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($filename));
+
+		\OCA\Files_Trashbin\Trashbin::move2trash($filename);
+
+		$query = \OC_DB::prepare('SELECT `timestamp` FROM `*PREFIX*files_trash`'
+			. ' WHERE `id`=?');
+		$result = $query->execute(array($filename))->fetchRow();
+
+		$this->assertNotEmpty($result);
+
+		$timestamp = $result['timestamp'];
+
+		// check if key for both users exists
+		$this->assertTrue($this->view->file_exists(
+			'/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '/files_trashbin/keyfiles/' . $filename
+			. '.key.d'. $timestamp));
+		// check if key for admin exists
+		$this->assertTrue($this->view->file_exists(
+			'/' . self::TEST_ENCRYPTION_TRASHBIN_USER2 . '/files_trashbin/keyfiles/' . $filename
+			. '.key.d' . $timestamp));
+
+		// check if share key for both users exists
+		$this->assertTrue($this->view->file_exists(
+			'/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '/files_trashbin/share-keys/'
+			. $filename . '.' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '.shareKey.d' . $timestamp));
+		$this->assertTrue($this->view->file_exists(
+			'/' . self::TEST_ENCRYPTION_TRASHBIN_USER2 . '/files_trashbin/share-keys/'
+			. $filename . '.' . self::TEST_ENCRYPTION_TRASHBIN_USER2 . '.shareKey.d' . $timestamp));
+	}
 }
