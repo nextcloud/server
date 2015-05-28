@@ -234,13 +234,18 @@ class Storage implements IStorage {
 
 		list($owner, $source) = $this->util->getUidAndFilename($source);
 		list(, $target) = $this->util->getUidAndFilename($target);
-		$systemWide = $this->util->isSystemWideMountPoint($target, $owner);
+		$systemWideSource = $this->util->isSystemWideMountPoint($source, $owner);
+		$systemWideTarget = $this->util->isSystemWideMountPoint($target, $owner);
 
-		if ($systemWide) {
+		if ($systemWideSource) {
 			$sourcePath = $this->keys_base_dir . $source . '/';
-			$targetPath = $this->keys_base_dir . $target . '/';
 		} else {
 			$sourcePath = '/' . $owner . $this->keys_base_dir . $source . '/';
+		}
+
+		if ($systemWideTarget) {
+			$targetPath = $this->keys_base_dir . $target . '/';
+		} else {
 			$targetPath = '/' . $owner . $this->keys_base_dir . $target . '/';
 		}
 
@@ -265,13 +270,17 @@ class Storage implements IStorage {
 
 		list($owner, $source) = $this->util->getUidAndFilename($source);
 		list(, $target) = $this->util->getUidAndFilename($target);
-		$systemWide = $this->util->isSystemWideMountPoint($target, $owner);
+		$systemWideTarget = $this->util->isSystemWideMountPoint($target, $owner);
+		$systemWideSource = $this->util->isSystemWideMountPoint($source, $owner);
 
-		if ($systemWide) {
+		if ($systemWideSource) {
 			$sourcePath = $this->keys_base_dir . $source . '/';
-			$targetPath = $this->keys_base_dir . $target . '/';
 		} else {
 			$sourcePath = '/' . $owner . $this->keys_base_dir . $source . '/';
+		}
+		if ($systemWideTarget) {
+			$targetPath = $this->keys_base_dir . $target . '/';
+		} else {
 			$targetPath = '/' . $owner . $this->keys_base_dir . $target . '/';
 		}
 
