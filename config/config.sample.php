@@ -531,8 +531,8 @@ $CONFIG = array(
 
 /**
  * Location of the lock file for cron executions can be specified here.
- * Default is within the tmp directory. The file is named in the following way
- *   owncloud-server-$INSTANCEID-cron.lock
+ * Default is within the tmp directory. The file is named in the following way:
+ * owncloud-server-$INSTANCEID-cron.lock
  * where $INSTANCEID is the string specified in the instanceid field.
  * Because the cron lock file is accessed in regular intervals, it may prevent
  * enabled disk drives from spinning down. A different location for this file
