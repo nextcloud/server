@@ -97,6 +97,7 @@ class Trashbin {
 	 * move file to the trash bin
 	 *
 	 * @param string $file_path path to the deleted file/directory relative to the files root directory
+	 * @return bool
 	 */
 	public static function move2trash($file_path) {
 		$user = \OCP\User::getUser();
@@ -109,6 +110,9 @@ class Trashbin {
 		}
 
 		self::setUpTrash($user);
+		if ($owner !== $user) {
+			self::setUpTrash($owner);
+		}
 
 		$view = new \OC\Files\View('/' . $user);
 		$path_parts = pathinfo($file_path);
@@ -279,7 +283,7 @@ class Trashbin {
 				$rootView->rename($sharekeys, $user . '/files_trashbin/share-keys/' . $filename . '.d' . $timestamp);
 			} else {
 				// handle share-keys
-				$matches = \OCA\Encryption\Helper::findShareKeys($ownerPath, $sharekeys, $rootView);
+				$matches = \OCA\Encryption\Helper::findShareKeys($file_path, $sharekeys, $rootView);
 				foreach ($matches as $src) {
 					// get source file parts
 					$pathinfo = pathinfo($src);
