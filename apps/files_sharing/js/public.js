@@ -110,7 +110,7 @@ OCA.Sharing.PublicApp = {
 			(maxGifSize === -1 || fileSize <= (maxGifSize * 1024 * 1024))) {
 			img.attr('src', $('#downloadURL').val());
 			img.appendTo('#imgframe');
-		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text') {
+		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
 			// Undocumented Url to public WebDAV endpoint
 			var url = parent.location.protocol + '//' + location.host + OC.linkTo('', 'public.php/webdav');
 			$.ajax({
