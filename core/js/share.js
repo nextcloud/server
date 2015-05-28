@@ -15,7 +15,7 @@ OC.Share={
 	 * "user@example.com/path/to/owncloud"
 	 * "user@anotherexample.com@example.com/path/to/owncloud
 	 */
-	_REMOTE_OWNER_REGEXP: new RegExp("^([^@]*)@(([^@]*)@)?([^/]*)(.*)?$"),
+	_REMOTE_OWNER_REGEXP: new RegExp("^([^@]*)@(([^@]*)@)?([^/]*)([/](.*)?)?$"),
 
 	/**
 	 * @deprecated use OC.Share.currentShares instead
@@ -183,21 +183,22 @@ OC.Share={
 		}
 	},
 	/**
-	 * Format remote share owner to make it more readable
+	 * Format a remote address
 	 *
-	 * @param {String} owner full remote share owner name
-	 * @return {String} HTML code for the owner display
+	 * @param {String} remoteAddress full remote share
+	 * @return {String} HTML code to display
 	 */
-	_formatSharedByOwner: function(owner) {
-		var parts = this._REMOTE_OWNER_REGEXP.exec(owner);
+	_formatRemoteShare: function(remoteAddress) {
+		var parts = this._REMOTE_OWNER_REGEXP.exec(remoteAddress);
 		if (!parts) {
 			// display as is, most likely to be a simple owner name
-			return escapeHTML(owner);
+			return escapeHTML(remoteAddress);
 		}
 
 		var userName = parts[1];
 		var userDomain = parts[3];
 		var server = parts[4];
+		var dir = parts[6];
 		var tooltip = userName;
 		if (userDomain) {
 			tooltip += '@' + userDomain;
@@ -209,13 +210,27 @@ OC.Share={
 			tooltip += '@' + server;
 		}
 
-		var html = '<span class="remoteOwner" title="' + escapeHTML(tooltip) + '">';
+		var html = '<span class="remoteAddress" title="' + escapeHTML(tooltip) + '">';
 		html += '<span class="username">' + escapeHTML(userName) + '</span>';
 		if (userDomain) {
 			html += '<span class="userDomain">@' + escapeHTML(userDomain) + '</span>';
 		}
 		html += '</span>';
 		return html;
+	},
+	/**
+	 * Loop over all recipients in the list and format them using 
+	 * all kind of fancy magic.
+	 *
+	 * @param {String[]} recipients array of all the recipients
+	 * @return {String[]} modified list of recipients
+	 */
+	_formatShareList: function(recipients) {
+		var _parent = this;
+		return $.map(recipients, function(recipient) {
+			recipient = _parent._formatRemoteShare(recipient);
+			return recipient;
+		});
 	},
 	/**
 	 * Marks/unmarks a given file as shared by changing its action icon
@@ -255,14 +270,14 @@ OC.Share={
 			message = t('core', 'Shared');
 			// even if reshared, only show "Shared by"
 			if (owner) {
-				message = this._formatSharedByOwner(owner);
+				message = this._formatRemoteShare(owner);
 			}
 			else if (recipients) {
-				message = t('core', 'Shared with {recipients}', {recipients: recipients});
+				message = t('core', 'Shared with {recipients}', {recipients: this._formatShareList(recipients.split(", ")).join(", ")}, 0, {escape: false});
 			}
 			action.html(' <span>' + message + '</span>').prepend(img);
-			if (owner) {
-				action.find('.remoteOwner').tipsy({gravity: 's'});
+			if (owner || recipients) {
+				action.find('.remoteAddress').tipsy({gravity: 's'});
 			}
 		}
 		else {

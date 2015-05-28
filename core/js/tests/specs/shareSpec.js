@@ -1134,9 +1134,9 @@ describe('OC.Share tests', function() {
 				$action = $file.find('.action-share>span');
 				expect($action.text()).toEqual(output);
 				if (_.isString(title)) {
-					expect($action.find('.remoteOwner').attr('title')).toEqual(title);
+					expect($action.find('.remoteAddress').attr('title')).toEqual(title);
 				} else {
-					expect($action.find('.remoteOwner').attr('title')).not.toBeDefined();
+					expect($action.find('.remoteAddress').attr('title')).not.toBeDefined();
 				}
 				expect(tipsyStub.calledOnce).toEqual(true);
 				tipsyStub.reset();
@@ -1227,7 +1227,94 @@ describe('OC.Share tests', function() {
 				checkIcon('filetypes/folder-public');
 			});
 		});
-		// TODO: add unit tests for share recipients
+
+		describe('displaying the recipoients', function() {
+			function checkRecipients(input, output, title) {
+				var $action;
+
+				$file.attr('data-share-recipients', input);
+				OC.Share.markFileAsShared($file, true);
+
+				$action = $file.find('.action-share>span');
+				expect($action.text()).toEqual(output);
+				if (_.isString(title)) {
+					expect($action.find('.remoteAddress').attr('title')).toEqual(title);
+				} else if (_.isArray(title)) {
+					var tooltips = $action.find('.remoteAddress');
+					expect(tooltips.length).toEqual(title.length);
+
+					tooltips.each(function(i) {
+						expect($(this).attr('title')).toEqual(title[i]);
+					});
+				} else {
+						expect($action.find('.remoteAddress').attr('title')).not.toBeDefined();
+				}
+				expect(tipsyStub.calledOnce).toEqual(true);
+				tipsyStub.reset();
+			}
+
+			it('displays the local share owner as is', function() {
+				checkRecipients('User One', 'Shared with User One', null);
+			});
+			it('displays the user name part of a remote recipient', function() {
+				checkRecipients(
+					'User One@someserver.com',
+					'Shared with User One@…',
+					'User One@someserver.com'
+				);
+				checkRecipients(
+					'User One@someserver.com/',
+					'Shared with User One@…',
+					'User One@someserver.com'
+				);
+				checkRecipients(
+					'User One@someserver.com/root/of/owncloud',
+					'Shared with User One@…',
+					'User One@someserver.com'
+				);
+			});
+			it('displays the user name part with domain of a remote share owner', function() {
+				checkRecipients(
+					'User One@example.com@someserver.com',
+					'Shared with User One@example.com',
+					'User One@example.com@someserver.com'
+				);
+				checkRecipients(
+					'User One@example.com@someserver.com/',
+					'Shared with User One@example.com',
+					'User One@example.com@someserver.com'
+				);
+				checkRecipients(
+					'User One@example.com@someserver.com/root/of/owncloud',
+					'Shared with User One@example.com',
+					'User One@example.com@someserver.com'
+				);
+			});
+			it('display multiple remote recipients', function() {
+				checkRecipients(
+					'One@someserver.com, two@otherserver.com',
+					'Shared with One@…, two@…',
+					['One@someserver.com', 'two@otherserver.com']
+				);
+				checkRecipients(
+					'One@someserver.com/, two@otherserver.com',
+					'Shared with One@…, two@…',
+					['One@someserver.com', 'two@otherserver.com']
+				);
+				checkRecipients(
+					'One@someserver.com/root/of/owncloud, two@otherserver.com',
+					'Shared with One@…, two@…',
+					['One@someserver.com', 'two@otherserver.com']
+				);
+			});
+			it('display mixed recipients', function() {
+				checkRecipients(
+					'One, two@otherserver.com',
+					'Shared with One, two@…',
+					['two@otherserver.com']
+				);
+			});
+		});
 	});
 });
 
