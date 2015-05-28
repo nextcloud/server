@@ -22,7 +22,7 @@ OC.Encryption = {
 		$.get(
 			OC.generateUrl('/apps/encryption/ajax/getStatus'),
 			function (result) {
-				if (result.status === "success") {
+				if (result.status === "interactionNeeded") {
 					OC.Notification.show(result.data.message);
 				}
 			}

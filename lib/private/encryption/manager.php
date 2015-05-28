@@ -30,6 +30,7 @@ use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\ILogger;
 
 class Manager implements IManager {
@@ -43,14 +44,19 @@ class Manager implements IManager {
 	/** @var ILogger */
 	protected $logger;
 
+	/** @var Il10n */
+	protected $l;
+
 	/**
 	 * @param IConfig $config
 	 * @param ILogger $logger
+	 * @param IL10N $l10n
 	 */
-	public function __construct(IConfig $config, ILogger $logger) {
+	public function __construct(IConfig $config, ILogger $logger, IL10N $l10n) {
 		$this->encryptionModules = array();
 		$this->config = $config;
 		$this->logger = $logger;
+		$this->l = $l10n;
 	}
 
 	/**
@@ -145,7 +151,8 @@ class Manager implements IManager {
 				return call_user_func($this->encryptionModules[$moduleId]['callback']);
 			} else {
 				$message = "Module with id: $moduleId does not exists.";
-				throw new Exceptions\ModuleDoesNotExistsException($message);
+				$hint = $this->l->t('Module with id: %s does not exists. Please enable it in your apps settings or contact your administrator.', [$moduleId]);
+				throw new Exceptions\ModuleDoesNotExistsException($message, $hint);
 			}
 		} else {
 			return $this->getDefaultEncryptionModule();

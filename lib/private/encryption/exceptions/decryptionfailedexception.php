@@ -27,15 +27,4 @@ use OCP\Encryption\Exceptions\GenericEncryptionException;
 
 class DecryptionFailedException extends GenericEncryptionException {
 
-	/**
-	 * @param string $message
-	 * @param int $code
-	 * @param \Exception $previous
-	 * @param string $hint
-	 */
-	public function __construct($message = '', $code = 0, \Exception $previous = null, $hint = '') {
-		parent::__construct($message, $code, $previous, $hint);
-
-}
-
 }

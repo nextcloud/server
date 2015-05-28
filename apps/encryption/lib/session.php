@@ -33,6 +33,7 @@ class Session {
 	const NOT_INITIALIZED = '0';
 	const INIT_EXECUTED = '1';
 	const INIT_SUCCESSFUL = '2';
+	const RUN_MIGRATION = '3';
 
 	/**
 	 * @param ISession $session
