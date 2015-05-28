@@ -28,6 +28,11 @@ if (!isset($_GET['t'])) {
 	exit;
 }
 
+if (OCA\Files_Sharing\Helper::isOutgoingServer2serverShareEnabled() === false) {
+	\OC_Response::setStatus(404); // 404 not found
+	exit;
+}
+
 $token = $_GET['t'];
 
 $password = null;
