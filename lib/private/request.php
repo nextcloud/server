@@ -61,7 +61,8 @@ class OC_Request {
 	 */
 	private static function isOverwriteCondition($type = '') {
 		$regex = '/' . OC_Config::getValue('overwritecondaddr', '')  . '/';
-		return $regex === '//' or preg_match($regex, $_SERVER['REMOTE_ADDR']) === 1
+		$remoteAddress = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+		return $regex === '//' or preg_match($regex, $remoteAddress) === 1
 			or ($type !== 'protocol' and OC_Config::getValue('forcessl', false));
 	}
 
