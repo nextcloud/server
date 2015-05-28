@@ -141,10 +141,12 @@ class Quota extends Wrapper {
 		$source = $this->storage->fopen($path, $mode);
 		$free = $this->free_space('');
 		if ($source && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
-			return \OC\Files\Stream\Quota::wrap($source, $free);
-		} else {
-			return $source;
+			// only apply quota for files, not metadata, trash or others
+			if (strpos(ltrim($path, '/'), 'files/') === 0) {
+				return \OC\Files\Stream\Quota::wrap($source, $free);
+			}
 		}
+		return $source;
 	}
 
 	/**
