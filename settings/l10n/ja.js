@@ -34,6 +34,7 @@ OC.L10N.register(
     "log-level out of allowed range" : "ログレベルが許可された範囲を超えています",
     "Saved" : "保存されました",
     "test email settings" : "メール設定のテスト",
+    "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "メールの送信中に問題が発生しました。設定を確認してください。 (Error: %s)",
     "Email sent" : "メールを送信しました",
     "You need to set your user email before being able to send test emails." : "ユーザーメールを設定して初めて、テストメールを送信することができるようになります。",
     "Invalid mail address" : "無効なメールアドレスです",

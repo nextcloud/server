@@ -21,6 +21,7 @@ OC.L10N.register(
     "Remote share password" : "Adgangskode for ekstern deling",
     "Cancel" : "Annuller",
     "Add remote share" : "Tilføj ekstern deling",
+    "You can upload into this folder" : "Du kan overføre til denne mappe",
     "No ownCloud installation (7 or higher) found at {remote}" : "Der er ingen ownCloud-installation (7 eller højere) på {remote}",
     "Invalid ownCloud url" : "Ugyldig ownCloud-URL",
     "Share" : "Del",

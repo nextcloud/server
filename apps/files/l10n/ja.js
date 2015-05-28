@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete" : "削除",
     "Disconnect storage" : "ストレージを切断する",
     "Unshare" : "共有解除",
+    "No permission to delete" : "削除する権限がありません",
     "Download" : "ダウンロード",
     "Select" : "選択",
     "Pending" : "中断",
