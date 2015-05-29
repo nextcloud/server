@@ -86,9 +86,9 @@ class OC_API {
 	public static function call($parameters) {
 		// Prepare the request variables
 		if($_SERVER['REQUEST_METHOD'] == 'PUT') {
-			parse_str(file_get_contents("php://input"), $parameters['_put']);
+			$parameters['_put'] = \OC::$server->getRequest()->getParams();
 		} else if($_SERVER['REQUEST_METHOD'] == 'DELETE') {
-			parse_str(file_get_contents("php://input"), $parameters['_delete']);
+			$parameters['_delete'] = \OC::$server->getRequest()->getParams();
 		}
 		$name = $parameters['_route'];
 		// Foreach registered action
