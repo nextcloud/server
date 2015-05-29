@@ -27,6 +27,8 @@
  */
 namespace OC\Connector\Sabre;
 
+use OC\Connector\Sabre\Exception\InvalidPath;
+
 class Directory extends \OC\Connector\Sabre\Node
 	implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota {
 
@@ -91,6 +93,8 @@ class Directory extends \OC\Connector\Sabre\Node
 				}
 			}
 
+			$this->fileView->verifyPath($this->path, $name);
+
 			$path = $this->fileView->getAbsolutePath($this->path) . '/' . $name;
 			// using a dummy FileInfo is acceptable here since it will be refreshed after the put is complete
 			$info = new \OC\Files\FileInfo($path, null, null, array(), null);
@@ -114,12 +118,15 @@ class Directory extends \OC\Connector\Sabre\Node
 				throw new \Sabre\DAV\Exception\Forbidden();
 			}
 
+			$this->fileView->verifyPath($this->path, $name);
 			$newPath = $this->path . '/' . $name;
 			if (!$this->fileView->mkdir($newPath)) {
 				throw new \Sabre\DAV\Exception\Forbidden('Could not create directory ' . $newPath);
 			}
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+		} catch (\OCP\Files\InvalidPathException $ex) {
+			throw new InvalidPath($ex->getMessage());
 		}
 	}
 
