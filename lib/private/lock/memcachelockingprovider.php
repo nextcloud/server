@@ -99,6 +99,26 @@ class MemcacheLockingProvider implements ILockingProvider {
 	}
 
 	/**
+	 * Change the type of an existing lock
+	 *
+	 * @param string $path
+	 * @param int $targetType self::LOCK_SHARED or self::LOCK_EXCLUSIVE
+	 * @throws \OCP\Lock\LockedException
+	 */
+	public function changeLock($path, $targetType) {
+		if ($targetType === self::LOCK_SHARED) {
+			if (!$this->memcache->cas($path, 'exclusive', 1)) {
+				throw new LockedException($path);
+			}
+		} else if ($targetType === self::LOCK_EXCLUSIVE) {
+			// we can only change a shared lock to an exclusive if there's only a single owner of the shared lock
+			if (!$this->memcache->cas($path, 1, 'exclusive')) {
+				throw new LockedException($path);
+			}
+		}
+	}
+
+	/**
 	 * release all lock acquired by this instance
 	 */
 	public function releaseAll() {

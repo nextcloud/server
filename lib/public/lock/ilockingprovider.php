@@ -46,6 +46,15 @@ interface ILockingProvider {
 	public function releaseLock($path, $type);
 
 	/**
+	 * Change the type of an existing lock
+	 *
+	 * @param string $path
+	 * @param int $targetType self::LOCK_SHARED or self::LOCK_EXCLUSIVE
+	 * @throws \OCP\Lock\LockedException
+	 */
+	public function changeLock($path, $targetType);
+
+	/**
 	 * release all lock acquired by this instance
 	 */
 	public function releaseAll();

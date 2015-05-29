@@ -158,4 +158,57 @@ abstract class LockingProvider extends TestCase {
 			$this->assertEquals('foo', $e->getPath());
 		}
 	}
+
+	public function testChangeLockToExclusive() {
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+		$this->instance->changeLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
+		$this->assertFalse($this->instance->isLocked('foo', ILockingProvider::LOCK_SHARED));
+		$this->assertTrue($this->instance->isLocked('foo', ILockingProvider::LOCK_EXCLUSIVE));
+	}
+
+	public function testChangeLockToShared() {
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
+		$this->instance->changeLock('foo', ILockingProvider::LOCK_SHARED);
+		$this->assertFalse($this->instance->isLocked('foo', ILockingProvider::LOCK_EXCLUSIVE));
+		$this->assertTrue($this->instance->isLocked('foo', ILockingProvider::LOCK_SHARED));
+	}
+
+	/**
+	 * @expectedException \OCP\Lock\LockedException
+	 */
+	public function testChangeLockToExclusiveDoubleShared() {
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+		$this->instance->changeLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
+	}
+
+	/**
+	 * @expectedException \OCP\Lock\LockedException
+	 */
+	public function testChangeLockToExclusiveNoShared() {
+		$this->instance->changeLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
+	}
+
+	/**
+	 * @expectedException \OCP\Lock\LockedException
+	 */
+	public function testChangeLockToExclusiveFromExclusive() {
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
+		$this->instance->changeLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
+	}
+
+	/**
+	 * @expectedException \OCP\Lock\LockedException
+	 */
+	public function testChangeLockToSharedNoExclusive() {
+		$this->instance->changeLock('foo', ILockingProvider::LOCK_SHARED);
+	}
+
+	/**
+	 * @expectedException \OCP\Lock\LockedException
+	 */
+	public function testChangeLockToSharedFromShared() {
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
+		$this->instance->changeLock('foo', ILockingProvider::LOCK_SHARED);
+	}
 }
