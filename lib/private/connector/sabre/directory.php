@@ -28,6 +28,8 @@
 namespace OC\Connector\Sabre;
 
 use OC\Connector\Sabre\Exception\InvalidPath;
+use OC\Connector\Sabre\Exception\FileLocked;
+use OCP\Lock\LockedException;
 
 class Directory extends \OC\Connector\Sabre\Node
 	implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota {
@@ -102,6 +104,8 @@ class Directory extends \OC\Connector\Sabre\Node
 			return $node->put($data);
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
@@ -127,6 +131,8 @@ class Directory extends \OC\Connector\Sabre\Node
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 		} catch (\OCP\Files\InvalidPathException $ex) {
 			throw new InvalidPath($ex->getMessage());
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
@@ -211,11 +217,14 @@ class Directory extends \OC\Connector\Sabre\Node
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
-		if (!$this->fileView->rmdir($this->path)) {
-			// assume it wasn't possible to remove due to permission issue
-			throw new \Sabre\DAV\Exception\Forbidden();
+		try {
+			if (!$this->fileView->rmdir($this->path)) {
+				// assume it wasn't possible to remove due to permission issue
+				throw new \Sabre\DAV\Exception\Forbidden();
+			}
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
-
 	}
 
 	/**

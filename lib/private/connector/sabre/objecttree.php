@@ -264,6 +264,8 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			$this->fileView->copy($source, $destination);
 		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 
 		list($destinationDir,) = \Sabre\HTTP\URLUtil::splitPath($destination);
