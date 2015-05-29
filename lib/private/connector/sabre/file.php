@@ -46,6 +46,7 @@ use OCP\Files\LockNotAcquiredException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
@@ -80,6 +81,7 @@ class File extends Node implements IFile {
 	 * @throws Exception
 	 * @throws EntityTooLarge
 	 * @throws ServiceUnavailable
+	 * @throws FileLocked
 	 * @return string|null
 	 */
 	public function put($data) {
@@ -111,7 +113,11 @@ class File extends Node implements IFile {
 			$partFilePath = $this->path;
 		}
 
-		$this->fileView->lockFile($this->path, ILockingProvider::LOCK_EXCLUSIVE);
+		try {
+			$this->fileView->lockFile($this->path, ILockingProvider::LOCK_EXCLUSIVE);
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+		}
 
 		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
 		/** @var \OC\Files\Storage\Storage $partStorage */
@@ -257,6 +263,8 @@ class File extends Node implements IFile {
 			throw new ServiceUnavailable("Encryption not ready: " . $e->getMessage());
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to open file: " . $e->getMessage());
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
@@ -278,6 +286,8 @@ class File extends Node implements IFile {
 			}
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to unlink: " . $e->getMessage());
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
@@ -383,6 +393,8 @@ class File extends Node implements IFile {
 				return $info->getEtag();
 			} catch (StorageNotAvailableException $e) {
 				throw new ServiceUnavailable("Failed to put file: " . $e->getMessage());
+			} catch (LockedException $e) {
+				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 			}
 		}
 

@@ -26,10 +26,12 @@
 namespace OC\Connector\Sabre;
 
 use OC\Connector\Sabre\Exception\InvalidPath;
+use OC\Connector\Sabre\Exception\FileLocked;
 use OC\Files\FileInfo;
 use OC\Files\Mount\MoveableMount;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Lock\LockedException;
 
 class ObjectTree extends \Sabre\DAV\Tree {
 
@@ -221,8 +223,10 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			if (!$renameOkay) {
 				throw new \Sabre\DAV\Exception\Forbidden('');
 			}
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
+		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 
 		$this->markDirty($sourceDir);
@@ -258,7 +262,7 @@ class ObjectTree extends \Sabre\DAV\Tree {
 
 		try {
 			$this->fileView->copy($source, $destination);
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
+		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 		}
 
