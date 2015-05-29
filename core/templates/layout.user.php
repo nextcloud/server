@@ -46,7 +46,7 @@
 				</div>
 			</a>
 
-			<a href="#" class="menutoggle" tabindex="2">
+			<a href="#" class="header-appname-container menutoggle" tabindex="2">
 				<h1 class="header-appname">
 					<?php
 						if(OC_Util::getEditionString() === '') {

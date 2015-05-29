@@ -77,13 +77,6 @@
 	margin: 0 auto;
 }
 
-#header .logo-wide {
-	background-image: url(../img/logo-wide.svg);
-	background-repeat: no-repeat;
-	width: 150px;
-	height: 34px;
-}
-
 #header .logo-icon {
 	/* display logo so appname can be shown next to it */
 	display: inline-block;
@@ -93,7 +86,7 @@
 	height: 34px;
 }
 
-#header .menutoggle {
+#header .header-appname-container {
 	display: inline-block;
 	position: absolute;
 	left: 70px;
@@ -103,7 +96,7 @@
 }
 
 /* hover effect for app switcher label */
-.menutoggle .header-appname,
+.header-appname-container .header-appname,
 .menutoggle .icon-caret {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
 	opacity: .75;
@@ -350,8 +343,8 @@
 		margin-bottom: -3px;
 		margin-right: 6px;
 	}
-	#expanddiv a:hover, 
-	#expanddiv a:focus, 
+	#expanddiv a:hover,
+	#expanddiv a:focus,
 	#expanddiv a:active,
 	#expanddiv a.active {
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";

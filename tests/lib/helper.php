@@ -85,11 +85,11 @@ class Test_Helper extends \Test\TestCase {
 		$expected = 'application/zip';
 		$this->assertEquals($result, $expected);
 
-		$result = OC_Helper::getMimeType($dir."/logo-wide.svg");
+		$result = OC_Helper::getMimeType($dir."/desktopapp.svg");
 		$expected = 'image/svg+xml';
 		$this->assertEquals($result, $expected);
 
-		$result = OC_Helper::getMimeType($dir."/logo-wide.png");
+		$result = OC_Helper::getMimeType($dir."/desktopapp.png");
 		$expected = 'image/png';
 		$this->assertEquals($result, $expected);
 	}
