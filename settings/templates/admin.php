@@ -7,6 +7,7 @@
 /**
  * @var array $_
  * @var \OCP\IL10N $l
+ * @var OC_Defaults $theme
  */
 
 style('settings', 'settings');
@@ -15,32 +16,32 @@ script('core', ['multiselect', 'setupchecks']);
 vendor_script('select2/select2');
 vendor_style('select2/select2');
 
-$levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
-$levelLabels = array(
+$levels = ['Debug', 'Info', 'Warning', 'Error', 'Fatal'];
+$levelLabels = [
 	$l->t( 'Everything (fatal issues, errors, warnings, info, debug)' ),
 	$l->t( 'Info, warnings, errors and fatal issues' ),
 	$l->t( 'Warnings, errors and fatal issues' ),
 	$l->t( 'Errors and fatal issues' ),
 	$l->t( 'Fatal issues only' ),
-);
+];
 
-$mail_smtpauthtype = array(
+$mail_smtpauthtype = [
 	''	=> $l->t('None'),
 	'LOGIN'	=> $l->t('Login'),
 	'PLAIN'	=> $l->t('Plain'),
 	'NTLM'	=> $l->t('NT LAN Manager'),
-);
+];
 
-$mail_smtpsecure = array(
+$mail_smtpsecure = [
 	''		=> $l->t('None'),
 	'ssl'	=> $l->t('SSL'),
 	'tls'	=> $l->t('TLS'),
-);
+];
 
-$mail_smtpmode = array(
+$mail_smtpmode = [
 	'php',
 	'smtp',
-);
+];
 if ($_['sendmail_is_available']) {
 	$mail_smtpmode[] = 'sendmail';
 }
@@ -137,7 +138,7 @@ if (!$_['isLocaleWorking']) {
 		?>
 			<br>
 			<?php
-			p($l->t('We strongly suggest installing the required packages on your system to support one of the following locales: %s.', array($locales)));
+			p($l->t('We strongly suggest installing the required packages on your system to support one of the following locales: %s.', [$locales]));
 			?>
 	</li>
 <?php
@@ -266,12 +267,12 @@ if ($_['cronErrors']) {
 			if (time() - $_['lastcron'] <= 3600): ?>
 				<span class="cronstatus success"></span>
 				<span class="crondate" original-title="<?php p($absolute_time);?>">
-					<?php p($l->t("Last cron job execution: %s.", array($relative_time)));?>
+					<?php p($l->t("Last cron job execution: %s.", [$relative_time]));?>
 				</span>
 			<?php else: ?>
 				<span class="cronstatus error"></span>
 				<span class="crondate" original-title="<?php p($absolute_time);?>">
-					<?php p($l->t("Last cron job execution: %s. Something seems wrong.", array($relative_time)));?>
+					<?php p($l->t("Last cron job execution: %s. Something seems wrong.", [$relative_time]));?>
 				</span>
 			<?php endif;
 		else: ?>
@@ -525,6 +526,18 @@ if ($_['cronErrors']) {
 		<li><a target="_blank" href="<?php p(link_to_docs('admin-config')); ?>"><?php p($l->t('Improving the config.php'));?> ↗</a></li>
 		<li><a target="_blank" href="<?php p(link_to_docs('developer-theming')); ?>"><?php p($l->t('Theming'));?> ↗</a></li>
 		<li><a target="_blank" href="<?php p(link_to_docs('admin-security')); ?>"><?php p($l->t('Hardening and security guidance'));?> ↗</a></li>
+	</ul>
+</div>
+<div class="section" id="server-status">
+	<h2><?php p($l->t('Server Status'));?></h2>
+	<ul>
+		<li>
+			<?php if ($_['fileLockingEnabled']) {
+				p($l->t('Experimental File Lock is enabled.'));
+			} else {
+				p($l->t('Experimental File Lock is disabled.'));
+			} ?>
+		</li>
 	</ul>
 </div>
 

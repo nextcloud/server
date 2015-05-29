@@ -29,6 +29,8 @@
  *
  */
 
+use OC\Lock\NoopLockingProvider;
+
 OC_Util::checkAdminUser();
 OC_App::setActiveNavigationEntry("admin");
 
@@ -175,6 +177,11 @@ $template->assign('fileSharingSettings', $fileSharingSettings);
 $template->assign('filesExternal', $filesExternal);
 $template->assign('updaterAppPanel', $updaterAppPanel);
 $template->assign('ocDefaultEncryptionModulePanel', $ocDefaultEncryptionModulePanel);
+if (\OC::$server->getLockingProvider() instanceof NoopLockingProvider) {
+	$template->assign('fileLockingEnabled', false);
+} else {
+	$template->assign('fileLockingEnabled', true);
+}
 
 $formsMap = array_map(function ($form) {
 	if (preg_match('%(<h2[^>]*>.*?</h2>)%i', $form, $regs)) {
@@ -200,6 +207,7 @@ $formsAndMore = array_merge($formsAndMore, $formsMap);
 $formsAndMore[] = ['anchor' => 'backgroundjobs', 'section-name' => $l->t('Cron')];
 $formsAndMore[] = ['anchor' => 'mail_general_settings', 'section-name' => $l->t('Email server')];
 $formsAndMore[] = ['anchor' => 'log-section', 'section-name' => $l->t('Log')];
+$formsAndMore[] = ['anchor' => 'server-status', 'section-name' => $l->t('Server Status')];
 $formsAndMore[] = ['anchor' => 'admin-tips', 'section-name' => $l->t('Tips & tricks')];
 if ($updaterAppPanel) {
 	$formsAndMore[] = ['anchor' => 'updater', 'section-name' => $l->t('Updates')];
