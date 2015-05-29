@@ -561,4 +561,13 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	public function releaseLock($path, $type, ILockingProvider $provider) {
 		$this->storage->releaseLock($path, $type, $provider);
 	}
+
+	/**
+	 * @param string $path
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param \OCP\Lock\ILockingProvider $provider
+	 */
+	public function changeLock($path, $type, ILockingProvider $provider) {
+		$this->storage->changeLock($path, $type, $provider);
+	}
 }

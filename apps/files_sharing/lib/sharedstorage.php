@@ -634,4 +634,15 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		list($targetStorage, $targetInternalPath) = $this->resolvePath($path);
 		$targetStorage->releaseLock($targetInternalPath, $type, $provider);
 	}
+
+	/**
+	 * @param string $path
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param \OCP\Lock\ILockingProvider $provider
+	 */
+	public function changeLock($path, $type, ILockingProvider $provider) {
+		/** @var \OCP\Files\Storage $targetStorage */
+		list($targetStorage, $targetInternalPath) = $this->resolvePath($path);
+		$targetStorage->changeLock($targetInternalPath, $type, $provider);
+	}
 }

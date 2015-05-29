@@ -91,4 +91,12 @@ interface Storage extends \OCP\Files\Storage {
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function releaseLock($path, $type, ILockingProvider $provider);
+
+	/**
+	 * @param string $path The path of the file to change the lock for
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param \OCP\Lock\ILockingProvider $provider
+	 * @throws \OCP\Lock\LockedException
+	 */
+	public function changeLock($path, $type, ILockingProvider $provider);
 }

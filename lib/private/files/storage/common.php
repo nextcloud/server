@@ -641,4 +641,13 @@ abstract class Common implements Storage {
 	public function releaseLock($path, $type, ILockingProvider $provider) {
 		$provider->releaseLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
 	}
+
+	/**
+	 * @param string $path
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param \OCP\Lock\ILockingProvider $provider
+	 */
+	public function changeLock($path, $type, ILockingProvider $provider) {
+		$provider->changeLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
+	}
 }
