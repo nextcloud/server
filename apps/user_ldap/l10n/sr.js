@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Failed to clear the mappings." : "Неуспело чишћење мапирања.",
     "Failed to delete the server configuration" : "Неуспело брисање поставе сервера",
+    "The configuration is invalid: anonymous bind is not allowed." : "Неисправна подешавања. Анонимна веза није дозвољена.",
     "The configuration is valid and the connection could be established!" : "Конфигурација је важећа и веза се може успоставити!",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "Конфигурација је важећа, али Bind није успео. Проверите подешавања сервера и акредитиве.",
     "The configuration is invalid. Please have a look at the logs for further details." : "Конфигурација није важећа. Погледајте у дневнику записа за додатне детаље.",
@@ -29,6 +30,7 @@ OC.L10N.register(
     "Confirm Deletion" : "Потврдa брисањa",
     "Mappings cleared successfully!" : "Мапирања успешно очишћена!",
     "Error while clearing the mappings." : "Грешка при чишћењу мапирања.",
+    "LDAP Operations error. Anonymous bind might not be allowed." : "Грешка ЛДАП радње. Анонимна веза можда није дозвољена.",
     "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "Упис није успео. Проверите да је база у функцији. Поново учитајте пре настављања.",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Пребацивање режима укључиће аутоматске ЛДАП упите. Зависно од ЛДАП величине то може потрајати. Заиста желите да промените режим?",
     "Mode switch" : "Промена режима",
