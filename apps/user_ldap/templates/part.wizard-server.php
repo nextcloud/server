@@ -25,14 +25,14 @@
 		</select>
 		<button type="button" id="ldap_action_add_configuration"
 			name="ldap_action_add_configuration" class="icon-add"
-			title="Adds a new and blank configuration">&nbsp;</button>
+			title="<?php p($l->t('Adds a new and blank configuration'));?>">&nbsp;</button>
 		<button type="button" id="ldap_action_copy_configuration"
 			name="ldap_action_copy_configuration"
 			class="ldapIconCopy icon-default-style"
-			title="Copy current configuration into new directory binding">&nbsp;</button>
+			title="<?php p($l->t('Copy current configuration into new directory binding'));?>">&nbsp;</button>
 		<button type="button" id="ldap_action_delete_configuration"
 			name="ldap_action_delete_configuration" class="icon-delete"
-			title="Delete the current configuration">&nbsp;</button>
+			title="<?php p($l->t('Delete the current configuration'));?>">&nbsp;</button>
 		</p>
 
 		<div class="hostPortCombinator">
