@@ -22,12 +22,11 @@ class NullLogger extends Log {
 }
 
 class TempManager extends \Test\TestCase {
-	protected $baseDir;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->baseDir = get_temp_dir() . $this->getUniqueID('/oc_tmp_test');
+		$this->baseDir = $this->getManager()->t_get_temp_dir() . $this->getUniqueID('/oc_tmp_test');
 		if (!is_dir($this->baseDir)) {
 			mkdir($this->baseDir);
 		}
@@ -46,7 +45,7 @@ class TempManager extends \Test\TestCase {
 		if (!$logger) {
 			$logger = new NullLogger();
 		}
-		return new \OC\TempManager($this->baseDir, $logger);
+		return new \OC\TempManager($logger);
 	}
 
 	public function testGetFile() {
