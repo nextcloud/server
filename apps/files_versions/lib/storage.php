@@ -346,7 +346,7 @@ class Storage {
 	 */
 	public static function getVersions($uid, $filename, $userFullPath = '') {
 		$versions = array();
-		if ($filename === '') {
+		if (empty($filename)) {
 			return $versions;
 		}
 		// fetch for old versions
@@ -556,6 +556,10 @@ class Storage {
 		$config = \OC::$server->getConfig();
 		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
+			if (empty($filename)) {
+				// file maybe renamed or deleted
+				return false;
+			}
 			$versionsFileview = new \OC\Files\View('/'.$uid.'/files_versions');
 
 			// get available disk space for user

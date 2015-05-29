@@ -552,8 +552,18 @@ class Test_Files_Versioning extends \Test\TestCase {
 	public function testGetVersionsEmptyFile() {
 		// execute copy hook of versions app
 		$versions = \OCA\Files_Versions\Storage::getVersions(self::TEST_VERSIONS_USER, '');
-
 		$this->assertCount(0, $versions);
+
+		$versions = \OCA\Files_Versions\Storage::getVersions(self::TEST_VERSIONS_USER, null);
+		$this->assertCount(0, $versions);
+	}
+
+	public function testExpireNonexistingFile() {
+		$this->logout();
+		// needed to have a FS setup (the background job does this)
+		\OC_Util::setupFS(self::TEST_VERSIONS_USER);
+
+		$this->assertFalse(\OCA\Files_Versions\Storage::expire('/void/unexist.txt'));
 	}
 
 	public function testRestoreSameStorage() {
