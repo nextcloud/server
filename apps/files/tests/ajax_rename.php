@@ -222,36 +222,17 @@ class Test_OC_Files_App_Rename extends \Test\TestCase {
 	}
 
 	/**
-	 * Test move to a folder that doesn't exist any more
+	 * Test move to invalid name
 	 */
-	function testRenameToNonExistingFolder() {
+	function testRenameToInvalidName() {
 		$dir = '/';
 		$oldname = 'oldname';
-		$newname = '/unexist/newname';
-
-		$this->viewMock->expects($this->any())
-			->method('file_exists')
-			->with($this->anything())
-			->will($this->returnValueMap(array(
-				array('/oldname', true),
-				array('/unexist', false)
-				)));
-
-		$this->viewMock->expects($this->any())
-			->method('getFileInfo')
-			->will($this->returnValue(array(
-				'fileid' => 123,
-				'type' => 'dir',
-				'mimetype' => 'httpd/unix-directory',
-				'size' => 18,
-				'etag' => 'abcdef',
-				'directory' => '/unexist',
-				'name' => 'new_name',
-			)));
+		$newname = 'abc\\';
 
 		$result = $this->files->rename($dir, $oldname, $newname);
 
 		$this->assertFalse($result['success']);
-		$this->assertEquals('targetnotfound', $result['data']['code']);
+		$this->assertEquals('File name contains at least one invalid character', $result['data']['message']);
+		$this->assertEquals('invalidname', $result['data']['code']);
 	}
 }

@@ -74,6 +74,17 @@ class App {
 			'data'		=> NULL
 		);
 
+		try {
+			// check if the new name is conform to file name restrictions
+			$this->view->verifyPath($dir, $newname);
+		} catch (\OCP\Files\InvalidPathException $ex) {
+			$result['data'] = array(
+				'message'	=> $this->l10n->t($ex->getMessage()),
+				'code' => 'invalidname',
+			);
+			return $result;
+		}
+
 		$normalizedOldPath = \OC\Files\Filesystem::normalizePath($dir . '/' . $oldname);
 		$normalizedNewPath = \OC\Files\Filesystem::normalizePath($dir . '/' . $newname);
 
