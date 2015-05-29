@@ -42,6 +42,6 @@ class FileLocked extends \Sabre\DAV\Exception {
 	 */
 	public function getHTTPCode() {
 
-		return 503;
+		return 423;
 	}
 }
