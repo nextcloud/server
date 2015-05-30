@@ -35,6 +35,7 @@
     "_%n minute ago_::_%n minutes ago_" : ["%n minuutti sitten","%n minuuttia sitten"],
     "seconds ago" : "sekuntia sitten",
     "web services under your control" : "verkkopalvelut hallinnassasi",
+    "Module with id: %s does not exists. Please enable it in your apps settings or contact your administrator." : "Moduulia tunnisteella %s ei ole olemassa. Ota se käyttöön sovellustesi asetuksista tai ota yhteys ylläpitoon.",
     "Empty filename is not allowed" : "Tiedostonimi ei voi olla tyhjä",
     "Dot files are not allowed" : "Pistetiedostot eivät ole sallittuja",
     "4-byte characters are not supported in file names" : "4 tavun merkit eivät ole tuettuja tiedostojen nimissä",

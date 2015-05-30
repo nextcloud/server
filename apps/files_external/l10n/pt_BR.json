@@ -41,6 +41,7 @@
     "Username as share" : "Nome de usuário como compartilhado",
     "URL" : "URL",
     "Secure https://" : "https:// segura",
+    "SFTP with secret key login" : "SFTP com chave secreta de login",
     "Public key" : "Chave pública",
     "Storage with id \"%i\" not found" : "Armazenamento com id \"%i\" não encontrado",
     "Invalid mount point" : "Ponto de montagem inválido",

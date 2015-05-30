@@ -43,6 +43,7 @@ OC.L10N.register(
     "Username as share" : "Gebruikersnaam als share",
     "URL" : "URL",
     "Secure https://" : "Secure https://",
+    "SFTP with secret key login" : "SFTP met geheime sleutel inlog",
     "Public key" : "Publieke sleutel",
     "Storage with id \"%i\" not found" : "Opslag met id \"%i\" niet gevonden",
     "Invalid mount point" : "Ongeldig aankoppelpunt",

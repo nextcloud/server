@@ -43,6 +43,7 @@ OC.L10N.register(
     "Username as share" : "Brukernavn som share",
     "URL" : "URL",
     "Secure https://" : "Sikker https://",
+    "SFTP with secret key login" : "SFTP med hemmelig nøkkel for pålogging",
     "Public key" : "Offentlig nøkkel",
     "Storage with id \"%i\" not found" : "Lager med id \"%i\" ikke funnet",
     "Invalid mount point" : "Ugyldig oppkoblingspunkt",

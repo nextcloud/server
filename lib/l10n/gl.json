@@ -36,6 +36,7 @@
     "_%n minute ago_::_%n minutes ago_" : ["hai %n minuto","hai %n minutos"],
     "seconds ago" : "segundos atrás",
     "web services under your control" : "servizos web baixo o seu control",
+    "Module with id: %s does not exists. Please enable it in your apps settings or contact your administrator." : "Non existe o módulo co ID: %s. Actíveo nos axustes de aplicacións ou contacte co administrador.",
     "Empty filename is not allowed" : "Non está permitido deixar baleiro o nome de ficheiro",
     "Dot files are not allowed" : "Non se admiten os ficheiros con punto",
     "4-byte characters are not supported in file names" : "Non se admiten os caracteres de 4 bytes nos nomes de ficheiro",
