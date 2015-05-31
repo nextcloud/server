@@ -78,6 +78,8 @@ OC.L10N.register(
     "Verify settings" : "Verifica impostazioni",
     "1. Server" : "1. server",
     "%s. Server:" : "%s. server:",
+    "Adds a new and blank configuration" : "Aggiunge una nuova configurazione",
+    "Delete the current configuration" : "Elimina la configurazione attuale",
     "Host" : "Host",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "È possibile omettere il protocollo, ad eccezione se è necessario SSL. Quindi inizia con ldaps://",
     "Port" : "Porta",

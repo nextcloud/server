@@ -43,6 +43,7 @@ OC.L10N.register(
     "Username as share" : "Uživatelské jméno jako sdílený adresář",
     "URL" : "URL",
     "Secure https://" : "Zabezpečené https://",
+    "SFTP with secret key login" : "SFTP login s tajným klíčem",
     "Public key" : "Veřejný klíč",
     "Storage with id \"%i\" not found" : "Úložiště s id \"%i\" nebylo nalezeno",
     "Invalid mount point" : "Neplatný přípojný bod",

@@ -43,6 +43,7 @@ OC.L10N.register(
     "Username as share" : "Nom d'utilisateur comme nom de partage",
     "URL" : "URL",
     "Secure https://" : "Sécurisation https://",
+    "SFTP with secret key login" : "SFTP avec un identifiant secret",
     "Public key" : "Clef publique",
     "Storage with id \"%i\" not found" : "Stockage avec l'id \"%i\" non trouvé",
     "Invalid mount point" : "Point de montage non valide",
