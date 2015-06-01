@@ -213,7 +213,7 @@
 					$status.addClass('emptycontent').removeClass('status');
 					$status.html('');
 					$status.append('<div class="icon-search"></div>');
-					$status.append('<h2>' + t('core', 'No search result in other places') + '</h2>');
+					$status.append('<h2>' + t('core', 'No search results in other places') + '</h2>');
 				} else {
 					$status.removeClass('emptycontent').addClass('status');
 					$status.text(n('core', '{count} search result in other places', '{count} search results in other places', count, {count:count}));
