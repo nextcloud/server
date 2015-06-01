@@ -1063,7 +1063,8 @@ class View {
 		if ($this->fakeRoot === $defaultRoot) {
 			return true;
 		}
-		return (strlen($this->fakeRoot) > strlen($defaultRoot)) && (substr($this->fakeRoot, 0, strlen($defaultRoot) + 1) === $defaultRoot . '/');
+		$fullPath = $this->getAbsolutePath($path);
+		return (strlen($fullPath) > strlen($defaultRoot)) && (substr($fullPath, 0, strlen($defaultRoot) + 1) === $defaultRoot . '/');
 	}
 
 	/**
