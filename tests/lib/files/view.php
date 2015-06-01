@@ -16,6 +16,26 @@ class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
 	}
 }
 
+class TemporaryNoCross extends \OC\Files\Storage\Temporary {
+	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		return Common::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+	}
+
+	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		return Common::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+	}
+}
+
+class TemporaryNoLocal extends \OC\Files\Storage\Temporary {
+	public function instanceOfStorage($className) {
+		if ($className === '\OC\Files\Storage\Local') {
+			return false;
+		} else {
+			return parent::instanceOfStorage($className);
+		}
+	}
+}
+
 class View extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage[] $storages
@@ -294,9 +314,31 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testCopyBetweenStorages() {
+	function testCopyBetweenStorageNoCross() {
+		$storage1 = $this->getTestStorage(true, '\Test\Files\TemporaryNoCross');
+		$storage2 = $this->getTestStorage(true, '\Test\Files\TemporaryNoCross');
+		$this->copyBetweenStorages($storage1, $storage2);
+	}
+
+	/**
+	 * @medium
+	 */
+	function testCopyBetweenStorageCross() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
+		$this->copyBetweenStorages($storage1, $storage2);
+	}
+
+	/**
+	 * @medium
+	 */
+	function testCopyBetweenStorageCrossNonLocal() {
+		$storage1 = $this->getTestStorage(true, '\Test\Files\TemporaryNoLocal');
+		$storage2 = $this->getTestStorage(true, '\Test\Files\TemporaryNoLocal');
+		$this->copyBetweenStorages($storage1, $storage2);
+	}
+
+	function copyBetweenStorages($storage1, $storage2) {
 		\OC\Files\Filesystem::mount($storage1, array(), '/');
 		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
 
@@ -318,9 +360,31 @@ class View extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testMoveBetweenStorages() {
+	function testMoveBetweenStorageNoCross() {
+		$storage1 = $this->getTestStorage(true, '\Test\Files\TemporaryNoCross');
+		$storage2 = $this->getTestStorage(true, '\Test\Files\TemporaryNoCross');
+		$this->moveBetweenStorages($storage1, $storage2);
+	}
+
+	/**
+	 * @medium
+	 */
+	function testMoveBetweenStorageCross() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
+		$this->moveBetweenStorages($storage1, $storage2);
+	}
+
+	/**
+	 * @medium
+	 */
+	function testMoveBetweenStorageCrossNonLocal() {
+		$storage1 = $this->getTestStorage(true, '\Test\Files\TemporaryNoLocal');
+		$storage2 = $this->getTestStorage(true, '\Test\Files\TemporaryNoLocal');
+		$this->moveBetweenStorages($storage1, $storage2);
+	}
+
+	function moveBetweenStorages($storage1, $storage2) {
 		\OC\Files\Filesystem::mount($storage1, array(), '/');
 		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
 
@@ -882,8 +946,19 @@ class View extends \Test\TestCase {
 
 	private function doTestCopyRenameFail($operation) {
 		$storage1 = new Temporary(array());
-		$storage2 = new Temporary(array());
-		$storage2 = new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage2, 'quota' => 9));
+		/** @var \PHPUnit_Framework_MockObject_MockObject | \OC\Files\Storage\Temporary $storage2 */
+		$storage2 = $this->getMockBuilder('\Test\Files\TemporaryNoCross')
+			->setConstructorArgs([[]])
+			->setMethods(['fopen'])
+			->getMock();
+
+		$storage2->expects($this->any())
+			->method('fopen')
+			->will($this->returnCallback(function ($path, $mode) use ($storage2) {
+				$source = fopen($storage2->getSourcePath($path), $mode);
+				return \OC\Files\Stream\Quota::wrap($source, 9);
+			}));
+
 		$storage1->mkdir('sub');
 		$storage1->file_put_contents('foo.txt', '0123456789ABCDEFGH');
 		$storage1->mkdir('dirtomove');
