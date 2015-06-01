@@ -59,7 +59,10 @@ $(document).ready(function() {
 		// Disable inputs
 		$(':submit', this).attr('disabled','disabled').val($(':submit', this).data('finishing'));
 		$('input', this).addClass('ui-state-disabled').attr('disabled','disabled');
-		$('#selectDbType').buttonset('disable');
+		// only disable buttons if they are present
+		if($('#selectDbType').find('.ui-button').length > 0) {
+			$('#selectDbType').buttonset('disable');
+		}
 		$('.strengthify-wrapper, .tipsy')
 			.css('-ms-filter', '"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"')
 			.css('filter', 'alpha(opacity=30)')
