@@ -39,7 +39,10 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	private $request;
 
 	public function setUp() {
-		$api = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer', array(), array('test'));
+		$api = $this->getMockBuilder(
+			'OC\AppFramework\DependencyInjection\DIContainer')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->controller = $this->getMock('OCP\AppFramework\Controller',
 				array(), array($api, new Request()));
 
@@ -297,7 +300,11 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function testAfterExceptionReturnsRedirect(){
-		$api = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer', array(), array('test'));
+		$api = $this->getMockBuilder(
+			'OC\AppFramework\DependencyInjection\DIContainer')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$serverMock = $this->getMock('\OC\Server', array('getNavigationManager'));
 		$api->expects($this->once())->method('getServer')
 			->will($this->returnValue($serverMock));
@@ -309,7 +316,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 			array('server' => array('HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')));
 		$this->middleware = new SecurityMiddleware($api, $this->request);
 		$response = $this->middleware->afterException($this->controller, 'test',
-				$this->secException);
+			$this->secException);
 
 		$this->assertTrue($response instanceof RedirectResponse);
 	}
