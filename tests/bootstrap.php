@@ -6,13 +6,6 @@ if ($configDir) {
 	define('PHPUNIT_CONFIG_DIR', $configDir);
 }
 
-if (!defined('HHVM_VERSION')) {
-	if(version_compare(phpversion(), '5.6.0', '>=') &&
-		ini_get('always_populate_raw_post_data') !== '-1') {
-		throw new Exception("'always_populate_raw_post_data' has to be set to '-1' in your php.ini");
-	}
-}
-
 require_once __DIR__ . '/../lib/base.php';
 
 // load minimum set of apps
