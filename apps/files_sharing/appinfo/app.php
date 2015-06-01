@@ -49,6 +49,7 @@ $application->registerMountProviders();
 $application->setupPropagation();
 
 \OCP\App::registerAdmin('files_sharing', 'settings-admin');
+\OCP\App::registerPersonal('files_sharing', 'settings-personal');
 
 \OCA\Files_Sharing\Helper::registerHooks();
 
