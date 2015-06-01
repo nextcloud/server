@@ -249,6 +249,13 @@ class ObjectTree extends \Sabre\DAV\Tree {
 		// this will trigger existence check
 		$this->getNodeForPath($source);
 
+		list($destinationDir, $destinationName) = \Sabre\HTTP\URLUtil::splitPath($destination);
+		try {
+			$this->fileView->verifyPath($destinationDir, $destinationName);
+		} catch (\OCP\Files\InvalidPathException $ex) {
+			throw new InvalidPath($ex->getMessage());
+		}
+
 		try {
 			$this->fileView->copy($source, $destination);
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
