@@ -12,11 +12,11 @@ Handlebars.registerHelper('score', function() {
 Handlebars.registerHelper('level', function() {
 	if(typeof this.level !== 'undefined') {
 		if(this.level === 200) {
-			return new Handlebars.SafeString('<span class="official icon-checkmark">Official</span>');
+			return new Handlebars.SafeString('<span class="official icon-checkmark">' + t('settings', 'Official') + '</span>');
 		} else if(this.level === 100) {
-			return new Handlebars.SafeString('<span class="approved">Approved</span>');
+			return new Handlebars.SafeString('<span class="approved">' + t('settings', 'Approved') + '</span>');
 		} else {
-			return new Handlebars.SafeString('<span class="experimental">Experimental</span>');
+			return new Handlebars.SafeString('<span class="experimental">' + t('settings', 'Experimental') + '</span>');
 		}
 	}
 });
@@ -117,9 +117,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					$('#apps-list-empty').removeClass('hidden');
 				}
 
-				$('.app-level .official').tipsy({fallback: t('core', 'Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use.')});
-				$('.app-level .approved').tipsy({fallback: t('core', 'Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use.')});
-				$('.app-level .experimental').tipsy({fallback: t('core', 'This app is not checked for security issues and is new or known to be unstable. Install on your own risk.')});
+				$('.app-level .official').tipsy({fallback: t('settings', 'Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use.')});
+				$('.app-level .approved').tipsy({fallback: t('settings', 'Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use.')});
+				$('.app-level .experimental').tipsy({fallback: t('settings', 'This app is not checked for security issues and is new or known to be unstable. Install on your own risk.')});
 			},
 			complete: function() {
 				$('#apps-list').removeClass('icon-loading');
