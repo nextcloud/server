@@ -181,6 +181,14 @@ class Scanner extends \Test\TestCase {
 		$this->assertEquals($oldData['size'], $newData['size']);
 	}
 
+	public function testReuseIdentical() {
+		$this->storage->file_put_contents('file.txt', 'contents');
+		$data = $this->scanner->scanFile('file.txt', \OC\Files\Cache\Scanner::REUSE_ETAG);
+		$this->assertTrue(isset($data['fileid']));
+		$data = $this->scanner->scanFile('file.txt', \OC\Files\Cache\Scanner::REUSE_ETAG);
+		$this->assertTrue(isset($data['fileid']));
+	}
+
 	public function testRemovedFile() {
 		$this->fillTestFolders();
 
