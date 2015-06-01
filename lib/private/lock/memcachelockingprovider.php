@@ -111,6 +111,9 @@ class MemcacheLockingProvider implements ILockingProvider {
 				throw new LockedException($path);
 			}
 			unset($this->acquiredLocks['exclusive'][$path]);
+			if (!isset($this->acquiredLocks['shared'][$path])) {
+				$this->acquiredLocks['shared'][$path] = 0;
+			}
 			$this->acquiredLocks['shared'][$path]++;
 		} else if ($targetType === self::LOCK_EXCLUSIVE) {
 			// we can only change a shared lock to an exclusive if there's only a single owner of the shared lock
