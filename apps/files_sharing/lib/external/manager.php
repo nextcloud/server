@@ -186,6 +186,7 @@ class Manager {
 	 * accept server-to-server share
 	 *
 	 * @param int $id
+	 * @return bool True if the share could be accepted, false otherwise
 	 */
 	public function acceptShare($id) {
 
@@ -204,13 +205,18 @@ class Manager {
 				WHERE `id` = ? AND `user` = ?');
 			$acceptShare->execute(array(1, $mountPoint, $hash, $id, $this->uid));
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
+
+			return true;
 		}
+
+		return false;
 	}
 
 	/**
 	 * decline server-to-server share
 	 *
 	 * @param int $id
+	 * @return bool True if the share could be declined, false otherwise
 	 */
 	public function declineShare($id) {
 
@@ -221,7 +227,11 @@ class Manager {
 				DELETE FROM `*PREFIX*share_external` WHERE `id` = ? AND `user` = ?');
 			$removeShare->execute(array($id, $this->uid));
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
+
+			return true;
 		}
+
+		return false;
 	}
 
 	/**
