@@ -51,10 +51,17 @@ class NoopLockingProvider implements ILockingProvider {
 		// do nothing
 	}
 
-	/**
-	 * release all lock acquired by this instance
+	/**1
+	 * {@inheritdoc}
 	 */
 	public function releaseAll() {
+		// do nothing
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function changeLock($path, $targetType) {
 		// do nothing
 	}
 }
