@@ -31,6 +31,11 @@ class MemcacheLockingProvider implements ILockingProvider {
 	 */
 	private $memcache;
 
+	private $acquiredLocks = [
+		'shared' => [],
+		'exclusive' => []
+	];
+
 	/**
 	 * @param \OCP\IMemcache $memcache
 	 */
@@ -64,11 +69,16 @@ class MemcacheLockingProvider implements ILockingProvider {
 			if (!$this->memcache->inc($path)) {
 				throw new LockedException($path);
 			}
+			if (!isset($this->acquiredLocks['shared'][$path])) {
+				$this->acquiredLocks['shared'][$path] = 0;
+			}
+			$this->acquiredLocks['shared'][$path]++;
 		} else {
 			$this->memcache->add($path, 0);
 			if (!$this->memcache->cas($path, 0, 'exclusive')) {
 				throw new LockedException($path);
 			}
+			$this->acquiredLocks['exclusive'][$path] = true;
 		}
 	}
 
@@ -78,9 +88,55 @@ class MemcacheLockingProvider implements ILockingProvider {
 	 */
 	public function releaseLock($path, $type) {
 		if ($type === self::LOCK_SHARED) {
-			$this->memcache->dec($path);
+			if (isset($this->acquiredLocks['shared'][$path]) and $this->acquiredLocks['shared'][$path] > 0) {
+				$this->memcache->dec($path);
+				$this->acquiredLocks['shared'][$path]--;
+			}
 		} else if ($type === self::LOCK_EXCLUSIVE) {
 			$this->memcache->cas($path, 'exclusive', 0);
+			unset($this->acquiredLocks['exclusive'][$path]);
+		}
+	}
+
+	/**
+	 * Change the type of an existing lock
+	 *
+	 * @param string $path
+	 * @param int $targetType self::LOCK_SHARED or self::LOCK_EXCLUSIVE
+	 * @throws \OCP\Lock\LockedException
+	 */
+	public function changeLock($path, $targetType) {
+		if ($targetType === self::LOCK_SHARED) {
+			if (!$this->memcache->cas($path, 'exclusive', 1)) {
+				throw new LockedException($path);
+			}
+			unset($this->acquiredLocks['exclusive'][$path]);
+			if (!isset($this->acquiredLocks['shared'][$path])) {
+				$this->acquiredLocks['shared'][$path] = 0;
+			}
+			$this->acquiredLocks['shared'][$path]++;
+		} else if ($targetType === self::LOCK_EXCLUSIVE) {
+			// we can only change a shared lock to an exclusive if there's only a single owner of the shared lock
+			if (!$this->memcache->cas($path, 1, 'exclusive')) {
+				throw new LockedException($path);
+			}
+			$this->acquiredLocks['exclusive'][$path] = true;
+			$this->acquiredLocks['shared'][$path]--;
+		}
+	}
+
+	/**
+	 * release all lock acquired by this instance
+	 */
+	public function releaseAll() {
+		foreach ($this->acquiredLocks['shared'] as $path => $count) {
+			for ($i = 0; $i < $count; $i++) {
+				$this->releaseLock($path, self::LOCK_SHARED);
+			}
+		}
+
+		foreach ($this->acquiredLocks['exclusive'] as $path => $hasLock) {
+			$this->releaseLock($path, self::LOCK_EXCLUSIVE);
 		}
 	}
 }

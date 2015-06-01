@@ -89,6 +89,12 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 		$this->server->on('afterBind', array($this, 'sendFileIdHeader'));
 		$this->server->on('afterWriteContent', array($this, 'sendFileIdHeader'));
 		$this->server->on('afterMethod:GET', [$this,'httpGet']);
+		$this->server->on('afterResponse', function($request, ResponseInterface $response) {
+			$body = $response->getBody();
+			if (is_resource($body)) {
+				fclose($body);
+			}
+		});
 	}
 
 	/**

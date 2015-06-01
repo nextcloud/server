@@ -666,6 +666,8 @@ class OC {
 		//make sure temporary files are cleaned up
 		$tmpManager = \OC::$server->getTempManager();
 		register_shutdown_function(array($tmpManager, 'clean'));
+		$lockProvider = \OC::$server->getLockingProvider();
+		register_shutdown_function(array($lockProvider, 'releaseAll'));
 
 		if ($systemConfig->getValue('installed', false) && !self::checkUpgrade(false)) {
 			if (\OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {

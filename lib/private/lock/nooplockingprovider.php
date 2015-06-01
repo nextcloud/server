@@ -1,8 +1,5 @@
 <?php
 /**
- * @author Lukas Reschke <lukas@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -22,26 +19,49 @@
  *
  */
 
-namespace OC\Connector\Sabre\Exception;
+namespace OC\Lock;
 
-use Exception;
+use OCP\Lock\ILockingProvider;
 
-class FileLocked extends \Sabre\DAV\Exception {
+/**
+ * Locking provider that does nothing.
+ *
+ * To be used when locking is disabled.
+ */
+class NoopLockingProvider implements ILockingProvider {
 
-	public function __construct($message = "", $code = 0, Exception $previous = null) {
-		if($previous instanceof \OCP\Files\LockNotAcquiredException) {
-			$message = sprintf('Target file %s is locked by another process.', $previous->path);
-		}
-		parent::__construct($message, $code, $previous);
+    /**
+     * {@inheritdoc}
+     */
+	public function isLocked($path, $type) {
+		return false;
+	}
+
+    /**
+     * {@inheritdoc}
+     */
+	public function acquireLock($path, $type) {
+		// do nothing
 	}
 
 	/**
-	 * Returns the HTTP status code for this exception
-	 *
-	 * @return int
+     * {@inheritdoc}
 	 */
-	public function getHTTPCode() {
+	public function releaseLock($path, $type) {
+		// do nothing
+	}
 
-		return 423;
+	/**1
+	 * {@inheritdoc}
+	 */
+	public function releaseAll() {
+		// do nothing
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function changeLock($path, $targetType) {
+		// do nothing
 	}
 }

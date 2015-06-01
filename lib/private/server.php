@@ -43,6 +43,8 @@ use OC\Command\AsyncBus;
 use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
+use OC\Lock\MemcacheLockingProvider;
+use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Http\Client\ClientService;
@@ -223,7 +225,7 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('MemCacheFactory', function (Server $c) {
 			$config = $c->getConfig();
 
-			if($config->getSystemValue('installed', false)) {
+			if($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				$v = \OC_App::getAppVersions();
 				$v['core'] = implode('.', \OC_Util::getVersion());
 				$version = implode(',', $v);
@@ -232,11 +234,13 @@ class Server extends SimpleContainer implements IServerContainer {
 				$prefix = md5($instanceId.'-'.$version.'-'.$path);
 				return new \OC\Memcache\Factory($prefix,
 					$config->getSystemValue('memcache.local', null),
-					$config->getSystemValue('memcache.distributed', null)
+					$config->getSystemValue('memcache.distributed', null),
+					$config->getSystemValue('memcache.locking', null)
 				);
 			}
 
 			return new \OC\Memcache\Factory('',
+				new ArrayCache(),
 				new ArrayCache(),
 				new ArrayCache()
 			);
@@ -419,6 +423,17 @@ class Server extends SimpleContainer implements IServerContainer {
 				$this->getConfig(),
 				$this->getLogger()
 			);
+		});
+		$this->registerService('LockingProvider', function (Server $c) {
+			if ($c->getConfig()->getSystemValue('filelocking.enabled', false) or (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+				/** @var \OC\Memcache\Factory $memcacheFactory */
+				$memcacheFactory = $c->getMemCacheFactory();
+				$memcache = $memcacheFactory->createLocking('lock');
+				if (!($memcache instanceof \OC\Memcache\Null)) {
+					return new MemcacheLockingProvider($memcache);
+				}
+			}
+			return new NoopLockingProvider();
 		});
 	}
 
@@ -907,5 +922,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	public function getTrustedDomainHelper() {
 		return $this->query('TrustedDomainHelper');
+	}
+
+	/**
+	 * Get the locking provider
+	 *
+	 * @return \OCP\Lock\ILockingProvider
+	 * @since 8.1.0
+	 */
+	public function getLockingProvider() {
+		return $this->query('LockingProvider');
 	}
 }

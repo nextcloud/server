@@ -43,6 +43,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	protected function tearDown() {
 		$hookExceptions = \OC_Hook::$thrownExceptions;
 		\OC_Hook::$thrownExceptions = [];
+		\OC::$server->getLockingProvider()->releaseAll();
 		if(!empty($hookExceptions)) {
 			throw $hookExceptions[0];
 		}
