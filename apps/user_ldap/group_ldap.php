@@ -262,7 +262,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			throw new \Exception('Not a valid group');
 		}
 
-		$filterParts = [];
+		$filterParts = array();
 		// part for counting users (see countUsers in user backend)
 		// it is consolidated in OC 8. No big changes for OC 7.
 		$filterParts[] = \OCP\Util::mb_str_replace(
