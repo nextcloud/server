@@ -145,7 +145,6 @@
     "New Password" : "Новый пароль",
     "Reset password" : "Сбросить пароль",
     "Searching other places" : "Идет поиск в других местах",
-    "No search result in other places" : "В других местах ничего не найдено",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} результат поиска в других местах","{count} результата поиска в других местах","{count} результатов поиска в других местах","{count} результатов поиска в других местах"],
     "Personal" : "Личное",
     "Users" : "Пользователи",

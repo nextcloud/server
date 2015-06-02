@@ -42,7 +42,7 @@ OC.L10N.register(
     "So-so password" : "Mezaĉa pasvorto",
     "Good password" : "Bona pasvorto",
     "Strong password" : "Forta pasvorto",
-    "Shared" : "Dividita",
+    "Shared" : "Kunhavata",
     "Share" : "Kunhavigi",
     "Error" : "Eraro",
     "Error while sharing" : "Eraro dum kunhavigo",

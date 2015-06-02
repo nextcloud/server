@@ -149,7 +149,6 @@ OC.L10N.register(
     "New Password" : "Новий пароль",
     "Reset password" : "Скинути пароль",
     "Searching other places" : "Йде пошук в інших місцях",
-    "No search result in other places" : "В інших місцях нічого не знайдено",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} результат пошуку в інших місцях","{count} результатів пошуку в інших місцях","{count} результати пошуку в інших місцях"],
     "Personal" : "Особисте",
     "Users" : "Користувачі",

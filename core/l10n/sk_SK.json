@@ -132,7 +132,6 @@
     "New Password" : "Nové heslo",
     "Reset password" : "Obnovenie hesla",
     "Searching other places" : "Prehľadanie ostatných umiestnení",
-    "No search result in other places" : "Žiadne výsledky z prehľadávania v ostatných umiestneniach",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} výsledok v ostatných umiestneniach","{count} výsledky v ostatných umiestneniach","{count} výsledkov v ostatných umiestneniach"],
     "Personal" : "Osobné",
     "Users" : "Používatelia",

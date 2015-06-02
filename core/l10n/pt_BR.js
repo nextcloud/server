@@ -149,7 +149,6 @@ OC.L10N.register(
     "New Password" : "Nova Senha",
     "Reset password" : "Redefinir senha",
     "Searching other places" : "Pesquisando em outros lugares",
-    "No search result in other places" : "Nenhum resultado da pesquisa em outros lugares",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} resultados da pesquisa em outros lugares","{count} resultados da pesquisa em outros lugares"],
     "Personal" : "Pessoal",
     "Users" : "Usuários",

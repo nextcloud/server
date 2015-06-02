@@ -127,7 +127,6 @@
     "New Password" : "Nova lozinka",
     "Reset password" : "Resetirajte lozinku",
     "Searching other places" : "Pretraživanje drugih lokacija",
-    "No search result in other places" : "Nema rezultata na drugim lokacijama",
     "_{count} search result in other places_::_{count} search results in other places_" : ["Pronađen {count} rezultat na drugim lokacijama","Pronađeno {count} rezultata na drugim lokacijama","Pronađeno {count} rezultata na drugim lokacijama"],
     "Personal" : "Osobno",
     "Users" : "Korisnici",

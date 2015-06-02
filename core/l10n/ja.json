@@ -147,7 +147,6 @@
     "New Password" : "新しいパスワード",
     "Reset password" : "パスワードをリセット",
     "Searching other places" : "他の場所の検索",
-    "No search result in other places" : "その他の場所の検索結果はありません",
     "_{count} search result in other places_::_{count} search results in other places_" : ["その他の場所 の検索件数 {count}"],
     "Personal" : "個人",
     "Users" : "ユーザー",

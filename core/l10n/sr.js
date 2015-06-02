@@ -149,7 +149,6 @@ OC.L10N.register(
     "New Password" : "Нова лозинка",
     "Reset password" : "Ресетуј лозинку",
     "Searching other places" : "Претражујем остала места",
-    "No search result in other places" : "Нема резултата претраге на осталим местима",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} резултат претраге на осталим местима","{count} резултата претраге на осталим местима","{count} резултата претраге на осталим местима"],
     "Personal" : "Лично",
     "Users" : "Корисници",

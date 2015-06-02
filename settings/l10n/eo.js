@@ -61,6 +61,7 @@ OC.L10N.register(
     "Login" : "Ensaluti",
     "SSL" : "SSL",
     "TLS" : "TLS",
+    "Open documentation" : "Malfermi la dokumentaron",
     "Allow apps to use the Share API" : "Kapabligi aplikaĵojn uzi la API-on pri Kunhavigo",
     "Allow public uploads" : "Permesi publikajn alŝutojn",
     "Expire after " : "Eksvalidigi post",

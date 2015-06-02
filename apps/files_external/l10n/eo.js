@@ -30,6 +30,7 @@ OC.L10N.register(
     "Share" : "Kunhavigi",
     "URL" : "URL",
     "Secure https://" : "Sekura https://",
+    "Public key" : "Publika ŝlosilo",
     "Access granted" : "Alirpermeso donita",
     "Error configuring Dropbox storage" : "Eraro dum agordado de la memorservo Dropbox",
     "Grant access" : "Doni alirpermeson",

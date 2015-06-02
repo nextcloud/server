@@ -1,7 +1,7 @@
 OC.L10N.register(
     "settings",
     {
-    "Security & setup warnings" : "Avertissements de sécurité ou de configuration",
+    "Security & setup warnings" : "Avertissements de sécurité & configuration",
     "Sharing" : "Partage",
     "Server-side encryption" : "Chiffrement côté serveur",
     "External Storage" : "Stockage externe",

@@ -131,7 +131,6 @@ OC.L10N.register(
     "New Password" : "Új jelszó",
     "Reset password" : "Jelszó-visszaállítás",
     "Searching other places" : "Keresés más helyeken",
-    "No search result in other places" : "Nem található keresési eredmény más helyeken",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} keresési eredmény más helyeken","{count} keresési eredmény más helyeken"],
     "Personal" : "Személyes",
     "Users" : "Felhasználók",

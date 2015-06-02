@@ -148,7 +148,6 @@ OC.L10N.register(
     "New Password" : "새 암호",
     "Reset password" : "암호 재설정",
     "Searching other places" : "다른 장소 찾는 중",
-    "No search result in other places" : "다른 장소 검색 결과 없음",
     "_{count} search result in other places_::_{count} search results in other places_" : ["다른 장소 검색 결과 {count}개"],
     "Personal" : "개인",
     "Users" : "사용자",

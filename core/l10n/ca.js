@@ -138,7 +138,6 @@ OC.L10N.register(
     "New Password" : "Contrasenya nova",
     "Reset password" : "Reinicialitza la contrasenya",
     "Searching other places" : "Buscant altres ubicacions",
-    "No search result in other places" : "No s'han trobat resultats en altres ubicacions",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} resultat de cerca en altres ubicacions","{count} resultats de cerca en altres ubicacions"],
     "Personal" : "Personal",
     "Users" : "Usuaris",

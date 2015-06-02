@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_external",
     {
     "Location" : "Plaça",
+    "Host" : "Òste",
     "Username" : "Non d'usancièr",
     "Password" : "Senhal",
     "Share" : "Parteja",

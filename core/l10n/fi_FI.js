@@ -149,7 +149,6 @@ OC.L10N.register(
     "New Password" : "Uusi salasana",
     "Reset password" : "Palauta salasana",
     "Searching other places" : "Etsitään muista paikoista",
-    "No search result in other places" : "Ei hakutuloksia muista paikoista",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} hakutulos muualla","{count} hakutulosta muualla"],
     "Personal" : "Henkilökohtainen",
     "Users" : "Käyttäjät",

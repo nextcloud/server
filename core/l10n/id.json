@@ -145,7 +145,6 @@
     "New Password" : "Sandi Baru",
     "Reset password" : "Setel ulang sandi",
     "Searching other places" : "Mencari tempat lainnya",
-    "No search result in other places" : "Tidak ada hasil pencarian di tampat lainnya",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} hasil pencarian di tempat lain"],
     "Personal" : "Pribadi",
     "Users" : "Pengguna",

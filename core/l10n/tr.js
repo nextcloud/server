@@ -148,7 +148,6 @@ OC.L10N.register(
     "New Password" : "Yeni Parola",
     "Reset password" : "Parolayı sıfırla",
     "Searching other places" : "Diğer konumlarda aranıyor",
-    "No search result in other places" : "Diğer konumlarda arama sonucu yok",
     "_{count} search result in other places_::_{count} search results in other places_" : ["Diğer konumlarda {count} arama sonucu","Diğer konumlarda {count} arama sonucu"],
     "Personal" : "Kişisel",
     "Users" : "Kullanıcılar",

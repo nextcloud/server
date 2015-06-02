@@ -143,7 +143,6 @@ OC.L10N.register(
     "New Password" : "新密码",
     "Reset password" : "重置密码",
     "Searching other places" : "搜索其他地方",
-    "No search result in other places" : "在其他地方没有搜索结果",
     "_{count} search result in other places_::_{count} search results in other places_" : ["在其他地方有 {count} 个搜索结果"],
     "Personal" : "个人",
     "Users" : "用户",

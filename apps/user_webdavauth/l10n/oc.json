@@ -1,4 +1,7 @@
 { "translations": {
-    "Save" : "Enregistra"
+    "WebDAV Authentication" : "Autentificacion WebDAV",
+    "Address:" : "Adreça :",
+    "Save" : "Salvar",
+    "The user credentials will be sent to this address. This plugin checks the response and will interpret the HTTP statuscodes 401 and 403 as invalid credentials, and all other responses as valid credentials." : "Las informacions de connexion de l'utilizaire seràn mandadas a aquesta adreça. Aqueste modul analisa lo còde de la responsa HTTP e considèra los còdes 401 e 403 coma una autentificacion invalida e tota autra valor coma una autentificacion valida."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

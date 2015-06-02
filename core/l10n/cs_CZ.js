@@ -149,7 +149,6 @@ OC.L10N.register(
     "New Password" : "Nové heslo",
     "Reset password" : "Obnovit heslo",
     "Searching other places" : "Prohledávání ostatních umístění",
-    "No search result in other places" : "Žádné nálezy v ostatních umístěních",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} nález v ostatních umístěních","{count} nálezy v ostatních umístěních","{count} nálezů v ostatních umístěních"],
     "Personal" : "Osobní",
     "Users" : "Uživatelé",

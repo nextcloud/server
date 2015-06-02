@@ -8,6 +8,7 @@ OC.L10N.register(
     "Delete permanently" : "Forigi por ĉiam",
     "Error" : "Eraro",
     "restored" : "restaŭrita",
+    "Select all" : "Elekti ĉion",
     "Name" : "Nomo",
     "Deleted" : "Forigita",
     "Delete" : "Forigi"

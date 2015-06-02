@@ -147,7 +147,6 @@
     "New Password" : "Nytt passord",
     "Reset password" : "Tilbakestill passord",
     "Searching other places" : "Søker andre steder",
-    "No search result in other places" : "Intet søkeresultat fra andre steder",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} søkeresultat fra andre steder","{count} søkeresultater fra andre steder"],
     "Personal" : "Personlig",
     "Users" : "Brukere",
