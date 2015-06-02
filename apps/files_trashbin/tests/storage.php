@@ -192,6 +192,10 @@ class Storage extends \Test\TestCase {
 		$this->assertEquals(1, count($results));
 		$name = $results[0]->getName();
 		$this->assertEquals('test.txt.v', substr($name, 0, strlen('test.txt.v')));
+
+		// versions deleted
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_versions/');
+		$this->assertEquals(0, count($results));
 	}
 
 	/**
@@ -223,6 +227,118 @@ class Storage extends \Test\TestCase {
 		$this->assertEquals(1, count($results));
 		$name = $results[0]->getName();
 		$this->assertEquals('inside.txt.v', substr($name, 0, strlen('inside.txt.v')));
+
+		// versions deleted
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_versions/folder/');
+		$this->assertEquals(0, count($results));
+	}
+
+	/**
+	 * Test that deleted versions properly land in the trashbin when deleting as share recipient.
+	 */
+	public function testDeleteVersionsOfFileAsRecipient() {
+		\OCA\Files_Versions\Hooks::connectHooks();
+
+		$this->userView->mkdir('share');
+		// trigger a version (multiple would not work because of the expire logic)
+		$this->userView->file_put_contents('share/test.txt', 'v1');
+		$this->userView->file_put_contents('share/test.txt', 'v2');
+
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_versions/share/');
+		$this->assertEquals(1, count($results));
+
+		$recipientUser = $this->getUniqueId('recipient_');
+		\OC::$server->getUserManager()->createUser($recipientUser, $recipientUser);
+
+		$fileinfo = $this->userView->getFileInfo('share');
+		$this->assertTrue(\OCP\Share::shareItem('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				$recipientUser, 31));
+
+		$this->loginAsUser($recipientUser);
+
+		// delete as recipient
+		$recipientView = new \OC\Files\View('/' . $recipientUser . '/files');
+		$recipientView->unlink('share/test.txt');
+
+		// rescan trash storage for both users
+		list($rootStorage,) = $this->rootView->resolvePath($this->user . '/files_trashbin');
+		$rootStorage->getScanner()->scan('');
+
+		// check if versions are in trashbin for both users
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/versions');
+		$this->assertEquals(1, count($results), 'Versions in owner\'s trashbin');
+		$name = $results[0]->getName();
+		$this->assertEquals('test.txt.v', substr($name, 0, strlen('test.txt.v')));
+
+		$results = $this->rootView->getDirectoryContent($recipientUser . '/files_trashbin/versions');
+		$this->assertEquals(1, count($results), 'Versions in recipient\'s trashbin');
+		$name = $results[0]->getName();
+		$this->assertEquals('test.txt.v', substr($name, 0, strlen('test.txt.v')));
+
+		// versions deleted
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_versions/share/');
+		$this->assertEquals(0, count($results));
+	}
+
+	/**
+	 * Test that deleted versions properly land in the trashbin when deleting as share recipient.
+	 */
+	public function testDeleteVersionsOfFolderAsRecipient() {
+		\OCA\Files_Versions\Hooks::connectHooks();
+
+		$this->userView->mkdir('share');
+		$this->userView->mkdir('share/folder');
+		// trigger a version (multiple would not work because of the expire logic)
+		$this->userView->file_put_contents('share/folder/test.txt', 'v1');
+		$this->userView->file_put_contents('share/folder/test.txt', 'v2');
+
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_versions/share/folder/');
+		$this->assertEquals(1, count($results));
+
+		$recipientUser = $this->getUniqueId('recipient_');
+		\OC::$server->getUserManager()->createUser($recipientUser, $recipientUser);
+
+		$fileinfo = $this->userView->getFileInfo('share');
+		$this->assertTrue(\OCP\Share::shareItem('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				$recipientUser, 31));
+
+		$this->loginAsUser($recipientUser);
+
+		// delete as recipient
+		$recipientView = new \OC\Files\View('/' . $recipientUser . '/files');
+		$recipientView->rmdir('share/folder');
+
+		// rescan trash storage
+		list($rootStorage,) = $this->rootView->resolvePath($this->user . '/files_trashbin');
+		$rootStorage->getScanner()->scan('');
+
+		// check if versions are in trashbin for owner
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/versions');
+		$this->assertEquals(1, count($results));
+		$name = $results[0]->getName();
+		$this->assertEquals('folder.d', substr($name, 0, strlen('folder.d')));
+
+		// check if file versions are in trashbin for owner
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/versions/' . $name . '/');
+		$this->assertEquals(1, count($results));
+		$name = $results[0]->getName();
+		$this->assertEquals('test.txt.v', substr($name, 0, strlen('test.txt.v')));
+
+		// check if versions are in trashbin for recipient
+		$results = $this->rootView->getDirectoryContent($recipientUser . '/files_trashbin/versions');
+		$this->assertEquals(1, count($results));
+		$name = $results[0]->getName();
+		$this->assertEquals('folder.d', substr($name, 0, strlen('folder.d')));
+
+		// check if file versions are in trashbin for recipient
+		$results = $this->rootView->getDirectoryContent($recipientUser . '/files_trashbin/versions/' . $name . '/');
+		$this->assertEquals(1, count($results));
+		$name = $results[0]->getName();
+		$this->assertEquals('test.txt.v', substr($name, 0, strlen('test.txt.v')));
+
+		// versions deleted
+		$results = $this->rootView->getDirectoryContent($recipientUser . '/files_versions/share/folder/');
+		$this->assertEquals(0, count($results));
 	}
 
 	/**
