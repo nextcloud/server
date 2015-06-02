@@ -316,6 +316,9 @@ abstract class Storage extends \Test\TestCase {
 	 * no change.
 	 */
 	public function testCheckUpdate() {
+		if ($this->instance instanceof \OC\Files\Storage\Wrapper\Wrapper) {
+			$this->markTestSkipped('Cannot test update check on wrappers');
+		}
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$watcher = $this->instance->getWatcher();
 		$watcher->setPolicy(Watcher::CHECK_ALWAYS);
