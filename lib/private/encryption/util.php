@@ -26,8 +26,11 @@ use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
 use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Files\Filesystem;
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
+use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage;
 use OCP\IConfig;
 
 class Util {
@@ -386,4 +389,52 @@ class Util {
 		return ($enabled === '1') ? true : false;
 	}
 
+	/**
+	 * Wraps the given storage when it is not a shared storage
+	 *
+	 * @param string $mountPoint
+	 * @param Storage $storage
+	 * @param IMountPoint $mount
+	 * @return Encryption|Storage
+	 */
+	public function wrapStorage($mountPoint, Storage $storage, IMountPoint $mount) {
+		$parameters = [
+			'storage' => $storage,
+			'mountPoint' => $mountPoint,
+			'mount' => $mount];
+
+		if (!$storage->instanceOfStorage('OC\Files\Storage\Shared')
+			&& !$storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')
+			&& !$storage->instanceOfStorage('OC\Files\Storage\OwnCloud')) {
+
+			$manager = \OC::$server->getEncryptionManager();
+			$user = \OC::$server->getUserSession()->getUser();
+			$logger = \OC::$server->getLogger();
+			$mountManager = Filesystem::getMountManager();
+			$uid = $user ? $user->getUID() : null;
+			$fileHelper = \OC::$server->getEncryptionFilesHelper();
+			$keyStorage = \OC::$server->getEncryptionKeyStorage();
+			$update = new Update(
+				new View(),
+				$this,
+				Filesystem::getMountManager(),
+				$manager,
+				$fileHelper,
+				$uid
+			);
+			return new Encryption(
+				$parameters,
+				$manager,
+				$this,
+				$logger,
+				$fileHelper,
+				$uid,
+				$keyStorage,
+				$update,
+				$mountManager
+			);
+		} else {
+			return $storage;
+		}
+	}
 }

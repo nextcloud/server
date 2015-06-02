@@ -208,49 +208,16 @@ class Manager implements IManager {
 		return $this->config->getAppValue('core', 'default_encryption_module');
 	}
 
+	/**
+	 * Add storage wrapper
+	 */
 	public static function setupStorage() {
-		\OC\Files\Filesystem::addStorageWrapper('oc_encryption', function ($mountPoint, $storage, IMountPoint $mount) {
-			$parameters = [
-				'storage' => $storage,
-				'mountPoint' => $mountPoint,
-				'mount' => $mount];
-
-			if (!($storage instanceof Shared)) {
-				$manager = \OC::$server->getEncryptionManager();
-				$util = new Util(
-					new View(),
-					\OC::$server->getUserManager(),
-					\OC::$server->getGroupManager(),
-					\OC::$server->getConfig()
-				);
-				$user = \OC::$server->getUserSession()->getUser();
-				$logger = \OC::$server->getLogger();
-				$mountManager = Filesystem::getMountManager();
-				$uid = $user ? $user->getUID() : null;
-				$fileHelper = \OC::$server->getEncryptionFilesHelper();
-				$keyStorage = \OC::$server->getEncryptionKeyStorage();
-				$update = new Update(
-					new View(),
-					$util,
-					Filesystem::getMountManager(),
-					$manager,
-					$fileHelper,
-					$uid
-				);
-				return new Encryption(
-					$parameters,
-					$manager,
-					$util,
-					$logger,
-					$fileHelper,
-					$uid,
-					$keyStorage,
-					$update,
-					$mountManager
-				);
-			} else {
-				return $storage;
-			}
-		}, 2);
+		$util = new Util(
+			new View(),
+			\OC::$server->getUserManager(),
+			\OC::$server->getGroupManager(),
+			\OC::$server->getConfig()
+		);
+		\OC\Files\Filesystem::addStorageWrapper('oc_encryption', array($util, 'wrapStorage'), 2);
 	}
 }
