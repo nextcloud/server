@@ -403,7 +403,10 @@ class Util {
 			'mountPoint' => $mountPoint,
 			'mount' => $mount];
 
-		if (!$storage->instanceOfStorage('OC\Files\Storage\Shared')) {
+		if (!$storage->instanceOfStorage('OC\Files\Storage\Shared')
+			&& !$storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')
+			&& !$storage->instanceOfStorage('OC\Files\Storage\OwnCloud')) {
+
 			$manager = \OC::$server->getEncryptionManager();
 			$user = \OC::$server->getUserSession()->getUser();
 			$logger = \OC::$server->getLogger();
