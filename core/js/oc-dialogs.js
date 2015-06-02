@@ -381,9 +381,17 @@ var OCdialogs = {
 				$replacementDiv.find('.mtime').text(formatDate(replacement.lastModifiedDate));
 			}
 			var path = original.directory + '/' +original.name;
-			Files.lazyLoadPreview(path, original.mimetype, function(previewpath){
-				$originalDiv.find('.icon').css('background-image','url('+previewpath+')');
-			}, 96, 96, original.etag);
+			var urlSpec = {
+				file:		path,
+				x:		96,
+				y:		96,
+				c:		original.etag,
+				forceIcon:	0
+			};
+			var previewpath = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+			// Escaping single quotes
+			previewpath = previewpath.replace(/'/g, "%27")
+			$originalDiv.find('.icon').css({"background-image":   "url('" + previewpath + "')"});
 			getCroppedPreview(replacement).then(
 				function(path){
 					$replacementDiv.find('.icon').css('background-image','url(' + path + ')');
