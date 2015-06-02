@@ -37,12 +37,18 @@ abstract class Proxy {
 	static private $accesses = array();
 	private $ldap = null;
 
+	/** @var \OCP\ICache|null */
+	private $cache;
+
 	/**
 	 * @param ILDAPWrapper $ldap
 	 */
 	public function __construct(ILDAPWrapper $ldap) {
 		$this->ldap = $ldap;
-		$this->cache = \OC\Cache::getGlobalCache();
+		$memcache = \OC::$server->getMemCacheFactory();
+		if($memcache->isAvailable()) {
+			$this->cache = $memcache->create();
+		}
 	}
 
 	/**
@@ -151,7 +157,7 @@ abstract class Proxy {
 	 * @return mixed|null
 	 */
 	public function getFromCache($key) {
-		if(!$this->isCached($key)) {
+		if(is_null($this->cache) || !$this->isCached($key)) {
 			return null;
 		}
 		$key = $this->getCacheKey($key);
@@ -164,6 +170,9 @@ abstract class Proxy {
 	 * @return bool
 	 */
 	public function isCached($key) {
+		if(is_null($this->cache)) {
+			return false;
+		}
 		$key = $this->getCacheKey($key);
 		return $this->cache->hasKey($key);
 	}
@@ -173,12 +182,18 @@ abstract class Proxy {
 	 * @param mixed $value
 	 */
 	public function writeToCache($key, $value) {
+		if(is_null($this->cache)) {
+			return;
+		}
 		$key   = $this->getCacheKey($key);
 		$value = base64_encode(serialize($value));
 		$this->cache->set($key, $value, '2592000');
 	}
 
 	public function clearCache() {
+		if(is_null($this->cache)) {
+			return;
+		}
 		$this->cache->clear($this->getCacheKey(null));
 	}
 }

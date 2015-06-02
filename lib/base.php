@@ -652,7 +652,6 @@ class OC {
 			OC_User::setupBackends();
 		}
 
-		self::registerCacheHooks();
 		self::registerFilesystemHooks();
 		if (\OC::$server->getSystemConfig()->getValue('enable_previews', true)) {
 			self::registerPreviewHooks();
@@ -731,19 +730,6 @@ class OC {
 			\OCP\Util::connectHook('OCP\Share', 'post_unshare', 'OC\Encryption\HookManager', 'postUnshared');
 			\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OC\Encryption\HookManager', 'postRename');
 			\OCP\Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', 'OC\Encryption\HookManager', 'postRestore');
-		}
-	}
-
-	/**
-	 * register hooks for the cache
-	 */
-	public static function registerCacheHooks() {
-		if (\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) { //don't try to do this before we are properly setup
-			\OCP\BackgroundJob::registerJob('OC\Cache\FileGlobalGC');
-
-			// NOTE: This will be replaced to use OCP
-			$userSession = \OC_User::getUserSession();
-			$userSession->listen('postLogin', '\OC\Cache\File', 'loginListener');
 		}
 	}
 

@@ -38,7 +38,6 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\SimpleContainer;
-use OC\Cache\UserCache;
 use OC\Command\AsyncBus;
 use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\EventLogger;
@@ -47,6 +46,7 @@ use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
+use OC\Memcache\Null as NullCache;
 use OC\Http\Client\ClientService;
 use OC\Security\CertificateManager;
 use OC\Files\Node\Root;
@@ -219,8 +219,8 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('AppHelper', function ($c) {
 			return new \OC\AppHelper();
 		});
-		$this->registerService('UserCache', function ($c) {
-			return new UserCache();
+		$this->registerService('NullCache', function ($c) {
+			return new NullCache();
 		});
 		$this->registerService('MemCacheFactory', function (Server $c) {
 			$config = $c->getConfig();
@@ -661,12 +661,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
-	 * Returns an ICache instance
+	 * Returns an ICache instance. Since 8.1.0 it returns a fake cache. Use
+	 * getMemCacheFactory() instead.
 	 *
 	 * @return \OCP\ICache
+	 * @deprecated 8.1.0 use getMemCacheFactory to obtain a proper cache
 	 */
 	public function getCache() {
-		return $this->query('UserCache');
+		return $this->query('NullCache');
 	}
 
 	/**
