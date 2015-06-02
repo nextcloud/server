@@ -6,7 +6,7 @@
 	<h2><?php p($l->t('Federated Cloud'));?></h2>
 
 	<p>
-		Your Federated Cloud Id: <?php p($_['cloudId']); ?>
+		<?php p($l->t('Your Federated Cloud ID: %s', [$_['cloudId']])); ?>
 	</p>
 
 </div>

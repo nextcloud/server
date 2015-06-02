@@ -24,7 +24,7 @@
 
 $uid = \OC::$server->getUserSession()->getUser()->getUID();
 $server = \OC::$server->getURLGenerator()->getAbsoluteURL('/');
-$cloudID = $uid . '@' . \OCA\Files_Sharing\Helper::removeProtocolFromUrl($server);
+$cloudID = $uid . '@' . rtrim(\OCA\Files_Sharing\Helper::removeProtocolFromUrl($server), '/');
 
 $tmpl = new OCP\Template('files_sharing', 'settings-personal');
 $tmpl->assign('cloudId', $cloudID);
