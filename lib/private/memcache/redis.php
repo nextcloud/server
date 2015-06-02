@@ -151,7 +151,8 @@ class Redis extends Cache implements IMemcache {
 	}
 
 	static public function isAvailable() {
-		return extension_loaded('redis');
+		return extension_loaded('redis')
+			&& version_compare(phpversion('redis'), '2.2.5', '>=');
 	}
 }
 
