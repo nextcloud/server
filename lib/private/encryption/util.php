@@ -26,7 +26,6 @@ use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
 use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Files\Filesystem;
-use OC\Files\Storage\Shared;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
@@ -404,7 +403,7 @@ class Util {
 			'mountPoint' => $mountPoint,
 			'mount' => $mount];
 
-		if (!($storage instanceof Shared)) {
+		if (!$storage->instanceOfStorage('OC\Files\Storage\Shared')) {
 			$manager = \OC::$server->getEncryptionManager();
 			$user = \OC::$server->getUserSession()->getUser();
 			$logger = \OC::$server->getLogger();
