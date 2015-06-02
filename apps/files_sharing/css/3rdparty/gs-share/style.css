@@ -1,0 +1,49 @@
+.js-gs-share, .gs-share [aria-hidden="true"], .gs-share-form[aria-hidden="true"] {
+	display: none;
+}
+
+.js-gs-share-enabled .js-gs-share {
+    display: inline;
+	float: left;
+}
+
+.gs-share .js-gs-share[href] {
+    display: inline;
+}
+
+.gs-share [aria-hidden="false"], .gs-share-form[aria-hidden="false"] {
+	display: block;
+	margin-top: 40px;
+}
+
+.gs-share {
+    position: relative;
+}
+
+.gs-share-form {
+    background: #FFF;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+}
+
+.gs-share [for="gs-account"], .gs-share [type="text"] {
+    display: block;
+	margin-bottom: 8px;
+}
+
+.gs-share [type="submit"] {
+    display: block;
+    margin-top: 8px;
+}
+
+.gs-share--icon {
+	border: none;
+	cursor: pointer;
+	min-height: 32px;
+	padding: 0;
+	padding-left: 33px;
+	background: transparent url('../../../img/gs-share.png') no-repeat left center;
+}
