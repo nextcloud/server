@@ -389,10 +389,10 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Could not connect to LDAP');
 		}
 
-		$groups = $this->fetchGroups($dbKey, $confKey);
+		$this->fetchGroups($dbKey, $confKey);
 
 		if($testMemberOf) {
-			$this->configuration->hasMemberOfFilterSupport = $this->testMemberOf($groups);
+			$this->configuration->hasMemberOfFilterSupport = $this->testMemberOf();
 			$this->result->markChange();
 			if(!$this->configuration->hasMemberOfFilterSupport) {
 				throw new \Exception('memberOf is not supported by the server');
@@ -403,10 +403,12 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * fetches all groups from LDAP
+	 * fetches all groups from LDAP and adds them to the result object
+	 *
 	 * @param string $dbKey
 	 * @param string $confKey
 	 * @return array $groupEntries
+	 * @throws \Exception
 	 */
 	public function fetchGroups($dbKey, $confKey) {
 		$obclasses = array('posixGroup', 'group', 'zimbraDistributionList', 'groupOfNames');
@@ -485,7 +487,7 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Could not connect to LDAP');
 		}
 
-		$obclasses = array('group', 'posixGroup', '*');
+		$obclasses = array('groupOfNames', 'group', 'posixGroup', '*');
 		$this->determineFeature($obclasses,
 								'objectclass',
 								'ldap_groupfilter_objectclass',
@@ -831,43 +833,22 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * Checks whether the server supports memberOf in LDAP Filter.
-	 * Requires that groups are determined, thus internally called from within
-	 * determineGroups()
-	 * @param array $groups
+	 * Note: at least in OpenLDAP, availability of memberOf is dependent on
+	 * a configured objectClass. I.e. not necessarily for all available groups
+	 * memberOf does work.
+	 *
 	 * @return bool true if it does, false otherwise
 	 * @throws \Exception
 	 */
-	private function testMemberOf($groups) {
+	private function testMemberOf() {
 		$cr = $this->getConnection();
 		if(!$cr) {
 			throw new \Exception('Could not connect to LDAP');
 		}
-		if(!is_array($this->configuration->ldapBase)
-		   || !isset($this->configuration->ldapBase[0])) {
-			return false;
+		$result = $this->access->countUsers('memberOf=*', array('memberOf'), 1);
+		if(is_int($result) &&  $result > 0) {
+			return true;
 		}
-		$base = $this->configuration->ldapBase[0];
-		$filterPrefix = '(&(objectclass=*)(memberOf=';
-		$filterSuffix = '))';
-
-		foreach($groups as $groupProperties) {
-			if(!isset($groupProperties['cn'])) {
-				//assuming only groups have their cn cached :)
-				continue;
-			}
-			$filter = strtolower($filterPrefix . $groupProperties['dn'] . $filterSuffix);
-			$rr = $this->ldap->search($cr, $base, $filter, array('dn'));
-			if(!$this->ldap->isResource($rr)) {
-				continue;
-			}
-			$entries = $this->ldap->countEntries($cr, $rr);
-			//we do not know which groups are empty, so test any and return
-			//success on the first match that returns at least one user
-			if(($entries !== false) && ($entries > 0)) {
-				return true;
-			}
-		}
-
 		return false;
 	}
 
