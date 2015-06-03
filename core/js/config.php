@@ -128,7 +128,8 @@ $array = array(
 			'slogan' => $defaults->getSlogan(),
 			'logoClaim' => $defaults->getLogoClaim(),
 			'shortFooter' => $defaults->getShortFooter(),
-			'longFooter' => $defaults->getLongFooter()
+			'longFooter' => $defaults->getLongFooter(),
+			'folder' => OC_Util::getTheme(),
 		)
 	)
 );

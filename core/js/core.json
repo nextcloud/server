@@ -27,6 +27,8 @@
 		"multiselect.js",
 		"oc-requesttoken.js",
 		"setupchecks.js",
-		"../search/js/search.js"
+		"../search/js/search.js",
+		"mimetype.js",
+		"mimetypelist.js"
 	]
 }
