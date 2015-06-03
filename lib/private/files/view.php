@@ -556,9 +556,12 @@ class View {
 					list (, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
+
+					$this->changeLock($path, ILockingProvider::LOCK_SHARED);
+
 					$this->updater->update($path);
 
-					$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
+					$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 
 					if ($this->shouldEmitHooks($path) && $result !== false) {
 						$this->emit_file_hooks_post($exists, $path);
