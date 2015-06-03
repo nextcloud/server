@@ -175,6 +175,10 @@ class Trashbin {
 		}
 
 		self::setUpTrash($user);
+		if ($owner !== $user) {
+			// also setup for owner
+			self::setUpTrash($owner);
+		}
 
 		$path_parts = pathinfo($file_path);
 
@@ -222,7 +226,7 @@ class Trashbin {
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', array('filePath' => \OC\Files\Filesystem::normalizePath($file_path),
 				'trashPath' => \OC\Files\Filesystem::normalizePath($filename . '.d' . $timestamp)));
 
-			$size += self::retainVersions($file_path, $filename, $timestamp);
+			$size += self::retainVersions($file_path, $filename, $owner, $ownerPath, $timestamp);
 
 			// if owner !== user we need to also add a copy to the owners trash
 			if ($user !== $owner) {
@@ -248,22 +252,18 @@ class Trashbin {
 	 *
 	 * @param string $file_path path to original file
 	 * @param string $filename of deleted file
+	 * @param string $owner owner user id
+	 * @param string $ownerPath path relative to the owner's home storage
 	 * @param integer $timestamp when the file was deleted
 	 *
 	 * @return int size of stored versions
 	 */
-	private static function retainVersions($file_path, $filename, $timestamp) {
+	private static function retainVersions($file_path, $filename, $owner, $ownerPath, $timestamp) {
 		$size = 0;
-		if (\OCP\App::isEnabled('files_versions')) {
+		if (\OCP\App::isEnabled('files_versions') && !empty($ownerPath)) {
 
 			$user = \OCP\User::getUser();
 			$rootView = new \OC\Files\View('/');
-
-			list($owner, $ownerPath) = self::getUidAndFilename($file_path);
-			// file has been deleted in between
-			if (empty($ownerPath)) {
-				return 0;
-			}
 
 			if ($rootView->is_dir($owner . '/files_versions/' . $ownerPath)) {
 				$size += self::calculateSize(new \OC\Files\View('/' . $owner . '/files_versions/' . $ownerPath));
