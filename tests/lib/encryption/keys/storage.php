@@ -393,7 +393,7 @@ class StorageTest extends TestCase {
 			->willReturn($systemWideMountPoint);
 
 		$this->assertSame($expected,
-			\Test_Helper::invokePrivate($this->storage, 'getPathToKeys', [$path])
+			self::invokePrivate($this->storage, 'getPathToKeys', [$path])
 		);
 	}
 
