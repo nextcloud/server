@@ -104,6 +104,8 @@ class Directory extends \OC\Connector\Sabre\Node
 			return $node->put($data);
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+		} catch (\OCP\Files\InvalidPathException $ex) {
+			throw new InvalidPath($ex->getMessage());
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
