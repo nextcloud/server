@@ -535,25 +535,37 @@ class View {
 			) {
 				$path = $this->getRelativePath($absolutePath);
 
+				$this->lockFile($path, ILockingProvider::LOCK_SHARED);
+
 				$exists = $this->file_exists($path);
 				$run = true;
 				if ($this->shouldEmitHooks($path)) {
 					$this->emit_file_hooks_pre($exists, $path, $run);
 				}
 				if (!$run) {
+					$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 					return false;
 				}
-				$target = $this->fopen($path, 'w');
+
+				$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
+
+				/** @var \OC\Files\Storage\Storage $storage */
+				list($storage, $internalPath) = $this->resolvePath($path);
+				$target = $storage->fopen($internalPath, 'w');
 				if ($target) {
-					list ($count, $result) = \OC_Helper::streamCopy($data, $target);
+					list (, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
 					$this->updater->update($path);
+
+					$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
+
 					if ($this->shouldEmitHooks($path) && $result !== false) {
 						$this->emit_file_hooks_post($exists, $path);
 					}
 					return $result;
 				} else {
+					$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
 					return false;
 				}
 			} else {
