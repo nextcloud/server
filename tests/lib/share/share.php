@@ -1051,7 +1051,7 @@ class Test_Share extends \Test\TestCase {
 	 */
 	function testRemoveProtocolFromUrl($url, $expectedResult) {
 		$share = new \OC\Share\Share();
-		$result = \Test_Helper::invokePrivate($share, 'removeProtocolFromUrl', array($url));
+		$result = self::invokePrivate($share, 'removeProtocolFromUrl', array($url));
 		$this->assertSame($expectedResult, $result);
 	}
 

@@ -114,6 +114,6 @@ class EnableTest extends TestCase {
 			->method('writeln')
 			->with($this->stringContains($expectedDefaultModuleString));
 
-		\Test_Helper::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 }

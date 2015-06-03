@@ -64,15 +64,15 @@ class CleanTags extends \Test\TestCase {
 		$this->assertEntryCount('*PREFIX*vcategory_to_object', 4, 'Assert tag entries count before repair step');
 		$this->assertEntryCount('*PREFIX*vcategory', 4, 'Assert tag categories count before repair step');
 
-		\Test_Helper::invokePrivate($this->repair, 'deleteOrphanFileEntries');
+		self::invokePrivate($this->repair, 'deleteOrphanFileEntries');
 		$this->assertEntryCount('*PREFIX*vcategory_to_object', 3, 'Assert tag entries count after cleaning file entries');
 		$this->assertEntryCount('*PREFIX*vcategory', 4, 'Assert tag categories count after cleaning file entries');
 
-		\Test_Helper::invokePrivate($this->repair, 'deleteOrphanTagEntries');
+		self::invokePrivate($this->repair, 'deleteOrphanTagEntries');
 		$this->assertEntryCount('*PREFIX*vcategory_to_object', 2, 'Assert tag entries count after cleaning tag entries');
 		$this->assertEntryCount('*PREFIX*vcategory', 4, 'Assert tag categories count after cleaning tag entries');
 
-		\Test_Helper::invokePrivate($this->repair, 'deleteOrphanCategoryEntries');
+		self::invokePrivate($this->repair, 'deleteOrphanCategoryEntries');
 		$this->assertEntryCount('*PREFIX*vcategory_to_object', 2, 'Assert tag entries count after cleaning category entries');
 		$this->assertEntryCount('*PREFIX*vcategory', 2, 'Assert tag categories count after cleaning category entries');
 	}

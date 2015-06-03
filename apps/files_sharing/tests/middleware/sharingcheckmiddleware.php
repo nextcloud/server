@@ -58,7 +58,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->with('core', 'shareapi_allow_links', 'yes')
 			->will($this->returnValue('yes'));
 
-		$this->assertTrue(\Test_Helper::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
+		$this->assertTrue(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
 	}
 
 	public function testIsSharingEnabledWithAppDisabled() {
@@ -68,7 +68,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->with('files_sharing')
 			->will($this->returnValue(false));
 
-		$this->assertFalse(\Test_Helper::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
+		$this->assertFalse(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
 	}
 
 	public function testIsSharingEnabledWithSharingDisabled() {
@@ -84,6 +84,6 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->with('core', 'shareapi_allow_links', 'yes')
 			->will($this->returnValue('no'));
 
-		$this->assertFalse(\Test_Helper::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
+		$this->assertFalse(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
 	}
 }

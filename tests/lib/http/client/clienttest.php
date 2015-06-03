@@ -47,7 +47,7 @@ class ClientTest extends \Test\TestCase {
 			->method('getSystemValue')
 			->with('proxyuserpwd', null)
 			->willReturn(null);
-		$this->assertSame('', \Test_Helper::invokePrivate($this->client, 'getProxyUri'));
+		$this->assertSame('', self::invokePrivate($this->client, 'getProxyUri'));
 	}
 
 	public function testGetProxyUriProxyHostEmptyPassword() {
@@ -61,7 +61,7 @@ class ClientTest extends \Test\TestCase {
 			->method('getSystemValue')
 			->with('proxyuserpwd', null)
 			->willReturn(null);
-		$this->assertSame('foo', \Test_Helper::invokePrivate($this->client, 'getProxyUri'));
+		$this->assertSame('foo', self::invokePrivate($this->client, 'getProxyUri'));
 	}
 
 	public function testGetProxyUriProxyHostWithPassword() {
@@ -75,7 +75,7 @@ class ClientTest extends \Test\TestCase {
 			->method('getSystemValue')
 			->with('proxyuserpwd', null)
 			->willReturn('username:password');
-		$this->assertSame('username:password@foo', \Test_Helper::invokePrivate($this->client, 'getProxyUri'));
+		$this->assertSame('username:password@foo', self::invokePrivate($this->client, 'getProxyUri'));
 	}
 
 	public function testGet() {

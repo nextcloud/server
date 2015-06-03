@@ -127,7 +127,7 @@ class ManagerTest extends TestCase {
 		$en0 = $this->manager->getEncryptionModule('ID0');
 		$this->assertEquals('ID0', $en0->getId());
 
-		$en0 = \Test_Helper::invokePrivate($this->manager, 'getDefaultEncryptionModule');
+		$en0 = self::invokePrivate($this->manager, 'getDefaultEncryptionModule');
 		$this->assertEquals('ID0', $en0->getId());
 
 		$this->assertEquals('ID0', $this->manager->getDefaultEncryptionModuleId());

@@ -355,7 +355,7 @@ class Encryption extends \Test\Files\Storage\Storage {
 		}
 
 		$this->assertSame($expected,
-			\Test_Helper::invokePrivate($this->instance, 'copyKeys', ['/source', '/target'])
+			self::invokePrivate($this->instance, 'copyKeys', ['/source', '/target'])
 		);
 	}
 

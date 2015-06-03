@@ -70,7 +70,7 @@ class cryptTest extends TestCase {
 			->with($this->equalTo('openssl'), $this->equalTo([]))
 			->willReturn(array());
 
-		$result = \Test_Helper::invokePrivate($this->crypt, 'getOpenSSLConfig');
+		$result = self::invokePrivate($this->crypt, 'getOpenSSLConfig');
 		$this->assertSame(1, count($result));
 		$this->assertArrayHasKey('private_key_bits', $result);
 		$this->assertSame(4096, $result['private_key_bits']);
@@ -86,7 +86,7 @@ class cryptTest extends TestCase {
 			->with($this->equalTo('openssl'), $this->equalTo([]))
 			->willReturn(array('foo' => 'bar', 'private_key_bits' => 1028));
 
-		$result = \Test_Helper::invokePrivate($this->crypt, 'getOpenSSLConfig');
+		$result = self::invokePrivate($this->crypt, 'getOpenSSLConfig');
 		$this->assertSame(2, count($result));
 		$this->assertArrayHasKey('private_key_bits', $result);
 		$this->assertArrayHasKey('foo', $result);
@@ -146,7 +146,7 @@ class cryptTest extends TestCase {
 	 */
 	public function testConcatIV() {
 
-		$result = \Test_Helper::invokePrivate(
+		$result = self::invokePrivate(
 			$this->crypt,
 			'concatIV',
 			array('content', 'my_iv'));
@@ -161,7 +161,7 @@ class cryptTest extends TestCase {
 	 */
 	public function testSplitIV() {
 		$data = 'encryptedContent00iv001234567890123456';
-		$result = \Test_Helper::invokePrivate($this->crypt, 'splitIV', array($data));
+		$result = self::invokePrivate($this->crypt, 'splitIV', array($data));
 		$this->assertTrue(is_array($result));
 		$this->assertSame(2, count($result));
 		$this->assertArrayHasKey('encrypted', $result);
@@ -174,7 +174,7 @@ class cryptTest extends TestCase {
 	 * test addPadding()
 	 */
 	public function testAddPadding() {
-		$result = \Test_Helper::invokePrivate($this->crypt, 'addPadding', array('data'));
+		$result = self::invokePrivate($this->crypt, 'addPadding', array('data'));
 		$this->assertSame('dataxx', $result);
 	}
 
@@ -186,7 +186,7 @@ class cryptTest extends TestCase {
 	 * @param $expected
 	 */
 	public function testRemovePadding($data, $expected) {
-		$result = \Test_Helper::invokePrivate($this->crypt, 'removePadding', array($data));
+		$result = self::invokePrivate($this->crypt, 'removePadding', array($data));
 		$this->assertSame($expected, $result);
 	}
 
@@ -208,7 +208,7 @@ class cryptTest extends TestCase {
 	public function testParseHeader() {
 
 		$header= 'HBEGIN:foo:bar:cipher:AES-256-CFB:HEND';
-		$result = \Test_Helper::invokePrivate($this->crypt, 'parseHeader', array($header));
+		$result = self::invokePrivate($this->crypt, 'parseHeader', array($header));
 
 		$this->assertTrue(is_array($result));
 		$this->assertSame(2, count($result));
@@ -227,12 +227,12 @@ class cryptTest extends TestCase {
 
 		$decrypted = 'content';
 		$password = 'password';
-		$iv = \Test_Helper::invokePrivate($this->crypt, 'generateIv');
+		$iv = self::invokePrivate($this->crypt, 'generateIv');
 
 		$this->assertTrue(is_string($iv));
 		$this->assertSame(16, strlen($iv));
 
-		$result = \Test_Helper::invokePrivate($this->crypt, 'encrypt', array($decrypted, $iv, $password));
+		$result = self::invokePrivate($this->crypt, 'encrypt', array($decrypted, $iv, $password));
 
 		$this->assertTrue(is_string($result));
 
@@ -251,7 +251,7 @@ class cryptTest extends TestCase {
 	 */
 	public function testDecrypt($data) {
 
-		$result = \Test_Helper::invokePrivate(
+		$result = self::invokePrivate(
 			$this->crypt,
 			'decrypt',
 			array($data['encrypted'], $data['iv'], $data['password']));

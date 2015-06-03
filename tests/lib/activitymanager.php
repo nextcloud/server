@@ -156,7 +156,7 @@ class Test_ActivityManager extends \Test\TestCase {
 	 */
 	public function testGetUserFromTokenThrowInvalidToken($token, $users) {
 		$this->mockRSSToken($token, $token, $users);
-		\Test_Helper::invokePrivate($this->activityManager, 'getUserFromToken');
+		self::invokePrivate($this->activityManager, 'getUserFromToken');
 	}
 
 	public function getUserFromTokenData() {

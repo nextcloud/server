@@ -797,7 +797,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertNull(\Test_Helper::invokePrivate($request, 'getOverwriteHost'));
+		$this->assertNull(self::invokePrivate($request, 'getOverwriteHost'));
 	}
 
 	public function testGetOverwriteHostWithOverwrite() {
@@ -824,7 +824,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('www.owncloud.org', \Test_Helper::invokePrivate($request, 'getOverwriteHost'));
+		$this->assertSame('www.owncloud.org', self::invokePrivate($request, 'getOverwriteHost'));
 	}
 
 	public function testGetPathInfoWithSetEnv() {

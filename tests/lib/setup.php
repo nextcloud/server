@@ -120,7 +120,7 @@ class Test_OC_Setup extends \Test\TestCase {
 	 * If it hasn't this test will fail.
 	 */
 	public function testHtaccessIsCurrent() {
-		$result = Test_Helper::invokePrivate(
+		$result = self::invokePrivate(
 			$this->setupClass,
 			'isCurrentHtaccess'
 		);

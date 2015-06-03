@@ -285,7 +285,7 @@ class KeyManagerTest extends TestCase {
 			->with('user1', 'privateKey')
 			->willReturn(true);
 
-		$this->assertTrue(\Test_Helper::invokePrivate($this->instance,
+		$this->assertTrue(self::invokePrivate($this->instance,
 			'deletePrivateKey',
 			[$this->userId]));
 	}
@@ -329,8 +329,8 @@ class KeyManagerTest extends TestCase {
 			});
 
 		// set key IDs
-		\Test_Helper::invokePrivate($this->instance, 'publicShareKeyId', [$publicShareKeyId]);
-		\Test_Helper::invokePrivate($this->instance, 'recoveryKeyId', [$recoveryKeyId]);
+		self::invokePrivate($this->instance, 'publicShareKeyId', [$publicShareKeyId]);
+		self::invokePrivate($this->instance, 'recoveryKeyId', [$recoveryKeyId]);
 
 		$result = $this->instance->addSystemKeys($accessList, $publicKeys, $uid);
 

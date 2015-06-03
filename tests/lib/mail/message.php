@@ -42,7 +42,7 @@ class MessageTest extends TestCase {
 	 * @dataProvider mailAddressProvider
 	 */
 	public function testConvertAddresses($unconverted, $expected) {
-		$this->assertSame($expected, \Test_Helper::invokePrivate($this->message, 'convertAddresses', array($unconverted)));
+		$this->assertSame($expected, self::invokePrivate($this->message, 'convertAddresses', array($unconverted)));
 	}
 
 	public function testSetFrom() {

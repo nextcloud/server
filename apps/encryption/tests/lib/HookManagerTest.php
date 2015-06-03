@@ -43,7 +43,7 @@ class HookManagerTest extends TestCase {
 			$this->getMock('NotIHook')
 		]);
 
-		$hookInstances = \Test_Helper::invokePrivate(self::$instance, 'hookInstances');
+		$hookInstances = self::invokePrivate(self::$instance, 'hookInstances');
 		// Make sure our type checking works
 		$this->assertCount(2, $hookInstances);
 	}
@@ -66,7 +66,7 @@ class HookManagerTest extends TestCase {
 		$mock = $this->getMockBuilder('OCA\Encryption\Hooks\Contracts\IHook')->disableOriginalConstructor()->getMock();
 		self::$instance->registerHook($mock);
 
-		$hookInstances = \Test_Helper::invokePrivate(self::$instance, 'hookInstances');
+		$hookInstances = self::invokePrivate(self::$instance, 'hookInstances');
 		$this->assertCount(3, $hookInstances);
 
 	}

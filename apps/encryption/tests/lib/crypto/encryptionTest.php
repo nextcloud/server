@@ -103,8 +103,8 @@ class EncryptionTest extends TestCase {
 	 */
 	public function endTest() {
 		// prepare internal variables
-		\Test_Helper::invokePrivate($this->instance, 'isWriteOperation', [true]);
-		\Test_Helper::invokePrivate($this->instance, 'writeCache', ['']);
+		self::invokePrivate($this->instance, 'isWriteOperation', [true]);
+		self::invokePrivate($this->instance, 'writeCache', ['']);
 
 		$this->keyManagerMock->expects($this->any())
 			->method('getPublicKey')
@@ -142,7 +142,7 @@ class EncryptionTest extends TestCase {
 	 */
 	public function testGetPathToRealFile($path, $expected) {
 		$this->assertSame($expected,
-			\Test_Helper::invokePrivate($this->instance, 'getPathToRealFile', array($path))
+			self::invokePrivate($this->instance, 'getPathToRealFile', array($path))
 		);
 	}
 
@@ -184,9 +184,9 @@ class EncryptionTest extends TestCase {
 		$this->assertArrayHasKey('cipher', $result);
 		$this->assertSame($expected, $result['cipher']);
 		if ($mode === 'w') {
-			$this->assertTrue(\Test_Helper::invokePrivate($this->instance, 'isWriteOperation'));
+			$this->assertTrue(self::invokePrivate($this->instance, 'isWriteOperation'));
 		} else {
-			$this->assertFalse(\Test_Helper::invokePrivate($this->instance, 'isWriteOperation'));
+			$this->assertFalse(self::invokePrivate($this->instance, 'isWriteOperation'));
 		}
 	}
 

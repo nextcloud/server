@@ -82,7 +82,7 @@ class LastSeenTest extends TestCase {
 			->method('writeln')
 			->with($this->stringContains($expectedString));
 
-		\Test_Helper::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
 	public function testInvalidUser() {
@@ -100,6 +100,6 @@ class LastSeenTest extends TestCase {
 			->method('writeln')
 			->with($this->stringContains('User does not exist'));
 
-		\Test_Helper::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 }

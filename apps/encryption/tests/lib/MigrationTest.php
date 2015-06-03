@@ -292,7 +292,7 @@ class MigrationTest extends \Test\TestCase {
 	public function testUpdateFileCache() {
 		$this->prepareFileCache();
 		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection());
-		\Test_Helper::invokePrivate($m, 'updateFileCache');
+		self::invokePrivate($m, 'updateFileCache');
 
 		// check results
 

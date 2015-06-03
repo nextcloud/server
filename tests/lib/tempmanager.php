@@ -154,7 +154,7 @@ class TempManager extends \Test\TestCase {
 
 	public function testBuildFileNameWithPostfix() {
 		$logger = $this->getMock('\Test\NullLogger');
-		$tmpManager = \Test_Helper::invokePrivate(
+		$tmpManager = self::invokePrivate(
 			$this->getManager($logger),
 			'buildFileNameWithSuffix',
 			['/tmp/myTemporaryFile', 'postfix']
@@ -165,7 +165,7 @@ class TempManager extends \Test\TestCase {
 
 	public function testBuildFileNameWithoutPostfix() {
 		$logger = $this->getMock('\Test\NullLogger');
-		$tmpManager = \Test_Helper::invokePrivate(
+		$tmpManager = self::invokePrivate(
 			$this->getManager($logger),
 					'buildFileNameWithSuffix',
 			['/tmp/myTemporaryFile', '']
@@ -176,7 +176,7 @@ class TempManager extends \Test\TestCase {
 
 	public function testBuildFileNameWithSuffixPathTraversal() {
 		$logger = $this->getMock('\Test\NullLogger');
-		$tmpManager = \Test_Helper::invokePrivate(
+		$tmpManager = self::invokePrivate(
 			$this->getManager($logger),
 			'buildFileNameWithSuffix',
 			['foo', '../Traversal\\../FileName']
