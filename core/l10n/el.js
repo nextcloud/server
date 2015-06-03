@@ -149,6 +149,7 @@ OC.L10N.register(
     "New Password" : "Νέος Κωδικός",
     "Reset password" : "Επαναφορά συνθηματικού",
     "Searching other places" : "Έρευνα σε άλλα σημεία.",
+    "No search results in other places" : "Δεν υπάρχουν αποτελέσματα αναζήτησης σε άλλες τοποθεσίες",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} αποτελέσματα έρευνας σε άλλα σημεία","{count} αποτελέσματα έρευνας σε άλλα σημεία"],
     "Personal" : "Προσωπικά",
     "Users" : "Χρήστες",

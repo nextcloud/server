@@ -53,6 +53,7 @@ OC.L10N.register(
     "Error configuring Google Drive storage" : "Google Drive depo yapılandırma hatası",
     "Personal" : "Kişisel",
     "System" : "Sistem",
+    "Enable encryption" : "Kriptolamayı aç",
     "All users. Type to select user or group." : "Tüm kullanıcılar. Kullanıcı veya grup seçmek için yazın.",
     "(group)" : "(grup)",
     "Saved" : "Kaydedildi",

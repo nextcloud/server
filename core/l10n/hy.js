@@ -20,6 +20,9 @@ OC.L10N.register(
     "October" : "Հոկտեմբեր",
     "November" : "Նոյեմբեր",
     "December" : "Դեկտեմբեր",
-    "Delete" : "Ջնջել"
+    "group" : "խումբ",
+    "Delete" : "Ջնջել",
+    "Add" : "Ավելացնել",
+    "Personal" : "Անձնական"
 },
 "nplurals=2; plural=(n != 1);");

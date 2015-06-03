@@ -54,6 +54,7 @@ OC.L10N.register(
     "Error configuring Google Drive storage" : "Грешка при подешавању Гугл диск складишта",
     "Personal" : "Лично",
     "System" : "Систем",
+    "Enable encryption" : "Укључи шифровање",
     "All users. Type to select user or group." : "Сви корисници. Куцајте за избор корисника или групе.",
     "(group)" : "(група)",
     "Saved" : "Сачувано",

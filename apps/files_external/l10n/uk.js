@@ -53,6 +53,7 @@ OC.L10N.register(
     "Error configuring Google Drive storage" : "Помилка при налаштуванні сховища Google Drive",
     "Personal" : "Особисте",
     "System" : "Система",
+    "Enable encryption" : "Увімкнути шифрування",
     "All users. Type to select user or group." : "Всі користувачі. Введіть ім'я користувача або групи.",
     "(group)" : "(група)",
     "Saved" : "Збережено",

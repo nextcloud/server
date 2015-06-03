@@ -54,6 +54,7 @@ OC.L10N.register(
     "Error configuring Google Drive storage" : "Chyba při nastavení úložiště Google Drive",
     "Personal" : "Osobní",
     "System" : "Systém",
+    "Enable encryption" : "Povolit šifrování",
     "All users. Type to select user or group." : "Všichni uživatelé. Začněte psát pro výběr uživatelů a skupin.",
     "(group)" : "(skupina)",
     "Saved" : "Uloženo",

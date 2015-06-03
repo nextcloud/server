@@ -54,6 +54,7 @@ OC.L10N.register(
     "Error configuring Google Drive storage" : "Erreur lors de la configuration du stockage Google Drive",
     "Personal" : "Personnel",
     "System" : "Système",
+    "Enable encryption" : "Activer le chiffrement",
     "All users. Type to select user or group." : "Tous les utilisateurs. Cliquez ici pour restreindre.",
     "(group)" : "(groupe)",
     "Saved" : "Sauvegardé",

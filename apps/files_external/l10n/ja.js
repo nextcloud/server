@@ -53,6 +53,7 @@ OC.L10N.register(
     "Error configuring Google Drive storage" : "Googleドライブストレージの設定エラー",
     "Personal" : "個人",
     "System" : "システム",
+    "Enable encryption" : "暗号化を有効に",
     "All users. Type to select user or group." : "すべてのユーザー。ユーザー、グループを追加",
     "(group)" : "(グループ)",
     "Saved" : "保存されました",

@@ -53,6 +53,7 @@ OC.L10N.register(
     "Error configuring Google Drive storage" : "Error configuring Google Drive storage",
     "Personal" : "Personal",
     "System" : "System",
+    "Enable encryption" : "Enable encryption",
     "All users. Type to select user or group." : "All users. Type to select user or group.",
     "(group)" : "(group)",
     "Saved" : "Saved",

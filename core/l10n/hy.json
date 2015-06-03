@@ -18,6 +18,9 @@
     "October" : "Հոկտեմբեր",
     "November" : "Նոյեմբեր",
     "December" : "Դեկտեմբեր",
-    "Delete" : "Ջնջել"
+    "group" : "խումբ",
+    "Delete" : "Ջնջել",
+    "Add" : "Ավելացնել",
+    "Personal" : "Անձնական"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -147,6 +147,7 @@
     "New Password" : "Nuova password",
     "Reset password" : "Ripristina la password",
     "Searching other places" : "Ricerca in altre posizioni",
+    "No search results in other places" : "Nessun risultato di ricerca in altre posizioni",
     "_{count} search result in other places_::_{count} search results in other places_" : ["{count} risultato di ricerca in altre posizioni","{count} risultati di ricerca in altre posizioni"],
     "Personal" : "Personale",
     "Users" : "Utenti",

@@ -54,6 +54,7 @@ OC.L10N.register(
     "Error configuring Google Drive storage" : "Feil med konfigurering av Google Drive",
     "Personal" : "Personlig",
     "System" : "System",
+    "Enable encryption" : "Aktiver kryptering",
     "All users. Type to select user or group." : "Alle brukere. Tast for å velge bruker eller gruppe.",
     "(group)" : "(gruppe)",
     "Saved" : "Lagret",

@@ -54,6 +54,7 @@ OC.L10N.register(
     "Error configuring Google Drive storage" : "Fout tijdens het configureren van Google Drive opslag",
     "Personal" : "Persoonlijk",
     "System" : "Systeem",
+    "Enable encryption" : "Versleuteling inschakelen",
     "All users. Type to select user or group." : "Alle gebruikers. Tikken om een gebruiker of groep te selecteren.",
     "(group)" : "(groep)",
     "Saved" : "Bewaard",

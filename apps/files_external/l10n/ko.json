@@ -51,6 +51,7 @@
     "Error configuring Google Drive storage" : "Google 드라이브 저장소 설정 오류",
     "Personal" : "개인",
     "System" : "시스템",
+    "Enable encryption" : "암호화 사용",
     "All users. Type to select user or group." : "모든 사용자입니다. 사용자나 그룹을 선택하려면 입력하십시오",
     "(group)" : "(그룹)",
     "Saved" : "저장됨",
