@@ -34,6 +34,7 @@ namespace OC\Files\Cache;
 use OC\Files\Filesystem;
 use OC\Hooks\BasicEmitter;
 use OCP\Config;
+use OCP\Lock\ILockingProvider;
 
 /**
  * Class Scanner
@@ -72,6 +73,11 @@ class Scanner extends BasicEmitter {
 	 */
 	protected $useTransactions = true;
 
+	/**
+	 * @var \OCP\Lock\ILockingProvider
+	 */
+	protected $lockingProvider;
+
 	const SCAN_RECURSIVE = true;
 	const SCAN_SHALLOW = false;
 
@@ -83,6 +89,7 @@ class Scanner extends BasicEmitter {
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
 		$this->cacheActive = !Config::getSystemValue('filesystem_cache_readonly', false);
+		$this->lockingProvider = \OC::$server->getLockingProvider();
 	}
 
 	/**
@@ -123,6 +130,7 @@ class Scanner extends BasicEmitter {
 		if (!self::isPartialFile($file)
 			and !Filesystem::isFileBlacklisted($file)
 		) {
+			$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 			$this->emit('\OC\Files\Cache\Scanner', 'scanFile', array($file, $this->storageId));
 			\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
 			$data = $this->getData($file);
@@ -179,6 +187,7 @@ class Scanner extends BasicEmitter {
 			} else {
 				$this->removeFromCache($file);
 			}
+			$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 			return $data;
 		}
 		return null;
@@ -242,11 +251,13 @@ class Scanner extends BasicEmitter {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
+		$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 		$data = $this->scanFile($path, $reuse);
 		if ($data and $data['mimetype'] === 'httpd/unix-directory') {
 			$size = $this->scanChildren($path, $recursive, $reuse, $data);
 			$data['size'] = $size;
 		}
+		$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 		return $data;
 	}
 
