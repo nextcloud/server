@@ -232,22 +232,8 @@ class Storage implements IStorage {
 	 */
 	public function renameKeys($source, $target) {
 
-		list($owner, $source) = $this->util->getUidAndFilename($source);
-		list(, $target) = $this->util->getUidAndFilename($target);
-		$systemWideSource = $this->util->isSystemWideMountPoint($source, $owner);
-		$systemWideTarget = $this->util->isSystemWideMountPoint($target, $owner);
-
-		if ($systemWideSource) {
-			$sourcePath = $this->keys_base_dir . $source . '/';
-		} else {
-			$sourcePath = '/' . $owner . $this->keys_base_dir . $source . '/';
-		}
-
-		if ($systemWideTarget) {
-			$targetPath = $this->keys_base_dir . $target . '/';
-		} else {
-			$targetPath = '/' . $owner . $this->keys_base_dir . $target . '/';
-		}
+		$sourcePath = $this->getPathToKeys($source);
+		$targetPath = $this->getPathToKeys($target);
 
 		if ($this->view->file_exists($sourcePath)) {
 			$this->keySetPreparation(dirname($targetPath));
@@ -259,6 +245,7 @@ class Storage implements IStorage {
 		return false;
 	}
 
+
 	/**
 	 * copy keys if a file was renamed
 	 *
@@ -268,21 +255,8 @@ class Storage implements IStorage {
 	 */
 	public function copyKeys($source, $target) {
 
-		list($owner, $source) = $this->util->getUidAndFilename($source);
-		list(, $target) = $this->util->getUidAndFilename($target);
-		$systemWideTarget = $this->util->isSystemWideMountPoint($target, $owner);
-		$systemWideSource = $this->util->isSystemWideMountPoint($source, $owner);
-
-		if ($systemWideSource) {
-			$sourcePath = $this->keys_base_dir . $source . '/';
-		} else {
-			$sourcePath = '/' . $owner . $this->keys_base_dir . $source . '/';
-		}
-		if ($systemWideTarget) {
-			$targetPath = $this->keys_base_dir . $target . '/';
-		} else {
-			$targetPath = '/' . $owner . $this->keys_base_dir . $target . '/';
-		}
+		$sourcePath = $this->getPathToKeys($source);
+		$targetPath = $this->getPathToKeys($target);
 
 		if ($this->view->file_exists($sourcePath)) {
 			$this->keySetPreparation(dirname($targetPath));
@@ -291,6 +265,25 @@ class Storage implements IStorage {
 		}
 
 		return false;
+	}
+
+	/**
+	 * get system wide path and detect mount points
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	protected function getPathToKeys($path) {
+		list($owner, $relativePath) = $this->util->getUidAndFilename($path);
+		$systemWideMountPoint = $this->util->isSystemWideMountPoint($relativePath, $owner);
+
+		if ($systemWideMountPoint) {
+			$systemPath = $this->keys_base_dir . $relativePath . '/';
+		} else {
+			$systemPath = '/' . $owner . $this->keys_base_dir . $relativePath . '/';
+		}
+
+		return $systemPath;
 	}
 
 	/**

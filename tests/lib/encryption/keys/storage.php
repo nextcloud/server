@@ -361,7 +361,46 @@ class StorageTest extends TestCase {
 			array('/user1/files/source.txt', '/user1/files/target.txt', true, false,
 				'/files_encryption/keys/files/source.txt/', '/user1/files_encryption/keys/files/target.txt/'),
 
+			array('/user2/files/source.txt', '/user1/files/target.txt', false, false,
+				'/user2/files_encryption/keys/files/source.txt/', '/user1/files_encryption/keys/files/target.txt/'),
+			array('/user2/files/foo/source.txt', '/user1/files/target.txt', false, false,
+				'/user2/files_encryption/keys/files/foo/source.txt/', '/user1/files_encryption/keys/files/target.txt/'),
+			array('/user2/files/source.txt', '/user1/files/foo/target.txt', false, false,
+				'/user2/files_encryption/keys/files/source.txt/', '/user1/files_encryption/keys/files/foo/target.txt/'),
+			array('/user2/files/source.txt', '/user1/files/foo/target.txt', true, true,
+				'/files_encryption/keys/files/source.txt/', '/files_encryption/keys/files/foo/target.txt/'),
+			array('/user2/files/source.txt', '/user1/files/target.txt', false, true,
+				'/user2/files_encryption/keys/files/source.txt/', '/files_encryption/keys/files/target.txt/'),
+			array('/user2/files/source.txt', '/user1/files/target.txt', true, false,
+				'/files_encryption/keys/files/source.txt/', '/user1/files_encryption/keys/files/target.txt/'),
+		);
+	}
 
+	/**
+	 * @dataProvider dataTestGetPathToKeys
+	 *
+	 * @param string $path
+	 * @param boolean $systemWideMountPoint
+	 * @param string $expected
+	 */
+	public function testGetPathToKeys($path, $systemWideMountPoint, $expected) {
+
+		$this->util->expects($this->any())
+			->method('getUidAndFilename')
+			->will($this->returnCallback(array($this, 'getUidAndFilenameCallback')));
+		$this->util->expects($this->any())
+			->method('isSystemWideMountPoint')
+			->willReturn($systemWideMountPoint);
+
+		$this->assertSame($expected,
+			\Test_Helper::invokePrivate($this->storage, 'getPathToKeys', [$path])
+		);
+	}
+
+	public function dataTestGetPathToKeys() {
+		return array(
+			array('/user1/files/source.txt', false, '/user1/files_encryption/keys/files/source.txt/'),
+			array('/user1/files/source.txt', true, '/files_encryption/keys/files/source.txt/')
 		);
 	}
 
