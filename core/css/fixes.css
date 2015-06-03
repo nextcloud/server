@@ -64,6 +64,11 @@ select {
 	visibility: hidden;
 }
 
+/* fix installation screen rendering issue for IE8+9 */
+.lte9 #body-login {
+	height: auto !important;
+}
+
 /* oc-dialog only uses box shadow which is not supported by ie8 */
 .ie8 .oc-dialog {
 	border: 1px solid #888888;
