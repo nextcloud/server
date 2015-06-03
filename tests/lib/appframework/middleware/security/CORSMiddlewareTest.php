@@ -121,6 +121,13 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		);
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
+		$this->session->expects($this->never())
+			->method('logout');
+		$this->session->expects($this->never())
+			->method('login')
+			->with($this->equalTo('user'), $this->equalTo('pass'))
+			->will($this->returnValue(true));
+		$this->reflector->reflect($this, __FUNCTION__);
 
 		$middleware->beforeController($this, __FUNCTION__, new Response());
 	}
