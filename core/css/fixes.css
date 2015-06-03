@@ -66,6 +66,7 @@ select {
 
 /* fix installation screen rendering issue for IE8+9 */
 .lte9 #body-login {
+	min-height: 100%;
 	height: auto !important;
 }
 
