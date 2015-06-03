@@ -176,14 +176,18 @@ class Updater extends BasicEmitter {
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
 	public function upgrade() {
-		$this->config->setSystemValue('maintenance', true);
+		$wasMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
+
+		if(!$wasMaintenanceModeEnabled) {
+			$this->config->setSystemValue('maintenance', true);
+			$this->emit('\OC\Updater', 'maintenanceEnabled');
+		}
 
 		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
 		$currentVersion = implode('.', \OC_Util::getVersion());
 		if ($this->log) {
 			$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, array('app' => 'core'));
 		}
-		$this->emit('\OC\Updater', 'maintenanceStart');
 
 		try {
 			$this->doUpgrade($currentVersion, $installedVersion);
@@ -191,8 +195,14 @@ class Updater extends BasicEmitter {
 			$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
 		}
 
-		$this->config->setSystemValue('maintenance', false);
-		$this->emit('\OC\Updater', 'maintenanceEnd');
+		$this->emit('\OC\Updater', 'updateEnd');
+
+		if(!$wasMaintenanceModeEnabled) {
+			$this->config->setSystemValue('maintenance', false);
+			$this->emit('\OC\Updater', 'maintenanceDisabled');
+		} else {
+			$this->emit('\OC\Updater', 'maintenanceActive');
+		}
 	}
 
 	/**

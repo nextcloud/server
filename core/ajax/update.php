@@ -44,11 +44,14 @@ if (OC::checkUpgrade(false)) {
 	$incompatibleApps = [];
 	$disabledThirdPartyApps = [];
 
-	$updater->listen('\OC\Updater', 'maintenanceStart', function () use ($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Turned on maintenance mode'));
 	});
-	$updater->listen('\OC\Updater', 'maintenanceEnd', function () use ($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'maintenanceDisabled', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Turned off maintenance mode'));
+	});
+	$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($eventSource, $l) {
+		$eventSource->send('success', (string)$l->t('Maintenance mode is kept active'));
 	});
 	$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Updated database'));
