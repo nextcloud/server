@@ -35,7 +35,7 @@ class MailerTest extends TestCase {
 	}
 
 	public function testGetMailInstance() {
-		$this->assertEquals(\Swift_MailTransport::newInstance(), \Test_Helper::invokePrivate($this->mailer, 'getMailinstance'));
+		$this->assertEquals(\Swift_MailTransport::newInstance(), self::invokePrivate($this->mailer, 'getMailinstance'));
 	}
 
 	public function testGetSendMailInstanceSendMail() {
@@ -45,7 +45,7 @@ class MailerTest extends TestCase {
 			->with('mail_smtpmode', 'sendmail')
 			->will($this->returnValue('sendmail'));
 
-		$this->assertEquals(\Swift_SendmailTransport::newInstance('/usr/sbin/sendmail -bs'), \Test_Helper::invokePrivate($this->mailer, 'getSendMailInstance'));
+		$this->assertEquals(\Swift_SendmailTransport::newInstance('/usr/sbin/sendmail -bs'), self::invokePrivate($this->mailer, 'getSendMailInstance'));
 	}
 
 	public function testGetSendMailInstanceSendMailQmail() {
@@ -55,11 +55,11 @@ class MailerTest extends TestCase {
 			->with('mail_smtpmode', 'sendmail')
 			->will($this->returnValue('qmail'));
 
-		$this->assertEquals(\Swift_SendmailTransport::newInstance('/var/qmail/bin/sendmail -bs'), \Test_Helper::invokePrivate($this->mailer, 'getSendMailInstance'));
+		$this->assertEquals(\Swift_SendmailTransport::newInstance('/var/qmail/bin/sendmail -bs'), self::invokePrivate($this->mailer, 'getSendMailInstance'));
 	}
 
 	public function testGetInstanceDefault() {
-		$this->assertInstanceOf('\Swift_MailTransport', \Test_Helper::invokePrivate($this->mailer, 'getInstance'));
+		$this->assertInstanceOf('\Swift_MailTransport', self::invokePrivate($this->mailer, 'getInstance'));
 	}
 
 	public function testGetInstancePhp() {
@@ -68,7 +68,7 @@ class MailerTest extends TestCase {
 			->method('getSystemValue')
 			->will($this->returnValue('php'));
 
-		$this->assertInstanceOf('\Swift_MailTransport', \Test_Helper::invokePrivate($this->mailer, 'getInstance'));
+		$this->assertInstanceOf('\Swift_MailTransport', self::invokePrivate($this->mailer, 'getInstance'));
 	}
 
 	public function testGetInstanceSendmail() {
@@ -77,7 +77,7 @@ class MailerTest extends TestCase {
 			->method('getSystemValue')
 			->will($this->returnValue('sendmail'));
 
-		$this->assertInstanceOf('\Swift_SendmailTransport', \Test_Helper::invokePrivate($this->mailer, 'getInstance'));
+		$this->assertInstanceOf('\Swift_SendmailTransport', self::invokePrivate($this->mailer, 'getInstance'));
 	}
 
 	public function testCreateMessage() {

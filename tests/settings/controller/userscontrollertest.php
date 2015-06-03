@@ -1290,7 +1290,7 @@ class UsersControllerTest extends \Test\TestCase {
 
 		list($user, $expectedResult) = $this->mockUser();
 
-		$result = \Test_Helper::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
+		$result = self::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
 		$this->assertEquals($expectedResult, $result);
 	}
 
@@ -1327,7 +1327,7 @@ class UsersControllerTest extends \Test\TestCase {
 			)
 			->will($this->returnValue('1'));
 
-		$result = \Test_Helper::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
+		$result = self::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
 		$this->assertEquals($expectedResult, $result);
 	}
 
@@ -1345,7 +1345,7 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$expectedResult['isRestoreDisabled'] = true;
 
-		$result = \Test_Helper::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
+		$result = self::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
 		$this->assertEquals($expectedResult, $result);
 	}
 
@@ -1384,7 +1384,7 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$expectedResult['isRestoreDisabled'] = true;
 
-		$result = \Test_Helper::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
+		$result = self::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
 		$this->assertEquals($expectedResult, $result);
 	}
 

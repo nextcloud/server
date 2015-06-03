@@ -11,7 +11,7 @@ use OC\Security\Hasher;
 /**
  * Class HasherTest
  */
-class HasherTest extends \PHPUnit_Framework_TestCase {
+class HasherTest extends \Test\TestCase {
 
 	/**
 	 * @return array
@@ -70,14 +70,15 @@ class HasherTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
-
-
 	/** @var Hasher */
 	protected $hasher;
+
 	/** @var \OCP\IConfig */
 	protected $config;
 
 	protected function setUp() {
+		parent::setUp();
+
 		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
 
@@ -93,7 +94,7 @@ class HasherTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider versionHashProvider
 	 */
 	function testSplitHash($hash, $expected) {
-		$relativePath = \Test_Helper::invokePrivate($this->hasher, 'splitHash', array($hash));
+		$relativePath = self::invokePrivate($this->hasher, 'splitHash', array($hash));
 		$this->assertSame($expected, $relativePath);
 	}
 

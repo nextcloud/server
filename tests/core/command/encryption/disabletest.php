@@ -80,6 +80,6 @@ class DisableTest extends TestCase {
 				->with('core', 'encryption_enabled', 'no');
 		}
 
-		\Test_Helper::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 }

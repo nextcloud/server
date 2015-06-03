@@ -50,6 +50,38 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Allows us to test private methods/properties
+	 *
+	 * @param $object
+	 * @param $methodName
+	 * @param array $parameters
+	 * @return mixed
+	 */
+	protected static function invokePrivate($object, $methodName, array $parameters = array()) {
+		$reflection = new \ReflectionClass(get_class($object));
+
+		if ($reflection->hasMethod($methodName)) {
+			$method = $reflection->getMethod($methodName);
+
+			$method->setAccessible(true);
+
+			return $method->invokeArgs($object, $parameters);
+		} elseif ($reflection->hasProperty($methodName)) {
+			$property = $reflection->getProperty($methodName);
+
+			$property->setAccessible(true);
+
+			if (!empty($parameters)) {
+				$property->setValue($object, array_pop($parameters));
+			}
+
+			return $property->getValue($object);
+		}
+
+		return false;
+	}
+
+	/**
 	 * Returns a unique identifier as uniqid() is not reliable sometimes
 	 *
 	 * @param string $prefix

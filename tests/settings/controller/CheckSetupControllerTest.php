@@ -81,7 +81,7 @@ class CheckSetupControllerTest extends TestCase {
 			->will($this->returnValue(false));
 
 		$this->assertFalse(
-			\Test_Helper::invokePrivate(
+			self::invokePrivate(
 				$this->checkSetupController,
 				'isInternetConnectionWorking'
 			)
@@ -109,7 +109,7 @@ class CheckSetupControllerTest extends TestCase {
 
 
 		$this->assertTrue(
-			\Test_Helper::invokePrivate(
+			self::invokePrivate(
 				$this->checkSetupController,
 				'isInternetConnectionWorking'
 			)
@@ -134,7 +134,7 @@ class CheckSetupControllerTest extends TestCase {
 			->will($this->returnValue($client));
 
 		$this->assertFalse(
-			\Test_Helper::invokePrivate(
+			self::invokePrivate(
 				$this->checkSetupController,
 				'isInternetConnectionWorking'
 			)
@@ -162,7 +162,7 @@ class CheckSetupControllerTest extends TestCase {
 			->will($this->returnValue($client));
 
 		$this->assertFalse(
-			\Test_Helper::invokePrivate(
+			self::invokePrivate(
 				$this->checkSetupController,
 				'isInternetConnectionWorking'
 			)
@@ -176,7 +176,7 @@ class CheckSetupControllerTest extends TestCase {
 			->will($this->returnValue(null));
 
 		$this->assertFalse(
-			\Test_Helper::invokePrivate(
+			self::invokePrivate(
 				$this->checkSetupController,
 				'isMemcacheConfigured'
 			)
@@ -190,7 +190,7 @@ class CheckSetupControllerTest extends TestCase {
 			->will($this->returnValue('SomeProvider'));
 
 		$this->assertTrue(
-			\Test_Helper::invokePrivate(
+			self::invokePrivate(
 				$this->checkSetupController,
 				'isMemcacheConfigured'
 			)
@@ -239,7 +239,7 @@ class CheckSetupControllerTest extends TestCase {
 				'dataDirectoryProtected' => true,
 				'isMemcacheConfigured' => true,
 				'memcacheDocs' => 'http://doc.owncloud.org/server/go.php?to=admin-performance',
-				'isUrandomAvailable' => \Test_Helper::invokePrivate($this->checkSetupController, 'isUrandomAvailable'),
+				'isUrandomAvailable' => self::invokePrivate($this->checkSetupController, 'isUrandomAvailable'),
 				'securityDocs' => 'https://doc.owncloud.org/server/8.1/admin_manual/configuration_server/hardening.html',
 			]
 		);

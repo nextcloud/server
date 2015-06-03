@@ -509,28 +509,9 @@ class Test_Helper extends \Test\TestCase {
 	 * @param $methodName
 	 * @param array $parameters
 	 * @return mixed
+	 * @deprecated Please extend \Test\TestCase and use self::invokePrivate() then
 	 */
 	public static function invokePrivate($object, $methodName, array $parameters = array()) {
-		$reflection = new ReflectionClass(get_class($object));
-
-		if ($reflection->hasMethod($methodName)) {
-			$method = $reflection->getMethod($methodName);
-
-			$method->setAccessible(true);
-
-			return $method->invokeArgs($object, $parameters);
-		} elseif ($reflection->hasProperty($methodName)) {
-			$property = $reflection->getProperty($methodName);
-
-			$property->setAccessible(true);
-
-			if (!empty($parameters)) {
-				$property->setValue($object, array_pop($parameters));
-			}
-
-			return $property->getValue($object);
-		}
-
-		return false;
+		return parent::invokePrivate($object, $methodName, $parameters);
 	}
 }

@@ -94,7 +94,7 @@ class PathVerification extends \Test\TestCase {
 		$storage = new Local(['datadir' => '']);
 
 		$fileName = " 123{$fileName}456 ";
-		\Test_Helper::invokePrivate($storage, 'verifyWindowsPath', [$fileName]);
+		self::invokePrivate($storage, 'verifyWindowsPath', [$fileName]);
 	}
 
 	public function providesInvalidCharsWindows() {
@@ -151,7 +151,7 @@ class PathVerification extends \Test\TestCase {
 		$storage = new Local(['datadir' => '']);
 
 		$fileName = " 123{$fileName}456 ";
-		\Test_Helper::invokePrivate($storage, 'verifyWindowsPath', [$fileName]);
+		self::invokePrivate($storage, 'verifyWindowsPath', [$fileName]);
 	}
 
 	public function providesInvalidCharsPosix() {
@@ -200,7 +200,7 @@ class PathVerification extends \Test\TestCase {
 	public function testPathVerificationReservedNamesWindows($fileName) {
 		$storage = new Local(['datadir' => '']);
 
-		\Test_Helper::invokePrivate($storage, 'verifyWindowsPath', [$fileName]);
+		self::invokePrivate($storage, 'verifyWindowsPath', [$fileName]);
 	}
 
 	public function providesReservedNamesWindows() {
@@ -236,8 +236,8 @@ class PathVerification extends \Test\TestCase {
 	public function testPathVerificationValidPaths($fileName) {
 		$storage = new Local(['datadir' => '']);
 
-		\Test_Helper::invokePrivate($storage, 'verifyPosixPath', [$fileName]);
-		\Test_Helper::invokePrivate($storage, 'verifyWindowsPath', [$fileName]);
+		self::invokePrivate($storage, 'verifyPosixPath', [$fileName]);
+		self::invokePrivate($storage, 'verifyWindowsPath', [$fileName]);
 		// nothing thrown
 		$this->assertTrue(true);
 	}

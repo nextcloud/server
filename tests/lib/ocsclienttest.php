@@ -76,7 +76,7 @@ class OCSClientTest extends \Test\TestCase {
 			->method('getSystemValue')
 			->with('appstoreurl', 'https://api.owncloud.com/v1')
 			->will($this->returnValue('https://api.owncloud.com/v1'));
-		$this->assertSame('https://api.owncloud.com/v1', Test_Helper::invokePrivate($this->ocsClient, 'getAppStoreUrl'));
+		$this->assertSame('https://api.owncloud.com/v1', self::invokePrivate($this->ocsClient, 'getAppStoreUrl'));
 	}
 
 	public function testGetCategoriesDisabledAppStore() {

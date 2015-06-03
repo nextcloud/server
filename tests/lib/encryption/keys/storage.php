@@ -382,7 +382,7 @@ class StorageTest extends TestCase {
 			'/user1/files_encryption',
 			'/user1');
 
-		\Test_Helper::invokePrivate($this->storage, 'keySetPreparation', array('/user1/files_encryption/keys/foo'));
+		self::invokePrivate($this->storage, 'keySetPreparation', array('/user1/files_encryption/keys/foo'));
 	}
 
 	public function mkdirCallback() {
