@@ -115,7 +115,6 @@
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP é, aparentemente, a configuração para retirar blocos doc inline. Isso fará com que vários aplicativos do núcleo fiquem inacessíveis.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Isso provavelmente é causado por uma cache/acelerador, como Zend OPcache ou eAccelerator.",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "O servidor está em execução no Microsoft Windows. Recomendamos Linux para uma excelente experiência para o usuário.",
-    "APCu below version 4.0.6 is installed, for stability and performance reasons we recommend to update to a newer APCu version." : "Instalada APCu abaixo da versão 4.0.6, por razões de estabilidade e performance nós recomendamos atualizar para a nova versão APCu",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "O módulo PHP 'fileinfo' está faltando. Recomendamos que ative este módulo para obter uma melhor detecção do tipo de mídia (mime-type).",
     "System locale can not be set to a one which supports UTF-8." : "Localidade do sistema não pode ser definido como um que suporta UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Isso significa que pode haver problemas com certos caracteres nos nomes de arquivo.",

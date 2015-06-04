@@ -1,6 +1,8 @@
 OC.L10N.register(
     "files_external",
     {
+    "Fetching request tokens failed. Verify that your Dropbox app key and secret are correct." : "Yêu cầu tokens thất bại. Xác minh key và mã bí mật ứng dụng Dropbox của bạn là chính xác.",
+    "Fetching access tokens failed. Verify that your Dropbox app key and secret are correct." : "Yêu cầu tokens thất bại. Xác minh key và mã bí mật ứng dụng Dropbox của bạn là chính xác.",
     "Please provide a valid Dropbox app key and secret." : "Xin vui lòng cung cấp một ứng dụng Dropbox hợp lệ và mã bí mật.",
     "External storage" : "Lưu trữ ngoài",
     "Location" : "Vị trí",
@@ -16,6 +18,7 @@ OC.L10N.register(
     "Grant access" : "Cấp quyền truy cập",
     "Error configuring Google Drive storage" : "Lỗi cấu hình lưu trữ Google Drive",
     "Personal" : "Cá nhân",
+    "Saved" : "Đã lưu",
     "Name" : "Tên",
     "External Storage" : "Lưu trữ ngoài",
     "Folder name" : "Tên thư mục",

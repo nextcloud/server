@@ -109,7 +109,6 @@
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Схоже, що PHP налаштовано на вичищення блоків вбудованої документації. Це зробить кілька основних додатків недоступними.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Це, ймовірно, обумовлено використанням кеша/прискорювача такого як Zend OPcache або eAccelerator.",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Ваш сервер працює на ОС Microsoft Windows. Ми настійно рекомендуємо використовувати ОС сімейства Linux для досягнення найкращих умов використання.",
-    "APCu below version 4.0.6 is installed, for stability and performance reasons we recommend to update to a newer APCu version." : "Встановлена APCu, версія 4.0.6. З метою стабільності ми рекомендуємо оновити на більш нову версію APCu.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP модуль 'fileinfo' відсутній. Ми наполегливо рекомендуємо увімкнути цей модуль, щоб отримати кращі результати при виявленні MIME-типів.",
     "System locale can not be set to a one which supports UTF-8." : "Неможливо встановити системну локаль, яка б підтримувала UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Це означає, що можуть виникати проблеми з деякими символами в іменах файлів.",

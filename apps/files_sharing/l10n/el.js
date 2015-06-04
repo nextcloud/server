@@ -59,6 +59,8 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Διαμοιρασμός σε ομόσπονδα σύννεφα ",
     "Open documentation" : "Ανοιχτή τεκμηρίωση.",
     "Allow users on this server to send shares to other servers" : "Να επιτρέπεται σε χρήστες αυτού του διακομιστή να στέλνουν διαμοιρασμένους φακέλους σε άλλους διακομιστές",
-    "Allow users on this server to receive shares from other servers" : "Να επιτρέπεται στους χρίστες του διακομιστή να λαμβάνουν διαμοιρασμένα αρχεία από άλλους διακομιστές"
+    "Allow users on this server to receive shares from other servers" : "Να επιτρέπεται στους χρίστες του διακομιστή να λαμβάνουν διαμοιρασμένα αρχεία από άλλους διακομιστές",
+    "Federated Cloud" : "Federated σύννεφο",
+    "Your Federated Cloud ID: %s" : "Το ID σας στο Federated σύννεφο: %s"
 },
 "nplurals=2; plural=(n != 1);");

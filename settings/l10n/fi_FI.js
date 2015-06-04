@@ -111,7 +111,6 @@ OC.L10N.register(
     "TLS" : "TLS",
     "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Vain luku -asetukset on otettu käyttöön. Tämä estää joidenkin asetusten määrittämisen selainkäyttöliittymän kautta. Lisäksi kyseinen tiedostoon tulee asettaa kirjoitusoikeus käsin joka päivityksen yhteydessä.",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Palvelimesi käyttöjärjestelmä on Microsoft Windows. Suosittelemme käyttämään parhaan mahdollisen käyttökokemuksen saavuttamiseksi Linuxia.",
-    "APCu below version 4.0.6 is installed, for stability and performance reasons we recommend to update to a newer APCu version." : "APCu alta version 4.0.6 on asennettu. Vakauden ja suorituskyvyn vuoksi suosittelemme päivittämään APCu:n uudempaan versioon.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP-moduuli \"fileinfo\" puuttuu. Sen käyttö on erittäin suositeltavaa, jotta MIME-tyypin havaitseminen onnistuu parhaalla mahdollisella tavalla.",
     "System locale can not be set to a one which supports UTF-8." : "Järjestelmän maa-asetusta ei voi asettaa UTF-8:aa tukevaksi.",
     "This means that there might be problems with certain characters in file names." : "Tämä tarkoittaa, että tiettyjen merkkien kanssa tiedostojen nimissä saattaa olla ongelmia.",

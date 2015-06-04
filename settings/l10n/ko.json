@@ -111,7 +111,6 @@
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP에서 인라인 doc 블록을 삭제하도록 설정되어 있습니다. 일부 코어 앱에 접근할 수 없을 수도 있습니다.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Zend OPcache, eAccelerator 같은 캐시/가속기 문제일 수도 있습니다.",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "서버가 Microsoft Windows 환경에서 동작하고 있습니다. 최적의 사용자 경험을 위해서는 리눅스를 사용할 것을 권장합니다.",
-    "APCu below version 4.0.6 is installed, for stability and performance reasons we recommend to update to a newer APCu version." : "APCu 버전 4.0.6 이하가 설치되어 있습니다. 안정성 및 성능 문제가 발생할 수 있으므로 더 새로운 APCu 버전을 사용하는 것을 추천합니다.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP 모듈 'fileinfo'가 존재하지 않습니다. MIME 형식 감지 결과를 향상시키기 위하여 이 모듈을 활성화하는 것을 추천합니다.",
     "System locale can not be set to a one which supports UTF-8." : "UTF-8을 지원하는 시스템 로캘을 사용할 수 없습니다.",
     "This means that there might be problems with certain characters in file names." : "파일 이름의 일부 문자에 문제가 생길 수도 있습니다.",

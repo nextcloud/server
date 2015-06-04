@@ -59,6 +59,8 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Sammensluttet Cloud deling",
     "Open documentation" : "Åben dokumentation",
     "Allow users on this server to send shares to other servers" : "Tillad brugere på denne server, at sende delinger til andre servere",
-    "Allow users on this server to receive shares from other servers" : "Tillad brugere på denne server, at modtage delinger fra andre servere"
+    "Allow users on this server to receive shares from other servers" : "Tillad brugere på denne server, at modtage delinger fra andre servere",
+    "Federated Cloud" : "Federated Cloud",
+    "Your Federated Cloud ID: %s" : "Dit ID til Federated Cloud: %s"
 },
 "nplurals=2; plural=(n != 1);");

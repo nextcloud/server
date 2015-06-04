@@ -1,4 +1,6 @@
 { "translations": {
+    "Cannot write into \"config\" directory!" : "Không thể ghi vào thư mục \"config\"!",
+    "See %s" : "Xem %s",
     "Help" : "Giúp đỡ",
     "Personal" : "Cá nhân",
     "Users" : "Người dùng",

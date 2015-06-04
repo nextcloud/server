@@ -1,4 +1,7 @@
 { "translations": {
+    "Server to server sharing is not enabled on this server" : "Máy chủ để chia sẻ máy chủ không được kích hoạt trên máy chủ này",
+    "The mountpoint name contains invalid characters." : "Tên mountpoint chứa các ký tự không hợp lệ.",
+    "Invalid or untrusted SSL certificate" : "Chứng chỉ SSL không hợp lệ hoặc không đáng tin cậy",
     "Shared with you" : "Chia sẻ với bạn",
     "Shared with others" : "Chia sẻ với người khác",
     "Shared by link" : "Chia sẻ theo liên kết",

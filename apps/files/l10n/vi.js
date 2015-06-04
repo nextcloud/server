@@ -1,6 +1,8 @@
 OC.L10N.register(
     "files",
     {
+    "Storage not available" : "Lưu trữ không có sẵn",
+    "Storage invalid" : "Lưu trữ không hợp lệ",
     "Unknown error" : "Lỗi chưa biết",
     "Could not move %s - File with this name already exists" : "Không thể di chuyển %s - Đã có tên tập tin này trên hệ thống",
     "Could not move %s" : "Không thể di chuyển %s",
@@ -68,6 +70,7 @@ OC.L10N.register(
     "Upload" : "Tải lên",
     "Cancel upload" : "Hủy upload",
     "No entries found in this folder" : "Chưa có mục nào trong thư mục",
+    "Select all" : "Chọn tất cả",
     "Upload too large" : "Tập tin tải lên quá lớn",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",
     "Files are being scanned, please wait." : "Tập tin đang được quét ,vui lòng chờ."

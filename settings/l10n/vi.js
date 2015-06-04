@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "Security & setup warnings" : "Bảo mật và thiết lập cảnh báo",
     "Sharing" : "Chia sẻ",
     "External Storage" : "Lưu trữ ngoài",
     "Cron" : "Cron",
@@ -15,6 +16,7 @@ OC.L10N.register(
     "Unable to remove user from group %s" : "Không thể xóa người dùng từ nhóm %s",
     "Couldn't update app." : "Không thể cập nhật ứng dụng",
     "Enabled" : "Bật",
+    "Saved" : "Đã lưu",
     "Email sent" : "Email đã được gửi",
     "Email saved" : "Lưu email",
     "All" : "Tất cả",

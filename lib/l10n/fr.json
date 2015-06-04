@@ -35,7 +35,6 @@
     "_%n minute ago_::_%n minutes ago_" : ["il y a %n minute","il y a %n minutes"],
     "seconds ago" : "il y a quelques secondes",
     "web services under your control" : "services web sous votre contrôle",
-    "Module with id: %s does not exists. Please enable it in your apps settings or contact your administrator." : "Le module avec l'id: %s n'existe pas. Merci de l'activer dans les paramètres applications ou de contacter votre administrateur.",
     "Empty filename is not allowed" : "Le nom de fichier ne peut pas être vide",
     "Dot files are not allowed" : "Le nom de fichier ne peut pas commencer par un point",
     "4-byte characters are not supported in file names" : "Les caractères sur 4 octets ne sont pas pris en charge dans les noms de fichiers",

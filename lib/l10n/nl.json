@@ -36,7 +36,6 @@
     "_%n minute ago_::_%n minutes ago_" : ["%n minuut geleden","%n minuten geleden"],
     "seconds ago" : "seconden geleden",
     "web services under your control" : "Webdiensten in eigen beheer",
-    "Module with id: %s does not exists. Please enable it in your apps settings or contact your administrator." : "Module met id: %s bestaat niet. Activeer het in uw apps instellingen, of neem contact op met uw beheerder.",
     "Empty filename is not allowed" : "Een lege bestandsnaam is niet toegestaan",
     "Dot files are not allowed" : "Punt bestanden zijn niet toegestaan",
     "4-byte characters are not supported in file names" : "4-byte tekens in bestandsnamen worden niet ondersteund",

@@ -103,7 +103,6 @@ OC.L10N.register(
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHPでインラインドキュメントブロックを取り除く設定になっています。これによりコアアプリで利用できないものがいくつかあります。",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "これは、Zend OPcacheやeAccelerator 等のキャッシュ/アクセラレーターが原因かもしれません。",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "サーバーがMicrosoft Windowsで動いています。ユーザーに最適なサービスを提供するためには、Linuxを利用することを強くお勧めします。",
-    "APCu below version 4.0.6 is installed, for stability and performance reasons we recommend to update to a newer APCu version." : "バージョン4.0.6より古いAPCuがインストールされています、安定性とパフォーマンスのために新しいバージョンのAPCuにアップデートすることをお勧めします。",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP のモジュール 'fileinfo' が見つかりません。mimeタイプの検出を精度良く行うために、このモジュールを有効にすることを強くお勧めします。",
     "System locale can not be set to a one which supports UTF-8." : "システムロケールを UTF-8 をサポートするロケールに設定できません。",
     "This means that there might be problems with certain characters in file names." : "これは、ファイル名の特定の文字に問題があることを意味しています。",

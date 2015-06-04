@@ -36,6 +36,7 @@ OC.L10N.register(
     "Error while changing permissions" : "เกิดข้อผิดพลาดในการเปลี่ยนสิทธิ์การเข้าใช้งาน",
     "Shared with you and the group {group} by {owner}" : "ได้แชร์ให้กับคุณ และกลุ่ม {group} โดย {owner}",
     "Shared with you by {owner}" : "ถูกแชร์ให้กับคุณโดย {owner}",
+    "Share link" : "แชร์ลิงค์",
     "Password protect" : "ใส่รหัสผ่านไว้",
     "Password" : "รหัสผ่าน",
     "Email link to person" : "ส่งลิงก์ให้ทางอีเมล",

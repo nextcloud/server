@@ -1,6 +1,8 @@
 OC.L10N.register(
     "encryption",
     {
+    "Missing recovery key password" : "Thiếu khóa khôi phục mật khẩu",
+    "Please repeat the recovery key password" : "Nhập lại khóa khôi phục mật khẩu",
     "Recovery key successfully enabled" : "Khóa khôi phục kích hoạt thành công",
     "Could not enable recovery key. Please check your recovery key password!" : "Không thể kích hoạt khóa khôi phục. Vui lòng kiểm tra mật khẩu khóa khôi phục!",
     "Recovery key successfully disabled" : "Vô hiệu hóa khóa khôi phục thành công",

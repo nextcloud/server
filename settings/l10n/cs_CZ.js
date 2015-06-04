@@ -113,7 +113,6 @@ OC.L10N.register(
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP je patrně nastaveno tak, aby odstraňovalo bloky komentářů. Toto bude mít za následek nedostupnost množství hlavních aplikací.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Toto je pravděpodobně způsobeno aplikacemi pro urychlení načítání jako jsou Zend OPcache nebo eAccelerator.",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Server běží v prostředí Microsoft Windows. Pro optimální uživatelské pohodlí doporučujeme přejít na Linux.",
-    "APCu below version 4.0.6 is installed, for stability and performance reasons we recommend to update to a newer APCu version." : "Nainstalováno APCu ve verzi nižší než 4.0.6, doporučujeme aktualizovat na novější verzi APCu pro lepší stabilitu a výkon.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Schází PHP modul 'fileinfo'. Doporučujeme jej povolit pro nejlepší výsledky detekce typů MIME.",
     "System locale can not be set to a one which supports UTF-8." : "Není možné nastavit znakovou sadu, která podporuje UTF-8.",
     "This means that there might be problems with certain characters in file names." : "To znamená, že se mohou vyskytnout problémy s určitými znaky v názvech souborů.",

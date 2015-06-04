@@ -36,7 +36,6 @@
     "_%n minute ago_::_%n minutes ago_" : ["před %n minutou","před %n minutami","před %n minutami"],
     "seconds ago" : "před pár sekundami",
     "web services under your control" : "webové služby pod Vaší kontrolou",
-    "Module with id: %s does not exists. Please enable it in your apps settings or contact your administrator." : "Modul s id: %s neexistuje. Povolte ho prosím ve svých nastaveních aplikací nebo kontaktujte svého administrátora.",
     "Empty filename is not allowed" : "Prázdné jméno souboru není povoleno",
     "Dot files are not allowed" : "Jména souborů začínající tečkou nejsou povolena",
     "4-byte characters are not supported in file names" : "4-bytové znaky nejsou podporovány ve jménech souborů",
