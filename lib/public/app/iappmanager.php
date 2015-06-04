@@ -88,7 +88,7 @@ interface IAppManager {
 	 * List all installed apps
 	 *
 	 * @return string[]
-	 * @since 8.0.0
+	 * @since 8.1.0
 	 */
 	public function getInstalledApps();
 
