@@ -1,6 +1,8 @@
 OC.L10N.register(
     "settings",
     {
+    "APCu" : "APCu",
+    "Redis" : "Redis",
     "Security & setup warnings" : "Avisos de seguridade e configuración",
     "Sharing" : "Compartindo",
     "Server-side encryption" : "Cifrado na parte do servidor",
@@ -117,6 +119,7 @@ OC.L10N.register(
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Parece que PHP foi configuración para substituír bloques de documentos en liña. Isto fará que varias aplicacións sexan inaccesíbeis.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Isto probabelmente se debe unha caché/acelerador como Zend OPcache ou eAccelerator.",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "O seu servidor funciona baixo Windows de Microsoft. Recomendámoslle encarecidamente que empregue Linux para obter unha perfecta  experiencia de usuario.",
+    "%1$s below version %2$s is installed, for stability and performance reasons we recommend to update to a newer %1$s version." : "Está instalada a %1$s baixo a versión %2$s, por razóns de estabilidade e rendemento, recomendamos actualizar a unha nova versión da  %1$s.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Non se atopou o módulo de PHP «fileinfo». É recomendábel activar este módulo para obter os mellores resultados coa detección do tipo MIME.",
     "System locale can not be set to a one which supports UTF-8." : "Non é posíbel estabelecer a configuración rexional do sistema a unha que admita UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Isto significa que pode haber problemas con certos caracteres en nomes de ficheiro.",

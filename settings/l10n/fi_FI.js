@@ -1,6 +1,8 @@
 OC.L10N.register(
     "settings",
     {
+    "APCu" : "APCu",
+    "Redis" : "Redis",
     "Security & setup warnings" : "Turvallisuus- ja asetusvaroitukset",
     "Sharing" : "Jakaminen",
     "Server-side encryption" : "Palvelinpään salaus",

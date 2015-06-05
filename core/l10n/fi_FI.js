@@ -2,8 +2,9 @@ OC.L10N.register(
     "core",
     {
     "Couldn't send mail to following users: %s " : "Sähköpostin lähetys seuraaville käyttäjille epäonnistui: %s",
-    "Turned on maintenance mode" : "Siirrytty ylläpitotilaan",
-    "Turned off maintenance mode" : "Ylläpitotila laitettu pois päältä",
+    "Turned on maintenance mode" : "Siirrytty huoltotilaan",
+    "Turned off maintenance mode" : "Huoltotila asetettu pois päältä",
+    "Maintenance mode is kept active" : "Huoltotila pidetään aktiivisena",
     "Updated database" : "Tietokanta ajan tasalla",
     "Checked database schema update" : "Tarkistettu tietokannan skeemapäivitys",
     "Checked database schema update for apps" : "Tarkistettu tietokannan skeemapäivitys sovelluksille",

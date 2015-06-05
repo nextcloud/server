@@ -4,6 +4,7 @@ OC.L10N.register(
     "Couldn't send mail to following users: %s " : "Kunne ikke sende mail til følgende brugere: %s",
     "Turned on maintenance mode" : "Startede vedligeholdelsestilstand",
     "Turned off maintenance mode" : "standsede vedligeholdelsestilstand",
+    "Maintenance mode is kept active" : "Vedligeholdelsestilstanden holdes kørende",
     "Updated database" : "Opdaterede database",
     "Checked database schema update" : "Tjekket database schema opdatering",
     "Checked database schema update for apps" : "Tjekkede databaseskemaets opdatering for apps",
