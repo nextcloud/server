@@ -655,7 +655,7 @@ var LdapWizard = {
 			header: false,
 			selectedList: 9,
 			noneSelectedText: caption,
-			click: function(event, ui) {
+			close: function(event, ui) {
 				LdapWizard.saveMultiSelect(id,
 										$('#'+id).multiselect("getChecked"));
 			}
