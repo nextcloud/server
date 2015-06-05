@@ -150,9 +150,12 @@ class Directory extends \OC\Connector\Sabre\Node
 		$path = $this->path . '/' . $name;
 		if (is_null($info)) {
 			try {
+				$this->fileView->verifyPath($this->path, $name);
 				$info = $this->fileView->getFileInfo($path);
 			} catch (\OCP\Files\StorageNotAvailableException $e) {
 				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+			} catch (\OCP\Files\InvalidPathException $ex) {
+				throw new InvalidPath($ex->getMessage());
 			}
 		}
 
