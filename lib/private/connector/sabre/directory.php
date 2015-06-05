@@ -230,7 +230,7 @@ class Directory extends \OC\Connector\Sabre\Node
 	 */
 	public function delete() {
 
-		if (!$this->info->isDeletable()) {
+		if ($this->path === '' || $this->path === '/' || !$this->info->isDeletable()) {
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
