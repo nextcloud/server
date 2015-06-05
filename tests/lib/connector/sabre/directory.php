@@ -140,7 +140,33 @@ class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 
 		// calling a second time just returns the cached values,
 		// does not call getDirectoryContents again
-		$nodes = $dir->getChildren();
+		$dir->getChildren();
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\ServiceUnavailable
+	 */
+	public function testGetChildThrowStorageNotAvailableException() {
+		$this->view->expects($this->once())
+			->method('getFileInfo')
+			->willThrowException(new \OCP\Files\StorageNotAvailableException());
+
+		$dir = new \OC\Connector\Sabre\Directory($this->view, $this->info);
+		$dir->getChild('.');
+	}
+
+	/**
+	 * @expectedException \OC\Connector\Sabre\Exception\InvalidPath
+	 */
+	public function testGetChildThrowInvalidPath() {
+		$this->view->expects($this->once())
+			->method('verifyPath')
+			->willThrowException(new \OCP\Files\InvalidPathException());
+		$this->view->expects($this->never())
+			->method('getFileInfo');
+
+		$dir = new \OC\Connector\Sabre\Directory($this->view, $this->info);
+		$dir->getChild('.');
 	}
 
 	public function testGetQuotaInfo() {

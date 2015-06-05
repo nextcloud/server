@@ -70,8 +70,15 @@ class Directory extends \OC\Connector\Sabre\Node
 	 *
 	 * @param string $name Name of the file
 	 * @param resource|string $data Initial payload
-	 * @throws \Sabre\DAV\Exception\Forbidden
 	 * @return null|string
+	 * @throws Exception\EntityTooLarge
+	 * @throws Exception\UnsupportedMediaType
+	 * @throws FileLocked
+	 * @throws InvalidPath
+	 * @throws \Sabre\DAV\Exception
+	 * @throws \Sabre\DAV\Exception\BadRequest
+	 * @throws \Sabre\DAV\Exception\Forbidden
+	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
 	public function createFile($name, $data = null) {
 
@@ -115,8 +122,10 @@ class Directory extends \OC\Connector\Sabre\Node
 	 * Creates a new subdirectory
 	 *
 	 * @param string $name
+	 * @throws FileLocked
+	 * @throws InvalidPath
 	 * @throws \Sabre\DAV\Exception\Forbidden
-	 * @return void
+	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
 	public function createDirectory($name) {
 		try {
@@ -143,16 +152,21 @@ class Directory extends \OC\Connector\Sabre\Node
 	 *
 	 * @param string $name
 	 * @param \OCP\Files\FileInfo $info
-	 * @throws \Sabre\DAV\Exception\FileNotFound
 	 * @return \Sabre\DAV\INode
+	 * @throws InvalidPath
+	 * @throws \Sabre\DAV\Exception\NotFound
+	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
 	public function getChild($name, $info = null) {
 		$path = $this->path . '/' . $name;
 		if (is_null($info)) {
 			try {
+				$this->fileView->verifyPath($this->path, $name);
 				$info = $this->fileView->getFileInfo($path);
 			} catch (\OCP\Files\StorageNotAvailableException $e) {
 				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+			} catch (\OCP\Files\InvalidPathException $ex) {
+				throw new InvalidPath($ex->getMessage());
 			}
 		}
 
@@ -211,6 +225,7 @@ class Directory extends \OC\Connector\Sabre\Node
 	 * Deletes all files in this directory, and then itself
 	 *
 	 * @return void
+	 * @throws FileLocked
 	 * @throws \Sabre\DAV\Exception\Forbidden
 	 */
 	public function delete() {
