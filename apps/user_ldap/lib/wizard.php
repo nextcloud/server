@@ -31,6 +31,8 @@
 
 namespace OCA\user_ldap\lib;
 
+use OC\ServerNotAvailableException;
+
 class Wizard extends LDAPUtility {
 	static protected $l;
 	protected $access;
@@ -1065,18 +1067,27 @@ class Wizard extends LDAPUtility {
 		$this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
 		$this->ldap->setOption($cr, LDAP_OPT_REFERRALS, 0);
 		$this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
-		if($tls) {
-			$isTlsWorking = @$this->ldap->startTls($cr);
-			if(!$isTlsWorking) {
-				return false;
-			}
-		}
 
-		\OCP\Util::writeLog('user_ldap', 'Wiz: Attemping to Bind ', \OCP\Util::DEBUG);
-		//interesting part: do the bind!
-		$login = $this->ldap->bind($cr,
-									$this->configuration->ldapAgentName,
-									$this->configuration->ldapAgentPassword);
+		try {
+			if($tls) {
+				$isTlsWorking = @$this->ldap->startTls($cr);
+				if(!$isTlsWorking) {
+					return false;
+				}
+			}
+
+			\OCP\Util::writeLog('user_ldap', 'Wiz: Attemping to Bind ', \OCP\Util::DEBUG);
+			//interesting part: do the bind!
+			$login = $this->ldap->bind($cr,
+				$this->configuration->ldapAgentName,
+				$this->configuration->ldapAgentPassword
+			);
+			$errNo = $this->ldap->errno($cr);
+			$error = ldap_error($cr);
+			$this->ldap->unbind($cr);
+		} catch(ServerNotAvailableException $e) {
+			return false;
+		}
 
 		if($login === true) {
 			$this->ldap->unbind($cr);
@@ -1087,9 +1098,6 @@ class Wizard extends LDAPUtility {
 			return true;
 		}
 
-		$errNo = $this->ldap->errno($cr);
-		$error = ldap_error($cr);
-		$this->ldap->unbind($cr);
 		if($errNo === -1 || ($errNo === 2 && $ncc)) {
 			//host, port or TLS wrong
 			return false;
