@@ -1008,7 +1008,21 @@ class OC_Helper {
 			$relative = 0;
 		}
 
-		return array('free' => $free, 'used' => $used, 'total' => $total, 'relative' => $relative);
+		$ownerId = $storage->getOwner($path);
+		$ownerDisplayName = '';
+		$owner = \OC::$server->getUserManager()->get($ownerId);
+		if($owner) {
+			$ownerDisplayName = $owner->getDisplayName();
+		}
+
+		return [
+			'free' => $free,
+			'used' => $used,
+			'total' => $total,
+			'relative' => $relative,
+			'owner' => $ownerId,
+			'ownerDisplayName' => $ownerDisplayName,
+		];
 	}
 
 	/**

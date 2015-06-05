@@ -63,6 +63,8 @@
 				$('#free_space').val(response.data.freeSpace);
 				$('#upload.button').attr('original-title', response.data.maxHumanFilesize);
 				$('#usedSpacePercent').val(response.data.usedSpacePercent);
+				$('#owner').val(response.data.owner);
+				$('#ownerDisplayName').val(response.data.ownerDisplayName);
 				Files.displayStorageWarnings();
 			}
 			if (response[0] === undefined) {
@@ -109,12 +111,24 @@
 				return;
 			}
 
-			var usedSpacePercent = $('#usedSpacePercent').val();
+			var usedSpacePercent = $('#usedSpacePercent').val(),
+				owner = $('#owner').val(),
+				ownerDisplayName = $('#ownerDisplayName').val();
 			if (usedSpacePercent > 98) {
+				if (owner !== oc_current_user) {
+					OC.Notification.show(t('files', 'Storage of {owner} is full, files can not be updated or synced anymore!',
+						{ owner: ownerDisplayName }));
+					return;
+				}
 				OC.Notification.show(t('files', 'Your storage is full, files can not be updated or synced anymore!'));
 				return;
 			}
 			if (usedSpacePercent > 90) {
+				if (owner !== oc_current_user) {
+					OC.Notification.show(t('files', 'Storage of {owner} is almost full ({usedSpacePercent}%)',
+						{ usedSpacePercent: usedSpacePercent,  owner: ownerDisplayName }));
+					return;
+				}
 				OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%)',
 					{usedSpacePercent: usedSpacePercent}));
 			}
