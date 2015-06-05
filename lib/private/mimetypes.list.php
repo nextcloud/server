@@ -106,6 +106,7 @@ return array(
 	'md' => array('text/markdown', null),
 	'mdb' => array('application/msaccess', null),
 	'mdwn' => array('text/markdown', null),
+	'mkd' => array('text/markdown', null),
 	'mef' => array('image/x-dcraw', null),
 	'mkv' => array('video/x-matroska', null),
 	'mobi' => array('application/x-mobipocket-ebook', null),
