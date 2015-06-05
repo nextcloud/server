@@ -81,6 +81,8 @@ return array(
 	'gif' => array('image/gif', null),
 	'gz' => array('application/x-gzip', null),
 	'gzip' => array('application/x-gzip', null),
+	'h' => array('text/x-h', null),
+	'hh' => array('text/x-h', null),
 	'html' => array('text/html', 'text/plain'),
 	'htm' => array('text/html', 'text/plain'),
 	'ical' => array('text/calendar', null),
