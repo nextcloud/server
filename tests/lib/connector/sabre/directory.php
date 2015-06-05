@@ -20,14 +20,14 @@ class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 		$this->info = $this->getMock('OC\Files\FileInfo', array(), array(), '', false);
 	}
 
-	private function getRootDir() {
+	private function getDir($path = '/') {
 		$this->view->expects($this->once())
 			->method('getRelativePath')
-			->will($this->returnValue(''));
+			->will($this->returnValue($path));
 
 		$this->info->expects($this->once())
 			->method('getPath')
-			->will($this->returnValue(''));
+			->will($this->returnValue($path));
 
 		return new \OC\Connector\Sabre\Directory($this->view, $this->info);
 	}
@@ -35,24 +35,13 @@ class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 	/**
 	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
-	public function testCreateSharedFileFails() {
-		$dir = $this->getRootDir();
-		$dir->createFile('Shared');
-	}
-
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
-	public function testCreateSharedFolderFails() {
-		$dir = $this->getRootDir();
-		$dir->createDirectory('Shared');
-	}
-
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
-	public function testDeleteSharedFolderFails() {
-		$dir = $this->getRootDir();
+	public function testDeleteRootFolderFails() {
+		$this->info->expects($this->any())
+			->method('isDeletable')
+			->will($this->returnValue(true));
+		$this->view->expects($this->never())
+			->method('rmdir');
+		$dir = $this->getDir();
 		$dir->delete();
 	}
 
@@ -68,9 +57,10 @@ class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 		// but fails
 		$this->view->expects($this->once())
 			->method('rmdir')
+			->with('sub')
 			->will($this->returnValue(true));
 
-		$dir = $this->getRootDir();
+		$dir = $this->getDir('sub');
 		$dir->delete();
 	}
 
@@ -82,7 +72,7 @@ class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 			->method('isDeletable')
 			->will($this->returnValue(false));
 
-		$dir = $this->getRootDir();
+		$dir = $this->getDir('sub');
 		$dir->delete();
 	}
 
@@ -98,9 +88,10 @@ class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 		// but fails
 		$this->view->expects($this->once())
 			->method('rmdir')
+			->with('sub')
 			->will($this->returnValue(false));
 
-		$dir = $this->getRootDir();
+		$dir = $this->getDir('sub');
 		$dir->delete();
 	}
 
