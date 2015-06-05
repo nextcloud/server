@@ -54,10 +54,15 @@ $success = true;
 
 //Now delete
 foreach ($files as $file) {
-	if (\OC\Files\Filesystem::file_exists($dir . '/' . $file) &&
-		!(\OC\Files\Filesystem::isDeletable($dir . '/' . $file) &&
-			\OC\Files\Filesystem::unlink($dir . '/' . $file))
-	) {
+	try {
+		if (\OC\Files\Filesystem::file_exists($dir . '/' . $file) &&
+			!(\OC\Files\Filesystem::isDeletable($dir . '/' . $file) &&
+				\OC\Files\Filesystem::unlink($dir . '/' . $file))
+		) {
+			$filesWithError .= $file . "\n";
+			$success = false;
+		}
+	} catch (\Exception $e) {
 		$filesWithError .= $file . "\n";
 		$success = false;
 	}

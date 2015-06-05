@@ -78,10 +78,21 @@ $templateManager = OC_Helper::getFileTemplateManager();
 $mimeType = OC_Helper::getMimetypeDetector()->detectPath($target);
 $content = $templateManager->getTemplate($mimeType);
 
-if($content) {
-	$success = \OC\Files\Filesystem::file_put_contents($target, $content);
-} else {
-	$success = \OC\Files\Filesystem::touch($target);
+try {
+	if($content) {
+		$success = \OC\Files\Filesystem::file_put_contents($target, $content);
+	} else {
+		$success = \OC\Files\Filesystem::touch($target);
+	}
+} catch (\Exception $e) {
+	$result = [
+		'success' => false,
+		'data' => [
+			'message' => $e->getMessage()
+		]
+	];
+	OCP\JSON::error($result);
+	exit();
 }
 
 if($success) {

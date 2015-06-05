@@ -74,15 +74,26 @@ if (\OC\Files\Filesystem::file_exists($target)) {
 	exit();
 }
 
-if(\OC\Files\Filesystem::mkdir($target)) {
-	if ( $dir !== '/') {
-		$path = $dir.'/'.$folderName;
-	} else {
-		$path = '/'.$folderName;
+try {
+	if(\OC\Files\Filesystem::mkdir($target)) {
+		if ( $dir !== '/') {
+			$path = $dir.'/'.$folderName;
+		} else {
+			$path = '/'.$folderName;
+		}
+		$meta = \OC\Files\Filesystem::getFileInfo($path);
+		$meta['type'] = 'dir'; // missing ?!
+		OCP\JSON::success(array('data' => \OCA\Files\Helper::formatFileInfo($meta)));
+		exit();
 	}
-	$meta = \OC\Files\Filesystem::getFileInfo($path);
-	$meta['type'] = 'dir'; // missing ?!
-	OCP\JSON::success(array('data' => \OCA\Files\Helper::formatFileInfo($meta)));
+} catch (\Exception $e) {
+	$result = [
+		'success' => false,
+		'data' => [
+			'message' => $e->getMessage()
+		]
+	];
+	OCP\JSON::error($result);
 	exit();
 }
 
