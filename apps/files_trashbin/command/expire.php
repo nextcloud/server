@@ -49,6 +49,12 @@ class Expire implements ICommand {
 	}
 
 	public function handle() {
+		$userManager = \OC::$server->getUserManager();
+		if (!$userManager->userExists($this->user)) {
+			// User has been deleted already
+			return;
+		}
+
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($this->user);
 		Trashbin::expire($this->trashBinSize, $this->user);
