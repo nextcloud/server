@@ -652,6 +652,7 @@ class OC {
 			OC_User::setupBackends();
 		}
 
+		self::registerCacheHooks();
 		self::registerFilesystemHooks();
 		if (\OC::$server->getSystemConfig()->getValue('enable_previews', true)) {
 			self::registerPreviewHooks();
@@ -717,6 +718,19 @@ class OC {
 			\OC::$server->getContactsManager()->registerAddressBook(
 				new \OC\Contacts\LocalAddressBook($userManager));
 		});
+	}
+
+	/**
+	 * register hooks for the cache
+	 */
+	public static function registerCacheHooks() {
+		//don't try to do this before we are properly setup
+		if (\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
+
+			// NOTE: This will be replaced to use OCP
+			$userSession = self::$server->getUserSession();
+			$userSession->listen('postLogin', '\OC\Cache\File', 'loginListener');
+		}
 	}
 
 	private static function registerEncryptionWrapper() {
