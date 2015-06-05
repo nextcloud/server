@@ -40,7 +40,7 @@ interface ICertificateManager {
 	 * @param string $name the filename for the certificate
 	 * @return \OCP\ICertificate
 	 * @throws \Exception If the certificate could not get added
-	 * @since 8.0.0
+	 * @since 8.0.0 - since 8.1.0 throws exception instead of returning false
 	 */
 	public function addCertificate($certificate, $name);
 

@@ -73,6 +73,7 @@ class Util {
 	/**
 	 * Set current update channel
 	 * @param string $channel
+	 * @since 8.1.0
 	 */
 	public static function setChannel($channel) {
 		//Flush timestamp to reload version.php
@@ -83,6 +84,7 @@ class Util {
 	/**
 	 * Get current update channel
 	 * @return string
+	 * @since 8.1.0
 	 */
 	public static function getChannel() {
 		return \OC_Util::getChannel();

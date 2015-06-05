@@ -42,7 +42,7 @@ interface IMemcache extends ICache {
 	 * @param mixed $value
 	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
 	 * @return bool
-	 * @since 8.0.0
+	 * @since 8.1.0
 	 */
 	public function add($key, $value, $ttl = 0);
 
@@ -52,7 +52,7 @@ interface IMemcache extends ICache {
 	 * @param string $key
 	 * @param int $step
 	 * @return int | bool
-	 * @since 8.0.0
+	 * @since 8.1.0
 	 */
 	public function inc($key, $step = 1);
 
@@ -62,7 +62,7 @@ interface IMemcache extends ICache {
 	 * @param string $key
 	 * @param int $step
 	 * @return int | bool
-	 * @since 8.0.0
+	 * @since 8.1.0
 	 */
 	public function dec($key, $step = 1);
 
@@ -73,6 +73,7 @@ interface IMemcache extends ICache {
 	 * @param mixed $old
 	 * @param mixed $new
 	 * @return bool
+	 * @since 8.1.0
 	 */
 	public function cas($key, $old, $new);
 }
