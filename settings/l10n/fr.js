@@ -1,6 +1,8 @@
 OC.L10N.register(
     "settings",
     {
+    "APCu" : "APCu",
+    "Redis" : "Redis",
     "Security & setup warnings" : "Avertissements de sécurité & configuration",
     "Sharing" : "Partage",
     "Server-side encryption" : "Chiffrement côté serveur",
@@ -8,6 +10,7 @@ OC.L10N.register(
     "Cron" : "Cron",
     "Email server" : "Serveur mail",
     "Log" : "Log",
+    "Server Status" : "Statut du serveur",
     "Tips & tricks" : "Trucs et astuces",
     "Updates" : "Mises à jour",
     "Authentication error" : "Erreur d'authentification",

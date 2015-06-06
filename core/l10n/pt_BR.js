@@ -4,6 +4,7 @@ OC.L10N.register(
     "Couldn't send mail to following users: %s " : "Não foi possível enviar e-mail para os seguintes usuários: %s",
     "Turned on maintenance mode" : "Ativar modo de manutenção",
     "Turned off maintenance mode" : "Desligar o modo de manutenção",
+    "Maintenance mode is kept active" : "O modo de manutenção está sendo mantido como ativo",
     "Updated database" : "Atualizar o banco de dados",
     "Checked database schema update" : "Verificado atualização do esquema de banco de dados",
     "Checked database schema update for apps" : "Verificar atualização do esquema de banco de dados para aplicativos",
