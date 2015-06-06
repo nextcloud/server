@@ -1,7 +1,6 @@
 <?php
 /**
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Georg Ehrke <georg@ownCloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Robin Appelman <icewind@owncloud.com>
@@ -54,7 +53,8 @@ abstract class Provider implements IProvider {
 	}
 
 	/**
-	 * get thumbnail for file at path $path
+	 * Generates thumbnail which fits in $maxX and $maxY and keeps the aspect ratio, for file at path $path
+	 *
 	 * @param string $path Path of file
 	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image

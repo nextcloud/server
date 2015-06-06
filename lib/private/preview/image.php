@@ -33,7 +33,7 @@ abstract class Image extends Provider {
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		//get fileinfo
 		$fileInfo = $fileview->getFileInfo($path);
-		if(!$fileInfo) {
+		if (!$fileInfo) {
 			return false;
 		}
 
@@ -46,15 +46,19 @@ abstract class Image extends Provider {
 
 		$image = new \OC_Image();
 
-		if($fileInfo['encrypted'] === true) {
+		if ($fileInfo['encrypted'] === true) {
 			$fileName = $fileview->toTmpFile($path);
 		} else {
 			$fileName = $fileview->getLocalFile($path);
 		}
 		$image->loadFromFile($fileName);
 		$image->fixOrientation();
+		if ($image->valid()) {
+			$image->scaleDownToFit($maxX, $maxY);
 
-		return $image->valid() ? $image : false;
+			return $image;
+		}
+		return false;
 	}
 
 }

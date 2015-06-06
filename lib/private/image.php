@@ -952,6 +952,8 @@ class OC_Image implements \OCP\IImage {
 	/**
 	 * Resizes the image to fit within a boundary while preserving ratio.
 	 *
+	 * Warning: Images smaller than $maxWidth x $maxHeight will end up being scaled up
+	 *
 	 * @param integer $maxWidth
 	 * @param integer $maxHeight
 	 * @return bool
@@ -970,6 +972,24 @@ class OC_Image implements \OCP\IImage {
 
 		$this->preciseResize(round($newWidth), round($newHeight));
 		return true;
+	}
+
+	/**
+	 * Shrinks larger images to fit within specified boundaries while preserving ratio.
+	 *
+	 * @param integer $maxWidth
+	 * @param integer $maxHeight
+	 * @return bool
+	 */
+	public function scaleDownToFit($maxWidth, $maxHeight) {
+		$widthOrig = imageSX($this->resource);
+		$heightOrig = imageSY($this->resource);
+
+		if ($widthOrig > $maxWidth || $heightOrig >$maxHeight) {
+			return $this->fitIn($maxWidth, $maxHeight);
+		}
+
+		return false;
 	}
 
 	/**

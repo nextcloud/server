@@ -35,17 +35,17 @@ class SVG extends Provider {
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		try{
+		try {
 			$svg = new \Imagick();
 			$svg->setBackgroundColor(new \ImagickPixel('transparent'));
 
 			$content = stream_get_contents($fileview->fopen($path, 'r'));
-			if(substr($content, 0, 5) !== '<?xml') {
+			if (substr($content, 0, 5) !== '<?xml') {
 				$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
 			}
 
 			// Do not parse SVG files with references
-			if(stripos($content, 'xlink:href') !== false) {
+			if (stripos($content, 'xlink:href') !== false) {
 				return false;
 			}
 
@@ -60,6 +60,11 @@ class SVG extends Provider {
 		$image = new \OC_Image();
 		$image->loadFromData($svg);
 		//check if image object is valid
-		return $image->valid() ? $image : false;
+		if ($image->valid()) {
+			$image->scaleDownToFit($maxX, $maxY);
+
+			return $image;
+		}
+		return false;
 	}
 }

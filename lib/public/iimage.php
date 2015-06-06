@@ -170,4 +170,14 @@ interface IImage {
 	 * @since 8.1.0
 	 */
 	public function fitIn($maxWidth, $maxHeight);
+
+	/**
+	 * Shrinks the image to fit within a boundary while preserving ratio.
+	 *
+	 * @param integer $maxWidth
+	 * @param integer $maxHeight
+	 * @return bool
+	 * @since 8.1.0
+	 */
+	public function scaleDownToFit($maxWidth, $maxHeight);
 }
