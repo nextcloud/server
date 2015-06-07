@@ -59,6 +59,8 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Sammenknyttet sky-deling",
     "Open documentation" : "Åpne dokumentasjonen",
     "Allow users on this server to send shares to other servers" : "Tillat at brukere på denne serveren sender delinger til andre servere",
-    "Allow users on this server to receive shares from other servers" : "Tillat at brukere på denne serveren mottar delinger fra andre servere"
+    "Allow users on this server to receive shares from other servers" : "Tillat at brukere på denne serveren mottar delinger fra andre servere",
+    "Federated Cloud" : "Sammenknyttet sky",
+    "Your Federated Cloud ID: %s" : "Din ID for sammenknyttet sky: %s"
 },
 "nplurals=2; plural=(n != 1);");

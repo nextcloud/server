@@ -1,4 +1,6 @@
 { "translations": {
+    "APCu" : "APCu",
+    "Redis" : "Redis",
     "Security & setup warnings" : "Avvisi di sicurezza e di configurazione",
     "Sharing" : "Condivisione",
     "Server-side encryption" : "Cifratura lato server",
@@ -115,6 +117,7 @@
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Sembra che PHP sia configurato per rimuovere i blocchi di documentazione in linea. Ciò renderà inaccessibili diverse applicazioni principali.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Ciò è causato probabilmente da una cache/acceleratore come Zend OPcache o eAccelerator.",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Il tuo server è in esecuzione su Microsoft Windows. Consigliamo vivamente Linux per un'esperienza utente ottimale.",
+    "%1$s below version %2$s is installed, for stability and performance reasons we recommend to update to a newer %1$s version." : "La versione di %1$s installata è anteriore alla %2$s, per motivi di stabilità e prestazioni, consigliamo di aggiornare una una versione di %1$s più recente.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Il modulo PHP 'fileinfo' non è presente. Consigliamo vivamente di abilitare questo modulo per ottenere risultati migliori con il rilevamento dei tipi MIME.",
     "System locale can not be set to a one which supports UTF-8." : "La localizzazione di sistema non può essere impostata a una che supporta UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Ciò significa che potrebbero esserci problemi con alcuni caratteri nei nomi dei file.",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "APCu" : "APCu",
     "Security & setup warnings" : "Προειδοποιήσεις ασφάλειας & ρυθμίσεων",
     "Sharing" : "Διαμοιρασμός",
     "Server-side encryption" : "Κρυπτογράφηση από τον Διακομιστή",

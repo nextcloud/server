@@ -33,6 +33,7 @@
     "_%n year ago_::_%n years ago_" : ["%n χρόνο πριν","%n χρόνια πριν"],
     "seconds ago" : "δευτερόλεπτα πριν",
     "web services under your control" : "υπηρεσίες δικτύου υπό τον έλεγχό σας",
+    "Module with id: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Το άρθρωμα με id: %s δεν υπάρχει. Παρακαλώ ενεργοποιήστε το από τις ρυθμίσεις των εφαρμογών ή επικοινωνήστε με τον διαχειριστή.",
     "Empty filename is not allowed" : "Δεν επιτρέπεται άδειο όνομα αρχείου",
     "Dot files are not allowed" : "Δεν επιτρέπονται αρχεία που ξεκινούν από τελεία - Dot ",
     "4-byte characters are not supported in file names" : "Χαρακτήρες 4-byte δεν υποστηρίζονται σε ονόματα αρχείων",
