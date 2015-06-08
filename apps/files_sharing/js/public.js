@@ -90,7 +90,7 @@ OCA.Sharing.PublicApp = {
 		var token = $('#sharingToken').val();
 		var bottomMargin = 350;
 		var previewWidth = $(window).width() * window.devicePixelRatio;
-		var previewHeight = $(window).height() - bottomMargin * window.devicePixelRatio;
+		var previewHeight = ($(window).height() - bottomMargin) * window.devicePixelRatio;
 		previewHeight = Math.max(200, previewHeight);
 		var params = {
 			x: previewWidth,
