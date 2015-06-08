@@ -169,7 +169,7 @@ class Migrator {
 				$indexName = $index->getName();
 			} else {
 				// avoid conflicts in index names
-				$indexName = $this->config->getSystemValue('dbtableprefix', 'oc_') . $this->random->generate(13, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+				$indexName = $this->config->getSystemValue('dbtableprefix', 'oc_') . $this->random->generate(13, ISecureRandom::CHAR_LOWER);
 			}
 			$newIndexes[] = new Index($indexName, $index->getColumns(), $index->isUnique(), $index->isPrimary());
 		}
