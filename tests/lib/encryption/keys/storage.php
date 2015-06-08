@@ -72,29 +72,62 @@ class StorageTest extends TestCase {
 		);
 	}
 
-	public function testGetFileKey() {
+	public function dataTestGetFileKey() {
+		return [
+			['/files/foo.txt', '/files/foo.txt', true, 'key'],
+			['/files/foo.txt.ocTransferId2111130212.part', '/files/foo.txt', true, 'key'],
+			['/files/foo.txt.ocTransferId2111130212.part', '/files/foo.txt', false, 'key2'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestGetFileKey
+	 *
+	 * @param string $path
+	 * @param string $strippedPartialName
+	 * @param bool $originalKeyExists
+	 * @param string $expectedKeyContent
+	 */
+	public function testGetFileKey2($path, $strippedPartialName, $originalKeyExists, $expectedKeyContent) {
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
-			->willReturn(array('user1', '/files/foo.txt'));
+			->willReturnMap([
+				['user1/files/foo.txt', ['user1', '/files/foo.txt']],
+				['user1/files/foo.txt.ocTransferId2111130212.part', ['user1', '/files/foo.txt.ocTransferId2111130212.part']],
+			]);
 		// we need to strip away the part file extension in order to reuse a
 		// existing key if it exists, otherwise versions will break
 		$this->util->expects($this->once())
 			->method('stripPartialFileExtension')
-			->willReturnArgument(0);
+			->willReturn('user1' . $strippedPartialName);
 		$this->util->expects($this->any())
 			->method('isSystemWideMountPoint')
 			->willReturn(false);
-		$this->view->expects($this->once())
-			->method('file_get_contents')
-			->with($this->equalTo('/user1/files_encryption/keys/files/foo.txt/encModule/fileKey'))
-			->willReturn('key');
-		$this->view->expects($this->once())
-			->method('file_exists')
-			->with($this->equalTo('/user1/files_encryption/keys/files/foo.txt/encModule/fileKey'))
-			->willReturn(true);
 
-		$this->assertSame('key',
-			$this->storage->getFileKey('user1/files/foo.txt', 'fileKey', 'encModule')
+		$this->view->expects($this->at(0))
+			->method('file_exists')
+			->with($this->equalTo('/user1/files_encryption/keys' . $strippedPartialName . '/encModule/fileKey'))
+			->willReturn($originalKeyExists);
+
+		if (!$originalKeyExists) {
+			$this->view->expects($this->at(1))
+				->method('file_exists')
+				->with($this->equalTo('/user1/files_encryption/keys' . $path . '/encModule/fileKey'))
+				->willReturn(true);
+
+			$this->view->expects($this->once())
+				->method('file_get_contents')
+				->with($this->equalTo('/user1/files_encryption/keys' . $path . '/encModule/fileKey'))
+				->willReturn('key2');
+		} else {
+			$this->view->expects($this->once())
+				->method('file_get_contents')
+				->with($this->equalTo('/user1/files_encryption/keys' . $strippedPartialName . '/encModule/fileKey'))
+				->willReturn('key');
+		}
+
+		$this->assertSame($expectedKeyContent,
+			$this->storage->getFileKey('user1' . $path, 'fileKey', 'encModule')
 		);
 	}
 
