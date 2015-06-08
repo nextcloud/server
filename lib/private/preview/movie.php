@@ -91,7 +91,6 @@ class Movie extends Provider {
 			$cmd = self::$ffmpegBinary . ' -y -ss ' . escapeshellarg($second) .
 				' -i ' . escapeshellarg($absPath) .
 				' -f mjpeg -vframes 1' .
-				' -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) .
 				' ' . escapeshellarg($tmpPath) .
 				' > /dev/null 2>&1';
 		}
@@ -102,7 +101,11 @@ class Movie extends Provider {
 			$image = new \OC_Image();
 			$image->loadFromFile($tmpPath);
 			unlink($tmpPath);
-			return $image->valid() ? $image : false;
+			if ($image->valid()) {
+				$image->scaleDownToFit($maxX, $maxY);
+
+				return $image;
+			}
 		}
 		unlink($tmpPath);
 		return false;

@@ -238,21 +238,81 @@ class Test_Image extends \Test\TestCase {
 		$this->assertEquals(15, $img->height());
 	}
 
-	public function testFitIn() {
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
-		$this->assertTrue($img->fitIn(200, 100));
-		$this->assertEquals(100, $img->width());
-		$this->assertEquals(100, $img->height());
+	public static function sampleProvider() {
+		return [
+			['testimage.png', [200, 100], [100, 100]],
+			['testimage.jpg', [840, 840], [840, 525]],
+			['testimage.gif', [200, 250], [200, 200]]
+		];
+	}
 
-		$img = new \OC_Image(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
-		$this->assertTrue($img->fitIn(840, 840));
-		$this->assertEquals(840, $img->width());
-		$this->assertEquals(525, $img->height());
+	/**
+	 * @dataProvider sampleProvider
+	 *
+	 * @param string $filename
+	 * @param int[] $asked
+	 * @param int[] $expected
+	 */
+	public function testFitIn($filename, $asked, $expected) {
+		$img = new \OC_Image(OC::$SERVERROOT . '/tests/data/' . $filename);
+		$this->assertTrue($img->fitIn($asked[0], $asked[1]));
+		$this->assertEquals($expected[0], $img->width());
+		$this->assertEquals($expected[1], $img->height());
+	}
 
-		$img = new \OC_Image(base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif')));
-		$this->assertTrue($img->fitIn(200, 250));
-		$this->assertEquals(200, $img->width());
-		$this->assertEquals(200, $img->height());
+	public static function sampleFilenamesProvider() {
+		return [
+			['testimage.png'],
+			['testimage.jpg'],
+			['testimage.gif']
+		];
+	}
+
+	/**
+	 * Image should not be resized if it's already smaller than what is required
+	 *
+	 * @dataProvider sampleFilenamesProvider
+	 *
+	 * @param string $filename
+	 */
+	public function testScaleDownToFitWhenSmallerAlready($filename) {
+		$img = new \OC_Image(OC::$SERVERROOT . '/tests/data/' . $filename);
+		$currentWidth = $img->width();
+		$currentHeight = $img->height();
+		// We pick something larger than the image we want to scale down
+		$this->assertFalse($img->scaleDownToFit(4000, 4000));
+		// The dimensions of the image should not have changed since it's smaller already
+		$resizedWidth = $img->width();
+		$resizedHeight = $img->height();
+		$this->assertEquals(
+			$currentWidth, $img->width(), "currentWidth $currentWidth resizedWidth $resizedWidth \n"
+		);
+		$this->assertEquals(
+			$currentHeight, $img->height(),
+			"currentHeight $currentHeight resizedHeight $resizedHeight \n"
+		);
+	}
+
+	public static function largeSampleProvider() {
+		return [
+			['testimage.png', [200, 100], [100, 100]],
+			['testimage.jpg', [840, 840], [840, 525]],
+		];
+	}
+
+	/**
+	 * @dataProvider largeSampleProvider
+	 *
+	 * @param string $filename
+	 * @param int[] $asked
+	 * @param int[] $expected
+	 */
+	public function testScaleDownWhenBigger($filename, $asked, $expected) {
+		$img = new \OC_Image(OC::$SERVERROOT . '/tests/data/' . $filename);
+		//$this->assertTrue($img->scaleDownToFit($asked[0], $asked[1]));
+		$img->scaleDownToFit($asked[0], $asked[1]);
+		$this->assertEquals($expected[0], $img->width());
+		$this->assertEquals($expected[1], $img->height());
 	}
 
 	function convertDataProvider() {

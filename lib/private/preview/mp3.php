@@ -47,7 +47,12 @@ class MP3 extends Provider {
 			unlink($tmpPath);
 			$image = new \OC_Image();
 			$image->loadFromData($picture);
-			return $image->valid() ? $image : $this->getNoCoverThumbnail();
+
+			if ($image->valid()) {
+				$image->scaleDownToFit($maxX, $maxY);
+
+				return $image;
+			}
 		}
 
 		return $this->getNoCoverThumbnail();
