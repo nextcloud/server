@@ -166,9 +166,4 @@ class File {
 			}
 		}
 	}
-
-	public static function loginListener() {
-		$c = new self();
-		$c->gc();
-	}
 }

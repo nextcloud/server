@@ -729,7 +729,10 @@ class OC {
 
 			// NOTE: This will be replaced to use OCP
 			$userSession = self::$server->getUserSession();
-			$userSession->listen('postLogin', '\OC\Cache\File', 'loginListener');
+			$userSession->listen('\OC\User', 'postLogin', function () {
+				$cache = new \OC\Cache\File();
+				$cache->gc();
+			});
 		}
 	}
 
