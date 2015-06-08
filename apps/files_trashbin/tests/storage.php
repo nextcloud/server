@@ -233,6 +233,7 @@ class Storage extends \Test\TestCase {
 	 */
 	public function testDeleteVersionsOfFileAsRecipient() {
 		\OCA\Files_Versions\Hooks::connectHooks();
+		\OCA\Files_Sharing\Helper::registerHooks();
 
 		$this->userView->mkdir('share');
 		// trigger a version (multiple would not work because of the expire logic)
@@ -280,6 +281,7 @@ class Storage extends \Test\TestCase {
 	 */
 	public function testDeleteVersionsOfFolderAsRecipient() {
 		\OCA\Files_Versions\Hooks::connectHooks();
+		\OCA\Files_Sharing\Helper::registerHooks();
 
 		$this->userView->mkdir('share');
 		$this->userView->mkdir('share/folder');
