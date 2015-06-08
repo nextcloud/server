@@ -76,4 +76,14 @@ interface IMemcache extends ICache {
 	 * @since 8.1.0
 	 */
 	public function cas($key, $old, $new);
+
+	/**
+	 * Compare and delete
+	 *
+	 * @param string $key
+	 * @param mixed $old
+	 * @return bool
+	 * @since 8.1.0
+	 */
+	public function cad($key, $old);
 }

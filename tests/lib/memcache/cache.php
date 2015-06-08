@@ -103,6 +103,18 @@ abstract class Cache extends \Test_Cache {
 		$this->assertEquals('bar1', $this->instance->get('foo'));
 	}
 
+	public function testCadNotChanged() {
+		$this->instance->set('foo', 'bar');
+		$this->assertTrue($this->instance->cad('foo', 'bar'));
+		$this->assertFalse($this->instance->hasKey('foo'));
+	}
+
+	public function testCadChanged() {
+		$this->instance->set('foo', 'bar1');
+		$this->assertFalse($this->instance->cad('foo', 'bar'));
+		$this->assertTrue($this->instance->hasKey('foo'));
+	}
+
 
 	protected function tearDown() {
 		if ($this->instance) {
