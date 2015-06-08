@@ -59,6 +59,8 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Condivisione cloud federata",
     "Open documentation" : "Apri la documentazione",
     "Allow users on this server to send shares to other servers" : "Consenti agli utenti su questo server di inviare condivisioni ad altri server",
-    "Allow users on this server to receive shares from other servers" : "Consenti agli utenti su questo server di ricevere condivisioni da altri server"
+    "Allow users on this server to receive shares from other servers" : "Consenti agli utenti su questo server di ricevere condivisioni da altri server",
+    "Federated Cloud" : "Cloud federata",
+    "Your Federated Cloud ID: %s" : "Il tuo ID di cloud federata: %s"
 },
 "nplurals=2; plural=(n != 1);");

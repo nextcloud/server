@@ -2,6 +2,7 @@
     "Couldn't send mail to following users: %s " : "Impossibile inviare email ai seguenti utenti: %s",
     "Turned on maintenance mode" : "Modalità di manutenzione attivata",
     "Turned off maintenance mode" : "Modalità di manutenzione disattivata",
+    "Maintenance mode is kept active" : "La modalità di manutenzione è lasciata attiva",
     "Updated database" : "Database aggiornato",
     "Checked database schema update" : "Verificato l'aggiornamento dello schema del database",
     "Checked database schema update for apps" : "Verificato l'aggiornamento dello schema del database per le applicazioni",
