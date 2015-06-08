@@ -26,12 +26,14 @@ namespace OC\Memcache;
 use OCP\IMemcache;
 
 class Redis extends Cache implements IMemcache {
-	use CASTrait;
-
 	/**
 	 * @var \Redis $cache
 	 */
 	private static $cache = null;
+
+	private static $casScript;
+
+	private static $cadScript;
 
 	public function __construct($prefix = '') {
 		parent::__construct($prefix);
@@ -56,6 +58,29 @@ class Redis extends Cache implements IMemcache {
 			}
 
 			self::$cache->connect($host, $port, $timeout);
+
+			self::$casScript = self::$cache->script('load', '
+local key = ARGV[1]
+local old = ARGV[2]
+local new = ARGV[3]
+
+if redis.call(\'get\', key) == old then
+  redis.call(\'set\', key, new)
+  return true
+end
+
+return false');
+
+			self::$cadScript = self::$cache->script('load', '
+local key = ARGV[1]
+local old = ARGV[2]
+
+if redis.call(\'get\', key) == old then
+  redis.call(\'del\', key)
+  return true
+end
+
+return false');
 
 			if (isset($config['dbindex'])) {
 				self::$cache->select($config['dbindex']);
@@ -148,6 +173,29 @@ class Redis extends Cache implements IMemcache {
 			return false;
 		}
 		return self::$cache->decrBy($this->getNamespace() . $key, $step);
+	}
+
+	/**
+	 * Compare and set
+	 *
+	 * @param string $key
+	 * @param mixed $old
+	 * @param mixed $new
+	 * @return bool
+	 */
+	public function cas($key, $old, $new) {
+		return (bool) self::$cache->evalSha(self::$casScript, [$this->getNamespace() . $key, json_encode($old), json_encode($new)]);
+	}
+
+	/**
+	 * Compare and delete
+	 *
+	 * @param string $key
+	 * @param mixed $old
+	 * @return bool
+	 */
+	public function cad($key, $old) {
+		return (bool)self::$cache->evalSha(self::$cadScript, [$this->getNamespace() . $key, json_encode($old)]);
 	}
 
 	static public function isAvailable() {
