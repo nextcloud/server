@@ -271,7 +271,8 @@ GroupList = {
 $(document).ready( function () {
 	$userGroupList = $('#usergrouplist');
 	GroupList.initDeleteHandling();
-	GroupList.getEveryoneCount();
+	// TODO: disabled due to performance issues
+	// GroupList.getEveryoneCount();
 
 	// Display or hide of Create Group List Element
 	$('#newgroup-form').hide();

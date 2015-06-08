@@ -27,7 +27,8 @@ namespace OC\Group;
 
 class MetaData {
 	const SORT_NONE = 0;
-	const SORT_USERCOUNT = 1;
+	const SORT_USERCOUNT = 1; // May have performance issues on LDAP backends
+	const SORT_GROUPNAME = 2;
 
 	/**
 	 * @var string $user
@@ -121,15 +122,19 @@ class MetaData {
 	}
 
 	/**
-	 * sets the sort mode, currently 0 (none) and 1 (user entries,
-	 * descending) are supported
-	 * @param int $sortMode (SORT_NONE, SORT_USERCOUNT)
+	 * sets the sort mode, see SORT_* constants for supported modes
+	 *
+	 * @param int $sortMode
 	 */
 	public function setSorting($sortMode) {
-		if($sortMode >= 0 && $sortMode <= 1) {
-			$this->sorting = $sortMode;
-		} else {
-			$this->sorting = 0;
+		switch ($sortMode) {
+			case self::SORT_USERCOUNT:
+			case self::SORT_GROUPNAME:
+				$this->sorting = $sortMode;
+				break;
+
+			default:
+				$this->sorting = self::SORT_NONE;
 		}
 	}
 
@@ -139,27 +144,29 @@ class MetaData {
 	 * @param array $sortKeys the sort key array, by reference
 	 * @param int $sortIndex the sort key index, by reference
 	 * @param array $data the group's meta data as returned by generateGroupMetaData()
-	 * @return null
 	 */
 	private function addEntry(&$entries, &$sortKeys, &$sortIndex, $data) {
 		$entries[] = $data;
-		if($this->sorting === 1) {
+		if ($this->sorting === self::SORT_USERCOUNT) {
 			$sortKeys[$sortIndex] = $data['usercount'];
+			$sortIndex++;
+		} else if ($this->sorting === self::SORT_GROUPNAME) {
+			$sortKeys[$sortIndex] = $data['name'];
 			$sortIndex++;
 		}
 	}
 
 	/**
 	 * creates an array containing the group meta data
-	 * @param \OC\Group\Group $group
+	 * @param \OCP\IGroup $group
 	 * @param string $userSearch
 	 * @return array with the keys 'id', 'name' and 'usercount'
 	 */
-	private function generateGroupMetaData(\OC\Group\Group $group, $userSearch) {
+	private function generateGroupMetaData(\OCP\IGroup $group, $userSearch) {
 		return array(
 				'id' => $group->getGID(),
 				'name' => $group->getGID(),
-				'usercount' => $group->count($userSearch)
+				'usercount' => $this->sorting === self::SORT_USERCOUNT ? $group->count($userSearch) : 0,
 			);
 	}
 
@@ -170,15 +177,17 @@ class MetaData {
 	 * @param return null
 	 */
 	private function sort(&$entries, $sortKeys) {
-		if($this->sorting > 0) {
+		if ($this->sorting === self::SORT_USERCOUNT) {
 			array_multisort($sortKeys, SORT_DESC, $entries);
+		} else if ($this->sorting === self::SORT_GROUPNAME) {
+			array_multisort($sortKeys, SORT_ASC, $entries);
 		}
 	}
 
 	/**
 	 * returns the available groups
 	 * @param string $search a search string
-	 * @return \OC\Group\Group[]
+	 * @return \OCP\IGroup[]
 	 */
 	private function getGroups($search = '') {
 		if($this->isAdmin) {

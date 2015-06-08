@@ -111,26 +111,26 @@ class GroupsControllerTest extends \Test\TestCase {
 					0 => array(
 						'id' => 'admin',
 						'name' => 'admin',
-						'usercount' => 18
+						'usercount' => 0,//User count disabled 18,
 					)
 				),
 				'groups' =>
 					array(
 						0 => array(
-							'id' => 'secondGroup',
-							'name' => 'secondGroup',
-							'usercount' => 25
-						),
-						1 => array(
-							'id' => 'thirdGroup',
-							'name' => 'thirdGroup',
-							'usercount' => 14
-						),
-						2 => array(
 							'id' => 'firstGroup',
 							'name' => 'firstGroup',
-							'usercount' => 12
-						)
+							'usercount' => 0,//User count disabled 12,
+						),
+						1 => array(
+							'id' => 'secondGroup',
+							'name' => 'secondGroup',
+							'usercount' => 0,//User count disabled 25,
+						),
+						2 => array(
+							'id' => 'thirdGroup',
+							'name' => 'thirdGroup',
+							'usercount' => 0,//User count disabled 14,
+						),
 					)
 				)
 			)
