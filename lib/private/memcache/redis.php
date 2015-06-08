@@ -31,10 +31,6 @@ class Redis extends Cache implements IMemcache {
 	 */
 	private static $cache = null;
 
-	private static $casScript;
-
-	private static $cadScript;
-
 	public function __construct($prefix = '') {
 		parent::__construct($prefix);
 		if (is_null(self::$cache)) {
@@ -58,29 +54,6 @@ class Redis extends Cache implements IMemcache {
 			}
 
 			self::$cache->connect($host, $port, $timeout);
-
-			self::$casScript = self::$cache->script('load', '
-local key = ARGV[1]
-local old = ARGV[2]
-local new = ARGV[3]
-
-if redis.call(\'get\', key) == old then
-  redis.call(\'set\', key, new)
-  return true
-end
-
-return false');
-
-			self::$cadScript = self::$cache->script('load', '
-local key = ARGV[1]
-local old = ARGV[2]
-
-if redis.call(\'get\', key) == old then
-  redis.call(\'del\', key)
-  return true
-end
-
-return false');
 
 			if (isset($config['dbindex'])) {
 				self::$cache->select($config['dbindex']);
@@ -184,7 +157,18 @@ return false');
 	 * @return bool
 	 */
 	public function cas($key, $old, $new) {
-		return (bool) self::$cache->evalSha(self::$casScript, [$this->getNamespace() . $key, json_encode($old), json_encode($new)]);
+		if (!is_int($new)) {
+			$new = json_encode($new);
+		}
+		self::$cache->watch($this->getNamespace() . $key);
+		if ($this->get($key) === $old) {
+			$result = self::$cache->multi()
+				->set($this->getNamespace() . $key, $new)
+				->exec();
+			return ($result === false) ? false : true;
+		}
+		self::$cache->unwatch();
+		return false;
 	}
 
 	/**
@@ -195,12 +179,20 @@ return false');
 	 * @return bool
 	 */
 	public function cad($key, $old) {
-		return (bool)self::$cache->evalSha(self::$cadScript, [$this->getNamespace() . $key, json_encode($old)]);
+		self::$cache->watch($this->getNamespace() . $key);
+		if ($this->get($key) === $old) {
+			$result = self::$cache->multi()
+				->del($this->getNamespace() . $key)
+				->exec();
+			return ($result === false) ? false : true;
+		}
+		self::$cache->unwatch();
+		return false;
 	}
 
 	static public function isAvailable() {
 		return extension_loaded('redis')
-			&& version_compare(phpversion('redis'), '2.2.5', '>=');
+		&& version_compare(phpversion('redis'), '2.2.5', '>=');
 	}
 }
 
