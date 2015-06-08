@@ -59,7 +59,11 @@
 
 namespace OC\Files;
 
+use OC\Cache\File;
+use OC\Files\Config\MountProviderCollection;
 use OC\Files\Storage\StorageFactory;
+use OCP\Files\Config\IMountProvider;
+use OCP\IUserManager;
 
 class Filesystem {
 
@@ -77,6 +81,8 @@ class Filesystem {
 	static private $usersSetup = array();
 
 	static private $normalizedPathCache = array();
+
+	static private $listeningForProviders = false;
 
 	/**
 	 * classname which used for hooks handling
@@ -371,14 +377,15 @@ class Filesystem {
 
 		$root = \OC_User::getHome($user);
 
-		$userObject = \OC_User::getManager()->get($user);
+		$userManager = \OC::$server->getUserManager();
+		$userObject = $userManager->get($user);
 
 		if (is_null($userObject)) {
-			\OCP\Util::writeLog('files', ' Backends provided no user object for '.$user, \OCP\Util::ERROR);
+			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $user, \OCP\Util::ERROR);
 			throw new \OC\User\NoUserException();
 		}
 
-		$homeStorage = \OC_Config::getValue( 'objectstore' );
+		$homeStorage = \OC_Config::getValue('objectstore');
 		if (!empty($homeStorage)) {
 			// sanity checks
 			if (empty($homeStorage['class'])) {
@@ -412,16 +419,41 @@ class Filesystem {
 		self::mountCacheDir($user);
 
 		// Chance to mount for other storages
-		if($userObject) {
-			$mountConfigManager = \OC::$server->getMountProviderCollection();
+		/** @var \OC\Files\Config\MountProviderCollection $mountConfigManager */
+		$mountConfigManager = \OC::$server->getMountProviderCollection();
+		if ($userObject) {
 			$mounts = $mountConfigManager->getMountsForUser($userObject);
 			array_walk($mounts, array(self::$mounts, 'addMount'));
 		}
+
+		self::listenForNewMountProviders($mountConfigManager, $userManager);
 		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', array('user' => $user, 'user_dir' => $root));
 	}
 
 	/**
+	 * Get mounts from mount providers that are registered after setup
+	 *
+	 * @param MountProviderCollection $mountConfigManager
+	 * @param IUserManager $userManager
+	 */
+	private static function listenForNewMountProviders(MountProviderCollection $mountConfigManager, IUserManager $userManager) {
+		if (!self::$listeningForProviders) {
+			self::$listeningForProviders = true;
+			$mountConfigManager->listen('\OC\Files\Config', 'registerMountProvider', function (IMountProvider $provider) use ($userManager) {
+				foreach (Filesystem::$usersSetup as $user => $setup) {
+					$userObject = $userManager->get($user);
+					if ($userObject) {
+						$mounts = $provider->getMountsForUser($userObject, Filesystem::getLoader());
+						array_walk($mounts, array(self::$mounts, 'addMount'));
+					}
+				}
+			});
+		}
+	}
+
+	/**
 	 * Mounts the cache directory
+	 *
 	 * @param string $user user name
 	 */
 	private static function mountCacheDir($user) {
@@ -455,6 +487,7 @@ class Filesystem {
 
 	/**
 	 * get the relative path of the root data directory for the current user
+	 *
 	 * @return string
 	 *
 	 * Returns path like /admin/files
@@ -537,7 +570,7 @@ class Filesystem {
 		if (!$path || $path[0] !== '/') {
 			$path = '/' . $path;
 		}
-		if (strpos($path, '/../') !== FALSE || strrchr($path, '/') === '/..') {
+		if (strpos($path, '/../') !== false || strrchr($path, '/') === '/..') {
 			return false;
 		}
 		return true;
@@ -577,6 +610,7 @@ class Filesystem {
 	/**
 	 * check if the directory should be ignored when scanning
 	 * NOTE: the special directories . and .. would cause never ending recursion
+	 *
 	 * @param String $dir
 	 * @return boolean
 	 */
@@ -745,6 +779,7 @@ class Filesystem {
 
 	/**
 	 * Fix common problems with a file path
+	 *
 	 * @param string $path
 	 * @param bool $stripTrailingSlash
 	 * @param bool $isAbsolutePath
@@ -761,7 +796,7 @@ class Filesystem {
 
 		$cacheKey = json_encode([$path, $stripTrailingSlash, $isAbsolutePath]);
 
-		if(isset(self::$normalizedPathCache[$cacheKey])) {
+		if (isset(self::$normalizedPathCache[$cacheKey])) {
 			return self::$normalizedPathCache[$cacheKey];
 		}
 
