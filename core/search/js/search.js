@@ -94,6 +94,9 @@
 			/**
 			 * Do a search query and display the results
 			 * @param {string} query the search query
+			 * @param inApps
+			 * @param page
+			 * @param size
 			 */
 			this.search = function(query, inApps, page, size) {
 				if (query) {
@@ -160,7 +163,8 @@
 			var summaryAndStatusHeight = 118;
 
 			function isStatusOffScreen() {
-				return $searchResults.position() && ($searchResults.position().top + summaryAndStatusHeight > window.innerHeight);
+				return $searchResults.position() &&
+					($searchResults.position().top + summaryAndStatusHeight > window.innerHeight);
 			}
 
 			function placeStatus() {
@@ -252,10 +256,11 @@
 			 * Event handler for when scrolling the list container.
 			 * This appends/renders the next page of entries when reaching the bottom.
 			 */
-			function onScroll(e) {
+			function onScroll() {
 				if ($searchResults && lastQuery !== false && lastResults.length > 0) {
 					var resultsBottom = $searchResults.offset().top + $searchResults.height();
-					var containerBottom = $searchResults.offsetParent().offset().top + $searchResults.offsetParent().height();
+					var containerBottom = $searchResults.offsetParent().offset().top +
+						$searchResults.offsetParent().height();
 					if ( resultsBottom < containerBottom * 1.2 ) {
 						self.search(lastQuery, lastInApps, lastPage + 1);
 					}
@@ -289,7 +294,7 @@
 				event.preventDefault();
 			});
 
-			$searchBox.on('search', function (event) {
+			$searchBox.on('search', function () {
 				if($searchBox.val() === '') {
 					if(self.hasFilter(getCurrentApp())) {
 						self.getFilter(getCurrentApp())('');
@@ -359,6 +364,14 @@
 			placeStatus();
 
 			OC.Plugins.attach('OCA.Search', this);
+
+			// hide search file if search is not enabled
+			if(self.hasFilter(getCurrentApp())) {
+				return;
+			}
+			if ($searchResults.length === 0) {
+				$searchBox.hide();
+			}
 		}
 	};
 	OCA.Search = Search;
