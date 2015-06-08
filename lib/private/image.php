@@ -982,10 +982,14 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool
 	 */
 	public function scaleDownToFit($maxWidth, $maxHeight) {
+		if (!$this->valid()) {
+			$this->logger->error(__METHOD__ . '(): No image loaded', array('app' => 'core'));
+			return false;
+		}
 		$widthOrig = imageSX($this->resource);
 		$heightOrig = imageSY($this->resource);
 
-		if ($widthOrig > $maxWidth || $heightOrig >$maxHeight) {
+		if ($widthOrig > $maxWidth || $heightOrig > $maxHeight) {
 			return $this->fitIn($maxWidth, $maxHeight);
 		}
 
