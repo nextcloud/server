@@ -55,6 +55,15 @@ class Trashbin {
 	 */
 	private static $scannedVersions = false;
 
+	/**
+	 * Ensure we dont need to scan the file during the move to trash
+	 *
+	 * @param array $params
+	 */
+	public static function ensureFileScannedHook($params) {
+		self::getUidAndFilename($params['path']);
+	}
+
 	public static function getUidAndFilename($filename) {
 		$uid = \OC\Files\Filesystem::getOwner($filename);
 		\OC\Files\Filesystem::initMountPoints($uid);
@@ -870,6 +879,7 @@ class Trashbin {
 		//Listen to post write hook
 		\OCP\Util::connectHook('OC_Filesystem', 'post_write', 'OCA\Files_Trashbin\Hooks', 'post_write_hook');
 		// pre and post-rename, disable trash logic for the copy+unlink case
+		\OCP\Util::connectHook('OC_Filesystem', 'delete', 'OCA\Files_Trashbin\Trashbin', 'ensureFileScannedHook');
 		\OCP\Util::connectHook('OC_Filesystem', 'rename', 'OCA\Files_Trashbin\Storage', 'preRenameHook');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Files_Trashbin\Storage', 'postRenameHook');
 	}
