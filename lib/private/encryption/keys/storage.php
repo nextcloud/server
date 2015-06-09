@@ -72,7 +72,17 @@ class Storage implements IStorage {
 	public function getFileKey($path, $keyId, $encryptionModuleId) {
 		$realFile = $this->util->stripPartialFileExtension($path);
 		$keyDir = $this->getFileKeyDir($encryptionModuleId, $realFile);
-		return $this->getKey($keyDir . $keyId);
+		$key = $this->getKey($keyDir . $keyId);
+
+		if ($key === '' && $realFile !== $path) {
+			// Check if the part file has keys and use them, if no normal keys
+			// exist. This is required to fix copyBetweenStorage() when we
+			// rename a .part file over storage borders.
+			$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
+			$key = $this->getKey($keyDir . $keyId);
+		}
+
+		return $key;
 	}
 
 	/**
