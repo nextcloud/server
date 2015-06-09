@@ -66,45 +66,65 @@ class Test_Factory extends \Test\TestCase {
 		return [
 			[
 				// local and distributed available
-				self::AVAILABLE1, self::AVAILABLE2,
-				self::AVAILABLE1, self::AVAILABLE2
-			],
-			[
-				// local available, distributed unavailable
-				self::AVAILABLE1, self::UNAVAILABLE1,
-				self::AVAILABLE1, self::AVAILABLE1
-			],
-			[
-				// local unavailable, distributed available
-				self::UNAVAILABLE1, self::AVAILABLE1,
-				\OC\Memcache\Factory::NULL_CACHE, self::AVAILABLE1
-			],
-			[
-				// local and distributed unavailable
-				self::UNAVAILABLE1, self::UNAVAILABLE2,
-				\OC\Memcache\Factory::NULL_CACHE, \OC\Memcache\Factory::NULL_CACHE
+				self::AVAILABLE1, self::AVAILABLE2, null,
+				self::AVAILABLE1, self::AVAILABLE2, \OC\Memcache\Factory::NULL_CACHE
 			],
 			[
 				// local and distributed null
-				null, null,
-				\OC\Memcache\Factory::NULL_CACHE, \OC\Memcache\Factory::NULL_CACHE
+				null, null, null,
+				\OC\Memcache\Factory::NULL_CACHE, \OC\Memcache\Factory::NULL_CACHE, \OC\Memcache\Factory::NULL_CACHE
 			],
 			[
 				// local available, distributed null (most common scenario)
-				self::AVAILABLE1, null,
-				self::AVAILABLE1, self::AVAILABLE1
+				self::AVAILABLE1, null, null,
+				self::AVAILABLE1, self::AVAILABLE1, \OC\Memcache\Factory::NULL_CACHE
+			],
+			[
+				// locking cache available
+				null, null, self::AVAILABLE1,
+				\OC\Memcache\Factory::NULL_CACHE, \OC\Memcache\Factory::NULL_CACHE, self::AVAILABLE1
+			],
+			[
+				// locking cache unavailable: no exception here in the factory
+				null, null, self::UNAVAILABLE1,
+				\OC\Memcache\Factory::NULL_CACHE, \OC\Memcache\Factory::NULL_CACHE, \OC\Memcache\Factory::NULL_CACHE
 			]
+		];
+	}
+
+	public function cacheUnavailableProvider() {
+		return [
+			[
+				// local available, distributed unavailable
+				self::AVAILABLE1, self::UNAVAILABLE1
+			],
+			[
+				// local unavailable, distributed available
+				self::UNAVAILABLE1, self::AVAILABLE1
+			],
+			[
+				// local and distributed unavailable
+				self::UNAVAILABLE1, self::UNAVAILABLE2
+			],
 		];
 	}
 
 	/**
 	 * @dataProvider cacheAvailabilityProvider
 	 */
-	public function testCacheAvailability($localCache, $distributedCache,
-		$expectedLocalCache, $expectedDistributedCache)
-	{
-		$factory = new \OC\Memcache\Factory('abc', $localCache, $distributedCache);
+	public function testCacheAvailability($localCache, $distributedCache, $lockingCache,
+		$expectedLocalCache, $expectedDistributedCache, $expectedLockingCache) {
+		$factory = new \OC\Memcache\Factory('abc', $localCache, $distributedCache, $lockingCache);
 		$this->assertTrue(is_a($factory->createLocal(), $expectedLocalCache));
 		$this->assertTrue(is_a($factory->createDistributed(), $expectedDistributedCache));
+		$this->assertTrue(is_a($factory->createLocking(), $expectedLockingCache));
+	}
+
+	/**
+	 * @dataProvider cacheUnavailableProvider
+	 * @expectedException \OC\HintException
+	 */
+	public function testCacheNotAvailableException($localCache, $distributedCache) {
+		new \OC\Memcache\Factory('abc', $localCache, $distributedCache);
 	}
 }
