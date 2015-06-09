@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "APCu" : "APCu",
+    "Redis" : "Redis",
     "Security & setup warnings" : "Προειδοποιήσεις ασφάλειας & ρυθμίσεων",
     "Sharing" : "Διαμοιρασμός",
     "Server-side encryption" : "Κρυπτογράφηση από τον Διακομιστή",
@@ -118,6 +119,7 @@ OC.L10N.register(
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Ο PHP φαίνεται να είναι ρυθμισμένος ώστε να αφαιρεί μπλοκ εσωτερικών κειμένων (inline doc). Αυτό θα καταστήσει κύριες εφαρμογές μη-διαθέσιμες.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Αυτό πιθανόν προκλήθηκε από προσωρινή μνήμη (cache)/επιταχυντή όπως τη Zend OPcache ή τον eAccelerator.",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Ο διακομιστής σας τρέχει σε Microsoft Windows. Συστήνουμε ιδιαίτερα Linux για τη βέλτιστη εμπειρία του χρήστη.",
+    "%1$s below version %2$s is installed, for stability and performance reasons we recommend to update to a newer %1$s version." : "Είναι εγκατεστημένο το %1$s έκδοση %2$s, για λόγους σταθερότητας και απόδοσης συστήνουμε να αναβαθμίσετε σε νεότερη έκδοση του %1$s.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Η PHP ενοτητα 'fileinfo' λειπει. Σας συνιστούμε να ενεργοποιήσετε αυτή την ενότητα για να έχετε καλύτερα αποτελέσματα με τον εντοπισμό τύπου MIME. ",
     "System locale can not be set to a one which supports UTF-8." : "Οι ρυθμίσεις τοποθεσίας συστήματος δεν μπορούν να οριστούν σε κάποιες που δεν υποστηρίζουν UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Αυτό σημαίνει ότι μπορεί να υπάρχουν προβλήματα με κάποιους χαρακτήρες στα ονόματα αρχείων.",

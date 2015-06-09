@@ -3,6 +3,8 @@
     "Personal" : "ส่วนตัว",
     "Users" : "ผู้ใช้งาน",
     "Admin" : "ผู้ดูแล",
+    "Unknown filetype" : "ไม่รู้จักชนิดของไฟล์",
+    "Invalid image" : "รูปภาพไม่ถูกต้อง",
     "today" : "วันนี้",
     "yesterday" : "เมื่อวานนี้",
     "last month" : "เดือนที่แล้ว",
