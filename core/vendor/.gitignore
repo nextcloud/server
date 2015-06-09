@@ -35,7 +35,7 @@ moment/scripts
 # jquery
 jquery/**
 !jquery/.bower.json
-!jquery/jquery*
+!jquery/jquery.*
 !jquery/MIT-LICENSE.txt
 
 # jquery-ui
