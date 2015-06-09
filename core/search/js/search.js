@@ -387,7 +387,9 @@ $(document).ready(function() {
 			OC.Search = new OCA.Search($('#searchbox'), $('#searchresults'));
 		});
 	} else {
-		OC.Search = new OCA.Search($('#searchbox'), $('#searchresults'));
+		_.defer(function() {
+			OC.Search = new OCA.Search($('#searchbox'), $('#searchresults'));
+		});
 	}
 });
 
