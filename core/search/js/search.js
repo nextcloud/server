@@ -379,19 +379,16 @@
 
 $(document).ready(function() {
 	var $searchResults = $('#searchresults');
-	if ($searchResults.length) {
+	if ($searchResults.length > 0) {
 		$searchResults.addClass('hidden');
 		$('#app-content')
 			.find('.viewcontainer').css('min-height', 'initial');
+		$searchResults.load(OC.webroot + '/core/search/templates/part.results.html', function () {
+			OC.Search = new OCA.Search($('#searchbox'), $('#searchresults'));
+		});
 	} else {
-		$searchResults = $('<div id="searchresults" class="hidden"/>');
-		$('#app-content')
-			.append($searchResults)
-			.find('.viewcontainer').css('min-height', 'initial');
-	}
-	$searchResults.load(OC.webroot + '/core/search/templates/part.results.html', function () {
 		OC.Search = new OCA.Search($('#searchbox'), $('#searchresults'));
-	});
+	}
 });
 
 /**
