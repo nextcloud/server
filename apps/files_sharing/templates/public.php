@@ -89,7 +89,7 @@ $thumbSize = 1024;
 		<?php if (isset($_['folder'])): ?>
 			<?php print_unescaped($_['folder']); ?>
 		<?php else: ?>
-			<?php if (substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'video'): ?>
+			<?php if ($_['previewEnabled'] && substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'video'): ?>
 				<div id="imgframe">
 					<video tabindex="0" controls="" preload="none">
 						<source src="<?php p($_['downloadURL']); ?>" type="<?php p($_['mimetype']); ?>" />

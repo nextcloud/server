@@ -178,6 +178,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'nonHumanFileSize' => 33,
 			'maxSizeAnimateGif' => 10,
 			'previewSupported' => true,
+			'previewEnabled' => true,
 		);
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
