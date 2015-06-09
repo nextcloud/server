@@ -47,7 +47,7 @@ class Import extends Command {
 			->setDescription('Import a list of configs')
 			->addArgument(
 				'file',
-				InputArgument::REQUIRED,
+				InputArgument::OPTIONAL,
 				'File with the json array to import'
 			)
 		;
@@ -55,10 +55,17 @@ class Import extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$importFile = $input->getArgument('file');
+		if ($importFile !== null) {
+			$content = $this->getArrayFromFile($importFile);
+		} else {
+			$content = $this->getArrayFromStdin();
+		}
+
 		try {
-			$configs = $this->getArrayFromFile($importFile);
+			$configs = $this->validateFileContent($content);
 		} catch (\UnexpectedValueException $e) {
 			$output->writeln('<error>' . $e->getMessage(). '</error>');
+			return;
 		}
 
 		if (!empty($configs['system'])) {
@@ -81,13 +88,37 @@ class Import extends Command {
 	}
 
 	/**
+	 * Get the content from stdin ("config:import < file.json")
+	 *
+	 * @return string
+	 */
+	protected function getArrayFromStdin() {
+		// Read from stdin. stream_set_blocking is used to prevent blocking
+		// when nothing is passed via stdin.
+		stream_set_blocking(STDIN, 0);
+		$content = file_get_contents('php://stdin');
+		stream_set_blocking(STDIN, 1);
+		return $content;
+	}
+
+	/**
+	 * Get the content of the specified file ("config:import file.json")
+	 *
 	 * @param string $importFile
+	 * @return string
+	 */
+	protected function getArrayFromFile($importFile) {
+		$content = file_get_contents($importFile);
+		return $content;
+	}
+
+	/**
+	 * @param string $content
 	 * @return array
 	 * @throws \UnexpectedValueException when the array is invalid
 	 */
-	protected function getArrayFromFile($importFile) {
-		$helo = file_get_contents($importFile);
-		$decodedContent = json_decode($helo, true);
+	protected function validateFileContent($content) {
+		$decodedContent = json_decode($content, true);
 		if (!is_array($decodedContent) || empty($decodedContent)) {
 			throw new \UnexpectedValueException('The file must contain a valid json array');
 		}
