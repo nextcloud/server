@@ -174,6 +174,9 @@ class User implements IUser {
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'preDelete', array($this));
 		}
+		// homeDir needs to be retrieved before the user is deleted - otherwise it isn't correct and the fallback is used
+		$homeDir = $this->getHome();
+
 		$result = $this->backend->deleteUser($this->uid);
 		if ($result) {
 
@@ -187,7 +190,7 @@ class User implements IUser {
 			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
 
 			// Delete user files in /data/
-			\OC_Helper::rmdirr(\OC_User::getHome($this->uid));
+			\OC_Helper::rmdirr($homeDir);
 
 			// Delete the users entry in the storage table
 			\OC\Files\Cache\Storage::remove('home::' . $this->uid);
