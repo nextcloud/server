@@ -22,7 +22,7 @@ class Controller {
 			if (is_object($userObject)) {
 				$result[$user] = $userObject->getDisplayName();
 			} else {
-				$result[$user] = false;
+				$result[$user] = $user;
 			}
 		}
 
