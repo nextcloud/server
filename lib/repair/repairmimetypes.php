@@ -121,7 +121,8 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 			}
 			
 			// get target mimetype id
-			$mimetypeId = \OC_DB::executeAudited(self::getIdStmt(), array($mimetype));
+			$result = \OC_DB::executeAudited(self::getIdStmt(), array($mimetype));
+			$mimetypeId = $result->fetchOne();
 
 			// change mimetype for files with x extension
 			\OC_DB::executeAudited(self::updateByNameStmt(), array($mimetypeId, $mimetypeId, '%.' . $extension));
