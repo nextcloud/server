@@ -1,7 +1,7 @@
 {
 	"vendor": [
 		"jquery/jquery.min.js",
-		"jquery/jquery-migrate.min.js",
+		"jquery-migrate/jquery-migrate.min.js",
 		"jquery-ui/ui/jquery-ui.custom.js",
 		"underscore/underscore.js",
 		"moment/min/moment-with-locales.js",
