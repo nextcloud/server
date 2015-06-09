@@ -999,7 +999,7 @@ class View {
 					throw $e;
 				}
 
-				if ((in_array('write', $hooks) || in_array('delete', $hooks)) && $operation !== 'fopen') {
+				if ((in_array('write', $hooks) || in_array('delete', $hooks)) && ($operation !== 'fopen' || $result === false)) {
 					$this->changeLock($path, ILockingProvider::LOCK_SHARED);
 				}
 
@@ -1013,7 +1013,7 @@ class View {
 					$this->updater->update($path, $extraParam);
 				}
 
-				if ($operation === 'fopen' and $result) {
+				if ($operation === 'fopen' and is_resource($result)) {
 					$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path) {
 						if (in_array('write', $hooks)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
