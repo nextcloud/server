@@ -166,6 +166,7 @@ class ShareControllerTest extends \PHPUnit_Framework_TestCase {
 			'fileSize' => '33 B',
 			'nonHumanFileSize' => 33,
 			'maxSizeAnimateGif' => 10,
+			'previewEnabled' => true,
 		);
 		$expectedResponse = new TemplateResponse($this->container['AppName'], 'public', $sharedTmplParams, 'base');
 		$this->assertEquals($expectedResponse, $response);
