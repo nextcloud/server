@@ -6,6 +6,7 @@
 	<?php print_unescaped($content['content']) ?>
 	</div>
 	<?php } ?>
+	<div id="searchresults" class="hidden"></div>
 </div><!-- closing app-content -->
 
 <!-- config hints for javascript -->
