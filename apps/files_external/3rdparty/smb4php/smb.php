@@ -324,14 +324,14 @@ class smb {
 			trigger_error('rename(): error in URL', E_USER_ERROR);
 		}
 		smb::clearstatcache ($url_from);
-		$cmd = '';
 		// check if target file exists
 		if (smb::url_stat($url_to)) {
 			// delete target file first
-			$cmd = 'del "' . $to['path'] . '"; ';
+			$cmd = 'del "' . $to['path'] . '"';
+			smb::execute($cmd, $to);
 			$replace = true;
 		}
-		$cmd .= 'rename "' . $from['path'] . '" "' . $to['path'] . '"';
+		$cmd = 'rename "' . $from['path'] . '" "' . $to['path'] . '"';
 		$result = smb::execute($cmd, $to);
 		if ($replace) {
 			// clear again, else the cache will return the info
