@@ -22,7 +22,7 @@
 
 namespace OC\Memcache;
 
-class Null extends Cache implements \OCP\IMemcache {
+class NullCache extends Cache implements \OCP\IMemcache {
 	public function get($key) {
 		return null;
 	}
