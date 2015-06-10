@@ -33,6 +33,12 @@ from within your ownCloud installation folder
 **The content of config/config.php:**
 
 ```
+If you have access to your command line run e.g.:
+sudo -u www-data php occ config:list system --public
+from within your ownCloud installation folder
+
+or 
+
 Insert your config.php content here
 (Without the database password, passwordsalt and secret)
 ```
