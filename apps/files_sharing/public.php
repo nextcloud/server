@@ -136,6 +136,7 @@ if (isset($path)) {
 		$tmpl->assign('sharingToken', $token);
 		$tmpl->assign('server2serversharing', Helper::isOutgoingServer2serverShareEnabled());
 		$tmpl->assign('protected', isset($linkItem['share_with']) ? 'true' : 'false');
+		$tmpl->assign('previewEnabled', \OC::$server->getConfig()->getSystemValue('enable_previews', true));
 
 		$urlLinkIdentifiers= (isset($token)?'&t='.$token:'')
 							.(isset($_GET['dir'])?'&dir='.$_GET['dir']:'')
