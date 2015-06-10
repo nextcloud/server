@@ -29,7 +29,7 @@ namespace OC\Memcache;
 use \OCP\ICacheFactory;
 
 class Factory implements ICacheFactory {
-	const NULL_CACHE = '\\OC\\Memcache\\Null';
+	const NULL_CACHE = '\\OC\\Memcache\\NullCache';
 
 	/**
 	 * @var string $globalPrefix
@@ -70,7 +70,7 @@ class Factory implements ICacheFactory {
 		}
 		if (!($lockingCacheClass && $lockingCacheClass::isAvailable())) {
 			// dont fallback since the fallback might not be suitable for storing lock
-			$lockingCacheClass = '\OC\Memcache\Null';
+			$lockingCacheClass = '\OC\Memcache\NullCache';
 		}
 		$this->localCacheClass = $localCacheClass;
 		$this->distributedCacheClass = $distributedCacheClass;
