@@ -21,8 +21,8 @@
 	box-align: center;
 }
 
-/* on mobile, show only the icon of the logo, hide the text */
-#header .header-appname-container {
+/* on mobile public share, show only the icon of the logo, hide the text */
+#body-public #header .header-appname-container {
 	display: none;
 }
 
