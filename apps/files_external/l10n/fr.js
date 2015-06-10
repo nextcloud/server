@@ -33,7 +33,7 @@ OC.L10N.register(
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Region (optional for OpenStack Object Storage)" : "Région (optionnel pour OpenStack Object Storage)",
     "API Key (required for Rackspace Cloud Files)" : "Clé API (requis pour Rackspace Cloud Files)",
-    "Tenantname (required for OpenStack Object Storage)" : "Nom du locataire (requis pour le stockage OpenStack)",
+    "Tenantname (required for OpenStack Object Storage)" : "Tenantname (requis pour le stockage OpenStack)",
     "Password (required for OpenStack Object Storage)" : "Mot de passe (requis pour OpenStack Object Storage)",
     "Service Name (required for OpenStack Object Storage)" : "Nom du service (requis pour le stockage OpenStack)",
     "URL of identity endpoint (required for OpenStack Object Storage)" : "URL du point d'accès d'identité (requis pour le stockage OpenStack)",
