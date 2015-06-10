@@ -76,11 +76,8 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 	private static function updateByNameStmt() {
 		return \OC_DB::prepare('
 			UPDATE `*PREFIX*filecache`
-			SET `mimetype` = (
-				SELECT `id`
-				FROM `*PREFIX*mimetypes`
-				WHERE `mimetype` = ?
-			) WHERE `name` ILIKE ?
+			SET `mimetype` = ?
+			WHERE `mimetype` <> ? AND `name` ILIKE ?
 		');
 	}
 
@@ -122,9 +119,13 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 				// insert mimetype
 				\OC_DB::executeAudited(self::insertStmt(), array($mimetype));
 			}
+			
+			// get target mimetype id
+			$result = \OC_DB::executeAudited(self::getIdStmt(), array($mimetype));
+			$mimetypeId = $result->fetchOne();
 
 			// change mimetype for files with x extension
-			\OC_DB::executeAudited(self::updateByNameStmt(), array($mimetype, '%.' . $extension));
+			\OC_DB::executeAudited(self::updateByNameStmt(), array($mimetypeId, $mimetypeId, '%.' . $extension));
 		}
 	}
 
