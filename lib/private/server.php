@@ -46,6 +46,7 @@ use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
+use OC\Memcache\Null as NullCache;
 use OC\Http\Client\ClientService;
 use OC\Security\CertificateManager;
 use OC\Files\Node\Root;
@@ -56,6 +57,7 @@ use OC\Security\SecureRandom;
 use OC\Diagnostics\NullEventLogger;
 use OC\Security\TrustedDomainHelper;
 use OCP\IServerContainer;
+use OCP\ISession;
 use OC\Tagging\TagMapper;
 
 /**
@@ -427,7 +429,7 @@ class Server extends SimpleContainer implements IServerContainer {
 				/** @var \OC\Memcache\Factory $memcacheFactory */
 				$memcacheFactory = $c->getMemCacheFactory();
 				$memcache = $memcacheFactory->createLocking('lock');
-				if (!($memcache instanceof \OC\Memcache\NullCache)) {
+				if (!($memcache instanceof \OC\Memcache\Null)) {
 					return new MemcacheLockingProvider($memcache);
 				}
 			}
