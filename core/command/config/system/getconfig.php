@@ -55,7 +55,7 @@ class GetConfig extends Base {
 				'default-value',
 				null,
 				InputOption::VALUE_OPTIONAL,
-				'If no default value is set and the config does not exist, an error is thrown'
+				'If no default value is set and the config does not exist, the command will exit with 1'
 			)
 		;
 	}

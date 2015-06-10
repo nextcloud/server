@@ -19,57 +19,75 @@
  *
  */
 
-namespace OC\Core\Command\Config\System;
+namespace OC\Core\Command\Config\App;
 
 use OC\Core\Command\Base;
-use OC\SystemConfig;
+use OCP\IConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DeleteConfig extends Base {
-	/** * @var SystemConfig */
-	protected $systemConfig;
+class GetConfig extends Base {
+	/** * @var IConfig */
+	protected $config;
 
 	/**
-	 * @param SystemConfig $systemConfig
+	 * @param IConfig $config
 	 */
-	public function __construct(SystemConfig $systemConfig) {
+	public function __construct(IConfig $config) {
 		parent::__construct();
-		$this->systemConfig = $systemConfig;
+		$this->config = $config;
 	}
 
 	protected function configure() {
 		parent::configure();
 
 		$this
-			->setName('config:system:delete')
-			->setDescription('Delete a system config value')
+			->setName('config:app:get')
+			->setDescription('Set an app config value')
+			->addArgument(
+				'app',
+				InputArgument::REQUIRED,
+				'Name of the app'
+			)
 			->addArgument(
 				'name',
 				InputArgument::REQUIRED,
-				'Name of the config to delete'
+				'Name of the config to get'
 			)
 			->addOption(
-				'error-if-not-exists',
+				'default-value',
 				null,
-				InputOption::VALUE_NONE,
-				'Checks whether the config exists before deleting it'
+				InputOption::VALUE_OPTIONAL,
+				'If no default value is set and the config does not exist, the command will exit with 1'
 			)
 		;
 	}
 
+	/**
+	 * Executes the current command.
+	 *
+	 * @param InputInterface  $input  An InputInterface instance
+	 * @param OutputInterface $output An OutputInterface instance
+	 * @return null|int null or 0 if everything went fine, or an error code
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		$appName = $input->getArgument('app');
 		$configName = $input->getArgument('name');
+		$defaultValue = $input->getOption('default-value');
 
-		if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys())) {
-			$output->writeln('<error>Config ' . $configName . ' could not be deleted because it did not exist</error>');
+		if (!in_array($configName, $this->config->getAppKeys($appName)) && !$input->hasParameterOption('--default-value')) {
 			return 1;
 		}
 
-		$this->systemConfig->deleteValue($configName);
-		$output->writeln('<info>System config value ' . $configName . ' deleted</info>');
+		if (!in_array($configName, $this->config->getAppKeys($appName))) {
+			$configValue = $defaultValue;
+		} else {
+			$configValue = $this->config->getAppValue($appName, $configName);
+		}
+
+		$this->writeMixedInOutputFormat($input, $output, $configValue);
 		return 0;
 	}
 }

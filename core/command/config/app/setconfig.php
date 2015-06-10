@@ -19,57 +19,71 @@
  *
  */
 
-namespace OC\Core\Command\Config\System;
+namespace OC\Core\Command\Config\App;
 
 use OC\Core\Command\Base;
-use OC\SystemConfig;
+use OCP\IConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DeleteConfig extends Base {
-	/** * @var SystemConfig */
-	protected $systemConfig;
+class SetConfig extends Base {
+	/** * @var IConfig */
+	protected $config;
 
 	/**
-	 * @param SystemConfig $systemConfig
+	 * @param IConfig $config
 	 */
-	public function __construct(SystemConfig $systemConfig) {
+	public function __construct(IConfig $config) {
 		parent::__construct();
-		$this->systemConfig = $systemConfig;
+		$this->config = $config;
 	}
 
 	protected function configure() {
 		parent::configure();
 
 		$this
-			->setName('config:system:delete')
-			->setDescription('Delete a system config value')
+			->setName('config:app:set')
+			->setDescription('Set an app config value')
+			->addArgument(
+				'app',
+				InputArgument::REQUIRED,
+				'Name of the app'
+			)
 			->addArgument(
 				'name',
 				InputArgument::REQUIRED,
-				'Name of the config to delete'
+				'Name of the config to set'
 			)
 			->addOption(
-				'error-if-not-exists',
+				'value',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'The new value of the config'
+			)
+			->addOption(
+				'update-only',
 				null,
 				InputOption::VALUE_NONE,
-				'Checks whether the config exists before deleting it'
+				'Only updates the value, if it is not set before, it is not being added'
 			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		$appName = $input->getArgument('app');
 		$configName = $input->getArgument('name');
 
-		if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys())) {
-			$output->writeln('<error>Config ' . $configName . ' could not be deleted because it did not exist</error>');
+		if (!in_array($configName, $this->config->getAppKeys($appName)) && $input->hasParameterOption('--update-only')) {
+			$output->writeln('<comment>Value not updated, as it has not been set before.</comment>');
 			return 1;
 		}
 
-		$this->systemConfig->deleteValue($configName);
-		$output->writeln('<info>System config value ' . $configName . ' deleted</info>');
+		$configValue = $input->getOption('value');
+		$this->config->setAppValue($appName, $configName, $configValue);
+
+		$output->writeln('<info>Config value ' . $configName . ' for app ' . $appName . ' set to ' . $configValue . '</info>');
 		return 0;
 	}
 }

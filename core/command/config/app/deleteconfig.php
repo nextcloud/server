@@ -19,33 +19,38 @@
  *
  */
 
-namespace OC\Core\Command\Config\System;
+namespace OC\Core\Command\Config\App;
 
 use OC\Core\Command\Base;
-use OC\SystemConfig;
+use OCP\IConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteConfig extends Base {
-	/** * @var SystemConfig */
-	protected $systemConfig;
+	/** * @var IConfig */
+	protected $config;
 
 	/**
-	 * @param SystemConfig $systemConfig
+	 * @param IConfig $config
 	 */
-	public function __construct(SystemConfig $systemConfig) {
+	public function __construct(IConfig $config) {
 		parent::__construct();
-		$this->systemConfig = $systemConfig;
+		$this->config = $config;
 	}
 
 	protected function configure() {
 		parent::configure();
 
 		$this
-			->setName('config:system:delete')
-			->setDescription('Delete a system config value')
+			->setName('config:app:delete')
+			->setDescription('Delete an app config value')
+			->addArgument(
+				'app',
+				InputArgument::REQUIRED,
+				'Name of the app'
+			)
 			->addArgument(
 				'name',
 				InputArgument::REQUIRED,
@@ -61,14 +66,15 @@ class DeleteConfig extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		$appName = $input->getArgument('app');
 		$configName = $input->getArgument('name');
 
-		if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys())) {
+		if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->config->getAppKeys($appName))) {
 			$output->writeln('<error>Config ' . $configName . ' could not be deleted because it did not exist</error>');
 			return 1;
 		}
 
-		$this->systemConfig->deleteValue($configName);
+		$this->config->deleteAppValue($appName, $configName);
 		$output->writeln('<info>System config value ' . $configName . ' deleted</info>');
 		return 0;
 	}
