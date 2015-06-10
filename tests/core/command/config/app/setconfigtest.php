@@ -113,6 +113,6 @@ class SetConfigTest extends TestCase {
 			->method('writeln')
 			->with($this->stringContains($expectedMessage));
 
-		\Test_Helper::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+		$this->invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 }
