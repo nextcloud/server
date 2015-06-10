@@ -383,4 +383,63 @@ class Test_Group_Ldap extends \Test\TestCase {
 		$this->assertSame(4, $users);
 	}
 
+	public function testGetUserGroupsMemberOf() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$dn = 'cn=userX,dc=foobar';
+
+		$access->connection->hasPrimaryGroups = false;
+
+		$access->expects($this->once())
+			->method('username2dn')
+			->will($this->returnValue($dn));
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->with($dn, 'memberOf')
+			->will($this->returnValue(['cn=groupA,dc=foobar', 'cn=groupB,dc=foobar']));
+
+		$access->expects($this->exactly(2))
+			->method('dn2groupname')
+			->will($this->returnArgument(0));
+
+		$groupBackend = new GroupLDAP($access);
+		$groups = $groupBackend->getUserGroups('userX');
+
+		$this->assertSame(2, count($groups));
+	}
+
+	public function testGetUserGroupsMemberOfDisabled() {
+		$access = $this->getAccessMock();
+
+		$access->connection->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function($name) {
+				if($name === 'useMemberOfToDetectMembership') {
+					return 0;
+				}
+				return 1;
+			}));
+
+		$dn = 'cn=userX,dc=foobar';
+
+		$access->connection->hasPrimaryGroups = false;
+
+		$access->expects($this->once())
+			->method('username2dn')
+			->will($this->returnValue($dn));
+
+		$access->expects($this->never())
+			->method('readAttribute')
+			->with($dn, 'memberOf');
+
+		$access->expects($this->once())
+			->method('ownCloudGroupNames')
+			->will($this->returnValue([]));
+
+		$groupBackend = new GroupLDAP($access);
+		$groupBackend->getUserGroups('userX');
+	}
+
 }

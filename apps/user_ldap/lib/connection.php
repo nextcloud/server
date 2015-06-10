@@ -53,6 +53,11 @@ class Connection extends LDAPUtility {
 	private $dontDestruct = false;
 	private $hasPagedResultSupport = true;
 
+	/**
+	 * @var bool runtime flag that indicates whether supported primary groups are available
+	 */
+	public $hasPrimaryGroups = true;
+
 	//cache handler
 	protected $cache;
 

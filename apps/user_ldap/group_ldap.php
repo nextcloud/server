@@ -251,7 +251,14 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	 * @return string|bool
 	 */
 	public function getUserPrimaryGroupIDs($dn) {
-		return $this->getEntryGroupID($dn, 'primaryGroupID');
+		$primaryGroupID = false;
+		if($this->access->connection->hasPrimaryGroups) {
+			$primaryGroupID = $this->getEntryGroupID($dn, 'primaryGroupID');
+			if($primaryGroupID === false) {
+				$this->access->connection->hasPrimaryGroups = false;
+			}
+		}
+		return $primaryGroupID;
 	}
 
 	/**
@@ -362,6 +369,27 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			return array();
 		}
 
+		$groups = [];
+		$primaryGroup = $this->getUserPrimaryGroup($userDN);
+
+		// if possible, read out membership via memberOf. It's far faster than
+		// performing a search, which still is a fallback later.
+		if(intval($this->access->connection->hasMemberOfFilterSupport) === 1
+			&& intval($this->access->connection->useMemberOfToDetectMembership) === 1
+		) {
+			$groupDNs = $this->access->readAttribute($userDN, 'memberOf');
+			if (is_array($groupDNs)) {
+				foreach ($groupDNs as $dn) {
+					$groups[] = $this->access->dn2groupname($dn);;
+				}
+			}
+			if($primaryGroup !== false) {
+				$groups[] = $primaryGroup;
+			}
+			$this->access->connection->writeToCache($cacheKey, $groups);
+			return $groups;
+		}
+
 		//uniqueMember takes DN, memberuid the uid, so we need to distinguish
 		if((strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'uniquemember')
 			|| (strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'member')
@@ -387,7 +415,6 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			$this->cachedGroupsByMember[$uid] = $groups;
 		}
 
-		$primaryGroup = $this->getUserPrimaryGroup($userDN);
 		if($primaryGroup !== false) {
 			$groups[] = $primaryGroup;
 		}
