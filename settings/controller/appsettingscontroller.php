@@ -147,16 +147,18 @@ class AppSettingsController extends Controller {
 	 * Get all available apps in a category
 	 *
 	 * @param int $category
+	 * @param bool $includeUpdateInfo Should we check whether there is an update
+	 *                                in the app store?
 	 * @return array
 	 */
-	public function listApps($category = 0) {
+	public function listApps($category = 0, $includeUpdateInfo = true) {
 		if(!is_null($this->cache->get('listApps-'.$category))) {
 			$apps = $this->cache->get('listApps-'.$category);
 		} else {
 			switch ($category) {
 				// installed apps
 				case 0:
-					$apps = $this->getInstalledApps();
+					$apps = $this->getInstalledApps($includeUpdateInfo);
 					usort($apps, function ($a, $b) {
 						$a = (string)$a['name'];
 						$b = (string)$b['name'];
@@ -168,7 +170,7 @@ class AppSettingsController extends Controller {
 					break;
 				// not-installed apps
 				case 1:
-					$apps = \OC_App::listAllApps(true);
+					$apps = \OC_App::listAllApps(true, $includeUpdateInfo);
 					$apps = array_filter($apps, function ($app) {
 						return !$app['active'];
 					});
@@ -189,7 +191,7 @@ class AppSettingsController extends Controller {
 						$apps = array();
 					} else {
 						// don't list installed apps
-						$installedApps = $this->getInstalledApps();
+						$installedApps = $this->getInstalledApps(false);
 						$installedApps = array_map(function ($app) {
 							if (isset($app['ocsid'])) {
 								return $app['ocsid'];
@@ -245,10 +247,12 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
+	 * @param bool $includeUpdateInfo Should we check whether there is an update
+	 *                                in the app store?
 	 * @return array
 	 */
-	private function getInstalledApps() {
-		$apps = \OC_App::listAllApps(true);
+	private function getInstalledApps($includeUpdateInfo = true) {
+		$apps = \OC_App::listAllApps(true, $includeUpdateInfo);
 		$apps = array_filter($apps, function ($app) {
 			return $app['active'];
 		});
