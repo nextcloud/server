@@ -94,12 +94,21 @@ class OC_TemplateLayout extends OC_Template {
 			}
 
 			// Add navigation entry
-			$this->assign( 'application', '', false );
+
+			$this->assign( 'application', '');
 			$this->assign( 'appid', $appId );
 			$navigation = OC_App::getNavigation();
 			$this->assign( 'navigation', $navigation);
-			$this->assign( 'settingsnavigation', OC_App::getSettingsNavigation());
+			$settingsNavigation = OC_App::getSettingsNavigation();
+			$this->assign( 'settingsnavigation', $settingsNavigation);
 			foreach($navigation as $entry) {
+				if ($entry['active']) {
+					$this->assign( 'application', $entry['name'] );
+					break;
+				}
+			}
+			
+			foreach($settingsNavigation as $entry) {
 				if ($entry['active']) {
 					$this->assign( 'application', $entry['name'] );
 					break;
