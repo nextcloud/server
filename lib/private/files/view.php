@@ -1663,12 +1663,15 @@ class View {
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 */
 	private function lockPath($path, $type) {
+		$absolutePath = $this->getAbsolutePath($path);
+		if (!$this->shouldLockFile($absolutePath)) {
+			return;
+		}
+
 		$mount = $this->getMount($path);
 		if ($mount) {
 			$mount->getStorage()->acquireLock(
-				$mount->getInternalPath(
-					$this->getAbsolutePath($path)
-				),
+				$mount->getInternalPath($absolutePath),
 				$type,
 				$this->lockingProvider
 			);
@@ -1680,12 +1683,15 @@ class View {
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 */
 	private function changeLock($path, $type) {
+		$absolutePath = $this->getAbsolutePath($path);
+		if (!$this->shouldLockFile($absolutePath)) {
+			return;
+		}
+
 		$mount = $this->getMount($path);
 		if ($mount) {
 			$mount->getStorage()->changeLock(
-				$mount->getInternalPath(
-					$this->getAbsolutePath($path)
-				),
+				$mount->getInternalPath($absolutePath),
 				$type,
 				$this->lockingProvider
 			);
@@ -1697,12 +1703,15 @@ class View {
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 */
 	private function unlockPath($path, $type) {
+		$absolutePath = $this->getAbsolutePath($path);
+		if (!$this->shouldLockFile($absolutePath)) {
+			return;
+		}
+
 		$mount = $this->getMount($path);
 		if ($mount) {
 			$mount->getStorage()->releaseLock(
-				$mount->getInternalPath(
-					$this->getAbsolutePath($path)
-				),
+				$mount->getInternalPath($absolutePath),
 				$type,
 				$this->lockingProvider
 			);
@@ -1717,6 +1726,12 @@ class View {
 	 */
 	public function lockFile($path, $type) {
 		$path = '/' . trim($path, '/');
+
+		$absolutePath = $this->getAbsolutePath($path);
+		if (!$this->shouldLockFile($absolutePath)) {
+			return;
+		}
+
 		$this->lockPath($path, $type);
 
 		$parents = $this->getParents($path);
@@ -1733,11 +1748,40 @@ class View {
 	 */
 	public function unlockFile($path, $type) {
 		$path = rtrim($path, '/');
+
+		$absolutePath = $this->getAbsolutePath($path);
+		if (!$this->shouldLockFile($absolutePath)) {
+			return;
+		}
+
 		$this->unlockPath($path, $type);
 
 		$parents = $this->getParents($path);
 		foreach ($parents as $parent) {
 			$this->unlockPath($parent, ILockingProvider::LOCK_SHARED);
 		}
+	}
+
+	/**
+	 * Only lock files in data/user/files/
+	 *
+	 * @param string $path Absolute path to the file/folder we try to (un)lock
+	 * @return bool
+	 */
+	protected function shouldLockFile($path) {
+		$path = Filesystem::normalizePath($path);
+
+		if (substr_count($path, '/') >= 3) {
+			// E.g.: /username/files/path-to-file
+			$pathSegments = explode('/', $path, 4);
+			return $pathSegments[2] === 'files';
+
+		} else if (substr_count($path, '/') === 2) {
+			// E.g.: /username/files
+			$pathSegments = explode('/', $path, 3);
+			return $pathSegments[2] === 'files';
+		}
+
+		return true;
 	}
 }
