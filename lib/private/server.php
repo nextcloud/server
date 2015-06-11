@@ -39,25 +39,25 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Command\AsyncBus;
-use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\EventLogger;
+use OC\Diagnostics\NullEventLogger;
+use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\QueryLogger;
+use OC\Files\Node\Root;
+use OC\Files\View;
+use OC\Http\Client\ClientService;
 use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
-use OC\Http\Client\ClientService;
 use OC\Memcache\NullCache;
 use OC\Security\CertificateManager;
-use OC\Files\Node\Root;
-use OC\Files\View;
 use OC\Security\Crypto;
 use OC\Security\Hasher;
 use OC\Security\SecureRandom;
-use OC\Diagnostics\NullEventLogger;
 use OC\Security\TrustedDomainHelper;
-use OCP\IServerContainer;
 use OC\Tagging\TagMapper;
+use OCP\IServerContainer;
 
 /**
  * Class Server
