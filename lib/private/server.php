@@ -47,6 +47,7 @@ use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Http\Client\ClientService;
+use OC\Memcache\NullCache;
 use OC\Security\CertificateManager;
 use OC\Files\Node\Root;
 use OC\Files\View;
