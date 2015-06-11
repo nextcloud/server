@@ -8,6 +8,7 @@ OC.L10N.register(
     "Delete permanently" : "Kustuta jäädavalt",
     "Error" : "Viga",
     "restored" : "taastatud",
+    "No deleted files" : "Kustutatud faile pole",
     "No entries found in this folder" : "Selles kaustas ei leitud kirjeid",
     "Select all" : "Vali kõik",
     "Name" : "Nimi",
