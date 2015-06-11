@@ -53,7 +53,7 @@ class DeleteTest extends TestCase {
 	public function validUserLastSeen() {
 		return [
 			[true, 'The specified user was deleted'],
-			[false, 'The specified could not be deleted'],
+			[false, 'The specified user could not be deleted'],
 		];
 	}
 

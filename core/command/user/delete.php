@@ -63,6 +63,6 @@ class Delete extends Command {
 			return;
 		}
 
-		$output->writeln('<error>The specified could not be deleted. Please check the logs.</error>');
+		$output->writeln('<error>The specified user could not be deleted. Please check the logs.</error>');
 	}
 }
