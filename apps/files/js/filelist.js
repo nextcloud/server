@@ -1173,8 +1173,10 @@
 			if (!urlSpec.y) {
 				urlSpec.y = this.$table.data('preview-y') || 36;
 			}
-			urlSpec.y *= window.devicePixelRatio;
 			urlSpec.x *= window.devicePixelRatio;
+			urlSpec.y *= window.devicePixelRatio;
+			urlSpec.x = Math.floor(urlSpec.x);
+			urlSpec.y = Math.floor(urlSpec.y);
 			urlSpec.forceIcon = 0;
 			return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
 		},
