@@ -98,6 +98,13 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	/**
+	 * @return \OC_Group_Backend[] Get registered backends
+	 */
+	public function getBackends() {
+		return $this->backends;
+	}
+
+	/**
 	 * @param \OC_Group_Backend $backend
 	 */
 	public function addBackend($backend) {

@@ -23,7 +23,8 @@
 namespace OC\Settings\Controller;
 
 use OC\AppFramework\Http;
-use \OCP\AppFramework\Controller;
+use OC\Group\MetaData;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -69,14 +70,15 @@ class GroupsController extends Controller {
 	 *
 	 * @param string $pattern
 	 * @param bool $filterGroups
+	 * @param int $sortGroups
 	 * @return DataResponse
 	 */
-	public function index($pattern = '', $filterGroups = false) {
+	public function index($pattern = '', $filterGroups = false, $sortGroups = MetaData::SORT_USERCOUNT) {
 		$groupPattern = $filterGroups ? $pattern : '';
 
-		$groupsInfo = new \OC\Group\MetaData($this->userSession->getUser()->getUID(),
+		$groupsInfo = new MetaData($this->userSession->getUser()->getUID(),
 			$this->isAdmin, $this->groupManager);
-		$groupsInfo->setSorting($groupsInfo::SORT_GROUPNAME);
+		$groupsInfo->setSorting($sortGroups);
 		list($adminGroups, $groups) = $groupsInfo->get($groupPattern, $pattern);
 
 		return new DataResponse(

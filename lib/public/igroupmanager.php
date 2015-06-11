@@ -41,6 +41,12 @@ namespace OCP;
  */
 interface IGroupManager {
 	/**
+	 * @return \OC_Group_Backend[] Get registered backends
+	 * @since 8.1.0
+	 */
+	public function getBackends();
+
+	/**
 	 * @param \OCP\UserInterface $backend
 	 * @since 8.0.0
 	 */

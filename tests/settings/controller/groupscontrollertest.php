@@ -10,6 +10,7 @@
 namespace OC\Settings\Controller;
 
 use OC\Group\Group;
+use OC\Group\MetaData;
 use \OC\Settings\Application;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -50,7 +51,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	 * TODO: Since GroupManager uses the static OC_Subadmin class it can't be mocked
 	 * to test for subadmins. Thus the test always assumes you have admin permissions...
 	 */
-	public function testIndex() {
+	public function testIndexSortByName() {
 		$firstGroup = $this->getMockBuilder('\OC\Group\Group')
 			->disableOriginalConstructor()->getMock();
 		$firstGroup
@@ -130,6 +131,99 @@ class GroupsControllerTest extends \Test\TestCase {
 							'id' => 'thirdGroup',
 							'name' => 'thirdGroup',
 							'usercount' => 0,//User count disabled 14,
+						),
+					)
+				)
+			)
+		);
+		$response = $this->groupsController->index('', false, MetaData::SORT_GROUPNAME);
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	/**
+	 * TODO: Since GroupManager uses the static OC_Subadmin class it can't be mocked
+	 * to test for subadmins. Thus the test always assumes you have admin permissions...
+	 */
+	public function testIndexSortbyCount() {
+		$firstGroup = $this->getMockBuilder('\OC\Group\Group')
+			->disableOriginalConstructor()->getMock();
+		$firstGroup
+			->method('getGID')
+			->will($this->returnValue('firstGroup'));
+		$firstGroup
+			->method('count')
+			->will($this->returnValue(12));
+		$secondGroup = $this->getMockBuilder('\OC\Group\Group')
+			->disableOriginalConstructor()->getMock();
+		$secondGroup
+			->method('getGID')
+			->will($this->returnValue('secondGroup'));
+		$secondGroup
+			->method('count')
+			->will($this->returnValue(25));
+		$thirdGroup = $this->getMockBuilder('\OC\Group\Group')
+			->disableOriginalConstructor()->getMock();
+		$thirdGroup
+			->method('getGID')
+			->will($this->returnValue('thirdGroup'));
+		$thirdGroup
+			->method('count')
+			->will($this->returnValue(14));
+		$fourthGroup = $this->getMockBuilder('\OC\Group\Group')
+			->disableOriginalConstructor()->getMock();
+		$fourthGroup
+			->method('getGID')
+			->will($this->returnValue('admin'));
+		$fourthGroup
+			->method('count')
+			->will($this->returnValue(18));
+		/** @var \OC\Group\Group[] $groups */
+		$groups = array();
+		$groups[] = $firstGroup;
+		$groups[] = $secondGroup;
+		$groups[] = $thirdGroup;
+		$groups[] = $fourthGroup;
+
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$this->container['UserSession']
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('MyAdminUser'));
+		$this->container['GroupManager']
+			->method('search')
+			->will($this->returnValue($groups));
+
+		$expectedResponse = new DataResponse(
+			array(
+				'data' => array(
+				'adminGroups' => array(
+					0 => array(
+						'id' => 'admin',
+						'name' => 'admin',
+						'usercount' => 18,
+					)
+				),
+				'groups' =>
+					array(
+						0 => array(
+							'id' => 'secondGroup',
+							'name' => 'secondGroup',
+							'usercount' => 25,
+						),
+						1 => array(
+							'id' => 'thirdGroup',
+							'name' => 'thirdGroup',
+							'usercount' => 14,
+						),
+						2 => array(
+							'id' => 'firstGroup',
+							'name' => 'firstGroup',
+							'usercount' => 12,
 						),
 					)
 				)
