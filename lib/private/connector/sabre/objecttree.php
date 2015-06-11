@@ -104,6 +104,8 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
 		}
 
+		$this->fileView->verifyPath($path, basename($path));
+
 		$path = trim($path, '/');
 		if (isset($this->cache[$path])) {
 			return $this->cache[$path];
