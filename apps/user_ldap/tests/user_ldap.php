@@ -241,9 +241,13 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 
 		$pref = \OC::$server->getConfig();
 		$pref->setUserValue('jeremy', 'user_ldap', 'isDeleted', 1);
+		$pref->setUserValue('jeremy', 'user_ldap', 'homePath', '/var/vhome/jdings/');
 
 		$result = $backend->deleteUser('jeremy');
 		$this->assertTrue($result);
+
+		$home = $backend->getHome('jeremy');
+		$this->assertSame($home, '/var/vhome/jdings/');
 	}
 
 	/**
