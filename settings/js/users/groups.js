@@ -63,6 +63,20 @@ GroupList = {
 		var lis = $userGroupList.find('.isgroup').get();
 
 		lis.sort(function (a, b) {
+			// "Everyone" always at the top
+			if ($(a).data('gid') === '_everyone') {
+				return -1;
+			} else if ($(b).data('gid') === '_everyone') {
+				return 1;
+			}
+
+			// "admin" always as second
+			if ($(a).data('gid') === 'admin') {
+				return -1;
+			} else if ($(b).data('gid') === 'admin') {
+				return 1;
+			}
+
 			return UserList.alphanum(
 				$(a).find('a span').text(),
 				$(b).find('a span').text()
