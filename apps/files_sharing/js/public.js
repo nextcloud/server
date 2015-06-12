@@ -89,8 +89,8 @@ OCA.Sharing.PublicApp = {
 		// dynamically load image previews
 		var token = $('#sharingToken').val();
 		var bottomMargin = 350;
-		var previewWidth = $(window).width() * window.devicePixelRatio;
-		var previewHeight = ($(window).height() - bottomMargin) * window.devicePixelRatio;
+		var previewWidth = Math.floor($(window).width() * window.devicePixelRatio);
+		var previewHeight = Math.floor(($(window).height() - bottomMargin) * window.devicePixelRatio);
 		previewHeight = Math.max(200, previewHeight);
 		var params = {
 			x: previewWidth,
@@ -159,8 +159,8 @@ OCA.Sharing.PublicApp = {
 
 			this.fileList.generatePreviewUrl = function (urlSpec) {
 				urlSpec.t = $('#dirToken').val();
-				urlSpec.y = 36 * window.devicePixelRatio;
-				urlSpec.x = 36 * window.devicePixelRatio;
+				urlSpec.y = Math.floor(36 * window.devicePixelRatio);
+				urlSpec.x = Math.floor(36 * window.devicePixelRatio);
 				return OC.generateUrl('/apps/files_sharing/ajax/publicpreview.php?') + $.param(urlSpec);
 			};
 
