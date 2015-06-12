@@ -114,7 +114,7 @@ class File extends Node implements IFile {
 		}
 
 		try {
-			$this->fileView->lockFile($this->path, ILockingProvider::LOCK_EXCLUSIVE);
+			$this->fileView->lockFile($this->path, ILockingProvider::LOCK_SHARED);
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
@@ -192,6 +192,12 @@ class File extends Node implements IFile {
 				));
 			}
 
+			try {
+				$this->fileView->changeLock($this->path, ILockingProvider::LOCK_EXCLUSIVE);
+			} catch (LockedException $e) {
+				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+			}
+
 			if ($needsPartFile) {
 				// rename to correct path
 				try {
@@ -212,6 +218,12 @@ class File extends Node implements IFile {
 
 			// since we skipped the view we need to scan and emit the hooks ourselves
 			$partStorage->getScanner()->scanFile($internalPath);
+
+			try {
+				$this->fileView->changeLock($this->path, ILockingProvider::LOCK_SHARED);
+			} catch (LockedException $e) {
+				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+			}
 
 			if ($view) {
 				$this->fileView->getUpdater()->propagate($hookPath);
@@ -241,7 +253,7 @@ class File extends Node implements IFile {
 			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage());
 		}
 
-		$this->fileView->unlockFile($this->path, ILockingProvider::LOCK_EXCLUSIVE);
+		$this->fileView->unlockFile($this->path, ILockingProvider::LOCK_SHARED);
 
 		return '"' . $this->info->getEtag() . '"';
 	}

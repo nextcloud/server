@@ -404,4 +404,84 @@ class File extends \Test\TestCase {
 			$params[Filesystem::signal_param_path]
 		);
 	}
+
+	/**
+	 * Test whether locks are set before and after the operation
+	 */
+	public function testPutLocking() {
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+
+		$path = 'test-locking.txt';
+		$info = new \OC\Files\FileInfo(
+			'/' . $this->user . '/files/' . $path,
+			null,
+			null,
+			['permissions' => \OCP\Constants::PERMISSION_ALL],
+			null
+		);
+
+		$file = new \OC\Connector\Sabre\File($view, $info);
+
+		$this->assertFalse(
+			$this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_SHARED),
+			'File unlocked before put'
+		);
+		$this->assertFalse(
+			$this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE),
+			'File unlocked before put'
+		);
+
+		$wasLockedPre = false;
+		$wasLockedPost = false;
+		$eventHandler = $this->getMockBuilder('\stdclass')
+			->setMethods(['writeCallback', 'postWriteCallback'])
+			->getMock();
+
+		// both pre and post hooks might need access to the file,
+		// so only shared lock is acceptable
+		$eventHandler->expects($this->once())
+			->method('writeCallback')
+			->will($this->returnCallback(
+				function() use ($view, $path, &$wasLockedPre){
+					$wasLockedPre = $this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_SHARED);
+					$wasLockedPre = $wasLockedPre && !$this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE);
+				}
+			));
+		$eventHandler->expects($this->once())
+			->method('postWriteCallback')
+			->will($this->returnCallback(
+				function() use ($view, $path, &$wasLockedPost){
+					$wasLockedPost = $this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_SHARED);
+					$wasLockedPost = $wasLockedPost && !$this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE);
+				}
+			));
+
+		\OCP\Util::connectHook(
+			Filesystem::CLASSNAME,
+			Filesystem::signal_write,
+			$eventHandler,
+			'writeCallback'
+		);
+		\OCP\Util::connectHook(
+			Filesystem::CLASSNAME,
+			Filesystem::signal_post_write,
+			$eventHandler,
+			'postWriteCallback'
+		);
+
+		$this->assertNotEmpty($file->put($this->getStream('test data')));
+
+		$this->assertTrue($wasLockedPre, 'File was locked during pre-hooks');
+		$this->assertTrue($wasLockedPost, 'File was locked during post-hooks');
+
+		$this->assertFalse(
+			$this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_SHARED),
+			'File unlocked after put'
+		);
+		$this->assertFalse(
+			$this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE),
+			'File unlocked after put'
+		);
+	}
+
 }

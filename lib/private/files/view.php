@@ -1683,12 +1683,14 @@ class View {
 	}
 
 	/**
+	 * Change the lock type
+	 *
 	 * @param string $path the path of the file to lock, relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 * @return bool False if the path is excluded from locking, true otherwise
 	 * @throws \OCP\Lock\LockedException if the path is already locked
 	 */
-	private function changeLock($path, $type) {
+	public function changeLock($path, $type) {
 		$absolutePath = $this->getAbsolutePath($path);
 		if (!$this->shouldLockFile($absolutePath)) {
 			return false;
