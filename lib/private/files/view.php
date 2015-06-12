@@ -1788,14 +1788,9 @@ class View {
 	protected function shouldLockFile($path) {
 		$path = Filesystem::normalizePath($path);
 
-		if (substr_count($path, '/') >= 3) {
+		$pathSegments = explode('/', $path);
+		if (isset($pathSegments[2])) {
 			// E.g.: /username/files/path-to-file
-			$pathSegments = explode('/', $path, 4);
-			return $pathSegments[2] === 'files';
-
-		} else if (substr_count($path, '/') === 2) {
-			// E.g.: /username/files
-			$pathSegments = explode('/', $path, 3);
 			return $pathSegments[2] === 'files';
 		}
 
