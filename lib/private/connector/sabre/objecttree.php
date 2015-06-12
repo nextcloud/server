@@ -105,6 +105,10 @@ class ObjectTree extends \Sabre\DAV\Tree {
 		}
 
 		$path = trim($path, '/');
+		if ($path) {
+			$this->fileView->verifyPath($path, basename($path));
+		}
+
 		if (isset($this->cache[$path])) {
 			return $this->cache[$path];
 		}

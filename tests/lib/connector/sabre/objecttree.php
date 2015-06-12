@@ -11,6 +11,7 @@ namespace Test\OC\Connector\Sabre;
 
 use OC\Files\FileInfo;
 use OC\Connector\Sabre\Directory;
+use OC\Files\Storage\Temporary;
 
 class TestDoubleFileView extends \OC\Files\View {
 
@@ -36,7 +37,7 @@ class TestDoubleFileView extends \OC\Files\View {
 		return $this->canRename;
 	}
 
-	public function getRelativePath($path){
+	public function getRelativePath($path) {
 		return $path;
 	}
 }
@@ -122,11 +123,11 @@ class ObjectTree extends \Test\TestCase {
 	 * @dataProvider nodeForPathProvider
 	 */
 	public function testGetNodeForPath(
-			$inputFileName,
-			$fileInfoQueryPath,
-			$outputFileName,
-			$type,
-			$enableChunkingHeader
+		$inputFileName,
+		$fileInfoQueryPath,
+		$outputFileName,
+		$type,
+		$enableChunkingHeader
 	) {
 
 		if ($enableChunkingHeader) {
@@ -237,4 +238,53 @@ class ObjectTree extends \Test\TestCase {
 		);
 	}
 
+	/**
+	 * @expectedException \OCP\Files\InvalidPathException
+	 */
+	public function testGetNodeForPathInvalidPath() {
+		$path = '/foo\bar';
+
+
+		$storage = new Temporary([]);
+
+		$view = $this->getMock('\OC\Files\View', ['resolvePath']);
+		$view->expects($this->once())
+			->method('resolvePath')
+			->will($this->returnCallback(function($path) use ($storage){
+			return [$storage, ltrim($path, '/')];
+		}));
+
+		$rootNode = $this->getMockBuilder('\OC\Connector\Sabre\Directory')
+			->disableOriginalConstructor()
+			->getMock();
+		$mountManager = $this->getMock('\OC\Files\Mount\Manager');
+
+		$tree = new \OC\Connector\Sabre\ObjectTree();
+		$tree->init($rootNode, $view, $mountManager);
+
+		$tree->getNodeForPath($path);
+	}
+	public function testGetNodeForPathRoot() {
+		$path = '/';
+
+
+		$storage = new Temporary([]);
+
+		$view = $this->getMock('\OC\Files\View', ['resolvePath']);
+		$view->expects($this->any())
+			->method('resolvePath')
+			->will($this->returnCallback(function ($path) use ($storage) {
+				return [$storage, ltrim($path, '/')];
+			}));
+
+		$rootNode = $this->getMockBuilder('\OC\Connector\Sabre\Directory')
+			->disableOriginalConstructor()
+			->getMock();
+		$mountManager = $this->getMock('\OC\Files\Mount\Manager');
+
+		$tree = new \OC\Connector\Sabre\ObjectTree();
+		$tree->init($rootNode, $view, $mountManager);
+
+		$tree->getNodeForPath($path);
+	}
 }
