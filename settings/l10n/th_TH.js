@@ -38,6 +38,7 @@ OC.L10N.register(
     "SSL root certificates" : "ใบรับรองความปลอดภัยด้วยระบบ SSL จาก Root",
     "None" : "ไม่มี",
     "Login" : "เข้าสู่ระบบ",
+    "Open documentation" : "เปิดเอกสาร",
     "Allow apps to use the Share API" : "อนุญาตให้แอปฯสามารถใช้ API สำหรับแชร์ข้อมูลได้",
     "days" : "วัน",
     "Allow resharing" : "อนุญาตให้แชร์ข้อมูลซ้ำใหม่ได้",

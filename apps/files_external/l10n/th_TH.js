@@ -23,6 +23,7 @@ OC.L10N.register(
     "Password" : "รหัสผ่าน",
     "Share" : "แชร์",
     "URL" : "URL",
+    "Public key" : "คีย์สาธารณะ",
     "Access granted" : "การเข้าถึงได้รับอนุญาตแล้ว",
     "Error configuring Dropbox storage" : "เกิดข้อผิดพลาดในการกำหนดค่าพื้นที่จัดเก็บข้อมูล Dropbox",
     "Grant access" : "อนุญาตให้เข้าถึงได้",
