@@ -147,6 +147,8 @@ OCA.Sharing.PublicApp = {
 
 			this.fileList.generatePreviewUrl = function (urlSpec) {
 				urlSpec.t = $('#dirToken').val();
+				urlSpec.y = 36 * window.devicePixelRatio;
+				urlSpec.x = 36 * window.devicePixelRatio;
 				return OC.generateUrl('/apps/files_sharing/ajax/publicpreview.php?') + $.param(urlSpec);
 			};
 
