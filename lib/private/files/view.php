@@ -1661,11 +1661,13 @@ class View {
 	/**
 	 * @param string $path the path of the file to lock, relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @return bool False if the path is excluded from locking, true otherwise
+	 * @throws \OCP\Lock\LockedException if the path is already locked
 	 */
 	private function lockPath($path, $type) {
 		$absolutePath = $this->getAbsolutePath($path);
 		if (!$this->shouldLockFile($absolutePath)) {
-			return;
+			return false;
 		}
 
 		$mount = $this->getMount($path);
@@ -1676,16 +1678,20 @@ class View {
 				$this->lockingProvider
 			);
 		}
+
+		return true;
 	}
 
 	/**
 	 * @param string $path the path of the file to lock, relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @return bool False if the path is excluded from locking, true otherwise
+	 * @throws \OCP\Lock\LockedException if the path is already locked
 	 */
 	private function changeLock($path, $type) {
 		$absolutePath = $this->getAbsolutePath($path);
 		if (!$this->shouldLockFile($absolutePath)) {
-			return;
+			return false;
 		}
 
 		$mount = $this->getMount($path);
@@ -1696,16 +1702,19 @@ class View {
 				$this->lockingProvider
 			);
 		}
+
+		return true;
 	}
 
 	/**
 	 * @param string $path the path of the file to unlock, relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @return bool False if the path is excluded from locking, true otherwise
 	 */
 	private function unlockPath($path, $type) {
 		$absolutePath = $this->getAbsolutePath($path);
 		if (!$this->shouldLockFile($absolutePath)) {
-			return;
+			return false;
 		}
 
 		$mount = $this->getMount($path);
@@ -1716,6 +1725,8 @@ class View {
 				$this->lockingProvider
 			);
 		}
+
+		return true;
 	}
 
 	/**
@@ -1723,13 +1734,14 @@ class View {
 	 *
 	 * @param string $path the path of the file to lock relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @return bool False if the path is excluded from locking, true otherwise
 	 */
 	public function lockFile($path, $type) {
 		$path = '/' . trim($path, '/');
 
 		$absolutePath = $this->getAbsolutePath($path);
 		if (!$this->shouldLockFile($absolutePath)) {
-			return;
+			return false;
 		}
 
 		$this->lockPath($path, $type);
@@ -1738,6 +1750,8 @@ class View {
 		foreach ($parents as $parent) {
 			$this->lockPath($parent, ILockingProvider::LOCK_SHARED);
 		}
+
+		return true;
 	}
 
 	/**
@@ -1745,13 +1759,14 @@ class View {
 	 *
 	 * @param string $path the path of the file to lock relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @return bool False if the path is excluded from locking, true otherwise
 	 */
 	public function unlockFile($path, $type) {
 		$path = rtrim($path, '/');
 
 		$absolutePath = $this->getAbsolutePath($path);
 		if (!$this->shouldLockFile($absolutePath)) {
-			return;
+			return false;
 		}
 
 		$this->unlockPath($path, $type);
@@ -1760,6 +1775,8 @@ class View {
 		foreach ($parents as $parent) {
 			$this->unlockPath($parent, ILockingProvider::LOCK_SHARED);
 		}
+
+		return true;
 	}
 
 	/**
