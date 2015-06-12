@@ -1661,52 +1661,72 @@ class View {
 	/**
 	 * @param string $path the path of the file to lock, relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @return bool False if the path is excluded from locking, true otherwise
+	 * @throws \OCP\Lock\LockedException if the path is already locked
 	 */
 	private function lockPath($path, $type) {
+		$absolutePath = $this->getAbsolutePath($path);
+		if (!$this->shouldLockFile($absolutePath)) {
+			return false;
+		}
+
 		$mount = $this->getMount($path);
 		if ($mount) {
 			$mount->getStorage()->acquireLock(
-				$mount->getInternalPath(
-					$this->getAbsolutePath($path)
-				),
+				$mount->getInternalPath($absolutePath),
 				$type,
 				$this->lockingProvider
 			);
 		}
+
+		return true;
 	}
 
 	/**
 	 * @param string $path the path of the file to lock, relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @return bool False if the path is excluded from locking, true otherwise
+	 * @throws \OCP\Lock\LockedException if the path is already locked
 	 */
 	private function changeLock($path, $type) {
+		$absolutePath = $this->getAbsolutePath($path);
+		if (!$this->shouldLockFile($absolutePath)) {
+			return false;
+		}
+
 		$mount = $this->getMount($path);
 		if ($mount) {
 			$mount->getStorage()->changeLock(
-				$mount->getInternalPath(
-					$this->getAbsolutePath($path)
-				),
+				$mount->getInternalPath($absolutePath),
 				$type,
 				$this->lockingProvider
 			);
 		}
+
+		return true;
 	}
 
 	/**
 	 * @param string $path the path of the file to unlock, relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @return bool False if the path is excluded from locking, true otherwise
 	 */
 	private function unlockPath($path, $type) {
+		$absolutePath = $this->getAbsolutePath($path);
+		if (!$this->shouldLockFile($absolutePath)) {
+			return false;
+		}
+
 		$mount = $this->getMount($path);
 		if ($mount) {
 			$mount->getStorage()->releaseLock(
-				$mount->getInternalPath(
-					$this->getAbsolutePath($path)
-				),
+				$mount->getInternalPath($absolutePath),
 				$type,
 				$this->lockingProvider
 			);
 		}
+
+		return true;
 	}
 
 	/**
@@ -1714,15 +1734,24 @@ class View {
 	 *
 	 * @param string $path the path of the file to lock relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @return bool False if the path is excluded from locking, true otherwise
 	 */
 	public function lockFile($path, $type) {
 		$path = '/' . trim($path, '/');
+
+		$absolutePath = $this->getAbsolutePath($path);
+		if (!$this->shouldLockFile($absolutePath)) {
+			return false;
+		}
+
 		$this->lockPath($path, $type);
 
 		$parents = $this->getParents($path);
 		foreach ($parents as $parent) {
 			$this->lockPath($parent, ILockingProvider::LOCK_SHARED);
 		}
+
+		return true;
 	}
 
 	/**
@@ -1730,14 +1759,41 @@ class View {
 	 *
 	 * @param string $path the path of the file to lock relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @return bool False if the path is excluded from locking, true otherwise
 	 */
 	public function unlockFile($path, $type) {
 		$path = rtrim($path, '/');
+
+		$absolutePath = $this->getAbsolutePath($path);
+		if (!$this->shouldLockFile($absolutePath)) {
+			return false;
+		}
+
 		$this->unlockPath($path, $type);
 
 		$parents = $this->getParents($path);
 		foreach ($parents as $parent) {
 			$this->unlockPath($parent, ILockingProvider::LOCK_SHARED);
 		}
+
+		return true;
+	}
+
+	/**
+	 * Only lock files in data/user/files/
+	 *
+	 * @param string $path Absolute path to the file/folder we try to (un)lock
+	 * @return bool
+	 */
+	protected function shouldLockFile($path) {
+		$path = Filesystem::normalizePath($path);
+
+		$pathSegments = explode('/', $path);
+		if (isset($pathSegments[2])) {
+			// E.g.: /username/files/path-to-file
+			return $pathSegments[2] === 'files';
+		}
+
+		return true;
 	}
 }

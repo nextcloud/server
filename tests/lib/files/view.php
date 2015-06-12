@@ -1086,25 +1086,87 @@ class View extends \Test\TestCase {
 	 * e.g. reading from a folder that's being renamed
 	 *
 	 * @expectedException \OCP\Lock\LockedException
+	 *
+	 * @dataProvider dataLockPaths
+	 *
+	 * @param string $rootPath
+	 * @param string $pathPrefix
 	 */
-	public function testReadFromWriteLockedPath() {
-		$view = new \OC\Files\View();
+	public function testReadFromWriteLockedPath($rootPath, $pathPrefix) {
+		$rootPath = str_replace('{folder}', 'files', $rootPath);
+		$pathPrefix = str_replace('{folder}', 'files', $pathPrefix);
+
+		$view = new \OC\Files\View($rootPath);
 		$storage = new Temporary(array());
 		\OC\Files\Filesystem::mount($storage, [], '/');
-		$view->lockFile('/foo/bar', ILockingProvider::LOCK_EXCLUSIVE);
-		$view->lockFile('/foo/bar/asd', ILockingProvider::LOCK_SHARED);
+		$this->assertTrue($view->lockFile($pathPrefix . '/foo/bar', ILockingProvider::LOCK_EXCLUSIVE));
+		$view->lockFile($pathPrefix . '/foo/bar/asd', ILockingProvider::LOCK_SHARED);
+	}
+
+	/**
+	 * Reading from a files_encryption folder that's being renamed
+	 *
+	 * @dataProvider dataLockPaths
+	 *
+	 * @param string $rootPath
+	 * @param string $pathPrefix
+	 */
+	public function testReadFromWriteUnlockablePath($rootPath, $pathPrefix) {
+		$rootPath = str_replace('{folder}', 'files_encryption', $rootPath);
+		$pathPrefix = str_replace('{folder}', 'files_encryption', $pathPrefix);
+
+		$view = new \OC\Files\View($rootPath);
+		$storage = new Temporary(array());
+		\OC\Files\Filesystem::mount($storage, [], '/');
+		$this->assertFalse($view->lockFile($pathPrefix . '/foo/bar', ILockingProvider::LOCK_EXCLUSIVE));
+		$this->assertFalse($view->lockFile($pathPrefix . '/foo/bar/asd', ILockingProvider::LOCK_SHARED));
 	}
 
 	/**
 	 * e.g. writing a file that's being downloaded
 	 *
 	 * @expectedException \OCP\Lock\LockedException
+	 *
+	 * @dataProvider dataLockPaths
+	 *
+	 * @param string $rootPath
+	 * @param string $pathPrefix
 	 */
-	public function testWriteToReadLockedFile() {
-		$view = new \OC\Files\View();
+	public function testWriteToReadLockedFile($rootPath, $pathPrefix) {
+		$rootPath = str_replace('{folder}', 'files', $rootPath);
+		$pathPrefix = str_replace('{folder}', 'files', $pathPrefix);
+
+		$view = new \OC\Files\View($rootPath);
 		$storage = new Temporary(array());
 		\OC\Files\Filesystem::mount($storage, [], '/');
-		$view->lockFile('/foo/bar', ILockingProvider::LOCK_SHARED);
-		$view->lockFile('/foo/bar', ILockingProvider::LOCK_EXCLUSIVE);
+		$this->assertTrue($view->lockFile($pathPrefix . '/foo/bar', ILockingProvider::LOCK_SHARED));
+		$view->lockFile($pathPrefix . '/foo/bar', ILockingProvider::LOCK_EXCLUSIVE);
+	}
+
+	/**
+	 * Writing a file that's being downloaded
+	 *
+	 * @dataProvider dataLockPaths
+	 *
+	 * @param string $rootPath
+	 * @param string $pathPrefix
+	 */
+	public function testWriteToReadUnlockableFile($rootPath, $pathPrefix) {
+		$rootPath = str_replace('{folder}', 'files_encryption', $rootPath);
+		$pathPrefix = str_replace('{folder}', 'files_encryption', $pathPrefix);
+
+		$view = new \OC\Files\View($rootPath);
+		$storage = new Temporary(array());
+		\OC\Files\Filesystem::mount($storage, [], '/');
+		$this->assertFalse($view->lockFile($pathPrefix . '/foo/bar', ILockingProvider::LOCK_SHARED));
+		$this->assertFalse($view->lockFile($pathPrefix . '/foo/bar', ILockingProvider::LOCK_EXCLUSIVE));
+	}
+
+	public function dataLockPaths() {
+		return [
+			['/testuser/{folder}', ''],
+			['/testuser', '/{folder}'],
+			['', '/testuser/{folder}'],
+		];
 	}
 }
