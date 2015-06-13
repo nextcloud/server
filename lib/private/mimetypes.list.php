@@ -127,6 +127,7 @@ return array(
 	'oga' => array('audio/ogg', null),
 	'ogg' => array('audio/ogg', null),
 	'ogv' => array('video/ogg', null),
+	'opus' => array('audio/ogg', null),	
 	'orf' => array('image/x-dcraw', null),
 	'otf' => array('application/font-sfnt', null),
 	'pages' => array('application/x-iwork-pages-sffpages', null),
