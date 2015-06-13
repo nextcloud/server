@@ -1,6 +1,8 @@
 OC.L10N.register(
     "settings",
     {
+    "APCu" : "APCu",
+    "Redis" : "Redis",
     "Security & setup warnings" : "Безбедносна и упозорења поставе",
     "Sharing" : "Дељење",
     "Server-side encryption" : "Шифровање на страни сервера",
