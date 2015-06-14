@@ -5,7 +5,7 @@
     "Step 1 failed. Exception: %s" : "ขั้นตอนที่ 1 ล้มเหลว ข้อยกเว้น: %s",
     "Step 2 failed. Exception: %s" : "ขั้นตอนที่ 2 ล้มเหลว ข้อยกเว้น: %s",
     "External storage" : "จัดเก็บข้อมูลภายนอก",
-    "Local" : "ภายใน",
+    "Local" : "ต้นทาง",
     "Location" : "ตำแหน่งที่อยู่",
     "Amazon S3" : "Amazon S3",
     "Key" : "รหัส",

@@ -5,6 +5,7 @@ OC.L10N.register(
     "Groups" : "Grops",
     "Help" : "Ajuda",
     "Host" : "Òste",
+    "Port" : "Pòrt",
     "Password" : "Senhal",
     "Advanced" : "Avançat"
 },
