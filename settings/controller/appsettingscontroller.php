@@ -152,8 +152,10 @@ class AppSettingsController extends Controller {
 	 * @return array
 	 */
 	public function listApps($category = 0, $includeUpdateInfo = true) {
-		if(!is_null($this->cache->get('listApps-'.$category))) {
-			$apps = $this->cache->get('listApps-'.$category);
+		$cacheName = 'listApps-' . $category . '-' . (int) $includeUpdateInfo;
+
+		if(!is_null($this->cache->get($cacheName))) {
+			$apps = $this->cache->get($cacheName);
 		} else {
 			switch ($category) {
 				// installed apps
@@ -241,7 +243,7 @@ class AppSettingsController extends Controller {
 			return $app;
 		}, $apps);
 
-		$this->cache->set('listApps-'.$category, $apps, 300);
+		$this->cache->set($cacheName, $apps, 300);
 
 		return ['apps' => $apps, 'status' => 'success'];
 	}
