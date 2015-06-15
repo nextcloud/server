@@ -38,14 +38,19 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 
 	/**
 	 * @param string $blackListDescription
-	 * @param string[] $blackListedClassNames
+	 * @param array $blackListedClassNames
 	 * @param bool $checkEqualOperatorUsage
 	 */
 	public function __construct($blackListDescription, $blackListedClassNames, $checkEqualOperatorUsage) {
 		$this->blackListDescription = $blackListDescription;
 
 		$this->blackListedClassNames = [];
-		foreach ($blackListedClassNames as $class) {
+		foreach ($blackListedClassNames as $class => $blackListInfo) {
+			if (is_numeric($class) && is_string($blackListInfo)) {
+				$class = $blackListInfo;
+				$blackListInfo = null;
+			}
+
 			$class = strtolower($class);
 			$this->blackListedClassNames[$class] = $class;
 		}

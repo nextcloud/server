@@ -33,12 +33,12 @@ class DeprecationCodeChecker extends CodeChecker {
 
 	protected $blackListedClassNames = [
 		// Deprecated classes
-		'OCP\IConfig',
-		'OCP\Contacts',
-		'OCP\DB',
-		'OCP\IHelper',
-		'OCP\JSON',
-		'OCP\Response',
-		'OCP\AppFramework\IApi',
+		'OCP\Config' => '8.0.0',
+		'OCP\Contacts' => '8.1.0',
+		'OCP\DB' => '8.1.0',
+		'OCP\IHelper' => '8.1.0',
+		'OCP\JSON' => '8.1.0',
+		'OCP\Response' => '8.1.0',
+		'OCP\AppFramework\IApi' => '8.0.0',
 	];
 }
