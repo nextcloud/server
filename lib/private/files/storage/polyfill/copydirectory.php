@@ -9,16 +9,44 @@
 namespace OC\Files\Storage\PolyFill;
 
 trait CopyDirectory {
+	/**
+	 * Check if a path is a directory
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
 	abstract public function is_dir($path);
 
+	/**
+	 * Check if a file or folder exists
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
 	abstract public function file_exists($path);
 
-	abstract public function buildPath($path);
-
+	/**
+	 * Delete a file or folder
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
 	abstract public function unlink($path);
 
+	/**
+	 * Open a directory handle for a folder
+	 *
+	 * @param string $path
+	 * @return resource | bool
+	 */
 	abstract public function opendir($path);
 
+	/**
+	 * Create a new folder
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
 	abstract public function mkdir($path);
 
 	public function copy($source, $target) {
