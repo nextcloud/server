@@ -23,9 +23,12 @@
 
 namespace OC\Core\Command\App;
 
+use OC\App\CodeChecker;
+use OC\App\DeprecationCodeChecker;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CheckCode extends Command {
@@ -37,12 +40,22 @@ class CheckCode extends Command {
 				'app-id',
 				InputArgument::REQUIRED,
 				'check the specified app'
+			)
+			->addOption(
+				'deprecated',
+				'd',
+				InputOption::VALUE_NONE,
+				'check the specified app'
 			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$appId = $input->getArgument('app-id');
-		$codeChecker = new \OC\App\CodeChecker();
+		if ($input->getOption('deprecated')) {
+			$codeChecker = new DeprecationCodeChecker();
+		} else {
+			$codeChecker = new CodeChecker();
+		}
 		$codeChecker->listen('CodeChecker', 'analyseFileBegin', function($params) use ($output) {
 			if(OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
 				$output->writeln("<info>Analysing {$params}</info>");
@@ -72,6 +85,8 @@ class CheckCode extends Command {
 		$errors = $codeChecker->analyse($appId);
 		if (empty($errors)) {
 			$output->writeln('<info>App is compliant - awesome job!</info>');
+		} elseif ($input->getOption('deprecated')) {
+			$output->writeln('<comment>App uses deprecated functionality</comment>');
 		} else {
 			$output->writeln('<error>App is not compliant</error>');
 			return 1;

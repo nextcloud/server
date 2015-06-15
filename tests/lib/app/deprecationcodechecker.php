@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2015 Thomas Müller <deepdiver@owncloud.com>
+ * Copyright (c) 2015 Joas Schilling <nickvergessen@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -11,7 +11,7 @@ namespace Test\App;
 use OC;
 use Test\TestCase;
 
-class CodeChecker extends TestCase {
+class DeprecationCodeChecker extends TestCase {
 
 	/**
 	 * @dataProvider providesFilesToCheck
@@ -20,7 +20,7 @@ class CodeChecker extends TestCase {
 	 * @param $fileToVerify
 	 */
 	public function testFindInvalidUsage($expectedErrorToken, $expectedErrorCode, $fileToVerify) {
-		$checker = new OC\App\CodeChecker();
+		$checker = new \OC\App\DeprecationCodeChecker();
 		$errors = $checker->analyseFile(OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
 		$this->assertEquals(1, count($errors));
@@ -30,11 +30,8 @@ class CodeChecker extends TestCase {
 
 	public function providesFilesToCheck() {
 		return [
-			['OC_Hook', 1000, 'test-extends.php'],
-			['oC_Avatar', 1001, 'test-implements.php'],
-			['OC_App', 1002, 'test-static-call.php'],
-			['OC_API', 1003, 'test-const.php'],
-			['OC_AppConfig', 1004, 'test-new.php'],
+			['==', 1005, 'test-equal.php'],
+			['!=', 1005, 'test-not-equal.php'],
 		];
 	}
 
@@ -43,7 +40,7 @@ class CodeChecker extends TestCase {
 	 * @param $fileToVerify
 	 */
 	public function testPassValidUsage($fileToVerify) {
-		$checker = new OC\App\CodeChecker();
+		$checker = new \OC\App\DeprecationCodeChecker();
 		$errors = $checker->analyseFile(OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
 		$this->assertEquals(0, count($errors));
@@ -51,6 +48,11 @@ class CodeChecker extends TestCase {
 
 	public function validFilesData() {
 		return [
+			['test-extends.php'],
+			['test-implements.php'],
+			['test-static-call.php'],
+			['test-const.php'],
+			['test-new.php'],
 			['test-identical-operator.php'],
 		];
 	}

@@ -28,7 +28,6 @@ use PhpParser\Lexer;
 use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitorAbstract;
 use PhpParser\Parser;
 use RecursiveCallbackFilterIterator;
 use RecursiveDirectoryIterator;
@@ -48,37 +47,43 @@ class CodeChecker extends BasicEmitter {
 	/** @var Parser */
 	private $parser;
 
+	/** @var string */
+	protected $blackListDescription = 'private';
+
 	/** @var string[] */
-	private $blackListedClassNames;
+	protected $blackListedClassNames = [
+		// classes replaced by the public api
+		'OC_API',
+		'OC_App',
+		'OC_AppConfig',
+		'OC_Avatar',
+		'OC_BackgroundJob',
+		'OC_Config',
+		'OC_DB',
+		'OC_Files',
+		'OC_Helper',
+		'OC_Hook',
+		'OC_Image',
+		'OC_JSON',
+		'OC_L10N',
+		'OC_Log',
+		'OC_Mail',
+		'OC_Preferences',
+		'OC_Search_Provider',
+		'OC_Search_Result',
+		'OC_Request',
+		'OC_Response',
+		'OC_Template',
+		'OC_User',
+		'OC_Util',
+	];
+
+	/** @var bool */
+	protected $checkEqualOperators = false;
+
 
 	public function __construct() {
 		$this->parser = new Parser(new Lexer);
-		$this->blackListedClassNames = [
-			// classes replaced by the public api
-			'OC_API',
-			'OC_App',
-			'OC_AppConfig',
-			'OC_Avatar',
-			'OC_BackgroundJob',
-			'OC_Config',
-			'OC_DB',
-			'OC_Files',
-			'OC_Helper',
-			'OC_Hook',
-			'OC_Image',
-			'OC_JSON',
-			'OC_L10N',
-			'OC_Log',
-			'OC_Mail',
-			'OC_Preferences',
-			'OC_Search_Provider',
-			'OC_Search_Result',
-			'OC_Request',
-			'OC_Response',
-			'OC_Template',
-			'OC_User',
-			'OC_Util',
-		];
 	}
 
 	/**
@@ -138,7 +143,7 @@ class CodeChecker extends BasicEmitter {
 		$code = file_get_contents($file);
 		$statements = $this->parser->parse($code);
 
-		$visitor = new CodeCheckVisitor($this->blackListedClassNames);
+		$visitor = new CodeCheckVisitor($this->blackListDescription, $this->blackListedClassNames, $this->checkEqualOperators);
 		$traverser = new NodeTraverser;
 		$traverser->addVisitor($visitor);
 

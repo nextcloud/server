@@ -27,15 +27,41 @@ use PhpParser\Node\Name;
 use PhpParser\NodeVisitorAbstract;
 
 class CodeCheckVisitor extends NodeVisitorAbstract {
+	/** @var string */
+	protected $blackListDescription;
+	/** @var string[] */
+	protected $blackListedClassNames;
+	/** @var bool */
+	protected $checkEqualOperatorUsage;
+	/** @var string[] */
+	protected $errorMessages;
 
-	public function __construct($blackListedClassNames) {
+	/**
+	 * @param string $blackListDescription
+	 * @param string[] $blackListedClassNames
+	 * @param bool $checkEqualOperatorUsage
+	 */
+	public function __construct($blackListDescription, $blackListedClassNames, $checkEqualOperatorUsage) {
+		$this->blackListDescription = $blackListDescription;
 		$this->blackListedClassNames = array_map('strtolower', $blackListedClassNames);
+		$this->checkEqualOperatorUsage = $checkEqualOperatorUsage;
+
+		$this->errorMessages = [
+			CodeChecker::CLASS_EXTENDS_NOT_ALLOWED => "{$this->blackListDescription} class must not be extended",
+			CodeChecker::CLASS_IMPLEMENTS_NOT_ALLOWED => "{$this->blackListDescription} interface must not be implemented",
+			CodeChecker::STATIC_CALL_NOT_ALLOWED => "Static method of {$this->blackListDescription} class must not be called",
+			CodeChecker::CLASS_CONST_FETCH_NOT_ALLOWED => "Constant of {$this->blackListDescription} class must not not be fetched",
+			CodeChecker::CLASS_NEW_FETCH_NOT_ALLOWED => "{$this->blackListDescription} class must not be instanciated",
+
+			CodeChecker::OP_OPERATOR_USAGE_DISCOURAGED => "is discouraged",
+		];
 	}
 
+	/** @var array */
 	public $errors = [];
 
 	public function enterNode(Node $node) {
-		if ($node instanceof Node\Expr\BinaryOp\Equal) {
+		if ($this->checkEqualOperatorUsage && $node instanceof Node\Expr\BinaryOp\Equal) {
 			$this->errors[]= [
 				'disallowedToken' => '==',
 				'errorCode' => CodeChecker::OP_OPERATOR_USAGE_DISCOURAGED,
@@ -43,7 +69,7 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 				'reason' => $this->buildReason('==', CodeChecker::OP_OPERATOR_USAGE_DISCOURAGED)
 			];
 		}
-		if ($node instanceof Node\Expr\BinaryOp\NotEqual) {
+		if ($this->checkEqualOperatorUsage && $node instanceof Node\Expr\BinaryOp\NotEqual) {
 			$this->errors[]= [
 				'disallowedToken' => '!=',
 				'errorCode' => CodeChecker::OP_OPERATOR_USAGE_DISCOURAGED,
@@ -115,17 +141,8 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 	}
 
 	private function buildReason($name, $errorCode) {
-		static $errorMessages= [
-			CodeChecker::CLASS_EXTENDS_NOT_ALLOWED => "used as base class",
-			CodeChecker::CLASS_IMPLEMENTS_NOT_ALLOWED => "used as interface",
-			CodeChecker::STATIC_CALL_NOT_ALLOWED => "static method call on private class",
-			CodeChecker::CLASS_CONST_FETCH_NOT_ALLOWED => "used to fetch a const from",
-			CodeChecker::CLASS_NEW_FETCH_NOT_ALLOWED => "is instanciated",
-			CodeChecker::OP_OPERATOR_USAGE_DISCOURAGED => "is discouraged"
-		];
-
-		if (isset($errorMessages[$errorCode])) {
-			return $errorMessages[$errorCode];
+		if (isset($this->errorMessages[$errorCode])) {
+			return $this->errorMessages[$errorCode];
 		}
 
 		return "$name usage not allowed - error: $errorCode";
