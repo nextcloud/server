@@ -1074,10 +1074,11 @@ class View {
 	 * @return bool
 	 */
 	private function runHooks($hooks, $path, $post = false) {
+		$relativePath = $path;
 		$path = $this->getHookPath($path);
 		$prefix = ($post) ? 'post_' : '';
 		$run = true;
-		if ($this->shouldEmitHooks($path)) {
+		if ($this->shouldEmitHooks($relativePath)) {
 			foreach ($hooks as $hook) {
 				if ($hook != 'read') {
 					\OC_Hook::emit(
