@@ -15,9 +15,9 @@ class DeprecationCodeChecker extends TestCase {
 
 	/**
 	 * @dataProvider providesFilesToCheck
-	 * @param $expectedErrorToken
-	 * @param $expectedErrorCode
-	 * @param $fileToVerify
+	 * @param string $expectedErrorToken
+	 * @param int $expectedErrorCode
+	 * @param string $fileToVerify
 	 */
 	public function testFindInvalidUsage($expectedErrorToken, $expectedErrorCode, $fileToVerify) {
 		$checker = new \OC\App\DeprecationCodeChecker();
@@ -32,12 +32,16 @@ class DeprecationCodeChecker extends TestCase {
 		return [
 			['==', 1005, 'test-equal.php'],
 			['!=', 1005, 'test-not-equal.php'],
+			['OCP\AppFramework\IApi', 1006, 'test-deprecated-use.php'],
+			['OCP\AppFramework\IApi', 1006, 'test-deprecated-use-alias.php'],
+			['AppFramework\IApi', 1001, 'test-deprecated-use-sub.php'],
+			['OAF\IApi', 1001, 'test-deprecated-use-sub-alias.php'],
 		];
 	}
 
 	/**
 	 * @dataProvider validFilesData
-	 * @param $fileToVerify
+	 * @param string $fileToVerify
 	 */
 	public function testPassValidUsage($fileToVerify) {
 		$checker = new \OC\App\DeprecationCodeChecker();
@@ -53,6 +57,7 @@ class DeprecationCodeChecker extends TestCase {
 			['test-static-call.php'],
 			['test-const.php'],
 			['test-new.php'],
+			['test-use.php'],
 			['test-identical-operator.php'],
 		];
 	}

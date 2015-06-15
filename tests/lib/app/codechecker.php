@@ -15,9 +15,9 @@ class CodeChecker extends TestCase {
 
 	/**
 	 * @dataProvider providesFilesToCheck
-	 * @param $expectedErrorToken
-	 * @param $expectedErrorCode
-	 * @param $fileToVerify
+	 * @param string $expectedErrorToken
+	 * @param int $expectedErrorCode
+	 * @param string $fileToVerify
 	 */
 	public function testFindInvalidUsage($expectedErrorToken, $expectedErrorCode, $fileToVerify) {
 		$checker = new OC\App\CodeChecker();
@@ -35,12 +35,13 @@ class CodeChecker extends TestCase {
 			['OC_App', 1002, 'test-static-call.php'],
 			['OC_API', 1003, 'test-const.php'],
 			['OC_AppConfig', 1004, 'test-new.php'],
+			['OC_AppConfig', 1006, 'test-use.php'],
 		];
 	}
 
 	/**
 	 * @dataProvider validFilesData
-	 * @param $fileToVerify
+	 * @param string $fileToVerify
 	 */
 	public function testPassValidUsage($fileToVerify) {
 		$checker = new OC\App\CodeChecker();

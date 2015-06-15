@@ -43,6 +43,7 @@ class CodeChecker extends BasicEmitter {
 	const CLASS_CONST_FETCH_NOT_ALLOWED = 1003;
 	const CLASS_NEW_FETCH_NOT_ALLOWED =  1004;
 	const OP_OPERATOR_USAGE_DISCOURAGED =  1005;
+	const CLASS_USE_NOT_ALLOWED =  1006;
 
 	/** @var Parser */
 	private $parser;

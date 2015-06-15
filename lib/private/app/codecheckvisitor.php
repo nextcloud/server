@@ -43,7 +43,12 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 	 */
 	public function __construct($blackListDescription, $blackListedClassNames, $checkEqualOperatorUsage) {
 		$this->blackListDescription = $blackListDescription;
-		$this->blackListedClassNames = array_map('strtolower', $blackListedClassNames);
+
+		$this->blackListedClassNames = [];
+		foreach ($blackListedClassNames as $class) {
+			$class = strtolower($class);
+			$this->blackListedClassNames[$class] = $class;
+		}
 		$this->checkEqualOperatorUsage = $checkEqualOperatorUsage;
 
 		$this->errorMessages = [
@@ -52,6 +57,7 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 			CodeChecker::STATIC_CALL_NOT_ALLOWED => "Static method of {$this->blackListDescription} class must not be called",
 			CodeChecker::CLASS_CONST_FETCH_NOT_ALLOWED => "Constant of {$this->blackListDescription} class must not not be fetched",
 			CodeChecker::CLASS_NEW_FETCH_NOT_ALLOWED => "{$this->blackListDescription} class must not be instanciated",
+			CodeChecker::CLASS_USE_NOT_ALLOWED => "{$this->blackListDescription} class must not be imported with a use statement",
 
 			CodeChecker::OP_OPERATOR_USAGE_DISCOURAGED => "is discouraged",
 		];
@@ -127,15 +133,47 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 				}
 			}
 		}
+		if ($node instanceof Node\Stmt\UseUse) {
+			$this->checkBlackList($node->name->toString(), CodeChecker::CLASS_USE_NOT_ALLOWED, $node);
+			if ($node->alias) {
+				$this->addUseNameToBlackList($node->name->toString(), $node->alias);
+			} else {
+				$this->addUseNameToBlackList($node->name->toString(), $node->name->getLast());
+			}
+		}
+	}
+
+	/**
+	 * Check whether an alias was introduced for a namespace of a blacklisted class
+	 *
+	 * Example:
+	 * - Blacklist entry:      OCP\AppFramework\IApi
+	 * - Name:                 OCP\AppFramework
+	 * - Alias:                OAF
+	 * =>  new blacklist entry:  OAF\IApi
+	 *
+	 * @param string $name
+	 * @param string $alias
+	 */
+	private function addUseNameToBlackList($name, $alias) {
+		$name = strtolower($name);
+		$alias = strtolower($alias);
+
+		foreach ($this->blackListedClassNames as $blackListedAlias => $blackListedClassName) {
+			if (strpos($blackListedClassName, $name . '\\') === 0) {
+				$aliasedClassName = str_replace($name, $alias, $blackListedClassName);
+				$this->blackListedClassNames[$aliasedClassName] = $blackListedClassName;
+			}
+		}
 	}
 
 	private function checkBlackList($name, $errorCode, Node $node) {
-		if (in_array(strtolower($name), $this->blackListedClassNames)) {
+		if (isset($this->blackListedClassNames[strtolower($name)])) {
 			$this->errors[]= [
 				'disallowedToken' => $name,
 				'errorCode' => $errorCode,
 				'line' => $node->getLine(),
-				'reason' => $this->buildReason($name, $errorCode)
+				'reason' => $this->buildReason($this->blackListedClassNames[strtolower($name)], $errorCode)
 			];
 		}
 	}
