@@ -19,9 +19,9 @@
  *
  */
 
-namespace OC\App;
+namespace Test\App\Mock;
 
-class DeprecationCodeChecker extends CodeChecker {
+class CodeChecker extends \OC\App\CodeChecker {
 	protected $checkEqualOperators = true;
 
 	/** @var string */
@@ -29,23 +29,11 @@ class DeprecationCodeChecker extends CodeChecker {
 
 	protected $blackListedClassNames = [
 		// Deprecated classes
-		'OCP\Config' => '8.0.0',
-		'OCP\Contacts' => '8.1.0',
-		'OCP\DB' => '8.1.0',
-		'OCP\IHelper' => '8.1.0',
-		'OCP\JSON' => '8.1.0',
-		'OCP\Response' => '8.1.0',
 		'OCP\AppFramework\IApi' => '8.0.0',
 	];
 
 	protected $blackListedConstants = [
 		// Deprecated constants
-		'OCP::PERMISSION_CREATE' => '8.0.0',
-		'OCP::PERMISSION_READ' => '8.0.0',
-		'OCP::PERMISSION_UPDATE' => '8.0.0',
-		'OCP::PERMISSION_DELETE' => '8.0.0',
-		'OCP::PERMISSION_SHARE' => '8.0.0',
-		'OCP::PERMISSION_ALL' => '8.0.0',
-		'OCP::FILENAME_INVALID_CHARS' => '8.0.0',
+		'OCP\NamespaceName\ClassName::CONSTANT_NAME' => '8.0.0',
 	];
 }

@@ -31,6 +31,8 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 	protected $blackListDescription;
 	/** @var string[] */
 	protected $blackListedClassNames;
+	/** @var string[] */
+	protected $blackListedConstants;
 	/** @var bool */
 	protected $checkEqualOperatorUsage;
 	/** @var string[] */
@@ -39,9 +41,10 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 	/**
 	 * @param string $blackListDescription
 	 * @param array $blackListedClassNames
+	 * @param array $blackListedConstants
 	 * @param bool $checkEqualOperatorUsage
 	 */
-	public function __construct($blackListDescription, $blackListedClassNames, $checkEqualOperatorUsage) {
+	public function __construct($blackListDescription, $blackListedClassNames, $blackListedConstants, $checkEqualOperatorUsage) {
 		$this->blackListDescription = $blackListDescription;
 
 		$this->blackListedClassNames = [];
@@ -54,6 +57,13 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 			$class = strtolower($class);
 			$this->blackListedClassNames[$class] = $class;
 		}
+
+		$this->blackListedConstants = [];
+		foreach ($blackListedConstants as $constant => $blackListInfo) {
+			$constant = strtolower($constant);
+			$this->blackListedConstants[$constant] = $constant;
+		}
+
 		$this->checkEqualOperatorUsage = $checkEqualOperatorUsage;
 
 		$this->errorMessages = [
@@ -122,6 +132,8 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 					 *       $n = $i::ADMIN_AUTH;
 					 */
 				}
+
+				$this->checkBlackListConstant($node->class->toString(), $node->name, $node);
 			}
 		}
 		if ($node instanceof Node\Expr\New_) {
@@ -170,15 +182,40 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 				$this->blackListedClassNames[$aliasedClassName] = $blackListedClassName;
 			}
 		}
+
+		foreach ($this->blackListedConstants as $blackListedAlias => $blackListedConstant) {
+			if (strpos($blackListedConstant, $name . '\\') === 0 || strpos($blackListedConstant, $name . '::') === 0) {
+				$aliasedClassName = str_replace($name, $alias, $blackListedConstant);
+				$this->blackListedConstants[$aliasedClassName] = $blackListedConstant;
+			}
+		}
+
+		$name = strtolower($name);
 	}
 
 	private function checkBlackList($name, $errorCode, Node $node) {
-		if (isset($this->blackListedClassNames[strtolower($name)])) {
+		$lowerName = strtolower($name);
+
+		if (isset($this->blackListedClassNames[$lowerName])) {
 			$this->errors[]= [
 				'disallowedToken' => $name,
 				'errorCode' => $errorCode,
 				'line' => $node->getLine(),
-				'reason' => $this->buildReason($this->blackListedClassNames[strtolower($name)], $errorCode)
+				'reason' => $this->buildReason($this->blackListedClassNames[$lowerName], $errorCode)
+			];
+		}
+	}
+
+	private function checkBlackListConstant($class, $constants, Node $node) {
+		$name = $class . '::' . $constants;
+		$lowerName = strtolower($name);
+
+		if (isset($this->blackListedConstants[$lowerName])) {
+			$this->errors[]= [
+				'disallowedToken' => $name,
+				'errorCode' => CodeChecker::CLASS_CONST_FETCH_NOT_ALLOWED,
+				'line' => $node->getLine(),
+				'reason' => $this->buildReason($this->blackListedConstants[$lowerName], CodeChecker::CLASS_CONST_FETCH_NOT_ALLOWED)
 			];
 		}
 	}
