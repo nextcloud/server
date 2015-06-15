@@ -207,15 +207,31 @@ class View extends \Test\TestCase {
 		$rootView = new \OC\Files\View('');
 
 		$cachedData = $rootView->getFileInfo('/foo.txt');
+		/** @var int $id1 */
 		$id1 = $cachedData['fileid'];
 		$this->assertEquals('/foo.txt', $rootView->getPath($id1));
 
 		$cachedData = $rootView->getFileInfo('/substorage/foo.txt');
+		/** @var int $id2 */
 		$id2 = $cachedData['fileid'];
 		$this->assertEquals('/substorage/foo.txt', $rootView->getPath($id2));
 
 		$folderView = new \OC\Files\View('/substorage');
 		$this->assertEquals('/foo.txt', $folderView->getPath($id2));
+	}
+
+	/**
+	 * @expectedException \OCP\Files\NotFoundException
+	 */
+	function testGetPathNotExisting() {
+		$storage1 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, [], '/');
+
+		$rootView = new \OC\Files\View('');
+		$cachedData = $rootView->getFileInfo('/foo.txt');
+		/** @var int $id1 */
+		$id1 = $cachedData['fileid'];
+		$folderView = new \OC\Files\View('/substorage');
 		$this->assertNull($folderView->getPath($id1));
 	}
 

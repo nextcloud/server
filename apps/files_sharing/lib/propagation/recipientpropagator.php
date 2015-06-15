@@ -25,6 +25,7 @@ namespace OCA\Files_Sharing\Propagation;
 use OC\Files\Cache\ChangePropagator;
 use OC\Files\View;
 use OC\Share\Share;
+use OCP\Files\NotFoundException;
 
 /**
  * Propagate etags for share recipients
@@ -128,6 +129,9 @@ class RecipientPropagator {
 
 	protected $propagatingIds = [];
 
+	/**
+	 * @param int $id
+	 */
 	public function propagateById($id) {
 		if (isset($this->propagatingIds[$id])) {
 			return;
@@ -142,7 +146,13 @@ class RecipientPropagator {
 			if ($share['share_with'] === $this->userId) {
 				$user = $share['uid_owner'];
 				$view = new View('/' . $user . '/files');
-				$path = $view->getPath($share['file_source']);
+
+				try {
+					$path = $view->getPath($share['file_source']);
+				} catch (NotFoundException $e) {
+					$path = null;
+				}
+
 				$watcher = new ChangeWatcher($view, $this->manager->getSharePropagator($user));
 				$watcher->writeHook(['path' => $path]);
 			}

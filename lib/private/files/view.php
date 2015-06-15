@@ -48,6 +48,7 @@ use OC\Files\Mount\MoveableMount;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -533,6 +534,7 @@ class View {
 	 * @param string $path
 	 * @param mixed $data
 	 * @return bool|mixed
+	 * @throws \Exception
 	 */
 	public function file_put_contents($path, $data) {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
@@ -989,12 +991,13 @@ class View {
 	 * @param array $hooks (optional)
 	 * @param mixed $extraParam (optional)
 	 * @return mixed
+	 * @throws \Exception
 	 *
 	 * This method takes requests for basic filesystem functions (e.g. reading & writing
 	 * files), processes hooks and proxies, sanitises paths, and finally passes them on to
 	 * \OC\Files\Storage\Storage for delegation to a storage backend for execution
 	 */
-	private function basicOperation($operation, $path, $hooks = array(), $extraParam = null) {
+	private function basicOperation($operation, $path, $hooks = [], $extraParam = null) {
 		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)
@@ -1166,7 +1169,7 @@ class View {
 	 * @param boolean|string $includeMountPoints true to add mountpoint sizes,
 	 * 'ext' to add only ext storage mount point sizes. Defaults to true.
 	 * defaults to true
-	 * @return \OC\Files\FileInfo|false
+	 * @return \OC\Files\FileInfo|bool False if file does not exist
 	 */
 	public function getFileInfo($path, $includeMountPoints = true) {
 		$this->assertPathLength($path);
@@ -1563,7 +1566,8 @@ class View {
 	 * Note that the resulting path is not guarantied to be unique for the id, multiple paths can point to the same file
 	 *
 	 * @param int $id
-	 * @return string|null
+	 * @throws NotFoundException
+	 * @return string
 	 */
 	public function getPath($id) {
 		$id = (int)$id;
@@ -1588,9 +1592,13 @@ class View {
 				}
 			}
 		}
-		return null;
+		throw new NotFoundException(sprintf('File with id "%s" has not been found.', $id));
 	}
 
+	/**
+	 * @param string $path
+	 * @throws InvalidPathException
+	 */
 	private function assertPathLength($path) {
 		$maxLen = min(PHP_MAXPATHLEN, 4000);
 		// Check for the string length - performed using isset() instead of strlen()

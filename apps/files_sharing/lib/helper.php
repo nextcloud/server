@@ -28,6 +28,8 @@
  */
 namespace OCA\Files_Sharing;
 
+use OCP\Files\NotFoundException;
+
 class Helper {
 
 	public static function registerHooks() {
@@ -48,6 +50,7 @@ class Helper {
 	 * @param string $token string share token
 	 * @param string $relativePath optional path relative to the share
 	 * @param string $password optional password
+	 * @return array
 	 */
 	public static function setupFromToken($token, $relativePath = null, $password = null) {
 		\OC_User::setIncognitoMode(true);
@@ -71,10 +74,11 @@ class Helper {
 			\OCP\JSON::checkUserExists($rootLinkItem['uid_owner']);
 			\OC_Util::tearDownFS();
 			\OC_Util::setupFS($rootLinkItem['uid_owner']);
-			$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
 		}
 
-		if ($path === null) {
+		try {
+			$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
+		} catch (NotFoundException $e) {
 			\OCP\Util::writeLog('share', 'could not resolve linkItem', \OCP\Util::DEBUG);
 			\OC_Response::setStatus(404);
 			\OCP\JSON::error(array('success' => false));
