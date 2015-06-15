@@ -35,6 +35,8 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 	protected $blackListedConstants;
 	/** @var string[] */
 	protected $blackListedFunctions;
+	/** @var string[] */
+	protected $blackListedMethods;
 	/** @var bool */
 	protected $checkEqualOperatorUsage;
 	/** @var string[] */
@@ -45,9 +47,10 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 	 * @param array $blackListedClassNames
 	 * @param array $blackListedConstants
 	 * @param array $blackListedFunctions
+	 * @param array $blackListedMethods
 	 * @param bool $checkEqualOperatorUsage
 	 */
-	public function __construct($blackListDescription, $blackListedClassNames, $blackListedConstants, $blackListedFunctions, $checkEqualOperatorUsage) {
+	public function __construct($blackListDescription, $blackListedClassNames, $blackListedConstants, $blackListedFunctions, $blackListedMethods, $checkEqualOperatorUsage) {
 		$this->blackListDescription = $blackListDescription;
 
 		$this->blackListedClassNames = [];
@@ -73,6 +76,12 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 			$this->blackListedFunctions[$functionName] = $functionName;
 		}
 
+		$this->blackListedMethods = [];
+		foreach ($blackListedMethods as $functionName => $blackListInfo) {
+			$functionName = strtolower($functionName);
+			$this->blackListedMethods[$functionName] = $functionName;
+		}
+
 		$this->checkEqualOperatorUsage = $checkEqualOperatorUsage;
 
 		$this->errorMessages = [
@@ -82,6 +91,7 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 			CodeChecker::CLASS_CONST_FETCH_NOT_ALLOWED => "Constant of {$this->blackListDescription} class must not not be fetched",
 			CodeChecker::CLASS_NEW_FETCH_NOT_ALLOWED => "{$this->blackListDescription} class must not be instanciated",
 			CodeChecker::CLASS_USE_NOT_ALLOWED => "{$this->blackListDescription} class must not be imported with a use statement",
+			CodeChecker::CLASS_METHOD_CALL_NOT_ALLOWED => "Method of {$this->blackListDescription} class must not be called",
 
 			CodeChecker::OP_OPERATOR_USAGE_DISCOURAGED => "is discouraged",
 		];
@@ -119,16 +129,32 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 			if (!is_null($node->class)) {
 				if ($node->class instanceof Name) {
 					$this->checkBlackList($node->class->toString(), CodeChecker::STATIC_CALL_NOT_ALLOWED, $node);
+
+					$this->checkBlackListFunction($node->class->toString(), $node->name, $node);
+					$this->checkBlackListMethod($node->class->toString(), $node->name, $node);
 				}
+
 				if ($node->class instanceof Node\Expr\Variable) {
 					/**
 					 * TODO: find a way to detect something like this:
 					 *       $c = "OC_API";
-					 *       $n = $i::call();
+					 *       $n = $c::call();
 					 */
+					// $this->checkBlackListMethod($node->class->..., $node->name, $node);
 				}
-
-				$this->checkBlackListFunction($node->class->toString(), $node->name, $node);
+			}
+		}
+		if ($node instanceof Node\Expr\MethodCall) {
+			if (!is_null($node->var)) {
+				if ($node->var instanceof Node\Expr\Variable) {
+					/**
+					 * TODO: find a way to detect something like this:
+					 *       $c = new OC_API();
+					 *       $n = $c::call();
+					 *       $n = $c->call();
+					 */
+					// $this->checkBlackListMethod($node->var->..., $node->name, $node);
+				}
 			}
 		}
 		if ($node instanceof Node\Expr\ClassConstFetch) {
@@ -207,6 +233,13 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 				$this->blackListedFunctions[$aliasedFunctionName] = $blackListedFunction;
 			}
 		}
+
+		foreach ($this->blackListedMethods as $blackListedAlias => $blackListedMethod) {
+			if (strpos($blackListedMethod, $name . '\\') === 0 || strpos($blackListedMethod, $name . '::') === 0) {
+				$aliasedMethodName = str_replace($name, $alias, $blackListedMethod);
+				$this->blackListedMethods[$aliasedMethodName] = $blackListedMethod;
+			}
+		}
 	}
 
 	private function checkBlackList($name, $errorCode, Node $node) {
@@ -246,6 +279,20 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 				'errorCode' => CodeChecker::STATIC_CALL_NOT_ALLOWED,
 				'line' => $node->getLine(),
 				'reason' => $this->buildReason($this->blackListedFunctions[$lowerName], CodeChecker::STATIC_CALL_NOT_ALLOWED)
+			];
+		}
+	}
+
+	private function checkBlackListMethod($class, $functionName, Node $node) {
+		$name = $class . '::' . $functionName;
+		$lowerName = strtolower($name);
+
+		if (isset($this->blackListedMethods[$lowerName])) {
+			$this->errors[]= [
+				'disallowedToken' => $name,
+				'errorCode' => CodeChecker::CLASS_METHOD_CALL_NOT_ALLOWED,
+				'line' => $node->getLine(),
+				'reason' => $this->buildReason($this->blackListedMethods[$lowerName], CodeChecker::CLASS_METHOD_CALL_NOT_ALLOWED)
 			];
 		}
 	}

@@ -15,73 +15,55 @@ class CodeCheckVisitor extends TestCase {
 
 	public function providesFilesToCheck() {
 		return [
-			['OCP\AppFramework\IApi', 1006, 'test-deprecated-use.php'],
-			['OCP\AppFramework\IApi', 1006, 'test-deprecated-use-alias.php'],
-			['AppFramework\IApi', 1001, 'test-deprecated-use-sub.php'],
-			['OAF\IApi', 1001, 'test-deprecated-use-sub-alias.php'],
+			[[['OCP\AppFramework\IApi', 1006]], 'test-deprecated-use.php'],
+			[[['OCP\AppFramework\IApi', 1006]], 'test-deprecated-use-alias.php'],
+			[[['AppFramework\IApi', 1001]], 'test-deprecated-use-sub.php'],
+			[[['OAF\IApi', 1001]], 'test-deprecated-use-sub-alias.php'],
+
+			[[['OCP\NamespaceName\ClassName::CONSTANT_NAME', 1003]], 'test-deprecated-constant.php'],
+			[[['Alias::CONSTANT_NAME', 1003]], 'test-deprecated-constant-alias.php'],
+			[[['NamespaceName\ClassName::CONSTANT_NAME', 1003]], 'test-deprecated-constant-sub.php'],
+			[[['SubAlias\ClassName::CONSTANT_NAME', 1003]], 'test-deprecated-constant-sub-alias.php'],
+
+			[[
+				['OCP\NamespaceName\ClassName::functionName', 1002],
+				['OCP\NamespaceName\ClassName::methodName', 1007],
+			], 'test-deprecated-function.php'],
+			[[
+				['Alias::functionName', 1002],
+				['Alias::methodName', 1007],
+			], 'test-deprecated-function-alias.php'],
+			[[
+				['NamespaceName\ClassName::functionName', 1002],
+				['NamespaceName\ClassName::methodName', 1007],
+			], 'test-deprecated-function-sub.php'],
+			[[
+				['SubAlias\ClassName::functionName', 1002],
+				['SubAlias\ClassName::methodName', 1007],
+			], 'test-deprecated-function-sub-alias.php'],
+
+			// TODO Failing to resolve variables to classes
+//			[[['OCP\NamespaceName\ClassName::methodName', 1007]], 'test-deprecated-method.php'],
+//			[[['Alias::methodName', 1002]], 'test-deprecated-method-alias.php'],
+//			[[['NamespaceName\ClassName::methodName', 1002]], 'test-deprecated-method-sub.php'],
+//			[[['SubAlias\ClassName::methodName', 1002]], 'test-deprecated-method-sub-alias.php'],
 		];
 	}
 
 	/**
 	 * @dataProvider providesFilesToCheck
-	 * @param string $expectedErrorToken
-	 * @param int $expectedErrorCode
+	 * @param array $expectedErrors
 	 * @param string $fileToVerify
 	 */
-	public function testFindInvalidUsage($expectedErrorToken, $expectedErrorCode, $fileToVerify) {
+	public function testMethodsToCheck($expectedErrors, $fileToVerify) {
 		$checker = new \Test\App\Mock\CodeChecker();
 		$errors = $checker->analyseFile(OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
-		$this->assertEquals(1, count($errors));
-		$this->assertEquals($expectedErrorCode, $errors[0]['errorCode']);
-		$this->assertEquals($expectedErrorToken, $errors[0]['disallowedToken']);
-	}
+		$this->assertCount(sizeof($expectedErrors), $errors);
 
-	public function providesConstantsToCheck() {
-		return [
-			['OCP\NamespaceName\ClassName::CONSTANT_NAME', 1003, 'test-deprecated-constant.php'],
-			['Alias::CONSTANT_NAME', 1003, 'test-deprecated-constant-alias.php'],
-			['NamespaceName\ClassName::CONSTANT_NAME', 1003, 'test-deprecated-constant-sub.php'],
-			['SubAlias\ClassName::CONSTANT_NAME', 1003, 'test-deprecated-constant-sub-alias.php'],
-		];
-	}
-
-	/**
-	 * @dataProvider providesConstantsToCheck
-	 * @param string $expectedErrorToken
-	 * @param int $expectedErrorCode
-	 * @param string $fileToVerify
-	 */
-	public function testConstantsToCheck($expectedErrorToken, $expectedErrorCode, $fileToVerify) {
-		$checker = new \Test\App\Mock\CodeChecker();
-		$errors = $checker->analyseFile(OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
-
-		$this->assertEquals(1, count($errors));
-		$this->assertEquals($expectedErrorCode, $errors[0]['errorCode']);
-		$this->assertEquals($expectedErrorToken, $errors[0]['disallowedToken']);
-	}
-
-	public function providesFunctionsToCheck() {
-		return [
-			['OCP\NamespaceName\ClassName::functionName', 1002, 'test-deprecated-function.php'],
-			['Alias::functionName', 1002, 'test-deprecated-function-alias.php'],
-			['NamespaceName\ClassName::functionName', 1002, 'test-deprecated-function-sub.php'],
-			['SubAlias\ClassName::functionName', 1002, 'test-deprecated-function-sub-alias.php'],
-		];
-	}
-
-	/**
-	 * @dataProvider providesFunctionsToCheck
-	 * @param string $expectedErrorToken
-	 * @param int $expectedErrorCode
-	 * @param string $fileToVerify
-	 */
-	public function testFunctionsToCheck($expectedErrorToken, $expectedErrorCode, $fileToVerify) {
-		$checker = new \Test\App\Mock\CodeChecker();
-		$errors = $checker->analyseFile(OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
-
-		$this->assertEquals(1, count($errors));
-		$this->assertEquals($expectedErrorCode, $errors[0]['errorCode']);
-		$this->assertEquals($expectedErrorToken, $errors[0]['disallowedToken']);
+		foreach ($expectedErrors as $int => $expectedError) {
+			$this->assertEquals($expectedError[0], $errors[$int]['disallowedToken']);
+			$this->assertEquals($expectedError[1], $errors[$int]['errorCode']);
+		}
 	}
 }

@@ -44,6 +44,7 @@ class CodeChecker extends BasicEmitter {
 	const CLASS_NEW_FETCH_NOT_ALLOWED =  1004;
 	const OP_OPERATOR_USAGE_DISCOURAGED =  1005;
 	const CLASS_USE_NOT_ALLOWED =  1006;
+	const CLASS_METHOD_CALL_NOT_ALLOWED =  1007;
 
 	/** @var Parser */
 	private $parser;
@@ -82,6 +83,8 @@ class CodeChecker extends BasicEmitter {
 	protected $blackListedConstants = [];
 
 	protected $blackListedFunctions = [];
+
+	protected $blackListedMethods = [];
 
 	/** @var bool */
 	protected $checkEqualOperators = false;
@@ -148,7 +151,7 @@ class CodeChecker extends BasicEmitter {
 		$code = file_get_contents($file);
 		$statements = $this->parser->parse($code);
 
-		$visitor = new CodeCheckVisitor($this->blackListDescription, $this->blackListedClassNames, $this->blackListedConstants, $this->blackListedFunctions, $this->checkEqualOperators);
+		$visitor = new CodeCheckVisitor($this->blackListDescription, $this->blackListedClassNames, $this->blackListedConstants, $this->blackListedFunctions, $this->blackListedMethods, $this->checkEqualOperators);
 		$traverser = new NodeTraverser;
 		$traverser->addVisitor($visitor);
 

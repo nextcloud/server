@@ -60,4 +60,68 @@ class DeprecationCodeChecker extends CodeChecker {
 		'OCP::simple_file_size' => '8.0.0',
 		'OCP::html_select_options' => '8.0.0',
 	];
+
+	protected $blackListedMethods = [
+		// Deprecated methods
+		'OCP\App::register' => '8.1.0',
+		'OCP\App::addNavigationEntry' => '8.1.0',
+		'OCP\App::setActiveNavigationEntry' => '8.1.0',
+
+		'OCP\AppFramework\Controller::params' => '7.0.0',
+		'OCP\AppFramework\Controller::getParams' => '7.0.0',
+		'OCP\AppFramework\Controller::method' => '7.0.0',
+		'OCP\AppFramework\Controller::getUploadedFile' => '7.0.0',
+		'OCP\AppFramework\Controller::env' => '7.0.0',
+		'OCP\AppFramework\Controller::cookie' => '7.0.0',
+		'OCP\AppFramework\Controller::render' => '7.0.0',
+
+		'OCP\AppFramework\IAppContainer::getCoreApi' => '8.0.0',
+		'OCP\AppFramework\IAppContainer::isLoggedIn' => '8.0.0',
+		'OCP\AppFramework\IAppContainer::isAdminUser' => '8.0.0',
+		'OCP\AppFramework\IAppContainer::log' => '8.0.0',
+
+		'OCP\BackgroundJob::addQueuedTask' => '6.0.0',
+		'OCP\BackgroundJob::addRegularTask' => '6.0.0',
+		'OCP\BackgroundJob::allQueuedTasks' => '6.0.0',
+		'OCP\BackgroundJob::allRegularTasks' => '6.0.0',
+		'OCP\BackgroundJob::deleteQueuedTask' => '6.0.0',
+		'OCP\BackgroundJob::findQueuedTask' => '6.0.0',
+		'OCP\BackgroundJob::queuedTaskWhereAppIs' => '6.0.0',
+		'OCP\BackgroundJob::registerJob' => '8.1.0',
+
+		'OCP\Files::tmpFile' => '8.1.0',
+		'OCP\Files::tmpFolder' => '8.1.0',
+
+		'OCP\IAppConfig::getValue' => '8.0.0',
+		'OCP\IAppConfig::deleteKey' => '8.0.0',
+		'OCP\IAppConfig::getKeys' => '8.0.0',
+		'OCP\IAppConfig::setValue' => '8.0.0',
+		'OCP\IAppConfig::deleteApp' => '8.0.0',
+
+		'OCP\ISearch::search' => '8.0.0',
+
+		'OCP\IServerContainer::getDb' => '8.1.0',
+		'OCP\IServerContainer::getHTTPHelper' => '8.1.0',
+
+		'OCP\User::getUser' => '8.0.0',
+		'OCP\User::getUsers' => '8.1.0',
+		'OCP\User::getDisplayName' => '8.1.0',
+		'OCP\User::getDisplayNames' => '8.1.0',
+		'OCP\User::userExists' => '8.1.0',
+		'OCP\User::logout' => '8.1.0',
+		'OCP\User::checkPassword' => '8.1.0',
+
+		'OCP\Util::sendMail' => '8.1.0',
+		'OCP\Util::formatDate' => '8.0.0',
+		'OCP\Util::encryptedFiles' => '8.1.0',
+		'OCP\Util::linkToRoute' => '8.1.0',
+		'OCP\Util::linkTo' => '8.1.0',
+		'OCP\Util::getServerHost' => '8.1.0',
+		'OCP\Util::getServerProtocol' => '8.1.0',
+		'OCP\Util::getRequestUri' => '8.1.0',
+		'OCP\Util::getScriptName' => '8.1.0',
+		'OCP\Util::imagePath' => '8.1.0',
+		'OCP\Util::isValidFileName' => '8.1.0',
+		'OCP\Util::generateRandomBytes' => '8.1.0',
+	];
 }
