@@ -242,4 +242,39 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			\OC_Util::setupFS($user);
 		}
 	}
+
+	/**
+	 * Check if the given path is locked with a given type
+	 *
+	 * @param \OC\Files\View $view view
+	 * @param string $path path to check
+	 * @param int $type lock type
+	 *
+	 * @return boolean true if the file is locked with the
+	 * given type, false otherwise
+	 */
+	protected function isFileLocked($view, $path, $type) {
+		// Note: this seems convoluted but is necessary because
+		// the format of the lock key depends on the storage implementation
+		// (in our case mostly md5)
+
+		if ($type === \OCP\Lock\ILockingProvider::LOCK_SHARED) {
+			// to check if the file has a shared lock, try acquiring an exclusive lock
+			$checkType = \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE;
+		} else {
+			// a shared lock cannot be set if exclusive lock is in place
+			$checkType = \OCP\Lock\ILockingProvider::LOCK_SHARED;
+		}
+		try {
+			$view->lockFile($path, $checkType);
+			// no exception, which means the lock of $type is not set
+			// clean up
+			$view->unlockFile($path, $checkType);
+			return false;
+		} catch (\OCP\Lock\LockedException $e) {
+			// we could not acquire the counter-lock, which means
+			// the lock of $type was in place
+			return true;
+		}
+	}
 }
