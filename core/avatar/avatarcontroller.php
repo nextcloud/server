@@ -209,8 +209,7 @@ class AvatarController extends Controller {
 
 		$resp = new DataDisplayResponse($image->data(),
 				Http::STATUS_OK,
-				['Content-Type' => $image->mimeType(),
-				 'Pragma' => 'public']);
+				['Content-Type' => $image->mimeType()]);
 
 		$resp->setETag(crc32($image->data()));
 		$resp->cacheFor(0);

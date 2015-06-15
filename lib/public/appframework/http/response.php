@@ -94,7 +94,7 @@ class Response {
 			$this->addHeader('Cache-Control', 'max-age=' . $cacheSeconds .
 				', must-revalidate');
 		} else {
-			$this->addHeader('Cache-Control', 'no-cache, must-revalidate');
+			$this->addHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
 		}
 
 		return $this;
