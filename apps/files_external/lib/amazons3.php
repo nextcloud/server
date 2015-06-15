@@ -439,9 +439,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$path = $this->normalizePath($path);
 
 		$metadata = array();
-		if (!is_null($mtime)) {
-			$metadata = array('lastmodified' => $mtime);
+		if (is_null($mtime)) {
+			$mtime = time();
 		}
+		$metadata = [
+			'lastmodified' => gmdate(\Aws\Common\Enum\DateFormat::RFC1123, $mtime)
+		];
 
 		$fileType = $this->filetype($path);
 		try {
@@ -449,22 +452,24 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				if ($fileType === 'dir' && ! $this->isRoot($path)) {
 					$path .= '/';
 				}
-				$this->getConnection()->copyObject(array(
+				$this->getConnection()->copyObject([
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path),
 					'Metadata' => $metadata,
-					'CopySource' => $this->bucket . '/' . $path
-				));
+					'CopySource' => $this->bucket . '/' . $path,
+					'MetadataDirective' => 'REPLACE',
+				]);
 				$this->testTimeout();
 			} else {
 				$mimeType = \OC_Helper::getMimetypeDetector()->detectPath($path);
-				$this->getConnection()->putObject(array(
+				$this->getConnection()->putObject([
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path),
 					'Metadata' => $metadata,
 					'Body' => '',
-					'ContentType' => $mimeType
-				));
+					'ContentType' => $mimeType,
+					'MetadataDirective' => 'REPLACE',
+				]);
 				$this->testTimeout();
 			}
 		} catch (S3Exception $e) {
