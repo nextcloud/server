@@ -274,6 +274,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			), array('return_prefixes' => true));
 
 			foreach ($result as $object) {
+				if (isset($object['Key']) && $object['Key'] === $path) {
+					// it's the directory itself, skip
+					continue;
+				}
 				$file = basename(
 					isset($object['Key']) ? $object['Key'] : $object['Prefix']
 				);
