@@ -218,8 +218,8 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('AppHelper', function ($c) {
 			return new \OC\AppHelper();
 		});
-		$this->registerService('NullCache', function ($c) {
-			return new NullCache();
+		$this->registerService('UserCache', function ($c) {
+			return new Cache\File();
 		});
 		$this->registerService('MemCacheFactory', function (Server $c) {
 			$config = $c->getConfig();
@@ -667,7 +667,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	 * @deprecated 8.1.0 use getMemCacheFactory to obtain a proper cache
 	 */
 	public function getCache() {
-		return $this->query('NullCache');
+		return $this->query('UserCache');
 	}
 
 	/**
