@@ -154,20 +154,21 @@
 					if(transportSecurityValidity !== null && transportSecurityValidity.length > 8) {
 						var firstComma = transportSecurityValidity.indexOf(";");
 						if(firstComma !== -1) {
-							transportSecurityValidity = transportSecurityValidity.substring(0, firstComma);
+							transportSecurityValidity = transportSecurityValidity.substring(8, firstComma);
 						} else {
 							transportSecurityValidity = transportSecurityValidity.substring(8);
 						}
 					}
 
-					if(isNaN(transportSecurityValidity) || transportSecurityValidity <= 2678399) {
+					var minimumSeconds = 15768000;
+					if(isNaN(transportSecurityValidity) || transportSecurityValidity <= (minimumSeconds - 1)) {
 						messages.push(
-							t('core', 'The "Strict-Transport-Security" HTTP header is not configured to least "2,678,400" seconds. This is a potential security risk and we recommend adjusting this setting.')
+							t('core', 'The "Strict-Transport-Security" HTTP header is not configured to least "{seconds}" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="{docUrl}">security tips</a>.', {'seconds': minimumSeconds, docUrl: '#admin-tips'})
 						);
 					}
 				} else {
 					messages.push(
-						t('core', 'You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead.')
+						t('core', 'You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href="{docUrl}">security tips</a>.', {docUrl: '#admin-tips'})
 					);
 				}
 			} else {

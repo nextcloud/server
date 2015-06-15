@@ -169,7 +169,7 @@ describe('OC.SetupChecks tests', function() {
 				200,
 				{
 					'Content-Type': 'application/json',
-					'Strict-Transport-Security': '2678400'
+					'Strict-Transport-Security': 'max-age=15768000'
 				}
 			);
 
@@ -188,7 +188,7 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'Strict-Transport-Security': '2678400'
+					'Strict-Transport-Security': 'max-age=15768000;preload'
 				}
 			);
 
@@ -209,7 +209,7 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'Strict-Transport-Security': '2678400'
+					'Strict-Transport-Security': 'max-age=15768000'
 				}
 			);
 
@@ -234,7 +234,7 @@ describe('OC.SetupChecks tests', function() {
 		);
 
 		async.done(function( data, s, x ){
-			expect(data).toEqual(['You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead.']);
+			expect(data).toEqual(['You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href="#admin-tips">security tips</a>.']);
 			done();
 		});
 	});
@@ -269,7 +269,7 @@ describe('OC.SetupChecks tests', function() {
 		);
 
 		async.done(function( data, s, x ){
-			expect(data).toEqual(['The "Strict-Transport-Security" HTTP header is not configured to least "2,678,400" seconds. This is a potential security risk and we recommend adjusting this setting.']);
+			expect(data).toEqual(['The "Strict-Transport-Security" HTTP header is not configured to least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips">security tips</a>.']);
 			done();
 		});
 	});
@@ -280,7 +280,7 @@ describe('OC.SetupChecks tests', function() {
 
 		suite.server.requests[0].respond(200,
 			{
-				'Strict-Transport-Security': '2678399',
+				'Strict-Transport-Security': 'max-age=15767999',
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
@@ -289,7 +289,7 @@ describe('OC.SetupChecks tests', function() {
 		);
 
 		async.done(function( data, s, x ){
-			expect(data).toEqual(['The "Strict-Transport-Security" HTTP header is not configured to least "2,678,400" seconds. This is a potential security risk and we recommend adjusting this setting.']);
+			expect(data).toEqual(['The "Strict-Transport-Security" HTTP header is not configured to least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips">security tips</a>.']);
 			done();
 		});
 	});
@@ -309,7 +309,7 @@ describe('OC.SetupChecks tests', function() {
 		);
 
 		async.done(function( data, s, x ){
-			expect(data).toEqual(['The "Strict-Transport-Security" HTTP header is not configured to least "2,678,400" seconds. This is a potential security risk and we recommend adjusting this setting.']);
+			expect(data).toEqual(['The "Strict-Transport-Security" HTTP header is not configured to least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips">security tips</a>.']);
 			done();
 		});
 	});
@@ -319,7 +319,7 @@ describe('OC.SetupChecks tests', function() {
 		var async = OC.SetupChecks.checkGeneric();
 
 		suite.server.requests[0].respond(200, {
-			'Strict-Transport-Security': '2678400',
+			'Strict-Transport-Security': 'max-age=15768000',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
@@ -337,7 +337,7 @@ describe('OC.SetupChecks tests', function() {
 		var async = OC.SetupChecks.checkGeneric();
 
 		suite.server.requests[0].respond(200, {
-			'Strict-Transport-Security': '12678400',
+			'Strict-Transport-Security': 'max-age=99999999',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
@@ -355,7 +355,25 @@ describe('OC.SetupChecks tests', function() {
 		var async = OC.SetupChecks.checkGeneric();
 
 		suite.server.requests[0].respond(200, {
-			'Strict-Transport-Security': '12678400; includeSubDomains',
+			'Strict-Transport-Security': 'max-age=99999999; includeSubDomains',
+			'X-XSS-Protection': '1; mode=block',
+			'X-Content-Type-Options': 'nosniff',
+			'X-Robots-Tag': 'none',
+			'X-Frame-Options': 'SAMEORIGIN'
+		});
+
+		async.done(function( data, s, x ){
+			expect(data).toEqual([]);
+			done();
+		});
+	});
+
+	it('should return no SSL warning if SSL used with to more than the minimum Strict-Transport-Security-Header and includeSubDomains and preload parameter', function(done) {
+		protocolStub.returns('https');
+		var async = OC.SetupChecks.checkGeneric();
+
+		suite.server.requests[0].respond(200, {
+			'Strict-Transport-Security': 'max-age=99999999; preload; includeSubDomains',
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
