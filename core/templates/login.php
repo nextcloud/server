@@ -30,13 +30,13 @@ script('core', [
 				<small><?php p($l->t('Please try again or contact your administrator.')); ?></small>
 			</div>
 		<?php endif; ?>
-		<p id="message" class="hidden">
+		<div id="message" class="hidden">
 			<img class="float-spinner" alt=""
 				src="<?php p(\OCP\Util::imagePath('core', 'loading-dark.gif'));?>">
 			<span id="messageText"></span>
 			<!-- the following div ensures that the spinner is always inside the #message div -->
 			<div style="clear: both;"></div>
-		</p>
+		</div>
 		<p class="grouptop">
 			<input type="text" name="user" id="user"
 				placeholder="<?php p($l->t('Username')); ?>"
