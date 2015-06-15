@@ -239,7 +239,7 @@ class ObjectTree extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OCP\Files\InvalidPathException
+	 * @expectedException \OC\Connector\Sabre\Exception\InvalidPath
 	 */
 	public function testGetNodeForPathInvalidPath() {
 		$path = '/foo\bar';

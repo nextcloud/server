@@ -106,7 +106,11 @@ class ObjectTree extends \Sabre\DAV\Tree {
 
 		$path = trim($path, '/');
 		if ($path) {
-			$this->fileView->verifyPath($path, basename($path));
+			try {
+				$this->fileView->verifyPath($path, basename($path));
+			} catch (\OCP\Files\InvalidPathException $ex) {
+				throw new InvalidPath($ex->getMessage());
+			}
 		}
 
 		if (isset($this->cache[$path])) {
