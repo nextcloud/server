@@ -31,6 +31,8 @@ class APC extends Cache implements IMemcache {
 		cas as casEmulated;
 	}
 
+	use CADTrait;
+
 	public function get($key) {
 		$result = apc_fetch($this->getPrefix() . $key, $success);
 		if (!$success) {

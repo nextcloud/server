@@ -26,8 +26,6 @@ namespace OC\Memcache;
 use OCP\IMemcache;
 
 class Redis extends Cache implements IMemcache {
-	use CASTrait;
-
 	/**
 	 * @var \Redis $cache
 	 */
@@ -150,9 +148,51 @@ class Redis extends Cache implements IMemcache {
 		return self::$cache->decrBy($this->getNamespace() . $key, $step);
 	}
 
+	/**
+	 * Compare and set
+	 *
+	 * @param string $key
+	 * @param mixed $old
+	 * @param mixed $new
+	 * @return bool
+	 */
+	public function cas($key, $old, $new) {
+		if (!is_int($new)) {
+			$new = json_encode($new);
+		}
+		self::$cache->watch($this->getNamespace() . $key);
+		if ($this->get($key) === $old) {
+			$result = self::$cache->multi()
+				->set($this->getNamespace() . $key, $new)
+				->exec();
+			return ($result === false) ? false : true;
+		}
+		self::$cache->unwatch();
+		return false;
+	}
+
+	/**
+	 * Compare and delete
+	 *
+	 * @param string $key
+	 * @param mixed $old
+	 * @return bool
+	 */
+	public function cad($key, $old) {
+		self::$cache->watch($this->getNamespace() . $key);
+		if ($this->get($key) === $old) {
+			$result = self::$cache->multi()
+				->del($this->getNamespace() . $key)
+				->exec();
+			return ($result === false) ? false : true;
+		}
+		self::$cache->unwatch();
+		return false;
+	}
+
 	static public function isAvailable() {
 		return extension_loaded('redis')
-			&& version_compare(phpversion('redis'), '2.2.5', '>=');
+		&& version_compare(phpversion('redis'), '2.2.5', '>=');
 	}
 }
 

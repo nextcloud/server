@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -22,48 +21,33 @@
 
 namespace OC\Memcache;
 
-class NullCache extends Cache implements \OCP\IMemcache {
-	public function get($key) {
-		return null;
-	}
+trait CADTrait {
+	abstract public function get($key);
 
-	public function set($key, $value, $ttl = 0) {
-		return true;
-	}
+	abstract public function remove($key);
 
-	public function hasKey($key) {
-		return false;
-	}
+	abstract public function add($key, $value, $ttl = 0);
 
-	public function remove($key) {
-		return true;
-	}
-
-	public function add($key, $value, $ttl = 0) {
-		return true;
-	}
-
-	public function inc($key, $step = 1) {
-		return true;
-	}
-
-	public function dec($key, $step = 1) {
-		return true;
-	}
-
-	public function cas($key, $old, $new) {
-		return true;
-	}
-
+	/**
+	 * Compare and delete
+	 *
+	 * @param string $key
+	 * @param mixed $old
+	 * @return bool
+	 */
 	public function cad($key, $old) {
-		return true;
-	}
-
-	public function clear($prefix = '') {
-		return true;
-	}
-
-	static public function isAvailable() {
-		return true;
+		//no native cas, emulate with locking
+		if ($this->add($key . '_lock', true)) {
+			if ($this->get($key) === $old) {
+				$this->remove($key);
+				$this->remove($key . '_lock');
+				return true;
+			} else {
+				$this->remove($key . '_lock');
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 }

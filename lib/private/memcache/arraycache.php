@@ -28,6 +28,8 @@ class ArrayCache extends Cache implements IMemcache {
 	/** @var array Array with the cached data */
 	protected $cachedData = array();
 
+	use CADTrait;
+
 	/**
 	 * {@inheritDoc}
 	 */

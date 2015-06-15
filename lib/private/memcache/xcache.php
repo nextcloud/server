@@ -34,6 +34,8 @@ use OCP\IMemcache;
 class XCache extends Cache implements IMemcache {
 	use CASTrait;
 
+	use CADTrait;
+
 	/**
 	 * entries in XCache gets namespaced to prevent collisions between ownCloud instances and users
 	 */

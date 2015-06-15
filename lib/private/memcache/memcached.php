@@ -34,6 +34,8 @@ class Memcached extends Cache implements IMemcache {
 	 */
 	private static $cache = null;
 
+	use CADTrait;
+
 	public function __construct($prefix = '') {
 		parent::__construct($prefix);
 		if (is_null(self::$cache)) {
