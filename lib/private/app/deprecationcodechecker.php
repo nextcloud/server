@@ -48,4 +48,16 @@ class DeprecationCodeChecker extends CodeChecker {
 		'OCP::PERMISSION_ALL' => '8.0.0',
 		'OCP::FILENAME_INVALID_CHARS' => '8.0.0',
 	];
+
+	protected $blackListedFunctions = [
+		// Deprecated functions
+		'OCP::image_path' => '8.0.0',
+		'OCP::mimetype_icon' => '8.0.0',
+		'OCP::preview_icon' => '8.0.0',
+		'OCP::publicPreview_icon' => '8.0.0',
+		'OCP::human_file_size' => '8.0.0',
+		'OCP::relative_modified_date' => '8.0.0',
+		'OCP::simple_file_size' => '8.0.0',
+		'OCP::html_select_options' => '8.0.0',
+	];
 }

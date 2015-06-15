@@ -33,6 +33,8 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 	protected $blackListedClassNames;
 	/** @var string[] */
 	protected $blackListedConstants;
+	/** @var string[] */
+	protected $blackListedFunctions;
 	/** @var bool */
 	protected $checkEqualOperatorUsage;
 	/** @var string[] */
@@ -42,9 +44,10 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 	 * @param string $blackListDescription
 	 * @param array $blackListedClassNames
 	 * @param array $blackListedConstants
+	 * @param array $blackListedFunctions
 	 * @param bool $checkEqualOperatorUsage
 	 */
-	public function __construct($blackListDescription, $blackListedClassNames, $blackListedConstants, $checkEqualOperatorUsage) {
+	public function __construct($blackListDescription, $blackListedClassNames, $blackListedConstants, $blackListedFunctions, $checkEqualOperatorUsage) {
 		$this->blackListDescription = $blackListDescription;
 
 		$this->blackListedClassNames = [];
@@ -59,9 +62,15 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 		}
 
 		$this->blackListedConstants = [];
-		foreach ($blackListedConstants as $constant => $blackListInfo) {
-			$constant = strtolower($constant);
-			$this->blackListedConstants[$constant] = $constant;
+		foreach ($blackListedConstants as $constantName => $blackListInfo) {
+			$constantName = strtolower($constantName);
+			$this->blackListedConstants[$constantName] = $constantName;
+		}
+
+		$this->blackListedFunctions = [];
+		foreach ($blackListedFunctions as $functionName => $blackListInfo) {
+			$functionName = strtolower($functionName);
+			$this->blackListedFunctions[$functionName] = $functionName;
 		}
 
 		$this->checkEqualOperatorUsage = $checkEqualOperatorUsage;
@@ -118,6 +127,8 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 					 *       $n = $i::call();
 					 */
 				}
+
+				$this->checkBlackListFunction($node->class->toString(), $node->name, $node);
 			}
 		}
 		if ($node instanceof Node\Expr\ClassConstFetch) {
@@ -185,12 +196,17 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 
 		foreach ($this->blackListedConstants as $blackListedAlias => $blackListedConstant) {
 			if (strpos($blackListedConstant, $name . '\\') === 0 || strpos($blackListedConstant, $name . '::') === 0) {
-				$aliasedClassName = str_replace($name, $alias, $blackListedConstant);
-				$this->blackListedConstants[$aliasedClassName] = $blackListedConstant;
+				$aliasedConstantName = str_replace($name, $alias, $blackListedConstant);
+				$this->blackListedConstants[$aliasedConstantName] = $blackListedConstant;
 			}
 		}
 
-		$name = strtolower($name);
+		foreach ($this->blackListedFunctions as $blackListedAlias => $blackListedFunction) {
+			if (strpos($blackListedFunction, $name . '\\') === 0 || strpos($blackListedFunction, $name . '::') === 0) {
+				$aliasedFunctionName = str_replace($name, $alias, $blackListedFunction);
+				$this->blackListedFunctions[$aliasedFunctionName] = $blackListedFunction;
+			}
+		}
 	}
 
 	private function checkBlackList($name, $errorCode, Node $node) {
@@ -206,8 +222,8 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 		}
 	}
 
-	private function checkBlackListConstant($class, $constants, Node $node) {
-		$name = $class . '::' . $constants;
+	private function checkBlackListConstant($class, $constantName, Node $node) {
+		$name = $class . '::' . $constantName;
 		$lowerName = strtolower($name);
 
 		if (isset($this->blackListedConstants[$lowerName])) {
@@ -216,6 +232,20 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 				'errorCode' => CodeChecker::CLASS_CONST_FETCH_NOT_ALLOWED,
 				'line' => $node->getLine(),
 				'reason' => $this->buildReason($this->blackListedConstants[$lowerName], CodeChecker::CLASS_CONST_FETCH_NOT_ALLOWED)
+			];
+		}
+	}
+
+	private function checkBlackListFunction($class, $functionName, Node $node) {
+		$name = $class . '::' . $functionName;
+		$lowerName = strtolower($name);
+
+		if (isset($this->blackListedFunctions[$lowerName])) {
+			$this->errors[]= [
+				'disallowedToken' => $name,
+				'errorCode' => CodeChecker::STATIC_CALL_NOT_ALLOWED,
+				'line' => $node->getLine(),
+				'reason' => $this->buildReason($this->blackListedFunctions[$lowerName], CodeChecker::STATIC_CALL_NOT_ALLOWED)
 			];
 		}
 	}

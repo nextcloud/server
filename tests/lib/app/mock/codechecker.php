@@ -36,4 +36,9 @@ class CodeChecker extends \OC\App\CodeChecker {
 		// Deprecated constants
 		'OCP\NamespaceName\ClassName::CONSTANT_NAME' => '8.0.0',
 	];
+
+	protected $blackListedFunctions = [
+		// Deprecated constants
+		'OCP\NamespaceName\ClassName::functionName' => '8.0.0',
+	];
 }

@@ -81,6 +81,8 @@ class CodeChecker extends BasicEmitter {
 
 	protected $blackListedConstants = [];
 
+	protected $blackListedFunctions = [];
+
 	/** @var bool */
 	protected $checkEqualOperators = false;
 
@@ -146,7 +148,7 @@ class CodeChecker extends BasicEmitter {
 		$code = file_get_contents($file);
 		$statements = $this->parser->parse($code);
 
-		$visitor = new CodeCheckVisitor($this->blackListDescription, $this->blackListedClassNames, $this->blackListedConstants, $this->checkEqualOperators);
+		$visitor = new CodeCheckVisitor($this->blackListDescription, $this->blackListedClassNames, $this->blackListedConstants, $this->blackListedFunctions, $this->checkEqualOperators);
 		$traverser = new NodeTraverser;
 		$traverser->addVisitor($visitor);
 
