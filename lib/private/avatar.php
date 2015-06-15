@@ -90,6 +90,7 @@ class Avatar implements \OCP\IAvatar {
 	 * @return void
 	*/
 	public function set ($data) {
+
 		if($data instanceOf \OCP\IImage) {
 			$img = $data;
 			$data = $img->data();

@@ -221,7 +221,7 @@ class ResponseTest extends \Test\TestCase {
 		$this->childResponse->cacheFor(0);
 
 		$headers = $this->childResponse->getHeaders();
-		$this->assertEquals('no-cache, must-revalidate', $headers['Cache-Control']);
+		$this->assertEquals('no-cache, no-store, must-revalidate', $headers['Cache-Control']);
 	}
 
 

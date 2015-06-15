@@ -98,9 +98,7 @@ class Server extends \Test\TestCase {
 
 			['NavigationManager', '\OC\NavigationManager'],
 			['NavigationManager', '\OCP\INavigationManager'],
-			['NullCache', '\OC\Memcache\NullCache'],
-			['NullCache', '\OC\Memcache\Cache'],
-			['NullCache', '\OCP\IMemcache'],
+			['UserCache', '\OC\Cache\File'],
 
 			['OcsClient', '\OC\OCSClient'],
 
