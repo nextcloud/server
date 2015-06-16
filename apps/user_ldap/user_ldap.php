@@ -266,7 +266,8 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		if($this->access->connection->isCached($cacheKey)) {
 			return $this->access->connection->getFromCache($cacheKey);
 		}
-		if(strpos($this->access->connection->homeFolderNamingRule, 'attr:') === 0) {
+		if(strpos($this->access->connection->homeFolderNamingRule, 'attr:') === 0 &&
+			$this->access->connection->homeFolderNamingRule !== 'attr:') {
 			$attr = substr($this->access->connection->homeFolderNamingRule, strlen('attr:'));
 			$homedir = $this->access->readAttribute(
 						$this->access->username2dn($uid), $attr);
@@ -293,6 +294,8 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 				//TODO: if home directory changes, the old one needs to be removed.
 				return $homedir;
 			}
+			// a naming rule attribute is defined, but it doesn't exist for that LDAP user
+			throw new \Exception('Home dir attribute can\'t be read from LDAP for uid: ' . $uid);
 		}
 
 		//false will apply default behaviour as defined and done by OC_User
