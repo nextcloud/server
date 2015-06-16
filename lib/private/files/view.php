@@ -1683,6 +1683,7 @@ class View {
 	 */
 	private function lockPath($path, $type) {
 		$absolutePath = $this->getAbsolutePath($path);
+		$absolutePath = Filesystem::normalizePath($absolutePath);
 		if (!$this->shouldLockFile($absolutePath)) {
 			return false;
 		}
@@ -1717,6 +1718,7 @@ class View {
 	 */
 	public function changeLock($path, $type) {
 		$absolutePath = $this->getAbsolutePath($path);
+		$absolutePath = Filesystem::normalizePath($absolutePath);
 		if (!$this->shouldLockFile($absolutePath)) {
 			return false;
 		}
@@ -1750,6 +1752,7 @@ class View {
 	 */
 	private function unlockPath($path, $type) {
 		$absolutePath = $this->getAbsolutePath($path);
+		$absolutePath = Filesystem::normalizePath($absolutePath);
 		if (!$this->shouldLockFile($absolutePath)) {
 			return false;
 		}
@@ -1774,9 +1777,8 @@ class View {
 	 * @return bool False if the path is excluded from locking, true otherwise
 	 */
 	public function lockFile($path, $type) {
-		$path = '/' . trim($path, '/');
-
 		$absolutePath = $this->getAbsolutePath($path);
+		$absolutePath = Filesystem::normalizePath($absolutePath);
 		if (!$this->shouldLockFile($absolutePath)) {
 			return false;
 		}
@@ -1799,9 +1801,8 @@ class View {
 	 * @return bool False if the path is excluded from locking, true otherwise
 	 */
 	public function unlockFile($path, $type) {
-		$path = rtrim($path, '/');
-
 		$absolutePath = $this->getAbsolutePath($path);
+		$absolutePath = Filesystem::normalizePath($absolutePath);
 		if (!$this->shouldLockFile($absolutePath)) {
 			return false;
 		}

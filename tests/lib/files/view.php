@@ -1208,4 +1208,26 @@ class View extends \Test\TestCase {
 		$view = new \OC\Files\View();
 		$view->getPathRelativeToFiles($path);
 	}
+
+	public function testChangeLock() {
+		$view = new \OC\Files\View('/testuser/files/');
+		$storage = new Temporary(array());
+		\OC\Files\Filesystem::mount($storage, [], '/');
+
+		$view->lockFile('/test/sub', ILockingProvider::LOCK_SHARED);
+		$this->assertTrue($this->isFileLocked($view, '/test//sub', ILockingProvider::LOCK_SHARED));
+		$this->assertFalse($this->isFileLocked($view, '/test//sub', ILockingProvider::LOCK_EXCLUSIVE));
+
+		$view->changeLock('//test/sub', ILockingProvider::LOCK_EXCLUSIVE);
+		$this->assertTrue($this->isFileLocked($view, '/test//sub', ILockingProvider::LOCK_EXCLUSIVE));
+
+		$view->changeLock('test/sub', ILockingProvider::LOCK_SHARED);
+		$this->assertTrue($this->isFileLocked($view, '/test//sub', ILockingProvider::LOCK_SHARED));
+
+		$view->unlockFile('/test/sub/', ILockingProvider::LOCK_SHARED);
+
+		$this->assertFalse($this->isFileLocked($view, '/test//sub', ILockingProvider::LOCK_SHARED));
+		$this->assertFalse($this->isFileLocked($view, '/test//sub', ILockingProvider::LOCK_EXCLUSIVE));
+
+	}
 }
