@@ -1169,4 +1169,43 @@ class View extends \Test\TestCase {
 			['', '/testuser/{folder}'],
 		];
 	}
+
+	public function pathRelativeToFilesProvider() {
+		return [
+			['admin/files', ''],
+			['admin/files/x', 'x'],
+			['/admin/files', ''],
+			['/admin/files/sub', 'sub'],
+			['/admin/files/sub/', 'sub'],
+			['/admin/files/sub/sub2', 'sub/sub2'],
+			['//admin//files/sub//sub2', 'sub/sub2'],
+		];
+	}
+
+	/**
+	 * @dataProvider pathRelativeToFilesProvider
+	 */
+	public function testGetPathRelativeToFiles($path, $expectedPath) {
+		$view = new \OC\Files\View();
+		$this->assertEquals($expectedPath, $view->getPathRelativeToFiles($path));
+	}
+
+	public function pathRelativeToFilesProviderExceptionCases() {
+		return [
+			[''],
+			['x'],
+			['files'],
+			['/files'],
+			['/admin/files_versions/abc'],
+		];
+	}
+
+	/**
+	 * @dataProvider pathRelativeToFilesProviderExceptionCases
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testGetPathRelativeToFilesWithInvalidArgument($path) {
+		$view = new \OC\Files\View();
+		$view->getPathRelativeToFiles($path);
+	}
 }
