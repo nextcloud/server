@@ -988,7 +988,7 @@ class View {
 				return false;
 			}
 
-			if(in_array('write', $hooks) || in_array('delete', $hooks) || in_array('read', $hooks)) {
+			if (in_array('write', $hooks) || in_array('delete', $hooks) || in_array('read', $hooks)) {
 				// always a shared lock during pre-hooks so the hook can read the file
 				$this->lockFile($path, ILockingProvider::LOCK_SHARED);
 			}
@@ -1148,6 +1148,7 @@ class View {
 		if (Cache\Scanner::isPartialFile($path)) {
 			return $this->getPartFileInfo($path);
 		}
+		$relativePath = $path;
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
 
 		$mount = Filesystem::getMountManager()->find($path);
@@ -1157,19 +1158,26 @@ class View {
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
 
-			$data = $cache->get($internalPath);
-			$watcher = $storage->getWatcher($internalPath);
-
-			// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
-			if (!$data) {
-				if (!$storage->file_exists($internalPath)) {
-					return false;
-				}
-				$scanner = $storage->getScanner($internalPath);
-				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
+			try {
+				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
 				$data = $cache->get($internalPath);
-			} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->checkUpdate($internalPath, $data)) {
-				$this->updater->propagate($path);
+				$watcher = $storage->getWatcher($internalPath);
+
+				// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
+				if (!$data) {
+					if (!$storage->file_exists($internalPath)) {
+						return false;
+					}
+					$scanner = $storage->getScanner($internalPath);
+					$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
+					$data = $cache->get($internalPath);
+				} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->checkUpdate($internalPath, $data)) {
+					$this->updater->propagate($path);
+					$data = $cache->get($internalPath);
+				}
+				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
+			} catch (LockedException $e) {
+				// dont try to update the cache when the file is locked
 				$data = $cache->get($internalPath);
 			}
 
@@ -1231,26 +1239,37 @@ class View {
 			$cache = $storage->getCache($internalPath);
 			$user = \OC_User::getUser();
 
-			$data = $cache->get($internalPath);
-			$watcher = $storage->getWatcher($internalPath);
-			if (!$data or $data['size'] === -1) {
-				if (!$storage->file_exists($internalPath)) {
-					return array();
-				}
-				$scanner = $storage->getScanner($internalPath);
-				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
-				$data = $cache->get($internalPath);
-			} else if ($watcher->checkUpdate($internalPath, $data)) {
-				$this->updater->propagate($path);
-				$data = $cache->get($internalPath);
-			}
-
-			$folderId = $data['fileid'];
 			/**
 			 * @var \OC\Files\FileInfo[] $files
 			 */
 			$files = array();
-			$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
+
+			try {
+				$this->lockFile($directory, ILockingProvider::LOCK_SHARED);
+
+				$data = $cache->get($internalPath);
+				$watcher = $storage->getWatcher($internalPath);
+				if (!$data or $data['size'] === -1) {
+					if (!$storage->file_exists($internalPath)) {
+						return array();
+					}
+					$scanner = $storage->getScanner($internalPath);
+					$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
+					$data = $cache->get($internalPath);
+				} else if ($watcher->checkUpdate($internalPath, $data)) {
+					$this->updater->propagate($path);
+					$data = $cache->get($internalPath);
+				}
+
+				$folderId = $data['fileid'];
+				$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
+
+				$this->unlockFile($directory, ILockingProvider::LOCK_SHARED);
+			} catch (LockedException $e) {
+				// dont try to update the cache when the file is locked
+				$contents = $cache->getFolderContents($internalPath);
+			}
+
 			foreach ($contents as $content) {
 				if ($content['permissions'] === 0) {
 					$content['permissions'] = $storage->getPermissions($content['path']);
@@ -1805,6 +1824,8 @@ class View {
 	 * @return bool False if the path is excluded from locking, true otherwise
 	 */
 	public function unlockFile($path, $type) {
+		$path = '/' . trim($path, '/');
+
 		$absolutePath = $this->getAbsolutePath($path);
 		$absolutePath = Filesystem::normalizePath($absolutePath);
 		if (!$this->shouldLockFile($absolutePath)) {
