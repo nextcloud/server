@@ -41,10 +41,13 @@ namespace OCP;
  */
 interface IGroupManager {
 	/**
-	 * @return \OC_Group_Backend[] Get registered backends
+	 * Checks whether a given backend is used
+	 *
+	 * @param string $backendClass Full classname including complete namespace
+	 * @return bool
 	 * @since 8.1.0
 	 */
-	public function getBackends();
+	public function isBackendUsed($backendClass);
 
 	/**
 	 * @param \OCP\UserInterface $backend
