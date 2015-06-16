@@ -81,7 +81,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		$('#app-category-' + categoryId).addClass('active');
 		OC.Settings.Apps.State.currentCategory = categoryId;
 
-		this._loadCategoryCall = $.ajax(OC.generateUrl('settings/apps/list?category={categoryId}', {
+		this._loadCategoryCall = $.ajax(OC.generateUrl('settings/apps/list?category={categoryId}&includeUpdateInfo=0', {
 			categoryId: categoryId
 		}), {
 			type:'GET',
@@ -123,6 +123,20 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			},
 			complete: function() {
 				$('#apps-list').removeClass('icon-loading');
+				$.ajax(OC.generateUrl('settings/apps/list?category={categoryId}&includeUpdateInfo=1', {
+					categoryId: categoryId
+				}), {
+					type: 'GET',
+					success: function (apps) {
+						_.each(apps.apps, function(app) {
+							if (app.update) {
+								var $update = $('#app-' + app.id + ' .update');
+								$update.removeClass('hidden');
+								$update.val(t('settings', 'Update to %s').replace(/%s/g, app.update));
+							}
+						})
+					}
+				});
 			}
 		});
 	},

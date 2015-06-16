@@ -797,9 +797,11 @@ class OC_App {
 	 * List all apps, this is used in apps.php
 	 *
 	 * @param bool $onlyLocal
+	 * @param bool $includeUpdateInfo Should we check whether there is an update
+	 *                                in the app store?
 	 * @return array
 	 */
-	public static function listAllApps($onlyLocal = false) {
+	public static function listAllApps($onlyLocal = false, $includeUpdateInfo = true) {
 		$installedApps = OC_App::getAllApps();
 
 		//TODO which apps do we want to blacklist and how do we integrate
@@ -841,7 +843,7 @@ class OC_App {
 					$info['removable'] = true;
 				}
 
-				$info['update'] = OC_Installer::isUpdateAvailable($app);
+				$info['update'] = ($includeUpdateInfo) ? OC_Installer::isUpdateAvailable($app) : null;
 
 				$appIcon = self::getAppPath($app) . '/img/' . $app . '.svg';
 				if (file_exists($appIcon)) {
