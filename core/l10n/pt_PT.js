@@ -75,8 +75,6 @@ OC.L10N.register(
     "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "Nenhuma memória de cache foi configurada. Se possível configure-a de forma a optimizar o desempenho. Mais informações podem ser encontradas na <a href=\"{docLink}\">documentação</a>.",
     "Error occurred while checking server setup" : "Ocorreu um erro durante a verificação da configuração do servidor",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "O cabeçalho HTTP \"{header}\" não está configurado para igualar \"{expected}\". Isto é um potencial risco de segurança ou privacidade e recomendamos que o corrija.",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "O cabeçalho HTTP \"Strict-Transport-Security\" não está configurado para um mínimo de \"2,678,400\" segundos. Isto é um potencial risco de segurança e recomendamos que o corrija.",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Está a aceder a este site via HTTP. Recomendamos vivamente que configure o servidor para forçar o uso de HTTPS.",
     "Shared" : "Partilhado",
     "Shared with {recipients}" : "Partilhado com {recipients}",
     "Share" : "Compartilhar",

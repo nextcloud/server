@@ -74,8 +74,6 @@
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "/dev/urandom es pas legible per PHP, aquò es bravament desconselhat per de rasons de seguretat. Mai d'informacions pòdon èsser trobadas dins nòstra <a href=\"{docLink}\">documentacion</a>.",
     "Error occurred while checking server setup" : "Una error s'es produsida al moment de la verificacion de la configuracion del servidor",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "L'entèsta HTTP \"{header}\" es pas configurada per èsser egala a \"{expected}\" en creant potencialament un risc religat a la seguretat e a la vida privada. Es doncas recomandat d'ajustar aqueste paramètre.",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "L'entèsta HTTP \"Strict-Transport-Security\" es pas configurada a \"2,678,400\" segondas. Es un risc de seguretat potencial e es doncas recomandat d'ajustar aqueste paramètre.",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Accedissètz a aqueste site via HTTP. Vos recomandam bravament de configurar vòstre servidor per forçar l'utilizacion de HTTPS.",
     "Shared" : "Partejat",
     "Shared with {recipients}" : "Partejat amb {recipients}",
     "Share" : "Partejar",

@@ -75,8 +75,6 @@ OC.L10N.register(
     "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "메모리 캐시가 설정되지 않았습니다. 성능을 향상시키려면 사용 가능한 경우 메모리 캐시를 설정하십시오. 더 많은 정보를 보려면 <a href=\"{docLink}\">문서</a>를 참고하십시오.",
     "Error occurred while checking server setup" : "서버 설정을 확인하는 중 오류 발생",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "\"{header}\" HTTP 헤더가 \"{expected}\"와(과) 같이 설정되지 않았습니다. 잠재적인 보안 위협이 될 수 있으므로 설정을 변경하는 것을 추천합니다.",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "\"Strict-Transport-Security\" HTTP 헤더가 최소한 \"2,678,400\"초가 되도록 설정해야 합니다. 잠재적인 보안 위협이 될 수 있으므로 설정을 변경하는 것을 추천합니다.",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "이 사이트에 HTTP로 접근하고 있습니다. HTTPS를 사용하도록 설정하는 것을 추천합니다.",
     "Shared" : "공유됨",
     "Shared with {recipients}" : "{recipients} 님과 공유됨",
     "Share" : "공유",

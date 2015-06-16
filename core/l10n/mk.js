@@ -74,8 +74,6 @@ OC.L10N.register(
     "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "Не  еконфигуриран кеш за меморијата. За да ги подобрите перформансите ве молам конфигурирајте memcache ако е достапно. Дополнителни информации можат да се најдат во нашата  <a href=\"{docLink}\">документација</a>.",
     "Error occurred while checking server setup" : "Се случи грешка при проверката на подесувањата на опслужувачот",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "HTTP заглавието \"{header}\" не е конфигурирано да биде еднакво на \"{expected}\". Ова е потенцијално сигурносен ризик и препорачуваме да прилагодат подесувањата.",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "\"Strict-Transport-Security\" HTTP заглавието не е конфигурирано на најмалку \"2,678,400\" секунди. Ова е потенцијално сигурносен ризик и препорачуваме да се прилагодат подесувањата.",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Пристапувате на страната преку HTTP. Строго ви препорачување да го подесите вашиот опслужувач да бара користење на HTTPS наместо тоа.",
     "Shared" : "Споделен",
     "Shared with {recipients}" : "Споделено со {recipients}",
     "Share" : "Сподели",

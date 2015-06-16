@@ -75,8 +75,6 @@
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "/dev/urandom ไม่สามารถอ่านโดย PHP ซึ่งมีผลด้านความปลอดภัยเป็นอย่างมาก สามารถดูข้อมูลเพิ่มเติมได้ที่ <a href=\"{docLink}\">เอกสาร</a>",
     "Error occurred while checking server setup" : "เกิดข้อผิดพลาดขณะที่ทำการตรวจสอบการติดตั้งเซิร์ฟเวอร์",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "\"{header}\" ไม่ได้กำหนดค่าส่วนหัว Http ให้เท่ากับ \"{expected}\" นี่คือระบบการรักษาความปลอดภัยที่มีศักยภาพหรือลดความเสี่ยงที่จะเกิดขึ้นเราขอแนะนำให้ปรับการตั้งค่านี้",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "\"Strict-Transport-Security\" ส่วนหัว HTTP ต้องกำหนดค่าอย่างน้อย \"2,678,400\" วินาที นี้เป็นความเสี่ยงด้านความปลอดภัยที่อาจเกิดขึ้นและเราขอแนะนำให้ปรับการตั้งค่านี้",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "คุณกำลังเข้าถึงเว็บไซต์นี้ผ่านทาง HTTP เราขอแนะนำให้คุณกำหนดค่าเซิร์ฟเวอร์ของคุณเป็น HTTPS แทน",
     "Shared" : "แชร์แล้ว",
     "Shared with {recipients}" : "แชร์กับ {recipients}",
     "Share" : "แชร์",

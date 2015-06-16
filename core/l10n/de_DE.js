@@ -77,8 +77,6 @@ OC.L10N.register(
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "/dev/urandom ist von PHP nicht lesbar, wovon aus Sicherheitsgründen dringend abgeraten wird. Weitere Informationen hierzu finden Sie in unserer <a href=\"{docLink}\">Dokumentation</a>.",
     "Error occurred while checking server setup" : "Fehler beim Überprüfen der Servereinrichtung",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "Der „{header}“-HTTP-Header ist nicht so konfiguriert, dass er „{expected}“ entspricht. Dies ist ein potentielles Sicherheitsrisiko und es wird empfohlen, diese Einstellung zu ändern.",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "Der „Strict-Transport-Security“-HTTP-Header ist nicht auf mindestens „2.678.400 Sekunden“ eingestellt. Dies ist ein potentielles Sicherheitsrisiko und es wird empfohlen, diese Einstellung zu ändern.",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Sie greifen auf diese Site über HTTP zu. Wir raten dringend dazu, Ihren Server so zu konfigurieren, dass er stattdessen nur HTTPS akzeptiert.",
     "Shared" : "Geteilt",
     "Shared with {recipients}" : "Geteilt mit {recipients}",
     "Share" : "Teilen",

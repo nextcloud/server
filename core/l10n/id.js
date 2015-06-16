@@ -75,8 +75,6 @@ OC.L10N.register(
     "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "Tembolok memori tidak dikonfigurasi. Untuk meningkatkan kinerja, mohon konfigurasi memcache jika tersedia. Informasi lebih lanjut dapat ditemukan di <a href=\"{docLink}\">dokumentasi</a> kami.",
     "Error occurred while checking server setup" : "Kesalahan tidak terduga saat memeriksa setelan server",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "Header HTTP \"{header}\" tidak dikonfigurasi sama dengan \"{expected}\". Hal ini berpotensi pada resiko keamanan dan privasi. Kami sarankan untuk menyesuaikan pengaturan ini.",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "Header HTTP  \"Strict-Transport-Security\" tidak dikonfigurasi setidaknya dalam waktu \"2,678,400\" detik. Hal ini berpotensi pada resiko keamanan dan privasi. Kami sarankan untuk menyesuaikan pengaturan ini.",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Anda mengakses situs ini via HTTP. Kami sangat menyarankan Anda mengkonfigurasi server Anda untuk menggunakan HTTPS.",
     "Shared" : "Dibagikan",
     "Shared with {recipients}" : "Dibagikan dengan {recipients}",
     "Share" : "Bagikan",

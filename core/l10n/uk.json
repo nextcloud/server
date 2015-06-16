@@ -74,8 +74,6 @@
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "/dev/urandom не доступний для читання PHP, що вкрай небажано з міркувань безпеки. Додаткову інформацію шукайте у нашій <a href=\"{docLink}\">документації</a>.",
     "Error occurred while checking server setup" : "При перевірці налаштувань серверу сталася помилка",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "HTTP заголовок \"{header}\" не налаштований як \"{expected}\". Це потенційний ризик для безпеки чи приватності і ми радимо виправити це налаштування.",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "HTTP заголовок \"Strict-Transport-Security\" повинен бути налаштований принаймні на \"2,678,400\" секунд. Це потенційна проблема безпеки і ми рекомендуємо змінити це налаштування.",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Ви зайшли на цей сайт через HTTP. Ми наполегливо рекомендуємо налаштувати ваш сервер на використання HTTPS.",
     "Shared" : "Опубліковано",
     "Shared with {recipients}" : "Опубліковано для {recipients}",
     "Share" : "Поділитися",

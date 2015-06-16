@@ -73,8 +73,6 @@
     "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "Не настроена система кеширования. Для увеличения производительности сервера, по возможности, настройте memcache. Более подробную информацию, вы можете посмотреть в нашей <a href=\"{docLink}\">документации</a>.",
     "Error occurred while checking server setup" : "Произошла ошибка при проверке настроек сервера",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "Заголовок HTTP \"{header}\" не настроен на ожидаемый \"{expected}\". Это потенциальная проблема безопасности и мы рекомендуем изменить эти настройки.",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "Заголовок HTTP \"Strict-Transport-Security\" должен быть настроен по крайней мере на \"2,678,400\" секунд. Это потенциальная проблема безопасности и мы рекомендуем изменить эти настройки.",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Вы зашли на этот сайт через HTTP. Мы настоятельно рекомендуем настроить ваш сервер на использование HTTPS.",
     "Shared" : "Общий доступ",
     "Shared with {recipients}" : "Вы поделились с {recipients}",
     "Share" : "Поделиться",

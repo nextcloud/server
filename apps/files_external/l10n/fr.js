@@ -56,7 +56,7 @@ OC.L10N.register(
     "System" : "Système",
     "Enable encryption" : "Activer le chiffrement",
     "Enable previews" : "Activer les prévisualisations",
-    "Check for changes" : "Regarder s'il y a des changements",
+    "Check for changes" : "Rechercher les modifications",
     "Never" : "Jamais",
     "Once every direct access" : "Une fois à chaque accès direct",
     "Every time the filesystem is used" : "Chaque fois que le système de fichiers est utilisé",

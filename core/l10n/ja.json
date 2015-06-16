@@ -74,8 +74,6 @@
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "/dev/urandom は PHP から読み取ることができず、この状態はセキュリティの観点からおすすめできません。より詳しい情報については、<a href=\"{docLink}\">documentation</a> を参照ください。",
     "Error occurred while checking server setup" : "サーバー設定のチェック中にエラーが発生しました",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "\"{header}\" HTTP ヘッダは \"{expected}\" に設定されていません。これは潜在的なセキュリティリスクもしくはプライバシーリスクとなる可能性があるため、この設定を見直すことをおすすめします。",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "\"Strict-Transport-Security\" HTTP ヘッダは最小値の \"2,678,400\" 秒に設定されていません。これは潜在的なセキュリティリスクとなる可能性があるため、この設定を見直すことをおすすめします。",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "HTTP経由でアクセスしています。HTTPSを使用するようサーバーを設定することを強くおすすめします。",
     "Shared" : "共有中",
     "Shared with {recipients}" : "{recipients} と共有",
     "Share" : "共有",

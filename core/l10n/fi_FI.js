@@ -77,8 +77,6 @@ OC.L10N.register(
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "/dev/urandom ei ole luettavissa PHP:n toimesta. Turvallisuussyistä tämä ei ole suositeltava asetus. Lisätietoja on tarjolla <a href=\"{docLink}\">dokumentaatiossa</a>.",
     "Error occurred while checking server setup" : "Virhe palvelimen määrityksiä tarkistaessa",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "HTTP-otsaketta \"{header}\" ei ole määritetty vastaamaan arvoa \"{expected}\". Kyseessä on mahdollinen tietoturvaan tai -suojaan liittyvä riski, joten suosittelemme muuttamaan asetuksen arvoa.",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "HTTP-otsaketta \"Strict-Transport-Security\" ei ole määritetty vähintään \"2,678,400\" sekuntiin. Tämä on mahdollinen tietoturvariski, joten suosittelemme kyseisen asetuksen muuttamista.",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Käytät tätä sivustoa HTTP-yhteyden välityksellä. Suosittelemme määrittämään palvelimen asetukset siten, että käytössä on HTTPS-yhteys.",
     "Shared" : "Jaettu",
     "Shared with {recipients}" : "Jaettu henkilöiden {recipients} kanssa",
     "Share" : "Jaa",

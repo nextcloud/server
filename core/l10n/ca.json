@@ -65,7 +65,6 @@
     "Good password" : "Contrasenya bona",
     "Strong password" : "Contrasenya forta",
     "Error occurred while checking server setup" : "Hi ha hagut un error en comprovar la configuració del servidor",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Vostè està accedint a aquest lloc a través d'HTTP . Li suggerim que configuri el seu servidor per requerir l'ús d'HTTPS .",
     "Shared" : "Compartit",
     "Shared with {recipients}" : "Compartit amb {recipients}",
     "Share" : "Comparteix",

@@ -75,8 +75,6 @@ OC.L10N.register(
     "No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "内存缓存未配置。如果可用，请配置 memcache 来增强性能。更多信息请查看我们的<a href=\"{docLink}\">文档</a> 。",
     "Error occurred while checking server setup" : "当检查服务器启动时出错",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "\"{header}\" HTTP 头部没有配置和 \"{expected}\" 的一样。这是一个潜在的安全或者隐私风险，我们调整这项设置。",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "\"Strict-Transport-Security\" HTTP 头部未配置到至少“2678400”秒。这是一个潜在的安全风险，我们建议调整该项设置。",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "你正在通过 HTTP 访问该站点。我们强烈建议你配置你的服务器要求使用 HTTPS 来代替。",
     "Shared" : "已共享",
     "Shared with {recipients}" : "由{recipients}分享",
     "Share" : "分享",

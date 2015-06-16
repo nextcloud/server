@@ -77,8 +77,6 @@ OC.L10N.register(
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "/dev/urandom ПХП не може да чита што није добро из безбедносних разлога. Информације о томе можете наћи у нашој <a href=\"{docLink}\">дукументацији</a>.",
     "Error occurred while checking server setup" : "Дошло је до грешке при провери поставки сервера",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "ХТТП заглавље „{header}“ није подешено као „{expected}“. Ово потенцијално угрожава безбедност и приватност и препоручујемо да подесите ову поставку.",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"2,678,400\" seconds. This is a potential security risk and we recommend adjusting this setting." : "ХТТП захлавље „Strict-Transport-Security“ није постављено на најмање \"2,678,400\" секунди. Ово је потенцијални безбедносни ризик и препоручујемо да подесите ову поставку.",
-    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Приступате сајту преко небезбедне (ХТТП) везе. Препоручујемо да подесите ваш сервер да захтева коришћење безбедне (ХТТПС) везе.",
     "Shared" : "Дељено",
     "Shared with {recipients}" : "Дељено са {recipients}",
     "Share" : "Дели",
