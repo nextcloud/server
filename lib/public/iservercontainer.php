@@ -99,6 +99,7 @@ interface IServerContainer {
 	 * @param string $userId user ID
 	 * @return \OCP\Files\Folder
 	 * @since 6.0.0 - parameter $userId was added in 8.0.0
+	 * @see getUserFolder in \OCP\Files\IRootFolder
 	 */
 	public function getUserFolder($userId = null);
 
