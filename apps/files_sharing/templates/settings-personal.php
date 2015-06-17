@@ -51,7 +51,7 @@ style('files_sharing', '3rdparty/gs-share/style');
 			<?php p($l->t('Add it to your website:')); ?>
 
 			<a target="_blank" href="<?php p($_['reference']); ?>">
-				<img src="img/social-owncloud.svg" />
+				<img src="<?php p($_['owncloud_logo_path']); ?>" />
 				<?php p($l->t('Share with me via ownCloud')); ?>
 			</a>
 		</p>
@@ -59,7 +59,7 @@ style('files_sharing', '3rdparty/gs-share/style');
 		<p>
 			<?php p($l->t('HTML Code:')); ?>
 			<xmp><a target="_blank" href="<?php p($_['reference']); ?>">
-	<img src="../img/social-owncloud.svg" />
+	<img src="<?php  p(\OC::$server->getURLGenerator()->getAbsoluteURL($_['owncloud_logo_path'])); ?>" />
 	<?php p($l->t('Share with me via ownCloud')); ?>
 
 </a></xmp>
