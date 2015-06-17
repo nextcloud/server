@@ -316,7 +316,7 @@ interface IServerContainer {
 	 * Get the certificate manager for the user
 	 *
 	 * @param string $userId (optional) if not specified the current loggedin user is used
-	 * @return \OCP\ICertificateManager
+	 * @return \OCP\ICertificateManager | null if $userId is null and no user is logged in
 	 * @since 8.0.0
 	 */
 	public function getCertificateManager($userId = null);
