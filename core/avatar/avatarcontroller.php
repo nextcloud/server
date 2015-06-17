@@ -43,7 +43,7 @@ class AvatarController extends Controller {
 	/** @var IAvatarManager */
 	protected $avatarManager;
 
-	/** @var ICache */
+	/** @var \OC\Cache\File */
 	protected $cache;
 
 	/** @var IL10N */
@@ -59,7 +59,7 @@ class AvatarController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IAvatarManager $avatarManager
-	 * @param ICache $cache
+	 * @param \OC\Cache\File $cache
 	 * @param IL10N $l10n
 	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
@@ -67,7 +67,7 @@ class AvatarController extends Controller {
 	public function __construct($appName,
 								IRequest $request,
 								IAvatarManager $avatarManager,
-								ICache $cache,
+								\OC\Cache\File $cache,
 								IL10N $l10n,
 								IUserManager $userManager,
 								IUserSession $userSession) {
