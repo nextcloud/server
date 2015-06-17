@@ -984,14 +984,12 @@ $CONFIG = array(
  * 	- mysql (MySQL)
  * 	- pgsql (PostgreSQL)
  * 	- oci (Oracle - Enterprise Edition Only)
- * 	- mssql (Microsoft SQL Server - Enterprise Edition Only)
  */
 'supportedDatabases' => array(
 	'sqlite',
 	'mysql',
 	'pgsql',
 	'oci',
-	'mssql'
 ),
 
 /**
