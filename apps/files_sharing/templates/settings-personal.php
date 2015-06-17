@@ -20,24 +20,26 @@ style('files_sharing', '3rdparty/gs-share/style');
 
 		<p>
 			<?php p($l->t('Share it:')); ?>
-			<button class="social-gnu" data-url="<?php p($_['reference']); ?>"
+			<div class="gs-share">
+			<button data-url="<?php p($_['reference']); ?>"
 				data-title='<?php p(urlencode($_['message_without_URL'])); ?>'
-				class='js-gs-share gs-share--icon'>
+				class='js-gs-share social-gnu'>
 				GNU Social
 			</button>
-			<button class="social-diaspora"
+			</div>
+			<button class="social-diaspora pop-up"
 				data-url='http://sharetodiaspora.github.io/?title=<?php p($_['message_without_URL']); ?>&url=<?php p($_['reference']); ?>'>
 				Diaspora
 			</button>
-			<button class="social-twitter"
+			<button class="social-twitter pop-up"
 				data-url='https://twitter.com/intent/tweet?text=<?php p(urlencode($_['message_with_URL'])); ?>'>
 				Twitter
 			</button>
-			<button class="social-facebook"
+			<button class="social-facebook pop-up"
 				data-url='https://www.facebook.com/sharer/sharer.php?u=<?php p($_['reference']); ?>'>
 				Facebook
 			</button>
-			<button class="social-googleplus"
+			<button class="social-googleplus pop-up"
 				data-url='https://plus.google.com/share?url=<?php p($_['reference']); ?>'/>
 				Google+
 			</button>

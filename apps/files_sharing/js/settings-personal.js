@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	$('#fileSharingSettings img').click(function() {
+	$('#fileSharingSettings button.pop-up').click(function() {
 		var url = $(this).data('url');
 		if (url) {
 			var width = 600;
