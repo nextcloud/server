@@ -42,6 +42,8 @@ class File {
 	 * Returns the cache storage for the logged in user
 	 *
 	 * @return \OC\Files\View cache storage
+	 * @throws \OC\ForbiddenException
+	 * @throws \OC\User\NoUserException
 	 */
 	protected function getStorage() {
 		if (isset($this->storage)) {
@@ -64,6 +66,8 @@ class File {
 
 	/**
 	 * @param string $key
+	 * @return mixed|null
+	 * @throws \OC\ForbiddenException
 	 */
 	public function get($key) {
 		$result = null;
@@ -91,6 +95,10 @@ class File {
 
 	/**
 	 * @param string $key
+	 * @param mixed $value
+	 * @param int $ttl
+	 * @return bool|mixed
+	 * @throws \OC\ForbiddenException
 	 */
 	public function set($key, $value, $ttl = 0) {
 		$storage = $this->getStorage();
@@ -114,6 +122,11 @@ class File {
 		return $result;
 	}
 
+	/**
+	 * @param string $key
+	 * @return bool
+	 * @throws \OC\ForbiddenException
+	 */
 	public function hasKey($key) {
 		$storage = $this->getStorage();
 		if ($storage && $storage->is_file($key) && $storage->isReadable($key)) {
@@ -124,6 +137,8 @@ class File {
 
 	/**
 	 * @param string $key
+	 * @return bool|mixed
+	 * @throws \OC\ForbiddenException
 	 */
 	public function remove($key) {
 		$storage = $this->getStorage();
@@ -133,6 +148,11 @@ class File {
 		return $storage->unlink($key);
 	}
 
+	/**
+	 * @param string $prefix
+	 * @return bool
+	 * @throws \OC\ForbiddenException
+	 */
 	public function clear($prefix = '') {
 		$storage = $this->getStorage();
 		if ($storage and $storage->is_dir('/')) {
@@ -148,6 +168,10 @@ class File {
 		return true;
 	}
 
+	/**
+	 * Runs GC
+	 * @throws \OC\ForbiddenException
+	 */
 	public function gc() {
 		$storage = $this->getStorage();
 		if ($storage and $storage->is_dir('/')) {
