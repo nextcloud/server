@@ -46,6 +46,11 @@ $view = new \OC\Files\View('/' . $userId . '/files');
 
 $pathId = $linkedItem['file_source'];
 $path = $view->getPath($pathId);
+
+if($path === null) {
+	throw new \OCP\Files\NotFoundException();
+}
+
 $pathInfo = $view->getFileInfo($path);
 $sharedFile = null;
 
