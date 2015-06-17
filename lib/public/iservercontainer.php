@@ -315,11 +315,11 @@ interface IServerContainer {
 	/**
 	 * Get the certificate manager for the user
 	 *
-	 * @param \OCP\IUser $user (optional) if not specified the current loggedin user is used
+	 * @param string $userId (optional) if not specified the current loggedin user is used
 	 * @return \OCP\ICertificateManager
 	 * @since 8.0.0
 	 */
-	public function getCertificateManager($user = null);
+	public function getCertificateManager($userId = null);
 
 	/**
 	 * Create a new event source
