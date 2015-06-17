@@ -299,7 +299,10 @@ class Proxy extends \OC_FileProxy {
 	public function postGetFileInfo($path, $data) {
 
 		// if path is a folder do nothing
-		if (\OCP\App::isEnabled('files_encryption') && $data !== false && array_key_exists('size', $data)) {
+		if (\OCP\App::isEnabled('files_encryption') &&
+			$data !== false &&
+			array_key_exists('size', $data) &&
+			$this->shouldEncrypt($path)) {
 
 			// Disable encryption proxy to prevent recursive calls
 			$proxyStatus = \OC_FileProxy::$enabled;
@@ -330,7 +333,8 @@ class Proxy extends \OC_FileProxy {
 		// if encryption is no longer enabled or if the files aren't migrated yet
 		// we return the default file size
 		if(!\OCP\App::isEnabled('files_encryption') ||
-				$util->getMigrationStatus() !== Util::MIGRATION_COMPLETED) {
+				$util->getMigrationStatus() !== Util::MIGRATION_COMPLETED ||
+				!$this->shouldEncrypt($path)) {
 			return $size;
 		}
 
