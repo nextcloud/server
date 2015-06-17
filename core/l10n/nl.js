@@ -77,6 +77,8 @@ OC.L10N.register(
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "/dev/urandom is niet leesbaar door PHP, hetgeen wordt afgeraden wegens beveiligingsredenen. Meer informatie in onze <a href=\"{docLink}\">documentatie</a>.",
     "Error occurred while checking server setup" : "Een fout trad op bij checken serverconfiguratie",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "De \"{header}\" HTTP header is niet overeenkomstig met \"{expected}\" geconfigureerd. Dit is een potentieel security of privacy risico en we adviseren om deze instelling te wijzigen.",
+    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"{seconds}\" seconds. For enhanced security we recommend enabling HSTS as described in our <a href=\"{docUrl}\">security tips</a>." : "De \"Strict-Transport-Security\" HTTP header is niet geconfigureerd als minimaal \"{seconds}\" seconden. Voor verbeterde beveiliging adviseren we HSTS in te schakelen zoals beschreven in onze <a href=\"{docUrl}\">security tips</a>.",
+    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href=\"{docUrl}\">security tips</a>." : "U bent met deze site verbonden over HTTP. We adviseren met klem uw server zo te configureren dat HTTPS wordt vereist, zoals beschreven in onze <a href=\"{docUrl}\">security tips</a>.",
     "Shared" : "Gedeeld",
     "Shared with {recipients}" : "Gedeeld met {recipients}",
     "Share" : "Delen",

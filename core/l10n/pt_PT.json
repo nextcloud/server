@@ -184,6 +184,7 @@
     "Data folder" : "Pasta de dados",
     "Configure the database" : "Configure a base de dados",
     "Only %s is available." : "Só está disponível %s.",
+    "For more details check out the documentation." : "Para mais detalhes consulte a documentação.",
     "Database user" : "Utilizador da base de dados",
     "Database password" : "Palavra-passe da base de dados",
     "Database name" : "Nome da base de dados",
