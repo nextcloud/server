@@ -62,7 +62,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->container['AppName'] = 'core';
 		$this->container['AvatarManager'] = $this->getMockBuilder('OCP\IAvatarManager')
 			->disableOriginalConstructor()->getMock();
-		$this->container['Cache'] = $this->getMockBuilder('OCP\ICache')
+		$this->container['Cache'] = $this->getMockBuilder('OC\Cache\File')
 			->disableOriginalConstructor()->getMock();
 		$this->container['L10N'] = $this->getMockBuilder('OCP\IL10N')
 			->disableOriginalConstructor()->getMock();
