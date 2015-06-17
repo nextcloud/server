@@ -50,16 +50,20 @@ style('files_sharing', '3rdparty/gs-share/style');
 		<p>
 			<?php p($l->t('Add it to your website:')); ?>
 
-			<a target="_blank" href="<?php p($_['reference']); ?>">
-				<img src="<?php p($_['owncloud_logo_path']); ?>" />
+			<a target="_blank" href="<?php p($_['reference']); ?>"
+				style="padding:10px;background-color:#1d2d44;color:#fff;border-radius:3px;padding-left:4px;">
+				<img src="<?php p($_['owncloud_logo_path']); ?>"
+					style="width:50px;position:relative;top:8px;">
 				<?php p($l->t('Share with me via ownCloud')); ?>
 			</a>
 		</p>
 
 		<p>
 			<?php p($l->t('HTML Code:')); ?>
-			<xmp><a target="_blank" href="<?php p($_['reference']); ?>">
-	<img src="<?php  p(\OC::$server->getURLGenerator()->getAbsoluteURL($_['owncloud_logo_path'])); ?>" />
+			<xmp><a target="_blank" href="<?php p($_['reference']); ?>"
+	style="padding:10px;background-color:#1d2d44;color:#fff;border-radius:3px;padding-left:4px;">
+	<img src="<?php  p(\OC::$server->getURLGenerator()->getAbsoluteURL($_['owncloud_logo_path'])); ?>"
+		style="width:50px;position:relative;top:8px;">
 	<?php p($l->t('Share with me via ownCloud')); ?>
 
 </a></xmp>
