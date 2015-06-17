@@ -259,12 +259,15 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 		$config = $this->getMock('\OCP\IConfig');
 		$config->expects($this->exactly(2))
 			->method('getUserValue')
-			->will($this->returnValue(1));
+			->will($this->onConsecutiveCalls('1', '/var/vhome/jdings/'));
 
 		$backend = new UserLDAP($access, $config);
 
 		$result = $backend->deleteUser('jeremy');
 		$this->assertTrue($result);
+
+		$home = $backend->getHome('jeremy');
+		$this->assertSame($home, '/var/vhome/jdings/');
 	}
 
 	/**
