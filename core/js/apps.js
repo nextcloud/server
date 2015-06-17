@@ -58,7 +58,7 @@
 				if (!area.is(':animated')) {
 
 					// button toggles the area
-					if (button === event.target) {
+					if (button === event.target.closest('[data-apps-slide-toggle]')) {
 						if (area.is(':visible')) {
 							hideArea();
 						} else {
