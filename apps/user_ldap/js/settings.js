@@ -655,7 +655,7 @@ var LdapWizard = {
 			header: false,
 			selectedList: 9,
 			noneSelectedText: caption,
-			click: function(event, ui) {
+			close: function(event, ui) {
 				LdapWizard.saveMultiSelect(id,
 										$('#'+id).multiselect("getChecked"));
 			}
@@ -842,7 +842,12 @@ var LdapWizard = {
 		for(var i = 0; i < resultObj.length; i++) {
 			values = values + "\n" + resultObj[i].value;
 		}
-		LdapWizard._save($('#'+originalObj)[0], $.trim(values));
+		LdapWizard._save($('#'+originalObj)[0], $.trim(values)).then(
+			_.bind(this._updateAfterSavingMultiSelect, this, originalObj, resultObj)
+		);
+	},
+
+	_updateAfterSavingMultiSelect: function(originalObj, resultObj) {
 		var $multiSelectObj = $('#'+originalObj);
 		var updateCount = !$multiSelectObj.multiselect("isOpen");
 		var applyUpdateOnCloseToFilter;
@@ -879,6 +884,15 @@ var LdapWizard = {
 	},
 
 	saveProcesses: 0,
+
+	/**
+	 * Saves the config value of a given input/select field
+	 *
+	 * @param {Object} object DOM object for the field
+	 * @param {String} value value to save
+	 *
+	 * @return {Promise} promise from the save ajax call
+	 */
 	_save: function(object, value) {
 		$('#ldap .ldap_saving').removeClass('hidden');
 		LdapWizard.saveProcesses += 1;
@@ -888,7 +902,8 @@ var LdapWizard = {
 				'&action=save'+
 				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
 
-		$.post(
+
+		return $.post(
 			OC.filePath('user_ldap','ajax','wizard.php'),
 			param,
 			function(result) {
