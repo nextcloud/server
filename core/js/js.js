@@ -1231,7 +1231,7 @@ function initCore() {
 		});
 		// close sidebar when switching navigation entry
 		var $appNavigation = $('#app-navigation');
-		$appNavigation.delegate('a', 'click', function(event) {
+		$appNavigation.delegate('a, :button', 'click', function(event) {
 			var $target = $(event.target);
 			// don't hide navigation when changing settings or adding things
 			if($target.is('.app-navigation-noclose') ||
