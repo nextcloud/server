@@ -12,57 +12,55 @@ style('files_sharing', '3rdparty/gs-share/style');
 		<h2><?php p($l->t('Federated Cloud')); ?></h2>
 
 		<p>
-			<?php p($l->t('Your Federated Cloud ID: %s', [$_['cloudId']])); ?>
+			<?php p($l->t('Your Federated Cloud ID:')); ?>
+			<strong><?php p($_['cloudId']); ?></strong>
 		</p>
 
-		<p>
-
-		<h3><?php p($l->t('Share your Federated Cloud Id:')); ?></h3>
+		<br>
 
 		<p>
-
-		<div class='gs-share'>
-			<button data-url='<?php p($_['reference']); ?>'
-					data-title='<?php p(urlencode($_['message_without_URL'])); ?>'
-					class='js-gs-share gs-share--icon'>
+			<?php p($l->t('Share it:')); ?>
+			<button class="social-gnu" data-url="<?php p($_['reference']); ?>"
+				data-title='<?php p(urlencode($_['message_without_URL'])); ?>'
+				class='js-gs-share gs-share--icon'>
+				GNU Social
 			</button>
-		</div>
-
-
-		<img src='TODO: Add Diaspora Button' style="border: 0px solid;"
-			 alt='Share on Diaspora'
-			 data-url='http://sharetodiaspora.github.io/?title=<?php p($_['message_without_URL']); ?>&url=<?php p($_['reference']); ?>'/>
-		<img src='TODO: Add Twitter Button' alt=' | Share on Twitter'
-			 data-url='https://twitter.com/intent/tweet?text=<?php p(urlencode($_['message_with_URL'])); ?>'/>
-		<img src='TODO: Add Facebook Button' alt=' | Share on Facebook'
-			 data-url='https://www.facebook.com/sharer/sharer.php?u=<?php p($_['reference']); ?>'/>
-		<img src='TODO: Add Google+ Button' alt=' | Share on Google+'
-			 data-url='https://plus.google.com/share?url=<?php p($_['reference']); ?>'/>
-
+			<button class="social-diaspora"
+				data-url='http://sharetodiaspora.github.io/?title=<?php p($_['message_without_URL']); ?>&url=<?php p($_['reference']); ?>'>
+				Diaspora
+			</button>
+			<button class="social-twitter"
+				data-url='https://twitter.com/intent/tweet?text=<?php p(urlencode($_['message_with_URL'])); ?>'>
+				Twitter
+			</button>
+			<button class="social-facebook"
+				data-url='https://www.facebook.com/sharer/sharer.php?u=<?php p($_['reference']); ?>'>
+				Facebook
+			</button>
+			<button class="social-googleplus"
+				data-url='https://plus.google.com/share?url=<?php p($_['reference']); ?>'/>
+				Google+
+			</button>
 		</p>
 
-		<br/>
-
-		<h3><?php p($l->t('Add your Federated Cloud Id to your homepage:')); ?></h3>
+		<br>
 
 		<p>
+			<?php p($l->t('Add it to your website:')); ?>
 
-			<a href="<?php p($_['reference']); ?>">
-				<img src='TODO: Add Example Banner/Button'
-					 alt='<?php p($_['message_with_URL']); ?>'/>
+			<a target="_blank" href="<?php p($_['reference']); ?>">
+				<img src="img/social-owncloud.svg" />
+				<?php p($l->t('Share with me via ownCloud')); ?>
 			</a>
+		</p>
 
-			<br/>
+		<p>
 			<?php p($l->t('HTML Code:')); ?>
-			<br/>
+			<xmp><a target="_blank" href="<?php p($_['reference']); ?>">
+	<img src="../img/social-owncloud.svg" />
+	<?php p($l->t('Share with me via ownCloud')); ?>
 
-			<xmp>
-				<a href="<?php p($_['reference']); ?>">
-					<img src='TODO: Add Banner/Button'
-						 alt='<?php p($_['message_with_URL']); ?>'/>
-				</a>
-			</xmp>
-
+</a></xmp>
 		</p>
 
 	</div>
