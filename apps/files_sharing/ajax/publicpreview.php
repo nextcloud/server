@@ -65,7 +65,9 @@ $pathId = $linkedItem['file_source'];
 $path = $view->getPath($pathId);
 
 if($path === null) {
-	throw new \OCP\Files\NotFoundException();
+	\OC_Response::setStatus(\OC_Response::STATUS_NOT_FOUND);
+	\OC_Log::write('core-preview', 'Could not resolve file for shared item', OC_Log::WARN);
+	exit;
 }
 
 $pathInfo = $view->getFileInfo($path);
