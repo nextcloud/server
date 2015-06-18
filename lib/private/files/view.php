@@ -1826,8 +1826,6 @@ class View {
 	 * @return bool False if the path is excluded from locking, true otherwise
 	 */
 	public function unlockFile($path, $type) {
-		$path = '/' . trim($path, '/');
-
 		$absolutePath = $this->getAbsolutePath($path);
 		$absolutePath = Filesystem::normalizePath($absolutePath);
 		if (!$this->shouldLockFile($absolutePath)) {
