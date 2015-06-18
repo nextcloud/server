@@ -2427,7 +2427,7 @@ class Share extends Constants {
 	 */
 	private static function sendRemoteShare($token, $shareWith, $name, $remote_id, $owner) {
 
-		list($user, $remote) = explode('@', $shareWith, 2);
+		list($user, $remote) = Helper::splitUserRemote($shareWith);
 
 		if ($user && $remote) {
 			$url = rtrim($remote, '/') . self::BASE_PATH_TO_SHARE_API . '?format=' . self::RESPONSE_FORMAT;

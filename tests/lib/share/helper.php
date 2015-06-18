@@ -100,4 +100,43 @@ class Test_Share_Helper extends \Test\TestCase {
 	public function testFixRemoteURLInShareWith($remote, $expected) {
 		$this->assertSame($expected, \OC\Share\Helper::fixRemoteURLInShareWith($remote));
 	}
+
+	/**
+	 * @dataProvider dataTestSplitUserRemoteSuccess
+	 *
+	 * @param string $id
+	 * @param string $expectedUser
+	 * @param string $expectedRemote
+	 */
+	public function testSplitUserRemoteSuccess($id, $expectedUser, $expectedRemote) {
+		list($user, $remote) = \OC\Share\Helper::splitUserRemote($id);
+		$this->assertSame($expectedUser, $user);
+		$this->assertSame($expectedRemote, $remote);
+	}
+
+	public function dataTestSplitUserRemoteSuccess() {
+		return array(
+			array('user@server', 'user', 'server'),
+			array('user@name@server', 'user@name', 'server')
+		);
+	}
+
+	/**
+	 * @dataProvider dataTestSplitUserRemoteError
+	 *
+	 * @param string $id
+	 * @expectedException \OC\Share\Exceptions\InvalidFederatedCloudIdException
+	 */
+	public function testSplitUserRemoteError($id) {
+		\OC\Share\Helper::splitUserRemote($id);
+	}
+
+	public function dataTestSplitUserRemoteError() {
+		return array(
+			array('user@'),
+			array('@server'),
+			array('user'),
+			array(''),
+		);
+	}
 }

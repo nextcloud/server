@@ -27,6 +27,8 @@
 
 namespace OC\Share;
 
+use OC\Share\Exceptions\InvalidFederatedCloudIdException;
+
 class Helper extends \OC\Share\Constants {
 
 	/**
@@ -243,5 +245,25 @@ class Helper extends \OC\Share\Constants {
 		}
 
 		return rtrim($shareWith, '/');
+	}
+
+	/**
+	 * split user and remote from federated cloud id
+	 *
+	 * @param string $id
+	 * @return array
+	 * @throws InvalidFederatedCloudIdException
+	 */
+	public static function splitUserRemote($id) {
+		$pos = strrpos($id, '@');
+		if ($pos !== false) {
+			$user = substr($id, 0, $pos);
+			$remote = substr($id, $pos + 1);
+			if (!empty($user) && !empty($remote)) {
+				return array($user, $remote);
+			}
+		}
+
+		throw new InvalidFederatedCloudIdException('invalid Federated Cloud ID');
 	}
 }
