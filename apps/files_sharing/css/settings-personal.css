@@ -1,0 +1,32 @@
+#fileSharingSettings img {
+	cursor: pointer;
+}
+
+#fileSharingSettings xmp {
+	margin-top: 0;
+}
+
+[class^="social-"], [class*=" social-"] {
+	background-repeat: no-repeat;
+	background-position: 2px;
+	min-width: 16px;
+	min-height: 16px;
+	padding-left: 29px;
+	background-size: 24px;
+}
+
+.social-gnu {
+	background-image: url('../img/social-gnu.svg');
+}
+.social-diaspora {
+	background-image: url('../img/social-diaspora.svg');
+}
+.social-twitter {
+	background-image: url('../img/social-twitter.svg');
+}
+.social-facebook {
+	background-image: url('../img/social-facebook.svg');
+}
+.social-googleplus {
+	background-image: url('../img/social-googleplus.svg');
+}
