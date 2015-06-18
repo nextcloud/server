@@ -124,13 +124,18 @@ class Scanner extends BasicEmitter {
 	 * @param int $reuseExisting
 	 * @param int $parentId
 	 * @param array | null $cacheData existing data in the cache for the file to be scanned
+	 * @param bool $lock set to false to disable getting an additional read lock during scanning
 	 * @return array an array of metadata of the scanned file
+	 * @throws \OC\ServerNotAvailableException
+	 * @throws \OCP\Lock\LockedException
 	 */
-	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null) {
+	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true) {
 		if (!self::isPartialFile($file)
 			and !Filesystem::isFileBlacklisted($file)
 		) {
-			$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			if ($lock) {
+				$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			}
 			$this->emit('\OC\Files\Cache\Scanner', 'scanFile', array($file, $this->storageId));
 			\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
 			$data = $this->getData($file);
@@ -187,7 +192,9 @@ class Scanner extends BasicEmitter {
 			} else {
 				$this->removeFromCache($file);
 			}
-			$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			if ($lock) {
+				$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			}
 			return $data;
 		}
 		return null;
@@ -245,19 +252,24 @@ class Scanner extends BasicEmitter {
 	 * @param string $path
 	 * @param bool $recursive
 	 * @param int $reuse
+	 * @param bool $lock set to false to disable getting an additional read lock during scanning
 	 * @return array an array of the meta data of the scanned file or folder
 	 */
-	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1) {
+	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
-		$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-		$data = $this->scanFile($path, $reuse);
+		if ($lock) {
+			$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+		}
+		$data = $this->scanFile($path, $reuse, -1, null, $lock);
 		if ($data and $data['mimetype'] === 'httpd/unix-directory') {
-			$size = $this->scanChildren($path, $recursive, $reuse, $data);
+			$size = $this->scanChildren($path, $recursive, $reuse, $data, $lock);
 			$data['size'] = $size;
 		}
-		$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+		if ($lock) {
+			$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+		}
 		return $data;
 	}
 
@@ -303,9 +315,10 @@ class Scanner extends BasicEmitter {
 	 * @param bool $recursive
 	 * @param int $reuse
 	 * @param array $folderData existing cache data for the folder to be scanned
+	 * @param bool $lock set to false to disable getting an additional read lock during scanning
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderData = null) {
+	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderData = null, $lock = true) {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
@@ -328,7 +341,7 @@ class Scanner extends BasicEmitter {
 			$child = ($path) ? $path . '/' . $file : $file;
 			try {
 				$existingData = isset($existingChildren[$file]) ? $existingChildren[$file] : null;
-				$data = $this->scanFile($child, $reuse, $folderId, $existingData);
+				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock);
 				if ($data) {
 					if ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE) {
 						$childQueue[$child] = $data;
@@ -363,7 +376,7 @@ class Scanner extends BasicEmitter {
 		}
 
 		foreach ($childQueue as $child => $childData) {
-			$childSize = $this->scanChildren($child, self::SCAN_RECURSIVE, $reuse, $childData);
+			$childSize = $this->scanChildren($child, self::SCAN_RECURSIVE, $reuse, $childData, $lock);
 			if ($childSize === -1) {
 				$size = -1;
 			} else if ($size !== -1) {

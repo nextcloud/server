@@ -111,7 +111,7 @@ class Updater {
 			$this->propagator->addChange($path);
 			$cache = $storage->getCache($internalPath);
 			$scanner = $storage->getScanner($internalPath);
-			$data = $scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
+			$data = $scanner->scan($internalPath, Scanner::SCAN_SHALLOW, -1, false);
 			$this->correctParentStorageMtime($storage, $internalPath);
 			$cache->correctFolderSize($internalPath, $data);
 			$this->propagator->propagateChanges($time);

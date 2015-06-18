@@ -40,7 +40,7 @@ class NoopScanner extends Scanner {
 	 * @param array|null $cacheData existing data in the cache for the file to be scanned
 	 * @return array an array of metadata of the scanned file
 	 */
-	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null) {
+	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true) {
 		return array();
 	}
 
@@ -52,7 +52,7 @@ class NoopScanner extends Scanner {
 	 * @param int $reuse
 	 * @return array with the meta data of the scanned file or folder
 	 */
-	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1) {
+	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
 		return array();
 	}
 
@@ -65,7 +65,7 @@ class NoopScanner extends Scanner {
 	 * @param array $folderData existing cache data for the folder to be scanned
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderData = null) {
+	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderData = null, $lock = true) {
 		return 0;
 	}
 
