@@ -198,6 +198,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		}
 		//getting dn, if false the user does not exist. If dn, he may be mapped only, requires more checking.
 		$user = $this->access->userManager->get($uid);
+
 		if(is_null($user)) {
 			\OCP\Util::writeLog('user_ldap', 'No DN found for '.$uid.' on '.
 				$this->access->connection->ldapHost, \OCP\Util::DEBUG);
@@ -249,14 +250,14 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	* @return string|bool
 	*/
 	public function getHome($uid) {
-		// user Exists check required as it is not done in user proxy!
-		if(!$this->userExists($uid)) {
-			return false;
-		}
-
 		if(isset($this->homesToKill[$uid]) && !empty($this->homesToKill[$uid])) {
 			//a deleted user who needs some clean up
 			return $this->homesToKill[$uid];
+		}
+
+		// user Exists check required as it is not done in user proxy!
+		if(!$this->userExists($uid)) {
+			return false;
 		}
 
 		$cacheKey = 'getHome'.$uid;
