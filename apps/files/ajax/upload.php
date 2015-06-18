@@ -83,6 +83,10 @@ if (empty($_POST['dirToken'])) {
 
 		// The token defines the target directory (security reasons)
 		$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
+		if($path === null) {
+			OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Unable to set upload directory.')))));
+			die();
+		}
 		$dir = sprintf(
 			"/%s/%s",
 			$path,
