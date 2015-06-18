@@ -554,6 +554,7 @@ class Share extends Constants {
 	 * @param string $itemSourceName
 	 * @param \DateTime $expirationDate
 	 * @return boolean|string Returns true on success or false on failure, Returns token on success for links
+	 * @throws \OC\HintException when the share type is remote and the shareWith is invalid
 	 * @throws \Exception
 	 */
 	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName = null, \DateTime $expirationDate = null) {

@@ -255,6 +255,7 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemSourceName
 	 * @param \DateTime $expirationDate
 	 * @return bool|string Returns true on success or false on failure, Returns token on success for links
+	 * @throws \OC\HintException when the share type is remote and the shareWith is invalid
 	 * @throws \Exception
 	 * @since 5.0.0 - parameter $itemSourceName was added in 6.0.0, parameter $expirationDate was added in 7.0.0
 	 */

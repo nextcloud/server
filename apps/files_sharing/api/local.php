@@ -27,6 +27,8 @@
 
 namespace OCA\Files_Sharing\API;
 
+use OC\HintException;
+
 class Local {
 
 	/**
@@ -294,6 +296,8 @@ class Local {
 					$shareWith,
 					$permissions
 					);
+		} catch (HintException $e) {
+			return new \OC_OCS_Result(null, 400, $e->getHint());
 		} catch (\Exception $e) {
 			return new \OC_OCS_Result(null, 403, $e->getMessage());
 		}

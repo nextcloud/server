@@ -66,6 +66,8 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					} else {
 						OC_JSON::success();
 					}
+				} catch (\OC\HintException $exception) {
+					OC_JSON::error(array('data' => array('message' => $exception->getHint())));
 				} catch (Exception $exception) {
 					OC_JSON::error(array('data' => array('message' => $exception->getMessage())));
 				}
