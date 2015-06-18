@@ -557,11 +557,9 @@ class View {
 					fclose($target);
 					fclose($data);
 
-					$this->changeLock($path, ILockingProvider::LOCK_SHARED);
-
 					$this->updater->update($path);
 
-					$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
+					$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
 
 					if ($this->shouldEmitHooks($path) && $result !== false) {
 						$this->emit_file_hooks_post($exists, $path);
@@ -682,6 +680,19 @@ class View {
 					$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
 				}
 
+				if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
+					// if it was a rename from a part file to a regular file it was a write and not a rename operation
+					$this->updater->update($path2);
+				} else {
+					if ($internalPath1 !== '') { // dont do a cache update for moved mounts
+						$this->updater->rename($path1, $path2);
+					} else { // only do etag propagation
+						$this->getUpdater()->getPropagator()->addChange($path1);
+						$this->getUpdater()->getPropagator()->addChange($path2);
+						$this->getUpdater()->getPropagator()->propagateChanges();
+					}
+				}
+
 				$this->unlockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
 				$this->unlockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
 
@@ -691,19 +702,10 @@ class View {
 				}
 
 				if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
-					// if it was a rename from a part file to a regular file it was a write and not a rename operation
-					$this->updater->update($path2);
 					if ($this->shouldEmitHooks()) {
 						$this->emit_file_hooks_post($exists, $path2);
 					}
 				} elseif ($result) {
-					if ($internalPath1 !== '') { // dont do a cache update for moved mounts
-						$this->updater->rename($path1, $path2);
-					} else { // only do etag propagation
-						$this->getUpdater()->getPropagator()->addChange($path1);
-						$this->getUpdater()->getPropagator()->addChange($path2);
-						$this->getUpdater()->getPropagator()->propagateChanges();
-					}
 					if ($this->shouldEmitHooks($path1) and $this->shouldEmitHooks($path2)) {
 						\OC_Hook::emit(
 							Filesystem::CLASSNAME,
@@ -787,11 +789,9 @@ class View {
 					$result = $storage2->copyFromStorage($storage1, $internalPath1, $internalPath2);
 				}
 
-				$this->changeLock($path2, ILockingProvider::LOCK_SHARED);
-
 				$this->updater->update($path2);
 
-				$this->unlockFile($path2, ILockingProvider::LOCK_SHARED);
+				$this->unlockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
 				$this->unlockFile($path1, ILockingProvider::LOCK_SHARED);
 
 				if ($this->shouldEmitHooks() && $result !== false) {
@@ -1014,10 +1014,6 @@ class View {
 					throw $e;
 				}
 
-				if ((in_array('write', $hooks) || in_array('delete', $hooks)) && ($operation !== 'fopen' || $result === false)) {
-					$this->changeLock($path, ILockingProvider::LOCK_SHARED);
-				}
-
 				if (in_array('delete', $hooks) and $result) {
 					$this->updater->remove($path);
 				}
@@ -1026,6 +1022,10 @@ class View {
 				}
 				if (in_array('touch', $hooks)) {
 					$this->updater->update($path, $extraParam);
+				}
+
+				if ((in_array('write', $hooks) || in_array('delete', $hooks)) && ($operation !== 'fopen' || $result === false)) {
+					$this->changeLock($path, ILockingProvider::LOCK_SHARED);
 				}
 
 				if ($operation === 'fopen' and is_resource($result)) {
