@@ -210,6 +210,27 @@ class Preview extends TestCase {
 	}
 
 	/**
+	 * Tests if the media type icon fits into the asked dimensions
+	 */
+	public function testIsMimePreviewTheRightSize() {
+		$width = 400;
+		$height = 200;
+
+		// Previews for odt files are not enabled
+		$imgData = file_get_contents(\OC::$SERVERROOT . '/tests/data/testimage.odt');
+		$imgPath = '/' . self::TEST_PREVIEW_USER1 . '/files/testimage.odt';
+		$this->rootView->file_put_contents($imgPath, $imgData);
+
+		$preview =
+			new \OC\Preview(self::TEST_PREVIEW_USER1, 'files/', 'testimage.odt', $width, $height);
+		$preview->getPreview();
+		$image = $preview->getPreview();
+
+		$this->assertSame($width, $image->width());
+		$this->assertSame($height, $image->height());
+	}
+
+	/**
 	 * We generate the data to use as it makes it easier to adjust in case we need to test
 	 * something different
 	 *

@@ -703,10 +703,7 @@ class Preview {
 
 		// We still don't have a preview, so we send back the mime icon
 		if (is_null($this->preview)) {
-			$this->preview = new \OC_Image();
-			$mimeIconWebPath = \OC_Helper::mimetypeIcon($this->mimeType);
-			$mimeIconServerPath =  str_replace(\OC::$WEBROOT, \OC::$SERVERROOT, $mimeIconWebPath);
-			$this->preview->loadFromFile($mimeIconServerPath);
+			$this->getMimeIcon();
 		}
 
 		return $this->preview;
@@ -1092,6 +1089,30 @@ class Preview {
 		if ($preview) {
 			$this->resizeAndStore($fileId);
 		}
+	}
+
+	/**
+	 * Creates a mime icon preview of the asked dimensions
+	 *
+	 * This will paste the mime icon in the middle of an empty preview of the asked dimension
+	 */
+	private function getMimeIcon() {
+		$image = new \OC_Image();
+		$mimeIconWebPath = \OC_Helper::mimetypeIcon($this->mimeType);
+		if (empty(\OC::$WEBROOT)) {
+			$mimeIconServerPath = \OC::$SERVERROOT . $mimeIconWebPath;
+		} else {
+			$mimeIconServerPath = str_replace(\OC::$WEBROOT, \OC::$SERVERROOT, $mimeIconWebPath);
+		}
+		$image->loadFromFile($mimeIconServerPath);
+
+		$previewWidth = (int)$image->width();
+		$previewHeight = (int)$image->height();
+		$askedWidth = $this->getMaxX();
+		$askedHeight = $this->getMaxY();
+		$this->cropAndFill(
+			$image, $askedWidth, $askedHeight, $previewWidth, $previewHeight
+		);
 	}
 
 	/**
