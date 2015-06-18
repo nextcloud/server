@@ -812,9 +812,8 @@ class Preview {
 		 */
 		// It turns out the scaled preview is now too big, so we crop the image
 		if ($newPreviewWidth >= $askedWidth && $newPreviewHeight >= $askedHeight) {
-			list($newPreviewWidth, $newPreviewHeight) =
-				$this->crop($image, $askedWidth, $askedHeight, $newPreviewWidth, $newPreviewHeight);
-			$this->storePreview($fileId, $newPreviewWidth, $newPreviewHeight);
+			$this->crop($image, $askedWidth, $askedHeight, $newPreviewWidth, $newPreviewHeight);
+			$this->storePreview($fileId, $askedWidth, $askedHeight);
 
 			return;
 		}
@@ -822,11 +821,10 @@ class Preview {
 		// At least one dimension of the scaled preview is too small,
 		// so we fill the space with a transparent background
 		if (($newPreviewWidth < $askedWidth || $newPreviewHeight < $askedHeight)) {
-			list($newPreviewWidth, $newPreviewHeight) =
-				$this->cropAndFill(
-					$image, $askedWidth, $askedHeight, $newPreviewWidth, $newPreviewHeight
-				);
-			$this->storePreview($fileId, $newPreviewWidth, $newPreviewHeight);
+			$this->cropAndFill(
+				$image, $askedWidth, $askedHeight, $newPreviewWidth, $newPreviewHeight
+			);
+			$this->storePreview($fileId, $askedWidth, $askedHeight);
 
 			return;
 		}
@@ -894,8 +892,6 @@ class Preview {
 	 * @param int $askedHeight
 	 * @param int $previewWidth
 	 * @param null $previewHeight
-	 *
-	 * @return \int[]
 	 */
 	private function crop($image, $askedWidth, $askedHeight, $previewWidth, $previewHeight = null) {
 		$cropX = floor(abs($askedWidth - $previewWidth) * 0.5);
@@ -904,8 +900,6 @@ class Preview {
 		$cropY = 0;
 		$image->crop($cropX, $cropY, $askedWidth, $askedHeight);
 		$this->preview = $image;
-
-		return [$askedWidth, $askedHeight];
 	}
 
 	/**
@@ -917,8 +911,6 @@ class Preview {
 	 * @param int $askedHeight
 	 * @param int $previewWidth
 	 * @param null $previewHeight
-	 *
-	 * @return \int[]
 	 */
 	private function cropAndFill($image, $askedWidth, $askedHeight, $previewWidth, $previewHeight) {
 		if ($previewWidth > $askedWidth) {
@@ -954,8 +946,6 @@ class Preview {
 		$image = new \OC_Image($backgroundLayer);
 
 		$this->preview = $image;
-
-		return [$askedWidth, $askedHeight];
 	}
 
 	/**
