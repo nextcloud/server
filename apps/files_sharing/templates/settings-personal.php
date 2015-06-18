@@ -21,14 +21,14 @@ style('files_sharing', '3rdparty/gs-share/style');
 		<p>
 			<?php p($l->t('Share it:')); ?>
 			<div class="gs-share">
-			<button data-url="<?php p($_['reference']); ?>"
+			<button data-url="<?php p(urlencode($_['reference'])); ?>"
 				data-title='<?php p(urlencode($_['message_without_URL'])); ?>'
 				class='js-gs-share social-gnu'>
 				GNU Social
 			</button>
 			</div>
 			<button class="social-diaspora pop-up"
-				data-url='http://sharetodiaspora.github.io/?title=<?php p($_['message_without_URL']); ?>&url=<?php p($_['reference']); ?>'>
+				data-url='http://sharetodiaspora.github.io/?title=<?php p($_['message_without_URL']); ?>&url=<?php p(urlencode($_['reference'])); ?>'>
 				Diaspora
 			</button>
 			<button class="social-twitter pop-up"
@@ -36,11 +36,11 @@ style('files_sharing', '3rdparty/gs-share/style');
 				Twitter
 			</button>
 			<button class="social-facebook pop-up"
-				data-url='https://www.facebook.com/sharer/sharer.php?u=<?php p($_['reference']); ?>'>
+				data-url='https://www.facebook.com/sharer/sharer.php?u=<?php p(urlencode($_['reference'])); ?>'>
 				Facebook
 			</button>
 			<button class="social-googleplus pop-up"
-				data-url='https://plus.google.com/share?url=<?php p($_['reference']); ?>'/>
+				data-url='https://plus.google.com/share?url=<?php p(urlencode($_['reference'])); ?>'/>
 				Google+
 			</button>
 		</p>
