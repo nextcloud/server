@@ -77,6 +77,8 @@ OC.L10N.register(
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "/dev/urandom kan ikke læses af PHP, hvilket stærkt frarådes af sikkerhedsmæssige årsager. Der fås mere information i vores <a href=\"{docLink}\">dokumentation</a>.",
     "Error occurred while checking server setup" : "Der opstod fejl under tjek af serveropsætningen",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "HTTP-hovedet \"{header}\" er ikke konfigureret til at være lig med \"{expected}\". Dette er en potentiel sikkerhedsrisiko, og vi anbefaler at du justerer denne indstilling.",
+    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"{seconds}\" seconds. For enhanced security we recommend enabling HSTS as described in our <a href=\"{docUrl}\">security tips</a>." : "HTTP-hovedet \"Strict-Transport-Security\" er ikke konfigureret til mindst \"{seconds}\" sekunder. For udvidet sikkerhed anbefaler vi at aktivere HSTS, som foreskrevet i vores <a href=\"{docUrl}\">sikkerhedstips</a>.",
+    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href=\"{docUrl}\">security tips</a>." : "Du tilgår dette sted gennem HTTP. Vi anbefaler kraftigt at du konfigurerer din server, så der kræves brug af HTTPS i stedet for, som foreskrevet i vores <a href=\"{docUrl}\">sikkerhedstips</a>.",
     "Shared" : "Delt",
     "Shared with {recipients}" : "Delt med {recipients}",
     "Share" : "Del",

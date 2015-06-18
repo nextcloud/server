@@ -134,7 +134,7 @@
     "Nested Groups" : "Grupos aniñados",
     "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" : "Se está activado, admítense grupos que conteñen grupos. (Só funciona se o atributo de membro de grupo conten os DN.)",
     "Paging chunksize" : "Tamaño dos fragmentos paxinados",
-    "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "Tamaño dos fragmentos utilizados para as buscas LDAP paxinadas, que poden devolver resultados voluminosos como usuario ou enumeración de grupo. (Se se establece a 0, desactívanse as buscas LDAP paxinadas nesas situacións.)",
+    "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "Tamaño dos fragmentos utilizados para as buscas LDAP paxinadas, que poden devolver resultados voluminosos como usuario ou enumeración de grupo. (Se se estabelece a 0, desactívanse as buscas LDAP paxinadas nesas situacións.)",
     "Special Attributes" : "Atributos especiais",
     "Quota Field" : "Campo de cota",
     "Quota Default" : "Cota predeterminada",
