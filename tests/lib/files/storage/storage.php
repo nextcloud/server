@@ -380,6 +380,13 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertFalse($this->instance->file_exists('folder'));
 	}
 
+	public function testRmdirEmptyFolder() {
+		$this->assertTrue($this->instance->mkdir('empty'));
+		$this->wait();
+		$this->assertTrue($this->instance->rmdir('empty'));
+		$this->assertFalse($this->instance->file_exists('empty'));
+	}
+
 	public function testRecursiveUnlink() {
 		$this->instance->mkdir('folder');
 		$this->instance->mkdir('folder/bar');

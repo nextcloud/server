@@ -251,7 +251,11 @@ class SFTP extends \OC\Files\Storage\Common {
 	 */
 	public function rmdir($path) {
 		try {
-			return $this->getConnection()->delete($this->absPath($path), true);
+			$result = $this->getConnection()->delete($this->absPath($path), true);
+			// workaround: stray stat cache entry when deleting empty folders
+			// see https://github.com/phpseclib/phpseclib/issues/706
+			$this->getConnection()->clearStatCache();
+			return $result;
 		} catch (\Exception $e) {
 			return false;
 		}
