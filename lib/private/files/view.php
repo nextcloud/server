@@ -1166,6 +1166,7 @@ class View {
 				// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
 				if (!$data) {
 					if (!$storage->file_exists($internalPath)) {
+						$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 						return false;
 					}
 					$scanner = $storage->getScanner($internalPath);
@@ -1251,6 +1252,7 @@ class View {
 				$watcher = $storage->getWatcher($internalPath);
 				if (!$data or $data['size'] === -1) {
 					if (!$storage->file_exists($internalPath)) {
+						$this->unlockFile($directory, ILockingProvider::LOCK_SHARED);
 						return array();
 					}
 					$scanner = $storage->getScanner($internalPath);
