@@ -683,7 +683,7 @@ class View {
 				if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
 					$this->updater->update($path2);
-				} else {
+				} else if ($result) {
 					if ($internalPath1 !== '') { // dont do a cache update for moved mounts
 						$this->updater->rename($path1, $path2);
 					} else { // only do etag propagation
