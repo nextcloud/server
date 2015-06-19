@@ -127,7 +127,7 @@ interface IGroupManager {
 	/**
 	 * Checks if a userId is in a group
 	 * @param string $userId
-	 * @param group $group
+	 * @param string $group
 	 * @return bool if in group
 	 * @since 8.0.0
 	 */
