@@ -51,15 +51,16 @@ class View extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
+		\OC_Hook::clear();
 
 		\OC_User::clearBackends();
 		\OC_User::useBackend(new \OC_User_Dummy());
 
 		//login
 		\OC_User::createUser('test', 'test');
-		$this->user = \OC_User::getUser();
 
 		$this->loginAsUser('test');
+		$this->user = \OC_User::getUser();
 		// clear mounts but somehow keep the root storage
 		// that was initialized above...
 		\OC\Files\Filesystem::clearMounts();
@@ -1349,5 +1350,626 @@ class View extends \Test\TestCase {
 		$result = \Test_Helper::invokePrivate($view, 'shouldEmitHooks', [$path]);
 		$defaultRootValue->setValue($oldRoot);
 		$this->assertEquals($shouldEmit, $result);
+	}
+
+
+	public function basicOperationProviderForLocks() {
+		return [
+			// --- write hook ----
+			[
+				'touch',
+				['touch-create.txt'],
+				'touch-create.txt',
+				'create',
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_EXCLUSIVE,
+				ILockingProvider::LOCK_SHARED,
+			],
+			[
+				'fopen',
+				['test-write.txt', 'w'],
+				'test-write.txt',
+				'write',
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_EXCLUSIVE,
+				null,
+				// exclusive lock stays until fclose
+				ILockingProvider::LOCK_EXCLUSIVE,
+			],
+			[
+				'mkdir',
+				['newdir'],
+				'newdir',
+				'write',
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_EXCLUSIVE,
+				ILockingProvider::LOCK_SHARED,
+			],
+			[
+				'file_put_contents',
+				['file_put_contents.txt', 'blah'],
+				'file_put_contents.txt',
+				'write',
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_EXCLUSIVE,
+				ILockingProvider::LOCK_SHARED,
+			],
+
+			// ---- delete hook ----
+			[
+				'rmdir',
+				['dir'],
+				'dir',
+				'delete',
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_EXCLUSIVE,
+				ILockingProvider::LOCK_SHARED,
+			],
+			[
+				'unlink',
+				['test.txt'],
+				'test.txt',
+				'delete',
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_EXCLUSIVE,
+				ILockingProvider::LOCK_SHARED,
+			],
+
+			// ---- read hook (no post hooks) ----
+			[
+				'file_get_contents',
+				['test.txt'],
+				'test.txt',
+				'read',
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_SHARED,
+				null,
+			],
+			[
+				'fopen',
+				['test.txt', 'r'],
+				'test.txt',
+				'read',
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_SHARED,
+				null,
+			],
+			[
+				'opendir',
+				['dir'],
+				'dir',
+				'read',
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_SHARED,
+				null,
+			],
+
+			// ---- no lock, touch hook ---
+			['touch', ['test.txt'], 'test.txt', 'touch', null, null, null],
+
+			// ---- no hooks, no locks ---
+			['is_dir', ['dir'], 'dir', null],
+			['is_file', ['dir'], 'dir', null],
+			['stat', ['dir'], 'dir', null],
+			['filetype', ['dir'], 'dir', null],
+			['filesize', ['dir'], 'dir', null],
+			['isCreatable', ['dir'], 'dir', null],
+			['isReadable', ['dir'], 'dir', null],
+			['isUpdatable', ['dir'], 'dir', null],
+			['isDeletable', ['dir'], 'dir', null],
+			['isSharable', ['dir'], 'dir', null],
+			['file_exists', ['dir'], 'dir', null],
+			['filemtime', ['dir'], 'dir', null],
+		];
+	}
+
+	/**
+	 * Test whether locks are set before and after the operation
+	 *
+	 * @dataProvider basicOperationProviderForLocks
+	 *
+	 * @param string $operation operation name on the view
+	 * @param array $operationArgs arguments for the operation
+	 * @param string $lockedPath path of the locked item to check
+	 * @param string $hookType hook type
+	 * @param int $expectedLockBefore expected lock during pre hooks
+	 * @param int $expectedLockduring expected lock during operation
+	 * @param int $expectedLockAfter expected lock during post hooks
+	 * @param int $expectedStrayLock expected lock after returning, should
+	 * be null (unlock) for most operations
+	 */
+	public function testLockBasicOperation(
+		$operation,
+		$operationArgs,
+		$lockedPath,
+		$hookType,
+		$expectedLockBefore = ILockingProvider::LOCK_SHARED,
+		$expectedLockDuring = ILockingProvider::LOCK_SHARED,
+		$expectedLockAfter = ILockingProvider::LOCK_SHARED,
+		$expectedStrayLock = null
+	) {
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+			->setMethods([$operation])
+			->getMock();
+
+		\OC\Files\Filesystem::mount($storage, array(), $this->user . '/');
+
+		// work directly on disk because mkdir might be mocked
+		$realPath = $storage->getSourcePath('');
+		mkdir($realPath . '/files');
+		mkdir($realPath . '/files/dir');
+		file_put_contents($realPath . '/files/test.txt', 'blah');
+		$storage->getScanner()->scan('files');
+
+		$storage->expects($this->once())
+			->method($operation)
+			->will($this->returnCallback(
+				function() use ($view, $lockedPath, &$lockTypeDuring){
+					$lockTypeDuring = $this->getFileLockType($view, $lockedPath);
+
+					return true;
+				}
+			));
+
+		$this->assertNull($this->getFileLockType($view, $lockedPath), 'File not locked before operation');
+
+		$this->connectMockHooks($hookType, $view, $lockedPath, $lockTypePre, $lockTypePost);
+
+		// do operation
+		call_user_func_array(array($view, $operation), $operationArgs);
+
+		if ($hookType !== null) {
+			$this->assertEquals($expectedLockBefore, $lockTypePre, 'File locked properly during pre-hook');
+			$this->assertEquals($expectedLockAfter, $lockTypePost, 'File locked properly during post-hook');
+			$this->assertEquals($expectedLockDuring, $lockTypeDuring, 'File locked properly during operation');
+		} else {
+			$this->assertNull($lockTypeDuring, 'File not locked during operation');
+		}
+
+		$this->assertEquals($expectedStrayLock, $this->getFileLockType($view, $lockedPath));
+	}
+
+	/**
+	 * Test locks for file_put_content with stream.
+	 * This code path uses $storage->fopen instead
+	 */
+	public function testLockFilePutContentWithStream() {
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+
+		$path = 'test_file_put_contents.txt';
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+			->setMethods(['fopen'])
+			->getMock();
+
+		\OC\Files\Filesystem::mount($storage, array(), $this->user . '/');
+		$storage->mkdir('files');
+
+		$storage->expects($this->once())
+			->method('fopen')
+			->will($this->returnCallback(
+				function() use ($view, $path, &$lockTypeDuring){
+					$lockTypeDuring = $this->getFileLockType($view, $path);
+
+					return fopen('php://temp', 'r+');
+				}
+			));
+
+		$this->connectMockHooks('write', $view, $path, $lockTypePre, $lockTypePost);
+
+		$this->assertNull($this->getFileLockType($view, $path), 'File not locked before operation');
+
+		// do operation
+		$view->file_put_contents($path, fopen('php://temp', 'r+'));
+
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypePre, 'File locked properly during pre-hook');
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypePost, 'File locked properly during post-hook');
+		$this->assertEquals(ILockingProvider::LOCK_EXCLUSIVE, $lockTypeDuring, 'File locked properly during operation');
+
+		$this->assertNull($this->getFileLockType($view, $path));
+	}
+
+	/**
+	 * Test locks for fopen with fclose at the end
+	 */
+	public function testLockFopen() {
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+
+		$path = 'test_file_put_contents.txt';
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+			->setMethods(['fopen'])
+			->getMock();
+
+		\OC\Files\Filesystem::mount($storage, array(), $this->user . '/');
+		$storage->mkdir('files');
+
+		$storage->expects($this->once())
+			->method('fopen')
+			->will($this->returnCallback(
+				function() use ($view, $path, &$lockTypeDuring){
+					$lockTypeDuring = $this->getFileLockType($view, $path);
+
+					return fopen('php://temp', 'r+');
+				}
+			));
+
+		$this->connectMockHooks('write', $view, $path, $lockTypePre, $lockTypePost);
+
+		$this->assertNull($this->getFileLockType($view, $path), 'File not locked before operation');
+
+		// do operation
+		$res = $view->fopen($path, 'w');
+
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypePre, 'File locked properly during pre-hook');
+		$this->assertEquals(ILockingProvider::LOCK_EXCLUSIVE, $lockTypeDuring, 'File locked properly during operation');
+		$this->assertNull(null, $lockTypePost, 'No post hook, no lock check possible');
+
+		$this->assertEquals(ILockingProvider::LOCK_EXCLUSIVE, $lockTypeDuring, 'File still locked after fopen');
+
+		fclose($res);
+
+		$this->assertNull($this->getFileLockType($view, $path), 'File unlocked after fclose');
+	}
+
+	/**
+	 * Test locks for fopen with fclose at the end
+	 *
+	 * @dataProvider basicOperationProviderForLocks
+	 *
+	 * @param string $operation operation name on the view
+	 * @param array $operationArgs arguments for the operation
+	 * @param string $path path of the locked item to check
+	 */
+	public function testLockBasicOperationUnlocksAfterException(
+		$operation,
+		$operationArgs,
+		$path
+	) {
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+			->setMethods([$operation])
+			->getMock();
+
+		\OC\Files\Filesystem::mount($storage, array(), $this->user . '/');
+
+		// work directly on disk because mkdir might be mocked
+		$realPath = $storage->getSourcePath('');
+		mkdir($realPath . '/files');
+		mkdir($realPath . '/files/dir');
+		file_put_contents($realPath . '/files/test.txt', 'blah');
+		$storage->getScanner()->scan('files');
+
+		$storage->expects($this->once())
+			->method($operation)
+			->will($this->returnCallback(
+				function() {
+					throw new \Exception('Simulated exception');
+				}
+			));
+
+		$thrown = false;
+		try {
+			call_user_func_array(array($view, $operation), $operationArgs);
+		} catch (\Exception $e) {
+			$thrown = true;
+			$this->assertEquals('Simulated exception', $e->getMessage());
+		}
+		$this->assertTrue($thrown, 'Exception was rethrown');
+		$this->assertNull($this->getFileLockType($view, $path), 'File got unlocked after exception');
+	}
+
+	/**
+	 * Test locks for fopen with fclose at the end
+	 *
+	 * @dataProvider basicOperationProviderForLocks
+	 *
+	 * @param string $operation operation name on the view
+	 * @param array $operationArgs arguments for the operation
+	 * @param string $path path of the locked item to check
+	 * @param string $hookType hook type
+	 */
+	public function testLockBasicOperationUnlocksAfterCancelledHook(
+		$operation,
+		$operationArgs,
+		$path,
+		$hookType
+	) {
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+			->setMethods([$operation])
+			->getMock();
+
+		\OC\Files\Filesystem::mount($storage, array(), $this->user . '/');
+		$storage->mkdir('files');
+
+		\OCP\Util::connectHook(
+			\OC\Files\Filesystem::CLASSNAME,
+			$hookType,
+			'\Test\HookHelper',
+			'cancellingCallback'
+		);
+
+		call_user_func_array(array($view, $operation), $operationArgs);
+
+		$this->assertNull($this->getFileLockType($view, $path), 'File got unlocked after exception');
+	}
+
+	public function lockFileRenameOrCopyDataProvider() {
+		return [
+			['rename', ILockingProvider::LOCK_EXCLUSIVE],
+			['copy', ILockingProvider::LOCK_SHARED],
+		];
+	}
+
+	/**
+	 * Test locks for rename or copy operation
+	 *
+	 * @dataProvider lockFileRenameOrCopyDataProvider
+	 *
+	 * @param string $operation operation to be done on the view
+	 * @param int $expectedLockTypeSourceDuring expected lock type on source file during
+	 * the operation
+	 */
+	public function testLockFileRename($operation, $expectedLockTypeSourceDuring) {
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+			->setMethods([$operation])
+			->getMock();
+
+		$sourcePath = 'original.txt';
+		$targetPath = 'target.txt';
+
+		\OC\Files\Filesystem::mount($storage, array(), $this->user . '/');
+		$storage->mkdir('files');
+		$view->file_put_contents($sourcePath, 'meh');
+
+		$storage->expects($this->once())
+			->method($operation)
+			->will($this->returnCallback(
+				function() use ($view, $sourcePath, $targetPath, &$lockTypeSourceDuring, &$lockTypeTargetDuring){
+					$lockTypeSourceDuring = $this->getFileLockType($view, $sourcePath);
+					$lockTypeTargetDuring = $this->getFileLockType($view, $targetPath);
+
+					return true;
+				}
+			));
+
+		$this->connectMockHooks($operation, $view, $sourcePath, $lockTypeSourcePre, $lockTypeSourcePost);
+		$this->connectMockHooks($operation, $view, $targetPath, $lockTypeTargetPre, $lockTypeTargetPost);
+
+		$this->assertNull($this->getFileLockType($view, $sourcePath), 'Source file not locked before operation');
+		$this->assertNull($this->getFileLockType($view, $targetPath), 'Target file not locked before operation');
+
+		$view->$operation($sourcePath, $targetPath);
+
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypeSourcePre, 'Source file locked properly during pre-hook');
+		$this->assertEquals($expectedLockTypeSourceDuring, $lockTypeSourceDuring, 'Source file locked properly during operation');
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypeSourcePost, 'Source file locked properly during post-hook');
+
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypeTargetPre, 'Target file locked properly during pre-hook');
+		$this->assertEquals(ILockingProvider::LOCK_EXCLUSIVE, $lockTypeTargetDuring, 'Target file locked properly during operation');
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypeTargetPost, 'Target file locked properly during post-hook');
+
+		$this->assertNull($this->getFileLockType($view, $sourcePath), 'Source file not locked after operation');
+		$this->assertNull($this->getFileLockType($view, $targetPath), 'Target file not locked after operation');
+	}
+
+	public function lockFileRenameOrCopyCrossStorageDataProvider() {
+		return [
+			['rename', 'moveFromStorage', ILockingProvider::LOCK_EXCLUSIVE],
+			['copy', 'copyFromStorage', ILockingProvider::LOCK_SHARED],
+		];
+	}
+
+	/**
+	 * Test locks for rename or copy operation cross-storage
+	 *
+	 * @dataProvider lockFileRenameOrCopyCrossStorageDataProvider
+	 *
+	 * @param string $viewOperation operation to be done on the view
+	 * @param string $storageOperation operation to be mocked on the storage
+	 * @param int $expectedLockTypeSourceDuring expected lock type on source file during
+	 * the operation
+	 */
+	public function testLockFileRenameCrossStorage($viewOperation, $storageOperation, $expectedLockTypeSourceDuring) {
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+			->setMethods([$storageOperation])
+			->getMock();
+		$storage2 = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+			->setMethods([$storageOperation])
+			->getMock();
+
+		$sourcePath = 'original.txt';
+		$targetPath = 'substorage/target.txt';
+
+		\OC\Files\Filesystem::mount($storage, array(), $this->user . '/');
+		\OC\Files\Filesystem::mount($storage2, array(), $this->user . '/files/substorage');
+		$storage->mkdir('files');
+		$view->file_put_contents($sourcePath, 'meh');
+
+		$storage->expects($this->never())
+			->method($storageOperation);
+		$storage2->expects($this->once())
+			->method($storageOperation)
+			->will($this->returnCallback(
+				function() use ($view, $sourcePath, $targetPath, &$lockTypeSourceDuring, &$lockTypeTargetDuring){
+					$lockTypeSourceDuring = $this->getFileLockType($view, $sourcePath);
+					$lockTypeTargetDuring = $this->getFileLockType($view, $targetPath);
+
+					return true;
+				}
+			));
+
+		$this->connectMockHooks($viewOperation, $view, $sourcePath, $lockTypeSourcePre, $lockTypeSourcePost);
+		$this->connectMockHooks($viewOperation, $view, $targetPath, $lockTypeTargetPre, $lockTypeTargetPost);
+
+		$this->assertNull($this->getFileLockType($view, $sourcePath), 'Source file not locked before operation');
+		$this->assertNull($this->getFileLockType($view, $targetPath), 'Target file not locked before operation');
+
+		$view->$viewOperation($sourcePath, $targetPath);
+
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypeSourcePre, 'Source file locked properly during pre-hook');
+		$this->assertEquals($expectedLockTypeSourceDuring, $lockTypeSourceDuring, 'Source file locked properly during operation');
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypeSourcePost, 'Source file locked properly during post-hook');
+
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypeTargetPre, 'Target file locked properly during pre-hook');
+		$this->assertEquals(ILockingProvider::LOCK_EXCLUSIVE, $lockTypeTargetDuring, 'Target file locked properly during operation');
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypeTargetPost, 'Target file locked properly during post-hook');
+
+		$this->assertNull($this->getFileLockType($view, $sourcePath), 'Source file not locked after operation');
+		$this->assertNull($this->getFileLockType($view, $targetPath), 'Target file not locked after operation');
+	}
+
+	/**
+	 * Test locks when moving a mount point
+	 */
+	public function testLockMoveMountPoint() {
+		$this->loginAsUser('test');
+
+		$subStorage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+			->setMethods([])
+			->getMock();
+
+		$mount = $this->getMock(
+			'\Test\TestMoveableMountPoint',
+			['moveMount'],
+			[$subStorage, $this->user . '/files/substorage']
+		);
+
+		$mountProvider = $this->getMock('\OCP\Files\Config\IMountProvider');
+		$mountProvider->expects($this->once())
+			->method('getMountsForUser')
+			->will($this->returnValue([$mount]));
+
+		$mountProviderCollection = \OC::$server->getMountProviderCollection();
+		$mountProviderCollection->registerProvider($mountProvider);
+
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+		$view->mkdir('subdir');
+
+		$sourcePath = 'substorage';
+		$targetPath = 'subdir/substorage_moved';
+
+		$mount->expects($this->once())
+			->method('moveMount')
+			->will($this->returnCallback(
+				function($target) use ($mount, $view, $sourcePath, $targetPath, &$lockTypeSourceDuring, &$lockTypeTargetDuring, &$lockTypeSharedRootDuring){
+					$lockTypeSourceDuring = $this->getFileLockType($view, $sourcePath, true);
+					$lockTypeTargetDuring = $this->getFileLockType($view, $targetPath, true);
+
+					$lockTypeSharedRootDuring = $this->getFileLockType($view, $sourcePath, false);
+
+					$mount->setMountPoint($target);
+
+					return true;
+				}
+			));
+
+		$this->connectMockHooks('rename', $view, $sourcePath, $lockTypeSourcePre, $lockTypeSourcePost, true);
+		$this->connectMockHooks('rename', $view, $targetPath, $lockTypeTargetPre, $lockTypeTargetPost, true);
+		// in pre-hook, mount point is still on $sourcePath
+		$this->connectMockHooks('rename', $view, $sourcePath, $lockTypeSharedRootPre, $dummy, false);
+		// in post-hook, mount point is now on $targetPath
+		$this->connectMockHooks('rename', $view, $targetPath, $dummy, $lockTypeSharedRootPost, false);
+
+		$this->assertNull($this->getFileLockType($view, $sourcePath, false), 'Shared storage root not locked before operation');
+		$this->assertNull($this->getFileLockType($view, $sourcePath, true), 'Source path not locked before operation');
+		$this->assertNull($this->getFileLockType($view, $targetPath, true), 'Target path not locked before operation');
+
+		$view->rename($sourcePath, $targetPath);
+
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypeSourcePre, 'Source path locked properly during pre-hook');
+		$this->assertEquals(ILockingProvider::LOCK_EXCLUSIVE, $lockTypeSourceDuring, 'Source path locked properly during operation');
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypeSourcePost, 'Source path locked properly during post-hook');
+
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypeTargetPre, 'Target path locked properly during pre-hook');
+		$this->assertEquals(ILockingProvider::LOCK_EXCLUSIVE, $lockTypeTargetDuring, 'Target path locked properly during operation');
+		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypeTargetPost, 'Target path locked properly during post-hook');
+
+		$this->assertNull($lockTypeSharedRootPre, 'Shared storage root not locked during pre-hook');
+		$this->assertNull($lockTypeSharedRootDuring, 'Shared storage root not locked during move');
+		$this->assertNull($lockTypeSharedRootPost, 'Shared storage root not locked during post-hook');
+
+		$this->assertNull($this->getFileLockType($view, $sourcePath, false), 'Shared storage root not locked after operation');
+		$this->assertNull($this->getFileLockType($view, $sourcePath, true), 'Source path not locked after operation');
+		$this->assertNull($this->getFileLockType($view, $targetPath, true), 'Target path not locked after operation');
+
+		$mountProviderCollection->clear();
+	}
+
+	/**
+	 * Connect hook callbacks for hook type
+	 *
+	 * @param string $hookType hook type or null for none
+	 * @param \OC\Files\View $view view to check the lock on
+	 * @param string $path path for which to check the lock
+	 * @param int $lockTypePre variable to receive lock type that was active in the pre-hook
+	 * @param int $lockTypePost variable to receive lock type that was active in the post-hook
+	 * @param bool $onMountPoint true to check the mount point instead of the
+	 * mounted storage
+	 */
+	private function connectMockHooks($hookType, $view, $path, &$lockTypePre, &$lockTypePost, $onMountPoint = false) {
+		if ($hookType === null) {
+			return;
+		}
+
+		$eventHandler = $this->getMockBuilder('\stdclass')
+			->setMethods(['preCallback', 'postCallback'])
+			->getMock();
+
+		$eventHandler->expects($this->any())
+			->method('preCallback')
+			->will($this->returnCallback(
+				function() use ($view, $path, $onMountPoint, &$lockTypePre){
+					$lockTypePre = $this->getFileLockType($view, $path, $onMountPoint);
+				}
+			));
+		$eventHandler->expects($this->any())
+			->method('postCallback')
+			->will($this->returnCallback(
+				function() use ($view, $path, $onMountPoint, &$lockTypePost){
+					$lockTypePost = $this->getFileLockType($view, $path, $onMountPoint);
+				}
+			));
+
+		if ($hookType !== null) {
+			\OCP\Util::connectHook(
+				\OC\Files\Filesystem::CLASSNAME,
+				$hookType,
+				$eventHandler,
+				'preCallback'
+			);
+			\OCP\Util::connectHook(
+				\OC\Files\Filesystem::CLASSNAME,
+				'post_' . $hookType,
+				$eventHandler,
+				'postCallback'
+			);
+		}
+	}
+
+	/**
+	 * Returns the file lock type
+	 *
+	 * @param \OC\Files\View $view view
+	 * @param string $path path
+	 * @param bool $onMountPoint true to check the mount point instead of the
+	 * mounted storage
+	 *
+	 * @return int lock type or null if file was not locked
+	 */
+	private function getFileLockType(\OC\Files\View $view, $path, $onMountPoint = false) {
+		if ($this->isFileLocked($view, $path, ILockingProvider::LOCK_EXCLUSIVE, $onMountPoint)) {
+			return ILockingProvider::LOCK_EXCLUSIVE;
+		} else if ($this->isFileLocked($view, $path, ILockingProvider::LOCK_SHARED, $onMountPoint)) {
+			return ILockingProvider::LOCK_SHARED;
+		}
+		return null;
 	}
 }

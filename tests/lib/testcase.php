@@ -249,11 +249,13 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	 * @param \OC\Files\View $view view
 	 * @param string $path path to check
 	 * @param int $type lock type
+	 * @param bool $onMountPoint true to check the mount point instead of the
+	 * mounted storage
 	 *
 	 * @return boolean true if the file is locked with the
 	 * given type, false otherwise
 	 */
-	protected function isFileLocked($view, $path, $type) {
+	protected function isFileLocked($view, $path, $type, $onMountPoint = false) {
 		// Note: this seems convoluted but is necessary because
 		// the format of the lock key depends on the storage implementation
 		// (in our case mostly md5)
@@ -266,10 +268,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			$checkType = \OCP\Lock\ILockingProvider::LOCK_SHARED;
 		}
 		try {
-			$view->lockFile($path, $checkType);
+			$view->lockFile($path, $checkType, $onMountPoint);
 			// no exception, which means the lock of $type is not set
 			// clean up
-			$view->unlockFile($path, $checkType);
+			$view->unlockFile($path, $checkType, $onMountPoint);
 			return false;
 		} catch (\OCP\Lock\LockedException $e) {
 			// we could not acquire the counter-lock, which means
