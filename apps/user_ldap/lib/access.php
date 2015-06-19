@@ -605,8 +605,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 */
 	public function fetchUsersByLoginName($loginName, $attributes = array('dn')) {
 		$loginName = $this->escapeFilterPart($loginName);
-		$filter = \OCP\Util::mb_str_replace(
-			'%uid', $loginName, $this->connection->ldapLoginFilter, 'UTF-8');
+		$filter = str_replace('%uid', $loginName, $this->connection->ldapLoginFilter);
 		$users = $this->fetchListOfUsers($filter, $attributes);
 		return $users;
 	}
@@ -985,7 +984,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 		$name = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
 
 		// Replacements
-		$name = \OCP\Util::mb_str_replace(' ', '_', $name, 'UTF-8');
+		$name = str_replace(' ', '_', $name);
 
 		// Every remaining disallowed characters will be removed
 		$name = preg_replace('/[^a-zA-Z0-9_.@-]/u', '', $name);

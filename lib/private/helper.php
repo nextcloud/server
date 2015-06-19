@@ -770,17 +770,11 @@ class OC_Helper {
 	 * @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
 	 * @param int $length Length of the part to be replaced
 	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	 * @internal param string $input The input string. .Opposite to the PHP build-in function does not accept an array.
 	 * @return string
+	 * @deprecated 8.2.0 Use substr_replace() instead.
 	 */
-	public static function mb_substr_replace($string, $replacement, $start, $length = null, $encoding = 'UTF-8') {
-		$start = intval($start);
-		$length = intval($length);
-		$string = mb_substr($string, 0, $start, $encoding) .
-			$replacement .
-			mb_substr($string, $start + $length, mb_strlen($string, 'UTF-8') - $start, $encoding);
-
-		return $string;
+	public static function mb_substr_replace($string, $replacement, $start, $length = 0, $encoding = 'UTF-8') {
+		return substr_replace($string, $replacement, $start, $length);
 	}
 
 	/**
@@ -792,17 +786,11 @@ class OC_Helper {
 	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
 	 * @param int $count If passed, this will be set to the number of replacements performed.
 	 * @return string
+	 * @deprecated 8.2.0 Use str_replace() instead.
 	 *
 	 */
 	public static function mb_str_replace($search, $replace, $subject, $encoding = 'UTF-8', &$count = null) {
-		$offset = -1;
-		$length = mb_strlen($search, $encoding);
-		while (($i = mb_strrpos($subject, $search, $offset, $encoding)) !== false) {
-			$subject = OC_Helper::mb_substr_replace($subject, $replace, $i, $length);
-			$offset = $i - mb_strlen($subject, $encoding);
-			$count++;
-		}
-		return $subject;
+		return str_replace($search, $replace, $subject, $count);
 	}
 
 	/**

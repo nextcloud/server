@@ -630,8 +630,7 @@ class Wizard extends LDAPUtility {
 		if($this->ldap->errno($cr) !== 0) {
 			throw new \Exception($this->ldap->error($cr));
 		}
-		$filter = \OCP\Util::mb_str_replace(
-			'%uid', $loginName, $this->access->connection->ldapLoginFilter, 'UTF-8');
+		$filter = str_replace('%uid', $loginName, $this->access->connection->ldapLoginFilter);
 		$this->result->addChange('ldap_test_loginname', count($users));
 		$this->result->addChange('ldap_test_effective_filter', $filter);
 		return $this->result;
