@@ -701,9 +701,9 @@ class Preview {
 			$this->generatePreview($fileId);
 		}
 
-		// We still don't have a preview, so we send back the mime icon
+		// We still don't have a preview, so we send back an empty object
 		if (is_null($this->preview)) {
-			$this->getMimeIcon();
+			$this->preview = new \OC_Image();
 		}
 
 		return $this->preview;
@@ -712,22 +712,26 @@ class Preview {
 	/**
 	 * Sends the preview, including the headers to client which requested it
 	 *
-	 * @param null|string $mimeType
+	 * @param null|string $mimeTypeForHeaders the media type to use when sending back the reply
 	 *
 	 * @throws NotFoundException
 	 */
-	public function showPreview($mimeType = null) {
+	public function showPreview($mimeTypeForHeaders = null) {
 		// Check if file is valid
 		if ($this->isFileValid() === false) {
 			throw new NotFoundException('File not found.');
 		}
 
-		\OCP\Response::enableCaching(3600 * 24); // 24 hours
 		if (is_null($this->preview)) {
 			$this->getPreview();
 		}
 		if ($this->preview instanceof \OCP\IImage) {
-			$this->preview->show($mimeType);
+			if ($this->preview->valid()) {
+				\OCP\Response::enableCaching(3600 * 24); // 24 hours
+			} else {
+				$this->getMimeIcon();
+			}
+			$this->preview->show($mimeTypeForHeaders);
 		}
 	}
 
@@ -1082,9 +1086,7 @@ class Preview {
 	}
 
 	/**
-	 * Creates a mime icon preview of the asked dimensions
-	 *
-	 * This will paste the mime icon in the middle of an empty preview of the asked dimension
+	 * Defines the media icon, for the media type of the original file, as the preview
 	 */
 	private function getMimeIcon() {
 		$image = new \OC_Image();
@@ -1096,13 +1098,7 @@ class Preview {
 		}
 		$image->loadFromFile($mimeIconServerPath);
 
-		$previewWidth = (int)$image->width();
-		$previewHeight = (int)$image->height();
-		$askedWidth = $this->getMaxX();
-		$askedHeight = $this->getMaxY();
-		$this->cropAndFill(
-			$image, $askedWidth, $askedHeight, $previewWidth, $previewHeight
-		);
+		$this->preview = $image;
 	}
 
 	/**

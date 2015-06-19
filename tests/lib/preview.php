@@ -210,9 +210,9 @@ class Preview extends TestCase {
 	}
 
 	/**
-	 * Tests if the media type icon fits into the asked dimensions
+	 * Tests if unsupported previews return an empty object
 	 */
-	public function testIsMimePreviewTheRightSize() {
+	public function testUnsupportedPreviewsReturnEmptyObject() {
 		$width = 400;
 		$height = 200;
 
@@ -226,8 +226,7 @@ class Preview extends TestCase {
 		$preview->getPreview();
 		$image = $preview->getPreview();
 
-		$this->assertSame($width, $image->width());
-		$this->assertSame($height, $image->height());
+		$this->assertSame(false, $image->valid());
 	}
 
 	/**
