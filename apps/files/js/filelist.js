@@ -1123,6 +1123,14 @@
 				return false;
 			}
 
+			// Firewall Blocked request?
+			if (result.status === 403) {
+				// Go home
+				this.changeDirectory('/');
+				OC.Notification.show(t('files', 'This operation is forbidden'));
+				return false;
+			}
+
 			if (result.status === 404) {
 				// go back home
 				this.changeDirectory('/');

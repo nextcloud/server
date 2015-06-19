@@ -1279,6 +1279,17 @@ describe('OCA.Files.FileList tests', function() {
 			fakeServer.respond();
 			expect(fileList.getCurrentDirectory()).toEqual('/');
 		});
+		it('switches to root dir when current directory is forbidden', function() {
+			fakeServer.respondWith(/\/index\.php\/apps\/files\/ajax\/list.php\?dir=%2funexist/, [
+				403, {
+					"Content-Type": "application/json"
+				},
+				''
+			]);
+			fileList.changeDirectory('/unexist');
+			fakeServer.respond();
+			expect(fileList.getCurrentDirectory()).toEqual('/');
+		});
 		it('shows mask before loading file list then hides it at the end', function() {
 			var showMaskStub = sinon.stub(fileList, 'showMask');
 			var hideMaskStub = sinon.stub(fileList, 'hideMask');
