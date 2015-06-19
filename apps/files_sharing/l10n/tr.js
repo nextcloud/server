@@ -60,7 +60,6 @@ OC.L10N.register(
     "Open documentation" : "Belgelendirmeyi aç",
     "Allow users on this server to send shares to other servers" : "Bu sunucudaki kullanıcıların diğer sunuculara paylaşım göndermelerine izin ver",
     "Allow users on this server to receive shares from other servers" : "Bu sunucudaki kullanıcıların diğer sunuculardan paylaşım almalarına izin ver",
-    "Federated Cloud" : "Birleşmiş Bulut",
-    "Your Federated Cloud ID: %s" : "Birleşmiş Bulut Kimliğiniz: %s"
+    "Federated Cloud" : "Birleşmiş Bulut"
 },
 "nplurals=2; plural=(n > 1);");

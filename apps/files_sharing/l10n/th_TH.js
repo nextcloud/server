@@ -60,7 +60,6 @@ OC.L10N.register(
     "Open documentation" : "เปิดเอกสาร",
     "Allow users on this server to send shares to other servers" : "อนุญาตให้ผู้ใช้บนเซิร์ฟเวอร์นี้ส่งแชร์ไปยังเซิร์ฟเวอร์อื่นๆ",
     "Allow users on this server to receive shares from other servers" : "อนุญาตให้ผู้ใช้บนเซิร์ฟเวอร์นี้ได้รับการแชร์จากเซิร์ฟเวอร์อื่นๆ",
-    "Federated Cloud" : "สหพันธ์คลาวด์",
-    "Your Federated Cloud ID: %s" : "ไอดีสหพันธ์คลาวด์ของคุณ: %s"
+    "Federated Cloud" : "สหพันธ์คลาวด์"
 },
 "nplurals=1; plural=0;");

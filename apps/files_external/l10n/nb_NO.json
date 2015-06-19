@@ -36,7 +36,7 @@
     "Service Name (required for OpenStack Object Storage)" : "Tjenestenavn (påkrevet for OpenStack Object Storage)",
     "URL of identity endpoint (required for OpenStack Object Storage)" : "URL for identity endpoint (påkrevet for OpenStack Object Storage)",
     "Timeout of HTTP requests in seconds" : "Tidsavbrudd for HTTP-forespørsler i sekunder",
-    "Share" : "Del",
+    "Share" : "Delt ressurs",
     "SMB / CIFS using OC login" : "SMB / CIFS med OC-pålogging",
     "Username as share" : "Brukernavn som share",
     "URL" : "URL",

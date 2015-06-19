@@ -60,7 +60,6 @@ OC.L10N.register(
     "Open documentation" : "Abrir documentação",
     "Allow users on this server to send shares to other servers" : "Permitir que os usuários deste servidor enviem compartilhamentos para outros servidores",
     "Allow users on this server to receive shares from other servers" : "Permitir que os usuários nesse servidor recebam compartilhamentos de outros servidores",
-    "Federated Cloud" : "Nuvem Conglomerada",
-    "Your Federated Cloud ID: %s" : "ID de sua Nuvem Conglomerada: %s"
+    "Federated Cloud" : "Nuvem Conglomerada"
 },
 "nplurals=2; plural=(n > 1);");
