@@ -193,6 +193,7 @@ abstract class Mapper {
 	 * Checks if an array is associative
 	 * @param array $array
 	 * @return bool true if associative
+	 * @since 8.1.0
 	 */
 	private function isAssocArray(array $array) {
 		return array_values($array) !== $array;
@@ -202,6 +203,7 @@ abstract class Mapper {
 	 * Returns the correct PDO constant based on the value type
 	 * @param $value
 	 * @return PDO constant
+	 * @since 8.1.0
 	 */
 	private function getPDOType($value) {
 		switch (gettype($value)) {

@@ -64,6 +64,7 @@ interface IUserManager {
 
 	/**
 	 * remove all user backends
+	 * @since 8.0.0
 	 */
 	public function clearBackends() ;
 

@@ -48,6 +48,7 @@ class Defaults {
 	/**
 	 * creates a \OC_Defaults instance which is used in all methods to retrieve the
 	 * actual defaults
+	 * @since 6.0.0
 	 */
 	function __construct() {
 		$this->defaults = new \OC_Defaults();

@@ -93,6 +93,7 @@ interface IUser {
 	 * get the users home folder to mount
 	 *
 	 * @return string
+	 * @since 8.0.0
 	 */
 	public function getHome();
 
@@ -116,6 +117,7 @@ interface IUser {
 	 * check if the backend supports changing passwords
 	 *
 	 * @return bool
+	 * @since 8.0.0
 	 */
 	public function canChangePassword();
 

@@ -34,6 +34,7 @@ class MultipleObjectsReturnedException extends \Exception {
 	/**
 	 * Constructor
 	 * @param string $msg the error message
+	 * @since 7.0.0
 	 */
 	public function __construct($msg){
 		parent::__construct($msg);
