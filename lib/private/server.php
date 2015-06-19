@@ -785,19 +785,19 @@ class Server extends SimpleContainer implements IServerContainer {
 	/**
 	 * Get the certificate manager for the user
 	 *
-	 * @param string $uid (optional) if not specified the current loggedin user is used
+	 * @param string $userId (optional) if not specified the current loggedin user is used
 	 * @return \OCP\ICertificateManager | null if $uid is null and no user is logged in
 	 */
-	public function getCertificateManager($uid = null) {
-		if (is_null($uid)) {
+	public function getCertificateManager($userId = null) {
+		if (is_null($userId)) {
 			$userSession = $this->getUserSession();
 			$user = $userSession->getUser();
 			if (is_null($user)) {
 				return null;
 			}
-			$uid = $user->getUID();
+			$userId = $user->getUID();
 		}
-		return new CertificateManager($uid, new \OC\Files\View());
+		return new CertificateManager($userId, new \OC\Files\View());
 	}
 
 	/**
