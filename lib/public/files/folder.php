@@ -107,6 +107,7 @@ interface Folder extends Node {
 	 * @param string $path relative path of the new file
 	 * @return \OCP\Files\File
 	 * @throws \OCP\Files\NotPermittedException
+	 * @since 6.0.0
 	 */
 	public function newFile($path);
 

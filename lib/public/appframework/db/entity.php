@@ -92,6 +92,10 @@ abstract class Entity {
 		$this->_updatedFields = array();
 	}
 
+	/**
+	 * Generic setter for properties
+	 * @since 7.0.0
+	 */
 	protected function setter($name, $args) {
 		// setters should only work for existing attributes
 		if(property_exists($this, $name)){
@@ -112,6 +116,10 @@ abstract class Entity {
 		}
 	}
 
+	/**
+	 * Generic getter for properties
+	 * @since 7.0.0
+	 */
 	protected function getter($name) {
 		// getters should only work for existing attributes
 		if(property_exists($this, $name)){
@@ -148,6 +156,7 @@ abstract class Entity {
 	/**
 	 * Mark am attribute as updated
 	 * @param string $attribute the name of the attribute
+	 * @since 7.0.0
 	 */
 	protected function markFieldUpdated($attribute){
 		$this->_updatedFields[$attribute] = true;
@@ -212,6 +221,7 @@ abstract class Entity {
 	 * that value once its being returned from the database
 	 * @param string $fieldName the name of the attribute
 	 * @param string $type the type which will be used to call settype()
+	 * @since 7.0.0
 	 */
 	protected function addType($fieldName, $type){
 		$this->_fieldTypes[$fieldName] = $type;
