@@ -51,7 +51,11 @@ try {
 	$application = new Application($defaults->getName(), \OC_Util::getVersionString());
 	require_once 'core/register_command.php';
 	if (!\OCP\Util::needUpgrade()) {
+		$appManager = \OC::$server->getAppManager();
 		foreach(OC_App::getAllApps() as $app) {
+			if(!$appManager->isInstalled($app)) {
+				continue;
+			}
 			$file = OC_App::getAppPath($app).'/appinfo/register_command.php';
 			if(file_exists($file)) {
 				require $file;
