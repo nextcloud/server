@@ -98,6 +98,24 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	/**
+	 * Checks whether a given backend is used
+	 *
+	 * @param string $backendClass Full classname including complete namespace
+	 * @return bool
+	 */
+	public function isBackendUsed($backendClass) {
+		$backendClass = strtolower(ltrim($backendClass, '\\'));
+
+		foreach ($this->backends as $backend) {
+			if (strtolower(get_class($backend)) === $backendClass) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * @param \OC_Group_Backend $backend
 	 */
 	public function addBackend($backend) {

@@ -1,4 +1,4 @@
-<ul id="usergrouplist">
+<ul id="usergrouplist" data-sort-groups="<?php p($_['sortGroups']); ?>">
 	<!-- Add new group -->
 	<li id="newgroup-init">
 		<a href="#">

@@ -5,7 +5,8 @@
  * See the COPYING-README file.
  */
 
-var $userGroupList;
+var $userGroupList,
+	$sortGroupBy;
 
 var GroupList;
 GroupList = {
@@ -27,6 +28,11 @@ GroupList = {
 	},
 
 	setUserCount: function (groupLiElement, usercount) {
+		if ($sortGroupBy !== 1) {
+			// If we don't sort by group count we dont display them either
+			return;
+		}
+
 		var $groupLiElement = $(groupLiElement);
 		if (usercount === undefined || usercount === 0 || usercount < 0) {
 			usercount = '';
@@ -63,6 +69,33 @@ GroupList = {
 		var lis = $userGroupList.find('.isgroup').get();
 
 		lis.sort(function (a, b) {
+			// "Everyone" always at the top
+			if ($(a).data('gid') === '_everyone') {
+				return -1;
+			} else if ($(b).data('gid') === '_everyone') {
+				return 1;
+			}
+
+			// "admin" always as second
+			if ($(a).data('gid') === 'admin') {
+				return -1;
+			} else if ($(b).data('gid') === 'admin') {
+				return 1;
+			}
+
+			if ($sortGroupBy === 1) {
+				// Sort by user count first
+				var $usersGroupA = $(a).data('usercount'),
+					$usersGroupB = $(b).data('usercount');
+				if ($usersGroupA > 0 && $usersGroupA > $usersGroupB) {
+					return -1;
+				}
+				if ($usersGroupB > 0 && $usersGroupB > $usersGroupA) {
+					return 1;
+				}
+			}
+
+			// Fallback or sort by group name
 			return UserList.alphanum(
 				$(a).find('a span').text(),
 				$(b).find('a span').text()
@@ -113,7 +146,8 @@ GroupList = {
 			OC.generateUrl('/settings/users/groups'),
 			{
 				pattern: filter.getPattern(),
-				filterGroups: filter.filterGroups ? 1 : 0
+				filterGroups: filter.filterGroups ? 1 : 0,
+				sortGroups: $sortGroupBy
 			},
 			function (result) {
 
@@ -271,8 +305,11 @@ GroupList = {
 $(document).ready( function () {
 	$userGroupList = $('#usergrouplist');
 	GroupList.initDeleteHandling();
-	// TODO: disabled due to performance issues
-	// GroupList.getEveryoneCount();
+	$sortGroupBy = $userGroupList.data('sort-groups');
+	if ($sortGroupBy === 1) {
+		// Disabled due to performance issues, when we don't need it for sorting
+		GroupList.getEveryoneCount();
+	}
 
 	// Display or hide of Create Group List Element
 	$('#newgroup-form').hide();

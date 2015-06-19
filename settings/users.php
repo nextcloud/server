@@ -37,12 +37,23 @@ OC_App::setActiveNavigationEntry( 'core_users' );
 $userManager = \OC_User::getManager();
 $groupManager = \OC_Group::getManager();
 
+// Set the sort option: SORT_USERCOUNT or SORT_GROUPNAME
+$sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
+
+if (class_exists('\OCA\user_ldap\GROUP_LDAP')) {
+	$isLDAPUsed = $groupManager->isBackendUsed('\OCA\user_ldap\GROUP_LDAP');
+	if ($isLDAPUsed) {
+		// LDAP user count can be slow, so we sort by group name here
+		$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;
+	}
+}
+
 $config = \OC::$server->getConfig();
 
 $isAdmin = OC_User::isAdminUser(OC_User::getUser());
 
 $groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), $isAdmin, $groupManager);
-$groupsInfo->setSorting($groupsInfo::SORT_GROUPNAME);
+$groupsInfo->setSorting($sortGroupsBy);
 list($adminGroup, $groups) = $groupsInfo->get();
 
 $recoveryAdminEnabled = OC_App::isEnabled('encryption') &&
@@ -75,6 +86,7 @@ $defaultQuotaIsUserDefined=array_search($defaultQuota, $quotaPreset)===false
 
 $tmpl = new OC_Template("settings", "users/main", "user");
 $tmpl->assign('groups', $groups);
+$tmpl->assign('sortGroups', $sortGroupsBy);
 $tmpl->assign('adminGroup', $adminGroup);
 $tmpl->assign('isAdmin', (int)$isAdmin);
 $tmpl->assign('subadmins', $subadmins);
