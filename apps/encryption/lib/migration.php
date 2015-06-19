@@ -54,6 +54,7 @@ class Migration {
 	public function __destruct() {
 		$this->view->deleteAll('files_encryption/public_keys');
 		$this->updateFileCache();
+		$this->config->deleteAppValue('files_encryption', 'installed_version');
 	}
 
 	/**
@@ -139,7 +140,6 @@ class Migration {
 	public function updateDB() {
 
 		// delete left-over from old encryption which is no longer needed
-		$this->config->deleteAppValue('files_encryption', 'installed_version');
 		$this->config->deleteAppValue('files_encryption', 'ocsid');
 		$this->config->deleteAppValue('files_encryption', 'types');
 		$this->config->deleteAppValue('files_encryption', 'enabled');
