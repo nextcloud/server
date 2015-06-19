@@ -284,6 +284,7 @@ class OCSClient {
 		$app['description'] = (string)$tmp->description;
 		$app['detailpage'] = (string)$tmp->detailpage;
 		$app['score'] = (int)$tmp->score;
+		$app['level'] = (int)$tmp->approved;
 
 		return $app;
 	}
