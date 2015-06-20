@@ -54,8 +54,9 @@
     "Download %s" : "Prejmi %s",
     "Direct link" : "Neposredna povezava",
     "Federated Cloud Sharing" : "Upravljana souporaba oblaka",
-    "Open documentation" : "Odprta dokumentacija",
+    "Open documentation" : "Odpri dokumentacijo",
     "Allow users on this server to send shares to other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo na druge strežnike.",
-    "Allow users on this server to receive shares from other servers" : "Dovoli uporabnikom tega strežnika sprejemanje map za souporabo z drugih strežnikov."
+    "Allow users on this server to receive shares from other servers" : "Dovoli uporabnikom tega strežnika sprejemanje map za souporabo z drugih strežnikov.",
+    "HTML Code:" : "Koda HTML:"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

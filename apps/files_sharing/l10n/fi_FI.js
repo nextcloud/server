@@ -60,6 +60,10 @@ OC.L10N.register(
     "Open documentation" : "Avaa dokumentaatio",
     "Allow users on this server to send shares to other servers" : "Salli tämän palvelimen käyttäjien lähettää jakoja muille palvelimille",
     "Allow users on this server to receive shares from other servers" : "Salli tämän palvelimen käyttäjien vastaanottaa jakoja muilta palvelimilta",
-    "Federated Cloud" : "Federoitu pilvi"
+    "Federated Cloud" : "Federoitu pilvi",
+    "Share it:" : "Jaa se:",
+    "Add it to your website:" : "Lisää verkkosivustollesi:",
+    "Share with me via ownCloud" : "Jaa kanssani ownCloudin kautta",
+    "HTML Code:" : "HTML-koodi:"
 },
 "nplurals=2; plural=(n != 1);");

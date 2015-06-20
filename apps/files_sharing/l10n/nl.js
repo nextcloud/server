@@ -40,6 +40,8 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s deelde %1$s met u",
     "You shared %1$s via link" : "U deelde %1$s via link",
     "Shares" : "Gedeeld",
+    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Deel met mij via mijn #ownCloud federated Cloud ID, zie %s",
+    "Share with me through my #ownCloud Federated Cloud ID" : "Deel met mij via mijn #ownCloud federated Cloud ID",
     "This share is password-protected" : "Deze share is met een wachtwoord beveiligd",
     "The password is wrong. Try again." : "Wachtwoord ongeldig. Probeer het nogmaals.",
     "Password" : "Wachtwoord",
@@ -60,6 +62,11 @@ OC.L10N.register(
     "Open documentation" : "Open documentatie",
     "Allow users on this server to send shares to other servers" : "Toestaan dat gebruikers op deze server shares sturen naar andere servers",
     "Allow users on this server to receive shares from other servers" : "Toestaan dat gebruikers op deze server shares ontvangen van andere servers",
-    "Federated Cloud" : "Gefedereerde Cloud"
+    "Federated Cloud" : "Gefedereerde Cloud",
+    "Your Federated Cloud ID:" : "Uw Federated Cloud ID:",
+    "Share it:" : "Deel het:",
+    "Add it to your website:" : "Voeg het toe aan uw website:",
+    "Share with me via ownCloud" : "Deel met mij via ownCloud",
+    "HTML Code:" : "HTML Code:"
 },
 "nplurals=2; plural=(n != 1);");

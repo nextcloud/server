@@ -38,6 +38,8 @@
     "%2$s shared %1$s with you" : "%2$s ha condiviso %1$s con te",
     "You shared %1$s via link" : "Hai condiviso %1$s tramite collegamento",
     "Shares" : "Condivisioni",
+    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Condividi con me attraverso il mio ID di cloud federata #ownCloud, vedi %s",
+    "Share with me through my #ownCloud Federated Cloud ID" : "Condividi con me attraverso il mio ID di cloud federata #ownCloud",
     "This share is password-protected" : "Questa condivione è protetta da password",
     "The password is wrong. Try again." : "La password è errata. Prova ancora.",
     "Password" : "Password",
@@ -58,6 +60,11 @@
     "Open documentation" : "Apri la documentazione",
     "Allow users on this server to send shares to other servers" : "Consenti agli utenti su questo server di inviare condivisioni ad altri server",
     "Allow users on this server to receive shares from other servers" : "Consenti agli utenti su questo server di ricevere condivisioni da altri server",
-    "Federated Cloud" : "Cloud federata"
+    "Federated Cloud" : "Cloud federata",
+    "Your Federated Cloud ID:" : "Il tuo ID di cloud federata:",
+    "Share it:" : "Condividilo:",
+    "Add it to your website:" : "Aggiungilo al tuo sito web:",
+    "Share with me via ownCloud" : "Condividi con me tramite ownCloud",
+    "HTML Code:" : "Codice HTML:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

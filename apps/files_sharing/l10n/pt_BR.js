@@ -40,6 +40,8 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s compartilhou %1$s com você",
     "You shared %1$s via link" : "Você compartilhou %1$s via link",
     "Shares" : "Compartilhamentos",
+    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Compartilhe comigo através do meu #ownCloud Nuvem Federados ID, veja %s",
+    "Share with me through my #ownCloud Federated Cloud ID" : "Compartilhe comigo através do meu #ownCloud Nuvem Federados ID",
     "This share is password-protected" : "Este compartilhamento esta protegido por senha",
     "The password is wrong. Try again." : "Senha incorreta. Tente novamente.",
     "Password" : "Senha",
@@ -60,6 +62,11 @@ OC.L10N.register(
     "Open documentation" : "Abrir documentação",
     "Allow users on this server to send shares to other servers" : "Permitir que os usuários deste servidor enviem compartilhamentos para outros servidores",
     "Allow users on this server to receive shares from other servers" : "Permitir que os usuários nesse servidor recebam compartilhamentos de outros servidores",
-    "Federated Cloud" : "Nuvem Conglomerada"
+    "Federated Cloud" : "Nuvem Conglomerada",
+    "Your Federated Cloud ID:" : "Seu Federados Nuvem ID:",
+    "Share it:" : "Compartilhe:",
+    "Add it to your website:" : "Adicione ao seu site:",
+    "Share with me via ownCloud" : "Compartilhe comigo via ownCloud",
+    "HTML Code:" : "Código HTML:"
 },
 "nplurals=2; plural=(n > 1);");

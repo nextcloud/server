@@ -40,6 +40,8 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s a partagé %1$s avec vous",
     "You shared %1$s via link" : "Vous avez partagé %1$s par lien public",
     "Shares" : "Partages",
+    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Partagez avec moi grâce à mon identifiant Federated Cloud #owncloud %s",
+    "Share with me through my #ownCloud Federated Cloud ID" : "Partagez avec moi grâce à mon identifiant Federated Cloud #owncloud",
     "This share is password-protected" : "Ce partage est protégé par un mot de passe",
     "The password is wrong. Try again." : "Le mot de passe est incorrect. Veuillez réessayer.",
     "Password" : "Mot de passe",
@@ -60,6 +62,11 @@ OC.L10N.register(
     "Open documentation" : "Voir la documentation",
     "Allow users on this server to send shares to other servers" : "Autoriser les utilisateurs de ce serveur à envoyer des partages vers d'autres serveurs",
     "Allow users on this server to receive shares from other servers" : "Autoriser les utilisateurs de ce serveur à recevoir des partages d'autres serveurs",
-    "Federated Cloud" : "Federated Cloud"
+    "Federated Cloud" : "Federated Cloud",
+    "Your Federated Cloud ID:" : "Votre ID Federated Cloud :",
+    "Share it:" : "Partager :",
+    "Add it to your website:" : "Ajouter à votre site web :",
+    "Share with me via ownCloud" : "Partagez avec moi via ownCloud",
+    "HTML Code:" : "Code HTML:"
 },
 "nplurals=2; plural=(n > 1);");
