@@ -245,7 +245,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	/**
 	 * Checks if a userId is in a group
 	 * @param string $userId
-	 * @param group $group
+	 * @param string $group
 	 * @return bool if in group
 	 */
 	public function isInGroup($userId, $group) {
