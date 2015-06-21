@@ -40,6 +40,8 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s sizinle %1$s dosyasını paylaştı",
     "You shared %1$s via link" : "Bağlantı ile %1$s paylaşımını yaptınız",
     "Shares" : "Paylaşımlar",
+    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "#ownCloud Birleşik Bulut kimliğim ile paylaşıldı, bkz %s",
+    "Share with me through my #ownCloud Federated Cloud ID" : "#ownCloud Birleşmiş Bulut kimliğim ile paylaşıldı",
     "This share is password-protected" : "Bu paylaşım parola korumalı",
     "The password is wrong. Try again." : "Parola hatalı. Yeniden deneyin.",
     "Password" : "Parola",
@@ -60,6 +62,11 @@ OC.L10N.register(
     "Open documentation" : "Belgelendirmeyi aç",
     "Allow users on this server to send shares to other servers" : "Bu sunucudaki kullanıcıların diğer sunuculara paylaşım göndermelerine izin ver",
     "Allow users on this server to receive shares from other servers" : "Bu sunucudaki kullanıcıların diğer sunuculardan paylaşım almalarına izin ver",
-    "Federated Cloud" : "Birleşmiş Bulut"
+    "Federated Cloud" : "Birleşmiş Bulut",
+    "Your Federated Cloud ID:" : "Birleşmiş Bulut Kimliğiniz:",
+    "Share it:" : "Paylaşın:",
+    "Add it to your website:" : "Web sitenize ekleyin:",
+    "Share with me via ownCloud" : "Benimle ownCloud aracılığıyla paylaşıldı",
+    "HTML Code:" : "HTML Kodu:"
 },
 "nplurals=2; plural=(n > 1);");

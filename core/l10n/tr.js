@@ -77,6 +77,8 @@ OC.L10N.register(
     "/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href=\"{docLink}\">documentation</a>." : "Güvenlik sebepleri ile şiddetle kaçınılması gereken /dev/urandom PHP tarafından okunamıyor. Daha fazla bilgi <a href=\"{docLink}\">belgelendirmemizde</a> bulunabilir.",
     "Error occurred while checking server setup" : "Sunucu yapılandırması denetlenirken hata oluştu",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "\"{header}\" HTTP başlığı \"{expected}\" ile eşleşmek üzere yapılandırılmamış. Bu muhtemel bir güvenlik veya gizlilik riski olduğundan bu ayarı düzeltmenizi öneririz.",
+    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"{seconds}\" seconds. For enhanced security we recommend enabling HSTS as described in our <a href=\"{docUrl}\">security tips</a>." : "\"Strict-Transport-Security\" HTTP başlığı en az \"{seconds}\" saniye olarak ayarlanmış. İyileştirilmiş güvenlik için <a href=\"{docUrl}\">güvenlik ipuçlarımızda</a> belirtilen HSTS etkinleştirmesini öneririz.",
+    "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href=\"{docUrl}\">security tips</a>." : "Bu siteye HTTP aracılığıyla erişiyorsunuz. Sunucunuzu <a href=\"{docUrl}\">güvenlik ipuçlarımızda</a> gösterildiği şekilde HTTPS kullanımını zorlamak üzere yapılandırmanızı şiddetle öneririz.",
     "Shared" : "Paylaşılan",
     "Shared with {recipients}" : "{recipients} ile paylaşılmış",
     "Share" : "Paylaş",

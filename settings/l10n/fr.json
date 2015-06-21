@@ -46,7 +46,7 @@
     "Your %s account was created" : "Votre compte %s a été créé.",
     "Unable to delete user." : "Impossible de supprimer l'utilisateur.",
     "Forbidden" : "Iinterdit",
-    "Invalid user" : "Utilisateur non valide",
+    "Invalid user" : "Utilisateur non valable",
     "Unable to change mail address" : "Impossible de modifier l'adresse de courriel",
     "Email saved" : "Email sauvegardé",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Êtes-vous vraiment sûr de vouloir ajouter \"{domain}\" comme domaine de confiance ?",
