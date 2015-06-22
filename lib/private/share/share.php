@@ -127,8 +127,8 @@ class Share extends Constants {
 		$cache = false;
 
 		$view = new \OC\Files\View('/' . $ownerUser . '/files');
-		if ($view->file_exists($path)) {
-			$meta = $view->getFileInfo($path);
+		$meta = $view->getFileInfo($path);
+		if ($meta) {
 			$path = substr($meta->getPath(), strlen('/' . $ownerUser . '/files'));
 		} else {
 			// if the file doesn't exists yet we start with the parent folder
