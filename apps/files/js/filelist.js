@@ -1708,11 +1708,13 @@
 			if (this._filter && this.fileSummary.summary.totalDirs + this.fileSummary.summary.totalFiles === 0) {
 				this.$el.find('#filestable thead th').addClass('hidden');
 				this.$el.find('#emptycontent').addClass('hidden');
+				$('#app-content-files').addClass('filter-empty');
 				if ( $('#searchresults').length === 0 || $('#searchresults').hasClass('hidden') ) {
 					this.$el.find('.nofilterresults').removeClass('hidden').
 						find('p').text(t('files', "No entries in this folder match '{filter}'", {filter:this._filter},  null, {'escape': false}));
 				}
 			} else {
+				$('#app-content-files').removeClass('filter-empty');
 				this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
 				if (!this.$el.find('.mask').exists()) {
 					this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
