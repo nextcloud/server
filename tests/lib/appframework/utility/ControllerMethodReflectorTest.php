@@ -119,6 +119,20 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertEquals('double', $reader->getType('test'));
 	}
 
+	/**
+	 * @Annotation
+	 * @param 	string  $foo
+	 */
+	public function testReadTypeWhitespaceAnnotations(){
+		$reader = new ControllerMethodReflector();
+		$reader->reflect(
+			'\OC\AppFramework\Utility\ControllerMethodReflectorTest',
+			'testReadTypeWhitespaceAnnotations'
+		);
+
+		$this->assertEquals('string', $reader->getType('foo'));
+	}
+
 
 	public function arguments($arg, $arg2='hi') {}
 	public function testReflectParameters() {
