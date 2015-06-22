@@ -392,7 +392,7 @@ class OC {
 		}
 
 		OC_Util::addScript("placeholders");
-		OC_Util::addScript("tooltip");
+		//OC_Util::addScript("tooltip");
 		OC_Util::addScript("compatibility");
 		OC_Util::addScript("jquery.ocdialog");
 		OC_Util::addScript("oc-dialogs");

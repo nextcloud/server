@@ -6,11 +6,11 @@
 		"underscore/underscore.js",
 		"moment/min/moment-with-locales.js",
 		"handlebars/handlebars.js",
-		"blueimp-md5/js/md5.js"
+		"blueimp-md5/js/md5.js",
+		"bootstrap/js/tooltip.js"
 	],
 	"libraries": [
 		"jquery-showpassword.js",
-		"tooltip.js",
 		"jquery.avatar.js",
 		"placeholder.js"
 	],

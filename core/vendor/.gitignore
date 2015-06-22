@@ -112,3 +112,9 @@ snapjs/dist/2.0.0-rc1
 snapjs/dist/latest/snap.css
 snapjs/dist/latest/snap.min.js
 snapjs/scripts
+
+# bootstrap - only include the tooltip plugin
+bootstrap/**
+!bootstrap/js
+bootstrap/js/*
+!bootstrap/js/tooltip.js
