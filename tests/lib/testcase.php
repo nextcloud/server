@@ -104,6 +104,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		self::tearDownAfterClassCleanFileCache();
 		self::tearDownAfterClassCleanStrayDataFiles($dataDir);
 		self::tearDownAfterClassCleanStrayHooks();
+		self::tearDownAfterClassCleanStrayLocks();
 
 		parent::tearDownAfterClass();
 	}
@@ -194,6 +195,13 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	 */
 	static protected function tearDownAfterClassCleanStrayHooks() {
 		\OC_Hook::clear();
+	}
+
+	/**
+	 * Clean up the list of locks
+	 */
+	static protected function tearDownAfterClassCleanStrayLocks() {
+		\OC::$server->getLockingProvider()->releaseAll();
 	}
 
 	/**
