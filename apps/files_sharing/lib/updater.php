@@ -77,10 +77,10 @@ class Shared_Updater {
 			$shareType = $params['shareType'];
 
 			if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
-				self::correctUsersFolder($shareWith, '/');
+				self::correctUsersFolder($shareWith, $params['fileTarget']);
 			} elseif ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
 				foreach (\OC_Group::usersInGroup($shareWith) as $user) {
-					self::correctUsersFolder($user, '/');
+					self::correctUsersFolder($user, $params['fileTarget']);
 				}
 			}
 		}
