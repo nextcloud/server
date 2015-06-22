@@ -21,10 +21,12 @@ use OCP\AppFramework\Http\Response;
 class CORSMiddlewareTest extends \Test\TestCase {
 
 	private $reflector;
+	private $session;
 
 	protected function setUp() {
 		parent::setUp();
 		$this->reflector = new ControllerMethodReflector();
+		$this->session = $this->getMock('\OCP\IUserSession');
 	}
 
 	/**
@@ -35,7 +37,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			array('server' => array('HTTP_ORIGIN' => 'test'))
 		);
 		$this->reflector->reflect($this, __FUNCTION__);
-		$middleware = new CORSMiddleware($request, $this->reflector);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
 
 		$response = $middleware->afterController($this, __FUNCTION__, new Response());
 		$headers = $response->getHeaders();
@@ -47,7 +49,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$request = new Request(
 			array('server' => array('HTTP_ORIGIN' => 'test'))
 		);
-		$middleware = new CORSMiddleware($request, $this->reflector);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
 
 		$response = $middleware->afterController($this, __FUNCTION__, new Response());
 		$headers = $response->getHeaders();
@@ -61,7 +63,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	public function testNoOriginHeaderNoCORSHEADER() {
 		$request = new Request();
 		$this->reflector->reflect($this, __FUNCTION__);
-		$middleware = new CORSMiddleware($request, $this->reflector);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
 
 		$response = $middleware->afterController($this, __FUNCTION__, new Response());
 		$headers = $response->getHeaders();
@@ -78,11 +80,76 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			array('server' => array('HTTP_ORIGIN' => 'test'))
 		);
 		$this->reflector->reflect($this, __FUNCTION__);
-		$middleware = new CORSMiddleware($request, $this->reflector);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
 
 		$response = new Response();
 		$response->addHeader('AcCess-control-Allow-Credentials ', 'TRUE');
 		$response = $middleware->afterController($this, __FUNCTION__, $response);
+	}
+
+	/**
+	 * @CORS
+	 * @PublicPage
+	 */
+	public function testNoCORSShouldAllowCookieAuth() {
+		$request = new Request(
+			[],
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
+		);
+		$this->reflector->reflect($this, __FUNCTION__);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
+
+		$middleware->beforeController($this, __FUNCTION__, new Response());
+	}
+
+	/**
+	 * @CORS
+	 */
+	public function testCORSShouldRelogin() {
+		$request = new Request(
+			['server' => [
+				'PHP_AUTH_USER' => 'user',
+				'PHP_AUTH_PW' => 'pass'
+			]],
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
+		);
+		$this->session->expects($this->once())
+			->method('logout');
+		$this->session->expects($this->once())
+			->method('login')
+			->with($this->equalTo('user'), $this->equalTo('pass'))
+			->will($this->returnValue(true));
+		$this->reflector->reflect($this, __FUNCTION__);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
+
+		$middleware->beforeController($this, __FUNCTION__, new Response());
+	}
+
+	/**
+	 * @CORS
+	 * @expectedException \OC\AppFramework\Middleware\Security\SecurityException
+	 */
+	public function testCORSShouldNotAllowCookieAuth() {
+		$request = new Request(
+			['server' => [
+				'PHP_AUTH_USER' => 'user',
+				'PHP_AUTH_PW' => 'pass'
+			]],
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
+		);
+		$this->session->expects($this->once())
+			->method('logout');
+		$this->session->expects($this->once())
+			->method('login')
+			->with($this->equalTo('user'), $this->equalTo('pass'))
+			->will($this->returnValue(false));
+		$this->reflector->reflect($this, __FUNCTION__);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
+
+		$middleware->beforeController($this, __FUNCTION__, new Response());
 	}
 
 }

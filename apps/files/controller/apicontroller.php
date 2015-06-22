@@ -63,7 +63,6 @@ class ApiController extends Controller {
 	 * replace the actual tag selection.
 	 *
 	 * @NoAdminRequired
-	 * @CORS
 	 *
 	 * @param string $path path
 	 * @param array  $tags array of tags
@@ -91,7 +90,6 @@ class ApiController extends Controller {
 	 * Returns a list of all files tagged with the given tag.
 	 *
 	 * @NoAdminRequired
-	 * @CORS
 	 *
 	 * @param array $tagName tag name to filter by
 	 * @return DataResponse
