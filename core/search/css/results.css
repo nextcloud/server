@@ -12,6 +12,10 @@
 	/* account for margin-bottom in files list */
 	margin-top: -250px;
 }
+#searchresults.filter-empty {
+	/* remove whitespace on bottom when no search results, to fix layout */
+	margin-top: 0 !important;
+}
 
 #searchresults.hidden {
 	display: none;
