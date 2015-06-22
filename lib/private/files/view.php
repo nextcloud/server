@@ -628,8 +628,8 @@ class View {
 				return false;
 			}
 
-			$this->lockFile($path1, ILockingProvider::LOCK_SHARED);
-			$this->lockFile($path2, ILockingProvider::LOCK_SHARED);
+			$this->lockFile($path1, ILockingProvider::LOCK_SHARED, true);
+			$this->lockFile($path2, ILockingProvider::LOCK_SHARED, true);
 
 			$run = true;
 			if ($this->shouldEmitHooks() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2))) {
@@ -656,8 +656,8 @@ class View {
 				$internalPath1 = $mount1->getInternalPath($absolutePath1);
 				$internalPath2 = $mount2->getInternalPath($absolutePath2);
 
-				$this->changeLock($path1, ILockingProvider::LOCK_EXCLUSIVE);
-				$this->changeLock($path2, ILockingProvider::LOCK_EXCLUSIVE);
+				$this->changeLock($path1, ILockingProvider::LOCK_EXCLUSIVE, true);
+				$this->changeLock($path2, ILockingProvider::LOCK_EXCLUSIVE, true);
 
 				if ($internalPath1 === '' and $mount1 instanceof MoveableMount) {
 					if ($this->isTargetAllowed($absolutePath2)) {
@@ -670,12 +670,14 @@ class View {
 					} else {
 						$result = false;
 					}
+				// moving a file/folder within the same mount point
 				} elseif ($storage1 == $storage2) {
 					if ($storage1) {
 						$result = $storage1->rename($internalPath1, $internalPath2);
 					} else {
 						$result = false;
 					}
+				// moving a file/folder between storages (from $storage1 to $storage2)
 				} else {
 					$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
 				}
@@ -693,13 +695,8 @@ class View {
 					}
 				}
 
-				$this->unlockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
-				$this->unlockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
-
-				if ($internalPath1 === '' and $mount1 instanceof MoveableMount) {
-					// since $path2 now points to a different storage we need to unlock the path on the old storage separately
-					$storage2->releaseLock($internalPath2, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
-				}
+				$this->unlockFile($path1, ILockingProvider::LOCK_EXCLUSIVE, true);
+				$this->unlockFile($path2, ILockingProvider::LOCK_EXCLUSIVE, true);
 
 				if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					if ($this->shouldEmitHooks()) {
@@ -719,8 +716,8 @@ class View {
 				}
 				return $result;
 			} else {
-				$this->unlockFile($path1, ILockingProvider::LOCK_SHARED);
-				$this->unlockFile($path2, ILockingProvider::LOCK_SHARED);
+				$this->unlockFile($path1, ILockingProvider::LOCK_SHARED, true);
+				$this->unlockFile($path2, ILockingProvider::LOCK_SHARED, true);
 				return false;
 			}
 		} else {
@@ -1700,21 +1697,50 @@ class View {
 	}
 
 	/**
+	 * Returns the mount point for which to lock
+	 *
+	 * @param string $absolutePath absolute path
+	 * @param bool $useParentMount true to return parent mount instead of whatever
+	 * is mounted directly on the given path, false otherwise
+	 * @return \OC\Files\Mount\MountPoint mount point for which to apply locks
+	 */
+	private function getMountForLock($absolutePath, $useParentMount = false) {
+		$results = [];
+		$mount = Filesystem::getMountManager()->find($absolutePath);
+		if (!$mount) {
+			return $results;
+		}
+
+		if ($useParentMount) {
+			// find out if something is mounted directly on the path
+			$internalPath = $mount->getInternalPath($absolutePath);
+			if ($internalPath === '') {
+				// resolve the parent mount instead
+				$mount = Filesystem::getMountManager()->find(dirname($absolutePath));
+			}
+		}
+
+		return $mount;
+	}
+
+	/**
 	 * Lock the given path
 	 *
 	 * @param string $path the path of the file to lock, relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
+	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
 	 * @throws \OCP\Lock\LockedException if the path is already locked
 	 */
-	private function lockPath($path, $type) {
+	private function lockPath($path, $type, $lockMountPoint = false) {
 		$absolutePath = $this->getAbsolutePath($path);
 		$absolutePath = Filesystem::normalizePath($absolutePath);
 		if (!$this->shouldLockFile($absolutePath)) {
 			return false;
 		}
 
-		$mount = $this->getMount($path);
+		$mount = $this->getMountForLock($absolutePath, $lockMountPoint);
 		if ($mount) {
 			try {
 				$mount->getStorage()->acquireLock(
@@ -1739,10 +1765,12 @@ class View {
 	 *
 	 * @param string $path the path of the file to lock, relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
+	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
 	 * @throws \OCP\Lock\LockedException if the path is already locked
 	 */
-	public function changeLock($path, $type) {
+	public function changeLock($path, $type, $lockMountPoint = false) {
 		$path = Filesystem::normalizePath($path);
 		$absolutePath = $this->getAbsolutePath($path);
 		$absolutePath = Filesystem::normalizePath($absolutePath);
@@ -1750,7 +1778,7 @@ class View {
 			return false;
 		}
 
-		$mount = $this->getMount($path);
+		$mount = $this->getMountForLock($absolutePath, $lockMountPoint);
 		if ($mount) {
 			try {
 				$mount->getStorage()->changeLock(
@@ -1775,16 +1803,18 @@ class View {
 	 *
 	 * @param string $path the path of the file to unlock, relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
+	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
 	 */
-	private function unlockPath($path, $type) {
+	private function unlockPath($path, $type, $lockMountPoint = false) {
 		$absolutePath = $this->getAbsolutePath($path);
 		$absolutePath = Filesystem::normalizePath($absolutePath);
 		if (!$this->shouldLockFile($absolutePath)) {
 			return false;
 		}
 
-		$mount = $this->getMount($path);
+		$mount = $this->getMountForLock($absolutePath, $lockMountPoint);
 		if ($mount) {
 			$mount->getStorage()->releaseLock(
 				$mount->getInternalPath($absolutePath),
@@ -1801,16 +1831,18 @@ class View {
 	 *
 	 * @param string $path the path of the file to lock relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
+	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
 	 */
-	public function lockFile($path, $type) {
+	public function lockFile($path, $type, $lockMountPoint = false) {
 		$absolutePath = $this->getAbsolutePath($path);
 		$absolutePath = Filesystem::normalizePath($absolutePath);
 		if (!$this->shouldLockFile($absolutePath)) {
 			return false;
 		}
 
-		$this->lockPath($path, $type);
+		$this->lockPath($path, $type, $lockMountPoint);
 
 		$parents = $this->getParents($path);
 		foreach ($parents as $parent) {
@@ -1825,16 +1857,18 @@ class View {
 	 *
 	 * @param string $path the path of the file to lock relative to the view
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
+	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
 	 */
-	public function unlockFile($path, $type) {
+	public function unlockFile($path, $type, $lockMountPoint = false) {
 		$absolutePath = $this->getAbsolutePath($path);
 		$absolutePath = Filesystem::normalizePath($absolutePath);
 		if (!$this->shouldLockFile($absolutePath)) {
 			return false;
 		}
 
-		$this->unlockPath($path, $type);
+		$this->unlockPath($path, $type, $lockMountPoint);
 
 		$parents = $this->getParents($path);
 		foreach ($parents as $parent) {
