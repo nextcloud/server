@@ -773,7 +773,23 @@ class RequestTest extends \Test\TestCase {
 		$this->assertEquals('from.forwarded.host2:8080',  $request->getInsecureServerHost());
 	}
 
-	public function testGetServerHost() {
+	public function testGetServerHostWithOverwriteHost() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('overwritehost')
+			->will($this->returnValue('my.overwritten.host'));
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('overwritecondaddr')
+			->will($this->returnValue(''));
+		$this->config
+			->expects($this->at(2))
+			->method('getSystemValue')
+			->with('overwritehost')
+			->will($this->returnValue('my.overwritten.host'));
+
 		$request = new Request(
 			[],
 			$this->secureRandom,
@@ -781,7 +797,80 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertEquals('localhost',  $request->getServerHost());
+		$this->assertEquals('my.overwritten.host',  $request->getServerHost());
+	}
+
+	public function testGetServerHostWithTrustedDomain() {
+		$this->config
+			->expects($this->at(3))
+			->method('getSystemValue')
+			->with('trusted_domains')
+			->will($this->returnValue(['my.trusted.host']));
+
+		$request = new Request(
+			[
+				'server' => [
+					'HTTP_X_FORWARDED_HOST' => 'my.trusted.host',
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->stream
+		);
+
+		$this->assertEquals('my.trusted.host',  $request->getServerHost());
+	}
+
+	public function testGetServerHostWithUntrustedDomain() {
+		$this->config
+			->expects($this->at(3))
+			->method('getSystemValue')
+			->with('trusted_domains')
+			->will($this->returnValue(['my.trusted.host']));
+		$this->config
+			->expects($this->at(4))
+			->method('getSystemValue')
+			->with('trusted_domains')
+			->will($this->returnValue(['my.trusted.host']));
+
+		$request = new Request(
+			[
+				'server' => [
+					'HTTP_X_FORWARDED_HOST' => 'my.untrusted.host',
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->stream
+		);
+
+		$this->assertEquals('my.trusted.host',  $request->getServerHost());
+	}
+
+	public function testGetServerHostWithNoTrustedDomain() {
+		$this->config
+			->expects($this->at(3))
+			->method('getSystemValue')
+			->with('trusted_domains')
+			->will($this->returnValue([]));
+		$this->config
+			->expects($this->at(4))
+			->method('getSystemValue')
+			->with('trusted_domains')
+			->will($this->returnValue([]));
+
+		$request = new Request(
+			[
+				'server' => [
+					'HTTP_X_FORWARDED_HOST' => 'my.untrusted.host',
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->stream
+		);
+
+		$this->assertEquals('',  $request->getServerHost());
 	}
 
 	public function testGetOverwriteHostDefaultNull() {
