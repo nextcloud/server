@@ -392,7 +392,7 @@ class OC {
 		}
 
 		OC_Util::addScript("placeholders");
-		OC_Util::addScript("jquery-tipsy");
+		OC_Util::addScript("tooltip");
 		OC_Util::addScript("compatibility");
 		OC_Util::addScript("jquery.ocdialog");
 		OC_Util::addScript("oc-dialogs");
@@ -426,7 +426,7 @@ class OC {
 		OC_Util::addStyle("multiselect");
 		OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui');
 		OC_Util::addStyle('jquery-ui-fixes');
-		OC_Util::addStyle("jquery-tipsy");
+		OC_Util::addStyle("tooltip");
 		OC_Util::addStyle("jquery.ocdialog");
 	}
 

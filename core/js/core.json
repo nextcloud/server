@@ -10,7 +10,7 @@
 	],
 	"libraries": [
 		"jquery-showpassword.js",
-		"jquery-tipsy.js",
+		"tooltip.js",
 		"jquery.avatar.js",
 		"placeholder.js"
 	],
