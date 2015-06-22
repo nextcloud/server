@@ -40,6 +40,8 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s ถูกแชร์ %1$s กับคุณ",
     "You shared %1$s via link" : "คุณแชร์ %1$s ผ่านลิงค์",
     "Shares" : "แชร์",
+    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "แชร์ร่วมกับฉันผ่าน #ownCloud ด้วยคลาวด์ไอดี สามารถดูได้ที่ %s",
+    "Share with me through my #ownCloud Federated Cloud ID" : "แชร์ร่วมกับฉันผ่าน #ownCloud ด้วยคลาวด์ไอดี",
     "This share is password-protected" : "นี้แชร์การป้องกันด้วยรหัสผ่าน",
     "The password is wrong. Try again." : "รหัสผ่านที่ไม่ถูกต้อง กรุณาลองอีกครั้ง",
     "Password" : "รหัสผ่าน",
@@ -60,6 +62,11 @@ OC.L10N.register(
     "Open documentation" : "เปิดเอกสาร",
     "Allow users on this server to send shares to other servers" : "อนุญาตให้ผู้ใช้บนเซิร์ฟเวอร์นี้ส่งแชร์ไปยังเซิร์ฟเวอร์อื่นๆ",
     "Allow users on this server to receive shares from other servers" : "อนุญาตให้ผู้ใช้บนเซิร์ฟเวอร์นี้ได้รับการแชร์จากเซิร์ฟเวอร์อื่นๆ",
-    "Federated Cloud" : "สหพันธ์คลาวด์"
+    "Federated Cloud" : "สหพันธ์คลาวด์",
+    "Your Federated Cloud ID:" : "คลาวด์ไอดีของคุณ:",
+    "Share it:" : "แชร์มัน:",
+    "Add it to your website:" : "เพิ่มไปยังเว็บไซต์ของคุณ:",
+    "Share with me via ownCloud" : "แชร์ร่วมกับฉันผ่าน ownCloud",
+    "HTML Code:" : "โค้ด HTML:"
 },
 "nplurals=1; plural=0;");
