@@ -701,7 +701,7 @@ class Preview {
 			$this->generatePreview($fileId);
 		}
 
-		// We still don't have a preview, so we generate an empty object which can't be displayed
+		// We still don't have a preview, so we send back an empty object
 		if (is_null($this->preview)) {
 			$this->preview = new \OC_Image();
 		}
@@ -712,22 +712,26 @@ class Preview {
 	/**
 	 * Sends the preview, including the headers to client which requested it
 	 *
-	 * @param null|string $mimeType
+	 * @param null|string $mimeTypeForHeaders the media type to use when sending back the reply
 	 *
 	 * @throws NotFoundException
 	 */
-	public function showPreview($mimeType = null) {
+	public function showPreview($mimeTypeForHeaders = null) {
 		// Check if file is valid
 		if ($this->isFileValid() === false) {
 			throw new NotFoundException('File not found.');
 		}
 
-		\OCP\Response::enableCaching(3600 * 24); // 24 hours
 		if (is_null($this->preview)) {
 			$this->getPreview();
 		}
 		if ($this->preview instanceof \OCP\IImage) {
-			$this->preview->show($mimeType);
+			if ($this->preview->valid()) {
+				\OCP\Response::enableCaching(3600 * 24); // 24 hours
+			} else {
+				$this->getMimeIcon();
+			}
+			$this->preview->show($mimeTypeForHeaders);
 		}
 	}
 
@@ -812,9 +816,8 @@ class Preview {
 		 */
 		// It turns out the scaled preview is now too big, so we crop the image
 		if ($newPreviewWidth >= $askedWidth && $newPreviewHeight >= $askedHeight) {
-			list($newPreviewWidth, $newPreviewHeight) =
-				$this->crop($image, $askedWidth, $askedHeight, $newPreviewWidth, $newPreviewHeight);
-			$this->storePreview($fileId, $newPreviewWidth, $newPreviewHeight);
+			$this->crop($image, $askedWidth, $askedHeight, $newPreviewWidth, $newPreviewHeight);
+			$this->storePreview($fileId, $askedWidth, $askedHeight);
 
 			return;
 		}
@@ -822,11 +825,10 @@ class Preview {
 		// At least one dimension of the scaled preview is too small,
 		// so we fill the space with a transparent background
 		if (($newPreviewWidth < $askedWidth || $newPreviewHeight < $askedHeight)) {
-			list($newPreviewWidth, $newPreviewHeight) =
-				$this->cropAndFill(
-					$image, $askedWidth, $askedHeight, $newPreviewWidth, $newPreviewHeight
-				);
-			$this->storePreview($fileId, $newPreviewWidth, $newPreviewHeight);
+			$this->cropAndFill(
+				$image, $askedWidth, $askedHeight, $newPreviewWidth, $newPreviewHeight
+			);
+			$this->storePreview($fileId, $askedWidth, $askedHeight);
 
 			return;
 		}
@@ -894,8 +896,6 @@ class Preview {
 	 * @param int $askedHeight
 	 * @param int $previewWidth
 	 * @param null $previewHeight
-	 *
-	 * @return \int[]
 	 */
 	private function crop($image, $askedWidth, $askedHeight, $previewWidth, $previewHeight = null) {
 		$cropX = floor(abs($askedWidth - $previewWidth) * 0.5);
@@ -904,8 +904,6 @@ class Preview {
 		$cropY = 0;
 		$image->crop($cropX, $cropY, $askedWidth, $askedHeight);
 		$this->preview = $image;
-
-		return [$askedWidth, $askedHeight];
 	}
 
 	/**
@@ -917,8 +915,6 @@ class Preview {
 	 * @param int $askedHeight
 	 * @param int $previewWidth
 	 * @param null $previewHeight
-	 *
-	 * @return \int[]
 	 */
 	private function cropAndFill($image, $askedWidth, $askedHeight, $previewWidth, $previewHeight) {
 		if ($previewWidth > $askedWidth) {
@@ -954,8 +950,6 @@ class Preview {
 		$image = new \OC_Image($backgroundLayer);
 
 		$this->preview = $image;
-
-		return [$askedWidth, $askedHeight];
 	}
 
 	/**
@@ -1089,6 +1083,22 @@ class Preview {
 		if ($preview) {
 			$this->resizeAndStore($fileId);
 		}
+	}
+
+	/**
+	 * Defines the media icon, for the media type of the original file, as the preview
+	 */
+	private function getMimeIcon() {
+		$image = new \OC_Image();
+		$mimeIconWebPath = \OC_Helper::mimetypeIcon($this->mimeType);
+		if (empty(\OC::$WEBROOT)) {
+			$mimeIconServerPath = \OC::$SERVERROOT . $mimeIconWebPath;
+		} else {
+			$mimeIconServerPath = str_replace(\OC::$WEBROOT, \OC::$SERVERROOT, $mimeIconWebPath);
+		}
+		$image->loadFromFile($mimeIconServerPath);
+
+		$this->preview = $image;
 	}
 
 	/**

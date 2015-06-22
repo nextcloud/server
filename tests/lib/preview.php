@@ -210,6 +210,26 @@ class Preview extends TestCase {
 	}
 
 	/**
+	 * Tests if unsupported previews return an empty object
+	 */
+	public function testUnsupportedPreviewsReturnEmptyObject() {
+		$width = 400;
+		$height = 200;
+
+		// Previews for odt files are not enabled
+		$imgData = file_get_contents(\OC::$SERVERROOT . '/tests/data/testimage.odt');
+		$imgPath = '/' . self::TEST_PREVIEW_USER1 . '/files/testimage.odt';
+		$this->rootView->file_put_contents($imgPath, $imgData);
+
+		$preview =
+			new \OC\Preview(self::TEST_PREVIEW_USER1, 'files/', 'testimage.odt', $width, $height);
+		$preview->getPreview();
+		$image = $preview->getPreview();
+
+		$this->assertSame(false, $image->valid());
+	}
+
+	/**
 	 * We generate the data to use as it makes it easier to adjust in case we need to test
 	 * something different
 	 *
