@@ -43,6 +43,7 @@
 // TODO: get rid of this using proper composer packages
 require_once 'mcnetic/phpzipstreamer/ZipStreamer.php';
 
+use OC\Lock\NoopLockingProvider;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -86,10 +87,13 @@ class OC_Files {
 	public static function get($dir, $files, $only_header = false) {
 		$view = \OC\Files\Filesystem::getView();
 		$xsendfile = false;
-		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) ||
-			isset($_SERVER['MOD_X_SENDFILE2_ENABLED']) ||
-			isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
-			$xsendfile = true;
+		if (\OC::$server->getLockingProvider() instanceof NoopLockingProvider) {
+			if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) ||
+				isset($_SERVER['MOD_X_SENDFILE2_ENABLED']) ||
+				isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])
+			) {
+				$xsendfile = true;
+			}
 		}
 
 		if (is_array($files) && count($files) === 1) {
