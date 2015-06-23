@@ -68,6 +68,17 @@ class Encryption extends \Test\Files\Storage\Storage {
 	 */
 	private $mountManager;
 
+	/**
+	 * @var \OC\Group\Manager | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $groupManager;
+
+	/**
+	 * @var \OCP\IConfig | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $config;
+
+
 	/** @var  integer dummy unencrypted size */
 	private $dummySize = -1;
 
@@ -84,14 +95,16 @@ class Encryption extends \Test\Files\Storage\Storage {
 			->method('getEncryptionModule')
 			->willReturn($mockModule);
 
-		$config = $this->getMockBuilder('\OCP\IConfig')
+		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
-		$groupManager = $this->getMockBuilder('\OC\Group\Manager')
+		$this->groupManager = $this->getMockBuilder('\OC\Group\Manager')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->util = $this->getMock('\OC\Encryption\Util', ['getUidAndFilename', 'isFile', 'isExcluded'], [new View(), new \OC\User\Manager(), $groupManager, $config]);
+		$this->util = $this->getMock('\OC\Encryption\Util',
+			['getUidAndFilename', 'isFile', 'isExcluded'],
+			[new View(), new \OC\User\Manager(), $this->groupManager, $this->config]);
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
 			->willReturnCallback(function ($path) {
@@ -363,6 +376,50 @@ class Encryption extends \Test\Files\Storage\Storage {
 		return array(
 			array(true, false),
 			array(false, true),
+		);
+	}
+
+	/**
+	 * @dataProvider dataTestGetHeader
+	 * @param $path
+	 * @param $strippedPath
+	 */
+	public function testGetHeader($path, $strippedPath) {
+
+		$sourceStorage = $this->getMockBuilder('\OC\Files\Storage\Storage')
+			->disableOriginalConstructor()->getMock();
+
+		$util = $this->getMockBuilder('\OC\Encryption\Util')
+			->setConstructorArgs([new View(), new \OC\User\Manager(), $this->groupManager, $this->config])
+			->getMock();
+
+		$instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
+			->setConstructorArgs(
+				[
+					[
+						'storage' => $sourceStorage,
+						'root' => 'foo',
+						'mountPoint' => '/',
+						'mount' => $this->mount
+					],
+					$this->encryptionManager, $util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager
+				]
+			)
+			->getMock();
+
+		$util->expects($this->once())->method('stripPartialFileExtension')
+			->with($path)->willReturn($strippedPath);
+		$sourceStorage->expects($this->once())->method('file_exists')
+			->with($strippedPath)->willReturn(false);
+
+		$this->invokePrivate($instance, 'getHeader', [$path]);
+	}
+
+	public function dataTestGetHeader() {
+		return array(
+			array('/foo/bar.txt', '/foo/bar.txt'),
+			array('/foo/bar.txt.part', '/foo/bar.txt'),
+			array('/foo/bar.txt.ocTransferId7437493.part', '/foo/bar.txt'),
 		);
 	}
 }

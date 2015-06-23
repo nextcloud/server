@@ -349,7 +349,8 @@ class Encryption extends Wrapper {
 		if ($this->util->isExcluded($fullPath) === false) {
 
 			$size = $unencryptedSize = 0;
-			$targetExists = $this->file_exists($path);
+			$realFile = $this->util->stripPartialFileExtension($path);
+			$targetExists = $this->file_exists($realFile);
 			$targetIsEncrypted = false;
 			if ($targetExists) {
 				// in case the file exists we require the explicit module as
@@ -605,8 +606,9 @@ class Encryption extends Wrapper {
 	 */
 	protected function getHeader($path) {
 		$header = '';
-		if ($this->storage->file_exists($path)) {
-			$handle = $this->storage->fopen($path, 'r');
+		$realFile = $this->util->stripPartialFileExtension($path);
+		if ($this->storage->file_exists($realFile)) {
+			$handle = $this->storage->fopen($realFile, 'r');
 			$firstBlock = fread($handle, $this->util->getHeaderSize());
 			fclose($handle);
 			if (substr($firstBlock, 0, strlen(Util::HEADER_START)) === Util::HEADER_START) {
