@@ -39,8 +39,7 @@ class Upgrade extends Command {
 	const ERROR_MAINTENANCE_MODE = 2;
 	const ERROR_UP_TO_DATE = 3;
 	const ERROR_INVALID_ARGUMENTS = 4;
-
-	public $upgradeFailed = false;
+	const ERROR_FAILURE = 5;
 
 	/**
 	 * @var IConfig
@@ -128,9 +127,9 @@ class Upgrade extends Command {
 				$output->writeln('<info>Maintenance mode is kept active</info>');
 			});
 			$updater->listen('\OC\Updater', 'updateEnd',
-				function () use($output, $updateStepEnabled, $self) {
+				function ($success) use($output, $updateStepEnabled, $self) {
 					$mode = $updateStepEnabled ? 'Update' : 'Update simulation';
-					$status = $self->upgradeFailed ? 'failed' : 'successful';
+					$status = $success ? 'successful' : 'failed' ;
 					$message = "<info>$mode $status</info>";
 					$output->writeln($message);
 				});
@@ -163,12 +162,15 @@ class Upgrade extends Command {
 			});
 			$updater->listen('\OC\Updater', 'failure', function ($message) use($output, $self) {
 				$output->writeln("<error>$message</error>");
-				$self->upgradeFailed = true;
 			});
 
-			$updater->upgrade();
+			$success = $updater->upgrade();
 
 			$this->postUpgradeCheck($input, $output);
+
+			if(!$success) {
+				return self::ERROR_FAILURE;
+			}
 
 			return self::ERROR_SUCCESS;
 		} else if($this->config->getSystemValue('maintenance', false)) {
