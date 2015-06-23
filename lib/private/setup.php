@@ -402,10 +402,20 @@ class Setup {
 			throw new \OC\HintException('.htaccess file has the wrong version. Please upload the correct version. Maybe you forgot to replace it after updating?');
 		}
 
-		$content = "\n";
-		$content.= "ErrorDocument 403 ".\OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
-		$content.= "ErrorDocument 404 ".\OC::$WEBROOT."/core/templates/404.php";//custom 404 error page
-		@file_put_contents($setupHelper->pathToHtaccess(), $content, FILE_APPEND); //suppress errors in case we don't have permissions for it
+		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
+		$content = '';
+		if (strpos($htaccessContent, 'ErrorDocument 403') === false) {
+			//custom 403 error page
+			$content.= "\nErrorDocument 403 ".\OC::$WEBROOT."/core/templates/403.php";
+		}
+		if (strpos($htaccessContent, 'ErrorDocument 404') === false) {
+			//custom 404 error page
+			$content.= "\nErrorDocument 404 ".\OC::$WEBROOT."/core/templates/404.php";
+		}
+		if ($content !== '') {
+			//suppress errors in case we don't have permissions for it
+			@file_put_contents($setupHelper->pathToHtaccess(), $content . "\n", FILE_APPEND);
+		}
 	}
 
 	public static function protectDataDirectory() {
