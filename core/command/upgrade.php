@@ -158,6 +158,9 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'appUpgradeCheck', function () use ($output) {
 				$output->writeln('<info>Checked database schema update for apps</info>');
 			});
+			$updater->listen('\OC\Updater', 'appUpgradeStarted', function ($app, $version) use ($output) {
+				$output->writeln("<info>Updating <$app> ...</info>");
+			});
 			$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($output) {
 				$output->writeln("<info>Updated <$app> to $version</info>");
 			});
