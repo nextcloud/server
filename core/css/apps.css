@@ -410,6 +410,7 @@
 	position: relative;
 	height: 100%;
 	overflow-y: auto;
+	z-index: 100;
 }
 
 #app-content-wrapper {
@@ -555,4 +556,3 @@ em {
 	z-index:500;
 	padding:16px;
 }
-
