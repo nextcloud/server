@@ -101,6 +101,9 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'disabledApps', function ($appList) use($output) {
 				$output->writeln('<info>Disabled incompatible apps: ' . implode(', ', $appList) . '</info>');
 			});
+			$updater->listen('\OC\Repair', 'info', function ($message) use($output) {
+				$output->writeln('<info>Repair info: ' . $message . '</info>');
+			});
 
 			$updater->listen('\OC\Updater', 'failure', function ($message) use($output) {
 				$output->writeln($message);
