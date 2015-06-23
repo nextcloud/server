@@ -22,6 +22,7 @@
 
 namespace OC\Files\Cache;
 
+use OC\User\NoUserException;
 use OCP\Share_Backend_Collection;
 
 /**
@@ -53,7 +54,12 @@ class Shared_Cache extends Cache {
 		}
 		$source = \OC_Share_Backend_File::getSource($target, $this->storage->getMountPoint(), $this->storage->getItemType());
 		if (isset($source['path']) && isset($source['fileOwner'])) {
-			\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
+			try {
+				\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
+			} catch(NoUserException $e) {
+				\OC::$server->getLogger()->warning('The user \'' . $source['uid_owner'] . '\' of a share can\'t be retrieved.', array('app' => 'files_sharing'));
+				return false;
+			}
 			$mounts = \OC\Files\Filesystem::getMountByNumericId($source['storage']);
 			if (is_array($mounts) and !empty($mounts)) {
 				$fullPath = $mounts[0]->getMountPoint() . $source['path'];
