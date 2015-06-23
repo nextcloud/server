@@ -232,8 +232,11 @@ class Upgrade extends Command {
 	protected function writeln(OutputInterface $output, $line) {
 		$t = '';
 		if($this->showTimestamp) {
-			$time = new \DateTime();
-			$t = $time->format(\DateTime::ISO8601) . ' ';
+			$timeZone = $this->config->getSystemValue('logtimezone', null);
+			$timeZone = $timeZone !== null ? new \DateTimeZone($timeZone) : null;
+
+			$time = new \DateTime('now', $timeZone);
+			$t = $time->format($this->config->getSystemValue('logdateformat', 'c')) . ' ';
 		}
 		$output->writeln($t . $line);
 	}
