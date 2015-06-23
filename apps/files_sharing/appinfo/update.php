@@ -87,8 +87,14 @@ function removeSharedFolder($mkdirs = true, $chunkSize = 99) {
 		// create folder Shared for each user
 
 		if ($mkdirs) {
+			$logger = \OC::$server->getLogger();
 			foreach ($unique_users as $user) {
-				\OC\Files\Filesystem::initMountPoints($user);
+				try {
+					\OC\Files\Filesystem::initMountPoints($user);
+				} catch(\OC\User\NoUserException $e) {
+					$logger->warning("Update: removeSharedFolder - user '$user' is not present anymore" , array('app' => 'files_sharing'));
+					continue;
+				}
 				if (!$view->file_exists('/' . $user . '/files/Shared')) {
 					$view->mkdir('/' . $user . '/files/Shared');
 				}
