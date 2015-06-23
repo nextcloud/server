@@ -386,6 +386,7 @@ class Updater extends BasicEmitter {
 		foreach ($stacks as $type => $stack) {
 			foreach ($stack as $appId) {
 				if (\OC_App::shouldUpgrade($appId)) {
+					$this->emit('\OC\Updater', 'appUpgradeStarted', array($appId, \OC_App::getAppVersion($appId)));
 					\OC_App::updateApp($appId);
 					$this->emit('\OC\Updater', 'appUpgrade', array($appId, \OC_App::getAppVersion($appId)));
 				}
