@@ -69,9 +69,12 @@ class EtagPropagation extends TestCase {
 		$view1->mkdir('/directReshare');
 		$view1->mkdir('/sub1/sub2/folder/other');
 		$view1->mkdir('/sub1/sub2/folder/other');
+		$view1->file_put_contents('/foo.txt', 'foobar');
 		$view1->file_put_contents('/sub1/sub2/folder/file.txt', 'foobar');
 		$view1->file_put_contents('/sub1/sub2/folder/inside/file.txt', 'foobar');
 		$folderInfo = $view1->getFileInfo('/sub1/sub2/folder');
+		$fileInfo = $view1->getFileInfo('/foo.txt');
+		\OCP\Share::shareItem('file', $fileInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
 		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
 		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER3, 31);
 		$folderInfo = $view1->getFileInfo('/directReshare');
@@ -175,6 +178,15 @@ class EtagPropagation extends TestCase {
 		$this->assertEtagsNotChanged([self::TEST_FILES_SHARING_API_USER4]);
 		$this->assertEtagsForFoldersChanged([self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER3]);
+
+		$this->assertAllUnchaged();
+	}
+
+	public function testOwnerWritesToSingleFileShare() {
+		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
+		Filesystem::file_put_contents('/foo.txt', 'bar');
+		$this->assertEtagsNotChanged([self::TEST_FILES_SHARING_API_USER4, self::TEST_FILES_SHARING_API_USER3]);
+		$this->assertEtagsChanged([self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER2]);
 
 		$this->assertAllUnchaged();
 	}
