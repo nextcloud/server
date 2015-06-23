@@ -238,6 +238,12 @@ class Updater extends BasicEmitter {
 		$repair->listen('\OC\Repair', 'error', function ($description) {
 			$this->emit('\OC\Updater', 'repairError', array($description));
 		});
+		$repair->listen('\OC\Repair', 'info', function ($description) {
+			$this->emit('\OC\Updater', 'repairInfo', array($description));
+		});
+		$repair->listen('\OC\Repair', 'step', function ($description) {
+			$this->emit('\OC\Updater', 'repairStep', array($description));
+		});
 	}
 
 	/**
