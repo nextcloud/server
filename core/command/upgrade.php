@@ -130,7 +130,8 @@ class Upgrade extends Command {
 				function ($success) use($output, $updateStepEnabled, $self) {
 					$mode = $updateStepEnabled ? 'Update' : 'Update simulation';
 					$status = $success ? 'successful' : 'failed' ;
-					$message = "<info>$mode $status</info>";
+					$type = $success ? 'info' : 'error';
+					$message = "<$type>$mode $status</$type>";
 					$output->writeln($message);
 				});
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {

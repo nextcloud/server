@@ -200,7 +200,7 @@ class Updater extends BasicEmitter {
 
 		$this->emit('\OC\Updater', 'updateEnd', array($success));
 
-		if(!$wasMaintenanceModeEnabled) {
+		if(!$wasMaintenanceModeEnabled && $success) {
 			$this->config->setSystemValue('maintenance', false);
 			$this->emit('\OC\Updater', 'maintenanceDisabled');
 		} else {
