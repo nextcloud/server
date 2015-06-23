@@ -38,6 +38,8 @@
     "%2$s shared %1$s with you" : "Ο %2$s διαμοιράστηκε το %1$s με εσάς",
     "You shared %1$s via link" : "Μοιραστήκατε το %1$s μέσω συνδέσμου",
     "Shares" : "Κοινόχρηστοι φάκελοι",
+    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Διαμοιρασμός με εμένα μέσω του #ownCloud Federated Cloud ID μου, δείτε %s",
+    "Share with me through my #ownCloud Federated Cloud ID" : "Διαμοιρασμός με εμένα μέσω του #ownCloud Federated Cloud ID μου",
     "This share is password-protected" : "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",
     "The password is wrong. Try again." : "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά.",
     "Password" : "Κωδικός πρόσβασης",
@@ -58,6 +60,11 @@
     "Open documentation" : "Ανοιχτή τεκμηρίωση.",
     "Allow users on this server to send shares to other servers" : "Να επιτρέπεται σε χρήστες αυτού του διακομιστή να στέλνουν διαμοιρασμένους φακέλους σε άλλους διακομιστές",
     "Allow users on this server to receive shares from other servers" : "Να επιτρέπεται στους χρίστες του διακομιστή να λαμβάνουν διαμοιρασμένα αρχεία από άλλους διακομιστές",
-    "Federated Cloud" : "Federated σύννεφο"
+    "Federated Cloud" : "Federated σύννεφο",
+    "Your Federated Cloud ID:" : "Το ID σας στο Federated Cloud:",
+    "Share it:" : "Μοιραστείτε το:",
+    "Add it to your website:" : "Προσθέστε το στην ιστοσελίδα σας:",
+    "Share with me via ownCloud" : "Διαμοιρασμός με εμένα μέσω του ",
+    "HTML Code:" : "Κώδικας HTML:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

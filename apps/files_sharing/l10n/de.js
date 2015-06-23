@@ -60,6 +60,8 @@ OC.L10N.register(
     "Open documentation" : "Dokumentation öffnen",
     "Allow users on this server to send shares to other servers" : "Benutzern auf diesem Server das Senden von Freigaben an andere Server erlauben",
     "Allow users on this server to receive shares from other servers" : "Benutzern auf diesem Server das Empfangen von Freigaben von anderen Servern erlauben",
-    "Federated Cloud" : "Federated Cloud"
+    "Federated Cloud" : "Federated Cloud",
+    "Your Federated Cloud ID:" : "Deine Federated-Cloud-ID:",
+    "HTML Code:" : "HTML-Code:"
 },
 "nplurals=2; plural=(n != 1);");

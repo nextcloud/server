@@ -43,7 +43,7 @@ OC.L10N.register(
     "Disconnect storage" : "Desconete o armazenamento",
     "Unshare" : "Deixar de partilhar",
     "No permission to delete" : "Não tem permissão para apagar",
-    "Download" : "Transferir",
+    "Download" : "Descarregar",
     "Select" : "Selecionar",
     "Pending" : "Pendente",
     "Unable to determine date" : "Impossível determinar a data",
