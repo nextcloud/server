@@ -264,6 +264,7 @@ class ObjectTree extends \Test\TestCase {
 
 		$tree->getNodeForPath($path);
 	}
+
 	public function testGetNodeForPathRoot() {
 		$path = '/';
 
@@ -285,6 +286,6 @@ class ObjectTree extends \Test\TestCase {
 		$tree = new \OC\Connector\Sabre\ObjectTree();
 		$tree->init($rootNode, $view, $mountManager);
 
-		$tree->getNodeForPath($path);
+		$this->assertInstanceOf('\Sabre\DAV\INode', $tree->getNodeForPath($path));
 	}
 }
