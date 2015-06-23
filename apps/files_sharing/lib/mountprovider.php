@@ -9,6 +9,7 @@
 namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
+use OC\User\NoUserException;
 use OCA\Files_Sharing\Propagation\PropagationManager;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
@@ -50,8 +51,13 @@ class MountProvider implements IMountProvider {
 		$shares = array_filter($shares, function ($share) {
 			return $share['permissions'] > 0;
 		});
-		return array_map(function ($share) use ($user, $storageFactory) {
-			Filesystem::initMountPoints($share['uid_owner']);
+		$shares = array_map(function ($share) use ($user, $storageFactory) {
+			try {
+				Filesystem::initMountPoints($share['uid_owner']);
+			} catch(NoUserException $e) {
+				\OC::$server->getLogger()->warning('The user \'' . $share['uid_owner'] . '\' of share with ID \'' . $share['id'] . '\' can\'t be retrieved.', array('app' => 'files_sharing'));
+				return null;
+			}
 			// for updating etags for the share owner when we make changes to this share.
 			$ownerPropagator = $this->propagationManager->getChangePropagator($share['uid_owner']);
 
@@ -68,5 +74,7 @@ class MountProvider implements IMountProvider {
 				$storageFactory
 			);
 		}, $shares);
+		// array_filter removes the null values from the array
+		return array_filter($shares);
 	}
 }
