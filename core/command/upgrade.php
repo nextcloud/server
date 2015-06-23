@@ -25,6 +25,7 @@
 
 namespace OC\Core\Command;
 
+use OC\Console\TimestampFormatter;
 use OC\Updater;
 use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
@@ -45,11 +46,6 @@ class Upgrade extends Command {
 	 * @var IConfig
 	 */
 	private $config;
-
-	/**
-	 * @var bool
-	 */
-	private $showTimestamp = false;
 
 	/**
 	 * @param IConfig $config
@@ -80,12 +76,6 @@ class Upgrade extends Command {
 				null,
 				InputOption::VALUE_NONE,
 				'skips the disable of third party apps'
-			)
-			->addOption(
-				'--show-timestamp',
-				null,
-				InputOption::VALUE_NONE,
-				'show timestamp for each output during upgrade'
 			);
 	}
 
@@ -110,9 +100,6 @@ class Upgrade extends Command {
 		if ($input->getOption('no-app-disable')) {
 			$skip3rdPartyAppsDisable = true;
 		}
-		if ($input->getOption('show-timestamp')) {
-			$this->showTimestamp = true;
-		}
 
 		if (!$simulateStepEnabled && !$updateStepEnabled) {
 			$output->writeln(
@@ -123,6 +110,12 @@ class Upgrade extends Command {
 		}
 
 		if(\OC::checkUpgrade(false)) {
+			if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+				// Prepend each line with a little timestamp
+				$timestampFormatter = new TimestampFormatter($this->config, $output->getFormatter());
+				$output->setFormatter($timestampFormatter);
+			}
+
 			$self = $this;
 			$updater = new Updater(\OC::$server->getHTTPHelper(),
 				\OC::$server->getConfig());
@@ -132,54 +125,56 @@ class Upgrade extends Command {
 			$updater->setSkip3rdPartyAppsDisable($skip3rdPartyAppsDisable);
 
 			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use($output) {
-				$this->writeln($output, '<info>Turned on maintenance mode</info>');
+				$output->writeln('<info>Turned on maintenance mode</info>');
 			});
 			$updater->listen('\OC\Updater', 'maintenanceDisabled', function () use($output) {
-				$this->writeln($output, '<info>Turned off maintenance mode</info>');
+				$output->writeln('<info>Turned off maintenance mode</info>');
 			});
 			$updater->listen('\OC\Updater', 'maintenanceActive', function () use($output) {
-				$this->writeln($output, '<info>Maintenance mode is kept active</info>');
+				$output->writeln('<info>Maintenance mode is kept active</info>');
 			});
 			$updater->listen('\OC\Updater', 'updateEnd',
 				function ($success) use($output, $updateStepEnabled, $self) {
 					$mode = $updateStepEnabled ? 'Update' : 'Update simulation';
-					$status = $success ? 'successful' : 'failed' ;
-					$type = $success ? 'info' : 'error';
-					$message = "<$type>$mode $status</$type>";
-					$this->writeln($output, $message);
+					if ($success) {
+						$message = "<info>$mode successful</info>";
+					} else {
+						$message = "<error>$mode failed</error>";
+					}
+					$output->writeln($message);
 				});
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {
-				$this->writeln($output, '<info>Updated database</info>');
+				$output->writeln('<info>Updated database</info>');
 			});
 			$updater->listen('\OC\Updater', 'dbSimulateUpgrade', function () use($output) {
-				$this->writeln($output, '<info>Checked database schema update</info>');
+				$output->writeln('<info>Checked database schema update</info>');
 			});
 			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use($output) {
-				$$this->writeln($output, '<info>Disabled incompatible app: ' . $app . '</info>');
+				$output->writeln('<info>Disabled incompatible app: ' . $app . '</info>');
 			});
 			$updater->listen('\OC\Updater', 'thirdPartyAppDisabled', function ($app) use ($output) {
-				$this->writeln($output, '<info>Disabled 3rd-party app: ' . $app . '</info>');
+				$output->writeln('<info>Disabled 3rd-party app: ' . $app . '</info>');
 			});
 			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use($output) {
-				$this->writeln($output, '<info>Update 3rd-party app: ' . $app . '</info>');
+				$output->writeln('<info>Update 3rd-party app: ' . $app . '</info>');
 			});
 			$updater->listen('\OC\Updater', 'repairWarning', function ($app) use($output) {
-				$this->writeln($output, '<error>Repair warning: ' . $app . '</error>');
+				$output->writeln('<error>Repair warning: ' . $app . '</error>');
 			});
 			$updater->listen('\OC\Updater', 'repairError', function ($app) use($output) {
-				$this->writeln($output, '<error>Repair error: ' . $app . '</error>');
+				$output->writeln('<error>Repair error: ' . $app . '</error>');
 			});
 			$updater->listen('\OC\Updater', 'appUpgradeCheck', function () use ($output) {
-				$this->writeln($output, '<info>Checked database schema update for apps</info>');
+				$output->writeln('<info>Checked database schema update for apps</info>');
 			});
 			$updater->listen('\OC\Updater', 'appUpgradeStarted', function ($app, $version) use ($output) {
 				$output->writeln("<info>Updating <$app> ...</info>");
 			});
 			$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($output) {
-				$this->writeln($output, "<info>Updated <$app> to $version</info>");
+				$output->writeln("<info>Updated <$app> to $version</info>");
 			});
 			$updater->listen('\OC\Updater', 'failure', function ($message) use($output, $self) {
-				$this->writeln($output, "<error>$message</error>");
+				$output->writeln("<error>$message</error>");
 			});
 
 			$success = $updater->upgrade();
@@ -221,23 +216,5 @@ class Upgrade extends Command {
 				'please set it manually</warning>'
 			);
 		}
-	}
-
-	/**
-	 * Prints a line to output and adds a timestamp if needed
-	 *
-	 * @param OutputInterface $output
-	 * @param string $line
-	 */
-	protected function writeln(OutputInterface $output, $line) {
-		$t = '';
-		if($this->showTimestamp) {
-			$timeZone = $this->config->getSystemValue('logtimezone', null);
-			$timeZone = $timeZone !== null ? new \DateTimeZone($timeZone) : null;
-
-			$time = new \DateTime('now', $timeZone);
-			$t = $time->format($this->config->getSystemValue('logdateformat', 'c')) . ' ';
-		}
-		$output->writeln($t . $line);
 	}
 }
