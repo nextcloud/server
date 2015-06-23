@@ -189,20 +189,25 @@ class Updater extends BasicEmitter {
 			$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, array('app' => 'core'));
 		}
 
+		$success = true;
 		try {
 			$this->doUpgrade($currentVersion, $installedVersion);
 		} catch (\Exception $exception) {
-			$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
+			\OCP\Util::logException('update', $exception);
+			$this->emit('\OC\Updater', 'failure', array(get_class($exception) . ': ' .$exception->getMessage()));
+			$success = false;
 		}
 
-		$this->emit('\OC\Updater', 'updateEnd');
+		$this->emit('\OC\Updater', 'updateEnd', array($success));
 
-		if(!$wasMaintenanceModeEnabled) {
+		if(!$wasMaintenanceModeEnabled && $success) {
 			$this->config->setSystemValue('maintenance', false);
 			$this->emit('\OC\Updater', 'maintenanceDisabled');
 		} else {
 			$this->emit('\OC\Updater', 'maintenanceActive');
 		}
+
+		return $success;
 	}
 
 	/**

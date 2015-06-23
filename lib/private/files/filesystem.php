@@ -382,7 +382,7 @@ class Filesystem {
 
 		if (is_null($userObject)) {
 			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $user, \OCP\Util::ERROR);
-			throw new \OC\User\NoUserException();
+			throw new \OC\User\NoUserException('Backends provided no user object for ' . $user);
 		}
 
 		$homeStorage = \OC_Config::getValue('objectstore');
