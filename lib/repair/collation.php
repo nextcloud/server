@@ -60,6 +60,7 @@ class Collation extends BasicEmitter implements \OC\RepairStep {
 
 		$tables = $this->getAllNonUTF8BinTables($this->connection);
 		foreach ($tables as $table) {
+			$this->emit('\OC\Repair', 'info', array("Change collation for $table ..."));
 			$query = $this->connection->prepare('ALTER TABLE `' . $table . '` CONVERT TO CHARACTER SET utf8 COLLATE utf8_bin;');
 			$query->execute();
 		}
