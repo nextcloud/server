@@ -1162,6 +1162,97 @@ class View extends \Test\TestCase {
 		$this->assertFalse($view->lockFile($pathPrefix . '/foo/bar', ILockingProvider::LOCK_EXCLUSIVE));
 	}
 
+	/**
+	 * Test that locks are on mount point paths instead of mount root
+	 */
+	public function testLockLocalMountPointPathInsteadOfStorageRoot() {
+		$lockingProvider = \OC::$server->getLockingProvider();
+		$view = new \OC\Files\View('/testuser/files/');
+		$storage = new Temporary([]);
+		\OC\Files\Filesystem::mount($storage, [], '/');
+		$mountedStorage = new Temporary([]);
+		\OC\Files\Filesystem::mount($mountedStorage, [], '/testuser/files/mountpoint');
+
+		$this->assertTrue(
+			$view->lockFile('/mountpoint', ILockingProvider::LOCK_EXCLUSIVE, true),
+			'Can lock mount point'
+		);
+
+		// no exception here because storage root was not locked
+		$mountedStorage->acquireLock('', ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
+
+		$thrown = false;
+		try {
+			$storage->acquireLock('/testuser/files/mountpoint', ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
+		} catch (\OCP\Lock\LockedException $e) {
+			$thrown = true;
+		}
+		$this->assertTrue($thrown, 'Mount point path was locked on root storage');
+
+		$lockingProvider->releaseAll();
+	}
+
+	/**
+	 * Test that locks are on mount point paths and also mount root when requested
+	 */
+	public function testLockStorageRootButNotLocalMountPoint() {
+		$lockingProvider = \OC::$server->getLockingProvider();
+		$view = new \OC\Files\View('/testuser/files/');
+		$storage = new Temporary([]);
+		\OC\Files\Filesystem::mount($storage, [], '/');
+		$mountedStorage = new Temporary([]);
+		\OC\Files\Filesystem::mount($mountedStorage, [], '/testuser/files/mountpoint');
+
+		$this->assertTrue(
+			$view->lockFile('/mountpoint', ILockingProvider::LOCK_EXCLUSIVE, false),
+			'Can lock mount point'
+		);
+
+		$thrown = false;
+		try {
+			$mountedStorage->acquireLock('', ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
+		} catch (\OCP\Lock\LockedException $e) {
+			$thrown = true;
+		}
+		$this->assertTrue($thrown, 'Mount point storage root was locked on original storage');
+
+		// local mount point was not locked
+		$storage->acquireLock('/testuser/files/mountpoint', ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
+
+		$lockingProvider->releaseAll();
+	}
+
+	/**
+	 * Test that locks are on mount point paths and also mount root when requested
+	 */
+	public function testLockMountPointPathFailReleasesBoth() {
+		$lockingProvider = \OC::$server->getLockingProvider();
+		$view = new \OC\Files\View('/testuser/files/');
+		$storage = new Temporary([]);
+		\OC\Files\Filesystem::mount($storage, [], '/');
+		$mountedStorage = new Temporary([]);
+		\OC\Files\Filesystem::mount($mountedStorage, [], '/testuser/files/mountpoint.txt');
+
+		// this would happen if someone is writing on the mount point
+		$mountedStorage->acquireLock('', ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
+
+		$thrown = false;
+		try {
+			// this actually acquires two locks, one on the mount point and one no the storage root,
+			// but the one on the storage root will fail
+			$view->lockFile('/mountpoint.txt', ILockingProvider::LOCK_SHARED);
+		} catch (\OCP\Lock\LockedException $e) {
+			$thrown = true;
+		}
+		$this->assertTrue($thrown, 'Cannot acquire shared lock because storage root is already locked');
+
+		// from here we expect that the lock on the local mount point was released properly
+		// so acquiring an exclusive lock will succeed
+		$storage->acquireLock('/testuser/files/mountpoint.txt', ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
+
+		$lockingProvider->releaseAll();
+	}
+
 	public function dataLockPaths() {
 		return [
 			['/testuser/{folder}', ''],

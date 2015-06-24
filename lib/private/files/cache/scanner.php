@@ -357,6 +357,11 @@ class Scanner extends BasicEmitter {
 				// log and ignore
 				\OC_Log::write('core', 'Exception while scanning file "' . $child . '": ' . $ex->getMessage(), \OC_Log::DEBUG);
 				$exceptionOccurred = true;
+			} catch (\OCP\Lock\LockedException $e) {
+				if ($this->useTransactions) {
+					\OC_DB::rollback();
+				}
+				throw $e;
 			}
 		}
 		$removedChildren = \array_diff(array_keys($existingChildren), $newChildren);
