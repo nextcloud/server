@@ -62,7 +62,6 @@ OC.L10N.register(
     "All" : "ทั้งหมด",
     "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "แอพพลิเคชันมีการพัฒนาอย่างเป็นทางการภายในชุมชน ownCloud พวกเขามีการทำงานเป็นศูนย์กลางของ ownCloud และพร้อมสำหรับการใช้งานผลิตภัณฑ์",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "แอพพลิเคชันได้รับการอนุมัติและพัฒนาโดยนักพัฒนาที่น่าเชื่อถือและได้ผ่านการตรวจสอบความปลอดภัยคร่าวๆ พวกเขาจะได้รับการบำรุงรักษาอย่างดีในการเก็บข้อมูลรหัสเปิด มันอาจยังไม่เสถียรพอสำหรับการเปิดใช้งานปกติ",
-    "This app is not checked for security issues and is new or known to be unstable. Install on your own risk." : "แอพพลิเคชันนี้ไม่ได้ตรวจสอบปัญหาด้านความปลอดภัยและเป็นของใหม่หรือที่รู้กันคือจะไม่เสถียร มันติดตั้งอยู่บนความเสี่ยงของคุณเอง",
     "Update to %s" : "อัพเดทไปยัง %s",
     "Please wait...." : "กรุณารอสักครู่...",
     "Error while disabling app" : "เกิดข้อผิดพลาดขณะปิดการใช้งานแอพพลิเคชัน",

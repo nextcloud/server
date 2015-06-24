@@ -56,7 +56,6 @@ OC.L10N.register(
     "All" : "Totes",
     "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Las aplicacions oficialas son desvolopadas per e amb la comunautat ownCloud. Ofrisson sas foncionalitats principalas a ownCloud e son prèstas per una utilizacion en produccion. ",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Las aplicacions aprovadas son creadas per de desvolopaires de fisança e an passat los tèst de seguretat. Son activament mantengudas dins un depaus dobèrt e lors desvolopaires pensan que son establas per una utilizacion normala.",
-    "This app is not checked for security issues and is new or known to be unstable. Install on your own risk." : "Aquesta aplicacion es pas estada testada per sa seguretat, e es novèla o coneguda coma instabla. D'installar en essent conscient de las riscas.",
     "Update to %s" : "Metre a nivèl cap a la version %s",
     "Please wait...." : "Pacientatz…",
     "Error while disabling app" : "Error al moment de la desactivacion de l'aplicacion",
