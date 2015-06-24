@@ -73,6 +73,7 @@ class CheckCode extends Command {
 			$output->writeln('<info>App is compliant - awesome job!</info>');
 		} else {
 			$output->writeln('<error>App is not compliant</error>');
+			return 1;
 		}
 	}
 }
