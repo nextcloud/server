@@ -888,7 +888,6 @@ class Test_Files_Sharing_Api extends TestCase {
 		$this->assertEquals('1', $newUserShare['permissions']);
 
 		// update password for link share
-
 		$this->assertTrue(empty($linkShare['share_with']));
 
 		$params = array();
@@ -912,6 +911,29 @@ class Test_Files_Sharing_Api extends TestCase {
 
 		$this->assertTrue(is_array($newLinkShare));
 		$this->assertTrue(!empty($newLinkShare['share_with']));
+
+		// Remove password for link share
+		$params = array();
+		$params['id'] = $linkShare['id'];
+		$params['_put'] = array();
+		$params['_put']['password'] = '';
+
+		$result = \OCA\Files_Sharing\API\Local::updateShare($params);
+
+		$this->assertTrue($result->succeeded());
+
+		$items = \OCP\Share::getItemShared('file', $linkShare['file_source']);
+
+		$newLinkShare = null;
+		foreach ($items as $item) {
+			if ($item['share_type'] === \OCP\Share::SHARE_TYPE_LINK) {
+				$newLinkShare = $item;
+				break;
+			}
+		}
+
+		$this->assertTrue(is_array($newLinkShare));
+		$this->assertTrue(empty($newLinkShare['share_with']));
 
 		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
 				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
