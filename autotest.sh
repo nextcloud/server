@@ -152,8 +152,8 @@ function execute_tests {
 		DOCKER_CONTAINER_ID=$(docker run -d deepdiver/docker-oracle-xe-11g)
 		DATABASEHOST=$(docker inspect "$DOCKER_CONTAINER_ID" | grep IPAddress | cut -d '"' -f 4)
 
-		echo "Waiting 60 seconds for Oracle initialization ... "
-		sleep 60
+		echo "Waiting 120 seconds for Oracle initialization ... "
+		sleep 120
 
 		DATABASEUSER=autotest
 		DATABASENAME='XE'
