@@ -1705,7 +1705,7 @@ class Share extends Constants {
 			// Add display names to result
 			$row['share_with_displayname'] = $row['share_with'];
 			if ( isset($row['share_with']) && $row['share_with'] != '' &&
-				isset($row['share_with']) && $row['share_type'] === self::SHARE_TYPE_USER) {
+				$row['share_type'] === self::SHARE_TYPE_USER) {
 				$row['share_with_displayname'] = \OCP\User::getDisplayName($row['share_with']);
 			} else if(isset($row['share_with']) && $row['share_with'] != '' &&
 				$row['share_type'] === self::SHARE_TYPE_REMOTE) {
