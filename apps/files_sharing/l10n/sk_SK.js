@@ -57,6 +57,8 @@ OC.L10N.register(
     "Direct link" : "Priama linka",
     "Federated Cloud Sharing" : "Združené cloudové zdieľanie",
     "Allow users on this server to send shares to other servers" : "Povoliť používateľom z tohoto servera posielať zdieľania na iné servery",
-    "Allow users on this server to receive shares from other servers" : "Povoliť používateľom z tohoto servera prijímať zdieľania z iných serverov"
+    "Allow users on this server to receive shares from other servers" : "Povoliť používateľom z tohoto servera prijímať zdieľania z iných serverov",
+    "Your Federated Cloud ID:" : "Vaše združené Cloud ID",
+    "HTML Code:" : "HTML kód:"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

@@ -47,6 +47,7 @@ OC.L10N.register(
     "Select" : "Sélectionner",
     "Pending" : "En attente",
     "Unable to determine date" : "Impossible de déterminer la date",
+    "This operation is forbidden" : "Cette opération est interdite",
     "Error moving file." : "Erreur lors du déplacement du fichier.",
     "Error moving file" : "Erreur lors du déplacement du fichier",
     "Error" : "Erreur",

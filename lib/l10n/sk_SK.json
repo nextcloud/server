@@ -78,6 +78,7 @@
     "Set an admin password." : "Zadajte heslo administrátora.",
     "Can't create or write into the data directory %s" : "Nemožno vytvoriť alebo zapisovať do priečinka dát %s",
     "%s shared »%s« with you" : "%s s vami zdieľa »%s«",
+    "%s via %s" : "%s cez %s",
     "Sharing %s failed, because the backend does not allow shares from type %i" : "Zdieľanie %s zlyhalo, pretože backend nepodporuje typ zdieľania %i",
     "Sharing %s failed, because the file does not exist" : "Zdieľanie %s zlyhalo, pretože súbor neexistuje",
     "You are not allowed to share %s" : "Nemôžete zdieľať %s",

@@ -47,6 +47,7 @@ OC.L10N.register(
     "Select" : "Selecteer",
     "Pending" : "In behandeling",
     "Unable to determine date" : "Kon datum niet vaststellen",
+    "This operation is forbidden" : "Deze taak is verboden",
     "Error moving file." : "Fout bij verplaatsen bestand.",
     "Error moving file" : "Fout bij verplaatsen bestand",
     "Error" : "Fout",

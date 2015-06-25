@@ -62,6 +62,7 @@ OC.L10N.register(
     "All" : "Alle",
     "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Officiële apps zijn ontwikkeld door en binnen de ownCloud community. Ze bieden functionaliteit binnen ownCloud en zijn klaar voor gebruik in een productie omgeving.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Goedgekeurde apps zijn ontwikkeld door vertrouwde ontwikkelaars en hebben een beveiligingscontrole ondergaan. Ze worden actief onderhouden in een open code repository en hun ontwikkelaars vinden ze stabiel genoeg voor informeel of normaal gebruik.",
+    "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Deze app is niet gecontroleerd op beveiligingsproblemen en is nieuw is is bekend als onstabiel. Installeren op eigen risico.",
     "Update to %s" : "Bijgewerkt naar %s",
     "Please wait...." : "Even geduld a.u.b.",
     "Error while disabling app" : "Fout tijdens het uitzetten van het programma",

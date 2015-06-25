@@ -47,6 +47,7 @@ OC.L10N.register(
     "Select" : "เลือก",
     "Pending" : "อยู่ระหว่างดำเนินการ",
     "Unable to determine date" : "ไม่สามารถกำหนดวัน",
+    "This operation is forbidden" : "การดำเนินการนี้ถูกห้าม",
     "Error moving file." : "ข้อผิดพลาดในการเคลื่อนย้ายไฟล์",
     "Error moving file" : "ข้อผิดพลาดในการเคลื่อนย้ายไฟล์",
     "Error" : "ข้อผิดพลาด",

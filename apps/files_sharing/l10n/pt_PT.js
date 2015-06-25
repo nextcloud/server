@@ -58,6 +58,8 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Partilha de Cloud Federada",
     "Open documentation" : "Abrir documentação",
     "Allow users on this server to send shares to other servers" : "Permitir utilizadores neste servidor para enviar as partilhas para outros servidores",
-    "Allow users on this server to receive shares from other servers" : "Permitir utilizadores neste servidor para receber as partilhas de outros servidores"
+    "Allow users on this server to receive shares from other servers" : "Permitir utilizadores neste servidor para receber as partilhas de outros servidores",
+    "Share with me via ownCloud" : "Partilhe comigo via ownCloud",
+    "HTML Code:" : "Código HTML:"
 },
 "nplurals=2; plural=(n != 1);");

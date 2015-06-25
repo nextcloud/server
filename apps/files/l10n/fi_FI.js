@@ -47,6 +47,7 @@ OC.L10N.register(
     "Select" : "Valitse",
     "Pending" : "Odottaa",
     "Unable to determine date" : "Päivämäärän määrittäminen epäonnistui",
+    "This operation is forbidden" : "Tämä toiminto on kielletty",
     "Error moving file." : "Virhe tiedostoa siirrettäessä.",
     "Error moving file" : "Virhe tiedostoa siirrettäessä",
     "Error" : "Virhe",
