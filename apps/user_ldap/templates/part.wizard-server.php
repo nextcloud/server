@@ -25,7 +25,7 @@
 		</select>
 		<button type="button" id="ldap_action_add_configuration"
 			name="ldap_action_add_configuration" class="icon-add"
-			title="<?php p($l->t('Adds a new and blank configuration'));?>">&nbsp;</button>
+			title="<?php p($l->t('Add a new and blank configuration'));?>">&nbsp;</button>
 		<button type="button" id="ldap_action_copy_configuration"
 			name="ldap_action_copy_configuration"
 			class="ldapIconCopy icon-default-style"
