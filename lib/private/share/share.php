@@ -1703,11 +1703,20 @@ class Share extends Constants {
 				$row['permissions'] &= ~\OCP\Constants::PERMISSION_SHARE;
 			}
 			// Add display names to result
+			$row['share_with_displayname'] = $row['share_with'];
 			if ( isset($row['share_with']) && $row['share_with'] != '' &&
 				isset($row['share_with']) && $row['share_type'] === self::SHARE_TYPE_USER) {
 				$row['share_with_displayname'] = \OCP\User::getDisplayName($row['share_with']);
-			} else {
-				$row['share_with_displayname'] = $row['share_with'];
+			} else if(isset($row['share_with']) && $row['share_with'] != '' &&
+				$row['share_type'] === self::SHARE_TYPE_REMOTE) {
+				$addressBookEntries = \OC::$server->getContactsManager()->search($row['share_with'], ['CLOUD']);
+				foreach ($addressBookEntries as $entry) {
+					foreach ($entry['CLOUD'] as $cloudID) {
+						if ($cloudID === $row['share_with']) {
+							$row['share_with_displayname'] = $entry['FN'];
+						}
+					}
+				}
 			}
 			if ( isset($row['uid_owner']) && $row['uid_owner'] != '') {
 				$row['displayname_owner'] = \OCP\User::getDisplayName($row['uid_owner']);
