@@ -21,6 +21,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Valerio Ponte <valerio.ponte@gmail.com>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -288,38 +289,63 @@ class OC_Files {
 			return false;
 		}
 
-		//suppress errors in case we don't have permissions for
-		$htaccess = @file_get_contents(OC::$SERVERROOT . '/.htaccess');
-		if (!$htaccess) {
-			return false;
-		}
-
 		$phpValueKeys = array(
 			'upload_max_filesize',
 			'post_max_size'
 		);
 
-		foreach ($phpValueKeys as $key) {
-			$pattern = '/php_value ' . $key . ' (\S)*/';
-			$setting = 'php_value ' . $key . ' ' . $size;
-			$hasReplaced = 0;
-			$content = preg_replace($pattern, $setting, $htaccess, 1, $hasReplaced);
-			if ($content !== null) {
-				$htaccess = $content;
+		$updateFiles = [
+			OC::$SERVERROOT . '/.htaccess' => [
+				'pattern' => '/php_value %1$s (\S)*/',
+				'setting' => 'php_value %1$s %2$s'
+			],
+			OC::$SERVERROOT . '/.user.ini' => [
+				'pattern' => '/%1$s=(\S)*/',
+				'setting' => '%1$s=%2$s'
+			]
+		];
+
+		$success = true;
+
+		foreach ($updateFiles as $filename => $patternMap) {
+			// suppress warnings from fopen()
+			$handle = @fopen($filename, 'r+');
+			if (!$handle) {
+				\OCP\Util::writeLog('files',
+					'Can\'t write upload limit to ' . $filename . '. Please check the file permissions',
+					\OCP\Util::WARN);
+				$success = false;
+				continue; // try to update as many files as possible
 			}
-			if ($hasReplaced === 0) {
-				$htaccess .= "\n" . $setting;
+
+			$content = '';
+			while (!feof($handle)) {
+				$content .= fread($handle, 1000);
 			}
+
+			foreach ($phpValueKeys as $key) {
+				$pattern = vsprintf($patternMap['pattern'], [$key]);
+				$setting = vsprintf($patternMap['setting'], [$key, $size]);
+				$hasReplaced = 0;
+				$newContent = preg_replace($pattern, $setting, $content, 1, $hasReplaced);
+				if ($newContent !== null) {
+					$content = $newContent;
+				}
+				if ($hasReplaced === 0) {
+					$content .= "\n" . $setting;
+				}
+			}
+
+			// write file back
+			ftruncate($handle, 0);
+			rewind($handle);
+			fwrite($handle, $content);
+
+			fclose($handle);
 		}
 
-		//check for write permissions
-		if (is_writable(OC::$SERVERROOT . '/.htaccess')) {
-			file_put_contents(OC::$SERVERROOT . '/.htaccess', $htaccess);
+		if ($success) {
 			return OC_Helper::computerFileSize($size);
-		} else {
-			\OCP\Util::writeLog('files',
-				'Can\'t write upload limit to ' . OC::$SERVERROOT . '/.htaccess. Please check the file permissions',
-				\OCP\Util::WARN);
 		}
 		return false;
 	}

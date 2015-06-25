@@ -10,6 +10,8 @@
 		<br/>
 		<input type="hidden" value="<?php p($_['requesttoken']); ?>" name="requesttoken" />
 		<?php if($_['uploadChangable']): ?>
+			<?php p($l->t('With PHP-FPM this value may take up to 5 minutes to take effect after saving.')); ?>
+			<br/>
 			<input type="submit" name="submitFilesAdminSettings" id="submitFilesAdminSettings"
 				   value="<?php p($l->t( 'Save' )); ?>"/>
 		<?php else: ?>
