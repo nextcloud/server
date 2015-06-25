@@ -72,7 +72,7 @@ thead {
 }
 
 /* keep long file names in one line to not overflow download button on mobile */
-.directDownload #download {
+.directDownload #downloadFile {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
