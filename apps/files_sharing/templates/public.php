@@ -100,7 +100,7 @@ $thumbSize = 1024;
 				<div id="imgframe"></div>
 			<?php endif; ?>
 			<div class="directDownload">
-				<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
+				<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button">
 					<img class="svg" alt="" src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"/>
 					<?php p($l->t('Download %s', array($_['filename'])))?> (<?php p($_['fileSize']) ?>)
 				</a>
