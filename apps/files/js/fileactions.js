@@ -478,6 +478,14 @@
 			}, function (filename, context) {
 				var dir = context.dir || context.fileList.getCurrentDirectory();
 				var url = context.fileList.getDownloadUrl(filename, dir);
+
+				var icon = $(context.$file).find('.fileactions .action-download img');
+				var sourceImage = icon.attr('src');
+				icon.attr('src', sourceImage.replace('actions/download.svg', 'loading-small.gif'));
+				setTimeout(function(){
+					icon.attr('src', sourceImage);
+				}, 7000);
+
 				if (url) {
 					OC.redirect(url);
 				}
