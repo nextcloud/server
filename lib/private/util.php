@@ -11,10 +11,10 @@
  * @author Christian Reiner <github@christian-reiner.info>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author cmeh <cmeh@users.noreply.github.com>
  * @author Florin Peter <github@florin-peter.de>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Georg Ehrke <georg@ownCloud.com>
  * @author helix84 <helix84@centrum.sk>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>

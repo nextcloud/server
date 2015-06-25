@@ -1,22 +1,21 @@
 <?php
 /**
+ * @author Andreas Fischer <bantu@owncloud.com>
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
- * @author Brice Maron <brice@bmaron.net>
  * @author dratini0 <dratini0@gmail.com>
- * @author Fabian Henze <flyser42@gmx.de>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author josh4trunks <joshruehlig@gmail.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author mvn23 <schopdiedwaas@gmail.com>
  * @author Nicolai Ehemann <en@enlightened.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  * @author Thibaut GRIDEL <tgridel@free.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

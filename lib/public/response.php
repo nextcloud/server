@@ -1,7 +1,9 @@
 <?php
 /**
+ * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

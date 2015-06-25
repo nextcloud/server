@@ -3,7 +3,7 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
- * @author Philipp Knechtges <philipp-dev@knechtges.com>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *

@@ -1,9 +1,9 @@
 <?php
 /**
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Georg Ehrke <georg@ownCloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Olivier Paroz <github@oparoz.com>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

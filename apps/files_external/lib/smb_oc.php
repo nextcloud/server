@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>

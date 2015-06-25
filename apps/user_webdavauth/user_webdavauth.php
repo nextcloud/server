@@ -3,7 +3,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Frank Karlitschek <frank@owncloud.org>
- * @author Georg Ehrke <georg@ownCloud.com>
+ * @author Georg Ehrke <georg@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author opensaucesystems <ashley@opensaucesystems.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

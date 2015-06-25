@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *

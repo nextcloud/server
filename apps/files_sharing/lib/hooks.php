@@ -2,6 +2,7 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0

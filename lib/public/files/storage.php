@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>

@@ -3,8 +3,8 @@
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Craig Morrissey <craig@owncloud.com>
  * @author dampfklon <me@dampfklon.de>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
@@ -12,6 +12,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Ramiro Aparicio <rapariciog@gmail.com>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>

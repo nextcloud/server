@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Andreas Fischer <bantu@owncloud.com>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Jakob Sack <mail@jakobsack.de>

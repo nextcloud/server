@@ -7,6 +7,7 @@
  * @author Daniel Molkentin <daniel@molkentin.de>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>

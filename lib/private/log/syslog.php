@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author David Prévot <taffit@debian.org>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>

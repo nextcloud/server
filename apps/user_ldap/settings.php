@@ -1,7 +1,6 @@
 <?php
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author ben-denham <bend@catalyst.net.nz>
  * @author Dominik Schmidt <dev@dominik-schmidt.de>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Lukas Reschke <lukas@owncloud.com>

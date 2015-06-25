@@ -9,6 +9,7 @@
  * @author Michael Kuhn <suraia@ikkoku.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sam Tuke <mail@samtuke.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *

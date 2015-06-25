@@ -5,6 +5,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>

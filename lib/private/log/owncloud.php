@@ -2,18 +2,11 @@
 /**
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Felix Moeller <mail@felixmoeller.de>
- * @author Frank Karlitschek <frank@owncloud.org>
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tom Needham <tom@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0

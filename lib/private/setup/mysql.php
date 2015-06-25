@@ -3,7 +3,6 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Michael Göhler <somebody.here@gmx.de>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

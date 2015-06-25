@@ -8,7 +8,6 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0

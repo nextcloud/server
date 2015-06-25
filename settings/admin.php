@@ -2,11 +2,13 @@
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Björn Schießle <schiessle@owncloud.com>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Tom Needham <tom@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

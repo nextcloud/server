@@ -2,6 +2,7 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>

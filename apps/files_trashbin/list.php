@@ -2,7 +2,6 @@
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

@@ -3,7 +3,6 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Georg Ehrke <georg@ownCloud.com>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>

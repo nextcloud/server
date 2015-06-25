@@ -8,6 +8,7 @@
  * @author fabian <fabian@web2.0-apps.de>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>

@@ -7,6 +7,7 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Klaas Freitag <freitag@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>

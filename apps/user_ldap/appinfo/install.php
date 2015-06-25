@@ -2,7 +2,6 @@
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0

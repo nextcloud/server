@@ -12,7 +12,7 @@
  * @author Florin Peter <github@florin-peter.de>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Georg Ehrke <georg@ownCloud.com>
+ * @author Hugo Gonzalez Labrador <hglavra@gmail.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <nickvergessen@owncloud.com>

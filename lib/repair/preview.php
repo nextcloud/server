@@ -1,7 +1,6 @@
 <?php
 /**
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0

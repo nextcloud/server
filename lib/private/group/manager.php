@@ -4,10 +4,13 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author macjohnny <estebanmarin@gmx.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author voxsim <Simon Vocella>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

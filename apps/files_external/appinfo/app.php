@@ -6,7 +6,6 @@
  * @author j-ed <juergen@eisfair.org>
  * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>

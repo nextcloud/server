@@ -7,9 +7,8 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Olivier Paroz <owncloud@interfasys.ch>
+ * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
  *

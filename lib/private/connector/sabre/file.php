@@ -2,10 +2,7 @@
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
- * @author chli1 <chli1@users.noreply.github.com>
- * @author Chris Wilson <chris+github@qwirx.com>
  * @author Jakob Sack <mail@jakobsack.de>
- * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
