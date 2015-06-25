@@ -404,6 +404,10 @@ class Test_Group_Ldap extends \Test\TestCase {
 			->method('dn2groupname')
 			->will($this->returnArgument(0));
 
+		$access->expects($this->once())
+			->method('groupsMatchFilter')
+			->will($this->returnArgument(0));
+
 		$groupBackend = new GroupLDAP($access);
 		$groups = $groupBackend->getUserGroups('userX');
 
