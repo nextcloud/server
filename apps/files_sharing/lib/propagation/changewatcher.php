@@ -48,6 +48,8 @@ class ChangeWatcher {
 		}
 		$info = $this->baseView->getFileInfo($path);
 		if ($info) {
+			// trigger propagation if the subject of the write hook is shared.
+			// if a parent folder of $path is shared the propagation will be triggered from the change propagator hooks
 			$this->recipientPropagator->propagateById($info->getId());
 		}
 	}
