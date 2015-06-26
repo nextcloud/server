@@ -117,14 +117,34 @@ class Test_Files_Sharing_Updater extends OCA\Files_Sharing\Tests\TestCase {
 		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 	}
 
+	public function shareFolderProvider() {
+		return [
+			['/'],
+			['/my_shares'],
+		];
+	}
+
 	/**
 	 * if a file gets shared the etag for the recipients root should change
+	 *
+	 * @dataProvider shareFolderProvider
+	 *
+	 * @param string $shareFolder share folder to use
 	 */
-	function testShareFile() {
+	public function testShareFile($shareFolder) {
+		$config = \OC::$server->getConfig();
+		$oldShareFolder = $config->getSystemValue('share_folder');
+		$config->setSystemValue('share_folder', $shareFolder);
+
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		$beforeShare = \OC\Files\Filesystem::getFileInfo('');
-		$etagBeforeShare = $beforeShare->getEtag();
+		$beforeShareRoot = \OC\Files\Filesystem::getFileInfo('');
+		$etagBeforeShareRoot = $beforeShareRoot->getEtag();
+
+		\OC\Files\Filesystem::mkdir($shareFolder);
+
+		$beforeShareDir = \OC\Files\Filesystem::getFileInfo($shareFolder);
+		$etagBeforeShareDir = $beforeShareDir->getEtag();
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$fileinfo = \OC\Files\Filesystem::getFileInfo($this->folder);
@@ -133,17 +153,25 @@ class Test_Files_Sharing_Updater extends OCA\Files_Sharing\Tests\TestCase {
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		$afterShare = \OC\Files\Filesystem::getFileInfo('');
-		$etagAfterShare = $afterShare->getEtag();
+		$afterShareRoot = \OC\Files\Filesystem::getFileInfo('');
+		$etagAfterShareRoot = $afterShareRoot->getEtag();
 
-		$this->assertTrue(is_string($etagBeforeShare));
-		$this->assertTrue(is_string($etagAfterShare));
-		$this->assertTrue($etagBeforeShare !== $etagAfterShare);
+		$afterShareDir = \OC\Files\Filesystem::getFileInfo($shareFolder);
+		$etagAfterShareDir = $afterShareDir->getEtag();
+
+		$this->assertTrue(is_string($etagBeforeShareRoot));
+		$this->assertTrue(is_string($etagBeforeShareDir));
+		$this->assertTrue(is_string($etagAfterShareRoot));
+		$this->assertTrue(is_string($etagAfterShareDir));
+		$this->assertTrue($etagBeforeShareRoot !== $etagAfterShareRoot);
+		$this->assertTrue($etagBeforeShareDir !== $etagAfterShareDir);
 
 		// cleanup
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$result = \OCP\Share::unshare('folder', $fileinfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue($result);
+
+		$config->setSystemValue('share_folder', $oldShareFolder);
 	}
 
 	/**
