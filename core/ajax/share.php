@@ -273,8 +273,15 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				$sharedUsers = [];
 				$sharedGroups = [];
 				if (isset($_GET['itemShares'])) {
-					$sharedUsers = isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_USER]) ? $_GET['itemShares'][OCP\Share::SHARE_TYPE_USER] : [];
-					$sharedGroups = isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]) ? $_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP] : [];
+					if (isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_USER]) &&
+					    is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_USER])) {
+						$sharedUsers = $_GET['itemShares'][OCP\Share::SHARE_TYPE_USER];
+					}
+
+					if (isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]) &&
+					    is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])) {
+						$sharedGroups = isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]);
+					}
 				}
 
 				$count = 0;
