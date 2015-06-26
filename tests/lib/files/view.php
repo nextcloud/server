@@ -1900,7 +1900,7 @@ class View extends \Test\TestCase {
 		$this->assertNull($this->getFileLockType($view, $sourcePath, true), 'Source path not locked after operation');
 		$this->assertNull($this->getFileLockType($view, $targetPath, true), 'Target path not locked after operation');
 
-		$mountProviderCollection->clear();
+		\Test\TestCase::invokePrivate($mountProviderCollection, 'providers', [[]]);
 	}
 
 	/**

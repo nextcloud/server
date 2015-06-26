@@ -71,13 +71,4 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		$this->providers[] = $provider;
 		$this->emit('\OC\Files\Config', 'registerMountProvider', [$provider]);
 	}
-
-	/**
-	 * Clear registered providers
-	 *
-	 * @internal
-	 */
-	public function clear() {
-		$this->providers = [];
-	}
 }
