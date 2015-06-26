@@ -359,7 +359,23 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 							)
 						);
 					}
+					$contactManager = \OC::$server->getContactsManager();
+					$addressBookContacts = $contactManager->search($_GET['search'], ['CLOUD', 'FN']);
+					foreach ($addressBookContacts as $contact) {
+						if (isset($contact['CLOUD'])) {
+							foreach ($contact['CLOUD'] as $cloudId) {
+								$shareWith[] = array(
+									'label' => $contact['FN'] . ' (' . $cloudId . ')',
+									'value' => array(
+										'shareType' => \OCP\Share::SHARE_TYPE_REMOTE,
+										'shareWith' => $cloudId
+									)
+								);
+							}
+						}
+					}
 				}
+
 
 				$sorter = new \OC\Share\SearchResultSorter((string)$_GET['search'],
 														   'label',
