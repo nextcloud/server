@@ -75,7 +75,7 @@ class PropagationManager {
 		if (isset($this->sharePropagators[$user])) {
 			return $this->sharePropagators[$user];
 		}
-		$this->sharePropagators[$user] = new RecipientPropagator($user, $this->getChangePropagator($user), $this->config);
+		$this->sharePropagators[$user] = new RecipientPropagator($user, $this->getChangePropagator($user), $this->config, $this);
 		return $this->sharePropagators[$user];
 	}
 
@@ -101,7 +101,8 @@ class PropagationManager {
 		if (!$user) {
 			return;
 		}
-		$watcher = new ChangeWatcher(Filesystem::getView());
+		$recipientPropagator = $this->getSharePropagator($user->getUID());
+		$watcher = new ChangeWatcher(Filesystem::getView(), $recipientPropagator);
 
 		// for marking shares owned by the active user as dirty when a file inside them changes
 		$this->listenToOwnerChanges($user->getUID(), $user->getUID());

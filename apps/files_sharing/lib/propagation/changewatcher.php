@@ -25,10 +25,17 @@ class ChangeWatcher {
 	private $baseView;
 
 	/**
-	 * @param \OC\Files\View $baseView the view for the logged in user
+	 * @var RecipientPropagator
 	 */
-	public function __construct(View $baseView) {
+	private $recipientPropagator;
+
+	/**
+	 * @param \OC\Files\View $baseView the view for the logged in user
+	 * @param RecipientPropagator $recipientPropagator
+	 */
+	public function __construct(View $baseView, RecipientPropagator $recipientPropagator) {
 		$this->baseView = $baseView;
+		$this->recipientPropagator = $recipientPropagator;
 	}
 
 
@@ -38,6 +45,12 @@ class ChangeWatcher {
 		$mount = $this->baseView->getMount($path);
 		if ($mount instanceof SharedMount) {
 			$this->propagateForOwner($mount->getShare(), $mount->getInternalPath($fullPath), $mount->getOwnerPropagator());
+		}
+		$info = $this->baseView->getFileInfo($path);
+		if ($info) {
+			// trigger propagation if the subject of the write hook is shared.
+			// if a parent folder of $path is shared the propagation will be triggered from the change propagator hooks
+			$this->recipientPropagator->propagateById($info->getId());
 		}
 	}
 

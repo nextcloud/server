@@ -32,16 +32,23 @@ class RecipientPropagator {
 	protected $config;
 
 	/**
+	 * @var PropagationManager
+	 */
+	private $manager;
+
+	/**
 	 * @param string $userId current user, must match the propagator's
 	 * user
 	 * @param \OC\Files\Cache\ChangePropagator $changePropagator change propagator
 	 * initialized with a view for $user
 	 * @param \OCP\IConfig $config
+	 * @param PropagationManager $manager
 	 */
-	public function __construct($userId, $changePropagator, $config) {
+	public function __construct($userId, $changePropagator, $config, PropagationManager $manager) {
 		$this->userId = $userId;
 		$this->changePropagator = $changePropagator;
 		$this->config = $config;
+		$this->manager = $manager;
 	}
 
 	/**
@@ -101,18 +108,24 @@ class RecipientPropagator {
 	 */
 	public function attachToPropagator(ChangePropagator $propagator, $owner) {
 		$propagator->listen('\OC\Files', 'propagate', function ($path, $entry) use ($owner) {
-			$shares = Share::getAllSharesForFileId($entry['fileid']);
-			foreach ($shares as $share) {
-				// propagate down the share tree
-				$this->markDirty($share, microtime(true));
+			$this->propagateById($entry['fileid']);
+		});
+	}
 
-				// propagate up the share tree
-				$user = $share['uid_owner'];
+	public function propagateById($id) {
+		$shares = Share::getAllSharesForFileId($id);
+		foreach ($shares as $share) {
+			// propagate down the share tree
+			$this->markDirty($share, microtime(true));
+
+			// propagate up the share tree
+			$user = $share['uid_owner'];
+			if($user !== $this->userId) {
 				$view = new View('/' . $user . '/files');
 				$path = $view->getPath($share['file_source']);
-				$watcher = new ChangeWatcher($view);
+				$watcher = new ChangeWatcher($view, $this->manager->getSharePropagator($user));
 				$watcher->writeHook(['path' => $path]);
 			}
-		});
+		}
 	}
 }
