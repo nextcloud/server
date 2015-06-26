@@ -533,9 +533,9 @@ if ($_['cronErrors']) {
 	<ul>
 		<li>
 			<?php if ($_['fileLockingEnabled']) {
-				p($l->t('Experimental File Lock is enabled.'));
+				p($l->t('Transactional File Locking is enabled.'));
 			} else {
-				p($l->t('Experimental File Lock is disabled.'));
+				p($l->t('Transactional File Locking is disabled.'));
 			} ?>
 		</li>
 	</ul>
