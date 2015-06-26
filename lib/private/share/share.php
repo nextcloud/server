@@ -781,6 +781,19 @@ class Share extends Constants {
 			\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName), \OCP\Util::ERROR);
 			throw new \Exception($message_t);
 		} else if ($shareType === self::SHARE_TYPE_REMOTE) {
+
+			/*
+			 * Check if file is not already shared with the remote user
+			 */
+			if ($checkExists = self::getItems($itemType, $itemSource, self::SHARE_TYPE_REMOTE,
+				$shareWith, $uidOwner, self::FORMAT_NONE, null, 1, true, true)) {
+					$message = 'Sharing %s failed, because this item is already shared with %s';
+					$message_t = $l->t('Sharing %s failed, because this item is already shared with %s', array($itemSourceName, $shareWith));
+					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::ERROR);
+					throw new \Exception($message_t);
+			}
+
+
 			$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(self::TOKEN_LENGTH, \OCP\Security\ISecureRandom::CHAR_LOWER . \OCP\Security\ISecureRandom::CHAR_UPPER .
 				\OCP\Security\ISecureRandom::CHAR_DIGITS);
 
