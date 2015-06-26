@@ -47,6 +47,7 @@ OC.L10N.register(
     "Select" : "Επιλογή",
     "Pending" : "Εκκρεμεί",
     "Unable to determine date" : "Αδυναμία προσδιορισμού ημερομηνίας ",
+    "This operation is forbidden" : "Αυτή η ενέργεια απαγορεύεται",
     "Error moving file." : "Σφάλμα κατά τη μετακίνηση του αρχείου.",
     "Error moving file" : "Σφάλμα κατά τη μετακίνηση του αρχείου",
     "Error" : "Σφάλμα",

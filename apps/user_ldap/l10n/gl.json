@@ -76,7 +76,6 @@
     "Verify settings" : "Verificar os axustes",
     "1. Server" : "1. Servidor",
     "%s. Server:" : "%s. Servidor:",
-    "Adds a new and blank configuration" : "Engade unha configuración nova e en branco",
     "Copy current configuration into new directory binding" : "Copiar a configuración no novo directorio vinculado",
     "Delete the current configuration" : "Eliminar a configuración actual",
     "Host" : "Máquina",

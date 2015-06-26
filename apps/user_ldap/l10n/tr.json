@@ -52,7 +52,6 @@
     "Verify settings" : "Ayarları doğrula",
     "1. Server" : "1. Sunucu",
     "%s. Server:" : "%s. Sunucu:",
-    "Adds a new and blank configuration" : "Yeni ve boş bir yapılandırma ekler",
     "Copy current configuration into new directory binding" : "Geçerli yapılandırmayı yeni dizin bağlamasına kopyala",
     "Delete the current configuration" : "Geçerli yapılandırmayı sil",
     "Host" : "Sunucu",

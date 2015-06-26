@@ -78,7 +78,6 @@ OC.L10N.register(
     "Verify settings" : "Verify settings",
     "1. Server" : "1. Server",
     "%s. Server:" : "%s. Server:",
-    "Adds a new and blank configuration" : "Adds a new and blank configuration",
     "Copy current configuration into new directory binding" : "Copy current configuration into new directory binding",
     "Delete the current configuration" : "Delete the current configuration",
     "Host" : "Host",

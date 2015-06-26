@@ -62,6 +62,7 @@ OC.L10N.register(
     "All" : "Όλες",
     "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Οι επίσημες εφαρμογές αναπτύσσονται από την κοινότητα ownCloud. Προσφέρουν λειτουργικότητα κοντά στο ownCloud και είναι έτοιμες για χρήση.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Οι εγκεκριμένες εφαρμογές αναπτύχθηκαν από αξιόπιστους προγραμματιστές και έχουν περάσει έναν συνοπτικό έλεγχο ασφαλείας. Διατηρούνται ενεργά σε ένα αποθετήριο ανοιχτού κώδικα και οι συντηρητές θεωρούν οτι είναι σταθερές για κανονική χρήση.",
+    "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Η εφαρμογή αυτή δεν ελέγχεται για θέματα ασφάλειας και είναι νέα ή είναι γνωστό ότι είναι ασταθής. Η εγκατάσταση γίνεται με δική σας ευθύνη.",
     "Update to %s" : "Ενημέρωση σε %s",
     "Please wait...." : "Παρακαλώ περιμένετε...",
     "Error while disabling app" : "Σφάλμα κατά την απενεργοποίηση εισόδου",

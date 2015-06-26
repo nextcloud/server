@@ -76,7 +76,6 @@
     "Verify settings" : "ตรวจสอบการตั้งค่า",
     "1. Server" : "1. เซิร์ฟเวอร์",
     "%s. Server:" : "เซิร์ฟเวอร์%s",
-    "Adds a new and blank configuration" : "เพิ่มใหม่และกำหนดค่าว่างเปล่า",
     "Copy current configuration into new directory binding" : "คัดลอกการตั้งค่าปัจจุบันลงในไดเรกทอรีใหม่ที่ผูกกัน",
     "Delete the current configuration" : "ลบการตั้งค่าปัจจุบัน",
     "Host" : "โฮสต์",

@@ -78,7 +78,6 @@ OC.L10N.register(
     "Verify settings" : "Ověřit nastavení",
     "1. Server" : "1. Server",
     "%s. Server:" : "%s. Server:",
-    "Adds a new and blank configuration" : "Přidá novou prázdnou konfiguraci",
     "Copy current configuration into new directory binding" : "Zkopírovat současnou konfiguraci do nového adresářového propojení",
     "Delete the current configuration" : "Smazat současnou konfiguraci",
     "Host" : "Počítač",

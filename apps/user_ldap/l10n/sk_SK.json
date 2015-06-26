@@ -58,7 +58,6 @@
     "Verify settings" : "Overiť nastavenia",
     "1. Server" : "1. Server",
     "%s. Server:" : "%s. Server:",
-    "Adds a new and blank configuration" : "Pridať novú prázdnu konfiguráciu",
     "Delete the current configuration" : "Vymazať súčasnú konfiguráciu",
     "Host" : "Hostiteľ",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Môžete vynechať protokol, okrem prípadu, kedy sa vyžaduje SSL. Vtedy začnite s ldaps://",

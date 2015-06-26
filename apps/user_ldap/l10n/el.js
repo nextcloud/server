@@ -78,7 +78,6 @@ OC.L10N.register(
     "Verify settings" : "Επιβεβαίωση ρυθμίσεων",
     "1. Server" : "1. Διακομιστής",
     "%s. Server:" : "%s. Διακομιστής:",
-    "Adds a new and blank configuration" : "Προσθέτει μια νέα και κενή διαμόρφωση",
     "Copy current configuration into new directory binding" : "Αντιγραφή της τρέχουσας διαμόρφωσης σε νέο κατάλογο",
     "Delete the current configuration" : "Διαγραφή τρέχουσας διαμόρφωσης",
     "Host" : "Διακομιστής",
