@@ -43,6 +43,9 @@
 // TODO: get rid of this using proper composer packages
 require_once 'mcnetic/phpzipstreamer/ZipStreamer.php';
 
+use OC\Lock\NoopLockingProvider;
+use OCP\Lock\ILockingProvider;
+
 /**
  * Class for file server access
  *
@@ -82,11 +85,15 @@ class OC_Files {
 	 * @param boolean $only_header ; boolean to only send header of the request
 	 */
 	public static function get($dir, $files, $only_header = false) {
+		$view = \OC\Files\Filesystem::getView();
 		$xsendfile = false;
-		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) ||
-			isset($_SERVER['MOD_X_SENDFILE2_ENABLED']) ||
-			isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
-			$xsendfile = true;
+		if (\OC::$server->getLockingProvider() instanceof NoopLockingProvider) {
+			if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) ||
+				isset($_SERVER['MOD_X_SENDFILE2_ENABLED']) ||
+				isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])
+			) {
+				$xsendfile = true;
+			}
 		}
 
 		if (is_array($files) && count($files) === 1) {
@@ -131,7 +138,9 @@ class OC_Files {
 		OC_Util::obEnd();
 
 		try {
-
+			if ($get_type === self::FILE) {
+				$view->lockFile($filename, ILockingProvider::LOCK_SHARED);
+			}
 			if ($zip or \OC\Files\Filesystem::isReadable($filename)) {
 				self::sendHeaders($filename, $name, $zip);
 			} elseif (!\OC\Files\Filesystem::file_exists($filename)) {
@@ -168,7 +177,6 @@ class OC_Files {
 				set_time_limit($executionTime);
 			} else {
 				if ($xsendfile) {
-					$view = \OC\Files\Filesystem::getView();
 					/** @var $storage \OC\Files\Storage\Storage */
 					list($storage) = $view->resolvePath($filename);
 					if ($storage->isLocal()) {
@@ -180,6 +188,13 @@ class OC_Files {
 					\OC\Files\Filesystem::readfile($filename);
 				}
 			}
+			if ($get_type === self::FILE) {
+				$view->unlockFile($filename, ILockingProvider::LOCK_SHARED);
+			}
+		} catch (\OCP\Lock\LockedException $ex) {
+			$l = \OC::$server->getL10N('core');
+			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
+			\OC_Template::printErrorPage($l->t('File is currently busy, please try again later'), $hint);
 		} catch (\Exception $ex) {
 			$l = \OC::$server->getL10N('core');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
