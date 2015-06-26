@@ -225,7 +225,7 @@ $CONFIG = array(
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.
  */
-'skeletondirectory' => '',
+'skeletondirectory' => '/path/to/owncloud/core/skeleton',
 
 /**
  * The ``user_backends`` app (which needs to be enabled first) allows you to
