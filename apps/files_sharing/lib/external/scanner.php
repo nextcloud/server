@@ -34,7 +34,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	protected $storage;
 
 	/** {@inheritDoc} */
-	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1) {
+	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
 		$this->scanAll();
 	}
 
