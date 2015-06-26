@@ -161,6 +161,7 @@ a.showCruds:hover,a.unshare:hover {
 	max-height:103px;
 	overflow-y:auto;
 	overflow-x:hidden;
+	z-index: 101 !important;
 }
 
 .notCreatable {
