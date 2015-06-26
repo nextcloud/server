@@ -968,6 +968,35 @@ class Test_Share extends \Test\TestCase {
 
 	}
 
+	public function dataShareWithRemoteUserAndRemoteIsInvalid() {
+		return [
+			// Invalid path
+			array('user@'),
+
+			// Invalid user
+			array('@server'),
+			array('us/er@server'),
+			array('us:er@server'),
+
+			// Invalid splitting
+			array('user'),
+			array(''),
+			array('us/erserver'),
+			array('us:erserver'),
+		];
+	}
+
+	/**
+	 * @dataProvider dataShareWithRemoteUserAndRemoteIsInvalid
+	 *
+	 * @param string $remoteId
+	 * @expectedException \OC\HintException
+	 */
+	public function testShareWithRemoteUserAndRemoteIsInvalid($remoteId) {
+		OC_User::setUserId($this->user1);
+		OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_REMOTE, $remoteId, \OCP\Constants::PERMISSION_ALL);
+	}
+
 	public function testUnshareAll() {
 		$this->shareUserTestFileWithUser($this->user1, $this->user2);
 		$this->shareUserTestFileWithUser($this->user2, $this->user3);

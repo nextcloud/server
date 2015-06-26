@@ -554,6 +554,7 @@ class Share extends Constants {
 	 * @param string $itemSourceName
 	 * @param \DateTime $expirationDate
 	 * @return boolean|string Returns true on success or false on failure, Returns token on success for links
+	 * @throws \OC\HintException when the share type is remote and the shareWith is invalid
 	 * @throws \Exception
 	 */
 	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName = null, \DateTime $expirationDate = null) {
@@ -749,7 +750,8 @@ class Share extends Constants {
 			$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(self::TOKEN_LENGTH, \OCP\Security\ISecureRandom::CHAR_LOWER . \OCP\Security\ISecureRandom::CHAR_UPPER .
 				\OCP\Security\ISecureRandom::CHAR_DIGITS);
 
-			$shareWith = Helper::fixRemoteURLInShareWith($shareWith);
+			list($user, $remote) = Helper::splitUserRemote($shareWith);
+			$shareWith = $user . '@' . $remote;
 			$shareId = self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions, null, $token, $itemSourceName);
 
 			$send = false;
@@ -1300,8 +1302,8 @@ class Share extends Constants {
 		$hookParams['deletedShares'] = $deletedShares;
 		\OC_Hook::emit('OCP\Share', 'post_unshare', $hookParams);
 		if ((int)$item['share_type'] === \OCP\Share::SHARE_TYPE_REMOTE && \OC::$server->getUserSession()->getUser()) {
-			$urlParts = explode('@', $item['share_with'], 2);
-			self::sendRemoteUnshare($urlParts[1], $item['id'], $item['token']);
+			list(, $remote) = Helper::splitUserRemote($item['share_with']);
+			self::sendRemoteUnshare($remote, $item['id'], $item['token']);
 		}
 	}
 
@@ -2436,10 +2438,10 @@ class Share extends Constants {
 	 */
 	private static function sendRemoteShare($token, $shareWith, $name, $remote_id, $owner) {
 
-		list($user, $remote) = explode('@', $shareWith, 2);
+		list($user, $remote) = Helper::splitUserRemote($shareWith);
 
 		if ($user && $remote) {
-			$url = rtrim($remote, '/') . self::BASE_PATH_TO_SHARE_API . '?format=' . self::RESPONSE_FORMAT;
+			$url = $remote . self::BASE_PATH_TO_SHARE_API . '?format=' . self::RESPONSE_FORMAT;
 
 			$local = \OC::$server->getURLGenerator()->getAbsoluteURL('/');
 

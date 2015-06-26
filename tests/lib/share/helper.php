@@ -50,44 +50,31 @@ class Test_Share_Helper extends \Test\TestCase {
 		$this->assertSame($expected, $result);
 	}
 
-	public function fixRemoteURLInShareWithData() {
-		$userPrefix = ['test@', 'na/me@'];
+	public function dataTestSplitUserRemote() {
+		$userPrefix = ['user@name', 'username'];
 		$protocols = ['', 'http://', 'https://'];
 		$remotes = [
 			'localhost',
-			'test:foobar@localhost',
 			'local.host',
 			'dev.local.host',
 			'dev.local.host/path',
+			'dev.local.host/at@inpath',
 			'127.0.0.1',
 			'::1',
 			'::192.0.2.128',
+			'::192.0.2.128/at@inpath',
 		];
 
-		$testCases = [
-			['test', 'test'],
-			['na/me', 'na/me'],
-			['na/me/', 'na/me'],
-			['na/index.php', 'na/index.php'],
-			['http://localhost', 'http://localhost'],
-			['http://localhost/', 'http://localhost'],
-			['http://localhost/index.php', 'http://localhost/index.php'],
-			['http://localhost/index.php/s/token', 'http://localhost/index.php/s/token'],
-			['http://test:foobar@localhost', 'http://test:foobar@localhost'],
-			['http://test:foobar@localhost/', 'http://test:foobar@localhost'],
-			['http://test:foobar@localhost/index.php', 'http://test:foobar@localhost'],
-			['http://test:foobar@localhost/index.php/s/token', 'http://test:foobar@localhost'],
-		];
-
+		$testCases = [];
 		foreach ($userPrefix as $user) {
 			foreach ($remotes as $remote) {
 				foreach ($protocols as $protocol) {
-					$baseUrl = $user . $protocol . $remote;
+					$baseUrl = $user . '@' . $protocol . $remote;
 
-					$testCases[] = [$baseUrl, $baseUrl];
-					$testCases[] = [$baseUrl . '/', $baseUrl];
-					$testCases[] = [$baseUrl . '/index.php', $baseUrl];
-					$testCases[] = [$baseUrl . '/index.php/s/token', $baseUrl];
+					$testCases[] = [$baseUrl, $user, $protocol . $remote];
+					$testCases[] = [$baseUrl . '/', $user, $protocol . $remote];
+					$testCases[] = [$baseUrl . '/index.php', $user, $protocol . $remote];
+					$testCases[] = [$baseUrl . '/index.php/s/token', $user, $protocol . $remote];
 				}
 			}
 		}
@@ -95,9 +82,43 @@ class Test_Share_Helper extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider fixRemoteURLInShareWithData
+	 * @dataProvider dataTestSplitUserRemote
+	 *
+	 * @param string $remote
+	 * @param string $expectedUser
+	 * @param string $expectedUrl
 	 */
-	public function testFixRemoteURLInShareWith($remote, $expected) {
-		$this->assertSame($expected, \OC\Share\Helper::fixRemoteURLInShareWith($remote));
+	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl) {
+		list($remoteUser, $remoteUrl) = \OC\Share\Helper::splitUserRemote($remote);
+		$this->assertSame($expectedUser, $remoteUser);
+		$this->assertSame($expectedUrl, $remoteUrl);
+	}
+
+	public function dataTestSplitUserRemoteError() {
+		return array(
+			// Invalid path
+			array('user@'),
+
+			// Invalid user
+			array('@server'),
+			array('us/er@server'),
+			array('us:er@server'),
+
+			// Invalid splitting
+			array('user'),
+			array(''),
+			array('us/erserver'),
+			array('us:erserver'),
+		);
+	}
+
+	/**
+	 * @dataProvider dataTestSplitUserRemoteError
+	 *
+	 * @param string $id
+	 * @expectedException \OC\HintException
+	 */
+	public function testSplitUserRemoteError($id) {
+		\OC\Share\Helper::splitUserRemote($id);
 	}
 }
