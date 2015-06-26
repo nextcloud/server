@@ -381,10 +381,12 @@ class Encryption extends \Test\Files\Storage\Storage {
 
 	/**
 	 * @dataProvider dataTestGetHeader
-	 * @param $path
-	 * @param $strippedPath
+	 *
+	 * @param string $path
+	 * @param bool $strippedPathExists
+	 * @param string $strippedPath
 	 */
-	public function testGetHeader($path, $strippedPath) {
+	public function testGetHeader($path, $strippedPathExists, $strippedPath) {
 
 		$sourceStorage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()->getMock();
@@ -409,17 +411,25 @@ class Encryption extends \Test\Files\Storage\Storage {
 
 		$util->expects($this->once())->method('stripPartialFileExtension')
 			->with($path)->willReturn($strippedPath);
-		$sourceStorage->expects($this->once())->method('file_exists')
-			->with($strippedPath)->willReturn(false);
+		$sourceStorage->expects($this->at(0))
+			->method('file_exists')
+			->with($strippedPath)
+			->willReturn($strippedPathExists);
+		$sourceStorage->expects($this->at(1))
+			->method('file_exists')
+			->with($strippedPathExists ? $strippedPath : $path)
+			->willReturn(false);
 
 		$this->invokePrivate($instance, 'getHeader', [$path]);
 	}
 
 	public function dataTestGetHeader() {
 		return array(
-			array('/foo/bar.txt', '/foo/bar.txt'),
-			array('/foo/bar.txt.part', '/foo/bar.txt'),
-			array('/foo/bar.txt.ocTransferId7437493.part', '/foo/bar.txt'),
+			array('/foo/bar.txt', false, '/foo/bar.txt'),
+			array('/foo/bar.txt.part', false, '/foo/bar.txt'),
+			array('/foo/bar.txt.ocTransferId7437493.part', false, '/foo/bar.txt'),
+			array('/foo/bar.txt.part', true, '/foo/bar.txt'),
+			array('/foo/bar.txt.ocTransferId7437493.part', true, '/foo/bar.txt'),
 		);
 	}
 }
