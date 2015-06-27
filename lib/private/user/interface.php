@@ -45,11 +45,13 @@ interface OC_User_Interface {
 	public function deleteUser($uid);
 
 	/**
-	* Get a list of all users
-	* @return array an array of all uids
-	*
-	* Get a list of all users.
-	*/
+	 * Get a list of all users
+	 *
+	 * @param string $search
+	 * @param null|int $limit
+	 * @param null|int $offset
+	 * @return string[] an array of all uids
+	 */
 	public function getUsers($search = '', $limit = null, $offset = null);
 
 	/**
@@ -67,10 +69,12 @@ interface OC_User_Interface {
 	public function getDisplayName($uid);
 
 	/**
-	 * Get a list of all display names
-	 * @return array an array of  all displayNames (value) and the corresponding uids (key)
-	 *
 	 * Get a list of all display names and user ids.
+	 *
+	 * @param string $search
+	 * @param string|null $limit
+	 * @param string|null $offset
+	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null);
 

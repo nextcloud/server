@@ -120,9 +120,11 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 	/**
 	 * Get a list of all users
-	 * @return string[] with all uids
 	 *
-	 * Get a list of all users.
+	 * @param string $search
+	 * @param null|int $limit
+	 * @param null|int $offset
+	 * @return string[] an array of all uids
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
 		$search = $this->access->escapeFilterPart($search, true);
@@ -328,9 +330,11 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 	/**
 	 * Get a list of all display names
-	 * @return array with all displayNames (value) and the correspondig uids (key)
 	 *
-	 * Get a list of all display names and user ids.
+	 * @param string $search
+	 * @param string|null $limit
+	 * @param string|null $offset
+	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$cacheKey = 'getDisplayNames-'.$search.'-'.$limit.'-'.$offset;
