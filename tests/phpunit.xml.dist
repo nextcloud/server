@@ -4,6 +4,7 @@
 		<directory suffix='.php'>lib/</directory>
 		<directory suffix='.php'>settings/</directory>
 		<directory suffix='.php'>core/</directory>
+		<directory suffix='.php'>ocs-provider/</directory>
 		<file>apps.php</file>
 	</testsuite>
 	<!-- filters for code coverage -->
