@@ -108,11 +108,9 @@ class OC_User_Dummy extends OC_User_Backend implements \OCP\IUserBackend {
 	 * Get a list of all users
 	 *
 	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return string[] with all uids
-	 *
-	 * Get a list of all users.
+	 * @param null|int $limit
+	 * @param null|int $offset
+	 * @return string[] an array of all uids
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
 		if (empty($search)) {

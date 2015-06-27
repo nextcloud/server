@@ -132,9 +132,11 @@ class User_Proxy extends lib\Proxy implements \OCP\IUserBackend, \OCP\UserInterf
 
 	/**
 	 * Get a list of all users
-	 * @return string[] with all uids
 	 *
-	 * Get a list of all users.
+	 * @param string $search
+	 * @param null|int $limit
+	 * @param null|int $offset
+	 * @return string[] an array of all uids
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
 		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
@@ -208,10 +210,11 @@ class User_Proxy extends lib\Proxy implements \OCP\IUserBackend, \OCP\UserInterf
 	}
 
 	/**
-	 * Get a list of all display names
-	 * @return array with all displayNames (value) and the corresponding uids (key)
-	 *
 	 * Get a list of all display names and user ids.
+	 * @param string $search
+	 * @param string|null $limit
+	 * @param string|null $offset
+	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
