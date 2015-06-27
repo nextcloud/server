@@ -45,6 +45,7 @@ return array(
 	'blend' => array('application/x-blender', null),
 	'bin' => array('application/x-bin', null),
 	'bmp' => array('image/bmp', null),
+	'bpg' => array('image/bpg', null),
 	'cb7' => array('application/x-cbr', null),
 	'cba' => array('application/x-cbr', null),
 	'cbr' => array('application/x-cbr', null),
