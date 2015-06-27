@@ -1131,6 +1131,14 @@
 				return false;
 			}
 
+			// Did share service die or something else fail?
+			if (result.status === 500) {
+				// Go home
+				this.changeDirectory('/');
+				OC.Notification.show(t('files', 'This directory is unavailable, please check the logs or contact the administrator'));
+				return false;
+			}
+
 			if (result.status === 404) {
 				// go back home
 				this.changeDirectory('/');
