@@ -1,6 +1,7 @@
 <?php
 /**
- * @author Olivier Paroz <owncloud@interfasys.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Olivier Paroz <github@oparoz.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0

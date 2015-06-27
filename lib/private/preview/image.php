@@ -1,9 +1,9 @@
 <?php
 /**
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Olivier Paroz <owncloud@interfasys.ch>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Olivier Paroz <github@oparoz.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *

@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Bernhard Reiter <ockham@raz.or.at>

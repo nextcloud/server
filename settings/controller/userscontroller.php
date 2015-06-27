@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>

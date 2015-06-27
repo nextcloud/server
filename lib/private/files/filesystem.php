@@ -2,10 +2,9 @@
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Florin Peter <github@florin-peter.de>
- * @author Georg Ehrke <georg@ownCloud.com>
+ * @author Georg Ehrke <georg@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>

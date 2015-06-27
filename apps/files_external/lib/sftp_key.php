@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Ross Nicoll <jrn@jrn.me.uk>
  *

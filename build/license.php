@@ -144,7 +144,7 @@ EOD;
 	}
 
 	private function getAuthors($file) {
-		$out = shell_exec("git blame --line-porcelain $file | sed -n 's/^author //p;s/^author-mail //p' | sed 'N;s/\\n/ /' | sort | uniq");
+		$out = shell_exec("git blame --line-porcelain $file | sed -n 's/^author //p;s/^author-mail //p' | sed 'N;s/\\n/ /' | sort -f | uniq");
 		$authors = explode(PHP_EOL, $out);
 
 		$authors = array_filter($authors, function($author) {

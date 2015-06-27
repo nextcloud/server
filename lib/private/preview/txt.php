@@ -1,9 +1,7 @@
 <?php
 /**
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Georg Ehrke <georg@ownCloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Nmz <nemesiz@nmz.lt>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

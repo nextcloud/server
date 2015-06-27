@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Andreas Fischer <bantu@owncloud.com>
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>

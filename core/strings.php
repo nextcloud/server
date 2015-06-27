@@ -1,7 +1,6 @@
 <?php
 /**
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

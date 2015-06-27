@@ -9,7 +9,6 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Luke Policinski <lpolicinski@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Roman Geber <rgeber@owncloudapps.com>
  * @author TheSFReader <TheSFReader@gmail.com>

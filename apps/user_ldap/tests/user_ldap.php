@@ -2,6 +2,7 @@
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>

@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>

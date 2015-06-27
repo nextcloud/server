@@ -8,6 +8,7 @@
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Marvin Thomas Rabe <mrabe@marvinrabe.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>

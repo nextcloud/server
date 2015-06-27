@@ -5,6 +5,7 @@
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Florin Peter <github@florin-peter.de>
  * @author Georg Ehrke <georg@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>

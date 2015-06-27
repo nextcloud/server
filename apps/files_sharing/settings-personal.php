@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

@@ -1,10 +1,12 @@
 <?php
 /**
+ * @author Aidan Amavi <github@aidanamavi.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Normal Ra <normalraw@gmail.com>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author tiezdne <oswald.84@t-online.de>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>

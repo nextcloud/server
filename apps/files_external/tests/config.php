@@ -3,7 +3,6 @@
  * @author Christian Berendt <berendt@b1-systems.de>
  * @author hkjolhede <hkjolhede@gmail.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Ross Nicoll <jrn@jrn.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
