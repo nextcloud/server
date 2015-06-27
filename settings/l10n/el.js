@@ -186,8 +186,6 @@ OC.L10N.register(
     "Improving the config.php" : "Βελτίωση του  config.php",
     "Theming" : "Θέματα",
     "Hardening and security guidance" : "Οδηγίες ασφάλειας και θωράκισης",
-    "Experimental File Lock is enabled." : "Το πειραματικό κλείδωμα αρχείων είναι ενεργοποιημένο.",
-    "Experimental File Lock is disabled." : "Το πειραματικό κλείδωμα αρχείων είναι απενεργοποιημένο.",
     "Version" : "Έκδοση",
     "Developer documentation" : "Τεκμηρίωση προγραμματιστή",
     "Experimental applications ahead" : "Πειραματικές εφαρμογές",

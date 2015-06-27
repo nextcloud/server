@@ -60,6 +60,9 @@ OC.L10N.register(
     "Open documentation" : "Åben dokumentation",
     "Allow users on this server to send shares to other servers" : "Tillad brugere på denne server, at sende delinger til andre servere",
     "Allow users on this server to receive shares from other servers" : "Tillad brugere på denne server, at modtage delinger fra andre servere",
-    "Federated Cloud" : "Federated Cloud"
+    "Federated Cloud" : "Federated Cloud",
+    "Share it:" : "Del:",
+    "Add it to your website:" : "Tilføj den til din hjemmeside:",
+    "HTML Code:" : "HTMLkode:"
 },
 "nplurals=2; plural=(n != 1);");

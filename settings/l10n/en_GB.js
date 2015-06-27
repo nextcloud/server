@@ -182,8 +182,6 @@ OC.L10N.register(
     "Improving the config.php" : "Improving the config.php",
     "Theming" : "Theming",
     "Hardening and security guidance" : "Hardening and security guidance",
-    "Experimental File Lock is enabled." : "Experimental File Lock is enabled.",
-    "Experimental File Lock is disabled." : "Experimental File Lock is disabled.",
     "Version" : "Version",
     "Developer documentation" : "Developer documentation",
     "Experimental applications ahead" : "Experimental applications ahead",

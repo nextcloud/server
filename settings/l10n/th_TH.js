@@ -185,8 +185,6 @@ OC.L10N.register(
     "Improving the config.php" : "ปรับปรุงไฟล์ config.php",
     "Theming" : "ชุดรูปแบบ",
     "Hardening and security guidance" : "คำแนะนำการรักษาความปลอดภัย",
-    "Experimental File Lock is enabled." : "ทดลองล็อคไฟล์ถูกเปิดใช้งาน",
-    "Experimental File Lock is disabled." : "ทดลองล็อคไฟล์ถูกปิดใช้งาน",
     "Version" : "รุ่น",
     "Developer documentation" : "เอกสารสำหรับนักพัฒนา",
     "Experimental applications ahead" : "การใช้งานก่อนการทดลอง",

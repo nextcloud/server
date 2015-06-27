@@ -186,8 +186,6 @@ OC.L10N.register(
     "Improving the config.php" : "config.php verbeteren",
     "Theming" : "Thema's",
     "Hardening and security guidance" : "Hardening en security advies",
-    "Experimental File Lock is enabled." : "Experimentele bestandsblokkade is geactiveerd",
-    "Experimental File Lock is disabled." : "Experimentele bestandsblokkade is gedeactiveerd",
     "Version" : "Versie",
     "Developer documentation" : "Ontwikkelaarsdocumentatie",
     "Experimental applications ahead" : "Experimentele applicaties vooraan",

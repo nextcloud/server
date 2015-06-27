@@ -185,8 +185,6 @@ OC.L10N.register(
     "Improving the config.php" : "Ottimizzare il config.php",
     "Theming" : "Temi",
     "Hardening and security guidance" : "Guida alla messa in sicurezza",
-    "Experimental File Lock is enabled." : "Il blocco file sperimentale è abilitato.",
-    "Experimental File Lock is disabled." : "Il blocco file sperimentale è disabilitato.",
     "Version" : "Versione",
     "Developer documentation" : "Documentazione dello sviluppatore",
     "Experimental applications ahead" : "Prima le applicazioni sperimentali",

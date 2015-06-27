@@ -186,8 +186,6 @@ OC.L10N.register(
     "Improving the config.php" : "Die config.php optimieren",
     "Theming" : "Themes verwenden",
     "Hardening and security guidance" : "Systemhärtung und Sicherheitsempfehlungen",
-    "Experimental File Lock is enabled." : "Experimentelle Dateisperre ist aktiviert.",
-    "Experimental File Lock is disabled." : "Experimentelle Dateisperre ist deaktiviert.",
     "Version" : "Version",
     "Developer documentation" : "Dokumentation für Entwickler",
     "Experimental applications ahead" : "Experimentelle Apps nachfolgend",

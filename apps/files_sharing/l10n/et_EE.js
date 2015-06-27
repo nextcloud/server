@@ -8,6 +8,8 @@ OC.L10N.register(
     "Shared with you" : "Sinuga jagatud",
     "Shared with others" : "Teistega jagatud",
     "Shared by link" : "Jagatud lingiga",
+    "Nothing shared yet" : "Midagi pole veel jagatud",
+    "No shared links" : "Jagatud linke pole",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soovid lisata kaugjagamise {name} asukohast {owner}@{remote}?",
     "Remote share" : "Kaugjagamine",
     "Remote share password" : "Kaugjagamise parool",
@@ -38,7 +40,12 @@ OC.L10N.register(
     "Download" : "Lae alla",
     "Download %s" : "Laadi alla %s",
     "Direct link" : "Otsene link",
+    "Open documentation" : "Ava dokumentatsioon",
     "Allow users on this server to send shares to other servers" : "Luba selle serveri kasutajatel saata faile teistesse serveritesse",
-    "Allow users on this server to receive shares from other servers" : "Luba selle serveri kasutajatel võtta vastu jagamisi teistest serveritest"
+    "Allow users on this server to receive shares from other servers" : "Luba selle serveri kasutajatel võtta vastu jagamisi teistest serveritest",
+    "Share it:" : "Jaga seda:",
+    "Add it to your website:" : "Lisa see oma veebisaidile:",
+    "Share with me via ownCloud" : "Jaga minuga läbi ownCloudiga",
+    "HTML Code:" : "HTML kood:"
 },
 "nplurals=2; plural=(n != 1);");

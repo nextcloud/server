@@ -185,8 +185,6 @@ OC.L10N.register(
     "Improving the config.php" : "config.php iyileştirme",
     "Theming" : "Tema",
     "Hardening and security guidance" : "Sağlamlaştırma ve güvenlik rehberliği",
-    "Experimental File Lock is enabled." : "Deneysel Dosya Kilidi etkin.",
-    "Experimental File Lock is disabled." : "Deneysel Dosya Kilidi devre dışı.",
     "Version" : "Sürüm",
     "Developer documentation" : "Geliştirici belgelendirmesi",
     "Experimental applications ahead" : "İlerideki deneysel uygulamalar",

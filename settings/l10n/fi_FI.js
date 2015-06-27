@@ -175,8 +175,6 @@ OC.L10N.register(
     "Improving the config.php" : "Config.php-tiedoston parantaminen",
     "Theming" : "Teemojen käyttö",
     "Hardening and security guidance" : "Turvaamis- ja tietoturvaopas",
-    "Experimental File Lock is enabled." : "Kokeellinen tiedostolukitus on käytössä.",
-    "Experimental File Lock is disabled." : "Kokeellinen tiedostolukitus on pois käytöstä.",
     "Version" : "Versio",
     "Developer documentation" : "Kehittäjädokumentaatio",
     "Experimental applications ahead" : "Kokeellisia sovelluksia edessä",

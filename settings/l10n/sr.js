@@ -185,8 +185,6 @@ OC.L10N.register(
     "Improving the config.php" : "Побољшање фајла поставки",
     "Theming" : "Теме",
     "Hardening and security guidance" : "Ојачавање система и безбедносне препоруке",
-    "Experimental File Lock is enabled." : "Експериментални катанац фајла је укључен.",
-    "Experimental File Lock is disabled." : "Експериментални катанац фајла је искључен.",
     "Version" : "Верзија",
     "Developer documentation" : "Програмерска документација",
     "Experimental applications ahead" : "Експериментална апликација",
