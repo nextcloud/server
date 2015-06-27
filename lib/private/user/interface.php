@@ -28,20 +28,20 @@
 interface OC_User_Interface {
 
 	/**
-	* Check if backend implements actions
-	* @param int $actions bitwise-or'ed actions
-	* @return boolean
-	*
-	* Returns the supported actions as int to be
-	* compared with \OC_User_Backend::CREATE_USER etc.
-	*/
+	 * Check if backend implements actions
+	 * @param int $actions bitwise-or'ed actions
+	 * @return boolean
+	 *
+	 * Returns the supported actions as int to be
+	 * compared with \OC_User_Backend::CREATE_USER etc.
+	 */
 	public function implementsActions($actions);
 
 	/**
-	* delete a user
-	* @param string $uid The username of the user to delete
-	* @return bool
-	*/
+	 * delete a user
+	 * @param string $uid The username of the user to delete
+	 * @return bool
+	 */
 	public function deleteUser($uid);
 
 	/**
@@ -55,10 +55,10 @@ interface OC_User_Interface {
 	public function getUsers($search = '', $limit = null, $offset = null);
 
 	/**
-	* check if a user exists
-	* @param string $uid the username
-	* @return boolean
-	*/
+	 * check if a user exists
+	 * @param string $uid the username
+	 * @return boolean
+	 */
 	public function userExists($uid);
 
 	/**
