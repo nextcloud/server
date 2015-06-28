@@ -55,6 +55,14 @@ class UpdaterTest extends \Test\TestCase {
 	}
 
 	/**
+	 * @param string $baseUrl
+	 * @return string
+	 */
+	private function buildUpdateUrl($baseUrl) {
+		return $baseUrl . '?version='.implode('x', \OC_Util::getVersion()).'xinstalledatxlastupdatedatx'.\OC_Util::getChannel().'x'.\OC_Util::getEditionString().'x';
+	}
+
+	/**
 	 * @return array
 	 */
 	public function versionCompatibilityTestData() {
@@ -167,7 +175,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->httpHelper
 			->expects($this->once())
 			->method('getUrlContent')
-			->with('https://updates.owncloud.com/server/?version=8x1x0x7xinstalledatxlastupdatedatxgitxEnterprisex')
+			->with($this->buildUpdateUrl('https://updates.owncloud.com/server/'))
 			->will($this->returnValue($updateXml));
 
 		$this->assertSame($expectedResult, $this->updater->check());
@@ -202,7 +210,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->httpHelper
 			->expects($this->once())
 			->method('getUrlContent')
-			->with('https://updates.owncloud.com/server/?version=8x1x0x7xinstalledatxlastupdatedatxgitxEnterprisex')
+			->with($this->buildUpdateUrl('https://updates.owncloud.com/server/'))
 			->will($this->returnValue($updateXml));
 
 		$this->assertSame([], $this->updater->check());
@@ -250,7 +258,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->httpHelper
 			->expects($this->once())
 			->method('getUrlContent')
-			->with('https://myupdater.com/?version=8x1x0x7xinstalledatxlastupdatedatxgitxEnterprisex')
+			->with($this->buildUpdateUrl('https://myupdater.com/'))
 			->will($this->returnValue($updateXml));
 
 		$this->assertSame($expectedResult, $this->updater->check('https://myupdater.com/'));
@@ -294,7 +302,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->httpHelper
 			->expects($this->once())
 			->method('getUrlContent')
-			->with('https://updates.owncloud.com/server/?version=8x1x0x7xinstalledatxlastupdatedatxgitxEnterprisex')
+			->with($this->buildUpdateUrl('https://updates.owncloud.com/server/'))
 			->will($this->returnValue($updateXml));
 
 		$this->assertSame($expectedResult, $this->updater->check());
@@ -331,7 +339,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->httpHelper
 			->expects($this->once())
 			->method('getUrlContent')
-			->with('https://updates.owncloud.com/server/?version=8x1x0x7xinstalledatxlastupdatedatxgitxEnterprisex')
+			->with($this->buildUpdateUrl('https://updates.owncloud.com/server/'))
 			->will($this->returnValue($updateXml));
 
 		$this->assertSame($expectedResult, $this->updater->check());
