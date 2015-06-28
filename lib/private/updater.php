@@ -74,7 +74,9 @@ class Updater extends BasicEmitter {
 	 * @param IConfig $config
 	 * @param ILogger $log
 	 */
-	public function __construct(HTTPHelper $httpHelper, IConfig $config, ILogger $log = null) {
+	public function __construct(HTTPHelper $httpHelper,
+								IConfig $config,
+								ILogger $log = null) {
 		$this->httpHelper = $httpHelper;
 		$this->log = $log;
 		$this->config = $config;
@@ -127,12 +129,12 @@ class Updater extends BasicEmitter {
 		}
 
 		if (is_null($updaterUrl)) {
-			$updaterUrl = 'https://apps.owncloud.com/updater.php';
+			$updaterUrl = 'https://updates.owncloud.com/server/';
 		}
 
 		$this->config->setAppValue('core', 'lastupdatedat', time());
 
-		if ($this->config->getAppValue('core', 'installedat', '') == '') {
+		if ($this->config->getAppValue('core', 'installedat', '') === '') {
 			$this->config->setAppValue('core', 'installedat', microtime(true));
 		}
 
@@ -147,22 +149,20 @@ class Updater extends BasicEmitter {
 		//fetch xml data from updater
 		$url = $updaterUrl . '?version=' . $versionString;
 
-		// set a sensible timeout of 10 sec to stay responsive even if the update server is down.
-
-		$tmp = array();
+		$tmp = [];
 		$xml = $this->httpHelper->getUrlContent($url);
 		if ($xml) {
 			$loadEntities = libxml_disable_entity_loader(true);
 			$data = @simplexml_load_string($xml);
 			libxml_disable_entity_loader($loadEntities);
 			if ($data !== false) {
-				$tmp['version'] = $data->version;
-				$tmp['versionstring'] = $data->versionstring;
-				$tmp['url'] = $data->url;
-				$tmp['web'] = $data->web;
+				$tmp['version'] = (string)$data->version;
+				$tmp['versionstring'] = (string)$data->versionstring;
+				$tmp['url'] = (string)$data->url;
+				$tmp['web'] = (string)$data->web;
 			}
 		} else {
-			$data = array();
+			$data = [];
 		}
 
 		// Cache the result
@@ -360,7 +360,6 @@ class Updater extends BasicEmitter {
 		include \OC_App::getAppPath($appId) . '/appinfo/preupdate.php';
 	}
 
-
 	/**
 	 * upgrades all apps within a major ownCloud upgrade. Also loads "priority"
 	 * (types authentication, filesystem, logging, in that order) afterwards.
@@ -411,6 +410,9 @@ class Updater extends BasicEmitter {
 	 * ownCloud version. disable them if not.
 	 * This is important if you upgrade ownCloud and have non ported 3rd
 	 * party apps installed.
+	 *
+	 * @return array
+	 * @throws \Exception
 	 */
 	private function checkAppsRequirements() {
 		$isCoreUpgrade = $this->isCodeUpgrade();
@@ -447,6 +449,9 @@ class Updater extends BasicEmitter {
 		return $disabledApps;
 	}
 
+	/**
+	 * @return bool
+	 */
 	private function isCodeUpgrade() {
 		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
 		$currentVersion = implode('.', OC_Util::getVersion());
@@ -456,7 +461,11 @@ class Updater extends BasicEmitter {
 		return false;
 	}
 
-	private function upgradeAppStoreApps($disabledApps) {
+	/**
+	 * @param array $disabledApps
+	 * @throws \Exception
+	 */
+	private function upgradeAppStoreApps(array $disabledApps) {
 		foreach($disabledApps as $app) {
 			if (OC_Installer::isUpdateAvailable($app)) {
 				$ocsId = \OC::$server->getConfig()->getAppValue($app, 'ocsid', '');
