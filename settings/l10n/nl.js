@@ -186,6 +186,8 @@ OC.L10N.register(
     "Improving the config.php" : "config.php verbeteren",
     "Theming" : "Thema's",
     "Hardening and security guidance" : "Hardening en security advies",
+    "Transactional File Locking is enabled." : "Transactionele File Locking is ingeschakeld.",
+    "Transactional File Locking is disabled." : "Transactionele File Locking is uitgeschakeld.",
     "Version" : "Versie",
     "Developer documentation" : "Ontwikkelaarsdocumentatie",
     "Experimental applications ahead" : "Experimentele applicaties vooraan",

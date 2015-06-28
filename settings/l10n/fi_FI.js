@@ -175,6 +175,8 @@ OC.L10N.register(
     "Improving the config.php" : "Config.php-tiedoston parantaminen",
     "Theming" : "Teemojen käyttö",
     "Hardening and security guidance" : "Turvaamis- ja tietoturvaopas",
+    "Transactional File Locking is enabled." : "Transaktiopohjainen tiedostolukitus käytössä.",
+    "Transactional File Locking is disabled." : "Transaktiopohjainen tiedostolukitus on pois käytöstä.",
     "Version" : "Versio",
     "Developer documentation" : "Kehittäjädokumentaatio",
     "Experimental applications ahead" : "Kokeellisia sovelluksia edessä",

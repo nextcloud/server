@@ -40,6 +40,8 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s s vámi sdílí %1$s",
     "You shared %1$s via link" : "Sdílíte %1$s přes odkaz",
     "Shares" : "Sdílení",
+    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Sdílej se mnou pomocí mého #ownCloud sdruženého cloud ID, více na %s",
+    "Share with me through my #ownCloud Federated Cloud ID" : "Sdílej se mnou pomocí mého #ownCloud sdruženého cloud ID",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",
     "The password is wrong. Try again." : "Heslo není správné. Zkuste to znovu.",
     "Password" : "Heslo",
@@ -59,6 +61,12 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Propojené cloudové sdílení",
     "Open documentation" : "Otevřít dokumentaci",
     "Allow users on this server to send shares to other servers" : "Povolit uživatelům z tohoto serveru zasílat sdílení na jiné servery",
-    "Allow users on this server to receive shares from other servers" : "Povolit uživatelům z tohoto serveru přijímat sdílení z jiných serverů"
+    "Allow users on this server to receive shares from other servers" : "Povolit uživatelům z tohoto serveru přijímat sdílení z jiných serverů",
+    "Federated Cloud" : "Sdružený cloud",
+    "Your Federated Cloud ID:" : "Vaše sdružené cloud ID:",
+    "Share it:" : "Sdílet:",
+    "Add it to your website:" : "Přidat na svou webovou stránku:",
+    "Share with me via ownCloud" : "Sdíleno se mnou přes ownCloud",
+    "HTML Code:" : "HTML kód:"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

@@ -40,6 +40,8 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s delte %1$s med deg",
     "You shared %1$s via link" : "Du delte %1$s via lenke",
     "Shares" : "Delinger",
+    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Del med meg gjennom min #ownCloud ID for sammenknyttet sky, se %s",
+    "Share with me through my #ownCloud Federated Cloud ID" : "Del med meg gjennom min #ownCloud ID for sammenknyttet sky",
     "This share is password-protected" : "Denne delingen er passordbeskyttet",
     "The password is wrong. Try again." : "Passordet er feil. Prøv på nytt.",
     "Password" : "Passord",
@@ -60,6 +62,11 @@ OC.L10N.register(
     "Open documentation" : "Åpne dokumentasjonen",
     "Allow users on this server to send shares to other servers" : "Tillat at brukere på denne serveren sender delinger til andre servere",
     "Allow users on this server to receive shares from other servers" : "Tillat at brukere på denne serveren mottar delinger fra andre servere",
-    "Federated Cloud" : "Sammenknyttet sky"
+    "Federated Cloud" : "Sammenknyttet sky",
+    "Your Federated Cloud ID:" : "Din ID for sammenknyttet sky:",
+    "Share it:" : "Del den:",
+    "Add it to your website:" : "Legg den på websiden din:",
+    "Share with me via ownCloud" : "Del med meg via ownCloud",
+    "HTML Code:" : "HTML-kode:"
 },
 "nplurals=2; plural=(n != 1);");

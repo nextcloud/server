@@ -47,6 +47,7 @@ OC.L10N.register(
     "Select" : "Velg",
     "Pending" : "Ventende",
     "Unable to determine date" : "Kan ikke fastslå datoen",
+    "This operation is forbidden" : "Operasjonen er forbudt",
     "Error moving file." : "Feil ved flytting av fil.",
     "Error moving file" : "Feil ved flytting av fil",
     "Error" : "Feil",
