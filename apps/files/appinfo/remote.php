@@ -50,7 +50,7 @@ $server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, $defaults->getName()
 // FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 $server->addPlugin(new \OC\Connector\Sabre\DummyGetResponsePlugin());
 $server->addPlugin(new \OC\Connector\Sabre\FilesPlugin($objectTree));
-$server->addPlugin(new \OC\Connector\Sabre\MaintenancePlugin());
+$server->addPlugin(new \OC\Connector\Sabre\MaintenancePlugin(\OC::$server->getConfig()));
 $server->addPlugin(new \OC\Connector\Sabre\ExceptionLoggerPlugin('webdav', \OC::$server->getLogger()));
 
 // wait with registering these until auth is handled and the filesystem is setup
