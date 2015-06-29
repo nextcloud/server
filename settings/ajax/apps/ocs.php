@@ -23,12 +23,12 @@ if(is_null($enabledApps)) {
 $apps=array();
 
 // apps from external repo via OCS
-$categoryNames=OC_OCSClient::getCategories();
+$categoryNames=OC_OCSClient::getCategories(\OC_Util::getVersion());
 if(is_array($categoryNames)) {
 	$categories=array_keys($categoryNames);
 	$page=0;
 	$filter='approved';
-	$externalApps=OC_OCSClient::getApplications($categories, $page, $filter);
+	$externalApps=OC_OCSClient::getApplications($categories, $page, $filter, \OC_Util::getVersion());
 	foreach($externalApps as $app) {
 		// show only external apps that aren't enabled yet
 		$local=false;
