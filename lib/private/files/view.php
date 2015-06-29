@@ -559,11 +559,12 @@ class View {
 
 					$this->updater->update($path);
 
-					$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
+					$this->changeLock($path, ILockingProvider::LOCK_SHARED);
 
 					if ($this->shouldEmitHooks($path) && $result !== false) {
 						$this->emit_file_hooks_post($exists, $path);
 					}
+					$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 					return $result;
 				} else {
 					$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
@@ -615,6 +616,7 @@ class View {
 	public function rename($path1, $path2) {
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($path2));
+		$result = false;
 		if (
 			Filesystem::isValidPath($path2)
 			and Filesystem::isValidPath($path1)
@@ -695,8 +697,8 @@ class View {
 					}
 				}
 
-				$this->unlockFile($path1, ILockingProvider::LOCK_EXCLUSIVE, true);
-				$this->unlockFile($path2, ILockingProvider::LOCK_EXCLUSIVE, true);
+				$this->changeLock($path1, ILockingProvider::LOCK_SHARED, true);
+				$this->changeLock($path2, ILockingProvider::LOCK_SHARED, true);
 
 				if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					if ($this->shouldEmitHooks()) {
@@ -714,15 +716,11 @@ class View {
 						);
 					}
 				}
-				return $result;
-			} else {
-				$this->unlockFile($path1, ILockingProvider::LOCK_SHARED, true);
-				$this->unlockFile($path2, ILockingProvider::LOCK_SHARED, true);
-				return false;
 			}
-		} else {
-			return false;
+			$this->unlockFile($path1, ILockingProvider::LOCK_SHARED, true);
+			$this->unlockFile($path2, ILockingProvider::LOCK_SHARED, true);
 		}
+		return $result;
 	}
 
 	/**
@@ -737,6 +735,7 @@ class View {
 	public function copy($path1, $path2, $preserveMtime = false) {
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($path2));
+		$result = false;
 		if (
 			Filesystem::isValidPath($path2)
 			and Filesystem::isValidPath($path1)
@@ -788,8 +787,7 @@ class View {
 
 				$this->updater->update($path2);
 
-				$this->unlockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
-				$this->unlockFile($path1, ILockingProvider::LOCK_SHARED);
+				$this->changeLock($path2, ILockingProvider::LOCK_SHARED);
 
 				if ($this->shouldEmitHooks() && $result !== false) {
 					\OC_Hook::emit(
@@ -802,15 +800,12 @@ class View {
 					);
 					$this->emit_file_hooks_post($exists, $path2);
 				}
-				return $result;
-			} else {
+
 				$this->unlockFile($path2, ILockingProvider::LOCK_SHARED);
 				$this->unlockFile($path1, ILockingProvider::LOCK_SHARED);
-				return false;
 			}
-		} else {
-			return false;
 		}
+		return $result;
 	}
 
 	/**
@@ -1025,7 +1020,9 @@ class View {
 					$this->changeLock($path, ILockingProvider::LOCK_SHARED);
 				}
 
+				$unlockLater = false;
 				if ($operation === 'fopen' and is_resource($result)) {
+					$unlockLater = true;
 					$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path) {
 						if (in_array('write', $hooks)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
@@ -1033,15 +1030,18 @@ class View {
 							$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 						}
 					});
-				} else if (in_array('write', $hooks) || in_array('delete', $hooks) || in_array('read', $hooks)) {
-					$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 				}
-
 
 				if ($this->shouldEmitHooks($path) && $result !== false) {
 					if ($operation != 'fopen') { //no post hooks for fopen, the file stream is still open
 						$this->runHooks($hooks, $path, true);
 					}
+				}
+
+				if (!$unlockLater
+					&& (in_array('write', $hooks) || in_array('delete', $hooks) || in_array('read', $hooks))
+				) {
+					$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 				}
 				return $result;
 			} else {

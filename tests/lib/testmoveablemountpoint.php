@@ -1,8 +1,6 @@
 <?php
 /**
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -21,26 +19,31 @@
  *
  */
 
-namespace OC\Files\Storage;
+namespace Test;
+
+use OC\Files\Mount;
 
 /**
- * local storage backend in temporary folder for testing purpose
+ * Test moveable mount for mocking
  */
-class Temporary extends Local{
-	public function __construct($arguments = null) {
-		parent::__construct(array('datadir' => \OC_Helper::tmpFolder()));
+class TestMoveableMountPoint extends Mount\MountPoint implements Mount\MoveableMount {
+
+	/**
+	 * Move the mount point to $target
+	 *
+	 * @param string $target the target mount point
+	 * @return bool
+	 */
+	public function moveMount($target) {
+		$this->setMountPoint($target);
 	}
 
-	public function cleanUp() {
-		\OC_Helper::rmdirr($this->datadir);
-	}
-
-	public function __destruct() {
-		parent::__destruct();
-		$this->cleanUp();
-	}
-
-	public function getDataDir() {
-		return $this->datadir;
+	/**
+	 * Remove the mount points
+	 *
+	 * @return mixed
+	 * @return bool
+	 */
+	public function removeMount() {
 	}
 }
