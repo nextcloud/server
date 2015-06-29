@@ -45,7 +45,7 @@ class MaintenancePlugin extends ServerPlugin {
 	/**
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config = null) {
 		$this->config = $config;
 		if (is_null($config)) {
 			$this->config = \OC::$server->getConfig();
