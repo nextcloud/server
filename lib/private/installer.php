@@ -274,7 +274,7 @@ class OC_Installer{
 
 		if($ocsid<>'') {
 
-			$ocsdata=OC_OCSClient::getApplication($ocsid);
+			$ocsdata=OC_OCSClient::getApplication($ocsid, \OC_Util::getVersion());
 			$ocsversion= (string) $ocsdata['version'];
 			$currentversion=OC_App::getAppVersion($app);
 			if($ocsversion<>$currentversion) {
