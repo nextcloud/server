@@ -25,9 +25,12 @@ namespace OC\Cache;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCP\ICache;
 use OCP\Security\ISecureRandom;
 
-class File {
+class File implements ICache {
+
+	/** @var View */
 	protected $storage;
 
 	/**
