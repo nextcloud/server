@@ -149,7 +149,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('setAppValue')
-			->with('core', 'lastupdatedat', time());
+			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
 			->expects($this->at(3))
 			->method('getAppValue')
@@ -190,7 +190,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('setAppValue')
-			->with('core', 'lastupdatedat', time());
+			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
 			->expects($this->at(3))
 			->method('getAppValue')
@@ -232,7 +232,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('setAppValue')
-			->with('core', 'lastupdatedat', time());
+			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
 			->expects($this->at(3))
 			->method('getAppValue')
@@ -280,7 +280,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('setAppValue')
-			->with('core', 'lastupdatedat', time());
+			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
 			->expects($this->at(3))
 			->method('getAppValue')
@@ -319,7 +319,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('setAppValue')
-			->with('core', 'lastupdatedat', time());
+			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
 			->expects($this->at(3))
 			->method('getAppValue')
