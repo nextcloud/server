@@ -732,6 +732,7 @@ class OCSClientTest extends \Test\TestCase {
 			   <downloadpackagename1></downloadpackagename1>
 			   <downloadrepository1></downloadrepository1>
 			   <downloadsize1>1</downloadsize1>
+			   <approved>200</approved>
 			  </content>
 			 </data>
 			</ocs>
@@ -770,6 +771,7 @@ class OCSClientTest extends \Test\TestCase {
 			'changed' => 1404743680,
 			'description' => 'Placeholder for future updates',
 			'score' => 50,
+			'level' => 200,
 		];
 		$this->assertSame($expected, $this->ocsClient->getApplication('MyId'));
 	}
