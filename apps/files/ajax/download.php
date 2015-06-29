@@ -39,4 +39,15 @@ if (!is_array($files_list)) {
 	$files_list = array($files);
 }
 
+/**
+ * this sets a cookie to be able to recognize the start of the download
+ * the content must not be longer than 32 characters and must only contain
+ * alphanumeric characters
+ */
+if(isset($_GET['downloadStartSecret'])
+	&& !isset($_GET['downloadStartSecret'][32])
+	&& preg_match('!^[a-zA-Z0-9]+$!', $_GET['downloadStartSecret']) === 1) {
+	setcookie('ocDownloadStarted', $_GET['downloadStartSecret'], time() + 20, '/');
+}
+
 OC_Files::get($dir, $files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD');
