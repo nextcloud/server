@@ -171,7 +171,7 @@ class AppSettingsController extends Controller {
 					});
 					foreach($apps as $key => $app) {
 						if(!array_key_exists('level', $app) && array_key_exists('ocsid', $app)) {
-							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid']);
+							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], \OC_Util::getVersion());
 
 							if(array_key_exists('level', $remoteAppEntry)) {
 								$apps[$key]['level'] = $remoteAppEntry['level'];
@@ -187,7 +187,7 @@ class AppSettingsController extends Controller {
 					});
 					foreach($apps as $key => $app) {
 						if(!array_key_exists('level', $app) && array_key_exists('ocsid', $app)) {
-							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid']);
+							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], \OC_Util::getVersion());
 
 							if(array_key_exists('level', $remoteAppEntry)) {
 								$apps[$key]['level'] = $remoteAppEntry['level'];
