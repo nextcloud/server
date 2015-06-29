@@ -41,34 +41,40 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	protected $ownerPropagator;
 
+	/**
+	 * @var \OC\Files\View
+	 */
+	private $recipientView;
+
 	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
 		// first update the mount point before creating the parent
 		$this->ownerPropagator = $arguments['propagator'];
-		$newMountPoint = $this->verifyMountPoint($arguments['share'], $arguments['user']);
+		$this->recipientView = new View('/' . $arguments['user'] . '/files');
+		$newMountPoint = $this->verifyMountPoint($arguments['share']);
 		$absMountPoint = '/' . $arguments['user'] . '/files' . $newMountPoint;
+		$arguments['ownerView'] = new View('/' . $arguments['share']['uid_owner'] . '/files');
 		parent::__construct($storage, $absMountPoint, $arguments, $loader);
 	}
 
 	/**
 	 * check if the parent folder exists otherwise move the mount point up
 	 */
-	private function verifyMountPoint(&$share, $user) {
+	private function verifyMountPoint(&$share) {
 
 		$mountPoint = basename($share['file_target']);
 		$parent = dirname($share['file_target']);
-		$view = new View('/' . $user . '/files');
 
-		if (!$view->is_dir($parent)) {
+		if (!$this->recipientView->is_dir($parent)) {
 			$parent = Helper::getShareFolder();
 		}
 
 		$newMountPoint = \OCA\Files_Sharing\Helper::generateUniqueTarget(
-				\OC\Files\Filesystem::normalizePath($parent . '/' . $mountPoint),
-				array(),
-				new \OC\Files\View('/' . $user . '/files')
-				);
+			\OC\Files\Filesystem::normalizePath($parent . '/' . $mountPoint),
+			[],
+			$this->recipientView
+		);
 
-		if($newMountPoint !== $share['file_target']) {
+		if ($newMountPoint !== $share['file_target']) {
 			self::updateFileTarget($newMountPoint, $share);
 			$share['file_target'] = $newMountPoint;
 			$share['unique_name'] = true;
@@ -79,6 +85,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 	/**
 	 * update fileTarget in the database if the mount point changed
+	 *
 	 * @param string $newPath
 	 * @param array $share reference to the share which should be modified
 	 * @return bool
@@ -99,7 +106,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 					'Update `*PREFIX*share`
 						SET `file_target` = ?
 						WHERE `id` = ?'
-					);
+			);
 			$arguments = array($newPath, $share['id']);
 		}
 
