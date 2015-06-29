@@ -312,8 +312,8 @@ class OC_App {
 			\OC::$server->getConfig(),
 			\OC::$server->getLogger()
 		);
-		$appData = $ocsClient->getApplication($app);
-		$download= $ocsClient->getApplicationDownload($app);
+		$appData = $ocsClient->getApplication($app, \OC_Util::getVersion());
+		$download= $ocsClient->getApplicationDownload($app, \OC_Util::getVersion());
 		if(isset($download['downloadlink']) and $download['downloadlink']!='') {
 			// Replace spaces in download link without encoding entire URL
 			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
@@ -918,7 +918,7 @@ class OC_App {
 
 
 		if (is_null($category)) {
-			$categoryNames = $ocsClient->getCategories();
+			$categoryNames = $ocsClient->getCategories(\OC_Util::getVersion());
 			if (is_array($categoryNames)) {
 				// Check that categories of apps were retrieved correctly
 				if (!$categories = array_keys($categoryNames)) {
@@ -930,7 +930,7 @@ class OC_App {
 		}
 
 		$page = 0;
-		$remoteApps = $ocsClient->getApplications($categories, $page, $filter);
+		$remoteApps = $ocsClient->getApplications($categories, $page, $filter, \OC_Util::getVersion());
 		$apps = [];
 		$i = 0;
 		$l = \OC::$server->getL10N('core');
@@ -1088,7 +1088,7 @@ class OC_App {
 			$config,
 			\OC::$server->getLogger()
 		);
-		$appData = $ocsClient->getApplication($app);
+		$appData = $ocsClient->getApplication($app, \OC_Util::getVersion());
 
 		// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string
 		if (!is_numeric($app)) {

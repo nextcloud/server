@@ -85,7 +85,7 @@ class OCSClientTest extends \Test\TestCase {
 			->method('getSystemValue')
 			->with('appstoreenabled', true)
 			->will($this->returnValue(false));
-		$this->assertNull($this->ocsClient->getCategories());
+		$this->assertNull($this->ocsClient->getCategories([8, 1, 0, 7]));
 	}
 
 	public function testGetCategoriesExceptionClient() {
@@ -108,6 +108,7 @@ class OCSClientTest extends \Test\TestCase {
 				'https://api.owncloud.com/v1/content/categories',
 				[
 					'timeout' => 5,
+					'query' => ['version' => '8x1x0x7'],
 				]
 			)
 			->will($this->throwException(new \Exception('TheErrorMessage')));
@@ -127,7 +128,7 @@ class OCSClientTest extends \Test\TestCase {
 				]
 			);
 
-		$this->assertNull($this->ocsClient->getCategories());
+		$this->assertNull($this->ocsClient->getCategories([8, 1, 0, 7]));
 	}
 
 	public function testGetCategoriesParseError() {
@@ -156,6 +157,7 @@ class OCSClientTest extends \Test\TestCase {
 				'https://api.owncloud.com/v1/content/categories',
 				[
 					'timeout' => 5,
+					'query' => ['version' => '8x1x0x7'],
 				]
 			)
 			->will($this->returnValue($response));
@@ -175,7 +177,7 @@ class OCSClientTest extends \Test\TestCase {
 				]
 			);
 
-		$this->assertNull($this->ocsClient->getCategories());
+		$this->assertNull($this->ocsClient->getCategories([8, 1, 0, 7]));
 	}
 
 	public function testGetCategoriesSuccessful() {
@@ -239,6 +241,7 @@ class OCSClientTest extends \Test\TestCase {
 				'https://api.owncloud.com/v1/content/categories',
 				[
 					'timeout' => 5,
+					'query' => ['version' => '8x1x0x7'],
 				]
 			)
 			->will($this->returnValue($response));
@@ -256,7 +259,7 @@ class OCSClientTest extends \Test\TestCase {
 			924 => 'ownCloud Tool',
 			925 => 'ownCloud other',
 		];
-		$this->assertSame($expected, $this->ocsClient->getCategories());
+		$this->assertSame($expected, $this->ocsClient->getCategories([8, 1, 0, 7]));
 	}
 
 	public function testGetApplicationsDisabledAppStore() {
@@ -265,7 +268,7 @@ class OCSClientTest extends \Test\TestCase {
 			->method('getSystemValue')
 			->with('appstoreenabled', true)
 			->will($this->returnValue(false));
-		$this->assertSame([], $this->ocsClient->getApplications([], 1, 'approved'));
+		$this->assertSame([], $this->ocsClient->getApplications([], 1, 'approved', [8, 1, 0, 7]));
 	}
 
 	public function testGetApplicationsExceptionClient() {
@@ -289,7 +292,7 @@ class OCSClientTest extends \Test\TestCase {
 				[
 					'timeout' => 5,
 					'query' => [
-						'version' => implode('x', \OC_Util::getVersion()),
+						'version' => implode('x', [8, 1, 0, 7]),
 						'filter' => 'approved',
 						'categories' => '815x1337',
 						'sortmode' => 'new',
@@ -316,7 +319,7 @@ class OCSClientTest extends \Test\TestCase {
 				]
 			);
 
-		$this->assertSame([], $this->ocsClient->getApplications([815, 1337], 1, 'approved'));
+		$this->assertSame([], $this->ocsClient->getApplications([815, 1337], 1, 'approved', [8, 1, 0, 7]));
 	}
 
 	public function testGetApplicationsParseError() {
@@ -346,7 +349,7 @@ class OCSClientTest extends \Test\TestCase {
 				[
 					'timeout' => 5,
 					'query' => [
-						'version' => implode('x', \OC_Util::getVersion()),
+						'version' => implode('x', [8, 1, 0, 7]),
 						'filter' => 'approved',
 						'categories' => '815x1337',
 						'sortmode' => 'new',
@@ -373,7 +376,7 @@ class OCSClientTest extends \Test\TestCase {
 				]
 			);
 
-		$this->assertSame([], $this->ocsClient->getApplications([815, 1337], 1, 'approved'));
+		$this->assertSame([], $this->ocsClient->getApplications([815, 1337], 1, 'approved', [8, 1, 0, 7]));
 	}
 
 	public function testGetApplicationsSuccessful() {
@@ -482,7 +485,7 @@ class OCSClientTest extends \Test\TestCase {
 				[
 					'timeout' => 5,
 					'query' => [
-						'version' => implode('x', \OC_Util::getVersion()),
+						'version' => implode('x', [8, 1, 0, 7]),
 						'filter' => 'approved',
 						'categories' => '815x1337',
 						'sortmode' => 'new',
@@ -539,7 +542,7 @@ class OCSClientTest extends \Test\TestCase {
 				'profilepage' => 'http://opendesktop.org/usermanager/search.php?username=owncloud',
 			],
 		];
-		$this->assertEquals($expected, $this->ocsClient->getApplications([815, 1337], 1, 'approved'));
+		$this->assertEquals($expected, $this->ocsClient->getApplications([815, 1337], 1, 'approved', [8, 1, 0, 7]));
 	}
 
 	public function tesGetApplicationDisabledAppStore() {
@@ -548,7 +551,7 @@ class OCSClientTest extends \Test\TestCase {
 			->method('getSystemValue')
 			->with('appstoreenabled', true)
 			->will($this->returnValue(false));
-		$this->assertNull($this->ocsClient->getApplication('MyId'));
+		$this->assertNull($this->ocsClient->getApplication('MyId', [8, 1, 0, 7]));
 	}
 
 	public function testGetApplicationExceptionClient() {
@@ -571,6 +574,7 @@ class OCSClientTest extends \Test\TestCase {
 				'https://api.owncloud.com/v1/content/data/MyId',
 				[
 					'timeout' => 5,
+					'query' => ['version' => '8x1x0x7'],
 				]
 			)
 			->will($this->throwException(new \Exception('TheErrorMessage')));
@@ -590,7 +594,7 @@ class OCSClientTest extends \Test\TestCase {
 				]
 			);
 
-		$this->assertNull($this->ocsClient->getApplication('MyId'));
+		$this->assertNull($this->ocsClient->getApplication('MyId', [8, 1, 0, 7]));
 	}
 
 	public function testGetApplicationParseError() {
@@ -619,6 +623,7 @@ class OCSClientTest extends \Test\TestCase {
 				'https://api.owncloud.com/v1/content/data/MyId',
 				[
 					'timeout' => 5,
+					'query' => ['version' => '8x1x0x7'],
 				]
 			)
 			->will($this->returnValue($response));
@@ -638,7 +643,7 @@ class OCSClientTest extends \Test\TestCase {
 				]
 			);
 
-		$this->assertNull($this->ocsClient->getApplication('MyId'));
+		$this->assertNull($this->ocsClient->getApplication('MyId', [8, 1, 0, 7]));
 	}
 
 	public function testGetApplicationSuccessful() {
@@ -745,6 +750,7 @@ class OCSClientTest extends \Test\TestCase {
 				'https://api.owncloud.com/v1/content/data/MyId',
 				[
 					'timeout' => 5,
+					'query' => ['version' => '8x1x0x7'],
 				]
 			)
 			->will($this->returnValue($response));
@@ -771,7 +777,7 @@ class OCSClientTest extends \Test\TestCase {
 			'description' => 'Placeholder for future updates',
 			'score' => 50,
 		];
-		$this->assertSame($expected, $this->ocsClient->getApplication('MyId'));
+		$this->assertSame($expected, $this->ocsClient->getApplication('MyId', [8, 1, 0, 7]));
 	}
 	public function testGetApplicationEmptyXml() {
 		$this->config
@@ -807,6 +813,7 @@ class OCSClientTest extends \Test\TestCase {
 				'https://api.owncloud.com/v1/content/data/MyId',
 				[
 					'timeout' => 5,
+					'query' => ['version' => '8x1x0x7'],
 				]
 			)
 			->will($this->returnValue($response));
@@ -816,7 +823,7 @@ class OCSClientTest extends \Test\TestCase {
 			->method('newClient')
 			->will($this->returnValue($client));
 
-		$this->assertSame(null, $this->ocsClient->getApplication('MyId'));
+		$this->assertSame(null, $this->ocsClient->getApplication('MyId', [8, 1, 0, 7]));
 	}
 
 	public function testGetApplicationDownloadDisabledAppStore() {
@@ -825,7 +832,7 @@ class OCSClientTest extends \Test\TestCase {
 			->method('getSystemValue')
 			->with('appstoreenabled', true)
 			->will($this->returnValue(false));
-		$this->assertNull($this->ocsClient->getApplicationDownload('MyId'));
+		$this->assertNull($this->ocsClient->getApplicationDownload('MyId', [8, 1, 0, 7]));
 	}
 
 	public function testGetApplicationDownloadExceptionClient() {
@@ -848,6 +855,7 @@ class OCSClientTest extends \Test\TestCase {
 				'https://api.owncloud.com/v1/content/download/MyId/1',
 				[
 					'timeout' => 5,
+					'query' => ['version' => '8x1x0x7'],
 				]
 			)
 			->will($this->throwException(new \Exception('TheErrorMessage')));
@@ -867,7 +875,7 @@ class OCSClientTest extends \Test\TestCase {
 				]
 			);
 
-		$this->assertNull($this->ocsClient->getApplicationDownload('MyId'));
+		$this->assertNull($this->ocsClient->getApplicationDownload('MyId', [8, 1, 0, 7]));
 	}
 
 	public function testGetApplicationDownloadParseError() {
@@ -896,6 +904,7 @@ class OCSClientTest extends \Test\TestCase {
 				'https://api.owncloud.com/v1/content/download/MyId/1',
 				[
 					'timeout' => 5,
+					'query' => ['version' => '8x1x0x7'],
 				]
 			)
 			->will($this->returnValue($response));
@@ -915,7 +924,7 @@ class OCSClientTest extends \Test\TestCase {
 				]
 			);
 
-		$this->assertNull($this->ocsClient->getApplicationDownload('MyId'));
+		$this->assertNull($this->ocsClient->getApplicationDownload('MyId', [8, 1, 0, 7]));
 	}
 
 	public function testGetApplicationDownloadUrlSuccessful() {
@@ -962,6 +971,7 @@ class OCSClientTest extends \Test\TestCase {
 				'https://api.owncloud.com/v1/content/download/MyId/1',
 				[
 					'timeout' => 5,
+					'query' => ['version' => '8x1x0x7'],
 				]
 			)
 			->will($this->returnValue($response));
@@ -974,6 +984,6 @@ class OCSClientTest extends \Test\TestCase {
 		$expected = [
 			'downloadlink' => 'https://apps.owncloud.com/CONTENT/content-files/166052-files_trashbin.zip',
 		];
-		$this->assertSame($expected, $this->ocsClient->getApplicationDownload('MyId'));
+		$this->assertSame($expected, $this->ocsClient->getApplicationDownload('MyId', [8, 1, 0, 7]));
 	}
 }
