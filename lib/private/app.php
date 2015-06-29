@@ -294,8 +294,8 @@ class OC_App {
 	 * @return int
 	 */
 	public static function downloadApp($app) {
-		$appData=OC_OCSClient::getApplication($app);
-		$download=OC_OCSClient::getApplicationDownload($app, 1);
+		$appData=OC_OCSClient::getApplication($app, \OC_Util::getVersion());
+		$download=OC_OCSClient::getApplicationDownload($app, 1, \OC_Util::getVersion());
 		if(isset($download['downloadlink']) and $download['downloadlink']!='') {
 			// Replace spaces in download link without encoding entire URL
 			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
@@ -926,7 +926,7 @@ class OC_App {
 	public static function getAppstoreApps($filter = 'approved', $category = null) {
 		$categories = array($category);
 		if (is_null($category)) {
-			$categoryNames = OC_OCSClient::getCategories();
+			$categoryNames = OC_OCSClient::getCategories(\OC_Util::getVersion());
 			if (is_array($categoryNames)) {
 				// Check that categories of apps were retrieved correctly
 				if (!$categories = array_keys($categoryNames)) {
@@ -938,7 +938,7 @@ class OC_App {
 		}
 
 		$page = 0;
-		$remoteApps = OC_OCSClient::getApplications($categories, $page, $filter);
+		$remoteApps = OC_OCSClient::getApplications($categories, $page, $filter, \OC_Util::getVersion());
 		$app1 = array();
 		$i = 0;
 		$l = \OC::$server->getL10N('core');
@@ -1088,7 +1088,7 @@ class OC_App {
 	public static function installApp($app) {
 		$l = \OC::$server->getL10N('core');
 		$config = \OC::$server->getConfig();
-		$appData=OC_OCSClient::getApplication($app);
+		$appData=OC_OCSClient::getApplication($app, \OC_Util::getVersion());
 
 		// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string
 		if(!is_numeric($app)) {

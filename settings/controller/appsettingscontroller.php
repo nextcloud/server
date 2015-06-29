@@ -66,7 +66,7 @@ class AppSettingsController extends Controller {
 		if($this->config->getSystemValue('appstoreenabled', true)) {
 			$categories[] = ['id' => 2, 'displayName' => (string)$this->l10n->t('Recommended')];
 			// apps from external repo via OCS
-			$ocs = \OC_OCSClient::getCategories();
+			$ocs = \OC_OCSClient::getCategories(\OC_Util::getVersion());
 			if ($ocs) {
 				foreach($ocs as $k => $v) {
 					$categories[] = array(
