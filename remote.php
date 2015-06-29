@@ -25,6 +25,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OC\Connector\Sabre\ExceptionLoggerPlugin;
+use Sabre\DAV\Exception\ServiceUnavailable;
+use Sabre\DAV\Server;
+
+/**
+ * @param Exception $e
+ */
+function handleException(Exception $e) {
+	$request = \OC::$server->getRequest();
+	// in case the request content type is text/xml - we assume it's a WebDAV request
+	if ($request->getHeader('Content-Type') === 'text/xml') {
+		// fire up a simple server to properly process the exception
+		$server = new Server();
+		$server->addPlugin(new ExceptionLoggerPlugin('webdav', \OC::$server->getLogger()));
+		$server->on('beforeMethod', function () use ($e) {
+			$class = get_class($e);
+			$msg = $e->getMessage();
+			throw new ServiceUnavailable("$class: $msg");
+		});
+		$server->exec();
+	} else {
+		if ($e instanceof \OC\ServiceUnavailableException ) {
+			OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+		} else {
+			OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
+		}
+		\OCP\Util::writeLog('remote', $e->getMessage(), \OCP\Util::FATAL);
+		OC_Template::printExceptionErrorPage($e);
+	}
+}
+
 try {
 	require_once 'lib/base.php';
 
@@ -82,12 +114,6 @@ try {
 	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
 	require_once $file;
 
-} catch (\OC\ServiceUnavailableException $ex) {
-	OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
-	\OCP\Util::writeLog('remote', $ex->getMessage(), \OCP\Util::FATAL);
-	OC_Template::printExceptionErrorPage($ex);
 } catch (Exception $ex) {
-	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
-	\OCP\Util::writeLog('remote', $ex->getMessage(), \OCP\Util::FATAL);
-	OC_Template::printExceptionErrorPage($ex);
+	handleException($ex);
 }
