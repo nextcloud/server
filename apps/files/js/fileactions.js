@@ -495,7 +495,7 @@
 				setTimeout(function(){
 					icon.attr('src', sourceImage);
 					downloadFileaction.removeClass('disabled');
-				}, 7000);
+				}, 2000);
 
 				if (url) {
 					OC.redirect(url);
