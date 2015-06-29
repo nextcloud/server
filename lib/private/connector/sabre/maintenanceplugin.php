@@ -27,7 +27,6 @@ namespace OC\Connector\Sabre;
 
 use OCP\IConfig;
 use Sabre\DAV\Exception\ServiceUnavailable;
-use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 
 class MaintenancePlugin extends ServerPlugin {
@@ -61,10 +60,10 @@ class MaintenancePlugin extends ServerPlugin {
 	 *
 	 * This method should set up the required event subscriptions.
 	 *
-	 * @param Server $server
+	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
-	public function initialize(Server $server) {
+	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
 		$this->server->on('beforeMethod', array($this, 'checkMaintenanceMode'), 10);
 	}
