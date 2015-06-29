@@ -77,8 +77,8 @@ describe('OCA.Files.FileList tests', function() {
 			'<th id="headerName" class="hidden column-name">' +
 			'<input type="checkbox" id="select_all_files" class="select-all">' +
 			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
-			'<span class="selectedActions hidden">' +
-			'<a href class="download">Download</a>' +
+			'<span id="selectedActionsList" class="selectedActions hidden">' +
+			'<a href class="download"><img src="actions/download.svg">Download</a>' +
 			'<a href class="delete-selected">Delete</a></span>' +
 			'</th>' +
 			'<th class="hidden column-size"><a class="columntitle" data-sort="size"><span class="sort-indicator"></span></a></th>' +
@@ -1774,7 +1774,7 @@ describe('OCA.Files.FileList tests', function() {
 					var redirectStub = sinon.stub(OC, 'redirect');
 					$('.selectedActions .download').click();
 					expect(redirectStub.calledOnce).toEqual(true);
-					expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=%5B%22One.txt%22%2C%22Three.pdf%22%2C%22somedir%22%5D');
+					expect(redirectStub.getCall(0).args[0]).toContain(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=%5B%22One.txt%22%2C%22Three.pdf%22%2C%22somedir%22%5D');
 					redirectStub.restore();
 				});
 				it('Downloads root folder when all selected in root folder', function() {
@@ -1783,7 +1783,7 @@ describe('OCA.Files.FileList tests', function() {
 					var redirectStub = sinon.stub(OC, 'redirect');
 					$('.selectedActions .download').click();
 					expect(redirectStub.calledOnce).toEqual(true);
-					expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2F&files=');
+					expect(redirectStub.getCall(0).args[0]).toContain(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2F&files=');
 					redirectStub.restore();
 				});
 				it('Downloads parent folder when all selected in subfolder', function() {
@@ -1791,7 +1791,7 @@ describe('OCA.Files.FileList tests', function() {
 					var redirectStub = sinon.stub(OC, 'redirect');
 					$('.selectedActions .download').click();
 					expect(redirectStub.calledOnce).toEqual(true);
-					expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2F&files=subdir');
+					expect(redirectStub.getCall(0).args[0]).toContain(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2F&files=subdir');
 					redirectStub.restore();
 				});
 			});

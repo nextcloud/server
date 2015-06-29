@@ -105,7 +105,7 @@ describe('OCA.Files.FileActions tests', function() {
 		$tr.find('.action-download').click();
 
 		expect(redirectStub.calledOnce).toEqual(true);
-		expect(redirectStub.getCall(0).args[0]).toEqual(
+		expect(redirectStub.getCall(0).args[0]).toContain(
 			OC.webroot +
 			'/index.php/apps/files/ajax/download.php' +
 			'?dir=%2Fsubdir&files=testName.txt');
@@ -129,7 +129,7 @@ describe('OCA.Files.FileActions tests', function() {
 		$tr.find('.action-download').click();
 
 		expect(redirectStub.calledOnce).toEqual(true);
-		expect(redirectStub.getCall(0).args[0]).toEqual(
+		expect(redirectStub.getCall(0).args[0]).toContain(
 			OC.webroot + '/index.php/apps/files/ajax/download.php' +
 			'?dir=%2Fanotherpath%2Fthere&files=testName.txt'
 		);
