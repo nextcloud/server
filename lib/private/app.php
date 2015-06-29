@@ -225,8 +225,8 @@ class OC_App{
 			if(!is_numeric($app)) {
 				$app = OC_Installer::installShippedApp($app);
 			}else{
-				$appdata=OC_OCSClient::getApplication($app);
-				$download=OC_OCSClient::getApplicationDownload($app, 1);
+				$appdata=OC_OCSClient::getApplication($app, \OC_Util::getVersion());
+				$download=OC_OCSClient::getApplicationDownload($app, 1, \OC_Util::getVersion());
 				if(isset($download['downloadlink']) and $download['downloadlink']!='') {
 					$info = array('source'=>'http', 'href'=>$download['downloadlink'], 'appdata'=>$appdata);
 					$app=OC_Installer::installApp($info);
@@ -799,7 +799,7 @@ class OC_App{
 	 *     Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
 	 */
 	public static function getAppstoreApps( $filter = 'approved' ) {
-		$categoryNames = OC_OCSClient::getCategories();
+		$categoryNames = OC_OCSClient::getCategories(\OC_Util::getVersion());
 		if ( is_array( $categoryNames ) ) {
 			// Check that categories of apps were retrieved correctly
 			if ( ! $categories = array_keys( $categoryNames ) ) {
@@ -807,7 +807,7 @@ class OC_App{
 			}
 
 			$page = 0;
-			$remoteApps = OC_OCSClient::getApplications( $categories, $page, $filter );
+			$remoteApps = OC_OCSClient::getApplications($categories, $page, $filter, \OC_Util::getVersion());
 			$app1 = array();
 			$i = 0;
 			foreach ( $remoteApps as $app ) {
