@@ -48,6 +48,7 @@ OC.L10N.register(
     "Pending" : "Εκκρεμεί",
     "Unable to determine date" : "Αδυναμία προσδιορισμού ημερομηνίας ",
     "This operation is forbidden" : "Αυτή η ενέργεια απαγορεύεται",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Ο κατάλογος δεν είναι διαθέσιμος, παρακαλώ ελέγξτε τα αρχεία καταγραφής ή επικοινωνήστε με το διαχειριστή",
     "Error moving file." : "Σφάλμα κατά τη μετακίνηση του αρχείου.",
     "Error moving file" : "Σφάλμα κατά τη μετακίνηση του αρχείου",
     "Error" : "Σφάλμα",

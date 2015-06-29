@@ -48,6 +48,7 @@ OC.L10N.register(
     "Pending" : "อยู่ระหว่างดำเนินการ",
     "Unable to determine date" : "ไม่สามารถกำหนดวัน",
     "This operation is forbidden" : "การดำเนินการนี้ถูกห้าม",
+    "This directory is unavailable, please check the logs or contact the administrator" : "ไม่สามารถใช้งานไดเรกทอรีนี้โปรดตรวจสอบบันทึกหรือติดต่อผู้ดูแลระบบ",
     "Error moving file." : "ข้อผิดพลาดในการเคลื่อนย้ายไฟล์",
     "Error moving file" : "ข้อผิดพลาดในการเคลื่อนย้ายไฟล์",
     "Error" : "ข้อผิดพลาด",

@@ -48,6 +48,7 @@ OC.L10N.register(
     "Pending" : "In corso",
     "Unable to determine date" : "Impossibile determinare la data",
     "This operation is forbidden" : "Questa operazione è vietata",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Questa cartella non è disponibile, controlla i log o contatta l'amministratore",
     "Error moving file." : "Errore durante lo spostamento del file.",
     "Error moving file" : "Errore durante lo spostamento del file",
     "Error" : "Errore",

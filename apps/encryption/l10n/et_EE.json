@@ -6,6 +6,7 @@
     "Could not enable recovery key. Please check your recovery key password!" : "Ei suutnud lubada taastevõtit. Palun kontrolli oma taastevõtme parooli!",
     "Recovery key successfully disabled" : "Taastevõtme keelamine õnnestus",
     "Could not disable recovery key. Please check your recovery key password!" : "Ei suuda keelata taastevõtit. Palun kontrolli oma taastevõtme parooli!",
+    "Missing parameters" : "Paramttrid puuduvad",
     "Please provide the old recovery password" : "Palun sisesta vana taastevõtme parool",
     "Please provide a new recovery password" : "Palun sisesta uus taastevõtme parool",
     "Please repeat the new recovery password" : "Palun korda uut taastevõtme parooli",

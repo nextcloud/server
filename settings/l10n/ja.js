@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "Redis" : "Redis",
     "Security & setup warnings" : "セキュリティ＆セットアップ警告",
     "Sharing" : "共有",
     "Server-side encryption" : "サーバーサイド暗号化",
@@ -8,6 +9,7 @@ OC.L10N.register(
     "Cron" : "Cron",
     "Email server" : "メールサーバー",
     "Log" : "ログ",
+    "Server Status" : "サーバーステータス",
     "Tips & tricks" : "Tips & tricks",
     "Updates" : "アップデート",
     "Authentication error" : "認証エラー",
@@ -49,6 +51,7 @@ OC.L10N.register(
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "\"{domain}\" を信頼するドメインに追加してもよろしいでしょうか？",
     "Add trusted domain" : "信頼するドメイン名に追加",
     "Sending..." : "送信中…",
+    "Experimental" : "実験的",
     "All" : "すべて",
     "Update to %s" : "%sにアップデート",
     "Please wait...." : "しばらくお待ちください...",

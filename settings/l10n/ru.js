@@ -186,6 +186,8 @@ OC.L10N.register(
     "Improving the config.php" : "Улучшение config.php",
     "Theming" : "Темы оформления",
     "Hardening and security guidance" : "Руководство по безопасности и защите",
+    "Transactional File Locking is enabled." : "Транзакционная блокировка файлов включена.",
+    "Transactional File Locking is disabled." : "Транзакционная блокировка файлов отключена.",
     "Version" : "Версия",
     "Developer documentation" : "Документация для разработчиков",
     "Experimental applications ahead" : "Экспериментальные приложения",

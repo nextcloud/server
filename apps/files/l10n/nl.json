@@ -46,6 +46,7 @@
     "Pending" : "In behandeling",
     "Unable to determine date" : "Kon datum niet vaststellen",
     "This operation is forbidden" : "Deze taak is verboden",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Deze map is niet beschikbaar. Verifieer de logs of neem contact op met de beheerder",
     "Error moving file." : "Fout bij verplaatsen bestand.",
     "Error moving file" : "Fout bij verplaatsen bestand",
     "Error" : "Fout",

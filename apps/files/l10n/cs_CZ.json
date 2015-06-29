@@ -46,6 +46,7 @@
     "Pending" : "Nevyřízené",
     "Unable to determine date" : "Nelze určit datum",
     "This operation is forbidden" : "Tato operace je zakázána",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Tento adresář není dostupný, zkontrolujte prosím logy nebo kontaktujte svého správce systému",
     "Error moving file." : "Chyba při přesunu souboru.",
     "Error moving file" : "Chyba při přesunu souboru",
     "Error" : "Chyba",

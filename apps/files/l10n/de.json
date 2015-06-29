@@ -46,6 +46,7 @@
     "Pending" : "Ausstehend",
     "Unable to determine date" : "Datum konnte nicht ermittelt werden",
     "This operation is forbidden" : "Diese Operation ist nicht erlaubt",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Dieses Verzeichnis ist nicht verfügbar, bitte überprüfe die Logdateien oder kontaktiere den Administrator",
     "Error moving file." : "Fehler beim Verschieben der Datei.",
     "Error moving file" : "Fehler beim Verschieben der Datei",
     "Error" : "Fehler",

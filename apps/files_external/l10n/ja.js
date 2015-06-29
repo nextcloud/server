@@ -54,6 +54,7 @@ OC.L10N.register(
     "Personal" : "個人",
     "System" : "システム",
     "Enable encryption" : "暗号化を有効に",
+    "Check for changes" : "変更点を確認",
     "All users. Type to select user or group." : "すべてのユーザー。ユーザー、グループを追加",
     "(group)" : "(グループ)",
     "Saved" : "保存されました",

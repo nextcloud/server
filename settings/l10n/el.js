@@ -186,6 +186,8 @@ OC.L10N.register(
     "Improving the config.php" : "Βελτίωση του  config.php",
     "Theming" : "Θέματα",
     "Hardening and security guidance" : "Οδηγίες ασφάλειας και θωράκισης",
+    "Transactional File Locking is enabled." : "Το μεταβατικό κλείδωμα αρχείων είναι ενεργοποιημένο.",
+    "Transactional File Locking is disabled." : "Το μεταβατικό κλείδωμα αρχείων είναι απενεργοποιημένο.",
     "Version" : "Έκδοση",
     "Developer documentation" : "Τεκμηρίωση προγραμματιστή",
     "Experimental applications ahead" : "Πειραματικές εφαρμογές",

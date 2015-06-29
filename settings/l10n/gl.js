@@ -186,6 +186,8 @@ OC.L10N.register(
     "Improving the config.php" : "Mellorando o config.php",
     "Theming" : "Tematización",
     "Hardening and security guidance" : "Orientacións sobre fortificación e seguridade",
+    "Transactional File Locking is enabled." : "O bloque transaccional de ficheiros está activado.",
+    "Transactional File Locking is disabled." : "O bloque transaccional de ficheiros está  desactivado.",
     "Version" : "Versión",
     "Developer documentation" : "Documentación do desenvolvedor",
     "Experimental applications ahead" : "Ante as aplicacións experimentais",

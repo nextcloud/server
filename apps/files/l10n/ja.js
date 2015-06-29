@@ -47,6 +47,7 @@ OC.L10N.register(
     "Select" : "選択",
     "Pending" : "中断",
     "Unable to determine date" : "更新日不明",
+    "This operation is forbidden" : "この操作は禁止されています",
     "Error moving file." : "ファイル移動でエラー",
     "Error moving file" : "ファイルの移動エラー",
     "Error" : "エラー",

@@ -48,6 +48,7 @@ OC.L10N.register(
     "Pending" : "Odottaa",
     "Unable to determine date" : "Päivämäärän määrittäminen epäonnistui",
     "This operation is forbidden" : "Tämä toiminto on kielletty",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Hakemisto ei ole käytettävissä. Tarkista lokit tai ole yhteydessä ylläpitoon.",
     "Error moving file." : "Virhe tiedostoa siirrettäessä.",
     "Error moving file" : "Virhe tiedostoa siirrettäessä",
     "Error" : "Virhe",

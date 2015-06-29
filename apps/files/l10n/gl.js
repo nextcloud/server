@@ -48,6 +48,7 @@ OC.L10N.register(
     "Pending" : "Pendentes",
     "Unable to determine date" : "Non é posíbel determinar a data",
     "This operation is forbidden" : "Esta operación está prohibida",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio non está dispoñíbel, comprobe os rexistros ou póñase en contacto co administrador",
     "Error moving file." : "Produciuse un erro ao mover o ficheiro.",
     "Error moving file" : "Produciuse un erro ao mover o ficheiro",
     "Error" : "Erro",
