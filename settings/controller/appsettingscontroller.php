@@ -169,6 +169,15 @@ class AppSettingsController extends Controller {
 						}
 						return ($a < $b) ? -1 : 1;
 					});
+					foreach($apps as $key => $app) {
+						if(!array_key_exists('level', $app) && array_key_exists('ocsid', $app)) {
+							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid']);
+
+							if(array_key_exists('level', $remoteAppEntry)) {
+								$apps[$key]['level'] = $remoteAppEntry['level'];
+							}
+						}
+					}
 					break;
 				// not-installed apps
 				case 1:
