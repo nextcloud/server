@@ -597,6 +597,9 @@ a.action>img {
 	display:inline;
 }
 .ie8 #fileList a.action:hover img,
+#fileList tr a.action.disabled.action-download,
+#fileList tr:hover a.action.disabled.action-download:hover,
+#fileList tr:focus a.action.disabled.action-download:focus,
 #fileList tr:hover a.action:hover,
 #fileList tr:focus a.action:focus,
 #fileList .name:focus a.action:focus {
@@ -607,6 +610,11 @@ a.action>img {
 }
 #fileList tr a.action.disabled {
 	background: none;
+}
+
+#selectedActionsList a.download.disabled,
+#fileList tr a.action.action-download.disabled {
+	color: #000000;
 }
 
 #fileList tr:hover a.action.disabled:hover * {
