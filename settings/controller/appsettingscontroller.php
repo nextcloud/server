@@ -127,7 +127,7 @@ class AppSettingsController extends Controller {
 
 		if($this->ocsClient->isAppStoreEnabled()) {
 			// apps from external repo via OCS
-			$ocs = $this->ocsClient->getCategories();
+			$ocs = $this->ocsClient->getCategories(\OC_Util::getVersion());
 			if ($ocs) {
 				foreach($ocs as $k => $v) {
 					$categories[] = [
