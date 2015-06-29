@@ -30,7 +30,13 @@
  */
 namespace OC\Connector\Sabre;
 
-class Auth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
+use Exception;
+use Sabre\DAV\Auth\Backend\AbstractBasic;
+use Sabre\DAV\Exception\NotAuthenticated;
+use Sabre\DAV\Exception\ServiceUnavailable;
+use Sabre\DAV\Server;
+
+class Auth extends AbstractBasic {
 	const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
 
 	/**
@@ -69,7 +75,7 @@ class Auth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 		} else {
 			\OC_Util::setUpFS(); //login hooks may need early access to the filesystem
 			if(\OC_User::login($username, $password)) {
-			        // make sure we use owncloud's internal username here
+			        // make sure we use ownCloud's internal username here
 			        // and not the HTTP auth supplied one, see issue #14048
 			        $ocUser = \OC_User::getUser();
 				\OC_Util::setUpFS($ocUser);
@@ -99,29 +105,38 @@ class Auth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 	}
 
 	/**
-	  * Override function here. We want to cache authentication cookies
-	  * in the syncing client to avoid HTTP-401 roundtrips.
-	  * If the sync client supplies the cookies, then OC_User::isLoggedIn()
-	  * will return true and we can see this WebDAV request as already authenticated,
-	  * even if there are no HTTP Basic Auth headers.
-	  * In other case, just fallback to the parent implementation.
-	  *
-	  * @param \Sabre\DAV\Server $server
-	  * @param $realm
-	  * @return bool
-	  */
-	public function authenticate(\Sabre\DAV\Server $server, $realm) {
+	 * Override function here. We want to cache authentication cookies
+	 * in the syncing client to avoid HTTP-401 roundtrips.
+	 * If the sync client supplies the cookies, then OC_User::isLoggedIn()
+	 * will return true and we can see this WebDAV request as already authenticated,
+	 * even if there are no HTTP Basic Auth headers.
+	 * In other case, just fallback to the parent implementation.
+	 *
+	 * @param Server $server
+	 * @param string $realm
+	 * @return bool
+	 * @throws ServiceUnavailable
+	 */
+	public function authenticate(Server $server, $realm) {
 
-		$result = $this->auth($server, $realm);
-		return $result;
+		try {
+			$result = $this->auth($server, $realm);
+			return $result;
+		} catch (NotAuthenticated $e) {
+			throw $e;
+		} catch (Exception $e) {
+			$class = get_class($e);
+			$msg = $e->getMessage();
+			throw new ServiceUnavailable("$class: $msg");
+		}
     }
 
 	/**
-	 * @param \Sabre\DAV\Server $server
+	 * @param Server $server
 	 * @param $realm
 	 * @return bool
 	 */
-	private function auth(\Sabre\DAV\Server $server, $realm) {
+	private function auth(Server $server, $realm) {
 		if (\OC_User::handleApacheAuth() ||
 			(\OC_User::isLoggedIn() && is_null(\OC::$server->getSession()->get(self::DAV_AUTHENTICATED)))
 		) {
