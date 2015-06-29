@@ -372,6 +372,22 @@ class Share extends Constants {
 			if ($fileDependent && !self::isFileReachable($row['path'], $row['storage_id'])) {
 				continue;
 			}
+			if ($fileDependent && (int)$row['file_parent'] === -1) {
+				// if it is a mount point we need to get the path from the mount manager
+				$mountManager = \OC\Files\Filesystem::getMountManager();
+				$mountPoint = $mountManager->findByStorageId($row['storage_id']);
+				if (!empty($mountPoint)) {
+					$path = $mountPoint[0]->getMountPoint();
+					$path = trim($path, '/');
+					$path = substr($path, strlen($owner) + 1); //normalize path to 'files/foo.txt`
+					$row['path'] = $path;
+				} else {
+					\OC::$server->getLogger()->warning(
+						'Could not resolve mount point for ' . $row['storage_id'],
+						['app' => 'OCP\Share']
+					);
+				}
+			}
 			$shares[] = $row;
 		}
 
@@ -2290,7 +2306,7 @@ class Share extends Constants {
 			if ($fileDependent) {
 				$select = '`*PREFIX*share`.`id`, `*PREFIX*share`.`parent`, `share_type`, `path`, `storage`, '
 					. '`share_with`, `uid_owner` , `file_source`, `stime`, `*PREFIX*share`.`permissions`, '
-					. '`*PREFIX*storages`.`id` AS `storage_id`';
+					. '`*PREFIX*storages`.`id` AS `storage_id`, `*PREFIX*filecache`.`parent` as `file_parent`';
 			} else {
 				$select = '`id`, `parent`, `share_type`, `share_with`, `uid_owner`, `item_source`, `stime`, `*PREFIX*share`.`permissions`';
 			}
@@ -2300,7 +2316,7 @@ class Share extends Constants {
 					$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`,'
 						. ' `share_type`, `share_with`, `file_source`, `file_target`, `path`, `*PREFIX*share`.`permissions`, `stime`,'
 						. ' `expiration`, `token`, `storage`, `mail_send`, `uid_owner`, '
-						. '`*PREFIX*storages`.`id` AS `storage_id`';
+						. '`*PREFIX*storages`.`id` AS `storage_id`, `*PREFIX*filecache`.`parent` as `file_parent`';
 				} else {
 					$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `*PREFIX*share`.`permissions`,'
 						. ' `stime`, `file_source`, `expiration`, `token`, `mail_send`, `uid_owner`';
@@ -2317,7 +2333,7 @@ class Share extends Constants {
 							. '`*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`,'
 							. '`file_source`, `path`, `file_target`, `*PREFIX*share`.`permissions`,'
 						    . '`stime`, `expiration`, `token`, `storage`, `mail_send`,'
-							. '`*PREFIX*storages`.`id` AS `storage_id`';
+							. '`*PREFIX*storages`.`id` AS `storage_id`, `*PREFIX*filecache`.`parent` as `file_parent`';
 					}
 				}
 			}
