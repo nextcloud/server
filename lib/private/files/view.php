@@ -631,7 +631,12 @@ class View {
 			}
 
 			$this->lockFile($path1, ILockingProvider::LOCK_SHARED, true);
-			$this->lockFile($path2, ILockingProvider::LOCK_SHARED, true);
+			try {
+				$this->lockFile($path2, ILockingProvider::LOCK_SHARED, true);
+			} catch (LockedException $e) {
+				$this->unlockFile($path1, ILockingProvider::LOCK_SHARED);
+				throw $e;
+			}
 
 			$run = true;
 			if ($this->shouldEmitHooks() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2))) {
