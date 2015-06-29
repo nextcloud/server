@@ -417,6 +417,26 @@
 			else {
 				files = _.pluck(this.getSelectedFiles(), 'name');
 			}
+
+			var downloadFileaction = $('#selectedActionsList').find('.download');
+
+			// don't allow a second click on the download action
+			if(downloadFileaction.hasClass('disabled')) {
+				event.preventDefault();
+				return;
+			}
+
+			downloadFileaction.addClass('disabled');
+			var icon = downloadFileaction.find('img');
+			var sourceImage = icon.attr('src');
+			icon.attr('src', sourceImage.replace('actions/download.svg', 'loading-small.gif'));
+
+			// TODO proper detection of "download has started"
+			setTimeout(function(){
+				icon.attr('src', sourceImage);
+				downloadFileaction.removeClass('disabled');
+			}, 7000);
+
 			OC.redirect(this.getDownloadUrl(files, dir));
 			return false;
 		},
