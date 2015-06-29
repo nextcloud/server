@@ -111,7 +111,7 @@ class OCSClient {
 	 * @note returns NULL if config value appstoreenabled is set to false
 	 * This function returns a list of all the application categories on the OCS server
 	 */
-	public function getCategories($targetVersion) {
+	public function getCategories(array $targetVersion) {
 		if (!$this->isAppStoreEnabled()) {
 			return null;
 		}
@@ -162,7 +162,7 @@ class OCSClient {
 	 * @param array $targetVersion The target ownCloud version
 	 * @return array An array of application data
 	 */
-	public function getApplications(array $categories, $page, $filter, $targetVersion) {
+	public function getApplications(array $categories, $page, $filter, array $targetVersion) {
 		if (!$this->isAppStoreEnabled()) {
 			return [];
 		}
@@ -239,7 +239,7 @@ class OCSClient {
 	 *
 	 * This function returns an applications from the OCS server
 	 */
-	public function getApplication($id, $targetVersion) {
+	public function getApplication($id, array $targetVersion) {
 		if (!$this->isAppStoreEnabled()) {
 			return null;
 		}
@@ -304,7 +304,7 @@ class OCSClient {
 	 * @param array $targetVersion The target ownCloud version
 	 * @return array|null an array of application data or null
 	 */
-	public function getApplicationDownload($id, $targetVersion) {
+	public function getApplicationDownload($id, array $targetVersion) {
 		if (!$this->isAppStoreEnabled()) {
 			return null;
 		}
