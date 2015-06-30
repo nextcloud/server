@@ -632,7 +632,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		// lock the parent folders of the owner when locking the share as recipient
 		if ($path === '') {
 			$sourcePath = $this->ownerView->getPath($this->share['file_source']);
-			$this->ownerView->lockFile($sourcePath, ILockingProvider::LOCK_SHARED, true);
+			$this->ownerView->lockFile(dirname($sourcePath), ILockingProvider::LOCK_SHARED, true);
 		}
 	}
 
@@ -648,7 +648,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		// unlock the parent folders of the owner when unlocking the share as recipient
 		if ($path === '') {
 			$sourcePath = $this->ownerView->getPath($this->share['file_source']);
-			$this->ownerView->unlockFile($sourcePath, ILockingProvider::LOCK_SHARED, true);
+			$this->ownerView->unlockFile(dirname($sourcePath), ILockingProvider::LOCK_SHARED, true);
 		}
 	}
 

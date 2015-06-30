@@ -87,4 +87,15 @@ class Locking extends TestCase {
 
 		$this->assertTrue(Filesystem::rename('/foo', '/asd'));
 	}
+
+	public function testChangeLock() {
+
+		Filesystem::initMountPoints($this->recipientUid);
+		$recipientView = new View('/' . $this->recipientUid . '/files');
+		$recipientView->lockFile('bar.txt', ILockingProvider::LOCK_SHARED);
+		$recipientView->changeLock('bar.txt', ILockingProvider::LOCK_EXCLUSIVE);
+		$recipientView->unlockFile('bar.txt', ILockingProvider::LOCK_EXCLUSIVE);
+
+		$this->assertTrue(true);
+	}
 }
