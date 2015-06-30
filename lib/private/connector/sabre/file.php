@@ -96,7 +96,11 @@ class File extends Node implements IFile {
 
 		// chunked handling
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
-			return $this->createFileChunked($data);
+			try {
+				return $this->createFileChunked($data);
+			} catch (\Exception $e) {
+				$this->convertToSabreException($e);
+			}
 		}
 
 		list($partStorage) = $this->fileView->resolvePath($this->path);
@@ -125,7 +129,6 @@ class File extends Node implements IFile {
 			$target = $partStorage->fopen($internalPartPath, 'wb');
 			if ($target === false) {
 				\OC_Log::write('webdav', '\OC\Files\Filesystem::fopen() failed', \OC_Log::ERROR);
-				$partStorage->unlink($internalPartPath);
 				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 				throw new Exception('Could not write file contents');
 			}
@@ -138,32 +141,13 @@ class File extends Node implements IFile {
 			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] !== 'LOCK') {
 				$expected = $_SERVER['CONTENT_LENGTH'];
 				if ($count != $expected) {
-					$partStorage->unlink($internalPartPath);
 					throw new BadRequest('expected filesize ' . $expected . ' got ' . $count);
 				}
 			}
 
-		} catch (NotPermittedException $e) {
-			// a more general case - due to whatever reason the content could not be written
-			throw new Forbidden($e->getMessage());
-		} catch (EntityTooLargeException $e) {
-			// the file is too big to be stored
-			throw new EntityTooLarge($e->getMessage());
-		} catch (InvalidContentException $e) {
-			// the file content is not permitted
-			throw new UnsupportedMediaType($e->getMessage());
-		} catch (InvalidPathException $e) {
-			// the path for the file was not valid
-			// TODO: find proper http status code for this case
-			throw new Forbidden($e->getMessage());
-		} catch (LockNotAcquiredException $e) {
-			// the file is currently being written to by another process
-			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
-		} catch (GenericEncryptionException $e) {
-			// returning 503 will allow retry of the operation at a later point in time
-			throw new ServiceUnavailable("Encryption not ready: " . $e->getMessage());
-		} catch (StorageNotAvailableException $e) {
-			throw new ServiceUnavailable("Failed to write file contents: " . $e->getMessage());
+		} catch (\Exception $e) {
+			$partStorage->unlink($internalPartPath);
+			$this->convertToSabreException($e);
 		}
 
 		try {
@@ -192,6 +176,7 @@ class File extends Node implements IFile {
 			try {
 				$this->fileView->changeLock($this->path, ILockingProvider::LOCK_EXCLUSIVE);
 			} catch (LockedException $e) {
+				$partStorage->unlink($internalPartPath);
 				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 			}
 
@@ -207,9 +192,9 @@ class File extends Node implements IFile {
 						$partStorage->unlink($internalPartPath);
 						throw new Exception('Could not rename part file to final file');
 					}
-				} catch (\OCP\Files\LockNotAcquiredException $e) {
-					// the file is currently being written to by another process
-					throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+				} catch (\Exception $e) {
+					$partStorage->unlink($internalPartPath);
+					$this->convertToSabreException($e);
 				}
 			}
 
@@ -380,6 +365,9 @@ class File extends Node implements IFile {
 						\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
 						// only delete if an error occurred and the target file was already created
 						if ($fileExists) {
+							// set to null to avoid double-deletion when handling exception
+							// stray part file
+							$partFile = null;
 							$this->fileView->unlink($targetPath);
 						}
 						throw new Exception('Could not rename part file assembled from chunks');
@@ -399,10 +387,11 @@ class File extends Node implements IFile {
 
 				$info = $this->fileView->getFileInfo($targetPath);
 				return $info->getEtag();
-			} catch (StorageNotAvailableException $e) {
-				throw new ServiceUnavailable("Failed to put file: " . $e->getMessage());
-			} catch (LockedException $e) {
-				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+			} catch (\Exception $e) {
+				if ($partFile) {
+					$this->fileView->unlink($partFile);
+				}
+				$this->convertToSabreException($e);
 			}
 		}
 
@@ -422,5 +411,48 @@ class File extends Node implements IFile {
 		// and/or add method on Storage called "needsPartFile()"
 		return !$storage->instanceOfStorage('OCA\Files_Sharing\External\Storage') &&
 		!$storage->instanceOfStorage('OC\Files\Storage\OwnCloud');
+	}
+
+	/**
+	 * Convert the given exception to a SabreException instance
+	 *
+	 * @param \Exception $e
+	 *
+	 * @throws \Sabre\DAV\Exception
+	 */
+	private function convertToSabreException(\Exception $e) {
+		if ($e instanceof \Sabre\DAV\Exception) {
+			throw $e;
+		}
+		if ($e instanceof NotPermittedException) {
+			// a more general case - due to whatever reason the content could not be written
+			throw new Forbidden($e->getMessage(), 0, $e);
+		}
+		if ($e instanceof EntityTooLargeException) {
+			// the file is too big to be stored
+			throw new EntityTooLarge($e->getMessage(), 0, $e);
+		}
+		if ($e instanceof InvalidContentException) {
+			// the file content is not permitted
+			throw new UnsupportedMediaType($e->getMessage(), 0, $e);
+		}
+		if ($e instanceof InvalidPathException) {
+			// the path for the file was not valid
+			// TODO: find proper http status code for this case
+			throw new Forbidden($e->getMessage(), 0, $e);
+		}
+		if ($e instanceof LockedException || $e instanceof LockNotAcquiredException) {
+			// the file is currently being written to by another process
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+		}
+		if ($e instanceof GenericEncryptionException) {
+			// returning 503 will allow retry of the operation at a later point in time
+			throw new ServiceUnavailable('Encryption not ready: ' . $e->getMessage(), 0, $e);
+		}
+		if ($e instanceof StorageNotAvailableException) {
+			throw new ServiceUnavailable('Failed to write file contents: ' . $e->getMessage(), 0, $e);
+		}
+
+		throw new \Sabre\DAV\Exception($e->getMessage(), 0, $e);
 	}
 }

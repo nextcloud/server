@@ -1758,6 +1758,39 @@ class View extends \Test\TestCase {
 		$this->assertNull($this->getFileLockType($view, $targetPath), 'Target file not locked after operation');
 	}
 
+	/**
+	 * Test rename operation: unlock first path when second path was locked
+	 */
+	public function testLockFileRenameUnlockOnException() {
+		$this->loginAsUser('test');
+
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+
+		$sourcePath = 'original.txt';
+		$targetPath = 'target.txt';
+		$view->file_put_contents($sourcePath, 'meh');
+
+		// simulate that the target path is already locked
+		$view->lockFile($targetPath, ILockingProvider::LOCK_EXCLUSIVE);
+
+		$this->assertNull($this->getFileLockType($view, $sourcePath), 'Source file not locked before operation');
+		$this->assertEquals(ILockingProvider::LOCK_EXCLUSIVE, $this->getFileLockType($view, $targetPath), 'Target file is locked before operation');
+
+		$thrown = false;
+		try {
+			$view->rename($sourcePath, $targetPath);
+		} catch (\OCP\Lock\LockedException $e) {
+			$thrown = true;
+		}
+
+		$this->assertTrue($thrown, 'LockedException thrown');
+
+		$this->assertNull($this->getFileLockType($view, $sourcePath), 'Source file not locked after operation');
+		$this->assertEquals(ILockingProvider::LOCK_EXCLUSIVE, $this->getFileLockType($view, $targetPath), 'Target file still locked after operation');
+
+		$view->unlockFile($targetPath, ILockingProvider::LOCK_EXCLUSIVE);
+	}
+
 	public function lockFileRenameOrCopyCrossStorageDataProvider() {
 		return [
 			['rename', 'moveFromStorage', ILockingProvider::LOCK_EXCLUSIVE],
