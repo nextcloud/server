@@ -1,5 +1,10 @@
 <?php
 
+if(php_sapi_name() !== 'cli') {
+	print('Only via CLI, please.');
+	exit(1);
+}
+
 include __DIR__ . '/config.php';
 
 $cr = ldap_connect($host, $port);
