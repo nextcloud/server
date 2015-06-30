@@ -510,6 +510,10 @@ class Test_App extends \Test\TestCase {
 				['not-a-description' => " \t  This is a multiline \n test with \n \t   some new lines   "],
 				['not-a-description' => " \t  This is a multiline \n test with \n \t   some new lines   "]
 			],
+			[
+				['description' => [100, 'bla']],
+				['description' => ""]
+			],
 		];
 	}
 
