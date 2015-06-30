@@ -79,6 +79,8 @@ class View {
 	 */
 	private $lockingProvider;
 
+	private $lockingEnabled;
+
 	/**
 	 * @param string $root
 	 * @throws \Exception If $root contains an invalid path
@@ -94,6 +96,7 @@ class View {
 		$this->fakeRoot = $root;
 		$this->updater = new Updater($this);
 		$this->lockingProvider = \OC::$server->getLockingProvider();
+		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 	}
 
 	public function getAbsolutePath($path = '/') {
@@ -1021,7 +1024,7 @@ class View {
 				}
 
 				$unlockLater = false;
-				if ($operation === 'fopen' and is_resource($result)) {
+				if ($this->lockingEnabled && $operation === 'fopen' && is_resource($result)) {
 					$unlockLater = true;
 					$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path) {
 						if (in_array('write', $hooks)) {
