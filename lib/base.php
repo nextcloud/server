@@ -730,8 +730,14 @@ class OC {
 			// NOTE: This will be replaced to use OCP
 			$userSession = self::$server->getUserSession();
 			$userSession->listen('\OC\User', 'postLogin', function () {
-				$cache = new \OC\Cache\File();
-				$cache->gc();
+				try {
+					$cache = new \OC\Cache\File();
+					$cache->gc();
+				} catch (\Exception $e) {
+					// a GC exception should not prevent users from using OC,
+					// so log the exception
+					\OC::$server->getLogger()->warning('Exception when running cache gc: ' . $e->getMessage(), array('app' => 'core'));
+				}
 			});
 		}
 	}
