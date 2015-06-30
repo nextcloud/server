@@ -34,7 +34,6 @@ use Exception;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\ServiceUnavailable;
-use Sabre\DAV\Server;
 
 class Auth extends AbstractBasic {
 	const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
@@ -112,12 +111,12 @@ class Auth extends AbstractBasic {
 	 * even if there are no HTTP Basic Auth headers.
 	 * In other case, just fallback to the parent implementation.
 	 *
-	 * @param Server $server
+	 * @param \Sabre\DAV\Server $server
 	 * @param string $realm
 	 * @return bool
 	 * @throws ServiceUnavailable
 	 */
-	public function authenticate(Server $server, $realm) {
+	public function authenticate(\Sabre\DAV\Server $server, $realm) {
 
 		try {
 			$result = $this->auth($server, $realm);
@@ -132,11 +131,11 @@ class Auth extends AbstractBasic {
     }
 
 	/**
-	 * @param Server $server
+	 * @param \Sabre\DAV\Server $server
 	 * @param $realm
 	 * @return bool
 	 */
-	private function auth(Server $server, $realm) {
+	private function auth(\Sabre\DAV\Server $server, $realm) {
 		if (\OC_User::handleApacheAuth() ||
 			(\OC_User::isLoggedIn() && is_null(\OC::$server->getSession()->get(self::DAV_AUTHENTICATED)))
 		) {
