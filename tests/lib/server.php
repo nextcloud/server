@@ -99,6 +99,7 @@ class Server extends \Test\TestCase {
 			['NavigationManager', '\OC\NavigationManager'],
 			['NavigationManager', '\OCP\INavigationManager'],
 			['UserCache', '\OC\Cache\File'],
+			['UserCache', '\OCP\ICache'],
 
 			['OcsClient', '\OC\OCSClient'],
 
