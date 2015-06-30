@@ -364,8 +364,12 @@ class Encryption extends Wrapper {
 					$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
 				}
 
-				$size = $this->storage->filesize($path);
-				$unencryptedSize = $this->filesize($path);
+				if ($this->file_exists($path)) {
+					$size = $this->storage->filesize($path);
+					$unencryptedSize = $this->filesize($path);
+				} else {
+					$size = $unencryptedSize = 0;
+				}
 			}
 
 			try {
