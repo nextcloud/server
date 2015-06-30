@@ -1228,17 +1228,18 @@ class OC_App {
 			// manages line breaks itself
 
 			// first of all we split on empty lines
-			$paragraphs = preg_split("!\n[[:space:]]*\n!m", $data['description']);
+			$paragraphs = preg_split("!\n[[:space:]]*\n!mu", $data['description']);
 
 			$result = [];
 			foreach ($paragraphs as $value) {
 				// replace multiple whitespace (tabs, space, newlines) inside a paragraph
 				// with a single space - also trims whitespace
-				$result[] = trim(preg_replace('![[:space:]]+!m', ' ', $value));
+				$result[] = trim(preg_replace('![[:space:]]+!mu', ' ', $value));
 			}
 
 			// join the single paragraphs with a empty line in between
 			$data['description'] = implode("\n\n", $result);
+
 		}
 
 		return $data;

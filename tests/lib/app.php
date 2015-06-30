@@ -503,6 +503,10 @@ class Test_App extends \Test\TestCase {
 				['description' => "This is a multiline test with some new lines"]
 			],
 			[
+				['description' => hex2bin('5065726d657420646520732761757468656e7469666965722064616e732070697769676f20646972656374656d656e74206176656320736573206964656e74696669616e7473206f776e636c6f75642073616e73206c65732072657461706572206574206d657420c3a0206a6f757273206365757820636920656e20636173206465206368616e67656d656e74206465206d6f742064652070617373652e0d0a0d')],
+				['description' => "Permet de s'authentifier dans piwigo directement avec ses identifiants owncloud sans les retaper et met à jours ceux ci en cas de changement de mot de passe."]
+			],
+			[
 				['not-a-description' => " \t  This is a multiline \n test with \n \t   some new lines   "],
 				['not-a-description' => " \t  This is a multiline \n test with \n \t   some new lines   "]
 			],
@@ -513,9 +517,11 @@ class Test_App extends \Test\TestCase {
 	 * Test app info parser
 	 *
 	 * @dataProvider appDataProvider
+	 * @param array $data
+	 * @param array $expected
 	 */
-	public function testParseAppInfo($data, $expected) {
-		$this->assertEquals($expected, \OC_App::parseAppInfo($data));
+	public function testParseAppInfo(array $data, array $expected) {
+		$this->assertSame($expected, \OC_App::parseAppInfo($data));
 	}
 }
 
