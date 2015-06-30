@@ -23,12 +23,22 @@
 namespace Test\Cache;
 
 class FileCache extends \Test_Cache {
-	/** @var string */
+	/**
+	 * @var string
+	 * */
 	private $user;
-	/** @var string */
+	/**
+	 * @var string
+	 * */
 	private $datadir;
-	/** @var \OC\Files\Storage\Storage */
+	/**
+	 * @var \OC\Files\Storage\Storage
+	 * */
 	private $storage;
+	/**
+	 * @var \OC\Files\View
+	 * */
+	private $rootView;
 
 	function skip() {
 		//$this->skipUnless(OC_User::isLoggedIn());
@@ -59,13 +69,18 @@ class FileCache extends \Test_Cache {
 		\OC_User::setUserId('test');
 
 		//set up the users dir
-		$rootView = new \OC\Files\View('');
-		$rootView->mkdir('/test');
+		$this->rootView = new \OC\Files\View('');
+		$this->rootView->mkdir('/test');
 
 		$this->instance=new \OC\Cache\File();
+
+		// forces creation of cache folder for subsequent tests
+		$this->instance->set('hack', 'hack');
 	}
 
 	protected function tearDown() {
+		$this->instance->remove('hack', 'hack');
+
 		\OC_User::setUserId($this->user);
 		\OC_Config::setValue('cachedirectory', $this->datadir);
 
@@ -74,5 +89,74 @@ class FileCache extends \Test_Cache {
 		\OC\Files\Filesystem::mount($this->storage, array(), '/');
 
 		parent::tearDown();
+	}
+
+	private function setupMockStorage() {
+		$mockStorage = $this->getMock(
+			'\OC\Files\Storage\Local',
+			['filemtime', 'unlink'],
+			[['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]]
+		);
+
+		\OC\Files\Filesystem::mount($mockStorage, array(), '/test/cache');
+
+		return $mockStorage;
+	}
+
+	public function testGarbageCollectOldKeys() {
+		$mockStorage = $this->setupMockStorage();
+
+		$mockStorage->expects($this->atLeastOnce())
+			->method('filemtime')
+			->will($this->returnValue(100));
+		$mockStorage->expects($this->once())
+			->method('unlink')
+			->with('key1')
+			->will($this->returnValue(true));
+
+		$this->instance->set('key1', 'value1');
+		$this->instance->gc();
+	}
+
+	public function testGarbageCollectLeaveRecentKeys() {
+		$mockStorage = $this->setupMockStorage();
+
+		$mockStorage->expects($this->atLeastOnce())
+			->method('filemtime')
+			->will($this->returnValue(time() + 3600));
+		$mockStorage->expects($this->never())
+			->method('unlink')
+			->with('key1');
+		$this->instance->set('key1', 'value1');
+		$this->instance->gc();
+	}
+
+	public function lockExceptionProvider() {
+		return [
+			[new \OCP\Lock\LockedException('key1')],
+			[new \OCP\Files\LockNotAcquiredException('key1', 1)],
+		];
+	}
+
+	/**
+	 * @dataProvider lockExceptionProvider
+	 */
+	public function testGarbageCollectIgnoreLockedKeys($testException) {
+		$mockStorage = $this->setupMockStorage();
+
+		$mockStorage->expects($this->atLeastOnce())
+			->method('filemtime')
+			->will($this->returnValue(100));
+		$mockStorage->expects($this->atLeastOnce())
+			->method('unlink')
+			->will($this->onConsecutiveCalls(
+				$this->throwException($testException),
+				$this->returnValue(true)
+			));
+
+		$this->instance->set('key1', 'value1');
+		$this->instance->set('key2', 'value2');
+
+		$this->instance->gc();
 	}
 }
