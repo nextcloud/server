@@ -34,27 +34,27 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend implements \OCP\IUserBackend {
 
 	public function deleteUser($uid) {
 		// Can't delete user
-		OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to delete users from web frontend using WebDAV user backend', 3);
+		OCP\Util::writeLog('OC_USER_WEBDAVAUTH', 'Not possible to delete users from web frontend using WebDAV user backend', 3);
 		return false;
 	}
 
 	public function setPassword ( $uid, $password ) {
 		// We can't change user password
-		OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to change password for users from web frontend using WebDAV user backend', 3);
+		OCP\Util::writeLog('OC_USER_WEBDAVAUTH', 'Not possible to change password for users from web frontend using WebDAV user backend', 3);
 		return false;
 	}
 
 	public function checkPassword( $uid, $password ) {
 		$arr = explode('://', $this->webdavauth_url, 2);
 		if( ! isset($arr) OR count($arr) !== 2) {
-			OC_Log::write('OC_USER_WEBDAVAUTH', 'Invalid Url: "'.$this->webdavauth_url.'" ', 3);
+			OCP\Util::writeLog('OC_USER_WEBDAVAUTH', 'Invalid Url: "'.$this->webdavauth_url.'" ', 3);
 			return false;
 		}
 		list($webdavauth_protocol, $webdavauth_url_path) = $arr;
 		$url= $webdavauth_protocol.'://'.urlencode($uid).':'.urlencode($password).'@'.$webdavauth_url_path;
 		$headers = get_headers($url);
 		if($headers==false) {
-			OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to connect to WebDAV Url: "'.$webdavauth_protocol.'://'.$webdavauth_url_path.'" ', 3);
+			OCP\Util::writeLog('OC_USER_WEBDAVAUTH', 'Not possible to connect to WebDAV Url: "'.$webdavauth_protocol.'://'.$webdavauth_url_path.'" ', 3);
 			return false;
 
 		}

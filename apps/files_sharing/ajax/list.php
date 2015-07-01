@@ -27,7 +27,7 @@ OCP\JSON::checkAppEnabled('files_sharing');
 
 if(!isset($_GET['t'])){
 	\OC_Response::setStatus(\OC_Response::STATUS_BAD_REQUEST);
-	\OC_Log::write('core-preview', 'No token parameter was passed', \OC_Log::DEBUG);
+	\OCP\Util::writeLog('core-preview', 'No token parameter was passed', \OCP\Util::DEBUG);
 	exit;
 }
 

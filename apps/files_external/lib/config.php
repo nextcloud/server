@@ -124,10 +124,10 @@ class OC_Mount_Config {
 			self::addStorageIdToConfig($data['user']);
 			$user = \OC::$server->getUserManager()->get($data['user']);
 			if (!$user) {
-				\OC_Log::write(
+				\OCP\Util::writeLog(
 					'files_external',
 					'Cannot init external mount points for non-existant user "' . $data['user'] . '".',
-					\OC_Log::WARN
+					\OCP\Util::WARN
 				);
 				return;
 			}
