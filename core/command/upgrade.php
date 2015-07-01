@@ -178,6 +178,15 @@ class Upgrade extends Command {
 				$output->writeln("<error>$message</error>");
 			});
 
+			if(OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+				$updater->listen('\OC\Updater', 'repairInfo', function ($message) use($output) {
+					$output->writeln('<info>Repair info: ' . $message . '</info>');
+				});
+				$updater->listen('\OC\Updater', 'repairStep', function ($message) use($output) {
+					$output->writeln('<info>Repair step: ' . $message . '</info>');
+				});
+			}
+
 			$success = $updater->upgrade();
 
 			$this->postUpgradeCheck($input, $output);
