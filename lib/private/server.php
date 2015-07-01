@@ -439,6 +439,9 @@ class Server extends SimpleContainer implements IServerContainer {
 			}
 			return new NoopLockingProvider();
 		});
+		$this->registerService('MountManager', function () {
+			return new \OC\Files\Mount\Manager();
+		});
 	}
 
 	/**
@@ -938,5 +941,12 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	public function getLockingProvider() {
 		return $this->query('LockingProvider');
+	}
+
+	/**
+	 * @return \OCP\Files\Mount\IMountManager
+	 **/
+	function getMountManager() {
+		return $this->query('MountManager');
 	}
 }

@@ -25,8 +25,9 @@
 namespace OC\Files\Mount;
 
 use \OC\Files\Filesystem;
+use OCP\Files\Mount\IMountManager;
 
-class Manager {
+class Manager implements IMountManager {
 	/**
 	 * @var MountPoint[]
 	 */
