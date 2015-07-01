@@ -26,6 +26,7 @@ namespace OC\Files\Mount;
 
 use \OC\Files\Filesystem;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IMountPoint;
 
 class Manager implements IMountManager {
 	/**
@@ -34,9 +35,9 @@ class Manager implements IMountManager {
 	private $mounts = array();
 
 	/**
-	 * @param MountPoint $mount
+	 * @param IMountPoint $mount
 	 */
-	public function addMount(MountPoint $mount) {
+	public function addMount(IMountPoint $mount) {
 		$this->mounts[$mount->getMountPoint()] = $mount;
 	}
 
