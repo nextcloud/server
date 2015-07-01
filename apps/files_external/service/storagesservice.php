@@ -306,7 +306,7 @@ abstract class StoragesService {
 	 */
 	protected function triggerApplicableHooks($signal, $mountPoint, $mountType, $applicableArray) {
 		foreach ($applicableArray as $applicable) {
-			\OC_Hook::emit(
+			\OCP\Util::emitHook(
 				Filesystem::CLASSNAME,
 				$signal,
 				[
