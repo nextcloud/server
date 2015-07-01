@@ -659,11 +659,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string Server host
 	 */
 	public function getServerHost() {
-		// FIXME: Ugly workaround that we need to get rid of
-		if (\OC::$CLI && defined('PHPUNIT_RUN')) {
-			return 'localhost';
-		}
-
 		// overwritehost is always trusted
 		$host = $this->getOverwriteHost();
 		if ($host !== null) {
@@ -681,7 +676,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			return $host;
 		} else {
 			$trustedList = $this->config->getSystemValue('trusted_domains', []);
-			return $trustedList[0];
+			if(!empty($trustedList)) {
+				return $trustedList[0];
+			} else {
+				return '';
+			}
 		}
 	}
 
