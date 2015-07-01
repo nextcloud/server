@@ -25,22 +25,72 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OC\Connector\Sabre\ExceptionLoggerPlugin;
+use Sabre\DAV\Exception\ServiceUnavailable;
+use Sabre\DAV\Server;
+
+/**
+ * Class RemoteException
+ * Dummy exception class to be use locally to identify certain conditions
+ */
+class RemoteException extends Exception {
+}
+
+/**
+ * @param Exception $e
+ */
+function handleException(Exception $e) {
+	$request = \OC::$server->getRequest();
+	// in case the request content type is text/xml - we assume it's a WebDAV request
+	$isXmlContentType = strpos($request->getHeader('Content-Type'), 'text/xml');
+	if ($isXmlContentType === 0) {
+		// fire up a simple server to properly process the exception
+		$server = new Server();
+		$server->addPlugin(new ExceptionLoggerPlugin('webdav', \OC::$server->getLogger()));
+		$server->on('beforeMethod', function () use ($e) {
+			if ($e instanceof RemoteException) {
+				switch ($e->getCode()) {
+					case OC_Response::STATUS_SERVICE_UNAVAILABLE:
+						throw new ServiceUnavailable($e->getMessage());
+					case OC_Response::STATUS_NOT_FOUND:
+						throw new \Sabre\DAV\Exception\NotFound($e->getMessage());
+				}
+			}
+			$class = get_class($e);
+			$msg = $e->getMessage();
+			throw new ServiceUnavailable("$class: $msg");
+		});
+		$server->exec();
+	} else {
+		$statusCode = OC_Response::STATUS_INTERNAL_SERVER_ERROR;
+		if ($e instanceof \OC\ServiceUnavailableException ) {
+			$statusCode = OC_Response::STATUS_SERVICE_UNAVAILABLE;
+		}
+		\OCP\Util::writeLog('remote', $e->getMessage(), \OCP\Util::FATAL);
+		if ($e instanceof RemoteException) {
+			OC_Response::setStatus($e->getCode());
+			OC_Template::printErrorPage($e->getMessage());
+		} else {
+			OC_Response::setStatus($statusCode);
+			OC_Template::printExceptionErrorPage($e);
+		}
+	}
+}
+
 try {
 	require_once 'lib/base.php';
 
 	if (\OCP\Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
 		// an upgrade, return a 503 directly
-		OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
-		OC_Template::printErrorPage('Service unavailable');
-		exit;
+		throw new RemoteException('Service unavailable', OC_Response::STATUS_SERVICE_UNAVAILABLE);
 	}
 
 	$request = \OC::$server->getRequest();
 	$pathInfo = $request->getPathInfo();
 	if ($pathInfo === false || $pathInfo === '') {
-		OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
-		exit;
+		throw new RemoteException('Path not found', OC_Response::STATUS_NOT_FOUND);
 	}
 	if (!$pos = strpos($pathInfo, '/', 1)) {
 		$pos = strlen($pathInfo);
@@ -50,8 +100,7 @@ try {
 	$file = \OC::$server->getConfig()->getAppValue('core', 'remote_' . $service);
 
 	if(is_null($file)) {
-		OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
-		exit;
+		throw new RemoteException('Path not found', OC_Response::STATUS_NOT_FOUND);
 	}
 
 	// force language as given in the http request
@@ -82,12 +131,6 @@ try {
 	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
 	require_once $file;
 
-} catch (\OC\ServiceUnavailableException $ex) {
-	OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
-	\OCP\Util::writeLog('remote', $ex->getMessage(), \OCP\Util::FATAL);
-	OC_Template::printExceptionErrorPage($ex);
 } catch (Exception $ex) {
-	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
-	\OCP\Util::writeLog('remote', $ex->getMessage(), \OCP\Util::FATAL);
-	OC_Template::printExceptionErrorPage($ex);
+	handleException($ex);
 }
