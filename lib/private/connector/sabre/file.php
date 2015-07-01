@@ -146,7 +146,9 @@ class File extends Node implements IFile {
 			}
 
 		} catch (\Exception $e) {
-			$partStorage->unlink($internalPartPath);
+			if ($needsPartFile) {
+				$partStorage->unlink($internalPartPath);
+			}
 			$this->convertToSabreException($e);
 		}
 
@@ -176,7 +178,9 @@ class File extends Node implements IFile {
 			try {
 				$this->fileView->changeLock($this->path, ILockingProvider::LOCK_EXCLUSIVE);
 			} catch (LockedException $e) {
-				$partStorage->unlink($internalPartPath);
+				if ($needsPartFile) {
+					$partStorage->unlink($internalPartPath);
+				}
 				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 			}
 
