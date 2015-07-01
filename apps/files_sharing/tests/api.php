@@ -311,6 +311,51 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @medium
 	 * @depends testCreateShare
 	 */
+	function testPublicLinkUrl() {
+		// simulate a post request
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+		$this->assertTrue($result->succeeded());
+		$data = $result->getData();
+
+		// check if we have a token
+		$this->assertTrue(is_string($data['token']));
+		$id = $data['id'];
+
+		// check for correct link
+		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
+		$this->assertEquals($url, $data['url']);
+
+		// check for link in getall shares
+		$result = \OCA\Files_Sharing\API\Local::getAllShares([]);
+		$this->assertTrue($result->succeeded());
+		$data = $result->getData();
+		$this->assertEquals($url, current($data)['url']);
+
+		// check for path
+		$_GET['path'] = $this->folder;
+		$result = \OCA\Files_Sharing\API\Local::getAllShares([]);
+		$this->assertTrue($result->succeeded());
+		$data = $result->getData();
+		$this->assertEquals($url, current($data)['url']);
+
+		// check in share id
+		$result = \OCA\Files_Sharing\API\Local::getShare(['id' => $id]);
+		$this->assertTrue($result->succeeded());
+		$data = $result->getData();
+		$this->assertEquals($url, current($data)['url']);
+
+		//Clean up share
+		$fileinfo = $this->view->getFileInfo($this->folder);
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+	}
+
+	/**
+	 * @medium
+	 * @depends testCreateShare
+	 */
 	function testGetShareFromSource() {
 
 		$fileInfo = $this->view->getFileInfo($this->filename);
