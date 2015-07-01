@@ -138,7 +138,7 @@ class Shared_Updater {
 	 */
 	static public function fixBrokenSharesOnAppUpdate() {
 		// delete all shares where the original file no longer exists
-		$findAndRemoveShares = \OC_DB::prepare('DELETE FROM `*PREFIX*share` ' .
+		$findAndRemoveShares = \OCP\DB::prepare('DELETE FROM `*PREFIX*share` ' .
 			'WHERE `item_type` IN (\'file\', \'folder\') ' .
 			'AND `file_source` NOT IN (SELECT `fileid` FROM `*PREFIX*filecache`)'
 		);

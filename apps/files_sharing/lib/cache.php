@@ -120,7 +120,7 @@ class Shared_Cache extends Cache {
 			if (!is_int($sourceId) || $sourceId === 0) {
 				$sourceId = $this->storage->getSourceId();
 			}
-			$query = \OC_DB::prepare(
+			$query = \OCP\DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`,'
 				. ' `size`, `mtime`, `encrypted`, `storage_mtime`, `etag`, `permissions`'
 				. ' FROM `*PREFIX*filecache` WHERE `fileid` = ?');
@@ -499,7 +499,7 @@ class Shared_Cache extends Cache {
 	 */
 	private function getParentInfo($id) {
 		$sql = 'SELECT `parent`, `name` FROM `*PREFIX*filecache` WHERE `fileid` = ?';
-		$query = \OC_DB::prepare($sql);
+		$query = \OCP\DB::prepare($sql);
 		$result = $query->execute(array($id));
 		if ($row = $result->fetchRow()) {
 			return array((int)$row['parent'], $row['name']);
