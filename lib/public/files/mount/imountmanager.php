@@ -21,21 +21,35 @@
 
 namespace OCP\Files\Mount;
 
+/**
+ * Interface IMountManager
+ *
+ * Manages all mounted storages in the system
+ */
 interface IMountManager {
 
 	/**
+	 * Add a new mount
+	 *
 	 * @param \OCP\Files\Mount\IMountPoint $mount
+	 * @since 8.2.0
 	 */
 	public function addMount(IMountPoint $mount);
 
 	/**
+	 * Remove a mount
+	 *
 	 * @param string $mountPoint
+	 * @since 8.2.0
 	 */
 	public function removeMount($mountPoint);
 
 	/**
+	 * Change the location of a mount
+	 *
 	 * @param string $mountPoint
 	 * @param string $target
+	 * @since 8.2.0
 	 */
 	public function moveMount($mountPoint, $target);
 
@@ -44,6 +58,7 @@ interface IMountManager {
 	 *
 	 * @param string $path
 	 * @return \OCP\Files\Mount\IMountPoint
+	 * @since 8.2.0
 	 */
 	public function find($path);
 
@@ -52,11 +67,14 @@ interface IMountManager {
 	 *
 	 * @param string $path
 	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @since 8.2.0
 	 */
 	public function findIn($path);
 
 	/**
 	 * Remove all registered mounts
+	 *
+	 * @since 8.2.0
 	 */
 	public function clear();
 
@@ -65,11 +83,13 @@ interface IMountManager {
 	 *
 	 * @param string $id
 	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @since 8.2.0
 	 */
 	public function findByStorageId($id);
 
 	/**
 	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @since 8.2.0
 	 */
 	public function getAll();
 
@@ -78,6 +98,7 @@ interface IMountManager {
 	 *
 	 * @param int $id
 	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @since 8.2.0
 	 */
 	public function findByNumericId($id);
 }
