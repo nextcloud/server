@@ -87,7 +87,7 @@ interface Storage {
 	public function opendir($path);
 
 	/**
-	 * see http://php.net/manual/en/function.is_dir.php
+	 * see http://php.net/manual/en/function.is-dir.php
 	 *
 	 * @param string $path
 	 * @return bool
@@ -96,7 +96,7 @@ interface Storage {
 	public function is_dir($path);
 
 	/**
-	 * see http://php.net/manual/en/function.is_file.php
+	 * see http://php.net/manual/en/function.is-file.php
 	 *
 	 * @param string $path
 	 * @return bool
