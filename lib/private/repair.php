@@ -34,6 +34,7 @@ use OC\Repair\AssetCache;
 use OC\Repair\CleanTags;
 use OC\Repair\Collation;
 use OC\Repair\DropOldJobs;
+use OC\Repair\RemoveGetETagEntries;
 use OC\Repair\SqliteAutoincrement;
 use OC\Repair\DropOldTables;
 use OC\Repair\FillETags;
@@ -109,6 +110,7 @@ class Repair extends BasicEmitter {
 			new CleanTags(\OC_DB::getConnection()),
 			new DropOldTables(\OC_DB::getConnection()),
 			new DropOldJobs(\OC::$server->getJobList()),
+			new RemoveGetETagEntries(\OC_DB::getConnection()),
 		);
 	}
 
