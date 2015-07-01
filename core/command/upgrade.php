@@ -26,6 +26,7 @@
 
 namespace OC\Core\Command;
 
+use OC\Console\TimestampFormatter;
 use OC\Updater;
 use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
@@ -110,6 +111,12 @@ class Upgrade extends Command {
 		}
 
 		if(\OC::checkUpgrade(false)) {
+			if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+				// Prepend each line with a little timestamp
+				$timestampFormatter = new TimestampFormatter($this->config, $output->getFormatter());
+				$output->setFormatter($timestampFormatter);
+			}
+
 			$self = $this;
 			$updater = new Updater(\OC::$server->getHTTPHelper(),
 				\OC::$server->getConfig());
@@ -130,9 +137,11 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'updateEnd',
 				function ($success) use($output, $updateStepEnabled, $self) {
 					$mode = $updateStepEnabled ? 'Update' : 'Update simulation';
-					$status = $success ? 'successful' : 'failed' ;
-					$type = $success ? 'info' : 'error';
-					$message = "<$type>$mode $status</$type>";
+					if ($success) {
+						$message = "<info>$mode successful</info>";
+					} else {
+						$message = "<error>$mode failed</error>";
+					}
 					$output->writeln($message);
 				});
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {
