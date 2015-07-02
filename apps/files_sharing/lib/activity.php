@@ -230,7 +230,7 @@ class Activity implements IExtension {
 	 * @return integer|false
 	 */
 	public function getGroupParameter($activity) {
-		if ($activity['app'] === 'files') {
+		if ($activity['app'] === self::FILES_SHARING_APP) {
 			switch ($activity['subject']) {
 				case self::SUBJECT_SHARED_LINK_SELF:
 				case self::SUBJECT_SHARED_WITH_BY:
