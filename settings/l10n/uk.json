@@ -1,4 +1,5 @@
 { "translations": {
+    "Redis" : "Redis",
     "Security & setup warnings" : "Попередження безпеки та налаштування",
     "Sharing" : "Спільний доступ",
     "Server-side encryption" : "Серверне шіфрування",
@@ -51,6 +52,8 @@
     "Migration in progress. Please wait until the migration is finished" : "Міграція триває. Будь ласка, зачекайте доки процес міграції завершиться",
     "Migration started …" : "Міграцію розпочато ...",
     "Sending..." : "Надсилання...",
+    "Official" : "Офіційні",
+    "Experimental" : "Експериментальні",
     "All" : "Всі",
     "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Офіційні застосунки розроблені спільнотою ownCloud. Вони реалізують основні можливості ownCloud і готові до використання в продакшні.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Схвалені застосунки розроблені довіреними розробниками і пройшли незалежну перевірку безпеки. Їх активно супроводжують у репозиторії з відкритим кодом, а їх розробники стежать, щоб вони були стабільні й прийнятні для повсякденного використання.",

@@ -1,5 +1,5 @@
 { "translations": {
     "WebDAV Authentication" : "WebDAV Auðkenni",
     "Save" : "Vista"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+},"pluralForm" :"nplurals=2; plural=(n % 10 == 1 || n % 100 != 11);"
 }

@@ -3,4 +3,4 @@ OC.L10N.register(
     {
     "Versions" : "Útgáfur"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=2; plural=(n % 10 == 1 || n % 100 != 11);");

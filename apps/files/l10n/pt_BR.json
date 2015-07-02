@@ -45,6 +45,8 @@
     "Select" : "Selecionar",
     "Pending" : "Pendente",
     "Unable to determine date" : "Impossível determinar a data",
+    "This operation is forbidden" : "Esta operação é proibida",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Este diretório não está disponível, por favor, verifique os logs ou entre em contato com o administrador",
     "Error moving file." : "Erro movendo o arquivo.",
     "Error moving file" : "Erro movendo o arquivo",
     "Error" : "Erro",

@@ -29,6 +29,7 @@
     "Error configuring Google Drive storage" : "配置Google Drive存储时出错",
     "Personal" : "个人",
     "System" : "系统",
+    "Enable encryption" : "启用加密",
     "Saved" : "已保存",
     "<b>Note:</b> " : "<b>注意：</b>",
     "Name" : "名称",

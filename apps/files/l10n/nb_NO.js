@@ -48,6 +48,7 @@ OC.L10N.register(
     "Pending" : "Ventende",
     "Unable to determine date" : "Kan ikke fastslå datoen",
     "This operation is forbidden" : "Operasjonen er forbudt",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Denne mappen er utilgjengelig. Sjekk loggene eller kontakt administrator",
     "Error moving file." : "Feil ved flytting av fil.",
     "Error moving file" : "Feil ved flytting av fil",
     "Error" : "Feil",

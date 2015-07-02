@@ -23,6 +23,7 @@ OC.L10N.register(
     "This share is password-protected" : "这是一个密码保护的共享",
     "The password is wrong. Try again." : "用户名或密码错误！请重试",
     "Password" : "密码",
+    "No entries found in this folder" : "此文件夹中无项目",
     "Name" : "名称",
     "Share time" : "分享时间",
     "Sorry, this link doesn’t seem to work anymore." : "抱歉，此链接已失效",
@@ -34,6 +35,8 @@ OC.L10N.register(
     "Add to your ownCloud" : "添加到您的 ownCloud",
     "Download" : "下载",
     "Download %s" : "下载 %s",
-    "Direct link" : "直接链接"
+    "Direct link" : "直接链接",
+    "Federated Cloud Sharing" : "联合云共享",
+    "Open documentation" : "打开文档"
 },
 "nplurals=1; plural=0;");

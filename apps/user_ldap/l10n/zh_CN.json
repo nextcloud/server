@@ -7,6 +7,7 @@
     "Do you really want to delete the current Server Configuration?" : "您真的想要删除当前服务器配置吗？",
     "Confirm Deletion" : "确认删除",
     "Invalid Host" : "无效的主机",
+    "Server" : "服务器",
     "Users" : "用户",
     "Groups" : "群组",
     "Test Configuration" : "测试配置",
