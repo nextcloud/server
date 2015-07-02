@@ -124,9 +124,10 @@ class OC_Mount_Config {
 			self::addStorageIdToConfig($data['user']);
 			$user = \OC::$server->getUserManager()->get($data['user']);
 			if (!$user) {
-				\OC::$server->getLogger()->warning(
+				\OCP\Util::writeLog(
+					'files_external',
 					'Cannot init external mount points for non-existant user "' . $data['user'] . '".',
-					['app' => 'files_external']
+					\OCP\Util::WARN
 				);
 				return;
 			}
@@ -159,9 +160,6 @@ class OC_Mount_Config {
 
 		// Load system mount points
 		$mountConfig = self::readData();
-
-		$userObject = \OC::$server->getUserManager()->get($user);
-		$groupManager = \OC::$server->getGroupManager();
 
 		// Global mount points (is this redundant?)
 		if (isset($mountConfig[self::MOUNT_TYPE_GLOBAL])) {
@@ -209,7 +207,7 @@ class OC_Mount_Config {
 		// Group mount points
 		if (isset($mountConfig[self::MOUNT_TYPE_GROUP])) {
 			foreach ($mountConfig[self::MOUNT_TYPE_GROUP] as $group => $mounts) {
-				if ($groupManager->get($group)->inGroup($userObject)) {
+				if (\OC_Group::inGroup($user, $group)) {
 					foreach ($mounts as $mountPoint => $options) {
 						$mountPoint = self::setUserVars($user, $mountPoint);
 						foreach ($options as &$option) {
@@ -583,7 +581,7 @@ class OC_Mount_Config {
 
 		$result = self::getBackendStatus($class, $classOptions, $isPersonal);
 		if ($result === self::STATUS_SUCCESS && $isNew) {
-			\OCP\Util::emitHook(
+			\OC_Hook::emit(
 				\OC\Files\Filesystem::CLASSNAME,
 				\OC\Files\Filesystem::signal_create_mount,
 				array(
@@ -629,7 +627,7 @@ class OC_Mount_Config {
 			}
 		}
 		self::writeData($isPersonal ? OCP\User::getUser() : null, $mountPoints);
-		\OCP\Util::emitHook(
+		\OC_Hook::emit(
 			\OC\Files\Filesystem::CLASSNAME,
 			\OC\Files\Filesystem::signal_delete_mount,
 			array(
@@ -671,11 +669,10 @@ class OC_Mount_Config {
 	 */
 	public static function readData($user = null) {
 		if (isset($user)) {
-			$jsonFile = \OC::$server->getUserManager()->get($user)->getHome() . '/mount.json';
+			$jsonFile = OC_User::getHome($user) . '/mount.json';
 		} else {
-			$config = \OC::$server->getConfig();
-			$datadir = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/');
-			$jsonFile = $config->getSystemValue('mount_file', $datadir . '/mount.json');
+			$datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT . '/data/');
+			$jsonFile = \OC_Config::getValue('mount_file', $datadir . '/mount.json');
 		}
 		if (is_file($jsonFile)) {
 			$mountPoints = json_decode(file_get_contents($jsonFile), true);
@@ -694,11 +691,10 @@ class OC_Mount_Config {
 	 */
 	public static function writeData($user, $data) {
 		if (isset($user)) {
-			$file = \OC::$server->getUserManager()->get($user)->getHome() . '/mount.json';
+			$file = OC_User::getHome($user) . '/mount.json';
 		} else {
-			$config = \OC::$server->getConfig();
-			$datadir = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/');
-			$file = $config->getSystemValue('mount_file', $datadir . '/mount.json');
+			$datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT . '/data/');
+			$file = \OC_Config::getValue('mount_file', $datadir . '/mount.json');
 		}
 
 		foreach ($data as &$applicables) {
@@ -756,7 +752,7 @@ class OC_Mount_Config {
 	}
 
 	private static function generateDependencyMessage($dependencies) {
-		$l = \OC::$server->getL10N('files_external');
+		$l = new \OC_L10N('files_external');
 		$dependencyMessage = '';
 		foreach ($dependencies as $module => $backends) {
 			$dependencyGroup = array();
@@ -793,7 +789,7 @@ class OC_Mount_Config {
 	 * @param string $backend
 	 * @return string
 	 */
-	private static function getSingleDependencyMessage(\OCP\IL10N $l, $module, $backend) {
+	private static function getSingleDependencyMessage(OC_L10N $l, $module, $backend) {
 		switch (strtolower($module)) {
 			case 'curl':
 				return $l->t('<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', $backend);
