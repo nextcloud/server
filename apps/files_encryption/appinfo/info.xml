@@ -19,5 +19,4 @@ Note that this app encrypts all files that are touched by ownCloud, so external 
 	<types>
 		<filesystem/>
 	</types>
-	<ocsid>166047</ocsid>
 </info>
