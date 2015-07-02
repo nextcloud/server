@@ -17,7 +17,6 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 	<documentation>
 		<admin>admin-ldap</admin>
 	</documentation>
-	<ocsid>166061</ocsid>
 	<dependencies>
 		<lib>ldap</lib>
 	</dependencies>
