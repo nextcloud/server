@@ -142,6 +142,10 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 						throw new \Sabre\DAV\Exception('Could not rename part file to final file');
 					}
 				}
+				catch (\OCP\Files\NotPermittedException $e) {
+					// a more general case - due to whatever reason the content could not be written
+					throw new \Sabre\DAV\Exception\Forbidden($e->getMessage(), $e->getCode(), $e);
+				}
 				catch (\OCP\Files\LockNotAcquiredException $e) {
 					// the file is currently being written to by another process
 					throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
