@@ -150,6 +150,8 @@ class Server extends SimpleContainer implements IServerContainer {
 			});
 			$groupManager->listen('\OC\Group', 'postAddUser', function (\OC\Group\Group $group, \OC\User\User $user) {
 				\OC_Hook::emit('OC_Group', 'post_addToGroup', array('uid' => $user->getUID(), 'gid' => $group->getGID()));
+				//Minimal fix to keep it backward compatible TODO: clean up all the GroupManager hooks
+				\OC_Hook::emit('OC_User', 'post_addToGroup', array('uid' => $user->getUID(), 'gid' => $group->getGID()));
 			});
 			return $groupManager;
 		});
