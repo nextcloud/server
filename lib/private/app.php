@@ -1174,6 +1174,8 @@ class OC_App {
 		$appData = self::getAppInfo($appId);
 		if (array_key_exists('ocsid', $appData)) {
 			OC_Appconfig::setValue($appId, 'ocsid', $appData['ocsid']);
+		} elseif(OC_Appconfig::getValue($appId, 'ocsid', null) !== null) {
+			OC_Appconfig::deleteKey($appId, 'ocsid');
 		}
 		foreach ($appData['remote'] as $name => $path) {
 			OCP\CONFIG::setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
