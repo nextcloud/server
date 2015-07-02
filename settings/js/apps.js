@@ -86,11 +86,12 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}), {
 			type:'GET',
 			success: function (apps) {
-				var appList = _.map(_.indexBy(apps.apps, 'id'), function(app) {
+				var appListWithIndex = _.indexBy(apps.apps, 'id');
+				OC.Settings.Apps.State.apps = appListWithIndex;
+				var appList = _.map(appListWithIndex, function(app) {
 					// default values for missing fields
 					return _.extend({level: 0}, app);
 				});
-				OC.Settings.Apps.State.apps = appList;
 				var source   = $("#app-template").html();
 				var template = Handlebars.compile(source);
 
