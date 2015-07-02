@@ -170,8 +170,14 @@ class Server2Server {
 			$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share_external` WHERE `remote_id` = ? AND `share_token` = ?');
 			$query->execute(array($id, $token));
 
+			if ($share['accepted']) {
+				$path = trim($mountpoint, '/');
+			} else {
+				$path = trim($share['name'], '/');
+			}
+
 			\OC::$server->getActivityManager()->publishActivity(
-				'files_sharing', \OCA\Files_Sharing\Activity::SUBJECT_REMOTE_SHARE_UNSHARED, array($owner, $mountpoint), '', array(),
+				'files_sharing', \OCA\Files_Sharing\Activity::SUBJECT_REMOTE_SHARE_UNSHARED, array($owner, $path), '', array(),
 				'', '', $user, \OCA\Files_Sharing\Activity::TYPE_REMOTE_SHARE, \OCA\Files_Sharing\Activity::PRIORITY_MEDIUM);
 		}
 
