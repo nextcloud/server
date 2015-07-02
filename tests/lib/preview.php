@@ -287,6 +287,7 @@ class Preview extends TestCase {
 	/**
 	 * Tests if a preview of max dimensions gets created
 	 *
+	 * @requires extension imagick
 	 * @dataProvider dimensionsDataProvider
 	 *
 	 * @param int $sampleId
@@ -358,6 +359,7 @@ class Preview extends TestCase {
 	/**
 	 * Tests if the second preview will be based off the cached max preview
 	 *
+	 * @requires extension imagick
 	 * @dataProvider dimensionsDataProvider
 	 *
 	 * @param int $sampleId
@@ -443,6 +445,7 @@ class Preview extends TestCase {
 	 * so we should be getting either the max preview or a preview the size
 	 * of the dimensions set in the config
 	 *
+	 * @requires extension imagick
 	 * @dataProvider aspectDataProvider
 	 *
 	 * @param int $sampleId
@@ -499,6 +502,7 @@ class Preview extends TestCase {
 	 * 200-200    ✓
 	 * 300-188-with-aspect
 	 *
+	 * @requires extension imagick
 	 * @dataProvider aspectDataProvider
 	 *
 	 * @param int $sampleId
