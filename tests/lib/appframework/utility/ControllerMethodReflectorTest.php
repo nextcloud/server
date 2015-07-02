@@ -104,6 +104,25 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertEquals('int', $reader->getType('test'));
 	}
 
+	/**
+	 * @Annotation
+	 * @param int $a
+	 * @param int $b
+	 * @requires PHP 7
+	 */
+	public function testReadTypeIntAnnotationsScalarTypes($a, float $b, int $c, $d){
+		$reader = new ControllerMethodReflector();
+		$reader->reflect(
+			'\OC\AppFramework\Utility\ControllerMethodReflectorTest',
+			'testReadTypeIntAnnotationsScalarTypes'
+		);
+
+		$this->assertEquals('int', $reader->getType('a'));
+		$this->assertEquals('float', $reader->getType('b'));
+		$this->assertEquals('int', $reader->getType('c'));
+		$this->assertNull($reader->getType('d'));
+	}
+
 
 	/**
 	 * @Annotation
