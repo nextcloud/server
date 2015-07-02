@@ -159,6 +159,32 @@ describe('OC.Settings.Apps tests', function() {
 			var results = getResultsFromDom();
 			expect(results.length).toEqual(5);
 			expect(results).toEqual(['alpha', 'delta', 'zork', 'foo', 'nolevel']);
+			expect(OC.Settings.Apps.State.apps).toEqual({
+				'foo': {
+					id: 'foo',
+					name: 'Foo app',
+					level: 0
+				},
+				'alpha': {
+					id: 'alpha',
+					name: 'Alpha app',
+					level: 300
+				},
+				'nolevel': {
+					id: 'nolevel',
+					name: 'No level'
+				},
+				'zork': {
+					id: 'zork',
+					name: 'Some famous adventure game',
+					level: 200
+				},
+				'delta': {
+					id: 'delta',
+					name: 'Mathematical symbol',
+					level: 200
+				}
+			});
 		});
 	});
 
