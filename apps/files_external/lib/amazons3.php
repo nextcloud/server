@@ -373,7 +373,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				$tmpFile = \OCP\Files::tmpFile();
+				$tmpFile = \OC_Helper::tmpFile();
 				self::$tmpFiles[$tmpFile] = $path;
 
 				try {
@@ -405,7 +405,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				} else {
 					$ext = '';
 				}
-				$tmpFile = \OCP\Files::tmpFile($ext);
+				$tmpFile = \OC_Helper::tmpFile($ext);
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');

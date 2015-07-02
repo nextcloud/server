@@ -243,7 +243,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				$tmpFile = \OCP\Files::tmpFile();
+				$tmpFile = \OC_Helper::tmpFile();
 				try {
 					$data = $this->dropbox->getFile($path);
 					file_put_contents($tmpFile, $data);
@@ -269,7 +269,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 				} else {
 					$ext = '';
 				}
-				$tmpFile = \OCP\Files::tmpFile($ext);
+				$tmpFile = \OC_Helper::tmpFile($ext);
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');

@@ -428,7 +428,7 @@ class Google extends \OC\Files\Storage\Common {
 						$request = new \Google_Http_Request($downloadUrl, 'GET', null, null);
 						$httpRequest = $this->client->getAuth()->authenticatedRequest($request);
 						if ($httpRequest->getResponseHttpCode() == 200) {
-							$tmpFile = \OCP\Files::tmpFile($ext);
+							$tmpFile = \OC_Helper::tmpFile($ext);
 							$data = $httpRequest->getResponseBody();
 							file_put_contents($tmpFile, $data);
 							return fopen($tmpFile, $mode);
@@ -448,7 +448,7 @@ class Google extends \OC\Files\Storage\Common {
 			case 'x+':
 			case 'c':
 			case 'c+':
-				$tmpFile = \OCP\Files::tmpFile($ext);
+				$tmpFile = \OC_Helper::tmpFile($ext);
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'rb');
