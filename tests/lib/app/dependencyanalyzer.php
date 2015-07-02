@@ -198,7 +198,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			array(array(), array('@attributes' => array('min-version' => '8.0.2', 'max-version' => '8.0.2'))),
 			array(array('ownCloud 8.0.3 or higher is required.'), array('@attributes' => array('min-version' => '8.0.3'))),
 			array(array('ownCloud 9 or higher is required.'), array('@attributes' => array('min-version' => '9'))),
-			array(array('ownCloud with a version lower than 8.0.1 is required.'), array('@attributes' => array('max-version' => '8.0.1'))),
+			[['ownCloud with a version lower or equal than 8.0.1 is required.'], ['@attributes' => ['max-version' => '8.0.1']]],
 		);
 	}
 
