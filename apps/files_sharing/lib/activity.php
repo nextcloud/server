@@ -150,6 +150,10 @@ class Activity implements IExtension {
 		if ($app === self::FILES_SHARING_APP) {
 			switch ($text) {
 				case self::SUBJECT_REMOTE_SHARE_RECEIVED:
+					if (sizeof($params) === 2) {
+						// New activity ownCloud 8.2+
+						return (string) $l->t('You received a new remote share %2$s from %1$s', $params);
+					}
 					return (string) $l->t('You received a new remote share from %s', $params);
 				case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
 					return (string) $l->t('%1$s accepted remote share %2$s', $params);
@@ -193,6 +197,7 @@ class Activity implements IExtension {
 				case self::SUBJECT_REMOTE_SHARE_UNSHARED:
 					return array(
 						0 => '',// We can not use 'username' since the user is in a different ownCloud
+						//1 => 'file', in theory its a file, but it does not exist yet/anymore
 					);
 				case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
 				case self::SUBJECT_REMOTE_SHARE_DECLINED:

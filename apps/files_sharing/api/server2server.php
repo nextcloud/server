@@ -71,7 +71,7 @@ class Server2Server {
 				$user = $owner . '@' . $this->cleanupRemote($remote);
 
 				\OC::$server->getActivityManager()->publishActivity(
-					Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_RECEIVED, array($user), '', array(),
+					Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_RECEIVED, array($user, trim($name, '/')), '', array(),
 					'', '', $shareWith, Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_LOW);
 
 				return new \OC_OCS_Result();
