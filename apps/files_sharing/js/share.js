@@ -25,6 +25,10 @@
 		 * @param {OCA.Files.FileList} fileList file list to be extended
 		 */
 		attach: function(fileList) {
+			// core sharing is disabled/not loaded
+			if (!OC.Share) {
+				return;
+			}
 			if (fileList.id === 'trashbin' || fileList.id === 'files.public') {
 				return;
 			}
