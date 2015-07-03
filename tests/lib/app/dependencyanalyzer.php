@@ -68,6 +68,10 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @dataProvider providesPhpVersion
+	 *
+	 * @param string $expectedMissing
+	 * @param string $minVersion
+	 * @param string $maxVersion
 	 */
 	public function testPhpVersion($expectedMissing, $minVersion, $maxVersion) {
 		$app = array(
@@ -106,6 +110,9 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @dataProvider providesCommands
+	 *
+	 * @param string $expectedMissing
+	 * @param string|null $commands
 	 */
 	public function testCommand($expectedMissing, $commands) {
 		$app = array(
@@ -179,6 +186,9 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($expectedMissing, $missing);
 	}
 
+	/**
+	 * @return array
+	 */
 	function providesOC() {
 		return array(
 			// no version -> no missing dependency
@@ -188,10 +198,13 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			array(array(), array('@attributes' => array('min-version' => '8.0.2', 'max-version' => '8.0.2'))),
 			array(array('ownCloud 8.0.3 or higher is required.'), array('@attributes' => array('min-version' => '8.0.3'))),
 			array(array('ownCloud 9 or higher is required.'), array('@attributes' => array('min-version' => '9'))),
-			array(array('ownCloud with a version lower than 8.0.1 is required.'), array('@attributes' => array('max-version' => '8.0.1'))),
+			[['ownCloud 8.0.1 or lower is required.'], ['@attributes' => ['max-version' => '8.0.1']]],
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	function providesOS() {
 		return array(
 			array(array(), null),
@@ -201,6 +214,9 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	function providesLibs() {
 		return array(
 			// we expect curl to exist
@@ -226,6 +242,9 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	function providesCommands() {
 		return array(
 			array(array(), null),
@@ -240,6 +259,9 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	function providesDatabases() {
 		return array(
 			// non BC - in case on databases are defined -> all are supported
@@ -250,6 +272,9 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	function providesPhpVersion() {
 		return array(
 			array(array(), null, null),

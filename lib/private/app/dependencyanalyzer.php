@@ -30,9 +30,10 @@ class DependencyAnalyzer {
 
 	/** @var Platform */
 	private $platform;
-
 	/** @var \OCP\IL10N */
 	private $l;
+	/** @var array */
+	private $appInfo;
 
 	/**
 	 * @param Platform $platform
@@ -47,7 +48,7 @@ class DependencyAnalyzer {
 	 * @param array $app
 	 * @returns array of missing dependencies
 	 */
-	public function analyze($app) {
+	public function analyze(array $app) {
 		$this->appInfo = $app;
 		if (isset($app['dependencies'])) {
 			$dependencies = $app['dependencies'];
@@ -61,11 +62,12 @@ class DependencyAnalyzer {
 			$this->analyzeCommands($dependencies),
 			$this->analyzeLibraries($dependencies),
 			$this->analyzeOS($dependencies),
-			$this->analyzeOC($dependencies, $app));
+			$this->analyzeOC($dependencies, $app)
+		);
 	}
 
 	/**
-	 * Truncates both verions to the lowest common version, e.g.
+	 * Truncates both versions to the lowest common version, e.g.
 	 * 5.1.2.3 and 5.1 will be turned into 5.1 and 5.1,
 	 * 5.2.6.5 and 5.1 will be turned into 5.2 and 5.1
 	 * @param string $first
@@ -124,7 +126,11 @@ class DependencyAnalyzer {
 		return $this->compare($first, $second, '<');
 	}
 
-	private function analyzePhpVersion($dependencies) {
+	/**
+	 * @param array $dependencies
+	 * @return array
+	 */
+	private function analyzePhpVersion(array $dependencies) {
 		$missing = [];
 		if (isset($dependencies['php']['@attributes']['min-version'])) {
 			$minVersion = $dependencies['php']['@attributes']['min-version'];
@@ -141,7 +147,11 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
-	private function analyzeDatabases($dependencies) {
+	/**
+	 * @param array $dependencies
+	 * @return array
+	 */
+	private function analyzeDatabases(array $dependencies) {
 		$missing = [];
 		if (!isset($dependencies['database'])) {
 			return $missing;
@@ -164,7 +174,11 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
-	private function analyzeCommands($dependencies) {
+	/**
+	 * @param array $dependencies
+	 * @return array
+	 */
+	private function analyzeCommands(array $dependencies) {
 		$missing = [];
 		if (!isset($dependencies['command'])) {
 			return $missing;
@@ -187,7 +201,11 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
-	private function analyzeLibraries($dependencies) {
+	/**
+	 * @param array $dependencies
+	 * @return array
+	 */
+	private function analyzeLibraries(array $dependencies) {
 		$missing = [];
 		if (!isset($dependencies['lib'])) {
 			return $missing;
@@ -225,7 +243,11 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
-	private function analyzeOS($dependencies) {
+	/**
+	 * @param array $dependencies
+	 * @return array
+	 */
+	private function analyzeOS(array $dependencies) {
 		$missing = [];
 		if (!isset($dependencies['os'])) {
 			return $missing;
@@ -249,7 +271,12 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
-	private function analyzeOC($dependencies, $appInfo) {
+	/**
+	 * @param array $dependencies
+	 * @param array $appInfo
+	 * @return array
+	 */
+	private function analyzeOC(array $dependencies, array $appInfo) {
 		$missing = [];
 		$minVersion = null;
 		if (isset($dependencies['owncloud']['@attributes']['min-version'])) {
@@ -273,7 +300,7 @@ class DependencyAnalyzer {
 		}
 		if (!is_null($maxVersion)) {
 			if ($this->compareBigger($this->platform->getOcVersion(), $maxVersion)) {
-				$missing[] = (string)$this->l->t('ownCloud with a version lower than %s is required.', $maxVersion);
+				$missing[] = (string)$this->l->t('ownCloud %s or lower is required.', $maxVersion);
 			}
 		}
 		return $missing;
