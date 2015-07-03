@@ -68,7 +68,6 @@ class Test_Appconfig extends \Test\TestCase {
 
 	public function getAppConfigs() {
 		return [
-			['\OC_Appconfig'],
 			[new \OC\AppConfig(\OC::$server->getDatabaseConnection())],
 		];
 	}
