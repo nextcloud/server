@@ -422,4 +422,10 @@ interface IServerContainer {
 	 * @since 8.1.0
 	 */
 	public function getLockingProvider();
+
+	/**
+	 * @return \OCP\Files\Mount\IMountManager
+	 * @since 8.2.0
+	 */
+	public function getMountManager();
 }
