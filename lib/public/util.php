@@ -78,7 +78,7 @@ class Util {
 	public static function setChannel($channel) {
 		//Flush timestamp to reload version.php
 		\OC::$server->getSession()->set('OC_Version_Timestamp', 0);
-		return \OC::$server->getAppConfig()->setValue('core', 'OC_Channel', $channel);
+		\OC::$server->getAppConfig()->setValue('core', 'OC_Channel', $channel);
 	}
 	
 	/**
@@ -148,8 +148,8 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function writeLog( $app, $message, $level ) {
-		// call the internal log class
-		\OCP\Util::writeLog( $app, $message, $level );
+		$context = ['app' => $app];
+		\OC::$server->getLogger()->log($level, $message, $context);
 	}
 
 	/**
