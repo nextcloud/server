@@ -155,7 +155,7 @@
 				var permissions = $tr.data('permissions');
 				var hasLink = !!(shareStatus && shareStatus.link);
 				OC.Share.markFileAsShared($tr, true, hasLink);
-				if ((permissions & OC.PERMISSION_SHARE) === 0) {
+				if ((permissions & OC.PERMISSION_SHARE) === 0 && $tr.attr('data-share-owner')) {
 					// if no share action exists because the admin disabled sharing for this user
 					// we create a share notification action to inform the user about files
 					// shared with him otherwise we just update the existing share action.
