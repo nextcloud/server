@@ -78,6 +78,7 @@ OC.L10N.register(
     "Verify settings" : "Verificér indstillinger",
     "1. Server" : "1. server",
     "%s. Server:" : "%s. server:",
+    "Add a new and blank configuration" : "Tilføj en ny og tom konfiguration",
     "Copy current configuration into new directory binding" : "Kopiér nuværende konfiguration ind i en ny mappetildeling",
     "Delete the current configuration" : "Slet den aktuelle konfiguration",
     "Host" : "Vært",

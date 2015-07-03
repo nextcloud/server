@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
+    "Local" : "محلي",
     "Location" : "المكان",
     "Key" : "المفتاح",
     "Secret" : "سر",

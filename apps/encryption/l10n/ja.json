@@ -14,7 +14,7 @@
     "Could not change the password. Maybe the old password was not correct." : "パスワードを変更できませんでした。古いパスワードが間違っているかもしれません。",
     "Recovery Key disabled" : "復旧キーが無効になりました。",
     "Recovery Key enabled" : "復旧キーが有効になりました。",
-    "Could not enable the recovery key, please try again or contact your administrator" : "復旧キーを有効化できませんでした。もう一度試してみるか、管理者に連絡してください。",
+    "Could not enable the recovery key, please try again or contact your administrator" : "復旧キーを有効化できませんでした。もう一度試してみるか、管理者に問い合わせてください。",
     "Could not update the private key password." : "秘密鍵のパスワードを更新できませんでした。",
     "The old password was not correct, please try again." : "古いパスワードが一致しませんでした。もう一度入力してください。",
     "The current log-in password was not correct, please try again." : "ログインパスワードが一致しませんでした。もう一度入力してください。",

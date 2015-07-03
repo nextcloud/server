@@ -27,7 +27,7 @@
     "File name contains at least one invalid character" : "Faili nimesonvähemalt üks keelatud märk",
     "File name is too long" : "Faili nimi on liiga pikk",
     "Can't read file" : "Faili lugemine ebaõnnestus",
-    "App directory already exists" : "Rakendi kataloog on juba olemas",
+    "App directory already exists" : "Rakenduse kataloog on juba olemas",
     "Can't create app folder. Please fix permissions. %s" : "Ei saa luua rakendi kataloogi. Palun korrigeeri õigusi. %s",
     "No source specified when installing app" : "Ühegi lähteallikat pole rakendi paigalduseks määratletud",
     "No href specified when installing app from http" : "Ühtegi aadressi pole määratletud rakendi paigalduseks veebist",

@@ -48,6 +48,7 @@ OC.L10N.register(
     "Pending" : "中断",
     "Unable to determine date" : "更新日不明",
     "This operation is forbidden" : "この操作は禁止されています",
+    "This directory is unavailable, please check the logs or contact the administrator" : "このディレクトリは利用できません。ログを確認するか管理者に問い合わせてください。",
     "Error moving file." : "ファイル移動でエラー",
     "Error moving file" : "ファイルの移動エラー",
     "Error" : "エラー",

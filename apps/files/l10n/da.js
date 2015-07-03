@@ -48,6 +48,7 @@ OC.L10N.register(
     "Pending" : "Afventer",
     "Unable to determine date" : "Kan ikke fastslå datoen",
     "This operation is forbidden" : "Denne operation er forbudt",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Denne mappe er utilgængelig - tjek venligst loggene eller kontakt administratoren",
     "Error moving file." : "Fejl ved flytning af fil",
     "Error moving file" : "Fejl ved flytning af fil",
     "Error" : "Fejl",
