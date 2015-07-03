@@ -46,12 +46,18 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	private $recipientView;
 
+	/**
+	 * @var string
+	 */
+	private $user;
+
 	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
 		// first update the mount point before creating the parent
 		$this->ownerPropagator = $arguments['propagator'];
-		$this->recipientView = new View('/' . $arguments['user'] . '/files');
+		$this->user = $arguments['user'];
+		$this->recipientView = new View('/' . $this->user . '/files');
 		$newMountPoint = $this->verifyMountPoint($arguments['share']);
-		$absMountPoint = '/' . $arguments['user'] . '/files' . $newMountPoint;
+		$absMountPoint = '/' . $this->user . '/files' . $newMountPoint;
 		$arguments['ownerView'] = new View('/' . $arguments['share']['uid_owner'] . '/files');
 		parent::__construct($storage, $absMountPoint, $arguments, $loader);
 	}
@@ -90,7 +96,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 * @param array $share reference to the share which should be modified
 	 * @return bool
 	 */
-	private static function updateFileTarget($newPath, &$share) {
+	private function updateFileTarget($newPath, &$share) {
 		// if the user renames a mount point from a group share we need to create a new db entry
 		// for the unique name
 		if ($share['share_type'] === \OCP\Share::SHARE_TYPE_GROUP && empty($share['unique_name'])) {
@@ -98,7 +104,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 			.' `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
 			.' `file_target`, `token`, `parent`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
 			$arguments = array($share['item_type'], $share['item_source'], $share['item_target'],
-				2, \OCP\User::getUser(), $share['uid_owner'], $share['permissions'], $share['stime'], $share['file_source'],
+				2, $this->user, $share['uid_owner'], $share['permissions'], $share['stime'], $share['file_source'],
 				$newPath, $share['token'], $share['id']);
 		} else {
 			// rename mount point
