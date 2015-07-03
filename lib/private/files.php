@@ -317,9 +317,9 @@ class OC_Files {
 			file_put_contents(OC::$SERVERROOT . '/.htaccess', $htaccess);
 			return OC_Helper::computerFileSize($size);
 		} else {
-			OC_Log::write('files',
+			\OCP\Util::writeLog('files',
 				'Can\'t write upload limit to ' . OC::$SERVERROOT . '/.htaccess. Please check the file permissions',
-				OC_Log::WARN);
+				\OCP\Util::WARN);
 		}
 		return false;
 	}

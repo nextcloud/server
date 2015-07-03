@@ -511,7 +511,7 @@ class OC_App {
 			}
 		}
 
-		OC_Log::write('core', 'No application directories are marked as writable.', OC_Log::ERROR);
+		\OCP\Util::writeLog('core', 'No application directories are marked as writable.', \OCP\Util::ERROR);
 		return null;
 	}
 
@@ -771,7 +771,7 @@ class OC_App {
 
 		foreach (OC::$APPSROOTS as $apps_dir) {
 			if (!is_readable($apps_dir['path'])) {
-				OC_Log::write('core', 'unable to read app folder : ' . $apps_dir['path'], OC_Log::WARN);
+				\OCP\Util::writeLog('core', 'unable to read app folder : ' . $apps_dir['path'], \OCP\Util::WARN);
 				continue;
 			}
 			$dh = opendir($apps_dir['path']);
@@ -817,7 +817,7 @@ class OC_App {
 				$info = OC_App::getAppInfo($app);
 
 				if (!isset($info['name'])) {
-					OC_Log::write('core', 'App id "' . $app . '" has no name in appinfo', OC_Log::ERROR);
+					\OCP\Util::writeLog('core', 'App id "' . $app . '" has no name in appinfo', \OCP\Util::ERROR);
 					continue;
 				}
 
@@ -1205,11 +1205,11 @@ class OC_App {
 				}
 				return new \OC\Files\View('/' . OC_User::getUser() . '/' . $appId);
 			} else {
-				OC_Log::write('core', 'Can\'t get app storage, app ' . $appId . ', user not logged in', OC_Log::ERROR);
+				\OCP\Util::writeLog('core', 'Can\'t get app storage, app ' . $appId . ', user not logged in', \OCP\Util::ERROR);
 				return false;
 			}
 		} else {
-			OC_Log::write('core', 'Can\'t get app storage, app ' . $appId . ' not enabled', OC_Log::ERROR);
+			\OCP\Util::writeLog('core', 'Can\'t get app storage, app ' . $appId . ' not enabled', \OCP\Util::ERROR);
 			return false;
 		}
 	}

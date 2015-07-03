@@ -46,7 +46,7 @@ abstract class Bitmap extends Provider {
 		try {
 			$bp = $this->getResizedPreview($tmpPath, $maxX, $maxY);
 		} catch (\Exception $e) {
-			\OC_Log::write('core', 'ImageMagick says: ' . $e->getmessage(), \OC_Log::ERROR);
+			\OCP\Util::writeLog('core', 'ImageMagick says: ' . $e->getmessage(), \OCP\Util::ERROR);
 			return false;
 		}
 

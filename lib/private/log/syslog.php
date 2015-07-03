@@ -23,11 +23,11 @@
 
 class OC_Log_Syslog {
 	static protected $levels = array(
-		OC_Log::DEBUG => LOG_DEBUG,
-		OC_Log::INFO => LOG_INFO,
-		OC_Log::WARN => LOG_WARNING,
-		OC_Log::ERROR => LOG_ERR,
-		OC_Log::FATAL => LOG_CRIT,
+		\OCP\Util::DEBUG => LOG_DEBUG,
+		\OCP\Util::INFO => LOG_INFO,
+		\OCP\Util::WARN => LOG_WARNING,
+		\OCP\Util::ERROR => LOG_ERR,
+		\OCP\Util::FATAL => LOG_CRIT,
 	);
 
 	/**

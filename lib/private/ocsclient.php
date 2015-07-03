@@ -272,7 +272,7 @@ class OCSClient {
 
 		$tmp = $data->data->content;
 		if (is_null($tmp)) {
-			\OC_Log::write('core', 'No update found at the ownCloud appstore for app ' . $id, \OC_Log::INFO);
+			\OCP\Util::writeLog('core', 'No update found at the ownCloud appstore for app ' . $id, \OCP\Util::INFO);
 			return null;
 		}
 

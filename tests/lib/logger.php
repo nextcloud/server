@@ -40,7 +40,7 @@ class Logger extends TestCase {
 		$this->config->expects($this->any())
 			->method('getValue')
 			->will(($this->returnValueMap([
-				['loglevel', \OC_Log::WARN, \OC_Log::WARN],
+				['loglevel', \OCP\Util::WARN, \OCP\Util::WARN],
 				['log.condition', [], ['apps' => ['files']]]
 			])));
 		$logger = $this->logger;

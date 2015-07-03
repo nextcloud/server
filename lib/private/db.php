@@ -230,7 +230,7 @@ class OC_DB {
 		try {
 			$result = $schemaManager->updateDbFromStructure($file);
 		} catch (Exception $e) {
-			OC_Log::write('core', 'Failed to update database structure ('.$e.')', OC_Log::FATAL);
+			\OCP\Util::writeLog('core', 'Failed to update database structure ('.$e.')', \OCP\Util::FATAL);
 			throw $e;
 		}
 		return $result;
@@ -247,7 +247,7 @@ class OC_DB {
 		try {
 			$result = $schemaManager->simulateUpdateDbFromStructure($file);
 		} catch (Exception $e) {
-			OC_Log::write('core', 'Simulated database structure update failed ('.$e.')', OC_Log::FATAL);
+			\OCP\Util::writeLog('core', 'Simulated database structure update failed ('.$e.')', \OCP\Util::FATAL);
 			throw $e;
 		}
 		return $result;

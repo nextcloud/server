@@ -149,7 +149,7 @@ class Util {
 	 */
 	public static function writeLog( $app, $message, $level ) {
 		// call the internal log class
-		\OC_LOG::write( $app, $message, $level );
+		\OCP\Util::writeLog( $app, $message, $level );
 	}
 
 	/**

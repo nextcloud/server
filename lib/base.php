@@ -572,7 +572,8 @@ class OC {
 		OC_Util::isSetLocaleWorking();
 
 		if (!defined('PHPUNIT_RUN')) {
-			OC\Log\ErrorHandler::setLogger(OC_Log::$object);
+			$logger = \OC::$server->getLogger();
+			OC\Log\ErrorHandler::setLogger($logger);
 			if (defined('DEBUG') and DEBUG) {
 				OC\Log\ErrorHandler::register(true);
 				set_exception_handler(array('OC_Template', 'printExceptionErrorPage'));
@@ -1029,7 +1030,7 @@ class OC {
 		}
 
 		if (defined("DEBUG") && DEBUG) {
-			OC_Log::write('core', 'Trying to login from cookie', OC_Log::DEBUG);
+			\OCP\Util::writeLog('core', 'Trying to login from cookie', \OCP\Util::DEBUG);
 		}
 
 		if(OC_User::userExists($_COOKIE['oc_username'])) {
@@ -1041,8 +1042,8 @@ class OC {
 				OC_Util::redirectToDefaultPage();
 				// doesn't return
 			}
-			OC_Log::write('core', 'Authentication cookie rejected for user ' .
-				$_COOKIE['oc_username'], OC_Log::WARN);
+			\OCP\Util::writeLog('core', 'Authentication cookie rejected for user ' .
+				$_COOKIE['oc_username'], \OCP\Util::WARN);
 			// if you reach this point you have changed your password
 			// or you are an attacker
 			// we can not delete tokens here because users may reach

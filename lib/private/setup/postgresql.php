@@ -118,7 +118,7 @@ class PostgreSQL extends AbstractDatabase {
 		if(!$result) {
 			$entry = $this->trans->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
 			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-			\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
+			\OCP\Util::writeLog('setup.pg', $entry, \OCP\Util::WARN);
 		}
 		if(! pg_fetch_row($result)) {
 			//The database does not exists... let's create it
@@ -127,7 +127,7 @@ class PostgreSQL extends AbstractDatabase {
 			if(!$result) {
 				$entry = $this->trans->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
 				$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-				\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
+				\OCP\Util::writeLog('setup.pg', $entry, \OCP\Util::WARN);
 			}
 			else {
 				$query = "REVOKE ALL PRIVILEGES ON DATABASE \"$e_name\" FROM PUBLIC";
@@ -144,7 +144,7 @@ class PostgreSQL extends AbstractDatabase {
 		if(!$result) {
 			$entry = $this->trans->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
 			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-			\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
+			\OCP\Util::writeLog('setup.pg', $entry, \OCP\Util::WARN);
 		}
 
 		if(! pg_fetch_row($result)) {
@@ -154,7 +154,7 @@ class PostgreSQL extends AbstractDatabase {
 			if(!$result) {
 				$entry = $this->trans->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
 				$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-				\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
+				\OCP\Util::writeLog('setup.pg', $entry, \OCP\Util::WARN);
 			}
 		}
 		else { // change password of the existing role
@@ -163,7 +163,7 @@ class PostgreSQL extends AbstractDatabase {
 			if(!$result) {
 				$entry = $this->trans->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
 				$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-				\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
+				\OCP\Util::writeLog('setup.pg', $entry, \OCP\Util::WARN);
 			}
 		}
 	}

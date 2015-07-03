@@ -66,7 +66,7 @@ $path = $view->getPath($pathId);
 
 if($path === null) {
 	\OC_Response::setStatus(\OC_Response::STATUS_NOT_FOUND);
-	\OC_Log::write('core-preview', 'Could not resolve file for shared item', OC_Log::WARN);
+	\OCP\Util::writeLog('core-preview', 'Could not resolve file for shared item', \OCP\Util::WARN);
 	exit;
 }
 

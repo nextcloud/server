@@ -103,7 +103,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 		$statement = $this->adapter->fixupStatement($statement);
 
 		if(\OC_Config::getValue( 'log_query', false)) {
-			\OC_Log::write('core', 'DB prepare : '.$statement, \OC_Log::DEBUG);
+			\OCP\Util::writeLog('core', 'DB prepare : '.$statement, \OCP\Util::DEBUG);
 		}
 		return parent::prepare($statement);
 	}

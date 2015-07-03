@@ -480,7 +480,7 @@ class OC_Installer{
 
 			return true;
 		}else{
-			OC_Log::write('core', 'can\'t remove app '.$name.'. It is not installed.', OC_Log::ERROR);
+			\OCP\Util::writeLog('core', 'can\'t remove app '.$name.'. It is not installed.', \OCP\Util::ERROR);
 
 			return false;
 		}

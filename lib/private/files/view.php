@@ -848,7 +848,7 @@ class View {
 				$hooks[] = 'write';
 				break;
 			default:
-				\OC_Log::write('core', 'invalid mode (' . $mode . ') for ' . $path, \OC_Log::ERROR);
+				\OCP\Util::writeLog('core', 'invalid mode (' . $mode . ') for ' . $path, \OCP\Util::ERROR);
 		}
 
 		return $this->basicOperation('fopen', $path, $hooks, $mode);

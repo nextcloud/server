@@ -111,9 +111,9 @@ class OC_Hook{
 				if (empty($message)) {
 					$message = get_class($e);
 				}
-				OC_Log::write('hook',
+				\OCP\Util::writeLog('hook',
 					'error while running hook (' . $class . '::' . $i["name"] . '): ' . $message,
-					OC_Log::ERROR);
+					\OCP\Util::ERROR);
 				if($e instanceof \OC\ServerNotAvailableException) {
 					throw $e;
 				}

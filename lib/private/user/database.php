@@ -211,7 +211,7 @@ class OC_User_Database extends OC_User_Backend implements \OCP\IUserBackend {
 			$result = $query->execute(array($uid));
 
 			if (OC_DB::isError($result)) {
-				OC_Log::write('core', OC_DB::getErrorMessage(), OC_Log::ERROR);
+				\OCP\Util::writeLog('core', OC_DB::getErrorMessage(), \OCP\Util::ERROR);
 				return false;
 			}
 
@@ -288,7 +288,7 @@ class OC_User_Database extends OC_User_Backend implements \OCP\IUserBackend {
 		$query = OC_DB::prepare('SELECT COUNT(*) FROM `*PREFIX*users`');
 		$result = $query->execute();
 		if (OC_DB::isError($result)) {
-			OC_Log::write('core', OC_DB::getErrorMessage(), OC_Log::ERROR);
+			\OCP\Util::writeLog('core', OC_DB::getErrorMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 		return $result->fetchOne();
