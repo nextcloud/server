@@ -15,6 +15,11 @@ use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Plugin\GetWithMetadata;
 
+/**
+ * Generic adapter between flysystem adapters and owncloud's storage system
+ *
+ * To use: subclass and call $this->buildFlysystem with the flysystem adapter of choice
+ */
 abstract class Flysystem extends Common {
 	/**
 	 * @var Filesystem
@@ -26,6 +31,11 @@ abstract class Flysystem extends Common {
 	 */
 	protected $root = '';
 
+	/**
+	 * Initialize the storage backend with a flyssytem adapter
+	 *
+	 * @param \League\Flysystem\AdapterInterface $adapter
+	 */
 	protected function buildFlySystem(AdapterInterface $adapter) {
 		$this->flysystem = new Filesystem($adapter);
 		$this->flysystem->addPlugin(new GetWithMetadata());
@@ -36,18 +46,30 @@ abstract class Flysystem extends Common {
 		return ltrim($fullPath, '/');
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function file_get_contents($path) {
 		return $this->flysystem->read($this->buildPath($path));
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function file_put_contents($path, $data) {
 		return $this->flysystem->put($this->buildPath($path), $data);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function file_exists($path) {
 		return $this->flysystem->has($this->buildPath($path));
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function unlink($path) {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
@@ -59,6 +81,9 @@ abstract class Flysystem extends Common {
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function rename($source, $target) {
 		if ($this->file_exists($target)) {
 			$this->unlink($target);
@@ -66,6 +91,9 @@ abstract class Flysystem extends Common {
 		return $this->flysystem->rename($this->buildPath($source), $this->buildPath($target));
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function copy($source, $target) {
 		if ($this->file_exists($target)) {
 			$this->unlink($target);
@@ -73,6 +101,9 @@ abstract class Flysystem extends Common {
 		return $this->flysystem->copy($this->buildPath($source), $this->buildPath($target));
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function filesize($path) {
 		if ($this->is_dir($path)) {
 			return 0;
@@ -81,6 +112,9 @@ abstract class Flysystem extends Common {
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function mkdir($path) {
 		if ($this->file_exists($path)) {
 			return false;
@@ -88,10 +122,16 @@ abstract class Flysystem extends Common {
 		return $this->flysystem->createDir($this->buildPath($path));
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function filemtime($path) {
 		return $this->flysystem->getTimestamp($this->buildPath($path));
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function rmdir($path) {
 		try {
 			return @$this->flysystem->deleteDir($this->buildPath($path));
@@ -100,6 +140,9 @@ abstract class Flysystem extends Common {
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function opendir($path) {
 		try {
 			$content = $this->flysystem->listContents($this->buildPath($path));
@@ -112,6 +155,9 @@ abstract class Flysystem extends Common {
 		return IteratorDirectory::wrap($names);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function fopen($path, $mode) {
 		$fullPath = $this->buildPath($path);
 		$useExisting = true;
@@ -157,6 +203,9 @@ abstract class Flysystem extends Common {
 		return false;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function touch($path, $mtime = null) {
 		if ($this->file_exists($path)) {
 			return false;
@@ -166,6 +215,9 @@ abstract class Flysystem extends Common {
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function stat($path) {
 		$info = $this->flysystem->getWithMetadata($this->buildPath($path), ['timestamp', 'size']);
 		return [
@@ -174,6 +226,9 @@ abstract class Flysystem extends Common {
 		];
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function filetype($path) {
 		if ($path === '' or $path === '/' or $path === '.') {
 			return 'dir';
