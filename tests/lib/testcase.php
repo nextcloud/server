@@ -99,7 +99,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	public static function tearDownAfterClass() {
 		$dataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data-autotest');
 
-		self::tearDownAfterClassCleanFileMapper($dataDir);
 		self::tearDownAfterClassCleanStorages();
 		self::tearDownAfterClassCleanFileCache();
 		self::tearDownAfterClassCleanStrayDataFiles($dataDir);
@@ -107,18 +106,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		self::tearDownAfterClassCleanStrayLocks();
 
 		parent::tearDownAfterClass();
-	}
-
-	/**
-	 * Remove all entries from the files map table
-	 *
-	 * @param string $dataDir
-	 */
-	static protected function tearDownAfterClassCleanFileMapper($dataDir) {
-		if (\OC_Util::runningOnWindows()) {
-			$mapper = new \OC\Files\Mapper($dataDir);
-			$mapper->removePath($dataDir, true, true);
-		}
 	}
 
 	/**
