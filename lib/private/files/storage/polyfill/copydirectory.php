@@ -54,7 +54,7 @@ trait CopyDirectory {
 			if ($this->file_exists($target)) {
 				$this->unlink($target);
 			}
-			parent::copy($source, $target);
+			$this->mkdir($target);
 			return $this->copyRecursive($source, $target);
 		} else {
 			return parent::copy($source, $target);
