@@ -44,6 +44,6 @@ class Rotate extends \OC\BackgroundJob\Job {
 		$rotatedLogfile = $logfile.'.1';
 		rename($logfile, $rotatedLogfile);
 		$msg = 'Log file "'.$logfile.'" was over '.$this->max_log_size.' bytes, moved to "'.$rotatedLogfile.'"';
-		\OC_Log::write('OC\Log\Rotate', $msg, \OC_Log::WARN);
+		\OCP\Util::writeLog('OC\Log\Rotate', $msg, \OCP\Util::WARN);
 	}
 }

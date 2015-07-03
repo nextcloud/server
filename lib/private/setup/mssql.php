@@ -66,7 +66,7 @@ class MSSQL extends AbstractDatabase {
 				$entry = '';
 			}
 			$entry.='Offending command was: '.$query.'<br />';
-			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+			\OCP\Util::writeLog('setup.mssql', $entry, \OCP\Util::WARN);
 		} else {
 			$row = sqlsrv_fetch_array($result);
 
@@ -77,7 +77,7 @@ class MSSQL extends AbstractDatabase {
 					$entry = '';
 				}
 				$entry.='Offending command was: '.$query.'<br />';
-				\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+				\OCP\Util::writeLog('setup.mssql', $entry, \OCP\Util::WARN);
 			} else {
 				if ($row == null) {
 					$query = "CREATE LOGIN [".$this->dbuser."] WITH PASSWORD = '".$this->dbpassword."';";
@@ -89,7 +89,7 @@ class MSSQL extends AbstractDatabase {
 							$entry = '';
 						}
 						$entry.='Offending command was: '.$query.'<br />';
-						\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+						\OCP\Util::writeLog('setup.mssql', $entry, \OCP\Util::WARN);
 					}
 				}
 			}
@@ -106,7 +106,7 @@ class MSSQL extends AbstractDatabase {
 				$entry = '';
 			}
 			$entry.='Offending command was: '.$query.'<br />';
-			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+			\OCP\Util::writeLog('setup.mssql', $entry, \OCP\Util::WARN);
 		} else {
 			$row = sqlsrv_fetch_array($result);
 
@@ -117,7 +117,7 @@ class MSSQL extends AbstractDatabase {
 					$entry = '';
 				}
 				$entry.='Offending command was: '.$query.'<br />';
-				\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+				\OCP\Util::writeLog('setup.mssql', $entry, \OCP\Util::WARN);
 			} else {
 				if ($row == null) {
 					$query = "USE [".$this->dbname."]; CREATE USER [".$this->dbuser."] FOR LOGIN [".$this->dbuser."];";
@@ -129,7 +129,7 @@ class MSSQL extends AbstractDatabase {
 							$entry = '';
 						}
 						$entry.='Offending command was: '.$query.'<br />';
-						\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+						\OCP\Util::writeLog('setup.mssql', $entry, \OCP\Util::WARN);
 					}
 				}
 
@@ -142,7 +142,7 @@ class MSSQL extends AbstractDatabase {
 						$entry = '';
 					}
 					$entry.='Offending command was: '.$query.'<br />';
-					\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+					\OCP\Util::writeLog('setup.mssql', $entry, \OCP\Util::WARN);
 				}
 			}
 		}
@@ -158,7 +158,7 @@ class MSSQL extends AbstractDatabase {
 				$entry = '';
 			}
 			$entry.='Offending command was: '.$query.'<br />';
-			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+			\OCP\Util::writeLog('setup.mssql', $entry, \OCP\Util::WARN);
 		}
 	}
 
@@ -179,7 +179,7 @@ class MSSQL extends AbstractDatabase {
 				$entry = '';
 			}
 			$entry.='Offending command was: '.$query.'<br />';
-			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+			\OCP\Util::writeLog('setup.mssql', $entry, \OCP\Util::WARN);
 		} else {
 			$row = sqlsrv_fetch_array($result);
 
@@ -190,7 +190,7 @@ class MSSQL extends AbstractDatabase {
 					$entry = '';
 				}
 				$entry.='Offending command was: '.$query.'<br />';
-				\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+				\OCP\Util::writeLog('setup.mssql', $entry, \OCP\Util::WARN);
 			} else {
 				if ($row == null) {
 					\OC_DB::createDbFromStructure($this->dbDefinitionFile);

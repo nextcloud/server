@@ -160,7 +160,7 @@ class Trashbin {
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
 			$result = $query->execute(array($ownerFilename, $timestamp, $ownerLocation, $owner));
 			if (!$result) {
-				\OCP\Util::writeLog('files_trashbin', 'trash bin database couldn\'t be updated for the files owner', \OC_log::ERROR);
+				\OCP\Util::writeLog('files_trashbin', 'trash bin database couldn\'t be updated for the files owner', \OCP\Util::ERROR);
 			}
 		}
 	}
@@ -216,7 +216,7 @@ class Trashbin {
 			if ($trashStorage->file_exists($trashInternalPath)) {
 				$trashStorage->unlink($trashInternalPath);
 			}
-			\OCP\Util::writeLog('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OC_log::ERROR);
+			\OCP\Util::writeLog('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OCP\Util::ERROR);
 		}
 
 		if ($sourceStorage->file_exists($sourceInternalPath)) { // failed to delete the original file, abort
@@ -231,7 +231,7 @@ class Trashbin {
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
 			$result = $query->execute(array($filename, $timestamp, $location, $user));
 			if (!$result) {
-				\OCP\Util::writeLog('files_trashbin', 'trash bin database couldn\'t be updated', \OC_log::ERROR);
+				\OCP\Util::writeLog('files_trashbin', 'trash bin database couldn\'t be updated', \OCP\Util::ERROR);
 			}
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', array('filePath' => \OC\Files\Filesystem::normalizePath($file_path),
 				'trashPath' => \OC\Files\Filesystem::normalizePath($filename . '.d' . $timestamp)));
@@ -675,7 +675,7 @@ class Trashbin {
 			foreach ($files as $file) {
 				if ($availableSpace < 0) {
 					$tmp = self::delete($file['name'], $user, $file['mtime']);
-					\OCP\Util::writeLog('files_trashbin', 'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota)', \OC_log::INFO);
+					\OCP\Util::writeLog('files_trashbin', 'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota)', \OCP\Util::INFO);
 					$availableSpace += $tmp;
 					$size += $tmp;
 				} else {

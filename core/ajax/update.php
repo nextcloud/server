@@ -37,10 +37,11 @@ if (OC::checkUpgrade(false)) {
 
 	$l = new \OC_L10N('core');
 	$eventSource = \OC::$server->createEventSource();
+	$logger = \OC::$server->getLogger();
 	$updater = new \OC\Updater(
 			\OC::$server->getHTTPHelper(),
 			\OC::$server->getConfig(),
-			\OC_Log::$object
+			$logger
 	);
 	$incompatibleApps = [];
 	$disabledThirdPartyApps = [];

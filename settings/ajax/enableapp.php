@@ -31,6 +31,6 @@ try {
 	OC_App::enable(OC_App::cleanAppId((string)$_POST['appid']), $groups);
 	OC_JSON::success();
 } catch (Exception $e) {
-	OC_Log::write('core', $e->getMessage(), OC_Log::ERROR);
+	\OCP\Util::writeLog('core', $e->getMessage(), \OCP\Util::ERROR);
 	OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
 }

@@ -142,12 +142,12 @@ class OC_User {
 				case 'database':
 				case 'mysql':
 				case 'sqlite':
-					OC_Log::write('core', 'Adding user backend ' . $backend . '.', OC_Log::DEBUG);
+					\OCP\Util::writeLog('core', 'Adding user backend ' . $backend . '.', \OCP\Util::DEBUG);
 					self::$_usedBackends[$backend] = new OC_User_Database();
 					self::getManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
 				default:
-					OC_Log::write('core', 'Adding default user backend ' . $backend . '.', OC_Log::DEBUG);
+					\OCP\Util::writeLog('core', 'Adding default user backend ' . $backend . '.', \OCP\Util::DEBUG);
 					$className = 'OC_USER_' . strToUpper($backend);
 					self::$_usedBackends[$backend] = new $className();
 					self::getManager()->registerBackend(self::$_usedBackends[$backend]);
@@ -184,10 +184,10 @@ class OC_User {
 					self::useBackend($backend);
 					self::$_setupedBackends[] = $i;
 				} else {
-					OC_Log::write('core', 'User backend ' . $class . ' already initialized.', OC_Log::DEBUG);
+					\OCP\Util::writeLog('core', 'User backend ' . $class . ' already initialized.', \OCP\Util::DEBUG);
 				}
 			} else {
-				OC_Log::write('core', 'User backend ' . $class . ' not found.', OC_Log::ERROR);
+				\OCP\Util::writeLog('core', 'User backend ' . $class . ' not found.', \OCP\Util::ERROR);
 			}
 		}
 	}

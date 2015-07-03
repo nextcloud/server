@@ -66,7 +66,7 @@ class OC_DB_StatementWrapper {
 	public function execute($input=array()) {
 		if(OC_Config::getValue( "log_query", false)) {
 			$params_str = str_replace("\n", " ", var_export($input, true));
-			OC_Log::write('core', 'DB execute with arguments : '.$params_str, OC_Log::DEBUG);
+			\OCP\Util::writeLog('core', 'DB execute with arguments : '.$params_str, \OCP\Util::DEBUG);
 		}
 		$this->lastArguments = $input;
 		if (count($input) > 0) {

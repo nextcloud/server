@@ -355,7 +355,7 @@ class Scanner extends BasicEmitter {
 				// might happen if inserting duplicate while a scanning
 				// process is running in parallel
 				// log and ignore
-				\OC_Log::write('core', 'Exception while scanning file "' . $child . '": ' . $ex->getMessage(), \OC_Log::DEBUG);
+				\OCP\Util::writeLog('core', 'Exception while scanning file "' . $child . '": ' . $ex->getMessage(), \OCP\Util::DEBUG);
 				$exceptionOccurred = true;
 			} catch (\OCP\Lock\LockedException $e) {
 				if ($this->useTransactions) {

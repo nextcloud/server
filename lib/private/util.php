@@ -212,9 +212,9 @@ class OC_Util {
 	 * @return boolean
 	 */
 	public static function isSharingDisabledForUser() {
-		if (\OC_Appconfig::getValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
+		if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
 			$user = \OCP\User::getUser();
-			$groupsList = \OC_Appconfig::getValue('core', 'shareapi_exclude_groups_list', '');
+			$groupsList = \OC::$server->getAppConfig()->getValue('core', 'shareapi_exclude_groups_list', '');
 			$excludedGroups = explode(',', $groupsList);
 			$usersGroups = \OC_Group::getUserGroups($user);
 			if (!empty($usersGroups)) {
@@ -999,7 +999,7 @@ class OC_Util {
 		if (isset($_REQUEST['redirect_url']) && strpos($_REQUEST['redirect_url'], '@') === false) {
 			$location = $urlGenerator->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
 		} else {
-			$defaultPage = OC_Appconfig::getValue('core', 'defaultpage');
+			$defaultPage = \OC::$server->getAppConfig()->getValue('core', 'defaultpage');
 			if ($defaultPage) {
 				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
@@ -1345,7 +1345,7 @@ class OC_Util {
 		// XCache
 		if (function_exists('xcache_clear_cache')) {
 			if (ini_get('xcache.admin.enable_auth')) {
-				OC_Log::write('core', 'XCache opcode cache will not be cleared because "xcache.admin.enable_auth" is enabled.', \OC_Log::WARN);
+				\OCP\Util::writeLog('core', 'XCache opcode cache will not be cleared because "xcache.admin.enable_auth" is enabled.', \OCP\Util::WARN);
 			} else {
 				@xcache_clear_cache(XC_TYPE_PHP, 0);
 			}

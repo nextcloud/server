@@ -74,8 +74,8 @@ class Test_Share extends \Test\TestCase {
 		OCP\Share::registerBackend('test', 'Test_Share_Backend');
 		OC_Hook::clear('OCP\\Share');
 		OC::registerShareHooks();
-		$this->resharing = OC_Appconfig::getValue('core', 'shareapi_allow_resharing', 'yes');
-		OC_Appconfig::setValue('core', 'shareapi_allow_resharing', 'yes');
+		$this->resharing = \OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_resharing', 'yes');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_allow_resharing', 'yes');
 
 		// 20 Minutes in the past, 20 minutes in the future.
 		$now = time();
@@ -87,7 +87,7 @@ class Test_Share extends \Test\TestCase {
 	protected function tearDown() {
 		$query = OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `item_type` = ?');
 		$query->execute(array('test'));
-		OC_Appconfig::setValue('core', 'shareapi_allow_resharing', $this->resharing);
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_allow_resharing', $this->resharing);
 
 		OC_User::deleteUser($this->user1);
 		OC_User::deleteUser($this->user2);
@@ -486,8 +486,8 @@ class Test_Share extends \Test\TestCase {
 		);
 
 		// exclude group2 from sharing
-		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups_list', $this->group2);
-		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups', "yes");
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', $this->group2);
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', "yes");
 
 		OC_User::setUserId($this->user4);
 
@@ -496,8 +496,8 @@ class Test_Share extends \Test\TestCase {
 		$this->assertSame(\OCP\Constants::PERMISSION_ALL & ~\OCP\Constants::PERMISSION_SHARE, $share['permissions'],
 				'Failed asserting that user 4 is excluded from re-sharing');
 
-		\OC_Appconfig::deleteKey('core', 'shareapi_exclude_groups_list');
-		\OC_Appconfig::deleteKey('core', 'shareapi_exclude_groups');
+		\OC::$server->getAppConfig()->deleteKey('core', 'shareapi_exclude_groups_list');
+		\OC::$server->getAppConfig()->deleteKey('core', 'shareapi_exclude_groups');
 
 	}
 
@@ -569,8 +569,8 @@ class Test_Share extends \Test\TestCase {
 		} catch (Exception $exception) {
 			$this->assertEquals($message, $exception->getMessage());
 		}
-		$policy = OC_Appconfig::getValue('core', 'shareapi_only_share_with_group_members', 'no');
-		OC_Appconfig::setValue('core', 'shareapi_only_share_with_group_members', 'yes');
+		$policy = \OC::$server->getAppConfig()->getValue('core', 'shareapi_only_share_with_group_members', 'no');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_only_share_with_group_members', 'yes');
 		$message = 'Sharing test.txt failed, because '.$this->user1.' is not a member of the group '.$this->group2;
 		try {
 			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group2, \OCP\Constants::PERMISSION_READ);
@@ -578,7 +578,7 @@ class Test_Share extends \Test\TestCase {
 		} catch (Exception $exception) {
 			$this->assertEquals($message, $exception->getMessage());
 		}
-		OC_Appconfig::setValue('core', 'shareapi_only_share_with_group_members', $policy);
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_only_share_with_group_members', $policy);
 
 		// Valid share
 		$this->shareUserOneTestFileWithGroupOne();
@@ -1224,9 +1224,9 @@ class Test_Share extends \Test\TestCase {
 	public function testClearExpireDateWhileEnforced() {
 		OC_User::setUserId($this->user1);
 
-		\OC_Appconfig::setValue('core', 'shareapi_default_expire_date', 'yes');
-		\OC_Appconfig::setValue('core', 'shareapi_expire_after_n_days', '2');
-		\OC_Appconfig::setValue('core', 'shareapi_enforce_expire_date', 'yes');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_default_expire_date', 'yes');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_expire_after_n_days', '2');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_enforce_expire_date', 'yes');
 
 		$token = OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_LINK, null, \OCP\Constants::PERMISSION_READ);
 		$this->assertInternalType(
@@ -1247,9 +1247,9 @@ class Test_Share extends \Test\TestCase {
 
 		$this->assertTrue($setExpireDateFailed);
 
-		\OC_Appconfig::deleteKey('core', 'shareapi_default_expire_date');
-		\OC_Appconfig::deleteKey('core', 'shareapi_expire_after_n_days');
-		\OC_Appconfig::deleteKey('core', 'shareapi_enforce_expire_date');
+		\OC::$server->getAppConfig()->deleteKey('core', 'shareapi_default_expire_date');
+		\OC::$server->getAppConfig()->deleteKey('core', 'shareapi_expire_after_n_days');
+		\OC::$server->getAppConfig()->deleteKey('core', 'shareapi_enforce_expire_date');
 	}
 
 	/**

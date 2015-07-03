@@ -73,7 +73,7 @@ class Autoloader {
 			 * Remove "apps/" from inclusion path for smooth migration to mutli app dir
 			 */
 			if (strpos(\OC::$CLASSPATH[$class], 'apps/') === 0) {
-				\OC_Log::write('core', 'include path for class "' . $class . '" starts with "apps/"', \OC_Log::DEBUG);
+				\OCP\Util::writeLog('core', 'include path for class "' . $class . '" starts with "apps/"', \OCP\Util::DEBUG);
 				$paths[] = str_replace('apps/', '', \OC::$CLASSPATH[$class]);
 			}
 		} elseif (strpos($class, 'OC_') === 0) {

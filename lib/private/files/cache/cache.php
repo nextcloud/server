@@ -120,7 +120,7 @@ class Cache {
 				]);
 				$this->loadMimetypes();
 			} catch (\Doctrine\DBAL\DBALException $e) {
-				\OC_Log::write('core', 'Exception during mimetype insertion: ' . $e->getmessage(), \OC_Log::DEBUG);
+				\OCP\Util::writeLog('core', 'Exception during mimetype insertion: ' . $e->getmessage(), \OCP\Util::DEBUG);
 				return -1;
 			}
 		}

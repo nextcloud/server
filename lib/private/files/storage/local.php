@@ -203,17 +203,17 @@ class Local extends \OC\Files\Storage\Common {
 		$dstParent = dirname($path2);
 
 		if (!$this->isUpdatable($srcParent)) {
-			\OC_Log::write('core', 'unable to rename, source directory is not writable : ' . $srcParent, \OC_Log::ERROR);
+			\OCP\Util::writeLog('core', 'unable to rename, source directory is not writable : ' . $srcParent, \OCP\Util::ERROR);
 			return false;
 		}
 
 		if (!$this->isUpdatable($dstParent)) {
-			\OC_Log::write('core', 'unable to rename, destination directory is not writable : ' . $dstParent, \OC_Log::ERROR);
+			\OCP\Util::writeLog('core', 'unable to rename, destination directory is not writable : ' . $dstParent, \OCP\Util::ERROR);
 			return false;
 		}
 
 		if (!$this->file_exists($path1)) {
-			\OC_Log::write('core', 'unable to rename, file does not exists : ' . $path1, \OC_Log::ERROR);
+			\OCP\Util::writeLog('core', 'unable to rename, file does not exists : ' . $path1, \OCP\Util::ERROR);
 			return false;
 		}
 

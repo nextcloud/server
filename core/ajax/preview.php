@@ -35,14 +35,14 @@ $always = array_key_exists('forceIcon', $_GET) ? (bool)$_GET['forceIcon'] : true
 if ($file === '') {
 	//400 Bad Request
 	\OC_Response::setStatus(400);
-	\OC_Log::write('core-preview', 'No file parameter was passed', \OC_Log::DEBUG);
+	\OCP\Util::writeLog('core-preview', 'No file parameter was passed', \OCP\Util::DEBUG);
 	exit;
 }
 
 if ($maxX === 0 || $maxY === 0) {
 	//400 Bad Request
 	\OC_Response::setStatus(400);
-	\OC_Log::write('core-preview', 'x and/or y set to 0', \OC_Log::DEBUG);
+	\OCP\Util::writeLog('core-preview', 'x and/or y set to 0', \OCP\Util::DEBUG);
 	exit;
 }
 

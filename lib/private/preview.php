@@ -135,7 +135,7 @@ class Preview {
 			&& \OC::$server->getConfig()
 						   ->getSystemValue('enable_previews', true)
 		) {
-			\OC_Log::write('core', 'No preview providers exist', \OC_Log::ERROR);
+			\OCP\Util::writeLog('core', 'No preview providers exist', \OCP\Util::ERROR);
 			throw new \Exception('No preview providers');
 		}
 	}
