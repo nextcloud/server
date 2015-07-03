@@ -168,7 +168,7 @@ class OC_App {
 	private static function getAppTypes($app) {
 		//load the cache
 		if (count(self::$appTypes) == 0) {
-			self::$appTypes = OC_Appconfig::getValues(false, 'types');
+			self::$appTypes = \OC::$server->getAppConfig()->getValues(false, 'types');
 		}
 
 		if (isset(self::$appTypes[$app])) {
@@ -190,7 +190,7 @@ class OC_App {
 			$appTypes = '';
 		}
 
-		OC_Appconfig::setValue($app, 'types', $appTypes);
+		\OC::$server->getAppConfig()->setValue($app, 'types', $appTypes);
 	}
 
 	/**
@@ -821,7 +821,7 @@ class OC_App {
 					continue;
 				}
 
-				$enabled = OC_Appconfig::getValue($app, 'enabled', 'no');
+				$enabled = \OC::$server->getAppConfig()->getValue($app, 'enabled', 'no');
 				$info['groups'] = null;
 				if ($enabled === 'yes') {
 					$active = true;
@@ -1173,9 +1173,9 @@ class OC_App {
 		//set remote/public handlers
 		$appData = self::getAppInfo($appId);
 		if (array_key_exists('ocsid', $appData)) {
-			OC_Appconfig::setValue($appId, 'ocsid', $appData['ocsid']);
-		} elseif(OC_Appconfig::getValue($appId, 'ocsid', null) !== null) {
-			OC_Appconfig::deleteKey($appId, 'ocsid');
+			\OC::$server->getAppConfig()->setValue($appId, 'ocsid', $appData['ocsid']);
+		} elseif(\OC::$server->getAppConfig()->getValue($appId, 'ocsid', null) !== null) {
+			\OC::$server->getAppConfig()->deleteKey($appId, 'ocsid');
 		}
 		foreach ($appData['remote'] as $name => $path) {
 			OCP\CONFIG::setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
@@ -1187,7 +1187,7 @@ class OC_App {
 		self::setAppTypes($appId);
 
 		$version = \OC_App::getAppVersion($appId);
-		\OC_Appconfig::setValue($appId, 'installed_version', $version);
+		\OC::$server->getAppConfig()->setValue($appId, 'installed_version', $version);
 
 		return true;
 	}

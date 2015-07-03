@@ -102,7 +102,7 @@ class Share extends Constants {
 	 * The Share API is enabled by default if not configured
 	 */
 	public static function isEnabled() {
-		if (\OC_Appconfig::getValue('core', 'shareapi_enabled', 'yes') == 'yes') {
+		if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_enabled', 'yes') == 'yes') {
 			return true;
 		}
 		return false;
@@ -703,7 +703,7 @@ class Share extends Constants {
 			$shareWith['users'] = array_diff(\OC_Group::usersInGroup($group), array($uidOwner));
 		} else if ($shareType === self::SHARE_TYPE_LINK) {
 			$updateExistingShare = false;
-			if (\OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes') == 'yes') {
+			if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_links', 'yes') == 'yes') {
 
 				// when updating a link share
 				// FIXME Don't delete link if we update it
@@ -1365,7 +1365,7 @@ class Share extends Constants {
 	 */
 	public static function isResharingAllowed() {
 		if (!isset(self::$isResharingAllowed)) {
-			if (\OC_Appconfig::getValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
+			if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
 				self::$isResharingAllowed = true;
 			} else {
 				self::$isResharingAllowed = false;
@@ -1509,7 +1509,7 @@ class Share extends Constants {
 				$queryArgs = array($itemType);
 			}
 		}
-		if (\OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+		if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 			$where .= ' AND `share_type` != ?';
 			$queryArgs[] = self::SHARE_TYPE_LINK;
 		}
@@ -2504,7 +2504,7 @@ class Share extends Constants {
 	 * @return bool
 	 */
 	public static function shareWithGroupMembersOnly() {
-		$value = \OC_Appconfig::getValue('core', 'shareapi_only_share_with_group_members', 'no');
+		$value = \OC::$server->getAppConfig()->getValue('core', 'shareapi_only_share_with_group_members', 'no');
 		return ($value === 'yes') ? true : false;
 	}
 
