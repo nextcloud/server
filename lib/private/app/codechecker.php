@@ -71,6 +71,8 @@ class CodeChecker extends BasicEmitter {
 			'OC_Log',
 			'OC_Mail',
 			'OC_Preferences',
+			'OC_Search_Provider',
+			'OC_Search_Result',
 			'OC_Request',
 			'OC_Response',
 			'OC_Template',
