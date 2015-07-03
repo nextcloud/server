@@ -30,6 +30,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class Activity implements IExtension {
+	const APP_FILES = 'files';
 	const FILTER_FILES = 'files';
 	const FILTER_FAVORITES = 'files_favorites';
 
@@ -78,7 +79,7 @@ class Activity implements IExtension {
 	 * @return IL10N
 	 */
 	protected function getL10N($languageCode = null) {
-		return $this->languageFactory->get('files', $languageCode);
+		return $this->languageFactory->get(self::APP_FILES, $languageCode);
 	}
 
 	/**
@@ -114,7 +115,7 @@ class Activity implements IExtension {
 	 * @return array|false
 	 */
 	public function getDefaultTypes($method) {
-		if ($method === 'stream') {
+		if ($method === self::METHOD_STREAM) {
 			$settings = array();
 			$settings[] = self::TYPE_SHARE_CREATED;
 			$settings[] = self::TYPE_SHARE_CHANGED;
@@ -139,7 +140,7 @@ class Activity implements IExtension {
 	 * @return string|false
 	 */
 	public function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode) {
-		if ($app !== 'files') {
+		if ($app !== self::APP_FILES) {
 			return false;
 		}
 
@@ -180,7 +181,7 @@ class Activity implements IExtension {
 	 * @return array|false
 	 */
 	function getSpecialParameterList($app, $text) {
-		if ($app === 'files') {
+		if ($app === self::APP_FILES) {
 			switch ($text) {
 				case 'created_self':
 				case 'created_by':
@@ -230,7 +231,7 @@ class Activity implements IExtension {
 	 * @return integer|false
 	 */
 	public function getGroupParameter($activity) {
-		if ($activity['app'] === 'files') {
+		if ($activity['app'] === self::APP_FILES) {
 			switch ($activity['subject']) {
 				case 'created_self':
 				case 'created_by':
@@ -316,7 +317,7 @@ class Activity implements IExtension {
 		$user = $this->activityManager->getCurrentUserId();
 		// Display actions from all files
 		if ($filter === self::FILTER_FILES) {
-			return ['`app` = ?', ['files']];
+			return ['`app` = ?', [self::APP_FILES]];
 		}
 
 		if (!$user) {
@@ -330,7 +331,7 @@ class Activity implements IExtension {
 				$favorites = $this->helper->getFavoriteFilePaths($user);
 			} catch (\RuntimeException $e) {
 				// Too many favorites, can not put them into one query anymore...
-				return ['`app` = ?', ['files']];
+				return ['`app` = ?', [self::APP_FILES]];
 			}
 
 			/*
@@ -338,7 +339,7 @@ class Activity implements IExtension {
 			 * or `file` is a favorite or in a favorite folder
 			 */
 			$parameters = $fileQueryList = [];
-			$parameters[] = 'files';
+			$parameters[] = self::APP_FILES;
 
 			$fileQueryList[] = '(`type` <> ? AND `type` <> ?)';
 			$parameters[] = self::TYPE_SHARE_CREATED;
@@ -353,7 +354,7 @@ class Activity implements IExtension {
 				$parameters[] = $favorite . '/%';
 			}
 
-			$parameters[] = 'files';
+			$parameters[] = self::APP_FILES;
 
 			return [
 				' CASE WHEN `app` = ? THEN (' . implode(' OR ', $fileQueryList) . ') ELSE `app` <> ? END ',
@@ -370,6 +371,6 @@ class Activity implements IExtension {
 	 * @return bool
 	 */
 	protected function userSettingFavoritesOnly($user) {
-		return (bool) $this->config->getUserValue($user, 'activity', 'notify_stream_' . self::TYPE_FAVORITES, false);
+		return (bool) $this->config->getUserValue($user, 'activity', 'notify_' . self::METHOD_STREAM . '_' . self::TYPE_FAVORITES, false);
 	}
 }

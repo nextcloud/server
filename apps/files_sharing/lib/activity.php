@@ -106,7 +106,7 @@ class Activity implements IExtension {
 			self::TYPE_REMOTE_SHARE,
 		];
 
-		if ($method === 'stream') {
+		if ($method === self::METHOD_STREAM) {
 			$defaultTypes[] = self::TYPE_PUBLIC_LINKS;
 		}
 
