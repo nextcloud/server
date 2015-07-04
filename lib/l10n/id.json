@@ -14,7 +14,6 @@
     "Library %s with a version lower than %s is required - available version %s." : "Diperlukan pustaka %s dengan versi yang lebih rendah dari %s - versi yang tersedia %s.",
     "Following platforms are supported: %s" : "Berikut adalah platform yang didukung: %s",
     "ownCloud %s or higher is required." : "Diperlukan ownCloud %s atau yang lebih tinggi.",
-    "ownCloud with a version lower than %s is required." : "Diperlukan ownCloud dengan versi yang lebih rendah dari %s.",
     "Help" : "Bantuan",
     "Personal" : "Pribadi",
     "Users" : "Pengguna",

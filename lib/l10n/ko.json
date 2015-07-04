@@ -14,7 +14,6 @@
     "Library %s with a version lower than %s is required - available version %s." : "%s 라이브러리의 버전 %s 미만이 필요합니다. 사용 가능한 버전은 %s입니다.",
     "Following platforms are supported: %s" : "다음 플랫폼을 지원합니다: %s",
     "ownCloud %s or higher is required." : "ownCloud 버전 %s 이상이 필요합니다.",
-    "ownCloud with a version lower than %s is required." : "ownCloud 버전 %s 미만이 필요합니다.",
     "Help" : "도움말",
     "Personal" : "개인",
     "Users" : "사용자",

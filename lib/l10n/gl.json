@@ -14,7 +14,6 @@
     "Library %s with a version lower than %s is required - available version %s." : "Requírese a biblioteca %s cunha versión inferior a %s - dispoñíbel a versión %s.",
     "Following platforms are supported: %s" : "Admítense as seguintes plataformas: %s",
     "ownCloud %s or higher is required." : "Requírese ownCloud %s ou superior.",
-    "ownCloud with a version lower than %s is required." : "Requírese ownCloud cunha versión inferior a %s.",
     "Help" : "Axuda",
     "Personal" : "Persoal",
     "Users" : "Usuarios",

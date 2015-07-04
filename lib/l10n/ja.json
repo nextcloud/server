@@ -14,7 +14,6 @@
     "Library %s with a version lower than %s is required - available version %s." : "%s ライブラリーは、%s よりも古いバージョンが必要です。利用可能なバージョンは、 %s です。",
     "Following platforms are supported: %s" : "次のプラットフォームをサポートしています: %s",
     "ownCloud %s or higher is required." : "ownCloud %s 以上が必要です。",
-    "ownCloud with a version lower than %s is required." : "ownCloud %s 以下が必要です。",
     "Help" : "ヘルプ",
     "Personal" : "個人",
     "Users" : "ユーザー",

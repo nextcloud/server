@@ -14,7 +14,6 @@
     "Library %s with a version lower than %s is required - available version %s." : "%s liburutegiak %s baino bertsio txikiagoa izan behar du - dagoen bertsioa %s.",
     "Following platforms are supported: %s" : "Hurrengo plataformak onartzen dira: %s",
     "ownCloud %s or higher is required." : "ownCloud %s edo haundiagoa behar da.",
-    "ownCloud with a version lower than %s is required." : "ownCloud %s baino bertsio txikiagoa behar da.",
     "Help" : "Laguntza",
     "Personal" : "Pertsonala",
     "Users" : "Erabiltzaileak",

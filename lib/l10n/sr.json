@@ -14,7 +14,6 @@
     "Library %s with a version lower than %s is required - available version %s." : "Библиотека %s издања нижег од %s је потребна - доступно издање %s.",
     "Following platforms are supported: %s" : "Следеће платформе су подржане: %s",
     "ownCloud %s or higher is required." : "оунКлауд %s или новији је потребан.",
-    "ownCloud with a version lower than %s is required." : "Потребна је оунКлауд верзија испод %s.",
     "Help" : "Помоћ",
     "Personal" : "Лично",
     "Users" : "Корисници",

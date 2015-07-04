@@ -14,7 +14,6 @@
     "Library %s with a version lower than %s is required - available version %s." : "Bibliotek %s med version lägre än %s krävs - tillgänglig version %s.",
     "Following platforms are supported: %s" : "Följande plattformar stödjs: %s",
     "ownCloud %s or higher is required." : "ownCloud %s eller högre krävs.",
-    "ownCloud with a version lower than %s is required." : "ownCloud med version lägre än %s krävs.",
     "Help" : "Hjälp",
     "Personal" : "Personligt",
     "Users" : "Användare",
