@@ -1,6 +1,8 @@
 OC.L10N.register(
     "settings",
     {
+    "APCu" : "APCu",
+    "Redis" : "Redis",
     "Cron" : "Cron",
     "Log" : "Log",
     "Authentication error" : "Authentifikatioun's Fehler",
@@ -27,6 +29,7 @@ OC.L10N.register(
     "Allow resharing" : "Resharing erlaben",
     "Authentication required" : "Authentifizéierung néideg",
     "Server address" : "Server Adress",
+    "Port" : "Port",
     "More" : "Méi",
     "Less" : "Manner",
     "by" : "vun",

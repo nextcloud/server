@@ -29,6 +29,7 @@ OC.L10N.register(
     "Share" : "Kongsi",
     "Error" : "Ralat",
     "Password" : "Kata laluan",
+    "Send" : "Hantar",
     "group" : "kumpulan",
     "can share" : "boleh berkongsi",
     "can edit" : "boleh mengubah",

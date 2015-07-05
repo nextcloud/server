@@ -1,4 +1,6 @@
 { "translations": {
+    "APCu" : "APCu",
+    "Redis" : "Redis",
     "Cron" : "Cron",
     "Log" : "Log",
     "Authentication error" : "Authentifikatioun's Fehler",
@@ -25,6 +27,7 @@
     "Allow resharing" : "Resharing erlaben",
     "Authentication required" : "Authentifizéierung néideg",
     "Server address" : "Server Adress",
+    "Port" : "Port",
     "More" : "Méi",
     "Less" : "Manner",
     "by" : "vun",

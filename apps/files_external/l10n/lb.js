@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_external",
     {
     "Location" : "Uert",
+    "Port" : "Port",
     "Region" : "Regioun",
     "Host" : "Host",
     "Username" : "Benotzernumm",

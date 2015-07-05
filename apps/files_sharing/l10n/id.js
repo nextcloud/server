@@ -21,6 +21,7 @@ OC.L10N.register(
     "Remote share password" : "Sandi berbagi remote",
     "Cancel" : "Batal",
     "Add remote share" : "Tambah berbagi remote",
+    "You can upload into this folder" : "Anda dapat mengunggah kedalam folder ini",
     "No ownCloud installation (7 or higher) found at {remote}" : "Tidak ditemukan instalasi ownCloud (7 atau lebih tinggi) pada {remote}",
     "Invalid ownCloud url" : "URL ownCloud tidak sah",
     "Share" : "Bagikan",
@@ -39,6 +40,8 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s membagikan %1$s dengan Anda",
     "You shared %1$s via link" : "Anda membagikan %1$s via tautan",
     "Shares" : "Dibagikan",
+    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Dibagikan pada saya melalui #ownCloud Federated Cloud ID saya, lihat %s",
+    "Share with me through my #ownCloud Federated Cloud ID" : "Dibagikan pada saya melalui #ownCloud Federated Cloud ID saya",
     "This share is password-protected" : "Berbagi ini dilindungi sandi",
     "The password is wrong. Try again." : "Sandi salah. Coba lagi",
     "Password" : "Sandi",
@@ -58,6 +61,12 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Federated Cloud Sharing",
     "Open documentation" : "Buka dokumentasi",
     "Allow users on this server to send shares to other servers" : "Izinkan para pengguna di server ini untuk mengirimkan berbagi ke server lainnya.",
-    "Allow users on this server to receive shares from other servers" : "Izinkan para pengguna di server ini untuk menerima berbagi ke server lainnya."
+    "Allow users on this server to receive shares from other servers" : "Izinkan para pengguna di server ini untuk menerima berbagi ke server lainnya.",
+    "Federated Cloud" : "Federated Cloud",
+    "Your Federated Cloud ID:" : "Federated Cloud ID Anda:",
+    "Share it:" : "Bagikan:",
+    "Add it to your website:" : "Tambahkan ke situs web Anda:",
+    "Share with me via ownCloud" : "Dibagikan pada saya via ownCloud",
+    "HTML Code:" : "Kode HTML:"
 },
 "nplurals=1; plural=0;");

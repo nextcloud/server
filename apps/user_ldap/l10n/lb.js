@@ -5,6 +5,7 @@ OC.L10N.register(
     "Groups" : "Gruppen",
     "Help" : "Hëllef",
     "Host" : "Host",
+    "Port" : "Port",
     "Password" : "Passwuert",
     "Back" : "Zeréck",
     "Continue" : "Weider",
