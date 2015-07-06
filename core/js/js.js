@@ -1757,14 +1757,12 @@ jQuery.fn.tipsy = function(argument) {
 			trigger: 'hover',
 			html: false
 		};
-		console.log(argument);
 		// tooltip direction
 		if(argument.gravity) {
 			switch(argument.gravity) {
 				case 'n':
 				case 'nw':
 				case 'ne':
-					console.log('bottom');
 					options.placement='bottom';
 					break;
 				case 's':
@@ -1773,7 +1771,6 @@ jQuery.fn.tipsy = function(argument) {
 					options.placement='top';
 					break;
 				case 'w':
-					console.log('right');
 					options.placement='right';
 					break;
 				case 'e':
