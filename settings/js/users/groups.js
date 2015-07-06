@@ -36,7 +36,11 @@ GroupList = {
 	},
 
 	getUserCount: function ($groupLiElement) {
-		return parseInt($groupLiElement.data('usercount'), 10);
+		var $userCount = parseInt($groupLiElement.data('usercount'), 10);
+		if (isNaN($userCount)) {
+			$userCount = 0;
+		}
+		return $userCount;
 	},
 
 	modEveryoneCount: function(diff) {
