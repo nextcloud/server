@@ -150,6 +150,10 @@ class Activity implements IExtension {
 		if ($app === self::FILES_SHARING_APP) {
 			switch ($text) {
 				case self::SUBJECT_REMOTE_SHARE_RECEIVED:
+					if (sizeof($params) === 2) {
+						// New activity ownCloud 8.2+
+						return (string) $l->t('You received a new remote share %2$s from %1$s', $params);
+					}
 					return (string) $l->t('You received a new remote share from %s', $params);
 				case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
 					return (string) $l->t('%1$s accepted remote share %2$s', $params);
@@ -190,14 +194,15 @@ class Activity implements IExtension {
 		if ($app === self::FILES_SHARING_APP) {
 			switch ($text) {
 				case self::SUBJECT_REMOTE_SHARE_RECEIVED:
+				case self::SUBJECT_REMOTE_SHARE_UNSHARED:
 					return array(
-						0 => '',// We can not use 'username' since the user is in a different ownCloud
+						0 => 'federated_cloud_id',
+						//1 => 'file', in theory its a file, but it does not exist yet/anymore
 					);
 				case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
 				case self::SUBJECT_REMOTE_SHARE_DECLINED:
-				case self::SUBJECT_REMOTE_SHARE_UNSHARED:
 					return array(
-						0 => '',// We can not use 'username' since the user is in a different ownCloud
+						0 => 'federated_cloud_id',
 						1 => 'file',
 					);
 				case self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED:
@@ -214,7 +219,7 @@ class Activity implements IExtension {
 				case self::SUBJECT_SHARED_GROUP_SELF:
 					return [
 						0 => 'file',
-						//1 => 'group', Group does not exist yet
+						1 => 'group',
 					];
 			}
 		}
@@ -230,7 +235,7 @@ class Activity implements IExtension {
 	 * @return integer|false
 	 */
 	public function getGroupParameter($activity) {
-		if ($activity['app'] === 'files') {
+		if ($activity['app'] === self::FILES_SHARING_APP) {
 			switch ($activity['subject']) {
 				case self::SUBJECT_SHARED_LINK_SELF:
 				case self::SUBJECT_SHARED_WITH_BY:
