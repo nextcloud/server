@@ -52,6 +52,24 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	}
 
 	/**
+	 * Gets the ExpressionBuilder for the connection.
+	 *
+	 * @return \OCP\DB\IExpressionBuilder
+	 */
+	public function getExpressionBuilder() {
+		return new ExpressionBuilder($this);
+	}
+
+	/**
+	 * Gets the QueryBuilder for the connection.
+	 *
+	 * @return \OCP\DB\IQueryBuilder
+	 */
+	public function getQueryBuilder() {
+		return new QueryBuilder($this);
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getPrefix() {
