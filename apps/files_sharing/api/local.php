@@ -260,6 +260,7 @@ class Local {
 			return new \OC_OCS_Result(null, 400, "please specify a file or folder path");
 		}
 		$itemSource = self::getFileId($path);
+		$itemSourceName = $itemSource;
 		$itemType = self::getItemType($path);
 
 		if($itemSource === null) {
@@ -270,9 +271,10 @@ class Local {
 		$shareType = isset($_POST['shareType']) ? (int)$_POST['shareType'] : null;
 
 		switch($shareType) {
+			case \OCP\Share::SHARE_TYPE_REMOTE:
+				$shareWith = rtrim($shareWith, '/');
+				$itemSourceName = basename($path);
 			case \OCP\Share::SHARE_TYPE_USER:
-				$permissions = isset($_POST['permissions']) ? (int)$_POST['permissions'] : 31;
-				break;
 			case \OCP\Share::SHARE_TYPE_GROUP:
 				$permissions = isset($_POST['permissions']) ? (int)$_POST['permissions'] : 31;
 				break;
@@ -303,7 +305,8 @@ class Local {
 					$itemSource,
 					$shareType,
 					$shareWith,
-					$permissions
+					$permissions,
+					$itemSourceName
 					);
 		} catch (HintException $e) {
 			return new \OC_OCS_Result(null, 400, $e->getHint());

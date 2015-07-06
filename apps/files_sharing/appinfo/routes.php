@@ -82,6 +82,21 @@ API::register('delete',
 		array('\OCA\Files_Sharing\API\Local', 'deleteShare'),
 		'files_sharing');
 
+API::register('get',
+		'/apps/files_sharing/api/v1/remote_shares',
+		array('\OCA\Files_Sharing\API\Remote', 'getOpenShares'),
+		'files_sharing');
+
+API::register('post',
+		'/apps/files_sharing/api/v1/remote_shares/{id}',
+		array('\OCA\Files_Sharing\API\Remote', 'acceptShare'),
+		'files_sharing');
+
+API::register('delete',
+		'/apps/files_sharing/api/v1/remote_shares/{id}',
+		array('\OCA\Files_Sharing\API\Remote', 'declineShare'),
+		'files_sharing');
+
 // Register with the capabilities API
 API::register('get',
 		'/cloud/capabilities',
