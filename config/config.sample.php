@@ -794,12 +794,12 @@ $CONFIG = array(
  * Memory caching backend configuration
  *
  * Available cache backends:
- * - \OC\Memcache\APC        Alternative PHP Cache backend
- * - \OC\Memcache\APCu       APC user backend
- * - \OC\Memcache\ArrayCache In-memory array-based backend (not recommended)
- * - \OC\Memcache\Memcached  Memcached backend
- * - \OC\Memcache\Redis      Redis backend
- * - \OC\Memcache\XCache     XCache backend
+ * * \OC\Memcache\APC        Alternative PHP Cache backend
+ * * \OC\Memcache\APCu       APC user backend
+ * * \OC\Memcache\ArrayCache In-memory array-based backend (not recommended)
+ * * \OC\Memcache\Memcached  Memcached backend
+ * * \OC\Memcache\Redis      Redis backend
+ * * \OC\Memcache\XCache     XCache backend
  */
 
 /**
@@ -850,7 +850,7 @@ $CONFIG = array(
  */
 
 /**
- * The example below shows how to configure ownCloud to store all files in a
+ * This example shows how to configure ownCloud to store all files in a
  * swift object storage.
  *
  * It is important to note that ownCloud in object store mode will expect
@@ -1029,7 +1029,9 @@ $CONFIG = array(
  *
  * Prevents concurrent processes to access the same files
  * at the same time. Can help prevent side effects that would
- * be caused by concurrent operations.
+ * be caused by concurrent operations. Mainly relevant for
+ * very large installations with many users working with
+ * shared files.
  *
  * WARNING: BETA quality
  */
@@ -1037,7 +1039,8 @@ $CONFIG = array(
 
 /**
  * Memory caching backend for file locking
- * Because most memcache backends can clean values without warning using redis is recommended
+ * Because most memcache backends can clean values without warning using redis
+ * is highly recommended to *avoid data loss*.
  */
 'memcache.locking' => '\\OC\\Memcache\\Redis',
 
