@@ -22,16 +22,15 @@
 
 namespace OC\Repair;
 
-use Doctrine\DBAL\Query\QueryBuilder;
 use OC\Hooks\BasicEmitter;
 
 class FillETags extends BasicEmitter implements \OC\RepairStep {
 
-	/** @var \OC\DB\Connection */
+	/** @var \OCP\IDBConnection */
 	protected $connection;
 
 	/**
-	 * @param \OC\DB\Connection $connection
+	 * @param \OCP\IDBConnection $connection
 	 */
 	public function __construct($connection) {
 		$this->connection = $connection;
@@ -42,7 +41,7 @@ class FillETags extends BasicEmitter implements \OC\RepairStep {
 	}
 
 	public function run() {
-		$qb = $this->connection->createQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 		$qb->update('`*PREFIX*filecache`')
 			->set('`etag`', $qb->expr()->literal('xxx'))
 			->where($qb->expr()->eq('`etag`', $qb->expr()->literal('')))

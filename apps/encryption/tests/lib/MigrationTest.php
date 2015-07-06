@@ -288,14 +288,14 @@ class MigrationTest extends \Test\TestCase {
 
 		// delete default values set by the encryption app during initialization
 
-		/** @var \OC\DB\Connection $connection */
+		/** @var \OCP\IDBConnection $connection */
 		$connection = \OC::$server->getDatabaseConnection();
-		$query = $connection->createQueryBuilder();
+		$query = $connection->getQueryBuilder();
 		$query->delete('`*PREFIX*appconfig`')
 			->where($query->expr()->eq('`appid`', ':appid'))
 			->setParameter('appid', 'encryption');
 		$query->execute();
-		$query = $connection->createQueryBuilder();
+		$query = $connection->getQueryBuilder();
 		$query->delete('`*PREFIX*preferences`')
 			->where($query->expr()->eq('`appid`', ':appid'))
 			->setParameter('appid', 'encryption');
@@ -368,9 +368,9 @@ class MigrationTest extends \Test\TestCase {
 	}
 
 	public function verifyDB($table, $appid, $expected) {
-		/** @var \OC\DB\Connection $connection */
+		/** @var \OCP\IDBConnection $connection */
 		$connection = \OC::$server->getDatabaseConnection();
-		$query = $connection->createQueryBuilder();
+		$query = $connection->getQueryBuilder();
 		$query->select('`appid`')
 			->from($table)
 			->where($query->expr()->eq('`appid`', ':appid'))
@@ -392,9 +392,9 @@ class MigrationTest extends \Test\TestCase {
 
 		// check results
 
-		/** @var \OC\DB\Connection $connection */
+		/** @var \OCP\IDBConnection $connection */
 		$connection = \OC::$server->getDatabaseConnection();
-		$query = $connection->createQueryBuilder();
+		$query = $connection->getQueryBuilder();
 		$query->select('*')
 			->from('`*PREFIX*filecache`');
 		$result = $query->execute();
@@ -411,17 +411,17 @@ class MigrationTest extends \Test\TestCase {
 	}
 
 	public function prepareFileCache() {
-		/** @var \OC\DB\Connection $connection */
+		/** @var \OCP\IDBConnection $connection */
 		$connection = \OC::$server->getDatabaseConnection();
-		$query = $connection->createQueryBuilder();
+		$query = $connection->getQueryBuilder();
 		$query->delete('`*PREFIX*filecache`');
 		$query->execute();
-		$query = $connection->createQueryBuilder();
+		$query = $connection->getQueryBuilder();
 		$result = $query->select('`fileid`')
 			->from('`*PREFIX*filecache`')
 			->setMaxResults(1)->execute()->fetchAll();
 		$this->assertEmpty($result);
-		$query = $connection->createQueryBuilder();
+		$query = $connection->getQueryBuilder();
 		$query->insert('`*PREFIX*filecache`')
 			->values(
 				array(
@@ -442,7 +442,7 @@ class MigrationTest extends \Test\TestCase {
 				$query->execute()
 			);
 		}
-		$query = $connection->createQueryBuilder();
+		$query = $connection->getQueryBuilder();
 		$result = $query->select('`fileid`')
 			->from('`*PREFIX*filecache`')
 			->execute()->fetchAll();

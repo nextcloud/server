@@ -22,9 +22,9 @@
 
 namespace OC\Repair;
 
-use OC\DB\Connection;
 use OC\Hooks\BasicEmitter;
 use OC\RepairStep;
+use OCP\IDBConnection;
 
 /**
  * Class RepairConfig
@@ -33,13 +33,13 @@ use OC\RepairStep;
  */
 class CleanTags extends BasicEmitter implements RepairStep {
 
-	/** @var Connection */
+	/** @var IDBConnection */
 	protected $connection;
 
 	/**
-	 * @param Connection $connection
+	 * @param IDBConnection $connection
 	 */
-	public function __construct(Connection $connection) {
+	public function __construct(IDBConnection $connection) {
 		$this->connection = $connection;
 	}
 
@@ -108,7 +108,7 @@ class CleanTags extends BasicEmitter implements RepairStep {
 	 * 								the entry is deleted in the $deleteTable
 	 */
 	protected function deleteOrphanEntries($repairInfo, $deleteTable, $deleteId, $sourceTable, $sourceId, $sourceNullColumn) {
-		$qb = $this->connection->createQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 
 		$qb->select('d.`' . $deleteId . '`')
 			->from('`' . $deleteTable . '`', 'd')

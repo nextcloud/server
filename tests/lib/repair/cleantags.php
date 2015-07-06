@@ -18,7 +18,7 @@ class CleanTags extends \Test\TestCase {
 	/** @var \OC\RepairStep */
 	protected $repair;
 
-	/** @var \Doctrine\DBAL\Connection */
+	/** @var \OCP\IDBConnection */
 	protected $connection;
 
 	/** @var int */
@@ -39,7 +39,7 @@ class CleanTags extends \Test\TestCase {
 	}
 
 	protected function cleanUpTables() {
-		$qb = $this->connection->createQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('`*PREFIX*vcategory`')
 			->execute();
 
@@ -83,7 +83,7 @@ class CleanTags extends \Test\TestCase {
 	 * @param string $message
 	 */
 	protected function assertEntryCount($tableName, $expected, $message = '') {
-		$qb = $this->connection->createQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 		$result = $qb->select('COUNT(*)')
 			->from('`' . $tableName . '`')
 			->execute();
@@ -99,7 +99,7 @@ class CleanTags extends \Test\TestCase {
 	 * @return int
 	 */
 	protected function addTagCategory($category, $type) {
-		$qb = $this->connection->createQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('`*PREFIX*vcategory`')
 			->values([
 				'`uid`'			=> $qb->createNamedParameter('TestRepairCleanTags'),
@@ -118,7 +118,7 @@ class CleanTags extends \Test\TestCase {
 	 * @param string $type
 	 */
 	protected function addTagEntry($objectId, $category, $type) {
-		$qb = $this->connection->createQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('`*PREFIX*vcategory_to_object`')
 			->values([
 				'`objid`'		=> $qb->createNamedParameter($objectId, \PDO::PARAM_INT),
@@ -137,7 +137,7 @@ class CleanTags extends \Test\TestCase {
 			return $this->createdFile;
 		}
 
-		$qb = $this->connection->createQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 
 		// We create a new file entry and delete it after the test again
 		$fileName = $this->getUniqueID('TestRepairCleanTags', 12);
@@ -174,7 +174,7 @@ class CleanTags extends \Test\TestCase {
 		// FIXME INSTEAD HELP FIXING DOCTRINE
 		// FIXME https://github.com/owncloud/core/issues/13303
 		// FIXME ALSO FIX https://github.com/owncloud/core/commit/2dd85ec984c12d3be401518f22c90d2327bec07a
-		$qb = $this->connection->createQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 		$result = $qb->select("MAX($idName)")
 			->from($tableName)
 			->execute();

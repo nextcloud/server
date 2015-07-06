@@ -1286,7 +1286,7 @@ class Test_Share extends \Test\TestCase {
 		               ->getMock();
 
 		// Find the share ID in the db
-		$qb = $connection->createQueryBuilder();
+		$qb = $connection->getQueryBuilder();
 		$qb->select('`id`')
 		   ->from('`*PREFIX*share`')
 		   ->where('`item_type` = :type')
@@ -1307,7 +1307,7 @@ class Test_Share extends \Test\TestCase {
 		$this->assertTrue($res);
 
 		// Fetch the hash from the database
-		$qb = $connection->createQueryBuilder();
+		$qb = $connection->getQueryBuilder();
 		$qb->select('`share_with`')
 		   ->from('`*PREFIX*share`')
 		   ->where('`id` = :id')
@@ -1335,10 +1335,10 @@ class Test_Share extends \Test\TestCase {
 		$userSession->method('getUser')->willReturn($user);
 
 
-		$ex = $this->getMockBuilder('\Doctrine\DBAL\Query\Expression\ExpressionBuilder')
+		$ex = $this->getMockBuilder('\OC\DB\ExpressionBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
-		$qb = $this->getMockBuilder('\Doctrine\DBAL\Query\QueryBuilder')
+		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
 		$qb->method('update')->will($this->returnSelf());
@@ -1360,7 +1360,7 @@ class Test_Share extends \Test\TestCase {
 		$connection  = $this->getMockBuilder('\OC\DB\Connection')
 		                    ->disableOriginalConstructor()
 		                    ->getMock();
-		$connection->method('createQueryBuilder')->willReturn($qb);
+		$connection->method('getQueryBuilder')->willReturn($qb);
 
 		$config = $this->getMockBuilder('\OCP\IConfig')
 		               ->disableOriginalConstructor()
@@ -1390,10 +1390,10 @@ class Test_Share extends \Test\TestCase {
 		$userSession->method('getUser')->willReturn($user);
 
 
-		$ex = $this->getMockBuilder('\Doctrine\DBAL\Query\Expression\ExpressionBuilder')
+		$ex = $this->getMockBuilder('\OC\DB\ExpressionBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
-		$qb = $this->getMockBuilder('\Doctrine\DBAL\Query\QueryBuilder')
+		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
 		$qb->method('update')->will($this->returnSelf());
@@ -1415,7 +1415,7 @@ class Test_Share extends \Test\TestCase {
 		$connection  = $this->getMockBuilder('\OC\DB\Connection')
 		                    ->disableOriginalConstructor()
 		                    ->getMock();
-		$connection->method('createQueryBuilder')->willReturn($qb);
+		$connection->method('getQueryBuilder')->willReturn($qb);
 
 		$config = $this->getMockBuilder('\OCP\IConfig')
 		               ->disableOriginalConstructor()
@@ -1443,10 +1443,10 @@ class Test_Share extends \Test\TestCase {
 		$userSession->method('getUser')->willReturn($user);
 
 
-		$ex = $this->getMockBuilder('\Doctrine\DBAL\Query\Expression\ExpressionBuilder')
+		$ex = $this->getMockBuilder('\OC\DB\ExpressionBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
-		$qb = $this->getMockBuilder('\Doctrine\DBAL\Query\QueryBuilder')
+		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
 		$qb->method('update')->will($this->returnSelf());
@@ -1468,7 +1468,7 @@ class Test_Share extends \Test\TestCase {
 		$connection  = $this->getMockBuilder('\OC\DB\Connection')
 		                    ->disableOriginalConstructor()
 		                    ->getMock();
-		$connection->method('createQueryBuilder')->willReturn($qb);
+		$connection->method('getQueryBuilder')->willReturn($qb);
 
 		$config = $this->getMockBuilder('\OCP\IConfig')
 		               ->disableOriginalConstructor()
@@ -1496,10 +1496,10 @@ class Test_Share extends \Test\TestCase {
 		$userSession->method('getUser')->willReturn($user);
 
 
-		$ex = $this->getMockBuilder('\Doctrine\DBAL\Query\Expression\ExpressionBuilder')
+		$ex = $this->getMockBuilder('\OC\DB\ExpressionBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
-		$qb = $this->getMockBuilder('\Doctrine\DBAL\Query\QueryBuilder')
+		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
 		$qb->method('update')->will($this->returnSelf());
@@ -1521,7 +1521,7 @@ class Test_Share extends \Test\TestCase {
 		$connection  = $this->getMockBuilder('\OC\DB\Connection')
 		                    ->disableOriginalConstructor()
 		                    ->getMock();
-		$connection->method('createQueryBuilder')->willReturn($qb);
+		$connection->method('getQueryBuilder')->willReturn($qb);
 
 		$config = $this->getMockBuilder('\OCP\IConfig')
 		               ->disableOriginalConstructor()

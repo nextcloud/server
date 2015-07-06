@@ -38,7 +38,7 @@ class CleanUp extends Command {
 	/** @var IRootFolder */
 	protected $rootFolder;
 
-	/** @var \OC\DB\Connection */
+	/** @var \OCP\IDBConnection */
 	protected $dbConnection;
 
 	/**
@@ -107,7 +107,7 @@ class CleanUp extends Command {
 		\OC_Util::setupFS($uid);
 		if ($this->rootFolder->nodeExists('/' . $uid . '/files_trashbin')) {
 			$this->rootFolder->get('/' . $uid . '/files_trashbin')->delete();
-			$query = $this->dbConnection->createQueryBuilder();
+			$query = $this->dbConnection->getQueryBuilder();
 			$query->delete('`*PREFIX*files_trash`')
 				->where($query->expr()->eq('`user`', ':uid'))
 				->setParameter('uid', $uid);
