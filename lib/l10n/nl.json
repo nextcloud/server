@@ -14,6 +14,7 @@
     "Library %s with a version lower than %s is required - available version %s." : "Library %s met een versienummer lager dan %s is vereist - beschikbare versie %s.",
     "Following platforms are supported: %s" : "De volgende platformen worden ondersteund: %s",
     "ownCloud %s or higher is required." : "ownCloud %s of hoger vereist.",
+    "ownCloud %s or lower is required." : "ownCloud %s of lager vereist.",
     "Help" : "Help",
     "Personal" : "Persoonlijk",
     "Users" : "Gebruikers",
