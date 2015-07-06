@@ -342,7 +342,13 @@ class User {
 		}
 
 		$avatar = $this->avatarManager->getAvatar($this->uid);
-		$avatar->set($this->image);
+		try {
+			$avatar->set($this->image);
+		} catch (\Exception $e) {
+			\OC::$server->getLogger()->notice(
+				'Could not set avatar for ' . $this->dn	. ', because: ' . $e->getMessage(),
+				['app' => 'user_ldap']);
+		}
 	}
 
 }
