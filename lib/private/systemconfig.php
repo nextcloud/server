@@ -29,6 +29,14 @@ namespace OC;
  */
 class SystemConfig {
 	/**
+	 * Lists all available config keys
+	 * @return array an array of key names
+	 */
+	public function getKeys() {
+		return \OC_Config::getKeys();
+	}
+
+	/**
 	 * Sets a new system wide value
 	 *
 	 * @param string $key the key of the value, under which will be saved

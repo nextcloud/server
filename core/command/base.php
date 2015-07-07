@@ -43,8 +43,9 @@ class Base extends Command {
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 * @param array $items
+	 * @param string $prefix
 	 */
-	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, $items) {
+	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, $items, $prefix = '  - ') {
 		switch ($input->getOption('output')) {
 			case 'json':
 				$output->writeln(json_encode($items));
@@ -54,28 +55,57 @@ class Base extends Command {
 				break;
 			default:
 				foreach ($items as $key => $item) {
+					if (is_array($item)) {
+						$output->writeln($prefix . $key . ':');
+						$this->writeArrayInOutputFormat($input, $output, $item, '  ' . $prefix);
+						continue;
+					}
 					if (!is_int($key)) {
 						$value = $this->valueToString($item);
 						if (!is_null($value)) {
-							$output->writeln(' - ' . $key . ': ' . $value);
+							$output->writeln($prefix . $key . ': ' . $value);
 						} else {
-							$output->writeln(' - ' . $key);
+							$output->writeln($prefix . $key);
 						}
 					} else {
-						$output->writeln(' - ' . $this->valueToString($item));
+						$output->writeln($prefix . $this->valueToString($item));
 					}
 				}
 				break;
 		}
 	}
 
-	protected function valueToString($value) {
+	/**
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @param mixed $item
+	 */
+	protected function writeMixedInOutputFormat(InputInterface $input, OutputInterface $output, $item) {
+		if (is_array($item)) {
+			$this->writeArrayInOutputFormat($input, $output, $item, '');
+			return;
+		}
+
+		switch ($input->getOption('output')) {
+			case 'json':
+				$output->writeln(json_encode($item));
+				break;
+			case 'json_pretty':
+				$output->writeln(json_encode($item, JSON_PRETTY_PRINT));
+				break;
+			default:
+				$output->writeln($this->valueToString($item, false));
+				break;
+		}
+	}
+
+	protected function valueToString($value, $returnNull = true) {
 		if ($value === false) {
 			return 'false';
 		} else if ($value === true) {
 			return 'true';
 		} else if ($value === null) {
-			null;
+			return ($returnNull) ? null : 'null';
 		} else {
 			return $value;
 		}
