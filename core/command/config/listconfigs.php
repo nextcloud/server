@@ -69,17 +69,17 @@ class ListConfigs extends Base {
 				'all'
 			)
 			->addOption(
-				'public',
+				'private',
 				null,
 				InputOption::VALUE_NONE,
-				'Use this option when you want to exclude sensitive configs like passwords, salts, ...'
+				'Use this option when you want to include sensitive configs like passwords, salts, ...'
 			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$app = $input->getArgument('app');
-		$noSensitiveValues = $input->getOption('public');
+		$noSensitiveValues = !$input->getOption('private');
 
 		if ($noSensitiveValues && !$input->hasParameterOption('--output')) {
 			// If you post this publicly we prefer the json format

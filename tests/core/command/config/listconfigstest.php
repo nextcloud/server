@@ -78,7 +78,7 @@ class ListConfigsTest extends TestCase {
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
-				true,
+				false,
 				json_encode([
 					'system' => [
 						'overwrite.cli.url' => 'http://localhost',
@@ -113,7 +113,7 @@ class ListConfigsTest extends TestCase {
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
-				false,
+				true,
 				json_encode([
 					'system' => [
 						'secret' => 'my secret',
@@ -149,7 +149,7 @@ class ListConfigsTest extends TestCase {
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
-				true,
+				false,
 				json_encode([
 					'system' => [
 						'overwrite.cli.url' => 'http://localhost',
@@ -176,7 +176,7 @@ class ListConfigsTest extends TestCase {
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
-				false,
+				true,
 				json_encode([
 					'system' => [
 						'secret' => 'my secret',
@@ -204,7 +204,7 @@ class ListConfigsTest extends TestCase {
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
-				true,
+				false,
 				json_encode([
 					'apps' => [
 						'files' => [
@@ -233,7 +233,7 @@ class ListConfigsTest extends TestCase {
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
-				false,
+				true,
 				json_encode([
 					'apps' => [
 						'files' => [
@@ -252,10 +252,10 @@ class ListConfigsTest extends TestCase {
 	 * @param array $systemConfigs
 	 * @param array $systemConfigMap
 	 * @param array $appConfig
-	 * @param bool $public
+	 * @param bool $private
 	 * @param string $expected
 	 */
-	public function testList($app, $systemConfigs, $systemConfigMap, $appConfig, $public, $expected) {
+	public function testList($app, $systemConfigs, $systemConfigMap, $appConfig, $private, $expected) {
 		$this->systemConfig->expects($this->any())
 			->method('getKeys')
 			->willReturn($systemConfigs);
@@ -279,7 +279,7 @@ class ListConfigsTest extends TestCase {
 			->method('getOption')
 			->willReturnMap([
 				['output', 'json'],
-				['public', $public],
+				['private', $private],
 			]);
 
 		global $output;
