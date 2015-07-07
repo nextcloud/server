@@ -87,9 +87,10 @@ class CheckCode extends Command {
 			$output->writeln('<info>App is compliant - awesome job!</info>');
 		} elseif ($input->getOption('deprecated')) {
 			$output->writeln('<comment>App uses deprecated functionality</comment>');
+			return 102;
 		} else {
 			$output->writeln('<error>App is not compliant</error>');
-			return 1;
+			return 101;
 		}
 	}
 }
