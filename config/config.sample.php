@@ -81,7 +81,7 @@ $CONFIG = array(
 /**
  * Where user files are stored; this defaults to ``data/`` in the ownCloud
  * directory. The SQLite database is also stored here, when you use SQLite.
- * (SQLite is available only in ownCloud Community Edition)
+ * (SQLite is not available in ownCloud Enterprise Edition)
  */
 'datadirectory' => '/var/www/owncloud/data',
 
@@ -96,7 +96,7 @@ $CONFIG = array(
  * ``supportedDatabases``
  *
  * Available:
- * 	- sqlite (SQLite3 - Community Edition Only)
+ * 	- sqlite (SQLite3 - Not in Enterprise Edition)
  * 	- mysql (MySQL/MariaDB)
  * 	- pgsql (PostgreSQL)
  * 	- oci (Oracle - Enterprise Edition Only)
@@ -793,24 +793,34 @@ $CONFIG = array(
  * Memory caching backend configuration
  *
  * Available cache backends:
- * * \OC\Memcache\APC        Alternative PHP Cache backend
- * * \OC\Memcache\APCu       APC user backend
- * * \OC\Memcache\ArrayCache In-memory array-based backend (not recommended)
- * * \OC\Memcache\Memcached  Memcached backend
- * * \OC\Memcache\Redis      Redis backend
- * * \OC\Memcache\XCache     XCache backend
+ *
+ * * ``\OC\Memcache\APC``        Alternative PHP Cache backend
+ * * ``\OC\Memcache\APCu``       APC user backend
+ * * ``\OC\Memcache\ArrayCache`` In-memory array-based backend (not recommended)
+ * * ``\OC\Memcache\Memcached``  Memcached backend
+ * * ``\OC\Memcache\Redis``      Redis backend
+ * * ``\OC\Memcache\XCache``     XCache backend
+ *
+ * Advice on choosing between the various backends:
+ *
+ * * APCu should be easiest to install. Almost all distributions have packages.
+ *   Use this for single user environment for all caches.
+ * * Use Redis or Memcached for distributed environments.
+ *   For the local cache (you can configure two) take APCu.
  */
 
 /**
  * Memory caching backend for locally stored data
- * Used for host-specific data, e.g. file paths
+ *
+ * * Used for host-specific data, e.g. file paths
  */
 'memcache.local' => '\OC\Memcache\APCu',
 
 /**
  * Memory caching backend for distributed data
- * Used for installation-specific data, e.g. database caching
- * If unset, defaults to the value of memcache.local
+ *
+ * * Used for installation-specific data, e.g. database caching
+ * * If unset, defaults to the value of memcache.local
  */
 'memcache.distributed' => '\OC\Memcache\Memcached',
 
@@ -893,7 +903,7 @@ $CONFIG = array(
  * Database types that are supported for installation.
  *
  * Available:
- * 	- sqlite (SQLite3 - Community Edition Only)
+ * 	- sqlite (SQLite3 - Not in Enterprise Edition)
  * 	- mysql (MySQL)
  * 	- pgsql (PostgreSQL)
  * 	- oci (Oracle - Enterprise Edition Only)
@@ -969,7 +979,7 @@ $CONFIG = array(
 
 /**
  * All css and js files will be served by the web server statically in one js
- * file and one css file if this is set to ``true``.
+ * file and one css file if this is set to ``true``. This improves performance.
  */
 'asset-pipeline.enabled' => false,
 
@@ -1015,9 +1025,8 @@ $CONFIG = array(
  * max file size for animating gifs on public-sharing-site.
  * If the gif is bigger, it'll show a static preview
  *
- * Value represents the maximum filesize in megabytes
- * Default is 10
- * Set to -1 for no limit
+ * Value represents the maximum filesize in megabytes. Default is ``10``. Set to
+ * ``-1`` for no limit.
  */
 'max_filesize_animated_gifs_public_sharing' => 10,
 
@@ -1038,6 +1047,7 @@ $CONFIG = array(
 
 /**
  * Memory caching backend for file locking
+ *
  * Because most memcache backends can clean values without warning using redis
  * is highly recommended to *avoid data loss*.
  */
