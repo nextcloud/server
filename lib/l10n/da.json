@@ -14,6 +14,7 @@
     "Library %s with a version lower than %s is required - available version %s." : "Der kræves en version af biblioteket %s, der er lavere end %s - tilgængelig version er %s.",
     "Following platforms are supported: %s" : "Følgende platforme understøttes: %s",
     "ownCloud %s or higher is required." : "Der kræves ownCloud %s eller højere.",
+    "ownCloud %s or lower is required." : "ownCloud %s eller lavere er påkrævet.",
     "Help" : "Hjælp",
     "Personal" : "Personligt",
     "Users" : "Brugere",

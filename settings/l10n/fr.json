@@ -184,6 +184,8 @@
     "Improving the config.php" : "Amélioration du config.php ",
     "Theming" : "Personnalisation de l'apparence",
     "Hardening and security guidance" : "Guide pour le renforcement et la sécurité",
+    "Transactional File Locking is enabled." : "Le verrouillage des fichiers transactionnels est activé.",
+    "Transactional File Locking is disabled." : "Le verrouillage des fichiers transactionnels est désactivé.",
     "Version" : "Version",
     "Developer documentation" : "Documentation pour développeurs",
     "Experimental applications ahead" : "Attention! Applications expérimentales",

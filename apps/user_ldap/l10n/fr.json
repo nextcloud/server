@@ -76,6 +76,7 @@
     "Verify settings" : "Tester les paramètres",
     "1. Server" : "1. Serveur",
     "%s. Server:" : "%s. Serveur :",
+    "Add a new and blank configuration" : "Ajouter une nouvelle configuration vierge",
     "Copy current configuration into new directory binding" : "Copier la configuration actuelle vers une nouvelle",
     "Delete the current configuration" : "Supprimer la configuration actuelle",
     "Host" : "Hôte",
