@@ -26,6 +26,7 @@ namespace OCA\Files_Trashbin;
 
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCP\IUserManager;
 
 class Storage extends Wrapper {
 
@@ -41,8 +42,12 @@ class Storage extends Wrapper {
 	 */
 	private static $disableTrash = false;
 
-	function __construct($parameters) {
+	/** @var  IUserManager */
+	private $userManager;
+
+	function __construct($parameters, IUserManager $userManager = null) {
 		$this->mountPoint = $parameters['mountPoint'];
+		$this->userManager = $userManager;
 		parent::__construct($parameters);
 	}
 
@@ -101,6 +106,27 @@ class Storage extends Wrapper {
 	}
 
 	/**
+	 * check if it is a file located in data/user/files only files in the
+	 * 'files' directory should be moved to the trash
+	 *
+	 * @param $path
+	 * @return bool
+	 */
+	protected function shouldMoveToTrash($path){
+		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
+		$parts = explode('/', $normalized);
+		if (count($parts) < 4) {
+			return false;
+		}
+
+		if ($this->userManager->userExists($parts[1]) && $parts[2] == 'files') {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Run the delete operation with the given method
 	 *
 	 * @param string $path path of file or folder to delete
@@ -112,6 +138,7 @@ class Storage extends Wrapper {
 		if (self::$disableTrash
 			|| !\OC_App::isEnabled('files_trashbin')
 			|| (pathinfo($path, PATHINFO_EXTENSION) === 'part')
+			|| $this->shouldMoveToTrash($path) === false
 		) {
 			return call_user_func_array([$this->storage, $method], [$path]);
 		}
@@ -144,7 +171,10 @@ class Storage extends Wrapper {
 	 */
 	public static function setupStorage() {
 		\OC\Files\Filesystem::addStorageWrapper('oc_trashbin', function ($mountPoint, $storage) {
-			return new \OCA\Files_Trashbin\Storage(array('storage' => $storage, 'mountPoint' => $mountPoint));
+			return new \OCA\Files_Trashbin\Storage(
+				array('storage' => $storage, 'mountPoint' => $mountPoint),
+				\OC::$server->getUserManager()
+			);
 		}, 1);
 	}
 
