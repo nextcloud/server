@@ -88,7 +88,9 @@ class ListConfigs extends Base {
 
 		switch ($app) {
 			case 'system':
-				$configs = $this->getSystemConfigs($noSensitiveValues);
+				$configs = [
+					'system' => $this->getSystemConfigs($noSensitiveValues),
+				];
 			break;
 
 			case 'all':
@@ -103,7 +105,11 @@ class ListConfigs extends Base {
 			break;
 
 			default:
-				$configs = $this->appConfig->getValues($app, false);
+				$configs = [
+					'apps' => [
+						$app => $this->appConfig->getValues($app, false),
+					],
+				];
 		}
 
 		$this->writeArrayInOutputFormat($input, $output, $configs);

@@ -151,7 +151,9 @@ class ListConfigsTest extends TestCase {
 				],
 				true,
 				json_encode([
-					'overwrite.cli.url' => 'http://localhost',
+					'system' => [
+						'overwrite.cli.url' => 'http://localhost',
+					],
 				]),
 			],
 			[
@@ -176,8 +178,10 @@ class ListConfigsTest extends TestCase {
 				],
 				false,
 				json_encode([
-					'secret' => 'my secret',
-					'overwrite.cli.url' => 'http://localhost',
+					'system' => [
+						'secret' => 'my secret',
+						'overwrite.cli.url' => 'http://localhost',
+					],
 				]),
 			],
 			[
@@ -202,7 +206,11 @@ class ListConfigsTest extends TestCase {
 				],
 				true,
 				json_encode([
-					'enabled' => 'yes',
+					'apps' => [
+						'files' => [
+							'enabled' => 'yes',
+						],
+					],
 				]),
 			],
 			[
@@ -227,7 +235,11 @@ class ListConfigsTest extends TestCase {
 				],
 				false,
 				json_encode([
-					'enabled' => 'yes',
+					'apps' => [
+						'files' => [
+							'enabled' => 'yes',
+						],
+					],
 				]),
 			],
 		];
