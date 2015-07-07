@@ -19,35 +19,22 @@
  *
  */
 
-namespace OC\DB;
+namespace OCP\DB\QueryBuilder;
 
-use OCP\DB\ICompositeExpression;
-
-class CompositeExpression implements ICompositeExpression, \Countable {
-	/** @var \Doctrine\DBAL\Query\Expression\CompositeExpression */
-	protected $compositeExpression;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param \Doctrine\DBAL\Query\Expression\CompositeExpression $compositeExpression
-	 */
-	public function __construct(\Doctrine\DBAL\Query\Expression\CompositeExpression $compositeExpression) {
-		$this->compositeExpression = $compositeExpression;
-	}
-
+/**
+ * This class provides a wrapper around Doctrine's CompositeExpression
+ * @since 8.2.0
+ */
+interface ICompositeExpression {
 	/**
 	 * Adds multiple parts to composite expression.
 	 *
 	 * @param array $parts
 	 *
 	 * @return \OCP\DB\ICompositeExpression
+	 * @since 8.2.0
 	 */
-	public function addMultiple(array $parts = array()) {
-		$this->compositeExpression->addMultiple($parts);
-
-		return $this;
-	}
+	public function addMultiple(array $parts = array());
 
 	/**
 	 * Adds an expression to composite expression.
@@ -55,38 +42,23 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 * @param mixed $part
 	 *
 	 * @return \OCP\DB\ICompositeExpression
+	 * @since 8.2.0
 	 */
-	public function add($part) {
-		$this->compositeExpression->add($part);
-
-		return $this;
-	}
+	public function add($part);
 
 	/**
 	 * Retrieves the amount of expressions on composite expression.
 	 *
 	 * @return integer
+	 * @since 8.2.0
 	 */
-	public function count() {
-		return $this->compositeExpression->count();
-	}
+	public function count();
 
 	/**
 	 * Returns the type of this composite expression (AND/OR).
 	 *
 	 * @return string
+	 * @since 8.2.0
 	 */
-	public function getType() {
-		return $this->compositeExpression->getType();
-	}
-
-	/**
-	 * Retrieves the string representation of this composite expression.
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return (string) $this->compositeExpression;
-	}
+	public function getType();
 }

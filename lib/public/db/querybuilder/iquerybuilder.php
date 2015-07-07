@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCP\DB;
+namespace OCP\DB\QueryBuilder;
 
 /**
  * This class provides a wrapper around Doctrine's QueryBuilder
@@ -40,7 +40,7 @@ interface IQueryBuilder {
 	 * For more complex expression construction, consider storing the expression
 	 * builder object in a local variable.
 	 *
-	 * @return \OCP\DB\IExpressionBuilder
+	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 * @since 8.2.0
 	 */
 	public function expr();
@@ -110,7 +110,7 @@ interface IQueryBuilder {
 	 * @param mixed $value The parameter value.
 	 * @param string|null $type One of the PDO::PARAM_* constants.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function setParameter($key, $value, $type = null);
@@ -132,7 +132,7 @@ interface IQueryBuilder {
 	 * @param array $params The query parameters to set.
 	 * @param array $types The query parameters types to set.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function setParameters(array $params, array $types = array());
@@ -178,7 +178,7 @@ interface IQueryBuilder {
 	 *
 	 * @param integer $firstResult The first result to return.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function setFirstResult($firstResult);
@@ -197,7 +197,7 @@ interface IQueryBuilder {
 	 *
 	 * @param integer $maxResults The maximum number of results to retrieve.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function setMaxResults($maxResults);
@@ -212,21 +212,6 @@ interface IQueryBuilder {
 	public function getMaxResults();
 
 	/**
-	 * Either appends to or replaces a single, generic query part.
-	 *
-	 * The available parts are: 'select', 'from', 'set', 'where',
-	 * 'groupBy', 'having' and 'orderBy'.
-	 *
-	 * @param string $sqlPartName
-	 * @param string $sqlPart
-	 * @param boolean $append
-	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
-	 * @since 8.2.0
-	 */
-	public function add($sqlPartName, $sqlPart, $append = false);
-
-	/**
 	 * Specifies an item that is to be returned in the query result.
 	 * Replaces any previously specified selections, if any.
 	 *
@@ -239,7 +224,7 @@ interface IQueryBuilder {
 	 *
 	 * @param mixed $select The selection expressions.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function select($select = null);
@@ -257,7 +242,7 @@ interface IQueryBuilder {
 	 *
 	 * @param mixed $select The selection expression.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function addSelect($select = null);
@@ -276,7 +261,7 @@ interface IQueryBuilder {
 	 * @param string $delete The table whose rows are subject to the deletion.
 	 * @param string $alias The table alias used in the constructed query.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function delete($delete = null, $alias = null);
@@ -295,7 +280,7 @@ interface IQueryBuilder {
 	 * @param string $update The table whose rows are subject to the update.
 	 * @param string $alias The table alias used in the constructed query.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function update($update = null, $alias = null);
@@ -317,7 +302,7 @@ interface IQueryBuilder {
 	 *
 	 * @param string $insert The table into which the rows should be inserted.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function insert($insert = null);
@@ -335,7 +320,7 @@ interface IQueryBuilder {
 	 * @param string $from The table.
 	 * @param string|null $alias The alias of the table.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function from($from, $alias = null);
@@ -355,7 +340,7 @@ interface IQueryBuilder {
 	 * @param string $alias The alias of the join table.
 	 * @param string $condition The condition for the join.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function join($fromAlias, $join, $alias, $condition = null);
@@ -375,7 +360,7 @@ interface IQueryBuilder {
 	 * @param string $alias The alias of the join table.
 	 * @param string $condition The condition for the join.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function innerJoin($fromAlias, $join, $alias, $condition = null);
@@ -395,7 +380,7 @@ interface IQueryBuilder {
 	 * @param string $alias The alias of the join table.
 	 * @param string $condition The condition for the join.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function leftJoin($fromAlias, $join, $alias, $condition = null);
@@ -415,7 +400,7 @@ interface IQueryBuilder {
 	 * @param string $alias The alias of the join table.
 	 * @param string $condition The condition for the join.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function rightJoin($fromAlias, $join, $alias, $condition = null);
@@ -433,7 +418,7 @@ interface IQueryBuilder {
 	 * @param string $key The column to set.
 	 * @param string $value The value, expression, placeholder, etc.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function set($key, $value);
@@ -462,7 +447,7 @@ interface IQueryBuilder {
 	 *
 	 * @param mixed $predicates The restriction predicates.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function where($predicates);
@@ -481,7 +466,7 @@ interface IQueryBuilder {
 	 *
 	 * @param mixed $where The query restrictions.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 *
 	 * @see where()
 	 * @since 8.2.0
@@ -502,7 +487,7 @@ interface IQueryBuilder {
 	 *
 	 * @param mixed $where The WHERE statement.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 *
 	 * @see where()
 	 * @since 8.2.0
@@ -522,7 +507,7 @@ interface IQueryBuilder {
 	 *
 	 * @param mixed $groupBy The grouping expression.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function groupBy($groupBy);
@@ -540,7 +525,7 @@ interface IQueryBuilder {
 	 *
 	 * @param mixed $groupBy The grouping expression.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function addGroupBy($groupBy);
@@ -562,7 +547,7 @@ interface IQueryBuilder {
 	 * @param string $column The column into which the value should be inserted.
 	 * @param string $value The value that should be inserted into the column.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function setValue($column, $value);
@@ -584,7 +569,7 @@ interface IQueryBuilder {
 	 *
 	 * @param array $values The values to specify for the insert query indexed by column names.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function values(array $values);
@@ -595,7 +580,7 @@ interface IQueryBuilder {
 	 *
 	 * @param mixed $having The restriction over the groups.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function having($having);
@@ -606,7 +591,7 @@ interface IQueryBuilder {
 	 *
 	 * @param mixed $having The restriction to append.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function andHaving($having);
@@ -617,7 +602,7 @@ interface IQueryBuilder {
 	 *
 	 * @param mixed $having The restriction to add.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function orHaving($having);
@@ -629,7 +614,7 @@ interface IQueryBuilder {
 	 * @param string $sort The ordering expression.
 	 * @param string $order The ordering direction.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function orderBy($sort, $order = null);
@@ -640,7 +625,7 @@ interface IQueryBuilder {
 	 * @param string $sort The ordering expression.
 	 * @param string $order The ordering direction.
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function addOrderBy($sort, $order = null);
@@ -668,7 +653,7 @@ interface IQueryBuilder {
 	 *
 	 * @param array|null $queryPartNames
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function resetQueryParts($queryPartNames = null);
@@ -678,7 +663,7 @@ interface IQueryBuilder {
 	 *
 	 * @param string $queryPartName
 	 *
-	 * @return \OCP\DB\IQueryBuilder This QueryBuilder instance.
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
 	public function resetQueryPart($queryPartName);
@@ -710,7 +695,7 @@ interface IQueryBuilder {
 	 * @param mixed $type
 	 * @param string $placeHolder The name to bind with. The string must start with a colon ':'.
 	 *
-	 * @return string the placeholder name used.
+	 * @return IParameter
 	 * @since 8.2.0
 	 */
 	public function createNamedParameter($value, $type = \PDO::PARAM_STR, $placeHolder = null);
@@ -735,8 +720,53 @@ interface IQueryBuilder {
 	 * @param mixed $value
 	 * @param integer $type
 	 *
-	 * @return string
+	 * @return IParameter
 	 * @since 8.2.0
 	 */
 	public function createPositionalParameter($value, $type = \PDO::PARAM_STR);
+
+	/**
+	 * Creates a new parameter
+	 *
+	 * Example:
+	 * <code>
+	 *  $qb = $conn->getQueryBuilder();
+	 *  $qb->select('u.*')
+	 *     ->from('users', 'u')
+	 *     ->where('u.username = ' . $qb->createParameter('name'))
+	 *     ->setParameter('name', 'Bar', PDO::PARAM_STR))
+	 * </code>
+	 *
+	 * @param string $name
+	 *
+	 * @return IParameter
+	 * @since 8.2.0
+	 */
+	public function createParameter($name);
+
+	/**
+	 * Creates a new function
+	 *
+	 * Attention: Column names inside the call have to be quoted before hand
+	 *
+	 * Example:
+	 * <code>
+	 *  $qb = $conn->getQueryBuilder();
+	 *  $qb->select($qb->createFunction('COUNT(*)'))
+	 *     ->from('users', 'u')
+	 *  echo $qb->getSQL(); // SELECT COUNT(*) FROM `users` u
+	 * </code>
+	 * <code>
+	 *  $qb = $conn->getQueryBuilder();
+	 *  $qb->select($qb->createFunction('COUNT(`column`)'))
+	 *     ->from('users', 'u')
+	 *  echo $qb->getSQL(); // SELECT COUNT(`column`) FROM `users` u
+	 * </code>
+	 *
+	 * @param string $call
+	 *
+	 * @return IQueryFunction
+	 * @since 8.2.0
+	 */
+	public function createFunction($call);
 }

@@ -29,6 +29,8 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\Common\EventManager;
+use OC\DB\QueryBuilder\ExpressionBuilder;
+use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\IDBConnection;
 
 class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
@@ -54,7 +56,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	/**
 	 * Gets the ExpressionBuilder for the connection.
 	 *
-	 * @return \OCP\DB\IExpressionBuilder
+	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 */
 	public function getExpressionBuilder() {
 		return new ExpressionBuilder($this);
@@ -63,7 +65,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	/**
 	 * Gets the QueryBuilder for the connection.
 	 *
-	 * @return \OCP\DB\IQueryBuilder
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder
 	 */
 	public function getQueryBuilder() {
 		return new QueryBuilder($this);

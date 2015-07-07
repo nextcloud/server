@@ -48,7 +48,7 @@ class Db implements IDb {
 	/**
 	 * Gets the ExpressionBuilder for the connection.
 	 *
-	 * @return \OCP\DB\IExpressionBuilder
+	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 */
 	public function getExpressionBuilder() {
 		return $this->connection->getExpressionBuilder();
@@ -57,7 +57,7 @@ class Db implements IDb {
 	/**
 	 * Gets the ExpressionBuilder for the connection.
 	 *
-	 * @return \OCP\DB\IQueryBuilder
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder
 	 */
 	public function getQueryBuilder() {
 		return $this->connection->getQueryBuilder();

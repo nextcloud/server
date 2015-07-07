@@ -1335,10 +1335,10 @@ class Test_Share extends \Test\TestCase {
 		$userSession->method('getUser')->willReturn($user);
 
 
-		$ex = $this->getMockBuilder('\OC\DB\ExpressionBuilder')
+		$ex = $this->getMockBuilder('\OC\DB\QueryBuilder\ExpressionBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
-		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder')
+		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder\QueryBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
 		$qb->method('update')->will($this->returnSelf());
@@ -1390,10 +1390,10 @@ class Test_Share extends \Test\TestCase {
 		$userSession->method('getUser')->willReturn($user);
 
 
-		$ex = $this->getMockBuilder('\OC\DB\ExpressionBuilder')
+		$ex = $this->getMockBuilder('\OC\DB\QueryBuilder\ExpressionBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
-		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder')
+		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder\QueryBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
 		$qb->method('update')->will($this->returnSelf());
@@ -1443,10 +1443,10 @@ class Test_Share extends \Test\TestCase {
 		$userSession->method('getUser')->willReturn($user);
 
 
-		$ex = $this->getMockBuilder('\OC\DB\ExpressionBuilder')
+		$ex = $this->getMockBuilder('\OC\DB\QueryBuilder\ExpressionBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
-		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder')
+		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder\QueryBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
 		$qb->method('update')->will($this->returnSelf());
@@ -1496,10 +1496,10 @@ class Test_Share extends \Test\TestCase {
 		$userSession->method('getUser')->willReturn($user);
 
 
-		$ex = $this->getMockBuilder('\OC\DB\ExpressionBuilder')
+		$ex = $this->getMockBuilder('\OC\DB\QueryBuilder\ExpressionBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
-		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder')
+		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder\QueryBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
 		$qb->method('update')->will($this->returnSelf());

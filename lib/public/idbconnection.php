@@ -43,7 +43,7 @@ interface IDBConnection {
 	/**
 	 * Gets the ExpressionBuilder for the connection.
 	 *
-	 * @return \OCP\DB\IExpressionBuilder
+	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 * @since 8.2.0
 	 */
 	public function getExpressionBuilder();
@@ -51,7 +51,7 @@ interface IDBConnection {
 	/**
 	 * Gets the QueryBuilder for the connection.
 	 *
-	 * @return \OCP\DB\IQueryBuilder
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder
 	 * @since 8.2.0
 	 */
 	public function getQueryBuilder();

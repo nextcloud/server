@@ -19,13 +19,29 @@
  *
  */
 
-namespace OCP\DB;
+namespace OC\DB\QueryBuilder;
 
-/**
- * This class provides a wrapper around Doctrine's ExpressionBuilder
- * @since 8.2.0
- */
-interface IExpressionBuilder {
+use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
+use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\IDBConnection;
+
+class ExpressionBuilder implements IExpressionBuilder {
+	/** @var \Doctrine\DBAL\Query\Expression\ExpressionBuilder */
+	private $expressionBuilder;
+
+	/** @var QuoteHelper */
+	private $helper;
+
+	/**
+	 * Initializes a new <tt>ExpressionBuilder</tt>.
+	 *
+	 * @param \OCP\IDBConnection $connection
+	 */
+	public function __construct(IDBConnection $connection) {
+		$this->helper = new QuoteHelper();
+		$this->expressionBuilder = new DoctrineExpressionBuilder($connection);
+	}
+
 	/**
 	 * Creates a conjunction of the given boolean expressions.
 	 *
@@ -38,10 +54,13 @@ interface IExpressionBuilder {
 	 * @param mixed $x Optional clause. Defaults = null, but requires
 	 *                 at least one defined when converting to string.
 	 *
-	 * @return \OCP\DB\ICompositeExpression
-	 * @since 8.2.0
+	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
-	public function andX($x = null);
+	public function andX($x = null) {
+		$arguments = func_get_args();
+		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'andX'], $arguments);
+		return new CompositeExpression($compositeExpression);
+	}
 
 	/**
 	 * Creates a disjunction of the given boolean expressions.
@@ -55,10 +74,13 @@ interface IExpressionBuilder {
 	 * @param mixed $x Optional clause. Defaults = null, but requires
 	 *                 at least one defined when converting to string.
 	 *
-	 * @return \OCP\DB\ICompositeExpression
-	 * @since 8.2.0
+	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
-	public function orX($x = null);
+	public function orX($x = null) {
+		$arguments = func_get_args();
+		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'orX'], $arguments);
+		return new CompositeExpression($compositeExpression);
+	}
 
 	/**
 	 * Creates a comparison expression.
@@ -68,9 +90,12 @@ interface IExpressionBuilder {
 	 * @param mixed $y The right expression.
 	 *
 	 * @return string
-	 * @since 8.2.0
 	 */
-	public function comparison($x, $operator, $y);
+	public function comparison($x, $operator, $y) {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return $this->expressionBuilder->comparison($x, $operator, $y);
+	}
 
 	/**
 	 * Creates an equality comparison expression with the given arguments.
@@ -86,9 +111,12 @@ interface IExpressionBuilder {
 	 * @param mixed $y The right expression.
 	 *
 	 * @return string
-	 * @since 8.2.0
 	 */
-	public function eq($x, $y);
+	public function eq($x, $y) {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return $this->expressionBuilder->eq($x, $y);
+	}
 
 	/**
 	 * Creates a non equality comparison expression with the given arguments.
@@ -103,9 +131,12 @@ interface IExpressionBuilder {
 	 * @param mixed $y The right expression.
 	 *
 	 * @return string
-	 * @since 8.2.0
 	 */
-	public function neq($x, $y);
+	public function neq($x, $y) {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return $this->expressionBuilder->neq($x, $y);
+	}
 
 	/**
 	 * Creates a lower-than comparison expression with the given arguments.
@@ -120,9 +151,12 @@ interface IExpressionBuilder {
 	 * @param mixed $y The right expression.
 	 *
 	 * @return string
-	 * @since 8.2.0
 	 */
-	public function lt($x, $y);
+	public function lt($x, $y) {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return $this->expressionBuilder->lt($x, $y);
+	}
 
 	/**
 	 * Creates a lower-than-equal comparison expression with the given arguments.
@@ -137,9 +171,12 @@ interface IExpressionBuilder {
 	 * @param mixed $y The right expression.
 	 *
 	 * @return string
-	 * @since 8.2.0
 	 */
-	public function lte($x, $y);
+	public function lte($x, $y) {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return $this->expressionBuilder->lte($x, $y);
+	}
 
 	/**
 	 * Creates a greater-than comparison expression with the given arguments.
@@ -154,9 +191,12 @@ interface IExpressionBuilder {
 	 * @param mixed $y The right expression.
 	 *
 	 * @return string
-	 * @since 8.2.0
 	 */
-	public function gt($x, $y);
+	public function gt($x, $y) {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return $this->expressionBuilder->gt($x, $y);
+	}
 
 	/**
 	 * Creates a greater-than-equal comparison expression with the given arguments.
@@ -171,9 +211,12 @@ interface IExpressionBuilder {
 	 * @param mixed $y The right expression.
 	 *
 	 * @return string
-	 * @since 8.2.0
 	 */
-	public function gte($x, $y);
+	public function gte($x, $y) {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return $this->expressionBuilder->gte($x, $y);
+	}
 
 	/**
 	 * Creates an IS NULL expression with the given arguments.
@@ -181,9 +224,11 @@ interface IExpressionBuilder {
 	 * @param string $x The field in string format to be restricted by IS NULL.
 	 *
 	 * @return string
-	 * @since 8.2.0
 	 */
-	public function isNull($x);
+	public function isNull($x) {
+		$x = $this->helper->quoteColumnName($x);
+		return $this->expressionBuilder->isNull($x);
+	}
 
 	/**
 	 * Creates an IS NOT NULL expression with the given arguments.
@@ -191,9 +236,11 @@ interface IExpressionBuilder {
 	 * @param string $x The field in string format to be restricted by IS NOT NULL.
 	 *
 	 * @return string
-	 * @since 8.2.0
 	 */
-	public function isNotNull($x);
+	public function isNotNull($x) {
+		$x = $this->helper->quoteColumnName($x);
+		return $this->expressionBuilder->isNotNull($x);
+	}
 
 	/**
 	 * Creates a LIKE() comparison expression with the given arguments.
@@ -202,9 +249,12 @@ interface IExpressionBuilder {
 	 * @param mixed $y Argument to be used in LIKE() comparison.
 	 *
 	 * @return string
-	 * @since 8.2.0
 	 */
-	public function like($x, $y);
+	public function like($x, $y) {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return $this->expressionBuilder->like($x, $y);
+	}
 
 	/**
 	 * Creates a NOT LIKE() comparison expression with the given arguments.
@@ -213,9 +263,12 @@ interface IExpressionBuilder {
 	 * @param mixed $y Argument to be used in NOT LIKE() comparison.
 	 *
 	 * @return string
-	 * @since 8.2.0
 	 */
-	public function notLike($x, $y);
+	public function notLike($x, $y) {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return $this->expressionBuilder->notLike($x, $y);
+	}
 
 	/**
 	 * Creates a IN () comparison expression with the given arguments.
@@ -224,9 +277,12 @@ interface IExpressionBuilder {
 	 * @param string|array $y The placeholder or the array of values to be used by IN() comparison.
 	 *
 	 * @return string
-	 * @since 8.2.0
 	 */
-	public function in($x, $y);
+	public function in($x, $y) {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnNames($y);
+		return $this->expressionBuilder->in($x, $y);
+	}
 
 	/**
 	 * Creates a NOT IN () comparison expression with the given arguments.
@@ -235,9 +291,12 @@ interface IExpressionBuilder {
 	 * @param string|array $y The placeholder or the array of values to be used by NOT IN() comparison.
 	 *
 	 * @return string
-	 * @since 8.2.0
 	 */
-	public function notIn($x, $y);
+	public function notIn($x, $y) {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnNames($y);
+		return $this->expressionBuilder->notIn($x, $y);
+	}
 
 	/**
 	 * Quotes a given input parameter.
@@ -245,8 +304,9 @@ interface IExpressionBuilder {
 	 * @param mixed $input The parameter to be quoted.
 	 * @param string|null $type The type of the parameter.
 	 *
-	 * @return string
-	 * @since 8.2.0
+	 * @return Literal
 	 */
-	public function literal($input, $type = null);
+	public function literal($input, $type = null) {
+		return new Literal($this->expressionBuilder->literal($input, $type));
+	}
 }
