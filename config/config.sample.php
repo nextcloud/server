@@ -587,7 +587,6 @@ $CONFIG = array(
 
 /**
  * When enabled, admins may install apps from the ownCloud app store.
- * The app store is disabled by default for ownCloud Enterprise Edition
  */
 'appstoreenabled' => true,
 
