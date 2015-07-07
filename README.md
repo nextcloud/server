@@ -17,7 +17,7 @@ Depencencies:
 [![Dependency Status](https://www.versioneye.com/user/projects/54d1f76f3ca0840b190000c0/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54d1f76f3ca0840b190000c0)
 
 ### Installation instructions
-https://doc.owncloud.org/server/8.0/developer_manual/app/index.html
+https://doc.owncloud.org/server/8.2/developer_manual/app/index.html
 
 ### Contribution Guidelines
 https://owncloud.org/contribute/
@@ -35,4 +35,4 @@ https://www.transifex.com/projects/p/owncloud/
 [![Transifex](https://www.transifex.com/projects/p/owncloud/resource/core/chart/image_png)](https://www.transifex.com/projects/p/owncloud/)
 
 For more detailed information about translations:
-http://doc.owncloud.org/server/8.0/developer_manual/core/translation.html
+http://doc.owncloud.org/server/8.2/developer_manual/core/translation.html
