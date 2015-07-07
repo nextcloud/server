@@ -1203,9 +1203,9 @@ class Share extends Constants {
 	private static function getShareOwner(IDBConnection $connection, $shareId) {
 		$qb = $connection->getQueryBuilder();
 
-		$qb->select('`uid_owner`')
-			->from('`*PREFIX*share`')
-			->where('`id` = :shareId')
+		$qb->select('uid_owner')
+			->from('*PREFIX*share')
+			->where($qb->expr()->eq('id', $qb->createParameter('shareId')))
 			->setParameter(':shareId', $shareId);
 		$result = $qb->execute();
 		$result = $result->fetch();
@@ -1253,9 +1253,9 @@ class Share extends Constants {
 		}
 
 		$qb = $connection->getQueryBuilder();
-		$qb->update('`*PREFIX*share`')
-			->set('`share_with`', ':pass')
-			->where('`id` = :shareId')
+		$qb->update('*PREFIX*share')
+			->set('share_with', $qb->createParameter('pass'))
+			->where($qb->expr()->eq('id', $qb->createParameter('shareId')))
 			->setParameter(':pass', is_null($password) ? null : \OC::$server->getHasher()->hash($password))
 			->setParameter(':shareId', $shareId);
 

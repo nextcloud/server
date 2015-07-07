@@ -1287,12 +1287,12 @@ class Test_Share extends \Test\TestCase {
 
 		// Find the share ID in the db
 		$qb = $connection->getQueryBuilder();
-		$qb->select('`id`')
-		   ->from('`*PREFIX*share`')
-		   ->where('`item_type` = :type')
-		   ->andWhere('`item_source` = :source')
-		   ->andWhere('`uid_owner` = :owner')
-		   ->andWhere('`share_type` = :share_type')
+		$qb->select('id')
+		   ->from('*PREFIX*share')
+		   ->where($qb->expr()->eq('item_type', $qb->createParameter('type')))
+		   ->andWhere($qb->expr()->eq('item_source', $qb->createParameter('source')))
+		   ->andWhere($qb->expr()->eq('uid_owner', $qb->createParameter('owner')))
+		   ->andWhere($qb->expr()->eq('share_type', $qb->createParameter('share_type')))
 		   ->setParameter('type', 'test')
 		   ->setParameter('source', 'test.txt')
 		   ->setParameter('owner', $this->user1)
@@ -1308,9 +1308,9 @@ class Test_Share extends \Test\TestCase {
 
 		// Fetch the hash from the database
 		$qb = $connection->getQueryBuilder();
-		$qb->select('`share_with`')
-		   ->from('`*PREFIX*share`')
-		   ->where('`id` = :id')
+		$qb->select('share_with')
+		   ->from('*PREFIX*share')
+			->where($qb->expr()->eq('id', $qb->createParameter('id')))
 		   ->setParameter('id', $id);
 		$hash = $qb->execute()->fetch()['share_with'];
 

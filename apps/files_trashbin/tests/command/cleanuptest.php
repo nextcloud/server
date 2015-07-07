@@ -43,7 +43,7 @@ class CleanUpTest extends TestCase {
 	protected $dbConnection;
 
 	/** @var  string */
-	protected $trashTable = '`*PREFIX*files_trash`';
+	protected $trashTable = '*PREFIX*files_trash';
 
 	/** @var string  */
 	protected $user0 = 'user0';
@@ -69,14 +69,17 @@ class CleanUpTest extends TestCase {
 		for ($i = 0; $i < 10; $i++) {
 			$query->insert($this->trashTable)
 				->values(array(
-					'`id`' => $query->expr()->literal('file'.$i),
-					'`timestamp`' => $query->expr()->literal($i),
-					'`location`' => $query->expr()->literal('.'),
-					'`user`' => $query->expr()->literal('user'.$i%2)
+					'id' => $query->expr()->literal('file'.$i),
+					'timestamp' => $query->expr()->literal($i),
+					'location' => $query->expr()->literal('.'),
+					'user' => $query->expr()->literal('user'.$i%2)
 				))->execute();
 		}
 		$getAllQuery = $this->dbConnection->getQueryBuilder();
-		$result = $getAllQuery->select('`id`')->from($this->trashTable)->execute()->fetchAll();
+		$result = $getAllQuery->select('id')
+			->from($this->trashTable)
+			->execute()
+			->fetchAll();
 		$this->assertSame(10, count($result));
 	}
 
@@ -107,7 +110,7 @@ class CleanUpTest extends TestCase {
 			// if the delete operation was execute only files from user1
 			// should be left.
 			$query = $this->dbConnection->getQueryBuilder();
-			$result = $query->select('`user`')
+			$result = $query->select('user')
 				->from($this->trashTable)
 				->execute()->fetchAll();
 			$this->assertSame(5, count($result));
@@ -118,7 +121,10 @@ class CleanUpTest extends TestCase {
 			// if no delete operation was execute we should still have all 10
 			// database entries
 			$getAllQuery = $this->dbConnection->getQueryBuilder();
-			$result = $getAllQuery->select('`id`')->from($this->trashTable)->execute()->fetchAll();
+			$result = $getAllQuery->select('id')
+				->from($this->trashTable)
+				->execute()
+				->fetchAll();
 			$this->assertSame(10, count($result));
 		}
 

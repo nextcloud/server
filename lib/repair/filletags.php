@@ -42,10 +42,10 @@ class FillETags extends BasicEmitter implements \OC\RepairStep {
 
 	public function run() {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->update('`*PREFIX*filecache`')
-			->set('`etag`', $qb->expr()->literal('xxx'))
-			->where($qb->expr()->eq('`etag`', $qb->expr()->literal('')))
-			->orWhere($qb->expr()->isNull('`etag`'));
+		$qb->update('*PREFIX*filecache')
+			->set('etag', $qb->expr()->literal('xxx'))
+			->where($qb->expr()->eq('etag', $qb->expr()->literal('')))
+			->orWhere($qb->expr()->isNull('etag'));
 
 		$result = $qb->execute();
 		$this->emit('\OC\Repair', 'info', array("ETags have been fixed for $result files/folders."));
