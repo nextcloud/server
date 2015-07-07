@@ -45,7 +45,7 @@ class GetConfig extends Base {
 
 		$this
 			->setName('config:system:get')
-			->setDescription('Set a system config value')
+			->setDescription('Get a system config value')
 			->addArgument(
 				'name',
 				InputArgument::REQUIRED,

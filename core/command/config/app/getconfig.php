@@ -45,7 +45,7 @@ class GetConfig extends Base {
 
 		$this
 			->setName('config:app:get')
-			->setDescription('Set an app config value')
+			->setDescription('Get an app config value')
 			->addArgument(
 				'app',
 				InputArgument::REQUIRED,
