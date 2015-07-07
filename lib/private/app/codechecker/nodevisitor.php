@@ -20,13 +20,13 @@
  *
  */
 
-namespace OC\App;
+namespace OC\App\CodeChecker;
 
 use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\NodeVisitorAbstract;
 
-class CodeCheckVisitor extends NodeVisitorAbstract {
+class NodeVisitor extends NodeVisitorAbstract {
 	/** @var string */
 	protected $blackListDescription;
 	/** @var string[] */
@@ -43,18 +43,13 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 	protected $errorMessages;
 
 	/**
-	 * @param string $blackListDescription
-	 * @param array $blackListedClassNames
-	 * @param array $blackListedConstants
-	 * @param array $blackListedFunctions
-	 * @param array $blackListedMethods
-	 * @param bool $checkEqualOperatorUsage
+	 * @param ICheckList $list
 	 */
-	public function __construct($blackListDescription, $blackListedClassNames, $blackListedConstants, $blackListedFunctions, $blackListedMethods, $checkEqualOperatorUsage) {
-		$this->blackListDescription = $blackListDescription;
+	public function __construct(ICheckList $list) {
+		$this->blackListDescription = $list->getDescription();
 
 		$this->blackListedClassNames = [];
-		foreach ($blackListedClassNames as $class => $blackListInfo) {
+		foreach ($list->getClasses() as $class => $blackListInfo) {
 			if (is_numeric($class) && is_string($blackListInfo)) {
 				$class = $blackListInfo;
 				$blackListInfo = null;
@@ -65,24 +60,24 @@ class CodeCheckVisitor extends NodeVisitorAbstract {
 		}
 
 		$this->blackListedConstants = [];
-		foreach ($blackListedConstants as $constantName => $blackListInfo) {
+		foreach ($list->getConstants() as $constantName => $blackListInfo) {
 			$constantName = strtolower($constantName);
 			$this->blackListedConstants[$constantName] = $constantName;
 		}
 
 		$this->blackListedFunctions = [];
-		foreach ($blackListedFunctions as $functionName => $blackListInfo) {
+		foreach ($list->getFunctions() as $functionName => $blackListInfo) {
 			$functionName = strtolower($functionName);
 			$this->blackListedFunctions[$functionName] = $functionName;
 		}
 
 		$this->blackListedMethods = [];
-		foreach ($blackListedMethods as $functionName => $blackListInfo) {
+		foreach ($list->getMethods() as $functionName => $blackListInfo) {
 			$functionName = strtolower($functionName);
 			$this->blackListedMethods[$functionName] = $functionName;
 		}
 
-		$this->checkEqualOperatorUsage = $checkEqualOperatorUsage;
+		$this->checkEqualOperatorUsage = $list->checkStrongComparisons();
 
 		$this->errorMessages = [
 			CodeChecker::CLASS_EXTENDS_NOT_ALLOWED => "{$this->blackListDescription} class must not be extended",

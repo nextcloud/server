@@ -18,32 +18,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+namespace OC\App\CodeChecker;
 
-namespace Test\App\Mock;
+interface ICheckList {
+	/**
+	 * @return string
+	 */
+	public function getDescription();
 
-class CodeChecker extends \OC\App\CodeChecker {
-	protected $checkEqualOperators = true;
+	/**
+	 * @return array E.g.: `'ClassName' => 'oc version',`
+	 */
+	public function getClasses();
 
-	/** @var string */
-	protected $blackListDescription = 'deprecated';
+	/**
+	 * @return array E.g.: `'ClassName::CONSTANT_NAME' => 'oc version',`
+	 */
+	public function getConstants();
 
-	protected $blackListedClassNames = [
-		// Deprecated classes
-		'OCP\AppFramework\IApi' => '8.0.0',
-	];
+	/**
+	 * @return array E.g.: `'functionName' => 'oc version',`
+	 */
+	public function getFunctions();
 
-	protected $blackListedConstants = [
-		// Deprecated constants
-		'OCP\NamespaceName\ClassName::CONSTANT_NAME' => '8.0.0',
-	];
+	/**
+	 * @return array E.g.: `'ClassName::methodName' => 'oc version',`
+	 */
+	public function getMethods();
 
-	protected $blackListedFunctions = [
-		// Deprecated functions
-		'OCP\NamespaceName\ClassName::functionName' => '8.0.0',
-	];
-
-	protected $blackListedMethods = [
-		// Deprecated methods
-		'OCP\NamespaceName\ClassName::methodName' => '8.0.0',
-	];
+	/**
+	 * @return bool
+	 */
+	public function checkStrongComparisons();
 }

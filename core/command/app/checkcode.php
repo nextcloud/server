@@ -23,8 +23,9 @@
 
 namespace OC\Core\Command\App;
 
-use OC\App\CodeChecker;
-use OC\App\DeprecationCodeChecker;
+use OC\App\CodeChecker\CodeChecker;
+use OC\App\CodeChecker\DeprecationList;
+use OC\App\CodeChecker\PrivateList;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -52,10 +53,12 @@ class CheckCode extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$appId = $input->getArgument('app-id');
 		if ($input->getOption('deprecated')) {
-			$codeChecker = new DeprecationCodeChecker();
+			$list = new DeprecationList();
 		} else {
-			$codeChecker = new CodeChecker();
+			$list = new PrivateList();
 		}
+		$codeChecker = new CodeChecker($list);
+
 		$codeChecker->listen('CodeChecker', 'analyseFileBegin', function($params) use ($output) {
 			if(OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
 				$output->writeln("<info>Analysing {$params}</info>");

@@ -1,17 +1,17 @@
 <?php
 /**
- * Copyright (c) 2015 Joas Schilling <nickvergessen@owncloud.com>
+ * Copyright (c) 2015 Thomas Müller <deepdiver@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
 
-namespace Test\App;
+namespace Test\App\CodeChecker;
 
 use OC;
 use Test\TestCase;
 
-class DeprecationCodeChecker extends TestCase {
+class CodeCheckerTest extends TestCase {
 
 	/**
 	 * @dataProvider providesFilesToCheck
@@ -20,7 +20,9 @@ class DeprecationCodeChecker extends TestCase {
 	 * @param string $fileToVerify
 	 */
 	public function testFindInvalidUsage($expectedErrorToken, $expectedErrorCode, $fileToVerify) {
-		$checker = new \OC\App\DeprecationCodeChecker();
+		$checker = new OC\App\CodeChecker\CodeChecker(
+			new OC\App\CodeChecker\PrivateList()
+		);
 		$errors = $checker->analyseFile(OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
 		$this->assertEquals(1, count($errors));
@@ -30,12 +32,12 @@ class DeprecationCodeChecker extends TestCase {
 
 	public function providesFilesToCheck() {
 		return [
-			['==', 1005, 'test-equal.php'],
-			['!=', 1005, 'test-not-equal.php'],
-			['OCP\AppFramework\IApi', 1006, 'test-deprecated-use.php'],
-			['OCP\AppFramework\IApi', 1006, 'test-deprecated-use-alias.php'],
-			['AppFramework\IApi', 1001, 'test-deprecated-use-sub.php'],
-			['OAF\IApi', 1001, 'test-deprecated-use-sub-alias.php'],
+			['OC_Hook', 1000, 'test-extends.php'],
+			['oC_Avatar', 1001, 'test-implements.php'],
+			['OC_App', 1002, 'test-static-call.php'],
+			['OC_API', 1003, 'test-const.php'],
+			['OC_AppConfig', 1004, 'test-new.php'],
+			['OC_AppConfig', 1006, 'test-use.php'],
 		];
 	}
 
@@ -44,7 +46,9 @@ class DeprecationCodeChecker extends TestCase {
 	 * @param string $fileToVerify
 	 */
 	public function testPassValidUsage($fileToVerify) {
-		$checker = new \OC\App\DeprecationCodeChecker();
+		$checker = new OC\App\CodeChecker\CodeChecker(
+			new OC\App\CodeChecker\PrivateList()
+		);
 		$errors = $checker->analyseFile(OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
 		$this->assertEquals(0, count($errors));
@@ -52,12 +56,6 @@ class DeprecationCodeChecker extends TestCase {
 
 	public function validFilesData() {
 		return [
-			['test-extends.php'],
-			['test-implements.php'],
-			['test-static-call.php'],
-			['test-const.php'],
-			['test-new.php'],
-			['test-use.php'],
 			['test-identical-operator.php'],
 		];
 	}

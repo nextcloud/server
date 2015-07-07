@@ -21,7 +21,7 @@
  *
  */
 
-namespace OC\App;
+namespace OC\App\CodeChecker;
 
 use OC\Hooks\BasicEmitter;
 use PhpParser\Lexer;
@@ -49,48 +49,11 @@ class CodeChecker extends BasicEmitter {
 	/** @var Parser */
 	private $parser;
 
-	/** @var string */
-	protected $blackListDescription = 'private';
+	/** @var ICheckList */
+	protected $list;
 
-	/** @var string[] */
-	protected $blackListedClassNames = [
-		// classes replaced by the public api
-		'OC_API',
-		'OC_App',
-		'OC_AppConfig',
-		'OC_Avatar',
-		'OC_BackgroundJob',
-		'OC_Config',
-		'OC_DB',
-		'OC_Files',
-		'OC_Helper',
-		'OC_Hook',
-		'OC_Image',
-		'OC_JSON',
-		'OC_L10N',
-		'OC_Log',
-		'OC_Mail',
-		'OC_Preferences',
-		'OC_Search_Provider',
-		'OC_Search_Result',
-		'OC_Request',
-		'OC_Response',
-		'OC_Template',
-		'OC_User',
-		'OC_Util',
-	];
-
-	protected $blackListedConstants = [];
-
-	protected $blackListedFunctions = [];
-
-	protected $blackListedMethods = [];
-
-	/** @var bool */
-	protected $checkEqualOperators = false;
-
-
-	public function __construct() {
+	public function __construct(ICheckList $list) {
+		$this->list = $list;
 		$this->parser = new Parser(new Lexer);
 	}
 
@@ -151,7 +114,7 @@ class CodeChecker extends BasicEmitter {
 		$code = file_get_contents($file);
 		$statements = $this->parser->parse($code);
 
-		$visitor = new CodeCheckVisitor($this->blackListDescription, $this->blackListedClassNames, $this->blackListedConstants, $this->blackListedFunctions, $this->blackListedMethods, $this->checkEqualOperators);
+		$visitor = new NodeVisitor($this->list);
 		$traverser = new NodeTraverser;
 		$traverser->addVisitor($visitor);
 

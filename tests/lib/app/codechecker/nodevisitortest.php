@@ -6,12 +6,12 @@
  * See the COPYING-README file.
  */
 
-namespace Test\App;
+namespace Test\AppCodeChecker;
 
 use OC;
 use Test\TestCase;
 
-class CodeCheckVisitor extends TestCase {
+class NodeVisitorTest extends TestCase {
 
 	public function providesFilesToCheck() {
 		return [
@@ -56,7 +56,9 @@ class CodeCheckVisitor extends TestCase {
 	 * @param string $fileToVerify
 	 */
 	public function testMethodsToCheck($expectedErrors, $fileToVerify) {
-		$checker = new \Test\App\Mock\CodeChecker();
+		$checker = new OC\App\CodeChecker\CodeChecker(
+			new \Test\App\CodeChecker\Mock\TestList()
+		);
 		$errors = $checker->analyseFile(OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
 		$this->assertCount(sizeof($expectedErrors), $errors);
