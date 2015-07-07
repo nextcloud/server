@@ -93,7 +93,7 @@ if (OC::checkUpgrade(false)) {
 	}
 	if (!empty($disabledThirdPartyApps)) {
 		$eventSource->send('notice',
-			(string)$l->t('Following 3rd party apps have been disabled: %s', implode(', ', $disabledThirdPartyApps)));
+			(string)$l->t('Following apps have been disabled: %s', implode(', ', $disabledThirdPartyApps)));
 	}
 
 	$eventSource->send('done', '');
