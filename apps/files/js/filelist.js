@@ -426,37 +426,9 @@
 				return;
 			}
 
-			downloadFileaction.addClass('disabled');
-			var icon = downloadFileaction.find('img');
-			var sourceImage = icon.attr('src');
-			icon.attr('src', sourceImage.replace('actions/download.svg', 'loading-small.gif'));
-
-			var randomString = Math.random().toString(36).substring(2);
-
-			var isCookieSet = function(name, value) {
-				var cookies = document.cookie.split(';');
-				for (var i=0; i < cookies.length; i++) {
-					var cookie = cookies[i].split('=');
-					if (cookie[0].trim() === name && cookie[1].trim() === value) {
-						return true;
-					}
-				}
-				return false;
-			};
-
-			var checkForDownloadCookie = function() {
-				console.log('check');
-				if (!isCookieSet('ocDownloadStarted', randomString)){
-					setTimeout(checkForDownloadCookie, 500);
-				} else {
-					console.log('boom');
-					icon.attr('src', sourceImage);
-					downloadFileaction.removeClass('disabled');
-				}
-			};
+			var randomString = OCA.Files.Files.handleDownloadSpinner(downloadFileaction);
 
 			OC.redirect(this.getDownloadUrl(files, dir) + '&downloadStartSecret=' + randomString);
-			checkForDownloadCookie();
 			return false;
 		},
 

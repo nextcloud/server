@@ -276,8 +276,39 @@
 				FileList.scrollTo(getURLParameter('scrollto'));
 			}
 			*/
+		},
+
+		/**
+		 * Replaces the download icon with a loading spinner and returns token for the download check:
+		 * - browser sends download request and adds parameter with a token
+		 * - server notices this token and adds a set cookie to the download response
+		 * - browser now adds this cookie for the domain
+		 * - JS periodically checks for this cookie and then knows when the download has started to remove all the user feedback
+		 *
+		 * @param downloadButtonElement download fileaction
+		 * @returns {string} random token that needs to be set as cookie
+		 */
+		handleDownloadSpinner: function(downloadButtonElement) {
+			var randomString = Math.random().toString(36).substring(2),
+				icon = downloadButtonElement.find('img'),
+				sourceImage = icon.attr('src'),
+				checkForDownloadCookie = function() {
+					if (!OC.Util.isCookieSetToValue('ocDownloadStarted', randomString)){
+						return false;
+					} else {
+						icon.attr('src', sourceImage);
+						downloadButtonElement.removeClass('disabled');
+						return true;
+					}
+				};
+
+			downloadButtonElement.addClass('disabled');
+			icon.attr('src', sourceImage.replace('actions/download.svg', 'loading-small.gif'));
+			OC.Util.waitFor(checkForDownloadCookie, 500);
+
+			return randomString;
 		}
-	}
+	};
 
 	Files._updateStorageStatisticsDebounced = _.debounce(Files._updateStorageStatistics, 250);
 	OCA.Files.Files = Files;

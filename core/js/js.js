@@ -1513,8 +1513,38 @@ OC.Util = {
 			}
 		}
 		return aa.length - bb.length;
+	},
+	/**
+	 * Calls the callback in a given interval until it returns true
+	 * @param {function} callback
+	 * @param {integer} interval in milliseconds
+	 */
+	waitFor: function(callback, interval) {
+		var internalCallback = function() {
+			if(callback() !== true) {
+				setTimeout(internalCallback, interval);
+			}
+		};
+
+		internalCallback();
+	},
+	/**
+	 * Checks if a cookie with the given name is present and is set to the provided value.
+	 * @param {string} name name of the cookie
+	 * @param {string} value value of the cookie
+	 * @return {boolean} true if the cookie with the given name has the given value
+	 */
+	isCookieSetToValue: function(name, value) {
+		var cookies = document.cookie.split(';');
+		for (var i=0; i < cookies.length; i++) {
+			var cookie = cookies[i].split('=');
+			if (cookie[0].trim() === name && cookie[1].trim() === value) {
+				return true;
+			}
+		}
+		return false;
 	}
-}
+};
 
 /**
  * Utility class for the history API,
