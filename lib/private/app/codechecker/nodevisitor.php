@@ -43,9 +43,9 @@ class NodeVisitor extends NodeVisitorAbstract {
 	protected $errorMessages;
 
 	/**
-	 * @param ICheckList $list
+	 * @param ICheck $list
 	 */
-	public function __construct(ICheckList $list) {
+	public function __construct(ICheck $list) {
 		$this->blackListDescription = $list->getDescription();
 
 		$this->blackListedClassNames = [];

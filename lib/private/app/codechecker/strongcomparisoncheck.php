@@ -1,6 +1,8 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -19,11 +21,9 @@
  *
  */
 
-namespace Test\App\CodeChecker\Mock;
+namespace OC\App\CodeChecker;
 
-use OC\App\CodeChecker\ICheck;
-
-class TestList implements ICheck {
+class StrongComparisonCheck implements ICheck {
 	/** @var ICheck */
 	protected $check;
 
@@ -38,47 +38,35 @@ class TestList implements ICheck {
 	 * @return string
 	 */
 	public function getDescription() {
-		return 'testing';
+		return $this->check->getDescription();
 	}
 
 	/**
-	 * @return array E.g.: `'ClassName' => 'oc version',`
+	 * @return array
 	 */
 	public function getClasses() {
-		return [
-			// Deprecated classes
-			'OCP\AppFramework\IApi' => '8.0.0',
-		];
+		return $this->check->getClasses();
 	}
 
 	/**
-	 * @return array E.g.: `'ClassName::CONSTANT_NAME' => 'oc version',`
+	 * @return array
 	 */
 	public function getConstants() {
-		return [
-			// Deprecated constants
-			'OCP\NamespaceName\ClassName::CONSTANT_NAME' => '8.0.0',
-		];
+		return $this->check->getConstants();
 	}
 
 	/**
-	 * @return array E.g.: `'functionName' => 'oc version',`
+	 * @return array
 	 */
 	public function getFunctions() {
-		return [
-			// Deprecated functions
-			'OCP\NamespaceName\ClassName::functionName' => '8.0.0',
-		];
+		return $this->check->getFunctions();
 	}
 
 	/**
-	 * @return array E.g.: `'ClassName::methodName' => 'oc version',`
+	 * @return array
 	 */
 	public function getMethods() {
-		return [
-			// Deprecated methods
-			'OCP\NamespaceName\ClassName::methodName' => '8.0.0',
-		];
+		return $this->check->getMethods();
 	}
 
 	/**

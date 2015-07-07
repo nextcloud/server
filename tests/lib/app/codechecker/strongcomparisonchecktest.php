@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2015 Thomas Müller <deepdiver@owncloud.com>
+ * Copyright (c) 2015 Joas Schilling <nickvergessen@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -10,10 +10,10 @@ namespace Test\App\CodeChecker;
 
 use OC\App\CodeChecker\CodeChecker;
 use OC\App\CodeChecker\EmptyCheck;
-use OC\App\CodeChecker\PrivateCheck;
+use OC\App\CodeChecker\StrongComparisonCheck;
 use Test\TestCase;
 
-class CodeCheckerTest extends TestCase {
+class StrongComparisonCheckTest extends TestCase {
 
 	/**
 	 * @dataProvider providesFilesToCheck
@@ -23,7 +23,7 @@ class CodeCheckerTest extends TestCase {
 	 */
 	public function testFindInvalidUsage($expectedErrorToken, $expectedErrorCode, $fileToVerify) {
 		$checker = new CodeChecker(
-			new PrivateCheck(new EmptyCheck())
+			new StrongComparisonCheck(new EmptyCheck())
 		);
 		$errors = $checker->analyseFile(\OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
@@ -34,12 +34,8 @@ class CodeCheckerTest extends TestCase {
 
 	public function providesFilesToCheck() {
 		return [
-			['OC_Hook', 1000, 'test-extends.php'],
-			['oC_Avatar', 1001, 'test-implements.php'],
-			['OC_App', 1002, 'test-static-call.php'],
-			['OC_API', 1003, 'test-const.php'],
-			['OC_AppConfig', 1004, 'test-new.php'],
-			['OC_AppConfig', 1006, 'test-use.php'],
+			['==', 1005, 'test-equal.php'],
+			['!=', 1005, 'test-not-equal.php'],
 		];
 	}
 
@@ -49,7 +45,7 @@ class CodeCheckerTest extends TestCase {
 	 */
 	public function testPassValidUsage($fileToVerify) {
 		$checker = new CodeChecker(
-			new PrivateCheck(new EmptyCheck())
+			new StrongComparisonCheck(new EmptyCheck())
 		);
 		$errors = $checker->analyseFile(\OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
@@ -58,6 +54,16 @@ class CodeCheckerTest extends TestCase {
 
 	public function validFilesData() {
 		return [
+			['test-deprecated-use.php'],
+			['test-deprecated-use-alias.php'],
+			['test-deprecated-use-sub.php'],
+			['test-deprecated-use-sub-alias.php'],
+			['test-extends.php'],
+			['test-implements.php'],
+			['test-static-call.php'],
+			['test-const.php'],
+			['test-new.php'],
+			['test-use.php'],
 			['test-identical-operator.php'],
 		];
 	}

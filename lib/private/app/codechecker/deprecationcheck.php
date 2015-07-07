@@ -21,19 +21,30 @@
 
 namespace OC\App\CodeChecker;
 
-class DeprecationList implements ICheckList {
+class DeprecationCheck implements ICheck {
+	/** @var ICheck */
+	protected $check;
+
+	/**
+	 * @param ICheck $check
+	 */
+	public function __construct(ICheck $check) {
+		$this->check = $check;
+	}
+
 	/**
 	 * @return string
 	 */
 	public function getDescription() {
-		return 'deprecated';
+		$innerDescription = $this->check->getDescription();
+		return 'deprecated' . (($innerDescription === '') ? '' : ' ' . $innerDescription);
 	}
 
 	/**
 	 * @return array E.g.: `'ClassName' => 'oc version',`
 	 */
 	public function getClasses() {
-		return [
+		return array_merge([
 			'OCP\Config' => '8.0.0',
 			'OCP\Contacts' => '8.1.0',
 			'OCP\DB' => '8.1.0',
@@ -41,14 +52,14 @@ class DeprecationList implements ICheckList {
 			'OCP\JSON' => '8.1.0',
 			'OCP\Response' => '8.1.0',
 			'OCP\AppFramework\IApi' => '8.0.0',
-		];
+		], $this->check->getClasses());
 	}
 
 	/**
 	 * @return array E.g.: `'ClassName::CONSTANT_NAME' => 'oc version',`
 	 */
 	public function getConstants() {
-		return [
+		return array_merge([
 			'OCP::PERMISSION_CREATE' => '8.0.0',
 			'OCP::PERMISSION_READ' => '8.0.0',
 			'OCP::PERMISSION_UPDATE' => '8.0.0',
@@ -56,14 +67,14 @@ class DeprecationList implements ICheckList {
 			'OCP::PERMISSION_SHARE' => '8.0.0',
 			'OCP::PERMISSION_ALL' => '8.0.0',
 			'OCP::FILENAME_INVALID_CHARS' => '8.0.0',
-		];
+		], $this->check->getConstants());
 	}
 
 	/**
 	 * @return array E.g.: `'functionName' => 'oc version',`
 	 */
 	public function getFunctions() {
-		return [
+		return array_merge([
 			'OCP::image_path' => '8.0.0',
 			'OCP::mimetype_icon' => '8.0.0',
 			'OCP::preview_icon' => '8.0.0',
@@ -72,14 +83,14 @@ class DeprecationList implements ICheckList {
 			'OCP::relative_modified_date' => '8.0.0',
 			'OCP::simple_file_size' => '8.0.0',
 			'OCP::html_select_options' => '8.0.0',
-		];
+		], $this->check->getFunctions());
 	}
 
 	/**
 	 * @return array E.g.: `'ClassName::methodName' => 'oc version',`
 	 */
 	public function getMethods() {
-		return [
+		return array_merge([
 			'OCP\App::register' => '8.1.0',
 			'OCP\App::addNavigationEntry' => '8.1.0',
 			'OCP\App::setActiveNavigationEntry' => '8.1.0',
@@ -140,13 +151,13 @@ class DeprecationList implements ICheckList {
 			'OCP\Util::imagePath' => '8.1.0',
 			'OCP\Util::isValidFileName' => '8.1.0',
 			'OCP\Util::generateRandomBytes' => '8.1.0',
-		];
+		], $this->check->getMethods());
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function checkStrongComparisons() {
-		return true;
+		return $this->check->checkStrongComparisons();
 	}
 }

@@ -49,11 +49,11 @@ class CodeChecker extends BasicEmitter {
 	/** @var Parser */
 	private $parser;
 
-	/** @var ICheckList */
-	protected $list;
+	/** @var ICheck */
+	protected $checkList;
 
-	public function __construct(ICheckList $list) {
-		$this->list = $list;
+	public function __construct(ICheck $checkList) {
+		$this->checkList = $checkList;
 		$this->parser = new Parser(new Lexer);
 	}
 
@@ -114,7 +114,7 @@ class CodeChecker extends BasicEmitter {
 		$code = file_get_contents($file);
 		$statements = $this->parser->parse($code);
 
-		$visitor = new NodeVisitor($this->list);
+		$visitor = new NodeVisitor($this->checkList);
 		$traverser = new NodeTraverser;
 		$traverser->addVisitor($visitor);
 

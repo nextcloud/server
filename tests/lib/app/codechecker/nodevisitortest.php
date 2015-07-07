@@ -8,7 +8,9 @@
 
 namespace Test\AppCodeChecker;
 
-use OC;
+use OC\App\CodeChecker\CodeChecker;
+use OC\App\CodeChecker\EmptyCheck;
+use Test\App\CodeChecker\Mock\TestList;
 use Test\TestCase;
 
 class NodeVisitorTest extends TestCase {
@@ -56,10 +58,10 @@ class NodeVisitorTest extends TestCase {
 	 * @param string $fileToVerify
 	 */
 	public function testMethodsToCheck($expectedErrors, $fileToVerify) {
-		$checker = new OC\App\CodeChecker\CodeChecker(
-			new \Test\App\CodeChecker\Mock\TestList()
+		$checker = new CodeChecker(
+			new TestList(new EmptyCheck())
 		);
-		$errors = $checker->analyseFile(OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
+		$errors = $checker->analyseFile(\OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
 		$this->assertCount(sizeof($expectedErrors), $errors);
 

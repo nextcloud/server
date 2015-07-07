@@ -20,7 +20,7 @@
  */
 namespace OC\App\CodeChecker;
 
-interface ICheckList {
+interface ICheck {
 	/**
 	 * @return string
 	 */
