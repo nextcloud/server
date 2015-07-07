@@ -204,4 +204,71 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$this->appConfig->setValue('test4', 'enabled', '["asd"]');
 		$this->assertEquals(['test1', 'test3'], $this->manager->getEnabledAppsForUser($user));
 	}
+
+	public function testGetAppsNeedingUpgrade() {
+		$this->manager = $this->getMockBuilder('\OC\App\AppManager')
+			->setConstructorArgs([$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory])
+			->setMethods(['getAppInfo'])
+			->getMock();
+
+		$appInfos = [
+			'test1' => ['id' => 'test1', 'version' => '1.0.1', 'requiremax' => '8.0.0'],
+			'test2' => ['id' => 'test2', 'version' => '1.0.0', 'requiremin' => '8.2.0'],
+			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
+			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
+		];
+
+		$this->manager->expects($this->any())
+			->method('getAppInfo')
+			->will($this->returnCallback(
+				function($appId) use ($appInfos) {
+					return $appInfos[$appId];
+				}
+		));
+
+		$this->appConfig->setValue('test1', 'enabled', 'yes');
+		$this->appConfig->setValue('test1', 'installed_version', '1.0.0');
+		$this->appConfig->setValue('test2', 'enabled', 'yes');
+		$this->appConfig->setValue('test2', 'installed_version', '1.0.0');
+		$this->appConfig->setValue('test3', 'enabled', 'yes');
+		$this->appConfig->setValue('test3', 'installed_version', '1.0.0');
+
+		$apps = $this->manager->getAppsNeedingUpgrade();
+
+		$this->assertCount(2, $apps);
+		$this->assertEquals('test1', $apps[0]['id']);
+		$this->assertEquals('test3', $apps[1]['id']);
+	}
+
+	public function testGetIncompatibleApps() {
+		$this->manager = $this->getMockBuilder('\OC\App\AppManager')
+			->setConstructorArgs([$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory])
+			->setMethods(['getAppInfo'])
+			->getMock();
+
+		$appInfos = [
+			'test1' => ['id' => 'test1', 'version' => '1.0.1', 'requiremax' => '8.0.0'],
+			'test2' => ['id' => 'test2', 'version' => '1.0.0', 'requiremin' => '8.2.0'],
+			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
+			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
+		];
+
+		$this->manager->expects($this->any())
+			->method('getAppInfo')
+			->will($this->returnCallback(
+				function($appId) use ($appInfos) {
+					return $appInfos[$appId];
+				}
+		));
+
+		$this->appConfig->setValue('test1', 'enabled', 'yes');
+		$this->appConfig->setValue('test2', 'enabled', 'yes');
+		$this->appConfig->setValue('test3', 'enabled', 'yes');
+
+		$apps = $this->manager->getIncompatibleApps('8.2.0');
+
+		$this->assertCount(2, $apps);
+		$this->assertEquals('test1', $apps[0]['id']);
+		$this->assertEquals('test3', $apps[1]['id']);
+	}
 }
