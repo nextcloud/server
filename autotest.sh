@@ -145,7 +145,20 @@ function execute_tests {
 		mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
 	fi
 	if [ "$1" == "pgsql" ] ; then
-		dropdb -U "$DATABASEUSER" "$DATABASENAME" || true
+		if [ ! -z "$USEDOCKER" ] ; then
+			echo "Fire up the postgres docker"
+			DOCKER_CONTAINER_ID=$(docker run -e POSTGRES_USER="$DATABASEUSER" -e POSTGRES_PASSWORD=owncloud -d postgres)
+			DATABASEHOST=$(docker inspect "$DOCKER_CONTAINER_ID" | grep IPAddress | cut -d '"' -f 4)
+
+			echo "Waiting for Postgres initialisation ..."
+
+			# grep exits on the first match and then the script continues
+			docker logs -f "$DOCKER_CONTAINER_ID" 2>&1 | grep -q "database system is ready to accept connections"
+
+			echo "Postgres is up."
+		else
+			dropdb -U "$DATABASEUSER" "$DATABASENAME" || true
+		fi
 	fi
 	if [ "$1" == "oci" ] ; then
 		echo "Fire up the oracle docker"
@@ -176,6 +189,12 @@ function execute_tests {
 		echo "No coverage"
 		"${PHPUNIT[@]}" --configuration phpunit-autotest.xml --log-junit "autotest-results-$1.xml" "$2" "$3"
 		RESULT=$?
+	fi
+
+	if [ ! -z "$DOCKER_CONTAINER_ID" ] ; then
+		echo "Kill the docker $DOCKER_CONTAINER_ID"
+		docker rm -f $DOCKER_CONTAINER_ID
+		unset DOCKER_CONTAINER_ID
 	fi
 }
 
