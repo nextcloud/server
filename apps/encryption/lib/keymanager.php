@@ -406,19 +406,36 @@ class KeyManager {
 	}
 
 	/**
-	 * @param $userId
+	 * check if user has a private and a public key
+	 *
+	 * @param string $userId
 	 * @return bool
+	 * @throws PrivateKeyMissingException
+	 * @throws PublicKeyMissingException
 	 */
 	public function userHasKeys($userId) {
+		$privateKey = $publicKey = true;
+
 		try {
 			$this->getPrivateKey($userId);
-			$this->getPublicKey($userId);
 		} catch (PrivateKeyMissingException $e) {
-			return false;
-		} catch (PublicKeyMissingException $e) {
-			return false;
+			$privateKey = false;
+			$exception = $e;
 		}
-		return true;
+		try {
+			$this->getPublicKey($userId);
+		} catch (PublicKeyMissingException $e) {
+			$publicKey = false;
+			$exception = $e;
+		}
+
+		if ($privateKey && $publicKey) {
+			return true;
+		} elseif (!$privateKey && !$publicKey) {
+			return false;
+		} else {
+			throw $exception;
+		}
 	}
 
 	/**
