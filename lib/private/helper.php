@@ -424,8 +424,11 @@ class OC_Helper {
 	 */
 	static public function getMimetypeDetector() {
 		if (!self::$mimetypeDetector) {
+			$file = file_get_contents(OC::$SERVERROOT . '/config/mimetypemapping.json');
+			$mimetypemapping = get_object_vars(json_decode($file));
+
 			self::$mimetypeDetector = new \OC\Files\Type\Detection();
-			self::$mimetypeDetector->registerTypeArray(include 'mimetypes.list.php');
+			self::$mimetypeDetector->registerTypeArray($mimetypemapping);
 		}
 		return self::$mimetypeDetector;
 	}

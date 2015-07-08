@@ -66,7 +66,7 @@ class Detection {
 
 		// Update the alternative mimetypes to avoid having to look them up each time.
 		foreach ($this->mimetypes as $mimeType) {
-			$this->secureMimeTypes[$mimeType[0]] = $mimeType[1] ?: $mimeType[0];
+			$this->secureMimeTypes[$mimeType[0]] = isset($mimeType[1]) ? $mimeType[1]: $mimeType[0];
 		}
 	}
 
