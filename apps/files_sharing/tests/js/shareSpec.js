@@ -206,6 +206,23 @@ describe('OCA.Sharing.Util tests', function() {
 			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder-shared.svg');
 			expect($action.find('img').length).toEqual(1);
 		});
+		it('do not show static share text when share exists but neither permission nor owner is available', function() {
+			var $action, $tr;
+			fileList.setFiles([{
+				id: 1,
+				type: 'dir',
+				name: 'One',
+				path: '/subdir',
+				mimetype: 'text/plain',
+				size: 12,
+				permissions: OC.PERMISSION_CREATE,
+				etag: 'abc'
+			}]);
+			$tr = fileList.$el.find('tbody tr:first');
+			expect($tr.find('.action-share').length).toEqual(0);
+			$action = $tr.find('.action-share-notification');
+			expect($action.length).toEqual(0);
+		});
 	});
 	describe('Share action', function() {
 		var showDropDownStub;
