@@ -146,7 +146,9 @@ class File extends Node implements IFile {
 			}
 
 		} catch (\Exception $e) {
-			$partStorage->unlink($internalPartPath);
+			if ($needsPartFile) {
+				$partStorage->unlink($internalPartPath);
+			}
 			$this->convertToSabreException($e);
 		}
 
@@ -176,7 +178,9 @@ class File extends Node implements IFile {
 			try {
 				$this->fileView->changeLock($this->path, ILockingProvider::LOCK_EXCLUSIVE);
 			} catch (LockedException $e) {
-				$partStorage->unlink($internalPartPath);
+				if ($needsPartFile) {
+					$partStorage->unlink($internalPartPath);
+				}
 				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 			}
 
@@ -189,7 +193,6 @@ class File extends Node implements IFile {
 					}
 					if (!$run || $renameOkay === false || $fileExists === false) {
 						\OC_Log::write('webdav', 'renaming part file to final file failed', \OC_Log::ERROR);
-						$partStorage->unlink($internalPartPath);
 						throw new Exception('Could not rename part file to final file');
 					}
 				} catch (\Exception $e) {
@@ -350,6 +353,7 @@ class File extends Node implements IFile {
 		if ($chunk_handler->isComplete()) {
 			list($storage,) = $this->fileView->resolvePath($path);
 			$needsPartFile = $this->needsPartFile($storage);
+			$partFile = null;
 
 			try {
 				$targetPath = $path . '/' . $info['name'];
@@ -388,7 +392,7 @@ class File extends Node implements IFile {
 				$info = $this->fileView->getFileInfo($targetPath);
 				return $info->getEtag();
 			} catch (\Exception $e) {
-				if ($partFile) {
+				if ($partFile !== null) {
 					$this->fileView->unlink($partFile);
 				}
 				$this->convertToSabreException($e);
