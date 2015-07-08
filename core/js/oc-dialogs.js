@@ -396,9 +396,8 @@ var OCdialogs = {
 				function(path){
 					$replacementDiv.find('.icon').css('background-image','url(' + path + ')');
 				}, function(){
-					Files.getMimeIcon(replacement.type,function(path){
-						$replacementDiv.find('.icon').css('background-image','url(' + path + ')');
-					});
+					path = OC.MimeType.getIconUrl(replacement.type);
+					$replacementDiv.find('.icon').css('background-image','url(' + path + ')');
 				}
 			);
 			$conflicts.append($conflict);

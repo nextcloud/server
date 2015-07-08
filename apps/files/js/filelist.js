@@ -1213,36 +1213,34 @@
 			var etag = options.etag;
 
 			// get mime icon url
-			OCA.Files.Files.getMimeIcon(mime, function(iconURL) {
-				var previewURL,
-					urlSpec = {};
-				ready(iconURL); // set mimeicon URL
+			var iconURL = OC.MimeType.getIconUrl(mime);
+			var previewURL,
+				urlSpec = {};
+			ready(iconURL); // set mimeicon URL
 
-				urlSpec.file = OCA.Files.Files.fixPath(path);
+			urlSpec.file = OCA.Files.Files.fixPath(path);
 
-				if (etag){
-					// use etag as cache buster
-					urlSpec.c = etag;
+			if (etag){
+				// use etag as cache buster
+				urlSpec.c = etag;
+			} else {
+				console.warn('OCA.Files.FileList.lazyLoadPreview(): missing etag argument');
+			}
+
+			previewURL = self.generatePreviewUrl(urlSpec);
+			previewURL = previewURL.replace('(', '%28');
+			previewURL = previewURL.replace(')', '%29');
+
+			// preload image to prevent delay
+			// this will make the browser cache the image
+			var img = new Image();
+			img.onload = function(){
+				// if loading the preview image failed (no preview for the mimetype) then img.width will < 5
+				if (img.width > 5) {
+					ready(previewURL);
 				}
-				else {
-					console.warn('OCA.Files.FileList.lazyLoadPreview(): missing etag argument');
-				}
-
-				previewURL = self.generatePreviewUrl(urlSpec);
-				previewURL = previewURL.replace('(', '%28');
-				previewURL = previewURL.replace(')', '%29');
-
-				// preload image to prevent delay
-				// this will make the browser cache the image
-				var img = new Image();
-				img.onload = function(){
-					// if loading the preview image failed (no preview for the mimetype) then img.width will < 5
-					if (img.width > 5) {
-						ready(previewURL);
-					}
-				};
-				img.src = previewURL;
-			});
+			};
+			img.src = previewURL;
 		},
 
 		setDirectoryPermissions: function(permissions) {
