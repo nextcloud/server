@@ -1757,7 +1757,6 @@ jQuery.fn.tipsy = function(argument) {
 			trigger: 'hover',
 			html: false
 		};
-		// tooltip direction
 		if(argument.gravity) {
 			switch(argument.gravity) {
 				case 'n':
@@ -1793,7 +1792,11 @@ jQuery.fn.tipsy = function(argument) {
 		if(argument.title) {
 			options.title = argument.title;
 		}
+		// destroy old tooltip in case the title has changed
+		jQuery.fn.tooltip.call(this, 'destroy');
 		jQuery.fn.tooltip.call(this, options);
+	} else {
+		this.tooltip(argument);
+		jQuery.fn.tooltip.call(this, argument);
 	}
-	jQuery.fn.tooltip.call(this, argument);
 }
