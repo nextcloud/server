@@ -50,7 +50,7 @@ class Migration {
 		$this->config = $config;
 	}
 
-	public function __destruct() {
+	public function finalCleanUp() {
 		$this->view->deleteAll('files_encryption/public_keys');
 		$this->updateFileCache();
 		$this->config->deleteAppValue('files_encryption', 'installed_version');
