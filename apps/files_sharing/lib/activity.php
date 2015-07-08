@@ -190,12 +190,12 @@ class Activity implements IExtension {
 		if ($app === self::FILES_SHARING_APP) {
 			switch ($text) {
 				case self::SUBJECT_REMOTE_SHARE_RECEIVED:
+				case self::SUBJECT_REMOTE_SHARE_UNSHARED:
 					return array(
 						0 => '',// We can not use 'username' since the user is in a different ownCloud
 					);
 				case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
 				case self::SUBJECT_REMOTE_SHARE_DECLINED:
-				case self::SUBJECT_REMOTE_SHARE_UNSHARED:
 					return array(
 						0 => '',// We can not use 'username' since the user is in a different ownCloud
 						1 => 'file',
