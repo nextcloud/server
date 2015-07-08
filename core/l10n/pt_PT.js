@@ -11,7 +11,6 @@ OC.L10N.register(
     "Repair warning: " : "Aviso de reparação:",
     "Repair error: " : "Repare o erro:",
     "Following incompatible apps have been disabled: %s" : "As seguintes aplicações incompatíveis foram desativadas: %s",
-    "Following 3rd party apps have been disabled: %s" : "As seguintes aplicações de 3.ºs foram desativadas: %s",
     "Invalid file provided" : "Ficheiro selecionado inválido",
     "No image or file provided" : "Não foi fornecido nenhum ficheiro ou imagem",
     "Unknown filetype" : "Tipo de ficheiro desconhecido",

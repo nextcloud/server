@@ -9,7 +9,6 @@ OC.L10N.register(
     "Repair warning: " : "Alerte reparare:",
     "Repair error: " : "Eroare de reparare:",
     "Following incompatible apps have been disabled: %s" : "Următoarele aplicații incompatibile au fost dezactivate: %s",
-    "Following 3rd party apps have been disabled: %s" : "Următoarele aplicații externe au fost dezactivate: %s",
     "No image or file provided" : "Nu a fost furnizat vreo imagine sau fișier",
     "Unknown filetype" : "Tip fișier necunoscut",
     "Invalid image" : "Imagine invalidă",

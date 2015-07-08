@@ -9,7 +9,6 @@
     "Repair warning: " : "수리 경고:",
     "Repair error: " : "수리 오류:",
     "Following incompatible apps have been disabled: %s" : "다음 호환되지 않는 앱이 비활성화되었습니다: %s",
-    "Following 3rd party apps have been disabled: %s" : "다음 제 3자 앱이 비활성화되었습니다: %s",
     "Invalid file provided" : "잘못된 파일 지정됨",
     "No image or file provided" : "사진이나 파일이 없음",
     "Unknown filetype" : "알려지지 않은 파일 형식",

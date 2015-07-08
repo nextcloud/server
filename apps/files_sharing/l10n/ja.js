@@ -29,6 +29,7 @@ OC.L10N.register(
     "A file or folder has been <strong>shared</strong>" : "ファイルまたはフォルダーを<strong>共有</strong>したとき",
     "A file or folder was shared from <strong>another server</strong>" : "ファイルまたはフォルダーが<strong>他のサーバー</strong>から共有されたとき",
     "A public shared file or folder was <strong>downloaded</strong>" : "公開共有ファイルまたはフォルダーが<strong>ダウンロードされた</strong>とき",
+    "You received a new remote share %2$s from %1$s" : "%1$s から新しいリモート共有のリクエスト %2$s を受け取りました。",
     "You received a new remote share from %s" : "%sからリモート共有のリクエストは\n届きました。",
     "%1$s accepted remote share %2$s" : "%1$s は %2$s のリモート共有を承認しました。",
     "%1$s declined remote share %2$s" : "%1$s は %2$s のリモート共有を拒否しました。",

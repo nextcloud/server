@@ -10,7 +10,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Actualitzat \"%s\" a %s",
     "Repair warning: " : "Advertiment de reparació:",
     "Following incompatible apps have been disabled: %s" : "Les següents apps incompatibles s'han deshabilitat: %s",
-    "Following 3rd party apps have been disabled: %s" : "Les següents aplicacions de tercers han estat deshabilitades: %s",
     "Invalid file provided" : "L'arxiu proporcionat no és vàlid",
     "No image or file provided" : "No s'han proporcionat imatges o fitxers",
     "Unknown filetype" : "Tipus de fitxer desconegut",

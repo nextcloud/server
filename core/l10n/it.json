@@ -10,7 +10,6 @@
     "Repair warning: " : "Avviso di riparazione",
     "Repair error: " : "Errore di riparazione:",
     "Following incompatible apps have been disabled: %s" : "Le seguenti applicazioni incompatibili sono state disabilitate: %s",
-    "Following 3rd party apps have been disabled: %s" : "Le seguenti applicazioni di terze parti sono state disabilitate: %s",
     "Invalid file provided" : "File non valido fornito",
     "No image or file provided" : "Non è stata fornita alcun immagine o file",
     "Unknown filetype" : "Tipo di file sconosciuto",

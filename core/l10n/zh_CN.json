@@ -10,7 +10,6 @@
     "Repair warning: " : "修复警告：",
     "Repair error: " : "修复错误：",
     "Following incompatible apps have been disabled: %s" : "下列不兼容应用已经被禁用：%s",
-    "Following 3rd party apps have been disabled: %s" : " 下列第三方应用已经被禁用：%s",
     "Invalid file provided" : "提供了无效文件",
     "No image or file provided" : "没有提供图片或文件",
     "Unknown filetype" : "未知的文件类型",

@@ -11,7 +11,6 @@ OC.L10N.register(
     "Repair warning: " : "Попередження відновлення:",
     "Repair error: " : "Помилка відновлення:",
     "Following incompatible apps have been disabled: %s" : "Наступні несумісні додатки були вимкнені: %s",
-    "Following 3rd party apps have been disabled: %s" : "3rd party додатки були вимкнені: %s",
     "Invalid file provided" : "Надано невірний файл",
     "No image or file provided" : "Зображення або файлу не надано",
     "Unknown filetype" : "Невідомий тип файлу",

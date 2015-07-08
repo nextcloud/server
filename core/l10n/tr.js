@@ -12,7 +12,6 @@ OC.L10N.register(
     "Repair warning: " : "Onarım uyarısı:",
     "Repair error: " : "Onarım hatası:",
     "Following incompatible apps have been disabled: %s" : "Aşağıdaki uyumsuz uygulamalar devre dışı bırakıldı: %s",
-    "Following 3rd party apps have been disabled: %s" : "Aşağıdaki üçüncü parti uygulamalar devre dışı bırakıldı: %s",
     "Invalid file provided" : "Geçersiz dosya sağlandı",
     "No image or file provided" : "Resim veya dosya belirtilmedi",
     "Unknown filetype" : "Bilinmeyen dosya türü",

@@ -10,7 +10,6 @@
     "Repair warning: " : "Oznámenie opravy:",
     "Repair error: " : "Chyba opravy:",
     "Following incompatible apps have been disabled: %s" : "Nasledovné nekompatibilné aplikácie boli zakázané: %s",
-    "Following 3rd party apps have been disabled: %s" : "Nasledovné aplikácie tretích strán boli zakázané: %s",
     "Invalid file provided" : "Zadaný neplatný súbor",
     "No image or file provided" : "Obrázok alebo súbor nebol zadaný",
     "Unknown filetype" : "Neznámy typ súboru",

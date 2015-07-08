@@ -10,7 +10,6 @@
     "Repair warning: " : "Advarsel fra reparering: ",
     "Repair error: " : "Feil ved reparering: ",
     "Following incompatible apps have been disabled: %s" : "Følgende inkompatible apper har blitt deaktivert: %s",
-    "Following 3rd party apps have been disabled: %s" : "Følgende tredjeparts apper har blitt deaktivert: %s",
     "Invalid file provided" : "Ugyldig fil oppgitt",
     "No image or file provided" : "Bilde eller fil ikke angitt",
     "Unknown filetype" : "Ukjent filtype",

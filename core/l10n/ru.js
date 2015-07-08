@@ -12,7 +12,6 @@ OC.L10N.register(
     "Repair warning: " : "Предупреждение восстановления:",
     "Repair error: " : "Ошибка восстановления:",
     "Following incompatible apps have been disabled: %s" : "Слежка за несовместимыми приложениями отключена: %s",
-    "Following 3rd party apps have been disabled: %s" : "Слежка за приложениями 3-их лиц отключена: %s",
     "Invalid file provided" : "Указан неправильный файл",
     "No image or file provided" : "Не указано изображение или файл",
     "Unknown filetype" : "Неизвестный тип файла",

@@ -27,6 +27,7 @@
     "A file or folder has been <strong>shared</strong>" : "<strong>Compartiuse</strong> un ficheiro ou cartafol",
     "A file or folder was shared from <strong>another server</strong>" : "Compartiuse un ficheiro ou cartafol desde <strong>outro servidor</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Foi <strong>descargado</strong> un ficheiro ou cartafol público",
+    "You received a new remote share %2$s from %1$s" : "Recibiu unha compartición remota %2$s de %1$s",
     "You received a new remote share from %s" : "Recibiu unha compartición remota de %s",
     "%1$s accepted remote share %2$s" : "%1$s comparticións remotas aceptadas %2$s",
     "%1$s declined remote share %2$s" : "%1$s comparticións remotas declinadas %2$s",

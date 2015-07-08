@@ -12,7 +12,6 @@ OC.L10N.register(
     "Repair warning: " : "Προειδοποίηση διόρθωσης:",
     "Repair error: " : "Σφάλμα διόρθωσης:",
     "Following incompatible apps have been disabled: %s" : "Οι παρακάτω εφαρμογές έχουν απενεργοποιηθεί: %s",
-    "Following 3rd party apps have been disabled: %s" : "Οι παρακάτω εφαρμογές 3ων  έχουν απενεργοποιηθεί: %s",
     "Invalid file provided" : "Έχει δοθεί μη έγκυρο αρχείο",
     "No image or file provided" : "Δεν δόθηκε εικόνα ή αρχείο",
     "Unknown filetype" : "Άγνωστος τύπος αρχείου",

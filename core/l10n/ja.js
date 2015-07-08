@@ -11,7 +11,6 @@ OC.L10N.register(
     "Repair warning: " : "修復警告:",
     "Repair error: " : "修復エラー:",
     "Following incompatible apps have been disabled: %s" : "次の互換性のないアプリは無効にされています: %s",
-    "Following 3rd party apps have been disabled: %s" : "次のサードパーティーアプリは無効にされています。: %s",
     "Invalid file provided" : "無効なファイルが提供されました",
     "No image or file provided" : "画像もしくはファイルが提供されていません",
     "Unknown filetype" : "不明なファイルタイプ",

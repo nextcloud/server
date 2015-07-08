@@ -29,6 +29,7 @@ OC.L10N.register(
     "A file or folder has been <strong>shared</strong>" : "Een bestand of map is <strong>gedeeld</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Een bestand of map werd gedeeld vanaf <strong>een andere server</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Een openbaar gedeeld bestand of map werd <strong>gedownloaded</strong>",
+    "You received a new remote share %2$s from %1$s" : "U ontving een nieuwe externe share %2$s van %1$s",
     "You received a new remote share from %s" : "U ontving een nieuwe externe share van %s",
     "%1$s accepted remote share %2$s" : "%1$s accepteerde externe share %2$s",
     "%1$s declined remote share %2$s" : "%1$s weigerde externe share %2$s",

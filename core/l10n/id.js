@@ -12,7 +12,6 @@ OC.L10N.register(
     "Repair warning: " : "Peringatan perbaikan:",
     "Repair error: " : "Kesalahan perbaikan:",
     "Following incompatible apps have been disabled: %s" : "Aplikasi tidak kompatibel berikut telah dinonaktifkan: %s",
-    "Following 3rd party apps have been disabled: %s" : "Aplikasi pihak ke-3 berikut telah dinonaktifkan: %s",
     "Invalid file provided" : "Berkas yang diberikan tidak sah",
     "No image or file provided" : "Tidak ada gambar atau berkas yang disediakan",
     "Unknown filetype" : "Tipe berkas tidak dikenal",

@@ -10,7 +10,6 @@
     "Repair warning: " : "Упозорење о поправци :",
     "Repair error: " : "Грешка поправке:",
     "Following incompatible apps have been disabled: %s" : "Следеће неусаглашене апликације су искључене: %s",
-    "Following 3rd party apps have been disabled: %s" : "Следеће апликације треће стране су искључене: %s",
     "Invalid file provided" : "Понуђени фајл је неисправан",
     "No image or file provided" : "Није дата ни слика ни фајл",
     "Unknown filetype" : "Непознат тип фајла",

@@ -11,7 +11,6 @@ OC.L10N.register(
     "Repair warning: " : "Ostrzeżenie naprawiania:",
     "Repair error: " : "Błąd naprawiania:",
     "Following incompatible apps have been disabled: %s" : "Poniższe niezgodne aplikacje zostały wyłączone: %s",
-    "Following 3rd party apps have been disabled: %s" : "Poniższe aplikacje dostawców trzecich - 3rd - zostały wyłączone: %s",
     "Invalid file provided" : "Podano błędny plik",
     "No image or file provided" : "Brak obrazu lub pliku dostarczonego",
     "Unknown filetype" : "Nieznany typ pliku",
