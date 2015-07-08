@@ -163,18 +163,14 @@
 			return OC.filePath('files', 'ajax', action + '.php') + q;
 		},
 
+		/**
+		 * Fetch the icon url for the mimetype
+		 * @param {string} mime The mimetype
+		 * @param {Files~mimeicon} ready Function to call when mimetype is retrieved
+		 * @deprecated use OC.MimeType.getIconUrl(mime)
+		 */
 		getMimeIcon: function(mime, ready) {
-			if (Files.getMimeIcon.cache[mime]) {
-				ready(Files.getMimeIcon.cache[mime]);
-			} else {
-				$.get( OC.filePath('files','ajax','mimeicon.php'), {mime: mime}, function(path) {
-					if(OC.Util.hasSVGSupport()){
-						path = path.substr(0, path.length-4) + '.svg';
-					}
-					Files.getMimeIcon.cache[mime]=path;
-					ready(Files.getMimeIcon.cache[mime]);
-				});
-			}
+			ready(OC.MimeType.getIconUrl(mime));
 		},
 
 		/**
@@ -211,7 +207,6 @@
 		 * Initialize the files view
 		 */
 		initialize: function() {
-			Files.getMimeIcon.cache = {};
 			Files.bindKeyboardShortcuts(document, $);
 
 			// TODO: move file list related code (upload) to OCA.Files.FileList
