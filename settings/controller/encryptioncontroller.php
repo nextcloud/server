@@ -102,6 +102,8 @@ class EncryptionController extends Controller {
 				} while (count($users) >= $limit);
 			}
 
+			$migration->finalCleanUp();
+
 		} catch (\Exception $e) {
 			return array(
 				'data' => array(
