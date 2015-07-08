@@ -820,6 +820,21 @@ OC.Share={
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
 	},
 	/**
+	 * Parses a string to an valid integer (unix timestamp)
+	 * @param time
+	 * @returns {*}
+	 * @internal Only used to work around a bug in the backend
+	 */
+	_parseTime: function(time) {
+		if (_.isString(time)) {
+			time = parseInt(time, 10);
+			if(isNaN(time)) {
+				time = null;
+			}
+		}
+		return time;
+	},
+	/**
 	 * Displays the expiration date field
 	 *
 	 * @param {Date} date current expiration date
@@ -834,6 +849,8 @@ OC.Share={
 			minDate: minDate,
 			maxDate: null
 		};
+		// TODO: hack: backend returns string instead of integer
+		shareTime = OC.Share._parseTime(shareTime);
 		if (_.isNumber(shareTime)) {
 			shareTime = new Date(shareTime * 1000);
 		}
