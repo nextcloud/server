@@ -1050,4 +1050,33 @@ class View extends \Test\TestCase {
 	public function testNullAsRoot() {
 		new \OC\Files\View(null);
 	}
+
+	public function hookPathProvider() {
+		return [
+			['/foo/files', '/foo', true],
+			['/foo/files/bar', '/foo', true],
+			['/foo', '/foo', false],
+			['/foo', '/files/foo', true],
+			['/foo', 'filesfoo', false]
+		];
+	}
+
+	/**
+	 * @dataProvider hookPathProvider
+	 * @param $root
+	 * @param $path
+	 * @param $shouldEmit
+	 */
+	public function testHookPaths($root, $path, $shouldEmit) {
+		$filesystemReflection = new \ReflectionClass('\OC\Files\Filesystem');
+		$defaultRootValue = $filesystemReflection->getProperty('defaultInstance');
+		$defaultRootValue->setAccessible(true);
+		$oldRoot = $defaultRootValue->getValue();
+		$defaultView = new \OC\Files\View('/foo/files');
+		$defaultRootValue->setValue($defaultView);
+		$view = new \OC\Files\View($root);
+		$result = \Test_Helper::invokePrivate($view, 'shouldEmitHooks', [$path]);
+		$defaultRootValue->setValue($oldRoot);
+		$this->assertEquals($shouldEmit, $result);
+	}
 }
