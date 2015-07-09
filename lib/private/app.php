@@ -1168,9 +1168,7 @@ class OC_App {
 			OC_DB::updateDbFromStructure(self::getAppPath($appId) . '/appinfo/database.xml');
 		}
 		unset(self::$appVersion[$appId]);
-		if (!self::isEnabled($appId)) {
-			return false;
-		}
+		// run upgrade code
 		if (file_exists(self::getAppPath($appId) . '/appinfo/update.php')) {
 			self::loadApp($appId, false);
 			include self::getAppPath($appId) . '/appinfo/update.php';
