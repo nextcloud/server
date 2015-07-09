@@ -71,6 +71,9 @@ foreach ($files as $file) {
 	unset($entry['directory']);
 	// do not disclose share owner
 	unset($entry['shareOwner']);
+	// do not disclose if something is a remote shares
+	unset($entry['mountType']);
+	unset($entry['icon']);
 	$entry['permissions'] = \OCP\Constants::PERMISSION_READ;
 	$formattedFiles[] = $entry;
 }
