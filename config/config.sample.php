@@ -754,40 +754,8 @@ $CONFIG = array(
 
 
 /**
- * Miscellaneous
+ * Memory caching backend configuration
  */
-
-/**
- * Blacklist a specific file or files and disallow the upload of files
- * with this name. ``.htaccess`` is blocked by default.
- * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
- */
-'blacklisted_files' => array('.htaccess'),
-
-/**
- * Define a default folder for shared files and folders other than root.
- */
-'share_folder' => '/',
-
-/**
- * If you are applying a theme to ownCloud, enter the name of the theme here.
- * The default location for themes is ``owncloud/themes/``.
- */
-'theme' => '',
-
-/**
- * X-Frame-Restriction is a header which prevents browsers from showing the site
- * inside an iframe. This is be used to prevent clickjacking. It is risky to
- * disable this, so leave it set at ``true``.
- */
-'xframe_restriction' => true,
-
-/**
- * The default cipher for encrypting files. Currently AES-128-CFB and
- * AES-256-CFB are supported.
- */
-'cipher' => 'AES-256-CFB',
-
 
 /**
  * Connection details for redis to use for memory caching.
@@ -822,53 +790,8 @@ $CONFIG = array(
 'cache_path' => '',
 
 /**
- * EXPERIMENTAL: option whether to include external storage in quota
- * calculation, defaults to false.
+ * Using Object Store with ownCloud
  */
-'quota_include_external_storage' => false,
-
-/**
- * Specifies how often the filesystem is checked for changes made outside
- * ownCloud.
- *
- * 0 -> Never check the filesystem for outside changes, provides a performance
- * increase when it's certain that no changes are made directly to the
- * filesystem
- *
- * 1 -> Check each file or folder at most once per request, recommended for
- * general use if outside changes might happen.
- *
- * 2 -> Check every time the filesystem is used, causes a performance hit when
- * using external storages, not recommended for regular use.
- */
-'filesystem_check_changes' => 1,
-
-/**
- * All css and js files will be served by the web server statically in one js
- * file and one css file if this is set to ``true``.
- */
-'asset-pipeline.enabled' => false,
-
-/**
- * The parent of the directory where css and js assets will be stored if
- * piplelining is enabled; this defaults to the ownCloud directory. The assets
- * will be stored in a subdirectory of this directory named 'assets'. The
- * server *must* be configured to serve that directory as $WEBROOT/assets.
- * You will only likely need to change this if the main ownCloud directory
- * is not writeable by the web server in your configuration.
- */
-'assetdirectory' => '/var/www/owncloud',
-
-/**
- * Where ``mount.json`` file should be stored, defaults to ``data/mount.json``
- */
-'mount_file' => 'data/mount.json',
-
-/**
- * When ``true``, prevent ownCloud from changing the cache due to changes in the
- * filesystem for all storage.
- */
-'filesystem_cache_readonly' => false,
 
 /**
  * The example below shows how to configure ownCloud to store all files in a
@@ -941,6 +864,86 @@ $CONFIG = array(
 /**
  * All other config options
  */
+
+/**
+ * Blacklist a specific file or files and disallow the upload of files
+ * with this name. ``.htaccess`` is blocked by default.
+ * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
+ */
+'blacklisted_files' => array('.htaccess'),
+
+/**
+ * Define a default folder for shared files and folders other than root.
+ */
+'share_folder' => '/',
+
+/**
+ * If you are applying a theme to ownCloud, enter the name of the theme here.
+ * The default location for themes is ``owncloud/themes/``.
+ */
+'theme' => '',
+
+/**
+ * X-Frame-Restriction is a header which prevents browsers from showing the site
+ * inside an iframe. This is be used to prevent clickjacking. It is risky to
+ * disable this, so leave it set at ``true``.
+ */
+'xframe_restriction' => true,
+
+/**
+ * The default cipher for encrypting files. Currently AES-128-CFB and
+ * AES-256-CFB are supported.
+ */
+'cipher' => 'AES-256-CFB',
+
+/**
+ * EXPERIMENTAL: option whether to include external storage in quota
+ * calculation, defaults to false.
+ */
+'quota_include_external_storage' => false,
+
+/**
+ * Specifies how often the filesystem is checked for changes made outside
+ * ownCloud.
+ *
+ * 0 -> Never check the filesystem for outside changes, provides a performance
+ * increase when it's certain that no changes are made directly to the
+ * filesystem
+ *
+ * 1 -> Check each file or folder at most once per request, recommended for
+ * general use if outside changes might happen.
+ *
+ * 2 -> Check every time the filesystem is used, causes a performance hit when
+ * using external storages, not recommended for regular use.
+ */
+'filesystem_check_changes' => 1,
+
+/**
+ * All css and js files will be served by the web server statically in one js
+ * file and one css file if this is set to ``true``.
+ */
+'asset-pipeline.enabled' => false,
+
+/**
+ * The parent of the directory where css and js assets will be stored if
+ * piplelining is enabled; this defaults to the ownCloud directory. The assets
+ * will be stored in a subdirectory of this directory named 'assets'. The
+ * server *must* be configured to serve that directory as $WEBROOT/assets.
+ * You will only likely need to change this if the main ownCloud directory
+ * is not writeable by the web server in your configuration.
+ */
+'assetdirectory' => '/var/www/owncloud',
+
+/**
+ * Where ``mount.json`` file should be stored, defaults to ``data/mount.json``
+ */
+'mount_file' => 'data/mount.json',
+
+/**
+ * When ``true``, prevent ownCloud from changing the cache due to changes in the
+ * filesystem for all storage.
+ */
+'filesystem_cache_readonly' => false,
 
 /**
  * Secret used by ownCloud for various purposes, e.g. to encrypt data. If you
