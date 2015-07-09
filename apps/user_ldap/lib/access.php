@@ -365,10 +365,21 @@ class Access extends LDAPUtility implements user\IUserTools {
 				continue;
 			}
 
+			// Check the base DN first. If this is not met already, we don't
+			// need to ask the server at all.
+			if(!$this->isDNPartOfBase($dn, $this->connection->ldapBaseGroups)) {
+				$this->connection->writeToCache($cacheKey, false);
+				continue;
+			}
+
 			$result = $this->readAttribute($dn, 'cn', $this->connection->ldapGroupFilter);
 			if(is_array($result)) {
+				$this->connection->writeToCache($cacheKey, true);
 				$validGroupDNs[] = $dn;
+			} else {
+				$this->connection->writeToCache($cacheKey, false);
 			}
+
 		}
 		return $validGroupDNs;
 	}
