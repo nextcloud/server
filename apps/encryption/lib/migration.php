@@ -143,22 +143,32 @@ class Migration {
 		$this->config->deleteAppValue('files_encryption', 'types');
 		$this->config->deleteAppValue('files_encryption', 'enabled');
 
+		$oldAppValues = $this->connection->createQueryBuilder();
+		$oldAppValues->select('*')
+			->from('`*PREFIX*appconfig`')
+			->where($oldAppValues->expr()->eq('`appid`', ':appid'))
+			->setParameter('appid', 'files_encryption');
+		$appSettings = $oldAppValues->execute();
 
-		$query = $this->connection->createQueryBuilder();
-		$query->update('`*PREFIX*appconfig`')
-			->set('`appid`', ':newappid')
-			->where($query->expr()->eq('`appid`', ':oldappid'))
-			->setParameter('oldappid', 'files_encryption')
-			->setParameter('newappid', 'encryption');
-		$query->execute();
+		while ($row = $appSettings->fetch()) {
+			// 'installed_version' gets deleted at the end of the migration process
+			if ($row['configkey'] !== 'installed_version' ) {
+				$this->config->setAppValue('encryption', $row['configkey'], $row['configvalue']);
+				$this->config->deleteAppValue('files_encryption', $row['configkey']);
+			}
+		}
 
-		$query = $this->connection->createQueryBuilder();
-		$query->update('`*PREFIX*preferences`')
-			->set('`appid`', ':newappid')
-			->where($query->expr()->eq('`appid`', ':oldappid'))
-			->setParameter('oldappid', 'files_encryption')
-			->setParameter('newappid', 'encryption');
-		$query->execute();
+		$oldPreferences = $this->connection->createQueryBuilder();
+		$oldPreferences->select('*')
+			->from('`*PREFIX*preferences`')
+			->where($oldPreferences->expr()->eq('`appid`', ':appid'))
+			->setParameter('appid', 'files_encryption');
+		$preferenceSettings = $oldPreferences->execute();
+
+		while ($row = $preferenceSettings->fetch()) {
+			$this->config->setUserValue($row['userid'], 'encryption', $row['configkey'], $row['configvalue']);
+			$this->config->deleteUserValue($row['userid'], 'files_encryption', $row['configkey']);
+		}
 	}
 
 	/**

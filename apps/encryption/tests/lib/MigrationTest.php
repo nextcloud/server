@@ -242,6 +242,12 @@ class MigrationTest extends \Test\TestCase {
 		$config->setAppValue('files_encryption', 'recoveryAdminEnabled', '1');
 		$config->setUserValue(self::TEST_ENCRYPTION_MIGRATION_USER1, 'files_encryption', 'recoverKeyEnabled', '1');
 
+		//$this->invokePrivate($config, 'cache', [[]]);
+		$cache = $this->invokePrivate(\OC::$server->getAppConfig(), 'cache');
+		unset($cache['encryption']);
+		unset($cache['files_encryption']);
+		$this->invokePrivate(\OC::$server->getAppConfig(), 'cache', [$cache]);
+
 		// delete default values set by the encryption app during initialization
 
 		/** @var \OC\DB\Connection $connection */
@@ -268,6 +274,58 @@ class MigrationTest extends \Test\TestCase {
 		$this->verifyDB('`*PREFIX*preferences`', 'files_encryption', 0);
 		$this->verifyDB('`*PREFIX*appconfig`', 'encryption', 3);
 		$this->verifyDB('`*PREFIX*preferences`', 'encryption', 1);
+
+	}
+
+	/**
+	 * test update db if the db already contain some existing new values
+	 */
+	public function testUpdateDBExistingNewConfig() {
+		$this->prepareDB();
+		$config = \OC::$server->getConfig();
+		$config->setAppValue('encryption', 'publicShareKeyId', 'wrong_share_id');
+		$config->setUserValue(self::TEST_ENCRYPTION_MIGRATION_USER1, 'encryption', 'recoverKeyEnabled', '9');
+
+		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection());
+		$m->updateDB();
+
+		$this->verifyDB('`*PREFIX*appconfig`', 'files_encryption', 0);
+		$this->verifyDB('`*PREFIX*preferences`', 'files_encryption', 0);
+		$this->verifyDB('`*PREFIX*appconfig`', 'encryption', 3);
+		$this->verifyDB('`*PREFIX*preferences`', 'encryption', 1);
+
+		// check if the existing values where overwritten correctly
+		/** @var \OC\DB\Connection $connection */
+		$connection = \OC::$server->getDatabaseConnection();
+		$query = $connection->createQueryBuilder();
+		$query->select('`configvalue`')
+			->from('`*PREFIX*appconfig`')
+			->where($query->expr()->andX(
+				$query->expr()->eq('`appid`', ':appid'),
+				$query->expr()->eq('`configkey`', ':configkey')
+			))
+			->setParameter('appid', 'encryption')
+			->setParameter('configkey', 'publicShareKeyId');
+		$result = $query->execute();
+		$value = $result->fetch();
+		$this->assertTrue(isset($value['configvalue']));
+		$this->assertSame('share_id', $value['configvalue']);
+
+		$query = $connection->createQueryBuilder();
+		$query->select('`configvalue`')
+			->from('`*PREFIX*preferences`')
+			->where($query->expr()->andX(
+				$query->expr()->eq('`appid`', ':appid'),
+				$query->expr()->eq('`configkey`', ':configkey'),
+				$query->expr()->eq('`userid`', ':userid')
+			))
+			->setParameter('appid', 'encryption')
+			->setParameter('configkey', 'recoverKeyEnabled')
+			->setParameter('userid', self::TEST_ENCRYPTION_MIGRATION_USER1);
+		$result = $query->execute();
+		$value = $result->fetch();
+		$this->assertTrue(isset($value['configvalue']));
+		$this->assertSame('1', $value['configvalue']);
 
 	}
 
