@@ -1162,9 +1162,7 @@ class OC_App {
 			OC_DB::updateDbFromStructure(self::getAppPath($appId) . '/appinfo/database.xml');
 		}
 		unset(self::$appVersion[$appId]);
-		if (!self::isEnabled($appId)) {
-			return false;
-		}
+		// run upgrade code
 		if (file_exists(self::getAppPath($appId) . '/appinfo/update.php')) {
 			self::loadApp($appId, false);
 			include self::getAppPath($appId) . '/appinfo/update.php';
@@ -1173,15 +1171,15 @@ class OC_App {
 		//set remote/public handlers
 		$appData = self::getAppInfo($appId);
 		if (array_key_exists('ocsid', $appData)) {
-			\OC::$server->getAppConfig()->setValue($appId, 'ocsid', $appData['ocsid']);
-		} elseif(\OC::$server->getAppConfig()->getValue($appId, 'ocsid', null) !== null) {
-			\OC::$server->getAppConfig()->deleteKey($appId, 'ocsid');
+			\OC::$server->getConfig()->setAppValue($appId, 'ocsid', $appData['ocsid']);
+		} elseif(\OC::$server->getConfig()->getAppValue($appId, 'ocsid', null) !== null) {
+			\OC::$server->getConfig()->deleteAppValue($appId, 'ocsid');
 		}
 		foreach ($appData['remote'] as $name => $path) {
-			OCP\CONFIG::setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
+			\OC::$server->getConfig()->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
 		}
 		foreach ($appData['public'] as $name => $path) {
-			OCP\CONFIG::setAppValue('core', 'public_' . $name, $appId . '/' . $path);
+			\OC::$server->getConfig()->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
 		}
 
 		self::setAppTypes($appId);
