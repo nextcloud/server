@@ -66,8 +66,6 @@ $this->create('files_ajax_getstoragestats', 'ajax/getstoragestats.php')
 	->actionInclude('files/ajax/getstoragestats.php');
 $this->create('files_ajax_list', 'ajax/list.php')
 	->actionInclude('files/ajax/list.php');
-$this->create('files_ajax_mimeicon', 'ajax/mimeicon.php')
-	->actionInclude('files/ajax/mimeicon.php');
 $this->create('files_ajax_move', 'ajax/move.php')
 	->actionInclude('files/ajax/move.php');
 $this->create('files_ajax_newfile', 'ajax/newfile.php')
