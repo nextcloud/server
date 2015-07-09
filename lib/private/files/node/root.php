@@ -323,4 +323,33 @@ class Root extends Folder implements IRootFolder {
 	public function getName() {
 		return '';
 	}
+
+	/**
+	 * Returns a view to user's files folder
+	 *
+	 * @param String $userId user ID
+	 * @return \OCP\Files\Folder
+	 */
+	public function getUserFolder($userId) {
+		\OC\Files\Filesystem::initMountPoints($userId);
+		$dir = '/' . $userId;
+		$folder = null;
+
+		if (!$this->nodeExists($dir)) {
+			$folder = $this->newFolder($dir);
+		} else {
+			$folder = $this->get($dir);
+		}
+
+		$dir = '/files';
+		if (!$folder->nodeExists($dir)) {
+			$folder = $folder->newFolder($dir);
+			\OC_Util::copySkeleton($userId, $folder);
+		} else {
+			$folder = $folder->get($dir);
+		}
+
+		return $folder;
+
+	}
 }
