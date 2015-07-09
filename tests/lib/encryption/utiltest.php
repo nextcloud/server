@@ -75,19 +75,6 @@ class UtilTest extends TestCase {
 	/**
 	 * @dataProvider providesHeaders
 	 */
-	public function testReadHeader($header, $expected, $moduleId) {
-		$expected['oc_encryption_module'] = $moduleId;
-		$result = $this->util->readHeader($header);
-		$this->assertSameSize($expected, $result);
-		foreach ($expected as $key => $value) {
-			$this->assertArrayHasKey($key, $result);
-			$this->assertSame($value, $result[$key]);
-		}
-	}
-
-	/**
-	 * @dataProvider providesHeaders
-	 */
 	public function testCreateHeader($expected, $header, $moduleId) {
 
 		$em = $this->getMock('\OCP\Encryption\IEncryptionModule');
