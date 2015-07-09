@@ -29,6 +29,7 @@ OC.L10N.register(
     "A file or folder has been <strong>shared</strong>" : "En fil eller mappe ble <strong>delt</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mappe ble delt fra <strong>en annen server</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "En offentlig delt fil eller mappe ble <strong>lastet ned</strong>",
+    "You received a new remote share %2$s from %1$s" : "Du mottok en ny ekstern deling %2$s fra %1$s",
     "You received a new remote share from %s" : "Du mottok en ny ekstern deling fra %s",
     "%1$s accepted remote share %2$s" : "%1$s aksepterte ekstern deling %2$s",
     "%1$s declined remote share %2$s" : "%1$s avviste ekstern deling %2$s",
