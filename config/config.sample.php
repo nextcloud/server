@@ -81,7 +81,7 @@ $CONFIG = array(
 /**
  * Where user files are stored; this defaults to ``data/`` in the ownCloud
  * directory. The SQLite database is also stored here, when you use SQLite.
- * (SQLite is available only in ownCloud Community Edition)
+ * (SQLite is not available in ownCloud Enterprise Edition)
  */
 'datadirectory' => '/var/www/owncloud/data',
 
@@ -96,7 +96,7 @@ $CONFIG = array(
  * ``supportedDatabases``
  *
  * Available:
- * 	- sqlite (SQLite3 - Community Edition Only)
+ * 	- sqlite (SQLite3 - Not in Enterprise Edition)
  * 	- mysql (MySQL/MariaDB)
  * 	- pgsql (PostgreSQL)
  * 	- oci (Oracle - Enterprise Edition Only)
@@ -790,69 +790,38 @@ $CONFIG = array(
 	'config' => '/absolute/location/of/openssl.cnf',
 ),
 
-
-/**
- * Miscellaneous
- */
-
-/**
- * Blacklist a specific file or files and disallow the upload of files
- * with this name. ``.htaccess`` is blocked by default.
- * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
- */
-'blacklisted_files' => array('.htaccess'),
-
-/**
- * Define a default folder for shared files and folders other than root.
- */
-'share_folder' => '/',
-
-/**
- * If you are applying a theme to ownCloud, enter the name of the theme here.
- * The default location for themes is ``owncloud/themes/``.
- */
-'theme' => '',
-
-/**
- * The default cipher for encrypting files. Currently AES-128-CFB and
- * AES-256-CFB are supported.
- */
-'cipher' => 'AES-256-CFB',
-
-/**
- * The minimum ownCloud desktop client version that will be allowed to sync with
- * this server instance. All connections made from earlier clients will be denied
- * by the server. Defaults to the minimum officially supported ownCloud version at
- * the time of release of this server version.
- *
- * When changing this, note that older unsupported versions of the ownCloud desktop
- * client may not function as expected, and could lead to permanent data loss for
- * clients or other unexpected results.
- */
-'minimum.supported.desktop.version' => '1.7.0',
-
 /**
  * Memory caching backend configuration
  *
  * Available cache backends:
- * - \OC\Memcache\APC        Alternative PHP Cache backend
- * - \OC\Memcache\APCu       APC user backend
- * - \OC\Memcache\ArrayCache In-memory array-based backend (not recommended)
- * - \OC\Memcache\Memcached  Memcached backend
- * - \OC\Memcache\Redis      Redis backend
- * - \OC\Memcache\XCache     XCache backend
+ *
+ * * ``\OC\Memcache\APC``        Alternative PHP Cache backend
+ * * ``\OC\Memcache\APCu``       APC user backend
+ * * ``\OC\Memcache\ArrayCache`` In-memory array-based backend (not recommended)
+ * * ``\OC\Memcache\Memcached``  Memcached backend
+ * * ``\OC\Memcache\Redis``      Redis backend
+ * * ``\OC\Memcache\XCache``     XCache backend
+ *
+ * Advice on choosing between the various backends:
+ *
+ * * APCu should be easiest to install. Almost all distributions have packages.
+ *   Use this for single user environment for all caches.
+ * * Use Redis or Memcached for distributed environments.
+ *   For the local cache (you can configure two) take APCu.
  */
 
 /**
  * Memory caching backend for locally stored data
- * Used for host-specific data, e.g. file paths
+ *
+ * * Used for host-specific data, e.g. file paths
  */
 'memcache.local' => '\OC\Memcache\APCu',
 
 /**
  * Memory caching backend for distributed data
- * Used for installation-specific data, e.g. database caching
- * If unset, defaults to the value of memcache.local
+ *
+ * * Used for installation-specific data, e.g. database caching
+ * * If unset, defaults to the value of memcache.local
  */
 'memcache.distributed' => '\OC\Memcache\Memcached',
 
@@ -887,56 +856,11 @@ $CONFIG = array(
 'cache_path' => '',
 
 /**
- * EXPERIMENTAL: option whether to include external storage in quota
- * calculation, defaults to false.
+ * Using Object Store with ownCloud
  */
-'quota_include_external_storage' => false,
 
 /**
- * Specifies how often the filesystem is checked for changes made outside
- * ownCloud.
- *
- * 0 -> Never check the filesystem for outside changes, provides a performance
- * increase when it's certain that no changes are made directly to the
- * filesystem
- *
- * 1 -> Check each file or folder at most once per request, recommended for
- * general use if outside changes might happen.
- *
- * 2 -> Check every time the filesystem is used, causes a performance hit when
- * using external storages, not recommended for regular use.
- */
-'filesystem_check_changes' => 1,
-
-/**
- * All css and js files will be served by the web server statically in one js
- * file and one css file if this is set to ``true``.
- */
-'asset-pipeline.enabled' => false,
-
-/**
- * The parent of the directory where css and js assets will be stored if
- * piplelining is enabled; this defaults to the ownCloud directory. The assets
- * will be stored in a subdirectory of this directory named 'assets'. The
- * server *must* be configured to serve that directory as $WEBROOT/assets.
- * You will only likely need to change this if the main ownCloud directory
- * is not writeable by the web server in your configuration.
- */
-'assetdirectory' => '/var/www/owncloud',
-
-/**
- * Where ``mount.json`` file should be stored, defaults to ``data/mount.json``
- */
-'mount_file' => 'data/mount.json',
-
-/**
- * When ``true``, prevent ownCloud from changing the cache due to changes in the
- * filesystem for all storage.
- */
-'filesystem_cache_readonly' => false,
-
-/**
- * The example below shows how to configure ownCloud to store all files in a
+ * This example shows how to configure ownCloud to store all files in a
  * swift object storage.
  *
  * It is important to note that ownCloud in object store mode will expect
@@ -980,7 +904,7 @@ $CONFIG = array(
  * Database types that are supported for installation.
  *
  * Available:
- * 	- sqlite (SQLite3 - Community Edition Only)
+ * 	- sqlite (SQLite3 - Not in Enterprise Edition)
  * 	- mysql (MySQL)
  * 	- pgsql (PostgreSQL)
  * 	- oci (Oracle - Enterprise Edition Only)
@@ -995,6 +919,91 @@ $CONFIG = array(
 /**
  * All other config options
  */
+
+/**
+ * Blacklist a specific file or files and disallow the upload of files
+ * with this name. ``.htaccess`` is blocked by default.
+ * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
+ */
+'blacklisted_files' => array('.htaccess'),
+
+/**
+ * Define a default folder for shared files and folders other than root.
+ */
+'share_folder' => '/',
+
+/**
+ * If you are applying a theme to ownCloud, enter the name of the theme here.
+ * The default location for themes is ``owncloud/themes/``.
+ */
+'theme' => '',
+
+/**
+ * The default cipher for encrypting files. Currently AES-128-CFB and
+ * AES-256-CFB are supported.
+ */
+'cipher' => 'AES-256-CFB',
+
+/**
+ * The minimum ownCloud desktop client version that will be allowed to sync with
+ * this server instance. All connections made from earlier clients will be denied
+ * by the server. Defaults to the minimum officially supported ownCloud version at
+ * the time of release of this server version.
+ *
+ * When changing this, note that older unsupported versions of the ownCloud desktop
+ * client may not function as expected, and could lead to permanent data loss for
+ * clients or other unexpected results.
+ */
+'minimum.supported.desktop.version' => '1.7.0',
+
+/**
+ * EXPERIMENTAL: option whether to include external storage in quota
+ * calculation, defaults to false.
+ */
+'quota_include_external_storage' => false,
+
+/**
+ * Specifies how often the filesystem is checked for changes made outside
+ * ownCloud.
+ *
+ * 0 -> Never check the filesystem for outside changes, provides a performance
+ * increase when it's certain that no changes are made directly to the
+ * filesystem
+ *
+ * 1 -> Check each file or folder at most once per request, recommended for
+ * general use if outside changes might happen.
+ *
+ * 2 -> Check every time the filesystem is used, causes a performance hit when
+ * using external storages, not recommended for regular use.
+ */
+'filesystem_check_changes' => 1,
+
+/**
+ * All css and js files will be served by the web server statically in one js
+ * file and one css file if this is set to ``true``. This improves performance.
+ */
+'asset-pipeline.enabled' => false,
+
+/**
+ * The parent of the directory where css and js assets will be stored if
+ * piplelining is enabled; this defaults to the ownCloud directory. The assets
+ * will be stored in a subdirectory of this directory named 'assets'. The
+ * server *must* be configured to serve that directory as $WEBROOT/assets.
+ * You will only likely need to change this if the main ownCloud directory
+ * is not writeable by the web server in your configuration.
+ */
+'assetdirectory' => '/var/www/owncloud',
+
+/**
+ * Where ``mount.json`` file should be stored, defaults to ``data/mount.json``
+ */
+'mount_file' => 'data/mount.json',
+
+/**
+ * When ``true``, prevent ownCloud from changing the cache due to changes in the
+ * filesystem for all storage.
+ */
+'filesystem_cache_readonly' => false,
 
 /**
  * Secret used by ownCloud for various purposes, e.g. to encrypt data. If you
@@ -1017,9 +1026,8 @@ $CONFIG = array(
  * max file size for animating gifs on public-sharing-site.
  * If the gif is bigger, it'll show a static preview
  *
- * Value represents the maximum filesize in megabytes
- * Default is 10
- * Set to -1 for no limit
+ * Value represents the maximum filesize in megabytes. Default is ``10``. Set to
+ * ``-1`` for no limit.
  */
 'max_filesize_animated_gifs_public_sharing' => 10,
 
@@ -1030,7 +1038,9 @@ $CONFIG = array(
  *
  * Prevents concurrent processes to access the same files
  * at the same time. Can help prevent side effects that would
- * be caused by concurrent operations.
+ * be caused by concurrent operations. Mainly relevant for
+ * very large installations with many users working with
+ * shared files.
  *
  * WARNING: BETA quality
  */
@@ -1038,7 +1048,9 @@ $CONFIG = array(
 
 /**
  * Memory caching backend for file locking
- * Because most memcache backends can clean values without warning using redis is recommended
+ *
+ * Because most memcache backends can clean values without warning using redis
+ * is highly recommended to *avoid data loss*.
  */
 'memcache.locking' => '\\OC\\Memcache\\Redis',
 
