@@ -794,7 +794,7 @@ $CONFIG = array(
  */
 
 /**
- * The example below shows how to configure ownCloud to store all files in a
+ * This example shows how to configure ownCloud to store all files in a
  * swift object storage.
  *
  * It is important to note that ownCloud in object store mode will expect
