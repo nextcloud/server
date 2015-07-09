@@ -382,7 +382,12 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			if (is_array($groupDNs)) {
 				$groupDNs = $this->access->groupsMatchFilter($groupDNs);
 				foreach ($groupDNs as $dn) {
-					$groups[] = $this->access->dn2groupname($dn);
+					$groupName = $this->access->dn2groupname($dn);
+					if(is_string($groupName)) {
+						// be sure to never return false if the dn could not be
+						// resolved to a name, for whatever reason.
+						$groups[] = $groupName;
+					}
 				}
 			}
 			if($primaryGroup !== false) {
