@@ -670,7 +670,7 @@
 		 */
 		_createRow: function(fileData, options) {
 			var td, simpleSize, basename, extension, sizeColor,
-				icon = OC.Util.replaceSVGIcon(fileData.icon),
+				icon = OC.MimeType.getIconUrl(fileData.mimetype),
 				name = fileData.name,
 				type = fileData.type || 'file',
 				mtime = parseInt(fileData.mtime, 10),
@@ -708,14 +708,6 @@
 			}
 			else {
 				path = this.getCurrentDirectory();
-			}
-
-			if (type === 'dir') {
-				// use default folder icon
-				icon = icon || OC.imagePath('core', 'filetypes/folder');
-			}
-			else {
-				icon = icon || OC.imagePath('core', 'filetypes/file');
 			}
 
 			// filename td
