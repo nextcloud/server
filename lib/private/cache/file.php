@@ -177,9 +177,16 @@ class File implements ICache {
 			}
 			while (($file = readdir($dh)) !== false) {
 				if ($file != '.' and $file != '..') {
-					$mtime = $storage->filemtime('/' . $file);
-					if ($mtime < $now) {
-						$storage->unlink('/' . $file);
+					try {
+						$mtime = $storage->filemtime('/' . $file);
+						if ($mtime < $now) {
+							$storage->unlink('/' . $file);
+						}
+					} catch (\OCP\Lock\LockedException $e) {
+						// ignore locked chunks
+						\OC::$server->getLogger()->debug('Could not cleanup locked chunk "' . $file . '"', array('app' => 'core'));
+					} catch (\OCP\Files\LockNotAcquiredException $e) {
+						\OC::$server->getLogger()->debug('Could not cleanup locked chunk "' . $file . '"', array('app' => 'core'));
 					}
 				}
 			}
