@@ -80,8 +80,8 @@ $CONFIG = array(
 
 /**
  * Where user files are stored; this defaults to ``data/`` in the ownCloud
- * directory. The SQLite database is also stored here, when you use SQLite. (SQLite is
- * available only in ownCloud Community Edition)
+ * directory. The SQLite database is also stored here, when you use SQLite.
+ * (SQLite is not available in ownCloud Enterprise Edition)
  */
 'datadirectory' => '/var/www/owncloud/data',
 
@@ -96,7 +96,7 @@ $CONFIG = array(
  * ``supportedDatabases``
  *
  * Available:
- * 	- sqlite (SQLite3 - Community Edition Only)
+ * 	- sqlite (SQLite3 - Not in Enterprise Edition)
  * 	- mysql (MySQL/MariaDB)
  * 	- pgsql (PostgreSQL)
  * 	- oci (Oracle - Enterprise Edition Only)
@@ -838,7 +838,7 @@ $CONFIG = array(
  * Database types that are supported for installation.
  *
  * Available:
- * 	- sqlite (SQLite3 - Community Edition Only)
+ * 	- sqlite (SQLite3 - Not in Enterprise Edition)
  * 	- mysql (MySQL)
  * 	- pgsql (PostgreSQL)
  * 	- oci (Oracle - Enterprise Edition Only)
@@ -920,7 +920,7 @@ $CONFIG = array(
 
 /**
  * All css and js files will be served by the web server statically in one js
- * file and one css file if this is set to ``true``.
+ * file and one css file if this is set to ``true``. This improves performance.
  */
 'asset-pipeline.enabled' => false,
 
@@ -966,9 +966,8 @@ $CONFIG = array(
  * max file size for animating gifs on public-sharing-site.
  * If the gif is bigger, it'll show a static preview
  *
- * Value represents the maximum filesize in megabytes
- * Default is 10
- * Set to -1 for no limit
+ * Value represents the maximum filesize in megabytes. Default is 10. Set to
+ * -1 for no limit.
  */
 'max_filesize_animated_gifs_public_sharing' => 10,
 
