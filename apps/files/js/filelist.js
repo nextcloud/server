@@ -710,6 +710,14 @@
 				path = this.getCurrentDirectory();
 			}
 
+			if (type === 'dir') {
+				// use default folder icon
+				icon = icon || OC.imagePath('core', 'filetypes/folder');
+			}
+			else {
+				icon = icon || OC.imagePath('core', 'filetypes/file');
+			}
+
 			// filename td
 			td = $('<td class="filename"></td>');
 

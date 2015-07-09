@@ -697,7 +697,7 @@ describe('OCA.Files.FileList tests', function() {
 
 			expect(fileList.findFileEl('One.txt').length).toEqual(1);
 			expect(OC.TestUtil.getImageUrl(fileList.findFileEl('One.txt').find('.thumbnail')))
-				.toEqual(OC.imagePath('core', 'filetypes/file.svg'));
+				.toEqual(OC.imagePath('core', 'filetypes/text.svg'));
 		});
 	});
 	describe('Moving files', function() {
@@ -816,7 +816,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect(notificationStub.getCall(0).args[0]).toEqual('Error while moving file');
 
 			expect(OC.TestUtil.getImageUrl(fileList.findFileEl('One.txt').find('.thumbnail')))
-				.toEqual(OC.imagePath('core', 'filetypes/file.svg'));
+				.toEqual(OC.imagePath('core', 'filetypes/text.svg'));
 		});
 	});
 	describe('List rendering', function() {
@@ -1161,7 +1161,8 @@ describe('OCA.Files.FileList tests', function() {
 			var fileData = {
 				type: 'file',
 				name: 'test dir',
-				icon: OC.webroot + '/core/img/filetypes/application-pdf.svg'
+				icon: OC.webroot + '/core/img/filetypes/application-pdf.svg',
+				mimetype: 'application/pdf'
 			};
 			var $tr = fileList.add(fileData);
 			var $imgDiv = $tr.find('td.filename .thumbnail');
