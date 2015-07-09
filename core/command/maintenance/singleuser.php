@@ -27,7 +27,20 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use OCP\IConfig;
+
 class SingleUser extends Command {
+
+	/** @var IConfig */
+	protected $config;
+
+	/**
+	 * @param IConfig $config
+	 */
+	public function __construct(IConfig $config) {
+		$this->config = $config;
+		parent::__construct();
+	}
 
 	protected function configure() {
 		$this
@@ -49,13 +62,13 @@ class SingleUser extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		if ($input->getOption('on')) {
-			\OC_Config::setValue('singleuser', true);
+			$this->config->setSystemValue('singleuser', true);
 			$output->writeln('Single user mode enabled');
 		} elseif ($input->getOption('off')) {
-			\OC_Config::setValue('singleuser', false);
+			$this->config->setSystemValue('singleuser', false);
 			$output->writeln('Single user mode disabled');
 		} else {
-			if (\OC_Config::getValue('singleuser', false)) {
+			if ($this->config->getSystemValue('singleuser', false)) {
 				$output->writeln('Single user mode is currently enabled');
 			} else {
 				$output->writeln('Single user mode is currently disabled');
