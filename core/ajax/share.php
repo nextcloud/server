@@ -353,7 +353,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				// allow user to add unknown remote addresses for server-to-server share
 				$backend = \OCP\Share::getBackend((string)$_GET['itemType']);
 				if ($backend->isShareTypeAllowed(\OCP\Share::SHARE_TYPE_REMOTE)) {
-					if (substr_count((string)$_GET['search'], '@') === 1) {
+					if (substr_count((string)$_GET['search'], '@') >= 1) {
 						$shareWith[] = array(
 							'label' => (string)$_GET['search'],
 							'value' => array(
