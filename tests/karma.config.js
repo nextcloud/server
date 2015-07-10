@@ -121,7 +121,7 @@ module.exports = function(config) {
 	}
 
 	// extra test libs
-	files.push(corePath + 'tests/lib/sinon-1.7.3.js');
+	files.push(corePath + 'tests/lib/sinon-1.15.4.js');
 
 	// core mocks
 	files.push(corePath + 'tests/specHelper.js');
