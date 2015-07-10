@@ -36,7 +36,7 @@
     "Service Name (required for OpenStack Object Storage)" : "Nom du service (requis pour le stockage OpenStack)",
     "URL of identity endpoint (required for OpenStack Object Storage)" : "URL du point d'accès d'identité (requis pour le stockage OpenStack)",
     "Timeout of HTTP requests in seconds" : "Délai d'attente maximal des requêtes HTTP en secondes",
-    "Share" : "Partager",
+    "Share" : "Partage",
     "SMB / CIFS using OC login" : "SMB / CIFS en utilisant les identifiants OC",
     "Username as share" : "Nom d'utilisateur comme nom de partage",
     "URL" : "URL",

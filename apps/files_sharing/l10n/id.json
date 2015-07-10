@@ -27,6 +27,7 @@
     "A file or folder has been <strong>shared</strong>" : "Sebuah berkas atau folder telah <strong>dibagikan</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Sebuah berkas atau folder telah dibagikan dari <strong>server lainnya</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Sebuah berkas atau folder berbagi publik telah <strong>diunduh</strong>",
+    "You received a new remote share %2$s from %1$s" : "Anda menerima berbagi remote baru %2$s dari %1$s",
     "You received a new remote share from %s" : "Anda menerima berbagi remote baru dari %s",
     "%1$s accepted remote share %2$s" : "%1$s menerima berbagi remote %2$s",
     "%1$s declined remote share %2$s" : "%1$s menolak berbagi remote %2$s",

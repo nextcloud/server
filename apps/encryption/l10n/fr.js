@@ -39,7 +39,7 @@ OC.L10N.register(
     "Change Password" : "Changer de mot de passe",
     "ownCloud basic encryption module" : "Module de chiffrement de base d'ownCloud",
     "Your private key password no longer matches your log-in password." : "Le mot de passe de votre clef privée ne correspond plus à votre mot de passe de connexion.",
-    "Set your old private key password to your current log-in password:" : "Faites de votre mot de passe de connexion le mot de passe de votre clef privée :",
+    "Set your old private key password to your current log-in password:" : "Remplacez l'ancien mot de passe de votre clé privée par votre mot de passe de connexion actuel :",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Si vous ne vous souvenez plus de votre ancien mot de passe, vous pouvez demander à votre administrateur de récupérer vos fichiers.",
     "Old log-in password" : "Ancien mot de passe de connexion",
     "Current log-in password" : "Actuel mot de passe de connexion",

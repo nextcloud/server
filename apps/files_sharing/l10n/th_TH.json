@@ -27,6 +27,7 @@
     "A file or folder has been <strong>shared</strong>" : "ไฟล์หรือโฟลเดอร์ได้ถูก <strong>แชร์</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "ไฟล์หรือโฟลเดอร์จะถูกแชร์จาก <strong>เซิร์ฟเวอร์อื่นๆ</ strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "แชร์ไฟล์หรือโฟลเดอร์สาธารณะถูก <strong>ดาวน์โหลด</strong>",
+    "You received a new remote share %2$s from %1$s" : "คุณได้รับการแชร์ระยะไกลใหม่ %2$s จาก %1$s",
     "You received a new remote share from %s" : "คุณได้รับการแชร์ระยะไกลใหม่จาก %s",
     "%1$s accepted remote share %2$s" : "%1$s ยอมรับการแชร์ %2$s จากระยะไกล",
     "%1$s declined remote share %2$s" : "%1$s ปฏิเสธการแชร์ %2$s จากระยะไกล",
