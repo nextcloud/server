@@ -1,7 +1,11 @@
 {
-	"_comment" : "When this file is changed make sure to run",
-	"_comment2": "./occ maintenance:mimetypesjs",
-	"_comment3": "Otherwise your update won't propagate through the system",
+	"_comment" : "Array of mimetype aliases.",
+	"_comment2": "Any changes you make here will be overwritten on an update of ownCloud.",
+	"_comment3": "Put any custom aliases in a new file mimetypealiases.json in this directory",
+
+	"_comment4": "After any change to mimetypealiases.json run:",
+	"_comment5": "./occ maintenance:mimetypesjs",
+	"_comment6": "Otherwise your update won't propagate through the system.",
 
 
 	"application/coreldraw": "image",

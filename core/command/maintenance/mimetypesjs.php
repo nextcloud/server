@@ -33,7 +33,12 @@ class MimeTypesJS extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		// Fetch all the aliases
-		$aliases = json_decode(file_get_contents(dirname(__DIR__) . '/../../config/mimetypealiases.json'), true);
+		$aliases = json_decode(file_get_contents(\OC::$SERVERROOT . '/config/mimetypealiases.dist.json'), true);
+
+		if (file_exists(\OC::$SERVERROOT . '/config/mimetypealiases.json')) {
+			$custom = get_object_vars(json_decode(file_get_contents(\OC::$SERVERROOT . '/config/mimetypealiases.json')));
+			$aliases = array_merge($aliases, $custom);
+		}
 
 		// Remove comments
 		$keys = array_filter(array_keys($aliases), function($k) {

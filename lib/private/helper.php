@@ -188,8 +188,13 @@ class OC_Helper {
 
 		// On first access load the list of mimetype aliases
 		if (empty(self::$mimeTypeAlias)) {
-			$file = file_get_contents(OC::$SERVERROOT . '/config/mimetypealiases.json');
+			$file = file_get_contents(OC::$SERVERROOT . '/config/mimetypealiases.dist.json');
 			self::$mimeTypeAlias = get_object_vars(json_decode($file));
+
+			if (file_exists(\OC::$SERVERROOT . '/config/mimetypealiases.json')) {
+				$custom = get_object_vars(json_decode(file_get_contents(\OC::$SERVERROOT . '/config/mimetypealiases.json')));
+				self::$mimeTypeAlias = array_merge(self::$mimeTypeAlias, $custom);
+			}
 		}
 
 		if (isset(self::$mimeTypeAlias[$mimetype])) {
