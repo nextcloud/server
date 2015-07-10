@@ -424,12 +424,12 @@ class OC_Helper {
 	 */
 	static public function getMimetypeDetector() {
 		if (!self::$mimetypeDetector) {
-			$dist = file_get_contents(OC::$SERVERROOT . '/config/mimetypemapping.dist.json');
+			$dist = file_get_contents(OC::$configDir . '/mimetypemapping.dist.json');
 			$mimetypemapping = get_object_vars(json_decode($dist));
 
 			//Check if need to load custom mappings
-			if (file_exists(OC::$SERVERROOT . '/config/mimetypemapping.json')) {
-				$custom = file_get_contents(OC::$SERVERROOT . '/config/mimetypemapping.json');
+			if (file_exists(OC::$configDir . '/mimetypemapping.json')) {
+				$custom = file_get_contents(OC::$configDir . '/mimetypemapping.json');
 				$custom_mapping = get_object_vars(json_decode($custom));
 				$mimetypemapping = array_merge($mimetypemapping, $custom_mapping);
 			}
