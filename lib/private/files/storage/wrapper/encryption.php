@@ -403,6 +403,7 @@ class Encryption extends Wrapper {
 						// OC_DEFAULT_MODULE to read the file
 						$encryptionModule = $this->encryptionManager->getEncryptionModule('OC_DEFAULT_MODULE');
 						$shouldEncrypt = true;
+						$targetIsEncrypted = true;
 					}
 				}
 			} catch (ModuleDoesNotExistsException $e) {
