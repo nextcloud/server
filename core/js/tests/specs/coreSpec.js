@@ -134,6 +134,47 @@ describe('Core base tests', function() {
 			expect(escapeHTML('This is a good string without HTML.')).toEqual('This is a good string without HTML.');
 		});
 	});
+	describe('joinPaths', function() {
+		it('returns empty string with no or empty arguments', function() {
+			expect(OC.joinPaths()).toEqual('');
+			expect(OC.joinPaths('')).toEqual('');
+			expect(OC.joinPaths('', '')).toEqual('');
+		});
+		it('returns joined path sections', function() {
+			expect(OC.joinPaths('abc')).toEqual('abc');
+			expect(OC.joinPaths('abc', 'def')).toEqual('abc/def');
+			expect(OC.joinPaths('abc', 'def', 'ghi')).toEqual('abc/def/ghi');
+		});
+		it('keeps leading slashes', function() {
+			expect(OC.joinPaths('/abc')).toEqual('/abc');
+			expect(OC.joinPaths('/abc', 'def')).toEqual('/abc/def');
+			expect(OC.joinPaths('/abc', 'def', 'ghi')).toEqual('/abc/def/ghi');
+		});
+		it('keeps trailing slashes', function() {
+			expect(OC.joinPaths('abc/')).toEqual('abc/');
+			expect(OC.joinPaths('abc', 'def/')).toEqual('abc/def/');
+			expect(OC.joinPaths('abc', 'def', 'ghi/')).toEqual('abc/def/ghi/');
+		});
+		it('splits paths in specified strings and discards extra slashes', function() {
+			expect(OC.joinPaths('//abc//')).toEqual('/abc/');
+			expect(OC.joinPaths('//abc//def//')).toEqual('/abc/def/');
+			expect(OC.joinPaths('//abc//', '//def//')).toEqual('/abc/def/');
+			expect(OC.joinPaths('//abc//', '//def//', '//ghi//')).toEqual('/abc/def/ghi/');
+			expect(OC.joinPaths('//abc//def//', '//ghi//jkl/mno/', '//pqr//'))
+				.toEqual('/abc/def/ghi/jkl/mno/pqr/');
+			expect(OC.joinPaths('/abc', '/def')).toEqual('/abc/def');
+			expect(OC.joinPaths('/abc/', '/def')).toEqual('/abc/def');
+			expect(OC.joinPaths('/abc/', 'def')).toEqual('/abc/def');
+		});
+		it('discards empty sections', function() {
+			expect(OC.joinPaths('abc', '', 'def')).toEqual('abc/def');
+		});
+		it('returns root if only slashes', function() {
+			expect(OC.joinPaths('//')).toEqual('/');
+			expect(OC.joinPaths('/', '/')).toEqual('/');
+			expect(OC.joinPaths('/', '//', '/')).toEqual('/');
+		});
+	});
 	describe('filePath', function() {
 		beforeEach(function() {
 			OC.webroot = 'http://localhost';
