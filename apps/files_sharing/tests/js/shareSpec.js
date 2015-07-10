@@ -90,7 +90,7 @@ describe('OCA.Sharing.Util tests', function() {
 				type: 'dir',
 				name: 'One',
 				path: '/subdir',
-				mimetype: 'text/plain',
+				mimetype: 'httpd/unix-directory',
 				size: 12,
 				permissions: OC.PERMISSION_ALL,
 				etag: 'abc'

@@ -64,6 +64,7 @@ OC.MimeTypeList={
     "application/xml": "text/html",
     "application/yaml": "text/code",
     "application/zip": "package/x-generic",
+    "httpd/unix-directory": "dir",
     "image/svg+xml": "image/vector",
     "text/css": "text/code",
     "text/csv": "x-office/spreadsheet",
