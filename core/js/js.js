@@ -326,6 +326,48 @@ var OC={
 	},
 
 	/**
+	 * Join path sections
+	 *
+	 * @param {...String} path sections
+	 *
+	 * @return {String} joined path, any leading or trailing slash
+	 * will be kept
+	 *
+	 * @since 8.2
+	 */
+	joinPaths: function() {
+		if (arguments.length < 1) {
+			return '';
+		}
+		var path = '';
+		var lastArg = arguments[arguments.length - 1];
+		var leadingSlash = arguments[0].charAt(0) === '/';
+		var trailingSlash = lastArg.charAt(lastArg.length - 1) === '/';
+		var sections = [];
+		var i;
+		for (i = 0; i < arguments.length; i++) {
+			sections = sections.concat(arguments[i].split('/'));
+		}
+		var first = !leadingSlash;
+		for (i = 0; i < sections.length; i++) {
+			if (sections[i] !== '') {
+				if (first) {
+					first = false;
+				} else {
+					path += '/';
+				}
+				path += sections[i];
+			}
+		}
+
+		if (trailingSlash) {
+			// add it back
+			path += '/';
+		}
+		return path;
+	},
+
+	/**
 	 * Do a search query and display the results
 	 * @param {string} query the search query
 	 */
