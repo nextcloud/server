@@ -162,6 +162,9 @@ describe('Core base tests', function() {
 			expect(OC.joinPaths('//abc//', '//def//', '//ghi//')).toEqual('/abc/def/ghi/');
 			expect(OC.joinPaths('//abc//def//', '//ghi//jkl/mno/', '//pqr//'))
 				.toEqual('/abc/def/ghi/jkl/mno/pqr/');
+			expect(OC.joinPaths('/abc', '/def')).toEqual('/abc/def');
+			expect(OC.joinPaths('/abc/', '/def')).toEqual('/abc/def');
+			expect(OC.joinPaths('/abc/', 'def')).toEqual('/abc/def');
 		});
 		it('discards empty sections', function() {
 			expect(OC.joinPaths('abc', '', 'def')).toEqual('abc/def');
