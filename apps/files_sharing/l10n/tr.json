@@ -27,6 +27,7 @@
     "A file or folder has been <strong>shared</strong>" : "Bir dosya veya klasör <strong>paylaşıldı</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "<strong>Başka sunucudan</strong> bir dosya veya klasör paylaşıldı",
     "A public shared file or folder was <strong>downloaded</strong>" : "Herkese açık paylaşılan bir dosya veya klasör <strong>indirildi</strong>",
+    "You received a new remote share %2$s from %1$s" : "%1$s kişisinden, %2$s uzak paylaşımını aldınız",
     "You received a new remote share from %s" : "%s kişisinden yeni bir uzak paylaşım aldınız",
     "%1$s accepted remote share %2$s" : "%1$s, %2$s uzak paylaşımını kabul etti",
     "%1$s declined remote share %2$s" : "%1$s, %2$s uzak paylaşımını reddetti",

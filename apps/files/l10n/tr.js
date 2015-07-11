@@ -47,6 +47,8 @@ OC.L10N.register(
     "Select" : "Seç",
     "Pending" : "Bekliyor",
     "Unable to determine date" : "Tarih tespit edilemedi",
+    "This operation is forbidden" : "Bu işlem yasak",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Bu dizine yazılamıyor, lütfen günlüğü kontrol edin veya yönetici ile iletişime geçin",
     "Error moving file." : "Dosya taşıma hatası.",
     "Error moving file" : "Dosya taşıma hatası",
     "Error" : "Hata",

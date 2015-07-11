@@ -189,7 +189,7 @@
     "Version" : "Versjon",
     "Developer documentation" : "Utviklerdokumentasjon",
     "Experimental applications ahead" : "Eksperimentelle applikasjoner forut",
-    "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Eksperimentelle apper er ikke sjekket for sikkerhetsproblemer, nye eller anses som ustabile og under travel utvikling. Å installere slike apper kan forårsake tap av data eller sikkerhetsbrudd.",
+    "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Eksperimentelle apper er ikke sjekket for sikkerhetsproblemer, de er nye eller de anses som ustabile og under kontinuerlig utvikling. Å installere slike apper kan forårsake tap av data eller sikkerhetsbrudd.",
     "by" : "av",
     "licensed" : "lisensiert",
     "Documentation:" : "Dokumentasjon:",
