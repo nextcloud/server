@@ -14,6 +14,7 @@
     "Library %s with a version lower than %s is required - available version %s." : "Je vyžadována knihovna %s ve verzi nižší než %s - dostupná verze %s.",
     "Following platforms are supported: %s" : "Jsou podporovány následující systémy: %s",
     "ownCloud %s or higher is required." : "Je vyžadován ownCloud %s nebo vyšší.",
+    "ownCloud %s or lower is required." : "Je vyžadován ownCloud %s nebo nižší.",
     "Help" : "Nápověda",
     "Personal" : "Osobní",
     "Users" : "Uživatelé",

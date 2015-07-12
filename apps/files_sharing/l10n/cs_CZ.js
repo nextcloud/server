@@ -29,6 +29,7 @@ OC.L10N.register(
     "A file or folder has been <strong>shared</strong>" : "Soubor nebo složka byla <strong>nasdílena</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Soubor nebo složka byla nasdílena z <strong>jiného serveru</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Byl <strong>stažen</strong> veřejně sdílený soubor nebo adresář",
+    "You received a new remote share %2$s from %1$s" : "Obdrželi jste nové vzdálené sdílení %2$s od uživatele %1$s",
     "You received a new remote share from %s" : "Obdrželi jste nové vzdálené sdílení z %s",
     "%1$s accepted remote share %2$s" : "%1$s přijal(a) vzdálené sdílení %2$s",
     "%1$s declined remote share %2$s" : "%1$s odmítl(a) vzdálené sdílení %2$s",
