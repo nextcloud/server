@@ -62,7 +62,7 @@ class FilesPlugin extends \Test\TestCase {
 			->will($this->returnValue('"abc"'));
 		$node->expects($this->any())
 			->method('getDavPermissions')
-			->will($this->returnValue('R'));
+			->will($this->returnValue('DWCKMSR'));
 
 		return $node;
 	}
@@ -98,9 +98,34 @@ class FilesPlugin extends \Test\TestCase {
 		$this->assertEquals('"abc"', $propFind->get(self::GETETAG_PROPERTYNAME));
 		$this->assertEquals(123, $propFind->get(self::FILEID_PROPERTYNAME));
 		$this->assertEquals(null, $propFind->get(self::SIZE_PROPERTYNAME));
-		$this->assertEquals('R', $propFind->get(self::PERMISSIONS_PROPERTYNAME));
+		$this->assertEquals('DWCKMSR', $propFind->get(self::PERMISSIONS_PROPERTYNAME));
 		$this->assertEquals('http://example.com/', $propFind->get(self::DOWNLOADURL_PROPERTYNAME));
 		$this->assertEquals(array(self::SIZE_PROPERTYNAME), $propFind->get404Properties());
+	}
+
+	public function testGetPublicPermissions() {
+		$this->plugin = new \OC\Connector\Sabre\FilesPlugin($this->tree, true);
+		$this->plugin->initialize($this->server);
+
+		$propFind = new \Sabre\DAV\PropFind(
+			'/dummyPath',
+			[
+				self::PERMISSIONS_PROPERTYNAME,
+			],
+			0
+		);
+
+		$node = $this->createTestNode('\OC\Connector\Sabre\File');
+		$node->expects($this->any())
+			->method('getDavPermissions')
+			->will($this->returnValue('DWCKMSR'));
+
+		$this->plugin->handleGetProperties(
+			$propFind,
+			$node
+		);
+
+		$this->assertEquals('DWCKR', $propFind->get(self::PERMISSIONS_PROPERTYNAME));
 	}
 
 	public function testGetPropertiesForDirectory() {
@@ -132,7 +157,7 @@ class FilesPlugin extends \Test\TestCase {
 		$this->assertEquals('"abc"', $propFind->get(self::GETETAG_PROPERTYNAME));
 		$this->assertEquals(123, $propFind->get(self::FILEID_PROPERTYNAME));
 		$this->assertEquals(1025, $propFind->get(self::SIZE_PROPERTYNAME));
-		$this->assertEquals('R', $propFind->get(self::PERMISSIONS_PROPERTYNAME));
+		$this->assertEquals('DWCKMSR', $propFind->get(self::PERMISSIONS_PROPERTYNAME));
 		$this->assertEquals(null, $propFind->get(self::DOWNLOADURL_PROPERTYNAME));
 		$this->assertEquals(array(self::DOWNLOADURL_PROPERTYNAME), $propFind->get404Properties());
 	}
