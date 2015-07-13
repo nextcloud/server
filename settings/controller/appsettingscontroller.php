@@ -173,7 +173,7 @@ class AppSettingsController extends Controller {
 						if(!array_key_exists('level', $app) && array_key_exists('ocsid', $app)) {
 							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], \OC_Util::getVersion());
 
-							if(array_key_exists('level', $remoteAppEntry)) {
+							if(is_array($remoteAppEntry) && array_key_exists('level', $remoteAppEntry)) {
 								$apps[$key]['level'] = $remoteAppEntry['level'];
 							}
 						}
@@ -189,7 +189,7 @@ class AppSettingsController extends Controller {
 						if(!array_key_exists('level', $app) && array_key_exists('ocsid', $app)) {
 							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], \OC_Util::getVersion());
 
-							if(array_key_exists('level', $remoteAppEntry)) {
+							if(is_array($remoteAppEntry) && array_key_exists('level', $remoteAppEntry)) {
 								$apps[$key]['level'] = $remoteAppEntry['level'];
 							}
 						}
