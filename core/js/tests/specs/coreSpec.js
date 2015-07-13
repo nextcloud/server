@@ -147,11 +147,15 @@ describe('Core base tests', function() {
 		});
 		it('keeps leading slashes', function() {
 			expect(OC.joinPaths('/abc')).toEqual('/abc');
+			expect(OC.joinPaths('/abc', '')).toEqual('/abc');
+			expect(OC.joinPaths('', '/abc')).toEqual('/abc');
 			expect(OC.joinPaths('/abc', 'def')).toEqual('/abc/def');
 			expect(OC.joinPaths('/abc', 'def', 'ghi')).toEqual('/abc/def/ghi');
 		});
 		it('keeps trailing slashes', function() {
+			expect(OC.joinPaths('', 'abc/')).toEqual('abc/');
 			expect(OC.joinPaths('abc/')).toEqual('abc/');
+			expect(OC.joinPaths('abc/', '')).toEqual('abc/');
 			expect(OC.joinPaths('abc', 'def/')).toEqual('abc/def/');
 			expect(OC.joinPaths('abc', 'def', 'ghi/')).toEqual('abc/def/ghi/');
 		});
