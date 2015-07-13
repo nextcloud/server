@@ -468,7 +468,7 @@ class DAV extends \OC\Files\Storage\Common {
 	public function getPermissions($path) {
 		$this->init();
 		$path = $this->cleanPath($path);
-		$response = $this->propfind($path);
+		$response = $this->client->propfind($this->encodePath($path), array('{http://owncloud.org/ns}permissions'));
 		if (isset($response['{http://owncloud.org/ns}permissions'])) {
 			return $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
 		} else if ($this->is_dir($path)) {
@@ -484,7 +484,7 @@ class DAV extends \OC\Files\Storage\Common {
 	public function getETag($path) {
 		$this->init();
 		$path = $this->cleanPath($path);
-		$response = $this->propfind($path);
+		$response = $this->client->propfind($this->encodePath($path), array('{DAV:}getetag'));
 		if (isset($response['{DAV:}getetag'])) {
 			return trim($response['{DAV:}getetag'], '"');
 		}
