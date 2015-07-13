@@ -27,6 +27,7 @@
     "A file or folder has been <strong>shared</strong>" : "Ένα αρχείο ή φάκελος <strong>διαμοιράστηκε</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Ένα αρχείο ή φάκελος διαμοιράστηκε από <strong>έναν άλλο διακομιστή</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Ένα δημόσια διαμοιρασμένο αρχείο ή φάκελος <strong>ελήφθη</strong>",
+    "You received a new remote share %2$s from %1$s" : "Λάβατε ένα νέο απομακρυσμένο διαμοιρασμό %2$s από %1$s",
     "You received a new remote share from %s" : "Λάβατε ένα νέο απομακρυσμένο κοινόχρηστο φάκελο από %s",
     "%1$s accepted remote share %2$s" : "Ο %1$s αποδέχθηκε τον απομακρυσμένο φάκελο %2$s",
     "%1$s declined remote share %2$s" : "Ο %1$s αρνήθηκε τον απομακρυσμένο διαμοιρασμένο φάκελο %2$s",
