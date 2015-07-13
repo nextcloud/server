@@ -385,13 +385,23 @@ var OC={
 			return '';
 		}
 		var path = '';
-		var lastArg = arguments[arguments.length - 1];
-		var leadingSlash = arguments[0].charAt(0) === '/';
+		// convert to array
+		var args = Array.prototype.slice.call(arguments);
+		// discard empty arguments
+		args = _.filter(args, function(arg) {
+			return arg.length > 0;
+		});
+		if (args.length < 1) {
+			return '';
+		}
+
+		var lastArg = args[args.length - 1];
+		var leadingSlash = args[0].charAt(0) === '/';
 		var trailingSlash = lastArg.charAt(lastArg.length - 1) === '/';
 		var sections = [];
 		var i;
-		for (i = 0; i < arguments.length; i++) {
-			sections = sections.concat(arguments[i].split('/'));
+		for (i = 0; i < args.length; i++) {
+			sections = sections.concat(args[i].split('/'));
 		}
 		var first = !leadingSlash;
 		for (i = 0; i < sections.length; i++) {
