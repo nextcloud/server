@@ -68,7 +68,17 @@ var OC={
 	PERMISSION_ALL:31,
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 	/* jshint camelcase: false */
+	/**
+	 * Relative path to ownCloud root.
+	 * For example: "/owncloud"
+	 *
+	 * @type string
+	 *
+	 * @deprecated since 8.2, use OC.getRootPath() instead
+	 * @see OC#getRootPath
+	 */
 	webroot:oc_webroot,
+
 	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	config: window.oc_config,
@@ -216,6 +226,41 @@ var OC={
 	 */
 	getProtocol: function() {
 		return window.location.protocol.split(':')[0];
+	},
+
+	/**
+	 * Returns the host name used to access this ownCloud instance
+	 *
+	 * @return {string} host name
+	 *
+	 * @since 8.2
+	 */
+	getHost: function() {
+		return window.location.host;
+	},
+
+	/**
+	 * Returns the port number used to access this ownCloud instance
+	 *
+	 * @return {int} port number
+	 *
+	 * @since 8.2
+	 */
+	getPort: function() {
+		return window.location.port;
+	},
+
+	/**
+	 * Returns the web root path where this ownCloud instance
+	 * is accessible, with a leading slash.
+	 * For example "/owncloud".
+	 *
+	 * @return {string} web root path
+	 *
+	 * @since 8.2
+	 */
+	getRootPath: function() {
+		return OC.webroot;
 	},
 
 	/**
