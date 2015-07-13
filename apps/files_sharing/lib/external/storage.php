@@ -253,7 +253,7 @@ class Storage extends DAV implements ISharedStorage {
 			// throw this to be on the safe side: the share will still be visible
 			// in the UI in case the failure is intermittent, and the user will
 			// be able to decide whether to remove it if it's really gone
-			throw new NotFoundException();
+			throw new StorageNotAvailableException();
 		}
 
 		return json_decode($response->getBody(), true);
