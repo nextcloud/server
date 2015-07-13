@@ -434,8 +434,18 @@ class OC_Helper {
 	 */
 	static public function getMimetypeDetector() {
 		if (!self::$mimetypeDetector) {
+			$dist = file_get_contents(OC::$configDir . '/mimetypemapping.dist.json');
+			$mimetypemapping = get_object_vars(json_decode($dist));
+
+			//Check if need to load custom mappings
+			if (file_exists(OC::$configDir . '/mimetypemapping.json')) {
+				$custom = file_get_contents(OC::$configDir . '/mimetypemapping.json');
+				$custom_mapping = get_object_vars(json_decode($custom));
+				$mimetypemapping = array_merge($mimetypemapping, $custom_mapping);
+			}
+
 			self::$mimetypeDetector = new \OC\Files\Type\Detection();
-			self::$mimetypeDetector->registerTypeArray(include 'mimetypes.list.php');
+			self::$mimetypeDetector->registerTypeArray($mimetypemapping);
 		}
 		return self::$mimetypeDetector;
 	}
