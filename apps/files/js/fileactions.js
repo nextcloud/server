@@ -575,7 +575,8 @@
 				},
 				actionHandler: function (filename, context) {
 					var dir = context.dir || context.fileList.getCurrentDirectory();
-					var url = context.fileList.getDownloadUrl(filename, dir);
+					var isDir = context.$file.attr('data-type') === 'dir';
+					var url = context.fileList.getDownloadUrl(filename, dir, isDir);
 
 					var downloadFileaction = $(context.$file).find('.fileactions .action-download');
 

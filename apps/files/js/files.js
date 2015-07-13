@@ -136,13 +136,27 @@
 
 		/**
 		 * Returns the download URL of the given file(s)
-		 * @param filename string or array of file names to download
-		 * @param dir optional directory in which the file name is, defaults to the current directory
+		 * @param {string} filename string or array of file names to download
+		 * @param {string} [dir] optional directory in which the file name is, defaults to the current directory
+		 * @param {bool} [isDir=false] whether the given filename is a directory and might need a special URL
 		 */
-		getDownloadUrl: function(filename, dir) {
-			if ($.isArray(filename)) {
+		getDownloadUrl: function(filename, dir, isDir) {
+			if (!_.isArray(filename) && !isDir) {
+				var pathSections = dir.split('/');
+				pathSections.push(filename);
+				var encodedPath = '';
+				_.each(pathSections, function(section) {
+					if (section !== '') {
+						encodedPath += '/' + encodeURIComponent(section);
+					}
+				});
+				return OC.linkToRemoteBase('webdav') + encodedPath;
+			}
+
+			if (_.isArray(filename)) {
 				filename = JSON.stringify(filename);
 			}
+
 			var params = {
 				dir: dir,
 				files: filename
@@ -356,8 +370,10 @@ scanFiles.scanning=false;
 
 // TODO: move to FileList
 var createDragShadow = function(event) {
+	// FIXME: inject file list instance somehow
+	/* global FileList, Files */
+
 	//select dragged file
-	var FileList = OCA.Files.App.fileList;
 	var isDragSelected = $(event.target).parents('tr').find('td input:first').prop('checked');
 	if (!isDragSelected) {
 		//select dragged file
@@ -394,7 +410,7 @@ var createDragShadow = function(event) {
 				.css('background-image', 'url(' + OC.imagePath('core', 'filetypes/folder.png') + ')');
 		} else {
 			var path = dir + '/' + elem.name;
-			OCA.Files.App.files.lazyLoadPreview(path, elem.mime, function(previewpath) {
+			Files.lazyLoadPreview(path, elem.mimetype, function(previewpath) {
 				newtr.find('td.filename')
 					.css('background-image', 'url(' + previewpath + ')');
 			}, null, null, elem.etag);
@@ -441,7 +457,7 @@ var folderDropOptions = {
 	hoverClass: "canDrop",
 	drop: function( event, ui ) {
 		// don't allow moving a file into a selected folder
-		var FileList = OCA.Files.App.fileList;
+		/* global FileList */
 		if ($(event.target).parents('tr').find('td input:first').prop('checked') === true) {
 			return false;
 		}

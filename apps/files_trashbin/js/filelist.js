@@ -283,7 +283,77 @@
 
 		isSelectedDeletable: function() {
 			return true;
-		}
+		},
+
+		/**
+		 * Reloads the file list using ajax call
+		 *
+		 * @return ajax call object
+		 */
+		reload: function() {
+			this._selectedFiles = {};
+			this._selectionSummary.clear();
+			this.$el.find('.select-all').prop('checked', false);
+			this.showMask();
+			if (this._reloadCall) {
+				this._reloadCall.abort();
+			}
+			this._reloadCall = $.ajax({
+				url: this.getAjaxUrl('list'),
+				data: {
+					dir : this.getCurrentDirectory(),
+					sort: this._sort,
+					sortdirection: this._sortDirection
+				}
+			});
+			var callBack = this.reloadCallback.bind(this);
+			return this._reloadCall.then(callBack, callBack);
+		},
+		reloadCallback: function(result) {
+			delete this._reloadCall;
+			this.hideMask();
+
+			if (!result || result.status === 'error') {
+				// if the error is not related to folder we're trying to load, reload the page to handle logout etc
+				if (result.data.error === 'authentication_error' ||
+					result.data.error === 'token_expired' ||
+					result.data.error === 'application_not_enabled'
+				) {
+					OC.redirect(OC.generateUrl('apps/files'));
+				}
+				OC.Notification.show(result.data.message);
+				return false;
+			}
+
+			// Firewall Blocked request?
+			if (result.status === 403) {
+				// Go home
+				this.changeDirectory('/');
+				OC.Notification.show(t('files', 'This operation is forbidden'));
+				return false;
+			}
+
+			// Did share service die or something else fail?
+			if (result.status === 500) {
+				// Go home
+				this.changeDirectory('/');
+				OC.Notification.show(t('files', 'This directory is unavailable, please check the logs or contact the administrator'));
+				return false;
+			}
+
+			if (result.status === 404) {
+				// go back home
+				this.changeDirectory('/');
+				return false;
+			}
+			// aborted ?
+			if (result.status === 0){
+				return true;
+			}
+
+			this.setFiles(result.data.files);
+			return true;
+		},
 
 	});
 

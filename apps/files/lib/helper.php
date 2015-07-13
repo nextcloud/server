@@ -139,9 +139,6 @@ class Helper {
 		$entry['parentId'] = $i['parent'];
 		$entry['mtime'] = $i['mtime'] * 1000;
 		// only pick out the needed attributes
-		if (\OC::$server->getPreviewManager()->isAvailable($i)) {
-			$entry['isPreviewAvailable'] = true;
-		}
 		$entry['name'] = $i->getName();
 		$entry['permissions'] = $i['permissions'];
 		$entry['mimetype'] = $i['mimetype'];

@@ -100,8 +100,7 @@ describe('OCA.Files.FavoritesFileList tests', function() {
 			expect($tr.attr('data-mtime')).toEqual('11111000');
 			expect($tr.find('a.name').attr('href')).toEqual(
 				OC.webroot +
-				'/index.php/apps/files/ajax/download.php' +
-				'?dir=%2Fsomedir&files=test.txt'
+				'/remote.php/webdav/somedir/test.txt'
 			);
 			expect($tr.find('.nametext').text().trim()).toEqual('test.txt');
 		});

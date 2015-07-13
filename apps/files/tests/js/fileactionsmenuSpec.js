@@ -237,8 +237,8 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 			expect(redirectStub.calledOnce).toEqual(true);
 			expect(redirectStub.getCall(0).args[0]).toContain(
 				OC.webroot +
-				'/index.php/apps/files/ajax/download.php' +
-				'?dir=%2Fsubdir&files=testName.txt');
+				'/remote.php/webdav/subdir/testName.txt'
+			);
 			redirectStub.restore();
 		});
 		it('takes the file\'s path into account when clicking download', function() {
@@ -269,8 +269,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 
 			expect(redirectStub.calledOnce).toEqual(true);
 			expect(redirectStub.getCall(0).args[0]).toContain(
-				OC.webroot + '/index.php/apps/files/ajax/download.php' +
-				'?dir=%2Fanotherpath%2Fthere&files=testName.txt'
+				OC.webroot + '/remote.php/webdav/anotherpath/there/testName.txt'
 			);
 			redirectStub.restore();
 		});

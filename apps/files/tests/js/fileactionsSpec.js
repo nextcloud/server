@@ -584,7 +584,7 @@ describe('OCA.Files.FileActions tests', function() {
 				expect(busyStub.calledWith('testName.txt', true)).toEqual(true);
 				expect(handleDownloadStub.calledOnce).toEqual(true);
 				expect(handleDownloadStub.getCall(0).args[0]).toEqual(
-					OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=testName.txt'
+					OC.webroot + '/remote.php/webdav/subdir/testName.txt'
 				);
 				busyStub.reset();
 				handleDownloadStub.yield();
