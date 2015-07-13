@@ -82,10 +82,13 @@ class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 
 					}
 					return true;
+				} else if (\OC::$server->getSession()->exists('public_link_authenticated')
+					&& \OC::$server->getSession()->get('public_link_authenticated') === $linkItem['id']) {
+					return true;
 				} else {
 					return false;
 				}
-			} elseif ($linkItem['share_type'] == \OCP\Share::SHARE_TYPE_REMOTE) {
+			} else if ($linkItem['share_type'] == \OCP\Share::SHARE_TYPE_REMOTE) {
 				return true;
 			} else {
 				return false;
