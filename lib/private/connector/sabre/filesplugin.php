@@ -56,10 +56,19 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	private $tree;
 
 	/**
+	 * Whether this is public webdav.
+	 * If true, some returned information will be stripped off.
+	 *
+	 * @var bool
+	 */
+	private $isPublic;
+
+	/**
 	 * @param \Sabre\DAV\Tree $tree
 	 */
-	public function __construct(\Sabre\DAV\Tree $tree) {
+	public function __construct(\Sabre\DAV\Tree $tree, $isPublic = false) {
 		$this->tree = $tree;
+		$this->isPublic = $isPublic;
 	}
 
 	/**
@@ -129,7 +138,12 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 			});
 
 			$propFind->handle(self::PERMISSIONS_PROPERTYNAME, function() use ($node) {
-				return $node->getDavPermissions();
+				$perms = $node->getDavPermissions();
+				if ($this->isPublic) {
+					// remove mount information
+					$perms = str_replace(['S', 'M'], '', $perms);
+				}
+				return $perms;
 			});
 
 			$propFind->handle(self::GETETAG_PROPERTYNAME, function() use ($node) {
