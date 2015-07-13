@@ -48,8 +48,20 @@ OCA.Sharing.PublicApp = {
 		this._initialized = true;
 		this.initialDir = $('#dir').val();
 
+		var token = $('#sharingToken').val();
+
 		// file list mode ?
 		if ($el.find('#filestable').length) {
+			var filesClient = new OC.Files.Client({
+				host: OC.getHost(),
+				port: OC.getPort(),
+				userName: token,
+				// note: password not be required, the endpoint
+				// will recognize previous validation from the session
+				root: OC.getRootPath() + '/public.php/webdav',
+				useHTTPS: OC.getProtocol() === 'https'
+			});
+
 			this.fileList = new OCA.Files.FileList(
 				$el,
 				{
@@ -58,7 +70,8 @@ OCA.Sharing.PublicApp = {
 					dragOptions: dragOptions,
 					folderDropOptions: folderDropOptions,
 					fileActions: fileActions,
-					detailsViewEnabled: false
+					detailsViewEnabled: false,
+					filesClient: filesClient
 				}
 			);
 			this.files = OCA.Files.Files;
@@ -88,7 +101,6 @@ OCA.Sharing.PublicApp = {
 
 
 		// dynamically load image previews
-		var token = $('#sharingToken').val();
 		var bottomMargin = 350;
 		var previewWidth = Math.ceil($(window).width() * window.devicePixelRatio);
 		var previewHeight = Math.ceil(($(window).height() - bottomMargin) * window.devicePixelRatio);

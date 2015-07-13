@@ -207,7 +207,7 @@
 		 */
 		lazyLoadPreview : function(path, mime, ready, width, height, etag) {
 			console.warn('DEPRECATED: please use lazyLoadPreview() from an OCA.Files.FileList instance');
-			return OCA.Files.App.fileList.lazyLoadPreview({
+			return FileList.lazyLoadPreview({
 				path: path,
 				mime: mime,
 				callback: ready,
