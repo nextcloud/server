@@ -30,6 +30,7 @@
     "_%n year ago_::_%n years ago_" : ["преди %n година","преди %n години"],
     "seconds ago" : "преди секунди",
     "web services under your control" : "уеб услуги под твой контрол",
+    "File name contains at least one invalid character" : "Името на файла съдържа поне един невалиден символ",
     "App directory already exists" : "Папката на приложението вече съществува.",
     "Can't create app folder. Please fix permissions. %s" : "Неуспешно създаване на папката за приложението. Моля, оправете разрешенията. %s",
     "No source specified when installing app" : "Не е зададен източник при инсталацията на приложението.",

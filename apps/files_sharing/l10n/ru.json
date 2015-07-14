@@ -27,6 +27,7 @@
     "A file or folder has been <strong>shared</strong>" : "<strong>Опубликован</strong> файл или каталог",
     "A file or folder was shared from <strong>another server</strong>" : "Файлом или каталогом поделились с <strong>удаленного сервера</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Общий файл или каталог был <strong>скачан</strong>",
+    "You received a new remote share %2$s from %1$s" : "Вы получили новый удаленный общий ресурс %2$s от %1$s",
     "You received a new remote share from %s" : "%s поделился с вами удаленным общим ресурсом",
     "%1$s accepted remote share %2$s" : "%1$s принял удаленный общий ресурс %2$s",
     "%1$s declined remote share %2$s" : "%1$s отклонил удаленный общий ресурс %2$s",
