@@ -171,13 +171,15 @@ class Updater {
 
 		if ($sourceStorage && $targetStorage) {
 			$targetCache = $targetStorage->getCache($sourceInternalPath);
-			if ($targetCache->inCache($targetInternalPath)) {
-				$targetCache->remove($targetInternalPath);
-			}
-			if ($sourceStorage === $targetStorage) {
-				$targetCache->move($sourceInternalPath, $targetInternalPath);
-			} else {
-				$targetCache->moveFromCache($sourceStorage->getCache(), $sourceInternalPath, $targetInternalPath);
+			if ($sourceStorage->getCache($sourceInternalPath)->inCache($sourceInternalPath)) {
+				if ($targetCache->inCache($targetInternalPath)) {
+					$targetCache->remove($targetInternalPath);
+				}
+				if ($sourceStorage === $targetStorage) {
+					$targetCache->move($sourceInternalPath, $targetInternalPath);
+				} else {
+					$targetCache->moveFromCache($sourceStorage->getCache(), $sourceInternalPath, $targetInternalPath);
+				}
 			}
 
 			if (pathinfo($sourceInternalPath, PATHINFO_EXTENSION) !== pathinfo($targetInternalPath, PATHINFO_EXTENSION)) {
