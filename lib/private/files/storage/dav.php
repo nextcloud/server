@@ -760,7 +760,11 @@ class DAV extends Common {
 				return $remoteMtime > $time;
 			}
 		} catch (ClientHttpException $e) {
-			if ($e->getHttpStatus() === 404) {
+			if ($e->getHttpStatus() === 404 || $e->getHttpStatus() === 405) {
+				if ($path === '') {
+					// if root is gone it means the storage is not available
+					throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
+				}
 				return false;
 			}
 			$this->convertException($e);
