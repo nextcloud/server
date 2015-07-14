@@ -27,6 +27,7 @@
 namespace OC\Files\Type;
 
 use OCP\Files\IMimeTypeDetector;
+use OCP\IURLGenerator;
 
 /**
  * Class Detection
@@ -41,78 +42,17 @@ class Detection implements IMimeTypeDetector {
 
 	protected $mimetypeIcons = [];
 	/** @var string[] */
-	protected $mimeTypeAlias = [
-		'application/octet-stream' => 'file', // use file icon as fallback
+	protected $mimeTypeAlias = [];
 
-		'application/illustrator' => 'image/vector',
-		'application/postscript' => 'image/vector',
-		'image/svg+xml' => 'image/vector',
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
-		'application/coreldraw' => 'image',
-		'application/x-gimp' => 'image',
-		'application/x-photoshop' => 'image',
-		'application/x-dcraw' => 'image',
-
-		'application/font-sfnt' => 'font',
-		'application/x-font' => 'font',
-		'application/font-woff' => 'font',
-		'application/vnd.ms-fontobject' => 'font',
-
-		'application/json' => 'text/code',
-		'application/x-perl' => 'text/code',
-		'application/x-php' => 'text/code',
-		'text/x-shellscript' => 'text/code',
-		'application/yaml' => 'text/code',
-		'application/xml' => 'text/html',
-		'text/css' => 'text/code',
-		'application/x-tex' => 'text',
-
-		'application/x-compressed' => 'package/x-generic',
-		'application/x-7z-compressed' => 'package/x-generic',
-		'application/x-deb' => 'package/x-generic',
-		'application/x-gzip' => 'package/x-generic',
-		'application/x-rar-compressed' => 'package/x-generic',
-		'application/x-tar' => 'package/x-generic',
-		'application/vnd.android.package-archive' => 'package/x-generic',
-		'application/zip' => 'package/x-generic',
-
-		'application/msword' => 'x-office/document',
-		'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'x-office/document',
-		'application/vnd.openxmlformats-officedocument.wordprocessingml.template' => 'x-office/document',
-		'application/vnd.ms-word.document.macroEnabled.12' => 'x-office/document',
-		'application/vnd.ms-word.template.macroEnabled.12' => 'x-office/document',
-		'application/vnd.oasis.opendocument.text' => 'x-office/document',
-		'application/vnd.oasis.opendocument.text-template' => 'x-office/document',
-		'application/vnd.oasis.opendocument.text-web' => 'x-office/document',
-		'application/vnd.oasis.opendocument.text-master' => 'x-office/document',
-
-		'application/mspowerpoint' => 'x-office/presentation',
-		'application/vnd.ms-powerpoint' => 'x-office/presentation',
-		'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'x-office/presentation',
-		'application/vnd.openxmlformats-officedocument.presentationml.template' => 'x-office/presentation',
-		'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'x-office/presentation',
-		'application/vnd.ms-powerpoint.addin.macroEnabled.12' => 'x-office/presentation',
-		'application/vnd.ms-powerpoint.presentation.macroEnabled.12' => 'x-office/presentation',
-		'application/vnd.ms-powerpoint.template.macroEnabled.12' => 'x-office/presentation',
-		'application/vnd.ms-powerpoint.slideshow.macroEnabled.12' => 'x-office/presentation',
-		'application/vnd.oasis.opendocument.presentation' => 'x-office/presentation',
-		'application/vnd.oasis.opendocument.presentation-template' => 'x-office/presentation',
-
-		'application/msexcel' => 'x-office/spreadsheet',
-		'application/vnd.ms-excel' => 'x-office/spreadsheet',
-		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'x-office/spreadsheet',
-		'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => 'x-office/spreadsheet',
-		'application/vnd.ms-excel.sheet.macroEnabled.12' => 'x-office/spreadsheet',
-		'application/vnd.ms-excel.template.macroEnabled.12' => 'x-office/spreadsheet',
-		'application/vnd.ms-excel.addin.macroEnabled.12' => 'x-office/spreadsheet',
-		'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => 'x-office/spreadsheet',
-		'application/vnd.oasis.opendocument.spreadsheet' => 'x-office/spreadsheet',
-		'application/vnd.oasis.opendocument.spreadsheet-template' => 'x-office/spreadsheet',
-		'text/csv' => 'x-office/spreadsheet',
-
-		'application/msaccess' => 'database',
-	];
-
+	/**
+	 * @param IURLGenerator $urlGenerator
+	 */
+	public function __construct(IURLGenerator $urlGenerator) {
+		$this->urlGenerator = $urlGenerator;
+	}
 
 	/**
 	 * Add an extension -> mimetype mapping
@@ -255,44 +195,61 @@ class Detection implements IMimeTypeDetector {
 	 * @return string the url
 	 */
 	public function mimeTypeIcon($mimetype) {
+		// On first access load the list of mimetype aliases
+		if (empty($this->mimeTypeAlias)) {
+			$file = file_get_contents(\OC::$configDir . '/mimetypealiases.dist.json');
+			$this->mimeTypeAlias = get_object_vars(json_decode($file));
+
+			if (file_exists(\OC::$configDir . '/mimetypealiases.json')) {
+				$custom = get_object_vars(json_decode(file_get_contents(\OC::$configDir . '/mimetypealiases.json')));
+				$this->mimeTypeAlias = array_merge($this->mimeTypeAlias, $custom);
+			}
+		}
+
 		if (isset($this->mimeTypeAlias[$mimetype])) {
 			$mimetype = $this->mimeTypeAlias[$mimetype];
 		}
 		if (isset($this->mimetypeIcons[$mimetype])) {
 			return $this->mimetypeIcons[$mimetype];
 		}
+
 		// Replace slash and backslash with a minus
 		$icon = str_replace('/', '-', $mimetype);
 		$icon = str_replace('\\', '-', $icon);
 
 		// Is it a dir?
 		if ($mimetype === 'dir') {
-			$this->mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/folder.png';
-			return OC::$WEBROOT . '/core/img/filetypes/folder.png';
+			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder.png');
+			return $this->mimetypeIcons[$mimetype];
 		}
 		if ($mimetype === 'dir-shared') {
-			$this->mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/folder-shared.png';
-			return OC::$WEBROOT . '/core/img/filetypes/folder-shared.png';
+			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder-shared.png');
+			return $this->mimetypeIcons[$mimetype];
 		}
 		if ($mimetype === 'dir-external') {
-			$this->mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/folder-external.png';
-			return OC::$WEBROOT . '/core/img/filetypes/folder-external.png';
+			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder-external.
+png');
+			return $this->mimetypeIcons[$mimetype];
 		}
 
 		// Icon exists?
-		if (file_exists(OC::$SERVERROOT . '/core/img/filetypes/' . $icon . '.png')) {
-			$this->mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/' . $icon . '.png';
-			return OC::$WEBROOT . '/core/img/filetypes/' . $icon . '.png';
+		try {
+			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/' . $icon . '.png');
+			return $this->mimetypeIcons[$mimetype];
+		} catch (\RuntimeException $e) {
+			// Specified image not found
 		}
 
 		// Try only the first part of the filetype
 		$mimePart = substr($icon, 0, strpos($icon, '-'));
-		if (file_exists(OC::$SERVERROOT . '/core/img/filetypes/' . $mimePart . '.png')) {
-			$this->mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/' . $mimePart . '.png';
-			return OC::$WEBROOT . '/core/img/filetypes/' . $mimePart . '.png';
-		} else {
-			$this->mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/file.png';
-			return OC::$WEBROOT . '/core/img/filetypes/file.png';
+		try {
+			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/' . $mimePart . '.png');
+			return $this->mimetypeIcons[$mimetype];
+		} catch (\RuntimeException $e) {
+			// Image for the first part of the mimetype not found
 		}
+
+		$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/file.png');
+		return $this->mimetypeIcons[$mimetype];
 	}
 }

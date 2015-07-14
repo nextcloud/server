@@ -50,11 +50,7 @@ use Symfony\Component\Process\ExecutableFinder;
  * Collection of useful functions
  */
 class OC_Helper {
-	private static $mimetypeIcons = array();
-	private static $mimetypeDetector;
 	private static $templateManager;
-	/** @var string[] */
-	private static $mimeTypeAlias = [];
 
 	/**
 	 * Creates an url using a defined route
@@ -183,65 +179,10 @@ class OC_Helper {
 	 * @return string the url
 	 *
 	 * Returns the path to the image of this file type.
-	 * @deprecated Use \OC::$server->getMimeTypeDetector()->mimeTypeIcon($mimetype)
+	 * @deprecated 8.2.0 Use \OC::$server->getMimeTypeDetector()->mimeTypeIcon($mimetype)
 	 */
 	public static function mimetypeIcon($mimetype) {
-
-		// On first access load the list of mimetype aliases
-		if (empty(self::$mimeTypeAlias)) {
-			$file = file_get_contents(OC::$SERVERROOT . '/config/mimetypealiases.dist.json');
-			self::$mimeTypeAlias = get_object_vars(json_decode($file));
-
-			if (file_exists(\OC::$SERVERROOT . '/config/mimetypealiases.json')) {
-				$custom = get_object_vars(json_decode(file_get_contents(\OC::$SERVERROOT . '/config/mimetypealiases.json')));
-				self::$mimeTypeAlias = array_merge(self::$mimeTypeAlias, $custom);
-			}
-		}
-
-		if (isset(self::$mimeTypeAlias[$mimetype])) {
-			$mimetype = self::$mimeTypeAlias[$mimetype];
-		}
-		if (isset(self::$mimetypeIcons[$mimetype])) {
-			return self::$mimetypeIcons[$mimetype];
-		}
-
-		// Replace slash and backslash with a minus
-		$icon = str_replace('/', '-', $mimetype);
-		$icon = str_replace('\\', '-', $icon);
-
-		// Is it a dir?
-		if ($mimetype === 'dir') {
-			self::$mimetypeIcons[$mimetype] = \OC::$server->getURLGenerator()->imagePath('core', 'filetypes/folder.png');
-			return self::$mimetypeIcons[$mimetype];
-		}
-		if ($mimetype === 'dir-shared') {
-			self::$mimetypeIcons[$mimetype] = \OC::$server->getURLGenerator()->imagePath('core', 'filetypes/folder-shared.png');
-			return self::$mimetypeIcons[$mimetype];
-		}
-		if ($mimetype === 'dir-external') {
-			self::$mimetypeIcons[$mimetype] = \OC::$server->getURLGenerator()->imagePath('core', 'filetypes/folder-external.png');
-			return self::$mimetypeIcons[$mimetype];
-		}
-
-		// Icon exists?
-		try {
-			self::$mimetypeIcons[$mimetype] = \OC::$server->getURLGenerator()->imagePath('core', 'filetypes/' . $icon . '.png');
-			return self::$mimetypeIcons[$mimetype];
-		} catch (\RuntimeException $e) {
-			// Specified image not found
-		}
-
-		// Try only the first part of the filetype
-		$mimePart = substr($icon, 0, strpos($icon, '-'));
-		try {
-			self::$mimetypeIcons[$mimetype] = \OC::$server->getURLGenerator()->imagePath('core', 'filetypes/' . $mimePart . '.png');
-			return self::$mimetypeIcons[$mimetype];
-		} catch (\RuntimeException $e) {
-			// Image for the first part of the mimetype not found
-		}
-
-		self::$mimetypeIcons[$mimetype] = \OC::$server->getURLGenerator()->imagePath('core', 'filetypes/file.png');
-		return self::$mimetypeIcons[$mimetype];
+		return \OC::$server->getMimeTypeDetector()->mimeTypeIcon($mimetype);
 	}
 
 	/**
@@ -432,23 +373,10 @@ class OC_Helper {
 
 	/**
 	 * @return \OC\Files\Type\Detection
+	 * @deprecated 8.2.0 use \OC::$server->getMimeTypeDetector()
 	 */
 	static public function getMimetypeDetector() {
-		if (!self::$mimetypeDetector) {
-			$dist = file_get_contents(OC::$configDir . '/mimetypemapping.dist.json');
-			$mimetypemapping = get_object_vars(json_decode($dist));
-
-			//Check if need to load custom mappings
-			if (file_exists(OC::$configDir . '/mimetypemapping.json')) {
-				$custom = file_get_contents(OC::$configDir . '/mimetypemapping.json');
-				$custom_mapping = get_object_vars(json_decode($custom));
-				$mimetypemapping = array_merge($mimetypemapping, $custom_mapping);
-			}
-
-			self::$mimetypeDetector = new \OC\Files\Type\Detection();
-			self::$mimetypeDetector->registerTypeArray($mimetypemapping);
-		}
-		return self::$mimetypeDetector;
+		return \OC::$server->getMimeTypeDetector();
 	}
 
 	/**
@@ -469,7 +397,7 @@ class OC_Helper {
 	 * @deprecated Use \OC::$server->getMimeTypeDetector()->detectPath($path)
 	 */
 	static public function getFileNameMimeType($path) {
-		return self::getMimetypeDetector()->detectPath($path);
+		return \OC::$server->getMimeTypeDetector()->detectPath($path);
 	}
 
 	/**
@@ -481,7 +409,7 @@ class OC_Helper {
 	 * @deprecated Use \OC::$server->getMimeTypeDetector()->detect($path)
 	 */
 	static function getMimeType($path) {
-		return self::getMimetypeDetector()->detect($path);
+		return \OC::$server->getMimeTypeDetector()->detect($path);
 	}
 
 	/**
@@ -492,7 +420,7 @@ class OC_Helper {
 	 * @deprecated Use \OC::$server->getMimeTypeDetector()->getSecureMimeType($mimeType)
 	 */
 	static function getSecureMimeType($mimeType) {
-		return self::getMimetypeDetector()->getSecureMimeType($mimeType);
+		return \OC::$server->getMimeTypeDetector()->getSecureMimeType($mimeType);
 	}
 
 	/**
@@ -500,10 +428,10 @@ class OC_Helper {
 	 *
 	 * @param string $data
 	 * @return string
-	 * @deprecated Use \OC::$server->getMimeTypeDetector->detectString($data)
+	 * @deprecated Use \OC::$server->getMimeTypeDetector()->detectString($data)
 	 */
 	static function getStringMimeType($data) {
-		return self::getMimetypeDetector()->detectString($data);
+		return \OC::$server->getMimeTypeDetector()->detectString($data);
 	}
 
 	/**

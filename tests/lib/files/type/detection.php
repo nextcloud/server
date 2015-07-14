@@ -26,7 +26,7 @@ use \OC\Files\Type\Detection;
 class DetectionTest extends \Test\TestCase {
 
 	public function testDetect() {
-		$detection = new Detection();
+		$detection = new Detection(\OC::$server->getURLGenerator());
 		$dir = \OC::$SERVERROOT.'/tests/data';
 
 		$result = $detection->detect($dir."/");
@@ -51,7 +51,7 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	public function testGetSecureMimeType() {
-		$detection = new Detection();
+		$detection = new Detection(\OC::$server->getURLGenerator());
 		$dist = file_get_contents(\OC::$configDir . '/mimetypemapping.dist.json');
 		$mimetypemapping = get_object_vars(json_decode($dist));
 		$detection->registerTypeArray($mimetypemapping);
@@ -66,7 +66,7 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	public function testDetectPath() {
-		$detection = new Detection();
+		$detection = new Detection(\OC::$server->getURLGenerator());
 		$dist = file_get_contents(\OC::$configDir . '/mimetypemapping.dist.json');
 		$mimetypemapping = get_object_vars(json_decode($dist));
 		$detection->registerTypeArray($mimetypemapping);
@@ -84,7 +84,7 @@ class DetectionTest extends \Test\TestCase {
 			$this->markTestSkipped('[Windows] Strings have mimetype application/octet-stream on Windows');
 		}
 
-		$detection = new Detection();
+		$detection = new Detection(\OC::$server->getURLGenerator());
 		$dist = file_get_contents(\OC::$configDir . '/mimetypemapping.dist.json');
 		$mimetypemapping = get_object_vars(json_decode($dist));
 		$detection->registerTypeArray($mimetypemapping);

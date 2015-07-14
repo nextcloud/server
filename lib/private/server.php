@@ -59,7 +59,6 @@ use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Tagging\TagMapper;
 use OCP\IServerContainer;
-use OC\Files\Type\Detection;
 
 /**
  * Class Server
@@ -446,9 +445,17 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new \OC\Files\Mount\Manager();
 		});
 		$this->registerService('MimeTypeDetector', function(Server $c) {
-			$mimeTypeDetector = new Detection();
+			$mimeTypeDetector = new \OC\Files\Type\Detection($c->getURLGenerator());
 			$dist = file_get_contents(\OC::$configDir . '/mimetypemapping.dist.json');
 			$mimetypemapping = get_object_vars(json_decode($dist));
+
+			//Check if need to load custom mappings
+			if (file_exists(\OC::$configDir . '/mimetypemapping.json')) {
+				$custom = file_get_contents(\OC::$configDir . '/mimetypemapping.json');
+				$custom_mapping = get_object_vars(json_decode($custom));
+				$mimetypemapping = array_merge($mimetypemapping, $custom_mapping);
+			}
+
 			$mimeTypeDetector->registerTypeArray($mimetypemapping);
 			return $mimeTypeDetector;
 		});
