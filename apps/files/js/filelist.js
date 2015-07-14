@@ -426,9 +426,12 @@
 				return;
 			}
 
-			var randomString = OCA.Files.Files.handleDownloadSpinner(downloadFileaction);
+			var disableLoadingState = function(){
+				OCA.Files.Files.updateFileActionSpinner(downloadFileaction, false);
+			};
 
-			OC.redirect(this.getDownloadUrl(files, dir) + '&downloadStartSecret=' + randomString);
+			OCA.Files.Files.updateFileActionSpinner(downloadFileaction, true);
+			OCA.Files.Files.handleDownload(this.getDownloadUrl(files, dir), disableLoadingState);
 			return false;
 		},
 

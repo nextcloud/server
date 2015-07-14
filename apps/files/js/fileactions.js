@@ -486,10 +486,13 @@
 					return;
 				}
 
-				var randomString = OCA.Files.Files.handleDownloadSpinner(downloadFileaction);
-
 				if (url) {
-					OC.redirect(url + '&downloadStartSecret=' + randomString);
+					var disableLoadingState = function(){
+							OCA.Files.Files.updateFileActionSpinner(downloadFileaction, false);
+						};
+
+					OCA.Files.Files.updateFileActionSpinner(downloadFileaction, true);
+					OCA.Files.Files.handleDownload(url, disableLoadingState);
 				}
 			}, t('files', 'Download'));
 		}

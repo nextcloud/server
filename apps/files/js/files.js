@@ -279,34 +279,48 @@
 		},
 
 		/**
-		 * Replaces the download icon with a loading spinner and returns token for the download check:
+		 * Handles the download and calls the callback function once the download has started
 		 * - browser sends download request and adds parameter with a token
 		 * - server notices this token and adds a set cookie to the download response
 		 * - browser now adds this cookie for the domain
-		 * - JS periodically checks for this cookie and then knows when the download has started to remove all the user feedback
+		 * - JS periodically checks for this cookie and then knows when the download has started to call the callback
 		 *
-		 * @param downloadButtonElement download fileaction
-		 * @returns {string} random token that needs to be set as cookie
+		 * @param {string} url download URL
+		 * @param {function} callback function to call once the download has started
 		 */
-		handleDownloadSpinner: function(downloadButtonElement) {
-			var randomString = Math.random().toString(36).substring(2),
-				icon = downloadButtonElement.find('img'),
-				sourceImage = icon.attr('src'),
+		handleDownload: function(url, callback) {
+			var randomToken = Math.random().toString(36).substring(2),
 				checkForDownloadCookie = function() {
-					if (!OC.Util.isCookieSetToValue('ocDownloadStarted', randomString)){
+					if (!OC.Util.isCookieSetToValue('ocDownloadStarted', randomToken)){
 						return false;
 					} else {
-						icon.attr('src', sourceImage);
-						downloadButtonElement.removeClass('disabled');
+						callback();
 						return true;
 					}
 				};
 
-			downloadButtonElement.addClass('disabled');
-			icon.attr('src', sourceImage.replace('actions/download.svg', 'loading-small.gif'));
+			OC.redirect(url + '&downloadStartSecret=' + randomToken);
 			OC.Util.waitFor(checkForDownloadCookie, 500);
+		},
 
-			return randomString;
+		/**
+		 * Replaces the download icon with a loading spinner and vice versa
+		 * - also adds the class disabled to the passed in element
+		 *
+		 * @param downloadButtonElement download fileaction
+		 * @param {boolean} showIt whether to show the spinner(true) or to hide it(false)
+		 */
+		updateFileActionSpinner: function(downloadButtonElement, showIt) {
+			var icon = downloadButtonElement.find('img'),
+				sourceImage = icon.attr('src');
+
+			if(showIt) {
+				downloadButtonElement.addClass('disabled');
+				icon.attr('src', sourceImage.replace('actions/download.svg', 'loading-small.gif'));
+			} else {
+				downloadButtonElement.removeClass('disabled');
+				icon.attr('src', sourceImage.replace('loading-small.gif', 'actions/download.svg'));
+			}
 		}
 	};
 
