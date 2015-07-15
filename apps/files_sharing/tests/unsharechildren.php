@@ -40,7 +40,7 @@ class UnshareChildren extends TestCase {
 		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
 
 		$this->folder = self::TEST_FOLDER_NAME;
-		$this->subfolder  = '/subfolder_share_api_test';
+		$this->subfolder = '/subfolder_share_api_test';
 		$this->subsubfolder = '/subsubfolder_share_api_test';
 
 		$this->filename = '/share-api-test';
@@ -49,12 +49,14 @@ class UnshareChildren extends TestCase {
 		$this->view->mkdir($this->folder);
 		$this->view->mkdir($this->folder . $this->subfolder);
 		$this->view->mkdir($this->folder . $this->subfolder . $this->subsubfolder);
-		$this->view->file_put_contents($this->folder.$this->filename, $this->data);
+		$this->view->file_put_contents($this->folder . $this->filename, $this->data);
 		$this->view->file_put_contents($this->folder . $this->subfolder . $this->filename, $this->data);
 	}
 
 	protected function tearDown() {
-		$this->view->deleteAll($this->folder);
+		if ($this->view) {
+			$this->view->deleteAll($this->folder);
+		}
 
 		self::$tempStorage = null;
 

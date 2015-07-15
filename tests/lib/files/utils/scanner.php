@@ -11,6 +11,8 @@ namespace Test\Files\Utils;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
+use OCP\Files\Storage\IStorageFactory;
+use OCP\IUser;
 
 class TestScanner extends \OC\Files\Utils\Scanner {
 	/**
@@ -39,14 +41,22 @@ class TestScanner extends \OC\Files\Utils\Scanner {
 }
 
 class Scanner extends \Test\TestCase {
+	/**
+	 * @var \OC_User_Dummy
+	 */
+	private $userBackend;
+
 	protected function setUp() {
 		parent::setUp();
 
+		$this->userBackend = new \OC_User_Dummy();
+		\OC::$server->getUserManager()->registerBackend($this->userBackend);
 		$this->loginAsUser();
 	}
 
 	protected function tearDown() {
 		$this->logout();
+		\OC::$server->getUserManager()->removeBackend($this->userBackend);
 		parent::tearDown();
 	}
 
@@ -92,6 +102,39 @@ class Scanner extends \Test\TestCase {
 		$scanner->scan('');
 		$new = $cache->get('folder/bar.txt');
 		$this->assertEquals($old, $new);
+	}
+
+	public function testScanSubMount() {
+		$uid = $this->getUniqueID();
+		$this->userBackend->createUser($uid, 'test');
+
+		$mountProvider = $this->getMock('\OCP\Files\Config\IMountProvider');
+
+		$storage = new Temporary(array());
+		$mount = new MountPoint($storage, '/' . $uid . '/files/foo');
+
+		$mountProvider->expects($this->any())
+			->method('getMountsForUser')
+			->will($this->returnCallback(function (IUser $user, IStorageFactory $storageFactory) use ($mount, $uid) {
+				if ($user->getUID() === $uid) {
+					return [$mount];
+				} else {
+					return [];
+				}
+			}));
+
+		\OC::$server->getMountProviderCollection()->registerProvider($mountProvider);
+		$cache = $storage->getCache();
+
+		$storage->mkdir('folder');
+		$storage->file_put_contents('foo.txt', 'qwerty');
+		$storage->file_put_contents('folder/bar.txt', 'qwerty');
+
+		$scanner = new \OC\Files\Utils\Scanner($uid, \OC::$server->getDatabaseConnection());
+
+		$this->assertFalse($cache->inCache('folder/bar.txt'));
+		$scanner->scan('/' . $uid . '/files/foo');
+		$this->assertTrue($cache->inCache('folder/bar.txt'));
 	}
 
 	public function testChangePropagator() {
