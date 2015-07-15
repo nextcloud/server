@@ -40,10 +40,10 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	public function dataFirstResult() {
 		return [
-			[null, ''],
-			[0, ' OFFSET 0'],
-			[1, ' OFFSET 1'],
-			[5, ' OFFSET 5'],
+			[null, [['configvalue' => 99], ['configvalue' => 98], ['configvalue' => 97], ['configvalue' => 96], ['configvalue' => 95], ['configvalue' => 94], ['configvalue' => 93], ['configvalue' => 92], ['configvalue' => 91]]],
+			[0, [['configvalue' => 99], ['configvalue' => 98], ['configvalue' => 97], ['configvalue' => 96], ['configvalue' => 95], ['configvalue' => 94], ['configvalue' => 93], ['configvalue' => 92], ['configvalue' => 91]]],
+			[1, [['configvalue' => 98], ['configvalue' => 97], ['configvalue' => 96], ['configvalue' => 95], ['configvalue' => 94], ['configvalue' => 93], ['configvalue' => 92], ['configvalue' => 91]]],
+			[5, [['configvalue' => 94], ['configvalue' => 93], ['configvalue' => 92], ['configvalue' => 91]]],
 		];
 	}
 
@@ -51,9 +51,22 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @dataProvider dataFirstResult
 	 *
 	 * @param int $firstResult
-	 * @param string $expectedOffset
+	 * @param array $expectedSet
 	 */
-	public function testFirstResult($firstResult, $expectedOffset) {
+	public function testFirstResult($firstResult, $expectedSet) {
+		$eB = $this->queryBuilder->expr();
+
+		for ($i = 1; $i < 10; $i++) {
+			$this->queryBuilder->insert('*PREFIX*appconfig')
+				->values([
+					'appid' => $eB->literal('testFirstResult'),
+					'configkey' => $eB->literal('testing' . $i),
+					'configvalue' => $eB->literal(100 - $i),
+				]);
+			$this->queryBuilder->execute();
+		}
+		$this->queryBuilder->resetQueryParts();
+
 		if ($firstResult !== null) {
 			$this->queryBuilder->setFirstResult($firstResult);
 		}
@@ -63,10 +76,19 @@ class QueryBuilderTest extends \Test\TestCase {
 			$this->queryBuilder->getFirstResult()
 		);
 
-		$this->assertSame(
-			'SELECT  FROM ' . $expectedOffset,
-			$this->queryBuilder->getSQL()
-		);
+		$this->queryBuilder->select('configvalue')
+			->from('*PREFIX*appconfig')
+			->where($eB->eq('appid', $eB->literal('testFirstResult')))
+			->orderBy('configkey', 'ASC');
+
+		$query = $this->queryBuilder->execute();
+		$this->assertSame(sizeof($expectedSet), $query->rowCount());
+		$this->assertEquals($expectedSet, $query->fetchAll());
+
+		$this->queryBuilder->delete('*PREFIX*appconfig')
+			->where($eB->eq('appid', $eB->literal('testFirstResult')));
+
+		$query = $this->queryBuilder->execute();
 	}
 
 	public function dataMaxResults() {
