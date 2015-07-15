@@ -65,6 +65,11 @@
 		fileSummary: null,
 
 		/**
+		 * @type OCA.Files.DetailsView
+		 */
+		_detailsView: null,
+
+		/**
 		 * Whether the file list was initialized already.
 		 * @type boolean
 		 */
@@ -263,6 +268,25 @@
 		},
 
 		/**
+		 * Update the details view to display the given file
+		 *
+		 * @param {OCA.Files.FileInfo} fileInfo file info to display
+		 */
+		_updateDetailsView: function(fileInfo) {
+			if (!this._detailsView) {
+				this._detailsView = new OCA.Files.DetailsView();
+				this.$el.append(this._detailsView.$el);
+
+				this._detailsView.addDetailView(new OCA.Files.MainFileInfoDetailView());
+
+				this._detailsView.render();
+			}
+			this._detailsView.setFileInfo(_.extend({
+				path: this.getCurrentDirectory()
+			}, fileInfo));
+		},
+
+		/**
 		 * Event handler for when the window size changed
 		 */
 		_onResize: function() {
@@ -350,6 +374,15 @@
 				this._selectFileEl($tr, !$checkbox.prop('checked'));
 				this.updateSelectionSummary();
 			} else {
+				var currentIndex = $tr.index();
+				var fileInfo = this.files[currentIndex];
+
+				this._updateDetailsView(fileInfo);
+				event.preventDefault();
+				return;
+
+				// FIXME: disabled for testing details view
+
 				var filename = $tr.attr('data-file');
 				var renaming = $tr.data('renaming');
 				if (!renaming) {

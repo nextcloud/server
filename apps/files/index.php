@@ -50,6 +50,12 @@ OCP\Util::addscript('files', 'search');
 \OCP\Util::addScript('files', 'tagsplugin');
 \OCP\Util::addScript('files', 'favoritesplugin');
 
+\OCP\Util::addScript('files', 'detailfileinfoview');
+\OCP\Util::addScript('files', 'detailtabview');
+\OCP\Util::addScript('files', 'detailsview');
+\OCP\Util::addScript('files', 'mainfileinfodetailview');
+\OCP\Util::addStyle('files', 'detailsView');
+
 \OC_Util::addVendorScript('core', 'handlebars/handlebars');
 
 OCP\App::setActiveNavigationEntry('files_index');

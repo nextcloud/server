@@ -1,0 +1,22 @@
+
+
+#app-content-files .detailsView {
+	position: absolute;
+	width: 300px;
+	top: 44px;
+	bottom: 0;
+	right: 0;
+	background-color: white;
+	border: 1px solid black;
+}
+
+#app-content-files .detailsView .thumbnail {
+	width: 32px;
+	height: 32px;
+	float: left;
+}
+
+#app-content-files .detailsView .detailList {
+	float: left;
+}
+
