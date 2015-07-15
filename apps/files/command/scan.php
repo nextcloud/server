@@ -92,10 +92,10 @@ class Scan extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$path = $input->getOption('path');
-		if ($path) {
-			$path = '/'.trim($path, '/');
-			list (, $user, ) = explode('/', $path, 3);
+		$inputPath = $input->getOption('path');
+		if ($inputPath) {
+			$inputPath = '/' . trim($inputPath, '/');
+			list (, $user,) = explode('/', $inputPath, 3);
 			$users = array($user);
 		} else if ($input->getOption('all')) {
 			$users = $this->userManager->search('');
@@ -114,6 +114,7 @@ class Scan extends Command {
 			if (is_object($user)) {
 				$user = $user->getUID();
 			}
+			$path = $inputPath ? $inputPath : '/' . $user;
 			if ($this->userManager->userExists($user)) {
 				$this->scanFiles($user, $path, $quiet, $output);
 			} else {
