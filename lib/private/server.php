@@ -50,7 +50,6 @@ use OC\Http\Client\ClientService;
 use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
-use OC\Memcache\ArrayCache;
 use OC\Memcache\NullCache;
 use OC\Security\CertificateManager;
 use OC\Security\Crypto;
@@ -242,9 +241,9 @@ class Server extends SimpleContainer implements IServerContainer {
 			}
 
 			return new \OC\Memcache\Factory('', $c->getLogger(),
-				new ArrayCache(),
-				new ArrayCache(),
-				new ArrayCache()
+				'\\OC\\Memcache\\ArrayCache',
+				'\\OC\\Memcache\\ArrayCache',
+				'\\OC\\Memcache\\ArrayCache'
 			);
 		});
 		$this->registerService('ActivityManager', function (Server $c) {
