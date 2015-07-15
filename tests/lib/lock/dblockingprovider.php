@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Frank Karlitschek <frank@owncloud.org>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -19,17 +18,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-// We only can count up. The 4. digit is only for the internal patchlevel to trigger DB upgrades
-// between betas, final and RCs. This is _not_ the public version number. Reset minor/patchlevel
-// when updating major/minor version number.
-$OC_Version=array(8, 2, 0, 4);
 
-// The human readable string
-$OC_VersionString='8.2 pre alpha';
+namespace Test\Lock;
 
-// The ownCloud channel
-$OC_Channel='git';
+class DBLockingProvider extends LockingProvider {
 
-// The build number
-$OC_Build='';
+	/**
+	 * @var \OCP\IDBConnection
+	 */
+	private $connection;
 
+	/**
+	 * @return \OCP\Lock\ILockingProvider
+	 */
+	protected function getInstance() {
+		$this->connection = \OC::$server->getDatabaseConnection();
+		return new \OC\Lock\DBLockingProvider($this->connection);
+	}
+
+	public function tearDown() {
+		$this->connection->executeQuery('DELETE FROM `*PREFIX*locks`');
+		parent::tearDown();
+	}
+}
