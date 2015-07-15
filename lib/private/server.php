@@ -48,6 +48,7 @@ use OC\Diagnostics\QueryLogger;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OC\Http\Client\ClientService;
+use OC\Lock\DBLockingProvider;
 use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
@@ -434,10 +435,7 @@ class Server extends SimpleContainer implements IServerContainer {
 				if (!($memcache instanceof \OC\Memcache\NullCache)) {
 					return new MemcacheLockingProvider($memcache);
 				}
-				throw new HintException(
-					'File locking is enabled but the locking cache class was not found',
-					'Please check the "memcache.locking" setting and make sure the matching PHP module is installed and enabled'
-				);
+				return new DBLockingProvider($c->getDatabaseConnection());
 			}
 			return new NoopLockingProvider();
 		});
