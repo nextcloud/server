@@ -52,9 +52,6 @@ class DetectionTest extends \Test\TestCase {
 
 	public function testGetSecureMimeType() {
 		$detection = new Detection(\OC::$server->getURLGenerator());
-		$dist = file_get_contents(\OC::$configDir . '/mimetypemapping.dist.json');
-		$mimetypemapping = get_object_vars(json_decode($dist));
-		$detection->registerTypeArray($mimetypemapping);
 
 		$result = $detection->getSecureMimeType('image/svg+xml');
 		$expected = 'text/plain';
@@ -67,9 +64,6 @@ class DetectionTest extends \Test\TestCase {
 
 	public function testDetectPath() {
 		$detection = new Detection(\OC::$server->getURLGenerator());
-		$dist = file_get_contents(\OC::$configDir . '/mimetypemapping.dist.json');
-		$mimetypemapping = get_object_vars(json_decode($dist));
-		$detection->registerTypeArray($mimetypemapping);
 
 		$this->assertEquals('text/plain', $detection->detectPath('foo.txt'));
 		$this->assertEquals('image/png', $detection->detectPath('foo.png'));
@@ -85,9 +79,6 @@ class DetectionTest extends \Test\TestCase {
 		}
 
 		$detection = new Detection(\OC::$server->getURLGenerator());
-		$dist = file_get_contents(\OC::$configDir . '/mimetypemapping.dist.json');
-		$mimetypemapping = get_object_vars(json_decode($dist));
-		$detection->registerTypeArray($mimetypemapping);
 
 		$result = $detection->detectString("/data/data.tar.gz");
 		$expected = 'text/plain; charset=us-ascii';

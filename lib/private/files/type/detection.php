@@ -37,8 +37,8 @@ use OCP\IURLGenerator;
  * @package OC\Files\Type
  */
 class Detection implements IMimeTypeDetector {
-	protected $mimetypes = array();
-	protected $secureMimeTypes = array();
+	protected $mimetypes = [];
+	protected $secureMimeTypes = [];
 
 	protected $mimetypeIcons = [];
 	/** @var string[] */
@@ -89,12 +89,52 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
+	 * Add the mimetype aliases if they are not yet present
+	 */
+	private function loadAliases() {
+		if (!empty($this->mimeTypeAlias)) {
+			return;
+		}
+
+		$file = file_get_contents(\OC::$configDir . '/mimetypealiases.dist.json');
+		$this->mimeTypeAlias = get_object_vars(json_decode($file));
+
+		if (file_exists(\OC::$configDir . '/mimetypealiases.json')) {
+			$custom = get_object_vars(json_decode(file_get_contents(\OC::$configDir . '/mimetypealiases.json')));
+			$this->mimeTypeAlias = array_merge($this->mimeTypeAlias, $custom);
+		}
+	}
+
+	/**
+	 * Add mimetype mappings if they are not yet present
+	 */
+	private function loadMappings() {
+		if (!empty($this->mimetypes)) {
+			return;
+		}
+
+		$dist = file_get_contents(\OC::$configDir . '/mimetypemapping.dist.json');
+		$mimetypemapping = get_object_vars(json_decode($dist));
+
+		//Check if need to load custom mappings
+		if (file_exists(\OC::$configDir . '/mimetypemapping.json')) {
+			$custom = file_get_contents(\OC::$configDir . '/mimetypemapping.json');
+			$custom_mapping = get_object_vars(json_decode($custom));
+			$mimetypemapping = array_merge($mimetypemapping, $custom_mapping);
+		}
+
+		$this->registerTypeArray($mimetypemapping);
+	}
+
+	/**
 	 * detect mimetype only based on filename, content of file is not used
 	 *
 	 * @param string $path
 	 * @return string
 	 */
 	public function detectPath($path) {
+		$this->loadMappings();
+
 		if (strpos($path, '.')) {
 			//try to guess the type by the file extension
 			$extension = strtolower(strrchr(basename($path), "."));
@@ -114,6 +154,8 @@ class Detection implements IMimeTypeDetector {
 	 * @return string
 	 */
 	public function detect($path) {
+		$this->loadMappings();
+
 		if (@is_dir($path)) {
 			// directories are easy
 			return "httpd/unix-directory";
@@ -184,6 +226,8 @@ class Detection implements IMimeTypeDetector {
 	 * @return string
 	 */
 	public function getSecureMimeType($mimeType) {
+		$this->loadMappings();
+
 		return isset($this->secureMimeTypes[$mimeType])
 			? $this->secureMimeTypes[$mimeType]
 			: 'application/octet-stream';
@@ -195,16 +239,7 @@ class Detection implements IMimeTypeDetector {
 	 * @return string the url
 	 */
 	public function mimeTypeIcon($mimetype) {
-		// On first access load the list of mimetype aliases
-		if (empty($this->mimeTypeAlias)) {
-			$file = file_get_contents(\OC::$configDir . '/mimetypealiases.dist.json');
-			$this->mimeTypeAlias = get_object_vars(json_decode($file));
-
-			if (file_exists(\OC::$configDir . '/mimetypealiases.json')) {
-				$custom = get_object_vars(json_decode(file_get_contents(\OC::$configDir . '/mimetypealiases.json')));
-				$this->mimeTypeAlias = array_merge($this->mimeTypeAlias, $custom);
-			}
-		}
+		$this->loadAliases();
 
 		if (isset($this->mimeTypeAlias[$mimetype])) {
 			$mimetype = $this->mimeTypeAlias[$mimetype];
