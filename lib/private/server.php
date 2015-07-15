@@ -234,14 +234,14 @@ class Server extends SimpleContainer implements IServerContainer {
 				$instanceId = \OC_Util::getInstanceId();
 				$path = \OC::$SERVERROOT;
 				$prefix = md5($instanceId.'-'.$version.'-'.$path);
-				return new \OC\Memcache\Factory($prefix,
+				return new \OC\Memcache\Factory($prefix, $c->getLogger(),
 					$config->getSystemValue('memcache.local', null),
 					$config->getSystemValue('memcache.distributed', null),
 					$config->getSystemValue('memcache.locking', null)
 				);
 			}
 
-			return new \OC\Memcache\Factory('',
+			return new \OC\Memcache\Factory('', $c->getLogger(),
 				new ArrayCache(),
 				new ArrayCache(),
 				new ArrayCache()
