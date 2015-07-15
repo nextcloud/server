@@ -10,7 +10,7 @@
 
 (function() {
 	var TEMPLATE =
-		'<div>TODO: here comes the share dialog</div>';
+		'<div>Owner: {{owner}}';
 
 	/**
 	 * @class OCA.Sharing.ShareTabView
@@ -52,7 +52,9 @@
 			}
 
 			if (this._fileInfo) {
-				this.$el.append(this._template());
+				this.$el.append(this._template({
+					owner: this._fileInfo.shareOwner || OC.currentUser
+				}));
 			} else {
 				// TODO: render placeholder text?
 			}

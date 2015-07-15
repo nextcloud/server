@@ -11,7 +11,14 @@
 (function() {
 	var TEMPLATE =
 		'<div class="thumbnail"></div><div class="fileName">{{name}}</div>' +
-		'<div><span title="{{altSize}}">{{size}}</span>, <span title="{{altDate}}">{{date}}</span></div>';
+		'<div>' +
+		'    <a href="#" ' +
+		'    alt="{{starAltText}}"' +
+		'    class="action action-favorite {{#isFavorite}}permanent{{/isFavorite}}">' +
+		'    <img class="svg" src="{{starIcon}}" />' +
+		'    </a>' +
+		'    <span title="{{altSize}}">{{size}}</span>, <span title="{{altDate}}">{{date}}</span>' +
+		'</div>';
 
 	/**
 	 * @class OCA.Files.MainFileInfoDetailView
@@ -48,6 +55,7 @@
 			}
 
 			if (this._fileInfo) {
+				var isFavorite = (this._fileInfo.tags || []).indexOf(OC.TAG_FAVORITE) >= 0
 				this.$el.append(this._template({
 					nameLabel: t('files', 'Name'),
 					name: this._fileInfo.name,
@@ -56,10 +64,13 @@
 					sizeLabel: t('files', 'Size'),
 					// TODO: refactor and use size formatter
 					size: OC.Util.humanFileSize(this._fileInfo.size, true),
-					altSize: this._fileInfo.size,
+					altSize: n('files', '%n byte', '%n bytes', this._fileInfo.size),
 					dateLabel: t('files', 'Modified'),
 					altDate: OC.Util.formatDate(this._fileInfo.mtime),
-					date: OC.Util.relativeModifiedDate(this._fileInfo.mtime)
+					date: OC.Util.relativeModifiedDate(this._fileInfo.mtime),
+					isFavorite: isFavorite,
+					starAltText: isFavorite ? t('files', 'Favorited') : t('files', 'Favorite'),
+					starIcon: OC.imagePath('core', isFavorite ? 'actions/starred' : 'actions/star')
 				}));
 
 				var $iconDiv = this.$el.find('.thumbnail');
@@ -78,8 +89,7 @@
 					// TODO: special icons / shared / external
 					$iconDiv.css('background-image', 'url("' + OC.MimeType.getIconUrl('dir') + '")');
 				}
-			} else {
-				// TODO: render placeholder text?
+				this.$el.find('[title]').tipsy();
 			}
 		}
 	});

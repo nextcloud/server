@@ -1,35 +1,43 @@
 
 
-#app-content-files .detailsView.disappear {
-	margin-right: -300px;
+.app-files .detailsView.disappear {
+	margin-right: -350px;
 }
 
-#app-content-files .detailsView {
+.app-files .detailsView {
 	position: absolute;
-	width: 300px;
-	top: 44px;
+	width: 350px;
+	top: 0;
 	bottom: 0;
 	right: 0;
 	left: auto;
 	background-color: white;
-	border: 1px solid black;
 	-webkit-transition: margin-right 300ms;
 	-moz-transition: margin-right 300ms;
 	-o-transition: margin-right 300ms;
 	transition: margin-right 300ms;
 }
 
-#app-content-files .detailsView .detailFileInfoContainer {
+.app-files .detailsView {
+	background: #eee;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	box-shadow: 0 2px 3px rgba(50, 50, 50, .4);
+	display: block;
+	z-index: 500;
+}
+
+.app-files .detailsView .detailFileInfoContainer {
 	min-height: 200px;
 	padding: 10px;
 }
 
-#app-content-files .detailsView .detailFileInfoContainer > div{
+.app-files .detailsView .detailFileInfoContainer > div{
 	clear: both;
 	margin-left: 5px;
 }
 
-#app-content-files .detailsView .thumbnail {
+.app-files .detailsView .thumbnail {
 	width: 50px;
 	height: 50px;
 	float: left;
@@ -37,12 +45,18 @@
 	background-size: 50px;
 }
 
-#app-content-files .detailsView .fileName {
+.app-files .detailsView .fileName {
 	font-weight: bold;
 	font-size: 17px;
 }
 
-#app-content-files .detailsView .detailList {
+.app-files .detailsView .detailList {
 	float: left;
 }
 
+.app-files .detailsView .close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 10px;
+}

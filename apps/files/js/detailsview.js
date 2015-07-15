@@ -18,6 +18,7 @@
 		'        <ul class="tabHeadsContainer">' +
 		'        </ul>' +
 		'    </div>' +
+		'    <a class="close icon-close" href="#" alt="{{closeLabel}}"></a>' +
 		'</div>';
 
 	var TEMPLATE_TAB_HEADER =
@@ -72,10 +73,16 @@
 		 * Initialize the details view
 		 */
 		initialize: function() {
+			var self = this;
 			this.$el = $('<div class="detailsView"></div>');
 			this.fileInfo = null;
 			this._tabViews = [];
 			this._detailFileInfoViews = [];
+
+			this.$el.on('click', 'a.close', function(event) {
+				self.$el.addClass('disappear');
+				event.preventDefault();
+			});
 		},
 
 		/**
@@ -102,7 +109,9 @@
 				this._templateTabHeader = Handlebars.compile(TEMPLATE_TAB_HEADER);
 			}
 
-			var $el = $(this._template());
+			var $el = $(this._template({
+				closeLabel: t('files', 'Close')
+			}));
 			var $tabsContainer = $el.find('.tabsContainer');
 			var $tabHeadsContainer = $el.find('.tabHeadsContainer');
 			var $detailsContainer = $el.find('.detailFileInfoContainer');
@@ -143,6 +152,8 @@
 		 */
 		setFileInfo: function(fileInfo) {
 			this._fileInfo = fileInfo;
+
+			this.render();
 
 			// notify all panels
 			_.each(this._tabViews, function(tabView) {

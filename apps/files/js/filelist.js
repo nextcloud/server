@@ -210,6 +210,11 @@
 			}
 			this.breadcrumb = new OCA.Files.BreadCrumb(breadcrumbOptions);
 
+			this._detailsView = new OCA.Files.DetailsView();
+			this._detailsView.addDetailView(new OCA.Files.MainFileInfoDetailView());
+			this.$el.append(this._detailsView.$el);
+			this._detailsView.$el.addClass('disappear');
+
 			this.$el.find('#controls').prepend(this.breadcrumb.$el);
 
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
@@ -224,7 +229,7 @@
 			this.$el.on('click', function(event) {
 				var $target = $(event.target);
 				// click outside file row ?
-				if (!$target.closest('tbody').length) {
+				if (!$target.closest('tbody').length && !$target.closest('.detailsView').length) {
 					self._updateDetailsView(null);
 				}
 			});
@@ -282,32 +287,16 @@
 		_updateDetailsView: function(fileInfo) {
 			var self = this;
 			if (!fileInfo) {
-				if (this._detailsView) {
-					// hide it
-					this._detailsView.$el.addClass('disappear');
-					this._detailsView.setFileInfo(null);
-				}
+				this._detailsView.$el.addClass('disappear');
+				this._detailsView.setFileInfo(null);
 				return;
 			}
 
-			if (!this._detailsView) {
-				this._detailsView = new OCA.Files.DetailsView();
-				this._detailsView.addDetailView(new OCA.Files.MainFileInfoDetailView());
-				_.each(this._detailFileInfoViews, function(view) {
-					self._detailsView.addDetailView(view);
-				});
-				_.each(this._tabViews, function(view) {
-					self._detailsView.addTabView(view);
-				});
-				this.$el.append(this._detailsView.$el);
-				this._detailsView.$el.addClass('disappear');
-				this._detailsView.render();
-			}
 			this._detailsView.setFileInfo(_.extend({
 				path: this.getCurrentDirectory()
 			}, fileInfo));
 			_.defer(function() {
-				self._detailsView.$el.removeClass('disappear');
+				self._detailsView.$el.removeClass('disappear hidden');
 			});
 		},
 
@@ -363,6 +352,12 @@
 			else {
 				delete this._selectedFiles[$tr.data('id')];
 				this._selectionSummary.remove(data);
+			}
+			if (this._selectionSummary.getTotal() === 1) {
+				this._updateDetailsView(_.values(this._selectedFiles)[0]);
+			} else {
+				// show nothing when multiple files are selected
+				this._updateDetailsView(null);
 			}
 			this.$el.find('.select-all').prop('checked', this._selectionSummary.getTotal() === this.files.length);
 		},
@@ -2233,6 +2228,20 @@
 
 				}
 			});
+		},
+
+		/**
+		 * Register a tab view to be added to all views
+		 */
+		registerTabView: function(tabView) {
+			this._detailsView.addTabView(tabView);
+		},
+
+		/**
+		 * Register a detail view to be added to all views
+		 */
+		registerDetailView: function(detailView) {
+			this._detailsView.addDetailView(detailView);
 		}
 	};
 
@@ -2282,34 +2291,6 @@
 		mtime: function(fileInfo1, fileInfo2) {
 			return fileInfo1.mtime - fileInfo2.mtime;
 		}
-	};
-
-	/**
-	 * Globally registered tab views
-	 *
-	 * @type OCA.Files.DetailTabView
-	 */
-	FileList.prototype._tabViews = [];
-
-	/**
-	 * Globally registered detail views
-	 *
-	 * @type OCA.Files.DetailFileInfoView
-	 */
-	FileList.prototype._detailFileInfoViews = [];
-
-	/**
-	 * Register a tab view to be added to all views
-	 */
-	FileList.prototype.registerTabView = function(tabView) {
-		this._tabViews.push(tabView);
-	};
-
-	/**
-	 * Register a detail view to be added to all views
-	 */
-	FileList.prototype.registerDetailView = function(detailView) {
-		this._detailFileInfoViews.push(detailView);
 	};
 
 	/**
