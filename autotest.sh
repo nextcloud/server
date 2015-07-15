@@ -165,8 +165,10 @@ function execute_tests {
 		DOCKER_CONTAINER_ID=$(docker run -d deepdiver/docker-oracle-xe-11g)
 		DATABASEHOST=$(docker inspect "$DOCKER_CONTAINER_ID" | grep IPAddress | cut -d '"' -f 4)
 
-		echo "Waiting 120 seconds for Oracle initialization ... "
-		sleep 120
+		echo "Waiting for Oracle initialization ... "
+
+		# grep exits on the first match and then the script continues
+		docker logs -f "$DOCKER_CONTAINER_ID" 2>&1 | grep -q "Grant succeeded."
 
 		DATABASEUSER=autotest
 		DATABASENAME='XE'
