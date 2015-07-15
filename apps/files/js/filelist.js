@@ -221,6 +221,13 @@
 
 			this.updateSearch();
 
+			this.$el.on('click', function(event) {
+				var $target = $(event.target);
+				// click outside file row ?
+				if (!$target.closest('tbody').length) {
+					self._updateDetailsView(null);
+				}
+			});
 			this.$fileList.on('click','td.filename>a.name', _.bind(this._onClickFile, this));
 			this.$fileList.on('change', 'td.filename>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
@@ -273,17 +280,35 @@
 		 * @param {OCA.Files.FileInfo} fileInfo file info to display
 		 */
 		_updateDetailsView: function(fileInfo) {
+			var self = this;
+			if (!fileInfo) {
+				if (this._detailsView) {
+					// hide it
+					this._detailsView.$el.addClass('disappear');
+					this._detailsView.setFileInfo(null);
+				}
+				return;
+			}
+
 			if (!this._detailsView) {
 				this._detailsView = new OCA.Files.DetailsView();
-				this.$el.append(this._detailsView.$el);
-
 				this._detailsView.addDetailView(new OCA.Files.MainFileInfoDetailView());
-
+				_.each(this._detailFileInfoViews, function(view) {
+					self._detailsView.addDetailView(view);
+				});
+				_.each(this._tabViews, function(view) {
+					self._detailsView.addTabView(view);
+				});
+				this.$el.append(this._detailsView.$el);
+				this._detailsView.$el.addClass('disappear');
 				this._detailsView.render();
 			}
 			this._detailsView.setFileInfo(_.extend({
 				path: this.getCurrentDirectory()
 			}, fileInfo));
+			_.defer(function() {
+				self._detailsView.$el.removeClass('disappear');
+			});
 		},
 
 		/**
@@ -374,36 +399,34 @@
 				this._selectFileEl($tr, !$checkbox.prop('checked'));
 				this.updateSelectionSummary();
 			} else {
-				var currentIndex = $tr.index();
-				var fileInfo = this.files[currentIndex];
-
-				this._updateDetailsView(fileInfo);
-				event.preventDefault();
-				return;
-
-				// FIXME: disabled for testing details view
-
-				var filename = $tr.attr('data-file');
-				var renaming = $tr.data('renaming');
-				if (!renaming) {
-					this.fileActions.currentFile = $tr.find('td');
-					var mime = this.fileActions.getCurrentMimeType();
-					var type = this.fileActions.getCurrentType();
-					var permissions = this.fileActions.getCurrentPermissions();
-					var action = this.fileActions.getDefault(mime,type, permissions);
-					if (action) {
-						event.preventDefault();
-						// also set on global object for legacy apps
-						window.FileActions.currentFile = this.fileActions.currentFile;
-						action(filename, {
-							$file: $tr,
-							fileList: this,
-							fileActions: this.fileActions,
-							dir: $tr.attr('data-path') || this.getCurrentDirectory()
-						});
+				// clicked directly on the name
+				if ($(event.target).is('.nametext') || $(event.target).closest('.nametext').length) {
+					var filename = $tr.attr('data-file');
+					var renaming = $tr.data('renaming');
+					if (!renaming) {
+						this.fileActions.currentFile = $tr.find('td');
+						var mime = this.fileActions.getCurrentMimeType();
+						var type = this.fileActions.getCurrentType();
+						var permissions = this.fileActions.getCurrentPermissions();
+						var action = this.fileActions.getDefault(mime,type, permissions);
+						if (action) {
+							event.preventDefault();
+							// also set on global object for legacy apps
+							window.FileActions.currentFile = this.fileActions.currentFile;
+							action(filename, {
+								$file: $tr,
+								fileList: this,
+								fileActions: this.fileActions,
+								dir: $tr.attr('data-path') || this.getCurrentDirectory()
+							});
+						}
+						// deselect row
+						$(event.target).closest('a').blur();
 					}
-					// deselect row
-					$(event.target).closest('a').blur();
+				} else {
+					var fileInfo = this.files[$tr.index()];
+					this._updateDetailsView(fileInfo);
+					event.preventDefault();
 				}
 			}
 		},
@@ -858,7 +881,7 @@
 			var formatted;
 			var text;
 			if (mtime > 0) {
-				formatted = formatDate(mtime);
+				formatted = OC.Util.formatDate(mtime);
 				text = OC.Util.relativeModifiedDate(mtime);
 			} else {
 				formatted = t('files', 'Unable to determine date');
@@ -1554,6 +1577,7 @@
 								tr.remove();
 								tr = self.add(fileInfo, {updateSummary: false, silent: true});
 								self.$fileList.trigger($.Event('fileActionsReady', {fileList: self, $files: $(tr)}));
+								self._updateDetailsView(fileInfo);
 							}
 						});
 					} else {
@@ -2258,6 +2282,34 @@
 		mtime: function(fileInfo1, fileInfo2) {
 			return fileInfo1.mtime - fileInfo2.mtime;
 		}
+	};
+
+	/**
+	 * Globally registered tab views
+	 *
+	 * @type OCA.Files.DetailTabView
+	 */
+	FileList.prototype._tabViews = [];
+
+	/**
+	 * Globally registered detail views
+	 *
+	 * @type OCA.Files.DetailFileInfoView
+	 */
+	FileList.prototype._detailFileInfoViews = [];
+
+	/**
+	 * Register a tab view to be added to all views
+	 */
+	FileList.prototype.registerTabView = function(tabView) {
+		this._tabViews.push(tabView);
+	};
+
+	/**
+	 * Register a detail view to be added to all views
+	 */
+	FileList.prototype.registerDetailView = function(detailView) {
+		this._detailFileInfoViews.push(detailView);
 	};
 
 	/**

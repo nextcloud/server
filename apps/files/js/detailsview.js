@@ -14,14 +14,14 @@
 		'<div>' +
 		'    <div class="detailFileInfoContainer">' +
 		'    </div>' +
-		'    <div class="tabHeadsContainer">' +
-		'    </div>' +
-		'    <div class="tabContentsContainer">' +
+		'    <div class="tabsContainer">' +
+		'        <ul class="tabHeadsContainer">' +
+		'        </ul>' +
 		'    </div>' +
 		'</div>';
 
 	var TEMPLATE_TAB_HEADER =
-		'<div class="tabHeaders">{{label}}</div>';
+		'<li class="tabHeaders"><a href="#{{tabId}}">{{label}}</a></li>';
 
 	/**
 	 * @class OCA.Files.DetailsView
@@ -33,6 +33,7 @@
 	var DetailsView = function() {
 		this.initialize();
 	};
+
 	/**
 	 * @memberof OCA.Files
 	 */
@@ -90,6 +91,7 @@
 		 * Renders this details view
 		 */
 		render: function() {
+			var self = this;
 			this.$el.empty();
 
 			if (!this._template) {
@@ -101,19 +103,9 @@
 			}
 
 			var $el = $(this._template());
+			var $tabsContainer = $el.find('.tabsContainer');
 			var $tabHeadsContainer = $el.find('.tabHeadsContainer');
-			var $tabsContainer = $el.find('.tabContentsContainer');
 			var $detailsContainer = $el.find('.detailFileInfoContainer');
-
-			// render tabs
-			_.each(this._tabs, function(tabView) {
-				tabView.render();
-				// hidden by default
-				tabView.$el.addClass('hidden');
-				$tabsContainer.append(tabView.$el);
-
-				$tabHeadsContainer.append(this._templateTabHeader({label: tabView.getLabel()}));
-			});
 
 			// render details
 			_.each(this._detailFileInfoViews, function(detailView) {
@@ -121,10 +113,27 @@
 				$detailsContainer.append(detailView.$el);
 			});
 
-			// select first tab
-			$el.find('.tabContentsContainer:first').removeClass('hidden');
+			if (this._tabViews.length > 0) {
+				// render tabs
+				_.each(this._tabViews, function(tabView) {
+					tabView.render();
+					// hidden by default
+					$tabsContainer.append(tabView.$el);
+
+					$tabHeadsContainer.append(self._templateTabHeader({
+						tabId: tabView.getId(),
+						label: tabView.getLabel()
+					}));
+				});
+			}
+
+			// TODO: select current tab
 
 			this.$el.append($el);
+
+			if (this._tabViews.length > 0) {
+				$tabsContainer.tabs({});
+			}
 		},
 
 		/**
@@ -136,7 +145,7 @@
 			this._fileInfo = fileInfo;
 
 			// notify all panels
-			_.each(this._tabs, function(tabView) {
+			_.each(this._tabViews, function(tabView) {
 				tabView.setFileInfo(fileInfo);
 			});
 			_.each(this._detailFileInfoViews, function(detailView) {

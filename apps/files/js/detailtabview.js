@@ -17,8 +17,8 @@
 	 * Base class for tab views to display file information.
 	 *
 	 */
-	var DetailTabView = function() {
-		this.initialize();
+	var DetailTabView = function(id) {
+		this.initialize(id);
 	};
 
 	/**
@@ -51,9 +51,16 @@
 
 		/**
 		 * Initialize the details view
+		 *
+		 * @param {string} id tab id
 		 */
-		initialize: function() {
+		initialize: function(id) {
+			if (!id) {
+				throw 'Argument "id" is required';
+			}
+			this._id = id;
 			this.$el = $('<div class="detailTabView"></div>');
+			this.$el.attr('id', id);
 		},
 
 		/**
@@ -63,6 +70,15 @@
 			if (this.$el) {
 				this.$el.remove();
 			}
+		},
+
+		/**
+		 * Returns the tab element id
+		 *
+		 * @return {string} tab id
+		 */
+		getId: function() {
+			return this._id;
 		},
 
 		/**
@@ -81,6 +97,9 @@
 		 */
 		render: function() {
 			// to be implemented in subclass
+			// FIXME: code is only for testing
+			this.$el.empty();
+			this.$el.append('<div>Hello ' + this._id + '</div>');
 		},
 
 		/**

@@ -140,6 +140,13 @@
 					}
 				});
 			}, t('files_sharing', 'Share'));
+
+			OC.addScript('files_sharing', 'sharetabview').done(function() {
+				fileList.registerTabView(new OCA.Sharing.ShareTabView('shareTabView'));
+			});
+			OC.addScript('files_sharing', 'sharedetailview').done(function() {
+				fileList.registerDetailView(new OCA.Sharing.ShareDetailView());
+			});
 		},
 
 		/**

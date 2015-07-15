@@ -52,8 +52,8 @@ OCP\Util::addscript('files', 'search');
 
 \OCP\Util::addScript('files', 'detailfileinfoview');
 \OCP\Util::addScript('files', 'detailtabview');
-\OCP\Util::addScript('files', 'detailsview');
 \OCP\Util::addScript('files', 'mainfileinfodetailview');
+\OCP\Util::addScript('files', 'detailsview');
 \OCP\Util::addStyle('files', 'detailsView');
 
 \OC_Util::addVendorScript('core', 'handlebars/handlebars');

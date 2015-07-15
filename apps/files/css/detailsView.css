@@ -1,19 +1,45 @@
 
 
+#app-content-files .detailsView.disappear {
+	margin-right: -300px;
+}
+
 #app-content-files .detailsView {
 	position: absolute;
 	width: 300px;
 	top: 44px;
 	bottom: 0;
 	right: 0;
+	left: auto;
 	background-color: white;
 	border: 1px solid black;
+	-webkit-transition: margin-right 300ms;
+	-moz-transition: margin-right 300ms;
+	-o-transition: margin-right 300ms;
+	transition: margin-right 300ms;
+}
+
+#app-content-files .detailsView .detailFileInfoContainer {
+	min-height: 200px;
+	padding: 10px;
+}
+
+#app-content-files .detailsView .detailFileInfoContainer > div{
+	clear: both;
+	margin-left: 5px;
 }
 
 #app-content-files .detailsView .thumbnail {
-	width: 32px;
-	height: 32px;
+	width: 50px;
+	height: 50px;
 	float: left;
+	margin: 5px;
+	background-size: 50px;
+}
+
+#app-content-files .detailsView .fileName {
+	font-weight: bold;
+	font-size: 17px;
 }
 
 #app-content-files .detailsView .detailList {
