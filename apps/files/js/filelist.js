@@ -286,12 +286,19 @@
 		 */
 		_updateDetailsView: function(fileInfo) {
 			var self = this;
+			var oldFileInfo = this._detailsView.getFileInfo();
+			if (oldFileInfo) {
+				// TODO: use more efficient way, maybe track the highlight
+				this.$fileList.children().filterAttr('data-id', '' + oldFileInfo.id).removeClass('highlighted');
+			}
+
 			if (!fileInfo) {
 				this._detailsView.$el.addClass('disappear');
 				this._detailsView.setFileInfo(null);
 				return;
 			}
 
+			this.$fileList.children().filterAttr('data-id', '' + fileInfo.id).addClass('highlighted');
 			this._detailsView.setFileInfo(_.extend({
 				path: this.getCurrentDirectory()
 			}, fileInfo));

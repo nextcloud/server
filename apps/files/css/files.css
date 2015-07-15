@@ -143,6 +143,7 @@
 #filestable tbody tr:active {
 	background-color: rgb(240,240,240);
 }
+#filestable tbody tr.highlighted,
 #filestable tbody tr.selected {
 	background-color: rgb(230,230,230);
 }

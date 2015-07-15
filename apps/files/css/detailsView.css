@@ -8,9 +8,9 @@
 	position: absolute;
 	width: 350px;
 	top: 0;
-	bottom: 0;
 	right: 0;
 	left: auto;
+	min-height: 100%;
 	background-color: white;
 	-webkit-transition: margin-right 300ms;
 	-moz-transition: margin-right 300ms;
@@ -28,11 +28,11 @@
 }
 
 .app-files .detailsView .detailFileInfoContainer {
-	min-height: 200px;
+	min-height: 80px;
 	padding: 10px;
 }
 
-.app-files .detailsView .detailFileInfoContainer > div{
+.app-files .detailsView .detailFileInfoContainer > div {
 	clear: both;
 	margin-left: 5px;
 }

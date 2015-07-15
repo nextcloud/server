@@ -153,6 +153,7 @@
 		setFileInfo: function(fileInfo) {
 			this._fileInfo = fileInfo;
 
+			// FIXME: this will render panels twice
 			this.render();
 
 			// notify all panels

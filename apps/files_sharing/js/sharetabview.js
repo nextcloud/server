@@ -55,6 +55,7 @@
 				this.$el.append(this._template({
 					owner: this._fileInfo.shareOwner || OC.currentUser
 				}));
+
 			} else {
 				// TODO: render placeholder text?
 			}
