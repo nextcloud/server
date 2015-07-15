@@ -867,13 +867,6 @@
 					<sorting>ascending</sorting>
 				</field>
 			</index>
-			<index>
-				<name>share_file_target</name>
-				<field>
-					<name>file_target</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
 		</declaration>
 
 	</table>
