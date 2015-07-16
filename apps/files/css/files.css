@@ -517,6 +517,9 @@ table td.filename .uploadtext {
 	font-size: 11px;
 }
 
+.busy .fileactions, .busy .action {
+	visibility: hidden;
+}
 
 /* force show the loading icon, not only on hover */
 #fileList .icon-loading-small {
@@ -527,11 +530,6 @@ table td.filename .uploadtext {
 }
 
 #fileList img.move2trash { display:inline; margin:-8px 0; padding:16px 8px 16px 8px !important; float:right; }
-#fileList a.action.delete {
-	position: absolute;
-	right: 15px;
-	padding: 17px 14px;
-}
 
 #fileList .action.action-share-notification span, #fileList a.name {
 	cursor: default !important;
@@ -576,10 +574,6 @@ a.action>img {
 	filter: alpha(opacity=0);
 	opacity: 0;
 	display:none;
-}
-
-#fileList a.action[data-action="Rename"] {
-	padding: 16px 14px 17px !important;
 }
 
 .ie8 #fileList a.action img,
@@ -693,3 +687,36 @@ table.dragshadow td.size {
 .mask.transparent{
 	opacity: 0;
 }
+
+.fileActionsMenu {
+	/* FIXME: should be variable width, but default one is too big */
+	width: 100px;
+}
+
+.fileActionsMenu.hidden {
+	display: none;
+}
+
+#fileList .fileActionsMenu .action {
+	display: block;
+	line-height: 30px;
+	padding-left: 5px;
+	color: #000;
+	padding: 0;
+}
+
+.fileActionsMenu .action img,
+.fileActionsMenu .action .no-icon {
+	display: inline-block;
+	width: 16px;
+	margin-right: 5px;
+}
+
+.fileActionsMenu .action {
+	opacity: 0.5;
+}
+
+.fileActionsMenu li:hover .action {
+	opacity: 1;
+}
+

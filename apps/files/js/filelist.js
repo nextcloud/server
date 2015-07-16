@@ -1444,9 +1444,7 @@
 			}
 			_.each(fileNames, function(fileName) {
 				var $tr = self.findFileEl(fileName);
-				var $thumbEl = $tr.find('.thumbnail');
-				var oldBackgroundImage = $thumbEl.css('background-image');
-				$thumbEl.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
+				self.showFileBusyState($tr, true);
 				// TODO: improve performance by sending all file names in a single call
 				$.post(
 					OC.filePath('files', 'ajax', 'move.php'),
@@ -1488,7 +1486,7 @@
 						} else {
 							OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
 						}
-						$thumbEl.css('background-image', oldBackgroundImage);
+						self.showFileBusyState($tr, false);
 					}
 				);
 			});
@@ -1549,14 +1547,13 @@
 
 				try {
 					var newName = input.val();
-					var $thumbEl = tr.find('.thumbnail');
 					input.tipsy('hide');
 					form.remove();
 
 					if (newName !== oldname) {
 						checkInput();
 						// mark as loading (temp element)
-						$thumbEl.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
+						self.showFileBusyState(tr, true);
 						tr.attr('data-file', newName);
 						var basename = newName;
 						if (newName.indexOf('.') > 0 && tr.data('type') !== 'dir') {
@@ -1564,7 +1561,6 @@
 						}
 						td.find('a.name span.nametext').text(basename);
 						td.children('a.name').show();
-						tr.find('.fileactions, .action').addClass('hidden');
 
 						$.ajax({
 							url: OC.filePath('files','ajax','rename.php'),
@@ -1636,6 +1632,44 @@
 		inList:function(file) {
 			return this.findFileEl(file).length;
 		},
+
+		/**
+		 * Shows busy state on a given file row or multiple
+		 *
+		 * @param {string|Array.<string>} files file name or array of file names
+		 * @param {bool} [busy=true] busy state, true for busy, false to remove busy state
+		 *
+		 * @since 8.2
+		 */
+		showFileBusyState: function(files, state) {
+			var self = this;
+			if (!_.isArray(files)) {
+				files = [files];
+			}
+
+			if (_.isUndefined(state)) {
+				state = true;
+			}
+
+			_.each(files, function($tr) {
+				// jquery element already ?
+				if (!$tr.is) {
+					$tr = self.findFileEl($tr);
+				}
+
+				var $thumbEl = $tr.find('.thumbnail');
+				$tr.toggleClass('busy', state);
+
+				if (state) {
+					$thumbEl.attr('data-oldimage', $thumbEl.css('background-image'));
+					$thumbEl.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
+				} else {
+					$thumbEl.css('background-image', $thumbEl.attr('data-oldimage'));
+					$thumbEl.removeAttr('data-oldimage');
+				}
+			});
+		},
+
 		/**
 		 * Delete the given files from the given dir
 		 * @param files file names list (without path)
@@ -1649,9 +1683,8 @@
 				files=[files];
 			}
 			if (files) {
+				this.showFileBusyState(files, true);
 				for (var i=0; i<files.length; i++) {
-					var deleteAction = this.findFileEl(files[i]).children("td.date").children(".action.delete");
-					deleteAction.removeClass('icon-delete').addClass('icon-loading-small');
 				}
 			}
 			// Finish any existing actions
@@ -1669,7 +1702,7 @@
 				// no files passed, delete all in current dir
 				params.allfiles = true;
 				// show spinner for all files
-				this.$fileList.find('tr>td.date .action.delete').removeClass('icon-delete').addClass('icon-loading-small');
+				this.$fileList.find('tr').addClass('busy');
 			}
 
 			$.post(OC.filePath('files', 'ajax', 'delete.php'),
@@ -1712,8 +1745,7 @@
 							}
 							else {
 								$.each(files,function(index,file) {
-									var deleteAction = self.findFileEl(file).find('.action.delete');
-									deleteAction.removeClass('icon-loading-small').addClass('icon-delete');
+									self.$fileList.find('tr').removeClass('busy');
 								});
 							}
 						}

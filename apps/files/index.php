@@ -138,6 +138,7 @@ foreach ($navItems as $item) {
 }
 
 OCP\Util::addscript('files', 'fileactions');
+OCP\Util::addscript('files', 'fileactionsmenu');
 OCP\Util::addscript('files', 'files');
 OCP\Util::addscript('files', 'navigation');
 OCP\Util::addscript('files', 'keyboardshortcuts');

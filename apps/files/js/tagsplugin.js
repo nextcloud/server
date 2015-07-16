@@ -81,6 +81,7 @@
 				displayName: 'Favorite',
 				mime: 'all',
 				permissions: OC.PERMISSION_READ,
+				type: OCA.Files.FileActions.TYPE_INLINE,
 				render: function(actionSpec, isDefault, context) {
 					var $file = context.$file;
 					var isFavorite = $file.data('favorite') === true;
