@@ -302,6 +302,7 @@
 			this._detailsView.setFileInfo(_.extend({
 				path: this.getCurrentDirectory()
 			}, fileInfo));
+			this._detailsView.$el.scrollTop(0);
 			_.defer(function() {
 				self._detailsView.$el.removeClass('disappear hidden');
 			});
