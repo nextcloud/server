@@ -57,7 +57,8 @@ OCA.Sharing.PublicApp = {
 					scrollContainer: $(window),
 					dragOptions: dragOptions,
 					folderDropOptions: folderDropOptions,
-					fileActions: fileActions
+					fileActions: fileActions,
+					detailsViewEnabled: false
 				}
 			);
 			this.files = OCA.Files.Files;

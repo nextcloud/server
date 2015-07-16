@@ -23,6 +23,7 @@
 	 * @param [options.scrollContainer] scrollable container, defaults to $(window)
 	 * @param [options.dragOptions] drag options, disabled by default
 	 * @param [options.folderDropOptions] folder drop options, disabled by default
+	 * @param [options.detailsViewEnabled=true] whether to enable details view
 	 */
 	var FileList = function($el, options) {
 		this.initialize($el, options);
@@ -210,10 +211,12 @@
 			}
 			this.breadcrumb = new OCA.Files.BreadCrumb(breadcrumbOptions);
 
-			this._detailsView = new OCA.Files.DetailsView();
-			this._detailsView.addDetailView(new OCA.Files.MainFileInfoDetailView());
-			this.$el.append(this._detailsView.$el);
-			this._detailsView.$el.addClass('disappear');
+			if (_.isUndefined(options.detailsViewEnabled) || options.detailsViewEnabled) {
+				this._detailsView = new OCA.Files.DetailsView();
+				this._detailsView.addDetailView(new OCA.Files.MainFileInfoDetailView());
+				this.$el.append(this._detailsView.$el);
+				this._detailsView.$el.addClass('disappear');
+			}
 
 			this.$el.find('#controls').prepend(this.breadcrumb.$el);
 
@@ -285,6 +288,10 @@
 		 * @param {OCA.Files.FileInfo} fileInfo file info to display
 		 */
 		_updateDetailsView: function(fileInfo) {
+			if (!this._detailsView) {
+				return;
+			}
+
 			var self = this;
 			var oldFileInfo = this._detailsView.getFileInfo();
 			if (oldFileInfo) {
@@ -403,7 +410,7 @@
 				this.updateSelectionSummary();
 			} else {
 				// clicked directly on the name
-				if ($(event.target).is('.nametext') || $(event.target).closest('.nametext').length) {
+				if (!this._detailsView || $(event.target).is('.nametext') || $(event.target).closest('.nametext').length) {
 					var filename = $tr.attr('data-file');
 					var renaming = $tr.data('renaming');
 					if (!renaming) {
