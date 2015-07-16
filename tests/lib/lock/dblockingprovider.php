@@ -37,7 +37,7 @@ class DBLockingProvider extends LockingProvider {
 	}
 
 	public function tearDown() {
-		$this->connection->executeQuery('DELETE FROM `*PREFIX*locks`');
+		$this->connection->executeQuery('DELETE FROM `*PREFIX*file_locks`');
 		parent::tearDown();
 	}
 }
