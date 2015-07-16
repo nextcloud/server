@@ -1112,17 +1112,27 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('/test.php', $request->getRequestUri());
 	}
 
-	public function testGetRequestUriWithOverwrite() {
+	public function providesGetRequestUriWithOverwriteData() {
+		return [
+			['/scriptname.php/some/PathInfo', '/owncloud/', ''],
+			['/scriptname.php/some/PathInfo', '/owncloud/', '123'],
+		];
+	}
+
+	/**
+	 * @dataProvider providesGetRequestUriWithOverwriteData
+	 */
+	public function testGetRequestUriWithOverwrite($expectedUri, $overwriteWebRoot, $overwriteCondAddr) {
 		$this->config
 			->expects($this->at(0))
 			->method('getSystemValue')
 			->with('overwritewebroot')
-			->will($this->returnValue('/owncloud/'));
+			->will($this->returnValue($overwriteWebRoot));
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
 			->with('overwritecondaddr')
-			->will($this->returnValue(''));
+			->will($this->returnValue($overwriteCondAddr));
 
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1143,6 +1153,7 @@ class RequestTest extends \Test\TestCase {
 			->method('getScriptName')
 			->will($this->returnValue('/scriptname.php'));
 
-		$this->assertSame('/scriptname.php/some/PathInfo', $request->getRequestUri());
+		$this->assertSame($expectedUri, $request->getRequestUri());
 	}
+
 }
