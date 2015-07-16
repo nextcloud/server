@@ -27,6 +27,9 @@ use PhpParser\Node\Name;
 use PhpParser\NodeVisitorAbstract;
 
 class NodeVisitor extends NodeVisitorAbstract {
+	/** @var ICheck */
+	protected $list;
+
 	/** @var string */
 	protected $blackListDescription;
 	/** @var string[] */
@@ -46,7 +49,7 @@ class NodeVisitor extends NodeVisitorAbstract {
 	 * @param ICheck $list
 	 */
 	public function __construct(ICheck $list) {
-		$this->blackListDescription = $list->getDescription();
+		$this->list = $list;
 
 		$this->blackListedClassNames = [];
 		foreach ($list->getClasses() as $class => $blackListInfo) {
@@ -80,13 +83,13 @@ class NodeVisitor extends NodeVisitorAbstract {
 		$this->checkEqualOperatorUsage = $list->checkStrongComparisons();
 
 		$this->errorMessages = [
-			CodeChecker::CLASS_EXTENDS_NOT_ALLOWED => "{$this->blackListDescription} class must not be extended",
-			CodeChecker::CLASS_IMPLEMENTS_NOT_ALLOWED => "{$this->blackListDescription} interface must not be implemented",
-			CodeChecker::STATIC_CALL_NOT_ALLOWED => "Static method of {$this->blackListDescription} class must not be called",
-			CodeChecker::CLASS_CONST_FETCH_NOT_ALLOWED => "Constant of {$this->blackListDescription} class must not not be fetched",
-			CodeChecker::CLASS_NEW_FETCH_NOT_ALLOWED => "{$this->blackListDescription} class must not be instanciated",
-			CodeChecker::CLASS_USE_NOT_ALLOWED => "{$this->blackListDescription} class must not be imported with a use statement",
-			CodeChecker::CLASS_METHOD_CALL_NOT_ALLOWED => "Method of {$this->blackListDescription} class must not be called",
+			CodeChecker::CLASS_EXTENDS_NOT_ALLOWED => "%s class must not be extended",
+			CodeChecker::CLASS_IMPLEMENTS_NOT_ALLOWED => "%s interface must not be implemented",
+			CodeChecker::STATIC_CALL_NOT_ALLOWED => "Static method of %s class must not be called",
+			CodeChecker::CLASS_CONST_FETCH_NOT_ALLOWED => "Constant of %s class must not not be fetched",
+			CodeChecker::CLASS_NEW_NOT_ALLOWED => "%s class must not be instantiated",
+			CodeChecker::CLASS_USE_NOT_ALLOWED => "%s class must not be imported with a use statement",
+			CodeChecker::CLASS_METHOD_CALL_NOT_ALLOWED => "Method of %s class must not be called",
 
 			CodeChecker::OP_OPERATOR_USAGE_DISCOURAGED => "is discouraged",
 		];
@@ -171,7 +174,7 @@ class NodeVisitor extends NodeVisitorAbstract {
 		if ($node instanceof Node\Expr\New_) {
 			if (!is_null($node->class)) {
 				if ($node->class instanceof Name) {
-					$this->checkBlackList($node->class->toString(), CodeChecker::CLASS_NEW_FETCH_NOT_ALLOWED, $node);
+					$this->checkBlackList($node->class->toString(), CodeChecker::CLASS_NEW_NOT_ALLOWED, $node);
 				}
 				if ($node->class instanceof Node\Expr\Variable) {
 					/**
@@ -294,7 +297,8 @@ class NodeVisitor extends NodeVisitorAbstract {
 
 	private function buildReason($name, $errorCode) {
 		if (isset($this->errorMessages[$errorCode])) {
-			return $this->errorMessages[$errorCode];
+			$desc = $this->list->getDescription($errorCode, $name);
+			return sprintf($this->errorMessages[$errorCode], $desc);
 		}
 
 		return "$name usage not allowed - error: $errorCode";

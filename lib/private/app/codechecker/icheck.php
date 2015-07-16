@@ -22,9 +22,11 @@ namespace OC\App\CodeChecker;
 
 interface ICheck {
 	/**
+	 * @param int $errorCode
+	 * @param string $errorObject
 	 * @return string
 	 */
-	public function getDescription();
+	public function getDescription($errorCode, $errorObject);
 
 	/**
 	 * @return array E.g.: `'ClassName' => 'oc version',`

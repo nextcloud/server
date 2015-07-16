@@ -23,30 +23,19 @@
 
 namespace OC\App\CodeChecker;
 
-class PrivateCheck implements ICheck {
-	/** @var ICheck */
-	protected $check;
-
-	/**
-	 * @param ICheck $check
-	 */
-	public function __construct(ICheck $check) {
-		$this->check = $check;
-	}
-
+class PrivateCheck extends AbstractCheck implements ICheck {
 	/**
 	 * @return string
 	 */
-	public function getDescription() {
-		$innerDescription = $this->check->getDescription();
-		return 'private' . (($innerDescription === '') ? '' : ' ' . $innerDescription);
+	protected function getLocalDescription() {
+		return 'private';
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getClasses() {
-		return array_merge([
+	public function getLocalClasses() {
+		return [
 			// classes replaced by the public api
 			'OC_API' => '6.0.0',
 			'OC_App' => '6.0.0',
@@ -71,34 +60,27 @@ class PrivateCheck implements ICheck {
 			'OC_Template' => '6.0.0',
 			'OC_User' => '6.0.0',
 			'OC_Util' => '6.0.0',
-		], $this->check->getClasses());
+		];
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getConstants() {
-		return $this->check->getConstants();
+	public function getLocalConstants() {
+		return [];
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getFunctions() {
-		return $this->check->getFunctions();
+	public function getLocalFunctions() {
+		return [];
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getMethods() {
-		return $this->check->getMethods();
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function checkStrongComparisons() {
-		return $this->check->checkStrongComparisons();
+	public function getLocalMethods() {
+		return [];
 	}
 }

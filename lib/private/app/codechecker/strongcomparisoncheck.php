@@ -35,10 +35,12 @@ class StrongComparisonCheck implements ICheck {
 	}
 
 	/**
+	 * @param int $errorCode
+	 * @param string $errorObject
 	 * @return string
 	 */
-	public function getDescription() {
-		return $this->check->getDescription();
+	public function getDescription($errorCode, $errorObject) {
+		return $this->check->getDescription($errorCode, $errorObject);
 	}
 
 	/**
