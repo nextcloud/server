@@ -38,7 +38,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	}
 
 	protected function initLockField($path) {
-		$this->connection->insertIfNotExist('*PREFIX*file_locks', ['path' => $path, 'lock' => 0], ['path']);
+		$this->connection->insertIfNotExist('*PREFIX*file_locks', ['path' => $path, 'lock' => 0, 'ttl' => 0], ['path']);
 	}
 
 	/**
