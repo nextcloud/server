@@ -52,7 +52,7 @@ class CheckCode extends Command {
 				'checker',
 				'c',
 				InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-				'enable the specified checker',
+				'enable the specified checker(s)',
 				[ 'private', 'deprecation', 'strong-comparison' ]
 			);
 	}

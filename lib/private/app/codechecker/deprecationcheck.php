@@ -140,6 +140,8 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\Util::imagePath' => '8.1.0',
 			'OCP\Util::isValidFileName' => '8.1.0',
 			'OCP\Util::generateRandomBytes' => '8.1.0',
+			'OCP\Util::mb_str_replace' => '8.2.0',
+			'OCP\Util::mb_substr_replace' => '8.2.0',
 		];
 	}
 }
