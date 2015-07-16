@@ -1305,6 +1305,12 @@
 			ready(iconURL); // set mimeicon URL
 
 			urlSpec.file = OCA.Files.Files.fixPath(path);
+			if (options.x) {
+				urlSpec.x = options.x;
+			}
+			if (options.y) {
+				urlSpec.y = options.y;
+			}
 
 			if (etag){
 				// use etag as cache buster

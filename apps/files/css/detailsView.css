@@ -30,26 +30,36 @@
 }
 
 .app-files .detailsView .detailFileInfoContainer {
-	min-height: 80px;
-	padding: 10px;
+	min-height: 60px;
+	padding: 15px;
 }
 
 .app-files .detailsView .detailFileInfoContainer > div {
 	clear: both;
-	margin-left: 5px;
+}
+
+.app-files .detailsView .mainFileInfoView {
+	margin-right: 20px; /* accomodate for close icon */
 }
 
 .app-files .detailsView .thumbnail {
 	width: 50px;
 	height: 50px;
 	float: left;
-	margin: 5px;
+	margin-right: 10px;
 	background-size: 50px;
+}
+
+.app-files .detailsView .ellipsis {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .app-files .detailsView .fileName {
 	font-weight: bold;
 	font-size: 17px;
+	overflow: hidden;
 }
 
 .app-files .detailsView .detailList {
@@ -60,5 +70,5 @@
 	position: absolute;
 	top: 0;
 	right: 0;
-	margin: 10px;
+	margin: 15px;
 }

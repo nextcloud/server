@@ -10,8 +10,8 @@
 
 (function() {
 	var TEMPLATE =
-		'<div class="thumbnail"></div><div class="fileName">{{name}}</div>' +
-		'<div>' +
+		'<div class="thumbnail"></div><div title="{{name}}" class="fileName ellipsis">{{name}}</div>' +
+		'<div class="ellipsis">' +
 		'    <a href="#" ' +
 		'    alt="{{starAltText}}"' +
 		'    class="action action-favorite {{#isFavorite}}permanent{{/isFavorite}}">' +
@@ -55,14 +55,13 @@
 			}
 
 			if (this._fileInfo) {
-				var isFavorite = (this._fileInfo.tags || []).indexOf(OC.TAG_FAVORITE) >= 0
+				var isFavorite = (this._fileInfo.tags || []).indexOf(OC.TAG_FAVORITE) >= 0;
 				this.$el.append(this._template({
 					nameLabel: t('files', 'Name'),
 					name: this._fileInfo.name,
 					pathLabel: t('files', 'Path'),
 					path: this._fileInfo.path,
 					sizeLabel: t('files', 'Size'),
-					// TODO: refactor and use size formatter
 					size: OC.Util.humanFileSize(this._fileInfo.size, true),
 					altSize: n('files', '%n byte', '%n bytes', this._fileInfo.size),
 					dateLabel: t('files', 'Modified'),
@@ -73,18 +72,20 @@
 					starIcon: OC.imagePath('core', isFavorite ? 'actions/starred' : 'actions/star')
 				}));
 
-				var $iconDiv = this.$el.find('.thumbnail');
 				// TODO: we really need OC.Previews
+				var $iconDiv = this.$el.find('.thumbnail');
 				if (this._fileInfo.mimetype !== 'httpd/unix-directory') {
-					// FIXME: use proper way, this is only for demo purposes
-					var previewUrl = FileList.generatePreviewUrl({
-						file: this._fileInfo.path + '/' + this._fileInfo.name,
-						c: this._fileInfo.etag,
+					// TODO: inject utility class?
+					FileList.lazyLoadPreview({
+						path: this._fileInfo.path + '/' + this._fileInfo.name,
+						mime: this._fileInfo.mimetype,
+						etag: this._fileInfo.etag,
 						x: 50,
-						y: 50
+						y: 50,
+						callback: function(previewUrl) {
+							$iconDiv.css('background-image', 'url("' + previewUrl + '")');
+						}
 					});
-					previewUrl = previewUrl.replace('(', '%28').replace(')', '%29');
-					$iconDiv.css('background-image', 'url("' + previewUrl + '")');
 				} else {
 					// TODO: special icons / shared / external
 					$iconDiv.css('background-image', 'url("' + OC.MimeType.getIconUrl('dir') + '")');
