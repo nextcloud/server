@@ -72,6 +72,10 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		if ($firstResult !== null) {
 			$this->queryBuilder->setFirstResult($firstResult);
+
+			// FIXME Remove this once Doctrine/DBAL is >2.5.1:
+			// FIXME See https://github.com/doctrine/dbal/pull/782
+			$this->queryBuilder->setMaxResults(100);
 		}
 
 		$this->assertSame(
