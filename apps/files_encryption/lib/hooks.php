@@ -478,7 +478,7 @@ class Hooks {
 
 		list($ownerNew, $pathNew) = $util->getUidAndFilename($params['newpath']);
 
-		if ($util->isSystemWideMountPoint($pathNew)) {
+		if ($util->isSystemWideMountPoint($pathNew, $ownerNew)) {
 			$newKeysPath =  'files_encryption/keys/' . $pathNew;
 		} else {
 			$newKeysPath = $ownerNew . '/files_encryption/keys/' . $pathNew;

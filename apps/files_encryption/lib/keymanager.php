@@ -187,7 +187,7 @@ class Keymanager {
 		$filePath_f = ltrim($filename, '/');
 
 		// in case of system wide mount points the keys are stored directly in the data directory
-		if ($util->isSystemWideMountPoint($filename)) {
+		if ($util->isSystemWideMountPoint($filename, $owner)) {
 			$keyPath = self::$keys_base_dir . $filePath_f . '/';
 		} else {
 			$keyPath = '/' . $owner . self::$keys_base_dir . $filePath_f . '/';
