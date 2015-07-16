@@ -82,7 +82,7 @@ class Factory implements ICacheFactory {
 		$missingCacheMessage = 'Memcache {class} not available for {use} cache';
 		$missingCacheHint = 'Is the matching PHP module installed and enabled?';
 		if (!$localCacheClass::isAvailable()) {
-			if (\OC::$CLI) {
+			if (\OC::$CLI && !defined('PHPUNIT_RUN')) {
 				// CLI should not hard-fail on broken memcache
 				$this->logger->info($missingCacheMessage, [
 					'class' => $localCacheClass,
@@ -97,7 +97,7 @@ class Factory implements ICacheFactory {
 			}
 		}
 		if (!$distributedCacheClass::isAvailable()) {
-			if (\OC::$CLI) {
+			if (\OC::$CLI && !defined('PHPUNIT_RUN')) {
 				// CLI should not hard-fail on broken memcache
 				$this->logger->info($missingCacheMessage, [
 					'class' => $distributedCacheClass,
