@@ -21,6 +21,7 @@ class Upgrade extends Command {
 	const ERROR_MAINTENANCE_MODE = 2;
 	const ERROR_UP_TO_DATE = 3;
 	const ERROR_INVALID_ARGUMENTS = 4;
+	const ERROR_FAILURE = 5;
 
 	protected function configure() {
 		$this
@@ -83,15 +84,18 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'maintenanceStart', function () use($output) {
 				$output->writeln('<info>Turned on maintenance mode</info>');
 			});
-			$updater->listen('\OC\Updater', 'maintenanceEnd', function () use($output, $updateStepEnabled) {
-				$output->writeln('<info>Turned off maintenance mode</info>');
-				if (!$updateStepEnabled) {
-					$output->writeln('<info>Update simulation successful</info>');
-				}
-				else {
-					$output->writeln('<info>Update successful</info>');
-				}
-			});
+			$updater->listen('\OC\Updater', 'maintenanceEnd',
+				function () use($output) {
+					$output->writeln('<info>Turned off maintenance mode</info>');
+				});
+			$updater->listen('\OC\Updater', 'updateEnd',
+				function ($success) use($output, $updateStepEnabled, $self) {
+					$mode = $updateStepEnabled ? 'Update' : 'Update simulation';
+					$status = $success ? 'successful' : 'failed' ;
+					$type = $success ? 'info' : 'error';
+					$message = "<$type>$mode $status</$type>";
+					$output->writeln($message);
+				});
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {
 				$output->writeln('<info>Updated database</info>');
 			});
@@ -106,13 +110,17 @@ class Upgrade extends Command {
 			});
 
 			$updater->listen('\OC\Updater', 'failure', function ($message) use($output) {
-				$output->writeln($message);
+				$output->writeln("<error>$message</error>");
 				\OC_Config::setValue('maintenance', false);
 			});
 
-			$updater->upgrade();
+			$success = $updater->upgrade();
 
 			$this->postUpgradeCheck($input, $output);
+
+			if(!$success) {
+				return self::ERROR_FAILURE;
+			}
 
 			return self::ERROR_SUCCESS;
 		} else if(\OC_Config::getValue('maintenance', false)) {
