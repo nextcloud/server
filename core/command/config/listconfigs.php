@@ -30,6 +30,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListConfigs extends Base {
+	protected $defaultOutputFormat = 'json_pretty';
+
 	/** @var array */
 	protected $sensitiveValues = [
 		'dbpassword',
@@ -80,11 +82,6 @@ class ListConfigs extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$app = $input->getArgument('app');
 		$noSensitiveValues = !$input->getOption('private');
-
-		if ($noSensitiveValues && !$input->hasParameterOption('--output')) {
-			// If you post this publicly we prefer the json format
-			$input->setOption('output', 'json_pretty');
-		}
 
 		switch ($app) {
 			case 'system':

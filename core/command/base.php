@@ -27,6 +27,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Base extends Command {
+	protected $defaultOutputFormat = 'plain';
+
 	protected function configure() {
 		$this
 			->addOption(
@@ -34,7 +36,7 @@ class Base extends Command {
 				null,
 				InputOption::VALUE_OPTIONAL,
 				'Output format (plain, json or json_pretty, default is plain)',
-				'plain'
+				$this->defaultOutputFormat
 			)
 		;
 	}
