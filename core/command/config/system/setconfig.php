@@ -70,7 +70,7 @@ class SetConfig extends Base {
 		$configName = $input->getArgument('name');
 
 		if (!in_array($configName, $this->systemConfig->getKeys()) && $input->hasParameterOption('--update-only')) {
-			$output->writeln('<comment>Value not updated, as it has not been set before.</comment>');
+			$output->writeln('<comment>Config value ' . $configName . ' not updated, as it has not been set before.</comment>');
 			return 1;
 		}
 		$configValue = $input->getOption('value');
