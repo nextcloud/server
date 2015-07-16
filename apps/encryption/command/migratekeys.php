@@ -115,5 +115,7 @@ class MigrateKeys extends Command {
 			}
 		}
 
+		$migration->finalCleanUp();
+
 	}
 }
