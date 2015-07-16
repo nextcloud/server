@@ -520,8 +520,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			if($isMemberUid) {
 				//we got uids, need to get their DNs to 'translate' them to user names
 				$filter = $this->access->combineFilterWithAnd(array(
-					\OCP\Util::mb_str_replace('%uid', $member,
-						$this->access->connection->ldapLoginFilter, 'UTF-8'),
+					str_replace('%uid', $member, $this->access->connection->ldapLoginFilter),
 					$this->access->getFilterPartForUserSearch($search)
 				));
 				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
@@ -610,8 +609,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			if($isMemberUid) {
 				//we got uids, need to get their DNs to 'translate' them to user names
 				$filter = $this->access->combineFilterWithAnd(array(
-					\OCP\Util::mb_str_replace('%uid', $member,
-						$this->access->connection->ldapLoginFilter, 'UTF-8'),
+					str_replace('%uid', $member, $this->access->connection->ldapLoginFilter),
 					$this->access->getFilterPartForUserSearch($search)
 				));
 				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
