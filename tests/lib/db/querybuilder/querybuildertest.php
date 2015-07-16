@@ -25,17 +25,20 @@ use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\Parameter;
 use OC\DB\QueryBuilder\QueryBuilder;
+use OCP\IDBConnection;
 
 class QueryBuilderTest extends \Test\TestCase {
 	/** @var QueryBuilder */
 	protected $queryBuilder;
 
+	/** @var IDBConnection */
+	protected $connection;
+
 	protected function setUp() {
 		parent::setUp();
 
-		$connection = \OC::$server->getDatabaseConnection();
-
-		$this->queryBuilder = new QueryBuilder($connection);
+		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->queryBuilder = new QueryBuilder($this->connection);
 	}
 
 	public function dataFirstResult() {
@@ -54,18 +57,18 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedSet
 	 */
 	public function testFirstResult($firstResult, $expectedSet) {
-		$eB = $this->queryBuilder->expr();
+		$qB = $this->connection->getQueryBuilder();
+		$eB = $qB->expr();
 
 		for ($i = 1; $i < 10; $i++) {
-			$this->queryBuilder->insert('*PREFIX*appconfig')
+			$qB->insert('*PREFIX*appconfig')
 				->values([
 					'appid' => $eB->literal('testFirstResult'),
 					'configkey' => $eB->literal('testing' . $i),
 					'configvalue' => $eB->literal(100 - $i),
-				]);
-			$this->queryBuilder->execute();
+				])
+				->execute();
 		}
-		$this->queryBuilder->resetQueryParts();
 
 		if ($firstResult !== null) {
 			$this->queryBuilder->setFirstResult($firstResult);
@@ -82,13 +85,19 @@ class QueryBuilderTest extends \Test\TestCase {
 			->orderBy('configkey', 'ASC');
 
 		$query = $this->queryBuilder->execute();
-		$this->assertSame(sizeof($expectedSet), $query->rowCount());
-		$this->assertEquals($expectedSet, $query->fetchAll());
+		$rows = [];
+		while ($row = $query->fetch()) {
+			$rows[] = $row;
+		}
+		$query->closeCursor();
 
-		$this->queryBuilder->delete('*PREFIX*appconfig')
-			->where($eB->eq('appid', $eB->literal('testFirstResult')));
+		$this->assertCount(sizeof($expectedSet), $rows);
+		$this->assertEquals($expectedSet, $rows);
 
-		$query = $this->queryBuilder->execute();
+		$qB = $this->connection->getQueryBuilder();
+		$qB->delete('*PREFIX*appconfig')
+			->where($eB->eq('appid', $eB->literal('testFirstResult')))
+			->execute();
 	}
 
 	public function dataMaxResults() {
