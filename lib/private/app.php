@@ -659,6 +659,12 @@ class OC_App {
 		if (is_array($data)) {
 			$data = OC_App::parseAppInfo($data);
 		}
+		if(isset($data['ocsid'])) {
+			$storedId = \OC::$server->getConfig()->getAppValue($appId, 'ocsid');
+			if($storedId !== '' && $storedId !== $data['ocsid']) {
+				$data['ocsid'] = $storedId;
+			}
+		}
 
 		self::$appInfo[$appId] = $data;
 
