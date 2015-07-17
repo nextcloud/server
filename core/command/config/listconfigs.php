@@ -30,7 +30,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListConfigs extends Base {
-	protected $defaultOutputFormat = 'json_pretty';
+	protected $defaultOutputFormat = self::OUTPUT_FORMAT_JSON_PRETTY;
 
 	/** @var array */
 	protected $sensitiveValues = [
