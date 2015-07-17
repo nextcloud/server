@@ -110,8 +110,8 @@ class Manager {
 		$user = new User($uid, $dn, $this->access, $this->ocConfig,
 			$this->ocFilesystem, clone $this->image, $this->ocLog,
 			$this->avatarManager);
-		$users['byDN'][$dn]   = $user;
-		$users['byUid'][$uid] = $user;
+		$this->users['byDN'][$dn]   = $user;
+		$this->users['byUid'][$uid] = $user;
 		return $user;
 	}
 
