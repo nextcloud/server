@@ -64,6 +64,10 @@ class Test_User_Manager extends \Test\TestCase {
         $manager->setLdapAccess($access);
         $user = $manager->get($inputDN);
 
+        // Now we fetch the user again. If this leads to a failing test,
+        // runtime caching the manager is broken.
+        $user = $manager->get($inputDN);
+
         $this->assertInstanceOf('\OCA\user_ldap\lib\user\User', $user);
     }
 
@@ -172,6 +176,10 @@ class Test_User_Manager extends \Test\TestCase {
         $manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc);
         $manager->setLdapAccess($access);
         $user = $manager->get($uid);
+
+		// Now we fetch the user again. If this leads to a failing test,
+		// runtime caching the manager is broken.
+		$user = $manager->get($uid);
 
         $this->assertInstanceOf('\OCA\user_ldap\lib\user\User', $user);
     }
