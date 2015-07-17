@@ -153,6 +153,19 @@ class SimpleContainerTest extends \Test\TestCase {
         $this->assertEquals('abc', $object->test);
     }
 
+    public function testRegisterAliasParamter() {
+        $this->container->registerParameter('test', 'abc');
+        $this->container->registerAlias('test1', 'test');
+        $this->assertEquals('abc', $this->container->query('test1'));
+    }
+
+    public function testRegisterAliasService() {
+        $this->container->registerService('test', function() {
+            return 'abc';
+        });
+        $this->container->registerAlias('test1', 'test');
+        $this->assertEquals('abc', $this->container->query('test1'));
+    }
 
     /**
      * @expectedException \OCP\AppFramework\QueryException
