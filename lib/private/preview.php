@@ -479,7 +479,7 @@ class Preview {
 			$preview = $this->buildCachePath($fileId, $previewWidth, $previewHeight);
 
 			// This checks if we have a preview of those exact dimensions in the cache
-			if ($this->userView->file_exists($preview)) {
+			if ($this->thumbnailSizeExists($allThumbnails, $previewWidth, $previewHeight)) {
 				return $preview;
 			}
 
@@ -522,6 +522,29 @@ class Preview {
 		}
 
 		return [$maxPreviewX, $maxPreviewY];
+	}
+
+	/**
+	 * Check if a specific thumbnail size is cached
+	 *
+	 * @param FileInfo[] $allThumbnails the list of all our cached thumbnails
+	 * @param int $width
+	 * @param int $height
+	 * @return bool
+	 */
+	private function thumbnailSizeExists($allThumbnails, $width, $height) {
+
+		foreach ($allThumbnails as $thumbnail) {
+			$name = $thumbnail['name'];
+			if (strpos($name, 'max')) {
+				list($cachedWidth, $cachedHeight) = $this->getDimensionsFromFilename($name);
+				if ($cachedWidth === $width && $cachedHeight === $height) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
