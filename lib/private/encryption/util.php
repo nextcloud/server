@@ -128,35 +128,6 @@ class Util {
 	}
 
 	/**
-	 * read header into array
-	 *
-	 * @param string $header
-	 * @return array
-	 */
-	public function readHeader($header) {
-
-		$result = array();
-
-		if (substr($header, 0, strlen(self::HEADER_START)) === self::HEADER_START) {
-			$endAt = strpos($header, self::HEADER_END);
-			if ($endAt !== false) {
-				$header = substr($header, 0, $endAt + strlen(self::HEADER_END));
-
-				// +1 to not start with an ':' which would result in empty element at the beginning
-				$exploded = explode(':', substr($header, strlen(self::HEADER_START)+1));
-
-				$element = array_shift($exploded);
-				while ($element !== self::HEADER_END) {
-					$result[$element] = array_shift($exploded);
-					$element = array_shift($exploded);
-				}
-			}
-		}
-
-		return $result;
-	}
-
-	/**
 	 * create header for encrypted file
 	 *
 	 * @param array $headerData
