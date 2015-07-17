@@ -105,6 +105,17 @@ class MigrationTest extends \Test\TestCase {
 		$this->view->file_put_contents($uid . '/files_encryption/keys/folder2/file.2.1/fileKey'  , 'data');
 	}
 
+	protected function createDummyFiles($uid) {
+		$this->view->mkdir($uid . '/files/folder1/folder2/folder3/file3');
+		$this->view->mkdir($uid . '/files/folder1/folder2/file2');
+		$this->view->mkdir($uid . '/files/folder1/file.1');
+		$this->view->mkdir($uid . '/files/folder2/file.2.1');
+		$this->view->file_put_contents($uid . '/files/folder1/folder2/folder3/file3/fileKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files/folder1/folder2/file2/fileKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files/folder1/file.1/fileKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files/folder2/file.2.1/fileKey'  , 'data');
+	}
+
 	protected function createDummyFilesInTrash($uid) {
 		$this->view->mkdir($uid . '/files_trashbin/keys/file1.d5457864');
 		$this->view->mkdir($uid . '/files_trashbin/keys/folder1.d7437648723/file2');
@@ -114,6 +125,11 @@ class MigrationTest extends \Test\TestCase {
 
 		$this->view->file_put_contents($uid . '/files_trashbin/keys/file1.d5457864/fileKey' , 'data');
 		$this->view->file_put_contents($uid . '/files_trashbin/keys/folder1.d7437648723/file2/fileKey' , 'data');
+
+		// create the files itself
+		$this->view->mkdir($uid . '/files_trashbin/folder1.d7437648723');
+		$this->view->file_put_contents($uid . '/files_trashbin/file1.d5457864' , 'data');
+		$this->view->file_put_contents($uid . '/files_trashbin/folder1.d7437648723/file2' , 'data');
 	}
 
 	protected function createDummySystemWideKeys() {
@@ -123,7 +139,6 @@ class MigrationTest extends \Test\TestCase {
 		$this->view->file_put_contents('files_encryption/systemwide_2.privateKey', 'data');
 		$this->view->file_put_contents('files_encryption/public_keys/systemwide_1.publicKey', 'data');
 		$this->view->file_put_contents('files_encryption/public_keys/systemwide_2.publicKey', 'data');
-
 	}
 
 	public function testMigrateToNewFolderStructure() {
@@ -139,6 +154,10 @@ class MigrationTest extends \Test\TestCase {
 		$this->createDummyFileKeys(self::TEST_ENCRYPTION_MIGRATION_USER2);
 		$this->createDummyFileKeys(self::TEST_ENCRYPTION_MIGRATION_USER3);
 
+		$this->createDummyFiles(self::TEST_ENCRYPTION_MIGRATION_USER1);
+		$this->createDummyFiles(self::TEST_ENCRYPTION_MIGRATION_USER2);
+		$this->createDummyFiles(self::TEST_ENCRYPTION_MIGRATION_USER3);
+
 		$this->createDummyFilesInTrash(self::TEST_ENCRYPTION_MIGRATION_USER2);
 
 		// no user for system wide mount points
@@ -147,7 +166,22 @@ class MigrationTest extends \Test\TestCase {
 
 		$this->createDummySystemWideKeys();
 
-		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection(), $this->logger);
+		$m = $this->getMockBuilder('OCA\Encryption\Migration')
+			->setConstructorArgs(
+				[
+					\OC::$server->getConfig(),
+					new \OC\Files\View(),
+					\OC::$server->getDatabaseConnection(),
+					$this->logger
+				]
+			)->setMethods(['getSystemMountPoints'])->getMock();
+
+		$m->expects($this->any())->method('getSystemMountPoints')
+			->willReturn([['mountpoint' => 'folder1'], ['mountpoint' => 'folder2']]);
+
+		//$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection(), $this->logger);
+		$m->reorganizeFolderStructure();
+		// even if it runs twice folder should always move only once
 		$m->reorganizeFolderStructure();
 
 		$this->assertTrue(
