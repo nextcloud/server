@@ -375,7 +375,7 @@ class Preview {
 			return false;
 		}
 
-		if (!$this->fileView->file_exists($file)) {
+		if (!$this->getFileInfo() instanceof FileInfo) {
 			\OCP\Util::writeLog('core', 'File:"' . $file . '" not found', \OCP\Util::DEBUG);
 
 			return false;
