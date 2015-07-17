@@ -56,15 +56,15 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 		});
 		it('displays favorite icon', function() {
 			view.setFileInfo(_.extend(testFileInfo, {
-				tags: [OC.FAVORITE]
+				tags: [OC.TAG_FAVORITE]
 			}));
-			expect(OC.TestUtil.getImageUrl(view.$el.find('.favorite img')))
+			expect(view.$el.find('.favorite img').attr('src'))
 				.toEqual(OC.imagePath('core', 'actions/starred'));
 
 			view.setFileInfo(_.extend(testFileInfo, {
 				tags: []
 			}));
-			expect(OC.TestUtil.getImageUrl(view.$el.find('.favorite img')))
+			expect(view.$el.find('.favorite img').attr('src'))
 				.toEqual(OC.imagePath('core', 'actions/star'));
 		});
 		it('displays mime icon', function() {
