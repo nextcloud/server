@@ -219,9 +219,9 @@ class DAV extends Common {
 				$this->statCache->set($path, false);
 				return false;
 			}
-			$this->convertException($e);
+			$this->convertException($e, $path);
 		} catch (\Exception $e) {
-			$this->convertException($e);
+			$this->convertException($e, $path);
 		}
 		return false;
 	}
@@ -286,9 +286,9 @@ class DAV extends Common {
 			if ($e->getHttpStatus() === 404) {
 				return false;
 			}
-			$this->convertException($e);
+			$this->convertException($e, $path);
 		} catch (\Exception $e) {
-			$this->convertException($e);
+			$this->convertException($e, $path);
 		}
 		return false;
 	}
@@ -311,9 +311,9 @@ class DAV extends Common {
 			if ($e->getHttpStatus() === 404) {
 				return false;
 			}
-			$this->convertException($e);
+			$this->convertException($e, $path);
 		} catch (\Exception $e) {
-			$this->convertException($e);
+			$this->convertException($e, $path);
 		}
 		return false;
 	}
@@ -363,6 +363,9 @@ class DAV extends Common {
 				$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 				if ($statusCode !== 200) {
 					Util::writeLog("webdav client", 'curl GET ' . curl_getinfo($curl, CURLINFO_EFFECTIVE_URL) . ' returned status code ' . $statusCode, Util::ERROR);
+					if ($statusCode === 423) {
+						throw new \OCP\Lock\LockedException($path);
+					}
 				}
 				curl_close($curl);
 				rewind($fp);
@@ -446,10 +449,10 @@ class DAV extends Common {
 				if ($e->getHttpStatus() === 501) {
 					return false;
 				}
-				$this->convertException($e);
+				$this->convertException($e, $path);
 				return false;
 			} catch (\Exception $e) {
-				$this->convertException($e);
+				$this->convertException($e, $path);
 				return false;
 			}
 		} else {
@@ -502,6 +505,9 @@ class DAV extends Common {
 		$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		if ($statusCode !== 200) {
 			Util::writeLog("webdav client", 'curl GET ' . curl_getinfo($curl, CURLINFO_EFFECTIVE_URL) . ' returned status code ' . $statusCode, Util::ERROR);
+			if ($statusCode === 423) {
+				throw new \OCP\Lock\LockedException($path);
+			}
 		}
 		curl_close($curl);
 		fclose($source);
@@ -564,9 +570,9 @@ class DAV extends Common {
 			if ($e->getHttpStatus() === 404) {
 				return array();
 			}
-			$this->convertException($e);
+			$this->convertException($e, $path);
 		} catch (\Exception $e) {
-			$this->convertException($e);
+			$this->convertException($e, $path);
 		}
 		return array();
 	}
@@ -591,9 +597,9 @@ class DAV extends Common {
 			if ($e->getHttpStatus() === 404) {
 				return false;
 			}
-			$this->convertException($e);
+			$this->convertException($e, $path);
 		} catch (\Exception $e) {
-			$this->convertException($e);
+			$this->convertException($e, $path);
 		}
 		return false;
 	}
@@ -643,9 +649,9 @@ class DAV extends Common {
 				return false;
 			}
 
-			$this->convertException($e);
+			$this->convertException($e, $path);
 		} catch (\Exception $e) {
-			$this->convertException($e);
+			$this->convertException($e, $path);
 		}
 		return false;
 	}
@@ -767,10 +773,10 @@ class DAV extends Common {
 				}
 				return false;
 			}
-			$this->convertException($e);
+			$this->convertException($e, $path);
 			return false;
 		} catch (\Exception $e) {
-			$this->convertException($e);
+			$this->convertException($e, $path);
 			return false;
 		}
 	}
@@ -782,15 +788,19 @@ class DAV extends Common {
 	 * or do nothing.
 	 *
 	 * @param Exception $e sabre exception
+	 * @param string $path optional path from the operation
 	 *
 	 * @throws StorageInvalidException if the storage is invalid, for example
 	 * when the authentication expired or is invalid
 	 * @throws StorageNotAvailableException if the storage is not available,
 	 * which might be temporary
 	 */
-	private function convertException(Exception $e) {
+	private function convertException(Exception $e, $path = '') {
 		Util::writeLog('files_external', $e->getMessage(), Util::ERROR);
 		if ($e instanceof ClientHttpException) {
+			if ($e->getHttpStatus() === 423) {
+				throw new \OCP\Lock\LockedException($path);
+			}
 			if ($e->getHttpStatus() === 401) {
 				// either password was changed or was invalid all along
 				throw new StorageInvalidException(get_class($e).': '.$e->getMessage());
