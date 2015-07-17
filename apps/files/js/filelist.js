@@ -685,6 +685,10 @@
 
 			if (type === 'dir') {
 				mime = mime || 'httpd/unix-directory';
+
+				if (fileData.mountType && fileData.mountType.indexOf('external') === 0) {
+					icon = OC.MimeType.getIconUrl('dir-external');
+				}
 			}
 
 			//containing tr
