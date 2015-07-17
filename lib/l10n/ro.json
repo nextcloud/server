@@ -23,6 +23,7 @@
     "seconds ago" : "secunde în urmă",
     "web services under your control" : "servicii web controlate de tine",
     "Empty filename is not allowed" : "Nu este permis fișier fără nume",
+    "File name contains at least one invalid character" : "Numele fișierului conține măcar un caracter invalid",
     "File name is too long" : "Numele fișierului este prea lung",
     "Application is not enabled" : "Aplicația nu este activată",
     "Authentication error" : "Eroare la autentificare",

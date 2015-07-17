@@ -114,7 +114,7 @@
     "Disable Main Server" : "Désactiver le serveur principal",
     "Only connect to the replica server." : "Se connecter uniquement à la réplique",
     "Case insensitive LDAP server (Windows)" : "Serveur LDAP non sensible à la casse (Windows)",
-    "Turn off SSL certificate validation." : "Désactiver la validation des certificats SSL.",
+    "Turn off SSL certificate validation." : "Désactiver la validation des certificats SSL",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Non recommandé, à utiliser à des fins de tests uniquement. Si la connexion ne fonctionne qu'avec cette option, importez le certificat SSL du serveur LDAP dans le serveur %s.",
     "Cache Time-To-Live" : "Durée de vie du cache (TTL)",
     "in seconds. A change empties the cache." : "en secondes. Tout changement vide le cache.",
