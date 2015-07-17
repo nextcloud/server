@@ -25,6 +25,7 @@ use OC\Files\View;
 use OCA\Encryption\Migration;
 use OCP\IL10N;
 use OCP\AppFramework\Controller;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IConfig;
 use OC\DB\Connection;
@@ -50,6 +51,9 @@ class EncryptionController extends Controller {
 	/** @var View */
 	private $view;
 
+	/** @var  ILogger */
+	private $logger;
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -58,6 +62,7 @@ class EncryptionController extends Controller {
 	 * @param \OC\DB\Connection $connection
 	 * @param IUserManager $userManager
 	 * @param View $view
+	 * @param ILogger $logger
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -65,7 +70,8 @@ class EncryptionController extends Controller {
 								IConfig $config,
 								Connection $connection,
 								IUserManager $userManager,
-								View $view) {
+								View $view,
+								ILogger  $logger) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -85,7 +91,7 @@ class EncryptionController extends Controller {
 
 		try {
 
-			$migration = new Migration($this->config, $this->view, $this->connection);
+			$migration = new Migration($this->config, $this->view, $this->connection, $this->logger);
 			$migration->reorganizeSystemFolderStructure();
 			$migration->updateDB();
 

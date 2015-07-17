@@ -24,6 +24,7 @@
 namespace OCA\Encryption\Tests;
 
 use OCA\Encryption\Migration;
+use OCP\ILogger;
 
 class MigrationTest extends \Test\TestCase {
 
@@ -36,6 +37,9 @@ class MigrationTest extends \Test\TestCase {
 	private $public_share_key_id = 'share_key_id';
 	private $recovery_key_id = 'recovery_key_id';
 	private $moduleId;
+
+	/** @var  PHPUnit_Framework_MockObject_MockObject | ILogger */
+	private $logger;
 
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
@@ -53,6 +57,7 @@ class MigrationTest extends \Test\TestCase {
 
 
 	public function setUp() {
+		$this->logger = $this->getMockBuilder('\OCP\ILogger')->disableOriginalConstructor()->getMock();
 		$this->view = new \OC\Files\View();
 		$this->moduleId = \OCA\Encryption\Crypto\Encryption::ID;
 	}
@@ -142,7 +147,7 @@ class MigrationTest extends \Test\TestCase {
 
 		$this->createDummySystemWideKeys();
 
-		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection());
+		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection(), $this->logger);
 		$m->reorganizeFolderStructure();
 
 		$this->assertTrue(
@@ -267,7 +272,7 @@ class MigrationTest extends \Test\TestCase {
 	public function testUpdateDB() {
 		$this->prepareDB();
 
-		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection());
+		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection(), $this->logger);
 		$m->updateDB();
 
 		$this->verifyDB('`*PREFIX*appconfig`', 'files_encryption', 0);
@@ -286,7 +291,7 @@ class MigrationTest extends \Test\TestCase {
 		$config->setAppValue('encryption', 'publicShareKeyId', 'wrong_share_id');
 		$config->setUserValue(self::TEST_ENCRYPTION_MIGRATION_USER1, 'encryption', 'recoverKeyEnabled', '9');
 
-		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection());
+		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection(), $this->logger);
 		$m->updateDB();
 
 		$this->verifyDB('`*PREFIX*appconfig`', 'files_encryption', 0);
@@ -349,7 +354,7 @@ class MigrationTest extends \Test\TestCase {
 	 */
 	public function testUpdateFileCache() {
 		$this->prepareFileCache();
-		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection());
+		$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection(), $this->logger);
 		self::invokePrivate($m, 'updateFileCache');
 
 		// check results
