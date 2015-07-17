@@ -85,7 +85,7 @@
 			});
 
 			// uncomment to add some dummy tabs for testing
-			this._addTestTabs();
+			// this._addTestTabs();
 		},
 
 		/**

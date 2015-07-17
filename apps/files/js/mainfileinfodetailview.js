@@ -14,10 +14,10 @@
 		'<div class="ellipsis">' +
 		'    <a href="#" ' +
 		'    alt="{{starAltText}}"' +
-		'    class="action action-favorite {{#isFavorite}}permanent{{/isFavorite}}">' +
+		'    class="action action-favorite favorite">' +
 		'    <img class="svg" src="{{starIcon}}" />' +
 		'    </a>' +
-		'    <span title="{{altSize}}">{{size}}</span>, <span title="{{altDate}}">{{date}}</span>' +
+		'    <span class="size" title="{{altSize}}">{{size}}</span>, <span class="date" title="{{altDate}}">{{date}}</span>' +
 		'</div>';
 
 	/**
@@ -67,7 +67,6 @@
 					dateLabel: t('files', 'Modified'),
 					altDate: OC.Util.formatDate(this._fileInfo.mtime),
 					date: OC.Util.relativeModifiedDate(this._fileInfo.mtime),
-					isFavorite: isFavorite,
 					starAltText: isFavorite ? t('files', 'Favorited') : t('files', 'Favorite'),
 					starIcon: OC.imagePath('core', isFavorite ? 'actions/starred' : 'actions/star')
 				}));

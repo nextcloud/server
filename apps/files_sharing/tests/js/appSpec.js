@@ -132,7 +132,7 @@ describe('OCA.Sharing.App tests', function() {
 				shareOwner: 'user2'
 			}]);
 
-			fileListIn.findFileEl('testdir').find('td a.name').click();
+			fileListIn.findFileEl('testdir').find('td .nametext').click();
 
 			expect(OCA.Files.App.fileList.getCurrentDirectory()).toEqual('/somewhere/inside/subdir/testdir');
 

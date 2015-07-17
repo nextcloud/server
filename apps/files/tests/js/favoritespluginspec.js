@@ -113,7 +113,7 @@ describe('OCA.Files.FavoritesPlugin tests', function() {
 				shareOwner: 'user2'
 			}]);
 
-			fileList.findFileEl('testdir').find('td a.name').click();
+			fileList.findFileEl('testdir').find('td .nametext').click();
 
 			expect(OCA.Files.App.fileList.getCurrentDirectory()).toEqual('/somewhere/inside/subdir/testdir');
 
