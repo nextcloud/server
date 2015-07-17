@@ -536,11 +536,9 @@ class Preview {
 
 		foreach ($allThumbnails as $thumbnail) {
 			$name = $thumbnail['name'];
-			if (strpos($name, 'max')) {
-				list($cachedWidth, $cachedHeight) = $this->getDimensionsFromFilename($name);
-				if ($cachedWidth === $width && $cachedHeight === $height) {
-					return true;
-				}
+			list($cachedWidth, $cachedHeight) = $this->getDimensionsFromFilename($name);
+			if ($cachedWidth === $width && $cachedHeight === $height) {
+				return true;
 			}
 		}
 
