@@ -29,6 +29,7 @@
 namespace OC\Memcache;
 
 use \OCP\ICacheFactory;
+use \OCP\ILogger;
 
 class Factory implements ICacheFactory {
 	const NULL_CACHE = '\\OC\\Memcache\\NullCache';
@@ -37,6 +38,11 @@ class Factory implements ICacheFactory {
 	 * @var string $globalPrefix
 	 */
 	private $globalPrefix;
+
+	/**
+	 * @var ILogger $logger
+	 */
+	private $logger;
 
 	/**
 	 * @var string $localCacheClass
@@ -55,13 +61,15 @@ class Factory implements ICacheFactory {
 
 	/**
 	 * @param string $globalPrefix
+	 * @param ILogger $logger
 	 * @param string|null $localCacheClass
 	 * @param string|null $distributedCacheClass
 	 * @param string|null $lockingCacheClass
 	 */
-	public function __construct($globalPrefix,
+	public function __construct($globalPrefix, ILogger $logger,
 		$localCacheClass = null, $distributedCacheClass = null, $lockingCacheClass = null)
 	{
+		$this->logger = $logger;
 		$this->globalPrefix = $globalPrefix;
 
 		if (!$localCacheClass) {
@@ -71,22 +79,43 @@ class Factory implements ICacheFactory {
 			$distributedCacheClass = $localCacheClass;
 		}
 
+		$missingCacheMessage = 'Memcache {class} not available for {use} cache';
+		$missingCacheHint = 'Is the matching PHP module installed and enabled?';
 		if (!$localCacheClass::isAvailable()) {
-			throw new \OC\HintException(
-				'Missing memcache class ' . $localCacheClass . ' for local cache',
-				'Is the matching PHP module installed and enabled ?'
-			);
+			if (\OC::$CLI && !defined('PHPUNIT_RUN')) {
+				// CLI should not hard-fail on broken memcache
+				$this->logger->info($missingCacheMessage, [
+					'class' => $localCacheClass,
+					'use' => 'local',
+					'app' => 'cli'
+				]);
+				$localCacheClass = self::NULL_CACHE;
+			} else {
+				throw new \OC\HintException(strtr($missingCacheMessage, [
+					'{class}' => $localCacheClass, '{use}' => 'local'
+				]), $missingCacheHint);
+			}
 		}
 		if (!$distributedCacheClass::isAvailable()) {
-			throw new \OC\HintException(
-				'Missing memcache class ' . $distributedCacheClass . ' for distributed cache',
-				'Is the matching PHP module installed and enabled ?'
-			);
+			if (\OC::$CLI && !defined('PHPUNIT_RUN')) {
+				// CLI should not hard-fail on broken memcache
+				$this->logger->info($missingCacheMessage, [
+					'class' => $distributedCacheClass,
+					'use' => 'distributed',
+					'app' => 'cli'
+				]);
+				$distributedCacheClass = self::NULL_CACHE;
+			} else {
+				throw new \OC\HintException(strtr($missingCacheMessage, [
+					'{class}' => $distributedCacheClass, '{use}' => 'distributed'
+				]), $missingCacheHint);
+			}
 		}
 		if (!($lockingCacheClass && $lockingCacheClass::isAvailable())) {
 			// dont fallback since the fallback might not be suitable for storing lock
-			$lockingCacheClass = '\OC\Memcache\NullCache';
+			$lockingCacheClass = self::NULL_CACHE;
 		}
+
 		$this->localCacheClass = $localCacheClass;
 		$this->distributedCacheClass = $distributedCacheClass;
 		$this->lockingCacheClass = $lockingCacheClass;
