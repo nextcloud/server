@@ -252,12 +252,13 @@ class Preview {
 	 * Sets the path of the file you want a preview of
 	 *
 	 * @param string $file
+	 * @param \OCP\Files\FileInfo|null $info
 	 *
 	 * @return \OC\Preview
 	 */
-	public function setFile($file) {
+	public function setFile($file, $info = null) {
 		$this->file = $file;
-		$this->info = null;
+		$this->info = $info;
 
 		if ($file !== '') {
 			$this->getFileInfo();
