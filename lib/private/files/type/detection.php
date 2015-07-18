@@ -262,8 +262,7 @@ class Detection implements IMimeTypeDetector {
 			return $this->mimetypeIcons[$mimetype];
 		}
 		if ($mimetype === 'dir-external') {
-			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder-external.
-png');
+			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder-external.png');
 			return $this->mimetypeIcons[$mimetype];
 		}
 
