@@ -64,7 +64,7 @@ class DeleteConfig extends Base {
 		$configName = $input->getArgument('name');
 
 		if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys())) {
-			$output->writeln('<error>Config ' . $configName . ' could not be deleted because it did not exist</error>');
+			$output->writeln('<error>System config ' . $configName . ' could not be deleted because it did not exist</error>');
 			return 1;
 		}
 

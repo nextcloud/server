@@ -65,7 +65,7 @@ class ListModules extends Base {
 	 * @param array $items
 	 */
 	protected function writeModuleList(InputInterface $input, OutputInterface $output, $items) {
-		if ($input->getOption('output') === 'plain') {
+		if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
 			array_walk($items, function(&$item) {
 				if (!$item['default']) {
 					$item = $item['displayName'];

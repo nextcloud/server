@@ -73,7 +73,7 @@ class ListApps extends Base {
 	 */
 	protected function writeAppList(InputInterface $input, OutputInterface $output, $items) {
 		switch ($input->getOption('output')) {
-			case 'plain':
+			case self::OUTPUT_FORMAT_PLAIN:
 				$output->writeln('Enabled:');
 				parent::writeArrayInOutputFormat($input, $output, $items['enabled']);
 

@@ -70,12 +70,12 @@ class DeleteConfig extends Base {
 		$configName = $input->getArgument('name');
 
 		if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->config->getAppKeys($appName))) {
-			$output->writeln('<error>Config ' . $configName . ' could not be deleted because it did not exist</error>');
+			$output->writeln('<error>Config ' . $configName . ' of app ' . $appName . ' could not be deleted because it did not exist</error>');
 			return 1;
 		}
 
 		$this->config->deleteAppValue($appName, $configName);
-		$output->writeln('<info>System config value ' . $configName . ' deleted</info>');
+		$output->writeln('<info>Config value ' . $configName . ' of app ' . $appName . ' deleted</info>');
 		return 0;
 	}
 }
