@@ -251,17 +251,6 @@ class OC_User {
 	}
 
 	/**
-	 * Try to login a user using the magic cookie (remember login)
-	 *
-	 * @param string $uid The username of the user to log in
-	 * @param string $token
-	 * @return bool
-	 */
-	public static function loginWithCookie($uid, $token) {
-		return self::getUserSession()->loginWithCookie($uid, $token);
-	}
-
-	/**
 	 * Try to login a user, assuming authentication
 	 * has already happened (e.g. via Single Sign On).
 	 *
@@ -620,6 +609,8 @@ class OC_User {
 	 *
 	 * @param string $uid the username
 	 * @return boolean
+	 *
+	 * @deprecated Use \OCP\IUserManager::userExists
 	 */
 	public static function userExists($uid) {
 		return self::getManager()->userExists($uid);
@@ -662,23 +653,6 @@ class OC_User {
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * Set cookie value to use in next page load
-	 *
-	 * @param string $username username to be set
-	 * @param string $token
-	 */
-	public static function setMagicInCookie($username, $token) {
-		self::getUserSession()->setMagicInCookie($username, $token);
-	}
-
-	/**
-	 * Remove cookie for "remember username"
-	 */
-	public static function unsetMagicInCookie() {
-		self::getUserSession()->unsetMagicInCookie();
 	}
 
 	/**

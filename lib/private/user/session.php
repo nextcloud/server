@@ -236,39 +236,6 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
-	 * perform login using the magic cookie (remember login)
-	 *
-	 * @param string $uid the username
-	 * @param string $currentToken
-	 * @return bool
-	 */
-	public function loginWithCookie($uid, $currentToken) {
-		$this->manager->emit('\OC\User', 'preRememberedLogin', array($uid));
-		$user = $this->manager->get($uid);
-		if (is_null($user)) {
-			// user does not exist
-			return false;
-		}
-
-		// get stored tokens
-		$tokens = \OC::$server->getConfig()->getUserKeys($uid, 'login_token');
-		// test cookies token against stored tokens
-		if (!in_array($currentToken, $tokens, true)) {
-			return false;
-		}
-		// replace successfully used token with a new one
-		\OC::$server->getConfig()->deleteUserValue($uid, 'login_token', $currentToken);
-		$newToken = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(32);
-		\OC::$server->getConfig()->setUserValue($uid, 'login_token', $newToken, time());
-		$this->setMagicInCookie($user->getUID(), $newToken);
-
-		//login
-		$this->setUser($user);
-		$this->manager->emit('\OC\User', 'postRememberedLogin', array($user));
-		return true;
-	}
-
-	/**
 	 * logout the user from the session
 	 */
 	public function logout() {
@@ -277,39 +244,5 @@ class Session implements IUserSession, Emitter {
 		$this->setLoginName(null);
 		$this->unsetMagicInCookie();
 		$this->session->clear();
-	}
-
-	/**
-	 * Set cookie value to use in next page load
-	 *
-	 * @param string $username username to be set
-	 * @param string $token
-	 */
-	public function setMagicInCookie($username, $token) {
-		$secureCookie = \OC::$server->getRequest()->getServerProtocol() === 'https';
-		$expires = time() + \OC_Config::getValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
-		setcookie("oc_username", $username, $expires, \OC::$WEBROOT, '', $secureCookie, true);
-		setcookie("oc_token", $token, $expires, \OC::$WEBROOT, '', $secureCookie, true);
-		setcookie("oc_remember_login", "1", $expires, \OC::$WEBROOT, '', $secureCookie, true);
-	}
-
-	/**
-	 * Remove cookie for "remember username"
-	 */
-	public function unsetMagicInCookie() {
-		//TODO: DI for cookies and OC_Config
-		$secureCookie = \OC_Config::getValue('forcessl', false);
-
-		unset($_COOKIE["oc_username"]); //TODO: DI
-		unset($_COOKIE["oc_token"]);
-		unset($_COOKIE["oc_remember_login"]);
-		setcookie('oc_username', '', time() - 3600, \OC::$WEBROOT, '',$secureCookie, true);
-		setcookie('oc_token', '', time() - 3600, \OC::$WEBROOT, '', $secureCookie, true);
-		setcookie('oc_remember_login', '', time() - 3600, \OC::$WEBROOT, '', $secureCookie, true);
-		// old cookies might be stored under /webroot/ instead of /webroot
-		// and Firefox doesn't like it!
-		setcookie('oc_username', '', time() - 3600, \OC::$WEBROOT . '/', '', $secureCookie, true);
-		setcookie('oc_token', '', time() - 3600, \OC::$WEBROOT . '/', '', $secureCookie, true);
-		setcookie('oc_remember_login', '', time() - 3600, \OC::$WEBROOT . '/', '', $secureCookie, true);
 	}
 }

@@ -1002,22 +1002,6 @@ class OC {
 	}
 
 	/**
-	 * Remove outdated and therefore invalid tokens for a user
-	 * @param string $user
-	 */
-	protected static function cleanupLoginTokens($user) {
-		$config = \OC::$server->getConfig();
-		$cutoff = time() - $config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
-		$tokens = $config->getUserKeys($user, 'login_token');
-		foreach ($tokens as $token) {
-			$time = $config->getUserValue($user, 'login_token', $token);
-			if ($time < $cutoff) {
-				$config->deleteUserValue($user, 'login_token', $token);
-			}
-		}
-	}
-
-	/**
 	 * Try to login a user via HTTP authentication
 	 * @return bool|void
 	 */
@@ -1049,26 +1033,33 @@ class OC {
 			return false;
 		}
 
-		if (defined("DEBUG") && DEBUG) {
-			\OCP\Util::writeLog('core', 'Trying to login from cookie', \OCP\Util::DEBUG);
+		$server = \OC::$server;
+		$rememberMeProvider = new \OC\User\Authentication\RememberMe\RememberMe(
+			$server->getLogger(),
+			$server->getConfig(),
+			$server->getRequest()
+		);
+
+		$user = $server->getUserManager()->get($_COOKIE['oc_username']);
+		if($user === null) {
+			return false;
 		}
 
-		if(OC_User::userExists($_COOKIE['oc_username'])) {
-			self::cleanupLoginTokens($_COOKIE['oc_username']);
-			// verify whether the supplied "remember me" token was valid
-			$granted = OC_User::loginWithCookie(
-				$_COOKIE['oc_username'], $_COOKIE['oc_token']);
-			if($granted === true) {
-				OC_Util::redirectToDefaultPage();
-				// doesn't return
-			}
-			\OCP\Util::writeLog('core', 'Authentication cookie rejected for user ' .
-				$_COOKIE['oc_username'], \OCP\Util::WARN);
-			// if you reach this point you have changed your password
-			// or you are an attacker
-			// we can not delete tokens here because users may reach
-			// this point multiple times after a password change
+		$rememberMeProvider->pruneOutdatedTokens($user->getUID());
+
+		// verify whether the supplied "remember me" token was valid
+		$granted = OC_User::loginWithCookie(
+			$_COOKIE['oc_username'], $_COOKIE['oc_token']);
+		if($granted === true) {
+			OC_Util::redirectToDefaultPage();
+			// doesn't return
 		}
+		\OCP\Util::writeLog('core', 'Authentication cookie rejected for user ' .
+			$_COOKIE['oc_username'], \OCP\Util::WARN);
+		// if you reach this point you have changed your password
+		// or you are an attacker
+		// we can not delete tokens here because users may reach
+		// this point multiple times after a password change
 
 		OC_User::unsetMagicInCookie();
 		return true;
@@ -1100,7 +1091,6 @@ class OC {
 				self::$server->getConfig()->setUserValue($userId, 'core', 'timezone', (string)$_POST['timezone']);
 			}
 
-			self::cleanupLoginTokens($userId);
 			if (!empty($_POST["remember_login"])) {
 				if (defined("DEBUG") && DEBUG) {
 					self::$server->getLogger()->debug('Setting remember login to cookie', array('app' => 'core'));
