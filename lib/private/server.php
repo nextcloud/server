@@ -445,7 +445,9 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new \OC\Files\Mount\Manager();
 		});
 		$this->registerService('MimeTypeDetector', function(Server $c) {
-			return new \OC\Files\Type\Detection($c->getURLGenerator());
+			return new \OC\Files\Type\Detection(
+				$c->getURLGenerator(),
+				\OC::$configDir);
 		});
 	}
 

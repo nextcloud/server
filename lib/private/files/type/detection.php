@@ -47,11 +47,16 @@ class Detection implements IMimeTypeDetector {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var string */
+	private $configDir;
+
 	/**
 	 * @param IURLGenerator $urlGenerator
+	 * @param string $configDir
 	 */
-	public function __construct(IURLGenerator $urlGenerator) {
+	public function __construct(IURLGenerator $urlGenerator, $configDir) {
 		$this->urlGenerator = $urlGenerator;
+		$this->configDir = $configDir;
 	}
 
 	/**
@@ -96,11 +101,11 @@ class Detection implements IMimeTypeDetector {
 			return;
 		}
 
-		$file = file_get_contents(\OC::$configDir . '/mimetypealiases.dist.json');
+		$file = file_get_contents($this->configDir . '/mimetypealiases.dist.json');
 		$this->mimeTypeAlias = get_object_vars(json_decode($file));
 
-		if (file_exists(\OC::$configDir . '/mimetypealiases.json')) {
-			$custom = get_object_vars(json_decode(file_get_contents(\OC::$configDir . '/mimetypealiases.json')));
+		if (file_exists($this->configDir . '/mimetypealiases.json')) {
+			$custom = get_object_vars(json_decode(file_get_contents($this->configDir . '/mimetypealiases.json')));
 			$this->mimeTypeAlias = array_merge($this->mimeTypeAlias, $custom);
 		}
 	}
@@ -113,12 +118,12 @@ class Detection implements IMimeTypeDetector {
 			return;
 		}
 
-		$dist = file_get_contents(\OC::$configDir . '/mimetypemapping.dist.json');
+		$dist = file_get_contents($this->configDir . '/mimetypemapping.dist.json');
 		$mimetypemapping = get_object_vars(json_decode($dist));
 
 		//Check if need to load custom mappings
-		if (file_exists(\OC::$configDir . '/mimetypemapping.json')) {
-			$custom = file_get_contents(\OC::$configDir . '/mimetypemapping.json');
+		if (file_exists($this->configDir . '/mimetypemapping.json')) {
+			$custom = file_get_contents($this->configDir . '/mimetypemapping.json');
 			$custom_mapping = get_object_vars(json_decode($custom));
 			$mimetypemapping = array_merge($mimetypemapping, $custom_mapping);
 		}

@@ -26,7 +26,7 @@ use \OC\Files\Type\Detection;
 class DetectionTest extends \Test\TestCase {
 
 	public function testDetect() {
-		$detection = new Detection(\OC::$server->getURLGenerator());
+		$detection = new Detection(\OC::$server->getURLGenerator(), \OC::$configDir);
 		$dir = \OC::$SERVERROOT.'/tests/data';
 
 		$result = $detection->detect($dir."/");
@@ -51,7 +51,7 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	public function testGetSecureMimeType() {
-		$detection = new Detection(\OC::$server->getURLGenerator());
+		$detection = new Detection(\OC::$server->getURLGenerator(), \OC::$configDir);
 
 		$result = $detection->getSecureMimeType('image/svg+xml');
 		$expected = 'text/plain';
@@ -63,7 +63,7 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	public function testDetectPath() {
-		$detection = new Detection(\OC::$server->getURLGenerator());
+		$detection = new Detection(\OC::$server->getURLGenerator(), \OC::$configDir);
 
 		$this->assertEquals('text/plain', $detection->detectPath('foo.txt'));
 		$this->assertEquals('image/png', $detection->detectPath('foo.png'));
@@ -78,11 +78,206 @@ class DetectionTest extends \Test\TestCase {
 			$this->markTestSkipped('[Windows] Strings have mimetype application/octet-stream on Windows');
 		}
 
-		$detection = new Detection(\OC::$server->getURLGenerator());
+		$detection = new Detection(\OC::$server->getURLGenerator(), \OC::$configDir);
 
 		$result = $detection->detectString("/data/data.tar.gz");
 		$expected = 'text/plain; charset=us-ascii';
 		$this->assertEquals($expected, $result);
 	}
 
+	public function testMimeTypeIcon() {
+		if (!class_exists('org\\bovigo\\vfs\\vfsStream')) {
+			$this->markTestSkipped('Pacakge vfsStream not installed');
+		}
+		$confDir = \org\bovigo\vfs\vfsStream::setup();
+		$mimetypealiases_dist = \org\bovigo\vfs\vfsStream::newFile('mimetypealiases.dist.json')->at($confDir);
+
+		//Empty alias file
+		$mimetypealiases_dist->setContent(json_encode([], JSON_FORCE_OBJECT));
+
+
+		/*
+		 * Test dir mimetype
+		 */
+
+		//Mock UrlGenerator
+		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
+
+		//Only call the url generator once
+		$urlGenerator->expects($this->once())
+			->method('imagePath')
+			->with($this->equalTo('core'), $this->equalTo('filetypes/folder.png'))
+			->willReturn('folder.svg');
+
+		$detection = new Detection($urlGenerator, $confDir->url());
+		$mimeType = $detection->mimeTypeIcon('dir');
+		$this->assertEquals('folder.svg', $mimeType);
+
+
+		/*
+		 * Test dir-shareed mimetype
+		 */
+		//Mock UrlGenerator
+		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
+
+		//Only call the url generator once
+		$urlGenerator->expects($this->once())
+			->method('imagePath')
+			->with($this->equalTo('core'), $this->equalTo('filetypes/folder-shared.png'))
+			->willReturn('folder-shared.svg');
+
+		$detection = new Detection($urlGenerator, $confDir->url());
+		$mimeType = $detection->mimeTypeIcon('dir-shared');
+		$this->assertEquals('folder-shared.svg', $mimeType);
+
+
+		/*
+		 * Test dir external
+		 */
+
+		//Mock UrlGenerator
+		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
+
+		//Only call the url generator once
+		$urlGenerator->expects($this->once())
+			->method('imagePath')
+			->with($this->equalTo('core'), $this->equalTo('filetypes/folder-external.png'))
+			->willReturn('folder-external.svg');
+
+		$detection = new Detection($urlGenerator, $confDir->url());
+		$mimeType = $detection->mimeTypeIcon('dir-external');
+		$this->assertEquals('folder-external.svg', $mimeType);
+
+
+		/*
+		 * Test complete mimetype
+		 */
+
+		//Mock UrlGenerator
+		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
+
+		//Only call the url generator once
+		$urlGenerator->expects($this->once())
+			->method('imagePath')
+			->with($this->equalTo('core'), $this->equalTo('filetypes/my-type.png'))
+			->willReturn('my-type.svg');
+
+		$detection = new Detection($urlGenerator, $confDir->url());
+		$mimeType = $detection->mimeTypeIcon('my-type');
+		$this->assertEquals('my-type.svg', $mimeType);
+
+
+		/*
+		 * Test subtype
+		 */
+
+		//Mock UrlGenerator
+		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
+
+		//Only call the url generator once
+		$urlGenerator->expects($this->exactly(2))
+			->method('imagePath')
+			->withConsecutive(
+				[$this->equalTo('core'), $this->equalTo('filetypes/my-type.png')],
+				[$this->equalTo('core'), $this->equalTo('filetypes/my.png')]
+			)
+			->will($this->returnCallback(
+				function($appName, $file) {
+					if ($file === 'filetypes/my.png') {
+						return 'my.svg';
+					}
+					throw new \RuntimeException();
+				}
+			));
+
+		$detection = new Detection($urlGenerator, $confDir->url());
+		$mimeType = $detection->mimeTypeIcon('my-type');
+		$this->assertEquals('my.svg', $mimeType);
+
+
+		/*
+		 * Test default mimetype
+		 */
+
+		//Mock UrlGenerator
+		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
+
+		//Only call the url generator once
+		$urlGenerator->expects($this->exactly(3))
+			->method('imagePath')
+			->withConsecutive(
+				[$this->equalTo('core'), $this->equalTo('filetypes/foo-bar.png')],
+				[$this->equalTo('core'), $this->equalTo('filetypes/foo.png')],
+				[$this->equalTo('core'), $this->equalTo('filetypes/file.png')]
+			)
+			->will($this->returnCallback(
+				function($appName, $file) {
+					if ($file === 'filetypes/file.png') {
+						return 'file.svg';
+					}
+					throw new \RuntimeException();
+				}
+			));
+
+		$detection = new Detection($urlGenerator, $confDir->url());
+		$mimeType = $detection->mimeTypeIcon('foo-bar');
+		$this->assertEquals('file.svg', $mimeType);
+
+		/*
+		 * Test chaching
+		 */
+
+		//Mock UrlGenerator
+		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
+
+		//Only call the url generator once
+		$urlGenerator->expects($this->once())
+			->method('imagePath')
+			->with($this->equalTo('core'), $this->equalTo('filetypes/foo-bar.png'))
+			->willReturn('foo-bar.svg');
+
+		$detection = new Detection($urlGenerator, $confDir->url());
+		$mimeType = $detection->mimeTypeIcon('foo-bar');
+		$this->assertEquals('foo-bar.svg', $mimeType);
+		$mimeType = $detection->mimeTypeIcon('foo-bar');
+		$this->assertEquals('foo-bar.svg', $mimeType);
+
+
+
+		/*
+		 * Test aliases
+		 */
+
+		//Put alias
+		$mimetypealiases_dist->setContent(json_encode(['foo' => 'foobar/baz'], JSON_FORCE_OBJECT));
+
+		//Mock UrlGenerator
+		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
+
+		//Only call the url generator once
+		$urlGenerator->expects($this->once())
+			->method('imagePath')
+			->with($this->equalTo('core'), $this->equalTo('filetypes/foobar-baz.png'))
+			->willReturn('foobar-baz.svg');
+
+		$detection = new Detection($urlGenerator, $confDir->url());
+		$mimeType = $detection->mimeTypeIcon('foo');
+		$this->assertEquals('foobar-baz.svg', $mimeType);
+	}
 }
