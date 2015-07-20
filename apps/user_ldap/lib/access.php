@@ -347,6 +347,44 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
+	 * accepts an array of group DNs and tests whether they match the user
+	 * filter by doing read operations against the group entries. Returns an
+	 * array of DNs that match the filter.
+	 *
+	 * @param string[] $groupDNs
+	 * @return string[]
+	 */
+	public function groupsMatchFilter($groupDNs) {
+		$validGroupDNs = [];
+		foreach($groupDNs as $dn) {
+			$cacheKey = 'groupsMatchFilter-'.$dn;
+			if($this->connection->isCached($cacheKey)) {
+				if($this->connection->getFromCache($cacheKey)) {
+					$validGroupDNs[] = $dn;
+				}
+				continue;
+			}
+
+			// Check the base DN first. If this is not met already, we don't
+			// need to ask the server at all.
+			if(!$this->isDNPartOfBase($dn, $this->connection->ldapBaseGroups)) {
+				$this->connection->writeToCache($cacheKey, false);
+				continue;
+			}
+
+			$result = $this->readAttribute($dn, 'cn', $this->connection->ldapGroupFilter);
+			if(is_array($result)) {
+				$this->connection->writeToCache($cacheKey, true);
+				$validGroupDNs[] = $dn;
+			} else {
+				$this->connection->writeToCache($cacheKey, false);
+			}
+
+		}
+		return $validGroupDNs;
+	}
+
+	/**
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 * @param string $dn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
