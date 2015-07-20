@@ -29,6 +29,7 @@ OC.L10N.register(
     "A file or folder has been <strong>shared</strong>" : "Eine Datei oder ein Ordner wurde <strong>geteilt</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Eine Datei oder ein Ordner wurde von <strong>einem anderen Server</strong> geteilt",
     "A public shared file or folder was <strong>downloaded</strong>" : "Eine öffentliche geteilte Datei oder ein öffentlicher geteilter Ordner wurde <strong>heruntergeladen</strong>",
+    "You received a new remote share %2$s from %1$s" : "Du hast eine neue Remotefreigabe %2$s von %1$s erhalten",
     "You received a new remote share from %s" : "Du hast eine neue Remotefreigabe von %s erhalten",
     "%1$s accepted remote share %2$s" : "%1$s hat die Remotefreigabe von %2$s akzeptiert",
     "%1$s declined remote share %2$s" : "%1$s hat die Remotefreigabe von %2$s abgelehnt",
@@ -62,6 +63,7 @@ OC.L10N.register(
     "Allow users on this server to receive shares from other servers" : "Benutzern auf diesem Server das Empfangen von Freigaben von anderen Servern erlauben",
     "Federated Cloud" : "Federated Cloud",
     "Your Federated Cloud ID:" : "Deine Federated-Cloud-ID:",
+    "Share with me via ownCloud" : "Teile mit mir über ownCloud",
     "HTML Code:" : "HTML-Code:"
 },
 "nplurals=2; plural=(n != 1);");

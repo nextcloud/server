@@ -27,6 +27,7 @@
     "A file or folder has been <strong>shared</strong>" : "Eine Datei oder ein Ordner wurde <strong>geteilt</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Eine Datei oder ein Ordner wurde von <strong>einem anderen Server</strong> geteilt",
     "A public shared file or folder was <strong>downloaded</strong>" : "Eine öffentliche geteilte Datei oder ein öffentlicher geteilter Ordner wurde <strong>heruntergeladen</strong>",
+    "You received a new remote share %2$s from %1$s" : "Sie haben eine neue Remotefreigabe %2$s von %1$s erhalten",
     "You received a new remote share from %s" : "Sie haben eine neue Remotefreigabe von %s erhalten",
     "%1$s accepted remote share %2$s" : "%1$s hat die Remotefreigabe von %2$s akzeptiert",
     "%1$s declined remote share %2$s" : "%1$s hat die Remotefreigabe von %2$s abgelehnt",
