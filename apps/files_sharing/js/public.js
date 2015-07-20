@@ -158,9 +158,18 @@ OCA.Sharing.PublicApp = {
 			};
 
 			this.fileList.generatePreviewUrl = function (urlSpec) {
+				urlSpec = urlSpec || {};
+				if (!urlSpec.x) {
+					urlSpec.x = 36;
+				}
+				if (!urlSpec.y) {
+					urlSpec.y = 36;
+				}
+				urlSpec.x *= window.devicePixelRatio;
+				urlSpec.y *= window.devicePixelRatio;
+				urlSpec.x = Math.floor(urlSpec.x);
+				urlSpec.y = Math.floor(urlSpec.y);
 				urlSpec.t = $('#dirToken').val();
-				urlSpec.y = Math.floor(36 * window.devicePixelRatio);
-				urlSpec.x = Math.floor(36 * window.devicePixelRatio);
 				return OC.generateUrl('/apps/files_sharing/ajax/publicpreview.php?') + $.param(urlSpec);
 			};
 
@@ -292,15 +301,8 @@ $(document).ready(function () {
 
 	if (window.Files) {
 		// HACK: for oc-dialogs previews that depends on Files:
-		Files.lazyLoadPreview = function (path, mime, ready, width, height, etag) {
-			return App.fileList.lazyLoadPreview({
-				path: path,
-				mime: mime,
-				callback: ready,
-				width: width,
-				height: height,
-				etag: etag
-			});
+		Files.generatePreviewUrl = function (urlSpec) {
+			return App.fileList.generatePreviewUrl(urlSpec);
 		};
 	}
 });
