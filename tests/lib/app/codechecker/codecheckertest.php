@@ -6,22 +6,26 @@
  * See the COPYING-README file.
  */
 
-namespace Test\App;
+namespace Test\App\CodeChecker;
 
-use OC;
+use OC\App\CodeChecker\CodeChecker;
+use OC\App\CodeChecker\EmptyCheck;
+use OC\App\CodeChecker\PrivateCheck;
 use Test\TestCase;
 
-class CodeChecker extends TestCase {
+class CodeCheckerTest extends TestCase {
 
 	/**
 	 * @dataProvider providesFilesToCheck
-	 * @param $expectedErrorToken
-	 * @param $expectedErrorCode
-	 * @param $fileToVerify
+	 * @param string $expectedErrorToken
+	 * @param int $expectedErrorCode
+	 * @param string $fileToVerify
 	 */
 	public function testFindInvalidUsage($expectedErrorToken, $expectedErrorCode, $fileToVerify) {
-		$checker = new OC\App\CodeChecker();
-		$errors = $checker->analyseFile(OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
+		$checker = new CodeChecker(
+			new PrivateCheck(new EmptyCheck())
+		);
+		$errors = $checker->analyseFile(\OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
 		$this->assertEquals(1, count($errors));
 		$this->assertEquals($expectedErrorCode, $errors[0]['errorCode']);
@@ -35,18 +39,19 @@ class CodeChecker extends TestCase {
 			['OC_App', 1002, 'test-static-call.php'],
 			['OC_API', 1003, 'test-const.php'],
 			['OC_AppConfig', 1004, 'test-new.php'],
-			['==', 1005, 'test-equal.php'],
-			['!=', 1005, 'test-not-equal.php'],
+			['OC_AppConfig', 1006, 'test-use.php'],
 		];
 	}
 
 	/**
 	 * @dataProvider validFilesData
-	 * @param $fileToVerify
+	 * @param string $fileToVerify
 	 */
 	public function testPassValidUsage($fileToVerify) {
-		$checker = new OC\App\CodeChecker();
-		$errors = $checker->analyseFile(OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
+		$checker = new CodeChecker(
+			new PrivateCheck(new EmptyCheck())
+		);
+		$errors = $checker->analyseFile(\OC::$SERVERROOT . "/tests/data/app/code-checker/$fileToVerify");
 
 		$this->assertEquals(0, count($errors));
 	}

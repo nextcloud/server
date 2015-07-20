@@ -3,6 +3,7 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -23,12 +24,21 @@
 
 namespace OC\Core\Command\App;
 
+use OC\App\CodeChecker\CodeChecker;
+use OC\App\CodeChecker\EmptyCheck;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CheckCode extends Command {
+	protected $checkers = [
+		'private' => '\OC\App\CodeChecker\PrivateCheck',
+		'deprecation' => '\OC\App\CodeChecker\DeprecationCheck',
+		'strong-comparison' => '\OC\App\CodeChecker\StrongComparisonCheck',
+	];
+
 	protected function configure() {
 		$this
 			->setName('app:check-code')
@@ -37,12 +47,30 @@ class CheckCode extends Command {
 				'app-id',
 				InputArgument::REQUIRED,
 				'check the specified app'
+			)
+			->addOption(
+				'checker',
+				'c',
+				InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+				'enable the specified checker(s)',
+				[ 'private', 'deprecation', 'strong-comparison' ]
 			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$appId = $input->getArgument('app-id');
-		$codeChecker = new \OC\App\CodeChecker();
+
+		$checkList = new EmptyCheck();
+		foreach ($input->getOption('checker') as $checker) {
+			if (!isset($this->checkers[$checker])) {
+				throw new \InvalidArgumentException('Invalid checker: '.$checker);
+			}
+			$checkerClass = $this->checkers[$checker];
+			$checkList = new $checkerClass($checkList);
+		}
+
+		$codeChecker = new CodeChecker($checkList);
+
 		$codeChecker->listen('CodeChecker', 'analyseFileBegin', function($params) use ($output) {
 			if(OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
 				$output->writeln("<info>Analysing {$params}</info>");
@@ -72,9 +100,10 @@ class CheckCode extends Command {
 		$errors = $codeChecker->analyse($appId);
 		if (empty($errors)) {
 			$output->writeln('<info>App is compliant - awesome job!</info>');
+			return 0;
 		} else {
 			$output->writeln('<error>App is not compliant</error>');
-			return 1;
+			return 101;
 		}
 	}
 }
