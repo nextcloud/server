@@ -179,7 +179,6 @@ class MigrationTest extends \Test\TestCase {
 		$m->expects($this->any())->method('getSystemMountPoints')
 			->willReturn([['mountpoint' => 'folder1'], ['mountpoint' => 'folder2']]);
 
-		//$m = new Migration(\OC::$server->getConfig(), new \OC\Files\View(), \OC::$server->getDatabaseConnection(), $this->logger);
 		$m->reorganizeFolderStructure();
 		// even if it runs twice folder should always move only once
 		$m->reorganizeFolderStructure();
@@ -448,6 +447,82 @@ class MigrationTest extends \Test\TestCase {
 			->from('`*PREFIX*filecache`')
 			->execute()->fetchAll();
 		$this->assertSame(19, count($result));
+	}
+
+	/**
+	 * @dataProvider dataTestGetTargetDir
+	 */
+	public function testGetTargetDir($user, $keyPath, $filename, $trash, $systemMounts, $expected) {
+
+		$updater = $this->getMockBuilder('\OC\Files\Cache\Updater')
+			->disableOriginalConstructor()->getMock();
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->disableOriginalConstructor()->getMock();
+		$view->expects($this->any())->method('file_exists')->willReturn(true);
+		$view->expects($this->any())->method('getUpdater')->willReturn($updater);
+
+
+		$m = $this->getMockBuilder('OCA\Encryption\Migration')
+			->setConstructorArgs(
+				[
+					\OC::$server->getConfig(),
+					$view,
+					\OC::$server->getDatabaseConnection(),
+					$this->logger
+				]
+			)->setMethods(['getSystemMountPoints'])->getMock();
+
+		$m->expects($this->any())->method('getSystemMountPoints')
+			->willReturn($systemMounts);
+
+		$this->assertSame($expected,
+			$this->invokePrivate($m, 'getTargetDir', [$user, $keyPath, $filename, $trash])
+		);
+	}
+
+	public function dataTestGetTargetDir() {
+		return [
+			[
+				'user1',
+				'/files_encryption/keys/foo/bar.txt',
+				'user1.shareKey',
+				false,
+				[],
+				'user1/files_encryption/keys/files/foo/bar.txt/OC_DEFAULT_MODULE/user1.shareKey'
+			],
+			[
+				'user1',
+				'/files_trashbin/keys/foo/bar.txt',
+				'user1.shareKey',
+				true,
+				[],
+				'user1/files_encryption/keys/files_trashbin/foo/bar.txt/OC_DEFAULT_MODULE/user1.shareKey'
+			],
+			[
+				'',
+				'/files_encryption/keys/foo/bar.txt',
+				'user1.shareKey',
+				false,
+				[['mountpoint' => 'foo']],
+				'/files_encryption/keys/files/foo/bar.txt/OC_DEFAULT_MODULE/user1.shareKey'
+			],
+			[
+				'',
+				'/files_encryption/keys/foo/bar.txt',
+				'user1.shareKey',
+				false,
+				[['mountpoint' => 'foobar']],
+				false
+			],
+			[
+				'',
+				'/files_encryption/keys/foobar/bar.txt',
+				'user1.shareKey',
+				false,
+				[['mountpoint' => 'foo']],
+				false
+			]
+		];
 	}
 
 }
