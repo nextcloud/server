@@ -269,37 +269,34 @@ class OC_Files {
 	 * set the maximum upload size limit for apache hosts using .htaccess
 	 *
 	 * @param int $size file size in bytes
+	 * @param array $files override '.htaccess' and '.user.ini' locations
 	 * @return bool false on failure, size on success
 	 */
-	static function setUploadLimit($size) {
+	public static function setUploadLimit($size, $files = []) {
 		//don't allow user to break his config
-		if ($size > PHP_INT_MAX) {
-			//max size is always 1 byte lower than computerFileSize returns
-			if ($size > PHP_INT_MAX + 1)
-				return false;
-			$size -= 1;
-		}
+		$size = intval($size);
 		if ($size < self::UPLOAD_MIN_LIMIT_BYTES) {
 			return false;
 		}
 		$size = OC_Helper::phpFileSize($size);
-
-		//don't allow user to break his config -- broken or malicious size input
-		if (intval($size) === 0) {
-			return false;
-		}
 
 		$phpValueKeys = array(
 			'upload_max_filesize',
 			'post_max_size'
 		);
 
+		// default locations if not overridden by $files
+		$files = array_merge([
+			'.htaccess' => OC::$SERVERROOT . '/.htaccess',
+			'.user.ini' => OC::$SERVERROOT . '/.user.ini'
+		], $files);
+
 		$updateFiles = [
-			OC::$SERVERROOT . '/.htaccess' => [
+			$files['.htaccess'] => [
 				'pattern' => '/php_value %1$s (\S)*/',
 				'setting' => 'php_value %1$s %2$s'
 			],
-			OC::$SERVERROOT . '/.user.ini' => [
+			$files['.user.ini'] => [
 				'pattern' => '/%1$s=(\S)*/',
 				'setting' => '%1$s=%2$s'
 			]
