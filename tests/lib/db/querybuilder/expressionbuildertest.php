@@ -330,7 +330,7 @@ class ExpressionBuilderTest extends \Test\TestCase {
 		$actual = $this->expressionBuilder->literal($input, $type);
 
 		$this->assertInstanceOf('\OC\DB\QueryBuilder\Literal', $actual);
-		$this->assertSame(
+		$this->assertEquals(
 			$this->doctrineExpressionBuilder->literal($input, $type),
 			$actual->__toString()
 		);

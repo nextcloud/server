@@ -38,9 +38,9 @@ class QueryBuilder implements IQueryBuilder {
 	private $helper;
 
 	/**
-	 * Initializes a new <tt>QueryBuilder</tt>.
+	 * Initializes a new QueryBuilder.
 	 *
-	 * @var \OCP\IDBConnection
+	 * @param \OCP\IDBConnection $connection
 	 */
 	public function __construct(IDBConnection $connection) {
 		$this->connection = $connection;

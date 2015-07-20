@@ -41,12 +41,52 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->queryBuilder = new QueryBuilder($this->connection);
 	}
 
+	protected function createTestingRows() {
+		$qB = $this->connection->getQueryBuilder();
+		for ($i = 1; $i < 10; $i++) {
+			$qB->insert('*PREFIX*appconfig')
+				->values([
+					'appid' => $qB->expr()->literal('testFirstResult'),
+					'configkey' => $qB->expr()->literal('testing' . $i),
+					'configvalue' => $qB->expr()->literal(100 - $i),
+				])
+				->execute();
+		}
+	}
+
+	protected function getTestingRows(QueryBuilder $queryBuilder) {
+		$queryBuilder->select('configvalue')
+			->from('*PREFIX*appconfig')
+			->where($queryBuilder->expr()->eq(
+				'appid',
+				$queryBuilder->expr()->literal('testFirstResult')
+			))
+			->orderBy('configkey', 'ASC');
+
+		$query = $queryBuilder->execute();
+		$rows = [];
+		while ($row = $query->fetch()) {
+			$rows[] = $row['configvalue'];
+		}
+		$query->closeCursor();
+
+		return $rows;
+	}
+
+	protected function deleteTestingRows() {
+		$qB = $this->connection->getQueryBuilder();
+
+		$qB->delete('*PREFIX*appconfig')
+			->where($qB->expr()->eq('appid', $qB->expr()->literal('testFirstResult')))
+			->execute();
+	}
+
 	public function dataFirstResult() {
 		return [
-			[null, [['configvalue' => 99], ['configvalue' => 98], ['configvalue' => 97], ['configvalue' => 96], ['configvalue' => 95], ['configvalue' => 94], ['configvalue' => 93], ['configvalue' => 92], ['configvalue' => 91]]],
-			[0, [['configvalue' => 99], ['configvalue' => 98], ['configvalue' => 97], ['configvalue' => 96], ['configvalue' => 95], ['configvalue' => 94], ['configvalue' => 93], ['configvalue' => 92], ['configvalue' => 91]]],
-			[1, [['configvalue' => 98], ['configvalue' => 97], ['configvalue' => 96], ['configvalue' => 95], ['configvalue' => 94], ['configvalue' => 93], ['configvalue' => 92], ['configvalue' => 91]]],
-			[5, [['configvalue' => 94], ['configvalue' => 93], ['configvalue' => 92], ['configvalue' => 91]]],
+			[null, [99, 98, 97, 96, 95, 94, 93, 92, 91]],
+			[0, [99, 98, 97, 96, 95, 94, 93, 92, 91]],
+			[1, [98, 97, 96, 95, 94, 93, 92, 91]],
+			[5, [94, 93, 92, 91]],
 		];
 	}
 
@@ -57,18 +97,8 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedSet
 	 */
 	public function testFirstResult($firstResult, $expectedSet) {
-		$qB = $this->connection->getQueryBuilder();
-		$eB = $qB->expr();
-
-		for ($i = 1; $i < 10; $i++) {
-			$qB->insert('*PREFIX*appconfig')
-				->values([
-					'appid' => $eB->literal('testFirstResult'),
-					'configkey' => $eB->literal('testing' . $i),
-					'configvalue' => $eB->literal(100 - $i),
-				])
-				->execute();
-		}
+		$this->deleteTestingRows();
+		$this->createTestingRows();
 
 		if ($firstResult !== null) {
 			$this->queryBuilder->setFirstResult($firstResult);
@@ -83,33 +113,20 @@ class QueryBuilderTest extends \Test\TestCase {
 			$this->queryBuilder->getFirstResult()
 		);
 
-		$this->queryBuilder->select('configvalue')
-			->from('*PREFIX*appconfig')
-			->where($eB->eq('appid', $eB->literal('testFirstResult')))
-			->orderBy('configkey', 'ASC');
-
-		$query = $this->queryBuilder->execute();
-		$rows = [];
-		while ($row = $query->fetch()) {
-			$rows[] = $row;
-		}
-		$query->closeCursor();
+		$rows = $this->getTestingRows($this->queryBuilder);
 
 		$this->assertCount(sizeof($expectedSet), $rows);
 		$this->assertEquals($expectedSet, $rows);
 
-		$qB = $this->connection->getQueryBuilder();
-		$qB->delete('*PREFIX*appconfig')
-			->where($eB->eq('appid', $eB->literal('testFirstResult')))
-			->execute();
+		$this->deleteTestingRows();
 	}
 
 	public function dataMaxResults() {
 		return [
-			[null, ''],
-			[0, ' LIMIT 0'],
-			[1, ' LIMIT 1'],
-			[5, ' LIMIT 5'],
+			[null, [99, 98, 97, 96, 95, 94, 93, 92, 91]],
+			[0, []],
+			[1, [99]],
+			[5, [99, 98, 97, 96, 95]],
 		];
 	}
 
@@ -117,9 +134,12 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @dataProvider dataMaxResults
 	 *
 	 * @param int $maxResult
-	 * @param string $expectedLimit
+	 * @param array $expectedSet
 	 */
-	public function testMaxResults($maxResult, $expectedLimit) {
+	public function testMaxResults($maxResult, $expectedSet) {
+		$this->deleteTestingRows();
+		$this->createTestingRows();
+
 		if ($maxResult !== null) {
 			$this->queryBuilder->setMaxResults($maxResult);
 		}
@@ -129,10 +149,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			$this->queryBuilder->getMaxResults()
 		);
 
-		$this->assertSame(
-			'SELECT  FROM ' . $expectedLimit,
-			$this->queryBuilder->getSQL()
-		);
+		$rows = $this->getTestingRows($this->queryBuilder);
+
+		$this->assertCount(sizeof($expectedSet), $rows);
+		$this->assertEquals($expectedSet, $rows);
+
+		$this->deleteTestingRows();
 	}
 
 	public function dataSelect() {
