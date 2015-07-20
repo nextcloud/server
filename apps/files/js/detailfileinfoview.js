@@ -45,6 +45,15 @@
 		},
 
 		/**
+		 * returns the jQuery object for HTML output
+		 *
+		 * @returns {jQuery}
+		 */
+		get$: function() {
+			return this.$el;
+		},
+
+		/**
 		 * Destroy / uninitialize this instance.
 		 */
 		destroy: function() {

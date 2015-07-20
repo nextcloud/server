@@ -91,6 +91,15 @@
 		},
 
 		/**
+		 * returns the jQuery object for HTML output
+		 *
+		 * @returns {jQuery}
+		 */
+		get$: function() {
+			return this.$el;
+		},
+
+		/**
 		 * Renders this details view
 		 *
 		 * @abstract

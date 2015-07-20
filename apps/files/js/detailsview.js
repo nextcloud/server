@@ -136,16 +136,14 @@
 
 			// render details
 			_.each(this._detailFileInfoViews, function(detailView) {
-				detailView.render();
-				$detailsContainer.append(detailView.$el);
+				$detailsContainer.append(detailView.get$());
 			});
 
 			if (this._tabViews.length > 0) {
 				// render tabs
 				_.each(this._tabViews, function(tabView) {
-					tabView.render();
 					// hidden by default
-					$tabsContainer.append(tabView.$el);
+					$tabsContainer.append(tabView.get$());
 
 					$tabHeadsContainer.append(self._templateTabHeader({
 						tabId: tabView.getId(),
@@ -171,7 +169,6 @@
 		setFileInfo: function(fileInfo) {
 			this._fileInfo = fileInfo;
 
-			// FIXME: this will render panels twice
 			this.render();
 
 			// notify all panels
