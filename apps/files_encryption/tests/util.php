@@ -587,9 +587,8 @@ class Util extends TestCase {
 	 * @dataProvider dataProviderFortestIsMountPointApplicableToUser
 	 */
 	function testIsMountPointApplicableToUser($mount, $expectedResult) {
-		self::loginHelper(self::TEST_ENCRYPTION_UTIL_USER1);
 		$dummyClass = new DummyUtilClass($this->view, self::TEST_ENCRYPTION_UTIL_USER1);
-		$result = $dummyClass->testIsMountPointApplicableToUser($mount);
+		$result = $dummyClass->testIsMountPointApplicableToUser($mount, self::TEST_ENCRYPTION_UTIL_USER1);
 
 		$this->assertSame($expectedResult, $result);
 	}
@@ -663,7 +662,7 @@ class Util extends TestCase {
  * dummy class extends  \OCA\Files_Encryption\Util to access protected methods for testing
  */
 class DummyUtilClass extends \OCA\Files_Encryption\Util {
-	public function testIsMountPointApplicableToUser($mount) {
-		return $this->isMountPointApplicableToUser($mount);
+	public function testIsMountPointApplicableToUser($mount, $uid) {
+		return $this->isMountPointApplicableToUser($mount, $uid);
 	}
 }

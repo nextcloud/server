@@ -1617,15 +1617,16 @@ class Util {
 	/**
 	 * check if the file is stored on a system wide mount point
 	 * @param string $path relative to /data/user with leading '/'
+	 * @param string $uid
 	 * @return boolean
 	 */
-	public function isSystemWideMountPoint($path) {
+	public function isSystemWideMountPoint($path, $uid) {
 		$normalizedPath = ltrim($path, '/');
 		if (\OCP\App::isEnabled("files_external")) {
 			$mounts = \OC_Mount_Config::getSystemMountPoints();
 			foreach ($mounts as $mount) {
 				if ($mount['mountpoint'] == substr($normalizedPath, 0, strlen($mount['mountpoint']))) {
-					if ($this->isMountPointApplicableToUser($mount)) {
+					if ($this->isMountPointApplicableToUser($mount, $uid)) {
 						return true;
 					}
 				}
@@ -1638,10 +1639,10 @@ class Util {
 	 * check if mount point is applicable to user
 	 *
 	 * @param array $mount contains $mount['applicable']['users'], $mount['applicable']['groups']
+	 * @param string $uid
 	 * @return boolean
 	 */
-	protected function isMountPointApplicableToUser($mount) {
-		$uid = \OCP\User::getUser();
+	protected function isMountPointApplicableToUser($mount, $uid) {
 		$acceptedUids = array('all', $uid);
 		// check if mount point is applicable for the user
 		$intersection = array_intersect($acceptedUids, $mount['applicable']['users']);

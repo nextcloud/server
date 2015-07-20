@@ -299,7 +299,7 @@ class Trashbin {
 			$util = new \OCA\Files_Encryption\Util($rootView, $user);
 
 			$baseDir = '/files_encryption/';
-			if (!$util->isSystemWideMountPoint($ownerPath)) {
+			if (!$util->isSystemWideMountPoint($ownerPath, $owner)) {
 				$baseDir = $owner . $baseDir;
 			}
 
@@ -473,7 +473,7 @@ class Trashbin {
 			$util = new \OCA\Files_Encryption\Util($rootView, $user);
 
 			$baseDir = '/files_encryption/';
-			if (!$util->isSystemWideMountPoint($ownerPath)) {
+			if (!$util->isSystemWideMountPoint($ownerPath, $owner)) {
 				$baseDir = $owner . $baseDir;
 			}
 
