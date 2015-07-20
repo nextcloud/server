@@ -15,6 +15,8 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 
 
@@ -179,6 +181,55 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
 
 		$middleware->beforeController($this, __FUNCTION__, new Response());
+	}
+
+	public function testAfterExceptionWithSecurityExceptionNoStatus() {
+		$request = new Request(
+			['server' => [
+				'PHP_AUTH_USER' => 'user',
+				'PHP_AUTH_PW' => 'pass'
+			]],
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
+		);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
+		$response = $middleware->afterException($this, __FUNCTION__, new SecurityException('A security exception'));
+
+		$expected = new JSONResponse(['message' => 'A security exception'], 500);
+		$this->assertEquals($expected, $response);
+	}
+
+	public function testAfterExceptionWithSecurityExceptionWithStatus() {
+		$request = new Request(
+			['server' => [
+				'PHP_AUTH_USER' => 'user',
+				'PHP_AUTH_PW' => 'pass'
+			]],
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
+		);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
+		$response = $middleware->afterException($this, __FUNCTION__, new SecurityException('A security exception', 501));
+
+		$expected = new JSONResponse(['message' => 'A security exception'], 501);
+		$this->assertEquals($expected, $response);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage A regular exception
+	 */
+	public function testAfterExceptionWithRegularException() {
+		$request = new Request(
+			['server' => [
+				'PHP_AUTH_USER' => 'user',
+				'PHP_AUTH_PW' => 'pass'
+			]],
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
+		);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
+		$middleware->afterException($this, __FUNCTION__, new \Exception('A regular exception'));
 	}
 
 }
