@@ -69,13 +69,13 @@ class SecurityMiddleware extends Middleware {
 	 * @param bool $isAdminUser
 	 */
 	public function __construct(IRequest $request,
-	                            ControllerMethodReflector $reflector,
-	                            INavigationManager $navigationManager,
-	                            IURLGenerator $urlGenerator,
-	                            ILogger $logger,
-	                            $appName,
-	                            $isLoggedIn,
-	                            $isAdminUser){
+								ControllerMethodReflector $reflector,
+								INavigationManager $navigationManager,
+								IURLGenerator $urlGenerator,
+								ILogger $logger,
+								$appName,
+								$isLoggedIn,
+								$isAdminUser){
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
 		$this->reflector = $reflector;
