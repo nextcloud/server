@@ -65,7 +65,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 */
 	public function expr() {
-		return $this->connection->getExpressionBuilder();
+		return new ExpressionBuilder($this->connection);
 	}
 
 	/**

@@ -41,14 +41,6 @@ namespace OCP;
  */
 interface IDBConnection {
 	/**
-	 * Gets the ExpressionBuilder for the connection.
-	 *
-	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
-	 * @since 8.2.0
-	 */
-	public function getExpressionBuilder();
-
-	/**
 	 * Gets the QueryBuilder for the connection.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder
