@@ -37,14 +37,7 @@ class OC_OCS_Cloud {
 			'edition' => OC_Util::getEditionString(),
 			);
 			
-		$result['capabilities'] = array(
-			'core' => array(
-				'pollinterval' => OC_Config::getValue('pollinterval', 60),
-				),
-		);
-
-
-		$result['capabilities'] = array_merge_recursive($result['capabilities'], \OC::$server->getCapabilitiesManager()->getCapabilities());
+		$result['capabilities'] = \OC::$server->getCapabilitiesManager()->getCapabilities();
 
 		return new OC_OCS_Result($result);
 	}
