@@ -237,6 +237,10 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Sets the maximum number of results to retrieve (the "limit").
 	 *
+	 * NOTE: Setting max results to "0" will cause mixed behaviour. While most
+	 * of the databases will just return an empty result set, Oracle will return
+	 * all entries.
+	 *
 	 * @param integer $maxResults The maximum number of results to retrieve.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
