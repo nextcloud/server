@@ -283,7 +283,7 @@ class Migration {
 						$this->renameFileKeys($user, $path . '/' . $file, $trash);
 					} else {
 						$target = $this->getTargetDir($user, $path, $file, $trash);
-						if ($target) {
+						if ($target !== false) {
 							$this->createPathForKeys(dirname($target));
 							$this->view->rename($user . '/' . $path . '/' . $file, $target);
 						} else {
@@ -303,6 +303,7 @@ class Migration {
 	 * get system mount points
 	 * wrap static method so that it can be mocked for testing
 	 *
+	 * @internal
 	 * @return array
 	 */
 	protected function getSystemMountPoints() {
@@ -329,10 +330,11 @@ class Migration {
 
 		if ($user === '') {
 			// for system wide mounts we need to check if the mount point really exists
-			$normalized = trim($filePath, '/');
+			$normalized = \OC\Files\Filesystem::normalizePath($filePath);
 			$systemMountPoints = $this->getSystemMountPoints();
 			foreach ($systemMountPoints as $mountPoint) {
-				if (strpos($normalized, $mountPoint['mountpoint']) === 0)
+				$normalizedMountPoint = \OC\Files\Filesystem::normalizePath($mountPoint['mountpoint']) . '/';
+				if (strpos($normalized, $normalizedMountPoint) === 0)
 					return $targetDir;
 			}
 		} else if ($trash === false && $this->view->file_exists('/' . $user. '/files/' . $filePath)) {
