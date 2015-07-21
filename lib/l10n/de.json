@@ -43,7 +43,7 @@
     "File name is a reserved word" : "Der Dateiname ist ein reserviertes Wort",
     "File name contains at least one invalid character" : "Der Dateiname enthält mindestens ein ungültiges Zeichen",
     "File name is too long" : "Dateiname ist zu lang",
-    "File is currently busy, please try again later" : "Datei ist aktuell in Benutzung, bitte später nochmals versuchen",
+    "File is currently busy, please try again later" : "Die Datei ist zur Zeit in Benutzung, bitte versuche es später noch einmal",
     "Can't read file" : "Datei kann nicht gelesen werden",
     "App directory already exists" : "Das Applikationsverzeichnis existiert bereits",
     "Can't create app folder. Please fix permissions. %s" : "Es kann kein Applikationsordner erstellt werden. Bitte passe die  Berechtigungen an. %s",
