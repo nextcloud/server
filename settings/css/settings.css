@@ -386,6 +386,12 @@ table.grid td.date{
 	display: inline-block;
 }
 
+#encryptionAPI li {
+	list-style-type: initial;
+	margin-left: 20px;
+	padding: 5px 0;
+}
+
 .mail_settings p label:first-child {
 	display: inline-block;
 	width: 300px;
