@@ -82,13 +82,13 @@ script(
 			<?php p($l->t("Documentation:"));?>
 			{{#if documentation.user}}
 			<span class="userDocumentation">
-			<a id='userDocumentation' class="appslink" href='{{documentation.user}}' target="_blank"><?php p($l->t("User Documentation"));?></a>
+			<a id="userDocumentation" class="appslink" href="{{documentation.user}}" target="_blank"><?php p($l->t('User documentation'));?> ↗</a>
 			</span>
 			{{/if}}
 
 			{{#if documentation.admin}}
 			<span class="adminDocumentation">
-			<a id='adminDocumentation' class="appslink" href='{{documentation.admin}}' target="_blank"><?php p($l->t("Admin Documentation"));?></a>
+			<a id="adminDocumentation" class="appslink" href="{{documentation.admin}}" target="_blank"><?php p($l->t('Admin documentation'));?> ↗</a>
 			</span>
 			{{/if}}
 		</p>
