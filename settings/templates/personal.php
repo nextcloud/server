@@ -159,7 +159,7 @@ if($_['passwordChangeSupported']) {
 		<input type="file" class="hidden" name="files[]" id="uploadavatar">
 		<div class="inlineblock button" id="selectavatar"><?php p($l->t('Select new from Files')); ?></div>
 		<div class="inlineblock button" id="removeavatar"><?php p($l->t('Remove image')); ?></div><br>
-		<?php p($l->t('Either png or jpg. Ideally square but you will be able to crop it.')); ?>
+		<?php p($l->t('Either png or jpg. Ideally square but you will be able to crop it. The file is not allowed to exceed the maximum size of 20 MB.')); ?>
 		<?php else: ?>
 		<?php p($l->t('Your avatar is provided by your original account.')); ?>
 		<?php endif; ?>
