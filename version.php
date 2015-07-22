@@ -25,7 +25,7 @@
 $OC_Version=array(8, 1, 1, 0);
 
 // The human readable string
-$OC_VersionString='8.1.1';
+$OC_VersionString='8.1.1 beta1';
 
 // The ownCloud channel
 $OC_Channel='git';
