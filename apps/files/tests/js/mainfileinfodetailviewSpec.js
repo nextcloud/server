@@ -20,16 +20,19 @@
 */
 
 describe('OCA.Files.MainFileInfoDetailView tests', function() {
-	var view, tipsyStub;
+	var view, tipsyStub, previewStub, fncLazyLoadPreview, fileListMock;
 
 	beforeEach(function() {
 		tipsyStub = sinon.stub($.fn, 'tipsy');
+		fileListMock = sinon.mock(OCA.Files.FileList.prototype);
 		view = new OCA.Files.MainFileInfoDetailView();
 	});
 	afterEach(function() {
 		view.destroy();
 		view = undefined;
 		tipsyStub.restore();
+		fileListMock.restore();
+
 	});
 	describe('rendering', function() {
 		var testFileInfo;
@@ -68,10 +71,33 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 				.toEqual(OC.imagePath('core', 'actions/star'));
 		});
 		it('displays mime icon', function() {
-			// TODO
+			// File
+			view.setFileInfo(_.extend(testFileInfo, {
+				mimetype: 'text/calendar'
+			}));
+
+			expect(view.$el.find('.thumbnail').css('background-image'))
+				.toContain('filetypes/text-calendar.svg');
+
+			// Folder
+			view.setFileInfo(_.extend(testFileInfo, {
+				mimetype: 'httpd/unix-directory'
+			}));
+
+			expect(view.$el.find('.thumbnail').css('background-image'))
+				.toContain('filetypes/folder.svg');
 		});
 		it('displays thumbnail', function() {
-			// TODO
+			view.setFileInfo(_.extend(testFileInfo, {
+				mimetype: 'text/plain'
+			}));
+
+			var expectation = fileListMock.expects('lazyLoadPreview');
+			expectation.once();
+
+			view.setFileInfo(testFileInfo);
+
+			fileListMock.verify();
 		});
 	});
 });
