@@ -439,11 +439,4 @@ interface IServerContainer {
 	 */
 	public function getMimeTypeDetector();
 
-	/**
-	 * Get the manager of all the capabilities
-	 *
-	 * @return \OCP\Capabilities\IManager
-	 * @since 8.2.0
-	 */
-	public function getCapabilitiesManager();
 }

@@ -452,12 +452,11 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('CapabilitiesManager', function (Server $c) {
 			$manager = new \OC\CapabilitiesManager();
 			$manager->registerCapability(function() use ($c) {
-				return new \OC\OCS\CoreCapabilities(
-					$c->getConfig()
-				);
+				return new \OC\OCS\CoreCapabilities($c->getConfig());
 			});
 			return $manager;
 		});
+
 	}
 
 	/**
@@ -958,8 +957,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	/**
 	 * Get the manager of all the capabilities
 	 *
-	 * @return \OCP\Capabilities\IManager
-	 * @since 8.2.0
+	 * @return \OC\CapabilitiesManager
 	 */
 	public function getCapabilitiesManager() {
 		return $this->query('CapabilitiesManager');

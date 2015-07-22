@@ -22,7 +22,6 @@
 namespace OCA\Files_Versions\AppInfo;
 
 use OCP\AppFramework\App;
-use OCA\Files_Versions\Capabilities;
 
 class Application extends App {
 	public function __construct(array $urlParams = array()) {
@@ -33,8 +32,6 @@ class Application extends App {
 		/*
 		 * Register capabilities
 		 */
-		$server->getCapabilitiesManager()->registerCapability(function() {
-			return new Capabilities();
-		});
+		$container->registerCapability('OCA\Files_Versions\Capabilities');
 	}
 }

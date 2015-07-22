@@ -70,18 +70,14 @@ class CapabilitiesManagerTest extends TestCase {
 	public function testMergedCapabilities() {
 		$manager = new \OC\CapabilitiesManager();
 
-		$simple1 = new SimpleCapability();
-		$simple2 = new SimpleCapability2();
-		$simple3 = new SimpleCapability3();
-
-		$manager->registerCapability(function() use ($simple1)  {
-			return $simple1;
+		$manager->registerCapability(function() {
+			return new SimpleCapability();
 		});
-		$manager->registerCapability(function() use ($simple2)  {
-			return $simple2;
+		$manager->registerCapability(function() {
+			return new SimpleCapability2();
 		});
-		$manager->registerCapability(function() use ($simple3)  {
-			return $simple3;
+		$manager->registerCapability(function() {
+			return new SimpleCapability3();
 		});
 
 		$res = $manager->getCapabilities();
@@ -146,6 +142,14 @@ class SimpleCapability3 implements \OCP\Capabilities\ICapability {
 	}
 }
 
+class NoCapability {
+	public function getCapabilities() {
+		return [
+			'baz' => 'z'
+		];
+	}
+}
+
 class DeepCapability implements \OCP\Capabilities\ICapability {
 	public function getCapabilities() {
 		return [
@@ -158,10 +162,3 @@ class DeepCapability implements \OCP\Capabilities\ICapability {
 	}
 }
 
-class NoCapability {
-	public function getCapabilities() {
-		return [
-			'baz' => 'z'
-		];
-	}
-}

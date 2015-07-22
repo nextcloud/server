@@ -86,4 +86,11 @@ interface IAppContainer extends IContainer {
 	 */
 	function log($message, $level);
 
+	/**
+	 * Register a capability
+	 *
+	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
+	 * @since 8.2.0
+	 */
+	 public function registerCapability($serviceName);
 }

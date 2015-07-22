@@ -51,7 +51,7 @@ class Server extends \Test\TestCase {
 			['AvatarManager', '\OC\AvatarManager'],
 			['AvatarManager', '\OCP\IAvatarManager'],
 
-			['CapabilitiesManager', '\OCP\Capabilities\IManager'],
+			['CapabilitiesManager', '\OC\CapabilitiesManager'],
 			['ContactsManager', '\OC\ContactsManager'],
 			['ContactsManager', '\OCP\Contacts\IManager'],
 			['Crypto', '\OC\Security\Crypto'],

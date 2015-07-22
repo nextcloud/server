@@ -128,11 +128,7 @@ class Application extends App {
 		/*
 		 * Register capabilities
 		 */
-		$server->getCapabilitiesManager()->registerCapability(function() use ($server) {
-			return new Capabilities(
-				$server->getConfig()
-			);
-		});
+		$container->registerCapability('OCA\Files_Sharing\Capabilities');
 	}
 
 	public function registerMountProviders() {

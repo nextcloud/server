@@ -21,10 +21,9 @@
 namespace OC;
 
 
-use OCP\Capabilities\IManager;
 use OCP\Capabilities\ICapability;
 
-class CapabilitiesManager implements IManager {
+class CapabilitiesManager {
 
 	/**
 	 * @var \Closure[]
