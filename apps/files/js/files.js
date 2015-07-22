@@ -301,26 +301,6 @@
 
 			OC.redirect(url + '&downloadStartSecret=' + randomToken);
 			OC.Util.waitFor(checkForDownloadCookie, 500);
-		},
-
-		/**
-		 * Replaces the download icon with a loading spinner and vice versa
-		 * - also adds the class disabled to the passed in element
-		 *
-		 * @param downloadButtonElement download fileaction
-		 * @param {boolean} showIt whether to show the spinner(true) or to hide it(false)
-		 */
-		updateFileActionSpinner: function(downloadButtonElement, showIt) {
-			var icon = downloadButtonElement.find('img'),
-				sourceImage = icon.attr('src');
-
-			if(showIt) {
-				downloadButtonElement.addClass('disabled');
-				icon.attr('src', sourceImage.replace('actions/download.svg', 'loading-small.gif'));
-			} else {
-				downloadButtonElement.removeClass('disabled');
-				icon.attr('src', sourceImage.replace('loading-small.gif', 'actions/download.svg'));
-			}
 		}
 	};
 

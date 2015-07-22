@@ -427,10 +427,10 @@
 			}
 
 			var disableLoadingState = function(){
-				OCA.Files.Files.updateFileActionSpinner(downloadFileaction, false);
+				OCA.Files.FileActions.updateFileActionSpinner(downloadFileaction, false);
 			};
 
-			OCA.Files.Files.updateFileActionSpinner(downloadFileaction, true);
+			OCA.Files.FileActions.updateFileActionSpinner(downloadFileaction, true);
 			OCA.Files.Files.handleDownload(this.getDownloadUrl(files, dir), disableLoadingState);
 			return false;
 		},

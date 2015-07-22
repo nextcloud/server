@@ -488,10 +488,10 @@
 
 				if (url) {
 					var disableLoadingState = function(){
-							OCA.Files.Files.updateFileActionSpinner(downloadFileaction, false);
+							OCA.Files.FileActions.updateFileActionSpinner(downloadFileaction, false);
 						};
 
-					OCA.Files.Files.updateFileActionSpinner(downloadFileaction, true);
+					OCA.Files.FileActions.updateFileActionSpinner(downloadFileaction, true);
 					OCA.Files.Files.handleDownload(url, disableLoadingState);
 				}
 			}, t('files', 'Download'));
@@ -499,6 +499,26 @@
 	};
 
 	OCA.Files.FileActions = FileActions;
+
+	/**
+	 * Replaces the download icon with a loading spinner and vice versa
+	 * - also adds the class disabled to the passed in element
+	 *
+	 * @param downloadButtonElement download fileaction
+	 * @param {boolean} showIt whether to show the spinner(true) or to hide it(false)
+	 */
+	OCA.Files.FileActions.updateFileActionSpinner = function(downloadButtonElement, showIt) {
+		var icon = downloadButtonElement.find('img'),
+			sourceImage = icon.attr('src');
+
+		if(showIt) {
+			downloadButtonElement.addClass('disabled');
+			icon.attr('src', sourceImage.replace('actions/download.svg', 'loading-small.gif'));
+		} else {
+			downloadButtonElement.removeClass('disabled');
+			icon.attr('src', sourceImage.replace('loading-small.gif', 'actions/download.svg'));
+		}
+	};
 
 	/**
 	 * File action attributes.
