@@ -43,7 +43,7 @@ class CleanUpTest extends TestCase {
 	protected $dbConnection;
 
 	/** @var  string */
-	protected $trashTable = '`*PREFIX*files_trash`';
+	protected $trashTable = '*PREFIX*files_trash';
 
 	/** @var string  */
 	protected $user0 = 'user0';
@@ -64,19 +64,22 @@ class CleanUpTest extends TestCase {
 	 * populate files_trash table with 10 dummy values
 	 */
 	public function initTable() {
-		$query = $this->dbConnection->createQueryBuilder();
+		$query = $this->dbConnection->getQueryBuilder();
 		$query->delete($this->trashTable)->execute();
 		for ($i = 0; $i < 10; $i++) {
 			$query->insert($this->trashTable)
 				->values(array(
-					'`id`' => $query->expr()->literal('file'.$i),
-					'`timestamp`' => $query->expr()->literal($i),
-					'`location`' => $query->expr()->literal('.'),
-					'`user`' => $query->expr()->literal('user'.$i%2)
+					'id' => $query->expr()->literal('file'.$i),
+					'timestamp' => $query->expr()->literal($i),
+					'location' => $query->expr()->literal('.'),
+					'user' => $query->expr()->literal('user'.$i%2)
 				))->execute();
 		}
-		$getAllQuery = $this->dbConnection->createQueryBuilder();
-		$result = $getAllQuery->select('`id`')->from($this->trashTable)->execute()->fetchAll();
+		$getAllQuery = $this->dbConnection->getQueryBuilder();
+		$result = $getAllQuery->select('id')
+			->from($this->trashTable)
+			->execute()
+			->fetchAll();
 		$this->assertSame(10, count($result));
 	}
 
@@ -106,8 +109,8 @@ class CleanUpTest extends TestCase {
 		if ($nodeExists) {
 			// if the delete operation was execute only files from user1
 			// should be left.
-			$query = $this->dbConnection->createQueryBuilder();
-			$result = $query->select('`user`')
+			$query = $this->dbConnection->getQueryBuilder();
+			$result = $query->select('user')
 				->from($this->trashTable)
 				->execute()->fetchAll();
 			$this->assertSame(5, count($result));
@@ -117,8 +120,11 @@ class CleanUpTest extends TestCase {
 		} else {
 			// if no delete operation was execute we should still have all 10
 			// database entries
-			$getAllQuery = $this->dbConnection->createQueryBuilder();
-			$result = $getAllQuery->select('`id`')->from($this->trashTable)->execute()->fetchAll();
+			$getAllQuery = $this->dbConnection->getQueryBuilder();
+			$result = $getAllQuery->select('id')
+				->from($this->trashTable)
+				->execute()
+				->fetchAll();
 			$this->assertSame(10, count($result));
 		}
 

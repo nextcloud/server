@@ -41,6 +41,14 @@ namespace OCP;
  */
 interface IDBConnection {
 	/**
+	 * Gets the QueryBuilder for the connection.
+	 *
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder
+	 * @since 8.2.0
+	 */
+	public function getQueryBuilder();
+
+	/**
 	 * Used to abstract the ownCloud database access away
 	 * @param string $sql the sql query with ? placeholder for params
 	 * @param int $limit the maximum number of rows

@@ -22,9 +22,9 @@
 
 namespace OC\Repair;
 
-use OC\DB\Connection;
 use OC\Hooks\BasicEmitter;
 use OC\RepairStep;
+use OCP\IDBConnection;
 
 /**
  * Class RepairConfig
@@ -33,13 +33,13 @@ use OC\RepairStep;
  */
 class CleanTags extends BasicEmitter implements RepairStep {
 
-	/** @var Connection */
+	/** @var IDBConnection */
 	protected $connection;
 
 	/**
-	 * @param Connection $connection
+	 * @param IDBConnection $connection
 	 */
-	public function __construct(Connection $connection) {
+	public function __construct(IDBConnection $connection) {
 		$this->connection = $connection;
 	}
 
@@ -108,16 +108,16 @@ class CleanTags extends BasicEmitter implements RepairStep {
 	 * 								the entry is deleted in the $deleteTable
 	 */
 	protected function deleteOrphanEntries($repairInfo, $deleteTable, $deleteId, $sourceTable, $sourceId, $sourceNullColumn) {
-		$qb = $this->connection->createQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 
-		$qb->select('d.`' . $deleteId . '`')
-			->from('`' . $deleteTable . '`', 'd')
-			->leftJoin('d', '`' . $sourceTable . '`', 's', 'd.`' . $deleteId . '` = s.`' . $sourceId . '`')
+		$qb->select('d.' . $deleteId)
+			->from($deleteTable, 'd')
+			->leftJoin('d', $sourceTable, 's', $qb->expr()->eq('d.' . $deleteId, ' s.' . $sourceId))
 			->where(
-				'd.`type` = ' . $qb->expr()->literal('files')
+				$qb->expr()->eq('d.type', $qb->expr()->literal('files'))
 			)
 			->andWhere(
-				$qb->expr()->isNull('s.`' . $sourceNullColumn . '`')
+				$qb->expr()->isNull('s.' . $sourceNullColumn)
 			);
 		$result = $qb->execute();
 
@@ -129,11 +129,11 @@ class CleanTags extends BasicEmitter implements RepairStep {
 		if (!empty($orphanItems)) {
 			$orphanItemsBatch = array_chunk($orphanItems, 200);
 			foreach ($orphanItemsBatch as $items) {
-				$qb->delete('`' . $deleteTable . '`')
+				$qb->delete($deleteTable)
 					->where(
-						'`type` = ' . $qb->expr()->literal('files')
+						$qb->expr()->eq('type', $qb->expr()->literal('files'))
 					)
-					->andWhere($qb->expr()->in('`' . $deleteId . '`', ':ids'));
+					->andWhere($qb->expr()->in($deleteId, $qb->createParameter('ids')));
 				$qb->setParameter('ids', $items, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY);
 				$qb->execute();
 			}

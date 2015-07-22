@@ -38,7 +38,7 @@
 namespace OC\Share;
 
 use OCP\IUserSession;
-use OC\DB\Connection;
+use OCP\IDBConnection;
 use OCP\IConfig;
 
 /**
@@ -1195,17 +1195,17 @@ class Share extends Constants {
 	/**
 	 * Retrieve the owner of a connection
 	 *
-	 * @param Connection $connection
+	 * @param IDBConnection $connection
 	 * @param int $shareId
 	 * @throws \Exception
 	 * @return string uid of share owner
 	 */
-	private static function getShareOwner(Connection $connection, $shareId) {
-		$qb = $connection->createQueryBuilder();
+	private static function getShareOwner(IDBConnection $connection, $shareId) {
+		$qb = $connection->getQueryBuilder();
 
-		$qb->select('`uid_owner`')
-			->from('`*PREFIX*share`')
-			->where('`id` = :shareId')
+		$qb->select('uid_owner')
+			->from('*PREFIX*share')
+			->where($qb->expr()->eq('id', $qb->createParameter('shareId')))
 			->setParameter(':shareId', $shareId);
 		$result = $qb->execute();
 		$result = $result->fetch();
@@ -1221,15 +1221,15 @@ class Share extends Constants {
 	 * Set expiration date for a share
 	 *
 	 * @param IUserSession $userSession
-	 * @param Connection $connection
+	 * @param IDBConnection $connection
 	 * @param IConfig $config
 	 * @param int $shareId
 	 * @param string $password
 	 * @throws \Exception
 	 * @return boolean
 	 */
-	public static function setPassword(IUserSession $userSession, 
-	                                   Connection $connection,
+	public static function setPassword(IUserSession $userSession,
+	                                   IDBConnection $connection,
 	                                   IConfig $config,
 	                                   $shareId, $password) {
 		$user = $userSession->getUser();
@@ -1252,10 +1252,10 @@ class Share extends Constants {
 			throw new \Exception('Cannot remove password');
 		}
 
-		$qb = $connection->createQueryBuilder();
-		$qb->update('`*PREFIX*share`')
-			->set('`share_with`', ':pass')
-			->where('`id` = :shareId')
+		$qb = $connection->getQueryBuilder();
+		$qb->update('*PREFIX*share')
+			->set('share_with', $qb->createParameter('pass'))
+			->where($qb->expr()->eq('id', $qb->createParameter('shareId')))
 			->setParameter(':pass', is_null($password) ? null : \OC::$server->getHasher()->hash($password))
 			->setParameter(':shareId', $shareId);
 

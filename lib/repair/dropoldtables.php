@@ -22,19 +22,19 @@
 namespace OC\Repair;
 
 
-use OC\DB\Connection;
 use OC\Hooks\BasicEmitter;
 use OC\RepairStep;
+use OCP\IDBConnection;
 
 class DropOldTables extends BasicEmitter implements RepairStep {
 
-	/** @var Connection */
+	/** @var IDBConnection */
 	protected $connection;
 
 	/**
-	 * @param Connection $connection
+	 * @param IDBConnection $connection
 	 */
-	public function __construct(Connection $connection) {
+	public function __construct(IDBConnection $connection) {
 		$this->connection = $connection;
 	}
 

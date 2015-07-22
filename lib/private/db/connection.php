@@ -29,6 +29,8 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\Common\EventManager;
+use OC\DB\QueryBuilder\ExpressionBuilder;
+use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\IDBConnection;
 
 class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
@@ -49,6 +51,56 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			// throw a new exception to prevent leaking info from the stacktrace
 			throw new DBALException('Failed to connect to the database: ' . $e->getMessage(), $e->getCode());
 		}
+	}
+
+	/**
+	 * Returns a QueryBuilder for the connection.
+	 *
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder
+	 */
+	public function getQueryBuilder() {
+		return new QueryBuilder($this);
+	}
+
+	/**
+	 * Gets the QueryBuilder for the connection.
+	 *
+	 * @return \Doctrine\DBAL\Query\QueryBuilder
+	 * @deprecated please use $this->getQueryBuilder() instead
+	 */
+	public function createQueryBuilder() {
+		$backtrace = $this->getCallerBacktrace();
+		\OC::$server->getLogger()->debug('Doctrine QueryBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
+		return parent::createQueryBuilder();
+	}
+
+	/**
+	 * Gets the ExpressionBuilder for the connection.
+	 *
+	 * @return \Doctrine\DBAL\Query\Expression\ExpressionBuilder
+	 * @deprecated please use $this->getQueryBuilder()->expr() instead
+	 */
+	public function getExpressionBuilder() {
+		$backtrace = $this->getCallerBacktrace();
+		\OC::$server->getLogger()->debug('Doctrine ExpressionBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
+		return parent::getExpressionBuilder();
+	}
+
+	/**
+	 * Get the file and line that called the method where `getCallerBacktrace()` was used
+	 *
+	 * @return string
+	 */
+	protected function getCallerBacktrace() {
+		$traces = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+
+		// 0 is the method where we use `getCallerBacktrace`
+		// 1 is the target method which uses the method we want to log
+		if (isset($traces[1])) {
+			return $traces[1]['file'] . ':' . $traces[1]['line'];
+		}
+
+		return '';
 	}
 
 	/**

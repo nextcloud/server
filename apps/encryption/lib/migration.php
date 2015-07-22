@@ -23,9 +23,9 @@
 namespace OCA\Encryption;
 
 
-use OC\DB\Connection;
 use OC\Files\View;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\ILogger;
 
 class Migration {
@@ -33,7 +33,7 @@ class Migration {
 	private $moduleId;
 	/** @var \OC\Files\View */
 	private $view;
-	/** @var \OC\DB\Connection */
+	/** @var \OCP\IDBConnection */
 	private $connection;
 	/** @var IConfig */
 	private $config;
@@ -44,10 +44,10 @@ class Migration {
 	/**
 	 * @param IConfig $config
 	 * @param View $view
-	 * @param Connection $connection
+	 * @param IDBConnection $connection
 	 * @param ILogger $logger
 	 */
-	public function __construct(IConfig $config, View $view, Connection $connection, ILogger $logger) {
+	public function __construct(IConfig $config, View $view, IDBConnection $connection, ILogger $logger) {
 		$this->view = $view;
 		$this->view->getUpdater()->disable();
 		$this->connection = $connection;
@@ -66,10 +66,10 @@ class Migration {
 	 * update file cache, copy unencrypted_size to the 'size' column
 	 */
 	private function updateFileCache() {
-		$query = $this->connection->createQueryBuilder();
-		$query->update('`*PREFIX*filecache`')
-			->set('`size`', '`unencrypted_size`')
-			->where($query->expr()->eq('`encrypted`', ':encrypted'))
+		$query = $this->connection->getQueryBuilder();
+		$query->update('*PREFIX*filecache')
+			->set('size', 'unencrypted_size')
+			->where($query->expr()->eq('encrypted', $query->createParameter('encrypted')))
 			->setParameter('encrypted', 1);
 		$query->execute();
 	}
@@ -149,10 +149,10 @@ class Migration {
 		$this->config->deleteAppValue('files_encryption', 'types');
 		$this->config->deleteAppValue('files_encryption', 'enabled');
 
-		$oldAppValues = $this->connection->createQueryBuilder();
+		$oldAppValues = $this->connection->getQueryBuilder();
 		$oldAppValues->select('*')
-			->from('`*PREFIX*appconfig`')
-			->where($oldAppValues->expr()->eq('`appid`', ':appid'))
+			->from('*PREFIX*appconfig')
+			->where($oldAppValues->expr()->eq('appid', $oldAppValues->createParameter('appid')))
 			->setParameter('appid', 'files_encryption');
 		$appSettings = $oldAppValues->execute();
 
@@ -164,10 +164,10 @@ class Migration {
 			}
 		}
 
-		$oldPreferences = $this->connection->createQueryBuilder();
+		$oldPreferences = $this->connection->getQueryBuilder();
 		$oldPreferences->select('*')
-			->from('`*PREFIX*preferences`')
-			->where($oldPreferences->expr()->eq('`appid`', ':appid'))
+			->from('*PREFIX*preferences')
+			->where($oldPreferences->expr()->eq('appid', $oldPreferences->createParameter('appid')))
 			->setParameter('appid', 'files_encryption');
 		$preferenceSettings = $oldPreferences->execute();
 
