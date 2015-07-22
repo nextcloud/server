@@ -85,6 +85,7 @@ abstract class Provider extends \Test\TestCase {
 	 * Launches all the tests we have
 	 *
 	 * @dataProvider dimensionsDataProvider
+	 * @requires extension imagick
 	 *
 	 * @param int $widthAdjustment
 	 * @param int $heightAdjustment
