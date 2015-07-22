@@ -114,12 +114,6 @@ class File extends Node implements IFile {
 			$partFilePath = $this->path;
 		}
 
-		try {
-			$this->fileView->lockFile($this->path, ILockingProvider::LOCK_SHARED);
-		} catch (LockedException $e) {
-			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
-		}
-
 		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
 		/** @var \OC\Files\Storage\Storage $partStorage */
 		list($partStorage, $internalPartPath) = $this->fileView->resolvePath($partFilePath);
@@ -176,7 +170,7 @@ class File extends Node implements IFile {
 			}
 
 			try {
-				$this->fileView->changeLock($this->path, ILockingProvider::LOCK_EXCLUSIVE);
+				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
 			} catch (LockedException $e) {
 				if ($needsPartFile) {
 					$partStorage->unlink($internalPartPath);
@@ -202,7 +196,7 @@ class File extends Node implements IFile {
 			}
 
 			try {
-				$this->fileView->changeLock($this->path, ILockingProvider::LOCK_SHARED);
+				$this->changeLock(ILockingProvider::LOCK_SHARED);
 			} catch (LockedException $e) {
 				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 			}
@@ -233,7 +227,6 @@ class File extends Node implements IFile {
 				}
 			}
 			$this->refreshInfo();
-			$this->fileView->unlockFile($this->path, ILockingProvider::LOCK_SHARED);
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage());
 		}

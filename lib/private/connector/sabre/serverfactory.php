@@ -70,6 +70,7 @@ class ServerFactory {
 		$server->addPlugin(new \OC\Connector\Sabre\FilesPlugin($objectTree));
 		$server->addPlugin(new \OC\Connector\Sabre\MaintenancePlugin($this->config));
 		$server->addPlugin(new \OC\Connector\Sabre\ExceptionLoggerPlugin('webdav', $this->logger));
+		$server->addPlugin(new \OC\Connector\Sabre\LockPlugin($objectTree));
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$server->on('beforeMethod', function () use ($server, $objectTree, $viewCallBack) {
