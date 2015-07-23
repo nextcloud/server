@@ -41,12 +41,49 @@ class Test_ActivityManager extends \Test\TestCase {
 			$this->config
 		);
 
+		$this->activityManager->registerConsumer(function() {
+			return new NoOpConsumer();
+		});
 		$this->activityManager->registerExtension(function() {
 			return new NoOpExtension();
 		});
 		$this->activityManager->registerExtension(function() {
 			return new SimpleExtension();
 		});
+	}
+
+	public function testGetConsumers() {
+		$consumers = $this->invokePrivate($this->activityManager, 'getConsumers');
+
+		$this->assertNotEmpty($consumers);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testGetConsumersInvalidConsumer() {
+		$this->activityManager->registerConsumer(function() {
+			return new StdClass();
+		});
+
+		$this->invokePrivate($this->activityManager, 'getConsumers');
+	}
+
+	public function testGetExtensions() {
+		$extensions = $this->invokePrivate($this->activityManager, 'getExtensions');
+
+		$this->assertNotEmpty($extensions);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testGetExtensionsInvalidExtension() {
+		$this->activityManager->registerExtension(function() {
+			return new StdClass();
+		});
+
+		$this->invokePrivate($this->activityManager, 'getExtensions');
 	}
 
 	public function testNotificationTypes() {
@@ -326,5 +363,11 @@ class NoOpExtension implements \OCP\Activity\IExtension {
 
 	public function getQueryForFilter($filter) {
 		return false;
+	}
+}
+
+class NoOpConsumer implements \OCP\Activity\IConsumer {
+
+	public function receive($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority) {
 	}
 }

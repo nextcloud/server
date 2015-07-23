@@ -56,14 +56,16 @@ class ActivityManager implements IManager {
 		$this->config = $config;
 	}
 
-	/**
-	 * @var \Closure[]
-	 */
+	/** @var \Closure[] */
+	private $consumersClosures = array();
+
+	/** @var IConsumer[] */
 	private $consumers = array();
 
-	/**
-	 * @var \Closure[]
-	 */
+	/** @var \Closure[] */
+	private $extensionsClosures = array();
+
+	/** @var IExtension[] */
 	private $extensions = array();
 
 	/** @var array list of filters "name" => "is valid" */
@@ -80,6 +82,48 @@ class ActivityManager implements IManager {
 	protected $specialParameters = array();
 
 	/**
+	 * @return \OCP\Activity\IConsumer[]
+	 */
+	protected function getConsumers() {
+		if (!empty($this->consumers)) {
+			return $this->consumers;
+		}
+
+		$this->consumers = [];
+		foreach($this->consumersClosures as $consumer) {
+			$c = $consumer();
+			if ($c instanceof IConsumer) {
+				$this->consumers[] = $c;
+			} else {
+				throw new \InvalidArgumentException('The given consumer does not implement the \OCP\Activity\IConsumer interface');
+			}
+		}
+
+		return $this->consumers;
+	}
+
+	/**
+	 * @return \OCP\Activity\IExtension[]
+	 */
+	protected function getExtensions() {
+		if (!empty($this->extensions)) {
+			return $this->extensions;
+		}
+
+		$this->extensions = [];
+		foreach($this->extensionsClosures as $extension) {
+			$e = $extension();
+			if ($e instanceof IExtension) {
+				$this->extensions[] = $e;
+			} else {
+				throw new \InvalidArgumentException('The given extension does not implement the \OCP\Activity\IExtension interface');
+			}
+		}
+
+		return $this->extensions;
+	}
+
+	/**
 	 * @param $app
 	 * @param $subject
 	 * @param $subjectParams
@@ -93,10 +137,8 @@ class ActivityManager implements IManager {
 	 * @return mixed
 	 */
 	function publishActivity($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority) {
-		foreach($this->consumers as $consumer) {
-			$c = $consumer();
-			if ($c instanceof IConsumer) {
-				try {
+		foreach($this->getConsumers() as $c) {
+			try {
 				$c->receive(
 					$app,
 					$subject,
@@ -108,11 +150,9 @@ class ActivityManager implements IManager {
 					$affectedUser,
 					$type,
 					$priority);
-				} catch (\Exception $ex) {
-					// TODO: log the exception
-				}
+			} catch (\Exception $ex) {
+				// TODO: log the exception
 			}
-
 		}
 	}
 
@@ -125,7 +165,8 @@ class ActivityManager implements IManager {
 	 * @param \Closure $callable
 	 */
 	function registerConsumer(\Closure $callable) {
-		array_push($this->consumers, $callable);
+		array_push($this->consumersClosures, $callable);
+		$this->consumers = [];
 	}
 
 	/**
@@ -138,7 +179,8 @@ class ActivityManager implements IManager {
 	 * @return void
 	 */
 	function registerExtension(\Closure $callable) {
-		array_push($this->extensions, $callable);
+		array_push($this->extensionsClosures, $callable);
+		$this->extensions = [];
 	}
 
 	/**
@@ -149,13 +191,10 @@ class ActivityManager implements IManager {
 	 */
 	function getNotificationTypes($languageCode) {
 		$notificationTypes = array();
-		foreach($this->extensions as $extension) {
-			$c = $extension();
-			if ($c instanceof IExtension) {
-				$result = $c->getNotificationTypes($languageCode);
-				if (is_array($result)) {
-					$notificationTypes = array_merge($notificationTypes, $result);
-				}
+		foreach ($this->getExtensions() as $c) {
+			$result = $c->getNotificationTypes($languageCode);
+			if (is_array($result)) {
+				$notificationTypes = array_merge($notificationTypes, $result);
 			}
 		}
 
@@ -168,13 +207,10 @@ class ActivityManager implements IManager {
 	 */
 	function getDefaultTypes($method) {
 		$defaultTypes = array();
-		foreach($this->extensions as $extension) {
-			$c = $extension();
-			if ($c instanceof IExtension) {
-				$types = $c->getDefaultTypes($method);
-				if (is_array($types)) {
-					$defaultTypes = array_merge($types, $defaultTypes);
-				}
+		foreach ($this->getExtensions() as $c) {
+			$types = $c->getDefaultTypes($method);
+			if (is_array($types)) {
+				$defaultTypes = array_merge($types, $defaultTypes);
 			}
 		}
 		return $defaultTypes;
@@ -189,14 +225,11 @@ class ActivityManager implements IManager {
 			return $this->typeIcons[$type];
 		}
 
-		foreach($this->extensions as $extension) {
-			$c = $extension();
-			if ($c instanceof IExtension) {
-				$icon = $c->getTypeIcon($type);
-				if (is_string($icon)) {
-					$this->typeIcons[$type] = $icon;
-					return $icon;
-				}
+		foreach ($this->getExtensions() as $c) {
+			$icon = $c->getTypeIcon($type);
+			if (is_string($icon)) {
+				$this->typeIcons[$type] = $icon;
+				return $icon;
 			}
 		}
 
@@ -214,13 +247,10 @@ class ActivityManager implements IManager {
 	 * @return string|false
 	 */
 	function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode) {
-		foreach($this->extensions as $extension) {
-			$c = $extension();
-			if ($c instanceof IExtension) {
-				$translation = $c->translate($app, $text, $params, $stripPath, $highlightParams, $languageCode);
-				if (is_string($translation)) {
-					return $translation;
-				}
+		foreach ($this->getExtensions() as $c) {
+			$translation = $c->translate($app, $text, $params, $stripPath, $highlightParams, $languageCode);
+			if (is_string($translation)) {
+				return $translation;
 			}
 		}
 
@@ -241,14 +271,11 @@ class ActivityManager implements IManager {
 			$this->specialParameters[$app] = array();
 		}
 
-		foreach($this->extensions as $extension) {
-			$c = $extension();
-			if ($c instanceof IExtension) {
-				$specialParameter = $c->getSpecialParameterList($app, $text);
-				if (is_array($specialParameter)) {
-					$this->specialParameters[$app][$text] = $specialParameter;
-					return $specialParameter;
-				}
+		foreach ($this->getExtensions() as $c) {
+			$specialParameter = $c->getSpecialParameterList($app, $text);
+			if (is_array($specialParameter)) {
+				$this->specialParameters[$app][$text] = $specialParameter;
+				return $specialParameter;
 			}
 		}
 
@@ -261,13 +288,10 @@ class ActivityManager implements IManager {
 	 * @return integer|false
 	 */
 	function getGroupParameter($activity) {
-		foreach($this->extensions as $extension) {
-			$c = $extension();
-			if ($c instanceof IExtension) {
-				$parameter = $c->getGroupParameter($activity);
-				if ($parameter !== false) {
-					return $parameter;
-				}
+		foreach ($this->getExtensions() as $c) {
+			$parameter = $c->getGroupParameter($activity);
+			if ($parameter !== false) {
+				return $parameter;
 			}
 		}
 
@@ -282,14 +306,11 @@ class ActivityManager implements IManager {
 			'apps' => array(),
 			'top' => array(),
 		);
-		foreach($this->extensions as $extension) {
-			$c = $extension();
-			if ($c instanceof IExtension) {
-				$additionalEntries = $c->getNavigation();
-				if (is_array($additionalEntries)) {
-					$entries['apps'] = array_merge($entries['apps'], $additionalEntries['apps']);
-					$entries['top'] = array_merge($entries['top'], $additionalEntries['top']);
-				}
+		foreach ($this->getExtensions() as $c) {
+			$additionalEntries = $c->getNavigation();
+			if (is_array($additionalEntries)) {
+				$entries['apps'] = array_merge($entries['apps'], $additionalEntries['apps']);
+				$entries['top'] = array_merge($entries['top'], $additionalEntries['top']);
 			}
 		}
 
@@ -305,13 +326,10 @@ class ActivityManager implements IManager {
 			return $this->validFilters[$filterValue];
 		}
 
-		foreach($this->extensions as $extension) {
-			$c = $extension();
-			if ($c instanceof IExtension) {
-				if ($c->isFilterValid($filterValue) === true) {
-					$this->validFilters[$filterValue] = true;
-					return true;
-				}
+		foreach ($this->getExtensions() as $c) {
+			if ($c->isFilterValid($filterValue) === true) {
+				$this->validFilters[$filterValue] = true;
+				return true;
 			}
 		}
 
@@ -329,13 +347,10 @@ class ActivityManager implements IManager {
 			return $types;
 		}
 
-		foreach($this->extensions as $extension) {
-			$c = $extension();
-			if ($c instanceof IExtension) {
-				$result = $c->filterNotificationTypes($types, $filter);
-				if (is_array($result)) {
-					$types = $result;
-				}
+		foreach ($this->getExtensions() as $c) {
+			$result = $c->filterNotificationTypes($types, $filter);
+			if (is_array($result)) {
+				$types = $result;
 			}
 		}
 		return $types;
@@ -353,16 +368,13 @@ class ActivityManager implements IManager {
 		$conditions = array();
 		$parameters = array();
 
-		foreach($this->extensions as $extension) {
-			$c = $extension();
-			if ($c instanceof IExtension) {
-				$result = $c->getQueryForFilter($filter);
-				if (is_array($result)) {
-					list($condition, $parameter) = $result;
-					if ($condition && is_array($parameter)) {
-						$conditions[] = $condition;
-						$parameters = array_merge($parameters, $parameter);
-					}
+		foreach ($this->getExtensions() as $c) {
+			$result = $c->getQueryForFilter($filter);
+			if (is_array($result)) {
+				list($condition, $parameter) = $result;
+				if ($condition && is_array($parameter)) {
+					$conditions[] = $condition;
+					$parameters = array_merge($parameters, $parameter);
 				}
 			}
 		}
