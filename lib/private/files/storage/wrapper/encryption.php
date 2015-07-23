@@ -521,7 +521,7 @@ class Encryption extends Wrapper {
 				if ($preserveMtime) {
 					$this->touch($targetInternalPath, $sourceStorage->filemtime($sourceInternalPath));
 				}
-				$isEncrypted = $this->mount->getOption('encrypt', true) ? 1 : 0;
+				$isEncrypted = $this->encryptionManager->isEnabled() && $this->mount->getOption('encrypt', true) ? 1 : 0;
 
 				// in case of a rename we need to manipulate the source cache because
 				// this information will be kept for the new target
