@@ -308,7 +308,7 @@ OC.Share={
 
 		return data;
 	},
-	share:function(itemType, itemSource, shareType, shareWith, permissions, itemSourceName, expirationDate, callback) {
+	share:function(itemType, itemSource, shareType, shareWith, permissions, itemSourceName, expirationDate, callback, errorCallback) {
 		// Add a fallback for old share() calls without expirationDate.
 		// We should remove this in a later version,
 		// after the Apps have been updated.
@@ -339,12 +339,15 @@ OC.Share={
 						callback(result.data);
 					}
 				} else {
-					if (result.data && result.data.message) {
-						var msg = result.data.message;
-					} else {
+					if (_.isUndefined(errorCallback)) {
 						var msg = t('core', 'Error');
+						if (result.data && result.data.message) {
+							msg = result.data.message;
+						}
+						OC.dialogs.alert(msg, t('core', 'Error while sharing'));
+					} else {
+						errorCallback(result);
 					}
-					OC.dialogs.alert(msg, t('core', 'Error while sharing'));
 				}
 			}
 		);
@@ -1178,6 +1181,10 @@ $(document).ready(function() {
 					OC.Share.updateIcon(itemType, itemSource);
 				}
 				$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
+			}, function(result) {
+				$loading.addClass('hidden');
+				linkPassText.val('');
+				linkPassText.attr('placeholder', result.data.message);
 			});
 
 			if (expireDateString !== '') {
