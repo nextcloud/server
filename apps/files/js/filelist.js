@@ -214,7 +214,7 @@
 			if (_.isUndefined(options.detailsViewEnabled) || options.detailsViewEnabled) {
 				this._detailsView = new OCA.Files.DetailsView();
 				this._detailsView.addDetailView(new OCA.Files.MainFileInfoDetailView());
-				this.$el.append(this._detailsView.$el);
+				this._detailsView.$el.insertAfter(this.$el);
 				this._detailsView.$el.addClass('disappear');
 			}
 
@@ -301,6 +301,7 @@
 
 			if (!fileInfo) {
 				this._detailsView.$el.addClass('disappear');
+				this.$el.removeClass('with-sidebar');
 				this._detailsView.setFileInfo(null);
 				return;
 			}
@@ -312,6 +313,7 @@
 			this._detailsView.$el.scrollTop(0);
 			_.defer(function() {
 				self._detailsView.$el.removeClass('disappear hidden');
+				self.$el.addClass('with-sidebar');
 			});
 		},
 

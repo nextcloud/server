@@ -1,14 +1,18 @@
 
 
 .app-files .detailsView.disappear {
-	margin-right: -359px;
+	visibility: hidden;
+}
+
+.with-sidebar {
+	width: 80%;
 }
 
 .app-files .detailsView {
-	position: fixed;
-	width: 350px;
+	position: absolute;
+	width: 20%;
 	top: 44px; /* main header's height */
-	right: 9px;
+	right: 0;
 	left: auto;
 	bottom: 0;
 	background-color: white;
@@ -18,6 +22,7 @@
 	transition: margin-right 300ms;
 	overflow-x: hidden;
 	overflow-y: auto;
+	visibility: visible;
 }
 
 .app-files .detailsView {

@@ -80,7 +80,9 @@
 			this._detailFileInfoViews = [];
 
 			this.$el.on('click', 'a.close', function(event) {
-				self.$el.addClass('disappear');
+				self.$el
+					.addClass('disappear')
+					.siblings('.with-sidebar').removeClass('with-sidebar');
 				event.preventDefault();
 			});
 
