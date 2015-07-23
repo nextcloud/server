@@ -96,8 +96,6 @@ OC.L10N.register(
     "Version" : "版本",
     "by" : "由",
     "Documentation:" : "文件:",
-    "User Documentation" : "用戶說明文件",
-    "Admin Documentation" : "管理者文件",
     "Cheers!" : "太棒了！",
     "Forum" : "論壇",
     "Get the apps to sync your files" : "下載應用程式來同步您的檔案",

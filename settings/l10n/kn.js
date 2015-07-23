@@ -97,8 +97,6 @@ OC.L10N.register(
     "Less" : "﻿ಕಡಿಮೆ",
     "Version" : "﻿ಆವೃತ್ತಿ",
     "Documentation:" : "﻿ದಾಖಲೆ:",
-    "User Documentation" : "ಬಳಕೆದಾರ ದಾಖಲೆಗಳು",
-    "Admin Documentation" : "﻿ನಿರ್ವಾಹಕರ ದಾಖಲೆಗಳು",
     "Enable only for specific groups" : "﻿ಕೇವಲ ನಿರ್ದಿಷ್ಟ ಗುಂಪುಗಳಿಗೆ ಸಕ್ರಿಯಗೊಳಿಸಿ",
     "Uninstall App" : "ಅಳಿಸಿ",
     "Cheers!" : "ಆನಂದಿಸಿ !",

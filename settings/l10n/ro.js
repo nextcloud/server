@@ -87,7 +87,6 @@ OC.L10N.register(
     "Less" : "Mai puțin",
     "Version" : "Versiunea",
     "by" : "după",
-    "User Documentation" : "Documentație utilizator",
     "Forum" : "Forum",
     "Get the apps to sync your files" : "Ia acum aplicatia pentru sincronizarea fisierelor ",
     "Desktop client" : "Client Desktop",

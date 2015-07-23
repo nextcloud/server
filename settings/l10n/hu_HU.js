@@ -116,8 +116,6 @@ OC.L10N.register(
     "Version" : "Verzió",
     "by" : "közreadta:",
     "Documentation:" : "Leírások:",
-    "User Documentation" : "Felhasználói leírás",
-    "Admin Documentation" : "Adminisztrátori leírás",
     "Enable only for specific groups" : "Csak bizonyos csoportok számára tegyük elérhetővé",
     "Uninstall App" : "Az alkalmazás eltávolítása",
     "Cheers!" : "Üdv.",

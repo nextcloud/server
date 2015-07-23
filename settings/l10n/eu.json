@@ -139,8 +139,6 @@
     "by" : " Egilea:",
     "licensed" : "lizentziatua",
     "Documentation:" : "Dokumentazioa:",
-    "User Documentation" : "Erabiltzaile dokumentazioa",
-    "Admin Documentation" : "Administrazio dokumentazioa",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Aplikazioa ezin da instalatu hurrengo menpekotasunak betetzen ez direlako:",
     "Enable only for specific groups" : "Baimendu bakarri talde espezifikoetarako",
     "Uninstall App" : "Desinstalatu aplikazioa",

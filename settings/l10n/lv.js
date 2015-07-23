@@ -104,7 +104,6 @@ OC.L10N.register(
     "Less" : "Mazāk",
     "Version" : "Versija",
     "by" : "līdz",
-    "User Documentation" : "Lietotāja dokumentācija",
     "Forum" : "Forums",
     "Get the apps to sync your files" : "Saņem lietotnes, lai sinhronizētu savas datnes",
     "Desktop client" : "Darbvirsmas klients",

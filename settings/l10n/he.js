@@ -46,7 +46,6 @@ OC.L10N.register(
     "Less" : "פחות",
     "Version" : "גרסא",
     "by" : "על ידי",
-    "User Documentation" : "תיעוד משתמש",
     "Forum" : "פורום",
     "Get the apps to sync your files" : "השג את האפליקציות על מנת לסנכרן את הקבצים שלך",
     "Show First Run Wizard again" : "הצגת אשף ההפעלה הראשונית שוב",

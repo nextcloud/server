@@ -158,8 +158,6 @@ OC.L10N.register(
     "by" : "от",
     "licensed" : "лицензирано",
     "Documentation:" : "Документация:",
-    "User Documentation" : "Потребителска Документация",
-    "Admin Documentation" : "Админ Документация",
     "Show description …" : "Покажи описание ...",
     "Hide description …" : "Скрии описание ...",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Това приложение не може да бъде инсталирано, защото следните зависимости не са удовлетворени:",

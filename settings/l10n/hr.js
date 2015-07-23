@@ -117,8 +117,6 @@ OC.L10N.register(
     "Version" : "Verzija",
     "by" : "od strane",
     "Documentation:" : "Dokumentacija:",
-    "User Documentation" : "Korisnička dokumentacija",
-    "Admin Documentation" : "Admin dokumentacija",
     "Enable only for specific groups" : "Omogućite samo za specifične grupe",
     "Uninstall App" : "Deinstalirajte app",
     "Cheers!" : "Cheers!",

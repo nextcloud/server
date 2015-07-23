@@ -105,8 +105,6 @@ OC.L10N.register(
     "Version" : "نسخه",
     "by" : "با",
     "Documentation:" : "مستند سازی:",
-    "User Documentation" : "مستندات کاربر",
-    "Admin Documentation" : "مستند سازی مدیر",
     "Enable only for specific groups" : "فعال سازی تنها برای گروه های خاص",
     "Uninstall App" : "حذف برنامه",
     "Cheers!" : "سلامتی!",

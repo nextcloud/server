@@ -28,7 +28,6 @@ OC.L10N.register(
     "Less" : "Minna",
     "Version" : "Útgáfa",
     "by" : "af",
-    "User Documentation" : "Notenda handbók",
     "Forum" : "Vefspjall",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Þú hefur notað <strong>%s</strong> af tiltæku <strong>%s</strong>",
     "Password" : "Lykilorð",

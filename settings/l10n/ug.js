@@ -37,7 +37,6 @@ OC.L10N.register(
     "Less" : "ئاز",
     "Version" : "نەشرى",
     "by" : "سەنئەتكار",
-    "User Documentation" : "ئىشلەتكۈچى قوللانمىسى",
     "Forum" : "مۇنبەر",
     "Password" : "ئىم",
     "Unable to change your password" : "ئىمنى ئۆزگەرتكىلى بولمايدۇ.",

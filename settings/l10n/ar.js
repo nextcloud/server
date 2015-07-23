@@ -79,7 +79,6 @@ OC.L10N.register(
     "Version" : "إصدار",
     "by" : "من قبل",
     "Documentation:" : "التوثيق",
-    "User Documentation" : "كتاب توثيق المستخدم",
     "Uninstall App" : "أزالة تطبيق",
     "Forum" : "منتدى",
     "Get the apps to sync your files" : "احصل على التطبيقات لمزامنة ملفاتك",

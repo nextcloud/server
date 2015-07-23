@@ -19,6 +19,7 @@
     "Remote share password" : "Heslo k vzdialenému úložisku",
     "Cancel" : "Zrušiť",
     "Add remote share" : "Pridať vzdialené úložisko",
+    "You can upload into this folder" : "Môžete nahrávať do tohto priečinka",
     "No ownCloud installation (7 or higher) found at {remote}" : "Nebola nájdená inštalácia ownCloudu (7 alebo vyššia) {remote}",
     "Invalid ownCloud url" : "Chybná ownCloud url",
     "Share" : "Zdieľať",
@@ -26,6 +27,7 @@
     "A file or folder has been <strong>shared</strong>" : "Súbor alebo priečinok bol <strong>zdieľaný</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Súbor alebo priečinok bol vyzdieľaný z <strong>iného servera</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Verejne zdieľaný súbor alebo priečinok bol <strong>stiahnutý</strong>",
+    "You received a new remote share %2$s from %1$s" : "Dostali ste nové vzdialené zdieľanie %2$s od používateľa %1$s",
     "You received a new remote share from %s" : "Dostali ste nové vzdialené zdieľanie z %s",
     "%1$s accepted remote share %2$s" : "%1$s povolil vzdialené zdieľanie %2$s",
     "%1$s declined remote share %2$s" : "%1$s odmietol vzdialené zdieľanie %2$s",
@@ -37,6 +39,8 @@
     "%2$s shared %1$s with you" : "%2$s vám zdieľal %1$s",
     "You shared %1$s via link" : "Zdieľate %1$s prostredníctvom odkazu",
     "Shares" : "Zdieľanie",
+    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Zdieľajte so mnou pomocou môjho #ownCloud Federated Cloud ID, viac n %s",
+    "Share with me through my #ownCloud Federated Cloud ID" : "Zdieľajte so mnou pomocou môjho #ownCloud Federated Cloud ID",
     "This share is password-protected" : "Toto zdieľanie je chránené heslom",
     "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
     "Password" : "Heslo",
@@ -54,9 +58,13 @@
     "Download %s" : "Stiahnuť %s",
     "Direct link" : "Priama linka",
     "Federated Cloud Sharing" : "Združené cloudové zdieľanie",
+    "Open documentation" : "Otvoriť dokumentáciu",
     "Allow users on this server to send shares to other servers" : "Povoliť používateľom z tohoto servera posielať zdieľania na iné servery",
     "Allow users on this server to receive shares from other servers" : "Povoliť používateľom z tohoto servera prijímať zdieľania z iných serverov",
     "Your Federated Cloud ID:" : "Vaše združené Cloud ID",
+    "Share it:" : "Zdieľať:",
+    "Add it to your website:" : "Pridať na svoju webstránku:",
+    "Share with me via ownCloud" : "Zdieľané so mnou cez ownCloud",
     "HTML Code:" : "HTML kód:"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

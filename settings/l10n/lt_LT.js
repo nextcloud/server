@@ -58,7 +58,6 @@ OC.L10N.register(
     "Less" : "Mažiau",
     "Version" : "Versija",
     "by" : " ",
-    "User Documentation" : "Naudotojo dokumentacija",
     "Cheers!" : "Sveikinimai!",
     "Forum" : "Forumas",
     "Get the apps to sync your files" : "Atsisiųskite programėlių, kad sinchronizuotumėte savo failus",

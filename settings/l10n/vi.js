@@ -45,7 +45,6 @@ OC.L10N.register(
     "Less" : "ít",
     "Version" : "Phiên bản",
     "by" : "bởi",
-    "User Documentation" : "Tài liệu người sử dụng",
     "Cheers!" : "Chúc mừng!",
     "Forum" : "Diễn đàn",
     "Get the apps to sync your files" : "Nhận ứng dụng để đồng bộ file của bạn",

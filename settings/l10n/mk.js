@@ -109,8 +109,6 @@ OC.L10N.register(
     "Version" : "Верзија",
     "by" : "од",
     "Documentation:" : "Документација:",
-    "User Documentation" : "Корисничка документација",
-    "Admin Documentation" : "Админстраторска документација",
     "Enable only for specific groups" : "Овозможи само на специфицирани групи",
     "Cheers!" : "Поздрав!",
     "Forum" : "Форум",

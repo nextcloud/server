@@ -61,8 +61,6 @@ OC.L10N.register(
     "Less" : "តិច",
     "Version" : "កំណែ",
     "by" : "ដោយ",
-    "User Documentation" : "ឯកសារ​សម្រាប់​អ្នក​ប្រើប្រាស់",
-    "Admin Documentation" : "កម្រង​ឯកសារ​អភិបាល",
     "Forum" : "វេទិកាពិភាក្សា",
     "Get the apps to sync your files" : "ដាក់​អោយកម្មវិធីផ្សេងៗ ​ធ្វើសមកាលកម្ម​ឯកសារ​អ្នក",
     "Show First Run Wizard again" : "បង្ហាញ First Run Wizard ម្តង​ទៀត",

@@ -157,8 +157,6 @@ OC.L10N.register(
     "by" : "onunla",
     "licensed" : "Lisenziyalaşdırılıb",
     "Documentation:" : "Sənədləşmə:",
-    "User Documentation" : "İstifadəçi sənədləri",
-    "Admin Documentation" : "İnzibatçı sənədləri",
     "Show description …" : "Açıqlanmanı göstər ...",
     "Hide description …" : "Açıqlamanı gizlət ...",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Bu proqram yüklənə bilməz ona görə ki, göstərilən asılılıqlar yerinə yetirilməyib:",

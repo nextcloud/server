@@ -73,7 +73,6 @@ OC.L10N.register(
     "Version" : "Versioni",
     "by" : "nga",
     "Documentation:" : "Dokumentacioni:",
-    "User Documentation" : "Dokumentacion përdoruesi",
     "Cheers!" : "Gjithë të mirat",
     "Forum" : "Forumi",
     "Get the apps to sync your files" : "Bëni që aplikacionet të sinkronizojnë skedarët tuaj",

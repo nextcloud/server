@@ -46,7 +46,6 @@ OC.L10N.register(
     "Less" : "უფრო ნაკლები",
     "Version" : "ვერსია",
     "by" : "მიერ",
-    "User Documentation" : "მომხმარებლის დოკუმენტაცია",
     "Forum" : "ფორუმი",
     "Get the apps to sync your files" : "აპლიკაცია ფაილების სინქრონიზაციისთვის",
     "Show First Run Wizard again" : "მაჩვენე თავიდან გაშვებული ვიზარდი",

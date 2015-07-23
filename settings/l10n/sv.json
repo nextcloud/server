@@ -138,8 +138,6 @@
     "by" : "av",
     "licensed" : "licensierad",
     "Documentation:" : "Dokumentation:",
-    "User Documentation" : "Användardokumentation",
-    "Admin Documentation" : "Administratörsdokumentation",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Denna applikation kan inte installeras då följande beroenden inte är uppfyllda: %s",
     "Enable only for specific groups" : "Aktivera endast för specifika grupper",
     "Uninstall App" : "Avinstallera applikation",

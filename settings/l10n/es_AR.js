@@ -91,8 +91,6 @@ OC.L10N.register(
     "Version" : "Versión",
     "by" : "por",
     "Documentation:" : "Documentación:",
-    "User Documentation" : "Documentación de Usuario",
-    "Admin Documentation" : "Documentación de Administrador.",
     "Cheers!" : "¡Saludos!",
     "Forum" : "Foro",
     "Get the apps to sync your files" : "Obtené Apps para sincronizar tus archivos",

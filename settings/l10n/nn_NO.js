@@ -52,7 +52,6 @@ OC.L10N.register(
     "Less" : "Mindre",
     "Version" : "Utgåve",
     "by" : "av",
-    "User Documentation" : "Brukardokumentasjon",
     "Forum" : "Forum",
     "Get the apps to sync your files" : "Få app-ar som kan synkronisera filene dine",
     "Show First Run Wizard again" : "Vis Oppstartvegvisaren igjen",

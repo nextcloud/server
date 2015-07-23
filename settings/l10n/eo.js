@@ -85,8 +85,6 @@ OC.L10N.register(
     "Version" : "Eldono",
     "by" : "de",
     "Documentation:" : "Dokumentaro:",
-    "User Documentation" : "Dokumentaro por uzantoj",
-    "Admin Documentation" : "Administra dokumentaro",
     "Enable only for specific groups" : "Kapabligi nur por specifajn grupojn",
     "Uninstall App" : "Malinstali aplikaĵon",
     "Forum" : "Forumo",
