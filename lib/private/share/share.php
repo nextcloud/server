@@ -737,6 +737,7 @@ class Share extends Constants {
 
 				// Generate hash of password - same method as user passwords
 				if (!empty($shareWith)) {
+					self::verifyPassword($shareWith);
 					$shareWith = \OC::$server->getHasher()->hash($shareWith);
 				} else {
 					// reuse the already set password, but only if we change permissions
@@ -1218,7 +1219,7 @@ class Share extends Constants {
 	}
 
 	/**
-	 * Set expiration date for a share
+	 * Set password for a public link share
 	 *
 	 * @param IUserSession $userSession
 	 * @param IDBConnection $connection
@@ -1251,6 +1252,8 @@ class Share extends Constants {
 		if (self::enforcePassword($config) && is_null($password)) {
 			throw new \Exception('Cannot remove password');
 		}
+
+		self::verifyPassword($password);
 
 		$qb = $connection->getQueryBuilder();
 		$qb->update('*PREFIX*share')
@@ -2603,5 +2606,24 @@ class Share extends Constants {
 		$query = 'SELECT * FROM `*PREFIX*share` WHERE `file_source` = ?';
 		$result = \OC::$server->getDatabaseConnection()->executeQuery($query, [$id]);
 		return $result->fetchAll();
+	}
+
+	/**
+	 * @param string $password
+	 * @throws \Exception
+	 */
+	private static function verifyPassword($password) {
+
+		$accepted = true;
+		$message = '';
+		\OCP\Util::emitHook('\OC\Share', 'verifyPassword', [
+			'password' => $password,
+			'accepted' => &$accepted,
+			'message' => &$message
+		]);
+
+		if (!$accepted) {
+			throw new \Exception($message);
+		}
 	}
 }

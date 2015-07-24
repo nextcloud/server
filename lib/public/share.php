@@ -344,7 +344,7 @@ class Share extends \OC\Share\Constants {
 	}
 
 	/**
-	 * Set expiration date for a share
+	 * Set password for a public link share
 	 * @param int $shareId
 	 * @param string $password
 	 * @return boolean
