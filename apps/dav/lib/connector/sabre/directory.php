@@ -85,6 +85,12 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 	 */
 	public function createFile($name, $data = null) {
 
+		# the check here is necessary, because createFile uses put covered in sabre/file.php 
+		# and not touch covered in files/view.php
+		if (\OC\Files\Filesystem::isForbiddenFileOrDir($name)) {
+			throw new \Sabre\DAV\Exception\Forbidden();
+		}
+
 		try {
 			# the check here is necessary, because createFile uses put covered in sabre/file.php 
 			# and not touch covered in files/view.php
@@ -138,6 +144,12 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
 	public function createDirectory($name) {
+
+		# the check here is necessary, because createDirectory does not use the methods in files/view.php
+		if (\OC\Files\Filesystem::isForbiddenFileOrDir($name)) {
+			throw new \Sabre\DAV\Exception\Forbidden();
+		}
+
 		try {
 			# the check here is necessary, because createDirectory does not use the methods in files/view.php
 			if (\OC\Files\Filesystem::isForbiddenFileOrDir($name)) {
