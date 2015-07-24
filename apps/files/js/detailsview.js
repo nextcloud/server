@@ -74,15 +74,13 @@
 		 */
 		initialize: function() {
 			var self = this;
-			this.$el = $('<div class="detailsView"></div>');
+			this.$el = $('<div id="app-sidebar"></div>');
 			this.fileInfo = null;
 			this._tabViews = [];
 			this._detailFileInfoViews = [];
 
 			this.$el.on('click', 'a.close', function(event) {
-				self.$el
-					.addClass('disappear')
-					.siblings('.with-sidebar').removeClass('with-sidebar');
+				OC.Apps.hideAppSidebar();
 				event.preventDefault();
 			});
 

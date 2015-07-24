@@ -21,6 +21,27 @@
 	};
 
 	/**
+	 * Shows the #app-sidebar and add .with-app-sidebar to subsequent siblings
+	 */
+	exports.Apps.showAppSidebar = function() {
+		var $appSidebar = $('#app-sidebar');
+		$appSidebar
+			.removeClass('disappear')
+			.find('~ .with-app-sidebar').removeClass('.with-app-sidebar');
+	};
+
+	/**
+	 * Shows the #app-sidebar and removes .with-app-sidebar from subsequent
+	 * siblings
+	 */
+	exports.Apps.hideAppSidebar = function() {
+		var $appSidebar = $('#app-sidebar');
+		$appSidebar
+			.addClass('disappear')
+			.find('~').addClass('.with-app-sidebar');
+	};
+
+	/**
 	 * Provides a way to slide down a target area through a button and slide it
 	 * up if the user clicks somewhere else. Used for the news app settings and
 	 * add new field.

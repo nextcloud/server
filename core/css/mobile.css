@@ -103,6 +103,14 @@
 	z-index: 1000;
 }
 
+#app-sidebar {
+	width: 250px;
+}
+
+#app-sidebar ~ .with-app-sidebar {
+	width: 100%;
+}
+
 /* allow horizontal scrollbar in settings
 	otherwise user management is not usable on mobile */
 #body-settings #app-content {

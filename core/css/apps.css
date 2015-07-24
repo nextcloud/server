@@ -417,7 +417,43 @@
 	min-height: 100%;
 }
 
+/* APP-SIDEBAR ----------------------------------------------------------------*/
 
+/*
+	Sidebar: a sidebar to be used within #app-content
+	 have it as first element within app-content in order to shrink other
+	 sibling containers properly. Compare Files app for example.
+*/
+#app-sidebar {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: auto;
+	bottom: 0;
+	width: 30%;
+	min-width: 300px;
+	display: block;
+	background: #eee;
+	-webkit-transition: margin-right 300ms;
+	-moz-transition: margin-right 300ms;
+	-o-transition: margin-right 300ms;
+	transition: margin-right 300ms;
+	overflow-x: hidden;
+	overflow-y: auto;
+	visibility: visible;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	box-shadow: 0 2px 3px rgba(50, 50, 50, .4);
+	z-index: 500;
+}
+
+#app-sidebar ~ .with-app-sidebar {
+	width: 70%;
+}
+
+#app-sidebar.disappear {
+	visibility: hidden;
+}
 
 /* APP-SETTINGS ---------------------------------------------------------------*/
 

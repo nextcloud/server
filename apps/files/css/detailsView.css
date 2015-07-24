@@ -1,53 +1,17 @@
-
-
-.app-files .detailsView.disappear {
-	visibility: hidden;
-}
-
-.with-sidebar {
-	width: 80%;
-}
-
-.app-files .detailsView {
-	position: absolute;
-	width: 20%;
-	top: 44px; /* main header's height */
-	right: 0;
-	left: auto;
-	bottom: 0;
-	background-color: white;
-	-webkit-transition: margin-right 300ms;
-	-moz-transition: margin-right 300ms;
-	-o-transition: margin-right 300ms;
-	transition: margin-right 300ms;
-	overflow-x: hidden;
-	overflow-y: auto;
-	visibility: visible;
-}
-
-.app-files .detailsView {
-	background: #eee;
-	border-top-left-radius: 3px;
-	border-bottom-left-radius: 3px;
-	box-shadow: 0 2px 3px rgba(50, 50, 50, .4);
-	display: block;
-	z-index: 500;
-}
-
-.app-files .detailsView .detailFileInfoContainer {
+#app-sidebar .detailFileInfoContainer {
 	min-height: 60px;
 	padding: 15px;
 }
 
-.app-files .detailsView .detailFileInfoContainer > div {
+#app-sidebar .detailFileInfoContainer > div {
 	clear: both;
 }
 
-.app-files .detailsView .mainFileInfoView {
+#app-sidebar .mainFileInfoView {
 	margin-right: 20px; /* accomodate for close icon */
 }
 
-.app-files .detailsView .thumbnail {
+#app-sidebar .thumbnail {
 	width: 50px;
 	height: 50px;
 	float: left;
@@ -55,23 +19,23 @@
 	background-size: 50px;
 }
 
-.app-files .detailsView .ellipsis {
+#app-sidebar .ellipsis {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
 
-.app-files .detailsView .fileName {
+#app-sidebar .fileName {
 	font-weight: bold;
 	font-size: 17px;
 	overflow: hidden;
 }
 
-.app-files .detailsView .detailList {
+#app-sidebar .detailList {
 	float: left;
 }
 
-.app-files .detailsView .close {
+#app-sidebar .close {
 	position: absolute;
 	top: 0;
 	right: 0;
