@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "APCu" : "APCu",
     "Redis" : "Redis",
     "Security & setup warnings" : "セキュリティ＆セットアップ警告",
     "Sharing" : "共有",
@@ -30,6 +31,7 @@ OC.L10N.register(
     "Unable to change password" : "パスワードを変更できません",
     "Enabled" : "有効",
     "Not enabled" : "無効",
+    "A problem occurred, please check your log files (Error: %s)" : "問題が発生しました。ログファイルを確認してください。(Error: %s)",
     "Migration Completed" : "移行が完了しました",
     "Group already exists." : "グループはすでに存在しています",
     "Unable to add group." : "グループを追加できません",
@@ -55,8 +57,12 @@ OC.L10N.register(
     "Migration started …" : "移行を開始しました…",
     "Sending..." : "送信中…",
     "Official" : "公式",
+    "Approved" : "承認済み",
     "Experimental" : "実験的",
     "All" : "すべて",
+    "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "公式アプリは ownCloud コミュニティにより開発されています。コミュニティは ownCloud の中心機能を提供し、製品としての使用の準備ができています。",
+    "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "承認されたアプリは信頼された開発者により開発され、大まかなセキュリティチェックに合格しています。アプリは積極的にオープンソースコードレポジトリでメンテナンスされ、メンテナは通常の用途では安定していると考えます。",
+    "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "このアプリはセキュリティチェックされていません、新規アプリか安定性が確認されていないアプリです。自己責任でインストールしてください。",
     "Update to %s" : "%sにアップデート",
     "Please wait...." : "しばらくお待ちください...",
     "Error while disabling app" : "アプリ無効化中にエラーが発生",
