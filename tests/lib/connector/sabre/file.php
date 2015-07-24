@@ -114,7 +114,7 @@ class File extends \Test\TestCase {
 		$view->expects($this->atLeastOnce())
 			->method('resolvePath')
 			->will($this->returnCallback(
-				function($path) use ($storage){
+				function ($path) use ($storage) {
 					return [$storage, $path];
 				}
 			));
@@ -172,7 +172,7 @@ class File extends \Test\TestCase {
 		$view->expects($this->atLeastOnce())
 			->method('resolvePath')
 			->will($this->returnCallback(
-				function($path) use ($storage){
+				function ($path) use ($storage) {
 					return [$storage, $path];
 				}
 			));
@@ -249,7 +249,15 @@ class File extends \Test\TestCase {
 
 		$file = new \OC\Connector\Sabre\File($view, $info);
 
-		return $file->put($this->getStream('test data'));
+		// beforeMethod locks
+		$view->lockFile($path, ILockingProvider::LOCK_SHARED);
+
+		$result = $file->put($this->getStream('test data'));
+
+		// afterMethod unlocks
+		$view->unlockFile($path, ILockingProvider::LOCK_SHARED);
+
+		return $result;
 	}
 
 	/**
@@ -431,7 +439,13 @@ class File extends \Test\TestCase {
 		// action
 		$thrown = false;
 		try {
+			// beforeMethod locks
+			$view->lockFile('/test.txt', ILockingProvider::LOCK_SHARED);
+
 			$file->put($this->getStream('test data'));
+
+			// afterMethod unlocks
+			$view->unlockFile('/test.txt', ILockingProvider::LOCK_SHARED);
 		} catch (\Sabre\DAV\Exception\BadRequest $e) {
 			$thrown = true;
 		}
@@ -458,7 +472,13 @@ class File extends \Test\TestCase {
 		// action
 		$thrown = false;
 		try {
+			// beforeMethod locks
+			$view->lockFile($info->getPath(), ILockingProvider::LOCK_SHARED);
+
 			$file->put($this->getStream('test data'));
+
+			// afterMethod unlocks
+			$view->unlockFile($info->getPath(), ILockingProvider::LOCK_SHARED);
 		} catch (\OC\Connector\Sabre\Exception\FileLocked $e) {
 			$thrown = true;
 		}
@@ -519,7 +539,13 @@ class File extends \Test\TestCase {
 		// action
 		$thrown = false;
 		try {
+			// beforeMethod locks
+			$view->lockFile($info->getPath(), ILockingProvider::LOCK_SHARED);
+
 			$file->put($this->getStream('test data'));
+
+			// afterMethod unlocks
+			$view->unlockFile($info->getPath(), ILockingProvider::LOCK_SHARED);
 		} catch (\OC\Connector\Sabre\Exception\InvalidPath $e) {
 			$thrown = true;
 		}
@@ -577,7 +603,13 @@ class File extends \Test\TestCase {
 		// action
 		$thrown = false;
 		try {
+			// beforeMethod locks
+			$view->lockFile($info->getPath(), ILockingProvider::LOCK_SHARED);
+
 			$file->put($this->getStream('test data'));
+
+			// afterMethod unlocks
+			$view->unlockFile($info->getPath(), ILockingProvider::LOCK_SHARED);
 		} catch (\Sabre\DAV\Exception\BadRequest $e) {
 			$thrown = true;
 		}
@@ -702,7 +734,7 @@ class File extends \Test\TestCase {
 		$eventHandler->expects($this->once())
 			->method('writeCallback')
 			->will($this->returnCallback(
-				function() use ($view, $path, &$wasLockedPre){
+				function () use ($view, $path, &$wasLockedPre) {
 					$wasLockedPre = $this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_SHARED);
 					$wasLockedPre = $wasLockedPre && !$this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE);
 				}
@@ -710,7 +742,7 @@ class File extends \Test\TestCase {
 		$eventHandler->expects($this->once())
 			->method('postWriteCallback')
 			->will($this->returnCallback(
-				function() use ($view, $path, &$wasLockedPost){
+				function () use ($view, $path, &$wasLockedPost) {
 					$wasLockedPost = $this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_SHARED);
 					$wasLockedPost = $wasLockedPost && !$this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE);
 				}
@@ -729,7 +761,13 @@ class File extends \Test\TestCase {
 			'postWriteCallback'
 		);
 
+		// beforeMethod locks
+		$view->lockFile($path, ILockingProvider::LOCK_SHARED);
+
 		$this->assertNotEmpty($file->put($this->getStream('test data')));
+
+		// afterMethod unlocks
+		$view->unlockFile($path, ILockingProvider::LOCK_SHARED);
 
 		$this->assertTrue($wasLockedPre, 'File was locked during pre-hooks');
 		$this->assertTrue($wasLockedPost, 'File was locked during post-hooks');
