@@ -148,7 +148,7 @@ class SimpleContainer extends Container implements IContainer {
 	public function registerAlias($alias, $target) {
 		$this->registerService($alias, function (IContainer $container) use ($target) {
 			return $container->query($target);
-		});
+		}, false);
 	}
 
 }
