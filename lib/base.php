@@ -392,7 +392,6 @@ class OC {
 		}
 
 		OC_Util::addScript("placeholders");
-		//OC_Util::addScript("tooltip");
 		OC_Util::addScript("compatibility");
 		OC_Util::addScript("jquery.ocdialog");
 		OC_Util::addScript("oc-dialogs");
@@ -402,7 +401,6 @@ class OC {
 		OC_Util::addScript("octemplate");
 		OC_Util::addScript("eventsource");
 		OC_Util::addScript("config");
-		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search', 'search');
 		OC_Util::addScript("oc-requesttoken");
 		OC_Util::addScript("apps");
