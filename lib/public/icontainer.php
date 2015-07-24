@@ -30,6 +30,9 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
+use Closure;
+
+
 /**
  * Class IContainer
  *
@@ -72,5 +75,15 @@ interface IContainer {
 	 * @return void
 	 * @since 6.0.0
 	 */
-	public function registerService($name, \Closure $closure, $shared = true);
+	public function registerService($name, Closure $closure, $shared = true);
+
+	/**
+	 * Shortcut for returning a service from a service under a different key,
+	 * e.g. to tell the container to return a class when queried for an
+	 * interface
+	 * @param string $alias the alias that should be registered
+	 * @param string $target the target that should be resolved instead
+	 * @since 8.2.0
+	 */
+	public function registerAlias($alias, $target);
 }
