@@ -61,6 +61,15 @@ if (!\OC\Files\Filesystem::file_exists($dir . '/')) {
 	exit();
 }
 
+if (\OC\Files\Filesystem::isForbiddenFileOrDir($fileName)) {
+	$result['data'] = array('message' => $l10n->t(
+			'The name %s has been excluded by the admin for files and directories. Please choose a different name.',
+			$fileName)
+		);
+	OCP\JSON::error($result);
+	exit();
+}
+
 $target = $dir.'/'.$fileName;
 
 if (\OC\Files\Filesystem::file_exists($target)) {

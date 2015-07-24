@@ -204,7 +204,7 @@ abstract class Common implements Storage {
 			$dir = $this->opendir($path1);
 			$this->mkdir($path2);
 			while ($file = readdir($dir)) {
-				if (!Filesystem::isIgnoredDir($file)) {
+				if (!Filesystem::isIgnoredDir($file) && !Filesystem::isForbiddenFileOrDir($file)) {
 					if (!$this->copy($path1 . '/' . $file, $path2 . '/' . $file)) {
 						return false;
 					}
@@ -546,7 +546,7 @@ abstract class Common implements Storage {
 			$result = $this->mkdir($targetInternalPath);
 			if (is_resource($dh)) {
 				while ($result and ($file = readdir($dh)) !== false) {
-					if (!Filesystem::isIgnoredDir($file)) {
+					if (!Filesystem::isIgnoredDir($file) && !Filesystem::isForbiddenFileOrDir($file)) {
 						$result &= $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file);
 					}
 				}

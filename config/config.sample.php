@@ -1015,6 +1015,20 @@ $CONFIG = array(
 'blacklisted_files' => array('.htaccess'),
 
 /**
+ * Exclude specific directory names and disallow scanning, creating and renaming
+ * using these names. Case insensitive.
+ * Excluded directory names are queried at any path part like at the beginning, 
+ * in the middle or at the end and will not be further processed if found.
+ * Please see the documentation for details and examples.
+ * Use when the storage backend supports eg snapshot directories to be excluded.
+ * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
+ */
+'excluded_directories' =>
+	array (
+		'.snapshot',
+		'~snapshot',
+	),
+/**
  * Define a default folder for shared files and folders other than root.
  */
 'share_folder' => '/',

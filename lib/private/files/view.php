@@ -541,7 +541,7 @@ class View {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 			if (Filesystem::isValidPath($path)
-				and !Filesystem::isFileBlacklisted($path)
+				and !Filesystem::isForbiddenFileOrDir($path)
 			) {
 				$path = $this->getRelativePath($absolutePath);
 
@@ -630,7 +630,7 @@ class View {
 		if (
 			Filesystem::isValidPath($path2)
 			and Filesystem::isValidPath($path1)
-			and !Filesystem::isFileBlacklisted($path2)
+			and !Filesystem::isForbiddenFileOrDir($path2)
 		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
@@ -754,7 +754,7 @@ class View {
 		if (
 			Filesystem::isValidPath($path2)
 			and Filesystem::isValidPath($path1)
-			and !Filesystem::isFileBlacklisted($path2)
+			and !Filesystem::isForbiddenFileOrDir($path2)
 		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
@@ -1002,7 +1002,7 @@ class View {
 		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)
-			and !Filesystem::isFileBlacklisted($path)
+			and !Filesystem::isForbiddenFileOrDir($path)
 		) {
 			$path = $this->getRelativePath($absolutePath);
 			if ($path == null) {

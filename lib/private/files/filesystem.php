@@ -583,29 +583,26 @@ class Filesystem {
 	 *
 	 * @param array $data from hook
 	 */
-	static public function isBlacklisted($data) {
+	static public function isForbiddenFileOrDir_Hook($data) {
 		if (isset($data['path'])) {
 			$path = $data['path'];
 		} else if (isset($data['newpath'])) {
 			$path = $data['newpath'];
 		}
 		if (isset($path)) {
-			if (self::isFileBlacklisted($path)) {
+			if (self::isForbiddenFileOrDir($path)) {
 				$data['run'] = false;
 			}
 		}
 	}
 
 	/**
+	 * depriciated, replaced by isForbiddenFileOrDir
 	 * @param string $filename
-	 * @return bool
+	 * @return boolean
 	 */
 	static public function isFileBlacklisted($filename) {
-		$filename = self::normalizePath($filename);
-
-		$blacklist = \OC_Config::getValue('blacklisted_files', array('.htaccess'));
-		$filename = strtolower(basename($filename));
-		return in_array($filename, $blacklist);
+		return self::isForbiddenFileOrDir($filename);
 	}
 
 	/**
@@ -617,6 +614,54 @@ class Filesystem {
 	 */
 	static public function isIgnoredDir($dir) {
 		if ($dir === '.' || $dir === '..') {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	* Check if the directory path / file name contains a Blacklisted or Excluded name
+	* config.php parameter arrays can contain file names to be blacklisted or directory names to be excluded
+	* Blacklist ... files that may harm the owncloud environment like a foreign .htaccess file
+	* Excluded  ... directories that are excluded from beeing further processed, like snapshot directories
+	* The parameter $ed is only used in conjunction with unit tests as we handover here the excluded
+	* directory name to be tested against. $ed and the query with can be redesigned if filesystem.php will get 
+	* a constructor where it is then possible to define the excluded directory names for unit tests.
+	* @param string $FileOrDir
+	* @param array $ed
+	* @return boolean
+	*/
+	static public function isForbiddenFileOrDir($FileOrDir, $ed = array()) {
+		$excluded = array();
+		$blacklist = array();
+		$path_parts = array();
+		$ppx = array();
+		$blacklist = \OC::$server->getSystemConfig()->getValue('blacklisted_files', array('.htaccess'));
+		if ($ed) {
+			$excluded = $ed;
+		} else {
+			$excluded = \OC::$server->getSystemConfig()->getValue('excluded_directories', $ed);
+		}
+		// explode '/'
+		$ppx = array_filter(explode('/', $FileOrDir), 'strlen');
+		$ppx = array_map('strtolower', $ppx);
+		// further explode each array element with '\' and add to result array if found  
+		foreach($ppx as $pp) {
+			// only add an array element if strlen != 0
+			$path_parts = array_merge($path_parts, array_filter(explode('\\', $pp), 'strlen'));
+		}
+		if ($excluded) {
+			$excluded = array_map('trim', $excluded);
+			$excluded = array_map('strtolower', $excluded);
+			$match = array_intersect($path_parts, $excluded);
+			if ($match) {
+				return true;
+			}
+		}
+		$blacklist = array_map('trim', $blacklist);
+		$blacklist = array_map('strtolower', $blacklist);
+		$match = array_intersect($path_parts, $blacklist);
+		if ($match) {
 			return true;
 		}
 		return false;

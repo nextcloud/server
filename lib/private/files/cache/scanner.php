@@ -301,7 +301,7 @@ class Scanner extends BasicEmitter {
 		if ($dh = $this->storage->opendir($folder)) {
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
-					if (!Filesystem::isIgnoredDir($file)) {
+					if (!Filesystem::isIgnoredDir($file) && !Filesystem::isForbiddenFileOrDir($file)) {
 						$children[] = $file;
 					}
 				}

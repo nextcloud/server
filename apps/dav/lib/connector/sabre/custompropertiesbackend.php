@@ -104,6 +104,9 @@ class CustomPropertiesBackend implements BackendInterface {
 		} catch (ServiceUnavailable $e) {
 			// might happen for unavailable mount points, skip
 			return;
+		} catch (Forbidden $e) {
+			// might happen for excluded mount points, skip
+			return;
 		} catch (NotFound $e) {
 			// in some rare (buggy) cases the node might not be found,
 			// we catch the exception to prevent breaking the whole list with a 404

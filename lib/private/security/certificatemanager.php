@@ -124,7 +124,7 @@ class CertificateManager implements ICertificateManager {
 	 * @throws \Exception If the certificate could not get added
 	 */
 	public function addCertificate($certificate, $name) {
-		if (!Filesystem::isValidPath($name) or Filesystem::isFileBlacklisted($name)) {
+		if (!Filesystem::isValidPath($name) or Filesystem::isForbiddenFileOrDir($name)) {
 			throw new \Exception('Filename is not valid');
 		}
 

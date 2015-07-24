@@ -239,6 +239,10 @@ abstract class Node implements \Sabre\DAV\INode {
 	}
 
 	protected function verifyPath() {
+		if (\OC\Files\Filesystem::isForbiddenFileOrDir($this->info->getPath())) {
+			throw new \Sabre\DAV\Exception\Forbidden();
+		}
+
 		try {
 			$fileName = basename($this->info->getPath());
 			$this->fileView->verifyPath($this->path, $fileName);

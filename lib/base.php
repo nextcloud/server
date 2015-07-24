@@ -752,8 +752,8 @@ class OC {
 	 */
 	public static function registerFilesystemHooks() {
 		// Check for blacklisted files
-		OC_Hook::connect('OC_Filesystem', 'write', 'OC\Files\Filesystem', 'isBlacklisted');
-		OC_Hook::connect('OC_Filesystem', 'rename', 'OC\Files\Filesystem', 'isBlacklisted');
+		OC_Hook::connect('OC_Filesystem', 'write', 'OC\Files\Filesystem', 'isForbiddenFileOrDir_Hook');
+		OC_Hook::connect('OC_Filesystem', 'rename', 'OC\Files\Filesystem', 'isForbiddenFileOrDir_Hook');
 	}
 
 	/**

@@ -331,7 +331,7 @@ class OC_Helper {
 					self::copyr("$src/$file", "$dest/$file");
 				}
 			}
-		} elseif (file_exists($src) && !\OC\Files\Filesystem::isFileBlacklisted($src)) {
+		} elseif (file_exists($src) && !\OC\Files\Filesystem::isForbiddenFileOrDir($src)) {
 			copy($src, $dest);
 		}
 	}

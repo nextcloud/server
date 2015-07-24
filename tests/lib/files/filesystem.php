@@ -225,7 +225,7 @@ class Filesystem extends \Test\TestCase {
 			array('.htaccess\\', true),
 			array('/etc/foo\bar/.htaccess\\', true),
 			array('/etc/foo\bar/.htaccess/', true),
-			array('/etc/foo\bar/.htaccess/foo', false),
+			array('/etc/foo\bar/.htaccess/foo', true),
 			array('//foo//bar/\.htaccess/', true),
 			array('\foo\bar\.HTAccess', true),
 		);
@@ -235,7 +235,30 @@ class Filesystem extends \Test\TestCase {
 	 * @dataProvider isFileBlacklistedData
 	 */
 	public function testIsFileBlacklisted($path, $expected) {
-		$this->assertSame($expected, \OC\Files\Filesystem::isFileBlacklisted($path));
+		$this->assertSame($expected, \OC\Files\Filesystem::isForbiddenFileOrDir($path));
+	}
+
+	public function isExcludedData() {
+		return array(
+			array('.snapshot', true),
+			array('.snapshot/', true),
+			array('.snapshot\\', true),
+			array('/etc/foo/bar/foo.txt', false),
+			array('/.snapshot/etc/foo/bar/foo.txt', true),
+			array('/.snapShot/etc/foo/bar/foo.txt', true),
+			array('\.snapshot\etc\foo/bar\foo.txt', true),
+			array('/etc/foo/.snapshot', true),
+			array('/etc/foo/.snapshot/bar', true),
+		);
+	}
+
+	/**
+	 * The parameter array can be redesigned if filesystem.php will get a constructor where it is possible to 
+	 * define the excluded directories for unit tests
+	 * @dataProvider isExcludedData
+	 */
+	public function testIsExcluded($path, $expected) {
+		$this->assertSame($expected, \OC\Files\Filesystem::isForbiddenFileOrDir($path, array('.snapshot')));
 	}
 
 	public function normalizePathWindowsAbsolutePathData() {

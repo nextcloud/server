@@ -53,6 +53,15 @@ try {
 	return;
 }
 
+if (\OC\Files\Filesystem::isForbiddenFileOrDir($folderName)) {
+	$result['data'] = array('message' => $l10n->t(
+			'The name %s has been excluded by the admin for files and directories. Please choose a different name.',
+			$folderName)
+		);
+	OCP\JSON::error($result);
+	exit();
+}
+
 if (!\OC\Files\Filesystem::file_exists($dir . '/')) {
 	$result['data'] = array('message' => (string)$l10n->t(
 			'The target folder has been moved or deleted.'),
