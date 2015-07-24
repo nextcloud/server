@@ -153,7 +153,6 @@ class SimpleContainerTest extends \Test\TestCase {
         $this->assertEquals('abc', $object->test);
     }
 
-
     /**
      * @expectedException \OCP\AppFramework\QueryException
      */
@@ -163,5 +162,12 @@ class SimpleContainerTest extends \Test\TestCase {
         );
     }
 
+    public function testRegisterFactory() {
+        $this->container->registerService('test', function() {
+            return new \StdClass();
+        }, false);
+        $this->assertNotSame(
+            $this->container->query('test'), $this->container->query('test'));
+    }
 
 }

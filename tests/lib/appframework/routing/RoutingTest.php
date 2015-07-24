@@ -120,7 +120,8 @@ class RoutingTest extends \Test\TestCase
 		}
 
 		// route mocks
-		$route = $this->mockRoute($verb, $controllerName, $actionName, $requirements, $defaults);
+		$container = new DIContainer('app1');
+		$route = $this->mockRoute($container, $verb, $controllerName, $actionName, $requirements, $defaults);
 
 		// router mock
 		$router = $this->getMock("\OC\Route\Router", array('create'));
@@ -133,7 +134,6 @@ class RoutingTest extends \Test\TestCase
 			->will($this->returnValue($route));
 
 		// load route configuration
-		$container = new DIContainer('app1');
 		$config = new RouteConfig($container, $router, $routes);
 
 		$config->register();
@@ -151,11 +151,12 @@ class RoutingTest extends \Test\TestCase
 		$router = $this->getMock("\OC\Route\Router", array('create'));
 
 		// route mocks
-		$indexRoute = $this->mockRoute('GET', $controllerName, 'index');
-		$showRoute = $this->mockRoute('GET', $controllerName, 'show');
-		$createRoute = $this->mockRoute('POST', $controllerName, 'create');
-		$updateRoute = $this->mockRoute('PUT', $controllerName, 'update');
-		$destroyRoute = $this->mockRoute('DELETE', $controllerName, 'destroy');
+		$container = new DIContainer('app1');
+		$indexRoute = $this->mockRoute($container, 'GET', $controllerName, 'index');
+		$showRoute = $this->mockRoute($container, 'GET', $controllerName, 'show');
+		$createRoute = $this->mockRoute($container, 'POST', $controllerName, 'create');
+		$updateRoute = $this->mockRoute($container, 'PUT', $controllerName, 'update');
+		$destroyRoute = $this->mockRoute($container, 'DELETE', $controllerName, 'destroy');
 
 		$urlWithParam = $url . '/{' . $paramName . '}';
 
@@ -191,21 +192,28 @@ class RoutingTest extends \Test\TestCase
 			->will($this->returnValue($destroyRoute));
 
 		// load route configuration
-		$container = new DIContainer('app1');
 		$config = new RouteConfig($container, $router, $yaml);
 
 		$config->register();
 	}
 
 	/**
+	 * @param DIContainer $container
 	 * @param string $verb
 	 * @param string $controllerName
 	 * @param string $actionName
+	 * @param array $requirements
+	 * @param array $defaults
 	 * @return \PHPUnit_Framework_MockObject_MockObject
 	 */
-	private function mockRoute($verb, $controllerName, $actionName, array $requirements=array(), array $defaults=array())
-	{
-		$container = new DIContainer('app1');
+	private function mockRoute(
+		DIContainer $container,
+		$verb,
+		$controllerName,
+		$actionName,
+		array $requirements=array(),
+		array $defaults=array()
+	) {
 		$route = $this->getMock("\OC\Route\Route", array('method', 'action', 'requirements', 'defaults'), array(), '', false);
 		$route
 			->expects($this->exactly(1))
