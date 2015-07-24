@@ -37,6 +37,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	 * @param string $webRoot
 	 */
 	function __construct($webRoot) {
+		parent::__construct();
 		$this->webRoot = $webRoot;
 
 		$this->registerService('ContactsManager', function ($c) {
