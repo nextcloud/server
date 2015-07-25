@@ -49,7 +49,7 @@
     "Invalid user" : "Pengguna salah",
     "Unable to change mail address" : "Tidak dapat mengubah alamat email",
     "Email saved" : "Email disimpan",
-    "Are you really sure you want add \"{domain}\" as trusted domain?" : "Apakah And yakin ingin menambahkan \"{domain}\" sebagai domain terpercaya?",
+    "Are you really sure you want add \"{domain}\" as trusted domain?" : "Apakah Anda yakin ingin menambahkan \"{domain}\" sebagai domain terpercaya?",
     "Add trusted domain" : "Tambah domain terpercaya",
     "Migration in progress. Please wait until the migration is finished" : "Migrasi sedang dalam proses. Mohon tunggu sampai migrasi selesai.",
     "Migration started …" : "Migrasi dimulai ...",
@@ -101,10 +101,10 @@
     "Sync clients" : "Klien sync",
     "Personal info" : "Info pribadi",
     "SSL root certificates" : "Sertifikat root SSL",
-    "Everything (fatal issues, errors, warnings, info, debug)" : "Semuanya (Masalah fatal, galat, peringatan, info, debug)",
-    "Info, warnings, errors and fatal issues" : "Info, peringatan, galat dan masalah fatal",
-    "Warnings, errors and fatal issues" : "Peringatan, galat dan masalah fatal",
-    "Errors and fatal issues" : "Galat dan masalah fatal",
+    "Everything (fatal issues, errors, warnings, info, debug)" : "Semuanya (Masalah fatal, kesalahan, peringatan, info, debug)",
+    "Info, warnings, errors and fatal issues" : "Info, peringatan, kesalahan dan masalah fatal",
+    "Warnings, errors and fatal issues" : "Peringatan, kesalahan dan masalah fatal",
+    "Errors and fatal issues" : "Kesalahan dan masalah fatal",
     "Fatal issues only" : "Hanya masalah fatal",
     "None" : "Tidak ada",
     "Login" : "Masuk",
@@ -163,7 +163,7 @@
     "Authentication method" : "Metode otentikasi",
     "Authentication required" : "Diperlukan otentikasi",
     "Server address" : "Alamat server",
-    "Port" : "port",
+    "Port" : "Port",
     "Credentials" : "Kredensial",
     "SMTP Username" : "Nama pengguna SMTP",
     "SMTP Password" : "Sandi SMTP",
@@ -194,6 +194,7 @@
     "licensed" : "dilisensikan",
     "Documentation:" : "Dokumentasi:",
     "User documentation" : "Dokumentasi pengguna.",
+    "Admin documentation" : "Dokumentasi admin",
     "Show description …" : "Tampilkan deskripsi ...",
     "Hide description …" : "Sembunyikan deskripsi ...",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Apl ini tidak dapat diinstal karena ketergantungan berikut belum terpenuhi:",
@@ -272,6 +273,6 @@
     "change full name" : "ubah nama lengkap",
     "set new password" : "setel sandi baru",
     "change email address" : "ubah alamat email",
-    "Default" : "Baku"
+    "Default" : "Default"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
