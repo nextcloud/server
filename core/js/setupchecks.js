@@ -77,6 +77,11 @@
 							t('core', 'Your PHP version ({version}) is no longer <a href="{phpLink}">supported by PHP</a>. We encourage you to upgrade your PHP version to take advantage of performance and security updates provided by PHP.', {version: data.phpSupported.version, phpLink: 'https://secure.php.net/supported-versions.php'})
 						);
 					}
+					if(!data.forwardedForHeadersWorking) {
+						messages.push(
+							t('core', 'The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a href="{docLink}">documentation</a>.', {docLink: data.reverseProxyDocs})
+						);
+					}
 				} else {
 					messages.push(t('core', 'Error occurred while checking server setup'));
 				}

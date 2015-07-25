@@ -66,7 +66,12 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json'
 				},
-				JSON.stringify({isUrandomAvailable: true, serverHasInternetConnection: false, memcacheDocs: 'https://doc.owncloud.org/server/go.php?to=admin-performance'})
+				JSON.stringify({
+					isUrandomAvailable: true,
+					serverHasInternetConnection: false,
+					memcacheDocs: 'https://doc.owncloud.org/server/go.php?to=admin-performance',
+					forwardedForHeadersWorking: true
+				})
 			);
 
 			async.done(function( data, s, x ){
@@ -83,7 +88,13 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json'
 				},
-				JSON.stringify({isUrandomAvailable: true, serverHasInternetConnection: false, dataDirectoryProtected: false, memcacheDocs: 'https://doc.owncloud.org/server/go.php?to=admin-performance'})
+				JSON.stringify({
+					isUrandomAvailable: true,
+					serverHasInternetConnection: false,
+					dataDirectoryProtected: false,
+					memcacheDocs: 'https://doc.owncloud.org/server/go.php?to=admin-performance',
+					forwardedForHeadersWorking: true
+				})
 			);
 
 			async.done(function( data, s, x ){
@@ -100,7 +111,13 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json',
 				},
-				JSON.stringify({isUrandomAvailable: true, serverHasInternetConnection: false, dataDirectoryProtected: false, isMemcacheConfigured: true})
+				JSON.stringify({
+					isUrandomAvailable: true,
+					serverHasInternetConnection: false,
+					dataDirectoryProtected: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true
+				})
 			);
 
 			async.done(function( data, s, x ){
@@ -117,11 +134,42 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json',
 				},
-				JSON.stringify({isUrandomAvailable: false, securityDocs: 'https://docs.owncloud.org/myDocs.html', serverHasInternetConnection: true, dataDirectoryProtected: true, isMemcacheConfigured: true})
+				JSON.stringify({
+					isUrandomAvailable: false,
+					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					serverHasInternetConnection: true,
+					dataDirectoryProtected: true,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true
+				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual(['/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href="https://docs.owncloud.org/myDocs.html">documentation</a>.']);
+				done();
+			});
+		});
+
+		it('should return an error if the forwarded for headers are not working', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					isUrandomAvailable: true,
+					serverHasInternetConnection: true,
+					dataDirectoryProtected: true,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: false,
+					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html'
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual(['The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a href="https://docs.owncloud.org/foo/bar.html">documentation</a>.']);
 				done();
 			});
 		});
@@ -151,7 +199,15 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json',
 				},
-				JSON.stringify({isUrandomAvailable: true, securityDocs: 'https://docs.owncloud.org/myDocs.html', serverHasInternetConnection: true, dataDirectoryProtected: true, isMemcacheConfigured: true, phpSupported: {eol: true, version: '5.4.0'}})
+				JSON.stringify({
+					isUrandomAvailable: true,
+					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					serverHasInternetConnection: true,
+					dataDirectoryProtected: true,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					phpSupported: {eol: true, version: '5.4.0'}
+				})
 			);
 
 			async.done(function( data, s, x ){
