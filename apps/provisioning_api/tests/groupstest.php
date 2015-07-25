@@ -25,17 +25,25 @@
 namespace OCA\Provisioning_API\Tests;
 
 class GroupsTest extends TestCase {
+	
+	protected function setup() {
+		parent::setup();
+
+		$this->userManager = \OC::$server->getUserManager();
+		$this->groupManager = \OC::$server->getGroupManager();
+		$this->api = new \OCA\Provisioning_API\Groups($this->groupManager);
+	}
+
 	public function testGetGroupAsUser() {
 
 		$users = $this->generateUsers(2);
 		self::loginAsUser($users[0]);
 
-		$group = $this->getUniqueID();
-		\OC_Group::createGroup($group);
-		\OC_Group::addToGroup($users[1], $group);
+		$group = $this->groupManager->createGroup($this->getUniqueID());
+		$group->addUser($this->userManager->get($users[1]));
 
-		$result = \OCA\provisioning_api\Groups::getGroup(array(
-			'groupid' => $group,
+		$result = $this->api->getGroup(array(
+			'groupid' => $group->getGID(),
 		));
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
@@ -49,15 +57,14 @@ class GroupsTest extends TestCase {
 		$users = $this->generateUsers(2);
 		self::loginAsUser($users[0]);
 
-		$group = $this->getUniqueID();
-		\OC_Group::createGroup($group);
-		\OC_Group::addToGroup($users[0], $group);
-		\OC_Group::addToGroup($users[1], $group);
+		$group = $this->groupManager->createGroup($this->getUniqueID());
+		$group->addUser($this->userManager->get($users[0]));
+		$group->addUser($this->userManager->get($users[1]));
 
-		\OC_SubAdmin::createSubAdmin($users[0], $group);
+		\OC_SubAdmin::createSubAdmin($users[0], $group->getGID());
 
-		$result = \OCA\provisioning_api\Groups::getGroup(array(
-			'groupid' => $group,
+		$result = $this->api->getGroup(array(
+			'groupid' => $group->getGID(),
 		));
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
@@ -78,17 +85,15 @@ class GroupsTest extends TestCase {
 		$users = $this->generateUsers(2);
 		self::loginAsUser($users[0]);
 
-		$group = $this->getUniqueID();
-		\OC_Group::createGroup($group);
-		$group2 = $this->getUniqueID();
-		\OC_Group::createGroup($group2);
-		\OC_Group::addToGroup($users[1], $group);
-		\OC_Group::addToGroup($users[0], $group2);
+		$group1 = $this->groupManager->createGroup($this->getUniqueID());
+		$group2 = $this->groupManager->createGroup($this->getUniqueID());
+		$group1->addUser($this->userManager->get($users[1]));
+		$group2->addUser($this->userManager->get($users[0]));
 
-		\OC_SubAdmin::createSubAdmin($users[0], $group2);
+		\OC_SubAdmin::createSubAdmin($users[0], $group2->getGID());
 
-		$result = \OCA\provisioning_api\Groups::getGroup(array(
-			'groupid' => $group,
+		$result = $this->api->getGroup(array(
+			'groupid' => $group1->getGID(),
 		));
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
@@ -102,14 +107,13 @@ class GroupsTest extends TestCase {
 		$users = $this->generateUsers(2);
 		self::loginAsUser($users[0]);
 
-		$group = $this->getUniqueID();
-		\OC_Group::createGroup($group);
+		$group = $this->groupManager->createGroup($this->getUniqueID());
 
-		\OC_Group::addToGroup($users[1], $group);
-		\OC_Group::addToGroup($users[0], 'admin');
+		$group->addUser($this->userManager->get($users[1]));
+		$this->groupManager->get('admin')->addUser($this->userManager->get($users[0]));
 
-		$result = \OCA\provisioning_api\Groups::getGroup(array(
-			'groupid' => $group,
+		$result = $this->api->getGroup(array(
+			'groupid' => $group->getGID(),
 		));
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
@@ -122,23 +126,22 @@ class GroupsTest extends TestCase {
 		$user1 = $this->generateUsers();
 		$user2 = $this->generateUsers();
 		self::loginAsUser($user1);
-		\OC_Group::addToGroup($user1, 'admin');
-		$group1 = $this->getUniqueID();
-		\OC_Group::createGroup($group1);
-		\OC_SubAdmin::createSubAdmin($user2, $group1);
-		$result = \OCA\provisioning_api\Groups::getSubAdminsOfGroup(array(
-			'groupid' => $group1,
+		$this->groupManager->get('admin')->addUser($this->userManager->get($user1));
+		$group1 = $this->groupManager->createGroup($this->getUniqueID());
+		\OC_SubAdmin::createSubAdmin($user2, $group1->getGID());
+		$result = $this->api->getSubAdminsOfGroup(array(
+			'groupid' => $group1->getGID(),
 		));
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
 		$this->assertEquals($user2, reset($data));
-		\OC_Group::deleteGroup($group1);
+		$group1->delete();
 
 		$user1 = $this->generateUsers();
 		self::loginAsUser($user1);
-		\OC_Group::addToGroup($user1, 'admin');
-		$result = \OCA\provisioning_api\Groups::getSubAdminsOfGroup(array(
+		$this->groupManager->get('admin')->addUser($this->userManager->get($user1));
+		$result = $this->api->getSubAdminsOfGroup(array(
 			'groupid' => $this->getUniqueID(),
 		));
 		$this->assertInstanceOf('OC_OCS_Result', $result);

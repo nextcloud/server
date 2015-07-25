@@ -44,7 +44,9 @@ API::register('delete', '/cloud/users/{userid}/subadmins', [$users, 'removeSubAd
 API::register('get', '/cloud/users/{userid}/subadmins', [$users, 'getUserSubAdminGroups'], 'provisioning_api', API::ADMIN_AUTH);
 
 // Groups
-$groups = new \OCA\Provisioning_API\Groups();
+$groups = new \OCA\Provisioning_API\Groups(
+	\OC::$server->getGroupManager()
+);
 API::register('get', '/cloud/groups', [$groups, 'getGroups'], 'provisioning_api', API::SUBADMIN_AUTH);
 API::register('post', '/cloud/groups', [$groups, 'addGroup'], 'provisioning_api', API::SUBADMIN_AUTH);
 API::register('get', '/cloud/groups/{groupid}', [$groups, 'getGroup'], 'provisioning_api', API::SUBADMIN_AUTH);
