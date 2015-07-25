@@ -28,7 +28,14 @@ use \OC_App;
 
 class Apps {
 
-	public static function getApps($parameters){
+	/** @var \OCP\App\IAppManager */
+	private $appManager;
+
+	public function __construct(\OCP\App\IAppManager $appManager) {
+		$this->appManager = $appManager;
+	}
+
+	public function getApps($parameters){
 		$apps = OC_App::listAllApps();
 		$list = array();
 		foreach($apps as $app) {
@@ -55,9 +62,9 @@ class Apps {
 		}
 	}
 
-	public static function getAppInfo($parameters){
+	public function getAppInfo($parameters){
 		$app = $parameters['appid'];
-		$info = OC_App::getAppInfo($app);
+		$info = \OCP\App::getAppInfo($app);
 		if(!is_null($info)) {
 			return new OC_OCS_Result(OC_App::getAppInfo($app));
 		} else {
@@ -65,15 +72,15 @@ class Apps {
 		}
 	}
 
-	public static function enable($parameters){
+	public function enable($parameters){
 		$app = $parameters['appid'];
-		OC_App::enable($app);
+		$this->appManager->enableApp($app);
 		return new OC_OCS_Result(null, 100);
 	}
 
-	public static function disable($parameters){
+	public function disable($parameters){
 		$app = $parameters['appid'];
-		OC_App::disable($app);
+		$this->appManager->disableApp($app);
 		return new OC_OCS_Result(null, 100);
 	}
 
