@@ -1017,7 +1017,13 @@ $CONFIG = array(
 
 /**
  * Headers that should be trusted as client IP address in combination with
- * `trusted_proxies`
+ * `trusted_proxies`. If the HTTP header looks like 'X-Forwarded-For', then use
+ * 'HTTP_X_FORWARDED_FOR' here.
+ *
+ * If set incorrectly, a client can spoof their IP address as visible to
+ * ownCloud, bypassing access controls and making logs useless!
+ *
+ * Defaults to 'HTTP_X_FORWARED_FOR' if unset
  */
 'forwarded_for_headers' => array('HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'),
 
