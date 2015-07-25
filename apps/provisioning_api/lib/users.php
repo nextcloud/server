@@ -93,7 +93,7 @@ class Users {
 	public function getUser($parameters){
 		$userId = $parameters['userid'];
 		// Admin? Or SubAdmin?
-		if(OC_User::isAdminUser(OC_User::getUser()) || OC_SubAdmin::isUserAccessible(OC_User::getUser(), $userId)) {
+		if($this->groupManager->isAdmin(OC_User::getUser()) || OC_SubAdmin::isUserAccessible(OC_User::getUser(), $userId)) {
 			// Check they exist
 			if(!$this->userManager->userExists($userId)) {
 				return new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, 'The requested user could not be found');
@@ -103,12 +103,12 @@ class Users {
 				'email',
 				'enabled',
 				);
-			if(OC_User::getUser() != $userId) {
+			if(OC_User::getUser() !== $userId) {
 				$return[] = 'quota';
 			}
 		} else {
 			// Check they are looking up themselves
-			if(OC_User::getUser() != $userId) {
+			if(OC_User::getUser() !== $userId) {
 				return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 			}
 			// Return some additional information compared to the core route
@@ -145,13 +145,13 @@ class Users {
 			$permittedFields[] = 'email';
 			$permittedFields[] = 'password';
 			// If admin they can edit their own quota
-			if(OC_User::isAdminUser(OC_User::getUser())) {
+			if($this->groupManager->isAdmin(OC_User::getUser())) {
 				$permittedFields[] = 'quota';
 			}
 		} else {
 			// Check if admin / subadmin
 			if(OC_SubAdmin::isUserAccessible(OC_User::getUser(), $userId)
-			|| OC_User::isAdminUser(OC_User::getUser())) {
+			|| $this->groupManager->isAdmin(OC_User::getUser())) {
 				// They have permissions over the user
 				$permittedFields[] = 'display';
 				$permittedFields[] = 'quota';
@@ -182,9 +182,9 @@ class Users {
 					if ($quota === false) {
 						return new OC_OCS_Result(null, 103, "Invalid quota value {$parameters['_put']['value']}");
 					}
-					if($quota == 0) {
+					if($quota === 0) {
 						$quota = 'default';
-					}else if($quota == -1){
+					}else if($quota === -1){
 						$quota = 'none';
 					} else {
 						$quota = OC_Helper::humanFileSize($quota);
@@ -215,7 +215,7 @@ class Users {
 			return new OC_OCS_Result(null, 101);
 		}
 		// If not permitted
-		if(!OC_User::isAdminUser(OC_User::getUser()) && !OC_SubAdmin::isUserAccessible(OC_User::getUser(), $parameters['userid'])) {
+		if(!$this->groupManager->isAdmin(OC_User::getUser()) && !OC_SubAdmin::isUserAccessible(OC_User::getUser(), $parameters['userid'])) {
 			return new OC_OCS_Result(null, 997);
 		}
 		// Go ahead with the delete
@@ -227,7 +227,7 @@ class Users {
 	}
 
 	public function getUsersGroups($parameters){
-		if($parameters['userid'] === OC_User::getUser() || OC_User::isAdminUser(OC_User::getUser())) {
+		if($parameters['userid'] === OC_User::getUser() || $this->groupManager->isAdmin(OC_User::getUser())) {
 			// Self lookup or admin lookup
 			return new OC_OCS_Result([
 				'groups' => $this->groupManager->getUserGroupIds(
@@ -330,7 +330,7 @@ class Users {
 			return new OC_OCS_Result(null, 102, 'Group:'.$group.' does not exist');
 		}
 		// Check if trying to make subadmin of admin group
-		if(strtolower($group) == 'admin') {
+		if(strtolower($group) === 'admin') {
 			return new OC_OCS_Result(null, 103, 'Cannot create subadmins for admin group');
 		}
 		// We cannot be subadmin twice
