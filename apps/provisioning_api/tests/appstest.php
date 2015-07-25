@@ -29,6 +29,8 @@ class AppsTest extends TestCase {
 	public function setup() {
 		parent::setup();
 		$this->appManager = \OC::$server->getAppManager();
+		$this->groupManager = \OC::$server->getGroupManager();
+		$this->userSession = \OC::$server->getUserSession();
 		$this->api = new \OCA\Provisioning_API\Apps($this->appManager);
 	}
 
@@ -51,8 +53,8 @@ class AppsTest extends TestCase {
 	public function testGetApps() {
 
 		$user = $this->generateUsers();
-		\OC_Group::addToGroup($user, 'admin');
-		self::loginAsUser($user);
+		$this->groupManager->get('admin')->addUser($user);
+		$this->userSession->setUser($user);
 
 		$result = $this->api->getApps([]);
 

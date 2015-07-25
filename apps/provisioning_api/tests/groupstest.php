@@ -41,10 +41,10 @@ class GroupsTest extends TestCase {
 	public function testGetGroupAsUser() {
 
 		$users = $this->generateUsers(2);
-		self::loginAsUser($users[0]);
+		$this->userSession->setUser($users[0]);
 
 		$group = $this->groupManager->createGroup($this->getUniqueID());
-		$group->addUser($this->userManager->get($users[1]));
+		$group->addUser($users[1]);
 
 		$result = $this->api->getGroup(array(
 			'groupid' => $group->getGID(),
@@ -59,17 +59,17 @@ class GroupsTest extends TestCase {
 	public function testGetGroupAsSubadmin() {
 
 		$users = $this->generateUsers(2);
-		self::loginAsUser($users[0]);
+		$this->userSession->setUser($users[0]);
 
 		$group = $this->groupManager->createGroup($this->getUniqueID());
-		$group->addUser($this->userManager->get($users[0]));
-		$group->addUser($this->userManager->get($users[1]));
+		$group->addUser($users[0]);
+		$group->addUser($users[1]);
 
-		\OC_SubAdmin::createSubAdmin($users[0], $group->getGID());
+		\OC_SubAdmin::createSubAdmin($users[0]->getUID(), $group->getGID());
 
-		$result = $this->api->getGroup(array(
+		$result = $this->api->getGroup([
 			'groupid' => $group->getGID(),
-		));
+		]);
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
@@ -77,6 +77,10 @@ class GroupsTest extends TestCase {
 		$this->assertArrayHasKey('users', $result->getData());
 		$resultData = $result->getData();
 		$resultData = $resultData['users'];
+
+		$users = array_map(function($user) {
+			return $user->getUID();
+		}, $users);
 
 		sort($users);
 		sort($resultData);
@@ -87,18 +91,18 @@ class GroupsTest extends TestCase {
 	public function testGetGroupAsIrrelevantSubadmin() {
 
 		$users = $this->generateUsers(2);
-		self::loginAsUser($users[0]);
+		$this->userSession->setUser($users[0]);
 
 		$group1 = $this->groupManager->createGroup($this->getUniqueID());
 		$group2 = $this->groupManager->createGroup($this->getUniqueID());
-		$group1->addUser($this->userManager->get($users[1]));
-		$group2->addUser($this->userManager->get($users[0]));
+		$group1->addUser($users[1]);
+		$group2->addUser($users[0]);
 
-		\OC_SubAdmin::createSubAdmin($users[0], $group2->getGID());
+		\OC_SubAdmin::createSubAdmin($users[0]->getUID(), $group2->getGID());
 
-		$result = $this->api->getGroup(array(
+		$result = $this->api->getGroup([
 			'groupid' => $group1->getGID(),
-		));
+		]);
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
@@ -109,45 +113,45 @@ class GroupsTest extends TestCase {
 	public function testGetGroupAsAdmin() {
 
 		$users = $this->generateUsers(2);
-		self::loginAsUser($users[0]);
+		$this->userSession->setUser($users[0]);
 
 		$group = $this->groupManager->createGroup($this->getUniqueID());
 
-		$group->addUser($this->userManager->get($users[1]));
-		$this->groupManager->get('admin')->addUser($this->userManager->get($users[0]));
+		$group->addUser($users[1]);
+		$this->groupManager->get('admin')->addUser($users[0]);
 
-		$result = $this->api->getGroup(array(
+		$result = $this->api->getGroup([
 			'groupid' => $group->getGID(),
-		));
+		]);
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
-		$this->assertEquals(array('users' => array($users[1])), $result->getData());
+		$this->assertEquals(['users' => [$users[1]->getUID()]], $result->getData());
 
 	}
 
 	public function testGetSubAdminsOfGroup() {
 		$user1 = $this->generateUsers();
 		$user2 = $this->generateUsers();
-		self::loginAsUser($user1);
-		$this->groupManager->get('admin')->addUser($this->userManager->get($user1));
+		$this->userSession->setUser($user1);
+		$this->groupManager->get('admin')->addUser($user1);
 		$group1 = $this->groupManager->createGroup($this->getUniqueID());
-		\OC_SubAdmin::createSubAdmin($user2, $group1->getGID());
-		$result = $this->api->getSubAdminsOfGroup(array(
+		\OC_SubAdmin::createSubAdmin($user2->getUID(), $group1->getGID());
+		$result = $this->api->getSubAdminsOfGroup([
 			'groupid' => $group1->getGID(),
-		));
+		]);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
-		$this->assertEquals($user2, reset($data));
+		$this->assertEquals($user2->getUID(), reset($data));
 		$group1->delete();
 
 		$user1 = $this->generateUsers();
-		self::loginAsUser($user1);
-		$this->groupManager->get('admin')->addUser($this->userManager->get($user1));
-		$result = $this->api->getSubAdminsOfGroup(array(
+		$this->userSession->setUser($user1);
+		$this->groupManager->get('admin')->addUser($user1);
+		$result = $this->api->getSubAdminsOfGroup([
 			'groupid' => $this->getUniqueID(),
-		));
+		]);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(101, $result->getStatusCode());
