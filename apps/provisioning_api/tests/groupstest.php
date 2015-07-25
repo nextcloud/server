@@ -31,7 +31,11 @@ class GroupsTest extends TestCase {
 
 		$this->userManager = \OC::$server->getUserManager();
 		$this->groupManager = \OC::$server->getGroupManager();
-		$this->api = new \OCA\Provisioning_API\Groups($this->groupManager);
+		$this->userSession = \OC::$server->getUserSession();
+		$this->api = new \OCA\Provisioning_API\Groups(
+			$this->groupManager,
+			$this->userSession
+		);
 	}
 
 	public function testGetGroupAsUser() {

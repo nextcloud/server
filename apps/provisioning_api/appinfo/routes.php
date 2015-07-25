@@ -29,7 +29,8 @@ use OCP\API;
 $users = new \OCA\Provisioning_API\Users(
 	\OC::$server->getUserManager(),
 	\OC::$server->getConfig(),
-	\OC::$server->getGroupManager()
+	\OC::$server->getGroupManager(),
+	\OC::$server->getUserSession()
 );
 API::register('get', '/cloud/users', [$users, 'getUsers'], 'provisioning_api', API::ADMIN_AUTH);
 API::register('post', '/cloud/users', [$users, 'addUser'], 'provisioning_api', API::ADMIN_AUTH);
@@ -45,7 +46,8 @@ API::register('get', '/cloud/users/{userid}/subadmins', [$users, 'getUserSubAdmi
 
 // Groups
 $groups = new \OCA\Provisioning_API\Groups(
-	\OC::$server->getGroupManager()
+	\OC::$server->getGroupManager(),
+	\OC::$server->getUserSession()
 );
 API::register('get', '/cloud/groups', [$groups, 'getGroups'], 'provisioning_api', API::SUBADMIN_AUTH);
 API::register('post', '/cloud/groups', [$groups, 'addGroup'], 'provisioning_api', API::SUBADMIN_AUTH);

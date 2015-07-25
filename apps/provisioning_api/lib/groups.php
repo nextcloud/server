@@ -31,11 +31,17 @@ class Groups{
 	/** @var \OCP\IGroupManager */
 	private $groupManager;
 
+	/** @var \OCP\IUserSession */
+	private $userSession;
+
 	/**
 	 * @param \OCP\IGroupManager $groupManager
+	 * @param \OCP\IUserSession $userSession
 	 */
-	public function __construct(\OCP\IGroupManager $groupManager) {
+	public function __construct(\OCP\IGroupManager $groupManager,
+	                            \OCP\IUserSession $userSession) {
 		$this->groupManager = $groupManager;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -63,8 +69,8 @@ class Groups{
 			return new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, 'The requested group could not be found');
 		}
 		// Check subadmin has access to this group
-		if($this->groupManager->isAdmin(\OC_User::getUser())
-			|| in_array($parameters['groupid'], \OC_SubAdmin::getSubAdminsGroups(\OC_User::getUser()))){
+		if($this->groupManager->isAdmin($this->userSession->getUser()->getUID())
+			|| in_array($parameters['groupid'], \OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID()))){
 			$users = $this->groupManager->get($parameters['groupid'])->getUsers();
 			$users =  array_map(function($user) {
 				return $user->getUID();

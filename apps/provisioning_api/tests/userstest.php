@@ -38,10 +38,13 @@ class UsersTest extends TestCase {
 		$this->userManager = \OC::$server->getUserManager();
 		$this->config = \OC::$server->getConfig();
 		$this->groupManager = \OC::$server->getGroupManager();
+		$this->userSession = \OC::$server->getUserSession();
 		$this->api = new \OCA\Provisioning_Api\Users(
 			$this->userManager, 
 			$this->config, 
-			$this->groupManager);
+			$this->groupManager,
+			$this->userSession
+		);
 	}
 
 	// Test getting the list of users
