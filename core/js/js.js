@@ -1888,6 +1888,8 @@ jQuery.fn.tipsy = function(argument) {
 		}
 		if(argument.title) {
 			options.title = argument.title;
+		} else if(argument.fallback) {
+			options.title = argument.fallback;
 		}
 		// destroy old tooltip in case the title has changed
 		jQuery.fn.tooltip.call(this, 'destroy');
