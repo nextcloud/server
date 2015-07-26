@@ -131,6 +131,9 @@ class Scanner extends PublicEmitter {
 	 * @throws \OC\ForbiddenException
 	 */
 	public function scan($dir = '') {
+		if (!Filesystem::isValidPath($dir)) {
+			throw new \InvalidArgumentException('Invalid path to scan');
+		}
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
 			if (is_null($mount->getStorage())) {
