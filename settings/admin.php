@@ -197,8 +197,8 @@ if (\OC::$server->getLockingProvider() instanceof NoopLockingProvider) {
 }
 
 $formsMap = array_map(function ($form) {
-	if (preg_match('%(<h2[^>]*>.*?</h2>)%i', $form, $regs)) {
-		$sectionName = str_replace('<h2>', '', $regs[0]);
+	if (preg_match('%(<h2(?P<class>[^>]*)>.*?</h2>)%i', $form, $regs)) {
+		$sectionName = str_replace('<h2'.$regs['class'].'>', '', $regs[0]);
 		$sectionName = str_replace('</h2>', '', $sectionName);
 		$anchor = strtolower($sectionName);
 		$anchor = str_replace(' ', '-', $anchor);
