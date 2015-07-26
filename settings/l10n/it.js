@@ -196,6 +196,7 @@ OC.L10N.register(
     "licensed" : "sotto licenza",
     "Documentation:" : "Documentazione:",
     "User documentation" : "Documentazione utente",
+    "Admin documentation" : "Documentazione di amministrazione",
     "Show description …" : "Mostra descrizione...",
     "Hide description …" : "Nascondi descrizione...",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Questa applicazione non può essere installata perché le seguenti dipendenze non sono soddisfatte:",
