@@ -61,6 +61,9 @@ OC.L10N.register(
     "Open documentation" : "ドキュメントを開く",
     "Allow users on this server to send shares to other servers" : "ユーザーがこのサーバーから他のサーバーに共有することを許可する",
     "Allow users on this server to receive shares from other servers" : "ユーザーが他のサーバーからこのサーバーに共有することを許可する",
+    "Share it:" : "共有:",
+    "Add it to your website:" : "ウェブサイトに追加:",
+    "Share with me via ownCloud" : "OwnCloud経由で共有",
     "HTML Code:" : "HTMLコード:"
 },
 "nplurals=1; plural=0;");
