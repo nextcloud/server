@@ -43,6 +43,7 @@ class IntegrationTestAccessGroupsMatchFilter {
 	public function init() {
 		require('setup-scripts/createExplicitUsers.php');
 		require('setup-scripts/createExplicitGroups.php');
+		require('setup-scripts/createExplicitGroupsDifferentOU.php');
 
 		$this->initLDAPWrapper();
 		$this->initConnection();
@@ -55,7 +56,7 @@ class IntegrationTestAccessGroupsMatchFilter {
 	 * If a test failed, the script is exited with return code 1.
 	 */
 	public function run() {
-		$cases = ['case1', 'case2'];
+		$cases = ['case1', 'case2', 'case3'];
 
 		foreach ($cases as $case) {
 			print("running $case " . PHP_EOL);
@@ -107,6 +108,30 @@ class IntegrationTestAccessGroupsMatchFilter {
 	}
 
 	/**
+	 * Tests whether a filter for limited groups is effective when more existing
+	 * groups were passed for validation.
+	 *
+	 * @return bool
+	 */
+	private function case3() {
+		$this->connection->setConfiguration(['ldapGroupFilter' => '(objectclass=groupOfNames)']);
+
+		$dns = [
+			'cn=RedGroup,ou=Groups,' . $this->base,
+			'cn=PurpleGroup,ou=Groups,' . $this->base,
+			'cn=SquaredCircleGroup,ou=SpecialGroups,' . $this->base
+		];
+		$result = $this->access->groupsMatchFilter($dns);
+
+		$status =
+			count($result) === 2
+			&& in_array('cn=RedGroup,ou=Groups,' . $this->base, $result)
+			&& in_array('cn=PurpleGroup,ou=Groups,' . $this->base, $result);
+
+		return $status;
+	}
+
+	/**
 	 * initializes the Access test instance
 	 */
 	private function initAccess() {
@@ -129,6 +154,7 @@ class IntegrationTestAccessGroupsMatchFilter {
 			'ldapHost' => $this->server['host'],
 			'ldapPort' => $this->server['port'],
 			'ldapBase' => $this->base,
+			'ldapBaseGroups' => 'ou=Groups,' . $this->base,
 			'ldapAgentName' => $this->server['dn'],
 			'ldapAgentPassword' => $this->server['pwd'],
 			'ldapUserFilter' => 'objectclass=inetOrgPerson',
