@@ -25,6 +25,7 @@ namespace OCP\Files\Mount;
  * Interface IMountManager
  *
  * Manages all mounted storages in the system
+ * @since 8.2.0
  */
 interface IMountManager {
 

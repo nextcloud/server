@@ -20,6 +20,9 @@
  */
 namespace OCP\DB\QueryBuilder;
 
+/**
+ * @since 8.2.0
+ */
 interface IQueryFunction {
 	/**
 	 * @return string
