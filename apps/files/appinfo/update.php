@@ -57,8 +57,8 @@ if ($installedVersion === '1.1.9' && (
 		// 8.1.0.x
 		(((int) $ocVersion[0]) === 8 && ((int) $ocVersion[1]) === 1 && ((int) $ocVersion[2]) === 0)
 		||
-		// < 8.2.0.3
-		(((int) $ocVersion[0]) === 8 && ((int) $ocVersion[1]) === 2 && ((int) $ocVersion[2]) === 0 && ((int) $ocVersion[3]) < 3)
+		// < 8.1.1.1
+		(((int) $ocVersion[0]) === 8 && ((int) $ocVersion[1]) === 1 && ((int) $ocVersion[2]) === 1 && ((int) $ocVersion[3]) < 1)
 	)) {
 
 	// Encryption is not enabled
