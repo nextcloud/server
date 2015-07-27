@@ -139,7 +139,15 @@ class Encryption extends \Test\Files\Storage\Storage {
 			->disableOriginalConstructor()
 			->setMethods(['getOption'])
 			->getMock();
-		$this->mount->expects($this->any())->method('getOption')->willReturn(true);
+		$this->mount->expects($this->any())->method('getOption')->willReturnCallback(function ($option, $default) {
+			if ($option === 'encrypt' && $default === true) {
+				global $mockedMountPointEncryptionEnabled;
+				if ($mockedMountPointEncryptionEnabled !== null) {
+					return $mockedMountPointEncryptionEnabled;
+				}
+			}
+			return true;
+		});
 
 		$this->cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
 			->disableOriginalConstructor()->getMock();
@@ -542,4 +550,55 @@ class Encryption extends \Test\Files\Storage\Storage {
 		];
 	}
 
+	public function dataCopyBetweenStorage() {
+		return [
+			[true, true, true],
+			[true, false, false],
+			[false, true, false],
+			[false, false, false],
+		];
+	}
+
+	/**
+	 * @dataProvider dataCopyBetweenStorage
+	 *
+	 * @param bool $encryptionEnabled
+	 * @param bool $mountPointEncryptionEnabled
+	 * @param bool $expectedEncrypted
+	 */
+	public function testCopyBetweenStorage($encryptionEnabled, $mountPointEncryptionEnabled, $expectedEncrypted) {
+		$storage2 = $this->getMockBuilder('OCP\Files\Storage')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$sourceInternalPath = $targetInternalPath = 'file.txt';
+		$preserveMtime = $isRename = false;
+
+		$storage2->expects($this->any())
+			->method('fopen')
+			->willReturnCallback(function($path, $mode) {
+				$temp = \OC::$server->getTempManager();
+				return fopen($temp->getTemporaryFile(), $mode);
+			});
+
+		$this->encryptionManager->expects($this->any())
+			->method('isEnabled')
+			->willReturn($encryptionEnabled);
+
+		// FIXME can not overwrite the return after definition
+//		$this->mount->expects($this->at(0))
+//			->method('getOption')
+//			->with('encrypt', true)
+//			->willReturn($mountPointEncryptionEnabled);
+		global $mockedMountPointEncryptionEnabled;
+		$mockedMountPointEncryptionEnabled = $mountPointEncryptionEnabled;
+
+		$this->cache->expects($this->once())
+			->method('put')
+			->with($sourceInternalPath, ['encrypted' => $expectedEncrypted]);
+
+		$this->invokePrivate($this->instance, 'copyBetweenStorage', [$storage2, $sourceInternalPath, $targetInternalPath, $preserveMtime, $isRename]);
+
+		$this->assertFalse(false);
+	}
 }
