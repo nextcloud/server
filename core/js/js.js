@@ -1245,7 +1245,6 @@ function initCore() {
 	$('.selectedActions a').tipsy({gravity:'s', live:true});
 	$('a.action.delete').tipsy({gravity:'e', live:true});
 	$('a.action').tipsy({gravity:'s', live:true});
-	$('td .modified').tipsy({gravity:'s', live:true});
 	$('td.lastLogin').tipsy({gravity:'s', html:true});
 	$('input').tipsy({gravity:'w'});
 	$('.extra-data').tipsy({gravity:'w', live:true});

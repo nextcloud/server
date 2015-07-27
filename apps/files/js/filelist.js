@@ -822,7 +822,9 @@
 				"class": "modified",
 				"title": formatted,
 				"style": 'color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')'
-			}).text(text));
+			}).text(text)
+			  .tooltip({placement: 'top'})
+			);
 			tr.find('.filesize').text(simpleSize);
 			tr.append(td);
 			return tr;
