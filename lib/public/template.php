@@ -137,6 +137,8 @@ function html_select_options($options, $selected, $params=array()) {
 /**
  * This class provides the template system for owncloud. You can use it to load
  * specific templates, add data and generate the html code
+ *
+ * @since 8.0.0
  */
 class Template extends \OC_Template {
 	/**

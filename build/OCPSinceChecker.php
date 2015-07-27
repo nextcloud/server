@@ -54,12 +54,22 @@ class SinceTagCheckVisitor extends \PhpParser\NodeVisitorAbstract {
 
 			/** @var \PhpParser\Comment\Doc[] $comments */
 			$comments = $node->getAttribute('comments');
-			if(count($comments) !== 0) {
-				$comment = $comments[count($comments) - 1];
-				$text = $comment->getText();
-				if(strpos($text, '@deprecated') !== false) {
-					$this->deprecatedClass = true;
-				}
+
+			if(count($comments) === 0) {
+				$this->errors[] = 'PHPDoc is needed for ' . $this->namespace . '\\' . $this->className . '::' . $node->name;
+				return;
+			}
+
+			$comment = $comments[count($comments) - 1];
+			$text = $comment->getText();
+			if(strpos($text, '@deprecated') !== false) {
+				$this->deprecatedClass = true;
+			}
+
+			if($this->deprecatedClass === false && strpos($text, '@since') === false && strpos($text, '@deprecated') === false) {
+				$type = $node instanceof \PhpParser\Node\Stmt\Interface_ ? 'interface' : 'class';
+				$this->errors[] = '@since or @deprecated tag is needed in PHPDoc for ' . $type . ' ' . $this->namespace . '\\' . $this->className;
+				return;
 			}
 		}
 
