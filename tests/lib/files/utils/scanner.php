@@ -189,4 +189,32 @@ class Scanner extends \Test\TestCase {
 		$newInfo = $cache->get('');
 		$this->assertNotEquals($oldInfo['etag'], $newInfo['etag']);
 	}
+
+	/**
+	 * @return array
+	 */
+	public function invalidPathProvider() {
+		return [
+			[
+				'../',
+			],
+			[
+				'..\\',
+			],
+			[
+				'../..\\../',
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider invalidPathProvider
+	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage Invalid path to scan
+	 * @param string $invalidPath
+	 */
+	public function testInvalidPathScanning($invalidPath) {
+		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection());
+		$scanner->scan($invalidPath);
+	}
 }
