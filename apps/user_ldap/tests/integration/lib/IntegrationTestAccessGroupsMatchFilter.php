@@ -83,7 +83,7 @@ class IntegrationTestAccessGroupsMatchFilter extends AbstractIntegrationTest {
 	 *
 	 * @return bool
 	 */
-	private function case3() {
+	protected function case3() {
 		$this->connection->setConfiguration(['ldapGroupFilter' => '(objectclass=groupOfNames)']);
 
 		$dns = [
