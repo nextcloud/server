@@ -96,8 +96,12 @@ class AvatarControllerTest extends \Test\TestCase {
 		// Configure userMock
 		$this->userMock->method('getDisplayName')->willReturn($this->user);
 		$this->userMock->method('getUID')->willReturn($this->user);
-		$this->container['UserManager']->method('get')
+		$this->container['UserManager']
+			->method('get')
 			->willReturnMap([[$this->user, $this->userMock]]);
+		$this->container['UserManager']
+			->method('userExists')
+			->willReturnMap([[$this->user, true]]);
 		$this->container['UserSession']->method('getUser')->willReturn($this->userMock);
 
 	}
@@ -120,11 +124,10 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Fetch an avatar if a user has no avatar
 	 */
 	public function testGetAvatarNoAvatar() {
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->container['UserManager']->expects($this->once())->method('userExists');
+		$this->container['AvatarManager']->expects($this->once())->method('getAvatar')->willReturn($this->avatarMock);
 		$response = $this->avatarController->getAvatar($this->user, 32);
 
-		//Comment out until JS is fixed
-		//$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
 		$this->assertEquals($this->user, $response->getData()['data']['displayname']);
 	}
@@ -133,9 +136,11 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Fetch the user's avatar
 	 */
 	public function testGetAvatar() {
+		$this->container['UserManager']->expects($this->once())->method('userExists');
+
 		$image = new Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
-		$this->avatarMock->method('get')->willReturn($image);
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->avatarMock->expects($this->once())->method('get')->willReturn($image);
+		$this->container['AvatarManager']->expects($this->once())->method('getAvatar')->willReturn($this->avatarMock);
 
 		$response = $this->avatarController->getAvatar($this->user, 32);
 
@@ -150,21 +155,19 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Fetch the avatar of a non-existing user
 	 */
 	public function testGetAvatarNoUser() {
-		$this->avatarMock->method('get')->willReturn(null);
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
-
+		$this->container['UserManager']->expects($this->once())->method('userExists');
 		$response = $this->avatarController->getAvatar($this->user . 'doesnotexist', 32);
 
 		//Comment out until JS is fixed
-		//$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
-		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals('', $response->getData()['data']['displayname']);
+		$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
+		$this->assertEquals([], $response->getData());
 	}
 
 	/**
 	 * Make sure we get the correct size
 	 */
 	public function testGetAvatarSize() {
+		$this->container['UserManager']->expects($this->once())->method('userExists');
 		$this->avatarMock->expects($this->once())
 						 ->method('get')
 						 ->with($this->equalTo(32));
@@ -178,6 +181,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * We cannot get avatars that are 0 or negative
 	 */
 	public function testGetAvatarSizeMin() {
+		$this->container['UserManager']->expects($this->once())->method('userExists');
 		$this->avatarMock->expects($this->once())
 						 ->method('get')
 						 ->with($this->equalTo(64));
@@ -191,6 +195,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * We do not support avatars larger than 2048*2048
 	 */
 	public function testGetAvatarSizeMax() {
+		$this->container['UserManager']->expects($this->once())->method('userExists');
 		$this->avatarMock->expects($this->once())
 						 ->method('get')
 						 ->with($this->equalTo(2048));

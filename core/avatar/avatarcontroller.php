@@ -90,14 +90,18 @@ class AvatarController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @PublicPage
 	 *
 	 * @param string $userId
 	 * @param int $size
 	 * @return DataResponse|DataDisplayResponse
 	 */
 	public function getAvatar($userId, $size) {
+		if (!$this->userManager->userExists($userId)) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
 		if ($size > 2048) {
 			$size = 2048;
 		} elseif ($size <= 0) {
