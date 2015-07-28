@@ -69,6 +69,9 @@
 							t('core', '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href="{docLink}">documentation</a>.', {docLink: data.securityDocs})
 						);
 					}
+					if(data.isUsedTlsLibOutdated) {
+						messages.push(data.isUsedTlsLibOutdated);
+					}
 				} else {
 					messages.push(t('core', 'Error occurred while checking server setup'));
 				}
