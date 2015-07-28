@@ -27,7 +27,8 @@
 		var $appSidebar = $('#app-sidebar');
 		$appSidebar
 			.removeClass('disappear')
-			.find('~ .with-app-sidebar').removeClass('.with-app-sidebar');
+			.find('~').addClass('with-app-sidebar');
+
 	};
 
 	/**
@@ -38,7 +39,7 @@
 		var $appSidebar = $('#app-sidebar');
 		$appSidebar
 			.addClass('disappear')
-			.find('~').addClass('.with-app-sidebar');
+			.find('~ .with-app-sidebar').removeClass('with-app-sidebar');
 	};
 
 	/**
