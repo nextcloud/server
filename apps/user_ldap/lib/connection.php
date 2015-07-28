@@ -575,10 +575,6 @@ class Connection extends LDAPUtility {
 		if(empty($host)) {
 			return false;
 		}
-		if(strpos($host, '://') !== false) {
-			//ldap_connect ignores port parameter when URLs are passed
-			$host .= ':' . $port;
-		}
 		$this->ldapConnectionRes = $this->ldap->connect($host, $port);
 		if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 			if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
