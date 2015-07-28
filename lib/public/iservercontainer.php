@@ -9,6 +9,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
@@ -429,4 +430,12 @@ interface IServerContainer {
 	 * @since 8.2.0
 	 */
 	public function getMountManager();
+
+	/**
+	 * Get the MimeTypeDetector
+	 *
+	 * @return \OCP\Files\IMimeTypeDetector
+	 * @since 8.2.0
+	 */
+	public function getMimeTypeDetector();
 }
