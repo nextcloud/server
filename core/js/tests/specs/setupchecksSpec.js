@@ -142,6 +142,23 @@ describe('OC.SetupChecks tests', function() {
 				done();
 			});
 		});
+
+		it('should return an error if the php version is no longer supported', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({isUrandomAvailable: true, securityDocs: 'https://docs.owncloud.org/myDocs.html', serverHasInternetConnection: true, dataDirectoryProtected: true, isMemcacheConfigured: true, phpSupported: {eol: true, version: '5.4.0'}})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual(['Your PHP version (5.4.0) is no longer <a href="https://secure.php.net/supported-versions.php">supported by PHP</a>. We encourage you to upgrade your PHP version to take advantage of performance and security updates provided by PHP.']);
+				done();
+			});
+		});
 	});
 
 	describe('checkGeneric', function() {

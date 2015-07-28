@@ -175,6 +175,23 @@ class CheckSetupController extends Controller {
 
 		return '';
 	}
+	
+	/*
+	 * Whether the php version is still supported (at time of release)
+	 * according to: https://secure.php.net/supported-versions.php
+	 *
+	 * @return array
+	 */
+	private function isPhpSupported() {
+		$eol = false;
+
+		//PHP 5.4 is EOL on 14 Sep 2015
+		if (version_compare(PHP_VERSION, '5.5.0') === -1) {
+			$eol = true;
+		}
+
+		return ['eol' => $eol, 'version' => PHP_VERSION];
+	}
 
 	/**
 	 * @return DataResponse
@@ -189,6 +206,7 @@ class CheckSetupController extends Controller {
 				'isUrandomAvailable' => $this->isUrandomAvailable(),
 				'securityDocs' => $this->urlGenerator->linkToDocs('admin-security'),
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
+				'phpSupported' => $this->isPhpSupported(),
 			]
 		);
 	}
