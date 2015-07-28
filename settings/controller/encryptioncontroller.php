@@ -78,6 +78,7 @@ class EncryptionController extends Controller {
 		$this->connection = $connection;
 		$this->view = $view;
 		$this->userManager = $userManager;
+		$this->logger = $logger;
 	}
 
 	/**
