@@ -78,7 +78,10 @@ class SMB extends Common {
 	 * @return string
 	 */
 	public function getId() {
-		return 'smb::' . $this->server->getUser() . '@' . $this->server->getHost() . '/' . $this->share->getName() . '/' . $this->root;
+		// FIXME: double slash to keep compatible with the old storage ids,
+		// failure to do so will lead to creation of a new storage id and
+		// loss of shares from the storage
+		return 'smb::' . $this->server->getUser() . '@' . $this->server->getHost() . '//' . $this->share->getName() . '/' . $this->root;
 	}
 
 	/**

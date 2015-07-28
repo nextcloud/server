@@ -61,4 +61,16 @@ class SMB extends Storage {
 		$this->assertTrue($result);
 		$this->assertTrue($this->instance->is_dir('foo bar'));
 	}
+
+	public function testStorageId() {
+		$this->instance = new \OC\Files\Storage\SMB([
+			'host' => 'testhost',
+			'user' => 'testuser',
+			'password' => 'somepass',
+			'share' => 'someshare',
+			'root' => 'someroot',
+		]);
+		$this->assertEquals('smb::testuser@testhost//someshare//someroot/', $this->instance->getId());
+		$this->instance = null;
+	}
 }
