@@ -901,14 +901,7 @@ class OC_Util {
 
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
 		$parameters['rememberLoginAllowed'] = self::rememberLoginAllowed();
-		foreach($parameters['alt_login'] as $params)
-		{
-			if(isset($params['forceredirect']) && ($params['forceredirect'] === true))
-			{
-				\OCP\Response::redirect($params['href']);
-				exit();
-			}
-		}
+		\OC_Hook::emit('OC_Util', 'pre_displayLoginPage', array('parameters' => $parameters));
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
