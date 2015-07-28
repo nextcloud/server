@@ -196,6 +196,7 @@ OC.L10N.register(
     "licensed" : "licenseret",
     "Documentation:" : "Dokumentation:",
     "User documentation" : "Brugerdokumentation",
+    "Admin documentation" : "Admin-dokumentation",
     "Show description …" : "Vis beskrivelse",
     "Hide description …" : "Skjul beskrivelse",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Dette program kan ikke installeres, da følgende afhængigheder ikke imødekommes:",

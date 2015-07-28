@@ -8,6 +8,8 @@ OC.L10N.register(
     "Delete permanently" : "Végleges törlés",
     "Error" : "Hiba",
     "restored" : "visszaállítva",
+    "No deleted files" : "Nincs törölt fájl",
+    "You will be able to recover deleted files from here" : "Innen vissza tudja állítani a törölt fáljait.",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a könyvtárban",
     "Select all" : "Összes kijelölése",
     "Name" : "Név",
