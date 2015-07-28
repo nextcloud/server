@@ -827,6 +827,10 @@ OC.Share={
 	 */
 	_parseTime: function(time) {
 		if (_.isString(time)) {
+			// skip empty strings and hex values
+			if (time === '' || (time.length > 1 && time[0] === '0' && time[1] === 'x')) {
+				return null;
+			}
 			time = parseInt(time, 10);
 			if(isNaN(time)) {
 				time = null;
