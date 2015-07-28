@@ -1531,6 +1531,42 @@ class Test_Share extends \Test\TestCase {
 		\OC\Share\Share::setPassword($userSession, $connection, $config, 1, 'pass');
 	}
 
+	/**
+	 * Make sure that a user cannot have multiple identical shares to remote users
+	 */
+	public function testOnlyOneRemoteShare() {
+		$oldHttpHelper = \OC::$server->query('HTTPHelper');
+		$httpHelperMock = $this->getMockBuilder('OC\HttpHelper')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->setHttpHelper($httpHelperMock);
+
+		$httpHelperMock->expects($this->at(0))
+			->method('post')
+			->with($this->stringStartsWith('https://localhost/ocs/v1.php/cloud/shares'), $this->anything())
+			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
+
+		\OCP\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost', \OCP\Constants::PERMISSION_READ);
+		$shares = \OCP\Share::getItemShared('test', 'test.txt');
+		$share = array_shift($shares);
+
+		//Try share again
+		try {
+			\OCP\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost', \OCP\Constants::PERMISSION_READ);
+			$this->fail('Identical remote shares are not allowed');
+		} catch (\Exception $e) {
+			$this->assertEquals('Sharing test.txt failed, because this item is already shared with foo@localhost', $e->getMessage());
+		}
+
+		$httpHelperMock->expects($this->at(0))
+			->method('post')
+			->with($this->stringStartsWith('https://localhost/ocs/v1.php/cloud/shares/' . $share['id'] . '/unshare'), $this->anything())
+			->willReturn(['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 100]]])]);
+
+		\OCP\Share::unshare('test', 'test.txt', \OCP\Share::SHARE_TYPE_REMOTE, 'foo@localhost');
+		$this->setHttpHelper($oldHttpHelper);
+	}
+
 }
 
 class DummyShareClass extends \OC\Share\Share {
