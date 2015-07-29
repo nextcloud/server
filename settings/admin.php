@@ -46,7 +46,10 @@ $entriesRemaining = count($entries) > $numEntriesToLoad;
 $entries = array_slice($entries, 0, $numEntriesToLoad);
 $logFilePath = OC_Log_Owncloud::getLogFilePath();
 $doesLogFileExist = file_exists($logFilePath);
-$logFileSize = filesize($logFilePath);
+$logFileSize = 0;
+if($doesLogFileExist) {
+	$logFileSize = filesize($logFilePath);
+}
 $config = \OC::$server->getConfig();
 $appConfig = \OC::$server->getAppConfig();
 $request = \OC::$server->getRequest();
