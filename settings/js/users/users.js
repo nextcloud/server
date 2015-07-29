@@ -880,4 +880,8 @@ $(document).ready(function () {
 	// trigger loading of users on startup
 	UserList.update(UserList.currentGid, initialUserCountLimit);
 
+	_.defer(function() {
+		$('#app-content').trigger($.Event('apprendered'));
+	});
+
 });
