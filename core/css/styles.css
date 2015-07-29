@@ -278,6 +278,14 @@ input[type="submit"].enabled {
 	border: 1px solid #5e5;
 }
 
+.input-button-inline {
+	position: absolute !important;
+	right: 0;
+	background-color: transparent !important;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	opacity: .3;
+}
+
 
 
 /* CONTENT ------------------------------------------------------------------ */
