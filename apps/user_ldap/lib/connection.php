@@ -341,14 +341,6 @@ class Connection extends LDAPUtility {
 			}
 		}
 
-		$groupFilter = $this->configuration->ldapGroupFilter;
-		if(empty($groupFilter)) {
-			\OCP\Util::writeLog('user_ldap',
-								'No group filter is specified, LDAP group '.
-								'feature will not be used.',
-								\OCP\Util::INFO);
-		}
-
 		foreach(array('ldapExpertUUIDUserAttr'  => 'ldapUuidUserAttribute',
 					  'ldapExpertUUIDGroupAttr' => 'ldapUuidGroupAttribute')
 				as $expertSetting => $effectiveSetting) {
