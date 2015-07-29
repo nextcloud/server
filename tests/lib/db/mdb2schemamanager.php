@@ -10,7 +10,6 @@
 namespace Test\DB;
 
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\SQLServerPlatform;
 
 class MDB2SchemaManager extends \Test\TestCase {
 
@@ -29,9 +28,6 @@ class MDB2SchemaManager extends \Test\TestCase {
 		$connection = \OC_DB::getConnection();
 		if ($connection->getDatabasePlatform() instanceof OraclePlatform) {
 			$this->markTestSkipped('Adding auto increment columns in Oracle is not supported.');
-		}
-		if ($connection->getDatabasePlatform() instanceof SQLServerPlatform) {
-			$this->markTestSkipped('DB migration tests are not supported on MSSQL');
 		}
 
 		$manager = new \OC\DB\MDB2SchemaManager($connection);

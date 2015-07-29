@@ -76,19 +76,19 @@ class Test_OC_Setup extends \Test\TestCase {
 		$this->assertSame(array(), $result);
 	}
 
-	public function testGetSupportedDatabasesWitAllWorking() {
+	public function testGetSupportedDatabasesWithAllWorking() {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
 			->will($this->returnValue(
-				array('sqlite', 'mysql', 'pgsql', 'oci', 'mssql')
+				array('sqlite', 'mysql', 'pgsql', 'oci')
 			));
 		$this->setupClass
 			->expects($this->once())
 			->method('class_exists')
 			->will($this->returnValue(true));
 		$this->setupClass
-			->expects($this->exactly(4))
+			->expects($this->exactly(3))
 			->method('is_callable')
 			->will($this->returnValue(true));
 		$result = $this->setupClass->getSupportedDatabases();
@@ -96,8 +96,7 @@ class Test_OC_Setup extends \Test\TestCase {
 			'sqlite' => 'SQLite',
 			'mysql' => 'MySQL/MariaDB',
 			'pgsql' => 'PostgreSQL',
-			'oci' => 'Oracle',
-			'mssql' => 'MS SQL'
+			'oci' => 'Oracle'
 		);
 		$this->assertSame($expectedResult, $result);
 	}

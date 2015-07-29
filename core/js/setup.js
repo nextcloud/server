@@ -4,8 +4,7 @@ $(document).ready(function() {
 		sqlite:!!$('#hasSQLite').val(),
 		mysql:!!$('#hasMySQL').val(),
 		postgresql:!!$('#hasPostgreSQL').val(),
-		oracle:!!$('#hasOracle').val(),
-		mssql:!!$('#hasMSSQL').val()
+		oracle:!!$('#hasOracle').val()
 	};
 
 	$('#selectDbType').buttonset();
@@ -28,7 +27,7 @@ $(document).ready(function() {
 		$('#dbname').attr('pattern','[0-9a-zA-Z$_-]+');
 	});
 
-	$('#mysql,#pgsql,#mssql').click(function() {
+	$('#mysql,#pgsql').click(function() {
 		$('#use_other_db').slideDown(250);
 		$('#use_oracle_db').slideUp(250);
 		$('#sqliteInformation').hide();

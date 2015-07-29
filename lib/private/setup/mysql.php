@@ -103,7 +103,7 @@ class MySQL extends AbstractDatabase {
 		if(!$result) {
 			$entry = $this->trans->t('DB Error: "%s"', array(mysql_error($connection))) . '<br />';
 			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-			\OCP\Util::writeLog('setup.mssql', $entry, \OCP\Util::WARN);
+			\OCP\Util::writeLog('setup.mysql', $entry, \OCP\Util::WARN);
 		}
 		$query="GRANT ALL PRIVILEGES ON `$name` . * TO '$user'";
 

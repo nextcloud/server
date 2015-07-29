@@ -32,7 +32,6 @@ use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
-use Doctrine\DBAL\Platforms\SQLServerPlatform;
 
 class MDB2SchemaManager {
 	/**
@@ -85,8 +84,6 @@ class MDB2SchemaManager {
 			return new OracleMigrator($this->conn, $random, $config);
 		} else if ($platform instanceof MySqlPlatform) {
 			return new MySQLMigrator($this->conn, $random, $config);
-		} else if ($platform instanceof SQLServerPlatform) {
-			return new MsSqlMigrator($this->conn, $random, $config);
 		} else if ($platform instanceof PostgreSqlPlatform) {
 			return new Migrator($this->conn, $random, $config);
 		} else {

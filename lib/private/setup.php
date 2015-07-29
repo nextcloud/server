@@ -69,7 +69,6 @@ class Setup {
 		'mysql' => '\OC\Setup\MySQL',
 		'pgsql' => '\OC\Setup\PostgreSQL',
 		'oci'   => '\OC\Setup\OCI',
-		'mssql' => '\OC\Setup\MSSQL',
 		'sqlite' => '\OC\Setup\Sqlite',
 		'sqlite3' => '\OC\Setup\Sqlite',
 	);
@@ -120,11 +119,6 @@ class Setup {
 				'type' => 'function',
 				'call' => 'oci_connect',
 				'name' => 'Oracle'
-			),
-			'mssql' => array(
-				'type' => 'function',
-				'call' => 'sqlsrv_connect',
-				'name' => 'MS SQL'
 			)
 		);
 		if ($allowAllDatabases) {
@@ -218,7 +212,6 @@ class Setup {
 			'hasMySQL' => isset($databases['mysql']),
 			'hasPostgreSQL' => isset($databases['pgsql']),
 			'hasOracle' => isset($databases['oci']),
-			'hasMSSQL' => isset($databases['mssql']),
 			'databases' => $databases,
 			'directory' => $dataDir,
 			'htaccessWorking' => $htAccessWorking,
