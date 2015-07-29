@@ -23,6 +23,8 @@
 namespace OC\Setup;
 
 use OCP\IConfig;
+use OCP\ILogger;
+use OCP\Security\ISecureRandom;
 
 abstract class AbstractDatabase {
 
@@ -42,11 +44,17 @@ abstract class AbstractDatabase {
 	protected $tablePrefix;
 	/** @var IConfig */
 	protected $config;
+	/** @var ILogger */
+	protected $logger;
+	/** @var ISecureRandom */
+	protected $random;
 
-	public function __construct($trans, $dbDefinitionFile, IConfig $config) {
+	public function __construct($trans, $dbDefinitionFile, IConfig $config, ILogger $logger, ISecureRandom $random) {
 		$this->trans = $trans;
 		$this->dbDefinitionFile = $dbDefinitionFile;
 		$this->config = $config;
+		$this->logger = $logger;
+		$this->random = $random;
 	}
 
 	public function validate($config) {
@@ -70,7 +78,7 @@ abstract class AbstractDatabase {
 		$dbHost = !empty($config['dbhost']) ? $config['dbhost'] : 'localhost';
 		$dbTablePrefix = isset($config['dbtableprefix']) ? $config['dbtableprefix'] : 'oc_';
 
-		\OC_Config::setValues([
+		$this->config->setSystemValues([
 			'dbname'		=> $dbName,
 			'dbhost'		=> $dbHost,
 			'dbtableprefix'	=> $dbTablePrefix,

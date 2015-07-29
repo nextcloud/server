@@ -39,6 +39,8 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use Exception;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\ILogger;
+use OCP\Security\ISecureRandom;
 
 class Setup {
 	/** @var \OCP\IConfig */
@@ -49,6 +51,10 @@ class Setup {
 	protected $l10n;
 	/** @var \OC_Defaults */
 	protected $defaults;
+	/** @var ILogger */
+	protected $logger;
+	/** @var ISecureRandom */
+	protected $random;
 
 	/**
 	 * @param IConfig $config
@@ -58,11 +64,16 @@ class Setup {
 	function __construct(IConfig $config,
 						 IniGetWrapper $iniWrapper,
 						 IL10N $l10n,
-						 \OC_Defaults $defaults) {
+						 \OC_Defaults $defaults,
+						 ILogger $logger,
+						 ISecureRandom $random
+		) {
 		$this->config = $config;
 		$this->iniWrapper = $iniWrapper;
 		$this->l10n = $l10n;
 		$this->defaults = $defaults;
+		$this->logger = $logger;
+		$this->random = $random;
 	}
 
 	static $dbSetupClasses = array(
@@ -249,7 +260,8 @@ class Setup {
 
 		$class = self::$dbSetupClasses[$dbType];
 		/** @var \OC\Setup\AbstractDatabase $dbSetup */
-		$dbSetup = new $class($l, 'db_structure.xml', $this->config);
+		$dbSetup = new $class($l, 'db_structure.xml', $this->config,
+			$this->logger, $this->random);
 		$error = array_merge($error, $dbSetup->validate($options));
 
 		// validate the data directory
@@ -284,9 +296,9 @@ class Setup {
 		}
 
 		//generate a random salt that is used to salt the local user passwords
-		$salt = \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(30);
+		$salt = $this->random->getLowStrengthGenerator()->generate(30);
 		// generate a secret
-		$secret = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(48);
+		$secret = $this->random->getMediumStrengthGenerator()->generate(48);
 
 		//write the config file
 		$this->config->setSystemValues([
@@ -351,7 +363,7 @@ class Setup {
 
 			//try to write logtimezone
 			if (date_default_timezone_get()) {
-				\OC_Config::setValue('logtimezone', date_default_timezone_get());
+				$config->setSystemValue('logtimezone', date_default_timezone_get());
 			}
 
 			//and we are done
@@ -389,7 +401,9 @@ class Setup {
 	 * @throws \OC\HintException If .htaccess does not include the current version
 	 */
 	public static function updateHtaccess() {
-		$setupHelper = new \OC\Setup(\OC::$server->getConfig(), \OC::$server->getIniWrapper(), \OC::$server->getL10N('lib'), new \OC_Defaults());
+		$setupHelper = new \OC\Setup(\OC::$server->getConfig(), \OC::$server->getIniWrapper(),
+			\OC::$server->getL10N('lib'), new \OC_Defaults(), \OC::$server->getLogger(),
+			\OC::$server->getSecureRandom());
 		if(!$setupHelper->isCurrentHtaccess()) {
 			throw new \OC\HintException('.htaccess file has the wrong version. Please upload the correct version. Maybe you forgot to replace it after updating?');
 		}

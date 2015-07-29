@@ -24,6 +24,7 @@
 namespace OC\Setup;
 
 use OC\DB\ConnectionFactory;
+use OCP\IDBConnection;
 
 class MySQL extends AbstractDatabase {
 	public $dbprettyname = 'MySQL/MariaDB';
@@ -31,58 +32,15 @@ class MySQL extends AbstractDatabase {
 	public function setupDatabase($username) {
 		//check if the database user has admin right
 		$connection = $this->connect();
-		//user already specified in config
-		$oldUser=\OC_Config::getValue('dbuser', false);
 
-		//we don't have a dbuser specified in config
-		if($this->dbUser!=$oldUser) {
-			//add prefix to the admin username to prevent collisions
-			$adminUser=substr('oc_'.$username, 0, 16);
-
-			$i = 1;
-			while(true) {
-				//this should be enough to check for admin rights in mysql
-				$query="SELECT user FROM mysql.user WHERE user='$adminUser'";
-				$result = $connection->executeQuery($query);
-
-				//current dbuser has admin rights
-				if($result) {
-					$data = $result->fetchAll();
-					//new dbuser does not exist
-					if(count($data) === 0) {
-						//use the admin login data for the new database user
-						$this->dbUser=$adminUser;
-
-						//create a random password so we don't need to store the admin password in the config file
-						$this->dbPassword=\OC_Util::generateRandomBytes(30);
-
-						$this->createDBUser($connection);
-
-						break;
-					} else {
-						//repeat with different username
-						$length=strlen((string)$i);
-						$adminUser=substr('oc_'.$username, 0, 16 - $length).$i;
-						$i++;
-					}
-				} else {
-					break;
-				}
-			};
-
-			\OC_Config::setValues([
-				'dbuser'		=> $this->dbUser,
-				'dbpassword'	=> $this->dbPassword,
-			]);
-		}
+		$this->createSpecificUser($username, $connection);
 
 		//create the database
 		$this->createDatabase($connection);
 
 		//fill the database if needed
-		$query='select count(*) from information_schema.tables'
-			." where table_schema='".$this->dbName."' AND table_name = '".$this->tablePrefix."users';";
-		$result = $connection->executeQuery($query);
+		$query='select count(*) from information_schema.tables where table_schema=? AND table_name = ?';
+		$result = $connection->executeQuery($query, [$this->dbName, $this->tablePrefix.'users']);
 		$row = $result->fetch();
 		if(!$result or $row[0]==0) {
 			\OC_DB::createDbFromStructure($this->dbDefinitionFile);
@@ -93,19 +51,26 @@ class MySQL extends AbstractDatabase {
 	 * @param \OC\DB\Connection $connection
 	 */
 	private function createDatabase($connection) {
-		$name = $this->dbName;
-		$user = $this->dbUser;
-		//we cant use OC_BD functions here because we need to connect as the administrative user.
-		$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8 COLLATE utf8_bin;";
-		$connection->executeUpdate($query);
+		try{
+			$name = $this->dbName;
+			$user = $this->dbUser;
+			//we cant use OC_BD functions here because we need to connect as the administrative user.
+			$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8 COLLATE utf8_bin;";
+			$connection->executeUpdate($query);
 
-		//this query will fail if there aren't the right permissions, ignore the error
-		$query="GRANT ALL PRIVILEGES ON `$name` . * TO '$user'";
-		$connection->executeUpdate($query);
+			//this query will fail if there aren't the right permissions, ignore the error
+			$query="GRANT ALL PRIVILEGES ON `$name` . * TO '$user'";
+			$connection->executeUpdate($query);
+		} catch (\Exception $ex) {
+			$this->logger->error('Database creation failed: {error}', [
+				'app' => 'mysql.setup',
+				'error' => $ex->getMessage()
+			]);
+		}
 	}
 
 	/**
-	 * @param \OC\DB\Connection $connection
+	 * @param IDbConnection $connection
 	 * @throws \OC\DatabaseSetupException
 	 */
 	private function createDBUser($connection) {
@@ -133,5 +98,64 @@ class MySQL extends AbstractDatabase {
 		);
 		$cf = new ConnectionFactory();
 		return $cf->getConnection($type, $connectionParams);
+	}
+
+	/**
+	 * @param $username
+	 * @param IDBConnection $connection
+	 * @return array
+	 */
+	private function createSpecificUser($username, $connection) {
+		try {
+			//user already specified in config
+			$oldUser = $this->config->getSystemValue('dbuser', false);
+
+			//we don't have a dbuser specified in config
+			if ($this->dbUser !== $oldUser) {
+				//add prefix to the admin username to prevent collisions
+				$adminUser = substr('oc_' . $username, 0, 16);
+
+				$i = 1;
+				while (true) {
+					//this should be enough to check for admin rights in mysql
+					$query = 'SELECT user FROM mysql.user WHERE user=?';
+					$result = $connection->executeQuery($query, [$adminUser]);
+
+					//current dbuser has admin rights
+					if ($result) {
+						$data = $result->fetchAll();
+						//new dbuser does not exist
+						if (count($data) === 0) {
+							//use the admin login data for the new database user
+							$this->dbUser = $adminUser;
+
+							//create a random password so we don't need to store the admin password in the config file
+							$this->dbPassword =  $this->random->getMediumStrengthGenerator()->generate(30);
+
+							$this->createDBUser($connection);
+
+							break;
+						} else {
+							//repeat with different username
+							$length = strlen((string)$i);
+							$adminUser = substr('oc_' . $username, 0, 16 - $length) . $i;
+							$i++;
+						}
+					} else {
+						break;
+					}
+				};
+			}
+		} catch (\Exception $ex) {
+			$this->logger->error('Specific user creation failed: {error}', [
+				'app' => 'mysql.setup',
+				'error' => $ex->getMessage()
+			]);
+		}
+
+		$this->config->setSystemValues([
+			'dbuser' => $this->dbUser,
+			'dbpassword' => $this->dbPassword,
+		]);
 	}
 }
