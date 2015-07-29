@@ -175,20 +175,16 @@ $(document).ready(function(){
 			var $warningsEl = $el.find('.warnings');
 			var $infoEl = $el.find('.info');
 			for (var i = 0; i < messages.length; i++ ) {
-				if ($.isPlainObject(messages[i])) {
-					switch(messages[i].type) {
-						case OC.SetupChecks.MESSAGE_TYPE_INFO:
-							$tipsEl.append('<li>' + messages[i].msg + '</li>');
-							break;
-						case OC.SetupChecks.MESSAGE_TYPE_WARNING:
-							$warningsEl.append('<li>' + messages[i].msg + '</li>');
-							break;
-						case OC.SetupChecks.MESSAGE_TYPE_ERROR:
-						default:
-							$errorsEl.append('<li>' + messages[i].msg + '</li>');
-					}
-				} else {
-					$errorsEl.append('<li>' + messages[i] + '</li>');
+				switch(messages[i].type) {
+					case OC.SetupChecks.MESSAGE_TYPE_INFO:
+						$infoEl.append('<li>' + messages[i].msg + '</li>');
+						break;
+					case OC.SetupChecks.MESSAGE_TYPE_WARNING:
+						$warningsEl.append('<li>' + messages[i].msg + '</li>');
+						break;
+					case OC.SetupChecks.MESSAGE_TYPE_ERROR:
+					default:
+						$errorsEl.append('<li>' + messages[i].msg + '</li>');
 				}
 			}
 			if ($errorsEl.find('li').length > 0) {
