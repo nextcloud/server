@@ -28,6 +28,7 @@ class OC_Theme {
 	private $themeSyncClientUrl;
 	private $themeSlogan;
 	private $themeMailHeaderColor;
+	private $themeKnowledgeBaseUrl;
 
 	/* put your custom text in these variables */
 	function __construct() {
@@ -39,6 +40,7 @@ class OC_Theme {
 		$this->themeSyncClientUrl = 'https://owncloud.org/install';
 		$this->themeSlogan = 'Your custom cloud, personalized for you!';
 		$this->themeMailHeaderColor = '#745bca';
+		$this->themeKnowledgeBaseUrl = 'https://doc.owncloud.org';
 	}
 	/* nothing after this needs to be adjusted */
 
@@ -90,6 +92,10 @@ class OC_Theme {
 
 	public function getMailHeaderColor() {
 		return $this->themeMailHeaderColor;
+	}
+
+	public function getKnowledgeBaseUrl() {
+		return $this->themeKnowledgeBaseUrl;
 	}
 
 }
