@@ -31,7 +31,6 @@
 	width: 0;
 	cursor: pointer;
 	background-color: transparent;
-	background-image: url('../img/actions/search-white.svg');
 	-webkit-transition: all 100ms;
 	-moz-transition: all 100ms;
 	-o-transition: all 100ms;
@@ -44,8 +43,7 @@
 	width: 155px;
 	max-width: 50%;
 	cursor: text;
-	background-color: #fff;
-	background-image: url('../img/actions/search.svg');
+	background-color: #112;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
 }
