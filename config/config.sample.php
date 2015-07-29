@@ -975,7 +975,7 @@ $CONFIG = array(
  * 2 -> Check every time the filesystem is used, causes a performance hit when
  * using external storages, not recommended for regular use.
  */
-'filesystem_check_changes' => 1,
+'filesystem_check_changes' => 0,
 
 /**
  * All css and js files will be served by the web server statically in one js
