@@ -23,6 +23,7 @@ OC.L10N.register(
     "Unable to change password" : "Ezin izan da pasahitza aldatu",
     "Enabled" : "Gaitua",
     "Not enabled" : "Gaitu gabe",
+    "Federated Cloud Sharing" : "Federatutako Hodei Partekatzea",
     "Group already exists." : "Taldea dagoeneko existitzen da",
     "Unable to add group." : "Ezin izan da taldea gehitu.",
     "Unable to delete group." : "Ezin izan da taldea ezabatu.",

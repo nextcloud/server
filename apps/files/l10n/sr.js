@@ -47,6 +47,8 @@ OC.L10N.register(
     "Select" : "Изабери",
     "Pending" : "На чекању",
     "Unable to determine date" : "Не могу да одредим датум",
+    "This operation is forbidden" : "Ова радња је забрањена",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Овај директоријум није доступан, проверите записе или контактирајте администратора",
     "Error moving file." : "Грешка при премештању фајла.",
     "Error moving file" : "Грешка при премештању фајла",
     "Error" : "Грешка",

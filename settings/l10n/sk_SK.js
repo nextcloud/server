@@ -31,6 +31,7 @@ OC.L10N.register(
     "Unable to change password" : "Zmena hesla sa nepodarila",
     "Enabled" : "Povolené",
     "Not enabled" : "Zakázané",
+    "Federated Cloud Sharing" : "Združené cloudové zdieľanie",
     "A problem occurred, please check your log files (Error: %s)" : "Nastala chyba, skontrolujte prosím váš log súbor (Chyba: %s)",
     "Migration Completed" : "Migrácia ukončená",
     "Group already exists." : "Skupina už existuje.",

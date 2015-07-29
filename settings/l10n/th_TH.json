@@ -29,6 +29,7 @@
     "Unable to change password" : "ไม่สามารถเปลี่ยนรหัสผ่าน",
     "Enabled" : "เปิดการใช้งาน",
     "Not enabled" : "ใช้งานไม่ได้",
+    "Federated Cloud Sharing" : "สหพันธ์การแชร์คลาวด์",
     "A problem occurred, please check your log files (Error: %s)" : "มีปัญหาเกิดขึ้นโปรดตรวจสอบบันทึกไฟล์ของคุณ (ข้อผิดพลาด: %s)",
     "Migration Completed" : "การโยกย้ายเสร็จสมบูรณ์",
     "Group already exists." : "มีกลุ่มนี้อยู่แล้ว",

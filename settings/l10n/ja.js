@@ -31,6 +31,7 @@ OC.L10N.register(
     "Unable to change password" : "パスワードを変更できません",
     "Enabled" : "有効",
     "Not enabled" : "無効",
+    "Federated Cloud Sharing" : "統合されたクラウド共有",
     "A problem occurred, please check your log files (Error: %s)" : "問題が発生しました。ログファイルを確認してください。(Error: %s)",
     "Migration Completed" : "移行が完了しました",
     "Group already exists." : "グループはすでに存在しています",

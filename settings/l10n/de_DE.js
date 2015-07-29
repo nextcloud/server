@@ -31,6 +31,7 @@ OC.L10N.register(
     "Unable to change password" : "Passwort konnte nicht geändert werden",
     "Enabled" : "Aktiviert",
     "Not enabled" : "Nicht aktiviert",
+    "Federated Cloud Sharing" : "Federated-Cloud-Sharing",
     "A problem occurred, please check your log files (Error: %s)" : "Es ist ein Problem aufgetreten, bitte überprüfen Sie Ihre Logdateien (Fehler: %s)",
     "Migration Completed" : "Migration abgeschlossen",
     "Group already exists." : "Gruppe existiert bereits.",

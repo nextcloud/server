@@ -27,6 +27,7 @@ OC.L10N.register(
     "Unable to change password" : "不能更改密码",
     "Enabled" : "开启",
     "Not enabled" : "未启用",
+    "Federated Cloud Sharing" : "联合云共享",
     "Migration Completed" : "迁移完成",
     "Saved" : "已保存",
     "test email settings" : "测试电子邮件设置",

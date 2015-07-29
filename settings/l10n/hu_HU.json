@@ -20,6 +20,7 @@
     "Wrong admin recovery password. Please check the password and try again." : "Hibás admin helyreállítási jelszó. Ellenőrizze a jelszót és próbálja újra!",
     "Unable to change password" : "Nem sikerült megváltoztatni a jelszót",
     "Enabled" : "Bekapcsolva",
+    "Federated Cloud Sharing" : "Megosztás Egyesített Felhőben",
     "Saved" : "Elmentve",
     "test email settings" : "e-mail beállítások ellenőrzése",
     "Email sent" : "Az e-mailt elküldtük",

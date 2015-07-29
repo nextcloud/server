@@ -47,6 +47,7 @@ OC.L10N.register(
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Trūksta PHP modulio „fileinfo“. Labai rekomenduojame įjungti šį modulį, kad gauti geriausius rezultatus nustatant mime-tipą.",
     "Allow apps to use the Share API" : "Leidžia programoms naudoti Share API",
     "Allow public uploads" : "Leisti viešus įkėlimus",
+    "days" : "dienos",
     "Allow resharing" : "Leisti dalintis",
     "Execute one task with each page loaded" : "Įvykdyti vieną užduotį su kiekvieno puslapio įkėlimu",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php yra registruotas tinklapio suplanuotų užduočių paslaugose, kad iškviesti cron.php kas 15 minučių per http.",

@@ -31,6 +31,7 @@ OC.L10N.register(
     "Unable to change password" : "Tidak dapat mengubah sandi",
     "Enabled" : "Diaktifkan",
     "Not enabled" : "Tidak diaktifkan",
+    "Federated Cloud Sharing" : "Federated Cloud Sharing",
     "A problem occurred, please check your log files (Error: %s)" : "Terjadi masalah, mohon periksa berkas log Anda (Kesalahan: %s)",
     "Migration Completed" : "Migrasi Selesai",
     "Group already exists." : "Grup sudah ada.",

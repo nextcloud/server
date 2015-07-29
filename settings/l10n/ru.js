@@ -31,6 +31,7 @@ OC.L10N.register(
     "Unable to change password" : "Невозможно изменить пароль",
     "Enabled" : "Включено",
     "Not enabled" : "Не включено",
+    "Federated Cloud Sharing" : "Объединение облачных хранилищ",
     "A problem occurred, please check your log files (Error: %s)" : "Возникла проблема, пожалуйста, проверьте ваши файлы журнала (Ошибка: %s)",
     "Migration Completed" : "Миграция завершена",
     "Group already exists." : "Группа уже существует.",

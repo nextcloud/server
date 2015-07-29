@@ -31,6 +31,7 @@ OC.L10N.register(
     "Unable to change password" : "Αδυναμία αλλαγής συνθηματικού",
     "Enabled" : "Ενεργοποιημένο",
     "Not enabled" : "Μη ενεργοποιημένο",
+    "Federated Cloud Sharing" : "Διαμοιρασμός σε ομόσπονδα σύννεφα ",
     "A problem occurred, please check your log files (Error: %s)" : "Παρουσιάστηκε πρόβλημα, παρακαλώ ελέγξτε τα αρχεία καταγραφής σας (Σφάλμα: %s)",
     "Migration Completed" : "Η μετάβαση ολοκληρώθηκε",
     "Group already exists." : "Η ομάδα υπάρχει ήδη.",

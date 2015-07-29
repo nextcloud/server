@@ -29,6 +29,7 @@
     "Unable to change password" : "Parola değiştirilemiyor",
     "Enabled" : "Etkin",
     "Not enabled" : "Etkin değil",
+    "Federated Cloud Sharing" : "Birleşmiş Bulut Paylaşımı",
     "A problem occurred, please check your log files (Error: %s)" : "Bir problem oluştu, lütfen log dosyalarını kontrol edin (Hata: %s)",
     "Migration Completed" : "Taşınma Tamamlandı",
     "Group already exists." : "Grup zaten mevcut.",

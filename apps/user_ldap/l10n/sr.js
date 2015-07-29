@@ -78,6 +78,7 @@ OC.L10N.register(
     "Verify settings" : "Провери поставке",
     "1. Server" : "1. сервер",
     "%s. Server:" : "%s. Сервер:",
+    "Add a new and blank configuration" : "Додај нову празну поставу",
     "Copy current configuration into new directory binding" : "Копирај тренутну поставу у везивање новог директоријума",
     "Delete the current configuration" : "Обриши тренутне поставке",
     "Host" : "Домаћин",

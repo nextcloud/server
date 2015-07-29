@@ -30,6 +30,7 @@ OC.L10N.register(
     "Unable to change password" : "Ni mogoče spremeniti gesla",
     "Enabled" : "Omogočeno",
     "Not enabled" : "Ni omogočeno",
+    "Federated Cloud Sharing" : "Upravljana souporaba oblaka",
     "A problem occurred, please check your log files (Error: %s)" : "Pojavila se je težava. Prosimo, preverite dnevniške zapise (Napaka: %s)",
     "Migration Completed" : "Selitev zaključena",
     "Group already exists." : "Skupina že obstaja.",

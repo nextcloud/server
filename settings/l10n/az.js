@@ -25,6 +25,7 @@ OC.L10N.register(
     "Unable to change password" : "Şifrəni dəyişmək olmur",
     "Enabled" : "İşə salınıb",
     "Not enabled" : "İşə salınıb",
+    "Federated Cloud Sharing" : "Federal Cloud Paylaşım",
     "Group already exists." : "Qrup artılq mövcduddur.",
     "Unable to add group." : "Qrupu əlavə etmək mümkün deyil. ",
     "Unable to delete group." : "Qrupu silmək mümkün deyil.",

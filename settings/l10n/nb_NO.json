@@ -29,6 +29,7 @@
     "Unable to change password" : "Kunne ikke endre passord",
     "Enabled" : "Aktiv",
     "Not enabled" : "Ikke aktivert",
+    "Federated Cloud Sharing" : "Sammenknyttet sky-deling",
     "A problem occurred, please check your log files (Error: %s)" : "Det oppstod et problem. Sjekk loggfilene (Feil: %s)",
     "Migration Completed" : "Migrering ferdig",
     "Group already exists." : "Gruppe finnes allerede.",

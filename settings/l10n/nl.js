@@ -31,6 +31,7 @@ OC.L10N.register(
     "Unable to change password" : "Kan wachtwoord niet wijzigen",
     "Enabled" : "Geactiveerd",
     "Not enabled" : "Niet ingeschakeld",
+    "Federated Cloud Sharing" : "Federated Cloud Sharing",
     "A problem occurred, please check your log files (Error: %s)" : "Er trad een een probleem op, controleer uw logbestanden (Fout: %s).",
     "Migration Completed" : "Migratie gereed",
     "Group already exists." : "Groep bestaat al.",

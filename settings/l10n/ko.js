@@ -31,6 +31,7 @@ OC.L10N.register(
     "Unable to change password" : "암호를 변경할 수 없음",
     "Enabled" : "활성",
     "Not enabled" : "비활성",
+    "Federated Cloud Sharing" : "클라우드 연합 공유",
     "A problem occurred, please check your log files (Error: %s)" : "문제가 발생하였습니다. 로그 파일을 참조하십시오(오류: %s)",
     "Migration Completed" : "이전 완료됨",
     "Group already exists." : "그룹이 이미 존재합니다.",

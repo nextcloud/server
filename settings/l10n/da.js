@@ -31,6 +31,7 @@ OC.L10N.register(
     "Unable to change password" : "Kunne ikke ændre kodeord",
     "Enabled" : "Aktiveret",
     "Not enabled" : "Slået fra",
+    "Federated Cloud Sharing" : "Sammensluttet Cloud deling",
     "A problem occurred, please check your log files (Error: %s)" : "Der opstod en fejl - tjek venligst dine logfiler (fejl: %s)",
     "Migration Completed" : "Overflytning blev fuldført",
     "Group already exists." : "Gruppen findes allerede.",

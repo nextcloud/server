@@ -27,6 +27,7 @@
     "Unable to change password" : "Unable to change password",
     "Enabled" : "Enabled",
     "Not enabled" : "Not enabled",
+    "Federated Cloud Sharing" : "Federated Cloud Sharing",
     "A problem occurred, please check your log files (Error: %s)" : "A problem occurred, please check your log files (Error: %s)",
     "Migration Completed" : "Migration Completed",
     "Group already exists." : "Group already exists.",

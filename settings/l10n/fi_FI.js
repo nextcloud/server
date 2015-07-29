@@ -31,6 +31,7 @@ OC.L10N.register(
     "Unable to change password" : "Salasanan vaihto ei onnistunut",
     "Enabled" : "Käytössä",
     "Not enabled" : "Ei käytössä",
+    "Federated Cloud Sharing" : "Federoitu pilvijakaminen",
     "A problem occurred, please check your log files (Error: %s)" : "Tapahtui virhe, tarkista lokitiedostot (Virhe: %s)",
     "Migration Completed" : "Migraatio valmistui",
     "Group already exists." : "Ryhmä on jo olemassa.",

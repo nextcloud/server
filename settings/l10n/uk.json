@@ -27,6 +27,7 @@
     "Unable to change password" : "Неможливо змінити пароль",
     "Enabled" : "Увімкнено",
     "Not enabled" : "Вимкнено",
+    "Federated Cloud Sharing" : "Об’єднання хмарних сховищ",
     "A problem occurred, please check your log files (Error: %s)" : "Виникла проблема, будь ласка, перевірте свої журнальні файли (Помилка:%s)",
     "Migration Completed" : "Міграцію завершено",
     "Group already exists." : "Група вже існує.",
