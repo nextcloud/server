@@ -22,22 +22,31 @@
  */
 namespace OC\Setup;
 
+use OCP\IConfig;
+
 abstract class AbstractDatabase {
 
-	/**
-	 * @var \OC_L10N
-	 */
+	/** @var \OC_L10N */
 	protected $trans;
+	/** @var string */
 	protected $dbDefinitionFile;
-	protected $dbuser;
-	protected $dbpassword;
-	protected $dbname;
-	protected $dbhost;
-	protected $tableprefix;
+	/** @var string */
+	protected $dbUser;
+	/** @var string */
+	protected $dbPassword;
+	/** @var string */
+	protected $dbName;
+	/** @var string */
+	protected $dbHost;
+	/** @var string */
+	protected $tablePrefix;
+	/** @var IConfig */
+	protected $config;
 
-	public function __construct($trans, $dbDefinitionFile) {
+	public function __construct($trans, $dbDefinitionFile, IConfig $config) {
 		$this->trans = $trans;
 		$this->dbDefinitionFile = $dbDefinitionFile;
+		$this->config = $config;
 	}
 
 	public function validate($config) {
@@ -67,11 +76,11 @@ abstract class AbstractDatabase {
 			'dbtableprefix'	=> $dbTablePrefix,
 		]);
 
-		$this->dbuser = $dbUser;
-		$this->dbpassword = $dbPass;
-		$this->dbname = $dbName;
-		$this->dbhost = $dbHost;
-		$this->tableprefix = $dbTablePrefix;
+		$this->dbUser = $dbUser;
+		$this->dbPassword = $dbPass;
+		$this->dbName = $dbName;
+		$this->dbHost = $dbHost;
+		$this->tablePrefix = $dbTablePrefix;
 	}
 
 	abstract public function setupDatabase($userName);

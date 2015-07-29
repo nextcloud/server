@@ -249,7 +249,7 @@ class Setup {
 
 		$class = self::$dbSetupClasses[$dbType];
 		/** @var \OC\Setup\AbstractDatabase $dbSetup */
-		$dbSetup = new $class($l, 'db_structure.xml');
+		$dbSetup = new $class($l, 'db_structure.xml', $this->config);
 		$error = array_merge($error, $dbSetup->validate($options));
 
 		// validate the data directory

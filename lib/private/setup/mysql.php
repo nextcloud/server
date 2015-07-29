@@ -23,21 +23,19 @@
  */
 namespace OC\Setup;
 
+use OC\DB\ConnectionFactory;
+
 class MySQL extends AbstractDatabase {
 	public $dbprettyname = 'MySQL/MariaDB';
 
 	public function setupDatabase($username) {
 		//check if the database user has admin right
-		$connection = @mysql_connect($this->dbhost, $this->dbuser, $this->dbpassword);
-		if(!$connection) {
-			throw new \OC\DatabaseSetupException($this->trans->t('MySQL/MariaDB username and/or password not valid'),
-				$this->trans->t('You need to enter either an existing account or the administrator.'));
-		}
+		$connection = $this->connect();
 		//user already specified in config
 		$oldUser=\OC_Config::getValue('dbuser', false);
 
 		//we don't have a dbuser specified in config
-		if($this->dbuser!=$oldUser) {
+		if($this->dbUser!=$oldUser) {
 			//add prefix to the admin username to prevent collisions
 			$adminUser=substr('oc_'.$username, 0, 16);
 
@@ -45,18 +43,18 @@ class MySQL extends AbstractDatabase {
 			while(true) {
 				//this should be enough to check for admin rights in mysql
 				$query="SELECT user FROM mysql.user WHERE user='$adminUser'";
-
-				$result = mysql_query($query, $connection);
+				$result = $connection->executeQuery($query);
 
 				//current dbuser has admin rights
 				if($result) {
+					$data = $result->fetchAll();
 					//new dbuser does not exist
-					if(mysql_num_rows($result) === 0) {
+					if(count($data) === 0) {
 						//use the admin login data for the new database user
-						$this->dbuser=$adminUser;
+						$this->dbUser=$adminUser;
 
 						//create a random password so we don't need to store the admin password in the config file
-						$this->dbpassword=\OC_Util::generateRandomBytes(30);
+						$this->dbPassword=\OC_Util::generateRandomBytes(30);
 
 						$this->createDBUser($connection);
 
@@ -73,8 +71,8 @@ class MySQL extends AbstractDatabase {
 			};
 
 			\OC_Config::setValues([
-				'dbuser'		=> $this->dbuser,
-				'dbpassword'	=> $this->dbpassword,
+				'dbuser'		=> $this->dbUser,
+				'dbpassword'	=> $this->dbPassword,
 			]);
 		}
 
@@ -83,50 +81,57 @@ class MySQL extends AbstractDatabase {
 
 		//fill the database if needed
 		$query='select count(*) from information_schema.tables'
-			." where table_schema='".$this->dbname."' AND table_name = '".$this->tableprefix."users';";
-		$result = mysql_query($query, $connection);
-		if($result) {
-			$row=mysql_fetch_row($result);
-		}
+			." where table_schema='".$this->dbName."' AND table_name = '".$this->tablePrefix."users';";
+		$result = $connection->executeQuery($query);
+		$row = $result->fetch();
 		if(!$result or $row[0]==0) {
 			\OC_DB::createDbFromStructure($this->dbDefinitionFile);
 		}
-		mysql_close($connection);
 	}
 
+	/**
+	 * @param \OC\DB\Connection $connection
+	 */
 	private function createDatabase($connection) {
-		$name = $this->dbname;
-		$user = $this->dbuser;
+		$name = $this->dbName;
+		$user = $this->dbUser;
 		//we cant use OC_BD functions here because we need to connect as the administrative user.
 		$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8 COLLATE utf8_bin;";
-		$result = mysql_query($query, $connection);
-		if(!$result) {
-			$entry = $this->trans->t('DB Error: "%s"', array(mysql_error($connection))) . '<br />';
-			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
-			\OCP\Util::writeLog('setup.mysql', $entry, \OCP\Util::WARN);
-		}
-		$query="GRANT ALL PRIVILEGES ON `$name` . * TO '$user'";
+		$connection->executeUpdate($query);
 
 		//this query will fail if there aren't the right permissions, ignore the error
-		mysql_query($query, $connection);
+		$query="GRANT ALL PRIVILEGES ON `$name` . * TO '$user'";
+		$connection->executeUpdate($query);
 	}
 
+	/**
+	 * @param \OC\DB\Connection $connection
+	 * @throws \OC\DatabaseSetupException
+	 */
 	private function createDBUser($connection) {
-		$name = $this->dbuser;
-		$password = $this->dbpassword;
+		$name = $this->dbUser;
+		$password = $this->dbPassword;
 		// we need to create 2 accounts, one for global use and one for local user. if we don't specify the local one,
 		// the anonymous user would take precedence when there is one.
 		$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
-		$result = mysql_query($query, $connection);
-		if (!$result) {
-			throw new \OC\DatabaseSetupException($this->trans->t("MySQL/MariaDB user '%s'@'localhost' exists already.", array($name)),
-				$this->trans->t("Drop this user from MySQL/MariaDB", array($name)));
-		}
+		$connection->executeUpdate($query);
 		$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
-		$result = mysql_query($query, $connection);
-		if (!$result) {
-			throw new \OC\DatabaseSetupException($this->trans->t("MySQL/MariaDB user '%s'@'%%' already exists", array($name)),
-				$this->trans->t("Drop this user from MySQL/MariaDB."));
-		}
+		$connection->executeUpdate($query);
+	}
+
+	/**
+	 * @return \OC\DB\Connection
+	 * @throws \OC\DatabaseSetupException
+	 */
+	private function connect() {
+		$type = 'mysql';
+		$connectionParams = array(
+			'host' => $this->dbHost,
+			'user' => $this->dbUser,
+			'password' => $this->dbPassword,
+			'tablePrefix' => $this->tablePrefix,
+		);
+		$cf = new ConnectionFactory();
+		return $cf->getConnection($type, $connectionParams);
 	}
 }
