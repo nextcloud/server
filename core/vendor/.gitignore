@@ -30,6 +30,7 @@ moment/locale
 moment/min/**
 moment/moment.js
 moment/scripts
+moment/templates
 !moment/min/moment-with-locales.js
 
 # jquery

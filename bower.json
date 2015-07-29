@@ -20,7 +20,7 @@
     "jquery-migrate": "~1.2.1",
     "jquery-ui": "1.10.0",
     "jsTimezoneDetect": "~1.0.5",
-    "moment": "~2.8.3",
+    "moment": "~2.10.0",
     "select2": "~3.4.8",
     "zxcvbn": "*",
     "snapjs": "~2.0.0-rc1",
