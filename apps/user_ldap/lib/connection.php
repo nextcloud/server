@@ -341,8 +341,6 @@ class Connection extends LDAPUtility {
 			}
 		}
 
-		$groupFilter = $this->configuration->ldapGroupFilter;
-
 		foreach(array('ldapExpertUUIDUserAttr'  => 'ldapUuidUserAttribute',
 					  'ldapExpertUUIDGroupAttr' => 'ldapUuidGroupAttribute')
 				as $expertSetting => $effectiveSetting) {
