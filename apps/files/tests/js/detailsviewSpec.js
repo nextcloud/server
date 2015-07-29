@@ -64,23 +64,20 @@ describe('OCA.Files.DetailsView tests', function() {
 		});
 	});
 	describe('tabs', function() {
-		it('renders registered tabs', function() {
-			var testView = new OCA.Files.DetailTabView('test1');
-			var testView2 = new OCA.Files.DetailTabView('test2');
+		var testView, testView2;
+
+		beforeEach(function() {
+			testView = new OCA.Files.DetailTabView('test1');
+			testView2 = new OCA.Files.DetailTabView('test2');
 			detailsView.addTabView(testView);
 			detailsView.addTabView(testView2);
 			detailsView.render();
-
-			expect(detailsView.$el.find('.tabsContainer .detailTabView').length).toEqual(2);
+		});
+		it('renders registered tabs', function() {
+			expect(detailsView.$el.find('.tab').length).toEqual(2);
 		});
 		it('updates registered tabs when fileinfo is updated', function() {
 			var tabRenderStub = sinon.stub(OCA.Files.DetailTabView.prototype, 'render');
-			var testView = new OCA.Files.DetailTabView('test1');
-			var testView2 = new OCA.Files.DetailTabView('test2');
-			detailsView.addTabView(testView);
-			detailsView.addTabView(testView2);
-			detailsView.render();
-
 			var fileInfo = {id: 5, name: 'test.txt'};
 			tabRenderStub.reset();
 			detailsView.setFileInfo(fileInfo);
@@ -90,6 +87,19 @@ describe('OCA.Files.DetailsView tests', function() {
 
 			expect(tabRenderStub.callCount).toEqual(2);
 			tabRenderStub.restore();
+		});
+		it('selects the first tab by default', function() {
+			expect(detailsView.$el.find('.tabHeader').eq(0).hasClass('selected')).toEqual(true);
+			expect(detailsView.$el.find('.tabHeader').eq(1).hasClass('selected')).toEqual(false);
+			expect(detailsView.$el.find('.tab').eq(0).hasClass('hidden')).toEqual(false);
+			expect(detailsView.$el.find('.tab').eq(1).hasClass('hidden')).toEqual(true);
+		});
+		it('switches the current tab when clicking on tab header', function() {
+			detailsView.$el.find('.tabHeader').eq(1).click();
+			expect(detailsView.$el.find('.tabHeader').eq(0).hasClass('selected')).toEqual(false);
+			expect(detailsView.$el.find('.tabHeader').eq(1).hasClass('selected')).toEqual(true);
+			expect(detailsView.$el.find('.tab').eq(0).hasClass('hidden')).toEqual(true);
+			expect(detailsView.$el.find('.tab').eq(1).hasClass('hidden')).toEqual(false);
 		});
 	});
 });

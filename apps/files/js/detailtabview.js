@@ -59,8 +59,8 @@
 				throw 'Argument "id" is required';
 			}
 			this._id = id;
-			this.$el = $('<div class="detailTabView"></div>');
-			this.$el.attr('id', id);
+			this.$el = $('<div class="tab"></div>');
+			this.$el.attr('data-tabid', id);
 		},
 
 		/**

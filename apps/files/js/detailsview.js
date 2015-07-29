@@ -14,15 +14,17 @@
 		'<div>' +
 		'    <div class="detailFileInfoContainer">' +
 		'    </div>' +
-		'    <div class="tabsContainer">' +
-		'        <ul class="tabHeadsContainer">' +
+		'    <div>' +
+		'        <ul class="tabHeaders">' +
 		'        </ul>' +
+		'        <div class="tabsContainer">' +
+		'        </div>' +
 		'    </div>' +
 		'    <a class="close icon-close" href="#" alt="{{closeLabel}}"></a>' +
 		'</div>';
 
 	var TEMPLATE_TAB_HEADER =
-		'<li class="tabHeaders"><a href="#{{tabId}}">{{label}}</a></li>';
+		'<li class="tabHeader {{#if selected}}selected{{/if}}" data-tabid="{{tabId}}" data-tabindex="{{tabIndex}}"><a href="#">{{label}}</a></li>';
 
 	/**
 	 * @class OCA.Files.DetailsView
@@ -70,10 +72,16 @@
 		_detailFileInfoViews: [],
 
 		/**
+		 * Id of the currently selected tab
+		 *
+		 * @type string
+		 */
+		_currentTabId: null,
+
+		/**
 		 * Initialize the details view
 		 */
 		initialize: function() {
-			var self = this;
 			this.$el = $('<div id="app-sidebar"></div>');
 			this.fileInfo = null;
 			this._tabViews = [];
@@ -84,8 +92,10 @@
 				event.preventDefault();
 			});
 
+			this.$el.on('click', '.tabHeaders .tabHeader', _.bind(this._onClickTab, this));
+
 			// uncomment to add some dummy tabs for testing
-			// this._addTestTabs();
+			//this._addTestTabs();
 		},
 
 		/**
@@ -95,6 +105,27 @@
 			if (this.$el) {
 				this.$el.remove();
 			}
+		},
+
+		_onClickTab: function(e) {
+			var $target = $(e.target);
+			if (!$target.hasClass('tabHeader')) {
+				$target = $target.closest('.tabHeader');
+			}
+			var tabIndex = $target.attr('data-tabindex');
+			var targetTab;
+			if (_.isUndefined(tabIndex)) {
+				return;
+			}
+
+			this.$el.find('.tabsContainer .tab').addClass('hidden');
+			targetTab = this._tabViews[tabIndex];
+			targetTab.$el.removeClass('hidden');
+
+			this.$el.find('.tabHeaders li').removeClass('selected');
+			$target.addClass('selected');
+
+			e.preventDefault();
 		},
 
 		_addTestTabs: function() {
@@ -131,7 +162,7 @@
 				closeLabel: t('files', 'Close')
 			}));
 			var $tabsContainer = $el.find('.tabsContainer');
-			var $tabHeadsContainer = $el.find('.tabHeadsContainer');
+			var $tabHeadsContainer = $el.find('.tabHeaders');
 			var $detailsContainer = $el.find('.detailFileInfoContainer');
 
 			// render details
@@ -140,14 +171,25 @@
 			});
 
 			if (this._tabViews.length > 0) {
+				if (!this._currentTab) {
+					this._currentTab = this._tabViews[0].getId();
+				}
+
 				// render tabs
-				_.each(this._tabViews, function(tabView) {
+				_.each(this._tabViews, function(tabView, i) {
 					// hidden by default
-					$tabsContainer.append(tabView.get$());
+					var $el = tabView.get$();
+					var isCurrent = (tabView.getId() === self._currentTab);
+					if (!isCurrent) {
+						$el.addClass('hidden');
+					}
+					$tabsContainer.append($el);
 
 					$tabHeadsContainer.append(self._templateTabHeader({
 						tabId: tabView.getId(),
-						label: tabView.getLabel()
+						tabIndex: i,
+						label: tabView.getLabel(),
+						selected: isCurrent
 					}));
 				});
 			}
@@ -155,10 +197,6 @@
 			// TODO: select current tab
 
 			this.$el.append($el);
-
-			if (this._tabViews.length > 0) {
-				$tabsContainer.tabs({});
-			}
 		},
 
 		/**
