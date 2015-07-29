@@ -47,9 +47,6 @@ class Test_DBSchema extends \Test\TestCase {
 	 */
 	public function testSchema() {
 		$platform = \OC_DB::getConnection()->getDatabasePlatform();
-		if ($platform instanceof \Doctrine\DBAL\Platforms\SQLServerPlatform) {
-			$this->markTestSkipped("Test not relevant on MSSQL");
-		}
 		$this->doTestSchemaCreating();
 		$this->doTestSchemaChanging();
 		$this->doTestSchemaDumping();

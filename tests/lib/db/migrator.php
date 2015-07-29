@@ -11,9 +11,9 @@ namespace Test\DB;
 
 use \Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\SQLServerPlatform;
 use \Doctrine\DBAL\Schema\Schema;
 use \Doctrine\DBAL\Schema\SchemaConfig;
+use OCP\IConfig;
 
 class Migrator extends \Test\TestCase {
 	/**
@@ -31,6 +31,7 @@ class Migrator extends \Test\TestCase {
 	 **/
 	private $config;
 
+	/** @var string */
 	private $tableName;
 
 	protected function setUp() {
@@ -40,9 +41,6 @@ class Migrator extends \Test\TestCase {
 		$this->connection = \OC_DB::getConnection();
 		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
 			$this->markTestSkipped('DB migration tests are not supported on OCI');
-		}
-		if ($this->connection->getDatabasePlatform() instanceof SQLServerPlatform) {
-			$this->markTestSkipped('DB migration tests are not supported on MSSQL');
 		}
 		$this->manager = new \OC\DB\MDB2SchemaManager($this->connection);
 		$this->tableName = strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix', 'oc_') . 'test_'));

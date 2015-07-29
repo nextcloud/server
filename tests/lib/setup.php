@@ -81,7 +81,7 @@ class Test_OC_Setup extends \Test\TestCase {
 			->expects($this->once())
 			->method('getSystemValue')
 			->will($this->returnValue(
-				array('sqlite', 'mysql', 'pgsql', 'oci', 'mssql')
+				array('sqlite', 'mysql', 'pgsql', 'oci')
 			));
 		$this->setupClass
 			->expects($this->once())
@@ -96,8 +96,7 @@ class Test_OC_Setup extends \Test\TestCase {
 			'sqlite' => 'SQLite',
 			'mysql' => 'MySQL/MariaDB',
 			'pgsql' => 'PostgreSQL',
-			'oci' => 'Oracle',
-			'mssql' => 'MS SQL'
+			'oci' => 'Oracle'
 		);
 		$this->assertSame($expectedResult, $result);
 	}

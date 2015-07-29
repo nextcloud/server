@@ -39,12 +39,6 @@ class ConnectionFactory {
 	* \Doctrine\DBAL\DriverManager::getConnection().
 	*/
 	protected $defaultConnectionParams = array(
-		'mssql' => array(
-			'adapter' => '\OC\DB\AdapterSQLSrv',
-			'charset' => 'UTF8',
-			'driver' => 'pdo_sqlsrv',
-			'wrapperClass' => 'OC\DB\Connection',
-		),
 		'mysql' => array(
 			'adapter' => '\OC\DB\AdapterMySQL',
 			'charset' => 'UTF8',

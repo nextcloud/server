@@ -121,7 +121,7 @@ class OC_DB {
 		if (is_string($stmt)) {
 			// convert to an array with 'sql'
 			if (stripos($stmt, 'LIMIT') !== false) { //OFFSET requires LIMIT, so we only need to check for LIMIT
-				// TODO try to convert LIMIT OFFSET notation to parameters, see fixLimitClauseForMSSQL
+				// TODO try to convert LIMIT OFFSET notation to parameters
 				$message = 'LIMIT and OFFSET are forbidden for portability reasons,'
 						 . ' pass an array with \'limit\' and \'offset\' instead';
 				throw new \OC\DatabaseException($message);
