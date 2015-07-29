@@ -10,6 +10,12 @@
 
 (function() {
 	OC.SetupChecks = {
+
+		/* Message types */
+		MESSAGE_TYPE_INFO:0,
+		MESSAGE_TYPE_WARNING:1,
+		MESSAGE_TYPE_ERROR:2,
+
 		/**
 		 * Check whether the WebDAV connection works.
 		 *
@@ -60,9 +66,10 @@
 						);
 					}
 					if(!data.isMemcacheConfigured) {
-						messages.push(
-							t('core', 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="{docLink}">documentation</a>.', {docLink: data.memcacheDocs})
-						);
+						messages.push({
+							msg: t('core', 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="{docLink}">documentation</a>.', {docLink: data.memcacheDocs}),
+							type: OC.SetupChecks.MESSAGE_TYPE_TIP
+						});
 					}
 					if(!data.isUrandomAvailable) {
 						messages.push(
