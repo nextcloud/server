@@ -1316,5 +1316,21 @@ describe('OC.Share tests', function() {
 			});
 		});
 	});
+	describe('OC.Share utils', function() {
+		it('parseTime should properly parse strings', function() {
+
+			_.each([
+				[ '123456', 123456],
+				[  123456 , 123456],
+				['0123456', 123456],
+				['abcdefg',   null],
+				['0x12345',   null],
+				[       '',   null],
+			], function(value) {
+				expect(OC.Share._parseTime(value[0])).toEqual(value[1]);
+			});
+
+		});
+	});
 });
 
