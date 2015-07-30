@@ -136,8 +136,7 @@ class SimpleContainerTest extends \Test\TestCase {
     }
 
 
-    public function tesOverrideService() {
-        $this->container->registerParameter('test', 'abc');
+    public function testOverrideService() {
         $this->container->registerService(
         'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
             return $c->query('Test\AppFramework\Utility\ClassSimpleConstructor');
@@ -147,10 +146,9 @@ class SimpleContainerTest extends \Test\TestCase {
             return $c->query('Test\AppFramework\Utility\ClassEmptyConstructor');
         });
         $object = $this->container->query(
-            'Test\AppFramework\Utility\ClassInterfaceConstructor'
+            'Test\AppFramework\Utility\IInterfaceConstructor'
         );
         $this->assertTrue($object instanceof ClassEmptyConstructor);
-        $this->assertEquals('abc', $object->test);
     }
 
     public function testRegisterAliasParamter() {
