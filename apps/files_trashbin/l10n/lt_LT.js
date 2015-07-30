@@ -10,6 +10,7 @@ OC.L10N.register(
     "restored" : "atstatyta",
     "No deleted files" : "Nėra ištrintų failų",
     "You will be able to recover deleted files from here" : "Jūs galėsite atkurti ištrintus failus iš čia",
+    "No entries found in this folder" : "Nerasta įrašų šiame aplanke",
     "Select all" : "Pažymėti viską",
     "Name" : "Pavadinimas",
     "Deleted" : "Ištrinti",

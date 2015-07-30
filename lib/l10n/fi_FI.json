@@ -61,7 +61,6 @@
     "%s enter the database username." : "%s anna tietokannan käyttäjätunnus.",
     "%s enter the database name." : "%s anna tietokannan nimi.",
     "%s you may not use dots in the database name" : "%s et voi käyttää pisteitä tietokannan nimessä",
-    "MS SQL username and/or password not valid: %s" : "MS SQL -käyttäjätunnus ja/tai -salasana on väärin: %s",
     "MySQL/MariaDB username and/or password not valid" : "MySQL/MariaDB-käyttäjätunnus ja/tai salasana on virheellinen",
     "DB Error: \"%s\"" : "Tietokantavirhe: \"%s\"",
     "Offending command was: \"%s\"" : "Loukkaava komento oli: \"%s\"",

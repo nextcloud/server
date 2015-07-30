@@ -30,7 +30,6 @@
     "Token expired. Please reload page." : "Token expirat. Te rugăm să reîncarci pagina.",
     "Unknown user" : "Utilizator necunoscut",
     "%s enter the database name." : "%s introduceți numele bazei de date",
-    "MS SQL username and/or password not valid: %s" : "Nume utilizator și/sau parolă MS SQL greșită: %s",
     "MySQL/MariaDB username and/or password not valid" : "Nume utilizator și/sau parolă MySQL/MariaDB greșită",
     "DB Error: \"%s\"" : "Eroare Bază de Date: \"%s\"",
     "MySQL/MariaDB user '%s'@'localhost' exists already." : "Utilizatorul MySQL/MariaDB '%s'@'localhost' deja există.",

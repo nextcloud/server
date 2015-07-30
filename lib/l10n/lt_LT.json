@@ -33,7 +33,6 @@
     "%s enter the database username." : "%s įrašykite duombazės naudotojo vardą.",
     "%s enter the database name." : "%s įrašykite duombazės pavadinimą.",
     "%s you may not use dots in the database name" : "%s negalite naudoti taškų duombazės pavadinime",
-    "MS SQL username and/or password not valid: %s" : "MS SQL naudotojo vardas ir/arba slaptažodis netinka: %s",
     "You need to enter either an existing account or the administrator." : "Turite prisijungti su egzistuojančia paskyra arba su administratoriumi.",
     "DB Error: \"%s\"" : "DB klaida: \"%s\"",
     "Offending command was: \"%s\"" : "Vykdyta komanda buvo: \"%s\"",

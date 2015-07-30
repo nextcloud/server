@@ -39,7 +39,6 @@
     "%s enter the database username." : "%s ingresar el usuario de la base de datos.",
     "%s enter the database name." : "%s ingresar el nombre de la base de datos",
     "%s you may not use dots in the database name" : "%s puede utilizar puntos en el nombre de la base de datos",
-    "MS SQL username and/or password not valid: %s" : "Usuario y/o contraseña de MS SQL no válidos: %s",
     "You need to enter either an existing account or the administrator." : "Tiene que ingresar una cuenta existente o la del administrador.",
     "DB Error: \"%s\"" : "Error BD: \"%s\"",
     "Offending command was: \"%s\"" : "Comando infractor: \"%s\"",
