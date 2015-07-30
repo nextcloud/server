@@ -27,9 +27,9 @@ class PostgreSQL extends AbstractDatabase {
 	public $dbprettyname = 'PostgreSQL';
 
 	public function setupDatabase($username) {
-		$e_host = addslashes($this->dbhost);
-		$e_user = addslashes($this->dbuser);
-		$e_password = addslashes($this->dbpassword);
+		$e_host = addslashes($this->dbHost);
+		$e_user = addslashes($this->dbUser);
+		$e_password = addslashes($this->dbPassword);
 
 		// Fix database with port connection
 		if(strpos($e_host, ':')) {
@@ -43,7 +43,7 @@ class PostgreSQL extends AbstractDatabase {
 		$connection = @pg_connect($connection_string);
 		if(!$connection) {
 			// Try if we can connect to the DB with the specified name
-			$e_dbname = addslashes($this->dbname);
+			$e_dbname = addslashes($this->dbName);
 			$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' port='$port' password='$e_password'";
 			$connection = @pg_connect($connection_string);
 
@@ -51,7 +51,7 @@ class PostgreSQL extends AbstractDatabase {
 				throw new \OC\DatabaseSetupException($this->trans->t('PostgreSQL username and/or password not valid'),
 						$this->trans->t('You need to enter either an existing account or the administrator.'));
 		}
-		$e_user = pg_escape_string($this->dbuser);
+		$e_user = pg_escape_string($this->dbUser);
 		//check for roles creation rights in postgresql
 		$query="SELECT 1 FROM pg_roles WHERE rolcreaterole=TRUE AND rolname='$e_user'";
 		$result = pg_query($connection, $query);
@@ -59,16 +59,16 @@ class PostgreSQL extends AbstractDatabase {
 			//use the admin login data for the new database user
 
 			//add prefix to the postgresql user name to prevent collisions
-			$this->dbuser='oc_'.$username;
+			$this->dbUser='oc_'.$username;
 			//create a new password so we don't need to store the admin config in the config file
-			$this->dbpassword=\OC_Util::generateRandomBytes(30);
+			$this->dbPassword=\OC_Util::generateRandomBytes(30);
 
 			$this->createDBUser($connection);
 		}
 
 		\OC_Config::setValues([
-			'dbuser'		=> $this->dbuser,
-			'dbpassword'	=> $this->dbpassword,
+			'dbuser'		=> $this->dbUser,
+			'dbpassword'	=> $this->dbPassword,
 		]);
 
 		//create the database
@@ -78,13 +78,13 @@ class PostgreSQL extends AbstractDatabase {
 		pg_close($connection);
 
 		// connect to the ownCloud database (dbname=$this->dbname) and check if it needs to be filled
-		$this->dbuser = \OC_Config::getValue('dbuser');
-		$this->dbpassword = \OC_Config::getValue('dbpassword');
+		$this->dbUser = \OC_Config::getValue('dbuser');
+		$this->dbPassword = \OC_Config::getValue('dbpassword');
 
-		$e_host = addslashes($this->dbhost);
-		$e_dbname = addslashes($this->dbname);
-		$e_user = addslashes($this->dbuser);
-		$e_password = addslashes($this->dbpassword);
+		$e_host = addslashes($this->dbHost);
+		$e_dbname = addslashes($this->dbName);
+		$e_user = addslashes($this->dbUser);
+		$e_password = addslashes($this->dbPassword);
 
         	// Fix database with port connection
 		if(strpos($e_host, ':')) {
@@ -99,7 +99,7 @@ class PostgreSQL extends AbstractDatabase {
 			throw new \OC\DatabaseSetupException($this->trans->t('PostgreSQL username and/or password not valid'),
 					$this->trans->t('You need to enter either an existing account or the administrator.'));
 		}
-		$query = "select count(*) FROM pg_class WHERE relname='".$this->tableprefix."users' limit 1";
+		$query = "select count(*) FROM pg_class WHERE relname='".$this->tablePrefix."users' limit 1";
 		$result = pg_query($connection, $query);
 		if($result) {
 			$row = pg_fetch_row($result);
@@ -111,8 +111,8 @@ class PostgreSQL extends AbstractDatabase {
 
 	private function createDatabase($connection) {
 		//we cant use OC_BD functions here because we need to connect as the administrative user.
-		$e_name = pg_escape_string($this->dbname);
-		$e_user = pg_escape_string($this->dbuser);
+		$e_name = pg_escape_string($this->dbName);
+		$e_user = pg_escape_string($this->dbUser);
 		$query = "select datname from pg_database where datname = '$e_name'";
 		$result = pg_query($connection, $query);
 		if(!$result) {
@@ -137,8 +137,8 @@ class PostgreSQL extends AbstractDatabase {
 	}
 
 	private function createDBUser($connection) {
-		$e_name = pg_escape_string($this->dbuser);
-		$e_password = pg_escape_string($this->dbpassword);
+		$e_name = pg_escape_string($this->dbUser);
+		$e_password = pg_escape_string($this->dbPassword);
 		$query = "select * from pg_roles where rolname='$e_name';";
 		$result = pg_query($connection, $query);
 		if(!$result) {
