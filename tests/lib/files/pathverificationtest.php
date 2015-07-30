@@ -85,6 +85,8 @@ class PathVerification extends \Test\TestCase {
 			['🐵'],
 			['🐵.txt'],
 			['txt.💩'],
+			['💩🐵.txt'],
+			['💩🐵'],
 		];
 	}
 
