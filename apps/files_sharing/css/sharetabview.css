@@ -1,3 +1,72 @@
 .app-files .shareTabView {
 	min-height: 100px;
 }
+
+.shareTabView .oneline { white-space: nowrap; }
+
+.shareTabView .shareWithLoading {
+	display: inline-block !important;
+	padding-left: 10px;
+	position: relative;
+	right: 30px;
+	top: 2px;
+}
+
+.shareTabView .shareWithRemoteInfo {
+	padding: 11px 0 11px 10px
+}
+
+.shareTabView label {
+	font-weight:400;
+	white-space: nowrap;
+}
+
+.shareTabView input[type="checkbox"] {
+	margin:0 3px 0 8px;
+	vertical-align: middle;
+}
+
+.shareTabView input[type="text"], .shareTabView input[type="password"] {
+	width: 91%;
+	margin-left: 7px;
+}
+
+.shareTabView form {
+	font-size: 100%;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#shareWithList {
+	list-style-type:none;
+	padding:8px;
+}
+
+#shareWithList li {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-weight: bold;
+	line-height: 21px;
+	white-space: normal;
+}
+
+#shareWithList .unshare img, #shareWithList .showCruds img {
+	vertical-align:text-bottom; /* properly align icons */
+}
+
+#shareWithList label input[type=checkbox]{
+	margin-left: 0;
+	position: relative;
+}
+#shareWithList .username{
+	padding-right: 8px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 254px;
+	display: inline-block;
+	overflow: hidden;
+	vertical-align: middle;
+}
+#shareWithList li label{
+	margin-right: 8px;
+}

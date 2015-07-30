@@ -3,7 +3,7 @@
 /**
  * @namespace
  */
-OC.Share={
+OC.Share = _.extend(OC.Share, {
 	SHARE_TYPE_USER:0,
 	SHARE_TYPE_GROUP:1,
 	SHARE_TYPE_LINK:3,
@@ -289,6 +289,12 @@ OC.Share={
 		}
 		img.attr('src', image);
 	},
+	/**
+	 *
+	 * @param itemType
+	 * @param itemSource
+	 * @returns {OC.Share.Types.ShareInfo}
+	 */
 	loadItem:function(itemType, itemSource) {
 		var data = '';
 		var checkReshare = true;
@@ -371,6 +377,21 @@ OC.Share={
 		});
 	},
 	showDropDown:function(itemType, itemSource, appendTo, link, possiblePermissions, filename) {
+		var itemModel = new OC.Share.ShareItemModel(itemType, itemSource);
+		var dialogView = new OC.Share.ShareDialogView('dropdown');
+		dialogView.setContainerClasses('drop shareDropDown');
+		dialogView.setShowLink(link);
+		dialogView.setPossiblePermissions(possiblePermissions);
+		dialogView.setItemModel(itemModel);
+		var $dialog = dialogView.render();
+		$dialog.appendTo(appendTo);
+		$dialog.attr('data-item-source-name', filename);
+		$dialog.slideDown(OC.menuSpeed, function() {
+			OC.Share.droppedDown = true;
+		});
+		return;
+
+
 		var data = OC.Share.loadItem(itemType, itemSource);
 		var dropDownEl;
 		var html = '<div id="dropdown" class="drop shareDropDown" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
@@ -897,7 +918,7 @@ OC.Share={
 		}
 		return expireDateString;
 	}
-};
+});
 
 $(document).ready(function() {
 

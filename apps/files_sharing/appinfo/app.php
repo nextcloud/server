@@ -55,8 +55,9 @@ $application->setupPropagation();
 \OCP\Share::registerBackend('folder', 'OC_Share_Backend_Folder', 'file');
 
 \OCP\Util::addScript('files_sharing', 'share');
+\OCP\Util::addScript('files_sharing', 'sharetabview');
 \OCP\Util::addScript('files_sharing', 'external');
-\OCP\Util::addStyle('files_sharing', 'sharetabview');
+// \OCP\Util::addStyle('files_sharing', 'sharetabview');
 
 \OC::$server->getActivityManager()->registerExtension(function() {
 		return new \OCA\Files_Sharing\Activity(
