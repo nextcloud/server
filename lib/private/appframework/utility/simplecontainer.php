@@ -99,6 +99,7 @@ class SimpleContainer extends Container implements IContainer {
 	 * @throws QueryException if the query could not be resolved
 	 */
 	public function query($name) {
+		$name = $this->sanitizeName($name);
 		if ($this->offsetExists($name)) {
 			return $this->offsetGet($name);
 		} else {
@@ -128,6 +129,7 @@ class SimpleContainer extends Container implements IContainer {
 	 * @param bool $shared
 	 */
 	public function registerService($name, Closure $closure, $shared = true) {
+		$name = $this->sanitizeName($name);
 		if (isset($this[$name]))  {
 			unset($this[$name]);
 		}
@@ -149,6 +151,14 @@ class SimpleContainer extends Container implements IContainer {
 		$this->registerService($alias, function (IContainer $container) use ($target) {
 			return $container->query($target);
 		});
+	}
+
+	/*
+	 * @param string $name
+	 * @return string
+	 */
+	protected function sanitizeName($name) {
+		return ltrim($name, '\\');
 	}
 
 }

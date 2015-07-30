@@ -167,6 +167,25 @@ class SimpleContainerTest extends \Test\TestCase {
         $this->assertEquals('abc', $this->container->query('test1'));
     }
 
+    public function sanitizeNameProvider() {
+        return [
+            ['ABC\\Foo', 'ABC\\Foo'],
+            ['\\ABC\\Foo', '\\ABC\\Foo'],
+            ['\\ABC\\Foo', 'ABC\\Foo'],
+            ['ABC\\Foo', '\\ABC\\Foo'],
+        ];
+    }
+
+    /**
+     * @dataProvider sanitizeNameProvider
+     */
+    public function testSanitizeName($register, $query) {
+        $this->container->registerService($register, function() {
+            return 'abc';
+        });
+        $this->assertEquals('abc', $this->container->query($query));
+    }
+
     /**
      * @expectedException \OCP\AppFramework\QueryException
      */
