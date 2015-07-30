@@ -37,9 +37,10 @@ class Migration {
 	private $connection;
 	/** @var IConfig */
 	private $config;
-
 	/** @var  ILogger */
 	private $logger;
+	/** @var string*/
+	protected $installedVersion;
 
 	/**
 	 * @param IConfig $config
@@ -54,6 +55,7 @@ class Migration {
 		$this->moduleId = \OCA\Encryption\Crypto\Encryption::ID;
 		$this->config = $config;
 		$this->logger = $logger;
+		$this->installedVersion = $this->config->getAppValue('files_encryption', 'installed_version', '-1');
 	}
 
 	public function finalCleanUp() {
@@ -66,12 +68,16 @@ class Migration {
 	 * update file cache, copy unencrypted_size to the 'size' column
 	 */
 	private function updateFileCache() {
-		$query = $this->connection->getQueryBuilder();
-		$query->update('*PREFIX*filecache')
-			->set('size', 'unencrypted_size')
-			->where($query->expr()->eq('encrypted', $query->createParameter('encrypted')))
-			->setParameter('encrypted', 1);
-		$query->execute();
+		// make sure that we don't update the file cache multiple times
+		// only update during the first run
+		if ($this->installedVersion !== '-1') {
+			$query = $this->connection->getQueryBuilder();
+			$query->update('*PREFIX*filecache')
+				->set('size', 'unencrypted_size')
+				->where($query->expr()->eq('encrypted', $query->createParameter('encrypted')))
+				->setParameter('encrypted', 1);
+			$query->execute();
+		}
 	}
 
 	/**
@@ -143,6 +149,12 @@ class Migration {
 	 * update database
 	 */
 	public function updateDB() {
+
+		// make sure that we don't update the file cache multiple times
+		// only update during the first run
+		if ($this->installedVersion === '-1') {
+			return;
+		}
 
 		// delete left-over from old encryption which is no longer needed
 		$this->config->deleteAppValue('files_encryption', 'ocsid');
