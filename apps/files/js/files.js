@@ -271,8 +271,33 @@
 				FileList.scrollTo(getURLParameter('scrollto'));
 			}
 			*/
+		},
+
+		/**
+		 * Handles the download and calls the callback function once the download has started
+		 * - browser sends download request and adds parameter with a token
+		 * - server notices this token and adds a set cookie to the download response
+		 * - browser now adds this cookie for the domain
+		 * - JS periodically checks for this cookie and then knows when the download has started to call the callback
+		 *
+		 * @param {string} url download URL
+		 * @param {function} callback function to call once the download has started
+		 */
+		handleDownload: function(url, callback) {
+			var randomToken = Math.random().toString(36).substring(2),
+				checkForDownloadCookie = function() {
+					if (!OC.Util.isCookieSetToValue('ocDownloadStarted', randomToken)){
+						return false;
+					} else {
+						callback();
+						return true;
+					}
+				};
+
+			OC.redirect(url + '&downloadStartSecret=' + randomToken);
+			OC.Util.waitFor(checkForDownloadCookie, 500);
 		}
-	}
+	};
 
 	Files._updateStorageStatisticsDebounced = _.debounce(Files._updateStorageStatistics, 250);
 	OCA.Files.Files = Files;

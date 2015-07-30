@@ -417,7 +417,21 @@
 			else {
 				files = _.pluck(this.getSelectedFiles(), 'name');
 			}
-			OC.redirect(this.getDownloadUrl(files, dir));
+
+			var downloadFileaction = $('#selectedActionsList').find('.download');
+
+			// don't allow a second click on the download action
+			if(downloadFileaction.hasClass('disabled')) {
+				event.preventDefault();
+				return;
+			}
+
+			var disableLoadingState = function(){
+				OCA.Files.FileActions.updateFileActionSpinner(downloadFileaction, false);
+			};
+
+			OCA.Files.FileActions.updateFileActionSpinner(downloadFileaction, true);
+			OCA.Files.Files.handleDownload(this.getDownloadUrl(files, dir), disableLoadingState);
 			return false;
 		},
 

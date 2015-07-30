@@ -583,14 +583,23 @@ a.action>img {
 #fileList tr:focus a.action,
 #fileList a.action.permanent,
 #fileList tr:hover a.action.no-permission:hover,
-#fileList tr:focus a.action.no-permission:focus
-/*#fileList .name:focus .action*/ {
+#fileList tr:focus a.action.no-permission:focus,
+/*#fileList .name:focus .action,*/
+/* also enforce the low opacity for disabled links that are hovered/focused */
+.ie8 #fileList a.action.disabled:hover img,
+#fileList tr:hover a.action.disabled:hover,
+#fileList tr:focus a.action.disabled:focus,
+#fileList .name:focus a.action.disabled:focus,
+#fileList a.action.disabled img {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	filter: alpha(opacity=50);
 	opacity: .5;
 	display:inline;
 }
 .ie8 #fileList a.action:hover img,
+#fileList tr a.action.disabled.action-download,
+#fileList tr:hover a.action.disabled.action-download:hover,
+#fileList tr:focus a.action.disabled.action-download:focus,
 #fileList tr:hover a.action:hover,
 #fileList tr:focus a.action:focus,
 #fileList .name:focus a.action:focus {
@@ -598,6 +607,18 @@ a.action>img {
 	filter: alpha(opacity=100);
 	opacity: 1;
 	display:inline;
+}
+#fileList tr a.action.disabled {
+	background: none;
+}
+
+#selectedActionsList a.download.disabled,
+#fileList tr a.action.action-download.disabled {
+	color: #000000;
+}
+
+#fileList tr:hover a.action.disabled:hover * {
+	cursor: default;
 }
 
 .summary {
