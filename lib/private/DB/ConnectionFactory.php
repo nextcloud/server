@@ -201,6 +201,21 @@ class ConnectionFactory {
 			$connectionParams['driverOptions'] = $driverOptions;
 		}
 
+		// set default table creation options
+		$connectionParams['defaultTableOptions'] = [
+			'collate' => 'utf8_bin',
+			'tablePrefix' => $connectionParams['tablePrefix']
+		];
+
+		if($this->config->getValue('mysql.utf8mb4', false)) {
+			$connectionParams['defaultTableOptions'] = [
+				'collate' => 'utf8mb4_bin',
+				'charset' => 'utf8mb4',
+				'row_format' => 'compressed',
+				'tablePrefix' => $connectionParams['tablePrefix']
+			];
+		}
+
 		return $connectionParams;
 	}
 }

@@ -47,7 +47,7 @@ class MDB2SchemaReaderTest extends TestCase {
 
 	public function testRead() {
 		$reader = new MDB2SchemaReader($this->getConfig(), new MySqlPlatform());
-		$schema = $reader->loadSchemaFromFile(__DIR__ . '/testschema.xml');
+		$schema = $reader->loadSchemaFromFile(__DIR__ . '/testschema.xml', new Schema());
 		$this->assertCount(1, $schema->getTables());
 
 		$table = $schema->getTable('test_table');

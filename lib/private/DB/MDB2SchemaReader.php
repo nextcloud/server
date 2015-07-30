@@ -68,21 +68,15 @@ class MDB2SchemaReader {
 		$this->config = $config;
 		$this->DBNAME = $config->getSystemValue('dbname', 'owncloud');
 		$this->DBTABLEPREFIX = $config->getSystemValue('dbtableprefix', 'oc_');
-
-		// Oracle does not support longer index names then 30 characters.
-		// We use this limit for all DBs to make sure it does not cause a
-		// problem.
-		$this->schemaConfig = new SchemaConfig();
-		$this->schemaConfig->setMaxIdentifierLength(30);
 	}
 
 	/**
 	 * @param string $file
+	 * @param Schema $schema
 	 * @return Schema
 	 * @throws \DomainException
 	 */
-	public function loadSchemaFromFile($file) {
-		$schema = new \Doctrine\DBAL\Schema\Schema();
+	public function loadSchemaFromFile($file, Schema $schema) {
 		$loadEntities = libxml_disable_entity_loader(false);
 		$xml = simplexml_load_file($file);
 		libxml_disable_entity_loader($loadEntities);
