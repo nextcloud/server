@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -22,16 +23,26 @@
 namespace OCA\Files_Trashbin\AppInfo;
 
 use OCP\AppFramework\App;
+use OCA\Files_Trashbin\Expiration;
 
 class Application extends App {
-	public function __construct(array $urlParams = array()) {
+	public function __construct (array $urlParams = []) {
 		parent::__construct('files_trashbin', $urlParams);
 
 		$container = $this->getContainer();
-
 		/*
 		 * Register capabilities
 		 */
 		$container->registerCapability('OCA\Files_Trashbin\Capabilities');
+
+		/*
+		 * Register expiration
+		 */
+		$container->registerService('Expiration', function($c) {
+			return  new Expiration(
+				$c->query('ServerContainer')->getConfig(),
+				$c->query('OCP\AppFramework\Utility\ITimeFactory')
+			);
+		});
 	}
 }

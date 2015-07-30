@@ -38,7 +38,6 @@ class Test_Trashbin extends \Test\TestCase {
 	private $trashRoot2;
 
 	private static $rememberRetentionObligation;
-	private static $rememberAutoExpire;
 
 	/**
 	 * @var bool
@@ -71,11 +70,8 @@ class Test_Trashbin extends \Test\TestCase {
 		\OC_App::disable('encryption');
 
 		//configure trashbin
-		self::$rememberRetentionObligation = \OC_Config::getValue('trashbin_retention_obligation', Files_Trashbin\Trashbin::DEFAULT_RETENTION_OBLIGATION);
+		self::$rememberRetentionObligation = \OC_Config::getValue('trashbin_retention_obligation', Files_Trashbin\Expiration::DEFAULT_RETENTION_OBLIGATION);
 		\OC_Config::setValue('trashbin_retention_obligation', 2);
-		self::$rememberAutoExpire = \OC_Config::getValue('trashbin_auto_expire', true);
-		\OC_Config::setValue('trashbin_auto_expire', true);
-
 
 		// register hooks
 		Files_Trashbin\Trashbin::registerHooks();
@@ -92,7 +88,6 @@ class Test_Trashbin extends \Test\TestCase {
 		\OC_User::deleteUser(self::TEST_TRASHBIN_USER1);
 
 		\OC_Config::setValue('trashbin_retention_obligation', self::$rememberRetentionObligation);
-		\OC_Config::setValue('trashbin_auto_expire', self::$rememberAutoExpire);
 
 		\OC_Hook::clear();
 
