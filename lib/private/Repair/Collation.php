@@ -60,10 +60,12 @@ class Collation implements IRepairStep {
 			return;
 		}
 
+		$characterSet = $this->config->getSystemValue('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
+
 		$tables = $this->getAllNonUTF8BinTables($this->connection);
 		foreach ($tables as $table) {
 			$output->info("Change collation for $table ...");
-			$query = $this->connection->prepare('ALTER TABLE `' . $table . '` CONVERT TO CHARACTER SET utf8 COLLATE utf8_bin;');
+			$query = $this->connection->prepare('ALTER TABLE `' . $table . '` CONVERT TO CHARACTER SET ' . $characterSet . ' COLLATE ' . $characterSet . '_bin;');
 			$query->execute();
 		}
 	}
@@ -74,11 +76,12 @@ class Collation implements IRepairStep {
 	 */
 	protected function getAllNonUTF8BinTables($connection) {
 		$dbName = $this->config->getSystemValue("dbname");
+		$characterSet = $this->config->getSystemValue('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 		$rows = $connection->fetchAll(
 			"SELECT DISTINCT(TABLE_NAME) AS `table`" .
 			"	FROM INFORMATION_SCHEMA . COLUMNS" .
 			"	WHERE TABLE_SCHEMA = ?" .
-			"	AND (COLLATION_NAME <> 'utf8_bin' OR CHARACTER_SET_NAME <> 'utf8')" .
+			"	AND (COLLATION_NAME <> '" . $characterSet . "_bin' OR CHARACTER_SET_NAME <> '" . $characterSet . "')" .
 			"	AND TABLE_NAME LIKE \"*PREFIX*%\"",
 			array($dbName)
 		);

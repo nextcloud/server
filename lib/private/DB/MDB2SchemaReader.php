@@ -32,6 +32,7 @@ namespace OC\DB;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\SchemaConfig;
+use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OCP\IConfig;
 
 class MDB2SchemaReader {
@@ -53,12 +54,16 @@ class MDB2SchemaReader {
 	/** @var \Doctrine\DBAL\Schema\SchemaConfig $schemaConfig */
 	protected $schemaConfig;
 
+	/** @var IConfig */
+	protected $config;
+
 	/**
 	 * @param \OCP\IConfig $config
 	 * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
 	 */
 	public function __construct(IConfig $config, AbstractPlatform $platform) {
 		$this->platform = $platform;
+		$this->config = $config;
 		$this->DBNAME = $config->getSystemValue('dbname', 'owncloud');
 		$this->DBTABLEPREFIX = $config->getSystemValue('dbtableprefix', 'oc_');
 
@@ -117,8 +122,15 @@ class MDB2SchemaReader {
 					$name = str_replace('*dbprefix*', $this->DBTABLEPREFIX, $name);
 					$name = $this->platform->quoteIdentifier($name);
 					$table = $schema->createTable($name);
-					$table->addOption('collate', 'utf8_bin');
 					$table->setSchemaConfig($this->schemaConfig);
+
+					if($this->platform instanceof MySqlPlatform && $this->config->getSystemValue('mysql.utf8mb4', false)) {
+						$table->addOption('charset', 'utf8mb4');
+						$table->addOption('collate', 'utf8mb4_bin');
+						$table->addOption('row_format', 'compressed');
+					} else {
+						$table->addOption('collate', 'utf8_bin');
+					}
 					break;
 				case 'create':
 				case 'overwrite':

@@ -42,7 +42,11 @@ class MDB2SchemaWriter {
 		$xml->addChild('name', $config->getSystemValue('dbname', 'owncloud'));
 		$xml->addChild('create', 'true');
 		$xml->addChild('overwrite', 'false');
-		$xml->addChild('charset', 'utf8');
+		if($config->getSystemValue('dbtype', 'sqlite') === 'mysql' && $config->getSystemValue('mysql.utf8mb4', false)) {
+			$xml->addChild('charset', 'utf8mb4');
+		} else {
+			$xml->addChild('charset', 'utf8');
+		}
 
 		// FIX ME: bloody work around
 		if ($config->getSystemValue('dbtype', 'sqlite') === 'oci') {
