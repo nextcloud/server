@@ -507,6 +507,19 @@ if ($_['cronErrors']) {
 	<?php endif; ?>
 </div>
 
+<div class="section" id="server-status">
+	<h2><?php p($l->t('Server status'));?></h2>
+	<ul>
+		<li>
+			<?php if ($_['fileLockingEnabled']) {
+				p($l->t('Transactional File Locking is enabled.'));
+			} else {
+				p($l->t('Transactional File Locking is disabled.'));
+			} ?>
+		</li>
+	</ul>
+</div>
+
 <div class="section" id="admin-tips">
 	<h2><?php p($l->t('Tips & tricks'));?></h2>
 	<ul>
@@ -526,18 +539,6 @@ if ($_['cronErrors']) {
 		<li><a target="_blank" href="<?php p(link_to_docs('admin-config')); ?>"><?php p($l->t('Improving the config.php'));?> ↗</a></li>
 		<li><a target="_blank" href="<?php p(link_to_docs('developer-theming')); ?>"><?php p($l->t('Theming'));?> ↗</a></li>
 		<li><a target="_blank" href="<?php p(link_to_docs('admin-security')); ?>"><?php p($l->t('Hardening and security guidance'));?> ↗</a></li>
-	</ul>
-</div>
-<div class="section" id="server-status">
-	<h2><?php p($l->t('Server Status'));?></h2>
-	<ul>
-		<li>
-			<?php if ($_['fileLockingEnabled']) {
-				p($l->t('Transactional File Locking is enabled.'));
-			} else {
-				p($l->t('Transactional File Locking is disabled.'));
-			} ?>
-		</li>
 	</ul>
 </div>
 
