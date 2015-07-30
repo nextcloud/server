@@ -89,7 +89,7 @@ class Setup {
 	 * @param string $name
 	 * @return bool
 	 */
-	public function class_exists($name) {
+	protected function class_exists($name) {
 		return class_exists($name);
 	}
 
@@ -98,8 +98,17 @@ class Setup {
 	 * @param string $name
 	 * @return bool
 	 */
-	public function is_callable($name) {
+	protected function is_callable($name) {
 		return is_callable($name);
+	}
+
+	/**
+	 * Wrapper around \PDO::getAvailableDrivers
+	 *
+	 * @return array
+	 */
+	protected function getAvailableDbDriversForPdo() {
+		return \PDO::getAvailableDrivers();
 	}
 
 	/**
@@ -117,8 +126,8 @@ class Setup {
 				'name' => 'SQLite'
 			),
 			'mysql' => array(
-				'type' => 'function',
-				'call' => 'mysql_connect',
+				'type' => 'pdo',
+				'call' => 'mysql',
 				'name' => 'MySQL/MariaDB'
 			),
 			'pgsql' => array(
@@ -147,10 +156,15 @@ class Setup {
 		foreach($configuredDatabases as $database) {
 			if(array_key_exists($database, $availableDatabases)) {
 				$working = false;
-				if($availableDatabases[$database]['type'] === 'class') {
-					$working = $this->class_exists($availableDatabases[$database]['call']);
-				} elseif ($availableDatabases[$database]['type'] === 'function') {
-					$working = $this->is_callable($availableDatabases[$database]['call']);
+				$type = $availableDatabases[$database]['type'];
+				$call = $availableDatabases[$database]['call'];
+
+				if($type === 'class') {
+					$working = $this->class_exists($call);
+				} elseif ($type === 'function') {
+					$working = $this->is_callable($call);
+				} elseif($type === 'pdo') {
+					$working = in_array($call, $this->getAvailableDbDriversForPdo(), TRUE);
 				}
 				if($working) {
 					$supportedDatabases[$database] = $availableDatabases[$database]['name'];
