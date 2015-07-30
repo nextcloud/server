@@ -83,6 +83,8 @@ class PathVerification extends \Test\TestCase {
 		return [
 			// this is the monkey emoji - http://en.wikipedia.org/w/index.php?title=%F0%9F%90%B5&redirect=no
 			['🐵'],
+			['🐵.txt'],
+			['txt.💩'],
 		];
 	}
 
