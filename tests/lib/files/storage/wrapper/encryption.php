@@ -261,10 +261,12 @@ class Encryption extends \Test\Files\Storage\Storage {
 				->expects($this->once())
 				->method('copyKeys')
 				->willReturn($copyKeysReturn);
-			$this->cache->expects($this->once())
+			$this->cache->expects($this->atLeastOnce())
 				->method('put')
-				->with($this->anything(), ['encrypted' => true])
-				->willReturn(true);
+				->willReturnCallback(function($path, $data) {
+					$this->assertArrayHasKey('encrypted', $data);
+					$this->assertTrue($data['encrypted']);
+				});
 		} else {
 			$this->cache->expects($this->never())->method('put');
 			$this->keyStore->expects($this->never())->method('copyKeys');

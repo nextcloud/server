@@ -127,12 +127,11 @@ class Encryption extends Wrapper {
 		$info = $this->getCache()->get($path);
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
+			// update file cache
+			$info['encrypted'] = true;
+			$info['size'] = $size;
+			$this->getCache()->put($path, $info);
 
-			if (isset($info['fileid'])) {
-				$info['encrypted'] = true;
-				$info['size'] = $size;
-				$this->getCache()->put($path, $info);
-			}
 			return $size;
 		}
 
