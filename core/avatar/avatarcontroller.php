@@ -134,6 +134,10 @@ class AvatarController extends Controller {
 		if (isset($path)) {
 			$path = stripslashes($path);
 			$view = new \OC\Files\View('/'.$userId.'/files');
+			if ($view->filesize($path) > 20*1024*1024) {
+				return new DataResponse(['data' => ['message' => $this->l->t('File is too big')]],
+					Http::STATUS_BAD_REQUEST);
+			}
 			$fileName = $view->getLocalFile($path);
 		} elseif (!is_null($files)) {
 			if (
@@ -141,6 +145,10 @@ class AvatarController extends Controller {
 				 is_uploaded_file($files['tmp_name'][0]) &&
 				!\OC\Files\Filesystem::isFileBlacklisted($files['tmp_name'][0])
 			) {
+				if ($files['size'][0] > 20*1024*1024) {
+					return new DataResponse(['data' => ['message' => $this->l->t('File is too big')]],
+						Http::STATUS_BAD_REQUEST);
+				}
 				$this->cache->set('avatar_upload', file_get_contents($files['tmp_name'][0]), 7200);
 				$view = new \OC\Files\View('/'.$userId.'/cache');
 				$fileName = $view->getLocalFile('avatar_upload');
