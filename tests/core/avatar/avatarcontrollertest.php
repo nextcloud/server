@@ -23,7 +23,6 @@ namespace OC\Core\Avatar;
 use OC;
 use OC\Core\Application;
 use OCP\AppFramework\IAppContainer;
-use OCP\Security\ISecureRandom;
 use OC\Files\Filesystem;
 use OCP\AppFramework\Http;
 use OCP\Image;
@@ -264,7 +263,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$view->file_put_contents('avatar_upload', file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 
 		//Create request return
-		$reqRet = ['error' => [0], 'tmp_name' => [$fileName]];
+		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => [filesize(OC::$SERVERROOT.'/tests/data/testimage.jpg')]];
 		$this->container['Request']->method('getUploadedFile')->willReturn($reqRet);
 
 		$response = $this->avatarController->postAvatar(null);
@@ -303,7 +302,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$view->file_put_contents('avatar_upload', file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif'));
 
 		//Create request return
-		$reqRet = ['error' => [0], 'tmp_name' => [$fileName]];
+		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => filesize(OC::$SERVERROOT.'/tests/data/testimage.gif')];
 		$this->container['Request']->method('getUploadedFile')->willReturn($reqRet);
 
 		$response = $this->avatarController->postAvatar(null);
@@ -330,7 +329,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * Test invalid crop argment
+	 * Test invalid crop argument
 	 */
 	public function testPostCroppedAvatarInvalidCrop() {
 		$response = $this->avatarController->postCroppedAvatar([]);
@@ -370,6 +369,20 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
 		$this->assertEquals('success', $response->getData()['status']);
+	}
+
+	/**
+	 * Check for proper reply on proper crop argument
+	 */
+	public function testFileTooBig() {
+		$fileName = OC::$SERVERROOT.'/tests/data/testimage.jpg';
+		//Create request return
+		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => [21*1024*1024]];
+		$this->container['Request']->method('getUploadedFile')->willReturn($reqRet);
+
+		$response = $this->avatarController->postAvatar(null);
+
+		$this->assertEquals('File is too big', $response->getData()['data']['message']);
 	}
 
 }
