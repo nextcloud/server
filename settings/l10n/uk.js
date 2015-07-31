@@ -220,7 +220,6 @@ OC.L10N.register(
     "Upload new" : "Завантажити нове",
     "Select new from Files" : "Обрати із завантажених файлів",
     "Remove image" : "Видалити зображення",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "Допустимі формати: png і jpg. Якщо зображення не квадратне, то ви зможете його обрізати.",
     "Your avatar is provided by your original account." : "Буде використано аватар вашого оригінального облікового запису.",
     "Cancel" : "Відмінити",
     "Choose as profile image" : "Обрати зображенням облікового запису",

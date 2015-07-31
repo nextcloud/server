@@ -179,7 +179,6 @@ OC.L10N.register(
     "Upload new" : "Wczytaj nowe",
     "Select new from Files" : "Wybierz nowe z plików",
     "Remove image" : "Usuń zdjęcie",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "Png lub jpg. Idealnie kwadratowy, ale będzie można je przyciąć.",
     "Your avatar is provided by your original account." : "Twój awatar jest ustawiony jako domyślny.",
     "Cancel" : "Anuluj",
     "Choose as profile image" : "Wybierz zdjęcie profilu",

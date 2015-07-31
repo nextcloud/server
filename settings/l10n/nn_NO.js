@@ -67,7 +67,6 @@ OC.L10N.register(
     "Upload new" : "Last opp ny",
     "Select new from Files" : "Vel ny frå Filer",
     "Remove image" : "Fjern bilete",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "Anten PNG eller JPG. Helst kvadratisk, men du får moglegheita til å beskjera det.",
     "Cancel" : "Avbryt",
     "Choose as profile image" : "Vel som profilbilete",
     "Language" : "Språk",

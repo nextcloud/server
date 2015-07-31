@@ -167,7 +167,6 @@ OC.L10N.register(
     "Upload new" : "Ladda upp ny",
     "Select new from Files" : "Välj ny från filer",
     "Remove image" : "Radera bild",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "Antingen png eller jpg. Helst fyrkantig, men du kommer att kunna beskära den.",
     "Your avatar is provided by your original account." : "Din avatar tillhandahålls av ditt ursprungliga konto.",
     "Cancel" : "Avbryt",
     "Choose as profile image" : "Välj som profilbild",

@@ -169,7 +169,6 @@ OC.L10N.register(
     "Upload new" : "Igo berria",
     "Select new from Files" : "Hautatu berria Fitxategietatik",
     "Remove image" : "Irudia ezabatu",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "png edo jpg. Hobe karratua baina mozteko aukera izango duzu.",
     "Your avatar is provided by your original account." : "Zure jatorrizko kontuak ezarri du zure avatar.",
     "Cancel" : "Ezeztatu",
     "Choose as profile image" : "Profil irudi bezala aukeratu",

@@ -40,7 +40,7 @@ OC.L10N.register(
     "ownCloud basic encryption module" : "ownCloud โมดูลการเข้ารหัสขั้นพื้นฐาน",
     "Your private key password no longer matches your log-in password." : "รหัสการเข้ารหัสผ่านส่วนตัวของคุณไม่ตรงกับรหัสผ่านในการเข้าสู่ระบบของคุณ",
     "Set your old private key password to your current log-in password:" : "ตั้งรหัสการเข้ารหัสผ่านส่วนตัวเก่าของคุณเพื่อเข้าสู่ระบบในปัจจุบันของคุณ:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "ถ้าคุณลืมรหัสผ่านเก่าของคุณคุณสามารถขอให้ผู้ดูแลระบบกู้คืนไฟล์ของคุณ",
+    " If you don't remember your old password you can ask your administrator to recover your files." : "ถ้าคุณลืมรหัสผ่านเก่าของคุณ คุณสามารถขอให้ผู้ดูแลระบบกู้คืนไฟล์ของคุณ",
     "Old log-in password" : "เข้าสู่ระบบด้วยรหัสผ่านเก่า",
     "Current log-in password" : "เข้าสู่ระบบด้วยรหัสผ่านปัจจุบัน",
     "Update Private Key Password" : "อัพเดทรหัสการเข้ารหัสผ่านส่วนตัว",

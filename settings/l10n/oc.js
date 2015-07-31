@@ -223,7 +223,6 @@ OC.L10N.register(
     "Upload new" : "Novèla dempuèi vòstre ordenador",
     "Select new from Files" : "Novèla dempuèi los Fichièrs",
     "Remove image" : "Suprimir l'imatge",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "Format png o jpg. Idealament carrada, mas la poiretz requadrar.",
     "Your avatar is provided by your original account." : "Vòstre avatar es provesit per vòstre compte original.",
     "Cancel" : "Anullar",
     "Choose as profile image" : "Causir en tant que fòto de perfil",

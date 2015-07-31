@@ -104,7 +104,6 @@ OC.L10N.register(
     "Upload new" : "Încarcă una nouă",
     "Select new from Files" : "Selectează una din Fișiere",
     "Remove image" : "Înlătură imagine",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "Doar png sau jpg de formă pătrată. ",
     "Cancel" : "Anulare",
     "Choose as profile image" : "Alege drept imagine de profil",
     "Language" : "Limba",

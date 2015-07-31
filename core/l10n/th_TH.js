@@ -217,7 +217,7 @@ OC.L10N.register(
     "An internal error occured." : "เกิดข้อผิดพลาดภายใน",
     "Please try again or contact your administrator." : "โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ",
     "Forgot your password? Reset it!" : "ลืมรหัสผ่าน?",
-    "remember" : "จำรหัสผ่าน",
+    "remember" : "จดจำฉัน",
     "Log in" : "เข้าสู่ระบบ",
     "Alternative Logins" : "ทางเลือกการเข้าสู่ระบบ",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "นี่คุณ,<br><br>อยากให้คุณทราบว่า %s ได้แชร์ <strong>%s</strong> กับคุณ <br><a href=\"%s\">คลิกดูที่นี่</a><br><br>",

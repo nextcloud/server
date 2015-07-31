@@ -80,7 +80,6 @@ OC.L10N.register(
     "Upload new" : "Subir otra",
     "Select new from Files" : "Seleccionar otra desde Archivos",
     "Remove image" : "Borrar imagen",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "Archivo PNG o JPG. Preferiblemente cuadrado, pero tendrás la posibilidad de recortarlo.",
     "Your avatar is provided by your original account." : "Su avatar es proporcionado por su cuenta original.",
     "Cancel" : "Cancelar",
     "Choose as profile image" : "Seleccionar como imagen de perfil",

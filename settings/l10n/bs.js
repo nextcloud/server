@@ -159,7 +159,6 @@ OC.L10N.register(
     "Upload new" : "Učitaj novu",
     "Select new from Files" : "Odaberi novu iz datoteka",
     "Remove image" : "Ukloni sliku",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "Ili png ili jpg. Idealno bi bilo da je kvadratna, ali moći ćete je obrezati",
     "Your avatar is provided by your original account." : "Vaš avatar je isporučen od strane vašeg izvornog računa.",
     "Cancel" : "Odustani",
     "Choose as profile image" : "Izaberi kao sliku profila",

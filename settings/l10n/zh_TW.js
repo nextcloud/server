@@ -113,7 +113,6 @@ OC.L10N.register(
     "Upload new" : "上傳新的",
     "Select new from Files" : "從已上傳的檔案中選一個",
     "Remove image" : "移除圖片",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "可以使用 png 或 jpg 格式，最好是方形的，但是您之後也可以裁剪它",
     "Your avatar is provided by your original account." : "您的圖像是由您原來的帳號所提供的。",
     "Cancel" : "取消",
     "Choose as profile image" : "設定為大頭貼",

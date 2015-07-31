@@ -138,7 +138,6 @@ OC.L10N.register(
     "Upload new" : "Xubir otra",
     "Select new from Files" : "Esbillar otra dende Ficheros",
     "Remove image" : "Desaniciar imaxe",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "Ficheru PNG o JPG. Preferiblemente cuadráu, pero vas poder retayalu.",
     "Your avatar is provided by your original account." : "L'avatar ta proporcionáu pola to cuenta orixinal.",
     "Cancel" : "Encaboxar",
     "Choose as profile image" : "Esbillar como imaxe de perfil",

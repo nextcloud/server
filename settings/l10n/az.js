@@ -191,7 +191,6 @@ OC.L10N.register(
     "Upload new" : "Yenisini yüklə",
     "Select new from Files" : "Fayllardan yenisini seç",
     "Remove image" : "Şəkili sil",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "Həmçinin png yada jpg. İdealda sahədir ancaq, siz onu kəsə bilərsiniz.",
     "Your avatar is provided by your original account." : "Sizin avatar sizin original hesab tərəfindən təqdim edilib.",
     "Cancel" : "Dayandır",
     "Choose as profile image" : "Profayl şəklini seçin",

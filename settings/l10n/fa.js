@@ -123,7 +123,6 @@ OC.L10N.register(
     "Upload new" : "بارگذاری جدید",
     "Select new from Files" : "انتخاب جدید از میان فایل ها",
     "Remove image" : "تصویر پاک شود",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "هردوی jpg و png ها مربع گونه می‌باشند. با این حال شما می‌توانید آنها را برش بزنید.",
     "Cancel" : "منصرف شدن",
     "Choose as profile image" : "یک تصویر پروفایل انتخاب کنید",
     "Language" : "زبان",

@@ -78,7 +78,6 @@ OC.L10N.register(
     "Upload new" : "Įkelti naują",
     "Select new from Files" : "Pasirinkti naują iš failų",
     "Remove image" : "Pašalinti paveikslėlį",
-    "Either png or jpg. Ideally square but you will be able to crop it." : "Arba png arba jpg. Geriausia kvadratinį, bet galėsite jį apkarpyti.",
     "Cancel" : "Atšaukti",
     "Choose as profile image" : "Pasirinkite profilio paveiksliuką",
     "Language" : "Kalba",
