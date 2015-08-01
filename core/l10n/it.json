@@ -11,6 +11,7 @@
     "Repair error: " : "Errore di riparazione:",
     "Following incompatible apps have been disabled: %s" : "Le seguenti applicazioni incompatibili sono state disabilitate: %s",
     "Following apps have been disabled: %s" : "Le seguenti applicazioni sono state disabilitate: %s",
+    "File is too big" : "Il file è troppo grande",
     "Invalid file provided" : "File non valido fornito",
     "No image or file provided" : "Non è stata fornita alcun immagine o file",
     "Unknown filetype" : "Tipo di file sconosciuto",

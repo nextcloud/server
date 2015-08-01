@@ -13,6 +13,7 @@ OC.L10N.register(
     "Repair error: " : "Korjausvirhe:",
     "Following incompatible apps have been disabled: %s" : "Seuraavat yhteensopimattomat sovellukset on poistettu käytöstä: %s",
     "Following apps have been disabled: %s" : "Seuraavat sovellukset on poistettu käytöstä: %s",
+    "File is too big" : "Tiedosto on liian suuri",
     "Invalid file provided" : "Määritetty virheellinen tiedosto",
     "No image or file provided" : "Kuvaa tai tiedostoa ei määritelty",
     "Unknown filetype" : "Tuntematon tiedostotyyppi",

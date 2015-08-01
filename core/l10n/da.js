@@ -13,6 +13,7 @@ OC.L10N.register(
     "Repair error: " : "Reparationsfejl:",
     "Following incompatible apps have been disabled: %s" : "Følgende inkompatible apps er blevet deaktiveret: %s",
     "Following apps have been disabled: %s" : "Følgende apps er blevet deaktiveret: %s",
+    "File is too big" : "Filen er for stor",
     "Invalid file provided" : "Der er angivet en ugyldig fil",
     "No image or file provided" : "Ingen fil eller billede givet",
     "Unknown filetype" : "Ukendt filtype",

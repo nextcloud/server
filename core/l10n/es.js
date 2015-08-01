@@ -13,6 +13,7 @@ OC.L10N.register(
     "Repair error: " : "Error que reparar:",
     "Following incompatible apps have been disabled: %s" : "Las siguientes apps incompatibles se han deshabilitado: %s",
     "Following apps have been disabled: %s" : "Siguiendo aplicaciones ha sido deshabilitado: %s",
+    "File is too big" : "El archivo es demasiado grande",
     "Invalid file provided" : "Archivo inválido",
     "No image or file provided" : "No se especificó ningún archivo o imagen",
     "Unknown filetype" : "Tipo de archivo desconocido",

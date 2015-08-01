@@ -13,6 +13,7 @@ OC.L10N.register(
     "Repair error: " : "เกิดข้อผิดพลาดในการซ่อมแซม:",
     "Following incompatible apps have been disabled: %s" : "แอพพลิเคชันต่อไปนี้เข้ากันไม่ได้มันจะถูกปิดการใช้งาน: %s",
     "Following apps have been disabled: %s" : "แอพฯดังต่อไปนี้ถูกปิดการใช้งาน: %s",
+    "File is too big" : "ไฟล์มีขนาดใหญ่เกินไป",
     "Invalid file provided" : "ระบุไฟล์ไม่ถูกต้อง",
     "No image or file provided" : "ไม่มีรูปภาพหรือไฟล์ที่ระบุ",
     "Unknown filetype" : "ไม่รู้จักชนิดของไฟล์",
