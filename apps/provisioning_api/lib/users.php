@@ -184,7 +184,7 @@ class Users {
 					if (is_numeric($quota)) {
 						$quota = floatval($quota);
 					} else {
-						$quota = OC_Helper::computerFileSize($quota);
+						$quota = \OCP\Util::computerFileSize($quota);
 					}
 					if ($quota === false) {
 						return new OC_OCS_Result(null, 103, "Invalid quota value {$parameters['_put']['value']}");
@@ -194,7 +194,7 @@ class Users {
 					}else if($quota === -1){
 						$quota = 'none';
 					} else {
-						$quota = OC_Helper::humanFileSize($quota);
+						$quota = \OCP\Util::humanFileSize($quota);
 					}
 				}
 				$this->config->setUserValue($userId, 'files', 'quota', $quota);
