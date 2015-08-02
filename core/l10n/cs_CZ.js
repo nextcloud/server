@@ -13,6 +13,7 @@ OC.L10N.register(
     "Repair error: " : "Chyba opravy:",
     "Following incompatible apps have been disabled: %s" : "Následující nekompatibilní aplikace byly zakázány: %s",
     "Following apps have been disabled: %s" : "Následující aplikace byly vypnuty: %s",
+    "File is too big" : "Soubor je příliš velký",
     "Invalid file provided" : "Zadán neplatný soubor",
     "No image or file provided" : "Soubor nebo obrázek nebyl zadán",
     "Unknown filetype" : "Neznámý typ souboru",
