@@ -28,6 +28,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+use OCP\API;
 
 /**
  * Class to handle open collaboration services API requests
@@ -64,8 +65,7 @@ class OC_OCS {
 			}
 		}
 		if ($data === false) {
-			echo self::generateXml('', 'fail', 400, 'Bad request. Please provide a valid '.$key);
-			exit();
+			throw new \OC\OCS\Exception(new OC_OCS_Result(null, 400, 'Bad request. Please provide a valid '.$key));
 		} else {
 			// NOTE: Is the raw type necessary? It might be a little risky without sanitization
 			if ($type == 'raw') return $data;
@@ -78,23 +78,12 @@ class OC_OCS {
 	}
 
 	public static function notFound() {
-		if($_SERVER['REQUEST_METHOD'] == 'GET') {
-			$method='get';
-		}elseif($_SERVER['REQUEST_METHOD'] == 'PUT') {
-			$method='put';
-		}elseif($_SERVER['REQUEST_METHOD'] == 'POST') {
-			$method='post';
-		}else{
-			echo('internal server error: method not supported');
-			exit();
-		}
-
-		$format = self::readData($method, 'format', 'text', '');
+		$format = OC_API::requestedFormat();
 		$txt='Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
 		$txt.=OC_OCS::getDebugOutput();
-		echo(OC_OCS::generateXml($format, 'failed', 999, $txt));
 
+		OC_API::respond(new OC_OCS_Result(null, API::RESPOND_UNKNOWN_ERROR, $txt), $format);
 	}
 
 	/**
