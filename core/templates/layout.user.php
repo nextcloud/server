@@ -23,7 +23,7 @@
 		<meta name="apple-mobile-web-app-title" content="<?php p((!empty($_['application']) && $_['appid']!='files')? $_['application']:'ownCloud'); ?>">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="theme-color" content="<?php p($theme->getMailHeaderColor()); ?>">
-		<link rel="shortcut icon" type="image/png" href="<?php print_unescaped(image_path($_['appid'], 'favicon.png')); ?>">
+		<link rel="shortcut icon" href="<?php print_unescaped(image_path($_['appid'], 'favicon.ico')); /* IE11+ supports png */ ?>">
 		<link rel="apple-touch-icon-precomposed" href="<?php print_unescaped(image_path($_['appid'], 'favicon-touch.png')); ?>">
 		<?php foreach($_['cssfiles'] as $cssfile): ?>
 			<link rel="stylesheet" href="<?php print_unescaped($cssfile); ?>" media="screen">
