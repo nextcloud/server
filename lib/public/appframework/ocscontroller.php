@@ -80,7 +80,6 @@ abstract class OCSController extends ApiController {
 		}
 
 		$params = [
-			'status' => 'OK',
 			'statuscode' => 100,
 			'message' => 'OK',
 			'data' => [],
@@ -93,7 +92,7 @@ abstract class OCSController extends ApiController {
 		}
 
 		return new OCSResponse(
-			$format, $params['status'], $params['statuscode'],
+			$format, $params['statuscode'],
 			$params['message'], $params['data'],
 			$params['itemscount'], $params['itemsperpage']
 		);
