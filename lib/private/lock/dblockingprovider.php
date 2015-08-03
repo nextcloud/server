@@ -24,6 +24,9 @@ namespace OC\Lock;
 use OCP\IDBConnection;
 use OCP\Lock\LockedException;
 
+/**
+ * Locking provider that stores the locks in the database
+ */
 class DBLockingProvider extends AbstractLockingProvider {
 	/**
 	 * @var \OCP\IDBConnection
@@ -38,7 +41,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	}
 
 	protected function initLockField($path) {
-		$this->connection->insertIfNotExist('*PREFIX*file_locks', ['path' => $path, 'lock' => 0, 'ttl' => 0], ['path']);
+		$this->connection->insertIfNotExist('*PREFIX*file_locks', ['key' => $path, 'lock' => 0, 'ttl' => 0], ['key']);
 	}
 
 	/**
@@ -47,7 +50,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 * @return bool
 	 */
 	public function isLocked($path, $type) {
-		$query = $this->connection->prepare('SELECT `lock` from `*PREFIX*file_locks` WHERE `path` = ?');
+		$query = $this->connection->prepare('SELECT `lock` from `*PREFIX*file_locks` WHERE `key` = ?');
 		$query->execute([$path]);
 		$lockValue = (int)$query->fetchColumn();
 		if ($type === self::LOCK_SHARED) {
@@ -65,18 +68,20 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function acquireLock($path, $type) {
+		$this->connection->beginTransaction();
 		$this->initLockField($path);
 		if ($type === self::LOCK_SHARED) {
 			$result = $this->connection->executeUpdate(
-				'UPDATE `*PREFIX*file_locks` SET `lock` = `lock` + 1 WHERE `path` = ? AND `lock` >= 0',
+				'UPDATE `*PREFIX*file_locks` SET `lock` = `lock` + 1 WHERE `key` = ? AND `lock` >= 0',
 				[$path]
 			);
 		} else {
 			$result = $this->connection->executeUpdate(
-				'UPDATE `*PREFIX*file_locks` SET `lock` = -1 WHERE `path` = ? AND `lock` = 0',
+				'UPDATE `*PREFIX*file_locks` SET `lock` = -1 WHERE `key` = ? AND `lock` = 0',
 				[$path]
 			);
 		}
+		$this->connection->commit();
 		if ($result !== 1) {
 			throw new LockedException($path);
 		}
@@ -91,12 +96,12 @@ class DBLockingProvider extends AbstractLockingProvider {
 		$this->initLockField($path);
 		if ($type === self::LOCK_SHARED) {
 			$this->connection->executeUpdate(
-				'UPDATE `*PREFIX*file_locks` SET `lock` = `lock` - 1 WHERE `path` = ? AND `lock` > 0',
+				'UPDATE `*PREFIX*file_locks` SET `lock` = `lock` - 1 WHERE `key` = ? AND `lock` > 0',
 				[$path]
 			);
 		} else {
 			$this->connection->executeUpdate(
-				'UPDATE `*PREFIX*file_locks` SET `lock` = 0 WHERE `path` = ? AND `lock` = -1',
+				'UPDATE `*PREFIX*file_locks` SET `lock` = 0 WHERE `key` = ? AND `lock` = -1',
 				[$path]
 			);
 		}
@@ -114,12 +119,12 @@ class DBLockingProvider extends AbstractLockingProvider {
 		$this->initLockField($path);
 		if ($targetType === self::LOCK_SHARED) {
 			$result = $this->connection->executeUpdate(
-				'UPDATE `*PREFIX*file_locks` SET `lock` = 1 WHERE `path` = ? AND `lock` = -1',
+				'UPDATE `*PREFIX*file_locks` SET `lock` = 1 WHERE `key` = ? AND `lock` = -1',
 				[$path]
 			);
 		} else {
 			$result = $this->connection->executeUpdate(
-				'UPDATE `*PREFIX*file_locks` SET `lock` = -1 WHERE `path` = ? AND `lock` = 1',
+				'UPDATE `*PREFIX*file_locks` SET `lock` = -1 WHERE `key` = ? AND `lock` = 1',
 				[$path]
 			);
 		}

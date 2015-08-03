@@ -1183,7 +1183,7 @@
 	<table>
 
 		<!--
-		Table for storing high-level locking
+		Table for storing transactional file locking
 		-->
 		<name>*dbprefix*file_locks</name>
 
@@ -1208,7 +1208,7 @@
 			</field>
 
 			<field>
-				<name>path</name>
+				<name>key</name>
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>64</length>
@@ -1217,6 +1217,7 @@
 			<field>
 				<name>ttl</name>
 				<type>integer</type>
+				<default>-1</default>
 				<notnull>true</notnull>
 				<length>4</length>
 			</field>
@@ -1233,9 +1234,9 @@
 
 			<index>
 				<unique>true</unique>
-				<name>lock_path_index</name>
+				<name>lock_key_index</name>
 				<field>
-					<name>path</name>
+					<name>key</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>
