@@ -23,6 +23,10 @@ namespace OC\Lock;
 
 use OCP\Lock\ILockingProvider;
 
+/**
+ * Base locking provider that keeps track of locks acquired during the current request
+ * to release any left over locks at the end of the request
+ */
 abstract class AbstractLockingProvider implements ILockingProvider {
 	protected $acquiredLocks = [
 		'shared' => [],
@@ -30,6 +34,8 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 	];
 
 	/**
+	 * Mark a locally acquired lock
+	 *
 	 * @param string $path
 	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
 	 */
@@ -45,6 +51,8 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 	}
 
 	/**
+	 * Mark a release of a locally acquired lock
+	 *
 	 * @param string $path
 	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
 	 */
@@ -59,7 +67,7 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 	}
 
 	/**
-	 * Change the type of an existing lock
+	 * Change the type of an existing tracked lock
 	 *
 	 * @param string $path
 	 * @param int $targetType self::LOCK_SHARED or self::LOCK_EXCLUSIVE
