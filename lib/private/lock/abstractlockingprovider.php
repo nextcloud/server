@@ -86,7 +86,7 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 	}
 
 	/**
-	 * release all lock acquired by this instance
+	 * release all lock acquired by this instance which were marked using the mark* methods
 	 */
 	public function releaseAll() {
 		foreach ($this->acquiredLocks['shared'] as $path => $count) {
