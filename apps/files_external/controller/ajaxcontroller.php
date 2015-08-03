@@ -25,6 +25,7 @@ namespace OCA\Files_External\Controller;
 use OCP\AppFramework\Controller;
 use OCP\IRequest;
 use OCP\AppFramework\Http\JSONResponse;
+use phpseclib\Crypt\RSA;
 
 class AjaxController extends Controller {
 	public function __construct($appName, IRequest $request) {
@@ -32,8 +33,8 @@ class AjaxController extends Controller {
 	}
 
 	private function generateSshKeys() {
-		$rsa = new \Crypt_RSA();
-		$rsa->setPublicKeyFormat(CRYPT_RSA_PUBLIC_FORMAT_OPENSSH);
+		$rsa = new RSA();
+		$rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
 		$rsa->setPassword(\OC::$server->getConfig()->getSystemValue('secret', ''));
 
 		$key = $rsa->createKey();

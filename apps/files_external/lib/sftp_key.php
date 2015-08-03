@@ -22,10 +22,9 @@
  */
 namespace OC\Files\Storage;
 
-/**
-* Uses phpseclib's Net_SFTP class and the Net_SFTP_Stream stream wrapper to
-* provide access to SFTP servers.
-*/
+use phpseclib\Crypt\RSA;
+use phpseclib\Net\SFTP;
+
 class SFTP_Key extends \OC\Files\Storage\SFTP {
 	private $publicKey;
 	private $privateKey;
@@ -39,7 +38,7 @@ class SFTP_Key extends \OC\Files\Storage\SFTP {
 	/**
 	 * Returns the connection.
 	 *
-	 * @return \Net_SFTP connected client instance
+	 * @return SFTP connected client instance
 	 * @throws \Exception when the connection failed
 	 */
 	public function getConnection() {
@@ -48,7 +47,7 @@ class SFTP_Key extends \OC\Files\Storage\SFTP {
 		}
 
 		$hostKeys = $this->readHostKeys();
-		$this->client = new \Net_SFTP($this->getHost());
+		$this->client = new SFTP($this->getHost());
 
 		// The SSH Host Key MUST be verified before login().
 		$currentHostKey = $this->client->getServerPublicHostKey();
@@ -74,10 +73,10 @@ class SFTP_Key extends \OC\Files\Storage\SFTP {
 	/**
 	 * Returns the private key to be used for authentication to the remote server.
 	 *
-	 * @return \Crypt_RSA instance or null in case of a failure to load the key.
+	 * @return RSA instance or null in case of a failure to load the key.
 	 */
 	private function getPrivateKey() {
-		$key = new \Crypt_RSA();
+		$key = new RSA();
 		$key->setPassword(\OC::$server->getConfig()->getSystemValue('secret', ''));
 		if (!$key->loadKey($this->privateKey)) {
 			// Should this exception rather than return null?
