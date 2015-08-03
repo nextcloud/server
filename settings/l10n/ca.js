@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "APCu" : "APCu",
     "Redis" : "Redis",
-    "Security & setup warnings" : "Seguretat i configuració de alertes",
+    "Security & setup warnings" : "Avisos de seguretat i configuració",
     "Sharing" : "Compartir",
     "Server-side encryption" : "Xifrat del costat del servidor",
     "External Storage" : "Emmagatzemament extern",
