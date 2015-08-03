@@ -357,24 +357,9 @@ class OC_API {
 			}
 		}
 
-		$response = array(
-			'ocs' => array(
-				'meta' => $result->getMeta(),
-				'data' => $result->getData(),
-				),
-			);
-		if ($format == 'json') {
-			OC_JSON::encodedPrint($response);
-		} else if ($format == 'xml') {
-			header('Content-type: text/xml; charset=UTF-8');
-			$writer = new XMLWriter();
-			$writer->openMemory();
-			$writer->setIndent( true );
-			$writer->startDocument();
-			self::toXML($response, $writer);
-			$writer->endDocument();
-			echo $writer->outputMemory(true);
-		}
+		self::setContentType($format);
+		$body = self::renderResult($result, $format);
+		echo $body;
 	}
 
 	/**
@@ -411,8 +396,8 @@ class OC_API {
 	/**
 	 * Based on the requested format the response content type is set
 	 */
-	public static function setContentType() {
-		$format = self::requestedFormat();
+	public static function setContentType($format = null) {
+		$format = is_null($format) ? self::requestedFormat() : $format;
 		if ($format === 'xml') {
 			header('Content-type: text/xml; charset=UTF-8');
 			return;
@@ -463,5 +448,30 @@ class OC_API {
 			return Http::STATUS_BAD_REQUEST;
 		}
 		return null;
+	}
+
+	/**
+	 * @param OC_OCS_Result $result
+	 * @param string $format
+	 * @return string
+	 */
+	public static function renderResult($result, $format) {
+		$response = array(
+			'ocs' => array(
+				'meta' => $result->getMeta(),
+				'data' => $result->getData(),
+			),
+		);
+		if ($format == 'json') {
+			return OC_JSON::encode($response);
+		}
+
+		$writer = new XMLWriter();
+		$writer->openMemory();
+		$writer->setIndent(true);
+		$writer->startDocument();
+		self::toXML($response, $writer);
+		$writer->endDocument();
+		return $writer->outputMemory(true);
 	}
 }
