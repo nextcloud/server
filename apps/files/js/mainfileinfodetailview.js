@@ -11,7 +11,7 @@
 (function() {
 	var TEMPLATE =
 		'<div class="thumbnail"></div><div title="{{name}}" class="fileName ellipsis">{{name}}</div>' +
-		'<div class="ellipsis">' +
+		'<div class="file-details ellipsis">' +
 		'    <a href="#" ' +
 		'    alt="{{starAltText}}"' +
 		'    class="action action-favorite favorite">' +
@@ -96,4 +96,3 @@
 
 	OCA.Files.MainFileInfoDetailView = MainFileInfoDetailView;
 })();
-
