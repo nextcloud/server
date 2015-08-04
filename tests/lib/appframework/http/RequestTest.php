@@ -1156,4 +1156,99 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame($expectedUri, $request->getRequestUri());
 	}
 
+	public function testPassesCSRFCheckWithGet() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'get' => [
+						'requesttoken' => 'MyStoredRequestToken',
+					],
+					'requesttoken' => 'MyStoredRequestToken',
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertTrue($request->passesCSRFCheck());
+	}
+
+	public function testPassesCSRFCheckWithPost() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'post' => [
+						'requesttoken' => 'MyStoredRequestToken',
+					],
+					'requesttoken' => 'MyStoredRequestToken',
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertTrue($request->passesCSRFCheck());
+	}
+
+	public function testPassesCSRFCheckWithHeader() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'MyStoredRequestToken',
+					],
+					'requesttoken' => 'MyStoredRequestToken',
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertTrue($request->passesCSRFCheck());
+	}
+
+	public function testPassesCSRFCheckWithInvalidToken() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'MyInvalidSentToken',
+					],
+					'requesttoken' => 'MyStoredRequestToken',
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertFalse($request->passesCSRFCheck());
+	}
+
+	public function testPassesCSRFCheckWithoutTokenFail() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[],
+				$this->secureRandom,
+				$this->config,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertFalse($request->passesCSRFCheck());
+	}
+
 }

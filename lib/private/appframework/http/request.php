@@ -33,6 +33,7 @@ use OC\Security\TrustedDomainHelper;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
+use OCP\Security\StringUtils;
 
 /**
  * Class for accessing variables in the request.
@@ -416,12 +417,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		// Check if the token is valid
-		if($token !== $this->items['requesttoken']) {
-			// Not valid
-			return false;
-		} else {
-			// Valid token
+		if(StringUtils::equals($token, $this->items['requesttoken'])) {
 			return true;
+		} else {
+			return false;
 		}
 	}
 
