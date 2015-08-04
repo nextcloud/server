@@ -425,13 +425,12 @@
 	 sibling containers properly. Compare Files app for example.
 */
 #app-sidebar {
-	position: absolute;
-	top: 0;
+	position: fixed;
+	top: 45px;
 	right: 0;
 	left: auto;
 	bottom: 0;
-	width: 30%;
-	min-width: 300px;
+	width: 300px;
 	display: block;
 	background: #eee;
 	-webkit-transition: margin-right 300ms;
@@ -441,14 +440,11 @@
 	overflow-x: hidden;
 	overflow-y: auto;
 	visibility: visible;
-	border-top-left-radius: 3px;
-	border-bottom-left-radius: 3px;
-	box-shadow: 0 2px 3px rgba(50, 50, 50, .4);
 	z-index: 500;
 }
 
 #app-sidebar ~ .with-app-sidebar {
-	width: 70%;
+	width: 73%;
 }
 
 #app-sidebar.disappear {
@@ -639,4 +635,3 @@ em {
 .tabsContainer .tab {
 	padding: 15px;
 }
-
