@@ -182,6 +182,39 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
+	 * @param string $dnGroup
+	 * @param array &$seen
+	 * @return array
+	 */
+	private function _getGroupDNsFromMemberOf($DN, &$seen = null) {
+		if ($seen === null) {
+			$seen = array();
+		}
+		if (array_key_exists($DN, $seen)) {
+			// avoid loops
+			return array();
+		}
+		$seen[$DN] = 1;
+		$groups = $this->access->readAttribute($DN, 'memberOf');
+		if (is_array($groups)) {
+			$groups = $this->access->groupsMatchFilter($groups);
+			$allGroups =  $groups;
+			foreach ($groups as $group) {
+				$nestedGroups = $this->access->connection->ldapNestedGroups;
+				if (!empty($nestedGroups)) {
+					$subGroups = $this->_getGroupDNsFromMemberOf($group, $seen);
+					if ($subGroups) {
+						$allGroups = array_merge($allGroups, $subGroups);
+					}
+				}
+			}	
+			return $allGroups;	
+		} else {
+			return array();
+		}
+	}
+
+	/**
 	 * translates a primary group ID into an ownCloud internal name
 	 * @param string $gid as given by primaryGroupID on AD
 	 * @param string $dn a DN that belongs to the same domain as the group
@@ -377,14 +410,14 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		if(intval($this->access->connection->hasMemberOfFilterSupport) === 1
 			&& intval($this->access->connection->useMemberOfToDetectMembership) === 1
 		) {
-			$groupDNs = $this->access->readAttribute($userDN, 'memberOf');
-
+			$groupDNs = $this->_getGroupDNsFromMemberOf($userDN);
+			
 			if (is_array($groupDNs)) {
-				$groupDNs = $this->access->groupsMatchFilter($groupDNs);
 				foreach ($groupDNs as $dn) {
 					$groups[] = $this->access->dn2groupname($dn);
 				}
 			}
+			
 			if($primaryGroup !== false) {
 				$groups[] = $primaryGroup;
 			}
