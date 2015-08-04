@@ -294,7 +294,6 @@
 		 * @param {OCA.Files.FileActionContext} context action context
 		 */
 		_defaultRenderAction: function(actionSpec, isDefault, context) {
-			var name = actionSpec.name;
 			if (!isDefault) {
 				var params = {
 					name: actionSpec.name,
@@ -348,13 +347,16 @@
 		_renderMenuTrigger: function($tr, context) {
 			// remove previous
 			$tr.find('.action-menu').remove();
-			$tr.find('.fileactions').append(this._renderInlineAction({
+
+			var $el = this._renderInlineAction({
 				name: 'menu',
 				displayName: '',
 				icon: OC.imagePath('core', 'actions/more'),
 				altText: t('files', 'Actions'),
 				action: this._showMenuClosure
-			}, false, context));
+			}, false, context);
+
+			$el.addClass('permanent');
 		},
 
 		/**
