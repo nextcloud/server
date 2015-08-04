@@ -98,11 +98,78 @@ class Expiration_Test extends \PHPUnit_Framework_TestCase {
 	 * @param string $expectedResult
 	 */
 	public function testExpiration($retentionObligation, $timeNow, $timestamp, $quotaExceeded, $expectedResult){
+		$mockedConfig = $this->getMockedConfig($retentionObligation);
+		$mockedTimeFactory = $this->getMockedTimeFactory($timeNow);
+
+		$expiration = new Expiration($mockedConfig, $mockedTimeFactory);
+		$actualResult = $expiration->isExpired($timestamp, $quotaExceeded);
+		
+		$this->assertEquals($expectedResult, $actualResult);
+	}
+
+
+	public function configData(){
+		return [
+			[ 'disabled', null, null, null],
+			[ 'auto', Expiration::DEFAULT_RETENTION_OBLIGATION, Expiration::NO_OBLIGATION, true ],
+			[ 'auto,auto', Expiration::DEFAULT_RETENTION_OBLIGATION, Expiration::NO_OBLIGATION, true ],
+			[ 'auto, auto', Expiration::DEFAULT_RETENTION_OBLIGATION, Expiration::NO_OBLIGATION, true ],
+			[ 'auto, 3', Expiration::NO_OBLIGATION, 3, true ],
+			[ '5, auto', 5, Expiration::NO_OBLIGATION, true ],
+			[ '3, 5', 3, 5, false ],
+			[ '10, 3', 10, 10, false ],
+		];
+	}
+
+
+	/**
+	 * @dataProvider configData
+	 *
+	 * @param string $configValue
+	 * @param int $expectedMinAge
+	 * @param int $expectedMaxAge
+	 * @param bool $expectedCanPurgeToSaveSpace
+	 */
+	public function testParseRetentionObligation($configValue, $expectedMinAge, $expectedMaxAge, $expectedCanPurgeToSaveSpace){
+		$mockedConfig = $this->getMockedConfig($configValue);
+		$mockedTimeFactory = $this->getMockedTimeFactory(
+				time()
+		);
+
+		$expiration = new Expiration($mockedConfig, $mockedTimeFactory);
+		$this->assertAttributeEquals($expectedMinAge, 'minAge', $expiration);
+		$this->assertAttributeEquals($expectedMaxAge, 'maxAge', $expiration);
+		$this->assertAttributeEquals($expectedCanPurgeToSaveSpace, 'canPurgeToSaveSpace', $expiration);
+	}
+
+	/**
+	 *
+	 * @param int $time
+	 * @return \OCP\AppFramework\Utility\ITimeFactory
+	 */
+	private function getMockedTimeFactory($time){
+		$mockedTimeFactory = $this->getMockBuilder('\OCP\AppFramework\Utility\ITimeFactory')
+				->disableOriginalConstructor()
+				->setMethods(['getTime'])
+				->getMock()
+		;
+		$mockedTimeFactory->expects($this->any())->method('getTime')->will(
+				$this->returnValue($time)
+		);
+
+		return $mockedTimeFactory;
+	}
+
+	/**
+	 *
+	 * @param string $returnValue
+	 * @return \OCP\IConfig
+	 */
+	private function getMockedConfig($returnValue){
 		$mockedConfig = $this->getMockBuilder('\OCP\IConfig')
 				->disableOriginalConstructor()
 				->setMethods(
 					[
-						'getValue',
 						'setSystemValues',
 						'setSystemValue',
 						'getSystemValue',
@@ -124,22 +191,10 @@ class Expiration_Test extends \PHPUnit_Framework_TestCase {
 				)
 				->getMock()
 		;
-		$mockedConfig->expects($this->any())->method('getValue')->will(
-				$this->returnValue($retentionObligation)
+		$mockedConfig->expects($this->any())->method('getSystemValue')->will(
+				$this->returnValue($returnValue)
 		);
 
-		$mockedTimeFactory = $this->getMockBuilder('\OCP\AppFramework\Utility\ITimeFactory')
-				->disableOriginalConstructor()
-				->setMethods(['getTime'])
-				->getMock()
-		;
-		$mockedTimeFactory->expects($this->any())->method('getTime')->will(
-				$this->returnValue($timeNow)
-		);
-
-		$expiration = new Expiration($mockedConfig, $mockedTimeFactory);
-		$actualResult = $expiration->isExpired($timestamp, $quotaExceeded);
-		
-		$this->assertEquals($expectedResult, $actualResult);
+		return $mockedConfig;
 	}
 }

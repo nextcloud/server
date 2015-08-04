@@ -24,8 +24,7 @@ namespace OCA\Files_Trashbin;
 use \OCP\IConfig;
 use \OCP\AppFramework\Utility\ITimeFactory;
 
-class Expiration
-{
+class Expiration {
 
 	// how long do we keep files in the trash bin if no other value is defined in the config file (unit: days)
 	const DEFAULT_RETENTION_OBLIGATION = 30;
@@ -48,7 +47,7 @@ class Expiration
 
 	public function __construct(IConfig $config,ITimeFactory $timeFactory){
 		$this->timeFactory = $timeFactory;
-		$this->retentionObligation = $config->getValue('trashbin_retention_obligation', 'auto');
+		$this->retentionObligation = $config->getSystemValue('trashbin_retention_obligation', 'auto');
 
 		if ($this->retentionObligation !== 'disabled') {
 			$this->parseRetentionObligation();
