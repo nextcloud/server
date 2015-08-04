@@ -31,6 +31,8 @@
  *
  */
 
+use phpseclib\Crypt\AES;
+
 /**
  * Class to configure mount.json globally and for users
  */
@@ -895,10 +897,7 @@ class OC_Mount_Config {
 	 * Returns the encryption cipher
 	 */
 	private static function getCipher() {
-		if (!class_exists('Crypt_AES', false)) {
-			include('Crypt/AES.php');
-		}
-		$cipher = new Crypt_AES(CRYPT_AES_MODE_CBC);
+		$cipher = new AES(AES::MODE_CBC);
 		$cipher->setKey(\OC::$server->getConfig()->getSystemValue('passwordsalt', null));
 		return $cipher;
 	}

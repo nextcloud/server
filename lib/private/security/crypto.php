@@ -23,8 +23,8 @@
 
 namespace OC\Security;
 
-use Crypt_AES;
-use Crypt_Hash;
+use phpseclib\Crypt\AES;
+use phpseclib\Crypt\Hash;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Security\StringUtils;
@@ -41,7 +41,7 @@ use OCP\IConfig;
  * @package OC\Security
  */
 class Crypto implements ICrypto {
-	/** @var Crypt_AES $cipher */
+	/** @var AES $cipher */
 	private $cipher;
 	/** @var int */
 	private $ivLength = 16;
@@ -51,7 +51,7 @@ class Crypto implements ICrypto {
 	private $random;
 
 	function __construct(IConfig $config, ISecureRandom $random) {
-		$this->cipher = new Crypt_AES();
+		$this->cipher = new AES();
 		$this->config = $config;
 		$this->random = $random;
 	}
@@ -69,7 +69,7 @@ class Crypto implements ICrypto {
 		// Append an "a" behind the password and hash it to prevent reusing the same password as for encryption
 		$password = hash('sha512', $password . 'a');
 
-		$hash = new Crypt_Hash('sha512');
+		$hash = new Hash('sha512');
 		$hash->setKey($password);
 		return $hash->hash($message);
 	}
