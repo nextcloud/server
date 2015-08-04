@@ -182,8 +182,8 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @param string $dnGroup
-	 * @param array &$seen
+	 * @param string $DN
+	 * @param array|null &$seen
 	 * @return array
 	 */
 	private function _getGroupDNsFromMemberOf($DN, &$seen = null) {
@@ -196,22 +196,19 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 		$seen[$DN] = 1;
 		$groups = $this->access->readAttribute($DN, 'memberOf');
-		if (is_array($groups)) {
-			$groups = $this->access->groupsMatchFilter($groups);
-			$allGroups =  $groups;
-			foreach ($groups as $group) {
-				$nestedGroups = $this->access->connection->ldapNestedGroups;
-				if (!empty($nestedGroups)) {
-					$subGroups = $this->_getGroupDNsFromMemberOf($group, $seen);
-					if ($subGroups) {
-						$allGroups = array_merge($allGroups, $subGroups);
-					}
-				}
-			}	
-			return $allGroups;	
-		} else {
+		if (!is_array($groups)) {
 			return array();
 		}
+		$groups = $this->access->groupsMatchFilter($groups);
+		$allGroups =  $groups;
+		foreach ($groups as $group) {
+			$nestedGroups = $this->access->connection->ldapNestedGroups;
+			if (!empty($nestedGroups)) {
+				$subGroups = $this->_getGroupDNsFromMemberOf($group, $seen);
+				$allGroups = array_merge($allGroups, $subGroups);
+			}
+		}	
+		return $allGroups;	
 	}
 
 	/**
