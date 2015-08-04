@@ -222,9 +222,9 @@ class OC_Template extends \OC\Template\Base {
 
 	/**
 	 * print error page using Exception details
-	 * @param Exception $exception
+	 * @param Exception|Error $exception
 	 */
-	public static function printExceptionErrorPage(Exception $exception) {
+	public static function printExceptionErrorPage($exception) {
 		$request = \OC::$server->getRequest();
 		$content = new \OC_Template('', 'exception', 'error', false);
 		$content->assign('errorClass', get_class($exception));
