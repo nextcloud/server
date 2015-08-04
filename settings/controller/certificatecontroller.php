@@ -21,6 +21,7 @@
 
 namespace OC\Settings\Controller;
 
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -36,20 +37,25 @@ class CertificateController extends Controller {
 	private $certificateManager;
 	/** @var IL10N */
 	private $l10n;
+	/** @var IAppManager */
+	private $appManager;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param ICertificateManager $certificateManager
 	 * @param IL10N $l10n
+	 * @param IAppManager $appManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
 								ICertificateManager $certificateManager,
-								IL10N $l10n) {
+								IL10N $l10n,
+								IAppManager $appManager) {
 		parent::__construct($appName, $request);
 		$this->certificateManager = $certificateManager;
 		$this->l10n = $l10n;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -60,6 +66,11 @@ class CertificateController extends Controller {
 	 * @return array
 	 */
 	public function addPersonalRootCertificate() {
+
+		if ($this->isCertificateImportAllowed() === false) {
+			return new DataResponse('Individual certificate management disabled', Http::STATUS_FORBIDDEN);
+		}
+
 		$file = $this->request->getUploadedFile('rootcert_import');
 		if(empty($file)) {
 			return new DataResponse(['message' => 'No file uploaded'], Http::STATUS_UNPROCESSABLE_ENTITY);
@@ -92,8 +103,29 @@ class CertificateController extends Controller {
 	 * @return DataResponse
 	 */
 	public function removePersonalRootCertificate($certificateIdentifier) {
+
+		if ($this->isCertificateImportAllowed() === false) {
+			return new DataResponse('Individual certificate management disabled', Http::STATUS_FORBIDDEN);
+		}
+
 		$this->certificateManager->removeCertificate($certificateIdentifier);
 		return new DataResponse();
+	}
+
+	/**
+	 * check if certificate import is allowed
+	 *
+	 * @return bool
+	 */
+	protected function isCertificateImportAllowed() {
+		$externalStorageEnabled = $this->appManager->isEnabledForUser('files_external');
+		if ($externalStorageEnabled) {
+			$backends = \OC_Mount_Config::getPersonalBackends();
+			if (!empty($backends)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
