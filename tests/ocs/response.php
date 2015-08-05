@@ -35,6 +35,8 @@ class OcsResponseTest extends \Test\TestCase {
 		return [
 			[Http::STATUS_OK, 100],
 			[Http::STATUS_BAD_REQUEST, 104],
+			[Http::STATUS_OK, 1000],
+			[201, 201],
 		];
 	}
 }

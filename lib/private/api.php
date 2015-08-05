@@ -423,6 +423,7 @@ class OC_API {
 
 	/**
 	 * @param integer $sc
+	 * @return int
 	 */
 	public static function mapStatusCodes($sc) {
 		switch ($sc) {
@@ -447,7 +448,7 @@ class OC_API {
 		if ($sc > 100 && $sc < 200) {
 			return Http::STATUS_BAD_REQUEST;
 		}
-		return null;
+		return Http::STATUS_OK;
 	}
 
 	/**
