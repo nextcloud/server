@@ -85,7 +85,7 @@ class OCSResponse extends Response {
 		$r->setTotalItems($this->itemscount);
 		$r->setItemsPerPage($this->itemsperpage);
 
-		return \OC_API::renderResult($r, $this->format);
+		return \OC_API::renderResult($this->format, $r->getMeta(), $r->getData());
 	}
 
 

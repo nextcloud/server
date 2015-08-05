@@ -93,7 +93,7 @@ class OC_OCS_Result{
 	 */
 	public function getMeta() {
 		$meta = array();
-		$meta['status'] = ($this->statusCode === 100) ? 'ok' : 'failure';
+		$meta['status'] = $this->succeeded() ? 'ok' : 'failure';
 		$meta['statuscode'] = $this->statusCode;
 		$meta['message'] = $this->message;
 		if(isset($this->items)) {
