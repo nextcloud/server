@@ -83,6 +83,7 @@ class Share extends Constants {
 				);
 				if(count(self::$backendTypes) === 1) {
 					\OC_Util::addScript('core', 'share');
+					\OC_Util::addVendorScript('core', 'backbone/backbone');
 					\OC_Util::addStyle('core', 'share');
 				}
 				return true;
