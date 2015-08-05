@@ -27,7 +27,6 @@ use phpseclib\Crypt\AES;
 use phpseclib\Crypt\Hash;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
-use OCP\Security\StringUtils;
 use OCP\IConfig;
 
 /**
@@ -50,6 +49,10 @@ class Crypto implements ICrypto {
 	/** @var ISecureRandom */
 	private $random;
 
+	/**
+	 * @param IConfig $config
+	 * @param ISecureRandom $random
+	 */
 	function __construct(IConfig $config, ISecureRandom $random) {
 		$this->cipher = new AES();
 		$this->config = $config;
@@ -119,7 +122,7 @@ class Crypto implements ICrypto {
 
 		$this->cipher->setIV($iv);
 
-		if(!StringUtils::equals($this->calculateHMAC($parts[0].$parts[1], $password), $hmac)) {
+		if(!\OCP\Security\StringUtils::equals($this->calculateHMAC($parts[0].$parts[1], $password), $hmac)) {
 			throw new \Exception('HMAC does not match.');
 		}
 

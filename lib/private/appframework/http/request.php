@@ -416,12 +416,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		// Check if the token is valid
-		if($token !== $this->items['requesttoken']) {
-			// Not valid
-			return false;
-		} else {
-			// Valid token
+		if(\OCP\Security\StringUtils::equals($token, $this->items['requesttoken'])) {
 			return true;
+		} else {
+			return false;
 		}
 	}
 
