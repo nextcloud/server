@@ -30,8 +30,6 @@
  */
 namespace OC\Files\Storage;
 
-use phpseclib\Net\RSA;
-use phpseclib\Net\SFTP;
 use phpseclib\Net\SFTP\Stream;
 
 /**
@@ -91,7 +89,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	/**
 	 * Returns the connection.
 	 *
-	 * @return SFTP connected client instance
+	 * @return \phpseclib\Net\SFTP connected client instance
 	 * @throws \Exception when the connection failed
 	 */
 	public function getConnection() {
@@ -100,7 +98,7 @@ class SFTP extends \OC\Files\Storage\Common {
 		}
 
 		$hostKeys = $this->readHostKeys();
-		$this->client = new SFTP($this->host, $this->port);
+		$this->client = new \phpseclib\Net\SFTP($this->host, $this->port);
 
 		// The SSH Host Key MUST be verified before login().
 		$currentHostKey = $this->client->getServerPublicHostKey();
