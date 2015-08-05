@@ -83,14 +83,14 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		if (!isset($this->files[$target])) {
 			// Check for partial files
 			if (pathinfo($target, PATHINFO_EXTENSION) === 'part') {
-				$source = \OC_Share_Backend_File::getSource(substr($target, 0, -5), $this->getMountPoint(), $this->getItemType());
+				$source = \OC_Share_Backend_File::getSource(substr($target, 0, -5), $this->getShare());
 				if ($source) {
 					$source['path'] .= '.part';
 					// All partial files have delete permission
 					$source['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
 				}
 			} else {
-				$source = \OC_Share_Backend_File::getSource($target, $this->getMountPoint(), $this->getItemType());
+				$source = \OC_Share_Backend_File::getSource($target, $this->getShare());
 			}
 			$this->files[$target] = $source;
 		}
