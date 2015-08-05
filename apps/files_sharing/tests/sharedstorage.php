@@ -441,4 +441,43 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->view->unlink($this->folder);
 	}
+
+	public function testNameConflict() {
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$view1 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
+		$view1->mkdir('foo');
+		$folderInfo1 = $view1->getFileInfo('foo');
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
+		$view3 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER3 . '/files');
+		$view3->mkdir('foo');
+		$folderInfo2 = $view3->getFileInfo('foo');
+
+		// share a folder with the same name from two different users to the same user
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		\OCP\Share::shareItem('folder', $folderInfo1['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
+			self::TEST_FILES_SHARING_API_GROUP1, 31);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
+
+		\OCP\Share::shareItem('folder', $folderInfo2['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
+			self::TEST_FILES_SHARING_API_GROUP1, 31);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$view2 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+
+		$this->assertTrue($view2->file_exists('/foo'));
+		$this->assertTrue($view2->file_exists('/foo (2)'));
+
+		$mount = $view2->getMount('/foo');
+		$this->assertInstanceOf('\OCA\Files_Sharing\SharedMount', $mount);
+		/** @var \OC\Files\Storage\Shared $storage */
+		$storage = $mount->getStorage();
+
+		$source = $storage->getFile('');
+		$this->assertEquals(self::TEST_FILES_SHARING_API_USER1, $source['uid_owner']);
+	}
 }
