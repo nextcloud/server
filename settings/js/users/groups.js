@@ -12,6 +12,8 @@ var GroupList;
 GroupList = {
 	activeGID: '',
 	everyoneGID: '_everyone',
+	filter: '',
+	filterGroups: false,
 
 	addGroup: function (gid, usercount) {
 		var $li = $userGroupList.find('.isgroup:last-child').clone();
@@ -145,8 +147,8 @@ GroupList = {
 		$.get(
 			OC.generateUrl('/settings/users/groups'),
 			{
-				pattern: filter.getPattern(),
-				filterGroups: filter.filterGroups ? 1 : 0,
+				pattern: this.filter,
+				filterGroups: this.filterGroups ? 1 : 0,
 				sortGroups: $sortGroupBy
 			},
 			function (result) {

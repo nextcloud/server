@@ -8,13 +8,13 @@
 
 var $userList;
 var $userListBody;
-var filter;
 
 var UserList = {
 	availableGroups: [],
 	offset: 0,
 	usersToLoad: 10, //So many users will be loaded when user scrolls down
 	currentGid: '',
+	filter: '',
 
 	/**
 	 * Initializes the user list
@@ -229,7 +229,7 @@ var UserList = {
 		return aa.length - bb.length;
 	},
 	preSortSearchString: function(a, b) {
-		var pattern = filter.getPattern();
+		var pattern = this.filter;
 		if(typeof pattern === 'undefined') {
 			return undefined;
 		}
@@ -398,7 +398,7 @@ var UserList = {
 			gid = '';
 		}
 		UserList.currentGid = gid;
-		var pattern = filter.getPattern();
+		var pattern = this.filter;
 		$.get(
 			OC.generateUrl('/settings/users/users'),
 			{ offset: UserList.offset, limit: limit, gid: gid, pattern: pattern },
@@ -612,7 +612,7 @@ $(document).ready(function () {
 	UserList.initDeleteHandling();
 
 	// Implements User Search
-	filter = new UserManagementFilter($('#usersearchform input'), UserList, GroupList);
+	OCA.Search.users= new UserManagementFilter(UserList, GroupList);
 
 	UserList.doSort();
 	UserList.availableGroups = $userList.data('groups');

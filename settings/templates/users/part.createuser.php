@@ -31,7 +31,4 @@
 		   alt="<?php p($l->t('Enter the recovery password in order to recover the users files during password change'))?>"/>
 	</div>
 	<?php endif; ?>
-	<form autocomplete="off" id="usersearchform">
-		<input type="text" class="input userFilter" placeholder="<?php p($l->t('Search Users')); ?>" />
-	</form>
 </div>
