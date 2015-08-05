@@ -133,8 +133,8 @@ class RecipientPropagator {
 			$this->markDirty($share, microtime(true));
 
 			// propagate up the share tree
-			$user = $share['uid_owner'];
-			if($user !== $this->userId) {
+			if ($share['share_with'] === $this->userId) {
+				$user = $share['uid_owner'];
 				$view = new View('/' . $user . '/files');
 				$path = $view->getPath($share['file_source']);
 				$watcher = new ChangeWatcher($view, $this->manager->getSharePropagator($user));
