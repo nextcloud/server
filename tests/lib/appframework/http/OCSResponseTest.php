@@ -47,14 +47,13 @@ class OCSResponseTest extends \Test\TestCase {
 
     public function testRender() {
         $response = new OCSResponse(
-            'xml', 'status', 2, 'message', ['test' => 'hi'], 'tag', 'abc',
-            'dynamic', 3, 4
+            'xml', 2, 'message', ['test' => 'hi'], 3, 4
         );
         $out = $response->render();
         $expected = "<?xml version=\"1.0\"?>\n" .
         "<ocs>\n" .
         " <meta>\n" .
-        "  <status>status</status>\n" .
+        "  <status>failure</status>\n" .
         "  <statuscode>2</statuscode>\n" .
         "  <message>message</message>\n" .
         "  <totalitems>3</totalitems>\n" .

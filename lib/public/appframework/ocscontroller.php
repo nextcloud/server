@@ -42,7 +42,7 @@ abstract class OCSController extends ApiController {
 	 * constructor of the controller
 	 * @param string $appName the name of the app
 	 * @param IRequest $request an instance of the request
-	 * @param string $corsMethods comma seperated string of HTTP verbs which
+	 * @param string $corsMethods comma separated string of HTTP verbs which
 	 * should be allowed for websites or webapps when calling your API, defaults to
 	 * 'PUT, POST, GET, DELETE, PATCH'
 	 * @param string $corsAllowedHeaders comma seperated string of HTTP headers
@@ -80,13 +80,9 @@ abstract class OCSController extends ApiController {
 		}
 
 		$params = [
-			'status' => 'OK',
 			'statuscode' => 100,
 			'message' => 'OK',
 			'data' => [],
-			'tag' => '',
-			'tagattribute' => '',
-			'dimension' => 'dynamic',
 			'itemscount' => '',
 			'itemsperpage' => ''
 		];
@@ -96,9 +92,8 @@ abstract class OCSController extends ApiController {
 		}
 
 		return new OCSResponse(
-			$format, $params['status'], $params['statuscode'],
-			$params['message'], $params['data'], $params['tag'],
-			$params['tagattribute'], $params['dimension'],
+			$format, $params['statuscode'],
+			$params['message'], $params['data'],
 			$params['itemscount'], $params['itemsperpage']
 		);
 	}

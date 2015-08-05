@@ -28,6 +28,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+use OCP\API;
 
 /**
  * Class to handle open collaboration services API requests
@@ -64,8 +65,7 @@ class OC_OCS {
 			}
 		}
 		if ($data === false) {
-			echo self::generateXml('', 'fail', 400, 'Bad request. Please provide a valid '.$key);
-			exit();
+			throw new \OC\OCS\Exception(new OC_OCS_Result(null, 400, 'Bad request. Please provide a valid '.$key));
 		} else {
 			// NOTE: Is the raw type necessary? It might be a little risky without sanitization
 			if ($type == 'raw') return $data;
@@ -78,23 +78,12 @@ class OC_OCS {
 	}
 
 	public static function notFound() {
-		if($_SERVER['REQUEST_METHOD'] == 'GET') {
-			$method='get';
-		}elseif($_SERVER['REQUEST_METHOD'] == 'PUT') {
-			$method='put';
-		}elseif($_SERVER['REQUEST_METHOD'] == 'POST') {
-			$method='post';
-		}else{
-			echo('internal server error: method not supported');
-			exit();
-		}
-
-		$format = self::readData($method, 'format', 'text', '');
+		$format = OC_API::requestedFormat();
 		$txt='Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
 		$txt.=OC_OCS::getDebugOutput();
-		echo(OC_OCS::generateXml($format, 'failed', 999, $txt));
 
+		OC_API::respond(new OC_OCS_Result(null, API::RESPOND_UNKNOWN_ERROR, $txt), $format);
 	}
 
 	/**
@@ -109,131 +98,5 @@ class OC_OCS {
 		if(isset($_GET)) foreach($_GET as $key=>$value) $txt.='get parameter: '.$key.'->'.$value."\n";
 		if(isset($_POST)) foreach($_POST as $key=>$value) $txt.='post parameter: '.$key.'->'.$value."\n";
 		return($txt);
-	}
-
-
-	/**
-	 * generates the xml or json response for the API call from an multidimenional data array.
-	 * @param string $format
-	 * @param string $status
-	 * @param string $statuscode
-	 * @param string $message
-	 * @param array $data
-	 * @param string $tag
-	 * @param string $tagattribute
-	 * @param int $dimension
-	 * @param int|string $itemscount
-	 * @param int|string $itemsperpage
-	 * @return string xml/json
-	 */
-	public static function generateXml($format, $status, $statuscode,
-		$message, $data=array(), $tag='', $tagattribute='', $dimension=-1, $itemscount='', $itemsperpage='') {
-		if($format=='json') {
-			$json=array();
-			$json['status']=$status;
-			$json['statuscode']=$statuscode;
-			$json['message']=$message;
-			$json['totalitems']=$itemscount;
-			$json['itemsperpage']=$itemsperpage;
-			$json['data']=$data;
-			return(json_encode($json));
-		}else{
-			$txt='';
-			$writer = xmlwriter_open_memory();
-			xmlwriter_set_indent( $writer, 2 );
-			xmlwriter_start_document($writer );
-			xmlwriter_start_element($writer, 'ocs');
-			xmlwriter_start_element($writer, 'meta');
-			xmlwriter_write_element($writer, 'status', $status);
-			xmlwriter_write_element($writer, 'statuscode', $statuscode);
-			xmlwriter_write_element($writer, 'message', $message);
-			if($itemscount<>'') xmlwriter_write_element($writer, 'totalitems', $itemscount);
-			if(!empty($itemsperpage)) xmlwriter_write_element($writer, 'itemsperpage', $itemsperpage);
-			xmlwriter_end_element($writer);
-			if($dimension=='0') {
-				// 0 dimensions
-				xmlwriter_write_element($writer, 'data', $data);
-
-			}elseif($dimension=='1') {
-				xmlwriter_start_element($writer, 'data');
-				foreach($data as $key=>$entry) {
-					xmlwriter_write_element($writer, $key, $entry);
-				}
-				xmlwriter_end_element($writer);
-
-			}elseif($dimension=='2') {
-				xmlwriter_start_element($writer, 'data');
-				foreach($data as $entry) {
-					xmlwriter_start_element($writer, $tag);
-					if(!empty($tagattribute)) {
-						xmlwriter_write_attribute($writer, 'details', $tagattribute);
-					}
-					foreach($entry as $key=>$value) {
-						if(is_array($value)) {
-							foreach($value as $k=>$v) {
-								xmlwriter_write_element($writer, $k, $v);
-							}
-						} else {
-							xmlwriter_write_element($writer, $key, $value);
-						}
-					}
-					xmlwriter_end_element($writer);
-				}
-				xmlwriter_end_element($writer);
-
-			}elseif($dimension=='3') {
-				xmlwriter_start_element($writer, 'data');
-				foreach($data as $entrykey=>$entry) {
-					xmlwriter_start_element($writer, $tag);
-					if(!empty($tagattribute)) {
-						xmlwriter_write_attribute($writer, 'details', $tagattribute);
-					}
-					foreach($entry as $key=>$value) {
-						if(is_array($value)) {
-							xmlwriter_start_element($writer, $entrykey);
-							foreach($value as $k=>$v) {
-								xmlwriter_write_element($writer, $k, $v);
-							}
-							xmlwriter_end_element($writer);
-						} else {
-							xmlwriter_write_element($writer, $key, $value);
-						}
-					}
-					xmlwriter_end_element($writer);
-				}
-				xmlwriter_end_element($writer);
-			}elseif($dimension=='dynamic') {
-				xmlwriter_start_element($writer, 'data');
-				OC_OCS::toxml($writer, $data, 'comment');
-				xmlwriter_end_element($writer);
-			}
-
-			xmlwriter_end_element($writer);
-
-			xmlwriter_end_document( $writer );
-			$txt.=xmlwriter_output_memory( $writer );
-			unset($writer);
-			return($txt);
-		}
-	}
-
-	/**
-	 * @param resource $writer
-	 * @param array $data
-	 * @param string $node
-	 */
-	public static function toXml($writer, $data, $node) {
-		foreach($data as $key => $value) {
-			if (is_numeric($key)) {
-				$key = $node;
-			}
-			if (is_array($value)) {
-				xmlwriter_start_element($writer, $key);
-				OC_OCS::toxml($writer, $value, $node);
-				xmlwriter_end_element($writer);
-			}else{
-				xmlwriter_write_element($writer, $key, $value);
-			}
-		}
 	}
 }

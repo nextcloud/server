@@ -69,9 +69,11 @@ class OCSControllerTest extends \Test\TestCase {
 		$expected = "<?xml version=\"1.0\"?>\n" .
 		"<ocs>\n" .
 		" <meta>\n" .
-		"  <status>OK</status>\n" .
+		"  <status>failure</status>\n" .
 		"  <statuscode>400</statuscode>\n" .
 		"  <message>OK</message>\n" .
+		"  <totalitems></totalitems>\n" .
+		"  <itemsperpage></itemsperpage>\n" .
 		" </meta>\n" .
 		" <data>\n" .
 		"  <test>hi</test>\n" .
@@ -99,9 +101,11 @@ class OCSControllerTest extends \Test\TestCase {
 		$expected = "<?xml version=\"1.0\"?>\n" .
 		"<ocs>\n" .
 		" <meta>\n" .
-		"  <status>OK</status>\n" .
+		"  <status>failure</status>\n" .
 		"  <statuscode>400</statuscode>\n" .
 		"  <message>OK</message>\n" .
+		"  <totalitems></totalitems>\n" .
+		"  <itemsperpage></itemsperpage>\n" .
 		" </meta>\n" .
 		" <data>\n" .
 		"  <test>hi</test>\n" .
@@ -126,8 +130,8 @@ class OCSControllerTest extends \Test\TestCase {
 			$this->getMock('\OCP\Security\ISecureRandom'),
 			$this->getMock('\OCP\IConfig')
 		));
-		$expected = '{"status":"OK","statuscode":400,"message":"OK",' .
-		            '"totalitems":"","itemsperpage":"","data":{"test":"hi"}}';
+		$expected = '{"ocs":{"meta":{"status":"failure","statuscode":400,"message":"OK",' .
+		            '"totalitems":"","itemsperpage":""},"data":{"test":"hi"}}}';
 		$params = [
 			'data' => [
 				'test' => 'hi'
