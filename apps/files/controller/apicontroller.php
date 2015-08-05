@@ -78,7 +78,7 @@ class ApiController extends Controller {
 			return new DataResponse(['message' => 'Requested size must be numeric and a positive value.'], Http::STATUS_BAD_REQUEST);
 		}
 
-		$preview = $this->previewManager->createPreview('files/'.urldecode($file), $x, $y, true);
+		$preview = $this->previewManager->createPreview('files/'.$file, $x, $y, true);
 		if ($preview->valid()) {
 			return new DataDisplayResponse($preview->data(), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		} else {
