@@ -71,7 +71,7 @@ class Test_Trashbin extends \Test\TestCase {
 
 		//configure trashbin
 		self::$rememberRetentionObligation = \OC_Config::getValue('trashbin_retention_obligation', Files_Trashbin\Expiration::DEFAULT_RETENTION_OBLIGATION);
-		\OC_Config::setValue('trashbin_retention_obligation', 2);
+		\OC_Config::setValue('trashbin_retention_obligation', 'auto, 2');
 
 		// register hooks
 		Files_Trashbin\Trashbin::registerHooks();
@@ -630,12 +630,6 @@ class Test_Trashbin extends \Test\TestCase {
 
 			}
 		}
-
-		$storage = new \ReflectionClass('\OC\Files\Storage\Shared');
-		$isInitialized = $storage->getProperty('isInitialized');
-		$isInitialized->setAccessible(true);
-		$isInitialized->setValue(array());
-		$isInitialized->setAccessible(false);
 
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
