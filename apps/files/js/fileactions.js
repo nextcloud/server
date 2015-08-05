@@ -332,10 +332,8 @@
 		 * @param {OCA.Files.FileActionContext} context rendering context
 		 */
 		_showMenu: function(fileName, context) {
-			var $actionEl = context.$file.find('.action-menu');
-
 			this._menu = new OCA.Files.FileActionsMenu();
-			this._menu.showAt($actionEl, context);
+			this._menu.showAt(context);
 		},
 
 		/**
@@ -433,7 +431,7 @@
 			nameLinks = parent.children('a.name');
 			nameLinks.find('.fileactions, .nametext .action').remove();
 			nameLinks.append('<span class="fileactions" />');
-			var defaultAction = this.getDefault(
+			var defaultAction = this.getDefaultFileAction(
 				this.getCurrentMimeType(),
 				this.getCurrentType(),
 				this.getCurrentPermissions()
@@ -449,7 +447,7 @@
 				if (actionSpec.type === FileActions.TYPE_INLINE) {
 					self._renderInlineAction(
 						actionSpec,
-						actionSpec.action === defaultAction,
+						defaultAction && actionSpec.name === defaultAction.name,
 						context
 					);
 				}

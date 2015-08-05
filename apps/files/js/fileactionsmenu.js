@@ -42,12 +42,16 @@
 		/**
 		 * @private
 		 */
-		initialize: function(fileActions, fileList) {
+		initialize: function() {
 			this.$el = $('<div class="fileActionsMenu dropdown hidden menu"></div>');
 			this._template = Handlebars.compile(TEMPLATE_MENU);
 
 			this.$el.on('click', 'a.action', _.bind(this._onClickAction, this));
 			this.$el.on('afterHide', _.bind(this._onHide, this));
+		},
+
+		destroy: function() {
+			this.$el.remove();
 		},
 
 		/**
@@ -118,17 +122,15 @@
 		/**
 		 * Displays the menu under the given element
 		 *
-		 * @param {Object} $el target element
 		 * @param {OCA.Files.FileActionContext} context context
 		 */
-		showAt: function($el, context) {
+		showAt: function(context) {
 			this._context = context;
 
 			this.render();
 			this.$el.removeClass('hidden');
 
-			$el.closest('td').append(this.$el);
-
+			context.$file.find('td.filename').append(this.$el);
 			context.$file.addClass('mouseOver');
 
 			OC.showMenu(null, this.$el);
@@ -139,7 +141,7 @@
 		 */
 		_onHide: function() {
 			this._context.$file.removeClass('mouseOver');
-			this.$el.remove();
+			this.destroy();
 		}
 	};
 
