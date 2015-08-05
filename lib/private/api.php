@@ -444,11 +444,7 @@ class OC_API {
 			return $sc;
 		}
 
-		// any error codes > 100 are treated as client errors
-		if ($sc > 100 && $sc < 200) {
-			return Http::STATUS_BAD_REQUEST;
-		}
-		return Http::STATUS_OK;
+		return Http::STATUS_BAD_REQUEST;
 	}
 
 	/**
