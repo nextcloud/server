@@ -4,12 +4,7 @@ use Behat\Behat\Context\BehatContext;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
-//
-// Require 3rd-party libraries here:
-//
-//   require_once 'PHPUnit/Autoload.php';
-//   require_once 'PHPUnit/Framework/Assert/Functions.php';
-//
+require __DIR__ . '/../../vendor/autoload.php';
 
 /**
  * Features context.
