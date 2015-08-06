@@ -455,6 +455,11 @@ class OC_Util {
 		$path = OC_Util::generatePath($application, 'vendor', $file);
 		if (!in_array($path, self::$scripts)) {
 			self::$scripts[] = $path;
+			if($file === 'backbone/backbone') {
+				// makes backbone available as OC.Backbone in order to avoid
+				// conflicts, because apps (like Mail) may bring own versions
+				OC_Util::addScript('oc-backbone');
+			}
 		}
 	}
 
