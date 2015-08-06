@@ -5,15 +5,11 @@
  * See the COPYING-README file.
  */
 
-if (!OC.Encryption) {
-	OC.Encryption = {};
-}
-
 /**
  * @namespace
  * @memberOf OC
  */
-OC.Encryption = {
+OC.Encryption = _.extend(OC.Encryption || {}, {
 	displayEncryptionWarning: function () {
 		if (!OC.currentUser || !OC.Notification.isHidden()) {
 			return;
@@ -28,7 +24,7 @@ OC.Encryption = {
 			}
 		);
 	}
-};
+});
 $(document).ready(function() {
 	// wait for other apps/extensions to register their event handlers and file actions
 	// in the "ready" clause
