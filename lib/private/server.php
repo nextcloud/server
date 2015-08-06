@@ -339,7 +339,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			$uid = $user ? $user : null;
 			return new ClientService(
 				$c->getConfig(),
-				new \OC\Security\CertificateManager($uid, new View())
+				new \OC\Security\CertificateManager($uid, new View(), $c->getConfig())
 			);
 		});
 		$this->registerService('EventLogger', function (Server $c) {
@@ -852,7 +852,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			}
 			$userId = $user->getUID();
 		}
-		return new CertificateManager($userId, new View());
+		return new CertificateManager($userId, new View(), $this->getConfig());
 	}
 
 	/**
