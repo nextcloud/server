@@ -14,6 +14,6 @@ PHPPID=$!
 echo $PHPPID
 
 #export BEHAT_PARAMS="context[parameters][base_url]=http://localhost:$PORT/ocs"
-vendor/bin/behat
+vendor/bin/behat --profile ci
 
 kill $PHPPID
