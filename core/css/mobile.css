@@ -103,11 +103,7 @@
 	z-index: 1000;
 }
 
-#app-sidebar {
-	width: 250px;
-}
-
-#app-sidebar ~ .with-app-sidebar {
+#app-sidebar{
 	width: 100%;
 }
 

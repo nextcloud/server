@@ -1366,13 +1366,13 @@ function initCore() {
 				// if there is a scrollbar …
 				if($('#app-content').get(0).scrollHeight > $('#app-content').height()) {
 					if($(window).width() > 768) {
-						controlsWidth = $('#content').width() - $('#app-navigation').width() - getScrollBarWidth();
+						controlsWidth = $('#content').width() - $('#app-navigation').width() - $('#app-sidebar').width() - getScrollBarWidth();
 					} else {
 						controlsWidth = $('#content').width() - getScrollBarWidth();
 					}
 				} else { // if there is none
 					if($(window).width() > 768) {
-						controlsWidth = $('#content').width() - $('#app-navigation').width();
+						controlsWidth = $('#content').width() - $('#app-navigation').width() - $('#app-sidebar').width();
 					} else {
 						controlsWidth = $('#content').width();
 					}

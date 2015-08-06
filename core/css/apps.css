@@ -430,7 +430,7 @@
 	right: 0;
 	left: auto;
 	bottom: 0;
-	width: 300px;
+	width: 27%;
 	display: block;
 	background: #eee;
 	-webkit-transition: margin-right 300ms;
@@ -443,8 +443,8 @@
 	z-index: 500;
 }
 
-#app-sidebar ~ .with-app-sidebar {
-	width: 73%;
+#app-content.with-app-sidebar {
+	margin-right: 27%;
 }
 
 #app-sidebar.disappear {

@@ -25,9 +25,8 @@
 	 */
 	exports.Apps.showAppSidebar = function() {
 		var $appSidebar = $('#app-sidebar');
-		$appSidebar
-			.removeClass('disappear')
-			.find('~').addClass('with-app-sidebar');
+		$appSidebar.removeClass('disappear')
+		$('#app-content').addClass('with-app-sidebar');
 
 	};
 
@@ -37,9 +36,8 @@
 	 */
 	exports.Apps.hideAppSidebar = function() {
 		var $appSidebar = $('#app-sidebar');
-		$appSidebar
-			.addClass('disappear')
-			.find('~ .with-app-sidebar').removeClass('with-app-sidebar');
+		$appSidebar.addClass('disappear');
+		$('#app-content').removeClass('with-app-sidebar');
 	};
 
 	/**
