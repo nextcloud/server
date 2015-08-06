@@ -326,10 +326,17 @@ if ($_['cronErrors']) {
 	</p>
 
 	<div id="EncryptionWarning" class="warning hidden">
-		<?php p($l->t('Encryption is a one way process. Once encryption is enabled, all files from that point forward will be encrypted on the server and it will not be possible to disable encryption at a later date. This is the final warning: Do you really want to enable encryption?')) ?>
-		<input type="button"
+		<p><?php p($l->t('Please read carefully before activating server-side encryption: ')); ?></p>
+		<ul>
+			<li><?php p($l->t('Server-side encryption is a one way process. Once encryption is enabled, all files from that point forward will be encrypted on the server and it will not be possible to disable encryption at a later date')); ?></li>
+			<li><?php p($l->t('Anyone who has privileged access to your ownCloud server can decrypt your files either by intercepting requests or reading out user passwords which are stored in plain text session files. Server-side encryption does therefore not protect against malicious administrators but is useful for protecting your data on externally hosted storage.')); ?></li>
+			<li><?php p($l->t('Depending on the actual encryption module the general file size is increased (by 35%% or more when using the default module)')); ?></li>
+			<li><?php p($l->t('You should regularly backup all encryption keys to prevent permanent data loss (data/<user>/files_encryption and data/files_encryption)')); ?></li>
+		</ul>
+
+		<p><?php p($l->t('This is the final warning: Do you really want to enable encryption?')) ?> <input type="button"
 			   id="reallyEnableEncryption"
-			   value="<?php p($l->t("Enable encryption")); ?>" />
+			   value="<?php p($l->t("Enable encryption")); ?>" /></p>
 	</div>
 
 	<div id="EncryptionSettingsArea" class="<?php if (!$_['encryptionEnabled']) p('hidden'); ?>">
