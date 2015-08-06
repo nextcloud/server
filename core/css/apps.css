@@ -292,8 +292,8 @@
 		list-style-type: none;
 	}
 
+.bubble,
 #app-navigation .app-navigation-entry-menu {
-	display: none;
 	position: absolute;
 	background-color: #eee;
 	color: #333;
@@ -310,11 +310,17 @@
 	filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
 }
 
+#app-navigation .app-navigation-entry-menu {
+	display: none;
+}
+
 #app-navigation .app-navigation-entry-menu.open {
 	display: block;
 }
 
 /* miraculous border arrow stuff */
+.bubble:after,
+.bubble:before,
 #app-navigation .app-navigation-entry-menu:after,
 #app-navigation .app-navigation-entry-menu:before {
 	bottom: 100%;
@@ -327,12 +333,15 @@
 	pointer-events: none;
 }
 
+.bubble:after,
 #app-navigation .app-navigation-entry-menu:after {
 	border-color: rgba(238, 238, 238, 0);
 	border-bottom-color: #eee;
 	border-width: 10px;
 	margin-left: -10px;
 }
+
+.bubble:before,
 #app-navigation .app-navigation-entry-menu:before {
 	border-color: rgba(187, 187, 187, 0);
 	border-bottom-color: #bbb;

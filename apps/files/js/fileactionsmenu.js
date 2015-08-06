@@ -43,7 +43,7 @@
 		 * @private
 		 */
 		initialize: function() {
-			this.$el = $('<div class="fileActionsMenu dropdown hidden menu"></div>');
+			this.$el = $('<div class="fileActionsMenu bubble hidden open menu"></div>');
 			this._template = Handlebars.compile(TEMPLATE_MENU);
 
 			this.$el.on('click', 'a.action', _.bind(this._onClickAction, this));

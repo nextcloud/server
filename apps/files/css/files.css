@@ -691,6 +691,7 @@ table.dragshadow td.size {
 .fileActionsMenu {
 	/* FIXME: should be variable width, but default one is too big */
 	width: 100px;
+	padding: 10px;
 }
 
 .fileActionsMenu.hidden {
