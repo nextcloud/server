@@ -1,0 +1,6 @@
+{
+  "require-dev": {
+    "guzzlehttp/guzzle": "~5.0",
+    "behat/behat": "2.4.*@stable"
+  }
+}

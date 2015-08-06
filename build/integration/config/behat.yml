@@ -1,0 +1,17 @@
+default:
+    paths:
+        features: ../features
+        bootstrap: %behat.paths.features%/bootstrap
+
+    context:
+      parameters:
+        baseUrl:  http://localhost:8080/ocs/
+        admin:
+          - admin
+          - admin
+
+ci:
+    formatter:
+        name:       junit
+        parameters:
+          output_path: ./output
