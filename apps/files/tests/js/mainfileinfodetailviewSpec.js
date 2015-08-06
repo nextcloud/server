@@ -43,11 +43,11 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 				name: 'One.txt',
 				path: '/subdir',
 				size: 123456789,
-				dateLabel: new Date(Date.UTC(2015, 6, 17, 1, 2, 3, 4))
+				mtime: Date.UTC(2015, 6, 17, 1, 2, 0, 0)
 			};
 		});
 		it('displays basic info', function() {
-			var clock = sinon.useFakeTimers(Date.UTC(2015, 6, 17, 1, 2, 0, 0));
+			var clock = sinon.useFakeTimers(Date.UTC(2015, 6, 17, 1, 2, 0, 3));
 			view.setFileInfo(testFileInfo);
 			expect(view.$el.find('.fileName').text()).toEqual('One.txt');
 			expect(view.$el.find('.fileName').attr('title')).toEqual('One.txt');
