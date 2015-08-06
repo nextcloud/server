@@ -4,11 +4,7 @@
  * See the COPYING-README file.
  */
 
-if (!OC.Encryption) {
-	OC.Encryption = {};
-}
-
-OC.Encryption = {
+OC.Encryption = _.extend(OC.Encryption || {}, {
 	updatePrivateKeyPassword: function () {
 		var oldPrivateKeyPassword = $('input:password[id="oldPrivateKeyPassword"]').val();
 		var newPrivateKeyPassword = $('input:password[id="newPrivateKeyPassword"]').val();
@@ -26,7 +22,7 @@ OC.Encryption = {
 				OC.msg.finishedError('#ocDefaultEncryptionModule .msg', JSON.parse(jqXHR.responseText).message);
 			});
 	}
-};
+});
 
 $(document).ready(function () {
 
