@@ -48,13 +48,14 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 		});
 		it('displays basic info', function() {
 			var clock = sinon.useFakeTimers(Date.UTC(2015, 6, 17, 1, 2, 0, 3));
+			var dateExpected = OC.Util.formatDate(Date(Date.UTC(2015, 6, 17, 1, 2, 0, 0)));
 			view.setFileInfo(testFileInfo);
 			expect(view.$el.find('.fileName').text()).toEqual('One.txt');
 			expect(view.$el.find('.fileName').attr('title')).toEqual('One.txt');
 			expect(view.$el.find('.size').text()).toEqual('117.7 MB');
 			expect(view.$el.find('.size').attr('title')).toEqual('123456789 bytes');
 			expect(view.$el.find('.date').text()).toEqual('a few seconds ago');
-			expect(view.$el.find('.date').attr('title')).toEqual('July 17, 2015 3:02 AM');
+			expect(view.$el.find('.date').attr('title')).toEqual(dateExpected);
 			clock.restore();
 		});
 		it('displays favorite icon', function() {
