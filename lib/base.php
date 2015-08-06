@@ -407,6 +407,8 @@ class OC {
 		OC_Util::addScript('mimetype');
 		OC_Util::addScript('mimetypelist');
 		OC_Util::addVendorScript('snapjs/dist/latest/snap');
+		OC_Util::addVendorScript('core', 'backbone/backbone');
+		OC_Util::addScript('oc-backbone');
 
 		// avatars
 		if (\OC::$server->getSystemConfig()->getValue('enable_avatars', true) === true) {

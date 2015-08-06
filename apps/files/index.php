@@ -51,7 +51,6 @@ OCP\Util::addscript('files', 'search');
 \OCP\Util::addScript('files', 'favoritesplugin');
 
 \OC_Util::addVendorScript('core', 'handlebars/handlebars');
-\OC_Util::addVendorScript('core', 'backbone/backbone');
 
 OCP\App::setActiveNavigationEntry('files_index');
 
