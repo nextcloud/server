@@ -1677,6 +1677,7 @@
 			}
 
 			this.$table.addClass('hidden');
+			this.$el.find('#emptycontent').addClass('hidden');
 
 			$mask = $('<div class="mask transparent"></div>');
 
