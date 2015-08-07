@@ -521,6 +521,20 @@ table td.filename .uploadtext {
 	visibility: hidden;
 }
 
+/* fix position of bubble pointer for Files app */
+.bubble,
+#app-navigation .app-navigation-entry-menu {
+	border-top-right-radius: 3px;
+}
+.bubble:after,
+#app-navigation .app-navigation-entry-menu:after {
+	right: 6px;
+}
+.bubble:before,
+#app-navigation .app-navigation-entry-menu:before {
+	right: 6px;
+}
+
 /* force show the loading icon, not only on hover */
 #fileList .icon-loading-small {
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
@@ -720,4 +734,3 @@ table.dragshadow td.size {
 .fileActionsMenu li:hover .action {
 	opacity: 1;
 }
-

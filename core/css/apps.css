@@ -298,7 +298,7 @@
 	background-color: #eee;
 	color: #333;
 	border-radius: 3px;
-	border-top-right-radius: 0px;
+	border-top-right-radius: 0;
 	z-index: 110;
 	margin: -5px 14px 5px 10px;
 	right: 0;
