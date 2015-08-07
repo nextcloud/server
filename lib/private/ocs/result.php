@@ -27,7 +27,23 @@
 
 class OC_OCS_Result{
 
-	protected $data, $message, $statusCode, $items, $perPage;
+	/** @var array  */
+	protected $data;
+
+	/** @var null|string */
+	protected $message;
+
+	/** @var int */
+	protected $statusCode;
+
+	/** @var integer */
+	protected $items;
+
+	/** @var integer */
+	protected $perPage;
+
+	/** @var array */
+	private $headers = [];
 
 	/**
 	 * create the OCS_Result object
@@ -106,5 +122,32 @@ class OC_OCS_Result{
 		return ($this->statusCode == 100);
 	}
 
+	/**
+	 * Adds a new header to the response
+	 * @param string $name The name of the HTTP header
+	 * @param string $value The value, null will delete it
+	 * @return $this
+	 */
+	public function addHeader($name, $value) {
+		$name = trim($name);  // always remove leading and trailing whitespace
+		// to be able to reliably check for security
+		// headers
+
+		if(is_null($value)) {
+			unset($this->headers[$name]);
+		} else {
+			$this->headers[$name] = $value;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Returns the set headers
+	 * @return array the headers
+	 */
+	public function getHeaders() {
+		return $this->headers;
+	}
 
 }
