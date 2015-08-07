@@ -89,7 +89,7 @@
 					// TODO: special icons / shared / external
 					$iconDiv.css('background-image', 'url("' + OC.MimeType.getIconUrl('dir') + '")');
 				}
-				this.$el.find('[title]').tipsy({gravity: 'n'});
+				this.$el.find('[title]').tooltip({placement: 'bottom'});
 			}
 		}
 	});
