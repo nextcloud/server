@@ -265,6 +265,8 @@
 				$('#webdavurl').select();
 			});
 
+			$('#upload').tooltip({placement:'right'});
+
 			//FIXME scroll to and highlight preselected file
 			/*
 			if (getURLParameter('scrollto')) {
