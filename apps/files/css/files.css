@@ -249,8 +249,8 @@ table th.column-last, table td.column-last {
 	box-sizing: border-box;
 	position: relative;
 	/* this can not be just width, both need to be set … table styling */
-	min-width: 176px;
-	max-width: 176px;
+	min-width: 130px;
+	max-width: 130px;
 }
 
 /* Multiselect bar */
@@ -326,14 +326,7 @@ table td.filename .nametext, .uploadtext, .modified, .column-last>span:first-chi
 	position: relative;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	width: 90%;
-}
-/* ellipsize long modified dates to make room for showing delete button */
-#fileList tr:hover .modified,
-#fileList tr:focus .modified,
-#fileList tr:hover .column-last>span:first-child,
-#fileList tr:focus .column-last>span:first-child {
-	width: 75%;
+	width: 110px;
 }
 
 /* TODO fix usability bug (accidental file/folder selection) */
@@ -372,25 +365,27 @@ table td.filename .nametext .innernametext {
 
 @media only screen and (min-width: 1366px) {
 	table td.filename .nametext .innernametext {
-		max-width: 620px;
+		max-width: 660px;
 	}
 }
-
 @media only screen and (min-width: 1200px) and (max-width: 1366px) {
 	table td.filename .nametext .innernametext {
-		max-width: 460px;
+		max-width: 500px;
 	}
 }
-
-@media only screen and (min-width: 1000px) and (max-width: 1200px) {
+@media only screen and (min-width: 1100px) and (max-width: 1200px) {
 	table td.filename .nametext .innernametext {
-		max-width: 270px;
+		max-width: 400px;
 	}
 }
-
+@media only screen and (min-width: 1000px) and (max-width: 1100px) {
+	table td.filename .nametext .innernametext {
+		max-width: 310px;
+	}
+}
 @media only screen and (min-width: 768px) and (max-width: 1000px) {
 	table td.filename .nametext .innernametext {
-		max-width: 190px;
+		max-width: 240px;
 	}
 }
 
