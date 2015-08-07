@@ -372,45 +372,25 @@ table td.filename .nametext .innernametext {
 
 @media only screen and (min-width: 1366px) {
 	table td.filename .nametext .innernametext {
-		max-width: 760px;
-	}
-
-	table tr:hover td.filename .nametext .innernametext,
-	table tr:focus td.filename .nametext .innernametext {
-		max-width: 480px;
+		max-width: 620px;
 	}
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1366px) {
 	table td.filename .nametext .innernametext {
-		max-width: 600px;
-	}
-
-	table tr:hover td.filename .nametext .innernametext,
-	table tr:focus td.filename .nametext .innernametext {
-		max-width: 320px;
+		max-width: 460px;
 	}
 }
 
 @media only screen and (min-width: 1000px) and (max-width: 1200px) {
 	table td.filename .nametext .innernametext {
-		max-width: 400px;
-	}
-
-	table tr:hover td.filename .nametext .innernametext,
-	table tr:focus td.filename .nametext .innernametext {
-		max-width: 120px;
+		max-width: 270px;
 	}
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1000px) {
 	table td.filename .nametext .innernametext {
-		max-width: 320px;
-	}
-
-	table tr:hover td.filename .nametext .innernametext,
-	table tr:focus td.filename .nametext .innernametext {
-		max-width: 40px;
+		max-width: 190px;
 	}
 }
 
