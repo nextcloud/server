@@ -85,6 +85,13 @@ $(document).ready(function(){
 		});
 	});
 
+	$('#shareapiExpireAfterNDays').change(function() {
+		var value = $(this).val();
+		if (value <= 0) {
+			$(this).val("1");
+		}
+	});
+
 	$('#shareAPI input:not(#excludedGroups)').change(function() {
 		var value = $(this).val();
 		if ($(this).attr('type') === 'checkbox') {
