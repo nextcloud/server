@@ -404,6 +404,11 @@ abstract class Common implements Storage {
 		return implode('/', $output);
 	}
 
+	/**
+	 * Test a storage for availability
+	 *
+	 * @return bool
+	 */
 	public function test() {
 		if ($this->stat('')) {
 			return true;
@@ -649,5 +654,19 @@ abstract class Common implements Storage {
 	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
 		$provider->changeLock('files/' . md5($this->getId() . '::' . trim($path, '/')), $type);
+	}
+
+	/**
+	 * @return array [ available, last_checked ]
+	 */
+	public function getAvailability() {
+		return $this->getStorageCache()->getAvailability();
+	}
+
+	/**
+	 * @param bool $isAvailable
+	 */
+	public function setAvailability($isAvailable) {
+		$this->getStorageCache()->setAvailability($isAvailable);
 	}
 }

@@ -143,6 +143,14 @@ class OC_Util {
 			return $storage;
 		});
 
+		// install storage availability wrapper, before most other wrappers
+		\OC\Files\Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, $storage) {
+			if (!$storage->isLocal()) {
+				return new \OC\Files\Storage\Wrapper\Availability(['storage' => $storage]);
+			}
+			return $storage;
+		});
+
 		\OC\Files\Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage) {
 			// set up quota for home storages, even for other users
 			// which can happen when using sharing
