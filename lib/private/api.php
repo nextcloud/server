@@ -350,6 +350,10 @@ class OC_API {
 			header('HTTP/1.0 401 Unauthorized');
 		}
 
+		foreach($result->getHeaders() as $name => $value) {
+			header($name . ': ' . $value);
+		}
+
 		if (self::isV2()) {
 			$statusCode = self::mapStatusCodes($result->getStatusCode());
 			if (!is_null($statusCode)) {
