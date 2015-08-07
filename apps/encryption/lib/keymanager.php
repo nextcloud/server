@@ -184,8 +184,7 @@ class KeyManager {
 	 */
 	public function checkRecoveryPassword($password) {
 		$recoveryKey = $this->keyStorage->getSystemUserKey($this->recoveryKeyId . '.privateKey', Encryption::ID);
-		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey,
-			$password);
+		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey, $password);
 
 		if ($decryptedRecoveryKey) {
 			return true;
@@ -203,7 +202,7 @@ class KeyManager {
 		// Save Public Key
 		$this->setPublicKey($uid, $keyPair['publicKey']);
 
-		$encryptedKey = $this->crypt->encryptPrivateKey($keyPair['privateKey'], $password);
+		$encryptedKey = $this->crypt->encryptPrivateKey($keyPair['privateKey'], $password, $uid);
 
 		$header = $this->crypt->generateHeader();
 
@@ -307,8 +306,7 @@ class KeyManager {
 
 		try {
 			$privateKey = $this->getPrivateKey($uid);
-			$privateKey = $this->crypt->decryptPrivateKey($privateKey,
-				$passPhrase);
+			$privateKey = $this->crypt->decryptPrivateKey($privateKey, $passPhrase, $uid);
 		} catch (PrivateKeyMissingException $e) {
 			return false;
 		} catch (DecryptionFailedException $e) {

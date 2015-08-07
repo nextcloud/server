@@ -285,12 +285,13 @@ class Crypt {
 	 *
 	 * @param string $password
 	 * @param string $cipher
+	 * @param string $uid only used for user keys
 	 * @return string
 	 */
-	protected function generatePasswordHash($password, $cipher) {
+	protected function generatePasswordHash($password, $cipher, $uid = '') {
 		$instanceId = $this->config->getSystemValue('instanceid');
 		$instanceSecret = $this->config->getSystemValue('secret');
-		$salt = hash('sha256', $instanceId . $instanceSecret, true);
+		$salt = hash('sha256', $uid . $instanceId . $instanceSecret, true);
 		$keySize = $this->getKeySize($cipher);
 
 		if (function_exists('hash_pbkdf2')) {
@@ -324,11 +325,12 @@ class Crypt {
 	 *
 	 * @param string $privateKey
 	 * @param string $password
+	 * @param string $uid for regular users, empty for system keys
 	 * @return bool|string
 	 */
-	public function encryptPrivateKey($privateKey, $password) {
+	public function encryptPrivateKey($privateKey, $password, $uid = '') {
 		$cipher = $this->getCipher();
-		$hash = $this->generatePasswordHash($password, $cipher);
+		$hash = $this->generatePasswordHash($password, $cipher, $uid);
 		$encryptedKey = $this->symmetricEncryptFileContent(
 			$privateKey,
 			$hash
@@ -340,9 +342,10 @@ class Crypt {
 	/**
 	 * @param string $privateKey
 	 * @param string $password
+	 * @param string $uid for regular users, empty for system keys
 	 * @return bool|string
 	 */
-	public function decryptPrivateKey($privateKey, $password = '') {
+	public function decryptPrivateKey($privateKey, $password = '', $uid = '') {
 
 		$header = $this->parseHeader($privateKey);
 
@@ -359,7 +362,7 @@ class Crypt {
 		}
 
 		if ($keyFormat === 'hash') {
-			$password = $this->generatePasswordHash($password, $cipher);
+			$password = $this->generatePasswordHash($password, $cipher, $uid);
 		}
 
 		// If we found a header we need to remove it from the key we want to decrypt
