@@ -194,16 +194,16 @@ DeleteHandler.prototype.deleteEntry = function(keepNotification) {
 		// FIXME: do not use synchronous ajax calls as they block the browser !
 		async: false,
 		success: function (result) {
-			if (result.status === 'success') {
-				// Remove undo option, & remove user from table
+			// Remove undo option, & remove user from table
 
-				//TODO: following line
-				dh.removeCallback(dh.oidToDelete);
-				dh.canceled = true;
-			} else {
-				OC.dialogs.alert(result.data.message, t('settings', 'Unable to delete {objName}', {objName: dh.oidToDelete}));
-				dh.undoCallback(dh.oidToDelete);
-			}
+			//TODO: following line
+			dh.removeCallback(dh.oidToDelete);
+			dh.canceled = true;
+		},
+		error: function (jqXHR) {
+			OC.dialogs.alert(jqXHR.responseJSON.data.message, t('settings', 'Unable to delete {objName}', {objName: dh.oidToDelete}));
+			dh.undoCallback(dh.oidToDelete);
+
 		}
 	});
 };
