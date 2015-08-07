@@ -103,7 +103,7 @@ class SettingsController extends Controller {
 			$decryptedKey = $this->crypt->decryptPrivateKey($encryptedKey, $oldPassword);
 
 			if ($decryptedKey) {
-				$encryptedKey = $this->crypt->symmetricEncryptFileContent($decryptedKey, $newPassword);
+				$encryptedKey = $this->crypt->encryptPrivateKey($decryptedKey, $newPassword);
 				$header = $this->crypt->generateHeader();
 				if ($encryptedKey) {
 					$this->keyManager->setPrivateKey($uid, $header . $encryptedKey);

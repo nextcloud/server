@@ -114,7 +114,7 @@ class UserHooksTest extends TestCase {
 			->willReturnOnConsecutiveCalls(true, false);
 
 		$this->cryptMock->expects($this->exactly(4))
-			->method('symmetricEncryptFileContent')
+			->method('encryptPrivateKey')
 			->willReturn(true);
 
 		$this->cryptMock->expects($this->any())

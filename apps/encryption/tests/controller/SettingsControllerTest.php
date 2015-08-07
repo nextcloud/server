@@ -188,7 +188,7 @@ class SettingsControllerTest extends TestCase {
 
 		$this->cryptMock
 			->expects($this->once())
-			->method('symmetricEncryptFileContent')
+			->method('encryptPrivateKey')
 			->willReturn('encryptedKey');
 
 		$this->cryptMock

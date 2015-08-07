@@ -96,7 +96,7 @@ class RecoveryTest extends TestCase {
 			->method('decryptPrivateKey');
 
 		$this->cryptMock->expects($this->once())
-			->method('symmetricEncryptFileContent')
+			->method('encryptPrivateKey')
 			->willReturn(true);
 
 		$this->assertTrue($this->instance->changeRecoveryKeyPassword('password',

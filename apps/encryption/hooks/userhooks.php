@@ -220,8 +220,7 @@ class UserHooks implements IHook {
 		if ($user && $params['uid'] === $user->getUID() && $privateKey) {
 
 			// Encrypt private key with new user pwd as passphrase
-			$encryptedPrivateKey = $this->crypt->symmetricEncryptFileContent($privateKey,
-				$params['password']);
+			$encryptedPrivateKey = $this->crypt->encryptPrivateKey($privateKey, $params['password']);
 
 			// Save private key
 			if ($encryptedPrivateKey) {
@@ -259,8 +258,7 @@ class UserHooks implements IHook {
 				$this->keyManager->setPublicKey($user, $keyPair['publicKey']);
 
 				// Encrypt private key with new password
-				$encryptedKey = $this->crypt->symmetricEncryptFileContent($keyPair['privateKey'],
-					$newUserPassword);
+				$encryptedKey = $this->crypt->encryptPrivateKey($keyPair['privateKey'], $newUserPassword);
 
 				if ($encryptedKey) {
 					$this->keyManager->setPrivateKey($user, $this->crypt->generateHeader() . $encryptedKey);

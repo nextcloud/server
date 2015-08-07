@@ -260,7 +260,7 @@ class KeyManagerTest extends TestCase {
 			->method('setSystemUserKey')
 			->willReturn(true);
 		$this->cryptMock->expects($this->any())
-			->method('symmetricEncryptFileContent')
+			->method('encryptPrivateKey')
 			->with($this->equalTo('privateKey'), $this->equalTo('pass'))
 			->willReturn('decryptedPrivateKey');
 
