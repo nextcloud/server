@@ -134,41 +134,23 @@ abstract class RequestTest extends TestCase {
 	 * @return Server
 	 */
 	protected function getSabreServer(View $view, $user, $password, ExceptionPlugin $exceptionPlugin) {
+		$serverFactory = new \OC\Connector\Sabre\ServerFactory(
+			\OC::$server->getConfig(),
+			\OC::$server->getLogger(),
+			\OC::$server->getDatabaseConnection(),
+			\OC::$server->getUserSession(),
+			\OC::$server->getMountManager(),
+			\OC::$server->getTagManager()
+		);
+
+
 		$authBackend = new Auth($user, $password);
-		$objectTree = new \OC\Connector\Sabre\ObjectTree();
-		$server = new \OC\Connector\Sabre\Server($objectTree);
 
-		$server->setBaseUri('/');
-
-		// Load plugins
-		$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, 'oc-test'));
-		$server->addPlugin(new \OC\Connector\Sabre\DummyGetResponsePlugin());
-		$server->addPlugin(new \OC\Connector\Sabre\FilesPlugin($objectTree));
+		$server = $serverFactory->createServer('/', 'dummy', $authBackend, function () use ($view) {
+			return $view;
+		});
 		$server->addPlugin($exceptionPlugin);
 
-		// wait with registering these until auth is handled and the filesystem is setup
-		$server->on('beforeMethod', function () use ($server, $objectTree, $view) {
-			$rootInfo = $view->getFileInfo('');
-
-			// Create ownCloud Dir
-			$mountManager = \OC\Files\Filesystem::getMountManager();
-			$rootDir = new \OC\Connector\Sabre\Directory($view, $rootInfo);
-			$objectTree->init($rootDir, $view, $mountManager);
-
-			$server->addPlugin(new \OC\Connector\Sabre\QuotaPlugin($view));
-
-			// custom properties plugin must be the last one
-			$server->addPlugin(
-				new \Sabre\DAV\PropertyStorage\Plugin(
-					new \OC\Connector\Sabre\CustomPropertiesBackend(
-						$objectTree,
-						\OC::$server->getDatabaseConnection(),
-						\OC::$server->getUserSession()->getUser()
-					)
-				)
-			);
-			$server->addPlugin(new \OC\Connector\Sabre\CopyEtagHeaderPlugin());
-		}, 30); // priority 30: after auth (10) and acl(20), before lock(50) and handling the request
 		return $server;
 	}
 }
