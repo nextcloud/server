@@ -201,9 +201,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 		$groups = $this->access->groupsMatchFilter($groups);
 		$allGroups =  $groups;
-		foreach ($groups as $group) {
-			$nestedGroups = $this->access->connection->ldapNestedGroups;
-			if (!empty($nestedGroups)) {
+		$nestedGroups = $this->access->connection->ldapNestedGroups;
+		if (intval($nestedGroups) === 1) {
+			foreach ($groups as $group) {
 				$subGroups = $this->_getGroupDNsFromMemberOf($group, $seen);
 				$allGroups = array_merge($allGroups, $subGroups);
 			}
@@ -408,7 +408,6 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			&& intval($this->access->connection->useMemberOfToDetectMembership) === 1
 		) {
 			$groupDNs = $this->_getGroupDNsFromMemberOf($userDN);
-			
 			if (is_array($groupDNs)) {
 				foreach ($groupDNs as $dn) {
 					$groups[] = $this->access->dn2groupname($dn);
