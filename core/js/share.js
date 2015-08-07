@@ -378,14 +378,18 @@ OC.Share = _.extend(OC.Share, {
 	},
 	showDropDown:function(itemType, itemSource, appendTo, link, possiblePermissions, filename) {
 		var itemModel = new OC.Share.ShareItemModel(itemType, itemSource);
-		var dialogView = new OC.Share.ShareDialogView('dropdown');
-		dialogView.setContainerClasses('drop shareDropDown');
+		var dialogView = new OC.Share.ShareDialogView({
+			id: 'dropdown',
+			model: itemModel,
+			className: 'drop shareDropDown',
+			attributes: {
+				'data-item-source-name': filename
+			}
+		});
 		dialogView.setShowLink(link);
 		dialogView.setPossiblePermissions(possiblePermissions);
-		dialogView.setItemModel(itemModel);
-		var $dialog = dialogView.render();
+		var $dialog = dialogView.render().$el;
 		$dialog.appendTo(appendTo);
-		$dialog.attr('data-item-source-name', filename);
 		$dialog.slideDown(OC.menuSpeed, function() {
 			OC.Share.droppedDown = true;
 		});

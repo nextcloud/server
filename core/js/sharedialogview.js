@@ -14,19 +14,17 @@
 	}
 
 	var TEMPLATE_BASE =
-		'<div id="{{containerID}}" {{{containerClasses}}}>' +
-		'    {{{resharerInfo}}}' +
-		'    <label for="shareWith" class="hidden-visually">{{shareLabel}}</label>' +
-		'    <div class="oneline">' +
-		'        <input id="shareWith" type="text" placeholder="{{sharePlaceholder}}" />' +
-		'        <span class="shareWithLoading icon-loading-small hidden"></span>'+
-		'    </div>' +
+		'{{{resharerInfo}}}' +
+		'<label for="shareWith" class="hidden-visually">{{shareLabel}}</label>' +
+		'<div class="oneline">' +
+		'    <input id="shareWith" type="text" placeholder="{{sharePlaceholder}}" />' +
+		'    <span class="shareWithLoading icon-loading-small hidden"></span>'+
+		'</div>' +
 			// FIXME: find a good position for remoteShareInfo
-		'    {{{remoteShareInfo}}}' +
-		'    <ul id="shareWithList">' +
-		'    </ul>' +
-		'    {{{linkShare}}}' +
-		'</div>';
+		'{{{remoteShareInfo}}}' +
+		'<ul id="shareWithList">' +
+		'</ul>' +
+		'{{{linkShare}}}';
 
 	var TEMPLATE_RESHARER_INFO =
 		'<span class="reshare">' +
@@ -57,47 +55,37 @@
 
 	/**
 	 * @class OCA.Share.ShareDialogView
+	 * @member {OC.Share.ShareItemModel} model
+	 * @member {jQuery} $el
+	 * @memberof OCA.Sharing
 	 * @classdesc
 	 *
 	 * Represents the GUI of the share dialogue
 	 *
 	 */
-	var ShareDialogView = function(id) {
-		this.initialize(id);
-	};
-
-	/**
-	 * @memberof OCA.Sharing
-	 */
-	ShareDialogView.prototype = {
-		/** @member {OC.Share.ShareItemModel} **/
-		_itemModel: null,
-
-		/** @var {string} **/
-		_id: null,
-
-		/** @var {Object} **/
+	var ShareDialogView = OC.Backbone.View.extend({
+		/** @type {Object} **/
 		_templates: {},
 
-		/** @var {string} **/
-		_containerClasses: '',
-
-		/** @var {boolean} **/
+		/** @type {boolean} **/
 		_showLink: true,
 
-		/** @var {unknown} **/
+		/** @type {unknown} **/
 		_possiblePermissions: null,
 
-		initialize: function (id) {
-			this._id = id;
+		/** @type {string} **/
+		tagName: 'div',
+
+		initialize: function() {
+			if(!this.model instanceof OC.Share.ShareItemModel) {
+				console.warn('model is not an instance of OC.Share.ShareItemModel');
+			}
 		},
 
 		render: function() {
 			var baseTemplate = this._getTemplate('base', TEMPLATE_BASE);
 
-			var $dialog = $(baseTemplate({
-				containerID: this._id,
-				containerClasses: this._renderContainerClasses(),
+			this.$el.html(baseTemplate({
 				shareLabel: t('core', 'Share'),
 				resharerInfo: this._renderResharerInfo(),
 				sharePlaceholder: this._renderSharePlaceholderPart(),
@@ -105,25 +93,7 @@
 				linkShare: this._renderLinkSharePart()
 			}));
 
-			return $dialog;
-		},
-
-		setItemModel: function(model) {
-			if(model instanceof OC.Share.ShareItemModel) {
-				this._itemModel = model;
-			} else {
-				console.warn('model is not an instance of OC.Share.ShareItemModel');
-			}
-		},
-
-		/**
-		 * sets the classes the main container should get additionally
-		 * TODO:: figure out whether this is really necessary
-		 *
-		 * @param {string} classes whitespace seperated
-		 */
-		setContainerClasses: function(classes) {
-			this._containerClasses = classes;
+			return this;
 		},
 
 		/**
@@ -143,25 +113,25 @@
 
 		_renderResharerInfo: function() {
 			var resharerInfo = '';
-			if (   this._itemModel.hasReshare()
-				&& this._itemModel.getReshareOwner() !== OC.currentUser)
+			if (   this.model.hasReshare()
+				&& this.model.getReshareOwner() !== OC.currentUser)
 			{
 				var reshareTemplate = this._getReshareTemplate();
 				var sharedByText = '';
-				if (this._itemModel.getReshareType() === OC.Share.SHARE_TYPE_GROUP) {
+				if (this.model.getReshareType() === OC.Share.SHARE_TYPE_GROUP) {
 					sharedByText = t(
 						'core',
 						'Shared with you and the group {group} by {owner}',
 						{
-							group: this._itemModel.getReshareWith(),
-							owner: this._itemModel.getReshareOwnerDisplayname()
+							group: this.model.getReshareWith(),
+							owner: this.model.getReshareOwnerDisplayname()
 						}
 					);
 				}  else {
 					sharedByText = t(
 						'core',
 						'Shared with you by {owner}',
-						{ owner: this._itemModel.getReshareOwnerDisplayname() }
+						{ owner: this.model.getReshareOwnerDisplayname() }
 					);
 				}
 
@@ -171,14 +141,6 @@
 					sharedByText: sharedByText
 				});
 			}
-		},
-
-		_renderContainerClasses: function() {
-			var classes = '';
-			if(this._containerClasses) {
-				classes = 'class="' + this._containerClasses + '"';
-			}
-			return classes;
 		},
 
 		_renderRemoteShareInfoPart: function() {
@@ -245,8 +207,8 @@
 
 		_getReshareTemplate: function() {
 			return this._getTemplate('reshare', TEMPLATE_RESHARER_INFO);
-		},
-	};
+		}
+	});
 
 	OC.Share.ShareDialogView = ShareDialogView;
 
