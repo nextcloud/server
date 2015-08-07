@@ -212,6 +212,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getUserSession();
 		});
 
+		$this->registerService('OCP\\ISession', function($c) {
+			return $this->getServer()->getSession();
+		});
+
 		$this->registerService('ServerContainer', function ($c) {
 			return $this->getServer();
 		});
