@@ -524,11 +524,10 @@ table td.filename .uploadtext {
 	cursor: default !important;
 }
 
-a.action>img {
-	max-height:16px;
-	max-width:16px;
-	vertical-align:text-bottom;
-	margin-bottom: -1px;
+a.action > img {
+	max-height: 16px;
+	max-width: 16px;
+	vertical-align: text-bottom;
 }
 
 /* Actions for selected files */
@@ -678,9 +677,17 @@ table.dragshadow td.size {
 }
 
 .fileActionsMenu {
-	/* FIXME: should be variable width, but default one is too big */
-	width: 100px;
+	padding: 4px 12px;
+}
+.fileActionsMenu li {
+	padding: 5px 0;
+}
+#fileList .fileActionsMenu a.action img {
+	padding: initial;
+}
+#fileList .fileActionsMenu a.action {
 	padding: 10px;
+	margin: -10px;
 }
 
 .fileActionsMenu.hidden {

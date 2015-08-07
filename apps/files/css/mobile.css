@@ -57,13 +57,6 @@ table td.filename .nametext {
 #fileList a.action img {
 	padding: 0 6px 0 12px;
 }
-#fileList .fileActionsMenu a.action img {
-	padding: initial;
-}
-#fileList .fileActionsMenu a.action {
-	padding: 12px;
-	margin: -12px;
-}
 /* hide text of the share action on mobile */
 #fileList a.action-share span {
 	display: none;
