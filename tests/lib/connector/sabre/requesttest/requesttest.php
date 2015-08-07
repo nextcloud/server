@@ -9,6 +9,7 @@
 namespace Test\Connector\Sabre\RequestTest;
 
 use OC\Connector\Sabre\Server;
+use OC\Connector\Sabre\ServerFactory;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
@@ -26,6 +27,11 @@ abstract class RequestTest extends TestCase {
 	 * @var \OCP\Files\Config\IMountProvider[]
 	 */
 	protected $mountProviders;
+
+	/**
+	 * @var \OC\Connector\Sabre\ServerFactory
+	 */
+	protected $serverFactory;
 
 	protected function getStream($string) {
 		$stream = fopen('php://temp', 'r+');
@@ -58,11 +64,22 @@ abstract class RequestTest extends TestCase {
 	}
 
 	protected function setUp() {
+		parent::setUp();
 		$this->userBackend = new \OC_User_Dummy();
 		\OC::$server->getUserManager()->registerBackend($this->userBackend);
+
+		$this->serverFactory = new ServerFactory(
+			\OC::$server->getConfig(),
+			\OC::$server->getLogger(),
+			\OC::$server->getDatabaseConnection(),
+			\OC::$server->getUserSession(),
+			\OC::$server->getMountManager(),
+			\OC::$server->getTagManager()
+		);
 	}
 
 	protected function tearDown() {
+		parent::tearDown();
 		\OC::$server->getUserManager()->removeBackend($this->userBackend);
 	}
 
@@ -134,19 +151,9 @@ abstract class RequestTest extends TestCase {
 	 * @return Server
 	 */
 	protected function getSabreServer(View $view, $user, $password, ExceptionPlugin $exceptionPlugin) {
-		$serverFactory = new \OC\Connector\Sabre\ServerFactory(
-			\OC::$server->getConfig(),
-			\OC::$server->getLogger(),
-			\OC::$server->getDatabaseConnection(),
-			\OC::$server->getUserSession(),
-			\OC::$server->getMountManager(),
-			\OC::$server->getTagManager()
-		);
-
-
 		$authBackend = new Auth($user, $password);
 
-		$server = $serverFactory->createServer('/', 'dummy', $authBackend, function () use ($view) {
+		$server = $this->serverFactory->createServer('/', 'dummy', $authBackend, function () use ($view) {
 			return $view;
 		});
 		$server->addPlugin($exceptionPlugin);
