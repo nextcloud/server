@@ -35,7 +35,6 @@
  */
 
 namespace OC\Files\Storage;
-
 /**
  * for local filestore, we only have to map the paths
  */

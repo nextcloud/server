@@ -40,6 +40,7 @@ require 'aws-autoloader.php';
 
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
+use Icewind\Streams\IteratorDirectory;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 
@@ -284,9 +285,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$files[] = $file;
 			}
 
-			\OC\Files\Stream\Dir::register('amazons3' . $path, $files);
-
-			return opendir('fakedir://amazons3' . $path);
+			return IteratorDirectory::wrap($files);
 		} catch (S3Exception $e) {
 			\OCP\Util::logException('files_external', $e);
 			return false;
