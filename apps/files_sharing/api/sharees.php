@@ -205,6 +205,24 @@ class Sharees {
 			$sharees = array_merge($sharees, $this->getRemote($search));
 		}
 
+
+		// Sort sharees
+		usort($sharees, function($a, $b) {
+			$res = strcmp($a['label'], $b['label']);
+
+			// If labels are equal sort by share type
+			if ($res === 0) {
+				$res = $a['value']['shareType'] - $b['value']['shareType'];
+			}
+
+			// If sharetype is equal compare shareWith
+			if ($res === 0) {
+				$res = strcmp($a['value']['shareWith'], $b['value']['shareWith']);
+			}
+
+			return $res;
+		});
+
 		//Pagination
 		$start = ($page - 1) * $per_page;
 		$end = $page * $per_page;
