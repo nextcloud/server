@@ -108,7 +108,7 @@ class CleanUp extends Command {
 		if ($this->rootFolder->nodeExists('/' . $uid . '/files_trashbin')) {
 			$this->rootFolder->get('/' . $uid . '/files_trashbin')->delete();
 			$query = $this->dbConnection->getQueryBuilder();
-			$query->delete('*PREFIX*files_trash')
+			$query->delete('files_trash')
 				->where($query->expr()->eq('user', $query->createParameter('uid')))
 				->setParameter('uid', $uid);
 			$query->execute();

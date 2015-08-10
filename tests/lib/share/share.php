@@ -1288,7 +1288,7 @@ class Test_Share extends \Test\TestCase {
 		// Find the share ID in the db
 		$qb = $connection->getQueryBuilder();
 		$qb->select('id')
-		   ->from('*PREFIX*share')
+		   ->from('share')
 		   ->where($qb->expr()->eq('item_type', $qb->createParameter('type')))
 		   ->andWhere($qb->expr()->eq('item_source', $qb->createParameter('source')))
 		   ->andWhere($qb->expr()->eq('uid_owner', $qb->createParameter('owner')))
@@ -1309,7 +1309,7 @@ class Test_Share extends \Test\TestCase {
 		// Fetch the hash from the database
 		$qb = $connection->getQueryBuilder();
 		$qb->select('share_with')
-		   ->from('*PREFIX*share')
+		   ->from('share')
 			->where($qb->expr()->eq('id', $qb->createParameter('id')))
 		   ->setParameter('id', $id);
 		$hash = $qb->execute()->fetch()['share_with'];

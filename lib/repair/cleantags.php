@@ -65,8 +65,8 @@ class CleanTags extends BasicEmitter implements RepairStep {
 	protected function deleteOrphanFileEntries() {
 		$this->deleteOrphanEntries(
 			'%d tags for delete files have been removed.',
-			'*PREFIX*vcategory_to_object', 'objid',
-			'*PREFIX*filecache', 'fileid', 'path_hash'
+			'vcategory_to_object', 'objid',
+			'filecache', 'fileid', 'path_hash'
 		);
 	}
 
@@ -76,8 +76,8 @@ class CleanTags extends BasicEmitter implements RepairStep {
 	protected function deleteOrphanTagEntries() {
 		$this->deleteOrphanEntries(
 			'%d tag entries for deleted tags have been removed.',
-			'*PREFIX*vcategory_to_object', 'categoryid',
-			'*PREFIX*vcategory', 'id', 'uid'
+			'vcategory_to_object', 'categoryid',
+			'vcategory', 'id', 'uid'
 		);
 	}
 
@@ -87,8 +87,8 @@ class CleanTags extends BasicEmitter implements RepairStep {
 	protected function deleteOrphanCategoryEntries() {
 		$this->deleteOrphanEntries(
 			'%d tags with no entries have been removed.',
-			'*PREFIX*vcategory', 'id',
-			'*PREFIX*vcategory_to_object', 'categoryid', 'type'
+			'vcategory', 'id',
+			'vcategory_to_object', 'categoryid', 'type'
 		);
 	}
 
