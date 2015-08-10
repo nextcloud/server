@@ -72,6 +72,11 @@
 					if(data.isUsedTlsLibOutdated) {
 						messages.push(data.isUsedTlsLibOutdated);
 					}
+					if(data.phpSupported && data.phpSupported.eol) {
+						messages.push(
+							t('core', 'Your PHP version ({version}) is no longer <a href="{phpLink}">supported by PHP</a>. We encourage you to upgrade your PHP version to take advantage of performance and security updates provided by PHP.', {version: data.phpSupported.version, phpLink: 'https://secure.php.net/supported-versions.php'})
+						);
+					}
 				} else {
 					messages.push(t('core', 'Error occurred while checking server setup'));
 				}

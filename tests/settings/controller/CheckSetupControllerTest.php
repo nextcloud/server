@@ -31,11 +31,24 @@ use OC_Util;
 use Test\TestCase;
 
 /**
+ * Mock version_compare
+ * @param string $version1
+ * @param string $version2
+ * @return int
+ */
+function version_compare($version1, $version2) {
+	return CheckSetupControllerTest::$version_compare;
+}
+
+/**
  * Class CheckSetupControllerTest
  *
  * @package OC\Settings\Controller
  */
 class CheckSetupControllerTest extends TestCase {
+	/** @var int */
+	public static $version_compare;
+
 	/** @var CheckSetupController */
 	private $checkSetupController;
 	/** @var IRequest */
@@ -209,6 +222,33 @@ class CheckSetupControllerTest extends TestCase {
 		);
 	}
 
+	public function testIsPhpSupportedFalse() {
+		self::$version_compare = -1;
+
+		$this->assertEquals(
+			['eol' => true, 'version' => PHP_VERSION],
+			self::invokePrivate($this->checkSetupController, 'isPhpSupported')
+		);
+	}
+
+	public function testIsPhpSupportedTrue() {
+		self::$version_compare = 0;
+
+		$this->assertEquals(
+			['eol' => false, 'version' => PHP_VERSION],
+			self::invokePrivate($this->checkSetupController, 'isPhpSupported')
+		);
+
+
+		self::$version_compare = 1;
+
+		$this->assertEquals(
+			['eol' => false, 'version' => PHP_VERSION],
+			self::invokePrivate($this->checkSetupController, 'isPhpSupported')
+		);
+
+	}
+
 	public function testCheck() {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
@@ -244,6 +284,7 @@ class CheckSetupControllerTest extends TestCase {
 			->method('linkToDocs')
 			->with('admin-security')
 			->willReturn('https://doc.owncloud.org/server/8.1/admin_manual/configuration_server/hardening.html');
+		self::$version_compare = -1;
 
 		$expected = new DataResponse(
 			[
@@ -254,6 +295,10 @@ class CheckSetupControllerTest extends TestCase {
 				'isUrandomAvailable' => self::invokePrivate($this->checkSetupController, 'isUrandomAvailable'),
 				'securityDocs' => 'https://doc.owncloud.org/server/8.1/admin_manual/configuration_server/hardening.html',
 				'isUsedTlsLibOutdated' => '',
+				'phpSupported' => [
+					'eol' => true,
+					'version' => PHP_VERSION
+				]
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
