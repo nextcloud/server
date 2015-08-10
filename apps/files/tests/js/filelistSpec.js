@@ -1870,6 +1870,50 @@ describe('OCA.Files.FileList tests', function() {
 			});
 		})
 	});
+	describe('Details sidebar', function() {
+		beforeEach(function() {
+			fileList.setFiles(testFiles);
+		});
+		it('Clicking on a file row will trigger file action if no details view configured', function() {
+			fileList._detailsView = null;
+			var updateDetailsViewStub = sinon.stub(fileList, '_updateDetailsView');
+			var actionStub = sinon.stub();
+			fileList.setFiles(testFiles);
+			fileList.fileActions.register(
+				'text/plain',
+				'Test',
+				OC.PERMISSION_ALL,
+				function() {
+					// Specify icon for hitory button
+					return OC.imagePath('core','actions/history');
+				},
+				actionStub
+			);
+			fileList.fileActions.setDefault('text/plain', 'Test');
+			var $tr = fileList.findFileEl('One.txt');
+			$tr.find('td.filename>a.name').click();
+			expect(actionStub.calledOnce).toEqual(true);
+			expect(updateDetailsViewStub.notCalled).toEqual(true);
+			updateDetailsViewStub.restore();
+		});
+		it('Clicking on a file row will trigger details sidebar', function() {
+			fileList.fileActions.setDefault('text/plain', 'Test');
+			var $tr = fileList.findFileEl('One.txt');
+			$tr.find('td.filename>a.name').click();
+			expect($tr.hasClass('highlighted')).toEqual(true);
+
+			expect(fileList._detailsView.getFileInfo().id).toEqual(1);
+		});
+		it('Clicking outside to deselect a file row will trigger details sidebar', function() {
+			var $tr = fileList.findFileEl('One.txt');
+			$tr.find('td.filename>a.name').click();
+
+			fileList.$el.find('tfoot').click();
+
+			expect($tr.hasClass('highlighted')).toEqual(false);
+			expect(fileList._detailsView.getFileInfo()).toEqual(null);
+		});
+	});
 	describe('File actions', function() {
 		it('Clicking on a file name will trigger default action', function() {
 			var actionStub = sinon.stub();
@@ -1886,7 +1930,7 @@ describe('OCA.Files.FileList tests', function() {
 			);
 			fileList.fileActions.setDefault('text/plain', 'Test');
 			var $tr = fileList.findFileEl('One.txt');
-			$tr.find('td.filename>a.name').click();
+			$tr.find('td.filename .nametext').click();
 			expect(actionStub.calledOnce).toEqual(true);
 			expect(actionStub.getCall(0).args[0]).toEqual('One.txt');
 			var context = actionStub.getCall(0).args[1];

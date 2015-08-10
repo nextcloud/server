@@ -23,6 +23,7 @@
 	 * @param [options.scrollContainer] scrollable container, defaults to $(window)
 	 * @param [options.dragOptions] drag options, disabled by default
 	 * @param [options.folderDropOptions] folder drop options, disabled by default
+	 * @param [options.detailsViewEnabled=true] whether to enable details view
 	 */
 	var FileList = function($el, options) {
 		this.initialize($el, options);
@@ -63,6 +64,11 @@
 		 * @type OCA.Files.FileSummary
 		 */
 		fileSummary: null,
+
+		/**
+		 * @type OCA.Files.DetailsView
+		 */
+		_detailsView: null,
 
 		/**
 		 * Whether the file list was initialized already.
@@ -205,6 +211,13 @@
 			}
 			this.breadcrumb = new OCA.Files.BreadCrumb(breadcrumbOptions);
 
+			if (_.isUndefined(options.detailsViewEnabled) || options.detailsViewEnabled) {
+				this._detailsView = new OCA.Files.DetailsView();
+				this._detailsView.addDetailView(new OCA.Files.MainFileInfoDetailView());
+				this._detailsView.$el.insertBefore(this.$el);
+				this._detailsView.$el.addClass('disappear');
+			}
+
 			this.$el.find('#controls').prepend(this.breadcrumb.$el);
 
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
@@ -216,6 +229,13 @@
 
 			this.updateSearch();
 
+			this.$el.on('click', function(event) {
+				var $target = $(event.target);
+				// click outside file row ?
+				if (!$target.closest('tbody').length && !$target.closest('#app-sidebar').length) {
+					self._updateDetailsView(null);
+				}
+			});
 			this.$fileList.on('click','td.filename>a.name', _.bind(this._onClickFile, this));
 			this.$fileList.on('change', 'td.filename>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
@@ -260,6 +280,37 @@
 			this._onFileActionsUpdated = _.debounce(_.bind(this._onFileActionsUpdated, this), 100);
 			this.fileActions.on('registerAction', this._onFileActionsUpdated);
 			this.fileActions.on('setDefault', this._onFileActionsUpdated);
+		},
+
+		/**
+		 * Update the details view to display the given file
+		 *
+		 * @param {OCA.Files.FileInfo} fileInfo file info to display
+		 */
+		_updateDetailsView: function(fileInfo) {
+			if (!this._detailsView) {
+				return;
+			}
+
+			var self = this;
+			var oldFileInfo = this._detailsView.getFileInfo();
+			if (oldFileInfo) {
+				// TODO: use more efficient way, maybe track the highlight
+				this.$fileList.children().filterAttr('data-id', '' + oldFileInfo.id).removeClass('highlighted');
+			}
+
+			if (!fileInfo) {
+				OC.Apps.hideAppSidebar();
+				this._detailsView.setFileInfo(null);
+				return;
+			}
+
+			this.$fileList.children().filterAttr('data-id', '' + fileInfo.id).addClass('highlighted');
+			this._detailsView.setFileInfo(_.extend({
+				path: this.getCurrentDirectory()
+			}, fileInfo));
+			this._detailsView.$el.scrollTop(0);
+			_.defer(OC.Apps.showAppSidebar);
 		},
 
 		/**
@@ -315,6 +366,12 @@
 				delete this._selectedFiles[$tr.data('id')];
 				this._selectionSummary.remove(data);
 			}
+			if (this._selectionSummary.getTotal() === 1) {
+				this._updateDetailsView(_.values(this._selectedFiles)[0]);
+			} else {
+				// show nothing when multiple files are selected
+				this._updateDetailsView(null);
+			}
 			this.$el.find('.select-all').prop('checked', this._selectionSummary.getTotal() === this.files.length);
 		},
 
@@ -350,27 +407,34 @@
 				this._selectFileEl($tr, !$checkbox.prop('checked'));
 				this.updateSelectionSummary();
 			} else {
-				var filename = $tr.attr('data-file');
-				var renaming = $tr.data('renaming');
-				if (!renaming) {
-					this.fileActions.currentFile = $tr.find('td');
-					var mime = this.fileActions.getCurrentMimeType();
-					var type = this.fileActions.getCurrentType();
-					var permissions = this.fileActions.getCurrentPermissions();
-					var action = this.fileActions.getDefault(mime,type, permissions);
-					if (action) {
-						event.preventDefault();
-						// also set on global object for legacy apps
-						window.FileActions.currentFile = this.fileActions.currentFile;
-						action(filename, {
-							$file: $tr,
-							fileList: this,
-							fileActions: this.fileActions,
-							dir: $tr.attr('data-path') || this.getCurrentDirectory()
-						});
+				// clicked directly on the name
+				if (!this._detailsView || $(event.target).is('.nametext') || $(event.target).closest('.nametext').length) {
+					var filename = $tr.attr('data-file');
+					var renaming = $tr.data('renaming');
+					if (!renaming) {
+						this.fileActions.currentFile = $tr.find('td');
+						var mime = this.fileActions.getCurrentMimeType();
+						var type = this.fileActions.getCurrentType();
+						var permissions = this.fileActions.getCurrentPermissions();
+						var action = this.fileActions.getDefault(mime,type, permissions);
+						if (action) {
+							event.preventDefault();
+							// also set on global object for legacy apps
+							window.FileActions.currentFile = this.fileActions.currentFile;
+							action(filename, {
+								$file: $tr,
+								fileList: this,
+								fileActions: this.fileActions,
+								dir: $tr.attr('data-path') || this.getCurrentDirectory()
+							});
+						}
+						// deselect row
+						$(event.target).closest('a').blur();
 					}
-					// deselect row
-					$(event.target).closest('a').blur();
+				} else {
+					var fileInfo = this.files[$tr.index()];
+					this._updateDetailsView(fileInfo);
+					event.preventDefault();
 				}
 			}
 		},
@@ -825,7 +889,7 @@
 			var formatted;
 			var text;
 			if (mtime > 0) {
-				formatted = formatDate(mtime);
+				formatted = OC.Util.formatDate(mtime);
 				text = OC.Util.relativeModifiedDate(mtime);
 			} else {
 				formatted = t('files', 'Unable to determine date');
@@ -1239,6 +1303,12 @@
 			ready(iconURL); // set mimeicon URL
 
 			urlSpec.file = OCA.Files.Files.fixPath(path);
+			if (options.x) {
+				urlSpec.x = options.x;
+			}
+			if (options.y) {
+				urlSpec.y = options.y;
+			}
 
 			if (etag){
 				// use etag as cache buster
@@ -1521,6 +1591,7 @@
 								tr.remove();
 								tr = self.add(fileInfo, {updateSummary: false, silent: true});
 								self.$fileList.trigger($.Event('fileActionsReady', {fileList: self, $files: $(tr)}));
+								self._updateDetailsView(fileInfo);
 							}
 						});
 					} else {
@@ -2177,6 +2248,20 @@
 
 				}
 			});
+		},
+
+		/**
+		 * Register a tab view to be added to all views
+		 */
+		registerTabView: function(tabView) {
+			this._detailsView.addTabView(tabView);
+		},
+
+		/**
+		 * Register a detail view to be added to all views
+		 */
+		registerDetailView: function(detailView) {
+			this._detailsView.addDetailView(detailView);
 		}
 	};
 

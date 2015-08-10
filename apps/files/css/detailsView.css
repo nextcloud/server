@@ -1,0 +1,55 @@
+#app-sidebar .detailFileInfoContainer {
+	min-height: 50px;
+	padding: 15px;
+}
+
+#app-sidebar .detailFileInfoContainer > div {
+	clear: both;
+}
+
+#app-sidebar .mainFileInfoView {
+	margin-right: 20px; /* accomodate for close icon */
+}
+
+#app-sidebar .thumbnail {
+	width: 50px;
+	height: 50px;
+	float: left;
+	margin-right: 10px;
+	background-size: 50px;
+}
+
+#app-sidebar .ellipsis {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+#app-sidebar .fileName {
+	font-size: 16px;
+	padding-top: 3px;
+}
+
+#app-sidebar .file-details {
+	margin-top: 3px;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	opacity: .5;
+}
+#app-sidebar .action-favorite {
+	vertical-align: text-bottom;
+	padding: 10px;
+	margin: -10px;
+}
+
+#app-sidebar .detailList {
+	float: left;
+}
+
+#app-sidebar .close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 15px;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	opacity: .5;
+}

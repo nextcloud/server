@@ -103,6 +103,10 @@
 	min-height: 100%;
 }
 
+.app-files #app-content {
+	overflow-x: hidden;
+}
+
 /* icons for sidebar */
 .nav-icon-files {
 	background-image: url('../img/folder.svg');
@@ -143,6 +147,7 @@
 #filestable tbody tr:active {
 	background-color: rgb(240,240,240);
 }
+#filestable tbody tr.highlighted,
 #filestable tbody tr.selected {
 	background-color: rgb(230,230,230);
 }

@@ -417,7 +417,39 @@
 	min-height: 100%;
 }
 
+/* APP-SIDEBAR ----------------------------------------------------------------*/
 
+/*
+	Sidebar: a sidebar to be used within #app-content
+	 have it as first element within app-content in order to shrink other
+	 sibling containers properly. Compare Files app for example.
+*/
+#app-sidebar {
+	position: fixed;
+	top: 45px;
+	right: 0;
+	left: auto;
+	bottom: 0;
+	width: 27%;
+	display: block;
+	background: #eee;
+	-webkit-transition: margin-right 300ms;
+	-moz-transition: margin-right 300ms;
+	-o-transition: margin-right 300ms;
+	transition: margin-right 300ms;
+	overflow-x: hidden;
+	overflow-y: auto;
+	visibility: visible;
+	z-index: 500;
+}
+
+#app-content.with-app-sidebar {
+	margin-right: 27%;
+}
+
+#app-sidebar.disappear {
+	visibility: hidden;
+}
 
 /* APP-SETTINGS ---------------------------------------------------------------*/
 
@@ -556,3 +588,50 @@ em {
 	padding:16px;
 }
 
+/* generic tab styles */
+.tabHeaders {
+	margin: 15px;
+	background-color: #1D2D44;
+}
+
+.tabHeaders .tabHeader {
+	float: left;
+	border: 1px solid #ddd;
+	padding: 5px;
+	cursor: pointer;
+	background-color: #f8f8f8;
+	font-weight: bold;
+}
+.tabHeaders .tabHeader, .tabHeaders .tabHeader a {
+	color: #888;
+}
+
+.tabHeaders .tabHeader:first-child {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+
+.tabHeaders .tabHeader:last-child {
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+.tabHeaders .tabHeader.selected,
+.tabHeaders .tabHeader:hover {
+	background-color: #e8e8e8;
+}
+
+.tabHeaders .tabHeader.selected,
+.tabHeaders .tabHeader.selected a,
+.tabHeaders .tabHeader:hover,
+.tabHeaders .tabHeader:hover a {
+	color: #000;
+}
+
+.tabsContainer {
+	clear: left;
+}
+
+.tabsContainer .tab {
+	padding: 15px;
+}

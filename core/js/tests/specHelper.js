@@ -121,6 +121,8 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 			OC.TestUtil = TestUtil;
 		}
 
+		moment.locale('en');
+
 		// reset plugins
 		OC.Plugins._plugins = [];
 
