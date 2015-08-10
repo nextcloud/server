@@ -3,6 +3,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
  *
@@ -36,12 +37,8 @@ class OC_OCS_Cloud {
 			'edition' => OC_Util::getEditionString(),
 			);
 			
-		$result['capabilities'] = array(
-			'core' => array(
-				'pollinterval' => OC_Config::getValue('pollinterval', 60),
-				),
-			);
-			
+		$result['capabilities'] = \OC::$server->getCapabilitiesManager()->getCapabilities();
+
 		return new OC_OCS_Result($result);
 	}
 	

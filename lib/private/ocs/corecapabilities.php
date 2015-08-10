@@ -1,9 +1,6 @@
 <?php
 /**
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tom Needham <tom@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -21,13 +18,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
- 
-namespace OCA\Files_Versions; 
+
+namespace OC\OCS;
 
 use OCP\Capabilities\ICapability;
+use OCP\IConfig;
 
-class Capabilities implements ICapability {
-	
+/**
+ * Class Capabilities
+ *
+ * @package OC\OCS
+ */
+class CoreCapabilities implements ICapability {
+
+	/** @var IConfig */
+	private $config;
+
+	/**
+	 * @param IConfig $config
+	 */
+	public function __construct(IConfig $config) {
+		$this->config = $config;
+	}
+
 	/**
 	 * Return this classes capabilities
 	 *
@@ -35,8 +48,8 @@ class Capabilities implements ICapability {
 	 */
 	public function getCapabilities() {
 		return [
-			'files' => [
-				'versioning' => true
+			'core' => [
+				'pollinterval' => $this->config->getSystemValue('pollinterval', 60)
 			]
 		];
 	}

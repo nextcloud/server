@@ -2,6 +2,7 @@
 /**
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -20,7 +21,7 @@
  *
  */
 
-namespace OCA\Files_Sharing\Appinfo;
+namespace OCA\Files_Sharing\AppInfo;
 
 use OCA\Files_Sharing\Helper;
 use OCA\Files_Sharing\MountProvider;
@@ -31,6 +32,7 @@ use OCA\Files_Sharing\Controllers\ExternalSharesController;
 use OCA\Files_Sharing\Controllers\ShareController;
 use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use \OCP\IContainer;
+use OCA\Files_Sharing\Capabilities;
 
 class Application extends App {
 	public function __construct(array $urlParams = array()) {
@@ -122,6 +124,11 @@ class Application extends App {
 				$server->getConfig()
 			);
 		});
+
+		/*
+		 * Register capabilities
+		 */
+		$container->registerCapability('OCA\Files_Sharing\Capabilities');
 	}
 
 	public function registerMountProviders() {

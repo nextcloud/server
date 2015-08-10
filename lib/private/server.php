@@ -449,6 +449,14 @@ class Server extends SimpleContainer implements IServerContainer {
 				$c->getURLGenerator(),
 				\OC::$configDir);
 		});
+		$this->registerService('CapabilitiesManager', function (Server $c) {
+			$manager = new \OC\CapabilitiesManager();
+			$manager->registerCapability(function() use ($c) {
+				return new \OC\OCS\CoreCapabilities($c->getConfig());
+			});
+			return $manager;
+		});
+
 	}
 
 	/**
@@ -944,5 +952,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	public function getMimeTypeDetector() {
 		return $this->query('MimeTypeDetector');
+	}
+
+	/**
+	 * Get the manager of all the capabilities
+	 *
+	 * @return \OC\CapabilitiesManager
+	 */
+	public function getCapabilitiesManager() {
+		return $this->query('CapabilitiesManager');
 	}
 }

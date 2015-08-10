@@ -20,6 +20,7 @@
  */
 namespace OCA\Files_Sharing;
 
+use OCP\Capabilities\ICapability;
 use \OCP\IConfig;
 
 /**
@@ -27,32 +28,21 @@ use \OCP\IConfig;
  *
  * @package OCA\Files_Sharing
  */
-class Capabilities {
+class Capabilities implements ICapability {
 
 	/** @var IConfig */
 	private $config;
 
-	/**
-	 * @param IConfig $config
-	 */
 	public function __construct(IConfig $config) {
 		$this->config = $config;
 	}
 
 	/**
-	 * @return \OC_OCS_Result
+	 * Return this classes capabilities
+	 *
+	 * @return array
 	 */
-	public static function getCapabilities() {
-		$config = \OC::$server->getConfig();
-		$cap = new Capabilities($config);
-		return $cap->getCaps();
-	}
-
-
-	/**
-	 * @return \OC_OCS_Result
-	 */
-	public function getCaps() {
+	public function getCapabilities() {
 		$res = [];
 
 		$public = [];
@@ -76,12 +66,8 @@ class Capabilities {
 
 		$res['resharing'] = $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
 
-
-		return new \OC_OCS_Result([
-			'capabilities' => [
-				'files_sharing' => $res
-				],
-			]);
+		return [
+			'files_sharing' => $res,
+		];
 	}
-	
 }

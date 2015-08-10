@@ -438,4 +438,5 @@ interface IServerContainer {
 	 * @since 8.2.0
 	 */
 	public function getMimeTypeDetector();
+
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tom Needham <tom@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -20,19 +20,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
- 
-namespace OCA\Files; 
 
-class Capabilities {
-	
-	public static function getCapabilities() {
-		return new \OC_OCS_Result(array(
-			'capabilities' => array(
-				'files' => array(
-					'bigfilechunking' => true,
-					),
-				),
-			));
+namespace OCA\Files;
+
+use OCP\Capabilities\ICapability;
+
+/**
+ * Class Capabilities
+ *
+ * @package OCA\Files
+ */
+class Capabilities implements ICapability {
+
+	/**
+	 * Return this classes capabilities
+	 *
+	 * @return array
+	 */
+	public function getCapabilities() {
+		return [
+			'files' => [
+				'bigfilechunking' => true,
+			],
+		];
 	}
-	
 }

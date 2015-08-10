@@ -1,9 +1,6 @@
 <?php
 /**
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tom Needham <tom@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -21,23 +18,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
- 
-namespace OCA\Files_Versions; 
 
-use OCP\Capabilities\ICapability;
+namespace OCP\Capabilities;
 
-class Capabilities implements ICapability {
-	
+/**
+ * Minimal interface that has to be implemented for a class to be considered
+ * a capability.
+ *
+ * In an application use:
+ *   $this->getContainer()->registerCapability('OCA\MY_APP\Capabilities');
+ * To register capabilities.
+ *
+ * The class 'OCA\MY_APP\Capabilities' must then implement ICapability
+ *
+ * @since 8.2.0
+ */
+interface ICapability {
+
 	/**
-	 * Return this classes capabilities
+	 * Function an app uses to return the capabilities
 	 *
-	 * @return array
+	 * @return array Array containing the apps capabilities
+	 * @since 8.2.0
 	 */
-	public function getCapabilities() {
-		return [
-			'files' => [
-				'versioning' => true
-			]
-		];
-	}
+	public function getCapabilities();
 }
+
