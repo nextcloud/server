@@ -105,6 +105,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 				[$path]
 			);
 		}
+
 		$this->markRelease($path, $type);
 	}
 
@@ -132,5 +133,18 @@ class DBLockingProvider extends AbstractLockingProvider {
 			throw new LockedException($path);
 		}
 		$this->markChange($path, $targetType);
+	}
+
+	/**
+	 * cleanup empty locks
+	 */
+	public function cleanEmptyLocks() {
+		$this->connection->executeUpdate(
+			'DELETE FROM `*PREFIX*file_locks` WHERE `lock` = 0'
+		);
+	}
+
+	public function __destruct() {
+		$this->cleanEmptyLocks();
 	}
 }
