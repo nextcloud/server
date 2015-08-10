@@ -51,7 +51,7 @@ class OC_OCS_Result{
 	 * @param int $code
 	 * @param null|string $message
 	 */
-	public function __construct($data=null, $code=100, $message=null) {
+	public function __construct($data = null, $code = 100, $message = null, $headers = []) {
 		if ($data === null) {
 			$this->data = array();
 		} elseif (!is_array($data)) {
@@ -61,6 +61,7 @@ class OC_OCS_Result{
 		}
 		$this->statusCode = $code;
 		$this->message = $message;
+		$this->headers = $headers;
 	}
 
 	/**

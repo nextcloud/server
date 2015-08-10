@@ -14,11 +14,13 @@ class Test_API extends \Test\TestCase {
 	 * @param string $message
 	 */
 	function buildResponse($shipped, $data, $code, $message=null) {
-		return array(
+		$resp = new OC_OCS_Result($data, $code, $message);
+		$resp->addHeader('KEY', 'VALUE');
+		return [
 			'shipped' => $shipped,
-			'response' => new OC_OCS_Result($data, $code, $message),
+			'response' => $resp,
 			'app' => $this->getUniqueID('testapp_'),
-			);
+		];
 	}
 
 	// Validate details of the result
@@ -35,11 +37,11 @@ class Test_API extends \Test\TestCase {
 	}
 
 	function dataProviderTestOneResult() {
-		return array(
-			array(100, true),
-			array(101, false),
-			array(997, false),
-		);
+		return [
+			[100, true],
+			[101, false],
+			[997, false],
+		];
 	}
 
 	/**
@@ -50,47 +52,47 @@ class Test_API extends \Test\TestCase {
 	 */
 	public function testOneResult($statusCode, $succeeded) {
 		// Setup some data arrays
-		$data1 = array(
-			'users' => array(
-				'tom' => array(
+		$data1 = [
+			'users' => [
+				'tom' => [
 					'key' => 'value',
-				),
-				'frank' => array(
+				],
+				'frank' => [
 					'key' => 'value',
-				),
-			));
+				],
+			]];
 
 		// Test merging one success result
 		$response = $this->buildResponse(true, $data1, $statusCode);
-		$result = OC_API::mergeResponses(array($response));
+		$result = OC_API::mergeResponses([$response]);
 		$this->assertEquals($response['response'], $result);
 		$this->checkResult($result, $succeeded);
 	}
 
 	function dataProviderTestMergeResponses() {
-		return array(
+		return [
 			// Two shipped success results
-			array(true, 100, true, 100, true),
+			[true, 100, true, 100, true],
 			// Two shipped results, one success and one failure
-			array(true, 100, true, 998, false),
+			[true, 100, true, 998, false],
 			// Two shipped results, both failure
-			array(true, 997, true, 998, false),
+			[true, 997, true, 998, false],
 			// Two third party success results
-			array(false, 100, false, 100, true),
+			[false, 100, false, 100, true],
 			// Two third party results, one success and one failure
-			array(false, 100, false, 998, false),
+			[false, 100, false, 998, false],
 			// Two third party results, both failure
-			array(false, 997, false, 998, false),
+			[false, 997, false, 998, false],
 			// One of each, both success
-			array(false, 100, true, 100, true),
-			array(true, 100, false, 100, true),
+			[false, 100, true, 100, true],
+			[true, 100, false, 100, true],
 			// One of each, both failure
-			array(false, 997, true, 998, false),
+			[false, 997, true, 998, false],
 			// One of each, shipped success
-			array(false, 997, true, 100, true),
+			[false, 997, true, 100, true],
 			// One of each, third party success
-			array(false, 100, true, 998, false),
-		);
+			[false, 100, true, 998, false],
+		];
 	}
 	/**
 	 * @dataProvider dataProviderTestMergeResponses
@@ -131,9 +133,11 @@ class Test_API extends \Test\TestCase {
 		$this->checkResult($result, $succeeded);
 		$resultData = $result->getData();
 		$resultMeta = $result->getMeta();
+		$resultHeaders = $result->getHeaders();
 		$resultStatusCode = $result->getStatusCode();
 
 		$this->assertArrayHasKey('jan', $resultData['users']);
+		$this->assertArrayHasKey('KEY', $resultHeaders);
 
 		// check if the returned status message matches the selected status code
 		if ($resultStatusCode === 997) {
