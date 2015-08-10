@@ -33,7 +33,7 @@ class DBLockingProvider extends LockingProvider {
 	 */
 	protected function getInstance() {
 		$this->connection = \OC::$server->getDatabaseConnection();
-		return new \OC\Lock\DBLockingProvider($this->connection);
+		return new \OC\Lock\DBLockingProvider($this->connection, \OC::$server->getLogger());
 	}
 
 	public function tearDown() {

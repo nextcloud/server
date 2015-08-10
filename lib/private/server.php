@@ -432,10 +432,10 @@ class Server extends SimpleContainer implements IServerContainer {
 				/** @var \OC\Memcache\Factory $memcacheFactory */
 				$memcacheFactory = $c->getMemCacheFactory();
 				$memcache = $memcacheFactory->createLocking('lock');
-				if (!($memcache instanceof \OC\Memcache\NullCache)) {
-					return new MemcacheLockingProvider($memcache);
-				}
-				return new DBLockingProvider($c->getDatabaseConnection());
+//				if (!($memcache instanceof \OC\Memcache\NullCache)) {
+//					return new MemcacheLockingProvider($memcache);
+//				}
+				return new DBLockingProvider($c->getDatabaseConnection(), $c->getLogger());
 			}
 			return new NoopLockingProvider();
 		});

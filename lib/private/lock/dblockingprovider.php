@@ -22,6 +22,7 @@
 namespace OC\Lock;
 
 use OCP\IDBConnection;
+use OCP\ILogger;
 use OCP\Lock\LockedException;
 
 /**
@@ -34,10 +35,17 @@ class DBLockingProvider extends AbstractLockingProvider {
 	private $connection;
 
 	/**
-	 * @param \OCP\IDBConnection $connection
+	 * @var \OCP\ILogger
 	 */
-	public function __construct(IDBConnection $connection) {
+	private $logger;
+
+	/**
+	 * @param \OCP\IDBConnection $connection
+	 * @param \OCP\ILogger $logger
+	 */
+	public function __construct(IDBConnection $connection, ILogger $logger) {
 		$this->connection = $connection;
+		$this->logger = $logger;
 	}
 
 	protected function initLockField($path) {
@@ -68,6 +76,10 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function acquireLock($path, $type) {
+		if ($this->connection->inTransaction()){
+			$this->logger->warning('Trying to acquire a lock while inside a transition');
+		}
+
 		$this->connection->beginTransaction();
 		$this->initLockField($path);
 		if ($type === self::LOCK_SHARED) {
