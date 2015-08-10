@@ -107,6 +107,10 @@ class OC_Installer{
 		}
 
 		$extractDir .= '/' . $info['id'];
+		if(!file_exists($extractDir)) {
+			OC_Helper::rmdirr($basedir);
+			throw new \Exception($l->t("Archive does not contain a directory named %s", $info['id']));
+		}
 		OC_Helper::copyr($extractDir, $basedir);
 
 		//remove temporary files
