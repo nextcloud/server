@@ -136,25 +136,26 @@ class Activity implements IExtension {
 			return false;
 		}
 
+		$l = $this->getL10N($languageCode);
 		switch ($text) {
 			case 'created_self':
-				return (string) $this->l->t('You created %1$s', $params);
+				return (string) $l->t('You created %1$s', $params);
 			case 'created_by':
-				return (string) $this->l->t('%2$s created %1$s', $params);
+				return (string) $l->t('%2$s created %1$s', $params);
 			case 'created_public':
-				return (string) $this->l->t('%1$s was created in a public folder', $params);
+				return (string) $l->t('%1$s was created in a public folder', $params);
 			case 'changed_self':
-				return (string) $this->l->t('You changed %1$s', $params);
+				return (string) $l->t('You changed %1$s', $params);
 			case 'changed_by':
-				return (string) $this->l->t('%2$s changed %1$s', $params);
+				return (string) $l->t('%2$s changed %1$s', $params);
 			case 'deleted_self':
-				return (string) $this->l->t('You deleted %1$s', $params);
+				return (string) $l->t('You deleted %1$s', $params);
 			case 'deleted_by':
-				return (string) $this->l->t('%2$s deleted %1$s', $params);
+				return (string) $l->t('%2$s deleted %1$s', $params);
 			case 'restored_self':
-				return (string) $this->l->t('You restored %1$s', $params);
+				return (string) $l->t('You restored %1$s', $params);
 			case 'restored_by':
-				return (string) $this->l->t('%2$s restored %1$s', $params);
+				return (string) $l->t('%2$s restored %1$s', $params);
 
 			default:
 				return false;
