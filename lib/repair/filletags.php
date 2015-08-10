@@ -42,7 +42,7 @@ class FillETags extends BasicEmitter implements \OC\RepairStep {
 
 	public function run() {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->update('*PREFIX*filecache')
+		$qb->update('filecache')
 			->set('etag', $qb->expr()->literal('xxx'))
 			->where($qb->expr()->eq('etag', $qb->expr()->literal('')))
 			->orWhere($qb->expr()->isNull('etag'));

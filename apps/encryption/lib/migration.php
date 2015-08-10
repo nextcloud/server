@@ -72,7 +72,7 @@ class Migration {
 		// only update during the first run
 		if ($this->installedVersion !== '-1') {
 			$query = $this->connection->getQueryBuilder();
-			$query->update('*PREFIX*filecache')
+			$query->update('filecache')
 				->set('size', 'unencrypted_size')
 				->where($query->expr()->eq('encrypted', $query->createParameter('encrypted')))
 				->setParameter('encrypted', 1);
@@ -163,7 +163,7 @@ class Migration {
 
 		$oldAppValues = $this->connection->getQueryBuilder();
 		$oldAppValues->select('*')
-			->from('*PREFIX*appconfig')
+			->from('appconfig')
 			->where($oldAppValues->expr()->eq('appid', $oldAppValues->createParameter('appid')))
 			->setParameter('appid', 'files_encryption');
 		$appSettings = $oldAppValues->execute();
@@ -178,7 +178,7 @@ class Migration {
 
 		$oldPreferences = $this->connection->getQueryBuilder();
 		$oldPreferences->select('*')
-			->from('*PREFIX*preferences')
+			->from('preferences')
 			->where($oldPreferences->expr()->eq('appid', $oldPreferences->createParameter('appid')))
 			->setParameter('appid', 'files_encryption');
 		$preferenceSettings = $oldPreferences->execute();

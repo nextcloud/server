@@ -40,13 +40,13 @@ class CleanTags extends \Test\TestCase {
 
 	protected function cleanUpTables() {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->delete('*PREFIX*vcategory')
+		$qb->delete('vcategory')
 			->execute();
 
-		$qb->delete('*PREFIX*vcategory_to_object')
+		$qb->delete('vcategory_to_object')
 			->execute();
 
-		$qb->delete('*PREFIX*filecache')
+		$qb->delete('filecache')
 			->execute();
 	}
 
@@ -61,20 +61,20 @@ class CleanTags extends \Test\TestCase {
 		$this->addTagEntry(9999999, $cat3, 'contacts'); // Retained
 		$this->addTagEntry($this->getFileID(), $cat3 + 1, 'files'); // Deleted: Category is NULL
 
-		$this->assertEntryCount('*PREFIX*vcategory_to_object', 4, 'Assert tag entries count before repair step');
-		$this->assertEntryCount('*PREFIX*vcategory', 4, 'Assert tag categories count before repair step');
+		$this->assertEntryCount('vcategory_to_object', 4, 'Assert tag entries count before repair step');
+		$this->assertEntryCount('vcategory', 4, 'Assert tag categories count before repair step');
 
 		self::invokePrivate($this->repair, 'deleteOrphanFileEntries');
-		$this->assertEntryCount('*PREFIX*vcategory_to_object', 3, 'Assert tag entries count after cleaning file entries');
-		$this->assertEntryCount('*PREFIX*vcategory', 4, 'Assert tag categories count after cleaning file entries');
+		$this->assertEntryCount('vcategory_to_object', 3, 'Assert tag entries count after cleaning file entries');
+		$this->assertEntryCount('vcategory', 4, 'Assert tag categories count after cleaning file entries');
 
 		self::invokePrivate($this->repair, 'deleteOrphanTagEntries');
-		$this->assertEntryCount('*PREFIX*vcategory_to_object', 2, 'Assert tag entries count after cleaning tag entries');
-		$this->assertEntryCount('*PREFIX*vcategory', 4, 'Assert tag categories count after cleaning tag entries');
+		$this->assertEntryCount('vcategory_to_object', 2, 'Assert tag entries count after cleaning tag entries');
+		$this->assertEntryCount('vcategory', 4, 'Assert tag categories count after cleaning tag entries');
 
 		self::invokePrivate($this->repair, 'deleteOrphanCategoryEntries');
-		$this->assertEntryCount('*PREFIX*vcategory_to_object', 2, 'Assert tag entries count after cleaning category entries');
-		$this->assertEntryCount('*PREFIX*vcategory', 2, 'Assert tag categories count after cleaning category entries');
+		$this->assertEntryCount('vcategory_to_object', 2, 'Assert tag entries count after cleaning category entries');
+		$this->assertEntryCount('vcategory', 2, 'Assert tag categories count after cleaning category entries');
 	}
 
 	/**
@@ -100,7 +100,7 @@ class CleanTags extends \Test\TestCase {
 	 */
 	protected function addTagCategory($category, $type) {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->insert('*PREFIX*vcategory')
+		$qb->insert('vcategory')
 			->values([
 				'uid'		=> $qb->createNamedParameter('TestRepairCleanTags'),
 				'category'	=> $qb->createNamedParameter($category),
@@ -108,7 +108,7 @@ class CleanTags extends \Test\TestCase {
 			])
 			->execute();
 
-		return (int) $this->getLastInsertID('*PREFIX*vcategory', 'id');
+		return (int) $this->getLastInsertID('vcategory', 'id');
 	}
 
 	/**
@@ -119,7 +119,7 @@ class CleanTags extends \Test\TestCase {
 	 */
 	protected function addTagEntry($objectId, $category, $type) {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->insert('*PREFIX*vcategory_to_object')
+		$qb->insert('vcategory_to_object')
 			->values([
 				'objid'			=> $qb->createNamedParameter($objectId, \PDO::PARAM_INT),
 				'categoryid'	=> $qb->createNamedParameter($category, \PDO::PARAM_INT),
@@ -141,21 +141,21 @@ class CleanTags extends \Test\TestCase {
 
 		// We create a new file entry and delete it after the test again
 		$fileName = $this->getUniqueID('TestRepairCleanTags', 12);
-		$qb->insert('*PREFIX*filecache')
+		$qb->insert('filecache')
 			->values([
 				'path'			=> $qb->createNamedParameter($fileName),
 				'path_hash'		=> $qb->createNamedParameter(md5($fileName)),
 			])
 			->execute();
 		$fileName = $this->getUniqueID('TestRepairCleanTags', 12);
-		$qb->insert('*PREFIX*filecache')
+		$qb->insert('filecache')
 			->values([
 				'path'			=> $qb->createNamedParameter($fileName),
 				'path_hash'		=> $qb->createNamedParameter(md5($fileName)),
 			])
 			->execute();
 
-		$this->createdFile = (int) $this->getLastInsertID('*PREFIX*filecache', 'fileid');
+		$this->createdFile = (int) $this->getLastInsertID('filecache', 'fileid');
 		return $this->createdFile;
 	}
 

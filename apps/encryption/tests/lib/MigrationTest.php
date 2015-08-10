@@ -291,12 +291,12 @@ class MigrationTest extends \Test\TestCase {
 		/** @var \OCP\IDBConnection $connection */
 		$connection = \OC::$server->getDatabaseConnection();
 		$query = $connection->getQueryBuilder();
-		$query->delete('*PREFIX*appconfig')
+		$query->delete('appconfig')
 			->where($query->expr()->eq('appid', $query->createParameter('appid')))
 			->setParameter('appid', 'encryption');
 		$query->execute();
 		$query = $connection->getQueryBuilder();
-		$query->delete('*PREFIX*preferences')
+		$query->delete('preferences')
 			->where($query->expr()->eq('appid', $query->createParameter('appid')))
 			->setParameter('appid', 'encryption');
 		$query->execute();
@@ -309,10 +309,10 @@ class MigrationTest extends \Test\TestCase {
 		$this->invokePrivate($m, 'installedVersion', ['0.7']);
 		$m->updateDB();
 
-		$this->verifyDB('*PREFIX*appconfig', 'files_encryption', 0);
-		$this->verifyDB('*PREFIX*preferences', 'files_encryption', 0);
-		$this->verifyDB('*PREFIX*appconfig', 'encryption', 3);
-		$this->verifyDB('*PREFIX*preferences', 'encryption', 1);
+		$this->verifyDB('appconfig', 'files_encryption', 0);
+		$this->verifyDB('preferences', 'files_encryption', 0);
+		$this->verifyDB('appconfig', 'encryption', 3);
+		$this->verifyDB('preferences', 'encryption', 1);
 
 	}
 
@@ -329,17 +329,17 @@ class MigrationTest extends \Test\TestCase {
 		$this->invokePrivate($m, 'installedVersion', ['0.7']);
 		$m->updateDB();
 
-		$this->verifyDB('*PREFIX*appconfig', 'files_encryption', 0);
-		$this->verifyDB('*PREFIX*preferences', 'files_encryption', 0);
-		$this->verifyDB('*PREFIX*appconfig', 'encryption', 3);
-		$this->verifyDB('*PREFIX*preferences', 'encryption', 1);
+		$this->verifyDB('appconfig', 'files_encryption', 0);
+		$this->verifyDB('preferences', 'files_encryption', 0);
+		$this->verifyDB('appconfig', 'encryption', 3);
+		$this->verifyDB('preferences', 'encryption', 1);
 
 		// check if the existing values where overwritten correctly
 		/** @var \OC\DB\Connection $connection */
 		$connection = \OC::$server->getDatabaseConnection();
 		$query = $connection->getQueryBuilder();
 		$query->select('configvalue')
-			->from('*PREFIX*appconfig')
+			->from('appconfig')
 			->where($query->expr()->andX(
 				$query->expr()->eq('appid', $query->createParameter('appid')),
 				$query->expr()->eq('configkey', $query->createParameter('configkey'))
@@ -353,7 +353,7 @@ class MigrationTest extends \Test\TestCase {
 
 		$query = $connection->getQueryBuilder();
 		$query->select('configvalue')
-			->from('*PREFIX*preferences')
+			->from('preferences')
 			->where($query->expr()->andX(
 				$query->expr()->eq('appid', $query->createParameter('appid')),
 				$query->expr()->eq('configkey', $query->createParameter('configkey')),
@@ -399,7 +399,7 @@ class MigrationTest extends \Test\TestCase {
 		$connection = \OC::$server->getDatabaseConnection();
 		$query = $connection->getQueryBuilder();
 		$query->select('*')
-			->from('*PREFIX*filecache');
+			->from('filecache');
 		$result = $query->execute();
 		$entries = $result->fetchAll();
 		foreach($entries as $entry) {
@@ -417,15 +417,15 @@ class MigrationTest extends \Test\TestCase {
 		/** @var \OCP\IDBConnection $connection */
 		$connection = \OC::$server->getDatabaseConnection();
 		$query = $connection->getQueryBuilder();
-		$query->delete('*PREFIX*filecache');
+		$query->delete('filecache');
 		$query->execute();
 		$query = $connection->getQueryBuilder();
 		$result = $query->select('fileid')
-			->from('*PREFIX*filecache')
+			->from('filecache')
 			->setMaxResults(1)->execute()->fetchAll();
 		$this->assertEmpty($result);
 		$query = $connection->getQueryBuilder();
-		$query->insert('*PREFIX*filecache')
+		$query->insert('filecache')
 			->values(
 				array(
 					'storage' => $query->createParameter('storage'),
@@ -447,7 +447,7 @@ class MigrationTest extends \Test\TestCase {
 		}
 		$query = $connection->getQueryBuilder();
 		$result = $query->select('fileid')
-			->from('*PREFIX*filecache')
+			->from('filecache')
 			->execute()->fetchAll();
 		$this->assertSame(19, count($result));
 	}

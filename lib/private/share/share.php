@@ -1218,7 +1218,7 @@ class Share extends Constants {
 		$qb = $connection->getQueryBuilder();
 
 		$qb->select('uid_owner')
-			->from('*PREFIX*share')
+			->from('share')
 			->where($qb->expr()->eq('id', $qb->createParameter('shareId')))
 			->setParameter(':shareId', $shareId);
 		$result = $qb->execute();
@@ -1269,7 +1269,7 @@ class Share extends Constants {
 		self::verifyPassword($password);
 
 		$qb = $connection->getQueryBuilder();
-		$qb->update('*PREFIX*share')
+		$qb->update('share')
 			->set('share_with', $qb->createParameter('pass'))
 			->where($qb->expr()->eq('id', $qb->createParameter('shareId')))
 			->setParameter(':pass', is_null($password) ? null : \OC::$server->getHasher()->hash($password))

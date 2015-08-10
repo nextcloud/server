@@ -43,7 +43,7 @@ class CleanUpTest extends TestCase {
 	protected $dbConnection;
 
 	/** @var  string */
-	protected $trashTable = '*PREFIX*files_trash';
+	protected $trashTable = 'files_trash';
 
 	/** @var string  */
 	protected $user0 = 'user0';
