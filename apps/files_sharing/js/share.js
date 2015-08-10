@@ -91,7 +91,7 @@
 
 			fileActions.registerAction({
 				name: 'Share',
-				displayName: t('files_sharing', 'Share'),
+				displayName: '',
 				mime: 'all',
 				permissions: OC.PERMISSION_SHARE,
 				icon: OC.imagePath('core', 'actions/share'),
