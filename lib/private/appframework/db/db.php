@@ -154,6 +154,15 @@ class Db implements IDb {
 	}
 
 	/**
+	 * Check if a transaction is active
+	 *
+	 * @return bool
+	 */
+	public function inTransaction() {
+		return $this->connection->inTransaction();
+	}
+
+	/**
 	 * Commit the database changes done during a transaction that is in progress
 	 */
 	public function commit() {
