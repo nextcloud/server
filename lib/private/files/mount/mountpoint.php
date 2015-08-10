@@ -29,7 +29,6 @@ namespace OC\Files\Mount;
 use \OC\Files\Filesystem;
 use OC\Files\Storage\StorageFactory;
 use OC\Files\Storage\Storage;
-use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\Mount\IMountPoint;
 
 class MountPoint implements IMountPoint {
@@ -93,11 +92,7 @@ class MountPoint implements IMountPoint {
 		$this->mountPoint = $mountpoint;
 		if ($storage instanceof Storage) {
 			$this->class = get_class($storage);
-			$this->storage = $storage;
-			// only wrap if not already wrapped
-			if (!($this->storage instanceof Wrapper)) {
-				$this->storage = $this->loader->wrap($this, $this->storage);
-			}
+			$this->storage = $this->loader->wrap($this, $storage);
 		} else {
 			// Update old classes to new namespace
 			if (strpos($storage, 'OC_Filestorage_') !== false) {
