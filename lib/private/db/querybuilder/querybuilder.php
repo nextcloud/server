@@ -37,6 +37,9 @@ class QueryBuilder implements IQueryBuilder {
 	/** @var QuoteHelper */
 	private $helper;
 
+	/** @var bool */
+	private $automaticTablePrefix = true;
+
 	/**
 	 * Initializes a new QueryBuilder.
 	 *
@@ -46,6 +49,17 @@ class QueryBuilder implements IQueryBuilder {
 		$this->connection = $connection;
 		$this->queryBuilder = new \Doctrine\DBAL\Query\QueryBuilder($this->connection);
 		$this->helper = new QuoteHelper();
+	}
+
+	/**
+	 * Enable/disable automatic prefixing of table names with the oc_ prefix
+	 *
+	 * @param bool $enabled If set to true table names will be prefixed with the
+	 * owncloud database prefix automatically.
+	 * @since 8.2.0
+	 */
+	public function automaticTablePrefix($enabled) {
+		$this->automaticTablePrefix = (bool) $enabled;
 	}
 
 	/**
@@ -329,7 +343,7 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function delete($delete = null, $alias = null) {
 		$this->queryBuilder->delete(
-			$this->helper->quoteColumnName($delete),
+			$this->getTableName($delete),
 			$alias
 		);
 
@@ -354,7 +368,7 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function update($update = null, $alias = null) {
 		$this->queryBuilder->update(
-			$this->helper->quoteColumnName($update),
+			$this->getTableName($update),
 			$alias
 		);
 
@@ -382,7 +396,7 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function insert($insert = null) {
 		$this->queryBuilder->insert(
-			$this->helper->quoteColumnName($insert)
+			$this->getTableName($insert)
 		);
 
 		return $this;
@@ -405,7 +419,7 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function from($from, $alias = null) {
 		$this->queryBuilder->from(
-			$this->helper->quoteColumnName($from),
+			$this->getTableName($from),
 			$alias
 		);
 
@@ -432,7 +446,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function join($fromAlias, $join, $alias, $condition = null) {
 		$this->queryBuilder->join(
 			$fromAlias,
-			$this->helper->quoteColumnName($join),
+			$this->getTableName($join),
 			$alias,
 			$condition
 		);
@@ -460,7 +474,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function innerJoin($fromAlias, $join, $alias, $condition = null) {
 		$this->queryBuilder->innerJoin(
 			$fromAlias,
-			$this->helper->quoteColumnName($join),
+			$this->getTableName($join),
 			$alias,
 			$condition
 		);
@@ -488,7 +502,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function leftJoin($fromAlias, $join, $alias, $condition = null) {
 		$this->queryBuilder->leftJoin(
 			$fromAlias,
-			$this->helper->quoteColumnName($join),
+			$this->getTableName($join),
 			$alias,
 			$condition
 		);
@@ -516,7 +530,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function rightJoin($fromAlias, $join, $alias, $condition = null) {
 		$this->queryBuilder->rightJoin(
 			$fromAlias,
-			$this->helper->quoteColumnName($join),
+			$this->getTableName($join),
 			$alias,
 			$condition
 		);
@@ -983,5 +997,17 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function createFunction($call) {
 		return new QueryFunction($call);
+	}
+
+	/**
+	 * @param string $table
+	 * @return string
+	 */
+	private function getTableName($table) {
+		if ($this->automaticTablePrefix === false || strpos($table, '*PREFIX*') === 0) {
+			return $this->helper->quoteColumnName($table);
+		}
+
+		return $this->helper->quoteColumnName('*PREFIX*' . $table);
 	}
 }
