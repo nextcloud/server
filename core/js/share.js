@@ -377,7 +377,8 @@ OC.Share = _.extend(OC.Share, {
 		});
 	},
 	showDropDown:function(itemType, itemSource, appendTo, link, possiblePermissions, filename) {
-		var itemModel = new OC.Share.ShareItemModel(itemType, itemSource);
+		var attributes = {itemType: itemType, itemSource: itemSource};
+		var itemModel = new OC.Share.ShareItemModel(attributes);
 		var dialogView = new OC.Share.ShareDialogView({
 			id: 'dropdown',
 			model: itemModel,

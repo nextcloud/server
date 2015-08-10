@@ -55,59 +55,50 @@
 		this.initialize(itemType, itemSource);
 	};
 
+	// FIXME: migration is to Backbone.Model still WIP, only pushing for the night.
+
 	/**
 	 * @memberof OCA.Sharing
 	 */
-	ShareItemModel.prototype = {
-		/** @var {string} **/
-		_itemType: null,
-		/** @var {mixed} **/	//TODO: what type?
-		_itemSource: null,
-
-		/** @var {OC.Share.Types.Reshare} **/
-		_reshare: null,
-
-		/** @var {OC.Share.Types.ShareInfo[]} **/
-		_shares: null,
-
-		initialize: function(itemType, itemSource) {
-			this._itemType = itemType;
-			this._itemSource = itemSource;
-			this._retrieveData();
+	var ShareItemModel = OC.Backbone.Model.extend({
+		initialize: function() {
+			this._retrieveData(); // TODO I need to get my head around fetch() respectively sync() and url(). Left for later, it's late.
 		},
 
 		hasReshare: function() {
-			return _.isObject(this._reshare) && !_.isUndefined(this._reshare.uid_owner);
+			return _.isObject(this.get('reshare')) && !_.isUndefined(this.get('reshare').uid_owner);
 		},
 
 		getReshareOwner: function() {
-			return this._reshare.uid_owner;
+			return this.get('reshare').uid_owner;
 		},
 
 		getReshareOwnerDisplayname: function() {
-			return this._reshare.displayname_owner;
+			return this.get('reshare').displayname_owner;
 		},
 
 		getReshareWith: function() {
-			return this._reshare.share_with;
+			return this.get('reshare').share_with;
 		},
 
 		getReshareType: function() {
-			return this._reshare.share_type;
+			return this.get('reshare').share_type;
 		},
 
 		_retrieveData: function() {
 			/** var {OC.Share.Types.ShareItemInfo} **/
-			var data = OC.Share.loadItem(this._itemType, this._itemSource);
+			var data = OC.Share.loadItem(this.get('itemType'), this.get('itemSource'));
 			if(data === false) {
 				console.warn('no data was returned');
 				return;
 			}
-			this._reshare = data.reshare;
-			this._shares = data.shares;
-
+			var attributes = {
+				reshare: data.reshare,
+				shares: data.shares
+			};
+			this.set(attributes);
 		}
-	};
+	});
 
 	OC.Share.ShareItemModel = ShareItemModel;
 })();
