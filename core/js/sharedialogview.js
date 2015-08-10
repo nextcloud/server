@@ -76,12 +76,6 @@
 		/** @type {string} **/
 		tagName: 'div',
 
-		initialize: function() {
-			if(!this.model instanceof OC.Share.ShareItemModel) {
-				console.warn('model is not an instance of OC.Share.ShareItemModel');
-			}
-		},
-
 		render: function() {
 			var baseTemplate = this._getTemplate('base', TEMPLATE_BASE);
 
@@ -178,6 +172,13 @@
 			return sharePlaceholder;
 		},
 
+		/**
+		 *
+		 * @param {string} key - an identifier for the template
+		 * @param {string} template - the HTML to be compiled by Handlebars
+		 * @returns {Function} from Handlebars
+		 * @private
+		 */
 		_getTemplate: function (key, template) {
 			if (!this._templates[key]) {
 				this._templates[key] = Handlebars.compile(template);
@@ -188,7 +189,7 @@
 		/**
 		 * returns the info template for remote sharing
 		 *
-		 * @returns {Handlebars}
+		 * @returns {Function}
 		 * @private
 		 */
 		_getRemoteShareInfoTemplate: function() {
@@ -198,7 +199,7 @@
 		/**
 		 * returns the info template for link sharing
 		 *
-		 * @returns {Handlebars}
+		 * @returns {Function}
 		 * @private
 		 */
 		_getLinkShareTemplate: function() {
