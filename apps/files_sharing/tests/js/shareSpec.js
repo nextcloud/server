@@ -97,7 +97,7 @@ describe('OCA.Sharing.Util tests', function() {
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
-			expect($action.hasClass('permanent')).toEqual(false);
+			expect($action.hasClass('permanent')).toEqual(true);
 			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
 			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder.svg');
 			expect($action.find('img').length).toEqual(1);
@@ -257,7 +257,7 @@ describe('OCA.Sharing.Util tests', function() {
 			$action = fileList.$el.find('tbody tr:first .action-share');
 			$tr = fileList.$el.find('tr:first');
 
-			expect($action.hasClass('permanent')).toEqual(false);
+			expect($action.hasClass('permanent')).toEqual(true);
 
 			$tr.find('.action-share').click();
 
@@ -344,7 +344,7 @@ describe('OCA.Sharing.Util tests', function() {
 			expect($tr.attr('data-share-recipients')).not.toBeDefined();
 
 			OC.Share.updateIcon('file', 1);
-			expect($action.hasClass('permanent')).toEqual(false);
+			expect($action.hasClass('permanent')).toEqual(true);
 		});
 		it('keep share text after updating reshare', function() {
 			var $action, $tr;

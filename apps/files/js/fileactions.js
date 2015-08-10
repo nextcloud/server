@@ -308,6 +308,7 @@
 
 				var $actionLink = this._makeActionLink(params, context);
 				context.$file.find('a.name>span.fileactions').append($actionLink);
+				$actionLink.addClass('permanent');
 				return $actionLink;
 			}
 		},
