@@ -20,17 +20,17 @@
 */
 
 describe('OCA.Files.MainFileInfoDetailView tests', function() {
-	var view, tipsyStub, previewStub, fncLazyLoadPreview, fileListMock;
+	var view, tooltipStub, previewStub, fncLazyLoadPreview, fileListMock;
 
 	beforeEach(function() {
-		tipsyStub = sinon.stub($.fn, 'tipsy');
+		tooltipStub = sinon.stub($.fn, 'tooltip');
 		fileListMock = sinon.mock(OCA.Files.FileList.prototype);
 		view = new OCA.Files.MainFileInfoDetailView();
 	});
 	afterEach(function() {
 		view.destroy();
 		view = undefined;
-		tipsyStub.restore();
+		tooltipStub.restore();
 		fileListMock.restore();
 
 	});
