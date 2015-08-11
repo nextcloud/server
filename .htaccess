@@ -1,9 +1,12 @@
 # Version: 9.0.0
 <IfModule mod_headers.c>
-  <IfModule mod_fcgid.c>
-    <IfModule mod_setenvif.c>
+  <IfModule mod_setenvif.c>
+    <IfModule mod_fcgid.c>
        SetEnvIfNoCase ^Authorization$ "(.+)" XAUTHORIZATION=$1
        RequestHeader set XAuthorization %{XAUTHORIZATION}e env=XAUTHORIZATION
+    </IfModule>
+    <IfModule mod_proxy_fcgi.c>
+       SetEnvIfNoCase Authorization "(.+)" HTTP_AUTHORIZATION=$1
     </IfModule>
   </IfModule>
 
