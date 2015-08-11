@@ -689,7 +689,7 @@ class Trashbin {
 	 * @param string $user
 	 * @return array size of deleted files and number of deleted files
 	 */
-	protected static function deleteExpiredFiles($files, $user) {
+	public static function deleteExpiredFiles($files, $user) {
 		$application = new Application();
 		$expiration = $application->getContainer()->query('Expiration');
 		$size = 0;

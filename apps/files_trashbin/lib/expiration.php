@@ -105,6 +105,15 @@ class Expiration {
 		return $isOlderThanMax || $isMinReached;
 	}
 
+	public function getMaxAgeAsTimestamp(){
+		$maxAge = false;
+		if ($this->isEnabled() && $this->maxAge !== self::NO_OBLIGATION) {
+			$time = $this->timeFactory->getTime();
+			$maxAge = $time - ($this->maxAge * 86400);
+		}
+		return $maxAge;
+	}
+
 	private function parseRetentionObligation(){
 		$splitValues = explode(',', $this->retentionObligation);
 		if (!isset($splitValues[0])) {

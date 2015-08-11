@@ -1,11 +1,6 @@
 <?php
 /**
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Florin Peter <github@florin-peter.de>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -24,17 +19,19 @@
  *
  */
 
-$l = \OC::$server->getL10N('files_trashbin');
+use OCA\Files_Trashbin\BackgroundJob\ExpireTrash;
 
-// register hooks
-\OCA\Files_Trashbin\Trashbin::registerHooks();
+class ExpireTrash_Test extends \PHPUnit_Framework_TestCase {
+	public function testConstructAndRun() {
+		$backgroundJob = new OCA\Files_Trashbin\BackgroundJob\ExpireTrash(
+			$this->getMock('OCP\IDBConnection'),
+			$this->getMockBuilder('OCA\Files_Trashbin\Expiration')->disableOriginalConstructor()->getMock()
+		);
 
-\OCA\Files\App::getNavigationManager()->add(
-array(
-	"id" => 'trashbin',
-	"appname" => 'files_trashbin',
-	"script" => 'list.php',
-	"order" => 50,
-	"name" => $l->t('Deleted files')
-)
-);
+		$jobList = $this->getMock('\OCP\BackgroundJob\IJobList');
+
+		/** @var \OC\BackgroundJob\JobList $jobList */
+		$backgroundJob->execute($jobList);
+		$this->assertTrue(true);
+	}
+}

@@ -1,11 +1,6 @@
 <?php
 /**
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Florin Peter <github@florin-peter.de>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -24,17 +19,5 @@
  *
  */
 
-$l = \OC::$server->getL10N('files_trashbin');
-
-// register hooks
-\OCA\Files_Trashbin\Trashbin::registerHooks();
-
-\OCA\Files\App::getNavigationManager()->add(
-array(
-	"id" => 'trashbin',
-	"appname" => 'files_trashbin',
-	"script" => 'list.php',
-	"order" => 50,
-	"name" => $l->t('Deleted files')
-)
-);
+ // Cron job for deleting expired trash items
+\OC::$server->getJobList()->add('OCA\Files_Trashbin\BackgroundJob\ExpireTrash');

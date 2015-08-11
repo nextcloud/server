@@ -24,6 +24,8 @@ use \OCA\Files_Trashbin\Expiration;
 class Expiration_Test extends \PHPUnit_Framework_TestCase {
 	const SECONDS_PER_DAY = 86400; //60*60*24
 
+	const FAKE_TIME_NOW = 1000000;
+
 	public function expirationData(){
 		$today = 100*self::SECONDS_PER_DAY;
 		$back10Days = (100-10)*self::SECONDS_PER_DAY;
@@ -140,6 +142,38 @@ class Expiration_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertAttributeEquals($expectedMinAge, 'minAge', $expiration);
 		$this->assertAttributeEquals($expectedMaxAge, 'maxAge', $expiration);
 		$this->assertAttributeEquals($expectedCanPurgeToSaveSpace, 'canPurgeToSaveSpace', $expiration);
+	}
+
+
+	public function timestampTestData(){
+		return [
+			[ 'disabled', false],
+			[ 'auto', false ],
+			[ 'auto,auto', false ],
+			[ 'auto, auto', false ],
+			[ 'auto, 3',  self::FAKE_TIME_NOW - (3*self::SECONDS_PER_DAY) ],
+			[ '5, auto', false ],
+			[ '3, 5', self::FAKE_TIME_NOW - (5*self::SECONDS_PER_DAY) ],
+			[ '10, 3', self::FAKE_TIME_NOW - (10*self::SECONDS_PER_DAY) ],
+		];
+	}
+
+
+	/**
+	 * @dataProvider timestampTestData
+	 *
+	 * @param string $configValue
+	 * @param int $expectedMaxAgeTimestamp
+	 */
+	public function testGetMaxAgeAsTimestamp($configValue, $expectedMaxAgeTimestamp){
+		$mockedConfig = $this->getMockedConfig($configValue);
+		$mockedTimeFactory = $this->getMockedTimeFactory(
+				self::FAKE_TIME_NOW
+		);
+
+		$expiration = new Expiration($mockedConfig, $mockedTimeFactory);
+		$actualTimestamp = $expiration->getMaxAgeAsTimestamp();
+		$this->assertEquals($expectedMaxAgeTimestamp, $actualTimestamp);
 	}
 
 	/**
