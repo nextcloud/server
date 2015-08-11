@@ -307,6 +307,31 @@ class Test_Files_Sharing_Api extends TestCase {
 				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
 	}
 
+	function testGetAllSharesWithMe() {
+		$fileinfo1 = $this->view->getFileInfo($this->filename);
+		$fileinfo2 = $this->view->getFileInfo($this->folder.$this->filename);
+
+		\OCP\Share::shareItem('file', $fileinfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+		\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+		\OCP\Share::shareItem('folder', $fileinfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
+		\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		$_GET['shared_with_me'] = 1;
+		$result = \OCA\Files_Sharing\API\Local::getAllShares(array());
+
+		$this->assertTrue($result->succeeded());
+		$this->assertTrue(count($result->getData()) === 2);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		\OCP\Share::unshare('file', $fileinfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		\OCP\Share::unshare('folder', $fileinfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+	}
+
 	/**
 	 * @medium
 	 * @depends testCreateShare
@@ -506,7 +531,30 @@ class Test_Files_Sharing_Api extends TestCase {
 				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
 
 		\OCP\Share::unshare('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+	}
 
+	function testGetShareFromFolderWithFile() {
+
+		$fileInfo1 = $this->view->getFileInfo($this->filename);
+
+		$result = \OCP\Share::shareItem('file', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		// share was successful?
+		$this->assertTrue($result);
+
+		$_GET = [
+			'path' => $this->filename,
+			'subfiles' => 1
+		];
+		$result = \OCA\Files_Sharing\API\Local::getAllShares([]);
+
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(400, $result->getStatusCode());
+		$this->assertEquals('not a directory', $result->getMeta()['message']);
+
+		\OCP\Share::unshare('file', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
 	}
 
 	/**
