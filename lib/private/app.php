@@ -74,16 +74,6 @@ class OC_App {
 	}
 
 	/**
-	 * Check if an app is loaded
-	 *
-	 * @param string $app
-	 * @return bool
-	 */
-	public static function isAppLoaded($app) {
-		return in_array($app, self::$loadedApps, true);
-	}
-
-	/**
 	 * loads all apps
 	 *
 	 * @param array $types

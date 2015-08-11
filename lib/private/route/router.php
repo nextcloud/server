@@ -150,12 +150,6 @@ class Router implements IRouter {
 		\OC::$server->getEventLogger()->start('loadroutes' . $requestedApp, 'Loading Routes');
 		foreach ($routingFiles as $app => $file) {
 			if (!isset($this->loadedApps[$app])) {
-				if (!\OC_App::isAppLoaded($app)) {
-					// app MUST be loaded before app routes
-					// try again next time loadRoutes() is called
-					$this->loaded = false;
-					continue;
-				}
 				$this->loadedApps[$app] = true;
 				$this->useCollection($app);
 				$this->requireRouteFile($file, $app);
