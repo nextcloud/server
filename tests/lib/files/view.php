@@ -1386,7 +1386,9 @@ class View extends \Test\TestCase {
 			['/foo/files/bar', '/foo', true],
 			['/foo', '/foo', false],
 			['/foo', '/files/foo', true],
-			['/foo', 'filesfoo', false]
+			['/foo', 'filesfoo', false],
+			['', '/foo/files', true],
+			['', '/foo/files/bar.txt', true]
 		];
 	}
 
