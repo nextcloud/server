@@ -26,7 +26,25 @@
 
 namespace OCA\Provisioning_API\Tests;
 
+use OCP\IUserManager;
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUserSession;
+
 class UsersTest extends TestCase {
+	
+	/** @var IUserManager */
+	protected $userManager;
+
+	/** @var IConfig */
+	protected $config;
+
+	/** @var IGroupManager */
+	protected $groupManager;
+
+	/** @var IUserSession */
+	protected $userSession;
+
 	protected function resetParams() {
 		$_GET = null;
 		$_POST = null;
@@ -95,6 +113,51 @@ class UsersTest extends TestCase {
 		$this->assertTrue($this->userManager->userExists($_POST['userid']));
 		$this->assertEquals($_POST['userid'], $this->userManager->checkPassword($_POST['userid'], $_POST['password'])->getUID());
 		$this->users[] = $this->userManager->get($_POST['userid']);
+	}
+
+	public function testAddUserTwice() {
+		$this->resetParams();
+		$_POST['userid'] = $this->getUniqueID();
+		$_POST['password'] = 'password';
+		$this->api->addUser();
+		$result = $this->api->addUser();
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(102, $result->getStatusCode());
+		$this->assertEquals('User already exists', $result->getMeta()['message']);
+	}
+
+	public function testAddUserFails() {
+		$uid = $this->getUniqueID();
+
+		$userManager = $this->getMockBuilder('\OCP\IUserManager')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$userManager->expects($this->once())
+			->method('userExists')
+			->with($uid)
+			->willReturn(false);
+		$userManager->expects($this->once())
+			->method('createUser')
+			->with($uid, 'password')
+			->will($this->throwException(new \Exception));
+
+		$api = new \OCA\Provisioning_Api\Users(
+			$userManager, 
+			$this->config, 
+			$this->groupManager,
+			$this->userSession
+		);
+
+		$this->resetParams();
+		$_POST['userid'] = $uid;
+		$_POST['password'] = 'password';
+		$result = $api->addUser();
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(101, $result->getStatusCode());
+		$this->assertEquals('Bad request', $result->getMeta()['message']);
 	}
 
 	public function testGetUserOnSelf() {
@@ -211,6 +274,28 @@ class UsersTest extends TestCase {
 	 */
 	public function testEditOwnQuota($expected, $quota) {
 		$user = $this->generateUsers();
+		$this->userSession->setUser($user);
+		$result = $this->api->editUser(
+			[
+				'userid' => $user->getUID(),
+				'_put' => [
+					'key' => 'quota',
+					'value' => $quota,
+				],
+			]
+			);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(997, $result->getStatusCode());
+	}
+
+	/**
+	 * @dataProvider providesQuotas
+	 * @param $expected
+	 * @param $quota
+	 */
+	public function testEditOwnQuotaAsAdmin($expected, $quota) {
+		$user = $this->generateUsers();
 		$this->groupManager->get('admin')->addUser($user);
 		$this->userSession->setUser($user);
 		$result = $this->api->editUser(
@@ -233,6 +318,8 @@ class UsersTest extends TestCase {
 			[true, 'none'],
 			[true, 'default'],
 			[false, 'qwertzu'],
+			[true, 0],
+			[true, -1]
 		];
 	}
 
@@ -306,6 +393,22 @@ class UsersTest extends TestCase {
 		$this->assertEquals($email, \OC::$server->getConfig()->getUserValue($user->getUID(), 'settings', 'email', null));
 	}
 
+	public function testUserEditOwnEmailInvalid() {
+		$user = $this->generateUsers();
+		$email = 'test@example';
+		$this->userSession->setUser($user);
+		$result = $this->api->editUser([
+			'userid' => $user->getUID(),
+			'_put' => [
+				'key' => 'email',
+				'value' => $email,
+			],
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(102, $result->getStatusCode());
+	}
+
 	public function testUserEditOtherUserEmailAsUser() {
 		$users = $this->generateUsers(2);
 		$email = 'test@example.com';
@@ -340,6 +443,52 @@ class UsersTest extends TestCase {
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
 		$this->assertEquals($email, \OC::$server->getConfig()->getUserValue($users[1]->getUID(), 'settings', 'email', null));
+	}
+
+	public function testUserEditOwnPassword() {
+		$user = $this->generateUsers();
+		$password = 'foo';
+		$this->userSession->setUser($user);
+		$result = $this->api->editUser([
+			'userid' => $user->getUID(),
+			'_put' => [
+				'key' => 'password',
+				'value' => $password,
+			],
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertTrue($result->succeeded());
+	}
+
+	public function testUserEditOtherUserPasswordAsUser() {
+		$users = $this->generateUsers(2);
+		$password = 'foo';
+		$this->userSession->setUser($users[0]);
+		$result = $this->api->editUser([
+			'userid' => $users[1]->getUID(),
+			'_put' => [
+				'key' => 'password',
+				'value' => $password,
+			],
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+	}
+
+	public function testUserEditOtherUserPasswordAsAdmin() {
+		$users = $this->generateUsers(2);
+		$password = 'foo';
+		$this->userSession->setUser($users[0]);
+		$this->groupManager->get('admin')->addUser($users[0]);
+		$result = $this->api->editUser([
+			'userid' => $users[1]->getUID(),
+			'_put' => [
+				'key' => 'password',
+				'value' => $password,
+			],
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertTrue($result->succeeded());
 	}
 
 	public function testDeleteSelf() {
@@ -418,6 +567,63 @@ class UsersTest extends TestCase {
 			));
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
+	}
+
+	public function testDeleteFails() {
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$user->expects($this->once())
+			->method('delete')
+			->willReturn(false);
+
+		$user2 = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$user2->expects($this->any())
+			->method('getUID')
+			->willReturn('user2');
+
+		$userManager = $this->getMockBuilder('\OCP\IUserManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$userManager->expects($this->once())
+			->method('userExists')
+			->with('user')
+			->willReturn(true);
+		$userManager->expects($this->once())
+			->method('get')
+			->with('user')
+			->willReturn($user);
+
+		$userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
+		$userSession->expects($this->exactly(2))
+			->method('getUser')
+			->willReturn($user2);
+	
+		$groupManager = $this->getMockBuilder('\OCP\IGroupManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$groupManager->expects($this->once())
+			->method('isAdmin')
+			->with('user2')
+			->willReturn(true);
+
+		$api = new \OCA\Provisioning_Api\Users(
+			$userManager, 
+			$this->config, 
+			$groupManager,
+			$userSession
+		);
+
+		$result = $api->deleteUser([
+			'userid' => 'user',
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(101, $result->getStatusCode());
 	}
 
 	public function testGetUsersGroupsOnSelf() {
@@ -584,6 +790,45 @@ class UsersTest extends TestCase {
 		$group2->delete();
 	}
 
+	public function testAddToGroupNoGroupId() {
+		$_POST['groupid'] = '';
+		$result = $this->api->addToGroup([
+			'userid' => $this->getUniqueID(),
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(101, $result->getStatusCode());
+	}
+
+	public function testAddToNonExistingGroup() {
+		$user = $this->generateUsers();
+		$this->groupManager->get('admin')->addUser($user);
+		$this->userSession->setUser($user);
+
+		$group = $this->groupManager->createGroup($this->getUniqueID());
+		$_POST['groupid'] = $group->getGID();
+		$result = $this->api->addToGroup([
+			'userid' => $this->getUniqueID(),
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(103, $result->getStatusCode());
+	}
+
+	public function testAddNonExistingUserToGroup() {
+		$user = $this->generateUsers();
+		$this->groupManager->get('admin')->addUser($user);
+		$this->userSession->setUser($user);
+
+		$_POST['groupid'] = $this->getUniqueID();
+		$result = $this->api->addToGroup([
+			'userid' => $this->getUniqueID(),
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(102, $result->getStatusCode());
+	}
+
 	// test delete /cloud/users/{userid}/groups
 	public function testRemoveFromGroupAsSelf() {
 		$user1 = $this->generateUsers();
@@ -620,6 +865,24 @@ class UsersTest extends TestCase {
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
 		$this->assertFalse($group1->inGroup($user2));
+		$group1->delete();
+	}
+
+	public function testRemoveSelfFromGroupAsAdmin() {
+		$user1 = $this->generateUsers();
+		$this->userSession->setUser($user1);
+		$group1 = $this->groupManager->createGroup($this->getUniqueID());
+		$group1->addUser($user1);
+		$this->groupManager->get('admin')->addUser($user1);
+		$result = $this->api->removeFromGroup([
+			'userid' => $user1->getUID(),
+			'_delete' => [
+				'groupid' => $group1->getGID(),
+			],
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertTrue($result->succeeded());
+		$this->assertFalse($group1->inGroup($user1));
 		$group1->delete();
 	}
 
@@ -668,6 +931,89 @@ class UsersTest extends TestCase {
 		$group2->delete();
 	}
 
+	public function testRemoveFromGroupNoGroupId() {
+		$result = $this->api->removeFromGroup([
+			'_delete' => [
+				'groupid' => ''
+			],
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(101, $result->getStatusCode());
+	}
+
+	public function testRemoveSelfFromAdminAsAdmin() {
+		$user = $this->generateUsers();
+		$this->userSession->setUser($user);
+		$this->groupManager->get('admin')->addUser($user);
+
+		$result = $this->api->removeFromGroup([
+			'userid' => $user->getUID(),
+			'_delete' => [
+				'groupid' => 'admin'
+			],
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(105, $result->getStatusCode());
+		$this->assertEquals('Cannot remove yourself from the admin group', $result->getMeta()['message']);
+	}
+
+	public function testRemoveSelfFromSubAdminGroupAsSubAdmin() {
+		$user = $this->generateUsers();
+		$this->userSession->setUser($user);
+		$group = $this->groupManager->createGroup($this->getUniqueID());
+		\OC_SubAdmin::createSubAdmin($user->getUID(), $group->getGID());
+
+		$result = $this->api->removeFromGroup([
+			'userid' => $user->getUID(),
+			'_delete' => [
+				'groupid' => $group->getGID()
+			],
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(105, $result->getStatusCode());
+		$this->assertEquals('Cannot remove yourself from this group as you are a SubAdmin', $result->getMeta()['message']);
+		$group->delete();
+	}
+
+	public function testRemoveFromNonExistingGroup() {
+		$user1 = $this->generateUsers();
+		$this->userSession->setUser($user1);
+		$this->groupManager->get('admin')->addUser($user1);
+
+		$user2 = $this->generateUsers();
+		$result = $this->api->removeFromGroup([
+			'userid' => $user2->getUID(),
+			'_delete' => [
+				'groupid' => $this->getUniqueID()
+			],
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(102, $result->getStatusCode());
+	}
+
+	public function testRemoveFromNonGroupNonExistingUser() {
+		$user = $this->generateUsers();
+		$this->userSession->setUser($user);
+		$this->groupManager->get('admin')->addUser($user);
+
+		$group = $this->groupManager->createGroup($this->getUniqueID());
+
+		$result = $this->api->removeFromGroup([
+			'userid' => $this->getUniqueID(),
+			'_delete' => [
+				'groupid' => $group->getGID()
+			],
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(103, $result->getStatusCode());
+	}
+
+
 	public function testCreateSubAdmin() {
 		$user1 = $this->generateUsers();
 		$user2 = $this->generateUsers();
@@ -713,6 +1059,18 @@ class UsersTest extends TestCase {
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(101, $result->getStatusCode());
 		$group1->delete();
+
+		$user1 = $this->generateUsers();
+		$this->userSession->setUser($user1);
+		$group = $this->getUniqueID();
+		$_POST['groupid'] = $group;
+		$result = $this->api->addSubAdmin([
+			'userid' => $user1->getUID()
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(102, $result->getStatusCode());
+		$this->assertEquals('Group:'.$group.' does not exist', $result->getMeta()['message']);
 	}
 
 	public function testRemoveSubAdmin() {
