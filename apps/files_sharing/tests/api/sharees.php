@@ -34,6 +34,9 @@ class ShareesTest extends TestCase {
 	/** @var \OCP\IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $groupManager;
 
+	/** @var \OCP\Contacts\IManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $contactsManager;
+
 	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $session;
 
@@ -48,6 +51,10 @@ class ShareesTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->contactsManager = $this->getMockBuilder('OCP\Contacts\IManager')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->session = $this->getMockBuilder('OCP\IUserSession')
 			->disableOriginalConstructor()
 			->getMock();
@@ -55,7 +62,7 @@ class ShareesTest extends TestCase {
 		$this->sharees = new Sharees(
 			$this->groupManager,
 			$this->userManager,
-			$this->getMockBuilder('OCP\Contacts\IManager')->disableOriginalConstructor()->getMock(),
+			$this->contactsManager,
 			$this->getMockBuilder('OCP\IAppConfig')->disableOriginalConstructor()->getMock(),
 			$this->session,
 			$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock()
@@ -257,6 +264,82 @@ class ShareesTest extends TestCase {
 		}
 
 		$users = $this->invokePrivate($this->sharees, 'getGroups', [$searchTerm, $shareWithGroupOnly]);
+
+		$this->assertEquals($expected, $users);
+	}
+
+	public function dataGetRemote() {
+		return [
+			['test', [], []],
+			[
+				'test@remote',
+				[],
+				[
+					['label' => 'test@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'test@remote']],
+				],
+			],
+			[
+				'test',
+				[
+					[
+						'FN' => 'User3 @ Localhost',
+					],
+					[
+						'FN' => 'User2 @ Localhost',
+						'CLOUD' => [
+						],
+					],
+					[
+						'FN' => 'User @ Localhost',
+						'CLOUD' => [
+							'username@localhost',
+						],
+					],
+				],
+				[
+					['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost']],
+				],
+			],
+			[
+				'test@remote',
+				[
+					[
+						'FN' => 'User3 @ Localhost',
+					],
+					[
+						'FN' => 'User2 @ Localhost',
+						'CLOUD' => [
+						],
+					],
+					[
+						'FN' => 'User @ Localhost',
+						'CLOUD' => [
+							'username@localhost',
+						],
+					],
+				],
+				[
+					['label' => 'test@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'test@remote']],
+					['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost']],
+				],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetRemote
+	 *
+	 * @param string $searchTerm
+	 * @param array $contacts
+	 * @param array $expected
+	 */
+	public function testGetRemote($searchTerm, $contacts, $expected) {
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->with($searchTerm, ['CLOUD', 'FN'])
+			->willReturn($contacts);
+
+		$users = $this->invokePrivate($this->sharees, 'getRemote', [$searchTerm]);
 
 		$this->assertEquals($expected, $users);
 	}
