@@ -87,6 +87,12 @@ class AppsTest extends TestCase {
 		}
 		$disabled = array_diff($list, \OC_App::getEnabledApps());
 		$this->assertEquals(count($disabled), count($data['apps']));
+	}
 
+	public function testGetAppsInvalidFilter() {
+		$_GET['filter'] = 'foo';
+		$result = $this->api->getApps([]);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(101, $result->getStatusCode());
 	}
 }
