@@ -731,9 +731,6 @@ MountConfigListView.prototype = {
 
 		var priorityEl = $('<input type="hidden" class="priority" value="' + backendConfiguration['priority'] + '" />');
 		$tr.append(priorityEl);
-		if (backendConfiguration['custom'] && $el.find('tbody tr.'+backend.replace(/\\/g, '\\\\')).length === 1) {
-			OC.addScript('files_external', backendConfiguration['custom']);
-		}
 		$td.children().not('[type=hidden]').first().focus();
 
 		$tr.find('td').last().attr('class', 'remove');

@@ -106,15 +106,6 @@
 						foreach ($storage->getAuthMechanism()->getParameters() as $parameter) {
 							writeParameterInput($parameter, $options, ['auth-param']);
 						}
-
-						$customJs = $storage->getBackend()->getCustomJs();
-						if (isset($customJs)) {
-							\OCP\Util::addScript('files_external', $customJs);
-						}
-						$customJsAuth = $storage->getAuthMechanism()->getCustomJs();
-						if (isset($customJsAuth)) {
-							\OCP\Util::addScript('files_external', $customJsAuth);
-						}
 					?>
 				</td>
 				<?php if ($_['isAdminPage']): ?>
