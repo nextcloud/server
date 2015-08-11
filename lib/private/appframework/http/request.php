@@ -452,7 +452,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
 
 		if(is_array($trustedProxies) && in_array($remoteAddress, $trustedProxies)) {
-			$forwardedForHeaders = $this->config->getSystemValue('forwarded_for_headers', []);
+			$forwardedForHeaders = $this->config->getSystemValue('forwarded_for_headers', [
+				'HTTP_X_FORWARDED_FOR'
+				// only have one default, so we cannot ship an insecure product out of the box
+			]);
 
 			foreach($forwardedForHeaders as $header) {
 				if(isset($this->server[$header])) {

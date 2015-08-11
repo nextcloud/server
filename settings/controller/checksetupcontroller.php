@@ -128,7 +128,7 @@ class CheckSetupController extends Controller {
 	/**
 	 * Check if the used  SSL lib is outdated. Older OpenSSL and NSS versions do
 	 * have multiple bugs which likely lead to problems in combination with
-	 * functionalities required by ownCloud such as SNI.
+	 * functionality required by ownCloud such as SNI.
 	 *
 	 * @link https://github.com/owncloud/core/issues/17446#issuecomment-122877546
 	 * @link https://bugzilla.redhat.com/show_bug.cgi?id=1241172
@@ -193,6 +193,23 @@ class CheckSetupController extends Controller {
 		return ['eol' => $eol, 'version' => PHP_VERSION];
 	}
 
+	/*
+	 * Check if the reverse proxy configuration is working as expected
+	 *
+	 * @return bool
+	 */
+	private function forwardedForHeadersWorking() {
+		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
+		$remoteAddress = $this->request->getRemoteAddress();
+
+		if (is_array($trustedProxies) && in_array($remoteAddress, $trustedProxies)) {
+			return false;
+		}
+
+		// either not enabled or working correctly
+		return true;
+	}
+
 	/**
 	 * @return DataResponse
 	 */
@@ -207,6 +224,8 @@ class CheckSetupController extends Controller {
 				'securityDocs' => $this->urlGenerator->linkToDocs('admin-security'),
 				'isUsedTlsLibOutdated' => $this->isUsedTlsLibOutdated(),
 				'phpSupported' => $this->isPhpSupported(),
+				'forwardedForHeadersWorking' => $this->forwardedForHeadersWorking(),
+				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
 			]
 		);
 	}
