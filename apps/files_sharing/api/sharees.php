@@ -79,7 +79,7 @@ class Sharees {
 		$users = [];
 		if ($shareWithGroupOnly) {
 			// Search in all the groups this user is part of
-			$userGroups = $this->groupManager->getUserGroupsIds($this->userSession->getUser());
+			$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
 			foreach ($userGroups as $userGroup) {
 				$users = array_merge($users, $this->groupManager->displayNamesInGroup($userGroup, $search));
 			}
