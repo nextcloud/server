@@ -22,8 +22,17 @@
 
 namespace OCA\Provisioning_API\Tests;
 
+use OCP\IUserManager;
+use OCP\IGroupManager;
+
 abstract class TestCase extends \Test\TestCase {
 	protected $users = array();
+
+	/** @var IUserManager */
+	protected $userManager;
+
+	/** @var IGroupManager */
+	protected $groupManager;
 
 	protected function setUp() {
 		parent::setUp();
