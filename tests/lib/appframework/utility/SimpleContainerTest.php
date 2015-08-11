@@ -159,10 +159,15 @@ class SimpleContainerTest extends \Test\TestCase {
 
     public function testRegisterAliasService() {
         $this->container->registerService('test', function() {
-            return 'abc';
-        });
+            return new \StdClass;
+        }, true);
         $this->container->registerAlias('test1', 'test');
-        $this->assertEquals('abc', $this->container->query('test1'));
+        $this->assertSame(
+            $this->container->query('test'), $this->container->query('test'));
+        $this->assertSame(
+            $this->container->query('test1'), $this->container->query('test1'));
+        $this->assertSame(
+            $this->container->query('test'), $this->container->query('test1'));
     }
 
     /**
@@ -174,5 +179,25 @@ class SimpleContainerTest extends \Test\TestCase {
         );
     }
 
+    public function testRegisterFactory() {
+        $this->container->registerService('test', function() {
+            return new \StdClass();
+        }, false);
+        $this->assertNotSame(
+            $this->container->query('test'), $this->container->query('test'));
+    }
+
+    public function testRegisterAliasFactory() {
+        $this->container->registerService('test', function() {
+            return new \StdClass();
+        }, false);
+        $this->container->registerAlias('test1', 'test');
+        $this->assertNotSame(
+            $this->container->query('test'), $this->container->query('test'));
+        $this->assertNotSame(
+            $this->container->query('test1'), $this->container->query('test1'));
+        $this->assertNotSame(
+            $this->container->query('test'), $this->container->query('test1'));
+    }
 
 }
