@@ -76,10 +76,22 @@
 		/** @type {string} **/
 		tagName: 'div',
 
+		initialize: function() {
+			var view = this;
+			this.model.on('change', function() {
+				view.render();
+			});
+
+			this.model.on('fetchError', function() {
+				OC.Notification.showTemporary(t('core', 'Share details could not be loaded for this item.'));
+			});
+		},
+
 		render: function() {
 			var baseTemplate = this._getTemplate('base', TEMPLATE_BASE);
 
 			this.$el.html(baseTemplate({
+
 				shareLabel: t('core', 'Share'),
 				resharerInfo: this._renderResharerInfo(),
 				sharePlaceholder: this._renderSharePlaceholderPart(),

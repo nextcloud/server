@@ -66,6 +66,14 @@
 		},
 
 		/**
+		 * whether this item has reshare information
+		 * @returns {boolean}
+		 */
+		hasShares: function() {
+			return _.isObject(this.get('shares'));
+		},
+
+		/**
 		 * @returns {string}
 		 */
 		getReshareOwner: function() {
@@ -94,16 +102,16 @@
 		},
 
 		fetch: function() {
-			/** var {OC.Share.Types.ShareItemInfo} **/
-			var data = OC.Share.loadItem(this.get('itemType'), this.get('itemSource'));
-			var attributes = this.parse(data);
-			this.set(attributes);
-			console.warn(this.attributes);
+			var model = this;
+			OC.Share.loadItem(this.get('itemType'), this.get('itemSource'), function(data) {
+				model.set(model.parse(data));
+			});
 		},
 
 		parse: function(data) {
 			if(data === false) {
 				console.warn('no data was returned');
+				trigger('fetchError');
 				return {};
 			}
 			var attributes = {
