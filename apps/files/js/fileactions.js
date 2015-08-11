@@ -49,13 +49,6 @@
 		_fileActionTriggerTemplate: null,
 
 		/**
-		 * File actions menu
-		 *
-		 * @type OCA.Files.FileActionsMenu
-		 */
-		_menu: null,
-
-		/**
 		 * @private
 		 */
 		initialize: function() {
@@ -333,8 +326,20 @@
 		 * @param {OCA.Files.FileActionContext} context rendering context
 		 */
 		_showMenu: function(fileName, context) {
-			this._menu = new OCA.Files.FileActionsMenu();
-			this._menu.showAt(context);
+			var menu;
+			var $trigger = context.$file.closest('tr').find('.fileactions .action-menu');
+			$trigger.addClass('open');
+
+			menu = new OCA.Files.FileActionsMenu();
+			menu.$el.on('afterHide', function() {
+				context.$file.removeClass('mouseOver');
+				$trigger.removeClass('open');
+				menu.remove();
+			});
+
+			context.$file.addClass('mouseOver');
+			context.$file.find('td.filename').append(menu.$el);
+			menu.show(context);
 		},
 
 		/**
@@ -378,14 +383,19 @@
 					a: null
 				},
 				function(event) {
+					event.stopPropagation();
+					event.preventDefault();
+
+					if ($actionEl.hasClass('open')) {
+						return;
+					}
+
 					var $file = $(event.target).closest('tr');
 					if ($file.hasClass('busy')) {
 						return;
 					}
 					var currentFile = $file.find('td.filename');
 					var fileName = $file.attr('data-file');
-					event.stopPropagation();
-					event.preventDefault();
 
 					context.fileActions.currentFile = currentFile;
 					// also set on global object for legacy apps

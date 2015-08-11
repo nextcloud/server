@@ -611,9 +611,14 @@ var OC={
 	 */
 	hideMenus: function(complete) {
 		if (OC._currentMenu) {
+			var lastMenu = OC._currentMenu;
 			OC._currentMenu.trigger(new $.Event('beforeHide'));
-			OC._currentMenu.slideUp(OC.menuSpeed, complete);
-			OC._currentMenu.trigger(new $.Event('afterHide'));
+			OC._currentMenu.slideUp(OC.menuSpeed, function() {
+				lastMenu.trigger(new $.Event('afterHide'));
+				if (complete) {
+					complete.apply(this, arguments);
+				}
+			});
 		}
 		OC._currentMenu = null;
 		OC._currentMenuToggle = null;

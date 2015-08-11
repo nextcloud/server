@@ -87,24 +87,17 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 			dir: fileList.getCurrentDirectory()
 		};
 		menu = new OCA.Files.FileActionsMenu();
-		menu.showAt(menuContext);
+		menu.show(menuContext);
 	});
 	afterEach(function() {
 		fileActions = null;
 		fileList.destroy();
 		fileList = undefined;
-		menu.destroy();
+		menu.remove();
 		$('#dir, #permissions, #filestable').remove();
 	});
 
 	describe('rendering', function() {
-		it('displays menu in the row container', function() {
-			expect(menu.$el.closest('td.filename').length).toEqual(1);
-			expect($tr.find('.fileActionsMenu').length).toEqual(1);
-		});
-		it('highlights the row in the file list', function() {
-			expect($tr.hasClass('mouseOver')).toEqual(true);
-		});
 		it('renders dropdown actions in menu', function() {
 			var $action = menu.$el.find('a[data-action=Testdropdown]');
 			expect($action.length).toEqual(1);
@@ -200,7 +193,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 				dir: fileList.getCurrentDirectory()
 			};
 			menu = new OCA.Files.FileActionsMenu();
-			menu.showAt(menuContext);
+			menu.show(menuContext);
 
 			menu.$el.find('.action-download').click();
 
@@ -233,7 +226,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 				dir: '/anotherpath/there'
 			};
 			menu = new OCA.Files.FileActionsMenu();
-			menu.showAt(menuContext);
+			menu.show(menuContext);
 
 			menu.$el.find('.action-download').click();
 
@@ -266,7 +259,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 				dir: '/somepath/dir'
 			};
 			menu = new OCA.Files.FileActionsMenu();
-			menu.showAt(menuContext);
+			menu.show(menuContext);
 
 			menu.$el.find('.action-delete').click();
 
@@ -274,17 +267,6 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 			expect(deleteStub.getCall(0).args[0]).toEqual('testName.txt');
 			expect(deleteStub.getCall(0).args[1]).toEqual('/somepath/dir');
 			deleteStub.restore();
-		});
-	});
-	describe('hiding', function() {
-		beforeEach(function() {
-			menu.$el.trigger(new $.Event('afterHide'));
-		});
-		it('removes highlight on current row', function() {
-			expect($tr.hasClass('mouseOver')).toEqual(false);
-		});
-		it('destroys its DOM element on hide', function() {
-			expect($tr.find('.fileActionsMenu').length).toEqual(0);
 		});
 	});
 });

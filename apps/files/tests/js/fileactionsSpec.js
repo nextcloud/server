@@ -192,10 +192,26 @@ describe('OCA.Files.FileActions tests', function() {
 			context = actionStub.getCall(0).args[1];
 			expect(context.dir).toEqual('/somepath');
 		});
-		it('shows actions menu when clicking the menu trigger', function() {
-			expect($tr.find('.menu').length).toEqual(0);
-			$tr.find('.action-menu').click();
-			expect($tr.find('.menu').length).toEqual(1);
+		describe('actions menu', function() {
+			it('shows actions menu inside row when clicking the menu trigger', function() {
+				expect($tr.find('td.filename .fileActionsMenu').length).toEqual(0);
+				$tr.find('.action-menu').click();
+				expect($tr.find('td.filename .fileActionsMenu').length).toEqual(1);
+			});
+			it('shows highlight on current row', function() {
+				$tr.find('.action-menu').click();
+				expect($tr.hasClass('mouseOver')).toEqual(true);
+			});
+			it('cleans up after hiding', function() {
+				var clock = sinon.useFakeTimers();
+				$tr.find('.action-menu').click();
+				expect($tr.find('.fileActionsMenu').length).toEqual(1);
+				OC.hideMenus();
+				// sliding animation
+				clock.tick(500);
+				expect($tr.hasClass('mouseOver')).toEqual(false);
+				expect($tr.find('.fileActionsMenu').length).toEqual(0);
+			});
 		});
 	});
 	describe('custom rendering', function() {

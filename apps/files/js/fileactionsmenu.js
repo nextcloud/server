@@ -24,13 +24,9 @@
 	 * @constructs FileActionsMenu
 	 * @memberof OCA.Files
 	 */
-	var FileActionsMenu = function() {
-		this.initialize();
-	};
-
-	FileActionsMenu.prototype = {
-		$el: null,
-		_template: null,
+	var FileActionsMenu = OC.Backbone.View.extend({
+		tagName: 'div',
+		className: 'fileActionsMenu bubble hidden open menu',
 
 		/**
 		 * Current context
@@ -39,19 +35,15 @@
 		 */
 		_context: null,
 
-		/**
-		 * @private
-		 */
-		initialize: function() {
-			this.$el = $('<div class="fileActionsMenu bubble hidden open menu"></div>');
-			this._template = Handlebars.compile(TEMPLATE_MENU);
-
-			this.$el.on('click', 'a.action', _.bind(this._onClickAction, this));
-			this.$el.on('afterHide', _.bind(this._onHide, this));
+		events: {
+			'click a.action': '_onClickAction'
 		},
 
-		destroy: function() {
-			this.$el.remove();
+		template: function(data) {
+			if (!OCA.Files.FileActionsMenu._TEMPLATE) {
+				OCA.Files.FileActionsMenu._TEMPLATE = Handlebars.compile(TEMPLATE_MENU);
+			}
+			return OCA.Files.FileActionsMenu._TEMPLATE(data);
 		},
 
 		/**
@@ -113,8 +105,7 @@
 				return item;
 			});
 
-			this.$el.empty();
-			this.$el.append(this._template({
+			this.$el.html(this.template({
 				items: items
 			}));
 		},
@@ -123,27 +114,17 @@
 		 * Displays the menu under the given element
 		 *
 		 * @param {OCA.Files.FileActionContext} context context
+		 * @param {Object} $trigger trigger element
 		 */
-		showAt: function(context) {
+		show: function(context) {
 			this._context = context;
 
 			this.render();
 			this.$el.removeClass('hidden');
 
-			context.$file.find('td.filename').append(this.$el);
-			context.$file.addClass('mouseOver');
-
 			OC.showMenu(null, this.$el);
-		},
-
-		/**
-		 * Whenever the menu is hidden
-		 */
-		_onHide: function() {
-			this._context.$file.removeClass('mouseOver');
-			this.destroy();
 		}
-	};
+	});
 
 	OCA.Files.FileActionsMenu = FileActionsMenu;
 
