@@ -162,12 +162,15 @@ class UsersTest extends TestCase {
 
 	public function testGetUserOnSelf() {
 		$user = $this->generateUsers();
+		$user->setDisplayName('foobar');
 		$this->userSession->setUser($user);
 		$params['userid'] = $user->getUID();
 		$result = $this->api->getUser($params);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
+		
+		$this->assertEquals('foobar', $data['displayname']);
 	}
 
 	public function testGetUserOnNonExistingUser() {

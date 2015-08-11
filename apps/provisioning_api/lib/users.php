@@ -130,7 +130,7 @@ class Users {
 		$data = self::fillStorageInfo($userId, $data);
 		$data['enabled'] = $this->config->getUserValue($userId, 'core', 'enabled', 'true');
 		$data['email'] = $this->config->getUserValue($userId, 'settings', 'email');
-		$data['displayname'] = $this->userManager->get($parameters['userid']);
+		$data['displayname'] = $this->userManager->get($parameters['userid'])->getDisplayName();
 
 		// Return the appropriate data
 		$responseData = array();
