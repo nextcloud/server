@@ -54,7 +54,7 @@ class Sharees {
 	 * @param IUserSession $userSession
 	 */
 	public function __construct(IGroupManager $groupManager,
-	                            IUserManager $userManager,
+								IUserManager $userManager,
 								\OCP\Contacts\IManager $contactsManager,
 								IAppConfig $appConfig,
 								IUserSession $userSession,
