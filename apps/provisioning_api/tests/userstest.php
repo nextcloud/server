@@ -602,7 +602,7 @@ class UsersTest extends TestCase {
 		$userSession = $this->getMockBuilder('\OCP\IUserSession')
 			->disableOriginalConstructor()
 			->getMock();
-		$userSession->expects($this->exactly(2))
+		$userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user2);
 	

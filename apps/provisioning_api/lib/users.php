@@ -99,23 +99,30 @@ class Users {
 	 */
 	public function getUser($parameters){
 		$userId = $parameters['userid'];
+
+		// Check if user is logged in
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
 		// Admin? Or SubAdmin?
-		if($this->groupManager->isAdmin($this->userSession->getUser()->getUID()) || OC_SubAdmin::isUserAccessible($this->userSession->getUser()->getUID(), $userId)) {
+		if($this->groupManager->isAdmin($user->getUID()) || OC_SubAdmin::isUserAccessible($user->getUID(), $userId)) {
 			// Check they exist
 			if(!$this->userManager->userExists($userId)) {
 				return new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, 'The requested user could not be found');
 			}
 			// Show all
-			$return = array(
+			$return = [
 				'email',
 				'enabled',
-				);
-			if($this->userSession->getUser()->getUID() !== $userId) {
+			];
+			if($user->getUID() !== $userId) {
 				$return[] = 'quota';
 			}
 		} else {
 			// Check they are looking up themselves
-			if($this->userSession->getUser()->getUID() !== $userId) {
+			if($user->getUID() !== $userId) {
 				return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 			}
 			// Return some additional information compared to the core route
@@ -146,19 +153,26 @@ class Users {
 	 */
 	public function editUser($parameters){
 		$userId = $parameters['userid'];
-		if($userId === $this->userSession->getUser()->getUID()) {
+
+		// Check if user is logged in
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
+		if($userId === $user->getUID()) {
 			// Editing self (display, email)
 			$permittedFields[] = 'display';
 			$permittedFields[] = 'email';
 			$permittedFields[] = 'password';
 			// If admin they can edit their own quota
-			if($this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
+			if($this->groupManager->isAdmin($user->getUID())) {
 				$permittedFields[] = 'quota';
 			}
 		} else {
 			// Check if admin / subadmin
-			if(OC_SubAdmin::isUserAccessible($this->userSession->getUser()->getUID(), $userId)
-			|| $this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
+			if(OC_SubAdmin::isUserAccessible($user->getUID(), $userId)
+			|| $this->groupManager->isAdmin($user->getUID())) {
 				// They have permissions over the user
 				$permittedFields[] = 'display';
 				$permittedFields[] = 'quota';
@@ -217,12 +231,18 @@ class Users {
 	}
 
 	public function deleteUser($parameters){
+		// Check if user is logged in
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
 		if(!$this->userManager->userExists($parameters['userid']) 
-		|| $parameters['userid'] === $this->userSession->getUser()->getUID()) {
+		|| $parameters['userid'] === $user->getUID()) {
 			return new OC_OCS_Result(null, 101);
 		}
 		// If not permitted
-		if(!$this->groupManager->isAdmin($this->userSession->getUser()->getUID()) && !OC_SubAdmin::isUserAccessible($this->userSession->getUser()->getUID(), $parameters['userid'])) {
+		if(!$this->groupManager->isAdmin($user->getUID()) && !OC_SubAdmin::isUserAccessible($user->getUID(), $parameters['userid'])) {
 			return new OC_OCS_Result(null, 997);
 		}
 		// Go ahead with the delete
@@ -233,8 +253,14 @@ class Users {
 		}
 	}
 
-	public function getUsersGroups($parameters){
-		if($parameters['userid'] === $this->userSession->getUser()->getUID() || $this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
+	public function getUsersGroups($parameters) {
+		// Check if user is logged in
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
+		if($parameters['userid'] === $user->getUID() || $this->groupManager->isAdmin($user->getUID())) {
 			// Self lookup or admin lookup
 			return new OC_OCS_Result([
 				'groups' => $this->groupManager->getUserGroupIds(
@@ -243,10 +269,10 @@ class Users {
 			]);
 		} else {
 			// Looking up someone else
-			if(OC_SubAdmin::isUserAccessible($this->userSession->getUser()->getUID(), $parameters['userid'])) {
+			if(OC_SubAdmin::isUserAccessible($user->getUID(), $parameters['userid'])) {
 				// Return the group that the method caller is subadmin of for the user in question
 				$groups = array_intersect(
-					OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID()),
+					OC_SubAdmin::getSubAdminsGroups($user->getUID()),
 					$this->groupManager->getUserGroupIds(
 						$this->userManager->get($parameters['userid'])
 					)
@@ -261,12 +287,18 @@ class Users {
 	}
 
 	public function addToGroup($parameters){
+		// Check if user is logged in
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
 		$group = !empty($_POST['groupid']) ? $_POST['groupid'] : null;
 		if(is_null($group)){
 			return new OC_OCS_Result(null, 101);
 		}
 		// Check they're an admin
-		if(!$this->groupManager->isInGroup($this->userSession->getUser()->getUID(), 'admin')){
+		if(!$this->groupManager->isInGroup($user->getUID(), 'admin')){
 			// This user doesn't have rights to add a user to this group
 			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
@@ -285,24 +317,30 @@ class Users {
 		return new OC_OCS_Result(null, 100);
 	}
 
-	public function removeFromGroup($parameters){
+	public function removeFromGroup($parameters) {
+		// Check if user is logged in
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
 		$group = !empty($parameters['_delete']['groupid']) ? $parameters['_delete']['groupid'] : null;
 		if(is_null($group)){
 			return new OC_OCS_Result(null, 101);
 		}
 		// If they're not an admin, check they are a subadmin of the group in question
-		if(!$this->groupManager->isInGroup($this->userSession->getUser()->getUID(), 'admin') && !OC_SubAdmin::isSubAdminofGroup($this->userSession->getUser()->getUID(), $group)){
+		if(!$this->groupManager->isInGroup($user->getUID(), 'admin') && !OC_SubAdmin::isSubAdminofGroup($user->getUID(), $group)){
 			return new OC_OCS_Result(null, 104);
 		}
 		// Check they aren't removing themselves from 'admin' or their 'subadmin; group
-		if($parameters['userid'] === $this->userSession->getUser()->getUID()){
-			if($this->groupManager->isInGroup($this->userSession->getUser()->getUID(), 'admin')){
+		if($parameters['userid'] === $user->getUID()){
+			if($this->groupManager->isInGroup($user->getUID(), 'admin')){
 				if($group === 'admin'){
 					return new OC_OCS_Result(null, 105, 'Cannot remove yourself from the admin group');
 				}
 			} else {
 				// Not an admin, check they are not removing themself from their subadmin group
-				if(in_array($group, OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID()))){
+				if(in_array($group, OC_SubAdmin::getSubAdminsGroups($user->getUID()))){
 					return new OC_OCS_Result(null, 105, 'Cannot remove yourself from this group as you are a SubAdmin');
 				}
 			}

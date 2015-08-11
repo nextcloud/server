@@ -63,14 +63,20 @@ class Groups{
 	/**
 	 * returns an array of users in the group specified
 	 */
-	public function getGroup($parameters){
+	public function getGroup($parameters) {
+		// Check if user is logged in
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
 		// Check the group exists
 		if(!$this->groupManager->groupExists($parameters['groupid'])){
 			return new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, 'The requested group could not be found');
 		}
 		// Check subadmin has access to this group
-		if($this->groupManager->isAdmin($this->userSession->getUser()->getUID())
-			|| in_array($parameters['groupid'], \OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID()))){
+		if($this->groupManager->isAdmin($user->getUID())
+		   || in_array($parameters['groupid'], \OC_SubAdmin::getSubAdminsGroups($user->getUID()))){
 			$users = $this->groupManager->get($parameters['groupid'])->getUsers();
 			$users =  array_map(function($user) {
 				return $user->getUID();
