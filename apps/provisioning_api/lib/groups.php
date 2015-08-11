@@ -102,9 +102,9 @@ class Groups{
 
 	public function deleteGroup($parameters){
 		// Check it exists
-		if(!$this->groupManager->grouExists($parameters['groupid'])){
+		if(!$this->groupManager->groupExists($parameters['groupid'])){
 			return new OC_OCS_Result(null, 101);
-		} else if($parameters['groupid'] === 'admin' || !$this->groupManger->get($parameters['groupid'])->delete()){
+		} else if($parameters['groupid'] === 'admin' || !$this->groupManager->get($parameters['groupid'])->delete()){
 			// Cannot delete admin group
 			return new OC_OCS_Result(null, 102);
 		} else {
