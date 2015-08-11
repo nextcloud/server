@@ -63,7 +63,7 @@ class GroupsTest extends TestCase {
 		$result = $this->api->getGroups([]);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
-		$this->assertCount(11, $result->getData()['groups']);
+		$this->assertCount(count($this->groupManager->search('')), $result->getData()['groups']);
 		$this->assertContains('admin', $result->getData()['groups']);
 		foreach ($groups as $group) {
 			$this->assertContains($group->getGID(), $result->getData()['groups']);
