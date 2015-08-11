@@ -175,7 +175,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
-		if (empty($attr)) {
+		if (empty($attr) && ($filter === 'objectclass=*' || $this->ldap->countEntries($cr, $rr) === 1)) {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute: '.$dn.' found', \OCP\Util::DEBUG);
 			return array();
 		}
