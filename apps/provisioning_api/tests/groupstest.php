@@ -24,8 +24,21 @@
 
 namespace OCA\Provisioning_API\Tests;
 
+use OCP\IUserManager;
+use OCP\IGroupManager;
+use OCP\IUserSession;
+
 class GroupsTest extends TestCase {
 	
+	/** @var IUserManager */
+	protected $userManager;
+
+	/** @var IGroupManager */
+	protected $groupManager;
+
+	/** @var IUserSession */
+	protected $userSession;
+
 	protected function setup() {
 		parent::setup();
 
@@ -36,6 +49,42 @@ class GroupsTest extends TestCase {
 			$this->groupManager,
 			$this->userSession
 		);
+	}
+
+	public function testGetGroups() {
+		$groups = [];
+		$id = $this->getUniqueID();
+
+		for ($i=0; $i < 10; $i++) {
+			$groups[] = $this->groupManager->createGroup($id . '_' . $i);
+		}
+
+		$_GET = [];
+		$result = $this->api->getGroups([]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertTrue($result->succeeded());
+		$this->assertCount(11, $result->getData()['groups']);
+		$this->assertContains('admin', $result->getData()['groups']);
+		foreach ($groups as $group) {
+			$this->assertContains($group->getGID(), $result->getData()['groups']);
+		}
+
+		$_GET = [
+			'search' => $id,
+			'limit' => 5,
+			'offset' => 2
+		];
+		$result = $this->api->getGroups([]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertTrue($result->succeeded());
+		$this->assertCount(5, $result->getData()['groups']);
+		foreach (array_splice($groups, 2, 5) as $group) {
+			$this->assertContains($group->getGID(), $result->getData()['groups']);
+		}
+
+		foreach ($groups as $group) {
+			$group->delete();
+		}
 	}
 
 	public function testGetGroupAsUser() {
@@ -130,6 +179,17 @@ class GroupsTest extends TestCase {
 
 	}
 
+	public function testGetGroupNonExisting() {
+		$result = $this->api->getGroup([
+			'groupid' => $this->getUniqueId()
+		]);
+
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(\OCP\API::RESPOND_NOT_FOUND, $result->getStatusCode());
+		$this->assertEquals('The requested group could not be found', $result->getMeta()['message']);
+	}
+
 	public function testGetSubAdminsOfGroup() {
 		$user1 = $this->generateUsers();
 		$user2 = $this->generateUsers();
@@ -155,5 +215,76 @@ class GroupsTest extends TestCase {
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(101, $result->getStatusCode());
+	}
+
+	public function testAddGroupEmptyGroup() {
+		$_POST = [];
+		$result = $this->api->addGroup([]);
+
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(101, $result->getStatusCode());
+		$this->assertEquals('Invalid group name', $result->getMeta()['message']);
+	}
+
+	public function testAddGroupExistingGroup() {
+		$group = $this->groupManager->createGroup($this->getUniqueID());
+
+		$_POST = [
+			'groupid' => $group->getGID()
+		];
+		$result = $this->api->addGroup([]);
+
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(102, $result->getStatusCode());
+
+		$group->delete();
+	}
+
+	public function testAddGroup() {
+		$group = $this->getUniqueId();
+
+		$_POST = [ 
+			'groupid' => $group
+		];
+
+		$result = $this->api->addGroup([]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertTrue($result->succeeded());
+		$this->assertTrue($this->groupManager->groupExists($group));
+
+		$this->groupManager->get($group)->delete();
+	}
+
+	public function testDeleteGroupNonExisting() {
+		$group = $this->getUniqueId();
+
+		$result = $this->api->deleteGroup([
+			'groupid' => $group
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(101, $result->getStatusCode());
+	}
+
+	public function testDeleteAdminGroup() {
+		$result = $this->api->deleteGroup([
+			'groupid' => 'admin'
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(102, $result->getStatusCode());
+	}
+
+	public function testDeleteGroup() {
+		$group = $this->groupManager->createGroup($this->getUniqueId());
+
+		$result = $this->api->deleteGroup([
+			'groupid' => $group->getGID()
+		]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertTrue($result->succeeded());
+		$this->assertFalse($this->groupManager->groupExists($group->getGID()));
 	}
 }
