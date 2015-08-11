@@ -7,7 +7,8 @@
 		"moment/min/moment-with-locales.js",
 		"handlebars/handlebars.js",
 		"blueimp-md5/js/md5.js",
-		"bootstrap/js/tooltip.js"
+		"bootstrap/js/tooltip.js",
+		"backbone/backbone.js"
 	],
 	"libraries": [
 		"jquery-showpassword.js",
@@ -19,6 +20,7 @@
 		"jquery.ocdialog.js",
 		"oc-dialogs.js",
 		"js.js",
+		"oc-backbone.js",
 		"l10n.js",
 		"apps.js",
 		"share.js",
