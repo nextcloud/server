@@ -178,33 +178,49 @@ class Sharees {
 	}
 
 	public function search($params) {
-		$search = isset($_GET['search']) ? (string)$_GET['search'] : '';
-		$item_type = isset($_GET['item_type']) ? (string)$_GET['item_type'] : null;
-		$share_type = isset($_GET['share_type']) ? intval($_GET['share_type']) : null;
-		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$per_page = isset($_GET['per_page']) ? intval($_GET['per_page']) : 200;
+		$search = isset($_GET['search']) ? (string) $_GET['search'] : '';
+		$itemType = isset($_GET['itemType']) ? (string) $_GET['itemType'] : null;
+		$existingShares = isset($_GET['existingShares']) ? (array) $_GET['existingShares'] : [];
+		$shareType = isset($_GET['shareType']) ? intval($_GET['shareType']) : null;
+		$page = !empty($_GET['page']) ? intval($_GET['page']) : 1;
+		$perPage = !empty($_GET['limit']) ? intval($_GET['limit']) : 200;
+
+		$sharedUsers = $sharedGroups = [];
+		if (!empty($existingShares)) {
+			if (!empty($existingShares[\OCP\Share::SHARE_TYPE_USER]) &&
+				is_array($existingShares[\OCP\Share::SHARE_TYPE_USER])) {
+				$sharedUsers = $existingShares[\OCP\Share::SHARE_TYPE_USER];
+			}
+
+			if (!empty($existingShares[\OCP\Share::SHARE_TYPE_GROUP]) &&
+				is_array($existingShares[\OCP\Share::SHARE_TYPE_GROUP])) {
+				$sharedGroups = $existingShares[\OCP\Share::SHARE_TYPE_GROUP];
+			}
+		}
 
 		// Verify arguments
-		if ($item_type === null) {
-			return new \OC_OCS_Result(null, 400, 'missing item_type');
+		if ($itemType === null) {
+			return new \OC_OCS_Result(null, 400, 'missing itemType');
 		}
 
 		$shareWithGroupOnly = $this->appConfig->getValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes' ? true : false;
 
 		$sharees = [];
 		// Get users
-		if ($share_type === null || $share_type === \OCP\Share::SHARE_TYPE_USER) {
-			$sharees = array_merge($sharees, $this->getUsers($search, $shareWithGroupOnly));
+		if ($shareType === null || $shareType === \OCP\Share::SHARE_TYPE_USER) {
+			$potentialSharees = $this->getUsers($search, $shareWithGroupOnly);
+			$sharees = array_merge($sharees, $this->filterSharees($potentialSharees, $sharedUsers));
 		}
 
 		// Get groups
-		if ($share_type === null || $share_type === \OCP\Share::SHARE_TYPE_GROUP) {
-			$sharees = array_merge($sharees, $this->getGroups($search, $shareWithGroupOnly));
+		if ($shareType === null || $shareType === \OCP\Share::SHARE_TYPE_GROUP) {
+			$potentialSharees = $this->getGroups($search, $shareWithGroupOnly);
+			$sharees = array_merge($sharees, $this->filterSharees($potentialSharees, $sharedGroups));
 		}
 
 		// Get remote
-		if (($share_type === null || $share_type === \OCP\Share::SHARE_TYPE_REMOTE) &&
-		    \OCP\Share::getBackend($item_type)->isShareTypeAllowed(\OCP\Share::SHARE_TYPE_REMOTE)) {
+		if (($shareType === null || $shareType === \OCP\Share::SHARE_TYPE_REMOTE) &&
+		    \OCP\Share::getBackend($itemType)->isShareTypeAllowed(\OCP\Share::SHARE_TYPE_REMOTE)) {
 			$sharees = array_merge($sharees, $this->getRemote($search));
 		}
 
@@ -216,28 +232,46 @@ class Sharees {
 		usort($sharees, array($sorter, 'sort'));
 
 		//Pagination
-		$start = ($page - 1) * $per_page;
-		$end = $page * $per_page;
-		$tot = count($sharees);
+		$start = ($page - 1) * $perPage;
+		$end = $page * $perPage;
+		$total = sizeof($sharees);
 
-		$sharees = array_slice($sharees, $start, $per_page);
+		$sharees = array_slice($sharees, $start, $perPage);
+
 		$response = new \OC_OCS_Result($sharees);
+		$response->setTotalItems($total);
+		$response->setItemsPerPage($perPage);
 
-		// FIXME: Do this?
-		$response->setTotalItems($tot);
-		$response->setItemsPerPage($per_page);
-
-		// TODO add other link rels
-		if ($tot > $end) {
-			$url = $this->urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/sharees?') .
-				'search=' . $search .
-				'&item_type=' . $item_type .
-				'&share_type=' . $share_type .
-				'&page=' . ($page + 1) .
-				'&per_page=' . $per_page;
+		if ($total > $end) {
+			$params = [
+				'search' => $search,
+				'itemType' => $itemType,
+				'existingShares' => $existingShares,
+				'page' => $page + 1,
+				'limit' => $perPage,
+			];
+			if ($shareType !== null) {
+				$params['shareType'] = $shareType;
+			}
+			$url = $this->urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/sharees') . '?' . http_build_query($params);
 			$response->addHeader('Link', '<' . $url . '> rel="next"');
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Filter out already existing shares from a list of potential sharees
+	 *
+	 * @param array $potentialSharees
+	 * @param array $existingSharees
+	 * @return array
+	 */
+	private function filterSharees($potentialSharees, $existingSharees) {
+		$sharees = array_map(function ($sharee) use ($existingSharees) {
+			return in_array($sharee['value']['shareWith'], $existingSharees) ? null : $sharee;
+		}, $potentialSharees);
+
+		return array_filter($sharees);
 	}
 }
