@@ -78,8 +78,12 @@ class ServerFactory {
 			$rootInfo = $view->getFileInfo('');
 
 			// Create ownCloud Dir
-			$rootDir = new \OC\Connector\Sabre\Directory($view, $rootInfo);
-			$objectTree->init($rootDir, $view, $this->mountManager);
+			if ($rootInfo->getType() === 'dir') {
+				$root = new \OC\Connector\Sabre\Directory($view, $rootInfo);
+			} else {
+				$root = new \OC\Connector\Sabre\File($view, $rootInfo);
+			}
+			$objectTree->init($root, $view, $this->mountManager);
 
 			$server->addPlugin(new \OC\Connector\Sabre\QuotaPlugin($view));
 
