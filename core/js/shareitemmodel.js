@@ -50,53 +50,67 @@
 	 *
 	 * Represents the GUI of the share dialogue
 	 *
-	 */
-	var ShareItemModel = function(itemType, itemSource) {
-		this.initialize(itemType, itemSource);
-	};
-
-	// FIXME: migration is to Backbone.Model still WIP, only pushing for the night.
-
-	/**
-	 * @memberof OCA.Sharing
+	 * // FIXME: use OC Share API once #17143 is done
 	 */
 	var ShareItemModel = OC.Backbone.Model.extend({
 		initialize: function() {
-			this._retrieveData(); // TODO I need to get my head around fetch() respectively sync() and url(). Left for later, it's late.
+			this.fetch();
 		},
 
+		/**
+		 * whether this item has reshare information
+		 * @returns {boolean}
+		 */
 		hasReshare: function() {
 			return _.isObject(this.get('reshare')) && !_.isUndefined(this.get('reshare').uid_owner);
 		},
 
+		/**
+		 * @returns {string}
+		 */
 		getReshareOwner: function() {
 			return this.get('reshare').uid_owner;
 		},
 
+		/**
+		 * @returns {string}
+		 */
 		getReshareOwnerDisplayname: function() {
 			return this.get('reshare').displayname_owner;
 		},
 
+		/**
+		 * @returns {string}
+		 */
 		getReshareWith: function() {
 			return this.get('reshare').share_with;
 		},
 
+		/**
+		 * @returns {number}
+		 */
 		getReshareType: function() {
 			return this.get('reshare').share_type;
 		},
 
-		_retrieveData: function() {
+		fetch: function() {
 			/** var {OC.Share.Types.ShareItemInfo} **/
 			var data = OC.Share.loadItem(this.get('itemType'), this.get('itemSource'));
+			var attributes = this.parse(data);
+			this.set(attributes);
+			console.warn(this.attributes);
+		},
+
+		parse: function(data) {
 			if(data === false) {
 				console.warn('no data was returned');
-				return;
+				return {};
 			}
 			var attributes = {
 				reshare: data.reshare,
 				shares: data.shares
 			};
-			this.set(attributes);
+			return attributes;
 		}
 	});
 
