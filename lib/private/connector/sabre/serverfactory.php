@@ -81,11 +81,11 @@ class ServerFactory {
 			$rootDir = new \OC\Connector\Sabre\Directory($view, $rootInfo);
 			$objectTree->init($rootDir, $view, $this->mountManager);
 
-			$server->addPlugin(new \OC\Connector\Sabre\TagsPlugin($objectTree, $this->tagManager));
 			$server->addPlugin(new \OC\Connector\Sabre\QuotaPlugin($view));
 
-			// custom properties plugin must be the last one
 			if($this->userSession->isLoggedIn()) {
+				$server->addPlugin(new \OC\Connector\Sabre\TagsPlugin($objectTree, $this->tagManager));
+				// custom properties plugin must be the last one
 				$server->addPlugin(
 					new \Sabre\DAV\PropertyStorage\Plugin(
 						new \OC\Connector\Sabre\CustomPropertiesBackend(
