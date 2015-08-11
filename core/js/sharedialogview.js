@@ -70,9 +70,6 @@
 		/** @type {boolean} **/
 		_showLink: true,
 
-		/** @type {unknown} **/
-		_possiblePermissions: null,
-
 		/** @type {string} **/
 		tagName: 'div',
 
@@ -91,7 +88,6 @@
 			var baseTemplate = this._getTemplate('base', TEMPLATE_BASE);
 
 			this.$el.html(baseTemplate({
-
 				shareLabel: t('core', 'Share'),
 				resharerInfo: this._renderResharerInfo(),
 				sharePlaceholder: this._renderSharePlaceholderPart(),
@@ -112,41 +108,37 @@
 			this._showLink = (typeof showLink === 'boolean') ? showLink : true;
 		},
 
-		setPossiblePermissions: function(permissions) {
-			//TODO: maybe move to model? Whatever this is.
-			this._possiblePermissions = permissions;
-		},
-
 		_renderResharerInfo: function() {
 			var resharerInfo = '';
-			if (   this.model.hasReshare()
-				&& this.model.getReshareOwner() !== OC.currentUser)
+			if (   !this.model.hasReshare()
+				|| !this.model.getReshareOwner() !== OC.currentUser)
 			{
-				var reshareTemplate = this._getReshareTemplate();
-				var sharedByText = '';
-				if (this.model.getReshareType() === OC.Share.SHARE_TYPE_GROUP) {
-					sharedByText = t(
-						'core',
-						'Shared with you and the group {group} by {owner}',
-						{
-							group: this.model.getReshareWith(),
-							owner: this.model.getReshareOwnerDisplayname()
-						}
-					);
-				}  else {
-					sharedByText = t(
-						'core',
-						'Shared with you by {owner}',
-						{ owner: this.model.getReshareOwnerDisplayname() }
-					);
-				}
-
-
-				resharerInfo = reshareTemplate({
-					avatarEnabled: oc_config.enable_avatars === true,
-					sharedByText: sharedByText
-				});
+				return '';
 			}
+
+			var reshareTemplate = this._getReshareTemplate();
+			var sharedByText = '';
+			if (this.model.getReshareType() === OC.Share.SHARE_TYPE_GROUP) {
+				sharedByText = t(
+					'core',
+					'Shared with you and the group {group} by {owner}',
+					{
+						group: this.model.getReshareWith(),
+						owner: this.model.getReshareOwnerDisplayname()
+					}
+				);
+			}  else {
+				sharedByText = t(
+					'core',
+					'Shared with you by {owner}',
+					{ owner: this.model.getReshareOwnerDisplayname() }
+				);
+			}
+
+			return reshareTemplate({
+				avatarEnabled: oc_config.enable_avatars === true,
+				sharedByText: sharedByText
+			});
 		},
 
 		_renderRemoteShareInfoPart: function() {

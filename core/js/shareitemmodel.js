@@ -57,6 +57,22 @@
 			this.fetch();
 		},
 
+		defaults: {
+			allowPublicUploadStatus: false
+		},
+
+		/**
+		 * @returns {boolean|jQuery}
+		 */
+		isPublicUploadEnabled: function() {
+			// FIXME: this really needs a better place
+			var publicUploadEnabled = $('#filestable').data('allow-public-upload');
+			if (_.isUndefined(publicUploadEnabled)) {
+				publicUploadEnabled = 'no';
+			}
+			return publicUploadEnabled;
+		},
+
 		/**
 		 * whether this item has reshare information
 		 * @returns {boolean}
@@ -101,6 +117,26 @@
 			return this.get('reshare').share_type;
 		},
 
+		/**
+		 * @returns {number}
+		 */
+		getPermissions: function() {
+			var permissions = this.get('permissions');
+			if(_.isUndefined(permissions)) {
+				// model was not properly initialized
+				console.warn('Sharing error: undefined permissions');
+				permissions = 0;
+			}
+			return permissions;
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
+		hasSharePermission: function() {
+			return (this.getPermissions & OC.PERMISSION_SHARE) === OC.PERMISSION_SHARE;
+		},
+
 		fetch: function() {
 			var model = this;
 			OC.Share.loadItem(this.get('itemType'), this.get('itemSource'), function(data) {
@@ -114,10 +150,29 @@
 				trigger('fetchError');
 				return {};
 			}
+
+			var permissions = this.get('possiblePermissions');
+			if(!_.isUndefined(data.reshare) && !_.isUndefined(data.reshare.permissions)) {
+				permissions = permissions & data.reshare.permissions;
+			}
+
+			var allowPublicUploadStatus = false;
+			if(!_.isUndefined(data.shares)) {
+				$.each(data.shares, function (key, value) {
+					if (value.share_type === OC.Share.SHARE_TYPE_LINK) {
+						allowPublicUploadStatus = (value.permissions & OC.PERMISSION_CREATE) ? true : false;
+						return true;
+					}
+				});
+			}
+
 			var attributes = {
 				reshare: data.reshare,
-				shares: data.shares
+				shares: data.shares,
+				permissions: permissions,
+				allowPublicUploadStatus: allowPublicUploadStatus
 			};
+
 			return attributes;
 		}
 	});
