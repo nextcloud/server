@@ -46,11 +46,9 @@ class OC_Defaults {
 	private $defaultSlogan;
 	private $defaultLogoClaim;
 	private $defaultMailHeaderColor;
-	private $defaultKnowledgeBaseUrl;
 
 	function __construct() {
 		$this->l = \OC::$server->getL10N('lib');
-		$urlGenerator = \OC::$server->getURLGenerator();
 		$version = OC_Util::getVersion();
 
 		$this->defaultEntity = 'ownCloud'; /* e.g. company name, used for footers and copyright notices */
@@ -66,7 +64,6 @@ class OC_Defaults {
 		$this->defaultSlogan = $this->l->t('web services under your control');
 		$this->defaultLogoClaim = '';
 		$this->defaultMailHeaderColor = '#1d2d44'; /* header color of mail notifications */
-		$this->defaultKnowledgeBaseUrl = $urlGenerator->linkToRoute('settings_help');
 
 		$themePath = OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php';
 		if (file_exists($themePath)) {
@@ -82,7 +79,6 @@ class OC_Defaults {
 
 	/**
 	 * @param string $method
-	 * @return bool
 	 */
 	private function themeExist($method) {
 		if (isset($this->theme) && method_exists($this->theme, $method)) {
@@ -282,21 +278,6 @@ class OC_Defaults {
 		} else {
 			return $this->defaultMailHeaderColor;
 		}
-	}
-
-	/**
-	 * get knowledge base URL, will be used for the "Help"-Link in the top
-	 * right menu
-	 *
-	 * @return string
-	 */
-	public function getKnowledgeBaseUrl() {
-		if ($this->themeExist('getKnowledgeBaseUrl')) {
-			return $this->theme->getKnowledgeBaseUrl();
-		} else {
-			return $this->defaultKnowledgeBaseUrl;
-		}
-
 	}
 
 }

@@ -74,16 +74,6 @@ class OC_App {
 	}
 
 	/**
-	 * Check if an app is loaded
-	 *
-	 * @param string $app
-	 * @return bool
-	 */
-	public static function isAppLoaded($app) {
-		return in_array($app, self::$loadedApps, true);
-	}
-
-	/**
 	 * loads all apps
 	 *
 	 * @param array $types
@@ -431,7 +421,6 @@ class OC_App {
 	 */
 	public static function getSettingsNavigation() {
 		$l = \OC::$server->getL10N('lib');
-		$defaults = new OC_Defaults();
 
 		$settings = array();
 		// by default, settings only contain the help menu
@@ -442,7 +431,7 @@ class OC_App {
 				array(
 					"id" => "help",
 					"order" => 1000,
-					"href" => $defaults->getKnowledgeBaseUrl(),
+					"href" => OC_Helper::linkToRoute("settings_help"),
 					"name" => $l->t("Help"),
 					"icon" => OC_Helper::imagePath("settings", "help.svg")
 				)
