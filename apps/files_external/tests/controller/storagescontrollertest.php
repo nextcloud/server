@@ -47,10 +47,32 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		\OC_Mount_Config::$skipTest = false;
 	}
 
+	protected function getBackendMock($class = '\OCA\Files_External\Lib\Backend\SMB', $storageClass = '\OC\Files\Storage\SMB') {
+		$backend = $this->getMockBuilder('\OCA\Files_External\Lib\Backend\Backend')
+			->disableOriginalConstructor()
+			->getMock();
+		$backend->method('getStorageClass')
+			->willReturn($storageClass);
+		$backend->method('getClass')
+			->willReturn($storageClass);
+		return $backend;
+	}
+
 	public function testAddStorage() {
+		$backend = $this->getBackendMock();
+		$backend->method('validateStorage')
+			->willReturn(true);
+		$backend->method('isVisibleFor')
+			->willReturn(true);
+
 		$storageConfig = new StorageConfig(1);
 		$storageConfig->setMountPoint('mount');
+		$storageConfig->setBackend($backend);
+		$storageConfig->setBackendOptions([]);
 
+		$this->service->expects($this->once())
+			->method('createStorage')
+			->will($this->returnValue($storageConfig));
 		$this->service->expects($this->once())
 			->method('addStorage')
 			->will($this->returnValue($storageConfig));
@@ -71,9 +93,20 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	}
 
 	public function testUpdateStorage() {
+		$backend = $this->getBackendMock();
+		$backend->method('validateStorage')
+			->willReturn(true);
+		$backend->method('isVisibleFor')
+			->willReturn(true);
+
 		$storageConfig = new StorageConfig(1);
 		$storageConfig->setMountPoint('mount');
+		$storageConfig->setBackend($backend);
+		$storageConfig->setBackendOptions([]);
 
+		$this->service->expects($this->once())
+			->method('createStorage')
+			->will($this->returnValue($storageConfig));
 		$this->service->expects($this->once())
 			->method('updateStorage')
 			->will($this->returnValue($storageConfig));
@@ -106,6 +139,14 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	 * @dataProvider mountPointNamesProvider
 	 */
 	public function testAddOrUpdateStorageInvalidMountPoint($mountPoint) {
+		$storageConfig = new StorageConfig(1);
+		$storageConfig->setMountPoint($mountPoint);
+		$storageConfig->setBackend($this->getBackendMock());
+		$storageConfig->setBackendOptions([]);
+
+		$this->service->expects($this->exactly(2))
+			->method('createStorage')
+			->will($this->returnValue($storageConfig));
 		$this->service->expects($this->never())
 			->method('addStorage');
 		$this->service->expects($this->never())
@@ -138,6 +179,9 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	}
 
 	public function testAddOrUpdateStorageInvalidBackend() {
+		$this->service->expects($this->exactly(2))
+			->method('createStorage')
+			->will($this->throwException(new \InvalidArgumentException()));
 		$this->service->expects($this->never())
 			->method('addStorage');
 		$this->service->expects($this->never())
@@ -170,6 +214,20 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	}
 
 	public function testUpdateStorageNonExisting() {
+		$backend = $this->getBackendMock();
+		$backend->method('validateStorage')
+			->willReturn(true);
+		$backend->method('isVisibleFor')
+			->willReturn(true);
+
+		$storageConfig = new StorageConfig(255);
+		$storageConfig->setMountPoint('mount');
+		$storageConfig->setBackend($backend);
+		$storageConfig->setBackendOptions([]);
+
+		$this->service->expects($this->once())
+			->method('createStorage')
+			->will($this->returnValue($storageConfig));
 		$this->service->expects($this->once())
 			->method('updateStorage')
 			->will($this->throwException(new NotFoundException()));
@@ -206,9 +264,10 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	}
 
 	public function testGetStorage() {
+		$backend = $this->getBackendMock();
 		$storageConfig = new StorageConfig(1);
 		$storageConfig->setMountPoint('test');
-		$storageConfig->setBackendClass('\OC\Files\Storage\SMB');
+		$storageConfig->setBackend($backend);
 		$storageConfig->setBackendOptions(['user' => 'test', 'password', 'password123']);
 		$storageConfig->setMountOptions(['priority' => false]);
 

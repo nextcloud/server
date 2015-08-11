@@ -1,3 +1,8 @@
+<?php
+	use \OCA\Files_External\Lib\Backend\Backend;
+	use \OCA\Files_External\Lib\DefinitionParameter;
+	use \OCA\Files_External\Service\BackendService;
+?>
 <form id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
 	<h2><?php p($l->t('External Storage')); ?></h2>
 	<?php if (isset($_['dependencies']) and ($_['dependencies']<>'')) print_unescaped(''.$_['dependencies'].''); ?>
@@ -14,103 +19,149 @@
 			</tr>
 		</thead>
 		<tbody>
-		<?php $_['mounts'] = array_merge($_['mounts'], array('' => array('id' => ''))); ?>
-		<?php foreach ($_['mounts'] as $mount): ?>
-			<tr <?php print_unescaped(isset($mount['mountpoint']) ? 'class="'.OC_Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?> data-id="<?php p($mount['id']) ?>">
+		<?php foreach ($_['storages'] as $storage): ?>
+			<tr class="<?php p($storage->getBackend()->getClass()); ?>" data-id="<?php p($storage->getId()); ?>">
 				<td class="status">
 					<span></span>
 				</td>
 				<td class="mountPoint"><input type="text" name="mountPoint"
-											  value="<?php p(isset($mount['mountpoint']) ? $mount['mountpoint'] : ''); ?>"
-											  data-mountpoint="<?php p(isset($mount['mountpoint']) ? $mount['mountpoint'] : ''); ?>"
+											  value="<?php p(ltrim($storage->getMountPoint(), '/')); ?>"
+											  data-mountpoint="<?php p(ltrim($storage->getMountPoint(), '/')); ?>"
 											  placeholder="<?php p($l->t('Folder name')); ?>" />
 				</td>
-				<?php if (!isset($mount['mountpoint'])): ?>
-					<td class="backend">
-						<select id="selectBackend" class="selectBackend" data-configurations='<?php p(json_encode($_['backends'])); ?>'>
-							<option value="" disabled selected
-									style="display:none;"><?php p($l->t('Add storage')); ?></option>
-							<?php foreach ($_['backends'] as $class => $backend): ?>
-								<option value="<?php p($class); ?>"><?php p($backend['backend']); ?></option>
-							<?php endforeach; ?>
-						</select>
-					</td>
-				<?php else: ?>
-					<td class="backend" data-class="<?php p($mount['class']); ?>"><?php p($mount['backend']); ?>
-					</td>
-				<?php endif; ?>
-				<td class ="configuration">
-					<?php if (isset($mount['options'])): ?>
-						<?php foreach ($mount['options'] as $parameter => $value): ?>
-							<?php if (isset($_['backends'][$mount['class']]['configuration'][$parameter])): ?>
+				<td class="backend" data-class="<?php p($storage->getBackend()->getClass()); ?>"><?php p($storage->getBackend()->getText()); ?>
+				</td>
+				<td class="configuration">
+					<?php $options = $storage->getBackendOptions(); ?>
+					<?php foreach ($storage->getBackend()->getParameters() as $parameter): ?>
+						<?php
+							$value = '';
+							if (isset($options[$parameter->getName()])) {
+								$value = $options[$parameter->getName()];
+							}
+							$placeholder = $parameter->getText();
+							$is_optional = $parameter->isFlagSet(DefinitionParameter::FLAG_OPTIONAL);
+
+							switch ($parameter->getType()) {
+							case DefinitionParameter::VALUE_PASSWORD: ?>
+								<input type="password"
+								   <?php if ($is_optional): ?> class="optional"<?php endif; ?>
+								   data-parameter="<?php p($parameter->getName()); ?>"
+								   value="<?php p($value); ?>"
+								   placeholder="<?php p($placeholder); ?>"
+								/>
 								<?php
-									$placeholder = $_['backends'][$mount['class']]['configuration'][$parameter];
-									$is_optional = FALSE;
-									if (strpos($placeholder, '&') === 0) {
-										$is_optional = TRUE;
-										$placeholder = substr($placeholder, 1);
-									}
-								?>
-								<?php if (strpos($placeholder, '*') === 0): ?>
-									<input type="password"
-										   <?php if ($is_optional): ?> class="optional"<?php endif; ?>
-										   data-parameter="<?php p($parameter); ?>"
-										   value="<?php p($value); ?>"
-										   placeholder="<?php p(substr($placeholder, 1)); ?>" />
-								<?php elseif (strpos($placeholder, '!') === 0): ?>
-									<label><input type="checkbox"
-												  data-parameter="<?php p($parameter); ?>"
-												  <?php if ($value == 'true'): ?> checked="checked"<?php endif; ?>
-												  /><?php p(substr($placeholder, 1)); ?></label>
-								<?php elseif (strpos($placeholder, '#') === 0): ?>
-									<input type="hidden"
-										   data-parameter="<?php p($parameter); ?>"
-										   value="<?php p($value); ?>" />
-								<?php else: ?>
-									<input type="text"
-										   <?php if ($is_optional): ?> class="optional"<?php endif; ?>
-										   data-parameter="<?php p($parameter); ?>"
-										   value="<?php p($value); ?>"
-										   placeholder="<?php p($placeholder); ?>" />
-								<?php endif; ?>
-							<?php endif; ?>
-						<?php endforeach; ?>
-						<?php if (isset($_['backends'][$mount['class']]['custom'])): ?>
-							<?php OCP\Util::addScript('files_external', $_['backends'][$mount['class']]['custom']); ?>
-						<?php endif; ?>
-					<?php endif; ?>
+								break;
+							case DefinitionParameter::VALUE_BOOLEAN: ?>
+								<label>
+									<input type="checkbox"
+										data-parameter="<?php p($parameter->getName()); ?>"
+									 	<?php if ($value == 'true'): ?> checked="checked"<?php endif; ?>
+									/>
+									<?php p($placeholder); ?>
+								</label>
+								<?php
+								break;
+							case DefinitionParameter::VALUE_HIDDEN: ?>
+								<input type="hidden"
+									data-parameter="<?php p($parameter->getName()); ?>"
+									value="<?php p($value); ?>"
+								/>
+								<?php
+								break;
+							default: ?>
+								<input type="text"
+									<?php if ($is_optional): ?> class="optional"<?php endif; ?>
+									data-parameter="<?php p($parameter->getName()); ?>"
+									value="<?php p($value); ?>"
+									placeholder="<?php p($placeholder); ?>"
+								/>
+								<?php
+							}
+						?>
+					<?php endforeach; ?>
+					<?php
+						$customJs = $storage->getBackend()->getCustomJs();
+						if (isset($customJs)) {
+							\OCP\Util::addScript('files_external', $customJs);
+						}
+					?>
 				</td>
 				<?php if ($_['isAdminPage']): ?>
-				<td class="applicable"
-					align="right"
-					data-applicable-groups='<?php if (isset($mount['applicable']['groups']))
-													print_unescaped(json_encode($mount['applicable']['groups'])); ?>'
-					data-applicable-users='<?php if (isset($mount['applicable']['users']))
-													print_unescaped(json_encode($mount['applicable']['users'])); ?>'>
-					<input type="hidden" class="applicableUsers" style="width:20em;" value=""/>
-				</td>
+					<td class="applicable"
+						align="right"
+						data-applicable-groups='<?php print_unescaped(json_encode($storage->getApplicableGroups())); ?>'
+						data-applicable-users='<?php print_unescaped(json_encode($storage->getApplicableUsers())); ?>'>
+						<input type="hidden" class="applicableUsers" style="width:20em;" value=""/>
+					</td>
 				<?php endif; ?>
-				<td class="mountOptionsToggle <?php if (!isset($mount['mountpoint'])) { p('hidden'); } ?>"
-					><img
+				<td class="mountOptionsToggle">
+					<img
 						class="svg action"
 						title="<?php p($l->t('Advanced settings')); ?>"
 						alt="<?php p($l->t('Advanced settings')); ?>"
-						src="<?php print_unescaped(image_path('core', 'actions/settings.svg')); ?>" />
-					<input type="hidden" class="mountOptions" value="<?php isset($mount['mountOptions']) ? p(json_encode($mount['mountOptions'])) : '' ?>" />
+						src="<?php print_unescaped(image_path('core', 'actions/settings.svg')); ?>"
+					/>
+					<input type="hidden" class="mountOptions" value="<?php p(json_encode($storage->getMountOptions())); ?>" />
 					<?php if ($_['isAdminPage']): ?>
-					<?php if (isset($mount['priority'])): ?>
-					<input type="hidden" class="priority" value="<?php p($mount['priority']) ?>" />
-					<?php endif; ?>
+						<input type="hidden" class="priority" value="<?php p($storage->getPriority()); ?>" />
 					<?php endif; ?>
 				</td>
-				<td <?php if (isset($mount['mountpoint'])): ?>class="remove"
-					<?php else: ?>class="hidden"
-					<?php endif ?>><img alt="<?php p($l->t('Delete')); ?>"
-										title="<?php p($l->t('Delete')); ?>"
-										class="svg action"
-										src="<?php print_unescaped(image_path('core', 'actions/delete.svg')); ?>" /></td>
+				<td class="remove">
+					<img alt="<?php p($l->t('Delete')); ?>"
+						title="<?php p($l->t('Delete')); ?>"
+						class="svg action"
+						src="<?php print_unescaped(image_path('core', 'actions/delete.svg')); ?>"
+					/>
+				</td>
 			</tr>
 		<?php endforeach; ?>
+			<tr id="addMountPoint">
+				<td class="status">
+					<span></span>
+				</td>
+				<td class="mountPoint"><input type="text" name="mountPoint" value=""
+					placeholder="<?php p($l->t('Folder name')); ?>">
+				</td>
+				<td class="backend">
+					<select id="selectBackend" class="selectBackend" data-configurations='<?php p(json_encode($_['backends'])); ?>'>
+						<option value="" disabled selected
+							style="display:none;">
+							<?php p($l->t('Add storage')); ?>
+						</option>
+						<?php
+							$sortedBackends = $_['backends'];
+							uasort($sortedBackends, function($a, $b) {
+								return strcasecmp($a->getText(), $b->getText());
+							});
+						?>
+						<?php foreach ($sortedBackends as $backend): ?>
+							<option value="<?php p($backend->getClass()); ?>"><?php p($backend->getText()); ?></option>
+						<?php endforeach; ?>
+					</select>
+				</td>
+				<td class="configuration"</td>
+				<?php if ($_['isAdminPage']): ?>
+					<td class="applicable" align="right">
+						<input type="hidden" class="applicableUsers" style="width:20em;" value="" />
+					</td>
+				<?php endif; ?>
+				<td class="mountOptionsToggle hidden">
+					<img class="svg action"
+						title="<?php p($l->t('Advanced settings')); ?>"
+						alt="<?php p($l->t('Advanced settings')); ?>"
+						src="<?php print_unescaped(image_path('core', 'actions/settings.svg')); ?>"
+					/>
+					<input type="hidden" class="mountOptions" value="" />
+				</td>
+				<td class="hidden">
+					<img class="svg action"
+						alt="<?php p($l->t('Delete')); ?>"
+						title="<?php p($l->t('Delete')); ?>"
+						src="<?php print_unescaped(image_path('core', 'actions/delete.svg')); ?>"
+					/>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 	<br />
@@ -123,9 +174,9 @@
 
 		<p id="userMountingBackends"<?php if ($_['allowUserMounting'] != 'yes'): ?> class="hidden"<?php endif; ?>>
 			<?php p($l->t('Allow users to mount the following external storage')); ?><br />
-			<?php $i = 0; foreach ($_['personal_backends'] as $class => $backend): ?>
-				<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($class); ?>" <?php if ($backend['enabled']) print_unescaped(' checked="checked"'); ?> />
-				<label for="allowUserMountingBackends<?php p($i); ?>"><?php p($backend['backend']); ?></label> <br />
+			<?php $i = 0; foreach ($_['userBackends'] as $backend): ?>
+				<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($backend->getClass()); ?>" <?php if ($backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) print_unescaped(' checked="checked"'); ?> />
+				<label for="allowUserMountingBackends<?php p($i); ?>"><?php p($backend->getText()); ?></label> <br />
 				<?php $i++; ?>
 			<?php endforeach; ?>
 		</p>

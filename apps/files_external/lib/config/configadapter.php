@@ -24,14 +24,23 @@ namespace OCA\Files_External\Config;
 
 use OC\Files\Mount\MountPoint;
 use OCP\Files\Storage\IStorageFactory;
-use OCA\Files_External\PersonalMount;
+use OCA\Files_External\Lib\PersonalMount;
 use OCP\Files\Config\IMountProvider;
 use OCP\IUser;
+use OCA\Files_external\Service\UserStoragesService;
 
 /**
  * Make the old files_external config work with the new public mount config api
  */
 class ConfigAdapter implements IMountProvider {
+
+	/**
+	 * @param UserStoragesService $userStoragesService
+	 */
+	public function __construct(UserStoragesService $userStoragesService) {
+		$this->userStoragesService = $userStoragesService;
+	}
+
 	/**
 	 * Get all mountpoints applicable for the user
 	 *
@@ -49,7 +58,8 @@ class ConfigAdapter implements IMountProvider {
 			}
 			$mountOptions = isset($options['mountOptions']) ? $options['mountOptions'] : [];
 			if (isset($options['personal']) && $options['personal']) {
-				$mounts[] = new PersonalMount($options['class'], $mountPoint, $options['options'], $loader, $mountOptions);
+				$mount = new PersonalMount($this->userStoragesService, $options['id'], $options['class'], $mountPoint, $options['options'], $loader, $mountOptions);
+				$mounts[] = $mount;
 			} else {
 				$mounts[] = new MountPoint($options['class'], $mountPoint, $options['options'], $loader, $mountOptions);
 			}

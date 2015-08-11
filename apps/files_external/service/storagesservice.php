@@ -28,11 +28,22 @@ use \OC\Files\Filesystem;
 
 use \OCA\Files_external\Lib\StorageConfig;
 use \OCA\Files_external\NotFoundException;
+use \OCA\Files_External\Service\BackendService;
 
 /**
  * Service class to manage external storages
  */
 abstract class StoragesService {
+
+	/** @var BackendService */
+	protected $backendService;
+
+	/**
+	 * @param BackendService $backendService
+	 */
+	public function __construct(BackendService $backendService) {
+		$this->backendService = $backendService;
+	}
 
 	/**
 	 * Read legacy config data
@@ -60,14 +71,17 @@ abstract class StoragesService {
 		$applicable,
 		$storageOptions
 	) {
-		$storageConfig->setBackendClass($storageOptions['class']);
+		$backend = $this->backendService->getBackend($storageOptions['class']);
+		$storageConfig->setBackend($backend);
+
 		$storageConfig->setBackendOptions($storageOptions['options']);
 		if (isset($storageOptions['mountOptions'])) {
 			$storageConfig->setMountOptions($storageOptions['mountOptions']);
 		}
-		if (isset($storageOptions['priority'])) {
-			$storageConfig->setPriority($storageOptions['priority']);
+		if (!isset($storageOptions['priority'])) {
+			$storageOptions['priority'] = $backend->getPriority();
 		}
+		$storageConfig->setPriority($storageOptions['priority']);
 
 		if ($mountType === \OC_Mount_Config::MOUNT_TYPE_USER) {
 			$applicableUsers = $storageConfig->getApplicableUsers();
@@ -222,7 +236,7 @@ abstract class StoragesService {
 
 		$options = [
 			'id' => $storageConfig->getId(),
-			'class' => $storageConfig->getBackendClass(),
+			'class' => $storageConfig->getBackend()->getClass(),
 			'options' => $storageConfig->getBackendOptions(),
 		];
 
@@ -293,6 +307,52 @@ abstract class StoragesService {
 		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 
 		$newStorage->setStatus(\OC_Mount_Config::STATUS_SUCCESS);
+		return $newStorage;
+	}
+
+	/**
+	 * Create a storage from its parameters
+	 *
+	 * @param string $mountPoint storage mount point
+	 * @param string $backendClass backend class name
+	 * @param array $backendOptions backend-specific options
+	 * @param array|null $mountOptions mount-specific options
+	 * @param array|null $applicableUsers users for which to mount the storage
+	 * @param array|null $applicableGroups groups for which to mount the storage
+	 * @param int|null $priority priority
+	 *
+	 * @return StorageConfig
+	 */
+	public function createStorage(
+		$mountPoint,
+		$backendClass,
+		$backendOptions,
+		$mountOptions = null,
+		$applicableUsers = null,
+		$applicableGroups = null,
+		$priority = null
+	) {
+		$backend = $this->backendService->getBackend($backendClass);
+		if (!$backend) {
+			throw new \InvalidArgumentException('Unable to get backend for backend class '.$backendClass);
+		}
+		$newStorage = new StorageConfig();
+		$newStorage->setMountPoint($mountPoint);
+		$newStorage->setBackend($backend);
+		$newStorage->setBackendOptions($backendOptions);
+		if (isset($mountOptions)) {
+			$newStorage->setMountOptions($mountOptions);
+		}
+		if (isset($applicableUsers)) {
+			$newStorage->setApplicableUsers($applicableUsers);
+		}
+		if (isset($applicableGroups)) {
+			$newStorage->setApplicableGroups($applicableGroups);
+		}
+		if (isset($priority)) {
+			$newStorage->setPriority($priority);
+		}
+
 		return $newStorage;
 	}
 

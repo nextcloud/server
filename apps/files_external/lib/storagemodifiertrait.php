@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -18,25 +18,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\Files_external\Tests\Controller;
 
-use \OCA\Files_external\Controller\GlobalStoragesController;
-use \OCA\Files_external\Service\GlobalStoragesService;
-use \OCP\AppFramework\Http;
-use \OCA\Files_external\NotFoundException;
+namespace OCA\Files_External\Lib;
 
-class GlobalStoragesControllerTest extends StoragesControllerTest {
-	public function setUp() {
-		parent::setUp();
-		$this->service = $this->getMockBuilder('\OCA\Files_external\Service\GlobalStoragesService')
-			->disableOriginalConstructor()
-			->getMock();
+use \OCP\Files\Storage;
+use \OCA\Files_External\Lib\StorageConfig;
 
-		$this->controller = new GlobalStoragesController(
-			'files_external',
-			$this->getMock('\OCP\IRequest'),
-			$this->getMock('\OCP\IL10N'),
-			$this->service
-		);
+/**
+ * Trait for objects that can modify StorageConfigs and wrap Storages
+ */
+trait StorageModifierTrait {
+
+	/**
+	 * Modify a StorageConfig parameters
+	 *
+	 * @param StorageConfig $storage
+	 */
+	public function manipulateStorageConfig(StorageConfig &$storage) {
 	}
+
+	/**
+	 * Wrap a Storage if necessary
+	 *
+	 * @param Storage $storage
+	 * @return Storage
+	 */
+	public function wrapStorage(Storage $storage) {
+		return $storage;
+	}
+
 }
+

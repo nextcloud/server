@@ -24,6 +24,7 @@ use \OC\Files\Filesystem;
 
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;
+use \OCA\Files_External\Lib\BackendService;
 
 abstract class StoragesServiceTest extends \Test\TestCase {
 
@@ -31,6 +32,9 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	 * @var StoragesService
 	 */
 	protected $service;
+
+	/** @var BackendService */
+	protected $backendService;
 
 	/**
 	 * Data directory
@@ -55,6 +59,25 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		);
 		\OC_Mount_Config::$skipTest = true;
 
+		$this->backendService =
+			$this->getMockBuilder('\OCA\Files_External\Service\BackendService')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$backends = [
+			'\OC\Files\Storage\SMB' => $this->getBackendMock('\OCA\Files_External\Lib\Backend\SMB', '\OC\Files\Storage\SMB'),
+			'\OC\Files\Storage\SFTP' => $this->getBackendMock('\OCA\Files_External\Lib\Backend\SFTP', '\OC\Files\Storage\SFTP'),
+		];
+		$this->backendService->method('getBackend')
+			->will($this->returnCallback(function($backendClass) use ($backends) {
+				if (isset($backends[$backendClass])) {
+					return $backends[$backendClass];
+				}
+				return null;
+			}));
+		$this->backendService->method('getBackends')
+			->will($this->returnValue($backends));
+
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_create_mount,
@@ -71,6 +94,17 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		self::$hookCalls = array();
 	}
 
+	protected function getBackendMock($class = '\OCA\Files_External\Lib\Backend\SMB', $storageClass = '\OC\Files\Storage\SMB') {
+		$backend = $this->getMockBuilder('\OCA\Files_External\Lib\Backend\Backend')
+			->disableOriginalConstructor()
+			->getMock();
+		$backend->method('getStorageClass')
+			->willReturn($storageClass);
+		$backend->method('getClass')
+			->willReturn($storageClass);
+		return $backend;
+	}
+
 	/**
 	 * Creates a StorageConfig instance based on array data
 	 *
@@ -84,7 +118,12 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			$storage->setId($data['id']);
 		}
 		$storage->setMountPoint($data['mountPoint']);
-		$storage->setBackendClass($data['backendClass']);
+		if (!isset($data['backend'])) {
+			// data providers are run before $this->backendService is initialised
+			// so $data['backend'] can be specified directly
+			$data['backend'] = $this->backendService->getBackend($data['backendClass']);
+		}
+		$storage->setBackend($data['backend']);
 		$storage->setBackendOptions($data['backendOptions']);
 		if (isset($data['applicableUsers'])) {
 			$storage->setApplicableUsers($data['applicableUsers']);
@@ -106,16 +145,18 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	 * @expectedException \OCA\Files_external\NotFoundException
 	 */
 	public function testNonExistingStorage() {
+		$backend = $this->backendService->getBackend('\OC\Files\Storage\SMB');
 		$storage = new StorageConfig(255);
 		$storage->setMountPoint('mountpoint');
-		$storage->setBackendClass('\OC\Files\Storage\SMB');
+		$storage->setBackend($backend);
 		$this->service->updateStorage($storage);
 	}
 
 	public function testDeleteStorage() {
+		$backend = $this->backendService->getBackend('\OC\Files\Storage\SMB');
 		$storage = new StorageConfig(255);
 		$storage->setMountPoint('mountpoint');
-		$storage->setBackendClass('\OC\Files\Storage\SMB');
+		$storage->setBackend($backend);
 		$storage->setBackendOptions(['password' => 'testPassword']);
 
 		$newStorage = $this->service->addStorage($storage);

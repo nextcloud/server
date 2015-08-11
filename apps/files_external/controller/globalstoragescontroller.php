@@ -81,14 +81,18 @@ class GlobalStoragesController extends StoragesController {
 		$applicableGroups,
 		$priority
 	) {
-		$newStorage = new StorageConfig();
-		$newStorage->setMountPoint($mountPoint);
-		$newStorage->setBackendClass($backendClass);
-		$newStorage->setBackendOptions($backendOptions);
-		$newStorage->setMountOptions($mountOptions);
-		$newStorage->setApplicableUsers($applicableUsers);
-		$newStorage->setApplicableGroups($applicableGroups);
-		$newStorage->setPriority($priority);
+		$newStorage = $this->createStorage(
+			$mountPoint,
+			$backendClass,
+			$backendOptions,
+			$mountOptions,
+			$applicableUsers,
+			$applicableGroups,
+			$priority
+		);
+		if ($newStorage instanceof DataResponse) {
+			return $newStorage;
+		}
 
 		$response = $this->validate($newStorage);
 		if (!empty($response)) {
@@ -129,14 +133,19 @@ class GlobalStoragesController extends StoragesController {
 		$applicableGroups,
 		$priority
 	) {
-		$storage = new StorageConfig($id);
-		$storage->setMountPoint($mountPoint);
-		$storage->setBackendClass($backendClass);
-		$storage->setBackendOptions($backendOptions);
-		$storage->setMountOptions($mountOptions);
-		$storage->setApplicableUsers($applicableUsers);
-		$storage->setApplicableGroups($applicableGroups);
-		$storage->setPriority($priority);
+		$storage = $this->createStorage(
+			$mountPoint,
+			$backendClass,
+			$backendOptions,
+			$mountOptions,
+			$applicableUsers,
+			$applicableGroups,
+			$priority
+		);
+		if ($storage instanceof DataResponse) {
+			return $storage;
+		}
+		$storage->setId($id);
 
 		$response = $this->validate($storage);
 		if (!empty($response)) {

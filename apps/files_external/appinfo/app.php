@@ -30,9 +30,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-$app = new \OCA\Files_external\Appinfo\Application();
-
-$l = \OC::$server->getL10N('files_external');
 
 OC::$CLASSPATH['OC\Files\Storage\StreamWrapper'] = 'files_external/lib/streamwrapper.php';
 OC::$CLASSPATH['OC\Files\Storage\FTP'] = 'files_external/lib/ftp.php';
@@ -50,6 +47,11 @@ OC::$CLASSPATH['OCA\Files\External\Api'] = 'files_external/lib/api.php';
 
 require_once __DIR__ . '/../3rdparty/autoload.php';
 
+$app = new \OCA\Files_external\Appinfo\Application();
+$appContainer = $app->getContainer();
+
+$l = \OC::$server->getL10N('files_external');
+
 OCP\App::registerAdmin('files_external', 'settings');
 if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == 'yes') {
 	OCP\App::registerPersonal('files_external', 'personal');
@@ -62,6 +64,9 @@ if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == '
 	"order" => 30,
 	"name" => $l->t('External storage')
 ]);
+
+// Teach OC_Mount_Config about the AppFramework
+\OC_Mount_Config::initApp($appContainer);
 
 // connecting hooks
 OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config', 'initMountPointsHook');
@@ -237,5 +242,5 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP_Key', [
 	'custom' => 'sftp_key',
 	]
 );
-$mountProvider = new \OCA\Files_External\Config\ConfigAdapter();
+$mountProvider = $appContainer->query('OCA\Files_External\Config\ConfigAdapter');
 \OC::$server->getMountProviderCollection()->registerProvider($mountProvider);

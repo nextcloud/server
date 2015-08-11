@@ -26,6 +26,7 @@ use \OC\Files\Filesystem;
 
 use \OCA\Files_external\Lib\StorageConfig;
 use \OCA\Files_external\NotFoundException;
+use \OCA\Files_External\Service\BackendService;
 
 /**
  * Service class to manage user external storages
@@ -43,12 +44,15 @@ class UserStoragesService extends StoragesService {
 	/**
 	 * Create a user storages service
 	 *
+	 * @param BackendService $backendService
 	 * @param IUserSession $userSession user session
 	 */
 	public function __construct(
+		BackendService $backendService,
 		IUserSession $userSession
 	) {
 		$this->userSession = $userSession;
+		parent::__construct($backendService);
 	}
 
 	/**

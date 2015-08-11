@@ -29,7 +29,7 @@ use \OCA\Files_external\Lib\StorageConfig;
 class GlobalStoragesServiceTest extends StoragesServiceTest {
 	public function setUp() {
 		parent::setUp();
-		$this->service = new GlobalStoragesService();
+		$this->service = new GlobalStoragesService($this->backendService);
 	}
 
 	public function tearDown() {
@@ -59,7 +59,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		return [
 			// all users
 			[
-				$this->makeStorageConfig([
+				[
 					'mountPoint' => 'mountpoint',
 					'backendClass' => '\OC\Files\Storage\SMB',
 					'backendOptions' => [
@@ -70,11 +70,11 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 					'applicableUsers' => [],
 					'applicableGroups' => [],
 					'priority' => 15,
-				]),
+				],
 			],
 			// some users
 			[
-				$this->makeStorageConfig([
+				[
 					'mountPoint' => 'mountpoint',
 					'backendClass' => '\OC\Files\Storage\SMB',
 					'backendOptions' => [
@@ -85,11 +85,11 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 					'applicableUsers' => ['user1', 'user2'],
 					'applicableGroups' => [],
 					'priority' => 15,
-				]),
+				],
 			],
 			// some groups
 			[
-				$this->makeStorageConfig([
+				[
 					'mountPoint' => 'mountpoint',
 					'backendClass' => '\OC\Files\Storage\SMB',
 					'backendOptions' => [
@@ -100,11 +100,11 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 					'applicableUsers' => [],
 					'applicableGroups' => ['group1', 'group2'],
 					'priority' => 15,
-				]),
+				],
 			],
 			// both users and groups
 			[
-				$this->makeStorageConfig([
+				[
 					'mountPoint' => 'mountpoint',
 					'backendClass' => '\OC\Files\Storage\SMB',
 					'backendOptions' => [
@@ -115,7 +115,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 					'applicableUsers' => ['user1', 'user2'],
 					'applicableGroups' => ['group1', 'group2'],
 					'priority' => 15,
-				]),
+				],
 			],
 		];
 	}
@@ -123,7 +123,8 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	/**
 	 * @dataProvider storageDataProvider
 	 */
-	public function testAddStorage($storage) {
+	public function testAddStorage($storageParams) {
+		$storage = $this->makeStorageConfig($storageParams);
 		$newStorage = $this->service->addStorage($storage);
 
 		$this->assertEquals(1, $newStorage->getId());
@@ -132,7 +133,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		$newStorage = $this->service->getStorage(1);
 
 		$this->assertEquals($storage->getMountPoint(), $newStorage->getMountPoint());
-		$this->assertEquals($storage->getBackendClass(), $newStorage->getBackendClass());
+		$this->assertEquals($storage->getBackend(), $newStorage->getBackend());
 		$this->assertEquals($storage->getBackendOptions(), $newStorage->getBackendOptions());
 		$this->assertEquals($storage->getApplicableUsers(), $newStorage->getApplicableUsers());
 		$this->assertEquals($storage->getApplicableGroups(), $newStorage->getApplicableGroups());
@@ -148,7 +149,8 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	/**
 	 * @dataProvider storageDataProvider
 	 */
-	public function testUpdateStorage($updatedStorage) {
+	public function testUpdateStorage($updatedStorageParams) {
+		$updatedStorage = $this->makeStorageConfig($updatedStorageParams);
 		$storage = $this->makeStorageConfig([
 			'mountPoint' => 'mountpoint',
 			'backendClass' => '\OC\Files\Storage\SMB',

@@ -24,6 +24,8 @@ use \OCA\Files_external\Controller\UserStoragesController;
 use \OCA\Files_external\Service\UserStoragesService;
 use \OCP\AppFramework\Http;
 use \OCA\Files_external\NotFoundException;
+use \OCA\Files_External\Lib\StorageConfig;
+use \OCA\Files_External\Service\BackendService;
 
 class UserStoragesControllerTest extends StoragesControllerTest {
 
@@ -44,41 +46,22 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 			$this->getMock('\OCP\IL10N'),
 			$this->service
 		);
-
-		$config = \OC::$server->getConfig();
-
-		$this->oldAllowedBackends = $config->getAppValue(
-			'files_external',
-			'user_mounting_backends',
-			''
-		);
-		$config->setAppValue(
-			'files_external',
-			'user_mounting_backends',
-			'\OC\Files\Storage\SMB'
-		);
 	}
 
-	public function tearDown() {
-		$config = \OC::$server->getConfig();
-		$config->setAppValue(
-			'files_external',
-			'user_mounting_backends',
-			$this->oldAllowedBackends
-		);
-		parent::tearDown();
-	}
+	public function testAddOrUpdateStorageDisallowedBackend() {
+		$backend = $this->getBackendMock();
+		$backend->method('isVisibleFor')
+			->with(BackendService::VISIBILITY_PERSONAL)
+			->willReturn(false);
 
-	function disallowedBackendClassProvider() {
-		return array(
-			array('\OC\Files\Storage\Local'),
-			array('\OC\Files\Storage\FTP'),
-		);
-	}
-	/**
-	 * @dataProvider disallowedBackendClassProvider
-	 */
-	public function testAddOrUpdateStorageDisallowedBackend($backendClass) {
+		$storageConfig = new StorageConfig(1);
+		$storageConfig->setMountPoint('mount');
+		$storageConfig->setBackend($backend);
+		$storageConfig->setBackendOptions([]);
+
+		$this->service->expects($this->exactly(2))
+			->method('createStorage')
+			->will($this->returnValue($storageConfig));
 		$this->service->expects($this->never())
 			->method('addStorage');
 		$this->service->expects($this->never())
@@ -86,7 +69,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 
 		$response = $this->controller->create(
 			'mount',
-			$backendClass,
+			'\OC\Files\Storage\SMB',
 			array(),
 			[],
 			[],
@@ -99,7 +82,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 		$response = $this->controller->update(
 			1,
 			'mount',
-			$backendClass,
+			'\OC\Files\Storage\SMB',
 			array(),
 			[],
 			[],

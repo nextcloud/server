@@ -26,9 +26,15 @@ use \OCA\Files_external\Lib\StorageConfig;
 class StorageConfigTest extends \Test\TestCase {
 
 	public function testJsonSerialization() {
+		$backend = $this->getMockBuilder('\OCA\Files_External\Lib\Backend\Backend')
+			->disableOriginalConstructor()
+			->getMock();
+		$backend->method('getClass')
+			->willReturn('\OC\Files\Storage\SMB');
+
 		$storageConfig = new StorageConfig(1);
 		$storageConfig->setMountPoint('test');
-		$storageConfig->setBackendClass('\OC\Files\Storage\SMB');
+		$storageConfig->setBackend($backend);
 		$storageConfig->setBackendOptions(['user' => 'test', 'password' => 'password123']);
 		$storageConfig->setPriority(128);
 		$storageConfig->setApplicableUsers(['user1', 'user2']);
