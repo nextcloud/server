@@ -7,6 +7,7 @@ OCP\Util::addStyle('files_sharing', 'public');
 OCP\Util::addStyle('files_sharing', 'mobile');
 OCP\Util::addScript('files_sharing', 'public');
 OCP\Util::addScript('files', 'fileactions');
+OCP\Util::addScript('files', 'fileactionsmenu');
 OCP\Util::addScript('files', 'jquery.iframe-transport');
 OCP\Util::addScript('files', 'jquery.fileupload');
 

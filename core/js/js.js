@@ -571,21 +571,20 @@ var OC={
 	 * @todo Write documentation
 	 */
 	registerMenu: function($toggle, $menuEl) {
+		var self = this;
 		$menuEl.addClass('menu');
 		$toggle.on('click.menu', function(event) {
 			// prevent the link event (append anchor to URL)
 			event.preventDefault();
 
 			if ($menuEl.is(OC._currentMenu)) {
-				$menuEl.slideUp(OC.menuSpeed);
-				OC._currentMenu = null;
-				OC._currentMenuToggle = null;
+				self.hideMenus();
 				return;
 			}
 			// another menu was open?
 			else if (OC._currentMenu) {
 				// close it
-				OC._currentMenu.hide();
+				self.hideMenus();
 			}
 			$menuEl.slideToggle(OC.menuSpeed);
 			OC._currentMenu = $menuEl;
@@ -599,12 +598,53 @@ var OC={
 	unregisterMenu: function($toggle, $menuEl) {
 		// close menu if opened
 		if ($menuEl.is(OC._currentMenu)) {
-			$menuEl.slideUp(OC.menuSpeed);
-			OC._currentMenu = null;
-			OC._currentMenuToggle = null;
+			this.hideMenus();
 		}
 		$toggle.off('click.menu').removeClass('menutoggle');
 		$menuEl.removeClass('menu');
+	},
+
+	/**
+	 * Hides any open menus
+	 *
+	 * @param {Function} complete callback when the hiding animation is done
+	 */
+	hideMenus: function(complete) {
+		if (OC._currentMenu) {
+			var lastMenu = OC._currentMenu;
+			OC._currentMenu.trigger(new $.Event('beforeHide'));
+			OC._currentMenu.slideUp(OC.menuSpeed, function() {
+				lastMenu.trigger(new $.Event('afterHide'));
+				if (complete) {
+					complete.apply(this, arguments);
+				}
+			});
+		}
+		OC._currentMenu = null;
+		OC._currentMenuToggle = null;
+	},
+
+	/**
+	 * Shows a given element as menu
+	 *
+	 * @param {Object} [$toggle=null] menu toggle
+	 * @param {Object} $menuEl menu element
+	 * @param {Function} complete callback when the showing animation is done
+	 */
+	showMenu: function($toggle, $menuEl, complete) {
+		if ($menuEl.is(OC._currentMenu)) {
+			return;
+		}
+		this.hideMenus();
+		OC._currentMenu = $menuEl;
+		OC._currentMenuToggle = $toggle;
+		$menuEl.trigger(new $.Event('beforeShow'));
+		$menuEl.show();
+		$menuEl.trigger(new $.Event('afterShow'));
+		// no animation
+		if (_.isFunction()) {
+			complete();
+		}
 	},
 
 	/**
@@ -1256,11 +1296,8 @@ function initCore() {
 			// don't close when clicking on the menu directly or a menu toggle
 			return false;
 		}
-		if (OC._currentMenu) {
-			OC._currentMenu.slideUp(OC.menuSpeed);
-		}
-		OC._currentMenu = null;
-		OC._currentMenuToggle = null;
+
+		OC.hideMenus();
 	});
 
 

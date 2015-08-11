@@ -266,7 +266,6 @@ OC.Share={
 		if (hasShares || owner) {
 			recipients = $tr.attr('data-share-recipients');
 
-			action.addClass('permanent');
 			message = t('core', 'Shared');
 			// even if reshared, only show "Shared by"
 			if (owner) {
@@ -281,8 +280,7 @@ OC.Share={
 			}
 		}
 		else {
-			action.removeClass('permanent');
-			action.html(' <span>'+ escapeHTML(t('core', 'Share'))+'</span>').prepend(img);
+			action.html('<span></span>').prepend(img);
 		}
 		if (hasLink) {
 			image = OC.imagePath('core', 'actions/public');

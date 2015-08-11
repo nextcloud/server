@@ -456,19 +456,19 @@ describe('OCA.Files.FileList tests', function() {
 
 			expect(notificationStub.notCalled).toEqual(true);
 		});
-		it('shows spinner on files to be deleted', function() {
+		it('shows busy state on files to be deleted', function() {
 			fileList.setFiles(testFiles);
 			doDelete();
 
-			expect(fileList.findFileEl('One.txt').find('.icon-loading-small:not(.icon-delete)').length).toEqual(1);
-			expect(fileList.findFileEl('Three.pdf').find('.icon-delete:not(.icon-loading-small)').length).toEqual(1);
+			expect(fileList.findFileEl('One.txt').hasClass('busy')).toEqual(true);
+			expect(fileList.findFileEl('Three.pdf').hasClass('busy')).toEqual(false);
 		});
-		it('shows spinner on all files when deleting all', function() {
+		it('shows busy state on all files when deleting all', function() {
 			fileList.setFiles(testFiles);
 
 			fileList.do_delete();
 
-			expect(fileList.$fileList.find('tr .icon-loading-small:not(.icon-delete)').length).toEqual(4);
+			expect(fileList.$fileList.find('tr.busy').length).toEqual(4);
 		});
 		it('updates summary when deleting last file', function() {
 			var $summary;
@@ -625,7 +625,7 @@ describe('OCA.Files.FileList tests', function() {
 			doCancelRename();
 			expect($summary.find('.info').text()).toEqual('1 folder and 3 files');
 		});
-		it('Hides actions while rename in progress', function() {
+		it('Shows busy state while rename in progress', function() {
 			var $tr;
 			doRename();
 
@@ -634,8 +634,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.length).toEqual(1);
 			expect(fileList.findFileEl('One.txt').length).toEqual(0);
 			// file actions are hidden
-			expect($tr.find('.action').hasClass('hidden')).toEqual(true);
-			expect($tr.find('.fileactions').hasClass('hidden')).toEqual(true);
+			expect($tr.hasClass('busy')).toEqual(true);
 
 			// input and form are gone
 			expect(fileList.$fileList.find('input.filename').length).toEqual(0);
@@ -1918,16 +1917,17 @@ describe('OCA.Files.FileList tests', function() {
 		it('Clicking on a file name will trigger default action', function() {
 			var actionStub = sinon.stub();
 			fileList.setFiles(testFiles);
-			fileList.fileActions.register(
-				'text/plain',
-				'Test',
-				OC.PERMISSION_ALL,
-				function() {
+			fileList.fileActions.registerAction({
+				mime: 'text/plain',
+				name: 'Test',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				permissions: OC.PERMISSION_ALL,
+				icon: function() {
 					// Specify icon for hitory button
 					return OC.imagePath('core','actions/history');
 				},
-				actionStub
-			);
+				actionHandler: actionStub
+			});
 			fileList.fileActions.setDefault('text/plain', 'Test');
 			var $tr = fileList.findFileEl('One.txt');
 			$tr.find('td.filename .nametext').click();
@@ -1958,16 +1958,17 @@ describe('OCA.Files.FileList tests', function() {
 
 			fileList.$fileList.on('fileActionsReady', readyHandler);
 
-			fileList.fileActions.register(
-				'text/plain',
-				'Test',
-				OC.PERMISSION_ALL,
-				function() {
+			fileList.fileActions.registerAction({
+				mime: 'text/plain',
+				name: 'Test',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				permissions: OC.PERMISSION_ALL,
+				icon: function() {
 					// Specify icon for hitory button
 					return OC.imagePath('core','actions/history');
 				},
-				actionStub
-			);
+				actionHandler: actionStub
+			});
 			var $tr = fileList.findFileEl('One.txt');
 			expect($tr.find('.action-test').length).toEqual(0);
 			expect(readyHandler.notCalled).toEqual(true);
@@ -2256,6 +2257,8 @@ describe('OCA.Files.FileList tests', function() {
 		});
 	});
 	describe('Handeling errors', function () {
+		var redirectStub;
+
 		beforeEach(function () {
 			redirectStub = sinon.stub(OC, 'redirect');
 
@@ -2279,6 +2282,38 @@ describe('OCA.Files.FileList tests', function() {
 				})
 			);
 			expect(redirectStub.calledWith(OC.generateUrl('apps/files'))).toEqual(true);
+		});
+	});
+	describe('showFileBusyState', function() {
+		var $tr;
+
+		beforeEach(function() {
+			fileList.setFiles(testFiles);
+			$tr = fileList.findFileEl('Two.jpg');
+		});
+		it('shows spinner on busy rows', function() {
+			fileList.showFileBusyState('Two.jpg', true);
+			expect($tr.hasClass('busy')).toEqual(true);
+			expect(OC.TestUtil.getImageUrl($tr.find('.thumbnail')))
+				.toEqual(OC.imagePath('core', 'loading.gif'));
+
+			fileList.showFileBusyState('Two.jpg', false);
+			expect($tr.hasClass('busy')).toEqual(false);
+			expect(OC.TestUtil.getImageUrl($tr.find('.thumbnail')))
+				.toEqual(OC.imagePath('core', 'filetypes/image.svg'));
+		});
+		it('accepts multiple input formats', function() {
+			_.each([
+				'Two.jpg',
+				['Two.jpg'],
+				$tr,
+				[$tr]
+			], function(testCase) {
+				fileList.showFileBusyState(testCase, true);
+				expect($tr.hasClass('busy')).toEqual(true);
+				fileList.showFileBusyState(testCase, false);
+				expect($tr.hasClass('busy')).toEqual(false);
+			});
 		});
 	});
 });
