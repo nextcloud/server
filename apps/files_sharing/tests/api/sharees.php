@@ -78,6 +78,18 @@ class ShareesTest extends TestCase {
 		return $user;
 	}
 
+	protected function getGroupMock($gid) {
+		$group = $this->getMockBuilder('OCP\IGroup')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$group->expects($this->any())
+			->method('getGID')
+			->willReturn($gid);
+
+		return $group;
+	}
+
 	public function dataGetUsers() {
 		return [
 			['test', false, [], [], []],
@@ -173,13 +185,14 @@ class ShareesTest extends TestCase {
 				->with($searchTerm)
 				->willReturn($userResponse);
 		} else {
+			$user = $this->getUserMock('admin', 'Administrator');
 			$this->session->expects($this->any())
 				->method('getUser')
-				->willReturn($this->getUserMock('admin', 'Administrator'));
+				->willReturn($user);
 
 			$this->groupManager->expects($this->once())
 				->method('getUserGroupIds')
-				->with($this->anything())
+				->with($user)
 				->willReturn($groupResponse);
 
 			$this->groupManager->expects($this->exactly(sizeof($groupResponse)))
@@ -189,6 +202,61 @@ class ShareesTest extends TestCase {
 		}
 
 		$users = $this->invokePrivate($this->sharees, 'getUsers', [$searchTerm, $shareWithGroupOnly]);
+
+		$this->assertEquals($expected, $users);
+	}
+
+	public function dataGetGroups() {
+		return [
+			['test', false, [], [], []],
+			[
+				'test', false,
+				[$this->getGroupMock('test1')],
+				[],
+				[['label' => 'test1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'test1']]],
+			],
+			['test', true, [], [], []],
+			[
+				'test', true,
+				[
+					$this->getGroupMock('test1'),
+					$this->getGroupMock('test2'),
+				],
+				[$this->getGroupMock('test1')],
+				[['label' => 'test1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'test1']]],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetGroups
+	 *
+	 * @param string $searchTerm
+	 * @param bool $shareWithGroupOnly
+	 * @param array $groupResponse
+	 * @param array $userGroupsResponse
+	 * @param array $expected
+	 */
+	public function testGetGroups($searchTerm, $shareWithGroupOnly, $groupResponse, $userGroupsResponse, $expected) {
+		$this->groupManager->expects($this->once())
+			->method('search')
+			->with($searchTerm)
+			->willReturn($groupResponse);
+
+		if ($shareWithGroupOnly) {
+			$user = $this->getUserMock('admin', 'Administrator');
+			$this->session->expects($this->any())
+				->method('getUser')
+				->willReturn($user);
+
+			$numGetUserGroupsCalls = empty($groupResponse) ? 0 : 1;
+			$this->groupManager->expects($this->exactly($numGetUserGroupsCalls))
+				->method('getUserGroups')
+				->with($user)
+				->willReturn($userGroupsResponse);
+		}
+
+		$users = $this->invokePrivate($this->sharees, 'getGroups', [$searchTerm, $shareWithGroupOnly]);
 
 		$this->assertEquals($expected, $users);
 	}

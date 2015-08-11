@@ -20,6 +20,7 @@
  */
 namespace OCA\Files_Sharing\API;
 
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IAppConfig;
@@ -100,8 +101,8 @@ class Sharees {
 				'label' => $displayName,
 				'value' => [
 					'shareType' => \OCP\Share::SHARE_TYPE_USER,
-					'shareWith' => $uid
-				]
+					'shareWith' => $uid,
+				],
 			];
 		}
 
@@ -117,20 +118,22 @@ class Sharees {
 	private function getGroups($search, $shareWithGroupOnly) {
 		$sharees = [];
 		$groups = $this->groupManager->search($search);
+		$groups = array_map(function (IGroup $group) { return $group->getGID(); }, $groups);
 
-		if ($shareWithGroupOnly) {
+		if (!empty($groups) && $shareWithGroupOnly) {
 			// Intersect all the groups that match with the groups this user is a member of
 			$userGroups = $this->groupManager->getUserGroups($this->userSession->getUser());
+			$userGroups = array_map(function (IGroup $group) { return $group->getGID(); }, $userGroups);
 			$groups = array_intersect($groups, $userGroups);
 		}
 
-		foreach ($groups as $group) {
+		foreach ($groups as $gid) {
 			$sharees[] = [
-				'label' => $group->getGID(),
+				'label' => $gid,
 				'value' => [
 					'shareType' => \OCP\Share::SHARE_TYPE_GROUP,
-					'shareWith' => $group->getGID()
-				]
+					'shareWith' => $gid,
+				],
 			];
 		}
 
@@ -150,8 +153,8 @@ class Sharees {
 				'label' => $search,
 				'value' => [
 					'shareType' => \OCP\Share::SHARE_TYPE_REMOTE,
-					'shareWith' => $search
-				]
+					'shareWith' => $search,
+				],
 			];
 		}
 
