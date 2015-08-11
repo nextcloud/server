@@ -293,22 +293,27 @@ OC.Share = _.extend(OC.Share, {
 	 *
 	 * @param itemType
 	 * @param itemSource
+	 * @param callback
 	 * @returns {OC.Share.Types.ShareInfo}
 	 */
-	loadItem:function(itemType, itemSource) {
+	loadItem:function(itemType, itemSource, callback) {
 		var data = '';
 		var checkReshare = true;
+		var async = !_.isUndefined(callback);
 		if (typeof OC.Share.statuses[itemSource] === 'undefined') {
 			// NOTE: Check does not always work and misses some shares, fix later
 			var checkShares = true;
 		} else {
 			var checkShares = true;
 		}
-		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItem', itemType: itemType, itemSource: itemSource, checkReshare: checkReshare, checkShares: checkShares }, async: false, success: function(result) {
+		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItem', itemType: itemType, itemSource: itemSource, checkReshare: checkReshare, checkShares: checkShares }, async: async, success: function(result) {
 			if (result && result.status === 'success') {
 				data = result.data;
 			} else {
 				data = false;
+			}
+			if(async) {
+				callback(data);
 			}
 		}});
 
