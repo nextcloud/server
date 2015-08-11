@@ -210,21 +210,10 @@ class Sharees {
 
 
 		// Sort sharees
-		usort($sharees, function($a, $b) {
-			$res = strcmp($a['label'], $b['label']);
-
-			// If labels are equal sort by share type
-			if ($res === 0) {
-				$res = $a['value']['shareType'] - $b['value']['shareType'];
-			}
-
-			// If sharetype is equal compare shareWith
-			if ($res === 0) {
-				$res = strcmp($a['value']['shareWith'], $b['value']['shareWith']);
-			}
-
-			return $res;
-		});
+		$sorter = new \OC\Share\SearchResultSorter($search,
+			'label',
+			\OC::$server->getLogger());
+		usort($sharees, array($sorter, 'sort'));
 
 		//Pagination
 		$start = ($page - 1) * $per_page;
@@ -239,7 +228,6 @@ class Sharees {
 		$response->setItemsPerPage($per_page);
 
 		// TODO add other link rels
-
 		if ($tot > $end) {
 			$url = $this->urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/sharees?') .
 				'search=' . $search .
