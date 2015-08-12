@@ -34,6 +34,8 @@ use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;
 use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
+use \OCP\Files\StorageNotAvailableException;
+use \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 
 /**
  * Base class for storages controllers
@@ -182,21 +184,27 @@ abstract class StoragesController extends Controller {
 	 * @param StorageConfig $storage storage configuration
 	 */
 	protected function updateStorageStatus(StorageConfig &$storage) {
-		/** @var AuthMechanism */
-		$authMechanism = $storage->getAuthMechanism();
-		$authMechanism->manipulateStorageConfig($storage);
-		/** @var Backend */
-		$backend = $storage->getBackend();
-		$backend->manipulateStorageConfig($storage);
+		try {
+			/** @var AuthMechanism */
+			$authMechanism = $storage->getAuthMechanism();
+			$authMechanism->manipulateStorageConfig($storage);
+			/** @var Backend */
+			$backend = $storage->getBackend();
+			$backend->manipulateStorageConfig($storage);
 
-		// update status (can be time-consuming)
-		$storage->setStatus(
-			\OC_Mount_Config::getBackendStatus(
-				$storage->getBackend()->getStorageClass(),
-				$storage->getBackendOptions(),
-				false
-			)
-		);
+			// update status (can be time-consuming)
+			$storage->setStatus(
+				\OC_Mount_Config::getBackendStatus(
+					$backend->getStorageClass(),
+					$storage->getBackendOptions(),
+					false
+				)
+			);
+		} catch (InsufficientDataForMeaningfulAnswerException $e) {
+			$storage->setStatus(\OC_Mount_Config::STATUS_INDETERMINATE);
+		} catch (StorageNotAvailableException $e) {
+			$storage->setStatus(\OC_Mount_Config::STATUS_ERROR);
+		}
 	}
 
 	/**

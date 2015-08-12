@@ -191,7 +191,8 @@ var StorageConfig = function(id) {
 StorageConfig.Status = {
 	IN_PROGRESS: -1,
 	SUCCESS: 0,
-	ERROR: 1
+	ERROR: 1,
+	INDETERMINATE: 2
 };
 /**
  * @memberof OCA.External.Settings
@@ -946,13 +947,16 @@ MountConfigListView.prototype = {
 	 */
 	updateStatus: function($tr, status) {
 		var $statusSpan = $tr.find('.status span');
-		$statusSpan.removeClass('success error loading-small');
+		$statusSpan.removeClass('loading-small success indeterminate error');
 		switch (status) {
 			case StorageConfig.Status.IN_PROGRESS:
 				$statusSpan.addClass('loading-small');
 				break;
 			case StorageConfig.Status.SUCCESS:
 				$statusSpan.addClass('success');
+				break;
+			case StorageConfig.Status.INDETERMINATE:
+				$statusSpan.addClass('indeterminate');
 				break;
 			default:
 				$statusSpan.addClass('error');

@@ -52,6 +52,7 @@ class OC_Mount_Config {
 	// getBackendStatus return types
 	const STATUS_SUCCESS = 0;
 	const STATUS_ERROR = 1;
+	const STATUS_INDETERMINATE = 2;
 
 	// whether to skip backend test (for unit tests, as this static class is not mockable)
 	public static $skipTest = false;
@@ -218,7 +219,7 @@ class OC_Mount_Config {
 	 * @param string|array $input
 	 * @return string
 	 */
-	private static function setUserVars($user, $input) {
+	public static function setUserVars($user, $input) {
 		if (is_array($input)) {
 			foreach ($input as &$value) {
 				if (is_string($value)) {

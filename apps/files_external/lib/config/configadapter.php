@@ -32,6 +32,8 @@ use OCP\IUser;
 use OCA\Files_external\Service\UserStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Lib\StorageConfig;
+use OCP\Files\StorageNotAvailableException;
+use OCA\Files_External\Lib\FailedStorage;
 
 /**
  * Make the old files_external config work with the new public mount config api
@@ -60,8 +62,15 @@ class ConfigAdapter implements IMountProvider {
 	 * Process storage ready for mounting
 	 *
 	 * @param StorageConfig $storage
+	 * @param IUser $user
 	 */
-	private function prepareStorageConfig(StorageConfig &$storage) {
+	private function prepareStorageConfig(StorageConfig &$storage, IUser $user) {
+		foreach ($storage->getBackendOptions() as $option => $value) {
+			$storage->setBackendOption($option, \OC_Mount_Config::setUserVars(
+				$user->getUID(), $value
+			));
+		}
+
 		$objectStore = $storage->getBackendOption('objectstore');
 		if ($objectStore) {
 			$objectClass = $objectStore['class'];
@@ -103,8 +112,13 @@ class ConfigAdapter implements IMountProvider {
 		$this->userGlobalStoragesService->setUser($user);
 
 		foreach ($this->userGlobalStoragesService->getAllStorages() as $storage) {
-			$this->prepareStorageConfig($storage);
-			$impl = $this->constructStorage($storage);
+			try {
+				$this->prepareStorageConfig($storage, $user);
+				$impl = $this->constructStorage($storage);
+			} catch (\Exception $e) {
+				// propagate exception into filesystem
+				$impl = new FailedStorage(['exception' => $e]);
+			}
 
 			$mount = new MountPoint(
 				$impl,
@@ -117,8 +131,13 @@ class ConfigAdapter implements IMountProvider {
 		}
 
 		foreach ($this->userStoragesService->getAllStorages() as $storage) {
-			$this->prepareStorageConfig($storage);
-			$impl = $this->constructStorage($storage);
+			try {
+				$this->prepareStorageConfig($storage, $user);
+				$impl = $this->constructStorage($storage);
+			} catch (\Exception $e) {
+				// propagate exception into filesystem
+				$impl = new FailedStorage(['exception' => $e]);
+			}
 
 			$mount = new PersonalMount(
 				$this->userStoragesService,
