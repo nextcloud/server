@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -314,4 +315,66 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
 		$this->assertEquals($storageConfig, $response->getData());
 	}
+
+	public function validateStorageProvider() {
+		return [
+			[true, true, true],
+			[false, true, false],
+			[true, false, false],
+			[false, false, false]
+		];
+	}
+
+	/**
+	 * @dataProvider validateStorageProvider
+	 */
+	public function testValidateStorage($backendValidate, $authMechValidate, $expectSuccess) {
+		$backend = $this->getBackendMock();
+		$backend->method('validateStorage')
+			->willReturn($backendValidate);
+		$backend->method('isVisibleFor')
+			->willReturn(true);
+
+		$authMech = $this->getAuthMechMock();
+		$authMech->method('validateStorage')
+			->will($this->returnValue($authMechValidate));
+
+		$storageConfig = new StorageConfig();
+		$storageConfig->setMountPoint('mount');
+		$storageConfig->setBackend($backend);
+		$storageConfig->setAuthMechanism($authMech);
+		$storageConfig->setBackendOptions([]);
+
+		$this->service->expects($this->once())
+			->method('createStorage')
+			->will($this->returnValue($storageConfig));
+
+		if ($expectSuccess) {
+			$this->service->expects($this->once())
+				->method('addStorage')
+				->with($storageConfig)
+				->will($this->returnValue($storageConfig));
+		} else {
+			$this->service->expects($this->never())
+				->method('addStorage');
+		}
+
+		$response = $this->controller->create(
+			'mount',
+			'\OC\Files\Storage\SMB',
+			'\OCA\Files_External\Lib\Auth\NullMechanism',
+			array(),
+			[],
+			[],
+			[],
+			null
+		);
+
+		if ($expectSuccess) {
+			$this->assertEquals(Http::STATUS_CREATED, $response->getStatus());
+		} else {
+			$this->assertEquals(Http::STATUS_UNPROCESSABLE_ENTITY, $response->getStatus());
+		}
+	}
+
 }

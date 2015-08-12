@@ -827,6 +827,46 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		$this->assertEquals(['preview' => true], $storage4->getMountOptions());
 	}
 
+	public function testReadLegacyConfigNoAuthMechanism() {
+		$configFile = $this->dataDir . '/mount.json';
+
+		$json = [
+			'user' => [
+				'user1' => [
+					'/$user/files/somemount' => [
+						'backend' => 'identifier:\OCA\Files_External\Lib\Backend\SFTP',
+						'authMechanism' => 'identifier:\Auth\Mechanism',
+						'options' => [],
+						'mountOptions' => [],
+					],
+					'/$user/files/othermount' => [
+						'backend' => 'identifier:\OCA\Files_External\Lib\Backend\SFTP',
+						// no authMechanism
+						'options' => [],
+						'mountOptions' => [],
+					],
+				]
+			]
+		];
+
+		file_put_contents($configFile, json_encode($json));
+
+		$allStorages = $this->service->getAllStorages();
+
+		$this->assertCount(2, $allStorages);
+
+		$storage1 = $allStorages[1];
+		$storage2 = $allStorages[2];
+
+		$this->assertEquals('/somemount', $storage1->getMountPoint());
+		$this->assertEquals('identifier:\OCA\Files_External\Lib\Backend\SFTP', $storage1->getBackend()->getIdentifier());
+		$this->assertEquals('identifier:\Auth\Mechanism', $storage1->getAuthMechanism()->getIdentifier());
+
+		$this->assertEquals('/othermount', $storage2->getMountPoint());
+		$this->assertEquals('identifier:\OCA\Files_External\Lib\Backend\SFTP', $storage2->getBackend()->getIdentifier());
+		$this->assertEquals('identifier:\Other\Auth\Mechanism', $storage2->getAuthMechanism()->getIdentifier());
+	}
+
 	public function testReadLegacyConfigClass() {
 		$configFile = $this->dataDir . '/mount.json';
 
