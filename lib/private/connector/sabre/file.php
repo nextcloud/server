@@ -332,7 +332,7 @@ class File extends Node implements IFile {
 
 		$info = \OC_FileChunking::decodeName($name);
 		if (empty($info)) {
-			throw new NotImplemented();
+			throw new NotImplemented('Invalid chunk name');
 		}
 		$chunk_handler = new \OC_FileChunking($info);
 		$bytesWritten = $chunk_handler->store($info['index'], $data);

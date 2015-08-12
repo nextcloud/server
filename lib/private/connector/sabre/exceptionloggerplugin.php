@@ -28,7 +28,7 @@ use Sabre\DAV\Exception;
 use Sabre\HTTP\Response;
 
 class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
-	private $nonFatalExceptions = array(
+	protected $nonFatalExceptions = array(
 		'Sabre\DAV\Exception\NotAuthenticated' => true,
 		// the sync client uses this to find out whether files exist,
 		// so it is not always an error, log it as debug
