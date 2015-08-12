@@ -27,6 +27,7 @@ use \OC\Files\Filesystem;
 use \OCA\Files_external\Lib\StorageConfig;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_External\Service\BackendService;
+use \OCA\Files_External\Service\UserTrait;
 
 /**
  * Service class to manage user external storages
@@ -34,12 +35,7 @@ use \OCA\Files_External\Service\BackendService;
  */
 class UserStoragesService extends StoragesService {
 
-	/**
-	 * User session
-	 *
-	 * @var IUserSession
-	 */
-	private $userSession;
+	use UserTrait;
 
 	/**
 	 * Create a user storages service
@@ -62,8 +58,19 @@ class UserStoragesService extends StoragesService {
 	 */
 	protected function readLegacyConfig() {
 		// read user config
-		$user = $this->userSession->getUser()->getUID();
+		$user = $this->getUser()->getUID();
 		return \OC_Mount_Config::readData($user);
+	}
+
+	/**
+	 * Write legacy config data
+	 *
+	 * @param array $mountPoints
+	 */
+	protected function writeLegacyConfig(array $mountPoints) {
+		// write user config
+		$user = $this->getUser()->getUID();
+		\OC_Mount_Config::writeData($user, $mountPoints);
 	}
 
 	/**
@@ -72,7 +79,7 @@ class UserStoragesService extends StoragesService {
 	 * @return array map of storage id to storage config
 	 */
 	protected function readConfig() {
-		$user = $this->userSession->getUser()->getUID();
+		$user = $this->getUser()->getUID();
 		// TODO: in the future don't rely on the global config reading code
 		$storages = parent::readConfig();
 
@@ -99,7 +106,7 @@ class UserStoragesService extends StoragesService {
 	 * @param array $storages map of storage id to storage config
 	 */
 	public function writeConfig($storages) {
-		$user = $this->userSession->getUser()->getUID();
+		$user = $this->getUser()->getUID();
 
 		// let the horror begin
 		$mountPoints = [];
@@ -127,7 +134,7 @@ class UserStoragesService extends StoragesService {
 			$storageConfig->setBackendOptions($oldBackendOptions);
 		}
 
-		\OC_Mount_Config::writeData($user, $mountPoints);
+		$this->writeLegacyConfig($mountPoints);
 	}
 
 	/**
@@ -138,7 +145,7 @@ class UserStoragesService extends StoragesService {
 	 * @param string $signal signal to trigger
 	 */
 	protected function triggerHooks(StorageConfig $storage, $signal) {
-		$user = $this->userSession->getUser()->getUID();
+		$user = $this->getUser()->getUID();
 
 		// trigger hook for the current user
 		$this->triggerApplicableHooks(

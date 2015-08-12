@@ -92,7 +92,7 @@ class GlobalStoragesService extends StoragesService {
 			$storageConfig->setBackendOptions($oldBackendOptions);
 		}
 
-		\OC_Mount_Config::writeData(null, $mountPoints);
+		$this->writeLegacyConfig($mountPoints);
 	}
 
 	/**

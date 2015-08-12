@@ -56,6 +56,16 @@ abstract class StoragesService {
 	}
 
 	/**
+	 * Write legacy config data
+	 *
+	 * @param array $mountPoints
+	 */
+	protected function writeLegacyConfig(array $mountPoints) {
+		// write global config
+		\OC_Mount_Config::writeData(null, $mountPoints);
+	}
+
+	/**
 	 * Copy legacy storage options into the given storage config object.
 	 *
 	 * @param StorageConfig $storageConfig storage config to populate
@@ -202,18 +212,28 @@ abstract class StoragesService {
 
 		// process storages with config hash, they must get a real id
 		if (!empty($storagesWithConfigHash)) {
-			$nextId = $this->generateNextId($storages);
-			foreach ($storagesWithConfigHash as $storage) {
-				$storage->setId($nextId);
-				$storages[$nextId] = $storage;
-				$nextId++;
-			}
-
-			// re-save the config with the generated ids
-			$this->writeConfig($storages);
+			$this->setRealStorageIds($storages, $storagesWithConfigHash);
 		}
 
 		return $storages;
+	}
+
+	/**
+	 * Replace config hash ID with real IDs, for migrating legacy storages
+	 *
+	 * @param StorageConfig[] $storages Storages with real IDs
+	 * @param StorageConfig[] $storagesWithConfigHash Storages with config hash IDs
+	 */
+	protected function setRealStorageIds(array &$storages, array $storagesWithConfigHash) {
+		$nextId = $this->generateNextId($storages);
+		foreach ($storagesWithConfigHash as $storage) {
+			$storage->setId($nextId);
+			$storages[$nextId] = $storage;
+			$nextId++;
+		}
+
+		// re-save the config with the generated ids
+		$this->writeConfig($storages);
 	}
 
 	/**
