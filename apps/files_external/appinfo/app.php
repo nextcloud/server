@@ -157,19 +157,6 @@ if (!OC_Util::runningOnWindows()) {
 	]);
 }
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\DAV', [
-	'backend' => 'WebDAV',
-	'priority' => 100,
-	'configuration' => [
-		'host' => (string)$l->t('URL'),
-		'user' => (string)$l->t('Username'),
-		'password' => '*'.$l->t('Password'),
-		'root' => '&'.$l->t('Remote subfolder'),
-		'secure' => '!'.$l->t('Secure https://'),
-	],
-	'has_dependencies' => true,
-]);
-
 OC_Mount_Config::registerBackend('\OC\Files\Storage\OwnCloud', [
 	'backend' => 'ownCloud',
 	'priority' => 100,
