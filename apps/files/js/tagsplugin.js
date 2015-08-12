@@ -77,7 +77,7 @@
 			var self = this;
 			// register "star" action
 			fileActions.registerAction({
-				name: 'favorite',
+				name: 'Favorite',
 				displayName: 'Favorite',
 				mime: 'all',
 				permissions: OC.PERMISSION_READ,
@@ -124,6 +124,7 @@
 						toggleStar($actionEl, (newTags.indexOf(OC.TAG_FAVORITE) >= 0));
 						$file.attr('data-tags', newTags.join('|'));
 						$file.attr('data-favorite', !isFavorite);
+						context.fileInfoModel.set('tags', newTags);
 						fileInfo.tags = newTags;
 					});
 				}
@@ -144,6 +145,12 @@
 				}
 				$tr.find('td:first').prepend('<div class="favorite"></div>');
 				return $tr;
+			};
+			var oldElementToFile = fileList.elementToFile;
+			fileList.elementToFile = function($el) {
+				var fileInfo = oldElementToFile.apply(this, arguments);
+				fileInfo.tags = $el.attr('data-tags') || [];
+				return fileInfo;
 			};
 		},
 

@@ -26,7 +26,7 @@ describe('OCA.Files.DetailsView tests', function() {
 		detailsView = new OCA.Files.DetailsView();
 	});
 	afterEach(function() {
-		detailsView.destroy();
+		detailsView.remove();
 		detailsView = undefined;
 	});
 	it('renders itself empty when nothing registered', function() {

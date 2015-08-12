@@ -1912,6 +1912,20 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.hasClass('highlighted')).toEqual(false);
 			expect(fileList._detailsView.getFileInfo()).toEqual(null);
 		});
+		it('returns the currently selected model instance when calling getModelForFile', function() {
+			var $tr = fileList.findFileEl('One.txt');
+			$tr.find('td.filename>a.name').click();
+
+			var model1 = fileList.getModelForFile('One.txt');
+			var model2 = fileList.getModelForFile('One.txt');
+			model1.set('test', true);
+
+			// it's the same model
+			expect(model2).toEqual(model1);
+
+			var model3 = fileList.getModelForFile($tr);
+			expect(model3).toEqual(model1);
+		});
 	});
 	describe('File actions', function() {
 		it('Clicking on a file name will trigger default action', function() {

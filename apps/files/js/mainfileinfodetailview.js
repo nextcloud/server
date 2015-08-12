@@ -10,7 +10,7 @@
 
 (function() {
 	var TEMPLATE =
-		'<div class="thumbnail"></div><div title="{{name}}" class="fileName ellipsis">{{name}}</div>' +
+		'<a href="#" class="thumbnail action-default"></a><div title="{{name}}" class="fileName ellipsis">{{name}}</div>' +
 		'<div class="file-details ellipsis">' +
 		'    <a href="#" ' +
 		'    alt="{{starAltText}}"' +
@@ -27,58 +27,104 @@
 	 * Displays main details about a file
 	 *
 	 */
-	var MainFileInfoDetailView = function() {
-		this.initialize();
-	};
-	/**
-	 * @memberof OCA.Files
-	 */
-	MainFileInfoDetailView.prototype = _.extend({}, OCA.Files.DetailFileInfoView.prototype,
+	var MainFileInfoDetailView = OCA.Files.DetailFileInfoView.extend(
 		/** @lends OCA.Files.MainFileInfoDetailView.prototype */ {
-		_template: null,
+
+		className: 'mainFileInfoView',
 
 		/**
-		 * Initialize the details view
+		 * Associated file list instance, for file actions
+		 *
+		 * @type {OCA.Files.FileList}
 		 */
-		initialize: function() {
-			this.$el = $('<div class="mainFileInfoView"></div>');
+		_fileList: null,
+
+		/**
+		 * File actions
+		 *
+		 * @type {OCA.Files.FileActions}
+		 */
+		_fileActions: null,
+
+		events: {
+			'click a.action-favorite': '_onClickFavorite',
+			'click a.action-default': '_onClickDefaultAction'
+		},
+
+		template: function(data) {
+			if (!this._template) {
+				this._template = Handlebars.compile(TEMPLATE);
+			}
+			return this._template(data);
+		},
+
+		initialize: function(options) {
+			options = options || {};
+			this._fileList = options.fileList;
+			this._fileActions = options.fileActions;
+			if (!this._fileList) {
+				throw 'Missing requird parameter "fileList"';
+			}
+			if (!this._fileActions) {
+				throw 'Missing requird parameter "fileActions"';
+			}
+		},
+
+		_onClickFavorite: function(event) {
+			event.preventDefault();
+			this._fileActions.triggerAction('Favorite', this.model, this._fileList);
+		},
+
+		_onClickDefaultAction: function(event) {
+			event.preventDefault();
+			this._fileActions.triggerAction(null, this.model, this._fileList);
+		},
+
+		_onModelChanged: function() {
+			// simply re-render
+			this.render();
+		},
+
+		setFileInfo: function(fileInfo) {
+			if (this.model) {
+				this.model.off('change', this._onModelChanged, this);
+			}
+			this.model = fileInfo;
+			if (this.model) {
+				this.model.on('change', this._onModelChanged, this);
+			}
+			this.render();
 		},
 
 		/**
 		 * Renders this details view
 		 */
 		render: function() {
-			this.$el.empty();
-
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-
-			if (this._fileInfo) {
-				var isFavorite = (this._fileInfo.tags || []).indexOf(OC.TAG_FAVORITE) >= 0;
-				this.$el.append(this._template({
+			if (this.model) {
+				var isFavorite = (this.model.get('tags') || []).indexOf(OC.TAG_FAVORITE) >= 0;
+				this.$el.html(this.template({
 					nameLabel: t('files', 'Name'),
-					name: this._fileInfo.name,
+					name: this.model.get('name'),
 					pathLabel: t('files', 'Path'),
-					path: this._fileInfo.path,
+					path: this.model.get('path'),
 					sizeLabel: t('files', 'Size'),
-					size: OC.Util.humanFileSize(this._fileInfo.size, true),
-					altSize: n('files', '%n byte', '%n bytes', this._fileInfo.size),
+					size: OC.Util.humanFileSize(this.model.get('size'), true),
+					altSize: n('files', '%n byte', '%n bytes', this.model.get('size')),
 					dateLabel: t('files', 'Modified'),
-					altDate: OC.Util.formatDate(this._fileInfo.mtime),
-					date: OC.Util.relativeModifiedDate(this._fileInfo.mtime),
+					altDate: OC.Util.formatDate(this.model.get('mtime')),
+					date: OC.Util.relativeModifiedDate(this.model.get('mtime')),
 					starAltText: isFavorite ? t('files', 'Favorited') : t('files', 'Favorite'),
 					starIcon: OC.imagePath('core', isFavorite ? 'actions/starred' : 'actions/star')
 				}));
 
 				// TODO: we really need OC.Previews
 				var $iconDiv = this.$el.find('.thumbnail');
-				if (this._fileInfo.mimetype !== 'httpd/unix-directory') {
+				if (!this.model.isDirectory()) {
 					// TODO: inject utility class?
 					FileList.lazyLoadPreview({
-						path: this._fileInfo.path + '/' + this._fileInfo.name,
-						mime: this._fileInfo.mimetype,
-						etag: this._fileInfo.etag,
+						path: this.model.getFullPath(),
+						mime: this.model.get('mimetype'),
+						etag: this.model.get('etag'),
 						x: 50,
 						y: 50,
 						callback: function(previewUrl) {
@@ -90,7 +136,10 @@
 					$iconDiv.css('background-image', 'url("' + OC.MimeType.getIconUrl('dir') + '")');
 				}
 				this.$el.find('[title]').tooltip({placement: 'bottom'});
+			} else {
+				this.$el.empty();
 			}
+			this.delegateEvents();
 		}
 	});
 

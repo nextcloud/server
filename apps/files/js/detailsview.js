@@ -33,29 +33,13 @@
 	 * The details view show details about a selected file.
 	 *
 	 */
-	var DetailsView = function() {
-		this.initialize();
-	};
-
-	/**
-	 * @memberof OCA.Files
-	 */
-	DetailsView.prototype = {
-
-		/**
-		 * jQuery element
-		 */
-		$el: null,
+	var DetailsView = OC.Backbone.View.extend({
+		id: 'app-sidebar',
+		tabName: 'div',
+		className: 'detailsView',
 
 		_template: null,
 		_templateTabHeader: null,
-
-		/**
-		 * Currently displayed file info
-		 *
-		 * @type OCA.Files.FileInfo
-		 */
-		_fileInfo: null,
 
 		/**
 		 * List of detail tab views
@@ -78,33 +62,25 @@
 		 */
 		_currentTabId: null,
 
+		events: {
+			'click a.close': '_onClose',
+			'click .tabHeaders .tabHeader': '_onClickTab'
+		},
+
 		/**
 		 * Initialize the details view
 		 */
 		initialize: function() {
-			this.$el = $('<div id="app-sidebar"></div>');
-			this.fileInfo = null;
 			this._tabViews = [];
 			this._detailFileInfoViews = [];
 
-			this.$el.on('click', 'a.close', function(event) {
-				OC.Apps.hideAppSidebar();
-				event.preventDefault();
-			});
-
-			this.$el.on('click', '.tabHeaders .tabHeader', _.bind(this._onClickTab, this));
-
 			// uncomment to add some dummy tabs for testing
-			//this._addTestTabs();
+			// this._addTestTabs();
 		},
 
-		/**
-		 * Destroy / uninitialize this instance.
-		 */
-		destroy: function() {
-			if (this.$el) {
-				this.$el.remove();
-			}
+		_onClose: function(event) {
+			OC.Apps.hideAppSidebar();
+			event.preventDefault();
 		},
 
 		_onClickTab: function(e) {
@@ -148,7 +124,6 @@
 		 */
 		render: function() {
 			var self = this;
-			this.$el.empty();
 
 			if (!this._template) {
 				this._template = Handlebars.compile(TEMPLATE);
@@ -158,12 +133,13 @@
 				this._templateTabHeader = Handlebars.compile(TEMPLATE_TAB_HEADER);
 			}
 
-			var $el = $(this._template({
+			this.$el.html(this._template({
 				closeLabel: t('files', 'Close')
 			}));
-			var $tabsContainer = $el.find('.tabsContainer');
-			var $tabHeadsContainer = $el.find('.tabHeaders');
-			var $detailsContainer = $el.find('.detailFileInfoContainer');
+
+			var $tabsContainer = this.$el.find('.tabsContainer');
+			var $tabHeadsContainer = this.$el.find('.tabHeaders');
+			var $detailsContainer = this.$el.find('.detailFileInfoContainer');
 
 			// render details
 			_.each(this._detailFileInfoViews, function(detailView) {
@@ -172,40 +148,36 @@
 
 			if (this._tabViews.length > 0) {
 				if (!this._currentTab) {
-					this._currentTab = this._tabViews[0].getId();
+					this._currentTab = this._tabViews[0].id;
 				}
 
 				// render tabs
 				_.each(this._tabViews, function(tabView, i) {
 					// hidden by default
 					var $el = tabView.get$();
-					var isCurrent = (tabView.getId() === self._currentTab);
+					var isCurrent = (tabView.id === self._currentTab);
 					if (!isCurrent) {
 						$el.addClass('hidden');
 					}
 					$tabsContainer.append($el);
 
 					$tabHeadsContainer.append(self._templateTabHeader({
-						tabId: tabView.getId(),
+						tabId: tabView.id,
 						tabIndex: i,
 						label: tabView.getLabel(),
 						selected: isCurrent
 					}));
 				});
 			}
-
-			// TODO: select current tab
-
-			this.$el.append($el);
 		},
 
 		/**
 		 * Sets the file info to be displayed in the view
 		 *
-		 * @param {OCA.Files.FileInfo} fileInfo file info to set
+		 * @param {OCA.Files.FileInfoModel} fileInfo file info to set
 		 */
 		setFileInfo: function(fileInfo) {
-			this._fileInfo = fileInfo;
+			this.model = fileInfo;
 
 			this.render();
 
@@ -221,10 +193,10 @@
 		/**
 		 * Returns the file info.
 		 *
-		 * @return {OCA.Files.FileInfo} file info
+		 * @return {OCA.Files.FileInfoModel} file info
 		 */
 		getFileInfo: function() {
-			return this._fileInfo;
+			return this.model;
 		},
 
 		/**
@@ -244,7 +216,7 @@
 		addDetailView: function(detailView) {
 			this._detailFileInfoViews.push(detailView);
 		}
-	};
+	});
 
 	OCA.Files.DetailsView = DetailsView;
 })();

@@ -17,23 +17,10 @@
 	 * Base class for tab views to display file information.
 	 *
 	 */
-	var DetailTabView = function(id) {
-		this.initialize(id);
-	};
+	var DetailTabView = OC.Backbone.View.extend({
+		tag: 'div',
 
-	/**
-	 * @memberof OCA.Files
-	 */
-	DetailTabView.prototype = {
-		/**
-		 * jQuery element
-		 */
-		$el: null,
-
-		/**
-		 * Tab id
-		 */
-		_id: null,
+		className: 'tab',
 
 		/**
 		 * Tab label
@@ -42,43 +29,11 @@
 
 		_template: null,
 
-		/**
-		 * Currently displayed file info
-		 *
-		 * @type OCA.Files.FileInfo
-		 */
-		_fileInfo: null,
-
-		/**
-		 * Initialize the details view
-		 *
-		 * @param {string} id tab id
-		 */
-		initialize: function(id) {
-			if (!id) {
-				throw 'Argument "id" is required';
+		initialize: function() {
+			if (!this.id) {
+				this.id = 'detailTabView' + DetailTabView._TAB_COUNT;
+				DetailTabView._TAB_COUNT++;
 			}
-			this._id = id;
-			this.$el = $('<div class="tab"></div>');
-			this.$el.attr('data-tabid', id);
-		},
-
-		/**
-		 * Destroy / uninitialize this instance.
-		 */
-		destroy: function() {
-			if (this.$el) {
-				this.$el.remove();
-			}
-		},
-
-		/**
-		 * Returns the tab element id
-		 *
-		 * @return {string} tab id
-		 */
-		getId: function() {
-			return this._id;
 		},
 
 		/**
@@ -87,7 +42,7 @@
 		 * @return {String} label
 		 */
 		getLabel: function() {
-			return 'Tab ' + this._id;
+			return 'Tab ' + this.id;
 		},
 
 		/**
@@ -107,29 +62,29 @@
 		render: function() {
 			// to be implemented in subclass
 			// FIXME: code is only for testing
-			this.$el.empty();
-			this.$el.append('<div>Hello ' + this._id + '</div>');
+			this.$el.html('<div>Hello ' + this.id + '</div>');
 		},
 
 		/**
 		 * Sets the file info to be displayed in the view
 		 *
-		 * @param {OCA.Files.FileInfo} fileInfo file info to set
+		 * @param {OCA.Files.FileInfoModel} fileInfo file info to set
 		 */
 		setFileInfo: function(fileInfo) {
-			this._fileInfo = fileInfo;
+			this.model = fileInfo;
 			this.render();
 		},
 
 		/**
 		 * Returns the file info.
 		 *
-		 * @return {OCA.Files.FileInfo} file info
+		 * @return {OCA.Files.FileInfoModel} file info
 		 */
 		getFileInfo: function() {
-			return this._fileInfo;
+			return this.model;
 		}
-	};
+	});
+	DetailTabView._TAB_COUNT = 0;
 
 	OCA.Files.DetailTabView = DetailTabView;
 })();

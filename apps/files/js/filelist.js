@@ -213,7 +213,7 @@
 
 			if (_.isUndefined(options.detailsViewEnabled) || options.detailsViewEnabled) {
 				this._detailsView = new OCA.Files.DetailsView();
-				this._detailsView.addDetailView(new OCA.Files.MainFileInfoDetailView());
+				this._detailsView.addDetailView(new OCA.Files.MainFileInfoDetailView({fileList: this, fileActions: this.fileActions}));
 				this._detailsView.$el.insertBefore(this.$el);
 				this._detailsView.$el.addClass('disappear');
 			}
@@ -283,32 +283,74 @@
 		},
 
 		/**
+		 * Returns a unique model for the given file name.
+		 *
+		 * @param {string|object} fileName file name or jquery row
+		 * @return {OCA.Files.FileInfoModel} file info model
+		 */
+		getModelForFile: function(fileName) {
+			var $tr;
+			// jQuery object ?
+			if (fileName.is) {
+				$tr = fileName;
+				fileName = $tr.attr('data-file');
+			} else {
+				$tr = this.findFileEl(fileName);
+			}
+
+			if (!$tr || !$tr.length) {
+				return null;
+			}
+
+			// if requesting the selected model, return it
+			if (this._currentFileModel && this._currentFileModel.get('name') === fileName) {
+				return this._currentFileModel;
+			}
+
+			// TODO: note, this is a temporary model required for synchronising
+			// state between different views.
+			// In the future the FileList should work with Backbone.Collection
+			// and contain existing models that can be used.
+			// This method would in the future simply retrieve the matching model from the collection.
+			var model = new OCA.Files.FileInfoModel(this.elementToFile($tr));
+			if (!model.has('path')) {
+				model.set('path', this.getCurrentDirectory(), {silent: true});
+			}
+			return model;
+		},
+
+		/**
 		 * Update the details view to display the given file
 		 *
-		 * @param {OCA.Files.FileInfo} fileInfo file info to display
+		 * @param {string} fileName file name from the current list
 		 */
-		_updateDetailsView: function(fileInfo) {
+		_updateDetailsView: function(fileName) {
 			if (!this._detailsView) {
 				return;
 			}
 
-			var self = this;
 			var oldFileInfo = this._detailsView.getFileInfo();
 			if (oldFileInfo) {
 				// TODO: use more efficient way, maybe track the highlight
-				this.$fileList.children().filterAttr('data-id', '' + oldFileInfo.id).removeClass('highlighted');
+				this.$fileList.children().filterAttr('data-id', '' + oldFileInfo.get('id')).removeClass('highlighted');
+				oldFileInfo.off('change', this._onSelectedModelChanged, this);
 			}
 
-			if (!fileInfo) {
+			if (!fileName) {
 				OC.Apps.hideAppSidebar();
 				this._detailsView.setFileInfo(null);
+				this._currentFileModel = null;
 				return;
 			}
 
-			this.$fileList.children().filterAttr('data-id', '' + fileInfo.id).addClass('highlighted');
-			this._detailsView.setFileInfo(_.extend({
-				path: this.getCurrentDirectory()
-			}, fileInfo));
+			var $tr = this.findFileEl(fileName);
+			var model = this.getModelForFile($tr);
+
+			this._currentFileModel = model;
+
+			$tr.addClass('highlighted');
+
+			this._detailsView.setFileInfo(model);
 			this._detailsView.$el.scrollTop(0);
 			_.defer(OC.Apps.showAppSidebar);
 		},
@@ -367,7 +409,7 @@
 				this._selectionSummary.remove(data);
 			}
 			if (this._selectionSummary.getTotal() === 1) {
-				this._updateDetailsView(_.values(this._selectedFiles)[0]);
+				this._updateDetailsView(_.values(this._selectedFiles)[0].name);
 			} else {
 				// show nothing when multiple files are selected
 				this._updateDetailsView(null);
@@ -432,8 +474,7 @@
 						$(event.target).closest('a').blur();
 					}
 				} else {
-					var fileInfo = this.files[$tr.index()];
-					this._updateDetailsView(fileInfo);
+					this._updateDetailsView($tr.attr('data-file'));
 					event.preventDefault();
 				}
 			}
@@ -1188,6 +1229,8 @@
 					sortdirection: this._sortDirection
 				}
 			});
+			// close sidebar
+			this._updateDetailsView(null);
 			var callBack = this.reloadCallback.bind(this);
 			return this._reloadCall.then(callBack, callBack);
 		},
@@ -1587,7 +1630,7 @@
 								tr.remove();
 								tr = self.add(fileInfo, {updateSummary: false, silent: true});
 								self.$fileList.trigger($.Event('fileActionsReady', {fileList: self, $files: $(tr)}));
-								self._updateDetailsView(fileInfo);
+								self._updateDetailsView(fileInfo.name);
 							}
 						});
 					} else {
