@@ -205,8 +205,11 @@ class File extends Node implements IFile {
 		return '"' . $this->info->getEtag() . '"';
 	}
 
-	private function emitPreHooks($exists) {
-		$hookPath = Filesystem::getView()->getRelativePath($this->fileView->getAbsolutePath($this->path));
+	private function emitPreHooks($exists, $path = null) {
+		if (is_null($path)) {
+			$path = $this->path;
+		}
+		$hookPath = Filesystem::getView()->getRelativePath($this->fileView->getAbsolutePath($path));
 		$run = true;
 
 		if (!$exists) {
@@ -226,8 +229,11 @@ class File extends Node implements IFile {
 		));
 	}
 
-	private function emitPostHooks($exists) {
-		$hookPath = Filesystem::getView()->getRelativePath($this->fileView->getAbsolutePath($this->path));
+	private function emitPostHooks($exists, $path = null) {
+		if (is_null($path)) {
+			$path = $this->path;
+		}
+		$hookPath = Filesystem::getView()->getRelativePath($this->fileView->getAbsolutePath($path));
 		if (!$exists) {
 			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_create, array(
 				\OC\Files\Filesystem::signal_param_path => $hookPath
@@ -362,7 +368,7 @@ class File extends Node implements IFile {
 			$exists = $this->fileView->file_exists($targetPath);
 
 			try {
-				$this->emitPreHooks($exists);
+				$this->emitPreHooks($exists, $targetPath);
 
 				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
 
@@ -408,9 +414,9 @@ class File extends Node implements IFile {
 				$this->changeLock(ILockingProvider::LOCK_SHARED);
 
 				// since we skipped the view we need to scan and emit the hooks ourselves
-				$this->fileView->getUpdater()->update($this->path);
+				$this->fileView->getUpdater()->update($targetPath);
 
-				$this->emitPostHooks($exists);
+				$this->emitPostHooks($exists, $targetPath);
 
 				$info = $this->fileView->getFileInfo($targetPath);
 				return $info->getEtag();
