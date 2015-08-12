@@ -117,14 +117,17 @@ class OC_Mount_Config {
 		// Global mount points (is this redundant?)
 		if (isset($mountConfig[self::MOUNT_TYPE_GLOBAL])) {
 			foreach ($mountConfig[self::MOUNT_TYPE_GLOBAL] as $mountPoint => $options) {
-				$backend = $backendService->getBackend($options['class']);
+				if (!isset($options['backend'])) {
+					$options['backend'] = $options['class'];
+				}
+				$backend = $backendService->getBackend($options['backend']);
 				$options['personal'] = false;
 				$options['options'] = self::decryptPasswords($options['options']);
 				if (!isset($options['priority'])) {
 					$options['priority'] = $backend->getPriority();
 				}
 				if (!isset($options['authMechanism'])) {
-					$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getClass();
+					$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getIdentifier();
 				}
 
 				// Override if priority greater
@@ -145,14 +148,17 @@ class OC_Mount_Config {
 				foreach ($options as &$option) {
 					$option = self::setUserVars($user, $option);
 				}
-				$backend = $backendService->getBackend($options['class']);
+				if (!isset($options['backend'])) {
+					$options['backend'] = $options['class'];
+				}
+				$backend = $backendService->getBackend($options['backend']);
 				$options['personal'] = false;
 				$options['options'] = self::decryptPasswords($options['options']);
 				if (!isset($options['priority'])) {
 					$options['priority'] = $backend->getPriority();
 				}
 				if (!isset($options['authMechanism'])) {
-					$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getClass();
+					$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getIdentifier();
 				}
 
 				// Override if priority greater
@@ -174,14 +180,17 @@ class OC_Mount_Config {
 						foreach ($options as &$option) {
 							$option = self::setUserVars($user, $option);
 						}
-						$backend = $backendService->getBackend($options['class']);
+						if (!isset($options['backend'])) {
+							$options['backend'] = $options['class'];
+						}
+						$backend = $backendService->getBackend($options['backend']);
 						$options['personal'] = false;
 						$options['options'] = self::decryptPasswords($options['options']);
 						if (!isset($options['priority'])) {
 							$options['priority'] = $backend->getPriority();
 						}
 						if (!isset($options['authMechanism'])) {
-							$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getClass();
+							$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getIdentifier();
 						}
 
 						// Override if priority greater or if priority type different
@@ -206,14 +215,17 @@ class OC_Mount_Config {
 						foreach ($options as &$option) {
 							$option = self::setUserVars($user, $option);
 						}
-						$backend = $backendService->getBackend($options['class']);
+						if (!isset($options['backend'])) {
+							$options['backend'] = $options['class'];
+						}
+						$backend = $backendService->getBackend($options['backend']);
 						$options['personal'] = false;
 						$options['options'] = self::decryptPasswords($options['options']);
 						if (!isset($options['priority'])) {
 							$options['priority'] = $backend->getPriority();
 						}
 						if (!isset($options['authMechanism'])) {
-							$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getClass();
+							$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getIdentifier();
 						}
 
 						// Override if priority greater or if priority type different
@@ -234,12 +246,15 @@ class OC_Mount_Config {
 		$mountConfig = self::readData($user);
 		if (isset($mountConfig[self::MOUNT_TYPE_USER][$user])) {
 			foreach ($mountConfig[self::MOUNT_TYPE_USER][$user] as $mountPoint => $options) {
-				$backend = $backendService->getBackend($options['class']);
+				if (!isset($options['backend'])) {
+					$options['backend'] = $options['class'];
+				}
+				$backend = $backendService->getBackend($options['backend']);
 				if ($backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) {
 					$options['personal'] = true;
 					$options['options'] = self::decryptPasswords($options['options']);
 					if (!isset($options['authMechanism'])) {
-						$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getClass();
+						$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getIdentifier();
 					}
 
 					// Always override previous config
@@ -809,7 +824,8 @@ class OC_Mount_Config {
 	public static function makeConfigHash($config) {
 		$data = json_encode(
 			array(
-				'c' => $config['class'],
+				'c' => $config['backend'],
+				'a' => $config['authMechanism'],
 				'm' => $config['mountpoint'],
 				'o' => $config['options'],
 				'p' => isset($config['priority']) ? $config['priority'] : -1,
@@ -858,7 +874,8 @@ class OC_Mount_Config {
 			return false;
 		}
 
-		$class = $options['class'];
+		$service = self::$appContainer->query('OCA\Files_External\Service\BackendService');
+		$class = $service->getBackend($options['backend'])->getStorageClass();
 		try {
 			/** @var \OC\Files\Storage\Storage $storage */
 			$storage = new $class($options['options']);

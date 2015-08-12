@@ -54,8 +54,8 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 	private function makeTestStorageData() {
 		return $this->makeStorageConfig([
 			'mountPoint' => 'mountpoint',
-			'backendClass' => '\OC\Files\Storage\SMB',
-			'authMechanismClass' => '\Auth\Mechanism',
+			'backendIdentifier' => 'identifier:\OCA\Files_External\Lib\Backend\SMB',
+			'authMechanismIdentifier' => 'identifier:\Auth\Mechanism',
 			'backendOptions' => [
 				'option1' => 'value1',
 				'option2' => 'value2',
@@ -100,8 +100,8 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 	public function testUpdateStorage() {
 		$storage = $this->makeStorageConfig([
 			'mountPoint' => 'mountpoint',
-			'backendClass' => '\OC\Files\Storage\SMB',
-			'authMechanismClass' => '\Auth\Mechanism',
+			'backendIdentifier' => 'identifier:\OCA\Files_External\Lib\Backend\SMB',
+			'authMechanismIdentifier' => 'identifier:\Auth\Mechanism',
 			'backendOptions' => [
 				'option1' => 'value1',
 				'option2' => 'value2',
@@ -194,8 +194,8 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 
 		$mountPointOptions = current($mountPointData);
 		$this->assertEquals(1, $mountPointOptions['id']);
-		$this->assertEquals('\OC\Files\Storage\SMB', $mountPointOptions['class']);
-		$this->assertEquals('\Auth\Mechanism', $mountPointOptions['authMechanism']);
+		$this->assertEquals('identifier:\OCA\Files_External\Lib\Backend\SMB', $mountPointOptions['backend']);
+		$this->assertEquals('identifier:\Auth\Mechanism', $mountPointOptions['authMechanism']);
 		$this->assertEquals(false, $mountPointOptions['mountOptions']['preview']);
 
 		$backendOptions = $mountPointOptions['options'];
@@ -218,15 +218,15 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		$legacyBackendOptions = \OC_Mount_Config::encryptPasswords($legacyBackendOptions);
 
 		$legacyConfig = [
-			'class' => '\OC\Files\Storage\SMB',
-			'authMechanism' => '\Auth\Mechanism',
+			'backend' => 'identifier:\OCA\Files_External\Lib\Backend\SMB',
+			'authMechanism' => 'identifier:\Auth\Mechanism',
 			'options' => $legacyBackendOptions,
 			'mountOptions' => ['preview' => false],
 		];
 		// different mount options
 		$legacyConfig2 = [
-			'class' => '\OC\Files\Storage\SMB',
-			'authMechanism' => '\Auth\Mechanism',
+			'backend' => 'identifier:\OCA\Files_External\Lib\Backend\SMB',
+			'authMechanism' => 'identifier:\Auth\Mechanism',
 			'options' => $legacyBackendOptions,
 			'mountOptions' => ['preview' => true],
 		];

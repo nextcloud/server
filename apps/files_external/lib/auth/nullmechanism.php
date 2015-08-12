@@ -32,6 +32,7 @@ class NullMechanism extends AuthMechanism {
 
 	public function __construct(IL10N $l) {
 		$this
+			->setIdentifier('null::null')
 			->setScheme(self::SCHEME_NULL)
 			->setText($l->t('None'))
 		;

@@ -27,6 +27,7 @@ use \OCA\Files_External\Lib\FrontendDefinitionTrait;
 use \OCA\Files_External\Lib\PriorityTrait;
 use \OCA\Files_External\Lib\DependencyTrait;
 use \OCA\Files_External\Lib\StorageModifierTrait;
+use \OCA\Files_External\Lib\IdentifierTrait;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 
 /**
@@ -60,6 +61,7 @@ class Backend implements \JsonSerializable {
 	use PriorityTrait;
 	use DependencyTrait;
 	use StorageModifierTrait;
+	use IdentifierTrait;
 
 	/** @var string storage class */
 	private $storageClass;
@@ -69,14 +71,6 @@ class Backend implements \JsonSerializable {
 
 	/** @var AuthMechanism|callable authentication mechanism fallback */
 	private $legacyAuthMechanism;
-
-	/**
-	 * @return string
-	 */
-	public function getClass() {
-		// return storage class for legacy compat
-		return $this->getStorageClass();
-	}
 
 	/**
 	 * @return string

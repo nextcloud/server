@@ -63,8 +63,8 @@ class GlobalStoragesController extends StoragesController {
 	 * Create an external storage entry.
 	 *
 	 * @param string $mountPoint storage mount point
-	 * @param string $backendClass backend class name
-	 * @param string $authMechanismClass authentication mechanism class
+	 * @param string $backend backend identifier
+	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
 	 * @param array $mountOptions mount-specific options
 	 * @param array $applicableUsers users for which to mount the storage
@@ -75,8 +75,8 @@ class GlobalStoragesController extends StoragesController {
 	 */
 	public function create(
 		$mountPoint,
-		$backendClass,
-		$authMechanismClass,
+		$backend,
+		$authMechanism,
 		$backendOptions,
 		$mountOptions,
 		$applicableUsers,
@@ -85,8 +85,8 @@ class GlobalStoragesController extends StoragesController {
 	) {
 		$newStorage = $this->createStorage(
 			$mountPoint,
-			$backendClass,
-			$authMechanismClass,
+			$backend,
+			$authMechanism,
 			$backendOptions,
 			$mountOptions,
 			$applicableUsers,
@@ -117,8 +117,8 @@ class GlobalStoragesController extends StoragesController {
 	 *
 	 * @param int $id storage id
 	 * @param string $mountPoint storage mount point
-	 * @param string $backendClass backend class name
-	 * @param string $authMechanismClass authentication mechansim class
+	 * @param string $backend backend identifier
+	 * @param string $authMechanism authentication mechansim identifier
 	 * @param array $backendOptions backend-specific options
 	 * @param array $mountOptions mount-specific options
 	 * @param array $applicableUsers users for which to mount the storage
@@ -130,8 +130,8 @@ class GlobalStoragesController extends StoragesController {
 	public function update(
 		$id,
 		$mountPoint,
-		$backendClass,
-		$authMechanismClass,
+		$backend,
+		$authMechanism,
 		$backendOptions,
 		$mountOptions,
 		$applicableUsers,
@@ -140,8 +140,8 @@ class GlobalStoragesController extends StoragesController {
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,
-			$backendClass,
-			$authMechanismClass,
+			$backend,
+			$authMechanism,
 			$backendOptions,
 			$mountOptions,
 			$applicableUsers,

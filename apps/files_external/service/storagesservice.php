@@ -81,9 +81,9 @@ abstract class StoragesService {
 		$applicable,
 		$storageOptions
 	) {
-		$backend = $this->backendService->getBackend($storageOptions['class']);
+		$backend = $this->backendService->getBackend($storageOptions['backend']);
 		if (!$backend) {
-			throw new \UnexpectedValueException('Invalid backend class');
+			throw new \UnexpectedValueException('Invalid backend '.$storageOptions['backend']);
 		}
 		$storageConfig->setBackend($backend);
 
@@ -94,7 +94,7 @@ abstract class StoragesService {
 			$storageOptions['authMechanism'] = 'null'; // to make error handling easier
 		}
 		if (!$authMechanism) {
-			throw new \UnexpectedValueException('Invalid authentication mechanism class');
+			throw new \UnexpectedValueException('Invalid authentication mechanism '.$storageOptions['authMechanism']);
 		}
 		$storageConfig->setAuthMechanism($authMechanism);
 
@@ -140,9 +140,10 @@ abstract class StoragesService {
 		 * - $mountPath is the mount point path (where the storage must be mounted)
 		 * - $storageOptions is a map of storage options:
 		 *     - "priority": storage priority
-		 *     - "backend": backend class name
+		 *     - "backend": backend identifier
+		 *     - "class": LEGACY backend class name
 		 *     - "options": backend-specific options
-		 *     - "authMechanism": authentication mechanism class name
+		 *     - "authMechanism": authentication mechanism identifier
 		 *     - "mountOptions": mount-specific options (ex: disable previews, scanner, etc)
 		 */
 
@@ -185,6 +186,13 @@ abstract class StoragesService {
 					// note: we cannot do this after the loop because the decrypted config
 					// options might be needed for the config hash
 					$storageOptions['options'] = \OC_Mount_Config::decryptPasswords($storageOptions['options']);
+
+					if (!isset($storageOptions['backend'])) {
+						$storageOptions['backend'] = $storageOptions['class']; // legacy compat
+					}
+					if (!isset($storageOptions['authMechanism'])) {
+						$storageOptions['authMechanism'] = null; // ensure config hash works
+					}
 
 					if (isset($storageOptions['id'])) {
 						$configId = (int)$storageOptions['id'];
@@ -271,8 +279,9 @@ abstract class StoragesService {
 
 		$options = [
 			'id' => $storageConfig->getId(),
-			'class' => $storageConfig->getBackend()->getClass(),
-			'authMechanism' => $storageConfig->getAuthMechanism()->getClass(),
+			'backend' => $storageConfig->getBackend()->getIdentifier(),
+			//'class' => $storageConfig->getBackend()->getClass(),
+			'authMechanism' => $storageConfig->getAuthMechanism()->getIdentifier(),
 			'options' => $storageConfig->getBackendOptions(),
 		];
 
@@ -350,8 +359,8 @@ abstract class StoragesService {
 	 * Create a storage from its parameters
 	 *
 	 * @param string $mountPoint storage mount point
-	 * @param string $backendClass backend class name
-	 * @param string $authMechanismClass authentication mechanism class
+	 * @param string $backendIdentifier backend identifier
+	 * @param string $authMechanismIdentifier authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
 	 * @param array|null $mountOptions mount-specific options
 	 * @param array|null $applicableUsers users for which to mount the storage
@@ -362,21 +371,21 @@ abstract class StoragesService {
 	 */
 	public function createStorage(
 		$mountPoint,
-		$backendClass,
-		$authMechanismClass,
+		$backendIdentifier,
+		$authMechanismIdentifier,
 		$backendOptions,
 		$mountOptions = null,
 		$applicableUsers = null,
 		$applicableGroups = null,
 		$priority = null
 	) {
-		$backend = $this->backendService->getBackend($backendClass);
+		$backend = $this->backendService->getBackend($backendIdentifier);
 		if (!$backend) {
-			throw new \InvalidArgumentException('Unable to get backend for backend class '.$backendClass);
+			throw new \InvalidArgumentException('Unable to get backend for '.$backendIdentifier);
 		}
-		$authMechanism = $this->backendService->getAuthMechanism($authMechanismClass);
+		$authMechanism = $this->backendService->getAuthMechanism($authMechanismIdentifier);
 		if (!$authMechanism) {
-			throw new \InvalidArgumentException('Unable to get authentication mechanism for class '.$authMechanismClass);
+			throw new \InvalidArgumentException('Unable to get authentication mechanism for '.$authMechanismIdentifier);
 		}
 		$newStorage = new StorageConfig();
 		$newStorage->setMountPoint($mountPoint);

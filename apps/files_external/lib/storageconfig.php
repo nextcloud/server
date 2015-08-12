@@ -322,8 +322,8 @@ class StorageConfig implements \JsonSerializable {
 			$result['id'] = $this->id;
 		}
 		$result['mountPoint'] = $this->mountPoint;
-		$result['backendClass'] = $this->backend->getClass();
-		$result['authMechanismClass'] = $this->authMechanism->getClass();
+		$result['backend'] = $this->backend->getIdentifier();
+		$result['authMechanism'] = $this->authMechanism->getIdentifier();
 		$result['backendOptions'] = $this->backendOptions;
 		if (!is_null($this->priority)) {
 			$result['priority'] = $this->priority;

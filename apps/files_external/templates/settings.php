@@ -71,7 +71,7 @@
 		</thead>
 		<tbody>
 		<?php foreach ($_['storages'] as $storage): ?>
-			<tr class="<?php p($storage->getBackend()->getClass()); ?>" data-id="<?php p($storage->getId()); ?>">
+			<tr class="<?php p($storage->getBackend()->getIdentifier()); ?>" data-id="<?php p($storage->getId()); ?>">
 				<td class="status">
 					<span></span>
 				</td>
@@ -80,7 +80,7 @@
 											  data-mountpoint="<?php p(ltrim($storage->getMountPoint(), '/')); ?>"
 											  placeholder="<?php p($l->t('Folder name')); ?>" />
 				</td>
-				<td class="backend" data-class="<?php p($storage->getBackend()->getClass()); ?>"><?php p($storage->getBackend()->getText()); ?>
+				<td class="backend" data-class="<?php p($storage->getBackend()->getIdentifier()); ?>"><?php p($storage->getBackend()->getText()); ?>
 				</td>
 				<td class="authentication">
 					<select class="selectAuthMechanism">
@@ -91,8 +91,8 @@
 							});
 						?>
 						<?php foreach ($authMechanisms as $mech): ?>
-							<option value="<?php p($mech->getClass()); ?>" data-scheme="<?php p($mech->getScheme());?>"
-								<?php if ($mech->getClass() === $storage->getAuthMechanism()->getClass()): ?>selected<?php endif; ?>
+							<option value="<?php p($mech->getIdentifier()); ?>" data-scheme="<?php p($mech->getScheme());?>"
+								<?php if ($mech->getIdentifier() === $storage->getAuthMechanism()->getIdentifier()): ?>selected<?php endif; ?>
 							><?php p($mech->getText()); ?></option>
 						<?php endforeach; ?>
 					</select>
@@ -166,7 +166,7 @@
 							});
 						?>
 						<?php foreach ($sortedBackends as $backend): ?>
-							<option value="<?php p($backend->getClass()); ?>"><?php p($backend->getText()); ?></option>
+							<option value="<?php p($backend->getIdentifier()); ?>"><?php p($backend->getText()); ?></option>
 						<?php endforeach; ?>
 					</select>
 				</td>
@@ -206,7 +206,7 @@
 		<p id="userMountingBackends"<?php if ($_['allowUserMounting'] != 'yes'): ?> class="hidden"<?php endif; ?>>
 			<?php p($l->t('Allow users to mount the following external storage')); ?><br />
 			<?php $i = 0; foreach ($_['userBackends'] as $backend): ?>
-				<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($backend->getClass()); ?>" <?php if ($backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) print_unescaped(' checked="checked"'); ?> />
+				<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" <?php if ($backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) print_unescaped(' checked="checked"'); ?> />
 				<label for="allowUserMountingBackends<?php p($i); ?>"><?php p($backend->getText()); ?></label> <br />
 				<?php $i++; ?>
 			<?php endforeach; ?>

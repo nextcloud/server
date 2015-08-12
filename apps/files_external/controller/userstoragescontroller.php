@@ -83,7 +83,7 @@ class UserStoragesController extends StoragesController {
 			return new DataResponse(
 				array(
 					'message' => (string)$this->l10n->t('Admin-only storage backend "%s"', [
-						$storage->getBackend()->getClass()
+						$storage->getBackend()->getIdentifier()
 					])
 				),
 				Http::STATUS_UNPROCESSABLE_ENTITY
@@ -108,8 +108,8 @@ class UserStoragesController extends StoragesController {
 	 * Create an external storage entry.
 	 *
 	 * @param string $mountPoint storage mount point
-	 * @param string $backendClass backend class name
-	 * @param string $authMechanismClass authentication mechanism class
+	 * @param string $backend backend identifier
+	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
 	 * @param array $mountOptions backend-specific mount options
 	 *
@@ -119,15 +119,15 @@ class UserStoragesController extends StoragesController {
 	 */
 	public function create(
 		$mountPoint,
-		$backendClass,
-		$authMechanismClass,
+		$backend,
+		$authMechanism,
 		$backendOptions,
 		$mountOptions
 	) {
 		$newStorage = $this->createStorage(
 			$mountPoint,
-			$backendClass,
-			$authMechanismClass,
+			$backend,
+			$authMechanism,
 			$backendOptions,
 			$mountOptions
 		);
@@ -154,8 +154,8 @@ class UserStoragesController extends StoragesController {
 	 *
 	 * @param int $id storage id
 	 * @param string $mountPoint storage mount point
-	 * @param string $backendClass backend class name
-	 * @param string $authMechanismClass authentication mechanism class
+	 * @param string $backend backend identifier
+	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
 	 * @param array $mountOptions backend-specific mount options
 	 *
@@ -166,15 +166,15 @@ class UserStoragesController extends StoragesController {
 	public function update(
 		$id,
 		$mountPoint,
-		$backendClass,
-		$authMechanismClass,
+		$backend,
+		$authMechanism,
 		$backendOptions,
 		$mountOptions
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,
-			$backendClass,
-			$authMechanismClass,
+			$backend,
+			$authMechanism,
 			$backendOptions,
 			$mountOptions
 		);

@@ -83,7 +83,9 @@ class BackendService {
 		if (!$this->isAllowedUserBackend($backend)) {
 			$backend->removeVisibility(BackendService::VISIBILITY_PERSONAL);
 		}
-		$this->backends[$backend->getClass()] = $backend;
+		foreach ($backend->getIdentifierAliases() as $alias) {
+			$this->backends[$alias] = $backend;
+		}
 	}
 
 	/**
@@ -103,7 +105,9 @@ class BackendService {
 		if (!$this->isAllowedAuthMechanism($authMech)) {
 			$authMech->removeVisibility(BackendService::VISIBILITY_PERSONAL);
 		}
-		$this->authMechanisms[$authMech->getClass()] = $authMech;
+		foreach ($authMech->getIdentifierAliases() as $alias) {
+			$this->authMechanisms[$alias] = $authMech;
+		}
 	}
 
 	/**
@@ -121,7 +125,12 @@ class BackendService {
 	 * @return Backend[]
 	 */
 	public function getBackends() {
-		return $this->backends;
+		// only return real identifiers, no aliases
+		$backends = [];
+		foreach ($this->backends as $backend) {
+			$backends[$backend->getIdentifier()] = $backend;
+		}
+		return $backends;
 	}
 
 	/**
@@ -160,12 +169,12 @@ class BackendService {
 	}
 
 	/**
-	 * @param string $class Backend class name
+	 * @param string $identifier
 	 * @return Backend|null
 	 */
-	public function getBackend($class) {
-		if (isset($this->backends[$class])) {
-			return $this->backends[$class];
+	public function getBackend($identifier) {
+		if (isset($this->backends[$identifier])) {
+			return $this->backends[$identifier];
 		}
 		return null;
 	}
@@ -176,7 +185,12 @@ class BackendService {
 	 * @return AuthMechanism[]
 	 */
 	public function getAuthMechanisms() {
-		return $this->authMechanisms;
+		// only return real identifiers, no aliases
+		$mechanisms = [];
+		foreach ($this->authMechanisms as $mechanism) {
+			$mechanisms[$mechanism->getIdentifier()] = $mechanism;
+		}
+		return $mechanisms;
 	}
 
 	/**
@@ -217,12 +231,12 @@ class BackendService {
 
 
 	/**
-	 * @param string $class
+	 * @param string $identifier
 	 * @return AuthMechanism|null
 	 */
-	public function getAuthMechanism($class) {
-		if (isset($this->authMechanisms[$class])) {
-			return $this->authMechanisms[$class];
+	public function getAuthMechanism($identifier) {
+		if (isset($this->authMechanisms[$identifier])) {
+			return $this->authMechanisms[$identifier];
 		}
 		return null;
 	}
@@ -242,7 +256,7 @@ class BackendService {
 	 */
 	protected function isAllowedUserBackend(Backend $backend) {
 		if ($this->userMountingAllowed &&
-			in_array($backend->getClass(), $this->userMountingBackends)
+			!empty(array_intersect($backend->getIdentifierAliases(), $this->userMountingBackends))
 		) {
 			return true;
 		}

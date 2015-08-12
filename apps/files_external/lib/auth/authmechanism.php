@@ -23,6 +23,7 @@ namespace OCA\Files_External\Lib\Auth;
 
 use \OCA\Files_External\Lib\StorageConfig;
 use \OCA\Files_External\Lib\VisibilityTrait;
+use \OCA\Files_External\Lib\IdentifierTrait;
 use \OCA\Files_External\Lib\FrontendDefinitionTrait;
 use \OCA\Files_External\Lib\StorageModifierTrait;
 
@@ -59,16 +60,10 @@ class AuthMechanism implements \JsonSerializable {
 	use VisibilityTrait;
 	use FrontendDefinitionTrait;
 	use StorageModifierTrait;
+	use IdentifierTrait;
 
 	/** @var string */
 	protected $scheme;
-
-	/**
-	 * @return string
-	 */
-	public function getClass() {
-		return '\\'.get_class($this);
-	}
 
 	/**
 	 * Get the authentication scheme implemented

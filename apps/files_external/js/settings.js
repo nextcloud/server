@@ -214,18 +214,18 @@ StorageConfig.prototype = {
 	mountPoint: '',
 
 	/**
-	 * Backend class name
+	 * Backend
 	 *
 	 * @type string
 	 */
-	backendClass: null,
+	backend: null,
 
 	/**
-	 * Authentication mechanism class name
+	 * Authentication mechanism
 	 *
 	 * @type string
 	 */
-	authMechanismClass: null,
+	authMechanism: null,
 
 	/**
 	 * Backend-specific configuration
@@ -279,8 +279,8 @@ StorageConfig.prototype = {
 	getData: function() {
 		var data = {
 			mountPoint: this.mountPoint,
-			backendClass: this.backendClass,
-			authMechanismClass: this.authMechanismClass,
+			backend: this.backend,
+			authMechanism: this.authMechanism,
 			backendOptions: this.backendOptions
 		};
 		if (this.id) {
@@ -704,14 +704,14 @@ MountConfigListView.prototype = {
 		$el.find('tbody').append($tr.clone());
 		$el.find('tbody tr').last().find('.mountPoint input').val('');
 		var selected = $target.find('option:selected').text();
-		var backendClass = $target.val();
+		var backend = $target.val();
 		$tr.find('.backend').text(selected);
 		if ($tr.find('.mountPoint input').val() === '') {
 			$tr.find('.mountPoint input').val(this._suggestMountPoint(selected));
 		}
-		$tr.addClass(backendClass);
-		$tr.find('.backend').data('class', backendClass);
-		var backendConfiguration = this._allBackends[backendClass];
+		$tr.addClass(backend);
+		$tr.find('.backend').data('class', backend);
+		var backendConfiguration = this._allBackends[backend];
 
 		var selectAuthMechanism = $('<select class="selectAuthMechanism"></select>');
 		$.each(this._allAuthMechanisms, function(authClass, authMechanism) {
@@ -730,7 +730,7 @@ MountConfigListView.prototype = {
 
 		var priorityEl = $('<input type="hidden" class="priority" value="' + backendConfiguration['priority'] + '" />');
 		$tr.append(priorityEl);
-		if (backendConfiguration['custom'] && $el.find('tbody tr.'+backendClass.replace(/\\/g, '\\\\')).length === 1) {
+		if (backendConfiguration['custom'] && $el.find('tbody tr.'+backend.replace(/\\/g, '\\\\')).length === 1) {
 			OC.addScript('files_external', backendConfiguration['custom']);
 		}
 		$td.children().not('[type=hidden]').first().focus();
@@ -747,12 +747,12 @@ MountConfigListView.prototype = {
 		var $target = $(event.target);
 		var $tr = $target.closest('tr');
 
-		var authMechanismClass = $target.val();
-		var authMechanism = this._allAuthMechanisms[authMechanismClass];
+		var authMechanism = $target.val();
+		var authMechanismConfiguration = this._allAuthMechanisms[authMechanism];
 		var $td = $tr.find('td.configuration');
 		$td.find('.auth-param').remove();
 
-		$.each(authMechanism['configuration'], _.partial(
+		$.each(authMechanismConfiguration['configuration'], _.partial(
 			this.writeParameterInput, $td, _, _, ['auth-param']
 		));
 	},
@@ -792,8 +792,8 @@ MountConfigListView.prototype = {
 		}
 		var storage = new this._storageConfigClass(storageId);
 		storage.mountPoint = $tr.find('.mountPoint input').val();
-		storage.backendClass = $tr.find('.backend').data('class');
-		storage.authMechanismClass = $tr.find('.selectAuthMechanism').val();
+		storage.backend = $tr.find('.backend').data('class');
+		storage.authMechanism = $tr.find('.selectAuthMechanism').val();
 
 		var classOptions = {};
 		var configuration = $tr.find('.configuration input');

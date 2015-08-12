@@ -77,8 +77,8 @@ abstract class StoragesController extends Controller {
 	 * Create a storage from its parameters
 	 *
 	 * @param string $mountPoint storage mount point
-	 * @param string $backendClass backend class name
-	 * @param string $authMechanismClass authentication mechanism class name
+	 * @param string $backend backend identifier
+	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
 	 * @param array|null $mountOptions mount-specific options
 	 * @param array|null $applicableUsers users for which to mount the storage
@@ -89,8 +89,8 @@ abstract class StoragesController extends Controller {
 	 */
 	protected function createStorage(
 		$mountPoint,
-		$backendClass,
-		$authMechanismClass,
+		$backend,
+		$authMechanism,
 		$backendOptions,
 		$mountOptions = null,
 		$applicableUsers = null,
@@ -100,8 +100,8 @@ abstract class StoragesController extends Controller {
 		try {
 			return $this->service->createStorage(
 				$mountPoint,
-				$backendClass,
-				$authMechanismClass,
+				$backend,
+				$authMechanism,
 				$backendOptions,
 				$mountOptions,
 				$applicableUsers,
@@ -145,7 +145,7 @@ abstract class StoragesController extends Controller {
 			return new DataResponse(
 				array(
 					'message' => (string)$this->l10n->t('Invalid storage backend "%s"', [
-						$storage->getBackend()->getClass()
+						$storage->getBackend()->getIdentifier()
 					])
 				),
 				Http::STATUS_UNPROCESSABLE_ENTITY
