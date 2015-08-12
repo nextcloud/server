@@ -77,7 +77,7 @@
 
 		var url = OC.generateUrl(
 			'/avatar/{user}/{size}',
-			{user: user, size: size * window.devicePixelRatio});
+			{user: user, size: Math.ceil(size * window.devicePixelRatio)});
 
 		$.get(url, function(result) {
 			if (typeof(result) === 'object') {
