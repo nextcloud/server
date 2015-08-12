@@ -70,24 +70,6 @@ if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == '
 OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config', 'initMountPointsHook');
 OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\SMB_OC', 'login');
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\Swift', [
-	'backend' => (string)$l->t('OpenStack Object Storage'),
-	'priority' => 100,
-	'configuration' => [
-		'user' => (string)$l->t('Username'),
-		'bucket' => (string)$l->t('Bucket'),
-		'region' => '&'.$l->t('Region (optional for OpenStack Object Storage)'),
-		'key' => '&*'.$l->t('API Key (required for Rackspace Cloud Files)'),
-		'tenant' => '&'.$l->t('Tenantname (required for OpenStack Object Storage)'),
-		'password' => '&*'.$l->t('Password (required for OpenStack Object Storage)'),
-		'service_name' => '&'.$l->t('Service Name (required for OpenStack Object Storage)'),
-		'url' => '&'.$l->t('URL of identity endpoint (required for OpenStack Object Storage)'),
-		'timeout' => '&'.$l->t('Timeout of HTTP requests in seconds'),
-	],
-	'has_dependencies' => true,
-]);
-
-
 if (!OC_Util::runningOnWindows()) {
 	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB_OC', [
 			'backend' => (string)$l->t('SMB / CIFS using OC login'),

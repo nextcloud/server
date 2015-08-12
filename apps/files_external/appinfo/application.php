@@ -68,6 +68,7 @@ class Application extends App {
 			$container->query('OCA\Files_External\Lib\Backend\AmazonS3'),
 			$container->query('OCA\Files_External\Lib\Backend\Dropbox'),
 			$container->query('OCA\Files_External\Lib\Backend\Google'),
+			$container->query('OCA\Files_External\Lib\Backend\Swift'),
 		]);
 
 		if (!\OC_Util::runningOnWindows()) {
@@ -100,6 +101,10 @@ class Application extends App {
 
 			// AuthMechanism::SCHEME_OAUTH2 mechanisms
 			$container->query('OCA\Files_External\Lib\Auth\OAuth2\OAuth2'),
+
+			// AuthMechanism::SCHEME_OPENSTACK mechanisms
+			$container->query('OCA\Files_External\Lib\Auth\OpenStack\OpenStack'),
+			$container->query('OCA\Files_External\Lib\Auth\OpenStack\Rackspace'),
 
 			// Specialized mechanisms
 			$container->query('OCA\Files_External\Lib\Auth\AmazonS3\AccessKey'),
