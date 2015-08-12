@@ -344,39 +344,191 @@ class ShareesTest extends TestCase {
 		$this->assertEquals($expected, $users);
 	}
 
-//	public function testArguments() {
-//
-//	}
-//
-//	public function testsOnlyUsers() {
-//
-//	}
-//
-//	public function testOnlyGroups() {
-//
-//	}
-//
-//	public function testRemoteAddress() {
-//
-//	}
-//
-//	public function testRemoteFromContacts() {
-//
-//	}
-//
-//	public function testAll() {
-//
-//	}
-//
-//	public function testSorting() {
-//
-//	}
-//
-//	public function testPagination() {
-//
-//	}
-//
-//	public function testShareWithinGroup() {
-//
-//	}
+	public function dataSearchSharees() {
+		return [
+			['test', 'folder', [], null, 1, 2, false, [], [], [], [], 0, false],
+			['test', 'folder', [0 => ['test1'], 1 => ['test2 group']], null, 1, 2, false, [], [], [], [], 0, false],
+			// First page with 2 of 3 results
+			[
+				'test', 'folder', [], null, 1, 2, false, [
+					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				], [
+					['label' => 'testgroup1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
+				], [
+					['label' => 'testz@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
+				], [
+					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'testgroup1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
+				], 3, true,
+			],
+			// Second page with the 3rd result
+			[
+				'test', 'folder', [], null, 2, 2, false, [
+					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				], [
+					['label' => 'testgroup1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
+				], [
+					['label' => 'testz@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
+				], [
+					['label' => 'testz@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
+				], 3, false,
+			],
+			// Ingnoring already shared user
+			[
+				'test', 'folder', [\OCP\Share::SHARE_TYPE_USER => ['test1']], null, 1, 2, false, [
+					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				], [
+					['label' => 'testgroup1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
+				], [
+					['label' => 'testz@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
+				], [
+					['label' => 'testgroup1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
+					['label' => 'testz@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
+				], 2, false,
+			],
+			// Share type restricted to user - Only one user
+			[
+				'test', 'folder', [], \OCP\Share::SHARE_TYPE_USER, 1, 2, false, [
+					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				], null, null, [
+					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				], 1, false,
+			],
+			// Share type restricted to user - Multipage result
+			[
+				'test', 'folder', [], \OCP\Share::SHARE_TYPE_USER, 1, 2, false, [
+					['label' => 'test 1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'test 2', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+					['label' => 'test 3', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test3']],
+				], null, null, [
+					['label' => 'test 1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'test 2', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				], 3, true,
+			],
+			// Share type restricted to user - Only user already shared
+			[
+				'test', 'folder', [\OCP\Share::SHARE_TYPE_USER => ['test1']], \OCP\Share::SHARE_TYPE_USER, 1, 2, false, [
+					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				], null, null, [], 0, false,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataSearchSharees
+	 *
+	 * @param string $searchTerm
+	 * @param string $itemType
+	 * @param array $existingShares
+	 * @param int $shareType
+	 * @param int $page
+	 * @param int $perPage
+	 * @param bool $shareWithGroupOnly
+	 * @param array $expected
+	 */
+	public function testSearchSharees($searchTerm, $itemType, array $existingShares, $shareType, $page, $perPage, $shareWithGroupOnly,
+									  $mockedUserResult, $mockedGroupsResult, $mockedRemotesResult, $expected, $totalItems, $nextLink) {
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\API\Sharees $sharees */
+		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\API\Sharees')
+			->setConstructorArgs([
+				$this->groupManager,
+				$this->userManager,
+				$this->contactsManager,
+				$this->getMockBuilder('OCP\IAppConfig')->disableOriginalConstructor()->getMock(),
+				$this->session,
+				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock()
+			])
+			->setMethods(array('getUsers', 'getGroups', 'getRemote'))
+			->getMock();
+		$sharees->expects(($mockedUserResult === null) ? $this->never() : $this->once())
+			->method('getUsers')
+			->with($searchTerm, $shareWithGroupOnly)
+			->willReturn($mockedUserResult);
+		$sharees->expects(($mockedGroupsResult === null) ? $this->never() : $this->once())
+			->method('getGroups')
+			->with($searchTerm, $shareWithGroupOnly)
+			->willReturn($mockedGroupsResult);
+		$sharees->expects(($mockedRemotesResult === null) ? $this->never() : $this->once())
+			->method('getRemote')
+			->with($searchTerm)
+			->willReturn($mockedRemotesResult);
+
+		/** @var \OC_OCS_Result $ocs */
+		$ocs = $this->invokePrivate($sharees, 'searchSharees', [$searchTerm, $itemType, $existingShares, $shareType, $page, $perPage, $shareWithGroupOnly]);
+
+		$this->assertEquals($expected, $ocs->getData());
+
+		// Check number of total results
+		$meta = $ocs->getMeta();
+		$this->assertArrayHasKey('totalitems', $meta);
+		$this->assertSame($totalItems, $meta['totalitems']);
+
+		// Check if next link is set
+		if ($nextLink) {
+			$headers = $ocs->getHeaders();
+			$this->assertArrayHasKey('Link', $headers);
+			$this->assertStringStartsWith('<', $headers['Link']);
+			$this->assertStringEndsWith('> rel="next"', $headers['Link']);
+		}
+	}
+
+	public function testSearchShareesNoItemType() {
+		/** @var \OC_OCS_Result $ocs */
+		$ocs = $this->invokePrivate($this->sharees, 'searchSharees', ['', null, [], null, 0, 0, false]);
+
+		$this->assertSame(400, $ocs->getStatusCode(), 'Expected status code 400');
+		$this->assertSame([], $ocs->getData(), 'Expected that no data is send');
+
+		$meta = $ocs->getMeta();
+		$this->assertNotEmpty($meta);
+		$this->assertArrayHasKey('message', $meta);
+		$this->assertSame('missing itemType', $meta['message']);
+	}
+
+
+	public function dataFilterSharees() {
+		return [
+			[[], [], []],
+			[
+				[
+					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				],
+				[],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				],
+			],
+			[
+				[
+					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				],
+				['test1'],
+				[
+					1 => ['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				],
+			],
+			[
+				[
+					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				],
+				['test2'],
+				[
+					0 => ['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataFilterSharees
+	 *
+	 * @param array $potentialSharees
+	 * @param array $existingSharees
+	 * @param array $expectedSharees
+	 */
+	public function testFilterSharees($potentialSharees, $existingSharees, $expectedSharees) {
+		$this->assertEquals($expectedSharees, $this->invokePrivate($this->sharees, 'filterSharees', [$potentialSharees, $existingSharees]));
+	}
 }

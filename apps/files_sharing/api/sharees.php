@@ -74,7 +74,7 @@ class Sharees {
 	 *
 	 * @return array possible sharees
 	 */
-	private function getUsers($search, $shareWithGroupOnly) {
+	protected function getUsers($search, $shareWithGroupOnly) {
 		$sharees = [];
 		
 		$users = [];
@@ -115,7 +115,7 @@ class Sharees {
 	 *
 	 * @return array possible sharees
 	 */
-	private function getGroups($search, $shareWithGroupOnly) {
+	protected function getGroups($search, $shareWithGroupOnly) {
 		$sharees = [];
 		$groups = $this->groupManager->search($search);
 		$groups = array_map(function (IGroup $group) { return $group->getGID(); }, $groups);
@@ -145,7 +145,7 @@ class Sharees {
 	 *
 	 * @return array possible sharees
 	 */
-	private function getRemote($search) {
+	protected function getRemote($search) {
 		$sharees = [];
 
 		if (substr_count($search, '@') >= 1) {
@@ -177,13 +177,36 @@ class Sharees {
 		return $sharees;
 	}
 
+	/**
+	 * @param array $params
+	 * @return \OC_OCS_Result
+	 */
 	public function search($params) {
-		$search = isset($_GET['search']) ? (string) $_GET['search'] : '';
-		$itemType = isset($_GET['itemType']) ? (string) $_GET['itemType'] : null;
-		$existingShares = isset($_GET['existingShares']) ? (array) $_GET['existingShares'] : [];
+		$search = isset($_GET['search']) ? (string)$_GET['search'] : '';
+		$itemType = isset($_GET['itemType']) ? (string)$_GET['itemType'] : null;
+		$existingShares = isset($_GET['existingShares']) ? (array)$_GET['existingShares'] : [];
 		$shareType = isset($_GET['shareType']) ? intval($_GET['shareType']) : null;
 		$page = !empty($_GET['page']) ? intval($_GET['page']) : 1;
 		$perPage = !empty($_GET['limit']) ? intval($_GET['limit']) : 200;
+
+		$shareWithGroupOnly = $this->appConfig->getValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+
+		return $this->searchSharees($search, $itemType, $existingShares, $shareType, $page, $perPage, $shareWithGroupOnly);
+	}
+
+	/**
+	 * Testable search function that does not need globals
+	 *
+	 * @param string $search
+	 * @param string $itemType
+	 * @param array $existingShares
+	 * @param int $shareType
+	 * @param int $page
+	 * @param int $perPage
+	 * @param bool $shareWithGroupOnly
+	 * @return \OC_OCS_Result
+	 */
+	protected function searchSharees($search, $itemType, array $existingShares, $shareType, $page, $perPage, $shareWithGroupOnly) {
 
 		$sharedUsers = $sharedGroups = [];
 		if (!empty($existingShares)) {
@@ -202,8 +225,6 @@ class Sharees {
 		if ($itemType === null) {
 			return new \OC_OCS_Result(null, 400, 'missing itemType');
 		}
-
-		$shareWithGroupOnly = $this->appConfig->getValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes' ? true : false;
 
 		$sharees = [];
 		// Get users
@@ -267,7 +288,7 @@ class Sharees {
 	 * @param array $existingSharees
 	 * @return array
 	 */
-	private function filterSharees($potentialSharees, $existingSharees) {
+	protected function filterSharees($potentialSharees, $existingSharees) {
 		$sharees = array_map(function ($sharee) use ($existingSharees) {
 			return in_array($sharee['value']['shareWith'], $existingSharees) ? null : $sharee;
 		}, $potentialSharees);
