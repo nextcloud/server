@@ -46,8 +46,8 @@ namespace OCA\Files_External\AppInfo;
 	)
 );
 
-$this->create('files_external_dropbox', 'ajax/dropbox.php')
-	->actionInclude('files_external/ajax/dropbox.php');
+$this->create('files_external_oauth1', 'ajax/oauth1.php')
+	->actionInclude('files_external/ajax/oauth1.php');
 $this->create('files_external_google', 'ajax/google.php')
 	->actionInclude('files_external/ajax/google.php');
 

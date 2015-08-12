@@ -70,20 +70,6 @@ if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == '
 OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config', 'initMountPointsHook');
 OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\SMB_OC', 'login');
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\Dropbox', [
-	'backend' => 'Dropbox',
-	'priority' => 100,
-	'configuration' => [
-		'configured' => '#configured',
-		'app_key' => (string)$l->t('App key'),
-		'app_secret' => '*'.$l->t('App secret'),
-		'token' => '#token',
-		'token_secret' => '#token_secret'
-	],
-	'custom' => 'dropbox',
-	'has_dependencies' => true,
-]);
-
 OC_Mount_Config::registerBackend('\OC\Files\Storage\Google', [
 	'backend' => 'Google Drive',
 	'priority' => 100,
