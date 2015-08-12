@@ -75,6 +75,10 @@ class Application extends App {
 
 			// AuthMechanism::SCHEME_BUILTIN mechanism
 			$container->query('OCA\Files_External\Lib\Auth\Builtin'),
+
+			// AuthMechanism::SCHEME_PASSWORD mechanisms
+			$container->query('OCA\Files_External\Lib\Auth\Password\Password'),
+			$container->query('OCA\Files_External\Lib\Auth\Password\SessionCredentials'),
 		]);
 	}
 
