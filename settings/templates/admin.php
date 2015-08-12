@@ -418,6 +418,7 @@ if ($_['cronErrors']) {
 				'Please connect to your %s via HTTPS to enable or disable the SSL enforcement.',
 				$theme->getName()
 			));
+			p(' Please note: You need to configure SSL within your webserver configuration first.');
 			print_unescaped("</em>");
 		}
 		?>
