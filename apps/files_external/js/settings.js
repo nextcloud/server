@@ -550,7 +550,7 @@ var MountConfigListView = function($el, options) {
 /**
  * @memberOf OCA.External.Settings
  */
-MountConfigListView.prototype = {
+MountConfigListView.prototype = _.extend({
 
 	/**
 	 * jQuery element containing the config list
@@ -644,11 +644,31 @@ MountConfigListView.prototype = {
 
 		addSelect2(this.$el.find('tr:not(#addMountPoint) .applicableUsers'), this._userListLimit);
 
-		this.$el.find('tr:not(#addMountPoint)').each(function(i, tr) {
+		this._initEvents();
+
+		this.$el.find('tbody tr:not(#addMountPoint)').each(function(i, tr) {
 			self.recheckStorageConfig($(tr));
 		});
+	},
 
-		this._initEvents();
+	/**
+	 * Custom JS event handlers
+	 * Trigger callback for all existing configurations
+	 */
+	whenSelectBackend: function(callback) {
+		this.$el.find('tbody tr:not(#addMountPoint)').each(function(i, tr) {
+			var backend = $(tr).find('.backend').data('class');
+			callback($(tr), backend);
+		});
+		this.on('selectBackend', callback);
+	},
+	whenSelectAuthMechanism: function(callback) {
+		var self = this;
+		this.$el.find('tbody tr:not(#addMountPoint)').each(function(i, tr) {
+			var authMechanism = $(tr).find('.selectAuthMechanism').val();
+			callback($(tr), authMechanism, self._allAuthMechanisms[authMechanism]['scheme']);
+		});
+		this.on('selectAuthMechanism', callback);
 	},
 
 	/**
@@ -728,6 +748,8 @@ MountConfigListView.prototype = {
 		var $td = $tr.find('td.configuration');
 		$.each(backendConfiguration['configuration'], _.partial(this.writeParameterInput, $td));
 
+		this.trigger('selectBackend', $tr, backend);
+
 		selectAuthMechanism.trigger('change'); // generate configuration parameters for auth mechanism
 
 		var priorityEl = $('<input type="hidden" class="priority" value="' + backendConfiguration['priority'] + '" />');
@@ -757,6 +779,10 @@ MountConfigListView.prototype = {
 		$.each(authMechanismConfiguration['configuration'], _.partial(
 			this.writeParameterInput, $td, _, _, ['auth-param']
 		));
+
+		this.trigger('selectAuthMechanism',
+			$tr, authMechanism, authMechanismConfiguration['scheme']
+		);
 
 		if ($tr.data('constructing') !== true) {
 			// row is ready, trigger recheck
@@ -1045,7 +1071,7 @@ MountConfigListView.prototype = {
 			self.saveStorageConfig($tr);
 		});
 	}
-};
+}, OC.Backbone.Events);
 
 $(document).ready(function() {
 	var enabled = $('#files_external').attr('data-encryption-enabled');
