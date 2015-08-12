@@ -26,23 +26,20 @@ use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Service\BackendService;
+use \OCA\Files_External\Lib\Auth\PublicKey\RSA;
 
-use \OCA\Files_External\Lib\Auth\Password\Password;
+class SFTP_Key extends Backend {
 
-class SFTP extends Backend {
-
-	public function __construct(IL10N $l, Password $legacyAuth) {
+	public function __construct(IL10N $l, RSA $legacyAuth) {
 		$this
-			->setIdentifier('sftp')
-			->addIdentifierAlias('\OC\Files\Storage\SFTP') // legacy compat
+			->setIdentifier('\OC\Files\Storage\SFTP_Key')
 			->setStorageClass('\OC\Files\Storage\SFTP')
-			->setText($l->t('SFTP'))
+			->setText($l->t('SFTP with secret key login [DEPRECATED]'))
 			->addParameters([
 				(new DefinitionParameter('host', $l->t('Host'))),
-				(new DefinitionParameter('root', $l->t('Root')))
+				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
-			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->addAuthScheme(AuthMechanism::SCHEME_PUBLICKEY)
 			->setLegacyAuthMechanism($legacyAuth)
 		;

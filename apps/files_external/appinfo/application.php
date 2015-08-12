@@ -69,6 +69,7 @@ class Application extends App {
 			$container->query('OCA\Files_External\Lib\Backend\Dropbox'),
 			$container->query('OCA\Files_External\Lib\Backend\Google'),
 			$container->query('OCA\Files_External\Lib\Backend\Swift'),
+			$container->query('OCA\Files_External\Lib\Backend\SFTP_Key'),
 		]);
 
 		if (!\OC_Util::runningOnWindows()) {
@@ -102,6 +103,9 @@ class Application extends App {
 
 			// AuthMechanism::SCHEME_OAUTH2 mechanisms
 			$container->query('OCA\Files_External\Lib\Auth\OAuth2\OAuth2'),
+
+			// AuthMechanism::SCHEME_PUBLICKEY mechanisms
+			$container->query('OCA\Files_External\Lib\Auth\PublicKey\RSA'),
 
 			// AuthMechanism::SCHEME_OPENSTACK mechanisms
 			$container->query('OCA\Files_External\Lib\Auth\OpenStack\OpenStack'),
