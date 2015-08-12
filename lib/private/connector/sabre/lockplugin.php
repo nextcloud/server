@@ -85,7 +85,11 @@ class LockPlugin extends ServerPlugin {
 		if ($request->getMethod() !== 'PUT') {
 			return;
 		}
-		$node = $this->tree->getNodeForPath($request->getPath());
+		try {
+			$node = $this->tree->getNodeForPath($request->getPath());
+		} catch (NotFound $e) {
+			return;
+		}
 		if ($node instanceof Node) {
 			$node->releaseLock(ILockingProvider::LOCK_SHARED);
 		}
