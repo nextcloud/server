@@ -184,13 +184,46 @@ class Sharees {
 		$search = isset($_GET['search']) ? (string) $_GET['search'] : '';
 		$itemType = isset($_GET['itemType']) ? (string) $_GET['itemType'] : null;
 		$existingShares = isset($_GET['existingShares']) ? (array) $_GET['existingShares'] : [];
-		$shareType = isset($_GET['shareType']) && is_numeric($_GET['shareType']) ? (int) $_GET['shareType'] : null;
-		$page = !empty($_GET['page']) ? (int) $_GET['page'] : 1;
-		$perPage = !empty($_GET['limit']) ? (int) $_GET['limit'] : 200;
+		$page = !empty($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
+		$perPage = !empty($_GET['limit']) ? max(1, (int) $_GET['limit']) : 200;
+
+		$shareTypes = [
+			\OCP\Share::SHARE_TYPE_USER,
+			\OCP\Share::SHARE_TYPE_GROUP,
+			\OCP\Share::SHARE_TYPE_REMOTE,
+		];
+		if (isset($_GET['shareType']) && is_array($_GET['shareType'])) {
+			$shareTypes = array_intersect($shareTypes, $_GET['shareType']);
+			sort($shareTypes);
+
+		} else if (isset($_GET['shareType']) && is_numeric($_GET['shareType'])) {
+			$shareTypes = array_intersect($shareTypes, [(int) $_GET['shareType']]);
+			sort($shareTypes);
+		}
+
+		if (in_array(\OCP\Share::SHARE_TYPE_REMOTE, $shareTypes) && !$this->isRemoteSharingAllowed($itemType)) {
+			// Remove remote shares from type array, because it is not allowed.
+			$shareTypes = array_diff($shareTypes, [\OCP\Share::SHARE_TYPE_REMOTE]);
+		}
 
 		$shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 
-		return $this->searchSharees($search, $itemType, $existingShares, $shareType, $page, $perPage, $shareWithGroupOnly);
+		return $this->searchSharees($search, $itemType, $existingShares, $shareTypes, $page, $perPage, $shareWithGroupOnly);
+	}
+
+	/**
+	 * Method to get out the static call for better testing
+	 *
+	 * @param string $itemType
+	 * @return bool
+	 */
+	protected function isRemoteSharingAllowed($itemType) {
+		try {
+			$backend = \OCP\Share::getBackend($itemType);
+			return $backend->isShareTypeAllowed(\OCP\Share::SHARE_TYPE_REMOTE);
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 
 	/**
@@ -199,13 +232,13 @@ class Sharees {
 	 * @param string $search
 	 * @param string $itemType
 	 * @param array $existingShares
-	 * @param int $shareType
+	 * @param array $shareTypes
 	 * @param int $page
 	 * @param int $perPage
 	 * @param bool $shareWithGroupOnly
 	 * @return \OC_OCS_Result
 	 */
-	protected function searchSharees($search, $itemType, array $existingShares, $shareType, $page, $perPage, $shareWithGroupOnly) {
+	protected function searchSharees($search, $itemType, array $existingShares, array $shareTypes, $page, $perPage, $shareWithGroupOnly) {
 
 		$sharedUsers = $sharedGroups = [];
 		if (!empty($existingShares)) {
@@ -227,20 +260,19 @@ class Sharees {
 
 		$sharees = [];
 		// Get users
-		if ($shareType === null || $shareType === \OCP\Share::SHARE_TYPE_USER) {
+		if (in_array(\OCP\Share::SHARE_TYPE_USER, $shareTypes)) {
 			$potentialSharees = $this->getUsers($search, $shareWithGroupOnly);
 			$sharees = array_merge($sharees, $this->filterSharees($potentialSharees, $sharedUsers));
 		}
 
 		// Get groups
-		if ($shareType === null || $shareType === \OCP\Share::SHARE_TYPE_GROUP) {
+		if (in_array(\OCP\Share::SHARE_TYPE_GROUP, $shareTypes)) {
 			$potentialSharees = $this->getGroups($search, $shareWithGroupOnly);
 			$sharees = array_merge($sharees, $this->filterSharees($potentialSharees, $sharedGroups));
 		}
 
 		// Get remote
-		if (($shareType === null || $shareType === \OCP\Share::SHARE_TYPE_REMOTE) &&
-		    \OCP\Share::getBackend($itemType)->isShareTypeAllowed(\OCP\Share::SHARE_TYPE_REMOTE)) {
+		if (in_array(\OCP\Share::SHARE_TYPE_REMOTE, $shareTypes)) {
 			$sharees = array_merge($sharees, $this->getRemote($search));
 		}
 
@@ -267,12 +299,11 @@ class Sharees {
 				'search' => $search,
 				'itemType' => $itemType,
 				'existingShares' => $existingShares,
+				'shareType' => $shareTypes,
 				'page' => $page + 1,
 				'limit' => $perPage,
 			];
-			if ($shareType !== null) {
-				$params['shareType'] = $shareType;
-			}
+
 			$url = $this->urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/sharees') . '?' . http_build_query($params);
 			$response->addHeader('Link', '<' . $url . '> rel="next"');
 		}
