@@ -47,8 +47,9 @@ OC::$CLASSPATH['OCA\Files\External\Api'] = 'files_external/lib/api.php';
 
 require_once __DIR__ . '/../3rdparty/autoload.php';
 
-$app = new \OCA\Files_external\Appinfo\Application();
-$appContainer = $app->getContainer();
+// register Application object singleton
+\OC_Mount_Config::$app = new \OCA\Files_external\Appinfo\Application();
+$appContainer = \OC_Mount_Config::$app->getContainer();
 
 $l = \OC::$server->getL10N('files_external');
 
@@ -64,9 +65,6 @@ if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == '
 	"order" => 30,
 	"name" => $l->t('External storage')
 ]);
-
-// Teach OC_Mount_Config about the AppFramework
-\OC_Mount_Config::initApp($appContainer);
 
 // connecting hooks
 OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config', 'initMountPointsHook');

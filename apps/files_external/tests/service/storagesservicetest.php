@@ -121,7 +121,12 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 					return $this->backendService;
 				}
 			}));
-		\OC_Mount_Config::initApp($containerMock);
+
+		\OC_Mount_Config::$app = $this->getMockBuilder('\OCA\Files_External\Appinfo\Application')
+			->disableOriginalConstructor()
+			->getMock();
+		\OC_Mount_Config::$app->method('getContainer')
+			->willReturn($containerMock);
 	}
 
 	public function tearDown() {

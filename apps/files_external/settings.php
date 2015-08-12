@@ -30,8 +30,8 @@ use \OCA\Files_External\Service\BackendService;
 
 OC_Util::checkAdminUser();
 
-$app = new \OCA\Files_external\Appinfo\Application();
-$appContainer = $app->getContainer();
+// we must use the same container
+$appContainer = \OC_Mount_Config::$app->getContainer();
 $backendService = $appContainer->query('OCA\Files_External\Service\BackendService');
 $globalStoragesService = $appContainer->query('OCA\Files_external\Service\GlobalStoragesService');
 
