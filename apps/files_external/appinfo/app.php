@@ -157,17 +157,6 @@ if (!OC_Util::runningOnWindows()) {
 	]);
 }
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP', [
-	'backend' => 'SFTP',
-	'priority' => 100,
-	'configuration' => [
-		'host' => (string)$l->t('Host'),
-		'user' => (string)$l->t('Username'),
-		'password' => '*'.$l->t('Password'),
-		'root' => '&'.$l->t('Remote subfolder'),
-	],
-]);
-
 OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP_Key', [
 	'backend' => (string)$l->t('SFTP with secret key login'),
 	'priority' => 100,
