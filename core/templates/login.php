@@ -58,7 +58,7 @@ script('core', [
 
 		<?php if (isset($_['invalidpassword']) && ($_['invalidpassword'])): ?>
 		<a id="lost-password" class="warning" href="">
-			<?php p($l->t('Forgot your password? Reset it!')); ?>
+			<?php p($l->t('Wrong password. Reset it?')); ?>
 		</a>
 		<?php endif; ?>
 		<?php if ($_['rememberLoginAllowed'] === true) : ?>
@@ -83,4 +83,3 @@ script('core', [
 	</fieldset>
 </form>
 <?php }
-
