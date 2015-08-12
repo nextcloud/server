@@ -181,12 +181,12 @@ class Sharees {
 	 * @return \OC_OCS_Result
 	 */
 	public function search() {
-		$search = isset($_GET['search']) ? (string)$_GET['search'] : '';
-		$itemType = isset($_GET['itemType']) ? (string)$_GET['itemType'] : null;
-		$existingShares = isset($_GET['existingShares']) ? (array)$_GET['existingShares'] : [];
-		$shareType = isset($_GET['shareType']) ? intval($_GET['shareType']) : null;
-		$page = !empty($_GET['page']) ? intval($_GET['page']) : 1;
-		$perPage = !empty($_GET['limit']) ? intval($_GET['limit']) : 200;
+		$search = isset($_GET['search']) ? (string) $_GET['search'] : '';
+		$itemType = isset($_GET['itemType']) ? (string) $_GET['itemType'] : null;
+		$existingShares = isset($_GET['existingShares']) ? (array) $_GET['existingShares'] : [];
+		$shareType = isset($_GET['shareType']) && is_numeric($_GET['shareType']) ? (int) $_GET['shareType'] : null;
+		$page = !empty($_GET['page']) ? (int) $_GET['page'] : 1;
+		$perPage = !empty($_GET['limit']) ? (int) $_GET['limit'] : 200;
 
 		$shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 

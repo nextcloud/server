@@ -344,6 +344,154 @@ class ShareesTest extends TestCase {
 		$this->assertEquals($expected, $users);
 	}
 
+	public function dataSearch() {
+		return [
+			[[], '', '', null, [], null, 1, 200, false],
+
+			// Test itemType
+			[[
+				'search' => '',
+			], '', '', null, [], null, 1, 200, false],
+			[[
+				'search' => 'foobar',
+			], '', 'foobar', null, [], null, 1, 200, false],
+			[[
+				'search' => 0,
+			], '', '0', null, [], null, 1, 200, false],
+
+			// Test itemType
+			[[
+				'itemType' => '',
+			], '', '', '', [], null, 1, 200, false],
+			[[
+				'itemType' => 'folder',
+			], '', '', 'folder', [], null, 1, 200, false],
+			[[
+				'itemType' => 0,
+			], '', '', '0', [], null, 1, 200, false],
+
+			// Test existingShares
+			[[
+				'existingShares' => [],
+			], '', '', null, [], null, 1, 200, false],
+			[[
+				'existingShares' => [0 => ['test'], 1 => ['foobar']],
+			], '', '', null, [0 => ['test'], 1 => ['foobar']], null, 1, 200, false],
+
+			// Test shareType
+			[[
+			], '', '', null, [], null, 1, 200, false],
+			[[
+				'shareType' => 0,
+			], '', '', null, [], 0, 1, 200, false],
+			[[
+				'shareType' => '0',
+			], '', '', null, [], 0, 1, 200, false],
+			[[
+				'shareType' => 1,
+			], '', '', null, [], 1, 1, 200, false],
+			[[
+				'shareType' => 10,
+			], '', '', null, [], 10, 1, 200, false],
+			[[
+				'shareType' => 'foobar',
+			], '', '', null, [], null, 1, 200, false],
+
+			// Test pagination
+			[[
+				'page' => 0,
+			], '', '', null, [], null, 1, 200, false],
+			[[
+				'page' => '0',
+			], '', '', null, [], null, 1, 200, false],
+			[[
+				'page' => 1,
+			], '', '', null, [], null, 1, 200, false],
+			[[
+				'page' => 10,
+			], '', '', null, [], null, 10, 200, false],
+
+			// Test limit
+			[[
+				'limit' => 0,
+			], '', '', null, [], null, 1, 200, false],
+			[[
+				'limit' => '0',
+			], '', '', null, [], null, 1, 200, false],
+			[[
+				'limit' => 1,
+			], '', '', null, [], null, 1, 1, false],
+			[[
+				'limit' => 10,
+			], '', '', null, [], null, 1, 10, false],
+
+			// Test $shareWithGroupOnly setting
+			[[], 'no', '', null, [], null, 1, 200, false],
+			[[], 'yes', '', null, [], null, 1, 200, true],
+
+		];
+	}
+
+	/**
+	 * @dataProvider dataSearch
+	 *
+	 * @param array $getData
+	 * @param string $apiSetting
+	 * @param string $search
+	 * @param string $itemType
+	 * @param array $existingShares
+	 * @param int $shareType
+	 * @param int $page
+	 * @param int $perPage
+	 * @param bool $shareWithGroupOnly
+	 */
+	public function testSearch($getData, $apiSetting, $search, $itemType, $existingShares, $shareType, $page, $perPage, $shareWithGroupOnly) {
+		$oldGet = $_GET;
+		$_GET = $getData;
+
+		$config = $this->getMockBuilder('OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+		$config->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'shareapi_only_share_with_group_members', 'no')
+			->willReturn($apiSetting);
+
+		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\API\Sharees')
+			->setConstructorArgs([
+				$this->groupManager,
+				$this->userManager,
+				$this->contactsManager,
+				$config,
+				$this->session,
+				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock()
+			])
+			->setMethods(array('searchSharees'))
+			->getMock();
+		$sharees->expects($this->once())
+			->method('searchSharees')
+			->with($search, $itemType, $existingShares, $shareType, $page, $perPage, $shareWithGroupOnly)
+			->willReturnCallback(function
+					($isearch, $iitemType, $iexistingShares, $ishareType, $ipage, $iperPage, $ishareWithGroupOnly)
+				use ($search, $itemType, $existingShares, $shareType, $page, $perPage, $shareWithGroupOnly) {
+
+				// We are doing strict comparisons here, so we can differ 0/'' and null on shareType/itemType
+				$this->assertSame($search, $isearch);
+				$this->assertSame($itemType, $iitemType);
+				$this->assertSame($existingShares, $iexistingShares);
+				$this->assertSame($shareType, $ishareType);
+				$this->assertSame($page, $ipage);
+				$this->assertSame($perPage, $iperPage);
+				$this->assertSame($shareWithGroupOnly, $ishareWithGroupOnly);
+				return new \OC_OCS_Result([]);
+			});
+
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\API\Sharees $sharees */
+		$this->assertInstanceOf('\OC_OCS_Result', $sharees->search());
+
+		$_GET = $oldGet;
+	}
+
 	public function dataSearchSharees() {
 		return [
 			['test', 'folder', [], null, 1, 2, false, [], [], [], [], 0, false],
@@ -455,6 +603,7 @@ class ShareesTest extends TestCase {
 
 		/** @var \OC_OCS_Result $ocs */
 		$ocs = $this->invokePrivate($sharees, 'searchSharees', [$searchTerm, $itemType, $existingShares, $shareType, $page, $perPage, $shareWithGroupOnly]);
+		$this->assertInstanceOf('\OC_OCS_Result', $ocs);
 
 		$this->assertEquals($expected, $ocs->getData());
 
@@ -475,6 +624,7 @@ class ShareesTest extends TestCase {
 	public function testSearchShareesNoItemType() {
 		/** @var \OC_OCS_Result $ocs */
 		$ocs = $this->invokePrivate($this->sharees, 'searchSharees', ['', null, [], null, 0, 0, false]);
+		$this->assertInstanceOf('\OC_OCS_Result', $ocs);
 
 		$this->assertSame(400, $ocs->getStatusCode(), 'Expected status code 400');
 		$this->assertSame([], $ocs->getData(), 'Expected that no data is send');
@@ -484,7 +634,6 @@ class ShareesTest extends TestCase {
 		$this->assertArrayHasKey('message', $meta);
 		$this->assertSame('missing itemType', $meta['message']);
 	}
-
 
 	public function dataFilterSharees() {
 		return [
