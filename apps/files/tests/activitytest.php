@@ -42,6 +42,9 @@ class ActivityTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	protected $activityHelper;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	protected $l10nFactory;
+
 	/** @var \OCA\Files\Activity */
 	protected $activityExtension;
 
@@ -67,8 +70,28 @@ class ActivityTest extends TestCase {
 			$this->config
 		);
 
+		$this->l10nFactory = $this->getMockBuilder('OC\L10N\Factory')
+			->disableOriginalConstructor()
+			->getMock();
+		$deL10n = $this->getMockBuilder('OC_L10N')
+			->disableOriginalConstructor()
+			->getMock();
+		$deL10n->expects($this->any())
+			->method('t')
+			->willReturnCallback(function ($argument) {
+				return 'translate(' . $argument . ')';
+			});
+
+		$this->l10nFactory->expects($this->any())
+			->method('get')
+			->willReturnMap([
+				['files', null, new \OC_L10N('files', 'en')],
+				['files', 'en', new \OC_L10N('files', 'en')],
+				['files', 'de', $deL10n],
+			]);
+
 		$this->activityExtension = $activityExtension = new Activity(
-			new \OC\L10N\Factory(),
+			$this->l10nFactory,
 			$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
 			$this->activityManager,
 			$this->activityHelper,
@@ -110,6 +133,26 @@ class ActivityTest extends TestCase {
 		$this->assertFalse(
 			$this->activityExtension->translate('files_sharing', '', [], false, false, 'en'),
 			'Asserting that no translations are set for files_sharing'
+		);
+
+		// Test english
+		$this->assertNotFalse(
+			$this->activityExtension->translate('files', 'deleted_self', ['file'], false, false, 'en'),
+			'Asserting that translations are set for files.deleted_self'
+		);
+		$this->assertStringStartsWith(
+			'You deleted ',
+			$this->activityExtension->translate('files', 'deleted_self', ['file'], false, false, 'en')
+		);
+
+		// Test translation
+		$this->assertNotFalse(
+			$this->activityExtension->translate('files', 'deleted_self', ['file'], false, false, 'de'),
+			'Asserting that translations are set for files.deleted_self'
+		);
+		$this->assertStringStartsWith(
+			'translate(You deleted ',
+			$this->activityExtension->translate('files', 'deleted_self', ['file'], false, false, 'de')
 		);
 	}
 
