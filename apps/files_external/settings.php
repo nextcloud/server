@@ -46,6 +46,7 @@ $tmpl->assign('encryptionEnabled', \OC::$server->getEncryptionManager()->isEnabl
 $tmpl->assign('isAdminPage', true);
 $tmpl->assign('storages', $globalStoragesService->getAllStorages());
 $tmpl->assign('backends', $backendService->getBackendsVisibleFor(BackendService::VISIBILITY_ADMIN));
+$tmpl->assign('authMechanisms', $backendService->getAuthMechanisms());
 $tmpl->assign('userBackends', $backendService->getBackendsAllowedVisibleFor(BackendService::VISIBILITY_PERSONAL));
 $tmpl->assign('dependencies', OC_Mount_Config::dependencyMessage($backendService->getBackends()));
 $tmpl->assign('allowUserMounting', $backendService->isUserMountingAllowed());

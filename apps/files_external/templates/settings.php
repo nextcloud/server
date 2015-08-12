@@ -2,6 +2,56 @@
 	use \OCA\Files_External\Lib\Backend\Backend;
 	use \OCA\Files_External\Lib\DefinitionParameter;
 	use \OCA\Files_External\Service\BackendService;
+
+	function writeParameterInput($parameter, $options, $classes = []) {
+		$value = '';
+		if (isset($options[$parameter->getName()])) {
+			$value = $options[$parameter->getName()];
+		}
+		$placeholder = $parameter->getText();
+		$is_optional = $parameter->isFlagSet(DefinitionParameter::FLAG_OPTIONAL);
+
+		switch ($parameter->getType()) {
+		case DefinitionParameter::VALUE_PASSWORD: ?>
+			<?php if ($is_optional) { $classes[] = 'optional'; } ?>
+			<input type="password"
+				<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
+				data-parameter="<?php p($parameter->getName()); ?>"
+				value="<?php p($value); ?>"
+				placeholder="<?php p($placeholder); ?>"
+			/>
+			<?php
+			break;
+		case DefinitionParameter::VALUE_BOOLEAN: ?>
+			<label>
+				<input type="checkbox"
+					<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
+					data-parameter="<?php p($parameter->getName()); ?>"
+				 	<?php if ($value == 'true'): ?> checked="checked"<?php endif; ?>
+				/>
+				<?php p($placeholder); ?>
+			</label>
+			<?php
+			break;
+		case DefinitionParameter::VALUE_HIDDEN: ?>
+			<input type="hidden"
+				<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
+				data-parameter="<?php p($parameter->getName()); ?>"
+				value="<?php p($value); ?>"
+			/>
+			<?php
+			break;
+		default: ?>
+			<?php if ($is_optional) { $classes[] = 'optional'; } ?>
+			<input type="text"
+				<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
+				data-parameter="<?php p($parameter->getName()); ?>"
+				value="<?php p($value); ?>"
+				placeholder="<?php p($placeholder); ?>"
+			/>
+			<?php
+		}
+	}
 ?>
 <form id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
 	<h2><?php p($l->t('External Storage')); ?></h2>
@@ -12,6 +62,7 @@
 				<th></th>
 				<th><?php p($l->t('Folder name')); ?></th>
 				<th><?php p($l->t('External storage')); ?></th>
+				<th><?php p($l->t('Authentication')); ?></th>
 				<th><?php p($l->t('Configuration')); ?></th>
 				<?php if ($_['isAdminPage']) print_unescaped('<th>'.$l->t('Available for').'</th>'); ?>
 				<th>&nbsp;</th>
@@ -31,59 +82,38 @@
 				</td>
 				<td class="backend" data-class="<?php p($storage->getBackend()->getClass()); ?>"><?php p($storage->getBackend()->getText()); ?>
 				</td>
-				<td class="configuration">
-					<?php $options = $storage->getBackendOptions(); ?>
-					<?php foreach ($storage->getBackend()->getParameters() as $parameter): ?>
+				<td class="authentication">
+					<select class="selectAuthMechanism">
 						<?php
-							$value = '';
-							if (isset($options[$parameter->getName()])) {
-								$value = $options[$parameter->getName()];
-							}
-							$placeholder = $parameter->getText();
-							$is_optional = $parameter->isFlagSet(DefinitionParameter::FLAG_OPTIONAL);
-
-							switch ($parameter->getType()) {
-							case DefinitionParameter::VALUE_PASSWORD: ?>
-								<input type="password"
-								   <?php if ($is_optional): ?> class="optional"<?php endif; ?>
-								   data-parameter="<?php p($parameter->getName()); ?>"
-								   value="<?php p($value); ?>"
-								   placeholder="<?php p($placeholder); ?>"
-								/>
-								<?php
-								break;
-							case DefinitionParameter::VALUE_BOOLEAN: ?>
-								<label>
-									<input type="checkbox"
-										data-parameter="<?php p($parameter->getName()); ?>"
-									 	<?php if ($value == 'true'): ?> checked="checked"<?php endif; ?>
-									/>
-									<?php p($placeholder); ?>
-								</label>
-								<?php
-								break;
-							case DefinitionParameter::VALUE_HIDDEN: ?>
-								<input type="hidden"
-									data-parameter="<?php p($parameter->getName()); ?>"
-									value="<?php p($value); ?>"
-								/>
-								<?php
-								break;
-							default: ?>
-								<input type="text"
-									<?php if ($is_optional): ?> class="optional"<?php endif; ?>
-									data-parameter="<?php p($parameter->getName()); ?>"
-									value="<?php p($value); ?>"
-									placeholder="<?php p($placeholder); ?>"
-								/>
-								<?php
-							}
+							$authSchemes = $storage->getBackend()->getAuthSchemes();
+							$authMechanisms = array_filter($_['authMechanisms'], function($mech) use ($authSchemes) {
+								return isset($authSchemes[$mech->getScheme()]);
+							});
 						?>
-					<?php endforeach; ?>
+						<?php foreach ($authMechanisms as $mech): ?>
+							<option value="<?php p($mech->getClass()); ?>" data-scheme="<?php p($mech->getScheme());?>"
+								<?php if ($mech->getClass() === $storage->getAuthMechanism()->getClass()): ?>selected<?php endif; ?>
+							><?php p($mech->getText()); ?></option>
+						<?php endforeach; ?>
+					</select>
+				</td>
+				<td class="configuration">
 					<?php
+						$options = $storage->getBackendOptions();
+						foreach ($storage->getBackend()->getParameters() as $parameter) {
+							writeParameterInput($parameter, $options);
+						}
+						foreach ($storage->getAuthMechanism()->getParameters() as $parameter) {
+							writeParameterInput($parameter, $options, ['auth-param']);
+						}
+
 						$customJs = $storage->getBackend()->getCustomJs();
 						if (isset($customJs)) {
 							\OCP\Util::addScript('files_external', $customJs);
+						}
+						$customJsAuth = $storage->getAuthMechanism()->getCustomJs();
+						if (isset($customJsAuth)) {
+							\OCP\Util::addScript('files_external', $customJsAuth);
 						}
 					?>
 				</td>
@@ -140,7 +170,8 @@
 						<?php endforeach; ?>
 					</select>
 				</td>
-				<td class="configuration"</td>
+				<td class="authentication" data-mechanisms='<?php p(json_encode($_['authMechanisms'])); ?>'></td>
+				<td class="configuration"></td>
 				<?php if ($_['isAdminPage']): ?>
 					<td class="applicable" align="right">
 						<input type="hidden" class="applicableUsers" style="width:20em;" value="" />

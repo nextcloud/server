@@ -53,10 +53,12 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 		$backend->method('isVisibleFor')
 			->with(BackendService::VISIBILITY_PERSONAL)
 			->willReturn(false);
+		$authMech = $this->getAuthMechMock();
 
 		$storageConfig = new StorageConfig(1);
 		$storageConfig->setMountPoint('mount');
 		$storageConfig->setBackend($backend);
+		$storageConfig->setAuthMechanism($authMech);
 		$storageConfig->setBackendOptions([]);
 
 		$this->service->expects($this->exactly(2))
@@ -70,6 +72,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 		$response = $this->controller->create(
 			'mount',
 			'\OC\Files\Storage\SMB',
+			'\Auth\Mechanism',
 			array(),
 			[],
 			[],
@@ -83,6 +86,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 			1,
 			'mount',
 			'\OC\Files\Storage\SMB',
+			'\Auth\Mechanism',
 			array(),
 			[],
 			[],

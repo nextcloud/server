@@ -109,6 +109,7 @@ class UserStoragesController extends StoragesController {
 	 *
 	 * @param string $mountPoint storage mount point
 	 * @param string $backendClass backend class name
+	 * @param string $authMechanismClass authentication mechanism class
 	 * @param array $backendOptions backend-specific options
 	 * @param array $mountOptions backend-specific mount options
 	 *
@@ -119,12 +120,14 @@ class UserStoragesController extends StoragesController {
 	public function create(
 		$mountPoint,
 		$backendClass,
+		$authMechanismClass,
 		$backendOptions,
 		$mountOptions
 	) {
 		$newStorage = $this->createStorage(
 			$mountPoint,
 			$backendClass,
+			$authMechanismClass,
 			$backendOptions,
 			$mountOptions
 		);
@@ -152,6 +155,7 @@ class UserStoragesController extends StoragesController {
 	 * @param int $id storage id
 	 * @param string $mountPoint storage mount point
 	 * @param string $backendClass backend class name
+	 * @param string $authMechanismClass authentication mechanism class
 	 * @param array $backendOptions backend-specific options
 	 * @param array $mountOptions backend-specific mount options
 	 *
@@ -163,12 +167,14 @@ class UserStoragesController extends StoragesController {
 		$id,
 		$mountPoint,
 		$backendClass,
+		$authMechanismClass,
 		$backendOptions,
 		$mountOptions
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,
 			$backendClass,
+			$authMechanismClass,
 			$backendOptions,
 			$mountOptions
 		);

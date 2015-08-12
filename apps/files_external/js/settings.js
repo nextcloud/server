@@ -221,6 +221,13 @@ StorageConfig.prototype = {
 	backendClass: null,
 
 	/**
+	 * Authentication mechanism class name
+	 *
+	 * @type string
+	 */
+	authMechanismClass: null,
+
+	/**
 	 * Backend-specific configuration
 	 *
 	 * @type Object.<string,object>
@@ -273,6 +280,7 @@ StorageConfig.prototype = {
 		var data = {
 			mountPoint: this.mountPoint,
 			backendClass: this.backendClass,
+			authMechanismClass: this.authMechanismClass,
 			backendOptions: this.backendOptions
 		};
 		if (this.id) {
@@ -579,6 +587,13 @@ MountConfigListView.prototype = {
 	 */
 	_allBackends: null,
 
+	/**
+	 * List of all supported authentication mechanisms
+	 *
+	 * @type Object.<string,Object>
+	 */
+	_allAuthMechanisms: null,
+
 	_encryptionEnabled: false,
 
 	/**
@@ -605,6 +620,7 @@ MountConfigListView.prototype = {
 		// read the backend config that was carefully crammed
 		// into the data-configurations attribute of the select
 		this._allBackends = this.$el.find('.selectBackend').data('configurations');
+		this._allAuthMechanisms = this.$el.find('#addMountPoint .authentication').data('mechanisms');
 
 		//initialize hidden input field with list of users and groups
 		this.$el.find('tr:not(#addMountPoint)').each(function(i,tr) {
@@ -660,6 +676,7 @@ MountConfigListView.prototype = {
 		});
 
 		this.$el.on('change', '.selectBackend', _.bind(this._onSelectBackend, this));
+		this.$el.on('change', '.selectAuthMechanism', _.bind(this._onSelectAuthMechanism, this));
 	},
 
 	_onChange: function(event) {
@@ -694,46 +711,71 @@ MountConfigListView.prototype = {
 		}
 		$tr.addClass(backendClass);
 		$tr.find('.backend').data('class', backendClass);
-		var configurations = this._allBackends;
-		var $td = $tr.find('td.configuration');
-		$.each(configurations, function(backend, parameters) {
-			if (backend === backendClass) {
-				$.each(parameters['configuration'], function(parameter, placeholder) {
-					var is_optional = false;
-					if (placeholder.indexOf('&') === 0) {
-						is_optional = true;
-						placeholder = placeholder.substring(1);
-					}
-					var newElement;
-					if (placeholder.indexOf('*') === 0) {
-						var class_string = is_optional ? ' optional' : '';
-						newElement = $('<input type="password" class="added' + class_string + '" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
-					} else if (placeholder.indexOf('!') === 0) {
-						newElement = $('<label><input type="checkbox" class="added" data-parameter="'+parameter+'" />'+placeholder.substring(1)+'</label>');
-					} else if (placeholder.indexOf('#') === 0) {
-						newElement = $('<input type="hidden" class="added" data-parameter="'+parameter+'" />');
-					} else {
-						var class_string = is_optional ? ' optional' : '';
-						newElement = $('<input type="text" class="added' + class_string + '" data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
-					}
-					highlightInput(newElement);
-					$td.append(newElement);
-				});
-				var priorityEl = $('<input type="hidden" class="priority" value="' + parameters['priority'] + '" />');
-				$tr.append(priorityEl);
-				if (parameters['custom'] && $el.find('tbody tr.'+backendClass.replace(/\\/g, '\\\\')).length === 1) {
-					OC.addScript('files_external', parameters['custom']);
-				}
-				$td.children().not('[type=hidden]').first().focus();
-				return false;
+		var backendConfiguration = this._allBackends[backendClass];
+
+		var selectAuthMechanism = $('<select class="selectAuthMechanism"></select>');
+		$.each(this._allAuthMechanisms, function(authClass, authMechanism) {
+			if (backendConfiguration['authSchemes'][authMechanism['scheme']]) {
+				selectAuthMechanism.append(
+					$('<option value="'+authClass+'" data-scheme="'+authMechanism['scheme']+'">'+authMechanism['name']+'</option>')
+				);
 			}
 		});
+		$tr.find('td.authentication').append(selectAuthMechanism);
+
+		var $td = $tr.find('td.configuration');
+		$.each(backendConfiguration['configuration'], _.partial(this.writeParameterInput, $td));
+
+		selectAuthMechanism.trigger('change'); // generate configuration parameters for auth mechanism
+
+		var priorityEl = $('<input type="hidden" class="priority" value="' + backendConfiguration['priority'] + '" />');
+		$tr.append(priorityEl);
+		if (backendConfiguration['custom'] && $el.find('tbody tr.'+backendClass.replace(/\\/g, '\\\\')).length === 1) {
+			OC.addScript('files_external', backendConfiguration['custom']);
+		}
+		$td.children().not('[type=hidden]').first().focus();
+
 		$tr.find('td').last().attr('class', 'remove');
 		$tr.find('td.mountOptionsToggle').removeClass('hidden');
 		$tr.find('td').last().removeAttr('style');
 		$tr.removeAttr('id');
 		$target.remove();
 		addSelect2($tr.find('.applicableUsers'), this._userListLimit);
+	},
+
+	_onSelectAuthMechanism: function(event) {
+		var $target = $(event.target);
+		var $tr = $target.closest('tr');
+
+		var authMechanismClass = $target.val();
+		var authMechanism = this._allAuthMechanisms[authMechanismClass];
+		var $td = $tr.find('td.configuration');
+		$td.find('.auth-param').remove();
+
+		$.each(authMechanism['configuration'], _.partial(
+			this.writeParameterInput, $td, _, _, ['auth-param']
+		));
+	},
+
+	writeParameterInput: function($td, parameter, placeholder, classes) {
+		classes = $.isArray(classes) ? classes : [];
+		classes.push('added');
+		if (placeholder.indexOf('&') === 0) {
+			classes.push('optional');
+			placeholder = placeholder.substring(1);
+		}
+		var newElement;
+		if (placeholder.indexOf('*') === 0) {
+			newElement = $('<input type="password" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
+		} else if (placeholder.indexOf('!') === 0) {
+			newElement = $('<label><input type="checkbox" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" />'+placeholder.substring(1)+'</label>');
+		} else if (placeholder.indexOf('#') === 0) {
+			newElement = $('<input type="hidden" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" />');
+		} else {
+			newElement = $('<input type="text" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
+		}
+		highlightInput(newElement);
+		$td.append(newElement);
 	},
 
 	/**
@@ -751,6 +793,7 @@ MountConfigListView.prototype = {
 		var storage = new this._storageConfigClass(storageId);
 		storage.mountPoint = $tr.find('.mountPoint input').val();
 		storage.backendClass = $tr.find('.backend').data('class');
+		storage.authMechanismClass = $tr.find('.selectAuthMechanism').val();
 
 		var classOptions = {};
 		var configuration = $tr.find('.configuration input');

@@ -22,6 +22,7 @@
 namespace OCA\Files_external\Lib;
 
 use \OCA\Files_External\Lib\Backend\Backend;
+use \OCA\Files_External\Lib\Auth\AuthMechanism;
 
 /**
  * External storage configuration
@@ -41,6 +42,13 @@ class StorageConfig implements \JsonSerializable {
 	 * @var Backend
 	 */
 	private $backend;
+
+	/**
+	 * Authentication mechanism
+	 *
+	 * @var AuthMechanism
+	 */
+	private $authMechanism;
 
 	/**
 	 * Backend options
@@ -151,6 +159,20 @@ class StorageConfig implements \JsonSerializable {
 	 */
 	public function setBackend(Backend $backend) {
 		$this->backend= $backend;
+	}
+
+	/**
+	 * @return AuthMechanism
+	 */
+	public function getAuthMechanism() {
+		return $this->authMechanism;
+	}
+
+	/**
+	 * @param AuthMechanism
+	 */
+	public function setAuthMechanism(AuthMechanism $authMechanism) {
+		$this->authMechanism = $authMechanism;
 	}
 
 	/**
@@ -301,6 +323,7 @@ class StorageConfig implements \JsonSerializable {
 		}
 		$result['mountPoint'] = $this->mountPoint;
 		$result['backendClass'] = $this->backend->getClass();
+		$result['authMechanismClass'] = $this->authMechanism->getClass();
 		$result['backendOptions'] = $this->backendOptions;
 		if (!is_null($this->priority)) {
 			$result['priority'] = $this->priority;

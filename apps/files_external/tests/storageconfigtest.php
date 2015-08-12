@@ -32,9 +32,16 @@ class StorageConfigTest extends \Test\TestCase {
 		$backend->method('getClass')
 			->willReturn('\OC\Files\Storage\SMB');
 
+		$authMech = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\AuthMechanism')
+			->disableOriginalConstructor()
+			->getMock();
+		$authMech->method('getClass')
+			->willReturn('\Auth\Mechanism');
+
 		$storageConfig = new StorageConfig(1);
 		$storageConfig->setMountPoint('test');
 		$storageConfig->setBackend($backend);
+		$storageConfig->setAuthMechanism($authMech);
 		$storageConfig->setBackendOptions(['user' => 'test', 'password' => 'password123']);
 		$storageConfig->setPriority(128);
 		$storageConfig->setApplicableUsers(['user1', 'user2']);
@@ -46,6 +53,7 @@ class StorageConfigTest extends \Test\TestCase {
 		$this->assertEquals(1, $json['id']);
 		$this->assertEquals('/test', $json['mountPoint']);
 		$this->assertEquals('\OC\Files\Storage\SMB', $json['backendClass']);
+		$this->assertEquals('\Auth\Mechanism', $json['authMechanismClass']);
 		$this->assertEquals('test', $json['backendOptions']['user']);
 		$this->assertEquals('password123', $json['backendOptions']['password']);
 		$this->assertEquals(128, $json['priority']);

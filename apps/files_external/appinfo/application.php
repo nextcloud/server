@@ -51,6 +51,7 @@ class Application extends App {
 		});
 
 		$this->loadBackends();
+		$this->loadAuthMechanisms();
 	}
 
 	/**
@@ -59,6 +60,19 @@ class Application extends App {
 	protected function loadBackends() {
 		$container = $this->getContainer();
 		$service = $container->query('OCA\\Files_External\\Service\\BackendService');
+	}
+
+	/**
+	 * Load authentication mechanisms provided by this app
+	 */
+	protected function loadAuthMechanisms() {
+		$container = $this->getContainer();
+		$service = $container->query('OCA\\Files_External\\Service\\BackendService');
+
+		$service->registerAuthMechanisms([
+			// AuthMechanism::SCHEME_NULL mechanism
+			$container->query('OCA\Files_External\Lib\Auth\NullMechanism'),
+		]);
 	}
 
 }

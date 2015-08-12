@@ -26,6 +26,16 @@ use \OCA\Files_External\Lib\StorageConfig;
 
 /**
  * Trait for objects that can modify StorageConfigs and wrap Storages
+ *
+ * When a storage implementation is being prepared for use, the StorageConfig
+ * is passed through manipulateStorageConfig() to update any parameters as
+ * necessary. After the storage implementation has been constructed, it is
+ * passed through wrapStorage(), potentially replacing the implementation with
+ * a wrapped storage that changes its behaviour.
+ *
+ * Certain configuration options need to be set before the implementation is
+ * constructed, while others are retrieved directly from the storage
+ * implementation and so need a wrapper to be modified.
  */
 trait StorageModifierTrait {
 

@@ -68,6 +68,7 @@ class ConfigAdapter implements IMountProvider {
 			$storage->setBackendOption('objectstore', new $objectClass($objectStore));
 		}
 
+		$storage->getAuthMechanism()->manipulateStorageConfig($storage);
 		$storage->getBackend()->manipulateStorageConfig($storage);
 	}
 
@@ -81,7 +82,9 @@ class ConfigAdapter implements IMountProvider {
 		$class = $storageConfig->getBackend()->getStorageClass();
 		$storage = new $class($storageConfig->getBackendOptions());
 
+		// auth mechanism should fire first
 		$storage = $storageConfig->getBackend()->wrapStorage($storage);
+		$storage = $storageConfig->getAuthMechanism()->wrapStorage($storage);
 
 		return $storage;
 	}

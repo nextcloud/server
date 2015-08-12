@@ -25,6 +25,13 @@ use \OCA\Files_External\Service\BackendService;
 
 /**
  * Trait to implement visibility mechanics for a configuration class
+ *
+ * The standard visibility defines which users/groups can use or see the
+ * object. The allowed visibility defines the maximum visibility allowed to be
+ * set on the object. The standard visibility is often set dynamically by
+ * stored configuration parameters that can be modified by the administrator,
+ * while the allowed visibility is set directly by the object and cannot be
+ * modified by the administrator.
  */
 trait VisibilityTrait {
 

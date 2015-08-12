@@ -59,15 +59,39 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		);
 		\OC_Mount_Config::$skipTest = true;
 
+		// prepare BackendService mock
 		$this->backendService =
 			$this->getMockBuilder('\OCA\Files_External\Service\BackendService')
 			->disableOriginalConstructor()
 			->getMock();
 
+		$authMechanisms = [
+			'\Auth\Mechanism' => $this->getAuthMechMock('null', '\Auth\Mechanism'),
+			'\Other\Auth\Mechanism' => $this->getAuthMechMock('null', '\Other\Auth\Mechanism'),
+			'\OCA\Files_External\Lib\Auth\NullMechanism' => $this->getAuthMechMock(),
+		];
+		$this->backendService->method('getAuthMechanism')
+			->will($this->returnCallback(function($class) use ($authMechanisms) {
+				if (isset($authMechanisms[$class])) {
+					return $authMechanisms[$class];
+				}
+				return null;
+			}));
+		$this->backendService->method('getAuthMechanismsByScheme')
+			->will($this->returnCallback(function($schemes) use ($authMechanisms) {
+				return array_filter($authMechanisms, function ($authMech) use ($schemes) {
+					return in_array($authMech->getScheme(), $schemes, true);
+				});
+			}));
+		$this->backendService->method('getAuthMechanisms')
+			->will($this->returnValue($authMechanisms));
+
 		$backends = [
 			'\OC\Files\Storage\SMB' => $this->getBackendMock('\OCA\Files_External\Lib\Backend\SMB', '\OC\Files\Storage\SMB'),
 			'\OC\Files\Storage\SFTP' => $this->getBackendMock('\OCA\Files_External\Lib\Backend\SFTP', '\OC\Files\Storage\SFTP'),
 		];
+		$backends['\OC\Files\Storage\SFTP']->method('getLegacyAuthMechanism')
+			->willReturn($authMechanisms['\Other\Auth\Mechanism']);
 		$this->backendService->method('getBackend')
 			->will($this->returnCallback(function($backendClass) use ($backends) {
 				if (isset($backends[$backendClass])) {
@@ -105,6 +129,18 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		return $backend;
 	}
 
+	protected function getAuthMechMock($scheme = 'null', $class = '\OCA\Files_External\Lib\Auth\NullMechanism') {
+		$authMech = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\AuthMechanism')
+			->disableOriginalConstructor()
+			->getMock();
+		$authMech->method('getScheme')
+			->willReturn($scheme);
+		$authMech->method('getClass')
+			->willReturn($class);
+
+		return $authMech;
+	}
+
 	/**
 	 * Creates a StorageConfig instance based on array data
 	 *
@@ -123,7 +159,11 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			// so $data['backend'] can be specified directly
 			$data['backend'] = $this->backendService->getBackend($data['backendClass']);
 		}
+		if (!isset($data['authMechanism'])) {
+			$data['authMechanism'] = $this->backendService->getAuthMechanism($data['authMechanismClass']);
+		}
 		$storage->setBackend($data['backend']);
+		$storage->setAuthMechanism($data['authMechanism']);
 		$storage->setBackendOptions($data['backendOptions']);
 		if (isset($data['applicableUsers'])) {
 			$storage->setApplicableUsers($data['applicableUsers']);
@@ -146,17 +186,21 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	 */
 	public function testNonExistingStorage() {
 		$backend = $this->backendService->getBackend('\OC\Files\Storage\SMB');
+		$authMechanism = $this->backendService->getAuthMechanism('\Auth\Mechanism');
 		$storage = new StorageConfig(255);
 		$storage->setMountPoint('mountpoint');
 		$storage->setBackend($backend);
+		$storage->setAuthMechanism($authMechanism);
 		$this->service->updateStorage($storage);
 	}
 
 	public function testDeleteStorage() {
 		$backend = $this->backendService->getBackend('\OC\Files\Storage\SMB');
+		$authMechanism = $this->backendService->getAuthMechanism('\Auth\Mechanism');
 		$storage = new StorageConfig(255);
 		$storage->setMountPoint('mountpoint');
 		$storage->setBackend($backend);
+		$storage->setAuthMechanism($authMechanism);
 		$storage->setBackendOptions(['password' => 'testPassword']);
 
 		$newStorage = $this->service->addStorage($storage);

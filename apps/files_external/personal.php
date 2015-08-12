@@ -40,4 +40,5 @@ $tmpl->assign('isAdminPage', false);
 $tmpl->assign('storages', $userStoragesService->getAllStorages());
 $tmpl->assign('dependencies', OC_Mount_Config::dependencyMessage($backendService->getBackends()));
 $tmpl->assign('backends', $backendService->getBackendsVisibleFor(BackendService::VISIBILITY_PERSONAL));
+$tmpl->assign('authMechanisms', $backendService->getAuthMechanisms());
 return $tmpl->fetchPage();
