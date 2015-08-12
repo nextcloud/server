@@ -107,7 +107,8 @@ class Application extends App {
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('CertificateManager'),
-				$c->query('L10N')
+				$c->query('L10N'),
+				$c->query('IAppManager')
 			);
 		});
 		$container->registerService('GroupsController', function(IContainer $c) {

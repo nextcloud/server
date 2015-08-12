@@ -104,6 +104,17 @@ $clients = array(
 	'ios'     => $config->getSystemValue('customclient_ios', $defaults->getiOSClientUrl())
 );
 
+// only show root certificate import if external storages are enabled
+$enableCertImport = false;
+$externalStorageEnabled = \OC::$server->getAppManager()->isEnabledForUser('files_external');
+if ($externalStorageEnabled) {
+	$backends = OC_Mount_Config::getPersonalBackends();
+	if (!empty($backends)) {
+		$enableCertImport = true;
+	}
+}
+
+
 // Return template
 $tmpl = new OC_Template( 'settings', 'personal', 'user');
 $tmpl->assign('usage', OC_Helper::humanFileSize($storageInfo['used']));
@@ -120,6 +131,7 @@ $tmpl->assign('displayName', OC_User::getDisplayName());
 $tmpl->assign('enableAvatars', $config->getSystemValue('enable_avatars', true));
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 $tmpl->assign('certs', $certificateManager->listCertificates());
+$tmpl->assign('showCertificates', $enableCertImport);
 $tmpl->assign('urlGenerator', $urlGenerator);
 
 // Get array of group ids for this user
@@ -157,7 +169,11 @@ $formsMap = array_map(function($form){
 $formsAndMore = array_merge($formsAndMore, $formsMap);
 
 // add bottom hardcoded forms from the template
-$formsAndMore[]= array( 'anchor' => 'ssl-root-certificates', 'section-name' => $l->t('SSL root certificates') );
+if($enableCertImport) {
+	$formsAndMore[]= array( 'anchor' => 'ssl-root-certificates', 'section-name' => $l->t('SSL root certificates') );
+}
+
+
 
 $tmpl->assign('forms', $formsAndMore);
 $tmpl->printPage();

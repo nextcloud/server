@@ -205,6 +205,7 @@ if($_['passwordChangeSupported']) {
 	<?php }
 };?>
 
+<?php if($_['showCertificates']) : ?>
 <div id="ssl-root-certificates" class="section">
 	<h2><?php p($l->t('SSL root certificates')); ?></h2>
 	<table id="sslCertificate" class="grid">
@@ -242,6 +243,7 @@ if($_['passwordChangeSupported']) {
 		<input type="button" id="rootcert_import_button" value="<?php p($l->t('Import root certificate')); ?>"/>
 	</form>
 </div>
+<?php endif; ?>
 
 <div class="section">
 	<h2><?php p($l->t('Version'));?></h2>

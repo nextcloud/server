@@ -21,6 +21,7 @@
 
 namespace OC\Settings\Controller;
 
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
@@ -41,6 +42,8 @@ class CertificateControllerTest extends \Test\TestCase {
 	private $certificateManager;
 	/** @var IL10N */
 	private $l10n;
+	/** @var IAppManager */
+	private $appManager;
 
 	public function setUp() {
 		parent::setUp();
@@ -48,13 +51,21 @@ class CertificateControllerTest extends \Test\TestCase {
 		$this->request = $this->getMock('\OCP\IRequest');
 		$this->certificateManager = $this->getMock('\OCP\ICertificateManager');
 		$this->l10n = $this->getMock('\OCP\IL10N');
+		$this->appManager = $this->getMock('OCP\App\IAppManager');
 
-		$this->certificateController = new CertificateController(
-			'settings',
-			$this->request,
-			$this->certificateManager,
-			$this->l10n
-		);
+		$this->certificateController = $this->getMockBuilder('OC\Settings\Controller\CertificateController')
+			->setConstructorArgs(
+				[
+					'settings',
+					$this->request,
+					$this->certificateManager,
+					$this->l10n,
+					$this->appManager
+				]
+			)->setMethods(['isCertificateImportAllowed'])->getMock();
+
+		$this->certificateController->expects($this->any())
+			->method('isCertificateImportAllowed')->willReturn(true);
 	}
 
 	public function testAddPersonalRootCertificateWithEmptyFile() {
