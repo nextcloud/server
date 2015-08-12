@@ -210,7 +210,9 @@ class File extends \Test\TestCase {
 		$caughtException = null;
 		try {
 			// last chunk
+			$file->acquireLock(ILockingProvider::LOCK_SHARED);
 			$file->put('test data two');
+			$file->releaseLock(ILockingProvider::LOCK_SHARED);
 		} catch (\Exception $e) {
 			$caughtException = $e;
 		}
