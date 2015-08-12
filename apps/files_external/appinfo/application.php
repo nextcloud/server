@@ -63,6 +63,12 @@ class Application extends App {
 			$container->query('OCA\Files_External\Lib\Backend\Local'),
 			$container->query('OCA\Files_External\Lib\Backend\FTP'),
 		]);
+
+		if (!\OC_Util::runningOnWindows()) {
+			$service->registerBackends([
+				$container->query('OCA\Files_External\Lib\Backend\SMB'),
+			]);
+		}
 	}
 
 	/**

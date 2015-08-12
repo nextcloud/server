@@ -144,19 +144,6 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Swift', [
 
 
 if (!OC_Util::runningOnWindows()) {
-	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB', [
-		'backend' => 'SMB / CIFS',
-		'priority' => 100,
-		'configuration' => [
-			'host' => (string)$l->t('Host'),
-			'user' => (string)$l->t('Username'),
-			'password' => '*'.$l->t('Password'),
-			'share' => (string)$l->t('Share'),
-			'root' => '&'.$l->t('Remote subfolder'),
-		],
-		'has_dependencies' => true,
-	]);
-
 	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB_OC', [
 			'backend' => (string)$l->t('SMB / CIFS using OC login'),
 			'priority' => 90,
