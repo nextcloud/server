@@ -111,19 +111,6 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Dropbox', [
 	'has_dependencies' => true,
 ]);
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\FTP', [
-	'backend' => 'FTP',
-	'priority' => 100,
-	'configuration' => [
-		'host' => (string)$l->t('Host'),
-		'user' => (string)$l->t('Username'),
-		'password' => '*'.$l->t('Password'),
-		'root' => '&'.$l->t('Remote subfolder'),
-		'secure' => '!'.$l->t('Secure ftps://')
-	],
-	'has_dependencies' => true,
-]);
-
 OC_Mount_Config::registerBackend('\OC\Files\Storage\Google', [
 	'backend' => 'Google Drive',
 	'priority' => 100,
