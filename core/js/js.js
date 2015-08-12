@@ -642,7 +642,7 @@ var OC={
 		$menuEl.show();
 		$menuEl.trigger(new $.Event('afterShow'));
 		// no animation
-		if (_.isFunction()) {
+		if (_.isFunction(complete)) {
 			complete();
 		}
 	},
