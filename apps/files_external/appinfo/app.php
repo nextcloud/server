@@ -70,33 +70,6 @@ if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == '
 OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config', 'initMountPointsHook');
 OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\SMB_OC', 'login');
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', [
-	'backend' => (string)$l->t('Amazon S3'),
-	'priority' => 100,
-	'configuration' => [
-		'key' => (string)$l->t('Key'),
-		'secret' => '*'.$l->t('Secret'),
-		'bucket' => (string)$l->t('Bucket'),
-	],
-	'has_dependencies' => true,
-]);
-
-OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', [
-	'backend' => (string)$l->t('Amazon S3 and compliant'),
-	'priority' => 100,
-	'configuration' => [
-		'key' => (string)$l->t('Access Key'),
-		'secret' => '*'.$l->t('Secret Key'),
-		'bucket' => (string)$l->t('Bucket'),
-		'hostname' => '&'.$l->t('Hostname'),
-		'port' => '&'.$l->t('Port'),
-		'region' => '&'.$l->t('Region'),
-		'use_ssl' => '!'.$l->t('Enable SSL'),
-		'use_path_style' => '!'.$l->t('Enable Path Style')
-	],
-	'has_dependencies' => true,
-]);
-
 OC_Mount_Config::registerBackend('\OC\Files\Storage\Dropbox', [
 	'backend' => 'Dropbox',
 	'priority' => 100,

@@ -65,6 +65,7 @@ class Application extends App {
 			$container->query('OCA\Files_External\Lib\Backend\DAV'),
 			$container->query('OCA\Files_External\Lib\Backend\OwnCloud'),
 			$container->query('OCA\Files_External\Lib\Backend\SFTP'),
+			$container->query('OCA\Files_External\Lib\Backend\AmazonS3'),
 		]);
 
 		if (!\OC_Util::runningOnWindows()) {
@@ -91,6 +92,9 @@ class Application extends App {
 			// AuthMechanism::SCHEME_PASSWORD mechanisms
 			$container->query('OCA\Files_External\Lib\Auth\Password\Password'),
 			$container->query('OCA\Files_External\Lib\Auth\Password\SessionCredentials'),
+
+			// Specialized mechanisms
+			$container->query('OCA\Files_External\Lib\Auth\AmazonS3\AccessKey'),
 		]);
 	}
 
