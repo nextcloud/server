@@ -22,12 +22,24 @@
 
 namespace OCA\Provisioning_API\Tests;
 
+use OCP\IUserManager;
+use OCP\IGroupManager;
+
 abstract class TestCase extends \Test\TestCase {
 	protected $users = array();
 
+	/** @var IUserManager */
+	protected $userManager;
+
+	/** @var IGroupManager */
+	protected $groupManager;
+
 	protected function setUp() {
 		parent::setUp();
-		\OC_Group::createGroup('admin');
+
+		$this->userManager = \OC::$server->getUserManager();
+		$this->groupManager = \OC::$server->getGroupManager();
+		$this->groupManager->createGroup('admin');
 	}
 
 	/**
@@ -38,8 +50,7 @@ abstract class TestCase extends \Test\TestCase {
 	protected function generateUsers($num = 1) {
 		$users = array();
 		for ($i = 0; $i < $num; $i++) {
-			$user = $this->getUniqueID();
-			\OC_User::createUser($user, 'password');
+			$user = $this->userManager->createUser($this->getUniqueID(), 'password');
 			$this->users[] = $user;
 			$users[] = $user;
 		}
@@ -48,11 +59,10 @@ abstract class TestCase extends \Test\TestCase {
 
 	protected function tearDown() {
 		foreach($this->users as $user) {
-			\OC_User::deleteUser($user);
+			$user->delete();
 		}
 
-		\OC_Group::deleteGroup('admin');
-
+		$this->groupManager->get('admin')->delete();
 		parent::tearDown();
 	}
 }
