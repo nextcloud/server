@@ -44,7 +44,21 @@ class View extends \Test\TestCase {
 	 * @var \OC\Files\Storage\Storage[] $storages
 	 */
 	private $storages = array();
+
+	/**
+	 * @var string
+	 */
 	private $user;
+
+	/**
+	 * @var \OCP\IUser
+	 */
+	private $userObject;
+
+	/**
+	 * @var \OCP\IGroup
+	 */
+	private $groupObject;
 
 	/** @var \OC\Files\Storage\Storage */
 	private $tempStorage;
@@ -57,10 +71,15 @@ class View extends \Test\TestCase {
 		\OC_User::useBackend(new \OC_User_Dummy());
 
 		//login
-		\OC_User::createUser('test', 'test');
+		$userManager = \OC::$server->getUserManager();
+		$groupManager = \OC::$server->getGroupManager();
+		$this->user = 'test';
+		$this->userObject = $userManager->createUser('test', 'test');
 
-		$this->loginAsUser('test');
-		$this->user = \OC_User::getUser();
+		$this->groupObject = $groupManager->createGroup('group1');
+		$this->groupObject->addUser($this->userObject);
+
+		$this->loginAsUser($this->user);
 		// clear mounts but somehow keep the root storage
 		// that was initialized above...
 		\OC\Files\Filesystem::clearMounts();
@@ -81,6 +100,10 @@ class View extends \Test\TestCase {
 		}
 
 		$this->logout();
+
+		$this->userObject->delete();
+		$this->groupObject->delete();
+
 		parent::tearDown();
 	}
 
@@ -206,6 +229,40 @@ class View extends \Test\TestCase {
 		$rootView = new \OC\Files\View('');
 		$folderContent = $rootView->getDirectoryContent('/');
 		$this->assertEquals(4, count($folderContent));
+	}
+
+	public function sharingDisabledPermissionProvider() {
+		return [
+			['no', '', true],
+			['yes', 'group1', false],
+		];
+	}
+
+	/**
+	 * @dataProvider sharingDisabledPermissionProvider
+	 */
+	public function testRemoveSharePermissionWhenSharingDisabledForUser($excludeGroups, $excludeGroupsList, $expectedShareable) {
+		$appConfig = \OC::$server->getAppConfig();
+		$oldExcludeGroupsFlag = $appConfig->getValue('core', 'shareapi_exclude_groups', 'no');
+		$oldExcludeGroupsList = $appConfig->getValue('core', 'shareapi_exclude_groups_list', '');
+		$appConfig->setValue('core', 'shareapi_exclude_groups', $excludeGroups);
+		$appConfig->setValue('core', 'shareapi_exclude_groups_list', $excludeGroupsList);
+
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/mount');
+
+		$view = new \OC\Files\View('/');
+
+		$folderContent = $view->getDirectoryContent('');
+		$this->assertEquals($expectedShareable, $folderContent[0]->isShareable());
+
+		$folderContent = $view->getDirectoryContent('mount');
+		$this->assertEquals($expectedShareable, $folderContent[0]->isShareable());
+
+		$appConfig->setValue('core', 'shareapi_exclude_groups', $oldExcludeGroupsFlag);
+		$appConfig->setValue('core', 'shareapi_exclude_groups_list', $oldExcludeGroupsList);
 	}
 
 	function testCacheIncompleteFolder() {
