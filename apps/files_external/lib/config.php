@@ -35,6 +35,8 @@ use phpseclib\Crypt\AES;
 use \OCP\AppFramework\IAppContainer;
 use \OCA\Files_External\Lib\BackendConfig;
 use \OCA\Files_External\Service\BackendService;
+use \OCA\Files_External\Lib\Backend\LegacyBackend;
+use \OCA\Files_External\Lib\StorageConfig;
 
 /**
  * Class to configure mount.json globally and for users
@@ -64,6 +66,21 @@ class OC_Mount_Config {
 	 */
 	public static function initApp(IAppContainer $appContainer) {
 		self::$appContainer = $appContainer;
+	}
+
+	/**
+	 * @param string $class
+	 * @param array $definition
+	 * @return bool
+	 * @deprecated 8.2.0 use \OCA\Files_External\Service\BackendService::registerBackend()
+	 */
+	public static function registerBackend($class, $definition) {
+		$backendService = self::$appContainer->query('OCA\Files_External\Service\BackendService');
+		$auth = self::$appContainer->query('OCA\Files_External\Lib\Auth\Builtin');
+
+		$backendService->registerBackend(new LegacyBackend($class, $definition, $auth));
+
+		return true;
 	}
 
 	/*
@@ -102,170 +119,105 @@ class OC_Mount_Config {
 	/**
 	 * Returns the mount points for the given user.
 	 * The mount point is relative to the data directory.
-	 * TODO: Move me into StoragesService
 	 *
-	 * @param string $user user
+	 * @param string $uid user
 	 * @return array of mount point string as key, mountpoint config as value
+	 *
+	 * @deprecated 8.2.0 use UserGlobalStoragesService::getAllStorages() and UserStoragesService::getAllStorages()
 	 */
-	public static function getAbsoluteMountPoints($user) {
+	public static function getAbsoluteMountPoints($uid) {
 		$mountPoints = array();
-		$backendService = self::$appContainer->query('OCA\Files_External\Service\BackendService');
 
-		// Load system mount points
-		$mountConfig = self::readData();
+		$userGlobalStoragesService = self::$appContainer->query('OCA\Files_External\Service\UserGlobalStoragesService');
+		$userStoragesService = self::$appContainer->query('OCA\Files_External\Service\UserStoragesService');
+		$user = self::$appContainer->query('OCP\IUserManager')->get($uid);
 
-		// Global mount points (is this redundant?)
-		if (isset($mountConfig[self::MOUNT_TYPE_GLOBAL])) {
-			foreach ($mountConfig[self::MOUNT_TYPE_GLOBAL] as $mountPoint => $options) {
-				if (!isset($options['backend'])) {
-					$options['backend'] = $options['class'];
-				}
-				$backend = $backendService->getBackend($options['backend']);
-				$options['personal'] = false;
-				$options['options'] = self::decryptPasswords($options['options']);
-				if (!isset($options['priority'])) {
-					$options['priority'] = $backend->getPriority();
-				}
-				if (!isset($options['authMechanism'])) {
-					$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getIdentifier();
-				}
+		$userGlobalStoragesService->setUser($user);
+		$userStoragesService->setUser($user);
 
-				// Override if priority greater
-				if ((!isset($mountPoints[$mountPoint]))
-					|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
-				) {
-					$options['priority_type'] = self::MOUNT_TYPE_GLOBAL;
-					$options['backend'] = $backend->getText();
-					$mountPoints[$mountPoint] = $options;
-				}
+		foreach ($userGlobalStoragesService->getAllStorages() as $storage) {
+			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
+			$mountEntry = self::prepareMountPointEntry($storage, false);
+			foreach ($mountEntry['options'] as &$option) {
+				$option = self::setUserVars($uid, $option);
 			}
-		}
-		// All user mount points
-		if (isset($mountConfig[self::MOUNT_TYPE_USER]) && isset($mountConfig[self::MOUNT_TYPE_USER]['all'])) {
-			$mounts = $mountConfig[self::MOUNT_TYPE_USER]['all'];
-			foreach ($mounts as $mountPoint => $options) {
-				$mountPoint = self::setUserVars($user, $mountPoint);
-				foreach ($options as &$option) {
-					$option = self::setUserVars($user, $option);
-				}
-				if (!isset($options['backend'])) {
-					$options['backend'] = $options['class'];
-				}
-				$backend = $backendService->getBackend($options['backend']);
-				$options['personal'] = false;
-				$options['options'] = self::decryptPasswords($options['options']);
-				if (!isset($options['priority'])) {
-					$options['priority'] = $backend->getPriority();
-				}
-				if (!isset($options['authMechanism'])) {
-					$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getIdentifier();
-				}
-
-				// Override if priority greater
-				if ((!isset($mountPoints[$mountPoint]))
-					|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
-				) {
-					$options['priority_type'] = self::MOUNT_TYPE_GLOBAL;
-					$options['backend'] = $backend->getText();
-					$mountPoints[$mountPoint] = $options;
-				}
-			}
-		}
-		// Group mount points
-		if (isset($mountConfig[self::MOUNT_TYPE_GROUP])) {
-			foreach ($mountConfig[self::MOUNT_TYPE_GROUP] as $group => $mounts) {
-				if (\OC_Group::inGroup($user, $group)) {
-					foreach ($mounts as $mountPoint => $options) {
-						$mountPoint = self::setUserVars($user, $mountPoint);
-						foreach ($options as &$option) {
-							$option = self::setUserVars($user, $option);
-						}
-						if (!isset($options['backend'])) {
-							$options['backend'] = $options['class'];
-						}
-						$backend = $backendService->getBackend($options['backend']);
-						$options['personal'] = false;
-						$options['options'] = self::decryptPasswords($options['options']);
-						if (!isset($options['priority'])) {
-							$options['priority'] = $backend->getPriority();
-						}
-						if (!isset($options['authMechanism'])) {
-							$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getIdentifier();
-						}
-
-						// Override if priority greater or if priority type different
-						if ((!isset($mountPoints[$mountPoint]))
-							|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
-							|| ($mountPoints[$mountPoint]['priority_type'] !== self::MOUNT_TYPE_GROUP)
-						) {
-							$options['priority_type'] = self::MOUNT_TYPE_GROUP;
-							$options['backend'] = $backend->getText();
-							$mountPoints[$mountPoint] = $options;
-						}
-					}
-				}
-			}
-		}
-		// User mount points
-		if (isset($mountConfig[self::MOUNT_TYPE_USER])) {
-			foreach ($mountConfig[self::MOUNT_TYPE_USER] as $mountUser => $mounts) {
-				if (strtolower($mountUser) === strtolower($user)) {
-					foreach ($mounts as $mountPoint => $options) {
-						$mountPoint = self::setUserVars($user, $mountPoint);
-						foreach ($options as &$option) {
-							$option = self::setUserVars($user, $option);
-						}
-						if (!isset($options['backend'])) {
-							$options['backend'] = $options['class'];
-						}
-						$backend = $backendService->getBackend($options['backend']);
-						$options['personal'] = false;
-						$options['options'] = self::decryptPasswords($options['options']);
-						if (!isset($options['priority'])) {
-							$options['priority'] = $backend->getPriority();
-						}
-						if (!isset($options['authMechanism'])) {
-							$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getIdentifier();
-						}
-
-						// Override if priority greater or if priority type different
-						if ((!isset($mountPoints[$mountPoint]))
-							|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
-							|| ($mountPoints[$mountPoint]['priority_type'] !== self::MOUNT_TYPE_USER)
-						) {
-							$options['priority_type'] = self::MOUNT_TYPE_USER;
-							$options['backend'] = $backend->getText();
-							$mountPoints[$mountPoint] = $options;
-						}
-					}
-				}
-			}
+			$mountPoints[$mountPoint] = $mountEntry;
 		}
 
-		// Load personal mount points
-		$mountConfig = self::readData($user);
-		if (isset($mountConfig[self::MOUNT_TYPE_USER][$user])) {
-			foreach ($mountConfig[self::MOUNT_TYPE_USER][$user] as $mountPoint => $options) {
-				if (!isset($options['backend'])) {
-					$options['backend'] = $options['class'];
-				}
-				$backend = $backendService->getBackend($options['backend']);
-				if ($backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) {
-					$options['personal'] = true;
-					$options['options'] = self::decryptPasswords($options['options']);
-					if (!isset($options['authMechanism'])) {
-						$options['authMechanism'] = $backend->getLegacyAuthMechanism($options['options'])->getIdentifier();
-					}
-
-					// Always override previous config
-					$options['priority_type'] = self::MOUNT_TYPE_PERSONAL;
-					$options['backend'] = $backend->getText();
-					$mountPoints[$mountPoint] = $options;
-				}
+		foreach ($userStoragesService->getAllStorages() as $storage) {
+			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
+			$mountEntry = self::prepareMountPointEntry($storage, true);
+			foreach ($mountEntry['options'] as &$option) {
+				$option = self::setUserVars($uid, $option);
 			}
+			$mountPoints[$mountPoint] = $mountEntry;
 		}
+
+		$userGlobalStoragesService->resetUser();
+		$userStoragesService->resetUser();
 
 		return $mountPoints;
+	}
+
+	/**
+	 * Get the system mount points
+	 *
+	 * @return array
+	 *
+	 * @deprecated 8.2.0 use GlobalStoragesService::getAllStorages()
+	 */
+	public static function getSystemMountPoints() {
+		$mountPoints = [];
+		$service = self::$appContainer->query('OCA\Files_External\Service\GlobalStoragesService');
+
+		foreach ($service->getAllStorages() as $storage) {
+			$mountPoints[] = self::prepareMountPointEntry($storage, false);
+		}
+	}
+
+	/**
+	 * Get the personal mount points of the current user
+	 *
+	 * @return array
+	 *
+	 * @deprecated 8.2.0 use UserStoragesService::getAllStorages()
+	 */
+	public static function getPersonalMountPoints() {
+		$mountPoints = [];
+		$service = self::$appContainer->query('OCA\Files_External\Service\UserStoragesService');
+
+		foreach ($service->getAllStorages() as $storage) {
+			$mountPoints[] = self::prepareMountPointEntry($storage, true);
+		}
+	}
+
+	/**
+	 * Convert a StorageConfig to the legacy mountPoints array format
+	 * There's a lot of extra information in here, to satisfy all of the legacy functions
+	 *
+	 * @param StorageConfig $storage
+	 * @param bool $isPersonal
+	 * @return array
+	 */
+	private static function prepareMountPointEntry(StorageConfig $storage, $isPersonal) {
+		$mountEntry = [];
+
+		$mountEntry['mountpoint'] = substr($storage->getMountPoint(), 1); // remove leading slash
+		$mountEntry['class'] = $storage->getBackend()->getIdentifier();
+		$mountEntry['backend'] = $storage->getBackend()->getText();
+		$mountEntry['authMechanism'] = $storage->getAuthMechanism()->getIdentifier();
+		$mountEntry['personal'] = $isPersonal;
+		$mountEntry['options'] = self::decryptPasswords($storage->getBackendOptions());
+		$mountEntry['mountOptions'] = $storage->getMountOptions();
+		$mountEntry['priority'] = $storage->getPriority();
+		$mountEntry['applicable'] = [
+			'groups' => $storage->getApplicableGroups(),
+			'users' => $storage->getApplicableUsers(),
+		];
+		$mountEntry['id'] = $storage->getId();
+		// $mountEntry['storage_id'] = null; // we don't store this!
+
+		return $mountEntry;
 	}
 
 	/**
@@ -286,147 +238,6 @@ class OC_Mount_Config {
 			$input = str_replace('$user', $user, $input);
 		}
 		return $input;
-	}
-
-	/**
-	 * Get the system mount points
-	 * The returned array is not in the same format as getUserMountPoints()
-	 *
-	 * @return array
-	 */
-	public static function getSystemMountPoints() {
-		$mountPoints = self::readData();
-		$backendService = self::$appContainer->query('\OCA\Files_External\Service\BackendService');
-		$system = array();
-		if (isset($mountPoints[self::MOUNT_TYPE_GROUP])) {
-			foreach ($mountPoints[self::MOUNT_TYPE_GROUP] as $group => $mounts) {
-				foreach ($mounts as $mountPoint => $mount) {
-					// Update old classes to new namespace
-					if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
-						$mount['class'] = '\OC\Files\Storage\\' . substr($mount['class'], 15);
-					}
-					$backend = $backendService->getBackend($mount['class']);
-					$mount['options'] = self::decryptPasswords($mount['options']);
-					if (!isset($mount['priority'])) {
-						$mount['priority'] = $backend->getPriority();
-					}
-					// Remove '/$user/files/' from mount point
-					$mountPoint = substr($mountPoint, 13);
-
-					$config = array(
-						'class' => $mount['class'],
-						'mountpoint' => $mountPoint,
-						'backend' => $backend->getText(),
-						'priority' => $mount['priority'],
-						'options' => $mount['options'],
-						'applicable' => array('groups' => array($group), 'users' => array())
-					);
-					if (isset($mount['id'])) {
-						$config['id'] = (int)$mount['id'];
-					}
-					if (isset($mount['storage_id'])) {
-						$config['storage_id'] = (int)$mount['storage_id'];
-					}
-					if (isset($mount['mountOptions'])) {
-						$config['mountOptions'] = $mount['mountOptions'];
-					}
-					$hash = self::makeConfigHash($config);
-					// If an existing config exists (with same class, mountpoint and options)
-					if (isset($system[$hash])) {
-						// add the groups into that config
-						$system[$hash]['applicable']['groups']
-							= array_merge($system[$hash]['applicable']['groups'], array($group));
-					} else {
-						$system[$hash] = $config;
-					}
-				}
-			}
-		}
-		if (isset($mountPoints[self::MOUNT_TYPE_USER])) {
-			foreach ($mountPoints[self::MOUNT_TYPE_USER] as $user => $mounts) {
-				foreach ($mounts as $mountPoint => $mount) {
-					// Update old classes to new namespace
-					if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
-						$mount['class'] = '\OC\Files\Storage\\' . substr($mount['class'], 15);
-					}
-					$backend = $backendService->getBackend($mount['class']);
-					$mount['options'] = self::decryptPasswords($mount['options']);
-					if (!isset($mount['priority'])) {
-						$mount['priority'] = $backend->getPriority();
-					}
-					// Remove '/$user/files/' from mount point
-					$mountPoint = substr($mountPoint, 13);
-					$config = array(
-						'class' => $mount['class'],
-						'mountpoint' => $mountPoint,
-						'backend' => $backend->getText(),
-						'priority' => $mount['priority'],
-						'options' => $mount['options'],
-						'applicable' => array('groups' => array(), 'users' => array($user))
-					);
-					if (isset($mount['id'])) {
-						$config['id'] = (int)$mount['id'];
-					}
-					if (isset($mount['storage_id'])) {
-						$config['storage_id'] = (int)$mount['storage_id'];
-					}
-					if (isset($mount['mountOptions'])) {
-						$config['mountOptions'] = $mount['mountOptions'];
-					}
-					$hash = self::makeConfigHash($config);
-					// If an existing config exists (with same class, mountpoint and options)
-					if (isset($system[$hash])) {
-						// add the users into that config
-						$system[$hash]['applicable']['users']
-							= array_merge($system[$hash]['applicable']['users'], array($user));
-					} else {
-						$system[$hash] = $config;
-					}
-				}
-			}
-		}
-		return array_values($system);
-	}
-
-	/**
-	 * Get the personal mount points of the current user
-	 * The returned array is not in the same format as getUserMountPoints()
-	 *
-	 * @return array
-	 */
-	public static function getPersonalMountPoints() {
-		$mountPoints = self::readData(OCP\User::getUser());
-		$backendService = self::$appContainer->query('\OCA\Files_External\Service\BackendService');
-		$uid = OCP\User::getUser();
-		$personal = array();
-		if (isset($mountPoints[self::MOUNT_TYPE_USER][$uid])) {
-			foreach ($mountPoints[self::MOUNT_TYPE_USER][$uid] as $mountPoint => $mount) {
-				// Update old classes to new namespace
-				if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
-					$mount['class'] = '\OC\Files\Storage\\' . substr($mount['class'], 15);
-				}
-				$backend = $backendService->getBackend($mount['class']);
-				$mount['options'] = self::decryptPasswords($mount['options']);
-				$config = array(
-					'class' => $mount['class'],
-					// Remove '/uid/files/' from mount point
-					'mountpoint' => substr($mountPoint, strlen($uid) + 8),
-					'backend' => $backend->getText(),
-					'options' => $mount['options']
-				);
-				if (isset($mount['id'])) {
-					$config['id'] = (int)$mount['id'];
-				}
-				if (isset($mount['storage_id'])) {
-					$config['storage_id'] = (int)$mount['storage_id'];
-				}
-				if (isset($mount['mountOptions'])) {
-					$config['mountOptions'] = $mount['mountOptions'];
-				}
-				$personal[] = $config;
-			}
-		}
-		return $personal;
 	}
 
 	/**
@@ -462,158 +273,6 @@ class OC_Mount_Config {
 			}
 		}
 		return self::STATUS_ERROR;
-	}
-
-	/**
-	 * Add a mount point to the filesystem
-	 *
-	 * @param string $mountPoint Mount point
-	 * @param string $class Backend class
-	 * @param array $classOptions Backend parameters for the class
-	 * @param string $mountType MOUNT_TYPE_GROUP | MOUNT_TYPE_USER
-	 * @param string $applicable User or group to apply mount to
-	 * @param bool $isPersonal Personal or system mount point i.e. is this being called from the personal or admin page
-	 * @param int|null $priority Mount point priority, null for default
-	 * @return boolean
-	 *
-	 * @deprecated use StoragesService#addStorage() instead
-	 */
-	public static function addMountPoint($mountPoint,
-										 $class,
-										 $classOptions,
-										 $mountType,
-										 $applicable,
-										 $isPersonal = false,
-										 $priority = null) {
-		$backendService = self::$appContainer->query('\OCA\Files_External\Service\BackendService');
-		$mountPoint = OC\Files\Filesystem::normalizePath($mountPoint);
-		$relMountPoint = $mountPoint;
-		if ($mountPoint === '' || $mountPoint === '/') {
-			// can't mount at root folder
-			return false;
-		}
-
-		$backend = $backendService->getBackend($class);
-		if (!isset($backend)) {
-			// invalid backend
-			return false;
-		}
-		if ($isPersonal) {
-			// Verify that the mount point applies for the current user
-			// Prevent non-admin users from mounting local storage and other disabled backends
-			if ($applicable != OCP\User::getUser() || !$backend->isVisibleFor(BackendConfig::VISIBILITY_PERSONAL)) {
-				return false;
-			}
-			$mountPoint = '/' . $applicable . '/files/' . ltrim($mountPoint, '/');
-		} else {
-			$mountPoint = '/$user/files/' . ltrim($mountPoint, '/');
-		}
-
-		$mount = array($applicable => array(
-			$mountPoint => array(
-				'class' => $class,
-				'options' => self::encryptPasswords($classOptions))
-		)
-		);
-		if (!$isPersonal && !is_null($priority)) {
-			$mount[$applicable][$mountPoint]['priority'] = $priority;
-		}
-
-		$mountPoints = self::readData($isPersonal ? OCP\User::getUser() : null);
-		// who else loves multi-dimensional array ?
-		$isNew = !isset($mountPoints[$mountType]) ||
-			!isset($mountPoints[$mountType][$applicable]) ||
-			!isset($mountPoints[$mountType][$applicable][$mountPoint]);
-		$mountPoints = self::mergeMountPoints($mountPoints, $mount, $mountType);
-
-		// Set default priority if none set
-		if (!isset($mountPoints[$mountType][$applicable][$mountPoint]['priority'])) {
-			$mountPoints[$mountType][$applicable][$mountPoint]['priority']
-				= $backend->getPriority();
-		}
-
-		self::writeData($isPersonal ? OCP\User::getUser() : null, $mountPoints);
-
-		$result = self::getBackendStatus($class, $classOptions, $isPersonal);
-		if ($result === self::STATUS_SUCCESS && $isNew) {
-			\OC_Hook::emit(
-				\OC\Files\Filesystem::CLASSNAME,
-				\OC\Files\Filesystem::signal_create_mount,
-				array(
-					\OC\Files\Filesystem::signal_param_path => $relMountPoint,
-					\OC\Files\Filesystem::signal_param_mount_type => $mountType,
-					\OC\Files\Filesystem::signal_param_users => $applicable,
-				)
-			);
-		}
-		return $result;
-	}
-
-	/**
-	 *
-	 * @param string $mountPoint Mount point
-	 * @param string $mountType MOUNT_TYPE_GROUP | MOUNT_TYPE_USER
-	 * @param string $applicable User or group to remove mount from
-	 * @param bool $isPersonal Personal or system mount point
-	 * @return bool
-	 *
-	 * @deprecated use StoragesService#removeStorage() instead
-	 */
-	public static function removeMountPoint($mountPoint, $mountType, $applicable, $isPersonal = false) {
-		// Verify that the mount point applies for the current user
-		$relMountPoints = $mountPoint;
-		if ($isPersonal) {
-			if ($applicable != OCP\User::getUser()) {
-				return false;
-			}
-			$mountPoint = '/' . $applicable . '/files/' . ltrim($mountPoint, '/');
-		} else {
-			$mountPoint = '/$user/files/' . ltrim($mountPoint, '/');
-		}
-		$mountPoint = \OC\Files\Filesystem::normalizePath($mountPoint);
-		$mountPoints = self::readData($isPersonal ? OCP\User::getUser() : null);
-		// Remove mount point
-		unset($mountPoints[$mountType][$applicable][$mountPoint]);
-		// Unset parent arrays if empty
-		if (empty($mountPoints[$mountType][$applicable])) {
-			unset($mountPoints[$mountType][$applicable]);
-			if (empty($mountPoints[$mountType])) {
-				unset($mountPoints[$mountType]);
-			}
-		}
-		self::writeData($isPersonal ? OCP\User::getUser() : null, $mountPoints);
-		\OC_Hook::emit(
-			\OC\Files\Filesystem::CLASSNAME,
-			\OC\Files\Filesystem::signal_delete_mount,
-			array(
-				\OC\Files\Filesystem::signal_param_path => $relMountPoints,
-				\OC\Files\Filesystem::signal_param_mount_type => $mountType,
-				\OC\Files\Filesystem::signal_param_users => $applicable,
-			)
-		);
-		return true;
-	}
-
-	/**
-	 *
-	 * @param string $mountPoint Mount point
-	 * @param string $target The new mount point
-	 * @param string $mountType MOUNT_TYPE_GROUP | MOUNT_TYPE_USER
-	 * @return bool
-	 */
-	public static function movePersonalMountPoint($mountPoint, $target, $mountType) {
-		$mountPoint = rtrim($mountPoint, '/');
-		$user = OCP\User::getUser();
-		$mountPoints = self::readData($user);
-		if (!isset($mountPoints[$mountType][$user][$mountPoint])) {
-			return false;
-		}
-		$mountPoints[$mountType][$user][$target] = $mountPoints[$mountType][$user][$mountPoint];
-		// Remove old mount point
-		unset($mountPoints[$mountType][$user][$mountPoint]);
-
-		self::writeData($user, $mountPoints);
-		return true;
 	}
 
 	/**

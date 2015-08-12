@@ -72,6 +72,9 @@ class Application extends App {
 		$service->registerAuthMechanisms([
 			// AuthMechanism::SCHEME_NULL mechanism
 			$container->query('OCA\Files_External\Lib\Auth\NullMechanism'),
+
+			// AuthMechanism::SCHEME_BUILTIN mechanism
+			$container->query('OCA\Files_External\Lib\Auth\Builtin'),
 		]);
 	}
 

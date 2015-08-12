@@ -27,7 +27,7 @@ use \OCA\Files_External\Lib\DefinitionParameter;
 class LegacyBackendTest extends \Test\TestCase {
 
 	public function testConstructor() {
-		$auth = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\NullMechanism')
+		$auth = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\Builtin')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -54,7 +54,7 @@ class LegacyBackendTest extends \Test\TestCase {
 		$this->assertEquals(123, $backend->getPriority());
 		$this->assertEquals('foo/bar.js', $backend->getCustomJs());
 		$this->assertEquals(true, $backend->hasDependencies());
-		$this->assertArrayHasKey('null', $backend->getAuthSchemes());
+		$this->assertArrayHasKey('builtin', $backend->getAuthSchemes());
 		$this->assertEquals($auth, $backend->getLegacyAuthMechanism());
 
 		$parameters = $backend->getParameters();

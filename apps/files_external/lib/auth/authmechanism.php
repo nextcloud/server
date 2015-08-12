@@ -51,6 +51,7 @@ class AuthMechanism implements \JsonSerializable {
 
 	/** Standard authentication schemes */
 	const SCHEME_NULL = 'null';
+	const SCHEME_BUILTIN = 'builtin';
 	const SCHEME_PASSWORD = 'password';
 	const SCHEME_OAUTH1 = 'oauth1';
 	const SCHEME_OAUTH2 = 'oauth2';
