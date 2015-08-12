@@ -63,7 +63,7 @@ class ShareesTest extends TestCase {
 			$this->groupManager,
 			$this->userManager,
 			$this->contactsManager,
-			$this->getMockBuilder('OCP\IAppConfig')->disableOriginalConstructor()->getMock(),
+			$this->getMockBuilder('OCP\IConfig')->disableOriginalConstructor()->getMock(),
 			$this->session,
 			$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock()
 		);
@@ -434,7 +434,7 @@ class ShareesTest extends TestCase {
 				$this->groupManager,
 				$this->userManager,
 				$this->contactsManager,
-				$this->getMockBuilder('OCP\IAppConfig')->disableOriginalConstructor()->getMock(),
+				$this->getMockBuilder('OCP\IConfig')->disableOriginalConstructor()->getMock(),
 				$this->session,
 				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock()
 			])

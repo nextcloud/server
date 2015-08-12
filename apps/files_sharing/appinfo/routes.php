@@ -105,7 +105,7 @@ API::register('delete',
 $sharees = new \OCA\Files_Sharing\API\Sharees(\OC::$server->getGroupManager(),
                                               \OC::$server->getUserManager(),
                                               \OC::$server->getContactsManager(),
-                                              \OC::$server->getAppConfig(),
+                                              \OC::$server->getConfig(),
                                               \OC::$server->getUserSession(),
                                               \OC::$server->getURLGenerator());
 

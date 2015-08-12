@@ -23,7 +23,7 @@ namespace OCA\Files_Sharing\API;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUserManager;
-use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\IURLGenerator;
 
@@ -38,8 +38,8 @@ class Sharees {
 	/** @var \OCP\Contacts\IManager */
 	private $contactsManager;
 
-	/** @var IAppConfig */
-	private $appConfig;
+	/** @var IConfig */
+	private $config;
 
 	/** @var IUserSession */
 	private $userSession;
@@ -51,19 +51,19 @@ class Sharees {
 	 * @param IGroupManager $groupManager
 	 * @param IUserManager $userManager
 	 * @param \OCP\Contacts\IManager $contactsManager
-	 * @param IAppConfig $appConfig
+	 * @param IConfig $config
 	 * @param IUserSession $userSession
 	 */
 	public function __construct(IGroupManager $groupManager,
 								IUserManager $userManager,
 								\OCP\Contacts\IManager $contactsManager,
-								IAppConfig $appConfig,
+								IConfig $config,
 								IUserSession $userSession,
 								IURLGenerator $urlGenerator) {
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 		$this->contactsManager = $contactsManager;
-		$this->appConfig = $appConfig;
+		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
 	}
@@ -178,10 +178,9 @@ class Sharees {
 	}
 
 	/**
-	 * @param array $params
 	 * @return \OC_OCS_Result
 	 */
-	public function search($params) {
+	public function search() {
 		$search = isset($_GET['search']) ? (string)$_GET['search'] : '';
 		$itemType = isset($_GET['itemType']) ? (string)$_GET['itemType'] : null;
 		$existingShares = isset($_GET['existingShares']) ? (array)$_GET['existingShares'] : [];
@@ -189,7 +188,7 @@ class Sharees {
 		$page = !empty($_GET['page']) ? intval($_GET['page']) : 1;
 		$perPage = !empty($_GET['limit']) ? intval($_GET['limit']) : 200;
 
-		$shareWithGroupOnly = $this->appConfig->getValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		$shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 
 		return $this->searchSharees($search, $itemType, $existingShares, $shareType, $page, $perPage, $shareWithGroupOnly);
 	}
