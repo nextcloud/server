@@ -63,6 +63,7 @@ class Application extends App {
 			$container->query('OCA\Files_External\Lib\Backend\Local'),
 			$container->query('OCA\Files_External\Lib\Backend\FTP'),
 			$container->query('OCA\Files_External\Lib\Backend\DAV'),
+			$container->query('OCA\Files_External\Lib\Backend\OwnCloud'),
 		]);
 
 		if (!\OC_Util::runningOnWindows()) {
