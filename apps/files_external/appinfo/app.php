@@ -70,18 +70,6 @@ if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == '
 OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config', 'initMountPointsHook');
 OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\SMB_OC', 'login');
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\Local', [
-	'backend' => (string)$l->t('Local'),
-	'priority' => 150,
-	'configuration' => [
-		'datadir' => (string)$l->t('Location')
-	],
-]);
-// Local must only be visible to the admin
-$appContainer->query('OCA\Files_External\Service\BackendService')
-	->getBackend('\OC\Files\Storage\Local')
-	->setAllowedVisibility(\OCA\Files_External\Service\BackendService::VISIBILITY_ADMIN);
-
 OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', [
 	'backend' => (string)$l->t('Amazon S3'),
 	'priority' => 100,

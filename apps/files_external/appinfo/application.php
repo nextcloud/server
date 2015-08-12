@@ -28,8 +28,6 @@ use \OCA\Files_External\Controller\AjaxController;
 use \OCP\AppFramework\App;
 use \OCP\IContainer;
 use \OCA\Files_External\Service\BackendService;
-use \OCA\Files_External\Lib\BackendConfig;
-use \OCA\Files_External\Lib\BackendParameter;
 
 /**
  * @package OCA\Files_External\Appinfo
@@ -60,6 +58,10 @@ class Application extends App {
 	protected function loadBackends() {
 		$container = $this->getContainer();
 		$service = $container->query('OCA\\Files_External\\Service\\BackendService');
+
+		$service->registerBackends([
+			$container->query('OCA\Files_External\Lib\Backend\Local'),
+		]);
 	}
 
 	/**
