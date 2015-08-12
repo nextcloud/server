@@ -150,7 +150,9 @@ class File extends Node implements IFile {
 		try {
 			$view = \OC\Files\Filesystem::getView();
 			if ($view) {
-				$this->emitPreHooks($exists);
+				$run = $this->emitPreHooks($exists);
+			} else {
+				$run = true;
 			}
 
 			try {
@@ -165,9 +167,11 @@ class File extends Node implements IFile {
 			if ($needsPartFile) {
 				// rename to correct path
 				try {
-					$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
-					$fileExists = $storage->file_exists($internalPath);
-					if ($renameOkay === false || $fileExists === false) {
+					if ($run) {
+						$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
+						$fileExists = $storage->file_exists($internalPath);
+					}
+					if (!$run || $renameOkay === false || $fileExists === false) {
 						\OCP\Util::writeLog('webdav', 'renaming part file to final file failed', \OCP\Util::ERROR);
 						throw new Exception('Could not rename part file to final file');
 					}
@@ -227,6 +231,7 @@ class File extends Node implements IFile {
 			\OC\Files\Filesystem::signal_param_path => $hookPath,
 			\OC\Files\Filesystem::signal_param_run => &$run,
 		));
+		return $run;
 	}
 
 	private function emitPostHooks($exists, $path = null) {
