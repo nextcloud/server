@@ -74,6 +74,7 @@ class Application extends App {
 		if (!\OC_Util::runningOnWindows()) {
 			$service->registerBackends([
 				$container->query('OCA\Files_External\Lib\Backend\SMB'),
+				$container->query('OCA\Files_External\Lib\Backend\SMB_OC'),
 			]);
 		}
 	}
