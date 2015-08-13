@@ -27,6 +27,7 @@ describe('OCA.Files.FileActions tests', function() {
 		var $body = $('#testArea');
 		$body.append('<input type="hidden" id="dir" value="/subdir"></input>');
 		$body.append('<input type="hidden" id="permissions" value="31"></input>');
+		$body.append('<table id="filestable"><tbody id="fileList"></tbody></table>');
 		// dummy files table
 		fileActions = new OCA.Files.FileActions();
 		fileActions.registerAction({
@@ -152,9 +153,10 @@ describe('OCA.Files.FileActions tests', function() {
 		});
 	});
 	describe('action handler', function() {
-		var actionStub, $tr;
+		var actionStub, $tr, clock;
 
 		beforeEach(function() {
+			clock = sinon.useFakeTimers();
 			var fileData = {
 				id: 18,
 				type: 'file',
@@ -175,6 +177,12 @@ describe('OCA.Files.FileActions tests', function() {
 			});
 			$tr = fileList.add(fileData);
 		});
+		afterEach(function() {
+			OC.hideMenus();
+			// jump past animations
+			clock.tick(1000);
+			clock.restore();
+		});
 		it('passes context to action handler', function() {
 			$tr.find('.action-test').click();
 			expect(actionStub.calledOnce).toEqual(true);
@@ -184,6 +192,7 @@ describe('OCA.Files.FileActions tests', function() {
 			expect(context.fileList).toBeDefined();
 			expect(context.fileActions).toBeDefined();
 			expect(context.dir).toEqual('/subdir');
+			expect(context.fileInfoModel.get('name')).toEqual('testName.txt');
 
 			// when data-path is defined
 			actionStub.reset();
@@ -191,6 +200,22 @@ describe('OCA.Files.FileActions tests', function() {
 			$tr.find('.action-test').click();
 			context = actionStub.getCall(0).args[1];
 			expect(context.dir).toEqual('/somepath');
+		});
+		it('also triggers action handler when calling triggerAction()', function() {
+			var model = new OCA.Files.FileInfoModel({
+				id: 1,
+				name: 'Test.txt',
+				path: '/subdir',
+				mime: 'text/plain',
+				permissions: 31
+			});
+			fileActions.triggerAction('Test', model, fileList);
+
+			expect(actionStub.calledOnce).toEqual(true);
+			expect(actionStub.getCall(0).args[0]).toEqual('Test.txt');
+			expect(actionStub.getCall(0).args[1].fileList).toEqual(fileList);
+			expect(actionStub.getCall(0).args[1].fileActions).toEqual(fileActions);
+			expect(actionStub.getCall(0).args[1].fileInfoModel).toEqual(model);
 		});
 		describe('actions menu', function() {
 			it('shows actions menu inside row when clicking the menu trigger', function() {
@@ -203,12 +228,13 @@ describe('OCA.Files.FileActions tests', function() {
 				expect($tr.hasClass('mouseOver')).toEqual(true);
 			});
 			it('cleans up after hiding', function() {
-				var clock = sinon.useFakeTimers();
+				var slideUpStub = sinon.stub($.fn, 'slideUp');
 				$tr.find('.action-menu').click();
 				expect($tr.find('.fileActionsMenu').length).toEqual(1);
 				OC.hideMenus();
 				// sliding animation
-				clock.tick(500);
+				expect(slideUpStub.calledOnce).toEqual(true);
+				slideUpStub.getCall(0).args[1]();
 				expect($tr.hasClass('mouseOver')).toEqual(false);
 				expect($tr.find('.fileActionsMenu').length).toEqual(0);
 			});

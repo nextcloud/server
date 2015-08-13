@@ -16,33 +16,11 @@
 	 * Displays a block of details about the file info.
 	 *
 	 */
-	var DetailFileInfoView = function() {
-		this.initialize();
-	};
-	/**
-	 * @memberof OCA.Files
-	 */
-	DetailFileInfoView.prototype = {
-		/**
-		 * jQuery element
-		 */
-		$el: null,
+	var DetailFileInfoView = OC.Backbone.View.extend({
+		tagName: 'div',
+		className: 'detailFileInfoView',
 
 		_template: null,
-
-		/**
-		 * Currently displayed file info
-		 *
-		 * @type OCA.Files.FileInfo
-		 */
-		_fileInfo: null,
-
-		/**
-		 * Initialize the details view
-		 */
-		initialize: function() {
-			this.$el = $('<div class="detailFileInfoView"></div>');
-		},
 
 		/**
 		 * returns the jQuery object for HTML output
@@ -54,30 +32,12 @@
 		},
 
 		/**
-		 * Destroy / uninitialize this instance.
-		 */
-		destroy: function() {
-			if (this.$el) {
-				this.$el.remove();
-			}
-		},
-
-		/**
-		 * Renders this details view
-		 *
-		 * @abstract
-		 */
-		render: function() {
-			// to be implemented in subclass
-		},
-
-		/**
 		 * Sets the file info to be displayed in the view
 		 *
 		 * @param {OCA.Files.FileInfo} fileInfo file info to set
 		 */
 		setFileInfo: function(fileInfo) {
-			this._fileInfo = fileInfo;
+			this.model = fileInfo;
 			this.render();
 		},
 
@@ -87,9 +47,9 @@
 		 * @return {OCA.Files.FileInfo} file info
 		 */
 		getFileInfo: function() {
-			return this._fileInfo;
+			return this.model;
 		}
-	};
+	});
 
 	OCA.Files.DetailFileInfoView = DetailFileInfoView;
 })();

@@ -31,6 +31,10 @@
 		actions: {},
 		defaults: {},
 		icons: {},
+
+		/**
+		 * @deprecated
+		 */
 		currentFile: null,
 
 		/**
@@ -331,6 +335,9 @@
 			$trigger.addClass('open');
 
 			menu = new OCA.Files.FileActionsMenu();
+
+			context.$file.find('td.filename').append(menu.$el);
+
 			menu.$el.on('afterHide', function() {
 				context.$file.removeClass('mouseOver');
 				$trigger.removeClass('open');
@@ -338,7 +345,6 @@
 			});
 
 			context.$file.addClass('mouseOver');
-			context.$file.find('td.filename').append(menu.$el);
 			menu.show(context);
 		},
 
@@ -401,16 +407,84 @@
 					// also set on global object for legacy apps
 					window.FileActions.currentFile = currentFile;
 
+					var callContext = _.extend({}, context);
+
+					if (!context.dir && context.fileList) {
+						callContext.dir = $file.attr('data-path') || context.fileList.getCurrentDirectory();
+					}
+
+					if (!context.fileInfoModel && context.fileList) {
+						callContext.fileInfoModel = context.fileList.getModelForFile(fileName);
+						if (!callContext.fileInfoModel) {
+							console.warn('No file info model found for file "' + fileName + '"');
+						}
+					}
+
 					actionSpec.action(
 						fileName,
-						_.extend(context, {
-							dir: $file.attr('data-path') || context.fileList.getCurrentDirectory()
-						})
+						callContext
 					);
 				}
 			);
 			$actionEl.tooltip({placement:'top'});
 			return $actionEl;
+		},
+
+		/**
+		 * Trigger the given action on the given file.
+		 *
+		 * @param {string} actionName action name
+		 * @param {OCA.Files.FileInfoModel} fileInfoModel file info model
+		 * @param {OCA.Files.FileList} [fileList] file list, for compatibility with older action handlers [DEPRECATED]
+		 *
+		 * @return {boolean} true if the action handler was called, false otherwise
+		 *
+		 * @since 8.2
+		 */
+		triggerAction: function(actionName, fileInfoModel, fileList) {
+			var actionFunc;
+			var actions = this.get(
+				fileInfoModel.get('mimetype'),
+				fileInfoModel.isDirectory() ? 'dir' : 'file',
+				fileInfoModel.get('permissions')
+			);
+
+			if (actionName) {
+				actionFunc = actions[actionName];
+			} else {
+				actionFunc = this.getDefault(
+					fileInfoModel.get('mimetype'),
+					fileInfoModel.isDirectory() ? 'dir' : 'file',
+					fileInfoModel.get('permissions')
+				);
+			}
+
+			if (!actionFunc) {
+				actionFunc = actions['Download'];
+			}
+
+			if (!actionFunc) {
+				return false;
+			}
+
+			var context = {
+				fileActions: this,
+				fileInfoModel: fileInfoModel,
+				dir: fileInfoModel.get('path')
+			};
+
+			var fileName = fileInfoModel.get('name');
+			this.currentFile = fileName;
+			// also set on global object for legacy apps
+			window.FileActions.currentFile = fileName;
+
+			if (fileList) {
+				// compatibility with action handlers that expect these
+				context.fileList = fileList;
+				context.$file = fileList.findFileEl(fileName);
+			}
+
+			actionFunc(fileName, context);
 		},
 
 		/**
@@ -627,11 +701,12 @@
 	 * Action handler function for file actions
 	 *
 	 * @callback OCA.Files.FileActions~actionHandler
-	 * @param {String} fileName name of the clicked file
+	 * @param {String} fileName name of the file on which the action must be performed
 	 * @param context context
 	 * @param {String} context.dir directory of the file
-	 * @param context.$file jQuery element of the file
-	 * @param {OCA.Files.FileList} context.fileList the FileList instance on which the action occurred
+	 * @param {OCA.Files.FileInfoModel} fileInfoModel file info model
+	 * @param {Object} [context.$file] jQuery element of the file [DEPRECATED]
+	 * @param {OCA.Files.FileList} [context.fileList] the FileList instance on which the action occurred [DEPRECATED]
 	 * @param {OCA.Files.FileActions} context.fileActions the FileActions instance on which the action occurred
 	 */
 

@@ -13,29 +13,14 @@
 		'<div>Owner: {{owner}}';
 
 	/**
-	 * @class OCA.Sharing.ShareTabView
-	 * @classdesc
-	 *
-	 * Displays sharing information
-	 *
-	 */
-	var ShareTabView = function(id) {
-		this.initialize(id);
-	};
-	/**
 	 * @memberof OCA.Sharing
 	 */
-	ShareTabView.prototype = _.extend({}, OCA.Files.DetailTabView.prototype,
+	var ShareTabView = OCA.Files.DetailTabView.extend(
 		/** @lends OCA.Sharing.ShareTabView.prototype */ {
-		_template: null,
+		id: 'shareTabView',
+		className: 'tab shareTabView',
 
-		/**
-		 * Initialize the details view
-		 */
-		initialize: function() {
-			OCA.Files.DetailTabView.prototype.initialize.apply(this, arguments);
-			this.$el.addClass('shareTabView');
-		},
+		_template: null,
 
 		getLabel: function() {
 			return t('files_sharing', 'Sharing');
@@ -51,9 +36,9 @@
 				this._template = Handlebars.compile(TEMPLATE);
 			}
 
-			if (this._fileInfo) {
+			if (this.model) {
 				this.$el.append(this._template({
-					owner: this._fileInfo.shareOwner || OC.currentUser
+					owner: this.model.get('shareOwner') || OC.currentUser
 				}));
 
 			} else {
