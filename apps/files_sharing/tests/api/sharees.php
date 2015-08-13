@@ -672,7 +672,7 @@ class ShareesTest extends TestCase {
 			$headers = $ocs->getHeaders();
 			$this->assertArrayHasKey('Link', $headers);
 			$this->assertStringStartsWith('<', $headers['Link']);
-			$this->assertStringEndsWith('> rel="next"', $headers['Link']);
+			$this->assertStringEndsWith('"', $headers['Link']);
 		}
 	}
 
@@ -734,5 +734,53 @@ class ShareesTest extends TestCase {
 	 */
 	public function testFilterSharees($potentialSharees, $existingSharees, $expectedSharees) {
 		$this->assertEquals($expectedSharees, $this->invokePrivate($this->sharees, 'filterSharees', [$potentialSharees, $existingSharees]));
+	}
+
+	public function dataGetPaginationLinks() {
+		return [
+			[1, 1, ['limit' => 2], []],
+			[1, 3, ['limit' => 2], [
+				'<?limit=2&page=2>; rel="next"',
+				'<?limit=2&page=2>; rel="last"',
+			]],
+			[1, 21, ['limit' => 2], [
+				'<?limit=2&page=2>; rel="next"',
+				'<?limit=2&page=11>; rel="last"',
+			]],
+			[2, 21, ['limit' => 2], [
+				'<?limit=2&page=1>; rel="first"',
+				'<?limit=2&page=1>; rel="prev"',
+				'<?limit=2&page=3>; rel="next"',
+				'<?limit=2&page=11>; rel="last"',
+			]],
+			[5, 21, ['limit' => 2], [
+				'<?limit=2&page=1>; rel="first"',
+				'<?limit=2&page=4>; rel="prev"',
+				'<?limit=2&page=6>; rel="next"',
+				'<?limit=2&page=11>; rel="last"',
+			]],
+			[10, 21, ['limit' => 2], [
+				'<?limit=2&page=1>; rel="first"',
+				'<?limit=2&page=9>; rel="prev"',
+				'<?limit=2&page=11>; rel="next"',
+				'<?limit=2&page=11>; rel="last"',
+			]],
+			[11, 21, ['limit' => 2], [
+				'<?limit=2&page=1>; rel="first"',
+				'<?limit=2&page=10>; rel="prev"',
+			]],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetPaginationLinks
+	 *
+	 * @param int $page
+	 * @param int $total
+	 * @param array $params
+	 * @param array $expected
+	 */
+	public function testGetPaginationLinks($page, $total, $params, $expected) {
+		$this->assertEquals($expected, $this->invokePrivate($this->sharees, 'getPaginationLinks', [$page, $total, $params]));
 	}
 }

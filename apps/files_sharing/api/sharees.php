@@ -285,7 +285,6 @@ class Sharees {
 
 		//Pagination
 		$start = ($page - 1) * $perPage;
-		$end = $page * $perPage;
 		$total = sizeof($sharees);
 
 		$sharees = array_slice($sharees, $start, $perPage);
@@ -294,18 +293,16 @@ class Sharees {
 		$response->setTotalItems($total);
 		$response->setItemsPerPage($perPage);
 
-		if ($total > $end) {
-			$params = [
-				'search' => $search,
-				'itemType' => $itemType,
-				'existingShares' => $existingShares,
-				'shareType' => $shareTypes,
-				'page' => $page + 1,
-				'limit' => $perPage,
-			];
+		$links = $this->getPaginationLinks($page, $total, [
+			'search' => $search,
+			'itemType' => $itemType,
+			'existingShares' => $existingShares,
+			'shareType' => $shareTypes,
+			'limit' => $perPage,
+		]);
 
-			$url = $this->urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/sharees') . '?' . http_build_query($params);
-			$response->addHeader('Link', '<' . $url . '> rel="next"');
+		if (!empty($links)) {
+			$response->addHeader('Link', implode(', ', $links));
 		}
 
 		return $response;
@@ -319,10 +316,37 @@ class Sharees {
 	 * @return array
 	 */
 	protected function filterSharees($potentialSharees, $existingSharees) {
-		$sharees = array_map(function ($sharee) use ($existingSharees) {
+		$sharees = array_filter($potentialSharees, function ($sharee) use ($existingSharees) {
 			return in_array($sharee['value']['shareWith'], $existingSharees) ? null : $sharee;
-		}, $potentialSharees);
+		});
 
-		return array_filter($sharees);
+		return $sharees;
+	}
+
+	/**
+	 * Generates a bunch of pagination links for the current page
+	 *
+	 * @param int $page Current page
+	 * @param int $total Number of total items that need to be paginated
+	 * @param array $params Parameters for the URL
+	 * @return array
+	 */
+	protected function getPaginationLinks($page, $total, array $params) {
+		$url = $this->urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/sharees') . '?';
+
+		$links = [];
+		if ($page > 1) {
+			$params['page'] = 1;
+			$links[] = '<' . $url . http_build_query($params) . '>; rel="first"';
+			$params['page'] = $page - 1;
+			$links[] = '<' . $url . http_build_query($params) . '>; rel="prev"';
+		}
+		if ($page * $params['limit'] < $total) {
+			$params['page'] = $page + 1;
+			$links[] = '<' . $url . http_build_query($params) . '>; rel="next"';
+			$params['page'] = ceil($total / $params['limit']);
+			$links[] = '<' . $url . http_build_query($params) . '>; rel="last"';
+		}
+		return $links;
 	}
 }
