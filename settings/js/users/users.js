@@ -77,6 +77,9 @@ var UserList = {
 		$tr.find('.name').text(user.name);
 		$tr.find('td.displayName > span').text(user.displayname);
 		$tr.find('td.mailAddress > span').text(user.email);
+		$tr.find('td.displayName > .action').tooltip({placement: 'top'});
+		$tr.find('td.mailAddress > .action').tooltip({placement: 'top'});
+		$tr.find('td.password > .action').tooltip({placement: 'top'});
 
 		/**
 		 * groups and subadmins
@@ -158,12 +161,9 @@ var UserList = {
 		}
 		var $tdLastLogin = $tr.find('td.lastLogin');
 		$tdLastLogin.text(lastLoginRel);
-		//tooltip makes it complicated … to not insert new HTML, we adjust the
-		//original title. We use a temporary div to get back the html that we
-		//can pass later. It is also required to initialise tipsy.
-		var tooltip = $('<div>').html($($tdLastLogin.attr('original-title')).text(lastLoginAbs)).html();
-		$tdLastLogin.tipsy({gravity:'s', html:true});
-		$tdLastLogin.attr('title', tooltip);
+		$tdLastLogin.attr('title', lastLoginAbs);
+		// setup tooltip with #app-content as container to prevent the td to resize on hover
+		$tdLastLogin.tooltip({placement: 'top', container: '#app-content'});
 
 		/**
 		 * append generated row to user list
