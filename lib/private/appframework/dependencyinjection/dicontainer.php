@@ -59,6 +59,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param string $appName the name of the app
 	 */
 	public function __construct($appName, $urlParams = array()){
+		parent::__construct();
 		$this['AppName'] = $appName;
 		$this['urlParams'] = $urlParams;
 
