@@ -1,23 +1,23 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7b46d64e33feb600c5f0ec830b211e6f",
+    "hash": "2c7c72fe357eb667fbd9921bad770ecd",
     "packages": [
         {
             "name": "icewind/smb",
-            "version": "v1.0.1",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/SMB.git",
-                "reference": "8041bc1960bf2da94e60b88b34e5c78300eac476"
+                "reference": "33ab10cc4d5c3e48cba3a074b5f9fc67590cd032"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/8041bc1960bf2da94e60b88b34e5c78300eac476",
-                "reference": "8041bc1960bf2da94e60b88b34e5c78300eac476",
+                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/33ab10cc4d5c3e48cba3a074b5f9fc67590cd032",
+                "reference": "33ab10cc4d5c3e48cba3a074b5f9fc67590cd032",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 }
             ],
             "description": "php wrapper for smbclient and libsmbclient-php",
-            "time": "2015-04-20 11:16:24"
+            "time": "2015-08-13 14:19:03"
         },
         {
             "name": "icewind/streams",

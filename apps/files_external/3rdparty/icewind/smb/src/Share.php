@@ -57,8 +57,10 @@ class Share implements IShare {
 		if ($this->connection and $this->connection->isValid()) {
 			return;
 		}
-		$command = sprintf('%s --authentication-file=/proc/self/fd/3 //%s/%s',
+		$workgroupArgument = ($this->server->getWorkgroup()) ? ' -W ' . escapeshellarg($this->server->getWorkgroup()) : '';
+		$command = sprintf('%s %s --authentication-file=/proc/self/fd/3 //%s/%s',
 			Server::CLIENT,
+			$workgroupArgument,
 			$this->server->getHost(),
 			$this->name
 		);
@@ -260,8 +262,10 @@ class Share implements IShare {
 		$source = str_replace('\'', '\'"\'"\'', $source);
 		// since returned stream is closed by the caller we need to create a new instance
 		// since we can't re-use the same file descriptor over multiple calls
-		$command = sprintf('%s --authentication-file=/proc/self/fd/3 //%s/%s -c \'get %s /proc/self/fd/5\'',
+		$workgroupArgument = ($this->server->getWorkgroup()) ? ' -W ' . escapeshellarg($this->server->getWorkgroup()) : '';
+		$command = sprintf('%s %s --authentication-file=/proc/self/fd/3 //%s/%s -c \'get %s /proc/self/fd/5\'',
 			Server::CLIENT,
+			$workgroupArgument,
 			$this->server->getHost(),
 			$this->name,
 			$source
@@ -288,8 +292,10 @@ class Share implements IShare {
 		$target = str_replace('\'', '\'"\'"\'', $target);
 		// since returned stream is closed by the caller we need to create a new instance
 		// since we can't re-use the same file descriptor over multiple calls
-		$command = sprintf('%s --authentication-file=/proc/self/fd/3 //%s/%s -c \'put /proc/self/fd/4 %s\'',
+		$workgroupArgument = ($this->server->getWorkgroup()) ? ' -W ' . escapeshellarg($this->server->getWorkgroup()) : '';
+		$command = sprintf('%s %s --authentication-file=/proc/self/fd/3 //%s/%s -c \'put /proc/self/fd/4 %s\'',
 			Server::CLIENT,
+			$workgroupArgument,
 			$this->server->getHost(),
 			$this->name,
 			$target
