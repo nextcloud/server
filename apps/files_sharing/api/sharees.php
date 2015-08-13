@@ -20,8 +20,10 @@
  */
 namespace OCA\Files_Sharing\API;
 
+use Doctrine\DBAL\Connection;
 use OC\Share\SearchResultSorter;
 use OCP\Contacts\IManager;
+use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
@@ -54,6 +56,9 @@ class Sharees {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var IDBConnection */
+	private $connection;
+
 	/**
 	 * @param IGroupManager $groupManager
 	 * @param IUserManager $userManager
@@ -62,6 +67,7 @@ class Sharees {
 	 * @param IUserSession $userSession
 	 * @param IURLGenerator $urlGenerator
 	 * @param ILogger $logger
+	 * @param IDBConnection $connection
 	 */
 	public function __construct(IGroupManager $groupManager,
 								IUserManager $userManager,
@@ -69,7 +75,8 @@ class Sharees {
 								IConfig $config,
 								IUserSession $userSession,
 								IURLGenerator $urlGenerator,
-								ILogger $logger) {
+								ILogger $logger,
+								IDBConnection $connection) {
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 		$this->contactsManager = $contactsManager;
@@ -77,6 +84,7 @@ class Sharees {
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
+		$this->connection = $connection;
 	}
 
 	/**
@@ -194,7 +202,7 @@ class Sharees {
 	public function search() {
 		$search = isset($_GET['search']) ? (string) $_GET['search'] : '';
 		$itemType = isset($_GET['itemType']) ? (string) $_GET['itemType'] : null;
-		$existingShares = isset($_GET['existingShares']) ? (array) $_GET['existingShares'] : [];
+		$shareIds = isset($_GET['existingShares']) ? (array) $_GET['existingShares'] : [];
 		$page = !empty($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
 		$perPage = !empty($_GET['limit']) ? max(1, (int) $_GET['limit']) : 200;
 
@@ -219,7 +227,7 @@ class Sharees {
 
 		$shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 
-		return $this->searchSharees($search, $itemType, $existingShares, $shareTypes, $page, $perPage, $shareWithGroupOnly);
+		return $this->searchSharees($search, $itemType, $shareIds, $shareTypes, $page, $perPage, $shareWithGroupOnly);
 	}
 
 	/**
@@ -242,25 +250,27 @@ class Sharees {
 	 *
 	 * @param string $search
 	 * @param string $itemType
-	 * @param array $existingShares
+	 * @param array $shareIds
 	 * @param array $shareTypes
 	 * @param int $page
 	 * @param int $perPage
 	 * @param bool $shareWithGroupOnly
 	 * @return \OC_OCS_Result
 	 */
-	protected function searchSharees($search, $itemType, array $existingShares, array $shareTypes, $page, $perPage, $shareWithGroupOnly) {
+	protected function searchSharees($search, $itemType, array $shareIds, array $shareTypes, $page, $perPage, $shareWithGroupOnly) {
 
 		$sharedUsers = $sharedGroups = [];
-		if (!empty($existingShares)) {
-			if (!empty($existingShares[Share::SHARE_TYPE_USER]) &&
-				is_array($existingShares[Share::SHARE_TYPE_USER])) {
-				$sharedUsers = $existingShares[Share::SHARE_TYPE_USER];
+		$existingSharees = $this->getShareesForShareIds($shareIds);
+
+		if (!empty($existingSharees)) {
+			if (!empty($existingSharees[Share::SHARE_TYPE_USER]) &&
+				is_array($existingSharees[Share::SHARE_TYPE_USER])) {
+				$sharedUsers = $existingSharees[Share::SHARE_TYPE_USER];
 			}
 
-			if (!empty($existingShares[Share::SHARE_TYPE_GROUP]) &&
-				is_array($existingShares[Share::SHARE_TYPE_GROUP])) {
-				$sharedGroups = $existingShares[Share::SHARE_TYPE_GROUP];
+			if (!empty($existingSharees[Share::SHARE_TYPE_GROUP]) &&
+				is_array($existingSharees[Share::SHARE_TYPE_GROUP])) {
+				$sharedGroups = $existingSharees[Share::SHARE_TYPE_GROUP];
 			}
 		}
 
@@ -305,7 +315,7 @@ class Sharees {
 		$links = $this->getPaginationLinks($page, $total, [
 			'search' => $search,
 			'itemType' => $itemType,
-			'existingShares' => $existingShares,
+			'existingShares' => $shareIds,
 			'shareType' => $shareTypes,
 			'limit' => $perPage,
 		]);
@@ -328,6 +338,38 @@ class Sharees {
 		$sharees = array_filter($potentialSharees, function ($sharee) use ($existingSharees) {
 			return in_array($sharee['value']['shareWith'], $existingSharees) ? null : $sharee;
 		});
+
+		return $sharees;
+	}
+
+	/**
+	 * Get a list of existing share_with's for the given share IDs (if the current user owns them)
+	 *
+	 * @param array $shareIds
+	 * @return array
+	 */
+	protected function getShareesForShareIds($shareIds) {
+		if (empty($shareIds)) {
+			return [];
+		}
+
+		$queryBuilder = $this->connection->getQueryBuilder();
+		$exprBuilder = $queryBuilder->expr();
+
+		$queryBuilder->select(['share_type', 'share_with'])
+			->from('share')
+			->where($exprBuilder->in('id', $queryBuilder->createParameter('shareIds')))
+			->andWhere($exprBuilder->eq('uid_owner', $queryBuilder->createParameter('user')))
+			->andWhere($exprBuilder->isNull('parent'))
+			->setParameter('shareIds', $shareIds, Connection::PARAM_INT_ARRAY)
+			->setParameter('user', $this->userSession->getUser()->getUID());
+		$query = $queryBuilder->execute();
+
+		$sharees = [];
+		while ($row = $query->fetch()) {
+			$sharees[$row['share_type']][] = $row['share_with'];
+		}
+		$query->closeCursor();
 
 		return $sharees;
 	}
