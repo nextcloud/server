@@ -295,6 +295,7 @@ class DispatcherTest extends \Test\TestCase {
 				'method' => 'POST'
 			],
 			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\Security\ICrypto'),
 			$this->getMock('\OCP\IConfig')
 		);
 		$this->dispatcher = new Dispatcher(
@@ -322,6 +323,7 @@ class DispatcherTest extends \Test\TestCase {
 				'method' => 'POST',
 			],
 			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\Security\ICrypto'),
 			$this->getMock('\OCP\IConfig')
 		);
 		$this->dispatcher = new Dispatcher(
@@ -352,6 +354,7 @@ class DispatcherTest extends \Test\TestCase {
 				'method' => 'GET'
 			],
 			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\Security\ICrypto'),
 			$this->getMock('\OCP\IConfig')
 		);
 		$this->dispatcher = new Dispatcher(
@@ -381,6 +384,7 @@ class DispatcherTest extends \Test\TestCase {
 				'method' => 'GET'
 			],
 			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\Security\ICrypto'),
 			$this->getMock('\OCP\IConfig')
 		);
 		$this->dispatcher = new Dispatcher(
@@ -411,6 +415,7 @@ class DispatcherTest extends \Test\TestCase {
 				'method' => 'PUT'
 			],
 			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\Security\ICrypto'),
 			$this->getMock('\OCP\IConfig')
 		);
 		$this->dispatcher = new Dispatcher(
@@ -443,6 +448,7 @@ class DispatcherTest extends \Test\TestCase {
 				'method' => 'POST'
 			],
 			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\Security\ICrypto'),
 			$this->getMock('\OCP\IConfig')
 		);
 		$this->dispatcher = new Dispatcher(

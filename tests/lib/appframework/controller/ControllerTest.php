@@ -76,6 +76,7 @@ class ControllerTest extends \Test\TestCase {
 				'method' => 'hi',
 			],
 			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\Security\ICrypto'),
 			$this->getMock('\OCP\IConfig')
 		);
 

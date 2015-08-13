@@ -1057,7 +1057,8 @@ class OC_Util {
 	/**
 	 * Register an get/post call. Important to prevent CSRF attacks.
 	 *
-	 * @return string Generated token.
+	 * @return string The encrypted CSRF token, the shared secret is appended after the `:`.
+	 *
 	 * @description
 	 * Creates a 'request token' (random) and stores it inside the session.
 	 * Ever subsequent (ajax) request must use such a valid token to succeed,
@@ -1074,7 +1075,10 @@ class OC_Util {
 			// Valid token already exists, send it
 			$requestToken = \OC::$server->getSession()->get('requesttoken');
 		}
-		return ($requestToken);
+
+		// Encrypt the token to mitigate breach-like attacks
+		$sharedSecret = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(10);
+		return \OC::$server->getCrypto()->encrypt($requestToken, $sharedSecret) . ':' . $sharedSecret;
 	}
 
 	/**
