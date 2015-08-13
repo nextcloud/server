@@ -107,7 +107,8 @@ $sharees = new \OCA\Files_Sharing\API\Sharees(\OC::$server->getGroupManager(),
                                               \OC::$server->getContactsManager(),
                                               \OC::$server->getConfig(),
                                               \OC::$server->getUserSession(),
-                                              \OC::$server->getURLGenerator());
+                                              \OC::$server->getURLGenerator(),
+                                              \OC::$server->getLogger());
 
 API::register('get',
 		'/apps/files_sharing/api/v1/sharees',

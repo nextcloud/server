@@ -20,12 +20,16 @@
  */
 namespace OCA\Files_Sharing\API;
 
+use OC\Share\SearchResultSorter;
+use OCP\Contacts\IManager;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\IURLGenerator;
+use OCP\Share;
 
 class Sharees {
 
@@ -35,7 +39,7 @@ class Sharees {
 	/** @var IUserManager */
 	private $userManager;
 
-	/** @var \OCP\Contacts\IManager */
+	/** @var IManager */
 	private $contactsManager;
 
 	/** @var IConfig */
@@ -47,25 +51,32 @@ class Sharees {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var ILogger */
+	private $logger;
+
 	/**
 	 * @param IGroupManager $groupManager
 	 * @param IUserManager $userManager
-	 * @param \OCP\Contacts\IManager $contactsManager
+	 * @param IManager $contactsManager
 	 * @param IConfig $config
 	 * @param IUserSession $userSession
+	 * @param IURLGenerator $urlGenerator
+	 * @param ILogger $logger
 	 */
 	public function __construct(IGroupManager $groupManager,
 								IUserManager $userManager,
-								\OCP\Contacts\IManager $contactsManager,
+								IManager $contactsManager,
 								IConfig $config,
 								IUserSession $userSession,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								ILogger $logger) {
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 		$this->contactsManager = $contactsManager;
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -100,7 +111,7 @@ class Sharees {
 			$sharees[] = [
 				'label' => $displayName,
 				'value' => [
-					'shareType' => \OCP\Share::SHARE_TYPE_USER,
+					'shareType' => Share::SHARE_TYPE_USER,
 					'shareWith' => $uid,
 				],
 			];
@@ -131,7 +142,7 @@ class Sharees {
 			$sharees[] = [
 				'label' => $gid,
 				'value' => [
-					'shareType' => \OCP\Share::SHARE_TYPE_GROUP,
+					'shareType' => Share::SHARE_TYPE_GROUP,
 					'shareWith' => $gid,
 				],
 			];
@@ -152,7 +163,7 @@ class Sharees {
 			$sharees[] = [
 				'label' => $search,
 				'value' => [
-					'shareType' => \OCP\Share::SHARE_TYPE_REMOTE,
+					'shareType' => Share::SHARE_TYPE_REMOTE,
 					'shareWith' => $search,
 				],
 			];
@@ -166,7 +177,7 @@ class Sharees {
 					$sharees[] = [
 						'label' => $contact['FN'] . ' (' . $cloudId . ')',
 						'value' => [
-							'shareType' => \OCP\Share::SHARE_TYPE_REMOTE,
+							'shareType' => Share::SHARE_TYPE_REMOTE,
 							'shareWith' => $cloudId
 						]
 					];
@@ -188,9 +199,9 @@ class Sharees {
 		$perPage = !empty($_GET['limit']) ? max(1, (int) $_GET['limit']) : 200;
 
 		$shareTypes = [
-			\OCP\Share::SHARE_TYPE_USER,
-			\OCP\Share::SHARE_TYPE_GROUP,
-			\OCP\Share::SHARE_TYPE_REMOTE,
+			Share::SHARE_TYPE_USER,
+			Share::SHARE_TYPE_GROUP,
+			Share::SHARE_TYPE_REMOTE,
 		];
 		if (isset($_GET['shareType']) && is_array($_GET['shareType'])) {
 			$shareTypes = array_intersect($shareTypes, $_GET['shareType']);
@@ -201,9 +212,9 @@ class Sharees {
 			sort($shareTypes);
 		}
 
-		if (in_array(\OCP\Share::SHARE_TYPE_REMOTE, $shareTypes) && !$this->isRemoteSharingAllowed($itemType)) {
+		if (in_array(Share::SHARE_TYPE_REMOTE, $shareTypes) && !$this->isRemoteSharingAllowed($itemType)) {
 			// Remove remote shares from type array, because it is not allowed.
-			$shareTypes = array_diff($shareTypes, [\OCP\Share::SHARE_TYPE_REMOTE]);
+			$shareTypes = array_diff($shareTypes, [Share::SHARE_TYPE_REMOTE]);
 		}
 
 		$shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
@@ -219,8 +230,8 @@ class Sharees {
 	 */
 	protected function isRemoteSharingAllowed($itemType) {
 		try {
-			$backend = \OCP\Share::getBackend($itemType);
-			return $backend->isShareTypeAllowed(\OCP\Share::SHARE_TYPE_REMOTE);
+			$backend = Share::getBackend($itemType);
+			return $backend->isShareTypeAllowed(Share::SHARE_TYPE_REMOTE);
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -242,14 +253,14 @@ class Sharees {
 
 		$sharedUsers = $sharedGroups = [];
 		if (!empty($existingShares)) {
-			if (!empty($existingShares[\OCP\Share::SHARE_TYPE_USER]) &&
-				is_array($existingShares[\OCP\Share::SHARE_TYPE_USER])) {
-				$sharedUsers = $existingShares[\OCP\Share::SHARE_TYPE_USER];
+			if (!empty($existingShares[Share::SHARE_TYPE_USER]) &&
+				is_array($existingShares[Share::SHARE_TYPE_USER])) {
+				$sharedUsers = $existingShares[Share::SHARE_TYPE_USER];
 			}
 
-			if (!empty($existingShares[\OCP\Share::SHARE_TYPE_GROUP]) &&
-				is_array($existingShares[\OCP\Share::SHARE_TYPE_GROUP])) {
-				$sharedGroups = $existingShares[\OCP\Share::SHARE_TYPE_GROUP];
+			if (!empty($existingShares[Share::SHARE_TYPE_GROUP]) &&
+				is_array($existingShares[Share::SHARE_TYPE_GROUP])) {
+				$sharedGroups = $existingShares[Share::SHARE_TYPE_GROUP];
 			}
 		}
 
@@ -260,27 +271,25 @@ class Sharees {
 
 		$sharees = [];
 		// Get users
-		if (in_array(\OCP\Share::SHARE_TYPE_USER, $shareTypes)) {
+		if (in_array(Share::SHARE_TYPE_USER, $shareTypes)) {
 			$potentialSharees = $this->getUsers($search, $shareWithGroupOnly);
 			$sharees = array_merge($sharees, $this->filterSharees($potentialSharees, $sharedUsers));
 		}
 
 		// Get groups
-		if (in_array(\OCP\Share::SHARE_TYPE_GROUP, $shareTypes)) {
+		if (in_array(Share::SHARE_TYPE_GROUP, $shareTypes)) {
 			$potentialSharees = $this->getGroups($search, $shareWithGroupOnly);
 			$sharees = array_merge($sharees, $this->filterSharees($potentialSharees, $sharedGroups));
 		}
 
 		// Get remote
-		if (in_array(\OCP\Share::SHARE_TYPE_REMOTE, $shareTypes)) {
+		if (in_array(Share::SHARE_TYPE_REMOTE, $shareTypes)) {
 			$sharees = array_merge($sharees, $this->getRemote($search));
 		}
 
 
 		// Sort sharees
-		$sorter = new \OC\Share\SearchResultSorter($search,
-			'label',
-			\OC::$server->getLogger());
+		$sorter = new SearchResultSorter($search, 'label', $this->logger);
 		usort($sharees, array($sorter, 'sort'));
 
 		//Pagination

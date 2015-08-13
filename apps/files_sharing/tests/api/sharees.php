@@ -65,7 +65,8 @@ class ShareesTest extends TestCase {
 			$this->contactsManager,
 			$this->getMockBuilder('OCP\IConfig')->disableOriginalConstructor()->getMock(),
 			$this->session,
-			$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock()
+			$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
+			$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock()
 		);
 	}
 
@@ -485,7 +486,8 @@ class ShareesTest extends TestCase {
 				$this->contactsManager,
 				$config,
 				$this->session,
-				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock()
+				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
+				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock()
 			])
 			->setMethods(array('searchSharees', 'isRemoteSharingAllowed'))
 			->getMock();
@@ -639,7 +641,8 @@ class ShareesTest extends TestCase {
 				$this->contactsManager,
 				$this->getMockBuilder('OCP\IConfig')->disableOriginalConstructor()->getMock(),
 				$this->session,
-				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock()
+				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
+				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock()
 			])
 			->setMethods(array('getUsers', 'getGroups', 'getRemote'))
 			->getMock();
