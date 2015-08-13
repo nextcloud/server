@@ -3,21 +3,29 @@ php:
   - 5.3
   - 5.4
   - 5.5
+  - 5.6
+  - 7.0
+
+env:
+
+
+matrix:
+  allow_failures:
+    - php: 7.0
 
 env:
   global:
     - CURRENT_DIR=`pwd`
+  matrix:
+    - BACKEND=smbclient
+    - BACKEND=libsmbclient
 
 before_install:
   - pass=$(perl -e 'print crypt("test", "password")')
   - sudo useradd -m -p $pass test
   - sudo apt-get update -qq
-  - sudo apt-get install samba smbclient libsmbclient-dev libsmbclient
-  - wget -O /tmp/libsmbclient-php.zip https://github.com/eduardok/libsmbclient-php/archive/master.zip
-  - unzip /tmp/libsmbclient-php.zip -d /tmp
-  - cd /tmp/libsmbclient-php-master
-  - phpize && ./configure && make && sudo make install
-  - echo 'extension="libsmbclient.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - sudo apt-get install samba smbclient
+  - if [ "$BACKEND" == 'libsmbclient' ]; then ./install_libsmbclient.sh; fi
   - cd $CURRENT_DIR
   - chmod go+w $HOME
   - printf "%s\n%s\n" test test|sudo smbpasswd -s test

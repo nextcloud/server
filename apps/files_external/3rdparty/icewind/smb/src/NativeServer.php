@@ -24,12 +24,7 @@ class NativeServer extends Server {
 	}
 
 	protected function connect() {
-		$user = $this->getUser();
-		$workgroup = null;
-		if (strpos($user, '/')) {
-			list($workgroup, $user) = explode($user, '/');
-		}
-		$this->state->init($workgroup, $user, $this->getPassword());
+		$this->state->init($this->getWorkgroup(), $this->getUser(), $this->getPassword());
 	}
 
 	/**
