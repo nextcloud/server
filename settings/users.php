@@ -42,7 +42,9 @@ $groupManager = \OC_Group::getManager();
 $sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
 
 if (class_exists('\OCA\user_ldap\GROUP_LDAP')) {
-	$isLDAPUsed = $groupManager->isBackendUsed('\OCA\user_ldap\GROUP_LDAP');
+	$isLDAPUsed =
+		   $groupManager->isBackendUsed('\OCA\user_ldap\GROUP_LDAP')
+		|| $groupManager->isBackendUsed('\OCA\user_ldap\Group_Proxy');
 	if ($isLDAPUsed) {
 		// LDAP user count can be slow, so we sort by group name here
 		$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;
