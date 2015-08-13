@@ -42,20 +42,20 @@ class Local {
 			}
 		// if a file is specified, get the share for this file
 		if (isset($_GET['path'])) {
-			$params['itemSource'] = self::getFileId($_GET['path']);
-			$params['path'] = $_GET['path'];
-			$params['itemType'] = self::getItemType($_GET['path']);
-
 			if ( isset($_GET['reshares']) && $_GET['reshares'] !== 'false' ) {
-				$params['reshares'] = true;
+				$reshares = true;
 			} else {
-				$params['reshares'] = false;
+				$reshares = false;
 			}
 
 			if (isset($_GET['subfiles']) && $_GET['subfiles'] !== 'false') {
-				return self::getSharesFromFolder($params);
+				return self::getSharesFromFolder($_GET['path']);
 			}
-			return self::collectShares($params);
+			return self::collectShares(self::getFileId($_GET['path']),
+			                           self::getItemType($_GET['path']),
+			                           false,
+			                           $_GET['path'],
+			                           $reshares);
 		}
 
 		$shares = \OCP\Share::getItemShared('file', null);
@@ -89,38 +89,36 @@ class Local {
 	public static function getShare($params) {
 
 		$s = self::getShareFromId($params['id']);
-		$params['itemSource'] = $s['file_source'];
-		$params['itemType'] = $s['item_type'];
-		$params['specificShare'] = true;
 
-		return self::collectShares($params);
+		return self::collectShares($s['file_source'], $s['item_type'], true, null, false, (int)$params['id']);
 	}
 
 	/**
 	 * collect all share information, either of a specific share or all
 	 *        shares for a given path
-	 * @param array $params
+	 *
+	 * @param string $itemSource
+	 * @param string $itemType
+	 * @param bool $getSpecificShare
+	 * @param string $path
+	 * @param bool $reshares
+	 * @param int $id
+	 *
 	 * @return \OC_OCS_Result
 	 */
-	private static function collectShares($params) {
-
-		$itemSource = $params['itemSource'];
-		$itemType = $params['itemType'];
-		$getSpecificShare = isset($params['specificShare']) ? $params['specificShare'] : false;
-
+	private static function collectShares($itemSource, $itemType, $getSpecificShare = false, $path = null, $reshares = false, $id = null) {
 		if ($itemSource !== null) {
 			$shares = \OCP\Share::getItemShared($itemType, $itemSource);
 			$receivedFrom = \OCP\Share::getItemSharedWithBySource($itemType, $itemSource);
 			// if a specific share was specified only return this one
 			if ($getSpecificShare === true) {
 				foreach ($shares as $share) {
-					if ($share['id'] === (int) $params['id']) {
+					if ($share['id'] === $id) {
 						$shares = array('element' => $share);
 						break;
 					}
 				}
 			} else {
-				$path = $params['path'];
 				foreach ($shares as $key => $share) {
 					$shares[$key]['path'] = $path;
 				}
@@ -129,7 +127,7 @@ class Local {
 
 			// include also reshares in the lists. This means that the result
 			// will contain every user with access to the file.
-			if (isset($params['reshares']) && $params['reshares'] === true) {
+			if ($reshares === true) {
 				$shares = self::addReshares($shares, $itemSource);
 			}
 
@@ -189,11 +187,10 @@ class Local {
 
 	/**
 	 * get share from all files in a given folder (non-recursive)
-	 * @param array $params contains 'path' to the folder
+	 * @param string $path
 	 * @return \OC_OCS_Result
 	 */
-	private static function getSharesFromFolder($params) {
-		$path = $params['path'];
+	private static function getSharesFromFolder($path) {
 		$view = new \OC\Files\View('/'.\OCP\User::getUser().'/files');
 
 		if(!$view->is_dir($path)) {
