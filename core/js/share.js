@@ -382,11 +382,13 @@ OC.Share = _.extend(OC.Share, {
 		});
 	},
 	showDropDown:function(itemType, itemSource, appendTo, link, possiblePermissions, filename) {
+		var configModel = new OC.Share.ShareConfigModel();
 		var attributes = {itemType: itemType, itemSource: itemSource, possiblePermissions: possiblePermissions};
-		var itemModel = new OC.Share.ShareItemModel(attributes);
+		var itemModel = new OC.Share.ShareItemModel(attributes, {configModel: configModel});
 		var dialogView = new OC.Share.ShareDialogView({
 			id: 'dropdown',
 			model: itemModel,
+			configModel: configModel,
 			className: 'drop shareDropDown',
 			attributes: {
 				'data-item-source-name': filename,

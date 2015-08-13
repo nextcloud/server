@@ -24,7 +24,13 @@
 		'{{{remoteShareInfo}}}' +
 		'<ul id="shareWithList">' +
 		'</ul>' +
-		'{{{linkShare}}}';
+		'{{#if shareAllowed}}' +
+		'{{{linkShare}}}' +
+		'{{else}}' +
+		'{{{noSharing}}}' +
+		'{{/if}}' +
+		'{{{expiration}}}'
+		;
 
 	var TEMPLATE_RESHARER_INFO =
 		'<span class="reshare">' +
@@ -50,8 +56,36 @@
 			'        <label for="linkPassText" class="hidden-visually">{{passwordLabel}}</label>' +
 			'        <input id="linkPassText" type="password" placeholder="passwordPlaceholder" />' +
 			'        <span class="icon-loading-small hidden"></span>' +
-			'    </div>'
+			'    </div>' +
+			'    {{#if publicUpload}}' +
+			'    <div id="allowPublicUploadWrapper" class="hidden">' +
+			'        <span class="icon-loading-small hidden"></span>' +
+			'        <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload" {{{publicUploadChecked}}} />' +
+			'        <label for="sharingDialogAllowPublicUpload">{{publicUploadLabel}}</label>' +
+			'    </div>' +
+			'    {{/if}}' +
+			'    {{#if mailPublicNotificationEnabled}}' +
+			'    <form id="emailPrivateLink">' +
+			'        <input id="email" class="hidden" value="" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
+			'        <input id="emailButton" class="hidden" type="submit" value="{{mailButtonText}}" />' +
+			'    </form>' +
+			'    {{/if}}' +
+			'</div>'
 		;
+
+	var TEMPLATE_NO_SHARING =
+		'<input id="shareWith" type="text" placeholder="{{placeholder}}" disabled="disabled"/>'
+	;
+
+	var TEMPLATE_EXPIRATION =
+		'<div id="expiration">' +
+		'    <input type="checkbox" name="expirationCheckbox" id="expirationCheckbox" value="1" />' +
+		'    <label for="expirationCheckbox">{{setExpirationLabel}}</label>' +
+		'    <label for="expirationDate" class="hidden-visually">{{expirationLabel}}</label>' +
+		'    <input id="expirationDate" type="text" placeholder="{{expirationDatePlaceholder}}" class="hidden" />' +
+		'    <em id="defaultExpireMessage">{{defaultExpireMessage}}</em>' +
+		'</div>'
+	;
 
 	/**
 	 * @class OCA.Share.ShareDialogView
@@ -73,7 +107,10 @@
 		/** @type {string} **/
 		tagName: 'div',
 
-		initialize: function() {
+		/** @type {OC.Share.ShareConfigModel} **/
+		configModel: undefined,
+
+		initialize: function(options) {
 			var view = this;
 			this.model.on('change', function() {
 				view.render();
@@ -82,6 +119,12 @@
 			this.model.on('fetchError', function() {
 				OC.Notification.showTemporary(t('core', 'Share details could not be loaded for this item.'));
 			});
+
+			if(!_.isUndefined(options.configModel)) {
+				this.configModel = options.configModel;
+			} else {
+				console.warn('missing OC.Share.ShareConfigModel');
+			}
 		},
 
 		render: function() {
@@ -92,7 +135,10 @@
 				resharerInfo: this._renderResharerInfo(),
 				sharePlaceholder: this._renderSharePlaceholderPart(),
 				remoteShareInfo: this._renderRemoteShareInfoPart(),
-				linkShare: this._renderLinkSharePart()
+				linkShare: this._renderLinkSharePart(),
+				shareAllowed: this.model.hasSharePermission(),
+				noSharing: this._renderNoSharing(),
+				expiration: this._renderExpirationPart()
 			}));
 
 			return this;
@@ -155,14 +201,34 @@
 
 		_renderLinkSharePart: function() {
 			var linkShare = '';
-			if(this._showLink && $('#allowShareWithLink').val() === 'yes') {
+			if(    this.model.hasSharePermission()
+				&& this._showLink
+				&& $('#allowShareWithLink').val() === 'yes')
+			{
 				var linkShareTemplate = this._getLinkShareTemplate();
+
+				var publicUpload =
+					   this.model.isFolder()
+					&& this.model.hasCreatePermission()
+					&& this.configModel.isPublicUploadEnabled();
+
+				var publicUploadChecked = '';
+				if(this.model.isPublicUploadAllowed) {
+					publicUploadChecked = 'checked="checked"';
+				}
+
 				linkShare = linkShareTemplate({
 					linkShareLabel: t('core', 'Share link'),
 					urlLabel: t('core', 'Link'),
 					enablePasswordLabel: t('core', 'Password protect'),
 					passwordLabel: t('core', 'Password'),
-					passwordPlaceholder: t('core', 'Choose a password for the public link')
+					passwordPlaceholder: t('core', 'Choose a password for the public link'),
+					publicUpload: publicUpload,
+					publicUploadChecked: publicUploadChecked,
+					publicUploadLabel: t('core', 'Allow editing'),
+					mailPublicNotificationEnabled: this.configModel.isMailPublicNotificationEnabled(),
+					mailPrivatePlaceholder: t('core', 'Email link to person'),
+					mailButtonText: t('core', 'Send')
 				});
 			}
 			return linkShare;
@@ -174,6 +240,40 @@
 				sharePlaceholder = t('core', 'Share with users, groups or remote users …');
 			}
 			return sharePlaceholder;
+		},
+
+		_renderNoSharing: function () {
+			var noSharing = '';
+			if(!this.model.hasSharePermission()) {
+				var noSharingTemplate = this._getTemplate('noSharing', TEMPLATE_NO_SHARING);
+				noSharing = noSharingTemplate({
+					placeholder: t('core', 'Resharing is not allowed')
+				});
+			}
+			return noSharing;
+		},
+
+		_renderExpirationPart: function() {
+			var expirationTemplate = this._getTemplate('expiration', TEMPLATE_EXPIRATION);
+
+			var defaultExpireMessage = '';
+			if((   this.model.isFolder() || this.model.isFile())
+				&& this.configModel.isDefaultExpireDateEnforced()) {
+				defaultExpireMessage = t(
+						'core',
+						'The public link will expire no later than {days} days after it is created',
+						{'days': this.configModel.getDefaultExpireDate()}
+				);
+			}
+
+			var expiration = expirationTemplate({
+				setExpirationLabel: t('core', 'Set expiration date'),
+				expirationLabel: t('core', 'Expiration'),
+				expirationDatePlaceholder: t('core', 'Expiration date'),
+				defaultExpireMessage: defaultExpireMessage
+			});
+
+			return expiration;
 		},
 
 		/**

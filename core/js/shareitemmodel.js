@@ -53,7 +53,10 @@
 	 * // FIXME: use OC Share API once #17143 is done
 	 */
 	var ShareItemModel = OC.Backbone.Model.extend({
-		initialize: function() {
+		initialize: function(attributes, options) {
+			if(!_.isUndefined(options.configModel)) {
+				this.configModel = options.configModel;
+			}
 			this.fetch();
 		},
 
@@ -62,15 +65,24 @@
 		},
 
 		/**
-		 * @returns {boolean|jQuery}
+		 * @returns {boolean}
 		 */
-		isPublicUploadEnabled: function() {
-			// FIXME: this really needs a better place
-			var publicUploadEnabled = $('#filestable').data('allow-public-upload');
-			if (_.isUndefined(publicUploadEnabled)) {
-				publicUploadEnabled = 'no';
-			}
-			return publicUploadEnabled;
+		isPublicUploadAllowed: function() {
+			return this.get('allowPublicUploadStatus');
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
+		isFolder: function() {
+			return this.get('itemType') === 'folder';
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
+		isFile: function() {
+			return this.get('itemType') === 'file';
 		},
 
 		/**
@@ -134,7 +146,14 @@
 		 * @returns {boolean}
 		 */
 		hasSharePermission: function() {
-			return (this.getPermissions & OC.PERMISSION_SHARE) === OC.PERMISSION_SHARE;
+			return (this.getPermissions() & OC.PERMISSION_SHARE) === OC.PERMISSION_SHARE;
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
+		hasCreatePermission: function() {
+			return (this.getPermissions() & OC.PERMISSION_CREATE) === OC.PERMISSION_CREATE;
 		},
 
 		fetch: function() {
