@@ -116,7 +116,7 @@
 				ownerDisplayName = $('#ownerDisplayName').val();
 			if (usedSpacePercent > 98) {
 				if (owner !== oc_current_user) {
-					OC.Notification.show(t('files', 'Storage of {owner} is full, files can not be updated or synced anymore!',
+					OC.Notification.showTemporary(t('files', 'Storage of {owner} is full, files can not be updated or synced anymore!',
 						{ owner: ownerDisplayName }));
 					return;
 				}
@@ -125,7 +125,7 @@
 			}
 			if (usedSpacePercent > 90) {
 				if (owner !== oc_current_user) {
-					OC.Notification.show(t('files', 'Storage of {owner} is almost full ({usedSpacePercent}%)',
+					OC.Notification.showTemporary(t('files', 'Storage of {owner} is almost full ({usedSpacePercent}%)',
 						{ usedSpacePercent: usedSpacePercent,  owner: ownerDisplayName }));
 					return;
 				}
@@ -239,7 +239,6 @@
 
 			// display storage warnings
 			setTimeout(Files.displayStorageWarnings, 100);
-			OC.Notification.setDefault(Files.displayStorageWarnings);
 
 			// only possible at the moment if user is logged in or the files app is loaded
 			if (OC.currentUser && OCA.Files.App) {
