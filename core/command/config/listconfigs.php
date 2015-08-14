@@ -40,6 +40,7 @@ class ListConfigs extends Base {
 		'mail_smtppassword',
 		'passwordsalt',
 		'secret',
+		'ldap_agent_password',
 	];
 
 	/** * @var SystemConfig */
