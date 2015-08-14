@@ -143,6 +143,9 @@ OCP\Util::addscript('files', 'fileactionsmenu');
 OCP\Util::addscript('files', 'files');
 OCP\Util::addscript('files', 'navigation');
 OCP\Util::addscript('files', 'keyboardshortcuts');
+
+\OC::$server->getEventDispatcher()->dispatch('OCA\Files::loadAdditionalScripts');
+
 $tmpl = new OCP\Template('files', 'index', 'user');
 $tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
 $tmpl->assign('owner', $storageInfo['owner']);
