@@ -183,4 +183,24 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 		$result = $this->getResults($map);
 		$this->assertFalse($result['resharing']);
 	}
+
+	public function testLinkPublicUpload() {
+		$map = [
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_allow_public_upload', 'yes', 'yes'],
+		];
+		$result = $this->getResults($map);
+		$this->assertTrue($result['public']['upload']);
+	}
+
+	public function testLinkNoPublicUpload() {
+		$map = [
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_allow_public_upload', 'yes', 'no'],
+		];
+		$result = $this->getResults($map);
+		$this->assertFalse($result['public']['upload']);
+	}
+
+
 }
