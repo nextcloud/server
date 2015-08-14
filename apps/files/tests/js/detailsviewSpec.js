@@ -22,8 +22,13 @@
 describe('OCA.Files.DetailsView tests', function() {
 	var detailsView;
 
-	beforeEach(function() {
+	beforeEach(function(done) {
 		detailsView = new OCA.Files.DetailsView();
+
+		OC.TestUtil.loadTemplate('files', 'detailsview.html').then(function() {
+			console.log('##### HEY!');
+			done();
+		});
 	});
 	afterEach(function() {
 		detailsView.remove();

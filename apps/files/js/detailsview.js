@@ -9,26 +9,6 @@
  */
 
 (function() {
-	var TEMPLATE =
-		'<div>' +
-		'	<div class="detailFileInfoContainer">' +
-		'	</div>' +
-		'	<div>' +
-		'		{{#if tabHeaders}}' +
-		'		<ul class="tabHeaders">' +
-		'		{{#each tabHeaders}}' +
-		'		<li class="tabHeader" data-tabid="{{tabId}}" data-tabindex="{{tabIndex}}">' +
-		'			<a href="#">{{label}}</a>' +
-		'		</li>' +
-		'		{{/each}}' +
-		'		</ul>' +
-		'		{{/if}}' +
-		'		<div class="tabsContainer">' +
-		'		</div>' +
-		'	</div>' +
-		'	<a class="close icon-close" href="#" alt="{{closeLabel}}"></a>' +
-		'</div>';
-
 	/**
 	 * @class OCA.Files.DetailsView
 	 * @classdesc
@@ -123,7 +103,7 @@
 
 		template: function(vars) {
 			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
+				this._template = Handlebars.compile($('#detailsViewTemplate').html());
 			}
 			return this._template(vars);
 		},

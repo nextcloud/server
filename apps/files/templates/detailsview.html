@@ -1,0 +1,21 @@
+<script id="detailsViewTemplate" type="text/x-handlebars-template">
+	<div>
+		<div class="detailFileInfoContainer">
+		</div>
+		<div>
+			{{#if tabHeaders}}
+			<ul class="tabHeaders">
+			{{#each tabHeaders}}
+			<li class="tabHeader" data-tabid="{{tabId}}" data-tabindex="{{tabIndex}}">
+				<a href="#">{{label}}</a>
+			</li>
+			{{/each}}
+			</ul>
+			{{/if}}
+			<div class="tabsContainer">
+			</div>
+		</div>
+		<a class="close icon-close" href="#" alt="{{closeLabel}}"></a>
+	</div>
+</script>
+

@@ -188,6 +188,9 @@ module.exports = function(config) {
 	// include core CSS
 	files.push({pattern: 'core/css/*.css', watched: true, included: true, served: true});
 
+	// serve app templates
+	files.push({pattern: 'apps/**/templates/*.html', watched: true, included: true, server: true});
+
 	config.set({
 
 		// base path, that will be used to resolve files and exclude
@@ -206,9 +209,9 @@ module.exports = function(config) {
 
 		proxies: {
 			// prevent warnings for images
-			'/context.html//core/img/': 'http://localhost:9876/base/core/img/',
-			'/context.html//core/css/': 'http://localhost:9876/base/core/css/',
-			'/context.html//core/fonts/': 'http://localhost:9876/base/core/fonts/'
+			'/context.html//core/img/': '/base/core/img/',
+			'/context.html//core/css/': '/base/core/css/',
+			'/context.html//core/fonts/': '/base/core/fonts/',
 		},
 
 		// test results reporter to use

@@ -101,6 +101,21 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 				return url;
 			}
 			return r[1];
+		},
+
+		loadTemplate: function(app, templateName) {
+			var defer = $.Deferred();
+			console.log('Loading: ', OC.filePath(app, 'templates', templateName));
+			window.fakeServer.restore();
+			$.get(OC.filePath(app, 'templates', templateName), function(tmpl) {
+				console.log('template loaded');
+				var $template = $(tmpl);
+				$('#testArea').append($template);
+				window.fakeServer = sinon.fakeServer.create();
+				defer.resolve($template);
+			});
+
+			return defer.promise();
 		}
 	};
 
@@ -125,6 +140,8 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 
 		// reset plugins
 		OC.Plugins._plugins = [];
+
+		OC.appswebroots['files'] = 'base/apps/files';
 
 		// dummy select2 (which isn't loaded during the tests)
 		$.fn.select2 = function() {};
