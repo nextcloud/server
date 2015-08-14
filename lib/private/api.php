@@ -354,15 +354,18 @@ class OC_API {
 			header($name . ': ' . $value);
 		}
 
+		$meta = $result->getMeta();
+		$data = $result->getData();
 		if (self::isV2()) {
 			$statusCode = self::mapStatusCodes($result->getStatusCode());
 			if (!is_null($statusCode)) {
+				$meta['statuscode'] = $statusCode;
 				OC_Response::setStatus($statusCode);
 			}
 		}
 
 		self::setContentType($format);
-		$body = self::renderResult($result, $format);
+		$body = self::renderResult($format, $meta, $data);
 		echo $body;
 	}
 
@@ -452,15 +455,14 @@ class OC_API {
 	}
 
 	/**
-	 * @param OC_OCS_Result $result
 	 * @param string $format
 	 * @return string
 	 */
-	public static function renderResult($result, $format) {
+	public static function renderResult($format, $meta, $data) {
 		$response = array(
 			'ocs' => array(
-				'meta' => $result->getMeta(),
-				'data' => $result->getData(),
+				'meta' => $meta,
+				'data' => $data,
 			),
 		);
 		if ($format == 'json') {
