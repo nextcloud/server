@@ -1941,16 +1941,23 @@
 				canDelete = (this.getDirectoryPermissions() & OC.PERMISSION_DELETE) && this.isSelectedDeletable();
 				this.$el.find('.selectedActions').removeClass('hidden');
 				this.$el.find('#headerSize a>span:first').text(OC.Util.humanFileSize(summary.totalSize));
-				var selection = '';
-				if (summary.totalDirs > 0) {
-					selection += n('files', '%n folder', '%n folders', summary.totalDirs);
-					if (summary.totalFiles > 0) {
-						selection += ' & ';
-					}
+
+				var directoryInfo = n('files', '%n folder', '%n folders', summary.totalDirs);
+				var fileInfo = n('files', '%n file', '%n files', summary.totalFiles);
+
+				var selectionVars = {
+					dirs: directoryInfo,
+					files: fileInfo
+				};
+
+				if (summary.totalDirs > 0 && summary.totalFiles > 0) {
+					var selection = t('files', '{dirs} and {files}', selectionVars);
+				} else if (summary.totalDirs > 0) {
+					var selection = directoryInfo;
+				} else {
+					var selection = fileInfo;
 				}
-				if (summary.totalFiles > 0) {
-					selection += n('files', '%n file', '%n files', summary.totalFiles);
-				}
+
 				this.$el.find('#headerName a.name>span:first').text(selection);
 				this.$el.find('#modified a>span:first').text('');
 				this.$el.find('table').addClass('multiselect');
