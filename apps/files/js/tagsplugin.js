@@ -108,6 +108,8 @@
 					}
 					toggleStar($actionEl, !isFavorite);
 
+					context.fileInfoModel.set('tags', tags);
+
 					self.applyFileTags(
 						dir + '/' + fileName,
 						tags,
@@ -124,7 +126,6 @@
 						toggleStar($actionEl, (newTags.indexOf(OC.TAG_FAVORITE) >= 0));
 						$file.attr('data-tags', newTags.join('|'));
 						$file.attr('data-favorite', !isFavorite);
-						context.fileInfoModel.set('tags', newTags);
 						fileInfo.tags = newTags;
 					});
 				}

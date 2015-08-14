@@ -71,8 +71,10 @@
 		 * @param {OCA.Files.FileInfoModel} fileInfo file info to set
 		 */
 		setFileInfo: function(fileInfo) {
-			this.model = fileInfo;
-			this.render();
+			if (this.model !== fileInfo) {
+				this.model = fileInfo;
+				this.render();
+			}
 		},
 
 		/**

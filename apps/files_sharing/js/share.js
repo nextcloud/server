@@ -60,6 +60,14 @@
 				return tr;
 			};
 
+			var oldElementToFile = fileList.elementToFile;
+			fileList.elementToFile = function($el) {
+				var fileInfo = oldElementToFile.apply(this, arguments);
+				fileInfo.sharePermissions = $el.attr('data-share-permissions') || undefined;
+				fileInfo.shareOwner = $el.attr('data-share-owner') || undefined;
+				return fileInfo;
+			};
+
 			// use delegate to catch the case with multiple file lists
 			fileList.$el.on('fileActionsReady', function(ev){
 				var fileList = ev.fileList;

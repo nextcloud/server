@@ -9,22 +9,25 @@
  */
 
 (function() {
-
 	var TEMPLATE =
 		'<div>' +
-		'    <div class="detailFileInfoContainer">' +
-		'    </div>' +
-		'    <div>' +
-		'        <ul class="tabHeaders">' +
-		'        </ul>' +
-		'        <div class="tabsContainer">' +
-		'        </div>' +
-		'    </div>' +
-		'    <a class="close icon-close" href="#" alt="{{closeLabel}}"></a>' +
+		'	<div class="detailFileInfoContainer">' +
+		'	</div>' +
+		'	<div>' +
+		'		{{#if tabHeaders}}' +
+		'		<ul class="tabHeaders">' +
+		'		{{#each tabHeaders}}' +
+		'		<li class="tabHeader" data-tabid="{{tabId}}" data-tabindex="{{tabIndex}}">' +
+		'			<a href="#">{{label}}</a>' +
+		'		</li>' +
+		'		{{/each}}' +
+		'		</ul>' +
+		'		{{/if}}' +
+		'		<div class="tabsContainer">' +
+		'		</div>' +
+		'	</div>' +
+		'	<a class="close icon-close" href="#" alt="{{closeLabel}}"></a>' +
 		'</div>';
-
-	var TEMPLATE_TAB_HEADER =
-		'<li class="tabHeader {{#if selected}}selected{{/if}}" data-tabid="{{tabId}}" data-tabindex="{{tabIndex}}"><a href="#">{{label}}</a></li>';
 
 	/**
 	 * @class OCA.Files.DetailsView
@@ -39,7 +42,6 @@
 		className: 'detailsView',
 
 		_template: null,
-		_templateTabHeader: null,
 
 		/**
 		 * List of detail tab views
@@ -62,6 +64,11 @@
 		 */
 		_currentTabId: null,
 
+		/**
+		 * Dirty flag, whether the view needs to be rerendered
+		 */
+		_dirty: false,
+
 		events: {
 			'click a.close': '_onClose',
 			'click .tabHeaders .tabHeader': '_onClickTab'
@@ -74,8 +81,10 @@
 			this._tabViews = [];
 			this._detailFileInfoViews = [];
 
+			this._dirty = true;
+
 			// uncomment to add some dummy tabs for testing
-			// this._addTestTabs();
+			//this._addTestTabs();
 		},
 
 		_onClose: function(event) {
@@ -85,28 +94,21 @@
 
 		_onClickTab: function(e) {
 			var $target = $(e.target);
+			e.preventDefault();
 			if (!$target.hasClass('tabHeader')) {
 				$target = $target.closest('.tabHeader');
 			}
-			var tabIndex = $target.attr('data-tabindex');
-			var targetTab;
-			if (_.isUndefined(tabIndex)) {
+			var tabId = $target.attr('data-tabid');
+			if (_.isUndefined(tabId)) {
 				return;
 			}
 
-			this.$el.find('.tabsContainer .tab').addClass('hidden');
-			targetTab = this._tabViews[tabIndex];
-			targetTab.$el.removeClass('hidden');
-
-			this.$el.find('.tabHeaders li').removeClass('selected');
-			$target.addClass('selected');
-
-			e.preventDefault();
+			this.selectTab(tabId);
 		},
 
 		_addTestTabs: function() {
 			for (var j = 0; j < 2; j++) {
-				var testView = new OCA.Files.DetailTabView('testtab' + j);
+				var testView = new OCA.Files.DetailTabView({id: 'testtab' + j});
 				testView.index = j;
 				testView.getLabel = function() { return 'Test tab ' + this.index; };
 				testView.render = function() {
@@ -119,26 +121,34 @@
 			}
 		},
 
+		template: function(vars) {
+			if (!this._template) {
+				this._template = Handlebars.compile(TEMPLATE);
+			}
+			return this._template(vars);
+		},
+
 		/**
 		 * Renders this details view
 		 */
 		render: function() {
-			var self = this;
-
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
-			}
-
-			if (!this._templateTabHeader) {
-				this._templateTabHeader = Handlebars.compile(TEMPLATE_TAB_HEADER);
-			}
-
-			this.$el.html(this._template({
+			var templateVars = {
 				closeLabel: t('files', 'Close')
-			}));
+			};
 
-			var $tabsContainer = this.$el.find('.tabsContainer');
-			var $tabHeadsContainer = this.$el.find('.tabHeaders');
+			if (this._tabViews.length > 1) {
+				// only render headers if there is more than one available
+				templateVars.tabHeaders = _.map(this._tabViews, function(tabView, i) {
+					return {
+						tabId: tabView.id,
+						tabIndex: i,
+						label: tabView.getLabel()
+					};
+				});
+			}
+
+			this.$el.html(this.template(templateVars));
+
 			var $detailsContainer = this.$el.find('.detailFileInfoContainer');
 
 			// render details
@@ -146,29 +156,58 @@
 				$detailsContainer.append(detailView.get$());
 			});
 
-			if (this._tabViews.length > 0) {
-				if (!this._currentTab) {
-					this._currentTab = this._tabViews[0].id;
-				}
-
-				// render tabs
-				_.each(this._tabViews, function(tabView, i) {
-					// hidden by default
-					var $el = tabView.get$();
-					var isCurrent = (tabView.id === self._currentTab);
-					if (!isCurrent) {
-						$el.addClass('hidden');
-					}
-					$tabsContainer.append($el);
-
-					$tabHeadsContainer.append(self._templateTabHeader({
-						tabId: tabView.id,
-						tabIndex: i,
-						label: tabView.getLabel(),
-						selected: isCurrent
-					}));
-				});
+			if (!this._currentTabId && this._tabViews.length > 0) {
+				this._currentTabId = this._tabViews[0].id;
 			}
+
+			this.selectTab(this._currentTabId);
+
+			this._dirty = false;
+		},
+
+		/**
+		 * Selects the given tab by id
+		 *
+		 * @param {string} tabId tab id
+		 */
+		selectTab: function(tabId) {
+			if (!tabId) {
+				return;
+			}
+
+			var tabView = _.find(this._tabViews, function(tab) {
+				return tab.id === tabId;
+			});
+
+			if (!tabView) {
+				console.warn('Details view tab with id "' + tabId + '" not found');
+				return;
+			}
+
+			this._currentTabId = tabId;
+
+			var $tabsContainer = this.$el.find('.tabsContainer');
+			var $tabEl = $tabsContainer.find('#' + tabId);
+
+			// hide other tabs
+			$tabsContainer.find('.tab').addClass('hidden');
+
+			// tab already rendered ?
+			if (!$tabEl.length) {
+				// render tab
+				$tabsContainer.append(tabView.$el);
+				$tabEl = tabView.$el;
+			}
+
+			// this should trigger tab rendering
+			tabView.setFileInfo(this.model);
+
+			$tabEl.removeClass('hidden');
+
+			// update tab headers
+			var $tabHeaders = this.$el.find('.tabHeaders li');
+			$tabHeaders.removeClass('selected');
+			$tabHeaders.filterAttr('data-tabid', tabView.id).addClass('selected');
 		},
 
 		/**
@@ -179,12 +218,19 @@
 		setFileInfo: function(fileInfo) {
 			this.model = fileInfo;
 
-			this.render();
+			if (this._dirty) {
+				this.render();
+			}
 
-			// notify all panels
-			_.each(this._tabViews, function(tabView) {
+			if (this._currentTabId) {
+				// only update current tab, others will be updated on-demand
+				var tabId = this._currentTabId;
+				var tabView = _.find(this._tabViews, function(tab) {
+					return tab.id === tabId;
+				});
 				tabView.setFileInfo(fileInfo);
-			});
+			}
+
 			_.each(this._detailFileInfoViews, function(detailView) {
 				detailView.setFileInfo(fileInfo);
 			});
@@ -206,6 +252,7 @@
 		 */
 		addTabView: function(tabView) {
 			this._tabViews.push(tabView);
+			this._dirty = true;
 		},
 
 		/**
@@ -215,6 +262,7 @@
 		 */
 		addDetailView: function(detailView) {
 			this._detailFileInfoViews.push(detailView);
+			this._dirty = true;
 		}
 	});
 
