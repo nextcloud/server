@@ -39,6 +39,7 @@
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 
 /**
@@ -439,4 +440,12 @@ interface IServerContainer {
 	 */
 	public function getMimeTypeDetector();
 
+
+	/**
+	 * Get the EventDispatcher
+	 *
+	 * @return EventDispatcherInterface
+	 * @since 8.2.0
+	 */
+	public function getEventDispatcher();
 }

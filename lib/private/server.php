@@ -51,7 +51,6 @@ use OC\Http\Client\ClientService;
 use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
-use OC\Memcache\NullCache;
 use OC\Security\CertificateManager;
 use OC\Security\Crypto;
 use OC\Security\Hasher;
@@ -59,6 +58,8 @@ use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Tagging\TagMapper;
 use OCP\IServerContainer;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Server
@@ -457,7 +458,9 @@ class Server extends SimpleContainer implements IServerContainer {
 			});
 			return $manager;
 		});
-
+		$this->registerService('EventDispatcher', function() {
+			return new EventDispatcher();
+		});
 	}
 
 	/**
@@ -962,5 +965,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	public function getCapabilitiesManager() {
 		return $this->query('CapabilitiesManager');
+	}
+
+	/**
+	 * Get the EventDispatcher
+	 *
+	 * @return EventDispatcherInterface
+	 * @since 8.2.0
+	 */
+	public function getEventDispatcher() {
+		return $this->query('EventDispatcher');
 	}
 }
