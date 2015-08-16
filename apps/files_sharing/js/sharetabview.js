@@ -10,7 +10,7 @@
 
 (function() {
 	var TEMPLATE =
-		'<div>Owner: {{owner}}';
+		'<div><ul>{{#if owner}}<li>Owner: {{owner}}</li>{{/if}}</ul></div>';
 
 	/**
 	 * @memberof OCA.Sharing
@@ -37,8 +37,13 @@
 			}
 
 			if (this.model) {
+				console.log(this.model);
+				var owner = this.model.get('shareOwner');
+				if (owner === OC.currentUser) {
+					owner = null;
+				}
 				this.$el.append(this._template({
-					owner: this.model.get('shareOwner') || OC.currentUser
+					owner: owner
 				}));
 
 			} else {

@@ -67,32 +67,75 @@ describe('OCA.Files.DetailsView tests', function() {
 		var testView, testView2;
 
 		beforeEach(function() {
-			testView = new OCA.Files.DetailTabView('test1');
-			testView2 = new OCA.Files.DetailTabView('test2');
+			testView = new OCA.Files.DetailTabView({id: 'test1'});
+			testView2 = new OCA.Files.DetailTabView({id: 'test2'});
 			detailsView.addTabView(testView);
 			detailsView.addTabView(testView2);
 			detailsView.render();
 		});
-		it('renders registered tabs', function() {
-			expect(detailsView.$el.find('.tab').length).toEqual(2);
+		it('initially renders only the selected tab', function() {
+			expect(detailsView.$el.find('.tab').length).toEqual(1);
+			expect(detailsView.$el.find('.tab').attr('id')).toEqual('test1');
 		});
-		it('updates registered tabs when fileinfo is updated', function() {
-			var tabRenderStub = sinon.stub(OCA.Files.DetailTabView.prototype, 'render');
-			var fileInfo = {id: 5, name: 'test.txt'};
-			tabRenderStub.reset();
-			detailsView.setFileInfo(fileInfo);
+		it('updates tab model and rerenders on-demand as soon as it gets selected', function() {
+			var tab1RenderStub = sinon.stub(testView, 'render');
+			var tab2RenderStub = sinon.stub(testView2, 'render');
+			var fileInfo1 = new OCA.Files.FileInfoModel({id: 5, name: 'test.txt'});
+			var fileInfo2 = new OCA.Files.FileInfoModel({id: 8, name: 'test2.txt'});
 
-			expect(testView.getFileInfo()).toEqual(fileInfo);
-			expect(testView2.getFileInfo()).toEqual(fileInfo);
+			detailsView.setFileInfo(fileInfo1);
 
-			expect(tabRenderStub.callCount).toEqual(2);
-			tabRenderStub.restore();
+			// first tab renders, not the second one
+			expect(tab1RenderStub.calledOnce).toEqual(true);
+			expect(tab2RenderStub.notCalled).toEqual(true);
+
+			// info got set only to the first visible tab
+			expect(testView.getFileInfo()).toEqual(fileInfo1);
+			expect(testView2.getFileInfo()).toBeUndefined();
+
+			// select second tab for first render
+			detailsView.$el.find('.tabHeader').eq(1).click();
+
+			// second tab got rendered
+			expect(tab2RenderStub.calledOnce).toEqual(true);
+			expect(testView2.getFileInfo()).toEqual(fileInfo1);
+
+			// select the first tab again
+			detailsView.$el.find('.tabHeader').eq(0).click();
+
+			// no re-render
+			expect(tab1RenderStub.calledOnce).toEqual(true);
+			expect(tab2RenderStub.calledOnce).toEqual(true);
+
+			tab1RenderStub.reset();
+			tab2RenderStub.reset();
+
+			// switch to another file
+			detailsView.setFileInfo(fileInfo2);
+
+			// only the visible tab was updated and rerendered
+			expect(tab1RenderStub.calledOnce).toEqual(true);
+			expect(testView.getFileInfo()).toEqual(fileInfo2);
+
+			// second/invisible tab still has old info, not rerendered
+			expect(tab2RenderStub.notCalled).toEqual(true);
+			expect(testView2.getFileInfo()).toEqual(fileInfo1);
+
+			// reselect the second one
+			detailsView.$el.find('.tabHeader').eq(1).click();
+
+			// second tab becomes visible, updated and rendered
+			expect(testView2.getFileInfo()).toEqual(fileInfo2);
+			expect(tab2RenderStub.calledOnce).toEqual(true);
+
+			tab1RenderStub.restore();
+			tab2RenderStub.restore();
 		});
 		it('selects the first tab by default', function() {
 			expect(detailsView.$el.find('.tabHeader').eq(0).hasClass('selected')).toEqual(true);
 			expect(detailsView.$el.find('.tabHeader').eq(1).hasClass('selected')).toEqual(false);
 			expect(detailsView.$el.find('.tab').eq(0).hasClass('hidden')).toEqual(false);
-			expect(detailsView.$el.find('.tab').eq(1).hasClass('hidden')).toEqual(true);
+			expect(detailsView.$el.find('.tab').eq(1).length).toEqual(0);
 		});
 		it('switches the current tab when clicking on tab header', function() {
 			detailsView.$el.find('.tabHeader').eq(1).click();
@@ -100,6 +143,15 @@ describe('OCA.Files.DetailsView tests', function() {
 			expect(detailsView.$el.find('.tabHeader').eq(1).hasClass('selected')).toEqual(true);
 			expect(detailsView.$el.find('.tab').eq(0).hasClass('hidden')).toEqual(true);
 			expect(detailsView.$el.find('.tab').eq(1).hasClass('hidden')).toEqual(false);
+		});
+		it('does not render tab headers when only one tab exists', function() {
+			detailsView.remove();
+			detailsView = new OCA.Files.DetailsView();
+			testView = new OCA.Files.DetailTabView({id: 'test1'});
+			detailsView.addTabView(testView);
+			detailsView.render();
+
+			expect(detailsView.$el.find('.tabHeader').length).toEqual(0);
 		});
 	});
 });
