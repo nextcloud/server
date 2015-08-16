@@ -26,6 +26,8 @@ namespace OC\Core\Command\App;
 
 use OC\App\CodeChecker\CodeChecker;
 use OC\App\CodeChecker\EmptyCheck;
+use OC\App\CodeChecker\InfoChecker;
+use OC\App\InfoParser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,11 +35,20 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CheckCode extends Command {
+
+	/** @var InfoParser */
+	private $infoParser;
+
 	protected $checkers = [
 		'private' => '\OC\App\CodeChecker\PrivateCheck',
 		'deprecation' => '\OC\App\CodeChecker\DeprecationCheck',
 		'strong-comparison' => '\OC\App\CodeChecker\StrongComparisonCheck',
 	];
+
+	public function __construct(InfoParser $infoParser) {
+		parent::__construct();
+		$this->infoParser = $infoParser;
+	}
 
 	protected function configure() {
 		$this
@@ -54,6 +65,12 @@ class CheckCode extends Command {
 				InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
 				'enable the specified checker(s)',
 				[ 'private', 'deprecation', 'strong-comparison' ]
+			)
+			->addOption(
+				'--skip-validate-info',
+				null,
+				InputOption::VALUE_NONE,
+				'skips the info.xml/version check'
 			);
 	}
 
@@ -84,7 +101,7 @@ class CheckCode extends Command {
 				$output->writeln("<info>Analysing {$filename}</info>");
 			}
 
-			// show error count if there are errros present or the verbosity is high
+			// show error count if there are errors present or the verbosity is high
 			if($count > 0 || OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
 				$output->writeln(" {$count} errors");
 			}
@@ -98,6 +115,56 @@ class CheckCode extends Command {
 			}
 		});
 		$errors = $codeChecker->analyse($appId);
+
+		if(!$input->getOption('skip-validate-info')) {
+			$infoChecker = new InfoChecker($this->infoParser);
+
+			$infoChecker->listen('InfoChecker', 'mandatoryFieldMissing', function($key) use ($output) {
+				$output->writeln("<error>Mandatory field missing: $key</error>");
+			});
+
+			$infoChecker->listen('InfoChecker', 'deprecatedFieldFound', function($key, $value) use ($output) {
+				if($value === [] || is_null($value) || $value === '') {
+					$output->writeln("<info>Deprecated field available: $key</info>");
+				} else {
+					if(is_array($value)) {
+						$value = 'Array of ' . count($value) . ' element(s)';
+					}
+					$output->writeln("<info>Deprecated field available: $key => $value</info>");
+				}
+			});
+
+			$infoChecker->listen('InfoChecker', 'differentVersions', function($versionFile, $infoXML) use ($output) {
+				$output->writeln("<error>Different versions provided (appinfo/version: $versionFile - appinfo/info.xml: $infoXML)</error>");
+			});
+
+			$infoChecker->listen('InfoChecker', 'sameVersions', function($path) use ($output) {
+				$output->writeln("<info>Version file isn't needed anymore and can be safely removed ($path)</info>");
+			});
+
+			$infoChecker->listen('InfoChecker', 'migrateVersion', function($version) use ($output) {
+				$output->writeln("<info>Migrate the app version to appinfo/info.xml (add <version>$version</version> to appinfo/info.xml and remove appinfo/version)</info>");
+			});
+
+			if(OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
+				$infoChecker->listen('InfoChecker', 'mandatoryFieldFound', function($key, $value) use ($output) {
+					$output->writeln("<info>Mandatory field available: $key => $value</info>");
+				});
+
+				$infoChecker->listen('InfoChecker', 'optionalFieldFound', function($key, $value) use ($output) {
+					$output->writeln("<info>Optional field available: $key => $value</info>");
+				});
+
+				$infoChecker->listen('InfoChecker', 'unusedFieldFound', function($key, $value) use ($output) {
+					$output->writeln("<info>Unused field available: $key => $value</info>");
+				});
+			}
+
+			$infoErrors = $infoChecker->analyse($appId);
+
+			$errors = array_merge($errors, $infoErrors);
+		}
+
 		if (empty($errors)) {
 			$output->writeln('<info>App is compliant - awesome job!</info>');
 			return 0;

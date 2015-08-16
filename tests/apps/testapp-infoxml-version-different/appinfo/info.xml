@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<info>
+	<id>testapp-infoxml-version</id>
+	<version>1.2.3</version>
+	<author>Jane</author>
+	<description>A b c</description>
+	<licence>Abc</licence>
+	<name>Test app</name>
+</info>
