@@ -68,7 +68,7 @@ class Server {
 		} elseif (strpos($user, '\\')) {
 			return explode('\\', $user);
 		} else {
-			return [null, $user];
+			return array(null, $user);
 		}
 	}
 
