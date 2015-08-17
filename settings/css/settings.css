@@ -360,7 +360,6 @@ table.grid td.date{
 #security-warning li {
 	list-style: initial;
 	margin: 10px 0;
-	color: #ce3702;
 }
 
 #shareAPI p { padding-bottom: 0.8em; }
@@ -483,6 +482,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 #postsetupchecks .loading {
 	height: 50px;
 	background-position: left center;
+}
+
+#postsetupchecks .errors,
+#postsetupchecks .warnings,
+#security-warning > ul {
+	color: #ce3702;
 }
 
 #admin-tips li {
