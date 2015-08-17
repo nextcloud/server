@@ -1606,7 +1606,7 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.findFileEl('One.txt').find('input:checkbox').click();
 			fileList.findFileEl('Three.pdf').find('input:checkbox').click();
 			fileList.findFileEl('somedir').find('input:checkbox').click();
-			expect($summary.text()).toEqual('1 folder & 2 files');
+			expect($summary.text()).toEqual('1 folder and 2 files');
 		});
 		it('Unselecting files hides selection summary', function() {
 			var $summary = $('#headerName a.name>span:first');
