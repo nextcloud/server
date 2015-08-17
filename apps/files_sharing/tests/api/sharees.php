@@ -21,6 +21,8 @@
 
 namespace OCA\Files_Sharing\Tests\API;
 
+use Doctrine\DBAL\Connection;
+use OC\Share\Constants;
 use OCA\Files_Sharing\API\Sharees;
 use OCA\Files_sharing\Tests\TestCase;
 
@@ -779,6 +781,97 @@ class ShareesTest extends TestCase {
 	 */
 	public function testFilterSharees($potentialSharees, $existingSharees, $expectedSharees) {
 		$this->assertEquals($expectedSharees, $this->invokePrivate($this->sharees, 'filterSharees', [$potentialSharees, $existingSharees]));
+	}
+
+	public function dataGetShareesForShareIds() {
+		return [
+			[[], []],
+			[[1, 2, 3], [Constants::SHARE_TYPE_USER => ['user1'], Constants::SHARE_TYPE_GROUP => ['group1']]],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetShareesForShareIds
+	 *
+	 * @param array $shareIds
+	 * @param array $expectedSharees
+	 */
+	public function testGetShareesForShareIds(array $shareIds, array $expectedSharees) {
+		$owner = $this->getUniqueID('test');
+		$shares2delete = [];
+
+		if (!empty($shareIds)) {
+			$userShare = $this->createShare(Constants::SHARE_TYPE_USER, 'user1', $owner, null);
+			$shares2delete[] = $userShare;
+			$shares2delete[] = $this->createShare(Constants::SHARE_TYPE_USER, 'user3', $owner . '2', null);
+
+			$groupShare = $this->createShare(Constants::SHARE_TYPE_GROUP, 'group1', $owner, null);
+			$shares2delete[] = $groupShare;
+			$groupShare2 = $this->createShare(Constants::SHARE_TYPE_GROUP, 'group2', $owner . '2', null);
+			$shares2delete[] = $groupShare2;
+
+			$shares2delete[] = $this->createShare($this->invokePrivate(new Constants(), 'shareTypeGroupUserUnique'), 'user2', $owner, $groupShare);
+			$shares2delete[] = $this->createShare($this->invokePrivate(new Constants(), 'shareTypeGroupUserUnique'), 'user4', $owner, $groupShare2);
+		}
+
+		$user = $this->getUserMock($owner, 'Sharee OCS test user');
+		$this->session->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$this->assertEquals($expectedSharees, $this->invokePrivate($this->sharees, 'getShareesForShareIds', [$shares2delete]));
+
+		$this->deleteShares($shares2delete);
+	}
+
+	/**
+	 * @param int $type
+	 * @param string $with
+	 * @param string $owner
+	 * @param int $parent
+	 * @return int
+	 */
+	protected function createShare($type, $with, $owner, $parent) {
+		$connection = \OC::$server->getDatabaseConnection();
+		$queryBuilder = $connection->getQueryBuilder();
+		$queryBuilder->insert('share')
+			->values([
+				'share_type'	=> $queryBuilder->createParameter('share_type'),
+				'share_with'	=> $queryBuilder->createParameter('share_with'),
+				'uid_owner'		=> $queryBuilder->createParameter('uid_owner'),
+				'parent'		=> $queryBuilder->createParameter('parent'),
+				'item_type'		=> $queryBuilder->expr()->literal('fake'),
+				'item_source'	=> $queryBuilder->expr()->literal(''),
+				'item_target'	=> $queryBuilder->expr()->literal(''),
+				'file_source'	=> $queryBuilder->expr()->literal(0),
+				'file_target'	=> $queryBuilder->expr()->literal(''),
+				'permissions'	=> $queryBuilder->expr()->literal(0),
+				'stime'			=> $queryBuilder->expr()->literal(0),
+				'accepted'		=> $queryBuilder->expr()->literal(0),
+				'expiration'	=> $queryBuilder->expr()->literal(''),
+				'token'			=> $queryBuilder->expr()->literal(''),
+				'mail_send'		=> $queryBuilder->expr()->literal(0),
+			])
+			->setParameters([
+				'share_type'	=> $type,
+				'share_with'	=> $with,
+				'uid_owner'		=> $owner,
+				'parent'		=> $parent,
+			])
+			->execute();
+		return $connection->lastInsertId('share');
+	}
+
+	/**
+	 * @param int[] $shareIds
+	 * @return null
+	 */
+	protected function deleteShares(array $shareIds) {
+		$connection = \OC::$server->getDatabaseConnection();
+		$queryBuilder = $connection->getQueryBuilder();
+		$queryBuilder->delete('share')
+			->where($queryBuilder->expr()->in('id', $queryBuilder->createParameter('ids')))
+			->setParameter('ids', $shareIds, Connection::PARAM_INT_ARRAY)
+			->execute();
 	}
 
 	public function dataGetPaginationLinks() {
