@@ -1945,12 +1945,11 @@
 				var directoryInfo = n('files', '%n folder', '%n folders', summary.totalDirs);
 				var fileInfo = n('files', '%n file', '%n files', summary.totalFiles);
 
-				var selectionVars = {
-					dirs: directoryInfo,
-					files: fileInfo
-				};
-
 				if (summary.totalDirs > 0 && summary.totalFiles > 0) {
+					var selectionVars = {
+						dirs: directoryInfo,
+						files: fileInfo
+					};
 					var selection = t('files', '{dirs} and {files}', selectionVars);
 				} else if (summary.totalDirs > 0) {
 					var selection = directoryInfo;
