@@ -608,6 +608,7 @@
 		 * Event handler when dropping on a breadcrumb
 		 */
 		_onDropOnBreadCrumb: function( event, ui ) {
+			var self = this;
 			var $target = $(event.target);
 			if (!$target.is('.crumb')) {
 				$target = $target.closest('.crumb');
@@ -629,7 +630,9 @@
 			var files = this.getSelectedFiles();
 			if (files.length === 0) {
 				// single one selected without checkbox?
-				files = _.map(ui.helper.find('tr'), this.elementToFile);
+				files = _.map(ui.helper.find('tr'), function(el) {
+					return self.elementToFile($(el));
+				});
 			}
 
 			this.move(_.pluck(files, 'name'), targetPath);
