@@ -1390,9 +1390,11 @@ class UsersControllerTest extends \Test\TestCase {
 
 	public function setEmailAddressData() {
 		return [
-			['', true, false, true],
-			['foobar@localhost', true, true, false],
-			['foo@bar@localhost', false, false, false],
+			/* mailAddress,    isValid, expectsUpdate, expectsDelete, canChangeDisplayName, responseCode */
+			[ '',              true,    false,         true,          true,                 Http::STATUS_OK ],
+			[ 'foo@local',     true,    true,          false,         true,                 Http::STATUS_OK],
+			[ 'foo@bar@local', false,   false,         false,         true,                 Http::STATUS_UNPROCESSABLE_ENTITY],
+			[ 'foo@local',     true,    false,         false,         false,                Http::STATUS_FORBIDDEN],
 		];
 	}
 
@@ -1404,7 +1406,7 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @param bool $expectsUpdate
 	 * @param bool $expectsDelete
 	 */
-	public function testSetEmailAddress($mailAddress, $isValid, $expectsUpdate, $expectsDelete) {
+	public function testSetEmailAddress($mailAddress, $isValid, $expectsUpdate, $expectsDelete, $canChangeDisplayName, $responseCode) {
 		$this->container['IsAdmin'] = true;
 
 		$user = $this->getMockBuilder('\OC\User\User')
@@ -1413,6 +1415,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('foo'));
+		$user
+			->expects($this->any())
+			->method('canChangeDisplayName')
+			->will($this->returnValue($canChangeDisplayName));
 		$this->container['UserSession']
 			->expects($this->atLeastOnce())
 			->method('getUser')
@@ -1455,7 +1461,9 @@ class UsersControllerTest extends \Test\TestCase {
 
 			);
 
-		$this->container['UsersController']->setMailAddress($user->getUID(), $mailAddress);
+		$response = $this->container['UsersController']->setMailAddress($user->getUID(), $mailAddress);
+
+		$this->assertSame($responseCode, $response->getStatus());
 	}
 
 }
