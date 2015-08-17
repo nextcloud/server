@@ -63,6 +63,17 @@ describe('DeleteHandler tests', function() {
 		expect(fakeServer.requests.length).toEqual(0);
 	});
 	it('deletes first entry and reshows notification on second delete', function() {
+		fakeServer.respondWith(/\/index\.php\/dummyendpoint.php\/some_uid/, [
+			204,
+			{ 'Content-Type': 'application/json' },
+			JSON.stringify({status: 'success'})
+		]);
+		fakeServer.respondWith(/\/index\.php\/dummyendpoint.php\/some_other_uid/, [
+			204,
+			{ 'Content-Type': 'application/json' },
+			JSON.stringify({status: 'success'})
+		]);
+
 		var handler = init(markCallback, removeCallback, undoCallback);
 		handler.mark('some_uid');
 
@@ -79,7 +90,8 @@ describe('DeleteHandler tests', function() {
 		expect(markCallback.calledTwice).toEqual(true);
 		expect(markCallback.getCall(0).args[0]).toEqual('some_uid');
 		expect(markCallback.getCall(1).args[0]).toEqual('some_other_uid');
-		expect(removeCallback.notCalled).toEqual(true);
+		// called only once, because it is called once the second user is deleted
+		expect(removeCallback.calledOnce).toEqual(true);
 		expect(undoCallback.notCalled).toEqual(true);
 
 		// previous one was delete
@@ -88,6 +100,12 @@ describe('DeleteHandler tests', function() {
 		expect(request.url).toEqual(OC.webroot + '/index.php/dummyendpoint.php/some_uid');
 	});
 	it('automatically deletes after timeout', function() {
+		fakeServer.respondWith(/\/index\.php\/dummyendpoint.php\/some_uid/, [
+			204,
+			{ 'Content-Type': 'application/json' },
+			JSON.stringify({status: 'success'})
+		]);
+
 		var handler = init(markCallback, removeCallback, undoCallback);
 		handler.mark('some_uid');
 
@@ -101,6 +119,11 @@ describe('DeleteHandler tests', function() {
 		expect(request.url).toEqual(OC.webroot + '/index.php/dummyendpoint.php/some_uid');
 	});
 	it('deletes when deleteEntry is called', function() {
+		fakeServer.respondWith(/\/index\.php\/dummyendpoint.php\/some_uid/, [
+			200,
+			{ 'Content-Type': 'application/json' },
+			JSON.stringify({status: 'success'})
+		]);
 		var handler = init(markCallback, removeCallback, undoCallback);
 		handler.mark('some_uid');
 
@@ -157,7 +180,7 @@ describe('DeleteHandler tests', function() {
 		// stub t to avoid extra calls
 		var tStub = sinon.stub(window, 't').returns('text');
 		fakeServer.respondWith(/\/index\.php\/dummyendpoint.php\/some_uid/, [
-			200,
+			403,
 			{ 'Content-Type': 'application/json' },
 			JSON.stringify({status: 'error', data: {message: 'test error'}})
 		]);
