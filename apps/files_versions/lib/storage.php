@@ -40,6 +40,7 @@
 
 namespace OCA\Files_Versions;
 
+use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
 
 class Storage {
@@ -482,7 +483,33 @@ class Storage {
 	 * @return array containing the list of to deleted versions and the size of them
 	 */
 	protected static function getExpireList($time, $versions) {
+		$application = new Application();
+		$expiration = $application->getContainer()->query('Expiration');
 
+		if ($expiration->shouldAutoExpire()) {
+			return self::getAutoExpireList($time, $versions);
+		}
+
+		$size = 0;
+		$toDelete = [];  // versions we want to delete
+		
+		foreach ($versions as $key => $version) {
+			if ($expiration->isExpired($version['version'])) {
+				$toDelete[$key] = $version['path'] . '.v' . $version['version'];
+				$size += $version['size'];
+			}
+		}
+
+		return array($toDelete, $size);
+	}
+
+	/**
+	 * get list of files we want to expire
+	 * @param array $versions list of versions
+	 * @param integer $time
+	 * @return array containing the list of to deleted versions and the size of them
+	 */
+	protected static function getAutoExpireList($time, $versions) {
 		$size = 0;
 		$toDelete = array();  // versions we want to delete
 
@@ -529,7 +556,6 @@ class Storage {
 		}
 
 		return array($toDelete, $size);
-
 	}
 
 	/**
@@ -541,8 +567,13 @@ class Storage {
 	 * @param int $neededSpace requested versions size
 	 */
 	private static function scheduleExpire($uid, $fileName, $versionsSize = null, $neededSpace = 0) {
-		$command = new Expire($uid, $fileName, $versionsSize, $neededSpace);
-		\OC::$server->getCommandBus()->push($command);
+		// let the admin disable auto expire
+		$application = new Application();
+		$expiration = $application->getContainer()->query('Expiration');
+		if ($expiration->isEnabled()) {
+			$command = new Expire($uid, $fileName, $versionsSize, $neededSpace);
+			\OC::$server->getCommandBus()->push($command);
+		}
 	}
 
 	/**
@@ -555,7 +586,10 @@ class Storage {
 	 */
 	public static function expire($filename, $versionsSize = null, $offset = 0) {
 		$config = \OC::$server->getConfig();
-		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		$application = new Application();
+		$expiration = $application->getContainer()->query('Expiration');
+		
+		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' && $expiration->isEnabled()) {
 			list($uid, $filename) = self::getUidAndFilename($filename);
 			if (empty($filename)) {
 				// file maybe renamed or deleted

@@ -435,6 +435,34 @@ $CONFIG = array(
 
 
 /**
+ * If the versions app is enabled (default), this setting defines the policy
+ * for when versions will be permanently deleted.
+ * The app allows for two settings, a minimum time for version retention,
+ * and a maximum time for version retention.
+ * Minimum time is the number of days a version will be kept, after which it
+ * may be deleted. Maximum time is the number of days at which it is guaranteed
+ * to be deleted.
+ * Both minimum and maximum times can be set together to explicitly define
+ * version deletion. For migration purposes, this setting is installed
+ * initially set to "auto", which is equivalent to the default setting in
+ * ownCloud 8.1 and before.
+ *
+ * Available values:
+ *   ``auto``      default setting. keeps versions for 30 days and automatically
+ *                 deletes anytime after that if space is needed (note: files
+ *                 may not be deleted if space is not needed).
+ *   ``D, auto``   keeps versions for D+ days, delete anytime if space needed
+ *                 (note: files may not be deleted
+ *                 if space is not needed)
+ * * ``auto, D``   delete all versions that are older than D days automatically,
+ *                 delete other files anytime if space needed
+ * * ``D1, D2``    keep versions for at least D1 days and delete when exceeds D2 days
+ *   ``disabled``  versions auto clean disabled, versions will be kept forever
+ */
+'versions_retention_obligation' => 'auto',
+
+
+/**
  * ownCloud Verifications
  *
  * ownCloud performs several verification checks. There are two options,
