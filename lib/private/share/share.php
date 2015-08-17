@@ -122,11 +122,12 @@ class Share extends Constants {
 	 * @param string $ownerUser owner of the file
 	 * @param boolean $includeOwner include owner to the list of users with access to the file
 	 * @param boolean $returnUserPaths Return an array with the user => path map
+	 * @param boolean $recursive take all parent folders into account (default true)
 	 * @return array
 	 * @note $path needs to be relative to user data dir, e.g. 'file.txt'
 	 *       not '/admin/data/file.txt'
 	 */
-	public static function getUsersSharingFile($path, $ownerUser, $includeOwner = false, $returnUserPaths = false) {
+	public static function getUsersSharingFile($path, $ownerUser, $includeOwner = false, $returnUserPaths = false, $recursive = true) {
 
 		Filesystem::initMountPoints($ownerUser);
 		$shares = $sharePaths = $fileTargets = array();
@@ -252,7 +253,7 @@ class Share extends Constants {
 
 			// let's get the parent for the next round
 			$meta = $cache->get((int)$source);
-			if($meta !== false) {
+			if ($recursive === true && $meta !== false) {
 				$source = (int)$meta['parent'];
 			} else {
 				$source = -1;

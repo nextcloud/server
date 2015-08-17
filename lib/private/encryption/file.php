@@ -27,6 +27,13 @@ class File implements \OCP\Encryption\IFile {
 	/** @var Util */
 	protected $util;
 
+	/**
+	 * cache results of already checked folders
+	 *
+	 * @var array
+	 */
+	protected $cache;
+
 	public function __construct(Util $util) {
 		$this->util = $util;
 	}
@@ -53,10 +60,24 @@ class File implements \OCP\Encryption\IFile {
 		$ownerPath = substr($ownerPath, strlen('/files'));
 		$ownerPath = $this->util->stripPartialFileExtension($ownerPath);
 
+
+		// first get the shares for the parent and cache the result so that we don't
+		// need to check all parents for every file
+		$parent = dirname($ownerPath);
+		if (isset($this->cache[$parent])) {
+			$resultForParents = $this->cache[$parent];
+		} else {
+			$resultForParents = \OCP\Share::getUsersSharingFile($parent, $owner);
+			$this->cache[$parent] = $resultForParents;
+		}
+		$userIds = \array_merge($userIds, $resultForParents['users']);
+		$public = $resultForParents['public'] || $resultForParents['remote'];
+
+
 		// Find out who, if anyone, is sharing the file
-		$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner);
-		$userIds = \array_merge($userIds, $result['users']);
-		$public = $result['public'] || $result['remote'];
+		$resultForFile = \OCP\Share::getUsersSharingFile($ownerPath, $owner, false, false, false);
+		$userIds = \array_merge($userIds, $resultForFile['users']);
+		$public = $resultForFile['public'] || $resultForFile['remote'] || $public;
 
 		// check if it is a group mount
 		if (\OCP\App::isEnabled("files_external")) {
