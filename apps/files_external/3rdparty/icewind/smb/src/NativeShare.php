@@ -7,7 +7,7 @@
 
 namespace Icewind\SMB;
 
-class NativeShare implements IShare {
+class NativeShare extends AbstractShare {
 	/**
 	 * @var Server $server
 	 */
@@ -28,6 +28,7 @@ class NativeShare implements IShare {
 	 * @param string $name
 	 */
 	public function __construct($server, $name) {
+		parent::__construct();
 		$this->server = $server;
 		$this->name = $name;
 		$this->state = new NativeState();
@@ -56,6 +57,7 @@ class NativeShare implements IShare {
 	}
 
 	private function buildUrl($path) {
+		$this->verifyPath($path);
 		$url = sprintf('smb://%s/%s', $this->server->getHost(), $this->name);
 		if ($path) {
 			$path = trim($path, '/');
