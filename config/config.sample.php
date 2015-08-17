@@ -284,7 +284,7 @@ $CONFIG = array(
 'mail_smtpmode' => 'sendmail',
 
 /**
- * This depends on ``mail_smtpmode``. Specified the IP address of your mail
+ * This depends on ``mail_smtpmode``. Specify the IP address of your mail
  * server host. This may contain multiple hosts separated by a semi-colon. If
  * you need to specify the port number append it to the IP address separated by
  * a colon, like this: ``127.0.0.1:24``.
@@ -297,7 +297,7 @@ $CONFIG = array(
 'mail_smtpport' => 25,
 
 /**
- * This depends on ``mail_smtpmode``. This set an SMTP server timeout, in
+ * This depends on ``mail_smtpmode``. This sets the SMTP server timeout, in
  * seconds. You may need to increase this if you are running an anti-malware or
  * spam scanner.
  */
@@ -373,7 +373,7 @@ $CONFIG = array(
 'overwritecondaddr' => '',
 
 /**
- * Use this configuration parameter to specify the base url for any urls which
+ * Use this configuration parameter to specify the base URL for any URLs which
  * are generated within ownCloud using any kind of command line tools (cron or
  * occ). The value should contain the full base URL:
  * ``https://www.example.com/owncloud``
@@ -533,7 +533,7 @@ $CONFIG = array(
  * Default is within the tmp directory. The file is named in the following way:
  * owncloud-server-$INSTANCEID-cron.lock
  * where $INSTANCEID is the string specified in the instanceid field.
- * Because the cron lock file is accessed in regular intervals, it may prevent
+ * Because the cron lock file is accessed at regular intervals, it may prevent
  * enabled disk drives from spinning down. A different location for this file
  * can solve such issues.
  */
@@ -636,7 +636,7 @@ $CONFIG = array(
 /**
  * By default, ownCloud can generate previews for the following filetypes:
  *
- * - Images files
+ * - Image files
  * - Covers of MP3 files
  * - Text documents
  *
@@ -747,7 +747,7 @@ $CONFIG = array(
 
 /**
  * defines the interval in minutes for the background job that checks user
- * existance and marks them as ready to be cleaned up. The number is always
+ * existence and marks them as ready to be cleaned up. The number is always
  * minutes. Setting it to 0 disables the feature.
  * See command line (occ) methods ldap:show-remnants and user:delete
  */
@@ -764,10 +764,10 @@ $CONFIG = array(
 /**
  * Enable maintenance mode to disable ownCloud
  *
- * If you want to prevent users to login to ownCloud before you start doing some
- * maintenance work, you need to set the value of the maintenance parameter to
- * true. Please keep in mind that users who are already logged-in are kicked out
- * of ownCloud instantly.
+ * If you want to prevent users from loggin in to ownCloud before you start 
+ * doing some maintenance work, you need to set the value of the maintenance 
+ * parameter to true. Please keep in mind that users who are already logged-in 
+ * are kicked out of ownCloud instantly.
  */
 'maintenance' => false,
 
@@ -1035,7 +1035,7 @@ $CONFIG = array(
  * Enables transactional file locking.
  * This is disabled by default as it is still beta.
  *
- * Prevents concurrent processes to access the same files
+ * Prevents concurrent processes from accessing the same files
  * at the same time. Can help prevent side effects that would
  * be caused by concurrent operations. Mainly relevant for
  * very large installations with many users working with
