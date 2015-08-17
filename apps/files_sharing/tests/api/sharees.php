@@ -129,6 +129,20 @@ class ShareesTest extends TestCase {
 			],
 			[
 				'test',
+				false,
+				[],
+				[
+					$this->getUserMock('test1', 'Test One'),
+					$this->getUserMock('test2', 'Test Two'),
+					$this->getUserMock('admin', 'Should be removed'),
+				],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				]
+			],
+			[
+				'test',
 				true,
 				['abc', 'xyz'],
 				[
@@ -175,6 +189,26 @@ class ShareesTest extends TestCase {
 					['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
 				]
 			],
+			[
+				'test',
+				true,
+				['abc', 'xyz'],
+				[
+					['abc', 'test', -1, 0, [
+						'test1' => 'Test One',
+					]],
+					['xyz', 'test', -1, 0, [
+						'test2' => 'Test Two',
+					]],
+					['admin', 'Should be removed', -1, 0, [
+						'test2' => 'Test Two',
+					]],
+				],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				]
+			],
 		];
 	}
 
@@ -188,17 +222,17 @@ class ShareesTest extends TestCase {
 	 * @param array $expected
 	 */
 	public function testGetUsers($searchTerm, $shareWithGroupOnly, $groupResponse, $userResponse, $expected) {
+		$user = $this->getUserMock('admin', 'Administrator');
+		$this->session->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+
 		if (!$shareWithGroupOnly) {
 			$this->userManager->expects($this->once())
 				->method('searchDisplayName')
 				->with($searchTerm)
 				->willReturn($userResponse);
 		} else {
-			$user = $this->getUserMock('admin', 'Administrator');
-			$this->session->expects($this->any())
-				->method('getUser')
-				->willReturn($user);
-
 			$this->groupManager->expects($this->once())
 				->method('getUserGroupIds')
 				->with($user)

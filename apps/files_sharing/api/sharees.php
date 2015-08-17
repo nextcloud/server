@@ -116,6 +116,11 @@ class Sharees {
 
 
 		foreach ($users as $uid => $displayName) {
+			if ($uid === $this->userSession->getUser()->getUID()) {
+				// Skip the current user
+				continue;
+			}
+
 			$sharees[] = [
 				'label' => $displayName,
 				'value' => [
