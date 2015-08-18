@@ -113,7 +113,7 @@ class Server2Server {
 
 			\OC::$server->getActivityManager()->publishActivity(
 				Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_ACCEPTED, array($share['share_with'], basename($file)), '', array(),
-				$file, $link, $share['uid_owner'], Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_LOW);
+				$file, $link, $share['uid_owner'], Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_LOW, 'files', $share['file_source']);
 		}
 
 		return new \OC_OCS_Result();
@@ -144,7 +144,7 @@ class Server2Server {
 
 			\OC::$server->getActivityManager()->publishActivity(
 				Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_DECLINED, array($share['share_with'], basename($file)), '', array(),
-				$file, $link, $share['uid_owner'], Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_LOW);
+				$file, $link, $share['uid_owner'], Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_LOW, 'files', $share['file_source']);
 		}
 
 		return new \OC_OCS_Result();
