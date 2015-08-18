@@ -205,7 +205,10 @@ describe('OC.SetupChecks tests', function() {
 			);
 
 			async.done(function( data, s, x ){
-				expect(data).toEqual(['The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a href="https://docs.owncloud.org/foo/bar.html">documentation</a>.']);
+				expect(data).toEqual([{
+					msg: 'The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a href="https://docs.owncloud.org/foo/bar.html">documentation</a>.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+				}]);
 				done();
 			});
 		});
@@ -250,7 +253,10 @@ describe('OC.SetupChecks tests', function() {
 			);
 
 			async.done(function( data, s, x ){
-				expect(data).toEqual(['Your PHP version (5.4.0) is no longer <a href="https://secure.php.net/supported-versions.php">supported by PHP</a>. We encourage you to upgrade your PHP version to take advantage of performance and security updates provided by PHP.']);
+				expect(data).toEqual([{
+					msg: 'Your PHP version (5.4.0) is no longer <a href="https://secure.php.net/supported-versions.php">supported by PHP</a>. We encourage you to upgrade your PHP version to take advantage of performance and security updates provided by PHP.',
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
 				done();
 			});
 		});
