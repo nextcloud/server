@@ -124,20 +124,23 @@ class ActivityManager implements IManager {
 	}
 
 	/**
-	 * @param $app
-	 * @param $subject
-	 * @param $subjectParams
-	 * @param $message
-	 * @param $messageParams
-	 * @param $file
-	 * @param $link
-	 * @param $affectedUser
-	 * @param $type
-	 * @param $priority
-	 * @return mixed
+	 * @param string $app           The app where this event is associated with
+	 * @param string $subject       A short description of the event
+	 * @param array  $subjectParams Array with parameters that are filled in the subject
+	 * @param string $message       A longer description of the event
+	 * @param array  $messageParams Array with parameters that are filled in the message
+	 * @param string $file          The file including path where this event is associated with
+	 * @param string $link          A link where this event is associated with
+	 * @param string $affectedUser  Recipient of the activity
+	 * @param string $type          Type of the notification
+	 * @param int    $priority      Priority of the notification (@deprecated)
+	 * @param string $objectType    Object type can be used to filter the activities later (e.g. files)
+	 * @param int    $objectId      Object id can be used to filter the activities later (e.g. the ID of the cache entry)
+	 * @return null
 	 */
-	function publishActivity($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority) {
+	public function publishActivity($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority, $objectType = '', $objectId = 0) {
 		foreach($this->getConsumers() as $c) {
+
 			try {
 				$c->receive(
 					$app,
@@ -149,7 +152,9 @@ class ActivityManager implements IManager {
 					$link,
 					$affectedUser,
 					$type,
-					$priority);
+					$objectType,
+					$objectId
+				);
 			} catch (\Exception $ex) {
 				// TODO: log the exception
 			}
@@ -164,7 +169,7 @@ class ActivityManager implements IManager {
 	 *
 	 * @param \Closure $callable
 	 */
-	function registerConsumer(\Closure $callable) {
+	public function registerConsumer(\Closure $callable) {
 		array_push($this->consumersClosures, $callable);
 		$this->consumers = [];
 	}
@@ -178,7 +183,7 @@ class ActivityManager implements IManager {
 	 * @param \Closure $callable
 	 * @return void
 	 */
-	function registerExtension(\Closure $callable) {
+	public function registerExtension(\Closure $callable) {
 		array_push($this->extensionsClosures, $callable);
 		$this->extensions = [];
 	}
@@ -189,7 +194,7 @@ class ActivityManager implements IManager {
 	 * @param string $languageCode
 	 * @return array
 	 */
-	function getNotificationTypes($languageCode) {
+	public function getNotificationTypes($languageCode) {
 		$notificationTypes = array();
 		foreach ($this->getExtensions() as $c) {
 			$result = $c->getNotificationTypes($languageCode);
@@ -205,7 +210,7 @@ class ActivityManager implements IManager {
 	 * @param string $method
 	 * @return array
 	 */
-	function getDefaultTypes($method) {
+	public function getDefaultTypes($method) {
 		$defaultTypes = array();
 		foreach ($this->getExtensions() as $c) {
 			$types = $c->getDefaultTypes($method);
@@ -220,7 +225,7 @@ class ActivityManager implements IManager {
 	 * @param string $type
 	 * @return string
 	 */
-	function getTypeIcon($type) {
+	public function getTypeIcon($type) {
 		if (isset($this->typeIcons[$type])) {
 			return $this->typeIcons[$type];
 		}
@@ -246,7 +251,7 @@ class ActivityManager implements IManager {
 	 * @param string $languageCode
 	 * @return string|false
 	 */
-	function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode) {
+	public function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode) {
 		foreach ($this->getExtensions() as $c) {
 			$translation = $c->translate($app, $text, $params, $stripPath, $highlightParams, $languageCode);
 			if (is_string($translation)) {
@@ -262,7 +267,7 @@ class ActivityManager implements IManager {
 	 * @param string $text
 	 * @return array|false
 	 */
-	function getSpecialParameterList($app, $text) {
+	public function getSpecialParameterList($app, $text) {
 		if (isset($this->specialParameters[$app][$text])) {
 			return $this->specialParameters[$app][$text];
 		}
@@ -287,7 +292,7 @@ class ActivityManager implements IManager {
 	 * @param array $activity
 	 * @return integer|false
 	 */
-	function getGroupParameter($activity) {
+	public function getGroupParameter($activity) {
 		foreach ($this->getExtensions() as $c) {
 			$parameter = $c->getGroupParameter($activity);
 			if ($parameter !== false) {
@@ -301,7 +306,7 @@ class ActivityManager implements IManager {
 	/**
 	 * @return array
 	 */
-	function getNavigation() {
+	public function getNavigation() {
 		$entries = array(
 			'apps' => array(),
 			'top' => array(),
@@ -321,7 +326,7 @@ class ActivityManager implements IManager {
 	 * @param string $filterValue
 	 * @return boolean
 	 */
-	function isFilterValid($filterValue) {
+	public function isFilterValid($filterValue) {
 		if (isset($this->validFilters[$filterValue])) {
 			return $this->validFilters[$filterValue];
 		}
@@ -342,7 +347,7 @@ class ActivityManager implements IManager {
 	 * @param string $filter
 	 * @return array
 	 */
-	function filterNotificationTypes($types, $filter) {
+	public function filterNotificationTypes($types, $filter) {
 		if (!$this->isFilterValid($filter)) {
 			return $types;
 		}
@@ -360,7 +365,7 @@ class ActivityManager implements IManager {
 	 * @param string $filter
 	 * @return array
 	 */
-	function getQueryForFilter($filter) {
+	public function getQueryForFilter($filter) {
 		if (!$this->isFilterValid($filter)) {
 			return [null, null];
 		}
