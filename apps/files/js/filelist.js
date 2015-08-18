@@ -1930,6 +1930,8 @@
 		updateSelectionSummary: function() {
 			var summary = this._selectionSummary.summary;
 			var canDelete;
+			var selection;
+
 			if (summary.totalFiles === 0 && summary.totalDirs === 0) {
 				this.$el.find('#headerName a.name>span:first').text(t('files','Name'));
 				this.$el.find('#headerSize a>span:first').text(t('files','Size'));
@@ -1941,16 +1943,22 @@
 				canDelete = (this.getDirectoryPermissions() & OC.PERMISSION_DELETE) && this.isSelectedDeletable();
 				this.$el.find('.selectedActions').removeClass('hidden');
 				this.$el.find('#headerSize a>span:first').text(OC.Util.humanFileSize(summary.totalSize));
-				var selection = '';
-				if (summary.totalDirs > 0) {
-					selection += n('files', '%n folder', '%n folders', summary.totalDirs);
-					if (summary.totalFiles > 0) {
-						selection += ' & ';
-					}
+
+				var directoryInfo = n('files', '%n folder', '%n folders', summary.totalDirs);
+				var fileInfo = n('files', '%n file', '%n files', summary.totalFiles);
+
+				if (summary.totalDirs > 0 && summary.totalFiles > 0) {
+					var selectionVars = {
+						dirs: directoryInfo,
+						files: fileInfo
+					};
+					selection = t('files', '{dirs} and {files}', selectionVars);
+				} else if (summary.totalDirs > 0) {
+					selection = directoryInfo;
+				} else {
+					selection = fileInfo;
 				}
-				if (summary.totalFiles > 0) {
-					selection += n('files', '%n file', '%n files', summary.totalFiles);
-				}
+
 				this.$el.find('#headerName a.name>span:first').text(selection);
 				this.$el.find('#modified a>span:first').text('');
 				this.$el.find('table').addClass('multiselect');
