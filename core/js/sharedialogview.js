@@ -182,17 +182,17 @@
 			}
 
 			return reshareTemplate({
-				avatarEnabled: oc_config.enable_avatars === true,
+				avatarEnabled: this.configModel.areAvatarsEnabled(),
 				sharedByText: sharedByText
 			});
 		},
 
 		_renderRemoteShareInfoPart: function() {
 			var remoteShareInfo = '';
-			if(oc_appconfig.core.remoteShareAllowed) {
+			if(this.configModel.isRemoteShareAllowed()) {
 				var infoTemplate = this._getRemoteShareInfoTemplate();
 				remoteShareInfo = infoTemplate({
-					docLink: oc_appconfig.core.federatedCloudShareDoc,
+					docLink: this.configModel.getFederatedShareDocLink(),
 					tooltip: t('core', 'Share with people on other ownClouds using the syntax username@example.com/owncloud')
 				});
 			}
@@ -203,7 +203,7 @@
 			var linkShare = '';
 			if(    this.model.hasSharePermission()
 				&& this._showLink
-				&& $('#allowShareWithLink').val() === 'yes')
+				&& this.configModel.isShareWithLinkAllowed())
 			{
 				var linkShareTemplate = this._getLinkShareTemplate();
 
@@ -236,7 +236,7 @@
 
 		_renderSharePlaceholderPart: function () {
 			var sharePlaceholder = t('core', 'Share with users or groups …');
-			if (oc_appconfig.core.remoteShareAllowed) {
+			if (this.configModel.isRemoteShareAllowed()) {
 				sharePlaceholder = t('core', 'Share with users, groups or remote users …');
 			}
 			return sharePlaceholder;

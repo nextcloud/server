@@ -22,6 +22,13 @@
 		/**
 		 * @returns {boolean}
 		 */
+		areAvatarsEnabled: function() {
+			return oc_config.enable_avatars === true;
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
 		isPublicUploadEnabled: function() {
 			var publicUploadEnabled = $('#filestable').data('allow-public-upload');
 			return !_.isUndefined(publicUploadEnabled);
@@ -39,6 +46,27 @@
 		 */
 		isDefaultExpireDateEnforced: function() {
 			return oc_appconfig.core.defaultExpireDateEnforced === true;
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
+		isRemoteShareAllowed: function() {
+			return oc_appconfig.core.remoteShareAllowed;
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
+		isShareWithLinkAllowed: function() {
+			return $('#allowShareWithLink').val() === 'yes';
+		},
+
+		/**
+		 * @returns {string}
+		 */
+		getFederatedShareDocLink: function() {
+			return oc_appconfig.core.federatedCloudShareDoc;
 		},
 
 		/**
