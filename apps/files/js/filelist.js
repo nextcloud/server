@@ -1930,6 +1930,8 @@
 		updateSelectionSummary: function() {
 			var summary = this._selectionSummary.summary;
 			var canDelete;
+			var selection;
+
 			if (summary.totalFiles === 0 && summary.totalDirs === 0) {
 				this.$el.find('#headerName a.name>span:first').text(t('files','Name'));
 				this.$el.find('#headerSize a>span:first').text(t('files','Size'));
@@ -1950,11 +1952,11 @@
 						dirs: directoryInfo,
 						files: fileInfo
 					};
-					var selection = t('files', '{dirs} and {files}', selectionVars);
+					selection = t('files', '{dirs} and {files}', selectionVars);
 				} else if (summary.totalDirs > 0) {
-					var selection = directoryInfo;
+					selection = directoryInfo;
 				} else {
-					var selection = fileInfo;
+					selection = fileInfo;
 				}
 
 				this.$el.find('#headerName a.name>span:first').text(selection);
