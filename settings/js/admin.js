@@ -173,17 +173,36 @@ $(document).ready(function(){
 		OC.SetupChecks.checkSetup(),
 		OC.SetupChecks.checkGeneric()
 	).then(function(check1, check2, check3) {
-		var errors = [].concat(check1, check2, check3);
+		var messages = [].concat(check1, check2, check3);
 		var $el = $('#postsetupchecks');
-		var $errorsEl;
 		$el.find('.loading').addClass('hidden');
-		if (errors.length === 0) {
+		if (messages.length === 0) {
 		} else {
-			$errorsEl = $el.find('.errors');
-			for (var i = 0; i < errors.length; i++ ) {
-				$errorsEl.append('<li>' + errors[i] + '</li>');
+			var $errorsEl = $el.find('.errors');
+			var $warningsEl = $el.find('.warnings');
+			var $infoEl = $el.find('.info');
+			for (var i = 0; i < messages.length; i++ ) {
+				switch(messages[i].type) {
+					case OC.SetupChecks.MESSAGE_TYPE_INFO:
+						$infoEl.append('<li>' + messages[i].msg + '</li>');
+						break;
+					case OC.SetupChecks.MESSAGE_TYPE_WARNING:
+						$warningsEl.append('<li>' + messages[i].msg + '</li>');
+						break;
+					case OC.SetupChecks.MESSAGE_TYPE_ERROR:
+					default:
+						$errorsEl.append('<li>' + messages[i].msg + '</li>');
+				}
 			}
-			$errorsEl.removeClass('hidden');
+			if ($errorsEl.find('li').length > 0) {
+				$errorsEl.removeClass('hidden');
+			}
+			if ($warningsEl.find('li').length > 0) {
+				$warningsEl.removeClass('hidden');
+			}
+			if ($infoEl.find('li').length > 0) {
+				$infoEl.removeClass('hidden');
+			}
 			$el.find('.hint').removeClass('hidden');
 		}
 	});

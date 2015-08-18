@@ -10,6 +10,12 @@
 
 (function() {
 	OC.SetupChecks = {
+
+		/* Message types */
+		MESSAGE_TYPE_INFO:0,
+		MESSAGE_TYPE_WARNING:1,
+		MESSAGE_TYPE_ERROR:2,
+
 		/**
 		 * Check whether the WebDAV connection works.
 		 *
@@ -20,9 +26,10 @@
 			var afterCall = function(xhr) {
 				var messages = [];
 				if (xhr.status !== 207 && xhr.status !== 401) {
-					messages.push(
-						t('core', 'Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken.')
-					);
+					messages.push({
+						msg: t('core', 'Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken.'),
+						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+					});
 				}
 				deferred.resolve(messages);
 			};
@@ -50,27 +57,34 @@
 				var messages = [];
 				if (xhr.status === 200 && data) {
 					if (!data.serverHasInternetConnection) {
-						messages.push(
-							t('core', 'This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.')
-						);
+						messages.push({
+							msg: t('core', 'This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.'),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						});
 					}
 					if(!data.dataDirectoryProtected) {
-						messages.push(
-							t('core', 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.')
-						);
+						messages.push({
+							msg: t('core', 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.'),
+							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+						});
 					}
 					if(!data.isMemcacheConfigured) {
-						messages.push(
-							t('core', 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="{docLink}">documentation</a>.', {docLink: data.memcacheDocs})
-						);
+						messages.push({
+							msg: t('core', 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="{docLink}">documentation</a>.', {docLink: data.memcacheDocs}),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						});
 					}
 					if(!data.isUrandomAvailable) {
-						messages.push(
-							t('core', '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href="{docLink}">documentation</a>.', {docLink: data.securityDocs})
-						);
+						messages.push({
+							msg: t('core', '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href="{docLink}">documentation</a>.', {docLink: data.securityDocs}),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						});
 					}
 					if(data.isUsedTlsLibOutdated) {
-						messages.push(data.isUsedTlsLibOutdated);
+						messages.push({
+							msg: data.isUsedTlsLibOutdated,
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						});
 					}
 					if(data.phpSupported && data.phpSupported.eol) {
 						messages.push(
@@ -83,7 +97,10 @@
 						);
 					}
 				} else {
-					messages.push(t('core', 'Error occurred while checking server setup'));
+					messages.push({
+						msg: t('core', 'Error occurred while checking server setup'),
+						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+					});
 				}
 				deferred.resolve(messages);
 			};
@@ -139,13 +156,17 @@
 
 				for (var header in securityHeaders) {
 					if(!xhr.getResponseHeader(header) || xhr.getResponseHeader(header).toLowerCase() !== securityHeaders[header].toLowerCase()) {
-						messages.push(
-							t('core', 'The "{header}" HTTP header is not configured to equal to "{expected}". This is a potential security or privacy risk and we recommend adjusting this setting.', {header: header, expected: securityHeaders[header]})
-						);
+						messages.push({
+							msg: t('core', 'The "{header}" HTTP header is not configured to equal to "{expected}". This is a potential security or privacy risk and we recommend adjusting this setting.', {header: header, expected: securityHeaders[header]}),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						});
 					}
 				}
 			} else {
-				messages.push(t('core', 'Error occurred while checking server setup'));
+				messages.push({
+					msg: t('core', 'Error occurred while checking server setup'),
+					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+				});
 			}
 
 			return messages;
@@ -175,17 +196,22 @@
 
 					var minimumSeconds = 15768000;
 					if(isNaN(transportSecurityValidity) || transportSecurityValidity <= (minimumSeconds - 1)) {
-						messages.push(
-							t('core', 'The "Strict-Transport-Security" HTTP header is not configured to least "{seconds}" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="{docUrl}">security tips</a>.', {'seconds': minimumSeconds, docUrl: '#admin-tips'})
-						);
+						messages.push({
+							msg: t('core', 'The "Strict-Transport-Security" HTTP header is not configured to least "{seconds}" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="{docUrl}">security tips</a>.', {'seconds': minimumSeconds, docUrl: '#admin-tips'}),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						});
 					}
 				} else {
-					messages.push(
-						t('core', 'You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href="{docUrl}">security tips</a>.', {docUrl: '#admin-tips'})
-					);
+					messages.push({
+						msg: t('core', 'You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href="{docUrl}">security tips</a>.', {docUrl: '#admin-tips'}),
+						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+					});
 				}
 			} else {
-				messages.push(t('core', 'Error occurred while checking server setup'));
+				messages.push({
+					msg: t('core', 'Error occurred while checking server setup'),
+					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+				});
 			}
 
 			return messages;
