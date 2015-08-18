@@ -32,14 +32,6 @@
 		'{{{expiration}}}'
 		;
 
-	var TEMPLATE_RESHARER_INFO =
-		'<span class="reshare">' +
-		'    {{#if avatarEnabled}}' +
-		'    <div class="avatar"></div>' +
-		'    {{/if}}' +
-		'    {{sharedByText}}' +
-		'</span><br />';
-
 	var TEMPLATE_REMOTE_SHARE_INFO =
 		'<a target="_blank" class="icon-info svg shareWithRemoteInfo hasTooltip" href="{{docLink}}" ' +
 		'title="{{tooltip}}"></a>';
@@ -110,6 +102,9 @@
 		/** @type {OC.Share.ShareConfigModel} **/
 		configModel: undefined,
 
+		/** @type {object} **/
+		resharerInfoView: undefined,
+
 		initialize: function(options) {
 			var view = this;
 			this.model.on('change', function() {
@@ -125,14 +120,26 @@
 			} else {
 				console.warn('missing OC.Share.ShareConfigModel');
 			}
+
+			var subViewOptions = {
+				model: this.model,
+				configModel: this.configModel
+			};
+
+			this.resharerInfoView = _.isUndefined(options.resharerInfoView)
+				? new OC.Share.ShareDialogResharerInfoView(subViewOptions)
+				: options.resharerInfoView;
+
 		},
 
 		render: function() {
 			var baseTemplate = this._getTemplate('base', TEMPLATE_BASE);
 
+			this.resharerInfoView.render();
+
 			this.$el.html(baseTemplate({
 				shareLabel: t('core', 'Share'),
-				resharerInfo: this._renderResharerInfo(),
+				resharerInfo: this.resharerInfoView.el.innerHTML,
 				sharePlaceholder: this._renderSharePlaceholderPart(),
 				remoteShareInfo: this._renderRemoteShareInfoPart(),
 				linkShare: this._renderLinkSharePart(),
@@ -142,7 +149,9 @@
 			}));
 
 			this.$el.find('.hasTooltip').tooltip();
-			this.$el.find('.avatar').avatar(this.model.getReshareOwner, 32);
+			if(this.configModel.areAvatarsEnabled()) {
+				this.$el.find('.avatar').avatar(this.model.getReshareOwner, 32);
+			}
 
 			return this;
 		},
@@ -155,39 +164,6 @@
 		 */
 		setShowLink: function(showLink) {
 			this._showLink = (typeof showLink === 'boolean') ? showLink : true;
-		},
-
-		_renderResharerInfo: function() {
-			var resharerInfo = '';
-			if (   !this.model.hasReshare()
-				|| !this.model.getReshareOwner() !== OC.currentUser)
-			{
-				return '';
-			}
-
-			var reshareTemplate = this._getReshareTemplate();
-			var sharedByText = '';
-			if (this.model.getReshareType() === OC.Share.SHARE_TYPE_GROUP) {
-				sharedByText = t(
-					'core',
-					'Shared with you and the group {group} by {owner}',
-					{
-						group: this.model.getReshareWith(),
-						owner: this.model.getReshareOwnerDisplayname()
-					}
-				);
-			}  else {
-				sharedByText = t(
-					'core',
-					'Shared with you by {owner}',
-					{ owner: this.model.getReshareOwnerDisplayname() }
-				);
-			}
-
-			return reshareTemplate({
-				avatarEnabled: this.configModel.areAvatarsEnabled(),
-				sharedByText: sharedByText
-			});
 		},
 
 		_renderRemoteShareInfoPart: function() {

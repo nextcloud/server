@@ -112,6 +112,7 @@
 		 * @returns {string}
 		 */
 		getReshareOwnerDisplayname: function() {
+			return 'foo';
 			return this.get('reshare').displayname_owner;
 		},
 
