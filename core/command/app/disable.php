@@ -47,9 +47,11 @@ class Disable extends Command {
 				$output->writeln($appId . ' disabled');
 			} catch(\Exception $e) {
 				$output->writeln($e->getMessage());
+				return 2;
 			}
 		} else {
 			$output->writeln('No such app enabled: ' . $appId);
+			return 1;
 		}
 	}
 }
