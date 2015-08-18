@@ -1748,7 +1748,7 @@
 				// no files passed, delete all in current dir
 				params.allfiles = true;
 				// show spinner for all files
-				this.$fileList.find('tr').addClass('busy');
+				this.showFileBusyState(this.$fileList.find('tr'), true);
 			}
 
 			$.post(OC.filePath('files', 'ajax', 'delete.php'),
@@ -1791,7 +1791,7 @@
 							}
 							else {
 								$.each(files,function(index,file) {
-									self.$fileList.find('tr').removeClass('busy');
+									self.showFileBusyState(file, false);
 								});
 							}
 						}
