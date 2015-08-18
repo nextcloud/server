@@ -41,7 +41,7 @@
 		'</span><br />';
 
 	var TEMPLATE_REMOTE_SHARE_INFO =
-		'<a target="_blank" class="icon-info svg shareWithRemoteInfo" href="{{docLink}}" ' +
+		'<a target="_blank" class="icon-info svg shareWithRemoteInfo hasTooltip" href="{{docLink}}" ' +
 		'title="{{tooltip}}"></a>';
 
 	var TEMPLATE_LINK_SHARE =
@@ -141,6 +141,9 @@
 				expiration: this._renderExpirationPart()
 			}));
 
+			this.$el.find('.hasTooltip').tooltip();
+			this.$el.find('.avatar').avatar(this.model.getReshareOwner, 32);
+
 			return this;
 		},
 
@@ -196,6 +199,7 @@
 					tooltip: t('core', 'Share with people on other ownClouds using the syntax username@example.com/owncloud')
 				});
 			}
+
 			return remoteShareInfo;
 		},
 
