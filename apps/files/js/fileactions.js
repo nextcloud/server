@@ -616,7 +616,7 @@
 				name: 'Delete',
 				mime: 'all',
 				// permission is READ because we show a hint instead if there is no permission
-				permissions: OC.PERMISSION_READ,
+				permissions: OC.PERMISSION_DELETE,
 				icon: function() {
 					return OC.imagePath('core', 'actions/delete');
 				},
