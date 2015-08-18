@@ -31,9 +31,14 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 	public function setUp() {
 		parent::setUp();
 
-		$this->userId = $this->getUniqueID('user_');
+		$userManager = \OC::$server->getUserManager();
 
-		$this->user = new \OC\User\User($this->userId, null);
+		$this->userId = $this->getUniqueID('user_');
+		$this->user = $userManager->createUser(
+			$this->userId,
+			$this->userId
+		);
+
 		$userSession = $this->getMock('\OCP\IUserSession');
 		$userSession
 			->expects($this->any())
@@ -48,6 +53,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 
 	public function tearDown() {
 		@unlink($this->dataDir . '/' . $this->userId . '/mount.json');
+		$this->user->delete();
 		parent::tearDown();
 	}
 

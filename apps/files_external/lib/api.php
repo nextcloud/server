@@ -71,7 +71,7 @@ class Api {
 	 */
 	public static function getUserMounts($params) {
 		$entries = array();
-		$user = \OC_User::getUser();
+		$user = \OC::$server->getUserSession()->getUser()->getUID();
 
 		$mounts = \OC_Mount_Config::getAbsoluteMountPoints($user);
 		foreach($mounts as $mountPoint => $mount) {

@@ -28,7 +28,7 @@
 
 use \OCA\Files_External\Service\BackendService;
 
-OC_Util::checkAdminUser();
+\OCP\User::checkAdminUser();
 
 // we must use the same container
 $appContainer = \OC_Mount_Config::$app->getContainer();

@@ -26,7 +26,7 @@
 namespace OCA\Files_External\AppInfo;
 
 /**
- * @var $this \OC\Route\Router
+ * @var $this \OCP\Route\IRouter
  **/
 \OC_Mount_Config::$app->registerRoutes(
 	$this,

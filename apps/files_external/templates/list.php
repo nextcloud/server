@@ -1,4 +1,4 @@
-<?php /** @var $l OC_L10N */ ?>
+<?php /** @var $l \OCP\IL10N */ ?>
 <div id="controls">
 	<div id="file_action_panel"></div>
 </div>

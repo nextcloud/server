@@ -86,10 +86,9 @@ class OC_Mount_Config {
 			self::addStorageIdToConfig($data['user']);
 			$user = \OC::$server->getUserManager()->get($data['user']);
 			if (!$user) {
-				\OCP\Util::writeLog(
-					'files_external',
+				\OC::$server->getLogger()->warning(
 					'Cannot init external mount points for non-existant user "' . $data['user'] . '".',
-					\OCP\Util::WARN
+					['app' => 'files_external']
 				);
 				return;
 			}
@@ -275,10 +274,11 @@ class OC_Mount_Config {
 	 */
 	public static function readData($user = null) {
 		if (isset($user)) {
-			$jsonFile = OC_User::getHome($user) . '/mount.json';
+			$jsonFile = \OC::$server->getUserManager()->get($user)->getHome() . '/mount.json';
 		} else {
-			$datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT . '/data/');
-			$jsonFile = \OC_Config::getValue('mount_file', $datadir . '/mount.json');
+			$config = \OC::$server->getConfig();
+			$datadir = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/');
+			$jsonFile = $config->getSystemValue('mount_file', $datadir . '/mount.json');
 		}
 		if (is_file($jsonFile)) {
 			$mountPoints = json_decode(file_get_contents($jsonFile), true);
@@ -297,10 +297,11 @@ class OC_Mount_Config {
 	 */
 	public static function writeData($user, $data) {
 		if (isset($user)) {
-			$file = OC_User::getHome($user) . '/mount.json';
+			$file = \OC::$server->getUserManager()->get($user)->getHome() . '/mount.json';
 		} else {
-			$datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT . '/data/');
-			$file = \OC_Config::getValue('mount_file', $datadir . '/mount.json');
+			$config = \OC::$server->getConfig();
+			$datadir = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/');
+			$file = $config->getSystemValue('mount_file', $datadir . '/mount.json');
 		}
 
 		foreach ($data as &$applicables) {
@@ -324,7 +325,7 @@ class OC_Mount_Config {
 	 * @return string
 	 */
 	public static function dependencyMessage($backends) {
-		$l = new \OC_L10N('files_external');
+		$l = \OC::$server->getL10N('files_external');
 		$message = '';
 		$dependencyGroups = [];
 
@@ -351,12 +352,12 @@ class OC_Mount_Config {
 	/**
 	 * Returns a dependency missing message
 	 *
-	 * @param OC_L10N $l
+	 * @param \OCP\IL10N $l
 	 * @param string $module
 	 * @param string $backend
 	 * @return string
 	 */
-	private static function getSingleDependencyMessage(OC_L10N $l, $module, $backend) {
+	private static function getSingleDependencyMessage(\OCP\IL10N $l, $module, $backend) {
 		switch (strtolower($module)) {
 			case 'curl':
 				return $l->t('<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', $backend);

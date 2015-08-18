@@ -429,7 +429,7 @@ class Google extends \OC\Files\Storage\Common {
 						$request = new \Google_Http_Request($downloadUrl, 'GET', null, null);
 						$httpRequest = $this->client->getAuth()->authenticatedRequest($request);
 						if ($httpRequest->getResponseHttpCode() == 200) {
-							$tmpFile = \OC_Helper::tmpFile($ext);
+							$tmpFile = \OCP\Files::tmpFile($ext);
 							$data = $httpRequest->getResponseBody();
 							file_put_contents($tmpFile, $data);
 							return fopen($tmpFile, $mode);
@@ -449,7 +449,7 @@ class Google extends \OC\Files\Storage\Common {
 			case 'x+':
 			case 'c':
 			case 'c+':
-				$tmpFile = \OC_Helper::tmpFile($ext);
+				$tmpFile = \OCP\Files::tmpFile($ext);
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'rb');
@@ -466,7 +466,7 @@ class Google extends \OC\Files\Storage\Common {
 			$parentFolder = $this->getDriveFile(dirname($path));
 			if ($parentFolder) {
 				// TODO Research resumable upload
-				$mimetype = \OC_Helper::getMimeType($tmpFile);
+				$mimetype = \OC::$server->getMimeTypeDetector()->detect($tmpFile);
 				$data = file_get_contents($tmpFile);
 				$params = array(
 					'data' => $data,
