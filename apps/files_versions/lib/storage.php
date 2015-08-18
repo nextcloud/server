@@ -482,25 +482,25 @@ class Storage {
 	 * @param integer $time
 	 * @return array containing the list of to deleted versions and the size of them
 	 */
-	protected static function getExpireList($time, $versions) {
+	protected static function getExpireList($time, $versions, $quotaExceeded = false) {
 		$application = new Application();
 		$expiration = $application->getContainer()->query('Expiration');
 
 		if ($expiration->shouldAutoExpire()) {
-			return self::getAutoExpireList($time, $versions);
+			list($toDelete, $size) = self::getAutoExpireList($time, $versions);
+		} else {
+			$size = 0;
+			$toDelete = [];  // versions we want to delete
 		}
 
-		$size = 0;
-		$toDelete = [];  // versions we want to delete
-		
 		foreach ($versions as $key => $version) {
-			if ($expiration->isExpired($version['version'])) {
-				$toDelete[$key] = $version['path'] . '.v' . $version['version'];
+			if ($expiration->isExpired($version['version'], $quotaExceeded) && !isset($toDelete[$key])) {
 				$size += $version['size'];
+				$toDelete[$key] = $version['path'] . '.v' . $version['version'];
 			}
 		}
 
-		return array($toDelete, $size);
+		return [$toDelete, $size];
 	}
 
 	/**
@@ -633,7 +633,7 @@ class Storage {
 			$allVersions = Storage::getVersions($uid, $filename);
 
 			$time = time();
-			list($toDelete, $sizeOfDeletedVersions) = self::getExpireList($time, $allVersions);
+			list($toDelete, $sizeOfDeletedVersions) = self::getExpireList($time, $allVersions, $availableSpace <= 0);
 
 			$availableSpace = $availableSpace + $sizeOfDeletedVersions;
 			$versionsSize = $versionsSize - $sizeOfDeletedVersions;
@@ -644,7 +644,7 @@ class Storage {
 				$allVersions = $result['all'];
 
 				foreach ($result['by_file'] as $versions) {
-					list($toDeleteNew, $size) = self::getExpireList($time, $versions);
+					list($toDeleteNew, $size) = self::getExpireList($time, $versions, $availableSpace <= 0);
 					$toDelete = array_merge($toDelete, $toDeleteNew);
 					$sizeOfDeletedVersions += $size;
 				}
