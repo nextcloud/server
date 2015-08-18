@@ -26,6 +26,8 @@ use OCP\AppFramework\IAppContainer;
 use OC\Files\Filesystem;
 use OCP\AppFramework\Http;
 use OCP\Image;
+use OCP\Files\Folder;
+use OCP\Files\File;
 
 /**
  * Overwrite is_uploaded_file in this namespace to allow proper unit testing of 
@@ -72,6 +74,8 @@ class AvatarControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->container['Request'] = $this->getMockBuilder('OCP\IRequest')
 			->disableOriginalConstructor()->getMock();
+		$this->container['UserFolder'] = $this->getMockBuilder('OCP\Files\Folder')
+			->disableOriginalConstructor()->getMock();
 
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')
 			->disableOriginalConstructor()->getMock();
@@ -88,10 +92,6 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		OC::$server->getUserManager()->createUser($this->user, $this->user);
 		$this->loginAsUser($this->user);
-
-		// Create Cache dir
-		$view = new \OC\Files\View('/'.$this->user);
-		$view->mkdir('cache');
 
 		// Configure userMock
 		$this->userMock->method('getDisplayName')->willReturn($this->user);
@@ -259,8 +259,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->assertTrue($copyRes);
 
 		//Create file in cache
-		$view = new \OC\Files\View('/'.$this->user.'/cache');
-		$view->file_put_contents('avatar_upload', file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		$this->container['Cache']->method('get')->willReturn(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 
 		//Create request return
 		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => [filesize(OC::$SERVERROOT.'/tests/data/testimage.jpg')]];
@@ -298,8 +297,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->assertTrue($copyRes);
 
 		//Create file in cache
-		$view = new \OC\Files\View('/'.$this->user.'/cache');
-		$view->file_put_contents('avatar_upload', file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif'));
+		$this->container['Cache']->method('get')->willReturn(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif'));
 
 		//Create request return
 		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => filesize(OC::$SERVERROOT.'/tests/data/testimage.gif')];
@@ -317,9 +315,11 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Test posting avatar from existing file
 	 */
 	public function testPostAvatarFromFile() {
-		//Create file in cache
-		$view = new \OC\Files\View('/'.$this->user.'/files');
-		$view->file_put_contents('avatar.jpg', file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		//Mock node API call
+		$file = $this->getMockBuilder('OCP\Files\File')
+			->disableOriginalConstructor()->getMock();
+		$file->method('getContent')->willReturn(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		$this->container['UserFolder']->method('get')->willReturn($file);
 
 		//Create request return
 		$response = $this->avatarController->postAvatar('avatar.jpg');
