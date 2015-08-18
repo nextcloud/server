@@ -69,7 +69,7 @@ class OC_OCS_Privatedata {
 		$user = OC_User::getUser();
 		$app = addslashes(strip_tags($parameters['app']));
 		$key = addslashes(strip_tags($parameters['key']));
-		$value = OC_OCS::readData('post', 'value', 'text');
+		$value = (string)$_POST['value'];
 
 		// update in DB
 		$query = \OCP\DB::prepare('UPDATE `*PREFIX*privatedata` SET `value` = ?  WHERE `user` = ? AND `app` = ? AND `key` = ?');
