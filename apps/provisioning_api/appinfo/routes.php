@@ -32,7 +32,7 @@ $users = new \OCA\Provisioning_API\Users(
 	\OC::$server->getGroupManager(),
 	\OC::$server->getUserSession()
 );
-API::register('get', '/cloud/users', [$users, 'getUsers'], 'provisioning_api', API::ADMIN_AUTH);
+API::register('get', '/cloud/users', [$users, 'getUsers'], 'provisioning_api', API::SUBADMIN_AUTH);
 API::register('post', '/cloud/users', [$users, 'addUser'], 'provisioning_api', API::ADMIN_AUTH);
 API::register('get', '/cloud/users/{userid}', [$users, 'getUser'], 'provisioning_api', API::USER_AUTH);
 API::register('put', '/cloud/users/{userid}', [$users, 'editUser'], 'provisioning_api', API::USER_AUTH);
