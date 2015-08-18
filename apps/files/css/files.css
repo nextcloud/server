@@ -275,6 +275,11 @@ table.multiselect thead th {
 	font-weight: bold;
 	border-bottom: 0;
 }
+
+#app-content.with-app-sidebar table.multiselect thead{
+	margin-right: 27%;
+}
+
 table.multiselect #headerName {
 	position: relative;
 	width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
