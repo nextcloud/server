@@ -293,7 +293,9 @@ OC.Share = _.extend(OC.Share, {
 	 *
 	 * @param itemType
 	 * @param itemSource
-	 * @param callback
+	 * @param callback - optional. If a callback is given this method works
+	 * asynchronous and the callback will be provided with data when the request
+	 * is done.
 	 * @returns {OC.Share.Types.ShareInfo}
 	 */
 	loadItem:function(itemType, itemSource, callback) {
