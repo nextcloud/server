@@ -39,7 +39,7 @@ class OC_Share_Backend_Folder extends OC_Share_Backend_File implements OCP\Share
 			$shares = \OCP\Share::getItemSharedWithUser('folder', $parent, $shareWith, $owner);
 			if ($shares) {
 				foreach ($shares as $share) {
-					$name = substr($share['path'], strrpos($share['path'], '/') + 1);
+					$name = basename($share['path']);
 					$share['collection']['path'] = $name;
 					$share['collection']['item_type'] = 'folder';
 					$share['file_path'] = $name;
