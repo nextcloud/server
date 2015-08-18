@@ -43,9 +43,11 @@
 			</a>
 			<span class="utils">
 				<span class="usercount"><?php if($group['usercount'] > 0) { p($group['usercount']); } ?></span>
+				<?php if($_['isAdmin']): ?>
 				<a href="#" class="action delete" original-title="<?php p($l->t('Delete'))?>">
 					<img src="<?php print_unescaped(image_path('core', 'actions/delete.svg')) ?>" class="svg" />
 				</a>
+				<?php endif; ?>
 			</span>
 		</li>
 	<?php endforeach; ?>
