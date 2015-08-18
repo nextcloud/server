@@ -7,7 +7,7 @@
 
 namespace Icewind\SMB;
 
-class NativeShare implements IShare {
+class NativeShare extends AbstractShare {
 	/**
 	 * @var Server $server
 	 */
@@ -28,6 +28,7 @@ class NativeShare implements IShare {
 	 * @param string $name
 	 */
 	public function __construct($server, $name) {
+		parent::__construct();
 		$this->server = $server;
 		$this->name = $name;
 		$this->state = new NativeState();
@@ -43,15 +44,7 @@ class NativeShare implements IShare {
 			return;
 		}
 
-		$user = $this->server->getUser();
-		if (strpos($user, '/')) {
-			list($workgroup, $user) = explode('/', $user);
-		} elseif (strpos($user, '\\')) {
-			list($workgroup, $user) = explode('\\', $user);
-		} else {
-			$workgroup = null;
-		}
-		$this->state->init($workgroup, $user, $this->server->getPassword());
+		$this->state->init($this->server->getWorkgroup(), $this->server->getUser(), $this->server->getPassword());
 	}
 
 	/**
@@ -64,6 +57,7 @@ class NativeShare implements IShare {
 	}
 
 	private function buildUrl($path) {
+		$this->verifyPath($path);
 		$url = sprintf('smb://%s/%s', $this->server->getHost(), $this->name);
 		if ($path) {
 			$path = trim($path, '/');
@@ -149,6 +143,7 @@ class NativeShare implements IShare {
 	 * @throws \Icewind\SMB\Exception\InvalidTypeException
 	 */
 	public function del($path) {
+		$this->connect();
 		return $this->state->unlink($this->buildUrl($path));
 	}
 

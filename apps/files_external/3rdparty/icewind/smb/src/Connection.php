@@ -8,8 +8,10 @@
 namespace Icewind\SMB;
 
 use Icewind\SMB\Exception\AuthenticationException;
+use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\ConnectionException;
 use Icewind\SMB\Exception\InvalidHostException;
+use Icewind\SMB\Exception\NoLoginServerException;
 
 class Connection extends RawConnection {
 	const DELIMITER = 'smb:';
@@ -26,18 +28,25 @@ class Connection extends RawConnection {
 	/**
 	 * get all unprocessed output from smbclient until the next prompt
 	 *
-	 * @throws ConnectionException
 	 * @return string
+	 * @throws AuthenticationException
+	 * @throws ConnectException
+	 * @throws ConnectionException
+	 * @throws InvalidHostException
+	 * @throws NoLoginServerException
 	 */
 	public function read() {
 		if (!$this->isValid()) {
-			throw new ConnectionException();
+			throw new ConnectionException('Connection not valid');
 		}
 		$line = $this->readLine(); //first line is prompt
 		$this->checkConnectionError($line);
 
 		$output = array();
 		$line = $this->readLine();
+		if ($line === false) {
+			throw new ConnectException('Unknown error');
+		}
 		$length = mb_strlen(self::DELIMITER);
 		while (mb_substr($line, 0, $length) !== self::DELIMITER) { //next prompt functions as delimiter
 			$output[] .= $line;
@@ -52,20 +61,24 @@ class Connection extends RawConnection {
 	 * @param $line
 	 * @throws AuthenticationException
 	 * @throws InvalidHostException
+	 * @throws NoLoginServerException
 	 */
 	private function checkConnectionError($line) {
 		$line = rtrim($line, ')');
 		if (substr($line, -23) === ErrorCodes::LogonFailure) {
-			throw new AuthenticationException();
+			throw new AuthenticationException('Invalid login');
 		}
 		if (substr($line, -26) === ErrorCodes::BadHostName) {
-			throw new InvalidHostException();
+			throw new InvalidHostException('Invalid hostname');
 		}
 		if (substr($line, -22) === ErrorCodes::Unsuccessful) {
-			throw new InvalidHostException();
+			throw new InvalidHostException('Connection unsuccessful');
 		}
 		if (substr($line, -28) === ErrorCodes::ConnectionRefused) {
-			throw new InvalidHostException();
+			throw new InvalidHostException('Connection refused');
+		}
+		if (substr($line, -26) === ErrorCodes::NoLogonServers) {
+			throw new NoLoginServerException('No login server');
 		}
 	}
 
