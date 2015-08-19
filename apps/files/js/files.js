@@ -246,12 +246,12 @@
 				// Use jquery-visibility to de-/re-activate file stats sync
 				if ($.support.pageVisibility) {
 					$(document).on({
-						'show.visibility': function() {
+						'show': function() {
 							if (!updateStorageStatisticsIntervalId) {
 								updateStorageStatisticsIntervalId = setInterval(func, updateStorageStatisticsInterval);
 							}
 						},
-						'hide.visibility': function() {
+						'hide': function() {
 							clearInterval(updateStorageStatisticsIntervalId);
 							updateStorageStatisticsIntervalId = 0;
 						}
