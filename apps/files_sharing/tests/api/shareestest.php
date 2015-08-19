@@ -859,7 +859,17 @@ class ShareesTest extends TestCase {
 			])
 			->setParameter('expiration', null, 'datetime')
 			->execute();
-		return $connection->lastInsertId('share');
+
+		$queryBuilder = $connection->getQueryBuilder();
+		$query = $queryBuilder->select('id')
+			->from('share')
+			->orderBy('id', 'DESC')
+			->setMaxResults(1)
+			->execute();
+		$share = $query->fetch();
+		$query->closeCursor();
+
+		return (int) $share['id'];
 	}
 
 	/**
