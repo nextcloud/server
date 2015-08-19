@@ -43,7 +43,6 @@ class Enable extends Command {
 		$appId = $input->getArgument('app-id');
 		if (\OC_App::isEnabled($appId)) {
 			$output->writeln($appId . ' is already enabled');
-			return 2;
 		} else if (!\OC_App::getAppPath($appId)) {
 			$output->writeln($appId . ' not found');
 			return 1;
