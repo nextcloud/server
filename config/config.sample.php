@@ -493,9 +493,10 @@ $CONFIG = array(
 'log_type' => 'owncloud',
 
 /**
- * Change the ownCloud logfile name from ``owncloud.log`` to something else.
+ * Log file path for the ownCloud logging type.
+ * Defaults to ``[datadirectory]/owncloud.log``
  */
-'logfile' => 'owncloud.log',
+'logfile' => '/var/log/owncloud.log',
 
 /**
  * Loglevel to start logging at. Valid values are: 0 = Debug, 1 = Info, 2 =
@@ -561,8 +562,8 @@ $CONFIG = array(
  * Enables log rotation and limits the total size of logfiles. The default is 0,
  * or no rotation. Specify a size in bytes, for example 104857600 (100 megabytes
  * = 100 * 1024 * 1024 bytes). A new logfile is created with a new name when the
- * old logfile reaches your limit. The total size of all logfiles is double the
- * ``log_rotate_sizerotation`` value.
+ * old logfile reaches your limit. If a rotated log file is already present, it
+ * will be overwritten.
  */
 'log_rotate_size' => false,
 
