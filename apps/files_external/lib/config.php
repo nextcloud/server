@@ -165,6 +165,8 @@ class OC_Mount_Config {
 		foreach ($service->getAllStorages() as $storage) {
 			$mountPoints[] = self::prepareMountPointEntry($storage, false);
 		}
+
+		return $mountPoints;
 	}
 
 	/**
@@ -181,6 +183,8 @@ class OC_Mount_Config {
 		foreach ($service->getAllStorages() as $storage) {
 			$mountPoints[] = self::prepareMountPointEntry($storage, true);
 		}
+
+		return $mountPoints;
 	}
 
 	/**
