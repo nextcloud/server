@@ -271,6 +271,13 @@ class Updater extends BasicEmitter {
 			throw new \Exception($e->getMessage());
 		}
 
+		// FIXME: Some users do not upload the new ca-bundle.crt, let's catch this
+		// in the update. For a newer release we shall use an integrity check after
+		// the update.
+		if(!file_exists(\OC::$configDir .'/ca-bundle.crt')) {
+			throw new \Exception('Please upload the ca-bundle.crt file into the \'config\' directory.');
+		}
+
 		// create empty file in data dir, so we can later find
 		// out that this is indeed an ownCloud data directory
 		// (in case it didn't exist before)
