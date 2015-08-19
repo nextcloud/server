@@ -27,7 +27,7 @@
 				<input type="checkbox"
 					<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
 					data-parameter="<?php p($parameter->getName()); ?>"
-				 	<?php if ($value == 'true'): ?> checked="checked"<?php endif; ?>
+				 	<?php if ($value === true): ?> checked="checked"<?php endif; ?>
 				/>
 				<?php p($placeholder); ?>
 			</label>
