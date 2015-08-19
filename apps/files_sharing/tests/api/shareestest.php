@@ -847,7 +847,7 @@ class ShareesTest extends TestCase {
 				'permissions'	=> $queryBuilder->expr()->literal(0),
 				'stime'			=> $queryBuilder->expr()->literal(0),
 				'accepted'		=> $queryBuilder->expr()->literal(0),
-				'expiration'	=> $queryBuilder->expr()->literal(''),
+				'expiration'	=> $queryBuilder->createParameter('expiration'),
 				'token'			=> $queryBuilder->expr()->literal(''),
 				'mail_send'		=> $queryBuilder->expr()->literal(0),
 			])
@@ -857,6 +857,7 @@ class ShareesTest extends TestCase {
 				'uid_owner'		=> $owner,
 				'parent'		=> $parent,
 			])
+			->setParameter('expiration', null, 'datetime')
 			->execute();
 		return $connection->lastInsertId('share');
 	}
