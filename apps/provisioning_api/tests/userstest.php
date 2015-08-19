@@ -63,10 +63,16 @@ class UsersTest extends TestCase {
 			$this->groupManager,
 			$this->userSession
 		);
+
+		$this->userSession->setUser(null);
 	}
 
 	// Test getting the list of users
-	public function testGetUsers() {
+	public function testGetUsersAsAdmin() {
+		$user = $this->generateUsers();
+		$this->groupManager->get('admin')->addUser($user);
+		$this->userSession->setUser($user);
+
 		$result = $this->api->getUsers();
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
@@ -101,6 +107,70 @@ class UsersTest extends TestCase {
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
 		$this->assertEquals(array_keys($this->userManager->search('', 1, 1)), $data['users']);
+	}
+
+	public function testGetUsersAsSubAdmin() {
+		$user = $this->generateUsers(10);
+		$this->userSession->setUser($user[0]);
+		$group = $this->groupManager->createGroup($this->getUniqueID());
+		\OC_SubAdmin::createSubAdmin($user[0]->getUID(), $group->getGID());
+
+		//Empty list
+		$result = $this->api->getUsers([]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertTrue($result->succeeded());
+		$this->assertEquals(['users' => []], $result->getData());
+
+		//Some users in group
+		$group->addUser($user[1]);
+		$group->addUser($user[2]);
+		$group->addUser($user[3]);
+		$group->addUser($user[4]);
+
+		$result = $this->api->getUsers([]);
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertTrue($result->succeeded());
+		$this->assertArrayHasKey('users', $result->getData());
+
+		$this->assertContains($user[1]->getUID(), $result->getData()['users']);
+		$this->assertContains($user[2]->getUID(), $result->getData()['users']);
+		$this->assertContains($user[3]->getUID(), $result->getData()['users']);
+		$this->assertContains($user[4]->getUID(), $result->getData()['users']);
+
+		$uids = [
+			$user[1]->getUID(),
+			$user[2]->getUID(),
+			$user[3]->getUID(),
+			$user[4]->getUID()
+		];
+		sort($uids);
+
+		$_GET['limit'] = 2;
+		$_GET['offset'] = 1;
+		$result = $this->api->getUsers([]);
+
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertTrue($result->succeeded());
+		$this->assertEquals(['users' => array_slice($uids, 1, 2)], $result->getData());
+	}
+
+	public function testGetUsersNoUser() {
+		$result = $this->api->getUsers([]);
+
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(\OCP\API::RESPOND_UNAUTHORISED, $result->getStatusCode());
+	}
+
+	public function testGetUsersAsUser() {
+		$user = $this->generateUsers();
+		$this->userSession->setUser($user);
+
+		$result = $this->api->getUsers();
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(\OCP\API::RESPOND_UNAUTHORISED, $result->getStatusCode());
+
 	}
 
 	public function testAddUser() {
@@ -794,6 +864,9 @@ class UsersTest extends TestCase {
 	}
 
 	public function testAddToGroupNoGroupId() {
+		$user = $this->generateUsers();
+		$this->userSession->setUser($user);
+
 		$_POST['groupid'] = '';
 		$result = $this->api->addToGroup([
 			'userid' => $this->getUniqueID(),
@@ -935,6 +1008,9 @@ class UsersTest extends TestCase {
 	}
 
 	public function testRemoveFromGroupNoGroupId() {
+		$user = $this->generateUsers();
+		$this->userSession->setUser($user);
+
 		$result = $this->api->removeFromGroup([
 			'_delete' => [
 				'groupid' => ''
