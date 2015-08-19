@@ -60,9 +60,6 @@ if( OC_Group::inGroup( $username, $group )) {
 	$error = $l->t("Unable to remove user from group %s", $group);
 	$success = OC_Group::removeFromGroup( $username, $group );
 	$usersInGroup=OC_Group::usersInGroup($group);
-	if(count($usersInGroup) === 0) {
-		OC_Group::deleteGroup($group);
-	}
 }
 else{
 	$success = OC_Group::addToGroup( $username, $group );
