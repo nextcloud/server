@@ -70,18 +70,6 @@ if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == '
 OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config', 'initMountPointsHook');
 OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\SMB_OC', 'login');
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\Local', [
-	'backend' => (string)$l->t('Local'),
-	'priority' => 150,
-	'configuration' => [
-		'datadir' => (string)$l->t('Location')
-	],
-]);
-// Local must only be visible to the admin
-$appContainer->query('OCA\Files_External\Service\BackendService')
-	->getBackend('\OC\Files\Storage\Local')
-	->setAllowedVisibility(\OCA\Files_External\Service\BackendService::VISIBILITY_ADMIN);
-
 OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', [
 	'backend' => (string)$l->t('Amazon S3'),
 	'priority' => 100,
@@ -123,19 +111,6 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Dropbox', [
 	'has_dependencies' => true,
 ]);
 
-OC_Mount_Config::registerBackend('\OC\Files\Storage\FTP', [
-	'backend' => 'FTP',
-	'priority' => 100,
-	'configuration' => [
-		'host' => (string)$l->t('Host'),
-		'user' => (string)$l->t('Username'),
-		'password' => '*'.$l->t('Password'),
-		'root' => '&'.$l->t('Remote subfolder'),
-		'secure' => '!'.$l->t('Secure ftps://')
-	],
-	'has_dependencies' => true,
-]);
-
 OC_Mount_Config::registerBackend('\OC\Files\Storage\Google', [
 	'backend' => 'Google Drive',
 	'priority' => 100,
@@ -169,19 +144,6 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Swift', [
 
 
 if (!OC_Util::runningOnWindows()) {
-	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB', [
-		'backend' => 'SMB / CIFS',
-		'priority' => 100,
-		'configuration' => [
-			'host' => (string)$l->t('Host'),
-			'user' => (string)$l->t('Username'),
-			'password' => '*'.$l->t('Password'),
-			'share' => (string)$l->t('Share'),
-			'root' => '&'.$l->t('Remote subfolder'),
-		],
-		'has_dependencies' => true,
-	]);
-
 	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB_OC', [
 			'backend' => (string)$l->t('SMB / CIFS using OC login'),
 			'priority' => 90,
@@ -194,43 +156,6 @@ if (!OC_Util::runningOnWindows()) {
 		'has_dependencies' => true,
 	]);
 }
-
-OC_Mount_Config::registerBackend('\OC\Files\Storage\DAV', [
-	'backend' => 'WebDAV',
-	'priority' => 100,
-	'configuration' => [
-		'host' => (string)$l->t('URL'),
-		'user' => (string)$l->t('Username'),
-		'password' => '*'.$l->t('Password'),
-		'root' => '&'.$l->t('Remote subfolder'),
-		'secure' => '!'.$l->t('Secure https://'),
-	],
-	'has_dependencies' => true,
-]);
-
-OC_Mount_Config::registerBackend('\OC\Files\Storage\OwnCloud', [
-	'backend' => 'ownCloud',
-	'priority' => 100,
-	'configuration' => [
-		'host' => (string)$l->t('URL'),
-		'user' => (string)$l->t('Username'),
-		'password' => '*'.$l->t('Password'),
-		'root' => '&'.$l->t('Remote subfolder'),
-		'secure' => '!'.$l->t('Secure https://'),
-	],
-]);
-
-
-OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP', [
-	'backend' => 'SFTP',
-	'priority' => 100,
-	'configuration' => [
-		'host' => (string)$l->t('Host'),
-		'user' => (string)$l->t('Username'),
-		'password' => '*'.$l->t('Password'),
-		'root' => '&'.$l->t('Remote subfolder'),
-	],
-]);
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP_Key', [
 	'backend' => (string)$l->t('SFTP with secret key login'),

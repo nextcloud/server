@@ -70,25 +70,4 @@ class MountPoint extends \Test\TestCase {
 		// storage wrapper never called
 		$this->assertFalse($called);
 	}
-
-	public function testWrappedStorage() {
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Wrapper')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$loader = $this->getMock('\OCP\Files\Storage\IStorageFactory');
-		$loader->expects($this->never())
-			->method('getInstance');
-		$loader->expects($this->never())
-			->method('wrap');
-
-		$mountPoint = new \OC\Files\Mount\MountPoint(
-			$storage,
-			'/mountpoint',
-			null,
-			$loader
-		);
-
-		$this->assertEquals($storage, $mountPoint->getStorage());
-	}
 }

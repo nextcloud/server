@@ -28,8 +28,6 @@ use \OCA\Files_External\Controller\AjaxController;
 use \OCP\AppFramework\App;
 use \OCP\IContainer;
 use \OCA\Files_External\Service\BackendService;
-use \OCA\Files_External\Lib\BackendConfig;
-use \OCA\Files_External\Lib\BackendParameter;
 
 /**
  * @package OCA\Files_External\Appinfo
@@ -60,6 +58,20 @@ class Application extends App {
 	protected function loadBackends() {
 		$container = $this->getContainer();
 		$service = $container->query('OCA\\Files_External\\Service\\BackendService');
+
+		$service->registerBackends([
+			$container->query('OCA\Files_External\Lib\Backend\Local'),
+			$container->query('OCA\Files_External\Lib\Backend\FTP'),
+			$container->query('OCA\Files_External\Lib\Backend\DAV'),
+			$container->query('OCA\Files_External\Lib\Backend\OwnCloud'),
+			$container->query('OCA\Files_External\Lib\Backend\SFTP'),
+		]);
+
+		if (!\OC_Util::runningOnWindows()) {
+			$service->registerBackends([
+				$container->query('OCA\Files_External\Lib\Backend\SMB'),
+			]);
+		}
 	}
 
 	/**
@@ -75,6 +87,10 @@ class Application extends App {
 
 			// AuthMechanism::SCHEME_BUILTIN mechanism
 			$container->query('OCA\Files_External\Lib\Auth\Builtin'),
+
+			// AuthMechanism::SCHEME_PASSWORD mechanisms
+			$container->query('OCA\Files_External\Lib\Auth\Password\Password'),
+			$container->query('OCA\Files_External\Lib\Auth\Password\SessionCredentials'),
 		]);
 	}
 

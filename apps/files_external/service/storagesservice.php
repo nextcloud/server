@@ -87,7 +87,7 @@ abstract class StoragesService {
 		}
 		$storageConfig->setBackend($backend);
 
-		if (isset($storageOptions['authMechanism'])) {
+		if (isset($storageOptions['authMechanism']) && $storageOptions['authMechanism'] !== 'builtin::builtin') {
 			$authMechanism = $this->backendService->getAuthMechanism($storageOptions['authMechanism']);
 		} else {
 			$authMechanism = $backend->getLegacyAuthMechanism($storageOptions);
