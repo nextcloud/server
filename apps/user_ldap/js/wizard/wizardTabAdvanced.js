@@ -41,10 +41,6 @@ OCA = OCA || {};
 					$element: $('#ldap_override_main_server'),
 					setMethod: 'setOverrideMainServerState'
 				},
-				ldap_nocase: {
-					$element: $('#ldap_nocase'),
-					setMethod: 'setNoCase'
-				},
 				ldap_turn_off_cert_check: {
 					$element: $('#ldap_turn_off_cert_check'),
 					setMethod: 'setCertCheckDisabled'
@@ -163,16 +159,6 @@ OCA = OCA || {};
 			this.setElementValue(
 				this.managedItems.ldap_override_main_server.$element, doOverride
 			);
-		},
-
-		/**
-		 * whether the server is case insensitive. This setting does not play
-		 * a role anymore (probably never had).
-		 *
-		 * @param {string} noCase contains an int
-		 */
-		setNoCase: function(noCase) {
-			this.setElementValue(this.managedItems.ldap_nocase.$element, noCase);
 		},
 
 		/**
