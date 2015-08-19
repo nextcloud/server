@@ -24,7 +24,6 @@
 
 namespace OCA\Files_External\AppInfo;
 
-use \OCA\Files_External\Controller\AjaxController;
 use \OCP\AppFramework\App;
 use \OCP\IContainer;
 use \OCA\Files_External\Service\BackendService;
@@ -35,18 +34,6 @@ use \OCA\Files_External\Service\BackendService;
 class Application extends App {
 	public function __construct(array $urlParams=array()) {
 		parent::__construct('files_external', $urlParams);
-
-		$container = $this->getContainer();
-
-		/**
-		 * Controllers
-		 */
-		$container->registerService('AjaxController', function (IContainer $c) {
-			return new AjaxController(
-				$c->query('AppName'),
-				$c->query('Request')
-			);
-		});
 
 		$this->loadBackends();
 		$this->loadAuthMechanisms();
