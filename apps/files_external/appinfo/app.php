@@ -77,6 +77,10 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Local', [
 		'datadir' => (string)$l->t('Location')
 	],
 ]);
+// Local must only be visible to the admin
+$appContainer->query('OCA\Files_External\Service\BackendService')
+	->getBackend('\OC\Files\Storage\Local')
+	->setAllowedVisibility(\OCA\Files_External\Service\BackendService::VISIBILITY_ADMIN);
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', [
 	'backend' => (string)$l->t('Amazon S3'),
