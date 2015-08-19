@@ -62,6 +62,13 @@ if(count($configPrefixes) > 0) {
 OCP\Backgroundjob::registerJob('OCA\user_ldap\lib\Jobs');
 OCP\Backgroundjob::registerJob('\OCA\User_LDAP\Jobs\CleanUp');
 
+\OCP\Util::connectHook(
+	'\OCA\Files_Sharing\API\Server2Server',
+	'preLoginNameUsedAsUserName',
+	'\OCA\user_ldap\lib\Helper',
+	'loginName2UserName'
+);
+
 if(OCP\App::isEnabled('user_webdavauth')) {
 	OCP\Util::writeLog('user_ldap',
 		'user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour',
