@@ -453,7 +453,9 @@ var folderDropOptions = {
 		var files = FileList.getSelectedFiles();
 		if (files.length === 0) {
 			// single one selected without checkbox?
-			files = _.map(ui.helper.find('tr'), FileList.elementToFile);
+			files = _.map(ui.helper.find('tr'), function(el) {
+				return FileList.elementToFile($(el));
+			});
 		}
 
 		FileList.move(_.pluck(files, 'name'), targetPath);
