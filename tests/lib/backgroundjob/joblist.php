@@ -202,4 +202,30 @@ class JobList extends \Test\TestCase {
 
 		$this->instance->remove($job);
 	}
+
+	public function testGetNextNonExisting() {
+		$job = new TestJob();
+		$this->instance->add($job, 1);
+		$this->instance->add('\OC\Non\Existing\Class');
+		$this->instance->add($job, 2);
+
+		$jobs = $this->instance->getAll();
+
+		$savedJob1 = $jobs[count($jobs) - 2];
+		$savedJob2 = $jobs[count($jobs) - 1];
+
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->with('backgroundjob', 'lastjob', 0)
+			->will($this->returnValue($savedJob1->getId()));
+
+		$this->instance->getNext();
+
+		$nextJob = $this->instance->getNext();
+
+		$this->assertEquals($savedJob2, $nextJob);
+
+		$this->instance->remove($job, 1);
+		$this->instance->remove($job, 2);
+	}
 }
