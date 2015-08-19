@@ -53,63 +53,133 @@ class SetConfigTest extends TestCase {
 
 	public function setData() {
 		return [
-			[
-				'name',
-				'newvalue',
-				true,
-				true,
-				true,
-				'info',
-			],
-			[
-				'name',
-				'newvalue',
-				false,
-				true,
-				false,
-				'comment',
-			],
+			[['name'], 'newvalue', null, 'newvalue'],
+			[['a', 'b', 'c'], 'foobar', null, ['b' => ['c' => 'foobar']]],
+			[['a', 'b', 'c'], 'foobar', ['b' => ['d' => 'barfoo']], ['b' => ['d' => 'barfoo', 'c' => 'foobar']]],
 		];
 	}
 
 	/**
 	 * @dataProvider setData
 	 *
-	 * @param string $configName
-	 * @param mixed $newValue
-	 * @param bool $configExists
-	 * @param bool $updateOnly
-	 * @param bool $updated
-	 * @param string $expectedMessage
+	 * @param array $configNames
+	 * @param string $newValue
+	 * @param mixed $existingData
+	 * @param mixed $expectedValue
 	 */
-	public function testSet($configName, $newValue, $configExists, $updateOnly, $updated, $expectedMessage) {
+	public function testSet($configNames, $newValue, $existingData, $expectedValue) {
 		$this->systemConfig->expects($this->once())
-			->method('getKeys')
-			->willReturn($configExists ? [$configName] : []);
-
-		if ($updated) {
-			$this->systemConfig->expects($this->once())
-				->method('setValue')
-				->with($configName, $newValue);
-		}
+			->method('setValue')
+			->with($configNames[0], $expectedValue);
+		$this->systemConfig->method('getValue')
+			->with($configNames[0])
+			->willReturn($existingData);
 
 		$this->consoleInput->expects($this->once())
 			->method('getArgument')
 			->with('name')
-			->willReturn($configName);
-		$this->consoleInput->expects($this->any())
-			->method('getOption')
-			->with('value')
-			->willReturn($newValue);
-		$this->consoleInput->expects($this->any())
-			->method('hasParameterOption')
-			->with('--update-only')
-			->willReturn($updateOnly);
-
-		$this->consoleOutput->expects($this->any())
-			->method('writeln')
-			->with($this->stringContains($expectedMessage));
+			->willReturn($configNames);
+		$this->consoleInput->method('getOption')
+			->will($this->returnValueMap([
+				['value', $newValue],
+				['type', 'string'],
+			]));
 
 		$this->invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
+
+	public function setUpdateOnlyProvider() {
+		return [
+			[['name'], null],
+			[['a', 'b', 'c'], null],
+			[['a', 'b', 'c'], ['b' => 'foobar']],
+			[['a', 'b', 'c'], ['b' => ['d' => 'foobar']]],
+		];
+	}
+
+	/**
+	 * @dataProvider setUpdateOnlyProvider
+	 * @expectedException \UnexpectedValueException
+	 */
+	public function testSetUpdateOnly($configNames, $existingData) {
+		$this->systemConfig->expects($this->never())
+			->method('setValue');
+		$this->systemConfig->method('getValue')
+			->with($configNames[0])
+			->willReturn($existingData);
+		$this->systemConfig->method('getKeys')
+			->willReturn($existingData ? $configNames[0] : []);
+
+		$this->consoleInput->expects($this->once())
+			->method('getArgument')
+			->with('name')
+			->willReturn($configNames);
+		$this->consoleInput->method('getOption')
+			->will($this->returnValueMap([
+				['value', 'foobar'],
+				['type', 'string'],
+				['update-only', true],
+			]));
+
+		$this->invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+	}
+
+	public function castValueProvider() {
+		return [
+			[null, 'integer', null],
+			[null, 'string', null],
+
+			['abc', 'string', 'abc'],
+			['dEF', 'str', 'dEF'],
+			['123', 's', '123'],
+
+			['123', 'integer', 123],
+			['456', 'int', 456],
+			['-666', 'i', -666],
+
+			// only use powers of 2 to avoid precision errors
+			['2', 'double', 2.0],
+			['0.25', 'd', 0.25],
+			['0.5', 'float', 0.5],
+			['0.125', 'f', 0.125],
+
+			['true', 'boolean', true],
+			['false', 'bool', false],
+			['yes', 'b', true],
+			['no', 'b', false],
+			['y', 'b', true],
+			['n', 'b', false],
+			['1', 'b', true],
+			['0', 'b', false],
+		];
+	}
+
+	/**
+	 * @dataProvider castValueProvider
+	 */
+	public function testCastValue($value, $type, $expectedValue) {
+		$this->assertSame($expectedValue,
+			$this->invokePrivate($this->command, 'castValue', [$value, $type])
+		);
+	}
+
+	public function castValueInvalidProvider() {
+		return [
+			['123', 'foobar'],
+
+			['abc', 'integer'],
+			['76ggg', 'double'],
+			['true', 'float'],
+			['foobar', 'boolean'],
+		];
+	}
+
+	/**
+	 * @dataProvider castValueInvalidProvider
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testCastValueInvalid($value, $type) {
+		$this->invokePrivate($this->command, 'castValue', [$value, $type]);
+	}
+
 }
