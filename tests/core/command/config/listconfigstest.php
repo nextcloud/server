@@ -81,6 +81,7 @@ class ListConfigsTest extends TestCase {
 				false,
 				json_encode([
 					'system' => [
+						'secret' => ListConfigs::SENSITIVE_VALUE,
 						'overwrite.cli.url' => 'http://localhost',
 					],
 					'apps' => [
@@ -134,10 +135,18 @@ class ListConfigsTest extends TestCase {
 				// config.php
 				[
 					'secret',
+					'objectstore',
 					'overwrite.cli.url',
 				],
 				[
 					['secret', 'N;', 'my secret'],
+					['objectstore', 'N;', [
+						'class' => 'OC\\Files\\ObjectStore\\Swift',
+						'arguments' => [
+							'username' => 'facebook100000123456789',
+							'password' => 'Secr3tPaSSWoRdt7',
+						],
+					]],
 					['overwrite.cli.url', 'N;', 'http://localhost'],
 				],
 				// app config
@@ -152,6 +161,14 @@ class ListConfigsTest extends TestCase {
 				false,
 				json_encode([
 					'system' => [
+						'secret' => ListConfigs::SENSITIVE_VALUE,
+						'objectstore' => [
+							'class' => 'OC\\Files\\ObjectStore\\Swift',
+							'arguments' => [
+								'username' => 'facebook100000123456789',
+								'password' => ListConfigs::SENSITIVE_VALUE,
+							],
+						],
 						'overwrite.cli.url' => 'http://localhost',
 					],
 				]),
