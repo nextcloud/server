@@ -28,8 +28,7 @@ namespace OCA\Files_External\AppInfo;
 /**
  * @var $this \OC\Route\Router
  **/
-$application = new Application();
-$application->registerRoutes(
+\OC_Mount_Config::$app->registerRoutes(
 	$this,
 	array(
 		'resources' => array(

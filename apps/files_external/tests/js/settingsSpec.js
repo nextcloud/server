@@ -39,6 +39,7 @@ describe('OCA.External.Settings tests', function() {
 			'<option value="\\OC\\AnotherTestBackend">Another Test Backend</option>' +
 			'</select>' +
 			'</td>' +
+			'<td class="authentication"></td>' +
 			'<td class="configuration"></td>' +
 			'<td class="applicable">' +
 			'<input type="hidden" class="applicableUsers">' +
@@ -58,6 +59,9 @@ describe('OCA.External.Settings tests', function() {
 						'field1': 'Display Name 1',
 						'field2': '&Display Name 2'
 					},
+					'authSchemes': {
+						'builtin': true,
+					},
 					'priority': 11
 				},
 				'\\OC\\AnotherTestBackend': {
@@ -66,10 +70,23 @@ describe('OCA.External.Settings tests', function() {
 						'field1': 'Display Name 1',
 						'field2': '&Display Name 2'
 					},
+					'authSchemes': {
+						'builtin': true,
+					},
 					'priority': 12
 				}
 			}
 		);
+
+		$('#externalStorage #addMountPoint .authentication:first').data('mechanisms', {
+			'mechanism1': {
+				'name': 'Mechanism 1',
+				'configuration': {
+				},
+				'scheme': 'builtin',
+			},
+		});
+
 	});
 	afterEach(function() {
 		select2Stub.restore();
@@ -80,7 +97,7 @@ describe('OCA.External.Settings tests', function() {
 		var view;
 
 		function selectBackend(backendName) {
-			view.$el.find('.selectBackend:first').val('\\OC\\TestBackend').trigger('change');
+			view.$el.find('.selectBackend:first').val(backendName).trigger('change');
 		}
 
 		beforeEach(function() {
@@ -139,7 +156,8 @@ describe('OCA.External.Settings tests', function() {
 				var request = fakeServer.requests[0];
 				expect(request.url).toEqual(OC.webroot + '/index.php/apps/files_external/globalstorages');
 				expect(JSON.parse(request.requestBody)).toEqual({
-					backendClass: '\\OC\\TestBackend',
+					backend: '\\OC\\TestBackend',
+					authMechanism: 'mechanism1',
 					backendOptions: {
 						'field1': 'test',
 						'field2': ''

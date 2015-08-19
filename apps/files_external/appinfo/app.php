@@ -30,9 +30,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-$app = new \OCA\Files_external\Appinfo\Application();
-
-$l = \OC::$server->getL10N('files_external');
 
 OC::$CLASSPATH['OC\Files\Storage\StreamWrapper'] = 'files_external/lib/streamwrapper.php';
 OC::$CLASSPATH['OC\Files\Storage\FTP'] = 'files_external/lib/ftp.php';
@@ -49,6 +46,12 @@ OC::$CLASSPATH['OC_Mount_Config'] = 'files_external/lib/config.php';
 OC::$CLASSPATH['OCA\Files\External\Api'] = 'files_external/lib/api.php';
 
 require_once __DIR__ . '/../3rdparty/autoload.php';
+
+// register Application object singleton
+\OC_Mount_Config::$app = new \OCA\Files_external\Appinfo\Application();
+$appContainer = \OC_Mount_Config::$app->getContainer();
+
+$l = \OC::$server->getL10N('files_external');
 
 OCP\App::registerAdmin('files_external', 'settings');
 if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == 'yes') {
@@ -74,6 +77,10 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Local', [
 		'datadir' => (string)$l->t('Location')
 	],
 ]);
+// Local must only be visible to the admin
+$appContainer->query('OCA\Files_External\Service\BackendService')
+	->getBackend('\OC\Files\Storage\Local')
+	->setAllowedVisibility(\OCA\Files_External\Service\BackendService::VISIBILITY_ADMIN);
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', [
 	'backend' => (string)$l->t('Amazon S3'),
@@ -237,5 +244,5 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP_Key', [
 	'custom' => 'sftp_key',
 	]
 );
-$mountProvider = new \OCA\Files_External\Config\ConfigAdapter();
+$mountProvider = $appContainer->query('OCA\Files_External\Config\ConfigAdapter');
 \OC::$server->getMountProviderCollection()->registerProvider($mountProvider);

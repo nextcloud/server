@@ -40,7 +40,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 			->method('getUser')
 			->will($this->returnValue($this->user));
 
-		$this->service = new UserStoragesService($userSession);
+		$this->service = new UserStoragesService($this->backendService, $userSession);
 
 		// create home folder
 		mkdir($this->dataDir . '/' . $this->userId . '/');
@@ -54,7 +54,8 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 	private function makeTestStorageData() {
 		return $this->makeStorageConfig([
 			'mountPoint' => 'mountpoint',
-			'backendClass' => '\OC\Files\Storage\SMB',
+			'backendIdentifier' => 'identifier:\OCA\Files_External\Lib\Backend\SMB',
+			'authMechanismIdentifier' => 'identifier:\Auth\Mechanism',
 			'backendOptions' => [
 				'option1' => 'value1',
 				'option2' => 'value2',
@@ -76,7 +77,8 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		$newStorage = $this->service->getStorage(1);
 
 		$this->assertEquals($storage->getMountPoint(), $newStorage->getMountPoint());
-		$this->assertEquals($storage->getBackendClass(), $newStorage->getBackendClass());
+		$this->assertEquals($storage->getBackend(), $newStorage->getBackend());
+		$this->assertEquals($storage->getAuthMechanism(), $newStorage->getAuthMechanism());
 		$this->assertEquals($storage->getBackendOptions(), $newStorage->getBackendOptions());
 		$this->assertEquals(1, $newStorage->getId());
 		$this->assertEquals(0, $newStorage->getStatus());
@@ -98,7 +100,8 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 	public function testUpdateStorage() {
 		$storage = $this->makeStorageConfig([
 			'mountPoint' => 'mountpoint',
-			'backendClass' => '\OC\Files\Storage\SMB',
+			'backendIdentifier' => 'identifier:\OCA\Files_External\Lib\Backend\SMB',
+			'authMechanismIdentifier' => 'identifier:\Auth\Mechanism',
 			'backendOptions' => [
 				'option1' => 'value1',
 				'option2' => 'value2',
@@ -191,7 +194,8 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 
 		$mountPointOptions = current($mountPointData);
 		$this->assertEquals(1, $mountPointOptions['id']);
-		$this->assertEquals('\OC\Files\Storage\SMB', $mountPointOptions['class']);
+		$this->assertEquals('identifier:\OCA\Files_External\Lib\Backend\SMB', $mountPointOptions['backend']);
+		$this->assertEquals('identifier:\Auth\Mechanism', $mountPointOptions['authMechanism']);
 		$this->assertEquals(false, $mountPointOptions['mountOptions']['preview']);
 
 		$backendOptions = $mountPointOptions['options'];
@@ -214,13 +218,15 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		$legacyBackendOptions = \OC_Mount_Config::encryptPasswords($legacyBackendOptions);
 
 		$legacyConfig = [
-			'class' => '\OC\Files\Storage\SMB',
+			'backend' => 'identifier:\OCA\Files_External\Lib\Backend\SMB',
+			'authMechanism' => 'identifier:\Auth\Mechanism',
 			'options' => $legacyBackendOptions,
 			'mountOptions' => ['preview' => false],
 		];
 		// different mount options
 		$legacyConfig2 = [
-			'class' => '\OC\Files\Storage\SMB',
+			'backend' => 'identifier:\OCA\Files_External\Lib\Backend\SMB',
+			'authMechanism' => 'identifier:\Auth\Mechanism',
 			'options' => $legacyBackendOptions,
 			'mountOptions' => ['preview' => true],
 		];

@@ -32,6 +32,10 @@ use \OCP\AppFramework\Http;
 use \OCA\Files_external\Service\StoragesService;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;
+use \OCA\Files_External\Lib\Backend\Backend;
+use \OCA\Files_External\Lib\Auth\AuthMechanism;
+use \OCP\Files\StorageNotAvailableException;
+use \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 
 /**
  * Base class for storages controllers
@@ -72,6 +76,51 @@ abstract class StoragesController extends Controller {
 	}
 
 	/**
+	 * Create a storage from its parameters
+	 *
+	 * @param string $mountPoint storage mount point
+	 * @param string $backend backend identifier
+	 * @param string $authMechanism authentication mechanism identifier
+	 * @param array $backendOptions backend-specific options
+	 * @param array|null $mountOptions mount-specific options
+	 * @param array|null $applicableUsers users for which to mount the storage
+	 * @param array|null $applicableGroups groups for which to mount the storage
+	 * @param int|null $priority priority
+	 *
+	 * @return StorageConfig|DataResponse
+	 */
+	protected function createStorage(
+		$mountPoint,
+		$backend,
+		$authMechanism,
+		$backendOptions,
+		$mountOptions = null,
+		$applicableUsers = null,
+		$applicableGroups = null,
+		$priority = null
+	) {
+		try {
+			return $this->service->createStorage(
+				$mountPoint,
+				$backend,
+				$authMechanism,
+				$backendOptions,
+				$mountOptions,
+				$applicableUsers,
+				$applicableGroups,
+				$priority
+			);
+		} catch (\InvalidArgumentException $e) {
+			return new DataResponse(
+				[
+					'message' => (string)$this->l10n->t('Invalid backend or authentication mechanism class')
+				],
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+	}
+
+	/**
 	 * Validate storage config
 	 *
 	 * @param StorageConfig $storage storage config
@@ -89,15 +138,36 @@ abstract class StoragesController extends Controller {
 			);
 		}
 
-		// TODO: validate that other attrs are set
-
-		$backends = \OC_Mount_Config::getBackends();
-		if (!isset($backends[$storage->getBackendClass()])) {
+		/** @var Backend */
+		$backend = $storage->getBackend();
+		/** @var AuthMechanism */
+		$authMechanism = $storage->getAuthMechanism();
+		if (!$backend || $backend->checkDependencies()) {
 			// invalid backend
 			return new DataResponse(
 				array(
-					'message' => (string)$this->l10n->t('Invalid storage backend "%s"', array($storage->getBackendClass()))
+					'message' => (string)$this->l10n->t('Invalid storage backend "%s"', [
+						$storage->getBackend()->getIdentifier()
+					])
 				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+		if (!$backend->validateStorage($storage)) {
+			// unsatisfied parameters
+			return new DataResponse(
+				array(
+					'message' => (string)$this->l10n->t('Unsatisfied backend parameters')
+				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+		if (!$authMechanism->validateStorage($storage)) {
+			// unsatisfied parameters
+			return new DataResponse(
+				[
+					'message' => (string)$this->l10n->t('Unsatisfied authentication mechanism parameters')
+				],
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
@@ -114,14 +184,27 @@ abstract class StoragesController extends Controller {
 	 * @param StorageConfig $storage storage configuration
 	 */
 	protected function updateStorageStatus(StorageConfig &$storage) {
-		// update status (can be time-consuming)
-		$storage->setStatus(
-			\OC_Mount_Config::getBackendStatus(
-				$storage->getBackendClass(),
-				$storage->getBackendOptions(),
-				false
-			)
-		);
+		try {
+			/** @var AuthMechanism */
+			$authMechanism = $storage->getAuthMechanism();
+			$authMechanism->manipulateStorageConfig($storage);
+			/** @var Backend */
+			$backend = $storage->getBackend();
+			$backend->manipulateStorageConfig($storage);
+
+			// update status (can be time-consuming)
+			$storage->setStatus(
+				\OC_Mount_Config::getBackendStatus(
+					$backend->getStorageClass(),
+					$storage->getBackendOptions(),
+					false
+				)
+			);
+		} catch (InsufficientDataForMeaningfulAnswerException $e) {
+			$storage->setStatus(\OC_Mount_Config::STATUS_INDETERMINATE);
+		} catch (StorageNotAvailableException $e) {
+			$storage->setStatus(\OC_Mount_Config::STATUS_ERROR);
+		}
 	}
 
 	/**

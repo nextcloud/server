@@ -28,11 +28,22 @@ use \OC\Files\Filesystem;
 
 use \OCA\Files_external\Lib\StorageConfig;
 use \OCA\Files_external\NotFoundException;
+use \OCA\Files_External\Service\BackendService;
 
 /**
  * Service class to manage external storages
  */
 abstract class StoragesService {
+
+	/** @var BackendService */
+	protected $backendService;
+
+	/**
+	 * @param BackendService $backendService
+	 */
+	public function __construct(BackendService $backendService) {
+		$this->backendService = $backendService;
+	}
 
 	/**
 	 * Read legacy config data
@@ -42,6 +53,16 @@ abstract class StoragesService {
 	protected function readLegacyConfig() {
 		// read global config
 		return \OC_Mount_Config::readData();
+	}
+
+	/**
+	 * Write legacy config data
+	 *
+	 * @param array $mountPoints
+	 */
+	protected function writeLegacyConfig(array $mountPoints) {
+		// write global config
+		\OC_Mount_Config::writeData(null, $mountPoints);
 	}
 
 	/**
@@ -60,14 +81,31 @@ abstract class StoragesService {
 		$applicable,
 		$storageOptions
 	) {
-		$storageConfig->setBackendClass($storageOptions['class']);
+		$backend = $this->backendService->getBackend($storageOptions['backend']);
+		if (!$backend) {
+			throw new \UnexpectedValueException('Invalid backend '.$storageOptions['backend']);
+		}
+		$storageConfig->setBackend($backend);
+
+		if (isset($storageOptions['authMechanism'])) {
+			$authMechanism = $this->backendService->getAuthMechanism($storageOptions['authMechanism']);
+		} else {
+			$authMechanism = $backend->getLegacyAuthMechanism($storageOptions);
+			$storageOptions['authMechanism'] = 'null'; // to make error handling easier
+		}
+		if (!$authMechanism) {
+			throw new \UnexpectedValueException('Invalid authentication mechanism '.$storageOptions['authMechanism']);
+		}
+		$storageConfig->setAuthMechanism($authMechanism);
+
 		$storageConfig->setBackendOptions($storageOptions['options']);
 		if (isset($storageOptions['mountOptions'])) {
 			$storageConfig->setMountOptions($storageOptions['mountOptions']);
 		}
-		if (isset($storageOptions['priority'])) {
-			$storageConfig->setPriority($storageOptions['priority']);
+		if (!isset($storageOptions['priority'])) {
+			$storageOptions['priority'] = $backend->getPriority();
 		}
+		$storageConfig->setPriority($storageOptions['priority']);
 
 		if ($mountType === \OC_Mount_Config::MOUNT_TYPE_USER) {
 			$applicableUsers = $storageConfig->getApplicableUsers();
@@ -102,8 +140,10 @@ abstract class StoragesService {
 		 * - $mountPath is the mount point path (where the storage must be mounted)
 		 * - $storageOptions is a map of storage options:
 		 *     - "priority": storage priority
-		 *     - "backend": backend class name
+		 *     - "backend": backend identifier
+		 *     - "class": LEGACY backend class name
 		 *     - "options": backend-specific options
+		 *     - "authMechanism": authentication mechanism identifier
 		 *     - "mountOptions": mount-specific options (ex: disable previews, scanner, etc)
 		 */
 
@@ -147,6 +187,13 @@ abstract class StoragesService {
 					// options might be needed for the config hash
 					$storageOptions['options'] = \OC_Mount_Config::decryptPasswords($storageOptions['options']);
 
+					if (!isset($storageOptions['backend'])) {
+						$storageOptions['backend'] = $storageOptions['class']; // legacy compat
+					}
+					if (!isset($storageOptions['authMechanism'])) {
+						$storageOptions['authMechanism'] = null; // ensure config hash works
+					}
+
 					if (isset($storageOptions['id'])) {
 						$configId = (int)$storageOptions['id'];
 						if (isset($storages[$configId])) {
@@ -188,18 +235,28 @@ abstract class StoragesService {
 
 		// process storages with config hash, they must get a real id
 		if (!empty($storagesWithConfigHash)) {
-			$nextId = $this->generateNextId($storages);
-			foreach ($storagesWithConfigHash as $storage) {
-				$storage->setId($nextId);
-				$storages[$nextId] = $storage;
-				$nextId++;
-			}
-
-			// re-save the config with the generated ids
-			$this->writeConfig($storages);
+			$this->setRealStorageIds($storages, $storagesWithConfigHash);
 		}
 
 		return $storages;
+	}
+
+	/**
+	 * Replace config hash ID with real IDs, for migrating legacy storages
+	 *
+	 * @param StorageConfig[] $storages Storages with real IDs
+	 * @param StorageConfig[] $storagesWithConfigHash Storages with config hash IDs
+	 */
+	protected function setRealStorageIds(array &$storages, array $storagesWithConfigHash) {
+		$nextId = $this->generateNextId($storages);
+		foreach ($storagesWithConfigHash as $storage) {
+			$storage->setId($nextId);
+			$storages[$nextId] = $storage;
+			$nextId++;
+		}
+
+		// re-save the config with the generated ids
+		$this->writeConfig($storages);
 	}
 
 	/**
@@ -222,7 +279,9 @@ abstract class StoragesService {
 
 		$options = [
 			'id' => $storageConfig->getId(),
-			'class' => $storageConfig->getBackendClass(),
+			'backend' => $storageConfig->getBackend()->getIdentifier(),
+			//'class' => $storageConfig->getBackend()->getClass(),
+			'authMechanism' => $storageConfig->getAuthMechanism()->getIdentifier(),
 			'options' => $storageConfig->getBackendOptions(),
 		];
 
@@ -293,6 +352,59 @@ abstract class StoragesService {
 		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 
 		$newStorage->setStatus(\OC_Mount_Config::STATUS_SUCCESS);
+		return $newStorage;
+	}
+
+	/**
+	 * Create a storage from its parameters
+	 *
+	 * @param string $mountPoint storage mount point
+	 * @param string $backendIdentifier backend identifier
+	 * @param string $authMechanismIdentifier authentication mechanism identifier
+	 * @param array $backendOptions backend-specific options
+	 * @param array|null $mountOptions mount-specific options
+	 * @param array|null $applicableUsers users for which to mount the storage
+	 * @param array|null $applicableGroups groups for which to mount the storage
+	 * @param int|null $priority priority
+	 *
+	 * @return StorageConfig
+	 */
+	public function createStorage(
+		$mountPoint,
+		$backendIdentifier,
+		$authMechanismIdentifier,
+		$backendOptions,
+		$mountOptions = null,
+		$applicableUsers = null,
+		$applicableGroups = null,
+		$priority = null
+	) {
+		$backend = $this->backendService->getBackend($backendIdentifier);
+		if (!$backend) {
+			throw new \InvalidArgumentException('Unable to get backend for '.$backendIdentifier);
+		}
+		$authMechanism = $this->backendService->getAuthMechanism($authMechanismIdentifier);
+		if (!$authMechanism) {
+			throw new \InvalidArgumentException('Unable to get authentication mechanism for '.$authMechanismIdentifier);
+		}
+		$newStorage = new StorageConfig();
+		$newStorage->setMountPoint($mountPoint);
+		$newStorage->setBackend($backend);
+		$newStorage->setAuthMechanism($authMechanism);
+		$newStorage->setBackendOptions($backendOptions);
+		if (isset($mountOptions)) {
+			$newStorage->setMountOptions($mountOptions);
+		}
+		if (isset($applicableUsers)) {
+			$newStorage->setApplicableUsers($applicableUsers);
+		}
+		if (isset($applicableGroups)) {
+			$newStorage->setApplicableGroups($applicableGroups);
+		}
+		if (isset($priority)) {
+			$newStorage->setPriority($priority);
+		}
+
 		return $newStorage;
 	}
 

@@ -431,14 +431,16 @@ table.grid td.date{
 }
 
 span.success {
-	 background: #37ce02;
-	 border-radius: 3px;
+	background: #37ce02;
+	border-radius: 3px;
 }
-
 span.error {
-	 background: #ce3702;
+	background: #ce3702;
 }
-
+span.indeterminate {
+	background: #e6db00;
+	border-radius: 40% 0;
+}
 
 /* PASSWORD */
 .strengthify-wrapper {

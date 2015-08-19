@@ -20,15 +20,45 @@
  *
  */
 
-namespace OCA\Files_External;
+namespace OCA\Files_External\Lib;
 
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
+use OCA\Files_External\Service\UserStoragesService;
 
 /**
  * Person mount points can be moved by the user
  */
 class PersonalMount extends MountPoint implements MoveableMount {
+	/** @var UserStoragesService */
+	protected $storagesService;
+
+	/** @var int */
+	protected $storageId;
+
+	/**
+	 * @param UserStoragesService $storagesService
+	 * @param int $storageId
+	 * @param string|\OC\Files\Storage\Storage $storage
+	 * @param string $mountpoint
+	 * @param array $arguments (optional) configuration for the storage backend
+	 * @param \OCP\Files\Storage\IStorageFactory $loader
+	 * @param array $mountOptions mount specific options
+	 */
+	public function __construct(
+		UserStoragesService $storagesService,
+		$storageId,
+		$storage,
+		$mountpoint,
+		$arguments = null,
+		$loader = null,
+		$mountOptions = null
+	) {
+		parent::__construct($storage, $mountpoint, $arguments, $loader, $mountOptions);
+		$this->storagesService = $storagesService;
+		$this->storageId = $storageId;
+	}
+
 	/**
 	 * Move the mount point to $target
 	 *
@@ -36,9 +66,13 @@ class PersonalMount extends MountPoint implements MoveableMount {
 	 * @return bool
 	 */
 	public function moveMount($target) {
-		$result = \OC_Mount_Config::movePersonalMountPoint($this->getMountPoint(), $target, \OC_Mount_Config::MOUNT_TYPE_USER);
+		$storage = $this->storagesService->getStorage($this->storageId);
+		// remove "/$user/files" prefix
+		$targetParts = explode('/', trim($target, '/'), 3);
+		$storage->setMountPoint($targetParts[2]);
+		$this->storagesService->updateStorage($storage);
 		$this->setMountPoint($target);
-		return $result;
+		return true;
 	}
 
 	/**
@@ -47,8 +81,7 @@ class PersonalMount extends MountPoint implements MoveableMount {
 	 * @return bool
 	 */
 	public function removeMount() {
-		$user = \OCP\User::getUser();
-		$relativeMountPoint = substr($this->getMountPoint(), strlen('/' . $user . '/files/'));
-		return \OC_Mount_Config::removeMountPoint($relativeMountPoint, \OC_Mount_Config::MOUNT_TYPE_USER, $user , true);
+		$this->storagesService->removeStorage($this->storageId);
+		return true;
 	}
 }

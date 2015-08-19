@@ -21,6 +21,9 @@
 
 namespace OCA\Files_external\Lib;
 
+use \OCA\Files_External\Lib\Backend\Backend;
+use \OCA\Files_External\Lib\Auth\AuthMechanism;
+
 /**
  * External storage configuration
  */
@@ -34,11 +37,18 @@ class StorageConfig implements \JsonSerializable {
 	private $id;
 
 	/**
-	 * Backend class name
+	 * Backend
 	 *
-	 * @var string
+	 * @var Backend
 	 */
-	private $backendClass;
+	private $backend;
+
+	/**
+	 * Authentication mechanism
+	 *
+	 * @var AuthMechanism
+	 */
+	private $authMechanism;
 
 	/**
 	 * Backend options
@@ -138,21 +148,31 @@ class StorageConfig implements \JsonSerializable {
 	}
 
 	/**
-	 * Returns the external storage backend class name
-	 *
-	 * @return string external storage backend class name
+	 * @return Backend
 	 */
-	public function getBackendClass() {
-		return $this->backendClass;
+	public function getBackend() {
+		return $this->backend;
 	}
 
 	/**
-	 * Sets the external storage backend class name
-	 *
-	 * @param string external storage backend class name
+	 * @param Backend
 	 */
-	public function setBackendClass($backendClass) {
-		$this->backendClass = $backendClass;
+	public function setBackend(Backend $backend) {
+		$this->backend= $backend;
+	}
+
+	/**
+	 * @return AuthMechanism
+	 */
+	public function getAuthMechanism() {
+		return $this->authMechanism;
+	}
+
+	/**
+	 * @param AuthMechanism
+	 */
+	public function setAuthMechanism(AuthMechanism $authMechanism) {
+		$this->authMechanism = $authMechanism;
 	}
 
 	/**
@@ -171,6 +191,25 @@ class StorageConfig implements \JsonSerializable {
 	 */
 	public function setBackendOptions($backendOptions) {
 		$this->backendOptions = $backendOptions;
+	}
+
+	/**
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getBackendOption($key) {
+		if (isset($this->backendOptions[$key])) {
+			return $this->backendOptions[$key];
+		}
+		return null;
+	}
+
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 */
+	public function setBackendOption($key, $value) {
+		$this->backendOptions[$key] = $value;
 	}
 
 	/**
@@ -283,7 +322,8 @@ class StorageConfig implements \JsonSerializable {
 			$result['id'] = $this->id;
 		}
 		$result['mountPoint'] = $this->mountPoint;
-		$result['backendClass'] = $this->backendClass;
+		$result['backend'] = $this->backend->getIdentifier();
+		$result['authMechanism'] = $this->authMechanism->getIdentifier();
 		$result['backendOptions'] = $this->backendOptions;
 		if (!is_null($this->priority)) {
 			$result['priority'] = $this->priority;

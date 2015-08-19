@@ -108,10 +108,7 @@ $clients = array(
 $enableCertImport = false;
 $externalStorageEnabled = \OC::$server->getAppManager()->isEnabledForUser('files_external');
 if ($externalStorageEnabled) {
-	$backends = OC_Mount_Config::getPersonalBackends();
-	if (!empty($backends)) {
-		$enableCertImport = true;
-	}
+	$enableCertImport = true;
 }
 
 

@@ -3,6 +3,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Ross Nicoll <jrn@jrn.me.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -26,6 +27,9 @@ namespace OCA\Files_External\AppInfo;
 use \OCA\Files_External\Controller\AjaxController;
 use \OCP\AppFramework\App;
 use \OCP\IContainer;
+use \OCA\Files_External\Service\BackendService;
+use \OCA\Files_External\Lib\BackendConfig;
+use \OCA\Files_External\Lib\BackendParameter;
 
 /**
  * @package OCA\Files_External\Appinfo
@@ -45,5 +49,33 @@ class Application extends App {
 				$c->query('Request')
 			);
 		});
+
+		$this->loadBackends();
+		$this->loadAuthMechanisms();
 	}
+
+	/**
+	 * Load storage backends provided by this app
+	 */
+	protected function loadBackends() {
+		$container = $this->getContainer();
+		$service = $container->query('OCA\\Files_External\\Service\\BackendService');
+	}
+
+	/**
+	 * Load authentication mechanisms provided by this app
+	 */
+	protected function loadAuthMechanisms() {
+		$container = $this->getContainer();
+		$service = $container->query('OCA\\Files_External\\Service\\BackendService');
+
+		$service->registerAuthMechanisms([
+			// AuthMechanism::SCHEME_NULL mechanism
+			$container->query('OCA\Files_External\Lib\Auth\NullMechanism'),
+
+			// AuthMechanism::SCHEME_BUILTIN mechanism
+			$container->query('OCA\Files_External\Lib\Auth\Builtin'),
+		]);
+	}
+
 }
