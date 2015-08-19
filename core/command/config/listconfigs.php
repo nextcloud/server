@@ -34,14 +34,17 @@ class ListConfigs extends Base {
 
 	/** @var array */
 	protected $sensitiveValues = [
-		'dbpassword',
-		'dbuser',
-		'mail_smtpname',
-		'mail_smtppassword',
-		'passwordsalt',
-		'secret',
-		'ldap_agent_password',
+		'dbpassword' => true,
+		'dbuser' => true,
+		'mail_smtpname' => true,
+		'mail_smtppassword' => true,
+		'passwordsalt' => true,
+		'secret' => true,
+		'ldap_agent_password' => true,
+		'objectstore' => ['arguments' => ['password' => true]],
 	];
+
+	const SENSITIVE_VALUE = '***REMOVED SENSITIVE VALUE***';
 
 	/** * @var SystemConfig */
 	protected $systemConfig;
@@ -124,16 +127,38 @@ class ListConfigs extends Base {
 
 		$configs = [];
 		foreach ($keys as $key) {
-			if ($noSensitiveValues && in_array($key, $this->sensitiveValues)) {
-				continue;
+			$value = $this->systemConfig->getValue($key, serialize(null));
+
+			if ($noSensitiveValues && isset($this->sensitiveValues[$key])) {
+				$value = $this->removeSensitiveValue($this->sensitiveValues[$key], $value);
 			}
 
-			$value = $this->systemConfig->getValue($key, serialize(null));
 			if ($value !== 'N;') {
 				$configs[$key] = $value;
 			}
 		}
 
 		return $configs;
+	}
+
+	/**
+	 * @param bool|array $keysToRemove
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	protected function removeSensitiveValue($keysToRemove, $value) {
+		if ($keysToRemove === true) {
+			return self::SENSITIVE_VALUE;
+		}
+
+		if (is_array($value)) {
+			foreach ($keysToRemove as $keyToRemove => $valueToRemove) {
+				if (isset($value[$keyToRemove])) {
+					$value[$keyToRemove] = $this->removeSensitiveValue($valueToRemove, $value[$keyToRemove]);
+				}
+			}
+		}
+
+		return $value;
 	}
 }
