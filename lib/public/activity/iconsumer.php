@@ -37,21 +37,11 @@ namespace OCP\Activity;
  */
 interface IConsumer {
 	/**
-	 * @param string $app           The app where this event is associated with
-	 * @param string $subject       A short description of the event
-	 * @param array  $subjectParams Array with parameters that are filled in the subject
-	 * @param string $message       A longer description of the event
-	 * @param array  $messageParams Array with parameters that are filled in the message
-	 * @param string $file          The file including path where this event is associated with
-	 * @param string $link          A link where this event is associated with
-	 * @param string $affectedUser  Recipient of the notification
-	 * @param string $type          Type of the notification
-	 * @param string $objectType    Object type can be used to filter the activities later (e.g. files)
-	 * @param int    $objectId      Object id can be used to filter the activities later (e.g. the ID of the cache entry)
+	 * @param IEvent $event
 	 * @return null
 	 * @since 6.0.0
-	 * @since 8.2.0 Added $objectType and $objectId
+	 * @since 8.2.0 Replaced the parameters with an IEvent object
 	 */
-	public function receive($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $objectType, $objectId);
+	public function receive(IEvent $event);
 }
 

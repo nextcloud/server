@@ -24,11 +24,14 @@
 namespace OC;
 
 
+use OC\Activity\Event;
 use OCP\Activity\IConsumer;
+use OCP\Activity\IEvent;
 use OCP\Activity\IExtension;
 use OCP\Activity\IManager;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserSession;
 
 class ActivityManager implements IManager {
@@ -124,6 +127,49 @@ class ActivityManager implements IManager {
 	}
 
 	/**
+	 * @return IEvent
+	 */
+	public function generateEvent() {
+		return new Event();
+	}
+
+	/**
+	 * Publish an event to the activity consumers
+	 *
+	 * @param IEvent $event
+	 * @return null
+	 * @throws \BadMethodCallException if required values have not been set
+	 */
+	public function publish(IEvent $event) {
+		if (!$event->getApp()) {
+			throw new \BadMethodCallException('App not set', 1);
+		}
+		if (!$event->getType()) {
+			throw new \BadMethodCallException('Type not set', 2);
+		}
+		if ($event->getSubject() === null || $event->getSubjectParameters() === null) {
+			throw new \BadMethodCallException('Subject not set', 3);
+		}
+		if ($event->getAffectedUser() === null) {
+			throw new \BadMethodCallException('Affected user not set', 4);
+		}
+
+		if ($event->getAuthor() === null) {
+			if ($this->session->getUser() instanceof IUser) {
+				$event->setAuthor($this->session->getUser()->getUID());
+			}
+		}
+
+		if (!$event->getTimestamp()) {
+			$event->setTimestamp(time());
+		}
+
+		foreach ($this->getConsumers() as $c) {
+			$c->receive($event);
+		}
+	}
+
+	/**
 	 * @param string $app           The app where this event is associated with
 	 * @param string $subject       A short description of the event
 	 * @param array  $subjectParams Array with parameters that are filled in the subject
@@ -133,32 +179,20 @@ class ActivityManager implements IManager {
 	 * @param string $link          A link where this event is associated with
 	 * @param string $affectedUser  Recipient of the activity
 	 * @param string $type          Type of the notification
-	 * @param int    $priority      Priority of the notification (@deprecated)
-	 * @param string $objectType    Object type can be used to filter the activities later (e.g. files)
-	 * @param int    $objectId      Object id can be used to filter the activities later (e.g. the ID of the cache entry)
+	 * @param int    $priority      Priority of the notification
 	 * @return null
 	 */
-	public function publishActivity($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority, $objectType = '', $objectId = 0) {
-		foreach($this->getConsumers() as $c) {
+	public function publishActivity($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority) {
+		$event = $this->generateEvent();
+		$event->setApp($app)
+			->setType($type)
+			->setAffectedUser($affectedUser)
+			->setSubject($subject, $subjectParams)
+			->setMessage($message, $messageParams)
+			->setObject('', 0, $file)
+			->setLink($link);
 
-			try {
-				$c->receive(
-					$app,
-					$subject,
-					$subjectParams,
-					$message,
-					$messageParams,
-					$file,
-					$link,
-					$affectedUser,
-					$type,
-					$objectType,
-					$objectId
-				);
-			} catch (\Exception $ex) {
-				// TODO: log the exception
-			}
-		}
+		$this->publish($event);
 	}
 
 	/**

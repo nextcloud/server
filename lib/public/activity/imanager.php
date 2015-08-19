@@ -38,6 +38,18 @@ namespace OCP\Activity;
  * @since 6.0.0
  */
 interface IManager {
+	/**
+	 * @return IEvent
+	 * @since 8.2.0
+	 */
+	public function generateEvent();
+
+	/**
+	 * @param IEvent $event
+	 * @return null
+	 * @since 8.2.0
+	 */
+	public function publish(IEvent $event);
 
 	/**
 	 * @param string $app           The app where this event is associated with
@@ -49,14 +61,12 @@ interface IManager {
 	 * @param string $link          A link where this event is associated with
 	 * @param string $affectedUser  Recipient of the activity
 	 * @param string $type          Type of the notification
-	 * @param int    $priority      Priority of the notification (@deprecated)
-	 * @param string $objectType    Object type can be used to filter the activities later (e.g. files)
-	 * @param int    $objectId      Object id can be used to filter the activities later (e.g. the ID of the cache entry)
+	 * @param int    $priority      Priority of the notification
 	 * @return null
 	 * @since 6.0.0
-	 * @since 8.2.0 Added $objectType and $objectId
+	 * @deprecated 8.2.0 Grab an IEvent from generateEvent() instead and use the publish() method
 	 */
-	public function publishActivity($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority, $objectType = '', $objectId = 0);
+	public function publishActivity($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority);
 
 	/**
 	 * In order to improve lazy loading a closure can be registered which will be called in case
