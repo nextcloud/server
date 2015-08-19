@@ -51,7 +51,6 @@ class Disable extends Command {
 			}
 		} else {
 			$output->writeln('No such app enabled: ' . $appId);
-			return 1;
 		}
 	}
 }
