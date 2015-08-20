@@ -70,14 +70,47 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 		$storageConfig = $this->getMockBuilder('\OCA\Files_External\Lib\StorageConfig')
 			->disableOriginalConstructor()
 			->getMock();
-		$storageConfig->expects($this->once())
-			->method('getBackendOptions')
-			->willReturn([]);
+		$storageConfig->expects($this->any())
+			->method('getBackendOption')
+			->willReturn(null);
+		$storageConfig->expects($this->any())
+			->method('setBackendOption');
 
 		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\FrontendDefinitionTrait');
 		$trait->setText('test');
 		$trait->addParameters($backendParams);
 
 		$this->assertEquals($expectedSuccess, $trait->validateStorageDefinition($storageConfig));
+	}
+
+	public function testValidateStorageSet() {
+		$param = $this->getMockBuilder('\OCA\Files_External\Lib\DefinitionParameter')
+			->disableOriginalConstructor()
+			->getMock();
+		$param->method('getName')
+			->willReturn('param');
+		$param->expects($this->once())
+			->method('validateValue')
+			->will($this->returnCallback(function(&$value) {
+				$value = 'foobar';
+				return true;
+			}));
+
+		$storageConfig = $this->getMockBuilder('\OCA\Files_External\Lib\StorageConfig')
+			->disableOriginalConstructor()
+			->getMock();
+		$storageConfig->expects($this->once())
+			->method('getBackendOption')
+			->with('param')
+			->willReturn('barfoo');
+		$storageConfig->expects($this->once())
+			->method('setBackendOption')
+			->with('param', 'foobar');
+
+		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\FrontendDefinitionTrait');
+		$trait->setText('test');
+		$trait->addParameter($param);
+
+		$this->assertEquals(true, $trait->validateStorageDefinition($storageConfig));
 	}
 }

@@ -134,12 +134,12 @@ trait FrontendDefinitionTrait {
 	 * @return bool
 	 */
 	public function validateStorageDefinition(StorageConfig $storage) {
-		$options = $storage->getBackendOptions();
 		foreach ($this->getParameters() as $name => $parameter) {
-			$value = isset($options[$name]) ? $options[$name] : null;
+			$value = $storage->getBackendOption($name);
 			if (!$parameter->validateValue($value)) {
 				return false;
 			}
+			$storage->setBackendOption($name, $value);
 		}
 		return true;
 	}

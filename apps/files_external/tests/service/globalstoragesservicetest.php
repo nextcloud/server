@@ -789,6 +789,13 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 
 		file_put_contents($configFile, json_encode($json));
 
+		$this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB')
+			->expects($this->exactly(4))
+			->method('validateStorageDefinition');
+		$this->backendService->getAuthMechanism('identifier:\Auth\Mechanism')
+			->expects($this->exactly(4))
+			->method('validateStorageDefinition');
+
 		$allStorages = $this->service->getAllStorages();
 
 		$this->assertCount(4, $allStorages);

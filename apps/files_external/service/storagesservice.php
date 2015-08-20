@@ -118,6 +118,8 @@ abstract class StoragesService {
 			$applicableGroups[] = $applicable;
 			$storageConfig->setApplicableGroups($applicableGroups);
 		}
+
+
 		return $storageConfig;
 	}
 
@@ -236,6 +238,12 @@ abstract class StoragesService {
 		// process storages with config hash, they must get a real id
 		if (!empty($storagesWithConfigHash)) {
 			$this->setRealStorageIds($storages, $storagesWithConfigHash);
+		}
+
+		// convert parameter values
+		foreach ($storages as $storage) {
+			$storage->getBackend()->validateStorageDefinition($storage);
+			$storage->getAuthMechanism()->validateStorageDefinition($storage);
 		}
 
 		return $storages;

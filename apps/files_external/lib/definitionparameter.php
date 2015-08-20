@@ -154,22 +154,31 @@ class DefinitionParameter implements \JsonSerializable {
 
 	/**
 	 * Validate a parameter value against this
+	 * Convert type as necessary
 	 *
 	 * @param mixed $value Value to check
 	 * @return bool success
 	 */
-	public function validateValue($value) {
-		if ($this->getFlags() & self::FLAG_OPTIONAL) {
-			return true;
-		}
+	public function validateValue(&$value) {
+		$optional = $this->getFlags() & self::FLAG_OPTIONAL;
+
 		switch ($this->getType()) {
 		case self::VALUE_BOOLEAN:
 			if (!is_bool($value)) {
-				return false;
+				switch ($value) {
+				case 'true':
+					$value = true;
+					break;
+				case 'false':
+					$value = false;
+					break;
+				default:
+					return false;
+				}
 			}
 			break;
 		default:
-			if (empty($value)) {
+			if (!$value && !$optional) {
 				return false;
 			}
 			break;
