@@ -11,20 +11,18 @@ namespace Test\Connector\Sabre\RequestTest;
 use OC\Connector\Sabre\Server;
 use OC\Connector\Sabre\ServerFactory;
 use OC\Files\Mount\MountPoint;
+use OC\Files\Storage\StorageFactory;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCP\IUser;
 use Sabre\HTTP\Request;
 use Test\TestCase;
+use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
 abstract class RequestTest extends TestCase {
 	use UserTrait;
-
-	/**
-	 * @var \OCP\Files\Config\IMountProvider[]
-	 */
-	protected $mountProviders;
+	use MountProviderTrait;
 
 	/**
 	 * @var \OC\Connector\Sabre\ServerFactory
@@ -36,29 +34,6 @@ abstract class RequestTest extends TestCase {
 		fwrite($stream, $string);
 		fseek($stream, 0);
 		return $stream;
-	}
-
-	/**
-	 * @param $userId
-	 * @param $storages
-	 * @return \OCP\Files\Config\IMountProvider
-	 */
-	protected function getMountProvider($userId, $storages) {
-		$mounts = [];
-		foreach ($storages as $mountPoint => $storage) {
-			$mounts[] = new MountPoint($storage, $mountPoint);
-		}
-		$provider = $this->getMock('\OCP\Files\Config\IMountProvider');
-		$provider->expects($this->any())
-			->method('getMountsForUser')
-			->will($this->returnCallback(function (IUser $user) use ($userId, $mounts) {
-				if ($user->getUID() === $userId) {
-					return $mounts;
-				} else {
-					return [];
-				}
-			}));
-		return $provider;
 	}
 
 	protected function setUp() {
@@ -76,9 +51,7 @@ abstract class RequestTest extends TestCase {
 
 	protected function setupUser($name, $password) {
 		$this->createUser($name, $password);
-		\OC::$server->getMountProviderCollection()->registerProvider($this->getMountProvider($name, [
-			'/' . $name => '\OC\Files\Storage\Temporary'
-		]));
+		$this->registerMount($name, '\OC\Files\Storage\Temporary', '/' . $name);
 		$this->loginAsUser($name);
 		return new View('/' . $name . '/files');
 	}
