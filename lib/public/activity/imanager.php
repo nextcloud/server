@@ -39,12 +39,29 @@ namespace OCP\Activity;
  */
 interface IManager {
 	/**
+	 * Generates a new IEvent object
+	 *
+	 * Make sure to call at least the following methods before sending it to the
+	 * app with via the publish() method:
+	 *  - setApp()
+	 *  - setType()
+	 *  - setAffectedUser()
+	 *  - setSubject()
+	 *
 	 * @return IEvent
 	 * @since 8.2.0
 	 */
 	public function generateEvent();
 
 	/**
+	 * Publish an event to the activity consumers
+	 *
+	 * Make sure to call at least the following methods before sending an Event:
+	 *  - setApp()
+	 *  - setType()
+	 *  - setAffectedUser()
+	 *  - setSubject()
+	 *
 	 * @param IEvent $event
 	 * @return null
 	 * @since 8.2.0
