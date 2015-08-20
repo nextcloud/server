@@ -662,4 +662,22 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		list($targetStorage, $targetInternalPath) = $this->resolvePath($path);
 		$targetStorage->changeLock($targetInternalPath, $type, $provider);
 	}
+
+	/**
+	 * @return array [ available, last_checked ]
+	 */
+	public function getAvailability() {
+		// shares do not participate in availability logic
+		return [
+			'available' => true,
+			'last_checked' => 0
+		];
+	}
+
+	/**
+	 * @param bool $available
+	 */
+	public function setAvailability($available) {
+		// shares do not participate in availability logic
+	}
 }
