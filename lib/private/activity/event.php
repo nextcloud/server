@@ -22,15 +22,8 @@
 namespace OC\Activity;
 
 use OCP\Activity\IEvent;
-use OCP\Activity\IManager;
 
 class Event implements IEvent {
-	/** @var IManager */
-	protected $manager;
-
-	/** @var string */
-	protected $user;
-
 	/** @var array */
 	protected $data = [
 		'app' => null,
