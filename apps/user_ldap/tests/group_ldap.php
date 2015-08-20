@@ -53,6 +53,10 @@ class Test_Group_Ldap extends \Test\TestCase {
 								 $accMethods,
 								 array($connector, $lw, $um));
 
+		$access->expects($this->any())
+			->method('getConnection')
+			->will($this->returnValue($connector));
+
 		return $access;
 	}
 
@@ -391,7 +395,7 @@ class Test_Group_Ldap extends \Test\TestCase {
 
 		$access->connection->hasPrimaryGroups = false;
 
-		$access->expects($this->once())
+		$access->expects($this->any())
 			->method('username2dn')
 			->will($this->returnValue($dn));
 

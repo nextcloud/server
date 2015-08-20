@@ -101,16 +101,9 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 				return false;
 			}
 
+			$this->access->cacheUserExists($user->getUsername());
+			$user->processAttributes($ldapRecord);
 			$user->markLogin();
-			if(isset($users[0][$this->access->connection->ldapUserDisplayName])) {
-				$dpn = $users[0][$this->access->connection->ldapUserDisplayName];
-				$user->storeDisplayName($dpn);
-			}
-			if(isset($users[0]['uid'])) {
-				$user->storeLDAPUserName($users[0]['uid']);
-			} else if(isset($users[0]['samaccountname'])) {
-				$user->storeLDAPUserName($users[0]['samaccountname']);
-			}
 
 			return $user->getUsername();
 		}
@@ -152,7 +145,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		//do the search and translate results to owncloud names
 		$ldap_users = $this->access->fetchListOfUsers(
 			$filter,
-			array($this->access->connection->ldapUserDisplayName, 'dn'),
+			$this->access->userManager->getAttributes(true),
 			$limit, $offset);
 		$ldap_users = $this->access->ownCloudUserNames($ldap_users);
 		\OCP\Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', \OCP\Util::DEBUG);
@@ -266,39 +259,12 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		if($this->access->connection->isCached($cacheKey)) {
 			return $this->access->connection->getFromCache($cacheKey);
 		}
-		if(strpos($this->access->connection->homeFolderNamingRule, 'attr:') === 0) {
-			$attr = substr($this->access->connection->homeFolderNamingRule, strlen('attr:'));
-			$homedir = $this->access->readAttribute(
-						$this->access->username2dn($uid), $attr);
-			if($homedir && isset($homedir[0])) {
-				$path = $homedir[0];
-				//if attribute's value is an absolute path take this, otherwise append it to data dir
-				//check for / at the beginning or pattern c:\ resp. c:/
-				if(
-					'/' === $path[0]
-					|| (3 < strlen($path) && ctype_alpha($path[0])
-						&& $path[1] === ':' && ('\\' === $path[2] || '/' === $path[2]))
-				) {
-					$homedir = $path;
-				} else {
-					$homedir = $this->ocConfig->getSystemValue('datadirectory',
-						\OC::$SERVERROOT.'/data' ) . '/' . $homedir[0];
-				}
-				$this->access->connection->writeToCache($cacheKey, $homedir);
-				//we need it to store it in the DB as well in case a user gets
-				//deleted so we can clean up afterwards
-				$this->ocConfig->setUserValue(
-					$uid, 'user_ldap', 'homePath', $homedir
-				);
-				//TODO: if home directory changes, the old one needs to be removed.
-				return $homedir;
-			}
-		}
 
-		//false will apply default behaviour as defined and done by OC_User
-		$this->access->connection->writeToCache($cacheKey, false);
-		$this->ocConfig->setUserValue($uid, 'user_ldap', 'homePath', '');
-		return false;
+		$user = $this->access->userManager->get($uid);
+		$path = $user->getHomePath();
+		$this->access->cacheUserHome($uid, $path);
+
+		return $path;
 	}
 
 	/**
