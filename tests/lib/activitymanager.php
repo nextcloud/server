@@ -41,6 +41,9 @@ class Test_ActivityManager extends \Test\TestCase {
 			$this->config
 		);
 
+		$this->assertSame([], $this->invokePrivate($this->activityManager, 'getConsumers'));
+		$this->assertSame([], $this->invokePrivate($this->activityManager, 'getExtensions'));
+
 		$this->activityManager->registerConsumer(function() {
 			return new NoOpConsumer();
 		});
@@ -50,6 +53,11 @@ class Test_ActivityManager extends \Test\TestCase {
 		$this->activityManager->registerExtension(function() {
 			return new SimpleExtension();
 		});
+
+		$this->assertNotEmpty($this->invokePrivate($this->activityManager, 'getConsumers'));
+		$this->assertNotEmpty($this->invokePrivate($this->activityManager, 'getConsumers'));
+		$this->assertNotEmpty($this->invokePrivate($this->activityManager, 'getExtensions'));
+		$this->assertNotEmpty($this->invokePrivate($this->activityManager, 'getExtensions'));
 	}
 
 	public function testGetConsumers() {
@@ -249,6 +257,192 @@ class Test_ActivityManager extends \Test\TestCase {
 			->method('getUser')
 			->willReturn($mockUser);
 	}
+
+	/**
+	 * @expectedException BadMethodCallException
+	 * @expectedExceptionMessage App not set
+	 * @expectedExceptionCode 10
+	 */
+	public function testPublishExceptionNoApp() {
+		$event = new \OC\Activity\Event();
+		$this->activityManager->publish($event);
+	}
+
+	/**
+	 * @expectedException BadMethodCallException
+	 * @expectedExceptionMessage Type not set
+	 * @expectedExceptionCode 11
+	 */
+	public function testPublishExceptionNoType() {
+		$event = new \OC\Activity\Event();
+		$event->setApp('test');
+		$this->activityManager->publish($event);
+	}
+
+	/**
+	 * @expectedException BadMethodCallException
+	 * @expectedExceptionMessage Affected user not set
+	 * @expectedExceptionCode 12
+	 */
+	public function testPublishExceptionNoAffectedUser() {
+		$event = new \OC\Activity\Event();
+		$event->setApp('test')
+			->setType('test_type');
+		$this->activityManager->publish($event);
+	}
+
+	/**
+	 * @expectedException BadMethodCallException
+	 * @expectedExceptionMessage Subject not set
+	 * @expectedExceptionCode 13
+	 */
+	public function testPublishExceptionNoSubject() {
+		$event = new \OC\Activity\Event();
+		$event->setApp('test')
+			->setType('test_type')
+			->setAffectedUser('test_affected');
+		$this->activityManager->publish($event);
+	}
+
+	public function dataPublish() {
+		return [
+			[null],
+			['test_author'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataPublish
+	 * @param string $author
+	 */
+	public function testPublish($author) {
+		if ($author !== null) {
+			$authorObject = $this->getMockBuilder('OCP\IUser')
+				->disableOriginalConstructor()
+				->getMock();
+			$authorObject->expects($this->once())
+				->method('getUID')
+				->willReturn($author);
+			$this->session->expects($this->atLeastOnce())
+				->method('getUser')
+				->willReturn($authorObject);
+		}
+
+		$event = new \OC\Activity\Event();
+		$event->setApp('test')
+			->setType('test_type')
+			->setSubject('test_subject', [])
+			->setAffectedUser('test_affected');
+
+		$consumer = $this->getMockBuilder('OCP\Activity\IConsumer')
+			->disableOriginalConstructor()
+			->getMock();
+		$consumer->expects($this->once())
+			->method('receive')
+			->with($event)
+			->willReturnCallback(function(\OCP\Activity\IEvent $event) use ($author) {
+				$this->assertLessThanOrEqual(time() + 2, $event->getTimestamp(), 'Timestamp not set correctly');
+				$this->assertGreaterThanOrEqual(time() - 2, $event->getTimestamp(), 'Timestamp not set correctly');
+				$this->assertSame($author, $event->getAuthor(), 'Author name not set correctly');
+			});
+		$this->activityManager->registerConsumer(function () use ($consumer) {
+			return $consumer;
+		});
+
+		$this->activityManager->publish($event);
+	}
+
+	public function testPublishAllManually() {
+		$event = new \OC\Activity\Event();
+		$event->setApp('test_app')
+			->setType('test_type')
+			->setAffectedUser('test_affected')
+			->setAuthor('test_author')
+			->setTimestamp(1337)
+			->setSubject('test_subject', ['test_subject_param'])
+			->setMessage('test_message', ['test_message_param'])
+			->setObject('test_object_type', 42, 'test_object_name')
+			->setLink('test_link')
+		;
+
+		$consumer = $this->getMockBuilder('OCP\Activity\IConsumer')
+			->disableOriginalConstructor()
+			->getMock();
+		$consumer->expects($this->once())
+			->method('receive')
+			->willReturnCallback(function(\OCP\Activity\IEvent $event) {
+				$this->assertSame('test_app', $event->getApp(), 'App not set correctly');
+				$this->assertSame('test_type', $event->getType(), 'Type not set correctly');
+				$this->assertSame('test_affected', $event->getAffectedUser(), 'Affected user not set correctly');
+				$this->assertSame('test_author', $event->getAuthor(), 'Author not set correctly');
+				$this->assertSame(1337, $event->getTimestamp(), 'Timestamp not set correctly');
+				$this->assertSame('test_subject', $event->getSubject(), 'Subject not set correctly');
+				$this->assertSame(['test_subject_param'], $event->getSubjectParameters(), 'Subject parameter not set correctly');
+				$this->assertSame('test_message', $event->getMessage(), 'Message not set correctly');
+				$this->assertSame(['test_message_param'], $event->getMessageParameters(), 'Message parameter not set correctly');
+				$this->assertSame('test_object_type', $event->getObjectType(), 'Object type not set correctly');
+				$this->assertSame(42, $event->getObjectId(), 'Object ID not set correctly');
+				$this->assertSame('test_object_name', $event->getObjectName(), 'Object name not set correctly');
+				$this->assertSame('test_link', $event->getLink(), 'Link not set correctly');
+			});
+		$this->activityManager->registerConsumer(function () use ($consumer) {
+			return $consumer;
+		});
+
+		$this->activityManager->publish($event);
+	}
+
+	public function testDeprecatedPublishActivity() {
+		$event = new \OC\Activity\Event();
+		$event->setApp('test_app')
+			->setType('test_type')
+			->setAffectedUser('test_affected')
+			->setAuthor('test_author')
+			->setTimestamp(1337)
+			->setSubject('test_subject', ['test_subject_param'])
+			->setMessage('test_message', ['test_message_param'])
+			->setObject('test_object_type', 42, 'test_object_name')
+			->setLink('test_link')
+		;
+
+		$consumer = $this->getMockBuilder('OCP\Activity\IConsumer')
+			->disableOriginalConstructor()
+			->getMock();
+		$consumer->expects($this->once())
+			->method('receive')
+			->willReturnCallback(function(\OCP\Activity\IEvent $event) {
+				$this->assertSame('test_app', $event->getApp(), 'App not set correctly');
+				$this->assertSame('test_type', $event->getType(), 'Type not set correctly');
+				$this->assertSame('test_affected', $event->getAffectedUser(), 'Affected user not set correctly');
+				$this->assertSame('test_subject', $event->getSubject(), 'Subject not set correctly');
+				$this->assertSame(['test_subject_param'], $event->getSubjectParameters(), 'Subject parameter not set correctly');
+				$this->assertSame('test_message', $event->getMessage(), 'Message not set correctly');
+				$this->assertSame(['test_message_param'], $event->getMessageParameters(), 'Message parameter not set correctly');
+				$this->assertSame('test_object_name', $event->getObjectName(), 'Object name not set correctly');
+				$this->assertSame('test_link', $event->getLink(), 'Link not set correctly');
+
+				// The following values can not be used via publishActivity()
+				$this->assertLessThanOrEqual(time() + 2, $event->getTimestamp(), 'Timestamp not set correctly');
+				$this->assertGreaterThanOrEqual(time() - 2, $event->getTimestamp(), 'Timestamp not set correctly');
+				$this->assertSame(null, $event->getAuthor(), 'Author not set correctly');
+				$this->assertSame('', $event->getObjectType(), 'Object type should not be set');
+				$this->assertSame(0, $event->getObjectId(), 'Object ID should not be set');
+			});
+		$this->activityManager->registerConsumer(function () use ($consumer) {
+			return $consumer;
+		});
+
+		$this->activityManager->publishActivity(
+			$event->getApp(),
+			$event->getSubject(), $event->getSubjectParameters(),
+			$event->getMessage(), $event->getMessageParameters(),
+			$event->getObjectName(),
+			$event->getLink(),
+			$event->getAffectedUser(),
+			$event->getType(),
+			\OCP\Activity\IExtension::PRIORITY_MEDIUM
+		);
+	}
 }
 
 class SimpleExtension implements \OCP\Activity\IExtension {
@@ -368,6 +562,7 @@ class NoOpExtension implements \OCP\Activity\IExtension {
 
 class NoOpConsumer implements \OCP\Activity\IConsumer {
 
-	public function receive($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority) {
+	public function receive(\OCP\Activity\IEvent $event) {
+
 	}
 }

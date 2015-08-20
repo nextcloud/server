@@ -37,19 +37,11 @@ namespace OCP\Activity;
  */
 interface IConsumer {
 	/**
-	 * @param $app
-	 * @param $subject
-	 * @param $subjectParams
-	 * @param $message
-	 * @param $messageParams
-	 * @param $file
-	 * @param $link
-	 * @param $affectedUser
-	 * @param $type
-	 * @param $priority
-	 * @return mixed
+	 * @param IEvent $event
+	 * @return null
 	 * @since 6.0.0
+	 * @since 8.2.0 Replaced the parameters with an IEvent object
 	 */
-	function receive($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority );
+	public function receive(IEvent $event);
 }
 

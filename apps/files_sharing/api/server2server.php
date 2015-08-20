@@ -111,9 +111,14 @@ class Server2Server {
 		if ($share) {
 			list($file, $link) = self::getFile($share['uid_owner'], $share['file_source']);
 
-			\OC::$server->getActivityManager()->publishActivity(
-				Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_ACCEPTED, array($share['share_with'], basename($file)), '', array(),
-				$file, $link, $share['uid_owner'], Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_LOW);
+			$event = \OC::$server->getActivityManager()->generateEvent();
+			$event->setApp(Activity::FILES_SHARING_APP)
+				->setType(Activity::TYPE_REMOTE_SHARE)
+				->setAffectedUser($share['uid_owner'])
+				->setSubject(Activity::SUBJECT_REMOTE_SHARE_ACCEPTED, [$share['share_with'], basename($file)])
+				->setObject('files', $share['file_source'], $file)
+				->setLink($link);
+			\OC::$server->getActivityManager()->publish($event);
 		}
 
 		return new \OC_OCS_Result();
@@ -142,9 +147,14 @@ class Server2Server {
 
 			list($file, $link) = $this->getFile($share['uid_owner'], $share['file_source']);
 
-			\OC::$server->getActivityManager()->publishActivity(
-				Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_DECLINED, array($share['share_with'], basename($file)), '', array(),
-				$file, $link, $share['uid_owner'], Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_LOW);
+			$event = \OC::$server->getActivityManager()->generateEvent();
+			$event->setApp(Activity::FILES_SHARING_APP)
+				->setType(Activity::TYPE_REMOTE_SHARE)
+				->setAffectedUser($share['uid_owner'])
+				->setSubject(Activity::SUBJECT_REMOTE_SHARE_DECLINED, [$share['share_with'], basename($file)])
+				->setObject('files', $share['file_source'], $file)
+				->setLink($link);
+			\OC::$server->getActivityManager()->publish($event);
 		}
 
 		return new \OC_OCS_Result();
