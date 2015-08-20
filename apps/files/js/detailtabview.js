@@ -88,6 +88,8 @@
 	});
 	DetailTabView._TAB_COUNT = 0;
 
+	OCA.Files = OCA.Files || {};
+
 	OCA.Files.DetailTabView = DetailTabView;
 })();
 
