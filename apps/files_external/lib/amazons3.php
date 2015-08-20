@@ -372,7 +372,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				$tmpFile = \OC_Helper::tmpFile();
+				$tmpFile = \OCP\Files::tmpFile();
 				self::$tmpFiles[$tmpFile] = $path;
 
 				try {
@@ -404,7 +404,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				} else {
 					$ext = '';
 				}
-				$tmpFile = \OC_Helper::tmpFile($ext);
+				$tmpFile = \OCP\Files::tmpFile($ext);
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
@@ -464,7 +464,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				]);
 				$this->testTimeout();
 			} else {
-				$mimeType = \OC_Helper::getMimetypeDetector()->detectPath($path);
+				$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
 				$this->getConnection()->putObject([
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path),
@@ -629,7 +629,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				'Bucket' => $this->bucket,
 				'Key' => $this->cleanKey(self::$tmpFiles[$tmpFile]),
 				'SourceFile' => $tmpFile,
-				'ContentType' => \OC_Helper::getMimeType($tmpFile),
+				'ContentType' => \OC::$server->getMimeTypeDetector()->detect($tmpFile),
 				'ContentLength' => filesize($tmpFile)
 			));
 			$this->testTimeout();
