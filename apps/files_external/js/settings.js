@@ -704,6 +704,7 @@ MountConfigListView.prototype = {
 		var $tr = $target.closest('tr');
 		$el.find('tbody').append($tr.clone());
 		$el.find('tbody tr').last().find('.mountPoint input').val('');
+		$tr.data('constructing', true);
 		var selected = $target.find('option:selected').text();
 		var backend = $target.val();
 		$tr.find('.backend').text(selected);
@@ -739,6 +740,9 @@ MountConfigListView.prototype = {
 		$tr.removeAttr('id');
 		$target.remove();
 		addSelect2($tr.find('.applicableUsers'), this._userListLimit);
+
+		$tr.removeData('constructing');
+		this.saveStorageConfig($tr);
 	},
 
 	_onSelectAuthMechanism: function(event) {
@@ -753,6 +757,11 @@ MountConfigListView.prototype = {
 		$.each(authMechanismConfiguration['configuration'], _.partial(
 			this.writeParameterInput, $td, _, _, ['auth-param']
 		));
+
+		if ($tr.data('constructing') !== true) {
+			// row is ready, trigger recheck
+			this.saveStorageConfig($tr);
+		}
 	},
 
 	writeParameterInput: function($td, parameter, placeholder, classes) {
