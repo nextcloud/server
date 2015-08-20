@@ -197,4 +197,12 @@ class FailedStorage extends Common {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	public function getAvailability() {
+		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
+	}
+
+	public function setAvailability($isAvailable) {
+		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
+	}
+
 }
