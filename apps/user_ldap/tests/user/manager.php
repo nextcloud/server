@@ -37,6 +37,16 @@ class Test_User_Manager extends \Test\TestCase {
 		$image = $this->getMock('\OCP\Image');
 		$dbc = $this->getMock('\OCP\IDBConnection');
 
+		$connection = new \OCA\user_ldap\lib\Connection(
+			$lw  = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper'),
+			'',
+			null
+		);
+
+		$access->expects($this->any())
+			->method('getConnection')
+			->will($this->returnValue($connection));
+
 		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc);
 	}
 
@@ -204,6 +214,38 @@ class Test_User_Manager extends \Test\TestCase {
 		$user = $manager->get($uid);
 
 		$this->assertNull($user);
+	}
+
+	public function testGetAttributesAll() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+			$this->getTestInstances();
+
+		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc);
+		$manager->setLdapAccess($access);
+
+		$connection = $access->getConnection();
+		$connection->setConfiguration(array('ldapEmailAttribute' => 'mail'));
+
+		$attributes = $manager->getAttributes();
+
+		$this->assertTrue(in_array('dn', $attributes));
+		$this->assertTrue(in_array($access->getConnection()->ldapEmailAttribute, $attributes));
+		$this->assertTrue(in_array('jpegphoto', $attributes));
+		$this->assertTrue(in_array('thumbnailphoto', $attributes));
+	}
+
+	public function testGetAttributesMinimal() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+			$this->getTestInstances();
+
+		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc);
+		$manager->setLdapAccess($access);
+
+		$attributes = $manager->getAttributes(true);
+
+		$this->assertTrue(in_array('dn', $attributes));
+		$this->assertTrue(!in_array('jpegphoto', $attributes));
+		$this->assertTrue(!in_array('thumbnailphoto', $attributes));
 	}
 
 }

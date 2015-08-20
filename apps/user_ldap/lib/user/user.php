@@ -139,6 +139,69 @@ class User {
 	}
 
 	/**
+	 * processes results from LDAP for attributes as returned by getAttributesToRead()
+	 * @param array $ldapEntry the user entry as retrieved from LDAP
+	 */
+	public function processAttributes($ldapEntry) {
+		$this->markRefreshTime();
+		//Quota
+		$attr = strtolower($this->connection->ldapQuotaAttribute);
+		if(isset($ldapEntry[$attr])) {
+			$this->updateQuota($ldapEntry[$attr]);
+		}
+		unset($attr);
+
+		//Email
+		$attr = strtolower($this->connection->ldapEmailAttribute);
+		if(isset($ldapEntry[$attr])) {
+			$this->updateEmail($ldapEntry[$attr]);
+		}
+		unset($attr);
+
+		//displayName
+		$attr = strtolower($this->connection->ldapUserDisplayName);
+		if(isset($ldapEntry[$attr])) {
+			$displayName = $ldapEntry[$attr];
+			if(!empty($displayName)) {
+				$this->storeDisplayName($displayName);
+				$this->access->cacheUserDisplayName($this->getUsername(), $displayName);
+			}
+		}
+		unset($attr);
+
+		// LDAP Username, needed for s2s sharing
+		if(isset($ldapEntry['uid'])) {
+			$this->storeLDAPUserName($ldapEntry['uid']);
+		} else if(isset($ldapEntry['samaccountname'])) {
+			$this->storeLDAPUserName($ldapEntry['samaccountname']);
+		}
+		//homePath
+		if(strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
+			$attr = strtolower(substr($this->connection->homeFolderNamingRule, strlen('attr:')));
+			if(isset($ldapEntry[$attr])) {
+				$this->access->cacheUserHome(
+					$this->getUsername(), $this->getHomePath($ldapEntry[$attr]));
+			}
+		}
+		//memberOf groups
+		$cacheKey = 'getMemberOf'.$this->getUsername();
+		$groups = false;
+		if(isset($ldapEntry['memberof'])) {
+			$groups = $ldapEntry['memberof'];
+		}
+		$this->connection->writeToCache($cacheKey, $groups);
+		//Avatar
+		$attrs = array('jpegphoto', 'thumbnailphoto');
+		foreach ($attrs as $attr)  {
+			if(isset($ldapEntry[$attr])) {
+				$this->avatarImage = $ldapEntry[$attr];
+				$this->updateAvatar();
+				break;
+			}
+		}
+	}
+
+	/**
 	 * @brief returns the LDAP DN of the user
 	 * @return string
 	 */
@@ -152,6 +215,65 @@ class User {
 	 */
 	public function getUsername() {
 		return $this->uid;
+	}
+
+	/**
+	 * returns the home directory of the user if specified by LDAP settings
+	 * @param string $valueFromLDAP
+	 * @return bool|string
+	 * @throws \Exception
+	 */
+	public function getHomePath($valueFromLDAP = null) {
+		$path = $valueFromLDAP;
+
+		if(   is_null($path)
+		   && strpos($this->access->connection->homeFolderNamingRule, 'attr:') === 0
+		   && $this->access->connection->homeFolderNamingRule !== 'attr:')
+		{
+			$attr = substr($this->access->connection->homeFolderNamingRule, strlen('attr:'));
+			$homedir = $this->access->readAttribute(
+				$this->access->username2dn($this->getUsername()), $attr);
+			if ($homedir && isset($homedir[0])) {
+				$path = $homedir[0];
+			}
+		}
+
+		if(!empty($path)) {
+			//if attribute's value is an absolute path take this, otherwise append it to data dir
+			//check for / at the beginning or pattern c:\ resp. c:/
+			if(   '/' !== $path[0]
+			   && !(3 < strlen($path) && ctype_alpha($path[0])
+			       && $path[1] === ':' && ('\\' === $path[2] || '/' === $path[2]))
+			) {
+				$path = $this->config->getSystemValue('datadirectory',
+						\OC::$SERVERROOT.'/data' ) . '/' . $path;
+			}
+			//we need it to store it in the DB as well in case a user gets
+			//deleted so we can clean up afterwards
+			$this->config->setUserValue(
+				$this->getUsername(), 'user_ldap', 'homePath', $path
+			);
+			return $path;
+		}
+
+		if($this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', true)) {
+			// a naming rule attribute is defined, but it doesn't exist for that LDAP user
+			throw new \Exception('Home dir attribute can\'t be read from LDAP for uid: ' . $this->getUsername());
+		}
+
+		//false will apply default behaviour as defined and done by OC_User
+		$this->config->setUserValue($this->getUsername(), 'user_ldap', 'homePath', '');
+		return false;
+	}
+
+	public function getMemberOfGroups() {
+		$cacheKey = 'getMemberOf'.$this->getUsername();
+		if($this->connection->isCached($cacheKey)) {
+			return $this->connection->getFromCache($cacheKey);
+		}
+		$groupDNs = $this->access->readAttribute($this->getDN(), 'memberOf');
+		$this->connection->writeToCache($cacheKey, $groupDNs);
+		return $groupDNs;
 	}
 
 	/**
@@ -189,7 +311,7 @@ class User {
 	 * @brief marks the time when user features like email have been updated
 	 * @return null
 	 */
-	private function markRefreshTime() {
+	public function markRefreshTime() {
 		$this->config->setUserValue(
 			$this->uid, 'user_ldap', self::USER_PREFKEY_LASTREFRESH, time());
 	}
@@ -252,48 +374,52 @@ class User {
 	}
 
 	/**
-	 * @brief fetches the email from LDAP and stores it as ownCloud user value
+	 * fetches the email from LDAP and stores it as ownCloud user value
+	 * @param string $valueFromLDAP if known, to save an LDAP read request
 	 * @return null
 	 */
-	public function updateEmail() {
+	public function updateEmail($valueFromLDAP = null) {
 		if($this->wasRefreshed('email')) {
 			return;
 		}
-
-		$email = null;
-		$emailAttribute = $this->connection->ldapEmailAttribute;
-		if(!empty($emailAttribute)) {
-			$aEmail = $this->access->readAttribute($this->dn, $emailAttribute);
-			if($aEmail && (count($aEmail) > 0)) {
-				$email = $aEmail[0];
+		$email = $valueFromLDAP;
+		if(is_null($valueFromLDAP)) {
+			$emailAttribute = $this->connection->ldapEmailAttribute;
+			if(!empty($emailAttribute)) {
+				$aEmail = $this->access->readAttribute($this->dn, $emailAttribute);
+				if(is_array($aEmail) && (count($aEmail) > 0)) {
+					$email = $aEmail[0];
+				}
 			}
-			if(!is_null($email)) {
-				$this->config->setUserValue(
-					$this->uid, 'settings', 'email', $email);
-			}
+		}
+		if(!is_null($email)) {
+			$this->config->setUserValue(
+				$this->uid, 'settings', 'email', $email);
 		}
 	}
 
 	/**
-	 * @brief fetches the quota from LDAP and stores it as ownCloud user value
+	 * fetches the quota from LDAP and stores it as ownCloud user value
+	 * @param string $valueFromLDAP the quota attribute's value can be passed,
+	 * to save the readAttribute request
 	 * @return null
 	 */
-	public function updateQuota() {
+	public function updateQuota($valueFromLDAP = null) {
 		if($this->wasRefreshed('quota')) {
 			return;
 		}
-
-		$quota = null;
+		//can be null
 		$quotaDefault = $this->connection->ldapQuotaDefault;
-		$quotaAttribute = $this->connection->ldapQuotaAttribute;
-		if(!empty($quotaDefault)) {
-			$quota = $quotaDefault;
-		}
-		if(!empty($quotaAttribute)) {
-			$aQuota = $this->access->readAttribute($this->dn, $quotaAttribute);
-
-			if($aQuota && (count($aQuota) > 0)) {
-				$quota = $aQuota[0];
+		$quota = !is_null($valueFromLDAP)
+			? $valueFromLDAP
+			: $quotaDefault !== '' ? $quotaDefault : null;
+		if(is_null($valueFromLDAP)) {
+			$quotaAttribute = $this->connection->ldapQuotaAttribute;
+			if(!empty($quotaAttribute)) {
+				$aQuota = $this->access->readAttribute($this->dn, $quotaAttribute);
+				if($aQuota && (count($aQuota) > 0)) {
+					$quota = $aQuota[0];
+				}
 			}
 		}
 		if(!is_null($quota)) {
