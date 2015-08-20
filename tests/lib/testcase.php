@@ -32,20 +32,51 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	 */
 	private $commandBus;
 
+	protected function getTestTraits() {
+		$traits = [];
+		$class = $this;
+		do {
+			$traits = array_merge(class_uses($class), $traits);
+		} while ($class = get_parent_class($class));
+		foreach ($traits as $trait => $same) {
+			$traits = array_merge(class_uses($trait), $traits);
+		}
+		$traits = array_unique($traits);
+		return array_filter($traits, function ($trait) {
+			return substr($trait, 0, 5) === 'Test\\';
+		});
+	}
+
 	protected function setUp() {
 		// overwrite the command bus with one we can run ourselves
 		$this->commandBus = new QueueBus();
 		\OC::$server->registerService('AsyncCommandBus', function () {
 			return $this->commandBus;
 		});
+
+		$traits = $this->getTestTraits();
+		foreach ($traits as $trait) {
+			$methodName = 'setUp' . basename(str_replace('\\', '/', $trait));
+			if (method_exists($this, $methodName)) {
+				call_user_func([$this, $methodName]);
+			}
+		}
 	}
 
 	protected function tearDown() {
 		$hookExceptions = \OC_Hook::$thrownExceptions;
 		\OC_Hook::$thrownExceptions = [];
 		\OC::$server->getLockingProvider()->releaseAll();
-		if(!empty($hookExceptions)) {
+		if (!empty($hookExceptions)) {
 			throw $hookExceptions[0];
+		}
+
+		$traits = $this->getTestTraits();
+		foreach ($traits as $trait) {
+			$methodName = 'tearDown' . basename(str_replace('\\', '/', $trait));
+			if (method_exists($this, $methodName)) {
+				call_user_func([$this, $methodName]);
+			}
 		}
 	}
 

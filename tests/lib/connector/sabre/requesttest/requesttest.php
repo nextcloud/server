@@ -16,12 +16,10 @@ use OC\Files\View;
 use OCP\IUser;
 use Sabre\HTTP\Request;
 use Test\TestCase;
+use Test\Traits\UserTrait;
 
 abstract class RequestTest extends TestCase {
-	/**
-	 * @var \OC_User_Dummy
-	 */
-	protected $userBackend;
+	use UserTrait;
 
 	/**
 	 * @var \OCP\Files\Config\IMountProvider[]
@@ -65,8 +63,6 @@ abstract class RequestTest extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->userBackend = new \OC_User_Dummy();
-		\OC::$server->getUserManager()->registerBackend($this->userBackend);
 
 		$this->serverFactory = new ServerFactory(
 			\OC::$server->getConfig(),
@@ -78,15 +74,10 @@ abstract class RequestTest extends TestCase {
 		);
 	}
 
-	protected function tearDown() {
-		parent::tearDown();
-		\OC::$server->getUserManager()->removeBackend($this->userBackend);
-	}
-
 	protected function setupUser($name, $password) {
-		$this->userBackend->createUser($name, $password);
+		$this->createUser($name, $password);
 		\OC::$server->getMountProviderCollection()->registerProvider($this->getMountProvider($name, [
-			'/' . $name => new Temporary()
+			'/' . $name => '\OC\Files\Storage\Temporary'
 		]));
 		$this->loginAsUser($name);
 		return new View('/' . $name . '/files');
