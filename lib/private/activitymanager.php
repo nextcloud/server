@@ -142,16 +142,16 @@ class ActivityManager implements IManager {
 	 */
 	public function publish(IEvent $event) {
 		if (!$event->getApp()) {
-			throw new \BadMethodCallException('App not set', 1);
+			throw new \BadMethodCallException('App not set', 10);
 		}
 		if (!$event->getType()) {
-			throw new \BadMethodCallException('Type not set', 2);
-		}
-		if ($event->getSubject() === null || $event->getSubjectParameters() === null) {
-			throw new \BadMethodCallException('Subject not set', 3);
+			throw new \BadMethodCallException('Type not set', 11);
 		}
 		if ($event->getAffectedUser() === null) {
-			throw new \BadMethodCallException('Affected user not set', 4);
+			throw new \BadMethodCallException('Affected user not set', 12);
+		}
+		if ($event->getSubject() === null || $event->getSubjectParameters() === null) {
+			throw new \BadMethodCallException('Subject not set', 13);
 		}
 
 		if ($event->getAuthor() === null) {
