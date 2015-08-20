@@ -212,9 +212,10 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$appInfos = [
-			'test1' => ['id' => 'test1', 'version' => '1.0.1', 'requiremax' => '8.0.0'],
+			'test1' => ['id' => 'test1', 'version' => '1.0.1', 'requiremax' => '9.0.0'],
 			'test2' => ['id' => 'test2', 'version' => '1.0.0', 'requiremin' => '8.2.0'],
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
+			'test4' => ['id' => 'test4', 'version' => '3.0.0', 'requiremin' => '8.1.0'],
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
 		];
 
@@ -232,12 +233,14 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$this->appConfig->setValue('test2', 'installed_version', '1.0.0');
 		$this->appConfig->setValue('test3', 'enabled', 'yes');
 		$this->appConfig->setValue('test3', 'installed_version', '1.0.0');
+		$this->appConfig->setValue('test4', 'enabled', 'yes');
+		$this->appConfig->setValue('test4', 'installed_version', '2.4.0');
 
-		$apps = $this->manager->getAppsNeedingUpgrade();
+		$apps = $this->manager->getAppsNeedingUpgrade('8.2.0');
 
 		$this->assertCount(2, $apps);
 		$this->assertEquals('test1', $apps[0]['id']);
-		$this->assertEquals('test3', $apps[1]['id']);
+		$this->assertEquals('test4', $apps[1]['id']);
 	}
 
 	public function testGetIncompatibleApps() {

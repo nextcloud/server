@@ -376,14 +376,15 @@ class OC {
 
 		// if not a core upgrade, then it's apps upgrade
 		if (version_compare($currentVersion, $installedVersion, '=')) {
-			$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade());
 			$tmpl->assign('isAppsOnlyUpgrade', true);
 		} else {
-			// get third party apps
-			$version = OC_Util::getVersion();
-			$tmpl->assign('appList', $appManager->getIncompatibleApps($version));
 			$tmpl->assign('isAppsOnlyUpgrade', false);
 		}
+
+		// get third party apps
+		$ocVersion = OC_Util::getVersion();
+		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
+		$tmpl->assign('incompatibleAppsList', $appManager->getIncompatibleApps($ocVersion));
 		$tmpl->assign('productName', 'ownCloud'); // for now
 		$tmpl->assign('oldTheme', $oldTheme);
 		$tmpl->printPage();
