@@ -140,7 +140,7 @@ class BackendService {
 	 */
 	public function getAvailableBackends() {
 		return array_filter($this->getBackends(), function($backend) {
-			return empty($backend->checkDependencies());
+			return !($backend->checkDependencies());
 		});
 	}
 
@@ -256,7 +256,7 @@ class BackendService {
 	 */
 	protected function isAllowedUserBackend(Backend $backend) {
 		if ($this->userMountingAllowed &&
-			!empty(array_intersect($backend->getIdentifierAliases(), $this->userMountingBackends))
+			array_intersect($backend->getIdentifierAliases(), $this->userMountingBackends)
 		) {
 			return true;
 		}
