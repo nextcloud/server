@@ -346,33 +346,48 @@ class OC {
 		if (\OCP\Util::needUpgrade()) {
 			$systemConfig = \OC::$server->getSystemConfig();
 			if ($showTemplate && !$systemConfig->getValue('maintenance', false)) {
-				$version = OC_Util::getVersion();
-				$oldTheme = $systemConfig->getValue('theme');
-				$systemConfig->setValue('theme', '');
-				OC_Util::addScript('config'); // needed for web root
-				OC_Util::addScript('update');
-				$tmpl = new OC_Template('', 'update.admin', 'guest');
-				$tmpl->assign('version', OC_Util::getVersionString());
-
-				// get third party apps
-				$apps = OC_App::getEnabledApps();
-				$incompatibleApps = array();
-				foreach ($apps as $appId) {
-					$info = OC_App::getAppInfo($appId);
-					if(!OC_App::isAppCompatible($version, $info)) {
-						$incompatibleApps[] = $info;
-					}
-				}
-				$tmpl->assign('appList', $incompatibleApps);
-				$tmpl->assign('productName', 'ownCloud'); // for now
-				$tmpl->assign('oldTheme', $oldTheme);
-				$tmpl->printPage();
+				self::printUpgradePage();
 				exit();
 			} else {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Prints the upgrade page
+	 */
+	private static function printUpgradePage() {
+		$systemConfig = \OC::$server->getSystemConfig();
+		$oldTheme = $systemConfig->getValue('theme');
+		$systemConfig->setValue('theme', '');
+		\OCP\Util::addScript('config'); // needed for web root
+		\OCP\Util::addScript('update');
+
+		// check whether this is a core update or apps update
+		$installedVersion = $systemConfig->getValue('version', '0.0.0');
+		$currentVersion = implode('.', OC_Util::getVersion());
+
+		$appManager = \OC::$server->getAppManager();
+
+		$tmpl = new OC_Template('', 'update.admin', 'guest');
+		$tmpl->assign('version', OC_Util::getVersionString());
+
+		// if not a core upgrade, then it's apps upgrade
+		if (version_compare($currentVersion, $installedVersion, '=')) {
+			$tmpl->assign('isAppsOnlyUpgrade', true);
+		} else {
+			$tmpl->assign('isAppsOnlyUpgrade', false);
+		}
+
+		// get third party apps
+		$ocVersion = OC_Util::getVersion();
+		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
+		$tmpl->assign('incompatibleAppsList', $appManager->getIncompatibleApps($ocVersion));
+		$tmpl->assign('productName', 'ownCloud'); // for now
+		$tmpl->assign('oldTheme', $oldTheme);
+		$tmpl->printPage();
 	}
 
 	public static function initTemplateEngine() {

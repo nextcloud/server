@@ -1,12 +1,26 @@
 <div class="update" data-productname="<?php p($_['productName']) ?>" data-version="<?php p($_['version']) ?>">
 	<div class="updateOverview">
+		<?php if ($_['isAppsOnlyUpgrade']) { ?>
+		<h2 class="title bold"><?php p($l->t('Apps update required.')); ?></h2>
+		<?php } else { ?>
 		<h2 class="title bold"><?php p($l->t('%s will be updated to version %s.',
 			array($_['productName'], $_['version']))); ?></h2>
-		<?php if (!empty($_['appList'])) { ?>
+		<?php } ?>
+		<?php if (!empty($_['appsToUpgrade'])) { ?>
 		<div class="infogroup">
-			<span class="bold"><?php p($l->t('The following apps will be disabled:')) ?></span>
+			<span class="bold"><?php p($l->t('These apps will be updated:')); ?></span>
 			<ul class="content appList">
-				<?php foreach ($_['appList'] as $appInfo) { ?>
+				<?php foreach ($_['appsToUpgrade'] as $appInfo) { ?>
+				<li><?php p($appInfo['name']) ?> (<?php p($appInfo['id']) ?>)</li>
+				<?php } ?>
+			</ul>
+		</div>
+		<?php } ?>
+		<?php if (!empty($_['incompatibleAppsList'])) { ?>
+		<div class="infogroup">
+			<span class="bold"><?php p($l->t('These incompatible apps will be disabled:')) ?></span>
+			<ul class="content appList">
+				<?php foreach ($_['incompatibleAppsList'] as $appInfo) { ?>
 				<li><?php p($appInfo['name']) ?> (<?php p($appInfo['id']) ?>)</li>
 				<?php } ?>
 			</ul>

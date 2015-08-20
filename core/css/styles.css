@@ -680,6 +680,13 @@ label.infield {
 	color: #ccc;
 }
 
+#body-login .update .appList {
+	list-style: disc;
+	text-align: left;
+	margin-left: 25px;
+	margin-right: 25px;
+}
+
 #body-login .v-align {
 	width: inherit;
 }
