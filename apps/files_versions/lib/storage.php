@@ -480,11 +480,11 @@ class Storage {
 	 * get list of files we want to expire
 	 * @param array $versions list of versions
 	 * @param integer $time
+	 * @param bool $quotaExceeded is versions storage limit reached
 	 * @return array containing the list of to deleted versions and the size of them
 	 */
 	protected static function getExpireList($time, $versions, $quotaExceeded = false) {
-		$application = new Application();
-		$expiration = $application->getContainer()->query('Expiration');
+		$expiration = self::getExpiration();
 
 		if ($expiration->shouldAutoExpire()) {
 			list($toDelete, $size) = self::getAutoExpireList($time, $versions);
@@ -568,8 +568,7 @@ class Storage {
 	 */
 	private static function scheduleExpire($uid, $fileName, $versionsSize = null, $neededSpace = 0) {
 		// let the admin disable auto expire
-		$application = new Application();
-		$expiration = $application->getContainer()->query('Expiration');
+		$expiration = self::getExpiration();
 		if ($expiration->isEnabled()) {
 			$command = new Expire($uid, $fileName, $versionsSize, $neededSpace);
 			\OC::$server->getCommandBus()->push($command);
@@ -586,8 +585,7 @@ class Storage {
 	 */
 	public static function expire($filename, $versionsSize = null, $offset = 0) {
 		$config = \OC::$server->getConfig();
-		$application = new Application();
-		$expiration = $application->getContainer()->query('Expiration');
+		$expiration = self::getExpiration();
 		
 		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' && $expiration->isEnabled()) {
 			list($uid, $filename) = self::getUidAndFilename($filename);
@@ -704,6 +702,15 @@ class Storage {
 				$view->mkdir($dir);
 			}
 		}
+	}
+
+	/**
+	 * Static workaround
+	 * @return Expiration
+	 */
+	protected static function getExpiration(){
+		$application = new Application();
+		return $application->getContainer()->query('Expiration');
 	}
 
 }

@@ -451,7 +451,7 @@ $CONFIG = array(
  *   ``auto``      default setting. keeps versions for 30 days and automatically
  *                 deletes anytime after that if space is needed (note: files
  *                 may not be deleted if space is not needed).
- *   ``D, auto``   keeps versions for D+ days, delete anytime if space needed
+ *   ``D, auto``   keep versions for D+ days, delete anytime if space needed
  *                 (note: files may not be deleted
  *                 if space is not needed)
  * * ``auto, D``   delete all versions that are older than D days automatically,

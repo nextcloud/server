@@ -111,13 +111,15 @@ class Expiration_Test extends \PHPUnit_Framework_TestCase {
 	public function configData(){
 		return [
 			[ 'disabled', null, null, null],
-			[ 'auto', Expiration::DEFAULT_RETENTION_OBLIGATION, Expiration::NO_OBLIGATION, true ],
-			[ 'auto,auto', Expiration::DEFAULT_RETENTION_OBLIGATION, Expiration::NO_OBLIGATION, true ],
-			[ 'auto, auto', Expiration::DEFAULT_RETENTION_OBLIGATION, Expiration::NO_OBLIGATION, true ],
+			[ 'auto', Expiration::NO_OBLIGATION, Expiration::NO_OBLIGATION, true ],
+			[ 'auto,auto', Expiration::NO_OBLIGATION, Expiration::NO_OBLIGATION, true ],
+			[ 'auto, auto', Expiration::NO_OBLIGATION, Expiration::NO_OBLIGATION, true ],
 			[ 'auto, 3', Expiration::NO_OBLIGATION, 3, true ],
 			[ '5, auto', 5, Expiration::NO_OBLIGATION, true ],
 			[ '3, 5', 3, 5, false ],
 			[ '10, 3', 10, 10, false ],
+			[ 'g,a,r,b,a,g,e',  Expiration::NO_OBLIGATION, Expiration::NO_OBLIGATION, true ],
+			[ '-3,8',  Expiration::NO_OBLIGATION, Expiration::NO_OBLIGATION, true ]
 		];
 	}
 

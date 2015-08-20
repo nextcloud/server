@@ -27,7 +27,6 @@ use \OCP\AppFramework\Utility\ITimeFactory;
 class Expiration {
 
 	// how long do we keep files a version if no other value is defined in the config file (unit: days)
-	const DEFAULT_RETENTION_OBLIGATION = 30;
 	const NO_OBLIGATION = -1;
 
 	/** @var ITimeFactory */
@@ -116,22 +115,44 @@ class Expiration {
 	private function parseRetentionObligation(){
 		$splitValues = explode(',', $this->retentionObligation);
 		if (!isset($splitValues[0])) {
-			$minValue = self::DEFAULT_RETENTION_OBLIGATION;
+			$minValue = 'auto';
 		} else {
 			$minValue = trim($splitValues[0]);
 		}
 
-		if (!isset($splitValues[1]) && $minValue === 'auto') {
-			$maxValue = 'auto';
-		} elseif (!isset($splitValues[1])) {
-			$maxValue = self::DEFAULT_RETENTION_OBLIGATION;
+		if (!isset($splitValues[1])) {
+			$maxValue = self::NO_OBLIGATION;
 		} else {
 			$maxValue = trim($splitValues[1]);
 		}
 
+		$isValid = true;
+		// Validate
+		if (!ctype_digit($minValue) && $minValue !== 'auto') {
+			$isValid = false;
+			\OC::$server->getLogger()->warning(
+					$minValue . ' is not a valid value for minimal versions retention obligation. Check versions_retention_obligation in your config.php. Falling back to auto.',
+					['app'=>'files_versions']
+			);
+		}
+
+		if (!ctype_digit($maxValue) && $maxValue !== 'auto') {
+			$isValid = false;
+			\OC::$server->getLogger()->warning(
+					$maxValue . ' is not a valid value for maximal versions retention obligation. Check versions_retention_obligation in your config.php. Falling back to auto.',
+					['app'=>'files_versions']
+			);
+		}
+
+		if (!$isValid){
+			$minValue = 'auto';
+			$maxValue = 'auto';
+		}
+
+
 		if ($minValue === 'auto' && $maxValue === 'auto') {
-			// Default: Keep for 30 days but delete anytime if space needed
-			$this->minAge = self::DEFAULT_RETENTION_OBLIGATION;
+			// Default: Delete anytime if space needed
+			$this->minAge = self::NO_OBLIGATION;
 			$this->maxAge = self::NO_OBLIGATION;
 			$this->canPurgeToSaveSpace = true;
 		} elseif ($minValue !== 'auto' && $maxValue === 'auto') {
