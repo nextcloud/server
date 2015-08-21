@@ -93,18 +93,18 @@
 				configModel: this.configModel
 			};
 
-			this.resharerInfoView = _.isUndefined(options.resharerInfoView)
-				? new OC.Share.ShareDialogResharerInfoView(subViewOptions)
-				: options.resharerInfoView;
+			var subViews = {
+				resharerInfoView: 'ShareDialogResharerInfoView',
+				linkShareView: 'ShareDialogLinkShareView',
+				expirationView: 'ShareDialogExpirationView'
+			};
 
-			this.linkShareView = _.isUndefined(options.linkShareView)
-				? new OC.Share.ShareDialogLinkShareView(subViewOptions)
-				: options.linkShareView;
-
-			this.expirationView = _.isUndefined(options.expirationView)
-				? new OC.Share.ShareDialogExpirationView(subViewOptions)
-				: options.expirationView;
-
+			for(var name in subViews) {
+				var className = subViews[name];
+				this[name] = _.isUndefined(options[name])
+					? new OC.Share[className](subViewOptions)
+					: options[name];
+			}
 		},
 
 		render: function() {
