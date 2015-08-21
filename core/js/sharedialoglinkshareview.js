@@ -14,32 +14,34 @@
 	}
 
 	var TEMPLATE =
-			'<div id="link" class="linkShare">' +
+			'{{#if shareAllowed}}' +
+			'<span class="icon-loading-small hidden"></span>' +
+			'<input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" /><label for="linkCheckbox">{{linkShareLabel}}</label>' +
+			'<br />' +
+			'<label for="linkText" class="hidden-visually">{{urlLabel}}</label>' +
+			'<input id="linkText" type="text" readonly="readonly" />' +
+			'<input type="checkbox" name="showPassword" id="showPassword" value="1" class="hidden" /><label for="showPassword" class="hidden-visually">{{enablePasswordLabel}}</label>' +
+			'<div id="linkPass">' +
+			'    <label for="linkPassText" class="hidden-visually">{{passwordLabel}}</label>' +
+			'    <input id="linkPassText" type="password" placeholder="passwordPlaceholder" />' +
 			'    <span class="icon-loading-small hidden"></span>' +
-			'    <input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" /><label for="linkCheckbox">{{linkShareLabel}}</label>' +
-			'    <br />' +
-			'    <label for="linkText" class="hidden-visually">{{urlLabel}}</label>' +
-			'    <input id="linkText" type="text" readonly="readonly" />' +
-			'    <input type="checkbox" name="showPassword" id="showPassword" value="1" class="hidden" /><label for="showPassword" class="hidden-visually">{{enablePasswordLabel}}</label>' +
-			'    <div id="linkPass">' +
-			'        <label for="linkPassText" class="hidden-visually">{{passwordLabel}}</label>' +
-			'        <input id="linkPassText" type="password" placeholder="passwordPlaceholder" />' +
-			'        <span class="icon-loading-small hidden"></span>' +
-			'    </div>' +
+			'</div>' +
 			'    {{#if publicUpload}}' +
-			'    <div id="allowPublicUploadWrapper" class="hidden">' +
-			'        <span class="icon-loading-small hidden"></span>' +
-			'        <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload" {{{publicUploadChecked}}} />' +
-			'        <label for="sharingDialogAllowPublicUpload">{{publicUploadLabel}}</label>' +
-			'    </div>' +
+			'<div id="allowPublicUploadWrapper" class="hidden">' +
+			'    <span class="icon-loading-small hidden"></span>' +
+			'    <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload" {{{publicUploadChecked}}} />' +
+			'    <label for="sharingDialogAllowPublicUpload">{{publicUploadLabel}}</label>' +
+			'</div>' +
 			'    {{/if}}' +
 			'    {{#if mailPublicNotificationEnabled}}' +
-			'    <form id="emailPrivateLink">' +
-			'        <input id="email" class="hidden" value="" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
-			'        <input id="emailButton" class="hidden" type="submit" value="{{mailButtonText}}" />' +
-			'    </form>' +
+			'<form id="emailPrivateLink">' +
+			'    <input id="email" class="hidden" value="" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
+			'    <input id="emailButton" class="hidden" type="submit" value="{{mailButtonText}}" />' +
+			'</form>' +
 			'    {{/if}}' +
-			'</div>'
+			'{{else}}' +
+			'<input id="shareWith" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>' +
+			'{{/if}}'
 		;
 
 	/**
@@ -88,11 +90,17 @@
 		},
 
 		render: function() {
+			var linkShareTemplate = this.template();
+
 			if(    !this.model.hasSharePermission()
 				|| !this.showLink
 				|| !this.configModel.isShareWithLinkAllowed())
 			{
 				this.$el.empty();
+				this.$el.append(linkShareTemplate({
+					shareAllowed: false,
+					noSharingPlaceholder: t('core', 'Resharing is not allowed')
+				}));
 				return this;
 			}
 
@@ -106,9 +114,9 @@
 				publicUploadChecked = 'checked="checked"';
 			}
 
-			var linkShareTemplate = this.template();
 			this.$el.empty();
 			this.$el.append(linkShareTemplate({
+				shareAllowed: true,
 				linkShareLabel: t('core', 'Share link'),
 				urlLabel: t('core', 'Link'),
 				enablePasswordLabel: t('core', 'Password protect'),

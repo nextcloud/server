@@ -24,11 +24,7 @@
 		'{{{remoteShareInfo}}}' +
 		'<ul id="shareWithList">' +
 		'</ul>' +
-		'{{#if shareAllowed}}' +
 		'<div class="linkShareView"></div>' +
-		'{{else}}' +
-		'{{{noSharing}}}' +
-		'{{/if}}' +
 		'<div class="expirationView"></div>'
 		;
 
@@ -114,20 +110,16 @@
 				shareLabel: t('core', 'Share'),
 				sharePlaceholder: this._renderSharePlaceholderPart(),
 				remoteShareInfo: this._renderRemoteShareInfoPart(),
-				shareAllowed: this.model.hasSharePermission(),
-				noSharing: this._renderNoSharing(),
 			}));
 
 			this.resharerInfoView.$el = this.$el.find('.resharerInfoView');
 			this.resharerInfoView.render();
 
+			this.linkShareView.$el = this.$el.find('.linkShareView');
+			this.linkShareView.render();
+
 			this.expirationView.$el = this.$el.find('.expirationView');
 			this.expirationView.render();
-
-			if(this.model.hasSharePermission()) {
-				this.linkShareView.$el = this.$el.find('.linkShareView');
-				this.linkShareView.render();
-			}
 
 			this.$el.find('.hasTooltip').tooltip();
 			if(this.configModel.areAvatarsEnabled()) {
@@ -167,17 +159,6 @@
 				sharePlaceholder = t('core', 'Share with users, groups or remote users …');
 			}
 			return sharePlaceholder;
-		},
-
-		_renderNoSharing: function () {
-			var noSharing = '';
-			if(!this.model.hasSharePermission()) {
-				var noSharingTemplate = this._getTemplate('noSharing', TEMPLATE_NO_SHARING);
-				noSharing = noSharingTemplate({
-					placeholder: t('core', 'Resharing is not allowed')
-				});
-			}
-			return noSharing;
 		},
 
 		/**
