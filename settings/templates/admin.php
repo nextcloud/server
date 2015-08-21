@@ -177,6 +177,9 @@ if ($_['cronErrors']) {
 		<?php print_unescaped($l->t('Please double check the <a target="_blank" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="#log-section">log</a>.', link_to_docs('admin-install'))); ?>
 	</p>
 </div>
+<div id="security-warning-state">
+	<span class="hidden icon-checkmark"><?php p($l->t('All checks passed.'));?></span>
+</div>
 </div>
 
 	<div class="section" id="shareAPI">
