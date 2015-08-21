@@ -145,6 +145,7 @@ class Configuration {
 			}
 
 			$setMethod = 'setValue';
+            $trim = false;
 			switch($key) {
 				case 'homeFolderNamingRule':
 					if(!empty($val) && strpos($val, 'attr:') === false) {
@@ -154,6 +155,7 @@ class Configuration {
 				case 'ldapBase':
 				case 'ldapBaseUsers':
 				case 'ldapBaseGroups':
+                    $trim = true;// Prevent login errors due to whitespace
 				case 'ldapAttributesForUserSearch':
 				case 'ldapAttributesForGroupSearch':
 				case 'ldapUserFilterObjectclass':
@@ -164,7 +166,7 @@ class Configuration {
 					$setMethod = 'setMultiLine';
 					break;
 			}
-			$this->$setMethod($key, $val);
+			$this->$setMethod($key, $val, $trim);
 			if(is_array($applied)) {
 				$applied[] = $inputKey;
 			}
@@ -275,14 +277,18 @@ class Configuration {
 	 * @param string $varName
 	 * @param array|string $value
 	 */
-	protected function setMultiLine($varName, $value) {
+	protected function setMultiLine($varName, $value, $trim = false) {
 		if(empty($value)) {
 			$value = '';
 		} else if (!is_array($value)) {
 			$value = preg_split('/\r\n|\r|\n|;/', $value);
 			if($value === false) {
 				$value = '';
-			}
+			} else if($trim) {
+                foreach($value as $key => $val) {
+                    $value[$key] = trim($val);
+                }
+            }
 		}
 
 		$this->setValue($varName, $value);
@@ -328,11 +334,11 @@ class Configuration {
 	}
 
 	/**
-	 * @param string $varName
+	 * @param string $varName 
 	 * @param mixed $value
 	 */
-	protected function setValue($varName, $value) {
-		$this->config[$varName] = $value;
+	protected function setValue($varName, $value, $trim = false) {
+		$this->config[$varName] = $trim ? trim($value) : $value;
 	}
 
 	/**
