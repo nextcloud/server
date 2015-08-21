@@ -30,11 +30,6 @@ if(version_compare($installedVersion, '0.6.2', '<')) {
     $helper = new \OCA\user_ldap\lib\Helper();
     $prefixes = $helper->getServerConfigurationPrefixes();
 
-    // Add empty prefix if only one serverconfig exists
-    if(count($prefixes) === 0) {
-        $prefixes[] = "";
-    } 
-
     foreach($prefixes as $prefix) {
         \OC::$server->getConfig()->deleteAppValue('user_ldap', $prefix . "ldap_nocase");
     }
