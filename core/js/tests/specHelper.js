@@ -35,6 +35,24 @@ window.dayNames = [
 	'Friday',
 	'Saturday'
 ];
+window.dayNamesShort = [
+	'Sun.',
+	'Mon.',
+	'Tue.',
+	'Wed.',
+	'Thu.',
+	'Fri.',
+	'Sat.'
+];
+window.dayNamesMin = [
+	'Su',
+	'Mo',
+	'Tu',
+	'We',
+	'Th',
+	'Fr',
+	'Sa'
+];
 window.monthNames = [
 	'January',
 	'February',
@@ -48,6 +66,20 @@ window.monthNames = [
 	'October',
 	'November',
 	'December'
+];
+window.monthNamesShort = [
+	'Jan.',
+	'Feb.',
+	'Mar.',
+	'Apr.',
+	'May.',
+	'Jun.',
+	'Jul.',
+	'Aug.',
+	'Sep.',
+	'Oct.',
+	'Nov.',
+	'Dec.'
 ];
 window.firstDay = 0;
 

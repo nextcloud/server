@@ -905,10 +905,10 @@ $(document).ready(function() {
 		minDate.setDate(minDate.getDate()+1);
 		$.datepicker.setDefaults({
 			monthNames: monthNames,
-			monthNamesShort: $.map(monthNames, function(v) { return v.slice(0,3)+'.'; }),
+			monthNamesShort: monthNamesShort,
 			dayNames: dayNames,
-			dayNamesMin: $.map(dayNames, function(v) { return v.slice(0,2); }),
-			dayNamesShort: $.map(dayNames, function(v) { return v.slice(0,3)+'.'; }),
+			dayNamesMin: dayNamesMin,
+			dayNamesShort: dayNamesShort,
 			firstDay: firstDay,
 			minDate : minDate
 		});

@@ -78,6 +78,28 @@ $array = array(
 			(string)$l->t('Saturday')
 		)
 	),
+	"dayNamesShort" =>  json_encode(
+		array(
+			(string)$l->t('Sun.'),
+			(string)$l->t('Mon.'),
+			(string)$l->t('Tue.'),
+			(string)$l->t('Wed.'),
+			(string)$l->t('Thu.'),
+			(string)$l->t('Fri.'),
+			(string)$l->t('Sat.')
+		)
+	),
+	"dayNamesMin" =>  json_encode(
+		array(
+			(string)$l->t('Su'),
+			(string)$l->t('Mo'),
+			(string)$l->t('Tu'),
+			(string)$l->t('We'),
+			(string)$l->t('Th'),
+			(string)$l->t('Fr'),
+			(string)$l->t('Sa')
+		)
+	),
 	"monthNames" => json_encode(
 		array(
 			(string)$l->t('January'),
@@ -92,6 +114,22 @@ $array = array(
 			(string)$l->t('October'),
 			(string)$l->t('November'),
 			(string)$l->t('December')
+		)
+	),
+	"monthNamesShort" => json_encode(
+		array(
+			(string)$l->t('Jan.'),
+			(string)$l->t('Feb.'),
+			(string)$l->t('Mar.'),
+			(string)$l->t('Apr.'),
+			(string)$l->t('May.'),
+			(string)$l->t('Jun.'),
+			(string)$l->t('Jul.'),
+			(string)$l->t('Aug.'),
+			(string)$l->t('Sep.'),
+			(string)$l->t('Oct.'),
+			(string)$l->t('Nov.'),
+			(string)$l->t('Dec.')
 		)
 	),
 	"firstDay" => json_encode($l->getFirstWeekDay()) ,
