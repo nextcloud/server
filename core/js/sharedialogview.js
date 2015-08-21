@@ -25,7 +25,7 @@
 		'<ul id="shareWithList">' +
 		'</ul>' +
 		'{{#if shareAllowed}}' +
-		'{{{linkShare}}}' +
+		'<div class="linkShare"></div>' +
 		'{{else}}' +
 		'{{{noSharing}}}' +
 		'{{/if}}' +
@@ -35,35 +35,6 @@
 	var TEMPLATE_REMOTE_SHARE_INFO =
 		'<a target="_blank" class="icon-info svg shareWithRemoteInfo hasTooltip" href="{{docLink}}" ' +
 		'title="{{tooltip}}"></a>';
-
-	var TEMPLATE_LINK_SHARE =
-			'<div id="link" class="linkShare">' +
-			'    <span class="icon-loading-small hidden"></span>' +
-			'    <input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" /><label for="linkCheckbox">{{linkShareLabel}}</label>' +
-			'    <br />' +
-			'    <label for="linkText" class="hidden-visually">{{urlLabel}}</label>' +
-			'    <input id="linkText" type="text" readonly="readonly" />' +
-			'    <input type="checkbox" name="showPassword" id="showPassword" value="1" class="hidden" /><label for="showPassword" class="hidden-visually">{{enablePasswordLabel}}</label>' +
-			'    <div id="linkPass">' +
-			'        <label for="linkPassText" class="hidden-visually">{{passwordLabel}}</label>' +
-			'        <input id="linkPassText" type="password" placeholder="passwordPlaceholder" />' +
-			'        <span class="icon-loading-small hidden"></span>' +
-			'    </div>' +
-			'    {{#if publicUpload}}' +
-			'    <div id="allowPublicUploadWrapper" class="hidden">' +
-			'        <span class="icon-loading-small hidden"></span>' +
-			'        <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload" {{{publicUploadChecked}}} />' +
-			'        <label for="sharingDialogAllowPublicUpload">{{publicUploadLabel}}</label>' +
-			'    </div>' +
-			'    {{/if}}' +
-			'    {{#if mailPublicNotificationEnabled}}' +
-			'    <form id="emailPrivateLink">' +
-			'        <input id="email" class="hidden" value="" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
-			'        <input id="emailButton" class="hidden" type="submit" value="{{mailButtonText}}" />' +
-			'    </form>' +
-			'    {{/if}}' +
-			'</div>'
-		;
 
 	var TEMPLATE_NO_SHARING =
 		'<input id="shareWith" type="text" placeholder="{{placeholder}}" disabled="disabled"/>'
@@ -105,6 +76,9 @@
 		/** @type {object} **/
 		resharerInfoView: undefined,
 
+		/** @type {object} **/
+		linkShareView: undefined,
+
 		initialize: function(options) {
 			var view = this;
 			this.model.on('change', function() {
@@ -130,6 +104,10 @@
 				? new OC.Share.ShareDialogResharerInfoView(subViewOptions)
 				: options.resharerInfoView;
 
+			this.linkShareView = _.isUndefined(options.linkShareView)
+				? new OC.Share.ShareDialogLinkShareView(subViewOptions)
+				: options.linkShareView;
+
 		},
 
 		render: function() {
@@ -139,7 +117,6 @@
 				shareLabel: t('core', 'Share'),
 				sharePlaceholder: this._renderSharePlaceholderPart(),
 				remoteShareInfo: this._renderRemoteShareInfoPart(),
-				linkShare: this._renderLinkSharePart(),
 				shareAllowed: this.model.hasSharePermission(),
 				noSharing: this._renderNoSharing(),
 				expiration: this._renderExpirationPart()
@@ -147,6 +124,11 @@
 
 			this.resharerInfoView.$el = this.$el.find('.resharerInfo');
 			this.resharerInfoView.render();
+
+			if(this.model.hasSharePermission()) {
+				this.linkShareView.$el = this.$el.find('.linkShare');
+				this.linkShareView.render();
+			}
 
 			this.$el.find('.hasTooltip').tooltip();
 			if(this.configModel.areAvatarsEnabled()) {
@@ -164,6 +146,7 @@
 		 */
 		setShowLink: function(showLink) {
 			this._showLink = (typeof showLink === 'boolean') ? showLink : true;
+			this.linkShareView.showLink = this._showLink;
 		},
 
 		_renderRemoteShareInfoPart: function() {
@@ -177,41 +160,6 @@
 			}
 
 			return remoteShareInfo;
-		},
-
-		_renderLinkSharePart: function() {
-			var linkShare = '';
-			if(    this.model.hasSharePermission()
-				&& this._showLink
-				&& this.configModel.isShareWithLinkAllowed())
-			{
-				var linkShareTemplate = this._getLinkShareTemplate();
-
-				var publicUpload =
-					   this.model.isFolder()
-					&& this.model.hasCreatePermission()
-					&& this.configModel.isPublicUploadEnabled();
-
-				var publicUploadChecked = '';
-				if(this.model.isPublicUploadAllowed) {
-					publicUploadChecked = 'checked="checked"';
-				}
-
-				linkShare = linkShareTemplate({
-					linkShareLabel: t('core', 'Share link'),
-					urlLabel: t('core', 'Link'),
-					enablePasswordLabel: t('core', 'Password protect'),
-					passwordLabel: t('core', 'Password'),
-					passwordPlaceholder: t('core', 'Choose a password for the public link'),
-					publicUpload: publicUpload,
-					publicUploadChecked: publicUploadChecked,
-					publicUploadLabel: t('core', 'Allow editing'),
-					mailPublicNotificationEnabled: this.configModel.isMailPublicNotificationEnabled(),
-					mailPrivatePlaceholder: t('core', 'Email link to person'),
-					mailButtonText: t('core', 'Send')
-				});
-			}
-			return linkShare;
 		},
 
 		_renderSharePlaceholderPart: function () {
@@ -278,20 +226,6 @@
 		 */
 		_getRemoteShareInfoTemplate: function() {
 			return this._getTemplate('remoteShareInfo', TEMPLATE_REMOTE_SHARE_INFO);
-		},
-
-		/**
-		 * returns the info template for link sharing
-		 *
-		 * @returns {Function}
-		 * @private
-		 */
-		_getLinkShareTemplate: function() {
-			return this._getTemplate('linkShare', TEMPLATE_LINK_SHARE);
-		},
-
-		_getReshareTemplate: function() {
-			return this._getTemplate('reshare', TEMPLATE_RESHARER_INFO);
 		}
 	});
 
