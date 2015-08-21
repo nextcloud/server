@@ -79,6 +79,8 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('enable_avatars', true)
 			->willReturn(true);
 
+		$this->container['OCP\\Security\\ISecureRandom'] = $this->getMockBuilder('\OCP\Security\ISecureRandom')
+			->disableOriginalConstructor()->getMock();
 	}
 
 	public function testIndexAdmin() {
