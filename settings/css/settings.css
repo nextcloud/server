@@ -361,6 +361,11 @@ table.grid td.date{
 	list-style: initial;
 	margin: 10px 0;
 }
+#security-warning-state span {
+	padding-left: 25px;
+	background-position: 5px center;
+	margin-left: -5px;
+}
 
 #shareAPI p { padding-bottom: 0.8em; }
 #shareAPI input#shareapiExpireAfterNDays {width: 25px;}

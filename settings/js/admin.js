@@ -179,7 +179,7 @@ $(document).ready(function(){
 		if (messages.length === 0) {
 			var securityWarning = $('#security-warning');
 			if (securityWarning.children('ul').children().length === 0) {
-				securityWarning.addClass('hidden');
+				$('#security-warning-state').find('span').removeClass('hidden');
 			}
 		} else {
 			var $errorsEl = $el.find('.errors');
