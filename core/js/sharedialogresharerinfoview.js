@@ -51,8 +51,7 @@
 		initialize: function(options) {
 			var view = this;
 
-			//FIXME: specific to reshares stuff
-			this.model.on('change', function() {
+			this.model.on('change:reshare', function() {
 				view.render();
 			});
 
@@ -67,7 +66,7 @@
 			if (   !this.model.hasReshare()
 				|| !this.model.getReshareOwner() !== OC.currentUser)
 			{
-				this.$el.html('');
+				this.$el.empty();
 				return this;
 			}
 
@@ -91,7 +90,8 @@
 				);
 			}
 
-			this.$el.html(reshareTemplate({
+			this.$el.empty();
+			this.$el.append(reshareTemplate({
 				avatarEnabled: this.configModel.areAvatarsEnabled(),
 				sharedByText: sharedByText
 			}));

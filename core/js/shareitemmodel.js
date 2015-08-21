@@ -90,7 +90,8 @@
 		 * @returns {boolean}
 		 */
 		hasReshare: function() {
-			return _.isObject(this.get('reshare')) && !_.isUndefined(this.get('reshare').uid_owner);
+			var reshare = this.get('reshare');
+			return _.isObject(reshare) && !_.isUndefined(reshare.uid_owner);
 		},
 
 		/**

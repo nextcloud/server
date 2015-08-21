@@ -14,7 +14,7 @@
 	}
 
 	var TEMPLATE_BASE =
-		'{{{resharerInfo}}}' +
+		'<div class="resharerInfo"></div>' +
 		'<label for="shareWith" class="hidden-visually">{{shareLabel}}</label>' +
 		'<div class="oneline">' +
 		'    <input id="shareWith" type="text" placeholder="{{sharePlaceholder}}" />' +
@@ -135,11 +135,8 @@
 		render: function() {
 			var baseTemplate = this._getTemplate('base', TEMPLATE_BASE);
 
-			this.resharerInfoView.render();
-
 			this.$el.html(baseTemplate({
 				shareLabel: t('core', 'Share'),
-				resharerInfo: this.resharerInfoView.el.innerHTML,
 				sharePlaceholder: this._renderSharePlaceholderPart(),
 				remoteShareInfo: this._renderRemoteShareInfoPart(),
 				linkShare: this._renderLinkSharePart(),
@@ -147,6 +144,9 @@
 				noSharing: this._renderNoSharing(),
 				expiration: this._renderExpirationPart()
 			}));
+
+			this.resharerInfoView.$el = this.$el.find('.resharerInfo');
+			this.resharerInfoView.render();
 
 			this.$el.find('.hasTooltip').tooltip();
 			if(this.configModel.areAvatarsEnabled()) {
