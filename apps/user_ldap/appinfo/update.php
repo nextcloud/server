@@ -26,11 +26,11 @@ if (version_compare($installedVersion, '0.6.1', '<')) {
 }
 
 if(version_compare($installedVersion, '0.6.2', '<')) {
-    // Remove LDAP case insensitive setting from DB as it is no longer beeing used.
-    $helper = new \OCA\user_ldap\lib\Helper();
-    $prefixes = $helper->getServerConfigurationPrefixes();
+	// Remove LDAP case insensitive setting from DB as it is no longer beeing used.
+	$helper = new \OCA\user_ldap\lib\Helper();
+	$prefixes = $helper->getServerConfigurationPrefixes();
 
-    foreach($prefixes as $prefix) {
-        \OC::$server->getConfig()->deleteAppValue('user_ldap', $prefix . "ldap_nocase");
-    }
+	foreach($prefixes as $prefix) {
+		\OC::$server->getConfig()->deleteAppValue('user_ldap', $prefix . "ldap_nocase");
+	}
 }
