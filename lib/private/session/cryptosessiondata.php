@@ -21,10 +21,14 @@
 
 namespace OC\Session;
 
-
 use OCP\ISession;
 use OCP\Security\ICrypto;
 
+/**
+ * Class CryptoSessionData
+ *
+ * @package OC\Session
+ */
 class CryptoSessionData implements \ArrayAccess, ISession {
 	/** @var ISession */
 	protected $session;
@@ -53,7 +57,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param mixed $value
 	 */
 	public function set($key, $value) {
-		$encryptedValue = $this->crypto->encrypt($value, $this->passphrase);
+		$encryptedValue = $this->crypto->encrypt(json_encode($value), $this->passphrase);
 		$this->session->set($key, $encryptedValue);
 	}
 
@@ -61,8 +65,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * Get a value from the session
 	 *
 	 * @param string $key
-	 * @return mixed should return null if $key does not exist
-	 * @throws \Exception when the data could not be decrypted
+	 * @return string|null Either the value or null
 	 */
 	public function get($key) {
 		$encryptedValue = $this->session->get($key);
@@ -70,8 +73,12 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 			return null;
 		}
 
-		$value = $this->crypto->decrypt($encryptedValue, $this->passphrase);
-		return $value;
+		try {
+			$value = $this->crypto->decrypt($encryptedValue, $this->passphrase);
+			return json_decode($value);
+		} catch (\Exception $e) {
+			return null;
+		}
 	}
 
 	/**

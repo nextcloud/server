@@ -40,6 +40,7 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\AppFramework\Utility\TimeFactory;
 use OC\Command\AsyncBus;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\NullEventLogger;
@@ -468,10 +469,28 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new EventDispatcher();
 		});
 		$this->registerService('CryptoWrapper', function (Server $c) {
+			// FIXME: Instantiiated here due to cyclic dependency
+			$request = new Request(
+				[
+					'get' => $_GET,
+					'post' => $_POST,
+					'files' => $_FILES,
+					'server' => $_SERVER,
+					'env' => $_ENV,
+					'cookies' => $_COOKIE,
+					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
+						? $_SERVER['REQUEST_METHOD']
+						: null,
+				],
+				new SecureRandom(),
+				$c->getConfig()
+			);
+
 			return new CryptoWrapper(
 				$c->getConfig(),
 				$c->getCrypto(),
-				$c->getSecureRandom()
+				$c->getSecureRandom(),
+				$request
 			);
 		});
 	}
@@ -962,4 +981,38 @@ class Server extends SimpleContainer implements IServerContainer {
 		return $this->query('MountManager');
 	}
 
+	/*
+	 * Get the MimeTypeDetector
+	 *
+	 * @return \OCP\Files\IMimeTypeDetector
+	 */
+	public function getMimeTypeDetector() {
+		return $this->query('MimeTypeDetector');
+	}
+
+	/**
+	 * Get the manager of all the capabilities
+	 *
+	 * @return \OC\CapabilitiesManager
+	 */
+	public function getCapabilitiesManager() {
+		return $this->query('CapabilitiesManager');
+	}
+
+	/**
+	 * Get the EventDispatcher
+	 *
+	 * @return EventDispatcherInterface
+	 * @since 8.2.0
+	 */
+	public function getEventDispatcher() {
+		return $this->query('EventDispatcher');
+	}
+
+	/**
+	 * @return \OC\Session\CryptoWrapper
+	 */
+	public function getSessionCryptoWrapper() {
+		return $this->query('CryptoWrapper');
+	}
 }

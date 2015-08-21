@@ -46,7 +46,7 @@ class CryptoWrappingTest extends TestCase {
 		$this->crypto->expects($this->any())
 			->method('encrypt')
 			->willReturnCallback(function ($input) {
-				return '#' . $input . '#';
+				return $input;
 			});
 		$this->crypto->expects($this->any())
 			->method('decrypt')
@@ -62,7 +62,7 @@ class CryptoWrappingTest extends TestCase {
 
 		$this->wrappedSession->expects($this->once())
 			->method('set')
-			->with('key', $this->crypto->encrypt($unencryptedValue));
+			->with('key', $this->crypto->encrypt(json_encode($unencryptedValue)));
 		$this->instance->set('key', $unencryptedValue);
 	}
 
@@ -76,6 +76,7 @@ class CryptoWrappingTest extends TestCase {
 			->willReturnCallback(function () use ($encryptedValue) {
 				return $encryptedValue;
 			});
-		$this->assertSame($unencryptedValue, $this->instance->get('key'));
+
+		$this->assertSame($unencryptedValue, $this->wrappedSession->get('key'));
 	}
 }

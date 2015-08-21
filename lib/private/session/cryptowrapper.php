@@ -21,11 +21,29 @@
 
 namespace OC\Session;
 
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 
+/**
+ * Class CryptoWrapper provides some rough basic level of additional security by
+ * storing the session data in an encrypted form.
+ *
+ * The content of the session is encrypted using another cookie sent by the browser.
+ * One should note that an adversary with access to the source code or the system
+ * memory is still able to read the original session ID from the users' request.
+ * This thus can not be considered a strong security measure one should consider
+ * it as an additional small security obfuscation layer to comply with compliance
+ * guidelines.
+ *
+ * TODO: Remove this in a future relase with an approach such as
+ * https://github.com/owncloud/core/pull/17866
+ *
+ * @package OC\Session
+ */
 class CryptoWrapper {
 	const COOKIE_NAME = 'oc_sessionPassphrase';
 
@@ -42,27 +60,24 @@ class CryptoWrapper {
 	 * @param IConfig $config
 	 * @param ICrypto $crypto
 	 * @param ISecureRandom $random
+	 * @param IRequest $request
 	 */
-	public function __construct(IConfig $config, ICrypto $crypto, ISecureRandom $random) {
+	public function __construct(IConfig $config,
+								ICrypto $crypto,
+								ISecureRandom $random,
+								IRequest $request) {
 		$this->crypto = $crypto;
 		$this->config = $config;
 		$this->random = $random;
 
-		if (isset($_COOKIE[self::COOKIE_NAME])) {
-			// TODO circular dependency
-//			$request = \OC::$server->getRequest();
-//			$this->passphrase = $request->getCookie(self::COOKIE_NAME);
-			$this->passphrase = $_COOKIE[self::COOKIE_NAME];
+		if (!is_null($request->getCookie(self::COOKIE_NAME))) {
+			$this->passphrase = $request->getCookie(self::COOKIE_NAME);
 		} else {
 			$this->passphrase = $this->random->getMediumStrengthGenerator()->generate(128);
-
-			// TODO circular dependency
-			// $secureCookie = \OC::$server->getRequest()->getServerProtocol() === 'https';
-			$secureCookie = false;
-			$expires = time() + $this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
-
+			$secureCookie = $request->getServerProtocol() === 'https';
+			// FIXME: Required for CI
 			if (!defined('PHPUNIT_RUN')) {
-				setcookie(self::COOKIE_NAME, $this->passphrase, $expires, \OC::$WEBROOT, '', $secureCookie);
+				setcookie(self::COOKIE_NAME, $this->passphrase, 0, \OC::$WEBROOT, '', $secureCookie, true);
 			}
 		}
 	}
@@ -72,8 +87,8 @@ class CryptoWrapper {
 	 * @return ISession
 	 */
 	public function wrapSession(ISession $session) {
-		if (!($session instanceof CryptoSessionData) &&  $this->config->getSystemValue('encrypt.session', false)) {
-			return new \OC\Session\CryptoSessionData($session, $this->crypto, $this->passphrase);
+		if (!($session instanceof CryptoSessionData)) {
+			return new CryptoSessionData($session, $this->crypto, $this->passphrase);
 		}
 
 		return $session;
