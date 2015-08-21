@@ -87,6 +87,11 @@ class JobList implements IJobList {
 		}
 	}
 
+	protected function removeById($id) {
+		$query = $this->conn->prepare('DELETE FROM `*PREFIX*jobs` WHERE `id` = ?');
+		$query->execute([$id]);
+	}
+
 	/**
 	 * check if a job is in the list
 	 *
@@ -134,16 +139,24 @@ class JobList implements IJobList {
 		$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` WHERE `id` > ? ORDER BY `id` ASC', 1);
 		$query->execute(array($lastId));
 		if ($row = $query->fetch()) {
-			return $this->buildJob($row);
+			$jobId = $row['id'];
+			$job = $this->buildJob($row);
 		} else {
 			//begin at the start of the queue
 			$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` ORDER BY `id` ASC', 1);
 			$query->execute();
 			if ($row = $query->fetch()) {
-				return $this->buildJob($row);
+				$jobId = $row['id'];
+				$job = $this->buildJob($row);
 			} else {
 				return null; //empty job list
 			}
+		}
+		if (is_null($job)) {
+			$this->removeById($jobId);
+			return $this->getNext();
+		} else {
+			return $job;
 		}
 	}
 
