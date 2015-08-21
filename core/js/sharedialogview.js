@@ -14,7 +14,7 @@
 	}
 
 	var TEMPLATE_BASE =
-		'<div class="resharerInfo"></div>' +
+		'<div class="resharerInfoView"></div>' +
 		'<label for="shareWith" class="hidden-visually">{{shareLabel}}</label>' +
 		'<div class="oneline">' +
 		'    <input id="shareWith" type="text" placeholder="{{sharePlaceholder}}" />' +
@@ -25,11 +25,11 @@
 		'<ul id="shareWithList">' +
 		'</ul>' +
 		'{{#if shareAllowed}}' +
-		'<div class="linkShare"></div>' +
+		'<div class="linkShareView"></div>' +
 		'{{else}}' +
 		'{{{noSharing}}}' +
 		'{{/if}}' +
-		'{{{expiration}}}'
+		'<div class="expirationView"></div>'
 		;
 
 	var TEMPLATE_REMOTE_SHARE_INFO =
@@ -38,16 +38,6 @@
 
 	var TEMPLATE_NO_SHARING =
 		'<input id="shareWith" type="text" placeholder="{{placeholder}}" disabled="disabled"/>'
-	;
-
-	var TEMPLATE_EXPIRATION =
-		'<div id="expiration">' +
-		'    <input type="checkbox" name="expirationCheckbox" id="expirationCheckbox" value="1" />' +
-		'    <label for="expirationCheckbox">{{setExpirationLabel}}</label>' +
-		'    <label for="expirationDate" class="hidden-visually">{{expirationLabel}}</label>' +
-		'    <input id="expirationDate" type="text" placeholder="{{expirationDatePlaceholder}}" class="hidden" />' +
-		'    <em id="defaultExpireMessage">{{defaultExpireMessage}}</em>' +
-		'</div>'
 	;
 
 	/**
@@ -79,6 +69,9 @@
 		/** @type {object} **/
 		linkShareView: undefined,
 
+		/** @type {object} **/
+		expirationView: undefined,
+
 		initialize: function(options) {
 			var view = this;
 			this.model.on('change', function() {
@@ -108,6 +101,10 @@
 				? new OC.Share.ShareDialogLinkShareView(subViewOptions)
 				: options.linkShareView;
 
+			this.expirationView = _.isUndefined(options.expirationView)
+				? new OC.Share.ShareDialogExpirationView(subViewOptions)
+				: options.expirationView;
+
 		},
 
 		render: function() {
@@ -119,14 +116,16 @@
 				remoteShareInfo: this._renderRemoteShareInfoPart(),
 				shareAllowed: this.model.hasSharePermission(),
 				noSharing: this._renderNoSharing(),
-				expiration: this._renderExpirationPart()
 			}));
 
-			this.resharerInfoView.$el = this.$el.find('.resharerInfo');
+			this.resharerInfoView.$el = this.$el.find('.resharerInfoView');
 			this.resharerInfoView.render();
 
+			this.expirationView.$el = this.$el.find('.expirationView');
+			this.expirationView.render();
+
 			if(this.model.hasSharePermission()) {
-				this.linkShareView.$el = this.$el.find('.linkShare');
+				this.linkShareView.$el = this.$el.find('.linkShareView');
 				this.linkShareView.render();
 			}
 
@@ -179,29 +178,6 @@
 				});
 			}
 			return noSharing;
-		},
-
-		_renderExpirationPart: function() {
-			var expirationTemplate = this._getTemplate('expiration', TEMPLATE_EXPIRATION);
-
-			var defaultExpireMessage = '';
-			if((   this.model.isFolder() || this.model.isFile())
-				&& this.configModel.isDefaultExpireDateEnforced()) {
-				defaultExpireMessage = t(
-						'core',
-						'The public link will expire no later than {days} days after it is created',
-						{'days': this.configModel.getDefaultExpireDate()}
-				);
-			}
-
-			var expiration = expirationTemplate({
-				setExpirationLabel: t('core', 'Set expiration date'),
-				expirationLabel: t('core', 'Expiration'),
-				expirationDatePlaceholder: t('core', 'Expiration date'),
-				defaultExpireMessage: defaultExpireMessage
-			});
-
-			return expiration;
 		},
 
 		/**
