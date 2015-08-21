@@ -76,20 +76,25 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		$data = parent::readLegacyConfig();
 		$userId = $this->getUser()->getUID();
 
+		// don't use array_filter() with ARRAY_FILTER_USE_KEY, it's PHP 5.6+
 		if (isset($data[\OC_Mount_Config::MOUNT_TYPE_USER])) {
-			$data[\OC_Mount_Config::MOUNT_TYPE_USER] = array_filter(
-				$data[\OC_Mount_Config::MOUNT_TYPE_USER], function($key) use ($userId) {
-					return (strtolower($key) === strtolower($userId) || $key === 'all');
-				}, ARRAY_FILTER_USE_KEY
-			);
+			$newData = [];
+			foreach ($data[\OC_Mount_Config::MOUNT_TYPE_USER] as $key => $value) {
+				if (strtolower($key) === strtolower($userId) || $key === 'all') {
+					$newData[$key] = $value;
+				}
+			}
+			$data[\OC_Mount_Config::MOUNT_TYPE_USER] = $newData;
 		}
 
 		if (isset($data[\OC_Mount_Config::MOUNT_TYPE_GROUP])) {
-			$data[\OC_Mount_Config::MOUNT_TYPE_GROUP] = array_filter(
-				$data[\OC_Mount_Config::MOUNT_TYPE_GROUP], function($key) use ($userId) {
-					return ($this->groupManager->isInGroup($userId, $key));
-				}, ARRAY_FILTER_USE_KEY
-			);
+			$newData = [];
+			foreach ($data[\OC_Mount_Config::MOUNT_TYPE_GROUP] as $key => $value) {
+				if ($this->groupManager->isInGroup($userId, $key)) {
+					$newData[$key] = $value;
+				}
+			}
+			$data[\OC_Mount_Config::MOUNT_TYPE_GROUP] = $newData;
 		}
 
 		return $data;
