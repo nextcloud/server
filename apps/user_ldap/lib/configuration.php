@@ -145,7 +145,7 @@ class Configuration {
 			}
 
 			$setMethod = 'setValue';
-            $trim = false;
+			$trim = false;
 			switch($key) {
 				case 'homeFolderNamingRule':
 					if(!empty($val) && strpos($val, 'attr:') === false) {
@@ -155,7 +155,7 @@ class Configuration {
 				case 'ldapBase':
 				case 'ldapBaseUsers':
 				case 'ldapBaseGroups':
-                    $trim = true;// Prevent login errors due to whitespace
+					$trim = true;// Prevent login errors due to whitespace
 				case 'ldapAttributesForUserSearch':
 				case 'ldapAttributesForGroupSearch':
 				case 'ldapUserFilterObjectclass':
@@ -274,8 +274,11 @@ class Configuration {
 	}
 
 	/**
-	 * @param string $varName
-	 * @param array|string $value
+	 * Sets multi-line values as arrays
+	 * 
+	 * @param string $varName name of config-key
+	 * @param array|string $value to set
+	 * @param boolean $trim Trim value? (default: false)
 	 */
 	protected function setMultiLine($varName, $value, $trim = false) {
 		if(empty($value)) {
@@ -284,11 +287,17 @@ class Configuration {
 			$value = preg_split('/\r\n|\r|\n|;/', $value);
 			if($value === false) {
 				$value = '';
-			} else if($trim) {
-                foreach($value as $key => $val) {
-                    $value[$key] = trim($val);
-                }
-            }
+			}
+		}
+
+		if($trim) {
+			if(!is_array($value)) {
+				$value = trim($value);
+			} else {
+				foreach($value as $key => $val) {
+					$value[$key] = trim($val);
+				}
+			}
 		}
 
 		$this->setValue($varName, $value);
@@ -334,11 +343,17 @@ class Configuration {
 	}
 
 	/**
-	 * @param string $varName 
-	 * @param mixed $value
+	 * Sets a scalar value.
+	 * 
+	 * @param string $varName name of config key
+	 * @param mixed $value to set
+	 * @param boolean $trim Trim value? (default: false)
 	 */
 	protected function setValue($varName, $value, $trim = false) {
-		$this->config[$varName] = $trim ? trim($value) : $value;
+		if($trim && is_string($value)) {
+			$value = trim($value);
+		}
+		$this->config[$varName] = $value;
 	}
 
 	/**
