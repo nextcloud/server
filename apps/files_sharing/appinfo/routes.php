@@ -33,7 +33,14 @@ $application = new Application();
 $application->registerRoutes($this, [
 	'resources' => [
 		'ExternalShares' => ['url' => '/api/externalShares'],
-	]
+	],
+	'routes' => [
+		[
+			'name' => 'externalShares#testRemote',
+			'url' => '/testremote',
+			'verb' => 'GET'
+		],
+	],
 ]);
 
 /** @var $this \OCP\Route\IRouter */
@@ -50,8 +57,6 @@ $this->create('sharing_external_shareinfo', '/shareinfo')
 	->actionInclude('files_sharing/ajax/shareinfo.php');
 $this->create('sharing_external_add', '/external')
 	->actionInclude('files_sharing/ajax/external.php');
-$this->create('sharing_external_test_remote', '/testremote')
-	->actionInclude('files_sharing/ajax/testremote.php');
 
 // OCS API
 

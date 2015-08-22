@@ -62,7 +62,8 @@ class Application extends App {
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('IsIncomingShareEnabled'),
-				$c->query('ExternalManager')
+				$c->query('ExternalManager'),
+				$c->query('HttpClientService')
 			);
 		});
 
@@ -77,6 +78,9 @@ class Application extends App {
 		});
 		$container->registerService('UserManager', function (SimpleContainer $c) use ($server) {
 			return $server->getUserManager();
+		});
+		$container->registerService('HttpClientService', function (SimpleContainer $c) use ($server) {
+			return $server->getHTTPClientService();
 		});
 		$container->registerService('IsIncomingShareEnabled', function (SimpleContainer $c) {
 			return Helper::isIncomingServer2serverShareEnabled();
