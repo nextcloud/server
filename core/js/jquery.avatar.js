@@ -76,8 +76,8 @@
 		var $div = this;
 
 		var url = OC.generateUrl(
-			'/avatar/{user}/{size}?requesttoken={requesttoken}',
-			{user: user, size: size * window.devicePixelRatio, requesttoken: oc_requesttoken});
+			'/avatar/{user}/{size}',
+			{user: user, size: size * window.devicePixelRatio});
 
 		$.get(url, function(result) {
 			if (typeof(result) === 'object') {

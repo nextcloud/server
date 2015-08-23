@@ -91,6 +91,7 @@ class AvatarController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
 	 *
 	 * @param string $userId
 	 * @param int $size
