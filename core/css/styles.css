@@ -807,6 +807,18 @@ label.infield {
 .center { text-align:center; }
 .inlineblock { display: inline-block; }
 
+/* round profile photos */
+.avatar,
+.avatar img,
+.avatardiv,
+.avatardiv img {
+	border-radius: 50%;
+}
+td.avatar {
+	border-radius: 0;
+}
+
+
 #notification-container {
 	position: absolute;
 	top: 0;
