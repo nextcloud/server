@@ -40,6 +40,7 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\AppFramework\Utility\TimeFactory;
 use OC\Command\AsyncBus;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\NullEventLogger;
@@ -56,6 +57,7 @@ use OC\Security\Crypto;
 use OC\Security\Hasher;
 use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
+use OC\Session\CryptoWrapper;
 use OC\Tagging\TagMapper;
 use OCP\IServerContainer;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -159,7 +161,12 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('UserSession', function (Server $c) {
 			$manager = $c->getUserManager();
-			$userSession = new \OC\User\Session($manager, new \OC\Session\Memory(''));
+
+			$session = new \OC\Session\Memory('');
+			$cryptoWrapper = $c->getSessionCryptoWrapper();
+			$session = $cryptoWrapper->wrapSession($session);
+
+			$userSession = new \OC\User\Session($manager, $session);
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
 			});
@@ -461,6 +468,31 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('EventDispatcher', function() {
 			return new EventDispatcher();
+		});
+		$this->registerService('CryptoWrapper', function (Server $c) {
+			// FIXME: Instantiiated here due to cyclic dependency
+			$request = new Request(
+				[
+					'get' => $_GET,
+					'post' => $_POST,
+					'files' => $_FILES,
+					'server' => $_SERVER,
+					'env' => $_ENV,
+					'cookies' => $_COOKIE,
+					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
+						? $_SERVER['REQUEST_METHOD']
+						: null,
+				],
+				new SecureRandom(),
+				$c->getConfig()
+			);
+
+			return new CryptoWrapper(
+				$c->getConfig(),
+				$c->getCrypto(),
+				$c->getSecureRandom(),
+				$request
+			);
 		});
 	}
 
@@ -976,5 +1008,12 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	public function getEventDispatcher() {
 		return $this->query('EventDispatcher');
+	}
+
+	/**
+	 * @return \OC\Session\CryptoWrapper
+	 */
+	public function getSessionCryptoWrapper() {
+		return $this->query('CryptoWrapper');
 	}
 }

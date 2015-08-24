@@ -452,13 +452,15 @@ class OC {
 			$useCustomSession = false;
 			$session = self::$server->getSession();
 			OC_Hook::emit('OC', 'initSession', array('session' => &$session, 'sessionName' => &$sessionName, 'useCustomSession' => &$useCustomSession));
-			if($useCustomSession) {
-				// use the session reference as the new Session
-				self::$server->setSession($session);
-			} else {
+			if (!$useCustomSession) {
 				// set the session name to the instance id - which is unique
-				self::$server->setSession(new \OC\Session\Internal($sessionName));
+				$session = new \OC\Session\Internal($sessionName);
 			}
+
+			$cryptoWrapper = \OC::$server->getSessionCryptoWrapper();
+			$session = $cryptoWrapper->wrapSession($session);
+			self::$server->setSession($session);
+
 			// if session cant be started break with http 500 error
 		} catch (Exception $e) {
 			\OCP\Util::logException('base', $e);
