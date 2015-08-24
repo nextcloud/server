@@ -333,6 +333,9 @@ function scanFiles(force, dir, users) {
 	scannerEventSource.listen('folder',function(path) {
 		console.log('now scanning ' + path);
 	});
+	scannerEventSource.listen('error',function(message) {
+		console.error('Scanner error: ', message);
+	});
 	scannerEventSource.listen('done',function(count) {
 		scanFiles.scanning=false;
 		console.log('done after ' + count + ' files');
