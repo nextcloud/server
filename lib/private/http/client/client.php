@@ -144,6 +144,7 @@ class Client implements IClient {
 	 *              'debug' => true,
 	 *              'timeout' => 5,
 	 * @return Response
+	 * @throws \Exception If the request could not get completed
 	 */
 	public function head($uri, $options = []) {
 		$response = $this->client->head($uri, $options);
@@ -176,6 +177,7 @@ class Client implements IClient {
 	 *              'debug' => true,
 	 *              'timeout' => 5,
 	 * @return Response
+	 * @throws \Exception If the request could not get completed
 	 */
 	public function post($uri, array $options = []) {
 		$response = $this->client->post($uri, $options);
@@ -208,6 +210,7 @@ class Client implements IClient {
 	 *              'debug' => true,
 	 *              'timeout' => 5,
 	 * @return Response
+	 * @throws \Exception If the request could not get completed
 	 */
 	public function put($uri, array $options = []) {
 		$response = $this->client->put($uri, $options);
@@ -240,6 +243,7 @@ class Client implements IClient {
 	 *              'debug' => true,
 	 *              'timeout' => 5,
 	 * @return Response
+	 * @throws \Exception If the request could not get completed
 	 */
 	public function delete($uri, array $options = []) {
 		$response = $this->client->delete($uri, $options);
@@ -273,6 +277,7 @@ class Client implements IClient {
 	 *              'debug' => true,
 	 *              'timeout' => 5,
 	 * @return Response
+	 * @throws \Exception If the request could not get completed
 	 */
 	public function options($uri, array $options = []) {
 		$response = $this->client->options($uri, $options);
