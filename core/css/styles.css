@@ -258,7 +258,8 @@ input:disabled+label, input:disabled:hover+label, input:disabled:focus+label {
 	font-size: 1.2em;
 	padding: 3px;
 	padding-left: 25px;
-	background: #fff url('../img/actions/search.svg') no-repeat 6px center;
+	background: #112 url('../img/actions/search-white.svg') no-repeat 6px center;
+	color: #fff;
 	border: 0;
 	border-radius: 3px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
@@ -271,6 +272,7 @@ input:disabled+label, input:disabled:hover+label, input:disabled:focus+label {
 .searchbox input[type="search"]:active {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	opacity: .7;
+	color: #fff;
 }
 
 input[type="submit"].enabled {
