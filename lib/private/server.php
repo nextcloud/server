@@ -329,14 +329,14 @@ class Server extends SimpleContainer implements IServerContainer {
 			);
 		});
 		$this->registerService('EventLogger', function (Server $c) {
-			if (defined('DEBUG') and DEBUG) {
+			if ($c->getSystemConfig()->getValue('debug', false)) {
 				return new EventLogger();
 			} else {
 				return new NullEventLogger();
 			}
 		});
-		$this->registerService('QueryLogger', function ($c) {
-			if (defined('DEBUG') and DEBUG) {
+		$this->registerService('QueryLogger', function (Server $c) {
+			if ($c->getSystemConfig()->getValue('debug', false)) {
 				return new QueryLogger();
 			} else {
 				return new NullQueryLogger();
