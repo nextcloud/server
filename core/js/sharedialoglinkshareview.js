@@ -85,7 +85,7 @@
 			if(!_.isUndefined(options.configModel)) {
 				this.configModel = options.configModel;
 			} else {
-				console.warn('missing OC.Share.ShareConfigModel');
+				throw 'missing OC.Share.ShareConfigModel';
 			}
 		},
 
@@ -96,8 +96,7 @@
 				|| !this.showLink
 				|| !this.configModel.isShareWithLinkAllowed())
 			{
-				this.$el.empty();
-				this.$el.append(linkShareTemplate({
+				this.$el.html(linkShareTemplate({
 					shareAllowed: false,
 					noSharingPlaceholder: t('core', 'Resharing is not allowed')
 				}));
@@ -114,8 +113,7 @@
 				publicUploadChecked = 'checked="checked"';
 			}
 
-			this.$el.empty();
-			this.$el.append(linkShareTemplate({
+			this.$el.html(linkShareTemplate({
 				shareAllowed: true,
 				linkShareLabel: t('core', 'Share link'),
 				urlLabel: t('core', 'Link'),

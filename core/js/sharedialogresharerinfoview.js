@@ -58,7 +58,7 @@
 			if(!_.isUndefined(options.configModel)) {
 				this.configModel = options.configModel;
 			} else {
-				console.warn('missing OC.Share.ShareConfigModel');
+				throw 'missing OC.Share.ShareConfigModel';
 			}
 		},
 
@@ -90,8 +90,7 @@
 				);
 			}
 
-			this.$el.empty();
-			this.$el.append(reshareTemplate({
+			this.$el.html(reshareTemplate({
 				avatarEnabled: this.configModel.areAvatarsEnabled(),
 				sharedByText: sharedByText
 			}));

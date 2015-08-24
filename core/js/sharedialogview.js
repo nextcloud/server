@@ -81,7 +81,7 @@
 			if(!_.isUndefined(options.configModel)) {
 				this.configModel = options.configModel;
 			} else {
-				console.warn('missing OC.Share.ShareConfigModel');
+				throw 'missing OC.Share.ShareConfigModel';
 			}
 
 			var subViewOptions = {

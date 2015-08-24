@@ -48,7 +48,7 @@
 			if(!_.isUndefined(options.configModel)) {
 				this.configModel = options.configModel;
 			} else {
-				console.warn('missing OC.Share.ShareConfigModel');
+				throw 'missing OC.Share.ShareConfigModel';
 			}
 		},
 
@@ -64,8 +64,7 @@
 			}
 
 			var expirationTemplate = this.template();
-			this.$el.empty();
-			this.$el.append(expirationTemplate({
+			this.$el.html(expirationTemplate({
 				setExpirationLabel: t('core', 'Set expiration date'),
 				expirationLabel: t('core', 'Expiration'),
 				expirationDatePlaceholder: t('core', 'Expiration date'),
