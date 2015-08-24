@@ -88,6 +88,8 @@ class Storage extends DAV implements ISharedStorage {
 			'user' => $options['token'],
 			'password' => (string)$options['password']
 		));
+
+		$this->getWatcher()->setPolicy(\OC\Files\Cache\Watcher::CHECK_ONCE);
 	}
 
 	public function getRemoteUser() {
