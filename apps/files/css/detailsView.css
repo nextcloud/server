@@ -12,11 +12,11 @@
 }
 
 #app-sidebar .thumbnail {
-	width: 50px;
-	height: 50px;
+	width: 75px;
+	height: 75px;
 	float: left;
 	margin-right: 10px;
-	background-size: 50px;
+	background-size: 75px;
 }
 
 #app-sidebar .ellipsis {
@@ -27,7 +27,8 @@
 
 #app-sidebar .fileName {
 	font-size: 16px;
-	padding-top: 3px;
+	padding-top: 13px;
+	padding-bottom: 3px;
 }
 
 #app-sidebar .file-details {

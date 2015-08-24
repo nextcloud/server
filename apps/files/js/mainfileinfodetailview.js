@@ -125,8 +125,8 @@
 						path: this.model.getFullPath(),
 						mime: this.model.get('mimetype'),
 						etag: this.model.get('etag'),
-						x: 50,
-						y: 50,
+						x: 75,
+						y: 75,
 						callback: function(previewUrl) {
 							$iconDiv.css('background-image', 'url("' + previewUrl + '")');
 						}
