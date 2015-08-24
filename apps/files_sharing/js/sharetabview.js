@@ -57,8 +57,7 @@
 				var attributes = {
 					itemType: 'file',
 				   	itemSource: this.model.get('id'),
-					// TODO: make these available
-				   	possiblePermissions: this.model.get('sharingPossiblePermissions')
+					possiblePermissions: this.model.get('sharePermissions')
 				};
 				var shareModel = new OC.Share.ShareItemModel(attributes, {configModel: configModel});
 				var configModel = new OC.Share.ShareConfigModel();
