@@ -38,6 +38,7 @@ class ApiControllerTest extends \Test\TestCase {
         $request = new Request(
             ['server' => ['HTTP_ORIGIN' => 'test']],
             $this->getMock('\OCP\Security\ISecureRandom'),
+            $this->getMock('\OCP\Security\ICrypto'),
             $this->getMock('\OCP\IConfig')
         );
         $this->controller = new ChildApiController('app', $request, 'verbs',

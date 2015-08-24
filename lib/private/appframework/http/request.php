@@ -32,6 +32,7 @@ namespace OC\AppFramework\Http;
 use OC\Security\TrustedDomainHelper;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 
 /**
@@ -67,6 +68,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	protected $config;
 	/** @var string */
 	protected $requestId = '';
+	/** @var ICrypto */
+	protected $crypto;
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
@@ -80,17 +83,20 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 *        - string 'method' the request method (GET, POST etc)
 	 *        - string|false 'requesttoken' the requesttoken or false when not available
 	 * @param ISecureRandom $secureRandom
+	 * @param ICrypto $crypto
 	 * @param IConfig $config
 	 * @param string $stream
 	 * @see http://www.php.net/manual/en/reserved.variables.php
 	 */
 	public function __construct(array $vars=array(),
 								ISecureRandom $secureRandom = null,
+								ICrypto $crypto,
 								IConfig $config,
 								$stream='php://input') {
 		$this->inputStream = $stream;
 		$this->items['params'] = array();
 		$this->secureRandom = $secureRandom;
+		$this->crypto = $crypto;
 		$this->config = $config;
 
 		if(!array_key_exists('method', $vars)) {
@@ -415,8 +421,22 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			return false;
 		}
 
+		// Decrypt token to prevent BREACH like attacks
+		$token = explode(':', $token);
+		if (count($token) !== 2) {
+			return false;
+		}
+
+		$encryptedToken = $token[0];
+		$secret = $token[1];
+		try {
+			$decryptedToken = $this->crypto->decrypt($encryptedToken, $secret);
+		} catch (\Exception $e) {
+			return false;
+		}
+
 		// Check if the token is valid
-		if(\OCP\Security\StringUtils::equals($token, $this->items['requesttoken'])) {
+		if(\OCP\Security\StringUtils::equals($decryptedToken, $this->items['requesttoken'])) {
 			return true;
 		} else {
 			return false;

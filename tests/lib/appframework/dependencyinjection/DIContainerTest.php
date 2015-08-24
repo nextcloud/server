@@ -74,6 +74,7 @@ class DIContainerTest extends \Test\TestCase {
 		$this->container['Request'] = new Request(
 			['method' => 'GET'],
 			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\Security\ICrypto'),
 			$this->getMock('\OCP\IConfig')
 		);
 		$security = $this->container['SecurityMiddleware'];

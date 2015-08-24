@@ -100,7 +100,7 @@
 					<?php p($l->t('Search'));?>
 				</label>
 				<input id="searchbox" class="svg" type="search" name="query"
-					value="<?php if(isset($_POST['query'])) {p($_POST['query']);};?>"
+					value=""
 					autocomplete="off" tabindex="5">
 			</form>
 		</div></header>
