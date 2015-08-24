@@ -28,6 +28,7 @@ namespace OC\Core\LostPassword\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use \OCP\IURLGenerator;
 use \OCP\IRequest;
 use \OCP\IL10N;
@@ -66,6 +67,8 @@ class LostController extends Controller {
 	protected $secureRandom;
 	/** @var IMailer */
 	protected $mailer;
+	/** @var ITimeFactory */
+	protected $timeFactory;
 
 	/**
 	 * @param string $appName
@@ -79,6 +82,7 @@ class LostController extends Controller {
 	 * @param string $from
 	 * @param string $isDataEncrypted
 	 * @param IMailer $mailer
+	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -90,7 +94,8 @@ class LostController extends Controller {
 								ISecureRandom $secureRandom,
 								$from,
 								$isDataEncrypted,
-								IMailer $mailer) {
+								IMailer $mailer,
+								ITimeFactory $timeFactory) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
@@ -101,6 +106,7 @@ class LostController extends Controller {
 		$this->isDataEncrypted = $isDataEncrypted;
 		$this->config = $config;
 		$this->mailer = $mailer;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -173,7 +179,17 @@ class LostController extends Controller {
 		try {
 			$user = $this->userManager->get($userId);
 
-			if (!StringUtils::equals($this->config->getUserValue($userId, 'owncloud', 'lostpassword', null), $token)) {
+			$splittedToken = explode(':', $this->config->getUserValue($userId, 'owncloud', 'lostpassword', null));
+			if(count($splittedToken) !== 2) {
+				throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
+			}
+
+			if ($splittedToken[0] < ($this->timeFactory->getTime() - 60*60*12) ||
+				$user->getLastLogin() > $splittedToken[0]) {
+				throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is expired'));
+			}
+
+			if (!StringUtils::equals($splittedToken[1], $token)) {
 				throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 			}
 
@@ -216,12 +232,12 @@ class LostController extends Controller {
 			ISecureRandom::CHAR_DIGITS.
 			ISecureRandom::CHAR_LOWER.
 			ISecureRandom::CHAR_UPPER);
-		$this->config->setUserValue($user, 'owncloud', 'lostpassword', $token);
+		$this->config->setUserValue($user, 'owncloud', 'lostpassword', $this->timeFactory->getTime() .':'. $token);
 
 		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $user, 'token' => $token));
 
 		$tmpl = new \OC_Template('core/lostpassword', 'email');
-		$tmpl->assign('link', $link, false);
+		$tmpl->assign('link', $link);
 		$msg = $tmpl->fetchPage();
 
 		try {
