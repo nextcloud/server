@@ -98,18 +98,41 @@ class cryptTest extends TestCase {
 
 
 	/**
-	 * test generateHeader
+	 * test generateHeader with valid key formats
+	 *
+	 * @dataProvider dataTestGenerateHeader
 	 */
-	public function testGenerateHeader() {
+	public function testGenerateHeader($keyFormat, $expected) {
 
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with($this->equalTo('cipher'), $this->equalTo('AES-256-CFB'))
 			->willReturn('AES-128-CFB');
 
-		$this->assertSame('HBEGIN:cipher:AES-128-CFB:HEND',
-			$this->crypt->generateHeader()
-		);
+		if ($keyFormat) {
+			$result = $this->crypt->generateHeader($keyFormat);
+		} else {
+			$result = $this->crypt->generateHeader();
+		}
+
+		$this->assertSame($expected, $result);
+	}
+
+	/**
+	 * test generateHeader with invalid key format
+	 *
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testGenerateHeaderInvalid() {
+		$this->crypt->generateHeader('unknown');
+	}
+
+	public function dataTestGenerateHeader() {
+		return [
+			[null, 'HBEGIN:cipher:AES-128-CFB:keyFormat:hash:HEND'],
+			['password', 'HBEGIN:cipher:AES-128-CFB:keyFormat:password:HEND'],
+			['hash', 'HBEGIN:cipher:AES-128-CFB:keyFormat:hash:HEND']
+		];
 	}
 
 	/**
@@ -260,6 +283,84 @@ class cryptTest extends TestCase {
 
 		$this->assertSame($data['decrypted'], $result);
 
+	}
+
+	/**
+	 * test return values of valid ciphers
+	 *
+	 * @dataProvider dataTestGetKeySize
+	 */
+	public function testGetKeySize($cipher, $expected) {
+		$result = $this->invokePrivate($this->crypt, 'getKeySize', [$cipher]);
+		$this->assertSame($expected, $result);
+	}
+
+	/**
+	 * test exception if cipher is unknown
+	 *
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testGetKeySizeFailure() {
+		$this->invokePrivate($this->crypt, 'getKeySize', ['foo']);
+	}
+
+	public function dataTestGetKeySize() {
+		return [
+			['AES-256-CFB', 32],
+			['AES-128-CFB', 16],
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestDecryptPrivateKey
+	 */
+	public function testDecryptPrivateKey($header, $privateKey, $expectedCipher, $isValidKey, $expected) {
+		/** @var \OCA\Encryption\Crypto\Crypt | \PHPUnit_Framework_MockObject_MockObject $crypt */
+		$crypt = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
+			->setConstructorArgs(
+				[
+					$this->logger,
+					$this->userSession,
+					$this->config
+				]
+			)
+			->setMethods(
+				[
+					'parseHeader',
+					'generatePasswordHash',
+					'symmetricDecryptFileContent',
+					'isValidPrivateKey'
+				]
+			)
+			->getMock();
+
+		$crypt->expects($this->once())->method('parseHeader')->willReturn($header);
+		if (isset($header['keyFormat']) && $header['keyFormat'] === 'hash') {
+			$crypt->expects($this->once())->method('generatePasswordHash')->willReturn('hash');
+			$password = 'hash';
+		} else {
+			$crypt->expects($this->never())->method('generatePasswordHash');
+			$password = 'password';
+		}
+
+		$crypt->expects($this->once())->method('symmetricDecryptFileContent')
+			->with('privateKey', $password, $expectedCipher)->willReturn('key');
+		$crypt->expects($this->once())->method('isValidPrivateKey')->willReturn($isValidKey);
+
+		$result = $crypt->decryptPrivateKey($privateKey, 'password');
+
+		$this->assertSame($expected, $result);
+	}
+
+	public function dataTestDecryptPrivateKey() {
+		return [
+			[['cipher' => 'AES-128-CFB', 'keyFormat' => 'password'], 'HBEGIN:HENDprivateKey', 'AES-128-CFB', true, 'key'],
+			[['cipher' => 'AES-256-CFB', 'keyFormat' => 'password'], 'HBEGIN:HENDprivateKey', 'AES-256-CFB', true, 'key'],
+			[['cipher' => 'AES-256-CFB', 'keyFormat' => 'password'], 'HBEGIN:HENDprivateKey', 'AES-256-CFB', false, false],
+			[['cipher' => 'AES-256-CFB', 'keyFormat' => 'hash'], 'HBEGIN:HENDprivateKey', 'AES-256-CFB', true, 'key'],
+			[['cipher' => 'AES-256-CFB'], 'HBEGIN:HENDprivateKey', 'AES-256-CFB', true, 'key'],
+			[[], 'privateKey', 'AES-128-CFB', true, 'key'],
+		];
 	}
 
 }

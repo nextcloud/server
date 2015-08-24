@@ -30,6 +30,7 @@ use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Exceptions\EncryptionFailedException;
 use OCA\Encryption\Exceptions\MultiKeyDecryptException;
 use OCA\Encryption\Exceptions\MultiKeyEncryptException;
+use OCA\Encryption\Vendor\PBKDF2Fallback;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -41,6 +42,10 @@ class Crypt {
 	const DEFAULT_CIPHER = 'AES-256-CFB';
 	// default cipher from old ownCloud versions
 	const LEGACY_CIPHER = 'AES-128-CFB';
+
+	// default key format, old ownCloud version encrypted the private key directly
+	// with the user password
+	const LEGACY_KEY_FORMAT = 'password';
 
 	const HEADER_START = 'HBEGIN';
 	const HEADER_END = 'HEND';
@@ -58,6 +63,11 @@ class Crypt {
 	private $config;
 
 	/**
+	 * @var array
+	 */
+	private $supportedKeyFormats;
+
+	/**
 	 * @param ILogger $logger
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
@@ -66,6 +76,7 @@ class Crypt {
 		$this->logger = $logger;
 		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser() : false;
 		$this->config = $config;
+		$this->supportedKeyFormats = ['hash', 'password'];
 	}
 
 	/**
@@ -161,10 +172,23 @@ class Crypt {
 
 	/**
 	 * generate header for encrypted file
+	 *
+	 * @param string $keyFormat (can be 'hash' or 'password')
+	 * @return string
+	 * @throws \InvalidArgumentException
 	 */
-	public function generateHeader() {
+	public function generateHeader($keyFormat = 'hash') {
+
+		if (in_array($keyFormat, $this->supportedKeyFormats, true) === false) {
+			throw new \InvalidArgumentException('key format "' . $keyFormat . '" is not supported');
+		}
+
 		$cipher = $this->getCipher();
-		$header = self::HEADER_START . ':cipher:' . $cipher . ':' . self::HEADER_END;
+
+		$header = self::HEADER_START
+			. ':cipher:' . $cipher
+			. ':keyFormat:' . $keyFormat
+			. ':' . self::HEADER_END;
 
 		return $header;
 	}
@@ -212,6 +236,25 @@ class Crypt {
 	}
 
 	/**
+	 * get key size depending on the cipher
+	 *
+	 * @param string $cipher supported ('AES-256-CFB' and 'AES-128-CFB')
+	 * @return int
+	 * @throws \InvalidArgumentException
+	 */
+	protected function getKeySize($cipher) {
+		if ($cipher === 'AES-256-CFB') {
+			return 32;
+		} else if ($cipher === 'AES-128-CFB') {
+			return 16;
+		}
+
+		throw new \InvalidArgumentException(
+			'Wrong cipher defined only AES-128-CFB and AES-256-CFB are supported.'
+		);
+	}
+
+	/**
 	 * get legacy cipher
 	 *
 	 * @return string
@@ -238,11 +281,71 @@ class Crypt {
 	}
 
 	/**
+	 * generate password hash used to encrypt the users private key
+	 *
+	 * @param string $password
+	 * @param string $cipher
+	 * @param string $uid only used for user keys
+	 * @return string
+	 */
+	protected function generatePasswordHash($password, $cipher, $uid = '') {
+		$instanceId = $this->config->getSystemValue('instanceid');
+		$instanceSecret = $this->config->getSystemValue('secret');
+		$salt = hash('sha256', $uid . $instanceId . $instanceSecret, true);
+		$keySize = $this->getKeySize($cipher);
+
+		if (function_exists('hash_pbkdf2')) {
+			$hash = hash_pbkdf2(
+				'sha256',
+				$password,
+				$salt,
+				100000,
+				$keySize,
+				true
+			);
+		} else {
+			// fallback to 3rdparty lib for PHP <= 5.4.
+			// FIXME: Can be removed as soon as support for PHP 5.4 was dropped
+			$fallback = new PBKDF2Fallback();
+			$hash = $fallback->pbkdf2(
+				'sha256',
+				$password,
+				$salt,
+				100000,
+				$keySize,
+				true
+			);
+		}
+
+		return $hash;
+	}
+
+	/**
+	 * encrypt private key
+	 *
 	 * @param string $privateKey
 	 * @param string $password
+	 * @param string $uid for regular users, empty for system keys
 	 * @return bool|string
 	 */
-	public function decryptPrivateKey($privateKey, $password = '') {
+	public function encryptPrivateKey($privateKey, $password, $uid = '') {
+		$cipher = $this->getCipher();
+		$hash = $this->generatePasswordHash($password, $cipher, $uid);
+		$encryptedKey = $this->symmetricEncryptFileContent(
+			$privateKey,
+			$hash
+		);
+
+		return $encryptedKey;
+	}
+
+	/**
+	 * @param string $privateKey
+	 * @param string $password
+	 * @param string $uid for regular users, empty for system keys
+	 * @return bool|string
+	 */
+	public function decryptPrivateKey($privateKey, $password = '', $uid = '') {
 
 		$header = $this->parseHeader($privateKey);
 
@@ -250,6 +353,16 @@ class Crypt {
 			$cipher = $header['cipher'];
 		} else {
 			$cipher = self::LEGACY_CIPHER;
+		}
+
+		if (isset($header['keyFormat'])) {
+			$keyFormat = $header['keyFormat'];
+		} else {
+			$keyFormat = self::LEGACY_KEY_FORMAT;
+		}
+
+		if ($keyFormat === 'hash') {
+			$password = $this->generatePasswordHash($password, $cipher, $uid);
 		}
 
 		// If we found a header we need to remove it from the key we want to decrypt
@@ -263,18 +376,29 @@ class Crypt {
 			$password,
 			$cipher);
 
-		// Check if this is a valid private key
-		$res = openssl_get_privatekey($plainKey);
-		if (is_resource($res)) {
-			$sslInfo = openssl_pkey_get_details($res);
-			if (!isset($sslInfo['key'])) {
-				return false;
-			}
-		} else {
+		if ($this->isValidPrivateKey($plainKey) === false) {
 			return false;
 		}
 
 		return $plainKey;
+	}
+
+	/**
+	 * check if it is a valid private key
+	 *
+	 * @param $plainKey
+	 * @return bool
+	 */
+	protected function isValidPrivateKey($plainKey) {
+		$res = openssl_get_privatekey($plainKey);
+		if (is_resource($res)) {
+			$sslInfo = openssl_pkey_get_details($res);
+			if (isset($sslInfo['key'])) {
+				return true;
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -358,7 +482,7 @@ class Crypt {
 	 * @param $data
 	 * @return array
 	 */
-	private function parseHeader($data) {
+	protected function parseHeader($data) {
 		$result = [];
 
 		if (substr($data, 0, strlen(self::HEADER_START)) === self::HEADER_START) {
