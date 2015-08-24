@@ -16,7 +16,7 @@ ul { list-style:none; }
 
 body {
 	background-color: #ffffff;
-	font-weight: normal;
+	font-weight: 300;
 	font-size: .8em;
 	line-height: 1.6em;
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
@@ -198,7 +198,7 @@ button, .button,
 	min-width: 25px;
 	padding: 5px;
 	background-color: rgba(240,240,240,.9);
-	font-weight: bold;
+	font-weight: 600;
 	color: #555;
 	border: 1px solid rgba(240,240,240,.9);
 	cursor: pointer;
@@ -370,6 +370,7 @@ input[type="submit"].enabled {
 }
 #emptycontent h2,
 .emptycontent h2 {
+	font-weight: 600;
 	font-size: 22px;
 	margin-bottom: 10px;
 }
@@ -444,7 +445,7 @@ input[type="submit"].enabled {
 	padding-top: 20px;
 }
 #body-login p.info a {
-	font-weight: bold;
+	font-weight: 600;
 	padding: 13px;
 	margin: -13px;
 }
@@ -708,7 +709,7 @@ label.infield {
 .warning a,
 .error a {
 	color: #fff !important;
-	font-weight: bold !important;
+	font-weight: 600 !important;
 }
 .error pre {
 	white-space: pre-wrap;
@@ -803,7 +804,7 @@ label.infield {
 	overflow: hidden;
 }
 
-.bold { font-weight:bold; }
+.bold { font-weight:600; }
 .center { text-align:center; }
 .inlineblock { display: inline-block; }
 
@@ -1023,7 +1024,7 @@ div.crumb:first-child a {
 	top: 13px;
 }
 div.crumb.last {
-	font-weight: bold;
+	font-weight: 600;
 	margin-right: 10px;
 }
 div.crumb a.ellipsislink {
@@ -1069,7 +1070,7 @@ div.crumb:active {
 
 #body-public footer .info a {
 	color: #777;
-	font-weight: bold;
+	font-weight: 600;
 	padding: 13px;
 	margin: -13px;
 }
