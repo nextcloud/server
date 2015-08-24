@@ -25,20 +25,17 @@ class Connection extends \Test\TestCase {
 	 */
 	private $connection;
 
-	public static function setUpBeforeClass()
-	{
+	public static function setUpBeforeClass() {
 		self::dropTestTable();
 		parent::setUpBeforeClass();
 	}
 
-	public static function tearDownAfterClass()
-	{
+	public static function tearDownAfterClass() {
 		self::dropTestTable();
 		parent::tearDownAfterClass();
 	}
 
-	protected static function dropTestTable()
-	{
+	protected static function dropTestTable() {
 		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') !== 'oci') {
 			\OC::$server->getDatabaseConnection()->dropTable('table');
 		}
@@ -91,5 +88,90 @@ class Connection extends \Test\TestCase {
 		$this->assertTableExist('table');
 		$this->connection->dropTable('table');
 		$this->assertTableNotExist('table');
+	}
+
+	private function getTextValueByIntergerField($integerField) {
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select('textfield')
+			->from('table')
+			->where($builder->expr()->eq('integerfield', $builder->createNamedParameter($integerField, \PDO::PARAM_INT)));
+
+		$result = $query->execute();
+		return $result->fetchColumn();
+	}
+
+	public function testSetValues() {
+		$this->makeTestTable();
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'foo'
+		]);
+
+		$this->assertEquals('foo', $this->getTextValueByIntergerField(1));
+
+		$this->connection->dropTable('table');
+	}
+
+	public function testSetValuesOverWrite() {
+		$this->makeTestTable();
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'foo'
+		]);
+
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'bar'
+		]);
+
+		$this->assertEquals('bar', $this->getTextValueByIntergerField(1));
+
+		$this->connection->dropTable('table');
+	}
+
+	public function testSetValuesOverWritePrecondition() {
+		$this->makeTestTable();
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'foo',
+			'booleanfield' => true
+		]);
+
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'bar'
+		], [
+			'booleanfield' => true
+		]);
+
+		$this->assertEquals('bar', $this->getTextValueByIntergerField(1));
+
+		$this->connection->dropTable('table');
+	}
+
+	/**
+	 * @expectedException \OCP\PreConditionNotMetException
+	 */
+	public function testSetValuesOverWritePreconditionFailed() {
+		$this->makeTestTable();
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'foo',
+			'booleanfield' => true
+		]);
+
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'bar'
+		], [
+			'booleanfield' => false
+		]);
 	}
 }
