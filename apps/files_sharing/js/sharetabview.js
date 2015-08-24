@@ -10,7 +10,10 @@
 
 (function() {
 	var TEMPLATE =
-		'<div><ul>{{#if owner}}<li>Owner: {{owner}}</li>{{/if}}</ul></div>';
+		'<div>' +
+		'<ul>{{#if owner}}<li>Owner: {{owner}}</li>{{/if}}</ul>' +
+		'<div class="dialogContainer"></div>' +
+		'</div>';
 
 	/**
 	 * @memberof OCA.Sharing
@@ -20,7 +23,12 @@
 		id: 'shareTabView',
 		className: 'tab shareTabView',
 
-		_template: null,
+		template: function(params) {
+			if (!this._template) {
+				this._template = Handlebars.compile(TEMPLATE);
+			}
+			return this._template(params);
+		},
 
 		getLabel: function() {
 			return t('files_sharing', 'Sharing');
@@ -30,10 +38,10 @@
 		 * Renders this details view
 		 */
 		render: function() {
-			this.$el.empty();
-
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
+			if (this._dialog) {
+				// remove/destroy older instance
+				this._dialog.remove();
+				this._dialog = null;
 			}
 
 			if (this.model) {
@@ -42,11 +50,27 @@
 				if (owner === OC.currentUser) {
 					owner = null;
 				}
-				this.$el.append(this._template({
+				this.$el.html(this.template({
 					owner: owner
 				}));
 
+				var attributes = {
+					itemType: 'file',
+				   	itemSource: this.model.get('id'),
+					// TODO: make these available
+				   	possiblePermissions: this.model.get('sharingPossiblePermissions')
+				};
+				var shareModel = new OC.Share.ShareItemModel(attributes, {configModel: configModel});
+				var configModel = new OC.Share.ShareConfigModel();
+				this._dialog = new OC.Share.ShareDialogView({
+					configModel: configModel,
+					model: shareModel
+				});
+				this.$el.find('.dialogContainer').append(this._dialog.$el);
+				this._dialog.render();
+				shareModel.fetch();
 			} else {
+				this.$el.empty();
 				// TODO: render placeholder text?
 			}
 		}

@@ -151,9 +151,7 @@
 				}
 			});
 
-			OC.addScript('files_sharing', 'sharetabview').done(function() {
-				fileList.registerTabView(new OCA.Sharing.ShareTabView('shareTabView'));
-			});
+			fileList.registerTabView(new OCA.Sharing.ShareTabView('shareTabView'));
 		},
 
 		/**
