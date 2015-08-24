@@ -60,7 +60,8 @@
 		},
 
 		defaults: {
-			allowPublicUploadStatus: false
+			allowPublicUploadStatus: false,
+			permissions: 0
 		},
 
 		/**
@@ -131,30 +132,17 @@
 		},
 
 		/**
-		 * @returns {number}
-		 */
-		getPermissions: function() {
-			var permissions = this.get('permissions');
-			if(_.isUndefined(permissions)) {
-				// model was not properly initialized
-				console.warn('Sharing error: undefined permissions');
-				permissions = 0;
-			}
-			return permissions;
-		},
-
-		/**
 		 * @returns {boolean}
 		 */
 		hasSharePermission: function() {
-			return (this.getPermissions() & OC.PERMISSION_SHARE) === OC.PERMISSION_SHARE;
+			return (this.get('permissions') & OC.PERMISSION_SHARE) === OC.PERMISSION_SHARE;
 		},
 
 		/**
 		 * @returns {boolean}
 		 */
 		hasCreatePermission: function() {
-			return (this.getPermissions() & OC.PERMISSION_CREATE) === OC.PERMISSION_CREATE;
+			return (this.get('permissions') & OC.PERMISSION_CREATE) === OC.PERMISSION_CREATE;
 		},
 
 		fetch: function() {
@@ -186,14 +174,12 @@
 				});
 			}
 
-			var attributes = {
+			return {
 				reshare: data.reshare,
 				shares: data.shares,
 				permissions: permissions,
 				allowPublicUploadStatus: allowPublicUploadStatus
 			};
-
-			return attributes;
 		}
 	});
 
