@@ -38,6 +38,8 @@ try {
 	if (OC::$CLI) {
 		print_r($values);
 	} else {
+		header('Access-Control-Allow-Origin: *');
+		header('Content-Type: application/json');
 		echo json_encode($values);
 	}
 
