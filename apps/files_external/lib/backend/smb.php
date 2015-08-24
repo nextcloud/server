@@ -30,6 +30,7 @@ use \OCA\Files_External\Lib\StorageConfig;
 use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 
 use \OCA\Files_External\Lib\Auth\Password\Password;
+use OCP\IUser;
 
 class SMB extends Backend {
 
@@ -56,8 +57,9 @@ class SMB extends Backend {
 
 	/**
 	 * @param StorageConfig $storage
+	 * @param IUser $user
 	 */
-	public function manipulateStorageConfig(StorageConfig &$storage) {
+	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
 		$user = $storage->getBackendOption('user');
 		if ($domain = $storage->getBackendOption('domain')) {
 			$storage->setBackendOption('user', $domain.'\\'.$user);

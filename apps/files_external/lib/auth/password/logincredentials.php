@@ -1,8 +1,8 @@
 <?php
 /**
- * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Robin McCorkell <rmccorkell@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -21,36 +21,38 @@
 
 namespace OCA\Files_External\Lib\Auth\Password;
 
-use \OCP\IUser;
 use \OCP\IL10N;
+use \OCP\IUser;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Lib\StorageConfig;
 use \OCP\ISession;
-use \OCP\Security\ICrypto;
+use \OCP\Security\ICredentialsManager;
 use \OCP\Files\Storage;
 use \OCA\Files_External\Lib\SessionStorageWrapper;
 use \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 
 /**
- * Username and password from login credentials, saved in session
+ * Username and password from login credentials, saved in DB
  */
-class SessionCredentials extends AuthMechanism {
+class LoginCredentials extends AuthMechanism {
+
+	const CREDENTIALS_IDENTIFIER = 'password::logincredentials/credentials';
 
 	/** @var ISession */
 	protected $session;
 
-	/** @var ICrypto */
-	protected $crypto;
+	/** @var ICredentialsManager */
+	protected $credentialsManager;
 
-	public function __construct(IL10N $l, ISession $session, ICrypto $crypto) {
+	public function __construct(IL10N $l, ISession $session, ICredentialsManager $credentialsManager) {
 		$this->session = $session;
-		$this->crypto = $crypto;
+		$this->credentialsManager = $credentialsManager;
 
 		$this
-			->setIdentifier('password::sessioncredentials')
+			->setIdentifier('password::logincredentials')
 			->setScheme(self::SCHEME_PASSWORD)
-			->setText($l->t('Session credentials'))
+			->setText($l->t('Login credentials'))
 			->addParameters([
 			])
 		;
@@ -64,22 +66,27 @@ class SessionCredentials extends AuthMechanism {
 	 * @param array $params
 	 */
 	public function authenticate(array $params) {
-		$this->session->set('password::sessioncredentials/credentials', $this->crypto->encrypt(json_encode($params)));
+		$userId = $params['uid'];
+		$credentials = [
+			'user' => $this->session->get('loginname'),
+			'password' => $params['password']
+		];
+		$this->credentialsManager->store($userId, self::CREDENTIALS_IDENTIFIER, $credentials);
 	}
 
 	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
-		$encrypted = $this->session->get('password::sessioncredentials/credentials');
-		if (!isset($encrypted)) {
-			throw new InsufficientDataForMeaningfulAnswerException('No session credentials saved');
+		if (!isset($user)) {
+			throw new InsufficientDataForMeaningfulAnswerException('No login credentials saved');
+		}
+		$uid = $user->getUID();
+		$credentials = $this->credentialsManager->retrieve($uid, self::CREDENTIALS_IDENTIFIER);
+
+		if (!isset($credentials)) {
+			throw new InsufficientDataForMeaningfulAnswerException('No login credentials saved');
 		}
 
-		$credentials = json_decode($this->crypto->decrypt($encrypted), true);
-		$storage->setBackendOption('user', $this->session->get('loginname'));
+		$storage->setBackendOption('user', $credentials['user']);
 		$storage->setBackendOption('password', $credentials['password']);
-	}
-
-	public function wrapStorage(Storage $storage) {
-		return new SessionStorageWrapper(['storage' => $storage]);
 	}
 
 }
