@@ -57,7 +57,6 @@
 			if(!_.isUndefined(options.configModel)) {
 				this.configModel = options.configModel;
 			}
-			this.fetch();
 		},
 
 		defaults: {

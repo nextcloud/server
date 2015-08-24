@@ -404,6 +404,7 @@ OC.Share = _.extend(OC.Share, {
 		$dialog.slideDown(OC.menuSpeed, function() {
 			OC.Share.droppedDown = true;
 		});
+		itemModel.fetch();
 		return;
 
 
