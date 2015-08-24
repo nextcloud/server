@@ -20,12 +20,6 @@
  *  * use RST syntax
  */
 
-/**
- * Only enable this for local development and not in production environments
- * This will disable the minifier and outputs some additional debug informations
- */
-define('DEBUG', true);
-
 $CONFIG = array(
 
 
@@ -1078,6 +1072,14 @@ $CONFIG = array(
  * is highly recommended to *avoid data loss*.
  */
 'memcache.locking' => '\\OC\\Memcache\\Redis',
+
+/**
+ * Set this ownCloud instance to debugging mode
+ *
+ * Only enable this for local development and not in production environments
+ * This will disable the minifier and outputs some additional debug information
+ */
+'debug' => false,
 
 /**
  * This entry is just here to show a warning in case somebody copied the sample

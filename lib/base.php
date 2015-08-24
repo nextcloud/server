@@ -582,7 +582,7 @@ class OC {
 		if (!defined('PHPUNIT_RUN')) {
 			$logger = \OC::$server->getLogger();
 			OC\Log\ErrorHandler::setLogger($logger);
-			if (defined('DEBUG') and DEBUG) {
+			if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
 				OC\Log\ErrorHandler::register(true);
 				set_exception_handler(array('OC_Template', 'printExceptionErrorPage'));
 			} else {
@@ -1040,7 +1040,7 @@ class OC {
 			return false;
 		}
 
-		if (defined("DEBUG") && DEBUG) {
+		if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
 			\OCP\Util::writeLog('core', 'Trying to login from cookie', \OCP\Util::DEBUG);
 		}
 
@@ -1093,11 +1093,12 @@ class OC {
 
 			self::cleanupLoginTokens($userId);
 			if (!empty($_POST["remember_login"])) {
-				if (defined("DEBUG") && DEBUG) {
+				$config = self::$server->getConfig();
+				if ($config->getSystemValue('debug', false)) {
 					self::$server->getLogger()->debug('Setting remember login to cookie', array('app' => 'core'));
 				}
 				$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(32);
-				self::$server->getConfig()->setUserValue($userId, 'login_token', $token, time());
+				$config->setUserValue($userId, 'login_token', $token, time());
 				OC_User::setMagicInCookie($userId, $token);
 			} else {
 				OC_User::unsetMagicInCookie();
