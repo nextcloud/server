@@ -4,6 +4,7 @@
 
 #fileSharingSettings xmp {
 	margin-top: 0;
+	white-space: pre-wrap;
 }
 
 [class^="social-"], [class*=" social-"] {
