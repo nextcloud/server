@@ -673,6 +673,7 @@
 				id: parseInt($el.attr('data-id'), 10),
 				name: $el.attr('data-file'),
 				mimetype: $el.attr('data-mime'),
+				mtime: parseInt($el.attr('data-mtime'), 10),
 				type: $el.attr('data-type'),
 				size: parseInt($el.attr('data-size'), 10),
 				etag: $el.attr('data-etag'),

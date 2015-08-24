@@ -98,6 +98,7 @@ describe('OCA.Files.FileList tests', function() {
 			type: 'file',
 			name: 'One.txt',
 			mimetype: 'text/plain',
+			mtime: 123456789,
 			size: 12,
 			etag: 'abc',
 			permissions: OC.PERMISSION_ALL
@@ -106,6 +107,7 @@ describe('OCA.Files.FileList tests', function() {
 			type: 'file',
 			name: 'Two.jpg',
 			mimetype: 'image/jpeg',
+			mtime: 234567890,
 			size: 12049,
 			etag: 'def',
 			permissions: OC.PERMISSION_ALL
@@ -114,6 +116,7 @@ describe('OCA.Files.FileList tests', function() {
 			type: 'file',
 			name: 'Three.pdf',
 			mimetype: 'application/pdf',
+			mtime: 234560000,
 			size: 58009,
 			etag: '123',
 			permissions: OC.PERMISSION_ALL
@@ -122,6 +125,7 @@ describe('OCA.Files.FileList tests', function() {
 			type: 'dir',
 			name: 'somedir',
 			mimetype: 'httpd/unix-directory',
+			mtime: 134560000,
 			size: 250,
 			etag: '456',
 			permissions: OC.PERMISSION_ALL
@@ -1722,6 +1726,7 @@ describe('OCA.Files.FileList tests', function() {
 					id: 1,
 					name: 'One.txt',
 					mimetype: 'text/plain',
+					mtime: 123456789,
 					type: 'file',
 					size: 12,
 					etag: 'abc',
@@ -1732,6 +1737,7 @@ describe('OCA.Files.FileList tests', function() {
 					type: 'file',
 					name: 'Three.pdf',
 					mimetype: 'application/pdf',
+					mtime: 234560000,
 					size: 58009,
 					etag: '123',
 					permissions: OC.PERMISSION_ALL
@@ -1741,6 +1747,7 @@ describe('OCA.Files.FileList tests', function() {
 					type: 'dir',
 					name: 'somedir',
 					mimetype: 'httpd/unix-directory',
+					mtime: 134560000,
 					size: 250,
 					etag: '456',
 					permissions: OC.PERMISSION_ALL
@@ -1754,6 +1761,7 @@ describe('OCA.Files.FileList tests', function() {
 					id: 1,
 					name: 'One.txt',
 					mimetype: 'text/plain',
+					mtime: 123456789,
 					type: 'file',
 					size: 12,
 					etag: 'abc',
@@ -1764,6 +1772,7 @@ describe('OCA.Files.FileList tests', function() {
 					type: 'dir',
 					name: 'somedir',
 					mimetype: 'httpd/unix-directory',
+					mtime: 134560000,
 					size: 250,
 					etag: '456',
 					permissions: OC.PERMISSION_ALL
@@ -2328,6 +2337,26 @@ describe('OCA.Files.FileList tests', function() {
 				fileList.showFileBusyState(testCase, false);
 				expect($tr.hasClass('busy')).toEqual(false);
 			});
+		});
+	});
+	describe('elementToFile', function() {
+		var $tr;
+
+		beforeEach(function() {
+			fileList.setFiles(testFiles);
+			$tr = fileList.findFileEl('One.txt');
+		});
+
+		it('converts data attributes to file info structure', function() {
+			var fileInfo = fileList.elementToFile($tr);
+			expect(fileInfo.id).toEqual(1);
+			expect(fileInfo.name).toEqual('One.txt');
+			expect(fileInfo.mtime).toEqual(123456789);
+			expect(fileInfo.etag).toEqual('abc');
+			expect(fileInfo.permissions).toEqual(OC.PERMISSION_ALL);
+			expect(fileInfo.size).toEqual(12);
+			expect(fileInfo.mimetype).toEqual('text/plain');
+			expect(fileInfo.type).toEqual('file');
 		});
 	});
 });
