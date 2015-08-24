@@ -305,7 +305,7 @@ class Encryption extends \Test\TestCase {
 	protected function buildMockModule() {
 		$encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 			->disableOriginalConstructor()
-			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable', 'encryptAll'])
+			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable', 'encryptAll', 'prepareDecryptAll'])
 			->getMock();
 
 		$encryptionModule->expects($this->any())->method('getId')->willReturn('UNIT_TEST_MODULE');

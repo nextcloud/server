@@ -58,6 +58,13 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Encryption\SetDefaultModule(\OC::$server->getEncryptionManager()));
 	$application->add(new OC\Core\Command\Encryption\Status(\OC::$server->getEncryptionManager()));
 	$application->add(new OC\Core\Command\Encryption\EncryptAll(\OC::$server->getEncryptionManager(), \OC::$server->getAppManager(), \OC::$server->getConfig(), new \Symfony\Component\Console\Helper\QuestionHelper()));
+	$application->add(new OC\Core\Command\Encryption\DecryptAll(
+		\OC::$server->getEncryptionManager(),
+		\OC::$server->getAppManager(),
+		\OC::$server->getConfig(),
+		new \OC\Encryption\DecryptAll(\OC::$server->getEncryptionManager(), \OC::$server->getUserManager(), new \OC\Files\View()),
+		new \Symfony\Component\Console\Helper\QuestionHelper())
+	);
 
 	$application->add(new OC\Core\Command\Log\Manage(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Log\OwnCloud(\OC::$server->getConfig()));

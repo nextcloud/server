@@ -40,6 +40,12 @@ class EncryptionTest extends TestCase {
 	private $encryptAllMock;
 
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $decryptAllMock;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $sessionMock;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	private $cryptMock;
 
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -63,7 +69,13 @@ class EncryptionTest extends TestCase {
 		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->sessionMock = $this->getMockBuilder('OCA\Encryption\Session')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->encryptAllMock = $this->getMockBuilder('OCA\Encryption\Crypto\EncryptAll')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->decryptAllMock = $this->getMockBuilder('OCA\Encryption\Crypto\DecryptAll')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->loggerMock = $this->getMockBuilder('OCP\ILogger')
@@ -81,7 +93,9 @@ class EncryptionTest extends TestCase {
 			$this->cryptMock,
 			$this->keyManagerMock,
 			$this->utilMock,
+			$this->sessionMock,
 			$this->encryptAllMock,
+			$this->decryptAllMock,
 			$this->loggerMock,
 			$this->l10nMock
 		);
@@ -170,6 +184,16 @@ class EncryptionTest extends TestCase {
 	 */
 	public function testBegin($mode, $header, $legacyCipher, $defaultCipher, $fileKey, $expected) {
 
+		$this->sessionMock->expects($this->once())
+			->method('decryptAllModeActivated')
+			->willReturn(false);
+
+		$this->sessionMock->expects($this->never())->method('getDecryptAllUid');
+		$this->sessionMock->expects($this->never())->method('getDecryptAllKey');
+		$this->keyManagerMock->expects($this->never())->method('getEncryptedFileKey');
+		$this->keyManagerMock->expects($this->never())->method('getShareKey');
+		$this->cryptMock->expects($this->never())->method('multiKeyDecrypt');
+
 		$this->cryptMock->expects($this->any())
 			->method('getCipher')
 			->willReturn($defaultCipher);
@@ -206,6 +230,49 @@ class EncryptionTest extends TestCase {
 			array('r', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'fileKey', 'myCipher'),
 			array('w', [], 'legacyCipher', 'defaultCipher', '', 'defaultCipher'),
 			array('r', [], 'legacyCipher', 'defaultCipher', 'file_key', 'legacyCipher'),
+		);
+	}
+
+
+	/**
+	 * test begin() if decryptAll mode was activated
+	 */
+	public function testBeginDecryptAll() {
+
+		$path = '/user/files/foo.txt';
+		$recoveryKeyId = 'recoveryKeyId';
+		$recoveryShareKey = 'recoveryShareKey';
+		$decryptAllKey = 'decryptAllKey';
+		$fileKey = 'fileKey';
+
+		$this->sessionMock->expects($this->once())
+			->method('decryptAllModeActivated')
+			->willReturn(true);
+		$this->sessionMock->expects($this->once())
+			->method('getDecryptAllUid')
+			->willReturn($recoveryKeyId);
+		$this->sessionMock->expects($this->once())
+			->method('getDecryptAllKey')
+			->willReturn($decryptAllKey);
+
+		$this->keyManagerMock->expects($this->once())
+			->method('getEncryptedFileKey')
+			->willReturn('encryptedFileKey');
+		$this->keyManagerMock->expects($this->once())
+			->method('getShareKey')
+			->with($path, $recoveryKeyId)
+			->willReturn($recoveryShareKey);
+		$this->cryptMock->expects($this->once())
+			->method('multiKeyDecrypt')
+			->with('encryptedFileKey', $recoveryShareKey, $decryptAllKey)
+			->willReturn($fileKey);
+
+		$this->keyManagerMock->expects($this->never())->method('getFileKey');
+
+		$this->instance->begin($path, 'user', 'r', [], []);
+
+		$this->assertSame($fileKey,
+			$this->invokePrivate($this->instance, 'fileKey')
 		);
 	}
 
@@ -273,4 +340,15 @@ class EncryptionTest extends TestCase {
 	public function testDecrypt() {
 		$this->instance->decrypt('abc');
 	}
+
+	public function testPrepareDecryptAll() {
+		$input = $this->getMock('Symfony\Component\Console\Input\InputInterface');
+		$output = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
+
+		$this->decryptAllMock->expects($this->once())->method('prepare')
+			->with($input, $output, 'user');
+
+		$this->instance->prepareDecryptAll($input, $output, 'user');
+	}
+
 }
