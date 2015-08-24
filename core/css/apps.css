@@ -22,7 +22,7 @@
 	height: 100%;
 	float: left;
 	-moz-box-sizing: border-box; box-sizing: border-box;
-	background-color: #f5f5f5;
+	background-color: #fff;
 	padding-bottom: 44px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -42,10 +42,6 @@
 	width: 100%;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
-#app-navigation .active,
-#app-navigation .active a {
-	background-color: #ddd;
-}
 
 #app-navigation .active.with-menu > a,
 #app-navigation .with-counter > a {
@@ -54,14 +50,6 @@
 
 #app-navigation .active.with-menu.with-counter > a {
 	padding-right: 90px;
-}
-
-#app-navigation li:hover > a,
-#app-navigation li:focus > a,
-#app-navigation a:focus,
-#app-navigation .selected,
-#app-navigation .selected a {
-	background-color: #ddd;
 }
 
 #app-navigation .with-icon a,
@@ -82,7 +70,17 @@
 	-moz-box-sizing: border-box; box-sizing: border-box;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	color: #333;
+	color: #000;
+	opacity: .5;
+}
+#app-navigation .active,
+#app-navigation .active a,
+#app-navigation li:hover > a,
+#app-navigation li:focus > a,
+#app-navigation a:focus,
+#app-navigation .selected,
+#app-navigation .selected a {
+	opacity: 1;
 }
 
 #app-navigation .collapse {
@@ -296,7 +294,7 @@
 .bubble,
 #app-navigation .app-navigation-entry-menu {
 	position: absolute;
-	background-color: #eee;
+	background-color: #fff;
 	color: #333;
 	border-radius: 3px;
 	border-top-right-radius: 0;
@@ -324,7 +322,7 @@
 .bubble:after,
 #app-navigation .app-navigation-entry-menu:after {
 	border-color: rgba(238, 238, 238, 0);
-	border-bottom-color: #eee;
+	border-bottom-color: #fff;
 	border-width: 10px;
 	margin-left: -10px;
 }
@@ -473,13 +471,10 @@
 #app-settings.opened #app-settings-content {
 	display: block;
 }
-#app-settings-header {
-	background-color: #eee;
-}
 #app-settings-content {
 	display: none;
 	padding: 10px;
-	background-color: #eee;
+	background-color: #fff;
 }
 #app-settings.open #app-settings-content {
 	display: block;
@@ -499,7 +494,7 @@
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background-color: transparent;
+	background-color: #fff;
 	background-image: url('../img/actions/settings.svg');
 	background-position: 14px center;
 	background-repeat: no-repeat;
@@ -512,11 +507,11 @@
 }
 .settings-button:hover,
 .settings-button:focus {
-	background-color: #ddd;
+	background-color: #fff;
 }
 .settings-button.opened:hover,
 .settings-button.opened:focus {
-	background-color: transparent;
+	background-color: #fff;
 }
 
 /* buttons */
