@@ -57,6 +57,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Encryption\ListModules(\OC::$server->getEncryptionManager()));
 	$application->add(new OC\Core\Command\Encryption\SetDefaultModule(\OC::$server->getEncryptionManager()));
 	$application->add(new OC\Core\Command\Encryption\Status(\OC::$server->getEncryptionManager()));
+	$application->add(new OC\Core\Command\Encryption\EncryptAll(\OC::$server->getEncryptionManager(), \OC::$server->getAppManager(), \OC::$server->getConfig(), new \Symfony\Component\Console\Helper\QuestionHelper()));
 
 	$application->add(new OC\Core\Command\Maintenance\MimeTypesJS());
 	$application->add(new OC\Core\Command\Maintenance\Mode(\OC::$server->getConfig()));

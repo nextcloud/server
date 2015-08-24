@@ -76,6 +76,8 @@ class Setup {
 	}
 
 	/**
+	 * check if user has a key pair, if not we create one
+	 *
 	 * @param string $uid userid
 	 * @param string $password user password
 	 * @return bool

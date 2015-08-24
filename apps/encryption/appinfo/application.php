@@ -30,6 +30,7 @@ use OCA\Encryption\Controller\RecoveryController;
 use OCA\Encryption\Controller\SettingsController;
 use OCA\Encryption\Controller\StatusController;
 use OCA\Encryption\Crypto\Crypt;
+use OCA\Encryption\Crypto\EncryptAll;
 use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\HookManager;
 use OCA\Encryption\Hooks\UserHooks;
@@ -42,6 +43,7 @@ use OCP\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
+use Symfony\Component\Console\Helper\QuestionHelper;
 
 
 class Application extends \OCP\AppFramework\App {
@@ -111,6 +113,7 @@ class Application extends \OCP\AppFramework\App {
 				$container->query('Crypt'),
 				$container->query('KeyManager'),
 				$container->query('Util'),
+				$container->query('EncryptAll'),
 				$container->getServer()->getLogger(),
 				$container->getServer()->getL10N($container->getAppName())
 			);
@@ -220,6 +223,23 @@ class Application extends \OCP\AppFramework\App {
 					$server->getConfig(),
 					$server->getUserManager());
 			});
+
+		$container->registerService('EncryptAll',
+			function (IAppContainer $c) {
+				$server = $c->getServer();
+				return new EncryptAll(
+					$c->query('UserSetup'),
+					$c->getServer()->getUserManager(),
+					new View(),
+					$c->query('KeyManager'),
+					$server->getConfig(),
+					$server->getMailer(),
+					$server->getL10N('encryption'),
+					new QuestionHelper(),
+					$server->getSecureRandom()
+				);
+			}
+		);
 
 	}
 
