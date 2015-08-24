@@ -24,3 +24,13 @@ $installedVersion = \OC::$server->getConfig()->getAppValue('user_ldap', 'install
 if (version_compare($installedVersion, '0.6.1', '<')) {
 	\OC::$server->getConfig()->setAppValue('user_ldap', 'enforce_home_folder_naming_rule', false);
 }
+
+if(version_compare($installedVersion, '0.6.2', '<')) {
+	// Remove LDAP case insensitive setting from DB as it is no longer beeing used.
+	$helper = new \OCA\user_ldap\lib\Helper();
+	$prefixes = $helper->getServerConfigurationPrefixes();
+
+	foreach($prefixes as $prefix) {
+		\OC::$server->getConfig()->deleteAppValue('user_ldap', $prefix . "ldap_nocase");
+	}
+}
