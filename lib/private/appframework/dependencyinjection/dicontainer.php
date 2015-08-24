@@ -215,6 +215,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getHasher();
 		});
 
+		$this->registerService('OCP\\Security\\ICredentialsManager', function($c) {
+			return $this->getServer()->getCredentialsManager();
+		});
+
 		$this->registerService('OCP\\Security\\ISecureRandom', function($c) {
 			return $this->getServer()->getSecureRandom();
 		});

@@ -1493,5 +1493,60 @@
 
 	</table>
 
+	<table>
+		<!--
+		Encrypted credentials storage
+		-->
+		<name>*dbprefix*credentials</name>
+
+		<declaration>
+
+			<field>
+				<name>user</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>identifier</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>credentials</name>
+				<type>clob</type>
+				<notnull>false</notnull>
+			</field>
+
+			<index>
+				<name>credentials_user_id</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>user</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>identifier</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>credentials_user</name>
+				<unique>false</unique>
+				<field>
+					<name>user</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
 
 </database>
