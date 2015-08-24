@@ -484,6 +484,7 @@ class Server extends SimpleContainer implements IServerContainer {
 						: null,
 				],
 				new SecureRandom(),
+				$c->getCrypto(),
 				$c->getConfig()
 			);
 
