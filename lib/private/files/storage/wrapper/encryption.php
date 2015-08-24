@@ -67,7 +67,6 @@ class Encryption extends Wrapper {
 	/** @var IMountPoint */
 	private $mount;
 
-
 	/** @var IStorage */
 	private $keyStorage;
 
@@ -300,33 +299,15 @@ class Encryption extends Wrapper {
 	public function copy($path1, $path2) {
 
 		$source = $this->getFullPath($path1);
-		$target = $this->getFullPath($path2);
 
 		if ($this->util->isExcluded($source)) {
 			return $this->storage->copy($path1, $path2);
 		}
 
-		$result = $this->storage->copy($path1, $path2);
-
-		if ($result && $this->encryptionManager->isEnabled()) {
-			$keysCopied = $this->copyKeys($source, $target);
-
-			if ($keysCopied &&
-				dirname($source) !== dirname($target) &&
-				$this->util->isFile($target)
-			) {
-				$this->update->update($target);
-			}
-
-			$data = $this->getMetaData($path1);
-
-			if (isset($data['encrypted'])) {
-				$this->getCache()->put($path2, ['encrypted' => $data['encrypted']]);
-			}
-			if (isset($data['size'])) {
-				$this->updateUnencryptedSize($target, $data['size']);
-			}
-		}
+		// need to stream copy file by file in case we copy between a encrypted
+		// and a unencrypted storage
+		$this->unlink($path2);
+		$result = $this->copyFromStorage($this, $path1, $path2);
 
 		return $result;
 	}
@@ -511,12 +492,17 @@ class Encryption extends Wrapper {
 				}
 			}
 		} else {
-			$source = $sourceStorage->fopen($sourceInternalPath, 'r');
-			$target = $this->fopen($targetInternalPath, 'w');
-			list(, $result) = \OC_Helper::streamCopy($source, $target);
-			fclose($source);
-			fclose($target);
-
+			try {
+				$source = $sourceStorage->fopen($sourceInternalPath, 'r');
+				$target = $this->fopen($targetInternalPath, 'w');
+				list(, $result) = \OC_Helper::streamCopy($source, $target);
+				fclose($source);
+				fclose($target);
+			} catch (\Exception $e) {
+				fclose($source);
+				fclose($target);
+				throw $e;
+			}
 			if($result) {
 				if ($preserveMtime) {
 					$this->touch($targetInternalPath, $sourceStorage->filemtime($sourceInternalPath));

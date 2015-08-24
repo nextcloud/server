@@ -241,59 +241,14 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$this->instance->rename($source, $target);
 	}
 
-	/**
-	 * @dataProvider dataTestCopyAndRename
-	 *
-	 * @param string $source
-	 * @param string $target
-	 * @param $encryptionEnabled
-	 * @param boolean $copyKeysReturn
-	 * @param boolean $shouldUpdate
-	 */
-	public function testCopyEncryption($source,
-							 $target,
-							 $encryptionEnabled,
-							 $copyKeysReturn,
-							 $shouldUpdate) {
-
-		if ($encryptionEnabled) {
-			$this->keyStore
-				->expects($this->once())
-				->method('copyKeys')
-				->willReturn($copyKeysReturn);
-			$this->cache->expects($this->atLeastOnce())
-				->method('put')
-				->willReturnCallback(function($path, $data) {
-					$this->assertArrayHasKey('encrypted', $data);
-					$this->assertTrue($data['encrypted']);
-				});
-		} else {
-			$this->cache->expects($this->never())->method('put');
-			$this->keyStore->expects($this->never())->method('copyKeys');
-		}
-		$this->util->expects($this->any())
-			->method('isFile')->willReturn(true);
-		$this->util->expects($this->any())
-			->method('isExcluded')->willReturn(false);
-		$this->encryptionManager->expects($this->once())
-			->method('isEnabled')->willReturn($encryptionEnabled);
-		if ($shouldUpdate) {
-			$this->update->expects($this->once())
-				->method('update');
-		} else {
-			$this->update->expects($this->never())
-				->method('update');
-		}
-
-		$this->instance->mkdir($source);
-		$this->instance->mkdir(dirname($target));
-		$this->instance->copy($source, $target);
-
-		if ($encryptionEnabled) {
-			$this->assertSame($this->dummySize,
-				$this->instance->filesize($target)
-			);
-		}
+	public function testCopyEncryption() {
+		$this->instance->file_put_contents('source.txt', 'bar');
+		$this->instance->copy('source.txt', 'target.txt');
+		$this->assertSame('bar', $this->instance->file_get_contents('target.txt'));
+		$targetMeta = $this->instance->getMetaData('target.txt');
+		$sourceMeta = $this->instance->getMetaData('source.txt');
+		$this->assertSame($sourceMeta['encrypted'], $targetMeta['encrypted']);
+		$this->assertSame($sourceMeta['size'], $targetMeta['size']);
 	}
 
 	/**
