@@ -489,6 +489,11 @@ class OC_Mount_Config {
 			return false;
 		}
 
+		if (isset($classOptions['objectstore'])) {
+			// objectstore cannot be set by client side
+			return false;
+		}
+
 		if (!isset($backends[$class])) {
 			// invalid backend
 			return false;
@@ -874,6 +879,13 @@ class OC_Mount_Config {
 					&& !isset($mountPoint[$applicable][$mountPath]['priority'])) {
 					$mountPoint[$applicable][$mountPath]['priority']
 						= $data[$mountType][$applicable][$mountPath]['priority'];
+				}
+				// Persistent objectstore
+				if (isset($data[$mountType][$applicable][$mountPath])
+					&& isset($data[$mountType][$applicable][$mountPath]['objectstore'])
+				) {
+					$mountPoint[$applicable][$mountPath]['objectstore']
+						= $data[$mountType][$applicable][$mountPath]['objectstore'];
 				}
 				$data[$mountType][$applicable]
 					= array_merge($data[$mountType][$applicable], $mountPoint[$applicable]);
