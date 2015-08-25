@@ -230,7 +230,9 @@ class OC_Mount_Config {
 				}
 			}
 		} else {
-			$input = str_replace('$user', $user, $input);
+			if (is_string($input)) {
+				$input = str_replace('$user', $user, $input);
+			}
 		}
 		return $input;
 	}

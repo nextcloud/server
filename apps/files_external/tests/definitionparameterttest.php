@@ -49,6 +49,9 @@ class DefinitionParameterTest extends \Test\TestCase {
 
 			[Param::VALUE_BOOLEAN, Param::FLAG_NONE, false, true],
 			[Param::VALUE_BOOLEAN, Param::FLAG_NONE, 123, false],
+			// conversion from string to boolean
+			[Param::VALUE_BOOLEAN, Param::FLAG_NONE, 'false', true, false],
+			[Param::VALUE_BOOLEAN, Param::FLAG_NONE, 'true', true, true],
 
 			[Param::VALUE_PASSWORD, Param::FLAG_NONE, 'foobar', true],
 			[Param::VALUE_PASSWORD, Param::FLAG_NONE, '', false],
@@ -60,11 +63,14 @@ class DefinitionParameterTest extends \Test\TestCase {
 	/**
 	 * @dataProvider validateValueProvider
 	 */
-	public function testValidateValue($type, $flags, $value, $success) {
+	public function testValidateValue($type, $flags, $value, $success, $expectedValue = null) {
 		$param = new Param('foo', 'bar');
 		$param->setType($type);
 		$param->setFlags($flags);
 
 		$this->assertEquals($success, $param->validateValue($value));
+		if (isset($expectedValue)) {
+			$this->assertEquals($expectedValue, $value);
+		}
 	}
 }

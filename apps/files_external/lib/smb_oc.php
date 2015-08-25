@@ -39,7 +39,7 @@ class SMB_OC extends SMB {
 	public function __construct($params) {
 		if (isset($params['host'])) {
 			$host = $params['host'];
-			$this->username_as_share = ($params['username_as_share'] === 'true');
+			$this->username_as_share = ($params['username_as_share'] === true);
 
 			// dummy credentials, unused, to satisfy constructor
 			$user = 'foo';
