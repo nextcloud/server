@@ -200,7 +200,7 @@ button, .button,
 	background-color: rgba(240,240,240,.9);
 	font-weight: bold;
 	color: #555;
-	border: 1px solid rgba(190,190,190,.9);
+	border: 1px solid rgba(240,240,240,.9);
 	cursor: pointer;
 }
 input[type="submit"]:hover, input[type="submit"]:focus,
