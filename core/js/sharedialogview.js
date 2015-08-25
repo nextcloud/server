@@ -32,10 +32,6 @@
 		'<a target="_blank" class="icon-info svg shareWithRemoteInfo hasTooltip" href="{{docLink}}" ' +
 		'title="{{tooltip}}"></a>';
 
-	var TEMPLATE_NO_SHARING =
-		'<input id="shareWith" type="text" placeholder="{{placeholder}}" disabled="disabled"/>'
-	;
-
 	/**
 	 * @class OCA.Share.ShareDialogView
 	 * @member {OC.Share.ShareItemModel} model
