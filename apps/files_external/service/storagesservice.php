@@ -352,10 +352,14 @@ abstract class StoragesService {
 		if (!isset($allStorages[$id])) {
 			throw new NotFoundException('Storage with id "' . $id . '" not found');
 		}
-
 		$oldStorage = $allStorages[$id];
-		$allStorages[$id] = $updatedStorage;
 
+		// ensure objectstore is persistent
+		if ($objectstore = $oldStorage->getBackendOption('objectstore')) {
+			$updatedStorage->setBackendOption('objectstore', $objectstore);
+		}
+
+		$allStorages[$id] = $updatedStorage;
 		$this->writeConfig($allStorages);
 
 		$this->triggerChangeHooks($oldStorage, $updatedStorage);

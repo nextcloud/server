@@ -174,6 +174,25 @@ class StorageConfig implements \JsonSerializable {
 	}
 
 	/**
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getBackendOption($key) {
+		if (isset($this->backendOptions[$key])) {
+			return $this->backendOptions[$key];
+		}
+		return null;
+	}
+
+	/**
+	 * @param string $option
+	 * @param mixed $value
+	 */
+	public function setBackendOption($key, $value) {
+		$this->backendOptions[$key] = $value;
+	}
+
+	/**
 	 * Returns the mount priority
 	 *
 	 * @return int priority
