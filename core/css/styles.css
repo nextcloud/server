@@ -258,21 +258,28 @@ input:disabled+label, input:disabled:hover+label, input:disabled:focus+label {
 	font-size: 1.2em;
 	padding: 3px;
 	padding-left: 25px;
-	background: #112 url('../img/actions/search-white.svg') no-repeat 6px center;
+	background: transparent url('../img/actions/search-white.svg') no-repeat 6px center;
 	color: #fff;
 	border: 0;
 	border-radius: 3px;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-	opacity: .3;
 	margin-top: 9px;
 	float: right;
-}
-.searchbox input[type="search"]:hover,
-.searchbox input[type="search"]:focus,
-.searchbox input[type="search"]:active {
+	width: 0;
+	cursor: pointer;
+	-webkit-transition: all 100ms;
+	-moz-transition: all 100ms;
+	-o-transition: all 100ms;
+	transition: all 100ms;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	opacity: .7;
+}
+.searchbox input[type="search"]:focus,
+.searchbox input[type="search"]:active {
 	color: #fff;
+	width: 155px;
+	max-width: 50%;
+	cursor: text;
+	background-color: #112;
 }
 
 input[type="submit"].enabled {
