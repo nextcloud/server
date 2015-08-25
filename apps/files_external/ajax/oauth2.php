@@ -33,6 +33,7 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 $l = \OC::$server->getL10N('files_external');
 
+// FIXME: currently hard-coded to Google Drive
 if (isset($_POST['client_id']) && isset($_POST['client_secret']) && isset($_POST['redirect'])) {
 	$client = new Google_Client();
 	$client->setClientId((string)$_POST['client_id']);
