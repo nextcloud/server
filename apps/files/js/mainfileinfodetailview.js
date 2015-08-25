@@ -17,7 +17,7 @@
 		'    class="action action-favorite favorite">' +
 		'    <img class="svg" src="{{starIcon}}" />' +
 		'    </a>' +
-		'    <span class="size" title="{{altSize}}">{{size}}</span>, <span class="date" title="{{altDate}}">{{date}}</span>' +
+		'    {{#if hasSize}}<span class="size" title="{{altSize}}">{{size}}</span>, {{/if}}<span class="date" title="{{altDate}}">{{date}}</span>' +
 		'</div>';
 
 	/**
@@ -104,9 +104,10 @@
 				var isFavorite = (this.model.get('tags') || []).indexOf(OC.TAG_FAVORITE) >= 0;
 				this.$el.html(this.template({
 					nameLabel: t('files', 'Name'),
-					name: this.model.get('name'),
+					name: this.model.get('displayName') || this.model.get('name'),
 					pathLabel: t('files', 'Path'),
 					path: this.model.get('path'),
+					hasSize: this.model.has('size'),
 					sizeLabel: t('files', 'Size'),
 					size: OC.Util.humanFileSize(this.model.get('size'), true),
 					altSize: n('files', '%n byte', '%n bytes', this.model.get('size')),
@@ -120,8 +121,7 @@
 				// TODO: we really need OC.Previews
 				var $iconDiv = this.$el.find('.thumbnail');
 				if (!this.model.isDirectory()) {
-					// TODO: inject utility class?
-					FileList.lazyLoadPreview({
+					this._fileList.lazyLoadPreview({
 						path: this.model.getFullPath(),
 						mime: this.model.get('mimetype'),
 						etag: this.model.get('etag'),
