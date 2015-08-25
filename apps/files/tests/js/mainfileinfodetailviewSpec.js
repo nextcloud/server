@@ -100,6 +100,19 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 
 			fileListMock.verify();
 		});
+		it('does not show size if no size available', function() {
+			testFileInfo.unset('size');
+			view.setFileInfo(testFileInfo);
+
+			expect(view.$el.find('.size').length).toEqual(0);
+		});
+		it('renders displayName instead of name if available', function() {
+			testFileInfo.set('displayName', 'hello.txt');
+			view.setFileInfo(testFileInfo);
+
+			expect(view.$el.find('.fileName').text()).toEqual('hello.txt');
+			expect(view.$el.find('.fileName').attr('title')).toEqual('hello.txt');
+		});
 		it('rerenders when changes are made on the model', function() {
 			view.setFileInfo(testFileInfo);
 

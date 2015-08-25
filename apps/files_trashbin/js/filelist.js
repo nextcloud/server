@@ -122,6 +122,16 @@
 			return OC.linkTo('files', 'index.php')+"?view=trashbin&dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
 		},
 
+		elementToFile: function($el) {
+			var fileInfo = OCA.Files.FileList.prototype.elementToFile($el);
+			if (this.getCurrentDirectory() === '/') {
+				fileInfo.displayName = getDeletedFileName(fileInfo.name);
+			}
+			// no size available
+			delete fileInfo.size;
+			return fileInfo;
+		},
+
 		updateEmptyContent: function(){
 			var exists = this.$fileList.find('tr:first').exists();
 			this.$el.find('#emptycontent').toggleClass('hidden', exists);

@@ -22,9 +22,11 @@
 
 	/**
 	 * Shows the #app-sidebar and add .with-app-sidebar to subsequent siblings
+	 *
+	 * @param {Object} [$el] sidebar element to show, defaults to $('#app-sidebar')
 	 */
-	exports.Apps.showAppSidebar = function() {
-		var $appSidebar = $('#app-sidebar');
+	exports.Apps.showAppSidebar = function($el) {
+		var $appSidebar = $el || $('#app-sidebar');
 		$appSidebar.removeClass('disappear')
 		$('#app-content').addClass('with-app-sidebar');
 
@@ -33,9 +35,11 @@
 	/**
 	 * Shows the #app-sidebar and removes .with-app-sidebar from subsequent
 	 * siblings
+	 *
+	 * @param {Object} [$el] sidebar element to hide, defaults to $('#app-sidebar')
 	 */
-	exports.Apps.hideAppSidebar = function() {
-		var $appSidebar = $('#app-sidebar');
+	exports.Apps.hideAppSidebar = function($el) {
+		var $appSidebar = $el || $('#app-sidebar');
 		$appSidebar.addClass('disappear');
 		$('#app-content').removeClass('with-app-sidebar');
 	};
