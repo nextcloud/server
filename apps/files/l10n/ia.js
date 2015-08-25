@@ -7,8 +7,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "Manca un dossier temporari",
     "Files" : "Files",
     "Home" : "Domo",
-    "Delete" : "Deler",
-    "Unshare" : "Leva compartir",
+    "Close" : "Clauder",
     "Download" : "Discargar",
     "Error" : "Error",
     "Name" : "Nomine",
@@ -37,6 +36,7 @@ OC.L10N.register(
     "New folder" : "Nove dossier",
     "Folder" : "Dossier",
     "Upload" : "Incargar",
+    "Delete" : "Deler",
     "Upload too large" : "Incargamento troppo longe"
 },
 "nplurals=2; plural=(n != 1);");

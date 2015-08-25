@@ -1,14 +1,14 @@
 OC.L10N.register(
     "files_external",
     {
-    "Location" : "Loco",
-    "Region" : "Region",
     "Username" : "Nomine de usator",
-    "Password" : "Contrasigno",
     "Share" : "Compartir",
-    "URL" : "URL",
     "Personal" : "Personal",
     "Saved" : "Salveguardate",
+    "Password" : "Contrasigno",
+    "Region" : "Region",
+    "URL" : "URL",
+    "Location" : "Loco",
     "Name" : "Nomine",
     "Folder name" : "Nomine de dossier",
     "Delete" : "Deler"

@@ -1,12 +1,11 @@
 { "translations": {
     "Unknown error" : "ਅਣਜਾਣ ਗਲਤੀ",
     "Files" : "ਫਾਇਲਾਂ",
-    "Rename" : "ਨਾਂ ਬਦਲੋ",
-    "Delete" : "ਹਟਾਓ",
     "Download" : "ਡਾਊਨਲੋਡ",
     "Error" : "ਗਲਤੀ",
     "Settings" : "ਸੈਟਿੰਗ",
     "Upload" : "ਅੱਪਲੋਡ",
-    "Cancel upload" : "ਅੱਪਲੋਡ ਰੱਦ ਕਰੋ"
+    "Cancel upload" : "ਅੱਪਲੋਡ ਰੱਦ ਕਰੋ",
+    "Delete" : "ਹਟਾਓ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

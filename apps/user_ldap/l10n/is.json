@@ -6,5 +6,5 @@
     "Host" : "Netþjónn",
     "Password" : "Lykilorð",
     "Advanced" : "Ítarlegt"
-},"pluralForm" :"nplurals=2; plural=(n % 10 == 1 || n % 100 != 11);"
+},"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

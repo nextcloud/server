@@ -13,12 +13,10 @@ OC.L10N.register(
     "Failed to write to disk" : "Tókst ekki að skrifa á disk",
     "Invalid directory." : "Ógild mappa.",
     "Files" : "Skrár",
+    "Close" : "Loka",
     "Upload cancelled." : "Hætt við innsendingu.",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending misheppnast.",
     "{new_name} already exists" : "{new_name} er þegar til",
-    "Rename" : "Endurskýra",
-    "Delete" : "Eyða",
-    "Unshare" : "Hætta deilingu",
     "Download" : "Niðurhal",
     "Select" : "Velja",
     "Pending" : "Bíður",
@@ -38,8 +36,9 @@ OC.L10N.register(
     "Folder" : "Mappa",
     "Upload" : "Senda inn",
     "Cancel upload" : "Hætta við innsendingu",
+    "Delete" : "Eyða",
     "Upload too large" : "Innsend skrá er of stór",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni.",
     "Files are being scanned, please wait." : "Verið er að skima skrár, vinsamlegast hinkraðu."
 },
-"nplurals=2; plural=(n % 10 == 1 || n % 100 != 11);");
+"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

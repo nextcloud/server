@@ -76,7 +76,6 @@ OC.L10N.register(
     "Backup (Replica) Port" : "Порт сервера для резервних копій",
     "Disable Main Server" : "Вимкнути Головний Сервер",
     "Only connect to the replica server." : "Підключити тільки до сервера реплік.",
-    "Case insensitive LDAP server (Windows)" : "Без урахування регістра LDAP сервер (Windows)",
     "Turn off SSL certificate validation." : "Вимкнути перевірку SSL сертифіката.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Не рекомендується, використовувати його тільки для тестування!\nЯкщо з'єднання працює лише з цією опцією, імпортуйте SSL сертифікат LDAP сервера у ваший %s сервер.",
     "Cache Time-To-Live" : "Час актуальності Кеша",

@@ -14,8 +14,7 @@ OC.L10N.register(
     "Not enough storage available" : "যথেষ্ট স্টোরেজ পাওয়া যায় না",
     "Invalid directory." : "অবৈধ ডিরেক্টরি।",
     "Files" : "ফাইলস",
-    "Rename" : "পুনঃনামকরণ",
-    "Delete" : "মুছে ফেলা",
+    "Close" : "বন্ধ",
     "Download" : "ডাউনলোড করুন",
     "Pending" : "মুলতুবি",
     "Error" : "ভুল",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "Save" : "সেভ",
     "Settings" : "সেটিংস",
     "New folder" : "নতুন ফোল্ডার",
-    "Folder" : "ফোল্ডার"
+    "Folder" : "ফোল্ডার",
+    "Delete" : "মুছে ফেলা"
 },
 "nplurals=2; plural=(n != 1);");

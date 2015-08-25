@@ -2,8 +2,8 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "إلغاء",
-    "Share" : "شارك",
     "Shared by" : "تم مشاركتها بواسطة",
+    "Sharing" : "مشاركة",
     "A file or folder has been <strong>shared</strong>" : "ملف أو مجلد تم </strong>مشاركته<strong> ",
     "You shared %1$s with %2$s" : "شاركت %1$s مع %2$s",
     "You shared %1$s with group %2$s" : "أنت شاركت %1$s مع مجموعة %2$s",

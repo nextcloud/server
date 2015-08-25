@@ -1,12 +1,12 @@
 OC.L10N.register(
     "files_external",
     {
-    "Location" : "مقام",
     "Username" : "یوزر نیم",
-    "Password" : "پاسورڈ",
     "Share" : "تقسیم",
-    "URL" : "یو ار ایل",
     "Personal" : "شخصی",
+    "Password" : "پاسورڈ",
+    "URL" : "یو ار ایل",
+    "Location" : "مقام",
     "Name" : "اسم",
     "Delete" : "حذف کریں"
 },

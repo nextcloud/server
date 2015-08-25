@@ -1,9 +1,8 @@
 { "translations": {
     "Cancel" : "Hætta við",
-    "Share" : "Deila",
     "Shared by" : "Deilt af",
     "Password" : "Lykilorð",
     "Name" : "Nafn",
     "Download" : "Niðurhal"
-},"pluralForm" :"nplurals=2; plural=(n % 10 == 1 || n % 100 != 11);"
+},"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

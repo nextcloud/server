@@ -212,7 +212,6 @@ OC.L10N.register(
     "Create" : "Yarat",
     "Admin Recovery Password" : "İnzibatçı bərpa şifrəsi",
     "Enter the recovery password in order to recover the users files during password change" : "Şifrə dəyişilməsi müddətində, səliqə ilə bərpa açarını daxil et ki, istifadəçi fayllları bərpa edilsin. ",
-    "Search Users" : "İstifadəçiləri axtar",
     "Add Group" : "Qrup əlavə et",
     "Group" : "Qrup",
     "Everyone" : "Hamı",

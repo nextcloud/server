@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Files" : "په‌ڕگەکان",
     "Favorites" : "دڵخوازەکان",
+    "Close" : "دابخه",
     "Download" : "داگرتن",
     "Select" : "دیاریکردنی",
     "Error" : "هه‌ڵه",

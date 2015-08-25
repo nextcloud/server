@@ -11,12 +11,11 @@ OC.L10N.register(
     "Files" : "ھۆججەتلەر",
     "Favorites" : "يىغقۇچ",
     "Home" : "ئۆي",
+    "Close" : "ياپ",
     "Upload cancelled." : "يۈكلەشتىن ۋاز كەچتى.",
     "File upload is in progress. Leaving the page now will cancel the upload." : "ھۆججەت يۈكلەش مەشغۇلاتى ئېلىپ بېرىلىۋاتىدۇ. Leaving the page now will cancel the upload.",
     "{new_name} already exists" : "{new_name} مەۋجۇت",
-    "Rename" : "ئات ئۆزگەرت",
-    "Delete" : "ئۆچۈر",
-    "Unshare" : "ھەمبەھىرلىمە",
+    "Actions" : "مەشغۇلاتلار",
     "Download" : "چۈشۈر",
     "Pending" : "كۈتۈۋاتىدۇ",
     "Error" : "خاتالىق",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "Folder" : "قىسقۇچ",
     "Upload" : "يۈكلە",
     "Cancel upload" : "يۈكلەشتىن ۋاز كەچ",
+    "Delete" : "ئۆچۈر",
     "Upload too large" : "يۈكلەندىغىنى بەك چوڭ"
 },
 "nplurals=1; plural=0;");

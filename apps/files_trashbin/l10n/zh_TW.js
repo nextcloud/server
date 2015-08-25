@@ -8,6 +8,8 @@ OC.L10N.register(
     "Delete permanently" : "永久刪除",
     "Error" : "錯誤",
     "restored" : "已還原",
+    "No entries found in this folder" : "在此資料夾中沒有任何項目",
+    "Select all" : "全選",
     "Name" : "名稱",
     "Deleted" : "已刪除",
     "Delete" : "刪除"

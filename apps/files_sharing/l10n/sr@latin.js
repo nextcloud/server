@@ -21,7 +21,6 @@ OC.L10N.register(
     "Add remote share" : "Dodaj udaljeni deljeni resurs",
     "No ownCloud installation (7 or higher) found at {remote}" : "Nije pronađena ownCloud instalacija (7 ili noviji) na {remote}",
     "Invalid ownCloud url" : "Neispravan ownCloud url",
-    "Share" : "Podeli",
     "Shared by" : "Deljeno od strane",
     "A file or folder has been <strong>shared</strong>" : "Fijl ili direktorijum je <strong>podeljen</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Fajl ili direktorijum je deljen sa <strong>drugog servera</strong>",

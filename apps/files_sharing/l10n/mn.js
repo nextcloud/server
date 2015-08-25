@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Share" : "Түгээх",
+    "Sharing" : "Түгээлт",
     "A file or folder has been <strong>shared</strong>" : "Файл эсвэл хавтас амжилттай <strong>түгээгдлээ</strong>",
     "You shared %1$s with %2$s" : "Та %1$s-ийг %2$s руу түгээлээ",
     "You shared %1$s with group %2$s" : "Та %1$s-ийг %2$s групп руу түгээлээ",

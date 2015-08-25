@@ -7,6 +7,7 @@ OC.L10N.register(
     "Could not enable recovery key. Please check your recovery key password!" : "不能启用恢复密钥。请检查恢复密钥密码！",
     "Recovery key successfully disabled" : "恢复密钥成功禁用",
     "Could not disable recovery key. Please check your recovery key password!" : "不能禁用恢复密钥。请检查恢复密钥密码！",
+    "Missing parameters" : "缺少参数",
     "Please provide the old recovery password" : "请提供原来的恢复密码",
     "Please provide a new recovery password" : "请提供一个新的恢复密码",
     "Please repeat the new recovery password" : "请替换新的恢复密码",
