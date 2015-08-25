@@ -54,7 +54,6 @@ OC.L10N.register(
     "Backup (Replica) Port" : "Puerto para copia de seguridad (réplica)",
     "Disable Main Server" : "Deshabilitar el Servidor Principal",
     "Only connect to the replica server." : "Conectarse únicamente al servidor de réplica.",
-    "Case insensitive LDAP server (Windows)" : "Servidor de LDAP insensible a mayúsculas/minúsculas (Windows)",
     "Turn off SSL certificate validation." : "Desactivar la validación por certificado SSL.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "No es recomendado, ¡Usalo solamente para pruebas! Si la conexión únicamente funciona con esta opción, importá el certificado SSL del servidor LDAP en tu servidor %s.",
     "Cache Time-To-Live" : "Tiempo de vida del caché",

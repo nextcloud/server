@@ -2,7 +2,6 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "Cancellar",
-    "Share" : "Compartir",
     "A file or folder has been <strong>shared</strong>" : "Un file o un dossier ha essite <strong>compartite</strong>",
     "You shared %1$s with %2$s" : "Tu compartiva %1$s con %2$s",
     "You shared %1$s with group %2$s" : "Tu compartiva %1$s con gruppo %2$s",

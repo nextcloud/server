@@ -1,6 +1,6 @@
 { "translations": {
-    "Location" : "တည်နေရာ",
     "Username" : "သုံးစွဲသူအမည်",
-    "Password" : "စကားဝှက်"
+    "Password" : "စကားဝှက်",
+    "Location" : "တည်နေရာ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

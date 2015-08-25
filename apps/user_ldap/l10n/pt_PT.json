@@ -80,7 +80,6 @@
     "Backup (Replica) Port" : "Porta do servidor de backup (Replica)",
     "Disable Main Server" : "Desactivar servidor principal",
     "Only connect to the replica server." : "Ligar apenas ao servidor de réplicas.",
-    "Case insensitive LDAP server (Windows)" : "Servidor LDAP (Windows) não é sensível a maiúsculas.",
     "Turn off SSL certificate validation." : "Desligar a validação de certificado SSL.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Não recomendado, use-o somente para teste! ligação só funciona com esta opção, importar o certificado SSL do servidor LDAP para o seu servidor %s.",
     "Cache Time-To-Live" : "Cache do tempo de vida dos objetos no servidor",

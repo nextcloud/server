@@ -63,7 +63,6 @@ OC.L10N.register(
     "Backup (Replica) Port" : "Babeskopia (Replica) Ataka",
     "Disable Main Server" : "Desgaitu Zerbitzari Nagusia",
     "Only connect to the replica server." : "Konektatu bakarrik erreplika zerbitzarira",
-    "Case insensitive LDAP server (Windows)" : "Maiuskulak eta minuskulak ezberditzen ez dituen LDAP zerbitzaria (Windows)",
     "Turn off SSL certificate validation." : "Ezgaitu SSL ziurtagirien egiaztapena.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Ez da gomendagarria, erabili bakarrik probarako! Konexioak aukera hau ezinbestekoa badu, inportatu LDAP zerbitzariaren SSL ziurtagiria zure %s zerbitzarian.",
     "Cache Time-To-Live" : "Katxearen Bizi-Iraupena",

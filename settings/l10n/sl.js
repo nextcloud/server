@@ -227,7 +227,6 @@ OC.L10N.register(
     "Create" : "Ustvari",
     "Admin Recovery Password" : "Obnovitev skrbniškega gesla",
     "Enter the recovery password in order to recover the users files during password change" : "Vnesite geslo, ki omogoča obnovitev uporabniških datotek med spreminjanjem gesla",
-    "Search Users" : "Poišči med uporabniki",
     "Add Group" : "Dodaj skupino",
     "Group" : "Skupina",
     "Everyone" : "Vsi",

@@ -1,8 +1,9 @@
 OC.L10N.register(
     "files",
     {
-    "Delete" : "Ջնջել",
+    "Close" : "Փակել",
     "Download" : "Բեռնել",
-    "Save" : "Պահպանել"
+    "Save" : "Պահպանել",
+    "Delete" : "Ջնջել"
 },
 "nplurals=2; plural=(n != 1);");

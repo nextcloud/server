@@ -1,7 +1,7 @@
 { "translations": {
     "Cancel" : "უარყოფა",
-    "Share" : "გაზიარება",
     "Shared by" : "აზიარებს",
+    "Sharing" : "გაზიარება",
     "Password" : "პაროლი",
     "Name" : "სახელი",
     "Download" : "ჩამოტვირთვა"

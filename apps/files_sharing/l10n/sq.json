@@ -1,7 +1,7 @@
 { "translations": {
     "Cancel" : "Anullo",
-    "Share" : "Ndaj",
     "Shared by" : "Ndarë nga",
+    "Sharing" : "Ndarje",
     "A file or folder has been <strong>shared</strong>" : "Një skedar ose dosje është <strong>ndarë</strong>",
     "You shared %1$s with %2$s" : "Ju ndatë %1$s me %2$s",
     "You shared %1$s with group %2$s" : "Ju ndatë %1$s me grupin %2$s",

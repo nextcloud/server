@@ -59,7 +59,6 @@ OC.L10N.register(
     "Backup (Replica) Port" : "ব্যাকআপ (নকল) পোর্ট",
     "Disable Main Server" : "মূল সার্ভারকে অকার্যকর কর",
     "Only connect to the replica server." : "শুধুমাত্র নকল সার্ভারে সংযোগ দাও।",
-    "Case insensitive LDAP server (Windows)" : "বর্ণ অসংবেদী LDAP  সার্ভার (উইন্ডোজ)",
     "Turn off SSL certificate validation." : "SSL সনদপত্র যাচাইকরণ বন্ধ রাক।",
     "Cache Time-To-Live" : "ক্যাশে টাইম-টু-লিভ",
     "in seconds. A change empties the cache." : "সেকেন্ডে। কোন পরিবর্তন ক্যাসে খালি করবে।",

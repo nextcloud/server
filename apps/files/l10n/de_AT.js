@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "Unknown error" : "Unbekannter Fehler",
     "Files" : "Dateien",
-    "Delete" : "Löschen",
-    "Unshare" : "Teilung zurücknehmen",
     "Download" : "Herunterladen",
     "Error" : "Fehler",
     "A new file or folder has been <strong>created</strong>" : "Eine neue Datei oder ein neuer Ordner wurde <strong>erstellt</strong>",
@@ -20,6 +18,7 @@ OC.L10N.register(
     "Settings" : "Einstellungen",
     "New folder" : "Neuer Ordner",
     "Upload" : "Hochladen",
-    "Cancel upload" : "Hochladen abbrechen"
+    "Cancel upload" : "Hochladen abbrechen",
+    "Delete" : "Löschen"
 },
 "nplurals=2; plural=(n != 1);");

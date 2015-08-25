@@ -103,7 +103,6 @@ OC.L10N.register(
     "Backup (Replica) Port" : "Yedek (Replica) Bağlantı Noktası",
     "Disable Main Server" : "Ana Sunucuyu Devre Dışı Bırak",
     "Only connect to the replica server." : "Sadece yedek sunucuya bağlan.",
-    "Case insensitive LDAP server (Windows)" : "Büyük küçük harf duyarsız LDAP sunucusu (Windows)",
     "Turn off SSL certificate validation." : "SSL sertifika doğrulamasını kapat.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Önerilmez, sadece test için kullanın! Eğer bağlantı sadece bu seçenekle çalışıyorsa %s sunucunuza LDAP sunucusunun SSL sertifikasını ekleyin.",
     "Cache Time-To-Live" : "Önbellek Time-To-Live Değeri",

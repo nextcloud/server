@@ -12,8 +12,7 @@
     "Not enough storage available" : "যথেষ্ট স্টোরেজ পাওয়া যায় না",
     "Invalid directory." : "অবৈধ ডিরেক্টরি।",
     "Files" : "ফাইলস",
-    "Rename" : "পুনঃনামকরণ",
-    "Delete" : "মুছে ফেলা",
+    "Close" : "বন্ধ",
     "Download" : "ডাউনলোড করুন",
     "Pending" : "মুলতুবি",
     "Error" : "ভুল",
@@ -31,6 +30,7 @@
     "Save" : "সেভ",
     "Settings" : "সেটিংস",
     "New folder" : "নতুন ফোল্ডার",
-    "Folder" : "ফোল্ডার"
+    "Folder" : "ফোল্ডার",
+    "Delete" : "মুছে ফেলা"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

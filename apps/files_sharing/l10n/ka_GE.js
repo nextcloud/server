@@ -2,8 +2,8 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "უარყოფა",
-    "Share" : "გაზიარება",
     "Shared by" : "აზიარებს",
+    "Sharing" : "გაზიარება",
     "Password" : "პაროლი",
     "Name" : "სახელი",
     "Download" : "ჩამოტვირთვა"

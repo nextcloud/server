@@ -1,9 +1,10 @@
 { "translations": {
-    "Location" : "شوێن",
     "Username" : "ناوی به‌کارهێنه‌ر",
-    "Password" : "وشەی تێپەربو",
     "Share" : "هاوبەشی کردن",
+    "None" : "هیچ",
+    "Password" : "وشەی تێپەربو",
     "URL" : "ناونیشانی به‌سته‌ر",
+    "Location" : "شوێن",
     "Name" : "ناو",
     "Folder name" : "ناوی بوخچه"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

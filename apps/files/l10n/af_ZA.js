@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Unshare" : "Deel terug neem",
     "Error" : "Fout",
     "Settings" : "Instellings",
     "Folder" : "Omslag"

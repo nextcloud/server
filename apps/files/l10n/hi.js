@@ -2,6 +2,7 @@ OC.L10N.register(
     "files",
     {
     "Files" : "फाइलें ",
+    "Close" : "बंद करें ",
     "Error" : "त्रुटि",
     "Save" : "सहेजें",
     "Settings" : "सेटिंग्स",

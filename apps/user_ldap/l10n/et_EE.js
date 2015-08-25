@@ -84,7 +84,6 @@ OC.L10N.register(
     "Backup (Replica) Port" : "Varuserveri (replika) port",
     "Disable Main Server" : "Ära kasuta peaserverit",
     "Only connect to the replica server." : "Ühendu ainult replitseeriva serveriga.",
-    "Case insensitive LDAP server (Windows)" : "Tõusutundetu LDAP server (Windows)",
     "Turn off SSL certificate validation." : "Lülita SSL sertifikaadi kontrollimine välja.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Pole soovitatav, kasuta seda ainult testimiseks! Kui ühendus toimib ainult selle valikuga, siis impordi LDAP serveri SSL sertifikaat oma %s serverisse.",
     "Cache Time-To-Live" : "Puhvri iga",
