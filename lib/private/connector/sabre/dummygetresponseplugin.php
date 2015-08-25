@@ -61,6 +61,7 @@ class DummyGetResponsePlugin extends \Sabre\DAV\ServerPlugin {
 		fwrite($stream, $string);
 		rewind($stream);
 
+		$response->setStatus(200);
 		$response->setBody($stream);
 
 		return false;
