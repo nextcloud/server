@@ -58,6 +58,13 @@
 		/**
 		 * @returns {boolean}
 		 */
+		isResharingAllowed: function() {
+			return oc_appconfig.core.resharingAllowed
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
 		isShareWithLinkAllowed: function() {
 			return $('#allowShareWithLink').val() === 'yes';
 		},

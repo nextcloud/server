@@ -22,8 +22,7 @@
 		'</div>' +
 			// FIXME: find a good position for remoteShareInfo
 		'{{{remoteShareInfo}}}' +
-		'<ul id="shareWithList">' +
-		'</ul>' +
+		'<div class="shareeListView"></div>' +
 		'<div class="linkShareView"></div>' +
 		'<div class="expirationView"></div>'
 		;
@@ -88,7 +87,8 @@
 			var subViews = {
 				resharerInfoView: 'ShareDialogResharerInfoView',
 				linkShareView: 'ShareDialogLinkShareView',
-				expirationView: 'ShareDialogExpirationView'
+				expirationView: 'ShareDialogExpirationView',
+				shareeListView: 'ShareDialogShareeListView'
 			};
 
 			for(var name in subViews) {
@@ -116,6 +116,9 @@
 
 			this.expirationView.$el = this.$el.find('.expirationView');
 			this.expirationView.render();
+
+			this.shareeListView.$el = this.$el.find('.shareeListView');
+			this.shareeListView.redner();
 
 			this.$el.find('.hasTooltip').tooltip();
 			if(this.configModel.areAvatarsEnabled()) {
