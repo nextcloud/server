@@ -3,8 +3,10 @@
 /** @var array $_ */
 script('files_sharing', 'settings-personal');
 style('files_sharing', 'settings-personal');
-script('files_sharing', '3rdparty/gs-share/gs-share');
-style('files_sharing', '3rdparty/gs-share/style');
+if ($_['showShareIT']) {
+	script('files_sharing', '3rdparty/gs-share/gs-share');
+	style('files_sharing', '3rdparty/gs-share/style');
+}
 ?>
 
 <?php if ($_['outgoingServer2serverShareEnabled']): ?>
@@ -18,6 +20,7 @@ style('files_sharing', '3rdparty/gs-share/style');
 
 		<br>
 
+		<?php if ($_['showShareIT']) {?>
 		<p>
 			<?php p($l->t('Share it:')); ?>
 			<div class="gs-share">
@@ -68,6 +71,7 @@ style('files_sharing', '3rdparty/gs-share/style');
 
 </a></xmp>
 		</p>
+		<?php } ?>
 
 	</div>
 <?php endif; ?>

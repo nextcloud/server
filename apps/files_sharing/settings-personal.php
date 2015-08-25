@@ -25,6 +25,12 @@
 
 $l = \OC::$server->getL10N('files_sharing');
 
+$isIE8 = false;
+preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $matches);
+if (count($matches) > 0 && $matches[1] <= 9) {
+	$isIE8 = true;
+}
+
 $uid = \OC::$server->getUserSession()->getUser()->getUID();
 $server = \OC::$server->getURLGenerator()->getAbsoluteURL('/');
 $cloudID = $uid . '@' . rtrim(\OCA\Files_Sharing\Helper::removeProtocolFromUrl($server), '/');
@@ -38,5 +44,6 @@ $tmpl->assign('message_without_URL', $l->t('Share with me through my #ownCloud F
 $tmpl->assign('owncloud_logo_path', $ownCloudLogoPath);
 $tmpl->assign('reference', $url);
 $tmpl->assign('cloudId', $cloudID);
+$tmpl->assign('showShareIT', !$isIE8);
 
 return $tmpl->fetchPage();
