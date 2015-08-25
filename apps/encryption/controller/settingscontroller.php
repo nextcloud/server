@@ -31,6 +31,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
 
@@ -54,6 +55,9 @@ class SettingsController extends Controller {
 	/** @var Session */
 	private $session;
 
+	/** @var ISession  */
+	private $ocSession;
+
 	/**
 	 * @param string $AppName
 	 * @param IRequest $request
@@ -63,6 +67,7 @@ class SettingsController extends Controller {
 	 * @param KeyManager $keyManager
 	 * @param Crypt $crypt
 	 * @param Session $session
+	 * @param ISession $ocSession
 	 */
 	public function __construct($AppName,
 								IRequest $request,
@@ -71,7 +76,8 @@ class SettingsController extends Controller {
 								IUserSession $userSession,
 								KeyManager $keyManager,
 								Crypt $crypt,
-								Session $session) {
+								Session $session,
+								ISession $ocSession) {
 		parent::__construct($AppName, $request);
 		$this->l = $l10n;
 		$this->userSession = $userSession;
@@ -79,6 +85,7 @@ class SettingsController extends Controller {
 		$this->keyManager = $keyManager;
 		$this->crypt = $crypt;
 		$this->session = $session;
+		$this->ocSession = $ocSession;
 	}
 
 
@@ -97,6 +104,13 @@ class SettingsController extends Controller {
 
 		//check if password is correct
 		$passwordCorrect = $this->userManager->checkPassword($uid, $newPassword);
+		if ($passwordCorrect === false) {
+			// if check with uid fails we need to check the password with the login name
+			// e.g. in the ldap case. For local user we need to check the password with
+			// the uid because in this case the login name is case insensitive
+			$loginName = $this->ocSession->get('loginname');
+			$passwordCorrect = $this->userManager->checkPassword($loginName, $newPassword);
+		}
 
 		if ($passwordCorrect !== false) {
 			$encryptedKey = $this->keyManager->getPrivateKey($uid);

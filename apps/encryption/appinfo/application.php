@@ -198,7 +198,8 @@ class Application extends \OCP\AppFramework\App {
 				$server->getUserSession(),
 				$c->query('KeyManager'),
 				$c->query('Crypt'),
-				$c->query('Session')
+				$c->query('Session'),
+				$server->getSession()
 			);
 		});
 
