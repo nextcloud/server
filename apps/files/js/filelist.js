@@ -339,7 +339,7 @@
 			}
 
 			if (!fileName) {
-				OC.Apps.hideAppSidebar();
+				OC.Apps.hideAppSidebar(this._detailsView.$el);
 				this._detailsView.setFileInfo(null);
 				this._currentFileModel = null;
 				return;
@@ -354,7 +354,7 @@
 
 			this._detailsView.setFileInfo(model);
 			this._detailsView.$el.scrollTop(0);
-			_.defer(OC.Apps.showAppSidebar);
+			_.defer(OC.Apps.showAppSidebar, this._detailsView.$el);
 		},
 
 		/**
