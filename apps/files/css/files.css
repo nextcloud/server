@@ -218,10 +218,14 @@ table th:focus .sort-indicator.hidden {
 	visibility: visible;
 }
 
-table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
+table th,
+table td {
+	border-bottom: 1px solid #eee;
+	text-align: left;
+	font-weight: normal;
+}
 table td {
 	padding: 0 15px;
-	border-bottom: 1px solid #eee;
 	font-style: normal;
 	background-position: 8px center;
 	background-repeat: no-repeat;
