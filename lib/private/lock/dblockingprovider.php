@@ -77,7 +77,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 */
 	public function acquireLock($path, $type) {
 		if ($this->connection->inTransaction()){
-			$this->logger->warning('Trying to acquire a lock while inside a transition');
+			$this->logger->warning("Trying to acquire a lock for '$path' while inside a transition");
 		}
 
 		$this->connection->beginTransaction();
