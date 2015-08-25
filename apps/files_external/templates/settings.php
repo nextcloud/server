@@ -60,7 +60,7 @@
 								<?php elseif (strpos($placeholder, '!') === 0): ?>
 									<label><input type="checkbox"
 												  data-parameter="<?php p($parameter); ?>"
-												  <?php if ($value == 'true'): ?> checked="checked"<?php endif; ?>
+												  <?php if ($value === true || $value === 'true'): ?> checked="checked"<?php endif; ?>
 												  /><?php p(substr($placeholder, 1)); ?></label>
 								<?php elseif (strpos($placeholder, '#') === 0): ?>
 									<input type="hidden"

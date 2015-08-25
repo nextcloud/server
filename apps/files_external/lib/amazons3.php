@@ -121,7 +121,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.amazonaws.com' : $params['hostname'];
 		if (!isset($params['port']) || $params['port'] === '') {
-			$params['port'] = ($params['use_ssl'] === 'false') ? 80 : 443;
+			$params['port'] = ($params['use_ssl'] === false || $params['use_ssl'] === 'false') ? 80 : 443;
 		}
 		$this->params = $params;
 	}
@@ -586,7 +586,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return $this->connection;
 		}
 
-		$scheme = ($this->params['use_ssl'] === 'false') ? 'http' : 'https';
+		$scheme = ($this->params['use_ssl'] === false || $this->params['use_ssl'] === 'false') ? 'http' : 'https';
 		$base_url = $scheme . '://' . $this->params['hostname'] . ':' . $this->params['port'] . '/';
 
 		$this->connection = S3Client::factory(array(
