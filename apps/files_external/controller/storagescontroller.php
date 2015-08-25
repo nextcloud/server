@@ -138,6 +138,16 @@ abstract class StoragesController extends Controller {
 			);
 		}
 
+		if ($storage->getBackendOption('objectstore')) {
+			// objectstore must not be sent from client side
+			return new DataResponse(
+				array(
+					'message' => (string)$this->l10n->t('Objectstore forbidden')
+				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+
 		/** @var Backend */
 		$backend = $storage->getBackend();
 		/** @var AuthMechanism */
