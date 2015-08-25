@@ -18,6 +18,7 @@ style('files_sharing', '3rdparty/gs-share/style');
 
 		<br>
 
+		<?php if ($_['showShareIT']) {?>
 		<p>
 			<?php p($l->t('Share it:')); ?>
 			<div class="gs-share">
@@ -68,6 +69,7 @@ style('files_sharing', '3rdparty/gs-share/style');
 
 </a></xmp>
 		</p>
+		<?php } ?>
 
 	</div>
 <?php endif; ?>
