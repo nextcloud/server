@@ -103,7 +103,7 @@ class Repair extends BasicEmitter {
 	 */
 	public static function getRepairSteps() {
 		return [
-			new RepairMimeTypes(),
+			new RepairMimeTypes(\OC::$server->getConfig()),
 			new RepairLegacyStorages(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new RepairConfig(),
 			new AssetCache(),
