@@ -96,7 +96,10 @@
 	min-width: 688px; /* 768 (mobile break) - 80 (nav width) */
 }
 
-#filestable tbody tr { background-color:#fff; height:51px; }
+#filestable tbody tr {
+	background-color: #fff;
+	height: 51px;
+}
 
 /* fit app list view heights */
 .app-files #app-content>.viewcontainer {
@@ -140,20 +143,20 @@
 	margin-bottom: 44px;
 }
 
-#filestable tbody tr { background-color:#fff; height:40px; }
+#filestable tbody tr {
+	background-color: #fff;
+	height: 40px;
+}
 #filestable tbody tr:hover,
 #filestable tbody tr:focus,
 #filestable tbody .name:focus,
-#filestable tbody tr:active {
-	background-color: rgb(240,240,240);
-}
+#filestable tbody tr:active,
 #filestable tbody tr.highlighted,
 #filestable tbody tr.highlighted .name:focus,
-#filestable tbody tr.selected {
-	background-color: rgb(230,230,230);
-}
-#filestable tbody tr.searchresult {
-	background-color: rgb(240,240,240);
+#filestable tbody tr.selected,
+#filestable tbody tr.searchresult,
+table tr.mouseOver td {
+	background-color: #f8f8f8;
 }
 tbody a { color:#000; }
 
@@ -178,9 +181,6 @@ tr:focus span.extension {
 	color: #777;
 }
 
-table tr.mouseOver td {
-	background-color: #eee;
-}
 table th, table th a {
 	color: #999;
 }
@@ -275,7 +275,7 @@ table thead th {
 	background-color: #fff;
 }
 table.multiselect thead th {
-	background-color: rgba(220,220,220,.8);
+	background-color: rgba(248,248,248,.8); /* #f8f8f8 like other hover style */
 	color: #000;
 	font-weight: bold;
 	border-bottom: 0;
@@ -706,7 +706,7 @@ table.dragshadow td.size {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: white;
+	background-color: #fff;
 	background-repeat: no-repeat no-repeat;
 	background-position: 50%;
 	opacity: 0.7;
