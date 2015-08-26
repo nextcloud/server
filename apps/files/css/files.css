@@ -499,7 +499,6 @@ table td.filename .uploadtext {
 .fileactions {
 	position: absolute;
 	right: 0;
-	font-size: 11px;
 }
 
 .busy .fileactions, .busy .action {
