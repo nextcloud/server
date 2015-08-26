@@ -35,31 +35,31 @@ use OCP\Share;
 class Sharees {
 
 	/** @var IGroupManager */
-	private $groupManager;
+	protected $groupManager;
 
 	/** @var IUserManager */
-	private $userManager;
+	protected $userManager;
 
 	/** @var IManager */
-	private $contactsManager;
+	protected $contactsManager;
 
 	/** @var IConfig */
-	private $config;
+	protected $config;
 
 	/** @var IUserSession */
-	private $userSession;
+	protected $userSession;
 
 	/** @var IRequest */
-	private $request;
+	protected $request;
 
 	/** @var IURLGenerator */
-	private $urlGenerator;
+	protected $urlGenerator;
 
 	/** @var ILogger */
-	private $logger;
+	protected $logger;
 
 	/** @var bool */
-	private $shareWithGroupOnly;
+	protected $shareWithGroupOnly = false;
 
 	/** @var int */
 	protected $offset = 0;
@@ -105,6 +105,7 @@ class Sharees {
 		$this->config = $config;
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
+		$this->request = $request;
 		$this->logger = $logger;
 	}
 
@@ -118,8 +119,8 @@ class Sharees {
 			// Search in all the groups this user is part of
 			$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
 			foreach ($userGroups as $userGroup) {
-				$users = $this->groupManager->displayNamesInGroup($userGroup, $search, $this->limit, $this->offset);
-				foreach ($users as $uid => $userDisplayName) {
+				$usersTmp = $this->groupManager->displayNamesInGroup($userGroup, $search, $this->limit, $this->offset);
+				foreach ($usersTmp as $uid => $userDisplayName) {
 					$users[$uid] = $userDisplayName;
 				}
 			}
@@ -143,13 +144,19 @@ class Sharees {
 					$foundUserById = true;
 				}
 				$this->result['exact']['users'][] = [
-					'shareWith' => $search,
-					'label' => $search,
+					'label' => $userDisplayName,
+					'value' => [
+						'shareType' => Share::SHARE_TYPE_USER,
+						'shareWith' => $uid,
+					],
 				];
 			} else {
 				$this->result['users'][] = [
-					'shareWith' => $uid,
 					'label' => $userDisplayName,
+					'value' => [
+						'shareType' => Share::SHARE_TYPE_USER,
+						'shareWith' => $uid,
+					],
 				];
 			}
 		}
@@ -160,8 +167,11 @@ class Sharees {
 			$user = $this->userManager->get($search);
 			if ($user instanceof IUser) {
 				array_push($this->result['exact']['users'], [
-					'shareWith' => $user->getUID(),
 					'label' => $user->getDisplayName(),
+					'value' => [
+						'shareType' => Share::SHARE_TYPE_USER,
+						'shareWith' => $user->getUID(),
+					],
 				]);
 			}
 		}
@@ -191,13 +201,19 @@ class Sharees {
 		foreach ($groups as $gid) {
 			if ($gid === $search) {
 				$this->result['exact']['groups'][] = [
-					'shareWith' => $search,
 					'label' => $search,
+					'value' => [
+						'shareType' => Share::SHARE_TYPE_GROUP,
+						'shareWith' => $search,
+					],
 				];
 			} else {
 				$this->result['groups'][] = [
-					'shareWith' => $gid,
 					'label' => $gid,
+					'value' => [
+						'shareType' => Share::SHARE_TYPE_GROUP,
+						'shareWith' => $gid,
+					],
 				];
 			}
 		}
@@ -208,8 +224,11 @@ class Sharees {
 			$group = $this->groupManager->get($search);
 			if ($group instanceof IGroup && (!$this->shareWithGroupOnly || array_intersect([$group], $userGroups))) {
 				array_push($this->result['exact']['users'], [
-					'shareWith' => $group->getGID(),
 					'label' => $group->getGID(),
+					'value' => [
+						'shareType' => Share::SHARE_TYPE_GROUP,
+						'shareWith' => $group->getGID(),
+					],
 				]);
 			}
 		}
@@ -224,8 +243,11 @@ class Sharees {
 
 		if (substr_count($search, '@') >= 1 && $this->offset === 0) {
 			$this->result['exact']['remotes'][] = [
-				'shareWith' => $search,
 				'label' => $search,
+				'value' => [
+					'shareType' => Share::SHARE_TYPE_REMOTE,
+					'shareWith' => $search,
+				],
 			];
 		}
 
@@ -237,13 +259,19 @@ class Sharees {
 				foreach ($contact['CLOUD'] as $cloudId) {
 					if ($contact['FN'] === $search || $cloudId === $search) {
 						$this->result['exact']['remotes'][] = [
-							'shareWith' => $cloudId,
 							'label' => $contact['FN'],
+							'value' => [
+								'shareType' => Share::SHARE_TYPE_REMOTE,
+								'shareWith' => $cloudId,
+							],
 						];
 					} else {
 						$this->result['remotes'][] = [
-							'shareWith' => $cloudId,
 							'label' => $contact['FN'],
+							'value' => [
+								'shareType' => Share::SHARE_TYPE_REMOTE,
+								'shareWith' => $cloudId,
+							],
 						];
 					}
 				}
@@ -259,7 +287,6 @@ class Sharees {
 	public function search() {
 		$search = isset($_GET['search']) ? (string) $_GET['search'] : '';
 		$itemType = isset($_GET['itemType']) ? (string) $_GET['itemType'] : null;
-		$shareIds = isset($_GET['existingShares']) ? (array) $_GET['existingShares'] : [];
 		$page = !empty($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
 		$perPage = !empty($_GET['limit']) ? max(1, (int) $_GET['limit']) : 200;
 
@@ -286,7 +313,7 @@ class Sharees {
 		$this->limit = (int) $perPage;
 		$this->offset = $perPage * ($page - 1);
 
-		return $this->searchSharees($search, $itemType, $shareIds, $shareTypes, $page, $perPage);
+		return $this->searchSharees($search, $itemType, $shareTypes, $page, $perPage);
 	}
 
 	/**
@@ -309,13 +336,12 @@ class Sharees {
 	 *
 	 * @param string $search
 	 * @param string $itemType
-	 * @param array $shareIds
 	 * @param array $shareTypes
 	 * @param int $page
 	 * @param int $perPage
 	 * @return \OC_OCS_Result
 	 */
-	protected function searchSharees($search, $itemType, array $shareIds, array $shareTypes, $page, $perPage) {
+	protected function searchSharees($search, $itemType, array $shareTypes, $page, $perPage) {
 		// Verify arguments
 		if ($itemType === null) {
 			return new \OC_OCS_Result(null, 400, 'missing itemType');
@@ -343,7 +369,6 @@ class Sharees {
 			$response->addHeader('Link', $this->getPaginationLink($page, [
 				'search' => $search,
 				'itemType' => $itemType,
-				'existingShares' => $shareIds,
 				'shareType' => $shareTypes,
 				'limit' => $perPage,
 			]));

@@ -25,6 +25,7 @@ use Doctrine\DBAL\Connection;
 use OC\Share\Constants;
 use OCA\Files_Sharing\API\Sharees;
 use OCA\Files_sharing\Tests\TestCase;
+use OCP\Share;
 
 class ShareesTest extends TestCase {
 	/** @var Sharees */
@@ -41,6 +42,9 @@ class ShareesTest extends TestCase {
 
 	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $session;
+
+	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	protected $request;
 
 	protected function setUp() {
 		parent::setUp();
@@ -61,6 +65,10 @@ class ShareesTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->request = $this->getMockBuilder('OCP\IRequest')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->sharees = new Sharees(
 			$this->groupManager,
 			$this->userManager,
@@ -68,8 +76,8 @@ class ShareesTest extends TestCase {
 			$this->getMockBuilder('OCP\IConfig')->disableOriginalConstructor()->getMock(),
 			$this->session,
 			$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
-			$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
-			\OC::$server->getDatabaseConnection()
+			$this->request,
+			$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock()
 		);
 	}
 
@@ -103,8 +111,8 @@ class ShareesTest extends TestCase {
 
 	public function dataGetUsers() {
 		return [
-			['test', false, [], [], []],
-			['test', true, [], [], []],
+			['test', false, [], [], [], [], true],
+			['test', true, [], [], [], [], true],
 			[
 				'test',
 				false,
@@ -112,22 +120,11 @@ class ShareesTest extends TestCase {
 				[
 					$this->getUserMock('test1', 'Test One'),
 				],
-				[
-					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-				]
-			],
-			[
-				'test',
-				false,
 				[],
 				[
-					$this->getUserMock('test1', 'Test One'),
-					$this->getUserMock('test2', 'Test Two'),
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
 				],
-				[
-					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
-				]
+				true,
 			],
 			[
 				'test',
@@ -136,80 +133,86 @@ class ShareesTest extends TestCase {
 				[
 					$this->getUserMock('test1', 'Test One'),
 					$this->getUserMock('test2', 'Test Two'),
-					$this->getUserMock('admin', 'Should be removed'),
+				],
+				[],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				],
+				false,
+			],
+			[
+				'test',
+				false,
+				[],
+				[
+					$this->getUserMock('test', 'Test'),
+					$this->getUserMock('test1', 'Test One'),
+					$this->getUserMock('test2', 'Test Two'),
 				],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
-				]
+					['label' => 'Test', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test']],
+				],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				],
+				false,
 			],
 			[
 				'test',
 				true,
 				['abc', 'xyz'],
 				[
-					['abc', 'test', -1, 0, ['test1' => 'Test One']],
-					['xyz', 'test', -1, 0, []],
+					['abc', 'test', 2, 0, ['test1' => 'Test One']],
+					['xyz', 'test', 2, 0, []],
 				],
+				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-				]
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				],
+				true,
 			],
 			[
 				'test',
 				true,
 				['abc', 'xyz'],
 				[
-					['abc', 'test', -1, 0, [
+					['abc', 'test', 2, 0, [
 						'test1' => 'Test One',
 						'test2' => 'Test Two',
 					]],
-					['xyz', 'test', -1, 0, [
+					['xyz', 'test', 2, 0, [
 						'test1' => 'Test One',
 						'test2' => 'Test Two',
 					]],
 				],
+				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
-				]
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				],
+				false,
 			],
 			[
 				'test',
 				true,
 				['abc', 'xyz'],
 				[
-					['abc', 'test', -1, 0, [
-						'test1' => 'Test One',
+					['abc', 'test', 2, 0, [
+						'test' => 'Test One',
 					]],
-					['xyz', 'test', -1, 0, [
+					['xyz', 'test', 2, 0, [
 						'test2' => 'Test Two',
 					]],
 				],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
-				]
-			],
-			[
-				'test',
-				true,
-				['abc', 'xyz'],
-				[
-					['abc', 'test', -1, 0, [
-						'test1' => 'Test One',
-					]],
-					['xyz', 'test', -1, 0, [
-						'test2' => 'Test Two',
-					]],
-					['admin', 'Should be removed', -1, 0, [
-						'test2' => 'Test Two',
-					]],
+					['label' => 'Test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test']],
 				],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
-				]
+					['label' => 'Test Two', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				],
+				false,
 			],
 		];
 	}
@@ -221,9 +224,15 @@ class ShareesTest extends TestCase {
 	 * @param bool $shareWithGroupOnly
 	 * @param array $groupResponse
 	 * @param array $userResponse
+	 * @param array $exactExpected
 	 * @param array $expected
+	 * @param bool $reachedEnd
 	 */
-	public function testGetUsers($searchTerm, $shareWithGroupOnly, $groupResponse, $userResponse, $expected) {
+	public function testGetUsers($searchTerm, $shareWithGroupOnly, $groupResponse, $userResponse, $exactExpected, $expected, $reachedEnd) {
+		$this->invokePrivate($this->sharees, 'limit', [2]);
+		$this->invokePrivate($this->sharees, 'offset', [0]);
+		$this->invokePrivate($this->sharees, 'shareWithGroupOnly', [$shareWithGroupOnly]);
+
 		$user = $this->getUserMock('admin', 'Administrator');
 		$this->session->expects($this->any())
 			->method('getUser')
@@ -232,7 +241,7 @@ class ShareesTest extends TestCase {
 		if (!$shareWithGroupOnly) {
 			$this->userManager->expects($this->once())
 				->method('searchDisplayName')
-				->with($searchTerm)
+				->with($searchTerm, $this->invokePrivate($this->sharees, 'limit'), $this->invokePrivate($this->sharees, 'offset'))
 				->willReturn($userResponse);
 		} else {
 			$this->groupManager->expects($this->once())
@@ -242,25 +251,41 @@ class ShareesTest extends TestCase {
 
 			$this->groupManager->expects($this->exactly(sizeof($groupResponse)))
 				->method('displayNamesInGroup')
-				->with($this->anything(), $searchTerm)
+				->with($this->anything(), $searchTerm, $this->invokePrivate($this->sharees, 'limit'), $this->invokePrivate($this->sharees, 'offset'))
 				->willReturnMap($userResponse);
 		}
 
-		$users = $this->invokePrivate($this->sharees, 'getUsers', [$searchTerm, $shareWithGroupOnly]);
+		$this->invokePrivate($this->sharees, 'getUsers', [$searchTerm]);
+		$result = $this->invokePrivate($this->sharees, 'result');
 
-		$this->assertEquals($expected, $users);
+		$this->assertEquals($exactExpected, $result['exact']['users']);
+		$this->assertEquals($expected, $result['users']);
+		$this->assertCount((int) $reachedEnd, $this->invokePrivate($this->sharees, 'reachedEndFor'));
 	}
 
 	public function dataGetGroups() {
 		return [
-			['test', false, [], [], []],
+			['test', false, [], [], [], [], true],
 			[
 				'test', false,
 				[$this->getGroupMock('test1')],
 				[],
-				[['label' => 'test1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'test1']]],
+				[],
+				[['label' => 'test1', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'test1']]],
+				true,
 			],
-			['test', true, [], [], []],
+			[
+				'test', false,
+				[
+					$this->getGroupMock('test'),
+					$this->getGroupMock('test1'),
+				],
+				[],
+				[['label' => 'test', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'test']]],
+				[['label' => 'test1', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'test1']]],
+				false,
+			],
+			['test', true, [], [], [], [], true],
 			[
 				'test', true,
 				[
@@ -268,7 +293,31 @@ class ShareesTest extends TestCase {
 					$this->getGroupMock('test2'),
 				],
 				[$this->getGroupMock('test1')],
-				[['label' => 'test1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'test1']]],
+				[],
+				[['label' => 'test1', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'test1']]],
+				false,
+			],
+			[
+				'test', true,
+				[
+					$this->getGroupMock('test'),
+					$this->getGroupMock('test1'),
+				],
+				[$this->getGroupMock('test')],
+				[['label' => 'test', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'test']]],
+				[],
+				false,
+			],
+			[
+				'test', true,
+				[
+					$this->getGroupMock('test'),
+					$this->getGroupMock('test1'),
+				],
+				[$this->getGroupMock('test1')],
+				[],
+				[['label' => 'test1', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'test1']]],
+				false,
 			],
 		];
 	}
@@ -280,12 +329,18 @@ class ShareesTest extends TestCase {
 	 * @param bool $shareWithGroupOnly
 	 * @param array $groupResponse
 	 * @param array $userGroupsResponse
+	 * @param array $exactExpected
 	 * @param array $expected
+	 * @param bool $reachedEnd
 	 */
-	public function testGetGroups($searchTerm, $shareWithGroupOnly, $groupResponse, $userGroupsResponse, $expected) {
+	public function testGetGroups($searchTerm, $shareWithGroupOnly, $groupResponse, $userGroupsResponse, $exactExpected, $expected, $reachedEnd) {
+		$this->invokePrivate($this->sharees, 'limit', [2]);
+		$this->invokePrivate($this->sharees, 'offset', [0]);
+		$this->invokePrivate($this->sharees, 'shareWithGroupOnly', [$shareWithGroupOnly]);
+
 		$this->groupManager->expects($this->once())
 			->method('search')
-			->with($searchTerm)
+			->with($searchTerm, $this->invokePrivate($this->sharees, 'limit'), $this->invokePrivate($this->sharees, 'offset'))
 			->willReturn($groupResponse);
 
 		if ($shareWithGroupOnly) {
@@ -301,20 +356,25 @@ class ShareesTest extends TestCase {
 				->willReturn($userGroupsResponse);
 		}
 
-		$users = $this->invokePrivate($this->sharees, 'getGroups', [$searchTerm, $shareWithGroupOnly]);
+		$this->invokePrivate($this->sharees, 'getGroups', [$searchTerm]);
+		$result = $this->invokePrivate($this->sharees, 'result');
 
-		$this->assertEquals($expected, $users);
+		$this->assertEquals($exactExpected, $result['exact']['groups']);
+		$this->assertEquals($expected, $result['groups']);
+		$this->assertCount((int) $reachedEnd, $this->invokePrivate($this->sharees, 'reachedEndFor'));
 	}
 
 	public function dataGetRemote() {
 		return [
-			['test', [], []],
+			['test', [], [], [], true],
 			[
 				'test@remote',
 				[],
 				[
-					['label' => 'test@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'test@remote']],
+					['label' => 'test@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'test@remote']],
 				],
+				[],
+				true,
 			],
 			[
 				'test',
@@ -334,9 +394,11 @@ class ShareesTest extends TestCase {
 						],
 					],
 				],
+				[],
 				[
-					['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost']],
+					['label' => 'User @ Localhost', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost']],
 				],
+				true,
 			],
 			[
 				'test@remote',
@@ -357,9 +419,12 @@ class ShareesTest extends TestCase {
 					],
 				],
 				[
-					['label' => 'test@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'test@remote']],
-					['label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost']],
+					['label' => 'test@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'test@remote']],
 				],
+				[
+					['label' => 'User @ Localhost', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost']],
+				],
+				true,
 			],
 		];
 	}
@@ -369,123 +434,120 @@ class ShareesTest extends TestCase {
 	 *
 	 * @param string $searchTerm
 	 * @param array $contacts
+	 * @param array $exactExpected
 	 * @param array $expected
+	 * @param bool $reachedEnd
 	 */
-	public function testGetRemote($searchTerm, $contacts, $expected) {
+	public function testGetRemote($searchTerm, $contacts, $exactExpected, $expected, $reachedEnd) {
 		$this->contactsManager->expects($this->any())
 			->method('search')
 			->with($searchTerm, ['CLOUD', 'FN'])
 			->willReturn($contacts);
 
-		$users = $this->invokePrivate($this->sharees, 'getRemote', [$searchTerm]);
+		$this->invokePrivate($this->sharees, 'getRemote', [$searchTerm]);
+		$result = $this->invokePrivate($this->sharees, 'result');
 
-		$this->assertEquals($expected, $users);
+		$this->assertEquals($exactExpected, $result['exact']['remotes']);
+		$this->assertEquals($expected, $result['remotes']);
+		$this->assertCount((int) $reachedEnd, $this->invokePrivate($this->sharees, 'reachedEndFor'));
 	}
 
 	public function dataSearch() {
-		$allTypes = [\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_REMOTE];
+		$allTypes = [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE];
 
 		return [
-			[[], '', true, [], '', null, $allTypes, 1, 200, false],
+			[[], '', true, '', null, $allTypes, 1, 200, false],
 
 			// Test itemType
 			[[
 				'search' => '',
-			], '', true, [], '', null, $allTypes, 1, 200, false],
+			], '', true, '', null, $allTypes, 1, 200, false],
 			[[
 				'search' => 'foobar',
-			], '', true, [], 'foobar', null, $allTypes, 1, 200, false],
+			], '', true, 'foobar', null, $allTypes, 1, 200, false],
 			[[
 				'search' => 0,
-			], '', true, [], '0', null, $allTypes, 1, 200, false],
+			], '', true, '0', null, $allTypes, 1, 200, false],
 
 			// Test itemType
 			[[
 				'itemType' => '',
-			], '', true, [], '', '', $allTypes, 1, 200, false],
+			], '', true, '', '', $allTypes, 1, 200, false],
 			[[
 				'itemType' => 'folder',
-			], '', true, [], '', 'folder', $allTypes, 1, 200, false],
+			], '', true, '', 'folder', $allTypes, 1, 200, false],
 			[[
 				'itemType' => 0,
-			], '', true, [], '', '0', $allTypes, 1, 200, false],
-
-			// Test existingShares
-			[[
-				'existingShares' => [],
-			], '', true, [], '', null, $allTypes, 1, 200, false],
-			[[
-				'existingShares' => [12, 42],
-			], '', true, [12, 42], '', null, $allTypes, 1, 200, false],
+			], '', true, '', '0', $allTypes, 1, 200, false],
 
 			// Test shareType
 			[[
-			], '', true, [], '', null, $allTypes, 1, 200, false],
+			], '', true, '', null, $allTypes, 1, 200, false],
 			[[
 				'shareType' => 0,
-			], '', true, [], '', null, [0], 1, 200, false],
+			], '', true, '', null, [0], 1, 200, false],
 			[[
 				'shareType' => '0',
-			], '', true, [], '', null, [0], 1, 200, false],
+			], '', true, '', null, [0], 1, 200, false],
 			[[
 				'shareType' => 1,
-			], '', true, [], '', null, [1], 1, 200, false],
+			], '', true, '', null, [1], 1, 200, false],
 			[[
 				'shareType' => 12,
-			], '', true, [], '', null, [], 1, 200, false],
+			], '', true, '', null, [], 1, 200, false],
 			[[
 				'shareType' => 'foobar',
-			], '', true, [], '', null, $allTypes, 1, 200, false],
+			], '', true, '', null, $allTypes, 1, 200, false],
 			[[
 				'shareType' => [0, 1, 2],
-			], '', true, [], '', null, [0, 1], 1, 200, false],
+			], '', true, '', null, [0, 1], 1, 200, false],
 			[[
 				'shareType' => [0, 1],
-			], '', true, [], '', null, [0, 1], 1, 200, false],
+			], '', true, '', null, [0, 1], 1, 200, false],
 			[[
 				'shareType' => $allTypes,
-			], '', true, [], '', null, $allTypes, 1, 200, false],
+			], '', true, '', null, $allTypes, 1, 200, false],
 			[[
 				'shareType' => $allTypes,
-			], '', false, [], '', null, [0, 1], 1, 200, false],
+			], '', false, '', null, [0, 1], 1, 200, false],
 
 			// Test pagination
 			[[
 				'page' => 0,
-			], '', true, [], '', null, $allTypes, 1, 200, false],
+			], '', true, '', null, $allTypes, 1, 200, false],
 			[[
 				'page' => '0',
-			], '', true, [], '', null, $allTypes, 1, 200, false],
+			], '', true, '', null, $allTypes, 1, 200, false],
 			[[
 				'page' => -1,
-			], '', true, [], '', null, $allTypes, 1, 200, false],
+			], '', true, '', null, $allTypes, 1, 200, false],
 			[[
 				'page' => 1,
-			], '', true, [], '', null, $allTypes, 1, 200, false],
+			], '', true, '', null, $allTypes, 1, 200, false],
 			[[
 				'page' => 10,
-			], '', true, [], '', null, $allTypes, 10, 200, false],
+			], '', true, '', null, $allTypes, 10, 200, false],
 
 			// Test limit
 			[[
 				'limit' => 0,
-			], '', true, [], '', null, $allTypes, 1, 200, false],
+			], '', true, '', null, $allTypes, 1, 200, false],
 			[[
 				'limit' => '0',
-			], '', true, [], '', null, $allTypes, 1, 200, false],
+			], '', true, '', null, $allTypes, 1, 200, false],
 			[[
 				'limit' => -1,
-			], '', true, [], '', null, $allTypes, 1, 1, false],
+			], '', true, '', null, $allTypes, 1, 1, false],
 			[[
 				'limit' => 1,
-			], '', true, [], '', null, $allTypes, 1, 1, false],
+			], '', true, '', null, $allTypes, 1, 1, false],
 			[[
 				'limit' => 10,
-			], '', true, [], '', null, $allTypes, 1, 10, false],
+			], '', true, '', null, $allTypes, 1, 10, false],
 
 			// Test $shareWithGroupOnly setting
-			[[], 'no', true, [], '', null, $allTypes, 1, 200, false],
-			[[], 'yes', true, [], '', null, $allTypes, 1, 200, true],
+			[[], 'no', true, '', null, $allTypes, 1, 200, false],
+			[[], 'yes', true, '', null, $allTypes, 1, 200, true],
 
 		];
 	}
@@ -496,7 +558,6 @@ class ShareesTest extends TestCase {
 	 * @param array $getData
 	 * @param string $apiSetting
 	 * @param bool $remoteSharingEnabled
-	 * @param array $shareIds
 	 * @param string $search
 	 * @param string $itemType
 	 * @param array $shareTypes
@@ -504,7 +565,7 @@ class ShareesTest extends TestCase {
 	 * @param int $perPage
 	 * @param bool $shareWithGroupOnly
 	 */
-	public function testSearch($getData, $apiSetting, $remoteSharingEnabled, $shareIds, $search, $itemType, $shareTypes, $page, $perPage, $shareWithGroupOnly) {
+	public function testSearch($getData, $apiSetting, $remoteSharingEnabled, $search, $itemType, $shareTypes, $page, $perPage, $shareWithGroupOnly) {
 		$oldGet = $_GET;
 		$_GET = $getData;
 
@@ -524,26 +585,24 @@ class ShareesTest extends TestCase {
 				$config,
 				$this->session,
 				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
-				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
-				\OC::$server->getDatabaseConnection()
+				$this->getMockBuilder('OCP\IRequest')->disableOriginalConstructor()->getMock(),
+				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock()
 			])
 			->setMethods(array('searchSharees', 'isRemoteSharingAllowed'))
 			->getMock();
 		$sharees->expects($this->once())
 			->method('searchSharees')
-			->with($search, $itemType, $shareIds, $shareTypes, $page, $perPage, $shareWithGroupOnly)
+			->with($search, $itemType, $shareTypes, $page, $perPage)
 			->willReturnCallback(function
-					($isearch, $iitemType, $ishareIds, $ishareTypes, $ipage, $iperPage, $ishareWithGroupOnly)
-				use ($search, $itemType, $shareIds, $shareTypes, $page, $perPage, $shareWithGroupOnly) {
+					($isearch, $iitemType, $ishareTypes, $ipage, $iperPage)
+				use ($search, $itemType, $shareTypes, $page, $perPage) {
 
 				// We are doing strict comparisons here, so we can differ 0/'' and null on shareType/itemType
 				$this->assertSame($search, $isearch);
 				$this->assertSame($itemType, $iitemType);
-				$this->assertSame($shareIds, $ishareIds);
 				$this->assertSame($shareTypes, $ishareTypes);
 				$this->assertSame($page, $ipage);
 				$this->assertSame($perPage, $iperPage);
-				$this->assertSame($shareWithGroupOnly, $ishareWithGroupOnly);
 				return new \OC_OCS_Result([]);
 			});
 		$sharees->expects($this->any())
@@ -553,6 +612,8 @@ class ShareesTest extends TestCase {
 
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\API\Sharees $sharees */
 		$this->assertInstanceOf('\OC_OCS_Result', $sharees->search());
+
+		$this->assertSame($shareWithGroupOnly, $this->invokePrivate($sharees, 'shareWithGroupOnly'));
 
 		$_GET = $oldGet;
 	}
@@ -578,81 +639,88 @@ class ShareesTest extends TestCase {
 
 	public function dataSearchSharees() {
 		return [
-			['test', 'folder', [], [], [\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_REMOTE], 1, 2, false, [], [], [], [], 0, false],
-			['test', 'folder', [1, 2], [0 => ['test1'], 1 => ['test2 group']], [\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_REMOTE], 1, 2, false, [], [], [], [], 0, false],
-			// First page with 2 of 3 results
+			['test', 'folder', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, false, [], [], [],
+				[
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
+					'users' => [],
+					'groups' => [],
+					'remotes' => [],
+				], false],
+			['test', 'folder', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, false, [], [], [],
+				[
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
+					'users' => [],
+					'groups' => [],
+					'remotes' => [],
+				], false],
 			[
-				'test', 'folder', [], [], [\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_REMOTE], 1, 2, false, [
-					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				'test', 'folder', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, false, [
+					['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
 				], [
-					['label' => 'testgroup1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
+					['label' => 'testgroup1', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
 				], [
-					['label' => 'testz@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
-				], [
-					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'testgroup1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
-				], 3, true,
-			],
-			// Second page with the 3rd result
-			[
-				'test', 'folder', [], [], [\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_REMOTE], 2, 2, false, [
-					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-				], [
-					['label' => 'testgroup1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
-				], [
-					['label' => 'testz@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
-				], [
-					['label' => 'testz@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
-				], 3, false,
+					['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
+				],
+				[
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
+					'users' => [
+						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					],
+					'groups' => [
+						['label' => 'testgroup1', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
+					],
+					'remotes' => [
+						['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
+					],
+				], true,
 			],
 			// No groups requested
 			[
-				'test', 'folder', [], [], [\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_REMOTE], 1, 2, false, [
-				['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-			], null, [
-				['label' => 'testz@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
-			], [
-				['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-				['label' => 'testz@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
-			], 2, false,
-			],
-			// Ingnoring already shared user
-			[
-				'test', 'folder', [1], [\OCP\Share::SHARE_TYPE_USER => ['test1']], [\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_REMOTE], 1, 2, false, [
-					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-				], [
-					['label' => 'testgroup1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
-				], [
-					['label' => 'testz@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
-				], [
-					['label' => 'testgroup1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
-					['label' => 'testz@remote', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
-				], 2, false,
+				'test', 'folder', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_REMOTE], 1, 2, false, [
+					['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				], null, [
+					['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
+				],
+				[
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
+					'users' => [
+						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					],
+					'groups' => [],
+					'remotes' => [
+						['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
+					],
+				], false,
 			],
 			// Share type restricted to user - Only one user
 			[
-				'test', 'folder', [], [], [\OCP\Share::SHARE_TYPE_USER], 1, 2, false, [
-					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-				], null, null, [
-					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-				], 1, false,
+				'test', 'folder', [Share::SHARE_TYPE_USER], 1, 2, false, [
+					['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				], null, null,
+				[
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
+					'users' => [
+						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					],
+					'groups' => [],
+					'remotes' => [],
+				], false,
 			],
 			// Share type restricted to user - Multipage result
 			[
-				'test', 'folder', [], [], [\OCP\Share::SHARE_TYPE_USER], 1, 2, false, [
-					['label' => 'test 1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'test 2', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
-					['label' => 'test 3', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test3']],
-				], null, null, [
-					['label' => 'test 1', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'test 2', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
-				], 3, true,
-			],
-			// Share type restricted to user - Only user already shared
-			[
-				'test', 'folder', [1], [\OCP\Share::SHARE_TYPE_USER => ['test1']], [\OCP\Share::SHARE_TYPE_USER], 1, 2, false, [
-					['label' => 'test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-				], null, null, [], 0, false,
+				'test', 'folder', [Share::SHARE_TYPE_USER], 1, 2, false, [
+					['label' => 'test 1', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'test 2', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				], null, null,
+				[
+					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
+					'users' => [
+						['label' => 'test 1', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+						['label' => 'test 2', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+					],
+					'groups' => [],
+					'remotes' => [],
+				], true,
 			],
 		];
 	}
@@ -662,16 +730,18 @@ class ShareesTest extends TestCase {
 	 *
 	 * @param string $searchTerm
 	 * @param string $itemType
-	 * @param array $shareIds
-	 * @param array $existingShares
 	 * @param array $shareTypes
 	 * @param int $page
 	 * @param int $perPage
 	 * @param bool $shareWithGroupOnly
+	 * @param array $mockedUserResult
+	 * @param array $mockedGroupsResult
+	 * @param array $mockedRemotesResult
 	 * @param array $expected
+	 * @param bool $nextLink
 	 */
-	public function testSearchSharees($searchTerm, $itemType, array $shareIds, array $existingShares, array $shareTypes, $page, $perPage, $shareWithGroupOnly,
-									  $mockedUserResult, $mockedGroupsResult, $mockedRemotesResult, $expected, $totalItems, $nextLink) {
+	public function testSearchSharees($searchTerm, $itemType, array $shareTypes, $page, $perPage, $shareWithGroupOnly,
+									  $mockedUserResult, $mockedGroupsResult, $mockedRemotesResult, $expected, $nextLink) {
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\API\Sharees $sharees */
 		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\API\Sharees')
 			->setConstructorArgs([
@@ -681,45 +751,47 @@ class ShareesTest extends TestCase {
 				$this->getMockBuilder('OCP\IConfig')->disableOriginalConstructor()->getMock(),
 				$this->session,
 				$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
-				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock(),
-				\OC::$server->getDatabaseConnection()
+				$this->getMockBuilder('OCP\IRequest')->disableOriginalConstructor()->getMock(),
+				$this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock()
 			])
 			->setMethods(array('getShareesForShareIds', 'getUsers', 'getGroups', 'getRemote'))
 			->getMock();
-		$sharees->expects($this->once())
-			->method('getShareesForShareIds')
-			->with($shareIds)
-			->willReturn($existingShares);
 		$sharees->expects(($mockedUserResult === null) ? $this->never() : $this->once())
 			->method('getUsers')
-			->with($searchTerm, $shareWithGroupOnly)
-			->willReturn($mockedUserResult);
+			->with($searchTerm)
+			->willReturnCallback(function() use ($sharees, $mockedUserResult) {
+				$result = $this->invokePrivate($sharees, 'result');
+				$result['users'] = $mockedUserResult;
+				$this->invokePrivate($sharees, 'result', [$result]);
+			});
 		$sharees->expects(($mockedGroupsResult === null) ? $this->never() : $this->once())
 			->method('getGroups')
-			->with($searchTerm, $shareWithGroupOnly)
-			->willReturn($mockedGroupsResult);
+			->with($searchTerm)
+			->willReturnCallback(function() use ($sharees, $mockedGroupsResult) {
+				$result = $this->invokePrivate($sharees, 'result');
+				$result['groups'] = $mockedGroupsResult;
+				$this->invokePrivate($sharees, 'result', [$result]);
+			});
 		$sharees->expects(($mockedRemotesResult === null) ? $this->never() : $this->once())
 			->method('getRemote')
 			->with($searchTerm)
-			->willReturn($mockedRemotesResult);
+			->willReturnCallback(function() use ($sharees, $mockedRemotesResult) {
+				$result = $this->invokePrivate($sharees, 'result');
+				$result['remotes'] = $mockedRemotesResult;
+				$this->invokePrivate($sharees, 'result', [$result]);
+			});
 
 		/** @var \OC_OCS_Result $ocs */
-		$ocs = $this->invokePrivate($sharees, 'searchSharees', [$searchTerm, $itemType, $shareIds, $shareTypes, $page, $perPage, $shareWithGroupOnly]);
+		$ocs = $this->invokePrivate($sharees, 'searchSharees', [$searchTerm, $itemType, $shareTypes, $page, $perPage, $shareWithGroupOnly]);
 		$this->assertInstanceOf('\OC_OCS_Result', $ocs);
-
 		$this->assertEquals($expected, $ocs->getData());
-
-		// Check number of total results
-		$meta = $ocs->getMeta();
-		$this->assertArrayHasKey('totalitems', $meta);
-		$this->assertSame($totalItems, $meta['totalitems']);
 
 		// Check if next link is set
 		if ($nextLink) {
 			$headers = $ocs->getHeaders();
 			$this->assertArrayHasKey('Link', $headers);
 			$this->assertStringStartsWith('<', $headers['Link']);
-			$this->assertStringEndsWith('"', $headers['Link']);
+			$this->assertStringEndsWith('>; rel="next"', $headers['Link']);
 		}
 	}
 
@@ -737,199 +809,47 @@ class ShareesTest extends TestCase {
 		$this->assertSame('missing itemType', $meta['message']);
 	}
 
-	public function dataFilterSharees() {
+	public function dataGetPaginationLink() {
 		return [
-			[[], [], []],
-			[
-				[
-					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-				],
-				[],
-				[
-					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-				],
-			],
-			[
-				[
-					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
-				],
-				['test1'],
-				[
-					1 => ['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
-				],
-			],
-			[
-				[
-					['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'Test Two', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
-				],
-				['test2'],
-				[
-					0 => ['label' => 'Test One', 'value' => ['shareType' => \OCP\Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-				],
-			],
+			[1, '/ocs/v1.php', ['limit' => 2], '<?limit=2&page=2>; rel="next"'],
+			[10, '/ocs/v2.php', ['limit' => 2], '<?limit=2&page=11>; rel="next"'],
 		];
 	}
 
 	/**
-	 * @dataProvider dataFilterSharees
-	 *
-	 * @param array $potentialSharees
-	 * @param array $existingSharees
-	 * @param array $expectedSharees
-	 */
-	public function testFilterSharees($potentialSharees, $existingSharees, $expectedSharees) {
-		$this->assertEquals($expectedSharees, $this->invokePrivate($this->sharees, 'filterSharees', [$potentialSharees, $existingSharees]));
-	}
-
-	public function dataGetShareesForShareIds() {
-		return [
-			[[], []],
-			[[1, 2, 3], [Constants::SHARE_TYPE_USER => ['user1'], Constants::SHARE_TYPE_GROUP => ['group1']]],
-		];
-	}
-
-	/**
-	 * @dataProvider dataGetShareesForShareIds
-	 *
-	 * @param array $shareIds
-	 * @param array $expectedSharees
-	 */
-	public function testGetShareesForShareIds(array $shareIds, array $expectedSharees) {
-		$owner = $this->getUniqueID('test');
-		$shares2delete = [];
-
-		if (!empty($shareIds)) {
-			$userShare = $this->createShare(Constants::SHARE_TYPE_USER, 'user1', $owner, null);
-			$shares2delete[] = $userShare;
-			$shares2delete[] = $this->createShare(Constants::SHARE_TYPE_USER, 'user3', $owner . '2', null);
-
-			$groupShare = $this->createShare(Constants::SHARE_TYPE_GROUP, 'group1', $owner, null);
-			$shares2delete[] = $groupShare;
-			$groupShare2 = $this->createShare(Constants::SHARE_TYPE_GROUP, 'group2', $owner . '2', null);
-			$shares2delete[] = $groupShare2;
-
-			$shares2delete[] = $this->createShare($this->invokePrivate(new Constants(), 'shareTypeGroupUserUnique'), 'user2', $owner, $groupShare);
-			$shares2delete[] = $this->createShare($this->invokePrivate(new Constants(), 'shareTypeGroupUserUnique'), 'user4', $owner, $groupShare2);
-		}
-
-		$user = $this->getUserMock($owner, 'Sharee OCS test user');
-		$this->session->expects($this->any())
-			->method('getUser')
-			->willReturn($user);
-		$this->assertEquals($expectedSharees, $this->invokePrivate($this->sharees, 'getShareesForShareIds', [$shares2delete]));
-
-		$this->deleteShares($shares2delete);
-	}
-
-	/**
-	 * @param int $type
-	 * @param string $with
-	 * @param string $owner
-	 * @param int $parent
-	 * @return int
-	 */
-	protected function createShare($type, $with, $owner, $parent) {
-		$connection = \OC::$server->getDatabaseConnection();
-		$queryBuilder = $connection->getQueryBuilder();
-		$queryBuilder->insert('share')
-			->values([
-				'share_type'	=> $queryBuilder->createParameter('share_type'),
-				'share_with'	=> $queryBuilder->createParameter('share_with'),
-				'uid_owner'		=> $queryBuilder->createParameter('uid_owner'),
-				'parent'		=> $queryBuilder->createParameter('parent'),
-				'item_type'		=> $queryBuilder->expr()->literal('fake'),
-				'item_source'	=> $queryBuilder->expr()->literal(''),
-				'item_target'	=> $queryBuilder->expr()->literal(''),
-				'file_source'	=> $queryBuilder->expr()->literal(0),
-				'file_target'	=> $queryBuilder->expr()->literal(''),
-				'permissions'	=> $queryBuilder->expr()->literal(0),
-				'stime'			=> $queryBuilder->expr()->literal(0),
-				'accepted'		=> $queryBuilder->expr()->literal(0),
-				'expiration'	=> $queryBuilder->createParameter('expiration'),
-				'token'			=> $queryBuilder->expr()->literal(''),
-				'mail_send'		=> $queryBuilder->expr()->literal(0),
-			])
-			->setParameters([
-				'share_type'	=> $type,
-				'share_with'	=> $with,
-				'uid_owner'		=> $owner,
-				'parent'		=> $parent,
-			])
-			->setParameter('expiration', null, 'datetime')
-			->execute();
-
-		$queryBuilder = $connection->getQueryBuilder();
-		$query = $queryBuilder->select('id')
-			->from('share')
-			->orderBy('id', 'DESC')
-			->setMaxResults(1)
-			->execute();
-		$share = $query->fetch();
-		$query->closeCursor();
-
-		return (int) $share['id'];
-	}
-
-	/**
-	 * @param int[] $shareIds
-	 * @return null
-	 */
-	protected function deleteShares(array $shareIds) {
-		$connection = \OC::$server->getDatabaseConnection();
-		$queryBuilder = $connection->getQueryBuilder();
-		$queryBuilder->delete('share')
-			->where($queryBuilder->expr()->in('id', $queryBuilder->createParameter('ids')))
-			->setParameter('ids', $shareIds, Connection::PARAM_INT_ARRAY)
-			->execute();
-	}
-
-	public function dataGetPaginationLinks() {
-		return [
-			[1, 1, ['limit' => 2], []],
-			[1, 3, ['limit' => 2], [
-				'<?limit=2&page=2>; rel="next"',
-				'<?limit=2&page=2>; rel="last"',
-			]],
-			[1, 21, ['limit' => 2], [
-				'<?limit=2&page=2>; rel="next"',
-				'<?limit=2&page=11>; rel="last"',
-			]],
-			[2, 21, ['limit' => 2], [
-				'<?limit=2&page=1>; rel="first"',
-				'<?limit=2&page=1>; rel="prev"',
-				'<?limit=2&page=3>; rel="next"',
-				'<?limit=2&page=11>; rel="last"',
-			]],
-			[5, 21, ['limit' => 2], [
-				'<?limit=2&page=1>; rel="first"',
-				'<?limit=2&page=4>; rel="prev"',
-				'<?limit=2&page=6>; rel="next"',
-				'<?limit=2&page=11>; rel="last"',
-			]],
-			[10, 21, ['limit' => 2], [
-				'<?limit=2&page=1>; rel="first"',
-				'<?limit=2&page=9>; rel="prev"',
-				'<?limit=2&page=11>; rel="next"',
-				'<?limit=2&page=11>; rel="last"',
-			]],
-			[11, 21, ['limit' => 2], [
-				'<?limit=2&page=1>; rel="first"',
-				'<?limit=2&page=10>; rel="prev"',
-			]],
-		];
-	}
-
-	/**
-	 * @dataProvider dataGetPaginationLinks
+	 * @dataProvider dataGetPaginationLink
 	 *
 	 * @param int $page
-	 * @param int $total
+	 * @param string $scriptName
 	 * @param array $params
 	 * @param array $expected
 	 */
-	public function testGetPaginationLinks($page, $total, $params, $expected) {
-		$this->assertEquals($expected, $this->invokePrivate($this->sharees, 'getPaginationLinks', [$page, $total, $params]));
+	public function testGetPaginationLink($page, $scriptName, $params, $expected) {
+		$this->request->expects($this->once())
+			->method('getScriptName')
+			->willReturn($scriptName);
+
+		$this->assertEquals($expected, $this->invokePrivate($this->sharees, 'getPaginationLink', [$page, $params]));
+	}
+
+	public function dataIsV2() {
+		return [
+			['/ocs/v1.php', false],
+			['/ocs/v2.php', true],
+		];
+	}
+
+	/**
+	 * @dataProvider dataIsV2
+	 *
+	 * @param string $scriptName
+	 * @param bool $expected
+	 */
+	public function testIsV2($scriptName, $expected) {
+		$this->request->expects($this->once())
+			->method('getScriptName')
+			->willReturn($scriptName);
+
+		$this->assertEquals($expected, $this->invokePrivate($this->sharees, 'isV2'));
 	}
 }
