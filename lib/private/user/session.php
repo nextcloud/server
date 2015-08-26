@@ -297,8 +297,8 @@ class Session implements IUserSession, Emitter {
 	 * Remove cookie for "remember username"
 	 */
 	public function unsetMagicInCookie() {
-		//TODO: DI for cookies and OC_Config
-		$secureCookie = \OC_Config::getValue('forcessl', false);
+		//TODO: DI for cookies and IRequest
+		$secureCookie = \OC::$server->getRequest()->getServerProtocol() === 'https';
 
 		unset($_COOKIE["oc_username"]); //TODO: DI
 		unset($_COOKIE["oc_token"]);
