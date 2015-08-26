@@ -127,7 +127,7 @@ OC.Share={
 									if (img.attr('src') !== OC.imagePath('core', 'actions/public')) {
 										img.attr('src', image);
 										$(actions[i]).addClass('permanent');
-										$(actions[i]).html(' <span>'+t('core', 'Shared')+'</span>').prepend(img);
+										$(actions[i]).html('<span> '+t('core', 'Shared')+'</span>').prepend(img);
 									}
 								}
 								for(i = 0; i < files.length; i++) {
@@ -276,7 +276,7 @@ OC.Share={
 			else if (recipients) {
 				message = t('core', 'Shared with {recipients}', {recipients: this._formatShareList(recipients.split(", ")).join(", ")}, 0, {escape: false});
 			}
-			action.html(' <span>' + message + '</span>').prepend(img);
+			action.html('<span> ' + message + '</span>').prepend(img);
 			if (owner || recipients) {
 				action.find('.remoteAddress').tipsy({gravity: 's'});
 			}

@@ -292,6 +292,7 @@
 		list-style-type: none;
 	}
 
+/* menu bubble / popover */
 .bubble,
 #app-navigation .app-navigation-entry-menu {
 	position: absolute;
@@ -302,27 +303,15 @@
 	z-index: 110;
 	margin: -5px 14px 5px 10px;
 	right: 0;
-	border: 1px solid #bbb;
 	-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
 	-moz-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
 	-ms-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
 	-o-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
 	filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
 }
-
-#app-navigation .app-navigation-entry-menu {
-	display: none;
-}
-
-#app-navigation .app-navigation-entry-menu.open {
-	display: block;
-}
-
 /* miraculous border arrow stuff */
 .bubble:after,
-.bubble:before,
-#app-navigation .app-navigation-entry-menu:after,
-#app-navigation .app-navigation-entry-menu:before {
+#app-navigation .app-navigation-entry-menu:after {
 	bottom: 100%;
 	right: 0; /* change this to adjust the arrow position */
 	border: solid transparent;
@@ -332,7 +321,6 @@
 	position: absolute;
 	pointer-events: none;
 }
-
 .bubble:after,
 #app-navigation .app-navigation-entry-menu:after {
 	border-color: rgba(238, 238, 238, 0);
@@ -340,13 +328,24 @@
 	border-width: 10px;
 	margin-left: -10px;
 }
+.bubble .action {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)" !important;
+	filter: alpha(opacity=50) !important;
+	opacity: .5 !important;
+}
+.bubble .action:hover,
+.bubble .action:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)" !important;
+	filter: alpha(opacity=100) !important;
+	opacity: 1 !important;
+}
 
-.bubble:before,
-#app-navigation .app-navigation-entry-menu:before {
-	border-color: rgba(187, 187, 187, 0);
-	border-bottom-color: #bbb;
-	border-width: 11px;
-	margin-left: -11px;
+#app-navigation .app-navigation-entry-menu {
+	display: none;
+}
+
+#app-navigation .app-navigation-entry-menu.open {
+	display: block;
 }
 
 	/* list of options for an entry */
