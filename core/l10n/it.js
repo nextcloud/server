@@ -172,6 +172,7 @@ OC.L10N.register(
     "The update was successful. There were warnings." : "L'aggiornamento è stato effettuato correttamente. Ci sono degli avvisi.",
     "The update was successful. Redirecting you to ownCloud now." : "L'aggiornamento è stato effettuato correttamente. Stai per essere reindirizzato a ownCloud.",
     "Couldn't reset password because the token is invalid" : "Impossibile reimpostare la password poiché il token non è valido",
+    "Couldn't reset password because the token is expired" : "Impossibile reimpostare la password poiché il token è scaduto",
     "Couldn't send reset email. Please make sure your username is correct." : "Impossibile inviare l'email di reimpostazione. Assicurati che il nome utente sia corretto.",
     "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Impossibile inviare l'email di reimpostazione poiché non è presente un indirizzo email per questo nome utente. Contatta il tuo amministratore.",
     "%s password reset" : "Ripristino password di %s",

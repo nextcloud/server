@@ -34,6 +34,8 @@
     "Folder" : "Mappa",
     "Upload" : "Senda inn",
     "Cancel upload" : "Hætta við innsendingu",
+    "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
+    "Select all" : "Velja allt",
     "Delete" : "Eyða",
     "Upload too large" : "Innsend skrá er of stór",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni.",

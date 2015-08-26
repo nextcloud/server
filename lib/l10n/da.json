@@ -47,6 +47,7 @@
     "Can't read file" : "Kan ikke læse filen",
     "App directory already exists" : "App-mappe findes allerede",
     "Can't create app folder. Please fix permissions. %s" : "Kan ikke oprette app-mappe. Ret tilladelser. %s",
+    "Archive does not contain a directory named %s" : "Arkivet indeholder ike en mappe kaldet %s",
     "No source specified when installing app" : "Ingen kilde angivet under installation af app",
     "No href specified when installing app from http" : "Ingen href angivet under installation af app via http",
     "No path specified when installing app from local file" : "Ingen sti angivet under installation af app fra lokal fil",

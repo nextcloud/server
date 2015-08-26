@@ -172,6 +172,7 @@ OC.L10N.register(
     "The update was successful. There were warnings." : "Opdateringen blev gennemført. Der fremkom advarsler.",
     "The update was successful. Redirecting you to ownCloud now." : "Opdateringen blev udført korrekt. Du bliver nu viderestillet til ownCloud.",
     "Couldn't reset password because the token is invalid" : "Kunne ikke nulstille kodeordet, fordi symboludtrykket er ugyldigt",
+    "Couldn't reset password because the token is expired" : "Kunne ikke nulstille kodeord, da tokenet er udløbet",
     "Couldn't send reset email. Please make sure your username is correct." : "Der opstod et problem under afsendelse af nulstillings-e-mailen. Kontroller venligst om dit brugernavnet er korrekt",
     "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Der opstod et problem under afsendelse af nulstillings-e-mailen. Der ikke er nogen email adresse tilknyttet denne bruger konto. Kontakt venligst systemadministratoren",
     "%s password reset" : "%s adgangskode nulstillet",

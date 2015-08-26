@@ -7,6 +7,7 @@ OC.L10N.register(
     "Personal" : "Um mig",
     "Grant access" : "Veita aðgengi",
     "Access granted" : "Aðgengi veitt",
+    "Saved" : "Vistað",
     "None" : "Ekkert",
     "Password" : "Lykilorð",
     "WebDAV" : "WebDAV",

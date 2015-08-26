@@ -4,6 +4,7 @@ OC.L10N.register(
     "Cancel" : "Hætta við",
     "Shared by" : "Deilt af",
     "Password" : "Lykilorð",
+    "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
     "Name" : "Nafn",
     "Download" : "Niðurhal"
 },

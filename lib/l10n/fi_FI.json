@@ -45,6 +45,7 @@
     "Can't read file" : "Tiedostoa ei voi lukea",
     "App directory already exists" : "Sovelluskansio on jo olemassa",
     "Can't create app folder. Please fix permissions. %s" : "Sovelluskansion luominen ei onnistu. Korjaa käyttöoikeudet. %s",
+    "Archive does not contain a directory named %s" : "Arkisto ei sisällä kansiota nimeltä %s",
     "No source specified when installing app" : "Lähdettä ei määritelty sovellusta asennettaessa",
     "No href specified when installing app from http" : "Href-määritettä ei asetettu asennettaessa sovellusta http:n yli",
     "No path specified when installing app from local file" : "Polkua ei määritelty sovellusta asennettaessa paikallisesta tiedostosta",

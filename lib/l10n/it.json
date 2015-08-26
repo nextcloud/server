@@ -47,6 +47,7 @@
     "Can't read file" : "Impossibile leggere il file",
     "App directory already exists" : "La cartella dell'applicazione esiste già",
     "Can't create app folder. Please fix permissions. %s" : "Impossibile creare la cartella dell'applicazione. Correggi i permessi. %s",
+    "Archive does not contain a directory named %s" : "L'archivio non contiene una cartella con nome %s",
     "No source specified when installing app" : "Nessuna fonte specificata durante l'installazione dell'applicazione",
     "No href specified when installing app from http" : "Nessun href specificato durante l'installazione dell'applicazione da http",
     "No path specified when installing app from local file" : "Nessun percorso specificato durante l'installazione dell'applicazione da file locale",

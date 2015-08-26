@@ -7,6 +7,7 @@ OC.L10N.register(
     "Help" : "Hjálp",
     "Host" : "Netþjónn",
     "Password" : "Lykilorð",
+    "Continue" : "Halda áfram",
     "Advanced" : "Ítarlegt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
