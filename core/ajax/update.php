@@ -89,7 +89,13 @@ if (OC::checkUpgrade(false)) {
 		OC_Config::setValue('maintenance', false);
 	});
 
-	$updater->upgrade();
+	try {
+		$updater->upgrade();
+	} catch (\Exception $e) {
+		$eventSource->send('failure', get_class($e) . ': ' . $e->getMessage());
+		$eventSource->close();
+		exit();
+	}
 
 	if (!empty($incompatibleApps)) {
 		$eventSource->send('notice',
