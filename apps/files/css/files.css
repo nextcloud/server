@@ -594,9 +594,9 @@ a.action > img {
 #fileList tr:focus a.action.disabled:focus,
 #fileList .name:focus a.action.disabled:focus,
 #fileList a.action.disabled img {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
-	opacity: .5;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+	opacity: .3;
 	display:inline;
 }
 .ie8 #fileList a.action:hover img,
@@ -606,14 +606,43 @@ a.action > img {
 #fileList tr:hover a.action:hover,
 #fileList tr:focus a.action:focus,
 #fileList .name:focus a.action:focus {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	filter: alpha(opacity=100);
-	opacity: 1;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	filter: alpha(opacity=70);
+	opacity: 7;
 	display:inline;
 }
 #fileList tr a.action.disabled {
 	background: none;
 }
+
+/* show share action of shared items darker to distinguish from non-shared */
+#fileList a.action.permanent.shared-style {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
+	filter: alpha(opacity=70) !important;
+	opacity: .7 !important;
+}
+/* always show actions on mobile, not only on hover */
+#fileList a.action,
+#fileList a.action.action-menu.permanent {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)" !important;
+	filter: alpha(opacity=30) !important;
+	opacity: .3 !important;
+	display: inline !important;
+}
+
+/* properly display actions in the popover menu */
+#fileList .fileActionsMenu .action {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)" !important;
+	filter: alpha(opacity=50) !important;
+	opacity: .5 !important;
+}
+#fileList .fileActionsMenu .action:hover,
+#fileList .fileActionsMenu .action:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)" !important;
+	filter: alpha(opacity=100) !important;
+	opacity: 1 !important;
+}
+
 
 #selectedActionsList a.download.disabled,
 #fileList tr a.action.action-download.disabled {
