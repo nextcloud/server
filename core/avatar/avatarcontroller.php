@@ -140,12 +140,21 @@ class AvatarController extends Controller {
 		$userId = $this->userSession->getUser()->getUID();
 		$files = $this->request->getUploadedFile('files');
 
+		$headers = [];
+		if (\OCP\Util::isIE8()) {
+			// due to upload iframe workaround, need to set content-type to text/plain
+			$headers['Content-Type'] = 'text/plain';
+		}
+
 		if (isset($path)) {
 			$path = stripslashes($path);
 			$node = $this->userFolder->get($path);
 			if ($node->getSize() > 20*1024*1024) {
-				return new DataResponse(['data' => ['message' => $this->l->t('File is too big')]],
-					Http::STATUS_BAD_REQUEST);
+				return new DataResponse(
+					['data' => ['message' => $this->l->t('File is too big')]],
+					Http::STATUS_BAD_REQUEST,
+					$headers
+				);
 			}
 			$content = $node->getContent();
 		} elseif (!is_null($files)) {
@@ -155,20 +164,29 @@ class AvatarController extends Controller {
 				!\OC\Files\Filesystem::isFileBlacklisted($files['tmp_name'][0])
 			) {
 				if ($files['size'][0] > 20*1024*1024) {
-					return new DataResponse(['data' => ['message' => $this->l->t('File is too big')]],
-						Http::STATUS_BAD_REQUEST);
+					return new DataResponse(
+						['data' => ['message' => $this->l->t('File is too big')]],
+						Http::STATUS_BAD_REQUEST,
+						$headers
+					);
 				}
 				$this->cache->set('avatar_upload', file_get_contents($files['tmp_name'][0]), 7200);
 				$content = $this->cache->get('avatar_upload');
 				unlink($files['tmp_name'][0]);
 			} else {
-				return new DataResponse(['data' => ['message' => $this->l->t('Invalid file provided')]],
-										Http::STATUS_BAD_REQUEST);
+				return new DataResponse(
+					['data' => ['message' => $this->l->t('Invalid file provided')]],
+					Http::STATUS_BAD_REQUEST,
+					$headers
+				);
 			}
 		} else {
 			//Add imgfile
-			return new DataResponse(['data' => ['message' => $this->l->t('No image or file provided')]],
-									Http::STATUS_BAD_REQUEST);
+			return new DataResponse(
+				['data' => ['message' => $this->l->t('No image or file provided')]],
+				Http::STATUS_BAD_REQUEST,
+				$headers
+			);
 		}
 
 		try {
@@ -179,16 +197,32 @@ class AvatarController extends Controller {
 			if ($image->valid()) {
 				$mimeType = $image->mimeType();
 				if ($mimeType !== 'image/jpeg' && $mimeType !== 'image/png') {
-					return new DataResponse(['data' => ['message' => $this->l->t('Unknown filetype')]]);
+					return new DataResponse(
+						['data' => ['message' => $this->l->t('Unknown filetype')]],
+						Http::STATUS_OK,
+						$headers
+					);
 				}
 
 				$this->cache->set('tmpAvatar', $image->data(), 7200);
-				return new DataResponse(['data' => 'notsquare']);
+				return new DataResponse(
+					['data' => 'notsquare'],
+					Http::STATUS_OK,
+					$headers
+				);
 			} else {
-				return new DataResponse(['data' => ['message' => $this->l->t('Invalid image')]]);
+				return new DataResponse(
+					['data' => ['message' => $this->l->t('Invalid image')]],
+					Http::STATUS_OK,
+					$headers
+				);
 			}
 		} catch (\Exception $e) {
-			return new DataResponse(['data' => ['message' => $e->getMessage()]]);
+			return new DataResponse(
+				['data' => ['message' => $e->getMessage()]],
+				Http::STATUS_OK,
+				$headers
+			);
 		}
 	}
 

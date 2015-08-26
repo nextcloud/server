@@ -83,7 +83,13 @@ abstract class Controller {
 						$data->getData(),
 						$data->getStatus()
 					);
-					$response->setHeaders(array_merge($data->getHeaders(), $response->getHeaders()));
+					$dataHeaders = $data->getHeaders();
+					$headers = $response->getHeaders();
+					// do not overwrite Content-Type if it already exists
+					if (isset($dataHeaders['Content-Type'])) {
+						unset($headers['Content-Type']);
+					}
+					$response->setHeaders(array_merge($dataHeaders, $headers));
 					return $response;
 				} else {
 					return new JSONResponse($data);
