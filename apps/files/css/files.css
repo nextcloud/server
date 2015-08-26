@@ -133,7 +133,7 @@
 	position: fixed !important;
 	bottom: 44px;
 	width: inherit !important;
-	background-color: #f5f5f5;
+	background-color: #fff;
 }
 /* double padding to account for Deleted files entry, issue with Firefox */
 .app-files #app-navigation > ul li:nth-last-child(2) {
