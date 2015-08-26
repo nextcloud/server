@@ -572,6 +572,13 @@ a.action > img {
 	opacity: 0;
 	display:none;
 }
+#fileList a.action.action-share,
+#fileList a.action.action-menu {
+	padding: 17px 14px;
+}
+#fileList .fileActionsMenu {
+	margin-right: 21px;
+}
 
 .ie8 #fileList a.action img,
 #fileList tr:hover a.action,

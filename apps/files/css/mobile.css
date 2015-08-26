@@ -47,15 +47,11 @@ table td.filename .nametext {
 	display: inline !important;
 }
 #fileList a.action.action-menu img {
-	padding-left: 2px;
+	padding-left: 0;
 }
 
 #fileList .fileActionsMenu {
-	margin-right: 5px;
-}
-/* some padding for better clickability */
-#fileList a.action img {
-	padding: 0 6px 0 12px;
+	margin-right: 12px;
 }
 /* hide text of the share action on mobile */
 #fileList a.action-share span {
