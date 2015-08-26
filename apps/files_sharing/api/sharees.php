@@ -20,13 +20,12 @@
  */
 namespace OCA\Files_Sharing\API;
 
-use Doctrine\DBAL\Connection;
-use OC\Share\SearchResultSorter;
 use OCP\Contacts\IManager;
-use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
+use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IConfig;
 use OCP\IUserSession;
@@ -50,14 +49,37 @@ class Sharees {
 	/** @var IUserSession */
 	private $userSession;
 
+	/** @var IRequest */
+	private $request;
+
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
 	/** @var ILogger */
 	private $logger;
 
-	/** @var IDBConnection */
-	private $connection;
+	/** @var bool */
+	private $shareWithGroupOnly;
+
+	/** @var int */
+	protected $offset = 0;
+
+	/** @var int */
+	protected $limit = 10;
+
+	/** @var array */
+	protected $result = [
+		'exact' => [
+			'users' => [],
+			'groups' => [],
+			'remotes' => [],
+		],
+		'users' => [],
+		'groups' => [],
+		'remotes' => [],
+	];
+
+	protected $reachedEndFor = [];
 
 	/**
 	 * @param IGroupManager $groupManager
@@ -66,8 +88,8 @@ class Sharees {
 	 * @param IConfig $config
 	 * @param IUserSession $userSession
 	 * @param IURLGenerator $urlGenerator
+	 * @param IRequest $request
 	 * @param ILogger $logger
-	 * @param IDBConnection $connection
 	 */
 	public function __construct(IGroupManager $groupManager,
 								IUserManager $userManager,
@@ -75,8 +97,8 @@ class Sharees {
 								IConfig $config,
 								IUserSession $userSession,
 								IURLGenerator $urlGenerator,
-								ILogger $logger,
-								IDBConnection $connection) {
+								IRequest $request,
+								ILogger $logger) {
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 		$this->contactsManager = $contactsManager;
@@ -84,67 +106,82 @@ class Sharees {
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
-		$this->connection = $connection;
 	}
 
 	/**
 	 * @param string $search
-	 * @param bool $shareWithGroupOnly
-	 *
-	 * @return array possible sharees
 	 */
-	protected function getUsers($search, $shareWithGroupOnly) {
-		$sharees = [];
-		
-		$users = [];
-		if ($shareWithGroupOnly) {
+	protected function getUsers($search) {
+		$this->result['users'] = $this->result['exact']['users'] = $users = [];
+
+		if ($this->shareWithGroupOnly) {
 			// Search in all the groups this user is part of
 			$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
 			foreach ($userGroups as $userGroup) {
-				$users = array_merge($users, $this->groupManager->displayNamesInGroup($userGroup, $search));
+				$users = $this->groupManager->displayNamesInGroup($userGroup, $search, $this->limit, $this->offset);
+				foreach ($users as $uid => $userDisplayName) {
+					$users[$uid] = $userDisplayName;
+				}
 			}
-			$users = array_unique($users);
 		} else {
 			// Search in all users
-			$users_tmp = $this->userManager->searchDisplayName($search);
+			$usersTmp = $this->userManager->searchDisplayName($search, $this->limit, $this->offset);
 
-			// Put in array that maps uid => displayName
-			foreach($users_tmp as $user) {
+			foreach ($usersTmp as $user) {
 				$users[$user->getUID()] = $user->getDisplayName();
 			}
 		}
 
-
-		foreach ($users as $uid => $displayName) {
-			if ($uid === $this->userSession->getUser()->getUID()) {
-				// Skip the current user
-				continue;
-			}
-
-			$sharees[] = [
-				'label' => $displayName,
-				'value' => [
-					'shareType' => Share::SHARE_TYPE_USER,
-					'shareWith' => $uid,
-				],
-			];
+		if (sizeof($users) < $this->limit) {
+			$this->reachedEndFor[] = 'users';
 		}
 
-		return $sharees;
+		$foundUserById = false;
+		foreach ($users as $uid => $userDisplayName) {
+			if ($uid === $search || $userDisplayName === $search) {
+				if ($uid === $search) {
+					$foundUserById = true;
+				}
+				$this->result['exact']['users'][] = [
+					'shareWith' => $search,
+					'label' => $search,
+				];
+			} else {
+				$this->result['users'][] = [
+					'shareWith' => $uid,
+					'label' => $userDisplayName,
+				];
+			}
+		}
+
+		if ($this->offset === 0 && !$foundUserById) {
+			// On page one we try if the search result has a direct hit on the
+			// user id and if so, we add that to the exact match list
+			$user = $this->userManager->get($search);
+			if ($user instanceof IUser) {
+				array_push($this->result['exact']['users'], [
+					'shareWith' => $user->getUID(),
+					'label' => $user->getDisplayName(),
+				]);
+			}
+		}
 	}
 
 	/**
 	 * @param string $search
-	 * @param bool $shareWithGroupOnly
-	 *
-	 * @return array possible sharees
 	 */
-	protected function getGroups($search, $shareWithGroupOnly) {
-		$sharees = [];
-		$groups = $this->groupManager->search($search);
+	protected function getGroups($search) {
+		$this->result['groups'] = $this->result['exact']['groups'] = [];
+
+		$groups = $this->groupManager->search($search, $this->limit, $this->offset);
 		$groups = array_map(function (IGroup $group) { return $group->getGID(); }, $groups);
 
-		if (!empty($groups) && $shareWithGroupOnly) {
+		if (sizeof($groups) < $this->limit) {
+			$this->reachedEndFor[] = 'groups';
+		}
+
+		$userGroups =  [];
+		if (!empty($groups) && $this->shareWithGroupOnly) {
 			// Intersect all the groups that match with the groups this user is a member of
 			$userGroups = $this->groupManager->getUserGroups($this->userSession->getUser());
 			$userGroups = array_map(function (IGroup $group) { return $group->getGID(); }, $userGroups);
@@ -152,53 +189,68 @@ class Sharees {
 		}
 
 		foreach ($groups as $gid) {
-			$sharees[] = [
-				'label' => $gid,
-				'value' => [
-					'shareType' => Share::SHARE_TYPE_GROUP,
+			if ($gid === $search) {
+				$this->result['exact']['groups'][] = [
+					'shareWith' => $search,
+					'label' => $search,
+				];
+			} else {
+				$this->result['groups'][] = [
 					'shareWith' => $gid,
-				],
-			];
+					'label' => $gid,
+				];
+			}
 		}
 
-		return $sharees;
+		if ($this->offset === 0 && empty($this->result['exact']['groups'])) {
+			// On page one we try if the search result has a direct hit on the
+			// user id and if so, we add that to the exact match list
+			$group = $this->groupManager->get($search);
+			if ($group instanceof IGroup && (!$this->shareWithGroupOnly || array_intersect([$group], $userGroups))) {
+				array_push($this->result['exact']['users'], [
+					'shareWith' => $group->getGID(),
+					'label' => $group->getGID(),
+				]);
+			}
+		}
 	}
 
 	/**
 	 * @param string $search
-	 *
 	 * @return array possible sharees
 	 */
 	protected function getRemote($search) {
-		$sharees = [];
+		$this->result['remotes'] = [];
 
-		if (substr_count($search, '@') >= 1) {
-			$sharees[] = [
+		if (substr_count($search, '@') >= 1 && $this->offset === 0) {
+			$this->result['exact']['remotes'][] = [
+				'shareWith' => $search,
 				'label' => $search,
-				'value' => [
-					'shareType' => Share::SHARE_TYPE_REMOTE,
-					'shareWith' => $search,
-				],
 			];
 		}
 
 		// Search in contacts
+		//@todo Pagination missing
 		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN']);
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['CLOUD'])) {
 				foreach ($contact['CLOUD'] as $cloudId) {
-					$sharees[] = [
-						'label' => $contact['FN'] . ' (' . $cloudId . ')',
-						'value' => [
-							'shareType' => Share::SHARE_TYPE_REMOTE,
-							'shareWith' => $cloudId
-						]
-					];
+					if ($contact['FN'] === $search || $cloudId === $search) {
+						$this->result['exact']['remotes'][] = [
+							'shareWith' => $cloudId,
+							'label' => $contact['FN'],
+						];
+					} else {
+						$this->result['remotes'][] = [
+							'shareWith' => $cloudId,
+							'label' => $contact['FN'],
+						];
+					}
 				}
 			}
 		}
 
-		return $sharees;
+		$this->reachedEndFor[] = 'remotes';
 	}
 
 	/**
@@ -230,9 +282,11 @@ class Sharees {
 			$shareTypes = array_diff($shareTypes, [Share::SHARE_TYPE_REMOTE]);
 		}
 
-		$shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		$this->limit = (int) $perPage;
+		$this->offset = $perPage * ($page - 1);
 
-		return $this->searchSharees($search, $itemType, $shareIds, $shareTypes, $page, $perPage, $shareWithGroupOnly);
+		return $this->searchSharees($search, $itemType, $shareIds, $shareTypes, $page, $perPage);
 	}
 
 	/**
@@ -259,150 +313,68 @@ class Sharees {
 	 * @param array $shareTypes
 	 * @param int $page
 	 * @param int $perPage
-	 * @param bool $shareWithGroupOnly
 	 * @return \OC_OCS_Result
 	 */
-	protected function searchSharees($search, $itemType, array $shareIds, array $shareTypes, $page, $perPage, $shareWithGroupOnly) {
-
-		$sharedUsers = $sharedGroups = [];
-		$existingSharees = $this->getShareesForShareIds($shareIds);
-
-		if (!empty($existingSharees)) {
-			if (!empty($existingSharees[Share::SHARE_TYPE_USER]) &&
-				is_array($existingSharees[Share::SHARE_TYPE_USER])) {
-				$sharedUsers = $existingSharees[Share::SHARE_TYPE_USER];
-			}
-
-			if (!empty($existingSharees[Share::SHARE_TYPE_GROUP]) &&
-				is_array($existingSharees[Share::SHARE_TYPE_GROUP])) {
-				$sharedGroups = $existingSharees[Share::SHARE_TYPE_GROUP];
-			}
-		}
-
+	protected function searchSharees($search, $itemType, array $shareIds, array $shareTypes, $page, $perPage) {
 		// Verify arguments
 		if ($itemType === null) {
 			return new \OC_OCS_Result(null, 400, 'missing itemType');
 		}
 
-		$sharees = [];
 		// Get users
 		if (in_array(Share::SHARE_TYPE_USER, $shareTypes)) {
-			$potentialSharees = $this->getUsers($search, $shareWithGroupOnly);
-			$sharees = array_merge($sharees, $this->filterSharees($potentialSharees, $sharedUsers));
+			$this->getUsers($search);
 		}
 
 		// Get groups
 		if (in_array(Share::SHARE_TYPE_GROUP, $shareTypes)) {
-			$potentialSharees = $this->getGroups($search, $shareWithGroupOnly);
-			$sharees = array_merge($sharees, $this->filterSharees($potentialSharees, $sharedGroups));
+			$this->getGroups($search);
 		}
 
 		// Get remote
 		if (in_array(Share::SHARE_TYPE_REMOTE, $shareTypes)) {
-			$sharees = array_merge($sharees, $this->getRemote($search));
+			$this->getRemote($search);
 		}
 
-
-		// Sort sharees
-		$sorter = new SearchResultSorter($search, 'label', $this->logger);
-		usort($sharees, array($sorter, 'sort'));
-
-		//Pagination
-		$start = ($page - 1) * $perPage;
-		$total = sizeof($sharees);
-
-		$sharees = array_slice($sharees, $start, $perPage);
-
-		$response = new \OC_OCS_Result($sharees);
-		$response->setTotalItems($total);
+		$response = new \OC_OCS_Result($this->result);
 		$response->setItemsPerPage($perPage);
 
-		$links = $this->getPaginationLinks($page, $total, [
-			'search' => $search,
-			'itemType' => $itemType,
-			'existingShares' => $shareIds,
-			'shareType' => $shareTypes,
-			'limit' => $perPage,
-		]);
-
-		if (!empty($links)) {
-			$response->addHeader('Link', implode(', ', $links));
+		if (sizeof($this->reachedEndFor) < 3) {
+			$response->addHeader('Link', $this->getPaginationLink($page, [
+				'search' => $search,
+				'itemType' => $itemType,
+				'existingShares' => $shareIds,
+				'shareType' => $shareTypes,
+				'limit' => $perPage,
+			]));
 		}
 
 		return $response;
 	}
 
 	/**
-	 * Filter out already existing shares from a list of potential sharees
-	 *
-	 * @param array $potentialSharees
-	 * @param array $existingSharees
-	 * @return array
-	 */
-	protected function filterSharees($potentialSharees, $existingSharees) {
-		$sharees = array_filter($potentialSharees, function ($sharee) use ($existingSharees) {
-			return in_array($sharee['value']['shareWith'], $existingSharees) ? null : $sharee;
-		});
-
-		return $sharees;
-	}
-
-	/**
-	 * Get a list of existing share_with's for the given share IDs (if the current user owns them)
-	 *
-	 * @param array $shareIds
-	 * @return array
-	 */
-	protected function getShareesForShareIds($shareIds) {
-		if (empty($shareIds)) {
-			return [];
-		}
-
-		$queryBuilder = $this->connection->getQueryBuilder();
-		$exprBuilder = $queryBuilder->expr();
-
-		$queryBuilder->select(['share_type', 'share_with'])
-			->from('share')
-			->where($exprBuilder->in('id', $queryBuilder->createParameter('shareIds')))
-			->andWhere($exprBuilder->eq('uid_owner', $queryBuilder->createParameter('user')))
-			->andWhere($exprBuilder->isNull('parent'))
-			->setParameter('shareIds', $shareIds, Connection::PARAM_INT_ARRAY)
-			->setParameter('user', $this->userSession->getUser()->getUID());
-		$query = $queryBuilder->execute();
-
-		$sharees = [];
-		while ($row = $query->fetch()) {
-			$sharees[$row['share_type']][] = $row['share_with'];
-		}
-		$query->closeCursor();
-
-		return $sharees;
-	}
-
-	/**
 	 * Generates a bunch of pagination links for the current page
 	 *
 	 * @param int $page Current page
-	 * @param int $total Number of total items that need to be paginated
 	 * @param array $params Parameters for the URL
-	 * @return array
+	 * @return string
 	 */
-	protected function getPaginationLinks($page, $total, array $params) {
-		$url = $this->urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/sharees') . '?';
+	protected function getPaginationLink($page, array $params) {
+		if ($this->isV2()) {
+			$url = $this->urlGenerator->getAbsoluteURL('/ocs/v2.php/apps/files_sharing/api/v1/sharees') . '?';
+		} else {
+			$url = $this->urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/sharees') . '?';
+		}
+		$params['page'] = $page + 1;
+		$link = '<' . $url . http_build_query($params) . '>; rel="next"';
 
-		$links = [];
-		if ($page > 1) {
-			$params['page'] = 1;
-			$links[] = '<' . $url . http_build_query($params) . '>; rel="first"';
-			$params['page'] = $page - 1;
-			$links[] = '<' . $url . http_build_query($params) . '>; rel="prev"';
-		}
-		if ($page * $params['limit'] < $total) {
-			$params['page'] = $page + 1;
-			$links[] = '<' . $url . http_build_query($params) . '>; rel="next"';
-			$params['page'] = ceil($total / $params['limit']);
-			$links[] = '<' . $url . http_build_query($params) . '>; rel="last"';
-		}
-		return $links;
+		return $link;
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isV2() {
+		return $this->request->getScriptName() === '/ocs/v2.php';
 	}
 }
