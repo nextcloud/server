@@ -115,6 +115,14 @@ interface IDBConnection {
 	public function beginTransaction();
 
 	/**
+	 * Check if a transaction is active
+	 *
+	 * @return bool
+	 * @since 8.2.0
+	 */
+	public function inTransaction();
+
+	/**
 	 * Commit the database changes done during a transaction that is in progress
 	 * @since 6.0.0
 	 */
