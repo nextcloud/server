@@ -294,7 +294,7 @@
 }
 #expand {
 	display: block;
-	padding: 7px 30px 6px 22px;
+	padding: 7px 30px 6px 10px;
 	cursor: pointer;
 }
 #expand * {
