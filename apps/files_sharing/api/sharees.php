@@ -139,8 +139,8 @@ class Sharees {
 
 		$foundUserById = false;
 		foreach ($users as $uid => $userDisplayName) {
-			if ($uid === $search || $userDisplayName === $search) {
-				if ($uid === $search) {
+			if (strtolower($uid) === $search || strtolower($userDisplayName) === $search) {
+				if (strtolower($uid) === $search) {
 					$foundUserById = true;
 				}
 				$this->result['exact']['users'][] = [
@@ -199,7 +199,7 @@ class Sharees {
 		}
 
 		foreach ($groups as $gid) {
-			if ($gid === $search) {
+			if (strtolower($gid) === $search) {
 				$this->result['exact']['groups'][] = [
 					'label' => $search,
 					'value' => [
@@ -222,8 +222,8 @@ class Sharees {
 			// On page one we try if the search result has a direct hit on the
 			// user id and if so, we add that to the exact match list
 			$group = $this->groupManager->get($search);
-			if ($group instanceof IGroup && (!$this->shareWithGroupOnly || array_intersect([$group], $userGroups))) {
-				array_push($this->result['exact']['users'], [
+			if ($group instanceof IGroup && (!$this->shareWithGroupOnly || in_array($group->getGID(), $userGroups))) {
+				array_push($this->result['exact']['groups'], [
 					'label' => $group->getGID(),
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_GROUP,
@@ -241,23 +241,17 @@ class Sharees {
 	protected function getRemote($search) {
 		$this->result['remotes'] = [];
 
-		if (substr_count($search, '@') >= 1 && $this->offset === 0) {
-			$this->result['exact']['remotes'][] = [
-				'label' => $search,
-				'value' => [
-					'shareType' => Share::SHARE_TYPE_REMOTE,
-					'shareWith' => $search,
-				],
-			];
-		}
-
 		// Search in contacts
 		//@todo Pagination missing
 		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN']);
+		$foundRemoteById = false;
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['CLOUD'])) {
 				foreach ($contact['CLOUD'] as $cloudId) {
-					if ($contact['FN'] === $search || $cloudId === $search) {
+					if (strtolower($contact['FN']) === $search || strtolower($cloudId) === $search) {
+						if (strtolower($cloudId) === $search) {
+							$foundRemoteById = true;
+						}
 						$this->result['exact']['remotes'][] = [
 							'label' => $contact['FN'],
 							'value' => [
@@ -276,6 +270,16 @@ class Sharees {
 					}
 				}
 			}
+		}
+
+		if (!$foundRemoteById && substr_count($search, '@') >= 1 && substr_count($search, ' ') === 0 && $this->offset === 0) {
+			$this->result['exact']['remotes'][] = [
+				'label' => $search,
+				'value' => [
+					'shareType' => Share::SHARE_TYPE_REMOTE,
+					'shareWith' => $search,
+				],
+			];
 		}
 
 		$this->reachedEndFor[] = 'remotes';
@@ -313,7 +317,7 @@ class Sharees {
 		$this->limit = (int) $perPage;
 		$this->offset = $perPage * ($page - 1);
 
-		return $this->searchSharees($search, $itemType, $shareTypes, $page, $perPage);
+		return $this->searchSharees(strtolower($search), $itemType, $shareTypes, $page, $perPage);
 	}
 
 	/**
