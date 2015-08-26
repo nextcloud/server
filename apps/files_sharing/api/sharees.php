@@ -62,6 +62,9 @@ class Sharees {
 	/** @var bool */
 	protected $shareWithGroupOnly = false;
 
+	/** @var bool */
+	protected $shareeEnumeration = true;
+
 	/** @var int */
 	protected $offset = 0;
 
@@ -134,7 +137,7 @@ class Sharees {
 			}
 		}
 
-		if (sizeof($users) < $this->limit) {
+		if (!$this->shareeEnumeration || sizeof($users) < $this->limit) {
 			$this->reachedEndFor[] = 'users';
 		}
 
@@ -176,6 +179,10 @@ class Sharees {
 				]);
 			}
 		}
+
+		if (!$this->shareeEnumeration) {
+			$this->result['users'] = [];
+		}
 	}
 
 	/**
@@ -187,7 +194,7 @@ class Sharees {
 		$groups = $this->groupManager->search($search, $this->limit, $this->offset);
 		$groups = array_map(function (IGroup $group) { return $group->getGID(); }, $groups);
 
-		if (sizeof($groups) < $this->limit) {
+		if (!$this->shareeEnumeration || sizeof($groups) < $this->limit) {
 			$this->reachedEndFor[] = 'groups';
 		}
 
@@ -233,6 +240,10 @@ class Sharees {
 				]);
 			}
 		}
+
+		if (!$this->shareeEnumeration) {
+			$this->result['groups'] = [];
+		}
 	}
 
 	/**
@@ -271,6 +282,10 @@ class Sharees {
 					}
 				}
 			}
+		}
+
+		if (!$this->shareeEnumeration) {
+			$this->result['remotes'] = [];
 		}
 
 		if (!$foundRemoteById && substr_count($search, '@') >= 1 && substr_count($search, ' ') === 0 && $this->offset === 0) {
@@ -322,6 +337,7 @@ class Sharees {
 		}
 
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->limit = (int) $perPage;
 		$this->offset = $perPage * ($page - 1);
 
