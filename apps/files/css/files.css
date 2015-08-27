@@ -616,13 +616,13 @@ a.action > img {
 }
 
 /* show share action of shared items darker to distinguish from non-shared */
-#fileList a.action.permanent.shared-style {
+#fileList a.action.permanent.shared-style,
+#fileList a.action.action-favorite.permanent {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
 	filter: alpha(opacity=70) !important;
 	opacity: .7 !important;
 }
 /* always show actions on mobile, not only on hover */
-#fileList a.action,
 #fileList a.action.action-menu.permanent {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)" !important;
 	filter: alpha(opacity=30) !important;
