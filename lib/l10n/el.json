@@ -44,6 +44,7 @@
     "Can't read file" : "Αδυναμία ανάγνωσης αρχείου",
     "App directory already exists" : "Ο κατάλογος εφαρμογών υπάρχει ήδη",
     "Can't create app folder. Please fix permissions. %s" : "Δεν είναι δυνατόν να δημιουργηθεί ο φάκελος εφαρμογής. Παρακαλώ διορθώστε τις άδειες πρόσβασης. %s",
+    "Archive does not contain a directory named %s" : "Το αρχείο δεν περιέχει κατάλογο με το όνομα %s",
     "No source specified when installing app" : "Δεν προσδιορίστηκε πηγή κατά την εγκατάσταση της εφαρμογής",
     "No href specified when installing app from http" : "Δεν προσδιορίστηκε href κατά την εγκατάσταση της εφαρμογής μέσω http ",
     "No path specified when installing app from local file" : "Δεν προσδιορίστηκε μονοπάτι κατά την εγκατάσταση εφαρμογής από τοπικό αρχείο",

@@ -47,6 +47,7 @@
     "Can't read file" : "Dosya okunamıyor",
     "App directory already exists" : "Uygulama dizini zaten mevcut",
     "Can't create app folder. Please fix permissions. %s" : "Uygulama dizini oluşturulamıyor. Lütfen izinleri düzeltin. %s",
+    "Archive does not contain a directory named %s" : "Arşivde %s adında bir dizin bulunmuyor",
     "No source specified when installing app" : "Uygulama kurulurken bir kaynak belirtilmedi",
     "No href specified when installing app from http" : "Uygulama http'den kurulurken href belirtilmedi",
     "No path specified when installing app from local file" : "Uygulama yerel dosyadan kurulurken dosya yolu belirtilmedi",
