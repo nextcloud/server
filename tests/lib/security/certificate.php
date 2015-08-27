@@ -61,29 +61,26 @@ class CertificateTest extends \Test\TestCase {
 	}
 
 	public function testGetOrganization() {
-		$this->assertSame('ownCloud Inc.', $this->goodCertificate->getOrganization());
+		$this->assertSame('ownCloud Security', $this->goodCertificate->getOrganization());
 		$this->assertSame('Internet Widgits Pty Ltd', $this->invalidCertificate->getOrganization());
 	}
 
 	public function testGetIssueDate() {
-		$expected = new DateTime('2014-08-27 08:45:52 GMT');
+		$expected = new DateTime('2015-08-27 20:03:42 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->goodCertificate->getIssueDate()->getTimestamp());
-		$expected = new DateTime('2014-08-27 08:48:51 GMT');
+		$expected = new DateTime('2015-08-27 20:19:13 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->invalidCertificate->getIssueDate()->getTimestamp());
 	}
 
 	public function testGetExpireDate() {
-		$expected = new DateTime('2015-08-27 08:45:52 GMT');
+		$expected = new DateTime('2025-08-24 20:03:42 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->goodCertificate->getExpireDate()->getTimestamp());
-		$expected = new DateTime('2015-08-27 08:48:51 GMT');
+		$expected = new DateTime('2025-08-24 20:19:13 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->invalidCertificate->getExpireDate()->getTimestamp());
 		$expected = new DateTime('2014-08-28 09:12:43 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->expiredCertificate->getExpireDate()->getTimestamp());
 	}
 
-	/**
-	 * Obviously the following test case might fail after 2015-08-27, just create a new certificate with longer validity then
-	 */
 	public function testIsExpired() {
 		$this->assertSame(false, $this->goodCertificate->isExpired());
 		$this->assertSame(false, $this->invalidCertificate->isExpired());
@@ -97,7 +94,7 @@ class CertificateTest extends \Test\TestCase {
 	}
 
 	public function testGetIssuerOrganization() {
-		$this->assertSame('ownCloud Inc.', $this->goodCertificate->getIssuerOrganization());
+		$this->assertSame('ownCloud Security', $this->goodCertificate->getIssuerOrganization());
 		$this->assertSame('Internet Widgits Pty Ltd', $this->invalidCertificate->getIssuerOrganization());
 		$this->assertSame('Internet Widgits Pty Ltd', $this->expiredCertificate->getIssuerOrganization());
 	}
