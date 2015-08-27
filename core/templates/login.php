@@ -3,7 +3,8 @@
 vendor_script('jsTimezoneDetect/jstz');
 script('core', [
 	'visitortimezone',
-	'lostpassword'
+	'lostpassword',
+	'login'
 ]);
 ?>
 
