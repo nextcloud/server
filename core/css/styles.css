@@ -456,11 +456,30 @@ input[type="submit"].enabled {
 	padding: 13px;
 	margin: -13px;
 }
-/* quick fix for log in button not being aligned with input fields, should be properly fixed by input field width later */
+
+/* position log in button as confirm icon in right of password field */
 #body-login #submit.login {
-	margin-right: 7px;
+	position: absolute;
+	right: 0;
+	top: 49px;
+	border: none;
+	background-color: transparent;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	opacity: .3;
 }
+#body-login #submit.login:hover,
+#body-login #submit.login:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	opacity: .7;
+}
+#body-login input[type="password"] {
+	padding-right: 40px;
+	box-sizing: border-box;
+	min-width: 269px;
+}
+
 #body-login form {
+	position: relative;
 	width: 22em;
 	margin: 2em auto 2em;
 	padding: 0;
@@ -539,10 +558,8 @@ input[name='password-clone'] {
 /* General new input field look */
 #body-login input[type="text"],
 #body-login input[type="password"],
-#body-login input[type="email"],
-#body-login input[type="submit"] {
+#body-login input[type="email"] {
 	border: none;
-	border-radius: 5px;
 }
 
 /* Nicely grouping input field sets */
@@ -741,7 +758,7 @@ label.infield {
 	margin: 35px auto;
 }
 #body-login .warning {
-	margin: 0 7px 5px;
+	margin: 0 7px 5px 4px;
 }
 #body-login .warning legend {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
@@ -780,8 +797,13 @@ label.infield {
 	padding: 10px 20px; /* larger log in and installation buttons */
 }
 #remember_login {
-	margin: 24px 5px 0 16px !important;
+	margin: 18px 5px 0 16px !important;
 	vertical-align: text-bottom;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	opacity: .7;
+}
+#body-login .remember-login-container {
+	text-align: center;
 }
 
 /* Sticky footer */
