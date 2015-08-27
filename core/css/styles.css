@@ -835,15 +835,17 @@ td.avatar {
 #notification, #update-notification {
 	margin: 0 auto;
 	max-width: 60%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	z-index: 8000;
-	background-color: #fc4;
+	background-color: rgba(60,70,100,.6);
+	color: #fff;
 	border: 0;
-	padding: 1px 8px;
+	padding: 13px 16px 12px;
 	display: none;
 	position: relative;
 	top: 0;
-	border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
 	opacity: .9;
 }
