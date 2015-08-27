@@ -218,6 +218,20 @@ class UsersTest extends OriginalTest {
 			->expects($this->once())
 			->method('error')
 			->with('Failed addUser attempt: User already exists.', ['app' => 'ocs_api']);
+		$loggedInUser = $this->getMock('\OCP\IUser');
+		$loggedInUser
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('adminUser'));
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('adminUser')
+			->willReturn(true);
 
 		$expected = new \OC_OCS_Result(null, 102, 'User already exists');
 		$this->assertEquals($expected, $this->api->addUser());
@@ -239,6 +253,20 @@ class UsersTest extends OriginalTest {
 			->expects($this->once())
 			->method('info')
 			->with('Successful addUser call with userid: NewUser', ['app' => 'ocs_api']);
+		$loggedInUser = $this->getMock('\OCP\IUser');
+		$loggedInUser
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('adminUser'));
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('adminUser')
+			->willReturn(true);
 
 		$expected = new \OC_OCS_Result(null, 100);
 		$this->assertEquals($expected, $this->api->addUser());
@@ -261,6 +289,20 @@ class UsersTest extends OriginalTest {
 			->expects($this->once())
 			->method('error')
 			->with('Failed addUser attempt with exception: User backend not found.', ['app' => 'ocs_api']);
+		$loggedInUser = $this->getMock('\OCP\IUser');
+		$loggedInUser
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('adminUser'));
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('adminUser')
+			->willReturn(true);
 
 		$expected = new \OC_OCS_Result(null, 101, 'Bad request');
 		$this->assertEquals($expected, $this->api->addUser());
