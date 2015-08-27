@@ -71,6 +71,7 @@ $languages=array();
 $commonlanguages = array();
 foreach($languageCodes as $lang) {
 	$l = \OC::$server->getL10N('settings', $lang);
+	// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
 	if(substr($l->t('__language_name__'), 0, 1) !== '_') {//first check if the language name is in the translation file
 		$ln=array('code'=>$lang, 'name'=> (string)$l->t('__language_name__'));
 	}elseif(isset($languageNames[$lang])) {
