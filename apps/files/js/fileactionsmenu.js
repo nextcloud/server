@@ -14,7 +14,7 @@
 		'<ul>' +
 		'{{#each items}}' +
 		'<li>' +
-		'<a href="#" class="action action-{{nameLowerCase}} permanent" data-action="{{name}}">{{#if icon}}<img src="{{icon}}"/>{{else}}<span class="no-icon"></span>{{/if}}<span>{{displayName}}</span></a>' +
+		'<a href="#" class="menuitem action action-{{nameLowerCase}} permanent" data-action="{{name}}">{{#if icon}}<img class="icon" src="{{icon}}"/>{{else}}<span class="no-icon"></span>{{/if}}<span>{{displayName}}</span></a>' +
 		'</li>' +
 		'{{/each}}' +
 		'</ul>';
@@ -26,7 +26,7 @@
 	 */
 	var FileActionsMenu = OC.Backbone.View.extend({
 		tagName: 'div',
-		className: 'fileActionsMenu bubble hidden open menu',
+		className: 'fileActionsMenu popovermenu bubble hidden open menu',
 
 		/**
 		 * Current context

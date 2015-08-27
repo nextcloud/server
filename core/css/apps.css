@@ -624,3 +624,76 @@ em {
 .tabsContainer .tab {
 	padding: 15px;
 }
+
+/* popover menu styles (use together with "bubble" class) */
+.popovermenu .menuitem,
+.popovermenu .menuitem>span {
+	cursor: pointer;
+}
+
+.popovermenu .menuitem {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+
+.popovermenu .menuitem {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+
+.popovermenu .menuitem:hover,
+.popovermenu .menuitem:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
+.popovermenu {
+	padding: 4px 12px;
+}
+
+.popovermenu li {
+	padding: 5px 0;
+}
+
+.popovermenu .menuitem img {
+	padding: initial;
+}
+
+.popovermenu a.menuitem,
+.popovermenu label.menuitem,
+.popovermenu .menuitem {
+	padding: 10px;
+	margin: -10px;
+}
+
+.popovermenu.hidden {
+	display: none;
+}
+
+.popovermenu .menuitem {
+	display: block;
+	line-height: 30px;
+	padding-left: 5px;
+	color: #000;
+	padding: 0;
+}
+
+
+.popovermenu .menuitem .icon,
+.popovermenu .menuitem .no-icon {
+	display: inline-block;
+	width: 16px;
+	margin-right: 5px;
+}
+
+.popovermenu .menuitem {
+	opacity: 0.5;
+}
+
+.popovermenu li:hover .menuitem {
+	opacity: 1;
+}
+

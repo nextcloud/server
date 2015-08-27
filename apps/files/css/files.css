@@ -18,11 +18,6 @@
 	z-index: -30;
 }
 
-#new {
-	z-index: 1010;
-	float: left;
-	padding: 0 !important; /* override default control bar button padding */
-}
 #trash {
 	margin-right: 8px;
 	float: right;
@@ -30,49 +25,8 @@
 	padding: 10px;
 	font-weight: normal;
 }
-#new > a {
-	padding: 14px 10px;
-	position: relative;
-	top: 7px;
-}
-#new.active {
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-	border-bottom: none;
-	background: #f8f8f8;
-}
-#new > ul {
-	display: none;
-	position: fixed;
-	min-width: 112px;
-	z-index: -10;
-	padding: 8px;
-	padding-bottom: 0;
-	margin-top: 13.5px;
-	margin-left: -1px;
-	text-align: left;
-	background: #f8f8f8;
-	border: 1px solid #ddd;
-	border: 1px solid rgba(240, 240, 240, 0.9);
-	border-radius: 5px;
-	border-top-left-radius: 0;
-	box-shadow: 0 2px 7px rgba(170,170,170,.4);
-}
-#new > ul > li {
-	height: 36px;
-	margin: 5px;
-	padding-left: 42px;
-	padding-bottom: 2px;
-	background-position: left center;
-	cursor: pointer;
-}
-#new > ul > li > p {
-	cursor: pointer;
-	padding-top: 7px;
-	padding-bottom: 7px;
-}
 
-#new .error, #fileList .error {
+.newFileMenu .error, #fileList .error {
 	color: #e9322d;
 	border-color: #e9322d;
 	-webkit-box-shadow: 0 0 6px #f8b9b7;
@@ -141,6 +95,30 @@
 /* double padding to account for Deleted files entry, issue with Firefox */
 .app-files #app-navigation > ul li:nth-last-child(2) {
 	margin-bottom: 44px;
+}
+
+#app-navigation .nav-files a.nav-icon-files {
+	width: auto;
+}
+/* button needs overrides due to navigation styles */
+#app-navigation .nav-files a.new {
+	width: 40px;
+	height: 32px;
+	padding: 0 10px;
+	margin: 0;
+	cursor: pointer;
+}
+
+#app-navigation .nav-files a {
+	display: inline-block;
+}
+
+#app-navigation .nav-files a.new.hidden {
+	display: none;
+}
+
+#app-navigation .nav-files a.new.disabled {
+	opacity: 0.3;
 }
 
 #filestable tbody tr {
@@ -599,7 +577,8 @@ a.action > img {
 #fileList a.action.action-menu {
 	padding: 17px 14px;
 }
-#fileList .fileActionsMenu {
+
+#fileList .popovermenu {
 	margin-right: 21px;
 }
 
@@ -654,13 +633,13 @@ a.action > img {
 }
 
 /* properly display actions in the popover menu */
-#fileList .fileActionsMenu .action {
+#fileList .popovermenu .action {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)" !important;
 	filter: alpha(opacity=50) !important;
 	opacity: .5 !important;
 }
-#fileList .fileActionsMenu .action:hover,
-#fileList .fileActionsMenu .action:focus {
+#fileList .popovermenu .action:hover,
+#fileList .popovermenu .action:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)" !important;
 	filter: alpha(opacity=100) !important;
 	opacity: 1 !important;
@@ -744,25 +723,45 @@ table.dragshadow td.size {
 	opacity: 0;
 }
 
-.fileActionsMenu {
-	padding: 4px 12px;
-}
-.fileActionsMenu li {
-	padding: 5px 0;
-}
-#fileList .fileActionsMenu a.action img {
+#fileList .popovermenu a.action img {
 	padding: initial;
 }
-#fileList .fileActionsMenu a.action {
+
+#fileList .popovermenu a.action {
 	padding: 10px;
 	margin: -10px;
 }
 
-.fileActionsMenu.hidden {
-	display: none;
+.newFileMenu {
+	width: 140px;
+	margin-left: -56px;
+	margin-top: 25px;
 }
 
-#fileList .fileActionsMenu .action {
+.newFileMenu .menuitem {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.newFileMenu.bubble:after {
+	left: 75px;
+	right: auto;
+}
+.newFileMenu.bubble:before {
+	left: 75px;
+	right: auto;
+}
+
+.newFileMenu .filenameform {
+	display: inline-block;
+}
+
+.newFileMenu .filenameform input {
+	width: 100px;
+}
+
+#fileList .popovermenu .action {
 	display: block;
 	line-height: 30px;
 	padding-left: 5px;
@@ -770,17 +769,3 @@ table.dragshadow td.size {
 	padding: 0;
 }
 
-.fileActionsMenu .action img,
-.fileActionsMenu .action .no-icon {
-	display: inline-block;
-	width: 16px;
-	margin-right: 5px;
-}
-
-.fileActionsMenu .action {
-	opacity: 0.5;
-}
-
-.fileActionsMenu li:hover .action {
-	opacity: 1;
-}
