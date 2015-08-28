@@ -977,6 +977,7 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 }
 #oc-dialog-filepicker-content .filelist img {
 	margin: 2px 1em 0 4px;
+	width: 32px;
 }
 #oc-dialog-filepicker-content .filelist .date {
 	float: right;
