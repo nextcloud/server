@@ -98,7 +98,7 @@ class GlobalStoragesController extends StoragesController {
 			return $newStorage;
 		}
 
-		$response = $this->validate($newStorage);
+		$response = $this->validate($newStorage, BackendService::PERMISSION_CREATE);
 		if (!empty($response)) {
 			return $response;
 		}
@@ -154,7 +154,7 @@ class GlobalStoragesController extends StoragesController {
 		}
 		$storage->setId($id);
 
-		$response = $this->validate($storage);
+		$response = $this->validate($storage, BackendService::PERMISSION_MODIFY);
 		if (!empty($response)) {
 			return $response;
 		}

@@ -35,8 +35,9 @@ class BackendService {
 	const PERMISSION_NONE = 0;
 	const PERMISSION_MOUNT = 1;
 	const PERMISSION_CREATE = 2;
+	const PERMISSION_MODIFY = 4;
 
-	const PERMISSION_DEFAULT = 3; // MOUNT | CREATE
+	const PERMISSION_DEFAULT = 7; // MOUNT | CREATE | MODIFY
 
 	/** User contants */
 	const USER_ADMIN = 'admin';

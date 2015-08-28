@@ -125,10 +125,11 @@ abstract class StoragesController extends Controller {
 	 * Validate storage config
 	 *
 	 * @param StorageConfig $storage storage config
+	 * @param int $permissionCheck permission to check
 	 *
 	 * @return DataResponse|null returns response in case of validation error
 	 */
-	protected function validate(StorageConfig $storage) {
+	protected function validate(StorageConfig $storage, $permissionCheck = BackendService::PERMISSION_CREATE) {
 		$mountPoint = $storage->getMountPoint();
 		if ($mountPoint === '' || $mountPoint === '/') {
 			return new DataResponse(
@@ -165,7 +166,7 @@ abstract class StoragesController extends Controller {
 			);
 		}
 
-		if (!$backend->isPermitted($this->getUserType(), BackendService::PERMISSION_CREATE)) {
+		if (!$backend->isPermitted($this->getUserType(), $permissionCheck)) {
 			// not permitted to use backend
 			return new DataResponse(
 				array(
@@ -176,7 +177,7 @@ abstract class StoragesController extends Controller {
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
-		if (!$authMechanism->isPermitted($this->getUserType(), BackendService::PERMISSION_CREATE)) {
+		if (!$authMechanism->isPermitted($this->getUserType(), $permissionCheck)) {
 			// not permitted to use auth mechanism
 			return new DataResponse(
 				array(
