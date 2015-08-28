@@ -90,6 +90,7 @@ class Server extends \Test\TestCase {
 			['JobList', '\OCP\BackgroundJob\IJobList'],
 
 			['L10NFactory', '\OC\L10N\Factory'],
+			['L10NFactory', '\OCP\L10N\IFactory'],
 			['LockingProvider', '\OCP\Lock\ILockingProvider'],
 			['Logger', '\OC\Log'],
 			['Logger', '\OCP\ILogger'],
