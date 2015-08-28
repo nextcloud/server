@@ -235,7 +235,6 @@
     "An internal error occured." : "发生了内部错误。",
     "Please try again or contact your administrator." : "请重试或联系管理员。",
     "remember" : "记住",
-    "Log in" : "登录",
     "Alternative Logins" : "其他登录方式",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "嗨、你好,<br><br>只想让你知道 %s 分享了 <strong>%s</strong> 给你。<br><a href=\"%s\">现在查看！</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "当前ownCloud实例运行在单用户模式下。",

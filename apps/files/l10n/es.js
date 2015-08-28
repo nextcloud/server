@@ -7,7 +7,7 @@ OC.L10N.register(
     "Could not move %s - File with this name already exists" : "No se pudo mover %s - Ya existe un archivo con ese nombre.",
     "Could not move %s" : "No se pudo mover %s",
     "Permission denied" : "Permiso denegado",
-    "The target folder has been moved or deleted." : "La carpeta destino fue movida o eliminada.",
+    "The target folder has been moved or deleted." : "La carpeta de destino fue movida o eliminada.",
     "The name %s is already used in the folder %s. Please choose a different name." : "El nombre %s ya está en uso por la carpeta %s. Por favor elija uno diferente.",
     "Error when creating the file" : "Error al crear el archivo",
     "Error when creating the folder" : "Error al crear la carpeta.",

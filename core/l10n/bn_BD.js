@@ -126,7 +126,6 @@ OC.L10N.register(
     "Log out" : "প্রস্থান",
     "Search" : "অনুসন্ধান",
     "remember" : "মনে রাখ",
-    "Log in" : "প্রবেশ",
     "Alternative Logins" : "বিকল্প লগইন"
 },
 "nplurals=2; plural=(n != 1);");

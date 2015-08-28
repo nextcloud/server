@@ -244,7 +244,6 @@ OC.L10N.register(
     "An internal error occured." : "Produciuse un erro interno.",
     "Please try again or contact your administrator." : "Ténteo de novo ou póñase en contacto co administrador.",
     "remember" : "lembrar",
-    "Log in" : "Conectar",
     "Alternative Logins" : "Accesos alternativos",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ola,<br><br>só facerlle saber que %s compartiu <strong>%s</strong> con vostede.<br><a href=\"%s\">Véxao!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Esta instancia do ownCloud está actualmente en modo de usuario único.",

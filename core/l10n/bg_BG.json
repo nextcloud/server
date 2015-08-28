@@ -210,7 +210,6 @@
     "Server side authentication failed!" : "Удостоверяването от страна на сървъра е неуспешно!",
     "Please contact your administrator." : "Моля, свържете се с администратора.",
     "remember" : "запомняне",
-    "Log in" : "Вписване",
     "Alternative Logins" : "Алтернативни методи на вписване",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Здрасти,<br><br>само да те уведомя, че %s сподели <strong>%s</strong> с теб.\n<br><a href=\"%s\">Разгледай го!</a><br><br>.",
     "This ownCloud instance is currently in single user mode." : "В момента този ownCloud е в режим допускащ само един потребител.",

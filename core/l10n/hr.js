@@ -200,7 +200,6 @@ OC.L10N.register(
     "Server side authentication failed!" : "Autentikacija na strani poslužitelja nije uspjela!",
     "Please contact your administrator." : "Molimo kontaktirajte svog administratora.",
     "remember" : "Sjetite se",
-    "Log in" : "Prijavite se",
     "Alternative Logins" : "Alternativne prijave",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej, <br><br> vam upravo javlja da je %s podijelio <strong>%s</strong>s vama.<br><a href=\"%s\">POgledajte!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Ova ownCloud instanca je trenutno u načinu rada za jednog korisnika.",

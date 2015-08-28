@@ -200,7 +200,6 @@ OC.L10N.register(
     "Server side authentication failed!" : "Zerbitzari aldeko autentifikazioak huts egin du!",
     "Please contact your administrator." : "Mesedez jarri harremetan zure administradorearekin.",
     "remember" : "gogoratu",
-    "Log in" : "Hasi saioa",
     "Alternative Logins" : "Beste erabiltzaile izenak",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Kaixo<br><br>%s-ek %s zurekin partekatu duela jakin dezazun.\nIkusi ezazu: %s",
     "This ownCloud instance is currently in single user mode." : "ownCloud instantzia hau erabiltzaile bakar moduan dago.",

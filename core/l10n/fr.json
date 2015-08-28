@@ -245,7 +245,6 @@
     "Please try again or contact your administrator." : "Veuillez réessayer ou contacter votre administrateur.",
     "Wrong password. Reset it?" : "Mot de passe incorrect. Réinitialiser ?",
     "remember" : "se souvenir de moi",
-    "Log in" : "Connexion",
     "Alternative Logins" : "Identifiants alternatifs",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Bonjour,<br><br>Nous vous informons que %s a partagé <strong>%s</strong> avec vous.<br><a href=\"%s\">Cliquez ici pour y accéder !</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Cette instance de ownCloud est actuellement en mode utilisateur unique.",

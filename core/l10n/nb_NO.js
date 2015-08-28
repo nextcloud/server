@@ -236,7 +236,6 @@ OC.L10N.register(
     "An internal error occured." : "Det oppstod en intern feil.",
     "Please try again or contact your administrator." : "Prøv igjen eller kontakt en administrator.",
     "remember" : "husk",
-    "Log in" : "Logg inn",
     "Alternative Logins" : "Alternative innlogginger",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>Dette er en beskjed om at %s delte <strong>%s</strong> med deg.<br><a href=\"%s\">Vis den!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Denne ownCloud-instansen er for øyeblikket i enbrukermodus.",

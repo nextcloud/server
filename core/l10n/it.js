@@ -2,6 +2,7 @@ OC.L10N.register(
     "core",
     {
     "Couldn't send mail to following users: %s " : "Impossibile inviare email ai seguenti utenti: %s",
+    "Preparing update" : "Preparazione aggiornamento",
     "Turned on maintenance mode" : "Modalità di manutenzione attivata",
     "Turned off maintenance mode" : "Modalità di manutenzione disattivata",
     "Maintenance mode is kept active" : "La modalità di manutenzione è lasciata attiva",
@@ -13,6 +14,7 @@ OC.L10N.register(
     "Repair error: " : "Errore di riparazione:",
     "Following incompatible apps have been disabled: %s" : "Le seguenti applicazioni incompatibili sono state disabilitate: %s",
     "Following apps have been disabled: %s" : "Le seguenti applicazioni sono state disabilitate: %s",
+    "Already up to date" : "Già aggiornato",
     "File is too big" : "Il file è troppo grande",
     "Invalid file provided" : "File non valido fornito",
     "No image or file provided" : "Non è stata fornita alcun immagine o file",
@@ -248,7 +250,6 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Prova ancora o contatta il tuo amministratore.",
     "Wrong password. Reset it?" : "Password errata. Vuoi reimpostarla?",
     "remember" : "ricorda",
-    "Log in" : "Accedi",
     "Alternative Logins" : "Accessi alternativi",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ciao,<br><br>volevo informarti che %s ha condiviso <strong>%s</strong> con te.<br><a href=\"%s\">Guarda!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Questa istanza di ownCloud è in modalità utente singolo.",

@@ -1,5 +1,6 @@
 { "translations": {
     "Couldn't send mail to following users: %s " : "Αδυναμία αποστολής μηνύματος στους ακόλουθους χρήστες: %s",
+    "Preparing update" : "Προετοιμασία ενημέρωσης",
     "Turned on maintenance mode" : "Η κατάσταση συντήρησης ενεργοποιήθηκε",
     "Turned off maintenance mode" : "Η κατάσταση συντήρησης απενεργοποιήθηκε",
     "Maintenance mode is kept active" : "Η λειτουργία συντήρησης διατηρήθηκε ενεργή",
@@ -11,6 +12,7 @@
     "Repair error: " : "Σφάλμα διόρθωσης:",
     "Following incompatible apps have been disabled: %s" : "Οι παρακάτω εφαρμογές έχουν απενεργοποιηθεί: %s",
     "Following apps have been disabled: %s" : "Οι ακόλουθες εφαρμογές έχουν απενεργοποιηθεί: %s",
+    "Already up to date" : "Ήδη ενημερωμένο",
     "File is too big" : "Το αρχείο είναι πολύ μεγάλο",
     "Invalid file provided" : "Έχει δοθεί μη έγκυρο αρχείο",
     "No image or file provided" : "Δεν δόθηκε εικόνα ή αρχείο",
@@ -246,7 +248,6 @@
     "Please try again or contact your administrator." : "Παρακαλώ δοκιμάστε ξανά ή επικοινωνήστε με τον διαχειριστή σας.",
     "Wrong password. Reset it?" : "Λάθος Κωδικός. Επαναφορά;",
     "remember" : "απομνημόνευση",
-    "Log in" : "Είσοδος",
     "Alternative Logins" : "Εναλλακτικές Συνδέσεις",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Γειά χαρά,<br><br>απλά σας ενημερώνω πως ο %s μοιράστηκε το<strong>%s</strong> με εσάς.<br><a href=\"%s\">Δείτε το!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Αυτή η εγκατάσταση ownCloud είναι τώρα σε κατάσταση ενός χρήστη.",

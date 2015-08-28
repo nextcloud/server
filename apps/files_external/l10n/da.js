@@ -27,6 +27,7 @@ OC.L10N.register(
     "Storage with id \"%i\" not found" : "Lager med ID'et \"%i% er ikke fundet",
     "Invalid backend or authentication mechanism class" : "Ugyldig backend eller klasse for godkendelsesmekanisme",
     "Invalid mount point" : "Fokert monteringspunkt",
+    "Objectstore forbidden" : "Objectstore er forbudt",
     "Invalid storage backend \"%s\"" : "Forkert lager til backend \"%s\"en",
     "Unsatisfied backend parameters" : "Utilfredsstillede backend-parametre",
     "Unsatisfied authentication mechanism parameters" : "Utilfredsstillede parametre for godkendelsesmekanisme",

@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Failed to clear the mappings." : "Ocurrió un fallo al borrar las asignaciones.",
     "Failed to delete the server configuration" : "No se pudo borrar la configuración del servidor",
-    "The configuration is invalid: anonymous bind is not allowed." : "La configuración no es válida: enlaces anónimos no están permitido.",
+    "The configuration is invalid: anonymous bind is not allowed." : "La configuración no es válida: no están permitidos enlaces anónimos.",
     "The configuration is valid and the connection could be established!" : "¡La configuración es válida y la conexión puede establecerse!",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "La configuración es válida, pero falló el nexo. Por favor, compruebe la configuración del servidor y las credenciales.",
     "The configuration is invalid. Please have a look at the logs for further details." : "La configuración no es válida. Por favor, revise el registro para más detalles.",

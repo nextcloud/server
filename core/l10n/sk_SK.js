@@ -228,7 +228,6 @@ OC.L10N.register(
     "An internal error occured." : "Vyskytla sa vnútorná chyba.",
     "Please try again or contact your administrator." : "Skúste to znovu, alebo sa obráťte na vášho administrátora.",
     "remember" : "zapamätať",
-    "Log in" : "Prihlásiť sa",
     "Alternative Logins" : "Alternatívne prihlásenie",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Dobrý deň,<br><br>Používateľ %s zdieľa s vami súbor, alebo priečinok s názvom »%s«.<br><a href=\"%s\">Pre zobrazenie kliknite na túto linku!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Táto inštancia ownCloudu je teraz v jednopoužívateľskom móde.",

@@ -157,7 +157,6 @@ OC.L10N.register(
     "Server side authentication failed!" : "Autentikacija serveryje nepavyko!",
     "Please contact your administrator." : "Kreipkitės į savo sistemos administratorių.",
     "remember" : "prisiminti",
-    "Log in" : "Prisijungti",
     "Alternative Logins" : "Alternatyvūs prisijungimai",
     "This ownCloud instance is currently in single user mode." : "Ši ownCloud sistema yra vieno naudotojo veiksenoje.",
     "This means only administrators can use the instance." : "Tai reiškia, kad tik administratorius gali naudotis sistema.",

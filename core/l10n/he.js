@@ -104,7 +104,6 @@ OC.L10N.register(
     "Log out" : "התנתקות",
     "Search" : "חיפוש",
     "remember" : "שמירת הססמה",
-    "Log in" : "כניסה",
     "Alternative Logins" : "כניסות אלטרנטיביות"
 },
 "nplurals=2; plural=(n != 1);");

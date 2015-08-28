@@ -169,7 +169,6 @@ OC.L10N.register(
     "Server side authentication failed!" : "Falló l'autenticación nel sirvidor!",
     "Please contact your administrator." : "Por favor, contauta col to alministrador",
     "remember" : "recordar",
-    "Log in" : "Aniciar sesión",
     "Alternative Logins" : "Anicios de sesión alternativos",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola, ¿qué hai?,<br><br>namái déxamos dicite que %s compartió <strong>%s</strong> contigo.\n<br><a href=\"%s\">¡Velu!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Esta instalación d'ownCloud ta en mou d'usuariu únicu.",

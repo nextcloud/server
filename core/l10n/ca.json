@@ -226,7 +226,6 @@
     "Please try again or contact your administrator." : "Intenti-ho de nou o posi's en contacte amb el seu administrador.",
     "Wrong password. Reset it?" : "Contrasenya incorrecta. Voleu restablir-la?",
     "remember" : "recorda'm",
-    "Log in" : "Inici de sessió",
     "Alternative Logins" : "Acreditacions alternatives",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ei, <br><br>només fer-vos saber que %s us ha comparti <strong>%s</strong>. <br><a href=\"%s\">Mireu-ho!</a>",
     "This ownCloud instance is currently in single user mode." : "La instància ownCloud està en mode d'usuari únic.",

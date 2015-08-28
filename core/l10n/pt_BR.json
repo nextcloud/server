@@ -1,5 +1,6 @@
 { "translations": {
     "Couldn't send mail to following users: %s " : "Não foi possível enviar e-mail para os seguintes usuários: %s",
+    "Preparing update" : "Preparando atualização",
     "Turned on maintenance mode" : "Ativar modo de manutenção",
     "Turned off maintenance mode" : "Desligar o modo de manutenção",
     "Maintenance mode is kept active" : "O modo de manutenção está sendo mantido como ativo",
@@ -11,6 +12,7 @@
     "Repair error: " : "Reparação de erro:",
     "Following incompatible apps have been disabled: %s" : "Seguir aplicativos incompatíveis foi desativado: %s",
     "Following apps have been disabled: %s" : "Os seguintes aplicativos foram desabilitados: %s",
+    "Already up to date" : "Já está atualizado",
     "File is too big" : "O arquivo é muito grande",
     "Invalid file provided" : "Arquivo fornecido inválido",
     "No image or file provided" : "Nenhuma imagem ou arquivo fornecido",
@@ -246,7 +248,6 @@
     "Please try again or contact your administrator." : "Por favor tente novamente ou faça contato com o seu administrador.",
     "Wrong password. Reset it?" : "Senha incorreta. Redefini-la?",
     "remember" : "lembrar",
-    "Log in" : "Fazer login",
     "Alternative Logins" : "Logins Alternativos",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Olá,<br><br>só para seu conhecimento que %s compartilhou <strong>%s</strong> com você. <br><a href=\"%s\">Verificar!</a><br><br> ",
     "This ownCloud instance is currently in single user mode." : "Nesta instância ownCloud está em modo de usuário único.",

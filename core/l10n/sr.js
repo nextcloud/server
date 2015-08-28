@@ -234,7 +234,6 @@ OC.L10N.register(
     "An internal error occured." : "Дошло је до интерне грешке.",
     "Please try again or contact your administrator." : "Покушајте поново или контактирајте вашег администратора.",
     "remember" : "упамти",
-    "Log in" : "Пријава",
     "Alternative Logins" : "Алтернативне пријаве",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Поздрав,<br><br>само вас обавештавам да %s дели <strong>%s</strong> са вама.<br><a href=\"%s\">Погледајте!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Овај оунКлауд тренутно ради у режиму једног корисника.",

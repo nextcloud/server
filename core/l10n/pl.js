@@ -207,7 +207,6 @@ OC.L10N.register(
     "Please contact your administrator." : "Skontaktuj się z administratorem",
     "Please try again or contact your administrator." : "Spróbuj ponownie lub skontaktuj się z administratorem.",
     "remember" : "pamiętaj",
-    "Log in" : "Zaloguj",
     "Alternative Logins" : "Alternatywne loginy",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Witam, <br><br>informuję, że %s udostępnianych zasobów <strong>%s</strong> jest z Tobą.<br><a href=\"%s\">Zobacz!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Ta instalacja ownCloud działa obecnie w trybie pojedynczego użytkownika.",

@@ -101,7 +101,6 @@ OC.L10N.register(
     "Log out" : "Allgofnodi",
     "Search" : "Chwilio",
     "remember" : "cofio",
-    "Log in" : "Mewngofnodi",
     "Alternative Logins" : "Mewngofnodiadau Amgen"
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

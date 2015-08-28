@@ -128,7 +128,6 @@ OC.L10N.register(
     "Log out" : "Logg ut",
     "Search" : "Søk",
     "remember" : "hugs",
-    "Log in" : "Logg inn",
     "Alternative Logins" : "Alternative innloggingar"
 },
 "nplurals=2; plural=(n != 1);");

@@ -149,7 +149,6 @@ OC.L10N.register(
     "Log out" : "Ieșire",
     "Search" : "Căutare",
     "remember" : "amintește",
-    "Log in" : "Autentificare",
     "Alternative Logins" : "Conectări alternative",
     "Thank you for your patience." : "Îți mulțumim pentru răbrade.",
     "Start update" : "Începe actualizarea"

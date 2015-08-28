@@ -121,7 +121,6 @@ OC.L10N.register(
     "Log out" : "Ofmellen",
     "Search" : "Sichen",
     "remember" : "verhalen",
-    "Log in" : "Umellen",
     "Alternative Logins" : "Alternativ Umeldungen",
     "Thank you for your patience." : "Merci fir deng Gedold."
 },

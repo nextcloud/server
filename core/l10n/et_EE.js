@@ -218,7 +218,6 @@ OC.L10N.register(
     "An internal error occured." : "Tekkis sisemine tõrge.",
     "Please try again or contact your administrator." : "Palun proovi uuesti või võta ühendust oma administraatoriga.",
     "remember" : "pea meeles",
-    "Log in" : "Logi sisse",
     "Alternative Logins" : "Alternatiivsed sisselogimisviisid",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>annan teada, et %s jagas sinuga <strong>%s</strong>. <a href=\"%s\">Vaata seda!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "See ownCloud on momendil seadistatud ühe kasutaja jaoks.",

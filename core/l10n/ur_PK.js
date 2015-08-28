@@ -111,7 +111,6 @@ OC.L10N.register(
     "Log out" : "لاگ آؤٹ",
     "Search" : "تلاش",
     "remember" : "یاد رکھیں",
-    "Log in" : "لاگ ان",
     "Alternative Logins" : "متبادل لاگ ان ",
     "Thank you for your patience." : "آپ کے صبر کا شکریہ"
 },

@@ -2,6 +2,7 @@ OC.L10N.register(
     "core",
     {
     "Couldn't send mail to following users: %s " : "Gat ekki sent póst á eftirfarandi notanda: %s",
+    "Preparing update" : "Undirbúa uppfærslu",
     "Turned on maintenance mode" : "Kveikt á viðhaldsham",
     "Turned off maintenance mode" : "Slökkt á viðhaldsham",
     "Maintenance mode is kept active" : "viðhaldshami er haldið virkur",
@@ -248,7 +249,6 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Vinsamlegast reyndu aftur eða hafðu samband við kerfisstjóra.",
     "Wrong password. Reset it?" : "Rangt lykilorð. Endursetja?",
     "remember" : "muna eftir mér",
-    "Log in" : "Skrá inn",
     "Alternative Logins" : "Aðrar Innskráningar",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Sælir ,<br><br>bara láta þig vita að %s deildi <strong>%s</strong> með þér.<br><a href=\"%s\">Skoða það!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Þetta ownCloud eintak er nú í einnar notandaham.",

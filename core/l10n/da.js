@@ -2,6 +2,7 @@ OC.L10N.register(
     "core",
     {
     "Couldn't send mail to following users: %s " : "Kunne ikke sende mail til følgende brugere: %s",
+    "Preparing update" : "Forbereder opdatering",
     "Turned on maintenance mode" : "Startede vedligeholdelsestilstand",
     "Turned off maintenance mode" : "standsede vedligeholdelsestilstand",
     "Maintenance mode is kept active" : "Vedligeholdelsestilstanden holdes kørende",
@@ -13,6 +14,7 @@ OC.L10N.register(
     "Repair error: " : "Reparationsfejl:",
     "Following incompatible apps have been disabled: %s" : "Følgende inkompatible apps er blevet deaktiveret: %s",
     "Following apps have been disabled: %s" : "Følgende apps er blevet deaktiveret: %s",
+    "Already up to date" : "Allerede opdateret",
     "File is too big" : "Filen er for stor",
     "Invalid file provided" : "Der er angivet en ugyldig fil",
     "No image or file provided" : "Ingen fil eller billede givet",
@@ -248,7 +250,6 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Kontakt venligst din administrator.",
     "Wrong password. Reset it?" : "Forkert kodeord. Skal det nulstilles?",
     "remember" : "husk",
-    "Log in" : "Log ind",
     "Alternative Logins" : "Alternative logins",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej med dig,<br><br>Dette er blot for at informere dig om, at %s har delt <strong>%s</strong> med dig.<br><a href=\"%s\">Se det her!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Denne ownCloud instans er lige nu i enkeltbruger tilstand.",

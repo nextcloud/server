@@ -2,6 +2,7 @@ OC.L10N.register(
     "core",
     {
     "Couldn't send mail to following users: %s " : "Sähköpostin lähetys seuraaville käyttäjille epäonnistui: %s",
+    "Preparing update" : "Valmistellaan päivitystä",
     "Turned on maintenance mode" : "Siirrytty huoltotilaan",
     "Turned off maintenance mode" : "Huoltotila asetettu pois päältä",
     "Maintenance mode is kept active" : "Huoltotila pidetään aktiivisena",
@@ -13,6 +14,7 @@ OC.L10N.register(
     "Repair error: " : "Korjausvirhe:",
     "Following incompatible apps have been disabled: %s" : "Seuraavat yhteensopimattomat sovellukset on poistettu käytöstä: %s",
     "Following apps have been disabled: %s" : "Seuraavat sovellukset on poistettu käytöstä: %s",
+    "Already up to date" : "Kaikki on jo ajan tasalla",
     "File is too big" : "Tiedosto on liian suuri",
     "Invalid file provided" : "Määritetty virheellinen tiedosto",
     "No image or file provided" : "Kuvaa tai tiedostoa ei määritelty",
@@ -248,7 +250,6 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Yritä uudestaan tai ota yhteys ylläpitäjään.",
     "Wrong password. Reset it?" : "Väärä salasana. Haluatko palauttaa salasanan?",
     "remember" : "muista",
-    "Log in" : "Kirjaudu sisään",
     "Alternative Logins" : "Vaihtoehtoiset kirjautumiset",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei!<br><br>%s jakoi kanssasi kohteen <strong>%s</strong>.<br><a href=\"%s\">Tutustu siihen!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Tämä ownCloud-asennus on parhaillaan single user -tilassa.",

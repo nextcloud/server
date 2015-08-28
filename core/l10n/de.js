@@ -239,7 +239,6 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Bitte versuche es noch einmal oder kontaktiere Deinen Administrator.",
     "Wrong password. Reset it?" : "Falsches Passwort. Soll es zurückgesetzt werden?",
     "remember" : "merken",
-    "Log in" : "Einloggen",
     "Alternative Logins" : "Alternative Logins",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hallo,<br><br>hier nur kurz die Mitteilung, dass %s <strong>%s</strong> mit Dir geteilt hat.<br><a href=\"%s\">Sieh es Dir an!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Diese ownClound-Instanz befindet sich derzeit im Einzelbenutzermodus.",

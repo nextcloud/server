@@ -47,6 +47,7 @@
     "Can't read file" : "Kan bestand niet lezen",
     "App directory already exists" : "App directory bestaat al",
     "Can't create app folder. Please fix permissions. %s" : "Kan de app map niet aanmaken, Herstel de permissies. %s",
+    "Archive does not contain a directory named %s" : "Archief bevat geen directory genaamd %s",
     "No source specified when installing app" : "Geen bron opgegeven bij installatie van de app",
     "No href specified when installing app from http" : "Geen href opgegeven bij installeren van de app vanaf http",
     "No path specified when installing app from local file" : "Geen pad opgegeven bij installeren van de app vanaf een lokaal bestand",

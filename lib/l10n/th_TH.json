@@ -47,6 +47,7 @@
     "Can't read file" : "ไม่สามารถอ่านไฟล์",
     "App directory already exists" : "มีไดเรกทอรีแอพฯอยู่แล้ว",
     "Can't create app folder. Please fix permissions. %s" : "ไม่สามารถสร้างโฟลเดอร์แอพพลิเคชัน โปรดแก้ไขการอนุญาต: %s",
+    "Archive does not contain a directory named %s" : "เอกสารไม่สามารถประกอบด้วยไดเรกทอรีชื่อ %s",
     "No source specified when installing app" : "ไม่ได้ระบุแหล่งที่มาเมื่อติดตั้งแอพพลิเคชัน",
     "No href specified when installing app from http" : "ไม่ได้ระบุ href เมื่อกำลังติดตั้งแอพพลิเคชันจาก http",
     "No path specified when installing app from local file" : "ไม่ได้ระบุเส้นทางไว้เมื่อกำลังติดตั้งแอพฯจากไฟล์ต้นทาง",

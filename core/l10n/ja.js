@@ -247,7 +247,6 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "もう一度試してみるか、管理者に問い合わせてください。",
     "Wrong password. Reset it?" : "パスワードが間違っています。リセットしますか？",
     "remember" : "パスワードを保存",
-    "Log in" : "ログイン",
     "Alternative Logins" : "代替ログイン",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "このownCloudインスタンスは、現在シングルユーザーモードです。",

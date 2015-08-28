@@ -240,7 +240,6 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Пожалуйста попробуйте ещё раз или свяжитесь с вашим администратором",
     "Wrong password. Reset it?" : "Неправильный пароль. Сбросить его?",
     "remember" : "запомнить",
-    "Log in" : "Войти",
     "Alternative Logins" : "Альтернативные имена пользователя",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Здравствуйте,<br><br>%s поделился с вами <strong>%s</strong>.<br>Перейдите по <a href=\"%s\">ссылке</a>, чтобы посмотреть<br><br>",
     "This ownCloud instance is currently in single user mode." : "Сервер ownCloud в настоящее время работает в однопользовательском режиме.",

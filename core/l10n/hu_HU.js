@@ -247,7 +247,6 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Kérem próbálja újra, vagy vegye fel a kapcsolatot a rendszergazdával.",
     "Wrong password. Reset it?" : "Hibás jelszó. Visszaállítja?",
     "remember" : "emlékezzen",
-    "Log in" : "Bejelentkezés",
     "Alternative Logins" : "Alternatív bejelentkezés",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Üdvözöljük!<br><br>\n\nÉrtesítjük, hogy %s megosztotta Önnel ezt az állományt: <strong>%s</strong><br>\n<a href=\"%s\">Itt lehet megnézni!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Ez az ownCloud szolgáltatás jelenleg egyfelhasználós üzemmódban működik.",

@@ -130,7 +130,6 @@ OC.L10N.register(
     "Search" : "Serĉi",
     "Please contact your administrator." : "Bonvolu kontakti vian administranton.",
     "remember" : "memori",
-    "Log in" : "Ensaluti",
     "Alternative Logins" : "Alternativaj ensalutoj",
     "Thank you for your patience." : "Dankon pro via pacienco."
 },

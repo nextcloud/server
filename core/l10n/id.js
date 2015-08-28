@@ -247,7 +247,6 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Mohon coba lagi atau hubungi administrator Anda.",
     "Wrong password. Reset it?" : "Sandi salah. Atur ulang?",
     "remember" : "selalu masuk",
-    "Log in" : "Masuk",
     "Alternative Logins" : "Cara Alternatif untuk Masuk",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hai,<br><br>hanya memberi tahu jika %s membagikan <strong>%s</strong> dengan Anda.<br><a href=\"%s\">Lihat!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "ownCloud ini sedang dalam mode pengguna tunggal.",

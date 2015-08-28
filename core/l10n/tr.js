@@ -236,7 +236,6 @@ OC.L10N.register(
     "An internal error occured." : "Dahili bir hata oluştu.",
     "Please try again or contact your administrator." : "Lütfen yeniden deneyin veya yöneticinizle iletişim kurun.",
     "remember" : "hatırla",
-    "Log in" : "Giriş yap",
     "Alternative Logins" : "Alternatif Girişler",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Merhaba, <br><br>%s kullanıcısının sizinle <strong>%s</strong> paylaşımında bulunduğunu bildirmek istedik.<br><a href=\"%s\">Paylaşımı gör!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Bu ownCloud örneği şu anda tek kullanıcı kipinde.",

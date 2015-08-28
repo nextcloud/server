@@ -110,7 +110,6 @@ OC.L10N.register(
     "Log out" : "ចាក​ចេញ",
     "Search" : "ស្វែង​រក",
     "remember" : "ចងចាំ",
-    "Log in" : "ចូល",
     "Alternative Logins" : "ការ​ចូល​ជំនួស"
 },
 "nplurals=1; plural=0;");

@@ -185,7 +185,6 @@
     "Server side authentication failed!" : "伺服器端認證失敗！",
     "Please contact your administrator." : "請聯絡系統管理員。",
     "remember" : "記住",
-    "Log in" : "登入",
     "Alternative Logins" : "其他登入方法",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "嗨，<br><br>%s 與你分享了<strong>%s</strong>。<br><a href=\"%s\">檢視</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "這個 ownCloud 伺服器目前運作於單一使用者模式",

@@ -201,7 +201,6 @@ OC.L10N.register(
     "Server side authentication failed!" : "Overitev s strežnika je spodletela!",
     "Please contact your administrator." : "Stopite v stik s skrbnikom sistema.",
     "remember" : "zapomni si",
-    "Log in" : "Prijava",
     "Alternative Logins" : "Druge prijavne možnosti",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Pozdravljeni,<br><br>uporabnik %s vam je omogočil souporabo <strong>%s</strong>.<br><a href=\"%s\">Oglejte si vsebino!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Ta seja oblaka ownCloud je trenutno v načinu enega sočasnega uporabnika.",

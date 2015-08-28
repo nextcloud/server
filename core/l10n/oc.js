@@ -230,7 +230,6 @@ OC.L10N.register(
     "An internal error occured." : "Una error intèrna s'es produsida.",
     "Please try again or contact your administrator." : "Reensajatz o contactatz vòstre administrator.",
     "remember" : "se remembrar de ieu",
-    "Log in" : "Connexion",
     "Alternative Logins" : "Identificants alternatius",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Bonjorn,<br><br>Vos informam que %s a partejat <strong>%s</strong> amb vos.<br><a href=\"%s\">Clicatz aicí per i accedir !</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Aquesta instància de ownCloud es actualament en mòde utilizaire unic.",

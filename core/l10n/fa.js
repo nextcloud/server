@@ -146,7 +146,6 @@ OC.L10N.register(
     "Log out" : "خروج",
     "Search" : "جست‌و‌جو",
     "remember" : "بیاد آوری",
-    "Log in" : "ورود",
     "Alternative Logins" : "ورود متناوب",
     "Thank you for your patience." : "از صبر شما متشکریم",
     "Start update" : "اغاز به روز رسانی"
