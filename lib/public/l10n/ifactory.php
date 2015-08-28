@@ -20,6 +20,9 @@
  */
 namespace OCP\L10N;
 
+/**
+ * @since 8.2.0
+ */
 interface IFactory {
 	/**
 	 * Get a language instance
@@ -27,6 +30,7 @@ interface IFactory {
 	 * @param string $app
 	 * @param string|null $lang
 	 * @return \OCP\IL10N
+	 * @since 8.2.0
 	 */
 	public function get($app, $lang = null);
 }
