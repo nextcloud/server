@@ -94,6 +94,15 @@ ksort($commonlanguages);
 
 // sort now by displayed language not the iso-code
 usort( $languages, function ($a, $b) {
+	if ($a['code'] === $a['name'] && $b['code'] !== $b['name']) {
+		// If a doesn't have a name, but b does, list b before a
+		return 1;
+	}
+	if ($a['code'] !== $a['name'] && $b['code'] === $b['name']) {
+		// If a does have a name, but b doesn't, list a before b
+		return -1;
+	}
+	// Otherwise compare the names
 	return strcmp($a['name'], $b['name']);
 });
 
