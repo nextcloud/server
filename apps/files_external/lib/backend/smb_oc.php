@@ -49,6 +49,8 @@ class SMB_OC extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
 			->setDependencyCheck('\OC\Files\Storage\SMB::checkDependencies')
+			->removeAllowedPermission(BackendService::USER_PERSONAL, BackendService::PERMISSION_CREATE)
+			->removeAllowedPermission(BackendService::USER_ADMIN, BackendService::PERMISSION_CREATE)
 			->setPriority(BackendService::PRIORITY_DEFAULT - 10)
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->setLegacyAuthMechanism($legacyAuth)
