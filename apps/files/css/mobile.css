@@ -43,6 +43,14 @@ table td.filename .nametext {
 #fileList a.action-share span {
 	display: none;
 }
+#fileList a.action.action-favorite {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
+	opacity: .7 !important;
+}
+#fileList a.action.action-favorite {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)" !important;
+	opacity: .3 !important;
+}
 
 /* ellipsis on file names */
 table td.filename .nametext .innernametext {
