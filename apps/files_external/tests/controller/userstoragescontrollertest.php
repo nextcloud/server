@@ -51,7 +51,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 	public function testAddOrUpdateStorageDisallowedBackend() {
 		$backend = $this->getBackendMock();
 		$backend->method('isPermitted')
-			->with(BackendService::USER_PERSONAL, BackendService::PERMISSION_MOUNT)
+			->with(BackendService::USER_PERSONAL, BackendService::PERMISSION_CREATE)
 			->willReturn(false);
 		$authMech = $this->getAuthMechMock();
 

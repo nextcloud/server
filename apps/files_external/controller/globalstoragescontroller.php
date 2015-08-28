@@ -32,6 +32,7 @@ use \OCP\AppFramework\Http;
 use \OCA\Files_external\Service\GlobalStoragesService;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;
+use \OCA\Files_External\Service\BackendService;
 
 /**
  * Global storages controller
@@ -177,5 +178,15 @@ class GlobalStoragesController extends StoragesController {
 		);
 
 	}
+
+	/**
+	 * Get the user type for this controller, used in validation
+	 *
+	 * @return string BackendService::USER_* constants
+	 */
+	protected function getUserType() {
+		return BackendService::USER_ADMIN;
+	}
+
 
 }
