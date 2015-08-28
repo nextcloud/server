@@ -53,6 +53,15 @@
 		},
 
 		/**
+		 * Returns whether this file is an image
+		 *
+		 * @return {boolean} true if this is an image, false otherwise
+		 */
+		isImage: function() {
+			return this.get('mimetype').substr(0, 6) === 'image/';
+		},
+
+		/**
 		 * Returns the full path to this file
 		 *
 		 * @return {string} full path

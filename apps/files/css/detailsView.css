@@ -19,6 +19,27 @@
 	float: left;
 }
 
+#app-sidebar .thumbnailContainer.image {
+	margin-left: -15px;
+	margin-right: -35px; /* 15 + 20 for the close button */
+	margin-top: -15px;
+}
+
+#app-sidebar .image .thumbnail {
+	width:100%;
+	display:block;
+	height: 250px;
+	background-repeat: no-repeat;
+	background-position: 50% top;
+	background-size: 100%;
+	float: none;
+	margin: 0;
+}
+
+#app-sidebar .image.portrait .thumbnail {
+	background-size: contain;
+}
+
 #app-sidebar .thumbnail {
 	width: 75px;
 	height: 75px;
