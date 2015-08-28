@@ -31,13 +31,16 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
  */
 class BackendService {
 
-	/** Visibility constants for VisibilityTrait */
-	const VISIBILITY_NONE = 0;
-	const VISIBILITY_PERSONAL = 1;
-	const VISIBILITY_ADMIN = 2;
-	//const VISIBILITY_ALIENS = 4;
+	/** Permission constants for PermissionsTrait */
+	const PERMISSION_NONE = 0;
+	const PERMISSION_MOUNT = 1;
+	const PERMISSION_CREATE = 2;
 
-	const VISIBILITY_DEFAULT = 3; // PERSONAL | ADMIN
+	const PERMISSION_DEFAULT = 3; // MOUNT | CREATE
+
+	/** User contants */
+	const USER_ADMIN = 'admin';
+	const USER_PERSONAL = 'personal';
 
 	/** Priority constants for PriorityTrait */
 	const PRIORITY_DEFAULT = 100;
@@ -81,7 +84,7 @@ class BackendService {
 	 */
 	public function registerBackend(Backend $backend) {
 		if (!$this->isAllowedUserBackend($backend)) {
-			$backend->removeVisibility(BackendService::VISIBILITY_PERSONAL);
+			$backend->removePermission(self::USER_PERSONAL, self::PERMISSION_CREATE | self::PERMISSION_MOUNT);
 		}
 		foreach ($backend->getIdentifierAliases() as $alias) {
 			$this->backends[$alias] = $backend;
@@ -103,7 +106,7 @@ class BackendService {
 	 */
 	public function registerAuthMechanism(AuthMechanism $authMech) {
 		if (!$this->isAllowedAuthMechanism($authMech)) {
-			$authMech->removeVisibility(BackendService::VISIBILITY_PERSONAL);
+			$authMech->removePermission(self::USER_PERSONAL, self::PERMISSION_CREATE | self::PERMISSION_MOUNT);
 		}
 		foreach ($authMech->getIdentifierAliases() as $alias) {
 			$this->authMechanisms[$alias] = $authMech;
@@ -145,30 +148,6 @@ class BackendService {
 	}
 
 	/**
-	 * Get backends visible for $visibleFor
-	 *
-	 * @param int $visibleFor
-	 * @return Backend[]
-	 */
-	public function getBackendsVisibleFor($visibleFor) {
-		return array_filter($this->getAvailableBackends(), function($backend) use ($visibleFor) {
-			return $backend->isVisibleFor($visibleFor);
-		});
-	}
-
-	/**
-	 * Get backends allowed to be visible for $visibleFor
-	 *
-	 * @param int $visibleFor
-	 * @return Backend[]
-	 */
-	public function getBackendsAllowedVisibleFor($visibleFor) {
-		return array_filter($this->getAvailableBackends(), function($backend) use ($visibleFor) {
-			return $backend->isAllowedVisibleFor($visibleFor);
-		});
-	}
-
-	/**
 	 * @param string $identifier
 	 * @return Backend|null
 	 */
@@ -204,31 +183,6 @@ class BackendService {
 			return in_array($authMech->getScheme(), $schemes, true);
 		});
 	}
-
-	/**
-	 * Get authentication mechanisms visible for $visibleFor
-	 *
-	 * @param int $visibleFor
-	 * @return AuthMechanism[]
-	 */
-	public function getAuthMechanismsVisibleFor($visibleFor) {
-		return array_filter($this->getAuthMechanisms(), function($authMechanism) use ($visibleFor) {
-			return $authMechanism->isVisibleFor($visibleFor);
-		});
-	}
-
-	/**
-	 * Get authentication mechanisms allowed to be visible for $visibleFor
-	 *
-	 * @param int $visibleFor
-	 * @return AuthMechanism[]
-	 */
-	public function getAuthMechanismsAllowedVisibleFor($visibleFor) {
-		return array_filter($this->getAuthMechanisms(), function($authMechanism) use ($visibleFor) {
-			return $authMechanism->isAllowedVisibleFor($visibleFor);
-		});
-	}
-
 
 	/**
 	 * @param string $identifier
