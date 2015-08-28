@@ -81,14 +81,11 @@ class OC_L10N implements \OCP\IL10N {
 	 * get an L10N instance
 	 * @param string $app
 	 * @param string|null $lang
-	 * @return \OC_L10N
+	 * @return \OCP\IL10N
+	 * @deprecated Use \OC::$server->getL10NFactory()->get() instead
 	 */
 	public static function get($app, $lang=null) {
-		if (is_null($lang)) {
-			return OC::$server->getL10N($app);
-		} else {
-			return new \OC_L10N($app, $lang);
-		}
+		return \OC::$server->getL10NFactory()->get($app, $lang);
 	}
 
 	/**
