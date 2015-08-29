@@ -25,6 +25,7 @@
 namespace OC;
 
 use OCP\ILogger;
+use OCP\IConfig;
 use OCP\ITempManager;
 
 class TempManager implements ITempManager {
@@ -34,15 +35,20 @@ class TempManager implements ITempManager {
 	protected $tmpBaseDir;
 	/** @var ILogger */
 	protected $log;
+	/** @var IConfig */
+	protected $config;
+
 	/** Prefix */
 	const TMP_PREFIX = 'oc_tmp_';
 
 	/**
 	 * @param \OCP\ILogger $logger
+	 * @param \OCP\IConfig $config
 	 */
-	public function __construct(ILogger $logger) {
-		$this->tmpBaseDir = $this->t_get_temp_dir();
+	public function __construct(ILogger $logger, IConfig $config) {
 		$this->log = $logger;
+		$this->config = $config;
+		$this->tmpBaseDir = $this->getTempBaseDir();
 	}
 
 	/**
@@ -191,57 +197,77 @@ class TempManager implements ITempManager {
 	}
 
 	/**
-	 * Get the temporary directory to store transfer data
-	 * @return null|string Path to the temporary directory or null
+	 * Get the temporary base directory configured on the server
+	 *
+	 * @return string Path to the temporary directory or null
+	 * @throws \UnexpectedValueException
 	 */
-	public function t_get_temp_dir() {
-		// Get the temporary directory and log the path if loglevel is set to debug
-		// Info: based on the temp dir, further directories may be created unique to the instance
-		$temp = self::gather_temp_dir();
-		\OCP\Util::writeLog('Core', 'Temporary directory set to: ' . ($temp ? $temp : 'NULL'), \OCP\Util::DEBUG);
-		return $temp;
-	}
+	public function getTempBaseDir() {
+		if ($this->tmpBaseDir) {
+			return $this->tmpBaseDir;
+		}
 
-	/**
-	 * Get a temporary directory from possible sources
-	 * If a temporary directory is set in config.php, use this one
-	 * @return null|string Path to the temporary directory or null
-	 */
-	private function gather_temp_dir() {
-		if ($temp = self::get_config_temp_dir()) return $temp;
-		if ($temp = ini_get('upload_tmp_dir')) return $temp;
-		if ($temp = getenv('TMP')) return $temp;
-		if ($temp = getenv('TEMP')) return $temp;
-		if ($temp = getenv('TMPDIR')) return $temp;
+		$directories = [];
+		if ($temp = $this->config->getSystemValue('tempdirectory', null)) {
+			$directories[] = $temp;
+		}
+		if ($temp = ini_get('upload_tmp_dir')) {
+			$directories[] = $temp;
+		}
+		if ($temp = getenv('TMP')) {
+			$directories[] = $temp;
+		}
+		if ($temp = getenv('TEMP')) {
+			$directories[] = $temp;
+		}
+		if ($temp = getenv('TMPDIR')) {
+			$directories[] = $temp;
+		}
 		$temp = tempnam(__FILE__, '');
 		if (file_exists($temp)) {
 			unlink($temp);
-			return dirname($temp);
+			$directories[] = dirname($temp);
 		}
-		if ($temp = sys_get_temp_dir()) return $temp;
-		return null;
+		if ($temp = sys_get_temp_dir()) {
+			$directories[] = $temp;
+		}
+
+		foreach ($directories as $dir) {
+			if ($this->checkTemporaryDirectory($dir)) {
+				return $dir;
+			}
+		}
+		throw new \UnexpectedValueException('Unable to detect system temporary directory');
 	}
 
 	/**
-	 * Check if the temporary directory is defined in config.php and is present and writable
-	 * @return bool|string Path to the temporary directory or false
+	 * Check if a temporary directory is ready for use
+	 *
+	 * @param mixed $directory
+	 * @return bool
 	 */
-	private function get_config_temp_dir() {
-		$temp = \OC::$server->getConfig()->getSystemValue('tempdirectory', false);
+	private function checkTemporaryDirectory($directory) {
 		// surpress any possible errors caused by is_writable
 		// checks missing or invalid path or characters, wrong permissions ect
-		if ($temp) {
-			try {
-				if (is_writeable($temp)) {
-					return $temp;
-				} else {
-					\OCP\Util::writeLog('Core', 'Manually set temporary directory in config.php is not present or writable: ' . $temp, \OCP\Util::WARN);
-					return false;
-				}
-			} catch (Exception $e) {
-				return false;
+		try {
+			if (is_writeable($directory)) {
+				return true;
 			}
+		} catch (Exception $e) {
 		}
+		$this->log->warning('Temporary directory {dir} is not present or writable',
+			['dir' => $directory]
+		);
+		return false;
+	}
+
+	/**
+	 * Override the temporary base directory
+	 *
+	 * @param string $directory
+	 */
+	public function overrideTempBaseDir($directory) {
+		$this->tmpBaseDir = $directory;
 	}
 
 }

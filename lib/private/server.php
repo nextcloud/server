@@ -344,7 +344,10 @@ class Server extends SimpleContainer implements IServerContainer {
 			}
 		});
 		$this->registerService('TempManager', function (Server $c) {
-			return new TempManager($c->getLogger());
+			return new TempManager(
+				$c->getLogger(),
+				$c->getConfig()
+			);
 		});
 		$this->registerService('AppManager', function(Server $c) {
 			return new \OC\App\AppManager(

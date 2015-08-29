@@ -23,10 +23,12 @@ class NullLogger extends Log {
 
 class TempManager extends \Test\TestCase {
 
+	protected $baseDir = null;
+
 	protected function setUp() {
 		parent::setUp();
 
-		$this->baseDir = $this->getManager()->t_get_temp_dir() . $this->getUniqueID('/oc_tmp_test');
+		$this->baseDir = $this->getManager()->getTempBaseDir() . $this->getUniqueID('/oc_tmp_test');
 		if (!is_dir($this->baseDir)) {
 			mkdir($this->baseDir);
 		}
@@ -34,18 +36,27 @@ class TempManager extends \Test\TestCase {
 
 	protected function tearDown() {
 		\OC_Helper::rmdirr($this->baseDir);
+		$this->baseDir = null;
 		parent::tearDown();
 	}
 
 	/**
 	 * @param  \OCP\ILogger $logger
+	 * @param  \OCP\IConfig $config
 	 * @return \OC\TempManager
 	 */
-	protected function getManager($logger = null) {
+	protected function getManager($logger = null, $config = null) {
 		if (!$logger) {
 			$logger = new NullLogger();
 		}
-		return new \OC\TempManager($logger);
+		if (!$config) {
+			$config = \OC::$server->getConfig();
+		}
+		$manager = new \OC\TempManager($logger, $config);
+		if ($this->baseDir) {
+			$manager->overrideTempBaseDir($this->baseDir);
+		}
+		return $manager;
 	}
 
 	public function testGetFile() {
