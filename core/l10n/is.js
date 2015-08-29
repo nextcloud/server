@@ -14,6 +14,7 @@ OC.L10N.register(
     "Repair error: " : "Viðgerðar villa:",
     "Following incompatible apps have been disabled: %s" : "Eftirfarandi forrit eru ósamhæfð hafa verið gerð óvirk: %s",
     "Following apps have been disabled: %s" : "Eftirfarandi forrit hafa verið gerð óvirk: %s",
+    "Already up to date" : "Allt uppfært nú þegar",
     "File is too big" : "Skrá er of stór",
     "Invalid file provided" : "Ógild skrá veitt",
     "No image or file provided" : "Engin mynd eða skrá veitt",

@@ -11,6 +11,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Neispravan privatni ključ za šifriranje. Molimo ažurirajte lozinku svoga privatnog ključa u svojim osobnimpostavkama da biste obnovili pristup svojim šifriranim datotekama.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacija šifriranja je aktivirana ali vaši ključevi nisu inicijalizirani, molimo odjavite se iponovno prijavite.",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Ovu datoteku nije moguće dešifrirati, vjerojatno je riječ o zajedničkoj datoteci. Molimopitajte vlasnika datoteke da je ponovo podijeli s vama.",
+    "The share will expire on %s." : "Podijeljeni resurs će isteći na %s.",
+    "Cheers!" : "Cheers!",
     "Recovery key password" : "Lozinka ključa za oporavak",
     "Change recovery key password:" : "Promijenite lozinku ključa za oporavak",
     "Change Password" : "Promijenite lozinku",

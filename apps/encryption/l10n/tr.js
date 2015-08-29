@@ -27,6 +27,8 @@ OC.L10N.register(
     "Encryption App is enabled and ready" : "Şifreleme Uygulaması etkin ve hazır",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Bu dosya muhtemelen bir paylaşılan dosya olduğundan şifrelemesi kaldırılamıyor. Lütfen dosyayı sizinle bir daha paylaşması için dosya sahibi ile iletişime geçin.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Bu dosya muhtemelen bir paylaşılan dosya olduğundan okunamıyor. Lütfen dosyayı sizinle bir daha paylaşması için dosya sahibi ile iletişime geçin.",
+    "The share will expire on %s." : "Bu paylaşım %s tarihinde sona erecek.",
+    "Cheers!" : "Hoşçakalın!",
     "Enable recovery key" : "Kurtarma anahtarını etkinleştir",
     "Disable recovery key" : "Kurtarma anahtarını devre dışı bırak",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kurtarma anahtarı, dosyaların şifrelenmesi için daha fazla \nşifreleme sunar. Bu kullanıcının dosyasının şifresini unuttuğunda kurtarmasına imkan verir.",

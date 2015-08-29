@@ -25,6 +25,8 @@
     "Encryption App is enabled and ready" : " A aplicación de cifrado está activada e lista",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Non foi posíbel descifrar o ficheiro, probabelmente tratase dun ficheiro compartido. Pídalle ao propietario do ficheiro que  volva compartir o ficheiro con vostede.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Non foi posíbel ler o ficheiro, probabelmente tratase dun ficheiro compartido. Pídalle ao propietario do ficheiro que  volva compartir o ficheiro con vostede.",
+    "The share will expire on %s." : "Esta compartición caduca o %s.",
+    "Cheers!" : "Saúdos!",
     "Enable recovery key" : "Activar a chave de recuperación",
     "Disable recovery key" : "Desactivar a chave de recuperación",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "A chave de recuperación é unha chave de cifrado adicional que se utiliza para cifrar ficheiros. Permite a recuperación de ficheiros dun usuario se o usuario esquece o seu contrasinal.",

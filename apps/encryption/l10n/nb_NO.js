@@ -27,6 +27,8 @@ OC.L10N.register(
     "Encryption App is enabled and ready" : "Krypterings-appen er aktivert og klar",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan ikke dekryptere denne filen. Dette er sannsynligvis en delt fil. Spør eieren av filen om å dele den med deg på nytt.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan ikke lese denne filen, som sannsynligvis er en delt fil. Be eieren av filen om å dele den med deg på nytt.",
+    "The share will expire on %s." : "Delingen vil opphøre %s.",
+    "Cheers!" : "Ha det!",
     "Enable recovery key" : "Aktiver gjenopprettingsnøkkel",
     "Disable recovery key" : "Deaktiver gjenopprettingsnøkkel",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Gjenopprettingsnøkkelen er en ekstra krypteringsnøkkel som brukes til å kryptere filer. Den tillater gjenoppretting av en brukers filer i tilfelle brukeren glemmer passordet sitt.",

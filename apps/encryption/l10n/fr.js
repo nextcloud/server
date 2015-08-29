@@ -27,6 +27,8 @@ OC.L10N.register(
     "Encryption App is enabled and ready" : "L'application de chiffrement est activée et prête",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossible de déchiffrer ce fichier : il s'agit probablement d'un fichier partagé. Veuillez demander au propriétaire du fichier de le partager à nouveau avec vous.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossible de lire ce fichier, il s'agit probablement d'un fichier partagé. Veuillez demander au propriétaire du fichier de le repartager avec vous.  ",
+    "The share will expire on %s." : "Le partage expirera le %s.",
+    "Cheers!" : "À bientôt !",
     "Enable recovery key" : "Activer la clé de récupération",
     "Disable recovery key" : "Désactiver la clé de récupération",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La clé de récupération est une clé supplémentaire utilisée pour chiffrer les fichiers. Elle permet de récupérer les fichiers des utilisateurs s'ils oublient leur mot de passe.",

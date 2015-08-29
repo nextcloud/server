@@ -8,6 +8,7 @@ OC.L10N.register(
     "Password successfully changed." : "رمزعبور با موفقیت تغییر یافت.",
     "Could not change the password. Maybe the old password was not correct." : "رمزعبور را نمیتواند تغییر دهد. شاید رمزعبورقدیمی صحیح نمی باشد.",
     "Private key password successfully updated." : "رمزعبور کلید خصوصی با موفقیت به روز شد.",
+    "Cheers!" : "سلامتی!",
     "Recovery key password" : "رمزعبور کلید بازیابی",
     "Change recovery key password:" : "تغییر رمزعبور کلید بازیابی:",
     "Change Password" : "تغییر رمزعبور",

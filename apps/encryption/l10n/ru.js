@@ -27,6 +27,8 @@ OC.L10N.register(
     "Encryption App is enabled and ready" : "Приложение шифрования включено и готово",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не удалось расшифровать файл, возможно это опубликованный файл. Попросите владельца файла повторно открыть к нему доступ.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не удается прочитать файл, возможно это публичный файл. Пожалуйста попросите владельца открыть доступ снова.",
+    "The share will expire on %s." : "Доступ будет закрыт %s",
+    "Cheers!" : "Всего наилучшего!",
     "Enable recovery key" : "Включить ключ восстановления",
     "Disable recovery key" : "Отключить ключ восстановления",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Ключ восстановления это дополнительный ключ, который используется для шифрования файлов. Он позволяет восстановить пользовательские файлы в случае утери пароля.",

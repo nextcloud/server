@@ -25,6 +25,8 @@
     "Encryption App is enabled and ready" : "Η Εφαρμογή Κρυπτογράφησης είναι ενεργοποιημένη και έτοιμη.",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Δεν ήταν δυνατό να αποκρυπτογραφηθεί αυτό το αρχείο, πιθανόν πρόκειται για κοινόχρηστο αρχείο. Παρακαλώ ζητήστε από τον ιδιοκτήτη του αρχείου να το ξαναμοιραστεί μαζί σας.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Αδυναμία ανάγνωσης αυτού του αρχείου, πιθανό να είναι διαμοιραζόμενο αρχείο. Παρακαλώ ρωτήστε τον κάτοχο του αρχείου να το διαμοιράσει ξανά μαζί σας.",
+    "The share will expire on %s." : "Ο διαμοιρασμός θα λήξει σε %s.",
+    "Cheers!" : "Χαιρετισμούς!",
     "Enable recovery key" : "Ενεργοποίηση κλειδιού ανάκτησης",
     "Disable recovery key" : "Απενεργοποίηση κλειδιού ανάκτησης",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Το κλειδί ανάκτησης είναι ένα επιπλέον κλειδί κρυπτογράφησης που χρησιμοποιείται για να κρυπτογραφήσει αρχεία. Επιτρέπει την ανάκτηση των αρχείων ενός χρήστη αν αυτός/αυτή ξεχάσει τον κωδικό πρόσβασης.",

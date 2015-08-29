@@ -27,6 +27,8 @@ OC.L10N.register(
     "Encryption App is enabled and ready" : "เข้ารหัสแอพถูกเปิดใช้งานและพร้อมทำงาน",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "ไม่สามารถถอดรหัสไฟล์นี้ มันอาจเป็นไฟล์ที่ใช้งานร่วมกัน กรุณาถามเจ้าของไฟล์เพื่อยกเลิกการใช้งานร่วมกัน ",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "ไม่สามารถอ่านไฟล์นี้ มันอาจเป็นไฟล์ที่ใช้งานร่วมกัน กรุณาสอบถามเจ้าของไฟล์เพื่อแชร์ไฟล์กับคุณ",
+    "The share will expire on %s." : "การแชร์จะหมดอายุในวันที่ %s",
+    "Cheers!" : "ไชโย!",
     "Enable recovery key" : "เปิดใช้งานการกู้คืนรหัส",
     "Disable recovery key" : "ปิดใช้งานรหัสการกู้คืนรหัส",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "รหัสการกู้คืนเป็นการเข้ารหัสลับพิเศษจะใช้ในการเข้ารหัสไฟล์ มันจะช่วยเรื่องการกู้คืนไฟล์ของผู้ใช้ที่ลืมรหัสผ่าน",

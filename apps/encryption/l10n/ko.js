@@ -27,6 +27,8 @@ OC.L10N.register(
     "Encryption App is enabled and ready" : "암호화 앱이 활성화되었고 준비됨",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "이 파일을 복호화할 수 없습니다. 공유된 파일일 수도 있습니다. 파일 소유자에게 공유를 다시 요청하십시오.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "이 파일을 읽을 수 없습니다. 공유된 파일이라면 파일 소유자에게 연락하여 다시 공유해 달라고 요청하십시오.",
+    "The share will expire on %s." : "이 공유는 %s 까지 유지됩니다.",
+    "Cheers!" : "감사합니다!",
     "Enable recovery key" : "복구 키 활성화",
     "Disable recovery key" : "복구 키 비활성화",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "복구 키는 파일을 암호화하는 추가 키입니다. 사용자가 암호를 잊었을 때 복구할 수 있도록 해 줍니다.",

@@ -25,6 +25,8 @@
     "Encryption App is enabled and ready" : "Apl Enkripsi telah diaktifkan dan siap",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tidak dapat mendekripsi berkas ini, mungkin ini adalah berkas bersama. Silakan meminta pemilik berkas ini untuk membagikan kembali dengan Anda.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tidak dapat membaca berkas ini, kemungkinan merupakan berkas berbagi. Silakan minta pemilik berkas untuk membagikan ulang kepada Anda.",
+    "The share will expire on %s." : "Pembagian akan berakhir pada %s.",
+    "Cheers!" : "Horee!",
     "Enable recovery key" : "Aktifkan kunci pemulihan",
     "Disable recovery key" : "Nonaktifkan kunci pemulihan",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kunci pemulihan adalah kunci enkripsi tambahan yang digunakan untuk mengenkripsi berkas. Kunci pemulihan memungkinkan untuk memulihkan berkas-berkas pengguna ketika pengguna tersebut melupakan sandi mereka.",

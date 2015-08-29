@@ -25,6 +25,8 @@
     "Encryption App is enabled and ready" : "Encryption App is enabled and ready",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Cannot decrypt this file, which is probably a shared file. Please ask the file owner to reshare the file with you.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you.",
+    "The share will expire on %s." : "The share will expire on %s.",
+    "Cheers!" : "Cheers!",
     "Enable recovery key" : "Enable recovery key",
     "Disable recovery key" : "Disable recovery key",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password.",

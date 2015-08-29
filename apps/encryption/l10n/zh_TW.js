@@ -11,6 +11,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "無效的檔案加密私鑰，請在個人設定中更新您的私鑰密語以存取加密的檔案。",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "檔案加密已啓用，但是您的金鑰尚未初始化，請重新登入一次",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "無法解密這個檔案，也許這是分享的檔案。請詢問檔案所有人重新分享檔案給您。",
+    "The share will expire on %s." : "這個分享將會於 %s 過期",
+    "Cheers!" : "太棒了！",
     "Recovery key password" : "還原金鑰密碼",
     "Change recovery key password:" : "變更還原金鑰密碼:",
     "Change Password" : "變更密碼",
