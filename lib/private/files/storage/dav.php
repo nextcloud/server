@@ -40,6 +40,7 @@ use OC\Files\Filesystem;
 use OC\Files\Stream\Close;
 use Icewind\Streams\IteratorDirectory;
 use OC\MemCache\ArrayCache;
+use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Files;
 use OCP\Files\FileInfo;
@@ -337,38 +338,23 @@ class DAV extends Common {
 				if (!$this->file_exists($path)) {
 					return false;
 				}
-				//straight up curl instead of sabredav here, sabredav put's the entire get result in memory
-				$curl = curl_init();
-				$fp = fopen('php://temp', 'r+');
-				curl_setopt($curl, CURLOPT_USERPWD, $this->user . ':' . $this->password);
-				curl_setopt($curl, CURLOPT_URL, $this->createBaseUri() . $this->encodePath($path));
-				curl_setopt($curl, CURLOPT_FILE, $fp);
-				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-				if(defined('CURLOPT_PROTOCOLS')) {
-					curl_setopt($curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
-				}
-				if(defined('CURLOPT_REDIR_PROTOCOLS')) {
-					curl_setopt($curl, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
-				}
-				if ($this->secure === true) {
-					curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-					curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
-					if ($this->certPath) {
-						curl_setopt($curl, CURLOPT_CAINFO, $this->certPath);
+				$httpClient = \OC::$server->getHTTPClientService();
+				$response = $httpClient
+					->newClient()
+					->get($this->createBaseUri() . $this->encodePath($path), [
+						'auth' => [$this->user, $this->password],
+						'stream' => true
+					]);
+
+				if ($response->getStatusCode() !== Http::STATUS_OK) {
+					if ($response->getStatusCode() === Http::STATUS_LOCKED) {
+						throw new \OCP\Lock\LockedException($path);
+					} else {
+						Util::writeLog("webdav client", 'Guzzle get returned status code ' . $response->getStatusCode(), Util::ERROR);
 					}
 				}
 
-				curl_exec($curl);
-				$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-				if ($statusCode !== 200) {
-					Util::writeLog("webdav client", 'curl GET ' . curl_getinfo($curl, CURLINFO_EFFECTIVE_URL) . ' returned status code ' . $statusCode, Util::ERROR);
-					if ($statusCode === 423) {
-						throw new \OCP\Lock\LockedException($path);
-					}
-				}
-				curl_close($curl);
-				rewind($fp);
-				return $fp;
+				return $response->getBody();
 			case 'w':
 			case 'wb':
 			case 'a':
