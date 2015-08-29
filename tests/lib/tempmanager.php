@@ -50,7 +50,10 @@ class TempManager extends \Test\TestCase {
 			$logger = new NullLogger();
 		}
 		if (!$config) {
-			$config = \OC::$server->getConfig();
+			$config = $this->getMock('\OCP\IConfig');
+			$config->method('getSystemValue')
+				->with('tempdirectory', null)
+				->willReturn('/tmp');
 		}
 		$manager = new \OC\TempManager($logger, $config);
 		if ($this->baseDir) {
@@ -194,5 +197,20 @@ class TempManager extends \Test\TestCase {
 
 		$this->assertStringEndsNotWith('./Traversal\\../FileName', $tmpManager);
 		$this->assertStringEndsWith('.Traversal..FileName', $tmpManager);
+	}
+
+	public function testGetTempBaseDirFromConfig() {
+		$dir = $this->getManager()->getTemporaryFolder();
+
+		$config = $this->getMock('\OCP\IConfig');
+		$config->expects($this->once())
+			->method('getSystemValue')
+			->with('tempdirectory', null)
+			->willReturn($dir);
+
+		$this->baseDir = null; // prevent override
+		$tmpManager = $this->getManager(null, $config);
+
+		$this->assertEquals($dir, $tmpManager->getTempBaseDir());
 	}
 }
