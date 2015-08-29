@@ -292,7 +292,7 @@ class Local {
 				try {
 					$expirationDate = isset($_POST['expireDate']) ? self::parseDate($_POST['expireDate']) : null;
 				} catch (\Exception $e) {
-					return new \OC_OCS_Result(null, 404, 'Invalid Date');
+					return new \OC_OCS_Result(null, 404, 'Invalid Date. Format must be YYYY-MM-DD.');
 				}
 
 				break;
@@ -315,7 +315,11 @@ class Local {
 					$expirationDate
 			);
 		} catch (HintException $e) {
-			return new \OC_OCS_Result(null, 400, $e->getHint());
+			if ($e->getCode() === 0) {
+				return new \OC_OCS_Result(null, 400, $e->getHint());
+			} else {
+				return new \OC_OCS_Result(null, $e->getCode(), $e->getHint());
+			}
 		} catch (\Exception $e) {
 			return new \OC_OCS_Result(null, 403, $e->getMessage());
 		}
@@ -559,13 +563,13 @@ class Local {
 	 */
 	private static function parseDate($expireDate) {
 		if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $expireDate) === 0) {
-			throw new \Exception();
+			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
 		}
 
 		$date = new \DateTime($expireDate);
 
 		if ($date === false) {
-			throw new \Exception();
+			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
 		}
 
 		return $date;
