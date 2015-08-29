@@ -674,6 +674,13 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
+	 * @return \OCP\L10N\IFactory
+	 */
+	public function getL10NFactory() {
+		return $this->query('L10NFactory');
+	}
+
+	/**
 	 * get an L10N instance
 	 *
 	 * @param string $app appid
@@ -681,7 +688,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	 * @return \OC_L10N
 	 */
 	public function getL10N($app, $lang = null) {
-		return $this->query('L10NFactory')->get($app, $lang);
+		return $this->getL10NFactory()->get($app, $lang);
 	}
 
 	/**
