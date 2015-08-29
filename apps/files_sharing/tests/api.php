@@ -1487,4 +1487,60 @@ class Test_Files_Sharing_Api extends TestCase {
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
 
 	}
+
+	public function datesProvider() {
+		$date = new \DateTime();
+		$date->add(new \DateInterval('P5D'));
+
+		$year = (int)$date->format('Y');
+
+		return [
+			[$date->format('Y-m-d'), true],
+			[$year+1 . '-1-1', false],
+			[$date->format('Y-m-dTH:m'), false],
+			['abc', false],
+			[$date->format('Y-m-d') . 'xyz', false],
+		];
+	}
+
+	/**
+	 * Make sure only ISO 8601 dates are accepted
+	 *
+	 * @dataProvider datesProvider
+	 */
+	public function testPublicLinkExpireDate($date, $valid) {
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$_POST['expireDate'] = $date;
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+
+		if ($valid === false) {
+			$this->assertFalse($result->succeeded());
+			$this->assertEquals(404, $result->getStatusCode());
+			$this->assertEquals('Invalid Date', $result->getMeta()['message']);
+			return;
+		}
+
+		$this->assertTrue($result->succeeded());
+
+		$data = $result->getData();
+		$this->assertTrue(is_string($data['token']));
+
+		// check for correct link
+		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
+		$this->assertEquals($url, $data['url']);
+
+
+		$share = $this->getShareFromId($data['id']);
+		$items = \OCP\Share::getItemShared('file', $share['item_source']);
+		$this->assertTrue(!empty($items));
+
+		$item = reset($items);
+		$this->assertTrue(is_array($item));
+		$this->assertEquals($date, substr($item['expiration'], 0, 10));
+
+		$fileinfo = $this->view->getFileInfo($this->folder);
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+	}
 }
