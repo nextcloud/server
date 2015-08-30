@@ -10,14 +10,17 @@
 
 (function() {
 	var TEMPLATE =
-		'<a href="#" class="thumbnail action-default"></a><div title="{{name}}" class="fileName ellipsis">{{name}}</div>' +
-		'<div class="file-details ellipsis">' +
-		'    <a href="#" ' +
-		'    alt="{{starAltText}}"' +
-		'    class="action action-favorite favorite">' +
-		'    <img class="svg" src="{{starIcon}}" />' +
-		'    </a>' +
-		'    {{#if hasSize}}<span class="size" title="{{altSize}}">{{size}}</span>, {{/if}}<span class="date" title="{{altDate}}">{{date}}</span>' +
+		'<a href="#" class="thumbnail action-default"></a>' +
+		'<div class="file-details-container">' +
+		'<div class="fileName"><h3 title="{{name}}" class="ellipsis">{{name}}</h3></div>' +
+		'	<div class="file-details ellipsis">' +
+		'		<a href="#" ' +
+		'		alt="{{starAltText}}"' +
+		'		class="action action-favorite favorite">' +
+		'			<img class="svg" src="{{starIcon}}" />' +
+		'		</a>' +
+		'		{{#if hasSize}}<span class="size" title="{{altSize}}">{{size}}</span>, {{/if}}<span class="date" title="{{altDate}}">{{date}}</span>' +
+		'	</div>' +
 		'</div>';
 
 	/**
