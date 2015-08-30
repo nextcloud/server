@@ -212,19 +212,46 @@ class Updater extends BasicEmitter {
 	}
 
 	/**
+	 * Return version from which this version is allowed to upgrade from
+	 *
+	 * @return string allowed previous version
+	 */
+	private function getAllowedPreviousVersion() {
+		// this should really be a JSON file
+		require \OC::$SERVERROOT . '/version.php';
+		return implode('.', $OC_VersionCanBeUpgradedFrom);
+	}
+
+	/**
 	 * Whether an upgrade to a specified version is possible
 	 * @param string $oldVersion
 	 * @param string $newVersion
+	 * @param string $allowedPreviousVersion
 	 * @return bool
 	 */
-	public function isUpgradePossible($oldVersion, $newVersion) {
+	public function isUpgradePossible($oldVersion, $newVersion, $allowedPreviousVersion) {
+		// downgrade is never allowed
+		if (version_compare($oldVersion, $newVersion, '>')) {
+			return false;
+		}
+
 		$oldVersion = explode('.', $oldVersion);
 		$newVersion = explode('.', $newVersion);
 
-		if($newVersion[0] > ($oldVersion[0] + 1) || $oldVersion[0] > $newVersion[0]) {
-			return false;
+		while (count($oldVersion) > 2) {
+			array_pop($oldVersion);
 		}
-		return true;
+
+		while (count($newVersion) > 2) {
+			array_pop($newVersion);
+		}
+
+		$oldVersion = implode('.', $oldVersion);
+		$newVersion = implode('.', $newVersion);
+
+		// either we're updating from an allowed version or the current version
+		return (version_compare($allowedPreviousVersion, $oldVersion) === 0
+			|| version_compare($newVersion, $oldVersion) === 0);
 	}
 
 	/**
@@ -259,8 +286,9 @@ class Updater extends BasicEmitter {
 	 */
 	private function doUpgrade($currentVersion, $installedVersion) {
 		// Stop update if the update is over several major versions
-		if (!self::isUpgradePossible($installedVersion, $currentVersion)) {
-			throw new \Exception('Updates between multiple major versions are unsupported.');
+		$allowedPreviousVersion = $this->getAllowedPreviousVersion();
+		if (!self::isUpgradePossible($installedVersion, $currentVersion, $allowedPreviousVersion)) {
+			throw new \Exception('Updates between multiple major versions and downgrades are unsupported.');
 		}
 
 		// Update .htaccess files
