@@ -25,6 +25,7 @@
     "Storage with id \"%i\" not found" : "Archiviazione con ID \"%i\" non trovata",
     "Invalid backend or authentication mechanism class" : "Motore o classe del meccanismo di autenticazione non valido",
     "Invalid mount point" : "Punto di mount non valido",
+    "Objectstore forbidden" : "Objectstore vietato",
     "Invalid storage backend \"%s\"" : "Motore di archiviazione \"%s\" non valido",
     "Unsatisfied backend parameters" : "Parametri del motore non soddisfatti",
     "Unsatisfied authentication mechanism parameters" : "Parametri del meccanismo di autenticazione non soddisfatti",
