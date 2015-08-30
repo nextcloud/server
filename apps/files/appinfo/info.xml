@@ -12,10 +12,6 @@
 	<types>
 		<filesystem/>
 	</types>
-	<remote>
-		<files>appinfo/remote.php</files>
-		<webdav>appinfo/remote.php</webdav>
-	</remote>
 	<documentation>
 		<user>user-files</user>
 	</documentation>

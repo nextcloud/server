@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<info>
+	<id>dav</id>
+	<name>WebDAV</name>
+	<description>ownCloud WebDAV endppint</description>
+	<licence>AGPL</licence>
+	<author>owncloud.org</author>
+	<requiremin>8.2</requiremin>
+	<shipped>true</shipped>
+	<standalone/>
+	<default_enable/>
+	<types>
+		<filesystem/>
+	</types>
+	<remote>
+		<files>appinfo/v1/webdav.php</files>
+		<webdav>appinfo/v1/webdav.php</webdav>
+	</remote>
+	<public>
+		<webdav>appinfo/v1/publicwebdav.php</webdav>
+	</public>
+</info>

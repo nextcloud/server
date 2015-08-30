@@ -4,6 +4,7 @@
     "activity",
     "admin_audit",
     "encryption",
+    "dav",
     "enterprise_key",
     "external",
     "files",
