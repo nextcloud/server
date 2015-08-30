@@ -9,11 +9,20 @@
 
 #app-sidebar .mainFileInfoView {
 	margin-right: 20px; /* accomodate for close icon */
+	float:left;
+	display:block;
+	width: 100%;
+}
+
+#app-sidebar .file-details-container {
+	display: inline-block;
+	float: left;
 }
 
 #app-sidebar .thumbnail {
 	width: 75px;
 	height: 75px;
+	display: inline-block;
 	float: left;
 	margin-right: 10px;
 	background-size: 75px;
@@ -31,10 +40,16 @@
 	padding-bottom: 3px;
 }
 
+#app-sidebar .fileName h3 {
+	max-width: 300px;
+	float:left;
+}
+
 #app-sidebar .file-details {
 	margin-top: 3px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	opacity: .5;
+	float:left;
 }
 #app-sidebar .action-favorite {
 	vertical-align: text-bottom;
