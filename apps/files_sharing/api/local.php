@@ -258,6 +258,7 @@ class Local {
 		$itemSource = self::getFileId($path);
 		$itemSourceName = $itemSource;
 		$itemType = self::getItemType($path);
+		$expirationDate = null;
 
 		if($itemSource === null) {
 			return new \OC_OCS_Result(null, 404, "wrong path, file/folder doesn't exist.");
@@ -286,6 +287,14 @@ class Local {
 				// read, create, update (7) if public upload is enabled or
 				// read (1) if public upload is disabled
 				$permissions = $publicUpload === 'true' ? 7 : 1;
+
+				// Get the expiration date
+				try {
+					$expirationDate = isset($_POST['expireDate']) ? self::parseDate($_POST['expireDate']) : null;
+				} catch (\Exception $e) {
+					return new \OC_OCS_Result(null, 404, 'Invalid Date. Format must be YYYY-MM-DD.');
+				}
+
 				break;
 			default:
 				return new \OC_OCS_Result(null, 400, "unknown share type");
@@ -302,10 +311,15 @@ class Local {
 					$shareType,
 					$shareWith,
 					$permissions,
-					$itemSourceName
-					);
+					$itemSourceName,
+					$expirationDate
+			);
 		} catch (HintException $e) {
-			return new \OC_OCS_Result(null, 400, $e->getHint());
+			if ($e->getCode() === 0) {
+				return new \OC_OCS_Result(null, 400, $e->getHint());
+			} else {
+				return new \OC_OCS_Result(null, $e->getCode(), $e->getHint());
+			}
 		} catch (\Exception $e) {
 			return new \OC_OCS_Result(null, 403, $e->getMessage());
 		}
@@ -535,6 +549,30 @@ class Local {
 			$msg = "Unshare Failed";
 			return new \OC_OCS_Result(null, 404, $msg);
 		}
+	}
+
+	/**
+	 * Make sure that the passed date is valid ISO 8601
+	 * So YYYY-MM-DD
+	 * If not throw an exception
+	 *
+	 * @param string $expireDate
+	 *
+	 * @throws \Exception
+	 * @return \DateTime
+	 */
+	private static function parseDate($expireDate) {
+		if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $expireDate) === 0) {
+			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
+		}
+
+		$date = new \DateTime($expireDate);
+
+		if ($date === false) {
+			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
+		}
+
+		return $date;
 	}
 
 	/**

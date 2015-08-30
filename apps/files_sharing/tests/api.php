@@ -1487,4 +1487,146 @@ class Test_Files_Sharing_Api extends TestCase {
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
 
 	}
+
+	public function datesProvider() {
+		$date = new \DateTime();
+		$date->add(new \DateInterval('P5D'));
+
+		$year = (int)$date->format('Y');
+
+		return [
+			[$date->format('Y-m-d'), true],
+			[$year+1 . '-1-1', false],
+			[$date->format('Y-m-dTH:m'), false],
+			['abc', false],
+			[$date->format('Y-m-d') . 'xyz', false],
+		];
+	}
+
+	/**
+	 * Make sure only ISO 8601 dates are accepted
+	 *
+	 * @dataProvider datesProvider
+	 */
+	public function testPublicLinkExpireDate($date, $valid) {
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$_POST['expireDate'] = $date;
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+
+		if ($valid === false) {
+			$this->assertFalse($result->succeeded());
+			$this->assertEquals(404, $result->getStatusCode());
+			$this->assertEquals('Invalid Date. Format must be YYYY-MM-DD.', $result->getMeta()['message']);
+			return;
+		}
+
+		$this->assertTrue($result->succeeded());
+
+		$data = $result->getData();
+		$this->assertTrue(is_string($data['token']));
+
+		// check for correct link
+		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
+		$this->assertEquals($url, $data['url']);
+
+
+		$share = $this->getShareFromId($data['id']);
+		$items = \OCP\Share::getItemShared('file', $share['item_source']);
+		$this->assertTrue(!empty($items));
+
+		$item = reset($items);
+		$this->assertTrue(is_array($item));
+		$this->assertEquals($date, substr($item['expiration'], 0, 10));
+
+		$fileinfo = $this->view->getFileInfo($this->folder);
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+	}
+
+	public function testCreatePublicLinkExpireDateValid() {
+		$config = \OC::$server->getConfig();
+
+		// enforce expire date, by default 7 days after the file was shared
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'yes');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'yes');
+
+		$date = new \DateTime();
+		$date->add(new \DateInterval('P5D'));
+
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$_POST['expireDate'] = $date->format('Y-m-d');
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+
+		$this->assertTrue($result->succeeded());
+
+		$data = $result->getData();
+		$this->assertTrue(is_string($data['token']));
+
+		// check for correct link
+		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
+		$this->assertEquals($url, $data['url']);
+
+
+		$share = $this->getShareFromId($data['id']);
+		$items = \OCP\Share::getItemShared('file', $share['item_source']);
+		$this->assertTrue(!empty($items));
+
+		$item = reset($items);
+		$this->assertTrue(is_array($item));
+		$this->assertEquals($date->format('Y-m-d'), substr($item['expiration'], 0, 10));
+
+		$fileinfo = $this->view->getFileInfo($this->folder);
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
+	}
+
+	public function testCreatePublicLinkExpireDateInvalidFuture() {
+		$config = \OC::$server->getConfig();
+
+		// enforce expire date, by default 7 days after the file was shared
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'yes');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'yes');
+
+		$date = new \DateTime();
+		$date->add(new \DateInterval('P8D'));
+
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$_POST['expireDate'] = $date->format('Y-m-d');
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(404, $result->getStatusCode());
+		$this->assertEquals('Cannot set expiration date. Shares cannot expire later than 7 after they have been shared', $result->getMeta()['message']);
+
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
+	}
+
+	public function testCreatePublicLinkExpireDateInvalidPast() {
+		$config = \OC::$server->getConfig();
+
+		$date = new \DateTime();
+		$date->sub(new \DateInterval('P8D'));
+
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$_POST['expireDate'] = $date->format('Y-m-d');
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(404, $result->getStatusCode());
+		$this->assertEquals('Cannot set expiration date. Expiration date is in the past', $result->getMeta()['message']);
+
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
+	}
+
 }

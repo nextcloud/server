@@ -649,6 +649,21 @@ class Share extends Constants {
 			$permissions = (int)$permissions & ~\OCP\Constants::PERMISSION_DELETE;
 		}
 
+		//Validate expirationDate
+		if ($expirationDate !== null) {
+			try {
+				/*
+				 * Reuse the validateExpireDate.
+				 * We have to pass time() since the second arg is the time
+				 * the file was shared, since it is not shared yet we just use
+				 * the current time.
+				 */
+				$expirationDate = self::validateExpireDate($expirationDate->format('Y-m-d'), time(), $itemType, $itemSource);
+			} catch (\Exception $e) {
+				throw new \OC\HintException($e->getMessage(), $e->getMessage(), 404);
+			}
+		}
+
 		// Verify share type and sharing conditions are met
 		if ($shareType === self::SHARE_TYPE_USER) {
 			if ($shareWith == $uidOwner) {
