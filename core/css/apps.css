@@ -28,6 +28,7 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	border-right: 1px solid #eee;
 }
 #app-navigation > ul {
 	position: relative;
@@ -481,6 +482,10 @@
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
+}
+#app-settings-content,
+#app-settings-header {
+	border-right: 1px solid #eee;
 }
 
 /* display input fields at full width */
