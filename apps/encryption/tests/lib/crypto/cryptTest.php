@@ -363,4 +363,19 @@ class cryptTest extends TestCase {
 		];
 	}
 
+	public function testIsValidPrivateKey() {
+		$res = openssl_pkey_new();
+		openssl_pkey_export($res, $privateKey);
+
+		// valid private key
+		$this->assertTrue(
+			$this->invokePrivate($this->crypt, 'isValidPrivateKey', [$privateKey])
+		);
+
+		// invalid private key
+		$this->assertFalse(
+			$this->invokePrivate($this->crypt, 'isValidPrivateKey', ['foo'])
+		);
+	}
+
 }

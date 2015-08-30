@@ -398,7 +398,7 @@ class Crypt {
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
