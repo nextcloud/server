@@ -12,7 +12,17 @@ table, td, th { vertical-align:middle; }
 a { border:0; color:#000; text-decoration:none;}
 a, a *, input, input *, select, .button span, label { cursor:pointer; }
 ul { list-style:none; }
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url('../../core/img/actions/triangle-s.svg') no-repeat right 8px center rgba(240, 240, 240, 0.90);
+	outline: 0;
+}
 
+select:hover {
+	background-color: #fefefe;
+}
 
 body {
 	background-color: #ffffff;
