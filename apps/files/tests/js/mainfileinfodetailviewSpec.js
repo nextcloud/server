@@ -55,8 +55,8 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 			var clock = sinon.useFakeTimers(Date.UTC(2015, 6, 17, 1, 2, 0, 3));
 			var dateExpected = OC.Util.formatDate(Date(Date.UTC(2015, 6, 17, 1, 2, 0, 0)));
 			view.setFileInfo(testFileInfo);
-			expect(view.$el.find('.fileName').text()).toEqual('One.txt');
-			expect(view.$el.find('.fileName').attr('title')).toEqual('One.txt');
+			expect(view.$el.find('.fileName h3').text()).toEqual('One.txt');
+			expect(view.$el.find('.fileName h3').attr('title')).toEqual('One.txt');
 			expect(view.$el.find('.size').text()).toEqual('117.7 MB');
 			expect(view.$el.find('.size').attr('title')).toEqual('123456789 bytes');
 			expect(view.$el.find('.date').text()).toEqual('a few seconds ago');
@@ -110,8 +110,8 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 			testFileInfo.set('displayName', 'hello.txt');
 			view.setFileInfo(testFileInfo);
 
-			expect(view.$el.find('.fileName').text()).toEqual('hello.txt');
-			expect(view.$el.find('.fileName').attr('title')).toEqual('hello.txt');
+			expect(view.$el.find('.fileName h3').text()).toEqual('hello.txt');
+			expect(view.$el.find('.fileName h3').attr('title')).toEqual('hello.txt');
 		});
 		it('rerenders when changes are made on the model', function() {
 			view.setFileInfo(testFileInfo);
