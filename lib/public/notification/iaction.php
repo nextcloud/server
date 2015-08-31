@@ -26,6 +26,10 @@ namespace OCP\Notification;
  *
  * @package OCP\Notification
  * @since 8.2.0
+ *
+ * DEVELOPER NOTE:
+ * The notification api is experimental only in 8.2.0! Do not start using it,
+ * if you can not prepare an update for the next version afterwards.
  */
 interface IAction {
 	/**
