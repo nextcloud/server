@@ -31,6 +31,7 @@ OC.L10N.register(
     "Invalid storage backend \"%s\"" : "Motore di archiviazione \"%s\" non valido",
     "Unsatisfied backend parameters" : "Parametri del motore non soddisfatti",
     "Unsatisfied authentication mechanism parameters" : "Parametri del meccanismo di autenticazione non soddisfatti",
+    "Admin-only storage backend \"%s\"" : "Motore di archiviazione per soli amministratori \"%s\"",
     "Personal" : "Personale",
     "System" : "Sistema",
     "Grant access" : "Concedi l'accesso",

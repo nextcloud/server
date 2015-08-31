@@ -1,6 +1,9 @@
 OC.L10N.register(
     "files_external",
     {
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Ophalen aanvraag tokens mislukt. Verifieer dat uw app sleutel en geheime sleutel juist zijn.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Ophalen toegangstokens mislukt. Verifieer dat uw app sleutel en geheime sleutel juist zijn.",
+    "Please provide a valid app key and secret." : "Geef een geldige app sleutel en geheime sleutel op.",
     "Step 1 failed. Exception: %s" : "Stap 1 is mislukt. Uitzondering: %s",
     "Step 2 failed. Exception: %s" : "Stap 2 is mislukt. Uitzondering: %s",
     "External storage" : "Externe opslag",
@@ -22,8 +25,13 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP met geheime sleutel inlog",
     "Public key" : "Publieke sleutel",
     "Storage with id \"%i\" not found" : "Opslag met id \"%i\" niet gevonden",
+    "Invalid backend or authentication mechanism class" : "Ongeldige backend of authenticatie mechanisme klasse",
     "Invalid mount point" : "Ongeldig aankoppelpunt",
+    "Objectstore forbidden" : "Objectopslag verboden",
     "Invalid storage backend \"%s\"" : "Ongeldig opslagsysteem \"%s\"",
+    "Unsatisfied backend parameters" : "Onvoldoende backend parameters",
+    "Unsatisfied authentication mechanism parameters" : "Onvoldoende authenticatiemechanisme parameters",
+    "Admin-only storage backend \"%s\"" : "Alleen voor beheerders opslagbackend '%s\"",
     "Personal" : "Persoonlijk",
     "System" : "Systeem",
     "Grant access" : "Sta toegang toe",
