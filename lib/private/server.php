@@ -53,6 +53,7 @@ use OC\Lock\DBLockingProvider;
 use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
+use OC\Notification\Manager;
 use OC\Security\CertificateManager;
 use OC\Security\Crypto;
 use OC\Security\Hasher;
@@ -474,6 +475,9 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new \OC\Files\Type\Loader(
 				$c->getDatabaseConnection()
 			);
+		});
+		$this->registerService('NotificationManager', function() {
+			return new Manager();
 		});
 		$this->registerService('CapabilitiesManager', function (Server $c) {
 			$manager = new \OC\CapabilitiesManager();
@@ -1041,6 +1045,16 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	public function getEventDispatcher() {
 		return $this->query('EventDispatcher');
+	}
+
+	/**
+	 * Get the Notification Manager
+	 *
+	 * @return \OCP\Notification\IManager
+	 * @since 8.2.0
+	 */
+	public function getNotificationManager() {
+		return $this->query('NotificationManager');
 	}
 
 	/**

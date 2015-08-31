@@ -448,7 +448,6 @@ interface IServerContainer {
 	 */
 	public function getMimeTypeLoader();
 
-
 	/**
 	 * Get the EventDispatcher
 	 *
@@ -456,4 +455,12 @@ interface IServerContainer {
 	 * @since 8.2.0
 	 */
 	public function getEventDispatcher();
+
+	/**
+	 * Get the Notification Manager
+	 *
+	 * @return \OCP\Notification\IManager
+	 * @since 8.2.0
+	 */
+	public function getNotificationManager();
 }
