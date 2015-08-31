@@ -230,14 +230,8 @@ class Updater extends BasicEmitter {
 	 * @return bool
 	 */
 	public function isUpgradePossible($oldVersion, $newVersion, $allowedPreviousVersion) {
-		// downgrade is never allowed
-		if (version_compare($oldVersion, $newVersion, '>')) {
-			return false;
-		}
-
-		// either we're updating from an allowed version or the current version
 		return (version_compare($allowedPreviousVersion, $oldVersion, '<=')
-			|| version_compare($newVersion, $oldVersion) === 0);
+			&& version_compare($oldVersion, $newVersion, '<='));
 	}
 
 	/**
