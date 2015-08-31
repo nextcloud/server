@@ -235,22 +235,8 @@ class Updater extends BasicEmitter {
 			return false;
 		}
 
-		$oldVersion = explode('.', $oldVersion);
-		$newVersion = explode('.', $newVersion);
-
-		while (count($oldVersion) > 2) {
-			array_pop($oldVersion);
-		}
-
-		while (count($newVersion) > 2) {
-			array_pop($newVersion);
-		}
-
-		$oldVersion = implode('.', $oldVersion);
-		$newVersion = implode('.', $newVersion);
-
 		// either we're updating from an allowed version or the current version
-		return (version_compare($allowedPreviousVersion, $oldVersion) === 0
+		return (version_compare($allowedPreviousVersion, $oldVersion, '<=')
 			|| version_compare($newVersion, $oldVersion) === 0);
 	}
 
