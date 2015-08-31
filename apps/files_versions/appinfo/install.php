@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -19,12 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-namespace OCA\Files_Versions\AppInfo;
-
-$app = new Application();
-$container = $app->getContainer();
-
-\OCP\Util::addStyle('files_versions', 'versions');
-
-\OCA\Files_Versions\Hooks::connectHooks();
+ 
+// Cron job for deleting expired trash items
+\OC::$server->getJobList()->add('OCA\Files_Versions\BackgroundJob\ExpireVersions');

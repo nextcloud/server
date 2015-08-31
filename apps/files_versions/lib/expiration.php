@@ -113,6 +113,19 @@ class Expiration {
 	}
 
 	/**
+	 * Get maximal retention obligation as a timestamp
+	 * @return int
+	 */
+	public function getMaxAgeAsTimestamp(){
+		$maxAge = false;
+		if ($this->isEnabled() && $this->maxAge !== self::NO_OBLIGATION) {
+			$time = $this->timeFactory->getTime();
+			$maxAge = $time - ($this->maxAge * 86400);
+		}
+		return $maxAge;
+	}
+
+	/**
 	* Read versions_retention_obligation, validate it 
 	* and set private members accordingly
 	*/
