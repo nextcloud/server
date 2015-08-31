@@ -26,6 +26,7 @@
 
 return array(
 'el'=>'Ελληνικά',
+'en'=>'English',
 'fa'=>'فارسى',
 'fi_FI'=>'Suomi',
 'hi'=>'हिन्दी',
