@@ -244,15 +244,27 @@ class ActivityManager implements IManager {
 	 * @return array
 	 */
 	public function getNotificationTypes($languageCode) {
+		$filesNotificationTypes = [];
+		$sharingNotificationTypes = [];
+
 		$notificationTypes = array();
 		foreach ($this->getExtensions() as $c) {
 			$result = $c->getNotificationTypes($languageCode);
 			if (is_array($result)) {
+				if (class_exists('\OCA\Files\Activity') && $c instanceof \OCA\Files\Activity) {
+					$filesNotificationTypes = $result;
+					continue;
+				}
+				if (class_exists('\OCA\Files_Sharing\Activity') && $c instanceof \OCA\Files_Sharing\Activity) {
+					$sharingNotificationTypes = $result;
+					continue;
+				}
+
 				$notificationTypes = array_merge($notificationTypes, $result);
 			}
 		}
 
-		return $notificationTypes;
+		return array_merge($filesNotificationTypes, $sharingNotificationTypes, $notificationTypes);
 	}
 
 	/**
