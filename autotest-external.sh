@@ -17,6 +17,9 @@ BASEDIR=$PWD
 DBCONFIGS="sqlite mysql pgsql oci"
 PHPUNIT=$(which phpunit)
 
+_XDEBUG_CONFIG=$XDEBUG_CONFIG
+unset XDEBUG_CONFIG
+
 function print_syntax {
 	echo -e "Syntax: ./autotest-external.sh [dbconfigname] [startfile]\n" >&2
 	echo -e "\t\"dbconfigname\" can be one of: $DBCONFIGS" >&2
@@ -159,6 +162,9 @@ EOF
 	mkdir "coverage-external-html-$1"
 	# just enable files_external
 	php ../occ app:enable files_external
+	if [[ "$_XDEBUG_CONFIG" ]]; then
+		export XDEBUG_CONFIG=$_XDEBUG_CONFIG
+	fi
 	if [ -z "$NOCOVERAGE" ]; then
 		"$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1.xml" --coverage-clover "autotest-external-clover-$1.xml" --coverage-html "coverage-external-html-$1"
 		RESULT=$?
