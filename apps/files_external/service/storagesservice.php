@@ -172,7 +172,7 @@ abstract class StoragesService {
 
 					// the root mount point is in the format "/$user/files/the/mount/point"
 					// we remove the "/$user/files" prefix
-					$parts = explode('/', trim($rootMountPath, '/'), 3);
+					$parts = explode('/', ltrim($rootMountPath, '/'), 3);
 					if (count($parts) < 3) {
 						// something went wrong, skip
 						\OCP\Util::writeLog(
@@ -183,7 +183,7 @@ abstract class StoragesService {
 						continue;
 					}
 
-					$relativeMountPath = $parts[2];
+					$relativeMountPath = rtrim($parts[2], '/');
 
 					// note: we cannot do this after the loop because the decrypted config
 					// options might be needed for the config hash
