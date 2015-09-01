@@ -92,4 +92,22 @@ class LegacyBackendTest extends \Test\TestCase {
 		$this->assertEquals(DefinitionParameter::FLAG_OPTIONAL, $parameters['optionalpassword']->getFlags());
 	}
 
+	public function testNoDependencies() {
+		$auth = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\Builtin')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$class = '\OCA\Files_External\Tests\Backend\LegacyBackendTest';
+		$definition = [
+			'configuration' => [
+			],
+			'backend' => 'Backend text',
+		];
+
+		$backend = new LegacyBackend($class, $definition, $auth);
+
+		$dependencies = $backend->checkDependencies();
+		$this->assertCount(0, $dependencies);
+	}
+
 }
