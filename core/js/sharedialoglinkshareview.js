@@ -92,7 +92,7 @@
 		render: function() {
 			var linkShareTemplate = this.template();
 
-			if(    !this.model.hasSharePermission()
+			if(    !this.model.sharePermissionPossible()
 				|| !this.showLink
 				|| !this.configModel.isShareWithLinkAllowed())
 			{
@@ -105,7 +105,7 @@
 
 			var publicUpload =
 				this.model.isFolder()
-				&& this.model.hasCreatePermission()
+				&& this.model.createPermissionPossible()
 				&& this.configModel.isPublicUploadEnabled();
 
 			var publicUploadChecked = '';

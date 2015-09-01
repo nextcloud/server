@@ -16,7 +16,7 @@
 	var TEMPLATE =
 		'<span class="reshare">' +
 		'    {{#if avatarEnabled}}' +
-		'    <div class="avatar"></div>' +
+		'    <div class="avatar" data-userName="{{reshareOwner}}"></div>' +
 		'    {{/if}}' +
 		'    {{sharedByText}}' +
 		'</span><br/>'
@@ -92,6 +92,7 @@
 
 			this.$el.html(reshareTemplate({
 				avatarEnabled: this.configModel.areAvatarsEnabled(),
+				reshareOwner: this.model.getReshareOwner(),
 				sharedByText: sharedByText
 			}));
 

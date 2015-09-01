@@ -63,6 +63,9 @@
 		/** @type {object} **/
 		expirationView: undefined,
 
+		/** @type {object} **/
+		shareeListView: undefined,
+
 		initialize: function(options) {
 			var view = this;
 			this.model.on('change', function() {
@@ -118,11 +121,18 @@
 			this.expirationView.render();
 
 			this.shareeListView.$el = this.$el.find('.shareeListView');
-			this.shareeListView.redner();
+			this.shareeListView.render();
 
 			this.$el.find('.hasTooltip').tooltip();
 			if(this.configModel.areAvatarsEnabled()) {
-				this.$el.find('.avatar').avatar(this.model.getReshareOwner, 32);
+				this.$el.find('.avatar').each(function() {
+					var $this = $(this);
+					$this.avatar($this.data('username'), 32);
+				});
+				this.$el.find('.avatar.imageplaceholderseed').each(function() {
+					var $this = $(this);
+					$this.imageplaceholder($this.data('seed'));
+				});
 			}
 
 			return this;

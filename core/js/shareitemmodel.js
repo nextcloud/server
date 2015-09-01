@@ -15,6 +15,13 @@
 	}
 
 	/**
+	 * @typedef {object} OC.Share.Types.Collection
+	 * @property {string} item_type
+	 * @property {string} path
+	 * @property {string} item_source TODO: verify
+	 */
+
+	/**
 	 * @typedef {object} OC.Share.Types.Reshare
 	 * @property {string} uid_owner
 	 * @property {number} share_type
@@ -33,7 +40,7 @@
 	 * @property {string} share_with
 	 * @property {string} share_with_displayname
 	 * @property {string} share_mail_send
-	 * @property {bool} collection //TODO: verify
+	 * @property {OC.Share.Types.Collection|undefined} collection
 	 * @property {Date} expiration optional?
 	 * @property {number} stime optional?
 	 */
@@ -95,12 +102,78 @@
 		},
 
 		/**
-		 * whether this item has reshare information
+		 * whether this item has share information
 		 * @returns {boolean}
 		 */
 		hasShares: function() {
-			return _.isObject(this.get('shares'));
+			var shares = this.get('shares');
+			return _.isArray(this.get('shares'));
 		},
+
+		/**
+		 * @param {number} shareIndex
+		 * @returns {string}
+		 */
+		getCollectionType: function(shareIndex) {
+			/** @type OC.Share.Types.ShareInfo **/
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			} else if(_.isUndefined(share.collection)) {
+				throw "Share is not a collection";
+			}
+
+			return share.collection.item_type;
+		},
+
+		/**
+		 * @param {number} shareIndex
+		 * @returns {string}
+		 */
+		getCollectionPath: function(shareIndex) {
+			/** @type OC.Share.Types.ShareInfo **/
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			} else if(_.isUndefined(share.collection)) {
+				throw "Share is not a collection";
+			}
+
+			return share.collection.path;
+		},
+
+		/**
+		 * @param {number} shareIndex
+		 * @returns {string}
+		 */
+		getCollectionSource: function(shareIndex) {
+			/** @type OC.Share.Types.ShareInfo **/
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			} else if(_.isUndefined(share.collection)) {
+				throw "Share is not a collection";
+			}
+
+			return share.collection.item_source;
+		},
+
+		/**
+		 * @param {number} shareIndex
+		 * @returns {boolean}
+		 */
+		isCollection: function(shareIndex) {
+			/** @type OC.Share.Types.ShareInfo **/
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			if(_.isUndefined(share.collection)) {
+				return false;
+			}
+			return true;
+		},
+
 
 		/**
 		 * @returns {string}
@@ -132,17 +205,142 @@
 		},
 
 		/**
-		 * @returns {boolean}
+		 * @param shareIndex
+		 * @returns {string}
 		 */
-		hasSharePermission: function() {
-			return (this.get('permissions') & OC.PERMISSION_SHARE) === OC.PERMISSION_SHARE;
+		getShareWith: function(shareIndex) {
+			/** @type OC.Share.Types.ShareInfo **/
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			return share.share_with;
+		},
+
+		/**
+		 * @param shareIndex
+		 * @returns {string}
+		 */
+		getShareWithDisplayName: function(shareIndex) {
+			/** @type OC.Share.Types.ShareInfo **/
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			return share.share_with_displayname;
+		},
+
+		getShareType: function(shareIndex) {
+			/** @type OC.Share.Types.ShareInfo **/
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			return share.share_type;
+		},
+
+		/**
+		 * whether a share from shares has the requested permission
+		 *
+		 * @param {number} shareIndex
+		 * @param {number} permission
+		 * @returns {boolean}
+		 * @private
+		 */
+		_shareHasPermission: function(shareIndex, permission) {
+			/** @type OC.Share.Types.ShareInfo **/
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			return (share.permissions & permission) === permission;
+		},
+
+		notificationMailWasSent: function(shareIndex) {
+			/** @type OC.Share.Types.ShareInfo **/
+			var share = this.get('shares')[shareIndex];
+			if(!_.isObject(share)) {
+				throw "Unknown Share";
+			}
+			return share.share_mail_send === '1';
 		},
 
 		/**
 		 * @returns {boolean}
 		 */
-		hasCreatePermission: function() {
+		sharePermissionPossible: function() {
+			return (this.get('permissions') & OC.PERMISSION_SHARE) === OC.PERMISSION_SHARE;
+		},
+
+		/**
+		 * @param {number} shareIndex
+		 * @returns {boolean}
+		 */
+		hasSharePermission: function(shareIndex) {
+			return this._shareHasPermission(shareIndex, OC.PERMISSION_SHARE);
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
+		createPermissionPossible: function() {
 			return (this.get('permissions') & OC.PERMISSION_CREATE) === OC.PERMISSION_CREATE;
+		},
+
+		/**
+		 * @param {number} shareIndex
+		 * @returns {boolean}
+		 */
+		hasCreatePermission: function(shareIndex) {
+			return this._shareHasPermission(shareIndex, OC.PERMISSION_CREATE);
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
+		updatePermissionPossible: function() {
+			return (this.get('permissions') & OC.PERMISSION_UPDATE) === OC.PERMISSION_UPDATE;
+		},
+
+		/**
+		 * @param {number} shareIndex
+		 * @returns {boolean}
+		 */
+		hasUpdatePermission: function(shareIndex) {
+			return this._shareHasPermission(shareIndex, OC.PERMISSION_UPDATE);
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
+		deletePermissionPossible: function() {
+			return (this.get('permissions') & OC.PERMISSION_DELETE) === OC.PERMISSION_DELETE;
+		},
+
+		/**
+		 * @param {number} shareIndex
+		 * @returns {boolean}
+		 */
+		hasDeletePermission: function(shareIndex) {
+			return this._shareHasPermission(shareIndex, OC.PERMISSION_DELETE);
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
+		editPermissionPossible: function() {
+			return    this.createPermissionPossible()
+				   || this.updatePermissionPossible()
+				   || this.deletePermissionPossible();
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
+		hasEditPermission: function(shareIndex) {
+			return    this.hasCreatePermission(shareIndex)
+				   || this.hasUpdatePermission(shareIndex)
+				   || this.hasDeletePermission(shareIndex);
 		},
 
 		fetch: function() {
@@ -158,6 +356,8 @@
 				trigger('fetchError');
 				return {};
 			}
+
+			console.log(data.shares);
 
 			var permissions = this.get('possiblePermissions');
 			if(!_.isUndefined(data.reshare) && !_.isUndefined(data.reshare.permissions)) {
@@ -176,7 +376,7 @@
 
 			return {
 				reshare: data.reshare,
-				shares: data.shares,
+				shares: $.map(data.shares, function(value) { return [value]; }),
 				permissions: permissions,
 				allowPublicUploadStatus: allowPublicUploadStatus
 			};
