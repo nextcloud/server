@@ -2,6 +2,7 @@ OC.L10N.register(
     "core",
     {
     "Couldn't send mail to following users: %s " : "Tidak dapat mengirim Email ke pengguna berikut: %s",
+    "Preparing update" : "Mempersiapkan pembaruan",
     "Turned on maintenance mode" : "Hidupkan mode perawatan",
     "Turned off maintenance mode" : "Matikan mode perawatan",
     "Maintenance mode is kept active" : "Mode Pemeliharaan masih aktif",
@@ -13,6 +14,7 @@ OC.L10N.register(
     "Repair error: " : "Kesalahan perbaikan:",
     "Following incompatible apps have been disabled: %s" : "Aplikasi tidak kompatibel berikut telah dinonaktifkan: %s",
     "Following apps have been disabled: %s" : "Aplikasi berikut telah dinonaktifkan: %s",
+    "Already up to date" : "Sudah yang terbaru",
     "File is too big" : "Berkas terlalu besar",
     "Invalid file provided" : "Berkas yang diberikan tidak sah",
     "No image or file provided" : "Tidak ada gambar atau berkas yang disediakan",
@@ -172,6 +174,7 @@ OC.L10N.register(
     "The update was successful. There were warnings." : "Pembaruan telah berhasil. Terdapat peringatan.",
     "The update was successful. Redirecting you to ownCloud now." : "Pembaruan sukses. Anda akan diarahkan ulang ke ownCloud.",
     "Couldn't reset password because the token is invalid" : "Tidak dapat menyetel ulang sandi karena token tidak sah",
+    "Couldn't reset password because the token is expired" : "Tidak dapat menyetel ulang sandi karena token telah kadaluarsa",
     "Couldn't send reset email. Please make sure your username is correct." : "Tidak dapat menyetel ulang email. Mohon pastikan nama pengguna Anda benar.",
     "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Tidak dapat menyetel ulang email karena tidak ada alamat email untuk nama pengguna ini. Silakan hubungi Administrator Anda.",
     "%s password reset" : "%s sandi disetel ulang",

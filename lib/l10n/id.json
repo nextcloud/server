@@ -47,6 +47,7 @@
     "Can't read file" : "Tidak dapat membaca berkas",
     "App directory already exists" : "Direktori Apl sudah ada",
     "Can't create app folder. Please fix permissions. %s" : "Tidak dapat membuat folder apl. Silakan perbaiki perizinan. %s",
+    "Archive does not contain a directory named %s" : "Arsip tidak berisi direktori yang bernama %s",
     "No source specified when installing app" : "Tidak ada sumber yang ditentukan saat menginstal apl",
     "No href specified when installing app from http" : "Href tidak ditentukan saat menginstal apl dari http",
     "No path specified when installing app from local file" : "Lokasi tidak ditentukan saat menginstal apl dari berkas lokal",

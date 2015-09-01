@@ -254,7 +254,7 @@
     "Issued By" : "Emesso da",
     "Valid until %s" : "Valido fino al %s",
     "Import root certificate" : "Importa certificato radice",
-    "Developed by the {communityopen}ownCloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Sviluppato dalla {communityopen}comunità di ownCloud{linkclose}, il {githubopen}codice sorgente{linkclose} è licenziato nei termini della {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}.",
+    "Developed by the {communityopen}ownCloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Sviluppato dalla {communityopen}comunità di ownCloud{linkclose}, il {githubopen}codice sorgente{linkclose} è rilasciato nei termini della licenza {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}.",
     "Show storage location" : "Mostra posizione di archiviazione",
     "Show last log in" : "Mostra ultimo accesso",
     "Show user backend" : "Mostra il motore utente",

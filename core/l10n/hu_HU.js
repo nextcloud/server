@@ -2,6 +2,7 @@ OC.L10N.register(
     "core",
     {
     "Couldn't send mail to following users: %s " : "Nem sikerült e-mailt küldeni a következő felhasználóknak: %s",
+    "Preparing update" : "Felkészülés a frissítésre",
     "Turned on maintenance mode" : "A karbantartási mód bekapcsolva",
     "Turned off maintenance mode" : "A karbantartási mód kikapcsolva",
     "Maintenance mode is kept active" : "Karbantartási mód aktiválva marad",
@@ -13,6 +14,7 @@ OC.L10N.register(
     "Repair error: " : "Javítás hiba:",
     "Following incompatible apps have been disabled: %s" : "A következő nem kompatibilis applikációk lettek tiltva: %s",
     "Following apps have been disabled: %s" : "A következő applikációk lettek tiltva: %s",
+    "Already up to date" : "Már a legfrissebb változat",
     "File is too big" : "A fájl túl nagy",
     "Invalid file provided" : "Érvénytelen fájl van megadva",
     "No image or file provided" : "Nincs kép vagy fájl megadva",

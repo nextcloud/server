@@ -2,6 +2,7 @@ OC.L10N.register(
     "core",
     {
     "Couldn't send mail to following users: %s " : "Impossible d'envoyer un courriel aux utilisateurs suivants : %s",
+    "Preparing update" : "Préparation de la mise à jour",
     "Turned on maintenance mode" : "Mode de maintenance activé",
     "Turned off maintenance mode" : "Mode de maintenance désactivé",
     "Maintenance mode is kept active" : "Le mode de maintenance est laissé actif",
@@ -172,6 +173,7 @@ OC.L10N.register(
     "The update was successful. There were warnings." : "La mise à jour a réussi, mais il y a eu des avertissements",
     "The update was successful. Redirecting you to ownCloud now." : "La mise à jour a réussi. Vous êtes maintenant redirigé vers ownCloud.",
     "Couldn't reset password because the token is invalid" : "Impossible de réinitialiser le mot de passe car le jeton n'est pas valable.",
+    "Couldn't reset password because the token is expired" : "Impossible de réinitialiser le mot de passe car le jeton a expiré.",
     "Couldn't send reset email. Please make sure your username is correct." : "Impossible d'envoyer le courriel de réinitialisation. Veuillez vérifier que votre nom d'utilisateur est correct.",
     "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Impossible d'envoyer le courriel de réinitialisation car il n'y a aucune adresse de courriel pour cet utilisateur. Veuillez contacter votre administrateur.",
     "%s password reset" : "Réinitialisation de votre mot de passe %s",

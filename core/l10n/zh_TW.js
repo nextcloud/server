@@ -2,8 +2,10 @@ OC.L10N.register(
     "core",
     {
     "Couldn't send mail to following users: %s " : "無法寄送郵件給這些使用者：%s",
+    "Preparing update" : "準備更新",
     "Turned on maintenance mode" : "已啓用維護模式",
     "Turned off maintenance mode" : "已停用維護模式",
+    "Maintenance mode is kept active" : "維護模式維持在開啟狀態",
     "Updated database" : "已更新資料庫",
     "Checked database schema update" : "已檢查資料庫格式更新",
     "Checked database schema update for apps" : "已檢查應用程式的資料庫格式更新",
