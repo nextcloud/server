@@ -346,6 +346,10 @@ class Local {
 					}
 				}
 			}
+
+			$data['permissions'] = $share['permissions'];
+			$data['expiration'] = $share['expiration'];
+
 			return new \OC_OCS_Result($data);
 		} else {
 			return new \OC_OCS_Result(null, 404, "couldn't share file");
