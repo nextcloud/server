@@ -26,9 +26,13 @@ use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Service\BackendService;
+use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
+
 use \OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
 
 class AmazonS3 extends Backend {
+
+	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, AccessKey $legacyAuth) {
 		$this
@@ -49,7 +53,6 @@ class AmazonS3 extends Backend {
 				(new DefinitionParameter('use_path_style', $l->t('Enable Path Style')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN),
 			])
-			->setDependencyCheck('\OC\Files\Storage\AmazonS3::checkDependencies')
 			->addAuthScheme(AccessKey::SCHEME_AMAZONS3_ACCESSKEY)
 			->setLegacyAuthMechanism($legacyAuth)
 		;

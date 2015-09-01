@@ -26,9 +26,13 @@ use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Service\BackendService;
+use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
+
 use \OCA\Files_External\Lib\Auth\OAuth2\OAuth2;
 
 class Google extends Backend {
+
+	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, OAuth2 $legacyAuth) {
 		$this
@@ -39,7 +43,6 @@ class Google extends Backend {
 			->addParameters([
 				// all parameters handled in OAuth2 mechanism
 			])
-			->setDependencyCheck('\OC\Files\Storage\Google::checkDependencies')
 			->addAuthScheme(AuthMechanism::SCHEME_OAUTH2)
 			->setLegacyAuthMechanism($legacyAuth)
 		;

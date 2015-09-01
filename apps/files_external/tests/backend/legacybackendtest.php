@@ -23,15 +23,25 @@ namespace OCA\Files_External\Tests\Backend;
 
 use \OCA\Files_External\Lib\Backend\LegacyBackend;
 use \OCA\Files_External\Lib\DefinitionParameter;
+use \OCA\Files_External\Lib\MissingDependency;
 
 class LegacyBackendTest extends \Test\TestCase {
+
+	/**
+	 * @return MissingDependency[]
+	 */
+	public static function checkDependencies() {
+		return [
+			(new MissingDependency('abc'))->setMessage('foobar')
+		];
+	}
 
 	public function testConstructor() {
 		$auth = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\Builtin')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$class = '\OC\Files\Storage\SMB';
+		$class = '\OCA\Files_External\Tests\Backend\LegacyBackendTest';
 		$definition = [
 			'configuration' => [
 				'textfield' => 'Text field',
@@ -49,13 +59,17 @@ class LegacyBackendTest extends \Test\TestCase {
 
 		$backend = new LegacyBackend($class, $definition, $auth);
 
-		$this->assertEquals('\OC\Files\Storage\SMB', $backend->getStorageClass());
+		$this->assertEquals('\OCA\Files_External\Tests\Backend\LegacyBackendTest', $backend->getStorageClass());
 		$this->assertEquals('Backend text', $backend->getText());
 		$this->assertEquals(123, $backend->getPriority());
 		$this->assertEquals('foo/bar.js', $backend->getCustomJs());
-		$this->assertEquals(true, $backend->hasDependencies());
 		$this->assertArrayHasKey('builtin', $backend->getAuthSchemes());
 		$this->assertEquals($auth, $backend->getLegacyAuthMechanism());
+
+		$dependencies = $backend->checkDependencies();
+		$this->assertCount(1, $dependencies);
+		$this->assertEquals('abc', $dependencies[0]->getDependency());
+		$this->assertEquals('foobar', $dependencies[0]->getMessage());
 
 		$parameters = $backend->getParameters();
 		$this->assertEquals('Text field', $parameters['textfield']->getText());

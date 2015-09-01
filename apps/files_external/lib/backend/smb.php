@@ -26,10 +26,13 @@ use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Service\BackendService;
+use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 
 use \OCA\Files_External\Lib\Auth\Password\Password;
 
 class SMB extends Backend {
+
+	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, Password $legacyAuth) {
 		$this
@@ -43,7 +46,6 @@ class SMB extends Backend {
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
-			->setDependencyCheck('\OC\Files\Storage\SMB::checkDependencies')
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->setLegacyAuthMechanism($legacyAuth)
 		;
