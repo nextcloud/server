@@ -102,3 +102,16 @@ API::register('delete',
 		array('\OCA\Files_Sharing\API\Remote', 'declineShare'),
 		'files_sharing');
 
+$sharees = new \OCA\Files_Sharing\API\Sharees(\OC::$server->getGroupManager(),
+                                              \OC::$server->getUserManager(),
+                                              \OC::$server->getContactsManager(),
+                                              \OC::$server->getConfig(),
+                                              \OC::$server->getUserSession(),
+                                              \OC::$server->getURLGenerator(),
+                                              \OC::$server->getRequest(),
+                                              \OC::$server->getLogger());
+
+API::register('get',
+		'/apps/files_sharing/api/v1/sharees',
+		[$sharees, 'search'],
+		'files_sharing', API::USER_AUTH);
