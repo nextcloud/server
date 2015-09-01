@@ -155,16 +155,17 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @param string $appId
 	 * @param string $objectType
 	 * @param int $objectId
 	 * @param string $user
 	 * @return null
 	 */
-	public function markProcessed($objectType, $objectId, $user = '') {
+	public function markProcessed($appId, $objectType, $objectId, $user = '') {
 		$apps = $this->getApps();
 
 		foreach ($apps as $app) {
-			$app->markProcessed($objectType, $objectId, $user);
+			$app->markProcessed($appId, $objectType, $objectId, $user);
 		}
 	}
 
