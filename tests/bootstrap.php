@@ -8,6 +8,8 @@ if ($configDir) {
 
 require_once __DIR__ . '/../lib/base.php';
 
+\OC::$loader->addValidRoot(OC::$SERVERROOT . '/tests');
+
 // load minimum set of apps
 OC_App::loadApps(array('authentication'));
 OC_App::loadApps(array('filesystem', 'logging'));

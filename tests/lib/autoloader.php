@@ -16,7 +16,7 @@ class AutoLoader extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->loader = new \OC\AutoLoader();
+		$this->loader = new \OC\AutoLoader([]);
 	}
 
 	public function testLeadingSlashOnClassName() {
