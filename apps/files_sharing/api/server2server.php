@@ -70,6 +70,7 @@ class Server2Server {
 					\OC\Files\Filesystem::getMountManager(),
 					\OC\Files\Filesystem::getLoader(),
 					\OC::$server->getHTTPHelper(),
+					\OC::$server->getNotificationManager(),
 					$shareWith
 				);
 

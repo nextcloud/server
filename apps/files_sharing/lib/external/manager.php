@@ -28,6 +28,7 @@ namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
 use OCP\Files;
+use OCP\Notification\IManager;
 
 class Manager {
 	const STORAGE = '\OCA\Files_Sharing\External\Storage';
@@ -58,19 +59,26 @@ class Manager {
 	private $httpHelper;
 
 	/**
+	 * @var IManager
+	 */
+	private $notificationManager;
+
+	/**
 	 * @param \OCP\IDBConnection $connection
 	 * @param \OC\Files\Mount\Manager $mountManager
 	 * @param \OCP\Files\Storage\IStorageFactory $storageLoader
 	 * @param \OC\HTTPHelper $httpHelper
+	 * @param IManager $notificationManager
 	 * @param string $uid
 	 */
 	public function __construct(\OCP\IDBConnection $connection, \OC\Files\Mount\Manager $mountManager,
-								\OCP\Files\Storage\IStorageFactory $storageLoader, \OC\HTTPHelper $httpHelper, $uid) {
+								\OCP\Files\Storage\IStorageFactory $storageLoader, \OC\HTTPHelper $httpHelper, IManager $notificationManager, $uid) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
 		$this->storageLoader = $storageLoader;
 		$this->httpHelper = $httpHelper;
 		$this->uid = $uid;
+		$this->notificationManager = $notificationManager;
 	}
 
 	/**
@@ -206,6 +214,7 @@ class Manager {
 			$acceptShare->execute(array(1, $mountPoint, $hash, $id, $this->uid));
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
 
+			$this->scrapNotification($share['remote_id']);
 			return true;
 		}
 
@@ -228,10 +237,22 @@ class Manager {
 			$removeShare->execute(array($id, $this->uid));
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
 
+			$this->scrapNotification($share['remote_id']);
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param int $remoteShare
+	 */
+	protected function scrapNotification($remoteShare) {
+		$filter = $this->notificationManager->createNotification();
+		$filter->setApp('files_sharing')
+			->setUser($this->uid)
+			->setObject('remote_share', (int) $remoteShare);
+		$this->notificationManager->markProcessed($filter);
 	}
 
 	/**
@@ -265,6 +286,7 @@ class Manager {
 				\OC\Files\Filesystem::getMountManager(),
 				\OC\Files\Filesystem::getLoader(),
 				\OC::$server->getHTTPHelper(),
+				\OC::$server->getNotificationManager(),
 				$params['user']
 		);
 
