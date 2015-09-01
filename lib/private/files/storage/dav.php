@@ -78,6 +78,8 @@ class DAV extends Common {
 	private $statCache;
 	/** @var array */
 	private static $tempFiles = [];
+	/** @var \OCP\Http\Client\IClientService */
+	private $httpClientService;
 
 	/**
 	 * @param array $params
@@ -85,6 +87,7 @@ class DAV extends Common {
 	 */
 	public function __construct($params) {
 		$this->statCache = new ArrayCache();
+		$this->httpClientService = \OC::$server->getHTTPClientService();
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
@@ -233,7 +236,7 @@ class DAV extends Common {
 	 * If not, request it from the server then store to cache.
 	 *
 	 * @param string $path path to propfind
-	 * 
+	 *
 	 * @return array propfind response
 	 *
 	 * @throws NotFound
@@ -338,8 +341,7 @@ class DAV extends Common {
 				if (!$this->file_exists($path)) {
 					return false;
 				}
-				$httpClient = \OC::$server->getHTTPClientService();
-				$response = $httpClient
+				$response = $this->httpClientService
 					->newClient()
 					->get($this->createBaseUri() . $this->encodePath($path), [
 						'auth' => [$this->user, $this->password],
@@ -464,38 +466,19 @@ class DAV extends Common {
 	 */
 	protected function uploadFile($path, $target) {
 		$this->init();
+
 		// invalidate
 		$target = $this->cleanPath($target);
 		$this->statCache->remove($target);
 		$source = fopen($path, 'r');
 
-		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_USERPWD, $this->user . ':' . $this->password);
-		curl_setopt($curl, CURLOPT_URL, $this->createBaseUri() . $this->encodePath($target));
-		curl_setopt($curl, CURLOPT_BINARYTRANSFER, true);
-		curl_setopt($curl, CURLOPT_INFILE, $source); // file pointer
-		curl_setopt($curl, CURLOPT_INFILESIZE, filesize($path));
-		curl_setopt($curl, CURLOPT_PUT, true);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_PROTOCOLS,  CURLPROTO_HTTP | CURLPROTO_HTTPS);
-		curl_setopt($curl, CURLOPT_REDIR_PROTOCOLS,  CURLPROTO_HTTP | CURLPROTO_HTTPS);
-		if ($this->secure === true) {
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
-			if ($this->certPath) {
-				curl_setopt($curl, CURLOPT_CAINFO, $this->certPath);
-			}
-		}
-		curl_exec($curl);
-		$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-		if ($statusCode !== 200) {
-			Util::writeLog("webdav client", 'curl GET ' . curl_getinfo($curl, CURLINFO_EFFECTIVE_URL) . ' returned status code ' . $statusCode, Util::ERROR);
-			if ($statusCode === 423) {
-				throw new \OCP\Lock\LockedException($path);
-			}
-		}
-		curl_close($curl);
-		fclose($source);
+		$this->httpClientService
+			->newClient()
+			->put($this->createBaseUri() . $this->encodePath($target), [
+				'body' => $source,
+				'auth' => [$this->user, $this->password]
+			]);
+
 		$this->removeCachedFile($target);
 	}
 
@@ -754,7 +737,7 @@ class DAV extends Common {
 			if ($e->getHttpStatus() === 404 || $e->getHttpStatus() === 405) {
 				if ($path === '') {
 					// if root is gone it means the storage is not available
-					throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
+					throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
 				}
 				return false;
 			}
@@ -788,19 +771,19 @@ class DAV extends Common {
 			}
 			if ($e->getHttpStatus() === 401) {
 				// either password was changed or was invalid all along
-				throw new StorageInvalidException(get_class($e).': '.$e->getMessage());
+				throw new StorageInvalidException(get_class($e) . ': ' . $e->getMessage());
 			} else if ($e->getHttpStatus() === 405) {
 				// ignore exception for MethodNotAllowed, false will be returned
 				return;
 			}
-			throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
+			throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
 		} else if ($e instanceof ClientException) {
 			// connection timeout or refused, server could be temporarily down
-			throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
+			throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
 		} else if ($e instanceof \InvalidArgumentException) {
 			// parse error because the server returned HTML instead of XML,
 			// possibly temporarily down
-			throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
+			throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
 		} else if (($e instanceof StorageNotAvailableException) || ($e instanceof StorageInvalidException)) {
 			// rethrow
 			throw $e;
