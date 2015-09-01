@@ -129,7 +129,7 @@ class Autoloader {
 				return true;
 			}
 		}
-		throw new \Exception('Path not allowed');
+		throw new \Exception('Path not allowed: '. $fullPath);
 	}
 
 	/**
