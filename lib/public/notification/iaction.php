@@ -76,6 +76,12 @@ interface IAction {
 	public function getLink();
 
 	/**
+	 * @return string
+	 * @since 8.2.0
+	 */
+	public function getRequestType();
+
+	/**
 	 * @param string $icon
 	 * @return $this
 	 * @throws \InvalidArgumentException if the icon is invalid

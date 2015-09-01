@@ -122,6 +122,14 @@ class Action implements IAction {
 	}
 
 	/**
+	 * @return string
+	 * @since 8.2.0
+	 */
+	public function getRequestType() {
+		return $this->requestType;
+	}
+
+	/**
 	 * @param string $icon
 	 * @return $this
 	 * @throws \InvalidArgumentException if the icon is invalid
