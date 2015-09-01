@@ -316,7 +316,7 @@ class Notification implements INotification {
 	 * @since 8.2.0
 	 */
 	public function setLink($link) {
-		if (!is_string($link) || $link === '' || isset($link[256])) {
+		if (!is_string($link) || $link === '' || isset($link[4000])) {
 			throw new \InvalidArgumentException('The given link is invalid');
 		}
 		$this->link = $link;
@@ -368,7 +368,7 @@ class Notification implements INotification {
 	 * @since 8.2.0
 	 */
 	public function addAction(IAction $action) {
-		if ($action->isValid()) {
+		if (!$action->isValid()) {
 			throw new \InvalidArgumentException('The given action is invalid');
 		}
 		$this->actions[] = $action;
@@ -390,7 +390,7 @@ class Notification implements INotification {
 	 * @since 8.2.0
 	 */
 	public function addParsedAction(IAction $action) {
-		if ($action->isValidParsed()) {
+		if (!$action->isValidParsed()) {
 			throw new \InvalidArgumentException('The given parsed action is invalid');
 		}
 		$this->actions[] = $action;

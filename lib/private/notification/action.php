@@ -110,6 +110,7 @@ class Action implements IAction {
 			throw new \InvalidArgumentException('The given request type is invalid');
 		}
 		$this->link = $link;
+		$this->requestType = $requestType;
 		return $this;
 	}
 
