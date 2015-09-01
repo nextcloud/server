@@ -128,16 +128,17 @@ class Manager implements IManager {
 
 	/**
 	 * @param INotification $notification
+	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
 	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
 	 * @since 8.2.0
 	 */
-	public function prepare(INotification $notification) {
+	public function prepare(INotification $notification, $languageCode) {
 		$notifiers = $this->getNotifiers();
 
 		foreach ($notifiers as $notifier) {
 			try {
-				$notifier->prepare($notification);
+				$notifier->prepare($notification, $languageCode);
 			} catch (\InvalidArgumentException $e) {}
 		}
 
