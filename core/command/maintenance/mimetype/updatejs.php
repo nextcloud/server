@@ -18,27 +18,35 @@
  *
  */
 
-namespace OC\Core\Command\Maintenance;
+namespace OC\Core\Command\Maintenance\Mimetype;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MimeTypesJS extends Command {
+use OCP\Files\IMimeTypeDetector;
+
+class UpdateJS extends Command {
+
+	/** @var IMimeTypeDetector */
+	protected $mimetypeDetector;
+
+	public function __construct(
+		IMimeTypeDetector $mimetypeDetector
+	) {
+		parent::__construct();
+		$this->mimetypeDetector = $mimetypeDetector;
+	}
+
 	protected function configure() {
 		$this
-			->setName('maintenance:mimetypesjs')
+			->setName('maintenance:mimetype:update-js')
 			->setDescription('Update mimetypelist.js');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		// Fetch all the aliases
-		$aliases = json_decode(file_get_contents(\OC::$SERVERROOT . '/config/mimetypealiases.dist.json'), true);
-
-		if (file_exists(\OC::$SERVERROOT . '/config/mimetypealiases.json')) {
-			$custom = get_object_vars(json_decode(file_get_contents(\OC::$SERVERROOT . '/config/mimetypealiases.json')));
-			$aliases = array_merge($aliases, $custom);
-		}
+		$aliases = $this->mimetypeDetector->getAllAliases();
 
 		// Remove comments
 		$keys = array_filter(array_keys($aliases), function($k) {
@@ -49,23 +57,22 @@ class MimeTypesJS extends Command {
 		}
 
 		// Fetch all files
-		$dir = new \DirectoryIterator(dirname(__DIR__) . '/../img/filetypes');
+		$dir = new \DirectoryIterator(\OC::$SERVERROOT.'/core/img/filetypes');
 
 		$files = [];
 		foreach($dir as $fileInfo) {
-		    if ($fileInfo->isFile()) {
-        		$file = preg_replace('/.[^.]*$/', '', $fileInfo->getFilename());
-		        $files[] = $file;
-		    }  
+			if ($fileInfo->isFile()) {
+				$file = preg_replace('/.[^.]*$/', '', $fileInfo->getFilename());
+				$files[] = $file;
+			}
 		}
 
 		//Remove duplicates
 		$files = array_values(array_unique($files));
 
-
 		// Fetch all themes!
 		$themes = [];
-		$dirs = new \DirectoryIterator(dirname(__DIR__) . '/../../themes/');
+		$dirs = new \DirectoryIterator(\OC::$SERVERROOT.'/themes/');
 		foreach($dirs as $dir) {
 			//Valid theme dir
 			if ($dir->isFile() || $dir->isDot()) {
@@ -84,7 +91,7 @@ class MimeTypesJS extends Command {
 			$themeIt = new \DirectoryIterator($themeDir);
 			foreach ($themeIt as $fileInfo) {
 				if ($fileInfo->isFile()) {
- 		       		$file = preg_replace('/.[^.]*$/', '', $fileInfo->getFilename());
+					$file = preg_replace('/.[^.]*$/', '', $fileInfo->getFilename());
 					$themes[$theme][] = $file;
 				}
 			}
@@ -110,7 +117,7 @@ OC.MimeTypeList={
 ';
 
 		//Output the JS
-		file_put_contents(dirname(__DIR__) . '/../js/mimetypelist.js', $js);
+		file_put_contents(\OC::$SERVERROOT.'/core/js/mimetypelist.js', $js);
 
 		$output->writeln('<info>mimetypelist.js is updated');
 	}
