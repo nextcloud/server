@@ -121,7 +121,7 @@ class Http extends BaseHttp {
 
 		// if etag or lastmodified have not changed, return a not modified
 		if ((isset($this->server['HTTP_IF_NONE_MATCH'])
-			&& trim($this->server['HTTP_IF_NONE_MATCH']) === $ETag) 
+			&& trim(trim($this->server['HTTP_IF_NONE_MATCH']), '"') === (string)$ETag)
 
 			||
 
