@@ -393,7 +393,7 @@ class Notification implements INotification {
 		if (!$action->isValidParsed()) {
 			throw new \InvalidArgumentException('The given parsed action is invalid');
 		}
-		$this->actions[] = $action;
+		$this->actionsParsed[] = $action;
 		return $this;
 	}
 

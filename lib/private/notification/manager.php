@@ -71,7 +71,7 @@ class Manager implements IManager {
 		}
 
 		foreach ($this->appsClosures as $closure) {
-			$app = $closure;
+			$app = $closure();
 			if (!($app instanceof IApp)) {
 				throw new \InvalidArgumentException('The given notification app does not implement the IApp interface');
 			}
@@ -90,7 +90,7 @@ class Manager implements IManager {
 		}
 
 		foreach ($this->notifiersClosures as $closure) {
-			$notifier = $closure;
+			$notifier = $closure();
 			if (!($notifier instanceof INotifier)) {
 				throw new \InvalidArgumentException('The given notification app does not implement the INotifier interface');
 			}
