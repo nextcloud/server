@@ -155,31 +155,27 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $appId
-	 * @param string $objectType
-	 * @param int $objectId
-	 * @param string $user
+	 * @param INotification $notification
 	 * @return null
 	 */
-	public function markProcessed($appId, $objectType, $objectId, $user = '') {
+	public function markProcessed(INotification $notification) {
 		$apps = $this->getApps();
 
 		foreach ($apps as $app) {
-			$app->markProcessed($appId, $objectType, $objectId, $user);
+			$app->markProcessed($notification);
 		}
 	}
 
 	/**
-	 * @param string $user
-	 * @param string $appId
+	 * @param INotification $notification
 	 * @return int
 	 */
-	public function getCount($user, $appId = '') {
+	public function getCount(INotification $notification) {
 		$apps = $this->getApps();
 
 		$count = 0;
 		foreach ($apps as $app) {
-			$count += $app->markProcessed($user, $appId);
+			$count += $app->markProcessed($notification);
 		}
 
 		return $count;

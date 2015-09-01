@@ -41,20 +41,16 @@ interface IApp {
 	public function notify(INotification $notification);
 
 	/**
-	 * @param string $appId
-	 * @param string $objectType
-	 * @param int $objectId
-	 * @param string $user
+	 * @param INotification $notification
 	 * @return null
 	 * @since 8.2.0
 	 */
-	public function markProcessed($appId, $objectType, $objectId, $user = '');
+	public function markProcessed(INotification $notification);
 
 	/**
-	 * @param string $user
-	 * @param string $appId
+	 * @param INotification $notification
 	 * @return int
 	 * @since 8.2.0
 	 */
-	public function getCount($user, $appId = '');
+	public function getCount(INotification $notification);
 }
