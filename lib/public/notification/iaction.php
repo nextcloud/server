@@ -62,11 +62,12 @@ interface IAction {
 
 	/**
 	 * @param string $link
+	 * @param string $requestType
 	 * @return $this
 	 * @throws \InvalidArgumentException if the link is invalid
 	 * @since 8.2.0
 	 */
-	public function setLink($link);
+	public function setLink($link, $requestType);
 
 	/**
 	 * @return string

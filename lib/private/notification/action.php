@@ -35,6 +35,9 @@ class Action implements IAction {
 	protected $link;
 
 	/** @var string */
+	protected $requestType;
+
+	/** @var string */
 	protected $icon;
 
 	/**
@@ -44,6 +47,7 @@ class Action implements IAction {
 		$this->label = '';
 		$this->labelParsed = '';
 		$this->link = '';
+		$this->requestType = '';
 		$this->icon = '';
 	}
 
@@ -93,13 +97,17 @@ class Action implements IAction {
 
 	/**
 	 * @param string $link
+	 * @param string $requestType
 	 * @return $this
 	 * @throws \InvalidArgumentException if the link is invalid
 	 * @since 8.2.0
 	 */
-	public function setLink($link) {
+	public function setLink($link, $requestType) {
 		if (!is_string($link) || $link === '' || isset($link[256])) {
 			throw new \InvalidArgumentException('The given link is invalid');
+		}
+		if (!in_array($requestType, ['GET', 'POST', 'PUT', 'DELETE'])) {
+			throw new \InvalidArgumentException('The given request type is invalid');
 		}
 		$this->link = $link;
 		return $this;
