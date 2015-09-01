@@ -291,6 +291,7 @@
 		 * @return {OCA.Files.FileInfoModel} file info model
 		 */
 		getModelForFile: function(fileName) {
+			var self = this;
 			var $tr;
 			// jQuery object ?
 			if (fileName.is) {
@@ -318,6 +319,21 @@
 			if (!model.has('path')) {
 				model.set('path', this.getCurrentDirectory(), {silent: true});
 			}
+
+			model.on('change', function(model) {
+				// re-render row
+				var highlightState = $tr.hasClass('highlighted');
+				$tr = self.updateRow(
+					$tr,
+					_.extend({isPreviewAvailable: true}, model.toJSON()),
+					{updateSummary: true, silent: false, animate: true}
+				);
+				$tr.toggleClass('highlighted', highlightState);
+			});
+			model.on('busy', function(model, state) {
+				self.showFileBusyState($tr, state);
+			});
+
 			return model;
 		},
 
@@ -341,6 +357,9 @@
 			if (!fileName) {
 				OC.Apps.hideAppSidebar(this._detailsView.$el);
 				this._detailsView.setFileInfo(null);
+				if (this._currentFileModel) {
+					this._currentFileModel.off();
+				}
 				this._currentFileModel = null;
 				return;
 			}
@@ -1223,6 +1242,10 @@
 		reload: function() {
 			this._selectedFiles = {};
 			this._selectionSummary.clear();
+			if (this._currentFileModel) {
+				this._currentFileModel.off();
+			}
+			this._currentFileModel = null;
 			this.$el.find('.select-all').prop('checked', false);
 			this.showMask();
 			if (this._reloadCall) {
@@ -1552,6 +1575,23 @@
 				);
 			});
 
+		},
+
+		/**
+		 * Updates the given row with the given file info
+		 *
+		 * @param {Object} $tr row element
+		 * @param {OCA.Files.FileInfo} fileInfo file info
+		 * @param {Object} options options
+		 *
+		 * @return {Object} new row element
+		 */
+		updateRow: function($tr, fileInfo, options) {
+			this.files.splice($tr.index(), 1);
+			$tr.remove();
+			$tr = this.add(fileInfo, _.extend({updateSummary: false, silent: true}, options));
+			this.$fileList.trigger($.Event('fileActionsReady', {fileList: this, $files: $tr}));
+			return $tr;
 		},
 
 		/**

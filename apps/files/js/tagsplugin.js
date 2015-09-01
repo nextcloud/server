@@ -92,6 +92,7 @@
 				actionHandler: function(fileName, context) {
 					var $actionEl = context.$file.find('.action-favorite');
 					var $file = context.$file;
+					var fileInfo = context.fileList.files[$file.index()];
 					var dir = context.dir || context.fileList.getCurrentDirectory();
 					var tags = $file.attr('data-tags');
 					if (_.isUndefined(tags)) {
@@ -106,9 +107,11 @@
 					} else {
 						tags.push(OC.TAG_FAVORITE);
 					}
+
+					// pre-toggle the star
 					toggleStar($actionEl, !isFavorite);
 
-					context.fileInfoModel.set('tags', tags);
+					context.fileInfoModel.trigger('busy', context.fileInfoModel, true);
 
 					self.applyFileTags(
 						dir + '/' + fileName,
@@ -116,17 +119,16 @@
 						$actionEl,
 						isFavorite
 					).then(function(result) {
+						context.fileInfoModel.trigger('busy', context.fileInfoModel, false);
 						// response from server should contain updated tags
 						var newTags = result.tags;
 						if (_.isUndefined(newTags)) {
 							newTags = tags;
 						}
-						var fileInfo = context.fileList.files[$file.index()];
-						// read latest state from result
-						toggleStar($actionEl, (newTags.indexOf(OC.TAG_FAVORITE) >= 0));
-						$file.attr('data-tags', newTags.join('|'));
-						$file.attr('data-favorite', !isFavorite);
-						fileInfo.tags = newTags;
+						context.fileInfoModel.set({
+							'tags': newTags,
+							'favorite': !isFavorite
+						});
 					});
 				}
 			});
