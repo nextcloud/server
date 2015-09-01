@@ -122,7 +122,10 @@ class Manager implements IManager {
 		$apps = $this->getApps();
 
 		foreach ($apps as $app) {
-			$app->notify($notification);
+			try {
+				$app->notify($notification);
+			} catch (\InvalidArgumentException $e) {
+			}
 		}
 	}
 
@@ -139,11 +142,13 @@ class Manager implements IManager {
 		foreach ($notifiers as $notifier) {
 			try {
 				$notifier->prepare($notification, $languageCode);
-			} catch (\InvalidArgumentException $e) {}
-		}
+			} catch (\InvalidArgumentException $e) {
+				continue;
+			}
 
-		if (!$notification->isValidParsed()) {
-			throw new \InvalidArgumentException('The given notification has not been handled');
+			if (!$notification->isValidParsed()) {
+				throw new \InvalidArgumentException('The given notification has not been handled');
+			}
 		}
 
 		return $notification;
