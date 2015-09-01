@@ -82,6 +82,28 @@ class Server2Server {
 					Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_RECEIVED, array($user, trim($name, '/')), '', array(),
 					'', '', $shareWith, Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_LOW);
 
+				$urlGenerator = \OC::$server->getURLGenerator();
+
+				$notificationManager = \OC::$server->getNotificationManager();
+				$notification = $notificationManager->createNotification();
+				$notification->setApp('files_sharing')
+					->setUser($shareWith)
+					->setTimestamp(time())
+					->setObject('remote_share', $remoteId)
+					->setSubject('remote_share', [$user, trim($name, '/')]);
+
+				$acceptAction = $notification->createAction();
+				$acceptAction->setLabel('accept')
+					->setLink($urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/remote_shares/' . $remoteId), 'POST');
+				$declineAction = $notification->createAction();
+				$declineAction->setLabel('decline')
+					->setLink($urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/remote_shares/' . $remoteId), 'DELETE');
+
+				$notification->addAction($acceptAction)
+					->addAction($declineAction);
+
+				$notificationManager->notify($notification);
+
 				return new \OC_OCS_Result();
 			} catch (\Exception $e) {
 				\OCP\Util::writeLog('files_sharing', 'server can not add remote share, ' . $e->getMessage(), \OCP\Util::ERROR);
