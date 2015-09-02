@@ -141,7 +141,7 @@ class Manager implements IManager {
 
 		foreach ($notifiers as $notifier) {
 			try {
-				$notifier->prepare($notification, $languageCode);
+				$notification = $notifier->prepare($notification, $languageCode);
 			} catch (\InvalidArgumentException $e) {
 				continue;
 			}

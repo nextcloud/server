@@ -248,7 +248,7 @@ class Notification implements INotification {
 	 * @since 8.2.0
 	 */
 	public function getParsedSubject() {
-		return $this->messageParsed;
+		return $this->subjectParsed;
 	}
 
 	/**
