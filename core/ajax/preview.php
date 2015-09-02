@@ -31,6 +31,7 @@ $maxY = array_key_exists('y', $_GET) ? (int)$_GET['y'] : '36';
 $scalingUp = array_key_exists('scalingup', $_GET) ? (bool)$_GET['scalingup'] : true;
 $keepAspect = array_key_exists('a', $_GET) ? true : false;
 $always = array_key_exists('forceIcon', $_GET) ? (bool)$_GET['forceIcon'] : true;
+$mode = array_key_exists('mode', $_GET) ? $_GET['mode'] : 'fill';
 
 if ($file === '') {
 	//400 Bad Request
@@ -56,6 +57,7 @@ if (!$info instanceof OCP\Files\FileInfo || !$always && !\OC::$server->getPrevie
 	$preview->setMaxX($maxX);
 	$preview->setMaxY($maxY);
 	$preview->setScalingUp($scalingUp);
+	$preview->setMode($mode);
 	$preview->setKeepAspect($keepAspect);
 	$preview->showPreview();
 }
