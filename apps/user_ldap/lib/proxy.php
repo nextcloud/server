@@ -161,7 +161,7 @@ abstract class Proxy {
 		}
 		$key = $this->getCacheKey($key);
 
-		return unserialize(base64_decode($this->cache->get($key)));
+		return json_decode(base64_decode($this->cache->get($key)));
 	}
 
 	/**
@@ -185,7 +185,7 @@ abstract class Proxy {
 			return;
 		}
 		$key   = $this->getCacheKey($key);
-		$value = base64_encode(serialize($value));
+		$value = base64_encode(json_encode($value));
 		$this->cache->set($key, $value, '2592000');
 	}
 
