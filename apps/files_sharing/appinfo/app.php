@@ -58,10 +58,6 @@ $application->setupPropagation();
 \OCP\Util::addScript('files_sharing', 'external');
 \OCP\Util::addStyle('files_sharing', 'sharetabview');
 
-// FIXME: registering a job here will cause additional useless SQL queries
-// when the route is not cron.php, needs a better way
-\OC::$server->getJobList()->add('OCA\Files_sharing\Lib\DeleteOrphanedSharesJob');
-
 \OC::$server->getActivityManager()->registerExtension(function() {
 		return new \OCA\Files_Sharing\Activity(
 			\OC::$server->query('L10NFactory'),
