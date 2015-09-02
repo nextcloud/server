@@ -150,7 +150,13 @@
 			var oldElementToFile = fileList.elementToFile;
 			fileList.elementToFile = function($el) {
 				var fileInfo = oldElementToFile.apply(this, arguments);
-				fileInfo.tags = $el.attr('data-tags') || [];
+				var tags = $el.attr('data-tags');
+				if (_.isUndefined(tags)) {
+					tags = '';
+				}
+				tags = tags.split('|');
+				tags = _.without(tags, '');
+				fileInfo.tags = tags;
 				return fileInfo;
 			};
 		},
