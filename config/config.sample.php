@@ -1053,17 +1053,15 @@ $CONFIG = array(
 
 /**
  * Enables transactional file locking.
- * This is disabled by default as it is still beta.
+ * This is enabled by default.
  *
  * Prevents concurrent processes from accessing the same files
  * at the same time. Can help prevent side effects that would
  * be caused by concurrent operations. Mainly relevant for
  * very large installations with many users working with
  * shared files.
- *
- * WARNING: BETA quality
  */
-'filelocking.enabled' => false,
+'filelocking.enabled' => true,
 
 /**
  * Memory caching backend for file locking
