@@ -466,6 +466,10 @@ class Cache {
 	 */
 	public function remove($file) {
 		$entry = $this->get($file);
+		if (!isset($entry['fileid'])) {
+			// perhaps file was deleted in the mean time?
+			return;
+		}
 		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?';
 		\OC_DB::executeAudited($sql, array($entry['fileid']));
 		if ($entry['mimetype'] === 'httpd/unix-directory') {
