@@ -57,7 +57,7 @@ script('core', [
 			<img class="svg" id="password-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt=""/>
 		</p>
 
-		<input type="submit" id="submit" class="login primary icon-confirm" value="" disabled="disabled"/>
+		<input type="submit" id="submit" class="login primary icon-confirm" title="<?php p($l->t('Log in')); ?>" value="" disabled="disabled"/>
 
 		<?php if (isset($_['invalidpassword']) && ($_['invalidpassword'])): ?>
 		<a id="lost-password" class="warning" href="">
