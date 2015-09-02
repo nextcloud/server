@@ -53,7 +53,7 @@
 				settings.labels.push($(option).text().trim());
 			}
 		});
-		var button=$('<div class="multiselect button"><span>'+settings.title+'</span><span>▾</span></div>');
+		var button=$('<div class="multiselect button"><span>'+settings.title+'</span><span class="icon-triangle-s"></span></div>');
 		var span=$('<span/>');
 		span.append(button);
 		button.data('id',multiSelectId);
