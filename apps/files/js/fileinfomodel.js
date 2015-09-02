@@ -58,7 +58,7 @@
 		 * @return {boolean} true if this is an image, false otherwise
 		 */
 		isImage: function() {
-			return this.get('mimetype').substr(0, 6) === 'image/';
+			return this.get('mimetype')? this.get('mimetype').substr(0, 6) === 'image/' : false;
 		},
 
 		/**
