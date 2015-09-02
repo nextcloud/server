@@ -114,7 +114,7 @@
 			}));
 
 			//this.trigger('actionPerformed', action);
-			$target.append($form); 
+			$target.append($form);
 
 			// here comes the OLD code
 			var $input = $form.find('input');
@@ -201,7 +201,7 @@
 					id: 'file',
 					displayName: t('files', 'Text file'),
 					templateName: t('files', 'New text file.txt'),
-					iconClass: 'icon-text',
+					iconClass: 'icon-filetype-text',
 					fileType: 'file'
 				}, {
 					id: 'folder',
@@ -234,4 +234,3 @@
 	OCA.Files.NewFileMenu = NewFileMenu;
 
 })();
-

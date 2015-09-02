@@ -743,6 +743,15 @@ table.dragshadow td.size {
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
+.newFileMenu.popovermenu .menuitem .icon {
+	margin-bottom: -2px;
+}
+.newFileMenu.popovermenu a.menuitem,
+.newFileMenu.popovermenu label.menuitem,
+.newFileMenu.popovermenu .menuitem {
+	padding: 0;
+	margin: 0;
+}
 
 .newFileMenu.bubble:after {
 	left: 75px;
@@ -768,4 +777,3 @@ table.dragshadow td.size {
 	color: #000;
 	padding: 0;
 }
-

@@ -637,12 +637,6 @@ em {
 	opacity: .5;
 }
 
-.popovermenu .menuitem {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
-	opacity: .5;
-}
-
 .popovermenu .menuitem:hover,
 .popovermenu .menuitem:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
@@ -681,12 +675,11 @@ em {
 	padding: 0;
 }
 
-
 .popovermenu .menuitem .icon,
 .popovermenu .menuitem .no-icon {
 	display: inline-block;
 	width: 16px;
-	margin-right: 5px;
+	margin-right: 10px;
 }
 
 .popovermenu .menuitem {
@@ -696,4 +689,3 @@ em {
 .popovermenu li:hover .menuitem {
 	opacity: 1;
 }
-
