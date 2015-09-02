@@ -59,9 +59,6 @@ if(count($configPrefixes) > 0) {
 	OC_Group::useBackend($groupBackend);
 }
 
-OCP\Backgroundjob::registerJob('OCA\user_ldap\lib\Jobs');
-OCP\Backgroundjob::registerJob('\OCA\User_LDAP\Jobs\CleanUp');
-
 if(OCP\App::isEnabled('user_webdavauth')) {
 	OCP\Util::writeLog('user_ldap',
 		'user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour',
