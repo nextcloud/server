@@ -29,9 +29,9 @@
 			'        {{#if mailPublicNotificationEnabled}} {{#unless isRemoteShare}}' +
 			'        <label><input type="checkbox" name="mailNotification" class="mailNotification" {{#if wasMailSent}}checked="checked"{{/if}} />{{notifyByMailLabel}}</label>' +
 			'        {{/unless}} {{/if}}' +
-			'        {{#if isResharingAllowed}} {{#if sharePermissionPossible}}' +
+			'        {{#if isResharingAllowed}} {{#if sharePermissionPossible}} {{#unless isRemoteShare}}' +
 			'        <label><input id="canShare-{{shareWith}}" type="checkbox" name="share" class="permissions" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />{{canShareLabel}}</label>' +
-			'        {{/if}} {{/if}}' +
+			'        {{/unless}} {{/if}} {{/if}}' +
 			'        {{#if editPermissionPossible}}' +
 			'        <label><input id="canEdit-{{shareWith}}" type="checkbox" name="edit" class="permissions" {{#if hasEditPermission}}checked="checked"{{/if}} />{{canEditLabel}}</label>' +
 			'        {{/if}}' +
@@ -44,9 +44,9 @@
 			'            {{#if updatePermissionPossible}}' +
 			'            <label><input id="canUpdate-{{shareWith}}" type="checkbox" name="update" class="permissions" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>{{updatePermissionLabel}}</label>' +
 			'            {{/if}}' +
-			'            {{#if deletePermissionPossible}}' +
+			'            {{#if deletePermissionPossible}} {{#unless isRemoteShare}}' +
 			'            <label><input id="canDelete-{{shareWith}}" type="checkbox" name="delete" class="permissions" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>{{deletePermissionLabel}}</label>' +
-			'            {{/if}}' +
+			'            {{/unless}} {{/if}}' +
 			'        </div>' +
 			'        {{/unless}}' +
 			'    </li>' +
@@ -121,13 +121,18 @@
 			var shareWithDisplayName = this.model.getShareWithDisplayName(shareIndex);
 			var shareType = this.model.getShareType(shareIndex);
 
+			var hasPermissionOverride = {};
 			if (shareType === OC.Share.SHARE_TYPE_GROUP) {
 				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'group') + ')';
 			} else if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
 				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'remote') + ')';
+				hasPermissionOverride = {
+					createPermissionPossible: true,
+					updatePermissionPossible: true
+				};
 			}
 
-			return {
+			return _.extend(hasPermissionOverride, {
 				hasSharePermission: this.model.hasSharePermission(shareIndex),
 				hasEditPermission: this.model.hasEditPermission(shareIndex),
 				hasCreatePermission: this.model.hasCreatePermission(shareIndex),
@@ -139,7 +144,7 @@
 				shareType: shareType,
 				modSeed: shareType !== OC.Share.SHARE_TYPE_USER,
 				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE
-			};
+			});
 		},
 
 		getShareeList: function() {
@@ -180,7 +185,7 @@
 				if(this.model.isCollection(index)) {
 					this.processCollectionShare(index);
 				} else {
-					list.push(_.extend(this.getShareeObject(index), universal))
+					list.push(_.extend(universal, this.getShareeObject(index)))
 				}
 				list = _.union(_.values(this._collections), list);
 			}
