@@ -111,18 +111,6 @@
 			}
 		},
 
-		getCollectionObject: function(shareIndex) {
-			var type = this.model.getCollectionType(shareIndex);
-			var id = this.model.getCollectionPath(shareIndex);
-			if(type !== 'file' && type !== 'folder') {
-				id = this.model.getCollectionSource(shareIndex);
-			}
-			return {
-				collectionID: id,
-				text: t('core', 'Shared in {item} with {user}', {'item': id, user: this.model.getShareWithDisplayName(shareIndex)})
-			}
-		},
-
 		/**
 		 *
 		 * @param {OC.Share.Types.ShareInfo} shareInfo
@@ -149,7 +137,8 @@
 				shareWith: shareWith,
 				shareWithDisplayName: shareWithDisplayName,
 				shareType: shareType,
-				modSeed: shareType !== OC.Share.SHARE_TYPE_USER
+				modSeed: shareType !== OC.Share.SHARE_TYPE_USER,
+				isRemoteShare: shareType === OC.Share.SHARE_TYPE_REMOTE
 			};
 		},
 
@@ -181,9 +170,6 @@
 
 			this._collections = {};
 
-			// TODO: sharess must have following attributes
-			// isRemoteShare
-
 			if(!this.model.hasShares()) {
 				return [];
 			}
@@ -191,16 +177,6 @@
 			var shares = this.model.get('shares');
 			var list = [];
 			for(var index = 0; index < shares.length; index++) {
-
-				// #### FIXME: LEGACY ####
-				// this does not belong to a view
-				var shareType = this.model.getShareType(index);
-				if (!OC.Share.currentShares[shareType]) {
-					OC.Share.currentShares[shareType] = [];
-				}
-				OC.Share.currentShares[shareType].push(this.model.getShareWith(index));
-				// #### /FIXME: LEGACY ####
-
 				if(this.model.isCollection(index)) {
 					this.processCollectionShare(index);
 				} else {

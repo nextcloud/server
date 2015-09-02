@@ -350,6 +350,27 @@
 			});
 		},
 
+		legacyFillCurrentShares: function(shares) {
+			OC.Share.currentShares = {};
+			OC.Share.itemShares = [];
+			_.each(shares,
+				/**
+				 * @param {OC.Share.Types.ShareInfo} share
+				 */
+				function(share) {
+					if (!OC.Share.currentShares[share.share_type]) {
+						OC.Share.currentShares[share.share_type] = [];
+					}
+					OC.Share.currentShares[share.share_type].push(share);
+
+					if (!OC.Share.itemShares[share.share_type]) {
+						OC.Share.itemShares[share.share_type] = [];
+					}
+					OC.Share.itemShares[share.share_type].push(share.share_with);
+				}
+			);
+		},
+
 		parse: function(data) {
 			if(data === false) {
 				console.warn('no data was returned');
@@ -372,9 +393,12 @@
 				});
 			}
 
+			var shares = _.toArray(data.shares);
+			this.legacyFillCurrentShares(shares);
+
 			return {
 				reshare: data.reshare,
-				shares: _.toArray(data.shares),
+				shares: shares,
 				permissions: permissions,
 				allowPublicUploadStatus: allowPublicUploadStatus
 			};
