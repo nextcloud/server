@@ -18,6 +18,7 @@ select {
 	appearance: none;
 	background: url('../../core/img/actions/triangle-s.svg') no-repeat right 8px center rgba(240, 240, 240, 0.90);
 	outline: 0;
+	padding-right: 24px !important;
 }
 
 select:hover {
