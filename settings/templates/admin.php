@@ -124,6 +124,15 @@ if (!$_['has_fileinfo']) {
 <?php
 }
 
+// locking configured optimally?
+if ($_['fileLockingType'] === 'none') {
+	?>
+	<li>
+		<?php p($l->t('Transitional file locking is disabled, this might lead to issues with race conditions, enable \'filelocking.enabled\' to improve handling of race conditions.')); ?>
+	</li>
+	<?php
+}
+
 // is locale working ?
 if (!$_['isLocaleWorking']) {
 	?>
@@ -172,7 +181,13 @@ if ($_['cronErrors']) {
 	<div class="loading"></div>
 	<ul class="errors hidden"></ul>
 	<ul class="warnings hidden"></ul>
-	<ul class="info hidden"></ul>
+	<ul class="info hidden">
+		<?php if ($_['fileLockingType'] === 'db'):?>
+		<li>
+			<?php p($l->t('Transitional file locking is using the database as locking backend, for best performance it\'s advised to configure a memcache for locking. Check the admin documentation for more information about locking and memcaches')); ?>
+		</li>
+		<?php endif; ?>
+	</ul>
 	<p class="hint hidden">
 		<?php print_unescaped($l->t('Please double check the <a target="_blank" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="#log-section">log</a>.', link_to_docs('admin-install'))); ?>
 	</p>
@@ -517,19 +532,6 @@ if ($_['cronErrors']) {
 	</em>
 	<?php endif; ?>
 	<?php endif; ?>
-</div>
-
-<div class="section" id="server-status">
-	<h2><?php p($l->t('Server status'));?></h2>
-	<ul>
-		<li>
-			<?php if ($_['fileLockingEnabled']) {
-				p($l->t('Transactional File Locking is enabled.'));
-			} else {
-				p($l->t('Transactional File Locking is disabled.'));
-			} ?>
-		</li>
-	</ul>
 </div>
 
 <div class="section" id="admin-tips">

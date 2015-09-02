@@ -193,10 +193,13 @@ $template->assign('fileSharingSettings', $fileSharingSettings);
 $template->assign('filesExternal', $filesExternal);
 $template->assign('updaterAppPanel', $updaterAppPanel);
 $template->assign('ocDefaultEncryptionModulePanel', $ocDefaultEncryptionModulePanel);
-if (\OC::$server->getLockingProvider() instanceof NoopLockingProvider) {
-	$template->assign('fileLockingEnabled', false);
+$lockingProvider = \OC::$server->getLockingProvider();
+if ($lockingProvider instanceof NoopLockingProvider) {
+	$template->assign('fileLockingType', 'none');
+} else if ($lockingProvider instanceof \OC\Lock\DBLockingProvider) {
+	$template->assign('fileLockingType', 'db');
 } else {
-	$template->assign('fileLockingEnabled', true);
+	$template->assign('fileLockingType', 'cache');
 }
 
 $formsMap = array_map(function ($form) {
@@ -223,7 +226,6 @@ $formsAndMore = array_merge($formsAndMore, $formsMap);
 $formsAndMore[] = ['anchor' => 'backgroundjobs', 'section-name' => $l->t('Cron')];
 $formsAndMore[] = ['anchor' => 'mail_general_settings', 'section-name' => $l->t('Email server')];
 $formsAndMore[] = ['anchor' => 'log-section', 'section-name' => $l->t('Log')];
-$formsAndMore[] = ['anchor' => 'server-status', 'section-name' => $l->t('Server status')];
 $formsAndMore[] = ['anchor' => 'admin-tips', 'section-name' => $l->t('Tips & tricks')];
 if ($updaterAppPanel) {
 	$formsAndMore[] = ['anchor' => 'updater', 'section-name' => $l->t('Updates')];
