@@ -357,8 +357,6 @@
 				return {};
 			}
 
-			console.log(data.shares);
-
 			var permissions = this.get('possiblePermissions');
 			if(!_.isUndefined(data.reshare) && !_.isUndefined(data.reshare.permissions)) {
 				permissions = permissions & data.reshare.permissions;
@@ -376,7 +374,7 @@
 
 			return {
 				reshare: data.reshare,
-				shares: $.map(data.shares, function(value) { return [value]; }),
+				shares: _.toArray(data.shares),
 				permissions: permissions,
 				allowPublicUploadStatus: allowPublicUploadStatus
 			};

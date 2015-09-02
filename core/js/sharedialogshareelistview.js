@@ -78,6 +78,9 @@
 		/** @type {boolean} **/
 		showLink: true,
 
+		/** @type {object} **/
+		_collections: {},
+
 		initialize: function(options) {
 			if(!_.isUndefined(options.configModel)) {
 				this.configModel = options.configModel;
@@ -89,6 +92,23 @@
 			this.model.on('change:shares', function() {
 				view.render();
 			});
+		},
+
+		processCollectionShare: function(shareIndex) {
+			var type = this.model.getCollectionType(shareIndex);
+			var id = this.model.getCollectionPath(shareIndex);
+			if(type !== 'file' && type !== 'folder') {
+				id = this.model.getCollectionSource(shareIndex);
+			}
+			var displayName = this.model.getShareWithDisplayName(shareIndex);
+			if(!_.isUndefined(this._collections[id])) {
+				this._collections[id].text = this._collections[id].text + ", " + displayName;
+			} else {
+				this._collections[id] = {};
+				this._collections[id].text = t('core', 'Shared in {item} with {user}', {'item': id, user: displayName});
+				this._collections[id].id = id;
+				this._collections[id].isCollection = true;
+			}
 		},
 
 		getCollectionObject: function(shareIndex) {
@@ -118,7 +138,6 @@
 			} else if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
 				shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'remote') + ')';
 			}
-
 
 			return {
 				hasSharePermission: this.model.hasSharePermission(shareIndex),
@@ -160,21 +179,34 @@
 				deletePermission: OC.PERMISSION_DELETE
 			};
 
+			this._collections = {};
+
 			// TODO: sharess must have following attributes
 			// isRemoteShare
-			// isMailSent
 
 			if(!this.model.hasShares()) {
 				return [];
 			}
 
+			var shares = this.model.get('shares');
 			var list = [];
-			for(var index in this.model.get('shares')) {
+			for(var index = 0; index < shares.length; index++) {
+
+				// #### FIXME: LEGACY ####
+				// this does not belong to a view
+				var shareType = this.model.getShareType(index);
+				if (!OC.Share.currentShares[shareType]) {
+					OC.Share.currentShares[shareType] = [];
+				}
+				OC.Share.currentShares[shareType].push(this.model.getShareWith(index));
+				// #### /FIXME: LEGACY ####
+
 				if(this.model.isCollection(index)) {
-					list.unshift(this.getCollectionObject(index));
+					this.processCollectionShare(index);
 				} else {
 					list.push(_.extend(this.getShareeObject(index), universal))
 				}
+				list = _.union(_.values(this._collections), list);
 			}
 
 			return list;
@@ -182,7 +214,6 @@
 
 		render: function() {
 			var shareeListTemplate = this.template();
-			var list = this.getShareeList();
 			this.$el.html(shareeListTemplate({
 				sharees: this.getShareeList()
 			}));
