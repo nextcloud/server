@@ -26,6 +26,7 @@
 
 namespace OC\AppFramework;
 
+use OC\AppFramework\Http\Dispatcher;
 use OC_App;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OCP\AppFramework\QueryException;
@@ -97,6 +98,7 @@ class App {
 		}
 
 		// initialize the dispatcher and run all the middleware before the controller
+		/** @var Dispatcher $dispatcher */
 		$dispatcher = $container['Dispatcher'];
 
 		list(
