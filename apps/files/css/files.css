@@ -740,7 +740,6 @@ table.dragshadow td.size {
 
 .newFileMenu .menuitem {
 	white-space: nowrap;
-	text-overflow: ellipsis;
 	overflow: hidden;
 }
 .newFileMenu.popovermenu .menuitem .icon {
