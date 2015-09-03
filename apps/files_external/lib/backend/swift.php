@@ -49,7 +49,7 @@ class Swift extends Backend {
 			->setDependencyCheck('\OC\Files\Storage\Swift::checkDependencies')
 			->addAuthScheme(AuthMechanism::SCHEME_OPENSTACK)
 			->setLegacyAuthMechanismCallback(function(array $params) use ($openstackAuth, $rackspaceAuth) {
-				if (isset($params['key'])) {
+				if (isset($params['options']['key']) && $params['options']['key']) {
 					return $rackspaceAuth;
 				}
 				return $openstackAuth;
