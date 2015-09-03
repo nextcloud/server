@@ -554,15 +554,15 @@ if ($_['cronErrors']) {
 	</ul>
 </div>
 
+<?php if (!empty($_['updaterAppPanel'])): ?>
+	<div id="updater"><?php print_unescaped($_['updaterAppPanel']); ?></div>
+<?php endif; ?>
+
 <div class="section">
 	<h2><?php p($l->t('Version'));?></h2>
 	<strong><?php p($theme->getTitle()); ?></strong> <?php p(OC_Util::getHumanVersion()) ?>
 	<?php include('settings.development.notice.php'); ?>
 </div>
-
-<?php if (!empty($_['updaterAppPanel'])): ?>
-	<div id="updater"><?php print_unescaped($_['updaterAppPanel']); ?></div>
-<?php endif; ?>
 
 <div class="section credits-footer">
 	<p><?php print_unescaped($theme->getShortFooter()); ?></p>
