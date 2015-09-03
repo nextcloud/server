@@ -40,6 +40,13 @@ class Manager implements IManager {
 	/** @var \Closure */
 	protected $notifiersClosures;
 
+	public function __construct() {
+		$this->apps = [];
+		$this->notifiers = [];
+		$this->appsClosures = [];
+		$this->notifiersClosures = [];
+	}
+
 	/**
 	 * @param \Closure $service The service must implement IApp, otherwise a
 	 *                          \InvalidArgumentException is thrown later
@@ -70,6 +77,7 @@ class Manager implements IManager {
 			return $this->apps;
 		}
 
+		$this->apps = [];
 		foreach ($this->appsClosures as $closure) {
 			$app = $closure();
 			if (!($app instanceof IApp)) {
@@ -89,6 +97,7 @@ class Manager implements IManager {
 			return $this->notifiers;
 		}
 
+		$this->notifiers = [];
 		foreach ($this->notifiersClosures as $closure) {
 			$notifier = $closure();
 			if (!($notifier instanceof INotifier)) {
@@ -146,9 +155,13 @@ class Manager implements IManager {
 				continue;
 			}
 
-			if (!$notification->isValidParsed()) {
+			if (!($notification instanceof INotification) || !$notification->isValidParsed()) {
 				throw new \InvalidArgumentException('The given notification has not been handled');
 			}
+		}
+
+		if (!($notification instanceof INotification) || !$notification->isValidParsed()) {
+			throw new \InvalidArgumentException('The given notification has not been handled');
 		}
 
 		return $notification;
@@ -175,7 +188,7 @@ class Manager implements IManager {
 
 		$count = 0;
 		foreach ($apps as $app) {
-			$count += $app->markProcessed($notification);
+			$count += $app->getCount($notification);
 		}
 
 		return $count;
