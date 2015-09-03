@@ -58,9 +58,9 @@ class SMB_OC extends Backend {
 	}
 
 	public function manipulateStorageConfig(StorageConfig &$storage) {
-		$username_as_share = ($storage->getBackendOption('username_as_share') === 'true');
+		$username_as_share = ($storage->getBackendOption('username_as_share') === true);
 
-		if ($this->username_as_share) {
+		if ($username_as_share) {
 			$share = '/' . $storage->getBackendOption('user');
 			$storage->setBackendOption('share', $share);
 		}
