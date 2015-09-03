@@ -161,6 +161,10 @@ class AppConfig implements IAppConfig {
 			]);
 
 			if ($inserted) {
+				if (!isset($this->cache[$app])) {
+					$this->cache[$app] = [];
+				}
+
 				$this->cache[$app][$key] = $value;
 				return true;
 			}
@@ -264,6 +268,10 @@ class AppConfig implements IAppConfig {
 		$result = $sql->execute();
 
 		while ($row = $result->fetch()) {
+			if (!isset($this->cache[$row['appid']])) {
+				$this->cache[$row['appid']] = [];
+			}
+
 			$this->cache[$row['appid']][$row['configkey']] = $row['configvalue'];
 		}
 		$result->closeCursor();
