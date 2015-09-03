@@ -106,7 +106,7 @@ class Action implements IAction {
 		if (!is_string($link) || $link === '' || isset($link[256])) {
 			throw new \InvalidArgumentException('The given link is invalid');
 		}
-		if (!in_array($requestType, ['GET', 'POST', 'PUT', 'DELETE'])) {
+		if (!in_array($requestType, ['GET', 'POST', 'PUT', 'DELETE'], true)) {
 			throw new \InvalidArgumentException('The given request type is invalid');
 		}
 		$this->link = $link;
