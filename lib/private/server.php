@@ -451,13 +451,13 @@ class Server extends SimpleContainer implements IServerContainer {
 			);
 		});
 		$this->registerService('LockingProvider', function (Server $c) {
-			if ($c->getConfig()->getSystemValue('filelocking.enabled', false) or (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+			if ($c->getConfig()->getSystemValue('filelocking.enabled', true) or (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				/** @var \OC\Memcache\Factory $memcacheFactory */
 				$memcacheFactory = $c->getMemCacheFactory();
 				$memcache = $memcacheFactory->createLocking('lock');
-//				if (!($memcache instanceof \OC\Memcache\NullCache)) {
-//					return new MemcacheLockingProvider($memcache);
-//				}
+				if (!($memcache instanceof \OC\Memcache\NullCache)) {
+					return new MemcacheLockingProvider($memcache);
+				}
 				return new DBLockingProvider($c->getDatabaseConnection(), $c->getLogger());
 			}
 			return new NoopLockingProvider();
