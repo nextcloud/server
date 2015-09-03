@@ -112,4 +112,19 @@ describe('OCA.Files.TagsPlugin tests', function() {
 			expect($action.find('img').attr('src')).toEqual(OC.imagePath('core', 'actions/star'));
 		});
 	});
+	describe('elementToFile', function() {
+		it('returns tags', function() {
+			fileList.setFiles(testFiles);
+			var $tr = fileList.findFileEl('One.txt');
+			var data = fileList.elementToFile($tr);
+			expect(data.tags).toEqual(['tag1', 'tag2']);
+		});
+		it('returns empty array when no tags present', function() {
+			delete testFiles[0].tags;
+			fileList.setFiles(testFiles);
+			var $tr = fileList.findFileEl('One.txt');
+			var data = fileList.elementToFile($tr);
+			expect(data.tags).toEqual([]);
+		});
+	});
 });
