@@ -756,6 +756,13 @@ MountConfigListView.prototype = _.extend({
 		$tr.append(priorityEl);
 		$td.children().not('[type=hidden]').first().focus();
 
+		// FIXME default backend mount options
+		$tr.find('input.mountOptions').val(JSON.stringify({
+			'encrypt': true,
+			'previews': true,
+			'filesystem_check_changes': 1
+		}));
+
 		$tr.find('td').last().attr('class', 'remove');
 		$tr.find('td.mountOptionsToggle').removeClass('hidden');
 		$tr.find('td').last().removeAttr('style');
