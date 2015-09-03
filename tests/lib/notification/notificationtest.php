@@ -22,12 +22,11 @@
 namespace Test\Notification;
 
 
-use OC\Notification\Action;
 use OC\Notification\Notification;
-use OCP\Notification\IAction;
 use OCP\Notification\INotification;
+use Test\TestCase;
 
-class NotificationTest extends \Test\TestCase {
+class NotificationTest extends TestCase {
 	/** @var INotification */
 	protected $notification;
 

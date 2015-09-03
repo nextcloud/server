@@ -24,8 +24,9 @@ namespace Test\Notification;
 
 use OC\Notification\Action;
 use OCP\Notification\IAction;
+use Test\TestCase;
 
-class ActionTest extends \Test\TestCase {
+class ActionTest extends TestCase {
 	/** @var IAction */
 	protected $action;
 
@@ -37,7 +38,8 @@ class ActionTest extends \Test\TestCase {
 	public function dataSetLabel() {
 		return [
 			['test1'],
-			['test2'],
+			[str_repeat('a', 1)],
+			[str_repeat('a', 32)],
 		];
 	}
 
@@ -77,7 +79,8 @@ class ActionTest extends \Test\TestCase {
 	public function dataSetParsedLabel() {
 		return [
 			['test1'],
-			['test2'],
+			[str_repeat('a', 1)],
+			[str_repeat('a', 32)],
 		];
 	}
 
@@ -117,8 +120,8 @@ class ActionTest extends \Test\TestCase {
 		return [
 			['test1', 'GET'],
 			['test2', 'POST'],
-			['test3', 'PUT'],
-			['test4', 'DELETE'],
+			[str_repeat('a', 1), 'PUT'],
+			[str_repeat('a', 256), 'DELETE'],
 		];
 	}
 
@@ -171,7 +174,8 @@ class ActionTest extends \Test\TestCase {
 	public function dataSetIcon() {
 		return [
 			['test1'],
-			['test2'],
+			[str_repeat('a', 1)],
+			[str_repeat('a', 64)],
 		];
 	}
 
