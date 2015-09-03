@@ -20,11 +20,10 @@
 */
 
 describe('OCA.Files.MainFileInfoDetailView tests', function() {
-	var view, tooltipStub, fileListMock, fileActions, fileList, testFileInfo;
+	var view, tooltipStub, fileActions, fileList, testFileInfo;
 
 	beforeEach(function() {
 		tooltipStub = sinon.stub($.fn, 'tooltip');
-		fileListMock = sinon.mock(OCA.Files.FileList.prototype);
 		fileActions = new OCA.Files.FileActions();
 		fileList = new OCA.Files.FileList($('<table></table>'), {
 			fileActions: fileActions
@@ -40,6 +39,7 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 			permissions: 31,
 			path: '/subdir',
 			size: 123456789,
+			etag: 'abcdefg',
 			mtime: Date.UTC(2015, 6, 17, 1, 2, 0, 0)
 		});
 	});
@@ -47,7 +47,6 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 		view.remove();
 		view = undefined;
 		tooltipStub.restore();
-		fileListMock.restore();
 
 	});
 	describe('rendering', function() {
@@ -76,9 +75,31 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 		});
 		it('displays mime icon', function() {
 			// File
+			var lazyLoadPreviewStub = sinon.stub(fileList, 'lazyLoadPreview');
 			testFileInfo.set('mimetype', 'text/calendar');
 			view.setFileInfo(testFileInfo);
 
+			expect(lazyLoadPreviewStub.calledOnce).toEqual(true);
+			var previewArgs = lazyLoadPreviewStub.getCall(0).args;
+			expect(previewArgs[0].mime).toEqual('text/calendar');
+			expect(previewArgs[0].path).toEqual('/subdir/One.txt');
+			expect(previewArgs[0].etag).toEqual('abcdefg');
+
+			expect(view.$el.find('.thumbnail').hasClass('icon-loading')).toEqual(true);
+
+			// returns mime icon first without img parameter
+			previewArgs[0].callback(
+				OC.imagePath('core', 'filetypes/text-calendar.svg')
+			);
+
+			// still loading
+			expect(view.$el.find('.thumbnail').hasClass('icon-loading')).toEqual(true);
+
+			// preview loading failed, no prview
+			previewArgs[0].error();
+
+			// loading stopped, the mimetype icon gets displayed
+			expect(view.$el.find('.thumbnail').hasClass('icon-loading')).toEqual(false);
 			expect(view.$el.find('.thumbnail').css('background-image'))
 				.toContain('filetypes/text-calendar.svg');
 
@@ -88,17 +109,46 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 
 			expect(view.$el.find('.thumbnail').css('background-image'))
 				.toContain('filetypes/folder.svg');
+
+			lazyLoadPreviewStub.restore();
 		});
 		it('displays thumbnail', function() {
-			testFileInfo.set('mimetype', 'test/plain');
+			var lazyLoadPreviewStub = sinon.stub(fileList, 'lazyLoadPreview');
+
+			testFileInfo.set('mimetype', 'text/plain');
 			view.setFileInfo(testFileInfo);
 
-			var expectation = fileListMock.expects('lazyLoadPreview');
-			expectation.once();
+			expect(lazyLoadPreviewStub.calledOnce).toEqual(true);
+			var previewArgs = lazyLoadPreviewStub.getCall(0).args;
+			expect(previewArgs[0].mime).toEqual('text/plain');
+			expect(previewArgs[0].path).toEqual('/subdir/One.txt');
+			expect(previewArgs[0].etag).toEqual('abcdefg');
 
-			view.setFileInfo(testFileInfo);
+			expect(view.$el.find('.thumbnail').hasClass('icon-loading')).toEqual(true);
 
-			fileListMock.verify();
+			// returns mime icon first without img parameter
+			previewArgs[0].callback(
+				OC.imagePath('core', 'filetypes/text-plain.svg')
+			);
+
+			// still loading
+			expect(view.$el.find('.thumbnail').hasClass('icon-loading')).toEqual(true);
+
+			// return an actual (simulated) image
+			previewArgs[0].callback(
+				'testimage', {
+					width: 100,
+					height: 200
+				}
+			);
+
+			// loading stopped, image got displayed
+			expect(view.$el.find('.thumbnail').css('background-image'))
+				.toContain('testimage');
+
+			expect(view.$el.find('.thumbnail').hasClass('icon-loading')).toEqual(false);
+
+			lazyLoadPreviewStub.restore();
 		});
 		it('does not show size if no size available', function() {
 			testFileInfo.unset('size');
