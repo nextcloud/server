@@ -270,6 +270,9 @@
 			if (this._newFileMenu) {
 				this._newFileMenu.remove();
 			}
+			if (this._newButton) {
+				this._newButton.remove();
+			}
 			// TODO: also unregister other event handlers
 			this.fileActions.off('registerAction', this._onFileActionsUpdated);
 			this.fileActions.off('setDefault', this._onFileActionsUpdated);
@@ -1695,6 +1698,8 @@
 		 *
 		 * @return {Promise} promise that will be resolved after the
 		 * file was created
+		 *
+		 * @since 8.2
 		 */
 		createFile: function(name) {
 			var self = this;
@@ -1709,7 +1714,7 @@
 			}
 
 			$.post(
-				OC.filePath('files', 'ajax', 'newfile.php'),
+				OC.generateUrl('/apps/files/ajax/newfile.php'),
 				{
 					dir: this.getCurrentDirectory(),
 					filename: name
@@ -1739,6 +1744,8 @@
 		 *
 		 * @return {Promise} promise that will be resolved after the
 		 * directory was created
+		 *
+		 * @since 8.2
 		 */
 		createDirectory: function(name) {
 			var self = this;
@@ -1753,7 +1760,7 @@
 			}
 
 			$.post(
-				OC.filePath('files','ajax','newfolder.php'),
+				OC.generateUrl('/apps/files/ajax/newfolder.php'),
 				{
 					dir: this.getCurrentDirectory(),
 					foldername: name

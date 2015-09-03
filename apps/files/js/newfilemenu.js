@@ -163,7 +163,6 @@
 					var newname = $input.val();
 					self._createFile(fileType, newname);
 					$form.remove();
-					$('#content').focus();
 					$target.find('.displayname').removeClass('hidden');
 					OC.hideMenus();
 				}
