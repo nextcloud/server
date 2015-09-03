@@ -16,16 +16,20 @@
 	var TEMPLATE =
 			'{{#if shareAllowed}}' +
 			'<span class="icon-loading-small hidden"></span>' +
-			'<input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" /><label for="linkCheckbox">{{linkShareLabel}}</label>' +
+			'<input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" {{#if isLinkShare}}checked="checked"{{/if}} /><label for="linkCheckbox">{{linkShareLabel}}</label>' +
 			'<br />' +
 			'<label for="linkText" class="hidden-visually">{{urlLabel}}</label>' +
-			'<input id="linkText" type="text" readonly="readonly" />' +
-			'<input type="checkbox" name="showPassword" id="showPassword" value="1" class="hidden" /><label for="showPassword" class="hidden-visually">{{enablePasswordLabel}}</label>' +
+			'<input id="linkText" {{#unless isLinkShare}}class="hidden"{{/unless}} type="text" readonly="readonly" value="{{shareLinkURL}}" />' +
+			'   {{#if showPasswordCheckBox}}' +
+			'<input type="checkbox" name="showPassword" id="showPassword" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" /><label for="showPassword">{{enablePasswordLabel}}</label>' +
+			'   {{/if}}' +
+			'   {{#if isPasswordSet}}' +
 			'<div id="linkPass">' +
 			'    <label for="linkPassText" class="hidden-visually">{{passwordLabel}}</label>' +
-			'    <input id="linkPassText" type="password" placeholder="passwordPlaceholder" />' +
+			'    <input id="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
 			'    <span class="icon-loading-small hidden"></span>' +
 			'</div>' +
+			'   {{/if}}' +
 			'    {{#if publicUpload}}' +
 			'<div id="allowPublicUploadWrapper" class="hidden">' +
 			'    <span class="icon-loading-small hidden"></span>' +
@@ -35,8 +39,8 @@
 			'    {{/if}}' +
 			'    {{#if mailPublicNotificationEnabled}}' +
 			'<form id="emailPrivateLink">' +
-			'    <input id="email" class="hidden" value="" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
-			'    <input id="emailButton" class="hidden" type="submit" value="{{mailButtonText}}" />' +
+			'    <input id="email" value="" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
+			'    <input id="emailButton" type="submit" value="{{mailButtonText}}" />' +
 			'</form>' +
 			'    {{/if}}' +
 			'{{else}}' +
@@ -113,17 +117,27 @@
 				publicUploadChecked = 'checked="checked"';
 			}
 
+			var isLinkShare = this.model.get('linkShare').isLinkShare;
+			var isPasswordSet = !!this.model.get('linkShare').password;
+			var showPasswordCheckBox = isLinkShare
+				&& (   !this.configModel.get('enforcePasswordForPublicLink')
+					|| !this.model.get('linkShare').password);
+
 			this.$el.html(linkShareTemplate({
 				shareAllowed: true,
+				isLinkShare: isLinkShare,
+				shareLinkURL: this.model.get('linkShare').link,
 				linkShareLabel: t('core', 'Share link'),
 				urlLabel: t('core', 'Link'),
 				enablePasswordLabel: t('core', 'Password protect'),
 				passwordLabel: t('core', 'Password'),
-				passwordPlaceholder: t('core', 'Choose a password for the public link'),
-				publicUpload: publicUpload,
+				passwordPlaceholder: isPasswordSet ? '**********' : t('core', 'Choose a password for the public link'),
+				isPasswordSet: isPasswordSet,
+				showPasswordCheckBox: showPasswordCheckBox,
+				publicUpload: publicUpload && isLinkShare,
 				publicUploadChecked: publicUploadChecked,
 				publicUploadLabel: t('core', 'Allow editing'),
-				mailPublicNotificationEnabled: this.configModel.isMailPublicNotificationEnabled(),
+				mailPublicNotificationEnabled: isLinkShare && this.configModel.isMailPublicNotificationEnabled(),
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
 				mailButtonText: t('core', 'Send')
 			}));

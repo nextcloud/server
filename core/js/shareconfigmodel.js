@@ -16,7 +16,8 @@
 
 	var ShareConfigModel = OC.Backbone.Model.extend({
 		defaults: {
-			publicUploadEnabled: false
+			publicUploadEnabled: false,
+			enforcePasswordForPublicLink: oc_appconfig.core.enforcePasswordForPublicLink
 		},
 
 		/**

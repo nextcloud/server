@@ -14,11 +14,14 @@
 	}
 
 	var TEMPLATE =
+			// well that could go to linkShareView…
+			'{{#if isLinkShare}}' +
 			'<input type="checkbox" name="expirationCheckbox" id="expirationCheckbox" value="1" />' +
 			'<label for="expirationCheckbox">{{setExpirationLabel}}</label>' +
 			'<label for="expirationDate" class="hidden-visually">{{expirationLabel}}</label>' +
 			'<input id="expirationDate" type="text" placeholder="{{expirationDatePlaceholder}}" class="hidden" />' +
-			'<em id="defaultExpireMessage">{{defaultExpireMessage}}</em>'
+			'<em id="defaultExpireMessage">{{defaultExpireMessage}}</em>' +
+			'{{/if}}'
 		;
 
 	/**
@@ -44,6 +47,8 @@
 		/** @type {boolean} **/
 		showLink: true,
 
+		className: 'hidden',
+
 		initialize: function(options) {
 			if(!_.isUndefined(options.configModel)) {
 				this.configModel = options.configModel;
@@ -68,7 +73,8 @@
 				setExpirationLabel: t('core', 'Set expiration date'),
 				expirationLabel: t('core', 'Expiration'),
 				expirationDatePlaceholder: t('core', 'Expiration date'),
-				defaultExpireMessage: defaultExpireMessage
+				defaultExpireMessage: defaultExpireMessage,
+				isLinkShare: this.model.get('linkShare').isLinkShare
 			}));
 
 			return this;

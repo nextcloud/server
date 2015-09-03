@@ -15,6 +15,14 @@
 	}
 
 	/**
+	 * @typedef {object} OC.Share.Types.LinkShareInfo
+	 * @property {bool} isLinkShare
+	 * @property {string} token
+	 * @property {string|null} password
+	 * @property {string} link
+	 */
+
+	/**
 	 * @typedef {object} OC.Share.Types.Collection
 	 * @property {string} item_type
 	 * @property {string} path
@@ -49,6 +57,7 @@
 	 * @typedef {object} OC.Share.Types.ShareItemInfo
 	 * @property {OC.Share.Types.Reshare} reshare
 	 * @property {OC.Share.Types.ShareInfo[]} shares
+	 * @property {OC.Share.Types.LinkShareInfo|undefined} linkShare
 	 */
 
 	/**
@@ -64,11 +73,16 @@
 			if(!_.isUndefined(options.configModel)) {
 				this.configModel = options.configModel;
 			}
+			if(!_.isUndefined(options.fileInfoModel)) {
+				/** @type {OC.Files.FileInfo} **/
+				this.fileInfoModel = options.fileInfoModel;
+			}
 		},
 
 		defaults: {
 			allowPublicUploadStatus: false,
-			permissions: 0
+			permissions: 0,
+			linkShare: {}
 		},
 
 		/**
@@ -186,7 +200,6 @@
 		 * @returns {string}
 		 */
 		getReshareOwnerDisplayname: function() {
-			return 'foo';
 			return this.get('reshare').displayname_owner;
 		},
 
@@ -399,12 +412,52 @@
 				});
 			}
 
+			/** @type {OC.Share.Types.ShareInfo[]} **/
 			var shares = _.toArray(data.shares);
 			this.legacyFillCurrentShares(shares);
+
+			var linkShare = { isLinkShare: false };
+			// filter out the share by link
+			shares = _.reject(shares,
+				/**
+				 * @param {OC.Share.Types.ShareInfo} share
+				 */
+				function(share) {
+					var isShareLink =
+						share.share_type === OC.Share.SHARE_TYPE_LINK
+						&& (   share.file_source === this.get('itemSource')
+						|| share.item_source === this.get('itemSource'));
+
+					if (isShareLink) {
+						var link = window.location.protocol + '//' + window.location.host;
+						if (!share.token) {
+							// pre-token link
+							var fullPath = this.fileInfoModel.get('path') + '/' +
+								this.fileInfoModel.get('name');
+							var location = '/' + OC.currentUser + '/files' + fullPath;
+							var type = this.fileInfoModel.isDirectory() ? 'folder' : 'file';
+							link += OC.linkTo('', 'public.php') + '?service=files&' +
+								type + '=' + encodeURIComponent(location);
+						} else {
+							link += OC.generateUrl('/s/') + share.token;
+						}
+						linkShare = {
+							isLinkShare: true,
+							token: share.token,
+							password: share.share_with,
+							link: link
+						};
+
+						return share;
+					}
+				},
+				this
+			);
 
 			return {
 				reshare: data.reshare,
 				shares: shares,
+				linkShare: linkShare,
 				permissions: permissions,
 				allowPublicUploadStatus: allowPublicUploadStatus
 			};

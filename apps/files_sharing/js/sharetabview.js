@@ -45,7 +45,6 @@
 			}
 
 			if (this.model) {
-				console.log(this.model);
 				var owner = this.model.get('shareOwner');
 				if (owner === OC.currentUser) {
 					owner = null;
@@ -59,8 +58,11 @@
 				   	itemSource: this.model.get('id'),
 					possiblePermissions: this.model.get('sharePermissions')
 				};
-				var shareModel = new OC.Share.ShareItemModel(attributes, {configModel: configModel});
 				var configModel = new OC.Share.ShareConfigModel();
+				var shareModel = new OC.Share.ShareItemModel(attributes, {
+					configModel: configModel,
+					fileInfoModel: this.model
+				});
 				this._dialog = new OC.Share.ShareDialogView({
 					configModel: configModel,
 					model: shareModel

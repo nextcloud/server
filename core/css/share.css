@@ -126,10 +126,6 @@ a.unshare {
 	margin-right: 0;
 }
 
-#linkText,#linkPass,#expiration {
-	display:none;
-}
-
 #link #showPassword img {
 	padding-left:5px;
 	width:12px;
