@@ -440,6 +440,14 @@ interface IServerContainer {
 	 */
 	public function getMimeTypeDetector();
 
+	/**
+	 * Get the MimeTypeLoader
+	 *
+	 * @return \OCP\Files\IMimeTypeLoader
+	 * @since 8.2.0
+	 */
+	public function getMimeTypeLoader();
+
 
 	/**
 	 * Get the EventDispatcher

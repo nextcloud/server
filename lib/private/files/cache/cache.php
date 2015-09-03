@@ -35,6 +35,8 @@
 
 namespace OC\Files\Cache;
 
+use \OCP\Files\IMimeTypeLoader;
+
 /**
  * Metadata cache for a storage
  *
@@ -66,8 +68,8 @@ class Cache {
 	 */
 	protected $storageCache;
 
-	protected static $mimetypeIds = array();
-	protected static $mimetypes = array();
+	/** @var IMimeTypeLoader */
+	protected $mimetypeLoader;
 
 	/**
 	 * @param \OC\Files\Storage\Storage|string $storage
@@ -83,6 +85,7 @@ class Cache {
 		}
 
 		$this->storageCache = new Storage($storage);
+		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 	}
 
 	/**
@@ -92,72 +95,6 @@ class Cache {
 	 */
 	public function getNumericStorageId() {
 		return $this->storageCache->getNumericId();
-	}
-
-	/**
-	 * Get the numeric id for a mimetype
-	 *
-	 * Mimetypes are stored as integers in the cache to prevent duplicated data of the (usually) fairly limited amount of unique mimetypes
-	 * If the supplied mimetype does not yet have a numeric id a new one will be generated
-	 *
-	 * @param string $mime
-	 * @return int
-	 */
-	public function getMimetypeId($mime) {
-		if (empty($mime)) {
-			// Can not insert empty string into Oracle NOT NULL column.
-			$mime = 'application/octet-stream';
-		}
-		if (empty(self::$mimetypeIds)) {
-			$this->loadMimetypes();
-		}
-
-		if (!isset(self::$mimetypeIds[$mime])) {
-			try {
-				$connection = \OC_DB::getConnection();
-				$connection->insertIfNotExist('*PREFIX*mimetypes', [
-					'mimetype'	=> $mime,
-				]);
-				$this->loadMimetypes();
-			} catch (\Doctrine\DBAL\DBALException $e) {
-				\OCP\Util::writeLog('core', 'Exception during mimetype insertion: ' . $e->getmessage(), \OCP\Util::DEBUG);
-				return -1;
-			}
-		}
-
-		return self::$mimetypeIds[$mime];
-	}
-
-
-	/**
-	 * Get the mimetype (as string) from a mimetype id
-	 *
-	 * @param int $id
-	 * @return string | null the mimetype for the id or null if the id is not known
-	 */
-	public function getMimetype($id) {
-		if (empty(self::$mimetypes)) {
-			$this->loadMimetypes();
-		}
-
-		return isset(self::$mimetypes[$id]) ? self::$mimetypes[$id] : null;
-	}
-
-	/**
-	 * Load all known mimetypes and mimetype ids from the database
-	 *
-	 * @throws \OC\DatabaseException
-	 */
-	public function loadMimetypes() {
-		self::$mimetypeIds = self::$mimetypes = array();
-
-		$result = \OC_DB::executeAudited('SELECT `id`, `mimetype` FROM `*PREFIX*mimetypes`', array());
-		if ($result) {
-			while ($row = $result->fetchRow()) {
-				self::$mimetypeIds[$row['mimetype']] = $row['id'];
-				self::$mimetypes[$row['id']] = $row['mimetype'];
-			}
-		}
 	}
 
 	/**
@@ -222,8 +159,8 @@ class Cache {
 			$data['storage_mtime'] = (int)$data['storage_mtime'];
 			$data['encrypted'] = (bool)$data['encrypted'];
 			$data['storage'] = $this->storageId;
-			$data['mimetype'] = $this->getMimetype($data['mimetype']);
-			$data['mimepart'] = $this->getMimetype($data['mimepart']);
+			$data['mimetype'] = $this->mimetypeLoader->getMimetypeById($data['mimetype']);
+			$data['mimepart'] = $this->mimetypeLoader->getMimetypeById($data['mimepart']);
 			if ($data['storage_mtime'] == 0) {
 				$data['storage_mtime'] = $data['mtime'];
 			}
@@ -258,8 +195,8 @@ class Cache {
 			$result = \OC_DB::executeAudited($sql, array($fileId));
 			$files = $result->fetchAll();
 			foreach ($files as &$file) {
-				$file['mimetype'] = $this->getMimetype($file['mimetype']);
-				$file['mimepart'] = $this->getMimetype($file['mimepart']);
+				$file['mimetype'] = $this->mimetypeLoader->getMimetypeById($file['mimetype']);
+				$file['mimepart'] = $this->mimetypeLoader->getMimetypeById($file['mimepart']);
 				if ($file['storage_mtime'] == 0) {
 					$file['storage_mtime'] = $file['mtime'];
 				}
@@ -385,9 +322,9 @@ class Cache {
 					$params[] = md5($value);
 					$queryParts[] = '`path_hash`';
 				} elseif ($name === 'mimetype') {
-					$params[] = $this->getMimetypeId(substr($value, 0, strpos($value, '/')));
+					$params[] = $this->mimetypeLoader->getId(substr($value, 0, strpos($value, '/')));
 					$queryParts[] = '`mimepart`';
-					$value = $this->getMimetypeId($value);
+					$value = $this->mimetypeLoader->getId($value);
 				} elseif ($name === 'storage_mtime') {
 					if (!isset($data['mtime'])) {
 						$params[] = $value;
@@ -613,7 +550,6 @@ class Cache {
 	 * @return array an array of cache entries where the name matches the search pattern
 	 */
 	public function search($pattern) {
-
 		// normalize pattern
 		$pattern = $this->normalize($pattern);
 
@@ -630,8 +566,8 @@ class Cache {
 
 		$files = array();
 		while ($row = $result->fetchRow()) {
-			$row['mimetype'] = $this->getMimetype($row['mimetype']);
-			$row['mimepart'] = $this->getMimetype($row['mimepart']);
+			$row['mimetype'] = $this->mimetypeLoader->getMimetypeById($row['mimetype']);
+			$row['mimepart'] = $this->mimetypeLoader->getMimetypeById($row['mimepart']);
 			$files[] = $row;
 		}
 		return $files;
@@ -652,12 +588,12 @@ class Cache {
 		}
 		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `etag`, `permissions`
 				FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `storage` = ?';
-		$mimetype = $this->getMimetypeId($mimetype);
+		$mimetype = $this->mimetypeLoader->getId($mimetype);
 		$result = \OC_DB::executeAudited($sql, array($mimetype, $this->getNumericStorageId()));
 		$files = array();
 		while ($row = $result->fetchRow()) {
-			$row['mimetype'] = $this->getMimetype($row['mimetype']);
-			$row['mimepart'] = $this->getMimetype($row['mimepart']);
+			$row['mimetype'] = $this->mimetypeLoader->getMimetypeById($row['mimetype']);
+			$row['mimepart'] = $this->mimetypeLoader->getMimetypeById($row['mimepart']);
 			$files[] = $row;
 		}
 		return $files;
