@@ -674,7 +674,7 @@ class OC {
 
 		self::registerCacheHooks();
 		self::registerFilesystemHooks();
-		if (\OC::$server->getSystemConfig()->getValue('enable_previews', true)) {
+		if ($systemConfig->getValue('enable_previews', true)) {
 			self::registerPreviewHooks();
 		}	
 		self::registerShareHooks();
