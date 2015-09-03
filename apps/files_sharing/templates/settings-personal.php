@@ -46,13 +46,13 @@ if ($_['showShareIT']) {
 				data-url='https://plus.google.com/share?url=<?php p(urlencode($_['reference'])); ?>'/>
 				Google+
 			</button>
+			<button id="oca-files-sharing-add-to-your-website">
+				<?php p($l->t('Add to your website')) ?>
+			</button>
 		</p>
 
-		<br>
-
-		<p>
-			<?php p($l->t('Add it to your website:')); ?>
-
+		<div class="hidden" id="oca-files-sharing-add-to-your-website-expanded">
+		<p style="margin: 10px 0">
 			<a target="_blank" href="<?php p($_['reference']); ?>"
 				style="padding:10px;background-color:#1d2d44;color:#fff;border-radius:3px;padding-left:4px;">
 				<img src="<?php p($_['owncloud_logo_path']); ?>"
@@ -71,6 +71,7 @@ if ($_['showShareIT']) {
 
 </a></xmp>
 		</p>
+		</div>
 		<?php } ?>
 
 	</div>
