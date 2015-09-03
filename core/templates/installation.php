@@ -53,7 +53,7 @@ script('core', [
 			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
 			<img class="svg" id="adminpass-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt="">
 			<input type="checkbox" id="show" name="show">
-			<label for="show"></label>
+			<label for="show" class="svg"></label>
 			<div class="strengthify-wrapper"></div>
 		</p>
 	</fieldset>
@@ -149,7 +149,7 @@ script('core', [
 		</fieldset>
 		<?php endif; ?>
 	<?php endif; ?>
-	
+
 	<div class="icon-loading-dark float-spinner">&nbsp;</div>
 
 	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
