@@ -34,3 +34,6 @@ if(version_compare($installedVersion, '0.6.2', '<')) {
 		\OC::$server->getConfig()->deleteAppValue('user_ldap', $prefix . "ldap_nocase");
 	}
 }
+
+OCP\Backgroundjob::registerJob('OCA\user_ldap\lib\Jobs');
+OCP\Backgroundjob::registerJob('\OCA\User_LDAP\Jobs\CleanUp');
