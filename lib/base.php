@@ -540,7 +540,7 @@ class OC {
 			// setup 3rdparty autoloader
 			$vendorAutoLoad = OC::$THIRDPARTYROOT . '/3rdparty/autoload.php';
 			if (!file_exists($vendorAutoLoad)) {
-				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty".');
+				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
 			}
 			require_once $vendorAutoLoad;
 
