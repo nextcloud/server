@@ -116,10 +116,10 @@ class Test_Files_Sharing_Updater extends Test_Files_Sharing_Base {
 	}
 
 	public function shareFolderProvider() {
-		return [
-			['/'],
-			['/my_shares'],
-		];
+		return array(
+			array('/'),
+			array('/my_shares'),
+		);
 	}
 
 	/**
