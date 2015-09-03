@@ -120,7 +120,7 @@ class Notification implements INotification {
 	 * @since 8.2.0
 	 */
 	public function setUser($user) {
-		if (!is_string($user) || $user === '' || isset($app[64])) {
+		if (!is_string($user) || $user === '' || isset($user[64])) {
 			throw new \InvalidArgumentException('The given user id is invalid');
 		}
 		$this->user = $user;
@@ -413,7 +413,7 @@ class Notification implements INotification {
 		return
 			$this->isValidCommon()
 			&&
-			$this->subject !== ''
+			$this->getSubject() !== ''
 		;
 	}
 
@@ -425,7 +425,7 @@ class Notification implements INotification {
 		return
 			$this->isValidCommon()
 			&&
-			$this->subjectParsed !== ''
+			$this->getParsedSubject() !== ''
 		;
 	}
 
@@ -434,15 +434,15 @@ class Notification implements INotification {
 	 */
 	protected function isValidCommon() {
 		return
-			$this->app !== ''
+			$this->getApp() !== ''
 			&&
-			$this->user !== ''
+			$this->getUser() !== ''
 			&&
-			$this->timestamp !== 0
+			$this->getTimestamp() !== 0
 			&&
-			$this->objectType !== ''
+			$this->getObjectType() !== ''
 			&&
-			$this->objectId !== 0
+			$this->getObjectId() !== 0
 		;
 	}
 }
