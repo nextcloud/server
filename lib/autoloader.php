@@ -58,7 +58,7 @@ class Autoloader {
 	 * @param string $root
 	 */
 	public function addValidRoot($root) {
-		$this->validRoots[] = $root;
+		$this->validRoots[] = stream_resolve_include_path($root);
 	}
 
 	/**
