@@ -703,6 +703,18 @@ class Share extends Constants {
 					throw new \Exception($message_t);
 				}
 			}
+			if ($checkExists = self::getItems($itemType, $itemSource, self::SHARE_TYPE_USER,
+				$shareWith, null, self::FORMAT_NONE, null, 1, true, true)) {
+				// Only allow the same share to occur again if it is the same
+				// owner and is not a user share, this use case is for increasing
+				// permissions for a specific user
+				if ($checkExists['uid_owner'] != $uidOwner || $checkExists['share_type'] == $shareType) {
+					$message = 'Sharing %s failed, because this item is already shared with user %s';
+					$message_t = $l->t('Sharing %s failed, because this item is already shared with user %s', array($itemSourceName, $shareWith));
+					\OC_Log::write('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OC_Log::ERROR);
+					throw new \Exception($message_t);
+				}
+			}
 		} else if ($shareType === self::SHARE_TYPE_GROUP) {
 			if (!\OC_Group::groupExists($shareWith)) {
 				$message = 'Sharing %s failed, because the group %s does not exist';
