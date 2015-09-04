@@ -120,6 +120,7 @@ OC.L10N.register(
     "Finishing …" : "Schléissen of ...",
     "Log out" : "Ofmellen",
     "Search" : "Sichen",
+    "Log in" : "Umellen",
     "remember" : "verhalen",
     "Alternative Logins" : "Alternativ Umeldungen",
     "Thank you for your patience." : "Merci fir deng Gedold."

@@ -66,7 +66,6 @@ OC.L10N.register(
     "Federated Cloud" : "Federated σύννεφο",
     "Your Federated Cloud ID:" : "Το ID σας στο Federated Cloud:",
     "Share it:" : "Μοιραστείτε το:",
-    "Add it to your website:" : "Προσθέστε το στην ιστοσελίδα σας:",
     "Share with me via ownCloud" : "Διαμοιρασμός με εμένα μέσω του ",
     "HTML Code:" : "Κώδικας HTML:"
 },

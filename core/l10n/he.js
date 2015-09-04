@@ -103,6 +103,7 @@ OC.L10N.register(
     "Finish setup" : "סיום התקנה",
     "Log out" : "התנתקות",
     "Search" : "חיפוש",
+    "Log in" : "כניסה",
     "remember" : "שמירת הססמה",
     "Alternative Logins" : "כניסות אלטרנטיביות"
 },

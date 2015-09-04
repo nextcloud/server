@@ -119,6 +119,7 @@ OC.L10N.register(
     "Finish setup" : "Pabeigt iestatīšanu",
     "Log out" : "Izrakstīties",
     "Search" : "Meklēt",
+    "Log in" : "Ierakstīties",
     "remember" : "atcerēties",
     "Alternative Logins" : "Alternatīvās pieteikšanās"
 },

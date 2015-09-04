@@ -66,7 +66,6 @@ OC.L10N.register(
     "Federated Cloud" : "Birleşmiş Bulut",
     "Your Federated Cloud ID:" : "Birleşmiş Bulut Kimliğiniz:",
     "Share it:" : "Paylaşın:",
-    "Add it to your website:" : "Web sitenize ekleyin:",
     "Share with me via ownCloud" : "Benimle ownCloud aracılığıyla paylaşıldı",
     "HTML Code:" : "HTML Kodu:"
 },

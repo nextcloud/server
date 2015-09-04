@@ -66,7 +66,6 @@ OC.L10N.register(
     "Federated Cloud" : "연합 클라우드",
     "Your Federated Cloud ID:" : "내 연합 클라우드 ID:",
     "Share it:" : "공유하기:",
-    "Add it to your website:" : "웹 사이트에 다음을 추가하십시오:",
     "Share with me via ownCloud" : "ownCloud로 나와 공유하기",
     "HTML Code:" : "HTML 코드:"
 },

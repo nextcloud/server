@@ -66,7 +66,6 @@ OC.L10N.register(
     "Federated Cloud" : "Sammenknyttet sky",
     "Your Federated Cloud ID:" : "Din ID for sammenknyttet sky:",
     "Share it:" : "Del den:",
-    "Add it to your website:" : "Legg den på websiden din:",
     "Share with me via ownCloud" : "Del med meg via ownCloud",
     "HTML Code:" : "HTML-kode:"
 },

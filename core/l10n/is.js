@@ -248,6 +248,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Vinsamlegast hafðu samband við kerfisstjóra.",
     "An internal error occured." : "Innri villa kom upp.",
     "Please try again or contact your administrator." : "Vinsamlegast reyndu aftur eða hafðu samband við kerfisstjóra.",
+    "Log in" : "Skrá inn",
     "Wrong password. Reset it?" : "Rangt lykilorð. Endursetja?",
     "remember" : "muna eftir mér",
     "Alternative Logins" : "Aðrar Innskráningar",

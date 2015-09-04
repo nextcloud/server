@@ -199,6 +199,7 @@
     "Search" : "Sök",
     "Server side authentication failed!" : "Servern misslyckades med autentisering!",
     "Please contact your administrator." : "Kontakta din administratör.",
+    "Log in" : "Logga in",
     "remember" : "kom ihåg",
     "Alternative Logins" : "Alternativa inloggningar",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej där,<br><br>ville bara informera dig om att %s delade <strong>%s</strong> med dig.<br><a href=\"%s\">Visa den!</a><br><br>",

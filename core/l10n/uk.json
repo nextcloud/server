@@ -227,6 +227,7 @@
     "Please contact your administrator." : "Будь ласка, зверніться до вашого Адміністратора.",
     "An internal error occured." : "Виникла внутрішня помилка.",
     "Please try again or contact your administrator." : "Будь ласка, спробуйте ще раз або зверніться до адміністратора.",
+    "Log in" : "Увійти",
     "remember" : "запам'ятати",
     "Alternative Logins" : "Альтернативні імена користувача",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Агов,<br><br>просто повідомляємо вам, що %s поділився »%s« з вами.<br><a href=\"%s\">Перегляньте!</a><br><br>",

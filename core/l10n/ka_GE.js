@@ -102,6 +102,7 @@ OC.L10N.register(
     "Finish setup" : "კონფიგურაციის დასრულება",
     "Log out" : "გამოსვლა",
     "Search" : "ძებნა",
+    "Log in" : "შესვლა",
     "remember" : "დამახსოვრება",
     "Alternative Logins" : "ალტერნატიული Login–ი"
 },

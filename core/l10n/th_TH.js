@@ -248,6 +248,7 @@ OC.L10N.register(
     "Please contact your administrator." : "กรุณาติดต่อผู้ดูแลระบบ",
     "An internal error occured." : "เกิดข้อผิดพลาดภายใน",
     "Please try again or contact your administrator." : "โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ",
+    "Log in" : "เข้าสู่ระบบ",
     "Wrong password. Reset it?" : "รหัสผ่านผิด ตั้งค่าใหม่?",
     "remember" : "จดจำฉัน",
     "Alternative Logins" : "ทางเลือกการเข้าสู่ระบบ",

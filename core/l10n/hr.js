@@ -199,6 +199,7 @@ OC.L10N.register(
     "Search" : "pretraži",
     "Server side authentication failed!" : "Autentikacija na strani poslužitelja nije uspjela!",
     "Please contact your administrator." : "Molimo kontaktirajte svog administratora.",
+    "Log in" : "Prijavite se",
     "remember" : "Sjetite se",
     "Alternative Logins" : "Alternativne prijave",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej, <br><br> vam upravo javlja da je %s podijelio <strong>%s</strong>s vama.<br><a href=\"%s\">POgledajte!</a><br><br>",

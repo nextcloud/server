@@ -66,7 +66,6 @@ OC.L10N.register(
     "Federated Cloud" : "クラウド連携",
     "Your Federated Cloud ID:" : "あなたのクラウド連携ID：",
     "Share it:" : "以下で共有:",
-    "Add it to your website:" : "ウェブサイトに追加:",
     "Share with me via ownCloud" : "OwnCloud経由で共有",
     "HTML Code:" : "HTMLコード:"
 },

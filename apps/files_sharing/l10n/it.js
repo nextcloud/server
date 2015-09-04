@@ -66,7 +66,6 @@ OC.L10N.register(
     "Federated Cloud" : "Cloud federata",
     "Your Federated Cloud ID:" : "Il tuo ID di cloud federata:",
     "Share it:" : "Condividilo:",
-    "Add it to your website:" : "Aggiungilo al tuo sito web:",
     "Share with me via ownCloud" : "Condividi con me tramite ownCloud",
     "HTML Code:" : "Codice HTML:"
 },

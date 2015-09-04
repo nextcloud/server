@@ -141,6 +141,7 @@ OC.L10N.register(
     "Search" : "Tìm kiếm",
     "Server side authentication failed!" : "Xác thực phía máy chủ không thành công!",
     "Please contact your administrator." : "Vui lòng liên hệ với quản trị viên.",
+    "Log in" : "Đăng nhập",
     "remember" : "ghi nhớ",
     "Alternative Logins" : "Đăng nhập khác",
     "This ownCloud instance is currently in single user mode." : "OwnCloud trong trường hợp này đang ở chế độ người dùng duy nhất.",

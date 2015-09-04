@@ -65,7 +65,6 @@ OC.L10N.register(
     "Allow users on this server to receive shares from other servers" : "Povoliť používateľom z tohoto servera prijímať zdieľania z iných serverov",
     "Your Federated Cloud ID:" : "Vaše združené Cloud ID",
     "Share it:" : "Zdieľať:",
-    "Add it to your website:" : "Pridať na svoju webstránku:",
     "Share with me via ownCloud" : "Zdieľané so mnou cez ownCloud",
     "HTML Code:" : "HTML kód:"
 },

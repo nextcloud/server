@@ -245,6 +245,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Contacteu amb l'administrador.",
     "An internal error occured." : "S'ha produït un error intern.",
     "Please try again or contact your administrator." : "Intenti-ho de nou o posi's en contacte amb el seu administrador.",
+    "Log in" : "Inici de sessió",
     "Wrong password. Reset it?" : "Contrasenya incorrecta. Voleu restablir-la?",
     "remember" : "recorda'm",
     "Alternative Logins" : "Acreditacions alternatives",

@@ -168,6 +168,7 @@ OC.L10N.register(
     "Search" : "Барај",
     "Server side authentication failed!" : "Автентификацијата на серверската страна е неуспешна!",
     "Please contact your administrator." : "Ве молиме контактирајте го вашиот администратор.",
+    "Log in" : "Најава",
     "remember" : "запамти",
     "Alternative Logins" : "Алтернативни најавувања",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Контактирајте го вашиот систем администратор до колку оваа порака продолжи да се појавува или пак се појавува ненадејно.",

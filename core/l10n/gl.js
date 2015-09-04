@@ -243,6 +243,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Contacte co administrador.",
     "An internal error occured." : "Produciuse un erro interno.",
     "Please try again or contact your administrator." : "Ténteo de novo ou póñase en contacto co administrador.",
+    "Log in" : "Acceder",
     "remember" : "lembrar",
     "Alternative Logins" : "Accesos alternativos",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ola,<br><br>só facerlle saber que %s compartiu <strong>%s</strong> con vostede.<br><a href=\"%s\">Véxao!</a><br><br>",

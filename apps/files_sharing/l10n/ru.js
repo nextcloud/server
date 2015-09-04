@@ -66,7 +66,6 @@ OC.L10N.register(
     "Federated Cloud" : "Объединение облачных хранилищ",
     "Your Federated Cloud ID:" : "Ваш ID в объединении облачных хранилищ:",
     "Share it:" : "Поделись этим:",
-    "Add it to your website:" : "Добавь это на свой сайт:",
     "Share with me via ownCloud" : "Поделитесь мной через ownCloud",
     "HTML Code:" : "HTML код:"
 },

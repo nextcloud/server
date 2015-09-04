@@ -217,6 +217,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Palun kontakteeru oma süsteemihalduriga.",
     "An internal error occured." : "Tekkis sisemine tõrge.",
     "Please try again or contact your administrator." : "Palun proovi uuesti või võta ühendust oma administraatoriga.",
+    "Log in" : "Logi sisse",
     "remember" : "pea meeles",
     "Alternative Logins" : "Alternatiivsed sisselogimisviisid",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei,<br><br>annan teada, et %s jagas sinuga <strong>%s</strong>. <a href=\"%s\">Vaata seda!</a><br><br>",

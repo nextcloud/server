@@ -248,6 +248,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Ota yhteys ylläpitäjään.",
     "An internal error occured." : "Tapahtui sisäinen virhe.",
     "Please try again or contact your administrator." : "Yritä uudestaan tai ota yhteys ylläpitäjään.",
+    "Log in" : "Kirjaudu sisään",
     "Wrong password. Reset it?" : "Väärä salasana. Haluatko palauttaa salasanan?",
     "remember" : "muista",
     "Alternative Logins" : "Vaihtoehtoiset kirjautumiset",

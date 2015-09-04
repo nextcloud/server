@@ -211,6 +211,7 @@ OC.L10N.register(
     "Search" : "Търсене",
     "Server side authentication failed!" : "Удостоверяването от страна на сървъра е неуспешно!",
     "Please contact your administrator." : "Моля, свържете се с администратора.",
+    "Log in" : "Вписване",
     "remember" : "запомняне",
     "Alternative Logins" : "Алтернативни методи на вписване",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Здрасти,<br><br>само да те уведомя, че %s сподели <strong>%s</strong> с теб.\n<br><a href=\"%s\">Разгледай го!</a><br><br>.",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "core",
     {
     "Couldn't send mail to following users: %s " : "Nebylo možné odeslat email následujícím uživatelům: %s",
+    "Preparing update" : "Příprava na aktualizaci",
     "Turned on maintenance mode" : "Zapnut režim údržby",
     "Turned off maintenance mode" : "Vypnut režim údržby",
     "Maintenance mode is kept active" : "Mód údržby je aktivní",
@@ -13,6 +14,7 @@ OC.L10N.register(
     "Repair error: " : "Chyba opravy:",
     "Following incompatible apps have been disabled: %s" : "Následující nekompatibilní aplikace byly zakázány: %s",
     "Following apps have been disabled: %s" : "Následující aplikace byly vypnuty: %s",
+    "Already up to date" : "Je již aktuální",
     "File is too big" : "Soubor je příliš velký",
     "Invalid file provided" : "Zadán neplatný soubor",
     "No image or file provided" : "Soubor nebo obrázek nebyl zadán",
@@ -244,6 +246,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Kontaktujte prosím svého správce systému.",
     "An internal error occured." : "Nastala vnitřní chyba.",
     "Please try again or contact your administrator." : "Prosím zkuste to znovu nebo kontaktujte vašeho správce.",
+    "Log in" : "Přihlásit",
     "Wrong password. Reset it?" : "Nesprávné heslo. Resetovat?",
     "remember" : "zapamatovat",
     "Alternative Logins" : "Alternativní přihlášení",

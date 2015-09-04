@@ -206,6 +206,7 @@ OC.L10N.register(
     "Server side authentication failed!" : "Uwierzytelnianie po stronie serwera nie powiodło się!",
     "Please contact your administrator." : "Skontaktuj się z administratorem",
     "Please try again or contact your administrator." : "Spróbuj ponownie lub skontaktuj się z administratorem.",
+    "Log in" : "Zaloguj",
     "remember" : "pamiętaj",
     "Alternative Logins" : "Alternatywne loginy",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Witam, <br><br>informuję, że %s udostępnianych zasobów <strong>%s</strong> jest z Tobą.<br><a href=\"%s\">Zobacz!</a><br><br>",

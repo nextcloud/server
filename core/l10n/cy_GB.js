@@ -100,6 +100,7 @@ OC.L10N.register(
     "Finish setup" : "Gorffen sefydlu",
     "Log out" : "Allgofnodi",
     "Search" : "Chwilio",
+    "Log in" : "Mewngofnodi",
     "remember" : "cofio",
     "Alternative Logins" : "Mewngofnodiadau Amgen"
 },
