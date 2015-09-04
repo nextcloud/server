@@ -552,10 +552,6 @@ class OC {
 			exit();
 		}
 
-		foreach(OC::$APPSROOTS as $appRoot) {
-			self::$loader->addValidRoot($appRoot['path']);
-		}
-
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT);
 		\OC::$server->getEventLogger()->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
