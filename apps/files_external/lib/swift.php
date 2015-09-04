@@ -105,7 +105,10 @@ class Swift extends \OC\Files\Storage\Common {
 			$this->getContainer()->getPartialObject($path);
 			return true;
 		} catch (ClientErrorResponseException $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			// Expected response is "404 Not Found", so only log if it isn't
+			if ($e->getResponse()->getStatusCode() !== 404) {
+				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			}
 			return false;
 		}
 	}
