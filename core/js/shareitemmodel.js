@@ -20,6 +20,8 @@
 	 * @property {string} token
 	 * @property {string|null} password
 	 * @property {string} link
+	 * @property {Date} expiration
+	 * @property {number} stime share time
 	 */
 
 	/**
@@ -445,7 +447,10 @@
 							isLinkShare: true,
 							token: share.token,
 							password: share.share_with,
-							link: link
+							link: link,
+							// currently expiration is only effective for link shares.
+							expiration: share.expiration,
+							stime: share.stime
 						};
 
 						return share;

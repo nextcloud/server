@@ -17,7 +17,9 @@
 	var ShareConfigModel = OC.Backbone.Model.extend({
 		defaults: {
 			publicUploadEnabled: false,
-			enforcePasswordForPublicLink: oc_appconfig.core.enforcePasswordForPublicLink
+			enforcePasswordForPublicLink: oc_appconfig.core.enforcePasswordForPublicLink,
+			isDefaultExpireDateEnforced: oc_appconfig.core.defaultExpireDateEnforced === true,
+			defaultExpireDate: oc_appconfig.core.defaultExpireDate,
 		},
 
 		/**
@@ -40,13 +42,6 @@
 		 */
 		isMailPublicNotificationEnabled: function() {
 			return $('input:hidden[name=mailPublicNotificationEnabled]').val() === 'yes';
-		},
-
-		/**
-		 * @returns {boolean}
-		 */
-		isDefaultExpireDateEnforced: function() {
-			return oc_appconfig.core.defaultExpireDateEnforced === true;
 		},
 
 		/**
@@ -75,13 +70,6 @@
 		 */
 		getFederatedShareDocLink: function() {
 			return oc_appconfig.core.federatedCloudShareDoc;
-		},
-
-		/**
-		 * @returns {number}
-		 */
-		getDefaultExpireDate: function () {
-			return oc_appconfig.core.defaultExpireDate;
 		}
 	});
 

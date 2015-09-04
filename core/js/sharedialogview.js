@@ -134,6 +134,7 @@
 					$this.imageplaceholder($this.data('seed'));
 				});
 			}
+			this.$el.find('.datepicker').datepicker({dateFormat : 'dd-mm-yy'});
 
 			return this;
 		},
