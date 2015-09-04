@@ -60,6 +60,8 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	 */
 	private $user;
 
+	private $initialized = false;
+
 	public function __construct($arguments) {
 		$this->share = $arguments['share'];
 		$this->ownerView = $arguments['ownerView'];
@@ -68,6 +70,10 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	}
 
 	private function init() {
+		if ($this->initialized) {
+			return;
+		}
+		$this->initialized = true;
 		Filesystem::initMountPoints($this->share['uid_owner']);
 
 		// for updating our etags when changes are made to the share from the owners side (probably indirectly by us trough another share)
