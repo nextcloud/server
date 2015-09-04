@@ -50,13 +50,28 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	 */
 	private $ownerView;
 
+	/**
+	 * @var \OCA\Files_Sharing\Propagation\PropagationManager
+	 */
+	private $propagationManager;
+
+	/**
+	 * @var string
+	 */
+	private $user;
+
 	public function __construct($arguments) {
 		$this->share = $arguments['share'];
 		$this->ownerView = $arguments['ownerView'];
+		$this->propagationManager = $arguments['propagationManager'];
+		$this->user = $arguments['user'];
 	}
 
 	private function init() {
 		Filesystem::initMountPoints($this->share['uid_owner']);
+
+		// for updating our etags when changes are made to the share from the owners side (probably indirectly by us trough another share)
+		$this->propagationManager->listenToOwnerChanges($this->share['uid_owner'], $this->user);
 	}
 
 	/**
