@@ -158,7 +158,24 @@ textarea:hover, textarea:focus, textarea:active {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
 }
-input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
+input[type="checkbox"] {
+	margin:0;
+	padding:0;
+	height:auto;
+	width:auto;
+	display: none;
+}
+
+input[type="checkbox"] + label {
+		background: url('../img/actions/checkbox.svg') bottom right no-repeat;
+		opacity: 0.5;
+}
+
+input[type="checkbox"]:checked + label {
+	background: url('../img/actions/checkbox-checked.svg') bottom right no-repeat;
+	opacity: 0.5;
+}
+
 input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
 input[type="time"] {
 	width: initial;
