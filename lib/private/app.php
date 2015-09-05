@@ -385,29 +385,6 @@ class OC_App {
 	}
 
 	/**
-	 * Get the navigation entries for the $app
-	 *
-	 * @param string $app app
-	 * @return array an array of the $data added with addNavigationEntry
-	 *
-	 * Warning: destroys the existing entries
-	 */
-	public static function getAppNavigationEntries($app) {
-		if (is_file(self::getAppPath($app) . '/appinfo/app.php')) {
-			OC::$server->getNavigationManager()->clear();
-			try {
-				require $app . '/appinfo/app.php';
-			} catch (\OC\Encryption\Exceptions\ModuleAlreadyExistsException $e) {
-				// FIXME we should avoid getting this exception in first place,
-				// For now we just catch it, since we don't care about encryption modules
-				// when trying to find out, whether the app has a navigation entry.
-			}
-			return OC::$server->getNavigationManager()->getAll();
-		}
-		return array();
-	}
-
-	/**
 	 * gets the active Menu entry
 	 *
 	 * @return string id or empty string
