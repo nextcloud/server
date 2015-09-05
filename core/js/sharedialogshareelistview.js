@@ -161,7 +161,7 @@
 				deletePermissionLabel: t('core', 'delete'),
 				crudsLabel: t('core', 'access control'),
 				triangleSImage: OC.imagePath('core', 'actions/triangle-s'),
-				isResharingAllowed: this.configModel.isResharingAllowed(),
+				isResharingAllowed: this.configModel.get('isResharingAllowed'),
 				sharePermissionPossible: this.model.sharePermissionPossible(),
 				editPermissionPossible: this.model.editPermissionPossible(),
 				createPermissionPossible: this.model.createPermissionPossible(),
@@ -185,10 +185,12 @@
 				if(this.model.isCollection(index)) {
 					this.processCollectionShare(index);
 				} else {
-					list.push(_.extend(universal, this.getShareeObject(index)))
+					// first empty {} is necessary, otherwise we get in trouble
+					// with references
+					list.push(_.extend({}, universal, this.getShareeObject(index)));
 				}
-				list = _.union(_.values(this._collections), list);
 			}
+			list = _.union(_.values(this._collections), list);
 
 			return list;
 		},

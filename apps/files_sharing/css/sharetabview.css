@@ -5,7 +5,6 @@
 .shareTabView .oneline { white-space: nowrap; }
 
 .shareTabView .shareWithLoading {
-	display: inline-block !important;
 	padding-left: 10px;
 	position: relative;
 	right: 30px;

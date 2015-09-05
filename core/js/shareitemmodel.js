@@ -79,12 +79,53 @@
 				/** @type {OC.Files.FileInfo} **/
 				this.fileInfoModel = options.fileInfoModel;
 			}
+
+			_.bindAll(this, 'addShare');
 		},
 
 		defaults: {
 			allowPublicUploadStatus: false,
 			permissions: 0,
 			linkShare: {}
+		},
+
+		addShare: function(event, selected, options) {
+			event.preventDefault();
+
+			//console.warn(selected);
+			//return false;
+
+			var shareType = selected.item.value.shareType;
+			var shareWith = selected.item.value.shareWith;
+			var fileName = this.fileInfoModel.get('name');
+			options = options || {};
+
+			// Default permissions are Edit (CRUD) and Share
+			// Check if these permissions are possible
+			var permissions = OC.PERMISSION_READ;
+			if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
+				permissions = OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_READ;
+			} else {
+				if (this.updatePermissionPossible()) {
+					permissions = permissions | OC.PERMISSION_UPDATE;
+				}
+				if (this.createPermissionPossible()) {
+					permissions = permissions | OC.PERMISSION_CREATE;
+				}
+				if (this.deletePermissionPossible()) {
+					permissions = permissions | OC.PERMISSION_DELETE;
+				}
+				if (this.configModel.get('isResharingAllowed') && (this.sharePermissionPossible())) {
+					permissions = permissions | OC.PERMISSION_SHARE;
+				}
+			}
+
+			var model = this;
+			OC.Share.share(this.get('itemType'), this.get('itemSource'), shareType, shareWith, permissions, fileName, options.expiration, function() {
+				model.fetch()
+				//FIXME: updateIcon belongs to view
+				OC.Share.updateIcon(itemType, itemSource);
+			});
 		},
 
 		/**

@@ -20,6 +20,7 @@
 			enforcePasswordForPublicLink: oc_appconfig.core.enforcePasswordForPublicLink,
 			isDefaultExpireDateEnforced: oc_appconfig.core.defaultExpireDateEnforced === true,
 			defaultExpireDate: oc_appconfig.core.defaultExpireDate,
+			isResharingAllowed: oc_appconfig.core.resharingAllowed
 		},
 
 		/**
@@ -49,13 +50,6 @@
 		 */
 		isRemoteShareAllowed: function() {
 			return oc_appconfig.core.remoteShareAllowed;
-		},
-
-		/**
-		 * @returns {boolean}
-		 */
-		isResharingAllowed: function() {
-			return oc_appconfig.core.resharingAllowed
 		},
 
 		/**

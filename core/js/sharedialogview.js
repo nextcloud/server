@@ -100,6 +100,36 @@
 					? new OC.Share[className](subViewOptions)
 					: options[name];
 			}
+
+			_.bindAll(this, 'autocompleteHandler');
+		},
+
+		autocompleteHandler: function (search, response) {
+			var view = this;
+			var $loading = this.$el.find('.shareWithLoading');
+			$loading.removeClass('hidden');
+			$loading.addClass('inlineblock');
+			$.get(OC.filePath('core', 'ajax', 'share.php'), {
+				fetch: 'getShareWith',
+				search: search.term.trim(),
+				limit: 200,
+				itemShares: OC.Share.itemShares,
+				itemType: view.model.get('itemType')
+			}, function (result) {
+				$loading.addClass('hidden');
+				$loading.removeClass('inlineblock');
+				if (result.status == 'success' && result.data.length > 0) {
+					$("#shareWith").autocomplete("option", "autoFocus", true);
+					response(result.data);
+				} else {
+					response();
+				}
+			}).fail(function () {
+				$loading.addClass('hidden');
+				$loading.removeClass('inlineblock');
+				OC.Notification.show(t('core', 'An error occured. Please try again'));
+				window.setTimeout(OC.Notification.hide, 5000);
+			});
 		},
 
 		render: function() {
@@ -110,6 +140,22 @@
 				sharePlaceholder: this._renderSharePlaceholderPart(),
 				remoteShareInfo: this._renderRemoteShareInfoPart(),
 			}));
+
+			var view = this;
+			this.$el.find('#shareWith').autocomplete({
+				minLength: 2,
+				delay: 750,
+				source: this.autocompleteHandler,
+				select: function(e, s) {
+					var expiration = '';
+					if($('#expirationCheckbox').is(':checked') === true) {
+						expiration = view.$el.find('#expirationDate').val()
+					}
+					view.model.addShare(e, s, {
+						expiration: expiration
+					});
+				}
+			});
 
 			this.resharerInfoView.$el = this.$el.find('.resharerInfoView');
 			this.resharerInfoView.render();
