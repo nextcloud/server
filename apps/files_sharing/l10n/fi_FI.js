@@ -66,6 +66,7 @@ OC.L10N.register(
     "Federated Cloud" : "Federoitu pilvi",
     "Your Federated Cloud ID:" : "Federoidun pilvesi tunniste:",
     "Share it:" : "Jaa se:",
+    "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via ownCloud" : "Jaa kanssani ownCloudin kautta",
     "HTML Code:" : "HTML-koodi:"
 },
