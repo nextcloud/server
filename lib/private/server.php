@@ -470,6 +470,11 @@ class Server extends SimpleContainer implements IServerContainer {
 				$c->getURLGenerator(),
 				\OC::$configDir);
 		});
+		$this->registerService('MimeTypeLoader', function(Server $c) {
+			return new \OC\Files\Type\Loader(
+				$c->getDatabaseConnection()
+			);
+		});
 		$this->registerService('CapabilitiesManager', function (Server $c) {
 			$manager = new \OC\CapabilitiesManager();
 			$manager->registerCapability(function() use ($c) {
@@ -1008,6 +1013,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	public function getMimeTypeDetector() {
 		return $this->query('MimeTypeDetector');
+	}
+
+	/**
+	 * Get the MimeTypeLoader
+	 *
+	 * @return \OCP\Files\IMimeTypeLoader
+	 */
+	public function getMimeTypeLoader() {
+		return $this->query('MimeTypeLoader');
 	}
 
 	/**
