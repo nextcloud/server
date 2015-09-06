@@ -79,12 +79,12 @@ describe('OCA.Files.TagsPlugin tests', function() {
 		it('sends request to server and updates icon', function() {
 			var request;
 			fileList.setFiles(testFiles);
-			$tr = fileList.$el.find('tbody tr:first');
-			$action = $tr.find('.action-favorite');
+			var $tr = fileList.findFileEl('One.txt');
+			var $action = $tr.find('.action-favorite');
 			$action.click();
 
 			expect(fakeServer.requests.length).toEqual(1);
-			var request = fakeServer.requests[0];
+			request = fakeServer.requests[0];
 			expect(JSON.parse(request.requestBody)).toEqual({
 				tags: ['tag1', 'tag2', OC.TAG_FAVORITE]
 			});
@@ -92,12 +92,18 @@ describe('OCA.Files.TagsPlugin tests', function() {
 				tags: ['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]
 			}));
 
+			// re-read the element as it was re-inserted
+			$tr = fileList.findFileEl('One.txt');
+			$action = $tr.find('.action-favorite');
+
 			expect($tr.attr('data-favorite')).toEqual('true');
 			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]);
 			expect(fileList.files[0].tags).toEqual(['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]);
 			expect($action.find('img').attr('src')).toEqual(OC.imagePath('core', 'actions/starred'));
 
 			$action.click();
+
+			expect(fakeServer.requests.length).toEqual(2);
 			request = fakeServer.requests[1];
 			expect(JSON.parse(request.requestBody)).toEqual({
 				tags: ['tag1', 'tag2', 'tag3']
@@ -106,7 +112,11 @@ describe('OCA.Files.TagsPlugin tests', function() {
 				tags: ['tag1', 'tag2', 'tag3']
 			}));
 
-			expect($tr.attr('data-favorite')).toEqual('false');
+			// re-read the element as it was re-inserted
+			$tr = fileList.findFileEl('One.txt');
+			$action = $tr.find('.action-favorite');
+
+			expect($tr.attr('data-favorite')).toBeFalsy();
 			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', 'tag3']);
 			expect(fileList.files[0].tags).toEqual(['tag1', 'tag2', 'tag3']);
 			expect($action.find('img').attr('src')).toEqual(OC.imagePath('core', 'actions/star'));

@@ -84,6 +84,13 @@
 		 */
 		getFileInfo: function() {
 			return this.model;
+		},
+
+		/**
+		 * Load the next page of results
+		 */
+		nextPage: function() {
+			// load the next page, if applicable
 		}
 	});
 	DetailTabView._TAB_COUNT = 0;

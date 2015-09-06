@@ -44,6 +44,6 @@ if( $versions ) {
 
 } else {
 
-	\OCP\JSON::success(array('data' => array('versions' => false, 'endReached' => true)));
+	\OCP\JSON::success(array('data' => array('versions' => [], 'endReached' => true)));
 
 }
