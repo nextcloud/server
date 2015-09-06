@@ -89,6 +89,7 @@
     "Sharing %s failed, because the user %s does not exist" : "Compartilhamento %s falhou, porque o usuário %s não existe",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "Compartilhamento %s falhou, porque o usuário %s não é membro de nenhum grupo que o usuário %s pertença",
     "Sharing %s failed, because this item is already shared with %s" : "Compartilhamento %s falhou, porque este ítem já está compartilhado com %s",
+    "Sharing %s failed, because this item is already shared with user %s" : "Compartilhamento de %s falhou, porque esse item já é compartilhada com o usuário %s",
     "Sharing %s failed, because the group %s does not exist" : "Compartilhamento %s falhou, porque o grupo %s não existe",
     "Sharing %s failed, because %s is not a member of the group %s" : "Compartilhamento %s falhou, porque  %s não é membro do grupo %s",
     "You need to provide a password to create a public link, only protected links are allowed" : "Você precisa fornecer uma senha para criar um link público, apenas links protegidos são permitidos",
