@@ -23,6 +23,6 @@
 OC_Util::checkAdminUser();
 OCP\JSON::callCheck();
 
-$navigation = \OC::$server->getNavigationManager()->getAll();
+$navigation = \OC_App::getNavigation();
 
 OCP\JSON::success(['nav_entries' => $navigation]);
