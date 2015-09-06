@@ -105,7 +105,6 @@ class OC_App {
 		ob_start();
 		foreach ($apps as $app) {
 			if ((is_null($types) or self::isType($app, $types)) && !in_array($app, self::$loadedApps)) {
-				self::$loadedApps[] = $app;
 				self::loadApp($app);
 			}
 		}
@@ -122,6 +121,8 @@ class OC_App {
 	 * @throws \OC\NeedsUpdateException
 	 */
 	public static function loadApp($app, $checkUpgrade = true) {
+		self::$loadedApps[] = $app;
+		\OC::$loader->addValidRoot(self::getAppPath($app));
 		if (is_file(self::getAppPath($app) . '/appinfo/app.php')) {
 			\OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
 			if ($checkUpgrade and self::shouldUpgrade($app)) {
