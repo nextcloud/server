@@ -424,6 +424,9 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	public function moveFromStorage(Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = true) {
+		if ($sourceStorage === $this) {
+			return $this->rename($sourceInternalPath, $targetInternalPath);
+		}
 
 		// TODO clean this up once the underlying moveFromStorage in OC\Files\Storage\Wrapper\Common is fixed:
 		// - call $this->storage->moveFromStorage() instead of $this->copyBetweenStorage
