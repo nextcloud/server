@@ -19,7 +19,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\Util::addscript('files_versions', 'versions');
 OCP\Util::addStyle('files_versions', 'versions');
 
 \OCA\Files_Versions\Hooks::connectHooks();
