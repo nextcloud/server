@@ -41,7 +41,7 @@ $groupManager = \OC_Group::getManager();
 // Set the sort option: SORT_USERCOUNT or SORT_GROUPNAME
 $sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
 
-if (class_exists('\OCA\user_ldap\GROUP_LDAP')) {
+if (\OC_App::isEnabled('user_ldap')) {
 	$isLDAPUsed =
 		   $groupManager->isBackendUsed('\OCA\user_ldap\GROUP_LDAP')
 		|| $groupManager->isBackendUsed('\OCA\user_ldap\Group_Proxy');
