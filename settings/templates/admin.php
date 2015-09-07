@@ -128,7 +128,7 @@ if (!$_['has_fileinfo']) {
 if ($_['fileLockingType'] === 'none') {
 	?>
 	<li>
-		<?php p($l->t('Transitional file locking is disabled, this might lead to issues with race conditions, enable \'filelocking.enabled\' to improve handling of race conditions.')); ?>
+		<?php p($l->t('Transitional file locking is disabled, this might lead to issues with race conditions, enable \'filelocking.enabled\' in config.php to improve handling of race conditions.')); ?>
 	</li>
 	<?php
 }
