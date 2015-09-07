@@ -27,6 +27,7 @@ namespace OCA\Encryption\Tests;
 
 
 use OCA\Encryption\KeyManager;
+use OCA\Encryption\Session;
 use Test\TestCase;
 
 class KeyManagerTest extends TestCase {
@@ -237,23 +238,61 @@ class KeyManagerTest extends TestCase {
 
 	}
 
+	/**
+	 * @dataProvider dataTestInit
+	 *
+	 * @param bool $useMasterKey
+	 */
+	public function testInit($useMasterKey) {
 
-	public function testInit() {
-		$this->keyStorageMock->expects($this->any())
-			->method('getUserKey')
-			->with($this->equalTo($this->userId), $this->equalTo('privateKey'))
-			->willReturn('privateKey');
-		$this->cryptMock->expects($this->any())
-			->method('decryptPrivateKey')
-			->with($this->equalTo('privateKey'), $this->equalTo('pass'))
-			->willReturn('decryptedPrivateKey');
+		$instance = $this->getMockBuilder('OCA\Encryption\KeyManager')
+			->setConstructorArgs(
+				[
+					$this->keyStorageMock,
+					$this->cryptMock,
+					$this->configMock,
+					$this->userMock,
+					$this->sessionMock,
+					$this->logMock,
+					$this->utilMock
+				]
+			)->setMethods(['getMasterKeyId', 'getMasterKeyPassword', 'getSystemPrivateKey', 'getPrivateKey'])
+			->getMock();
 
+		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn($useMasterKey);
 
-		$this->assertTrue(
-			$this->instance->init($this->userId, 'pass')
-		);
+		$this->sessionMock->expects($this->at(0))->method('setStatus')
+			->with(Session::INIT_EXECUTED);
 
+		$instance->expects($this->any())->method('getMasterKeyId')->willReturn('masterKeyId');
+		$instance->expects($this->any())->method('getMasterKeyPassword')->willReturn('masterKeyPassword');
+		$instance->expects($this->any())->method('getSystemPrivateKey')->with('masterKeyId')->willReturn('privateMasterKey');
+		$instance->expects($this->any())->method('getPrivateKey')->with($this->userId)->willReturn('privateUserKey');
+
+		if($useMasterKey) {
+			$this->cryptMock->expects($this->once())->method('decryptPrivateKey')
+				->with('privateMasterKey', 'masterKeyPassword', 'masterKeyId')
+				->willReturn('key');
+		} else {
+			$this->cryptMock->expects($this->once())->method('decryptPrivateKey')
+				->with('privateUserKey', 'pass', $this->userId)
+				->willReturn('key');
+		}
+
+		$this->sessionMock->expects($this->once())->method('setPrivateKey')
+			->with('key');
+
+		$this->assertTrue($instance->init($this->userId, 'pass'));
 	}
+
+	public function dataTestInit() {
+		return [
+			[true],
+			[false]
+		];
+	}
+
 
 	public function testSetRecoveryKey() {
 		$this->keyStorageMock->expects($this->exactly(2))
@@ -401,5 +440,92 @@ class KeyManagerTest extends TestCase {
 		);
 	}
 
+	public function testGetMasterKeyId() {
+		$this->assertSame('systemKeyId', $this->instance->getMasterKeyId());
+	}
+
+	public function testGetPublicMasterKey() {
+		$this->keyStorageMock->expects($this->once())->method('getSystemUserKey')
+			->with('systemKeyId.publicKey', \OCA\Encryption\Crypto\Encryption::ID)
+			->willReturn(true);
+
+		$this->assertTrue(
+			$this->instance->getPublicMasterKey()
+		);
+	}
+
+	public function testGetMasterKeyPassword() {
+		$this->configMock->expects($this->once())->method('getSystemValue')->with('secret')
+			->willReturn('password');
+
+		$this->assertSame('password',
+			$this->invokePrivate($this->instance, 'getMasterKeyPassword', [])
+		);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testGetMasterKeyPasswordException() {
+		$this->configMock->expects($this->once())->method('getSystemValue')->with('secret')
+			->willReturn('');
+
+		$this->invokePrivate($this->instance, 'getMasterKeyPassword', []);
+	}
+
+	/**
+	 * @dataProvider dataTestValidateMasterKey
+	 *
+	 * @param $masterKey
+	 */
+	public function testValidateMasterKey($masterKey) {
+
+		/** @var \OCA\Encryption\KeyManager | \PHPUnit_Framework_MockObject_MockObject $instance */
+		$instance = $this->getMockBuilder('OCA\Encryption\KeyManager')
+			->setConstructorArgs(
+				[
+					$this->keyStorageMock,
+					$this->cryptMock,
+					$this->configMock,
+					$this->userMock,
+					$this->sessionMock,
+					$this->logMock,
+					$this->utilMock
+				]
+			)->setMethods(['getPublicMasterKey', 'setSystemPrivateKey', 'getMasterKeyPassword'])
+			->getMock();
+
+		$instance->expects($this->once())->method('getPublicMasterKey')
+			->willReturn($masterKey);
+
+		$instance->expects($this->any())->method('getMasterKeyPassword')->willReturn('masterKeyPassword');
+		$this->cryptMock->expects($this->any())->method('generateHeader')->willReturn('header');
+
+		if(empty($masterKey)) {
+			$this->cryptMock->expects($this->once())->method('createKeyPair')
+				->willReturn(['publicKey' => 'public', 'privateKey' => 'private']);
+			$this->keyStorageMock->expects($this->once())->method('setSystemUserKey')
+				->with('systemKeyId.publicKey', 'public', \OCA\Encryption\Crypto\Encryption::ID);
+			$this->cryptMock->expects($this->once())->method('encryptPrivateKey')
+				->with('private', 'masterKeyPassword', 'systemKeyId')
+				->willReturn('EncryptedKey');
+			$instance->expects($this->once())->method('setSystemPrivateKey')
+				->with('systemKeyId', 'headerEncryptedKey');
+		} else {
+			$this->cryptMock->expects($this->never())->method('createKeyPair');
+			$this->keyStorageMock->expects($this->never())->method('setSystemUserKey');
+			$this->cryptMock->expects($this->never())->method('encryptPrivateKey');
+			$instance->expects($this->never())->method('setSystemPrivateKey');
+		}
+
+		$instance->validateMasterKey();
+	}
+
+	public function dataTestValidateMasterKey() {
+		return [
+			['masterKey'],
+			['']
+		];
+	}
 
 }
