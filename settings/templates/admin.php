@@ -73,7 +73,8 @@ if ($_['getenvServerNotWorking']) {
 ?>
 	<li>
 		<?php p($l->t('php does not seem to be setup properly to query system environment variables. The test with getenv("PATH") only returns an empty response.')); ?><br>
-		<?php p($l->t('Please check the installation documentation for php configuration notes and the php configuration of your server, especially when using php-fpm.')); ?>
+                <?php print_unescaped($l->t('Please check the <a target="_blank" href="%s">installation documentation ↗</a> for php configuration notes and the php configuration of your server, especially when using php-fpm.', link_to_docs('admin-php-fpm'))); ?>
+
 	</li>
 <?php
 }
