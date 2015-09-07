@@ -955,6 +955,7 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 
 .ui-icon-circle-triangle-e{ background-image:url('../img/actions/play-next.svg'); }
 .ui-icon-circle-triangle-w{ background-image:url('../img/actions/play-previous.svg'); }
+
 .ui-datepicker-prev,.ui-datepicker-next{ border:1px solid #ddd; background:#fff; }
 
 /* ---- DIALOGS ---- */
@@ -1142,3 +1143,12 @@ fieldset.warning legend + p, fieldset.update legend + p {
 @-ms-viewport {
 	width: device-width;
 }
+
+/* hidden input type=file field */
+.hiddenuploadfield {
+   width: 0;
+   height: 0;
+   opacity: 0;
+   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+}
+
