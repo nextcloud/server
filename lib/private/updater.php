@@ -209,7 +209,6 @@ class Updater extends BasicEmitter {
 
 		// pre-upgrade repairs
 		$repair = new \OC\Repair(\OC\Repair::getBeforeUpgradeRepairSteps());
-		$this->emitRepairMessages($repair);
 		$repair->run();
 
 		// simulate DB upgrade
@@ -240,7 +239,6 @@ class Updater extends BasicEmitter {
 
 			// post-upgrade repairs
 			$repair = new \OC\Repair(\OC\Repair::getRepairSteps());
-			$this->emitRepairMessages($repair);
 			$repair->run();
 
 			//Invalidate update feed
@@ -249,12 +247,6 @@ class Updater extends BasicEmitter {
 			// only set the final version if everything went well
 			\OC_Config::setValue('version', implode('.', \OC_Util::getVersion()));
 		}
-	}
-
-	protected function emitRepairMessages(Repair $repair) {
-		$repair->listen('\OC\Repair', 'info', function($description){
-			$this->emit('\OC\Repair', 'info', array($description));
-		});
 	}
 
 	protected function checkCoreUpgrade() {
