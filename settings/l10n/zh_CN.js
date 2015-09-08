@@ -119,7 +119,6 @@ OC.L10N.register(
     "SSL" : "SSL",
     "TLS" : "TLS",
     "php does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP 似乎没有设置好查询的系统环境变量。 用 getenv(\\\"PATH\\\") 测试只返回一个空值。",
-    "Please check the installation documentation for php configuration notes and the php configuration of your server, especially when using php-fpm." : "请检查PHP配置说明和服务器的 PHP 配置的安装文档，使用 PHP-FPM 时尤其如此。",
     "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "只读配置已启用。这样可防止通过 WEB 接口设置一些配置。此外，每次更新后该文件需要手动设置为可写。",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP 被设置为移除行内 <doc> 块，这将导致数个核心应用无法访问。",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "这可能是由缓存/加速器造成的，例如 Zend OPcache 或 eAccelerator。",

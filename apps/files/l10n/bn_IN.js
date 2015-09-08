@@ -20,6 +20,8 @@ OC.L10N.register(
     "Error" : "ভুল",
     "Name" : "নাম",
     "Size" : "আকার",
+    "Folder" : "ফোল্ডার",
+    "New folder" : "নতুন ফোল্ডার",
     "A new file or folder has been <strong>created</strong>" : "একটি নতুন ফাইল বা ফোল্ডার হয়েছে <strong>তৈরি</strong>",
     "A file or folder has been <strong>changed</strong>" : "একটি নতুন ফাইল বা ফোল্ডার <strong>বদলানো হয়েছে</strong>",
     "A file or folder has been <strong>deleted</strong>" : "একটি নতুন ফাইল বা ফোল্ডার <strong>মুছে ফেলা হয়েছে</strong>",
@@ -31,8 +33,6 @@ OC.L10N.register(
     "%2$s deleted %1$s" : "%2$s মুছেছে %1$s কে",
     "Save" : "সেভ",
     "Settings" : "সেটিংস",
-    "New folder" : "নতুন ফোল্ডার",
-    "Folder" : "ফোল্ডার",
     "Delete" : "মুছে ফেলা"
 },
 "nplurals=2; plural=(n != 1);");

@@ -113,7 +113,6 @@
     "SSL" : "SSL",
     "TLS" : "TLS",
     "php does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP ser ikke ut til å være satt opp riktig for å lese systemets miljøvariabler. Testen med getenv(\"PATH\") returnerer bare et tomt svar.",
-    "Please check the installation documentation for php configuration notes and the php configuration of your server, especially when using php-fpm." : "Sjekk installasjonsdokumentasjonen for notiser om PHP-konfigurering og om konfigurering av serveren, spesielt ved bruk av php-fpm.",
     "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Den skrivebeskyttede konfigurasjonen er blitt aktivert. Dette forhindrer setting av visse konfigureringer via web-grensesnittet. Videre må config-filen gjøres skrivbar manuelt for hver oppdatering.",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Det ser ut for at PHP er satt opp til å fjerne innebygde doc blocks. Dette gjør at flere av kjerneapplikasjonene blir utilgjengelige.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dette forårsakes sannsynligvis av en bufrer/akselerator, som f.eks. Zend OPcache eller eAccelerator.",

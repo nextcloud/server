@@ -117,7 +117,6 @@
     "SSL" : "SSL",
     "TLS" : "TLS",
     "php does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "php가 시스템 환경 변수를 올바르게 조회할 수 있도록 설정되지 않았습니다. getenv(\"PATH\")의 값이 비어 있습니다.",
-    "Please check the installation documentation for php configuration notes and the php configuration of your server, especially when using php-fpm." : "설치 문서를 참조하여 php 설정 방법 및 php 설정을 변경하십시오. php-fpm을 사용한다면 더 주의하십시오.",
     "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "읽기 전용 설정이 활성화되었습니다. 이 상태에서는 웹 인터페이스를 통하여 일부 설정을 변경할 수 없습니다. 또한 매 업데이트마다 파일을 쓸 수 있는 상태로 변경해야 합니다.",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP에서 인라인 doc 블록을 삭제하도록 설정되어 있습니다. 일부 코어 앱에 접근할 수 없을 수도 있습니다.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Zend OPcache, eAccelerator 같은 캐시/가속기 문제일 수도 있습니다.",

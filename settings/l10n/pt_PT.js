@@ -143,6 +143,7 @@ OC.L10N.register(
     "Execute one task with each page loaded" : "Executar uma tarefa com cada página carregada",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php está registado num serviço webcron para chamar a página cron.php por http a cada 15 minutos.",
     "Use system's cron service to call the cron.php file every 15 minutes." : "Usar o serviço sistema cron para ligar o ficheiro cron.php a cada 15 minutos.",
+    "Enable encryption" : "Ative a encriptação",
     "Start migration" : "Iniciar migração",
     "This is used for sending out notifications." : "Isto é utilizado para enviar notificações",
     "Send mode" : "Modo de Envio",

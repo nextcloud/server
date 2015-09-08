@@ -8,9 +8,9 @@ OC.L10N.register(
     "Select" : "دیاریکردنی",
     "Error" : "هه‌ڵه",
     "Name" : "ناو",
-    "Save" : "پاشکه‌وتکردن",
-    "Settings" : "ڕێکخستنه‌کان",
+    "Upload" : "بارکردن",
     "Folder" : "بوخچه",
-    "Upload" : "بارکردن"
+    "Save" : "پاشکه‌وتکردن",
+    "Settings" : "ڕێکخستنه‌کان"
 },
 "nplurals=2; plural=(n != 1);");

@@ -117,7 +117,6 @@
     "SSL" : "SSL",
     "TLS" : "TLS",
     "php does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "php není nejspíše správně nastaveno pro dotazování na proměnné hodnoty systému. Test s getenv(\"PATH\") vrací pouze prázdnou odpověď.",
-    "Please check the installation documentation for php configuration notes and the php configuration of your server, especially when using php-fpm." : "Zkontrolujte prosím konfiguraci php podle instalační dokumentace a php konfiguraci na serveru, hlavně při použití php-fpm.",
     "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Konfigurace je nastavena pouze pro čtení. Toto znemožňuje některá nastavení přes webové rozhraní. Dále musí být pro každou změnu povolen zápis do konfiguračního souboru ručně.",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP je patrně nastaveno tak, aby odstraňovalo bloky komentářů. Toto bude mít za následek nedostupnost množství hlavních aplikací.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Toto je pravděpodobně způsobeno aplikacemi pro urychlení načítání jako jsou Zend OPcache nebo eAccelerator.",

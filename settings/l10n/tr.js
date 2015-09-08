@@ -119,7 +119,6 @@ OC.L10N.register(
     "SSL" : "SSL",
     "TLS" : "TLS",
     "php does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP sistem değişkenleri sorgusuna uygun olarak ayarlanmamış görünüyor. getenv(\"PATH\") komutu sadece boş bir cevap döndürüyor.",
-    "Please check the installation documentation for php configuration notes and the php configuration of your server, especially when using php-fpm." : "Lütfen kurulum belgelendirmesindeki php ayarlama notlarını ve sunucudaki özellikle php-fpm kullanırken php ayarlamalarını kontrol edin.",
     "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Salt Okunur yapılandırma etkinleştirilmiş. Bu, bazı ayarların web arayüzü ile yapılandırılmasını önler. Ayrıca, bu dosya her güncelleme sırasında el ile yazılabilir yapılmalıdır.",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP satırıçi doc bloklarını ayıklamak üzere yapılandırılmış gibi görünüyor. Bu, bazı çekirdek (core) uygulamalarını erişilemez yapacak.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Bu, muhtemelen Zend OPcache veya eAccelerator gibi bir önbellek/hızlandırıcı nedeniyle gerçekleşir.",
