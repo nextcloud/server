@@ -57,15 +57,6 @@ class CryptoWrappingTest extends TestCase {
 		$this->instance = new CryptoSessionData($this->wrappedSession, $this->crypto, 'PASS');
 	}
 
-	public function testWrappingSet() {
-		$unencryptedValue = 'foobar';
-
-		$this->wrappedSession->expects($this->once())
-			->method('set')
-			->with('encrypted_session_data', $this->crypto->encrypt(json_encode(['encrypted_session_data' => $unencryptedValue])));
-		$this->instance->set('encrypted_session_data', $unencryptedValue);
-	}
-
 	public function testUnwrappingGet() {
 		$unencryptedValue = 'foobar';
 		$encryptedValue = $this->crypto->encrypt($unencryptedValue);

@@ -38,6 +38,8 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	protected $passphrase;
 	/** @var array */
 	protected $sessionValues;
+	/** @var bool */
+	protected $isModified = false;
 	CONST encryptedSessionName = 'encrypted_session_data';
 
 	/**
@@ -52,6 +54,13 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 		$this->session = $session;
 		$this->passphrase = $passphrase;
 		$this->initializeSession();
+	}
+
+	/**
+	 * Close session if class gets destructed
+	 */
+	public function __destruct() {
+		$this->close();
 	}
 
 	protected function initializeSession() {
@@ -74,8 +83,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 */
 	public function set($key, $value) {
 		$this->sessionValues[$key] = $value;
-		$encryptedValue = $this->crypto->encrypt(json_encode($this->sessionValues), $this->passphrase);
-		$this->session->set(self::encryptedSessionName, $encryptedValue);
+		$this->isModified = true;
 	}
 
 	/**
@@ -85,7 +93,6 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @return string|null Either the value or null
 	 */
 	public function get($key) {
-
 		if(isset($this->sessionValues[$key])) {
 			return $this->sessionValues[$key];
 		}
@@ -109,6 +116,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param string $key
 	 */
 	public function remove($key) {
+		$this->isModified = true;
 		unset($this->sessionValues[$key]);
 		$this->session->remove(self::encryptedSessionName);
 	}
@@ -118,13 +126,19 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 */
 	public function clear() {
 		$this->sessionValues = [];
+		$this->isModified = true;
 		$this->session->clear();
 	}
 
 	/**
-	 * Close the session and release the lock
+	 * Close the session and release the lock, also writes all changed data in batch
 	 */
 	public function close() {
+		if($this->isModified) {
+			$encryptedValue = $this->crypto->encrypt(json_encode($this->sessionValues), $this->passphrase);
+			$this->session->set(self::encryptedSessionName, $encryptedValue);
+			$this->isModified = false;
+		}
 		$this->session->close();
 	}
 
