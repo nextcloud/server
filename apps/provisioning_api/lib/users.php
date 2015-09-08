@@ -48,10 +48,10 @@ class Users {
 	 * @param \OCP\IUserManager $userManager
 	 * @param \OCP\IConfig $config
 	 * @param \OCP\IGroupManager $groupManager
-	 * @param \OCP\IUserSession $user
+	 * @param \OCP\IUserSession $userSession
 	 */
 	public function __construct(\OCP\IUserManager $userManager,
-	                            \OCP\IConfig $config,
+								\OCP\IConfig $config,
 								\OCP\IGroupManager $groupManager,
 								\OCP\IUserSession $userSession) {
 		$this->userManager = $userManager;
@@ -62,8 +62,10 @@ class Users {
 
 	/**
 	 * returns a list of users
+	 *
+	 * @return OC_OCS_Result
 	 */
-	public function getUsers(){
+	public function getUsers() {
 		$search = !empty($_GET['search']) ? $_GET['search'] : '';
 		$limit = !empty($_GET['limit']) ? $_GET['limit'] : null;
 		$offset = !empty($_GET['offset']) ? $_GET['offset'] : null;
@@ -76,7 +78,10 @@ class Users {
 		]);
 	}
 
-	public function addUser(){
+	/**
+	 * @return OC_OCS_Result
+	 */
+	public function addUser() {
 		$userId = isset($_POST['userid']) ? $_POST['userid'] : null;
 		$password = isset($_POST['password']) ? $_POST['password'] : null;
 		if($this->userManager->userExists($userId)) {
@@ -96,6 +101,9 @@ class Users {
 
 	/**
 	 * gets user info
+	 *
+	 * @param array $parameters
+	 * @return OC_OCS_Result
 	 */
 	public function getUser($parameters){
 		$userId = $parameters['userid'];
@@ -150,8 +158,11 @@ class Users {
 
 	/** 
 	 * edit users
+	 *
+	 * @param array $parameters
+	 * @return OC_OCS_Result
 	 */
-	public function editUser($parameters){
+	public function editUser($parameters) {
 		$userId = $parameters['userid'];
 
 		// Check if user is logged in
@@ -230,7 +241,11 @@ class Users {
 		return new OC_OCS_Result(null, 100);
 	}
 
-	public function deleteUser($parameters){
+	/**
+	 * @param array $parameters
+	 * @return OC_OCS_Result
+	 */
+	public function deleteUser($parameters) {
 		// Check if user is logged in
 		$user = $this->userSession->getUser();
 		if ($user === null) {
@@ -253,6 +268,10 @@ class Users {
 		}
 	}
 
+	/**
+	 * @param array $parameters
+	 * @return OC_OCS_Result
+	 */
 	public function getUsersGroups($parameters) {
 		// Check if user is logged in
 		$user = $this->userSession->getUser();
@@ -286,7 +305,11 @@ class Users {
 		
 	}
 
-	public function addToGroup($parameters){
+	/**
+	 * @param array $parameters
+	 * @return OC_OCS_Result
+	 */
+	public function addToGroup($parameters) {
 		// Check if user is logged in
 		$user = $this->userSession->getUser();
 		if ($user === null) {
@@ -317,6 +340,10 @@ class Users {
 		return new OC_OCS_Result(null, 100);
 	}
 
+	/**
+	 * @param array $parameters
+	 * @return OC_OCS_Result
+	 */
 	public function removeFromGroup($parameters) {
 		// Check if user is logged in
 		$user = $this->userSession->getUser();
@@ -362,6 +389,9 @@ class Users {
 
 	/**
 	 * Creates a subadmin
+	 *
+	 * @param array $parameters
+	 * @return OC_OCS_Result
 	 */
 	public function addSubAdmin($parameters) {
 		$group = $_POST['groupid'];
@@ -393,6 +423,9 @@ class Users {
 
 	/**
 	 * Removes a subadmin from a group
+	 *
+	 * @param array $parameters
+	 * @return OC_OCS_Result
 	 */
 	public function removeSubAdmin($parameters) {
 		$group = $parameters['_delete']['groupid'];
@@ -414,7 +447,10 @@ class Users {
 	}
 
 	/**
-	 * @Get the groups a user is a subadmin of
+	 * Get the groups a user is a subadmin of
+	 *
+	 * @param array $parameters
+	 * @return OC_OCS_Result
 	 */
 	public function getUserSubAdminGroups($parameters) {
 		$user = $parameters['userid'];
@@ -431,8 +467,8 @@ class Users {
 	}
 
 	/**
-	 * @param $userId
-	 * @param $data
+	 * @param string $userId
+	 * @param array $data
 	 * @return mixed
 	 * @throws \OCP\Files\NotFoundException
 	 */
