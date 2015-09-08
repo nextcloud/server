@@ -86,15 +86,6 @@ class OC_Files {
 	 */
 	public static function get($dir, $files, $only_header = false) {
 		$view = \OC\Files\Filesystem::getView();
-		$xsendfile = false;
-		if (\OC::$server->getLockingProvider() instanceof NoopLockingProvider) {
-			if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) ||
-				isset($_SERVER['MOD_X_SENDFILE2_ENABLED']) ||
-				isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])
-			) {
-				$xsendfile = true;
-			}
-		}
 
 		if (is_array($files) && count($files) === 1) {
 			$files = $files[0];
@@ -129,9 +120,6 @@ class OC_Files {
 
 		if ($get_type === self::FILE) {
 			$zip = false;
-			if ($xsendfile && \OC::$server->getEncryptionManager()->isEnabled()) {
-				$xsendfile = false;
-			}
 		} else {
 			$zip = new ZipStreamer(false);
 		}
@@ -176,17 +164,7 @@ class OC_Files {
 				$zip->finalize();
 				set_time_limit($executionTime);
 			} else {
-				if ($xsendfile) {
-					/** @var $storage \OC\Files\Storage\Storage */
-					list($storage) = $view->resolvePath($filename);
-					if ($storage->isLocal()) {
-						self::addSendfileHeader($filename);
-					} else {
-						\OC\Files\Filesystem::readfile($filename);
-					}
-				} else {
-					\OC\Files\Filesystem::readfile($filename);
-				}
+				\OC\Files\Filesystem::readfile($filename);
 			}
 			if ($get_type === self::FILE) {
 				$view->unlockFile($filename, ILockingProvider::LOCK_SHARED);
@@ -199,40 +177,6 @@ class OC_Files {
 			$l = \OC::$server->getL10N('core');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			\OC_Template::printErrorPage($l->t('Can\'t read file'), $hint);
-		}
-	}
-
-	/**
-	 * @param false|string $filename
-	 */
-	private static function addSendfileHeader($filename) {
-		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED'])) {
-			$filename = \OC\Files\Filesystem::getLocalFile($filename);
-			header("X-Sendfile: " . $filename);
- 		}
- 		if (isset($_SERVER['MOD_X_SENDFILE2_ENABLED'])) {
-			$filename = \OC\Files\Filesystem::getLocalFile($filename);
-			if (isset($_SERVER['HTTP_RANGE']) &&
-				preg_match("/^bytes=([0-9]+)-([0-9]*)$/", $_SERVER['HTTP_RANGE'], $range)) {
-				$filelength = filesize($filename);
- 				if ($range[2] === "") {
- 					$range[2] = $filelength - 1;
- 				}
- 				header("Content-Range: bytes $range[1]-$range[2]/" . $filelength);
- 				header("HTTP/1.1 206 Partial content");
- 				header("X-Sendfile2: " . str_replace(",", "%2c", rawurlencode($filename)) . " $range[1]-$range[2]");
- 			} else {
- 				header("X-Sendfile: " . $filename);
- 			}
-		}
-
-		if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
-			if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_PREFIX'])) {
-				$filename = $_SERVER['MOD_X_ACCEL_REDIRECT_PREFIX'] . \OC\Files\Filesystem::getLocalFile($filename);
-			} else {
-				$filename = \OC::$WEBROOT . '/data' . \OC\Files\Filesystem::getRoot() . $filename;
-			}
-			header("X-Accel-Redirect: " . $filename);
 		}
 	}
 
