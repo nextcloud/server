@@ -22,11 +22,6 @@
 namespace OC\Notification;
 
 
-use OCP\Notification\IApp;
-use OCP\Notification\IManager;
-use OCP\Notification\INotification;
-use OCP\Notification\INotifier;
-
 class Manager implements IManager {
 	/** @var IApp */
 	protected $apps;

@@ -22,8 +22,8 @@
 namespace OCA\Files_Sharing;
 
 
-use OCP\Notification\INotification;
-use OCP\Notification\INotifier;
+use OC\Notification\INotification;
+use OC\Notification\INotifier;
 
 class Notifier implements INotifier {
 	/** @var \OCP\L10N\IFactory */

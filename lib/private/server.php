@@ -1050,7 +1050,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	/**
 	 * Get the Notification Manager
 	 *
-	 * @return \OCP\Notification\IManager
+	 * @return \OC\Notification\IManager
 	 * @since 8.2.0
 	 */
 	public function getNotificationManager() {

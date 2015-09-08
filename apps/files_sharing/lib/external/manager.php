@@ -28,7 +28,7 @@ namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
 use OCP\Files;
-use OCP\Notification\IManager;
+use OC\Notification\IManager;
 
 class Manager {
 	const STORAGE = '\OCA\Files_Sharing\External\Storage';

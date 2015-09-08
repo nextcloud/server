@@ -21,7 +21,6 @@
 
 namespace OC\Notification;
 
-use OCP\Notification\IAction;
 
 class Action implements IAction {
 

@@ -19,38 +19,38 @@
  *
  */
 
-namespace OCP\Notification;
+namespace OC\Notification;
 
 /**
- * Interface IManager
+ * Interface IApp
  *
- * @package OCP\Notification
+ * @package OC\Notification
  * @since 8.2.0
  *
  * DEVELOPER NOTE:
  * The notification api is experimental only in 8.2.0! Do not start using it,
  * if you can not prepare an update for the next version afterwards.
  */
-interface IManager extends IApp, INotifier {
+interface IApp {
 	/**
-	 * @param \Closure $service The service must implement IApp, otherwise a
-	 *                          \InvalidArgumentException is thrown later
+	 * @param INotification $notification
+	 * @return null
+	 * @throws \InvalidArgumentException When the notification is not valid
+	 * @since 8.2.0
+	 */
+	public function notify(INotification $notification);
+
+	/**
+	 * @param INotification $notification
 	 * @return null
 	 * @since 8.2.0
 	 */
-	public function registerApp(\Closure $service);
+	public function markProcessed(INotification $notification);
 
 	/**
-	 * @param \Closure $service The service must implement INotifier, otherwise a
-	 *                          \InvalidArgumentException is thrown later
-	 * @return null
+	 * @param INotification $notification
+	 * @return int
 	 * @since 8.2.0
 	 */
-	public function registerNotifier(\Closure $service);
-
-	/**
-	 * @return INotification
-	 * @since 8.2.0
-	 */
-	public function createNotification();
+	public function getCount(INotification $notification);
 }

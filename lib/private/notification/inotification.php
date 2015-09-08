@@ -19,12 +19,12 @@
  *
  */
 
-namespace OCP\Notification;
+namespace OC\Notification;
 
 /**
  * Interface INotification
  *
- * @package OCP\Notification
+ * @package OC\Notification
  * @since 8.2.0
  *
  * DEVELOPER NOTE:

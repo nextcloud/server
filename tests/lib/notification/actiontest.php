@@ -23,7 +23,7 @@ namespace Test\Notification;
 
 
 use OC\Notification\Action;
-use OCP\Notification\IAction;
+use OC\Notification\IAction;
 use Test\TestCase;
 
 class ActionTest extends TestCase {

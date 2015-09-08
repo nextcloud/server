@@ -23,7 +23,6 @@ namespace OCA\Files_Sharing\API;
 
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\External\Manager;
-use OCP\Notification\IManager;
 
 class Remote {
 

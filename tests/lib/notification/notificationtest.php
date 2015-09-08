@@ -23,7 +23,7 @@ namespace Test\Notification;
 
 
 use OC\Notification\Notification;
-use OCP\Notification\INotification;
+use OC\Notification\INotification;
 use Test\TestCase;
 
 class NotificationTest extends TestCase {
@@ -401,12 +401,12 @@ class NotificationTest extends TestCase {
 
 	public function testCreateAction() {
 		$action = $this->notification->createAction();
-		$this->assertInstanceOf('OCP\Notification\IAction', $action);
+		$this->assertInstanceOf('OC\Notification\IAction', $action);
 	}
 
 	public function testAddAction() {
-		/** @var \OCP\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
-		$action = $this->getMockBuilder('OCP\Notification\IAction')
+		/** @var \OC\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
+		$action = $this->getMockBuilder('OC\Notification\IAction')
 			->disableOriginalConstructor()
 			->getMock();
 		$action->expects($this->once())
@@ -425,8 +425,8 @@ class NotificationTest extends TestCase {
 	 * @expectedException \InvalidArgumentException
 	 */
 	public function testAddActionInvalid() {
-		/** @var \OCP\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
-		$action = $this->getMockBuilder('OCP\Notification\IAction')
+		/** @var \OC\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
+		$action = $this->getMockBuilder('OC\Notification\IAction')
 			->disableOriginalConstructor()
 			->getMock();
 		$action->expects($this->once())
@@ -439,8 +439,8 @@ class NotificationTest extends TestCase {
 	}
 
 	public function testAddParsedAction() {
-		/** @var \OCP\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
-		$action = $this->getMockBuilder('OCP\Notification\IAction')
+		/** @var \OC\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
+		$action = $this->getMockBuilder('OC\Notification\IAction')
 			->disableOriginalConstructor()
 			->getMock();
 		$action->expects($this->once())
@@ -459,8 +459,8 @@ class NotificationTest extends TestCase {
 	 * @expectedException \InvalidArgumentException
 	 */
 	public function testAddParsedActionInvalid() {
-		/** @var \OCP\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
-		$action = $this->getMockBuilder('OCP\Notification\IAction')
+		/** @var \OC\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
+		$action = $this->getMockBuilder('OC\Notification\IAction')
 			->disableOriginalConstructor()
 			->getMock();
 		$action->expects($this->once())
@@ -489,7 +489,7 @@ class NotificationTest extends TestCase {
 	 * @param bool $expected
 	 */
 	public function testIsValid($isValidCommon, $subject, $expected) {
-		/** @var \OCP\Notification\INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
+		/** @var \OC\Notification\INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
 		$notification = $this->getMockBuilder('\OC\Notification\Notification')
 			->setMethods([
 				'isValidCommon',
@@ -520,7 +520,7 @@ class NotificationTest extends TestCase {
 	 * @param bool $expected
 	 */
 	public function testIsParsedValid($isValidCommon, $subject, $expected) {
-		/** @var \OCP\Notification\INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
+		/** @var \OC\Notification\INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
 		$notification = $this->getMockBuilder('\OC\Notification\Notification')
 			->setMethods([
 				'isValidCommon',
@@ -565,7 +565,7 @@ class NotificationTest extends TestCase {
 	 * @param bool $expected
 	 */
 	public function testIsValidCommon($app, $user, $timestamp, $objectType, $objectId, $expected) {
-		/** @var \OCP\Notification\INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
+		/** @var \OC\Notification\INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
 		$notification = $this->getMockBuilder('\OC\Notification\Notification')
 			->setMethods([
 				'getApp',
