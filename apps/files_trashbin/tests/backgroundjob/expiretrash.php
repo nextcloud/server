@@ -19,12 +19,15 @@
  *
  */
 
-use OCA\Files_Trashbin\BackgroundJob\ExpireTrash;
+namespace OCA\Files_Trashbin\Tests\BackgroundJob\ExpireTrash;
+ 
+use \OCA\Files_Trashbin\BackgroundJob\ExpireTrash;
 
-class ExpireTrash_Test extends \PHPUnit_Framework_TestCase {
+class ExpireTrash_Test extends \Test\TestCase {
 	public function testConstructAndRun() {
-		$backgroundJob = new OCA\Files_Trashbin\BackgroundJob\ExpireTrash(
+		$backgroundJob = new ExpireTrash(
 			$this->getMock('OCP\IDBConnection'),
+			$this->getMock('OCP\IUserManager'),
 			$this->getMockBuilder('OCA\Files_Trashbin\Expiration')->disableOriginalConstructor()->getMock()
 		);
 
