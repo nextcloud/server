@@ -37,6 +37,7 @@
 
 namespace OC\Share;
 
+use OC\Files\Filesystem;
 use OCP\IUserSession;
 use OC\DB\Connection;
 use OCP\IConfig;
@@ -120,6 +121,7 @@ class Share extends Constants {
 	 */
 	public static function getUsersSharingFile($path, $ownerUser, $includeOwner = false, $returnUserPaths = false) {
 
+		Filesystem::initMountPoints($ownerUser);
 		$shares = $sharePaths = $fileTargets = array();
 		$publicShare = false;
 		$remoteShare = false;
