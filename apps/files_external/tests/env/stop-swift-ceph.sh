@@ -6,8 +6,8 @@
 # against. It will also revert the config changes done in start step.
 #
 # @author Morris Jobke
-# @copyright 2015 Morris Jobke <hey@morrisjobke.de>
-#
+# @author Robin McCorkell
+# @copyright 2015 ownCloud
 
 if ! command -v docker >/dev/null 2>&1; then
     echo "No docker executable found - skipped docker stop"
@@ -17,14 +17,14 @@ fi
 echo "Docker executable found - stop and remove docker containers"
 
 # retrieve current folder to remove the config from the parent folder
-thisFolder=`echo $0 | replace "env/stop-swift-morrisjobke.sh" ""`
+thisFolder=`echo $0 | replace "env/stop-swift-ceph.sh" ""`
 
 if [ -z "$thisFolder" ]; then
     thisFolder="."
 fi;
 
 # stopping and removing docker containers
-for container in `cat $thisFolder/dockerContainerMorrisJobke.$EXECUTOR_NUMBER.swift`; do
+for container in `cat $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift`; do
     echo "Stopping and removing docker container $container"
     # kills running container and removes it
     docker rm -f $container
@@ -32,5 +32,5 @@ done;
 
 # cleanup
 rm $thisFolder/config.swift.php
-rm $thisFolder/dockerContainerMorrisJobke.$EXECUTOR_NUMBER.swift
+rm $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
 

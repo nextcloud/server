@@ -9,8 +9,8 @@
 # Set environment variable DEBUG to print config file
 #
 # @author Morris Jobke
-# @copyright 2015 Morris Jobke <hey@morrisjobke.de>
-#
+# @author Robin McCorkell
+# @copyright 2015 ownCloud
 
 if ! command -v docker >/dev/null 2>&1; then
     echo "No docker executable found - skipped docker setup"
@@ -19,48 +19,64 @@ fi
 
 echo "Docker executable found - setup docker"
 
-echo "Fetch recent morrisjobke/docker-swift-onlyone docker image"
-docker pull morrisjobke/docker-swift-onlyone
+docker_image=xenopathic/ceph-keystone
+
+echo "Fetch recent ${docker_image} docker image"
+docker pull ${docker_image}
 
 # retrieve current folder to place the config in the parent folder
-thisFolder=`echo $0 | replace "env/start-swift-morrisjobke.sh" ""`
+thisFolder=`echo $0 | replace "env/start-swift-ceph.sh" ""`
 
 if [ -z "$thisFolder" ]; then
     thisFolder="."
 fi;
 
-container=`docker run -d -e SWIFT_SET_PASSWORDS=true morrisjobke/docker-swift-onlyone`
+port=5001
+
+user=test
+pass=testing
+tenant=testenant
+region=testregion
+service=testceph
+
+container=`docker run -d \
+    -e KEYSTONE_PUBLIC_PORT=${port} \
+    -e KEYSTONE_ADMIN_USER=${user} \
+    -e KEYSTONE_ADMIN_PASS=${pass} \
+    -e KEYSTONE_ADMIN_TENANT=${tenant} \
+    -e KEYSTONE_ENDPOINT_REGION=${region} \
+    -e KEYSTONE_SERVICE=${service} \
+    ${docker_image}`
 
 host=`docker inspect $container | grep IPAddress | cut -d '"' -f 4`
 
 
-echo "swift container: $container"
+echo "${docker_image} container: $container"
 
 # put container IDs into a file to drop them after the test run (keep in mind that multiple tests run in parallel on the same host)
-echo $container >> $thisFolder/dockerContainerMorrisJobke.$EXECUTOR_NUMBER.swift
+echo $container >> $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
 
 # TODO find a way to determine the successful initialization inside the docker container
-echo "Waiting 15 seconds for swift initialization ... "
-sleep 15
-
-user=test:tester
-password=`docker logs $container | grep "user_test_tester " | cut -d " " -f3`
+echo "Waiting 20 seconds for ceph initialization ... "
+sleep 20
 
 cat > $thisFolder/config.swift.php <<DELIM
 <?php
 
 return array(
     'run'=>true,
-    'url'=>'http://$host:8080/auth/v1.0',
+    'url'=>'http://$host:$port/v2.0',
     'user'=>'$user',
-    'key'=>'$password',
+    'tenant'=>'$tenant',
+    'password'=>'$pass',
+    'service_name'=>'$service',
     'bucket'=>'swift',
-    'region' => 'DFW',
+    'region' => '$region',
 );
 
 DELIM
 
 if [ -n "$DEBUG" ]; then
     cat $thisFolder/config.swift.php
-    cat $thisFolder/dockerContainerMorrisJobke.$EXECUTOR_NUMBER.swift
+    cat $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
 fi
