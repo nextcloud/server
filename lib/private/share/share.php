@@ -765,7 +765,7 @@ class Share extends Constants {
 				}
 
 				// Generate hash of password - same method as user passwords
-				if (!empty($shareWith)) {
+				if (is_string($shareWith) && $shareWith !== '') {
 					self::verifyPassword($shareWith);
 					$shareWith = \OC::$server->getHasher()->hash($shareWith);
 				} else {
