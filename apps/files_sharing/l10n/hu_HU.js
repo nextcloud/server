@@ -66,6 +66,7 @@ OC.L10N.register(
     "Federated Cloud" : "Egyesített felhő",
     "Your Federated Cloud ID:" : "Egyesített felhő azonosító:",
     "Share it:" : "Ossza meg:",
+    "Add to your website" : "Add hozzá saját weboldaladhoz",
     "Share with me via ownCloud" : "Ossza meg velem ownCloud-on keresztül",
     "HTML Code:" : "HTML Code:"
 },
