@@ -68,6 +68,9 @@ class Storage {
 		//until the end one version per week
 		6 => array('intervalEndsAfter' => -1,      'step' => 604800),
 	);
+	
+	/** @var \OCA\Files_Versions\AppInfo\Application */
+	private static $application;
 
 	public static function getUidAndFilename($filename) {
 		$uid = \OC\Files\Filesystem::getOwner($filename);
@@ -709,8 +712,10 @@ class Storage {
 	 * @return Expiration
 	 */
 	protected static function getExpiration(){
-		$application = new Application();
-		return $application->getContainer()->query('Expiration');
+		if (is_null(self::$application)) {
+			self::$application = new Application();
+		}
+		return self::$application->getContainer()->query('Expiration');
 	}
 
 }

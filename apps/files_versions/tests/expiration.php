@@ -19,9 +19,11 @@
  *
  */
 
-namespace OCA\Files_Versions;
+namespace OCA\Files_Versions\Tests;
 
-class Expiration_Test extends \PHPUnit_Framework_TestCase {
+use \OCA\Files_Versions\Expiration;
+
+class Expiration_Test extends \Test\TestCase {
 	const SECONDS_PER_DAY = 86400; //60*60*24
 
 	public function expirationData(){
