@@ -177,8 +177,6 @@ class Server extends SimpleContainer implements IServerContainer {
 			$manager = $c->getUserManager();
 
 			$session = new \OC\Session\Memory('');
-			$cryptoWrapper = $c->getSessionCryptoWrapper();
-			$session = $cryptoWrapper->wrapSession($session);
 
 			$userSession = new \OC\User\Session($manager, $session);
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
@@ -252,7 +250,7 @@ class Server extends SimpleContainer implements IServerContainer {
 
 			if($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				$v = \OC_App::getAppVersions();
-				$v['core'] = implode('.', \OC_Util::getVersion());
+				$v['core'] = md5(file_get_contents(\OC::$SERVERROOT . '/version.php'));
 				$version = implode(',', $v);
 				$instanceId = \OC_Util::getInstanceId();
 				$path = \OC::$SERVERROOT;

@@ -32,22 +32,47 @@ use OCP\Security\ICrypto;
 class CryptoSessionData implements \ArrayAccess, ISession {
 	/** @var ISession */
 	protected $session;
-
 	/** @var \OCP\Security\ICrypto */
 	protected $crypto;
-
 	/** @var string */
 	protected $passphrase;
+	/** @var array */
+	protected $sessionValues;
+	/** @var bool */
+	protected $isModified = false;
+	CONST encryptedSessionName = 'encrypted_session_data';
 
 	/**
 	 * @param ISession $session
 	 * @param ICrypto $crypto
 	 * @param string $passphrase
 	 */
-	public function __construct(ISession $session, ICrypto $crypto, $passphrase) {
+	public function __construct(ISession $session,
+								ICrypto $crypto,
+								$passphrase) {
 		$this->crypto = $crypto;
 		$this->session = $session;
 		$this->passphrase = $passphrase;
+		$this->initializeSession();
+	}
+
+	/**
+	 * Close session if class gets destructed
+	 */
+	public function __destruct() {
+		$this->close();
+	}
+
+	protected function initializeSession() {
+		$encryptedSessionData = $this->session->get(self::encryptedSessionName);
+		try {
+			$this->sessionValues = json_decode(
+				$this->crypto->decrypt($encryptedSessionData, $this->passphrase),
+				true
+			);
+		} catch (\Exception $e) {
+			$this->sessionValues = [];
+		}
 	}
 
 	/**
@@ -57,8 +82,8 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param mixed $value
 	 */
 	public function set($key, $value) {
-		$encryptedValue = $this->crypto->encrypt(json_encode($value), $this->passphrase);
-		$this->session->set($key, $encryptedValue);
+		$this->sessionValues[$key] = $value;
+		$this->isModified = true;
 	}
 
 	/**
@@ -68,17 +93,11 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @return string|null Either the value or null
 	 */
 	public function get($key) {
-		$encryptedValue = $this->session->get($key);
-		if ($encryptedValue === null) {
-			return null;
+		if(isset($this->sessionValues[$key])) {
+			return $this->sessionValues[$key];
 		}
 
-		try {
-			$value = $this->crypto->decrypt($encryptedValue, $this->passphrase);
-			return json_decode($value);
-		} catch (\Exception $e) {
-			return null;
-		}
+		return null;
 	}
 
 	/**
@@ -88,7 +107,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @return bool
 	 */
 	public function exists($key) {
-		return $this->session->exists($key);
+		return isset($this->sessionValues[$key]);
 	}
 
 	/**
@@ -97,20 +116,29 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param string $key
 	 */
 	public function remove($key) {
-		$this->session->remove($key);
+		$this->isModified = true;
+		unset($this->sessionValues[$key]);
+		$this->session->remove(self::encryptedSessionName);
 	}
 
 	/**
 	 * Reset and recreate the session
 	 */
 	public function clear() {
+		$this->sessionValues = [];
+		$this->isModified = true;
 		$this->session->clear();
 	}
 
 	/**
-	 * Close the session and release the lock
+	 * Close the session and release the lock, also writes all changed data in batch
 	 */
 	public function close() {
+		if($this->isModified) {
+			$encryptedValue = $this->crypto->encrypt(json_encode($this->sessionValues), $this->passphrase);
+			$this->session->set(self::encryptedSessionName, $encryptedValue);
+			$this->isModified = false;
+		}
 		$this->session->close();
 	}
 

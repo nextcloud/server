@@ -32,6 +32,10 @@ namespace OC\Session;
  * @package OC\Session
  */
 class Internal extends Session {
+	/**
+	 * @param string $name
+	 * @throws \Exception
+	 */
 	public function __construct($name) {
 		session_name($name);
 		set_error_handler(array($this, 'trapError'));
@@ -40,10 +44,6 @@ class Internal extends Session {
 		if (!isset($_SESSION)) {
 			throw new \Exception('Failed to start session');
 		}
-	}
-
-	public function __destruct() {
-		$this->close();
 	}
 
 	/**
