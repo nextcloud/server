@@ -128,7 +128,10 @@ if (!$_['has_fileinfo']) {
 if ($_['fileLockingType'] === 'none') {
 	?>
 	<li>
-		<?php p($l->t('Transitional file locking is disabled, this might lead to issues with race conditions, enable \'filelocking.enabled\' in config.php to improve handling of race conditions.')); ?>
+		<?php p($l->t('Transactional file locking is disabled, this might lead to issues with race conditions, enable \'filelocking.enabled\' in config.php to improve handling of race conditions.')); ?>
+		<a target="_blank" class="icon-info svg"
+		   title="<?php p($l->t('Open documentation')); ?>"
+		   href="<?php p(link_to_docs('admin-transactional-locking')); ?>"></a>
 	</li>
 	<?php
 }
@@ -184,7 +187,10 @@ if ($_['cronErrors']) {
 	<ul class="info hidden">
 		<?php if ($_['fileLockingType'] === 'db'):?>
 		<li>
-			<?php p($l->t('Transitional file locking is using the database as locking backend, for best performance it\'s advised to configure a memcache for locking. Check the admin documentation for more information about locking and memcaches')); ?>
+			<?php p($l->t('Transactional file locking is using the database as locking backend, for best performance it\'s advised to configure a memcache for locking. Check the admin documentation for more information about locking and memcaches')); ?>
+			<a target="_blank" class="icon-info svg"
+			   title="<?php p($l->t('Open documentation')); ?>"
+			   href="<?php p(link_to_docs('admin-transactional-locking')); ?>"></a>
 		</li>
 		<?php endif; ?>
 	</ul>
