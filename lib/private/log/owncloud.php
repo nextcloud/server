@@ -72,7 +72,7 @@ class OC_Log_Owncloud {
 		} catch (Exception $e) {
 			$timezone = new DateTimeZone('UTC');
 		}
-		$time = new DateTime(null, $timezone);
+		$time = DateTime::createFromFormat("U.u", microtime(true), $timezone);
 		$request = \OC::$server->getRequest();
 		$reqId = $request->getId();
 		$remoteAddr = $request->getRemoteAddress();
