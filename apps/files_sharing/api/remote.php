@@ -38,6 +38,7 @@ class Remote {
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
+			\OC::$server->getNotificationManager(),
 			\OC_User::getUser()
 		);
 
@@ -56,6 +57,7 @@ class Remote {
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
+			\OC::$server->getNotificationManager(),
 			\OC_User::getUser()
 		);
 
@@ -78,6 +80,7 @@ class Remote {
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
+			\OC::$server->getNotificationManager(),
 			\OC_User::getUser()
 		);
 
@@ -87,5 +90,4 @@ class Remote {
 
 		return new \OC_OCS_Result(null, 404, "wrong share ID, share doesn't exist.");
 	}
-
 }

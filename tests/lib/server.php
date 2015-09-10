@@ -104,6 +104,8 @@ class Server extends \Test\TestCase {
 
 			['NavigationManager', '\OC\NavigationManager'],
 			['NavigationManager', '\OCP\INavigationManager'],
+			['NotificationManager', '\OC\Notification\Manager'],
+			['NotificationManager', '\OC\Notification\IManager'],
 			['UserCache', '\OC\Cache\File'],
 			['UserCache', '\OCP\ICache'],
 
