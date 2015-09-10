@@ -237,7 +237,7 @@ class OC {
 		// Check if config is writable
 		$configFileWritable = is_writable($configFilePath);
 		if (!$configFileWritable && !OC_Helper::isReadOnlyConfigEnabled()
-			|| !$configFileWritable && \OCP\Util::needUpgrade()) {
+			|| !$configFileWritable && self::checkUpgrade(false)) {
 			if (self::$CLI) {
 				echo $l->t('Cannot write into "config" directory!')."\n";
 				echo $l->t('This can usually be fixed by giving the webserver write access to the config directory')."\n";
@@ -678,7 +678,7 @@ class OC {
 	 */
 	public static function registerCacheHooks() {
 		//don't try to do this before we are properly setup
-		if (\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
+		if (\OC::$server->getSystemConfig()->getValue('installed', false) && !self::checkUpgrade(false)) {
 
 			// NOTE: This will be replaced to use OCP
 			$userSession = self::$server->getUserSession();
@@ -714,7 +714,7 @@ class OC {
 	 */
 	public static function registerLogRotate() {
 		$systemConfig = \OC::$server->getSystemConfig();
-		if ($systemConfig->getValue('installed', false) && $systemConfig->getValue('log_rotate_size', false) && !\OCP\Util::needUpgrade()) {
+		if ($systemConfig->getValue('installed', false) && $systemConfig->getValue('log_rotate_size', false) && !self::checkUpgrade(false)) {
 			//don't try to do this before we are properly setup
 			//use custom logfile path if defined, otherwise use default of owncloud.log in data directory
 			\OCP\BackgroundJob::registerJob('OC\Log\Rotate', $systemConfig->getValue('logfile', $systemConfig->getValue('datadirectory', OC::$SERVERROOT . '/data') . '/owncloud.log'));
@@ -807,8 +807,7 @@ class OC {
 
 		// Load minimum set of apps
 		if (!self::checkUpgrade(false)
-			&& !$systemConfig->getValue('maintenance', false)
-			&& !\OCP\Util::needUpgrade()) {
+			&& !$systemConfig->getValue('maintenance', false)) {
 			// For logged-in users: Load everything
 			if(OC_User::isLoggedIn()) {
 				OC_App::loadApps();
@@ -821,7 +820,7 @@ class OC {
 
 		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
 			try {
-				if (!$systemConfig->getValue('maintenance', false) && !\OCP\Util::needUpgrade()) {
+				if (!$systemConfig->getValue('maintenance', false) && !self::checkUpgrade(false)) {
 					OC_App::loadApps(array('filesystem', 'logging'));
 					OC_App::loadApps();
 				}
