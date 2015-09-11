@@ -50,6 +50,11 @@ class Application extends App {
 
 		$this->loadBackends();
 		$this->loadAuthMechanisms();
+
+		// app developers: do NOT depend on this! it will disappear with oC 9.0!
+		\OC::$server->getEventDispatcher()->dispatch(
+			'OCA\\Files_External::loadAdditionalBackends'
+		);
 	}
 
 	/**
