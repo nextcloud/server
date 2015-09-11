@@ -24,9 +24,14 @@ namespace OCA\Files_External\Lib;
 use \OCA\Files_External\Lib\MissingDependency;
 
 /**
- * Trait for objects that have dependencies for use
+ * Polyfill for checking dependencies using legacy Storage::checkDependencies()
  */
-trait DependencyTrait {
+trait LegacyDependencyCheckPolyfill {
+
+	/**
+	 * @return string
+	 */
+	abstract public function getStorageClass();
 
 	/**
 	 * Check if object is valid for use
@@ -34,7 +39,31 @@ trait DependencyTrait {
 	 * @return MissingDependency[] Unsatisfied dependencies
 	 */
 	public function checkDependencies() {
-		return []; // no dependencies by default
+		$ret = [];
+
+		$result = call_user_func([$this->getStorageClass(), 'checkDependencies']);
+		if ($result !== true) {
+			if (!is_array($result)) {
+				$result = [$result];
+			}
+			foreach ($result as $key => $value) {
+				if (!($value instanceof MissingDependency)) {
+					$module = null;
+					$message = null;
+					if (is_numeric($key)) {
+						$module = $value;
+					} else {
+						$module = $key;
+						$message = $value;
+					}
+					$value = new MissingDependency($module, $this);
+					$value->setMessage($message);
+				}
+				$ret[] = $value;
+			}
+		}
+
+		return $ret;
 	}
 
 }
