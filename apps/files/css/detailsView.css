@@ -25,6 +25,10 @@
 	margin-top: -15px;
 }
 
+#app-sidebar .thumbnailContainer.image.portrait {
+	margin: 0; /* if we dont fit the image anyway we give it back the margin */
+}
+
 #app-sidebar .image .thumbnail {
 	width:100%;
 	display:block;
