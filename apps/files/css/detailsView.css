@@ -34,10 +34,14 @@
 	display:block;
 	height: 250px;
 	background-repeat: no-repeat;
-	background-position: 50% top;
+	background-position: center;
 	background-size: 100%;
 	float: none;
 	margin: 0;
+}
+
+#app-sidebar .image.portrait .thumbnail {
+	background-position: 50% top;
 }
 
 #app-sidebar .image.portrait .thumbnail {
