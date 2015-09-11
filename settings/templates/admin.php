@@ -128,10 +128,7 @@ if (!$_['has_fileinfo']) {
 if ($_['fileLockingType'] === 'none') {
 	?>
 	<li>
-		<?php p($l->t('Transactional file locking is disabled, this might lead to issues with race conditions, enable \'filelocking.enabled\' in config.php to improve handling of race conditions.')); ?>
-		<a target="_blank" class="icon-info svg"
-		   title="<?php p($l->t('Open documentation')); ?>"
-		   href="<?php p(link_to_docs('admin-transactional-locking')); ?>"></a>
+		<?php print_unescaped($l->t('Transactional file locking is disabled, this might lead to issues with race conditions. Enable \'filelocking.enabled\' in config.php to avoid these problems. See the <a target="_blank" href="%s">documentation ↗</a> for more information.', link_to_docs('admin-transactional-locking'))); ?>
 	</li>
 	<?php
 }
@@ -187,10 +184,7 @@ if ($_['cronErrors']) {
 	<ul class="info hidden">
 		<?php if ($_['fileLockingType'] === 'db'):?>
 		<li>
-			<?php p($l->t('Transactional file locking is using the database as locking backend, for best performance it\'s advised to configure a memcache for locking. Check the admin documentation for more information about locking and memcaches')); ?>
-			<a target="_blank" class="icon-info svg"
-			   title="<?php p($l->t('Open documentation')); ?>"
-			   href="<?php p(link_to_docs('admin-transactional-locking')); ?>"></a>
+			<?php print_unescaped($l->t('Transactional file locking is using the database as locking backend, for best performance it\'s advised to configure a memcache for locking. See the <a target="_blank" href="%s">documentation ↗</a> for more information.', link_to_docs('admin-transactional-locking'))); ?>
 		</li>
 		<?php endif; ?>
 	</ul>
