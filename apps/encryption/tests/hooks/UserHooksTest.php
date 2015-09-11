@@ -50,6 +50,11 @@ class UserHooksTest extends TestCase {
 	/**
 	 * @var \PHPUnit_Framework_MockObject_MockObject
 	 */
+	private $userManagerMock;
+
+	/**
+	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 */
 	private $userSetupMock;
 	/**
 	 * @var \PHPUnit_Framework_MockObject_MockObject
@@ -101,11 +106,58 @@ class UserHooksTest extends TestCase {
 		$this->assertNull($this->instance->postDeleteUser($this->params));
 	}
 
-	public function testPreSetPassphrase() {
-		$this->userSessionMock->expects($this->once())
-			->method('canChangePassword');
+	/**
+	 * @dataProvider dataTestPreSetPassphrase
+	 */
+	public function testPreSetPassphrase($canChange) {
 
-		$this->assertNull($this->instance->preSetPassphrase($this->params));
+		/** @var UserHooks | \PHPUnit_Framework_MockObject_MockObject  $instance */
+		$instance = $this->getMockBuilder('OCA\Encryption\Hooks\UserHooks')
+			->setConstructorArgs(
+				[
+					$this->keyManagerMock,
+					$this->userManagerMock,
+					$this->loggerMock,
+					$this->userSetupMock,
+					$this->userSessionMock,
+					$this->utilMock,
+					$this->sessionMock,
+					$this->cryptMock,
+					$this->recoveryMock
+				]
+			)
+			->setMethods(['setPassphrase'])
+			->getMock();
+
+		$userMock = $this->getMock('OCP\IUser');
+
+		$this->userManagerMock->expects($this->once())
+			->method('get')
+			->with($this->params['uid'])
+			->willReturn($userMock);
+		$userMock->expects($this->once())
+			->method('canChangePassword')
+			->willReturn($canChange);
+
+		if ($canChange) {
+			// in this case the password will be changed in the post hook
+			$instance->expects($this->never())->method('setPassphrase');
+		} else {
+			// if user can't change the password we update the encryption
+			// key password already in the pre hook
+			$instance->expects($this->once())
+				->method('setPassphrase')
+				->with($this->params);
+		}
+
+		$instance->preSetPassphrase($this->params);
+	}
+
+	public function dataTestPreSetPassphrase() {
+		return [
+			[true],
+			[false]
+		];
 	}
 
 	public function testSetPassphrase() {
@@ -186,6 +238,7 @@ class UserHooksTest extends TestCase {
 			->willReturn(false);
 
 		$userHooks = new UserHooks($this->keyManagerMock,
+			$this->userManagerMock,
 			$this->loggerMock,
 			$this->userSetupMock,
 			$userSessionMock,
@@ -214,6 +267,9 @@ class UserHooksTest extends TestCase {
 		parent::setUp();
 		$this->loggerMock = $this->getMock('OCP\ILogger');
 		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userManagerMock = $this->getMockBuilder('OCP\IUserManager')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userSetupMock = $this->getMockBuilder('OCA\Encryption\Users\Setup')
@@ -258,6 +314,7 @@ class UserHooksTest extends TestCase {
 		$this->recoveryMock = $recoveryMock;
 		$this->utilMock = $utilMock;
 		$this->instance = new UserHooks($this->keyManagerMock,
+			$this->userManagerMock,
 			$this->loggerMock,
 			$this->userSetupMock,
 			$this->userSessionMock,

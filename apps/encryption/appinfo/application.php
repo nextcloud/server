@@ -83,6 +83,7 @@ class Application extends \OCP\AppFramework\App {
 
 			$hookManager->registerHook([
 				new UserHooks($container->query('KeyManager'),
+					$server->getUserManager(),
 					$server->getLogger(),
 					$container->query('UserSetup'),
 					$server->getUserSession(),
