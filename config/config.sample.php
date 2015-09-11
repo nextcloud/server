@@ -448,14 +448,13 @@ $CONFIG = array(
  * ownCloud 8.1 and before.
  *
  * Available values:
- *   ``auto``      default setting. keeps versions for 30 days and automatically
- *                 deletes anytime after that if space is needed (note: files
- *                 may not be deleted if space is not needed).
- *   ``D, auto``   keep versions for D+ days, delete anytime if space needed
- *                 (note: files may not be deleted
- *                 if space is not needed)
+ *   ``auto``      default setting. Automatically expire versions according to
+ *                 expire rules. Please refer to Files_versions online documentation 
+ *                 for more info.
+ *   ``D, auto``   keep versions at least for D days, apply expire rules to all
+ *                 versions that older than D days
  * * ``auto, D``   delete all versions that are older than D days automatically,
- *                 delete other files anytime if space needed
+ *                 delete other versions according to expire rules
  * * ``D1, D2``    keep versions for at least D1 days and delete when exceeds D2 days
  *   ``disabled``  versions auto clean disabled, versions will be kept forever
  */
