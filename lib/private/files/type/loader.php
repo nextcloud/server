@@ -97,6 +97,14 @@ class Loader implements IMimeTypeLoader {
 	}
 
 	/**
+	 * Clear all loaded mimetypes, allow for re-loading
+	 */
+	public function reset() {
+		$this->mimetypes = [];
+		$this->mimetypeIds = [];
+	}
+
+	/**
 	 * Store a mimetype in the DB
 	 *
 	 * @param string $mimetype
