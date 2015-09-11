@@ -175,11 +175,21 @@ class AppConfig implements IAppConfig {
 			->set('configvalue', $sql->createParameter('configvalue'))
 			->where($sql->expr()->eq('appid', $sql->createParameter('app')))
 			->andWhere($sql->expr()->eq('configkey', $sql->createParameter('configkey')))
-			->andWhere($sql->expr()->neq('configvalue', $sql->createParameter('configvalue')))
 			->setParameter('configvalue', $value)
 			->setParameter('app', $app)
-			->setParameter('configkey', $key)
-			->setParameter('configvalue', $value);
+			->setParameter('configkey', $key);
+
+		/*
+		 * Only limit to the existing value for non-Oracle DBs:
+		 * http://docs.oracle.com/cd/E11882_01/server.112/e26088/conditions002.htm#i1033286
+		 * > Large objects (LOBs) are not supported in comparison conditions.
+		 */
+		if (!($this->conn instanceof \OC\DB\OracleConnection)) {
+			// Only update the value when it is not the same
+			$sql->andWhere($sql->expr()->neq('configvalue', $sql->createParameter('configvalue')))
+				->setParameter('configvalue', $value);
+		}
+
 		$changedRow = (bool) $sql->execute();
 
 		$this->cache[$app][$key] = $value;
