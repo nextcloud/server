@@ -24,13 +24,7 @@ class RepairMimeTypes extends \Test\TestCase {
 		parent::setUp();
 
 		$this->savedMimetypeLoader = \OC::$server->getMimeTypeLoader();
-		$this->mimetypeLoader = $this->getMockBuilder('\OC\Files\Type\Loader')
-			->setConstructorArgs([\OC::$server->getDatabaseConnection()])
-			->setMethods(null)
-			->getMock();
-		\OC::$server->registerService('MimeTypeLoader', function ($c) {
-			return $this->mimetypeLoader;
-		});
+		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 
 		$this->storage = new \OC\Files\Storage\Temporary([]);
 		$this->repair = new \OC\Repair\RepairMimeTypes();
@@ -42,16 +36,13 @@ class RepairMimeTypes extends \Test\TestCase {
 		\OC_DB::executeAudited($sql, [$this->storage->getId()]);
 		$this->clearMimeTypes();
 
-		\OC::$server->registerService('MimeTypeLoader', function($c) {
-			return $this->savedMimetypeLoader;
-		});
-
 		parent::tearDown();
 	}
 
 	private function clearMimeTypes() {
 		$sql = 'DELETE FROM `*PREFIX*mimetypes`';
 		\OC_DB::executeAudited($sql);
+		$this->mimetypeLoader->reset();
 	}
 
 	private function addEntries($entries) {
@@ -97,7 +88,7 @@ class RepairMimeTypes extends \Test\TestCase {
 		$this->repair->run();
 
 		// force mimetype reload
-		self::invokePrivate($this->mimetypeLoader, 'loadMimetypes');
+		$this->mimetypeLoader->reset();
 
 		$this->checkEntries($fixedMimeTypes);
 	}

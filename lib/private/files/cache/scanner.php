@@ -377,7 +377,7 @@ class Scanner extends BasicEmitter {
 			// inserted mimetypes but those weren't available yet inside the transaction
 			// To make sure to have the updated mime types in such cases,
 			// we reload them here
-			$this->cache->loadMimetypes();
+			\OC::$server->getMimeTypeLoader()->reset();
 		}
 
 		foreach ($childQueue as $child => $childData) {

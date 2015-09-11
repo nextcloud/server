@@ -56,4 +56,11 @@ interface IMimeTypeLoader {
 	 * @since 8.2.0
 	 */
 	public function exists($mimetype);
+
+	/**
+	 * Clear all loaded mimetypes, allow for re-loading
+	 *
+	 * @since 8.2.0
+	 */
+	public function reset();
 }
