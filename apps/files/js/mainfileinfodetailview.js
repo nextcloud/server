@@ -125,51 +125,9 @@
 				// TODO: we really need OC.Previews
 				var $iconDiv = this.$el.find('.thumbnail');
 				$iconDiv.addClass('icon-loading icon-32');
-				$container = this.$el.find('.thumbnailContainer');
+				var $container = this.$el.find('.thumbnailContainer');
 				if (!this.model.isDirectory()) {
-					this._fileList.lazyLoadPreview({
-						path: this.model.getFullPath(),
-						mime: this.model.get('mimetype'),
-						etag: this.model.get('etag'),
-						y: this.model.isImage() ? 250: 75,
-						x: this.model.isImage() ? 99999 /* only limit on y */ : 75,
-						a: this.model.isImage() ? 1 : null,
-						callback: function(previewUrl, img) {
-							$iconDiv.previewImg = previewUrl;
-							if (img) {
-								$iconDiv.removeClass('icon-loading icon-32');
-								if(img.height > img.width) {
-									$container.addClass('portrait');
-								}
-							}
-							if (this.model.isImage() && img) {
-								$iconDiv.parent().addClass('image');
-								var targetHeight = img.height / window.devicePixelRatio;
-								if (targetHeight <= 75) {
-									$container.removeClass('image'); // small enough to fit in normaly
-									targetHeight = 75;
-								}
-							} else {
-								targetHeight = 75;
-							}
-
-							// only set background when we have an actual preview
-							// when we dont have a preview we show the mime icon in the error handler
-							if (img) {
-								$iconDiv.css({
-									'background-image': 'url("' + previewUrl + '")',
-									'height': targetHeight
-								});
-							}
-						}.bind(this),
-						error: function() {
-							$iconDiv.removeClass('icon-loading icon-32');
-							this.$el.find('.thumbnailContainer').removeClass('image'); //fall back to regular view
-							$iconDiv.css({
-								'background-image': 'url("' + $iconDiv.previewImg + '")'
-							});
-						}.bind(this)
-					});
+					this.loadPreview(this.model.getFullPath(), this.model.get('mimetype'), this.model.get('etag'), $iconDiv, $container, this.model.isImage());
 				} else {
 					// TODO: special icons / shared / external
 					$iconDiv.css('background-image', 'url("' + OC.MimeType.getIconUrl('dir') + '")');
@@ -179,6 +137,66 @@
 				this.$el.empty();
 			}
 			this.delegateEvents();
+		},
+
+		loadPreview: function(path, mime, etag, $iconDiv, $container, isImage) {
+			var maxImageHeight = ($container.parent().width() + 50) / (16/9); // 30px for negative margin
+			var smallPreviewSize = 75;
+
+			var isLandscape = function(img) {
+				return img.width > (img.height * 1.2);
+			};
+
+			var getTargetHeight = function(img) {
+				if(isImage) {
+					var targetHeight = img.height / window.devicePixelRatio;
+					if (targetHeight <= smallPreviewSize) {
+						targetHeight = smallPreviewSize;
+					}
+					return targetHeight;
+				}else{
+					return smallPreviewSize;
+				}
+			};
+
+			this._fileList.lazyLoadPreview({
+				path: path,
+				mime: mime,
+				etag: etag,
+				y: isImage ? maxImageHeight : smallPreviewSize,
+				x: isImage ? 99999 /* only limit on y */ : smallPreviewSize,
+				a: isImage ? 1 : null,
+				callback: function (previewUrl, img) {
+					$iconDiv.previewImg = previewUrl;
+
+					// as long as we only have the mimetype icon, we only save it in case there is no preview
+					if (!img) {
+						return;
+					}
+					$iconDiv.removeClass('icon-loading  icon-32');
+					var targetHeight = getTargetHeight(img);
+					if (this.model.isImage() && targetHeight > smallPreviewSize) {
+						if (!isLandscape(img)) {
+							$container.addClass('portrait');
+						}
+						$container.addClass('image');
+					}
+
+					// only set background when we have an actual preview
+					// when we dont have a preview we show the mime icon in the error handler
+					$iconDiv.css({
+						'background-image': 'url("' + previewUrl + '")',
+						'height': targetHeight
+					});
+				}.bind(this),
+				error: function () {
+					$iconDiv.removeClass('icon-loading');
+					this.$el.find('.thumbnailContainer').removeClass('image'); //fall back to regular view
+					$iconDiv.css({
+						'background-image': 'url("' + $iconDiv.previewImg + '")'
+					});
+				}.bind(this)
+			});
 		}
 	});
 
