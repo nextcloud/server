@@ -58,9 +58,17 @@ class DBLockingProvider extends AbstractLockingProvider {
 		$this->timeFactory = $timeFactory;
 	}
 
-	protected function initLockField($path) {
+	/**
+	 * Insert a file locking row if it does not exists.
+	 *
+	 * @param string $path
+	 * @param int $lock
+	 * @return int number of inserted rows
+	 */
+
+	protected function initLockField($path, $lock = 0) {
 		$expire = $this->getExpireTime();
-		$this->connection->insertIfNotExist('*PREFIX*file_locks', ['key' => $path, 'lock' => 0, 'ttl' => $expire], ['key']);
+		return $this->connection->insertIfNotExist('*PREFIX*file_locks', ['key' => $path, 'lock' => $lock, 'ttl' => $expire], ['key']);
 	}
 
 	/**
@@ -98,18 +106,23 @@ class DBLockingProvider extends AbstractLockingProvider {
 			$this->logger->warning("Trying to acquire a lock for '$path' while inside a transition");
 		}
 
-		$this->initLockField($path);
 		$expire = $this->getExpireTime();
 		if ($type === self::LOCK_SHARED) {
-			$result = $this->connection->executeUpdate(
-				'UPDATE `*PREFIX*file_locks` SET `lock` = `lock` + 1, `ttl` = ? WHERE `key` = ? AND `lock` >= 0',
-				[$expire, $path]
-			);
+			$result = $this->initLockField($path,1);
+			if ($result <= 0) {
+				$result = $this->connection->executeUpdate (
+					'UPDATE `*PREFIX*file_locks` SET `lock` = `lock` + 1, `ttl` = ? WHERE `key` = ? AND `lock` >= 0',
+					[$expire, $path]
+				);
+			}
 		} else {
-			$result = $this->connection->executeUpdate(
-				'UPDATE `*PREFIX*file_locks` SET `lock` = -1, `ttl` = ? WHERE `key` = ? AND `lock` = 0',
-				[$expire, $path]
-			);
+			$result = $this->initLockField($path,-1);
+			if ($result <= 0) {
+				$result = $this->connection->executeUpdate(
+					'UPDATE `*PREFIX*file_locks` SET `lock` = -1, `ttl` = ? WHERE `key` = ? AND `lock` = 0',
+					[$expire, $path]
+				);
+			}
 		}
 		if ($result !== 1) {
 			throw new LockedException($path);
@@ -122,7 +135,6 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
 	 */
 	public function releaseLock($path, $type) {
-		$this->initLockField($path);
 		if ($type === self::LOCK_SHARED) {
 			$this->connection->executeUpdate(
 				'UPDATE `*PREFIX*file_locks` SET `lock` = `lock` - 1 WHERE `key` = ? AND `lock` > 0',
