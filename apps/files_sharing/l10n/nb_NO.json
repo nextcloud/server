@@ -39,6 +39,7 @@
     "%2$s shared %1$s with you" : "%2$s delte %1$s med deg",
     "You shared %1$s via link" : "Du delte %1$s via lenke",
     "Shares" : "Delinger",
+    "Accept" : "Aksepter",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Del med meg gjennom min #ownCloud ID for sammenknyttet sky, se %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Del med meg gjennom min #ownCloud ID for sammenknyttet sky",
     "This share is password-protected" : "Denne delingen er passordbeskyttet",

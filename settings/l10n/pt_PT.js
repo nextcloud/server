@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "APCu" : "APCu",
+    "Redis" : "Redis",
     "Security & setup warnings" : "Avisos de configuração e segurança",
     "Sharing" : "Partilha",
     "External Storage" : "Armazenamento Externo",

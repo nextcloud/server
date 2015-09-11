@@ -41,6 +41,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "Ο %2$s διαμοιράστηκε το %1$s με εσάς",
     "You shared %1$s via link" : "Μοιραστήκατε το %1$s μέσω συνδέσμου",
     "Shares" : "Κοινόχρηστοι φάκελοι",
+    "Accept" : "Αποδοχή",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Διαμοιρασμός με εμένα μέσω του #ownCloud Federated Cloud ID μου, δείτε %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Διαμοιρασμός με εμένα μέσω του #ownCloud Federated Cloud ID μου",
     "This share is password-protected" : "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",

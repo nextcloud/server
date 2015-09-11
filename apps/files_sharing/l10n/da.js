@@ -41,6 +41,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s delt %1$s med dig",
     "You shared %1$s via link" : "Du delte %1$s via link",
     "Shares" : "Delt",
+    "Accept" : "Acceptér",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Del med mig gennem min #ownCloud Federated Cloud ID, se %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Del med mig gennem min #ownCloud Federated Cloud ID",
     "This share is password-protected" : "Delingen er beskyttet af kodeord",

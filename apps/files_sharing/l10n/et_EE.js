@@ -31,6 +31,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s jagas sinuga %1$s",
     "You shared %1$s via link" : "Jagasid %1$s lingiga",
     "Shares" : "Jagamised",
+    "Accept" : "Nõustu",
     "This share is password-protected" : "See jagamine on parooliga kaitstud",
     "The password is wrong. Try again." : "Parool on vale. Proovi uuesti.",
     "Password" : "Parool",

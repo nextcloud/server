@@ -39,6 +39,7 @@
     "%2$s shared %1$s with you" : "%2$s compartilhou %1$s com você",
     "You shared %1$s via link" : "Você compartilhou %1$s via link",
     "Shares" : "Compartilhamentos",
+    "Accept" : "Aceitar",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Compartilhe comigo através do meu #ownCloud Nuvem Federados ID, veja %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Compartilhe comigo através do meu #ownCloud Nuvem Federados ID",
     "This share is password-protected" : "Este compartilhamento esta protegido por senha",

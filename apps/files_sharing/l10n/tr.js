@@ -41,6 +41,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s sizinle %1$s dosyasını paylaştı",
     "You shared %1$s via link" : "Bağlantı ile %1$s paylaşımını yaptınız",
     "Shares" : "Paylaşımlar",
+    "Accept" : "Kabul et",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "#ownCloud Birleşik Bulut kimliğim ile paylaşıldı, bkz %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "#ownCloud Birleşmiş Bulut kimliğim ile paylaşıldı",
     "This share is password-protected" : "Bu paylaşım parola korumalı",

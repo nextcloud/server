@@ -39,6 +39,7 @@
     "%2$s shared %1$s with you" : "%2$s s vámi sdílí %1$s",
     "You shared %1$s via link" : "Sdílíte %1$s přes odkaz",
     "Shares" : "Sdílení",
+    "Accept" : "Přijmout",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Sdílej se mnou pomocí mého #ownCloud sdruženého cloud ID, více na %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Sdílej se mnou pomocí mého #ownCloud sdruženého cloud ID",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",

@@ -30,6 +30,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s współdzieli %1$s z Tobą",
     "You shared %1$s via link" : "Udostępniasz %1$s przez link",
     "Shares" : "Udziały",
+    "Accept" : "Akceptuj",
     "This share is password-protected" : "Udział ten jest chroniony hasłem",
     "The password is wrong. Try again." : "To hasło jest niewłaściwe. Spróbuj ponownie.",
     "Password" : "Hasło",
