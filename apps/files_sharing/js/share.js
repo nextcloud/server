@@ -32,7 +32,6 @@
 			if (fileList.id === 'trashbin' || fileList.id === 'files.public') {
 				return;
 			}
-			var fileActions = fileList.fileActions;
 			var oldCreateRow = fileList._createRow;
 			fileList._createRow = function(fileData) {
 				var tr = oldCreateRow.apply(this, arguments);
@@ -94,60 +93,6 @@
 				}
 				else{
 					updateIcons($files);
-				}
-			});
-
-			fileActions.registerAction({
-				name: 'Share',
-				displayName: '',
-				mime: 'all',
-				permissions: OC.PERMISSION_SHARE,
-				icon: OC.imagePath('core', 'actions/share'),
-				type: OCA.Files.FileActions.TYPE_INLINE,
-				actionHandler: function(filename, context) {
-					var $tr = context.$file;
-					var itemType = 'file';
-					if ($tr.data('type') === 'dir') {
-						itemType = 'folder';
-					}
-					var possiblePermissions = $tr.data('share-permissions');
-					if (_.isUndefined(possiblePermissions)) {
-						possiblePermissions = $tr.data('permissions');
-					}
-
-					var appendTo = $tr.find('td.filename');
-					// Check if drop down is already visible for a different file
-					if (OC.Share.droppedDown) {
-						if ($tr.attr('data-id') !== $('#dropdown').attr('data-item-source')) {
-							OC.Share.hideDropDown(function () {
-								$tr.addClass('mouseOver');
-								OC.Share.showDropDown(itemType, $tr.data('id'), appendTo, true, possiblePermissions, filename);
-							});
-						} else {
-							OC.Share.hideDropDown();
-						}
-					} else {
-						$tr.addClass('mouseOver');
-						OC.Share.showDropDown(itemType, $tr.data('id'), appendTo, true, possiblePermissions, filename);
-					}
-					$('#dropdown').on('sharesChanged', function(ev) {
-						// files app current cannot show recipients on load, so we don't update the
-						// icon when changed for consistency
-						if (context.fileList.$el.closest('#app-content-files').length) {
-							return;
-						}
-						var recipients = _.pluck(ev.shares[OC.Share.SHARE_TYPE_USER], 'share_with_displayname');
-						var groupRecipients = _.pluck(ev.shares[OC.Share.SHARE_TYPE_GROUP], 'share_with_displayname');
-						recipients = recipients.concat(groupRecipients);
-						// note: we only update the data attribute because updateIcon()
-						// is called automatically after this event
-						if (recipients.length) {
-							$tr.attr('data-share-recipients', OCA.Sharing.Util.formatRecipients(recipients));
-						}
-						else {
-							$tr.removeAttr('data-share-recipients');
-						}
-					});
 				}
 			});
 
