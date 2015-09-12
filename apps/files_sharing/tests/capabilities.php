@@ -202,5 +202,40 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 		$this->assertFalse($result['public']['upload']);
 	}
 
+	public function testFederatedSharingIncomming() {
+		$map = [
+			['files_sharing', 'incoming_server2server_share_enabled', 'yes', 'yes'],
+		];
+		$result = $this->getResults($map);
+		$this->assertArrayHasKey('federation', $result);
+		$this->assertTrue($result['federation']['incoming']);
+	}
+
+	public function testFederatedSharingNoIncomming() {
+		$map = [
+			['files_sharing', 'incoming_server2server_share_enabled', 'yes', 'no'],
+		];
+		$result = $this->getResults($map);
+		$this->assertArrayHasKey('federation', $result);
+		$this->assertFalse($result['federation']['incoming']);
+	}
+
+	public function testFederatedSharingOutgoing() {
+		$map = [
+			['files_sharing', 'outgoing_server2server_share_enabled', 'yes', 'yes'],
+		];
+		$result = $this->getResults($map);
+		$this->assertArrayHasKey('federation', $result);
+		$this->assertTrue($result['federation']['outgoing']);
+	}
+
+	public function testFederatedSharingNoOutgoing() {
+		$map = [
+			['files_sharing', 'outgoing_server2server_share_enabled', 'yes', 'no'],
+		];
+		$result = $this->getResults($map);
+		$this->assertArrayHasKey('federation', $result);
+		$this->assertFalse($result['federation']['outgoing']);
+	}
 
 }
