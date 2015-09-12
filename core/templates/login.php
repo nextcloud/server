@@ -55,9 +55,8 @@ script('core', [
 				autocomplete="on" autocapitalize="off" autocorrect="off" required>
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
 			<img class="svg" id="password-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt=""/>
+			<input type="submit" id="submit" class="login primary icon-confirm" title="<?php p($l->t('Log in')); ?>" value="" disabled="disabled"/>
 		</p>
-
-		<input type="submit" id="submit" class="login primary icon-confirm" title="<?php p($l->t('Log in')); ?>" value="" disabled="disabled"/>
 
 		<?php if (isset($_['invalidpassword']) && ($_['invalidpassword'])): ?>
 		<a id="lost-password" class="warning" href="">

@@ -472,7 +472,7 @@ input[type="submit"].enabled {
 #body-login #submit.login {
 	position: absolute;
 	right: 0;
-	top: 49px;
+	top: 0;
 	border: none;
 	background-color: transparent;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
@@ -491,8 +491,8 @@ input[type="submit"].enabled {
 
 #body-login form {
 	position: relative;
-	width: 22em;
-	margin: 2em auto 2em;
+	width: 280px;
+	margin: 32px auto;
 	padding: 0;
 }
 #body-login form fieldset {
