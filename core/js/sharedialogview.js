@@ -132,6 +132,24 @@
 			});
 		},
 
+		autocompleteRenderItem: function(ul, item) {
+			var insert = $("<a>");
+			var text = item.label;
+			if (item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
+				text = text +  ' ('+t('core', 'group')+')';
+			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE) {
+				text = text +  ' ('+t('core', 'remote')+')';
+			}
+			insert.text(text);
+			if(item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
+				insert = insert.wrapInner('<strong></strong>');
+			}
+			return $("<li>")
+				.addClass((item.value.shareType === OC.Share.SHARE_TYPE_GROUP) ? 'group' : 'user')
+				.append(insert)
+				.appendTo(ul);
+		},
+
 		render: function() {
 			var baseTemplate = this._getTemplate('base', TEMPLATE_BASE);
 
@@ -155,7 +173,7 @@
 						expiration: expiration
 					});
 				}
-			});
+			}).data('ui-autocomplete')._renderItem = this.autocompleteRenderItem;
 
 			this.resharerInfoView.$el = this.$el.find('.resharerInfoView');
 			this.resharerInfoView.render();
