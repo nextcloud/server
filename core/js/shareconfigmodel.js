@@ -19,6 +19,8 @@
 			publicUploadEnabled: false,
 			enforcePasswordForPublicLink: oc_appconfig.core.enforcePasswordForPublicLink,
 			isDefaultExpireDateEnforced: oc_appconfig.core.defaultExpireDateEnforced === true,
+			isDefaultExpireDateEnabled: oc_appconfig.core.defaultExpireDateEnabled === true,
+			isRemoteShareAllowed: oc_appconfig.core.remoteShareAllowed,
 			defaultExpireDate: oc_appconfig.core.defaultExpireDate,
 			isResharingAllowed: oc_appconfig.core.resharingAllowed
 		},
@@ -48,13 +50,6 @@
 		/**
 		 * @returns {boolean}
 		 */
-		isRemoteShareAllowed: function() {
-			return oc_appconfig.core.remoteShareAllowed;
-		},
-
-		/**
-		 * @returns {boolean}
-		 */
 		isShareWithLinkAllowed: function() {
 			return $('#allowShareWithLink').val() === 'yes';
 		},
@@ -64,6 +59,20 @@
 		 */
 		getFederatedShareDocLink: function() {
 			return oc_appconfig.core.federatedCloudShareDoc;
+		},
+
+		getDefaultExpirationDateString: function () {
+			var expireDateString = '';
+			if (this.get('isDefaultExpireDateEnabled')) {
+				var date = new Date().getTime();
+				var expireAfterMs = this.get('defaultExpireDate') * 24 * 60 * 60 * 1000;
+				var expireDate = new Date(date + expireAfterMs);
+				var month = expireDate.getMonth() + 1;
+				var year = expireDate.getFullYear();
+				var day = expireDate.getDate();
+				expireDateString = year + "-" + month + '-' + day + ' 00:00:00';
+			}
+			return expireDateString;
 		}
 	});
 

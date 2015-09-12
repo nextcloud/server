@@ -89,11 +89,32 @@
 			linkShare: {}
 		},
 
+		addLinkShare: function() {
+			var model = this;
+			var expiration = this.configModel.getDefaultExpirationDateString();
+			var itemType = this.get('itemType');
+			var itemSource = this.get('itemSource');
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, this.fileInfoModel.get('name'), expiration, function(data) {
+				model.fetch();
+				//FIXME: updateIcon belongs to view
+				OC.Share.updateIcon(itemType, itemSource);
+			});
+		},
+
+		removeLinkShare: function() {
+			var model = this;
+			var itemType = this.get('itemType');
+			var itemSource = this.get('itemSource');
+
+			OC.Share.unshare(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', function() {
+				model.fetch();
+				//FIXME: updateIcon belongs to view
+				OC.Share.updateIcon(itemType, itemSource);
+			});
+		},
+
 		addShare: function(event, selected, options) {
 			event.preventDefault();
-
-			//console.warn(selected);
-			//return false;
 
 			var shareType = selected.item.value.shareType;
 			var shareWith = selected.item.value.shareWith;
@@ -121,8 +142,10 @@
 			}
 
 			var model = this;
-			OC.Share.share(this.get('itemType'), this.get('itemSource'), shareType, shareWith, permissions, fileName, options.expiration, function() {
-				model.fetch()
+			var itemType = this.get('itemType');
+			var itemSource = this.get('itemSource');
+			OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, fileName, options.expiration, function() {
+				model.fetch();
 				//FIXME: updateIcon belongs to view
 				OC.Share.updateIcon(itemType, itemSource);
 			});

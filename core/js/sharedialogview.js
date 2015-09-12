@@ -68,9 +68,6 @@
 
 		initialize: function(options) {
 			var view = this;
-			this.model.on('change', function() {
-				view.render();
-			});
 
 			this.model.on('fetchError', function() {
 				OC.Notification.showTemporary(t('core', 'Share details could not be loaded for this item.'));
@@ -81,6 +78,10 @@
 			} else {
 				throw 'missing OC.Share.ShareConfigModel';
 			}
+
+			this.configModel.on('change:isRemoteShareAllowed', function() {
+				view.render();
+			});
 
 			var subViewOptions = {
 				model: this.model,
@@ -188,17 +189,6 @@
 			this.shareeListView.render();
 
 			this.$el.find('.hasTooltip').tooltip();
-			if(this.configModel.areAvatarsEnabled()) {
-				this.$el.find('.avatar').each(function() {
-					var $this = $(this);
-					$this.avatar($this.data('username'), 32);
-				});
-				this.$el.find('.avatar.imageplaceholderseed').each(function() {
-					var $this = $(this);
-					$this.imageplaceholder($this.data('seed'));
-				});
-			}
-			this.$el.find('.datepicker').datepicker({dateFormat : 'dd-mm-yy'});
 
 			return this;
 		},
@@ -216,7 +206,7 @@
 
 		_renderRemoteShareInfoPart: function() {
 			var remoteShareInfo = '';
-			if(this.configModel.isRemoteShareAllowed()) {
+			if(this.configModel.get('isRemoteShareAllowed')) {
 				var infoTemplate = this._getRemoteShareInfoTemplate();
 				remoteShareInfo = infoTemplate({
 					docLink: this.configModel.getFederatedShareDocLink(),
@@ -229,7 +219,7 @@
 
 		_renderSharePlaceholderPart: function () {
 			var sharePlaceholder = t('core', 'Share with users or groups …');
-			if (this.configModel.isRemoteShareAllowed()) {
+			if (this.configModel.get('isRemoteShareAllowed')) {
 				sharePlaceholder = t('core', 'Share with users, groups or remote users …');
 			}
 			return sharePlaceholder;

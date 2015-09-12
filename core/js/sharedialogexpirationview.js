@@ -24,7 +24,7 @@
 			'<label for="expirationCheckbox">{{setExpirationLabel}}</label>' +
 			'    {{#if isExpirationSet}}' +
 			'<label for="expirationDate" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
-			'<input id="expirationDate" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" />' +
+			'<input id="expirationDate" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{expirationValue}}" />' +
 			'    {{/if}}' +
 			'    {{#if isExpirationEnforced}}' +
 				// originally the expire message was shown when a default date was set, however it never had text
@@ -64,13 +64,28 @@
 			} else {
 				throw 'missing OC.Share.ShareConfigModel';
 			}
+
+			var view = this;
+			this.configModel.on('change:isDefaultExpireDateEnforced', function() {
+				view.render();
+			});
+
+			this.model.on('change:itemType', function() {
+				view.render();
+			});
+
+			this.model.on('change:linkShare', function() {
+				view.render();
+			});
 		},
 
 		render: function() {
 			var defaultExpireMessage = '';
 			var defaultExpireDays = this.configModel.get('defaultExpireDate');
+			var isExpirationEnforced = this.configModel.get('isDefaultExpireDateEnforced');
+
 			if(    (this.model.isFolder() || this.model.isFile())
-				&& this.configModel.get('isDefaultExpireDateEnforced')) {
+				&& isExpirationEnforced) {
 				defaultExpireMessage = t(
 					'core',
 					'The public link will expire no later than {days} days after it is created',
@@ -79,7 +94,6 @@
 			}
 
 			var isExpirationSet = !!this.model.get('linkShare').expiration;
-			var isExpirationEnforced = this.configModel.get('isDefaultExpireDateEnforced');
 
 			var expirationTemplate = this.template();
 			this.$el.html(expirationTemplate({
@@ -119,6 +133,8 @@
 					maxDate: maxDate
 				});
 			}
+
+			this.$el.find('.datepicker').datepicker({dateFormat : 'dd-mm-yy'});
 
 			return this;
 		},

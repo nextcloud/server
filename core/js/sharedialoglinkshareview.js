@@ -23,13 +23,11 @@
 			'   {{#if showPasswordCheckBox}}' +
 			'<input type="checkbox" name="showPassword" id="showPassword" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" /><label for="showPassword">{{enablePasswordLabel}}</label>' +
 			'   {{/if}}' +
-			'   {{#if isPasswordSet}}' +
-			'<div id="linkPass">' +
+			'<div id="linkPass" {{#unless isPasswordSet}}class="hidden"{{/unless}}>' +
 			'    <label for="linkPassText" class="hidden-visually">{{passwordLabel}}</label>' +
 			'    <input id="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
 			'    <span class="icon-loading-small hidden"></span>' +
 			'</div>' +
-			'   {{/if}}' +
 			'    {{#if publicUpload}}' +
 			'<div id="allowPublicUploadWrapper" class="hidden">' +
 			'    <span class="icon-loading-small hidden"></span>' +
@@ -86,10 +84,41 @@
 				view.render();
 			});
 
+			this.model.on('change:linkShare', function() {
+				view.render();
+			});
+
 			if(!_.isUndefined(options.configModel)) {
 				this.configModel = options.configModel;
 			} else {
 				throw 'missing OC.Share.ShareConfigModel';
+			}
+
+			_.bindAll(this, 'onLinkCheckBoxChange');
+		},
+
+		onLinkCheckBoxChange: function() {
+			var $checkBox = this.$el.find('#linkCheckbox');
+			var $loading = $checkBox.siblings('.icon-loading-small');
+			if(!$loading.hasClass('hidden')) {
+				return false;
+			}
+
+			if($checkBox.is(':checked')) {
+				if(this.configModel.get('enforcePasswordForPublicLink') === false) {
+					$loading.removeClass('hidden');
+					this.model.addLinkShare();
+				} else {
+					this.$el.find('#linkPass').slideToggle(OC.menuSpeed);
+					// TODO drop with IE8 drop
+					if($('html').hasClass('ie8')) {
+						this.$el.find('#linkPassText').attr('placeholder', null);
+						this.$el.find('#linkPassText').val('');
+					}
+					this.$el.find('#linkPassText').focus();
+				}
+			} else {
+				this.model.removeLinkShare();
 			}
 		},
 
@@ -141,6 +170,8 @@
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
 				mailButtonText: t('core', 'Send')
 			}));
+
+			this.$el.find('#linkCheckbox').change(this.onLinkCheckBoxChange);
 
 			return this;
 		},

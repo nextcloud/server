@@ -96,6 +96,13 @@
 				sharedByText: sharedByText
 			}));
 
+			if(this.configModel.areAvatarsEnabled()) {
+				this.$el.find('.avatar').each(function() {
+					var $this = $(this);
+					$this.avatar($this.data('username'), 32);
+				});
+			}
+
 			return this;
 		},
 
