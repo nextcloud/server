@@ -67,7 +67,7 @@ script('core', [
 		<?php if ($_['rememberLoginAllowed'] === true) : ?>
 		<div class="remember-login-container">
 			<input type="checkbox" name="remember_login" value="1" id="remember_login">
-			<label for="remember_login"><?php p($l->t('remember')); ?></label>
+			<label for="remember_login" class="white"><?php p($l->t('remember')); ?></label>
 		</div>
 		<?php endif; ?>
 		<input type="hidden" name="timezone-offset" id="timezone-offset"/>

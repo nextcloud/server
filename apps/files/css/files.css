@@ -446,6 +446,7 @@ table td.filename .uploadtext {
 /* Use label to have bigger clickable size for checkbox */
 #fileList tr td.filename>.selectCheckBox + label,
 .select-all + label {
+	background-position: 30px 30px;
 	height: 50px;
 	position: absolute;
 	width: 50px;
