@@ -175,8 +175,6 @@ OC.L10N.register(
     "More" : "Више",
     "Less" : "Мање",
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Фајл записника је већи од 100МБ. Преузимање може потрајати!",
-    "Transactional File Locking is enabled." : "Трансакционо закључавање фајла је укључено.",
-    "Transactional File Locking is disabled." : "Трансакционо закључавање фајла је искључено.",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite се користи као базе података. За веће инсталације препоручујемо да се пребаците на други модел базе података.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Нарочито ако се користи клијент програм у графичком окружењу, коришћење СКуЛајта није препоручљиво.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" href=\"%s\">documentation ↗</a>." : "За миграцију на другу базу користите командну линију: 'occ db:convert-type', или погледајте <a target=\"_blank\" href=\"%s\">документацију ↗</a>.",

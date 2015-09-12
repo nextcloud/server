@@ -41,7 +41,9 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s 님이 내게 %1$s을(를) 공유함",
     "You shared %1$s via link" : "내가 %1$s을(를) 링크로 공유함",
     "Shares" : "공유",
+    "You received %s as a remote share from %s" : "%1$s의 원격 공유로 %2$s을(를) 받았습니다",
     "Accept" : "수락",
+    "Decline" : "거절",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "내 #ownCloud 연합 클라우드 ID를 통해서 공유됨, 더 알아보기: %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "내 #ownCloud 연합 클라우드 ID를 통해서 공유됨",
     "This share is password-protected" : "이 공유는 암호로 보호되어 있습니다",
@@ -67,6 +69,7 @@ OC.L10N.register(
     "Federated Cloud" : "연합 클라우드",
     "Your Federated Cloud ID:" : "내 연합 클라우드 ID:",
     "Share it:" : "공유하기:",
+    "Add to your website" : "내 웹 사이트에 추가",
     "Share with me via ownCloud" : "ownCloud로 나와 공유하기",
     "HTML Code:" : "HTML 코드:"
 },

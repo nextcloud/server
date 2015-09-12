@@ -10,7 +10,6 @@ OC.L10N.register(
     "Cron" : "Cron",
     "Email server" : "E-kirjade server",
     "Log" : "Logi",
-    "Server status" : "Serveri olek",
     "Tips & tricks" : "Nõuanded ja trikid",
     "Updates" : "Uuendused",
     "Authentication error" : "Autentimise viga",

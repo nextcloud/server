@@ -175,8 +175,6 @@ OC.L10N.register(
     "More" : "Mehr",
     "Less" : "Weniger",
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Die Logdatei ist größer als 100 MB. Es kann etwas Zeit beanspruchen, sie herunterzuladen!",
-    "Transactional File Locking is enabled." : "Dateisperren bei Transaktionen sind aktiviert.",
-    "Transactional File Locking is disabled." : "Dateisperren bei Transaktionen sind deaktiviert.",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite wird als Datenbank verwendet. Bei größeren Installationen wird empfohlen, auf ein anderes Datenbank-Backend zu wechseln.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Insbesondere bei der Nutzung des Desktop Clients zur Dateisynchronisierung wird vom Einsatz von SQLite abgeraten.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" href=\"%s\">documentation ↗</a>." : "Um auf eine andere Datenbank zu migrieren, benutzen Sie bitte die Kommandozeile: „occ db:convert-type“ oder konsultieren Sie die <a target=\"_blank\" href=\"%s\">Dokumentation ↗</a>.",
