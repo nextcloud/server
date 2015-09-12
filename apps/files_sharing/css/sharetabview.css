@@ -69,3 +69,7 @@
 #shareWithList li label{
 	margin-right: 8px;
 }
+
+.shareTabView .icon-loading-small {
+	margin-left: -30px;
+}

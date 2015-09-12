@@ -94,7 +94,7 @@
 				throw 'missing OC.Share.ShareConfigModel';
 			}
 
-			_.bindAll(this, 'onLinkCheckBoxChange');
+			_.bindAll(this, 'onLinkCheckBoxChange', 'onPasswordEntered', 'onShowPasswordClick');
 		},
 
 		onLinkCheckBoxChange: function() {
@@ -125,6 +125,28 @@
 		onLinkTextClick: function() {
 			this.focus();
 			this.select();
+		},
+
+		onShowPasswordClick: function() {
+			this.$el.find('#linkPass').slideToggle(OC.menuSpeed);
+			if(!this.$el.find('#showPassword').is(':checked')) {
+				this.model.addLinkShare({password: ''});
+			} else {
+				this.$el.find('#linkPassText').focus();
+			}
+		},
+
+		onPasswordEntered: function() {
+			var password = this.$el.find('#linkPassText').val();
+			if(password === '') {
+				return;
+			}
+
+			this.$el.find('#linkPass .icon-loading-small')
+				.removeClass('hidden')
+				.addClass('inlineblock');
+
+			this.model.addLinkShare({password: password});
 		},
 
 		render: function() {
@@ -178,6 +200,14 @@
 
 			this.$el.find('#linkCheckbox').change(this.onLinkCheckBoxChange);
 			this.$el.find('#linkText').click(this.onLinkTextClick);
+			this.$el.find('#showPassword').click(this.onShowPasswordClick);
+			this.$el.find('#linkPassText').focusout(this.onPasswordEntered);
+			var view = this;
+			this.$el.find('#linkPassText').keyup(function(event) {
+				if(event.keyCode == 13) {
+					view.onPasswordEntered();
+				}
+			});
 
 			return this;
 		},

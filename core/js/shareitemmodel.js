@@ -20,6 +20,7 @@
 	 * @property {string} token
 	 * @property {string|null} password
 	 * @property {string} link
+	 * @property {number} permissions
 	 * @property {Date} expiration
 	 * @property {number} stime share time
 	 */
@@ -89,12 +90,30 @@
 			linkShare: {}
 		},
 
-		addLinkShare: function() {
+		addLinkShare: function(options) {
 			var model = this;
 			var expiration = this.configModel.getDefaultExpirationDateString();
 			var itemType = this.get('itemType');
 			var itemSource = this.get('itemSource');
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, this.fileInfoModel.get('name'), expiration, function(data) {
+
+			var options = options || {};
+			var requiredOptions = [
+				{ name: 'password',	   defaultValue: '' },
+				{ name: 'permissions', defaultValue: OC.PERMISSION_READ }
+			];
+			_.each(requiredOptions, function(option) {
+				// a provided options overrides a present value of the link
+				// share. If neither is given, the default value is used.
+				if(_.isUndefined(options[option.name])) {
+					options[option.name] = option.defaultValue;
+					var currentValue = model.get('linkShare')[option.name];
+					if(!_.isUndefined(currentValue)) {
+						options[option.name] = currentValue;
+					}
+				}
+			});
+
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, options.password, options.permissions, this.fileInfoModel.get('name'), expiration, function(data) {
 				model.fetch();
 				//FIXME: updateIcon belongs to view
 				OC.Share.updateIcon(itemType, itemSource);
@@ -512,6 +531,7 @@
 							token: share.token,
 							password: share.share_with,
 							link: link,
+							permissions: share.permissions,
 							// currently expiration is only effective for link shares.
 							expiration: share.expiration,
 							stime: share.stime

@@ -157,7 +157,7 @@
 			this.$el.html(baseTemplate({
 				shareLabel: t('core', 'Share'),
 				sharePlaceholder: this._renderSharePlaceholderPart(),
-				remoteShareInfo: this._renderRemoteShareInfoPart(),
+				remoteShareInfo: this._renderRemoteShareInfoPart()
 			}));
 
 			var view = this;
