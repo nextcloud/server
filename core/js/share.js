@@ -956,11 +956,6 @@ $(document).ready(function() {
 			permissions);
 	});
 
-	$(document).on('click', '#dropdown #linkText', function() {
-		$(this).focus();
-		$(this).select();
-	});
-
 	// Handle the Allow Public Upload Checkbox
 	$(document).on('click', '#sharingDialogAllowPublicUpload', function() {
 

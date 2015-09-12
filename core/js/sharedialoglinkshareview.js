@@ -122,6 +122,11 @@
 			}
 		},
 
+		onLinkTextClick: function() {
+			this.focus();
+			this.select();
+		},
+
 		render: function() {
 			var linkShareTemplate = this.template();
 
@@ -172,6 +177,7 @@
 			}));
 
 			this.$el.find('#linkCheckbox').change(this.onLinkCheckBoxChange);
+			this.$el.find('#linkText').click(this.onLinkTextClick);
 
 			return this;
 		},
