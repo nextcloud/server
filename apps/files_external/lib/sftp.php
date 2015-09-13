@@ -40,9 +40,10 @@ use phpseclib\Net\SFTP\Stream;
 class SFTP extends \OC\Files\Storage\Common {
 	private $host;
 	private $user;
-	private $password;
 	private $root;
 	private $port = 22;
+
+	private $auth;
 
 	/**
 	* @var SFTP
@@ -73,8 +74,15 @@ class SFTP extends \OC\Files\Storage\Common {
 		}
 
 		$this->user = $params['user'];
-		$this->password
-			= isset($params['password']) ? $params['password'] : '';
+
+		if (isset($params['public_key_auth'])) {
+			$this->auth = $params['public_key_auth'];
+		} elseif (isset($params['password'])) {
+			$this->auth = $params['password'];
+		} else {
+			throw new \UnexpectedValueException('no authentication parameters specified');
+		}
+
 		$this->root
 			= isset($params['root']) ? $this->cleanPath($params['root']) : '/';
 
@@ -112,7 +120,7 @@ class SFTP extends \OC\Files\Storage\Common {
 			$this->writeHostKeys($hostKeys);
 		}
 
-		if (!$this->client->login($this->user, $this->password)) {
+		if (!$this->client->login($this->user, $this->auth)) {
 			throw new \Exception('Login failed');
 		}
 		return $this->client;
@@ -125,7 +133,6 @@ class SFTP extends \OC\Files\Storage\Common {
 		if (
 			!isset($this->host)
 			|| !isset($this->user)
-			|| !isset($this->password)
 		) {
 			return false;
 		}

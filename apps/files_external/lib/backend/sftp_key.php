@@ -26,22 +26,23 @@ use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Service\BackendService;
-use \OCA\Files_External\Lib\Auth\NullMechanism;
+use \OCA\Files_External\Lib\Auth\PublicKey\RSA;
 
-class Local extends Backend {
+class SFTP_Key extends Backend {
 
-	public function __construct(IL10N $l, NullMechanism $legacyAuth) {
+	public function __construct(IL10N $l, RSA $legacyAuth) {
 		$this
-			->setIdentifier('local')
-			->addIdentifierAlias('\OC\Files\Storage\Local') // legacy compat
-			->setStorageClass('\OC\Files\Storage\Local')
-			->setText($l->t('Local'))
+			->setIdentifier('\OC\Files\Storage\SFTP_Key')
+			->setStorageClass('\OC\Files\Storage\SFTP')
+			->setText($l->t('SFTP with secret key login [DEPRECATED]'))
 			->addParameters([
-				(new DefinitionParameter('datadir', $l->t('Location'))),
+				(new DefinitionParameter('host', $l->t('Host'))),
+				(new DefinitionParameter('root', $l->t('Remote subfolder')))
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
-			->setAllowedPermissions(BackendService::USER_PERSONAL, BackendService::PERMISSION_NONE)
-			->setPriority(BackendService::PRIORITY_DEFAULT + 50)
-			->addAuthScheme(AuthMechanism::SCHEME_NULL)
+			->removeAllowedPermission(BackendService::USER_PERSONAL, BackendService::PERMISSION_CREATE)
+			->removeAllowedPermission(BackendService::USER_ADMIN, BackendService::PERMISSION_CREATE)
+			->addAuthScheme(AuthMechanism::SCHEME_PUBLICKEY)
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}

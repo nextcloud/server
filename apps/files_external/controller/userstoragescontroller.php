@@ -62,38 +62,6 @@ class UserStoragesController extends StoragesController {
 	}
 
 	/**
-	 * Validate storage config
-	 *
-	 * @param StorageConfig $storage storage config
-	 *
-	 * @return DataResponse|null returns response in case of validation error
-	 */
-	protected function validate(StorageConfig $storage) {
-		$result = parent::validate($storage);
-
-		if ($result !== null) {
-			return $result;
-		}
-
-		// Verify that the mount point applies for the current user
-		// Prevent non-admin users from mounting local storage and other disabled backends
-		/** @var Backend */
-		$backend = $storage->getBackend();
-		if (!$backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) {
-			return new DataResponse(
-				array(
-					'message' => (string)$this->l10n->t('Admin-only storage backend "%s"', [
-						$storage->getBackend()->getIdentifier()
-					])
-				),
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
-		}
-
-		return null;
-	}
-
-	/**
 	 * Return storage
 	 *
 	 * @NoAdminRequired
@@ -135,7 +103,7 @@ class UserStoragesController extends StoragesController {
 			return $newStorage;
 		}
 
-		$response = $this->validate($newStorage);
+		$response = $this->validate($newStorage, BackendService::PERMISSION_CREATE);
 		if (!empty($response)) {
 			return $response;
 		}
@@ -183,7 +151,7 @@ class UserStoragesController extends StoragesController {
 		}
 		$storage->setId($id);
 
-		$response = $this->validate($storage);
+		$response = $this->validate($storage, BackendService::PERMISSION_MODIFY);
 		if (!empty($response)) {
 			return $response;
 		}
@@ -218,4 +186,14 @@ class UserStoragesController extends StoragesController {
 	public function destroy($id) {
 		return parent::destroy($id);
 	}
+
+	/**
+	 * Get the user type for this controller, used in validation
+	 *
+	 * @return string BackendService::USER_* constants
+	 */
+	protected function getUserType() {
+		return BackendService::USER_PERSONAL;
+	}
+
 }

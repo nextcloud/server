@@ -19,30 +19,27 @@
  *
  */
 
-namespace OCA\Files_External\Lib\Backend;
+namespace OCA\Files_External\Lib\Auth\OpenStack;
 
 use \OCP\IL10N;
-use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCA\Files_External\Service\BackendService;
-use \OCA\Files_External\Lib\Auth\NullMechanism;
 
-class Local extends Backend {
+/**
+ * Rackspace authentication
+ */
+class Rackspace extends AuthMechanism {
 
-	public function __construct(IL10N $l, NullMechanism $legacyAuth) {
+	public function __construct(IL10N $l) {
 		$this
-			->setIdentifier('local')
-			->addIdentifierAlias('\OC\Files\Storage\Local') // legacy compat
-			->setStorageClass('\OC\Files\Storage\Local')
-			->setText($l->t('Local'))
+			->setIdentifier('openstack::rackspace')
+			->setScheme(self::SCHEME_OPENSTACK)
+			->setText($l->t('Rackspace'))
 			->addParameters([
-				(new DefinitionParameter('datadir', $l->t('Location'))),
+				(new DefinitionParameter('user', $l->t('Username'))),
+				(new DefinitionParameter('key', $l->t('API key')))
+					->setType(DefinitionParameter::VALUE_PASSWORD),
 			])
-			->setAllowedPermissions(BackendService::USER_PERSONAL, BackendService::PERMISSION_NONE)
-			->setPriority(BackendService::PRIORITY_DEFAULT + 50)
-			->addAuthScheme(AuthMechanism::SCHEME_NULL)
-			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
 

@@ -41,8 +41,12 @@ OCP\Util::addStyle('files_external', 'settings');
 \OC_Util::addVendorScript('select2/select2');
 \OC_Util::addVendorStyle('select2/select2');
 
-$backends = $backendService->getBackendsVisibleFor(BackendService::VISIBILITY_ADMIN);
-$authMechanisms = $backendService->getAuthMechanismsVisibleFor(BackendService::VISIBILITY_ADMIN);
+$backends = array_filter($backendService->getAvailableBackends(), function($backend) {
+	return $backend->isPermitted(BackendService::USER_ADMIN, BackendService::PERMISSION_CREATE);
+});
+$authMechanisms = array_filter($backendService->getAuthMechanisms(), function($authMechanism) {
+	return $authMechanism->isPermitted(BackendService::USER_ADMIN, BackendService::PERMISSION_CREATE);
+});
 foreach ($backends as $backend) {
 	if ($backend->getCustomJs()) {
 		\OCP\Util::addScript('files_external', $backend->getCustomJs());
@@ -54,13 +58,19 @@ foreach ($authMechanisms as $authMechanism) {
 	}
 }
 
+$userBackends = array_filter($backendService->getAvailableBackends(), function($backend) {
+	return $backend->isAllowedPermitted(
+		BackendService::USER_PERSONAL, BackendService::PERMISSION_MOUNT
+	);
+});
+
 $tmpl = new OCP\Template('files_external', 'settings');
 $tmpl->assign('encryptionEnabled', \OC::$server->getEncryptionManager()->isEnabled());
 $tmpl->assign('isAdminPage', true);
 $tmpl->assign('storages', $globalStoragesService->getAllStorages());
 $tmpl->assign('backends', $backends);
 $tmpl->assign('authMechanisms', $authMechanisms);
-$tmpl->assign('userBackends', $backendService->getBackendsAllowedVisibleFor(BackendService::VISIBILITY_PERSONAL));
+$tmpl->assign('userBackends', $userBackends);
 $tmpl->assign('dependencies', OC_Mount_Config::dependencyMessage($backendService->getBackends()));
 $tmpl->assign('allowUserMounting', $backendService->isUserMountingAllowed());
 return $tmpl->fetchPage();
