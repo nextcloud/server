@@ -54,7 +54,7 @@
 				}));
 
 				var attributes = {
-					itemType: 'file',
+					itemType: this.model.isDirectory() ? 'folder' : 'file',
 				   	itemSource: this.model.get('id'),
 					possiblePermissions: this.model.get('sharePermissions')
 				};

@@ -37,7 +37,7 @@
 		 */
 		isPublicUploadEnabled: function() {
 			var publicUploadEnabled = $('#filestable').data('allow-public-upload');
-			return !_.isUndefined(publicUploadEnabled);
+			return publicUploadEnabled === 'yes';
 		},
 
 		/**

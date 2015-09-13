@@ -29,7 +29,7 @@
 			'    <span class="icon-loading-small hidden"></span>' +
 			'</div>' +
 			'    {{#if publicUpload}}' +
-			'<div id="allowPublicUploadWrapper" class="hidden">' +
+			'<div id="allowPublicUploadWrapper">' +
 			'    <span class="icon-loading-small hidden"></span>' +
 			'    <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload" {{{publicUploadChecked}}} />' +
 			'    <label for="sharingDialogAllowPublicUpload">{{publicUploadLabel}}</label>' +
