@@ -28,8 +28,11 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Auth\OpenStack\OpenStack;
 use \OCA\Files_External\Lib\Auth\OpenStack\Rackspace;
+use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 
 class Swift extends Backend {
+
+	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, OpenStack $openstackAuth, Rackspace $rackspaceAuth) {
 		$this
@@ -46,7 +49,6 @@ class Swift extends Backend {
 				(new DefinitionParameter('timeout', $l->t('Request timeout (seconds)')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
-			->setDependencyCheck('\OC\Files\Storage\Swift::checkDependencies')
 			->addAuthScheme(AuthMechanism::SCHEME_OPENSTACK)
 			->setLegacyAuthMechanismCallback(function(array $params) use ($openstackAuth, $rackspaceAuth) {
 				if (isset($params['options']['key']) && $params['options']['key']) {

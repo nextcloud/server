@@ -28,11 +28,14 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Auth\Password\SessionCredentials;
 use \OCA\Files_External\Lib\StorageConfig;
+use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 
 /**
  * Deprecated SMB_OC class - use SMB with the password::sessioncredentials auth mechanism
  */
 class SMB_OC extends Backend {
+
+	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, SessionCredentials $legacyAuth) {
 		$this
@@ -48,7 +51,6 @@ class SMB_OC extends Backend {
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
-			->setDependencyCheck('\OC\Files\Storage\SMB::checkDependencies')
 			->removeAllowedPermission(BackendService::USER_PERSONAL, BackendService::PERMISSION_CREATE)
 			->removeAllowedPermission(BackendService::USER_ADMIN, BackendService::PERMISSION_CREATE)
 			->setPriority(BackendService::PRIORITY_DEFAULT - 10)
