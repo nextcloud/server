@@ -846,30 +846,6 @@ $(document).ready(function() {
 			minDate : minDate
 		});
 	}
-	$(document).on('click', 'a.share', function(event) {
-		event.stopPropagation();
-		if ($(this).data('item-type') !== undefined && $(this).data('item') !== undefined) {
-			var itemType = $(this).data('item-type');
-			var itemSource = $(this).data('item');
-			var appendTo = $(this).parent().parent();
-			var link = false;
-			var possiblePermissions = $(this).data('possible-permissions');
-			if ($(this).data('link') !== undefined && $(this).data('link') == true) {
-				link = true;
-			}
-			if (OC.Share.droppedDown) {
-				if (itemSource != $('#dropdown').data('item')) {
-					OC.Share.hideDropDown(function () {
-						OC.Share.showDropDown(itemType, itemSource, appendTo, link, possiblePermissions);
-					});
-				} else {
-					OC.Share.hideDropDown();
-				}
-			} else {
-				OC.Share.showDropDown(itemType, itemSource, appendTo, link, possiblePermissions);
-			}
-		}
-	});
 
 	$(this).click(function(event) {
 		var target = $(event.target);
