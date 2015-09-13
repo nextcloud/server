@@ -94,7 +94,8 @@
 				throw 'missing OC.Share.ShareConfigModel';
 			}
 
-			_.bindAll(this, 'onLinkCheckBoxChange', 'onPasswordEntered', 'onShowPasswordClick');
+			_.bindAll(this, 'onLinkCheckBoxChange', 'onPasswordEntered',
+				'onShowPasswordClick', 'onAllowPublicUploadChange');
 		},
 
 		onLinkCheckBoxChange: function() {
@@ -149,6 +150,12 @@
 			this.model.addLinkShare({password: password});
 		},
 
+		onAllowPublicUploadChange: function() {
+			this.$el.find('#sharingDialogAllowPublicUpload')
+					.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
+			this.model.setPublicUpload(this.$el.find('#sharingDialogAllowPublicUpload').is(':checked'));
+		},
+
 		render: function() {
 			var linkShareTemplate = this.template();
 
@@ -199,6 +206,7 @@
 			}));
 
 			this.$el.find('#linkCheckbox').change(this.onLinkCheckBoxChange);
+			this.$el.find('#sharingDialogAllowPublicUpload').change(this.onAllowPublicUploadChange);
 			this.$el.find('#linkText').click(this.onLinkTextClick);
 			this.$el.find('#showPassword').click(this.onShowPasswordClick);
 			this.$el.find('#linkPassText').focusout(this.onPasswordEntered);

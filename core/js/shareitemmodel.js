@@ -132,6 +132,15 @@
 			});
 		},
 
+		setPublicUpload: function(allow) {
+			var permissions = OC.PERMISSION_READ;
+			if(allow) {
+				permissions = OC.PERMISSION_UPDATE + OC.PERMISSION_CREATE + OC.PERMISSION_READ;
+			}
+
+			this.addLinkShare({permissions: permissions});
+		},
+
 		addShare: function(event, selected, options) {
 			event.preventDefault();
 
