@@ -37,7 +37,7 @@
 			'        {{/if}}' +
 			'        {{#unless isRemoteShare}}' +
 			'        <a href="#" class="showCruds"><img class="svg" alt="{{crudsLabel}}" src="{{triangleSImage}}"/></a>' +
-			'        <div class="cruds" class="hidden">' +
+			'        <div class="cruds hidden">' +
 			'            {{#if createPermissionPossible}}' +
 			'            <label><input id="canCreate-{{shareWith}}" type="checkbox" name="create" class="permissions" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>{{createPermissionLabel}}</label>' +
 			'            {{/if}}' +
@@ -214,6 +214,7 @@
 
 			var view = this;
 			this.$el.find('.unshare').click(function() { view.onUnshare(this, view); });
+			this.$el.find('.showCruds').click(this.onCrudsToggle);
 
 			return this;
 		},
@@ -244,6 +245,11 @@
 
 			view.model.removeShare(shareType, shareWith);
 
+			return false;
+		},
+
+		onCrudsToggle: function() {
+			$(this).siblings('.cruds').toggleClass('hidden');
 			return false;
 		}
 

@@ -856,11 +856,6 @@ $(document).ready(function() {
 		}
 	});
 
-	$(document).on('click', '#dropdown .showCruds', function() {
-		$(this).closest('li').find('.cruds').toggle();
-		return false;
-	});
-
 	$(document).on('change', '#dropdown .permissions', function() {
 		var li = $(this).closest('li');
 		if ($(this).attr('name') == 'edit') {
