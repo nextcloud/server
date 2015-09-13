@@ -256,6 +256,20 @@ abstract class StoragesController extends Controller {
 	}
 
 	/**
+	 * Get all storage entries
+	 *
+	 * @return DataResponse
+	 */
+	public function index() {
+		$storages = $this->service->getAllStorages();
+
+		return new DataResponse(
+			$storages,
+			Http::STATUS_OK
+		);
+	}
+
+	/**
 	 * Get an external storage entry.
 	 *
 	 * @param int $id storage id

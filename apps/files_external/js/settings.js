@@ -623,36 +623,9 @@ MountConfigListView.prototype = _.extend({
 		this._allBackends = this.$el.find('.selectBackend').data('configurations');
 		this._allAuthMechanisms = this.$el.find('#addMountPoint .authentication').data('mechanisms');
 
-		//initialize hidden input field with list of users and groups
-		this.$el.find('tr:not(#addMountPoint)').each(function(i,tr) {
-			var $tr = $(tr);
-			var $applicable = $tr.find('.applicable');
-			if ($applicable.length > 0) {
-				var groups = $applicable.data('applicable-groups');
-				var groupsId = [];
-				$.each(groups, function () {
-					groupsId.push(this + '(group)');
-				});
-				var users = $applicable.data('applicable-users');
-				if (users.indexOf('all') > -1 || users === '') {
-					$tr.find('.applicableUsers').val('');
-				} else {
-					$tr.find('.applicableUsers').val(groupsId.concat(users).join(','));
-				}
-			}
-		});
-
-		addSelect2(this.$el.find('tr:not(#addMountPoint) .applicableUsers'), this._userListLimit);
-		this.$el.tooltip({
-			selector: '.status span',
-			container: 'body'
-		});
-
 		this._initEvents();
 
-		this.$el.find('tbody tr:not(#addMountPoint)').each(function(i, tr) {
-			self.recheckStorageConfig($(tr));
-		});
+		this.loadStorages();
 	},
 
 	/**
@@ -661,7 +634,7 @@ MountConfigListView.prototype = _.extend({
 	 */
 	whenSelectBackend: function(callback) {
 		this.$el.find('tbody tr:not(#addMountPoint)').each(function(i, tr) {
-			var backend = $(tr).find('.backend').data('class');
+			var backend = $(tr).find('.backend').data('identifier');
 			callback($(tr), backend);
 		});
 		this.on('selectBackend', callback);
@@ -725,57 +698,15 @@ MountConfigListView.prototype = _.extend({
 
 	_onSelectBackend: function(event) {
 		var $target = $(event.target);
-		var $el = this.$el;
 		var $tr = $target.closest('tr');
-		$el.find('tbody').append($tr.clone());
-		$el.find('tbody tr').last().find('.mountPoint input').val('');
-		$tr.data('constructing', true);
-		var selected = $target.find('option:selected').text();
-		var backend = $target.val();
-		$tr.find('.backend').text(selected);
-		if ($tr.find('.mountPoint input').val() === '') {
-			$tr.find('.mountPoint input').val(this._suggestMountPoint(selected));
-		}
-		$tr.addClass(backend);
-		$tr.find('.backend').data('class', backend);
-		var backendConfiguration = this._allBackends[backend];
 
-		var selectAuthMechanism = $('<select class="selectAuthMechanism"></select>');
-		$.each(this._allAuthMechanisms, function(authClass, authMechanism) {
-			if (backendConfiguration['authSchemes'][authMechanism['scheme']]) {
-				selectAuthMechanism.append(
-					$('<option value="'+authClass+'" data-scheme="'+authMechanism['scheme']+'">'+authMechanism['name']+'</option>')
-				);
-			}
-		});
-		$tr.find('td.authentication').append(selectAuthMechanism);
+		var storageConfig = new this._storageConfigClass();
+		storageConfig.mountPoint = $tr.find('.mountPoint input').val();
+		storageConfig.backend = $target.val();
 
-		var $td = $tr.find('td.configuration');
-		$.each(backendConfiguration['configuration'], _.partial(this.writeParameterInput, $td));
+		$tr = this.newStorage(storageConfig);
 
-		this.trigger('selectBackend', $tr, backend);
-
-		selectAuthMechanism.trigger('change'); // generate configuration parameters for auth mechanism
-
-		var priorityEl = $('<input type="hidden" class="priority" value="' + backendConfiguration['priority'] + '" />');
-		$tr.append(priorityEl);
-		$td.children().not('[type=hidden]').first().focus();
-
-		// FIXME default backend mount options
-		$tr.find('input.mountOptions').val(JSON.stringify({
-			'encrypt': true,
-			'previews': true,
-			'filesystem_check_changes': 1
-		}));
-
-		$tr.find('td').last().attr('class', 'remove');
-		$tr.find('td.mountOptionsToggle').removeClass('hidden');
-		$tr.find('td').last().removeAttr('style');
-		$tr.removeAttr('id');
-		$target.remove();
-		addSelect2($tr.find('.applicableUsers'), this._userListLimit);
-
-		$tr.removeData('constructing');
+		$tr.find('td.configuration').children().not('[type=hidden]').first().focus();
 		this.saveStorageConfig($tr);
 	},
 
@@ -802,6 +733,118 @@ MountConfigListView.prototype = _.extend({
 		}
 	},
 
+	/**
+	 * Create a config row for a new storage
+	 *
+	 * @param {StorageConfig} storageConfig storage config to pull values from
+	 * @return {jQuery} created row
+	 */
+	newStorage: function(storageConfig) {
+		var mountPoint = storageConfig.mountPoint;
+		var backend = this._allBackends[storageConfig.backend];
+
+		// FIXME: Replace with a proper Handlebar template
+		var $tr = this.$el.find('tr#addMountPoint');
+		this.$el.find('tbody').append($tr.clone());
+
+		$tr.find('td').last().attr('class', 'remove');
+		$tr.find('td.mountOptionsToggle').removeClass('hidden');
+		$tr.find('td').last().removeAttr('style');
+		$tr.removeAttr('id');
+		$tr.find('select#selectBackend');
+		addSelect2($tr.find('.applicableUsers'), this._userListLimit);
+
+		$tr.data('constructing', true);
+
+		if (storageConfig.id) {
+			$tr.data('id', storageConfig.id);
+		}
+
+		$tr.find('.backend').text(backend.name);
+		if (mountPoint === '') {
+			mountPoint = this._suggestMountPoint(backend.name);
+		}
+		$tr.find('.mountPoint input').val(mountPoint);
+		$tr.addClass(backend.identifier);
+		$tr.find('.backend').data('identifier', backend.identifier);
+
+		var selectAuthMechanism = $('<select class="selectAuthMechanism"></select>');
+		$.each(this._allAuthMechanisms, function(authIdentifier, authMechanism) {
+			if (backend.authSchemes[authMechanism.scheme]) {
+				selectAuthMechanism.append(
+					$('<option value="'+authMechanism.identifier+'" data-scheme="'+authMechanism.scheme+'">'+authMechanism.name+'</option>')
+				);
+			}
+		});
+		if (storageConfig.authMechanism) {
+			selectAuthMechanism.val(storageConfig.authMechanism);
+		}
+		$tr.find('td.authentication').append(selectAuthMechanism);
+
+		var $td = $tr.find('td.configuration');
+		$.each(backend.configuration, _.partial(this.writeParameterInput, $td));
+
+		this.trigger('selectBackend', $tr, backend.identifier);
+
+		selectAuthMechanism.trigger('change'); // generate configuration parameters for auth mechanism
+
+		if (storageConfig.backendOptions) {
+			$td.children().each(function() {
+				var input = $(this);
+				input.val(storageConfig.backendOptions[input.data('parameter')]);
+				highlightInput(input);
+			});
+		}
+
+		var priorityEl = $('<input type="hidden" class="priority" value="' + backend.priority + '" />');
+		$tr.append(priorityEl);
+
+		if (storageConfig.mountOptions) {
+			$tr.find('input.mountOptions').val(JSON.stringify(storageConfig.mountOptions));
+		} else {
+			// FIXME default backend mount options
+			$tr.find('input.mountOptions').val(JSON.stringify({
+				'encrypt': true,
+				'previews': true,
+				'filesystem_check_changes': 1
+			}));
+		}
+
+		$tr.removeData('constructing');
+		return $tr;
+	},
+
+	/**
+	 * Load storages into config rows
+	 */
+	loadStorages: function() {
+		var self = this;
+
+		var url = this._storageConfigClass.prototype._url;
+
+		$.ajax({
+			type: 'GET',
+			url: OC.generateUrl(url),
+			contentType: 'application/json',
+			success: function(result) {
+				$.each(result, function(i, storageParams) {
+					storageParams.mountPoint = storageParams.mountPoint.substr(1); // trim leading slash
+					var storageConfig = new self._storageConfigClass();
+					_.extend(storageConfig, storageParams);
+					var $tr = self.newStorage(storageConfig);
+					self.recheckStorageConfig($tr);
+				});
+			}
+		});
+	},
+
+	/**
+	 * @param {jQuery} $td
+	 * @param {string} parameter
+	 * @param {string} placeholder
+	 * @param {Array} classes
+	 * @return {jQuery} newly created input
+	 */
 	writeParameterInput: function($td, parameter, placeholder, classes) {
 		classes = $.isArray(classes) ? classes : [];
 		classes.push('added');
@@ -822,6 +865,7 @@ MountConfigListView.prototype = _.extend({
 		}
 		highlightInput(newElement);
 		$td.append(newElement);
+		return newElement;
 	},
 
 	/**
@@ -831,14 +875,14 @@ MountConfigListView.prototype = _.extend({
 	 * @return {OCA.External.StorageConfig} storage model instance
 	 */
 	getStorageConfig: function($tr) {
-		var storageId = parseInt($tr.attr('data-id'), 10);
+		var storageId = $tr.data('id');
 		if (!storageId) {
 			// new entry
 			storageId = null;
 		}
 		var storage = new this._storageConfigClass(storageId);
 		storage.mountPoint = $tr.find('.mountPoint input').val();
-		storage.backend = $tr.find('.backend').data('class');
+		storage.backend = $tr.find('.backend').data('identifier');
 		storage.authMechanism = $tr.find('.selectAuthMechanism').val();
 
 		var classOptions = {};
@@ -951,8 +995,8 @@ MountConfigListView.prototype = _.extend({
 				if (concurrentTimer === undefined
 					|| $tr.data('save-timer') === concurrentTimer
 				) {
-					self.updateStatus($tr, result.status, result.statusMessage);
-					$tr.attr('data-id', result.id);
+					self.updateStatus($tr, result.status);
+					$tr.data('id', result.id);
 
 					if (_.isFunction(callback)) {
 						callback(storage);
@@ -1054,12 +1098,12 @@ MountConfigListView.prototype = _.extend({
 		}
 		return defaultMountPoint + append;
 	},
-	
+
 	/**
 	 * Toggles the mount options dropdown
 	 *
 	 * @param {Object} $tr configuration row
-	 */	
+	 */
 	_showMountOptionsDropdown: function($tr) {
 		if (this._preventNextDropdown) {
 			// prevented because the click was on the toggle
