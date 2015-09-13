@@ -212,6 +212,9 @@
 				});
 			}
 
+			var view = this;
+			this.$el.find('.unshare').click(function() { view.onUnshare(this, view); });
+
 			return this;
 		},
 
@@ -224,6 +227,24 @@
 				this._template = Handlebars.compile(TEMPLATE);
 			}
 			return this._template;
+		},
+
+		onUnshare: function(element, view) {
+			var $element = $(element);
+
+			if($element.hasClass('icon-loading-small')) {
+				// in process
+				return;
+			}
+			$element.empty().addClass('icon-loading-small');
+
+			var $li = $element.closest('li');
+			var shareType = $li.data('share-type');
+			var shareWith = $li.attr('data-share-with');
+
+			view.model.removeShare(shareType, shareWith);
+
+			return false;
 		}
 
 	});

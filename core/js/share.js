@@ -885,40 +885,6 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$(document).on('click', '#dropdown .unshare', function() {
-		var $li = $(this).closest('li');
-		var itemType = $('#dropdown').data('item-type');
-		var itemSource = $('#dropdown').data('item-source');
-		var shareType = $li.data('share-type');
-		var shareWith = $li.attr('data-share-with');
-		var $button = $(this);
-
-		if (!$button.is('a')) {
-			$button = $button.closest('a');
-		}
-
-		if ($button.hasClass('icon-loading-small')) {
-			// deletion in progress
-			return false;
-		}
-		$button.empty().addClass('icon-loading-small');
-
-		OC.Share.unshare(itemType, itemSource, shareType, shareWith, function() {
-			$li.remove();
-			var index = OC.Share.itemShares[shareType].indexOf(shareWith);
-			OC.Share.itemShares[shareType].splice(index, 1);
-			// updated list of shares
-			OC.Share.currentShares[shareType].splice(index, 1);
-			$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
-			OC.Share.updateIcon(itemType, itemSource);
-			if (typeof OC.Share.statuses[itemSource] === 'undefined') {
-				$('#expiration').slideUp(OC.menuSpeed);
-			}
-		});
-
-		return false;
-	});
-
 	$(document).on('change', '#dropdown .permissions', function() {
 		var li = $(this).closest('li');
 		if ($(this).attr('name') == 'edit') {

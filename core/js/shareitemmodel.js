@@ -121,15 +121,7 @@
 		},
 
 		removeLinkShare: function() {
-			var model = this;
-			var itemType = this.get('itemType');
-			var itemSource = this.get('itemSource');
-
-			OC.Share.unshare(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', function() {
-				model.fetch();
-				//FIXME: updateIcon belongs to view
-				OC.Share.updateIcon(itemType, itemSource);
-			});
+			this.removeShare(OC.Share.SHARE_TYPE_LINK, '');
 		},
 
 		setPublicUpload: function(allow) {
@@ -173,6 +165,18 @@
 			var itemType = this.get('itemType');
 			var itemSource = this.get('itemSource');
 			OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, fileName, options.expiration, function() {
+				model.fetch();
+				//FIXME: updateIcon belongs to view
+				OC.Share.updateIcon(itemType, itemSource);
+			});
+		},
+
+		removeShare: function(shareType, shareWith) {
+			var model = this;
+			var itemType = this.get('itemType');
+			var itemSource = this.get('itemSource');
+
+			OC.Share.unshare(itemType, itemSource, shareType, shareWith, function() {
 				model.fetch();
 				//FIXME: updateIcon belongs to view
 				OC.Share.updateIcon(itemType, itemSource);
