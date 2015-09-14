@@ -26,6 +26,7 @@ use \OCA\Files_External\Service\BackendService;
 use \OCP\IUserSession;
 use \OCP\IGroupManager;
 use \OCA\Files_External\Service\UserTrait;
+use \OCA\Files_External\Lib\StorageConfig;
 
 /**
  * Service class to read global storages applicable to the user
@@ -107,6 +108,62 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 	 */
 	protected function writeLegacyConfig(array $mountPoints) {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
+	}
+
+	/**
+	 * Get unique storages, in case two are defined with the same mountpoint
+	 * Higher priority storages take precedence
+	 *
+	 * @return StorageConfig[]
+	 */
+	public function getUniqueStorages() {
+		$storages = $this->getAllStorages();
+
+		$storagesByMountpoint = [];
+		foreach ($storages as $storage) {
+			$storagesByMountpoint[$storage->getMountPoint()][] = $storage;
+		}
+
+		$result = [];
+		foreach ($storagesByMountpoint as $storageList) {
+			$storage = array_reduce($storageList, function($carry, $item) {
+				if (isset($carry)) {
+					$carryPriorityType = $this->getPriorityType($carry);
+					$itemPriorityType = $this->getPriorityType($item);
+					if ($carryPriorityType > $itemPriorityType) {
+						return $carry;
+					} elseif ($carryPriorityType === $itemPriorityType) {
+						if ($carry->getPriority() > $item->getPriority()) {
+							return $carry;
+						}
+					}
+				}
+				return $item;
+			});
+			$result[$storage->getID()] = $storage;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Get a priority 'type', where a bigger number means higher priority
+	 * user applicable > group applicable > 'all'
+	 *
+	 * @param StorageConfig $storage
+	 * @return int
+	 */
+	protected function getPriorityType(StorageConfig $storage) {
+		$applicableUsers = $storage->getApplicableUsers();
+		$applicableGroups = $storage->getApplicableGroups();
+
+		if ($applicableUsers && $applicableUsers[0] !== 'all') {
+			return 2;
+		}
+		if ($applicableGroups) {
+			return 1;
+		}
+		return 0;
 	}
 
 }
