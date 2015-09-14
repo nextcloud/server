@@ -214,6 +214,7 @@
 
 			var view = this;
 			this.$el.find('.unshare').click(function() { view.onUnshare(this, view); });
+			this.$el.find('.permissions').click(function() { view.onPermissionChange(this, view); });
 			this.$el.find('.showCruds').click(this.onCrudsToggle);
 
 			return this;
@@ -244,6 +245,34 @@
 			var shareWith = $li.attr('data-share-with');
 
 			view.model.removeShare(shareType, shareWith);
+
+			return false;
+		},
+
+		onPermissionChange: function(element, view) {
+			var $element = $(element);
+			var $li = $element.closest('li');
+			var shareType = $li.data('share-type');
+			var shareWith = $li.attr('data-share-with');
+
+			// adjust checkbox states
+			var $checkboxes = $('.permissions', $li).not('input[name="edit"]').not('input[name="share"]');
+			if ($element.attr('name') === 'edit') {
+				var checked = $element.is(':checked');
+				// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck
+				$($checkboxes).attr('checked', checked);
+			} else {
+				var numberChecked = $checkboxes.filter(':checked').length;
+				var checked = numberChecked > 0;
+				$('input[name="edit"]', $li).attr('checked', checked);
+			}
+
+			var permissions = OC.PERMISSION_READ;
+			$('.permissions', $li).not('input[name="edit"]').filter(':checked').each(function(index, checkbox) {
+				permissions |= $(checkbox).data('permissions');
+			});
+
+			view.model.setPermissions(shareType, shareWith, permissions);
 
 			return false;
 		},

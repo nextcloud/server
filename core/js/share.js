@@ -856,43 +856,6 @@ $(document).ready(function() {
 		}
 	});
 
-	$(document).on('change', '#dropdown .permissions', function() {
-		var li = $(this).closest('li');
-		if ($(this).attr('name') == 'edit') {
-			var checkboxes = $('.permissions', li);
-			var checked = $(this).is(':checked');
-			// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck
-			$(checkboxes).filter('input[name="create"]').attr('checked', checked);
-			$(checkboxes).filter('input[name="update"]').attr('checked', checked);
-			$(checkboxes).filter('input[name="delete"]').attr('checked', checked);
-		} else {
-			var checkboxes = $('.permissions', li);
-			// Uncheck Edit if Create, Update, and Delete are not checked
-			if (!$(this).is(':checked')
-				&& !$(checkboxes).filter('input[name="create"]').is(':checked')
-				&& !$(checkboxes).filter('input[name="update"]').is(':checked')
-				&& !$(checkboxes).filter('input[name="delete"]').is(':checked'))
-			{
-				$(checkboxes).filter('input[name="edit"]').attr('checked', false);
-			// Check Edit if Create, Update, or Delete is checked
-			} else if (($(this).attr('name') == 'create'
-				|| $(this).attr('name') == 'update'
-				|| $(this).attr('name') == 'delete'))
-			{
-				$(checkboxes).filter('input[name="edit"]').attr('checked', true);
-			}
-		}
-		var permissions = OC.PERMISSION_READ;
-		$(checkboxes).filter(':not(input[name="edit"])').filter(':checked').each(function(index, checkbox) {
-			permissions |= $(checkbox).data('permissions');
-		});
-		OC.Share.setPermissions($('#dropdown').data('item-type'),
-			$('#dropdown').data('item-source'),
-			li.data('share-type'),
-			li.attr('data-share-with'),
-			permissions);
-	});
-
 	$(document).on('click', '#dropdown #expirationCheckbox', function() {
 		if (this.checked) {
 			OC.Share.showExpirationDate('');

@@ -171,6 +171,13 @@
 			});
 		},
 
+		setPermissions: function(shareType, shareWith, permissions) {
+			var itemType = this.get('itemType');
+			var itemSource = this.get('itemSource');
+
+			OC.Share.setPermissions(itemType, itemSource, shareType, shareWith, permissions);
+		},
+
 		removeShare: function(shareType, shareWith) {
 			var model = this;
 			var itemType = this.get('itemType');
