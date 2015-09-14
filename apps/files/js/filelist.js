@@ -368,6 +368,20 @@
 		},
 
 		/**
+		 * Displays the details view for the given file and
+		 * selects the given tab
+		 *
+		 * @param {string} fileName file name for which to show details
+		 * @param {string} [tabId] optional tab id to select
+		 */
+		showDetailsView: function(fileName, tabId) {
+			this._updateDetailsView(fileName);
+			if (tabId) {
+				this._detailsView.selectTab(tabId);
+			}
+		},
+
+		/**
 		 * Update the details view to display the given file
 		 *
 		 * @param {string} fileName file name from the current list

@@ -38,8 +38,10 @@
 		 * Renders this details view
 		 */
 		render: function() {
+			var self = this;
 			if (this._dialog) {
 				// remove/destroy older instance
+				this._dialog.model.off();
 				this._dialog.remove();
 				this._dialog = null;
 			}
@@ -69,7 +71,10 @@
 				});
 				this.$el.find('.dialogContainer').append(this._dialog.$el);
 				this._dialog.render();
-				shareModel.fetch();
+				this._dialog.model.fetch();
+				this._dialog.model.on('change', function() {
+					self.trigger('sharesChanged', shareModel);
+				});
 			} else {
 				this.$el.empty();
 				// TODO: render placeholder text?

@@ -175,7 +175,7 @@
 
 			this._collections = {};
 
-			if(!this.model.hasShares()) {
+			if(!this.model.hasUserShares()) {
 				return [];
 			}
 

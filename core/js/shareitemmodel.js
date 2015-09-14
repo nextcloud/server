@@ -149,8 +149,6 @@
 							options.error(model);
 						}
 					}
-					//FIXME: updateIcon belongs to view
-					OC.Share.updateIcon(itemType, itemSource);
 				},
 				function(result) {
 					var msg = t('core', 'Error');
@@ -236,8 +234,6 @@
 			var itemSource = this.get('itemSource');
 			OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, fileName, options.expiration, function() {
 				model.fetch();
-				//FIXME: updateIcon belongs to view
-				OC.Share.updateIcon(itemType, itemSource);
 			});
 		},
 
@@ -255,8 +251,6 @@
 
 			OC.Share.unshare(itemType, itemSource, shareType, shareWith, function() {
 				model.fetch();
-				//FIXME: updateIcon belongs to view
-				OC.Share.updateIcon(itemType, itemSource);
 			});
 		},
 
@@ -291,12 +285,25 @@
 		},
 
 		/**
-		 * whether this item has share information
+		 * whether this item has user share information
 		 * @returns {boolean}
 		 */
-		hasShares: function() {
+		hasUserShares: function() {
 			var shares = this.get('shares');
-			return _.isArray(this.get('shares'));
+			return _.isArray(shares) && shares.length > 0;
+		},
+
+		/**
+		 * Returns whether this item has a link share
+		 *
+		 * @return {bool} true if a link share exists, false otherwise
+		 */
+		hasLinkShare: function() {
+			var linkShare = this.get('linkShare');
+			if (linkShare && linkShare.isLinkShare) {
+				return true;
+			}
+			return false;
 		},
 
 		/**
@@ -544,7 +551,27 @@
 			});
 		},
 
-		legacyFillCurrentShares: function(shares) {
+		/**
+		 * Updates OC.Share.itemShares and OC.Share.statuses.
+		 *
+		 * This is required in case the user navigates away and comes back,
+		 * the share statuses from the old arrays are still used to fill in the icons
+		 * in the file list.
+		 */
+		_legacyFillCurrentShares: function(shares) {
+			var fileId = this.fileInfoModel.get('id');
+			if (!shares || !shares.length) {
+				delete OC.Share.statuses[fileId];
+				return;
+			}
+
+			var currentShareStatus = OC.Share.statuses[fileId];
+			if (!currentShareStatus) {
+				currentShareStatus = {link: false};
+				OC.Share.statuses[fileId] = currentShareStatus;
+			}
+			currentShareStatus.link = false;
+
 			OC.Share.currentShares = {};
 			OC.Share.itemShares = [];
 			_.each(shares,
@@ -552,15 +579,15 @@
 				 * @param {OC.Share.Types.ShareInfo} share
 				 */
 				function(share) {
-					if (!OC.Share.currentShares[share.share_type]) {
-						OC.Share.currentShares[share.share_type] = [];
+					if (share.share_type === OC.Share.SHARE_TYPE_LINK) {
+						OC.Share.itemShares[share.share_type] = true;
+						currentShareStatus.link = true;
+					} else {
+						if (!OC.Share.itemShares[share.share_type]) {
+							OC.Share.itemShares[share.share_type] = [];
+						}
+						OC.Share.itemShares[share.share_type].push(share.share_with);
 					}
-					OC.Share.currentShares[share.share_type].push(share);
-
-					if (!OC.Share.itemShares[share.share_type]) {
-						OC.Share.itemShares[share.share_type] = [];
-					}
-					OC.Share.itemShares[share.share_type].push(share.share_with);
 				}
 			);
 		},
@@ -589,7 +616,7 @@
 
 			/** @type {OC.Share.Types.ShareInfo[]} **/
 			var shares = _.toArray(data.shares);
-			this.legacyFillCurrentShares(shares);
+			this._legacyFillCurrentShares(shares);
 
 			var linkShare = { isLinkShare: false };
 			// filter out the share by link
