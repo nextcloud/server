@@ -36,7 +36,7 @@
 			'</div>' +
 			'    {{/if}}' +
 			'    {{#if mailPublicNotificationEnabled}}' +
-			'<form id="emailPrivateLink">' +
+			'<form id="emailPrivateLink" class="emailPrivateLinkForm">' +
 			'    <input id="email" value="" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
 			'    <input id="emailButton" type="submit" value="{{mailButtonText}}" />' +
 			'</form>' +
@@ -68,6 +68,10 @@
 
 		/** @type {boolean} **/
 		showLink: true,
+
+		events: {
+			'submit .emailPrivateLinkForm': '_onEmailPrivateLink'
+		},
 
 		initialize: function(options) {
 			var view = this;
@@ -160,6 +164,28 @@
 			this.model.saveLinkShare();
 		},
 
+		_onEmailPrivateLink: function(event) {
+			event.preventDefault();
+
+			var $emailField = this.$el.find('#email');
+			var $emailButton = this.$el.find('#emailButton');
+			var email = this.$el.find('#email').val();
+			if (email !== '') {
+				$emailField.prop('disabled', true);
+				$emailButton.prop('disabled', true);
+				$emailField.val(t('core', 'Sending ...'));
+				this.model.sendEmailPrivateLink(email).then(function() {
+					$emailField.css('font-weight', 'bold').val(t('core','Email sent'));
+					setTimeout(function() {
+						$emailField.css('font-weight', 'normal').val('');
+						$emailField.prop('disabled', false);
+						$emailButton.prop('disabled', false);
+					}, 2000);
+				});
+			}
+			return false;
+		},
+
 		render: function() {
 			var linkShareTemplate = this.template();
 
@@ -221,6 +247,8 @@
 					view.onPasswordEntered();
 				}
 			});
+
+			this.delegateEvents();
 
 			return this;
 		},
