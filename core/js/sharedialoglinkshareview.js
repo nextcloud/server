@@ -248,6 +248,33 @@
 				}
 			});
 
+			var $emailField = this.$el.find('#email');
+			if (isLinkShare && $emailField.length !== 0) {
+				$emailField.autocomplete({
+					minLength: 1,
+					source: function (search, response) {
+						$.get(
+							OC.generateUrl('core/ajax/share.php'), {
+								fetch: 'getShareWithEmail',
+								search: search.term
+							}, function(result) {
+								if (result.status == 'success' && result.data.length > 0) {
+									response(result.data);
+								}
+							});
+						},
+					select: function( event, item ) {
+						$emailField.val(item.item.email);
+						return false;
+					}
+				})
+				.data("ui-autocomplete")._renderItem = function( ul, item ) {
+					return $('<li>')
+						.append('<a>' + escapeHTML(item.displayname) + "<br>" + escapeHTML(item.email) + '</a>' )
+						.appendTo( ul );
+				};
+			}
+
 			this.delegateEvents();
 
 			return this;
