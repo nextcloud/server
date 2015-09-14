@@ -1215,6 +1215,20 @@ function object(o) {
  * Initializes core
  */
 function initCore() {
+	/**
+	 * Disable automatic evaluation of responses for $.ajax() functions (and its
+	 * higher-level alternatives like $.get() and $.post()).
+	 *
+	 * If a response to a $.ajax() request returns a content type of "application/javascript"
+	 * JQuery would previously execute the response body. This is a pretty unexpected
+	 * behaviour and can result in a bypass of our Content-Security-Policy as well as
+	 * multiple unexpected XSS vectors.
+	 */
+	$.ajaxSetup({
+		contents: {
+			script: false
+		}
+	});
 
 	/**
 	 * Set users locale to moment.js as soon as possible
