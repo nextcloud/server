@@ -685,68 +685,6 @@ OC.Share = _.extend(OC.Share, {
 			}
 		});
 	},
-	showLink:function(token, password, itemSource) {
-		OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = true;
-		$('#linkCheckbox').attr('checked', true);
-
-		//check itemType
-		var linkSharetype=$('#dropdown').data('item-type');
-
-		if (! token) {
-			//fallback to pre token link
-			var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
-			var type = $('tr').filterAttr('data-id', String(itemSource)).data('type');
-			if ($('#dir').val() == '/') {
-				var file = $('#dir').val() + filename;
-			} else {
-				var file = $('#dir').val() + '/' + filename;
-			}
-			file = '/'+OC.currentUser+'/files'+file;
-			// TODO: use oc webroot ?
-			var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&'+type+'='+encodeURIComponent(file);
-		} else {
-			//TODO add path param when showing a link to file in a subfolder of a public link share
-			var service='';
-			if(linkSharetype === 'folder' || linkSharetype === 'file'){
-				service='files';
-			}else{
-				service=linkSharetype;
-			}
-
-			// TODO: use oc webroot ?
-			if (service !== 'files') {
-				var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service='+service+'&t='+token;
-			} else {
-				var link = parent.location.protocol+'//'+location.host+OC.generateUrl('/s/')+token;
-			}
-		}
-		$('#linkText').val(link);
-		$('#linkText').slideDown(OC.menuSpeed);
-		$('#linkText').css('display','block');
-		if (oc_appconfig.core.enforcePasswordForPublicLink === false || password === null) {
-			$('#showPassword').show();
-			$('#showPassword+label').show();
-		}
-		if (password != null) {
-			$('#linkPass').slideDown(OC.menuSpeed);
-			$('#showPassword').attr('checked', true);
-			$('#linkPassText').attr('placeholder', '**********');
-		}
-		$('#expiration').show();
-		$('#emailPrivateLink #email').show();
-		$('#emailPrivateLink #emailButton').show();
-		$('#allowPublicUploadWrapper').show();
-	},
-	hideLink:function() {
-		$('#linkText').slideUp(OC.menuSpeed);
-		$('#defaultExpireMessage').hide();
-		$('#showPassword').hide();
-		$('#showPassword+label').hide();
-		$('#linkPass').slideUp(OC.menuSpeed);
-		$('#emailPrivateLink #email').hide();
-		$('#emailPrivateLink #emailButton').hide();
-		$('#allowPublicUploadWrapper').hide();
-	},
 	dirname:function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
 	},
@@ -809,24 +747,6 @@ OC.Share = _.extend(OC.Share, {
 			$('#defaultExpireMessage').slideDown(OC.menuSpeed);
 		}
 		$.datepicker.setDefaults(datePickerOptions);
-	},
-	/**
-	 * Get the default Expire date
-	 *
-	 * @return {String} The expire date
-	 */
-	getDefaultExpirationDate:function() {
-		var expireDateString = '';
-		if (oc_appconfig.core.defaultExpireDateEnabled) {
-			var date = new Date().getTime();
-			var expireAfterMs = oc_appconfig.core.defaultExpireDate * 24 * 60 * 60 * 1000;
-			var expireDate = new Date(date + expireAfterMs);
-			var month = expireDate.getMonth() + 1;
-			var year = expireDate.getFullYear();
-			var day = expireDate.getDate();
-			expireDateString = year + "-" + month + '-' + day + ' 00:00:00';
-		}
-		return expireDateString;
 	}
 });
 
