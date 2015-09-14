@@ -77,7 +77,11 @@ class CryptoWrapper {
 			$secureCookie = $request->getServerProtocol() === 'https';
 			// FIXME: Required for CI
 			if (!defined('PHPUNIT_RUN')) {
-				setcookie(self::COOKIE_NAME, $this->passphrase, 0, \OC::$WEBROOT, '', $secureCookie, true);
+				$webRoot = \OC::$WEBROOT;
+				if($webRoot === '') {
+					$webRoot = '/';
+				}
+				setcookie(self::COOKIE_NAME, $this->passphrase, 0, $webRoot, '', $secureCookie, true);
 			}
 		}
 	}
