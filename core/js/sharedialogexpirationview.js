@@ -19,13 +19,13 @@
 			// in the LinkShareView to ease reusing it in future. Then,
 			// modifications (getting rid of IDs) are still necessary.
 			'{{#if isLinkShare}}' +
-			'<input type="checkbox" name="expirationCheckbox" id="expirationCheckbox" value="1" ' +
+			'<input type="checkbox" name="expirationCheckbox" class="expirationCheckbox" id="expirationCheckbox" value="1" ' +
 				'{{#if isExpirationSet}}checked="checked"{{/if}} {{#if disableCheckbox}}disabled="disabled"{{/if}} />' +
 			'<label for="expirationCheckbox">{{setExpirationLabel}}</label>' +
-			'    {{#if isExpirationSet}}' +
-			'<label for="expirationDate" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
-			'<input id="expirationDate" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{expirationValue}}" />' +
-			'    {{/if}}' +
+			'<div class="expirationDateContainer {{#unless isExpirationSet}}hidden{{/unless}}">' +
+			'    <label for="expirationDate" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
+			'    <input id="expirationDate" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{expirationValue}}" />' +
+			'</div>' +
 			'    {{#if isExpirationEnforced}}' +
 				// originally the expire message was shown when a default date was set, however it never had text
 			'<em id="defaultExpireMessage">{{defaultExpireMessage}}</em>' +
@@ -58,6 +58,11 @@
 
 		className: 'hidden',
 
+		events: {
+			'change .expirationCheckbox': '_onToggleExpiration',
+			'change .datepicker': '_onChangeExpirationDate'
+		},
+
 		initialize: function(options) {
 			if(!_.isUndefined(options.configModel)) {
 				this.configModel = options.configModel;
@@ -76,6 +81,38 @@
 
 			this.model.on('change:linkShare', function() {
 				view.render();
+			});
+		},
+
+		_onToggleExpiration: function(event) {
+			var $checkbox = $(event.target);
+			var state = $checkbox.prop('checked');
+			// TODO: slide animation
+			this.$el.find('.expirationDateContainer').toggleClass('hidden', !state);
+			if (!state) {
+				// discard expiration date
+				this.model.setExpirationDate('');
+				this.model.saveLinkShare();
+			}
+		},
+
+		_onChangeExpirationDate: function(event) {
+			var $target = $(event.target);
+			$target.tooltip('hide');
+			$target.removeClass('error');
+
+			this.model.setExpirationDate($target.val());
+			this.model.saveLinkShare(null, {
+				error: function(model, message) {
+					if (!message) {
+						$target.attr('title', t('core', 'Error setting expiration date'));
+					} else {
+						$target.attr('title', message);
+					}
+					$target.tooltip({gravity: 'n'});
+					$target.tooltip('show');
+					$target.addClass('error');
+				}
 			});
 		},
 
@@ -135,6 +172,8 @@
 			}
 
 			this.$el.find('.datepicker').datepicker({dateFormat : 'dd-mm-yy'});
+
+			this.delegateEvents();
 
 			return this;
 		},

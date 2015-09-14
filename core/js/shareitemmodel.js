@@ -70,6 +70,9 @@
 	 * Represents the GUI of the share dialogue
 	 *
 	 * // FIXME: use OC Share API once #17143 is done
+	 *
+	 * // TODO: this really should be a collection of share item models instead,
+	 * where the link share is one of them
 	 */
 	var ShareItemModel = OC.Backbone.Model.extend({
 		initialize: function(attributes, options) {
@@ -90,47 +93,114 @@
 			linkShare: {}
 		},
 
-		addLinkShare: function(options) {
+		/**
+		 * Saves the current link share information.
+		 *
+		 * This will trigger an ajax call and refetch the model afterwards.
+		 *
+		 * TODO: this should be a separate model
+		 */
+		saveLinkShare: function(attributes, options) {
 			var model = this;
-			var expiration = this.configModel.getDefaultExpirationDateString();
 			var itemType = this.get('itemType');
 			var itemSource = this.get('itemSource');
 
-			var options = options || {};
-			var requiredOptions = [
+			// TODO: use backbone's default value mechanism once this is a separate model
+			var requiredAttributes = [
 				{ name: 'password',	   defaultValue: '' },
-				{ name: 'permissions', defaultValue: OC.PERMISSION_READ }
+				{ name: 'permissions', defaultValue: OC.PERMISSION_READ },
+				{ name: 'expiration', defaultValue: this.configModel.getDefaultExpirationDateString() }
 			];
-			_.each(requiredOptions, function(option) {
+
+			attributes = attributes || {};
+
+			// get attributes from the model and fill in with default values
+			_.each(requiredAttributes, function(attribute) {
 				// a provided options overrides a present value of the link
 				// share. If neither is given, the default value is used.
-				if(_.isUndefined(options[option.name])) {
-					options[option.name] = option.defaultValue;
-					var currentValue = model.get('linkShare')[option.name];
+				if(_.isUndefined(attribute[attribute.name])) {
+					attributes[attribute.name] = attribute.defaultValue;
+					var currentValue = model.get('linkShare')[attribute.name];
 					if(!_.isUndefined(currentValue)) {
-						options[option.name] = currentValue;
+						attributes[attribute.name] = currentValue;
 					}
 				}
 			});
 
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, options.password, options.permissions, this.fileInfoModel.get('name'), expiration, function(data) {
-				model.fetch();
-				//FIXME: updateIcon belongs to view
-				OC.Share.updateIcon(itemType, itemSource);
-			});
+			OC.Share.share(
+				itemType,
+				itemSource,
+				OC.Share.SHARE_TYPE_LINK,
+				attributes.password,
+				attributes.permissions,
+				this.fileInfoModel.get('name'),
+				attributes.expiration,
+				function(result) {
+					if (!result || result.status !== 'success') {
+						model.fetch({
+							success: function() {
+								if (options && _.isFunction(options.success)) {
+									options.success(model);
+								}
+							}
+						});
+					} else {
+						if (options && _.isFunction(options.error)) {
+							options.error(model);
+						}
+					}
+					//FIXME: updateIcon belongs to view
+					OC.Share.updateIcon(itemType, itemSource);
+				},
+				function(result) {
+					var msg = t('core', 'Error');
+					if (result.data && result.data.message) {
+						msg = result.data.message;
+					}
+
+					if (options && _.isFunction(options.error)) {
+						options.error(model, msg);
+					} else {
+						OC.dialogs.alert(msg, t('core', 'Error while sharing'));
+					}
+				}
+			);
 		},
 
 		removeLinkShare: function() {
 			this.removeShare(OC.Share.SHARE_TYPE_LINK, '');
 		},
 
+		/**
+		 * Sets the public upload flag
+		 *
+		 * @param {bool} allow whether public upload is allowed
+		 */
 		setPublicUpload: function(allow) {
 			var permissions = OC.PERMISSION_READ;
 			if(allow) {
-				permissions = OC.PERMISSION_UPDATE + OC.PERMISSION_CREATE + OC.PERMISSION_READ;
+				permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ;
 			}
 
-			this.addLinkShare({permissions: permissions});
+			this.get('linkShare').permissions = permissions;
+		},
+
+		/**
+		 * Sets the expiration date of the public link
+		 *
+		 * @param {string} expiration expiration date
+		 */
+		setExpirationDate: function(expiration) {
+			this.get('linkShare').expiration = expiration;
+		},
+
+		/**
+		 * Set password of the public link share
+		 *
+		 * @param {string} password
+		 */
+		setPassword: function(password) {
+			this.get('linkShare').password = password;
 		},
 
 		addShare: function(event, selected, options) {

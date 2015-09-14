@@ -108,7 +108,8 @@
 			if($checkBox.is(':checked')) {
 				if(this.configModel.get('enforcePasswordForPublicLink') === false) {
 					$loading.removeClass('hidden');
-					this.model.addLinkShare();
+					// this will create it
+					this.model.saveLinkShare();
 				} else {
 					this.$el.find('#linkPass').slideToggle(OC.menuSpeed);
 					// TODO drop with IE8 drop
@@ -131,7 +132,8 @@
 		onShowPasswordClick: function() {
 			this.$el.find('#linkPass').slideToggle(OC.menuSpeed);
 			if(!this.$el.find('#showPassword').is(':checked')) {
-				this.model.addLinkShare({password: ''});
+				this.model.setPassword('');
+				this.model.saveLinkShare();
 			} else {
 				this.$el.find('#linkPassText').focus();
 			}
@@ -147,13 +149,15 @@
 				.removeClass('hidden')
 				.addClass('inlineblock');
 
-			this.model.addLinkShare({password: password});
+			this.model.setPassword(password);
+			this.model.saveLinkShare();
 		},
 
 		onAllowPublicUploadChange: function() {
 			this.$el.find('#sharingDialogAllowPublicUpload')
 					.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
 			this.model.setPublicUpload(this.$el.find('#sharingDialogAllowPublicUpload').is(':checked'));
+			this.model.saveLinkShare();
 		},
 
 		render: function() {
@@ -205,6 +209,7 @@
 				mailButtonText: t('core', 'Send')
 			}));
 
+			// TODO: move this to delegate events instead
 			this.$el.find('#linkCheckbox').change(this.onLinkCheckBoxChange);
 			this.$el.find('#sharingDialogAllowPublicUpload').change(this.onAllowPublicUploadChange);
 			this.$el.find('#linkText').click(this.onLinkTextClick);

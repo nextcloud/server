@@ -126,6 +126,14 @@ a.unshare {
 	margin-right: 0;
 }
 
+.shareTabView .error {
+	color: #e9322d;
+	border-color: #e9322d;
+	-webkit-box-shadow: 0 0 6px #f8b9b7;
+	-moz-box-shadow: 0 0 6px #f8b9b7;
+	box-shadow: 0 0 6px #f8b9b7;
+}
+
 #link #showPassword img {
 	padding-left:5px;
 	width:12px;
