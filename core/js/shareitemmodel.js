@@ -201,11 +201,9 @@
 			this.get('linkShare').password = password;
 		},
 
-		addShare: function(event, selected, options) {
-			event.preventDefault();
-
-			var shareType = selected.item.value.shareType;
-			var shareWith = selected.item.value.shareWith;
+		addShare: function(attributes, options) {
+			var shareType = attributes.shareType;
+			var shareWith = attributes.shareWith;
 			var fileName = this.fileInfoModel.get('name');
 			options = options || {};
 
@@ -241,6 +239,7 @@
 			var itemType = this.get('itemType');
 			var itemSource = this.get('itemSource');
 
+			// TODO: in the future, only set the permissions on the model but don't save directly
 			OC.Share.setPermissions(itemType, itemSource, shareType, shareWith, permissions);
 		},
 

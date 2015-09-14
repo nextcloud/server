@@ -81,6 +81,12 @@
 		/** @type {object} **/
 		_collections: {},
 
+		events: {
+			'click .unshare': 'onUnshare',
+			'click .permissions': 'onPermissionChange',
+			'click .showCruds': 'onCrudsToggle'
+		},
+
 		initialize: function(options) {
 			if(!_.isUndefined(options.configModel)) {
 				this.configModel = options.configModel;
@@ -212,10 +218,7 @@
 				});
 			}
 
-			var view = this;
-			this.$el.find('.unshare').click(function() { view.onUnshare(this, view); });
-			this.$el.find('.permissions').click(function() { view.onPermissionChange(this, view); });
-			this.$el.find('.showCruds').click(this.onCrudsToggle);
+			this.delegateEvents();
 
 			return this;
 		},
@@ -231,8 +234,8 @@
 			return this._template;
 		},
 
-		onUnshare: function(element, view) {
-			var $element = $(element);
+		onUnshare: function(event) {
+			var $element = $(event.target);
 
 			if($element.hasClass('icon-loading-small')) {
 				// in process
@@ -244,26 +247,27 @@
 			var shareType = $li.data('share-type');
 			var shareWith = $li.attr('data-share-with');
 
-			view.model.removeShare(shareType, shareWith);
+			this.model.removeShare(shareType, shareWith);
 
 			return false;
 		},
 
-		onPermissionChange: function(element, view) {
-			var $element = $(element);
+		onPermissionChange: function(event) {
+			var $element = $(event.target);
 			var $li = $element.closest('li');
 			var shareType = $li.data('share-type');
 			var shareWith = $li.attr('data-share-with');
 
 			// adjust checkbox states
 			var $checkboxes = $('.permissions', $li).not('input[name="edit"]').not('input[name="share"]');
+			var checked;
 			if ($element.attr('name') === 'edit') {
-				var checked = $element.is(':checked');
+				checked = $element.is(':checked');
 				// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck
 				$($checkboxes).attr('checked', checked);
 			} else {
 				var numberChecked = $checkboxes.filter(':checked').length;
-				var checked = numberChecked > 0;
+				checked = numberChecked > 0;
 				$('input[name="edit"]', $li).attr('checked', checked);
 			}
 
@@ -272,13 +276,11 @@
 				permissions |= $(checkbox).data('permissions');
 			});
 
-			view.model.setPermissions(shareType, shareWith, permissions);
-
-			return false;
+			this.model.setPermissions(shareType, shareWith, permissions);
 		},
 
-		onCrudsToggle: function() {
-			$(this).siblings('.cruds').toggleClass('hidden');
+		onCrudsToggle: function(event) {
+			this.$el.find('.cruds').toggleClass('hidden');
 			return false;
 		}
 

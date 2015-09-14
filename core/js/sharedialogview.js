@@ -102,7 +102,7 @@
 					: options[name];
 			}
 
-			_.bindAll(this, 'autocompleteHandler');
+			_.bindAll(this, 'autocompleteHandler', '_onSelectRecipient');
 		},
 
 		autocompleteHandler: function (search, response) {
@@ -151,6 +151,11 @@
 				.appendTo(ul);
 		},
 
+		_onSelectRecipient: function(e, s) {
+			e.preventDefault();
+			this.model.addShare(s.item.value);
+		},
+
 		render: function() {
 			var baseTemplate = this._getTemplate('base', TEMPLATE_BASE);
 
@@ -165,15 +170,7 @@
 				minLength: 2,
 				delay: 750,
 				source: this.autocompleteHandler,
-				select: function(e, s) {
-					var expiration = '';
-					if($('#expirationCheckbox').is(':checked') === true) {
-						expiration = view.$el.find('#expirationDate').val()
-					}
-					view.model.addShare(e, s, {
-						expiration: expiration
-					});
-				}
+				select: this._onSelectRecipient
 			}).data('ui-autocomplete')._renderItem = this.autocompleteRenderItem;
 
 			this.resharerInfoView.$el = this.$el.find('.resharerInfoView');
