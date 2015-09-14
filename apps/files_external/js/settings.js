@@ -820,6 +820,37 @@ MountConfigListView.prototype = _.extend({
 	loadStorages: function() {
 		var self = this;
 
+		if (this._isPersonal) {
+			// load userglobal storages
+			$.ajax({
+				type: 'GET',
+				url: OC.generateUrl('apps/files_external/userglobalstorages'),
+				contentType: 'application/json',
+				success: function(result) {
+					$.each(result, function(i, storageParams) {
+						storageParams.mountPoint = storageParams.mountPoint.substr(1); // trim leading slash
+						var storageConfig = new self._storageConfigClass();
+						_.extend(storageConfig, storageParams);
+						var $tr = self.newStorage(storageConfig);
+
+						// userglobal storages must be at the top of the list
+						$tr.detach();
+						self.$el.prepend($tr);
+
+						var $authentication = $tr.find('.authentication');
+						$authentication.text($authentication.find('select option:selected').text());
+
+						// userglobal storages do not expose configuration data
+						$tr.find('.configuration').text(t('files_external', 'Admin defined'));
+
+						// disable any other inputs
+						$tr.find('.mountOptionsToggle, .remove').empty();
+						$tr.find('input, select, button').attr('disabled', 'disabled');
+					});
+				}
+			});
+		}
+
 		var url = this._storageConfigClass.prototype._url;
 
 		$.ajax({

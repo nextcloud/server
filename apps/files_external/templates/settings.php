@@ -3,6 +3,21 @@
 	use \OCA\Files_External\Lib\DefinitionParameter;
 	use \OCA\Files_External\Service\BackendService;
 
+	script('files_external', 'settings');
+	style('files_external', 'settings');
+
+	// load custom JS
+	foreach ($_['backends'] as $backend) {
+		if ($backend->getCustomJs()) {
+			script('files_external', $backend->getCustomJs());
+		}
+	}
+	foreach ($_['authMechanisms'] as $authMechanism) {
+		if ($authMechanism->getCustomJs()) {
+			script('files_external', $authMechanism->getCustomJs());
+		}
+	}
+
 	function writeParameterInput($parameter, $options, $classes = []) {
 		$value = '';
 		if (isset($options[$parameter->getName()])) {
@@ -56,7 +71,7 @@
 <form id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
 	<h2><?php p($l->t('External Storage')); ?></h2>
 	<?php if (isset($_['dependencies']) and ($_['dependencies']<>'')) print_unescaped(''.$_['dependencies'].''); ?>
-	<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['isAdminPage'])); ?>'>
+	<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['visibilityType'] === BackendService::VISIBILITY_ADMIN)); ?>'>
 		<thead>
 			<tr>
 				<th></th>
@@ -64,7 +79,7 @@
 				<th><?php p($l->t('External storage')); ?></th>
 				<th><?php p($l->t('Authentication')); ?></th>
 				<th><?php p($l->t('Configuration')); ?></th>
-				<?php if ($_['isAdminPage']) print_unescaped('<th>'.$l->t('Available for').'</th>'); ?>
+				<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN) print_unescaped('<th>'.$l->t('Available for').'</th>'); ?>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>
 			</tr>
@@ -84,7 +99,9 @@
 							<?php p($l->t('Add storage')); ?>
 						</option>
 						<?php
-							$sortedBackends = $_['backends'];
+							$sortedBackends = array_filter($_['backends'], function($backend) use ($_) {
+								return $backend->isVisibleFor($_['visibilityType']);
+							});
 							uasort($sortedBackends, function($a, $b) {
 								return strcasecmp($a->getText(), $b->getText());
 							});
@@ -97,7 +114,7 @@
 				</td>
 				<td class="authentication" data-mechanisms='<?php p(json_encode($_['authMechanisms'])); ?>'></td>
 				<td class="configuration"></td>
-				<?php if ($_['isAdminPage']): ?>
+				<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN): ?>
 					<td class="applicable" align="right">
 						<input type="hidden" class="applicableUsers" style="width:20em;" value="" />
 					</td>
@@ -122,7 +139,7 @@
 	</table>
 	<br />
 
-	<?php if ($_['isAdminPage']): ?>
+	<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN): ?>
 		<br />
 		<input type="checkbox" name="allowUserMounting" id="allowUserMounting" class="checkbox"
 			value="1" <?php if ($_['allowUserMounting'] == 'yes') print_unescaped(' checked="checked"'); ?> />
@@ -130,7 +147,12 @@
 
 		<p id="userMountingBackends"<?php if ($_['allowUserMounting'] != 'yes'): ?> class="hidden"<?php endif; ?>>
 			<?php p($l->t('Allow users to mount the following external storage')); ?><br />
-			<?php $i = 0; foreach ($_['userBackends'] as $backend): ?>
+			<?php
+				$userBackends = array_filter($_['backends'], function($backend) {
+					return $backend->isAllowedVisibleFor(BackendService::VISIBILITY_PERSONAL);
+				});
+			?>
+			<?php $i = 0; foreach ($userBackends as $backend): ?>
 				<?php if ($deprecateTo = $backend->getDeprecateTo()): ?>
 					<input type="hidden" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" data-deprecate-to="<?php p($deprecateTo->getIdentifier()); ?>" />
 				<?php else: ?>

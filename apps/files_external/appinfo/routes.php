@@ -36,6 +36,7 @@ namespace OCA\Files_External\AppInfo;
 		'resources' => array(
 			'global_storages' => array('url' => '/globalstorages'),
 			'user_storages' => array('url' => '/userstorages'),
+			'user_global_storages' => array('url' => '/userglobalstorages'),
 		),
 		'routes' => array(
 			array(
