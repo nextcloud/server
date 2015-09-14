@@ -54,7 +54,8 @@ describe('OCA.External.Settings tests', function() {
 		// within the DOM by the server template
 		$('#externalStorage .selectBackend:first').data('configurations', {
 				'\\OC\\TestBackend': {
-					'backend': 'Test Backend Name',
+					'identifier': '\\OC\\TestBackend',
+					'name': 'Test Backend',
 					'configuration': {
 						'field1': 'Display Name 1',
 						'field2': '&Display Name 2'
@@ -65,7 +66,8 @@ describe('OCA.External.Settings tests', function() {
 					'priority': 11
 				},
 				'\\OC\\AnotherTestBackend': {
-					'backend': 'Another Test Backend Name',
+					'identifier': '\\OC\\AnotherTestBackend',
+					'name': 'Another Test Backend',
 					'configuration': {
 						'field1': 'Display Name 1',
 						'field2': '&Display Name 2'
@@ -80,6 +82,7 @@ describe('OCA.External.Settings tests', function() {
 
 		$('#externalStorage #addMountPoint .authentication:first').data('mechanisms', {
 			'mechanism1': {
+				'identifier': 'mechanism1',
 				'name': 'Mechanism 1',
 				'configuration': {
 				},

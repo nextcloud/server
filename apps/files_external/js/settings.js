@@ -624,8 +624,6 @@ MountConfigListView.prototype = _.extend({
 		this._allAuthMechanisms = this.$el.find('#addMountPoint .authentication').data('mechanisms');
 
 		this._initEvents();
-
-		this.loadStorages();
 	},
 
 	/**
@@ -1194,6 +1192,7 @@ $(document).ready(function() {
 	var mountConfigListView = new MountConfigListView($('#externalStorage'), {
 		encryptionEnabled: encryptionEnabled
 	});
+	mountConfigListView.loadStorages();
 
 	$('#sslCertificate').on('click', 'td.remove>img', function() {
 		var $tr = $(this).closest('tr');
