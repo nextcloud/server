@@ -410,7 +410,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			}
 		}
 
-		$this->items['parameters'] = array_merge($this->items['parameters'], $params);
+		if (is_array($params)) {
+			$this->items['parameters'] = array_merge($this->items['parameters'], $params);
+		}
 		$this->contentDecoded = true;
 	}
 
