@@ -84,6 +84,7 @@ class Setup {
 	 */
 	public function setupServerSide($uid, $password) {
 		$this->keyManager->validateShareKey();
+		$this->keyManager->validateMasterKey();
 		// Check if user already has keys
 		if (!$this->keyManager->userHasKeys($uid)) {
 			return $this->keyManager->storeKeyPair($uid, $password,

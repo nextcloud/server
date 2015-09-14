@@ -552,10 +552,6 @@ class OC {
 			exit();
 		}
 
-		foreach(OC::$APPSROOTS as $appRoot) {
-			self::$loader->addValidRoot($appRoot['path']);
-		}
-
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT);
 		\OC::$server->getEventLogger()->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
@@ -1119,27 +1115,16 @@ class OC {
 		}
 		return true;
 	}
-}
 
-if (!function_exists('get_temp_dir')) {
 	/**
 	 * Get the temporary dir to store uploaded data
 	 * @return null|string Path to the temporary directory or null
 	 */
 	function get_temp_dir() {
-		if ($temp = ini_get('upload_tmp_dir')) return $temp;
-		if ($temp = getenv('TMP')) return $temp;
-		if ($temp = getenv('TEMP')) return $temp;
-		if ($temp = getenv('TMPDIR')) return $temp;
-		$temp = tempnam(__FILE__, '');
-		if (file_exists($temp)) {
-			unlink($temp);
-			return dirname($temp);
-		}
-		if ($temp = sys_get_temp_dir()) return $temp;
-
-		return null;
+		return \OC::$server->getTempManager()->t_get_temp_dir();
 	}
+
 }
+
 
 OC::init();

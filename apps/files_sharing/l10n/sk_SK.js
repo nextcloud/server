@@ -41,6 +41,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s vám zdieľal %1$s",
     "You shared %1$s via link" : "Zdieľate %1$s prostredníctvom odkazu",
     "Shares" : "Zdieľanie",
+    "Accept" : "Schváliť",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Zdieľajte so mnou pomocou môjho #ownCloud Federated Cloud ID, viac n %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Zdieľajte so mnou pomocou môjho #ownCloud Federated Cloud ID",
     "This share is password-protected" : "Toto zdieľanie je chránené heslom",

@@ -6,6 +6,7 @@
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Tanghus <thomas@tanghus.net>
+ * @author Robin McCorkell <rmccorkell@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -101,13 +102,20 @@ class Detection implements IMimeTypeDetector {
 			return;
 		}
 
-		$file = file_get_contents($this->configDir . '/mimetypealiases.dist.json');
-		$this->mimeTypeAlias = get_object_vars(json_decode($file));
+		$this->mimeTypeAlias = json_decode(file_get_contents($this->configDir . '/mimetypealiases.dist.json'), true);
 
 		if (file_exists($this->configDir . '/mimetypealiases.json')) {
-			$custom = get_object_vars(json_decode(file_get_contents($this->configDir . '/mimetypealiases.json')));
+			$custom = json_decode(file_get_contents($this->configDir . '/mimetypealiases.json'), true);
 			$this->mimeTypeAlias = array_merge($this->mimeTypeAlias, $custom);
 		}
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getAllAliases() {
+		$this->loadAliases();
+		return $this->mimeTypeAlias;
 	}
 
 	/**
@@ -118,17 +126,23 @@ class Detection implements IMimeTypeDetector {
 			return;
 		}
 
-		$dist = file_get_contents($this->configDir . '/mimetypemapping.dist.json');
-		$mimetypemapping = get_object_vars(json_decode($dist));
+		$mimetypemapping = json_decode(file_get_contents($this->configDir . '/mimetypemapping.dist.json'), true);
 
 		//Check if need to load custom mappings
 		if (file_exists($this->configDir . '/mimetypemapping.json')) {
-			$custom = file_get_contents($this->configDir . '/mimetypemapping.json');
-			$custom_mapping = get_object_vars(json_decode($custom));
-			$mimetypemapping = array_merge($mimetypemapping, $custom_mapping);
+			$custom = json_decode(file_get_contents($this->configDir . '/mimetypemapping.json'), true);
+			$mimetypemapping = array_merge($mimetypemapping, $custom);
 		}
 
 		$this->registerTypeArray($mimetypemapping);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getAllMappings() {
+		$this->loadMappings();
+		return $this->mimetypes;
 	}
 
 	/**

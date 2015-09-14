@@ -41,6 +41,9 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s ha condiviso %1$s con te",
     "You shared %1$s via link" : "Hai condiviso %1$s tramite collegamento",
     "Shares" : "Condivisioni",
+    "You received %s as a remote share from %s" : "Hai ricevuto %s come condivisione remota da %s",
+    "Accept" : "Accetta",
+    "Decline" : "Rifiuta",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Condividi con me attraverso il mio ID di cloud federata #ownCloud, vedi %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Condividi con me attraverso il mio ID di cloud federata #ownCloud",
     "This share is password-protected" : "Questa condivione è protetta da password",
@@ -66,6 +69,7 @@ OC.L10N.register(
     "Federated Cloud" : "Cloud federata",
     "Your Federated Cloud ID:" : "Il tuo ID di cloud federata:",
     "Share it:" : "Condividilo:",
+    "Add to your website" : "Aggiungilo al tuo sito web",
     "Share with me via ownCloud" : "Condividi con me tramite ownCloud",
     "HTML Code:" : "Codice HTML:"
 },

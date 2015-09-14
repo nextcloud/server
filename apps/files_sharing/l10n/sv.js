@@ -36,6 +36,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s delade %1$s med dig",
     "You shared %1$s via link" : "Du delade %1$s via länk",
     "Shares" : "Delningar",
+    "Accept" : "Acceptera",
     "This share is password-protected" : "Den här delningen är lösenordsskyddad",
     "The password is wrong. Try again." : "Lösenordet är fel. Försök igen.",
     "Password" : "Lösenord",

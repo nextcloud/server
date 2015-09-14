@@ -5,8 +5,8 @@ OC.L10N.register(
     "Files" : "ਫਾਇਲਾਂ",
     "Download" : "ਡਾਊਨਲੋਡ",
     "Error" : "ਗਲਤੀ",
-    "Settings" : "ਸੈਟਿੰਗ",
     "Upload" : "ਅੱਪਲੋਡ",
+    "Settings" : "ਸੈਟਿੰਗ",
     "Cancel upload" : "ਅੱਪਲੋਡ ਰੱਦ ਕਰੋ",
     "Delete" : "ਹਟਾਓ"
 },

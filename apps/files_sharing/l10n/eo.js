@@ -23,6 +23,7 @@ OC.L10N.register(
     "You shared %1$s with group %2$s" : "Vi kunhavigis %1$s kun la grupo %2$s",
     "%2$s shared %1$s with you" : "%2$s kunhavigis %1$s kun vi",
     "You shared %1$s via link" : "Vi kunhavigis %1$s per ligilo",
+    "Accept" : "Akcepti",
     "This share is password-protected" : "Ĉi tiu kunhavigo estas protektata per pasvorto",
     "The password is wrong. Try again." : "La pasvorto malĝustas. Provu denove.",
     "Password" : "Pasvorto",

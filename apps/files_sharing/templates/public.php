@@ -17,6 +17,7 @@ OCP\Util::addStyle('files', 'upload');
 OCP\Util::addScript('files', 'filesummary');
 OCP\Util::addScript('files', 'breadcrumb');
 OCP\Util::addScript('files', 'fileinfomodel');
+OCP\Util::addScript('files', 'newfilemenu');
 OCP\Util::addScript('files', 'files');
 OCP\Util::addScript('files', 'filelist');
 OCP\Util::addscript('files', 'keyboardshortcuts');

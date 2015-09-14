@@ -9,6 +9,9 @@
  */
 
 (function() {
+
+	var TEMPLATE_ADDBUTTON = '<a href="#" class="button new" title="{{addText}}"><img src="{{iconUrl}}"></img></a>';
+
 	/**
 	 * @class OCA.Files.FileList
 	 * @classdesc
@@ -220,6 +223,8 @@
 
 			this.$el.find('#controls').prepend(this.breadcrumb.$el);
 
+			this._renderNewButton();
+
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
 
 			this._onResize = _.debounce(_.bind(this._onResize, this), 100);
@@ -262,6 +267,12 @@
 		 * Destroy / uninitialize this instance.
 		 */
 		destroy: function() {
+			if (this._newFileMenu) {
+				this._newFileMenu.remove();
+			}
+			if (this._newButton) {
+				this._newButton.remove();
+			}
 			// TODO: also unregister other event handlers
 			this.fileActions.off('registerAction', this._onFileActionsUpdated);
 			this.fileActions.off('setDefault', this._onFileActionsUpdated);
@@ -291,6 +302,7 @@
 		 * @return {OCA.Files.FileInfoModel} file info model
 		 */
 		getModelForFile: function(fileName) {
+			var self = this;
 			var $tr;
 			// jQuery object ?
 			if (fileName.is) {
@@ -318,6 +330,21 @@
 			if (!model.has('path')) {
 				model.set('path', this.getCurrentDirectory(), {silent: true});
 			}
+
+			model.on('change', function(model) {
+				// re-render row
+				var highlightState = $tr.hasClass('highlighted');
+				$tr = self.updateRow(
+					$tr,
+					_.extend({isPreviewAvailable: true}, model.toJSON()),
+					{updateSummary: true, silent: false, animate: true}
+				);
+				$tr.toggleClass('highlighted', highlightState);
+			});
+			model.on('busy', function(model, state) {
+				self.showFileBusyState($tr, state);
+			});
+
 			return model;
 		},
 
@@ -341,6 +368,9 @@
 			if (!fileName) {
 				OC.Apps.hideAppSidebar(this._detailsView.$el);
 				this._detailsView.setFileInfo(null);
+				if (this._currentFileModel) {
+					this._currentFileModel.off();
+				}
 				this._currentFileModel = null;
 				return;
 			}
@@ -1223,6 +1253,10 @@
 		reload: function() {
 			this._selectedFiles = {};
 			this._selectionSummary.clear();
+			if (this._currentFileModel) {
+				this._currentFileModel.off();
+			}
+			this._currentFileModel = null;
 			this.$el.find('.select-all').prop('checked', false);
 			this.showMask();
 			if (this._reloadCall) {
@@ -1555,6 +1589,23 @@
 		},
 
 		/**
+		 * Updates the given row with the given file info
+		 *
+		 * @param {Object} $tr row element
+		 * @param {OCA.Files.FileInfo} fileInfo file info
+		 * @param {Object} options options
+		 *
+		 * @return {Object} new row element
+		 */
+		updateRow: function($tr, fileInfo, options) {
+			this.files.splice($tr.index(), 1);
+			$tr.remove();
+			$tr = this.add(fileInfo, _.extend({updateSummary: false, silent: true}, options));
+			this.$fileList.trigger($.Event('fileActionsReady', {fileList: this, $files: $tr}));
+			return $tr;
+		},
+
+		/**
 		 * Triggers file rename input field for the given file name.
 		 * If the user enters a new name, the file will be renamed.
 		 *
@@ -1690,6 +1741,106 @@
 				form.trigger('submit');
 			});
 		},
+
+		/**
+		 * Create an empty file inside the current directory.
+		 *
+		 * @param {string} name name of the file
+		 *
+		 * @return {Promise} promise that will be resolved after the
+		 * file was created
+		 *
+		 * @since 8.2
+		 */
+		createFile: function(name) {
+			var self = this;
+			var deferred = $.Deferred();
+			var promise = deferred.promise();
+
+			OCA.Files.Files.isFileNameValid(name);
+			name = this.getUniqueName(name);
+
+			if (this.lastAction) {
+				this.lastAction();
+			}
+
+			$.post(
+				OC.generateUrl('/apps/files/ajax/newfile.php'),
+				{
+					dir: this.getCurrentDirectory(),
+					filename: name
+				},
+				function(result) {
+					if (result.status === 'success') {
+						self.add(result.data, {animate: true, scrollTo: true});
+						deferred.resolve(result.status, result.data);
+					} else {
+						if (result.data && result.data.message) {
+							OC.Notification.showTemporary(result.data.message);
+						} else {
+							OC.Notification.showTemporary(t('core', 'Could not create file'));
+						}
+						deferred.reject(result.status, result.data);
+					}
+				}
+			);
+
+			return promise;
+		},
+
+		/**
+		 * Create a directory inside the current directory.
+		 *
+		 * @param {string} name name of the directory
+		 *
+		 * @return {Promise} promise that will be resolved after the
+		 * directory was created
+		 *
+		 * @since 8.2
+		 */
+		createDirectory: function(name) {
+			var self = this;
+			var deferred = $.Deferred();
+			var promise = deferred.promise();
+
+			OCA.Files.Files.isFileNameValid(name);
+			name = this.getUniqueName(name);
+
+			if (this.lastAction) {
+				this.lastAction();
+			}
+
+			$.post(
+				OC.generateUrl('/apps/files/ajax/newfolder.php'),
+				{
+					dir: this.getCurrentDirectory(),
+					foldername: name
+				},
+				function(result) {
+					if (result.status === 'success') {
+						self.add(result.data, {animate: true, scrollTo: true});
+						deferred.resolve(result.status, result.data);
+					} else {
+						if (result.data && result.data.message) {
+							OC.Notification.showTemporary(result.data.message);
+						} else {
+							OC.Notification.showTemporary(t('core', 'Could not create folder'));
+						}
+						deferred.reject(result.status);
+					}
+				}
+			);
+
+			return promise;
+		},
+
+		/**
+		 * Returns whether the given file name exists in the list
+		 *
+		 * @param {string} file file name
+		 *
+		 * @return {bool} true if the file exists in the list, false otherwise
+		 */
 		inList:function(file) {
 			return this.findFileEl(file).length;
 		},
@@ -2349,6 +2500,47 @@
 
 				}
 			});
+		},
+
+		_renderNewButton: function() {
+			// if an upload button (legacy) already exists, skip
+			if ($('#controls .button.upload').length) {
+				return;
+			}
+			if (!this._addButtonTemplate) {
+				this._addButtonTemplate = Handlebars.compile(TEMPLATE_ADDBUTTON);
+			}
+			var $newButton = $(this._addButtonTemplate({
+				addText: t('files', 'New'),
+				iconUrl: OC.imagePath('core', 'actions/add')
+			}));
+
+			$('#controls .actions').prepend($newButton);
+			$newButton.tooltip({'placement': 'bottom'});
+
+			$newButton.click(_.bind(this._onClickNewButton, this));
+			this._newButton = $newButton;
+		},
+
+		_onClickNewButton: function(event) {
+			var $target = $(event.target);
+			if (!$target.hasClass('.button')) {
+				$target = $target.closest('.button');
+			}
+			this._newButton.tooltip('hide');
+			event.preventDefault();
+			if ($target.hasClass('disabled')) {
+				return false;
+			}
+			if (!this._newFileMenu) {
+				this._newFileMenu = new OCA.Files.NewFileMenu({
+					fileList: this
+				});
+				$('body').append(this._newFileMenu.$el);
+			}
+			this._newFileMenu.showAt($target);
+
+			return false;
 		},
 
 		/**

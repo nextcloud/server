@@ -41,6 +41,9 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s membagikan %1$s dengan Anda",
     "You shared %1$s via link" : "Anda membagikan %1$s via tautan",
     "Shares" : "Dibagikan",
+    "You received %s as a remote share from %s" : "Anda menerima %s sebagai berbagi remote dari %s",
+    "Accept" : "Terima",
+    "Decline" : "Tolak",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Dibagikan pada saya melalui #ownCloud Federated Cloud ID saya, lihat %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Dibagikan pada saya melalui #ownCloud Federated Cloud ID saya",
     "This share is password-protected" : "Berbagi ini dilindungi sandi",
@@ -66,6 +69,7 @@ OC.L10N.register(
     "Federated Cloud" : "Federated Cloud",
     "Your Federated Cloud ID:" : "Federated Cloud ID Anda:",
     "Share it:" : "Bagikan:",
+    "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via ownCloud" : "Dibagikan pada saya via ownCloud",
     "HTML Code:" : "Kode HTML:"
 },

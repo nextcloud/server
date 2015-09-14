@@ -41,6 +41,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s поделился с вами %1$s",
     "You shared %1$s via link" : "Вы поделились %1$s с помощью ссылки",
     "Shares" : "События обмена файлами",
+    "Accept" : "Принять",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Поделитесь со мной через мой #ownCloud ID в объединении облачных хранилищ, смотрите %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Поделитесь со мной через мой #ownCloud ID в объединении облачных хранилищ",
     "This share is password-protected" : "Общий ресурс защищен паролем",

@@ -124,7 +124,7 @@
 
 				// TODO: we really need OC.Previews
 				var $iconDiv = this.$el.find('.thumbnail');
-				$iconDiv.addClass('icon-loading');
+				$iconDiv.addClass('icon-loading icon-32');
 				$container = this.$el.find('.thumbnailContainer');
 				if (!this.model.isDirectory()) {
 					this._fileList.lazyLoadPreview({
@@ -137,7 +137,7 @@
 						callback: function(previewUrl, img) {
 							$iconDiv.previewImg = previewUrl;
 							if (img) {
-								$iconDiv.removeClass('icon-loading');
+								$iconDiv.removeClass('icon-loading icon-32');
 								if(img.height > img.width) {
 									$container.addClass('portrait');
 								}
@@ -163,7 +163,7 @@
 							}
 						}.bind(this),
 						error: function() {
-							$iconDiv.removeClass('icon-loading');
+							$iconDiv.removeClass('icon-loading icon-32');
 							this.$el.find('.thumbnailContainer').removeClass('image'); //fall back to regular view
 							$iconDiv.css({
 								'background-image': 'url("' + $iconDiv.previewImg + '")'

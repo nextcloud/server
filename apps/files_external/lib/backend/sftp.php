@@ -43,6 +43,7 @@ class SFTP extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
+			->addAuthScheme(AuthMechanism::SCHEME_PUBLICKEY)
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}

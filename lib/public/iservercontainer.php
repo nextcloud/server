@@ -440,6 +440,13 @@ interface IServerContainer {
 	 */
 	public function getMimeTypeDetector();
 
+	/**
+	 * Get the MimeTypeLoader
+	 *
+	 * @return \OCP\Files\IMimeTypeLoader
+	 * @since 8.2.0
+	 */
+	public function getMimeTypeLoader();
 
 	/**
 	 * Get the EventDispatcher
@@ -448,4 +455,12 @@ interface IServerContainer {
 	 * @since 8.2.0
 	 */
 	public function getEventDispatcher();
+
+	/**
+	 * Get the Notification Manager
+	 *
+	 * @return \OC\Notification\IManager
+	 * @since 8.2.0
+	 */
+	public function getNotificationManager();
 }

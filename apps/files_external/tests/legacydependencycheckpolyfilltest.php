@@ -23,16 +23,23 @@ namespace OCA\Files_External\Tests;
 
 use \OCA\Files_External\Lib\MissingDependency;
 
-class DependencyTraitTest extends \Test\TestCase {
+class LegacyDependencyCheckPolyfillTest extends \Test\TestCase {
+
+	/**
+	 * @return MissingDependency[]
+	 */
+	public static function checkDependencies() {
+		return [
+			(new MissingDependency('dependency'))->setMessage('missing dependency'),
+			(new MissingDependency('program'))->setMessage('cannot find program'),
+		];
+	}
 
 	public function testCheckDependencies() {
-		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\DependencyTrait');
-		$trait->setDependencyCheck(function() {
-			return [
-				(new MissingDependency('dependency'))->setMessage('missing dependency'),
-				(new MissingDependency('program'))->setMessage('cannot find program'),
-			];
-		});
+		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\LegacyDependencyCheckPolyfill');
+		$trait->expects($this->once())
+			->method('getStorageClass')
+			->willReturn('\OCA\Files_External\Tests\LegacyDependencyCheckPolyfillTest');
 
 		$dependencies = $trait->checkDependencies();
 		$this->assertCount(2, $dependencies);

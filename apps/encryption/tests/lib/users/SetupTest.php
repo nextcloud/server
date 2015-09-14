@@ -43,6 +43,8 @@ class SetupTest extends TestCase {
 	private $instance;
 
 	public function testSetupServerSide() {
+		$this->keyManagerMock->expects($this->exactly(2))->method('validateShareKey');
+		$this->keyManagerMock->expects($this->exactly(2))->method('validateMasterKey');
 		$this->keyManagerMock->expects($this->exactly(2))
 			->method('userHasKeys')
 			->with('admin')

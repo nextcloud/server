@@ -80,6 +80,16 @@ $CONFIG = array(
 'datadirectory' => '/var/www/owncloud/data',
 
 /**
+ * Override where ownCloud stores temporary files. Useful in situations where
+ * the system temporary directory is on a limited space ramdisk or is otherwise
+ * restricted, or if external storages which do not support streaming are in
+ * use.
+ *
+ * The web server user must have write access to this directory.
+ */
+'tempdirectory' => '/tmp/owncloudtemp',
+
+/**
  * The current version number of your ownCloud installation. This is set up
  * during installation and update, so you shouldn't need to change it.
  */

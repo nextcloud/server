@@ -120,7 +120,8 @@ class Client implements IClient {
 	 */
 	public function get($uri, array $options = []) {
 		$response = $this->client->get($uri, $options);
-		return new Response($response);
+		$isStream = isset($options['stream']) && $options['stream'];
+		return new Response($response, $isStream);
 	}
 
 	/**

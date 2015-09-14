@@ -191,7 +191,10 @@ class AppConfig extends TestCase {
 		$this->assertEquals('1.2.3', $config->getValue('testapp', 'installed_version'));
 		$this->assertConfigKey('testapp', 'installed_version', '1.2.3');
 
-		$this->assertFalse($config->setValue('testapp', 'installed_version', '1.2.3'));
+		$wasModified = $config->setValue('testapp', 'installed_version', '1.2.3');
+		if (!(\OC::$server->getDatabaseConnection() instanceof \OC\DB\OracleConnection)) {
+			$this->assertFalse($wasModified);
+		}
 
 		$this->assertEquals('1.2.3', $config->getValue('testapp', 'installed_version'));
 		$this->assertConfigKey('testapp', 'installed_version', '1.2.3');
@@ -218,7 +221,10 @@ class AppConfig extends TestCase {
 		$this->assertEquals('somevalue', $config->getValue('someapp', 'somekey'));
 		$this->assertConfigKey('someapp', 'somekey', 'somevalue');
 
-		$this->assertFalse($config->setValue('someapp', 'somekey', 'somevalue'));
+		$wasInserted = $config->setValue('someapp', 'somekey', 'somevalue');
+		if (!(\OC::$server->getDatabaseConnection() instanceof \OC\DB\OracleConnection)) {
+			$this->assertFalse($wasInserted);
+		}
 	}
 
 	public function testDeleteKey() {

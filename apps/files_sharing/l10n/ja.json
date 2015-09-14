@@ -39,6 +39,7 @@
     "%2$s shared %1$s with you" : "%2$s は %1$s をあなたと共有しました",
     "You shared %1$s via link" : "リンク経由で %1$s を共有しています",
     "Shares" : "共有",
+    "Accept" : "承諾",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "#ownCloud の「クラウド連携ID」で私と共有できます。こちらを見てください。%s",
     "Share with me through my #ownCloud Federated Cloud ID" : "#ownCloud の「クラウド連携ID」で私と共有できます。",
     "This share is password-protected" : "この共有はパスワードで保護されています",

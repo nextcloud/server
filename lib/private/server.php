@@ -53,6 +53,7 @@ use OC\Lock\DBLockingProvider;
 use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
+use OC\Notification\Manager;
 use OC\Security\CertificateManager;
 use OC\Security\Crypto;
 use OC\Security\Hasher;
@@ -177,8 +178,6 @@ class Server extends SimpleContainer implements IServerContainer {
 			$manager = $c->getUserManager();
 
 			$session = new \OC\Session\Memory('');
-			$cryptoWrapper = $c->getSessionCryptoWrapper();
-			$session = $cryptoWrapper->wrapSession($session);
 
 			$userSession = new \OC\User\Session($manager, $session);
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
@@ -252,7 +251,7 @@ class Server extends SimpleContainer implements IServerContainer {
 
 			if($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				$v = \OC_App::getAppVersions();
-				$v['core'] = implode('.', \OC_Util::getVersion());
+				$v['core'] = md5(file_get_contents(\OC::$SERVERROOT . '/version.php'));
 				$version = implode(',', $v);
 				$instanceId = \OC_Util::getInstanceId();
 				$path = \OC::$SERVERROOT;
@@ -357,7 +356,10 @@ class Server extends SimpleContainer implements IServerContainer {
 			}
 		});
 		$this->registerService('TempManager', function (Server $c) {
-			return new TempManager(get_temp_dir(), $c->getLogger());
+			return new TempManager(
+				$c->getLogger(),
+				$c->getConfig()
+			);
 		});
 		$this->registerService('AppManager', function(Server $c) {
 			return new \OC\App\AppManager(
@@ -469,6 +471,14 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new \OC\Files\Type\Detection(
 				$c->getURLGenerator(),
 				\OC::$configDir);
+		});
+		$this->registerService('MimeTypeLoader', function(Server $c) {
+			return new \OC\Files\Type\Loader(
+				$c->getDatabaseConnection()
+			);
+		});
+		$this->registerService('NotificationManager', function() {
+			return new Manager();
 		});
 		$this->registerService('CapabilitiesManager', function (Server $c) {
 			$manager = new \OC\CapabilitiesManager();
@@ -1011,6 +1021,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
+	 * Get the MimeTypeLoader
+	 *
+	 * @return \OCP\Files\IMimeTypeLoader
+	 */
+	public function getMimeTypeLoader() {
+		return $this->query('MimeTypeLoader');
+	}
+
+	/**
 	 * Get the manager of all the capabilities
 	 *
 	 * @return \OC\CapabilitiesManager
@@ -1030,9 +1049,51 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
+	 * Get the Notification Manager
+	 *
+	 * @return \OC\Notification\IManager
+	 * @since 8.2.0
+	 */
+	public function getNotificationManager() {
+		return $this->query('NotificationManager');
+	}
+
+	/**
 	 * @return \OC\Session\CryptoWrapper
 	 */
 	public function getSessionCryptoWrapper() {
 		return $this->query('CryptoWrapper');
+	}
+
+	/**
+	 * Not a public API as of 8.2, wait for 9.0
+	 * @return \OCA\Files_External\Service\BackendService
+	 */
+	public function getStoragesBackendService() {
+		return \OC_Mount_Config::$app->getContainer()->query('OCA\\Files_External\\Service\\BackendService');
+	}
+
+	/**
+	 * Not a public API as of 8.2, wait for 9.0
+	 * @return \OCA\Files_External\Service\GlobalStoragesService
+	 */
+	public function getGlobalStoragesService() {
+		return \OC_Mount_Config::$app->getContainer()->query('OCA\\Files_External\\Service\\GlobalStoragesService');
+	}
+
+	/**
+	 * Not a public API as of 8.2, wait for 9.0
+	 * @return \OCA\Files_External\Service\UserGlobalStoragesService
+	 */
+	public function getUserGlobalStoragesService() {
+		return \OC_Mount_Config::$app->getContainer()->query('OCA\\Files_External\\Service\\UserGlobalStoragesService');
+	}
+
+	/**
+	 * Not a public API as of 8.2, wait for 9.0
+	 * @return \OCA\Files_External\Service\UserStoragesService
+	 */
+	public function getUserStoragesService() {
+		return \OC_Mount_Config::$app->getContainer()->query('OCA\\Files_External\\Service\\UserStoragesService');
 	}
 }

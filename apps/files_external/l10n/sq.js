@@ -1,17 +1,17 @@
 OC.L10N.register(
     "files_external",
     {
-    "Username" : "Përdoruesi",
-    "Host" : "Pritësi",
-    "Share" : "Ndaj",
     "Personal" : "Personale",
     "Saved" : "U ruajt",
     "None" : "Asgjë",
+    "Username" : "Përdoruesi",
     "Password" : "fjalëkalim",
     "Port" : "Porta",
     "WebDAV" : "WebDAV",
     "URL" : "URL-i",
+    "Host" : "Pritësi",
     "Location" : "Vendndodhja",
+    "Share" : "Ndaj",
     "Name" : "Emri",
     "Folder name" : "Emri i Skedarit",
     "Delete" : "Elimino"

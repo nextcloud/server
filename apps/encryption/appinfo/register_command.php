@@ -21,10 +21,17 @@
  */
 
 use OCA\Encryption\Command\MigrateKeys;
+use Symfony\Component\Console\Helper\QuestionHelper;
 
 $userManager = OC::$server->getUserManager();
 $view = new \OC\Files\View();
 $config = \OC::$server->getConfig();
+$userSession = \OC::$server->getUserSession();
 $connection = \OC::$server->getDatabaseConnection();
 $logger = \OC::$server->getLogger();
+$questionHelper = new QuestionHelper();
+$crypt = new \OCA\Encryption\Crypto\Crypt($logger, $userSession, $config);
+$util = new \OCA\Encryption\Util($view, $crypt, $logger, $userSession, $config, $userManager);
+
 $application->add(new MigrateKeys($userManager, $view, $connection, $config, $logger));
+$application->add(new \OCA\Encryption\Command\EnableMasterKey($util, $config, $questionHelper));

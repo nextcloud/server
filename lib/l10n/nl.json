@@ -89,6 +89,7 @@
     "Sharing %s failed, because the user %s does not exist" : "Delen van %s is mislukt, omdat gebruiker %s niet bestaat",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "Delen van %s is mislukt, omdat gebruiker %s geen lid is van een groep waar %s lid van is",
     "Sharing %s failed, because this item is already shared with %s" : "Delen van %s is mislukt, omdat het object al wordt gedeeld met %s",
+    "Sharing %s failed, because this item is already shared with user %s" : "Delen van %s is mislukt, omdat het object al wordt gedeeld met gebruiker %s",
     "Sharing %s failed, because the group %s does not exist" : "Delen van %s is mislukt, omdat groep %s niet bestaat",
     "Sharing %s failed, because %s is not a member of the group %s" : "Delen van %s is mislukt, omdat %s geen lid is van groep %s",
     "You need to provide a password to create a public link, only protected links are allowed" : "U moet een wachtwoord verstrekken om een openbare koppeling te maken, alleen beschermde links zijn toegestaan",

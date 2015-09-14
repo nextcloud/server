@@ -41,6 +41,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s megosztotta velem ezt: %1$s",
     "You shared %1$s via link" : "Megosztottam link segítségével: %1$s",
     "Shares" : "Megosztások",
+    "Accept" : "Elfogadás",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Ossza meg velem az #ownCloud Egyesített Felhő Azonosító segítségével, lásd %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Ossza meg velem az #ownCloud Egyesített Felhő Azonosító segítségével ",
     "This share is password-protected" : "Ez egy jelszóval védett megosztás",
@@ -66,6 +67,7 @@ OC.L10N.register(
     "Federated Cloud" : "Egyesített felhő",
     "Your Federated Cloud ID:" : "Egyesített felhő azonosító:",
     "Share it:" : "Ossza meg:",
+    "Add to your website" : "Add hozzá saját weboldaladhoz",
     "Share with me via ownCloud" : "Ossza meg velem ownCloud-on keresztül",
     "HTML Code:" : "HTML Code:"
 },

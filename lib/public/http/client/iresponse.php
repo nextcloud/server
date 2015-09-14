@@ -30,7 +30,7 @@ namespace OCP\Http\Client;
  */
 interface IResponse {
 	/**
-	 * @return string
+	 * @return string|resource
 	 * @since 8.1.0
 	 */
 	public function getBody();

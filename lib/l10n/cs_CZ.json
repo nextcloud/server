@@ -89,6 +89,7 @@
     "Sharing %s failed, because the user %s does not exist" : "Sdílení položky %s selhalo, protože uživatel %s neexistuje",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "Sdílení položky %s selhalo, protože uživatel %s není členem žádné skupiny společné s uživatelem %s",
     "Sharing %s failed, because this item is already shared with %s" : "Sdílení položky %s selhalo, protože položka již je s uživatelem %s sdílena",
+    "Sharing %s failed, because this item is already shared with user %s" : "Sdílení položky %s selhalo, protože ta je již s uživatelem %s sdílena",
     "Sharing %s failed, because the group %s does not exist" : "Sdílení položky %s selhalo, protože skupina %s neexistuje",
     "Sharing %s failed, because %s is not a member of the group %s" : "Sdílení položky %s selhalo, protože uživatel %s není členem skupiny %s",
     "You need to provide a password to create a public link, only protected links are allowed" : "Pro vytvoření veřejného odkazu je nutné zadat heslo, jsou povoleny pouze chráněné odkazy",

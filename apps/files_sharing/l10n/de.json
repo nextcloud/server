@@ -39,6 +39,7 @@
     "%2$s shared %1$s with you" : "%2$s hat %1$s mit Dir geteilt",
     "You shared %1$s via link" : "Du hast %1$s über einen Link freigegeben",
     "Shares" : "Freigaben",
+    "Accept" : "Ok",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Teile mit mir über meine #ownCloud Federated-Cloud-ID, siehe %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Teile mit mir über meine #ownCloud Federated-Cloud-ID",
     "This share is password-protected" : "Diese Freigabe ist durch ein Passwort geschützt",

@@ -1054,6 +1054,7 @@ class OC_Util {
 		return $id;
 	}
 
+	protected static $encryptedToken;
 	/**
 	 * Register an get/post call. Important to prevent CSRF attacks.
 	 *
@@ -1066,6 +1067,11 @@ class OC_Util {
 	 * @see OC_Util::isCallRegistered()
 	 */
 	public static function callRegister() {
+		// Use existing token if function has already been called
+		if(isset(self::$encryptedToken)) {
+			return self::$encryptedToken;
+		}
+
 		// Check if a token exists
 		if (!\OC::$server->getSession()->exists('requesttoken')) {
 			// No valid token found, generate a new one.
@@ -1078,7 +1084,8 @@ class OC_Util {
 
 		// Encrypt the token to mitigate breach-like attacks
 		$sharedSecret = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(10);
-		return \OC::$server->getCrypto()->encrypt($requestToken, $sharedSecret) . ':' . $sharedSecret;
+		self::$encryptedToken = \OC::$server->getCrypto()->encrypt($requestToken, $sharedSecret) . ':' . $sharedSecret;
+		return self::$encryptedToken;
 	}
 
 	/**
@@ -1449,8 +1456,12 @@ class OC_Util {
 		if ($config->getSystemValue('installed', false)) {
 			$installedVersion = $config->getSystemValue('version', '0.0.0');
 			$currentVersion = implode('.', OC_Util::getVersion());
-			if (version_compare($currentVersion, $installedVersion, '>')) {
+			$versionDiff = version_compare($currentVersion, $installedVersion);
+			if ($versionDiff > 0) {
 				return true;
+			} else if ($versionDiff < 0) {
+				// downgrade attempt, throw exception
+				throw new \OC\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
 			}
 
 			// also check for upgrades for apps (independently from the user)

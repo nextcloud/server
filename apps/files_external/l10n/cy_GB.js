@@ -1,14 +1,14 @@
 OC.L10N.register(
     "files_external",
     {
-    "Username" : "Enw defnyddiwr",
-    "Share" : "Rhannu",
     "Personal" : "Personol",
     "None" : "Dim",
+    "Username" : "Enw defnyddiwr",
     "Password" : "Cyfrinair",
     "URL" : "URL",
     "Location" : "Lleoliad",
     "ownCloud" : "ownCloud",
+    "Share" : "Rhannu",
     "Name" : "Enw",
     "Delete" : "Dileu"
 },

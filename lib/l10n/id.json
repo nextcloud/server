@@ -89,6 +89,7 @@
     "Sharing %s failed, because the user %s does not exist" : "Gagal membagikan %s, karena pengguna %s tidak ada",
     "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" : "Gagal membagikan %s, karena pengguna %s bukan merupakan anggota dari grup yang %s ikuti",
     "Sharing %s failed, because this item is already shared with %s" : "Gagal membagkan %s, karena item ini sudah dibagikan dengan %s",
+    "Sharing %s failed, because this item is already shared with user %s" : "Berbagi %s gagal karena item ini sudah dibagikan dengan pengguna %s",
     "Sharing %s failed, because the group %s does not exist" : "Gagal membagikan %s, karena grup %s tidak ada",
     "Sharing %s failed, because %s is not a member of the group %s" : "Gagal membagikan %s, karena %s bukan anggota dari grup %s",
     "You need to provide a password to create a public link, only protected links are allowed" : "Anda perlu memberikan sandi untuk membuat tautan publik, hanya tautan yang terlindungi yang diizinkan",

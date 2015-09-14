@@ -38,6 +38,7 @@ OCP\Util::addStyle('files', 'upload');
 OCP\Util::addStyle('files', 'mobile');
 OCP\Util::addscript('files', 'app');
 OCP\Util::addscript('files', 'file-upload');
+OCP\Util::addscript('files', 'newfilemenu');
 OCP\Util::addscript('files', 'jquery.iframe-transport');
 OCP\Util::addscript('files', 'jquery.fileupload');
 OCP\Util::addscript('files', 'jquery-visibility');

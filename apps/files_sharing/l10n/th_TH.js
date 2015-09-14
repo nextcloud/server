@@ -41,6 +41,9 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s ถูกแชร์ %1$s กับคุณ",
     "You shared %1$s via link" : "คุณแชร์ %1$s ผ่านลิงค์",
     "Shares" : "แชร์",
+    "You received %s as a remote share from %s" : "คุณได้รับ %s โดยรีโมทแชร์จาก %s",
+    "Accept" : "ยอมรับ",
+    "Decline" : "ลดลง",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "แชร์ร่วมกับฉันผ่าน #ownCloud ด้วยไอดีคลาวด์ในเครือ สามารถดูได้ที่ %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "แชร์ร่วมกับฉันผ่าน #ownCloud ด้วยไอดีคลาวด์ในเครือ",
     "This share is password-protected" : "นี้แชร์การป้องกันด้วยรหัสผ่าน",
@@ -66,6 +69,7 @@ OC.L10N.register(
     "Federated Cloud" : "สหพันธ์คลาวด์",
     "Your Federated Cloud ID:" : "ไอดีคลาวด์ของคุณ:",
     "Share it:" : "แชร์มัน:",
+    "Add to your website" : "เพิ่มไปยังเว็บไซต์",
     "Share with me via ownCloud" : "แชร์ร่วมกับฉันผ่าน ownCloud",
     "HTML Code:" : "โค้ด HTML:"
 },

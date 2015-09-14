@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_external",
     {
-    "Username" : "వాడుకరి పేరు",
     "Personal" : "వ్యక్తిగతం",
+    "Username" : "వాడుకరి పేరు",
     "Password" : "సంకేతపదం",
     "Name" : "పేరు",
     "Folder name" : "సంచయం పేరు",

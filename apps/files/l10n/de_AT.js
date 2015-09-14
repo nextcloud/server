@@ -5,6 +5,8 @@ OC.L10N.register(
     "Files" : "Dateien",
     "Download" : "Herunterladen",
     "Error" : "Fehler",
+    "Upload" : "Hochladen",
+    "New folder" : "Neuer Ordner",
     "A new file or folder has been <strong>created</strong>" : "Eine neue Datei oder ein neuer Ordner wurde <strong>erstellt</strong>",
     "A file or folder has been <strong>changed</strong>" : "Eine Datei oder ein Ordner hat sich <strong>geändert</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Eine Datei oder ein Ordner wurde <strong>gelöscht</strong>",
@@ -16,8 +18,6 @@ OC.L10N.register(
     "%2$s deleted %1$s" : "%2$s löschte %1$s",
     "Save" : "Speichern",
     "Settings" : "Einstellungen",
-    "New folder" : "Neuer Ordner",
-    "Upload" : "Hochladen",
     "Cancel upload" : "Hochladen abbrechen",
     "Delete" : "Löschen"
 },

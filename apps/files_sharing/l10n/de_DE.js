@@ -41,6 +41,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s hat %1$s mit Ihnen geteilt",
     "You shared %1$s via link" : "Sie haben %1$s über einen Link geteilt",
     "Shares" : "Geteiltes",
+    "Accept" : "Akzeptieren",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Teilen Sie mit mir über meine #ownCloud Federated-Cloud-ID, siehe %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Teilen Sie mit mir über meine #ownCloud Federated-Cloud-ID",
     "This share is password-protected" : "Diese Freigabe ist durch ein Passwort geschützt",

@@ -24,11 +24,20 @@ namespace OCA\Files_External\Lib\Backend;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\Builtin;
+use \OCA\Files_External\Lib\MissingDependency;
+use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 
 /**
  * Legacy compatibility for OC_Mount_Config::registerBackend()
  */
 class LegacyBackend extends Backend {
+
+	use LegacyDependencyCheckPolyfill {
+		LegacyDependencyCheckPolyfill::checkDependencies as doCheckDependencies;
+	}
+
+	/** @var bool */
+	protected $hasDependencies = false;
 
 	/**
 	 * @param string $class
@@ -78,8 +87,18 @@ class LegacyBackend extends Backend {
 			$this->setCustomJs($definition['custom']);
 		}
 		if (isset($definition['has_dependencies']) && $definition['has_dependencies']) {
-			$this->setDependencyCheck($class . '::checkDependencies');
+			$this->hasDependencies = true;
 		}
+	}
+
+	/**
+	 * @return MissingDependency[]
+	 */
+	public function checkDependencies() {
+		if ($this->hasDependencies) {
+			return $this->doCheckDependencies();
+		}
+		return [];
 	}
 
 }

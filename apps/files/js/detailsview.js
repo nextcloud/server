@@ -35,7 +35,7 @@
 	var DetailsView = OC.Backbone.View.extend({
 		id: 'app-sidebar',
 		tabName: 'div',
-		className: 'detailsView',
+		className: 'detailsView scroll-container',
 
 		_template: null,
 

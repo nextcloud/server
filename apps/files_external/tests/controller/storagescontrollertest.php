@@ -75,10 +75,12 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
 			->willReturn(true);
+		$authMech->method('isPermitted')
+			->willReturn(true);
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')
 			->willReturn(true);
-		$backend->method('isVisibleFor')
+		$backend->method('isPermitted')
 			->willReturn(true);
 
 		$storageConfig = new StorageConfig(1);
@@ -114,10 +116,12 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
 			->willReturn(true);
+		$authMech->method('isPermitted')
+			->willReturn(true);
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')
 			->willReturn(true);
-		$backend->method('isVisibleFor')
+		$backend->method('isPermitted')
 			->willReturn(true);
 
 		$storageConfig = new StorageConfig(1);
@@ -245,10 +249,12 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
 			->willReturn(true);
+		$authMech->method('isPermitted')
+			->willReturn(true);
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')
 			->willReturn(true);
-		$backend->method('isVisibleFor')
+		$backend->method('isPermitted')
 			->willReturn(true);
 
 		$storageConfig = new StorageConfig(255);
@@ -332,12 +338,14 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')
 			->willReturn($backendValidate);
-		$backend->method('isVisibleFor')
+		$backend->method('isPermitted')
 			->willReturn(true);
 
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
 			->will($this->returnValue($authMechValidate));
+		$authMech->method('isPermitted')
+			->willReturn(true);
 
 		$storageConfig = new StorageConfig();
 		$storageConfig->setMountPoint('mount');

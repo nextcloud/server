@@ -1,13 +1,13 @@
 OC.L10N.register(
     "files_external",
     {
-    "Username" : "Benutzername",
-    "Host" : "Host",
-    "Share" : "Freigeben",
     "Personal" : "Persönlich",
+    "Username" : "Benutzername",
     "Password" : "Passwort",
     "Port" : "Port",
+    "Host" : "Host",
     "Location" : "Ort",
+    "Share" : "Freigeben",
     "Folder name" : "Ordner Name",
     "Delete" : "Löschen"
 },

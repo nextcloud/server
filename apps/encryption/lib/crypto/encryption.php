@@ -84,6 +84,9 @@ class Encryption implements IEncryptionModule {
 	/** @var EncryptAll */
 	private $encryptAll;
 
+	/** @var  bool */
+	private $useMasterPassword;
+
 	/**
 	 *
 	 * @param Crypt $crypt
@@ -105,6 +108,7 @@ class Encryption implements IEncryptionModule {
 		$this->encryptAll = $encryptAll;
 		$this->logger = $logger;
 		$this->l = $il10n;
+		$this->useMasterPassword = $util->isMasterKeyEnabled();
 	}
 
 	/**
@@ -193,23 +197,26 @@ class Encryption implements IEncryptionModule {
 				$this->writeCache = '';
 			}
 			$publicKeys = array();
-			foreach ($this->accessList['users'] as $uid) {
-				try {
-					$publicKeys[$uid] = $this->keyManager->getPublicKey($uid);
-				} catch (PublicKeyMissingException $e) {
-					$this->logger->warning(
-						'no public key found for user "{uid}", user will not be able to read the file',
-						['app' => 'encryption', 'uid' => $uid]
-					);
-					// if the public key of the owner is missing we should fail
-					if ($uid === $this->user) {
-						throw $e;
+			if ($this->useMasterPassword === true) {
+				$publicKeys[$this->keyManager->getMasterKeyId()] = $this->keyManager->getPublicMasterKey();
+			} else {
+				foreach ($this->accessList['users'] as $uid) {
+					try {
+						$publicKeys[$uid] = $this->keyManager->getPublicKey($uid);
+					} catch (PublicKeyMissingException $e) {
+						$this->logger->warning(
+							'no public key found for user "{uid}", user will not be able to read the file',
+							['app' => 'encryption', 'uid' => $uid]
+						);
+						// if the public key of the owner is missing we should fail
+						if ($uid === $this->user) {
+							throw $e;
+						}
 					}
 				}
 			}
 
 			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys, $this->user);
-
 			$encryptedKeyfiles = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
 			$this->keyManager->setAllFileKeys($this->path, $encryptedKeyfiles);
 		}
@@ -318,8 +325,12 @@ class Encryption implements IEncryptionModule {
 		if (!empty($fileKey)) {
 
 			$publicKeys = array();
-			foreach ($accessList['users'] as $user) {
-				$publicKeys[$user] = $this->keyManager->getPublicKey($user);
+			if ($this->useMasterPassword === true) {
+				$publicKeys[$this->keyManager->getMasterKeyId()] = $this->keyManager->getPublicMasterKey();
+			} else {
+				foreach ($accessList['users'] as $user) {
+					$publicKeys[$user] = $this->keyManager->getPublicKey($user);
+				}
 			}
 
 			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $uid);

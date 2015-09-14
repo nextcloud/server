@@ -69,7 +69,7 @@ class JSONResponseTest extends \Test\TestCase {
 	/**
 	 * @return array
 	 */
-	public function testRenderProvider() {
+	public function renderDataProvider() {
 		return [
 			[
 				['test' => 'hi'], '{"test":"hi"}',
@@ -81,7 +81,7 @@ class JSONResponseTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider testRenderProvider
+	 * @dataProvider renderDataProvider
 	 * @param array $input
 	 * @param string $expected
 	 */
