@@ -148,7 +148,7 @@ if ($maxUploadFileSize >= 0 and $totalSize > $maxUploadFileSize) {
 }
 
 $result = array();
-if (strpos($dir, '..') === false) {
+if (\OC\Files\Filesystem::isValidPath($dir) === true) {
 	$fileCount = count($files['name']);
 	for ($i = 0; $i < $fileCount; $i++) {
 
