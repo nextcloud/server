@@ -153,6 +153,7 @@
 
 		_onSelectRecipient: function(e, s) {
 			e.preventDefault();
+			$(e.target).val('');
 			this.model.addShare(s.item.value);
 		},
 
