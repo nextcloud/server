@@ -84,7 +84,8 @@
 		events: {
 			'click .unshare': 'onUnshare',
 			'click .permissions': 'onPermissionChange',
-			'click .showCruds': 'onCrudsToggle'
+			'click .showCruds': 'onCrudsToggle',
+			'click .mailNotification': 'onSendMailNotification'
 		},
 
 		initialize: function(options) {
@@ -279,11 +280,19 @@
 			this.model.setPermissions(shareType, shareWith, permissions);
 		},
 
-		onCrudsToggle: function(event) {
+		onCrudsToggle: function() {
 			this.$el.find('.cruds').toggleClass('hidden');
 			return false;
-		}
+		},
 
+		onSendMailNotification: function(event) {
+			var $target = $(event.target);
+			var $li = $(event.target).closest('li');
+			var shareType = $li.data('share-type');
+			var shareWith = $li.attr('data-share-with');
+
+			this.model.sendNotificationForShare(shareType, shareWith, $target.is(':checked'));
+		}
 	});
 
 	OC.Share.ShareDialogShareeListView = ShareDialogShareeListView;

@@ -466,6 +466,34 @@
 		},
 
 		/**
+		 * Sends an email notification for the given share
+		 *
+		 * @param {int} shareType share type
+		 * @param {string} shareWith recipient
+		 * @param {bool} state whether to set the notification flag or remove it
+		 */
+		sendNotificationForShare: function(shareType, shareWith, state) {
+			var itemType = this.get('itemType');
+			var itemSource = this.get('itemSource');
+
+			$.post(
+				OC.generateUrl('core/ajax/share.php'),
+				{
+					action: state ? 'informRecipients' : 'informRecipientsDisabled',
+					recipient: shareWith,
+					shareType: shareType,
+					itemSource: itemSource,
+					itemType: itemType
+				},
+				function(result) {
+					if (result.status !== 'success') {
+						OC.dialogs.alert(t('core', result.data.message), t('core', 'Warning'));
+					}
+				}
+			);
+		},
+
+		/**
 		 * @returns {boolean}
 		 */
 		sharePermissionPossible: function() {
