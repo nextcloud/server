@@ -35,6 +35,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 	const USER_ID = 'test_user';
 	const GROUP_ID = 'test_group';
+	const GROUP_ID2 = 'test_group2';
 
 	public function setUp() {
 		parent::setUp();
@@ -51,8 +52,12 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->groupManager = $this->getMock('\OCP\IGroupManager');
 		$this->groupManager->method('isInGroup')
 			->will($this->returnCallback(function($userId, $groupId) {
-				if ($userId === self::USER_ID && $groupId === self::GROUP_ID) {
-					return true;
+				if ($userId === self::USER_ID) {
+					switch ($groupId) {
+					case self::GROUP_ID:
+					case self::GROUP_ID2:
+						return true;
+					}
 				}
 				return false;
 			}));
@@ -165,6 +170,77 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->assertEquals(1, $newStorage->getId());
 
 		$this->service->removeStorage(1);
+	}
+
+	public function getUniqueStoragesProvider() {
+		return [
+			// 'all' vs group
+			[100, [], [], 100, [], [self::GROUP_ID], 2],
+			[100, [], [self::GROUP_ID], 100, [], [], 1],
+
+			// 'all' vs user
+			[100, [], [], 100, [self::USER_ID], [], 2],
+			[100, [self::USER_ID], [], 100, [], [], 1],
+
+			// group vs user
+			[100, [], [self::GROUP_ID], 100, [self::USER_ID], [], 2],
+			[100, [self::USER_ID], [], 100, [], [self::GROUP_ID], 1],
+
+			// group+user vs group
+			[100, [], [self::GROUP_ID2], 100, [self::USER_ID], [self::GROUP_ID], 2],
+			[100, [self::USER_ID], [self::GROUP_ID], 100, [], [self::GROUP_ID2], 1],
+
+			// user vs 'all' (higher priority)
+			[200, [], [], 100, [self::USER_ID], [], 2],
+			[100, [self::USER_ID], [], 200, [], [], 1],
+
+			// group vs group (higher priority)
+			[100, [], [self::GROUP_ID2], 200, [], [self::GROUP_ID], 2],
+			[200, [], [self::GROUP_ID], 100, [], [self::GROUP_ID2], 1],
+		];
+	}
+
+	/**
+	 * @dataProvider getUniqueStoragesProvider
+	 */
+	public function testGetUniqueStorages(
+		$priority1, $applicableUsers1, $applicableGroups1,
+		$priority2, $applicableUsers2, $applicableGroups2,
+		$expectedPrecedence
+	) {
+		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
+		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
+
+		$storage1 = new StorageConfig();
+		$storage1->setMountPoint('mountpoint');
+		$storage1->setBackend($backend);
+		$storage1->setAuthMechanism($authMechanism);
+		$storage1->setBackendOptions(['password' => 'testPassword']);
+		$storage1->setPriority($priority1);
+		$storage1->setApplicableUsers($applicableUsers1);
+		$storage1->setApplicableGroups($applicableGroups1);
+
+		$storage1 = $this->globalStoragesService->addStorage($storage1);
+
+		$storage2 = new StorageConfig();
+		$storage2->setMountPoint('mountpoint');
+		$storage2->setBackend($backend);
+		$storage2->setAuthMechanism($authMechanism);
+		$storage2->setBackendOptions(['password' => 'testPassword']);
+		$storage2->setPriority($priority2);
+		$storage2->setApplicableUsers($applicableUsers2);
+		$storage2->setApplicableGroups($applicableGroups2);
+
+		$storage2 = $this->globalStoragesService->addStorage($storage2);
+
+		$storages = $this->service->getUniqueStorages();
+		$this->assertCount(1, $storages);
+
+		if ($expectedPrecedence === 1) {
+			$this->assertArrayHasKey($storage1->getID(), $storages);
+		} elseif ($expectedPrecedence === 2) {
+			$this->assertArrayHasKey($storage2->getID(), $storages);
+		}
 	}
 
 	public function testHooksAddStorage($a = null, $b = null, $c = null) {
