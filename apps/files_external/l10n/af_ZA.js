@@ -1,9 +1,9 @@
 OC.L10N.register(
     "files_external",
     {
-    "Username" : "Gebruikersnaam",
-    "Share" : "Deel",
     "Personal" : "Persoonlik",
-    "Password" : "Wagwoord"
+    "Username" : "Gebruikersnaam",
+    "Password" : "Wagwoord",
+    "Share" : "Deel"
 },
 "nplurals=2; plural=(n != 1);");

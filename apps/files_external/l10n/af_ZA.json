@@ -1,7 +1,7 @@
 { "translations": {
-    "Username" : "Gebruikersnaam",
-    "Share" : "Deel",
     "Personal" : "Persoonlik",
-    "Password" : "Wagwoord"
+    "Username" : "Gebruikersnaam",
+    "Password" : "Wagwoord",
+    "Share" : "Deel"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

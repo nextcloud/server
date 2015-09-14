@@ -41,7 +41,9 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s s vámi sdílí %1$s",
     "You shared %1$s via link" : "Sdílíte %1$s přes odkaz",
     "Shares" : "Sdílení",
+    "You received %s as a remote share from %s" : "Obdrželi jste %s nově nasdílená vzdáleně od %s ",
     "Accept" : "Přijmout",
+    "Decline" : "Zamítnout",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Sdílej se mnou pomocí mého #ownCloud sdruženého cloud ID, více na %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Sdílej se mnou pomocí mého #ownCloud sdruženého cloud ID",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",
@@ -67,6 +69,7 @@ OC.L10N.register(
     "Federated Cloud" : "Sdružený cloud",
     "Your Federated Cloud ID:" : "Vaše sdružené cloud ID:",
     "Share it:" : "Sdílet:",
+    "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via ownCloud" : "Sdíleno se mnou přes ownCloud",
     "HTML Code:" : "HTML kód:"
 },

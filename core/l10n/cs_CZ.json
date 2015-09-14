@@ -171,6 +171,7 @@
     "The update was successful. There were warnings." : "Aktualizace byla úspěšná. Zachycen výskyt varování.",
     "The update was successful. Redirecting you to ownCloud now." : "Aktualizace byla úspěšná. Přesměrovávám na ownCloud.",
     "Couldn't reset password because the token is invalid" : "Heslo nebylo změněno kvůli neplatnému tokenu",
+    "Couldn't reset password because the token is expired" : "Heslo nebylo změněno z důvodu vypršení tokenu",
     "Couldn't send reset email. Please make sure your username is correct." : "Nelze odeslat email pro změnu hesla. Ujistěte se prosím, že zadáváte správné uživatelské jméno.",
     "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Nelze odeslat email pro změnu hesla, protože u tohoto uživatelského jména není uvedena emailová adresa. Kontaktujte prosím svého správce systému.",
     "%s password reset" : "reset hesla %s",

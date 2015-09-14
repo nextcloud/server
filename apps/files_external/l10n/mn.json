@@ -1,6 +1,6 @@
 { "translations": {
     "Username" : "Хэрэглэгчийн нэр",
-    "Share" : "Түгээх",
-    "Password" : "Нууц үг"
+    "Password" : "Нууц үг",
+    "Share" : "Түгээх"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

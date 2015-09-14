@@ -1,11 +1,11 @@
 { "translations": {
-    "Username" : "Benutzername",
-    "Host" : "Host",
-    "Share" : "Freigeben",
     "Personal" : "Persönlich",
+    "Username" : "Benutzername",
     "Password" : "Passwort",
     "Port" : "Port",
+    "Host" : "Host",
     "Location" : "Ort",
+    "Share" : "Freigeben",
     "Folder name" : "Ordner Name",
     "Delete" : "Löschen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
