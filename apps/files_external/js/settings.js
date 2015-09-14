@@ -796,6 +796,19 @@ MountConfigListView.prototype = _.extend({
 			});
 		}
 
+		var applicable = [];
+		if (storageConfig.applicableUsers) {
+			applicable = applicable.concat(storageConfig.applicableUsers);
+		}
+		if (storageConfig.applicableGroups) {
+			applicable = applicable.concat(
+				_.map(storageConfig.applicableGroups, function(group) {
+					return group+'(group)';
+				})
+			);
+		}
+		$tr.find('.applicableUsers').val(applicable).trigger('change');
+
 		var priorityEl = $('<input type="hidden" class="priority" value="' + backend.priority + '" />');
 		$tr.append(priorityEl);
 
