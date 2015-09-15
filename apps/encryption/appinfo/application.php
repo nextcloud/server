@@ -30,6 +30,7 @@ use OCA\Encryption\Controller\RecoveryController;
 use OCA\Encryption\Controller\SettingsController;
 use OCA\Encryption\Controller\StatusController;
 use OCA\Encryption\Crypto\Crypt;
+use OCA\Encryption\Crypto\DecryptAll;
 use OCA\Encryption\Crypto\EncryptAll;
 use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\HookManager;
@@ -113,7 +114,9 @@ class Application extends \OCP\AppFramework\App {
 				$container->query('Crypt'),
 				$container->query('KeyManager'),
 				$container->query('Util'),
+				$container->query('Session'),
 				$container->query('EncryptAll'),
+				$container->query('DecryptAll'),
 				$container->getServer()->getLogger(),
 				$container->getServer()->getL10N($container->getAppName())
 			);
@@ -238,6 +241,18 @@ class Application extends \OCP\AppFramework\App {
 					$server->getL10N('encryption'),
 					new QuestionHelper(),
 					$server->getSecureRandom()
+				);
+			}
+		);
+
+		$container->registerService('DecryptAll',
+			function (IAppContainer $c) {
+				return new DecryptAll(
+					$c->query('Util'),
+					$c->query('KeyManager'),
+					$c->query('Crypt'),
+					$c->query('Session'),
+					new QuestionHelper()
 				);
 			}
 		);
