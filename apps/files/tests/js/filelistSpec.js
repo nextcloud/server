@@ -98,6 +98,7 @@ describe('OCA.Files.FileList tests', function() {
 			type: 'file',
 			name: 'One.txt',
 			mimetype: 'text/plain',
+			mtime: 123456789,
 			size: 12,
 			etag: 'abc',
 			permissions: OC.PERMISSION_ALL
@@ -106,6 +107,7 @@ describe('OCA.Files.FileList tests', function() {
 			type: 'file',
 			name: 'Two.jpg',
 			mimetype: 'image/jpeg',
+			mtime: 234567890,
 			size: 12049,
 			etag: 'def',
 			permissions: OC.PERMISSION_ALL
@@ -114,6 +116,7 @@ describe('OCA.Files.FileList tests', function() {
 			type: 'file',
 			name: 'Three.pdf',
 			mimetype: 'application/pdf',
+			mtime: 234560000,
 			size: 58009,
 			etag: '123',
 			permissions: OC.PERMISSION_ALL
@@ -122,6 +125,7 @@ describe('OCA.Files.FileList tests', function() {
 			type: 'dir',
 			name: 'somedir',
 			mimetype: 'httpd/unix-directory',
+			mtime: 134560000,
 			size: 250,
 			etag: '456',
 			permissions: OC.PERMISSION_ALL
@@ -1722,6 +1726,7 @@ describe('OCA.Files.FileList tests', function() {
 					id: 1,
 					name: 'One.txt',
 					mimetype: 'text/plain',
+					mtime: 123456789,
 					type: 'file',
 					size: 12,
 					etag: 'abc',
@@ -1732,6 +1737,7 @@ describe('OCA.Files.FileList tests', function() {
 					type: 'file',
 					name: 'Three.pdf',
 					mimetype: 'application/pdf',
+					mtime: 234560000,
 					size: 58009,
 					etag: '123',
 					permissions: OC.PERMISSION_ALL
@@ -1741,6 +1747,7 @@ describe('OCA.Files.FileList tests', function() {
 					type: 'dir',
 					name: 'somedir',
 					mimetype: 'httpd/unix-directory',
+					mtime: 134560000,
 					size: 250,
 					etag: '456',
 					permissions: OC.PERMISSION_ALL
@@ -1754,6 +1761,7 @@ describe('OCA.Files.FileList tests', function() {
 					id: 1,
 					name: 'One.txt',
 					mimetype: 'text/plain',
+					mtime: 123456789,
 					type: 'file',
 					size: 12,
 					etag: 'abc',
@@ -1764,6 +1772,7 @@ describe('OCA.Files.FileList tests', function() {
 					type: 'dir',
 					name: 'somedir',
 					mimetype: 'httpd/unix-directory',
+					mtime: 134560000,
 					size: 250,
 					etag: '456',
 					permissions: OC.PERMISSION_ALL
@@ -2148,6 +2157,93 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList.$fileList.find('tr').length).toEqual(5);
 		});
 	});
+	describe('create file', function() {
+		var deferredCreate;
+
+		beforeEach(function() {
+			deferredCreate = $.Deferred();
+		});
+
+		it('creates file with given name and adds it to the list', function() {
+			var deferred = fileList.createFile('test file.txt');
+			var successStub = sinon.stub();
+			var failureStub = sinon.stub();
+
+			deferred.done(successStub);
+			deferred.fail(failureStub);
+
+			expect(fakeServer.requests.length).toEqual(1);
+			expect(fakeServer.requests[0].url).toEqual(OC.generateUrl('/apps/files/ajax/newfile.php'));
+
+			var query = fakeServer.requests[0].requestBody;
+			expect(OC.parseQueryString(query)).toEqual({
+				dir: '/subdir',
+				filename: 'test file.txt'
+			});
+
+			fakeServer.requests[0].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					status: 'success',
+					data: {
+						path: '/subdir',
+						name: 'test file.txt',
+						mimetype: 'text/plain'
+					}
+				})
+			);
+
+			var $tr = fileList.findFileEl('test file.txt');
+			expect($tr.length).toEqual(1);
+			expect($tr.attr('data-mime')).toEqual('text/plain');
+
+			expect(successStub.calledOnce).toEqual(true);
+			expect(failureStub.notCalled).toEqual(true);
+		});
+		// TODO: error cases
+		// TODO: unique name cases
+	});
+	describe('create directory', function() {
+		it('creates directory with given name and adds it to the list', function() {
+			var deferred = fileList.createDirectory('test directory');
+			var successStub = sinon.stub();
+			var failureStub = sinon.stub();
+
+			deferred.done(successStub);
+			deferred.fail(failureStub);
+
+			expect(fakeServer.requests.length).toEqual(1);
+			expect(fakeServer.requests[0].url).toEqual(OC.generateUrl('/apps/files/ajax/newfolder.php'));
+			var query = fakeServer.requests[0].requestBody;
+			expect(OC.parseQueryString(query)).toEqual({
+				dir: '/subdir',
+				foldername: 'test directory'
+			});
+
+			fakeServer.requests[0].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					status: 'success',
+					data: {
+						path: '/subdir',
+						name: 'test directory',
+						mimetype: 'httpd/unix-directory'
+					}
+				})
+			);
+
+			var $tr = fileList.findFileEl('test directory');
+			expect($tr.length).toEqual(1);
+			expect($tr.attr('data-mime')).toEqual('httpd/unix-directory');
+
+			expect(successStub.calledOnce).toEqual(true);
+			expect(failureStub.notCalled).toEqual(true);
+		});
+		// TODO: error cases
+		// TODO: unique name cases
+	});
 	/**
 	 * Test upload mostly by testing the code inside the event handlers
 	 * that were registered on the magic upload object
@@ -2328,6 +2424,58 @@ describe('OCA.Files.FileList tests', function() {
 				fileList.showFileBusyState(testCase, false);
 				expect($tr.hasClass('busy')).toEqual(false);
 			});
+		});
+	});
+	describe('elementToFile', function() {
+		var $tr;
+
+		beforeEach(function() {
+			fileList.setFiles(testFiles);
+			$tr = fileList.findFileEl('One.txt');
+		});
+
+		it('converts data attributes to file info structure', function() {
+			var fileInfo = fileList.elementToFile($tr);
+			expect(fileInfo.id).toEqual(1);
+			expect(fileInfo.name).toEqual('One.txt');
+			expect(fileInfo.mtime).toEqual(123456789);
+			expect(fileInfo.etag).toEqual('abc');
+			expect(fileInfo.permissions).toEqual(OC.PERMISSION_ALL);
+			expect(fileInfo.size).toEqual(12);
+			expect(fileInfo.mimetype).toEqual('text/plain');
+			expect(fileInfo.type).toEqual('file');
+		});
+	});
+	describe('new file menu', function() {
+		var newFileMenuStub;
+
+		beforeEach(function() {
+			newFileMenuStub = sinon.stub(OCA.Files.NewFileMenu.prototype, 'showAt');
+		});
+		afterEach(function() {
+			newFileMenuStub.restore();
+		})
+		it('renders new button when no legacy upload button exists', function() {
+			expect(fileList.$el.find('.button.upload').length).toEqual(0);
+			expect(fileList.$el.find('.button.new').length).toEqual(1);
+		});
+		it('does not render new button when no legacy upload button exists (public page)', function() {
+			fileList.destroy();
+			$('#controls').append('<input type="button" class="button upload" />');
+			fileList = new OCA.Files.FileList($('#app-content-files'));
+			expect(fileList.$el.find('.button.upload').length).toEqual(1);
+			expect(fileList.$el.find('.button.new').length).toEqual(0);
+		});
+		it('opens the new file menu when clicking on the "New" button', function() {
+			var $button = fileList.$el.find('.button.new');
+			$button.click();
+			expect(newFileMenuStub.calledOnce).toEqual(true);
+		});
+		it('does not open the new file menu when button is disabled', function() {
+			var $button = fileList.$el.find('.button.new');
+			$button.addClass('disabled');
+			$button.click();
+			expect(newFileMenuStub.notCalled).toEqual(true);
 		});
 	});
 });

@@ -36,6 +36,7 @@ use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCP\Files\StorageNotAvailableException;
 use \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
+use \OCA\Files_External\Service\BackendService;
 
 /**
  * Base class for storages controllers
@@ -124,15 +125,26 @@ abstract class StoragesController extends Controller {
 	 * Validate storage config
 	 *
 	 * @param StorageConfig $storage storage config
+	 * @param int $permissionCheck permission to check
 	 *
 	 * @return DataResponse|null returns response in case of validation error
 	 */
-	protected function validate(StorageConfig $storage) {
+	protected function validate(StorageConfig $storage, $permissionCheck = BackendService::PERMISSION_CREATE) {
 		$mountPoint = $storage->getMountPoint();
 		if ($mountPoint === '' || $mountPoint === '/') {
 			return new DataResponse(
 				array(
 					'message' => (string)$this->l10n->t('Invalid mount point')
+				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+
+		if ($storage->getBackendOption('objectstore')) {
+			// objectstore must not be sent from client side
+			return new DataResponse(
+				array(
+					'message' => (string)$this->l10n->t('Objectstore forbidden')
 				),
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
@@ -147,12 +159,36 @@ abstract class StoragesController extends Controller {
 			return new DataResponse(
 				array(
 					'message' => (string)$this->l10n->t('Invalid storage backend "%s"', [
-						$storage->getBackend()->getIdentifier()
+						$backend->getIdentifier()
 					])
 				),
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
+
+		if (!$backend->isPermitted($this->getUserType(), $permissionCheck)) {
+			// not permitted to use backend
+			return new DataResponse(
+				array(
+					'message' => (string)$this->l10n->t('Not permitted to use backend "%s"', [
+						$backend->getIdentifier()
+					])
+				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+		if (!$authMechanism->isPermitted($this->getUserType(), $permissionCheck)) {
+			// not permitted to use auth mechanism
+			return new DataResponse(
+				array(
+					'message' => (string)$this->l10n->t('Not permitted to use authentication mechanism "%s"', [
+						$authMechanism->getIdentifier()
+					])
+				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+
 		if (!$backend->validateStorage($storage)) {
 			// unsatisfied parameters
 			return new DataResponse(
@@ -174,6 +210,13 @@ abstract class StoragesController extends Controller {
 
 		return null;
 	}
+
+	/**
+	 * Get the user type for this controller, used in validation
+	 *
+	 * @return string BackendService::USER_* constants
+	 */
+	abstract protected function getUserType();
 
 	/**
 	 * Check whether the given storage is available / valid.

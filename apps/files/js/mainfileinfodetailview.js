@@ -10,14 +10,17 @@
 
 (function() {
 	var TEMPLATE =
-		'<a href="#" class="thumbnail action-default"></a><div title="{{name}}" class="fileName ellipsis">{{name}}</div>' +
-		'<div class="file-details ellipsis">' +
-		'    <a href="#" ' +
-		'    alt="{{starAltText}}"' +
-		'    class="action action-favorite favorite">' +
-		'    <img class="svg" src="{{starIcon}}" />' +
-		'    </a>' +
-		'    <span class="size" title="{{altSize}}">{{size}}</span>, <span class="date" title="{{altDate}}">{{date}}</span>' +
+		'<div class="thumbnailContainer"><a href="#" class="thumbnail action-default"></a></div>' +
+		'<div class="file-details-container">' +
+		'<div class="fileName"><h3 title="{{name}}" class="ellipsis">{{name}}</h3></div>' +
+		'	<div class="file-details ellipsis">' +
+		'		<a href="#" ' +
+		'		alt="{{starAltText}}"' +
+		'		class="action action-favorite favorite">' +
+		'			<img class="svg" src="{{starIcon}}" />' +
+		'		</a>' +
+		'		{{#if hasSize}}<span class="size" title="{{altSize}}">{{size}}</span>, {{/if}}<span class="date" title="{{altDate}}">{{date}}</span>' +
+		'	</div>' +
 		'</div>';
 
 	/**
@@ -103,10 +106,12 @@
 			if (this.model) {
 				var isFavorite = (this.model.get('tags') || []).indexOf(OC.TAG_FAVORITE) >= 0;
 				this.$el.html(this.template({
+					type: this.model.isImage()? 'image': '',
 					nameLabel: t('files', 'Name'),
-					name: this.model.get('name'),
+					name: this.model.get('displayName') || this.model.get('name'),
 					pathLabel: t('files', 'Path'),
 					path: this.model.get('path'),
+					hasSize: this.model.has('size'),
 					sizeLabel: t('files', 'Size'),
 					size: OC.Util.humanFileSize(this.model.get('size'), true),
 					altSize: n('files', '%n byte', '%n bytes', this.model.get('size')),
@@ -119,17 +124,51 @@
 
 				// TODO: we really need OC.Previews
 				var $iconDiv = this.$el.find('.thumbnail');
+				$iconDiv.addClass('icon-loading icon-32');
+				$container = this.$el.find('.thumbnailContainer');
 				if (!this.model.isDirectory()) {
-					// TODO: inject utility class?
-					FileList.lazyLoadPreview({
+					this._fileList.lazyLoadPreview({
 						path: this.model.getFullPath(),
 						mime: this.model.get('mimetype'),
 						etag: this.model.get('etag'),
-						x: 50,
-						y: 50,
-						callback: function(previewUrl) {
-							$iconDiv.css('background-image', 'url("' + previewUrl + '")');
-						}
+						y: this.model.isImage() ? 250: 75,
+						x: this.model.isImage() ? 99999 /* only limit on y */ : 75,
+						a: this.model.isImage() ? 1 : null,
+						callback: function(previewUrl, img) {
+							$iconDiv.previewImg = previewUrl;
+							if (img) {
+								$iconDiv.removeClass('icon-loading icon-32');
+								if(img.height > img.width) {
+									$container.addClass('portrait');
+								}
+							}
+							if (this.model.isImage() && img) {
+								$iconDiv.parent().addClass('image');
+								var targetHeight = img.height / window.devicePixelRatio;
+								if (targetHeight <= 75) {
+									$container.removeClass('image'); // small enough to fit in normaly
+									targetHeight = 75;
+								}
+							} else {
+								targetHeight = 75;
+							}
+
+							// only set background when we have an actual preview
+							// when we dont have a preview we show the mime icon in the error handler
+							if (img) {
+								$iconDiv.css({
+									'background-image': 'url("' + previewUrl + '")',
+									'height': targetHeight
+								});
+							}
+						}.bind(this),
+						error: function() {
+							$iconDiv.removeClass('icon-loading icon-32');
+							this.$el.find('.thumbnailContainer').removeClass('image'); //fall back to regular view
+							$iconDiv.css({
+								'background-image': 'url("' + $iconDiv.previewImg + '")'
+							});
+						}.bind(this)
 					});
 				} else {
 					// TODO: special icons / shared / external

@@ -120,8 +120,8 @@ class CertificateController extends Controller {
 	protected function isCertificateImportAllowed() {
 		$externalStorageEnabled = $this->appManager->isEnabledForUser('files_external');
 		if ($externalStorageEnabled) {
-			$backends = \OC_Mount_Config::getPersonalBackends();
-			if (!empty($backends)) {
+			$backendService = \OC_Mount_Config::$app->getContainer()->query('OCA\Files_External\Service\BackendService');
+			if ($backendService->getBackendsVisibleFor(\OCA\Files_External\Service\BackendService::VISIBILITY_PERSONAL)) {
 				return true;
 			}
 		}

@@ -1,9 +1,0 @@
-{ "translations": {
-    "Error" : "Virhe",
-    "Server" : "Palvelin",
-    "Save" : "Tallenna",
-    "Help" : "Apua",
-    "Password" : "Salasana",
-    "Back" : "Takaisin"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
-}

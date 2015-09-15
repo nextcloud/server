@@ -9,6 +9,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -32,6 +33,7 @@ namespace OC\AppFramework\Http;
 use OC\Security\TrustedDomainHelper;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 
 /**
@@ -67,6 +69,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	protected $config;
 	/** @var string */
 	protected $requestId = '';
+	/** @var ICrypto */
+	protected $crypto;
+
+	/** @var bool */
+	protected $contentDecoded = false;
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
@@ -80,17 +87,20 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 *        - string 'method' the request method (GET, POST etc)
 	 *        - string|false 'requesttoken' the requesttoken or false when not available
 	 * @param ISecureRandom $secureRandom
+	 * @param ICrypto $crypto
 	 * @param IConfig $config
 	 * @param string $stream
 	 * @see http://www.php.net/manual/en/reserved.variables.php
 	 */
 	public function __construct(array $vars=array(),
 								ISecureRandom $secureRandom = null,
+								ICrypto $crypto,
 								IConfig $config,
 								$stream='php://input') {
 		$this->inputStream = $stream;
 		$this->items['params'] = array();
 		$this->secureRandom = $secureRandom;
+		$this->crypto = $crypto;
 		$this->config = $config;
 
 		if(!array_key_exists('method', $vars)) {
@@ -101,27 +111,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$this->items[$name] = isset($vars[$name])
 				? $vars[$name]
 				: array();
-		}
-
-		// 'application/json' must be decoded manually.
-		if (strpos($this->getHeader('Content-Type'), 'application/json') !== false) {
-			$params = json_decode(file_get_contents($this->inputStream), true);
-			if(count($params) > 0) {
-				$this->items['params'] = $params;
-				if($vars['method'] === 'POST') {
-					$this->items['post'] = $params;
-				}
-			}
-		// Handle application/x-www-form-urlencoded for methods other than GET
-		// or post correctly
-		} elseif($vars['method'] !== 'GET'
-				&& $vars['method'] !== 'POST'
-				&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') !== false) {
-
-			parse_str(file_get_contents($this->inputStream), $params);
-			if(is_array($params)) {
-				$this->items['params'] = $params;
-			}
 		}
 
 		$this->items['parameters'] = array_merge(
@@ -231,24 +220,19 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				if($this->method !== strtoupper($name)) {
 					throw new \LogicException(sprintf('%s cannot be accessed in a %s request.', $name, $this->method));
 				}
+				return $this->getContent();
 			case 'files':
 			case 'server':
 			case 'env':
 			case 'cookies':
+			case 'urlParams':
+			case 'method':
+				return isset($this->items[$name])
+					? $this->items[$name]
+					: null;
 			case 'parameters':
 			case 'params':
-			case 'urlParams':
-				if(in_array($name, array('put', 'patch'))) {
-					return $this->getContent();
-				} else {
-					return isset($this->items[$name])
-						? $this->items[$name]
-						: null;
-				}
-				break;
-			case 'method':
-				return $this->items['method'];
-				break;
+				return $this->getContent();
 			default;
 				return isset($this[$name])
 					? $this[$name]
@@ -390,9 +374,46 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$this->content = false;
 			return fopen($this->inputStream, 'rb');
 		} else {
-			return $this->parameters;
+			$this->decodeContent();
+			return $this->items['parameters'];
 		}
 	}
+
+	/**
+	 * Attempt to decode the content and populate parameters
+	 */
+	protected function decodeContent() {
+		if ($this->contentDecoded) {
+			return;
+		}
+		$params = [];
+
+		// 'application/json' must be decoded manually.
+		if (strpos($this->getHeader('Content-Type'), 'application/json') !== false) {
+			$params = json_decode(file_get_contents($this->inputStream), true);
+			if(count($params) > 0) {
+				$this->items['params'] = $params;
+				if($this->method === 'POST') {
+					$this->items['post'] = $params;
+				}
+			}
+
+		// Handle application/x-www-form-urlencoded for methods other than GET
+		// or post correctly
+		} elseif($this->method !== 'GET'
+				&& $this->method !== 'POST'
+				&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') !== false) {
+
+			parse_str(file_get_contents($this->inputStream), $params);
+			if(is_array($params)) {
+				$this->items['params'] = $params;
+			}
+		}
+
+		$this->items['parameters'] = array_merge($this->items['parameters'], $params);
+		$this->contentDecoded = true;
+	}
+
 
 	/**
 	 * Checks if the CSRF check was correct
@@ -415,8 +436,22 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			return false;
 		}
 
+		// Decrypt token to prevent BREACH like attacks
+		$token = explode(':', $token);
+		if (count($token) !== 2) {
+			return false;
+		}
+
+		$encryptedToken = $token[0];
+		$secret = $token[1];
+		try {
+			$decryptedToken = $this->crypto->decrypt($encryptedToken, $secret);
+		} catch (\Exception $e) {
+			return false;
+		}
+
 		// Check if the token is valid
-		if(\OCP\Security\StringUtils::equals($token, $this->items['requesttoken'])) {
+		if(\OCP\Security\StringUtils::equals($decryptedToken, $this->items['requesttoken'])) {
 			return true;
 		} else {
 			return false;

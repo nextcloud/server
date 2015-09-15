@@ -384,6 +384,11 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testIsUsedTlsLibOutdatedWithOlderOpenSsl() {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->will($this->returnValue(true));
 		$this->checkSetupController
 			->expects($this->once())
 			->method('getCurlVersion')
@@ -391,7 +396,25 @@ class CheckSetupControllerTest extends TestCase {
 		$this->assertSame('cURL is using an outdated OpenSSL version (OpenSSL/1.0.1c). Please update your operating system or features such as installing and updating apps via the app store or Federated Cloud Sharing will not work reliably.', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
 	}
 
+	public function testIsUsedTlsLibOutdatedWithOlderOpenSslAndWithoutAppstore() {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->will($this->returnValue(false));
+		$this->checkSetupController
+			->expects($this->once())
+			->method('getCurlVersion')
+			->will($this->returnValue(['ssl_version' => 'OpenSSL/1.0.1c']));
+		$this->assertSame('cURL is using an outdated OpenSSL version (OpenSSL/1.0.1c). Please update your operating system or features such as Federated Cloud Sharing will not work reliably.', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
+	}
+
 	public function testIsUsedTlsLibOutdatedWithOlderOpenSsl1() {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->will($this->returnValue(true));
 		$this->checkSetupController
 			->expects($this->once())
 			->method('getCurlVersion')
@@ -416,6 +439,11 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testIsBuggyNss400() {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->will($this->returnValue(true));
 		$this->checkSetupController
 			->expects($this->once())
 			->method('getCurlVersion')

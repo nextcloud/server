@@ -1,7 +1,7 @@
 { "translations": {
     "Cancel" : "បោះបង់",
-    "Share" : "ចែក​រំលែក",
     "Shared by" : "បាន​ចែក​រំលែក​ដោយ",
+    "Sharing" : "ការ​ចែក​រំលែក",
     "A file or folder has been <strong>shared</strong>" : "<strong>បាន​ចែករំលែក</strong> ឯកសារ​ឬ​ថត",
     "You shared %1$s with %2$s" : "អ្នក​បាន​ចែករំលែក %1$s ជាមួយ %2$s",
     "You shared %1$s with group %2$s" : "អ្នក​បាន​ចែករំលែក %1$s ជាមួយ​ក្រុម %2$s",

@@ -50,6 +50,7 @@ class ManagerTest extends TestCase {
 			$this->mountManager,
 			new StorageFactory(),
 			$httpHelper,
+			\OC::$server->getNotificationManager(),
 			$this->uid
 		);
 	}

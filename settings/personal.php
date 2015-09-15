@@ -71,6 +71,7 @@ $languages=array();
 $commonlanguages = array();
 foreach($languageCodes as $lang) {
 	$l = \OC::$server->getL10N('settings', $lang);
+	// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
 	if(substr($l->t('__language_name__'), 0, 1) !== '_') {//first check if the language name is in the translation file
 		$ln=array('code'=>$lang, 'name'=> (string)$l->t('__language_name__'));
 	}elseif(isset($languageNames[$lang])) {
@@ -94,6 +95,15 @@ ksort($commonlanguages);
 
 // sort now by displayed language not the iso-code
 usort( $languages, function ($a, $b) {
+	if ($a['code'] === $a['name'] && $b['code'] !== $b['name']) {
+		// If a doesn't have a name, but b does, list b before a
+		return 1;
+	}
+	if ($a['code'] !== $a['name'] && $b['code'] === $b['name']) {
+		// If a does have a name, but b doesn't, list a before b
+		return -1;
+	}
+	// Otherwise compare the names
 	return strcmp($a['name'], $b['name']);
 });
 

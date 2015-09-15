@@ -395,16 +395,15 @@ class Test_Group_Ldap extends \Test\TestCase {
 			->method('username2dn')
 			->will($this->returnValue($dn));
 
-		$access->expects($this->once())
+		$access->expects($this->exactly(3))
 			->method('readAttribute')
-			->with($dn, 'memberOf')
-			->will($this->returnValue(['cn=groupA,dc=foobar', 'cn=groupB,dc=foobar']));
+			->will($this->onConsecutiveCalls(['cn=groupA,dc=foobar', 'cn=groupB,dc=foobar'], [], []));
 
 		$access->expects($this->exactly(2))
 			->method('dn2groupname')
 			->will($this->returnArgument(0));
 
-		$access->expects($this->once())
+		$access->expects($this->exactly(3))
 			->method('groupsMatchFilter')
 			->will($this->returnArgument(0));
 

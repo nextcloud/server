@@ -132,4 +132,25 @@ class UtilTest extends TestCase {
 		return $default ?: null;
 	}
 
+	/**
+	 * @dataProvider dataTestIsMasterKeyEnabled
+	 *
+	 * @param string $value
+	 * @param bool $expect
+	 */
+	public function testIsMasterKeyEnabled($value, $expect) {
+		$this->configMock->expects($this->once())->method('getAppValue')
+			->with('encryption', 'useMasterKey', '0')->willReturn($value);
+		$this->assertSame($expect,
+			$this->instance->isMasterKeyEnabled()
+		);
+	}
+
+	public function dataTestIsMasterKeyEnabled() {
+		return [
+			['0', false],
+			['1', true]
+		];
+	}
+
 }

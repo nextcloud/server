@@ -377,7 +377,7 @@ class Scanner extends BasicEmitter {
 			// inserted mimetypes but those weren't available yet inside the transaction
 			// To make sure to have the updated mime types in such cases,
 			// we reload them here
-			$this->cache->loadMimetypes();
+			\OC::$server->getMimeTypeLoader()->reset();
 		}
 
 		foreach ($childQueue as $child => $childData) {
@@ -416,11 +416,21 @@ class Scanner extends BasicEmitter {
 	public function backgroundScan() {
 		$lastPath = null;
 		while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
-			$this->scan($path, self::SCAN_RECURSIVE, self::REUSE_ETAG);
-			\OC_Hook::emit('Scanner', 'correctFolderSize', array('path' => $path));
-			if ($this->cacheActive) {
-				$this->cache->correctFolderSize($path);
+			try {
+				$this->scan($path, self::SCAN_RECURSIVE, self::REUSE_ETAG);
+				\OC_Hook::emit('Scanner', 'correctFolderSize', array('path' => $path));
+				if ($this->cacheActive) {
+					$this->cache->correctFolderSize($path);
+				}
+			} catch (\OCP\Files\StorageInvalidException $e) {
+				// skip unavailable storages
+			} catch (\OCP\Files\StorageNotAvailableException $e) {
+				// skip unavailable storages
+			} catch (\OCP\Lock\LockedException $e) {
+				// skip unavailable storages
 			}
+			// FIXME: this won't proceed with the next item, needs revamping of getIncomplete()
+			// to make this possible
 			$lastPath = $path;
 		}
 	}

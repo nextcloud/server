@@ -64,7 +64,6 @@
     "Backup (Replica) Port" : "Backup (Replica) Port",
     "Disable Main Server" : "Изключи Главиния Сървър",
     "Only connect to the replica server." : "Свържи се само с репликирания сървър.",
-    "Case insensitive LDAP server (Windows)" : "Нечувствителен към главни/малки букви LDAP сървър (Windows)",
     "Turn off SSL certificate validation." : "Изключи валидацията на SSL сертификата.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Не е пропоръчително, ползвай само за тестване. Ако връзката работи само с тази опция, вмъкни LDAP сървърния SSL сертификат в твоя %s сървър.",
     "Cache Time-To-Live" : "Кеширай Time-To-Live",

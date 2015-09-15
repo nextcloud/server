@@ -20,54 +20,32 @@
 
 class OC_Theme {
 
-	private $themeEntity;
-	private $themeName;
-	private $themeTitle;
-	private $themeBaseUrl;
-	private $themeDocBaseUrl;
-	private $themeSyncClientUrl;
-	private $themeSlogan;
-	private $themeMailHeaderColor;
-
-	/* put your custom text in these variables */
-	function __construct() {
-		$this->themeEntity = 'Custom Cloud Co.';
-		$this->themeName = 'Custom Cloud';
-		$this->themeTitle = 'Custom Cloud';
-		$this->themeBaseUrl = 'https://owncloud.org';
-		$this->themeDocBaseUrl = 'https://doc.owncloud.org';
-		$this->themeSyncClientUrl = 'https://owncloud.org/install';
-		$this->themeSlogan = 'Your custom cloud, personalized for you!';
-		$this->themeMailHeaderColor = '#745bca';
-	}
-	/* nothing after this needs to be adjusted */
-
 	public function getBaseUrl() {
-		return $this->themeBaseUrl;
+		return 'https://owncloud.org';
 	}
 
 	public function getSyncClientUrl() {
-		return $this->themeSyncClientUrl;
+		return 'https://owncloud.org/install';
 	}
 
 	public function getDocBaseUrl() {
-		return $this->themeDocBaseUrl;
+		return 'https://doc.owncloud.org';
 	}
 
 	public function getTitle() {
-		return $this->themeTitle;
+		return 'Custom Cloud';
 	}
 
 	public function getName() {
-		return $this->themeName;
+		return 'Custom Cloud';
 	}
 
 	public function getEntity() {
-		return $this->themeEntity;
+		return 'Custom Cloud Co.';
 	}
 
 	public function getSlogan() {
-		return $this->themeSlogan;
+		return 'Your custom cloud, personalized for you!';
 	}
 
 	public function getShortFooter() {
@@ -89,7 +67,7 @@ class OC_Theme {
 	}
 
 	public function getMailHeaderColor() {
-		return $this->themeMailHeaderColor;
+		return '#745bca';
 	}
 
 }

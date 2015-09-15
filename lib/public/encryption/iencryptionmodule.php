@@ -23,6 +23,8 @@
  */
 
 namespace OCP\Encryption;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Interface IEncryptionModule
@@ -133,5 +135,14 @@ interface IEncryptionModule {
 	 * @since 8.1.0
 	 */
 	public function isReadable($path, $uid);
+
+	/**
+	 * Initial encryption of all files
+	 *
+	 * @param InputInterface $input
+	 * @param OutputInterface $output write some status information to the terminal during encryption
+	 * @since 8.2.0
+	 */
+	public function encryptAll(InputInterface $input, OutputInterface $output);
 
 }

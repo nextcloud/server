@@ -101,11 +101,19 @@ class OC_App {
 		}
 		// Load the enabled apps here
 		$apps = self::getEnabledApps();
+
+		// Add each apps' folder as allowed class path
+		foreach($apps as $app) {
+			$path = self::getAppPath($app);
+			if($path !== false) {
+				\OC::$loader->addValidRoot($path);
+			}
+		}
+
 		// prevent app.php from printing output
 		ob_start();
 		foreach ($apps as $app) {
 			if ((is_null($types) or self::isType($app, $types)) && !in_array($app, self::$loadedApps)) {
-				self::$loadedApps[] = $app;
 				self::loadApp($app);
 			}
 		}
@@ -122,6 +130,7 @@ class OC_App {
 	 * @throws \OC\NeedsUpdateException
 	 */
 	public static function loadApp($app, $checkUpgrade = true) {
+		self::$loadedApps[] = $app;
 		if (is_file(self::getAppPath($app) . '/appinfo/app.php')) {
 			\OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
 			if ($checkUpgrade and self::shouldUpgrade($app)) {

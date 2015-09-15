@@ -20,12 +20,6 @@
  *  * use RST syntax
  */
 
-/**
- * Only enable this for local development and not in production environments
- * This will disable the minifier and outputs some additional debug informations
- */
-define('DEBUG', true);
-
 $CONFIG = array(
 
 
@@ -84,6 +78,16 @@ $CONFIG = array(
  * (SQLite is not available in ownCloud Enterprise Edition)
  */
 'datadirectory' => '/var/www/owncloud/data',
+
+/**
+ * Override where ownCloud stores temporary files. Useful in situations where
+ * the system temporary directory is on a limited space ramdisk or is otherwise
+ * restricted, or if external storages which do not support streaming are in
+ * use.
+ *
+ * The web server user must have write access to this directory.
+ */
+'tempdirectory' => '/tmp/owncloudtemp',
 
 /**
  * The current version number of your ownCloud installation. This is set up
@@ -428,6 +432,33 @@ $CONFIG = array(
  *                 kept forever
  */
 'trashbin_retention_obligation' => 'auto',
+
+
+/**
+ * If the versions app is enabled (default), this setting defines the policy
+ * for when versions will be permanently deleted.
+ * The app allows for two settings, a minimum time for version retention,
+ * and a maximum time for version retention.
+ * Minimum time is the number of days a version will be kept, after which it
+ * may be deleted. Maximum time is the number of days at which it is guaranteed
+ * to be deleted.
+ * Both minimum and maximum times can be set together to explicitly define
+ * version deletion. For migration purposes, this setting is installed
+ * initially set to "auto", which is equivalent to the default setting in
+ * ownCloud 8.1 and before.
+ *
+ * Available values:
+ *   ``auto``      default setting. Automatically expire versions according to
+ *                 expire rules. Please refer to Files_versions online documentation 
+ *                 for more info.
+ *   ``D, auto``   keep versions at least for D days, apply expire rules to all
+ *                 versions that older than D days
+ * * ``auto, D``   delete all versions that are older than D days automatically,
+ *                 delete other versions according to expire rules
+ * * ``D1, D2``    keep versions for at least D1 days and delete when exceeds D2 days
+ *   ``disabled``  versions auto clean disabled, versions will be kept forever
+ */
+'versions_retention_obligation' => 'auto',
 
 
 /**
@@ -1059,17 +1090,15 @@ $CONFIG = array(
 
 /**
  * Enables transactional file locking.
- * This is disabled by default as it is still beta.
+ * This is enabled by default.
  *
  * Prevents concurrent processes from accessing the same files
  * at the same time. Can help prevent side effects that would
  * be caused by concurrent operations. Mainly relevant for
  * very large installations with many users working with
  * shared files.
- *
- * WARNING: BETA quality
  */
-'filelocking.enabled' => false,
+'filelocking.enabled' => true,
 
 /**
  * Memory caching backend for file locking
@@ -1078,6 +1107,14 @@ $CONFIG = array(
  * is highly recommended to *avoid data loss*.
  */
 'memcache.locking' => '\\OC\\Memcache\\Redis',
+
+/**
+ * Set this ownCloud instance to debugging mode
+ *
+ * Only enable this for local development and not in production environments
+ * This will disable the minifier and outputs some additional debug information
+ */
+'debug' => false,
 
 /**
  * This entry is just here to show a warning in case somebody copied the sample

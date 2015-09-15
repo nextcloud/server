@@ -89,6 +89,11 @@ class Memcached extends Cache implements IMemcache {
 	public function clear($prefix = '') {
 		$prefix = $this->getNamespace() . $prefix;
 		$allKeys = self::$cache->getAllKeys();
+		if ($allKeys === false) {
+			// newer Memcached doesn't like getAllKeys(), flush everything
+			self::$cache->flush();
+			return true;
+		}
 		$keys = array();
 		$prefixLength = strlen($prefix);
 		foreach ($allKeys as $key) {

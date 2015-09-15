@@ -3,13 +3,14 @@ OC.L10N.register(
     {
     "Files" : "په‌ڕگەکان",
     "Favorites" : "دڵخوازەکان",
+    "Close" : "دابخه",
     "Download" : "داگرتن",
     "Select" : "دیاریکردنی",
     "Error" : "هه‌ڵه",
     "Name" : "ناو",
-    "Save" : "پاشکه‌وتکردن",
-    "Settings" : "ڕێکخستنه‌کان",
+    "Upload" : "بارکردن",
     "Folder" : "بوخچه",
-    "Upload" : "بارکردن"
+    "Save" : "پاشکه‌وتکردن",
+    "Settings" : "ڕێکخستنه‌کان"
 },
 "nplurals=2; plural=(n != 1);");

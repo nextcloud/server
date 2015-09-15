@@ -118,6 +118,8 @@ abstract class StoragesService {
 			$applicableGroups[] = $applicable;
 			$storageConfig->setApplicableGroups($applicableGroups);
 		}
+
+
 		return $storageConfig;
 	}
 
@@ -170,7 +172,7 @@ abstract class StoragesService {
 
 					// the root mount point is in the format "/$user/files/the/mount/point"
 					// we remove the "/$user/files" prefix
-					$parts = explode('/', trim($rootMountPath, '/'), 3);
+					$parts = explode('/', ltrim($rootMountPath, '/'), 3);
 					if (count($parts) < 3) {
 						// something went wrong, skip
 						\OCP\Util::writeLog(
@@ -181,7 +183,7 @@ abstract class StoragesService {
 						continue;
 					}
 
-					$relativeMountPath = $parts[2];
+					$relativeMountPath = rtrim($parts[2], '/');
 
 					// note: we cannot do this after the loop because the decrypted config
 					// options might be needed for the config hash
@@ -236,6 +238,12 @@ abstract class StoragesService {
 		// process storages with config hash, they must get a real id
 		if (!empty($storagesWithConfigHash)) {
 			$this->setRealStorageIds($storages, $storagesWithConfigHash);
+		}
+
+		// convert parameter values
+		foreach ($storages as $storage) {
+			$storage->getBackend()->validateStorageDefinition($storage);
+			$storage->getAuthMechanism()->validateStorageDefinition($storage);
 		}
 
 		return $storages;
@@ -464,10 +472,14 @@ abstract class StoragesService {
 		if (!isset($allStorages[$id])) {
 			throw new NotFoundException('Storage with id "' . $id . '" not found');
 		}
-
 		$oldStorage = $allStorages[$id];
-		$allStorages[$id] = $updatedStorage;
 
+		// ensure objectstore is persistent
+		if ($objectstore = $oldStorage->getBackendOption('objectstore')) {
+			$updatedStorage->setBackendOption('objectstore', $objectstore);
+		}
+
+		$allStorages[$id] = $updatedStorage;
 		$this->writeConfig($allStorages);
 
 		$this->triggerChangeHooks($oldStorage, $updatedStorage);

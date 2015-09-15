@@ -62,7 +62,6 @@
     "Backup (Replica) Port" : "Puertu pa copies de seguranza (Réplica)",
     "Disable Main Server" : "Deshabilitar sirvidor principal",
     "Only connect to the replica server." : "Coneutar namái col sirvidor de réplica.",
-    "Case insensitive LDAP server (Windows)" : "Sirvidor de LDAP insensible a mayúscules/minúscules (Windows)",
     "Turn off SSL certificate validation." : "Apagar la validación del certificáu SSL.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Nun se recomienda, ¡úsalu namái pa pruebes! Si la conexón namái funciona con esta opción, importa'l certificáu SSL del sirvidor LDAP nel to sirvidor %s.",
     "Cache Time-To-Live" : "Cache Time-To-Live",

@@ -74,6 +74,9 @@ class ConfigAdapter implements IMountProvider {
 		$objectStore = $storage->getBackendOption('objectstore');
 		if ($objectStore) {
 			$objectClass = $objectStore['class'];
+			if (!is_subclass_of($objectClass, '\OCP\Files\ObjectStore\IObjectStore')) {
+				throw new \InvalidArgumentException('Invalid object store');
+			}
 			$storage->setBackendOption('objectstore', new $objectClass($objectStore));
 		}
 

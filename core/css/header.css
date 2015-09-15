@@ -70,8 +70,10 @@
 }
 
 #header .logo {
-	background-image: url(../img/logo.svg);
+	background-image: url(../img/logo-icon.svg);
 	background-repeat: no-repeat;
+	background-size: 175px;
+	background-position: center 30px;
 	width: 252px;
 	height: 120px;
 	margin: 0 auto;
@@ -294,7 +296,7 @@
 }
 #expand {
 	display: block;
-	padding: 7px 30px 6px 22px;
+	padding: 7px 30px 6px 10px;
 	cursor: pointer;
 }
 #expand * {

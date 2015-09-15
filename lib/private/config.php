@@ -47,8 +47,6 @@ class Config {
 	protected $configFilePath;
 	/** @var string */
 	protected $configFileName;
-	/** @var bool */
-	protected $debugMode;
 
 	/**
 	 * @param string $configDir Path to the config dir, needs to end with '/'
@@ -59,7 +57,6 @@ class Config {
 		$this->configFilePath = $this->configDir.$fileName;
 		$this->configFileName = $fileName;
 		$this->readData();
-		$this->debugMode = (defined('DEBUG') && DEBUG);
 	}
 
 	/**
@@ -225,9 +222,6 @@ class Config {
 	private function writeData() {
 		// Create a php file ...
 		$content = "<?php\n";
-		if ($this->debugMode) {
-			$content .= "define('DEBUG',true);\n";
-		}
 		$content .= '$CONFIG = ';
 		$content .= var_export($this->cache, true);
 		$content .= ";\n";

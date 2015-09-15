@@ -93,7 +93,8 @@ div.multiselect>span:first-child {
 
 div.multiselect>span:last-child {
 	position: absolute;
-	right: 13px;
+	right: 8px;
+	top: 8px;
 }
 
 ul.multiselectoptions input.new {

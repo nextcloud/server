@@ -28,15 +28,19 @@
 set_time_limit(0);
 require_once '../../lib/base.php';
 
-\OCP\JSON::callCheck();
+$l = \OC::$server->getL10N('core');
+
+$eventSource = \OC::$server->createEventSource();
+// need to send an initial message to force-init the event source,
+// which will then trigger its own CSRF check and produces its own CSRF error
+// message
+$eventSource->send('success', (string)$l->t('Preparing update'));
 
 if (OC::checkUpgrade(false)) {
 	// if a user is currently logged in, their session must be ignored to
 	// avoid side effects
 	\OC_User::setIncognitoMode(true);
 
-	$l = new \OC_L10N('core');
-	$eventSource = \OC::$server->createEventSource();
 	$logger = \OC::$server->getLogger();
 	$updater = new \OC\Updater(
 			\OC::$server->getHTTPHelper(),
@@ -85,7 +89,13 @@ if (OC::checkUpgrade(false)) {
 		OC_Config::setValue('maintenance', false);
 	});
 
-	$updater->upgrade();
+	try {
+		$updater->upgrade();
+	} catch (\Exception $e) {
+		$eventSource->send('failure', get_class($e) . ': ' . $e->getMessage());
+		$eventSource->close();
+		exit();
+	}
 
 	if (!empty($incompatibleApps)) {
 		$eventSource->send('notice',
@@ -96,6 +106,10 @@ if (OC::checkUpgrade(false)) {
 			(string)$l->t('Following apps have been disabled: %s', implode(', ', $disabledThirdPartyApps)));
 	}
 
-	$eventSource->send('done', '');
-	$eventSource->close();
+} else {
+	$eventSource->send('notice', (string)$l->t('Already up to date'));
 }
+
+$eventSource->send('done', '');
+$eventSource->close();
+

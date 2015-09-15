@@ -53,7 +53,10 @@ try {
 	$preview->setScalingUp($scalingUp);
 
 	$preview->showPreview();
-}catch(\Exception $e) {
+} catch (\OCP\Files\NotFoundException $e) {
+	\OC_Response::setStatus(404);
+	\OCP\Util::writeLog('core', $e->getmessage(), \OCP\Util::DEBUG);
+} catch (\Exception $e) {
 	\OC_Response::setStatus(500);
 	\OCP\Util::writeLog('core', $e->getmessage(), \OCP\Util::DEBUG);
 }

@@ -127,7 +127,7 @@ OC.Share={
 									if (img.attr('src') !== OC.imagePath('core', 'actions/public')) {
 										img.attr('src', image);
 										$(actions[i]).addClass('permanent');
-										$(actions[i]).html(' <span>'+t('core', 'Shared')+'</span>').prepend(img);
+										$(actions[i]).html('<span> '+t('core', 'Shared')+'</span>').prepend(img);
 									}
 								}
 								for(i = 0; i < files.length; i++) {
@@ -219,7 +219,7 @@ OC.Share={
 		return html;
 	},
 	/**
-	 * Loop over all recipients in the list and format them using 
+	 * Loop over all recipients in the list and format them using
 	 * all kind of fancy magic.
 	 *
 	 * @param {String[]} recipients array of all the recipients
@@ -249,6 +249,7 @@ OC.Share={
 		var owner = $tr.attr('data-share-owner');
 		var shareFolderIcon;
 		var image = OC.imagePath('core', 'actions/share');
+		action.removeClass('shared-style');
 		// update folder icon
 		if (type === 'dir' && (hasShares || hasLink || owner)) {
 			if (hasLink) {
@@ -265,6 +266,7 @@ OC.Share={
 		// update share action text / icon
 		if (hasShares || owner) {
 			recipients = $tr.attr('data-share-recipients');
+			action.addClass('shared-style');
 
 			message = t('core', 'Shared');
 			// even if reshared, only show "Shared by"
@@ -274,7 +276,7 @@ OC.Share={
 			else if (recipients) {
 				message = t('core', 'Shared with {recipients}', {recipients: this._formatShareList(recipients.split(", ")).join(", ")}, 0, {escape: false});
 			}
-			action.html(' <span>' + message + '</span>').prepend(img);
+			action.html('<span> ' + message + '</span>').prepend(img);
 			if (owner || recipients) {
 				action.find('.remoteAddress').tipsy({gravity: 's'});
 			}

@@ -26,6 +26,7 @@
 namespace OC\BackgroundJob;
 
 use OCP\BackgroundJob\IJobList;
+use OCP\AutoloadNotAllowedException;
 
 class JobList implements IJobList {
 	/**
@@ -185,15 +186,20 @@ class JobList implements IJobList {
 		/**
 		 * @var Job $job
 		 */
-		if (!class_exists($class)) {
-			// job from disabled app or old version of an app, no need to do anything
-			return null;
+		try {
+			if (!class_exists($class)) {
+				// job from disabled app or old version of an app, no need to do anything
+				return null;
+			}
+			$job = new $class();
+			$job->setId($row['id']);
+			$job->setLastRun($row['last_run']);
+			$job->setArgument(json_decode($row['argument'], true));
+			return $job;
+		} catch (AutoloadNotAllowedException $e) {
+			// job is from a disabled app, ignore
 		}
-		$job = new $class();
-		$job->setId($row['id']);
-		$job->setLastRun($row['last_run']);
-		$job->setArgument(json_decode($row['argument'], true));
-		return $job;
+		return null;
 	}
 
 	/**

@@ -9,14 +9,44 @@
 
 #app-sidebar .mainFileInfoView {
 	margin-right: 20px; /* accomodate for close icon */
+	float:left;
+	display:block;
+	width: 100%;
+}
+
+#app-sidebar .file-details-container {
+	display: inline-block;
+	float: left;
+}
+
+#app-sidebar .thumbnailContainer.image {
+	margin-left: -15px;
+	margin-right: -35px; /* 15 + 20 for the close button */
+	margin-top: -15px;
+}
+
+#app-sidebar .image .thumbnail {
+	width:100%;
+	display:block;
+	height: 250px;
+	background-repeat: no-repeat;
+	background-position: 50% top;
+	background-size: 100%;
+	float: none;
+	margin: 0;
+}
+
+#app-sidebar .image.portrait .thumbnail {
+	background-size: contain;
 }
 
 #app-sidebar .thumbnail {
-	width: 50px;
-	height: 50px;
+	width: 75px;
+	height: 75px;
+	display: inline-block;
 	float: left;
 	margin-right: 10px;
-	background-size: 50px;
+	background-size: 75px;
 }
 
 #app-sidebar .ellipsis {
@@ -27,13 +57,20 @@
 
 #app-sidebar .fileName {
 	font-size: 16px;
-	padding-top: 3px;
+	padding-top: 13px;
+	padding-bottom: 3px;
+}
+
+#app-sidebar .fileName h3 {
+	max-width: 300px;
+	float:left;
 }
 
 #app-sidebar .file-details {
 	margin-top: 3px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	opacity: .5;
+	float:left;
 }
 #app-sidebar .action-favorite {
 	vertical-align: text-bottom;

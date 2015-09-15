@@ -3,6 +3,8 @@
     "Personal" : "Um mig",
     "Users" : "Notendur",
     "Admin" : "Stjórnun",
+    "Unknown filetype" : "Óþekkt skráartegund",
+    "Invalid image" : "Ógild mynd",
     "today" : "í dag",
     "yesterday" : "í gær",
     "last month" : "síðasta mánuði",
@@ -13,5 +15,5 @@
     "Authentication error" : "Villa við auðkenningu",
     "Token expired. Please reload page." : "Auðkenning útrunnin. Vinsamlegast skráðu þig aftur inn.",
     "Could not find category \"%s\"" : "Fann ekki flokkinn \"%s\""
-},"pluralForm" :"nplurals=2; plural=(n % 10 == 1 || n % 100 != 11);"
+},"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

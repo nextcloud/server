@@ -24,7 +24,6 @@
 
 namespace OCA\Files_External\AppInfo;
 
-use \OCA\Files_External\Controller\AjaxController;
 use \OCP\AppFramework\App;
 use \OCP\IContainer;
 use \OCA\Files_External\Service\BackendService;
@@ -36,20 +35,13 @@ class Application extends App {
 	public function __construct(array $urlParams=array()) {
 		parent::__construct('files_external', $urlParams);
 
-		$container = $this->getContainer();
-
-		/**
-		 * Controllers
-		 */
-		$container->registerService('AjaxController', function (IContainer $c) {
-			return new AjaxController(
-				$c->query('AppName'),
-				$c->query('Request')
-			);
-		});
-
 		$this->loadBackends();
 		$this->loadAuthMechanisms();
+
+		// app developers: do NOT depend on this! it will disappear with oC 9.0!
+		\OC::$server->getEventDispatcher()->dispatch(
+			'OCA\\Files_External::loadAdditionalBackends'
+		);
 	}
 
 	/**
@@ -65,11 +57,17 @@ class Application extends App {
 			$container->query('OCA\Files_External\Lib\Backend\DAV'),
 			$container->query('OCA\Files_External\Lib\Backend\OwnCloud'),
 			$container->query('OCA\Files_External\Lib\Backend\SFTP'),
+			$container->query('OCA\Files_External\Lib\Backend\AmazonS3'),
+			$container->query('OCA\Files_External\Lib\Backend\Dropbox'),
+			$container->query('OCA\Files_External\Lib\Backend\Google'),
+			$container->query('OCA\Files_External\Lib\Backend\Swift'),
+			$container->query('OCA\Files_External\Lib\Backend\SFTP_Key'),
 		]);
 
 		if (!\OC_Util::runningOnWindows()) {
 			$service->registerBackends([
 				$container->query('OCA\Files_External\Lib\Backend\SMB'),
+				$container->query('OCA\Files_External\Lib\Backend\SMB_OC'),
 			]);
 		}
 	}
@@ -91,6 +89,22 @@ class Application extends App {
 			// AuthMechanism::SCHEME_PASSWORD mechanisms
 			$container->query('OCA\Files_External\Lib\Auth\Password\Password'),
 			$container->query('OCA\Files_External\Lib\Auth\Password\SessionCredentials'),
+
+			// AuthMechanism::SCHEME_OAUTH1 mechanisms
+			$container->query('OCA\Files_External\Lib\Auth\OAuth1\OAuth1'),
+
+			// AuthMechanism::SCHEME_OAUTH2 mechanisms
+			$container->query('OCA\Files_External\Lib\Auth\OAuth2\OAuth2'),
+
+			// AuthMechanism::SCHEME_PUBLICKEY mechanisms
+			$container->query('OCA\Files_External\Lib\Auth\PublicKey\RSA'),
+
+			// AuthMechanism::SCHEME_OPENSTACK mechanisms
+			$container->query('OCA\Files_External\Lib\Auth\OpenStack\OpenStack'),
+			$container->query('OCA\Files_External\Lib\Auth\OpenStack\Rackspace'),
+
+			// Specialized mechanisms
+			$container->query('OCA\Files_External\Lib\Auth\AmazonS3\AccessKey'),
 		]);
 	}
 

@@ -198,7 +198,6 @@ OC.L10N.register(
     "Create" : "Utwórz",
     "Admin Recovery Password" : "Odzyskiwanie hasła administratora",
     "Enter the recovery password in order to recover the users files during password change" : "Wpisz hasło odzyskiwania, aby odzyskać pliki użytkowników podczas zmiany hasła",
-    "Search Users" : "Wyszukaj użytkownika",
     "Add Group" : "Dodaj grupę",
     "Group" : "Grupa",
     "Everyone" : "Wszyscy",

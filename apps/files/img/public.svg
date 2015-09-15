@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <g opacity=".5" transform="matrix(.67042 -.67042 .67042 .67042 .62542 93.143)">
+ <g transform="matrix(.67042 -.67042 .67042 .67042 .62542 93.143)">
   <path style="block-progression:tb;color:#000000;text-transform:none;text-indent:0" d="m69.5-61.5c-1.9217 0-3.5 1.5783-3.5 3.5 0 0.17425 0.0062 0.33232 0.03125 0.5h2.0625c-0.053-0.156-0.094-0.323-0.094-0.5 0-0.8483 0.6517-1.5 1.5-1.5h5c0.8483 0 1.5 0.6517 1.5 1.5s-0.6517 1.5-1.5 1.5h-1.6875c-0.28733 0.79501-0.78612 1.4793-1.4375 2h3.125c1.9217 0 3.5-1.5783 3.5-3.5s-1.5783-3.5-3.5-3.5h-5z"/>
   <path style="block-progression:tb;color:#000000;text-transform:none;text-indent:0" d="m68.5-54.5c1.9217 0 3.5-1.5783 3.5-3.5 0-0.17425-0.0062-0.33232-0.03125-0.5h-2.0625c0.053 0.156 0.094 0.323 0.094 0.5 0 0.8483-0.6517 1.5-1.5 1.5h-5c-0.8483 0-1.5-0.6517-1.5-1.5s0.6517-1.5 1.5-1.5h1.6875c0.28733-0.79501 0.78612-1.4793 1.4375-2h-3.125c-1.9217 0-3.5 1.5783-3.5 3.5s1.5783 3.5 3.5 3.5h5z"/>
  </g>

@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Username" : "ਯੂਜ਼ਰ-ਨਾਂ",
     "Password" : "ਪਾਸਵਰ",
+    "ownCloud" : "ਓਵਨਕਲਾਉਡ",
     "Share" : "ਸਾਂਝਾ ਕਰੋ",
     "Delete" : "ਹਟਾਓ"
 },

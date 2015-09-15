@@ -115,7 +115,6 @@ OC.L10N.register(
     "Backup (Replica) Port" : "Port for sikkerhedskopi (replika)",
     "Disable Main Server" : "Deaktivér hovedserver",
     "Only connect to the replica server." : "Forbind kun til replika serveren.",
-    "Case insensitive LDAP server (Windows)" : "LDAP-server som ikke er følsom over for store/små bogstaver (Windows)",
     "Turn off SSL certificate validation." : "Deaktivér validering af SSL-certifikat.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Anbefales ikke - bruges kun til testformål! Hvis forbindelse udelukkende fungerer med dette tilvalg, så importér LDAP-serverens SSL-certifikat i din %s-server.",
     "Cache Time-To-Live" : "Cache levetid",

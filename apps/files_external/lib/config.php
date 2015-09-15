@@ -81,9 +81,7 @@ class OC_Mount_Config {
 	 * @param array $data
 	 */
 	public static function initMountPointsHook($data) {
-		self::addStorageIdToConfig(null);
 		if ($data['user']) {
-			self::addStorageIdToConfig($data['user']);
 			$user = \OC::$server->getUserManager()->get($data['user']);
 			if (!$user) {
 				\OC::$server->getLogger()->warning(
@@ -210,7 +208,6 @@ class OC_Mount_Config {
 			'users' => $storage->getApplicableUsers(),
 		];
 		$mountEntry['id'] = $storage->getId();
-		// $mountEntry['storage_id'] = null; // we don't store this!
 
 		return $mountEntry;
 	}
@@ -230,7 +227,9 @@ class OC_Mount_Config {
 				}
 			}
 		} else {
-			$input = str_replace('$user', $user, $input);
+			if (is_string($input)) {
+				$input = str_replace('$user', $user, $input);
+			}
 		}
 		return $input;
 	}
@@ -306,14 +305,6 @@ class OC_Mount_Config {
 			$config = \OC::$server->getConfig();
 			$datadir = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/');
 			$file = $config->getSystemValue('mount_file', $datadir . '/mount.json');
-		}
-
-		foreach ($data as &$applicables) {
-			foreach ($applicables as &$mountPoints) {
-				foreach ($mountPoints as &$options) {
-					self::addStorageId($options);
-				}
-			}
 		}
 
 		$content = json_encode($data, JSON_PRETTY_PRINT);
@@ -489,61 +480,5 @@ class OC_Mount_Config {
 			)
 		);
 		return hash('md5', $data);
-	}
-
-	/**
-	 * Add storage id to the storage configurations that did not have any.
-	 *
-	 * @param string $user user for which to process storage configs
-	 */
-	private static function addStorageIdToConfig($user) {
-		$config = self::readData($user);
-
-		$needUpdate = false;
-		foreach ($config as &$applicables) {
-			foreach ($applicables as &$mountPoints) {
-				foreach ($mountPoints as &$options) {
-					$needUpdate |= !isset($options['storage_id']);
-				}
-			}
-		}
-
-		if ($needUpdate) {
-			self::writeData($user, $config);
-		}
-	}
-
-	/**
-	 * Get storage id from the numeric storage id and set
-	 * it into the given options argument. Only do this
-	 * if there was no storage id set yet.
-	 *
-	 * This might also fail if a storage wasn't fully configured yet
-	 * and couldn't be mounted, in which case this will simply return false.
-	 *
-	 * @param array $options storage options
-	 *
-	 * @return bool true if the storage id was added, false otherwise
-	 */
-	private static function addStorageId(&$options) {
-		if (isset($options['storage_id'])) {
-			return false;
-		}
-
-		$service = self::$app->getContainer()->query('OCA\Files_External\Service\BackendService');
-		$class = $service->getBackend($options['backend'])->getStorageClass();
-		try {
-			/** @var \OC\Files\Storage\Storage $storage */
-			$storage = new $class($options['options']);
-			// TODO: introduce StorageConfigException
-		} catch (\Exception $e) {
-			// storage might not be fully configured yet (ex: Dropbox)
-			// note that storage instances aren't supposed to open any connections
-			// in the constructor, so this exception is likely to be a config exception
-			return false;
-		}
-
-		$options['storage_id'] = $storage->getCache()->getNumericStorageId();
-		return true;
 	}
 }

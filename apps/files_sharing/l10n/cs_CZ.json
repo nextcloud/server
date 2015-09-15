@@ -22,8 +22,8 @@
     "You can upload into this folder" : "Můžete nahrávat do tohoto adresáře",
     "No ownCloud installation (7 or higher) found at {remote}" : "Nebyla nalezena instalace ownCloud (7 nebo vyšší) na {remote}",
     "Invalid ownCloud url" : "Neplatná ownCloud url",
-    "Share" : "Sdílet",
     "Shared by" : "Sdílí",
+    "Sharing" : "Sdílení",
     "A file or folder has been <strong>shared</strong>" : "Soubor nebo složka byla <strong>nasdílena</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Soubor nebo složka byla nasdílena z <strong>jiného serveru</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Byl <strong>stažen</strong> veřejně sdílený soubor nebo adresář",
@@ -39,6 +39,9 @@
     "%2$s shared %1$s with you" : "%2$s s vámi sdílí %1$s",
     "You shared %1$s via link" : "Sdílíte %1$s přes odkaz",
     "Shares" : "Sdílení",
+    "You received %s as a remote share from %s" : "Obdrželi jste %s nově nasdílená vzdáleně od %s ",
+    "Accept" : "Přijmout",
+    "Decline" : "Zamítnout",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Sdílej se mnou pomocí mého #ownCloud sdruženého cloud ID, více na %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Sdílej se mnou pomocí mého #ownCloud sdruženého cloud ID",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",
@@ -64,7 +67,7 @@
     "Federated Cloud" : "Sdružený cloud",
     "Your Federated Cloud ID:" : "Vaše sdružené cloud ID:",
     "Share it:" : "Sdílet:",
-    "Add it to your website:" : "Přidat na svou webovou stránku:",
+    "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via ownCloud" : "Sdíleno se mnou přes ownCloud",
     "HTML Code:" : "HTML kód:"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"

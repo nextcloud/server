@@ -80,6 +80,7 @@ interface IClient {
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 * @return IResponse
+	 * @throws \Exception If the request could not get completed
 	 * @since 8.1.0
 	 */
 	public function head($uri, $options = []);
@@ -109,6 +110,7 @@ interface IClient {
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 * @return IResponse
+	 * @throws \Exception If the request could not get completed
 	 * @since 8.1.0
 	 */
 	public function post($uri, array $options = []);
@@ -138,6 +140,7 @@ interface IClient {
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 * @return IResponse
+	 * @throws \Exception If the request could not get completed
 	 * @since 8.1.0
 	 */
 	public function put($uri, array $options = []);
@@ -167,6 +170,7 @@ interface IClient {
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 * @return IResponse
+	 * @throws \Exception If the request could not get completed
 	 * @since 8.1.0
 	 */
 	public function delete($uri, array $options = []);
@@ -196,6 +200,7 @@ interface IClient {
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 * @return IResponse
+	 * @throws \Exception If the request could not get completed
 	 * @since 8.1.0
 	 */
 	public function options($uri, array $options = []);

@@ -91,7 +91,7 @@ class Test_Util extends \Test\TestCase {
 
 	function testCallRegister() {
 		$result = strlen(OC_Util::callRegister());
-		$this->assertEquals(30, $result);
+		$this->assertEquals(221, $result);
 	}
 
 	function testSanitizeHTML() {

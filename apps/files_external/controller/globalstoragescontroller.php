@@ -32,6 +32,7 @@ use \OCP\AppFramework\Http;
 use \OCA\Files_external\Service\GlobalStoragesService;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;
+use \OCA\Files_External\Service\BackendService;
 
 /**
  * Global storages controller
@@ -97,7 +98,7 @@ class GlobalStoragesController extends StoragesController {
 			return $newStorage;
 		}
 
-		$response = $this->validate($newStorage);
+		$response = $this->validate($newStorage, BackendService::PERMISSION_CREATE);
 		if (!empty($response)) {
 			return $response;
 		}
@@ -153,7 +154,7 @@ class GlobalStoragesController extends StoragesController {
 		}
 		$storage->setId($id);
 
-		$response = $this->validate($storage);
+		$response = $this->validate($storage, BackendService::PERMISSION_MODIFY);
 		if (!empty($response)) {
 			return $response;
 		}
@@ -177,5 +178,15 @@ class GlobalStoragesController extends StoragesController {
 		);
 
 	}
+
+	/**
+	 * Get the user type for this controller, used in validation
+	 *
+	 * @return string BackendService::USER_* constants
+	 */
+	protected function getUserType() {
+		return BackendService::USER_ADMIN;
+	}
+
 
 }

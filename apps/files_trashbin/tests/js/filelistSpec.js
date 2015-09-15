@@ -212,6 +212,26 @@ describe('OCA.Trashbin.FileList tests', function() {
 	describe('breadcrumbs', function() {
 		// TODO: test label + URL
 	});
+	describe('elementToFile', function() {
+		var $tr;
+
+		beforeEach(function() {
+			fileList.setFiles(testFiles);
+			$tr = fileList.findFileEl('One.txt.d11111');
+		});
+
+		it('converts data attributes to file info structure', function() {
+			var fileInfo = fileList.elementToFile($tr);
+			expect(fileInfo.id).toEqual(1);
+			expect(fileInfo.name).toEqual('One.txt.d11111');
+			expect(fileInfo.displayName).toEqual('One.txt');
+			expect(fileInfo.mtime).toEqual(11111000);
+			expect(fileInfo.etag).toEqual('abc');
+			expect(fileInfo.permissions).toEqual(OC.PERMISSION_READ | OC.PERMISSION_DELETE);
+			expect(fileInfo.mimetype).toEqual('text/plain');
+			expect(fileInfo.type).toEqual('file');
+		});
+	});
 	describe('Global Actions', function() {
 		beforeEach(function() {
 			fileList.setFiles(testFiles);

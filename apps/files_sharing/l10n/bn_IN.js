@@ -2,7 +2,6 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "বাতিল করা",
-    "Share" : "শেয়ার",
     "A file or folder has been <strong>shared</strong>" : "ফাইল অথবা ফোল্ডার <strong>শেয়ার করা হয়েছে</strong>",
     "You shared %1$s with %2$s" : "আপনি %1$s শেয়ার করছেন %2$s এর সাথে",
     "You shared %1$s with group %2$s" : "আপনি %1$s কে %2$s গ্রুপের সাথে শেয়ার করেছেন",

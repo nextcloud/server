@@ -31,13 +31,20 @@ class Apps {
 	/** @var \OCP\App\IAppManager */
 	private $appManager;
 
+	/**
+	 * @param \OCP\App\IAppManager $appManager
+	 */
 	public function __construct(\OCP\App\IAppManager $appManager) {
 		$this->appManager = $appManager;
 	}
 
-	public function getApps($parameters){
+	/**
+	 * @param array $parameters
+	 * @return OC_OCS_Result
+	 */
+	public function getApps($parameters) {
 		$apps = OC_App::listAllApps();
-		$list = array();
+		$list = [];
 		foreach($apps as $app) {
 			$list[] = $app['id'];
 		}
@@ -62,7 +69,11 @@ class Apps {
 		}
 	}
 
-	public function getAppInfo($parameters){
+	/**
+	 * @param array $parameters
+	 * @return OC_OCS_Result
+	 */
+	public function getAppInfo($parameters) {
 		$app = $parameters['appid'];
 		$info = \OCP\App::getAppInfo($app);
 		if(!is_null($info)) {
@@ -72,13 +83,21 @@ class Apps {
 		}
 	}
 
-	public function enable($parameters){
+	/**
+	 * @param array $parameters
+	 * @return OC_OCS_Result
+	 */
+	public function enable($parameters) {
 		$app = $parameters['appid'];
 		$this->appManager->enableApp($app);
 		return new OC_OCS_Result(null, 100);
 	}
 
-	public function disable($parameters){
+	/**
+	 * @param array $parameters
+	 * @return OC_OCS_Result
+	 */
+	public function disable($parameters) {
 		$app = $parameters['appid'];
 		$this->appManager->disableApp($app);
 		return new OC_OCS_Result(null, 100);

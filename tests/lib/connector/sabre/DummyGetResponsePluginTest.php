@@ -59,6 +59,10 @@ class DummyGetResponsePluginTest extends TestCase {
 		$response
 			->expects($this->once())
 			->method('setBody');
+		$response
+			->expects($this->once())
+			->method('setStatus')
+			->with(200);
 
 		$this->assertSame(false, $this->dummyGetResponsePlugin->httpGet($request, $response));
 	}

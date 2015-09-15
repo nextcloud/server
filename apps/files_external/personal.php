@@ -34,8 +34,12 @@ $userStoragesService = $appContainer->query('OCA\Files_external\Service\UserStor
 OCP\Util::addScript('files_external', 'settings');
 OCP\Util::addStyle('files_external', 'settings');
 
-$backends = $backendService->getBackendsVisibleFor(BackendService::VISIBILITY_PERSONAL);
-$authMechanisms = $backendService->getAuthMechanismsVisibleFor(BackendService::VISIBILITY_PERSONAL);
+$backends = array_filter($backendService->getAvailableBackends(), function($backend) {
+	return $backend->isPermitted(BackendService::USER_PERSONAL, BackendService::PERMISSION_CREATE);
+});
+$authMechanisms = array_filter($backendService->getAuthMechanisms(), function($authMechanism) {
+	return $authMechanism->isPermitted(BackendService::USER_PERSONAL, BackendService::PERMISSION_CREATE);
+});
 foreach ($backends as $backend) {
 	if ($backend->getCustomJs()) {
 		\OCP\Util::addScript('files_external', $backend->getCustomJs());

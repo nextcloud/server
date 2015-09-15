@@ -71,6 +71,16 @@ module.exports = function(config) {
 				testFiles: ['apps/files_external/tests/js/*.js']
 			},
 			{
+				name: 'files_versions',
+				srcFiles: [
+					// need to enforce loading order...
+					'apps/files_versions/js/versionmodel.js',
+					'apps/files_versions/js/versioncollection.js',
+					'apps/files_versions/js/versionstabview.js'
+				],
+				testFiles: ['apps/files_versions/tests/js/**/*.js']
+			},
+			{
 				name: 'settings',
 				srcFiles: [
 					'settings/js/apps.js',

@@ -179,6 +179,10 @@ $(document).ready(function(){
 		var $el = $('#postsetupchecks');
 		$el.find('.loading').addClass('hidden');
 		if (messages.length === 0) {
+			var securityWarning = $('#security-warning');
+			if (securityWarning.children('ul').children().length === 0) {
+				$('#security-warning-state').find('span').removeClass('hidden');
+			}
 		} else {
 			var $errorsEl = $el.find('.errors');
 			var $warningsEl = $el.find('.warnings');

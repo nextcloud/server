@@ -25,6 +25,8 @@
     "Encryption App is enabled and ready" : "暗号化アプリは有効になっており、準備が整いました",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "このファイルを復号化できません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "このファイルを読み取ることができません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。",
+    "The share will expire on %s." : "共有は %s で有効期限が切れます。",
+    "Cheers!" : "それでは！",
     "Enable recovery key" : "復旧キーを有効にする",
     "Disable recovery key" : "復旧キーを無効にする",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "復旧キーは、ファイルの暗号化に使う特別な暗号化キーです。ユーザがパスワードを忘れてしまった場合には、リカバリキーを使ってユーザのファイルを復元することができます。",

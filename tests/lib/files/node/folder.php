@@ -143,38 +143,13 @@ class Folder extends \Test\TestCase {
 			->method('getUser')
 			->will($this->returnValue($this->user));
 
-		/**
-		 * @var \OC\Files\Storage\Storage | \PHPUnit_Framework_MockObject_MockObject $storage
-		 */
-		$storage = $this->getMock('\OC\Files\Storage\Storage');
-
-		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
-		$cache->expects($this->any())
-			->method('getStatus')
-			->with('foo')
-			->will($this->returnValue(Cache::COMPLETE));
-
-		$cache->expects($this->once())
-			->method('getFolderContents')
-			->with('foo')
-			->will($this->returnValue(array(
-				array('fileid' => 2, 'path' => '/bar/foo/asd', 'name' => 'asd', 'size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'),
-				array('fileid' => 3, 'path' => '/bar/foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'httpd/unix-directory')
-			)));
-
-		$root->expects($this->once())
-			->method('getMountsIn')
-			->with('/bar/foo')
-			->will($this->returnValue(array()));
-
-		$storage->expects($this->any())
-			->method('getCache')
-			->will($this->returnValue($cache));
-
 		$view->expects($this->any())
-			->method('resolvePath')
+			->method('getDirectoryContent')
 			->with('/bar/foo')
-			->will($this->returnValue(array($storage, 'foo')));
+			->will($this->returnValue(array(
+				new FileInfo('/bar/foo/asd', null, 'foo/asd', ['fileid' => 2, 'path' => '/bar/foo/asd', 'name' => 'asd', 'size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'], null),
+				new FileInfo('/bar/foo/qwerty', null, 'foo/qwerty', ['fileid' => 3, 'path' => '/bar/foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'httpd/unix-directory'], null)
+			)));
 
 		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
 		$children = $node->getDirectoryListing();
@@ -183,6 +158,8 @@ class Folder extends \Test\TestCase {
 		$this->assertInstanceOf('\OC\Files\Node\Folder', $children[1]);
 		$this->assertEquals('asd', $children[0]->getName());
 		$this->assertEquals('qwerty', $children[1]->getName());
+		$this->assertEquals(2, $children[0]->getId());
+		$this->assertEquals(3, $children[1]->getId());
 	}
 
 	public function testGet() {

@@ -12,4 +12,8 @@ $(document).ready(function() {
 		}
 	});
 
+	$('#oca-files-sharing-add-to-your-website').click(function() {
+		$('#oca-files-sharing-add-to-your-website-expanded').slideDown();
+	});
+
 });

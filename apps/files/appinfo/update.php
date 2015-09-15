@@ -94,3 +94,12 @@ if ($installedVersion === '1.1.9' && (
 		}
 	}
 }
+
+/**
+ * migrate old constant DEBUG to new config value 'debug'
+ *
+ * TODO: remove this in ownCloud 8.3
+ */
+if(defined('DEBUG') && DEBUG === true) {
+	\OC::$server->getConfig()->setSystemValue('debug', true);
+}

@@ -22,8 +22,8 @@
     "You can upload into this folder" : "Puoi caricare in questa cartella",
     "No ownCloud installation (7 or higher) found at {remote}" : "Nessuna installazione di ownCloud (7 o superiore) trovata su {remote}",
     "Invalid ownCloud url" : "URL di ownCloud non valido",
-    "Share" : "Condividi",
     "Shared by" : "Condiviso da",
+    "Sharing" : "Condivisione",
     "A file or folder has been <strong>shared</strong>" : "Un file o una cartella è stato <strong>condiviso</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Un file o una cartella è stato condiviso da <strong>un altro server</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Un file condiviso pubblicamente o una cartella è stato <strong>scaricato</strong>",
@@ -39,6 +39,9 @@
     "%2$s shared %1$s with you" : "%2$s ha condiviso %1$s con te",
     "You shared %1$s via link" : "Hai condiviso %1$s tramite collegamento",
     "Shares" : "Condivisioni",
+    "You received %s as a remote share from %s" : "Hai ricevuto %s come condivisione remota da %s",
+    "Accept" : "Accetta",
+    "Decline" : "Rifiuta",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Condividi con me attraverso il mio ID di cloud federata #ownCloud, vedi %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Condividi con me attraverso il mio ID di cloud federata #ownCloud",
     "This share is password-protected" : "Questa condivione è protetta da password",
@@ -64,7 +67,7 @@
     "Federated Cloud" : "Cloud federata",
     "Your Federated Cloud ID:" : "Il tuo ID di cloud federata:",
     "Share it:" : "Condividilo:",
-    "Add it to your website:" : "Aggiungilo al tuo sito web:",
+    "Add to your website" : "Aggiungilo al tuo sito web",
     "Share with me via ownCloud" : "Condividi con me tramite ownCloud",
     "HTML Code:" : "Codice HTML:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

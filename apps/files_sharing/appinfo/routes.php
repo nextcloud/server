@@ -33,7 +33,14 @@ $application = new Application();
 $application->registerRoutes($this, [
 	'resources' => [
 		'ExternalShares' => ['url' => '/api/externalShares'],
-	]
+	],
+	'routes' => [
+		[
+			'name' => 'externalShares#testRemote',
+			'url' => '/testremote',
+			'verb' => 'GET'
+		],
+	],
 ]);
 
 /** @var $this \OCP\Route\IRouter */
@@ -50,8 +57,6 @@ $this->create('sharing_external_shareinfo', '/shareinfo')
 	->actionInclude('files_sharing/ajax/shareinfo.php');
 $this->create('sharing_external_add', '/external')
 	->actionInclude('files_sharing/ajax/external.php');
-$this->create('sharing_external_test_remote', '/testremote')
-	->actionInclude('files_sharing/ajax/testremote.php');
 
 // OCS API
 
@@ -97,3 +102,16 @@ API::register('delete',
 		array('\OCA\Files_Sharing\API\Remote', 'declineShare'),
 		'files_sharing');
 
+$sharees = new \OCA\Files_Sharing\API\Sharees(\OC::$server->getGroupManager(),
+                                              \OC::$server->getUserManager(),
+                                              \OC::$server->getContactsManager(),
+                                              \OC::$server->getConfig(),
+                                              \OC::$server->getUserSession(),
+                                              \OC::$server->getURLGenerator(),
+                                              \OC::$server->getRequest(),
+                                              \OC::$server->getLogger());
+
+API::register('get',
+		'/apps/files_sharing/api/v1/sharees',
+		[$sharees, 'search'],
+		'files_sharing', API::USER_AUTH);

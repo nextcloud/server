@@ -73,7 +73,7 @@ if ($_['getenvServerNotWorking']) {
 ?>
 	<li>
 		<?php p($l->t('php does not seem to be setup properly to query system environment variables. The test with getenv("PATH") only returns an empty response.')); ?><br>
-		<?php p($l->t('Please check the installation documentation for php configuration notes and the php configuration of your server, especially when using php-fpm.')); ?>
+		<?php print_unescaped($l->t('Please check the <a target="_blank" href="%s">installation documentation ↗</a> for php configuration notes and the php configuration of your server, especially when using php-fpm.', link_to_docs('admin-php-fpm'))); ?>
 	</li>
 <?php
 }
@@ -124,6 +124,15 @@ if (!$_['has_fileinfo']) {
 <?php
 }
 
+// locking configured optimally?
+if ($_['fileLockingType'] === 'none') {
+	?>
+	<li>
+		<?php print_unescaped($l->t('Transactional file locking is disabled, this might lead to issues with race conditions. Enable \'filelocking.enabled\' in config.php to avoid these problems. See the <a target="_blank" href="%s">documentation ↗</a> for more information.', link_to_docs('admin-transactional-locking'))); ?>
+	</li>
+	<?php
+}
+
 // is locale working ?
 if (!$_['isLocaleWorking']) {
 	?>
@@ -172,10 +181,19 @@ if ($_['cronErrors']) {
 	<div class="loading"></div>
 	<ul class="errors hidden"></ul>
 	<ul class="warnings hidden"></ul>
-	<ul class="info hidden"></ul>
+	<ul class="info hidden">
+		<?php if ($_['fileLockingType'] === 'db'):?>
+		<li>
+			<?php print_unescaped($l->t('Transactional file locking is using the database as locking backend, for best performance it\'s advised to configure a memcache for locking. See the <a target="_blank" href="%s">documentation ↗</a> for more information.', link_to_docs('admin-transactional-locking'))); ?>
+		</li>
+		<?php endif; ?>
+	</ul>
 	<p class="hint hidden">
 		<?php print_unescaped($l->t('Please double check the <a target="_blank" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="#log-section">log</a>.', link_to_docs('admin-install'))); ?>
 	</p>
+</div>
+<div id="security-warning-state">
+	<span class="hidden icon-checkmark"><?php p($l->t('All checks passed.'));?></span>
 </div>
 </div>
 
@@ -516,19 +534,6 @@ if ($_['cronErrors']) {
 	<?php endif; ?>
 </div>
 
-<div class="section" id="server-status">
-	<h2><?php p($l->t('Server status'));?></h2>
-	<ul>
-		<li>
-			<?php if ($_['fileLockingEnabled']) {
-				p($l->t('Transactional File Locking is enabled.'));
-			} else {
-				p($l->t('Transactional File Locking is disabled.'));
-			} ?>
-		</li>
-	</ul>
-</div>
-
 <div class="section" id="admin-tips">
 	<h2><?php p($l->t('Tips & tricks'));?></h2>
 	<ul>
@@ -551,15 +556,15 @@ if ($_['cronErrors']) {
 	</ul>
 </div>
 
+<?php if (!empty($_['updaterAppPanel'])): ?>
+	<div id="updater"><?php print_unescaped($_['updaterAppPanel']); ?></div>
+<?php endif; ?>
+
 <div class="section">
 	<h2><?php p($l->t('Version'));?></h2>
 	<strong><?php p($theme->getTitle()); ?></strong> <?php p(OC_Util::getHumanVersion()) ?>
 	<?php include('settings.development.notice.php'); ?>
 </div>
-
-<?php if (!empty($_['updaterAppPanel'])): ?>
-	<div id="updater"><?php print_unescaped($_['updaterAppPanel']); ?></div>
-<?php endif; ?>
 
 <div class="section credits-footer">
 	<p><?php print_unescaped($theme->getShortFooter()); ?></p>

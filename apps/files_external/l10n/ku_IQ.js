@@ -1,11 +1,12 @@
 OC.L10N.register(
     "files_external",
     {
-    "Location" : "شوێن",
+    "None" : "هیچ",
     "Username" : "ناوی به‌کارهێنه‌ر",
     "Password" : "وشەی تێپەربو",
-    "Share" : "هاوبەشی کردن",
     "URL" : "ناونیشانی به‌سته‌ر",
+    "Location" : "شوێن",
+    "Share" : "هاوبەشی کردن",
     "Name" : "ناو",
     "Folder name" : "ناوی بوخچه"
 },

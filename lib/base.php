@@ -115,9 +115,6 @@ class OC {
 	 * the app path list is empty or contains an invalid path
 	 */
 	public static function initPaths() {
-		// calculate the root directories
-		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
-
 		// ensure we can find OC_Config
 		set_include_path(
 			OC::$SERVERROOT . '/lib' . PATH_SEPARATOR .
@@ -134,18 +131,7 @@ class OC {
 		OC_Config::$object = new \OC\Config(self::$configDir);
 
 		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
-		/**
-		 * FIXME: The following line is required because of a cyclic dependency
-		 *        on IRequest.
-		 */
-		$params = [
-			'server' => [
-				'SCRIPT_NAME' => $_SERVER['SCRIPT_NAME'],
-				'SCRIPT_FILENAME' => $_SERVER['SCRIPT_FILENAME'],
-			],
-		];
-		$fakeRequest = new \OC\AppFramework\Http\Request($params, null, new \OC\AllConfig(new \OC\SystemConfig()));
-		$scriptName = $fakeRequest->getScriptName();
+		$scriptName = $_SERVER['SCRIPT_NAME'];
 		if (substr($scriptName, -1) == '/') {
 			$scriptName .= 'index.php';
 			//make sure suburi follows the same rules as scriptName
@@ -463,13 +449,15 @@ class OC {
 			$useCustomSession = false;
 			$session = self::$server->getSession();
 			OC_Hook::emit('OC', 'initSession', array('session' => &$session, 'sessionName' => &$sessionName, 'useCustomSession' => &$useCustomSession));
-			if($useCustomSession) {
-				// use the session reference as the new Session
-				self::$server->setSession($session);
-			} else {
+			if (!$useCustomSession) {
 				// set the session name to the instance id - which is unique
-				self::$server->setSession(new \OC\Session\Internal($sessionName));
+				$session = new \OC\Session\Internal($sessionName);
 			}
+
+			$cryptoWrapper = \OC::$server->getSessionCryptoWrapper();
+			$session = $cryptoWrapper->wrapSession($session);
+			self::$server->setSession($session);
+
 			// if session cant be started break with http 500 error
 		} catch (Exception $e) {
 			\OCP\Util::logException('base', $e);
@@ -528,10 +516,21 @@ class OC {
 	}
 
 	public static function init() {
+		// calculate the root directories
+		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
+
 		// register autoloader
 		$loaderStart = microtime(true);
 		require_once __DIR__ . '/autoloader.php';
-		self::$loader = new \OC\Autoloader();
+		self::$loader = new \OC\Autoloader([
+			OC::$SERVERROOT . '/lib',
+			OC::$SERVERROOT . '/core',
+			OC::$SERVERROOT . '/settings',
+			OC::$SERVERROOT . '/ocs',
+			OC::$SERVERROOT . '/ocs-provider',
+			OC::$SERVERROOT . '/3rdparty',
+			OC::$SERVERROOT . '/tests',
+		]);
 		spl_autoload_register(array(self::$loader, 'load'));
 		$loaderEnd = microtime(true);
 
@@ -542,7 +541,7 @@ class OC {
 			// setup 3rdparty autoloader
 			$vendorAutoLoad = OC::$THIRDPARTYROOT . '/3rdparty/autoload.php';
 			if (!file_exists($vendorAutoLoad)) {
-				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty".');
+				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
 			}
 			require_once $vendorAutoLoad;
 
@@ -591,7 +590,7 @@ class OC {
 		if (!defined('PHPUNIT_RUN')) {
 			$logger = \OC::$server->getLogger();
 			OC\Log\ErrorHandler::setLogger($logger);
-			if (defined('DEBUG') and DEBUG) {
+			if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
 				OC\Log\ErrorHandler::register(true);
 				set_exception_handler(array('OC_Template', 'printExceptionErrorPage'));
 			} else {
@@ -672,7 +671,7 @@ class OC {
 
 		self::registerCacheHooks();
 		self::registerFilesystemHooks();
-		if (\OC::$server->getSystemConfig()->getValue('enable_previews', true)) {
+		if ($systemConfig->getValue('enable_previews', true)) {
 			self::registerPreviewHooks();
 		}	
 		self::registerShareHooks();
@@ -1049,7 +1048,7 @@ class OC {
 			return false;
 		}
 
-		if (defined("DEBUG") && DEBUG) {
+		if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
 			\OCP\Util::writeLog('core', 'Trying to login from cookie', \OCP\Util::DEBUG);
 		}
 
@@ -1102,11 +1101,12 @@ class OC {
 
 			self::cleanupLoginTokens($userId);
 			if (!empty($_POST["remember_login"])) {
-				if (defined("DEBUG") && DEBUG) {
+				$config = self::$server->getConfig();
+				if ($config->getSystemValue('debug', false)) {
 					self::$server->getLogger()->debug('Setting remember login to cookie', array('app' => 'core'));
 				}
 				$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(32);
-				self::$server->getConfig()->setUserValue($userId, 'login_token', $token, time());
+				$config->setUserValue($userId, 'login_token', $token, time());
 				OC_User::setMagicInCookie($userId, $token);
 			} else {
 				OC_User::unsetMagicInCookie();
@@ -1116,27 +1116,8 @@ class OC {
 		}
 		return true;
 	}
+
 }
 
-if (!function_exists('get_temp_dir')) {
-	/**
-	 * Get the temporary dir to store uploaded data
-	 * @return null|string Path to the temporary directory or null
-	 */
-	function get_temp_dir() {
-		if ($temp = ini_get('upload_tmp_dir')) return $temp;
-		if ($temp = getenv('TMP')) return $temp;
-		if ($temp = getenv('TEMP')) return $temp;
-		if ($temp = getenv('TMPDIR')) return $temp;
-		$temp = tempnam(__FILE__, '');
-		if (file_exists($temp)) {
-			unlink($temp);
-			return dirname($temp);
-		}
-		if ($temp = sys_get_temp_dir()) return $temp;
-
-		return null;
-	}
-}
 
 OC::init();

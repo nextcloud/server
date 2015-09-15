@@ -13,8 +13,8 @@ OC.L10N.register(
     "Cancel" : "Cancel·la",
     "Add remote share" : "Afegeix compartició remota",
     "Invalid ownCloud url" : "La url d'ownCloud no és vàlida",
-    "Share" : "Comparteix",
     "Shared by" : "Compartit per",
+    "Sharing" : "Compartir",
     "A file or folder has been <strong>shared</strong>" : "S'ha <strong>compartit</strong> un fitxer o una carpeta",
     "You shared %1$s with %2$s" : "Has compartit %1$s amb %2$s",
     "You shared %1$s with group %2$s" : "has compartit %1$s amb el grup %2$s",
@@ -36,6 +36,7 @@ OC.L10N.register(
     "Add to your ownCloud" : "Afegiu a ownCloud",
     "Download" : "Baixa",
     "Download %s" : "Baixa %s",
-    "Direct link" : "Enllaç directe"
+    "Direct link" : "Enllaç directe",
+    "Open documentation" : "Obre la documentació"
 },
 "nplurals=2; plural=(n != 1);");

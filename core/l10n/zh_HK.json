@@ -26,13 +26,13 @@
     "Cancel" : "取消",
     "Continue" : "繼續",
     "Shared" : "已分享",
-    "Share" : "分享",
     "Error" : "錯誤",
     "Error while sharing" : "分享時發生錯誤",
     "Error while unsharing" : "取消分享時發生錯誤",
     "Error while changing permissions" : "更改權限時發生錯誤",
     "Shared with you and the group {group} by {owner}" : "{owner}與你及群組的分享",
     "Shared with you by {owner}" : "{owner}與你的分享",
+    "Share" : "分享",
     "Share link" : "分享連結",
     "Password protect" : "密碼保護",
     "Password" : "密碼",
@@ -66,7 +66,7 @@
     "Database name" : "資料庫名稱",
     "Log out" : "登出",
     "Search" : "尋找",
-    "remember" : "記住",
-    "Log in" : "登入"
+    "Log in" : "登入",
+    "remember" : "記住"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -22,8 +22,8 @@
     "You can upload into this folder" : "Ebbe a könyvtárba fel tud tölteni",
     "No ownCloud installation (7 or higher) found at {remote}" : "Nem található ownCloud telepítés (7 vagy nagyobb verzió) itt  {remote}",
     "Invalid ownCloud url" : "Érvénytelen ownCloud webcím",
-    "Share" : "Megosztás",
     "Shared by" : "Megosztotta Önnel",
+    "Sharing" : "Megosztás",
     "A file or folder has been <strong>shared</strong>" : "Fájl vagy könyvtár <strong>megosztása</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Egy fájl vagy könyvtár meg lett osztva egy <strong>másik szerverről</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Egy nyilvánosan megosztott fáljt vagy könyvtárat <strong>letöltöttek</strong>",
@@ -39,6 +39,7 @@
     "%2$s shared %1$s with you" : "%2$s megosztotta velem ezt: %1$s",
     "You shared %1$s via link" : "Megosztottam link segítségével: %1$s",
     "Shares" : "Megosztások",
+    "Accept" : "Elfogadás",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Ossza meg velem az #ownCloud Egyesített Felhő Azonosító segítségével, lásd %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Ossza meg velem az #ownCloud Egyesített Felhő Azonosító segítségével ",
     "This share is password-protected" : "Ez egy jelszóval védett megosztás",
@@ -64,7 +65,7 @@
     "Federated Cloud" : "Egyesített felhő",
     "Your Federated Cloud ID:" : "Egyesített felhő azonosító:",
     "Share it:" : "Ossza meg:",
-    "Add it to your website:" : "Adja hozzá a saját weboldalához:",
+    "Add to your website" : "Add hozzá saját weboldaladhoz",
     "Share with me via ownCloud" : "Ossza meg velem ownCloud-on keresztül",
     "HTML Code:" : "HTML Code:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

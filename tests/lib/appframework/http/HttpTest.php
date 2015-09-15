@@ -65,6 +65,14 @@ class HttpTest extends \Test\TestCase {
 	}
 
 
+	public function testQuotedEtagMatchReturnsNotModified() {
+		$http = new Http(array('HTTP_IF_NONE_MATCH' => '"hi"'));
+
+		$header = $http->getStatusHeader(Http::STATUS_OK, null, 'hi');
+		$this->assertEquals('HTTP/1.1 304 Not Modified', $header);
+	}
+
+
 	public function testLastModifiedMatchReturnsNotModified() {
 		$dateTime = new \DateTime(null, new \DateTimeZone('GMT'));
 		$dateTime->setTimestamp('12');

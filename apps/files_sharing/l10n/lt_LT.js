@@ -2,8 +2,8 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "Atšaukti",
-    "Share" : "Dalintis",
     "Shared by" : "Dalinasi",
+    "Sharing" : "Dalijimasis",
     "A file or folder has been <strong>shared</strong>" : "Failas ar aplankas buvo <strong>pasidalintas</strong>",
     "You shared %1$s with %2$s" : "Jūs pasidalinote %1$s su %2$s",
     "You shared %1$s with group %2$s" : "Jūs pasidalinote %1$s su grupe %2$s",

@@ -212,4 +212,9 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->assertTrue(true);
 	}
 
+	public function testReadEmptyMountPoint() {
+		// we don't test this here
+		$this->assertTrue(true);
+	}
+
 }

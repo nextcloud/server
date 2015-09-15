@@ -49,10 +49,14 @@ foreach ($users as $user) {
 	$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection());
 	$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', array($listener, 'file'));
 	$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', array($listener, 'folder'));
-	if ($force) {
-		$scanner->scan($dir);
-	} else {
-		$scanner->backgroundScan($dir);
+	try {
+		if ($force) {
+			$scanner->scan($dir);
+		} else {
+			$scanner->backgroundScan($dir);
+		}
+	} catch (\Exception $e) {
+		$eventSource->send('error', get_class($e) . ': ' . $e->getMessage());
 	}
 }
 

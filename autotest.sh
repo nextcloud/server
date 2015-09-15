@@ -32,6 +32,9 @@ fi
 PHP=$(which "$PHP_EXE")
 PHPUNIT=$(which phpunit)
 
+_XDEBUG_CONFIG=$XDEBUG_CONFIG
+unset XDEBUG_CONFIG
+
 function print_syntax {
 	echo -e "Syntax: ./autotest.sh [dbconfigname] [testfile]\n" >&2
 	echo -e "\t\"dbconfigname\" can be one of: $DBCONFIGS" >&2
@@ -217,6 +220,9 @@ function execute_tests {
 	rm -rf "coverage-html-$DB"
 	mkdir "coverage-html-$DB"
 	"$PHP" -f enable_all.php | grep -i -C9999 error && echo "Error during setup" && exit 101
+	if [[ "$_XDEBUG_CONFIG" ]]; then
+		export XDEBUG_CONFIG=$_XDEBUG_CONFIG
+	fi
 	if [ -z "$NOCOVERAGE" ]; then
 		"${PHPUNIT[@]}" --configuration phpunit-autotest.xml --log-junit "autotest-results-$DB.xml" --coverage-clover "autotest-clover-$DB.xml" --coverage-html "coverage-html-$DB" "$2" "$3"
 		RESULT=$?

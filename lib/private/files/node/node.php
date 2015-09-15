@@ -56,11 +56,13 @@ class Node implements \OCP\Files\Node {
 	 * @param \OC\Files\View $view
 	 * @param \OC\Files\Node\Root $root
 	 * @param string $path
+	 * @param FileInfo $fileInfo
 	 */
-	public function __construct($root, $view, $path) {
+	public function __construct($root, $view, $path, $fileInfo = null) {
 		$this->view = $view;
 		$this->root = $root;
 		$this->path = $path;
+		$this->fileInfo = $fileInfo;
 	}
 
 	/**

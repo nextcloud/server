@@ -22,8 +22,8 @@
     "You can upload into this folder" : "Bu dizine yükleme yapabilirsiniz",
     "No ownCloud installation (7 or higher) found at {remote}" : "{remote} üzerinde ownCloud (7 veya daha üstü) kurulumu bulunamadı",
     "Invalid ownCloud url" : "Geçersiz ownCloud adresi",
-    "Share" : "Paylaş",
     "Shared by" : "Paylaşan",
+    "Sharing" : "Paylaşım",
     "A file or folder has been <strong>shared</strong>" : "Bir dosya veya klasör <strong>paylaşıldı</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "<strong>Başka sunucudan</strong> bir dosya veya klasör paylaşıldı",
     "A public shared file or folder was <strong>downloaded</strong>" : "Herkese açık paylaşılan bir dosya veya klasör <strong>indirildi</strong>",
@@ -39,6 +39,7 @@
     "%2$s shared %1$s with you" : "%2$s sizinle %1$s dosyasını paylaştı",
     "You shared %1$s via link" : "Bağlantı ile %1$s paylaşımını yaptınız",
     "Shares" : "Paylaşımlar",
+    "Accept" : "Kabul et",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "#ownCloud Birleşik Bulut kimliğim ile paylaşıldı, bkz %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "#ownCloud Birleşmiş Bulut kimliğim ile paylaşıldı",
     "This share is password-protected" : "Bu paylaşım parola korumalı",
@@ -64,7 +65,6 @@
     "Federated Cloud" : "Birleşmiş Bulut",
     "Your Federated Cloud ID:" : "Birleşmiş Bulut Kimliğiniz:",
     "Share it:" : "Paylaşın:",
-    "Add it to your website:" : "Web sitenize ekleyin:",
     "Share with me via ownCloud" : "Benimle ownCloud aracılığıyla paylaşıldı",
     "HTML Code:" : "HTML Kodu:"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

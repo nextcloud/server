@@ -109,7 +109,11 @@ class UtilTest extends TestCase {
 	/**
 	 * @dataProvider providePathsForTestIsExcluded
 	 */
-	public function testIsExcluded($path, $expected) {
+	public function testIsExcluded($path, $keyStorageRoot, $expected) {
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'encryption_key_storage_root', '')
+			->willReturn($keyStorageRoot);
 		$this->userManager
 			->expects($this->any())
 			->method('userExists')
@@ -122,11 +126,14 @@ class UtilTest extends TestCase {
 
 	public function providePathsForTestIsExcluded() {
 		return array(
-			array('/files_encryption', true),
-			array('files_encryption/foo.txt', true),
-			array('test/foo.txt', false),
-			array('/user1/files_encryption/foo.txt', true),
-			array('/user1/files/foo.txt', false),
+			array('/files_encryption', '', true),
+			array('files_encryption/foo.txt', '', true),
+			array('test/foo.txt', '', false),
+			array('/user1/files_encryption/foo.txt', '', true),
+			array('/user1/files/foo.txt', '', false),
+			array('/keyStorage/user1/files/foo.txt', 'keyStorage', true),
+			array('/keyStorage/files_encryption', '/keyStorage', true),
+			array('keyStorage/user1/files_encryption', '/keyStorage/', true),
 
 		);
 	}

@@ -32,34 +32,24 @@ table td.filename .nametext {
 	width: 100%;
 }
 
-/* always show actions on mobile, not only on hover */
-#fileList a.action,
-#fileList a.action.action-menu.permanent {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)" !important;
-	filter: alpha(opacity=20) !important;
-	opacity: .2 !important;
-	display: inline !important;
-}
-/* show share action of shared items darker to distinguish from non-shared */
-#fileList a.action.permanent {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
-	filter: alpha(opacity=70) !important;
-	opacity: .7 !important;
-}
 #fileList a.action.action-menu img {
-	padding-left: 2px;
+	padding-left: 0;
 }
 
 #fileList .fileActionsMenu {
-	margin-right: 5px;
-}
-/* some padding for better clickability */
-#fileList a.action img {
-	padding: 0 6px 0 12px;
+	margin-right: 6px;
 }
 /* hide text of the share action on mobile */
 #fileList a.action-share span {
 	display: none;
+}
+#fileList a.action.action-favorite {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
+	opacity: .7 !important;
+}
+#fileList a.action.action-favorite {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)" !important;
+	opacity: .3 !important;
 }
 
 /* ellipsis on file names */

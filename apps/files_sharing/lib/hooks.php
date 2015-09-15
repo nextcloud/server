@@ -33,6 +33,7 @@ class Hooks {
 			\OC\Files\Filesystem::getMountManager(),
 			\OC\Files\Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
+			\OC::$server->getNotificationManager(),
 			$params['uid']);
 
 		$manager->removeUserShares($params['uid']);

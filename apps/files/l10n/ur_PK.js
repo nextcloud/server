@@ -2,12 +2,12 @@ OC.L10N.register(
     "files",
     {
     "Unknown error" : "غیر معروف خرابی",
-    "Delete" : "حذف کریں",
-    "Unshare" : "شئیرنگ ختم کریں",
+    "Close" : "بند ",
     "Download" : "ڈاؤن لوڈ،",
     "Error" : "ایرر",
     "Name" : "اسم",
     "Save" : "حفظ",
-    "Settings" : "ترتیبات"
+    "Settings" : "ترتیبات",
+    "Delete" : "حذف کریں"
 },
 "nplurals=2; plural=(n != 1);");

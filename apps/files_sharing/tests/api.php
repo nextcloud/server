@@ -73,40 +73,108 @@ class Test_Files_Sharing_Api extends TestCase {
 	/**
 	 * @medium
 	 */
-	function testCreateShare() {
-
-		// share to user
-
+	function testCreateShareUserFile() {
 		// simulate a post request
 		$_POST['path'] = $this->filename;
 		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
 		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_USER;
 
-		$result = \OCA\Files_Sharing\API\Local::createShare(array());
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
 
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
+		$this->assertEquals(23, $data['permissions']);
+		$this->assertEmpty($data['expiration']);
 
 		$share = $this->getShareFromId($data['id']);
-
 		$items = \OCP\Share::getItemShared('file', $share['item_source']);
-
 		$this->assertTrue(!empty($items));
 
-		// share link
+		$fileinfo = $this->view->getFileInfo($this->filename);
+		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+	}
 
+	function testCreateShareUserFolder() {
+		// simulate a post request
+		$_POST['path'] = $this->folder;
+		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_USER;
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+
+		$this->assertTrue($result->succeeded());
+		$data = $result->getData();
+		$this->assertEquals(31, $data['permissions']);
+		$this->assertEmpty($data['expiration']);
+
+		$share = $this->getShareFromId($data['id']);
+		$items = \OCP\Share::getItemShared('file', $share['item_source']);
+		$this->assertTrue(!empty($items));
+
+		$fileinfo = $this->view->getFileInfo($this->folder);
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+	}
+
+
+	function testCreateShareGroupFile() {
+		// simulate a post request
+		$_POST['path'] = $this->filename;
+		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_GROUP1;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_GROUP;
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+
+		$this->assertTrue($result->succeeded());
+		$data = $result->getData();
+		$this->assertEquals(23, $data['permissions']);
+		$this->assertEmpty($data['expiration']);
+
+		$share = $this->getShareFromId($data['id']);
+		$items = \OCP\Share::getItemShared('file', $share['item_source']);
+		$this->assertTrue(!empty($items));
+
+		$fileinfo = $this->view->getFileInfo($this->filename);
+		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_GROUP1);
+	}
+
+	function testCreateShareGroupFolder() {
+		// simulate a post request
+		$_POST['path'] = $this->folder;
+		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_GROUP1;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_GROUP;
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+
+		$this->assertTrue($result->succeeded());
+		$data = $result->getData();
+		$this->assertEquals(31, $data['permissions']);
+		$this->assertEmpty($data['expiration']);
+
+		$share = $this->getShareFromId($data['id']);
+		$items = \OCP\Share::getItemShared('file', $share['item_source']);
+		$this->assertTrue(!empty($items));
+
+		$fileinfo = $this->view->getFileInfo($this->folder);
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_GROUP1);
+	}
+
+	public function testCreateShareLink() {
 		// simulate a post request
 		$_POST['path'] = $this->folder;
 		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
 
-		$result = \OCA\Files_Sharing\API\Local::createShare(array());
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
 
 		// check if API call was successful
 		$this->assertTrue($result->succeeded());
 
 		$data = $result->getData();
-
-		// check if we have a token
+		$this->assertEquals(1, $data['permissions']);
+		$this->assertEmpty($data['expiration']);
 		$this->assertTrue(is_string($data['token']));
 
 		// check for correct link
@@ -115,18 +183,39 @@ class Test_Files_Sharing_Api extends TestCase {
 
 
 		$share = $this->getShareFromId($data['id']);
-
 		$items = \OCP\Share::getItemShared('file', $share['item_source']);
-
 		$this->assertTrue(!empty($items));
 
-		$fileinfo = $this->view->getFileInfo($this->filename);
+		$fileinfo = $this->view->getFileInfo($this->folder);
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+	}
 
-		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+	public function testCreateShareLinkPublicUpload() {
+		// simulate a post request
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$_POST['publicUpload'] = 'true';
+
+		$result = \OCA\Files_Sharing\API\Local::createShare(array());
+
+		// check if API call was successful
+		$this->assertTrue($result->succeeded());
+
+		$data = $result->getData();
+		$this->assertEquals(7, $data['permissions']);
+		$this->assertEmpty($data['expiration']);
+		$this->assertTrue(is_string($data['token']));
+
+		// check for correct link
+		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
+		$this->assertEquals($url, $data['url']);
+
+
+		$share = $this->getShareFromId($data['id']);
+		$items = \OCP\Share::getItemShared('file', $share['item_source']);
+		$this->assertTrue(!empty($items));
 
 		$fileinfo = $this->view->getFileInfo($this->folder);
-
 		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
 	}
 
@@ -287,7 +376,7 @@ class Test_Files_Sharing_Api extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShare
+	 * @depends testCreateShareUserFile
 	 */
 	function testGetAllShares() {
 
@@ -334,7 +423,7 @@ class Test_Files_Sharing_Api extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShare
+	 * @depends testCreateShareLink
 	 */
 	function testPublicLinkUrl() {
 		// simulate a post request
@@ -379,7 +468,8 @@ class Test_Files_Sharing_Api extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShare
+	 * @depends testCreateShareUserFile
+	 * @depends testCreateShareLink
 	 */
 	function testGetShareFromSource() {
 
@@ -409,7 +499,8 @@ class Test_Files_Sharing_Api extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShare
+	 * @depends testCreateShareUserFile
+	 * @depends testCreateShareLink
 	 */
 	function testGetShareFromSourceWithReshares() {
 
@@ -463,7 +554,7 @@ class Test_Files_Sharing_Api extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShare
+	 * @depends testCreateShareUserFile
 	 */
 	function testGetShareFromId() {
 
@@ -911,7 +1002,8 @@ class Test_Files_Sharing_Api extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShare
+	 * @depends testCreateShareUserFile
+	 * @depends testCreateShareLink
 	 */
 	function testUpdateShare() {
 
@@ -1037,7 +1129,7 @@ class Test_Files_Sharing_Api extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShare
+	 * @depends testCreateShareUserFile
 	 */
 	public function testUpdateShareInvalidPermissions() {
 
@@ -1232,7 +1324,7 @@ class Test_Files_Sharing_Api extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShare
+	 * @depends testCreateShareUserFile
 	 */
 	function testDeleteShare() {
 
@@ -1487,4 +1579,148 @@ class Test_Files_Sharing_Api extends TestCase {
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
 
 	}
+
+	public function datesProvider() {
+		$date = new \DateTime();
+		$date->add(new \DateInterval('P5D'));
+
+		$year = (int)$date->format('Y');
+
+		return [
+			[$date->format('Y-m-d'), true],
+			[$year+1 . '-1-1', false],
+			[$date->format('Y-m-dTH:m'), false],
+			['abc', false],
+			[$date->format('Y-m-d') . 'xyz', false],
+		];
+	}
+
+	/**
+	 * Make sure only ISO 8601 dates are accepted
+	 *
+	 * @dataProvider datesProvider
+	 */
+	public function testPublicLinkExpireDate($date, $valid) {
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$_POST['expireDate'] = $date;
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+
+		if ($valid === false) {
+			$this->assertFalse($result->succeeded());
+			$this->assertEquals(404, $result->getStatusCode());
+			$this->assertEquals('Invalid Date. Format must be YYYY-MM-DD.', $result->getMeta()['message']);
+			return;
+		}
+
+		$this->assertTrue($result->succeeded());
+
+		$data = $result->getData();
+		$this->assertTrue(is_string($data['token']));
+		$this->assertEquals($date, substr($data['expiration'], 0, 10));
+
+		// check for correct link
+		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
+		$this->assertEquals($url, $data['url']);
+
+
+		$share = $this->getShareFromId($data['id']);
+		$items = \OCP\Share::getItemShared('file', $share['item_source']);
+		$this->assertTrue(!empty($items));
+
+		$item = reset($items);
+		$this->assertTrue(is_array($item));
+		$this->assertEquals($date, substr($item['expiration'], 0, 10));
+
+		$fileinfo = $this->view->getFileInfo($this->folder);
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+	}
+
+	public function testCreatePublicLinkExpireDateValid() {
+		$config = \OC::$server->getConfig();
+
+		// enforce expire date, by default 7 days after the file was shared
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'yes');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'yes');
+
+		$date = new \DateTime();
+		$date->add(new \DateInterval('P5D'));
+
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$_POST['expireDate'] = $date->format('Y-m-d');
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+
+		$this->assertTrue($result->succeeded());
+
+		$data = $result->getData();
+		$this->assertTrue(is_string($data['token']));
+		$this->assertEquals($date->format('Y-m-d') . ' 00:00:00', $data['expiration']);
+
+		// check for correct link
+		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
+		$this->assertEquals($url, $data['url']);
+
+
+		$share = $this->getShareFromId($data['id']);
+		$items = \OCP\Share::getItemShared('file', $share['item_source']);
+		$this->assertTrue(!empty($items));
+
+		$item = reset($items);
+		$this->assertTrue(is_array($item));
+		$this->assertEquals($date->format('Y-m-d'), substr($item['expiration'], 0, 10));
+
+		$fileinfo = $this->view->getFileInfo($this->folder);
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
+	}
+
+	public function testCreatePublicLinkExpireDateInvalidFuture() {
+		$config = \OC::$server->getConfig();
+
+		// enforce expire date, by default 7 days after the file was shared
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'yes');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'yes');
+
+		$date = new \DateTime();
+		$date->add(new \DateInterval('P8D'));
+
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$_POST['expireDate'] = $date->format('Y-m-d');
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(404, $result->getStatusCode());
+		$this->assertEquals('Cannot set expiration date. Shares cannot expire later than 7 after they have been shared', $result->getMeta()['message']);
+
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
+	}
+
+	public function testCreatePublicLinkExpireDateInvalidPast() {
+		$config = \OC::$server->getConfig();
+
+		$date = new \DateTime();
+		$date->sub(new \DateInterval('P8D'));
+
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$_POST['expireDate'] = $date->format('Y-m-d');
+
+		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(404, $result->getStatusCode());
+		$this->assertEquals('Cannot set expiration date. Expiration date is in the past', $result->getMeta()['message']);
+
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
+	}
+
 }

@@ -2,8 +2,8 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "Avbryt",
-    "Share" : "Del",
     "Shared by" : "Delt av",
+    "Sharing" : "Deling",
     "A file or folder has been <strong>shared</strong>" : "Ei fil eller ei mappe har blitt <strong>delt</strong>",
     "You shared %1$s with %2$s" : "Du delte %1$s med %2$s",
     "You shared %1$s with group %2$s" : "Du delte %1$s med gruppa %2$s",

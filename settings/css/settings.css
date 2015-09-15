@@ -316,7 +316,7 @@ span.version {
 }
 
 #app-category-1 {
-	border-bottom: 1px solid #e8e8e8;
+	margin-bottom: 18px;
 }
 /* capitalize "Other" category */
 #app-category-925 {
@@ -360,6 +360,11 @@ table.grid td.date{
 #security-warning li {
 	list-style: initial;
 	margin: 10px 0;
+}
+#security-warning-state span {
+	padding-left: 25px;
+	background-position: 5px center;
+	margin-left: -5px;
 }
 
 #shareAPI p { padding-bottom: 0.8em; }

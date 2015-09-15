@@ -27,7 +27,7 @@
 				<input type="checkbox"
 					<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
 					data-parameter="<?php p($parameter->getName()); ?>"
-				 	<?php if ($value == 'true'): ?> checked="checked"<?php endif; ?>
+				 	<?php if ($value === true): ?> checked="checked"<?php endif; ?>
 				/>
 				<?php p($placeholder); ?>
 			</label>
@@ -197,7 +197,7 @@
 		<p id="userMountingBackends"<?php if ($_['allowUserMounting'] != 'yes'): ?> class="hidden"<?php endif; ?>>
 			<?php p($l->t('Allow users to mount the following external storage')); ?><br />
 			<?php $i = 0; foreach ($_['userBackends'] as $backend): ?>
-				<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" <?php if ($backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) print_unescaped(' checked="checked"'); ?> />
+				<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" <?php if ($backend->isPermitted(BackendService::USER_PERSONAL, BackendService::PERMISSION_MOUNT)) print_unescaped(' checked="checked"'); ?> />
 				<label for="allowUserMountingBackends<?php p($i); ?>"><?php p($backend->getText()); ?></label> <br />
 				<?php $i++; ?>
 			<?php endforeach; ?>

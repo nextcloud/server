@@ -24,8 +24,8 @@ OC.L10N.register(
     "You can upload into this folder" : "Ви можете завантажити до цієї теки",
     "No ownCloud installation (7 or higher) found at {remote}" : "Немає установленого OwnCloud (7 або вище), можна знайти на {remote}",
     "Invalid ownCloud url" : "Невірний ownCloud URL",
-    "Share" : "Поділитися",
     "Shared by" : "Опубліковано",
+    "Sharing" : "Спільний доступ",
     "A file or folder has been <strong>shared</strong>" : "Файл або теку було відкрито для <strong> спільного користування </strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Файл або каталог був опублікований <strong>з іншого сервера</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Опублікований файл або каталог  був <strong>завантажений</strong>",
@@ -61,7 +61,6 @@ OC.L10N.register(
     "Allow users on this server to send shares to other servers" : "Дозволити користувачам цього сервера публікувати на інших серверах",
     "Allow users on this server to receive shares from other servers" : "Дозволити користувачам на цьому сервері отримувати публікації з інших серверів",
     "Share it:" : "Поділитися цим:",
-    "Add it to your website:" : "Додати до вашого сайту:",
     "HTML Code:" : "HTML код:"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -167,6 +167,6 @@ class OC_JSON{
 		if (is_array($data)) {
 			array_walk_recursive($data, array('OC_JSON', 'to_string'));
 		}
-		return json_encode($data);
+		return json_encode($data, JSON_HEX_TAG);
 	}
 }

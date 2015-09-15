@@ -1,7 +1,6 @@
 { "translations": {
-    "Unshare" : "Deel terug neem",
     "Error" : "Fout",
-    "Settings" : "Instellings",
-    "Folder" : "Omslag"
+    "Folder" : "Omslag",
+    "Settings" : "Instellings"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

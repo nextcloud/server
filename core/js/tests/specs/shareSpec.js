@@ -1132,7 +1132,7 @@ describe('OC.Share tests', function() {
 				OC.Share.markFileAsShared($file);
 
 				$action = $file.find('.action-share>span');
-				expect($action.text()).toEqual(output);
+				expect($action.text().trim()).toEqual(output);
 				if (_.isString(title)) {
 					expect($action.find('.remoteAddress').attr('title')).toEqual(title);
 				} else {
@@ -1236,7 +1236,7 @@ describe('OC.Share tests', function() {
 				OC.Share.markFileAsShared($file, true);
 
 				$action = $file.find('.action-share>span');
-				expect($action.text()).toEqual(output);
+				expect($action.text().trim()).toEqual(output);
 				if (_.isString(title)) {
 					expect($action.find('.remoteAddress').attr('title')).toEqual(title);
 				} else if (_.isArray(title)) {

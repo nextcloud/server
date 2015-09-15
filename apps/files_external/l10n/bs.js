@@ -1,14 +1,17 @@
 OC.L10N.register(
     "files_external",
     {
-    "Local" : "Lokalno",
-    "Location" : "Lokacija",
-    "Port" : "Priključak",
-    "Username" : "Korisničko ime",
-    "Password" : "Lozinka",
-    "Share" : "Podijeli",
     "Personal" : "Osobno",
     "Saved" : "Spremljeno",
+    "None" : "Ništa",
+    "Username" : "Korisničko ime",
+    "Password" : "Lozinka",
+    "Port" : "Priključak",
+    "WebDAV" : "WebDAV",
+    "Local" : "Lokalno",
+    "Location" : "Lokacija",
+    "ownCloud" : "OwnCloud",
+    "Share" : "Podijeli",
     "Name" : "Ime",
     "Delete" : "Izbriši"
 },

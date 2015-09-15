@@ -291,4 +291,14 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	protected function replaceTablePrefix($statement) {
 		return str_replace( '*PREFIX*', $this->tablePrefix, $statement );
 	}
+
+	/**
+	 * Check if a transaction is active
+	 *
+	 * @return bool
+	 * @since 8.2.0
+	 */
+	public function inTransaction() {
+		return $this->getTransactionNestingLevel() > 0;
+	}
 }

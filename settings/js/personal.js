@@ -321,7 +321,7 @@ $(document).ready(function () {
 	var url = OC.generateUrl(
 		'/avatar/{user}/{size}',
 		{user: OC.currentUser, size: 1}
-	) + '?requesttoken=' + encodeURIComponent(oc_requesttoken);
+	);
 	$.get(url, function (result) {
 		if (typeof(result) === 'object') {
 			$('#removeavatar').hide();

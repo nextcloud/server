@@ -113,7 +113,6 @@
     "Backup (Replica) Port" : "สำรองข้อมูลพอร์ต (จำลอง) ",
     "Disable Main Server" : "ปิดใช้งานเซิร์ฟเวอร์หลัก",
     "Only connect to the replica server." : "เฉพาะเชื่อมต่อกับเซิร์ฟเวอร์แบบจำลอง",
-    "Case insensitive LDAP server (Windows)" : "กรณีเซิร์ฟเวอร์ LDAP ไม่ตอบสนอง (วินโดว์ส)",
     "Turn off SSL certificate validation." : "ปิดใช้งานการตรวจสอบความถูกต้องของใบรับรองความปลอดภัย SSL",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "ไม่แนะนำ ควรใช้สำหรับการทดสอบเท่านั้น! ถ้าการเชื่อมต่อใช้งานได้เฉพาะกับตัวเลือกนี้ นำเข้าใบรับรอง SSL เซิร์ฟเวอร์ LDAP ในเซิร์ฟเวอร์ %s ของคุณ ",
     "Cache Time-To-Live" : "แคช TTL",

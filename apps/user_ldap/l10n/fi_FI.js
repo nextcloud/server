@@ -45,7 +45,6 @@ OC.L10N.register(
     "Backup (Replica) Port" : "Varmuuskopioinnin (replikoinnin) portti",
     "Disable Main Server" : "Poista pääpalvelin käytöstä",
     "Only connect to the replica server." : "Yhdistä vain replikointipalvelimeen.",
-    "Case insensitive LDAP server (Windows)" : "Kirjainkoosta piittamaton LDAP-palvelin (Windows)",
     "Turn off SSL certificate validation." : "Poista käytöstä SSL-varmenteen vahvistus",
     "in seconds. A change empties the cache." : "sekunneissa. Muutos tyhjentää välimuistin.",
     "Directory Settings" : "Hakemistoasetukset",

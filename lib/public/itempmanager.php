@@ -58,4 +58,12 @@ interface ITempManager {
 	 * @since 8.0.0
 	 */
 	public function cleanOld();
+
+	/**
+	 * Get the temporary base directory
+	 *
+	 * @return string
+	 * @since 8.2.0
+	 */
+	public function getTempBaseDir();
 }

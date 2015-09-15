@@ -1,10 +1,10 @@
 { "translations": {
-    "Location" : "مقام",
+    "Personal" : "شخصی",
     "Username" : "یوزر نیم",
     "Password" : "پاسورڈ",
-    "Share" : "تقسیم",
     "URL" : "یو ار ایل",
-    "Personal" : "شخصی",
+    "Location" : "مقام",
+    "Share" : "تقسیم",
     "Name" : "اسم",
     "Delete" : "حذف کریں"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

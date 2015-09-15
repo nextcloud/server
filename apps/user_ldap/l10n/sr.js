@@ -115,7 +115,6 @@ OC.L10N.register(
     "Backup (Replica) Port" : "Порт Резервне копије (Реплике)",
     "Disable Main Server" : "Онемогући главни сервер",
     "Only connect to the replica server." : "Повезано само на сервер за копирање.",
-    "Case insensitive LDAP server (Windows)" : "LDAP сервер неосетљив на велика и мала слова (Windows)",
     "Turn off SSL certificate validation." : "Искључите потврду ССЛ сертификата.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Није препоручено, користите само за тестирање! Ако веза ради само са овом опцијом, увезите SSL сертификате LDAP сервера на ваш %s сервер.",
     "Cache Time-To-Live" : "Трајност кеша",

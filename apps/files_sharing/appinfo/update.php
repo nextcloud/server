@@ -28,3 +28,4 @@ if (version_compare($installedVersion, '0.6.0', '<')) {
 	$m->addAcceptRow();
 }
 
+\OC::$server->getJobList()->add('OCA\Files_sharing\Lib\DeleteOrphanedSharesJob');

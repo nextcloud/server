@@ -67,6 +67,7 @@ abstract class Node implements \Sabre\DAV\INode {
 
 	/**
 	 * Sets up the node, expects a full path name
+	 *
 	 * @param \OC\Files\View $view
 	 * @param \OCP\Files\FileInfo $info
 	 */
@@ -82,6 +83,7 @@ abstract class Node implements \Sabre\DAV\INode {
 
 	/**
 	 *  Returns the name of the node
+	 *
 	 * @return string
 	 */
 	public function getName() {
@@ -99,6 +101,7 @@ abstract class Node implements \Sabre\DAV\INode {
 
 	/**
 	 * Renames the node
+	 *
 	 * @param string $name The new name
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 * @throws \Sabre\DAV\Exception\Forbidden
@@ -131,6 +134,7 @@ abstract class Node implements \Sabre\DAV\INode {
 
 	/**
 	 * Returns the last modification time, as a unix timestamp
+	 *
 	 * @return int timestamp as integer
 	 */
 	public function getLastModified() {
@@ -212,7 +216,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @return string|null
 	 */
 	public function getDavPermissions() {
-		$p ='';
+		$p = '';
 		if ($this->info->isShared()) {
 			$p .= 'S';
 		}
@@ -247,5 +251,26 @@ abstract class Node implements \Sabre\DAV\INode {
 		} catch (\OCP\Files\InvalidPathException $ex) {
 			throw new InvalidPath($ex->getMessage());
 		}
+	}
+
+	/**
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 */
+	public function acquireLock($type) {
+		$this->fileView->lockFile($this->path, $type);
+	}
+
+	/**
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 */
+	public function releaseLock($type) {
+		$this->fileView->unlockFile($this->path, $type);
+	}
+
+	/**
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 */
+	public function changeLock($type) {
+		$this->fileView->changeLock($this->path, $type);
 	}
 }
