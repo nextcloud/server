@@ -292,7 +292,7 @@ class Sharees {
 		$search = isset($_GET['search']) ? (string) $_GET['search'] : '';
 		$itemType = isset($_GET['itemType']) ? (string) $_GET['itemType'] : null;
 		$page = !empty($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
-		$perPage = !empty($_GET['limit']) ? max(1, (int) $_GET['limit']) : 200;
+		$perPage = !empty($_GET['perPage']) ? max(1, (int) $_GET['perPage']) : 200;
 
 		$shareTypes = [
 			Share::SHARE_TYPE_USER,
@@ -374,7 +374,7 @@ class Sharees {
 				'search' => $search,
 				'itemType' => $itemType,
 				'shareType' => $shareTypes,
-				'limit' => $perPage,
+				'perPage' => $perPage,
 			]));
 		}
 
