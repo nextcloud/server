@@ -729,6 +729,7 @@ table.dragshadow td.size {
 	width: 140px;
 	margin-left: -56px;
 	margin-top: 25px;
+	z-index: 1001;
 }
 
 .newFileMenu .menuitem {
