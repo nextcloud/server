@@ -281,8 +281,9 @@
 			this.model.setPermissions(shareType, shareWith, permissions);
 		},
 
-		onCrudsToggle: function() {
-			this.$el.find('.cruds').toggleClass('hidden');
+		onCrudsToggle: function(event) {
+			var $target = $(event.target);
+			$target.closest('li').find('.cruds').toggleClass('hidden');
 			return false;
 		},
 
