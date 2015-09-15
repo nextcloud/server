@@ -32,7 +32,7 @@
 			'<div id="allowPublicUploadWrapper">' +
 			'    <span class="icon-loading-small hidden"></span>' +
 			'    <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload" {{{publicUploadChecked}}} />' +
-			'    <label for="sharingDialogAllowPublicUpload">{{publicUploadLabel}}</label>' +
+			'<label for="sharingDialogAllowPublicUpload">{{publicUploadLabel}}</label>' +
 			'</div>' +
 			'    {{/if}}' +
 			'    {{#if mailPublicNotificationEnabled}}' +

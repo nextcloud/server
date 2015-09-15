@@ -20,9 +20,8 @@
 		'<div class="oneline">' +
 		'    <input id="shareWith" type="text" placeholder="{{sharePlaceholder}}" />' +
 		'    <span class="shareWithLoading icon-loading-small hidden"></span>'+
-		'</div>' +
-			// FIXME: find a good position for remoteShareInfo
 		'{{{remoteShareInfo}}}' +
+		'</div>' +
 		'{{/if}}' +
 		'<div class="shareeListView"></div>' +
 		'<div class="linkShareView"></div>' +
