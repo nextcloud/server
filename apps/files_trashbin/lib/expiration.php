@@ -105,7 +105,10 @@ class Expiration {
 		return $isOlderThanMax || $isMinReached;
 	}
 
-	public function getMaxAgeAsTimestamp(){
+	/**
+	 * @return bool|int
+	 */
+	public function getMaxAgeAsTimestamp() {
 		$maxAge = false;
 		if ($this->isEnabled() && $this->maxAge !== self::NO_OBLIGATION) {
 			$time = $this->timeFactory->getTime();

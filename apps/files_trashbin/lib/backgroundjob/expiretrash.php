@@ -49,7 +49,14 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 	
 	const USERS_PER_SESSION = 1000;
 
-	public function __construct(IConfig $config = null, IUserManager $userManager = null, Expiration $expiration = null) {
+	/**
+	 * @param IConfig|null $config
+	 * @param IUserManager|null $userManager
+	 * @param Expiration|null $expiration
+	 */
+	public function __construct(IConfig $config = null,
+								IUserManager $userManager = null,
+								Expiration $expiration = null) {
 		// Run once per 30 minutes
 		$this->setInterval(60 * 30);
 
@@ -69,6 +76,10 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 		$this->expiration = $application->getContainer()->query('Expiration');
 	}
 
+	/**
+	 * @param $argument
+	 * @throws \Exception
+	 */
 	protected function run($argument) {
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
 		if (!$maxAge) {
