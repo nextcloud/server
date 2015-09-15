@@ -21,10 +21,9 @@
 
 namespace OCA\Files_Sharing\Tests\API;
 
-use Doctrine\DBAL\Connection;
-use OC\Share\Constants;
 use OCA\Files_Sharing\API\Sharees;
 use OCA\Files_sharing\Tests\TestCase;
+use OCP\AppFramework\Http;
 use OCP\Share;
 
 class ShareesTest extends TestCase {
@@ -745,24 +744,24 @@ class ShareesTest extends TestCase {
 			// Test invalid pagination
 			[[
 				'page' => 0,
-			], 402, 'Invalid page'],
+			], 'Invalid page'],
 			[[
 				'page' => '0',
-			], 402, 'Invalid page'],
+			], 'Invalid page'],
 			[[
 				'page' => -1,
-			], 402, 'Invalid page'],
+			], 'Invalid page'],
 
 			// Test invalid perPage
 			[[
 				'perPage' => 0,
-			], 401, 'Invalid perPage argument'],
+			], 'Invalid perPage argument'],
 			[[
 				'perPage' => '0',
-			], 401, 'Invalid perPage argument'],
+			], 'Invalid perPage argument'],
 			[[
 				'perPage' => -1,
-			], 401, 'Invalid perPage argument'],
+			], 'Invalid perPage argument'],
 		];
 	}
 
@@ -770,10 +769,9 @@ class ShareesTest extends TestCase {
 	 * @dataProvider dataSearchInvalid
 	 *
 	 * @param array $getData
-	 * @param int $code
 	 * @param string $message
 	 */
-	public function testSearchInvalid($getData, $code, $message) {
+	public function testSearchInvalid($getData, $message) {
 		$oldGet = $_GET;
 		$_GET = $getData;
 
@@ -805,7 +803,7 @@ class ShareesTest extends TestCase {
 		$ocs = $sharees->search();
 		$this->assertInstanceOf('\OC_OCS_Result', $ocs);
 
-		$this->assertOCSError($ocs, $code, $message);
+		$this->assertOCSError($ocs, $message);
 
 		$_GET = $oldGet;
 	}
@@ -992,7 +990,7 @@ class ShareesTest extends TestCase {
 		$ocs = $this->invokePrivate($this->sharees, 'searchSharees', ['', null, [], [], 0, 0, false]);
 		$this->assertInstanceOf('\OC_OCS_Result', $ocs);
 
-		$this->assertOCSError($ocs, 400, 'Missing itemType');
+		$this->assertOCSError($ocs, 'Missing itemType');
 	}
 
 	public function dataGetPaginationLink() {
@@ -1041,11 +1039,10 @@ class ShareesTest extends TestCase {
 
 	/**
 	 * @param \OC_OCS_Result $ocs
-	 * @param int $code
 	 * @param string $message
 	 */
-	protected function assertOCSError(\OC_OCS_Result $ocs, $code, $message) {
-		$this->assertSame($code, $ocs->getStatusCode(), 'Expected status code ' . $code);
+	protected function assertOCSError(\OC_OCS_Result $ocs, $message) {
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $ocs->getStatusCode(), 'Expected status code 400');
 		$this->assertSame([], $ocs->getData(), 'Expected that no data is send');
 
 		$meta = $ocs->getMeta();

@@ -20,6 +20,7 @@
  */
 namespace OCA\Files_Sharing\API;
 
+use OCP\AppFramework\Http;
 use OCP\Contacts\IManager;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -295,10 +296,10 @@ class Sharees {
 		$perPage = isset($_GET['perPage']) ? (int) $_GET['perPage'] : 200;
 
 		if ($perPage <= 0) {
-			return new \OC_OCS_Result(null, 401, 'Invalid perPage argument');
+			return new \OC_OCS_Result(null, Http::STATUS_BAD_REQUEST, 'Invalid perPage argument');
 		}
 		if ($page <= 0) {
-			return new \OC_OCS_Result(null, 402, 'Invalid page');
+			return new \OC_OCS_Result(null, Http::STATUS_BAD_REQUEST, 'Invalid page');
 		}
 
 		$shareTypes = [
@@ -355,7 +356,7 @@ class Sharees {
 	protected function searchSharees($search, $itemType, array $shareTypes, $page, $perPage) {
 		// Verify arguments
 		if ($itemType === null) {
-			return new \OC_OCS_Result(null, 400, 'Missing itemType');
+			return new \OC_OCS_Result(null, Http::STATUS_BAD_REQUEST, 'Missing itemType');
 		}
 
 		// Get users
