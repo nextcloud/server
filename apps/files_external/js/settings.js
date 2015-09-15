@@ -701,6 +701,7 @@ MountConfigListView.prototype = _.extend({
 		var storageConfig = new this._storageConfigClass();
 		storageConfig.mountPoint = $tr.find('.mountPoint input').val();
 		storageConfig.backend = $target.val();
+		$tr.find('.mountPoint input').val('');
 
 		$tr = this.newStorage(storageConfig);
 
