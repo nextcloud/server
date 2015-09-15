@@ -379,6 +379,7 @@
 			if (tabId) {
 				this._detailsView.selectTab(tabId);
 			}
+			OC.Apps.showAppSidebar();
 		},
 
 		/**
