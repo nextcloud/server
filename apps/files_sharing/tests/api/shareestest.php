@@ -668,21 +668,21 @@ class ShareesTest extends TestCase {
 				'page' => 10,
 			], '', true, '', null, $allTypes, 10, 200, false],
 
-			// Test limit
+			// Test perPage
 			[[
-				'limit' => 0,
+				'perPage' => 0,
 			], '', true, '', null, $allTypes, 1, 200, false],
 			[[
-				'limit' => '0',
+				'perPage' => '0',
 			], '', true, '', null, $allTypes, 1, 200, false],
 			[[
-				'limit' => -1,
+				'perPage' => -1,
 			], '', true, '', null, $allTypes, 1, 1, false],
 			[[
-				'limit' => 1,
+				'perPage' => 1,
 			], '', true, '', null, $allTypes, 1, 1, false],
 			[[
-				'limit' => 10,
+				'perPage' => 10,
 			], '', true, '', null, $allTypes, 1, 10, false],
 
 			// Test $shareWithGroupOnly setting
@@ -951,8 +951,8 @@ class ShareesTest extends TestCase {
 
 	public function dataGetPaginationLink() {
 		return [
-			[1, '/ocs/v1.php', ['limit' => 2], '<?limit=2&page=2>; rel="next"'],
-			[10, '/ocs/v2.php', ['limit' => 2], '<?limit=2&page=11>; rel="next"'],
+			[1, '/ocs/v1.php', ['perPage' => 2], '<?perPage=2&page=2>; rel="next"'],
+			[10, '/ocs/v2.php', ['perPage' => 2], '<?perPage=2&page=11>; rel="next"'],
 		];
 	}
 
