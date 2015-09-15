@@ -178,27 +178,26 @@ class OC_FileChunking {
 	 * Assembles the chunks into the file specified by the path.
 	 * Also triggers the relevant hooks and proxies.
 	 *
-	 * @param string $path target path
+	 * @param \OC\Files\Storage\Storage $storage
+	 * @param string $path target path relative to the storage
+	 * @param string $absolutePath
+	 * @return bool assembled file size or false if file could not be created
 	 *
-	 * @return boolean assembled file size or false if file could not be created
-	 *
-	 * @throws \OC\InsufficientStorageException when file could not be fully
-	 * assembled due to lack of free space
+	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function file_assemble($path) {
-		$absolutePath = \OC\Files\Filesystem::normalizePath(\OC\Files\Filesystem::getView()->getAbsolutePath($path));
+	public function file_assemble($storage, $path, $absolutePath) {
 		$data = '';
 		// use file_put_contents as method because that best matches what this function does
 		if (\OC\Files\Filesystem::isValidPath($path)) {
-			$path = \OC\Files\Filesystem::getView()->getRelativePath($absolutePath);
-			$exists = \OC\Files\Filesystem::file_exists($path);
+			$exists = $storage->file_exists($path);
 			$run = true;
+			$hookPath = \OC\Files\Filesystem::getView()->getRelativePath($absolutePath);
 			if(!$exists) {
 				OC_Hook::emit(
 					\OC\Files\Filesystem::CLASSNAME,
 					\OC\Files\Filesystem::signal_create,
 					array(
-						\OC\Files\Filesystem::signal_param_path => $path,
+						\OC\Files\Filesystem::signal_param_path => $hookPath,
 						\OC\Files\Filesystem::signal_param_run => &$run
 					)
 				);
@@ -207,14 +206,14 @@ class OC_FileChunking {
 				\OC\Files\Filesystem::CLASSNAME,
 				\OC\Files\Filesystem::signal_write,
 				array(
-					\OC\Files\Filesystem::signal_param_path => $path,
+					\OC\Files\Filesystem::signal_param_path => $hookPath,
 					\OC\Files\Filesystem::signal_param_run => &$run
 				)
 			);
 			if(!$run) {
 				return false;
 			}
-			$target = \OC\Files\Filesystem::fopen($path, 'w');
+			$target = $storage->fopen($path, 'w');
 			if($target) {
 				$count = $this->assemble($target);
 				fclose($target);
@@ -222,13 +221,13 @@ class OC_FileChunking {
 					OC_Hook::emit(
 						\OC\Files\Filesystem::CLASSNAME,
 						\OC\Files\Filesystem::signal_post_create,
-						array( \OC\Files\Filesystem::signal_param_path => $path)
+						array( \OC\Files\Filesystem::signal_param_path => $hookPath)
 					);
 				}
 				OC_Hook::emit(
 					\OC\Files\Filesystem::CLASSNAME,
 					\OC\Files\Filesystem::signal_post_write,
-					array( \OC\Files\Filesystem::signal_param_path => $path)
+					array( \OC\Files\Filesystem::signal_param_path => $hookPath)
 				);
 				return $count > 0;
 			}else{
