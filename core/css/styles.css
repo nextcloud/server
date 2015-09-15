@@ -166,33 +166,34 @@ input[type="checkbox"] {
 	display: none;
 }
 
-input[type="checkbox"] + label {
-		background: url('../img/actions/checkbox.svg') no-repeat;
-		opacity: 0.7;
-}
+input[type="checkbox"] + label:before {
+	content: "";
+	display: inline-block;
 
-input[type="checkbox"] + label.white {
-		background: url('../img/actions/checkbox-white.svg') no-repeat;
-}
+	height: 20px;
+	width: 20px;
+	vertical-align: middle;
 
-input[type="checkbox"]:checked + label {
-	background: url('../img/actions/checkbox-checked.svg') no-repeat;
+	background: url('../img/actions/checkbox.svg') left center no-repeat;
 	opacity: 0.7;
 }
 
-input[type="checkbox"]:checked + label.white {
-	background: url('../img/actions/checkbox-checked-white.svg') no-repeat;
+input[type="checkbox"].white + label:before {
+	background-image: url('../img/actions/checkbox-white.svg');
 }
 
-input[type="checkbox"] + label,
-input[type="checkbox"] + label.white,
-input[type="checkbox"]:checked + label,
-input[type="checkbox"]:checked + label.white {
-	background-position: left;
-	padding-left: 20px;
+input[type="checkbox"]:checked + label:before {
+	background-image: url('../img/actions/checkbox-checked.svg');
 }
 
-input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
+input[type="checkbox"].white:checked + label:before {
+	background-image: url('../img/actions/checkbox-checked-white.svg');
+}
+
+input[type="checkbox"]:hover+label:before, input[type="checkbox"]:focus+label:before {
+	color:#111 !important;
+}
+
 input[type="time"] {
 	width: initial;
 	height: 31px;
@@ -704,6 +705,9 @@ label.infield {
 	background-position: center;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 	opacity: .3;
+}
+#show + label:before, #dbpassword + label:before, #personal-show + label:before {
+	display: none;
 }
 #pass2, input[name="personal-password-clone"] {
 	padding: .6em 2.5em .4em .4em;
