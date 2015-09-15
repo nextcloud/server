@@ -346,7 +346,7 @@
 			// and contain existing models that can be used.
 			// This method would in the future simply retrieve the matching model from the collection.
 			var model = new OCA.Files.FileInfoModel(this.elementToFile($tr));
-			if (!model.has('path')) {
+			if (!model.get('path')) {
 				model.set('path', this.getCurrentDirectory(), {silent: true});
 			}
 
