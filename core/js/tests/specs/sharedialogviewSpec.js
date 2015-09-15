@@ -63,7 +63,14 @@ describe('OC.Share.ShareDialogView', function() {
 			possiblePermissions: 31,
 			permissions: 31
 		};
-		configModel = new OC.Share.ShareConfigModel();
+		configModel = new OC.Share.ShareConfigModel({
+			enforcePasswordForPublicLink: false,
+			isResharingAllowed: true,
+			enforcePasswordForPublicLink: false,
+			isDefaultExpireDateEnabled: false,
+			isDefaultExpireDateEnforced: false,
+			defaultExpireDate: 7
+		});
 		shareModel = new OC.Share.ShareItemModel(attributes, {
 			configModel: configModel,
 			fileInfoModel: fileInfoModel
@@ -112,9 +119,6 @@ describe('OC.Share.ShareDialogView', function() {
 		oc_config.enable_avatars = oldEnableAvatars;
 	});
 	describe('Share with link', function() {
-		beforeEach(function() {
-			configModel.set('enforcePasswordForPublicLink', false);
-		});
 		// TODO: test ajax calls
 		// TODO: test password field visibility (whenever enforced or not)
 		it('update password on focus out', function() {
@@ -138,7 +142,9 @@ describe('OC.Share.ShareDialogView', function() {
 
 			expect(fakeServer.requests[1].method).toEqual('POST');
 			var body = OC.parseQueryString(fakeServer.requests[1].requestBody);
-			expect(body['shareWith']).toEqual('foo');
+			expect(body.shareWith).toEqual('foo');
+
+			fetchStub.reset();
 
 			// Set password response
 			fakeServer.requests[1].respond(
@@ -146,6 +152,10 @@ describe('OC.Share.ShareDialogView', function() {
 				{ 'Content-Type': 'application/json' },
 				JSON.stringify({data: {token: 'xyz'}, status: 'success'})
 			);
+
+			expect(fetchStub.calledOnce).toEqual(true);
+			// fetching the model will rerender the view
+			dialog.render();
 
 			expect(dialog.$el.find('#linkPassText').val()).toEqual('');
 			expect(dialog.$el.find('#linkPassText').attr('placeholder')).toEqual('Password protected');
@@ -171,7 +181,9 @@ describe('OC.Share.ShareDialogView', function() {
 
 			expect(fakeServer.requests[1].method).toEqual('POST');
 			var body = OC.parseQueryString(fakeServer.requests[1].requestBody);
-			expect(body['shareWith']).toEqual('foo');
+			expect(body.shareWith).toEqual('foo');
+
+			fetchStub.reset();
 
 			// Set password response
 			fakeServer.requests[1].respond(
@@ -179,6 +191,10 @@ describe('OC.Share.ShareDialogView', function() {
 				{ 'Content-Type': 'application/json' },
 				JSON.stringify({data: {token: 'xyz'}, status: 'success'})
 			);
+
+			expect(fetchStub.calledOnce).toEqual(true);
+			// fetching the model will rerender the view
+			dialog.render();
 
 			expect(dialog.$el.find('#linkPassText').val()).toEqual('');
 			expect(dialog.$el.find('#linkPassText').attr('placeholder')).toEqual('Password protected');
@@ -198,8 +214,7 @@ describe('OC.Share.ShareDialogView', function() {
 			expect(dialog.$el.find('#linkCheckbox').length).toEqual(0);
 		});
 		it('Reset link when password is enforced and link is toggled', function() { 
-			var old = oc_appconfig.core.enforcePasswordForPublicLink;
-			oc_appconfig.core.enforcePasswordForPublicLink = true;
+			configModel.set('enforcePasswordForPublicLink', true);
 			$('#allowShareWithLink').val('yes');
 
 			dialog.render();
@@ -238,13 +253,9 @@ describe('OC.Share.ShareDialogView', function() {
 			 */
 			dialog.$el.find('[name=linkCheckbox]').click();
 			expect(fakeServer.requests.length).toEqual(2);
-
-			oc_appconfig.core.enforcePasswordForPublicLink = old;
 		});
 
 		it('Reset password placeholder when password is enforced and link is toggled', function() { 
-			var old = oc_appconfig.core.enforcePasswordForPublicLink;
-			oc_appconfig.core.enforcePasswordForPublicLink = true;
 			$('#allowShareWithLink').val('yes');
 
 			dialog.render();
@@ -261,6 +272,7 @@ describe('OC.Share.ShareDialogView', function() {
 				{ 'Content-Type': 'application/json' },
 				JSON.stringify({data: {token: 'xyz'}, status: 'success'})
 			);
+			dialog.render();
 			expect(dialog.$el.find('#linkPassText').attr('placeholder')).toEqual('**********');
 
 			// Remove link
@@ -274,119 +286,23 @@ describe('OC.Share.ShareDialogView', function() {
 			// Try to share again
 			dialog.$el.find('[name=linkCheckbox]').click();
 			expect(dialog.$el.find('#linkPassText').attr('placeholder')).toEqual('Choose a password for the public link');
-
-			oc_appconfig.core.enforcePasswordForPublicLink = old;
-		});
-		it('reset password on toggle of share', function() {
-			$('#allowShareWithLink').val('yes');
-
-			dialog.render();
-
-			dialog.$el.find('[name=linkCheckbox]').click();
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({data: {token: 'xyz'}, status: 'success'})
-			);
-
-			//Password protection should be unchecked and password field not visible
-			expect(dialog.$el.find('[name=showPassword]').prop('checked')).toEqual(false);
-			expect(dialog.$el.find('#linkPass').is(":visible")).toEqual(false);
-
-			// Toggle and set password
-			dialog.$el.find('[name=showPassword]').click();
-			dialog.$el.find('#linkPassText').val('foo');
-			dialog.$el.find('#linkPassText').trigger(new $.Event('keyup', {keyCode: 13}));
-			fakeServer.requests[1].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({data: {token: 'xyz2'}, status: 'success'})
-			);
-
-			// Unshare
-			dialog.$el.find('[name=linkCheckbox]').click();
-			fakeServer.requests[2].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({status: 'success'})
-			);
-
-			// Toggle share again
-			dialog.$el.find('[name=linkCheckbox]').click();
-			fakeServer.requests[3].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({data: {token: 'xyz3'}, status: 'success'})
-			);
-
-
-			// Password checkbox should be unchecked
-			expect(dialog.$el.find('[name=showPassword]').prop('checked')).toEqual(false);
-			expect(dialog.$el.find('#linkPass').is(":visible")).toEqual(false);
-		});
-		it('reset expiration on toggle of share', function() {
-			$('#allowShareWithLink').val('yes');
-
-			dialog.render();
-
-			dialog.$el.find('[name=linkCheckbox]').click();
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({data: {token: 'xyz'}, status: 'success'})
-			);
-
-			//Expiration should be unchecked and expiration field not visible
-			expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(false);
-			expect(dialog.$el.find('#expirationDate').is(":visible")).toEqual(false);
-
-			// Toggle and set password
-			dialog.$el.find('[name=expirationCheckbox]').click();
-			d = new Date();
-			d.setDate(d.getDate() + 1);
-			date=d.getDate() + '-' + (d.getMonth()+1) + '-' + d.getFullYear();
-			dialog.$el.find('#expirationDate').val(date);
-			dialog.$el.find('#expirationDate').change();
-			fakeServer.requests[1].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({data: {token: 'xyz2'}, status: 'success'})
-			);
-
-			// Unshare
-			dialog.$el.find('[name=linkCheckbox]').click();
-			fakeServer.requests[2].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({status: 'success'})
-			);
-
-			// Toggle share again
-			dialog.$el.find('[name=linkCheckbox]').click();
-			fakeServer.requests[3].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({data: {token: 'xyz3'}, status: 'success'})
-			);
-
-			// Recheck expire visibility
-			expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(false);
-			expect(dialog.$el.find('#expirationDate').is(":visible")).toEqual(false);
 		});
 		it('shows populated link share when a link share exists', function() {
+			// this is how the OC.Share class does it...
+			var link = parent.location.protocol + '//' + location.host +
+				OC.generateUrl('/s/') + 'tehtoken';
 			shareModel.set('linkShare', {
 				isLinkShare: true,
 				token: 'tehtoken',
-				link: 'TODO',
+				link: link,
 				expiration: '',
 				permissions: OC.PERMISSION_READ,
 				stime: 1403884258,
 			});
 
+			dialog.render();
+
 			expect(dialog.$el.find('#linkCheckbox').prop('checked')).toEqual(true);
-			// this is how the OC.Share class does it...
-			var link = parent.location.protocol + '//' + location.host +
-				OC.generateUrl('/s/') + 'tehtoken';
 			expect(dialog.$el.find('#linkText').val()).toEqual(link);
 		});
 		describe('expiration date', function() {
@@ -400,10 +316,12 @@ describe('OC.Share.ShareDialogView', function() {
 				clock = sinon.useFakeTimers(new Date(2014, 0, 20, 14, 0, 0).getTime());
 				expectedMinDate = new Date(2014, 0, 21, 14, 0, 0);
 
-				oc_appconfig.core.defaultExpireDate = 7;
-				oc_appconfig.core.enforcePasswordForPublicLink = false;
-				oc_appconfig.core.defaultExpireDateEnabled = false;
-				oc_appconfig.core.defaultExpireDateEnforced = false;
+				configModel.set({
+					enforcePasswordForPublicLink: false,
+					isDefaultExpireDateEnabled: false,
+					isDefaultExpireDateEnforced: false,
+					defaultExpireDate: 7
+				});
 
 				shareModel.set('linkShare', {
 					isLinkShare: true,
@@ -436,10 +354,13 @@ describe('OC.Share.ShareDialogView', function() {
 				expect(dialog.$el.find('#expirationDate').val()).toEqual('1234');
 			});
 			it('sets default date when default date setting is enabled', function() {
-				/* jshint camelcase:false */
-				oc_appconfig.core.defaultExpireDateEnabled = true;
+				configModel.set('isDefaultExpireDateEnabled', true);
 				dialog.render();
 				dialog.$el.find('[name=linkCheckbox]').click();
+				// here fetch would be called and the server returns the expiration date
+				shareModel.get('linkShare').expiration = '2014-1-27 00:00:00';
+				dialog.render();
+
 				// enabled by default
 				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
 				// TODO: those zeros must go...
@@ -450,11 +371,16 @@ describe('OC.Share.ShareDialogView', function() {
 				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(false);
 			});
 			it('enforces default date when enforced date setting is enabled', function() {
-				/* jshint camelcase:false */
-				oc_appconfig.core.defaultExpireDateEnabled = true;
-				oc_appconfig.core.defaultExpireDateEnforced = true;
+				configModel.set({
+					isDefaultExpireDateEnabled: true,
+					isDefaultExpireDateEnforced: true
+				});
 				dialog.render();
 				dialog.$el.find('[name=linkCheckbox]').click();
+				// here fetch would be called and the server returns the expiration date
+				shareModel.get('linkShare').expiration = '2014-1-27 00:00:00';
+				dialog.render();
+
 				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
 				// TODO: those zeros must go...
 				expect(dialog.$el.find('#expirationDate').val()).toEqual('2014-1-27 00:00:00');
@@ -465,12 +391,16 @@ describe('OC.Share.ShareDialogView', function() {
 				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
 			});
 			it('enforces default date when enforced date setting is enabled and password is enforced', function() {
-				/* jshint camelcase:false */
-				oc_appconfig.core.enforcePasswordForPublicLink = true;
-				oc_appconfig.core.defaultExpireDateEnabled = true;
-				oc_appconfig.core.defaultExpireDateEnforced = true;
+				configModel.set({
+					enforcePasswordForPublicLink: true,
+					isDefaultExpireDateEnabled: true,
+					isDefaultExpireDateEnforced: true
+				});
 				dialog.render();
 				dialog.$el.find('[name=linkCheckbox]').click();
+				// here fetch would be called and the server returns the expiration date
+				shareModel.get('linkShare').expiration = '2014-1-27 00:00:00';
+				dialog.render();
 
 				//Enter password
 				dialog.$el.find('#linkPassText').val('foo');
@@ -493,12 +423,12 @@ describe('OC.Share.ShareDialogView', function() {
 			it('displayes email form when sending emails is enabled', function() {
 				$('input[name=mailPublicNotificationEnabled]').val('yes');
 				dialog.render();
-				expect($('#emailPrivateLink').length).toEqual(1);
+				expect(dialog.$('#emailPrivateLink').length).toEqual(1);
 			});
 			it('not renders email form when sending emails is disabled', function() {
 				$('input[name=mailPublicNotificationEnabled]').val('no');
 				dialog.render();
-				expect($('#emailPrivateLink').length).toEqual(0);
+				expect(dialog.$('#emailPrivateLink').length).toEqual(0);
 			});
 			it('sets picker minDate to today and no maxDate by default', function() {
 				dialog.render();
@@ -508,9 +438,10 @@ describe('OC.Share.ShareDialogView', function() {
 				expect($.datepicker._defaults.maxDate).toEqual(null);
 			});
 			it('limits the date range to X days after share time when enforced', function() {
-				/* jshint camelcase:false */
-				oc_appconfig.core.defaultExpireDateEnabled = true;
-				oc_appconfig.core.defaultExpireDateEnforced = true;
+				configModel.set({
+					isDefaultExpireDateEnabled: true,
+					isDefaultExpireDateEnforced: true
+				});
 				dialog.render();
 				dialog.$el.find('[name=linkCheckbox]').click();
 				expect($.datepicker._defaults.minDate).toEqual(expectedMinDate);
@@ -518,13 +449,14 @@ describe('OC.Share.ShareDialogView', function() {
 			});
 			it('limits the date range to X days after share time when enforced, even when redisplayed the next days', function() {
 				// item exists, was created two days ago
+				var shareItem = shareModel.get('linkShare');
 				shareItem.expiration = '2014-1-27';
 				// share time has time component but must be stripped later
 				shareItem.stime = new Date(2014, 0, 20, 11, 0, 25).getTime() / 1000;
-				shareData.shares.push(shareItem);
-				/* jshint camelcase:false */
-				oc_appconfig.core.defaultExpireDateEnabled = true;
-				oc_appconfig.core.defaultExpireDateEnforced = true;
+				configModel.set({
+					isDefaultExpireDateEnabled: true,
+					isDefaultExpireDateEnforced: true
+				});
 				dialog.render();
 				expect($.datepicker._defaults.minDate).toEqual(expectedMinDate);
 				expect($.datepicker._defaults.maxDate).toEqual(new Date(2014, 0, 27, 0, 0, 0, 0));
@@ -533,7 +465,7 @@ describe('OC.Share.ShareDialogView', function() {
 	});
 	describe('check for avatar', function() {
 		beforeEach(function() {
-			loadItemStub.returns({
+			shareModel.set({
 				reshare: {
 					share_type: OC.Share.SHARE_TYPE_USER,
 					uid_owner: 'owner',
@@ -569,14 +501,8 @@ describe('OC.Share.ShareDialogView', function() {
 		describe('avatars enabled', function() {
 			beforeEach(function() {
 				oc_config.enable_avatars = true;
-				OC.Share.showDropDown(
-					'file',
-					123,
-					$container,
-					true,
-					31,
-					'shared_file_name.txt'
-				);
+				avatarStub.reset();
+				dialog.render();
 			});
 
 			afterEach(function() {
@@ -586,8 +512,8 @@ describe('OC.Share.ShareDialogView', function() {
 			it('test correct function calls', function() {
 				expect(avatarStub.calledTwice).toEqual(true);
 				expect(placeholderStub.calledTwice).toEqual(true);
-				expect($('#shareWithList').children().length).toEqual(3);
-				expect($('.avatar').length).toEqual(4);
+				expect(dialog.$('#shareWithList').children().length).toEqual(3);
+				expect(dialog.$('.avatar').length).toEqual(4);
 			});
 
 			it('test avatar owner', function() {
@@ -617,14 +543,7 @@ describe('OC.Share.ShareDialogView', function() {
 
 		describe('avatars disabled', function() {
 			beforeEach(function() {
-				OC.Share.showDropDown(
-					'file',
-					123,
-					$container,
-					true,
-					31,
-					'shared_file_name.txt'
-				);
+				dialog.render();
 			});
 
 			it('no avatar classes', function() {
@@ -632,104 +551,6 @@ describe('OC.Share.ShareDialogView', function() {
 				expect(avatarStub.callCount).toEqual(0);
 				expect(placeholderStub.callCount).toEqual(0);
 			});
-		});
-	});
-	describe('"sharesChanged" event', function() {
-		var autocompleteOptions;
-		var handler;
-		beforeEach(function() {
-			handler = sinon.stub();
-			loadItemStub.returns({
-				reshare: [],
-				shares: [{
-					id: 100,
-					item_source: 123,
-					permissions: 31,
-					share_type: OC.Share.SHARE_TYPE_USER,
-					share_with: 'user1',
-					share_with_displayname: 'User One'
-				}]
-			});
-			OC.Share.showDropDown(
-				'file',
-				123,
-				$container,
-				true,
-				31,
-				'shared_file_name.txt'
-			);
-			$('#dropdown').on('sharesChanged', handler);
-			autocompleteOptions = autocompleteStub.getCall(0).args[0];
-		});
-		afterEach(function() {
-			autocompleteOptions = null;
-			handler = null;
-		});
-		it('triggers "sharesChanged" event when adding shares', function() {
-			// simulate autocomplete selection
-			autocompleteOptions.select(new $.Event('select'), {
-				item: {
-					label: 'User Two',
-					value: {
-						shareType: OC.Share.SHARE_TYPE_USER,
-						shareWith: 'user2'
-					}
-				}
-			});
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({status: 'success'})
-			);
-			expect(handler.calledOnce).toEqual(true);
-			var shares = handler.getCall(0).args[0].shares;
-			expect(shares).toBeDefined();
-			expect(shares[OC.Share.SHARE_TYPE_USER][0].share_with_displayname).toEqual('User One');
-			expect(shares[OC.Share.SHARE_TYPE_USER][1].share_with_displayname).toEqual('User Two');
-			expect(shares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
-		});
-		it('triggers "sharesChanged" event when deleting shares', function() {
-			dialog.$el.find('.unshare:eq(0)').click();
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({status: 'success'})
-			);
-			expect(handler.calledOnce).toEqual(true);
-			var shares = handler.getCall(0).args[0].shares;
-			expect(shares).toBeDefined();
-			expect(shares[OC.Share.SHARE_TYPE_USER]).toEqual([]);
-			expect(shares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
-		});
-		it('triggers "sharesChanged" event when toggling link share', function() {
-			// simulate autocomplete selection
-			dialog.$el.find('#linkCheckbox').click();
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({status: 'success', data: { token: 'abc' }})
-			);
-			expect(handler.calledOnce).toEqual(true);
-			var shares = handler.getCall(0).args[0].shares;
-			expect(shares).toBeDefined();
-			expect(shares[OC.Share.SHARE_TYPE_USER][0].share_with_displayname).toEqual('User One');
-			expect(shares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
-
-			handler.reset();
-
-			// uncheck checkbox
-			dialog.$el.find('#linkCheckbox').click();
-			fakeServer.requests[1].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({status: 'success'})
-			);
-
-			expect(handler.calledOnce).toEqual(true);
-			shares = handler.getCall(0).args[0].shares;
-			expect(shares).toBeDefined();
-			expect(shares[OC.Share.SHARE_TYPE_USER][0].share_with_displayname).toEqual('User One');
-			expect(shares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
 		});
 	});
 	describe('share permissions', function() {
@@ -744,14 +565,11 @@ describe('OC.Share.ShareDialogView', function() {
 		 * @return {int} permissions sent to the server
 		 */
 		function testWithPermissions(possiblePermissions) {
-			OC.Share.showDropDown(
-				'file',
-				123,
-				$container,
-				true,
-				possiblePermissions,
-				'shared_file_name.txt'
-			);
+			shareModel.set({
+				permissions: possiblePermissions,
+				possiblePermissions: possiblePermissions
+			});
+			dialog.render();
 			var autocompleteOptions = autocompleteStub.getCall(0).args[0];
 			// simulate autocomplete selection
 			autocompleteOptions.select(new $.Event('select'), {
@@ -770,8 +588,8 @@ describe('OC.Share.ShareDialogView', function() {
 
 		describe('regular sharing', function() {
 			it('shares with given permissions with default config', function() {
-				loadItemStub.returns({
-					reshare: [],
+				shareModel.set({
+					reshare: {},
 					shares: []
 				});
 				expect(
@@ -782,9 +600,9 @@ describe('OC.Share.ShareDialogView', function() {
 				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_SHARE);
 			});
 			it('removes share permission when not allowed', function() {
-				oc_appconfig.core.resharingAllowed = false;
-				loadItemStub.returns({
-					reshare: [],
+				configModel.set('isResharingAllowed', false);
+				shareModel.set({
+					reshare: {},
 					shares: []
 				});
 				expect(
@@ -792,9 +610,9 @@ describe('OC.Share.ShareDialogView', function() {
 				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE);
 			});
 			it('automatically adds READ permission even when not specified', function() {
-				oc_appconfig.core.resharingAllowed = false;
-				loadItemStub.returns({
-					reshare: [],
+				configModel.set('isResharingAllowed', false);
+				shareModel.set({
+					reshare: {},
 					shares: []
 				});
 				expect(
@@ -802,108 +620,35 @@ describe('OC.Share.ShareDialogView', function() {
 				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_UPDATE);
 			});
 			it('does not show sharing options when sharing not allowed', function() {
-				loadItemStub.returns({
-					reshare: [],
-					shares: []
+				shareModel.set({
+					reshare: {},
+					shares: [],
+					permissions: OC.PERMISSION_READ
 				});
-				OC.Share.showDropDown(
-					'file',
-					123,
-					$container,
-					true,
-					OC.PERMISSION_READ,
-					'shared_file_name.txt'
-				);
-				expect(dialog.$el.find('#shareWithList').length).toEqual(0);
+				dialog.render();
+				expect(dialog.$el.find('#shareWith').prop('disabled')).toEqual(true);
 			});
-		});
-		describe('resharing', function() {
-			it('shares with given permissions when original share had all permissions', function() {
-				loadItemStub.returns({
+			it('shows reshare owner', function() {
+				shareModel.set({
 					reshare: {
-						permissions: OC.PERMISSION_ALL
-					},
-					shares: []
-				});
-				expect(
-					testWithPermissions(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE)
-				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE);
-			});
-			it('reduces reshare permissions to the ones from the original share', function() {
-				loadItemStub.returns({
-					reshare: {
-						permissions: OC.PERMISSION_READ,
 						uid_owner: 'user1'
 					},
-					shares: []
+					shares: [],
+					permissions: OC.PERMISSION_READ
 				});
-				OC.Share.showDropDown(
-					'file',
-					123,
-					$container,
-					true,
-					OC.PERMISSION_ALL,
-					'shared_file_name.txt'
-				);
-				// no resharing allowed
-				expect(dialog.$el.find('#shareWithList').length).toEqual(0);
+				dialog.render();
+				expect(dialog.$el.find('.resharerInfoView .reshare').length).toEqual(1);
 			});
-			it('reduces reshare permissions to possible permissions', function() {
-				loadItemStub.returns({
+			it('does not show reshare owner if owner is current user', function() {
+				shareModel.set({
 					reshare: {
-						permissions: OC.PERMISSION_ALL,
-						uid_owner: 'user1'
+						uid_owner: OC.currentUser
 					},
-					shares: []
+					shares: [],
+					permissions: OC.PERMISSION_READ
 				});
-				OC.Share.showDropDown(
-					'file',
-					123,
-					$container,
-					true,
-					OC.PERMISSION_READ,
-					'shared_file_name.txt'
-				);
-				// no resharing allowed
-				expect(dialog.$el.find('#shareWithList').length).toEqual(0);
-			});
-			it('does not show sharing options when resharing not allowed', function() {
-				loadItemStub.returns({
-					reshare: {
-						permissions: OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE,
-						uid_owner: 'user1'
-					},
-					shares: []
-				});
-				OC.Share.showDropDown(
-					'file',
-					123,
-					$container,
-					true,
-					OC.PERMISSION_ALL,
-					'shared_file_name.txt'
-				);
-				expect(dialog.$el.find('#shareWithList').length).toEqual(0);
-			});
-			it('allows owner to share their own share when they are also the recipient', function() {
-				OC.currentUser = 'user1';
-				loadItemStub.returns({
-					reshare: {
-						permissions: OC.PERMISSION_READ,
-						uid_owner: 'user1'
-					},
-					shares: []
-				});
-				OC.Share.showDropDown(
-					'file',
-					123,
-					$container,
-					true,
-					OC.PERMISSION_ALL,
-					'shared_file_name.txt'
-				);
-				// sharing still allowed
-				expect(dialog.$el.find('#shareWithList').length).toEqual(1);
+				dialog.render();
+				expect(dialog.$el.find('.resharerInfoView .reshare').length).toEqual(0);
 			});
 		});
 	});

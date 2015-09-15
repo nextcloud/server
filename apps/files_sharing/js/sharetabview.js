@@ -11,7 +11,6 @@
 (function() {
 	var TEMPLATE =
 		'<div>' +
-		'<ul>{{#if owner}}<li>Owner: {{owner}}</li>{{/if}}</ul>' +
 		'<div class="dialogContainer"></div>' +
 		'</div>';
 
@@ -47,13 +46,7 @@
 			}
 
 			if (this.model) {
-				var owner = this.model.get('shareOwner');
-				if (owner === OC.currentUser) {
-					owner = null;
-				}
-				this.$el.html(this.template({
-					owner: owner
-				}));
+				this.$el.html(this.template());
 
 				// TODO: the model should read these directly off the passed fileInfoModel
 				var attributes = {

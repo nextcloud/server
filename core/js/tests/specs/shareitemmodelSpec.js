@@ -23,13 +23,12 @@
 describe('OC.Share.ShareItemModel', function() {
 	var loadItemStub;
 	var fileInfoModel, configModel, model;
+	var oldCurrentUser;
 
 	beforeEach(function() {
+		oldCurrentUser = OC.currentUser;
+
 		loadItemStub = sinon.stub(OC.Share, 'loadItem');
-		loadItemStub.returns({
-			reshare: [],
-			shares: []
-		});
 
 		fileInfoModel = new OCA.Files.FileInfoModel({
 			id: 123,
@@ -54,6 +53,7 @@ describe('OC.Share.ShareItemModel', function() {
 	});
 	afterEach(function() {
 		loadItemStub.restore();
+		OC.currentUser = oldCurrentUser;
 	});
 
 	describe('Fetching and parsing', function() {
@@ -64,7 +64,7 @@ describe('OC.Share.ShareItemModel', function() {
 			expect(loadItemStub.calledWith('file', 123)).toEqual(true);
 		});
 		it('populates attributes with parsed response', function() {
-			loadItemStub.returns({
+			loadItemStub.yields({
 				/* jshint camelcase: false */
 				reshare: {
 					share_type: OC.Share.SHARE_TYPE_USER,
@@ -118,7 +118,11 @@ describe('OC.Share.ShareItemModel', function() {
 
 			var shares = model.get('shares');
 			expect(shares.length).toEqual(3);
-			expect(shares.file_source).toEqual(123);
+			expect(shares[0].id).toEqual(100);
+			expect(shares[0].permissions).toEqual(31);
+			expect(shares[0].share_type).toEqual(OC.Share.SHARE_TYPE_USER);
+			expect(shares[0].share_with).toEqual('user1');
+			expect(shares[0].share_with_displayname).toEqual('User One');
 
 			var linkShare = model.get('linkShare');
 			expect(linkShare.isLinkShare).toEqual(true);
@@ -126,7 +130,7 @@ describe('OC.Share.ShareItemModel', function() {
 			// TODO: check more attributes
 		});
 		it('does not parse link share when for a different file', function() {
-			loadItemStub.returns({
+			loadItemStub.yields({
 				reshare: [],
 				/* jshint camelcase: false */
 				shares: [{
@@ -153,13 +157,14 @@ describe('OC.Share.ShareItemModel', function() {
 			model.fetch();
 
 			var shares = model.get('shares');
-			expect(shares.length).toEqual(0);
+			// remaining share appears in this list
+			expect(shares.length).toEqual(1);
 
 			var linkShare = model.get('linkShare');
 			expect(linkShare.isLinkShare).toEqual(false);
 		});
-		it('parsess correct link share when a nested link share exists along with parent one', function() {
-			loadItemStub.returns({
+		it('parses correct link share when a nested link share exists along with parent one', function() {
+			loadItemStub.yields({
 				reshare: [],
 				/* jshint camelcase: false */
 				shares: [{
@@ -204,13 +209,57 @@ describe('OC.Share.ShareItemModel', function() {
 			model.fetch();
 
 			var shares = model.get('shares');
-			expect(shares.length).toEqual(0);
+			// the parent share remains in the list
+			expect(shares.length).toEqual(1);
 
 			var linkShare = model.get('linkShare');
-			expect(linkShare.isLinkShare).toEqual(false);
+			expect(linkShare.isLinkShare).toEqual(true);
 			expect(linkShare.token).toEqual('tehtoken');
 
 			// TODO: check child too
+		});
+		it('reduces reshare permissions to the ones from the original share', function() {
+			loadItemStub.yields({
+				reshare: {
+					permissions: OC.PERMISSION_READ,
+					uid_owner: 'user1'
+				},
+				shares: []
+			});
+			model.fetch();
+
+			// no resharing allowed
+			expect(model.get('permissions')).toEqual(OC.PERMISSION_READ);
+		});
+		it('reduces reshare permissions to possible permissions', function() {
+			loadItemStub.yields({
+				reshare: {
+					permissions: OC.PERMISSION_ALL,
+					uid_owner: 'user1'
+				},
+				shares: []
+			});
+
+			model.set('possiblePermissions', OC.PERMISSION_READ);
+			model.fetch();
+
+			// no resharing allowed
+			expect(model.get('permissions')).toEqual(OC.PERMISSION_READ);
+		});
+		it('allows owner to share their own share when they are also the recipient', function() {
+			OC.currentUser = 'user1';
+			loadItemStub.yields({
+				reshare: {
+					permissions: OC.PERMISSION_READ,
+					uid_owner: 'user1'
+				},
+				shares: []
+			});
+
+			model.fetch();
+
+			// sharing still allowed
+			expect(model.get('permissions') & OC.PERMISSION_SHARE).toEqual(OC.PERMISSION_SHARE);
 		});
 	});
 

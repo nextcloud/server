@@ -15,6 +15,7 @@
 
 	var TEMPLATE_BASE =
 		'<div class="resharerInfoView"></div>' +
+		'{{#if isSharingAllowed}}' +
 		'<label for="shareWith" class="hidden-visually">{{shareLabel}}</label>' +
 		'<div class="oneline">' +
 		'    <input id="shareWith" type="text" placeholder="{{sharePlaceholder}}" />' +
@@ -22,6 +23,7 @@
 		'</div>' +
 			// FIXME: find a good position for remoteShareInfo
 		'{{{remoteShareInfo}}}' +
+		'{{/if}}' +
 		'<div class="shareeListView"></div>' +
 		'<div class="linkShareView"></div>' +
 		'<div class="expirationView"></div>'
@@ -80,6 +82,9 @@
 			}
 
 			this.configModel.on('change:isRemoteShareAllowed', function() {
+				view.render();
+			});
+			this.model.on('change:permissions', function() {
 				view.render();
 			});
 
@@ -163,16 +168,19 @@
 			this.$el.html(baseTemplate({
 				shareLabel: t('core', 'Share'),
 				sharePlaceholder: this._renderSharePlaceholderPart(),
-				remoteShareInfo: this._renderRemoteShareInfoPart()
+				remoteShareInfo: this._renderRemoteShareInfoPart(),
+				isSharingAllowed: this.model.sharePermissionPossible()
 			}));
 
-			var view = this;
-			this.$el.find('#shareWith').autocomplete({
-				minLength: 2,
-				delay: 750,
-				source: this.autocompleteHandler,
-				select: this._onSelectRecipient
-			}).data('ui-autocomplete')._renderItem = this.autocompleteRenderItem;
+			var $shareField = this.$el.find('#shareWith');
+			if ($shareField.length) {
+				$shareField.autocomplete({
+					minLength: 2,
+					delay: 750,
+					source: this.autocompleteHandler,
+					select: this._onSelectRecipient
+				}).data('ui-autocomplete')._renderItem = this.autocompleteRenderItem;
+			}
 
 			this.resharerInfoView.$el = this.$el.find('.resharerInfoView');
 			this.resharerInfoView.render();

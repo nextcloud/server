@@ -211,11 +211,12 @@
 			if(this.configModel.areAvatarsEnabled()) {
 				this.$el.find('.avatar').each(function() {
 					var $this = $(this);
-					$this.avatar($this.data('username'), 32);
-				});
-				this.$el.find('.avatar.imageplaceholderseed').each(function() {
-					var $this = $(this);
-					$this.imageplaceholder($this.data('seed'));
+					if ($this.hasClass('imageplaceholderseed')) {
+						$this.css({width: 32, height: 32});
+						$this.imageplaceholder($this.data('seed'));
+					} else {
+						$this.avatar($this.data('username'), 32);
+					}
 				});
 			}
 

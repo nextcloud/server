@@ -130,7 +130,7 @@
 				);
 			}
 
-			var isExpirationSet = !!this.model.get('linkShare').expiration;
+			var isExpirationSet = !!this.model.get('linkShare').expiration || isExpirationEnforced;
 
 			var expirationTemplate = this.template();
 			this.$el.html(expirationTemplate({
@@ -145,13 +145,13 @@
 				expirationValue: this.model.get('linkShare').expiration
 			}));
 
-			if(isExpirationSet) {
-				// what if there is another date picker on that page?
-				var minDate = new Date();
-				// min date should always be the next day
-				minDate.setDate(minDate.getDate()+1);
+			// what if there is another date picker on that page?
+			var minDate = new Date();
+			var maxDate = null;
+			// min date should always be the next day
+			minDate.setDate(minDate.getDate()+1);
 
-				var maxDate = null;
+			if(isExpirationSet) {
 				if(isExpirationEnforced) {
 					// TODO: hack: backend returns string instead of integer
 					var shareTime = this.model.get('linkShare').stime;
@@ -164,12 +164,11 @@
 					shareTime = OC.Util.stripTime(shareTime).getTime();
 					maxDate = new Date(shareTime + defaultExpireDays * 24 * 3600 * 1000);
 				}
-
-				$.datepicker.setDefaults({
-					minDate: minDate,
-					maxDate: maxDate
-				});
 			}
+			$.datepicker.setDefaults({
+				minDate: minDate,
+				maxDate: maxDate
+			});
 
 			this.$el.find('.datepicker').datepicker({dateFormat : 'dd-mm-yy'});
 

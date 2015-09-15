@@ -63,8 +63,8 @@
 		},
 
 		render: function() {
-			if (   !this.model.hasReshare()
-				|| !this.model.getReshareOwner() !== OC.currentUser)
+			if (!this.model.hasReshare()
+				|| this.model.getReshareOwner() === OC.currentUser)
 			{
 				this.$el.empty();
 				return this;
