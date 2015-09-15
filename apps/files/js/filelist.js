@@ -301,6 +301,7 @@
 				this.fileActions.registerAction({
 					name: 'Details',
 					mime: 'all',
+					icon: OC.imagePath('core', 'actions/details'),
 					permissions: OC.PERMISSION_READ,
 					actionHandler: function(fileName, context) {
 						self._updateDetailsView(fileName);
