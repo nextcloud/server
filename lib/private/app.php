@@ -104,7 +104,10 @@ class OC_App {
 
 		// Add each apps' folder as allowed class path
 		foreach($apps as $app) {
-			\OC::$loader->addValidRoot(self::getAppPath($app));
+			$path = self::getAppPath($app);
+			if($path !== false) {
+				\OC::$loader->addValidRoot($path);
+			}
 		}
 
 		// prevent app.php from printing output
