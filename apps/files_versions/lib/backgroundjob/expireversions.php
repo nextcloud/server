@@ -21,7 +21,6 @@
 
 namespace OCA\Files_Versions\BackgroundJob;
 
-use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Storage;
@@ -35,25 +34,19 @@ class ExpireVersions extends \OC\BackgroundJob\TimedJob {
 	 * @var Expiration
 	 */
 	private $expiration;
-
-	/**
-	 * @var IDBConnection
-	 */
-	private $dbConnection;
 	
 	/**
 	 * @var IUserManager
 	 */
 	private $userManager;
 
-	public function __construct(IDBConnection $dbConnection = null, IUserManager $userManager = null, Expiration $expiration = null) {
+	public function __construct(IUserManager $userManager = null, Expiration $expiration = null) {
 		// Run once per 30 minutes
 		$this->setInterval(60 * 30);
 
-		if (is_null($expiration) || is_null($userManager) || is_null($dbConnection)) {
+		if (is_null($expiration) || is_null($userManager)) {
 			$this->fixDIForJobs();
 		} else {
-			$this->dbConnection = $dbConnection;
 			$this->expiration = $expiration;
 			$this->userManager = $userManager;
 		}
@@ -61,7 +54,6 @@ class ExpireVersions extends \OC\BackgroundJob\TimedJob {
 
 	protected function fixDIForJobs() {
 		$application = new Application();
-		$this->dbConnection = \OC::$server->getDatabaseConnection();
 		$this->expiration = $application->getContainer()->query('Expiration');
 		$this->userManager = \OC::$server->getUserManager();
 	}
