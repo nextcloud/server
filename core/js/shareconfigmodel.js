@@ -14,6 +14,8 @@
 		OC.Share.Types = {};
 	}
 
+	// FIXME: the config model should populate its own model attributes based on
+	// the old DOM-based config
 	var ShareConfigModel = OC.Backbone.Model.extend({
 		defaults: {
 			publicUploadEnabled: false,

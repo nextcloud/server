@@ -236,7 +236,7 @@
 			}));
 
 			// TODO: move this to delegate events instead
-			this.$el.find('#linkCheckbox').change(this.onLinkCheckBoxChange);
+			this.$el.find('#linkCheckbox').click(this.onLinkCheckBoxChange);
 			this.$el.find('#sharingDialogAllowPublicUpload').change(this.onAllowPublicUploadChange);
 			this.$el.find('#linkText').click(this.onLinkTextClick);
 			this.$el.find('#showPassword').click(this.onShowPasswordClick);

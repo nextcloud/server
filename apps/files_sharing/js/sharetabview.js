@@ -55,6 +55,7 @@
 					owner: owner
 				}));
 
+				// TODO: the model should read these directly off the passed fileInfoModel
 				var attributes = {
 					itemType: this.model.isDirectory() ? 'folder' : 'file',
 				   	itemSource: this.model.get('id'),

@@ -3,7 +3,7 @@
 /**
  * @namespace
  */
-OC.Share = _.extend(OC.Share, {
+OC.Share = _.extend(OC.Share || {}, {
 	SHARE_TYPE_USER:0,
 	SHARE_TYPE_GROUP:1,
 	SHARE_TYPE_LINK:3,
@@ -445,7 +445,7 @@ $(document).ready(function() {
 		var target = $(event.target);
 		var isMatched = !target.is('.drop, .ui-datepicker-next, .ui-datepicker-prev, .ui-icon')
 			&& !target.closest('#ui-datepicker-div').length && !target.closest('.ui-autocomplete').length;
-		if (OC.Share.droppedDown && isMatched && $('#dropdown').has(event.target).length === 0) {
+		if (OC.Share && OC.Share.droppedDown && isMatched && $('#dropdown').has(event.target).length === 0) {
 			OC.Share.hideDropDown();
 		}
 	});
