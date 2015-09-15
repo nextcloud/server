@@ -158,7 +158,7 @@ describe('OC.Share.ShareDialogView', function() {
 			dialog.render();
 
 			expect(dialog.$el.find('#linkPassText').val()).toEqual('');
-			expect(dialog.$el.find('#linkPassText').attr('placeholder')).toEqual('Password protected');
+			expect(dialog.$el.find('#linkPassText').attr('placeholder')).toEqual('**********');
 		});
 		it('update password on enter', function() {
 			$('#allowShareWithLink').val('yes');
@@ -197,7 +197,7 @@ describe('OC.Share.ShareDialogView', function() {
 			dialog.render();
 
 			expect(dialog.$el.find('#linkPassText').val()).toEqual('');
-			expect(dialog.$el.find('#linkPassText').attr('placeholder')).toEqual('Password protected');
+			expect(dialog.$el.find('#linkPassText').attr('placeholder')).toEqual('**********');
 		});
 		it('shows share with link checkbox when allowed', function() {
 			$('#allowShareWithLink').val('yes');
@@ -212,80 +212,6 @@ describe('OC.Share.ShareDialogView', function() {
 			dialog.render();
 
 			expect(dialog.$el.find('#linkCheckbox').length).toEqual(0);
-		});
-		it('Reset link when password is enforced and link is toggled', function() { 
-			configModel.set('enforcePasswordForPublicLink', true);
-			$('#allowShareWithLink').val('yes');
-
-			dialog.render();
-
-			// Toggle linkshare
-			dialog.$el.find('[name=linkCheckbox]').click();
-			expect(dialog.$el.find('#linkText').val()).toEqual('');
-
-			// Set password
-			dialog.$el.find('#linkPassText').val('foo');
-			dialog.$el.find('#linkPassText').trigger(new $.Event('keyup', {keyCode: 13}));
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({data: {token: 'xyz'}, status: 'success'})
-			);
-
-			// Remove link
-			dialog.$el.find('[name=linkCheckbox]').click();
-			fakeServer.requests[1].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({status: 'success'})
-			);
-
-			/*
-			 * Try to share again
-			 * The linkText should be emptied
-			 */
-			dialog.$el.find('[name=linkCheckbox]').click();
-			expect(dialog.$el.find('#linkText').val()).toEqual('');
-
-			/*
-			 * Do not set password but untoggle
-			 * Since there is no share this should not result in another request to the server
-			 */
-			dialog.$el.find('[name=linkCheckbox]').click();
-			expect(fakeServer.requests.length).toEqual(2);
-		});
-
-		it('Reset password placeholder when password is enforced and link is toggled', function() { 
-			$('#allowShareWithLink').val('yes');
-
-			dialog.render();
-
-			// Toggle linkshare
-			dialog.$el.find('[name=linkCheckbox]').click();
-			expect(dialog.$el.find('#linkPassText').attr('placeholder')).toEqual('Choose a password for the public link');
-
-			// Set password
-			dialog.$el.find('#linkPassText').val('foo');
-			dialog.$el.find('#linkPassText').trigger(new $.Event('keyup', {keyCode: 13}));
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({data: {token: 'xyz'}, status: 'success'})
-			);
-			dialog.render();
-			expect(dialog.$el.find('#linkPassText').attr('placeholder')).toEqual('**********');
-
-			// Remove link
-			dialog.$el.find('[name=linkCheckbox]').click();
-			fakeServer.requests[1].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({status: 'success'})
-			);
-
-			// Try to share again
-			dialog.$el.find('[name=linkCheckbox]').click();
-			expect(dialog.$el.find('#linkPassText').attr('placeholder')).toEqual('Choose a password for the public link');
 		});
 		it('shows populated link share when a link share exists', function() {
 			// this is how the OC.Share class does it...
