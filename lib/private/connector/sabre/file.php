@@ -35,6 +35,7 @@ namespace OC\Connector\Sabre;
 use OC\Connector\Sabre\Exception\EntityTooLarge;
 use OC\Connector\Sabre\Exception\FileLocked;
 use OC\Connector\Sabre\Exception\UnsupportedMediaType;
+use OC\Files\Filesystem;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\InvalidContentException;
@@ -114,12 +115,6 @@ class File extends Node implements IFile {
 			$partFilePath = $this->path;
 		}
 
-		try {
-			$this->fileView->lockFile($this->path, ILockingProvider::LOCK_SHARED);
-		} catch (LockedException $e) {
-			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
-		}
-
 		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
 		/** @var \OC\Files\Storage\Storage $partStorage */
 		list($partStorage, $internalPartPath) = $this->fileView->resolvePath($partFilePath);
@@ -132,7 +127,7 @@ class File extends Node implements IFile {
 				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 				throw new Exception('Could not write file contents');
 			}
-			list($count, ) = \OC_Helper::streamCopy($data, $target);
+			list($count,) = \OC_Helper::streamCopy($data, $target);
 			fclose($target);
 
 			// if content length is sent by client:
@@ -154,29 +149,14 @@ class File extends Node implements IFile {
 
 		try {
 			$view = \OC\Files\Filesystem::getView();
-			$run = true;
 			if ($view) {
-				$hookPath = $view->getRelativePath($this->fileView->getAbsolutePath($this->path));
-
-				if (!$exists) {
-					\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_create, array(
-						\OC\Files\Filesystem::signal_param_path => $hookPath,
-						\OC\Files\Filesystem::signal_param_run => &$run,
-					));
-				} else {
-					\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_update, array(
-						\OC\Files\Filesystem::signal_param_path => $hookPath,
-						\OC\Files\Filesystem::signal_param_run => &$run,
-					));
-				}
-				\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_write, array(
-					\OC\Files\Filesystem::signal_param_path => $hookPath,
-					\OC\Files\Filesystem::signal_param_run => &$run,
-				));
+				$run = $this->emitPreHooks($exists);
+			} else {
+				$run = true;
 			}
 
 			try {
-				$this->fileView->changeLock($this->path, ILockingProvider::LOCK_EXCLUSIVE);
+				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
 			} catch (LockedException $e) {
 				if ($needsPartFile) {
 					$partStorage->unlink($internalPartPath);
@@ -202,7 +182,7 @@ class File extends Node implements IFile {
 			}
 
 			try {
-				$this->fileView->changeLock($this->path, ILockingProvider::LOCK_SHARED);
+				$this->changeLock(ILockingProvider::LOCK_SHARED);
 			} catch (LockedException $e) {
 				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 			}
@@ -211,18 +191,7 @@ class File extends Node implements IFile {
 			$this->fileView->getUpdater()->update($this->path);
 
 			if ($view) {
-				if (!$exists) {
-					\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_create, array(
-						\OC\Files\Filesystem::signal_param_path => $hookPath
-					));
-				} else {
-					\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_update, array(
-						\OC\Files\Filesystem::signal_param_path => $hookPath
-					));
-				}
-				\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_write, array(
-					\OC\Files\Filesystem::signal_param_path => $hookPath
-				));
+				$this->emitPostHooks($exists);
 			}
 
 			// allow sync clients to send the mtime along in a header
@@ -233,12 +202,55 @@ class File extends Node implements IFile {
 				}
 			}
 			$this->refreshInfo();
-			$this->fileView->unlockFile($this->path, ILockingProvider::LOCK_SHARED);
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage());
 		}
 
 		return '"' . $this->info->getEtag() . '"';
+	}
+
+	private function emitPreHooks($exists, $path = null) {
+		if (is_null($path)) {
+			$path = $this->path;
+		}
+		$hookPath = Filesystem::getView()->getRelativePath($this->fileView->getAbsolutePath($path));
+		$run = true;
+
+		if (!$exists) {
+			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_create, array(
+				\OC\Files\Filesystem::signal_param_path => $hookPath,
+				\OC\Files\Filesystem::signal_param_run => &$run,
+			));
+		} else {
+			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_update, array(
+				\OC\Files\Filesystem::signal_param_path => $hookPath,
+				\OC\Files\Filesystem::signal_param_run => &$run,
+			));
+		}
+		\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_write, array(
+			\OC\Files\Filesystem::signal_param_path => $hookPath,
+			\OC\Files\Filesystem::signal_param_run => &$run,
+		));
+		return $run;
+	}
+
+	private function emitPostHooks($exists, $path = null) {
+		if (is_null($path)) {
+			$path = $this->path;
+		}
+		$hookPath = Filesystem::getView()->getRelativePath($this->fileView->getAbsolutePath($path));
+		if (!$exists) {
+			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_create, array(
+				\OC\Files\Filesystem::signal_param_path => $hookPath
+			));
+		} else {
+			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_update, array(
+				\OC\Files\Filesystem::signal_param_path => $hookPath
+			));
+		}
+		\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_write, array(
+			\OC\Files\Filesystem::signal_param_path => $hookPath
+		));
 	}
 
 	/**
@@ -354,15 +366,30 @@ class File extends Node implements IFile {
 			$needsPartFile = $this->needsPartFile($storage);
 			$partFile = null;
 
+			$targetPath = $path . '/' . $info['name'];
+			/** @var \OC\Files\Storage\Storage $targetStorage */
+			list($targetStorage, $targetInternalPath) = $this->fileView->resolvePath($targetPath);
+
+			$exists = $this->fileView->file_exists($targetPath);
+
 			try {
-				$targetPath = $path . '/' . $info['name'];
+				$this->emitPreHooks($exists, $targetPath);
+
+				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
+
 				if ($needsPartFile) {
 					// we first assembly the target file as a part file
 					$partFile = $path . '/' . $info['name'] . '.ocTransferId' . $info['transferid'] . '.part';
-					$chunk_handler->file_assemble($partFile);
+
+
+					list($partStorage, $partInternalPath) = $this->fileView->resolvePath($partFile);
+
+
+					$chunk_handler->file_assemble($partStorage, $partInternalPath, $this->fileView->getAbsolutePath($targetPath));
 
 					// here is the final atomic rename
-					$renameOkay = $this->fileView->rename($partFile, $targetPath);
+					$renameOkay = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
+
 					$fileExists = $this->fileView->file_exists($targetPath);
 					if ($renameOkay === false || $fileExists === false) {
 						\OCP\Util::writeLog('webdav', '\OC\Files\Filesystem::rename() failed', \OCP\Util::ERROR);
@@ -371,28 +398,36 @@ class File extends Node implements IFile {
 							// set to null to avoid double-deletion when handling exception
 							// stray part file
 							$partFile = null;
-							$this->fileView->unlink($targetPath);
+							$targetStorage->unlink($targetInternalPath);
 						}
+						$this->changeLock(ILockingProvider::LOCK_SHARED);
 						throw new Exception('Could not rename part file assembled from chunks');
 					}
 				} else {
 					// assemble directly into the final file
-					$chunk_handler->file_assemble($targetPath);
+					$chunk_handler->file_assemble($targetStorage, $targetInternalPath, $this->fileView->getAbsolutePath($targetPath));
 				}
 
 				// allow sync clients to send the mtime along in a header
 				$request = \OC::$server->getRequest();
 				if (isset($request->server['HTTP_X_OC_MTIME'])) {
-					if ($this->fileView->touch($targetPath, $request->server['HTTP_X_OC_MTIME'])) {
+					if ($targetStorage->touch($targetInternalPath, $request->server['HTTP_X_OC_MTIME'])) {
 						header('X-OC-MTime: accepted');
 					}
 				}
+
+				$this->changeLock(ILockingProvider::LOCK_SHARED);
+
+				// since we skipped the view we need to scan and emit the hooks ourselves
+				$this->fileView->getUpdater()->update($targetPath);
+
+				$this->emitPostHooks($exists, $targetPath);
 
 				$info = $this->fileView->getFileInfo($targetPath);
 				return $info->getEtag();
 			} catch (\Exception $e) {
 				if ($partFile !== null) {
-					$this->fileView->unlink($partFile);
+					$targetStorage->unlink($targetInternalPath);
 				}
 				$this->convertToSabreException($e);
 			}
