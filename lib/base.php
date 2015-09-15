@@ -1117,14 +1117,6 @@ class OC {
 		return true;
 	}
 
-	/**
-	 * Get the temporary dir to store uploaded data
-	 * @return null|string Path to the temporary directory or null
-	 */
-	function get_temp_dir() {
-		return \OC::$server->getTempManager()->t_get_temp_dir();
-	}
-
 }
 
 
