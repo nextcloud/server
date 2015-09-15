@@ -274,7 +274,7 @@ describe('OC.Share.ShareItemModel', function() {
 				['0x12345',   null],
 				[       '',   null],
 			], function(value) {
-				expect(OC.Share._parseTime(value[0])).toEqual(value[1]);
+				expect(OC.Share.ShareItemModel.prototype._parseTime(value[0])).toEqual(value[1]);
 			});
 
 		});
