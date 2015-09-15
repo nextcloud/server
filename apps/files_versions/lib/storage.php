@@ -40,6 +40,7 @@
 
 namespace OCA\Files_Versions;
 
+use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
 
 class Storage {
@@ -67,6 +68,9 @@ class Storage {
 		//until the end one version per week
 		6 => array('intervalEndsAfter' => -1,      'step' => 604800),
 	);
+	
+	/** @var \OCA\Files_Versions\AppInfo\Application */
+	private static $application;
 
 	public static function getUidAndFilename($filename) {
 		$uid = \OC\Files\Filesystem::getOwner($filename);
@@ -479,10 +483,36 @@ class Storage {
 	 * get list of files we want to expire
 	 * @param array $versions list of versions
 	 * @param integer $time
+	 * @param bool $quotaExceeded is versions storage limit reached
 	 * @return array containing the list of to deleted versions and the size of them
 	 */
-	protected static function getExpireList($time, $versions) {
+	protected static function getExpireList($time, $versions, $quotaExceeded = false) {
+		$expiration = self::getExpiration();
 
+		if ($expiration->shouldAutoExpire()) {
+			list($toDelete, $size) = self::getAutoExpireList($time, $versions);
+		} else {
+			$size = 0;
+			$toDelete = [];  // versions we want to delete
+		}
+
+		foreach ($versions as $key => $version) {
+			if ($expiration->isExpired($version['version'], $quotaExceeded) && !isset($toDelete[$key])) {
+				$size += $version['size'];
+				$toDelete[$key] = $version['path'] . '.v' . $version['version'];
+			}
+		}
+
+		return [$toDelete, $size];
+	}
+
+	/**
+	 * get list of files we want to expire
+	 * @param array $versions list of versions
+	 * @param integer $time
+	 * @return array containing the list of to deleted versions and the size of them
+	 */
+	protected static function getAutoExpireList($time, $versions) {
 		$size = 0;
 		$toDelete = array();  // versions we want to delete
 
@@ -529,7 +559,6 @@ class Storage {
 		}
 
 		return array($toDelete, $size);
-
 	}
 
 	/**
@@ -541,8 +570,12 @@ class Storage {
 	 * @param int $neededSpace requested versions size
 	 */
 	private static function scheduleExpire($uid, $fileName, $versionsSize = null, $neededSpace = 0) {
-		$command = new Expire($uid, $fileName, $versionsSize, $neededSpace);
-		\OC::$server->getCommandBus()->push($command);
+		// let the admin disable auto expire
+		$expiration = self::getExpiration();
+		if ($expiration->isEnabled()) {
+			$command = new Expire($uid, $fileName, $versionsSize, $neededSpace);
+			\OC::$server->getCommandBus()->push($command);
+		}
 	}
 
 	/**
@@ -555,7 +588,9 @@ class Storage {
 	 */
 	public static function expire($filename, $versionsSize = null, $offset = 0) {
 		$config = \OC::$server->getConfig();
-		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		$expiration = self::getExpiration();
+		
+		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' && $expiration->isEnabled()) {
 			list($uid, $filename) = self::getUidAndFilename($filename);
 			if (empty($filename)) {
 				// file maybe renamed or deleted
@@ -599,7 +634,7 @@ class Storage {
 			$allVersions = Storage::getVersions($uid, $filename);
 
 			$time = time();
-			list($toDelete, $sizeOfDeletedVersions) = self::getExpireList($time, $allVersions);
+			list($toDelete, $sizeOfDeletedVersions) = self::getExpireList($time, $allVersions, $availableSpace <= 0);
 
 			$availableSpace = $availableSpace + $sizeOfDeletedVersions;
 			$versionsSize = $versionsSize - $sizeOfDeletedVersions;
@@ -610,7 +645,7 @@ class Storage {
 				$allVersions = $result['all'];
 
 				foreach ($result['by_file'] as $versions) {
-					list($toDeleteNew, $size) = self::getExpireList($time, $versions);
+					list($toDeleteNew, $size) = self::getExpireList($time, $versions, $availableSpace <= 0);
 					$toDelete = array_merge($toDelete, $toDeleteNew);
 					$sizeOfDeletedVersions += $size;
 				}
@@ -670,6 +705,17 @@ class Storage {
 				$view->mkdir($dir);
 			}
 		}
+	}
+
+	/**
+	 * Static workaround
+	 * @return Expiration
+	 */
+	protected static function getExpiration(){
+		if (is_null(self::$application)) {
+			self::$application = new Application();
+		}
+		return self::$application->getContainer()->query('Expiration');
 	}
 
 }
