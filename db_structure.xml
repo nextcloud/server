@@ -104,8 +104,8 @@
 
 			<field>
 				<name>available</name>
-				<type>boolean</type>
-				<default>true</default>
+				<type>integer</type>
+				<default>1</default>
 				<notnull>true</notnull>
 			</field>
 

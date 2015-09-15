@@ -58,7 +58,8 @@ class Storage {
 			$this->numericId = $row['numeric_id'];
 		} else {
 			$connection = \OC_DB::getConnection();
-			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $isAvailable])) {
+			$available = $isAvailable ? 1 : 0;
+			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
 				$this->numericId = \OC_DB::insertid('*PREFIX*storages');
 			} else {
 				if ($row = self::getStorageById($this->storageId)) {
@@ -141,7 +142,7 @@ class Storage {
 	public function getAvailability() {
 		if ($row = self::getStorageById($this->storageId)) {
 			return [
-				'available' => $row['available'],
+				'available' => ($row['available'] === 1),
 				'last_checked' => $row['last_checked']
 			];
 		} else {
@@ -154,7 +155,8 @@ class Storage {
 	 */
 	public function setAvailability($isAvailable) {
 		$sql = 'UPDATE `*PREFIX*storages` SET `available` = ?, `last_checked` = ? WHERE `id` = ?';
-		\OC_DB::executeAudited($sql, array($isAvailable, time(), $this->storageId));
+		$available = $isAvailable ? 1 : 0;
+		\OC_DB::executeAudited($sql, array($available, time(), $this->storageId));
 	}
 
 	/**
