@@ -421,10 +421,9 @@ class Encryption implements IEncryptionModule {
 	 *
 	 * @param InputInterface $input
 	 * @param OutputInterface $output write some status information to the terminal during encryption
-	 * @return bool
 	 */
 	public function encryptAll(InputInterface $input, OutputInterface $output) {
-		return $this->encryptAll->encryptAll($input, $output);
+		$this->encryptAll->encryptAll($input, $output);
 	}
 
 	/**

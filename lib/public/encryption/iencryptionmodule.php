@@ -141,7 +141,6 @@ interface IEncryptionModule {
 	 *
 	 * @param InputInterface $input
 	 * @param OutputInterface $output write some status information to the terminal during encryption
-	 * @return bool
 	 * @since 8.2.0
 	 */
 	public function encryptAll(InputInterface $input, OutputInterface $output);
