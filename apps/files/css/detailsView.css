@@ -72,10 +72,13 @@
 #app-sidebar .fileName h3 {
 	max-width: 300px;
 	float:left;
+	padding: 5px 0;
+	margin: -5px 0;
 }
 
 #app-sidebar .file-details {
 	margin-top: 3px;
+	margin-bottom: 15px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	opacity: .5;
 	float:left;
