@@ -124,9 +124,9 @@
 
 				// TODO: we really need OC.Previews
 				var $iconDiv = this.$el.find('.thumbnail');
-				$iconDiv.addClass('icon-loading icon-32');
 				var $container = this.$el.find('.thumbnailContainer');
 				if (!this.model.isDirectory()) {
+					$iconDiv.addClass('icon-loading icon-32');
 					this.loadPreview(this.model.getFullPath(), this.model.get('mimetype'), this.model.get('etag'), $iconDiv, $container, this.model.isImage());
 				} else {
 					// TODO: special icons / shared / external
@@ -173,7 +173,7 @@
 					if (!img) {
 						return;
 					}
-					$iconDiv.removeClass('icon-loading  icon-32');
+					$iconDiv.removeClass('icon-loading icon-32');
 					var targetHeight = getTargetHeight(img);
 					if (this.model.isImage() && targetHeight > smallPreviewSize) {
 						if (!isLandscape(img)) {
@@ -190,7 +190,7 @@
 					});
 				}.bind(this),
 				error: function () {
-					$iconDiv.removeClass('icon-loading');
+					$iconDiv.removeClass('icon-loading icon-32');
 					this.$el.find('.thumbnailContainer').removeClass('image'); //fall back to regular view
 					$iconDiv.css({
 						'background-image': 'url("' + $iconDiv.previewImg + '")'
