@@ -67,8 +67,10 @@
 					<?php if ($_['enableAvatars']): ?>
 					<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown'); } else { print_unescaped('" style="display: none'); } ?>">
 						<?php if ($_['userAvatarSet']): ?>
-							<img src="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 32]));?>?requesttoken=<?php p(urlencode($_['requesttoken'])); ?>"
-								alt="">
+							<img alt="" width="32" height="32"
+							src="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 32]));?>"
+							srcset="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 64]));?> 2x, <?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 128]));?> 4x"
+							>
 						<?php endif; ?>
 					</div>
 					<?php endif; ?>
