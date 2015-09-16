@@ -403,7 +403,11 @@ class Storage {
 		return $versions;
 	}
 
-	public static function expireOlderThan($uid){
+	/**
+	 * Expire versions that older than max version retention time
+	 * @param string $uid
+	 */
+	public static function expireOlderThanMaxForUser($uid){
 		$expiration = self::getExpiration();
 		$threshold = $expiration->getMaxAgeAsTimestamp();
 		$versions = self::getAllVersions($uid);

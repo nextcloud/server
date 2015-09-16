@@ -74,7 +74,7 @@ class ExpireVersions extends \OC\BackgroundJob\TimedJob {
 				}
 				$isFSready = true;
 			}
-			Storage::expireOlderThan($uid);
+			Storage::expireOlderThanMaxForUser($uid);
 		}
 
 		\OC_Util::tearDownFS();
