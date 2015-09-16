@@ -709,11 +709,12 @@ MountConfigListView.prototype = _.extend({
 		}
 		highlightInput($target);
 		var $tr = $target.closest('tr');
+		this.updateStatus($tr, null);
 
 		var timer = $tr.data('save-timer');
 		clearTimeout(timer);
 		timer = setTimeout(function() {
-			self.saveStorageConfig($tr);
+			self.saveStorageConfig($tr, null, timer);
 		}, 2000);
 		$tr.data('save-timer', timer);
 	},
@@ -931,8 +932,9 @@ MountConfigListView.prototype = _.extend({
 	 *
 	 * @param $tr storage row
 	 * @param Function callback callback to call after save
+	 * @param concurrentTimer only update if the timer matches this
 	 */
-	saveStorageConfig:function($tr, callback) {
+	saveStorageConfig:function($tr, callback, concurrentTimer) {
 		var self = this;
 		var storage = this.getStorageConfig($tr);
 		if (!storage.validate()) {
@@ -942,15 +944,23 @@ MountConfigListView.prototype = _.extend({
 		this.updateStatus($tr, StorageConfig.Status.IN_PROGRESS);
 		storage.save({
 			success: function(result) {
-				self.updateStatus($tr, result.status);
-				$tr.attr('data-id', result.id);
+				if (concurrentTimer === undefined
+					|| $tr.data('save-timer') === concurrentTimer
+				) {
+					self.updateStatus($tr, result.status);
+					$tr.attr('data-id', result.id);
 
-				if (_.isFunction(callback)) {
-					callback(storage);
+					if (_.isFunction(callback)) {
+						callback(storage);
+					}
 				}
 			},
 			error: function() {
-				self.updateStatus($tr, StorageConfig.Status.ERROR);
+				if (concurrentTimer === undefined
+					|| $tr.data('save-timer') === concurrentTimer
+				) {
+					self.updateStatus($tr, StorageConfig.Status.ERROR);
+				}
 			}
 		});
 	},
@@ -989,6 +999,9 @@ MountConfigListView.prototype = _.extend({
 		var $statusSpan = $tr.find('.status span');
 		$statusSpan.removeClass('loading-small success indeterminate error');
 		switch (status) {
+			case null:
+				// remove status
+				break;
 			case StorageConfig.Status.IN_PROGRESS:
 				$statusSpan.addClass('loading-small');
 				break;
