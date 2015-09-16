@@ -110,10 +110,6 @@
 	cursor: pointer;
 }
 
-#app-navigation .nav-files a {
-	display: inline-block;
-}
-
 #app-navigation .nav-files a.new.hidden {
 	display: none;
 }
