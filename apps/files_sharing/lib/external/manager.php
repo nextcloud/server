@@ -214,7 +214,7 @@ class Manager {
 			$acceptShare->execute(array(1, $mountPoint, $hash, $id, $this->uid));
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
 
-			$this->scrapNotification($share['remote_id']);
+			//FIXME $this->scrapNotification($share['remote_id']);
 			return true;
 		}
 
@@ -237,7 +237,7 @@ class Manager {
 			$removeShare->execute(array($id, $this->uid));
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
 
-			$this->scrapNotification($share['remote_id']);
+			//FIXME $this->scrapNotification($share['remote_id']);
 			return true;
 		}
 

@@ -83,6 +83,8 @@ class Server2Server {
 					Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_RECEIVED, array($user, trim($name, '/')), '', array(),
 					'', '', $shareWith, Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_LOW);
 
+				/**
+				 * FIXME
 				$urlGenerator = \OC::$server->getURLGenerator();
 
 				$notificationManager = \OC::$server->getNotificationManager();
@@ -104,6 +106,7 @@ class Server2Server {
 				$notification->addAction($acceptAction);
 
 				$notificationManager->notify($notification);
+				 */
 
 				return new \OC_OCS_Result();
 			} catch (\Exception $e) {
