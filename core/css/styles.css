@@ -158,8 +158,42 @@ textarea:hover, textarea:focus, textarea:active {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
 }
-input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
-input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
+input[type="checkbox"] {
+	margin:0;
+	padding:0;
+	height:auto;
+	width:auto;
+	display: none;
+}
+
+input[type="checkbox"] + label:before {
+	content: "";
+	display: inline-block;
+
+	height: 20px;
+	width: 20px;
+	vertical-align: middle;
+
+	background: url('../img/actions/checkbox.svg') left center no-repeat;
+	opacity: 0.7;
+}
+
+input[type="checkbox"].white + label:before {
+	background-image: url('../img/actions/checkbox-white.svg');
+}
+
+input[type="checkbox"]:checked + label:before {
+	background-image: url('../img/actions/checkbox-checked.svg');
+}
+
+input[type="checkbox"].white:checked + label:before {
+	background-image: url('../img/actions/checkbox-checked-white.svg');
+}
+
+input[type="checkbox"]:hover+label:before, input[type="checkbox"]:focus+label:before {
+	color:#111 !important;
+}
+
 input[type="time"] {
 	width: initial;
 	height: 31px;
@@ -614,7 +648,6 @@ label.infield {
 	margin: 0;
 	padding: 14px;
 	padding-left: 28px;
-	margin-left: -28px;
 	vertical-align: middle;
 }
 #body-login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
@@ -672,6 +705,9 @@ label.infield {
 	background-position: center;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 	opacity: .3;
+}
+#show + label:before, #dbpassword + label:before, #personal-show + label:before {
+	display: none;
 }
 #pass2, input[name="personal-password-clone"] {
 	padding: .6em 2.5em .4em .4em;
@@ -814,6 +850,7 @@ label.infield {
 	opacity: .7;
 }
 #body-login .remember-login-container {
+	margin-top: 10px;
 	text-align: center;
 }
 

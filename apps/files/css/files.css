@@ -416,25 +416,20 @@ table td.filename .uploadtext {
 }
 
 /* File checkboxes */
-#fileList tr td.filename>.selectCheckBox {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-	filter: alpha(opacity=0);
+#fileList tr td.filename>.selectCheckBox + label:before {
 	opacity: 0;
-	float: left;
-	top: 0;
-	margin: 32px 0 4px 32px; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/
+	position: absolute;
+	bottom: 4px;
+	right: 0;
+	z-index: 10;
 }
+
 /* Show checkbox when hovering, checked, or selected */
-#fileList tr:hover td.filename>.selectCheckBox,
-#fileList tr:focus td.filename>.selectCheckBox,
-#fileList tr td.filename>.selectCheckBox:checked,
-#fileList tr.selected td.filename>.selectCheckBox {
+#fileList tr:hover td.filename>.selectCheckBox + label:before,
+#fileList tr:focus td.filename>.selectCheckBox + label:before,
+#fileList tr td.filename>.selectCheckBox:checked + label:before,
+#fileList tr.selected td.filename>.selectCheckBox + label:before {
 	opacity: 1;
-}
-.lte9 #fileList tr:hover td.filename>.selectCheckBox,
-.lte9 #fileList tr:focus td.filename>.selectCheckBox,
-.lte9 #fileList tr td.filename>.selectCheckBox[checked=checked],
-.lte9 #fileList tr.selected td.filename>.selectCheckBox {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
 }
@@ -442,6 +437,7 @@ table td.filename .uploadtext {
 /* Use label to have bigger clickable size for checkbox */
 #fileList tr td.filename>.selectCheckBox + label,
 .select-all + label {
+	background-position: 30px 30px;
 	height: 50px;
 	position: absolute;
 	width: 50px;
@@ -456,7 +452,7 @@ table td.filename .uploadtext {
 .select-all + label {
 	top: 0;
 }
-.select-all {
+.select-all + label:before {
 	position: absolute;
 	top: 18px;
 	left: 18px;
