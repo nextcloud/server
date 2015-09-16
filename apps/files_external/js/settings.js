@@ -643,6 +643,10 @@ MountConfigListView.prototype = _.extend({
 		});
 
 		addSelect2(this.$el.find('tr:not(#addMountPoint) .applicableUsers'), this._userListLimit);
+		this.$el.tooltip({
+			selector: '.status span',
+			container: 'body'
+		});
 
 		this._initEvents();
 
@@ -947,7 +951,7 @@ MountConfigListView.prototype = _.extend({
 				if (concurrentTimer === undefined
 					|| $tr.data('save-timer') === concurrentTimer
 				) {
-					self.updateStatus($tr, result.status);
+					self.updateStatus($tr, result.status, result.statusMessage);
 					$tr.attr('data-id', result.id);
 
 					if (_.isFunction(callback)) {
@@ -981,7 +985,7 @@ MountConfigListView.prototype = _.extend({
 		this.updateStatus($tr, StorageConfig.Status.IN_PROGRESS);
 		storage.recheck({
 			success: function(result) {
-				self.updateStatus($tr, result.status);
+				self.updateStatus($tr, result.status, result.statusMessage);
 			},
 			error: function() {
 				self.updateStatus($tr, StorageConfig.Status.ERROR);
@@ -994,8 +998,9 @@ MountConfigListView.prototype = _.extend({
 	 *
 	 * @param {jQuery} $tr
 	 * @param {int} status
+	 * @param {string} message
 	 */
-	updateStatus: function($tr, status) {
+	updateStatus: function($tr, status, message) {
 		var $statusSpan = $tr.find('.status span');
 		$statusSpan.removeClass('loading-small success indeterminate error');
 		switch (status) {
@@ -1014,6 +1019,7 @@ MountConfigListView.prototype = _.extend({
 			default:
 				$statusSpan.addClass('error');
 		}
+		$statusSpan.attr('data-original-title', (typeof message === 'string') ? message : '');
 	},
 
 	/**
