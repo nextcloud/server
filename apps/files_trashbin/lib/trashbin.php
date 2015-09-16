@@ -700,6 +700,10 @@ class Trashbin {
 			if ($expiration->isExpired($timestamp)) {
 				$count++;
 				$size += self::delete($filename, $user, $timestamp);
+				\OC::$server->getLogger()->info(
+					'Remove "' . $filename . '" from trashbin because it exceeds max retention obligation term.',
+					['app' => 'files_trashbin']
+				);
 			} else {
 				break;
 			}
