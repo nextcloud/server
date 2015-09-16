@@ -76,11 +76,10 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function acquireLock($path, $type) {
-		if ($this->connection->inTransaction()){
+		if ($this->connection->inTransaction()) {
 			$this->logger->warning("Trying to acquire a lock for '$path' while inside a transition");
 		}
 
-		$this->connection->beginTransaction();
 		$this->initLockField($path);
 		if ($type === self::LOCK_SHARED) {
 			$result = $this->connection->executeUpdate(
@@ -93,7 +92,6 @@ class DBLockingProvider extends AbstractLockingProvider {
 				[$path]
 			);
 		}
-		$this->connection->commit();
 		if ($result !== 1) {
 			throw new LockedException($path);
 		}
@@ -145,18 +143,5 @@ class DBLockingProvider extends AbstractLockingProvider {
 			throw new LockedException($path);
 		}
 		$this->markChange($path, $targetType);
-	}
-
-	/**
-	 * cleanup empty locks
-	 */
-	public function cleanEmptyLocks() {
-		$this->connection->executeUpdate(
-			'DELETE FROM `*PREFIX*file_locks` WHERE `lock` = 0'
-		);
-	}
-
-	public function __destruct() {
-		$this->cleanEmptyLocks();
 	}
 }
