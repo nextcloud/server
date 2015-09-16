@@ -10,7 +10,7 @@
 
 (function() {
 
-	var TEMPLATE_ADDBUTTON = '<a href="#" class="button new" title="{{addText}}"><img src="{{iconUrl}}"></img></a>';
+	var TEMPLATE_ADDBUTTON = '<a href="#" class="button new"><img src="{{iconUrl}}" alt="{{addText}}"></img></a>';
 
 	/**
 	 * @class OCA.Files.FileList
