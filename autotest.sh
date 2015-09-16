@@ -204,7 +204,7 @@ function execute_tests {
 		echo "Waiting for Oracle initialization ... "
 
 		# grep exits on the first match and then the script continues - times out after 2 minutes
-		timeout 120 docker logs -f "$DOCKER_CONTAINER_ID" 2>&1 | grep -q "Grant succeeded."
+		timeout 240 docker logs -f "$DOCKER_CONTAINER_ID" 2>&1 | grep -q "Grant succeeded."
 
 		DATABASEUSER=autotest
 		DATABASENAME='XE'
