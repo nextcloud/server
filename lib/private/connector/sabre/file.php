@@ -261,10 +261,13 @@ class File extends Node implements IFile {
 	 * @throws ServiceUnavailable
 	 */
 	public function get() {
-
 		//throw exception if encryption is disabled but files are still encrypted
 		try {
-			return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
+			$res = $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
+			if ($res === false) {
+				throw new ServiceUnavailable("Could not open file");
+			}
+			return $res;
 		} catch (GenericEncryptionException $e) {
 			// returning 503 will allow retry of the operation at a later point in time
 			throw new ServiceUnavailable("Encryption not ready: " . $e->getMessage());
