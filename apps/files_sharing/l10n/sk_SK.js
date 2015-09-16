@@ -42,6 +42,7 @@ OC.L10N.register(
     "You shared %1$s via link" : "Zdieľate %1$s prostredníctvom odkazu",
     "Shares" : "Zdieľanie",
     "Accept" : "Schváliť",
+    "Decline" : "Odmietnuť",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Zdieľajte so mnou pomocou môjho #ownCloud Federated Cloud ID, viac n %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Zdieľajte so mnou pomocou môjho #ownCloud Federated Cloud ID",
     "This share is password-protected" : "Toto zdieľanie je chránené heslom",
@@ -64,8 +65,10 @@ OC.L10N.register(
     "Open documentation" : "Otvoriť dokumentáciu",
     "Allow users on this server to send shares to other servers" : "Povoliť používateľom z tohoto servera posielať zdieľania na iné servery",
     "Allow users on this server to receive shares from other servers" : "Povoliť používateľom z tohoto servera prijímať zdieľania z iných serverov",
+    "Federated Cloud" : "Združený Cloud",
     "Your Federated Cloud ID:" : "Vaše združené Cloud ID",
     "Share it:" : "Zdieľať:",
+    "Add to your website" : "Pridať na svoju webstránku",
     "Share with me via ownCloud" : "Zdieľané so mnou cez ownCloud",
     "HTML Code:" : "HTML kód:"
 },

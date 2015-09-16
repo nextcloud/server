@@ -248,6 +248,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Silahkan hubungi administrator anda.",
     "An internal error occured." : "Terjadi kesalahan internal.",
     "Please try again or contact your administrator." : "Mohon coba lagi atau hubungi administrator Anda.",
+    "Log in" : "Masuk",
     "Wrong password. Reset it?" : "Sandi salah. Atur ulang?",
     "remember" : "selalu masuk",
     "Alternative Logins" : "Cara Alternatif untuk Masuk",

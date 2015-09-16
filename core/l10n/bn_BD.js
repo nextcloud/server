@@ -125,6 +125,7 @@ OC.L10N.register(
     "Finishing …" : "সম্পন্ন হচ্ছে....",
     "Log out" : "প্রস্থান",
     "Search" : "অনুসন্ধান",
+    "Log in" : "প্রবেশ",
     "remember" : "মনে রাখ",
     "Alternative Logins" : "বিকল্প লগইন"
 },

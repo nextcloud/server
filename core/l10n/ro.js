@@ -148,6 +148,7 @@ OC.L10N.register(
     "Finish setup" : "Finalizează instalarea",
     "Log out" : "Ieșire",
     "Search" : "Căutare",
+    "Log in" : "Autentificare",
     "remember" : "amintește",
     "Alternative Logins" : "Conectări alternative",
     "Thank you for your patience." : "Îți mulțumim pentru răbrade.",

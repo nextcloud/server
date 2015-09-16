@@ -39,7 +39,6 @@
     "%2$s shared %1$s with you" : "%2$s delt %1$s med dig",
     "You shared %1$s via link" : "Du delte %1$s via link",
     "Shares" : "Delt",
-    "You received %s as a remote share from %s" : "Du modtog %s som et ekstern deling fra %s",
     "Accept" : "Acceptér",
     "Decline" : "Afvis",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Del med mig gennem min #ownCloud Federated Cloud ID, se %s",

@@ -4,8 +4,8 @@ OC.L10N.register(
     "Could not revert: %s" : "Ne eblas malfari: %s",
     "Versions" : "Versioj",
     "Failed to revert {file} to revision {timestamp}." : "Malsukcesis returnigo de {file} al la revizio {timestamp}.",
-    "More versions..." : "Pli da versioj...",
+    "Restore" : "Restaŭri",
     "No other versions available" : "Ne disponeblas aliaj versioj",
-    "Restore" : "Restaŭri"
+    "More versions..." : "Pli da versioj..."
 },
 "nplurals=2; plural=(n != 1);");

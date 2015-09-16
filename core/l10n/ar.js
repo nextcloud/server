@@ -130,6 +130,7 @@ OC.L10N.register(
     "Finish setup" : "انهاء التعديلات",
     "Log out" : "الخروج",
     "Search" : "البحث",
+    "Log in" : "أدخل",
     "remember" : "تذكر",
     "Alternative Logins" : "اسماء دخول بديلة"
 },

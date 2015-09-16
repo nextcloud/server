@@ -180,6 +180,7 @@ OC.L10N.register(
     "licensed" : "licencované",
     "Documentation:" : "Dokumentácia:",
     "User documentation" : "Príručka používateľa",
+    "Admin documentation" : "Príručka administrátora",
     "Show description …" : "Zobraziť popis …",
     "Hide description …" : "Skryť popis …",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Túto aplikáciu nemožno nainštalovať, pretože nie sú splnené nasledovné závislosti:",

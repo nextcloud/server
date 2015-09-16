@@ -39,7 +39,6 @@
     "%2$s shared %1$s with you" : "%2$s s vámi sdílí %1$s",
     "You shared %1$s via link" : "Sdílíte %1$s přes odkaz",
     "Shares" : "Sdílení",
-    "You received %s as a remote share from %s" : "Obdrželi jste %s nově nasdílená vzdáleně od %s ",
     "Accept" : "Přijmout",
     "Decline" : "Zamítnout",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Sdílej se mnou pomocí mého #ownCloud sdruženého cloud ID, více na %s",

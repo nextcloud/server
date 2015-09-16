@@ -4,8 +4,8 @@ OC.L10N.register(
     "Could not revert: %s" : "Impossible de restaurer %s",
     "Versions" : "Versions",
     "Failed to revert {file} to revision {timestamp}." : "Échec du retour du fichier {file} à la révision {timestamp}.",
-    "More versions..." : "Plus de versions...",
+    "Restore" : "Restaurer",
     "No other versions available" : "Aucune autre version n'est disponible",
-    "Restore" : "Restaurer"
+    "More versions..." : "Plus de versions..."
 },
 "nplurals=2; plural=(n > 1);");

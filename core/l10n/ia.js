@@ -156,6 +156,7 @@ OC.L10N.register(
     "Search" : "Cercar",
     "Server side authentication failed!" : "Il falleva authentication de latere servitor!",
     "Please contact your administrator." : "Pro favor continge tu administrator.",
+    "Log in" : "Aperir session",
     "remember" : "memora",
     "Alternative Logins" : "Accessos de autorisation alternative",
     "Thank you for your patience." : "Gratias pro tu patientia.",

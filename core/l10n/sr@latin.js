@@ -196,6 +196,7 @@ OC.L10N.register(
     "Search" : "Traži",
     "Server side authentication failed!" : "Provera identiteta na stani servera nije uspela!",
     "Please contact your administrator." : "Molimo Vas da kontaktirate Vašeg administratora.",
+    "Log in" : "Prijavi se",
     "remember" : "upamti",
     "Alternative Logins" : "Alternativne prijave",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej,<br><br>samo ti javljamo da je %s delio <strong>%s</strong> sa tobom.<br><a href=\"%s\">Pogledaj!</a><br><br>",

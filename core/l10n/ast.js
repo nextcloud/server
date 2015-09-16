@@ -168,6 +168,7 @@ OC.L10N.register(
     "Search" : "Guetar",
     "Server side authentication failed!" : "Falló l'autenticación nel sirvidor!",
     "Please contact your administrator." : "Por favor, contauta col to alministrador",
+    "Log in" : "Aniciar sesión",
     "remember" : "recordar",
     "Alternative Logins" : "Anicios de sesión alternativos",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola, ¿qué hai?,<br><br>namái déxamos dicite que %s compartió <strong>%s</strong> contigo.\n<br><a href=\"%s\">¡Velu!</a><br><br>",

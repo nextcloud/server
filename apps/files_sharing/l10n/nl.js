@@ -42,6 +42,7 @@ OC.L10N.register(
     "You shared %1$s via link" : "U deelde %1$s via link",
     "Shares" : "Gedeeld",
     "Accept" : "Accepteren",
+    "Decline" : "Afwijzen",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Deel met mij via mijn #ownCloud federated Cloud ID, zie %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Deel met mij via mijn #ownCloud federated Cloud ID",
     "This share is password-protected" : "Deze share is met een wachtwoord beveiligd",

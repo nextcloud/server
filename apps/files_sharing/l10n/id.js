@@ -41,7 +41,6 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s membagikan %1$s dengan Anda",
     "You shared %1$s via link" : "Anda membagikan %1$s via tautan",
     "Shares" : "Dibagikan",
-    "You received %s as a remote share from %s" : "Anda menerima %s sebagai berbagi remote dari %s",
     "Accept" : "Terima",
     "Decline" : "Tolak",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Dibagikan pada saya melalui #ownCloud Federated Cloud ID saya, lihat %s",

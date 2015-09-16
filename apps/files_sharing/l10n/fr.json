@@ -40,6 +40,7 @@
     "You shared %1$s via link" : "Vous avez partagé %1$s par lien public",
     "Shares" : "Partages",
     "Accept" : "Accepter",
+    "Decline" : "Refuser",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Partagez avec moi grâce à mon identifiant Federated Cloud #owncloud %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Partagez avec moi grâce à mon identifiant Federated Cloud #owncloud",
     "This share is password-protected" : "Ce partage est protégé par un mot de passe",

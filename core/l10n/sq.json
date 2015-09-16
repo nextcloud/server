@@ -188,6 +188,7 @@
     "Search" : "Kërko",
     "Server side authentication failed!" : "Verifikimi në krahun e serverit dështoi!",
     "Please contact your administrator." : "Ju lutem kontaktoni administratorin.",
+    "Log in" : "Hyrje",
     "remember" : "kujto",
     "Alternative Logins" : "Hyrje alternative",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Tungjatjeta,<br><br>dëshirojmë t'ju njoftojmë se %s ka ndarë <strong>%s</strong> me ju.<br><a href=\"%s\">Klikoni këtu për ta shikuar!</a><br>",

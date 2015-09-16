@@ -4,8 +4,8 @@ OC.L10N.register(
     "Could not revert: %s" : "Konnt net zrécksetzen: %s",
     "Versions" : "Versiounen",
     "Failed to revert {file} to revision {timestamp}." : "Konnt {file} net op d'Versioun {timestamp} zrécksetzen.",
-    "More versions..." : "Méi Versiounen...",
+    "Restore" : "Zrécksetzen",
     "No other versions available" : "Keng aner Versiounen disponibel",
-    "Restore" : "Zrécksetzen"
+    "More versions..." : "Méi Versiounen..."
 },
 "nplurals=2; plural=(n != 1);");

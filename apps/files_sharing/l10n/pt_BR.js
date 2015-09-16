@@ -41,7 +41,6 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s compartilhou %1$s com você",
     "You shared %1$s via link" : "Você compartilhou %1$s via link",
     "Shares" : "Compartilhamentos",
-    "You received %s as a remote share from %s" : "Você recebeu %s como um compartilhamento remoto de %s",
     "Accept" : "Aceitar",
     "Decline" : "Rejeitar",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Compartilhe comigo através do meu #ownCloud Nuvem Federados ID, veja %s",

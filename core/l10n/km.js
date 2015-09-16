@@ -109,6 +109,7 @@ OC.L10N.register(
     "Finishing …" : "កំពុង​បញ្ចប់ ...",
     "Log out" : "ចាក​ចេញ",
     "Search" : "ស្វែង​រក",
+    "Log in" : "ចូល",
     "remember" : "ចងចាំ",
     "Alternative Logins" : "ការ​ចូល​ជំនួស"
 },

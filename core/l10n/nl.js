@@ -248,6 +248,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Neem contact op met uw systeembeheerder.",
     "An internal error occured." : "Er heeft zich een interne fout voorgedaan.",
     "Please try again or contact your administrator." : "Probeer het opnieuw of neem contact op met uw beheerder.",
+    "Log in" : "Meld u aan",
     "Wrong password. Reset it?" : "Onjuist wachtwoord. Resetten?",
     "remember" : "onthoud gegevens",
     "Alternative Logins" : "Alternatieve inlogs",

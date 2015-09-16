@@ -4,8 +4,8 @@ OC.L10N.register(
     "Could not revert: %s" : "Αδυναμία επαναφοράς: %s",
     "Versions" : "Εκδόσεις",
     "Failed to revert {file} to revision {timestamp}." : "Αποτυχία επαναφοράς του {file} στην αναθεώρηση {timestamp}.",
-    "More versions..." : "Περισσότερες εκδόσεις...",
+    "Restore" : "Επαναφορά",
     "No other versions available" : "Δεν υπάρχουν άλλες εκδόσεις διαθέσιμες",
-    "Restore" : "Επαναφορά"
+    "More versions..." : "Περισσότερες εκδόσεις..."
 },
 "nplurals=2; plural=(n != 1);");

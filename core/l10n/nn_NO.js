@@ -127,6 +127,7 @@ OC.L10N.register(
     "Finish setup" : "Fullfør oppsettet",
     "Log out" : "Logg ut",
     "Search" : "Søk",
+    "Log in" : "Logg inn",
     "remember" : "hugs",
     "Alternative Logins" : "Alternative innloggingar"
 },

@@ -4,8 +4,8 @@ OC.L10N.register(
     "Could not revert: %s" : "Tidak dapat kembalikan: %s",
     "Versions" : "Versi",
     "Failed to revert {file} to revision {timestamp}." : "Gagal kembalikan {file} ke semakan {timestamp}.",
-    "More versions..." : "Lagi versi...",
+    "Restore" : "Pulihkan",
     "No other versions available" : "Tiada lagi versi lain",
-    "Restore" : "Pulihkan"
+    "More versions..." : "Lagi versi..."
 },
 "nplurals=1; plural=0;");
