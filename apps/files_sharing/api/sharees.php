@@ -20,6 +20,7 @@
  */
 namespace OCA\Files_Sharing\API;
 
+use OCP\AppFramework\Http;
 use OCP\Contacts\IManager;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -291,8 +292,15 @@ class Sharees {
 	public function search() {
 		$search = isset($_GET['search']) ? (string) $_GET['search'] : '';
 		$itemType = isset($_GET['itemType']) ? (string) $_GET['itemType'] : null;
-		$page = !empty($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
-		$perPage = !empty($_GET['perPage']) ? max(1, (int) $_GET['perPage']) : 200;
+		$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+		$perPage = isset($_GET['perPage']) ? (int) $_GET['perPage'] : 200;
+
+		if ($perPage <= 0) {
+			return new \OC_OCS_Result(null, Http::STATUS_BAD_REQUEST, 'Invalid perPage argument');
+		}
+		if ($page <= 0) {
+			return new \OC_OCS_Result(null, Http::STATUS_BAD_REQUEST, 'Invalid page');
+		}
 
 		$shareTypes = [
 			Share::SHARE_TYPE_USER,
@@ -348,7 +356,7 @@ class Sharees {
 	protected function searchSharees($search, $itemType, array $shareTypes, $page, $perPage) {
 		// Verify arguments
 		if ($itemType === null) {
-			return new \OC_OCS_Result(null, 400, 'missing itemType');
+			return new \OC_OCS_Result(null, Http::STATUS_BAD_REQUEST, 'Missing itemType');
 		}
 
 		// Get users
