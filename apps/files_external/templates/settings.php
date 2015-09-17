@@ -157,6 +157,7 @@
 							});
 						?>
 						<?php foreach ($sortedBackends as $backend): ?>
+							<?php if ($backend->getDeprecateTo()) continue; // ignore deprecated backends ?>
 							<option value="<?php p($backend->getIdentifier()); ?>"><?php p($backend->getText()); ?></option>
 						<?php endforeach; ?>
 					</select>
@@ -197,8 +198,12 @@
 		<p id="userMountingBackends"<?php if ($_['allowUserMounting'] != 'yes'): ?> class="hidden"<?php endif; ?>>
 			<?php p($l->t('Allow users to mount the following external storage')); ?><br />
 			<?php $i = 0; foreach ($_['userBackends'] as $backend): ?>
-				<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" <?php if ($backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) print_unescaped(' checked="checked"'); ?> />
-				<label for="allowUserMountingBackends<?php p($i); ?>"><?php p($backend->getText()); ?></label> <br />
+				<?php if ($deprecateTo = $backend->getDeprecateTo()): ?>
+					<input type="hidden" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" data-deprecate-to="<?php p($deprecateTo->getIdentifier()); ?>" />
+				<?php else: ?>
+					<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" <?php if ($backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) print_unescaped(' checked="checked"'); ?> />
+					<label for="allowUserMountingBackends<?php p($i); ?>"><?php p($backend->getText()); ?></label> <br />
+				<?php endif; ?>
 				<?php $i++; ?>
 			<?php endforeach; ?>
 		</p>
