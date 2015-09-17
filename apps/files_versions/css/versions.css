@@ -13,9 +13,7 @@
 }
 
 .versionsTabView li > * {
-	padding: 7px;
-	float: left;
-	vertical-align: top;
+	vertical-align: middle;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	filter: alpha(opacity=50);
 	opacity: .5;
@@ -23,7 +21,7 @@
 
 .versionsTabView li > a,
 .versionsTabView li > span {
-	padding: 17px 7px;
+	padding: 15px 10px 11px;
 }
 
 .versionsTabView li > *:hover,
@@ -43,16 +41,13 @@
 	opacity: 1;
 }
 
-.versionsTabView .versionDate {
+.versionsTabView .versiondate {
 	min-width: 100px;
-	vertical-align: text-bottom;
+	vertical-align: super;
 }
 
 .versionsTabView .revertVersion {
 	cursor: pointer;
 	float: right;
-	max-width: 130px;
-	text-overflow: ellipsis;
-	overflow: hidden;
+	margin-right: -10px;
 }
-
