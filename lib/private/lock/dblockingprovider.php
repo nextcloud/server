@@ -21,6 +21,7 @@
 
 namespace OC\Lock;
 
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Lock\LockedException;
@@ -40,16 +41,33 @@ class DBLockingProvider extends AbstractLockingProvider {
 	private $logger;
 
 	/**
+	 * @var \OCP\AppFramework\Utility\ITimeFactory
+	 */
+	private $timeFactory;
+
+	const TTL = 3600; // how long until we clear stray locks
+
+	/**
 	 * @param \OCP\IDBConnection $connection
 	 * @param \OCP\ILogger $logger
+	 * @param \OCP\AppFramework\Utility\ITimeFactory $timeFactory
 	 */
-	public function __construct(IDBConnection $connection, ILogger $logger) {
+	public function __construct(IDBConnection $connection, ILogger $logger, ITimeFactory $timeFactory) {
 		$this->connection = $connection;
 		$this->logger = $logger;
+		$this->timeFactory = $timeFactory;
 	}
 
 	protected function initLockField($path) {
-		$this->connection->insertIfNotExist('*PREFIX*file_locks', ['key' => $path, 'lock' => 0, 'ttl' => 0], ['key']);
+		$expire = $this->getExpireTime();
+		$this->connection->insertIfNotExist('*PREFIX*file_locks', ['key' => $path, 'lock' => 0, 'ttl' => $expire], ['key']);
+	}
+
+	/**
+	 * @return int
+	 */
+	protected function getExpireTime() {
+		return $this->timeFactory->getTime() + self::TTL;
 	}
 
 	/**
@@ -81,15 +99,16 @@ class DBLockingProvider extends AbstractLockingProvider {
 		}
 
 		$this->initLockField($path);
+		$expire = $this->getExpireTime();
 		if ($type === self::LOCK_SHARED) {
 			$result = $this->connection->executeUpdate(
-				'UPDATE `*PREFIX*file_locks` SET `lock` = `lock` + 1 WHERE `key` = ? AND `lock` >= 0',
-				[$path]
+				'UPDATE `*PREFIX*file_locks` SET `lock` = `lock` + 1, `ttl` = ? WHERE `key` = ? AND `lock` >= 0',
+				[$expire, $path]
 			);
 		} else {
 			$result = $this->connection->executeUpdate(
-				'UPDATE `*PREFIX*file_locks` SET `lock` = -1 WHERE `key` = ? AND `lock` = 0',
-				[$path]
+				'UPDATE `*PREFIX*file_locks` SET `lock` = -1, `ttl` = ? WHERE `key` = ? AND `lock` = 0',
+				[$expire, $path]
 			);
 		}
 		if ($result !== 1) {
@@ -127,21 +146,36 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function changeLock($path, $targetType) {
-		$this->initLockField($path);
+		$expire = $this->getExpireTime();
 		if ($targetType === self::LOCK_SHARED) {
 			$result = $this->connection->executeUpdate(
-				'UPDATE `*PREFIX*file_locks` SET `lock` = 1 WHERE `key` = ? AND `lock` = -1',
-				[$path]
+				'UPDATE `*PREFIX*file_locks` SET `lock` = 1, `ttl` = ? WHERE `key` = ? AND `lock` = -1',
+				[$expire, $path]
 			);
 		} else {
 			$result = $this->connection->executeUpdate(
-				'UPDATE `*PREFIX*file_locks` SET `lock` = -1 WHERE `key` = ? AND `lock` = 1',
-				[$path]
+				'UPDATE `*PREFIX*file_locks` SET `lock` = -1, `ttl` = ? WHERE `key` = ? AND `lock` = 1',
+				[$expire, $path]
 			);
 		}
 		if ($result !== 1) {
 			throw new LockedException($path);
 		}
 		$this->markChange($path, $targetType);
+	}
+
+	/**
+	 * cleanup empty locks
+	 */
+	public function cleanEmptyLocks() {
+		$expire = $this->timeFactory->getTime();
+		$this->connection->executeUpdate(
+			'DELETE FROM `*PREFIX*file_locks` WHERE `lock` = 0 AND `ttl` < ?',
+			[$expire]
+		);
+	}
+
+	public function __destruct() {
+		$this->cleanEmptyLocks();
 	}
 }
