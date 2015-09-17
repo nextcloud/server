@@ -41,6 +41,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s delt %1$s med dig",
     "You shared %1$s via link" : "Du delte %1$s via link",
     "Shares" : "Delt",
+    "You received %2$s as a remote share from %1$s" : "Du modtog %2$s som en ekstern deling fra %1$s",
     "Accept" : "Acceptér",
     "Decline" : "Afvis",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Del med mig gennem min #ownCloud Federated Cloud ID, se %s",

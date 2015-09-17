@@ -39,6 +39,7 @@
     "%2$s shared %1$s with you" : "%2$s jakoi kohteen %1$s kanssasi",
     "You shared %1$s via link" : "Jaoit kohteen %1$s linkin kautta",
     "Shares" : "Jaot",
+    "You received %2$s as a remote share from %1$s" : "Sait kohteen %2$s etäjakona käyttäjältä %1$s",
     "Accept" : "Hyväksy",
     "Decline" : "Kieltäydy",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Jaa kanssani käyttäen #ownCloud ja federoitua pilvitunnistetta, katso %s",
