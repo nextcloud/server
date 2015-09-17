@@ -22,7 +22,7 @@
 namespace OCA\Files_External\Lib\Auth;
 
 use \OCA\Files_External\Lib\StorageConfig;
-use \OCA\Files_External\Lib\PermissionsTrait;
+use \OCA\Files_External\Lib\VisibilityTrait;
 use \OCA\Files_External\Lib\IdentifierTrait;
 use \OCA\Files_External\Lib\FrontendDefinitionTrait;
 use \OCA\Files_External\Lib\StorageModifierTrait;
@@ -40,7 +40,7 @@ use \OCA\Files_External\Lib\StorageModifierTrait;
  * scheme, which are provided from the authentication mechanism.
  *
  * This class uses the following traits:
- *  - PermissionsTrait
+ *  - VisibilityTrait
  *      Restrict usage to admin-only/none
  *  - FrontendDefinitionTrait
  *      Specify configuration parameters and other definitions
@@ -58,7 +58,7 @@ class AuthMechanism implements \JsonSerializable {
 	const SCHEME_PUBLICKEY = 'publickey';
 	const SCHEME_OPENSTACK = 'openstack';
 
-	use PermissionsTrait;
+	use VisibilityTrait;
 	use FrontendDefinitionTrait;
 	use StorageModifierTrait;
 	use IdentifierTrait;

@@ -49,21 +49,15 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 	}
 
 	public function testAddOrUpdateStorageDisallowedBackend() {
-		$backend1 = $this->getBackendMock();
-		$backend1->expects($this->once())
-			->method('isPermitted')
-			->with(BackendService::USER_PERSONAL, BackendService::PERMISSION_CREATE)
-			->willReturn(false);
-		$backend2 = $this->getBackendMock();
-		$backend2->expects($this->once())
-			->method('isPermitted')
-			->with(BackendService::USER_PERSONAL, BackendService::PERMISSION_MODIFY)
+		$backend = $this->getBackendMock();
+		$backend->method('isVisibleFor')
+			->with(BackendService::VISIBILITY_PERSONAL)
 			->willReturn(false);
 		$authMech = $this->getAuthMechMock();
 
 		$storageConfig = new StorageConfig(1);
 		$storageConfig->setMountPoint('mount');
-		$storageConfig->setBackend($backend1);
+		$storageConfig->setBackend($backend);
 		$storageConfig->setAuthMechanism($authMech);
 		$storageConfig->setBackendOptions([]);
 
@@ -87,8 +81,6 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 		);
 
 		$this->assertEquals(Http::STATUS_UNPROCESSABLE_ENTITY, $response->getStatus());
-
-		$storageConfig->setBackend($backend2);
 
 		$response = $this->controller->update(
 			1,

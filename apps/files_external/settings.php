@@ -42,10 +42,10 @@ OCP\Util::addStyle('files_external', 'settings');
 \OC_Util::addVendorStyle('select2/select2');
 
 $backends = array_filter($backendService->getAvailableBackends(), function($backend) {
-	return $backend->isPermitted(BackendService::USER_ADMIN, BackendService::PERMISSION_CREATE);
+	return $backend->isVisibleFor(BackendService::VISIBILITY_ADMIN);
 });
 $authMechanisms = array_filter($backendService->getAuthMechanisms(), function($authMechanism) {
-	return $authMechanism->isPermitted(BackendService::USER_ADMIN, BackendService::PERMISSION_CREATE);
+	return $authMechanism->isVisibleFor(BackendService::VISIBILITY_ADMIN);
 });
 foreach ($backends as $backend) {
 	if ($backend->getCustomJs()) {
@@ -59,9 +59,7 @@ foreach ($authMechanisms as $authMechanism) {
 }
 
 $userBackends = array_filter($backendService->getAvailableBackends(), function($backend) {
-	return $backend->isAllowedPermitted(
-		BackendService::USER_PERSONAL, BackendService::PERMISSION_MOUNT
-	);
+	return $backend->isAllowedVisibleFor(BackendService::VISIBILITY_PERSONAL);
 });
 
 $tmpl = new OCP\Template('files_external', 'settings');

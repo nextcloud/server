@@ -51,8 +51,6 @@ class SMB_OC extends Backend {
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
-			->removeAllowedPermission(BackendService::USER_PERSONAL, BackendService::PERMISSION_CREATE)
-			->removeAllowedPermission(BackendService::USER_ADMIN, BackendService::PERMISSION_CREATE)
 			->setPriority(BackendService::PRIORITY_DEFAULT - 10)
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->setLegacyAuthMechanism($legacyAuth)

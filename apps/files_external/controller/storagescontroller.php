@@ -125,11 +125,10 @@ abstract class StoragesController extends Controller {
 	 * Validate storage config
 	 *
 	 * @param StorageConfig $storage storage config
-	 * @param int $permissionCheck permission to check
 	 *
 	 * @return DataResponse|null returns response in case of validation error
 	 */
-	protected function validate(StorageConfig $storage, $permissionCheck = BackendService::PERMISSION_CREATE) {
+	protected function validate(StorageConfig $storage) {
 		$mountPoint = $storage->getMountPoint();
 		if ($mountPoint === '' || $mountPoint === '/') {
 			return new DataResponse(
@@ -166,7 +165,7 @@ abstract class StoragesController extends Controller {
 			);
 		}
 
-		if (!$backend->isPermitted($this->getUserType(), $permissionCheck)) {
+		if (!$backend->isVisibleFor($this->getVisibilityType())) {
 			// not permitted to use backend
 			return new DataResponse(
 				array(
@@ -177,7 +176,7 @@ abstract class StoragesController extends Controller {
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
-		if (!$authMechanism->isPermitted($this->getUserType(), $permissionCheck)) {
+		if (!$authMechanism->isVisibleFor($this->getVisibilityType())) {
 			// not permitted to use auth mechanism
 			return new DataResponse(
 				array(
@@ -212,11 +211,11 @@ abstract class StoragesController extends Controller {
 	}
 
 	/**
-	 * Get the user type for this controller, used in validation
+	 * Get the visibility type for this controller, used in validation
 	 *
-	 * @return string BackendService::USER_* constants
+	 * @return string BackendService::VISIBILITY_* constants
 	 */
-	abstract protected function getUserType();
+	abstract protected function getVisibilityType();
 
 	/**
 	 * Check whether the given storage is available / valid.

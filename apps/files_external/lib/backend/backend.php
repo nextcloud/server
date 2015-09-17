@@ -22,7 +22,7 @@
 namespace OCA\Files_External\Lib\Backend;
 
 use \OCA\Files_External\Lib\StorageConfig;
-use \OCA\Files_External\Lib\PermissionsTrait;
+use \OCA\Files_External\Lib\VisibilityTrait;
 use \OCA\Files_External\Lib\FrontendDefinitionTrait;
 use \OCA\Files_External\Lib\PriorityTrait;
 use \OCA\Files_External\Lib\DependencyTrait;
@@ -43,7 +43,7 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
  * scheme, which are provided from the authentication mechanism.
  *
  * This class uses the following traits:
- *  - PermissionsTrait
+ *  - VisibilityTrait
  *      Restrict usage to admin-only/none
  *  - FrontendDefinitionTrait
  *      Specify configuration parameters and other definitions
@@ -56,7 +56,7 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
  */
 class Backend implements \JsonSerializable {
 
-	use PermissionsTrait;
+	use VisibilityTrait;
 	use FrontendDefinitionTrait;
 	use PriorityTrait;
 	use DependencyTrait;

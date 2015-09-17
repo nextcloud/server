@@ -40,8 +40,6 @@ class SFTP_Key extends Backend {
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
-			->removeAllowedPermission(BackendService::USER_PERSONAL, BackendService::PERMISSION_CREATE)
-			->removeAllowedPermission(BackendService::USER_ADMIN, BackendService::PERMISSION_CREATE)
 			->addAuthScheme(AuthMechanism::SCHEME_PUBLICKEY)
 			->setLegacyAuthMechanism($legacyAuth)
 		;

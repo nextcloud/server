@@ -35,10 +35,10 @@ OCP\Util::addScript('files_external', 'settings');
 OCP\Util::addStyle('files_external', 'settings');
 
 $backends = array_filter($backendService->getAvailableBackends(), function($backend) {
-	return $backend->isPermitted(BackendService::USER_PERSONAL, BackendService::PERMISSION_CREATE);
+	return $backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL);
 });
 $authMechanisms = array_filter($backendService->getAuthMechanisms(), function($authMechanism) {
-	return $authMechanism->isPermitted(BackendService::USER_PERSONAL, BackendService::PERMISSION_CREATE);
+	return $authMechanism->isVisibleFor(BackendService::VISIBILITY_PERSONAL);
 });
 foreach ($backends as $backend) {
 	if ($backend->getCustomJs()) {
