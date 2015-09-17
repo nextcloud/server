@@ -81,9 +81,9 @@ class EncryptAllTest extends TestCase {
 		$this->appManager->expects($this->once())->method('disableApp')->with('files_trashbin');
 		// enable single user mode to avoid that other user login during encryption
 		// destructor should disable the single user mode again
-		$this->config->expects($this->once())->method('getSystemValue')->with('singleUser', false)->willReturn(false);
-		$this->config->expects($this->at(1))->method('setSystemValue')->with('singleUser', true);
-		$this->config->expects($this->at(2))->method('setSystemValue')->with('singleUser', false);
+		$this->config->expects($this->once())->method('getSystemValue')->with('singleuser', false)->willReturn(false);
+		$this->config->expects($this->at(1))->method('setSystemValue')->with('singleuser', true);
+		$this->config->expects($this->at(2))->method('setSystemValue')->with('singleuser', false);
 
 		new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
 	}
