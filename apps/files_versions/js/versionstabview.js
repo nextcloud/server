@@ -15,7 +15,7 @@
 		'<a href="{{downloadUrl}}" class="downloadVersion"><img src="{{downloadIconUrl}}" />' +
 		'<span class="versiondate has-tooltip" title="{{formattedTimestamp}}">{{relativeTimestamp}}</span>' +
 		'</a>' +
-		'<a href="#" class="revertVersion"><img src="{{revertIconUrl}}" />{{revertLabel}}</a>' +
+		'<a href="#" class="revertVersion" title="{{revertLabel}}"><img src="{{revertIconUrl}}" /></a>' +
 		'</li>';
 
 	var TEMPLATE =
@@ -195,4 +195,3 @@
 
 	OCA.Versions.VersionsTabView = VersionsTabView;
 })();
-

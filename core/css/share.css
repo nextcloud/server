@@ -41,10 +41,6 @@
 	display: none !important;
 }
 
-.shareTabView .shareWithRemoteInfo {
-	padding: 11px 20px;
-}
-
 .shareTabView .avatar {
 	margin-right: 8px;
 	display: inline-block;
@@ -106,8 +102,9 @@ a.unshare {
 	display:inline;
 	float:right;
 	opacity:.5;
-	padding:5px 0 0 5px !important;
-	margin-top:-5px;
+	padding: 10px;
+	margin-top: -5px;
+	margin-right: -10px;
 }
 
 #link {
@@ -115,15 +112,8 @@ a.unshare {
 	padding-top:8px;
 }
 
-.shareTabView input[type="text"],
-.shareTabView input[type="password"],
 .shareTabView input[type="submit"] {
 	margin-left: 7px;
-}
-
-.shareTabView input[type="text"],
-.shareTabView input[type="password"] {
-	width: 86%;
 }
 
 .shareTabView form {
