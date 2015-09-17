@@ -21,7 +21,6 @@
 
 namespace OC\Connector\Sabre;
 
-use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -39,9 +38,9 @@ class ListenerPlugin extends ServerPlugin {
 	/**
 	 * This initialize the plugin
 	 *
-	 * @param Server $server
+	 * @param \Sabre\DAV\Server $server
 	 */
-	public function initialize(Server $server) {
+	public function initialize(\Sabre\DAV\Server $server) {
 		$server->on('beforeMethod', array($this, 'emitListener'), 15);
 	}
 
