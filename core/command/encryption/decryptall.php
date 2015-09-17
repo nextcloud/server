@@ -77,13 +77,13 @@ class DecryptAll extends Command {
 		$this->questionHelper = $questionHelper;
 
 		$this->wasTrashbinEnabled = $this->appManager->isEnabledForUser('files_trashbin');
-		$this->wasSingleUserModeEnabled = $this->config->getSystemValue('singleUser', false);
-		$this->config->setSystemValue('singleUser', true);
+		$this->wasSingleUserModeEnabled = $this->config->getSystemValue('singleuser', false);
+		$this->config->setSystemValue('singleuser', true);
 		$this->appManager->disableApp('files_trashbin');
 	}
 
 	public function __destruct() {
-		$this->config->setSystemValue('singleUser', $this->wasSingleUserModeEnabled);
+		$this->config->setSystemValue('singleuser', $this->wasSingleUserModeEnabled);
 		if ($this->wasTrashbinEnabled) {
 			$this->appManager->enableApp('files_trashbin');
 		}
