@@ -44,6 +44,7 @@ use OC\Repair\RepairLegacyStorages;
 use OC\Repair\RepairMimeTypes;
 use OC\Repair\SearchLuceneTables;
 use OC\Repair\UpdateOutdatedOcsIds;
+use OC\Repair\RepairInvalidShares;
 
 class Repair extends BasicEmitter {
 	/**
@@ -113,6 +114,7 @@ class Repair extends BasicEmitter {
 			new DropOldJobs(\OC::$server->getJobList()),
 			new RemoveGetETagEntries(\OC::$server->getDatabaseConnection()),
 			new UpdateOutdatedOcsIds(\OC::$server->getConfig()),
+			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 		];
 	}
 
