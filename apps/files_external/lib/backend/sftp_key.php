@@ -27,14 +27,15 @@ use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Auth\PublicKey\RSA;
+use \OCA\Files_External\Lib\Backend\SFTP;
 
 class SFTP_Key extends Backend {
 
-	public function __construct(IL10N $l, RSA $legacyAuth) {
+	public function __construct(IL10N $l, RSA $legacyAuth, SFTP $sftpBackend) {
 		$this
 			->setIdentifier('\OC\Files\Storage\SFTP_Key')
 			->setStorageClass('\OC\Files\Storage\SFTP')
-			->setText($l->t('SFTP with secret key login [DEPRECATED]'))
+			->setText($l->t('SFTP with secret key login'))
 			->addParameters([
 				(new DefinitionParameter('host', $l->t('Host'))),
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
@@ -42,6 +43,7 @@ class SFTP_Key extends Backend {
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PUBLICKEY)
 			->setLegacyAuthMechanism($legacyAuth)
+			->deprecateTo($sftpBackend)
 		;
 	}
 
