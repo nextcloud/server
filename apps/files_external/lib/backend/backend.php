@@ -142,6 +142,7 @@ class Backend implements \JsonSerializable {
 	 */
 	public function jsonSerialize() {
 		$data = $this->jsonSerializeDefinition();
+		$data += $this->jsonSerializeIdentifier();
 
 		$data['backend'] = $data['name']; // legacy compat
 		$data['priority'] = $this->getPriority();
