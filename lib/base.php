@@ -376,63 +376,6 @@ class OC {
 		$tmpl->printPage();
 	}
 
-	public static function initTemplateEngine() {
-		// Add the stuff we need always
-		// following logic will import all vendor libraries that are
-		// specified in core/js/core.json
-		$fileContent = file_get_contents(OC::$SERVERROOT . '/core/js/core.json');
-		if($fileContent !== false) {
-			$coreDependencies = json_decode($fileContent, true);
-			foreach($coreDependencies['vendor'] as $vendorLibrary) {
-				// remove trailing ".js" as addVendorScript will append it
-				OC_Util::addVendorScript(
-					substr($vendorLibrary, 0, strlen($vendorLibrary) - 3));
-			}
-		} else {
-			throw new \Exception('Cannot read core/js/core.json');
-		}
-
-		OC_Util::addScript("placeholders");
-		OC_Util::addScript("compatibility");
-		OC_Util::addScript("jquery.ocdialog");
-		OC_Util::addScript("oc-dialogs");
-		OC_Util::addScript("js");
-		OC_Util::addScript("l10n");
-		OC_Util::addTranslations("core");
-		OC_Util::addScript("octemplate");
-		OC_Util::addScript("eventsource");
-		OC_Util::addScript("config");
-		OC_Util::addScript('search', 'search');
-		OC_Util::addScript("oc-requesttoken");
-		OC_Util::addScript("apps");
-		OC_Util::addScript('mimetype');
-		OC_Util::addScript('mimetypelist');
-		OC_Util::addVendorScript('snapjs/dist/latest/snap');
-		OC_Util::addVendorScript('core', 'backbone/backbone');
-		OC_Util::addScript('oc-backbone');
-
-		// avatars
-		if (\OC::$server->getSystemConfig()->getValue('enable_avatars', true) === true) {
-			\OC_Util::addScript('placeholder');
-			\OC_Util::addVendorScript('blueimp-md5/js/md5');
-			\OC_Util::addScript('jquery.avatar');
-			\OC_Util::addScript('avatar');
-		}
-
-		OC_Util::addStyle("styles");
-		OC_Util::addStyle("header");
-		OC_Util::addStyle("mobile");
-		OC_Util::addStyle("icons");
-		OC_Util::addStyle("fonts");
-		OC_Util::addStyle("apps");
-		OC_Util::addStyle("fixes");
-		OC_Util::addStyle("multiselect");
-		OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui');
-		OC_Util::addStyle('jquery-ui-fixes');
-		OC_Util::addStyle("tooltip");
-		OC_Util::addStyle("jquery.ocdialog");
-	}
-
 	public static function initSession() {
 		// prevents javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', true);
@@ -611,7 +554,6 @@ class OC {
 			self::initSession();
 		}
 		\OC::$server->getEventLogger()->end('init_session');
-		self::initTemplateEngine();
 		self::checkConfig();
 		self::checkInstalled();
 
@@ -673,7 +615,7 @@ class OC {
 		self::registerFilesystemHooks();
 		if ($systemConfig->getValue('enable_previews', true)) {
 			self::registerPreviewHooks();
-		}	
+		}
 		self::registerShareHooks();
 		self::registerLogRotate();
 		self::registerLocalAddressBook();
@@ -685,12 +627,6 @@ class OC {
 		register_shutdown_function(array($tmpManager, 'clean'));
 		$lockProvider = \OC::$server->getLockingProvider();
 		register_shutdown_function(array($lockProvider, 'releaseAll'));
-
-		if ($systemConfig->getValue('installed', false) && !self::checkUpgrade(false)) {
-			if (\OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
-				OC_Util::addScript('backgroundjobs');
-			}
-		}
 
 		// Check whether the sample configuration has been copied
 		if($systemConfig->getValue('copied_sample_config', false)) {

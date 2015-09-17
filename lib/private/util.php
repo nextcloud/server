@@ -439,16 +439,22 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param string|null $file filename
+	 * @param bool $prepend prepend the Script to the beginning of the list
 	 * @return void
 	 */
-	public static function addScript($application, $file = null) {
+	public static function addScript($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'js', $file);
 		if (!in_array($path, self::$scripts)) {
 			// core js files need separate handling
 			if ($application !== 'core' && $file !== null) {
 				self::addTranslations($application);
 			}
-			self::$scripts[] = $path;
+			if ($prepend===true) {
+				array_unshift(self::$scripts, $path);
+			}
+			else {
+				self::$scripts[] = $path;
+			}
 		}
 	}
 
@@ -457,12 +463,17 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param string|null $file filename
+	 * @param bool $prepend prepend the Script to the beginning of the list
 	 * @return void
 	 */
-	public static function addVendorScript($application, $file = null) {
+	public static function addVendorScript($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'vendor', $file);
-		if (!in_array($path, self::$scripts)) {
-			self::$scripts[] = $path;
+		if (! in_array ( $path, self::$scripts )) {
+			if ($prepend === true) {
+				array_unshift ( self::$scripts, $path );
+			} else {
+				self::$scripts [] = $path;
+			}
 		}
 	}
 
@@ -471,8 +482,9 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param string $languageCode language code, defaults to the current language
+	 * @param bool $prepend prepend the Script to the beginning of the list 
 	 */
-	public static function addTranslations($application, $languageCode = null) {
+	public static function addTranslations($application, $languageCode = null, $prepend = false) {
 		if (is_null($languageCode)) {
 			$languageCode = \OC_L10N::findLanguage($application);
 		}
@@ -482,7 +494,11 @@ class OC_Util {
 			$path = "l10n/$languageCode";
 		}
 		if (!in_array($path, self::$scripts)) {
-			self::$scripts[] = $path;
+			if ($prepend === true) {
+				array_unshift ( self::$scripts, $path );
+			} else {
+				self::$scripts [] = $path;
+			}
 		}
 	}
 

@@ -56,8 +56,13 @@ class OC_Template extends \OC\Template\Base {
 	 * according layout. For now, renderas can be set to "guest", "user" or
 	 * "admin".
 	 */
+	
+	protected static $initTemplateEngineFirstrun = true;
+	
 	public function __construct( $app, $name, $renderas = "", $registerCall = true ) {
 		// Read the selected theme from the config file
+		$this->initTemplateEngine();
+		
 		$theme = OC_Util::getTheme();
 
 		$requesttoken = (OC::$server->getSession() and $registerCall) ? OC_Util::callRegister() : '';
@@ -76,6 +81,78 @@ class OC_Template extends \OC\Template\Base {
 		parent::__construct($template, $requesttoken, $l10n, $themeDefaults);
 	}
 
+	public static function initTemplateEngine() {
+		if (self::$initTemplateEngineFirstrun){
+			
+			//apps that started before the template initialization can load their own scripts
+			//so to make sure this scripts here are loaded first we use OC_Util::addScript() with $prepend=true
+			//meaning the last scripts in this list will be loaded first
+			if (\OC::$server->getSystemConfig ()->getValue ( 'installed', false ) && ! \OCP\Util::needUpgrade ()) {
+				if (\OC::$server->getConfig ()->getAppValue ( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax') {
+					OC_Util::addScript ( 'backgroundjobs', null, true );
+				}
+			}
+
+			OC_Util::addStyle ( "styles" );
+			OC_Util::addStyle ( "header" );
+			OC_Util::addStyle ( "mobile" );
+			OC_Util::addStyle ( "icons" );
+			OC_Util::addStyle ( "fonts" );
+			OC_Util::addStyle ( "apps" );
+			OC_Util::addStyle ( "fixes" );
+			OC_Util::addStyle ( "multiselect" );
+			OC_Util::addVendorStyle ( 'jquery-ui/themes/base/jquery-ui');
+			OC_Util::addStyle ( 'jquery-ui-fixes' );
+			OC_Util::addStyle ( "tooltip" );
+			
+			// avatars
+			if (\OC::$server->getSystemConfig ()->getValue ( 'enable_avatars', true ) === true) {
+				\OC_Util::addScript ( 'avatar', null, true );
+				\OC_Util::addScript ( 'jquery.avatar', null, true );
+				\OC_Util::addScript ( 'placeholder', null, true );
+			}			
+			
+			OC_Util::addScript ( 'oc-backbone', null, true );
+			OC_Util::addVendorScript ( 'core', 'backbone/backbone', null, true );
+			OC_Util::addVendorScript ( 'snapjs/dist/latest/snap', null, true );
+			OC_Util::addScript ( 'mimetypelist', null, true );
+			OC_Util::addScript ( 'mimetype', null, true );
+			OC_Util::addScript ( "apps", null, true );
+			OC_Util::addScript ( "oc-requesttoken", null, true );
+			OC_Util::addScript ( 'search', 'search', true );
+			OC_Util::addScript ( "config", null, true );
+			OC_Util::addScript ( "eventsource", null, true );
+			OC_Util::addScript ( "octemplate", null, true );
+			OC_Util::addTranslations ( "core", null, true );
+			OC_Util::addScript ( "l10n", null, true );
+			OC_Util::addScript ( "js", null, true );
+			OC_Util::addScript ( "oc-dialogs", null, true );
+			OC_Util::addScript ( "jquery.ocdialog", null, true );
+			OC_Util::addStyle ( "jquery.ocdialog" );
+			OC_Util::addScript ( "compatibility", null, true );
+			OC_Util::addScript ( "placeholders", null, true );		
+			
+			// Add the stuff we need always
+			// following logic will import all vendor libraries that are
+			// specified in core/js/core.json
+			$fileContent = file_get_contents(OC::$SERVERROOT . '/core/js/core.json');
+			if($fileContent !== false) {
+				$coreDependencies = json_decode($fileContent, true);
+				foreach(array_reverse($coreDependencies['vendor']) as $vendorLibrary) {
+					// remove trailing ".js" as addVendorScript will append it
+					OC_Util::addVendorScript(
+							substr($vendorLibrary, 0, strlen($vendorLibrary) - 3),null,true);
+				}
+			} else {
+				throw new \Exception('Cannot read core/js/core.json');
+			}
+			
+			self::$initTemplateEngineFirstrun = false;
+		}
+	
+	}
+	
+	
 	/**
 	 * find the template with the given name
 	 * @param string $name of the template file (without suffix)
