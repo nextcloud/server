@@ -45,7 +45,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 */
 	private $timeFactory;
 
-	const TTL = 3600; // how long until we clear stray locks
+	const TTL = 3600; // how long until we clear stray locks in seconds
 
 	/**
 	 * @param \OCP\IDBConnection $connection
