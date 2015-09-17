@@ -28,6 +28,7 @@ use OCP\ILogger;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use Sabre\DAV\Auth\Backend\BackendInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ServerFactory {
 	public function __construct(
@@ -36,7 +37,8 @@ class ServerFactory {
 		IDBConnection $databaseConnection,
 		IUserSession $userSession,
 		IMountManager $mountManager,
-		ITagManager $tagManager
+		ITagManager $tagManager,
+		EventDispatcherInterface $dispatcher
 	) {
 		$this->config = $config;
 		$this->logger = $logger;
@@ -44,6 +46,7 @@ class ServerFactory {
 		$this->userSession = $userSession;
 		$this->mountManager = $mountManager;
 		$this->tagManager = $tagManager;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -71,6 +74,7 @@ class ServerFactory {
 		$server->addPlugin(new \OC\Connector\Sabre\FilesPlugin($objectTree));
 		$server->addPlugin(new \OC\Connector\Sabre\ExceptionLoggerPlugin('webdav', $this->logger));
 		$server->addPlugin(new \OC\Connector\Sabre\LockPlugin($objectTree));
+		$server->addPlugin(new \OC\Connector\Sabre\ListenerPlugin($this->dispatcher));
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$server->on('beforeMethod', function () use ($server, $objectTree, $viewCallBack) {

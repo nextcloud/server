@@ -45,7 +45,8 @@ abstract class RequestTest extends TestCase {
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getUserSession(),
 			\OC::$server->getMountManager(),
-			\OC::$server->getTagManager()
+			\OC::$server->getTagManager(),
+			\OC::$server->getEventDispatcher()
 		);
 	}
 
