@@ -97,16 +97,12 @@ class ObjectTree extends \Sabre\DAV\Tree {
 	 * @param string $path
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 * @throws \Sabre\DAV\Exception\NotFound
+	 * @throws \Sabre\DAV\Exception\Forbidden
 	 * @return \Sabre\DAV\INode
 	 */
 	public function getNodeForPath($path) {
 		if (!$this->fileView) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
-		}
-
-		// check the path, also called when the path has been entered manually eg via a file explorer
-		if (\OC\Files\Filesystem::isForbiddenFileOrDir($path)) {
-			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
 		$path = trim($path, '/');
@@ -116,6 +112,11 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			} catch (\OCP\Files\InvalidPathException $ex) {
 				throw new InvalidPath($ex->getMessage());
 			}
+		}
+
+		// check the path, also called when the path has been entered manually eg via a file explorer
+		if (\OC\Files\Filesystem::isForbiddenFileOrDir($path)) {
+			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
 		if (isset($this->cache[$path])) {

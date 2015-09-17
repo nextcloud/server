@@ -1317,8 +1317,11 @@ class View {
 				if (\OCP\Util::isSharingDisabledForUser()) {
 					$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 				}
-				$owner = \OC::$server->getUserManager()->get($storage->getOwner($content['path']));
-				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
+				// do not add forbidden files or directories to the list of visible elements
+				if (!\OC\Files\Filesystem::isForbiddenFileOrDir($content['path'])) {
+					$owner = \OC::$server->getUserManager()->get($storage->getOwner($content['path']));
+					$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
+				}
 			}
 
 			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
