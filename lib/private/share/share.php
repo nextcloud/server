@@ -2441,6 +2441,11 @@ class Share extends Constants {
 		if (isset($row['stime'])) {
 			$row['stime'] = (int) $row['stime'];
 		}
+		if (isset($row['expiration']) && $row['share_type'] !== self::SHARE_TYPE_LINK) {
+			// discard expiration date for non-link shares, which might have been
+			// set by ancient bugs
+			$row['expiration'] = null;
+		}
 	}
 
 	/**
