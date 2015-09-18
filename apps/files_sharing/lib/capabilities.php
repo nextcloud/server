@@ -67,6 +67,13 @@ class Capabilities implements ICapability {
 
 		$res['resharing'] = $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
 
+
+		//Federated sharing
+		$res['federation'] = [
+			'outgoing'  => $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes',
+			'incoming' => $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'yes'
+		];
+
 		return [
 			'files_sharing' => $res,
 		];
