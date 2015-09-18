@@ -75,6 +75,7 @@
     "SFTP with secret key login [DEPRECATED]" : "SFTP con accesso a chiave segreta [DEPRECATO]",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Condividi",
+    "Domain" : "Dominio",
     "SMB / CIFS using OC login [DEPRECATED]" : "SMB / CIFS utilizzando le credenziali di OC [DEPRECATO]",
     "Username as share" : "Nome utente come condivisione",
     "OpenStack Object Storage" : "OpenStack Object Storage",
