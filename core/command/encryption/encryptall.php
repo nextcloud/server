@@ -115,8 +115,13 @@ class EncryptAll extends Command {
 		if ($this->questionHelper->ask($input, $output, $question)) {
 			$this->forceSingleUserAndTrashbin();
 
-			$defaultModule = $this->encryptionManager->getEncryptionModule();
-			$defaultModule->encryptAll($input, $output);
+			try {
+				$defaultModule = $this->encryptionManager->getEncryptionModule();
+				$defaultModule->encryptAll($input, $output);
+			} catch (\Exception $ex) {
+				$this->resetSingleUserAndTrashbin();
+				throw $ex;
+			}
 
 			$this->resetSingleUserAndTrashbin();
 		} else {
