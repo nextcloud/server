@@ -203,8 +203,14 @@ function execute_tests {
 
 		echo "Waiting for Oracle initialization ... "
 
-		# grep exits on the first match and then the script continues - times out after 2 minutes
-		timeout 240 docker logs -f "$DOCKER_CONTAINER_ID" 2>&1 | grep -q "Grant succeeded."
+		# Try to connect to the OCI host via sqlplus to ensure that the connection is already running
+      		for i in {1..48}
+                do
+                        if sqlplus "system/oracle@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=$DATABASEHOST)(Port=1521))(CONNECT_DATA=(SID=XE)))" < /dev/null | grep 'Connected to'; then
+                                break;
+                        fi
+                        sleep 5
+                done
 
 		DATABASEUSER=autotest
 		DATABASENAME='XE'
