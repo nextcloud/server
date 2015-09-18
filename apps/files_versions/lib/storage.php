@@ -404,6 +404,38 @@ class Storage {
 	}
 
 	/**
+	 * Expire versions that older than max version retention time
+	 * @param string $uid
+	 */
+	public static function expireOlderThanMaxForUser($uid){
+		$expiration = self::getExpiration();
+		$threshold = $expiration->getMaxAgeAsTimestamp();
+		$versions = self::getAllVersions($uid);
+		if (!$threshold || !array_key_exists('all', $versions)) {
+			return;
+		}
+
+		$toDelete = [];
+		foreach (array_reverse($versions['all']) as $key => $version) {
+			if (intval($version['version'])<$threshold) {
+				$toDelete[$key] = $version;
+			} else {
+				//Versions are sorted by time - nothing mo to iterate.
+				break;
+			}
+		}
+
+		$view = new \OC\Files\View('/' . $uid . '/files_versions');
+		if (!empty($toDelete)) {
+			foreach ($toDelete as $version) {
+				\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $version['path'].'.v'.$version['version']));
+				self::deleteVersion($view, $version['path'] . '.v' . $version['version']);
+				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $version['path'].'.v'.$version['version']));
+			}
+		}
+	}
+
+	/**
 	 * translate a timestamp into a string like "5 days ago"
 	 * @param int $timestamp
 	 * @return string for example "5 days ago"
