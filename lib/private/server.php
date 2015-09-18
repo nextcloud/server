@@ -460,7 +460,7 @@ class Server extends SimpleContainer implements IServerContainer {
 				if (!($memcache instanceof \OC\Memcache\NullCache)) {
 					return new MemcacheLockingProvider($memcache);
 				}
-				return new DBLockingProvider($c->getDatabaseConnection(), $c->getLogger());
+				return new DBLockingProvider($c->getDatabaseConnection(), $c->getLogger(), new TimeFactory());
 			}
 			return new NoopLockingProvider();
 		});
