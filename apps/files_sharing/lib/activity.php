@@ -23,9 +23,9 @@
 
 namespace OCA\Files_Sharing;
 
-use OC\L10N\Factory;
 use OCP\Activity\IExtension;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 
 class Activity implements IExtension {
 	const FILES_SHARING_APP = 'files_sharing';
@@ -55,19 +55,22 @@ class Activity implements IExtension {
 	const SUBJECT_SHARED_GROUP_SELF = 'shared_group_self';
 	const SUBJECT_SHARED_LINK_SELF = 'shared_link_self';
 	const SUBJECT_SHARED_USER_SELF = 'shared_user_self';
+	const SUBJECT_RESHARED_GROUP_BY = 'reshared_group_by';
+	const SUBJECT_RESHARED_LINK_BY = 'reshared_link_by';
+	const SUBJECT_RESHARED_USER_BY = 'reshared_user_by';
 	const SUBJECT_SHARED_WITH_BY = 'shared_with_by';
 
-	/** @var Factory */
+	/** @var IFactory */
 	protected $languageFactory;
 
 	/** @var IURLGenerator */
 	protected $URLGenerator;
 
 	/**
-	 * @param Factory $languageFactory
+	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $URLGenerator
 	 */
-	public function __construct(Factory $languageFactory, IURLGenerator $URLGenerator) {
+	public function __construct(IFactory $languageFactory, IURLGenerator $URLGenerator) {
 		$this->languageFactory = $languageFactory;
 		$this->URLGenerator = $URLGenerator;
 	}
@@ -169,6 +172,12 @@ class Activity implements IExtension {
 					return (string) $l->t('You shared %1$s with %2$s', $params);
 				case self::SUBJECT_SHARED_GROUP_SELF:
 					return (string) $l->t('You shared %1$s with group %2$s', $params);
+				case self::SUBJECT_RESHARED_USER_BY:
+					return (string) $l->t('%2$s shared %1$s with %3$s', $params);
+				case self::SUBJECT_RESHARED_GROUP_BY:
+					return (string) $l->t('%2$s shared %1$s with group %3$s', $params);
+				case self::SUBJECT_RESHARED_LINK_BY:
+					return (string) $l->t('%2$s shared %1$s via link', $params);
 				case self::SUBJECT_SHARED_WITH_BY:
 					return (string) $l->t('%2$s shared %1$s with you', $params);
 				case self::SUBJECT_SHARED_LINK_SELF:
@@ -212,14 +221,34 @@ class Activity implements IExtension {
 					);
 				case self::SUBJECT_SHARED_LINK_SELF:
 					return [0 => 'file'];
+				case self::SUBJECT_RESHARED_LINK_BY:
+					return [
+						0 => 'file',
+						1 => 'username',
+						2 => '',
+					];
+
 				case self::SUBJECT_SHARED_USER_SELF:
 				case self::SUBJECT_SHARED_WITH_BY:
 					return [0 => 'file', 1 => 'username'];
+				case self::SUBJECT_RESHARED_USER_BY:
+					return [
+						0 => 'file',
+						1 => 'username',
+						2 => 'username',
+					];
 
 				case self::SUBJECT_SHARED_GROUP_SELF:
 					return [
 						0 => 'file',
 						1 => 'group',
+					];
+
+				case self::SUBJECT_RESHARED_GROUP_BY:
+					return [
+						0 => 'file',
+						1 => 'username',
+						2 => 'group',
 					];
 			}
 		}
@@ -245,6 +274,11 @@ class Activity implements IExtension {
 				case self::SUBJECT_SHARED_GROUP_SELF:
 					// Group by user/group
 					return 1;
+				case self::SUBJECT_RESHARED_USER_BY:
+				case self::SUBJECT_RESHARED_GROUP_BY:
+					// Group by user/group
+					// FIXME: Grouping does currently not work with more then 2 parameters
+					// return 2;
 			}
 		}
 
