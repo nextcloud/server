@@ -592,7 +592,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			'key' => $this->params['key'],
 			'secret' => $this->params['secret'],
 			'base_url' => $base_url,
-			'region' => $this->params['region']
+			'region' => $this->params['region'],
+			S3Client::COMMAND_PARAMS => [
+				'PathStyle' => $this->params['use_path_style'],
+			],
 		));
 
 		if (!$this->connection->isValidBucketName($this->bucket)) {
