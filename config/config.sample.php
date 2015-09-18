@@ -609,7 +609,9 @@ $CONFIG = array(
 /**
  * ownCloud uses some 3rd party PHP components to provide certain functionality.
  * These components are shipped as part of the software package and reside in
- * ``owncloud/3rdparty``. Use this option to configure a different location.
+ * ``owncloud/3rdparty``. Use this option to configure a different location. 
+ * For example, if your location is /var/www/owncloud/foo/3rdparty, then the 
+ * correct configuration is '3rdpartyroot' => '/var/www/owncloud/foo/',
  */
 '3rdpartyroot' => '',
 
