@@ -142,7 +142,7 @@ class Storage {
 	public function getAvailability() {
 		if ($row = self::getStorageById($this->storageId)) {
 			return [
-				'available' => ($row['available'] === 1),
+				'available' => ((int)$row['available'] === 1),
 				'last_checked' => $row['last_checked']
 			];
 		} else {
