@@ -113,6 +113,14 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @return bool
+	 * @since 8.2.0
+	 */
+	public function hasNotifiers() {
+		return !empty($this->notifiersClosures);
+	}
+
+	/**
 	 * @param INotification $notification
 	 * @return null
 	 * @throws \InvalidArgumentException When the notification is not valid
