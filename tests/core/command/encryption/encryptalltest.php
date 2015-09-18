@@ -85,7 +85,9 @@ class EncryptAllTest extends TestCase {
 		$this->config->expects($this->at(1))->method('setSystemValue')->with('singleuser', true);
 		$this->config->expects($this->at(2))->method('setSystemValue')->with('singleuser', false);
 
-		new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
+		$instance = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
+		$this->invokePrivate($instance, 'forceSingleUserAndTrashbin');
+		$this->invokePrivate($instance, 'resetSingleUserAndTrashbin');
 	}
 
 	/**

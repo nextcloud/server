@@ -79,7 +79,8 @@ class DecryptAllTest extends TestCase {
 
 	}
 
-	public function testConstructDesctruct() {
+	public function testSingleUserAndTrashbin() {
+
 		// on construct we enable single-user-mode and disable the trash bin
 		$this->config->expects($this->at(1))
 			->method('setSystemValue')
@@ -103,6 +104,7 @@ class DecryptAllTest extends TestCase {
 			$this->decryptAll,
 			$this->questionHelper
 		);
+		$this->invokePrivate($instance, 'forceSingleUserAndTrashbin');
 
 		$this->assertTrue(
 			$this->invokePrivate($instance, 'wasTrashbinEnabled')
@@ -111,6 +113,7 @@ class DecryptAllTest extends TestCase {
 		$this->assertFalse(
 			$this->invokePrivate($instance, 'wasSingleUserModeEnabled')
 		);
+		$this->invokePrivate($instance, 'resetSingleUserAndTrashbin');
 	}
 
 	/**
@@ -187,7 +190,7 @@ class DecryptAllTest extends TestCase {
 			->with('core', 'encryption_enabled', 'no');
 
 		// make sure that we enable encryption again after a exception was thrown
-		$this->config->expects($this->at(1))
+		$this->config->expects($this->at(3))
 			->method('setAppValue')
 			->with('core', 'encryption_enabled', 'yes');
 

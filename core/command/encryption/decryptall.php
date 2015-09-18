@@ -75,14 +75,22 @@ class DecryptAll extends Command {
 		$this->config = $config;
 		$this->decryptAll = $decryptAll;
 		$this->questionHelper = $questionHelper;
+	}
 
+	/**
+	 * Set single user mode and disable the trashbin app
+	 */
+	protected function forceSingleUserAndTrashbin() {
 		$this->wasTrashbinEnabled = $this->appManager->isEnabledForUser('files_trashbin');
 		$this->wasSingleUserModeEnabled = $this->config->getSystemValue('singleuser', false);
 		$this->config->setSystemValue('singleuser', true);
 		$this->appManager->disableApp('files_trashbin');
 	}
 
-	public function __destruct() {
+	/**
+	 * Reset the single user mode and re-enable the trashbin app
+	 */
+	protected function resetSingleUserAndTrashbin() {
 		$this->config->setSystemValue('singleuser', $this->wasSingleUserModeEnabled);
 		if ($this->wasTrashbinEnabled) {
 			$this->appManager->enableApp('files_trashbin');
@@ -115,7 +123,6 @@ class DecryptAll extends Command {
 			} else {
 				$output->writeln('Server side encryption not enabled. Nothing to do.');
 				return;
-
 			}
 
 			$output->writeln("\n");
@@ -126,12 +133,14 @@ class DecryptAll extends Command {
 			$output->writeln('');
 			$question = new ConfirmationQuestion('Do you really want to continue? (y/n) ', false);
 			if ($this->questionHelper->ask($input, $output, $question)) {
+				$this->forceSingleUserAndTrashbin();
 				$user = $input->getArgument('user');
 				$result = $this->decryptAll->decryptAll($input, $output, $user);
 				if ($result === false) {
-					$this->output->writeln(' aborted.');
+					$output->writeln(' aborted.');
 					$this->config->setAppValue('core', 'encryption_enabled', 'yes');
 				}
+				$this->resetSingleUserAndTrashbin();
 			} else {
 				$output->write('Enable server side encryption... ');
 				$this->config->setAppValue('core', 'encryption_enabled', 'yes');
@@ -141,8 +150,9 @@ class DecryptAll extends Command {
 		} catch (\Exception $e) {
 			// enable server side encryption again if something went wrong
 			$this->config->setAppValue('core', 'encryption_enabled', 'yes');
+			$this->resetSingleUserAndTrashbin();
 			throw $e;
 		}
-	}
 
+	}
 }

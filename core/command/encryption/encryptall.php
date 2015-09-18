@@ -67,13 +67,22 @@ class EncryptAll extends Command {
 		$this->encryptionManager = $encryptionManager;
 		$this->config = $config;
 		$this->questionHelper = $questionHelper;
+	}
+
+	/**
+	 * Set single user mode and disable the trashbin app
+	 */
+	protected function forceSingleUserAndTrashbin() {
 		$this->wasTrashbinEnabled = $this->appManager->isEnabledForUser('files_trashbin');
 		$this->wasSingleUserModeEnabled = $this->config->getSystemValue('singleuser', false);
 		$this->config->setSystemValue('singleuser', true);
 		$this->appManager->disableApp('files_trashbin');
 	}
 
-	public function __destruct() {
+	/**
+	 * Reset the single user mode and re-enable the trashbin app
+	 */
+	protected function resetSingleUserAndTrashbin() {
 		$this->config->setSystemValue('singleuser', $this->wasSingleUserModeEnabled);
 		if ($this->wasTrashbinEnabled) {
 			$this->appManager->enableApp('files_trashbin');
@@ -104,8 +113,12 @@ class EncryptAll extends Command {
 		$output->writeln('');
 		$question = new ConfirmationQuestion('Do you really want to continue? (y/n) ', false);
 		if ($this->questionHelper->ask($input, $output, $question)) {
+			$this->forceSingleUserAndTrashbin();
+
 			$defaultModule = $this->encryptionManager->getEncryptionModule();
 			$defaultModule->encryptAll($input, $output);
+
+			$this->resetSingleUserAndTrashbin();
 		} else {
 			$output->writeln('aborted');
 		}
