@@ -83,6 +83,8 @@ class Server2Server {
 					Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_RECEIVED, array($user, trim($name, '/')), '', array(),
 					'', '', $shareWith, Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_LOW);
 
+				/**
+				 * FIXME
 				$urlGenerator = \OC::$server->getURLGenerator();
 
 				$notificationManager = \OC::$server->getNotificationManager();
@@ -93,17 +95,18 @@ class Server2Server {
 					->setObject('remote_share', $remoteId)
 					->setSubject('remote_share', [$user, trim($name, '/')]);
 
-				$acceptAction = $notification->createAction();
-				$acceptAction->setLabel('accept')
-					->setLink($urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/remote_shares/' . $remoteId), 'POST');
 				$declineAction = $notification->createAction();
 				$declineAction->setLabel('decline')
 					->setLink($urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/remote_shares/' . $remoteId), 'DELETE');
+				$notification->addAction($declineAction);
 
-				$notification->addAction($acceptAction)
-					->addAction($declineAction);
+				$acceptAction = $notification->createAction();
+				$acceptAction->setLabel('accept')
+					->setLink($urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/remote_shares/' . $remoteId), 'POST');
+				$notification->addAction($acceptAction);
 
 				$notificationManager->notify($notification);
+				 */
 
 				return new \OC_OCS_Result();
 			} catch (\Exception $e) {
