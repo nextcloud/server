@@ -40,9 +40,6 @@
  *
  */
 
-// TODO: get rid of this using proper composer packages
-require_once 'mcnetic/phpzipstreamer/ZipStreamer.php';
-
 use OC\Lock\NoopLockingProvider;
 use OCP\Lock\ILockingProvider;
 
@@ -121,7 +118,7 @@ class OC_Files {
 		if ($get_type === self::FILE) {
 			$zip = false;
 		} else {
-			$zip = new ZipStreamer(false);
+			$zip = new ZipStreamer\ZipStreamer();
 		}
 		OC_Util::obEnd();
 
