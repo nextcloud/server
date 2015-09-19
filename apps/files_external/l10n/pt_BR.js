@@ -78,6 +78,7 @@ OC.L10N.register(
     "SFTP with secret key login [DEPRECATED]" : "SFTP com chave secreta de login [DEPRECATED]",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Compartilhar",
+    "Domain" : "Domínio",
     "SMB / CIFS using OC login [DEPRECATED]" : "SMB / CIFS usando OC de login [DEPRECATED]",
     "Username as share" : "Nome de usuário como compartilhado",
     "OpenStack Object Storage" : "Armazenamento de Objetos OpenStack",
