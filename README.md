@@ -10,7 +10,7 @@ Quality:
  - Scrutinizer: [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/owncloud/core/badges/quality-score.png?s=ce2f5ded03d4ac628e9ee5c767243fa7412e644f)](https://scrutinizer-ci.com/g/owncloud/core/)
  - CodeClimate: [![Code Climate](https://codeclimate.com/github/owncloud/core/badges/gpa.svg)](https://codeclimate.com/github/owncloud/core)
 
-Depencencies:
+Dependencies:
 
 [![Dependency Status](https://www.versioneye.com/user/projects/54f4a2384f3108959a000a16/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54f4a2384f3108959a000a16)
 
