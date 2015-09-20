@@ -47,6 +47,7 @@ OC.L10N.register(
     "Username" : "Nome utente",
     "Password" : "Password",
     "Tenant name" : "Nome tenant",
+    "Identity endpoint URL" : "URL endpoint delle identità",
     "Rackspace" : "Rackspace",
     "API key" : "Chiave API",
     "Username and password" : "Nome utente e password",
