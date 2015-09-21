@@ -90,7 +90,7 @@ class Event implements IEvent {
 	}
 
 	/**
-	 * Set the author of the activity
+	 * Set the timestamp of the activity
 	 *
 	 * @param int $timestamp
 	 * @return IEvent

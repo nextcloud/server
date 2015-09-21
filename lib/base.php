@@ -228,7 +228,7 @@ class OC {
 	public static function checkConfig() {
 		$l = \OC::$server->getL10N('lib');
 
-		// Create config in case it does not already exists
+		// Create config if it does not already exist
 		$configFilePath = self::$configDir .'/config.php';
 		if(!file_exists($configFilePath)) {
 			@touch($configFilePath);
@@ -314,7 +314,7 @@ class OC {
 	}
 
 	/**
-	 * check if the instance needs to preform an upgrade
+	 * check if the instance needs to perform an upgrade
 	 *
 	 * @return bool
 	 * @deprecated use \OCP\Util::needUpgrade() instead
@@ -567,7 +567,7 @@ class OC {
 
 		//try to configure php to enable big file uploads.
 		//this doesn´t work always depending on the webserver and php configuration.
-		//Let´s try to overwrite some defaults anyways
+		//Let´s try to overwrite some defaults anyway
 
 		//try to set the maximum execution time to 60min
 		@set_time_limit(3600);
