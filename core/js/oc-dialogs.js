@@ -400,6 +400,11 @@ var OCdialogs = {
 					$replacementDiv.find('.icon').css('background-image','url(' + path + ')');
 				}
 			);
+			// connect checkboxes with labels
+			var checkboxId = $conflicts.find('.conflict').length;
+			$originalDiv.find('input:checkbox').attr('id', 'checkbox_original_'+checkboxId);
+			$replacementDiv.find('input:checkbox').attr('id', 'checkbox_replacement_'+checkboxId);
+
 			$conflicts.append($conflict);
 
 			//set more recent mtime bold
