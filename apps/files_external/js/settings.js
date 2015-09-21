@@ -15,12 +15,12 @@ var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
 	'<div class="drop dropdown mountOptionsDropdown">' +
 	// FIXME: options are hard-coded for now
 	'	<div class="optionRow">' +
-	'		<label for="mountOptionsEncrypt">{{t "files_external" "Enable encryption"}}</label>' +
 	'		<input id="mountOptionsEncrypt" name="encrypt" type="checkbox" value="true" checked="checked"/>' +
+	'		<label for="mountOptionsEncrypt">{{t "files_external" "Enable encryption"}}</label>' +
 	'	</div>' +
 	'	<div class="optionRow">' +
-	'		<label for="mountOptionsPreviews">{{t "files_external" "Enable previews"}}</label>' +
 	'		<input id="mountOptionsPreviews" name="previews" type="checkbox" value="true" checked="checked"/>' +
+	'		<label for="mountOptionsPreviews">{{t "files_external" "Enable previews"}}</label>' +
 	'	</div>' +
 	'	<div class="optionRow">' +
 	'		<label for="mountOptionsFilesystemCheck">{{t "files_external" "Check for changes"}}</label>' +
@@ -808,7 +808,8 @@ MountConfigListView.prototype = _.extend({
 		if (placeholder.indexOf('*') === 0) {
 			newElement = $('<input type="password" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
 		} else if (placeholder.indexOf('!') === 0) {
-			newElement = $('<label><input type="checkbox" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" />'+placeholder.substring(1)+'</label>');
+			var checkboxId = _.uniqueId('checkbox_');
+			newElement = $('<input type="checkbox" id="'+checkboxId+'" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" /><label for="'+checkboxId+'">'+placeholder.substring(1)+'</label>');
 		} else if (placeholder.indexOf('#') === 0) {
 			newElement = $('<input type="hidden" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" />');
 		} else {
