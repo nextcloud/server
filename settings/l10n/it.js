@@ -136,7 +136,7 @@ OC.L10N.register(
     "All checks passed." : "Tutti i controlli passati.",
     "Open documentation" : "Apri la documentazione",
     "Allow apps to use the Share API" : "Consenti alle applicazioni di utilizzare le API di condivisione",
-    "Allow users to share via link" : "Consenti agli utenti di condivere tramite collegamento",
+    "Allow users to share via link" : "Consenti agli utenti di condividere tramite collegamento",
     "Enforce password protection" : "Imponi la protezione con password",
     "Allow public uploads" : "Consenti caricamenti pubblici",
     "Allow users to send mail notification for shared files" : "Consenti agli utenti di inviare email di notifica per i file condivisi",
