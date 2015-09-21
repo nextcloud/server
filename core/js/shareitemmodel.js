@@ -618,6 +618,8 @@
 			var fileId = this.fileInfoModel.get('id');
 			if (!shares || !shares.length) {
 				delete OC.Share.statuses[fileId];
+				OC.Share.currentShares = {};
+				OC.Share.itemShares = [];
 				return;
 			}
 
