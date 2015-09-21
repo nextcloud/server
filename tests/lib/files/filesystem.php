@@ -72,7 +72,7 @@ class Filesystem extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$userBackend = new \OC_User_Dummy();
+		$userBackend = new \Test\Util\User\Dummy();
 		$userBackend->createUser(self::TEST_FILESYSTEM_USER1, self::TEST_FILESYSTEM_USER1);
 		$userBackend->createUser(self::TEST_FILESYSTEM_USER2, self::TEST_FILESYSTEM_USER2);
 		\OC::$server->getUserManager()->registerBackend($userBackend);
@@ -274,7 +274,7 @@ class Filesystem extends \Test\TestCase {
 			$user = \OC_User::getUser();
 		} else {
 			$user = self::TEST_FILESYSTEM_USER1;
-			$backend = new \OC_User_Dummy();
+			$backend = new \Test\Util\User\Dummy();
 			\OC_User::useBackend($backend);
 			$backend->createUser($user, $user);
 			$userObj = \OC::$server->getUserManager()->get($user);

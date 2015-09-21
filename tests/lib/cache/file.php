@@ -60,7 +60,7 @@ class FileCache extends \Test_Cache {
 		\OC_Config::setValue('cachedirectory', $datadir);
 
 		\OC_User::clearBackends();
-		\OC_User::useBackend(new \OC_User_Dummy());
+		\OC_User::useBackend(new \Test\Util\User\Dummy());
 
 		//login
 		\OC_User::createUser('test', 'test');

@@ -74,7 +74,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 		$backend->expects($this->once())
 			->method('setPassword')
 			->with($this->equalTo('foo'), $this->equalTo('bar'));
@@ -97,7 +97,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 		$backend->expects($this->never())
 			->method('setPassword');
 
@@ -182,7 +182,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 		$backend->expects($this->once())
 			->method('deleteUser')
 			->with($this->equalTo('foo'));
@@ -195,7 +195,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 		$backend->expects($this->once())
 			->method('getHome')
 			->with($this->equalTo('foo'))
@@ -216,7 +216,7 @@ class User extends \Test\TestCase {
 	}
 
 	public function testGetBackendClassName() {
-		$user = new \OC\User\User('foo', new \OC_User_Dummy());
+		$user = new \OC\User\User('foo', new \Test\Util\User\Dummy());
 		$this->assertEquals('Dummy', $user->getBackendClassName());
 		$user = new \OC\User\User('foo', new \OC_User_Database());
 		$this->assertEquals('Database', $user->getBackendClassName());
@@ -226,7 +226,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 		$backend->expects($this->never())
 			->method('getHome');
 
@@ -253,7 +253,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -273,7 +273,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -287,7 +287,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -307,7 +307,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -393,7 +393,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 		$backend->expects($this->once())
 			->method('setPassword');
 
@@ -434,7 +434,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 		$backend->expects($this->once())
 			->method('deleteUser');
 

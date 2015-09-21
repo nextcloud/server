@@ -61,7 +61,7 @@ class Preview extends TestCase {
 
 		$userManager = \OC::$server->getUserManager();
 		$userManager->clearBackends();
-		$backend = new \OC_User_Dummy();
+		$backend = new \Test\Util\User\Dummy();
 		$userManager->registerBackend($backend);
 		$backend->createUser(self::TEST_PREVIEW_USER1, self::TEST_PREVIEW_USER1);
 		$this->loginAsUser(self::TEST_PREVIEW_USER1);

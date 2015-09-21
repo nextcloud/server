@@ -100,7 +100,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$admin
 			->expects($this->once())
 			->method('getBackendClassName')
-			->will($this->returnValue('OC_User_Dummy'));
+			->will($this->returnValue('\Test\Util\User\Dummy'));
 		$bar = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$bar
@@ -120,7 +120,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$bar
 			->expects($this->once())
 			->method('getBackendClassName')
-			->will($this->returnValue('OC_User_Dummy'));
+			->will($this->returnValue('\Test\Util\User\Dummy'));
 
 		$this->container['GroupManager']
 			->expects($this->once())
@@ -175,7 +175,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'quota' => 404,
 					'storageLocation' => '/home/admin',
 					'lastLogin' => 12000,
-					'backend' => 'OC_User_Dummy',
+					'backend' => '\Test\Util\User\Dummy',
 					'email' => 'admin@bar.com',
 					'isRestoreDisabled' => false,
 				),
@@ -187,7 +187,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'quota' => 2323,
 					'storageLocation' => '/home/bar',
 					'lastLogin' => 3999000,
-					'backend' => 'OC_User_Dummy',
+					'backend' => '\Test\Util\User\Dummy',
 					'email' => 'bar@dummy.com',
 					'isRestoreDisabled' => false,
 				),
@@ -257,7 +257,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$admin
 			->expects($this->once())
 			->method('getBackendClassName')
-			->will($this->returnValue('OC_User_Dummy'));
+			->will($this->returnValue('\Test\Util\User\Dummy'));
 		$bar = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$bar
@@ -277,7 +277,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$bar
 			->expects($this->once())
 			->method('getBackendClassName')
-			->will($this->returnValue('OC_User_Dummy'));
+			->will($this->returnValue('\Test\Util\User\Dummy'));
 
 		$this->container['GroupManager']
 			->expects($this->at(0))
@@ -343,7 +343,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'quota' => 404,
 					'storageLocation' => '/home/admin',
 					'lastLogin' => 12000,
-					'backend' => 'OC_User_Dummy',
+					'backend' => '\Test\Util\User\Dummy',
 					'email' => 'admin@bar.com',
 					'isRestoreDisabled' => false,
 				],
@@ -355,7 +355,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'quota' => 2323,
 					'storageLocation' => '/home/bar',
 					'lastLogin' => 3999000,
-					'backend' => 'OC_User_Dummy',
+					'backend' => '\Test\Util\User\Dummy',
 					'email' => 'bar@dummy.com',
 					'isRestoreDisabled' => false,
 				],
@@ -414,7 +414,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$admin
 			->expects($this->once())
 			->method('getBackendClassName')
-			->will($this->returnValue('OC_User_Dummy'));
+			->will($this->returnValue('\Test\Util\User\Dummy'));
 		$bar = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$bar
@@ -434,7 +434,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$bar
 			->expects($this->once())
 			->method('getBackendClassName')
-			->will($this->returnValue('OC_User_Dummy'));
+			->will($this->returnValue('\Test\Util\User\Dummy'));
 
 		$this->container['UserManager']
 			->expects($this->once())
@@ -474,7 +474,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'quota' => 404,
 					'storageLocation' => '/home/admin',
 					'lastLogin' => 12000,
-					'backend' => 'OC_User_Dummy',
+					'backend' => '\Test\Util\User\Dummy',
 					'email' => 'admin@bar.com',
 					'isRestoreDisabled' => false,
 				),
@@ -486,7 +486,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'quota' => 2323,
 					'storageLocation' => '/home/bar',
 					'lastLogin' => 3999000,
-					'backend' => 'OC_User_Dummy',
+					'backend' => '\Test\Util\User\Dummy',
 					'email' => 'bar@dummy.com',
 					'isRestoreDisabled' => false,
 				),
@@ -522,14 +522,10 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->container['UserManager']
 			->expects($this->once())
 			->method('getBackends')
-			->will($this->returnValue([new \OC_User_Dummy(), new \OC_User_Database()]));
+			->will($this->returnValue([new \Test\Util\User\Dummy(), new \OC_User_Database()]));
 		$this->container['UserManager']
 			->expects($this->once())
 			->method('clearBackends');
-		$this->container['UserManager']
-			->expects($this->once())
-			->method('registerBackend')
-			->with(new \OC_User_Dummy());
 		$this->container['UserManager']
 			->expects($this->once())
 			->method('search')
@@ -552,7 +548,7 @@ class UsersControllerTest extends \Test\TestCase {
 				)
 			)
 		);
-		$response = $this->container['UsersController']->index(0, 10, '','', 'OC_User_Dummy');
+		$response = $this->container['UsersController']->index(0, 10, '','', '\Test\Util\User\Dummy');
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -562,7 +558,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->container['UserManager']
 			->expects($this->once())
 			->method('getBackends')
-			->will($this->returnValue([new \OC_User_Dummy(), new \OC_User_Database()]));
+			->will($this->returnValue([new \Test\Util\User\Dummy(), new \OC_User_Database()]));
 		$this->container['UserManager']
 			->expects($this->once())
 			->method('search')
@@ -570,7 +566,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->will($this->returnValue([]));
 
 		$expectedResponse = new DataResponse([]);
-		$response = $this->container['UsersController']->index(0, 10, '','', 'OC_User_Dummy');
+		$response = $this->container['UsersController']->index(0, 10, '','', '\Test\Util\User\Dummy');
 		$this->assertEquals($expectedResponse, $response);
 	}
 

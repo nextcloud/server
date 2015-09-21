@@ -49,7 +49,7 @@ abstract class Provider extends \Test\TestCase {
 
 		$userManager = \OC::$server->getUserManager();
 		$userManager->clearBackends();
-		$backend = new \OC_User_Dummy();
+		$backend = new \Test\Util\User\Dummy();
 		$userManager->registerBackend($backend);
 
 		$userId = $this->getUniqueID();

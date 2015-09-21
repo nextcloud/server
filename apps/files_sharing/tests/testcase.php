@@ -72,7 +72,7 @@ abstract class TestCase extends \Test\TestCase {
 		\OC::registerShareHooks();
 
 		// create users
-		$backend = new \OC_User_Dummy();
+		$backend = new \Test\Util\User\Dummy();
 		\OC_User::useBackend($backend);
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER1);
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER2);

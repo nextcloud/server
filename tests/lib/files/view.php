@@ -68,7 +68,7 @@ class View extends \Test\TestCase {
 		\OC_Hook::clear();
 
 		\OC_User::clearBackends();
-		\OC_User::useBackend(new \OC_User_Dummy());
+		\OC_User::useBackend(new \Test\Util\User\Dummy());
 
 		//login
 		$userManager = \OC::$server->getUserManager();

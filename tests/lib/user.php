@@ -18,7 +18,7 @@ class User extends TestCase {
 	protected function setUp(){
 		parent::setUp();
 
-		$this->backend = $this->getMock('\OC_User_Dummy');
+		$this->backend = $this->getMock('\Test\Util\User\Dummy');
 		$manager = \OC_User::getManager();
 		$manager->registerBackend($this->backend);
 	}
