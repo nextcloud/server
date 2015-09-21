@@ -343,6 +343,13 @@
 				}
 			});
 
+			$(document).keydown(function(event) {
+				if ((event.ctrlKey || event.metaKey) && !event.shiftKey && event.keyCode === 70) { // Ctrl+F
+					$searchBox.focus();
+					event.preventDefault();
+				}
+			});
+
 			$searchResults.on('click', 'tr.result', function (event) {
 				var $row = $(this);
 				var item = $row.data('result');
