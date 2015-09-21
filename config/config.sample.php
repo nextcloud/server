@@ -452,7 +452,7 @@ $CONFIG = array(
  *                 expire rules. Please refer to Files_versions online documentation 
  *                 for more info.
  *   ``D, auto``   keep versions at least for D days, apply expire rules to all
- *                 versions that older than D days
+ *                 versions that are older than D days
  * * ``auto, D``   delete all versions that are older than D days automatically,
  *                 delete other versions according to expire rules
  * * ``D1, D2``    keep versions for at least D1 days and delete when exceeds D2 days

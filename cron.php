@@ -113,7 +113,7 @@ try {
 			\OCP\BackgroundJob::setExecutionType('cron');
 		}
 
-		// open the file and try to lock if. If it is not locked, the background
+		// open the file and try to lock it. If it is not locked, the background
 		// job can be executed, otherwise another instance is already running
 		$fp = fopen($lockFile, 'w');
 		$isLocked = flock($fp, LOCK_EX|LOCK_NB, $wouldBlock);

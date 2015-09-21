@@ -171,7 +171,7 @@ function execute_tests {
 		else
 			if [ "MariaDB" != "$(mysql --version | grep -o MariaDB)" ] ; then
 				echo "Your mysql binary is not provided by MariaDB"
-				echo "To use the docker container set the USEDOCKER enviroment variable"
+				echo "To use the docker container set the USEDOCKER environment variable"
 				exit -1
 			fi
 			mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
