@@ -1063,8 +1063,9 @@ $CONFIG = array(
 
 /**
  * Where ``mount.json`` file should be stored, defaults to ``data/mount.json``
+ * in the ownCloud directory.
  */
-'mount_file' => 'data/mount.json',
+'mount_file' => '/var/www/owncloud/data/mount.json',
 
 /**
  * When ``true``, prevent ownCloud from changing the cache due to changes in the
