@@ -80,6 +80,11 @@ class DecryptAll {
 		$this->input = $input;
 		$this->output = $output;
 
+		if ($user !== '' && $this->userManager->userExists($user) === false) {
+			$this->output->writeln('User "' . $user . '" does not exist. Please check the username and try again');
+			return false;
+		}
+
 		$this->output->writeln('prepare encryption modules...');
 		if ($this->prepareEncryptionModules($user) === false) {
 			return false;
