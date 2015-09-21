@@ -80,11 +80,13 @@ class DecryptAllTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTrueFalse
+	 * @param bool $prepareResult
 	 */
 	public function testDecryptAll($prepareResult) {
 
 		$user = 'user1';
 
+		$this->userManager->expects($this->once())->method('userExists')->willReturn(true);
 		/** @var DecryptAll | \PHPUnit_Framework_MockObject_MockObject |  $instance */
 		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
 			->setConstructorArgs(
@@ -118,6 +120,19 @@ class DecryptAllTest extends TestCase {
 			[true],
 			[false]
 		];
+	}
+
+	/**
+	 * test decrypt all call with a user who doesn't exists
+	 */
+	public function testDecryptAllWrongUser() {
+		$this->userManager->expects($this->once())->method('userExists')->willReturn(false);
+		$this->outputInterface->expects($this->once())->method('writeln')
+			->with('User "user1" does not exist. Please check the username and try again');
+
+		$this->assertFalse(
+			$this->instance->decryptAll($this->inputInterface, $this->outputInterface, 'user1')
+		);
 	}
 
 	/**
