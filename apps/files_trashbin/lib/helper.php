@@ -65,11 +65,14 @@ class Helper
 				if (!\OC\Files\Filesystem::isIgnoredDir($entryName)) {
 					$id = $entryName;
 					if ($dir === '' || $dir === '/') {
+						$size = $view->filesize($id);
 						$pathparts = pathinfo($entryName);
 						$timestamp = substr($pathparts['extension'], 1);
 						$id = $pathparts['filename'];
+
 					} else if ($timestamp === null) {
 						// for subfolders we need to calculate the timestamp only once
+						$size = $view->filesize($dir . '/' . $id);
 						$parts = explode('/', ltrim($dir, '/'));
 						$timestamp = substr(pathinfo($parts[0], PATHINFO_EXTENSION), 1);
 					}
@@ -86,6 +89,7 @@ class Helper
 						'mimetype' => $view->is_dir($dir . '/' . $entryName) ? 'httpd/unix-directory' : \OC_Helper::getFileNameMimeType($id),
 						'type' => $view->is_dir($dir . '/' . $entryName) ? 'dir' : 'file',
 						'directory' => ($dir === '/') ? '' : $dir,
+						'size' => $size,
 					);
 					if ($originalPath) {
 						$i['extraData'] = $originalPath.'/'.$id;
