@@ -277,11 +277,13 @@ class OC_User {
 		OC_Hook::emit("OC_User", "pre_login", array("run" => &$run, "uid" => $uid));
 
 		if ($uid) {
-			self::setUserId($uid);
-			self::setDisplayName($uid);
-			self::getUserSession()->setLoginName($uid);
+			if (self::getUser() !== $uid) {
+				self::setUserId($uid);
+				self::setDisplayName($uid);
+				self::getUserSession()->setLoginName($uid);
 
-			OC_Hook::emit("OC_User", "post_login", array("uid" => $uid, 'password' => ''));
+				OC_Hook::emit("OC_User", "post_login", array("uid" => $uid, 'password' => ''));
+			}
 			return true;
 		}
 		return false;
