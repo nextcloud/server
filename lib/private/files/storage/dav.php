@@ -370,6 +370,7 @@ class DAV extends Common {
 			case 'c':
 			case 'c+':
 				//emulate these
+				$tempManager = \OC::$server->getTempManager();
 				if (strrpos($path, '.') !== false) {
 					$ext = substr($path, strrpos($path, '.'));
 				} else {
@@ -379,12 +380,16 @@ class DAV extends Common {
 					if (!$this->isUpdatable($path)) {
 						return false;
 					}
-					$tmpFile = $this->getCachedFile($path);
+					if ($mode === 'w' or $mode === 'w+') {
+						$tmpFile = $tempManager->getTemporaryFile($ext);
+					} else {
+						$tmpFile = $this->getCachedFile($path);
+					}
 				} else {
 					if (!$this->isCreatable(dirname($path))) {
 						return false;
 					}
-					$tmpFile = Files::tmpFile($ext);
+					$tmpFile = $tempManager->getTemporaryFile($ext);
 				}
 				Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				self::$tempFiles[$tmpFile] = $path;
