@@ -395,7 +395,7 @@ OC.Share = _.extend(OC.Share || {}, {
 			attributes: {
 				'data-item-source-name': filename,
 				'data-item-type': itemType,
-				'data-item-soruce': itemSource
+				'data-item-source': itemSource
 			}
 		});
 		dialogView.setShowLink(link);
