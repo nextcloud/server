@@ -809,4 +809,21 @@ class File extends \Test\TestCase {
 		return $files;
 	}
 
+	/**
+	 * @expectedException \Sabre\DAV\Exception\ServiceUnavailable
+	 */
+	public function testGetFopenFails() {
+		$view = $this->getMock('\OC\Files\View', ['fopen'], array());
+		$view->expects($this->atLeastOnce())
+			->method('fopen')
+			->will($this->returnValue(false));
+
+		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
+			'permissions' => \OCP\Constants::PERMISSION_ALL
+		), null);
+
+		$file = new \OC\Connector\Sabre\File($view, $info);
+
+		$file->get();
+	}
 }
