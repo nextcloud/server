@@ -772,12 +772,6 @@ class Preview {
 			throw new NotFoundException('File not found.');
 		}
 
-		if ($cachedPath = $this->isCached($this->info->getId())) {
-			header('Content-Type: ' . $this->info->getMimetype());
-			$this->userView->readfile($cachedPath);
-			return;
-		}
-
 		if (is_null($this->preview)) {
 			$this->getPreview();
 		}
