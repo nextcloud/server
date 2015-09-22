@@ -33,9 +33,8 @@ ul.multiselectoptions>li {
 	white-space: nowrap;
 }
 
-ul.multiselectoptions > li > input[type="checkbox"] {
-	margin: 10px 7px;
-	vertical-align: middle;
+ul.multiselectoptions > li > input[type="checkbox"]+label:before {
+	margin-left: 7px;
 }
 ul.multiselectoptions > li input[type='checkbox']+label {
 	font-weight: normal;
