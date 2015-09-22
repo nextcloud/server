@@ -178,6 +178,8 @@ input[type="checkbox"] + label:before {
 	opacity: 0.7;
 }
 
+input[type="checkbox"]:disabled +label:before { opacity: .6; }
+
 input[type="checkbox"].u-left +label:before { float: left; }
 
 input[type="checkbox"].white + label:before {
