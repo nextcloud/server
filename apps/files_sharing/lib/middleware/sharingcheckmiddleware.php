@@ -87,6 +87,11 @@ class SharingCheckMiddleware extends Middleware {
 			return false;
 		}
 
+		// Check if the shareAPI is enabled
+		if ($this->config->getAppValue('core', 'shareapi_enabled', 'yes') !== 'yes') {
+			return false;
+		}
+
 		// Check whether public sharing is enabled
 		if($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 			return false;
