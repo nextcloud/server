@@ -759,59 +759,72 @@ class View {
 
 			$this->lockFile($path2, ILockingProvider::LOCK_SHARED);
 			$this->lockFile($path1, ILockingProvider::LOCK_SHARED);
+			$lockTypePath1 = ILockingProvider::LOCK_SHARED;
+			$lockTypePath2 = ILockingProvider::LOCK_SHARED;
 
-			$exists = $this->file_exists($path2);
-			if ($this->shouldEmitHooks()) {
-				\OC_Hook::emit(
-					Filesystem::CLASSNAME,
-					Filesystem::signal_copy,
-					array(
-						Filesystem::signal_param_oldpath => $this->getHookPath($path1),
-						Filesystem::signal_param_newpath => $this->getHookPath($path2),
-						Filesystem::signal_param_run => &$run
-					)
-				);
-				$this->emit_file_hooks_pre($exists, $path2, $run);
-			}
-			if ($run) {
-				$mount1 = $this->getMount($path1);
-				$mount2 = $this->getMount($path2);
-				$storage1 = $mount1->getStorage();
-				$internalPath1 = $mount1->getInternalPath($absolutePath1);
-				$storage2 = $mount2->getStorage();
-				$internalPath2 = $mount2->getInternalPath($absolutePath2);
+			try {
 
-				$this->changeLock($path2, ILockingProvider::LOCK_EXCLUSIVE);
-
-				if ($mount1->getMountPoint() == $mount2->getMountPoint()) {
-					if ($storage1) {
-						$result = $storage1->copy($internalPath1, $internalPath2);
-					} else {
-						$result = false;
-					}
-				} else {
-					$result = $storage2->copyFromStorage($storage1, $internalPath1, $internalPath2);
-				}
-
-				$this->updater->update($path2);
-
-				$this->changeLock($path2, ILockingProvider::LOCK_SHARED);
-
-				if ($this->shouldEmitHooks() && $result !== false) {
+				$exists = $this->file_exists($path2);
+				if ($this->shouldEmitHooks()) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
-						Filesystem::signal_post_copy,
+						Filesystem::signal_copy,
 						array(
 							Filesystem::signal_param_oldpath => $this->getHookPath($path1),
-							Filesystem::signal_param_newpath => $this->getHookPath($path2)
+							Filesystem::signal_param_newpath => $this->getHookPath($path2),
+							Filesystem::signal_param_run => &$run
 						)
 					);
-					$this->emit_file_hooks_post($exists, $path2);
+					$this->emit_file_hooks_pre($exists, $path2, $run);
 				}
+				if ($run) {
+					$mount1 = $this->getMount($path1);
+					$mount2 = $this->getMount($path2);
+					$storage1 = $mount1->getStorage();
+					$internalPath1 = $mount1->getInternalPath($absolutePath1);
+					$storage2 = $mount2->getStorage();
+					$internalPath2 = $mount2->getInternalPath($absolutePath2);
 
-				$this->unlockFile($path2, ILockingProvider::LOCK_SHARED);
-				$this->unlockFile($path1, ILockingProvider::LOCK_SHARED);
+					$this->changeLock($path2, ILockingProvider::LOCK_EXCLUSIVE);
+					$lockTypePath2 = ILockingProvider::LOCK_EXCLUSIVE;
+
+					if ($mount1->getMountPoint() == $mount2->getMountPoint()) {
+						if ($storage1) {
+							$result = $storage1->copy($internalPath1, $internalPath2);
+						} else {
+							$result = false;
+						}
+					} else {
+						$result = $storage2->copyFromStorage($storage1, $internalPath1, $internalPath2);
+					}
+
+					$this->updater->update($path2);
+
+					$this->changeLock($path2, ILockingProvider::LOCK_SHARED);
+					$lockTypePath2 = ILockingProvider::LOCK_SHARED;
+
+					if ($this->shouldEmitHooks() && $result !== false) {
+						\OC_Hook::emit(
+							Filesystem::CLASSNAME,
+							Filesystem::signal_post_copy,
+							array(
+								Filesystem::signal_param_oldpath => $this->getHookPath($path1),
+								Filesystem::signal_param_newpath => $this->getHookPath($path2)
+							)
+						);
+						$this->emit_file_hooks_post($exists, $path2);
+					}
+
+				}
+			} catch (\Exception $e) {
+				$this->unlockFile($path2, $lockTypePath2);
+				$this->unlockFile($path1, $lockTypePath1);
+				throw $e;
 			}
+
+			$this->unlockFile($path2, $lockTypePath2);
+			$this->unlockFile($path1, $lockTypePath1);
+
 		}
 		return $result;
 	}
