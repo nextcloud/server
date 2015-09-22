@@ -176,6 +176,9 @@
 				$shareField.autocomplete({
 					minLength: 2,
 					delay: 750,
+					focus: function(event) {
+						event.preventDefault();
+					},
 					source: this.autocompleteHandler,
 					select: this._onSelectRecipient
 				}).data('ui-autocomplete')._renderItem = this.autocompleteRenderItem;
