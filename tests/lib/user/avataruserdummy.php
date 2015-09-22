@@ -20,7 +20,7 @@
 *
 */
 
-class Avatar_User_Dummy extends \OC_User_Dummy {
+class Avatar_User_Dummy extends \Test\Util\User\Dummy {
 	public function canChangeAvatar($uid) {
 		return true;
 	}

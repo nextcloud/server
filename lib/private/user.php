@@ -146,6 +146,10 @@ class OC_User {
 					self::$_usedBackends[$backend] = new OC_User_Database();
 					self::getManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
+				case 'dummy':
+					self::$_usedBackends[$backend] = new \Test\Util\User\Dummy();
+					self::getManager()->registerBackend(self::$_usedBackends[$backend]);
+					break;
 				default:
 					\OCP\Util::writeLog('core', 'Adding default user backend ' . $backend . '.', \OCP\Util::DEBUG);
 					$className = 'OC_USER_' . strToUpper($backend);

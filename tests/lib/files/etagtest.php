@@ -17,7 +17,7 @@ class EtagTest extends \Test\TestCase {
 	private $tmpDir;
 
 	/**
-	 * @var \OC_User_Dummy $userBackend
+	 * @var \Test\Util\User\Dummy $userBackend
 	 */
 	private $userBackend;
 
@@ -35,7 +35,7 @@ class EtagTest extends \Test\TestCase {
 		$this->tmpDir = \OC_Helper::tmpFolder();
 		\OC_Config::setValue('datadirectory', $this->tmpDir);
 
-		$this->userBackend = new \OC_User_Dummy();
+		$this->userBackend = new \Test\Util\User\Dummy();
 		\OC_User::useBackend($this->userBackend);
 	}
 

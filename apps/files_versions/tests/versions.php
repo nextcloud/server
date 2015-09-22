@@ -749,7 +749,7 @@ class Test_Files_Versioning extends \Test\TestCase {
 	public static function loginHelper($user, $create = false) {
 
 		if ($create) {
-			$backend  = new \OC_User_Dummy();
+			$backend  = new \Test\Util\User\Dummy();
 			$backend->createUser($user, $user);
 			\OC::$server->getUserManager()->registerBackend($backend);
 		}
