@@ -49,15 +49,22 @@ class Detection implements IMimeTypeDetector {
 	private $urlGenerator;
 
 	/** @var string */
-	private $configDir;
+	private $customConfigDir;
+
+	/** @var string */
+	private $defaultConfigDir;
 
 	/**
 	 * @param IURLGenerator $urlGenerator
-	 * @param string $configDir
+	 * @param string $customConfigDir
+	 * @param string $defaultConfigDir
 	 */
-	public function __construct(IURLGenerator $urlGenerator, $configDir) {
+	public function __construct(IURLGenerator $urlGenerator,
+								$customConfigDir,
+								$defaultConfigDir) {
 		$this->urlGenerator = $urlGenerator;
-		$this->configDir = $configDir;
+		$this->customConfigDir = $customConfigDir;
+		$this->defaultConfigDir = $defaultConfigDir;
 	}
 
 	/**
@@ -71,7 +78,9 @@ class Detection implements IMimeTypeDetector {
 	 * @param string $mimetype
 	 * @param string|null $secureMimeType
 	 */
-	public function registerType($extension, $mimetype, $secureMimeType = null) {
+	public function registerType($extension,
+								 $mimetype,
+								 $secureMimeType = null) {
 		$this->mimetypes[$extension] = array($mimetype, $secureMimeType);
 		$this->secureMimeTypes[$mimetype] = $secureMimeType ?: $mimetype;
 	}
@@ -102,10 +111,10 @@ class Detection implements IMimeTypeDetector {
 			return;
 		}
 
-		$this->mimeTypeAlias = json_decode(file_get_contents($this->configDir . '/mimetypealiases.dist.json'), true);
+		$this->mimeTypeAlias = json_decode(file_get_contents($this->defaultConfigDir . '/mimetypealiases.dist.json'), true);
 
-		if (file_exists($this->configDir . '/mimetypealiases.json')) {
-			$custom = json_decode(file_get_contents($this->configDir . '/mimetypealiases.json'), true);
+		if (file_exists($this->customConfigDir . '/mimetypealiases.json')) {
+			$custom = json_decode(file_get_contents($this->customConfigDir . '/mimetypealiases.json'), true);
 			$this->mimeTypeAlias = array_merge($this->mimeTypeAlias, $custom);
 		}
 	}
@@ -126,15 +135,15 @@ class Detection implements IMimeTypeDetector {
 			return;
 		}
 
-		$mimetypemapping = json_decode(file_get_contents($this->configDir . '/mimetypemapping.dist.json'), true);
+		$mimetypeMapping = json_decode(file_get_contents($this->defaultConfigDir . '/mimetypemapping.dist.json'), true);
 
 		//Check if need to load custom mappings
-		if (file_exists($this->configDir . '/mimetypemapping.json')) {
-			$custom = json_decode(file_get_contents($this->configDir . '/mimetypemapping.json'), true);
-			$mimetypemapping = array_merge($mimetypemapping, $custom);
+		if (file_exists($this->customConfigDir . '/mimetypemapping.json')) {
+			$custom = json_decode(file_get_contents($this->customConfigDir . '/mimetypemapping.json'), true);
+			$mimetypeMapping = array_merge($mimetypeMapping, $custom);
 		}
 
-		$this->registerTypeArray($mimetypemapping);
+		$this->registerTypeArray($mimetypeMapping);
 	}
 
 	/**

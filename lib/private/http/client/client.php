@@ -62,7 +62,7 @@ class Client implements IClient {
 			$dataDir = $this->config->getSystemValue('datadirectory');
 			$this->client->setDefaultOption('verify', $dataDir.'/'.$this->certificateManager->getCertificateBundle());
 		} else {
-			$this->client->setDefaultOption('verify', \OC::$SERVERROOT . '/config/ca-bundle.crt');
+			$this->client->setDefaultOption('verify', \OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 		}
 
 		$this->client->setDefaultOption('headers/User-Agent', 'ownCloud Server Crawler');

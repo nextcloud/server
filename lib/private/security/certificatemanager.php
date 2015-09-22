@@ -110,7 +110,7 @@ class CertificateManager implements ICertificateManager {
 		}
 
 		// Append the default certificates
-		$defaultCertificates = file_get_contents(\OC::$SERVERROOT . '/config/ca-bundle.crt');
+		$defaultCertificates = file_get_contents(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 		fwrite($fh_certs, $defaultCertificates);
 		fclose($fh_certs);
 	}
