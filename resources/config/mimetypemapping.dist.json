@@ -36,7 +36,7 @@
 	"csv": ["text/csv"],
 	"cvbdl": ["application/x-cbr"],
 	"c": ["text/x-c"],
-	"c++": ["text/x-c"],
+	"c++": ["text/x-c++src"],
 	"dcr": ["image/x-dcraw"],
 	"deb": ["application/x-deb"],
 	"dng": ["image/x-dcraw"],

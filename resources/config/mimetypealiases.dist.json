@@ -74,6 +74,7 @@
 	"text/csv": "x-office/spreadsheet",
 	"text/html": "text/code",
 	"text/x-c": "text/code",
+	"text/x-c++src": "text/code",
 	"text/x-h": "text/code",
 	"text/x-java-source": "text/code",
 	"text/x-python": "text/code",
