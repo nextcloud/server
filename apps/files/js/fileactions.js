@@ -594,6 +594,7 @@
 
 			this.registerAction({
 				name: 'Rename',
+				displayName: t('files', 'Rename'),
 				mime: 'all',
 				permissions: OC.PERMISSION_UPDATE,
 				icon: function() {
@@ -614,6 +615,7 @@
 
 			this.registerAction({
 				name: 'Delete',
+				displayName: t('files', 'Delete'),
 				mime: 'all',
 				// permission is READ because we show a hint instead if there is no permission
 				permissions: OC.PERMISSION_DELETE,
