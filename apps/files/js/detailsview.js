@@ -84,7 +84,7 @@
 		},
 
 		_onClose: function(event) {
-			OC.Apps.hideAppSidebar();
+			OC.Apps.hideAppSidebar(this.$el);
 			event.preventDefault();
 		},
 
