@@ -306,7 +306,7 @@
 					permissions: OC.PERMISSION_READ,
 					actionHandler: function(fileName, context) {
 						self._updateDetailsView(fileName);
-						OC.Apps.showAppSidebar();
+						OC.Apps.showAppSidebar(self._detailsView.$el);
 					}
 				});
 			}
@@ -381,7 +381,7 @@
 			if (tabId) {
 				this._detailsView.selectTab(tabId);
 			}
-			OC.Apps.showAppSidebar();
+			OC.Apps.showAppSidebar(this._detailsView.$el);
 		},
 
 		/**
