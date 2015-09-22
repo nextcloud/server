@@ -78,7 +78,7 @@
 			// register "star" action
 			fileActions.registerAction({
 				name: 'Favorite',
-				displayName: 'Favorite',
+				displayName: t('files', 'Favorite'),
 				mime: 'all',
 				permissions: OC.PERMISSION_READ,
 				type: OCA.Files.FileActions.TYPE_INLINE,

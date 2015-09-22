@@ -300,6 +300,7 @@
 			if (this._detailsView) {
 				this.fileActions.registerAction({
 					name: 'Details',
+					displayName: t('files', 'Details'),
 					mime: 'all',
 					icon: OC.imagePath('core', 'actions/details'),
 					permissions: OC.PERMISSION_READ,

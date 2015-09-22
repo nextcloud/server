@@ -59,6 +59,7 @@ OCA.Trashbin.App = {
 
 		fileActions.registerAction({
 			name: 'Delete',
+			displayName: t('files', 'Delete'),
 			mime: 'all',
 			permissions: OC.PERMISSION_READ,
 			icon: function() {
