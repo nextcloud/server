@@ -411,7 +411,7 @@ class OC_App {
 	/**
 	 * Returns the Settings Navigation
 	 *
-	 * @return string
+	 * @return string[]
 	 *
 	 * This function returns an array containing all settings pages added. The
 	 * entries are sorted by the key 'order' ascending.
