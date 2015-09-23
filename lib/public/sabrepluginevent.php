@@ -25,6 +25,9 @@ namespace OCP;
 use OCP\AppFramework\Http;
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * @since 8.2.0
+ */
 class SabrePluginEvent extends Event {
 
 	/** @var int */
@@ -33,6 +36,9 @@ class SabrePluginEvent extends Event {
 	/** @var string */
 	protected $message;
 
+	/**
+	 * @since 8.2.0
+	 */
 	public function __construct() {
 		$this->message = '';
 		$this->statusCode = Http::STATUS_OK;
@@ -41,6 +47,7 @@ class SabrePluginEvent extends Event {
 	/**
 	 * @param int $statusCode
 	 * @return self
+	 * @since 8.2.0
 	 */
 	public function setStatusCode($statusCode) {
 		$this->statusCode = (int) $statusCode;
@@ -50,6 +57,7 @@ class SabrePluginEvent extends Event {
 	/**
 	 * @param string $message
 	 * @return self
+	 * @since 8.2.0
 	 */
 	public function setMessage($message) {
 		$this->message = (string) $message;
@@ -58,6 +66,7 @@ class SabrePluginEvent extends Event {
 
 	/**
 	 * @return int
+	 * @since 8.2.0
 	 */
 	public function getStatusCode() {
 		return $this->statusCode;
@@ -65,6 +74,7 @@ class SabrePluginEvent extends Event {
 
 	/**
 	 * @return string
+	 * @since 8.2.0
 	 */
 	public function getMessage() {
 		return $this->message;
