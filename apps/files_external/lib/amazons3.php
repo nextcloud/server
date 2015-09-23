@@ -517,7 +517,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$dh = $this->opendir($path1);
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
-					if ($file === '.' || $file === '..') {
+					if (\OC\Files\Filesystem::isIgnoredDir($file)) {
 						continue;
 					}
 

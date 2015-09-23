@@ -1433,7 +1433,7 @@ class OC_Util {
 		if ($trimmed === '') {
 			return false;
 		}
-		if ($trimmed === '.' || $trimmed === '..') {
+		if (\OC\Files\Filesystem::isIgnoredDir($trimmed)) {
 			return false;
 		}
 		foreach (str_split($trimmed) as $char) {

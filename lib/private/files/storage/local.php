@@ -283,7 +283,7 @@ class Local extends \OC\Files\Storage\Common {
 		$files = array();
 		$physicalDir = $this->getSourcePath($dir);
 		foreach (scandir($physicalDir) as $item) {
-			if ($item == '.' || $item == '..')
+			if (\OC\Files\Filesystem::isIgnoredDir($item))
 				continue;
 			$physicalItem = $physicalDir . '/' . $item;
 

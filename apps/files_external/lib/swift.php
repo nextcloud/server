@@ -175,7 +175,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 		$dh = $this->opendir($path);
 		while ($file = readdir($dh)) {
-			if ($file === '.' || $file === '..') {
+			if (\OC\Files\Filesystem::isIgnoredDir($file)) {
 				continue;
 			}
 
@@ -429,7 +429,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 			$dh = $this->opendir($path1);
 			while ($file = readdir($dh)) {
-				if ($file === '.' || $file === '..') {
+				if (\OC\Files\Filesystem::isIgnoredDir($file)) {
 					continue;
 				}
 

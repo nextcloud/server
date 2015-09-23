@@ -72,7 +72,7 @@ trait CopyDirectory {
 		$dh = $this->opendir($source);
 		$result = true;
 		while ($file = readdir($dh)) {
-			if ($file !== '.' and $file !== '..') {
+			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 				if ($this->is_dir($source . '/' . $file)) {
 					$this->mkdir($target . '/' . $file);
 					$result = $this->copyRecursive($source . '/' . $file, $target . '/' . $file);

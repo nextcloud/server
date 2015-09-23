@@ -1669,7 +1669,7 @@ class View {
 		if ($trimmed === '') {
 			throw new InvalidPathException($l10n->t('Empty filename is not allowed'));
 		}
-		if ($trimmed === '.' || $trimmed === '..') {
+		if (\OC\Files\Filesystem::isIgnoredDir($trimmed)) {
 			throw new InvalidPathException($l10n->t('Dot files are not allowed'));
 		}
 
