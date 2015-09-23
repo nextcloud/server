@@ -1972,4 +1972,5 @@ jQuery.fn.tipsy = function(argument) {
 		this.tooltip(argument);
 		jQuery.fn.tooltip.call(this, argument);
 	}
+	return this;
 }
