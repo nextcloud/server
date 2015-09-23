@@ -176,9 +176,7 @@
 					$iconDiv.removeClass('icon-loading icon-32');
 					var targetHeight = getTargetHeight(img);
 					if (this.model.isImage() && targetHeight > smallPreviewSize) {
-						if (!isLandscape(img)) {
-							$container.addClass('portrait');
-						}
+						$container.addClass(isLandscape(img)? 'landscape': 'portrait');
 						$container.addClass('image');
 					}
 
@@ -186,7 +184,7 @@
 					// when we dont have a preview we show the mime icon in the error handler
 					$iconDiv.css({
 						'background-image': 'url("' + previewUrl + '")',
-						'height': targetHeight
+						height: (isLandscape(img) && targetHeight > smallPreviewSize)? 'auto': targetHeight
 					});
 				}.bind(this),
 				error: function () {
