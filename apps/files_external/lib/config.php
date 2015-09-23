@@ -112,7 +112,7 @@ class OC_Mount_Config {
 	 * @param string $uid user
 	 * @return array of mount point string as key, mountpoint config as value
 	 *
-	 * @deprecated 8.2.0 use UserGlobalStoragesService::getAllStorages() and UserStoragesService::getAllStorages()
+	 * @deprecated 8.2.0 use UserGlobalStoragesService::getStorages() and UserStoragesService::getStorages()
 	 */
 	public static function getAbsoluteMountPoints($uid) {
 		$mountPoints = array();
@@ -124,7 +124,7 @@ class OC_Mount_Config {
 		$userGlobalStoragesService->setUser($user);
 		$userStoragesService->setUser($user);
 
-		foreach ($userGlobalStoragesService->getAllStorages() as $storage) {
+		foreach ($userGlobalStoragesService->getStorages() as $storage) {
 			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
 			$mountEntry = self::prepareMountPointEntry($storage, false);
 			foreach ($mountEntry['options'] as &$option) {
@@ -133,7 +133,7 @@ class OC_Mount_Config {
 			$mountPoints[$mountPoint] = $mountEntry;
 		}
 
-		foreach ($userStoragesService->getAllStorages() as $storage) {
+		foreach ($userStoragesService->getStorages() as $storage) {
 			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
 			$mountEntry = self::prepareMountPointEntry($storage, true);
 			foreach ($mountEntry['options'] as &$option) {
@@ -153,13 +153,13 @@ class OC_Mount_Config {
 	 *
 	 * @return array
 	 *
-	 * @deprecated 8.2.0 use GlobalStoragesService::getAllStorages()
+	 * @deprecated 8.2.0 use GlobalStoragesService::getStorages()
 	 */
 	public static function getSystemMountPoints() {
 		$mountPoints = [];
 		$service = self::$app->getContainer()->query('OCA\Files_External\Service\GlobalStoragesService');
 
-		foreach ($service->getAllStorages() as $storage) {
+		foreach ($service->getStorages() as $storage) {
 			$mountPoints[] = self::prepareMountPointEntry($storage, false);
 		}
 
@@ -171,13 +171,13 @@ class OC_Mount_Config {
 	 *
 	 * @return array
 	 *
-	 * @deprecated 8.2.0 use UserStoragesService::getAllStorages()
+	 * @deprecated 8.2.0 use UserStoragesService::getStorages()
 	 */
 	public static function getPersonalMountPoints() {
 		$mountPoints = [];
 		$service = self::$app->getContainer()->query('OCA\Files_External\Service\UserStoragesService');
 
-		foreach ($service->getAllStorages() as $storage) {
+		foreach ($service->getStorages() as $storage) {
 			$mountPoints[] = self::prepareMountPointEntry($storage, true);
 		}
 

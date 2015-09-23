@@ -153,7 +153,7 @@ abstract class StoragesController extends Controller {
 		$backend = $storage->getBackend();
 		/** @var AuthMechanism */
 		$authMechanism = $storage->getAuthMechanism();
-		if (!$backend || $backend->checkDependencies()) {
+		if ($backend->checkDependencies()) {
 			// invalid backend
 			return new DataResponse(
 				array(
@@ -165,7 +165,7 @@ abstract class StoragesController extends Controller {
 			);
 		}
 
-		if (!$backend->isVisibleFor($this->getVisibilityType())) {
+		if (!$backend->isVisibleFor($this->service->getVisibilityType())) {
 			// not permitted to use backend
 			return new DataResponse(
 				array(
@@ -176,7 +176,7 @@ abstract class StoragesController extends Controller {
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
-		if (!$authMechanism->isVisibleFor($this->getVisibilityType())) {
+		if (!$authMechanism->isVisibleFor($this->service->getVisibilityType())) {
 			// not permitted to use auth mechanism
 			return new DataResponse(
 				array(
@@ -209,13 +209,6 @@ abstract class StoragesController extends Controller {
 
 		return null;
 	}
-
-	/**
-	 * Get the visibility type for this controller, used in validation
-	 *
-	 * @return string BackendService::VISIBILITY_* constants
-	 */
-	abstract protected function getVisibilityType();
 
 	/**
 	 * Check whether the given storage is available / valid.

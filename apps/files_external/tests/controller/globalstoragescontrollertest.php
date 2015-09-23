@@ -24,6 +24,7 @@ use \OCA\Files_external\Controller\GlobalStoragesController;
 use \OCA\Files_external\Service\GlobalStoragesService;
 use \OCP\AppFramework\Http;
 use \OCA\Files_external\NotFoundException;
+use \OCA\Files_External\Service\BackendService;
 
 class GlobalStoragesControllerTest extends StoragesControllerTest {
 	public function setUp() {
@@ -31,6 +32,9 @@ class GlobalStoragesControllerTest extends StoragesControllerTest {
 		$this->service = $this->getMockBuilder('\OCA\Files_external\Service\GlobalStoragesService')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$this->service->method('getVisibilityType')
+			->willReturn(BackendService::VISIBILITY_ADMIN);
 
 		$this->controller = new GlobalStoragesController(
 			'files_external',

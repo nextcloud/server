@@ -40,6 +40,9 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->service->method('getVisibilityType')
+			->willReturn(BackendService::VISIBILITY_PERSONAL);
+
 		$this->controller = new UserStoragesController(
 			'files_external',
 			$this->getMock('\OCP\IRequest'),

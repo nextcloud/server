@@ -117,7 +117,7 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 	 * @return StorageConfig[]
 	 */
 	public function getUniqueStorages() {
-		$storages = $this->getAllStorages();
+		$storages = $this->getStorages();
 
 		$storagesByMountpoint = [];
 		foreach ($storages as $storage) {
