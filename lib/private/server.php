@@ -76,9 +76,6 @@ class Server extends SimpleContainer implements IServerContainer {
 	/** @var string */
 	private $webRoot;
 
-	/** @var string */
-	protected $service = null;
-	
 	/**
 	 * @param string $webRoot
 	 */
@@ -1070,23 +1067,6 @@ class Server extends SimpleContainer implements IServerContainer {
 		return $this->query('CryptoWrapper');
 	}
 
-	/**
-	 * @return requested service
-	 */
-	public function getService() {
-		if (! isset ($this->service )) {
-			$pathInfo = self::getRequest ()->getPathInfo ();
-			if ($pathInfo === false || $pathInfo === '') {
-				return;
-			}
-			if (! $pos = strpos ( $pathInfo, '/', 1 )) {
-				$pos = strlen ( $pathInfo );
-			}
-		$this->service=substr ( $pathInfo, 1, $pos - 1 );
-		}
-		return $this->service;
-	}	
-	
 	/**
 	 * Not a public API as of 8.2, wait for 9.0
 	 * @return \OCA\Files_External\Service\BackendService
