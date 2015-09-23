@@ -247,6 +247,16 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		}
 	}
 
+	public function testGetStoragesBackendNotVisible() {
+		// we don't test this here
+		$this->assertTrue(true);
+	}
+
+	public function testGetStoragesAuthMechanismNotVisible() {
+		// we don't test this here
+		$this->assertTrue(true);
+	}
+
 	public function testHooksAddStorage($a = null, $b = null, $c = null) {
 		// we don't test this here
 		$this->assertTrue(true);
