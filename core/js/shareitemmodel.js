@@ -297,8 +297,7 @@
 		 * @returns {boolean}
 		 */
 		hasUserShares: function() {
-			var shares = this.get('shares');
-			return _.isArray(shares) && shares.length > 0;
+			return this.getSharesWithCurrentItem().length > 0;
 		},
 
 		/**
@@ -405,6 +404,20 @@
 		 */
 		getReshareType: function() {
 			return this.get('reshare').share_type;
+		},
+
+		/**
+		 * Returns all share entries that only apply to the current item
+		 * (file/folder)
+		 *
+		 * @return {Array.<OC.Share.Types.ShareInfo>}
+		 */
+		getSharesWithCurrentItem: function() {
+			var shares = this.get('shares') || [];
+			var fileId = this.fileInfoModel.get('id');
+			return _.filter(shares, function(share) {
+				return share.item_source === fileId;
+			});
 		},
 
 		/**
