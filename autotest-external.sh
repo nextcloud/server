@@ -175,57 +175,56 @@ EOF
 	fi
 
 	if [ -n "$2" -a "$2" == "common-tests" ]; then
-	    return;
+		return;
 	fi
 
-    FILES_EXTERNAL_BACKEND_PATH=../apps/files_external/tests/backends
-    FILES_EXTERNAL_BACKEND_ENV_PATH=../apps/files_external/tests/env
+	FILES_EXTERNAL_BACKEND_PATH=../apps/files_external/tests/backends
+	FILES_EXTERNAL_BACKEND_ENV_PATH=../apps/files_external/tests/env
 
 	for startFile in `ls -1 $FILES_EXTERNAL_BACKEND_ENV_PATH | grep start`; do
-	    name=`echo $startFile | sed 's/start-//' | sed 's/\.sh//'`
+		name=`echo $startFile | sed 's/start-//' | sed 's/\.sh//'`
 
-	    if [ -n "$2" -a "$2" != "$name" ]; then
-	        echo "skip: $startFile"
-	        continue;
-	    fi
+		if [ -n "$2" -a "$2" != "$name" ]; then
+			echo "skip: $startFile"
+			continue;
+		fi
 
-	    echo "start: $startFile"
-	    echo "name: $name"
+		echo "start: $startFile"
+		echo "name: $name"
 
-	    # execute start file
-	    ./$FILES_EXTERNAL_BACKEND_ENV_PATH/$startFile
+		# execute start file
+		if ./$FILES_EXTERNAL_BACKEND_ENV_PATH/$startFile; then
+			# getting backend to test from filename
+			# it's the part between the dots startSomething.TestToRun.sh
+			testToRun=`echo $startFile | cut -d '-' -f 2`
 
-	    # getting backend to test from filename
-	    # it's the part between the dots startSomething.TestToRun.sh
-	    testToRun=`echo $startFile | cut -d '-' -f 2`
+			# run the specific test
+			if [ -z "$NOCOVERAGE" ]; then
+				rm -rf "coverage-external-html-$1-$name"
+				mkdir "coverage-external-html-$1-$name"
+				"$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1-$name.xml" --coverage-clover "autotest-external-clover-$1-$name.xml" --coverage-html "coverage-external-html-$1-$name" "$FILES_EXTERNAL_BACKEND_PATH/$testToRun.php"
+				RESULT=$?
+			else
+				echo "No coverage"
+				"$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1-$name.xml" "$FILES_EXTERNAL_BACKEND_PATH/$testToRun.php"
+				RESULT=$?
+			fi
+		fi
 
-        # run the specific test
-        if [ -z "$NOCOVERAGE" ]; then
-            rm -rf "coverage-external-html-$1-$name"
-            mkdir "coverage-external-html-$1-$name"
-            "$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1-$name.xml" --coverage-clover "autotest-external-clover-$1-$name.xml" --coverage-html "coverage-external-html-$1-$name" "$FILES_EXTERNAL_BACKEND_PATH/$testToRun.php"
-            RESULT=$?
-        else
-            echo "No coverage"
-            "$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1-$name.xml" "$FILES_EXTERNAL_BACKEND_PATH/$testToRun.php"
-            RESULT=$?
-        fi
-
-	    # calculate stop file
-	    stopFile=`echo "$startFile" | sed 's/start/stop/'`
-	    echo "stop: $stopFile"
-	    if [ -f $FILES_EXTERNAL_BACKEND_ENV_PATH/$stopFile ]; then
-	        # execute stop file if existant
-	        ./$FILES_EXTERNAL_BACKEND_ENV_PATH/$stopFile
-	    fi
+		# calculate stop file
+		stopFile=`echo "$startFile" | sed 's/start/stop/'`
+		echo "stop: $stopFile"
+		if [ -f $FILES_EXTERNAL_BACKEND_ENV_PATH/$stopFile ]; then
+			# execute stop file if existant
+			./$FILES_EXTERNAL_BACKEND_ENV_PATH/$stopFile
+		fi
 	done;
 }
 
 #
 # start test execution
 #
-if [ -z "$1" ]
-  then
+if [ -z "$1" ]; then
 	# run all known database configs
 	for DBCONFIG in $DBCONFIGS; do
 		execute_tests $DBCONFIG "$2"

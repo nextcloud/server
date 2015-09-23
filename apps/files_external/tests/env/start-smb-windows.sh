@@ -19,6 +19,12 @@ user=smb-test
 password=!owncloud123
 host=WIN-9GTFAS08C15
 
+if ! (nc -c -w 1 ${host} 445 </dev/null >&/dev/null \
+    || nc -w 1 ${host} 445 </dev/null >&/dev/null); then
+    echo "[ERROR] Server not reachable" >&2
+    exit 1
+fi
+
 cat > $thisFolder/config.smb.php <<DELIM
 <?php
 
