@@ -225,6 +225,7 @@ class User {
 	 */
 	public function getHomePath($valueFromLDAP = null) {
 		$path = $valueFromLDAP;
+		$attr = null;
 
 		if(   is_null($path)
 		   && strpos($this->access->connection->homeFolderNamingRule, 'attr:') === 0
@@ -256,7 +257,9 @@ class User {
 			return $path;
 		}
 
-		if($this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', true)) {
+		if(    !is_null($attr)
+			&& $this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', true)
+		) {
 			// a naming rule attribute is defined, but it doesn't exist for that LDAP user
 			throw new \Exception('Home dir attribute can\'t be read from LDAP for uid: ' . $this->getUsername());
 		}

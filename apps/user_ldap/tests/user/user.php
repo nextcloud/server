@@ -736,4 +736,107 @@ class Test_User_User extends \Test\TestCase {
 
 		$userMock->processAttributes($record);
 	}
+
+	public function emptyHomeFolderAttributeValueProvider() {
+		return array(
+			'empty' => array(''),
+			'prefixOnly' => array('attr:'),
+		);
+	}
+
+	/**
+	 * @dataProvider emptyHomeFolderAttributeValueProvider
+	 */
+	public function testGetHomePathNotConfigured($attributeValue) {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$connection->expects($this->any())
+			->method('__get')
+			->with($this->equalTo('homeFolderNamingRule'))
+			->will($this->returnValue($attributeValue));
+
+		$access->expects($this->never())
+			->method('readAttribute');
+
+		$config->expects($this->never())
+			->method('getAppValue');
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+
+		$path = $user->getHomePath();
+		$this->assertSame($path, false);
+	}
+
+	public function testGetHomePathConfiguredNotAvailableAllowed() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$connection->expects($this->any())
+			->method('__get')
+			->with($this->equalTo('homeFolderNamingRule'))
+			->will($this->returnValue('attr:foobar'));
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->will($this->returnValue(false));
+
+		// asks for "enforce_home_folder_naming_rule"
+		$config->expects($this->once())
+			->method('getAppValue')
+			->will($this->returnValue(false));
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+
+		$path = $user->getHomePath();
+
+		$this->assertSame($path, false);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testGetHomePathConfiguredNotAvailableNotAllowed() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$connection->expects($this->any())
+			->method('__get')
+			->with($this->equalTo('homeFolderNamingRule'))
+			->will($this->returnValue('attr:foobar'));
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->will($this->returnValue(false));
+
+		// asks for "enforce_home_folder_naming_rule"
+		$config->expects($this->once())
+			->method('getAppValue')
+			->will($this->returnValue(true));
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+
+		$user->getHomePath();
+	}
 }
