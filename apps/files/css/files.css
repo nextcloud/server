@@ -186,7 +186,8 @@ table th .sort-indicator {
 	filter: alpha(opacity=30);
 	opacity: .3;
 }
-.sort-indicator.hidden {
+.sort-indicator.hidden,
+.multiselect .sort-indicator {
 	visibility: hidden;
 }
 table th:hover .sort-indicator.hidden,
