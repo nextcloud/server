@@ -54,12 +54,25 @@ echo "ftp container: $container"
 # put container IDs into a file to drop them after the test run (keep in mind that multiple tests run in parallel on the same host)
 echo $container >> $thisFolder/dockerContainerMorrisJobke.$EXECUTOR_NUMBER.ftp
 
+echo -n "Waiting for ftp initialization"
+starttime=$(date +%s)
+# support for GNU netcat and BSD netcat
+while ! (nc -c -w 1 ${host} 21 </dev/null >&/dev/null \
+    || nc -w 1 ${host} 21 </dev/null >&/dev/null); do
+    sleep 1
+    echo -n '.'
+    if (( $(date +%s) > starttime + 60 )); then
+	echo
+	echo "[ERROR] Waited 60 seconds, no response" >&2
+	exit 1
+    fi
+done
+echo
+sleep 1
+
 if [ -n "$DEBUG" ]; then
     cat $thisFolder/config.ftp.php
     cat $thisFolder/dockerContainerMorrisJobke.$EXECUTOR_NUMBER.ftp
 fi
 
-# TODO find a way to determine the successful initialization inside the docker container
-echo "Waiting 5 seconds for ftp initialization ... "
-sleep 5
 

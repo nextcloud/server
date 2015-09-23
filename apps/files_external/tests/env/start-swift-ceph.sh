@@ -56,9 +56,21 @@ echo "${docker_image} container: $container"
 # put container IDs into a file to drop them after the test run (keep in mind that multiple tests run in parallel on the same host)
 echo $container >> $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
 
-# TODO find a way to determine the successful initialization inside the docker container
-echo "Waiting 20 seconds for ceph initialization ... "
-sleep 20
+echo -n "Waiting for ceph initialization"
+starttime=$(date +%s)
+# support for GNU netcat and BSD netcat
+while ! (nc -c -w 1 ${host} 80 </dev/null >&/dev/null \
+    || nc -w 1 ${host} 80 </dev/null >&/dev/null); do
+    sleep 1
+    echo -n '.'
+    if (( $(date +%s) > starttime + 60 )); then
+	echo
+	echo "[ERROR] Waited 60 seconds, no response" >&2
+	exit 1
+    fi
+done
+echo
+sleep 1
 
 cat > $thisFolder/config.swift.php <<DELIM
 <?php

@@ -46,20 +46,30 @@ fi
 
 container=`docker run -P $parameter -d -e ADMINLOGIN=test -e ADMINPWD=test morrisjobke/owncloud`
 
-# TODO find a way to determine the successful initialization inside the docker container
-echo "Waiting 30 seconds for ownCloud initialization ... "
-sleep 30
+host=`docker inspect $container | grep IPAddress | cut -d '"' -f 4`
 
-# get mapped port on host for internal port 80 - output is IP:PORT - we need to extract the port with 'cut'
-port=`docker port $container 80 | cut -f 2 -d :`
-
+echo -n "Waiting for ownCloud initialization"
+starttime=$(date +%s)
+# support for GNU netcat and BSD netcat
+while ! (nc -c -w 1 ${host} 80 </dev/null >&/dev/null \
+    || nc -w 1 ${host} 80 </dev/null >&/dev/null); do
+    sleep 1
+    echo -n '.'
+    if (( $(date +%s) > starttime + 60 )); then
+	echo
+	echo "[ERROR] Waited 60 seconds, no response" >&2
+	exit 1
+    fi
+done
+echo
+sleep 1
 
 cat > $thisFolder/config.webdav.php <<DELIM
 <?php
 
 return array(
     'run'=>true,
-    'host'=>'localhost:$port/owncloud/remote.php/webdav/',
+    'host'=>'${host}:80/owncloud/remote.php/webdav/',
     'user'=>'test',
     'password'=>'test',
     'root'=>'',
