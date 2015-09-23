@@ -249,10 +249,7 @@ describe('OC.Share.ShareItemModel', function() {
 		it('allows owner to share their own share when they are also the recipient', function() {
 			OC.currentUser = 'user1';
 			loadItemStub.yields({
-				reshare: {
-					permissions: OC.PERMISSION_READ,
-					uid_owner: 'user1'
-				},
+				reshare: {},
 				shares: []
 			});
 
@@ -260,6 +257,51 @@ describe('OC.Share.ShareItemModel', function() {
 
 			// sharing still allowed
 			expect(model.get('permissions') & OC.PERMISSION_SHARE).toEqual(OC.PERMISSION_SHARE);
+		});
+		it('properly parses integer values when the server is in the mood of returning ints as string', function() {
+			loadItemStub.yields({
+				reshare: {},
+				shares: [{
+					displayname_owner: 'root',
+					expiration: '1403900000',
+					file_source: '123',
+					file_target: '/folder',
+					id: '20',
+					item_source: '123',
+					item_type: 'file',
+					mail_send: '0',
+					parent: '999',
+					path: '/folder',
+					permissions: '' + OC.PERMISSION_READ,
+					share_type: '' + OC.Share.SHARE_TYPE_USER,
+					share_with: 'user1',
+					stime: '1403884258',
+					storage: '1',
+					token: 'tehtoken',
+					uid_owner: 'root'
+				}]
+			});
+
+			model.fetch();
+
+			var shares = model.get('shares');
+			expect(shares.length).toEqual(1);
+
+			var share = shares[0];
+			expect(share.id).toEqual(20);
+			expect(share.file_source).toEqual(123);
+			expect(share.file_target).toEqual('/folder');
+			expect(share.item_source).toEqual(123);
+			expect(share.item_type).toEqual('file');
+			expect(share.displayname_owner).toEqual('root');
+			expect(share.mail_send).toEqual(0);
+			expect(share.parent).toEqual(999);
+			expect(share.path).toEqual('/folder');
+			expect(share.permissions).toEqual(OC.PERMISSION_READ);
+			expect(share.share_type).toEqual(OC.Share.SHARE_TYPE_USER);
+			expect(share.share_with).toEqual('user1');
+			expect(share.stime).toEqual(1403884258);
+			expect(share.expiration).toEqual(1403900000);
 		});
 	});
 
