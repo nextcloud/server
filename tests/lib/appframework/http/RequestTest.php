@@ -202,6 +202,27 @@ class RequestTest extends \Test\TestCase {
 		$this->assertEquals('Joey', $request['nickname']);
 	}
 
+	public function testNotJsonPost() {
+		global $data;
+		$data = 'this is not valid json';
+		$vars = array(
+			'method' => 'POST',
+			'server' => array('CONTENT_TYPE' => 'application/json; utf-8')
+		);
+
+		$request = new Request(
+			$vars,
+			$this->secureRandom,
+			$this->getMock('\OCP\Security\ICrypto'),
+			$this->config,
+			$this->stream
+		);
+
+		$this->assertEquals('POST', $request->method);
+		$result = $request->post;
+		// ensure there's no error attempting to decode the content
+	}
+
 	public function testPatch() {
 		global $data;
 		$data = http_build_query(array('name' => 'John Q. Public', 'nickname' => 'Joey'), '', '&');
