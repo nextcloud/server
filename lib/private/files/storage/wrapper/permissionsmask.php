@@ -66,7 +66,7 @@ class PermissionsMask extends Wrapper {
 	}
 
 	public function isSharable($path) {
-		return $this->checkMask(Constants::PERMISSION_SHARE) and parent::isSharable($parm);
+		return $this->checkMask(Constants::PERMISSION_SHARE) and parent::isSharable($path);
 	}
 
 	public function getPermissions($path) {
