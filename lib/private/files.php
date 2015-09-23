@@ -41,6 +41,7 @@
  */
 
 use OC\Lock\NoopLockingProvider;
+use OC\Streamer;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -113,7 +114,7 @@ class OC_Files {
 		if ($getType === self::FILE) {
 			$streamer = false;
 		} else {
-			$streamer = new OC_Streamer();
+			$streamer = new Streamer();
 		}
 		OC_Util::obEnd();
 
