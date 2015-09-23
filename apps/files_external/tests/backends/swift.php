@@ -41,16 +41,20 @@ class Swift extends Storage {
 
 	protected function tearDown() {
 		if ($this->instance) {
-			$connection = $this->instance->getConnection();
-			$container = $connection->getContainer($this->config['bucket']);
+			try {
+				$connection = $this->instance->getConnection();
+				$container = $connection->getContainer($this->config['bucket']);
 
-			$objects = $container->objectList();
-			while($object = $objects->next()) {
-				$object->setName(str_replace('#','%23',$object->getName()));
-				$object->delete();
+				$objects = $container->objectList();
+				while($object = $objects->next()) {
+					$object->setName(str_replace('#','%23',$object->getName()));
+					$object->delete();
+				}
+
+				$container->delete();
+			} catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
+				// container didn't exist, so we don't need to delete it
 			}
-
-			$container->delete();
 		}
 
 		parent::tearDown();
