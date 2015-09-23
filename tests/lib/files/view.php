@@ -1818,6 +1818,49 @@ class View extends \Test\TestCase {
 	}
 
 	/**
+	 * simulate a failed copy operation.
+	 * We expect that we catch the exception, free the lock and re-throw it.
+	 *
+	 * @expectedException \Exception
+	 */
+	public function testLockFileCopyException() {
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+			->setMethods(['copy'])
+			->getMock();
+
+		$sourcePath = 'original.txt';
+		$targetPath = 'target.txt';
+
+		\OC\Files\Filesystem::mount($storage, array(), $this->user . '/');
+		$storage->mkdir('files');
+		$view->file_put_contents($sourcePath, 'meh');
+
+		$storage->expects($this->once())
+			->method('copy')
+			->will($this->returnCallback(
+				function() {
+					throw new \Exception();
+				}
+			));
+
+		$this->connectMockHooks('copy', $view, $sourcePath, $lockTypeSourcePre, $lockTypeSourcePost);
+		$this->connectMockHooks('copy', $view, $targetPath, $lockTypeTargetPre, $lockTypeTargetPost);
+
+		$this->assertNull($this->getFileLockType($view, $sourcePath), 'Source file not locked before operation');
+		$this->assertNull($this->getFileLockType($view, $targetPath), 'Target file not locked before operation');
+
+		try {
+			$view->copy($sourcePath, $targetPath);
+		} catch (\Exception $e) {
+			$this->assertNull($this->getFileLockType($view, $sourcePath), 'Source file not locked after operation');
+			$this->assertNull($this->getFileLockType($view, $targetPath), 'Target file not locked after operation');
+			throw $e;
+		}
+	}
+
+	/**
 	 * Test rename operation: unlock first path when second path was locked
 	 */
 	public function testLockFileRenameUnlockOnException() {
