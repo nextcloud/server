@@ -115,3 +115,8 @@ select {
 	line-height: 38px;
 }
 
+.lte8 input[type="checkbox"] + label:before { background-image: url('../img/actions/checkbox.png'); }
+.lte8 input[type="checkbox"].white + label:before { background-image: url('../img/actions/checkbox-white.png'); }
+.lte8 input[type="checkbox"]:checked + label:before { background-image: url('../img/actions/checkbox-checked.png'); }
+.lte8 input[type="checkbox"].white:checked + label:before { background-image: url('../img/actions/checkbox-checked-white.png'); }
+
