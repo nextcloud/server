@@ -603,7 +603,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		if (strpos($pathInfo, $name) === 0) {
 			$pathInfo = substr($pathInfo, strlen($name));
 		}
-		if($pathInfo === '/'){
+		if($pathInfo === false || $pathInfo === '/'){
 			return '';
 		} else {
 			return $pathInfo;
