@@ -2537,8 +2537,9 @@
 		},
 
 		_renderNewButton: function() {
-			// if an upload button (legacy) already exists, skip
-			if ($('#controls .button.upload').length) {
+			// if an upload button (legacy) already exists or no actions container exist, skip
+			var $actionsContainer = this.$el.find('#controls .actions');
+			if (!$actionsContainer.length || this.$el.find('.button.upload').length) {
 				return;
 			}
 			if (!this._addButtonTemplate) {
@@ -2549,7 +2550,7 @@
 				iconUrl: OC.imagePath('core', 'actions/add')
 			}));
 
-			$('#controls .actions').prepend($newButton);
+			$actionsContainer.prepend($newButton);
 			$newButton.tooltip({'placement': 'bottom'});
 
 			$newButton.click(_.bind(this._onClickNewButton, this));
