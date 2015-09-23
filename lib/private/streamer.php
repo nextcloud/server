@@ -19,10 +19,12 @@
  *
  */
 
-use \ZipStreamer\ZipStreamer;
+namespace OC;
+
+use ZipStreamer\ZipStreamer;
 use DeepDiver1975\TarStreamer\TarStreamer;
 
-class OC_Streamer {
+class Streamer {
 	// array of regexp. Matching user agents will get tar instead of zip
 	private $preferTarFor = [ '/macintosh|mac os x/i' ];
 
@@ -36,7 +38,7 @@ class OC_Streamer {
 		/** @var \OCP\IRequest */
 		$request = \OC::$server->getRequest();
 		
-		if ($request->isUserAgent($this->preferTar)) {
+		if ($request->isUserAgent($this->preferTarFor)) {
 			$this->streamerInstance = new TarStreamer();
 		} else {
 			$this->streamerInstance = new ZipStreamer();
@@ -75,7 +77,7 @@ class OC_Streamer {
 			if(\OC\Files\Filesystem::is_file($file)) {
 				$filesize = \OC\Files\Filesystem::filesize($file);
 				$fh = \OC\Files\Filesystem::fopen($file, 'r');
-				$this->streamerInstance->addFileFromStream($fh, $internalDir . $filename, $filesize);
+				$this->addFileFromStream($fh, $internalDir . $filename, $filesize);
 				fclose($fh);
 			}elseif(\OC\Files\Filesystem::is_dir($file)) {
 				$this->addDirRecoursive($file, $internalDir);
