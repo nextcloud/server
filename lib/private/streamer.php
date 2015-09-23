@@ -23,24 +23,38 @@ use \ZipStreamer\ZipStreamer;
 use DeepDiver1975\TarStreamer\TarStreamer;
 
 class OC_Streamer {
+	// array of regexp. Matching user agents will get tar instead of zip
+	private $preferTarFor = [ '/macintosh|mac os x/i' ];
 
+	// streamer instance
 	private $streamerInstance;
+	
+	/** @var string*/
 	private $extension;
 	
 	public function __construct(){
-		if (0) {
-			$this->streamerInstance = new ZipStreamer();
-		} else {
+		/** @var \OCP\IRequest */
+		$request = \OC::$server->getRequest();
+		
+		if ($request->isUserAgent($this->preferTar)) {
 			$this->streamerInstance = new TarStreamer();
+		} else {
+			$this->streamerInstance = new ZipStreamer();
 		}
 	}
 	
+	/**
+	 * Send HTTP headers
+	 * @param string name 
+	 * @return bool
+	 */
 	public function sendHeaders($name){
 		$extension = $this->streamerInstance instanceof ZipStreamer ? '.zip' : '.tar';
 		return $this->streamerInstance->sendHeaders($name . $extension);
 	}
 	
 	/**
+	 * Stream directory recursively
 	 * @param string $dir
 	 * @param string $internalDir
 	 */
@@ -69,18 +83,38 @@ class OC_Streamer {
 		}
 	}
 	
-	public function addFileFromStream($fd, $internalName, $size){
+	/**
+	 * Add a file to the archive at the specified location and file name.
+	 *
+	 * @param string $stream      Stream to read data from
+	 * @param string $internalName    Filepath and name to be used in the archive.
+	 * @param int $size           Filesize
+	 * @return bool $success
+	 */
+	public function addFileFromStream($stream, $internalName, $size){
 		if ($this->streamerInstance instanceof ZipStreamer) {
-			return $this->streamerInstance->addFileFromStream($fd, $internalName);
+			return $this->streamerInstance->addFileFromStream($stream, $internalName);
 		} else {
-			return $this->streamerInstance->addFileFromStream($fd, $internalName, $size);
+			return $this->streamerInstance->addFileFromStream($stream, $internalName, $size);
 		}
 	}
 	
+	/**
+	 * Add an empty directory entry to the archive.
+	 *
+	 * @param string $directoryPath  Directory Path and name to be added to the archive.
+	 * @return bool $success
+	 */
 	public function addEmptyDir($dirName){
 		return $this->streamerInstance->addEmptyDir($dirName);
 	}
 	
+	/**
+	 * Close the archive.
+	 * A closed archive can no longer have new files added to it. After
+	 * closing, the file is completely written to the output stream.
+	 * @return bool $success
+	 */
 	public function finalize(){
 		return $this->streamerInstance->finalize();
 	}
