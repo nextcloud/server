@@ -1113,7 +1113,18 @@ $(document).ready(function() {
 
 	$('input[name="allowUserMountingBackends\\[\\]"]').bind('change', function() {
 		OC.msg.startSaving('#userMountingMsg');
-		var userMountingBackends = $('input[name="allowUserMountingBackends\\[\\]"]:checked').map(function(){return $(this).val();}).get();
+
+		var userMountingBackends = $('input[name="allowUserMountingBackends\\[\\]"]:checked').map(function(){
+			return $(this).val();
+		}).get();
+		var deprecatedBackends = $('input[name="allowUserMountingBackends\\[\\]"][data-deprecate-to]').map(function(){
+			if ($.inArray($(this).data('deprecate-to'), userMountingBackends) !== -1) {
+				return $(this).val();
+			}
+			return null;
+		}).get();
+		userMountingBackends = userMountingBackends.concat(deprecatedBackends);
+
 		OC.AppConfig.setValue('files_external', 'user_mounting_backends', userMountingBackends.join());
 		OC.msg.finishedSaving('#userMountingMsg', {status: 'success', data: {message: t('files_external', 'Saved')}});
 

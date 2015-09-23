@@ -23,6 +23,7 @@ namespace OCA\Files_External\Lib;
 
 /**
  * Trait for objects requiring an identifier (and/or identifier aliases)
+ * Also supports deprecation to a different object, linking the objects
  */
 trait IdentifierTrait {
 
@@ -31,6 +32,9 @@ trait IdentifierTrait {
 
 	/** @var string[] */
 	protected $identifierAliases = [];
+
+	/** @var IdentifierTrait */
+	protected $deprecateTo = null;
 
 	/**
 	 * @return string
@@ -63,6 +67,36 @@ trait IdentifierTrait {
 	public function addIdentifierAlias($alias) {
 		$this->identifierAliases[] = $alias;
 		return $this;
+	}
+
+	/**
+	 * @return object|null
+	 */
+	public function getDeprecateTo() {
+		return $this->deprecateTo;
+	}
+
+	/**
+	 * @param object $destinationObject
+	 * @return self
+	 */
+	public function deprecateTo($destinationObject) {
+		$this->deprecateTo = $destinationObject;
+		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function jsonSerializeIdentifier() {
+		$data = [
+			'identifier' => $this->identifier,
+			'identifierAliases' => $this->identifierAliases,
+		];
+		if ($this->deprecateTo) {
+			$data['deprecateTo'] = $this->deprecateTo->getIdentifier();
+		}
+		return $data;
 	}
 
 }
