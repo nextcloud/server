@@ -59,20 +59,15 @@ class OC_Files {
 	/**
 	 * @param string $filename
 	 * @param string $name
-	 * @param bool $zip
 	 */
-	private static function sendHeaders($filename, $name, $zip = false) {
+	private static function sendHeaders($filename, $name) {
 		OC_Response::setContentDispositionHeader($name, 'attachment');
 		header('Content-Transfer-Encoding: binary');
 		OC_Response::disableCaching();
-		if ($zip) {
-			header('Content-Type: application/zip');
-		} else {
-			$filesize = \OC\Files\Filesystem::filesize($filename);
-			header('Content-Type: '.\OC_Helper::getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename)));
-			if ($filesize > -1) {
-				OC_Response::setContentLengthHeader($filesize);
-			}
+		$filesize = \OC\Files\Filesystem::filesize($filename);
+		header('Content-Type: '.\OC_Helper::getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename)));
+		if ($filesize > -1) {
+			OC_Response::setContentLengthHeader($filesize);
 		}
 	}
 
@@ -81,9 +76,9 @@ class OC_Files {
 	 *
 	 * @param string $dir
 	 * @param string $files ; separated list of files to download
-	 * @param boolean $only_header ; boolean to only send header of the request
+	 * @param boolean $onlyHeader ; boolean to only send header of the request
 	 */
-	public static function get($dir, $files, $only_header = false) {
+	public static function get($dir, $files, $onlyHeader = false) {
 		$view = \OC\Files\Filesystem::getView();
 		$xsendfile = false;
 		if (\OC::$server->getLockingProvider() instanceof NoopLockingProvider) {
@@ -100,48 +95,51 @@ class OC_Files {
 		}
 
 		if (is_array($files)) {
-			$get_type = self::ZIP_FILES;
+			$getType = self::ZIP_FILES;
 			$basename = basename($dir);
 			if ($basename) {
-				$name = $basename . '.zip';
+				$name = $basename;
 			} else {
-				$name = 'download.zip';
+				$name = 'download';
 			}
 
 			$filename = $dir . '/' . $name;
 		} else {
 			$filename = $dir . '/' . $files;
 			if (\OC\Files\Filesystem::is_dir($dir . '/' . $files)) {
-				$get_type = self::ZIP_DIR;
+				$getType = self::ZIP_DIR;
 				// downloading root ?
 				if ($files === '') {
-					$name = 'download.zip';
+					$name = 'download';
 				} else {
-					$name = $files . '.zip';
+					$name = $files;
 				}
 
 			} else {
-				$get_type = self::FILE;
+				$getType = self::FILE;
 				$name = $files;
 			}
 		}
 
-		if ($get_type === self::FILE) {
-			$zip = false;
+		if ($getType === self::FILE) {
+			$streamer = false;
 			if ($xsendfile && \OC::$server->getEncryptionManager()->isEnabled()) {
 				$xsendfile = false;
 			}
 		} else {
-			$zip = new ZipStreamer(false);
+			$streamer = new OC_Streamer();
 		}
 		OC_Util::obEnd();
 
 		try {
-			if ($get_type === self::FILE) {
+			if ($getType === self::FILE) {
 				$view->lockFile($filename, ILockingProvider::LOCK_SHARED);
 			}
-			if ($zip or \OC\Files\Filesystem::isReadable($filename)) {
-				self::sendHeaders($filename, $name, $zip);
+			
+			if ($streamer) {
+				$streamer->sendHeaders($name);
+			} elseif (\OC\Files\Filesystem::isReadable($filename)) {
+				self::sendHeaders($filename, $name);
 			} elseif (!\OC\Files\Filesystem::file_exists($filename)) {
 				header("HTTP/1.0 404 Not Found");
 				$tmpl = new OC_Template('', '404', 'guest');
@@ -151,28 +149,29 @@ class OC_Files {
 				header("HTTP/1.0 403 Forbidden");
 				die('403 Forbidden');
 			}
-			if ($only_header) {
+			if ($onlyHeader) {
 				return;
 			}
-			if ($zip) {
+			if ($streamer) {
 				$executionTime = intval(ini_get('max_execution_time'));
 				set_time_limit(0);
-				if ($get_type === self::ZIP_FILES) {
+				if ($getType === self::ZIP_FILES) {
 					foreach ($files as $file) {
 						$file = $dir . '/' . $file;
 						if (\OC\Files\Filesystem::is_file($file)) {
+							$fileSize = \OC\Files\Filesystem::filesize($file);
 							$fh = \OC\Files\Filesystem::fopen($file, 'r');
-							$zip->addFileFromStream($fh, basename($file));
+							$streamer->addFileFromStream($fh, basename($file), $fileSize);
 							fclose($fh);
 						} elseif (\OC\Files\Filesystem::is_dir($file)) {
-							self::zipAddDir($file, $zip);
+							$streamer->addDirRecoursive($file);
 						}
 					}
-				} elseif ($get_type === self::ZIP_DIR) {
+				} elseif ($getType === self::ZIP_DIR) {
 					$file = $dir . '/' . $files;
-					self::zipAddDir($file, $zip);
+					$streamer->addDirRecoursive($file);
 				}
-				$zip->finalize();
+				$streamer->finalize();
 				set_time_limit($executionTime);
 			} else {
 				if ($xsendfile) {
@@ -187,7 +186,7 @@ class OC_Files {
 					\OC\Files\Filesystem::readfile($filename);
 				}
 			}
-			if ($get_type === self::FILE) {
+			if ($getType === self::FILE) {
 				$view->unlockFile($filename, ILockingProvider::LOCK_SHARED);
 			}
 		} catch (\OCP\Lock\LockedException $ex) {
