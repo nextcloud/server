@@ -45,7 +45,7 @@ class SimpleContainer extends Container implements IContainer {
 
 	/**
 	 * @param ReflectionClass $class the class to instantiate
-	 * @return stdClass the created class
+	 * @return \stdClass the created class
 	 */
 	private function buildClass(ReflectionClass $class) {
 		$constructor = $class->getConstructor();
@@ -74,7 +74,7 @@ class SimpleContainer extends Container implements IContainer {
 	 * If a parameter is not registered in the container try to instantiate it
 	 * by using reflection to find out how to build the class
 	 * @param string $name the class name to resolve
-	 * @return stdClass
+	 * @return \stdClass
 	 * @throws QueryException if the class could not be found or instantiated
 	 */
 	public function resolve($name) {
