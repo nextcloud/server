@@ -169,7 +169,7 @@ describe('OC.Share.ShareItemModel', function() {
 				/* jshint camelcase: false */
 				shares: [{
 					displayname_owner: 'root',
-					expiration: 1111,
+					expiration: '2015-10-12 00:00:00',
 					file_source: 123,
 					file_target: '/folder',
 					id: 20,
@@ -187,7 +187,7 @@ describe('OC.Share.ShareItemModel', function() {
 					uid_owner: 'root'
 				}, {
 					displayname_owner: 'root',
-					expiration: 2222,
+					expiration: '2015-10-15 00:00:00',
 					file_source: 456,
 					file_target: '/file_in_folder.txt',
 					id: 21,
@@ -263,7 +263,7 @@ describe('OC.Share.ShareItemModel', function() {
 				reshare: {},
 				shares: [{
 					displayname_owner: 'root',
-					expiration: '1403900000',
+					expiration: '2015-10-12 00:00:00',
 					file_source: '123',
 					file_target: '/folder',
 					id: '20',
@@ -301,7 +301,7 @@ describe('OC.Share.ShareItemModel', function() {
 			expect(share.share_type).toEqual(OC.Share.SHARE_TYPE_USER);
 			expect(share.share_with).toEqual('user1');
 			expect(share.stime).toEqual(1403884258);
-			expect(share.expiration).toEqual(1403900000);
+			expect(share.expiration).toEqual('2015-10-12 00:00:00');
 		});
 	});
 
