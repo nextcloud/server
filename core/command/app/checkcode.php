@@ -127,9 +127,6 @@ class CheckCode extends Command {
 				if($value === [] || is_null($value) || $value === '') {
 					$output->writeln("<info>Deprecated field available: $key</info>");
 				} else {
-					if(is_array($value)) {
-						$value = 'Array of ' . count($value) . ' element(s)';
-					}
 					$output->writeln("<info>Deprecated field available: $key => $value</info>");
 				}
 			});

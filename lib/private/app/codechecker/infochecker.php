@@ -39,6 +39,7 @@ class InfoChecker extends BasicEmitter {
 	private $optionalFields = [
 		'bugs',
 		'category',
+		'dependencies',
 		'documentation',
 		'namespace',
 		'ocsid',
@@ -51,6 +52,7 @@ class InfoChecker extends BasicEmitter {
 	];
 	private $deprecatedFields = [
 		'default_enable',
+		'info',
 		'public',
 		'remote',
 		'shipped',
@@ -76,6 +78,9 @@ class InfoChecker extends BasicEmitter {
 		$info = $this->infoParser->parse($appPath . '/appinfo/info.xml');
 
 		foreach ($info as $key => $value) {
+			if(is_array($value)) {
+				$value = json_encode($value);
+			}
 			if (in_array($key, $this->mandatoryFields)) {
 				$this->emit('InfoChecker', 'mandatoryFieldFound', [$key, $value]);
 				continue;
@@ -88,7 +93,7 @@ class InfoChecker extends BasicEmitter {
 
 			if (in_array($key, $this->deprecatedFields)) {
 				// skip empty arrays - empty arrays for remote and public are always added
-				if($value === []) {
+				if($value === '[]' && in_array($key, ['public', 'remote', 'info'])) {
 					continue;
 				}
 				$this->emit('InfoChecker', 'deprecatedFieldFound', [$key, $value]);
