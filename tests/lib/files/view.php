@@ -889,7 +889,7 @@ class View extends \Test\TestCase {
 
 			// False negatives: chroot fixes those by adding the leading slash.
 			// But setting them up with this root (instead of chroot($root))
-			// will fail them, althought they should be the same.
+			// will fail them, although they should be the same.
 			// TODO init should be fixed, so it also adds the leading slash
 			array('files/', '/files/', $missingRootExpectedPath),
 			array('files', '/files/', $missingRootExpectedPath),
@@ -1095,7 +1095,7 @@ class View extends \Test\TestCase {
 		$storage1->file_put_contents('foo.txt', '0123456789ABCDEFGH');
 		$storage1->mkdir('dirtomove');
 		$storage1->file_put_contents('dirtomove/indir1.txt', '0123456'); // fits
-		$storage1->file_put_contents('dirtomove/indir2.txt', '0123456789ABCDEFGH'); // doesn't fit 
+		$storage1->file_put_contents('dirtomove/indir2.txt', '0123456789ABCDEFGH'); // doesn't fit
 		$storage2->file_put_contents('existing.txt', '0123');
 		$storage1->getScanner()->scan('');
 		$storage2->getScanner()->scan('');
@@ -1371,7 +1371,7 @@ class View extends \Test\TestCase {
 
 		$thrown = false;
 		try {
-			// this actually acquires two locks, one on the mount point and one no the storage root,
+			// this actually acquires two locks, one on the mount point and one on the storage root,
 			// but the one on the storage root will fail
 			$view->lockFile('/mountpoint.txt', ILockingProvider::LOCK_SHARED);
 		} catch (\OCP\Lock\LockedException $e) {
