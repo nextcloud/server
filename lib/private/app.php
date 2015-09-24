@@ -837,7 +837,7 @@ class OC_App {
 
 				$info['active'] = $active;
 
-				if (isset($info['shipped']) and ($info['shipped'] == 'true')) {
+				if (self::isShipped($app)) {
 					$info['internal'] = true;
 					$info['level'] = self::officialApp;
 					$info['removable'] = false;
