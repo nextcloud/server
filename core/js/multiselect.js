@@ -109,6 +109,9 @@
 				var id='ms'+multiSelectId+'-option-'+item;
 				var input=$('<input type="' + inputType + '"/>');
 				input.attr('id',id);
+				if(inputType === 'checkbox') {
+					input.addClass('checkbox');
+				}
 				if(settings.singleSelect) {
 					input.attr('name', 'ms'+multiSelectId+'-option');
 				}
