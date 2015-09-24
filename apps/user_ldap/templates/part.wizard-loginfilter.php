@@ -52,7 +52,7 @@
 				   placeholder="<?php p($l->t('Test Loginname'));?>"
 				   class="ldapVerifyInput"
 				   title="Attempts to receive a DN for the given loginname and the current login filter"/>
-			<button class="ldapVerifyLoginName" name="ldapTestLoginSettings" type="button">
+			<button class="ldapVerifyLoginName" name="ldapTestLoginSettings" type="button" disabled="disabled">
 				<?php p($l->t('Verify settings'));?>
 			</button>
 		</p>
