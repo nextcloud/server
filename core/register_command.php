@@ -28,7 +28,8 @@
 /** @var $application Symfony\Component\Console\Application */
 $application->add(new OC\Core\Command\Status);
 $application->add(new OC\Core\Command\Check(\OC::$server->getConfig()));
-$application->add(new OC\Core\Command\App\CheckCode());
+$infoParser = new \OC\App\InfoParser(\OC::$server->getHTTPHelper(), \OC::$server->getURLGenerator());
+$application->add(new OC\Core\Command\App\CheckCode($infoParser));
 $application->add(new OC\Core\Command\L10n\CreateJs());
 
 if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
