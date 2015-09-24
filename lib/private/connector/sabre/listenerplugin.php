@@ -21,6 +21,9 @@
 
 namespace OC\Connector\Sabre;
 
+use OCP\AppFramework\Http;
+use OCP\SabrePluginEvent;
+use OCP\SabrePluginException;
 use Sabre\DAV\ServerPlugin;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -49,9 +52,16 @@ class ListenerPlugin extends ServerPlugin {
 	 * in case the system is in maintenance mode.
 	 *
 	 * @return bool
+	 * @throws \Exception
 	 */
 	public function emitListener() {
-		$this->dispatcher->dispatch('OC\Connector\Sabre::beforeMethod');
+		$event = new SabrePluginEvent();
+
+		$this->dispatcher->dispatch('OC\Connector\Sabre::beforeMethod', $event);
+
+		if ($event->getStatusCode() !== Http::STATUS_OK) {
+			throw new SabrePluginException($event->getMessage(), $event->getStatusCode());
+		}
 
 		return true;
 	}
