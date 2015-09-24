@@ -37,31 +37,39 @@ require_once __DIR__.'/template/functions.php';
  * This class provides the templates for ownCloud.
  */
 class OC_Template extends \OC\Template\Base {
-	private $renderas; // Create a full page?
+
+	/** @var string */
+	private $renderAs; // Create a full page?
+
+	/** @var string */
 	private $path; // The path to the template
+
+	/** @var array */
 	private $headers = array(); //custom headers
+
+	/** @var string */
 	protected $app; // app id
 
 	/**
 	 * Constructor
 	 * @param string $app app providing the template
 	 * @param string $name of the template file (without suffix)
-	 * @param string $renderas = ""; produce a full page
+	 * @param string $renderAs = ""; produce a full page
 	 * @param bool $registerCall = true
 	 * @return OC_Template object
 	 *
 	 * This function creates an OC_Template object.
 	 *
-	 * If $renderas is set, OC_Template will try to produce a full page in the
-	 * according layout. For now, renderas can be set to "guest", "user" or
+	 * If $renderAs is set, OC_Template will try to produce a full page in the
+	 * according layout. For now, $renderAs can be set to "guest", "user" or
 	 * "admin".
 	 */
 	
-	protected static $initTemplateEngineFirstrun = true;
+	protected static $initTemplateEngineFirstRun = true;
 	
-	public function __construct( $app, $name, $renderas = "", $registerCall = true ) {
+	public function __construct( $app, $name, $renderAs = "", $registerCall = true ) {
 		// Read the selected theme from the config file
-		$this->initTemplateEngine();
+		self::initTemplateEngine();
 		
 		$theme = OC_Util::getTheme();
 
@@ -74,7 +82,7 @@ class OC_Template extends \OC\Template\Base {
 		list($path, $template) = $this->findTemplate($theme, $app, $name);
 
 		// Set the private data
-		$this->renderas = $renderas;
+		$this->renderAs = $renderAs;
 		$this->path = $path;
 		$this->app = $app;
 
@@ -82,7 +90,7 @@ class OC_Template extends \OC\Template\Base {
 	}
 
 	public static function initTemplateEngine() {
-		if (self::$initTemplateEngineFirstrun){
+		if (self::$initTemplateEngineFirstRun){
 			
 			//apps that started before the template initialization can load their own scripts
 			//so to make sure this scripts here are loaded first we use OC_Util::addScript() with $prepend=true
@@ -93,44 +101,44 @@ class OC_Template extends \OC\Template\Base {
 				}
 			}
 
-			OC_Util::addStyle ( "styles" );
-			OC_Util::addStyle ( "header" );
-			OC_Util::addStyle ( "mobile" );
-			OC_Util::addStyle ( "icons" );
-			OC_Util::addStyle ( "fonts" );
-			OC_Util::addStyle ( "apps" );
-			OC_Util::addStyle ( "fixes" );
-			OC_Util::addStyle ( "multiselect" );
-			OC_Util::addVendorStyle ( 'jquery-ui/themes/base/jquery-ui');
-			OC_Util::addStyle ( 'jquery-ui-fixes' );
-			OC_Util::addStyle ( "tooltip" );
-			
+			OC_Util::addStyle("styles");
+			OC_Util::addStyle("header");
+			OC_Util::addStyle("mobile");
+			OC_Util::addStyle("icons");
+			OC_Util::addStyle("fonts");
+			OC_Util::addStyle("apps");
+			OC_Util::addStyle("fixes");
+			OC_Util::addStyle("multiselect");
+			OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui');
+			OC_Util::addStyle('jquery-ui-fixes');
+			OC_Util::addStyle("tooltip");
+
 			// avatars
-			if (\OC::$server->getSystemConfig ()->getValue ( 'enable_avatars', true ) === true) {
-				\OC_Util::addScript ( 'avatar', null, true );
-				\OC_Util::addScript ( 'jquery.avatar', null, true );
-				\OC_Util::addScript ( 'placeholder', null, true );
-			}			
-			
-			OC_Util::addScript ( 'oc-backbone', null, true );
-			OC_Util::addVendorScript ( 'core', 'backbone/backbone', null, true );
-			OC_Util::addVendorScript ( 'snapjs/dist/latest/snap', null, true );
-			OC_Util::addScript ( 'mimetypelist', null, true );
-			OC_Util::addScript ( 'mimetype', null, true );
-			OC_Util::addScript ( "apps", null, true );
-			OC_Util::addScript ( "oc-requesttoken", null, true );
-			OC_Util::addScript ( 'search', 'search', true );
-			OC_Util::addScript ( "config", null, true );
-			OC_Util::addScript ( "eventsource", null, true );
-			OC_Util::addScript ( "octemplate", null, true );
-			OC_Util::addTranslations ( "core", null, true );
-			OC_Util::addScript ( "l10n", null, true );
-			OC_Util::addScript ( "js", null, true );
-			OC_Util::addScript ( "oc-dialogs", null, true );
-			OC_Util::addScript ( "jquery.ocdialog", null, true );
-			OC_Util::addStyle ( "jquery.ocdialog" );
-			OC_Util::addScript ( "compatibility", null, true );
-			OC_Util::addScript ( "placeholders", null, true );		
+			if (\OC::$server->getSystemConfig()->getValue('enable_avatars', true) === true) {
+				\OC_Util::addScript('avatar', null, true);
+				\OC_Util::addScript('jquery.avatar', null, true);
+				\OC_Util::addScript('placeholder', null, true);
+			}
+
+			OC_Util::addScript('oc-backbone', null, true);
+			OC_Util::addVendorScript('core', 'backbone/backbone', true);
+			OC_Util::addVendorScript('snapjs/dist/latest/snap', null, true);
+			OC_Util::addScript('mimetypelist', null, true);
+			OC_Util::addScript('mimetype', null, true);
+			OC_Util::addScript("apps", null, true);
+			OC_Util::addScript("oc-requesttoken", null, true);
+			OC_Util::addScript('search', 'search', true);
+			OC_Util::addScript("config", null, true);
+			OC_Util::addScript("eventsource", null, true);
+			OC_Util::addScript("octemplate", null, true);
+			OC_Util::addTranslations("core", null, true);
+			OC_Util::addScript("l10n", null, true);
+			OC_Util::addScript("js", null, true);
+			OC_Util::addScript("oc-dialogs", null, true);
+			OC_Util::addScript("jquery.ocdialog", null, true);
+			OC_Util::addStyle("jquery.ocdialog");
+			OC_Util::addScript("compatibility", null, true);
+			OC_Util::addScript("placeholders", null, true);
 			
 			// Add the stuff we need always
 			// following logic will import all vendor libraries that are
@@ -147,7 +155,7 @@ class OC_Template extends \OC\Template\Base {
 				throw new \Exception('Cannot read core/js/core.json');
 			}
 			
-			self::$initTemplateEngineFirstrun = false;
+			self::$initTemplateEngineFirstRun = false;
 		}
 	
 	}
@@ -195,14 +203,14 @@ class OC_Template extends \OC\Template\Base {
 	 * Process the template
 	 * @return boolean|string
 	 *
-	 * This function process the template. If $this->renderas is set, it
+	 * This function process the template. If $this->renderAs is set, it
 	 * will produce a full page.
 	 */
 	public function fetchPage() {
 		$data = parent::fetchPage();
 
-		if( $this->renderas ) {
-			$page = new OC_TemplateLayout($this->renderas, $this->app);
+		if( $this->renderAs ) {
+			$page = new OC_TemplateLayout($this->renderAs, $this->app);
 
 			// Add custom headers
 			$headers = '';
@@ -218,18 +226,20 @@ class OC_Template extends \OC\Template\Base {
 				}
 			}
 
-			$page->assign('headers', $headers, false);
+			$page->assign('headers', $headers);
 
-			$page->assign('content', $data, false );
+			$page->assign('content', $data);
 			return $page->fetchPage();
 		}
-		else{
-			return $data;
-		}
+
+		return $data;
 	}
 
 	/**
 	 * Include template
+	 *
+	 * @param string $file
+	 * @param array|null $additionalParams
 	 * @return string returns content of included template
 	 *
 	 * Includes another template. use <?php echo $this->inc('template'); ?> to
@@ -299,7 +309,7 @@ class OC_Template extends \OC\Template\Base {
 
 	/**
 	 * print error page using Exception details
-	 * @param Exception|Error $exception
+	 * @param Exception $exception
 	 */
 	public static function printExceptionErrorPage($exception) {
 		$request = \OC::$server->getRequest();
