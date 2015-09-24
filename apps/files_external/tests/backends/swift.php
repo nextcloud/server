@@ -59,4 +59,8 @@ class Swift extends Storage {
 
 		parent::tearDown();
 	}
+
+	public function testStat() {
+		$this->markTestSkipped('Swift doesn\'t update the parents folder mtime');
+	}
 }
