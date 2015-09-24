@@ -69,7 +69,7 @@
 	 */
 	var SHARE_RESPONSE_INT_PROPS = [
 		'id', 'file_parent', 'mail_send', 'file_source', 'item_source', 'permissions',
-		'storage', 'share_type', 'parent', 'stime', 'expiration'
+		'storage', 'share_type', 'parent', 'stime'
 	];
 
 	/**
