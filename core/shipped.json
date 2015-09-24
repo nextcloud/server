@@ -30,7 +30,6 @@
     "user_external",
     "user_ldap",
     "user_shibboleth",
-    "user_webdavauth",
     "windows_network_drive"
   ]
 }
