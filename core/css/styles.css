@@ -184,7 +184,7 @@ html:not(.ie8) input[type="checkbox"].checkbox:disabled +label:before { opacity:
 
 html:not(.ie8) input[type="checkbox"].checkbox.u-left +label:before { float: left; }
 
-html:not(.ie8) input[type="checkbox"].checkbox.white + label:before {
+html:not(.ie8) input[type="checkbox"].checkbox--white + label:before {
 	background-image: url('../img/actions/checkbox-white.svg');
 }
 
@@ -192,7 +192,7 @@ html:not(.ie8) input[type="checkbox"].checkbox:checked + label:before {
 	background-image: url('../img/actions/checkbox-checked.svg');
 }
 
-html:not(.ie8) input[type="checkbox"].checkbox.white:checked + label:before {
+html:not(.ie8) input[type="checkbox"].checkbox--white:checked + label:before {
 	background-image: url('../img/actions/checkbox-checked-white.svg');
 }
 
