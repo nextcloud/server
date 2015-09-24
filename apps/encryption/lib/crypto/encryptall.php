@@ -280,6 +280,12 @@ class EncryptAll {
 				$newPasswords[] = [$uid, $password];
 			}
 		}
+
+		if (empty($newPasswords)) {
+			$this->output->writeln("\nAll users already had a key-pair, no further action needed.\n");
+			return;
+		}
+
 		$table->setRows($newPasswords);
 		$table->render();
 
