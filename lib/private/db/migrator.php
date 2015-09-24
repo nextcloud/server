@@ -90,13 +90,17 @@ class Migrator {
 	 * @throws \OC\DB\MigrationException
 	 */
 	public function checkMigrate(Schema $targetSchema) {
+		if(!$this->needsMigration($targetSchema)) {
+			return;
+		}
+
 		/**
 		 * @var \Doctrine\DBAL\Schema\Table[] $tables
 		 */
 		$tables = $targetSchema->getTables();
 		$filterExpression = $this->getFilterExpression();
 		$this->connection->getConfiguration()->
-			setFilterSchemaAssetsExpression($filterExpression);
+		setFilterSchemaAssetsExpression($filterExpression);
 		$existingTables = $this->connection->getSchemaManager()->listTableNames();
 
 		foreach ($tables as $table) {
@@ -253,5 +257,20 @@ class Migrator {
 
 	protected function getFilterExpression() {
 		return '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
+	}
+
+	public function needsMigration(Schema $targetSchema) {
+		$diff = $this->getDiff($targetSchema, $this->connection);
+		return (
+			count($diff->newNamespaces) +
+			count($diff->removedNamespaces) +
+			count($diff->newTables) +
+			count($diff->changedTables) +
+			count($diff->removedTables) +
+			count($diff->newSequences) +
+			count($diff->changedSequences) +
+			count($diff->removedSequences) +
+			count($diff->orphanedForeignKeys)
+		) > 0;
 	}
 }

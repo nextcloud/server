@@ -108,6 +108,8 @@ class Migrator extends \Test\TestCase {
 		$this->connection->insert($this->tableName, array('id' => 2, 'name' => 'bar'));
 		$this->connection->insert($this->tableName, array('id' => 3, 'name' => 'qwerty'));
 
+		$this->assertTrue($migrator->needsMigration($endSchema));
+
 		$migrator->checkMigrate($endSchema);
 		$migrator->migrate($endSchema);
 		$this->assertTrue(true);
@@ -192,5 +194,13 @@ class Migrator extends \Test\TestCase {
 		$migrator->migrate($endSchema);
 
 		$this->assertTrue(true);
+	}
+
+	public function testEmptyMigrate() {
+		list($startSchema) = $this->getDuplicateKeySchemas();
+		$migrator = $this->manager->getMigrator();
+		$migrator->migrate($startSchema);
+
+		$this->assertFalse($migrator->needsMigration($startSchema));
 	}
 }
