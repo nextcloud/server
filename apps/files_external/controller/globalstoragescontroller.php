@@ -179,14 +179,5 @@ class GlobalStoragesController extends StoragesController {
 
 	}
 
-	/**
-	 * Get the visibility type for this controller, used in validation
-	 *
-	 * @return string BackendService::VISIBILITY_* constants
-	 */
-	protected function getVisibilityType() {
-		return BackendService::VISIBILITY_ADMIN;
-	}
-
 
 }

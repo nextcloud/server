@@ -171,4 +171,13 @@ class UserStoragesService extends StoragesService {
 			$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 		}
 	}
+
+	/**
+	 * Get the visibility type for this controller, used in validation
+	 *
+	 * @return string BackendService::VISIBILITY_* constants
+	 */
+	public function getVisibilityType() {
+		return BackendService::VISIBILITY_PERSONAL;
+	}
 }

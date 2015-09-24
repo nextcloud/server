@@ -209,7 +209,11 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$expectedPrecedence
 	) {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
+		$backend->method('isVisibleFor')
+			->willReturn(true);
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
+		$authMechanism->method('isVisibleFor')
+			->willReturn(true);
 
 		$storage1 = new StorageConfig();
 		$storage1->setMountPoint('mountpoint');
@@ -241,6 +245,16 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		} elseif ($expectedPrecedence === 2) {
 			$this->assertArrayHasKey($storage2->getID(), $storages);
 		}
+	}
+
+	public function testGetStoragesBackendNotVisible() {
+		// we don't test this here
+		$this->assertTrue(true);
+	}
+
+	public function testGetStoragesAuthMechanismNotVisible() {
+		// we don't test this here
+		$this->assertTrue(true);
 	}
 
 	public function testHooksAddStorage($a = null, $b = null, $c = null) {

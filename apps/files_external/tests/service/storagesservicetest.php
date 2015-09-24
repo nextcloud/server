@@ -305,6 +305,52 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		);
 	}
 
+	public function testGetStoragesBackendNotVisible() {
+		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
+		$backend->expects($this->once())
+			->method('isVisibleFor')
+			->with($this->service->getVisibilityType())
+			->willReturn(false);
+		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
+		$authMechanism->method('isVisibleFor')
+			->with($this->service->getVisibilityType())
+			->willReturn(true);
+
+		$storage = new StorageConfig(255);
+		$storage->setMountPoint('mountpoint');
+		$storage->setBackend($backend);
+		$storage->setAuthMechanism($authMechanism);
+		$storage->setBackendOptions(['password' => 'testPassword']);
+
+		$newStorage = $this->service->addStorage($storage);
+
+		$this->assertCount(1, $this->service->getAllStorages());
+		$this->assertEmpty($this->service->getStorages());
+	}
+
+	public function testGetStoragesAuthMechanismNotVisible() {
+		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
+		$backend->method('isVisibleFor')
+			->with($this->service->getVisibilityType())
+			->willReturn(true);
+		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
+		$authMechanism->expects($this->once())
+			->method('isVisibleFor')
+			->with($this->service->getVisibilityType())
+			->willReturn(false);
+
+		$storage = new StorageConfig(255);
+		$storage->setMountPoint('mountpoint');
+		$storage->setBackend($backend);
+		$storage->setAuthMechanism($authMechanism);
+		$storage->setBackendOptions(['password' => 'testPassword']);
+
+		$newStorage = $this->service->addStorage($storage);
+
+		$this->assertCount(1, $this->service->getAllStorages());
+		$this->assertEmpty($this->service->getStorages());
+	}
+
 	public static function createHookCallback($params) {
 		self::$hookCalls[] = array(
 			'signal' => Filesystem::signal_create_mount,

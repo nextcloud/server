@@ -65,7 +65,7 @@ $userBackends = array_filter($backendService->getAvailableBackends(), function($
 $tmpl = new OCP\Template('files_external', 'settings');
 $tmpl->assign('encryptionEnabled', \OC::$server->getEncryptionManager()->isEnabled());
 $tmpl->assign('isAdminPage', true);
-$tmpl->assign('storages', $globalStoragesService->getAllStorages());
+$tmpl->assign('storages', $globalStoragesService->getStorages());
 $tmpl->assign('backends', $backends);
 $tmpl->assign('authMechanisms', $authMechanisms);
 $tmpl->assign('userBackends', $userBackends);

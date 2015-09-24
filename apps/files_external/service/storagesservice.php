@@ -29,6 +29,8 @@ use \OC\Files\Filesystem;
 use \OCA\Files_external\Lib\StorageConfig;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_External\Service\BackendService;
+use \OCA\Files_External\Lib\Backend\Backend;
+use \OCA\Files_External\Lib\Auth\AuthMechanism;
 
 /**
  * Service class to manage external storages
@@ -331,13 +333,54 @@ abstract class StoragesService {
 	}
 
 	/**
-	 * Gets all storages
+	 * Gets all storages, valid or not
 	 *
 	 * @return array array of storage configs
 	 */
 	public function getAllStorages() {
 		return $this->readConfig();
 	}
+
+	/**
+	 * Gets all valid storages
+	 *
+	 * @return array
+	 */
+	public function getStorages() {
+		return array_filter($this->getAllStorages(), [$this, 'validateStorage']);
+	}
+
+	/**
+	 * Validate storage
+	 * FIXME: De-duplicate with StoragesController::validate()
+	 *
+	 * @param StorageConfig $storage
+	 * @return bool
+	 */
+	protected function validateStorage(StorageConfig $storage) {
+		/** @var Backend */
+		$backend = $storage->getBackend();
+		/** @var AuthMechanism */
+		$authMechanism = $storage->getAuthMechanism();
+
+		if (!$backend->isVisibleFor($this->getVisibilityType())) {
+			// not permitted to use backend
+			return false;
+		}
+		if (!$authMechanism->isVisibleFor($this->getVisibilityType())) {
+			// not permitted to use auth mechanism
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Get the visibility type for this controller, used in validation
+	 *
+	 * @return string BackendService::VISIBILITY_* constants
+	 */
+	abstract public function getVisibilityType();
 
 	/**
 	 * Add new storage to the configuration
