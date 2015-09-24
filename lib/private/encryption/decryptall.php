@@ -80,7 +80,7 @@ class DecryptAll {
 		$this->input = $input;
 		$this->output = $output;
 
-		if ($user !== '' && $this->userManager->userExists($user) === false) {
+		if (!empty($user) && $this->userManager->userExists($user) === false) {
 			$this->output->writeln('User "' . $user . '" does not exist. Please check the username and try again');
 			return false;
 		}
