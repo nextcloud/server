@@ -180,14 +180,7 @@ class Migrator {
 		$indexes = $table->getIndexes();
 		$newIndexes = array();
 		foreach ($indexes as $index) {
-			if ($index->isPrimary()) {
-				// do not rename primary key
-				$indexName = $index->getName();
-			} else {
-				// avoid conflicts in index names
-				$indexName = $this->config->getSystemValue('dbtableprefix', 'oc_') . $this->random->generate(13, ISecureRandom::CHAR_LOWER);
-			}
-			$newIndexes[] = new Index($indexName, $index->getColumns(), $index->isUnique(), $index->isPrimary());
+			$newIndexes[] = new Index($index->getName(), $index->getColumns(), $index->isUnique(), $index->isPrimary());
 		}
 
 		// foreign keys are not supported so we just set it to an empty array
