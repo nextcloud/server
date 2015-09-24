@@ -304,6 +304,63 @@ describe('OC.Share.ShareItemModel', function() {
 			expect(share.expiration).toEqual('2015-10-12 00:00:00');
 		});
 	});
+	describe('hasUserShares', function() {
+		it('returns false when no user shares exist', function() {
+			loadItemStub.yields({
+				reshare: {},
+				shares: []
+			});
+
+			model.fetch();
+
+			expect(model.hasUserShares()).toEqual(false);
+		});
+		it('returns true when user shares exist on the current item', function() {
+			loadItemStub.yields({
+				reshare: {},
+				shares: [{
+					id: 1,
+					share_type: OC.Share.SHARE_TYPE_USER,
+					share_with: 'user1',
+					item_source: '123'
+				}]
+			});
+
+			model.fetch();
+
+			expect(model.hasUserShares()).toEqual(true);
+		});
+		it('returns true when group shares exist on the current item', function() {
+			loadItemStub.yields({
+				reshare: {},
+				shares: [{
+					id: 1,
+					share_type: OC.Share.SHARE_TYPE_GROUP,
+					share_with: 'group1',
+					item_source: '123'
+				}]
+			});
+
+			model.fetch();
+
+			expect(model.hasUserShares()).toEqual(true);
+		});
+		it('returns false when share exist on parent item', function() {
+			loadItemStub.yields({
+				reshare: {},
+				shares: [{
+					id: 1,
+					share_type: OC.Share.SHARE_TYPE_GROUP,
+					share_with: 'group1',
+					item_source: '111'
+				}]
+			});
+
+			model.fetch();
+
+			expect(model.hasUserShares()).toEqual(false);
+		});
+	});
 
 	describe('Util', function() {
 		it('parseTime should properly parse strings', function() {
