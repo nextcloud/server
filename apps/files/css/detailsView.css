@@ -32,12 +32,18 @@
 #app-sidebar .image .thumbnail {
 	width:100%;
 	display:block;
-	height: 250px;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 100%;
 	float: none;
 	margin: 0;
+	height: auto;
+}
+
+#app-sidebar .image.landscape .thumbnail::before {
+	content: '';
+	display: block;
+	padding-bottom: 56.25%; /* sets height of .thumbnail to 9/16 of the width */
 }
 
 #app-sidebar .image.portrait .thumbnail {
