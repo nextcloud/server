@@ -580,6 +580,35 @@ class Test_Files_Versioning extends \Test\TestCase {
 		$this->doTestRestore();
 	}
 
+	/**
+	 * @param string $hookName name of hook called
+	 * @param string $params variable to recieve parameters provided by hook
+	 */
+	private function connectMockHooks($hookName, &$params) {
+		if ($hookName === null) {
+			return;
+		}
+
+		$eventHandler = $this->getMockBuilder('\stdclass')
+			->setMethods(['callback'])
+			->getMock();
+
+		$eventHandler->expects($this->any())
+			->method('callback')
+			->will($this->returnCallback(
+				function($p) use (&$params) {
+					$params = $p;
+				}
+			));
+
+		\OCP\Util::connectHook(
+			'\OCP\Versions',
+			$hookName,
+			$eventHandler,
+			'callback'
+		);
+	}
+
 	private function doTestRestore() {
 		$filePath = self::TEST_VERSIONS_USER . '/files/sub/test.txt';
 		$this->rootView->file_put_contents($filePath, 'test file');
@@ -608,7 +637,15 @@ class Test_Files_Versioning extends \Test\TestCase {
 		$this->assertEquals('test file', $this->rootView->file_get_contents($filePath));
 		$info1 = $this->rootView->getFileInfo($filePath);
 
+		$params = array();
+		$this->connectMockHooks('rollback', $params);
+
 		\OCA\Files_Versions\Storage::rollback('sub/test.txt', $t2);
+		$expectedParams = array(
+			'path' => '/sub/test.txt',
+		);
+
+		$this->assertEquals($expectedParams, $params);
 
 		$this->assertEquals('version2', $this->rootView->file_get_contents($filePath));
 		$info2 = $this->rootView->getFileInfo($filePath);

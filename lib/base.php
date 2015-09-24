@@ -803,8 +803,9 @@ class OC {
 		OC_Hook::connect('\OCP\Versions', 'preDelete', 'OC\Preview', 'prepare_delete');
 		OC_Hook::connect('\OCP\Trashbin', 'preDelete', 'OC\Preview', 'prepare_delete');
 		OC_Hook::connect('OC_Filesystem', 'post_delete', 'OC\Preview', 'post_delete_files');
-		OC_Hook::connect('\OCP\Versions', 'delete', 'OC\Preview', 'post_delete');
+		OC_Hook::connect('\OCP\Versions', 'delete', 'OC\Preview', 'post_delete_versions');
 		OC_Hook::connect('\OCP\Trashbin', 'delete', 'OC\Preview', 'post_delete');
+		OC_Hook::connect('\OCP\Versions', 'rollback', 'OC\Preview', 'post_delete_versions');
 	}
 
 	/**

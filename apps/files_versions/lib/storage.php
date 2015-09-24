@@ -315,6 +315,9 @@ class Storage {
 			if (self::copyFileContents($users_view, 'files_versions' . $filename . '.v' . $revision, 'files' . $filename)) {
 				$files_view->touch($file, $revision);
 				Storage::scheduleExpire($uid, $file);
+				\OC_Hook::emit('\OCP\Versions', 'rollback', array(
+					'path' => $filename,
+				));
 				return true;
 			} else if ($versionCreated) {
 				self::deleteVersion($users_view, $version);
