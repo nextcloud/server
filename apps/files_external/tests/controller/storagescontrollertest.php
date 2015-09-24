@@ -75,12 +75,12 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
 			->willReturn(true);
-		$authMech->method('isPermitted')
+		$authMech->method('isVisibleFor')
 			->willReturn(true);
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')
 			->willReturn(true);
-		$backend->method('isPermitted')
+		$backend->method('isVisibleFor')
 			->willReturn(true);
 
 		$storageConfig = new StorageConfig(1);
@@ -116,12 +116,12 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
 			->willReturn(true);
-		$authMech->method('isPermitted')
+		$authMech->method('isVisibleFor')
 			->willReturn(true);
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')
 			->willReturn(true);
-		$backend->method('isPermitted')
+		$backend->method('isVisibleFor')
 			->willReturn(true);
 
 		$storageConfig = new StorageConfig(1);
@@ -249,12 +249,12 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
 			->willReturn(true);
-		$authMech->method('isPermitted')
+		$authMech->method('isVisibleFor')
 			->willReturn(true);
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')
 			->willReturn(true);
-		$backend->method('isPermitted')
+		$backend->method('isVisibleFor')
 			->willReturn(true);
 
 		$storageConfig = new StorageConfig(255);
@@ -338,13 +338,13 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')
 			->willReturn($backendValidate);
-		$backend->method('isPermitted')
+		$backend->method('isVisibleFor')
 			->willReturn(true);
 
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
 			->will($this->returnValue($authMechValidate));
-		$authMech->method('isPermitted')
+		$authMech->method('isVisibleFor')
 			->willReturn(true);
 
 		$storageConfig = new StorageConfig();

@@ -50,7 +50,7 @@
 	 * @property {string} token
 	 * @property {string} share_with
 	 * @property {string} share_with_displayname
-	 * @property {string} share_mail_send
+	 * @property {string} mail_send
 	 * @property {OC.Share.Types.Collection|undefined} collection
 	 * @property {Date} expiration optional?
 	 * @property {number} stime optional?
@@ -62,6 +62,15 @@
 	 * @property {OC.Share.Types.ShareInfo[]} shares
 	 * @property {OC.Share.Types.LinkShareInfo|undefined} linkShare
 	 */
+
+	/**
+	 * These properties are sometimes returned by the server as strings instead
+	 * of integers, so we need to convert them accordingly...
+	 */
+	var SHARE_RESPONSE_INT_PROPS = [
+		'id', 'file_parent', 'mail_send', 'file_source', 'item_source', 'permissions',
+		'storage', 'share_type', 'parent', 'stime', 'expiration'
+	];
 
 	/**
 	 * @class OCA.Share.ShareItemModel
@@ -462,7 +471,7 @@
 			if(!_.isObject(share)) {
 				throw "Unknown Share";
 			}
-			return share.share_mail_send === '1';
+			return share.mail_send === 1;
 		},
 
 		/**
@@ -673,7 +682,19 @@
 			}
 
 			/** @type {OC.Share.Types.ShareInfo[]} **/
-			var shares = _.toArray(data.shares);
+			var shares = _.map(data.shares, function(share) {
+				// properly parse some values because sometimes the server
+				// returns integers as string...
+				var i;
+				for (i = 0; i < SHARE_RESPONSE_INT_PROPS.length; i++) {
+					var prop = SHARE_RESPONSE_INT_PROPS[i];
+					if (!_.isUndefined(share[prop])) {
+						share[prop] = parseInt(share[prop], 10);
+					}
+				}
+				return share;
+			});
+
 			this._legacyFillCurrentShares(shares);
 
 			var linkShare = { isLinkShare: false };

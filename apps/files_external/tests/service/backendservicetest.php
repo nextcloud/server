@@ -83,11 +83,11 @@ class BackendServiceTest extends \Test\TestCase {
 
 		$backendAllowed = $this->getBackendMock('\User\Mount\Allowed');
 		$backendAllowed->expects($this->never())
-			->method('removePermission');
+			->method('removeVisibility');
 		$backendNotAllowed = $this->getBackendMock('\User\Mount\NotAllowed');
 		$backendNotAllowed->expects($this->once())
-			->method('removePermission')
-			->with(BackendService::USER_PERSONAL, BackendService::PERMISSION_CREATE | BackendService::PERMISSION_MOUNT);
+			->method('removeVisibility')
+			->with(BackendService::VISIBILITY_PERSONAL);
 
 		$backendAlias = $this->getMockBuilder('\OCA\Files_External\Lib\Backend\Backend')
 			->disableOriginalConstructor()

@@ -31,17 +31,13 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
  */
 class BackendService {
 
-	/** Permission constants for PermissionsTrait */
-	const PERMISSION_NONE = 0;
-	const PERMISSION_MOUNT = 1;
-	const PERMISSION_CREATE = 2;
-	const PERMISSION_MODIFY = 4;
+	/** Visibility constants for VisibilityTrait */
+	const VISIBILITY_NONE = 0;
+	const VISIBILITY_PERSONAL = 1;
+	const VISIBILITY_ADMIN = 2;
+	//const VISIBILITY_ALIENS = 4;
 
-	const PERMISSION_DEFAULT = 7; // MOUNT | CREATE | MODIFY
-
-	/** User contants */
-	const USER_ADMIN = 'admin';
-	const USER_PERSONAL = 'personal';
+	const VISIBILITY_DEFAULT = 3; // PERSONAL | ADMIN
 
 	/** Priority constants for PriorityTrait */
 	const PRIORITY_DEFAULT = 100;
@@ -85,7 +81,7 @@ class BackendService {
 	 */
 	public function registerBackend(Backend $backend) {
 		if (!$this->isAllowedUserBackend($backend)) {
-			$backend->removePermission(self::USER_PERSONAL, self::PERMISSION_CREATE | self::PERMISSION_MOUNT);
+			$backend->removeVisibility(BackendService::VISIBILITY_PERSONAL);
 		}
 		foreach ($backend->getIdentifierAliases() as $alias) {
 			$this->backends[$alias] = $backend;
@@ -107,7 +103,7 @@ class BackendService {
 	 */
 	public function registerAuthMechanism(AuthMechanism $authMech) {
 		if (!$this->isAllowedAuthMechanism($authMech)) {
-			$authMech->removePermission(self::USER_PERSONAL, self::PERMISSION_CREATE | self::PERMISSION_MOUNT);
+			$authMech->removeVisibility(BackendService::VISIBILITY_PERSONAL);
 		}
 		foreach ($authMech->getIdentifierAliases() as $alias) {
 			$this->authMechanisms[$alias] = $authMech;

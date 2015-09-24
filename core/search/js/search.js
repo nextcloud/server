@@ -217,10 +217,10 @@
 					$status.addClass('emptycontent').removeClass('status');
 					$status.html('');
 					$status.append('<div class="icon-search"></div>');
-					$status.append('<h2>' + t('core', 'No search results in other places') + '</h2>');
+					$status.append('<h2>' + t('core', 'No search results in other folders') + '</h2>');
 				} else {
 					$status.removeClass('emptycontent').addClass('status');
-					$status.text(n('core', '{count} search result in other places', '{count} search results in other places', count, {count:count}));
+					$status.text(n('core', '{count} search result in another folder', '{count} search results in other folders', count, {count:count}));
 				}
 			}
 			function renderCurrent() {

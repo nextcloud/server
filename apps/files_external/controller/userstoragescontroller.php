@@ -103,7 +103,7 @@ class UserStoragesController extends StoragesController {
 			return $newStorage;
 		}
 
-		$response = $this->validate($newStorage, BackendService::PERMISSION_CREATE);
+		$response = $this->validate($newStorage);
 		if (!empty($response)) {
 			return $response;
 		}
@@ -151,7 +151,7 @@ class UserStoragesController extends StoragesController {
 		}
 		$storage->setId($id);
 
-		$response = $this->validate($storage, BackendService::PERMISSION_MODIFY);
+		$response = $this->validate($storage);
 		if (!empty($response)) {
 			return $response;
 		}
@@ -188,12 +188,12 @@ class UserStoragesController extends StoragesController {
 	}
 
 	/**
-	 * Get the user type for this controller, used in validation
+	 * Get the visibility type for this controller, used in validation
 	 *
-	 * @return string BackendService::USER_* constants
+	 * @return string BackendService::VISIBILITY_* constants
 	 */
-	protected function getUserType() {
-		return BackendService::USER_PERSONAL;
+	protected function getVisibilityType() {
+		return BackendService::VISIBILITY_PERSONAL;
 	}
 
 }

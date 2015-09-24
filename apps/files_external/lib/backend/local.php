@@ -39,7 +39,7 @@ class Local extends Backend {
 			->addParameters([
 				(new DefinitionParameter('datadir', $l->t('Location'))),
 			])
-			->setAllowedPermissions(BackendService::USER_PERSONAL, BackendService::PERMISSION_NONE)
+			->setAllowedVisibility(BackendService::VISIBILITY_ADMIN)
 			->setPriority(BackendService::PRIORITY_DEFAULT + 50)
 			->addAuthScheme(AuthMechanism::SCHEME_NULL)
 			->setLegacyAuthMechanism($legacyAuth)
