@@ -165,12 +165,12 @@ class OC_Files {
 							$streamer->addFileFromStream($fh, basename($file), $fileSize);
 							fclose($fh);
 						} elseif (\OC\Files\Filesystem::is_dir($file)) {
-							$streamer->addDirRecoursive($file);
+							$streamer->addDirRecursive($file);
 						}
 					}
 				} elseif ($getType === self::ZIP_DIR) {
 					$file = $dir . '/' . $files;
-					$streamer->addDirRecoursive($file);
+					$streamer->addDirRecursive($file);
 				}
 				$streamer->finalize();
 				set_time_limit($executionTime);
