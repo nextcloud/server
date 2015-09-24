@@ -388,9 +388,9 @@ var OCdialogs = {
 				c:		original.etag,
 				forceIcon:	0
 			};
-			var previewpath = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+			var previewpath = Files.generatePreviewUrl(urlSpec);
 			// Escaping single quotes
-			previewpath = previewpath.replace(/'/g, "%27")
+			previewpath = previewpath.replace(/'/g, "%27");
 			$originalDiv.find('.icon').css({"background-image":   "url('" + previewpath + "')"});
 			getCroppedPreview(replacement).then(
 				function(path){
