@@ -31,9 +31,6 @@ class Streamer {
 	// streamer instance
 	private $streamerInstance;
 	
-	/** @var string*/
-	private $extension;
-	
 	public function __construct(){
 		/** @var \OCP\IRequest */
 		$request = \OC::$server->getRequest();
@@ -47,12 +44,11 @@ class Streamer {
 	
 	/**
 	 * Send HTTP headers
-	 * @param string name 
-	 * @return bool
+	 * @param string $name 
 	 */
 	public function sendHeaders($name){
 		$extension = $this->streamerInstance instanceof ZipStreamer ? '.zip' : '.tar';
-		return $this->streamerInstance->sendHeaders($name . $extension);
+		$this->streamerInstance->sendHeaders($name . $extension);
 	}
 	
 	/**
@@ -60,13 +56,13 @@ class Streamer {
 	 * @param string $dir
 	 * @param string $internalDir
 	 */
-	public function addDirRecoursive($dir, $internalDir='') {
+	public function addDirRecursive($dir, $internalDir='') {
 		$dirname = basename($dir);
 		$rootDir = $internalDir . $dirname;
 		if (!empty($rootDir)) {
 			$this->streamerInstance->addEmptyDir($rootDir);
 		}
-		$internalDir.= $dirname .= '/';
+		$internalDir .= $dirname . '/';
 		// prevent absolute dirs
 		$internalDir = ltrim($internalDir, '/');
 
@@ -80,7 +76,7 @@ class Streamer {
 				$this->addFileFromStream($fh, $internalDir . $filename, $filesize);
 				fclose($fh);
 			}elseif(\OC\Files\Filesystem::is_dir($file)) {
-				$this->addDirRecoursive($file, $internalDir);
+				$this->addDirRecursive($file, $internalDir);
 			}
 		}
 	}
