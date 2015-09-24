@@ -241,4 +241,25 @@ class Log implements ILogger {
 			call_user_func(array($logger, 'write'), $app, $message, $level);
 		}
 	}
+
+	/**
+	 * Logs an exception very detailed
+	 *
+	 * @param \Exception $exception
+	 * @param array $context
+	 * @return void
+	 * @since 8.2.0
+	 */
+	public function logException(\Exception $exception, array $context = array()) {
+		$exception = array(
+			'Exception' => get_class($exception),
+			'Message' => $exception->getMessage(),
+			'Code' => $exception->getCode(),
+			'Trace' => $exception->getTraceAsString(),
+			'File' => $exception->getFile(),
+			'Line' => $exception->getLine(),
+		);
+		$exception['Trace'] = preg_replace('!(login|checkPassword)\(.*\)!', '$1(*** username and password replaced ***)', $exception['Trace']);
+		$this->error('Exception: ' . json_encode($exception), $context);
+	}
 }

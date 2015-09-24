@@ -63,4 +63,48 @@ class Logger extends TestCase {
 	public static function write($app, $message, $level) {
 		self::$logs[]= "$level $message";
 	}
+
+	public function userAndPasswordData() {
+		return [
+			['abc', 'def'],
+			['mySpecialUsername', 'MySuperSecretPassword'],
+			['my-user', '324324()#ä234'],
+			['my-user', ')qwer'],
+			['my-user', 'qwer)asdf'],
+			['my-user', 'qwer)'],
+			['my-user', '(qwer'],
+			['my-user', 'qwer(asdf'],
+			['my-user', 'qwer('],
+		];
+	}
+
+	/**
+	 * @dataProvider userAndPasswordData
+	 */
+	public function testDetectlogin($user, $password) {
+		$e = new \Exception('test');
+		$this->logger->logException($e);
+
+		$logLines = $this->getLogs();
+		foreach($logLines as $logLine) {
+			$this->assertNotContains($user, $logLine);
+			$this->assertNotContains($password, $logLine);
+			$this->assertContains('login(*** username and password replaced ***)', $logLine);
+		}
+	}
+
+	/**
+	 * @dataProvider userAndPasswordData
+	 */
+	public function testDetectcheckPassword($user, $password) {
+		$e = new \Exception('test');
+		$this->logger->logException($e);
+		$logLines = $this->getLogs();
+
+		foreach($logLines as $logLine) {
+			$this->assertNotContains($user, $logLine);
+			$this->assertNotContains($password, $logLine);
+			$this->assertContains('checkPassword(*** username and password replaced ***)', $logLine);
+		}
+	}
 }
