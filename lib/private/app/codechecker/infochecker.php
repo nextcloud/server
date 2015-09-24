@@ -39,10 +39,13 @@ class InfoChecker extends BasicEmitter {
 	private $optionalFields = [
 		'bugs',
 		'category',
+		'default_enable',
 		'dependencies',
 		'documentation',
 		'namespace',
 		'ocsid',
+		'public',
+		'remote',
 		'repository',
 		'require',
 		'requiremin',
@@ -51,10 +54,7 @@ class InfoChecker extends BasicEmitter {
 		'website',
 	];
 	private $deprecatedFields = [
-		'default_enable',
 		'info',
-		'public',
-		'remote',
 		'shipped',
 		'standalone',
 	];
