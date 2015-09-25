@@ -28,6 +28,21 @@ namespace OC;
  * fixes cyclic DI: AllConfig needs AppConfig needs Database needs AllConfig
  */
 class SystemConfig {
+
+	/** @var array */
+	protected $sensitiveValues = [
+		'dbpassword' => true,
+		'dbuser' => true,
+		'mail_smtpname' => true,
+		'mail_smtppassword' => true,
+		'passwordsalt' => true,
+		'secret' => true,
+		'ldap_agent_password' => true,
+		'objectstore' => ['arguments' => ['password' => true]],
+	];
+
+	const SENSITIVE_VALUE = '***REMOVED SENSITIVE VALUE***';
+
 	/**
 	 * Lists all available config keys
 	 * @return array an array of key names
@@ -68,11 +83,49 @@ class SystemConfig {
 	}
 
 	/**
+	 * Looks up a system wide defined value and filters out sensitive data
+	 *
+	 * @param string $key the key of the value, under which it was saved
+	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @return mixed the value or $default
+	 */
+	public function getFilteredValue($key, $default = '') {
+		$value = $this->getValue($key, $default);
+
+		if (isset($this->sensitiveValues[$key])) {
+			$value = $this->removeSensitiveValue($this->sensitiveValues[$key], $value);
+		}
+
+		return $value;
+	}
+
+	/**
 	 * Delete a system wide defined value
 	 *
 	 * @param string $key the key of the value, under which it was saved
 	 */
 	public function deleteValue($key) {
 		\OC_Config::deleteKey($key);
+	}
+
+	/**
+	 * @param bool|array $keysToRemove
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	protected function removeSensitiveValue($keysToRemove, $value) {
+		if ($keysToRemove === true) {
+			return self::SENSITIVE_VALUE;
+		}
+
+		if (is_array($value)) {
+			foreach ($keysToRemove as $keyToRemove => $valueToRemove) {
+				if (isset($value[$keyToRemove])) {
+					$value[$keyToRemove] = $this->removeSensitiveValue($valueToRemove, $value[$keyToRemove]);
+				}
+			}
+		}
+
+		return $value;
 	}
 }
