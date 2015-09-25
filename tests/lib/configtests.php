@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-class Test_Config extends \Test\TestCase {
+namespace Test;
+
+class ConfigTests extends TestCase {
 	const TESTCONTENT = '<?php $CONFIG=array("foo"=>"bar", "beers" => array("Appenzeller", "Guinness", "Kölsch"), "alcohol_free" => false);';
 
 	/** @var array */
@@ -24,7 +26,7 @@ class Test_Config extends \Test\TestCase {
 		$this->randomTmpDir = \OC_Helper::tmpFolder();
 		$this->configFile = $this->randomTmpDir.'testconfig.php';
 		file_put_contents($this->configFile, self::TESTCONTENT);
-		$this->config = new OC\Config($this->randomTmpDir, 'testconfig.php');
+		$this->config = new \OC\Config($this->randomTmpDir, 'testconfig.php');
 	}
 
 	protected function tearDown() {
