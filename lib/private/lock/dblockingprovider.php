@@ -102,10 +102,6 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function acquireLock($path, $type) {
-		if ($this->connection->inTransaction()) {
-			$this->logger->warning("Trying to acquire a lock for '$path' while inside a transition");
-		}
-
 		$expire = $this->getExpireTime();
 		if ($type === self::LOCK_SHARED) {
 			$result = $this->initLockField($path,1);
