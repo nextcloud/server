@@ -22,6 +22,9 @@
 
 namespace OC;
 
+
+use OCP\IConfig;
+
 /**
  * Class which provides access to the system config values stored in config.php
  * Internal class for bootstrap only.
@@ -40,8 +43,6 @@ class SystemConfig {
 		'ldap_agent_password' => true,
 		'objectstore' => ['arguments' => ['password' => true]],
 	];
-
-	const SENSITIVE_VALUE = '***REMOVED SENSITIVE VALUE***';
 
 	/**
 	 * Lists all available config keys
@@ -115,7 +116,7 @@ class SystemConfig {
 	 */
 	protected function removeSensitiveValue($keysToRemove, $value) {
 		if ($keysToRemove === true) {
-			return self::SENSITIVE_VALUE;
+			return IConfig::SENSITIVE_VALUE;
 		}
 
 		if (is_array($value)) {
