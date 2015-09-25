@@ -21,7 +21,7 @@
 			'    {{/if}}' +
 			'    {{#unless isCollection}}' +
 			'    <li data-share-type="{{shareType}}" data-share-with="{{shareWith}}" title="{{shareWith}}">' +
-			'        <a href="#" class="unshare"><img class="svg" alt="{{unshareLabel}}" title="{{unshareLabel}}" src="{{unshareImage}}" /></a>' +
+			'        <a href="#" class="unshare"><span class="icon-loading-small hidden"></span><img class="svg" alt="{{unshareLabel}}" title="{{unshareLabel}}" src="{{unshareImage}}" /></a>' +
 			'        {{#if avatarEnabled}}' +
 			'        <div class="avatar {{#if modSeed}}imageplaceholderseed{{/if}}" data-username="{{shareWith}}" {{#if modSeed}}data-seed="{{shareWith}} {{shareType}}"{{/if}}></div>' +
 			'        {{/if}}' +
@@ -244,12 +244,14 @@
 
 		onUnshare: function(event) {
 			var $element = $(event.target);
+			console.log($element);
 
-			if($element.hasClass('icon-loading-small')) {
+			var $loading = $element.siblings('.icon-loading-small').eq(0);
+			if(!$loading.hasClass('hidden')) {
 				// in process
 				return;
 			}
-			$element.empty().addClass('icon-loading-small');
+			$loading.removeClass('hidden');
 
 			var $li = $element.closest('li');
 			var shareType = $li.data('share-type');
