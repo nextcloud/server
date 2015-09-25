@@ -58,6 +58,7 @@ class Activity implements IExtension {
 	const SUBJECT_RESHARED_GROUP_BY = 'reshared_group_by';
 	const SUBJECT_RESHARED_LINK_BY = 'reshared_link_by';
 	const SUBJECT_RESHARED_USER_BY = 'reshared_user_by';
+	const SUBJECT_SHARED_EMAIL = 'shared_with_email';
 	const SUBJECT_SHARED_WITH_BY = 'shared_with_by';
 
 	/** @var IFactory */
@@ -182,6 +183,8 @@ class Activity implements IExtension {
 					return (string) $l->t('%2$s shared %1$s with you', $params);
 				case self::SUBJECT_SHARED_LINK_SELF:
 					return (string) $l->t('You shared %1$s via link', $params);
+				case self::SUBJECT_SHARED_EMAIL:
+					return (string) $l->t('You shared %1$s with %2$s', $params);
 			}
 		}
 
@@ -227,6 +230,11 @@ class Activity implements IExtension {
 						1 => 'username',
 						2 => '',
 					];
+				case self::SUBJECT_SHARED_EMAIL:
+					return array(
+						0 => 'file',
+						1 => '',// 'email' is neither supported nor planned for now
+					);
 
 				case self::SUBJECT_SHARED_USER_SELF:
 				case self::SUBJECT_SHARED_WITH_BY:
