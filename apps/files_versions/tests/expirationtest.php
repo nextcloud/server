@@ -177,6 +177,7 @@ class Expiration_Test extends \Test\TestCase {
 						'setSystemValues',
 						'setSystemValue',
 						'getSystemValue',
+						'getFilteredSystemValue',
 						'deleteSystemValue',
 						'getAppKeys',
 						'setAppValue',

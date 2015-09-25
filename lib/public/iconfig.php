@@ -41,6 +41,11 @@ namespace OCP;
  */
 interface IConfig {
 	/**
+	 * @since 8.2.0
+	 */
+	const SENSITIVE_VALUE = '***REMOVED SENSITIVE VALUE***';
+
+	/**
 	 * Sets and deletes system wide values
 	 *
 	 * @param array $configs Associative array with `key => value` pairs
@@ -67,6 +72,16 @@ interface IConfig {
 	 * @since 6.0.0 - parameter $default was added in 7.0.0
 	 */
 	public function getSystemValue($key, $default = '');
+
+	/**
+	 * Looks up a system wide defined value and filters out sensitive data
+	 *
+	 * @param string $key the key of the value, under which it was saved
+	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @return mixed the value or $default
+	 * @since 8.2.0
+	 */
+	public function getFilteredSystemValue($key, $default = '');
 
 	/**
 	 * Delete a system wide defined value
