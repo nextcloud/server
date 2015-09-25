@@ -40,7 +40,7 @@
 	height: auto;
 }
 
-#app-sidebar .image.landscape .thumbnail::before {
+#app-sidebar .image .thumbnail::before {
 	content: '';
 	display: block;
 	padding-bottom: 56.25%; /* sets height of .thumbnail to 9/16 of the width */

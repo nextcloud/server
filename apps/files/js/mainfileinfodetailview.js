@@ -186,7 +186,7 @@
 					// when we dont have a preview we show the mime icon in the error handler
 					$iconDiv.css({
 						'background-image': 'url("' + previewUrl + '")',
-						height: (isLandscape(img) && targetHeight > smallPreviewSize)? 'auto': targetHeight
+						height: (targetHeight > smallPreviewSize)? 'auto': targetHeight
 					});
 				}.bind(this),
 				error: function () {
