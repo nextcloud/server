@@ -158,17 +158,10 @@ class Util {
 	 * @param \Exception $ex exception to log
 	 * @param int $level log level, defaults to \OCP\Util::FATAL
 	 * @since ....0.0 - parameter $level was added in 7.0.0
+	 * @deprecated 8.2.0 use logException of \OCP\ILogger
 	 */
 	public static function logException( $app, \Exception $ex, $level = \OCP\Util::FATAL ) {
-		$exception = array(
-			'Exception' => get_class($ex),
-			'Message' => $ex->getMessage(),
-			'Code' => $ex->getCode(),
-			'Trace' => $ex->getTraceAsString(),
-			'File' => $ex->getFile(),
-			'Line' => $ex->getLine(),
-		);
-		\OCP\Util::writeLog($app, 'Exception: ' . json_encode($exception), $level);
+		\OC::$server->getLogger()->logException($ex, ['app' => $app]);
 	}
 
 	/**
