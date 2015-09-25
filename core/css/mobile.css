@@ -45,6 +45,10 @@
 	width: 80% !important;
 }
 
+/* fix name autocomplete not showing on mobile */
+.ui-autocomplete {
+	z-index: 1000 !important;
+}
 
 /* fix error display on smaller screens */
 .error-wide {
