@@ -925,7 +925,7 @@
 			if (this._allowSelection) {
 				td.append(
 					'<input id="select-' + this.id + '-' + fileData.id +
-					'" type="checkbox" class="selectCheckBox"/><label for="select-' + this.id + '-' + fileData.id + '">' +
+					'" type="checkbox" class="selectCheckBox checkbox"/><label for="select-' + this.id + '-' + fileData.id + '">' +
 					'<div class="thumbnail" style="background-image:url(' + icon + '); background-size: 32px;"></div>' +
 					'<span class="hidden-visually">' + t('files', 'Select') + '</span>' +
 					'</label>'

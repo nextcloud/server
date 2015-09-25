@@ -65,7 +65,7 @@ script('core', [
 		<?php endif; ?>
 		<?php if ($_['rememberLoginAllowed'] === true) : ?>
 		<div class="remember-login-container">
-			<input type="checkbox" name="remember_login" value="1" id="remember_login" class="white">
+			<input type="checkbox" name="remember_login" value="1" id="remember_login" class="checkbox checkbox--white">
 			<label for="remember_login"><?php p($l->t('remember')); ?></label>
 		</div>
 		<?php endif; ?>
