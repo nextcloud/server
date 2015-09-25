@@ -144,14 +144,76 @@ describe('OCA.Files.DetailsView tests', function() {
 			expect(detailsView.$el.find('.tab').eq(0).hasClass('hidden')).toEqual(true);
 			expect(detailsView.$el.find('.tab').eq(1).hasClass('hidden')).toEqual(false);
 		});
-		it('does not render tab headers when only one tab exists', function() {
-			detailsView.remove();
-			detailsView = new OCA.Files.DetailsView();
-			testView = new OCA.Files.DetailTabView({id: 'test1'});
-			detailsView.addTabView(testView);
-			detailsView.render();
+		describe('tab visibility', function() {
+			beforeEach(function() {
+				detailsView.remove();
+				detailsView = new OCA.Files.DetailsView();
+			});
+			it('does not display tab headers when only one tab exists', function() {
+				testView = new OCA.Files.DetailTabView({id: 'test1'});
+				detailsView.addTabView(testView);
+				detailsView.render();
 
-			expect(detailsView.$el.find('.tabHeader').length).toEqual(0);
+				expect(detailsView.$el.find('.tabHeaders').hasClass('hidden')).toEqual(true);
+				expect(detailsView.$el.find('.tabHeader').length).toEqual(1);
+			});
+			it('does not display tab that do not pass visibility check', function() {
+				testView = new OCA.Files.DetailTabView({id: 'test1'});
+				testView.canDisplay = sinon.stub().returns(false);
+				testView2 = new OCA.Files.DetailTabView({id: 'test2'});
+				var testView3 = new OCA.Files.DetailTabView({id: 'test3'});
+				detailsView.addTabView(testView);
+				detailsView.addTabView(testView2);
+				detailsView.addTabView(testView3);
+
+				var fileInfo = {id: 5, name: 'test.txt'};
+				detailsView.setFileInfo(fileInfo);
+
+				expect(testView.canDisplay.calledOnce).toEqual(true);
+				expect(testView.canDisplay.calledWith(fileInfo)).toEqual(true);
+
+				expect(detailsView.$el.find('.tabHeaders').hasClass('hidden')).toEqual(false);
+				expect(detailsView.$el.find('.tabHeader[data-tabid=test1]').hasClass('hidden')).toEqual(true);
+				expect(detailsView.$el.find('.tabHeader[data-tabid=test2]').hasClass('hidden')).toEqual(false);
+				expect(detailsView.$el.find('.tabHeader[data-tabid=test3]').hasClass('hidden')).toEqual(false);
+			});
+			it('does not show tab headers if only one header is visible due to visibility check', function() {
+				testView = new OCA.Files.DetailTabView({id: 'test1'});
+				testView.canDisplay = sinon.stub().returns(false);
+				testView2 = new OCA.Files.DetailTabView({id: 'test2'});
+				detailsView.addTabView(testView);
+				detailsView.addTabView(testView2);
+
+				var fileInfo = {id: 5, name: 'test.txt'};
+				detailsView.setFileInfo(fileInfo);
+
+				expect(testView.canDisplay.calledOnce).toEqual(true);
+				expect(testView.canDisplay.calledWith(fileInfo)).toEqual(true);
+
+				expect(detailsView.$el.find('.tabHeaders').hasClass('hidden')).toEqual(true);
+				expect(detailsView.$el.find('.tabHeader[data-tabid=test1]').hasClass('hidden')).toEqual(true);
+				expect(detailsView.$el.find('.tabHeader[data-tabid=test2]').hasClass('hidden')).toEqual(false);
+			});
+			it('deselects the current tab if a model update does not pass the visibility check', function() {
+				testView = new OCA.Files.DetailTabView({id: 'test1'});
+				testView.canDisplay = function(fileInfo) {
+					return fileInfo.mimetype !== 'httpd/unix-directory';
+				};
+				testView2 = new OCA.Files.DetailTabView({id: 'test2'});
+				detailsView.addTabView(testView);
+				detailsView.addTabView(testView2);
+
+				var fileInfo = {id: 5, name: 'test.txt', mimetype: 'text/plain'};
+				detailsView.setFileInfo(fileInfo);
+
+				expect(detailsView.$el.find('.tabHeader[data-tabid=test1]').hasClass('selected')).toEqual(true);
+				expect(detailsView.$el.find('.tabHeader[data-tabid=test2]').hasClass('selected')).toEqual(false);
+
+				detailsView.setFileInfo({id: 10, name: 'folder', mimetype: 'httpd/unix-directory'});
+
+				expect(detailsView.$el.find('.tabHeader[data-tabid=test1]').hasClass('selected')).toEqual(false);
+				expect(detailsView.$el.find('.tabHeader[data-tabid=test2]').hasClass('selected')).toEqual(true);
+			});
 		});
 		it('sorts by order and then label', function() {
 			detailsView.remove();

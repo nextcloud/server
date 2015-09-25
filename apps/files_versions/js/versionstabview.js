@@ -189,6 +189,18 @@
 			this.$el.find('.has-tooltip').tooltip();
 			this.$versionsContainer = this.$el.find('ul.versions');
 			this.delegateEvents();
+		},
+
+		/**
+		 * Returns true for files, false for folders.
+		 *
+		 * @return {bool} true for files, false for folders
+		 */
+		canDisplay: function(fileInfo) {
+			if (!fileInfo) {
+				return false;
+			}
+			return !fileInfo.isDirectory();
 		}
 	});
 
