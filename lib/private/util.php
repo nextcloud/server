@@ -507,12 +507,17 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param string|null $file filename
+	 * @param bool $prepend prepend the Style to the beginning of the list
 	 * @return void
 	 */
-	public static function addStyle($application, $file = null) {
+	public static function addStyle($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'css', $file);
 		if (!in_array($path, self::$styles)) {
-			self::$styles[] = $path;
+			if ($prepend === true) {
+				array_unshift ( self::$styles, $path );
+			} else {
+				self::$styles[] = $path;
+			}	
 		}
 	}
 
@@ -521,12 +526,17 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param string|null $file filename
+	 * @param bool $prepend prepend the Style to the beginning of the list
 	 * @return void
 	 */
-	public static function addVendorStyle($application, $file = null) {
+	public static function addVendorStyle($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'vendor', $file);
 		if (!in_array($path, self::$styles)) {
-			self::$styles[] = $path;
+			if ($prepend === true) {
+				array_unshift ( self::$styles, $path );
+			} else {
+				self::$styles[] = $path;
+			}	
 		}
 	}
 

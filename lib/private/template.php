@@ -92,26 +92,26 @@ class OC_Template extends \OC\Template\Base {
 	public static function initTemplateEngine() {
 		if (self::$initTemplateEngineFirstRun){
 			
-			//apps that started before the template initialization can load their own scripts
-			//so to make sure this scripts here are loaded first we use OC_Util::addScript() with $prepend=true
-			//meaning the last scripts in this list will be loaded first
+			//apps that started before the template initialization can load their own scripts/styles
+			//so to make sure this scripts/styles here are loaded first we use OC_Util::addScript() with $prepend=true
+			//meaning the last script/style in this list will be loaded first
 			if (\OC::$server->getSystemConfig ()->getValue ( 'installed', false ) && ! \OCP\Util::needUpgrade ()) {
 				if (\OC::$server->getConfig ()->getAppValue ( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax') {
 					OC_Util::addScript ( 'backgroundjobs', null, true );
 				}
 			}
 
-			OC_Util::addStyle("styles");
-			OC_Util::addStyle("header");
-			OC_Util::addStyle("mobile");
-			OC_Util::addStyle("icons");
-			OC_Util::addStyle("fonts");
-			OC_Util::addStyle("apps");
-			OC_Util::addStyle("fixes");
-			OC_Util::addStyle("multiselect");
-			OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui');
-			OC_Util::addStyle('jquery-ui-fixes');
-			OC_Util::addStyle("tooltip");
+			OC_Util::addStyle("tooltip",null,true);
+			OC_Util::addStyle('jquery-ui-fixes',null,true);
+			OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui',null,true);
+			OC_Util::addStyle("multiselect",null,true);
+			OC_Util::addStyle("fixes",null,true);
+			OC_Util::addStyle("apps",null,true);
+			OC_Util::addStyle("fonts",null,true);
+			OC_Util::addStyle("icons",null,true);
+			OC_Util::addStyle("mobile",null,true);
+			OC_Util::addStyle("header",null,true);
+			OC_Util::addStyle("styles",null,true);
 
 			// avatars
 			if (\OC::$server->getSystemConfig()->getValue('enable_avatars', true) === true) {
