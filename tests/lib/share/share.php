@@ -1567,6 +1567,43 @@ class Test_Share extends \Test\TestCase {
 		$this->setHttpHelper($oldHttpHelper);
 	}
 
+	/**
+	 * Test case for #19119
+	 */
+	public function testReshareWithLinkDefaultExpirationDate() {
+		$config = \OC::$server->getConfig();
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'yes');
+		$config->setAppValue('core', 'shareapi_expire_after_n_days', '2');
+
+		// Expiration date
+		$expireAt = time() + 2 * 24*60*60;
+		$date = new DateTime();
+		$date->setTimestamp($expireAt);
+		$date->setTime(0, 0, 0);
+
+		//Share a file from user 1 to user 2
+		$this->shareUserTestFileWithUser($this->user1, $this->user2);
+
+		//User 2 shares as link
+		OC_User::setUserId($this->user2);
+		$result = OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_LINK, null, \OCP\Constants::PERMISSION_READ);
+		$this->assertTrue(is_string($result));
+
+		//Check if expire date is correct
+		$result = OCP\Share::getItemShared('test', 'test.txt');
+		$this->assertCount(1, $result);
+		$result = reset($result);
+		$this->assertNotEmpty($result['expiration']);
+		$expireDate = new DateTime($result['expiration']);
+		$this->assertEquals($date, $expireDate);
+
+		//Unshare
+		$this->assertTrue(OCP\Share::unshareAll('test', 'test.txt'));
+
+		//Reset config
+		$config->deleteAppValue('core', 'shareapi_default_expire_date');
+		$config->deleteAppValue('core', 'shareapi_expire_after_n_days');
+	}
 }
 
 class DummyShareClass extends \OC\Share\Share {
