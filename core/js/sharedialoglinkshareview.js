@@ -16,12 +16,12 @@
 	var TEMPLATE =
 			'{{#if shareAllowed}}' +
 			'<span class="icon-loading-small hidden"></span>' +
-			'<input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" {{#if isLinkShare}}checked="checked"{{/if}} /><label for="linkCheckbox">{{linkShareLabel}}</label>' +
+			'<input type="checkbox" name="linkCheckbox" id="linkCheckbox" class="checkbox" value="1" {{#if isLinkShare}}checked="checked"{{/if}} /><label for="linkCheckbox">{{linkShareLabel}}</label>' +
 			'<br />' +
 			'<label for="linkText" class="hidden-visually">{{urlLabel}}</label>' +
 			'<input id="linkText" {{#unless isLinkShare}}class="hidden"{{/unless}} type="text" readonly="readonly" value="{{shareLinkURL}}" />' +
 			'   {{#if showPasswordCheckBox}}' +
-			'<input type="checkbox" name="showPassword" id="showPassword" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" /><label for="showPassword">{{enablePasswordLabel}}</label>' +
+			'<input type="checkbox" name="showPassword" id="showPassword" class="checkbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" /><label for="showPassword">{{enablePasswordLabel}}</label>' +
 			'   {{/if}}' +
 			'<div id="linkPass" {{#unless isPasswordSet}}class="hidden"{{/unless}}>' +
 			'    <label for="linkPassText" class="hidden-visually">{{passwordLabel}}</label>' +
@@ -31,7 +31,7 @@
 			'    {{#if publicUpload}}' +
 			'<div id="allowPublicUploadWrapper">' +
 			'    <span class="icon-loading-small hidden"></span>' +
-			'    <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload" {{{publicUploadChecked}}} />' +
+			'    <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload" class="checkbox" {{{publicUploadChecked}}} />' +
 			'<label for="sharingDialogAllowPublicUpload">{{publicUploadLabel}}</label>' +
 			'</div>' +
 			'    {{/if}}' +
