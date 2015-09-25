@@ -194,6 +194,12 @@ interface IServerContainer {
 	public function getAppConfig();
 
 	/**
+	 * @return \OCP\L10N\IFactory
+	 * @since 8.2.0
+	 */
+	public function getL10NFactory();
+
+	/**
 	 * get an L10N instance
 	 * @param string $app appid
 	 * @param string $lang
