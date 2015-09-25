@@ -207,6 +207,7 @@ class Expiration_Test extends \PHPUnit_Framework_TestCase {
 						'setSystemValues',
 						'setSystemValue',
 						'getSystemValue',
+						'getFilteredSystemValue',
 						'deleteSystemValue',
 						'getAppKeys',
 						'setAppValue',
