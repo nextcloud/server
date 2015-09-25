@@ -45,28 +45,36 @@ class Capabilities implements ICapability {
 	public function getCapabilities() {
 		$res = [];
 
-		$public = [];
-		$public['enabled'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes';
-		if ($public['enabled']) {
-			$public['password'] = [];
-			$public['password']['enforced'] = ($this->config->getAppValue('core', 'shareapi_enforce_links_password', 'no') === 'yes');
+		if ($this->config->getAppValue('core', 'shareapi_enabled', 'yes') !== 'yes') {
+			$res['api_enabled'] = false;
+			$res['public'] = ['enabled' => false];
+			$res['user'] = ['send_mail' => false];
+			$res['resharing'] = false;
+		} else {
+			$res['api_enabled'] = true;
 
-			$public['expire_date'] = [];
-			$public['expire_date']['enabled'] = $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no') === 'yes';
-			if ($public['expire_date']['enabled']) {
-				$public['expire_date']['days'] = $this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
-				$public['expire_date']['enforced'] = $this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no') === 'yes';
+			$public = [];
+			$public['enabled'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes';
+			if ($public['enabled']) {
+				$public['password'] = [];
+				$public['password']['enforced'] = ($this->config->getAppValue('core', 'shareapi_enforce_links_password', 'no') === 'yes');
+
+				$public['expire_date'] = [];
+				$public['expire_date']['enabled'] = $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no') === 'yes';
+				if ($public['expire_date']['enabled']) {
+					$public['expire_date']['days'] = $this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+					$public['expire_date']['enforced'] = $this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no') === 'yes';
+				}
+
+				$public['send_mail'] = $this->config->getAppValue('core', 'shareapi_allow_public_notification', 'no') === 'yes';
+				$public['upload'] = $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes';
 			}
+			$res["public"] = $public;
 
-			$public['send_mail'] = $this->config->getAppValue('core', 'shareapi_allow_public_notification', 'no') === 'yes';
-			$public['upload'] = $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes';
+			$res['user']['send_mail'] = $this->config->getAppValue('core', 'shareapi_allow_mail_notification', 'no') === 'yes';
+
+			$res['resharing'] = $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
 		}
-		$res["public"] = $public;
-
-		$res['user']['send_mail'] = $this->config->getAppValue('core', 'shareapi_allow_mail_notification', 'no') === 'yes';
-
-		$res['resharing'] = $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
-
 
 		//Federated sharing
 		$res['federation'] = [
