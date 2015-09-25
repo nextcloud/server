@@ -874,4 +874,45 @@ class Preview extends TestCase {
 
 		return [(int)$askedWidth, (int)$askedHeight];
 	}
+
+	public function testKeepAspectRatio() {
+		$originalWidth = 1680;
+		$originalHeight = 1050;
+		$originalAspectRation = $originalWidth / $originalHeight;
+
+		$preview = new \OC\Preview(
+			self::TEST_PREVIEW_USER1, 'files/', 'testimage.jpg',
+			150,
+			150
+		);
+		$preview->setKeepAspect(true);
+		$image = $preview->getPreview();
+
+		$aspectRatio = $image->width() / $image->height();
+		$this->assertEquals(round($originalAspectRation, 2), round($aspectRatio, 2));
+
+		$this->assertLessThanOrEqual(150, $image->width());
+		$this->assertLessThanOrEqual(150, $image->height());
+	}
+
+	public function testKeepAspectRatioCover() {
+		$originalWidth = 1680;
+		$originalHeight = 1050;
+		$originalAspectRation = $originalWidth / $originalHeight;
+
+		$preview = new \OC\Preview(
+			self::TEST_PREVIEW_USER1, 'files/', 'testimage.jpg',
+			150,
+			150
+		);
+		$preview->setKeepAspect(true);
+		$preview->setMode(\OC\Preview::MODE_COVER);
+		$image = $preview->getPreview();
+
+		$aspectRatio = $image->width() / $image->height();
+		$this->assertEquals(round($originalAspectRation, 2), round($aspectRatio, 2));
+
+		$this->assertGreaterThanOrEqual(150, $image->width());
+		$this->assertGreaterThanOrEqual(150, $image->height());
+	}
 }

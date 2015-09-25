@@ -140,7 +140,8 @@
 		},
 
 		loadPreview: function(path, mime, etag, $iconDiv, $container, isImage) {
-			var maxImageHeight = ($container.parent().width() + 50) / (16/9); // 30px for negative margin
+			var maxImageWidth  = $container.parent().width() + 50;  // 50px for negative margins
+			var maxImageHeight = maxImageWidth / (16/9);
 			var smallPreviewSize = 75;
 
 			var isLandscape = function(img) {
@@ -164,8 +165,9 @@
 				mime: mime,
 				etag: etag,
 				y: isImage ? maxImageHeight : smallPreviewSize,
-				x: isImage ? 99999 /* only limit on y */ : smallPreviewSize,
+				x: isImage ? maxImageWidth : smallPreviewSize,
 				a: isImage ? 1 : null,
+				mode: isImage ? 'cover' : null,
 				callback: function (previewUrl, img) {
 					$iconDiv.previewImg = previewUrl;
 

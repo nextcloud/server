@@ -837,20 +837,20 @@ class Preview {
 		$askedWidth = $this->getMaxX();
 		$askedHeight = $this->getMaxY();
 
-		/**
-		 * Phase 1: If required, adjust boundaries to keep aspect ratio
-		 */
-		if ($this->keepAspect) {
-			list($askedWidth, $askedHeight) =
-				$this->applyAspectRatio($askedWidth, $askedHeight, $previewWidth, $previewHeight);
-		}
-
 		if ($this->mode === self::MODE_COVER) {
 			list($scaleWidth, $scaleHeight) =
 				$this->applyCover($askedWidth, $askedHeight, $previewWidth, $previewHeight);
 		} else {
 			$scaleWidth = $askedWidth;
 			$scaleHeight = $askedHeight;
+		}
+
+		/**
+		 * Phase 1: If required, adjust boundaries to keep aspect ratio
+		 */
+		if ($this->keepAspect) {
+			list($scaleWidth, $scaleHeight) =
+				$this->applyAspectRatio($scaleWidth, $scaleHeight, $previewWidth, $previewHeight);
 		}
 
 		/**
@@ -870,26 +870,30 @@ class Preview {
 
 		/**
 		 * Phase 3: We're still not there yet, so we're clipping and filling
-		 * to match the asked dimensions
+		 * to match the asked dimensions if we're not asked to keep aspect ratio
 		 */
-		// It turns out the scaled preview is now too big, so we crop the image
-		if ($newPreviewWidth >= $askedWidth && $newPreviewHeight >= $askedHeight) {
-			$this->crop($image, $askedWidth, $askedHeight, $newPreviewWidth, $newPreviewHeight);
-			$this->storePreview($fileId, $askedWidth, $askedHeight);
 
-			return;
+		if (!$this->keepAspect) {
+			// It turns out the scaled preview is now too big, so we crop the image
+			if ($newPreviewWidth >= $askedWidth && $newPreviewHeight >= $askedHeight) {
+				$this->crop($image, $askedWidth, $askedHeight, $newPreviewWidth, $newPreviewHeight);
+				$this->storePreview($fileId, $askedWidth, $askedHeight);
+
+				return;
+			}
+
+			// At least one dimension of the scaled preview is too small,
+			// so we fill the space with a transparent background
+			if (($newPreviewWidth < $askedWidth || $newPreviewHeight < $askedHeight)) {
+				$this->cropAndFill(
+					$image, $askedWidth, $askedHeight, $newPreviewWidth, $newPreviewHeight
+				);
+				$this->storePreview($fileId, $askedWidth, $askedHeight);
+
+				return;
+			}
 		}
 
-		// At least one dimension of the scaled preview is too small,
-		// so we fill the space with a transparent background
-		if (($newPreviewWidth < $askedWidth || $newPreviewHeight < $askedHeight)) {
-			$this->cropAndFill(
-				$image, $askedWidth, $askedHeight, $newPreviewWidth, $newPreviewHeight
-			);
-			$this->storePreview($fileId, $askedWidth, $askedHeight);
-
-			return;
-		}
 		// The preview is smaller, but we can't touch it
 		$this->storePreview($fileId, $newPreviewWidth, $newPreviewHeight);
 	}
