@@ -73,5 +73,9 @@
 }
 
 .shareTabView .icon-loading-small {
-	margin-left: -30px;
+	position: absolute;
+	display: inline-block;
+	z-index: 1;
+	background-color: white;
+	padding: 2px;
 }
