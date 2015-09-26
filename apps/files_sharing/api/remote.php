@@ -27,9 +27,9 @@ use OCA\Files_Sharing\External\Manager;
 class Remote {
 
 	/**
-	 * Accept a remote share
+	 * Get list of pending remote shares
 	 *
-	 * @param array $params contains the shareID 'id' which should be accepted
+	 * @param array $params empty
 	 * @return \OC_OCS_Result
 	 */
 	public static function getOpenShares($params) {
@@ -89,5 +89,80 @@ class Remote {
 		}
 
 		return new \OC_OCS_Result(null, 404, "wrong share ID, share doesn't exist.");
+	}
+
+	/**
+	 * List accepted remote shares
+	 *
+	 * @param array $params 
+	 * @return \OC_OCS_Result
+	 */
+	public static function getShares($params) {
+		$externalManager = new Manager(
+			\OC::$server->getDatabaseConnection(),
+			Filesystem::getMountManager(),
+			Filesystem::getLoader(),
+			\OC::$server->getHTTPHelper(),
+			\OC::$server->getNotificationManager(),
+			\OC_User::getUser()
+		);
+	
+		return new \OC_OCS_Result($externalManager->getAcceptedShares());
+	}
+
+	/**
+	 * Get info of a remote share
+	 *
+	 * @param array $params contains the shareID 'id'
+	 * @return \OC_OCS_Result
+	 */
+	public static function getShare($params) {
+		$externalManager = new Manager(
+			\OC::$server->getDatabaseConnection(),
+			Filesystem::getMountManager(),
+			Filesystem::getLoader(),
+			\OC::$server->getHTTPHelper(),
+			\OC::$server->getNotificationManager(),
+			\OC_User::getUser()
+		);
+
+		$shareInfo = $externalManager->getShare($params['id']);
+
+		if ($shareInfo === false) {
+			return new \OC_OCS_Result(null, 404, 'share does not exist');
+		} else {
+			return new \OC_OCS_Result($shareInfo);
+		}
+	}
+
+	/**
+	 * Unshare a remote share
+	 *
+	 * @param array $params contains the shareID 'id' which should be unshared
+	 * @return \OC_OCS_Result
+	 */
+	public static function unshare($params) {
+		$externalManager = new Manager(
+			\OC::$server->getDatabaseConnection(),
+			Filesystem::getMountManager(),
+			Filesystem::getLoader(),
+			\OC::$server->getHTTPHelper(),
+			\OC::$server->getNotificationManager(),
+			\OC_User::getUser()
+		);
+
+		$shareInfo = $externalManager->getShare($params['id']);
+
+		if ($shareInfo === false) {
+			return new \OC_OCS_Result(null, 404, 'Share does not exist');
+		}
+
+		$mountPoint = '/' . \OC_User::getUser() . '/files' . $shareInfo['mountpoint'];
+
+		if ($externalManager->removeShare($mountPoint) === true) {
+			return new \OC_OCS_Result(null);
+		} else {
+			return new \OC_OCS_Result(null, 403, 'Could not unshare');
+		}
 	}
 }

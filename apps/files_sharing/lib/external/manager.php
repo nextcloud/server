@@ -180,9 +180,9 @@ class Manager {
 	 * @param int $id share id
 	 * @return mixed share of false
 	 */
-	private function getShare($id) {
+	public function getShare($id) {
 		$getShare = $this->connection->prepare('
-			SELECT `remote`, `remote_id`, `share_token`, `name`
+			SELECT *
 			FROM  `*PREFIX*share_external`
 			WHERE `id` = ? AND `user` = ?');
 		$result = $getShare->execute(array($id, $this->uid));
@@ -404,6 +404,15 @@ class Manager {
 	 */
 	public function getOpenShares() {
 		return $this->getShares(false);
+	}
+
+	/**
+	 * return a list of shares wich are accepted by the user
+	 *
+	 * @return array list of accepted server-to-server shares
+	 */
+	public function getAcceptedShares() {
+		return $this->getShares(true);
 	}
 
 	/**
