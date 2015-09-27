@@ -1393,8 +1393,8 @@
 			}
 			urlSpec.x *= window.devicePixelRatio;
 			urlSpec.y *= window.devicePixelRatio;
-			urlSpec.x = Math.floor(urlSpec.x);
-			urlSpec.y = Math.floor(urlSpec.y);
+			urlSpec.x = Math.ceil(urlSpec.x);
+			urlSpec.y = Math.ceil(urlSpec.y);
 			urlSpec.forceIcon = 0;
 			return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
 		},
