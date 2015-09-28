@@ -132,6 +132,14 @@
 				closeLabel: t('files', 'Close')
 			};
 
+			this._tabViews = this._tabViews.sort(function(tabA, tabB) {
+				var orderA = tabA.order || 0;
+				var orderB = tabB.order || 0;
+				if (orderA === orderB) {
+					return OC.Util.naturalSortCompare(tabA.getLabel(), tabB.getLabel());
+				}
+				return orderA - orderB;
+			});
 			if (this._tabViews.length > 1) {
 				// only render headers if there is more than one available
 				templateVars.tabHeaders = _.map(this._tabViews, function(tabView, i) {

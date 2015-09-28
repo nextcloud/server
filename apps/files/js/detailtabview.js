@@ -29,10 +29,14 @@
 
 		_template: null,
 
-		initialize: function() {
+		initialize: function(options) {
+			options = options || {};
 			if (!this.id) {
 				this.id = 'detailTabView' + DetailTabView._TAB_COUNT;
 				DetailTabView._TAB_COUNT++;
+			}
+			if (options.order) {
+				this.order = options.order || 0;
 			}
 		},
 
