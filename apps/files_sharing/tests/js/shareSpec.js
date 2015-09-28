@@ -179,7 +179,7 @@ describe('OCA.Sharing.Util tests', function() {
 			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder-shared.svg');
 			expect($action.find('img').length).toEqual(1);
 		});
-		it('shows static share text when file shared with user that has no share permission', function() {
+		it('shows share action when shared with user who has no share permission', function() {
 			var $action, $tr;
 			fileList.setFiles([{
 				id: 1,
@@ -193,14 +193,9 @@ describe('OCA.Sharing.Util tests', function() {
 				shareOwner: 'User One'
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
-			expect($tr.find('.action-share').length).toEqual(0);
-			$action = $tr.find('.action-share-notification');
-			expect($action.find('>span').text().trim()).toEqual('User One');
-			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
-			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder-shared.svg');
-			expect($action.find('img').length).toEqual(1);
+			expect($tr.find('.action-share').length).toEqual(1);
 		});
-		it('do not show static share text when share exists but neither permission nor owner is available', function() {
+		it('do not show share action when share exists but neither permission nor owner is available', function() {
 			var $action, $tr;
 			fileList.setFiles([{
 				id: 1,
@@ -214,8 +209,6 @@ describe('OCA.Sharing.Util tests', function() {
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
 			expect($tr.find('.action-share').length).toEqual(0);
-			$action = $tr.find('.action-share-notification');
-			expect($action.length).toEqual(0);
 		});
 	});
 	describe('Share action', function() {
