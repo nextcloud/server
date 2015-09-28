@@ -260,4 +260,38 @@ class Test_Access extends \Test\TestCase {
 
 		$access->batchApplyUserAttributes($data);
 	}
+
+	public function dNAttributeProvider() {
+		// corresponds to Access::resemblesDN()
+		return array(
+			'dn' => array('dn'),
+			'uniqueMember' => array('uniquemember'),
+			'member' => array('member'),
+			'memberOf' => array('memberof')
+		);
+	}
+
+	/**
+	 * @dataProvider dNAttributeProvider
+	 */
+	public function testSanitizeDN($attribute) {
+		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
+
+
+		$dnFromServer = 'cn=Mixed Cases,ou=Are Sufficient To,ou=Test,dc=example,dc=org';
+
+		$lw->expects($this->any())
+			->method('isResource')
+			->will($this->returnValue(true));
+
+		$lw->expects($this->any())
+			->method('getAttributes')
+			->will($this->returnValue(array(
+				$attribute => array('count' => 1, $dnFromServer)
+			)));
+
+		$access = new Access($con, $lw, $um);
+		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
+		$this->assertSame($values[0], strtolower($dnFromServer));
+	}
 }
