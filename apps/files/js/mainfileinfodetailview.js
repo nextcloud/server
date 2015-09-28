@@ -10,7 +10,7 @@
 
 (function() {
 	var TEMPLATE =
-		'<div class="thumbnailContainer"><a href="#" class="thumbnail action-default"></a></div>' +
+		'<div class="thumbnailContainer"><a href="#" class="thumbnail action-default"><div class="stretcher"/></a></div>' +
 		'<div class="file-details-container">' +
 		'<div class="fileName"><h3 title="{{name}}" class="ellipsis">{{name}}</h3></div>' +
 		'	<div class="file-details ellipsis">' +
@@ -164,6 +164,15 @@
 				}
 			};
 
+			var getTargetRatio = function(img){
+				var ratio = img.width / img.height;
+				if (ratio > 16/9) {
+					return ratio;
+				} else {
+					return 16/9;
+				}
+			};
+
 			this._fileList.lazyLoadPreview({
 				path: path,
 				mime: mime,
@@ -192,6 +201,11 @@
 						'background-image': 'url("' + previewUrl + '")',
 						height: (targetHeight > smallPreviewSize)? 'auto': targetHeight,
 						'max-height': isSmall(img)? targetHeight: null
+					});
+
+					var targetRatio = getTargetRatio(img);
+					$iconDiv.find('.stretcher').css({
+						'padding-bottom': (100 / targetRatio) + '%'
 					});
 				}.bind(this),
 				error: function () {
