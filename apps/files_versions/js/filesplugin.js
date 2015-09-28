@@ -25,7 +25,7 @@
 				return;
 			}
 
-			fileList.registerTabView(new OCA.Versions.VersionsTabView('versionsTabView'));
+			fileList.registerTabView(new OCA.Versions.VersionsTabView('versionsTabView', {order: -10}));
 		}
 	};
 })();

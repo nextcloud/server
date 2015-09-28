@@ -111,7 +111,7 @@
 				}
 			});
 
-			var shareTab = new OCA.Sharing.ShareTabView('shareTabView');
+			var shareTab = new OCA.Sharing.ShareTabView('shareTabView', {order: -20});
 			// detect changes and change the matching list entry
 			shareTab.on('sharesChanged', function(shareModel) {
 				var fileInfoModel = shareModel.fileInfoModel;

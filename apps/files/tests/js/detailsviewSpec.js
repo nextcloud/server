@@ -153,5 +153,20 @@ describe('OCA.Files.DetailsView tests', function() {
 
 			expect(detailsView.$el.find('.tabHeader').length).toEqual(0);
 		});
+		it('sorts by order and then label', function() {
+			detailsView.remove();
+			detailsView = new OCA.Files.DetailsView();
+			detailsView.addTabView(new OCA.Files.DetailTabView({id: 'abc', order: 20}));
+			detailsView.addTabView(new OCA.Files.DetailTabView({id: 'def', order: 10}));
+			detailsView.addTabView(new OCA.Files.DetailTabView({id: 'jkl'}));
+			detailsView.addTabView(new OCA.Files.DetailTabView({id: 'ghi'}));
+			detailsView.render();
+
+			var tabs = detailsView.$el.find('.tabHeader').map(function() {
+				return $(this).attr('data-tabid');
+			}).toArray(); 
+
+			expect(tabs).toEqual(['ghi', 'jkl', 'def', 'abc']);
+		});
 	});
 });

@@ -44,6 +44,7 @@
 		},
 
 		initialize: function() {
+			OCA.Files.DetailTabView.prototype.initialize.apply(this, arguments);
 			this.collection = new OCA.Versions.VersionCollection();
 			this.collection.on('request', this._onRequest, this);
 			this.collection.on('sync', this._onEndRequest, this);
