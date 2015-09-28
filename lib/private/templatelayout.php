@@ -39,7 +39,7 @@ use Assetic\Filter\CssImportFilter;
 use Assetic\Filter\CssMinFilter;
 use Assetic\Filter\CssRewriteFilter;
 use Assetic\Filter\JSqueezeFilter;
-use OC\Assetic\SeparatorFilter; // waiting on upstream
+use Assetic\Filter\SeparatorFilter;
 
 /**
  * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
