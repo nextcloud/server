@@ -152,6 +152,43 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 			expect(menu.$el.find('a[data-action=Match]').length).toEqual(1);
 			expect(menu.$el.find('a[data-action=NoMatch]').length).toEqual(0);
 		});
+		it('sorts by order attribute, then name', function() {
+			fileActions.registerAction({
+				name: 'Baction',
+				displayName: 'Baction',
+				order: 2,
+				mime: 'text/plain',
+				permissions: OC.PERMISSION_ALL
+			});
+			fileActions.registerAction({
+				name: 'Zaction',
+				displayName: 'Zaction',
+				order: 1,
+				mime: 'text/plain',
+				permissions: OC.PERMISSION_ALL
+			});
+			fileActions.registerAction({
+				name: 'Yaction',
+				displayName: 'Yaction',
+				mime: 'text/plain',
+				permissions: OC.PERMISSION_ALL
+			});
+			fileActions.registerAction({
+				name: 'Waction',
+				displayName: 'Waction',
+				mime: 'text/plain',
+				permissions: OC.PERMISSION_ALL
+			});
+
+			menu.render();
+			var zactionIndex = menu.$el.find('a[data-action=Zaction]').closest('li').index();
+			var bactionIndex = menu.$el.find('a[data-action=Baction]').closest('li').index();
+			expect(zactionIndex).toBeLessThan(bactionIndex);
+
+			var wactionIndex = menu.$el.find('a[data-action=Waction]').closest('li').index();
+			var yactionIndex = menu.$el.find('a[data-action=Yaction]').closest('li').index();
+			expect(wactionIndex).toBeLessThan(yactionIndex);
+		});
 	});
 
 	describe('action handler', function() {

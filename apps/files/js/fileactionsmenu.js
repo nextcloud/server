@@ -100,6 +100,14 @@
 					(!defaultAction || actionSpec.name !== defaultAction.name)
 				);
 			});
+			items = items.sort(function(actionA, actionB) {
+				var orderA = actionA.order || 0;
+				var orderB = actionB.order || 0;
+				if (orderB === orderA) {
+					return OC.Util.naturalSortCompare(actionA.displayName, actionB.displayName);
+				}
+				return orderA - orderB;
+			});
 			items = _.map(items, function(item) {
 				item.nameLowerCase = item.name.toLowerCase();
 				return item;

@@ -302,6 +302,7 @@
 					name: 'Details',
 					displayName: t('files', 'Details'),
 					mime: 'all',
+					order: -50,
 					icon: OC.imagePath('core', 'actions/details'),
 					permissions: OC.PERMISSION_READ,
 					actionHandler: function(fileName, context) {
