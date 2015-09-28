@@ -405,6 +405,7 @@ class Test_Share extends \Test\TestCase {
 		$view->mkdir('files_trashbin/files');
 
 		$fileInfo = $view->getFileInfo('files/test/sub');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 		$fileId = $fileInfo->getId();
 
 		$this->assertTrue(
@@ -509,6 +510,7 @@ class Test_Share extends \Test\TestCase {
 		$view->mkdir('files/test/sub1/sub2');
 
 		$fileInfo = $view->getFileInfo('files/test/sub1');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 		$fileId = $fileInfo->getId();
 
 		$this->assertTrue(
@@ -521,6 +523,7 @@ class Test_Share extends \Test\TestCase {
 		$this->assertEquals(\OCP\Constants::PERMISSION_READ + \OCP\Constants::PERMISSION_CREATE, $result['permissions']);
 
 		$fileInfo = $view->getFileInfo('files/test/sub1/sub2');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 		$fileId = $fileInfo->getId();
 
 		$this->assertTrue(
@@ -541,9 +544,11 @@ class Test_Share extends \Test\TestCase {
 		$view->file_put_contents('files/test/sub1/file.txt', 'abc');
 
 		$folderInfo = $view->getFileInfo('files/test/sub1');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
 		$folderId = $folderInfo->getId();
 
 		$fileInfo = $view->getFileInfo('files/test/sub1/file.txt');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 		$fileId = $fileInfo->getId();
 
 		$this->assertTrue(
