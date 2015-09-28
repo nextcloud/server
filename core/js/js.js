@@ -1773,9 +1773,7 @@ OC.Util.History = {
 			params = OC.parseQueryString(this._decodeQuery(query));
 		}
 		// else read from query attributes
-		if (!params) {
-			params = OC.parseQueryString(this._decodeQuery(location.search));
-		}
+		params = _.extend(params || {}, OC.parseQueryString(this._decodeQuery(location.search)));
 		return params || {};
 	},
 
