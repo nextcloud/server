@@ -203,6 +203,9 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
 		}
 
+		// this will trigger existence check
+		$this->getNodeForPath($source);
+
 		try {
 			if ($this->fileView->is_file($source)) {
 				$this->fileView->copy($source, $destination);
