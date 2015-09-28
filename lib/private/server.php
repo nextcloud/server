@@ -46,6 +46,7 @@ use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\NullEventLogger;
 use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\QueryLogger;
+use OC\Files\Node\HookConnector;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OC\Http\Client\ClientService;
@@ -144,7 +145,10 @@ class Server extends SimpleContainer implements IServerContainer {
 			$user = $userManager->get($user);
 			$manager = \OC\Files\Filesystem::getMountManager();
 			$view = new View();
-			return new Root($manager, $view, $user);
+			$root = new Root($manager, $view, $user);
+			$connector = new HookConnector($root, $view);
+			$connector->viewToNode();
+			return $root;
 		});
 		$this->registerService('UserManager', function (Server $c) {
 			$config = $c->getConfig();
