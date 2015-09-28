@@ -8,7 +8,6 @@
 
 namespace Test\Files\Node;
 
-use OC\Connector\Sabre\File;
 use OC\Files\Filesystem;
 use OC\Files\Node\Root;
 use OC\Files\Storage\Temporary;
