@@ -148,6 +148,10 @@
 				return img.width > (img.height * 1.2);
 			};
 
+			var isSmall = function(img) {
+				return (img.width * 1.1) < (maxImageWidth * window.devicePixelRatio);
+			};
+
 			var getTargetHeight = function(img) {
 				if(isImage) {
 					var targetHeight = img.height / window.devicePixelRatio;
@@ -178,7 +182,7 @@
 					$iconDiv.removeClass('icon-loading icon-32');
 					var targetHeight = getTargetHeight(img);
 					if (this.model.isImage() && targetHeight > smallPreviewSize) {
-						$container.addClass(isLandscape(img)? 'landscape': 'portrait');
+						$container.addClass((isLandscape(img) && !isSmall(img))? 'landscape': 'portrait');
 						$container.addClass('image');
 					}
 
@@ -186,7 +190,8 @@
 					// when we dont have a preview we show the mime icon in the error handler
 					$iconDiv.css({
 						'background-image': 'url("' + previewUrl + '")',
-						height: (targetHeight > smallPreviewSize)? 'auto': targetHeight
+						height: (targetHeight > smallPreviewSize)? 'auto': targetHeight,
+						'max-height': isSmall(img)? targetHeight: null
 					});
 				}.bind(this),
 				error: function () {
