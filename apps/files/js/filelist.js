@@ -719,8 +719,23 @@
 			return true;
 		},
 		/**
-		 * Returns the tr element for a given file name
-		 * @param fileName file name
+		 * Returns the file info for the given file name from the internal collection.
+		 *
+		 * @param {string} fileName file name
+		 * @return {OCA.Files.FileInfo} file info or null if it was not found
+		 *
+		 * @since 8.2
+		 */
+		findFile: function(fileName) {
+			return _.find(this.files, function(aFile) {
+				return (aFile.name === fileName);
+			}) || null;
+		},
+		/**
+		 * Returns the tr element for a given file name, but only if it was already rendered.
+		 *
+		 * @param {string} fileName file name
+		 * @return {Object} jQuery object of the matching row
 		 */
 		findFileEl: function(fileName){
 			// use filterAttr to avoid escaping issues
@@ -1877,7 +1892,7 @@
 		 * @return {bool} true if the file exists in the list, false otherwise
 		 */
 		inList:function(file) {
-			return this.findFileEl(file).length;
+			return this.findFile(file);
 		},
 
 		/**
