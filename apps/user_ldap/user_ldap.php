@@ -71,6 +71,23 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	}
 
 	/**
+	 * returns an LDAP record based on a given login name
+	 *
+	 * @param string $loginName
+	 * @return array
+	 * @throws \Exception
+	 */
+	public function getLDAPUserByLoginName($loginName) {
+		//find out dn of the user name
+		$attrs = $this->access->userManager->getAttributes();
+		$users = $this->access->fetchUsersByLoginName($loginName, $attrs, 1);
+		if(count($users) < 1) {
+			throw new \Exception('No user available for the given login name.');
+		}
+		return $users[0];
+	}
+
+	/**
 	 * Check if the password is correct
 	 * @param string $uid The username
 	 * @param string $password The password
@@ -79,15 +96,14 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * Check if the password is correct without logging in the user
 	 */
 	public function checkPassword($uid, $password) {
-		//find out dn of the user name
-		$attrs = array($this->access->connection->ldapUserDisplayName, 'dn',
-			'uid', 'samaccountname');
-		$users = $this->access->fetchUsersByLoginName($uid, $attrs);
-		if(count($users) < 1) {
+		try {
+			$ldapRecord = $this->getLDAPUserByLoginName($uid);
+		} catch(\Exception $e) {
 			return false;
 		}
-		$dn = $users[0]['dn'];
+		$dn = $ldapRecord['dn'];
 		$user = $this->access->userManager->get($dn);
+
 		if(!$user instanceof User) {
 			\OCP\Util::writeLog('user_ldap',
 				'LDAP Login: Could not get user object for DN ' . $dn .
