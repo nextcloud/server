@@ -26,8 +26,17 @@ class RepairMimeTypes extends \Test\TestCase {
 		$this->savedMimetypeLoader = \OC::$server->getMimeTypeLoader();
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 
+		$config = $this->getMockBuilder('OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+		$config->expects($this->any())
+			->method('getSystemValue')
+			->with('version')
+			->will($this->returnValue('8.0.0.0'));
+
 		$this->storage = new \OC\Files\Storage\Temporary([]);
-		$this->repair = new \OC\Repair\RepairMimeTypes();
+
+		$this->repair = new \OC\Repair\RepairMimeTypes($config);
 	}
 
 	protected function tearDown() {

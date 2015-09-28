@@ -29,6 +29,17 @@ namespace OC\Repair;
 use OC\Hooks\BasicEmitter;
 
 class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
+	/**
+	 * @var \OCP\IConfig
+	 */
+	protected $config;
+
+	/**
+	 * @param \OCP\IConfig $config
+	 */
+	public function __construct($config) {
+		$this->config = $config;
+	}
 
 	public function getName() {
 		return 'Repair mime types';
@@ -243,36 +254,45 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 	 * Fix mime types
 	 */
 	public function run() {
-		if ($this->fixOfficeMimeTypes()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed office mime types'));
-		}
 
-		if ($this->fixApkMimeType()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed APK mime type'));
-		}
+		$ocVersionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
 
-		if ($this->fixFontsMimeTypes()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed fonts mime types'));
-		}
+		// NOTE TO DEVELOPERS: when adding new mime types, please make sure to
+		// add a version comparison to avoid doing it every time
 
-		if ($this->fixPostscriptMimeType()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed Postscript mime types'));
-		}
+		// only update mime types if necessary as it can be expensive
+		if (version_compare($ocVersionFromBeforeUpdate, '8.2.0', '<')) {
+			if ($this->fixOfficeMimeTypes()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed office mime types'));
+			}
 
-		if ($this->introduceRawMimeType()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed Raw mime types'));
-		}
+			if ($this->fixApkMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed APK mime type'));
+			}
 
-		if ($this->introduce3dImagesMimeType()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed 3D images mime types'));
-		}
+			if ($this->fixFontsMimeTypes()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed fonts mime types'));
+			}
 
-		if ($this->introduceConfMimeType()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed Conf/cnf mime types'));
-		}
+			if ($this->fixPostscriptMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed Postscript mime types'));
+			}
 
-		if ($this->introduceYamlMimeType()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed Yaml/Yml mime types'));
+			if ($this->introduceRawMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed Raw mime types'));
+			}
+
+			if ($this->introduce3dImagesMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed 3D images mime types'));
+			}
+
+			if ($this->introduceConfMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed Conf/cnf mime types'));
+			}
+
+			if ($this->introduceYamlMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed Yaml/Yml mime types'));
+			}
 		}
 	}
 }
