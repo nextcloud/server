@@ -537,6 +537,16 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
+	 * caches the user display name
+	 * @param string $ocName the internal ownCloud username
+	 * @param string|false $home the home directory path
+	 */
+	public function cacheUserHome($ocName, $home) {
+		$cacheKey = 'getHome'.$ocName;
+		$this->connection->writeToCache($cacheKey, $home);
+	}
+
+	/**
 	 * caches a user as existing
 	 * @param string $ocName the internal ownCloud username
 	 */
@@ -656,7 +666,24 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 * @return array
 	 */
 	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null) {
-		return $this->fetchList($this->searchUsers($filter, $attr, $limit, $offset), (count($attr) > 1));
+		$ldapRecords = $this->searchUsers($filter, $attr, $limit, $offset);
+		$this->batchApplyUserAttributes($ldapRecords);
+		return $this->fetchList($ldapRecords, (count($attr) > 1));
+	}
+
+	/**
+	 * provided with an array of LDAP user records the method will fetch the
+	 * user object and requests it to process the freshly fetched attributes and
+	 * and their values
+	 * @param array $ldapRecords
+	 */
+	public function batchApplyUserAttributes(array $ldapRecords){
+		foreach($ldapRecords as $userRecord) {
+			$ocName  = $this->dn2ocname($userRecord['dn'], $userRecord[$this->connection->ldapUserDisplayName]);
+			$this->cacheUserExists($ocName);
+			$user = $this->userManager->get($ocName);
+			$user->processAttributes($userRecord);
+		}
 	}
 
 	/**

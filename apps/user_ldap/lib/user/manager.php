@@ -127,6 +127,43 @@ class Manager {
 	}
 
 	/**
+	 * returns a list of attributes that will be processed further, e.g. quota,
+	 * email, displayname, or others.
+	 * @param bool $minimal - optional, set to true to skip attributes with big
+	 * payload
+	 * @return string[]
+	 */
+	public function getAttributes($minimal = false) {
+		$attributes = array('dn', 'uid', 'samaccountname', 'memberof');
+		$possible = array(
+			$this->access->getConnection()->ldapQuotaAttribute,
+			$this->access->getConnection()->ldapEmailAttribute,
+			$this->access->getConnection()->ldapUserDisplayName,
+		);
+		foreach($possible as $attr) {
+			if(!is_null($attr)) {
+				$attributes[] = $attr;
+			}
+		}
+
+		$homeRule = $this->access->getConnection()->homeFolderNamingRule;
+		if(strpos($homeRule, 'attr:') === 0) {
+			$attributes[] = substr($homeRule, strlen('attr:'));
+		}
+
+		if(!$minimal) {
+			// attributes that are not really important but may come with big
+			// payload.
+			$attributes = array_merge($attributes, array(
+				'jpegphoto',
+				'thumbnailphoto'
+			));
+		}
+
+		return $attributes;
+	}
+
+	/**
 	 * Checks whether the specified user is marked as deleted
 	 * @param string $id the ownCloud user name
 	 * @return bool
