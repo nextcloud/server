@@ -89,9 +89,9 @@ class Streamer {
 	/**
 	 * Add a file to the archive at the specified location and file name.
 	 *
-	 * @param string $stream      Stream to read data from
-	 * @param string $internalName    Filepath and name to be used in the archive.
-	 * @param int $size           Filesize
+	 * @param string $stream Stream to read data from
+	 * @param string $internalName Filepath and name to be used in the archive.
+	 * @param int $size Filesize
 	 * @return bool $success
 	 */
 	public function addFileFromStream($stream, $internalName, $size){
@@ -101,17 +101,17 @@ class Streamer {
 			return $this->streamerInstance->addFileFromStream($stream, $internalName, $size);
 		}
 	}
-	
+
 	/**
 	 * Add an empty directory entry to the archive.
 	 *
-	 * @param string $directoryPath  Directory Path and name to be added to the archive.
+	 * @param string $dirName Directory Path and name to be added to the archive.
 	 * @return bool $success
 	 */
 	public function addEmptyDir($dirName){
 		return $this->streamerInstance->addEmptyDir($dirName);
 	}
-	
+
 	/**
 	 * Close the archive.
 	 * A closed archive can no longer have new files added to it. After
