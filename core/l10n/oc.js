@@ -162,7 +162,6 @@ OC.L10N.register(
     "New Password" : "Senhal novèl",
     "Reset password" : "Reïnicializar lo senhal",
     "Searching other places" : "Recèrca en cors dins d'autres emplaçaments",
-    "_{count} search result in other places_::_{count} search results in other places_" : ["{count} resultat dins d'autres emplaçaments","{count} resultats dins d'autres emplaçaments"],
     "Personal" : "Personal",
     "Users" : "Utilizaires",
     "Apps" : "Aplicacions",

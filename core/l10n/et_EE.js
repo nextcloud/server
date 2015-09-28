@@ -165,8 +165,6 @@ OC.L10N.register(
     "New Password" : "Uus parool",
     "Reset password" : "Nulli parool",
     "Searching other places" : "Otsi teistest kohtadest",
-    "No search results in other places" : "Teistest kohtadest otsimine ei andnud tulemusi",
-    "_{count} search result in other places_::_{count} search results in other places_" : ["{count} otsingutulemus teistest kohtadest","{count} otsingutulemust teistest kohtadest"],
     "Personal" : "Isiklik",
     "Users" : "Kasutajad",
     "Apps" : "Rakendused",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "files",
     {
     "Files" : "கோப்புகள்",
+    "Details" : "விவரங்கள்",
     "Upload" : "பதிவேற்று",
     "New folder" : "புதிய கோப்புறை",
     "A new file or folder has been <strong>created</strong>" : "ஒரு புதிய கோப்புறை அல்லது ஆவணம் <strong> உருவாக்கப்பட்டுள்ளது.</strong>",

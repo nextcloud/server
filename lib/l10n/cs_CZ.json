@@ -110,6 +110,7 @@
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "Sdílení položky %s selhalo, protože úložiště sdílení %s nenalezla zdroj",
     "Sharing %s failed, because the file could not be found in the file cache" : "Sdílení položky %s selhalo, protože soubor nebyl nalezen ve vyrovnávací paměti",
     "Could not find category \"%s\"" : "Nelze nalézt kategorii \"%s\"",
+    "Apps" : "Aplikace",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Pouze následující znaky jsou povoleny v uživatelském jménu: \"a-z\", \"A-Z\", \"0-9\" a \"_.@-\"",
     "A valid username must be provided" : "Musíte zadat platné uživatelské jméno",
     "A valid password must be provided" : "Musíte zadat platné heslo",

@@ -27,6 +27,7 @@
     "Set an admin password." : "Постави администраторска лозинка.",
     "%s shared »%s« with you" : "%s споделено »%s« со вас",
     "Could not find category \"%s\"" : "Не можам да најдам категорија „%s“",
+    "Apps" : "Аппликации",
     "A valid username must be provided" : "Мора да се обезбеди валидно корисничко име ",
     "A valid password must be provided" : "Мора да се обезбеди валидна лозинка",
     "The username is already being used" : "Корисничкото име е веќе во употреба"

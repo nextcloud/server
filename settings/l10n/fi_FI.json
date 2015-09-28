@@ -138,6 +138,7 @@
     "Allow users to send mail notification for shared files to other users" : "Salli käyttäjien lähettää muille käyttäjille sähköpostitse ilmoitus jaetuista tiedostoista",
     "Exclude groups from sharing" : "Kiellä ryhmiä jakamasta",
     "These groups will still be able to receive shares, but not to initiate them." : "Nämä ryhmät kykenevät vastaanottamaan jakoja, mutta eivät kuitenkaan itse pysty luoda jakoja.",
+    "Allow username autocompletion in share dialog. If this is disabled the full username needs to be entered." : "Salli käyttäjätunnuksen automaattinen täydentäminen jakamisikkunnassa. Jos tämä asetus on pois käytöstä, tulee käyttäjätunnus kirjoittaa kokonaan itse.",
     "Last cron job execution: %s." : "Viimeisin cron-työn suoritus: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Viimeisin cron-työn suoritus: %s. Jokin vaikuttaa menneen pieleen.",
     "Cron was not executed yet!" : "Cronia ei suoritettu vielä!",

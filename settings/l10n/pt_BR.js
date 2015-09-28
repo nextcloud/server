@@ -149,6 +149,7 @@ OC.L10N.register(
     "Allow users to send mail notification for shared files to other users" : "Permitir aos usuários enviar notificação de email de arquivos compartilhados para outros usuários",
     "Exclude groups from sharing" : "Excluir grupos de compartilhamento",
     "These groups will still be able to receive shares, but not to initiate them." : "Esses grupos ainda serão capazes de receber compartilhamentos, mas não para iniciá-los.",
+    "Allow username autocompletion in share dialog. If this is disabled the full username needs to be entered." : "Permitir autocompletar nome de usuário no diálogo de compartilhamento. Se isto estiver desativado o nome de usuário completo precisa ser inserido.",
     "Last cron job execution: %s." : "Última execução do trabalho cron: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Última execução do trabalho cron: %s. Algo parece errado.",
     "Cron was not executed yet!" : "Cron não foi executado ainda!",

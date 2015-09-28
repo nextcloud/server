@@ -4,6 +4,8 @@ OC.L10N.register(
     "Unknown error" : "Error desconocido",
     "Files" : "Archivos",
     "Download" : "Descargar",
+    "Rename" : "Renombrar",
+    "Details" : "detalles",
     "Error" : "Error",
     "Upload" : "Subir",
     "New folder" : "Nuevo directorio",

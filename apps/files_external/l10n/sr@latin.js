@@ -34,6 +34,7 @@ OC.L10N.register(
     "Location" : "Lokacija",
     "Root" : "Koren",
     "Share" : "Podeli",
+    "SMB / CIFS using OC login" : "SMB / CIFS koji koristi OC prijavljivanje",
     "Username as share" : "Korisničko ime i deljeni direktorijum",
     "OpenStack Object Storage" : "OpenStack skladište objekata",
     "<b>Note:</b> " : "<b>Obratite pažnju:</b>",

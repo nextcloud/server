@@ -149,6 +149,7 @@ OC.L10N.register(
     "Allow users to send mail notification for shared files to other users" : "Tillader brugere at sende mailnotifikationer for delte filer til andre brugere",
     "Exclude groups from sharing" : "Ekskluder grupper fra at dele",
     "These groups will still be able to receive shares, but not to initiate them." : "Disse grupper vil stadig kunne modtage delefiler, men ikke skabe dem.",
+    "Allow username autocompletion in share dialog. If this is disabled the full username needs to be entered." : "Tillad autofuldførelse af brugernavnet i delings dialogboksen. Hvis funktion er deaktiveret skal det fulde brugernavn indtastes.",
     "Last cron job execution: %s." : "Seneste udførsel af cronjob: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Seneste udførsel af cronjob: %s. Der er vist noget galt.",
     "Cron was not executed yet!" : "Cron har ikke kørt endnu!",

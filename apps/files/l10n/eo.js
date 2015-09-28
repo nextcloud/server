@@ -31,6 +31,9 @@ OC.L10N.register(
     "File upload is in progress. Leaving the page now will cancel the upload." : "Dosieralŝuto plenumiĝas. Lasi la paĝon nun nuligus la alŝuton.",
     "Actions" : "Agoj",
     "Download" : "Elŝuti",
+    "Rename" : "Alinomigi",
+    "Delete" : "Forigi",
+    "Details" : "Detaloj",
     "Select" : "Elekti",
     "Pending" : "Traktotaj",
     "Error moving file" : "Eraris movo de dosiero",
@@ -76,7 +79,6 @@ OC.L10N.register(
     "Cancel upload" : "Nuligi alŝuton",
     "No files in here" : "Neniu dosiero estas ĉi tie",
     "Select all" : "Elekti ĉion",
-    "Delete" : "Forigi",
     "Upload too large" : "Alŝuto tro larĝa",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "La dosieroj, kiujn vi provas alŝuti, transpasas la maksimuman grandon por dosieralŝutoj en ĉi tiu servilo.",
     "Files are being scanned, please wait." : "Dosieroj estas skanataj, bonvolu atendi."

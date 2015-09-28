@@ -9,6 +9,7 @@ OC.L10N.register(
     "Home" : "Domo",
     "Close" : "Clauder",
     "Download" : "Discargar",
+    "Delete" : "Deler",
     "Error" : "Error",
     "Name" : "Nomine",
     "Size" : "Dimension",
@@ -36,7 +37,6 @@ OC.L10N.register(
     "Maximum upload size" : "Dimension maxime de incargamento",
     "Save" : "Salveguardar",
     "Settings" : "Configurationes",
-    "Delete" : "Deler",
     "Upload too large" : "Incargamento troppo longe"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,10 +1,12 @@
 { "translations": {
     "Server to server sharing is not enabled on this server" : "La compartició entre servidors no està activada en aquest servidor",
     "Invalid or untrusted SSL certificate" : "El certificat SSL és invàlid o no és fiable",
+    "Storage not valid" : "Emmagatzemament no valit",
     "Couldn't add remote share" : "No s'ha pogut afegir una compartició remota",
     "Shared with you" : "Us han compartit",
     "Shared with others" : "Heu compartit",
     "Shared by link" : "Compartit amb enllaç",
+    "No shared links" : "no hi ha enllaços compartits",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voleu afegir la compartició remota {nom} des de {owner}@{remote}?",
     "Remote share" : "Compartició remota",
     "Remote share password" : "Contrasenya de compartició remota",

@@ -33,6 +33,9 @@ OC.L10N.register(
     "File upload is in progress. Leaving the page now will cancel the upload." : "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này.",
     "Actions" : "Actions",
     "Download" : "Tải về",
+    "Rename" : "Sửa tên",
+    "Delete" : "Xóa",
+    "Details" : "Chi tiết",
     "Select" : "Chọn",
     "Pending" : "Đang chờ",
     "Error moving file" : "Lỗi di chuyển tập tin",
@@ -69,7 +72,6 @@ OC.L10N.register(
     "Cancel upload" : "Hủy upload",
     "No entries found in this folder" : "Chưa có mục nào trong thư mục",
     "Select all" : "Chọn tất cả",
-    "Delete" : "Xóa",
     "Upload too large" : "Tập tin tải lên quá lớn",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",
     "Files are being scanned, please wait." : "Tập tin đang được quét ,vui lòng chờ."

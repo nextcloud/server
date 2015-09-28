@@ -80,6 +80,7 @@
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "分享 %s 失敗，因為 %s 的分享後端找不到它的來源",
     "Sharing %s failed, because the file could not be found in the file cache" : "分享 %s 失敗，因為在快取中找不到該檔案",
     "Could not find category \"%s\"" : "找不到分類：\"%s\"",
+    "Apps" : "應用程式",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "使用者名稱當中只能包含下列字元：\"a-z\", \"A-Z\", \"0-9\", 和 \"_.@-\"",
     "A valid username must be provided" : "必須提供一個有效的用戶名",
     "A valid password must be provided" : "一定要提供一個有效的密碼",

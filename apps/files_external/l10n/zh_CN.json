@@ -28,6 +28,7 @@
     "ownCloud" : "ownCloud",
     "Root" : "根路径",
     "Share" : "共享",
+    "SMB / CIFS using OC login" : "SMB / CIFS 使用 OC 登录信息",
     "OpenStack Object Storage" : "OpenStack 对象存储",
     "<b>Note:</b> " : "<b>注意：</b>",
     "Name" : "名称",

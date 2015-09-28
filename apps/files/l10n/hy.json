@@ -1,7 +1,7 @@
 { "translations": {
     "Close" : "Փակել",
     "Download" : "Բեռնել",
-    "Save" : "Պահպանել",
-    "Delete" : "Ջնջել"
+    "Delete" : "Ջնջել",
+    "Save" : "Պահպանել"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

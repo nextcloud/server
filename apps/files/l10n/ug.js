@@ -16,6 +16,8 @@ OC.L10N.register(
     "File upload is in progress. Leaving the page now will cancel the upload." : "ھۆججەت يۈكلەش مەشغۇلاتى ئېلىپ بېرىلىۋاتىدۇ. Leaving the page now will cancel the upload.",
     "Actions" : "مەشغۇلاتلار",
     "Download" : "چۈشۈر",
+    "Rename" : "ئات ئۆزگەرت",
+    "Delete" : "ئۆچۈر",
     "Pending" : "كۈتۈۋاتىدۇ",
     "Error" : "خاتالىق",
     "{new_name} already exists" : "{new_name} مەۋجۇت",
@@ -32,7 +34,6 @@ OC.L10N.register(
     "Settings" : "تەڭشەكلەر",
     "WebDAV" : "WebDAV",
     "Cancel upload" : "يۈكلەشتىن ۋاز كەچ",
-    "Delete" : "ئۆچۈر",
     "Upload too large" : "يۈكلەندىغىنى بەك چوڭ"
 },
 "nplurals=1; plural=0;");

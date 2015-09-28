@@ -31,6 +31,9 @@ OC.L10N.register(
     "File upload is in progress. Leaving the page now will cancel the upload." : "La subida del archivo está en proceso. Si sale de la página ahora, la subida será cancelada.",
     "Actions" : "Acciones",
     "Download" : "Descargar",
+    "Rename" : "Renombrar",
+    "Delete" : "Eliminar",
+    "Details" : "Detalles",
     "Pending" : "Pendiente",
     "Error moving file" : "Error moviendo archivo",
     "Error" : "Error",
@@ -65,7 +68,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Utilice esta dirección para <a href=\"%s\" target=\"_blank\">acceder a sus archivos vía WebDAV</a>",
     "Cancel upload" : "Cancelar subida",
-    "Delete" : "Eliminar",
     "Upload too large" : "Subida demasido grande",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido en este servidor.",
     "Files are being scanned, please wait." : "Los archivos están siendo escaneados,  por favor espere."

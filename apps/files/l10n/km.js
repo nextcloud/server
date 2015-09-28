@@ -10,6 +10,9 @@ OC.L10N.register(
     "Close" : "បិទ",
     "Upload cancelled." : "បាន​បោះបង់​ការ​ផ្ទុក​ឡើង។",
     "Download" : "ទាញយក",
+    "Rename" : "ប្ដូរ​ឈ្មោះ",
+    "Delete" : "លុប",
+    "Details" : "ព័ត៌មាន​លម្អិត",
     "Pending" : "កំពុង​រង់ចាំ",
     "Error" : "កំហុស",
     "{new_name} already exists" : "មាន​ឈ្មោះ {new_name} រួច​ហើយ",
@@ -33,7 +36,6 @@ OC.L10N.register(
     "Settings" : "ការកំណត់",
     "WebDAV" : "WebDAV",
     "Cancel upload" : "បោះបង់​ការ​ផ្ទុកឡើង",
-    "Delete" : "លុប",
     "Upload too large" : "ផ្ទុក​ឡើង​ធំ​ពេក"
 },
 "nplurals=1; plural=0;");

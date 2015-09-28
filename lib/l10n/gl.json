@@ -108,6 +108,7 @@
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "Fallou a compartición de %s, a infraestrutura de compartición para %s non foi quen de atopar a orixe",
     "Sharing %s failed, because the file could not be found in the file cache" : "Fallou a compartición de %s, non foi posíbel atopar o ficheiro na caché de ficheiros",
     "Could not find category \"%s\"" : "Non foi posíbel atopar a categoría «%s»",
+    "Apps" : "Aplicacións",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Só se permiten os seguintes caracteres no nome de usuario: «a-z», «A-Z», «0-9», e «_.@-»",
     "A valid username must be provided" : "Debe fornecer un nome de usuario",
     "A valid password must be provided" : "Debe fornecer un contrasinal",

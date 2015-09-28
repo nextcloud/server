@@ -45,6 +45,7 @@ OC.L10N.register(
     "ownCloud" : "ownCloud",
     "Root" : "Батьківський каталог",
     "Share" : "Поділитися",
+    "SMB / CIFS using OC login" : "SMB / CIFS з використанням логіна OC",
     "Username as share" : "Ім'я для відкритого доступу",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "<b>Note:</b> " : "<b>Примітка:</b>",

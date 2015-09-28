@@ -110,6 +110,7 @@
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "Delen van %s is mislukt, omdat de share-backend voor %s de bron niet kon vinden",
     "Sharing %s failed, because the file could not be found in the file cache" : "Delen van %s is mislukt, omdat het bestand niet in de bestandscache kon worden gevonden",
     "Could not find category \"%s\"" : "Kon categorie \"%s\" niet vinden",
+    "Apps" : "Apps",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Alleen de volgende tekens zijn toegestaan in een gebruikersnaam: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
     "A valid username must be provided" : "Er moet een geldige gebruikersnaam worden opgegeven",
     "A valid password must be provided" : "Er moet een geldig wachtwoord worden opgegeven",

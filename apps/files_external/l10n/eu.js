@@ -38,6 +38,7 @@ OC.L10N.register(
     "ownCloud" : "ownCloud",
     "Root" : "Erroa",
     "Share" : "Partekatu",
+    "SMB / CIFS using OC login" : "SMB / CIFS saioa hasteko OC erabiliz",
     "Username as share" : "Erabiltzaile izena elkarbanaketa bezala",
     "OpenStack Object Storage" : "OpenStack Objektu Biltegiratzea",
     "<b>Note:</b> " : "<b>Oharra:</b>",

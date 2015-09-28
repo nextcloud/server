@@ -93,6 +93,7 @@
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "%s megosztása nem sikerült, mert %s megosztási alrendszere nem találja",
     "Sharing %s failed, because the file could not be found in the file cache" : "%s megosztása nem sikerült, mert a fájl nem található a gyorsítótárban",
     "Could not find category \"%s\"" : "Ez a kategória nem található: \"%s\"",
+    "Apps" : "Alkalmazások",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "A felhasználónévben csak a következő karakterek fordulhatnak elő: \"a-z\", \"A-Z\", \"0-9\", és \"_.@-\"",
     "A valid username must be provided" : "Érvényes felhasználónevet kell megadnia",
     "A valid password must be provided" : "Érvényes jelszót kell megadnia",

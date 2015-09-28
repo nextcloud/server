@@ -145,7 +145,6 @@ OC.L10N.register(
     "New password" : "Nytt lösenord",
     "New Password" : "Nytt lösenord",
     "Reset password" : "Återställ lösenordet",
-    "_{count} search result in other places_::_{count} search results in other places_" : ["{count} sökresultat på andra platser","{count} sökresultat på andra platser"],
     "Personal" : "Personligt",
     "Users" : "Användare",
     "Apps" : "Program",

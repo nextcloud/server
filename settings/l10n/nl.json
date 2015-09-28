@@ -147,6 +147,7 @@
     "Allow users to send mail notification for shared files to other users" : "Sta gebruikers toe om e-mailnotificaties aan andere gebruikers te versturen voor gedeelde bestanden",
     "Exclude groups from sharing" : "Sluit groepen uit van delen",
     "These groups will still be able to receive shares, but not to initiate them." : "Deze groepen kunnen gedeelde mappen bestanden ontvangen, maar kunnen ze niet starten.",
+    "Allow username autocompletion in share dialog. If this is disabled the full username needs to be entered." : "Sta auto-aanvullen van gebruikersnaam toe in de Delen-dialoog. Als dit is uitgeschakeld, moet de gebruikersnaam volledig worden ingevuld.",
     "Last cron job execution: %s." : "Laatst uitgevoerde cronjob: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Laatst uitgevoerde cronjob: %s. Er lijkt iets fout gegaan.",
     "Cron was not executed yet!" : "Cron is nog niet uitgevoerd!",

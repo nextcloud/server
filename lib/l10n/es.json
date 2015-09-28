@@ -110,6 +110,7 @@
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "Se ha fallado al compartir %s porque el motor compartido para %s podría no encontrar su origen",
     "Sharing %s failed, because the file could not be found in the file cache" : "Se ha fallado al compartir %s, ya que el archivo no pudo ser encontrado en el cache de archivo",
     "Could not find category \"%s\"" : "No puede encontrar la categoría \"%s\"",
+    "Apps" : "Aplicaciones",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Solo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
     "A valid username must be provided" : "Se debe proporcionar un nombre de usuario válido",
     "A valid password must be provided" : "Se debe proporcionar una contraseña válida",

@@ -22,6 +22,9 @@
     "File upload is in progress. Leaving the page now will cancel the upload." : "מתבצעת כעת העלאת קבצים. עזיבה של העמוד תבטל את ההעלאה.",
     "Actions" : "פעולות",
     "Download" : "הורדה",
+    "Rename" : "שינוי שם",
+    "Delete" : "מחיקה",
+    "Details" : "פרטים",
     "Select" : "בחר",
     "Pending" : "ממתין",
     "Error" : "שגיאה",
@@ -55,7 +58,6 @@
     "Settings" : "הגדרות",
     "WebDAV" : "WebDAV",
     "Cancel upload" : "ביטול ההעלאה",
-    "Delete" : "מחיקה",
     "Upload too large" : "העלאה גדולה מידי",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",
     "Files are being scanned, please wait." : "הקבצים נסרקים, נא להמתין."

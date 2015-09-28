@@ -39,6 +39,7 @@ OC.L10N.register(
     "ownCloud" : "ownCloud",
     "Root" : "Root",
     "Share" : "Dela",
+    "SMB / CIFS using OC login" : "SMB / CIFS använder OC inloggning",
     "Username as share" : "Användarnamn till utdelning",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "<b>Note:</b> " : "<b> OBS: </ b>",

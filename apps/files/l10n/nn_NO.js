@@ -28,6 +28,9 @@ OC.L10N.register(
     "File upload is in progress. Leaving the page now will cancel the upload." : "Fila lastar no opp. Viss du forlèt sida no vil opplastinga verta avbroten.",
     "Actions" : "Handlingar",
     "Download" : "Last ned",
+    "Rename" : "Endra namn",
+    "Delete" : "Slett",
+    "Details" : "Detaljar",
     "Pending" : "Under vegs",
     "Error moving file" : "Feil ved flytting av fil",
     "Error" : "Feil",
@@ -66,7 +69,6 @@ OC.L10N.register(
     "Settings" : "Innstillingar",
     "WebDAV" : "WebDAV",
     "Cancel upload" : "Avbryt opplasting",
-    "Delete" : "Slett",
     "Upload too large" : "For stor opplasting",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filene du prøver å lasta opp er større enn maksgrensa til denne tenaren.",
     "Files are being scanned, please wait." : "Skannar filer, ver venleg og vent."

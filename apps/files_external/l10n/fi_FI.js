@@ -58,6 +58,7 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Jaa",
+    "SMB / CIFS using OC login" : "SMB / CIFS käyttäen OC-kirjautumista",
     "Username as share" : "Käyttäjänimi jakona",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Palvelun nimi",

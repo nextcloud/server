@@ -67,6 +67,7 @@ OC.L10N.register(
     "Root" : "Root",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Compartilhar",
+    "SMB / CIFS using OC login" : "SMB / CIFS utilizando o início de sessão OC",
     "Username as share" : "Nome de utilizador como partilha",
     "OpenStack Object Storage" : "Armazenamento de Objetos OpenStack",
     "<b>Note:</b> " : "<b>Nota:</b> ",

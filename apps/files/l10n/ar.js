@@ -29,6 +29,9 @@ OC.L10N.register(
     "File upload is in progress. Leaving the page now will cancel the upload." : "عملية رفع الملفات قيد التنفيذ. اغلاق الصفحة سوف يلغي عملية رفع الملفات.",
     "Actions" : "* تطبيقات.\n* أنشطة.",
     "Download" : "تحميل",
+    "Rename" : "إعادة التسمية",
+    "Delete" : "إلغاء",
+    "Details" : "تفاصيل",
     "Pending" : "قيد الانتظار",
     "Error moving file" : "حدث خطأ أثناء نقل الملف",
     "Error" : "خطأ",
@@ -71,7 +74,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "استخدم هذا العنوان لـ  <a href=\"%s\" target=\"_blank\">الدخول الى ملفاتك عن طريق WebDAV</a>",
     "Cancel upload" : "إلغاء الرفع",
-    "Delete" : "إلغاء",
     "Upload too large" : "حجم الترفيع أعلى من المسموح",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "حجم الملفات التي تريد ترفيعها أعلى من المسموح على الخادم.",
     "Files are being scanned, please wait." : "يرجى الانتظار , جاري فحص الملفات ."

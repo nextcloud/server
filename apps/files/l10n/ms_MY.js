@@ -13,6 +13,8 @@ OC.L10N.register(
     "Close" : "Tutup",
     "Upload cancelled." : "Muatnaik dibatalkan.",
     "Download" : "Muat turun",
+    "Rename" : "Namakan",
+    "Delete" : "Padam",
     "Pending" : "Dalam proses",
     "Error" : "Ralat",
     "Name" : "Nama",
@@ -31,7 +33,6 @@ OC.L10N.register(
     "Save" : "Simpan",
     "Settings" : "Tetapan",
     "Cancel upload" : "Batal muat naik",
-    "Delete" : "Padam",
     "Upload too large" : "Muatnaik terlalu besar",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fail yang cuba dimuat naik melebihi saiz maksimum fail upload server",
     "Files are being scanned, please wait." : "Fail sedang diimbas, harap bersabar."

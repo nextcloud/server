@@ -1,6 +1,7 @@
 { "translations": {
     "Help" : "सहयोग",
     "Personal" : "यक्तिगत",
-    "Users" : "उपयोगकर्ता"
+    "Users" : "उपयोगकर्ता",
+    "Apps" : "Apps"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

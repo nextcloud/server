@@ -110,6 +110,7 @@
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "Deling av %s feilet, fordi delings-serveren for %s ikke kunne finne kilden",
     "Sharing %s failed, because the file could not be found in the file cache" : "Deling av %s feilet, fordi filen ikke ble funnet i fil-mellomlageret",
     "Could not find category \"%s\"" : "Kunne ikke finne kategori \"%s\"",
+    "Apps" : "Apper",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Bare disse tegnene tillates i et brukernavn: \"a-z\", \"A-Z\", \"0-9\" og \"_.@-\"",
     "A valid username must be provided" : "Oppgi et gyldig brukernavn",
     "A valid password must be provided" : "Oppgi et gyldig passord",

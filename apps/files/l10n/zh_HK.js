@@ -7,6 +7,8 @@ OC.L10N.register(
     "Home" : "主頁",
     "Close" : "關閉",
     "Download" : "下載",
+    "Rename" : "重新命名",
+    "Delete" : "刪除",
     "Error" : "錯誤",
     "Name" : "名稱",
     "Size" : "大小",
@@ -27,7 +29,6 @@ OC.L10N.register(
     "Save" : "儲存",
     "Settings" : "設定",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "取消上戴",
-    "Delete" : "刪除"
+    "Cancel upload" : "取消上戴"
 },
 "nplurals=1; plural=0;");

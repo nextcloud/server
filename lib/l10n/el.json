@@ -107,6 +107,7 @@
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "Ο διαμοιρασμός του %s απέτυχε, γιατί δεν ήταν δυνατό να εντοπίσει την πηγή το σύστημα διαμοιρασμού για το %s ",
     "Sharing %s failed, because the file could not be found in the file cache" : "Ο διαμοιρασμός του %s απέτυχε, γιατί το αρχείο δεν βρέθηκε στην προσωρινή αποθήκευση αρχείων",
     "Could not find category \"%s\"" : "Αδυναμία εύρεσης κατηγορίας \"%s\"",
+    "Apps" : "Εφαρμογές",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Μόνο οι παρακάτων χαρακτήρες επιτρέπονται σε ένα όνομα χρήστη: \"a-z\", \"A-Z\", \"0-9\" και \"_.@-\"",
     "A valid username must be provided" : "Πρέπει να δοθεί έγκυρο όνομα χρήστη",
     "A valid password must be provided" : "Πρέπει να δοθεί έγκυρο συνθηματικό",

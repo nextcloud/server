@@ -22,6 +22,9 @@ OC.L10N.register(
     "File upload is in progress. Leaving the page now will cancel the upload." : "მიმდინარეობს ფაილის ატვირთვა. სხვა გვერდზე გადასვლა გამოიწვევს ატვირთვის შეჩერებას",
     "Actions" : "მოქმედებები",
     "Download" : "ჩამოტვირთვა",
+    "Rename" : "გადარქმევა",
+    "Delete" : "წაშლა",
+    "Details" : "დეტალური ინფორმაცია",
     "Pending" : "მოცდის რეჟიმში",
     "Error" : "შეცდომა",
     "{new_name} already exists" : "{new_name} უკვე არსებობს",
@@ -44,7 +47,6 @@ OC.L10N.register(
     "Settings" : "პარამეტრები",
     "WebDAV" : "WebDAV",
     "Cancel upload" : "ატვირთვის გაუქმება",
-    "Delete" : "წაშლა",
     "Upload too large" : "ასატვირთი ფაილი ძალიან დიდია",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ფაილის ზომა რომლის ატვირთვასაც თქვენ აპირებთ, აჭარბებს სერვერზე დაშვებულ მაქსიმუმს.",
     "Files are being scanned, please wait." : "მიმდინარეობს ფაილების სკანირება, გთხოვთ დაელოდოთ."

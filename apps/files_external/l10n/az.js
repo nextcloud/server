@@ -41,6 +41,7 @@ OC.L10N.register(
     "Local" : "Yerli",
     "Location" : "Yerləşdiyiniz ünvan",
     "Share" : "Yayımla",
+    "SMB / CIFS using OC login" : "OC login istifadə edir SMB / CIFS",
     "Username as share" : "Paylaşım üçün istifadəçi adı",
     "OpenStack Object Storage" : "OpenStack Obyekt Deposu",
     "<b>Note:</b> " : "<b>Qeyd:</b> ",

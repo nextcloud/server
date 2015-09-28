@@ -177,8 +177,6 @@ OC.L10N.register(
     "New Password" : "Contrasenya nova",
     "Reset password" : "Reinicialitza la contrasenya",
     "Searching other places" : "Buscant altres ubicacions",
-    "No search results in other places" : "No hi ha resultats de cerques a altres llocs",
-    "_{count} search result in other places_::_{count} search results in other places_" : ["{count} resultat de cerca en altres ubicacions","{count} resultats de cerca en altres ubicacions"],
     "Personal" : "Personal",
     "Users" : "Usuaris",
     "Apps" : "Aplicacions",

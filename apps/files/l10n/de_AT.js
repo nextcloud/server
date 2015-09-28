@@ -4,6 +4,8 @@ OC.L10N.register(
     "Unknown error" : "Unbekannter Fehler",
     "Files" : "Dateien",
     "Download" : "Herunterladen",
+    "Delete" : "Löschen",
+    "Details" : "Details",
     "Error" : "Fehler",
     "Upload" : "Hochladen",
     "New folder" : "Neuer Ordner",
@@ -18,7 +20,6 @@ OC.L10N.register(
     "%2$s deleted %1$s" : "%2$s löschte %1$s",
     "Save" : "Speichern",
     "Settings" : "Einstellungen",
-    "Cancel upload" : "Hochladen abbrechen",
-    "Delete" : "Löschen"
+    "Cancel upload" : "Hochladen abbrechen"
 },
 "nplurals=2; plural=(n != 1);");

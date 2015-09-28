@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Impossible de restablir %s",
     "Deleted files" : "Fichièrs suprimits",
     "Restore" : "Restablir",
+    "Delete" : "Suprimir",
     "Delete permanently" : "Suprimir de faiçon definitiva",
     "Error" : "Error",
     "restored" : "restablit",
@@ -13,7 +14,6 @@ OC.L10N.register(
     "No entries found in this folder" : "Cap d'entrada pas trobada dins aqueste dorsièr",
     "Select all" : "Seleccionar tot",
     "Name" : "Nom",
-    "Deleted" : "Escafat",
-    "Delete" : "Suprimir"
+    "Deleted" : "Escafat"
 },
 "nplurals=2; plural=(n > 1);");

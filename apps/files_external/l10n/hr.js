@@ -36,6 +36,7 @@ OC.L10N.register(
     "ownCloud" : "OwnCloud",
     "Root" : "Korijen",
     "Share" : "Dijeljenje zhajedničkih resursa",
+    "SMB / CIFS using OC login" : "SMB / CIFS uz prijavu putem programa OC",
     "Username as share" : "Korisničko ime kao dijeljeni resurs",
     "OpenStack Object Storage" : "Prostor za pohranu.....",
     "<b>Note:</b> " : "<b>Bilješka:</b>",

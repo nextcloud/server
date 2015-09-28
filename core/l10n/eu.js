@@ -145,7 +145,6 @@ OC.L10N.register(
     "New Password" : "Pasahitz Berria",
     "Reset password" : "Berrezarri pasahitza",
     "Searching other places" : "Beste lekuak bilatzen",
-    "_{count} search result in other places_::_{count} search results in other places_" : ["Bilaketa emaitza {count} beste lekuetan","{count} emaitza lortu dira beste lekuetan"],
     "Personal" : "Pertsonala",
     "Users" : "Erabiltzaileak",
     "Apps" : "Aplikazioak",

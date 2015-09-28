@@ -9,6 +9,7 @@
     "seconds ago" : "စက္ကန့်အနည်းငယ်က",
     "web services under your control" : "သင်၏ထိန်းချုပ်မှု့အောက်တွင်ရှိသော Web services",
     "Authentication error" : "ခွင့်ပြုချက်မအောင်မြင်",
-    "Could not find category \"%s\"" : "\"%s\"ခေါင်းစဉ်ကို ရှာမတွေ့ပါ"
+    "Could not find category \"%s\"" : "\"%s\"ခေါင်းစဉ်ကို ရှာမတွေ့ပါ",
+    "Apps" : "Apps"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
