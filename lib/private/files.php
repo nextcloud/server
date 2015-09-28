@@ -40,7 +40,6 @@
  *
  */
 
-use OC\Lock\NoopLockingProvider;
 use OC\Streamer;
 use OCP\Lock\ILockingProvider;
 
@@ -63,10 +62,11 @@ class OC_Files {
 		OC_Response::setContentDispositionHeader($name, 'attachment');
 		header('Content-Transfer-Encoding: binary');
 		OC_Response::disableCaching();
-		$filesize = \OC\Files\Filesystem::filesize($filename);
-		header('Content-Type: '.\OC_Helper::getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename)));
-		if ($filesize > -1) {
-			OC_Response::setContentLengthHeader($filesize);
+		$fileSize = \OC\Files\Filesystem::filesize($filename);
+		$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
+		header('Content-Type: '.$type);
+		if ($fileSize > -1) {
+			OC_Response::setContentLengthHeader($fileSize);
 		}
 	}
 
@@ -122,7 +122,17 @@ class OC_Files {
 			if ($getType === self::FILE) {
 				$view->lockFile($filename, ILockingProvider::LOCK_SHARED);
 			}
-			
+			if ($getType === self::ZIP_FILES) {
+				foreach ($files as $file) {
+					$file = $dir . '/' . $file;
+					$view->lockFile($file, ILockingProvider::LOCK_SHARED);
+				}
+			}
+			if ($getType === self::ZIP_DIR) {
+				$file = $dir . '/' . $files;
+				$view->lockFile($file, ILockingProvider::LOCK_SHARED);
+			}
+
 			if ($streamer) {
 				$streamer->sendHeaders($name);
 			} elseif (\OC\Files\Filesystem::isReadable($filename)) {
@@ -165,6 +175,16 @@ class OC_Files {
 			}
 			if ($getType === self::FILE) {
 				$view->unlockFile($filename, ILockingProvider::LOCK_SHARED);
+			}
+			if ($getType === self::ZIP_FILES) {
+				foreach ($files as $file) {
+					$file = $dir . '/' . $file;
+					$view->unlockFile($file, ILockingProvider::LOCK_SHARED);
+				}
+			}
+			if ($getType === self::ZIP_DIR) {
+				$file = $dir . '/' . $files;
+				$view->unlockFile($file, ILockingProvider::LOCK_SHARED);
 			}
 		} catch (\OCP\Lock\LockedException $ex) {
 			$l = \OC::$server->getL10N('core');
