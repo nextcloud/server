@@ -215,7 +215,9 @@ class Access extends LDAPUtility implements user\IUserTools {
 		$resemblingAttributes = array(
 			'dn',
 			'uniquemember',
-			'member'
+			'member',
+			// memberOf is an "operational" attribute, without a definition in any RFC
+			'memberof'
 		);
 		return in_array($attr, $resemblingAttributes);
 	}
