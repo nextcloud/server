@@ -23,7 +23,7 @@
 		<tr>
 			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
-					<input type="checkbox" id="select_all_trash" class="select-all"/>
+					<input type="checkbox" id="select_all_trash" class="select-all checkbox"/>
 					<label for="select_all_trash">
 						<span class="hidden-visually"><?php p($l->t('Select all'))?></span>
 					</label>
