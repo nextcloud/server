@@ -19,7 +19,7 @@
 			// in the LinkShareView to ease reusing it in future. Then,
 			// modifications (getting rid of IDs) are still necessary.
 			'{{#if isLinkShare}}' +
-			'<input type="checkbox" name="expirationCheckbox" class="expirationCheckbox" id="expirationCheckbox" value="1" ' +
+			'<input type="checkbox" name="expirationCheckbox" class="expirationCheckbox checkbox" id="expirationCheckbox" value="1" ' +
 				'{{#if isExpirationSet}}checked="checked"{{/if}} {{#if disableCheckbox}}disabled="disabled"{{/if}} />' +
 			'<label for="expirationCheckbox">{{setExpirationLabel}}</label>' +
 			'<div class="expirationDateContainer {{#unless isExpirationSet}}hidden{{/unless}}">' +

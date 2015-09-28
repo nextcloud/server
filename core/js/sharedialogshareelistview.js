@@ -27,30 +27,30 @@
 			'        {{/if}}' +
 			'        <span class="username">{{shareWithDisplayName}}</span>' +
 			'        {{#if mailPublicNotificationEnabled}} {{#unless isRemoteShare}}' +
-			'        <input id="mail-{{shareWith}}" type="checkbox" name="mailNotification" class="mailNotification" {{#if wasMailSent}}checked="checked"{{/if}} />' +
+			'        <input id="mail-{{shareWith}}" type="checkbox" name="mailNotification" class="mailNotification checkbox" {{#if wasMailSent}}checked="checked"{{/if}} />' +
 			'        <label for="mail-{{shareWith}}">{{notifyByMailLabel}}</label>' +
 			'        {{/unless}} {{/if}}' +
 			'        {{#if isResharingAllowed}} {{#if sharePermissionPossible}} {{#unless isRemoteShare}}' +
-			'        <input id="canShare-{{shareWith}}" type="checkbox" name="share" class="permissions" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />' +
+			'        <input id="canShare-{{shareWith}}" type="checkbox" name="share" class="permissions checkbox" {{#if hasSharePermission}}checked="checked"{{/if}} data-permissions="{{sharePermission}}" />' +
 			'        <label for="canShare-{{shareWith}}">{{canShareLabel}}</label>' +
 			'        {{/unless}} {{/if}} {{/if}}' +
 			'        {{#if editPermissionPossible}}' +
-			'        <input id="canEdit-{{shareWith}}" type="checkbox" name="edit" class="permissions" {{#if hasEditPermission}}checked="checked"{{/if}} />' +
+			'        <input id="canEdit-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if hasEditPermission}}checked="checked"{{/if}} />' +
 			'        <label for="canEdit-{{shareWith}}">{{canEditLabel}}</label>' +
 			'        {{/if}}' +
 			'        {{#unless isRemoteShare}}' +
 			'        <a href="#" class="showCruds"><img class="svg" alt="{{crudsLabel}}" src="{{triangleSImage}}"/></a>' +
 			'        <div class="cruds hidden">' +
 			'            {{#if createPermissionPossible}}' +
-			'            <input id="canCreate-{{shareWith}}" type="checkbox" name="create" class="permissions" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>' +
+			'            <input id="canCreate-{{shareWith}}" type="checkbox" name="create" class="permissions checkbox" {{#if hasCreatePermission}}checked="checked"{{/if}} data-permissions="{{createPermission}}"/>' +
 			'            <label for="canCreate-{{shareWith}}">{{createPermissionLabel}}</label>' +
 			'            {{/if}}' +
 			'            {{#if updatePermissionPossible}}' +
-			'            <input id="canUpdate-{{shareWith}}" type="checkbox" name="update" class="permissions" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>' +
+			'            <input id="canUpdate-{{shareWith}}" type="checkbox" name="update" class="permissions checkbox" {{#if hasUpdatePermission}}checked="checked"{{/if}} data-permissions="{{updatePermission}}"/>' +
 			'            <label for="canUpdate-{{shareWith}}">{{updatePermissionLabel}}</label>' +
 			'            {{/if}}' +
 			'            {{#if deletePermissionPossible}} {{#unless isRemoteShare}}' +
-			'            <input id="canDelete-{{shareWith}}" type="checkbox" name="delete" class="permissions" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>' +
+			'            <input id="canDelete-{{shareWith}}" type="checkbox" name="delete" class="permissions checkbox" {{#if hasDeletePermission}}checked="checked"{{/if}} data-permissions="{{deletePermission}}"/>' +
 			'            <label for="canDelete-{{shareWith}}">{{deletePermissionLabel}}</label>' +
 			'            {{/unless}} {{/if}}' +
 			'        </div>' +
