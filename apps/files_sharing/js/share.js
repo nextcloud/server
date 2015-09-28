@@ -103,11 +103,20 @@
 				name: 'Share',
 				displayName: '',
 				mime: 'all',
-				permissions: OC.PERMISSION_SHARE,
+				permissions: OC.PERMISSION_ALL,
 				icon: OC.imagePath('core', 'actions/share'),
 				type: OCA.Files.FileActions.TYPE_INLINE,
 				actionHandler: function(fileName) {
 					fileList.showDetailsView(fileName, 'shareTabView');
+				},
+				render: function(actionSpec, isDefault, context) {
+					var permissions = parseInt(context.$file.attr('data-permissions'), 10);
+					// if no share permissions but share owner exists, still show the link
+					if ((permissions & OC.PERMISSION_SHARE) !== 0 || context.$file.attr('data-share-owner')) {
+						return fileActions._defaultRenderAction.call(fileActions, actionSpec, isDefault, context);
+					}
+					// don't render anything
+					return null;
 				}
 			});
 
@@ -157,26 +166,7 @@
 			// if the statuses are loaded already, use them for the icon
 			// (needed when scrolling to the next page)
 			if (hasUserShares || hasLinkShare || $tr.attr('data-share-recipients') || $tr.attr('data-share-owner')) {
-				var permissions = $tr.data('permissions');
 				OC.Share.markFileAsShared($tr, true, hasLinkShare);
-				if ((permissions & OC.PERMISSION_SHARE) === 0 && $tr.attr('data-share-owner')) {
-					// if no share action exists because the admin disabled sharing for this user
-					// we create a share notification action to inform the user about files
-					// shared with him otherwise we just update the existing share action.
-					// TODO: make this work like/with OC.Share.markFileAsShared()
-					$tr.find('.fileactions .action-share-notification').remove();
-					var shareNotification = '<a class="action action-share-notification permanent"' +
-							' data-action="Share-Notification" href="#" original-title="">' +
-							' <img class="svg" src="' + OC.imagePath('core', 'actions/share') + '"></img>';
-					$tr.find('.fileactions').append(function() {
-						var shareBy = escapeHTML($tr.attr('data-share-owner'));
-						var $result = $(shareNotification + '<span> ' + shareBy + '</span></span>');
-						$result.on('click', function() {
-							return false;
-						});
-						return $result;
-					});
-				}
 				return true;
 			}
 			return false;
