@@ -256,12 +256,7 @@ class MigratorTest extends \Test\TestCase {
 		$table->setPrimaryKey(array('id'));
 		$table->addUniqueIndex(array('name'), $this->tableName . '_name');
 
-		$endSchema = new Schema(array(), array(), $this->getSchemaConfig());
-		$table = $endSchema->createTable($this->tableName);
-		$table->addColumn('id', 'integer');
-		$table->addColumn('name', 'string');
-		$table->setPrimaryKey(array('id'));
-		$table->addUniqueIndex(array('name'), $this->tableName . '_name');
+		$endSchema = clone $startSchema;
 
 		$migrator = $this->manager->getMigrator();
 		$migrator->migrate($startSchema);
@@ -276,6 +271,39 @@ class MigratorTest extends \Test\TestCase {
 			->expects($this->never())
 			->method('query');
 
+		/** @var \OC\DB\Connection $mockConnection */
+		$this->manager = new \OC\DB\MDB2SchemaManager($mockConnection);
+		$migrator = $this->manager->getMigrator();
+
+		// this migration should never generate any SQL query
+		$migrator->checkMigrate($endSchema);
+		$migrator->migrate($endSchema);
+	}
+
+	public function testNoChangesWithExplicitAutoIncrement() {
+		$startSchema = new Schema(array(), array(), $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', array('autoincrement' => true));
+		$table->addColumn('name', 'string');
+		$table->setPrimaryKey(array('id'));
+		$table->addUniqueIndex(array('name'), $this->tableName . '_name');
+
+		$endSchema = clone $startSchema;
+
+		$migrator = $this->manager->getMigrator();
+		$migrator->migrate($startSchema);
+
+		// same schema, should not cause any changes
+		$mockConnection = $this->getMockBuilder('\OC\DB\Connection')
+			->setMethods(['query'])
+			->setConstructorArgs([$this->connection->getParams(), $this->connection->getDriver(), $this->connection->getConfiguration()])
+			->getMock();
+
+		$mockConnection
+			->expects($this->never())
+			->method('query');
+
+		/** @var \OC\DB\Connection $mockConnection */
 		$this->manager = new \OC\DB\MDB2SchemaManager($mockConnection);
 		$migrator = $this->manager->getMigrator();
 
