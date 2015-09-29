@@ -121,7 +121,6 @@ class FeatureContext extends BehatContext {
 	 * @When /^creating the group "([^"]*)r"$/
 	 */
 	public function creatingTheGroup($group) {
-		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user";
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/addgroup" ;
 		$client = new Client();
 		$options = [];
