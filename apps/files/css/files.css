@@ -187,7 +187,9 @@ table th .sort-indicator {
 	opacity: .3;
 }
 .sort-indicator.hidden,
-.multiselect .sort-indicator {
+.multiselect .sort-indicator,
+table.multiselect th:hover .sort-indicator.hidden,
+table.multiselect th:focus .sort-indicator.hidden {
 	visibility: hidden;
 }
 .multiselect .sort, .multiselect .sort span {
