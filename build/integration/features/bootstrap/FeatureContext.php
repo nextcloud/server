@@ -116,6 +116,55 @@ class FeatureContext extends BehatContext {
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
+
+    /**
+	 * @When /^creating the group "([^"]*)r"$/
+	 */
+	public function creatingTheGroup($group) {
+		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user";
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/addgroup" ;
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->post($fullUrl, [
+			'form_params' => [
+				'groupid' => $user
+			]
+		]);
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+
+	/**
+	 * @Given /^group "([^"]*)" exists$/
+	 */
+	public function groupExists($group) {
+		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->get($fullUrl, $options);
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+	/**
+	 * @Given /^group "([^"]*)" does not exist$/
+	 */
+	public function groupDoesNotExist($group) {
+		try {
+			$this->groupExists($group);
+		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+			PHPUnit_Framework_Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
+		}
+	}
+
+
 	/**
 	 * @When /^sending "([^"]*)" to "([^"]*)" with$/
 	 * @param \Behat\Gherkin\Node\TableNode|null $formData
