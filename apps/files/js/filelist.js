@@ -239,13 +239,6 @@
 
 			this.updateSearch();
 
-			this.$el.on('click', function(event) {
-				var $target = $(event.target);
-				// click outside file row ?
-				if (!$target.closest('tbody').length && !$target.closest('#app-sidebar').length) {
-					self._updateDetailsView(null);
-				}
-			});
 			this.$fileList.on('click','td.filename>a.name', _.bind(this._onClickFile, this));
 			this.$fileList.on('change', 'td.filename>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
@@ -278,6 +271,9 @@
 			if (this._newButton) {
 				this._newButton.remove();
 			}
+			if (this._detailsView) {
+				this._detailsView.remove();
+			}
 			// TODO: also unregister other event handlers
 			this.fileActions.off('registerAction', this._onFileActionsUpdated);
 			this.fileActions.off('setDefault', this._onFileActionsUpdated);
@@ -307,7 +303,6 @@
 					permissions: OC.PERMISSION_READ,
 					actionHandler: function(fileName, context) {
 						self._updateDetailsView(fileName);
-						OC.Apps.showAppSidebar(self._detailsView.$el);
 					}
 				});
 			}
@@ -408,7 +403,12 @@
 					this._currentFileModel.off();
 				}
 				this._currentFileModel = null;
+				OC.Apps.hideAppSidebar(this._detailsView.$el);
 				return;
+			}
+
+			if (this._detailsView.$el.hasClass('disappear')) {
+				OC.Apps.showAppSidebar(this._detailsView.$el);
 			}
 
 			var $tr = this.findFileEl(fileName);
@@ -453,10 +453,10 @@
 		 * Selected/deselects the given file element and updated
 		 * the internal selection cache.
 		 *
-		 * @param $tr single file row element
-		 * @param state true to select, false to deselect
+		 * @param {Object} $tr single file row element
+		 * @param {bool} state true to select, false to deselect
 		 */
-		_selectFileEl: function($tr, state) {
+		_selectFileEl: function($tr, state, showDetailsView) {
 			var $checkbox = $tr.find('td.filename>.selectCheckBox');
 			var oldData = !!this._selectedFiles[$tr.data('id')];
 			var data;
@@ -475,11 +475,8 @@
 				delete this._selectedFiles[$tr.data('id')];
 				this._selectionSummary.remove(data);
 			}
-			if (this._selectionSummary.getTotal() === 1) {
+			if (this._detailsView && this._selectionSummary.getTotal() === 1 && !this._detailsView.$el.hasClass('disappear')) {
 				this._updateDetailsView(_.values(this._selectedFiles)[0].name);
-			} else {
-				// show nothing when multiple files are selected
-				this._updateDetailsView(null);
 			}
 			this.$el.find('.select-all').prop('checked', this._selectionSummary.getTotal() === this.files.length);
 		},
@@ -489,6 +486,9 @@
 		 */
 		_onClickFile: function(event) {
 			var $tr = $(event.target).closest('tr');
+			if ($tr.hasClass('dragging')) {
+				return;
+			}
 			if (this._allowSelection && (event.ctrlKey || event.shiftKey)) {
 				event.preventDefault();
 				if (event.shiftKey) {
@@ -552,9 +552,13 @@
 		 */
 		_onClickFileCheckbox: function(e) {
 			var $tr = $(e.target).closest('tr');
-			this._selectFileEl($tr, !$tr.hasClass('selected'));
+			var state = !$tr.hasClass('selected');
+			this._selectFileEl($tr, state);
 			this._lastChecked = $tr;
 			this.updateSelectionSummary();
+			if (state) {
+				this._updateDetailsView($tr.attr('data-file'));
+			}
 		},
 
 		/**
@@ -1320,8 +1324,10 @@
 					sortdirection: this._sortDirection
 				}
 			});
-			// close sidebar
-			this._updateDetailsView(null);
+			if (this._detailsView) {
+				// close sidebar
+				this._updateDetailsView(null);
+			}
 			var callBack = this.reloadCallback.bind(this);
 			return this._reloadCall.then(callBack, callBack);
 		},
@@ -1528,11 +1534,12 @@
 		remove: function(name, options){
 			options = options || {};
 			var fileEl = this.findFileEl(name);
+			var fileId = fileEl.data('id');
 			var index = fileEl.index();
 			if (!fileEl.length) {
 				return null;
 			}
-			if (this._selectedFiles[fileEl.data('id')]) {
+			if (this._selectedFiles[fileId]) {
 				// remove from selection first
 				this._selectFileEl(fileEl, false);
 				this.updateSelectionSummary();
@@ -1542,6 +1549,14 @@
 				fileEl.find('td.filename').draggable('destroy');
 			}
 			this.files.splice(index, 1);
+			if (this._currentFileModel && this._currentFileModel.get('id') === fileId) {
+				// Note: in the future we should call destroy() directly on the model
+				// and the model will take care of the deletion.
+				// Here we only trigger the event to notify listeners that
+				// the file was removed.
+				this._currentFileModel.trigger('destroy');
+				this._updateDetailsView(null);
+			}
 			fileEl.remove();
 			// TODO: improve performance on batch update
 			this.isEmpty = !this.files.length;
