@@ -8,6 +8,7 @@
 
 namespace OC;
 
+use OC\Core\Command\Log\Manage;
 use OC\Hooks\BasicEmitter;
 
 /**
@@ -29,6 +30,14 @@ class Updater extends BasicEmitter {
 	private $simulateStepEnabled;
 
 	private $updateStepEnabled;
+
+	private $logLevelNames = array(
+		0 => 'Debug',
+		1 => 'Info',
+		2 => 'Warning',
+		3 => 'Error',
+		4 => 'Fatal',
+	);
 
 	/**
 	 * @param \OC\Log $log
@@ -126,6 +135,10 @@ class Updater extends BasicEmitter {
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
 	public function upgrade() {
+		$logLevel = \OC_Config::getValue('loglevel', \OCP\Util::WARN);
+		$this->emit('\OC\Updater', 'setDebugLogLevel', array( $logLevel, $this->logLevelNames[$logLevel] ));
+		\OC_Config::setValue('loglevel', \OCP\Util::DEBUG);
+
 		\OC_DB::enableCaching(false);
 		\OC_Config::setValue('maintenance', true);
 
@@ -148,6 +161,9 @@ class Updater extends BasicEmitter {
 		\OC_Config::setValue('maintenance', false);
 		$this->emit('\OC\Updater', 'maintenanceEnd');
 		$this->emit('\OC\Updater', 'updateEnd', array($success));
+
+		$this->emit('\OC\Updater', 'resetLogLevel', array( $logLevel, $this->logLevelNames[$logLevel] ));
+		\OC_Config::setValue('loglevel', $logLevel);
 
 		return $success;
 	}
