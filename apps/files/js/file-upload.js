@@ -18,7 +18,7 @@
  *    - TODO music upload button
  */
 
-/* global Files, FileList, jQuery, oc_requesttoken, humanFileSize, getUniqueName */
+/* global jQuery, oc_requesttoken, humanFileSize */
 
 /**
  * Function that will allow us to know if Ajax uploads are supported
@@ -139,6 +139,9 @@ OC.Upload = {
 		if (data.data) {
 			data.data.append('resolution', 'replace');
 		} else {
+			if (!data.formData) {
+				data.formData = [];
+			}
 			data.formData.push({name:'resolution', value:'replace'}); //hack for ie8
 		}
 		data.submit();
@@ -152,6 +155,9 @@ OC.Upload = {
 		if (data.data) {
 			data.data.append('resolution', 'autorename');
 		} else {
+			if (!data.formData) {
+				data.formData = [];
+			}
 			data.formData.push({name:'resolution', value:'autorename'}); //hack for ie8
 		}
 		data.submit();
@@ -164,8 +170,9 @@ OC.Upload = {
 		}
 	},
 	/**
-	 * TODO checks the list of existing files prior to uploading and shows a simple dialog to choose
+	 * checks the list of existing files prior to uploading and shows a simple dialog to choose
 	 * skip all, replace all or choose which files to keep
+	 *
 	 * @param {array} selection of files to upload
 	 * @param {object} callbacks - object with several callback methods
 	 * @param {function} callbacks.onNoConflicts
@@ -175,14 +182,34 @@ OC.Upload = {
 	 * @param {function} callbacks.onCancel
 	 */
 	checkExistingFiles: function (selection, callbacks) {
-		/*
-		$.each(selection.uploads, function(i, upload) {
-			var $row = OCA.Files.App.fileList.findFileEl(upload.files[0].name);
-			if ($row) {
-				// TODO check filelist before uploading and show dialog on conflicts, use callbacks
+		var fileList = OCA.Files.App.fileList;
+		var conflicts = [];
+		// only keep non-conflicting uploads
+		selection.uploads = _.filter(selection.uploads, function(upload) {
+			var fileInfo = fileList.findFile(upload.files[0].name);
+			if (fileInfo) {
+				conflicts.push([
+					// original
+					_.extend(fileInfo, {
+						directory: fileInfo.directory || fileInfo.path || fileList.getCurrentDirectory()
+					}),
+					// replacement (File object)
+					upload
+				]);
+				return false;
 			}
+			return true;
 		});
-		*/
+		if (conflicts.length) {
+			_.each(conflicts, function(conflictData) {
+				OC.dialogs.fileexists(conflictData[1], conflictData[0], conflictData[1].files[0], OC.Upload);
+			});
+		}
+
+		// upload non-conflicting files
+		// note: when reaching the server they might still meet conflicts
+		// if the folder was concurrently modified, these will get added
+		// to the already visible dialog, if applicable
 		callbacks.onNoConflicts(selection);
 	},
 
@@ -368,18 +395,18 @@ OC.Upload = {
 				},
 				submit: function(e, data) {
 					OC.Upload.rememberUpload(data);
-					if ( ! data.formData ) {
-						var fileDirectory = '';
-						if(typeof data.files[0].relativePath !== 'undefined') {
-							fileDirectory = data.files[0].relativePath;
-						}
-						// noone set update parameters, we set the minimum
-						data.formData = {
-							requesttoken: oc_requesttoken,
-							dir: data.targetDir || FileList.getCurrentDirectory(),
-							file_directory: fileDirectory
-						};
+					if (!data.formData) {
+						data.formData = [];
 					}
+
+					var fileDirectory = '';
+					if(typeof data.files[0].relativePath !== 'undefined') {
+						fileDirectory = data.files[0].relativePath;
+					}
+					// FIXME: prevent re-adding the same
+					data.formData.push({name: 'requesttoken', value: oc_requesttoken});
+					data.formData.push({name: 'dir', value: data.targetDir || FileList.getCurrentDirectory()});
+					data.formData.push({name: 'file_directory', value: fileDirectory});
 				},
 				fail: function(e, data) {
 					OC.Upload.log('fail', e, data);
