@@ -144,17 +144,33 @@
 		},
 
 		onPasswordEntered: function() {
-			var password = this.$el.find('#linkPassText').val();
+			var self = this;
+			var $loading = this.$el.find('#linkPass .icon-loading-small');
+			if (!$loading.hasClass('hidden')) {
+				// still in process
+				return;
+			}
+			var $input = this.$el.find('#linkPassText');
+			$input.removeClass('error');
+			var password = $input.val();
 			if(password === '') {
 				return;
 			}
 
-			this.$el.find('#linkPass .icon-loading-small')
+			$loading
 				.removeClass('hidden')
 				.addClass('inlineblock');
 
 			this.model.setPassword(password);
-			this.model.saveLinkShare();
+			this.model.saveLinkShare({}, {
+				error: function(model, msg) {
+					$loading.removeClass('inlineblock').addClass('hidden');
+					$input.addClass('error');
+					$input.attr('title', msg);
+					$input.tooltip({placement: 'bottom', trigger: 'manual'});
+					$input.tooltip('show');
+				}
+			});
 		},
 
 		onAllowPublicUploadChange: function() {
