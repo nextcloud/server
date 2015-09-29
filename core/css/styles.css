@@ -602,6 +602,11 @@ input[name='password-clone'] {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 	opacity: .3;
 }
+/* for whatever unexplained reason */
+.ie8 #password {
+	width: 271px !important;
+	min-width: auto !important;
+}
 #adminpass-icon, #password-icon {
 	top: 17px;
 }
@@ -848,6 +853,10 @@ label.infield {
 }
 #body-login input[type="submit"] {
 	padding: 10px 20px; /* larger log in and installation buttons */
+}
+.ie8 #body-login input[type="submit"] {
+	padding: 10px 5px;
+	margin-top: 3px;
 }
 #remember_login {
 	margin: 18px 5px 0 16px !important;
