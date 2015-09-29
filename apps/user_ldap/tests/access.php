@@ -230,24 +230,34 @@ class Test_Access extends \Test\TestCase {
 		$mapperMock = $this->getMockBuilder('\OCA\User_LDAP\Mapping\UserMapping')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$mapperMock->expects($this->any())
+			->method('getNameByDN')
+			->will($this->returnValue('a_username'));
+
 		$userMock = $this->getMockBuilder('\OCA\user_ldap\lib\user\User')
 			->disableOriginalConstructor()
 			->getMock();
 
+		$access->connection->expects($this->any())
+			->method('__get')
+			->will($this->returnValue('displayName'));
+
 		$access->setUserMapper($mapperMock);
 
+		$displayNameAttribute = strtolower($access->connection->ldapUserDisplayName);
 		$data = array(
 			array(
 				'dn' => 'foobar',
-				$con->ldapUserDisplayName => 'barfoo'
+				$displayNameAttribute => 'barfoo'
 			),
 			array(
 				'dn' => 'foo',
-				$con->ldapUserDisplayName => 'bar'
+				$displayNameAttribute => 'bar'
 			),
 			array(
 				'dn' => 'raboof',
-				$con->ldapUserDisplayName => 'oofrab'
+				$displayNameAttribute => 'oofrab'
 			)
 		);
 
