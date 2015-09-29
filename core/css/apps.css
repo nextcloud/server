@@ -308,6 +308,13 @@
 	-o-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
 	filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
 }
+.ie8 .bubble {
+	border: 1px solid #eee;
+	margin-top: 18px;
+}
+.ie8 .bubble:after {
+	display: none;
+}
 /* miraculous border arrow stuff */
 .bubble:after,
 #app-navigation .app-navigation-entry-menu:after {
