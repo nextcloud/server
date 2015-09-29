@@ -26,8 +26,7 @@ Feature: provisioning
   Scenario: Delete a user
     Given As an "admin"
     And user "brand-new-user" exists
-    When sending "POST" to "/cloud/users" with
-      | userid | brand-new-user |
+    When sending "DELETE" to "/cloud/users/brand-new-user" 
     Then the status code should be "200"
     And user "brand-new-user" does not exist
 
@@ -41,4 +40,12 @@ Feature: provisioning
 
     Then the status code should be "200"
     And group "new-group" exists
+
+
+  Scenario: Delete a group
+    Given As an "admin"
+    And group "new-group" exists
+    When sending "DELETE" to "/cloud/groups/new-group"
+    Then the status code should be "200"
+    And group "new-group" does not exist
 
