@@ -40,6 +40,7 @@ OC.L10N.register(
     "Download" : "Telecargar",
     "Rename" : "Renomenar",
     "Delete" : "Suprimir",
+    "Details" : "Detalhs",
     "Select" : "Seleccionar",
     "Pending" : "En espèra",
     "Unable to determine date" : "Impossible de determinar la data",

@@ -182,6 +182,8 @@ OC.L10N.register(
     "New Password" : "Νέος Κωδικός",
     "Reset password" : "Επαναφορά συνθηματικού",
     "Searching other places" : "Έρευνα σε άλλα σημεία.",
+    "No search results in other folders" : "Δεν υπάρχουν αποτελέσματα αναζήτησης σε άλλους φακέλους",
+    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} αποτέλεσμα αναζήτησης σε άλλο φάκελο","{count} αποτελέσματα αναζήτησης σε άλλους φακέλους"],
     "Personal" : "Προσωπικά",
     "Users" : "Χρήστες",
     "Apps" : "Εφαρμογές",

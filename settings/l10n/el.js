@@ -149,6 +149,7 @@ OC.L10N.register(
     "Allow users to send mail notification for shared files to other users" : "Να επιτρέπεται η αποστολή ειδοποιήσεων σε άλλους χρήστες, μέσω αλληλογραφίας για κοινόχρηστα αρχεία",
     "Exclude groups from sharing" : "Εξαίρεση ομάδων από τον διαμοιρασμό",
     "These groups will still be able to receive shares, but not to initiate them." : "Αυτές οι ομάδες θα συνεχίσουν να λαμβάνουν διαμοιρασμούς, αλλά δεν θα είναι δυνατό να τους δημιουργήσουν.",
+    "Allow username autocompletion in share dialog. If this is disabled the full username needs to be entered." : "Να επιτρέπεται η χρήση αυτόματης συμπλήρωσης στο διάλογο διαμοιρασμού. Αν αυτό είναι απενεργοποιημένο θα πρέπει να εισαχθεί το πλήρες όνομα χρήστη.",
     "Last cron job execution: %s." : "Τελευταία εκτέλεση cron job: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Τελευταία εκτέλεση cron job: %s. Κάτι πήγε στραβά.",
     "Cron was not executed yet!" : "Η διεργασία cron δεν έχει εκτελεστεί ακόμα!",

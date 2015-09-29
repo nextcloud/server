@@ -147,6 +147,7 @@
     "Allow users to send mail notification for shared files to other users" : "อนุญาตให้ผู้ใช้ส่งการแจ้งเตือนอีเมลสำหรับไฟล์ที่แชร์กับผู้ใช้อื่นๆ",
     "Exclude groups from sharing" : "ไม่รวมกลุ่มที่แชร์",
     "These groups will still be able to receive shares, but not to initiate them." : "กลุ่มนี้จะยังคงสามารถได้รับการแชร์ แต่พวกเขาจะไม่รู้จักมัน",
+    "Allow username autocompletion in share dialog. If this is disabled the full username needs to be entered." : "อนุญาตให้เติมชื่อผู้ใช้ในกล่องตอบโต้อัตโนมัติ ถ้านี้ถูกปิดใช้งานชื่อผู้ใช้จะต้องกรอกเอง",
     "Last cron job execution: %s." : "การดำเนินการ cron job ล่าสุด: %s",
     "Last cron job execution: %s. Something seems wrong." : "การดำเนินการ cron job ล่าสุด: %s ดูเหมือนมีบางสิ่งไม่ถูกต้อง",
     "Cron was not executed yet!" : "Cron ไม่ได้ถูกดำเนินการ!",
