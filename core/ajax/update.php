@@ -83,6 +83,12 @@ if (OC::checkUpgrade(false)) {
 		$eventSource->close();
 		OC_Config::setValue('maintenance', false);
 	});
+	$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use($eventSource, $l) {
+		$eventSource->send('success', (string)$l->t('Set log level to debug - current level: "%s"', [ $logLevelName ]));
+	});
+	$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use($eventSource, $l) {
+		$eventSource->send('success', (string)$l->t('Reset log level to  "%s"', [ $logLevelName ]));
+	});
 
 	$updater->upgrade();
 
