@@ -624,7 +624,9 @@
 
 		fetch: function() {
 			var model = this;
+			this.trigger('request', this);
 			OC.Share.loadItem(this.get('itemType'), this.get('itemSource'), function(data) {
+				model.trigger('sync', 'GET', this);
 				model.set(model.parse(data));
 			});
 		},

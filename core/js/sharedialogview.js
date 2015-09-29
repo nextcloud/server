@@ -14,7 +14,7 @@
 	}
 
 	var TEMPLATE_BASE =
-		'<div class="resharerInfoView"></div>' +
+		'<div class="resharerInfoView subView"></div>' +
 		'{{#if isSharingAllowed}}' +
 		'<label for="shareWith" class="hidden-visually">{{shareLabel}}</label>' +
 		'<div class="oneline">' +
@@ -23,10 +23,10 @@
 		'{{{remoteShareInfo}}}' +
 		'</div>' +
 		'{{/if}}' +
-		'<div class="shareeListView"></div>' +
-		'<div class="linkShareView"></div>' +
-		'<div class="expirationView"></div>'
-		;
+		'<div class="shareeListView subView"></div>' +
+		'<div class="linkShareView subView"></div>' +
+		'<div class="expirationView subView"></div>' +
+		'<div class="loading hidden" style="height: 50px"></div>';
 
 	var TEMPLATE_REMOTE_SHARE_INFO =
 		'<a target="_blank" class="icon-info svg shareWithRemoteInfo hasTooltip" href="{{docLink}}" ' +
@@ -86,6 +86,9 @@
 			this.model.on('change:permissions', function() {
 				view.render();
 			});
+
+			this.model.on('request', this._onRequest, this);
+			this.model.on('sync', this._onEndRequest, this);
 
 			var subViewOptions = {
 				model: this.model,
@@ -159,6 +162,24 @@
 			e.preventDefault();
 			$(e.target).val('');
 			this.model.addShare(s.item.value);
+		},
+
+		_toggleLoading: function(state) {
+			this._loading = state;
+			this.$el.find('.subView').toggleClass('hidden', state);
+			this.$el.find('.loading').toggleClass('hidden', !state);
+		},
+
+		_onRequest: function() {
+			// only show the loading spinner for the first request (for now)
+			if (!this._loadingOnce) {
+				this._toggleLoading(true);
+				this._loadingOnce = true;
+			}
+		},
+
+		_onEndRequest: function() {
+			this._toggleLoading(false);
 		},
 
 		render: function() {
