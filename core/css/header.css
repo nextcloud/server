@@ -69,6 +69,10 @@
 	opacity: 1;
 }
 
+.ie8 #header .logo {
+	background-image: url(../img/logo-icon-175px.png);
+}
+
 #header .logo {
 	background-image: url(../img/logo-icon.svg);
 	background-repeat: no-repeat;
