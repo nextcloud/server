@@ -449,8 +449,11 @@ class OC_L10N implements \OCP\IL10N {
 			return self::$language;
 		}
 
-		if(OC_User::getUser() && \OC::$server->getConfig()->getUserValue(OC_User::getUser(), 'core', 'lang')) {
-			$lang = \OC::$server->getConfig()->getUserValue(OC_User::getUser(), 'core', 'lang');
+		$config = \OC::$server->getConfig();
+		$userId = \OC_User::getUser();
+
+		if($userId && $config->getUserValue($userId, 'core', 'lang')) {
+			$lang = $config->getUserValue($userId, 'core', 'lang');
 			self::$language = $lang;
 			if(is_array($app)) {
 				$available = $app;
@@ -463,13 +466,18 @@ class OC_L10N implements \OCP\IL10N {
 			}
 		}
 
-		$default_language = \OC::$server->getConfig()->getSystemValue('default_language', false);
+		$default_language = $config->getSystemValue('default_language', false);
 
 		if($default_language !== false) {
 			return $default_language;
 		}
 
-		return self::setLanguageFromRequest($app);
+		$lang = self::setLanguageFromRequest($app);
+		if($userId && !$config->getUserValue($userId, 'core', 'lang')) {
+			$config->setUserValue($userId, 'core', 'lang', $lang);
+		}
+
+		return $lang;
 	}
 
 	/**
