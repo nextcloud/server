@@ -558,4 +558,27 @@ class Encryption extends \Test\Files\Storage\Storage {
 
 		$this->assertFalse(false);
 	}
+
+	/**
+	 * @dataProvider dataTestIsVersion
+	 * @param string $path
+	 * @param bool $expected
+	 */
+	public function testIsVersion($path, $expected) {
+		$this->assertSame($expected,
+			$this->invokePrivate($this->instance, 'isVersion', [$path])
+		);
+	}
+
+	public function dataTestIsVersion() {
+		return [
+			['files_versions/foo', true],
+			['/files_versions/foo', true],
+			['//files_versions/foo', true],
+			['files/versions/foo', false],
+			['files/files_versions/foo', false],
+			['files_versions_test/foo', false],
+		];
+	}
+
 }

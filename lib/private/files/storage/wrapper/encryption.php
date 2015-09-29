@@ -232,7 +232,11 @@ class Encryption extends Wrapper {
 
 		$result = $this->storage->rename($path1, $path2);
 
-		if ($result && $this->encryptionManager->isEnabled()) {
+		if ($result &&
+			// versions always use the keys from the original file, so we can skip
+			// this step for versions
+			$this->isVersion($path2) === false &&
+			$this->encryptionManager->isEnabled()) {
 			$source = $this->getFullPath($path1);
 			if (!$this->util->isExcluded($source)) {
 				$target = $this->getFullPath($path2);
@@ -449,7 +453,7 @@ class Encryption extends Wrapper {
 	public function copyFromStorage(Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
 
 		// TODO clean this up once the underlying moveFromStorage in OC\Files\Storage\Wrapper\Common is fixed:
-		// - call $this->storage->moveFromStorage() instead of $this->copyBetweenStorage
+		// - call $this->storage->copyFromStorage() instead of $this->copyBetweenStorage
 		// - copy the file cache update from  $this->copyBetweenStorage to this method
 		// - copy the copyKeys() call from  $this->copyBetweenStorage to this method
 		// - remove $this->copyBetweenStorage
@@ -468,6 +472,13 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	private function copyBetweenStorage(Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, $isRename) {
+
+		// for versions we have nothing to do, because versions should always use the
+		// key from the original file. Just create a 1:1 copy and done
+		if ($this->isVersion($targetInternalPath) ||
+			$this->isVersion($sourceInternalPath)) {
+			return $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		}
 
 		// first copy the keys that we reuse the existing file key on the target location
 		// and don't create a new one which would break versions for example.
@@ -739,6 +750,17 @@ class Encryption extends Wrapper {
 		}
 
 		return false;
+	}
+
+	/**
+	 * check if path points to a files version
+	 *
+	 * @param $path
+	 * @return bool
+	 */
+	protected function isVersion($path) {
+		$normalized = Filesystem::normalizePath($path);
+		return substr($normalized, 0, strlen('/files_versions/')) === '/files_versions/';
 	}
 
 }
