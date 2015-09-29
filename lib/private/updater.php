@@ -8,6 +8,7 @@
 
 namespace OC;
 
+use OC\Core\Command\Log\Manage;
 use OC\Hooks\BasicEmitter;
 use OC_App;
 use OC_Util;
@@ -41,6 +42,14 @@ class Updater extends BasicEmitter {
 
 	/** @var bool */
 	private $skip3rdPartyAppsDisable;
+
+	private $logLevelNames = [
+		0 => 'Debug',
+		1 => 'Info',
+		2 => 'Warning',
+		3 => 'Error',
+		4 => 'Fatal',
+	];
 
 	/**
 	 * @param HTTPHelper $httpHelper
@@ -150,6 +159,10 @@ class Updater extends BasicEmitter {
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
 	public function upgrade() {
+		$logLevel = $this->config->getSystemValue('loglevel', \OCP\Util::WARN);
+		$this->emit('\OC\Updater', 'setDebugLogLevel', [ $logLevel, $this->logLevelNames[$logLevel] ]);
+		$this->config->setSystemValue('loglevel', \OCP\Util::DEBUG);
+
 		$this->config->setSystemValue('maintenance', true);
 
 		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
@@ -171,6 +184,9 @@ class Updater extends BasicEmitter {
 		$this->config->setSystemValue('maintenance', false);
 		$this->emit('\OC\Updater', 'maintenanceEnd');
 		$this->emit('\OC\Updater', 'updateEnd', array($success));
+
+		$this->emit('\OC\Updater', 'resetLogLevel', [ $logLevel, $this->logLevelNames[$logLevel] ]);
+		$this->config->setSystemValue('loglevel', $logLevel);
 
 		return $success;
 	}

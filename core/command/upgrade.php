@@ -142,6 +142,12 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'failure', function ($message) use($output, $self) {
 				$output->writeln("<error>$message</error>");
 			});
+			$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use($output) {
+				$output->writeln("<info>Set log level to debug - current level: '$logLevelName'</info>");
+			});
+			$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use($output) {
+				$output->writeln("<info>Reset log level to '$logLevelName'</info>");
+			});
 
 			$success = $updater->upgrade();
 
