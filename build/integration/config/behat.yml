@@ -12,6 +12,6 @@ default:
 
 ci:
     formatter:
-        name:       junit
+        name:       pretty,junit
         parameters:
-          output_path: ./output
+          output_path: null,./output

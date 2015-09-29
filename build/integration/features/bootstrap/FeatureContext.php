@@ -34,6 +34,12 @@ class FeatureContext extends BehatContext {
 		// Initialize your context here
 		$this->baseUrl = $parameters['baseUrl'];
 		$this->adminUser = $parameters['admin'];
+
+		// in case of ci deployment we take the server url from the environment
+		$testServerUrl = getenv('TEST_SERVER_URL');
+		if ($testServerUrl !== false) {
+			$this->baseUrl = $testServerUrl;
+		}
 	}
 
 	/**
