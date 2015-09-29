@@ -71,7 +71,7 @@ class RepairInvalidShares extends BasicEmitter implements \OC\RepairStep {
 
 	public function run() {
 		$ocVersionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
-		if (version_compare($ocVersionFromBeforeUpdate, '8.2.0', '<')) {
+		if (version_compare($ocVersionFromBeforeUpdate, '8.2.0.7', '<')) {
 			// this situation was only possible before 8.2
 			$this->removeExpirationDateFromNonLinkShares();
 		}
