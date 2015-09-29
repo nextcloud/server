@@ -22,3 +22,11 @@ Feature: provisioning
     Then the status code should be "200"
     And user "brand-new-user" exists
 
+
+  Scenario: Delete a user
+    Given As an "admin"
+    And user "brand-new-user" exists
+    When sending "POST" to "/cloud/users" with
+      | userid | brand-new-user |
+    Then the status code should be "200"
+    And user "brand-new-user" does not exist
