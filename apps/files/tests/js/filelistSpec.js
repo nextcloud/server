@@ -2156,6 +2156,25 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList.files.length).toEqual(5);
 			expect(fileList.$fileList.find('tr').length).toEqual(5);
 		});
+		it('does not sort when clicking on header whenever multiselect is enabled', function() {
+			var sortStub = sinon.stub(OCA.Files.FileList.prototype, 'setSort');
+
+			fileList.setFiles(testFiles);
+			fileList.findFileEl('One.txt').find('input:checkbox:first').click();
+
+			fileList.$el.find('.column-size .columntitle').click();
+
+			expect(sortStub.notCalled).toEqual(true);
+
+			// can sort again after deselecting
+			fileList.findFileEl('One.txt').find('input:checkbox:first').click();
+
+			fileList.$el.find('.column-size .columntitle').click();
+
+			expect(sortStub.calledOnce).toEqual(true);
+
+			sortStub.restore();
+		});
 	});
 	describe('create file', function() {
 		var deferredCreate;

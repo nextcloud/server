@@ -190,6 +190,9 @@ table th .sort-indicator {
 .multiselect .sort-indicator {
 	visibility: hidden;
 }
+.multiselect .sort, .multiselect .sort span {
+	cursor: default;
+}
 table th:hover .sort-indicator.hidden,
 table th:focus .sort-indicator.hidden {
 	visibility: visible;
