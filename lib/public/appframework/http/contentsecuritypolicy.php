@@ -64,6 +64,7 @@ class ContentSecurityPolicy {
 	private $allowedImageDomains = [
 		'\'self\'',
 		'data:',
+		'blob:',
 	];
 	/** @var array Domains to which connections can be done */
 	private $allowedConnectDomains = [
