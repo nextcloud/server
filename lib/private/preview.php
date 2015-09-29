@@ -531,7 +531,7 @@ class Preview {
 	 * @param string $name
 	 * @return bool
 	 */
-	private function thumbnailSizeExists($allThumbnails, $name) {
+	private function thumbnailSizeExists(array $allThumbnails, $name) {
 
 		foreach ($allThumbnails as $thumbnail) {
 			if ($name === $thumbnail->getName()) {
