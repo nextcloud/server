@@ -106,7 +106,7 @@ class Internal extends Session {
 
 	private function validateSession() {
 		if ($this->sessionClosed) {
-			throw new \Exception('Session has been closed - no further changes to the session as allowed');
+			throw new \Exception('Session has been closed - no further changes to the session are allowed');
 		}
 	}
 }
