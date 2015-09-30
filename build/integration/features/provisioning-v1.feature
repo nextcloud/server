@@ -22,6 +22,18 @@ Feature: provisioning
     And user "brand-new-user" exists
 
 
+  Scenario: Edit a user
+    Given As an "admin"
+    And user "brand-new-user" exists
+    When sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | quota |
+      | value | 12MB |
+      | key | email |
+      | value | brand-new-user@gmail.com |
+    Then the status code should be "100"
+    And user "brand-new-user" exists
+
+
   Scenario: Delete a user
     Given As an "admin"
     And user "brand-new-user" exists
