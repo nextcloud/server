@@ -46,6 +46,7 @@ use OCA\Files_Sharing\Helper;
 use OCP\User;
 use OCP\Util;
 use OCA\Files_Sharing\Activity;
+use \OCP\Files\NotFoundException;
 
 /**
  * Class ShareController
@@ -148,6 +149,7 @@ class ShareController extends Controller {
 	 * @param string $token
 	 * @param string $path
 	 * @return TemplateResponse|RedirectResponse
+	 * @throws NotFoundException
 	 */
 	public function showShare($token, $path = '') {
 		\OC_User::setIncognitoMode(true);
@@ -171,7 +173,7 @@ class ShareController extends Controller {
 			$getPath = Filesystem::normalizePath($path);
 			$originalSharePath .= $path;
 		} else {
-			throw new OCP\Files\NotFoundException();
+			throw new NotFoundException();
 		}
 
 		$file = basename($originalSharePath);
@@ -303,7 +305,7 @@ class ShareController extends Controller {
 	/**
 	 * @param string $token
 	 * @return string Resolved file path of the token
-	 * @throws \Exception In case share could not get properly resolved
+	 * @throws NotFoundException In case share could not get properly resolved
 	 */
 	private function getPath($token) {
 		$linkItem = Share::getShareByToken($token, false);
@@ -312,7 +314,7 @@ class ShareController extends Controller {
 			$rootLinkItem = Share::resolveReShare($linkItem);
 			if (isset($rootLinkItem['uid_owner'])) {
 				if(!$this->userManager->userExists($rootLinkItem['uid_owner'])) {
-					throw new \Exception('Owner of the share does not exist anymore');
+					throw new NotFoundException('Owner of the share does not exist anymore');
 				}
 				OC_Util::tearDownFS();
 				OC_Util::setupFS($rootLinkItem['uid_owner']);
@@ -324,6 +326,6 @@ class ShareController extends Controller {
 			}
 		}
 
-		throw new \Exception('No file found belonging to file.');
+		throw new NotFoundException('No file found belonging to file.');
 	}
 }

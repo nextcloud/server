@@ -27,6 +27,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 
 /**
@@ -58,22 +59,32 @@ class SharingCheckMiddleware extends Middleware {
 
 	/**
 	 * Check if sharing is enabled before the controllers is executed
+	 *
+	 * @param \OCP\AppFramework\Controller $controller
+	 * @param string $methodName
+	 * @throws NotFoundException
 	 */
 	public function beforeController($controller, $methodName) {
 		if(!$this->isSharingEnabled()) {
-			throw new \Exception('Sharing is disabled.');
+			throw new NotFoundException('Sharing is disabled.');
 		}
 	}
 
 	/**
-	 * Return 404 page in case of an exception
+	 * Return 404 page in case of a not found exception
+	 *
 	 * @param \OCP\AppFramework\Controller $controller
 	 * @param string $methodName
 	 * @param \Exception $exception
-	 * @return TemplateResponse
+	 * @return NotFoundResponse
+	 * @throws \Exception
 	 */
-	public function afterException($controller, $methodName, \Exception $exception){
-		return new NotFoundResponse();
+	public function afterException($controller, $methodName, \Exception $exception) {
+		if(is_a($exception, '\OCP\Files\NotFoundException')) {
+			return new NotFoundResponse();
+		}
+
+		throw $exception;
 	}
 
 	/**
