@@ -68,6 +68,13 @@ class SharingCheckMiddleware extends Middleware {
 		if(!$this->isSharingEnabled()) {
 			throw new NotFoundException('Sharing is disabled.');
 		}
+
+		if ($controller instanceof \OCA\Files_Sharing\Controllers\ExternalSharesController) {
+			//TODO: Proper checks
+		} else if ($controller instanceof \OCA\Files_Sharing\Controllers\ShareController &&
+			!$this->isLinkSharingEnabled()) {
+			throw new NotFoundException('Link sharing is disabled');
+		}
 	}
 
 	/**
@@ -98,6 +105,14 @@ class SharingCheckMiddleware extends Middleware {
 			return false;
 		}
 
+		return true;
+	}
+
+	/**
+	 * Check if link sharing is allowed
+	 * @return bool
+	 */
+	private function isLinkSharingEnabled() {
 		// Check if the shareAPI is enabled
 		if ($this->config->getAppValue('core', 'shareapi_enabled', 'yes') !== 'yes') {
 			return false;

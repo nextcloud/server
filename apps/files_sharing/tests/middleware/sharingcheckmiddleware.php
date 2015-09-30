@@ -51,24 +51,12 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->sharingCheckMiddleware = new SharingCheckMiddleware('files_sharing', $this->config, $this->appManager);
 	}
 
-	public function testIsSharingEnabledWithEverythingEnabled() {
+	public function testIsSharingEnabledWithAppEnabled() {
 		$this->appManager
 			->expects($this->once())
 			->method('isEnabledForUser')
 			->with('files_sharing')
 			->will($this->returnValue(true));
-
-		$this->config
-			->expects($this->at(0))
-			->method('getAppValue')
-			->with('core', 'shareapi_enabled', 'yes')
-			->will($this->returnValue('yes'));
-
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'yes')
-			->will($this->returnValue('yes'));
 
 		$this->assertTrue(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
 	}
@@ -83,13 +71,24 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->assertFalse(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
 	}
 
-	public function testIsSharingEnabledWithLinkSharingDisabled() {
-		$this->appManager
-			->expects($this->once())
-			->method('isEnabledForUser')
-			->with('files_sharing')
-			->will($this->returnValue(true));
+	public function testIsLinkSharingEnabledWithEverythinEnabled() {
+		$this->config
+			->expects($this->at(0))
+			->method('getAppValue')
+			->with('core', 'shareapi_enabled', 'yes')
+			->will($this->returnValue('yes'));
 
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->will($this->returnValue('yes'));
+
+		$this->assertTrue(self::invokePrivate($this->sharingCheckMiddleware, 'isLinkSharingEnabled'));
+	}
+
+
+	public function testIsLinkSharingEnabledWithLinkSharingDisabled() {
 		$this->config
 			->expects($this->at(0))
 			->method('getAppValue')
@@ -102,23 +101,17 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->with('core', 'shareapi_allow_links', 'yes')
 			->will($this->returnValue('no'));
 
-		$this->assertFalse(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
+		$this->assertFalse(self::invokePrivate($this->sharingCheckMiddleware, 'isLinkSharingEnabled'));
 	}
 
-	public function testIsSharingEnabledWithSharingAPIDisabled() {
-		$this->appManager
-			->expects($this->once())
-			->method('isEnabledForUser')
-			->with('files_sharing')
-			->will($this->returnValue(true));
-
+	public function testIsLinkSharingEnabledWithSharingAPIDisabled() {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
 			->with('core', 'shareapi_enabled', 'yes')
 			->will($this->returnValue('no'));
 
-		$this->assertFalse(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
+		$this->assertFalse(self::invokePrivate($this->sharingCheckMiddleware, 'isLinkSharingEnabled'));
 	}
 
 	public function testBeforeControllerWithSharingEnabled() {
@@ -140,7 +133,10 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->with('core', 'shareapi_allow_links', 'yes')
 			->will($this->returnValue('yes'));
 
-		$this->sharingCheckMiddleware->beforeController($this->controllerMock, 'myMethod');
+		$controller = $this->getMockBuilder('\OCA\Files_Sharing\Controllers\ShareController')
+			->disableOriginalConstructor()->getMock();
+
+		$this->sharingCheckMiddleware->beforeController($controller, 'myMethod');
 	}
 
 	/**
@@ -154,7 +150,10 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->with('files_sharing')
 			->will($this->returnValue(false));
 
-		$this->sharingCheckMiddleware->beforeController($this->controllerMock, 'myMethod');
+		$controller = $this->getMockBuilder('\OCA\Files_Sharing\Controllers\ShareController')
+			->disableOriginalConstructor()->getMock();
+
+		$this->sharingCheckMiddleware->beforeController($controller, 'myMethod');
 	}
 
 	/**
