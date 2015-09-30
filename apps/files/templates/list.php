@@ -51,7 +51,7 @@
 	<p></p>
 </div>
 
-<table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="36" data-preview-y="36">
+<table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="32" data-preview-y="32">
 	<thead>
 		<tr>
 			<th id='headerName' class="hidden column-name">
