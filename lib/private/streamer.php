@@ -22,7 +22,7 @@
 namespace OC;
 
 use ZipStreamer\ZipStreamer;
-use DeepDiver1975\TarStreamer\TarStreamer;
+use ownCloud\TarStreamer\TarStreamer;
 
 class Streamer {
 	// array of regexp. Matching user agents will get tar instead of zip

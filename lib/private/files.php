@@ -39,9 +39,6 @@
  *
  */
 
-// TODO: get rid of this using proper composer packages
-require_once 'mcnetic/phpzipstreamer/ZipStreamer.php';
-
 use OC\Lock\NoopLockingProvider;
 use OC\Streamer;
 use OCP\Lock\ILockingProvider;
