@@ -212,6 +212,7 @@
 					fileType: 'folder'
 				}]
 			}));
+			OC.Util.scaleFixForIE8(this.$('.svg'));
 		},
 
 		/**

@@ -580,6 +580,9 @@ a.action > img {
 #fileList .popovermenu {
 	margin-right: 21px;
 }
+.ie8 #fileList .popovermenu {
+	margin-top: -10px;
+}
 
 .ie8 #fileList a.action img,
 #fileList tr:hover a.action,

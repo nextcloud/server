@@ -131,6 +131,7 @@
 				} else {
 					// TODO: special icons / shared / external
 					$iconDiv.css('background-image', 'url("' + OC.MimeType.getIconUrl('dir') + '")');
+					OC.Util.scaleFixForIE8($iconDiv);
 				}
 				this.$el.find('[title]').tooltip({placement: 'bottom'});
 			} else {
@@ -214,6 +215,7 @@
 					$iconDiv.css({
 						'background-image': 'url("' + $iconDiv.previewImg + '")'
 					});
+					OC.Util.scaleFixForIE8($iconDiv);
 				}.bind(this)
 			});
 		}
