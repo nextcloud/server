@@ -46,12 +46,16 @@ abstract class Image extends Provider {
 
 		$image = new \OC_Image();
 
-		if ($fileInfo['encrypted'] === true) {
+		$useTempFile = $fileInfo->isEncrypted() || !$fileInfo->getStorage()->isLocal();
+		if ($useTempFile) {
 			$fileName = $fileview->toTmpFile($path);
 		} else {
 			$fileName = $fileview->getLocalFile($path);
 		}
 		$image->loadFromFile($fileName);
+		if ($useTempFile) {
+			unlink($fileName);
+		}
 		$image->fixOrientation();
 		if ($image->valid()) {
 			$image->scaleDownToFit($maxX, $maxY);
