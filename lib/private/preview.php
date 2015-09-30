@@ -837,6 +837,11 @@ class Preview {
 		$askedWidth = $this->getMaxX();
 		$askedHeight = $this->getMaxY();
 
+		if ($this->mode === self::MODE_COVER) {
+			list($askedWidth, $askedHeight) =
+				$this->applyCover($askedWidth, $askedHeight, $previewWidth, $previewHeight);
+		}
+
 		/**
 		 * Phase 1: If required, adjust boundaries to keep aspect ratio
 		 */
@@ -845,20 +850,12 @@ class Preview {
 				$this->applyAspectRatio($askedWidth, $askedHeight, $previewWidth, $previewHeight);
 		}
 
-		if ($this->mode === self::MODE_COVER) {
-			list($scaleWidth, $scaleHeight) =
-				$this->applyCover($askedWidth, $askedHeight, $previewWidth, $previewHeight);
-		} else {
-			$scaleWidth = $askedWidth;
-			$scaleHeight = $askedHeight;
-		}
-
 		/**
 		 * Phase 2: Resizes preview to try and match requirements.
 		 * Takes the scaling ratio into consideration
 		 */
 		list($newPreviewWidth, $newPreviewHeight) = $this->scale(
-			$image, $scaleWidth, $scaleHeight, $previewWidth, $previewHeight
+			$image, $askedWidth, $askedHeight, $previewWidth, $previewHeight
 		);
 
 		// The preview has been resized and should now have the asked dimensions
@@ -890,6 +887,7 @@ class Preview {
 
 			return;
 		}
+
 		// The preview is smaller, but we can't touch it
 		$this->storePreview($fileId, $newPreviewWidth, $newPreviewHeight);
 	}
