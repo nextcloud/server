@@ -84,6 +84,8 @@
 				OC.hideMenus();
 			} else {
 				event.preventDefault();
+				this.$el.find('.menuitem.active').removeClass('active');
+				$target.addClass('active');
 				this._promptFileName($target);
 			}
 		},
