@@ -23,7 +23,8 @@
  */
 
 namespace OCA\Files_Sharing\Middleware;
-
+use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\Files\NotFoundException;
 
 /**
  * @package OCA\Files_Sharing\Middleware\SharingCheckMiddleware
@@ -36,11 +37,15 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	private $appManager;
 	/** @var SharingCheckMiddleware */
 	private $sharingCheckMiddleware;
+	/** @var \OCP\AppFramework\Controller */
+	private $controllerMock;
 
 	protected function setUp() {
 		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
 		$this->appManager = $this->getMockBuilder('\OCP\App\IAppManager')
+			->disableOriginalConstructor()->getMock();
+		$this->controllerMock = $this->getMockBuilder('\OCP\AppFramework\Controller')
 			->disableOriginalConstructor()->getMock();
 
 		$this->sharingCheckMiddleware = new SharingCheckMiddleware('files_sharing', $this->config, $this->appManager);
@@ -114,6 +119,54 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->will($this->returnValue('no'));
 
 		$this->assertFalse(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
+	}
+
+	public function testBeforeControllerWithSharingEnabled() {
+		$this->appManager
+			->expects($this->once())
+			->method('isEnabledForUser')
+			->with('files_sharing')
+			->will($this->returnValue(true));
+
+		$this->config
+			->expects($this->at(0))
+			->method('getAppValue')
+			->with('core', 'shareapi_enabled', 'yes')
+			->will($this->returnValue('yes'));
+
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('core', 'shareapi_allow_links', 'yes')
+			->will($this->returnValue('yes'));
+
+		$this->sharingCheckMiddleware->beforeController($this->controllerMock, 'myMethod');
+	}
+
+	/**
+	 * @expectedException \OCP\Files\NotFoundException
+	 * @expectedExceptionMessage Sharing is disabled.
+	 */
+	public function testBeforeControllerWithSharingDisabled() {
+		$this->appManager
+			->expects($this->once())
+			->method('isEnabledForUser')
+			->with('files_sharing')
+			->will($this->returnValue(false));
+
+		$this->sharingCheckMiddleware->beforeController($this->controllerMock, 'myMethod');
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage My Exception message
+	 */
+	public function testAfterExceptionWithRegularException() {
+		$this->sharingCheckMiddleware->afterException($this->controllerMock, 'myMethod', new \Exception('My Exception message'));
+	}
+
+	public function testAfterExceptionWithNotFoundException() {
+		$this->assertEquals(new NotFoundResponse(), $this->sharingCheckMiddleware->afterException($this->controllerMock, 'myMethod', new NotFoundException('My Exception message')));
 	}
 
 }
