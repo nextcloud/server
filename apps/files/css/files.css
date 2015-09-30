@@ -748,6 +748,8 @@ table.dragshadow td.size {
 
 .newFileMenu.popovermenu a.menuitem.active {
 	opacity: 1;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
 }
 
 .newFileMenu.bubble:after {
