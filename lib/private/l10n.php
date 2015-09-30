@@ -390,29 +390,6 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * Choose a language
-	 * @param array $text Associative Array with possible strings
-	 * @return String
-	 *
-	 * $text is an array 'de' => 'hallo welt', 'en' => 'hello world', ...
-	 *
-	 * This function is useful to avoid loading thousands of files if only one
-	 * simple string is needed, for example in appinfo.php
-	 */
-	public static function selectLanguage($text) {
-		$lang = self::findLanguage(array_keys($text));
-		return $text[$lang];
-	}
-
-	/**
-	 * The given language is forced to be used while executing the current request
-	 * @param string $lang
-	 */
-	public static function forceLanguage($lang) {
-		self::$language = $lang;
-	}
-
-	/**
 	 * The code (en, de, ...) of the language that is used for this OC_L10N object
 	 *
 	 * @return string language
@@ -423,17 +400,13 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * find the best language
-	 * @param array|string $app details below
+	 * @param string $app
 	 * @return string language
-	 *
-	 * If $app is an array, ownCloud assumes that these are the available
-	 * languages. Otherwise ownCloud tries to find the files in the l10n
-	 * folder.
 	 *
 	 * If nothing works it returns 'en'
 	 */
 	public static function findLanguage($app = null) {
-		if(!is_array($app) && self::$language != '') {
+		if(self::$language != '') {
 			return self::$language;
 		}
 
@@ -443,13 +416,7 @@ class OC_L10N implements \OCP\IL10N {
 		if($userId && $config->getUserValue($userId, 'core', 'lang')) {
 			$lang = $config->getUserValue($userId, 'core', 'lang');
 			self::$language = $lang;
-			if(is_array($app)) {
-				$available = $app;
-				$lang_exists = array_search($lang, $available) !== false;
-			} else {
-				$lang_exists = self::languageExists($app, $lang);
-			}
-			if($lang_exists) {
+			if(self::languageExists($app, $lang)) {
 				return $lang;
 			}
 		}
