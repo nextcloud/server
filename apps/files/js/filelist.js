@@ -628,6 +628,9 @@
 		 * Event handler when clicking on a table header
 		 */
 		_onClickHeader: function(e) {
+			if (this.$table.hasClass('multiselect')) {
+				return;
+			}
 			var $target = $(e.target);
 			var sort;
 			if (!$target.is('a')) {

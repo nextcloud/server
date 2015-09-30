@@ -186,8 +186,14 @@ table th .sort-indicator {
 	filter: alpha(opacity=30);
 	opacity: .3;
 }
-.sort-indicator.hidden {
+.sort-indicator.hidden,
+.multiselect .sort-indicator,
+table.multiselect th:hover .sort-indicator.hidden,
+table.multiselect th:focus .sort-indicator.hidden {
 	visibility: hidden;
+}
+.multiselect .sort, .multiselect .sort span {
+	cursor: default;
 }
 table th:hover .sort-indicator.hidden,
 table th:focus .sort-indicator.hidden {
