@@ -746,6 +746,10 @@ table.dragshadow td.size {
 	margin: 0;
 }
 
+.newFileMenu.popovermenu a.menuitem.active {
+	opacity: 1;
+}
+
 .newFileMenu.bubble:after {
 	left: 75px;
 	right: auto;
