@@ -228,7 +228,7 @@ OCA.Sharing.PublicApp = {
 			OCA.Sharing.PublicApp._saveToOwnCloud(remote, token, owner, name, isProtected);
 		});
 
-		$('#remote_address').on("change keyup paste", function() {
+		$('#remote_address').on("keyup paste", function() {
 			if ($(this).val() === '') {
 				$('#save-button-confirm').prop('disabled', true);
 			} else {
