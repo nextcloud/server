@@ -37,7 +37,7 @@ OC_Util::checkAdminUser();
 OC_App::setActiveNavigationEntry("admin");
 
 $template = new OC_Template('settings', 'admin', 'user');
-$l = OC_L10N::get('settings');
+$l = \OC::$server->getL10N('settings');
 
 $showLog = (\OC::$server->getConfig()->getSystemValue('log_type', 'owncloud') === 'owncloud');
 $numEntriesToLoad = 3;
