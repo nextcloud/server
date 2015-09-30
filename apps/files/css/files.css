@@ -422,20 +422,37 @@ table td.filename .uploadtext {
 }
 
 /* File checkboxes */
-#fileList tr td.filename>.selectCheckBox + label:before {
+html:not(.ie8) #fileList tr td.filename>.selectCheckBox + label:before {
 	opacity: 0;
 	position: absolute;
 	bottom: 4px;
 	right: 0;
 	z-index: 10;
 }
+html.ie8 #fileList tr td.filename>.selectCheckBox {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	opacity: 0;
+	float: left;
+	top: 0;
+	margin: 32px 0 4px 32px; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/
+}
 
 /* Show checkbox when hovering, checked, or selected */
-#fileList tr:hover td.filename>.selectCheckBox + label:before,
-#fileList tr:focus td.filename>.selectCheckBox + label:before,
-#fileList tr td.filename>.selectCheckBox:checked + label:before,
-#fileList tr.selected td.filename>.selectCheckBox + label:before {
+html.ie8 #fileList tr:hover td.filename>.selectCheckBox,
+html.ie8 #fileList tr:focus td.filename>.selectCheckBox,
+html.ie8 #fileList tr td.filename>.selectCheckBox:checked,
+html.ie8 #fileList tr.selected td.filename>.selectCheckBox,
+html:not(.ie8) #fileList tr:hover td.filename>.selectCheckBox + label:before,
+html:not(.ie8) #fileList tr:focus td.filename>.selectCheckBox + label:before,
+html:not(.ie8) #fileList tr td.filename>.selectCheckBox:checked + label:before,
+html:not(.ie8) #fileList tr.selected td.filename>.selectCheckBox + label:before {
 	opacity: 1;
+}
+html.ie8 #fileList tr:hover td.filename>.selectCheckBox,
+html.ie8 #fileList tr:focus td.filename>.selectCheckBox,
+html.ie8 #fileList tr td.filename>.selectCheckBox[checked=checked],
+html.ie8 #fileList tr.selected td.filename>.selectCheckBox {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
 }
@@ -458,6 +475,7 @@ table td.filename .uploadtext {
 .select-all + label {
 	top: 0;
 }
+.ie8 .select-all,
 .select-all + label:before {
 	position: absolute;
 	top: 18px;
