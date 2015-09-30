@@ -457,19 +457,12 @@ class OC_Util {
 	 */
 	public static function addScript($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'js', $file);
-		//TODO eliminate double code		
-		if (!in_array($path, self::$scripts)) {
-			// core js files need separate handling
-			if ($application !== 'core' && $file !== null) {
-				self::addTranslations($application);
-			}
-			if ($prepend===true) {
-				array_unshift(self::$scripts, $path);
-			}
-			else {
-				self::$scripts[] = $path;
-			}
+
+		// core js files need separate handling
+		if ($application !== 'core' && $file !== null) {
+			self::addTranslations ( $application );
 		}
+		self::addExternalResource($application, $prepend, $path, "script");
 	}
 
 	/**
@@ -482,14 +475,7 @@ class OC_Util {
 	 */
 	public static function addVendorScript($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'vendor', $file);
-		//TODO eliminate double code		
-		if (! in_array ( $path, self::$scripts )) {
-			if ($prepend === true) {
-				array_unshift ( self::$scripts, $path );
-			} else {
-				self::$scripts [] = $path;
-			}
-		}
+		self::addExternalResource($application, $prepend, $path, "script");
 	}
 
 	/**
@@ -508,14 +494,7 @@ class OC_Util {
 		} else {
 			$path = "l10n/$languageCode";
 		}
-		//TODO eliminate double code		
-		if (!in_array($path, self::$scripts)) {
-			if ($prepend === true) {
-				array_unshift ( self::$scripts, $path );
-			} else {
-				self::$scripts [] = $path;
-			}
-		}
+		self::addExternalResource($application, $prepend, $path, "script");
 	}
 
 	/**
@@ -528,14 +507,7 @@ class OC_Util {
 	 */
 	public static function addStyle($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'css', $file);
-		//TODO eliminate double code		
-		if (!in_array($path, self::$styles)) {
-			if ($prepend === true) {
-				array_unshift ( self::$styles, $path );
-			} else {
-				self::$styles[] = $path;
-			}	
-		}
+		self::addExternalResource($application, $prepend, $path, "style");
 	}
 
 	/**
@@ -548,13 +520,36 @@ class OC_Util {
 	 */
 	public static function addVendorStyle($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'vendor', $file);
-		//TODO eliminate double code
-		if (!in_array($path, self::$styles)) {
-			if ($prepend === true) {
-				array_unshift ( self::$styles, $path );
-			} else {
-				self::$styles[] = $path;
-			}	
+		self::addExternalResource($application, $prepend, $path, "style");
+	}
+
+	/**
+	 * add an external resource css/js file
+	 *
+	 * @param string $application application id
+	 * @param bool $prepend prepend the file to the beginning of the list
+	 * @param string $path 
+	 * @param string $type (script or style)
+	 * @return void
+	 */
+	private static function addExternalResource($application, $prepend, $path, $type = "script") {
+
+		if ($type === "style") {
+			if (!in_array($path, self::$styles)) {
+				if ($prepend === true) {
+					array_unshift ( self::$styles, $path );
+				} else {
+					self::$styles[] = $path;
+				}
+			}
+		} elseif ($type === "script") {
+			if (!in_array($path, self::$scripts)) {
+				if ($prepend === true) {
+					array_unshift ( self::$scripts, $path );
+				} else {
+					self::$scripts [] = $path;
+				}
+			}
 		}
 	}
 
