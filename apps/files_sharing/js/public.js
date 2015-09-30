@@ -228,6 +228,14 @@ OCA.Sharing.PublicApp = {
 			OCA.Sharing.PublicApp._saveToOwnCloud(remote, token, owner, name, isProtected);
 		});
 
+		$('#remote_address').on("keyup paste", function() {
+			if ($(this).val() === '') {
+				$('#save-button-confirm').prop('disabled', true);
+			} else {
+				$('#save-button-confirm').prop('disabled', false);
+			}
+		});
+
 		$('#save #save-button').click(function () {
 			$(this).hide();
 			$('.save-form').css('display', 'inline');
