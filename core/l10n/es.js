@@ -182,6 +182,7 @@ OC.L10N.register(
     "New Password" : "Contraseña nueva",
     "Reset password" : "Restablecer contraseña",
     "Searching other places" : "Buscando en otros lugares",
+    "No search results in other folders" : "Ningún resultado de búsqueda en otras carpetas",
     "Personal" : "Personal",
     "Users" : "Usuarios",
     "Apps" : "Aplicaciones",
