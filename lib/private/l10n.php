@@ -503,8 +503,9 @@ class OC_L10N implements \OCP\IL10N {
 	 * @return array an array of available languages
 	 */
 	public static function findAvailableLanguages($app=null) {
-		if(!empty(self::$availableLanguages)) {
-			return self::$availableLanguages;
+		// also works with null as key
+		if(isset(self::$availableLanguages[$app]) && !empty(self::$availableLanguages[$app])) {
+			return self::$availableLanguages[$app];
 		}
 		$available=array('en');//english is always available
 		$dir = self::findI18nDir($app);
@@ -518,7 +519,7 @@ class OC_L10N implements \OCP\IL10N {
 			}
 		}
 
-		self::$availableLanguages = $available;
+		self::$availableLanguages[$app] = $available;
 		return $available;
 	}
 
