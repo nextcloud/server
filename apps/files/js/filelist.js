@@ -1411,10 +1411,10 @@
 		generatePreviewUrl: function(urlSpec) {
 			urlSpec = urlSpec || {};
 			if (!urlSpec.x) {
-				urlSpec.x = this.$table.data('preview-x') || 36;
+				urlSpec.x = this.$table.data('preview-x') || 32;
 			}
 			if (!urlSpec.y) {
-				urlSpec.y = this.$table.data('preview-y') || 36;
+				urlSpec.y = this.$table.data('preview-y') || 32;
 			}
 			urlSpec.x *= window.devicePixelRatio;
 			urlSpec.y *= window.devicePixelRatio;

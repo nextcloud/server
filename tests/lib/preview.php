@@ -534,10 +534,10 @@ class Preview extends TestCase {
 		// Small thumbnails are always cropped
 		$this->keepAspect = false;
 		// Smaller previews should be based on the previous, larger preview, with the correct aspect ratio
-		$this->createThumbnailFromBiggerCachedPreview($fileId, 36, 36);
+		$this->createThumbnailFromBiggerCachedPreview($fileId, 32, 32);
 
 		// 2nd cache query should indicate that we have a cached copy of the exact dimension
-		$this->getCachedSmallThumbnail($fileId, 36, 36);
+		$this->getCachedSmallThumbnail($fileId, 32, 32);
 
 		// We create a preview in order to be able to delete the cache
 		$preview = $this->createPreview(rand(), rand());

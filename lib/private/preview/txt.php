@@ -53,7 +53,7 @@ class TXT extends Provider {
 
 		$lines = preg_split("/\r\n|\n|\r/", $content);
 
-		$fontSize = ($maxX) ? (int) ((5 / 36) * $maxX) : 5; //5px
+		$fontSize = ($maxX) ? (int) ((5 / 32) * $maxX) : 5; //5px
 		$lineSize = ceil($fontSize * 1.25);
 
 		$image = imagecreate($maxX, $maxY);
