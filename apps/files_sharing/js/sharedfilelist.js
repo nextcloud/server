@@ -191,14 +191,18 @@
 				// convert share data to file data
 				.map(function(share) {
 					var file = {
-						shareOwner: share.owner + '@' + share.remote,
-						name: share.name
+						shareOwner: share.owner + '@' + share.remote.replace(/.*?:\/\//g, ""),
+						name: OC.basename(share.mountpoint),
+						mtime: share.mtime,
+						mimetype: share.mimetype,
+						type: share.type,
+						id: share.file_id,
+						path: OC.dirname(share.mountpoint)
 					};
 
 					file.shares = [{
 						id: share.id,
-						type: OC.Share.SHARE_TYPE_REMOTE,
-						target: share.mountpoint
+						type: OC.Share.SHARE_TYPE_REMOTE
 					}];
 					return file;
 				})
