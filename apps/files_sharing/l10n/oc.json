@@ -38,6 +38,7 @@
     "You shared %1$s with group %2$s" : "Avètz partejat %1$s amb lo grop %2$s",
     "%2$s shared %1$s with %3$s" : "%2$s partejat %1$s amb %3$s",
     "%2$s shared %1$s with group %3$s" : "%2$s partejat %1$s amb lo grop %3$s",
+    "%2$s shared %1$s via link" : "%2$s a partejat %1$s per ligam public",
     "%2$s shared %1$s with you" : "%2$s a partejat %1$s amb vos",
     "You shared %1$s via link" : "Avètz partejat %1$s per ligam public",
     "Shares" : "Partiments",

@@ -12,6 +12,8 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Päivitetty \"%s\" versioon %s",
     "Repair warning: " : "Korjausvaroitus:",
     "Repair error: " : "Korjausvirhe:",
+    "Set log level to debug - current level: \"%s\"" : "Aseta lokitasoksi vianjäljitys - nykyinen taso: \"%s\"",
+    "Reset log level to  \"%s\"" : "Palauta lokitasoksi  \"%s\"",
     "Following incompatible apps have been disabled: %s" : "Seuraavat yhteensopimattomat sovellukset on poistettu käytöstä: %s",
     "Following apps have been disabled: %s" : "Seuraavat sovellukset on poistettu käytöstä: %s",
     "Already up to date" : "Kaikki on jo ajan tasalla",

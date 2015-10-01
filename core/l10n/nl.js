@@ -12,6 +12,8 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Bijgewerkt \"%s\" naar %s",
     "Repair warning: " : "Reparatiewaarschuwing:",
     "Repair error: " : "Reparatiefout:",
+    "Set log level to debug - current level: \"%s\"" : "Instellen logniveau op debug - huidige niveau: \"%s\"",
+    "Reset log level to  \"%s\"" : "Terugzetten logniveau op \"#%s\"",
     "Following incompatible apps have been disabled: %s" : "De volgende incompatibele apps zijn uitgeschakeld: %s",
     "Following apps have been disabled: %s" : "De volgende apps zijn gedeactiveerd: %s",
     "Already up to date" : "Al bijgewerkt",

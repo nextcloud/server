@@ -71,6 +71,7 @@ OC.L10N.register(
     "Favorite" : "Favorit",
     "Upload" : "Cargament",
     "Text file" : "Fichièr tèxte",
+    "New text file.txt" : "Novèl fichièr tèxte .txt",
     "Folder" : "Dorsièr",
     "New folder" : "Novèl dorsièr",
     "An error occurred while trying to update the tags" : "Una error s'es produsida al moment de la mesa a jorn de las etiquetas",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "APCu" : "APCu",
     "Security & setup warnings" : "Avertiments de seguretat & configuracion",
     "Sharing" : "Partiment",
     "Server-side encryption" : "Chiframent costat servidor",
@@ -54,6 +55,9 @@ OC.L10N.register(
     "Migration in progress. Please wait until the migration is finished" : "Migracion en cors. Esperatz qu'aquela s'acabe",
     "Migration started …" : "Migracion aviada...",
     "Sending..." : "Mandadís en cors...",
+    "Official" : "Oficial",
+    "Approved" : "Aprovat",
+    "Experimental" : "Experimental",
     "All" : "Totes",
     "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Las aplicacions oficialas son desvolopadas per e amb la comunautat ownCloud. Ofrisson sas foncionalitats principalas a ownCloud e son prèstas per una utilizacion en produccion. ",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Las aplicacions aprovadas son creadas per de desvolopaires de fisança e an passat los tèst de seguretat. Son activament mantengudas dins un depaus dobèrt e lors desvolopaires pensan que son establas per una utilizacion normala.",
@@ -69,6 +73,7 @@ OC.L10N.register(
     "Uninstalling ...." : "Desinstallacion...",
     "Error while uninstalling app" : "Error al moment de la desinstallacion de l'aplicacion",
     "Uninstall" : "Desinstallar",
+    "An error occurred: {message}" : "Una error s'es produsida : {message}",
     "Select a profile picture" : "Seleccionar una fòto de perfil ",
     "Very weak password" : "Senhal de fòrt febla seguretat",
     "Weak password" : "Senhal de febla seguretat",
