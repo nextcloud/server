@@ -53,7 +53,7 @@ if (!$info instanceof OCP\Files\FileInfo || !$always && !\OC::$server->getPrevie
 	\OC_Response::setStatus(404);
 } else {
 	$preview = new \OC\Preview(\OC_User::getUser(), 'files');
-	$preview->setFile($file);
+	$preview->setFile($file, $info);
 	$preview->setMaxX($maxX);
 	$preview->setMaxY($maxY);
 	$preview->setScalingUp($scalingUp);
