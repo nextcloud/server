@@ -5,14 +5,20 @@
  * later.
  * See the COPYING-README file.
  */
+
 namespace Test\Repair;
+
+
+use OC\Repair\RepairInvalidShares;
+use OC\Share\Constants;
+use Test\TestCase;
 
 /**
  * Tests for repairing invalid shares
  *
  * @see \OC\Repair\RepairInvalidShares
  */
-class RepairInvalidShares extends \Test\TestCase {
+class RepairInvalidSharesTest extends TestCase {
 
 	/** @var \OC\RepairStep */
 	private $repair;
@@ -32,15 +38,21 @@ class RepairInvalidShares extends \Test\TestCase {
 			->will($this->returnValue('8.0.0.0'));
 
 		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->deleteAllShares();
 
-		$this->repair = new \OC\Repair\RepairInvalidShares($config, $this->connection);
+		/** @var \OCP\IConfig $config */
+		$this->repair = new RepairInvalidShares($config, $this->connection);
 	}
 
 	protected function tearDown() {
-		$qb = $this->connection->getQueryBuilder();
-		$qb->delete('share')->execute();
+		$this->deleteAllShares();
 
 		parent::tearDown();
+	}
+
+	protected function deleteAllShares() {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('share')->execute();
 	}
 
 	/**
@@ -51,7 +63,7 @@ class RepairInvalidShares extends \Test\TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OC\Share\Constants::SHARE_TYPE_USER),
+				'share_type' => $qb->expr()->literal(Constants::SHARE_TYPE_USER),
 				'share_with' => $qb->expr()->literal('recipientuser1'),
 				'uid_owner' => $qb->expr()->literal('user1'),
 				'item_type' => $qb->expr()->literal('folder'),
@@ -77,7 +89,7 @@ class RepairInvalidShares extends \Test\TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OC\Share\Constants::SHARE_TYPE_LINK),
+				'share_type' => $qb->expr()->literal(Constants::SHARE_TYPE_LINK),
 				'uid_owner' => $qb->expr()->literal('user1'),
 				'item_type' => $qb->expr()->literal('folder'),
 				'item_source' => $qb->expr()->literal(123),
