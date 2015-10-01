@@ -183,6 +183,7 @@ html:not(.ie8) input[type="checkbox"].checkbox + label:before {
 html:not(.ie8) input[type="checkbox"].checkbox:disabled +label:before { opacity: .6; }
 
 html:not(.ie8) input[type="checkbox"].checkbox.u-left +label:before { float: left; }
+html:not(.ie8) input[type="checkbox"].checkbox.u-hidden + label:before { display: none; }
 
 html:not(.ie8) input[type="checkbox"].checkbox--white + label:before {
 	background-image: url('../img/actions/checkbox-white.svg');

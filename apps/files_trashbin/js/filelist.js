@@ -268,12 +268,12 @@
 
 		enableActions: function() {
 			this.$el.find('.action').css('display', 'inline');
-			this.$el.find(':input:checkbox').css('display', 'inline');
+			this.$el.find('input:checkbox').removeClass('u-hidden');
 		},
 
 		disableActions: function() {
 			this.$el.find('.action').css('display', 'none');
-			this.$el.find(':input:checkbox').css('display', 'none');
+			this.$el.find('input:checkbox').addClass('u-hidden');
 		},
 
 		updateStorageStatistics: function() {
