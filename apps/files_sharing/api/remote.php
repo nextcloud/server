@@ -92,6 +92,23 @@ class Remote {
 	}
 
 	/**
+	 * @param array $share Share with info from the share_external table
+	 * @return enriched share info with data from the filecache
+	 */
+	private static function extendShareInfo($share) {
+		$view = new \OC\Files\View('/' . \OC_User::getUser() . '/files/');
+		$info = $view->getFileInfo($shares['mountpoint']);
+
+		$share['mimetype'] = $info->getMimetype();
+		$share['mtime'] = $info->getMtime();
+		$share['permissions'] = $info->getPermissions();
+		$share['type'] = $info->getType();
+		$share['file_id'] = $info->getId();
+
+		return $share;
+	}
+
+	/**
 	 * List accepted remote shares
 	 *
 	 * @param array $params 
@@ -106,8 +123,12 @@ class Remote {
 			\OC::$server->getNotificationManager(),
 			\OC_User::getUser()
 		);
+
+		$shares = $externalManager->getAcceptedShares();
+
+		$shares = array_map('self::extendShareInfo', $shares);
 	
-		return new \OC_OCS_Result($externalManager->getAcceptedShares());
+		return new \OC_OCS_Result($shares);
 	}
 
 	/**
@@ -131,6 +152,7 @@ class Remote {
 		if ($shareInfo === false) {
 			return new \OC_OCS_Result(null, 404, 'share does not exist');
 		} else {
+			$shareInfo = self::extendShareInfo($shareInfo);
 			return new \OC_OCS_Result($shareInfo);
 		}
 	}
