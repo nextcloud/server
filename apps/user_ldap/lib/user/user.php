@@ -348,7 +348,7 @@ class User {
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->notice(
 				'Could not set avatar for ' . $this->dn	. ', because: ' . $e->getMessage(),
-				['app' => 'user_ldap']);
+				array('app' => 'user_ldap'));
 		}
 	}
 
