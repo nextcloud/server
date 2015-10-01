@@ -303,7 +303,7 @@ class Test_Util extends \Test\TestCase {
 		}
 
 		$appConfig = \OC::$server->getAppConfig();
-		$appConfig->setValue('core', 'shareapi_exclude_groups_list', implode(',', $excludedGroups));
+		$appConfig->setValue('core', 'shareapi_exclude_groups_list', json_encode($excludedGroups));
 		$appConfig->setValue('core', 'shareapi_exclude_groups', 'yes');
 
 		$result = \OCP\Util::isSharingDisabledForUser();

@@ -87,7 +87,7 @@ $template->assign('shareEnforceExpireDate', $appConfig->getValue('core', 'sharea
 $excludeGroups = $appConfig->getValue('core', 'shareapi_exclude_groups', 'no') === 'yes' ? true : false;
 $template->assign('shareExcludeGroups', $excludeGroups);
 $excludedGroupsList = $appConfig->getValue('core', 'shareapi_exclude_groups_list', '');
-$excludedGroupsList = explode(',', $excludedGroupsList); // FIXME: this should be JSON!
+$excludedGroupsList = json_decode($excludedGroupsList);
 $template->assign('shareExcludedGroupsList', implode('|', $excludedGroupsList));
 $template->assign('encryptionEnabled', \OC::$server->getEncryptionManager()->isEnabled());
 $backends = \OC::$server->getUserManager()->getBackends();
