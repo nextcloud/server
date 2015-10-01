@@ -151,6 +151,9 @@
 					},
 				});
 				promises.push(remoteShares);
+			} else {
+				//Push empty promise so callback gets called the same way
+				promises.push($.Deferred().resolve());
 			}
 
 			this._reloadCall = $.when.apply($, promises);
@@ -174,7 +177,7 @@
 				// TODO: error handling
 			}
 
-			if (remoteShares[0].ocs && remoteShares[0].ocs.data) {
+			if (remoteShares && remoteShares[0].ocs && remoteShares[0].ocs.data) {
 				files = files.concat(this._makeFilesFromRemoteShares(remoteShares[0].ocs.data));
 			} else {
 				// TODO: error handling
@@ -193,11 +196,12 @@
 					var file = {
 						shareOwner: share.owner + '@' + share.remote.replace(/.*?:\/\//g, ""),
 						name: OC.basename(share.mountpoint),
-						mtime: share.mtime,
+						mtime: share.mtime * 1000,
 						mimetype: share.mimetype,
 						type: share.type,
 						id: share.file_id,
-						path: OC.dirname(share.mountpoint)
+						path: OC.dirname(share.mountpoint),
+						permissions: share.permissions
 					};
 
 					file.shares = [{
