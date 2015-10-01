@@ -85,12 +85,18 @@
 			ev.preventDefault();
 			revision = $target.attr('data-revision');
 
+			this.$el.find('.versions, .showMoreVersions').addClass('hidden');
+
 			var versionModel = this.collection.get(revision);
 			versionModel.revert({
 				success: function() {
 					// reset and re-fetch the updated collection
+					self.$versionsContainer.empty();
 					self.collection.setFileInfo(fileInfoModel);
-					self.collection.fetch();
+					self.collection.reset([], {silent: true});
+					self.collection.fetchNext();
+
+					self.$el.find('.versions').removeClass('hidden');
 
 					// update original model
 					fileInfoModel.trigger('busy', fileInfoModel, false);
@@ -157,7 +163,7 @@
 			if (fileInfo) {
 				this.render();
 				this.collection.setFileInfo(fileInfo);
-				this.collection.reset({silent: true});
+				this.collection.reset([], {silent: true});
 				this.nextPage();
 			} else {
 				this.render();
