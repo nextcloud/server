@@ -24,6 +24,10 @@ select {
 	background-image: url('../img/actions/checkmark.png');
 }
 
+.ie8 .icon-close {
+	background-image: url('../img/actions/close.png');
+}
+
 .lte9 .icon-triangle-e {
 	background-image: url('../img/actions/triangle-e.png');
 }
