@@ -406,4 +406,17 @@ class EtagPropagation extends TestCase {
 
 		$this->assertAllUnchaged();
 	}
+
+	public function testEtagChangeOnPermissionsChange() {
+		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
+
+		$view = new View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
+		$folderInfo = $view->getFileInfo('/sub1/sub2/folder');
+
+		\OCP\Share::setPermissions('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 17);
+
+		$this->assertEtagsForFoldersChanged([self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER4]);
+
+		$this->assertAllUnchaged();
+	}
 }

@@ -25,6 +25,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\IConfig;
 use OCP\IUserSession;
+use OCP\Util;
 
 
 /**
@@ -119,8 +120,9 @@ class PropagationManager {
 
 		// for marking shares owned by the active user as dirty when a file inside them changes
 		$this->listenToOwnerChanges($user->getUID(), $user->getUID());
-		\OC_Hook::connect('OC_Filesystem', 'post_write', $watcher, 'writeHook');
-		\OC_Hook::connect('OC_Filesystem', 'post_delete', $watcher, 'writeHook');
-		\OC_Hook::connect('OC_Filesystem', 'post_rename', $watcher, 'renameHook');
+		Util::connectHook('OC_Filesystem', 'post_write', $watcher, 'writeHook');
+		Util::connectHook('OC_Filesystem', 'post_delete', $watcher, 'writeHook');
+		Util::connectHook('OC_Filesystem', 'post_rename', $watcher, 'renameHook');
+		Util::connectHook('OCP\Share', 'post_update_permissions', $watcher, 'permissionsHook');
 	}
 }
