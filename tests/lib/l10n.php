@@ -92,8 +92,7 @@ class Test_L10n extends \Test\TestCase {
 	 * @dataProvider localizationDataProvider
 	 */
 	public function testNumericStringLocalization($expectedDate, $lang, $type, $value) {
-		$l = new OC_L10N('test');
-		$l->forceLanguage($lang);
+		$l = new OC_L10N('test', $lang);
 		$this->assertSame($expectedDate, $l->l($type, $value));
 	}
 
@@ -110,8 +109,7 @@ class Test_L10n extends \Test\TestCase {
 	 * @param $lang
 	 */
 	public function testFirstWeekDay($expected, $lang) {
-		$l = new OC_L10N('test');
-		$l->forceLanguage($lang);
+		$l = new OC_L10N('test', $lang);
 		$this->assertSame($expected, $l->l('firstday', 'firstday'));
 	}
 
