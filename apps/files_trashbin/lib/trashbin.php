@@ -136,27 +136,28 @@ class Trashbin {
 	 *
 	 * @param string $sourcePath
 	 * @param string $owner
-	 * @param string $ownerPath
+	 * @param $targetPath
+	 * @param $user
 	 * @param integer $timestamp
 	 */
-	private static function copyFilesToOwner($sourcePath, $owner, $ownerPath, $timestamp) {
+	private static function copyFilesToUser($sourcePath, $owner, $targetPath, $user, $timestamp) {
 		self::setUpTrash($owner);
 
-		$ownerFilename = basename($ownerPath);
-		$ownerLocation = dirname($ownerPath);
+		$targetFilename = basename($targetPath);
+		$targetLocation = dirname($targetPath);
 
 		$sourceFilename = basename($sourcePath);
 
 		$view = new \OC\Files\View('/');
 
-		$source = \OCP\User::getUser() . '/files_trashbin/files/' . $sourceFilename . '.d' . $timestamp;
-		$target = $owner . '/files_trashbin/files/' . $ownerFilename . '.d' . $timestamp;
+		$target = $user . '/files_trashbin/files/' . $targetFilename . '.d' . $timestamp;
+		$source = $owner . '/files_trashbin/files/' . $sourceFilename . '.d' . $timestamp;
 		self::copy_recursive($source, $target, $view);
 
 
 		if ($view->file_exists($target)) {
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
-			$result = $query->execute(array($ownerFilename, $timestamp, $ownerLocation, $owner));
+			$result = $query->execute(array($targetFilename, $timestamp, $targetLocation, $user));
 			if (!$result) {
 				\OCP\Util::writeLog('files_trashbin', 'trash bin database couldn\'t be updated for the files owner', \OCP\Util::ERROR);
 			}
@@ -168,6 +169,7 @@ class Trashbin {
 	 * move file to the trash bin
 	 *
 	 * @param string $file_path path to the deleted file/directory relative to the files root directory
+	 * @return bool
 	 */
 	public static function move2trash($file_path) {
 		// get the user for which the filesystem is setup
@@ -176,9 +178,9 @@ class Trashbin {
 		$size = 0;
 		list($owner, $ownerPath) = self::getUidAndFilename($file_path);
 
-		$view = new \OC\Files\View('/' . $user);
+		$ownerView = new \OC\Files\View('/' . $owner);
 		// file has been deleted in between
-		if (!$view->file_exists('/files/' . $file_path)) {
+		if (!$ownerView->file_exists('/files/' . $ownerPath)) {
 			return true;
 		}
 
@@ -188,7 +190,7 @@ class Trashbin {
 			self::setUpTrash($owner);
 		}
 
-		$path_parts = pathinfo($file_path);
+		$path_parts = pathinfo($ownerPath);
 
 		$filename = $path_parts['basename'];
 		$location = $path_parts['dirname'];
@@ -200,9 +202,9 @@ class Trashbin {
 		$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
 
 		/** @var \OC\Files\Storage\Storage $trashStorage */
-		list($trashStorage, $trashInternalPath) = $view->resolvePath($trashPath);
+		list($trashStorage, $trashInternalPath) = $ownerView->resolvePath($trashPath);
 		/** @var \OC\Files\Storage\Storage $sourceStorage */
-		list($sourceStorage, $sourceInternalPath) = $view->resolvePath('/files/' . $file_path);
+		list($sourceStorage, $sourceInternalPath) = $ownerView->resolvePath('/files/' . $ownerPath);
 		try {
 			$sizeOfAddedFiles = $sourceStorage->filesize($sourceInternalPath);
 			if ($trashStorage->file_exists($trashInternalPath)) {
@@ -222,23 +224,23 @@ class Trashbin {
 			return false;
 		}
 
-		$view->getUpdater()->rename('/files/' . $file_path, $trashPath);
+		$ownerView->getUpdater()->rename('/files/' . $ownerPath, $trashPath);
 
 		if ($sizeOfAddedFiles !== false) {
 			$size = $sizeOfAddedFiles;
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
-			$result = $query->execute(array($filename, $timestamp, $location, $user));
+			$result = $query->execute(array($filename, $timestamp, $location, $owner));
 			if (!$result) {
 				\OCP\Util::writeLog('files_trashbin', 'trash bin database couldn\'t be updated', \OCP\Util::ERROR);
 			}
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', array('filePath' => \OC\Files\Filesystem::normalizePath($file_path),
 				'trashPath' => \OC\Files\Filesystem::normalizePath($filename . '.d' . $timestamp)));
 
-			$size += self::retainVersions($file_path, $filename, $owner, $ownerPath, $timestamp);
+			$size += self::retainVersions($filename, $owner, $ownerPath, $timestamp);
 
 			// if owner !== user we need to also add a copy to the owners trash
 			if ($user !== $owner) {
-				self::copyFilesToOwner($file_path, $owner, $ownerPath, $timestamp);
+				self::copyFilesToUser($ownerPath, $owner, $file_path, $user, $timestamp);
 			}
 		}
 
@@ -258,7 +260,6 @@ class Trashbin {
 	/**
 	 * Move file versions to trash so that they can be restored later
 	 *
-	 * @param string $file_path path to original file
 	 * @param string $filename of deleted file
 	 * @param string $owner owner user id
 	 * @param string $ownerPath path relative to the owner's home storage
@@ -266,7 +267,7 @@ class Trashbin {
 	 *
 	 * @return int size of stored versions
 	 */
-	private static function retainVersions($file_path, $filename, $owner, $ownerPath, $timestamp) {
+	private static function retainVersions($filename, $owner, $ownerPath, $timestamp) {
 		$size = 0;
 		if (\OCP\App::isEnabled('files_versions') && !empty($ownerPath)) {
 

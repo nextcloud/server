@@ -142,6 +142,13 @@ class Storage extends Wrapper {
 		) {
 			return call_user_func_array([$this->storage, $method], [$path]);
 		}
+
+		// check permissions before we continue, this is especially important for
+		// shared files
+		if (!$this->isDeletable($path)) {
+			return false;
+		}
+
 		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
 		$result = true;
 		if (!isset($this->deletedFiles[$normalized])) {
