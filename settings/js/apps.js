@@ -245,6 +245,14 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					element.val(t('settings','Enable'));
 					appItem.addClass('appwarning');
 				} else {
+					if (result.data.update_required) {
+						OC.Notification.show(t('settings', 'The app needs to be updated, please reload the page'));
+
+						setTimeout(function() {
+							location.reload();
+						}, 5000);
+					}
+
 					OC.Settings.Apps.rebuildNavigation();
 					appItem.data('active',true);
 					element.data('active',true);

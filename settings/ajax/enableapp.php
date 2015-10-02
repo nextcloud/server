@@ -28,8 +28,9 @@ OCP\JSON::callCheck();
 $groups = isset($_POST['groups']) ? (array)$_POST['groups'] : null;
 
 try {
-	OC_App::enable(OC_App::cleanAppId((string)$_POST['appid']), $groups);
-	OC_JSON::success();
+	$app = OC_App::cleanAppId((string)$_POST['appid']);
+	OC_App::enable($app, $groups);
+	OC_JSON::success(['data' => ['update_required' => \OC_App::shouldUpgrade($app)]]);
 } catch (Exception $e) {
 	\OCP\Util::writeLog('core', $e->getMessage(), \OCP\Util::ERROR);
 	OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
