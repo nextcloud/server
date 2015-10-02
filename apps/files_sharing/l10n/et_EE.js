@@ -32,6 +32,7 @@ OC.L10N.register(
     "You shared %1$s via link" : "Jagasid %1$s lingiga",
     "Shares" : "Jagamised",
     "Accept" : "Nõustu",
+    "Decline" : "Lükka tagasi",
     "This share is password-protected" : "See jagamine on parooliga kaitstud",
     "The password is wrong. Try again." : "Parool on vale. Proovi uuesti.",
     "Password" : "Parool",
@@ -52,6 +53,7 @@ OC.L10N.register(
     "Allow users on this server to send shares to other servers" : "Luba selle serveri kasutajatel saata faile teistesse serveritesse",
     "Allow users on this server to receive shares from other servers" : "Luba selle serveri kasutajatel võtta vastu jagamisi teistest serveritest",
     "Share it:" : "Jaga seda:",
+    "Add to your website" : "Lisa oma veebisaidile",
     "Share with me via ownCloud" : "Jaga minuga läbi ownCloudiga",
     "HTML Code:" : "HTML kood:"
 },

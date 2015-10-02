@@ -149,6 +149,7 @@ OC.L10N.register(
     "Share with users or groups …" : "Partilhar com utilizadores ou grupos...",
     "Share with users, groups or remote users …" : "Partilhar com utilizadores, grupos ou utilizadores remotos...",
     "Warning" : "Aviso",
+    "Error while sending notification" : "Erro enquanto estava a enviar a notificação",
     "The object type is not specified." : "O tipo de objeto não está especificado.",
     "Enter new" : "Introduza novo",
     "Delete" : "Apagar",

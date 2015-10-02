@@ -12,6 +12,8 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Atualizado \"%s\" para %s",
     "Repair warning: " : "Aviso de reparação:",
     "Repair error: " : "Reparação de erro:",
+    "Set log level to debug - current level: \"%s\"" : "Configure o nível de log para debug - nível corrente: \"%s\"",
+    "Reset log level to  \"%s\"" : "Reconfigurar o nível de log para \"%s\"",
     "Following incompatible apps have been disabled: %s" : "Seguir aplicativos incompatíveis foi desativado: %s",
     "Following apps have been disabled: %s" : "Os seguintes aplicativos foram desabilitados: %s",
     "Already up to date" : "Já está atualizado",
