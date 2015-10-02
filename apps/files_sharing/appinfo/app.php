@@ -39,9 +39,6 @@ $l = \OC::$server->getL10N('files_sharing');
 \OC::$CLASSPATH['OCA\Files\Share\Maintainer'] = 'files_sharing/lib/maintainer.php';
 \OC::$CLASSPATH['OCA\Files\Share\Proxy'] = 'files_sharing/lib/proxy.php';
 
-// Exceptions
-\OC::$CLASSPATH['OCA\Files_Sharing\Exceptions\BrokenPath'] = 'files_sharing/lib/exceptions.php';
-
 $application = new Application();
 $application->registerMountProviders();
 $application->setupPropagation();
