@@ -89,7 +89,7 @@
 				// difference in days multiplied by 5 - brightest shade for expiry dates in more than 32 days (160/5)
 				var modifiedColor = Math.round((expirationTimestamp - (new Date()).getTime()) / 1000 / 60 / 60 / 24 * 5);
 				// ensure that the brightest color is still readable
-				if (modifiedColor >= '160') {
+				if (modifiedColor >= 160) {
 					modifiedColor = 160;
 				}
 
@@ -98,7 +98,8 @@
 					text = OC.Util.relativeModifiedDate(expirationTimestamp);
 				} else {
 					formatted = t('files_sharing', 'No expiration date set');
-					text = '';
+					text = t('files_sharing', 'Never');
+					modifiedColor = 160;
 				}
 				td = $('<td></td>').attr({"class": "date"});
 				td.append($('<span></span>').attr({
