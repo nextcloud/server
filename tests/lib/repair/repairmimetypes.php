@@ -283,6 +283,68 @@ class RepairMimeTypes extends \Test\TestCase {
 	}
 
 	/**
+	 * Test renaming the java mime types
+	 */
+	public function testRenameJavaMimeType() {
+		$currentMimeTypes = [
+			['test.java', 'application/octet-stream'],
+			['test.class', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.java', 'text/x-java-source'],
+			['test.class', 'application/java'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
+	 * Test renaming the hpp mime type
+	 */
+	public function testRenameHppMimeType() {
+		$currentMimeTypes = [
+			['test.hpp', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.hpp', 'text/x-h'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
+	 * Test renaming the rss mime type
+	 */
+	public function testRenameRssMimeType() {
+		$currentMimeTypes = [
+			['test.rss', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.rss', 'application/rss+xml'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
+	 * Test renaming the hpp mime type
+	 */
+	public function testRenameRtfMimeType() {
+		$currentMimeTypes = [
+			['test.rtf', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.rtf', 'text/rtf'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
 	 * Test renaming and splitting old office mime types when
 	 * new ones already exist
 	 */
@@ -399,6 +461,11 @@ class RepairMimeTypes extends \Test\TestCase {
 			['test.cnf', 'text/plain'],
 			['test.yaml', 'application/yaml'],
 			['test.yml', 'application/yaml'],
+			['test.java', 'text/x-java-source'],
+			['test.class', 'application/java'],
+			['test.hpp', 'text/x-h'],
+			['test.rss', 'application/rss+xml'],
+			['test.rtf', 'text/rtf'],
 		];
 
 		$fixedMimeTypes = [
@@ -438,6 +505,11 @@ class RepairMimeTypes extends \Test\TestCase {
 			['test.cnf', 'text/plain'],
 			['test.yaml', 'application/yaml'],
 			['test.yml', 'application/yaml'],
+			['test.java', 'text/x-java-source'],
+			['test.class', 'application/java'],
+			['test.hpp', 'text/x-h'],
+			['test.rss', 'application/rss+xml'],
+			['test.rtf', 'text/rtf'],
 		];
 
 		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);

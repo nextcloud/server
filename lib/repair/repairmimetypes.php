@@ -250,6 +250,39 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 		self::updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceJavaMimeType() {
+		$updatedMimetypes = array(
+			'class' => 'application/java',
+			'java' => 'text/x-java-source',
+		);
+
+		self::updateMimetypes($updatedMimetypes);
+	}
+
+	private function introduceHppMimeType() {
+		$updatedMimetypes = array(
+			'hpp' => 'text/x-h',
+		);
+
+		self::updateMimetypes($updatedMimetypes);
+	}
+
+	private function introduceRssMimeType() {
+		$updatedMimetypes = array(
+			'rss' => 'application/rss+xml',
+		);
+
+		self::updateMimetypes($updatedMimetypes);
+	}
+
+	private function introduceRtfMimeType() {
+		$updatedMimetypes = array(
+			'rtf' => 'text/rtf',
+		);
+
+		self::updateMimetypes($updatedMimetypes);
+	}
+
 	/**
 	 * Fix mime types
 	 */
@@ -292,6 +325,25 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 
 			if ($this->introduceYamlMimeType()) {
 				$this->emit('\OC\Repair', 'info', array('Fixed Yaml/Yml mime types'));
+			}
+		}
+
+		// Mimetype updates from #19272
+		if (version_compare($ocVersionFromBeforeUpdate, '8.2.0.8', '<')) {
+			if ($this->introduceJavaMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed java/class mime types'));
+			}
+
+			if ($this->introduceHppMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed hpp mime type'));
+			}
+
+			if ($this->introduceRssMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed rss mime type'));
+			}
+
+			if ($this->introduceRtfMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed rtf mime type'));
 			}
 		}
 	}
