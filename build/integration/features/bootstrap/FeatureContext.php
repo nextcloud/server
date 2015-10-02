@@ -49,26 +49,34 @@ class FeatureContext extends BehatContext {
 		$this->sendingToWith($verb, $url, null);
 	}
 
-	// /**
-	//  * @Then /^the status code should be "([^"]*)"$/
-	//  */
-	// public function theStatusCodeShouldBe($statusCode) {
-	// 	PHPUnit_Framework_Assert::assertEquals($statusCode, $this->response->getStatusCode());
-	// }
 
-   
+    /**
+    *  Parses the xml answer to get ocs response which doesn't match with
+    *  http one in v1 of the api.
+    */
     public function getOCSResponse($response){
          return $response->xml()->meta[0]->statuscode;
     }
 
 
 
+
     /**
-	 * @Then /^the status code should be "([^"]*)"$/
+	 * @Then /^the OCS status code should be "([^"]*)"$/
 	 */
-	public function theStatusCodeShouldBe($statusCode) {
+	public function theOCSStatusCodeShouldBe($statusCode) {
 		PHPUnit_Framework_Assert::assertEquals($statusCode, $this->getOCSResponse($this->response));
 	}
+
+
+     /**
+	 * @Then /^the HTTP status code should be "([^"]*)"$/
+	 */
+	public function theHTTPStatusCodeShouldBe($statusCode) {
+		PHPUnit_Framework_Assert::assertEquals($statusCode, $this->response->getStatusCode());
+	}
+
+	
 
 
 	/**
@@ -89,7 +97,7 @@ class FeatureContext extends BehatContext {
 	 * @Given /^user "([^"]*)" exists$/
 	 */
 	public function userExists($user) {
-		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
+		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user";
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -97,6 +105,7 @@ class FeatureContext extends BehatContext {
 		}
 
 		$this->response = $client->get($fullUrl, $options);
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	/**
@@ -155,7 +164,7 @@ class FeatureContext extends BehatContext {
 	 * @Given /^group "([^"]*)" exists$/
 	 */
 	public function groupExists($group) {
-		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/$group";
+		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group";
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -163,6 +172,7 @@ class FeatureContext extends BehatContext {
 		}
 
 		$this->response = $client->get($fullUrl, $options);
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
 	/**

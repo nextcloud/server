@@ -5,12 +5,14 @@ Feature: provisioning
   Scenario: Getting an not existing user
     Given As an "admin"
     When sending "GET" to "/cloud/users/test"
-    Then the status code should be "998"
+    Then the OCS status code should be "998"
+    And the HTTP status code should be "200"
 
   Scenario: Listing all users
     Given As an "admin"
     When sending "GET" to "/cloud/users"
-    Then the status code should be "100"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
 
   Scenario: Create a user
     Given As an "admin"
@@ -18,7 +20,8 @@ Feature: provisioning
     When sending "POST" to "/cloud/users" with
       | userid | brand-new-user |
       | password | 123456 |
-    Then the status code should be "100"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
     And user "brand-new-user" exists
 
 
@@ -30,7 +33,8 @@ Feature: provisioning
       | value | 12MB |
       | key | email |
       | value | brand-new-user@gmail.com |
-    Then the status code should be "100"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
     And user "brand-new-user" exists
 
 
@@ -38,7 +42,8 @@ Feature: provisioning
     Given As an "admin"
     And user "brand-new-user" exists
     When sending "DELETE" to "/cloud/users/brand-new-user" 
-    Then the status code should be "100"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
     And user "brand-new-user" does not exist
 
 
@@ -49,7 +54,8 @@ Feature: provisioning
       | groupid | new-group |
       | password | 123456 |
 
-    Then the status code should be "100"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
     And group "new-group" exists
 
 
@@ -57,7 +63,8 @@ Feature: provisioning
     Given As an "admin"
     And group "new-group" exists
     When sending "DELETE" to "/cloud/groups/new-group"
-    Then the status code should be "100"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
     And group "new-group" does not exist
 
 

@@ -5,5 +5,5 @@ Feature: provisioning
   Scenario: Getting an not existing user
     Given As an "admin"
     When sending "GET" to "/cloud/users/test"
-    Then the status code should be "404"
+    Then the HTTP status code should be "404"
 
