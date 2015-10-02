@@ -1602,25 +1602,46 @@ class View {
 
 	/**
 	 * check if it is allowed to move a mount point to a given target.
-	 * It is not allowed to move a mount point into a different mount point
+	 * It is not allowed to move a mount point into a different mount point or
+	 * into an already shared folder
 	 *
 	 * @param string $target path
 	 * @return boolean
 	 */
 	private function isTargetAllowed($target) {
 
-		$result = false;
-
-		list($targetStorage,) = \OC\Files\Filesystem::resolvePath($target);
-		if ($targetStorage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
-			$result = true;
-		} else {
+		list($targetStorage, $targetInternalPath) = \OC\Files\Filesystem::resolvePath($target);
+		if (!$targetStorage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
 			\OCP\Util::writeLog('files',
 				'It is not allowed to move one mount point into another one',
 				\OCP\Util::DEBUG);
+			return false;
 		}
 
-		return $result;
+		// note: cannot use the view because the target is already locked
+		$fileId = (int)$targetStorage->getCache()->getId($targetInternalPath);
+		if ($fileId === -1) {
+			// target might not exist, need to check parent instead
+			$fileId = (int)$targetStorage->getCache()->getId(dirname($targetInternalPath));
+		}
+
+		// check if any of the parents were shared by the current owner (include collections)
+		$shares = \OCP\Share::getItemShared(
+			'folder',
+			$fileId,
+			\OCP\Share::FORMAT_NONE,
+			null,
+			true
+		);
+
+		if (count($shares) > 0) {
+			\OCP\Util::writeLog('files',
+				'It is not allowed to move one mount point into a shared folder',
+				\OCP\Util::DEBUG);
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
