@@ -570,6 +570,10 @@ a.action > img {
 	margin-bottom: -1px;
 }
 
+html.ie8 .column-mtime .selectedActions {
+	top: -95px;
+}
+
 #fileList a.action {
 	display: inline;
 	padding: 17px 8px;
