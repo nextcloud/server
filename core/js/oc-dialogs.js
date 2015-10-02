@@ -312,9 +312,11 @@ var OCdialogs = {
 	 * @param {object} original file with name, size and mtime
 	 * @param {object} replacement file with name, size and mtime
 	 * @param {object} controller with onCancel, onSkip, onReplace and onRename methods
+	 * @return {Promise} jquery promise that resolves after the dialog template was loaded
 	*/
 	fileexists:function(data, original, replacement, controller) {
 		var self = this;
+		var dialogDeferred = new $.Deferred();
 
 		var getCroppedPreview = function(file) {
 			var deferred = new $.Deferred();
@@ -540,7 +542,7 @@ var OCdialogs = {
 
 			//recalculate dimensions
 			$(window).trigger('resize');
-
+			dialogDeferred.resolve();
 		} else {
 			//create dialog
 			this._fileexistsshown = true;
@@ -559,8 +561,10 @@ var OCdialogs = {
 				});
 				$('body').append($dlg);
 
-				var $conflicts = $dlg.find('.conflicts');
-				addConflict($conflicts, original, replacement);
+				if (original && replacement) {
+					var $conflicts = $dlg.find('.conflicts');
+					addConflict($conflicts, original, replacement);
+				}
 
 				var buttonlist = [{
 						text: t('core', 'Cancel'),
@@ -612,7 +616,7 @@ var OCdialogs = {
 				});
 				$(dialogId).find('.conflicts').on('click', '.replacement input[type="checkbox"],.original:not(.readonly) input[type="checkbox"]', function() {
 					var $checkbox = $(this);
-					$checkbox.prop('checked', !checkbox.prop('checked'));
+					$checkbox.prop('checked', !$checkbox.prop('checked'));
 				});
 
 				//update counters
@@ -643,12 +647,15 @@ var OCdialogs = {
 						$(dialogId).find('.allexistingfiles + .count').text('');
 					}
 				});
+				dialogDeferred.resolve();
 			})
 			.fail(function() {
+				dialogDeferred.reject();
 				alert(t('core', 'Error loading file exists template'));
 			});
 		}
 		//}
+		return dialogDeferred.promise();
 	},
 	_getFilePickerTemplate: function() {
 		var defer = $.Deferred();

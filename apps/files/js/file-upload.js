@@ -201,8 +201,11 @@ OC.Upload = {
 			return true;
 		});
 		if (conflicts.length) {
-			_.each(conflicts, function(conflictData) {
-				OC.dialogs.fileexists(conflictData[1], conflictData[0], conflictData[1].files[0], OC.Upload);
+			// wait for template loading
+			OC.dialogs.fileexists(null, null, null, OC.Upload).done(function() {
+				_.each(conflicts, function(conflictData) {
+					OC.dialogs.fileexists(conflictData[1], conflictData[0], conflictData[1].files[0], OC.Upload);
+				});
 			});
 		}
 
