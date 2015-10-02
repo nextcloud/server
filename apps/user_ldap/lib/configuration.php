@@ -145,17 +145,18 @@ class Configuration {
 			}
 
 			$setMethod = 'setValue';
-			$trim = false;
 			switch($key) {
+				case 'ldapAgentPassword':
+					$setMethod = 'setRawValue';
+					break;
 				case 'homeFolderNamingRule':
-					if(!empty($val) && strpos($val, 'attr:') === false) {
-						$val = 'attr:'.$val;
+					if(!empty(trim($val)) && strpos($val, 'attr:') === false) {
+						$val = 'attr:'.trim($val);
 					}
 					break;
 				case 'ldapBase':
 				case 'ldapBaseUsers':
 				case 'ldapBaseGroups':
-					$trim = true;// Prevent login errors due to whitespace
 				case 'ldapAttributesForUserSearch':
 				case 'ldapAttributesForGroupSearch':
 				case 'ldapUserFilterObjectclass':
@@ -166,7 +167,7 @@ class Configuration {
 					$setMethod = 'setMultiLine';
 					break;
 			}
-			$this->$setMethod($key, $val, $trim);
+			$this->$setMethod($key, $val);
 			if(is_array($applied)) {
 				$applied[] = $inputKey;
 			}
@@ -280,7 +281,7 @@ class Configuration {
 	 * @param array|string $value to set
 	 * @param boolean $trim Trim value? (default: false)
 	 */
-	protected function setMultiLine($varName, $value, $trim = false) {
+	protected function setMultiLine($varName, $value) {
 		if(empty($value)) {
 			$value = '';
 		} else if (!is_array($value)) {
@@ -290,17 +291,25 @@ class Configuration {
 			}
 		}
 
-		if($trim) {
-			if(!is_array($value)) {
-				$value = trim($value);
-			} else {
-				foreach($value as $key => $val) {
-					$value[$key] = trim($val);
+		if(!is_array($value)) {
+			$finalValue = trim($value);
+		} else {
+			$finalValue = [];
+			foreach($value as $key => $val) {
+				if(is_string($val)) {
+					$val = trim($val);
+					if(!empty($val)) {
+						//accidental line breaks are not wanted and can cause
+						// odd behaviour. Thus, away with them.
+						$finalValue[] = $val;
+					}
+				} else {
+					$finalValue[] = $val;
 				}
 			}
 		}
 
-		$this->setValue($varName, $value);
+		$this->setRawValue($varName, $finalValue);
 	}
 
 	/**
@@ -347,12 +356,21 @@ class Configuration {
 	 * 
 	 * @param string $varName name of config key
 	 * @param mixed $value to set
-	 * @param boolean $trim Trim value? (default: false)
 	 */
-	protected function setValue($varName, $value, $trim = false) {
-		if($trim && is_string($value)) {
+	protected function setValue($varName, $value) {
+		if(is_string($value)) {
 			$value = trim($value);
 		}
+		$this->config[$varName] = $value;
+	}
+
+	/**
+	 * Sets a scalar value without trimming.
+	 *
+	 * @param string $varName name of config key
+	 * @param mixed $value to set
+	 */
+	protected function setRawValue($varName, $value) {
 		$this->config[$varName] = $value;
 	}
 
