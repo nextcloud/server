@@ -76,7 +76,7 @@ describe('OCA.Versions.VersionsTabView', function() {
 			expect($versions.length).toEqual(2);
 			var $item = $versions.eq(0);
 			expect($item.find('.downloadVersion').attr('href')).toEqual(version1.getDownloadUrl());
-			expect($item.find('.versiondate').text()).toEqual('a few seconds ago');
+			expect($item.find('.versiondate').text()).toEqual('seconds ago');
 			expect($item.find('.revertVersion').length).toEqual(1);
 			expect($item.find('.preview').attr('src')).toEqual(version1.getPreviewUrl());
 
