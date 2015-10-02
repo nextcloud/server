@@ -300,10 +300,20 @@ class OC_Template extends \OC\Template\Base {
 		* @param string $hint An optional hint message - needs to be properly escaped
 		*/
 	public static function printErrorPage( $error_msg, $hint = '' ) {
-		$content = new \OC_Template( '', 'error', 'error', false );
-		$errors = array(array('error' => $error_msg, 'hint' => $hint));
-		$content->assign( 'errors', $errors );
-		$content->printPage();
+		try {
+			$content = new \OC_Template( '', 'error', 'error', false );
+			$errors = array(array('error' => $error_msg, 'hint' => $hint));
+			$content->assign( 'errors', $errors );
+			$content->printPage();
+		} catch (\Exception $e) {
+			$logger = \OC::$server->getLogger();
+			$logger->error("$error_msg $hint", ['app' => 'core']);
+			$logger->logException($e, ['app' => 'core']);
+
+			header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
+			header('Content-Type: text/plain; charset=utf-8');
+			print("$error_msg $hint");
+		}
 		die();
 	}
 
@@ -312,18 +322,31 @@ class OC_Template extends \OC\Template\Base {
 	 * @param Exception $exception
 	 */
 	public static function printExceptionErrorPage($exception) {
-		$request = \OC::$server->getRequest();
-		$content = new \OC_Template('', 'exception', 'error', false);
-		$content->assign('errorClass', get_class($exception));
-		$content->assign('errorMsg', $exception->getMessage());
-		$content->assign('errorCode', $exception->getCode());
-		$content->assign('file', $exception->getFile());
-		$content->assign('line', $exception->getLine());
-		$content->assign('trace', $exception->getTraceAsString());
-		$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
-		$content->assign('remoteAddr', $request->getRemoteAddress());
-		$content->assign('requestID', $request->getId());
-		$content->printPage();
+		try {
+			$request = \OC::$server->getRequest();
+			$content = new \OC_Template('', 'exception', 'error', false);
+			$content->assign('errorClass', get_class($exception));
+			$content->assign('errorMsg', $exception->getMessage());
+			$content->assign('errorCode', $exception->getCode());
+			$content->assign('file', $exception->getFile());
+			$content->assign('line', $exception->getLine());
+			$content->assign('trace', $exception->getTraceAsString());
+			$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
+			$content->assign('remoteAddr', $request->getRemoteAddress());
+			$content->assign('requestID', $request->getId());
+			$content->printPage();
+		} catch (\Exception $e) {
+			$logger = \OC::$server->getLogger();
+			$logger->logException($exception, ['app' => 'core']);
+			$logger->logException($e, ['app' => 'core']);
+
+			header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
+			header('Content-Type: text/plain; charset=utf-8');
+			print("Internal Server Error\n\n");
+			print("The server encountered an internal error and was unable to complete your request.\n");
+			print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
+			print("More details can be found in the server log.\n");
+		}
 		die();
 	}
 
