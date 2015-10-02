@@ -102,16 +102,11 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @param $app
 	 * @return string
 	 */
-	public static function setLanguageFromRequest($app = null) {
+	public static function setLanguageFromRequest() {
 		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-			if (is_array($app)) {
-				$available = $app;
-			} else {
-				$available = self::findAvailableLanguages($app);
-			}
+			$available = self::findAvailableLanguages();
 
 			// E.g. make sure that 'de' is before 'de_DE'.
 			sort($available);
@@ -122,17 +117,13 @@ class OC_L10N implements \OCP\IL10N {
 				$preferred_language = str_replace('-', '_', $preferred_language);
 				foreach ($available as $available_language) {
 					if ($preferred_language === strtolower($available_language)) {
-						if (!is_array($app)) {
-							self::$language = $available_language;
-						}
+						self::$language = $available_language;
 						return $available_language;
 					}
 				}
 				foreach ($available as $available_language) {
 					if (substr($preferred_language, 0, 2) === $available_language) {
-						if (!is_array($app)) {
-							self::$language = $available_language;
-						}
+						self::$language = $available_language;
 						return $available_language;
 					}
 				}
@@ -469,7 +460,7 @@ class OC_L10N implements \OCP\IL10N {
 			return $default_language;
 		}
 
-		$lang = self::setLanguageFromRequest($app);
+		$lang = self::setLanguageFromRequest();
 		if($userId && !$config->getUserValue($userId, 'core', 'lang')) {
 			$config->setUserValue($userId, 'core', 'lang', $lang);
 		}
