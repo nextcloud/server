@@ -138,6 +138,19 @@ interface IManager {
 	public function getTypeIcon($type);
 
 	/**
+	 * @param string $type
+	 * @param int $id
+	 * @since 8.2.0
+	 */
+	public function setFormattingObject($type, $id);
+
+	/**
+	 * @return bool
+	 * @since 8.2.0
+	 */
+	public function isFormattingFilteredObject();
+
+	/**
 	 * @param string $app
 	 * @param string $text
 	 * @param array $params

@@ -44,6 +44,12 @@ class ActivityManager implements IManager {
 	/** @var IConfig */
 	protected $config;
 
+	/** @var string */
+	protected $formattingObjectType;
+
+	/** @var int */
+	protected $formattingObjectId;
+
 	/**
 	 * constructor of the controller
 	 *
@@ -301,6 +307,24 @@ class ActivityManager implements IManager {
 
 		$this->typeIcons[$type] = '';
 		return '';
+	}
+
+	/**
+	 * @param string $type
+	 * @param int $id
+	 */
+	public function setFormattingObject($type, $id) {
+		$this->formattingObjectType = $type;
+		$this->formattingObjectId = $id;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isFormattingFilteredObject() {
+		return 'filter' === $this->request->getParam('filter')
+			&& $this->formattingObjectType === $this->request->getParam('objecttype')
+			&& $this->formattingObjectId === $this->request->getParam('objectid');
 	}
 
 	/**
