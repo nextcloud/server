@@ -470,6 +470,11 @@ var UserList = {
 								UserList.availableGroups.push(groupName);
 							}
 
+							if (response.data.action === 'add') {
+								GroupList.incGroupCount(groupName);
+							} else {
+								GroupList.decGroupCount(groupName);
+							}
 						}
 						if (response.data.message) {
 							OC.Notification.show(response.data.message);
