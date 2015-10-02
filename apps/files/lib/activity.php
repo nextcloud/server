@@ -145,6 +145,24 @@ class Activity implements IExtension {
 		}
 
 		$l = $this->getL10N($languageCode);
+
+		if ($this->activityManager->isFormattingFilteredObject()) {
+			$translation = $this->translateShort($text, $l, $params);
+			if ($translation !== false) {
+				return $translation;
+			}
+		}
+
+		return $this->translateLong($text, $l, $params);
+	}
+
+	/**
+	 * @param string $text
+	 * @param IL10N $l
+	 * @param array $params
+	 * @return bool|string
+	 */
+	protected function translateLong($text, IL10N $l, array $params) {
 		switch ($text) {
 			case 'created_self':
 				return (string) $l->t('You created %1$s', $params);
@@ -164,6 +182,26 @@ class Activity implements IExtension {
 				return (string) $l->t('You restored %1$s', $params);
 			case 'restored_by':
 				return (string) $l->t('%2$s restored %1$s', $params);
+
+			default:
+				return false;
+		}
+	}
+
+	/**
+	 * @param string $text
+	 * @param IL10N $l
+	 * @param array $params
+	 * @return bool|string
+	 */
+	protected function translateShort($text, IL10N $l, array $params) {
+		switch ($text) {
+			case 'changed_by':
+				return (string) $l->t('Changed by %2$s', $params);
+			case 'deleted_by':
+				return (string) $l->t('Deleted by %2$s', $params);
+			case 'restored_by':
+				return (string) $l->t('Restored by %2$s', $params);
 
 			default:
 				return false;
