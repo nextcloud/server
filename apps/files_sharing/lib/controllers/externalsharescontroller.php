@@ -36,8 +36,6 @@ use OCP\AppFramework\Http\JSONResponse;
  */
 class ExternalSharesController extends Controller {
 
-	/** @var bool */
-	private $incomingShareEnabled;
 	/** @var \OCA\Files_Sharing\External\Manager */
 	private $externalManager;
 
@@ -49,52 +47,42 @@ class ExternalSharesController extends Controller {
 	 */
 	public function __construct($appName,
 								IRequest $request,
-								$incomingShareEnabled,
 								\OCA\Files_Sharing\External\Manager $externalManager) {
 		parent::__construct($appName, $request);
-		$this->incomingShareEnabled = $incomingShareEnabled;
 		$this->externalManager = $externalManager;
 	}
 
 	/**
 	 * @NoAdminRequired
+	 * @NoOutgoingFederatedSharingRequired
 	 *
 	 * @return JSONResponse
 	 */
 	public function index() {
-		$shares = [];
-		if ($this->incomingShareEnabled) {
-			$shares = $this->externalManager->getOpenShares();
-		}
-		return new JSONResponse($shares);
+		return new JSONResponse($this->externalManager->getOpenShares());
 	}
 
 	/**
 	 * @NoAdminRequired
+	 * @NoOutgoingFederatedSharingRequired
 	 *
 	 * @param int $id
 	 * @return JSONResponse
 	 */
 	public function create($id) {
-		if ($this->incomingShareEnabled) {
-			$this->externalManager->acceptShare($id);
-		}
-
+		$this->externalManager->acceptShare($id);
 		return new JSONResponse();
 	}
 
 	/**
 	 * @NoAdminRequired
+	 * @NoOutgoingFederatedSharingRequired
 	 *
 	 * @param $id
 	 * @return JSONResponse
 	 */
 	public function destroy($id) {
-		if ($this->incomingShareEnabled) {
-			$this->externalManager->declineShare($id);
-		}
-
+		$this->externalManager->declineShare($id);
 		return new JSONResponse();
 	}
-
 }
