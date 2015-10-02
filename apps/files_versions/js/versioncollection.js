@@ -67,6 +67,11 @@
 			return this.fetch({remove: false});
 		},
 
+		reset: function() {
+			this._currentIndex = 0;
+			OC.Backbone.Collection.prototype.reset.apply(this, arguments);
+		},
+
 		parse: function(result) {
 			var results = _.map(result.data.versions, function(version) {
 				var revision = parseInt(version.version, 10);
