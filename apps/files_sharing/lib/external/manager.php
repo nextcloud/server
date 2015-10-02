@@ -180,9 +180,9 @@ class Manager {
 	 * @param int $id share id
 	 * @return mixed share of false
 	 */
-	private function getShare($id) {
+	public function getShare($id) {
 		$getShare = $this->connection->prepare('
-			SELECT `remote`, `remote_id`, `share_token`, `name`
+			SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`
 			FROM  `*PREFIX*share_external`
 			WHERE `id` = ? AND `user` = ?');
 		$result = $getShare->execute(array($id, $this->uid));
@@ -407,6 +407,15 @@ class Manager {
 	}
 
 	/**
+	 * return a list of shares wich are accepted by the user
+	 *
+	 * @return array list of accepted server-to-server shares
+	 */
+	public function getAcceptedShares() {
+		return $this->getShares(true);
+	}
+
+	/**
 	 * return a list of shares for the user
 	 *
 	 * @param bool|null $accepted True for accepted only,
@@ -415,7 +424,9 @@ class Manager {
 	 * @return array list of open server-to-server shares
 	 */
 	private function getShares($accepted) {
-		$query = 'SELECT * FROM `*PREFIX*share_external` WHERE `user` = ?';
+		$query = 'SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`
+		          FROM `*PREFIX*share_external` 
+				  WHERE `user` = ?';
 		$parameters = [$this->uid];
 		if (!is_null($accepted)) {
 			$query .= ' AND `accepted` = ?';
