@@ -207,6 +207,11 @@ class OC_Mount_Config {
 			'groups' => $storage->getApplicableGroups(),
 			'users' => $storage->getApplicableUsers(),
 		];
+		// if mountpoint is applicable to all users the old API expects ['all']
+		if (empty($mountEntry['applicable']['groups']) && empty($mountEntry['applicable']['users'])) {
+			$mountEntry['applicable']['users'] = ['all'];
+		}
+
 		$mountEntry['id'] = $storage->getId();
 
 		return $mountEntry;
