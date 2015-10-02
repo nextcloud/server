@@ -24,6 +24,8 @@
 namespace OCA\Files_Sharing;
 
 use OCP\Activity\IExtension;
+use OCP\Activity\IManager;
+use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 
@@ -67,13 +69,18 @@ class Activity implements IExtension {
 	/** @var IURLGenerator */
 	protected $URLGenerator;
 
+	/** @var IManager */
+	protected $activityManager;
+
 	/**
 	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $URLGenerator
+	 * @param IManager $activityManager
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $URLGenerator) {
+	public function __construct(IFactory $languageFactory, IURLGenerator $URLGenerator, IManager $activityManager) {
 		$this->languageFactory = $languageFactory;
 		$this->URLGenerator = $URLGenerator;
+		$this->activityManager = $activityManager;
 	}
 
 	protected function getL10N($languageCode = null) {
@@ -149,9 +156,30 @@ class Activity implements IExtension {
 	 * @return string|false
 	 */
 	public function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode) {
+		if ($app !== self::FILES_SHARING_APP) {
+			return false;
+		}
+
 		$l = $this->getL10N($languageCode);
 
-		if ($app === self::FILES_SHARING_APP) {
+		if ($this->activityManager->isFormattingFilteredObject()) {
+			$translation = $this->translateShort($text, $l, $params);
+			if ($translation !== false) {
+				return $translation;
+			}
+		}
+
+		return $this->translateLong($text, $l, $params);
+	}
+
+	/**
+	 * @param string $text
+	 * @param IL10N $l
+	 * @param array $params
+	 * @return bool|string
+	 */
+	protected function translateLong($text, IL10N $l, array $params) {
+
 			switch ($text) {
 				case self::SUBJECT_REMOTE_SHARE_RECEIVED:
 					if (sizeof($params) === 2) {
@@ -186,9 +214,41 @@ class Activity implements IExtension {
 				case self::SUBJECT_SHARED_EMAIL:
 					return (string) $l->t('You shared %1$s with %2$s', $params);
 			}
-		}
 
 		return false;
+	}
+
+	/**
+	 * @param string $text
+	 * @param IL10N $l
+	 * @param array $params
+	 * @return bool|string
+	 */
+	protected function translateShort($text, IL10N $l, array $params) {
+		switch ($text) {
+			case self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED:
+			case self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED:
+				return (string) $l->t('Downloaded via public link');
+			case self::SUBJECT_SHARED_USER_SELF:
+				return (string) $l->t('Shared with %2$s', $params);
+			case self::SUBJECT_SHARED_GROUP_SELF:
+				return (string) $l->t('Shared with group %2$s', $params);
+			case self::SUBJECT_RESHARED_USER_BY:
+				return (string) $l->t('Shared with %3$s by %2$s', $params);
+			case self::SUBJECT_RESHARED_GROUP_BY:
+				return (string) $l->t('Shared with group %3$s by %2$s', $params);
+			case self::SUBJECT_RESHARED_LINK_BY:
+				return (string) $l->t('Shared via link by %2$s', $params);
+			case self::SUBJECT_SHARED_WITH_BY:
+				return (string) $l->t('Shared by %2$s', $params);
+			case self::SUBJECT_SHARED_LINK_SELF:
+				return (string) $l->t('Shared via public link');
+			case self::SUBJECT_SHARED_EMAIL:
+				return (string) $l->t('Shared with %2$s', $params);
+
+			default:
+				return false;
+		}
 	}
 
 	/**
