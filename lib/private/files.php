@@ -173,24 +173,14 @@ class OC_Files {
 			} else {
 				\OC\Files\Filesystem::readfile($filename);
 			}
-			if ($getType === self::FILE) {
-				$view->unlockFile($filename, ILockingProvider::LOCK_SHARED);
-			}
-			if ($getType === self::ZIP_FILES) {
-				foreach ($files as $file) {
-					$file = $dir . '/' . $file;
-					$view->unlockFile($file, ILockingProvider::LOCK_SHARED);
-				}
-			}
-			if ($getType === self::ZIP_DIR) {
-				$file = $dir . '/' . $files;
-				$view->unlockFile($file, ILockingProvider::LOCK_SHARED);
-			}
+			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 		} catch (\OCP\Lock\LockedException $ex) {
+			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('core');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			\OC_Template::printErrorPage($l->t('File is currently busy, please try again later'), $hint);
 		} catch (\Exception $ex) {
+			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('core');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			\OC_Template::printErrorPage($l->t('Can\'t read file'), $hint);
@@ -277,5 +267,28 @@ class OC_Files {
 			return OC_Helper::computerFileSize($size);
 		}
 		return false;
+	}
+
+	/**
+	 * @param $dir
+	 * @param $files
+	 * @param $getType
+	 * @param $view
+	 * @param $filename
+	 */
+	private static function unlockAllTheFiles($dir, $files, $getType, $view, $filename) {
+		if ($getType === self::FILE) {
+			$view->unlockFile($filename, ILockingProvider::LOCK_SHARED);
+		}
+		if ($getType === self::ZIP_FILES) {
+			foreach ($files as $file) {
+				$file = $dir . '/' . $file;
+				$view->unlockFile($file, ILockingProvider::LOCK_SHARED);
+			}
+		}
+		if ($getType === self::ZIP_DIR) {
+			$file = $dir . '/' . $files;
+			$view->unlockFile($file, ILockingProvider::LOCK_SHARED);
+		}
 	}
 }
