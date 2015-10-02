@@ -223,7 +223,12 @@ class OC_Util {
 		if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
 			$user = \OCP\User::getUser();
 			$groupsList = \OC::$server->getAppConfig()->getValue('core', 'shareapi_exclude_groups_list', '');
-			$excludedGroups = explode(',', $groupsList);
+			$excludedGroups = json_decode($groupsList);
+			if (is_null($excludedGroups)) {
+				$excludedGroups = explode(',', $groupsList);
+				$newValue = json_encode($excludedGroups);
+				\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', $newValue);
+			}
 			$usersGroups = \OC_Group::getUserGroups($user);
 			if (!empty($usersGroups)) {
 				$remainingGroups = array_diff($usersGroups, $excludedGroups);

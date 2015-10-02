@@ -23,11 +23,7 @@ $(document).ready(function(){
 		OC.Settings.setupGroupsSelect($(element));
 		$(element).change(function(ev) {
 			var groups = ev.val || [];
-			if (groups.length > 0) {
-				groups = ev.val.join(','); // FIXME: make this JSON
-			} else {
-				groups = '';
-			}
+			groups = JSON.stringify(groups);
 			OC.AppConfig.setValue('core', $(this).attr('name'), groups);
 		});
 	});
