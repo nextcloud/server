@@ -174,12 +174,19 @@
 			// only show the loading spinner for the first request (for now)
 			if (!this._loadingOnce) {
 				this._toggleLoading(true);
-				this._loadingOnce = true;
 			}
 		},
 
 		_onEndRequest: function() {
+			var self = this;
 			this._toggleLoading(false);
+			if (!this._loadingOnce) {
+				this._loadingOnce = true;
+				// the first time, focus on the share field after the spinner disappeared
+				_.defer(function() {
+					self.$('#shareWith').focus();
+				});
+			}
 		},
 
 		render: function() {
