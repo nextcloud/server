@@ -113,6 +113,12 @@ class Upgrade extends Command {
 				$output->writeln("<error>$message</error>");
 				\OC_Config::setValue('maintenance', false);
 			});
+			$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use($output) {
+				$output->writeln("<info>Set log level to debug - current level: '$logLevelName'</info>");
+			});
+			$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use($output) {
+				$output->writeln("<info>Reset log level to '$logLevelName'</info>");
+			});
 
 			$success = $updater->upgrade();
 
