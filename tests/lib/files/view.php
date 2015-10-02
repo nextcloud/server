@@ -104,6 +104,9 @@ class View extends \Test\TestCase {
 		$this->userObject->delete();
 		$this->groupObject->delete();
 
+		$mountProviderCollection = \OC::$server->getMountProviderCollection();
+		\Test\TestCase::invokePrivate($mountProviderCollection, 'providers', [[]]);
+
 		parent::tearDown();
 	}
 
@@ -1411,6 +1414,112 @@ class View extends \Test\TestCase {
 		$this->assertEquals($shouldEmit, $result);
 	}
 
+	/**
+	 * Create test movable mount points
+	 *
+	 * @param array $mountPoints array of mount point locations
+	 * @return array array of MountPoint objects
+	 */
+	private function createTestMovableMountPoints($mountPoints) {
+		$mounts = [];
+		foreach ($mountPoints as $mountPoint) {
+			$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+				->setMethods([])
+				->getMock();
+
+			$mounts[] = $this->getMock(
+				'\Test\TestMoveableMountPoint',
+				['moveMount'],
+				[$storage, $mountPoint]
+			);
+		}
+
+		$mountProvider = $this->getMock('\OCP\Files\Config\IMountProvider');
+		$mountProvider->expects($this->any())
+			->method('getMountsForUser')
+			->will($this->returnValue($mounts));
+
+		$mountProviderCollection = \OC::$server->getMountProviderCollection();
+		$mountProviderCollection->registerProvider($mountProvider);
+
+		return $mounts;
+	}
+
+	/**
+	 * Test mount point move
+	 */
+	public function testMountPointMove() {
+		$this->loginAsUser($this->user);
+
+		list($mount1, $mount2) = $this->createTestMovableMountPoints([
+			$this->user . '/files/mount1',
+			$this->user . '/files/mount2',
+		]);
+		$mount1->expects($this->once())
+			->method('moveMount')
+			->will($this->returnValue(true));
+
+		$mount2->expects($this->once())
+			->method('moveMount')
+			->will($this->returnValue(true));
+
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+		$view->mkdir('sub');
+
+		$this->assertTrue($view->rename('mount1', 'renamed_mount'), 'Can rename mount point');
+		$this->assertTrue($view->rename('mount2', 'sub/moved_mount'), 'Can move a mount point into a subdirectory');
+	}
+	/**
+	 * Test that moving a mount point into another is forbidden
+	 */
+	public function testMoveMountPointIntoAnother() {
+		$this->loginAsUser($this->user);
+
+		list($mount1, $mount2) = $this->createTestMovableMountPoints([
+			$this->user . '/files/mount1',
+			$this->user . '/files/mount2',
+		]);
+
+		$mount1->expects($this->never())
+			->method('moveMount');
+
+		$mount2->expects($this->never())
+			->method('moveMount');
+
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+
+		$this->assertFalse($view->rename('mount1', 'mount2'), 'Cannot overwrite another mount point');
+		$this->assertFalse($view->rename('mount1', 'mount2/sub'), 'Cannot move a mount point into another');
+	}
+	/**
+	 * Test that moving a mount point into a shared folder is forbidden
+	 */
+	public function testMoveMountPointIntoSharedFolder() {
+		$this->loginAsUser($this->user);
+
+		list($mount1) = $this->createTestMovableMountPoints([
+			$this->user . '/files/mount1',
+		]);
+
+		$mount1->expects($this->never())
+			->method('moveMount');
+
+		$view = new \OC\Files\View('/' . $this->user . '/files/');
+		$view->mkdir('shareddir');
+		$view->mkdir('shareddir/sub');
+		$view->mkdir('shareddir/sub2');
+
+		$fileId = $view->getFileInfo('shareddir')->getId();
+		$userObject = \OC::$server->getUserManager()->createUser('test2', 'IHateNonMockableStaticClasses');
+		$this->assertTrue(\OCP\Share::shareItem('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, 'test2', \OCP\Constants::PERMISSION_READ));
+
+		$this->assertFalse($view->rename('mount1', 'shareddir'), 'Cannot overwrite shared folder');
+		$this->assertFalse($view->rename('mount1', 'shareddir/sub'), 'Cannot move mount point into shared folder');
+		$this->assertFalse($view->rename('mount1', 'shareddir/sub/sub2'), 'Cannot move mount point into shared subfolder');
+
+		$this->assertTrue(\OCP\Share::unshare('folder', $fileId, \OCP\Share::SHARE_TYPE_USER, 'test2'));
+		$userObject->delete();
+	}
 
 	public function basicOperationProviderForLocks() {
 		return [
@@ -1924,23 +2033,9 @@ class View extends \Test\TestCase {
 	public function testLockMoveMountPoint() {
 		$this->loginAsUser('test');
 
-		$subStorage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
-			->setMethods([])
-			->getMock();
-
-		$mount = $this->getMock(
-			'\Test\TestMoveableMountPoint',
-			['moveMount'],
-			[$subStorage, $this->user . '/files/substorage']
-		);
-
-		$mountProvider = $this->getMock('\OCP\Files\Config\IMountProvider');
-		$mountProvider->expects($this->once())
-			->method('getMountsForUser')
-			->will($this->returnValue([$mount]));
-
-		$mountProviderCollection = \OC::$server->getMountProviderCollection();
-		$mountProviderCollection->registerProvider($mountProvider);
+		list($mount) = $this->createTestMovableMountPoints([
+			$this->user . '/files/substorage',
+		]);
 
 		$view = new \OC\Files\View('/' . $this->user . '/files/');
 		$view->mkdir('subdir');
@@ -1991,8 +2086,6 @@ class View extends \Test\TestCase {
 		$this->assertNull($this->getFileLockType($view, $sourcePath, false), 'Shared storage root not locked after operation');
 		$this->assertNull($this->getFileLockType($view, $sourcePath, true), 'Source path not locked after operation');
 		$this->assertNull($this->getFileLockType($view, $targetPath, true), 'Target path not locked after operation');
-
-		\Test\TestCase::invokePrivate($mountProviderCollection, 'providers', [[]]);
 	}
 
 	/**
