@@ -43,25 +43,25 @@ class FeatureContext extends BehatContext {
 	}
 
 	/**
-	 * @When /^sending "([^"]*)" to "([^"]*)"$/
-	 */
+	* @When /^sending "([^"]*)" to "([^"]*)"$/
+	*/
 	public function sendingTo($verb, $url) {
 		$this->sendingToWith($verb, $url, null);
 	}
 
 
-    /**
-    *  Parses the xml answer to get ocs response which doesn't match with
-    *  http one in v1 of the api.
-    */
-    public function getOCSResponse($response){
-         return $response->xml()->meta[0]->statuscode;
-    }
+	/**
+	*  Parses the xml answer to get ocs response which doesn't match with
+	*  http one in v1 of the api.
+	*/
+	public function getOCSResponse($response){
+		return $response->xml()->meta[0]->statuscode;
+	}
 
 
 
 
-    /**
+	/**
 	 * @Then /^the OCS status code should be "([^"]*)"$/
 	 */
 	public function theOCSStatusCodeShouldBe($statusCode) {
@@ -69,7 +69,7 @@ class FeatureContext extends BehatContext {
 	}
 
 
-     /**
+	/**
 	 * @Then /^the HTTP status code should be "([^"]*)"$/
 	 */
 	public function theHTTPStatusCodeShouldBe($statusCode) {
@@ -116,6 +116,7 @@ class FeatureContext extends BehatContext {
 			$this->userExists($user);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
+			PHPUnit_Framework_Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
 		}
 	}
 
@@ -141,7 +142,7 @@ class FeatureContext extends BehatContext {
 	}
 
 
-    /**
+	/**
 	 * @When /^creating the group "([^"]*)r"$/
 	 */
 	public function creatingTheGroup($group) {
@@ -183,6 +184,7 @@ class FeatureContext extends BehatContext {
 			$this->groupExists($group);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
+			PHPUnit_Framework_Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
 		}
 	}
 
