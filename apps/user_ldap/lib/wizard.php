@@ -661,12 +661,13 @@ class Wizard extends LDAPUtility {
 			//connectAndBind may throw Exception, it needs to be catched by the
 			//callee of this method
 
-			// unallowed anonymous bind throws 48. But if it throws 48, we
-			// detected port and TLS, i.e. it is successful.
 			try {
 				$settingsFound = $this->connectAndBind($p, $t);
 			} catch (\Exception $e) {
-				if($e->getCode() === 48) {
+				// any reply other than -1 (= cannot connect) is already okay,
+				// because then we found the server
+				// unavailable startTLS returns -11
+				if($e->getCode() > 0) {
 					$settingsFound = true;
 				} else {
 					throw $e;
@@ -1084,7 +1085,7 @@ class Wizard extends LDAPUtility {
 		} else if ($errNo === 2) {
 			return $this->connectAndBind($port, $tls, true);
 		}
-		throw new \Exception($error);
+		throw new \Exception($error, $errNo);
 	}
 
 	/**
