@@ -182,7 +182,7 @@ class Manager {
 	 */
 	public function getShare($id) {
 		$getShare = $this->connection->prepare('
-			SELECT *
+			SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`
 			FROM  `*PREFIX*share_external`
 			WHERE `id` = ? AND `user` = ?');
 		$result = $getShare->execute(array($id, $this->uid));
@@ -424,7 +424,9 @@ class Manager {
 	 * @return array list of open server-to-server shares
 	 */
 	private function getShares($accepted) {
-		$query = 'SELECT * FROM `*PREFIX*share_external` WHERE `user` = ?';
+		$query = 'SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`
+		          FROM `*PREFIX*share_external` 
+				  WHERE `user` = ?';
 		$parameters = [$this->uid];
 		if (!is_null($accepted)) {
 			$query .= ' AND `accepted` = ?';
