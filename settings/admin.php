@@ -88,7 +88,7 @@ $excludeGroups = $appConfig->getValue('core', 'shareapi_exclude_groups', 'no') =
 $template->assign('shareExcludeGroups', $excludeGroups);
 $excludedGroupsList = $appConfig->getValue('core', 'shareapi_exclude_groups_list', '');
 $excludedGroupsList = json_decode($excludedGroupsList);
-$template->assign('shareExcludedGroupsList', implode('|', $excludedGroupsList));
+$template->assign('shareExcludedGroupsList', !is_null($excludedGroupsList) ? implode('|', $excludedGroupsList) : '');
 $template->assign('encryptionEnabled', \OC::$server->getEncryptionManager()->isEnabled());
 $backends = \OC::$server->getUserManager()->getBackends();
 $externalBackends = (count($backends) > 1) ? true : false;
