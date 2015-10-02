@@ -175,11 +175,13 @@ class OC_Files {
 			}
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 		} catch (\OCP\Lock\LockedException $ex) {
+			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('core');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			\OC_Template::printErrorPage($l->t('File is currently busy, please try again later'), $hint);
 		} catch (\Exception $ex) {
+			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('core');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
