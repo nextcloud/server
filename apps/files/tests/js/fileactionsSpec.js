@@ -151,6 +151,62 @@ describe('OCA.Files.FileActions tests', function() {
 			expect($tr.find('.action.action-match').length).toEqual(1);
 			expect($tr.find('.action.action-nomatch').length).toEqual(0);
 		});
+		it('display inline icon', function() {
+			fileActions.registerAction({
+				name: 'Icon',
+				displayName: 'IconDisplay',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				mime: 'all',
+				icon: OC.imagePath('core', 'actions/icon'),
+				permissions: OC.PERMISSION_READ
+			});
+			fileActions.registerAction({
+				name: 'NoIcon',
+				displayName: 'NoIconDisplay',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				mime: 'all',
+				permissions: OC.PERMISSION_READ
+			});
+
+			fileActions.display($tr.find('td.filename'), true, fileList);
+
+			expect($tr.find('.action.action-icon').length).toEqual(1);
+			expect($tr.find('.action.action-icon').find('img').length).toEqual(1);
+			expect($tr.find('.action.action-icon').find('img').eq(0).attr('src')).toEqual(OC.imagePath('core', 'actions/icon'));
+
+			expect($tr.find('.action.action-noicon').length).toEqual(1);
+			expect($tr.find('.action.action-noicon').find('img').length).toEqual(0);
+		});
+		it('display alt text on inline icon', function() {
+			fileActions.registerAction({
+				name: 'IconAltText',
+				displayName: 'IconAltTextDisplay',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				mime: 'all',
+				icon: OC.imagePath('core', 'actions/iconAltText'),
+				altText: 'alt icon text',
+				permissions: OC.PERMISSION_READ
+			});
+
+			fileActions.registerAction({
+				name: 'IconNoAltText',
+				displayName: 'IconNoAltTextDisplay',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				mime: 'all',
+				icon: OC.imagePath('core', 'actions/iconNoAltText'),
+				permissions: OC.PERMISSION_READ
+			});
+
+			fileActions.display($tr.find('td.filename'), true, fileList);
+
+			expect($tr.find('.action.action-iconalttext').length).toEqual(1);
+			expect($tr.find('.action.action-iconalttext').find('img').length).toEqual(1);
+			expect($tr.find('.action.action-iconalttext').find('img').eq(0).attr('alt')).toEqual('alt icon text');
+
+			expect($tr.find('.action.action-iconnoalttext').length).toEqual(1);
+			expect($tr.find('.action.action-iconnoalttext').find('img').length).toEqual(1);
+			expect($tr.find('.action.action-iconnoalttext').find('img').eq(0).attr('alt')).toEqual('');
+		});
 	});
 	describe('action handler', function() {
 		var actionStub, $tr, clock;
