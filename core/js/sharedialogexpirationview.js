@@ -132,6 +132,11 @@
 
 			var isExpirationSet = !!this.model.get('linkShare').expiration || isExpirationEnforced;
 
+			var expiration;
+			if (isExpirationSet) {
+				expiration = moment(this.model.get('linkShare').expiration, 'YYYY-MM-DD').format('DD-MM-YYYY')
+			}
+
 			var expirationTemplate = this.template();
 			this.$el.html(expirationTemplate({
 				setExpirationLabel: t('core', 'Set expiration date'),
@@ -142,7 +147,7 @@
 				isExpirationSet: isExpirationSet,
 				isExpirationEnforced: isExpirationEnforced,
 				disableCheckbox: isExpirationEnforced && isExpirationSet,
-				expirationValue: this.model.get('linkShare').expiration
+				expirationValue: expiration
 			}));
 
 			// what if there is another date picker on that page?
