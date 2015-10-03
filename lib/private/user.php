@@ -44,6 +44,8 @@
  * supported. User management operations are delegated to the configured backend for
  * execution.
  *
+ * Note that &run is deprecated and won't work anymore.
+ *
  * Hooks provided:
  *   pre_createUser(&run, uid, password)
  *   post_createUser(uid, password)
