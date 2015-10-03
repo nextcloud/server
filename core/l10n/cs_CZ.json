@@ -70,6 +70,7 @@
     "Dec." : "prosinec",
     "Settings" : "Nastavení",
     "Saving..." : "Ukládám...",
+    "seconds ago" : "před pár sekundami",
     "Couldn't send reset email. Please contact your administrator." : "Nepodařilo se odeslat email pro změnu hesla. Kontaktujte svého správce systému.",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Odkaz na obnovení hesla byl odeslán na vaši emailovou adresu. Pokud jej v krátké době neobdržíte, zkontrolujte složku nevyžádané pošty a koš.<br>Pokud jej nenaleznete, kontaktujte svého správce systému.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Vaše soubory jsou šifrovány. Pokud jste nepovolili klíč pro obnovení, neexistuje způsob jak získat po změně hesla vaše data zpět.<br />Pokud si nejste jisti co dělat, kontaktujte nejprve svého správce systému, než budete pokračovat. <br />Opravdu si přejete pokračovat?",

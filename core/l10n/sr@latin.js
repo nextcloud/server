@@ -53,6 +53,7 @@ OC.L10N.register(
     "Dec." : "dec",
     "Settings" : "Podešavanja",
     "Saving..." : "Snimam...",
+    "seconds ago" : "Pre par sekundi",
     "Couldn't send reset email. Please contact your administrator." : "Nemoguće slanje e-mail-a za ponovno postavljanje lozinke. Molimo Vas kontaktirajte Vašeg administratora",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Link za ponovno postavljanje Vaše lozinke je poslat na Vašu e-mail adresu. Ako ga ne primite u razumnom roku, proverite fascikle za neželjenu poštu.<br>Ako ga nema ni tamo, kontaktirajte Vašeg lokalnog administratora.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Vaši fajlovi su šifrovani. Ako nista omogućili ključ za povrat fajlova, neće biti načina da dobijete ponovo svoje podatke posle promene lozinke.<br />Ako niste sigurni šta da radite, molimo Vas da kontaktirate Vašeg administratora pre nego što nastavite.<br />Da li zaista želite da nastavite?",

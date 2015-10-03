@@ -69,6 +69,7 @@ OC.L10N.register(
     "Dec." : "12月",
     "Settings" : "設定",
     "Saving..." : "保存中...",
+    "seconds ago" : "数秒前",
     "Couldn't send reset email. Please contact your administrator." : "リセットメールを送信できませんでした。管理者に問い合わせてください。",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "パスワードをリセットするリンクをクリックしたので、メールを送信しました。しばらくたってもメールが届かなかった場合は、スパム/ジャンクフォルダーを確認してください。<br>それでも見つからなかった場合は、管理者に問合わせてください。",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "ファイルが暗号化されています。リカバリーキーが有効でない場合は、パスワードをリセットした後にあなたのデータを元に戻す方法はありません。<br />どういうことか分からない場合は、操作を継続する前に管理者に問い合わせてください。<br />続けてよろしいでしょうか?",

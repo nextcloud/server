@@ -52,6 +52,7 @@ OC.L10N.register(
     "Dec." : "Dec.",
     "Settings" : "Setări",
     "Saving..." : "Se salvează...",
+    "seconds ago" : "secunde în urmă",
     "Couldn't send reset email. Please contact your administrator." : "Expedierea email-ului de resetare a eşuat. Vă rugăm să contactaţi administratorul dvs.",
     "I know what I'm doing" : "Eu știu ce fac",
     "Password can not be changed. Please contact your administrator." : "Parola nu poate fi modificata. Vă rugăm să contactați administratorul dvs.",

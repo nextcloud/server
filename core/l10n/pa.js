@@ -22,6 +22,7 @@ OC.L10N.register(
     "December" : "ਦਸੰਬਰ",
     "Settings" : "ਸੈਟਿੰਗ",
     "Saving..." : "...ਸੰਭਾਲਿਆ ਜਾ ਰਿਹਾ ਹੈ",
+    "seconds ago" : "ਸਕਿੰਟ ਪਹਿਲਾਂ",
     "No" : "ਨਹੀਂ",
     "Yes" : "ਹਾਂ",
     "Choose" : "ਚੁਣੋ",

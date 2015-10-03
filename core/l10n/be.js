@@ -21,6 +21,7 @@ OC.L10N.register(
     "November" : "Лістапад",
     "December" : "Снежань",
     "Settings" : "Налады",
+    "seconds ago" : "Секунд таму",
     "No" : "Не",
     "Yes" : "Так",
     "Choose" : "Выбар",

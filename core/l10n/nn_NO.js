@@ -50,6 +50,7 @@ OC.L10N.register(
     "Dec." : "Des.",
     "Settings" : "Innstillingar",
     "Saving..." : "Lagrar …",
+    "seconds ago" : "sekund sidan",
     "I know what I'm doing" : "Eg veit kva eg gjer",
     "No" : "Nei",
     "Yes" : "Ja",

@@ -73,6 +73,7 @@ OC.L10N.register(
     "Dec." : "Dez.",
     "Settings" : "Configurações",
     "Saving..." : "Salvando...",
+    "seconds ago" : "segundos atrás",
     "Couldn't send reset email. Please contact your administrator." : "Não foi possível enviar e-mail de redefinição. Por favor, contate o administrador.",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "O link para redefinir sua senha foi enviada para o seu e-mail. Se você não recebê-lo dentro de um período razoável de tempo, verifique suas pastas de spam/lixo. <br> Se ele não estiver lá, pergunte ao administrador do local.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Seus arquivos são criptografados. Se você não ativou a chave de recuperação, não haverá maneira de obter seus dados de volta após a sua senha ser redefinida. <br/> Se você não tem certeza do que fazer, por favor, contate o administrador antes de continuar. <br/> Você realmente deseja continuar?",

@@ -73,6 +73,7 @@ OC.L10N.register(
     "Dec." : "ธ.ค.",
     "Settings" : "ตั้งค่า",
     "Saving..." : "กำลังบันทึกข้อมูล...",
+    "seconds ago" : "วินาที ก่อนหน้านี้",
     "Couldn't send reset email. Please contact your administrator." : "ไม่สามารถส่งการตั้งค่าอีเมลใหม่ กรุณาติดต่อผู้ดูแลระบบ",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "ลิงค์ที่ใช้สำหรับตั้งค่ารหัสผ่านใหม่ ของคุณ ได้ถูกส่งไปยังอีเมลของคุณ หากคุณยังไม่ได้รับอีกเมล ลองไปดูที่โฟลเดอร์ สแปม/ถังขยะ ในอีเมลของคุณ <br>ทั้งนี้หากหาอีเมลไม่พบกรุณาติดต่อผู้ดูแลระบบ",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "ไฟล์ของคุณจะถูกเข้ารหัส หากคุณยังไม่ได้เปิดใช้งานรหัสการกู้คืน คุณจะได้รับข้อมูลของคุณกลับมาหลังจากที่รหัสผ่านของคุณถูกรีเซ็ต<br /> หากคุณไม่แน่ใจว่าควรทำอย่างไรโปรดติดต่อผู้ดูแลระบบของคุณก่อนที่คุณจะดำเนินการต่อไป <br /> คุณต้องการดำเนินการต่อ?",

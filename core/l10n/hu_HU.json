@@ -71,6 +71,7 @@
     "Dec." : "dec.",
     "Settings" : "Beállítások",
     "Saving..." : "Mentés...",
+    "seconds ago" : "pár másodperce",
     "Couldn't send reset email. Please contact your administrator." : "Visszaállítási e-mail nem küldhető. Kérjük, lépjen kapcsolatba a rendszergazdával.",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "A jelszó felülírásához a linket e-mailben elküldtük. Ha a levél elfogadható időn belül nem érkezik meg, ellenőrizze a spam/levélszemét mappát.<br>Ha nincs ott, kérdezze meg a helyi rendszergazdát.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Az Ön állományai titkosítva vannak. Ha nem engedélyezte korábban az adatok visszanyeréséhez szükséges kulcs használatát, akkor a jelszó megváltoztatását követően nem fog hozzáférni az adataihoz. Ha nem biztos abban, hogy mit kellene tennie, akkor kérdezze meg a rendszergazdát, mielőtt továbbmenne. Biztos, hogy folytatni kívánja?",

@@ -23,6 +23,7 @@ OC.L10N.register(
     "November" : "Noviembre",
     "December" : "Diciembre",
     "Settings" : "Configuración",
+    "seconds ago" : "segundos antes",
     "No" : "No",
     "Yes" : "Si",
     "Choose" : "Choose",

@@ -41,6 +41,7 @@ OC.L10N.register(
     "Dec." : "דצמ׳",
     "Settings" : "הגדרות",
     "Saving..." : "שמירה…",
+    "seconds ago" : "שניות",
     "No" : "לא",
     "Yes" : "כן",
     "Choose" : "בחירה",

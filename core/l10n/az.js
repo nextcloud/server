@@ -49,6 +49,7 @@ OC.L10N.register(
     "Dec." : "Dek.",
     "Settings" : "Quraşdırmalar",
     "Saving..." : "Saxlama...",
+    "seconds ago" : "saniyələr öncə",
     "No" : "Xeyir",
     "Yes" : "Bəli",
     "Choose" : "Seç",

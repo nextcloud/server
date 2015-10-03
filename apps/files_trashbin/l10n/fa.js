@@ -5,11 +5,13 @@ OC.L10N.register(
     "Couldn't restore %s" : "%s را نمی توان بازگرداند",
     "Deleted files" : "فایل های حذف شده",
     "Restore" : "بازیابی",
+    "Delete" : "حذف",
     "Delete permanently" : "حذف قطعی",
     "Error" : "خطا",
     "restored" : "بازیابی شد",
+    "No entries found in this folder" : "هیچ ورودی‌ای در این پوشه وجود ندارد",
+    "Select all" : "انتخاب همه",
     "Name" : "نام",
-    "Deleted" : "حذف شده",
-    "Delete" : "حذف"
+    "Deleted" : "حذف شده"
 },
 "nplurals=1; plural=0;");

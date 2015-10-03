@@ -13,6 +13,7 @@ OC.L10N.register(
     "October" : "အောက်တိုဘာ",
     "November" : "နိုဝင်ဘာ",
     "December" : "ဒီဇင်ဘာ",
+    "seconds ago" : "စက္ကန့်အနည်းငယ်က",
     "No" : "မဟုတ်ဘူး",
     "Yes" : "ဟုတ်",
     "Choose" : "ရွေးချယ်",

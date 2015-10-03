@@ -71,6 +71,7 @@ OC.L10N.register(
     "Dec." : "十二月",
     "Settings" : "设置",
     "Saving..." : "保存中...",
+    "seconds ago" : "几秒前",
     "Couldn't send reset email. Please contact your administrator." : "未能成功发送重置邮件，请联系管理员。",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "密码重置邮件已经发送到您的电子邮箱中。如果您长时间没能收到邮件，请检查您的垃圾/广告邮件箱。<br>如果未能收到邮件请联系管理员。",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "您的文件已被加密。如果您没有启用恢复密钥，密码重置后您将无法取回您的文件。<br />在继续之前，如果有疑问请联系您的管理员。<br />确认继续？",

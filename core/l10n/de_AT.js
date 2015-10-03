@@ -40,6 +40,7 @@ OC.L10N.register(
     "Nov." : "Nov.",
     "Dec." : "Dez.",
     "Settings" : "Einstellungen",
+    "seconds ago" : "Sekunden zuvor",
     "No" : "Nein",
     "Yes" : "Ja",
     "Cancel" : "Abbrechen",

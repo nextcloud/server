@@ -3,6 +3,7 @@
     "Could not enable recovery key. Please check your recovery key password!" : "کلید بازیابی نمی تواند فعال شود. لطفا رمزعبور کلید بازیابی خود را بررسی نمایید!",
     "Recovery key successfully disabled" : "کلید بازیابی با موفقیت غیر فعال شده است.",
     "Could not disable recovery key. Please check your recovery key password!" : "کلید بازیابی را نمی تواند غیرفعال نماید. لطفا رمزعبور کلید بازیابی خود را بررسی کنید!",
+    "Missing parameters" : "پارامترهای فراموش شده",
     "Password successfully changed." : "رمزعبور با موفقیت تغییر یافت.",
     "Could not change the password. Maybe the old password was not correct." : "رمزعبور را نمیتواند تغییر دهد. شاید رمزعبورقدیمی صحیح نمی باشد.",
     "Private key password successfully updated." : "رمزعبور کلید خصوصی با موفقیت به روز شد.",

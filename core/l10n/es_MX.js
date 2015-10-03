@@ -50,6 +50,7 @@ OC.L10N.register(
     "Dec." : "Dic.",
     "Settings" : "Ajustes",
     "Saving..." : "Guardando...",
+    "seconds ago" : "hace segundos",
     "No" : "No",
     "Yes" : "Sí",
     "Choose" : "Seleccionar",

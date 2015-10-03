@@ -47,6 +47,7 @@ OC.L10N.register(
     "Dec." : "Dez.",
     "Settings" : "Astellungen",
     "Saving..." : "Speicheren...",
+    "seconds ago" : "Sekonnen hier",
     "No" : "Nee",
     "Yes" : "Jo",
     "Choose" : "Auswielen",

@@ -53,6 +53,7 @@ OC.L10N.register(
     "Dec." : "abe.",
     "Settings" : "Ezarpenak",
     "Saving..." : "Gordetzen...",
+    "seconds ago" : "segundu",
     "Couldn't send reset email. Please contact your administrator." : "Ezin da berrezartzeko eposta bidali. Mesedez jarri harremetan zure administradorearekin.",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Zure pasahitza berrezartzeko lotura zure postara bidalia izan da.<br>Ez baduzu arrazoizko denbora epe batean jasotzen begiratu zure zabor-posta karpetan.<br>Hor ere ez badago kudeatzailearekin harremanetan jarri.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Zure fitxategiak enkriptaturik daude. Ez baduzu berreskuratze gakoa gaitzen pasahitza berrabiaraztean ez da zure fitxategiak berreskuratzeko modurik egongo. <br />Zer egin ziur ez bazaude kudeatzailearekin harremanetan ipini jarraitu aurretik.<br /> Ziur zaude aurrera jarraitu nahi duzula?",

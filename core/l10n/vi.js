@@ -50,6 +50,7 @@ OC.L10N.register(
     "Dec." : "Tháng 12",
     "Settings" : "Cài đặt",
     "Saving..." : "Đang lưu...",
+    "seconds ago" : "vài giây trước",
     "No" : "Không",
     "Yes" : "Có",
     "Choose" : "Chọn",

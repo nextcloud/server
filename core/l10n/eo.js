@@ -44,6 +44,7 @@ OC.L10N.register(
     "Dec." : "Dec.",
     "Settings" : "Agordo",
     "Saving..." : "Konservante...",
+    "seconds ago" : "sekundoj antaŭe",
     "No" : "Ne",
     "Yes" : "Jes",
     "Choose" : "Elekti",

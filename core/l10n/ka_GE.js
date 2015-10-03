@@ -41,6 +41,7 @@ OC.L10N.register(
     "Dec." : "დეკ.",
     "Settings" : "პარამეტრები",
     "Saving..." : "შენახვა...",
+    "seconds ago" : "წამის წინ",
     "No" : "არა",
     "Yes" : "კი",
     "Choose" : "არჩევა",

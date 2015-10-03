@@ -73,6 +73,7 @@ OC.L10N.register(
     "Dec." : "Dec.",
     "Settings" : "Indstillinger",
     "Saving..." : "Gemmer...",
+    "seconds ago" : "sekunder siden",
     "Couldn't send reset email. Please contact your administrator." : "Der opstod et problem under afsending af e-mailen til nulstilling. Kontakt venligst systemadministratoren.",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Linket til at nulstille dit kodeord er blevet sendt til din e-post: hvis du ikke modtager den inden for en rimelig tid, så tjek dine spam/junk-mapper.<br> Hvis det ikke er der, så spørg din lokale administrator.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Dine filer er krypterede. Hvis du ikke har aktiveret gendannelsesnøglen kan du ikke få dine data tilbage efter at du har ændret adgangskode.<br />Hvis du ikke er sikker på, hvad du skal gøre så kontakt din administrator før du fortsætter.<br />Vil du fortsætte?",

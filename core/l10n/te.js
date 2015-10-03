@@ -21,6 +21,7 @@ OC.L10N.register(
     "November" : "నవంబర్",
     "December" : "డిసెంబర్",
     "Settings" : "అమరికలు",
+    "seconds ago" : "క్షణాల క్రితం",
     "No" : "కాదు",
     "Yes" : "అవును",
     "Ok" : "సరే",

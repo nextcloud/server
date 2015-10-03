@@ -62,6 +62,7 @@ OC.L10N.register(
     "Dec." : "Dez.",
     "Settings" : "Einstellungen",
     "Saving..." : "Speichern…",
+    "seconds ago" : "Gerade eben",
     "Couldn't send reset email. Please contact your administrator." : "Die E-Mail zum Zurücksetzen konnte nicht versendet werden. Bitte kontaktiere Deinen Administrator.",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Der Link zum Rücksetzen Deines Passworts ist an Deine E-Mail-Adresse versandt worden. Solltest Du ihn innerhalb eines annehmbaren Zeitraums nicht empfangen, prüfe bitte Deine Spam-Ordner.<br>Wenn er sich nicht darin befindet, frage bitte bei Deinem lokalen Administrator nach.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Deine Dateien sind verschlüsselt. Solltest Du den Wiederherstellungsschlüssel nicht aktiviert haben, gibt es keine Möglichkeit, Deine Daten zurückzuerhalten, nachdem Dein Passwort zurückgesetzt ist.<br />Falls Du Dir nicht sicher bist, was zu tun ist, kontaktiere bitte Deinen Administrator, bevor Du fortfährst.<br />Willst Du wirklich fortfahren?",

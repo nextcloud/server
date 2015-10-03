@@ -69,6 +69,7 @@
     "Dec." : "Dez.",
     "Settings" : "Definições",
     "Saving..." : "A guardar ...",
+    "seconds ago" : "segundos atrás",
     "Couldn't send reset email. Please contact your administrator." : "Não foi possível enviar o e-mail de reposição. Por favor, contacte o administrador.",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "A hiperligação para reiniciar a sua senha foi enviada para o seu correio eletrónico. Se não a receber dentro de um tempo aceitável, verifique as suas pastas de span/lixo.<br> Se não a encontrar, pergunte ao seu administrador local.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Os seus ficheiros estão encriptados. Se não ativou a chave de recuperação, não terá nenhum modo para voltar obter os seus dados depois de reiniciar a sua senha. <br />Se não tem a certeza do que fazer, por favor, contacte o seu administrador antes de continuar.<br />  Tem a certeza que quer continuar?",

@@ -7,6 +7,7 @@ OC.L10N.register(
     "Select groups" : "Pasirinkti grupes",
     "Do you really want to delete the current Server Configuration?" : "Ar tikrai norite ištrinti dabartinę serverio konfigūraciją?",
     "Confirm Deletion" : "Patvirtinkite trynimą",
+    "Server" : "Serveris",
     "Users" : "Vartotojai",
     "Groups" : "Grupės",
     "Test Configuration" : "Bandyti konfigūraciją",

@@ -71,6 +71,7 @@ OC.L10N.register(
     "Dec." : "12월",
     "Settings" : "설정",
     "Saving..." : "저장 중...",
+    "seconds ago" : "초 지남",
     "Couldn't send reset email. Please contact your administrator." : "재설정 메일을 보낼수 없습니다. 관리자에게 문의하십시오.",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "암호 재설정 링크를 포함하고 있는 이메일을 보냈습니다. 이메일이 도착하지 않은 경우 스팸함을 확인해 보십시오.<br>스팸함에도 없는 경우 로컬 관리자에게 문의하십시오.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "파일이 암호화되어 있습니다. 복구 키를 활성화하지 않았다면 암호를 초기화한 후 데이터를 복구할 수 없습니다.<br />무엇을 해야 할 지 잘 모르겠으면 계속하기 전에 관리자에게 연락하십시오.<br />그래도 계속 진행하시겠습니까?",

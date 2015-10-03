@@ -22,6 +22,7 @@ OC.L10N.register(
     "December" : "十二月",
     "Settings" : "設定",
     "Saving..." : "儲存中...",
+    "seconds ago" : "秒前",
     "No" : "否",
     "Yes" : "是",
     "Ok" : "確認",

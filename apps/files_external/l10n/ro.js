@@ -17,6 +17,7 @@ OC.L10N.register(
     "Region" : "Regiune",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
+    "Dropbox" : "Dropbox",
     "Host" : "Gazdă",
     "Local" : "Local",
     "Location" : "Locație",

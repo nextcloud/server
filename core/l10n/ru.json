@@ -60,6 +60,7 @@
     "Dec." : "Дек.",
     "Settings" : "Настройки",
     "Saving..." : "Сохранение...",
+    "seconds ago" : "несколько секунд назад",
     "Couldn't send reset email. Please contact your administrator." : "Не удалось отправить письмо для сброса пароля. Пожалуйста, свяжитесь с вашим администратором.",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Ссылка для сброса пароля была отправлена на ваш email. Если вы не получили письмо в течении разумного промежутка времени, проверьте папку спама.<br>Если его там нет, то обратитесь к вашему администратору.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Ваши файлы зашифрованы. Если вы не включили ключ восстановления, то ваши данные будут недоступны после сброса пароля.<br />Если вы не уверены что делать дальше - обратитесь к вашему администратору.<br />Вы действительно хотите продолжить?",

@@ -69,6 +69,7 @@
     "Dec." : "Des.",
     "Settings" : "Stillingar",
     "Saving..." : "Er að vista ...",
+    "seconds ago" : "sek.",
     "Couldn't send reset email. Please contact your administrator." : "Gat ekki sent endursetningar tölvupóst. Vinsamlegast hafðu samband við kerfisstjóra.",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Hlekkurinn til að endurstilla lykilorðið þitt hefur verið sent á netfangið þitt. Ef þú færð ekki póstinn innan hæfilegs tíma, athugaðu þá í ruslpóst möppu.<br>Ef það er ekki þar spurðu þá kerfisstjórann þinn.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Skrárnar þínar eru dulkóðaðar. Ef þú hefur ekki kveikt á vara lykill, það verður engin leið til að fá þinn gögn til baka eftir lykilorðið þitt er endurstillt.<br />Ef þú ert ekki viss hvað á að gera, skaltu hafa samband við kerfisstjórann áður en þú heldur áfram. <br />Viltu halda áfram?",

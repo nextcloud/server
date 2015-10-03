@@ -47,6 +47,7 @@ OC.L10N.register(
     "Dec." : "Dec.",
     "Settings" : "Iestatījumi",
     "Saving..." : "Saglabā...",
+    "seconds ago" : "sekundes atpakaļ",
     "I know what I'm doing" : "Es zinu ko es daru",
     "Password can not be changed. Please contact your administrator." : "Paroli, nevar nomainīt. Lūdzu kontaktēties ar savu administratoru.",
     "No" : "Nē",

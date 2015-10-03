@@ -41,6 +41,7 @@ OC.L10N.register(
     "Dec." : "Rhag.",
     "Settings" : "Gosodiadau",
     "Saving..." : "Yn cadw...",
+    "seconds ago" : "eiliad yn ôl",
     "No" : "Na",
     "Yes" : "Ie",
     "Choose" : "Dewisiwch",
