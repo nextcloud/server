@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Couldn't send mail to following users: %s " : "Kon geen e-mail sturen aan de volgende gebruikers: %s",
     "Preparing update" : "Update voorbereiden",
+    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "Migratietests worden overgeslagen - \"update.skip-migration-test\" is geactiveerd in config.php",
     "Turned on maintenance mode" : "Onderhoudsmodus ingeschakeld",
     "Turned off maintenance mode" : "Onderhoudsmodus uitgeschakeld",
     "Maintenance mode is kept active" : "Onderhoudsmodus blijft actief",

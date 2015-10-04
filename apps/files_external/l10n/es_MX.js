@@ -5,6 +5,7 @@ OC.L10N.register(
     "Personal" : "Personal",
     "Grant access" : "Conceder acceso",
     "Access granted" : "Acceso concedido",
+    "None" : "Ninguno",
     "Username" : "Nombre de usuario",
     "Password" : "Contraseña",
     "API key" : "clave API",

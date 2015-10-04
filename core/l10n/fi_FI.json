@@ -1,6 +1,7 @@
 { "translations": {
     "Couldn't send mail to following users: %s " : "Sähköpostin lähetys seuraaville käyttäjille epäonnistui: %s",
     "Preparing update" : "Valmistellaan päivitystä",
+    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "Migraatiotestit ohitetaan - \"update.skip-migration-test\" on aktiivisena config.php-tiedostossa",
     "Turned on maintenance mode" : "Siirrytty huoltotilaan",
     "Turned off maintenance mode" : "Huoltotila asetettu pois päältä",
     "Maintenance mode is kept active" : "Huoltotila pidetään aktiivisena",
