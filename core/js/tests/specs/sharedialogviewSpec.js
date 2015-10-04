@@ -231,6 +231,43 @@ describe('OC.Share.ShareDialogView', function() {
 			expect(dialog.$el.find('#linkCheckbox').prop('checked')).toEqual(true);
 			expect(dialog.$el.find('#linkText').val()).toEqual(link);
 		});
+		describe('password', function() {
+			var slideToggleStub;
+
+			beforeEach(function() {
+				$('#allowShareWithLink').val('yes');
+				configModel.set({
+					enforcePasswordForPublicLink: false
+				});
+
+				slideToggleStub = sinon.stub($.fn, 'slideToggle');
+			});
+			afterEach(function() {
+				slideToggleStub.restore();
+			});
+
+			it('enforced but toggled does not fire request', function() {
+				configModel.set('enforcePasswordForPublicLink', true);
+				dialog.render();
+
+				dialog.$el.find('[name=linkCheckbox]').click();
+
+				// The password linkPass field is shown (slideToggle is called).
+				// No request is made yet
+				expect(slideToggleStub.callCount).toEqual(1);
+				expect(slideToggleStub.getCall(0).thisValue.eq(0).attr('id')).toEqual('linkPass');
+				expect(fakeServer.requests.length).toEqual(0);
+				
+				// Now untoggle share by link
+				dialog.$el.find('[name=linkCheckbox]').click();
+				dialog.render();
+
+				// Password field disappears and no ajax requests have been made
+				expect(fakeServer.requests.length).toEqual(0);
+				expect(slideToggleStub.callCount).toEqual(2);
+				expect(slideToggleStub.getCall(1).thisValue.eq(0).attr('id')).toEqual('linkPass');
+			});
+		});
 		describe('expiration date', function() {
 			var shareData;
 			var shareItem;
