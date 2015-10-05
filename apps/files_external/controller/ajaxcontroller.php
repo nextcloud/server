@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin McCorkell <rmccorkell@owncloud.com>
  * @author Ross Nicoll <jrn@jrn.me.uk>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

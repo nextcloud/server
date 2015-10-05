@@ -1,5 +1,7 @@
 <?php
 /**
+ * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lennart Rosam <hello@takuto.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Felix Moeller <mail@felixmoeller.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
