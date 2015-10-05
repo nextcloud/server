@@ -1989,6 +1989,8 @@ class Share extends Constants {
 
 		$queriesToExecute = array();
 		$suggestedItemTarget = null;
+		$groupFileTarget = $fileTarget = $suggestedFileTarget = $filePath = '';
+		$groupItemTarget = $itemTarget = $fileSource = $parent = 0;
 
 		$result = self::checkReshare($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions, $itemSourceName, $expirationDate);
 		if(!empty($result)) {
