@@ -28,9 +28,12 @@ namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
 use OCP\Files;
+use OCP\Files\Config\IMountProvider;
+use OCP\Files\Storage\IStorageFactory;
 use OC\Notification\IManager;
+use OCP\IUser;
 
-class Manager {
+class Manager implements IMountProvider {
 	const STORAGE = '\OCA\Files_Sharing\External\Storage';
 
 	/**
@@ -152,26 +155,20 @@ class Manager {
 		return $this->mountShare($options);
 	}
 
-	private function setupMounts() {
-		// don't setup server-to-server shares if the admin disabled it
-		if (\OCA\Files_Sharing\Helper::isIncomingServer2serverShareEnabled() === false) {
-			return false;
-		}
-
-		if (!is_null($this->uid)) {
-			$query = $this->connection->prepare('
+	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
+		$query = $this->connection->prepare('
 				SELECT `remote`, `share_token`, `password`, `mountpoint`, `owner`
 				FROM `*PREFIX*share_external`
 				WHERE `user` = ? AND `accepted` = ?
 			');
-			$query->execute(array($this->uid, 1));
-
-			while ($row = $query->fetch()) {
-				$row['manager'] = $this;
-				$row['token'] = $row['share_token'];
-				$this->mountShare($row);
-			}
+		$query->execute([$user->getUID(), 1]);
+		$mounts = [];
+		while ($row = $query->fetch()) {
+			$row['manager'] = $this;
+			$row['token'] = $row['share_token'];
+			$mounts[] = $this->getMount($row, $loader);
 		}
+		return $mounts;
 	}
 
 	/**
@@ -276,24 +273,6 @@ class Manager {
 	}
 
 	/**
-	 * setup the server-to-server mounts
-	 *
-	 * @param array $params
-	 */
-	public static function setup(array $params) {
-		$externalManager = new \OCA\Files_Sharing\External\Manager(
-				\OC::$server->getDatabaseConnection(),
-				\OC\Files\Filesystem::getMountManager(),
-				\OC\Files\Filesystem::getLoader(),
-				\OC::$server->getHTTPHelper(),
-				\OC::$server->getNotificationManager(),
-				$params['user']
-		);
-
-		$externalManager->setupMounts();
-	}
-
-	/**
 	 * remove '/user/files' from the path and trailing slashes
 	 *
 	 * @param string $path
@@ -304,16 +283,20 @@ class Manager {
 		return rtrim(substr($path, strlen($prefix)), '/');
 	}
 
+	protected function getMount($data, IStorageFactory $storageFactory) {
+		$data['manager'] = $this;
+		$mountPoint = '/' . $this->uid . '/files' . $data['mountpoint'];
+		$data['mountpoint'] = $mountPoint;
+		$data['certificateManager'] = \OC::$server->getCertificateManager($this->uid);
+		return new Mount(self::STORAGE, $mountPoint, $data, $this, $storageFactory);
+	}
+
 	/**
 	 * @param array $data
 	 * @return Mount
 	 */
 	protected function mountShare($data) {
-		$data['manager'] = $this;
-		$mountPoint = '/' . $this->uid . '/files' . $data['mountpoint'];
-		$data['mountpoint'] = $mountPoint;
-		$data['certificateManager'] = \OC::$server->getCertificateManager($this->uid);
-		$mount = new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
+		$mount = $this->getMount($data, $this->storageLoader);
 		$this->mountManager->addMount($mount);
 		return $mount;
 	}
