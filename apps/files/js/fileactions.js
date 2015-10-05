@@ -144,7 +144,8 @@
 				order: action.order || 0,
 				icon: action.icon,
 				permissions: action.permissions,
-				type: action.type || FileActions.TYPE_DROPDOWN
+				type: action.type || FileActions.TYPE_DROPDOWN,
+				altText: action.altText || ''
 			};
 			if (_.isUndefined(action.displayName)) {
 				actionSpec.displayName = t('files', name);
