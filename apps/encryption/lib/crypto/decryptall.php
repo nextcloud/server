@@ -84,6 +84,9 @@ class DecryptAll {
 		$recoveryKeyId = $this->keyManager->getRecoveryKeyId();
 
 		if (!empty($user)) {
+			$output->writeln('You can only decrypt the users files if you know');
+			$output->writeln('the users password or if he activated the recovery key.');
+			$output->writeln('');
 			$questionUseLoginPassword = new ConfirmationQuestion(
 				'Do you want to use the users login password to decrypt all files? (y/n) ',
 				false
@@ -98,6 +101,9 @@ class DecryptAll {
 				$user = $recoveryKeyId;
 			}
 		} else {
+			$output->writeln('You can only decrypt the files of all users if the');
+			$output->writeln('recovery key is enabled by the admin and activated by the users.');
+			$output->writeln('');
 			$user = $recoveryKeyId;
 		}
 

@@ -119,6 +119,9 @@ class DecryptAll {
 		foreach ($encryptionModules as $moduleDesc) {
 			/** @var IEncryptionModule $module */
 			$module = call_user_func($moduleDesc['callback']);
+			$this->output->writeln('');
+			$this->output->writeln('Prepare "' . $module->getDisplayName() . '"');
+			$this->output->writeln('');
 			if ($module->prepareDecryptAll($this->input, $this->output, $user) === false) {
 				$this->output->writeln('Module "' . $moduleDesc['displayName'] . '" does not support the functionality to decrypt all files again or the initialization of the module failed!');
 				return false;
