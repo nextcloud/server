@@ -311,10 +311,10 @@ describe('OC.Share.ShareDialogView', function() {
 				expect(dialog.$el.find('#expirationDate').val()).toEqual('');
 			});
 			it('checks expiration date checkbox and populates field when expiration date was set', function() {
-				shareModel.get('linkShare').expiration = 1234;
+				shareModel.get('linkShare').expiration = '2014-02-01 00:00:00';
 				dialog.render();
 				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
-				expect(dialog.$el.find('#expirationDate').val()).toEqual('1234');
+				expect(dialog.$el.find('#expirationDate').val()).toEqual('01-02-2014');
 			});
 			it('sets default date when default date setting is enabled', function() {
 				configModel.set('isDefaultExpireDateEnabled', true);
@@ -326,8 +326,7 @@ describe('OC.Share.ShareDialogView', function() {
 
 				// enabled by default
 				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
-				// TODO: those zeros must go...
-				expect(dialog.$el.find('#expirationDate').val()).toEqual('2014-1-27 00:00:00');
+				expect(dialog.$el.find('#expirationDate').val()).toEqual('27-01-2014');
 
 				// disabling is allowed
 				dialog.$el.find('[name=expirationCheckbox]').click();
@@ -345,8 +344,7 @@ describe('OC.Share.ShareDialogView', function() {
 				dialog.render();
 
 				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
-				// TODO: those zeros must go...
-				expect(dialog.$el.find('#expirationDate').val()).toEqual('2014-1-27 00:00:00');
+				expect(dialog.$el.find('#expirationDate').val()).toEqual('27-01-2014');
 
 				// disabling is not allowed
 				expect(dialog.$el.find('[name=expirationCheckbox]').prop('disabled')).toEqual(true);
@@ -375,8 +373,7 @@ describe('OC.Share.ShareDialogView', function() {
 				);
 
 				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
-				// TODO: those zeros must go...
-				expect(dialog.$el.find('#expirationDate').val()).toEqual('2014-1-27 00:00:00');
+				expect(dialog.$el.find('#expirationDate').val()).toEqual('27-01-2014');
 
 				// disabling is not allowed
 				expect(dialog.$el.find('[name=expirationCheckbox]').prop('disabled')).toEqual(true);
