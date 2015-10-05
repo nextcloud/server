@@ -233,6 +233,7 @@
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
 
 			this._onResize = _.debounce(_.bind(this._onResize, this), 100);
+			$('#app-content').on('appresized', this._onResize);
 			$(window).resize(this._onResize);
 
 			this.$el.on('show', this._onResize);
@@ -278,6 +279,7 @@
 			this.fileActions.off('registerAction', this._onFileActionsUpdated);
 			this.fileActions.off('setDefault', this._onFileActionsUpdated);
 			OC.Plugins.detach('OCA.Files.FileList', this);
+			$('#app-content').off('appresized', this._onResize);
 		},
 
 		/**
@@ -436,6 +438,8 @@
 			containerWidth -= $('#app-navigation-toggle').width();
 
 			this.breadcrumb.setMaxWidth(containerWidth - actionsWidth - 10);
+
+			this.$table.find('>thead').width($('#app-content').width() - OC.Util.getScrollBarWidth());
 
 			this.updateSearch();
 		},

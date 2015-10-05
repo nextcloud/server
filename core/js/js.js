@@ -1641,6 +1641,45 @@ OC.Util = {
 	},
 
 	/**
+	 * Returns the width of a generic browser scrollbar
+	 *
+	 * @return {int} width of scrollbar
+	 */
+	getScrollBarWidth: function() {
+		if (this._scrollBarWidth) {
+			return this._scrollBarWidth;
+		}
+
+		var inner = document.createElement('p');
+		inner.style.width = "100%";
+		inner.style.height = "200px";
+
+		var outer = document.createElement('div');
+		outer.style.position = "absolute";
+		outer.style.top = "0px";
+		outer.style.left = "0px";
+		outer.style.visibility = "hidden";
+		outer.style.width = "200px";
+		outer.style.height = "150px";
+		outer.style.overflow = "hidden";
+		outer.appendChild (inner);
+
+		document.body.appendChild (outer);
+		var w1 = inner.offsetWidth;
+		outer.style.overflow = 'scroll';
+		var w2 = inner.offsetWidth;
+		if(w1 === w2) {
+			w2 = outer.clientWidth;
+		}
+
+		document.body.removeChild (outer);
+
+		this._scrollBarWidth = (w1 - w2);
+
+		return this._scrollBarWidth;
+	},
+
+	/**
 	 * Remove the time component from a given date
 	 *
 	 * @param {Date} date date
@@ -1930,32 +1969,11 @@ jQuery.fn.exists = function(){
 	return this.length > 0;
 };
 
+/**
+ * @deprecated use OC.Util.getScrollBarWidth() instead
+ */
 function getScrollBarWidth() {
-	var inner = document.createElement('p');
-	inner.style.width = "100%";
-	inner.style.height = "200px";
-
-	var outer = document.createElement('div');
-	outer.style.position = "absolute";
-	outer.style.top = "0px";
-	outer.style.left = "0px";
-	outer.style.visibility = "hidden";
-	outer.style.width = "200px";
-	outer.style.height = "150px";
-	outer.style.overflow = "hidden";
-	outer.appendChild (inner);
-
-	document.body.appendChild (outer);
-	var w1 = inner.offsetWidth;
-	outer.style.overflow = 'scroll';
-	var w2 = inner.offsetWidth;
-	if(w1 === w2) {
-		w2 = outer.clientWidth;
-	}
-
-	document.body.removeChild (outer);
-
-	return (w1 - w2);
+	return OC.Util.getScrollBarWidth();
 }
 
 /**
