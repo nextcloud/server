@@ -24,6 +24,7 @@ namespace Test;
 
 use OC\Command\QueueBus;
 use OC\Files\Filesystem;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Security\ISecureRandom;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase {
@@ -129,9 +130,11 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 	public static function tearDownAfterClass() {
 		$dataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data-autotest');
+		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 
-		self::tearDownAfterClassCleanStorages();
-		self::tearDownAfterClassCleanFileCache();
+		self::tearDownAfterClassCleanShares($queryBuilder);
+		self::tearDownAfterClassCleanStorages($queryBuilder);
+		self::tearDownAfterClassCleanFileCache($queryBuilder);
 		self::tearDownAfterClassCleanStrayDataFiles($dataDir);
 		self::tearDownAfterClassCleanStrayHooks();
 		self::tearDownAfterClassCleanStrayLocks();
@@ -140,25 +143,33 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Remove all entries from the share table
+	 *
+	 * @param IQueryBuilder $queryBuilder
+	 */
+	static protected function tearDownAfterClassCleanShares(IQueryBuilder $queryBuilder) {
+		$queryBuilder->delete('share')
+			->execute();
+	}
+
+	/**
 	 * Remove all entries from the storages table
 	 *
-	 * @throws \OC\DatabaseException
+	 * @param IQueryBuilder $queryBuilder
 	 */
-	static protected function tearDownAfterClassCleanStorages() {
-		$sql = 'DELETE FROM `*PREFIX*storages`';
-		$query = \OC_DB::prepare($sql);
-		$query->execute();
+	static protected function tearDownAfterClassCleanStorages(IQueryBuilder $queryBuilder) {
+		$queryBuilder->delete('storages')
+			->execute();
 	}
 
 	/**
 	 * Remove all entries from the filecache table
 	 *
-	 * @throws \OC\DatabaseException
+	 * @param IQueryBuilder $queryBuilder
 	 */
-	static protected function tearDownAfterClassCleanFileCache() {
-		$sql = 'DELETE FROM `*PREFIX*filecache`';
-		$query = \OC_DB::prepare($sql);
-		$query->execute();
+	static protected function tearDownAfterClassCleanFileCache(IQueryBuilder $queryBuilder) {
+		$queryBuilder->delete('filecache')
+			->execute();
 	}
 
 	/**
