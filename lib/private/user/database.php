@@ -295,6 +295,20 @@ class OC_User_Database extends OC_User_Backend implements \OCP\IUserBackend {
 	}
 
 	/**
+	 * returns the username for the given login name in the correct casing
+	 *
+	 * @param string $loginName
+	 * @return string|false
+	 */
+	public function loginName2UserName($loginName) {
+		if ($this->userExists($loginName)) {
+			return $this->cache[$loginName]['uid'];
+		}
+
+		return false;
+	}
+
+	/**
 	 * Backend name to be shown in user management
 	 * @return string the name of the backend to be shown
 	 */
@@ -302,4 +316,22 @@ class OC_User_Database extends OC_User_Backend implements \OCP\IUserBackend {
 		return 'Database';
 	}
 
+	public static function preLoginNameUsedAsUserName($param) {
+		if(!isset($param['uid'])) {
+			throw new \Exception('key uid is expected to be set in $param');
+		}
+
+		$backends = \OC::$server->getUserManager()->getBackends();
+		foreach ($backends as $backend) {
+			if ($backend instanceof \OC_User_Database) {
+				/** @var \OC_User_Database $backend */
+				$uid = $backend->loginName2UserName($param['uid']);
+				if ($uid !== false) {
+					$param['uid'] = $uid;
+					return;
+				}
+			}
+		}
+
+	}
 }
