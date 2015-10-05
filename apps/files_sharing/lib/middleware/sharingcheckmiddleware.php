@@ -29,6 +29,9 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
+use OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCA\Files_Sharing\Exceptions\S2SException;
+use OCP\AppFramework\Http\JSONResponse;
 
 /**
  * Checks whether the "sharing check" is enabled
@@ -43,6 +46,8 @@ class SharingCheckMiddleware extends Middleware {
 	protected $config;
 	/** @var IAppManager */
 	protected $appManager;
+	/** @var IControllerMethodReflector */
+	protected $reflector;
 
 	/***
 	 * @param string $appName
@@ -51,10 +56,13 @@ class SharingCheckMiddleware extends Middleware {
 	 */
 	public function __construct($appName,
 								IConfig $config,
-								IAppManager $appManager) {
+								IAppManager $appManager,
+								IControllerMethodReflector $reflector
+								) {
 		$this->appName = $appName;
 		$this->config = $config;
 		$this->appManager = $appManager;
+		$this->reflector = $reflector;
 	}
 
 	/**
@@ -67,6 +75,14 @@ class SharingCheckMiddleware extends Middleware {
 	public function beforeController($controller, $methodName) {
 		if(!$this->isSharingEnabled()) {
 			throw new NotFoundException('Sharing is disabled.');
+		}
+
+		if ($controller instanceof \OCA\Files_Sharing\Controllers\ExternalSharesController &&
+			!$this->externalSharesChecks()) {
+			throw new S2SException('Federated sharing not allowed');
+		} else if ($controller instanceof \OCA\Files_Sharing\Controllers\ShareController &&
+			!$this->isLinkSharingEnabled()) {
+			throw new NotFoundException('Link sharing is disabled');
 		}
 	}
 
@@ -84,7 +100,30 @@ class SharingCheckMiddleware extends Middleware {
 			return new NotFoundResponse();
 		}
 
+		if (is_a($exception, '\OCA\Files_Sharing\Exceptions\S2SException')) {
+			return new JSONResponse($exception->getMessage(), 405);
+		}
+
 		throw $exception;
+	}
+
+	/**
+	 * Checks for externalshares controller
+	 * @return bool
+	 */
+	private function externalSharesChecks() {
+
+		if (!$this->reflector->hasAnnotation('NoIncomingFederatedSharingRequired') &&
+			$this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') !== 'yes') {
+			return false;
+		}
+
+		if (!$this->reflector->hasAnnotation('NoOutgoingFederatedSharingRequired') &&
+		    $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') !== 'yes') {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -98,6 +137,14 @@ class SharingCheckMiddleware extends Middleware {
 			return false;
 		}
 
+		return true;
+	}
+
+	/**
+	 * Check if link sharing is allowed
+	 * @return bool
+	 */
+	private function isLinkSharingEnabled() {
 		// Check if the shareAPI is enabled
 		if ($this->config->getAppValue('core', 'shareapi_enabled', 'yes') !== 'yes') {
 			return false;

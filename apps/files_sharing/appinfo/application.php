@@ -61,7 +61,6 @@ class Application extends App {
 			return new ExternalSharesController(
 				$c->query('AppName'),
 				$c->query('Request'),
-				$c->query('IsIncomingShareEnabled'),
 				$c->query('ExternalManager'),
 				$c->query('HttpClientService')
 			);
@@ -81,9 +80,6 @@ class Application extends App {
 		});
 		$container->registerService('HttpClientService', function (SimpleContainer $c) use ($server) {
 			return $server->getHTTPClientService();
-		});
-		$container->registerService('IsIncomingShareEnabled', function (SimpleContainer $c) {
-			return Helper::isIncomingServer2serverShareEnabled();
 		});
 		$container->registerService('ExternalManager', function (SimpleContainer $c) use ($server) {
 			$user = $server->getUserSession()->getUser();
@@ -105,7 +101,8 @@ class Application extends App {
 			return new SharingCheckMiddleware(
 				$c->query('AppName'),
 				$server->getConfig(),
-				$server->getAppManager()
+				$server->getAppManager(),
+				$c['ControllerMethodReflector']
 			);
 		});
 
