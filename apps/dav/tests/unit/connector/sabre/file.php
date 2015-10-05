@@ -200,7 +200,9 @@ class File extends \Test\TestCase {
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 
 		// put first chunk
+		$file->acquireLock(ILockingProvider::LOCK_SHARED);
 		$this->assertNull($file->put('test data one'));
+		$file->releaseLock(ILockingProvider::LOCK_SHARED);
 
 		$info = new \OC\Files\FileInfo('/test.txt-chunking-12345-2-1', null, null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL
@@ -443,12 +445,12 @@ class File extends \Test\TestCase {
 		$thrown = false;
 		try {
 			// beforeMethod locks
-			$view->lockFile('/test.txt', ILockingProvider::LOCK_SHARED);
+			$file->acquireLock(ILockingProvider::LOCK_SHARED);
 
 			$file->put($this->getStream('test data'));
 
 			// afterMethod unlocks
-			$view->unlockFile('/test.txt', ILockingProvider::LOCK_SHARED);
+			$file->releaseLock(ILockingProvider::LOCK_SHARED);
 		} catch (\Sabre\DAV\Exception\BadRequest $e) {
 			$thrown = true;
 		}
@@ -505,7 +507,9 @@ class File extends \Test\TestCase {
 			'permissions' => \OCP\Constants::PERMISSION_ALL
 		], null);
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$file->acquireLock(ILockingProvider::LOCK_SHARED);
 		$this->assertNull($file->put('test data one'));
+		$file->releaseLock(ILockingProvider::LOCK_SHARED);
 
 		$info = new \OC\Files\FileInfo('/' . $this->user . '/files/test.txt-chunking-12345-2-1', null, null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL
@@ -515,7 +519,9 @@ class File extends \Test\TestCase {
 		// action
 		$thrown = false;
 		try {
+			$file->acquireLock(ILockingProvider::LOCK_SHARED);
 			$file->put($this->getStream('test data'));
+			$file->releaseLock(ILockingProvider::LOCK_SHARED);
 		} catch (\OCA\DAV\Connector\Sabre\Exception\FileLocked $e) {
 			$thrown = true;
 		}
