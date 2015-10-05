@@ -28,12 +28,9 @@ namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
 use OCP\Files;
-use OCP\Files\Config\IMountProvider;
-use OCP\Files\Storage\IStorageFactory;
 use OC\Notification\IManager;
-use OCP\IUser;
 
-class Manager implements IMountProvider {
+class Manager {
 	const STORAGE = '\OCA\Files_Sharing\External\Storage';
 
 	/**
@@ -155,22 +152,6 @@ class Manager implements IMountProvider {
 		return $this->mountShare($options);
 	}
 
-	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
-		$query = $this->connection->prepare('
-				SELECT `remote`, `share_token`, `password`, `mountpoint`, `owner`
-				FROM `*PREFIX*share_external`
-				WHERE `user` = ? AND `accepted` = ?
-			');
-		$query->execute([$user->getUID(), 1]);
-		$mounts = [];
-		while ($row = $query->fetch()) {
-			$row['manager'] = $this;
-			$row['token'] = $row['share_token'];
-			$mounts[] = $this->getMount($row, $loader);
-		}
-		return $mounts;
-	}
-
 	/**
 	 * get share
 	 *
@@ -283,12 +264,12 @@ class Manager implements IMountProvider {
 		return rtrim(substr($path, strlen($prefix)), '/');
 	}
 
-	protected function getMount($data, IStorageFactory $storageFactory) {
+	public function getMount($data) {
 		$data['manager'] = $this;
 		$mountPoint = '/' . $this->uid . '/files' . $data['mountpoint'];
 		$data['mountpoint'] = $mountPoint;
 		$data['certificateManager'] = \OC::$server->getCertificateManager($this->uid);
-		return new Mount(self::STORAGE, $mountPoint, $data, $this, $storageFactory);
+		return new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
 	}
 
 	/**
@@ -296,7 +277,7 @@ class Manager implements IMountProvider {
 	 * @return Mount
 	 */
 	protected function mountShare($data) {
-		$mount = $this->getMount($data, $this->storageLoader);
+		$mount = $this->getMount($data);
 		$this->mountManager->addMount($mount);
 		return $mount;
 	}
