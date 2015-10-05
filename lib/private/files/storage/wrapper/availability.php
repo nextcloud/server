@@ -220,6 +220,9 @@ class Availability extends Wrapper {
 
 	/** {@inheritdoc} */
 	public function file_exists($path) {
+		if ($path === '') {
+			return true;
+		}
 		$this->checkAvailability();
 		try {
 			return parent::file_exists($path);
