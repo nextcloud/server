@@ -23,6 +23,7 @@ namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Files\Storage\StorageFactory;
 use OCA\Files_Sharing\External\Manager;
+use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
 use Test\Traits\UserTrait;
 
@@ -44,6 +45,7 @@ class ManagerTest extends TestCase {
 	 * @var \OCP\IUser
 	 */
 	private $user;
+	private $mountProvider;
 
 	protected function setUp() {
 		parent::setUp();
@@ -62,10 +64,13 @@ class ManagerTest extends TestCase {
 			\OC::$server->getNotificationManager(),
 			$this->uid
 		);
+		$this->mountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function() {
+			return $this->manager;
+		});
 	}
 
 	private function setupMounts() {
-		$mounts = $this->manager->getMountsForUser($this->user, new StorageFactory());
+		$mounts = $this->mountProvider->getMountsForUser($this->user, new StorageFactory());
 		foreach ($mounts as $mount) {
 			$this->mountManager->addMount($mount);
 		}
