@@ -1087,6 +1087,9 @@ $CONFIG = array(
 
 /**
  * List of trusted proxy servers
+ * 
+ * If you configure these also consider setting `forwarded_for_headers` which
+ * otherwise defaults to `HTTP_X_FORWARDED_FOR` (the `X-Forwarded-For` header).
  */
 'trusted_proxies' => array('203.0.113.45', '198.51.100.128'),
 
