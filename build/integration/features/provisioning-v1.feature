@@ -24,6 +24,21 @@ Feature: provisioning
     And the HTTP status code should be "200"
     And user "brand-new-user" exists
 
+  Scenario: Create an existing user
+    Given As an "admin"
+    And user "brand-new-user" exists
+    When sending "POST" to "/cloud/users" with
+      | userid | brand-new-user |
+      | password | 123456 |
+    Then the OCS status code should be "102"
+    And the HTTP status code should be "200"
+
+  Scenario: Get an existing user
+    Given As an "admin"
+    When sending "GET" to "/cloud/users/brand-new-user"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+
 
   Scenario: Edit a user
     Given As an "admin"
