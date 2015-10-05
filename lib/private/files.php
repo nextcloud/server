@@ -40,6 +40,7 @@
  *
  */
 
+use OC\Files\View;
 use OC\Streamer;
 use OCP\Lock\ILockingProvider;
 
@@ -123,14 +124,10 @@ class OC_Files {
 				$view->lockFile($filename, ILockingProvider::LOCK_SHARED);
 			}
 			if ($getType === self::ZIP_FILES) {
-				foreach ($files as $file) {
-					$file = $dir . '/' . $file;
-					$view->lockFile($file, ILockingProvider::LOCK_SHARED);
-				}
+				self::lockFiles($view, $dir, $files);
 			}
 			if ($getType === self::ZIP_DIR) {
-				$file = $dir . '/' . $files;
-				$view->lockFile($file, ILockingProvider::LOCK_SHARED);
+				self::lockFiles($view, $dir, $files);
 			}
 
 			if ($streamer) {
@@ -186,6 +183,30 @@ class OC_Files {
 			$l = \OC::$server->getL10N('core');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			\OC_Template::printErrorPage($l->t('Can\'t read file'), $hint);
+		}
+	}
+
+	/**
+	 * @param View $view
+	 * @param $dir
+	 * @param string[]|string $files
+	 */
+	public static function lockFiles($view, $dir, $files) {
+		if (!is_array($files)) {
+			$file = $dir . '/' . $files;
+			$files = [$file];
+		}
+		foreach ($files as $file) {
+			$file = $dir . '/' . $file;
+			$view->lockFile($file, ILockingProvider::LOCK_SHARED);
+			if ($view->is_dir($file)) {
+				$contents = $view->getDirectoryContent($file);
+				$contents = array_map(function($fileInfo) use ($file) {
+					/** @var \OCP\Files\FileInfo $fileInfo */
+					return $file . '/' . $fileInfo->getName();
+				}, $contents);
+				self::lockFiles($view, $dir, $contents);
+			}
 		}
 	}
 
