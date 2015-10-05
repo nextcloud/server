@@ -353,10 +353,10 @@ if ($_['cronErrors']) {
 	<div id="EncryptionWarning" class="warning hidden">
 		<p><?php p($l->t('Please read carefully before activating server-side encryption: ')); ?></p>
 		<ul>
-			<li><?php p($l->t('Server-side encryption is a one way process. Once encryption is enabled, all files from that point forward will be encrypted on the server and it will not be possible to disable encryption at a later date')); ?></li>
-			<li><?php p($l->t('Anyone who has privileged access to your ownCloud server can decrypt your files either by intercepting requests or reading out user passwords which are stored in plain text session files. Server-side encryption does therefore not protect against malicious administrators but is useful for protecting your data on externally hosted storage.')); ?></li>
-			<li><?php p($l->t('Depending on the actual encryption module the general file size is increased (by 35%% or more when using the default module)')); ?></li>
-			<li><?php p($l->t('You should regularly backup all encryption keys to prevent permanent data loss (data/<user>/files_encryption and data/files_encryption)')); ?></li>
+			<li><?php p($l->t('Once encryption is enabled, all files uploaded to the server from that point forward will be encrypted at rest on the server. It will only be possible to disable encryption at a later date if the active encryption module supports that function, and all pre-conditions (e.g. setting a recover key) are met.')); ?></li>
+			<li><?php p($l->t('Encryption alone does not guarantee security of the system. Please see ownCloud documentation for more information about how the encryption app works, and the supported use cases.')); ?></li>
+			<li><?php p($l->t('Be aware that encryption always increases the file size.')); ?></li>
+			<li><?php p($l->t('It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data.')); ?></li>
 		</ul>
 
 		<p><?php p($l->t('This is the final warning: Do you really want to enable encryption?')) ?> <input type="button"
