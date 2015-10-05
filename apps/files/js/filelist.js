@@ -1783,7 +1783,7 @@
 					}
 				} catch (error) {
 					input.attr('title', error);
-					input.tooltip({placement: 'left', trigger: 'manual'});
+					input.tooltip({placement: 'right', trigger: 'manual'});
 					input.tooltip('show');
 					input.addClass('error');
 				}
@@ -1797,7 +1797,7 @@
 					input.removeClass('error');
 				} catch (error) {
 					input.attr('title', error);
-					input.tooltip({placement: 'left', trigger: 'manual'});
+					input.tooltip({placement: 'right', trigger: 'manual'});
 					input.tooltip('show');
 					input.addClass('error');
 				}
