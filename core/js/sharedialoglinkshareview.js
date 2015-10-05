@@ -124,7 +124,11 @@
 					this.$el.find('#linkPassText').focus();
 				}
 			} else {
-				this.model.removeLinkShare();
+				if (this.model.get('linkShare').isLinkShare) {
+					this.model.removeLinkShare();
+				} else {
+					this.$el.find('#linkPass').slideToggle(OC.menuSpeed);
+				}
 			}
 		},
 
