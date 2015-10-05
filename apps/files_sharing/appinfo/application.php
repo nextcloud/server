@@ -138,6 +138,7 @@ class Application extends App {
 		$server = $this->getContainer()->query('ServerContainer');
 		$mountProviderCollection = $server->getMountProviderCollection();
 		$mountProviderCollection->registerProvider($this->getContainer()->query('MountProvider'));
+		$mountProviderCollection->registerProvider($this->getContainer()->query('ExternalManager'));
 	}
 
 	public function setupPropagation() {
