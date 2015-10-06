@@ -104,7 +104,7 @@ class ChangeWatcher {
 		$share = $params['share'];
 
 		if ($share['item_type'] === 'file' || $share['item_type'] === 'folder') {
-			$this->recipientPropagator->markDirty($share, time());
+			$this->recipientPropagator->markDirty($share, microtime(true));
 		}
 	}
 }
