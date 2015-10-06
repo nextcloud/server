@@ -138,7 +138,7 @@ class Expiration {
 		}
 
 		if (!isset($splitValues[1])) {
-			$maxValue = self::NO_OBLIGATION;
+			$maxValue = 'auto';
 		} else {
 			$maxValue = trim($splitValues[1]);
 		}
