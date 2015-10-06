@@ -425,9 +425,9 @@ input[type="submit"].enabled {
 .emptycontent {
 	font-size: 16px;
 	color: #888;
-	position: absolute;
 	text-align: center;
-	top: 30%;
+	margin-top: 100px; /* ie8 */
+	margin-top: 30vh;
 	width: 100%;
 }
 #emptycontent h2,
