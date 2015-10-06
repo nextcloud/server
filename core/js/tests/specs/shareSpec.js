@@ -626,11 +626,11 @@ describe('OC.Share tests', function() {
 					expect($('#dropdown #expirationDate').val()).toEqual('');
 				});
 				it('checks expiration date checkbox and populates field when expiration date was set', function() {
-					shareItem.expiration = 1234;
+					shareItem.expiration = '2014-02-01 00:00:00';
 					shareData.shares.push(shareItem);
 					showDropDown();
 					expect($('#dropdown [name=expirationCheckbox]').prop('checked')).toEqual(true);
-					expect($('#dropdown #expirationDate').val()).toEqual('1234');
+					expect($('#dropdown #expirationDate').val()).toEqual('01-02-2014');
 				});
 				it('sets default date when default date setting is enabled', function() {
 					/* jshint camelcase:false */

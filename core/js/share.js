@@ -502,7 +502,8 @@ OC.Share={
 						}
 					}
 					if (share.expiration != null) {
-						OC.Share.showExpirationDate(share.expiration, share.stime);
+						var expireDate = moment(share.expiration, 'YYYY-MM-DD').format('DD-MM-YYYY');
+						OC.Share.showExpirationDate(expireDate, share.stime);
 					}
 				});
 			}
