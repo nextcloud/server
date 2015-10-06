@@ -310,7 +310,7 @@ class OC_Template extends \OC\Template\Base {
 			$logger->error("$error_msg $hint", ['app' => 'core']);
 			$logger->logException($e, ['app' => 'core']);
 
-			header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
+			header(self::getHttpProtocol() . ' 500 Internal Server Error');
 			header('Content-Type: text/plain; charset=utf-8');
 			print("$error_msg $hint");
 		}
@@ -340,7 +340,7 @@ class OC_Template extends \OC\Template\Base {
 			$logger->logException($exception, ['app' => 'core']);
 			$logger->logException($e, ['app' => 'core']);
 
-			header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
+			header(self::getHttpProtocol() . ' 500 Internal Server Error');
 			header('Content-Type: text/plain; charset=utf-8');
 			print("Internal Server Error\n\n");
 			print("The server encountered an internal error and was unable to complete your request.\n");
@@ -348,6 +348,28 @@ class OC_Template extends \OC\Template\Base {
 			print("More details can be found in the server log.\n");
 		}
 		die();
+	}
+
+	/**
+	 * This is only here to reduce the dependencies in case of an exception to
+	 * still be able to print a plain error message.
+	 *
+	 * Returns the used HTTP protocol.
+	 *
+	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
+	 * @internal Don't use this - use AppFramework\Http\Request->getHttpProtocol instead
+	 */
+	protected static function getHttpProtocol() {
+		$claimedProtocol = strtoupper($_SERVER['SERVER_PROTOCOL']);
+		$validProtocols = [
+			'HTTP/1.0',
+			'HTTP/1.1',
+			'HTTP/2',
+		];
+		if(in_array($claimedProtocol, $validProtocols, true)) {
+			return $claimedProtocol;
+		}
+		return 'HTTP/1.1';
 	}
 
 	/**
