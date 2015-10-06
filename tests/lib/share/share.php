@@ -931,6 +931,43 @@ class Test_Share extends \Test\TestCase {
 		$this->assertEmpty($expected, 'did not found all expected values');
 	}
 
+	public function testGetShareSubItemsWhenUserNotInGroup() {
+		OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, \OCP\Constants::PERMISSION_READ);
+
+		$result = \OCP\Share::getItemsSharedWithUser('test', $this->user2);
+		$this->assertCount(1, $result);
+
+		$groupShareId = array_keys($result)[0];
+
+		// remove user from group
+		$userObject = \OC::$server->getUserManager()->get($this->user2);
+		\OC::$server->getGroupManager()->get($this->group1)->removeUser($userObject);
+
+		$result = \OCP\Share::getItemsSharedWithUser('test', $this->user2);
+		$this->assertCount(0, $result);
+
+		// test with buggy data
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(2), // group sub-share
+				'share_with' => $qb->expr()->literal($this->user2),
+				'parent' => $qb->expr()->literal($groupShareId),
+				'uid_owner' => $qb->expr()->literal($this->user1),
+				'item_type' => $qb->expr()->literal('test'),
+				'item_source' => $qb->expr()->literal('test.txt'),
+				'item_target' => $qb->expr()->literal('test.txt'),
+				'file_target' => $qb->expr()->literal('test2.txt'),
+				'permissions' => $qb->expr()->literal(1),
+				'stime' => $qb->expr()->literal(time()),
+			])->execute();
+
+		$result = \OCP\Share::getItemsSharedWithUser('test', $this->user2);
+		$this->assertCount(0, $result);
+
+		$qb->delete('share')->execute();
+	}
+
 	public function testShareItemWithLink() {
 		OC_User::setUserId($this->user1);
 		$token = OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_LINK, null, \OCP\Constants::PERMISSION_READ);

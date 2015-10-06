@@ -1908,6 +1908,12 @@ class Share extends Constants {
 				$items = array_merge($items, $collectionItems);
 			}
 
+			// filter out invalid items, these can appear when subshare entries exist
+			// for a group in which the requested user isn't a member any more
+			$items = array_filter($items, function($item) {
+				return $item['share_type'] !== self::$shareTypeGroupUserUnique;
+			});
+
 			return self::formatResult($items, $column, $backend, $format, $parameters);
 		} elseif ($includeCollections && $collectionTypes && in_array('folder', $collectionTypes)) {
 			// FIXME: Thats a dirty hack to improve file sharing performance,
