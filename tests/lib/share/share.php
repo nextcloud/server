@@ -533,6 +533,39 @@ class Test_Share extends \Test\TestCase {
 		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $result['permissions']);
 	}
 
+	public function testSharingAFileInsideAFolderThatIsAlreadyShared() {
+		OC_User::setUserId($this->user1);
+		$view = new \OC\Files\View('/' . $this->user1 . '/');
+		$view->mkdir('files/test');
+		$view->mkdir('files/test/sub1');
+		$view->file_put_contents('files/test/sub1/file.txt', 'abc');
+
+		$folderInfo = $view->getFileInfo('files/test/sub1');
+		$folderId = $folderInfo->getId();
+
+		$fileInfo = $view->getFileInfo('files/test/sub1/file.txt');
+		$fileId = $fileInfo->getId();
+
+		$this->assertTrue(
+			OCP\Share::shareItem('folder', $folderId, OCP\Share::SHARE_TYPE_GROUP, $this->group2, \OCP\Constants::PERMISSION_READ + \OCP\Constants::PERMISSION_UPDATE),
+			'Failed asserting that user 1 successfully shared "test/sub1" with group 2.'
+		);
+
+		$this->assertTrue(
+			OCP\Share::shareItem('file', $fileId, OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_READ),
+			'Failed asserting that user 1 successfully shared "test/sub1/file.txt" with user 2.'
+		);
+
+		$result = \OCP\Share::getItemsSharedWithUser('file', $this->user2);
+		$this->assertCount(2, $result);
+
+		foreach ($result as $share) {
+			$itemName = substr($share['path'], strrpos($share['path'], '/'));
+			$this->assertSame($itemName, $share['file_target'], 'Asserting that the file_target is the last segment of the path');
+			$this->assertSame($share['item_target'], '/' . $share['item_source'], 'Asserting that the item is the item that was shared');
+		}
+	}
+
 	protected function shareUserOneTestFileWithGroupOne() {
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(
