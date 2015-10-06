@@ -670,18 +670,4 @@ class Util {
 		}		
 		return self::$needUpgradeCache;
 	}
-
-	/**
-	 * Returns whether the current request is coming from a
-	 * famous awfully old browser.
-	 *
-	 * @return boolean true if it's IE8, false otherwise
-	 */
-	public static function isIE8() {
-		preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $matches);
-		if (count($matches) > 0 && $matches[1] <= 9) {
-			return true;
-		}
-		return false;
-	}
 }

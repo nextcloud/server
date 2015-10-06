@@ -141,7 +141,7 @@ class AvatarController extends Controller {
 		$files = $this->request->getUploadedFile('files');
 
 		$headers = [];
-		if (\OCP\Util::isIE8()) {
+		if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE_8])) {
 			// due to upload iframe workaround, need to set content-type to text/plain
 			$headers['Content-Type'] = 'text/plain';
 		}
