@@ -31,7 +31,7 @@ OC.L10N.register(
     "Confirm Deletion" : "Confirmar eliminación",
     "Mappings cleared successfully!" : "¡Asignaciones borradas exitosamente!",
     "Error while clearing the mappings." : "Error mientras se borraban las asignaciones.",
-    "Anonymous bind is not allowed. Please provide a User DN and Password." : "Enlace anónimo no está permitido. Por favor suministre un DN de usuario y contraseña ",
+    "Anonymous bind is not allowed. Please provide a User DN and Password." : "Un vínculo anónimo no está permitido. Por favor, suministre un DN de usuario y contraseña. ",
     "LDAP Operations error. Anonymous bind might not be allowed." : "Error de operaciones LDAP. Enlace anónimo puede no estar permitido.",
     "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "Guardado fallido. Por favor, asegúrese de que la base de datos está en Operación. Actualizar antes de continuar.",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Cambiando el modo habilitará automáticamente las consultas LDAP. Dependiendo del tamaño de su LDAP puede tardar un rato. ¿Desea cambiar el modo?",
