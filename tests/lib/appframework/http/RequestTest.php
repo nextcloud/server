@@ -497,6 +497,57 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('192.168.0.233', $request->getRemoteAddress());
 	}
 
+	/**
+	 * @return array
+	 */
+	public function httpProtocolProvider() {
+		return [
+			// Valid HTTP 1.0
+			['HTTP/1.0', 'HTTP/1.0'],
+			['http/1.0', 'HTTP/1.0'],
+			['HTTp/1.0', 'HTTP/1.0'],
+
+			// Valid HTTP 1.1
+			['HTTP/1.1', 'HTTP/1.1'],
+			['http/1.1', 'HTTP/1.1'],
+			['HTTp/1.1', 'HTTP/1.1'],
+
+			// Valid HTTP 2.0
+			['HTTP/2', 'HTTP/2'],
+			['http/2', 'HTTP/2'],
+			['HTTp/2', 'HTTP/2'],
+
+			// Invalid
+			['HTTp/394', 'HTTP/1.1'],
+			['InvalidProvider/1.1', 'HTTP/1.1'],
+			[null, 'HTTP/1.1'],
+			['', 'HTTP/1.1'],
+
+		];
+	}
+
+	/**
+	 * @dataProvider httpProtocolProvider
+	 *
+	 * @param mixed $input
+	 * @param string $expected
+	 */
+	public function testGetHttpProtocol($input, $expected) {
+		$request = new Request(
+			[
+				'server' => [
+					'SERVER_PROTOCOL' => $input,
+				],
+			],
+			$this->secureRandom,
+			$this->getMock('\OCP\Security\ICrypto'),
+			$this->config,
+			$this->stream
+		);
+
+		$this->assertSame($expected, $request->getHttpProtocol());
+	}
+
 	public function testGetServerProtocolWithOverride() {
 		$this->config
 			->expects($this->at(0))

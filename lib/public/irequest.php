@@ -168,6 +168,14 @@ interface IRequest {
 	public function getServerProtocol();
 
 	/**
+	 * Returns the used HTTP protocol.
+	 *
+	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
+	 * @since 8.2.0
+	 */
+	public function getHttpProtocol();
+
+	/**
 	* Returns the request uri, even if the website uses one or more
 	* reverse proxies
 	* @return string
