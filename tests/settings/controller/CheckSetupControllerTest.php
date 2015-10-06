@@ -346,6 +346,7 @@ class CheckSetupControllerTest extends TestCase {
 				],
 				'forwardedForHeadersWorking' => true,
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
+				'isCorrectMemcachedPHPModuleInstalled' => true,
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());

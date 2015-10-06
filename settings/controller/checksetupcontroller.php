@@ -211,6 +211,23 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
+	 * Checks if the correct memcache module for PHP is installed. Only
+	 * fails if memcached is configured and the working module is not installed.
+	 *
+	 * @return bool
+	 */
+	private function isCorrectMemcachedPHPModuleInstalled() {
+		if ($this->config->getSystemValue('memcache.distributed', null) !== '\OC\Memcache\Memcached') {
+			return true;
+		}
+
+		// there are two different memcached modules for PHP
+		// we only support memcached and not memcache
+		// https://code.google.com/p/memcached/wiki/PHPClientComparison
+		return !extension_loaded('memcached') && extension_loaded('memcache');
+	}
+
+	/**
 	 * @return DataResponse
 	 */
 	public function check() {
@@ -226,6 +243,7 @@ class CheckSetupController extends Controller {
 				'phpSupported' => $this->isPhpSupported(),
 				'forwardedForHeadersWorking' => $this->forwardedForHeadersWorking(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
+				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled()
 			]
 		);
 	}
