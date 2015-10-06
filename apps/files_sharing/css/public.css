@@ -1,7 +1,10 @@
+#content {
+	height: initial;
+}
+
 #preview {
 	background: #fff;
 	text-align: center;
-	margin: 45px auto 0;
 	min-height: 200px;
 }
 

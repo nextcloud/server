@@ -1164,7 +1164,7 @@ div.crumb:active {
 
 /* public footer */
 #body-public footer {
-	margin-top: 65px;
+	position: relative;
 	text-align: center;
 }
 
