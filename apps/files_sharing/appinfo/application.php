@@ -27,6 +27,7 @@ namespace OCA\Files_Sharing\AppInfo;
 use OCA\Files_Sharing\Helper;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\Propagation\PropagationManager;
+use OCA\Files_Sharing\Propagation\GroupPropagationManager;
 use OCP\AppFramework\App;
 use OC\AppFramework\Utility\SimpleContainer;
 use OCA\Files_Sharing\Controllers\ExternalSharesController;
@@ -128,6 +129,16 @@ class Application extends App {
 			);
 		});
 
+		$container->registerService('GroupPropagationManager', function (IContainer $c) {
+			/** @var \OCP\IServerContainer $server */
+			$server = $c->query('ServerContainer');
+			return new GroupPropagationManager(
+				$server->getUserSession(),
+				$server->getGroupManager(),
+				$c->query('PropagationManager')
+			);
+		});
+
 		/*
 		 * Register capabilities
 		 */
@@ -144,5 +155,7 @@ class Application extends App {
 	public function setupPropagation() {
 		$propagationManager = $this->getContainer()->query('PropagationManager');
 		\OCP\Util::connectHook('OC_Filesystem', 'setup', $propagationManager, 'globalSetup');
+
+		$this->getContainer()->query('GroupPropagationManager')->globalSetup();
 	}
 }

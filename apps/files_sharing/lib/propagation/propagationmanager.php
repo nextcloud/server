@@ -81,6 +81,21 @@ class PropagationManager {
 	}
 
 	/**
+	 * Propagates etag changes for the given shares to the given user
+	 *
+	 * @param array array of shares for which to trigger etag change
+	 * @param string $user
+	 */
+	public function propagateSharesToUser($shares, $user) {
+		$changePropagator = $this->getChangePropagator($user);
+		foreach ($shares as $share) {
+			$changePropagator->addChange($share['file_target']);
+		}
+		$time = microtime(true);
+		$changePropagator->propagateChanges(floor($time));
+	}
+
+	/**
 	 * @param string $user
 	 * @return \OCA\Files_Sharing\Propagation\RecipientPropagator
 	 */
