@@ -146,9 +146,12 @@ class Configuration {
 
 			$setMethod = 'setValue';
 			switch($key) {
+				case 'ldapAgentPassword':
+					$setMethod = 'setRawValue';
+					break;
 				case 'homeFolderNamingRule':
-					if(!empty($val) && strpos($val, 'attr:') === false) {
-						$val = 'attr:'.$val;
+					if(!empty(trim($val)) && strpos($val, 'attr:') === false) {
+						$val = 'attr:'.trim($val);
 					}
 					break;
 				case 'ldapBase':
@@ -272,8 +275,11 @@ class Configuration {
 	}
 
 	/**
-	 * @param string $varName
-	 * @param array|string $value
+	 * Sets multi-line values as arrays
+	 * 
+	 * @param string $varName name of config-key
+	 * @param array|string $value to set
+	 * @param boolean $trim Trim value? (default: false)
 	 */
 	protected function setMultiLine($varName, $value) {
 		if(empty($value)) {
@@ -285,7 +291,25 @@ class Configuration {
 			}
 		}
 
-		$this->setValue($varName, $value);
+		if(!is_array($value)) {
+			$finalValue = trim($value);
+		} else {
+			$finalValue = [];
+			foreach($value as $key => $val) {
+				if(is_string($val)) {
+					$val = trim($val);
+					if(!empty($val)) {
+						//accidental line breaks are not wanted and can cause
+						// odd behaviour. Thus, away with them.
+						$finalValue[] = $val;
+					}
+				} else {
+					$finalValue[] = $val;
+				}
+			}
+		}
+
+		$this->setRawValue($varName, $finalValue);
 	}
 
 	/**
@@ -328,10 +352,25 @@ class Configuration {
 	}
 
 	/**
-	 * @param string $varName
-	 * @param mixed $value
+	 * Sets a scalar value.
+	 * 
+	 * @param string $varName name of config key
+	 * @param mixed $value to set
 	 */
 	protected function setValue($varName, $value) {
+		if(is_string($value)) {
+			$value = trim($value);
+		}
+		$this->config[$varName] = $value;
+	}
+
+	/**
+	 * Sets a scalar value without trimming.
+	 *
+	 * @param string $varName name of config key
+	 * @param mixed $value to set
+	 */
+	protected function setRawValue($varName, $value) {
 		$this->config[$varName] = $value;
 	}
 
