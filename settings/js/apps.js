@@ -245,6 +245,14 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					element.val(t('settings','Enable'));
 					appItem.addClass('appwarning');
 				} else {
+					if (result.data.update_required) {
+						OC.Settings.Apps.showReloadMessage();
+
+						setTimeout(function() {
+							location.reload();
+						}, 5000);
+					}
+
 					OC.Settings.Apps.rebuildNavigation();
 					appItem.data('active',true);
 					element.data('active',true);
@@ -388,6 +396,20 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		$('div#app-'+appId+' .warning')
 			.hide()
 			.text('');
+	},
+
+	showReloadMessage: function(appId) {
+		OC.dialogs.info(
+			t(
+				'settings',
+				'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
+			),
+			t('settings','App update'),
+			function (result) {
+				window.location.reload();
+			},
+			true
+		);
 	},
 
 	filter: function(query) {
