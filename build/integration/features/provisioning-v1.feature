@@ -40,6 +40,13 @@ Feature: provisioning
     And the HTTP status code should be "200"
 
 
+  Scenario: Getting all users
+    Given As an "admin"
+    When sending "GET" to "/cloud/users"
+    And users returned are
+      | brand-new-user | ser507 |
+
+
   Scenario: Edit a user
     Given As an "admin"
     And user "brand-new-user" exists

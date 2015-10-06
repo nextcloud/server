@@ -59,6 +59,43 @@ class FeatureContext extends BehatContext {
 	}
 
 	/**
+    *  Parses the xml answer to get the array of users returned.
+    */
+    public function getArrayOfUsersResponded($resp) {
+        $listCheckedElements = $resp->xml()->data[0]->users[0]->element;
+        $extractedElementsArray = json_decode( json_encode($listCheckedElements) , 1);
+        return $extractedElementsArray;
+    }
+
+    
+    /**
+    *  Parses the xml answer to get the array of groups returned.
+    */
+    /*
+    public function getArrayOfGroupsResponded(){
+        $listCheckedElements = $this->$response->xml()->data[0]->groups[0]->element;
+        $extractedElementsArray = json_decode( json_encode($listCheckedElements) , 1);
+        return $extractedElementsArray;
+    }
+	*/
+    
+
+
+	/**
+	 * @Then /^users returned are$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 */
+	public function theUsersShouldBe($usersList) {
+		if ($usersList instanceof \Behat\Gherkin\Node\TableNode) {
+			$users = $usersList->getRows()[0];
+            $respondedArray = $this->getArrayOfUsersResponded($this->response);
+            PHPUnit_Framework_Assert::assertEquals($users, $respondedArray);
+		}
+
+	}
+		
+
+	/**
 	 * @Then /^the OCS status code should be "([^"]*)"$/
 	 */
 	public function theOCSStatusCodeShouldBe($statusCode) {
