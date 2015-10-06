@@ -58,9 +58,6 @@ class FeatureContext extends BehatContext {
 		return $response->xml()->meta[0]->statuscode;
 	}
 
-
-
-
 	/**
 	 * @Then /^the OCS status code should be "([^"]*)"$/
 	 */
@@ -68,16 +65,12 @@ class FeatureContext extends BehatContext {
 		PHPUnit_Framework_Assert::assertEquals($statusCode, $this->getOCSResponse($this->response));
 	}
 
-
 	/**
 	 * @Then /^the HTTP status code should be "([^"]*)"$/
 	 */
 	public function theHTTPStatusCodeShouldBe($statusCode) {
 		PHPUnit_Framework_Assert::assertEquals($statusCode, $this->response->getStatusCode());
 	}
-
-	
-
 
 	/**
 	 * @Given /^As an "([^"]*)"$/
@@ -114,12 +107,12 @@ class FeatureContext extends BehatContext {
 	public function userDoesNotExist($user) {
 		try {
 			$this->userExists($user);
+			PHPUnit_Framework_Assert::fail('The user "' . $user . '" exists');
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
 			PHPUnit_Framework_Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
 		}
 	}
-
 
 	/**
 	 * @When /^creating the user "([^"]*)r"$/
@@ -141,7 +134,6 @@ class FeatureContext extends BehatContext {
 
 	}
 
-
 	/**
 	 * @When /^creating the group "([^"]*)r"$/
 	 */
@@ -159,7 +151,6 @@ class FeatureContext extends BehatContext {
 			]
 		]);
 	}
-
 
 	/**
 	 * @Given /^group "([^"]*)" exists$/
@@ -182,12 +173,12 @@ class FeatureContext extends BehatContext {
 	public function groupDoesNotExist($group) {
 		try {
 			$this->groupExists($group);
+			PHPUnit_Framework_Assert::fail('The group "' . $group . '" exists');
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
 			PHPUnit_Framework_Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
 		}
 	}
-
 
 	/**
 	 * @When /^sending "([^"]*)" to "([^"]*)" with$/
@@ -211,10 +202,4 @@ class FeatureContext extends BehatContext {
 			$this->response = $ex->getResponse();
 		}
 	}
-
-
-
-
-
-
 }
