@@ -23,6 +23,8 @@
 
 namespace OC\Settings\Controller;
 
+use OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\Service\BackendService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -122,8 +124,13 @@ class CertificateController extends Controller {
 	protected function isCertificateImportAllowed() {
 		$externalStorageEnabled = $this->appManager->isEnabledForUser('files_external');
 		if ($externalStorageEnabled) {
+			/** @var BackendService $backendService */
 			$backendService = \OC_Mount_Config::$app->getContainer()->query('OCA\Files_External\Service\BackendService');
-			if ($backendService->getBackendsVisibleFor(\OCA\Files_External\Service\BackendService::VISIBILITY_PERSONAL)) {
+			$backends = array_filter($backendService->getAvailableBackends(), function (Backend $backend) {
+				return $backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL);
+			});
+
+			if (!empty($backends)) {
 				return true;
 			}
 		}
