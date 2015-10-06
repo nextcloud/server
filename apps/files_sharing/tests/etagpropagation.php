@@ -47,6 +47,7 @@ class EtagPropagation extends TestCase {
 		\OC_Hook::clear('OC_Filesystem', 'post_write');
 		\OC_Hook::clear('OC_Filesystem', 'post_delete');
 		\OC_Hook::clear('OC_Filesystem', 'post_rename');
+		\OC_Hook::clear('OCP\Share', 'post_update_permissions');
 		parent::tearDown();
 	}
 
@@ -403,6 +404,19 @@ class EtagPropagation extends TestCase {
 		Filesystem::file_put_contents('/directReshare/test.txt', 'sad');
 		$this->assertEtagsNotChanged([self::TEST_FILES_SHARING_API_USER3]);
 		$this->assertEtagsChanged([self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER4]);
+
+		$this->assertAllUnchaged();
+	}
+
+	public function testEtagChangeOnPermissionsChange() {
+		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
+
+		$view = new View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
+		$folderInfo = $view->getFileInfo('/sub1/sub2/folder');
+
+		\OCP\Share::setPermissions('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 17);
+
+		$this->assertEtagsForFoldersChanged([self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER4]);
 
 		$this->assertAllUnchaged();
 	}

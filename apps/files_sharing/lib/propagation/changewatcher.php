@@ -99,4 +99,12 @@ class ChangeWatcher {
 			$propagator->propagateChanges();
 		}
 	}
+
+	public function permissionsHook($params) {
+		$share = $params['share'];
+
+		if ($share['item_type'] === 'file' || $share['item_type'] === 'folder') {
+			$this->recipientPropagator->markDirty($share, microtime(true));
+		}
+	}
 }
