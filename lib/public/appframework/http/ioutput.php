@@ -68,9 +68,9 @@ interface IOutput {
 	 * @param string $path
 	 * @param string $domain
 	 * @param bool $secure
-	 * @param bool $httponly
+	 * @param bool $httpOnly
 	 * @since 8.1.0
 	 */
-	public function setCookie($name, $value, $expire, $path, $domain, $secure, $httponly);
+	public function setCookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
 
 }

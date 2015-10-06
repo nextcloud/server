@@ -79,7 +79,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService('OCP\\AppFramework\\Http\\IOutput', function($c){
-			return new Output();
+			return new Output($this->getServer()->getWebRoot());
 		});
 
 		$this->registerService('OCP\\IAvatarManager', function($c) {
