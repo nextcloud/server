@@ -35,7 +35,7 @@
  *
  */
 
-use OC\Lock\NoopLockingProvider;
+use OC\Files\View;
 use OC\Streamer;
 use OCP\Lock\ILockingProvider;
 
@@ -58,10 +58,11 @@ class OC_Files {
 		OC_Response::setContentDispositionHeader($name, 'attachment');
 		header('Content-Transfer-Encoding: binary');
 		OC_Response::disableCaching();
-		$filesize = \OC\Files\Filesystem::filesize($filename);
-		header('Content-Type: '.\OC_Helper::getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename)));
-		if ($filesize > -1) {
-			OC_Response::setContentLengthHeader($filesize);
+		$fileSize = \OC\Files\Filesystem::filesize($filename);
+		$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
+		header('Content-Type: '.$type);
+		if ($fileSize > -1) {
+			OC_Response::setContentLengthHeader($fileSize);
 		}
 	}
 
@@ -73,102 +74,128 @@ class OC_Files {
 	 * @param boolean $onlyHeader ; boolean to only send header of the request
 	 */
 	public static function get($dir, $files, $onlyHeader = false) {
+
 		$view = \OC\Files\Filesystem::getView();
+		$getType = self::FILE;
+		$filename = $dir;
+		try {
 
-		if (is_array($files) && count($files) === 1) {
-			$files = $files[0];
-		}
-
-		if (is_array($files)) {
-			$getType = self::ZIP_FILES;
-			$basename = basename($dir);
-			if ($basename) {
-				$name = $basename;
-			} else {
-				$name = 'download';
+			if (is_array($files) && count($files) === 1) {
+				$files = $files[0];
+				$filename = $dir . '/' . $files;
+				if (!$view->is_dir($files)) {
+					self::getSingleFile($view, $dir, $files, $onlyHeader);
+					return;
+				}
 			}
 
-			$filename = $dir . '/' . $name;
-		} else {
-			$filename = $dir . '/' . $files;
-			if (\OC\Files\Filesystem::is_dir($dir . '/' . $files)) {
+			$name = 'download';
+			if (is_array($files)) {
+				$getType = self::ZIP_FILES;
+				$basename = basename($dir);
+				if ($basename) {
+					$name = $basename;
+				}
+
+				$filename = $dir . '/' . $name;
+			} else {
+				$filename = $dir . '/' . $files;
 				$getType = self::ZIP_DIR;
 				// downloading root ?
-				if ($files === '') {
-					$name = 'download';
-				} else {
+				if ($files !== '') {
 					$name = $files;
 				}
-
-			} else {
-				$getType = self::FILE;
-				$name = $files;
 			}
-		}
 
-		if ($getType === self::FILE) {
-			$streamer = false;
-		} else {
 			$streamer = new Streamer();
-		}
-		OC_Util::obEnd();
+			OC_Util::obEnd();
 
-		try {
-			if ($getType === self::FILE) {
-				$view->lockFile($filename, ILockingProvider::LOCK_SHARED);
-			}
-			
-			if ($streamer) {
-				$streamer->sendHeaders($name);
-			} elseif (\OC\Files\Filesystem::isReadable($filename)) {
-				self::sendHeaders($filename, $name);
-			} elseif (!\OC\Files\Filesystem::file_exists($filename)) {
-				header("HTTP/1.0 404 Not Found");
-				$tmpl = new OC_Template('', '404', 'guest');
-				$tmpl->printPage();
-				exit();
-			} else {
-				header("HTTP/1.0 403 Forbidden");
-				die('403 Forbidden');
-			}
-			if ($onlyHeader) {
-				return;
-			}
-			if ($streamer) {
-				$executionTime = intval(ini_get('max_execution_time'));
-				set_time_limit(0);
-				if ($getType === self::ZIP_FILES) {
-					foreach ($files as $file) {
-						$file = $dir . '/' . $file;
-						if (\OC\Files\Filesystem::is_file($file)) {
-							$fileSize = \OC\Files\Filesystem::filesize($file);
-							$fh = \OC\Files\Filesystem::fopen($file, 'r');
-							$streamer->addFileFromStream($fh, basename($file), $fileSize);
-							fclose($fh);
-						} elseif (\OC\Files\Filesystem::is_dir($file)) {
-							$streamer->addDirRecursive($file);
-						}
+			self::lockFiles($view, $dir, $files);
+
+			$streamer->sendHeaders($name);
+			$executionTime = intval(ini_get('max_execution_time'));
+			set_time_limit(0);
+			if ($getType === self::ZIP_FILES) {
+				foreach ($files as $file) {
+					$file = $dir . '/' . $file;
+					if (\OC\Files\Filesystem::is_file($file)) {
+						$fileSize = \OC\Files\Filesystem::filesize($file);
+						$fh = \OC\Files\Filesystem::fopen($file, 'r');
+						$streamer->addFileFromStream($fh, basename($file), $fileSize);
+						fclose($fh);
+					} elseif (\OC\Files\Filesystem::is_dir($file)) {
+						$streamer->addDirRecursive($file);
 					}
-				} elseif ($getType === self::ZIP_DIR) {
-					$file = $dir . '/' . $files;
-					$streamer->addDirRecursive($file);
 				}
-				$streamer->finalize();
-				set_time_limit($executionTime);
-			} else {
-				\OC\Files\Filesystem::readfile($filename);
+			} elseif ($getType === self::ZIP_DIR) {
+				$file = $dir . '/' . $files;
+				$streamer->addDirRecursive($file);
 			}
-			if ($getType === self::FILE) {
-				$view->unlockFile($filename, ILockingProvider::LOCK_SHARED);
-			}
+			$streamer->finalize();
+			set_time_limit($executionTime);
+			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 		} catch (\OCP\Lock\LockedException $ex) {
+			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
+			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('core');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			\OC_Template::printErrorPage($l->t('File is currently busy, please try again later'), $hint);
 		} catch (\Exception $ex) {
+			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
+			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('core');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			\OC_Template::printErrorPage($l->t('Can\'t read file'), $hint);
+		}
+	}
+
+	/**
+	 * @param View $view
+	 * @param string $name
+	 */
+	private static function getSingleFile($view, $dir, $name, $onlyHeader) {
+		$filename = $dir . '/' . $name;
+		OC_Util::obEnd();
+		$view->lockFile($filename, ILockingProvider::LOCK_SHARED);
+
+		if (\OC\Files\Filesystem::isReadable($filename)) {
+			self::sendHeaders($filename, $name);
+		} elseif (!\OC\Files\Filesystem::file_exists($filename)) {
+			header("HTTP/1.0 404 Not Found");
+			$tmpl = new OC_Template('', '404', 'guest');
+			$tmpl->printPage();
+			exit();
+		} else {
+			header("HTTP/1.0 403 Forbidden");
+			die('403 Forbidden');
+		}
+		if ($onlyHeader) {
+			return;
+		}
+		$view->readfile($filename);
+	}
+
+	/**
+	 * @param View $view
+	 * @param $dir
+	 * @param string[]|string $files
+	 */
+	public static function lockFiles($view, $dir, $files) {
+		if (!is_array($files)) {
+			$file = $dir . '/' . $files;
+			$files = [$file];
+		}
+		foreach ($files as $file) {
+			$file = $dir . '/' . $file;
+			$view->lockFile($file, ILockingProvider::LOCK_SHARED);
+			if ($view->is_dir($file)) {
+				$contents = $view->getDirectoryContent($file);
+				$contents = array_map(function($fileInfo) use ($file) {
+					/** @var \OCP\Files\FileInfo $fileInfo */
+					return $file . '/' . $fileInfo->getName();
+				}, $contents);
+				self::lockFiles($view, $dir, $contents);
+			}
 		}
 	}
 
@@ -253,4 +280,28 @@ class OC_Files {
 		}
 		return false;
 	}
+
+	/**
+	 * @param $dir
+	 * @param $files
+	 * @param $getType
+	 * @param View $view
+	 * @param $filename
+	 */
+	private static function unlockAllTheFiles($dir, $files, $getType, $view, $filename) {
+		if ($getType === self::FILE) {
+			$view->unlockFile($filename, ILockingProvider::LOCK_SHARED);
+		}
+		if ($getType === self::ZIP_FILES) {
+			foreach ($files as $file) {
+				$file = $dir . '/' . $file;
+				$view->unlockFile($file, ILockingProvider::LOCK_SHARED);
+			}
+		}
+		if ($getType === self::ZIP_DIR) {
+			$file = $dir . '/' . $files;
+			$view->unlockFile($file, ILockingProvider::LOCK_SHARED);
+		}
+	}
+
 }
