@@ -550,6 +550,21 @@ abstract class StoragesService {
 		$this->writeConfig($allStorages);
 
 		$this->triggerHooks($deletedStorage, Filesystem::signal_delete_mount);
+
+		// delete oc_storages entries and oc_filecache
+		try {
+			$rustyStorageId = $this->getRustyStorageIdFromConfig($deletedStorage);
+			\OC\Files\Cache\Storage::remove($rustyStorageId);
+		} catch (\Exception $e) {
+			// can happen either for invalid configs where the storage could not
+			// be instantiated or whenever $user vars where used, in which case
+			// the storage id could not be computed
+			\OCP\Util::writeLog(
+				'files_external',
+				'Exception: "' . $e->getMessage() . '"',
+				\OCP\Util::ERROR
+			);
+		}
 	}
 
 	/**
@@ -568,6 +583,32 @@ abstract class StoragesService {
 		// will disappear once we move to DB tables to
 		// store the config
 		return (max(array_keys($allStorages)) + 1);
+	}
+
+	/**
+	 * Returns the rusty storage id from oc_storages from the given storage config.
+	 *
+	 * @param StorageConfig $storageConfig
+	 * @return string rusty storage id
+	 */
+	private function getRustyStorageIdFromConfig(StorageConfig $storageConfig) {
+		// if any of the storage options contains $user, it is not possible
+		// to compute the possible storage id as we don't know which users
+		// mounted it already (and we certainly don't want to iterate over ALL users)
+		foreach ($storageConfig->getBackendOptions() as $value) {
+			if (strpos($value, '$user') !== false) {
+				throw new \Exception('Cannot compute storage id for deletion due to $user vars in the configuration');
+			}
+		}
+
+		// note: similar to ConfigAdapter->prepateStorageConfig()
+		$storageConfig->getAuthMechanism()->manipulateStorageConfig($storageConfig);
+		$storageConfig->getBackend()->manipulateStorageConfig($storageConfig);
+
+		$class = $storageConfig->getBackend()->getStorageClass();
+		$storageImpl = new $class($storageConfig->getBackendOptions());
+
+		return $storageImpl->getId();
 	}
 
 }

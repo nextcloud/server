@@ -216,17 +216,56 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->service->updateStorage($storage);
 	}
 
-	public function testDeleteStorage() {
+	public function deleteStorageDataProvider() {
+		return [
+			// regular case, can properly delete the oc_storages entry
+			[
+				[
+					'share' => 'share',
+					'host' => 'example.com',
+					'user' => 'test',
+					'password' => 'testPassword',
+					'root' => 'someroot',
+				],
+				'smb::test@example.com//share//someroot/',
+				0
+			],
+			// special case with $user vars, cannot auto-remove the oc_storages entry
+			[
+				[
+					'share' => 'share',
+					'host' => 'example.com',
+					'user' => '$user',
+					'password' => 'testPassword',
+					'root' => 'someroot',
+				],
+				'smb::someone@example.com//share//someroot/',
+				1
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider deleteStorageDataProvider
+	 */
+	public function testDeleteStorage($backendOptions, $rustyStorageId, $expectedCountAfterDeletion) {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
 		$storage = new StorageConfig(255);
 		$storage->setMountPoint('mountpoint');
 		$storage->setBackend($backend);
 		$storage->setAuthMechanism($authMechanism);
-		$storage->setBackendOptions(['password' => 'testPassword']);
+		$storage->setBackendOptions($backendOptions);
 
 		$newStorage = $this->service->addStorage($storage);
 		$this->assertEquals(1, $newStorage->getId());
+
+		// manually trigger storage entry because normally it happens on first
+		// access, which isn't possible within this test
+		$storageCache = new \OC\Files\Cache\Storage($rustyStorageId);
+
+		// get numeric id for later check
+		$numericId = $storageCache->getNumericId();
 
 		$newStorage = $this->service->removeStorage(1);
 
@@ -238,6 +277,13 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		}
 
 		$this->assertTrue($caught);
+
+		// storage id was removed from oc_storages
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$storageCheckQuery = $qb->select('*')
+			->from('storages')
+			->where($qb->expr()->eq('numeric_id', $qb->expr()->literal($numericId)));
+		$this->assertCount($expectedCountAfterDeletion, $storageCheckQuery->execute()->fetchAll());
 	}
 
 	/**
