@@ -105,7 +105,7 @@ class RecipientPropagator {
 
 	/**
 	 * @param array $share
-	 * @param int $time
+	 * @param float $time
 	 */
 	public function markDirty($share, $time = null) {
 		if ($time === null) {
