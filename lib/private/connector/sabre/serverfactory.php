@@ -72,7 +72,6 @@ class ServerFactory {
 		$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, $defaults->getName()));
 		// FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 		$server->addPlugin(new \OC\Connector\Sabre\DummyGetResponsePlugin());
-		$server->addPlugin(new \OC\Connector\Sabre\FilesPlugin($objectTree));
 		$server->addPlugin(new \OC\Connector\Sabre\ExceptionLoggerPlugin('webdav', $this->logger));
 		$server->addPlugin(new \OC\Connector\Sabre\LockPlugin($objectTree));
 		$server->addPlugin(new \OC\Connector\Sabre\ListenerPlugin($this->dispatcher));
@@ -91,6 +90,7 @@ class ServerFactory {
 			}
 			$objectTree->init($root, $view, $this->mountManager);
 
+			$server->addPlugin(new \OC\Connector\Sabre\FilesPlugin($objectTree, $view));
 			$server->addPlugin(new \OC\Connector\Sabre\QuotaPlugin($view));
 
 			if($this->userSession->isLoggedIn()) {
