@@ -259,14 +259,17 @@ class Folder extends Node implements \OCP\Files\Folder {
 		 * @var \OC\Files\Storage\Storage $storage
 		 */
 		list($storage, $internalPath) = $this->view->resolvePath($this->path);
-		$internalPath = rtrim($internalPath, '/') . '/';
+		$internalPath = rtrim($internalPath, '/');
+		if ($internalPath !== '') {
+			$internalPath = $internalPath . '/';
+		}
 		$internalRootLength = strlen($internalPath);
 
 		$cache = $storage->getCache('');
 
 		$results = call_user_func_array(array($cache, $method), $args);
 		foreach ($results as $result) {
-			if ($internalRootLength === 1 or substr($result['path'], 0, $internalRootLength) === $internalPath) {
+			if ($internalRootLength === 0 or substr($result['path'], 0, $internalRootLength) === $internalPath) {
 				$result['internalPath'] = $result['path'];
 				$result['path'] = substr($result['path'], $internalRootLength);
 				$result['storage'] = $storage;
