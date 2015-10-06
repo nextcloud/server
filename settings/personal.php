@@ -119,7 +119,9 @@ $clients = array(
 $enableCertImport = false;
 $externalStorageEnabled = \OC::$server->getAppManager()->isEnabledForUser('files_external');
 if ($externalStorageEnabled) {
-	$enableCertImport = true;
+	/** @var \OCA\Files_External\Service\BackendService $backendService */
+	$backendService = \OC_Mount_Config::$app->getContainer()->query('\OCA\Files_External\Service\BackendService');
+	$enableCertImport = $backendService->isUserMountingAllowed();
 }
 
 
