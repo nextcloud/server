@@ -1,6 +1,7 @@
 <?php
 /**
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

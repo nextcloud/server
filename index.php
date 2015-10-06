@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Frank Karlitschek <frank@owncloud.org>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>

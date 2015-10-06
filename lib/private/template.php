@@ -6,6 +6,7 @@
  * @author Brice Maron <brice@bmaron.net>
  * @author drarko <drarko@users.noreply.github.com>
  * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>

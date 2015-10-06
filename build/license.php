@@ -144,7 +144,9 @@ EOD;
 	}
 
 	private function getAuthors($file) {
-		$out = shell_exec("git blame --line-porcelain $file | sed -n 's/^author //p;s/^author-mail //p' | sed 'N;s/\\n/ /' | sort -f | uniq");
+		// only add authors that changed code and not the license header
+		$licenseHeaderEndsAtLine = trim(shell_exec("grep -n '*/' $file | head -n 1 | cut -d ':' -f 1"));
+		$out = shell_exec("git blame --line-porcelain -L $licenseHeaderEndsAtLine, $file | sed -n 's/^author //p;s/^author-mail //p' | sed 'N;s/\\n/ /' | sort -f | uniq");
 		$authors = explode(PHP_EOL, $out);
 
 		$authors = array_filter($authors, function($author) {
@@ -173,7 +175,6 @@ if (isset($argv[1])) {
 		'../apps/files_versions',
 		'../apps/provisioning_api',
 		'../apps/user_ldap',
-		'../apps/user_webdavauth',
 		'../core',
 		'../lib',
 		'../ocs',

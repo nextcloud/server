@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Steffen Lindner <mail@steffen-lindner.de>

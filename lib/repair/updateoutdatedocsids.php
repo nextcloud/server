@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Lukas Reschke <l8kas@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0

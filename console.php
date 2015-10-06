@@ -5,6 +5,7 @@
  * @author Jost Baron <Jost.Baron@gmx.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Philippe Le Brouster <plb@nebkha.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

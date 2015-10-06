@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Georg Ehrke <georg@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
