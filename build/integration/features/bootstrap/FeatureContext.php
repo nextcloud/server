@@ -43,16 +43,32 @@ class FeatureContext extends BehatContext {
 	}
 
 	/**
-	 * @When /^sending "([^"]*)" to "([^"]*)"$/
-	 */
+	* @When /^sending "([^"]*)" to "([^"]*)"$/
+	*/
 	public function sendingTo($verb, $url) {
 		$this->sendingToWith($verb, $url, null);
 	}
 
+
 	/**
-	 * @Then /^the status code should be "([^"]*)"$/
+	*  Parses the xml answer to get ocs response which doesn't match with
+	*  http one in v1 of the api.
+	*/
+	public function getOCSResponse($response){
+		return $response->xml()->meta[0]->statuscode;
+	}
+
+	/**
+	 * @Then /^the OCS status code should be "([^"]*)"$/
 	 */
-	public function theStatusCodeShouldBe($statusCode) {
+	public function theOCSStatusCodeShouldBe($statusCode) {
+		PHPUnit_Framework_Assert::assertEquals($statusCode, $this->getOCSResponse($this->response));
+	}
+
+	/**
+	 * @Then /^the HTTP status code should be "([^"]*)"$/
+	 */
+	public function theHTTPStatusCodeShouldBe($statusCode) {
 		PHPUnit_Framework_Assert::assertEquals($statusCode, $this->response->getStatusCode());
 	}
 
@@ -91,7 +107,9 @@ class FeatureContext extends BehatContext {
 	public function userDoesNotExist($user) {
 		try {
 			$this->userExists($user);
+			PHPUnit_Framework_Assert::fail('The user "' . $user . '" exists');
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+			$this->response = $ex->getResponse();
 			PHPUnit_Framework_Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
 		}
 	}
@@ -100,7 +118,7 @@ class FeatureContext extends BehatContext {
 	 * @When /^creating the user "([^"]*)r"$/
 	 */
 	public function creatingTheUser($user) {
-		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user";
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user" ;
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -113,7 +131,53 @@ class FeatureContext extends BehatContext {
 				'password' => '123456'
 			]
 		]);
+
+	}
+
+	/**
+	 * @When /^creating the group "([^"]*)r"$/
+	 */
+	public function creatingTheGroup($group) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/addgroup" ;
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->post($fullUrl, [
+			'form_params' => [
+				'groupid' => $user
+			]
+		]);
+	}
+
+	/**
+	 * @Given /^group "([^"]*)" exists$/
+	 */
+	public function groupExists($group) {
+		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->get($fullUrl, $options);
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+	/**
+	 * @Given /^group "([^"]*)" does not exist$/
+	 */
+	public function groupDoesNotExist($group) {
+		try {
+			$this->groupExists($group);
+			PHPUnit_Framework_Assert::fail('The group "' . $group . '" exists');
+		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+			$this->response = $ex->getResponse();
+			PHPUnit_Framework_Assert::assertEquals(404, $ex->getResponse()->getStatusCode());
+		}
 	}
 
 	/**
@@ -138,5 +202,4 @@ class FeatureContext extends BehatContext {
 			$this->response = $ex->getResponse();
 		}
 	}
-
 }
