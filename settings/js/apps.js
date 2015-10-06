@@ -402,7 +402,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		OC.dialogs.info(
 			t(
 				'settings',
-				'The app needs to be updated. This page will be reloaded in 5 seconds.'
+				'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
 			),
 			t('settings','App update'),
 			function (result) {
