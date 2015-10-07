@@ -69,7 +69,7 @@ class CertificateController extends Controller {
 	 */
 	public function addPersonalRootCertificate() {
 		$headers = [];
-		if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE_8])) {
+		if ($this->request->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE_8])) {
 			// due to upload iframe workaround, need to set content-type to text/plain
 			$headers['Content-Type'] = 'text/plain';
 		}
