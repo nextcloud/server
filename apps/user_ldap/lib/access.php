@@ -710,6 +710,9 @@ class Access extends LDAPUtility implements user\IUserTools {
 			if($manyAttributes) {
 				return $list;
 			} else {
+				$list = array_reduce($list, function($carry, $item) {
+					$carry[] = $item[0];
+				}, array());
 				return array_unique($list, SORT_LOCALE_STRING);
 			}
 		}
@@ -982,44 +985,26 @@ class Access extends LDAPUtility implements user\IUserTools {
 
 		if(!is_null($attr)) {
 			$selection = array();
-			$multiArray = false;
-			if(count($attr) > 1) {
-				$multiArray = true;
-				$i = 0;
-			}
+			$i = 0;
 			foreach($findings as $item) {
 				if(!is_array($item)) {
 					continue;
 				}
 				$item = \OCP\Util::mb_array_change_key_case($item, MB_CASE_LOWER, 'UTF-8');
-
-				if($multiArray) {
-					foreach($attr as $key) {
-						$key = mb_strtolower($key, 'UTF-8');
-						if(isset($item[$key])) {
-							if($key !== 'dn') {
-								$selection[$i][$key] = $this->resemblesDN($key) ?
-									$this->sanitizeDN($item[$key][0])
-									: $item[$key][0];
-							} else {
-								$selection[$i][$key] = $this->sanitizeDN($item[$key]);
-							}
-						}
-
-					}
-					$i++;
-				} else {
-					//tribute to case insensitivity
-					$key = mb_strtolower($attr[0], 'UTF-8');
-
+				foreach($attr as $key) {
+					$key = mb_strtolower($key, 'UTF-8');
 					if(isset($item[$key])) {
-						if($this->resemblesDN($key)) {
-							$selection[] = $this->sanitizeDN($item[$key]);
+						if($key !== 'dn') {
+							$selection[$i][$key] = $this->resemblesDN($key) ?
+								$this->sanitizeDN($item[$key])
+								: $item[$key];
 						} else {
-							$selection[] = $item[$key];
+							$selection[$i][$key] = $this->sanitizeDN($item[$key]);
 						}
 					}
+
 				}
+				$i++;
 			}
 			$findings = $selection;
 		}
