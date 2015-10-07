@@ -49,7 +49,6 @@ class FeatureContext extends BehatContext {
 		$this->sendingToWith($verb, $url, null);
 	}
 
-
 	/**
 	*  Parses the xml answer to get ocs response which doesn't match with
 	*  http one in v1 of the api.
@@ -67,19 +66,14 @@ class FeatureContext extends BehatContext {
         return $extractedElementsArray;
     }
 
-    
     /**
     *  Parses the xml answer to get the array of groups returned.
     */
-    /*
-    public function getArrayOfGroupsResponded(){
-        $listCheckedElements = $this->$response->xml()->data[0]->groups[0]->element;
+    public function getArrayOfGroupsResponded($resp) {
+        $listCheckedElements = $resp->xml()->data[0]->groups[0]->element;
         $extractedElementsArray = json_decode( json_encode($listCheckedElements) , 1);
         return $extractedElementsArray;
     }
-	*/
-    
-
 
 	/**
 	 * @Then /^users returned are$/
@@ -93,8 +87,20 @@ class FeatureContext extends BehatContext {
 		}
 
 	}
-		
 
+	/**
+	 * @Then /^groups returned are$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 */
+	public function theGroupsShouldBe($groupsList) {
+		if ($groupsList instanceof \Behat\Gherkin\Node\TableNode) {
+			$groups = $groupsList->getRows()[0];
+            $respondedArray = $this->getArrayOfGroupsResponded($this->response);
+            PHPUnit_Framework_Assert::assertEquals($groups, $respondedArray);
+		}
+
+	}
+		
 	/**
 	 * @Then /^the OCS status code should be "([^"]*)"$/
 	 */
