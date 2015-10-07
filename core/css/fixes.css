@@ -42,6 +42,12 @@ select {
 	background-image: url('../img/actions/settings.png');
 }
 
+.lte9 input[type="submit"], .lte9 input[type="button"],
+.lte9 button, .lte9 .button,
+.lte9 #quota, .lte9 select, .lte9 .pager li a {
+	background-color: #f1f1f1;
+}
+
 /* IE8 needs PNG image for header logo */
 .ie8 #header .logo {
 	background-image: url(../img/logo-icon-175px.png);
