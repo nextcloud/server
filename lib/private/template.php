@@ -70,7 +70,7 @@ class OC_Template extends \OC\Template\Base {
 	
 	public function __construct( $app, $name, $renderAs = "", $registerCall = true ) {
 		// Read the selected theme from the config file
-		self::initTemplateEngine();
+		self::initTemplateEngine($renderAs);
 		
 		$theme = OC_Util::getTheme();
 
@@ -90,13 +90,13 @@ class OC_Template extends \OC\Template\Base {
 		parent::__construct($template, $requesttoken, $l10n, $themeDefaults);
 	}
 
-	public static function initTemplateEngine() {
+	public static function initTemplateEngine($renderAs) {
 		if (self::$initTemplateEngineFirstRun){
 			
 			//apps that started before the template initialization can load their own scripts/styles
 			//so to make sure this scripts/styles here are loaded first we use OC_Util::addScript() with $prepend=true
 			//meaning the last script/style in this list will be loaded first
-			if (\OC::$server->getSystemConfig ()->getValue ( 'installed', false ) && ! \OCP\Util::needUpgrade ()) {
+			if (\OC::$server->getSystemConfig()->getValue ('installed', false) && $renderAs !== 'error' && !\OCP\Util::needUpgrade()) {
 				if (\OC::$server->getConfig ()->getAppValue ( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax') {
 					OC_Util::addScript ( 'backgroundjobs', null, true );
 				}
@@ -301,10 +301,20 @@ class OC_Template extends \OC\Template\Base {
 		* @param string $hint An optional hint message - needs to be properly escaped
 		*/
 	public static function printErrorPage( $error_msg, $hint = '' ) {
-		$content = new \OC_Template( '', 'error', 'error', false );
-		$errors = array(array('error' => $error_msg, 'hint' => $hint));
-		$content->assign( 'errors', $errors );
-		$content->printPage();
+		try {
+			$content = new \OC_Template( '', 'error', 'error', false );
+			$errors = array(array('error' => $error_msg, 'hint' => $hint));
+			$content->assign( 'errors', $errors );
+			$content->printPage();
+		} catch (\Exception $e) {
+			$logger = \OC::$server->getLogger();
+			$logger->error("$error_msg $hint", ['app' => 'core']);
+			$logger->logException($e, ['app' => 'core']);
+
+			header(self::getHttpProtocol() . ' 500 Internal Server Error');
+			header('Content-Type: text/plain; charset=utf-8');
+			print("$error_msg $hint");
+		}
 		die();
 	}
 
@@ -313,19 +323,54 @@ class OC_Template extends \OC\Template\Base {
 	 * @param Exception $exception
 	 */
 	public static function printExceptionErrorPage($exception) {
-		$request = \OC::$server->getRequest();
-		$content = new \OC_Template('', 'exception', 'error', false);
-		$content->assign('errorClass', get_class($exception));
-		$content->assign('errorMsg', $exception->getMessage());
-		$content->assign('errorCode', $exception->getCode());
-		$content->assign('file', $exception->getFile());
-		$content->assign('line', $exception->getLine());
-		$content->assign('trace', $exception->getTraceAsString());
-		$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
-		$content->assign('remoteAddr', $request->getRemoteAddress());
-		$content->assign('requestID', $request->getId());
-		$content->printPage();
+		try {
+			$request = \OC::$server->getRequest();
+			$content = new \OC_Template('', 'exception', 'error', false);
+			$content->assign('errorClass', get_class($exception));
+			$content->assign('errorMsg', $exception->getMessage());
+			$content->assign('errorCode', $exception->getCode());
+			$content->assign('file', $exception->getFile());
+			$content->assign('line', $exception->getLine());
+			$content->assign('trace', $exception->getTraceAsString());
+			$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
+			$content->assign('remoteAddr', $request->getRemoteAddress());
+			$content->assign('requestID', $request->getId());
+			$content->printPage();
+		} catch (\Exception $e) {
+			$logger = \OC::$server->getLogger();
+			$logger->logException($exception, ['app' => 'core']);
+			$logger->logException($e, ['app' => 'core']);
+
+			header(self::getHttpProtocol() . ' 500 Internal Server Error');
+			header('Content-Type: text/plain; charset=utf-8');
+			print("Internal Server Error\n\n");
+			print("The server encountered an internal error and was unable to complete your request.\n");
+			print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
+			print("More details can be found in the server log.\n");
+		}
 		die();
+	}
+
+	/**
+	 * This is only here to reduce the dependencies in case of an exception to
+	 * still be able to print a plain error message.
+	 *
+	 * Returns the used HTTP protocol.
+	 *
+	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
+	 * @internal Don't use this - use AppFramework\Http\Request->getHttpProtocol instead
+	 */
+	protected static function getHttpProtocol() {
+		$claimedProtocol = strtoupper($_SERVER['SERVER_PROTOCOL']);
+		$validProtocols = [
+			'HTTP/1.0',
+			'HTTP/1.1',
+			'HTTP/2',
+		];
+		if(in_array($claimedProtocol, $validProtocols, true)) {
+			return $claimedProtocol;
+		}
+		return 'HTTP/1.1';
 	}
 
 	/**
