@@ -83,7 +83,7 @@ class FeatureContext extends BehatContext {
 		if ($usersList instanceof \Behat\Gherkin\Node\TableNode) {
 			$users = $usersList->getRows()[0];
             $respondedArray = $this->getArrayOfUsersResponded($this->response);
-            PHPUnit_Framework_Assert::assertEquals($users, $respondedArray);
+            PHPUnit_Framework_Assert::assertEquals(asort($users), asort($respondedArray));
 		}
 
 	}
@@ -96,7 +96,7 @@ class FeatureContext extends BehatContext {
 		if ($groupsList instanceof \Behat\Gherkin\Node\TableNode) {
 			$groups = $groupsList->getRows()[0];
             $respondedArray = $this->getArrayOfGroupsResponded($this->response);
-            PHPUnit_Framework_Assert::assertEquals($groups, $respondedArray);
+            PHPUnit_Framework_Assert::assertEquals(asort($groups), asort($respondedArray));
 		}
 
 	}
