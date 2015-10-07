@@ -172,8 +172,9 @@ DeleteHandler.prototype.cancel = function() {
  * it, defaults to false
  */
 DeleteHandler.prototype.deleteEntry = function(keepNotification) {
+	var deferred = $.Deferred();
 	if(this.canceled || this.oidToDelete === false) {
-		return false;
+		return deferred.resolve().promise();
 	}
 
 	var dh = this;
@@ -188,7 +189,7 @@ DeleteHandler.prototype.deleteEntry = function(keepNotification) {
 
 	var payload = {};
 	payload[dh.ajaxParamID] = dh.oidToDelete;
-	$.ajax({
+	return $.ajax({
 		type: 'DELETE',
 		url: OC.generateUrl(dh.ajaxEndpoint+'/'+this.oidToDelete),
 		// FIXME: do not use synchronous ajax calls as they block the browser !
