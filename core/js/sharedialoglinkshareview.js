@@ -194,13 +194,19 @@
 				$emailField.prop('disabled', true);
 				$emailButton.prop('disabled', true);
 				$emailField.val(t('core', 'Sending ...'));
-				this.model.sendEmailPrivateLink(email).then(function() {
+				this.model.sendEmailPrivateLink(email).done(function() {
 					$emailField.css('font-weight', 'bold').val(t('core','Email sent'));
 					setTimeout(function() {
-						$emailField.css('font-weight', 'normal').val('');
+						$emailField.val('');
+						$emailField.css('font-weight', 'normal');
 						$emailField.prop('disabled', false);
 						$emailButton.prop('disabled', false);
 					}, 2000);
+				}).fail(function() {
+					$emailField.val(email);
+					$emailField.css('font-weight', 'normal');
+					$emailField.prop('disabled', false);
+					$emailButton.prop('disabled', false);
 				});
 			}
 			return false;
