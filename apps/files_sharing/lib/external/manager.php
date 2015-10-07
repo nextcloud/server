@@ -153,28 +153,6 @@ class Manager {
 		return $this->mountShare($options);
 	}
 
-	private function setupMounts() {
-		// don't setup server-to-server shares if the admin disabled it
-		if (\OCA\Files_Sharing\Helper::isIncomingServer2serverShareEnabled() === false) {
-			return false;
-		}
-
-		if (!is_null($this->uid)) {
-			$query = $this->connection->prepare('
-				SELECT `remote`, `share_token`, `password`, `mountpoint`, `owner`
-				FROM `*PREFIX*share_external`
-				WHERE `user` = ? AND `accepted` = ?
-			');
-			$query->execute(array($this->uid, 1));
-
-			while ($row = $query->fetch()) {
-				$row['manager'] = $this;
-				$row['token'] = $row['share_token'];
-				$this->mountShare($row);
-			}
-		}
-	}
-
 	/**
 	 * get share
 	 *
@@ -277,24 +255,6 @@ class Manager {
 	}
 
 	/**
-	 * setup the server-to-server mounts
-	 *
-	 * @param array $params
-	 */
-	public static function setup(array $params) {
-		$externalManager = new \OCA\Files_Sharing\External\Manager(
-				\OC::$server->getDatabaseConnection(),
-				\OC\Files\Filesystem::getMountManager(),
-				\OC\Files\Filesystem::getLoader(),
-				\OC::$server->getHTTPHelper(),
-				\OC::$server->getNotificationManager(),
-				$params['user']
-		);
-
-		$externalManager->setupMounts();
-	}
-
-	/**
 	 * remove '/user/files' from the path and trailing slashes
 	 *
 	 * @param string $path
@@ -305,16 +265,20 @@ class Manager {
 		return rtrim(substr($path, strlen($prefix)), '/');
 	}
 
+	public function getMount($data) {
+		$data['manager'] = $this;
+		$mountPoint = '/' . $this->uid . '/files' . $data['mountpoint'];
+		$data['mountpoint'] = $mountPoint;
+		$data['certificateManager'] = \OC::$server->getCertificateManager($this->uid);
+		return new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
+	}
+
 	/**
 	 * @param array $data
 	 * @return Mount
 	 */
 	protected function mountShare($data) {
-		$data['manager'] = $this;
-		$mountPoint = '/' . $this->uid . '/files' . $data['mountpoint'];
-		$data['mountpoint'] = $mountPoint;
-		$data['certificateManager'] = \OC::$server->getCertificateManager($this->uid);
-		$mount = new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
+		$mount = $this->getMount($data);
 		$this->mountManager->addMount($mount);
 		return $mount;
 	}

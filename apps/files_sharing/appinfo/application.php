@@ -120,6 +120,17 @@ class Application extends App {
 			);
 		});
 
+		$container->registerService('ExternalMountProvider', function (IContainer $c) {
+			/** @var \OCP\IServerContainer $server */
+			$server = $c->query('ServerContainer');
+			return new \OCA\Files_Sharing\External\MountProvider(
+				$server->getDatabaseConnection(),
+				function() use ($c) {
+					return $c->query('ExternalManager');
+				}
+			);
+		});
+
 		$container->registerService('PropagationManager', function (IContainer $c) {
 			/** @var \OCP\IServerContainer $server */
 			$server = $c->query('ServerContainer');
@@ -150,6 +161,7 @@ class Application extends App {
 		$server = $this->getContainer()->query('ServerContainer');
 		$mountProviderCollection = $server->getMountProviderCollection();
 		$mountProviderCollection->registerProvider($this->getContainer()->query('MountProvider'));
+		$mountProviderCollection->registerProvider($this->getContainer()->query('ExternalMountProvider'));
 	}
 
 	public function setupPropagation() {

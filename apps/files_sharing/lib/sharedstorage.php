@@ -583,9 +583,6 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	}
 
 	public function getETag($path) {
-		if ($path == '') {
-			$path = $this->getMountPoint();
-		}
 		if ($source = $this->getSourcePath($path)) {
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
 			return $storage->getETag($internalPath);

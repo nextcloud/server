@@ -31,7 +31,6 @@ namespace OCA\Files_Sharing;
 class Helper {
 
 	public static function registerHooks() {
-		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OCA\Files_Sharing\External\Manager', 'setup');
 		\OCP\Util::connectHook('OC_Filesystem', 'delete', '\OC\Files\Cache\Shared_Updater', 'deleteHook');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Shared_Updater', 'renameHook');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
