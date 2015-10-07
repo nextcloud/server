@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Failed to clear the mappings." : "Falhou a limpar os mapas.",
     "Failed to delete the server configuration" : "Erro ao eliminar a configuração do servidor",
+    "The configuration is invalid: anonymous bind is not allowed." : "A configuração é inválida: ligação anónima não é permitida.",
     "The configuration is valid and the connection could be established!" : "A configuração está correcta e foi possível estabelecer a ligação!",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "A configuração está correcta, mas não foi possível estabelecer o \"laço\", por favor, verifique as configurações do servidor e as credenciais.",
     "The configuration is invalid. Please have a look at the logs for further details." : "A configuração é inválida. Por favor, veja o log do ownCloud para mais detalhes.",
@@ -32,6 +33,9 @@ OC.L10N.register(
     "Error while clearing the mappings." : "Erro a limpar os mapas.",
     "Anonymous bind is not allowed. Please provide a User DN and Password." : "Ligação anónima não permitida. Por favor forneça um ND de utilizador e password.",
     "LDAP Operations error. Anonymous bind might not be allowed." : "Erro de operações LDAP. Ligação anónima pode não ser permitida.",
+    "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "Falha na gravação. Por favor verifique que a base de dados está operacional. Recarregar antes de continuar.",
+    "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Trocando o modo vai permitir a busca automática no LDAP. Dependendo do tamanho do seu LDAP poderá demorar um pouco. Ainda pretende trocar o modo?",
+    "Mode switch" : "Trocar de modo",
     "Select attributes" : "Selecionar atributos",
     "User found and settings verified." : "Utilizador encontrado e as definilções verificadas",
     "_%s group found_::_%s groups found_" : ["%s grupo encontrado","%s grupos encontrados"],

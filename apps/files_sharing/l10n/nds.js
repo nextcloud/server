@@ -1,9 +1,8 @@
 OC.L10N.register(
-    "user_ldap",
+    "files_sharing",
     {
-    "Host" : "Host",
-    "Port" : "Port",
+    "Cancel" : "Abbrechen",
     "Password" : "Passwort",
-    "Continue" : "Fortsetzen"
+    "Name" : "Name"
 },
 "nplurals=2; plural=(n != 1);");

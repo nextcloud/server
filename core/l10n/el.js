@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Couldn't send mail to following users: %s " : "Αδυναμία αποστολής μηνύματος στους ακόλουθους χρήστες: %s",
     "Preparing update" : "Προετοιμασία ενημέρωσης",
+    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "Οι δοκιμές μεταφοράς έχουν παρακαμφθεί - το \"update.skip-migration-test\" ελιναι ενεργοποιημένο στο ",
     "Turned on maintenance mode" : "Η κατάσταση συντήρησης ενεργοποιήθηκε",
     "Turned off maintenance mode" : "Η κατάσταση συντήρησης απενεργοποιήθηκε",
     "Maintenance mode is kept active" : "Η λειτουργία συντήρησης διατηρήθηκε ενεργή",

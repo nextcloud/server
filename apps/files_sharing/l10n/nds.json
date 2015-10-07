@@ -1,7 +1,6 @@
 { "translations": {
-    "Host" : "Host",
-    "Port" : "Port",
+    "Cancel" : "Abbrechen",
     "Password" : "Passwort",
-    "Continue" : "Fortsetzen"
+    "Name" : "Name"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
