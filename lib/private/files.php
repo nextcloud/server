@@ -82,6 +82,9 @@ class OC_Files {
 
 			if (is_array($files) && count($files) === 1) {
 				$files = $files[0];
+			}
+
+			if (!is_array($files)) {
 				$filename = $dir . '/' . $files;
 				if (!$view->is_dir($files)) {
 					self::getSingleFile($view, $dir, $files, $onlyHeader);
