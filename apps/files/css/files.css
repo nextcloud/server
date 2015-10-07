@@ -745,6 +745,10 @@ table.dragshadow td.size {
 	margin: -10px;
 }
 
+html.ie8 #controls .button.new {
+	padding-right: 0;
+}
+
 .newFileMenu {
 	width: 140px;
 	margin-left: -56px;
@@ -796,3 +800,4 @@ table.dragshadow td.size {
 	color: #000;
 	padding: 0;
 }
+
