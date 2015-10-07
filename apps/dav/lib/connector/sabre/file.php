@@ -350,12 +350,8 @@ class File extends Node implements IFile {
 			throw new NotImplemented('Invalid chunk name');
 		}
 
-		$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
-
 		$chunk_handler = new \OC_FileChunking($info);
 		$bytesWritten = $chunk_handler->store($info['index'], $data);
-
-		$this->changeLock(ILockingProvider::LOCK_SHARED);
 
 		//detect aborted upload
 		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
