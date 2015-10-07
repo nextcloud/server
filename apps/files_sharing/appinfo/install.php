@@ -20,3 +20,4 @@
  */
 
 \OC::$server->getJobList()->add('OCA\Files_sharing\Lib\DeleteOrphanedSharesJob');
+\OC::$server->getJobList()->add('OCA\Files_sharing\Lib\ExpireSharesJob');

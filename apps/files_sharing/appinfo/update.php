@@ -30,3 +30,4 @@ if (version_compare($installedVersion, '0.6.0', '<')) {
 }
 
 \OC::$server->getJobList()->add('OCA\Files_sharing\Lib\DeleteOrphanedSharesJob');
+\OC::$server->getJobList()->add('OCA\Files_sharing\Lib\ExpireSharesJob');
