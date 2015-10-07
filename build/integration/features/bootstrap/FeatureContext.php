@@ -58,22 +58,22 @@ class FeatureContext extends BehatContext {
 	}
 
 	/**
-    *  Parses the xml answer to get the array of users returned.
-    */
-    public function getArrayOfUsersResponded($resp) {
-        $listCheckedElements = $resp->xml()->data[0]->users[0]->element;
-        $extractedElementsArray = json_decode( json_encode($listCheckedElements) , 1);
-        return $extractedElementsArray;
-    }
+	*  Parses the xml answer to get the array of users returned.
+	*/
+	public function getArrayOfUsersResponded($resp) {
+		$listCheckedElements = $resp->xml()->data[0]->users[0]->element;
+		$extractedElementsArray = json_decode( json_encode($listCheckedElements) , 1);
+		return $extractedElementsArray;
+	}
 
-    /**
-    *  Parses the xml answer to get the array of groups returned.
-    */
-    public function getArrayOfGroupsResponded($resp) {
-        $listCheckedElements = $resp->xml()->data[0]->groups[0]->element;
-        $extractedElementsArray = json_decode( json_encode($listCheckedElements) , 1);
-        return $extractedElementsArray;
-    }
+	/**
+	*  Parses the xml answer to get the array of groups returned.
+	*/
+	public function getArrayOfGroupsResponded($resp) {
+		$listCheckedElements = $resp->xml()->data[0]->groups[0]->element;
+		$extractedElementsArray = json_decode( json_encode($listCheckedElements) , 1);
+		return $extractedElementsArray;
+	}
 
 	/**
 	 * @Then /^users returned are$/
@@ -82,8 +82,8 @@ class FeatureContext extends BehatContext {
 	public function theUsersShouldBe($usersList) {
 		if ($usersList instanceof \Behat\Gherkin\Node\TableNode) {
 			$users = $usersList->getRows()[0];
-            $respondedArray = $this->getArrayOfUsersResponded($this->response);
-            PHPUnit_Framework_Assert::assertEquals(asort($users), asort($respondedArray));
+			$respondedArray = $this->getArrayOfUsersResponded($this->response);
+			PHPUnit_Framework_Assert::assertEquals(asort($users), asort($respondedArray));
 		}
 
 	}
@@ -95,8 +95,8 @@ class FeatureContext extends BehatContext {
 	public function theGroupsShouldBe($groupsList) {
 		if ($groupsList instanceof \Behat\Gherkin\Node\TableNode) {
 			$groups = $groupsList->getRows()[0];
-            $respondedArray = $this->getArrayOfGroupsResponded($this->response);
-            PHPUnit_Framework_Assert::assertEquals(asort($groups), asort($respondedArray));
+			$respondedArray = $this->getArrayOfGroupsResponded($this->response);
+			PHPUnit_Framework_Assert::assertEquals(asort($groups), asort($respondedArray));
 		}
 
 	}

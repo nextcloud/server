@@ -42,9 +42,12 @@ Feature: provisioning
 
   Scenario: Getting all users
     Given As an "admin"
+    And user "brand-new-user" exists
+    And user "admin" exists
     When sending "GET" to "/cloud/users"
     And users returned are
-      | brand-new-user | admin |
+      | brand-new-user |
+      | admin |
 
 
   Scenario: Edit a user
@@ -81,11 +84,14 @@ Feature: provisioning
     And group "new-group" exists
 
 
-  Scenario: Getting all users
+  Scenario: Getting all groups
     Given As an "admin"
+    And group "new-group" exists
+    And group "admin" exists
     When sending "GET" to "/cloud/groups"
     And groups returned are
-      | admin | new-group |
+      | admin |
+      | new-group |
 
 
   Scenario: Delete a group
