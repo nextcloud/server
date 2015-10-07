@@ -69,7 +69,7 @@ class OC_Template extends \OC\Template\Base {
 	
 	public function __construct( $app, $name, $renderAs = "", $registerCall = true ) {
 		// Read the selected theme from the config file
-		self::initTemplateEngine();
+		self::initTemplateEngine($renderAs);
 		
 		$theme = OC_Util::getTheme();
 
@@ -89,13 +89,13 @@ class OC_Template extends \OC\Template\Base {
 		parent::__construct($template, $requesttoken, $l10n, $themeDefaults);
 	}
 
-	public static function initTemplateEngine() {
+	public static function initTemplateEngine($renderAs) {
 		if (self::$initTemplateEngineFirstRun){
 			
 			//apps that started before the template initialization can load their own scripts/styles
 			//so to make sure this scripts/styles here are loaded first we use OC_Util::addScript() with $prepend=true
 			//meaning the last script/style in this list will be loaded first
-			if (\OC::$server->getSystemConfig ()->getValue ( 'installed', false ) && ! \OCP\Util::needUpgrade ()) {
+			if (\OC::$server->getSystemConfig()->getValue ('installed', false) && $renderAs !== 'error' && !\OCP\Util::needUpgrade()) {
 				if (\OC::$server->getConfig ()->getAppValue ( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax') {
 					OC_Util::addScript ( 'backgroundjobs', null, true );
 				}
