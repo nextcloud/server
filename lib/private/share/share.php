@@ -137,7 +137,7 @@ class Share extends Constants {
 		$publicShare = false;
 		$remoteShare = false;
 		$source = -1;
-		$cache = false;
+		$cache = $mountPath = false;
 
 		$view = new \OC\Files\View('/' . $ownerUser . '/files');
 		$meta = $view->getFileInfo($path);
@@ -151,8 +151,14 @@ class Share extends Constants {
 		if($meta !== false) {
 			$source = $meta['fileid'];
 			$cache = new \OC\Files\Cache\Cache($meta['storage']);
+
+			$mountPath = $meta->getMountPoint()->getMountPoint();
+			if ($mountPath !== false) {
+				$mountPath = substr($mountPath, strlen('/' . $ownerUser . '/files'));
+			}
 		}
 
+		$paths = [];
 		while ($source !== -1) {
 			// Fetch all shares with another user
 			if (!$returnUserPaths) {
@@ -257,6 +263,7 @@ class Share extends Constants {
 			// let's get the parent for the next round
 			$meta = $cache->get((int)$source);
 			if ($recursive === true && $meta !== false) {
+				$paths[$source] = $meta['path'];
 				$source = (int)$meta['parent'];
 			} else {
 				$source = -1;
@@ -285,9 +292,15 @@ class Share extends Constants {
 				} else {
 					while ($row = $result->fetchRow()) {
 						foreach ($fileTargets[$row['fileid']] as $uid => $shareData) {
-							$sharedPath = $shareData['file_target'];
-							$sharedPath .= substr($path, strlen($row['path']) -5);
-							$sharePaths[$uid] = $sharedPath;
+							if ($mountPath !== false) {
+								$sharedPath = $shareData['file_target'];
+								$sharedPath .= substr($path, strlen($mountPath) + strlen($paths[$row['fileid']]));
+								$sharePaths[$uid] = $sharedPath;
+							} else {
+								$sharedPath = $shareData['file_target'];
+								$sharedPath .= substr($path, strlen($row['path']) -5);
+								$sharePaths[$uid] = $sharedPath;
+							}
 						}
 					}
 				}
