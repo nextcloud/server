@@ -1468,6 +1468,30 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
+	 * checks whether an LDAP paged search operation has more pages that can be
+	 * retrieved, typically when offset and limit are provided.
+	 *
+	 * Be very careful to use it: the last cookie value, which is inspected, can
+	 * be reset by other operations. Best, call it immediately after a search(),
+	 * searchUsers() or searchGroups() call. count-methods are probably safe as
+	 * well. Don't rely on it with any fetchList-method.
+	 * @return bool
+	 */
+	public function hasMoreResults() {
+		if(!$this->connection->hasPagedResultSupport) {
+			return false;
+		}
+
+		if(empty($this->lastCookie) && $this->lastCookie !== '0') {
+			// as in RFC 2696, when all results are returned, the cookie will
+			// be empty.
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * set a cookie for LDAP paged search run
 	 * @param string $base a string with the base DN for the search
 	 * @param string $filter the search filter to identify the correct search

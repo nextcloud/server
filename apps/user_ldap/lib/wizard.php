@@ -439,7 +439,7 @@ class Wizard extends LDAPUtility {
 				$groupEntries[] = $item;
 			}
 			$offset += $limit;
-		} while (count($groupNames) > 0 && count($groupNames) % $limit === 0);
+		} while ($this->access->hasMoreResults());
 
 		if(count($groupNames) > 0) {
 			natsort($groupNames);
