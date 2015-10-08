@@ -31,13 +31,24 @@ class FilesPlugin extends \Test\TestCase {
 	 */
 	private $plugin;
 
+	/**
+	 * @var \OC\Files\View
+	 */
+	private $view;
+
 	public function setUp() {
 		parent::setUp();
-		$this->server = new \Sabre\DAV\Server();
+		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->plugin = new \OC\Connector\Sabre\FilesPlugin($this->tree);
+		$this->view = $this->getMockBuilder('\OC\Files\View')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->plugin = new \OC\Connector\Sabre\FilesPlugin($this->tree, $this->view);
 		$this->plugin->initialize($this->server);
 	}
 
@@ -104,7 +115,7 @@ class FilesPlugin extends \Test\TestCase {
 	}
 
 	public function testGetPublicPermissions() {
-		$this->plugin = new \OC\Connector\Sabre\FilesPlugin($this->tree, true);
+		$this->plugin = new \OC\Connector\Sabre\FilesPlugin($this->tree, $this->view, true);
 		$this->plugin->initialize($this->server);
 
 		$propFind = new \Sabre\DAV\PropFind(
@@ -196,4 +207,48 @@ class FilesPlugin extends \Test\TestCase {
 		$this->assertEquals(200, $result[self::GETETAG_PROPERTYNAME]);
 	}
 
+	/**
+	 * Testcase from https://github.com/owncloud/core/issues/5251
+	 *
+	 * |-FolderA
+	 *  |-text.txt
+	 * |-test.txt
+	 *
+	 * FolderA is an incomming shared folder and there are no delete permissions.
+	 * Thus moving /FolderA/test.txt to /test.txt should fail already on that check
+	 *
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 * @expectedExceptionMessage FolderA/test.txt cannot be deleted
+	 */
+	public function testMoveSrcNotDeletable() {
+		$fileInfoFolderATestTXT = $this->getMockBuilder('\OCP\Files\FileInfo')
+			->disableOriginalConstructor()
+			->getMock();
+		$fileInfoFolderATestTXT->expects($this->once())
+			->method('isDeletable')
+			->willReturn(false);
+
+		$this->view->expects($this->once())
+			->method('getFileInfo')
+			->with('FolderA/test.txt')
+			->willReturn($fileInfoFolderATestTXT);
+
+		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
+	}
+
+	public function testMoveSrcDeletable() {
+		$fileInfoFolderATestTXT = $this->getMockBuilder('\OCP\Files\FileInfo')
+			->disableOriginalConstructor()
+			->getMock();
+		$fileInfoFolderATestTXT->expects($this->once())
+			->method('isDeletable')
+			->willReturn(true);
+
+		$this->view->expects($this->once())
+			->method('getFileInfo')
+			->with('FolderA/test.txt')
+			->willReturn($fileInfoFolderATestTXT);
+
+		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
+	}
 }
