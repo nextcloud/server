@@ -1,8 +1,12 @@
+#content {
+	height: initial;
+	min-height: calc(100vh - 120px);
+	overflow: hidden;
+}
+
 #preview {
 	background: #fff;
 	text-align: center;
-	margin: 45px auto 0;
-	min-height: 200px;
 }
 
 #preview .notCreatable {
