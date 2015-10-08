@@ -157,7 +157,10 @@ class Mailer implements IMailer {
 				$this->instance = $this->getSMTPInstance();
 				break;
 			case 'sendmail':
-				$this->instance = $this->getSendMailInstance();
+				// FIXME: Move into the return statement but requires proper testing
+				//       for SMTP and mail as well. Thus not really doable for a
+				//       minor release.
+				$this->instance = \Swift_Mailer::newInstance($this->getSendMailInstance());
 				break;
 			default:
 				$this->instance = $this->getMailInstance();
