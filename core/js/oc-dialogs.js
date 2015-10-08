@@ -601,6 +601,14 @@ var OCdialogs = {
 
 				$(dialogId).css('height','auto');
 
+				var $primaryButton = $dlg.closest('.oc-dialog').find('button.continue');
+				$primaryButton.prop('disabled', true);
+
+				function updatePrimaryButton() {
+					var checkedCount = $dlg.find('th .checkbox:checked').length;
+					$primaryButton.prop('disabled', checkedCount === 0);
+				}
+
 				//add checkbox toggling actions
 				$(dialogId).find('.allnewfiles').on('click', function() {
 					var $checkboxes = $(dialogId).find('.conflict .replacement input[type="checkbox"]');
@@ -632,6 +640,7 @@ var OCdialogs = {
 						$(dialogId).find('.allnewfiles').prop('checked', false);
 						$(dialogId).find('.allnewfiles + .count').text('');
 					}
+					updatePrimaryButton();
 				});
 				$(dialogId).on('click', '.original,.allexistingfiles', function(){
 					var count = $(dialogId).find('.conflict .original input[type="checkbox"]:checked').length;
@@ -646,7 +655,9 @@ var OCdialogs = {
 						$(dialogId).find('.allexistingfiles').prop('checked', false);
 						$(dialogId).find('.allexistingfiles + .count').text('');
 					}
+					updatePrimaryButton();
 				});
+
 				dialogDeferred.resolve();
 			})
 			.fail(function() {
