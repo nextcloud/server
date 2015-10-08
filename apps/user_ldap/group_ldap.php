@@ -653,7 +653,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 						$this->access->connection->ldapLoginFilter, 'UTF-8'),
 					$this->access->getFilterPartForUserSearch($search)
 				));
-				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
+				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn', 1);
 				if(count($ldap_users) < 1) {
 					continue;
 				}
