@@ -77,6 +77,8 @@ OC.L10N.register(
     "Uninstalling ...." : "Desinstalando ...",
     "Error while uninstalling app" : "Erro enquanto desinstalava aplicativo",
     "Uninstall" : "Desinstalar",
+    "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "O aplicativo foi habilitado, mas precisa ser atualizado. Você será redirecionado para a página de atualização em 5 segundos.",
+    "App update" : "Atualização de aplicativo",
     "An error occurred: {message}" : "Ocorreu um erro: {message}",
     "Select a profile picture" : "Selecione uma imagem para o perfil",
     "Very weak password" : "Senha muito fraca",

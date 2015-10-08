@@ -76,6 +76,8 @@ OC.L10N.register(
     "Uninstalling ...." : "Poistetaan asennusta....",
     "Error while uninstalling app" : "Virhe sovellusta poistaessa",
     "Uninstall" : "Poista asennus",
+    "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Tämä sovellus on otettu käyttöön, mutta se vaatii päivityksen. Sinut ohjataan päivityssivulle viiden sekunnin kuluttua.",
+    "App update" : "Sovelluspäivitys",
     "An error occurred: {message}" : "Tapahtui virhe: {message}",
     "Select a profile picture" : "Valitse profiilikuva",
     "Very weak password" : "Erittäin heikko salasana",

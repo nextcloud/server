@@ -183,6 +183,7 @@ OC.L10N.register(
     "Reset password" : "Obnovit heslo",
     "Searching other places" : "Prohledávání ostatních umístění",
     "No search results in other folders" : "V ostatních adresářích nebylo nic nalezeno",
+    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} nález v dalším adresáři","{count} nálezy v dalších adresářích","{count} nálezů v dalších adresářích"],
     "Personal" : "Osobní",
     "Users" : "Uživatelé",
     "Apps" : "Aplikace",

@@ -11,6 +11,8 @@
     "Configuration OK" : "پیکربندی صحیح است",
     "Select groups" : "انتخاب گروه ها",
     "Select object classes" : "انتخاب کلاس های اشیا",
+    "Please specify the port, it could not be auto-detected." : "لطفا پورت را مشخص کنید، امکان تعیین خودکار وجود ندارد.",
+    "Could not detect Base DN, please enter it manually." : "امکان شناسایی Base DN, وجود ندارد، لطفا بصورت دستی آنرا وارد کنید.",
     "{nthServer}. Server" : "سرور {nthServer}.",
     "Do you really want to delete the current Server Configuration?" : "آیا واقعا می خواهید پیکربندی کنونی سرور را حذف کنید؟",
     "Confirm Deletion" : "تایید حذف",

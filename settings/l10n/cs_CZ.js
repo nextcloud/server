@@ -146,6 +146,7 @@ OC.L10N.register(
     "Allow users to send mail notification for shared files to other users" : "Povolit uživatelům odesílat emailová upozornění na sdílené soubory ostatním uživatelům",
     "Exclude groups from sharing" : "Vyjmout skupiny ze sdílení",
     "These groups will still be able to receive shares, but not to initiate them." : "Těmto skupinám bude stále možno sdílet, nemohou ale sami sdílet ostatním.",
+    "Allow username autocompletion in share dialog. If this is disabled the full username needs to be entered." : "Povolit automatické vyplňování v dialogu sdílení. Pokud je toto vypnuto, je třeba ručně vyplňovat celé uživatelské jméno.",
     "Last cron job execution: %s." : "Poslední cron proběhl: %s.",
     "Last cron job execution: %s. Something seems wrong." : "Poslední cron proběhl: %s. Vypadá to, že něco není v pořádku.",
     "Cron was not executed yet!" : "Cron ještě nebyl spuštěn!",
