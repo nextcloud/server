@@ -75,11 +75,14 @@ class EtagPropagation extends TestCase {
 		$view1->file_put_contents('/sub1/sub2/folder/file.txt', 'foobar');
 		$view1->file_put_contents('/sub1/sub2/folder/inside/file.txt', 'foobar');
 		$folderInfo = $view1->getFileInfo('/sub1/sub2/folder');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
 		$fileInfo = $view1->getFileInfo('/foo.txt');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 		\OCP\Share::shareItem('file', $fileInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
 		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
 		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER3, 31);
 		$folderInfo = $view1->getFileInfo('/directReshare');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
 		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER1][''] = $view1->getFileInfo('')->getId();
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER1]['sub1'] = $view1->getFileInfo('sub1')->getId();
@@ -90,8 +93,10 @@ class EtagPropagation extends TestCase {
 		$view2->mkdir('/sub1/sub2');
 		$view2->rename('/folder', '/sub1/sub2/folder');
 		$insideInfo = $view2->getFileInfo('/sub1/sub2/folder/inside');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $insideInfo);
 		\OCP\Share::shareItem('folder', $insideInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER4, 31);
 		$folderInfo = $view2->getFileInfo('/directReshare');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
 		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER4, 31);
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER2][''] = $view2->getFileInfo('')->getId();
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER2]['sub1'] = $view2->getFileInfo('sub1')->getId();
@@ -261,6 +266,7 @@ class EtagPropagation extends TestCase {
 	public function testOwnerUnshares() {
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
 		$folderInfo = $this->rootView->getFileInfo('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/sub1/sub2/folder');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
 		$folderId = $folderInfo->getId();
 		$this->assertTrue(
 			\OCP\Share::unshare(
