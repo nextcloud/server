@@ -101,7 +101,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		} catch(\Exception $e) {
 			return false;
 		}
-		$dn = $ldapRecord['dn'];
+		$dn = $ldapRecord['dn'][0];
 		$user = $this->access->userManager->get($dn);
 
 		if(!$user instanceof User) {
