@@ -532,7 +532,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 				$nameByLDAP = $ldapObject[$nameAttribute][0];
 			}
 
-			$ocName = $this->dn2ocname($ldapObject['dn'], $nameByLDAP, $isUsers);
+			$ocName = $this->dn2ocname($ldapObject['dn'][0], $nameByLDAP, $isUsers);
 			if($ocName) {
 				$ownCloudNames[] = $ocName;
 				if($isUsers) {
@@ -692,7 +692,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 */
 	public function batchApplyUserAttributes(array $ldapRecords){
 		foreach($ldapRecords as $userRecord) {
-			$ocName  = $this->dn2ocname($userRecord['dn'], $userRecord[$this->connection->ldapUserDisplayName]);
+			$ocName  = $this->dn2ocname($userRecord['dn'][0], $userRecord[$this->connection->ldapUserDisplayName]);
 			$this->cacheUserExists($ocName);
 			$user = $this->userManager->get($ocName);
 			$user->processAttributes($userRecord);
@@ -1012,7 +1012,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 								$this->sanitizeDN($item[$key])
 								: $item[$key];
 						} else {
-							$selection[$i][$key] = $this->sanitizeDN($item[$key]);
+							$selection[$i][$key] = [$this->sanitizeDN($item[$key])];
 						}
 					}
 
