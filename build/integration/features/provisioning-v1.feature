@@ -40,6 +40,16 @@ Feature: provisioning
     And the HTTP status code should be "200"
 
 
+  Scenario: Getting all users
+    Given As an "admin"
+    And user "brand-new-user" exists
+    And user "admin" exists
+    When sending "GET" to "/cloud/users"
+    And users returned are
+      | brand-new-user |
+      | admin |
+
+
   Scenario: Edit a user
     Given As an "admin"
     And user "brand-new-user" exists
@@ -72,6 +82,16 @@ Feature: provisioning
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And group "new-group" exists
+
+
+  Scenario: Getting all groups
+    Given As an "admin"
+    And group "new-group" exists
+    And group "admin" exists
+    When sending "GET" to "/cloud/groups"
+    And groups returned are
+      | admin |
+      | new-group |
 
 
   Scenario: Delete a group

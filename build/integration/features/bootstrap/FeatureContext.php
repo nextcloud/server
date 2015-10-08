@@ -49,7 +49,6 @@ class FeatureContext extends BehatContext {
 		$this->sendingToWith($verb, $url, null);
 	}
 
-
 	/**
 	*  Parses the xml answer to get ocs response which doesn't match with
 	*  http one in v1 of the api.
@@ -58,6 +57,50 @@ class FeatureContext extends BehatContext {
 		return $response->xml()->meta[0]->statuscode;
 	}
 
+	/**
+	*  Parses the xml answer to get the array of users returned.
+	*/
+	public function getArrayOfUsersResponded($resp) {
+		$listCheckedElements = $resp->xml()->data[0]->users[0]->element;
+		$extractedElementsArray = json_decode( json_encode($listCheckedElements) , 1);
+		return $extractedElementsArray;
+	}
+
+	/**
+	*  Parses the xml answer to get the array of groups returned.
+	*/
+	public function getArrayOfGroupsResponded($resp) {
+		$listCheckedElements = $resp->xml()->data[0]->groups[0]->element;
+		$extractedElementsArray = json_decode( json_encode($listCheckedElements) , 1);
+		return $extractedElementsArray;
+	}
+
+	/**
+	 * @Then /^users returned are$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 */
+	public function theUsersShouldBe($usersList) {
+		if ($usersList instanceof \Behat\Gherkin\Node\TableNode) {
+			$users = $usersList->getRows()[0];
+			$respondedArray = $this->getArrayOfUsersResponded($this->response);
+			PHPUnit_Framework_Assert::assertEquals(asort($users), asort($respondedArray));
+		}
+
+	}
+
+	/**
+	 * @Then /^groups returned are$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 */
+	public function theGroupsShouldBe($groupsList) {
+		if ($groupsList instanceof \Behat\Gherkin\Node\TableNode) {
+			$groups = $groupsList->getRows()[0];
+			$respondedArray = $this->getArrayOfGroupsResponded($this->response);
+			PHPUnit_Framework_Assert::assertEquals(asort($groups), asort($respondedArray));
+		}
+
+	}
+		
 	/**
 	 * @Then /^the OCS status code should be "([^"]*)"$/
 	 */
