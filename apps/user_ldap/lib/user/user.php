@@ -147,21 +147,21 @@ class User {
 		//Quota
 		$attr = strtolower($this->connection->ldapQuotaAttribute);
 		if(isset($ldapEntry[$attr])) {
-			$this->updateQuota($ldapEntry[$attr]);
+			$this->updateQuota($ldapEntry[$attr][0]);
 		}
 		unset($attr);
 
 		//Email
 		$attr = strtolower($this->connection->ldapEmailAttribute);
 		if(isset($ldapEntry[$attr])) {
-			$this->updateEmail($ldapEntry[$attr]);
+			$this->updateEmail($ldapEntry[$attr][0]);
 		}
 		unset($attr);
 
 		//displayName
 		$attr = strtolower($this->connection->ldapUserDisplayName);
 		if(isset($ldapEntry[$attr])) {
-			$displayName = $ldapEntry[$attr];
+			$displayName = $ldapEntry[$attr][0];
 			if(!empty($displayName)) {
 				$this->storeDisplayName($displayName);
 				$this->access->cacheUserDisplayName($this->getUsername(), $displayName);
@@ -171,18 +171,20 @@ class User {
 
 		// LDAP Username, needed for s2s sharing
 		if(isset($ldapEntry['uid'])) {
-			$this->storeLDAPUserName($ldapEntry['uid']);
+			$this->storeLDAPUserName($ldapEntry['uid'][0]);
 		} else if(isset($ldapEntry['samaccountname'])) {
-			$this->storeLDAPUserName($ldapEntry['samaccountname']);
+			$this->storeLDAPUserName($ldapEntry['samaccountname'][0]);
 		}
+
 		//homePath
 		if(strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
 			$attr = strtolower(substr($this->connection->homeFolderNamingRule, strlen('attr:')));
 			if(isset($ldapEntry[$attr])) {
 				$this->access->cacheUserHome(
-					$this->getUsername(), $this->getHomePath($ldapEntry[$attr]));
+					$this->getUsername(), $this->getHomePath($ldapEntry[$attr][0]));
 			}
 		}
+
 		//memberOf groups
 		$cacheKey = 'getMemberOf'.$this->getUsername();
 		$groups = false;
@@ -190,11 +192,12 @@ class User {
 			$groups = $ldapEntry['memberof'];
 		}
 		$this->connection->writeToCache($cacheKey, $groups);
+
 		//Avatar
 		$attrs = array('jpegphoto', 'thumbnailphoto');
 		foreach ($attrs as $attr)  {
 			if(isset($ldapEntry[$attr])) {
-				$this->avatarImage = $ldapEntry[$attr];
+				$this->avatarImage = $ldapEntry[$attr][0];
 				$this->updateAvatar();
 				break;
 			}

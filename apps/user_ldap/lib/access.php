@@ -489,7 +489,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 
 	/**
 	 * gives back the user names as they are used ownClod internally
-	 * @param array $ldapUsers an array with the ldap Users result in style of array ( array ('dn' => foo, 'uid' => bar), ... )
+	 * @param array $ldapUsers as returned by fetchList()
 	 * @return array an array with the user names to use in ownCloud
 	 *
 	 * gives back the user names as they are used ownClod internally
@@ -500,7 +500,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 
 	/**
 	 * gives back the group names as they are used ownClod internally
-	 * @param array $ldapGroups an array with the ldap Groups result in style of array ( array ('dn' => foo, 'cn' => bar), ... )
+	 * @param array $ldapGroups as returned by fetchList()
 	 * @return array an array with the group names to use in ownCloud
 	 *
 	 * gives back the group names as they are used ownClod internally
@@ -510,7 +510,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
-	 * @param array $ldapObjects
+	 * @param array $ldapObjects as returned by fetchList()
 	 * @param bool $isUsers
 	 * @return array
 	 */
@@ -523,7 +523,15 @@ class Access extends LDAPUtility implements user\IUserTools {
 		$ownCloudNames = array();
 
 		foreach($ldapObjects as $ldapObject) {
-			$nameByLDAP = isset($ldapObject[$nameAttribute]) ? $ldapObject[$nameAttribute] : null;
+			$nameByLDAP = null;
+			if(    isset($ldapObject[$nameAttribute])
+				&& is_array($ldapObject[$nameAttribute])
+				&& isset($ldapObject[$nameAttribute][0])
+			) {
+				// might be set, but not necessarily. if so, we use it.
+				$nameByLDAP = $ldapObject[$nameAttribute][0];
+			}
+
 			$ocName = $this->dn2ocname($ldapObject['dn'], $nameByLDAP, $isUsers);
 			if($ocName) {
 				$ownCloudNames[] = $ocName;
@@ -531,7 +539,9 @@ class Access extends LDAPUtility implements user\IUserTools {
 					//cache the user names so it does not need to be retrieved
 					//again later (e.g. sharing dialogue).
 					$this->cacheUserExists($ocName);
-					$this->cacheUserDisplayName($ocName, $nameByLDAP);
+					if(!is_null($nameByLDAP)) {
+						$this->cacheUserDisplayName($ocName, $nameByLDAP);
+					}
 				}
 			}
 			continue;
@@ -994,6 +1004,9 @@ class Access extends LDAPUtility implements user\IUserTools {
 				foreach($attr as $key) {
 					$key = mb_strtolower($key, 'UTF-8');
 					if(isset($item[$key])) {
+						if(is_array($item[$key]) && isset($item[$key]['count'])) {
+							unset($item[$key]['count']);
+						}
 						if($key !== 'dn') {
 							$selection[$i][$key] = $this->resemblesDN($key) ?
 								$this->sanitizeDN($item[$key])
