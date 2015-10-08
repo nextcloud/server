@@ -605,7 +605,7 @@ var OCdialogs = {
 				$primaryButton.prop('disabled', true);
 
 				function updatePrimaryButton() {
-					var checkedCount = $dlg.find('th .checkbox:checked').length;
+					var checkedCount = $dlg.find('.conflicts .checkbox:checked').length;
 					$primaryButton.prop('disabled', checkedCount === 0);
 				}
 
