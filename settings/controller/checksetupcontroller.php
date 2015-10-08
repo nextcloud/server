@@ -178,7 +178,7 @@ class CheckSetupController extends Controller {
 		return '';
 	}
 	
-	/*
+	/**
 	 * Whether the php version is still supported (at time of release)
 	 * according to: https://secure.php.net/supported-versions.php
 	 *
@@ -195,7 +195,7 @@ class CheckSetupController extends Controller {
 		return ['eol' => $eol, 'version' => PHP_VERSION];
 	}
 
-	/*
+	/**
 	 * Check if the reverse proxy configuration is working as expected
 	 *
 	 * @return bool
