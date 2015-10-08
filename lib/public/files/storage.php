@@ -62,6 +62,7 @@ interface Storage {
 
 	/**
 	 * see http://php.net/manual/en/function.mkdir.php
+	 * implementations need to implement a recursive mkdir
 	 *
 	 * @param string $path
 	 * @return bool

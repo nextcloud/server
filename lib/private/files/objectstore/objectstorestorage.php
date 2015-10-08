@@ -62,41 +62,44 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	public function mkdir($path) {
 		$path = $this->normalizePath($path);
 
-		if ($this->is_dir($path)) {
+		if ($this->file_exists($path)) {
 			return false;
 		}
 
-		$dirName = $this->normalizePath(dirname($path));
-		$parentExists = $this->is_dir($dirName);
-
 		$mTime = time();
-
-		$data = array(
+		$data = [
 			'mimetype' => 'httpd/unix-directory',
 			'size' => 0,
 			'mtime' => $mTime,
 			'storage_mtime' => $mTime,
 			'permissions' => \OCP\Constants::PERMISSION_ALL,
-		);
-
-		if ($dirName === '' && !$parentExists) {
+		];
+		if ($path === '') {
 			//create root on the fly
 			$data['etag'] = $this->getETag('');
 			$this->getCache()->put('', $data);
-			$parentExists = true;
-
-			// we are done when the root folder was meant to be created
-			if ($dirName === $path) {
-				return true;
+			return true;
+		} else {
+			// if parent does not exist, create it
+			$parent = $this->normalizePath(dirname($path));
+			$parentType = $this->filetype($parent);
+			if ($parentType === false) {
+				if (!$this->mkdir($parent)) {
+					// something went wrong
+					return false;
+				}
+			} else if ($parentType === 'file') {
+				// parent is a file
+				return false;
 			}
-		}
-
-		if ($parentExists) {
+			// finally create the new dir
+			$mTime = time(); // update mtime
+			$data['mtime'] = $mTime;
+			$data['storage_mtime'] = $mTime;
 			$data['etag'] = $this->getETag($path);
 			$this->getCache()->put($path, $data);
 			return true;
 		}
-		return false;
 	}
 
 	/**
