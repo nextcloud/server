@@ -31,6 +31,7 @@ use OC\Files\Cache\ChangePropagator;
 use OC\Files\Filesystem;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
+use OC\Lock\DBLockingProvider;
 
 /**
  * Class Scanner
@@ -156,9 +157,14 @@ class Scanner extends PublicEmitter {
 			$scanner = $storage->getScanner();
 			$scanner->setUseTransactions(false);
 			$this->attachListener($mount);
-			$this->db->beginTransaction();
+			$isDbLocking = \OC::$server->getLockingProvider() instanceof DBLockingProvider;
+			if (!$isDbLocking) {
+				$this->db->beginTransaction();
+			}
 			$scanner->scan($relativePath, \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
-			$this->db->commit();
+			if (!$isDbLocking) {
+				$this->db->commit();
+			}
 		}
 		$this->propagator->propagateChanges(time());
 	}
