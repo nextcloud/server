@@ -43,35 +43,35 @@ class FeatureContext extends BehatContext {
 	}
 
 	/**
-	* @When /^sending "([^"]*)" to "([^"]*)"$/
-	*/
+	 * @When /^sending "([^"]*)" to "([^"]*)"$/
+	 */
 	public function sendingTo($verb, $url) {
 		$this->sendingToWith($verb, $url, null);
 	}
 
 	/**
-	*  Parses the xml answer to get ocs response which doesn't match with
-	*  http one in v1 of the api.
-	*/
-	public function getOCSResponse($response){
+	 * Parses the xml answer to get ocs response which doesn't match with
+	 * http one in v1 of the api.
+	 */
+	public function getOCSResponse($response) {
 		return $response->xml()->meta[0]->statuscode;
 	}
 
 	/**
-	*  Parses the xml answer to get the array of users returned.
-	*/
+	 * Parses the xml answer to get the array of users returned.
+	 */
 	public function getArrayOfUsersResponded($resp) {
 		$listCheckedElements = $resp->xml()->data[0]->users[0]->element;
-		$extractedElementsArray = json_decode( json_encode($listCheckedElements) , 1);
+		$extractedElementsArray = json_decode(json_encode($listCheckedElements), 1);
 		return $extractedElementsArray;
 	}
 
 	/**
-	*  Parses the xml answer to get the array of groups returned.
-	*/
+	 * Parses the xml answer to get the array of groups returned.
+	 */
 	public function getArrayOfGroupsResponded($resp) {
 		$listCheckedElements = $resp->xml()->data[0]->groups[0]->element;
-		$extractedElementsArray = json_decode( json_encode($listCheckedElements) , 1);
+		$extractedElementsArray = json_decode(json_encode($listCheckedElements), 1);
 		return $extractedElementsArray;
 	}
 
@@ -100,7 +100,7 @@ class FeatureContext extends BehatContext {
 		}
 
 	}
-		
+
 	/**
 	 * @Then /^the OCS status code should be "([^"]*)"$/
 	 */
@@ -161,7 +161,7 @@ class FeatureContext extends BehatContext {
 	 * @When /^creating the user "([^"]*)r"$/
 	 */
 	public function creatingTheUser($user) {
-		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user" ;
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -181,7 +181,7 @@ class FeatureContext extends BehatContext {
 	 * @When /^creating the group "([^"]*)r"$/
 	 */
 	public function creatingTheGroup($group) {
-		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/addgroup" ;
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/addgroup";
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
