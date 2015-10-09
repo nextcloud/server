@@ -145,7 +145,7 @@ class Test_Group_Ldap extends \Test\TestCase {
 
 		$access->expects($this->once())
 			->method('searchGroups')
-			->will($this->returnValue(array('cn=foo,dc=barfoo,dc=bar')));
+			->will($this->returnValue([['dn' => ['cn=foo,dc=barfoo,dc=bar']]]));
 
 		$access->expects($this->once())
 			->method('dn2groupname')
@@ -221,7 +221,7 @@ class Test_Group_Ldap extends \Test\TestCase {
 
 		$access->expects($this->once())
 			->method('searchGroups')
-			->will($this->returnValue(array('cn=foo,dc=barfoo,dc=bar')));
+			->will($this->returnValue([['dn' => ['cn=foo,dc=barfoo,dc=bar']]]));
 
 		$access->expects($this->once())
 			->method('dn2groupname')
