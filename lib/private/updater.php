@@ -497,11 +497,15 @@ class Updater extends BasicEmitter {
 	 */
 	private function upgradeAppStoreApps(array $disabledApps) {
 		foreach($disabledApps as $app) {
-			if (OC_Installer::isUpdateAvailable($app)) {
-				$ocsId = \OC::$server->getConfig()->getAppValue($app, 'ocsid', '');
+			try {
+				if (OC_Installer::isUpdateAvailable($app)) {
+					$ocsId = \OC::$server->getConfig()->getAppValue($app, 'ocsid', '');
 
-				$this->emit('\OC\Updater', 'upgradeAppStoreApp', array($app));
-				OC_Installer::updateAppByOCSId($ocsId);
+					$this->emit('\OC\Updater', 'upgradeAppStoreApp', array($app));
+					OC_Installer::updateAppByOCSId($ocsId);
+				}
+			} catch (\Exception $ex) {
+				$this->log->logException($ex, ['app' => 'core']);
 			}
 		}
 	}
