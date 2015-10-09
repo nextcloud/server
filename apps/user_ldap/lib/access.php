@@ -721,7 +721,9 @@ class Access extends LDAPUtility implements user\IUserTools {
 				return $list;
 			} else {
 				$list = array_reduce($list, function($carry, $item) {
-					$carry[] = $item[0];
+					$attribute = array_keys($item)[0];
+					$carry[] = $item[$attribute][0];
+					return $carry;
 				}, array());
 				return array_unique($list, SORT_LOCALE_STRING);
 			}
