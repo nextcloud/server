@@ -432,6 +432,23 @@ class RepairMimeTypes extends \Test\TestCase {
 
 		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
 	}
+
+	/**
+	 * Test that mime type renaming does not affect folders
+	 */
+	public function testDoNotChangeFolderMimeType() {
+		$currentMimeTypes = [
+			['test.conf', 'httpd/unix-directory'],
+			['test.cnf', 'httpd/unix-directory'],
+		];
+
+		$fixedMimeTypes = [
+			['test.conf', 'httpd/unix-directory'],
+			['test.cnf', 'httpd/unix-directory'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
 }
 
 /**
