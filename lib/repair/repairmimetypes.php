@@ -36,6 +36,11 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 	protected $config;
 
 	/**
+	 * @var int
+	 */
+	protected $folderMimeTypeId;
+
+	/**
 	 * @param \OCP\IConfig $config
 	 */
 	public function __construct($config) {
@@ -91,7 +96,7 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 		return \OC_DB::prepare('
 			UPDATE `*PREFIX*filecache`
 			SET `mimetype` = ?
-			WHERE `mimetype` <> ? AND `name` ILIKE ?
+			WHERE `mimetype` <> ? AND `mimetype` <> ? AND `name` ILIKE ?
 		');
 	}
 
@@ -124,6 +129,10 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 	}
 
 	private function updateMimetypes($updatedMimetypes) {
+		if (empty($this->folderMimeTypeId)) {
+			$result = \OC_DB::executeAudited(self::getIdStmt(), array('httpd/unix-directory'));
+			$this->folderMimeTypeId = (int)$result->fetchOne();
+		}
 
 		foreach ($updatedMimetypes as $extension => $mimetype) {
 			$result = \OC_DB::executeAudited(self::existsStmt(), array($mimetype));
@@ -139,7 +148,7 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 			$mimetypeId = $result->fetchOne();
 
 			// change mimetype for files with x extension
-			\OC_DB::executeAudited(self::updateByNameStmt(), array($mimetypeId, $mimetypeId, '%.' . $extension));
+			\OC_DB::executeAudited(self::updateByNameStmt(), array($mimetypeId, $this->folderMimeTypeId, $mimetypeId, '%.' . $extension));
 		}
 	}
 
