@@ -30,6 +30,7 @@ namespace OC\Core\Command;
 use OC\Console\TimestampFormatter;
 use OC\Updater;
 use OCP\IConfig;
+use OCP\ILogger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -44,17 +45,19 @@ class Upgrade extends Command {
 	const ERROR_INVALID_ARGUMENTS = 4;
 	const ERROR_FAILURE = 5;
 
-	/**
-	 * @var IConfig
-	 */
+	/** @var IConfig */
 	private $config;
+
+	/** @var ILogger */
+	private $logger;
 
 	/**
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config, ILogger $logger) {
 		parent::__construct();
 		$this->config = $config;
+		$this->logger = $logger;
 	}
 
 	protected function configure() {
@@ -126,7 +129,8 @@ class Upgrade extends Command {
 
 			$self = $this;
 			$updater = new Updater(\OC::$server->getHTTPHelper(),
-				$this->config);
+				$this->config,
+				$this->logger);
 
 			$updater->setSimulateStepEnabled($simulateStepEnabled);
 			$updater->setUpdateStepEnabled($updateStepEnabled);

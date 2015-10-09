@@ -161,7 +161,7 @@ class UpdaterTest extends \Test\TestCase {
 	 * @param bool $result
 	 */
 	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersion, $result) {
-		$updater = new Updater($this->httpHelper, $this->config);
+		$updater = new Updater($this->httpHelper, $this->config, $this->logger);
 		$this->assertSame($result, $updater->isUpgradePossible($oldVersion, $newVersion, $allowedVersion));
 	}
 
