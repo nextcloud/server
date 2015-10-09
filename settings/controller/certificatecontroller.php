@@ -68,19 +68,25 @@ class CertificateController extends Controller {
 	 * @return array
 	 */
 	public function addPersonalRootCertificate() {
+		$headers = [];
+		if ($this->request->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE_8])) {
+			// due to upload iframe workaround, need to set content-type to text/plain
+			$headers['Content-Type'] = 'text/plain';
+		}
 
 		if ($this->isCertificateImportAllowed() === false) {
-			return new DataResponse('Individual certificate management disabled', Http::STATUS_FORBIDDEN);
+			return new DataResponse(['message' => 'Individual certificate management disabled'], Http::STATUS_FORBIDDEN, $headers);
 		}
 
 		$file = $this->request->getUploadedFile('rootcert_import');
 		if(empty($file)) {
-			return new DataResponse(['message' => 'No file uploaded'], Http::STATUS_UNPROCESSABLE_ENTITY);
+			return new DataResponse(['message' => 'No file uploaded'], Http::STATUS_UNPROCESSABLE_ENTITY, $headers);
 		}
 
 		try {
 			$certificate = $this->certificateManager->addCertificate(file_get_contents($file['tmp_name']), $file['name']);
-			return new DataResponse([
+			return new DataResponse(
+				[
 				'name' => $certificate->getName(),
 				'commonName' => $certificate->getCommonName(),
 				'organization' => $certificate->getOrganization(),
@@ -90,9 +96,12 @@ class CertificateController extends Controller {
 				'validTillString' => $this->l10n->l('date', $certificate->getExpireDate()),
 				'issuer' => $certificate->getIssuerName(),
 				'issuerOrganization' => $certificate->getIssuerOrganization(),
-			]);
+				],
+				Http::STATUS_OK,
+				$headers
+			);
 		} catch (\Exception $e) {
-			return new DataResponse('An error occurred.', Http::STATUS_UNPROCESSABLE_ENTITY);
+			return new DataResponse('An error occurred.', Http::STATUS_UNPROCESSABLE_ENTITY, $headers);
 		}
 	}
 
