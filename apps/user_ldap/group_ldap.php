@@ -247,7 +247,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		if(empty($result)) {
 			return false;
 		}
-		$dn = $result[0];
+		$dn = $result[0]['dn'][0];
 
 		//and now the group name
 		//NOTE once we have separate ownCloud group IDs and group names we can
