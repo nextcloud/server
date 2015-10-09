@@ -194,6 +194,7 @@ OC.L10N.register(
     "Finish setup" : "اتمام نصب",
     "Finishing …" : "در حال اتمام ...",
     "Need help?" : "کمک لازم دارید ؟",
+    "See the documentation" : "مشاهده‌ی مستندات",
     "Log out" : "خروج",
     "Search" : "جست‌و‌جو",
     "Please contact your administrator." : "لطفا با مدیر وب‌سایت تماس بگیرید.",

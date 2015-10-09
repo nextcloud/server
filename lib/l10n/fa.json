@@ -52,6 +52,9 @@
     "Microsoft Windows Platform is not supported" : "بستر Microsoft Windows پشتیبانی نمی‎‌شود",
     "Cannot write into \"config\" directory" : "امکان نوشتن درون شاخه‌ی \"config\" وجود ندارد",
     "Please ask your server administrator to install the module." : "لطفا از مدیر سیستم بخواهید تا ماژول را نصب کند.",
-    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 نیاز است"
+    "PHP module %s not installed." : "ماژول PHP %s نصب نشده است.",
+    "PostgreSQL >= 9 required" : "PostgreSQL >= 9 نیاز است",
+    "Please upgrade your database version" : "لطفا نسخه‌ی پایگاه‌داده‌ی خود را بروز کنید",
+    "Error occurred while checking PostgreSQL version" : "خطا در هنگام بررسی نسخه‌ی PostgreSQL"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

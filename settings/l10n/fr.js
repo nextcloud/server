@@ -77,6 +77,7 @@ OC.L10N.register(
     "Uninstalling ...." : "Désinstallation...",
     "Error while uninstalling app" : "Erreur lors de la désinstallation de l'application",
     "Uninstall" : "Désinstaller",
+    "App update" : "Mise à jour App",
     "An error occurred: {message}" : "Une erreur est survenue : {message}",
     "Select a profile picture" : "Selectionnez une photo de profil ",
     "Very weak password" : "Mot de passe de très faible sécurité",

@@ -72,6 +72,7 @@ OC.L10N.register(
     "Uninstalling ...." : "Eltávolítás ...",
     "Error while uninstalling app" : "Hiba történt az alkalmazás eltávolítása közben",
     "Uninstall" : "Eltávolítás",
+    "App update" : "Alkalmazás frissítése",
     "An error occurred: {message}" : "Hiba történt: {message}",
     "Select a profile picture" : "Válasszon profilképet!",
     "Very weak password" : "Nagyon gyenge jelszó",
