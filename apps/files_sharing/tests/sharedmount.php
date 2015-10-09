@@ -237,6 +237,141 @@ class Test_Files_Sharing_Mount extends OCA\Files_sharing\Tests\TestCase {
 		);
 	}
 
+	function dataPermissionMovedGroupShare() {
+		$data = [];
+
+		$powerset = function($permissions) {
+			$results = [\OCP\Constants::PERMISSION_READ];
+
+			foreach ($permissions as $permission) {
+				foreach ($results as $combination) {
+					$results[] = $permission | $combination;
+				}
+			}
+			return $results;
+		};
+
+		//Generate file permissions
+		$permissions = [
+			\OCP\Constants::PERMISSION_UPDATE,
+			\OCP\Constants::PERMISSION_CREATE,
+			\OCP\Constants::PERMISSION_SHARE,
+		];
+
+		$allPermissions = $powerset($permissions);
+
+		foreach ($allPermissions as $before) {
+			foreach ($allPermissions as $after) {
+				if ($before === $after) { continue; }
+
+				$data[] = [
+					'file', 
+					$before,
+					$after,
+				];
+			}
+		}
+
+		//Generate folder permissions
+		$permissions = [
+			\OCP\Constants::PERMISSION_UPDATE,
+			\OCP\Constants::PERMISSION_CREATE,
+			\OCP\Constants::PERMISSION_SHARE,
+			\OCP\Constants::PERMISSION_DELETE
+		];
+
+		$allPermissions = $powerset($permissions);
+
+		foreach ($allPermissions as $before) {
+			foreach ($allPermissions as $after) {
+				if ($before === $after) { continue; }
+
+				$data[] = [
+					'folder',
+					$before,
+					$after,
+				];
+			}
+		}
+
+		return $data;
+	}
+
+
+
+	/**
+	 * moved mountpoints of a group share should keep the same permission as their parent group share.
+	 * See #15253
+	 *
+	 * @dataProvider dataPermissionMovedGroupShare
+	 */
+	function testPermissionMovedGroupShare($type, $beforePerm, $afterPerm) {
+
+		if ($type === 'file') {
+			$path = $this->filename;
+		} else if ($type === 'folder') {
+			$path = $this->folder;
+		}
+
+		\OC_Group::createGroup('testGroup');
+		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER1, 'testGroup');
+		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
+		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
+
+		// Share item with group
+		$fileinfo = $this->view->getFileInfo($path);
+		$this->assertTrue(
+			\OCP\Share::shareItem($type, $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,	"testGroup", $beforePerm)
+		);
+
+		// Login as user 2 and verify the item exists
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($path));
+		$result = \OCP\Share::getItemSharedWithBySource($type, $fileinfo['fileid']);
+		$this->assertNotEmpty($result);
+		$this->assertEquals($beforePerm, $result['permissions']);
+
+		// Now move the item forcing a new entry in the share table
+		\OC\Files\Filesystem::rename($path, "newPath");
+		$this->assertTrue(\OC\Files\Filesystem::file_exists('newPath'));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists($path));
+
+		// Login as user 1 again and change permissions
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->assertTrue(
+			\OCP\Share::setPermissions($type, $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, "testGroup", $afterPerm)
+		);
+
+		// Login as user 3 and verify that the permissions are changed
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
+		$result = \OCP\Share::getItemSharedWithBySource($type, $fileinfo['fileid']);
+		$this->assertNotEmpty($result);
+		$this->assertEquals($afterPerm, $result['permissions']);
+		$groupShareId = $result['id'];
+
+		// Login as user 2 and verify that the permissions are changed
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$result = \OCP\Share::getItemSharedWithBySource($type, $fileinfo['fileid']);
+		$this->assertNotEmpty($result);
+		$this->assertEquals($afterPerm, $result['permissions']);
+		$this->assertNotEquals($groupShareId, $result['id']);
+
+		// Also verify in the DB
+		$statement = "SELECT `permissions` FROM `*PREFIX*share` WHERE `id`=?";
+		$query = \OCP\DB::prepare($statement);
+		$result = $query->execute([$result['id']]);
+		$shares = $result->fetchAll();
+		$this->assertCount(1, $shares);
+		$this->assertEquals($afterPerm, $shares[0]['permissions']);
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		\OCP\Share::unshare($type, $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, 'testGroup');
+		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER1, 'testGroup');
+		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
+		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
+	}
+
 }
 
 class DummyTestClassSharedMount extends \OCA\Files_Sharing\SharedMount {
