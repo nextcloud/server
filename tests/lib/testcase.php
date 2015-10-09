@@ -100,6 +100,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		$dataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data-autotest');
 
 		self::tearDownAfterClassCleanFileMapper($dataDir);
+		self::tearDownAfterClassCleanShares();
 		self::tearDownAfterClassCleanStorages();
 		self::tearDownAfterClassCleanFileCache();
 		self::tearDownAfterClassCleanStrayDataFiles($dataDir);
@@ -119,6 +120,17 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			$mapper = new \OC\Files\Mapper($dataDir);
 			$mapper->removePath($dataDir, true, true);
 		}
+	}
+
+	/**
+	 * Remove all entries from the share table
+	 *
+	 * @throws \OC\DatabaseException
+	 */
+	static protected function tearDownAfterClassCleanShares() {
+		$sql = 'DELETE FROM `*PREFIX*share`';
+		$query = \OC_DB::prepare($sql);
+		$query->execute();
 	}
 
 	/**
