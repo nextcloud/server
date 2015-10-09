@@ -124,7 +124,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 			   ->method('fetchListOfUsers')
 			   ->will($this->returnCallback(function($filter) {
 					if($filter === 'roland') {
-						return array(array('dn' => 'dnOfRoland,dc=test'));
+						return array(array('dn' => ['dnOfRoland,dc=test']));
 					}
 					return array();
 			   }));
@@ -133,7 +133,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 			->method('fetchUsersByLoginName')
 			->will($this->returnCallback(function($uid) {
 				if($uid === 'roland') {
-					return array(array('dn' => 'dnOfRoland,dc=test'));
+					return array(array('dn' => ['dnOfRoland,dc=test']));
 				}
 				return array();
 			}));
