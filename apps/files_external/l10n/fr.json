@@ -10,7 +10,7 @@
     "Invalid mount point" : "Point de montage non valide",
     "Objectstore forbidden" : "\"Objectstore\" interdit",
     "Invalid storage backend \"%s\"" : "Service de stockage non valide : \"%s\"",
-    "Not permitted to use backend \"%s\"" : "Non autorisé à utiliser backend \"%s\"",
+    "Not permitted to use backend \"%s\"" : "Non autorisé à utiliser le service \"%s\"",
     "Not permitted to use authentication mechanism \"%s\"" : "Non autorisé à utiliser le mécanisme d'authentification \"%s\"",
     "Unsatisfied backend parameters" : "Paramètres manquants pour le service",
     "Unsatisfied authentication mechanism parameters" : "Paramètres manquants pour la méthode d'authentification",

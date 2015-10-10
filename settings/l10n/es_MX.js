@@ -20,6 +20,7 @@ OC.L10N.register(
     "Wrong admin recovery password. Please check the password and try again." : "Contraseña de recuperación de administrador incorrecta. Por favor compruebe la contraseña e inténtelo de nuevo.",
     "Unable to change password" : "No se ha podido cambiar la contraseña",
     "Enabled" : "Habilitar",
+    "Saved" : "Guardado",
     "Email sent" : "Correo electrónico enviado",
     "Email saved" : "Correo electrónico guardado",
     "All" : "Todos",
