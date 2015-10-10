@@ -47,7 +47,7 @@
 			updateEventSource.listen('error', function(message) {
 				$('<span>').addClass('error').append(message).append('<br />').appendTo($el);
 				message = t('core', 'Please reload the page.');
-				$('<span>').addClass('error').append(message).append('<br />').appendTo($el);
+				$('<span>').addClass('error').append('<a href=".">'+message+'</a><br />').appendTo($el);
 				updateEventSource.close();
 			});
 			updateEventSource.listen('failure', function(message) {
