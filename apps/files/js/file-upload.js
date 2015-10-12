@@ -75,9 +75,6 @@ OC.Upload = {
 			this._uploads.push(jqXHR);
 		}
 	},
-	showUploadCancelMessage: _.debounce(function() {
-		OC.Notification.showTemporary(t('files', 'Upload cancelled.'), {timeout: 10});
-	}, 500),
 	/**
 	 * Checks the currently known uploads.
 	 * returns true if any hxr has the state 'pending'
@@ -418,10 +415,10 @@ OC.Upload = {
 					OC.Upload.log('fail', e, data);
 					if (typeof data.textStatus !== 'undefined' && data.textStatus !== 'success' ) {
 						if (data.textStatus === 'abort') {
-							OC.Upload.showUploadCancelMessage();
+							OC.Notification.show(t('files', 'Upload cancelled.'));
 						} else {
 							// HTTP connection problem
-							OC.Notification.showTemporary(data.errorThrown, {timeout: 10});
+							OC.Notification.show(data.errorThrown);
 							if (data.result) {
 								var result = JSON.parse(data.result);
 								if (result && result[0] && result[0].data && result[0].data.code === 'targetnotfound') {
@@ -430,6 +427,10 @@ OC.Upload = {
 								}
 							}
 						}
+						//hide notification after 10 sec
+						setTimeout(function() {
+							OC.Notification.hide();
+						}, 10000);
 					}
 					OC.Upload.deleteUpload(data);
 				},
