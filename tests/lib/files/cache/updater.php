@@ -143,6 +143,24 @@ class Updater extends \Test\TestCase {
 		$this->assertEquals($cached['fileid'], $cachedTarget['fileid']);
 	}
 
+	public function testMoveNonExistingOverwrite() {
+		$this->storage->file_put_contents('bar.txt', 'qwerty');
+		$this->updater->update('bar.txt');
+
+		$cached = $this->cache->get('bar.txt');
+
+		$this->updater->rename('foo.txt', 'bar.txt');
+
+		$this->assertFalse($this->cache->inCache('foo.txt'));
+		$this->assertTrue($this->cache->inCache('bar.txt'));
+
+		$cachedTarget = $this->cache->get('bar.txt');
+		$this->assertEquals($cached['etag'], $cachedTarget['etag']);
+		$this->assertEquals($cached['mtime'], $cachedTarget['mtime']);
+		$this->assertEquals($cached['size'], $cachedTarget['size']);
+		$this->assertEquals($cached['fileid'], $cachedTarget['fileid']);
+	}
+
 	public function testNewFileDisabled() {
 		$this->storage->file_put_contents('foo.txt', 'bar');
 		$this->assertFalse($this->cache->inCache('foo.txt'));
