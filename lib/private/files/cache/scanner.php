@@ -408,6 +408,10 @@ class Scanner extends BasicEmitter {
 		if (pathinfo($file, PATHINFO_EXTENSION) === 'part') {
 			return true;
 		}
+		if (strpos($file, '.part/') !== false) {
+			return true;
+		}
+
 		return false;
 	}
 
