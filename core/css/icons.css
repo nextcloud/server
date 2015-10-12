@@ -78,6 +78,10 @@
 	background-image: url('../img/actions/download.svg');
 }
 
+.icon-edit {
+	background-image: url('../img/actions/edit.svg');
+}
+
 .icon-external {
 	background-image: url('../img/actions/external.svg');
 }
