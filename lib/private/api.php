@@ -386,7 +386,7 @@ class OC_API {
 
 		$meta = $result->getMeta();
 		$data = $result->getData();
-		if (self::isV2()) {
+		if (self::isV2(\OC::$server->getRequest())) {
 			$statusCode = self::mapStatusCodes($result->getStatusCode());
 			if (!is_null($statusCode)) {
 				$meta['statuscode'] = $statusCode;
@@ -449,13 +449,13 @@ class OC_API {
 	}
 
 	/**
-	 * @return boolean
+	 * @param \OCP\IRequest $request
+	 * @return bool
 	 */
-	private static function isV2() {
-		$request = \OC::$server->getRequest();
+	protected static function isV2(\OCP\IRequest $request) {
 		$script = $request->getScriptName();
 
-		return $script === '/ocs/v2.php';
+		return substr($script, -11) === '/ocs/v2.php';
 	}
 
 	/**
