@@ -78,7 +78,7 @@ OC.L10N.register(
     "{newname} already exists" : "{newname} existe déjà",
     "Upload" : "Chargement",
     "Text file" : "Fichier texte",
-    "New text file.txt" : "Nouveau fichier texte \"file.txt\"",
+    "New text file.txt" : "Nouveau fichier texte.txt",
     "Folder" : "Dossier",
     "New folder" : "Nouveau dossier",
     "An error occurred while trying to update the tags" : "Une erreur est survenue lors de la mise à jour des étiquettes",

@@ -35,7 +35,7 @@ OC.L10N.register(
     "Saved" : "Sauvegardé",
     "Access key" : "Clé d'accès",
     "Secret key" : "Clé secrète",
-    "Builtin" : "inclus",
+    "Builtin" : "Inclus",
     "None" : "Aucun",
     "OAuth1" : "OAuth1",
     "App key" : "App key",
