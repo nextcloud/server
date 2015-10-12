@@ -47,8 +47,10 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 	}
 
 	protected function tearDown() {
-		$this->view->unlink($this->folder);
-		$this->view->unlink($this->filename);
+		if ($this->view) {
+			$this->view->unlink($this->folder);
+			$this->view->unlink($this->filename);
+		}
 
 		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 
@@ -85,6 +87,7 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertFalse($user2View->is_dir($this->folder));
 
 		// delete the local folder
+//		list($storage, $internalPa)
 		$fullPath = \OC_Config::getValue('datadirectory') . '/' . self::TEST_FILES_SHARING_API_USER2 . '/files/localfolder';
 		rmdir($fullPath);
 

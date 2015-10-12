@@ -8,6 +8,7 @@
 
 namespace Test\Connector\Sabre;
 
+use OC\Files\Storage\Local;
 use Test\HookHelper;
 use OC\Files\Filesystem;
 use OCP\Lock\ILockingProvider;
@@ -798,14 +799,16 @@ class File extends \Test\TestCase {
 		}
 		$files = [];
 		list($storage, $internalPath) = $userView->resolvePath($path);
-		$realPath = $storage->getSourcePath($internalPath);
-		$dh = opendir($realPath);
-		while (($file = readdir($dh)) !== false) {
-			if (substr($file, strlen($file) - 5, 5) === '.part') {
-				$files[] = $file;
+		if($storage instanceof Local) {
+			$realPath = $storage->getSourcePath($internalPath);
+			$dh = opendir($realPath);
+			while (($file = readdir($dh)) !== false) {
+				if (substr($file, strlen($file) - 5, 5) === '.part') {
+					$files[] = $file;
+				}
 			}
+			closedir($dh);
 		}
-		closedir($dh);
 		return $files;
 	}
 
