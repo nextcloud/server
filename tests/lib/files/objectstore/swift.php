@@ -99,6 +99,10 @@ class Swift extends \Test\Files\Storage\Storage {
 		}
 	}
 
+	public function testCheckUpdate() {
+		$this->markTestSkipped('Detecting external changes is not supported on object storages');
+	}
+
 	/**
 	 * @dataProvider copyAndMoveProvider
 	 */
