@@ -176,7 +176,7 @@ class MigrationTest extends \Test\TestCase {
 			)->setMethods(['getSystemMountPoints'])->getMock();
 
 		$m->expects($this->any())->method('getSystemMountPoints')
-			->willReturn([['mountpoint' => 'folder1'], ['mountpoint' => 'folder2']]);
+			->will($this->returnValue([['mountpoint' => 'folder1'], ['mountpoint' => 'folder2']]));
 
 		$m->reorganizeFolderStructure();
 		// even if it runs twice folder should always move only once
