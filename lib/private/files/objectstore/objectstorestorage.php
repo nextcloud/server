@@ -337,7 +337,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				'size' => 0,
 				'mtime' => $mtime,
 				'storage_mtime' => $mtime,
-				'permissions' => \OCP\Constants::PERMISSION_ALL,
+				'permissions' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
 			);
 			$fileId = $this->getCache()->put($path, $stat);
 			try {
@@ -362,7 +362,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		if (empty($stat)) {
 			// create new file
 			$stat = array(
-				'permissions' => \OCP\Constants::PERMISSION_ALL,
+				'permissions' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
 			);
 		}
 		// update stat with new data
