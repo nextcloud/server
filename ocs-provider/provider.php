@@ -44,9 +44,9 @@ class Provider extends \OCP\AppFramework\Controller {
 			'PRIVATE_DATA' => [
 				'version' => 1,
 				'endpoints' => [
-					'store' => '/ocs/v1.php/privatedata/setattribute',
-					'read' => '/ocs/v1.php/privatedata/getattribute',
-					'delete' => '/ocs/v1.php/privatedata/deleteattribute',
+					'store' => '/ocs/v2.php/privatedata/setattribute',
+					'read' => '/ocs/v2.php/privatedata/getattribute',
+					'delete' => '/ocs/v2.php/privatedata/deleteattribute',
 				],
 			],
 		];
@@ -55,13 +55,13 @@ class Provider extends \OCP\AppFramework\Controller {
 			$services['SHARING'] = [
 				'version' => 1,
 				'endpoints' => [
-					'share' => '/ocs/v1.php/apps/files_sharing/api/v1/shares',
+					'share' => '/ocs/v2.php/apps/files_sharing/api/v1/shares',
 				],
 			];
 			$services['FEDERATED_SHARING'] = [
 				'version' => 1,
 				'endpoints' => [
-					'share' => '/ocs/v1.php/cloud/shares',
+					'share' => '/ocs/v2.php/cloud/shares',
 					'webdav' => '/public.php/webdav/',
 				],
 			];
@@ -71,7 +71,7 @@ class Provider extends \OCP\AppFramework\Controller {
 			$services['ACTIVITY'] = [
 				'version' => 1,
 				'endpoints' => [
-					'list' => '/ocs/v1.php/cloud/activity',
+					'list' => '/ocs/v2.php/cloud/activity',
 				],
 			];
 		}
@@ -80,9 +80,9 @@ class Provider extends \OCP\AppFramework\Controller {
 			$services['PROVISIONING'] = [
 				'version' => 1,
 				'endpoints' => [
-					'user' => '/ocs/v1.php/cloud/users',
-					'groups' => '/ocs/v1.php/cloud/groups',
-					'apps' => '/ocs/v1.php/cloud/apps',
+					'user' => '/ocs/v2.php/cloud/users',
+					'groups' => '/ocs/v2.php/cloud/groups',
+					'apps' => '/ocs/v2.php/cloud/apps',
 				],
 			];
 		}
