@@ -2011,6 +2011,8 @@
 							self.fileSummary.update();
 							self.updateSelectionSummary();
 							self.updateStorageStatistics();
+							// in case there was a "storage full" permanent notification
+							OC.Notification.hide();
 						} else {
 							if (result.status === 'error' && result.data.message) {
 								OC.Notification.show(result.data.message);
