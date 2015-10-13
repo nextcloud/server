@@ -27,6 +27,11 @@
 			this.$el = $el;
 
 			this._started = true;
+
+			$(window).on('beforeunload.inprogress', function () {
+				return t('core', 'The upgrade is in progress, leaving this page might interrupt the process in some environments.');
+			});
+
 			this.addMessage(t(
 				'core',
 				'Updating {productName} to version {version}, this may take a while.', {
@@ -61,6 +66,8 @@
 				.appendTo($el);
 			});
 			updateEventSource.listen('done', function() {
+				$(window).off('beforeunload.inprogress');
+
 				if (hasWarnings) {
 					$('<span>').addClass('bold')
 						.append('<br />')
