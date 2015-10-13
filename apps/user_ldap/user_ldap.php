@@ -78,7 +78,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	public function loginName2UserName($loginName) {
 		try {
 			$ldapRecord = $this->getLDAPUserByLoginName($loginName);
-			$user = $this->access->userManager->get($ldapRecord['dn']);
+			$user = $this->access->userManager->get($ldapRecord['dn'][0]);
 			if($user instanceof OfflineUser) {
 				return false;
 			}
@@ -119,7 +119,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		} catch(\Exception $e) {
 			return false;
 		}
-		$dn = $ldapRecord['dn'];
+		$dn = $ldapRecord['dn'][0];
 		$user = $this->access->userManager->get($dn);
 
 		if(!$user instanceof User) {

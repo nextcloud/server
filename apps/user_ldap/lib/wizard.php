@@ -435,7 +435,11 @@ class Wizard extends LDAPUtility {
 			// detection will fail later
 			$result = $this->access->searchGroups($filter, array('cn', 'dn'), $limit, $offset);
 			foreach($result as $item) {
-				$groupNames[] = $item['cn'];
+				if(!isset($item['cn']) && !is_array($item['cn']) && !isset($item['cn'][0])) {
+					// just in case - no issue known
+					continue;
+				}
+				$groupNames[] = $item['cn'][0];
 				$groupEntries[] = $item;
 			}
 			$offset += $limit;
