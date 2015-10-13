@@ -110,9 +110,7 @@ class ApiControllerTest extends TestCase {
 				[
 					'id' => null,
 					'parentId' => null,
-					'date' => \OCP\Util::formatDate(55),
 					'mtime' => 55000,
-					'icon' => \OCA\Files\Helper::determineIcon($fileInfo),
 					'name' => 'root.txt',
 					'permissions' => null,
 					'mimetype' => 'application/pdf',
@@ -175,9 +173,7 @@ class ApiControllerTest extends TestCase {
 				[
 					'id' => null,
 					'parentId' => null,
-					'date' => \OCP\Util::formatDate(55),
 					'mtime' => 55000,
-					'icon' => \OCA\Files\Helper::determineIcon($fileInfo1),
 					'name' => 'root.txt',
 					'permissions' => null,
 					'mimetype' => 'application/pdf',
@@ -194,9 +190,7 @@ class ApiControllerTest extends TestCase {
 				[
 					'id' => null,
 					'parentId' => null,
-					'date' => \OCP\Util::formatDate(999),
 					'mtime' => 999000,
-					'icon' => \OCA\Files\Helper::determineIcon($fileInfo2),
 					'name' => 'root.txt',
 					'permissions' => null,
 					'mimetype' => 'application/binary',
