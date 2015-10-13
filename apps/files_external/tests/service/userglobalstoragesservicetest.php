@@ -155,8 +155,9 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 	/**
 	 * @expectedException \DomainException
+	 * @dataProvider deleteStorageDataProvider
 	 */
-	public function testDeleteStorage() {
+	public function testDeleteStorage($backendOptions, $rustyStorageId, $expectedCountAfterDeletion) {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
 
@@ -164,7 +165,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$storage->setMountPoint('mountpoint');
 		$storage->setBackend($backend);
 		$storage->setAuthMechanism($authMechanism);
-		$storage->setBackendOptions(['password' => 'testPassword']);
+		$storage->setBackendOptions($backendOptions);
 
 		$newStorage = $this->globalStoragesService->addStorage($storage);
 		$this->assertEquals(1, $newStorage->getId());
