@@ -1,6 +1,9 @@
 OC.L10N.register(
     "files_external",
     {
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Abrufen des Anfrage-Tokens fehlgeschlagen. Stelle bitte sicher, dass der Anwendungsschlüssel und Sicherheitsschlüssel korrekt sind.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Abrufen des Zugriff-Tokens fehlgeschlagen. Stelle bitte sicher, dass der Anwendungsschlüssel und Sicherheitsschlüssel korrekt sind.",
+    "Please provide a valid app key and secret." : "Bitte trage einen gültigen App-Key mit Secret ein.",
     "Step 1 failed. Exception: %s" : "Schritt 1 fehlgeschlagen. Fehlermeldung: %s",
     "Step 2 failed. Exception: %s" : "Schritt 2 fehlgeschlagen. Fehlermeldung: %s",
     "External storage" : "Externer Speicher",
@@ -11,6 +14,7 @@ OC.L10N.register(
     "System" : "System",
     "Grant access" : "Zugriff gestatten",
     "Access granted" : "Zugriff gestattet",
+    "Error configuring OAuth2" : "Fehler beim Einrichten von OAuth2",
     "Generate keys" : "Schlüssel erzeugen",
     "Error generating key pair" : "Fehler beim Erzeugen des Schlüsselpaares",
     "Enable encryption" : "Verschlüsselung aktivieren",
@@ -28,6 +32,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "App-Schlüssel",
     "App secret" : "Geheime Zeichenkette der App",
+    "OAuth2" : "OAutch2",
     "Client ID" : "Client-ID",
     "Client secret" : "Geheime Zeichenkette des Client",
     "OpenStack" : "OpenStack",
@@ -76,6 +81,7 @@ OC.L10N.register(
     "Scope" : "Anwendungsbereich",
     "External Storage" : "Externer Speicher",
     "Folder name" : "Ordnername",
+    "Authentication" : "Authentifizierung",
     "Configuration" : "Konfiguration",
     "Available for" : "Verfügbar für",
     "Advanced settings" : "Erweiterte Einstellungen",

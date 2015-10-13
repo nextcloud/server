@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Couldn't send mail to following users: %s " : "ไม่สามารถส่งอีเมลไปยังผู้ใช้: %s",
     "Preparing update" : "เตรียมอัพเดท",
+    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "ทดสอบการย้ายจะถูกข้าม \"update.skip-migration-test\" สามารถเปิดใช้งานได้ใน config.php",
     "Turned on maintenance mode" : "เปิดโหมดการบำรุงรักษา",
     "Turned off maintenance mode" : "ปิดโหมดการบำรุงรักษา",
     "Maintenance mode is kept active" : "โหมดการบำรุงรักษาจะถูกเก็บไว้ใช้งาน",

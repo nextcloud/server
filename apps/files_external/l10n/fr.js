@@ -8,7 +8,7 @@ OC.L10N.register(
     "Step 2 failed. Exception: %s" : "L’étape 2 a échoué. Erreur : %s",
     "External storage" : "Stockage externe",
     "Storage with id \"%i\" not found" : "Stockage avec l'id \"%i\" non trouvé",
-    "Invalid backend or authentication mechanism class" : "Système de stockage ou méthode d'authentification non valable",
+    "Invalid backend or authentication mechanism class" : "Service ou méthode d'authentification non valable",
     "Invalid mount point" : "Point de montage non valide",
     "Objectstore forbidden" : "\"Objectstore\" interdit",
     "Invalid storage backend \"%s\"" : "Service de stockage non valide : \"%s\"",

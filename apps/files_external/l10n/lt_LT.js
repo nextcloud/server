@@ -5,6 +5,7 @@ OC.L10N.register(
     "Personal" : "Asmeniniai",
     "Grant access" : "Suteikti priėjimą",
     "Access granted" : "Priėjimas suteiktas",
+    "Saved" : "Išsaugoti",
     "None" : "Nieko",
     "Username" : "Prisijungimo vardas",
     "Password" : "Slaptažodis",
