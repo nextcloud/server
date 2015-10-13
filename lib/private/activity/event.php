@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Phil Davis <phil.davis@inf.org>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -90,7 +91,7 @@ class Event implements IEvent {
 	}
 
 	/**
-	 * Set the author of the activity
+	 * Set the timestamp of the activity
 	 *
 	 * @param int $timestamp
 	 * @return IEvent

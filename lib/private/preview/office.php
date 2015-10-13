@@ -1,8 +1,9 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -36,7 +37,7 @@ abstract class Office extends Provider {
 
 		$absPath = $fileview->toTmpFile($path);
 
-		$tmpDir = get_temp_dir();
+		$tmpDir = \OC::$server->getTempManager()->getTempBaseDir();
 
 		$defaultParameters = ' -env:UserInstallation=file://' . escapeshellarg($tmpDir . '/owncloud-' . \OC_Util::getInstanceId() . '/') . ' --headless --nologo --nofirststartwizard --invisible --norestore --convert-to pdf --outdir ';
 		$clParameters = \OCP\Config::getSystemValue('preview_office_cl_parameters', $defaultParameters);

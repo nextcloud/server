@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # ownCloud
 #
@@ -9,6 +9,7 @@
 # @author Andreas Fischer
 # @author Joas Schilling
 # @author Lukas Reschke
+# @author Jörn Friedrich Dreyer
 # @copyright 2012-2015 Thomas Müller thomas.mueller@tmit.eu
 #
 
@@ -21,6 +22,7 @@ DATABASEHOST=localhost
 ADMINLOGIN=admin$EXECUTOR_NUMBER
 BASEDIR=$PWD
 
+PRIMARY_STORAGE_CONFIGS="local swift"
 DBCONFIGS="sqlite mysql mariadb pgsql oci"
 
 # $PHP_EXE is run through 'which' and as such e.g. 'php' or 'hhvm' is usually
@@ -31,6 +33,9 @@ if [ -z "$PHP_EXE" ]; then
 fi
 PHP=$(which "$PHP_EXE")
 PHPUNIT=$(which phpunit)
+
+_XDEBUG_CONFIG=$XDEBUG_CONFIG
+unset XDEBUG_CONFIG
 
 function print_syntax {
 	echo -e "Syntax: ./autotest.sh [dbconfigname] [testfile]\n" >&2
@@ -88,6 +93,22 @@ if [ "$1" ]; then
 		exit 2
 	fi
 fi
+if [ "$PRIMARY_STORAGE_CONFIG" ]; then
+	FOUND=0
+	for PSC in $PRIMARY_STORAGE_CONFIGS; do
+		if [ "$PRIMARY_STORAGE_CONFIG" = "$PSC" ]; then
+			FOUND=1
+			break
+		fi
+	done
+	if [ $FOUND = 0 ]; then
+		echo -e "Unknown primary storage config name \"$PRIMARY_STORAGE_CONFIG\"\n" >&2
+		print_syntax
+		exit 2
+	fi
+else
+	PRIMARY_STORAGE_CONFIG="local"
+fi
 
 # check for the presence of @since in all OCP methods
 $PHP build/OCPSinceChecker.php
@@ -98,12 +119,17 @@ if [ -f config/config.php ] && [ ! -f config/config-autotest-backup.php ]; then
 fi
 
 function cleanup_config {
+
 	if [ ! -z "$DOCKER_CONTAINER_ID" ]; then
 		echo "Kill the docker $DOCKER_CONTAINER_ID"
 		docker rm -f "$DOCKER_CONTAINER_ID"
 	fi
 
 	cd "$BASEDIR"
+	if [ "$PRIMARY_STORAGE_CONFIG" == "swift" ] ; then
+		echo "Kill the swift docker"
+		tests/objectstore/stop-swift-ceph.sh
+	fi
 	# Restore existing config
 	if [ -f config/config-autotest-backup.php ]; then
 		mv config/config-autotest-backup.php config/config.php
@@ -111,6 +137,10 @@ function cleanup_config {
 	# Remove autotest config
 	if [ -f config/autoconfig.php ]; then
 		rm config/autoconfig.php
+	fi
+	# Remove autotest swift storage config
+	if [ -f config/autotest-storage-swift.config.php ]; then
+		rm config/autotest-storage-swift.config.php
 	fi
 }
 
@@ -128,7 +158,7 @@ echo "Using database $DATABASENAME"
 
 function execute_tests {
 	DB=$1
-	echo "Setup environment for $DB testing ..."
+	echo "Setup environment for $DB testing on $PRIMARY_STORAGE_CONFIG storage ..."
 	# back to root folder
 	cd "$BASEDIR"
 
@@ -139,6 +169,10 @@ function execute_tests {
 	rm -rf "$DATADIR"
 	mkdir "$DATADIR"
 
+	if [ "$PRIMARY_STORAGE_CONFIG" == "swift" ] ; then
+		tests/objectstore/start-swift-ceph.sh
+		cp tests/objectstore/swift.config.php config/autotest-storage-swift.config.php
+	fi
 	cp tests/preseed-config.php config/config.php
 
 	_DB=$DB
@@ -168,7 +202,7 @@ function execute_tests {
 		else
 			if [ "MariaDB" != "$(mysql --version | grep -o MariaDB)" ] ; then
 				echo "Your mysql binary is not provided by MariaDB"
-				echo "To use the docker container set the USEDOCKER enviroment variable"
+				echo "To use the docker container set the USEDOCKER environment variable"
 				exit -1
 			fi
 			mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
@@ -200,8 +234,14 @@ function execute_tests {
 
 		echo "Waiting for Oracle initialization ... "
 
-		# grep exits on the first match and then the script continues - times out after 2 minutes
-		timeout 120 docker logs -f "$DOCKER_CONTAINER_ID" 2>&1 | grep -q "Grant succeeded."
+		# Try to connect to the OCI host via sqlplus to ensure that the connection is already running
+      		for i in {1..48}
+                do
+                        if sqlplus "system/oracle@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=$DATABASEHOST)(Port=1521))(CONNECT_DATA=(SID=XE)))" < /dev/null | grep 'Connected to'; then
+                                break;
+                        fi
+                        sleep 5
+                done
 
 		DATABASEUSER=autotest
 		DATABASENAME='XE'
@@ -217,6 +257,9 @@ function execute_tests {
 	rm -rf "coverage-html-$DB"
 	mkdir "coverage-html-$DB"
 	"$PHP" -f enable_all.php | grep -i -C9999 error && echo "Error during setup" && exit 101
+	if [[ "$_XDEBUG_CONFIG" ]]; then
+		export XDEBUG_CONFIG=$_XDEBUG_CONFIG
+	fi
 	if [ -z "$NOCOVERAGE" ]; then
 		"${PHPUNIT[@]}" --configuration phpunit-autotest.xml --log-junit "autotest-results-$DB.xml" --coverage-clover "autotest-clover-$DB.xml" --coverage-html "coverage-html-$DB" "$2" "$3"
 		RESULT=$?
@@ -224,6 +267,11 @@ function execute_tests {
 		echo "No coverage"
 		"${PHPUNIT[@]}" --configuration phpunit-autotest.xml --log-junit "autotest-results-$DB.xml" "$2" "$3"
 		RESULT=$?
+	fi
+
+	if [ "$PRIMARY_STORAGE_CONFIG" == "swift" ] ; then
+		echo "Kill the swift docker"
+		tests/objectstore/stop-swift-ceph.sh
 	fi
 
 	if [ ! -z "$DOCKER_CONTAINER_ID" ] ; then

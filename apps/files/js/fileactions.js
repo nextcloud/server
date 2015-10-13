@@ -141,9 +141,11 @@
 				name: name,
 				displayName: action.displayName,
 				mime: mime,
+				order: action.order || 0,
 				icon: action.icon,
 				permissions: action.permissions,
-				type: action.type || FileActions.TYPE_DROPDOWN
+				type: action.type || FileActions.TYPE_DROPDOWN,
+				altText: action.altText || ''
 			};
 			if (_.isUndefined(action.displayName)) {
 				actionSpec.displayName = t('files', name);
@@ -565,6 +567,7 @@
 			this.registerAction({
 				name: 'Download',
 				displayName: t('files', 'Download'),
+				order: -20,
 				mime: 'all',
 				permissions: OC.PERMISSION_READ,
 				icon: function () {
@@ -594,7 +597,9 @@
 
 			this.registerAction({
 				name: 'Rename',
+				displayName: t('files', 'Rename'),
 				mime: 'all',
+				order: -30,
 				permissions: OC.PERMISSION_UPDATE,
 				icon: function() {
 					return OC.imagePath('core', 'actions/rename');
@@ -614,7 +619,9 @@
 
 			this.registerAction({
 				name: 'Delete',
+				displayName: t('files', 'Delete'),
 				mime: 'all',
+				order: 1000,
 				// permission is READ because we show a hint instead if there is no permission
 				permissions: OC.PERMISSION_DELETE,
 				icon: function() {

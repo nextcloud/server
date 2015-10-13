@@ -303,7 +303,7 @@ class Test_Util extends \Test\TestCase {
 		}
 
 		$appConfig = \OC::$server->getAppConfig();
-		$appConfig->setValue('core', 'shareapi_exclude_groups_list', implode(',', $excludedGroups));
+		$appConfig->setValue('core', 'shareapi_exclude_groups_list', json_encode($excludedGroups));
 		$appConfig->setValue('core', 'shareapi_exclude_groups', 'yes');
 
 		$result = \OCP\Util::isSharingDisabledForUser();
@@ -406,11 +406,13 @@ class Test_Util extends \Test\TestCase {
 
 		OC_Config::setValue('version', '7.0.0.0');
 		\OC::$server->getSession()->set('OC_Version', array(7, 0, 0, 1));
+		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', array(null));
 
 		$this->assertTrue(\OCP\Util::needUpgrade());
 
 		OC_Config::setValue('version', $oldConfigVersion);
 		$oldSessionVersion = \OC::$server->getSession()->set('OC_Version', $oldSessionVersion);
+		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', array(null));
 
 		$this->assertFalse(\OCP\Util::needUpgrade());
 	}

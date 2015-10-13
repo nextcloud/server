@@ -27,6 +27,15 @@ use OCP\AppFramework\Http\IOutput;
  * Very thin wrapper class to make output testable
  */
 class Output implements IOutput {
+	/** @var string */
+	private $webRoot;
+
+	/**
+	 * @param $webRoot
+	 */
+	public function __construct($webRoot) {
+		$this->webRoot = $webRoot;
+	}
 
 	/**
 	 * @param string $out
@@ -72,10 +81,11 @@ class Output implements IOutput {
 	 * @param string $path
 	 * @param string $domain
 	 * @param bool $secure
-	 * @param bool $httponly
+	 * @param bool $httpOnly
 	 */
-	public function setCookie($name, $value, $expire, $path, $domain, $secure, $httponly) {
-		setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
+	public function setCookie($name, $value, $expire, $path, $domain, $secure, $httpOnly) {
+		$path = $this->webRoot ? : '/';
+		setcookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
 	}
 
 }

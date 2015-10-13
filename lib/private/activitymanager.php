@@ -2,7 +2,6 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -43,6 +42,12 @@ class ActivityManager implements IManager {
 
 	/** @var IConfig */
 	protected $config;
+
+	/** @var string */
+	protected $formattingObjectType;
+
+	/** @var int */
+	protected $formattingObjectId;
 
 	/**
 	 * constructor of the controller
@@ -244,15 +249,27 @@ class ActivityManager implements IManager {
 	 * @return array
 	 */
 	public function getNotificationTypes($languageCode) {
+		$filesNotificationTypes = [];
+		$sharingNotificationTypes = [];
+
 		$notificationTypes = array();
 		foreach ($this->getExtensions() as $c) {
 			$result = $c->getNotificationTypes($languageCode);
 			if (is_array($result)) {
+				if (class_exists('\OCA\Files\Activity') && $c instanceof \OCA\Files\Activity) {
+					$filesNotificationTypes = $result;
+					continue;
+				}
+				if (class_exists('\OCA\Files_Sharing\Activity') && $c instanceof \OCA\Files_Sharing\Activity) {
+					$sharingNotificationTypes = $result;
+					continue;
+				}
+
 				$notificationTypes = array_merge($notificationTypes, $result);
 			}
 		}
 
-		return $notificationTypes;
+		return array_merge($filesNotificationTypes, $sharingNotificationTypes, $notificationTypes);
 	}
 
 	/**
@@ -289,6 +306,24 @@ class ActivityManager implements IManager {
 
 		$this->typeIcons[$type] = '';
 		return '';
+	}
+
+	/**
+	 * @param string $type
+	 * @param int $id
+	 */
+	public function setFormattingObject($type, $id) {
+		$this->formattingObjectType = $type;
+		$this->formattingObjectId = $id;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isFormattingFilteredObject() {
+		return 'filter' === $this->request->getParam('filter')
+			&& $this->formattingObjectType === $this->request->getParam('objecttype')
+			&& $this->formattingObjectId === $this->request->getParam('objectid');
 	}
 
 	/**

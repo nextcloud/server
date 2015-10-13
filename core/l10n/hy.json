@@ -25,9 +25,20 @@
     "October" : "Հոկտեմբեր",
     "November" : "Նոյեմբեր",
     "December" : "Դեկտեմբեր",
+    "Cancel" : "Չեղարկել",
+    "Very weak password" : "Շատ թույլ գաղտնաբառ",
+    "Weak password" : "Թույլ գաղտնաբառ",
+    "Good password" : "Լավ գաղտնաբառ",
+    "Share link" : "Կիսվել հղմամբ",
+    "Link" : "Հղում",
+    "Password" : "Գաղտնաբառ",
+    "Send" : "Ուղարկել",
     "group" : "խումբ",
+    "delete" : "ջնջել",
+    "Share" : "Կիսվել",
     "Delete" : "Ջնջել",
     "Add" : "Ավելացնել",
+    "New password" : "Նոր գաղտնաբառ",
     "Personal" : "Անձնական"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

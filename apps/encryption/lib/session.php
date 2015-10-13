@@ -3,8 +3,6 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Lukas Reschke <lukas@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -25,6 +23,7 @@
 
 namespace OCA\Encryption;
 
+use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use \OCP\ISession;
 
 class Session {
@@ -106,6 +105,61 @@ class Session {
 		$this->session->set('privateKey', $key);
 	}
 
+	/**
+	 * store data needed for the decrypt all operation in the session
+	 *
+	 * @param string $user
+	 * @param string $key
+	 */
+	public function prepareDecryptAll($user, $key) {
+		$this->session->set('decryptAll', true);
+		$this->session->set('decryptAllKey', $key);
+		$this->session->set('decryptAllUid', $user);
+	}
+
+	/**
+	 * check if we are in decrypt all mode
+	 *
+	 * @return bool
+	 */
+	public function decryptAllModeActivated() {
+		$decryptAll = $this->session->get('decryptAll');
+		return ($decryptAll === true);
+	}
+
+	/**
+	 * get uid used for decrypt all operation
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function getDecryptAllUid() {
+		$uid = $this->session->get('decryptAllUid');
+		if (is_null($uid) && $this->decryptAllModeActivated()) {
+			throw new \Exception('No uid found while in decrypt all mode');
+		} elseif (is_null($uid)) {
+			throw new \Exception('Please activate decrypt all mode first');
+		}
+
+		return $uid;
+	}
+
+	/**
+	 * get private key for decrypt all operation
+	 *
+	 * @return string
+	 * @throws PrivateKeyMissingException
+	 */
+	public function getDecryptAllKey() {
+		$privateKey = $this->session->get('decryptAllKey');
+		if (is_null($privateKey) && $this->decryptAllModeActivated()) {
+			throw new PrivateKeyMissingException('No private key found while in decrypt all mode');
+		} elseif (is_null($privateKey)) {
+			throw new PrivateKeyMissingException('Please activate decrypt all mode first');
+		}
+
+		return $privateKey;
+	}
 
 	/**
 	 * remove keys from session
@@ -114,7 +168,9 @@ class Session {
 		$this->session->remove('publicSharePrivateKey');
 		$this->session->remove('privateKey');
 		$this->session->remove('encryptionInitialized');
-
+		$this->session->remove('decryptAll');
+		$this->session->remove('decryptAllKey');
+		$this->session->remove('decryptAllUid');
 	}
 
 }

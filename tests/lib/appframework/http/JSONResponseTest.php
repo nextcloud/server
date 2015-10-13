@@ -66,13 +66,27 @@ class JSONResponseTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->json->render());
 	}
 
+	/**
+	 * @return array
+	 */
+	public function renderDataProvider() {
+		return [
+			[
+				['test' => 'hi'], '{"test":"hi"}',
+			],
+			[
+				['<h1>test' => '<h1>hi'], '{"\u003Ch1\u003Etest":"\u003Ch1\u003Ehi"}',
+			],
+		];
+	}
 
-	public function testRender() {
-		$params = array('test' => 'hi');
-		$this->json->setData($params);
-
-		$expected = '{"test":"hi"}';
-
+	/**
+	 * @dataProvider renderDataProvider
+	 * @param array $input
+	 * @param string $expected
+	 */
+	public function testRender(array $input, $expected) {
+		$this->json->setData($input);
 		$this->assertEquals($expected, $this->json->render());
 	}
 

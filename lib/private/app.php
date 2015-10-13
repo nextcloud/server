@@ -18,6 +18,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Markus Goetz <markus@woboq.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author RealRancor <Fisch.666@gmx.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Sam Tuke <mail@samtuke.com>
@@ -101,11 +102,19 @@ class OC_App {
 		}
 		// Load the enabled apps here
 		$apps = self::getEnabledApps();
+
+		// Add each apps' folder as allowed class path
+		foreach($apps as $app) {
+			$path = self::getAppPath($app);
+			if($path !== false) {
+				\OC::$loader->addValidRoot($path);
+			}
+		}
+
 		// prevent app.php from printing output
 		ob_start();
 		foreach ($apps as $app) {
 			if ((is_null($types) or self::isType($app, $types)) && !in_array($app, self::$loadedApps)) {
-				self::$loadedApps[] = $app;
 				self::loadApp($app);
 			}
 		}
@@ -122,6 +131,8 @@ class OC_App {
 	 * @throws \OC\NeedsUpdateException
 	 */
 	public static function loadApp($app, $checkUpgrade = true) {
+		self::$loadedApps[] = $app;
+		\OC::$loader->addValidRoot(self::getAppPath($app)); // in case someone calls loadApp() directly
 		if (is_file(self::getAppPath($app) . '/appinfo/app.php')) {
 			\OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
 			if ($checkUpgrade and self::shouldUpgrade($app)) {
@@ -385,29 +396,6 @@ class OC_App {
 	}
 
 	/**
-	 * Get the navigation entries for the $app
-	 *
-	 * @param string $app app
-	 * @return array an array of the $data added with addNavigationEntry
-	 *
-	 * Warning: destroys the existing entries
-	 */
-	public static function getAppNavigationEntries($app) {
-		if (is_file(self::getAppPath($app) . '/appinfo/app.php')) {
-			OC::$server->getNavigationManager()->clear();
-			try {
-				require $app . '/appinfo/app.php';
-			} catch (\OC\Encryption\Exceptions\ModuleAlreadyExistsException $e) {
-				// FIXME we should avoid getting this exception in first place,
-				// For now we just catch it, since we don't care about encryption modules
-				// when trying to find out, whether the app has a navigation entry.
-			}
-			return OC::$server->getNavigationManager()->getAll();
-		}
-		return array();
-	}
-
-	/**
 	 * gets the active Menu entry
 	 *
 	 * @return string id or empty string
@@ -424,7 +412,7 @@ class OC_App {
 	/**
 	 * Returns the Settings Navigation
 	 *
-	 * @return string
+	 * @return string[]
 	 *
 	 * This function returns an array containing all settings pages added. The
 	 * entries are sorted by the key 'order' ascending.
@@ -669,6 +657,12 @@ class OC_App {
 		if (is_array($data)) {
 			$data = OC_App::parseAppInfo($data);
 		}
+		if(isset($data['ocsid'])) {
+			$storedId = \OC::$server->getConfig()->getAppValue($appId, 'ocsid');
+			if($storedId !== '' && $storedId !== $data['ocsid']) {
+				$data['ocsid'] = $storedId;
+			}
+		}
 
 		self::$appInfo[$appId] = $data;
 
@@ -844,7 +838,7 @@ class OC_App {
 
 				$info['active'] = $active;
 
-				if (isset($info['shipped']) and ($info['shipped'] == 'true')) {
+				if (self::isShipped($app)) {
 					$info['internal'] = true;
 					$info['level'] = self::officialApp;
 					$info['removable'] = false;

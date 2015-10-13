@@ -41,7 +41,15 @@ class Sapi {
 	 * @return void
 	 */
 	public function sendResponse(Response $response) {
-		$this->response = $response;
+		// we need to copy the body since we close the source stream
+		$copyStream = fopen('php://temp', 'r+');
+		if (is_string($response->getBody())) {
+			fwrite($copyStream, $response->getBody());
+		} else if (is_resource($response->getBody())) {
+			stream_copy_to_stream($response->getBody(), $copyStream);
+		}
+		rewind($copyStream);
+		$this->response = new Response($response->getStatus(), $response->getHeaders(), $copyStream);
 	}
 
 	/**

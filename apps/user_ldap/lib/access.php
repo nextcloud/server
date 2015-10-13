@@ -12,6 +12,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Lyonel Vincent <lyonel@ezix.org>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nicolas Grekas <nicolas.grekas@gmail.com>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  *
@@ -215,7 +216,9 @@ class Access extends LDAPUtility implements user\IUserTools {
 		$resemblingAttributes = array(
 			'dn',
 			'uniquemember',
-			'member'
+			'member',
+			// memberOf is an "operational" attribute, without a definition in any RFC
+			'memberof'
 		);
 		return in_array($attr, $resemblingAttributes);
 	}
@@ -486,7 +489,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 
 	/**
 	 * gives back the user names as they are used ownClod internally
-	 * @param array $ldapUsers an array with the ldap Users result in style of array ( array ('dn' => foo, 'uid' => bar), ... )
+	 * @param array $ldapUsers as returned by fetchList()
 	 * @return array an array with the user names to use in ownCloud
 	 *
 	 * gives back the user names as they are used ownClod internally
@@ -497,7 +500,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 
 	/**
 	 * gives back the group names as they are used ownClod internally
-	 * @param array $ldapGroups an array with the ldap Groups result in style of array ( array ('dn' => foo, 'cn' => bar), ... )
+	 * @param array $ldapGroups as returned by fetchList()
 	 * @return array an array with the group names to use in ownCloud
 	 *
 	 * gives back the group names as they are used ownClod internally
@@ -507,7 +510,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
-	 * @param array $ldapObjects
+	 * @param array $ldapObjects as returned by fetchList()
 	 * @param bool $isUsers
 	 * @return array
 	 */
@@ -520,20 +523,40 @@ class Access extends LDAPUtility implements user\IUserTools {
 		$ownCloudNames = array();
 
 		foreach($ldapObjects as $ldapObject) {
-			$nameByLDAP = isset($ldapObject[$nameAttribute]) ? $ldapObject[$nameAttribute] : null;
-			$ocName = $this->dn2ocname($ldapObject['dn'], $nameByLDAP, $isUsers);
+			$nameByLDAP = null;
+			if(    isset($ldapObject[$nameAttribute])
+				&& is_array($ldapObject[$nameAttribute])
+				&& isset($ldapObject[$nameAttribute][0])
+			) {
+				// might be set, but not necessarily. if so, we use it.
+				$nameByLDAP = $ldapObject[$nameAttribute][0];
+			}
+
+			$ocName = $this->dn2ocname($ldapObject['dn'][0], $nameByLDAP, $isUsers);
 			if($ocName) {
 				$ownCloudNames[] = $ocName;
 				if($isUsers) {
 					//cache the user names so it does not need to be retrieved
 					//again later (e.g. sharing dialogue).
 					$this->cacheUserExists($ocName);
-					$this->cacheUserDisplayName($ocName, $nameByLDAP);
+					if(!is_null($nameByLDAP)) {
+						$this->cacheUserDisplayName($ocName, $nameByLDAP);
+					}
 				}
 			}
 			continue;
 		}
 		return $ownCloudNames;
+	}
+
+	/**
+	 * caches the user display name
+	 * @param string $ocName the internal ownCloud username
+	 * @param string|false $home the home directory path
+	 */
+	public function cacheUserHome($ocName, $home) {
+		$cacheKey = 'getHome'.$ocName;
+		$this->connection->writeToCache($cacheKey, $home);
 	}
 
 	/**
@@ -656,7 +679,24 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 * @return array
 	 */
 	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null) {
-		return $this->fetchList($this->searchUsers($filter, $attr, $limit, $offset), (count($attr) > 1));
+		$ldapRecords = $this->searchUsers($filter, $attr, $limit, $offset);
+		$this->batchApplyUserAttributes($ldapRecords);
+		return $this->fetchList($ldapRecords, (count($attr) > 1));
+	}
+
+	/**
+	 * provided with an array of LDAP user records the method will fetch the
+	 * user object and requests it to process the freshly fetched attributes and
+	 * and their values
+	 * @param array $ldapRecords
+	 */
+	public function batchApplyUserAttributes(array $ldapRecords){
+		foreach($ldapRecords as $userRecord) {
+			$ocName  = $this->dn2ocname($userRecord['dn'][0], $userRecord[$this->connection->ldapUserDisplayName]);
+			$this->cacheUserExists($ocName);
+			$user = $this->userManager->get($ocName);
+			$user->processAttributes($userRecord);
+		}
 	}
 
 	/**
@@ -680,6 +720,11 @@ class Access extends LDAPUtility implements user\IUserTools {
 			if($manyAttributes) {
 				return $list;
 			} else {
+				$list = array_reduce($list, function($carry, $item) {
+					$attribute = array_keys($item)[0];
+					$carry[] = $item[$attribute][0];
+					return $carry;
+				}, array());
 				return array_unique($list, SORT_LOCALE_STRING);
 			}
 		}
@@ -952,44 +997,29 @@ class Access extends LDAPUtility implements user\IUserTools {
 
 		if(!is_null($attr)) {
 			$selection = array();
-			$multiArray = false;
-			if(count($attr) > 1) {
-				$multiArray = true;
-				$i = 0;
-			}
+			$i = 0;
 			foreach($findings as $item) {
 				if(!is_array($item)) {
 					continue;
 				}
 				$item = \OCP\Util::mb_array_change_key_case($item, MB_CASE_LOWER, 'UTF-8');
-
-				if($multiArray) {
-					foreach($attr as $key) {
-						$key = mb_strtolower($key, 'UTF-8');
-						if(isset($item[$key])) {
-							if($key !== 'dn') {
-								$selection[$i][$key] = $this->resemblesDN($key) ?
-									$this->sanitizeDN($item[$key][0])
-									: $item[$key][0];
-							} else {
-								$selection[$i][$key] = $this->sanitizeDN($item[$key]);
-							}
-						}
-
-					}
-					$i++;
-				} else {
-					//tribute to case insensitivity
-					$key = mb_strtolower($attr[0], 'UTF-8');
-
+				foreach($attr as $key) {
+					$key = mb_strtolower($key, 'UTF-8');
 					if(isset($item[$key])) {
-						if($this->resemblesDN($key)) {
-							$selection[] = $this->sanitizeDN($item[$key]);
+						if(is_array($item[$key]) && isset($item[$key]['count'])) {
+							unset($item[$key]['count']);
+						}
+						if($key !== 'dn') {
+							$selection[$i][$key] = $this->resemblesDN($key) ?
+								$this->sanitizeDN($item[$key])
+								: $item[$key];
 						} else {
-							$selection[] = $item[$key];
+							$selection[$i][$key] = [$this->sanitizeDN($item[$key])];
 						}
 					}
+
 				}
+				$i++;
 			}
 			$findings = $selection;
 		}
@@ -1435,6 +1465,30 @@ class Access extends LDAPUtility implements user\IUserTools {
 			}
 		}
 		return $cookie;
+	}
+
+	/**
+	 * checks whether an LDAP paged search operation has more pages that can be
+	 * retrieved, typically when offset and limit are provided.
+	 *
+	 * Be very careful to use it: the last cookie value, which is inspected, can
+	 * be reset by other operations. Best, call it immediately after a search(),
+	 * searchUsers() or searchGroups() call. count-methods are probably safe as
+	 * well. Don't rely on it with any fetchList-method.
+	 * @return bool
+	 */
+	public function hasMoreResults() {
+		if(!$this->connection->hasPagedResultSupport) {
+			return false;
+		}
+
+		if(empty($this->lastCookie) && $this->lastCookie !== '0') {
+			// as in RFC 2696, when all results are returned, the cookie will
+			// be empty.
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

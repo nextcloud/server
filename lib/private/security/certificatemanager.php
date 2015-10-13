@@ -27,6 +27,7 @@ namespace OC\Security;
 
 use OC\Files\Filesystem;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 
 /**
  * Manage trusted certificates for users
@@ -43,12 +44,19 @@ class CertificateManager implements ICertificateManager {
 	protected $view;
 
 	/**
+	 * @var IConfig
+	 */
+	protected $config;
+
+	/**
 	 * @param string $uid
 	 * @param \OC\Files\View $view relative zu data/
+	 * @param IConfig $config
 	 */
-	public function __construct($uid, \OC\Files\View $view) {
+	public function __construct($uid, \OC\Files\View $view, IConfig $config) {
 		$this->uid = $uid;
 		$this->view = $view;
+		$this->config = $config;
 	}
 
 	/**
@@ -57,6 +65,11 @@ class CertificateManager implements ICertificateManager {
 	 * @return \OCP\ICertificate[]
 	 */
 	public function listCertificates() {
+
+		if (!$this->config->getSystemValue('installed', false)) {
+			return array();
+		}
+
 		$path = $this->getPathToCertificates() . 'uploads/';
 		if (!$this->view->is_dir($path)) {
 			return array();
@@ -97,7 +110,7 @@ class CertificateManager implements ICertificateManager {
 		}
 
 		// Append the default certificates
-		$defaultCertificates = file_get_contents(\OC::$SERVERROOT . '/config/ca-bundle.crt');
+		$defaultCertificates = file_get_contents(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 		fwrite($fh_certs, $defaultCertificates);
 		fclose($fh_certs);
 	}

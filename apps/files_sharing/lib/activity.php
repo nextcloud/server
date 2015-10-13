@@ -23,9 +23,11 @@
 
 namespace OCA\Files_Sharing;
 
-use OC\L10N\Factory;
 use OCP\Activity\IExtension;
+use OCP\Activity\IManager;
+use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 
 class Activity implements IExtension {
 	const FILES_SHARING_APP = 'files_sharing';
@@ -55,21 +57,30 @@ class Activity implements IExtension {
 	const SUBJECT_SHARED_GROUP_SELF = 'shared_group_self';
 	const SUBJECT_SHARED_LINK_SELF = 'shared_link_self';
 	const SUBJECT_SHARED_USER_SELF = 'shared_user_self';
+	const SUBJECT_RESHARED_GROUP_BY = 'reshared_group_by';
+	const SUBJECT_RESHARED_LINK_BY = 'reshared_link_by';
+	const SUBJECT_RESHARED_USER_BY = 'reshared_user_by';
+	const SUBJECT_SHARED_EMAIL = 'shared_with_email';
 	const SUBJECT_SHARED_WITH_BY = 'shared_with_by';
 
-	/** @var Factory */
+	/** @var IFactory */
 	protected $languageFactory;
 
 	/** @var IURLGenerator */
 	protected $URLGenerator;
 
+	/** @var IManager */
+	protected $activityManager;
+
 	/**
-	 * @param Factory $languageFactory
+	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $URLGenerator
+	 * @param IManager $activityManager
 	 */
-	public function __construct(Factory $languageFactory, IURLGenerator $URLGenerator) {
+	public function __construct(IFactory $languageFactory, IURLGenerator $URLGenerator, IManager $activityManager) {
 		$this->languageFactory = $languageFactory;
 		$this->URLGenerator = $URLGenerator;
+		$this->activityManager = $activityManager;
 	}
 
 	protected function getL10N($languageCode = null) {
@@ -145,38 +156,99 @@ class Activity implements IExtension {
 	 * @return string|false
 	 */
 	public function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode) {
+		if ($app !== self::FILES_SHARING_APP) {
+			return false;
+		}
+
 		$l = $this->getL10N($languageCode);
 
-		if ($app === self::FILES_SHARING_APP) {
-			switch ($text) {
-				case self::SUBJECT_REMOTE_SHARE_RECEIVED:
-					if (sizeof($params) === 2) {
-						// New activity ownCloud 8.2+
-						return (string) $l->t('You received a new remote share %2$s from %1$s', $params);
-					}
-					return (string) $l->t('You received a new remote share from %s', $params);
-				case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
-					return (string) $l->t('%1$s accepted remote share %2$s', $params);
-				case self::SUBJECT_REMOTE_SHARE_DECLINED:
-					return (string) $l->t('%1$s declined remote share %2$s', $params);
-				case self::SUBJECT_REMOTE_SHARE_UNSHARED:
-					return (string) $l->t('%1$s unshared %2$s from you', $params);
-				case self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED:
-					return (string) $l->t('Public shared folder %1$s was downloaded', $params);
-				case self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED:
-					return (string) $l->t('Public shared file %1$s was downloaded', $params);
-				case self::SUBJECT_SHARED_USER_SELF:
-					return (string) $l->t('You shared %1$s with %2$s', $params);
-				case self::SUBJECT_SHARED_GROUP_SELF:
-					return (string) $l->t('You shared %1$s with group %2$s', $params);
-				case self::SUBJECT_SHARED_WITH_BY:
-					return (string) $l->t('%2$s shared %1$s with you', $params);
-				case self::SUBJECT_SHARED_LINK_SELF:
-					return (string) $l->t('You shared %1$s via link', $params);
+		if ($this->activityManager->isFormattingFilteredObject()) {
+			$translation = $this->translateShort($text, $l, $params);
+			if ($translation !== false) {
+				return $translation;
 			}
 		}
 
+		return $this->translateLong($text, $l, $params);
+	}
+
+	/**
+	 * @param string $text
+	 * @param IL10N $l
+	 * @param array $params
+	 * @return bool|string
+	 */
+	protected function translateLong($text, IL10N $l, array $params) {
+
+		switch ($text) {
+			case self::SUBJECT_REMOTE_SHARE_RECEIVED:
+				if (sizeof($params) === 2) {
+					// New activity ownCloud 8.2+
+					return (string) $l->t('You received a new remote share %2$s from %1$s', $params);
+				}
+				return (string) $l->t('You received a new remote share from %s', $params);
+			case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
+				return (string) $l->t('%1$s accepted remote share %2$s', $params);
+			case self::SUBJECT_REMOTE_SHARE_DECLINED:
+				return (string) $l->t('%1$s declined remote share %2$s', $params);
+			case self::SUBJECT_REMOTE_SHARE_UNSHARED:
+				return (string) $l->t('%1$s unshared %2$s from you', $params);
+			case self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED:
+				return (string) $l->t('Public shared folder %1$s was downloaded', $params);
+			case self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED:
+				return (string) $l->t('Public shared file %1$s was downloaded', $params);
+			case self::SUBJECT_SHARED_USER_SELF:
+				return (string) $l->t('You shared %1$s with %2$s', $params);
+			case self::SUBJECT_SHARED_GROUP_SELF:
+				return (string) $l->t('You shared %1$s with group %2$s', $params);
+			case self::SUBJECT_RESHARED_USER_BY:
+				return (string) $l->t('%2$s shared %1$s with %3$s', $params);
+			case self::SUBJECT_RESHARED_GROUP_BY:
+				return (string) $l->t('%2$s shared %1$s with group %3$s', $params);
+			case self::SUBJECT_RESHARED_LINK_BY:
+				return (string) $l->t('%2$s shared %1$s via link', $params);
+			case self::SUBJECT_SHARED_WITH_BY:
+				return (string) $l->t('%2$s shared %1$s with you', $params);
+			case self::SUBJECT_SHARED_LINK_SELF:
+				return (string) $l->t('You shared %1$s via link', $params);
+			case self::SUBJECT_SHARED_EMAIL:
+				return (string) $l->t('You shared %1$s with %2$s', $params);
+		}
+
 		return false;
+	}
+
+	/**
+	 * @param string $text
+	 * @param IL10N $l
+	 * @param array $params
+	 * @return bool|string
+	 */
+	protected function translateShort($text, IL10N $l, array $params) {
+		switch ($text) {
+			case self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED:
+			case self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED:
+				return (string) $l->t('Downloaded via public link');
+			case self::SUBJECT_SHARED_USER_SELF:
+				return (string) $l->t('Shared with %2$s', $params);
+			case self::SUBJECT_SHARED_GROUP_SELF:
+				return (string) $l->t('Shared with group %2$s', $params);
+			case self::SUBJECT_RESHARED_USER_BY:
+				return (string) $l->t('Shared with %3$s by %2$s', $params);
+			case self::SUBJECT_RESHARED_GROUP_BY:
+				return (string) $l->t('Shared with group %3$s by %2$s', $params);
+			case self::SUBJECT_RESHARED_LINK_BY:
+				return (string) $l->t('Shared via link by %2$s', $params);
+			case self::SUBJECT_SHARED_WITH_BY:
+				return (string) $l->t('Shared by %2$s', $params);
+			case self::SUBJECT_SHARED_LINK_SELF:
+				return (string) $l->t('Shared via public link');
+			case self::SUBJECT_SHARED_EMAIL:
+				return (string) $l->t('Shared with %2$s', $params);
+
+			default:
+				return false;
+		}
 	}
 
 	/**
@@ -212,14 +284,39 @@ class Activity implements IExtension {
 					);
 				case self::SUBJECT_SHARED_LINK_SELF:
 					return [0 => 'file'];
+				case self::SUBJECT_RESHARED_LINK_BY:
+					return [
+						0 => 'file',
+						1 => 'username',
+						2 => '',
+					];
+				case self::SUBJECT_SHARED_EMAIL:
+					return array(
+						0 => 'file',
+						1 => '',// 'email' is neither supported nor planned for now
+					);
+
 				case self::SUBJECT_SHARED_USER_SELF:
 				case self::SUBJECT_SHARED_WITH_BY:
 					return [0 => 'file', 1 => 'username'];
+				case self::SUBJECT_RESHARED_USER_BY:
+					return [
+						0 => 'file',
+						1 => 'username',
+						2 => 'username',
+					];
 
 				case self::SUBJECT_SHARED_GROUP_SELF:
 					return [
 						0 => 'file',
 						1 => 'group',
+					];
+
+				case self::SUBJECT_RESHARED_GROUP_BY:
+					return [
+						0 => 'file',
+						1 => 'username',
+						2 => 'group',
 					];
 			}
 		}
@@ -245,6 +342,11 @@ class Activity implements IExtension {
 				case self::SUBJECT_SHARED_GROUP_SELF:
 					// Group by user/group
 					return 1;
+				case self::SUBJECT_RESHARED_USER_BY:
+				case self::SUBJECT_RESHARED_GROUP_BY:
+					// Group by user/group
+					// FIXME: Grouping does currently not work with more then 2 parameters
+					// return 2;
 			}
 		}
 

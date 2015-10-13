@@ -1,14 +1,14 @@
 OC.L10N.register(
     "files_external",
     {
-    "Username" : "Nama pengguna",
-    "Share" : "Kongsi",
     "Personal" : "Peribadi",
+    "Username" : "Nama pengguna",
     "Password" : "Kata laluan",
     "Region" : "Wilayah",
     "URL" : "URL",
     "Location" : "Lokasi",
     "ownCloud" : "ownCloud",
+    "Share" : "Kongsi",
     "Name" : "Nama",
     "Delete" : "Padam"
 },

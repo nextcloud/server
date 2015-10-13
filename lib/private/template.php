@@ -6,6 +6,7 @@
  * @author Brice Maron <brice@bmaron.net>
  * @author drarko <drarko@users.noreply.github.com>
  * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
@@ -37,27 +38,40 @@ require_once __DIR__.'/template/functions.php';
  * This class provides the templates for ownCloud.
  */
 class OC_Template extends \OC\Template\Base {
-	private $renderas; // Create a full page?
+
+	/** @var string */
+	private $renderAs; // Create a full page?
+
+	/** @var string */
 	private $path; // The path to the template
+
+	/** @var array */
 	private $headers = array(); //custom headers
+
+	/** @var string */
 	protected $app; // app id
 
 	/**
 	 * Constructor
 	 * @param string $app app providing the template
 	 * @param string $name of the template file (without suffix)
-	 * @param string $renderas = ""; produce a full page
+	 * @param string $renderAs = ""; produce a full page
 	 * @param bool $registerCall = true
 	 * @return OC_Template object
 	 *
 	 * This function creates an OC_Template object.
 	 *
-	 * If $renderas is set, OC_Template will try to produce a full page in the
-	 * according layout. For now, renderas can be set to "guest", "user" or
+	 * If $renderAs is set, OC_Template will try to produce a full page in the
+	 * according layout. For now, $renderAs can be set to "guest", "user" or
 	 * "admin".
 	 */
-	public function __construct( $app, $name, $renderas = "", $registerCall = true ) {
+	
+	protected static $initTemplateEngineFirstRun = true;
+	
+	public function __construct( $app, $name, $renderAs = "", $registerCall = true ) {
 		// Read the selected theme from the config file
+		self::initTemplateEngine($renderAs);
+		
 		$theme = OC_Util::getTheme();
 
 		$requesttoken = (OC::$server->getSession() and $registerCall) ? OC_Util::callRegister() : '';
@@ -69,13 +83,85 @@ class OC_Template extends \OC\Template\Base {
 		list($path, $template) = $this->findTemplate($theme, $app, $name);
 
 		// Set the private data
-		$this->renderas = $renderas;
+		$this->renderAs = $renderAs;
 		$this->path = $path;
 		$this->app = $app;
 
 		parent::__construct($template, $requesttoken, $l10n, $themeDefaults);
 	}
 
+	public static function initTemplateEngine($renderAs) {
+		if (self::$initTemplateEngineFirstRun){
+			
+			//apps that started before the template initialization can load their own scripts/styles
+			//so to make sure this scripts/styles here are loaded first we use OC_Util::addScript() with $prepend=true
+			//meaning the last script/style in this list will be loaded first
+			if (\OC::$server->getSystemConfig()->getValue ('installed', false) && $renderAs !== 'error' && !\OCP\Util::needUpgrade()) {
+				if (\OC::$server->getConfig ()->getAppValue ( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax') {
+					OC_Util::addScript ( 'backgroundjobs', null, true );
+				}
+			}
+
+			OC_Util::addStyle("tooltip",null,true);
+			OC_Util::addStyle('jquery-ui-fixes',null,true);
+			OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui',null,true);
+			OC_Util::addStyle("multiselect",null,true);
+			OC_Util::addStyle("fixes",null,true);
+			OC_Util::addStyle("apps",null,true);
+			OC_Util::addStyle("fonts",null,true);
+			OC_Util::addStyle("icons",null,true);
+			OC_Util::addStyle("mobile",null,true);
+			OC_Util::addStyle("header",null,true);
+			OC_Util::addStyle("styles",null,true);
+
+			// avatars
+			if (\OC::$server->getSystemConfig()->getValue('enable_avatars', true) === true) {
+				\OC_Util::addScript('avatar', null, true);
+				\OC_Util::addScript('jquery.avatar', null, true);
+				\OC_Util::addScript('placeholder', null, true);
+			}
+
+			OC_Util::addScript('oc-backbone', null, true);
+			OC_Util::addVendorScript('core', 'backbone/backbone', true);
+			OC_Util::addVendorScript('snapjs/dist/latest/snap', null, true);
+			OC_Util::addScript('mimetypelist', null, true);
+			OC_Util::addScript('mimetype', null, true);
+			OC_Util::addScript("apps", null, true);
+			OC_Util::addScript("oc-requesttoken", null, true);
+			OC_Util::addScript('search', 'search', true);
+			OC_Util::addScript("config", null, true);
+			OC_Util::addScript("eventsource", null, true);
+			OC_Util::addScript("octemplate", null, true);
+			OC_Util::addTranslations("core", null, true);
+			OC_Util::addScript("l10n", null, true);
+			OC_Util::addScript("js", null, true);
+			OC_Util::addScript("oc-dialogs", null, true);
+			OC_Util::addScript("jquery.ocdialog", null, true);
+			OC_Util::addStyle("jquery.ocdialog");
+			OC_Util::addScript("compatibility", null, true);
+			OC_Util::addScript("placeholders", null, true);
+			
+			// Add the stuff we need always
+			// following logic will import all vendor libraries that are
+			// specified in core/js/core.json
+			$fileContent = file_get_contents(OC::$SERVERROOT . '/core/js/core.json');
+			if($fileContent !== false) {
+				$coreDependencies = json_decode($fileContent, true);
+				foreach(array_reverse($coreDependencies['vendor']) as $vendorLibrary) {
+					// remove trailing ".js" as addVendorScript will append it
+					OC_Util::addVendorScript(
+							substr($vendorLibrary, 0, strlen($vendorLibrary) - 3),null,true);
+				}
+			} else {
+				throw new \Exception('Cannot read core/js/core.json');
+			}
+			
+			self::$initTemplateEngineFirstRun = false;
+		}
+	
+	}
+	
+	
 	/**
 	 * find the template with the given name
 	 * @param string $name of the template file (without suffix)
@@ -118,14 +204,14 @@ class OC_Template extends \OC\Template\Base {
 	 * Process the template
 	 * @return boolean|string
 	 *
-	 * This function process the template. If $this->renderas is set, it
+	 * This function process the template. If $this->renderAs is set, it
 	 * will produce a full page.
 	 */
 	public function fetchPage() {
 		$data = parent::fetchPage();
 
-		if( $this->renderas ) {
-			$page = new OC_TemplateLayout($this->renderas, $this->app);
+		if( $this->renderAs ) {
+			$page = new OC_TemplateLayout($this->renderAs, $this->app);
 
 			// Add custom headers
 			$headers = '';
@@ -141,18 +227,20 @@ class OC_Template extends \OC\Template\Base {
 				}
 			}
 
-			$page->assign('headers', $headers, false);
+			$page->assign('headers', $headers);
 
-			$page->assign('content', $data, false );
+			$page->assign('content', $data);
 			return $page->fetchPage();
 		}
-		else{
-			return $data;
-		}
+
+		return $data;
 	}
 
 	/**
 	 * Include template
+	 *
+	 * @param string $file
+	 * @param array|null $additionalParams
 	 * @return string returns content of included template
 	 *
 	 * Includes another template. use <?php echo $this->inc('template'); ?> to
@@ -213,31 +301,76 @@ class OC_Template extends \OC\Template\Base {
 		* @param string $hint An optional hint message - needs to be properly escaped
 		*/
 	public static function printErrorPage( $error_msg, $hint = '' ) {
-		$content = new \OC_Template( '', 'error', 'error', false );
-		$errors = array(array('error' => $error_msg, 'hint' => $hint));
-		$content->assign( 'errors', $errors );
-		$content->printPage();
+		try {
+			$content = new \OC_Template( '', 'error', 'error', false );
+			$errors = array(array('error' => $error_msg, 'hint' => $hint));
+			$content->assign( 'errors', $errors );
+			$content->printPage();
+		} catch (\Exception $e) {
+			$logger = \OC::$server->getLogger();
+			$logger->error("$error_msg $hint", ['app' => 'core']);
+			$logger->logException($e, ['app' => 'core']);
+
+			header(self::getHttpProtocol() . ' 500 Internal Server Error');
+			header('Content-Type: text/plain; charset=utf-8');
+			print("$error_msg $hint");
+		}
 		die();
 	}
 
 	/**
 	 * print error page using Exception details
-	 * @param Exception|Error $exception
+	 * @param Exception $exception
 	 */
 	public static function printExceptionErrorPage($exception) {
-		$request = \OC::$server->getRequest();
-		$content = new \OC_Template('', 'exception', 'error', false);
-		$content->assign('errorClass', get_class($exception));
-		$content->assign('errorMsg', $exception->getMessage());
-		$content->assign('errorCode', $exception->getCode());
-		$content->assign('file', $exception->getFile());
-		$content->assign('line', $exception->getLine());
-		$content->assign('trace', $exception->getTraceAsString());
-		$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
-		$content->assign('remoteAddr', $request->getRemoteAddress());
-		$content->assign('requestID', $request->getId());
-		$content->printPage();
+		try {
+			$request = \OC::$server->getRequest();
+			$content = new \OC_Template('', 'exception', 'error', false);
+			$content->assign('errorClass', get_class($exception));
+			$content->assign('errorMsg', $exception->getMessage());
+			$content->assign('errorCode', $exception->getCode());
+			$content->assign('file', $exception->getFile());
+			$content->assign('line', $exception->getLine());
+			$content->assign('trace', $exception->getTraceAsString());
+			$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
+			$content->assign('remoteAddr', $request->getRemoteAddress());
+			$content->assign('requestID', $request->getId());
+			$content->printPage();
+		} catch (\Exception $e) {
+			$logger = \OC::$server->getLogger();
+			$logger->logException($exception, ['app' => 'core']);
+			$logger->logException($e, ['app' => 'core']);
+
+			header(self::getHttpProtocol() . ' 500 Internal Server Error');
+			header('Content-Type: text/plain; charset=utf-8');
+			print("Internal Server Error\n\n");
+			print("The server encountered an internal error and was unable to complete your request.\n");
+			print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
+			print("More details can be found in the server log.\n");
+		}
 		die();
+	}
+
+	/**
+	 * This is only here to reduce the dependencies in case of an exception to
+	 * still be able to print a plain error message.
+	 *
+	 * Returns the used HTTP protocol.
+	 *
+	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
+	 * @internal Don't use this - use AppFramework\Http\Request->getHttpProtocol instead
+	 */
+	protected static function getHttpProtocol() {
+		$claimedProtocol = strtoupper($_SERVER['SERVER_PROTOCOL']);
+		$validProtocols = [
+			'HTTP/1.0',
+			'HTTP/1.1',
+			'HTTP/2',
+		];
+		if(in_array($claimedProtocol, $validProtocols, true)) {
+			return $claimedProtocol;
+		}
+		return 'HTTP/1.1';
 	}
 
 	/**

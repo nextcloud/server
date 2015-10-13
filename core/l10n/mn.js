@@ -9,8 +9,8 @@ OC.L10N.register(
     "Friday" : "Баасан",
     "Saturday" : "Бямба",
     "Settings" : "Тохиргоо",
-    "Share" : "Түгээх",
     "Password" : "Нууц үг",
+    "Share" : "Түгээх",
     "Username" : "Хэрэглэгчийн нэр"
 },
 "nplurals=2; plural=(n != 1);");

@@ -42,14 +42,14 @@ class TestScanner extends \OC\Files\Utils\Scanner {
 
 class Scanner extends \Test\TestCase {
 	/**
-	 * @var \OC_User_Dummy
+	 * @var \Test\Util\User\Dummy
 	 */
 	private $userBackend;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->userBackend = new \OC_User_Dummy();
+		$this->userBackend = new \Test\Util\User\Dummy();
 		\OC::$server->getUserManager()->registerBackend($this->userBackend);
 		$this->loginAsUser();
 	}

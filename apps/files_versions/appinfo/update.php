@@ -2,6 +2,7 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -24,3 +25,6 @@ $installedVersion=OCP\Config::getAppValue('files_versions', 'installed_version')
 if (version_compare($installedVersion, '1.0.4', '<')) {
 	\OC_DB::dropTable("files_versions");
 }
+
+// Cron job for deleting expired trash items
+\OC::$server->getJobList()->add('OCA\Files_Versions\BackgroundJob\ExpireVersions');

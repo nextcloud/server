@@ -1,7 +1,9 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -53,7 +55,10 @@ try {
 	$preview->setScalingUp($scalingUp);
 
 	$preview->showPreview();
-}catch(\Exception $e) {
+} catch (\OCP\Files\NotFoundException $e) {
+	\OC_Response::setStatus(404);
+	\OCP\Util::writeLog('core', $e->getmessage(), \OCP\Util::DEBUG);
+} catch (\Exception $e) {
 	\OC_Response::setStatus(500);
 	\OCP\Util::writeLog('core', $e->getmessage(), \OCP\Util::DEBUG);
 }

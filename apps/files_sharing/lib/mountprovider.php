@@ -66,21 +66,14 @@ class MountProvider implements IMountProvider {
 			return $share['permissions'] > 0;
 		});
 		$shares = array_map(function ($share) use ($user, $storageFactory) {
-			try {
-				Filesystem::initMountPoints($share['uid_owner']);
-			} catch(NoUserException $e) {
-				\OC::$server->getLogger()->warning('The user \'' . $share['uid_owner'] . '\' of share with ID \'' . $share['id'] . '\' can\'t be retrieved.', array('app' => 'files_sharing'));
-				return null;
-			}
 			// for updating etags for the share owner when we make changes to this share.
 			$ownerPropagator = $this->propagationManager->getChangePropagator($share['uid_owner']);
 
-			// for updating our etags when changes are made to the share from the owners side (probably indirectly by us trough another share)
-			$this->propagationManager->listenToOwnerChanges($share['uid_owner'], $user->getUID());
 			return new SharedMount(
 				'\OC\Files\Storage\Shared',
 				'/' . $user->getUID() . '/' . $share['file_target'],
 				array(
+					'propagationManager' => $this->propagationManager,
 					'propagator' => $ownerPropagator,
 					'share' => $share,
 					'user' => $user->getUID()

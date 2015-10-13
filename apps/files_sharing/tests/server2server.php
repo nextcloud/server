@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
@@ -154,6 +155,7 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 			\OC\Files\Filesystem::getMountManager(),
 			\OC\Files\Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
+			\OC::$server->getNotificationManager(),
 			$toDelete
 			);
 

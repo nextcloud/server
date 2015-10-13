@@ -8,6 +8,8 @@
 
 namespace Test\Connector\Sabre\RequestTest;
 
+use OC\AppFramework\Http;
+
 class UploadTest extends RequestTest {
 	public function testBasicUpload() {
 		$user = $this->getUniqueID();
@@ -16,21 +18,29 @@ class UploadTest extends RequestTest {
 		$this->assertFalse($view->file_exists('foo.txt'));
 		$response = $this->request($view, $user, 'pass', 'PUT', '/foo.txt', 'asd');
 
-		$this->assertEquals(201, $response->getStatus());
+		$this->assertEquals(Http::STATUS_CREATED, $response->getStatus());
 		$this->assertTrue($view->file_exists('foo.txt'));
 		$this->assertEquals('asd', $view->file_get_contents('foo.txt'));
+
+		$info = $view->getFileInfo('foo.txt');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $info);
+		$this->assertEquals(3, $info->getSize());
 	}
 
 	public function testUploadOverWrite() {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
-		$view->file_put_contents('foo.txt', 'bar');
+		$view->file_put_contents('foo.txt', 'foobar');
 
 		$response = $this->request($view, $user, 'pass', 'PUT', '/foo.txt', 'asd');
 
-		$this->assertEquals(204, $response->getStatus());
+		$this->assertEquals(Http::STATUS_NO_CONTENT, $response->getStatus());
 		$this->assertEquals('asd', $view->file_get_contents('foo.txt'));
+
+		$info = $view->getFileInfo('foo.txt');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $info);
+		$this->assertEquals(3, $info->getSize());
 	}
 
 	public function testChunkedUpload() {
@@ -45,10 +55,14 @@ class UploadTest extends RequestTest {
 
 		$response = $this->request($view, $user, 'pass', 'PUT', '/foo.txt-chunking-123-2-1', 'bar', ['OC-Chunked' => '1']);
 
-		$this->assertEquals(201, $response->getStatus());
+		$this->assertEquals(Http::STATUS_CREATED, $response->getStatus());
 		$this->assertTrue($view->file_exists('foo.txt'));
 
 		$this->assertEquals('asdbar', $view->file_get_contents('foo.txt'));
+
+		$info = $view->getFileInfo('foo.txt');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $info);
+		$this->assertEquals(6, $info->getSize());
 	}
 
 	public function testChunkedUploadOverWrite() {
@@ -58,14 +72,18 @@ class UploadTest extends RequestTest {
 		$view->file_put_contents('foo.txt', 'bar');
 		$response = $this->request($view, $user, 'pass', 'PUT', '/foo.txt-chunking-123-2-0', 'asd', ['OC-Chunked' => '1']);
 
-		$this->assertEquals(201, $response->getStatus());
+		$this->assertEquals(Http::STATUS_CREATED, $response->getStatus());
 		$this->assertEquals('bar', $view->file_get_contents('foo.txt'));
 
 		$response = $this->request($view, $user, 'pass', 'PUT', '/foo.txt-chunking-123-2-1', 'bar', ['OC-Chunked' => '1']);
 
-		$this->assertEquals(201, $response->getStatus());
+		$this->assertEquals(Http::STATUS_CREATED, $response->getStatus());
 
 		$this->assertEquals('asdbar', $view->file_get_contents('foo.txt'));
+
+		$info = $view->getFileInfo('foo.txt');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $info);
+		$this->assertEquals(6, $info->getSize());
 	}
 
 	public function testChunkedUploadOutOfOrder() {
@@ -75,7 +93,7 @@ class UploadTest extends RequestTest {
 		$this->assertFalse($view->file_exists('foo.txt'));
 		$response = $this->request($view, $user, 'pass', 'PUT', '/foo.txt-chunking-123-2-1', 'bar', ['OC-Chunked' => '1']);
 
-		$this->assertEquals(201, $response->getStatus());
+		$this->assertEquals(Http::STATUS_CREATED, $response->getStatus());
 		$this->assertFalse($view->file_exists('foo.txt'));
 
 		$response = $this->request($view, $user, 'pass', 'PUT', '/foo.txt-chunking-123-2-0', 'asd', ['OC-Chunked' => '1']);
@@ -84,5 +102,9 @@ class UploadTest extends RequestTest {
 		$this->assertTrue($view->file_exists('foo.txt'));
 
 		$this->assertEquals('asdbar', $view->file_get_contents('foo.txt'));
+
+		$info = $view->getFileInfo('foo.txt');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $info);
+		$this->assertEquals(6, $info->getSize());
 	}
 }

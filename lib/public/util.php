@@ -5,12 +5,14 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Georg Ehrke <georg@owncloud.com>
+ * @author Individual IT Services <info@individual-it.net>
  * @author itheiss <ingo.theiss@i-matrixx.de>
  * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nicolas Grekas <nicolas.grekas@gmail.com>
  * @author Pellaeon Lin <nfsmwlin@gmail.com>
  * @author Randolph Carter <RandolphCarter@fantasymail.de>
  * @author Robin Appelman <icewind@owncloud.com>
@@ -158,17 +160,10 @@ class Util {
 	 * @param \Exception $ex exception to log
 	 * @param int $level log level, defaults to \OCP\Util::FATAL
 	 * @since ....0.0 - parameter $level was added in 7.0.0
+	 * @deprecated 8.2.0 use logException of \OCP\ILogger
 	 */
 	public static function logException( $app, \Exception $ex, $level = \OCP\Util::FATAL ) {
-		$exception = array(
-			'Exception' => get_class($ex),
-			'Message' => $ex->getMessage(),
-			'Code' => $ex->getCode(),
-			'Trace' => $ex->getTraceAsString(),
-			'File' => $ex->getFile(),
-			'Line' => $ex->getLine(),
-		);
-		\OCP\Util::writeLog($app, 'Exception: ' . json_encode($exception), $level);
+		\OC::$server->getLogger()->logException($ex, ['app' => $app]);
 	}
 
 	/**
@@ -661,6 +656,7 @@ class Util {
 		return \OC_Util::isDefaultExpireDateEnforced();
 	}
 
+	protected static $needUpgradeCache = null;
 
 	/**
 	 * Checks whether the current version needs upgrade.
@@ -669,6 +665,9 @@ class Util {
 	 * @since 7.0.0
 	 */
 	public static function needUpgrade() {
-		return \OC_Util::needUpgrade(\OC::$server->getConfig());
+		if (!isset(self::$needUpgradeCache)) {
+			self::$needUpgradeCache=\OC_Util::needUpgrade(\OC::$server->getConfig());
+		}		
+		return self::$needUpgradeCache;
 	}
 }

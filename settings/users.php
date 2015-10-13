@@ -11,6 +11,8 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stephan Peijnik <speijnik@anexia-it.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -41,7 +43,7 @@ $groupManager = \OC_Group::getManager();
 // Set the sort option: SORT_USERCOUNT or SORT_GROUPNAME
 $sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
 
-if (class_exists('\OCA\user_ldap\GROUP_LDAP')) {
+if (\OC_App::isEnabled('user_ldap')) {
 	$isLDAPUsed =
 		   $groupManager->isBackendUsed('\OCA\user_ldap\GROUP_LDAP')
 		|| $groupManager->isBackendUsed('\OCA\user_ldap\Group_Proxy');
@@ -99,4 +101,11 @@ $tmpl->assign('default_quota', $defaultQuota);
 $tmpl->assign('defaultQuotaIsUserDefined', $defaultQuotaIsUserDefined);
 $tmpl->assign('recoveryAdminEnabled', $recoveryAdminEnabled);
 $tmpl->assign('enableAvatars', \OC::$server->getConfig()->getSystemValue('enable_avatars', true));
+
+$tmpl->assign('show_storage_location', $config->getAppValue('core', 'umgmt_show_storage_location', 'false'));
+$tmpl->assign('show_last_login', $config->getAppValue('core', 'umgmt_show_last_login', 'false'));
+$tmpl->assign('show_email', $config->getAppValue('core', 'umgmt_show_email', 'false'));
+$tmpl->assign('show_backend', $config->getAppValue('core', 'umgmt_show_backend', 'false'));
+$tmpl->assign('send_email', $config->getAppValue('core', 'umgmt_send_email', 'false'));
+
 $tmpl->printPage();

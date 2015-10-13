@@ -22,7 +22,15 @@
 
 namespace Test;
 
+use OC\Files\FileInfo;
+use OC\Files\Storage\Temporary;
+use OC\Files\View;
+use Test\Traits\MountProviderTrait;
+use Test\Traits\UserTrait;
+
 class Preview extends TestCase {
+	use UserTrait;
+	use MountProviderTrait;
 
 	const TEST_PREVIEW_USER1 = "test-preview-user1";
 
@@ -59,11 +67,7 @@ class Preview extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$userManager = \OC::$server->getUserManager();
-		$userManager->clearBackends();
-		$backend = new \OC_User_Dummy();
-		$userManager->registerBackend($backend);
-		$backend->createUser(self::TEST_PREVIEW_USER1, self::TEST_PREVIEW_USER1);
+		$this->createUser(self::TEST_PREVIEW_USER1, self::TEST_PREVIEW_USER1);
 		$this->loginAsUser(self::TEST_PREVIEW_USER1);
 
 		$storage = new \OC\Files\Storage\Temporary([]);
@@ -75,13 +79,13 @@ class Preview extends TestCase {
 
 		// We simulate the max dimension set in the config
 		\OC::$server->getConfig()
-					->setSystemValue('preview_max_x', $this->configMaxWidth);
+			->setSystemValue('preview_max_x', $this->configMaxWidth);
 		\OC::$server->getConfig()
-					->setSystemValue('preview_max_y', $this->configMaxHeight);
+			->setSystemValue('preview_max_y', $this->configMaxHeight);
 		// Used to test upscaling
 		$this->maxScaleFactor = 2;
 		\OC::$server->getConfig()
-					->setSystemValue('preview_max_scale_factor', $this->maxScaleFactor);
+			->setSystemValue('preview_max_scale_factor', $this->maxScaleFactor);
 
 		// We need to enable the providers we're going to use in the tests
 		$providers = [
@@ -92,7 +96,7 @@ class Preview extends TestCase {
 			'OC\\Preview\\Postscript'
 		];
 		\OC::$server->getConfig()
-					->setSystemValue('enabledPreviewProviders', $providers);
+			->setSystemValue('enabledPreviewProviders', $providers);
 
 		// Sample is 1680x1050 JPEG
 		$this->prepareSample('testimage.jpg', 1680, 1050);
@@ -161,7 +165,7 @@ class Preview extends TestCase {
 		$fileId = $fileInfo['fileid'];
 
 		$thumbCacheFolder = '/' . self::TEST_PREVIEW_USER1 . '/' . \OC\Preview::THUMBNAILS_FOLDER .
-							'/' . $fileId . '/';
+			'/' . $fileId . '/';
 
 		$this->assertSame(true, $this->rootView->is_dir($thumbCacheFolder), "$thumbCacheFolder \n");
 
@@ -318,7 +322,7 @@ class Preview extends TestCase {
 
 		// There should be no cached thumbnails
 		$thumbnailFolder = '/' . self::TEST_PREVIEW_USER1 . '/' . \OC\Preview::THUMBNAILS_FOLDER .
-						   '/' . $sampleFileId;
+			'/' . $sampleFileId;
 		$this->assertSame(false, $this->rootView->is_dir($thumbnailFolder));
 
 		$image = $preview->getPreview();
@@ -534,10 +538,10 @@ class Preview extends TestCase {
 		// Small thumbnails are always cropped
 		$this->keepAspect = false;
 		// Smaller previews should be based on the previous, larger preview, with the correct aspect ratio
-		$this->createThumbnailFromBiggerCachedPreview($fileId, 36, 36);
+		$this->createThumbnailFromBiggerCachedPreview($fileId, 32, 32);
 
 		// 2nd cache query should indicate that we have a cached copy of the exact dimension
-		$this->getCachedSmallThumbnail($fileId, 36, 36);
+		$this->getCachedSmallThumbnail($fileId, 32, 32);
 
 		// We create a preview in order to be able to delete the cache
 		$preview = $this->createPreview(rand(), rand());
@@ -611,7 +615,7 @@ class Preview extends TestCase {
 		// Need to take care of special postfix added to the dimensions
 		$postfix = '';
 		$isMaxPreview = ($width === $this->maxPreviewWidth
-						 && $height === $this->maxPreviewHeight) ? true : false;
+			&& $height === $this->maxPreviewHeight) ? true : false;
 		if ($isMaxPreview) {
 			$postfix = '-max';
 		}
@@ -731,7 +735,7 @@ class Preview extends TestCase {
 		}
 
 		return $userPath . \OC\Preview::THUMBNAILS_FOLDER . '/' . $fileId
-			   . '/' . $width . '-' . $height . $postfix . '.png';
+		. '/' . $width . '-' . $height . $postfix . '.png';
 	}
 
 	/**
@@ -752,11 +756,11 @@ class Preview extends TestCase {
 
 		$this->samples[] =
 			[
-				'sampleFileId'     => $fileInfo['fileid'],
-				'sampleFileName'   => $fileName,
-				'sampleWidth'      => $sampleWidth,
-				'sampleHeight'     => $sampleHeight,
-				'maxPreviewWidth'  => $maxPreviewWidth,
+				'sampleFileId' => $fileInfo['fileid'],
+				'sampleFileName' => $fileName,
+				'sampleWidth' => $sampleWidth,
+				'sampleHeight' => $sampleHeight,
+				'maxPreviewWidth' => $maxPreviewWidth,
 				'maxPreviewHeight' => $maxPreviewHeight
 			];
 	}
@@ -873,5 +877,80 @@ class Preview extends TestCase {
 		}
 
 		return [(int)$askedWidth, (int)$askedHeight];
+	}
+
+	public function testKeepAspectRatio() {
+		$originalWidth = 1680;
+		$originalHeight = 1050;
+		$originalAspectRation = $originalWidth / $originalHeight;
+
+		$preview = new \OC\Preview(
+			self::TEST_PREVIEW_USER1, 'files/', 'testimage.jpg',
+			150,
+			150
+		);
+		$preview->setKeepAspect(true);
+		$image = $preview->getPreview();
+
+		$aspectRatio = $image->width() / $image->height();
+		$this->assertEquals(round($originalAspectRation, 2), round($aspectRatio, 2));
+
+		$this->assertLessThanOrEqual(150, $image->width());
+		$this->assertLessThanOrEqual(150, $image->height());
+	}
+
+	public function testKeepAspectRatioCover() {
+		$originalWidth = 1680;
+		$originalHeight = 1050;
+		$originalAspectRation = $originalWidth / $originalHeight;
+
+		$preview = new \OC\Preview(
+			self::TEST_PREVIEW_USER1, 'files/', 'testimage.jpg',
+			150,
+			150
+		);
+		$preview->setKeepAspect(true);
+		$preview->setMode(\OC\Preview::MODE_COVER);
+		$image = $preview->getPreview();
+
+		$aspectRatio = $image->width() / $image->height();
+		$this->assertEquals(round($originalAspectRation, 2), round($aspectRatio, 2));
+
+		$this->assertGreaterThanOrEqual(150, $image->width());
+		$this->assertGreaterThanOrEqual(150, $image->height());
+	}
+
+	public function testSetFileWithInfo() {
+		$info = new FileInfo('/foo', null, '/foo', ['mimetype' => 'foo/bar'], null);
+		$preview = new \OC\Preview();
+		$preview->setFile('/foo', $info);
+		$this->assertEquals($info, $this->invokePrivate($preview, 'getFileInfo'));
+	}
+
+	public function testIsCached() {
+		$sourceFile = __DIR__ . '/../data/testimage.png';
+		$userId = $this->getUniqueID();
+		$this->createUser($userId, 'pass');
+
+		$storage = new Temporary();
+		$storage->mkdir('files');
+		$this->registerMount($userId, $storage, '/' . $userId);
+
+		\OC_Util::tearDownFS();
+		\OC_Util::setupFS($userId);
+		$preview = new \OC\Preview($userId, 'files');
+		$view = new View('/' . $userId . '/files');
+		$view->file_put_contents('test.png', file_get_contents($sourceFile));
+		$info = $view->getFileInfo('test.png');
+		$preview->setFile('test.png', $info);
+
+		$preview->setMaxX(64);
+		$preview->setMaxY(64);
+
+		$this->assertFalse($preview->isCached($info->getId()));
+
+		$preview->getPreview();
+
+		$this->assertEquals('thumbnails/' . $info->getId() . '/64-64.png', $preview->isCached($info->getId()));
 	}
 }

@@ -20,6 +20,7 @@
     "Authentication error" : "Lỗi xác thực",
     "Token expired. Please reload page." : "Mã Token đã hết hạn. Hãy tải lại trang.",
     "%s shared »%s« with you" : "%s đã chia sẻ »%s« với bạn",
-    "Could not find category \"%s\"" : "không thể tìm thấy mục \"%s\""
+    "Could not find category \"%s\"" : "không thể tìm thấy mục \"%s\"",
+    "Apps" : "Ứng dụng"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

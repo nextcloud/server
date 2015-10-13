@@ -10,7 +10,6 @@ OC.L10N.register(
     "Cron" : "Cron",
     "Email server" : "Servidor de correu electrònic",
     "Log" : "Registre",
-    "Server status" : "Estat del servidor",
     "Tips & tricks" : "Consells i trucs",
     "Updates" : "Actualitzacions",
     "Authentication error" : "Error d'autenticació",

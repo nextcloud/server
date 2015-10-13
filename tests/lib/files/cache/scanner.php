@@ -284,4 +284,27 @@ class Scanner extends \Test\TestCase {
 		$cachedData = $this->cache->get('folder/bar.txt');
 		$this->assertEquals($newFolderId, $cachedData['parent']);
 	}
+
+	/**
+	 * @dataProvider dataTestIsPartialFile
+	 *
+	 * @param string $path
+	 * @param bool $expected
+	 */
+	public function testIsPartialFile($path, $expected) {
+		$this->assertSame($expected,
+			$this->scanner->isPartialFile($path)
+		);
+	}
+
+	public function dataTestIsPartialFile() {
+		return [
+			['foo.txt.part', true],
+			['/sub/folder/foo.txt.part', true],
+			['/sub/folder.part/foo.txt', true],
+			['foo.txt', false],
+			['/sub/folder/foo.txt', false],
+		];
+	}
+
 }

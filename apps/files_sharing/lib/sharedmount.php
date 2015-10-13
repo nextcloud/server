@@ -1,8 +1,10 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -81,7 +83,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 		);
 
 		if ($newMountPoint !== $share['file_target']) {
-			self::updateFileTarget($newMountPoint, $share);
+			$this->updateFileTarget($newMountPoint, $share);
 			$share['file_target'] = $newMountPoint;
 			$share['unique_name'] = true;
 		}

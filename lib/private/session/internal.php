@@ -1,7 +1,9 @@
 <?php
 /**
  * @author cetra3 <peter@parashift.com.au>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Phil Davis <phil.davis@inf.org>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -32,6 +34,10 @@ namespace OC\Session;
  * @package OC\Session
  */
 class Internal extends Session {
+	/**
+	 * @param string $name
+	 * @throws \Exception
+	 */
 	public function __construct($name) {
 		session_name($name);
 		set_error_handler(array($this, 'trapError'));
@@ -40,10 +46,6 @@ class Internal extends Session {
 		if (!isset($_SESSION)) {
 			throw new \Exception('Failed to start session');
 		}
-	}
-
-	public function __destruct() {
-		$this->close();
 	}
 
 	/**
@@ -106,7 +108,7 @@ class Internal extends Session {
 
 	private function validateSession() {
 		if ($this->sessionClosed) {
-			throw new \Exception('Session has been closed - no further changes to the session as allowed');
+			throw new \Exception('Session has been closed - no further changes to the session are allowed');
 		}
 	}
 }

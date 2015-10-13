@@ -21,7 +21,13 @@
 
 namespace Test\Lock;
 
+use OCP\Lock\ILockingProvider;
+
 class DBLockingProvider extends LockingProvider {
+	/**
+	 * @var \OC\Lock\DBLockingProvider
+	 */
+	protected $instance;
 
 	/**
 	 * @var \OCP\IDBConnection
@@ -29,15 +35,63 @@ class DBLockingProvider extends LockingProvider {
 	private $connection;
 
 	/**
+	 * @var \OCP\AppFramework\Utility\ITimeFactory
+	 */
+	private $timeFactory;
+
+	private $currentTime;
+
+	public function setUp() {
+		$this->currentTime = time();
+		$this->timeFactory = $this->getMock('\OCP\AppFramework\Utility\ITimeFactory');
+		$this->timeFactory->expects($this->any())
+			->method('getTime')
+			->will($this->returnCallback(function () {
+				return $this->currentTime;
+			}));
+		parent::setUp();
+	}
+
+	/**
 	 * @return \OCP\Lock\ILockingProvider
 	 */
 	protected function getInstance() {
 		$this->connection = \OC::$server->getDatabaseConnection();
-		return new \OC\Lock\DBLockingProvider($this->connection, \OC::$server->getLogger());
+		return new \OC\Lock\DBLockingProvider($this->connection, \OC::$server->getLogger(), $this->timeFactory);
 	}
 
 	public function tearDown() {
 		$this->connection->executeQuery('DELETE FROM `*PREFIX*file_locks`');
 		parent::tearDown();
+	}
+
+	public function testCleanEmptyLocks() {
+		$this->currentTime = 100;
+		$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
+		$this->instance->acquireLock('asd', ILockingProvider::LOCK_EXCLUSIVE);
+
+		$this->currentTime = 200;
+		$this->instance->acquireLock('bar', ILockingProvider::LOCK_EXCLUSIVE);
+		$this->instance->changeLock('asd', ILockingProvider::LOCK_SHARED);
+
+		$this->currentTime = 150 + \OC\Lock\DBLockingProvider::TTL;
+
+		$this->assertEquals(3, $this->getLockEntryCount());
+
+		$this->instance->cleanEmptyLocks();
+
+		$this->assertEquals(3, $this->getLockEntryCount());
+
+		$this->instance->releaseAll();
+
+		$this->instance->cleanEmptyLocks();
+
+		$this->assertEquals(2, $this->getLockEntryCount());
+	}
+
+	private function getLockEntryCount() {
+		$query = $this->connection->prepare('SELECT count(*) FROM `*PREFIX*file_locks`');
+		$query->execute();
+		return $query->fetchColumn();
 	}
 }

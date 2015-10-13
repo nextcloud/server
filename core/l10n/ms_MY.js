@@ -46,12 +46,12 @@ OC.L10N.register(
     "Ok" : "Ok",
     "Cancel" : "Batal",
     "Error" : "Ralat",
-    "Share" : "Kongsi",
     "Password" : "Kata laluan",
     "Send" : "Hantar",
     "group" : "kumpulan",
     "can share" : "boleh berkongsi",
     "can edit" : "boleh mengubah",
+    "Share" : "Kongsi",
     "Warning" : "Amaran",
     "Delete" : "Padam",
     "Add" : "Tambah",
@@ -75,7 +75,7 @@ OC.L10N.register(
     "Finish setup" : "Setup selesai",
     "Log out" : "Log keluar",
     "Search" : "Cari",
-    "remember" : "ingat",
-    "Log in" : "Log masuk"
+    "Log in" : "Log masuk",
+    "remember" : "ingat"
 },
 "nplurals=1; plural=0;");

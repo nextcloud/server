@@ -2,8 +2,6 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -99,6 +97,16 @@ class Util {
 			0);
 
 		return ($recoveryMode === '1');
+	}
+
+	/**
+	 * check if master key is enabled
+	 *
+	 * @return bool
+	 */
+	public function isMasterKeyEnabled() {
+		$userMasterKey = $this->config->getAppValue('encryption', 'useMasterKey', '0');
+		return ($userMasterKey === '1');
 	}
 
 	/**

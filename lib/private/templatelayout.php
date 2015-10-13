@@ -38,8 +38,8 @@ use Assetic\AssetWriter;
 use Assetic\Filter\CssImportFilter;
 use Assetic\Filter\CssMinFilter;
 use Assetic\Filter\CssRewriteFilter;
-use Assetic\Filter\JSMinFilter;
-use OC\Assetic\SeparatorFilter; // waiting on upstream
+use Assetic\Filter\JSqueezeFilter;
+use Assetic\Filter\SeparatorFilter;
 
 /**
  * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
@@ -79,7 +79,7 @@ class OC_TemplateLayout extends OC_Template {
 			if($this->config->getSystemValue('updatechecker', true) === true &&
 				OC_User::isAdminUser(OC_User::getUser())) {
 				$updater = new \OC\Updater(\OC::$server->getHTTPHelper(),
-					\OC::$server->getConfig());
+					\OC::$server->getConfig(), \OC::$server->getLogger());
 				$data = $updater->check();
 
 				if(isset($data['version']) && $data['version'] != '' and $data['version'] !== Array()) {
@@ -116,9 +116,14 @@ class OC_TemplateLayout extends OC_Template {
 				}
 			}
 			$userDisplayName = OC_User::getDisplayName();
+			$appsMgmtActive = strpos(\OC::$server->getRequest()->getRequestUri(), \OC::$server->getURLGenerator()->linkToRoute('settings.AppSettings.viewApps')) === 0;
+			if ($appsMgmtActive) {
+				$l = \OC::$server->getL10N('lib');
+				$this->assign('application', $l->t('Apps'));
+			}
 			$this->assign('user_displayname', $userDisplayName);
 			$this->assign('user_uid', OC_User::getUser());
-			$this->assign('appsmanagement_active', strpos(\OC::$server->getRequest()->getRequestUri(), \OC::$server->getURLGenerator()->linkToRoute('settings.AppSettings.viewApps')) === 0 );
+			$this->assign('appsmanagement_active', $appsMgmtActive);
 			$this->assign('enableAvatars', $this->config->getSystemValue('enable_avatars', true));
 			$this->assign('userAvatarSet', \OC_Helper::userAvatarSet(OC_User::getUser()));
 		} else if ($renderAs == 'error') {
@@ -148,7 +153,7 @@ class OC_TemplateLayout extends OC_Template {
 		} else {
 			// Add the js files
 			$jsFiles = self::findJavascriptFiles(OC_Util::$scripts);
-			$this->assign('jsfiles', array(), false);
+			$this->assign('jsfiles', array());
 			if ($this->config->getSystemValue('installed', false) && $renderAs != 'error') {
 				$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config', array('v' => self::$versionHash)));
 			}
@@ -220,7 +225,7 @@ class OC_TemplateLayout extends OC_Template {
 					), $root, $file);
 				}
 				return new FileAsset($root . '/' . $file, array(
-					new JSMinFilter(),
+					new JSqueezeFilter(),
 					new SeparatorFilter(';')
 				), $root, $file);
 			}, $jsFiles);

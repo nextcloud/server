@@ -32,7 +32,7 @@ trait MountProviderTrait {
 		if (!isset($this->mounts[$userId])) {
 			$this->mounts[$userId] = [];
 		}
-		$this->mounts[$userId][] = new MountPoint($storage, $mountPoint, $arguments, $this->storageFactory);
+		$this->mounts[$userId][] = ['storage' => $storage, 'mountPoint' => $mountPoint, 'arguments' => $arguments];
 	}
 
 	protected function registerStorageWrapper($name, $wrapper) {
@@ -46,7 +46,9 @@ trait MountProviderTrait {
 			->method('getMountsForUser')
 			->will($this->returnCallback(function (IUser $user) {
 				if (isset($this->mounts[$user->getUID()])) {
-					return $this->mounts[$user->getUID()];
+					return array_map(function ($config) {
+						return new MountPoint($config['storage'], $config['mountPoint'], $config['arguments'], $this->storageFactory);
+					}, $this->mounts[$user->getUID()]);
 				} else {
 					return [];
 				}

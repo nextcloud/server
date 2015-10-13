@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -28,6 +29,7 @@ use OCP\ILogger;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use Sabre\DAV\Auth\Backend\BackendInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ServerFactory {
 	public function __construct(
@@ -36,7 +38,8 @@ class ServerFactory {
 		IDBConnection $databaseConnection,
 		IUserSession $userSession,
 		IMountManager $mountManager,
-		ITagManager $tagManager
+		ITagManager $tagManager,
+		EventDispatcherInterface $dispatcher
 	) {
 		$this->config = $config;
 		$this->logger = $logger;
@@ -44,6 +47,7 @@ class ServerFactory {
 		$this->userSession = $userSession;
 		$this->mountManager = $mountManager;
 		$this->tagManager = $tagManager;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -63,13 +67,14 @@ class ServerFactory {
 
 		// Load plugins
 		$defaults = new \OC_Defaults();
+		$server->addPlugin(new \OC\Connector\Sabre\MaintenancePlugin($this->config));
 		$server->addPlugin(new \OC\Connector\Sabre\BlockLegacyClientPlugin($this->config));
 		$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, $defaults->getName()));
 		// FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 		$server->addPlugin(new \OC\Connector\Sabre\DummyGetResponsePlugin());
-		$server->addPlugin(new \OC\Connector\Sabre\FilesPlugin($objectTree));
-		$server->addPlugin(new \OC\Connector\Sabre\MaintenancePlugin($this->config));
 		$server->addPlugin(new \OC\Connector\Sabre\ExceptionLoggerPlugin('webdav', $this->logger));
+		$server->addPlugin(new \OC\Connector\Sabre\LockPlugin($objectTree));
+		$server->addPlugin(new \OC\Connector\Sabre\ListenerPlugin($this->dispatcher));
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$server->on('beforeMethod', function () use ($server, $objectTree, $viewCallBack) {
@@ -85,6 +90,7 @@ class ServerFactory {
 			}
 			$objectTree->init($root, $view, $this->mountManager);
 
+			$server->addPlugin(new \OC\Connector\Sabre\FilesPlugin($objectTree, $view));
 			$server->addPlugin(new \OC\Connector\Sabre\QuotaPlugin($view));
 
 			if($this->userSession->isLoggedIn()) {

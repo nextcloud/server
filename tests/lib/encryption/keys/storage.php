@@ -37,6 +37,9 @@ class StorageTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	protected $view;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	protected $config;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -45,6 +48,10 @@ class StorageTest extends TestCase {
 			->getMock();
 
 		$this->view = $this->getMockBuilder('OC\Files\View')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->config = $this->getMockBuilder('OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -88,7 +95,7 @@ class StorageTest extends TestCase {
 	 * @param bool $originalKeyExists
 	 * @param string $expectedKeyContent
 	 */
-	public function testGetFileKey2($path, $strippedPartialName, $originalKeyExists, $expectedKeyContent) {
+	public function testGetFileKey($path, $strippedPartialName, $originalKeyExists, $expectedKeyContent) {
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
 			->willReturnMap([
@@ -414,9 +421,12 @@ class StorageTest extends TestCase {
 	 *
 	 * @param string $path
 	 * @param boolean $systemWideMountPoint
+	 * @param string $storageRoot
 	 * @param string $expected
 	 */
-	public function testGetPathToKeys($path, $systemWideMountPoint, $expected) {
+	public function testGetPathToKeys($path, $systemWideMountPoint, $storageRoot, $expected) {
+
+		$this->invokePrivate($this->storage, 'root_dir', [$storageRoot]);
 
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
@@ -431,10 +441,12 @@ class StorageTest extends TestCase {
 	}
 
 	public function dataTestGetPathToKeys() {
-		return array(
-			array('/user1/files/source.txt', false, '/user1/files_encryption/keys/files/source.txt/'),
-			array('/user1/files/source.txt', true, '/files_encryption/keys/files/source.txt/')
-		);
+		return [
+			['/user1/files/source.txt', false, '', '/user1/files_encryption/keys/files/source.txt/'],
+			['/user1/files/source.txt', true, '', '/files_encryption/keys/files/source.txt/'],
+			['/user1/files/source.txt', false, 'storageRoot', '/storageRoot/user1/files_encryption/keys/files/source.txt/'],
+			['/user1/files/source.txt', true, 'storageRoot', '/storageRoot/files_encryption/keys/files/source.txt/'],
+		];
 	}
 
 	public function testKeySetPreparation() {
@@ -461,6 +473,41 @@ class StorageTest extends TestCase {
 		$args = func_get_args();
 		$expected = array_pop($this->mkdirStack);
 		$this->assertSame($expected, $args[0]);
+	}
+
+	/**
+	 * @dataProvider dataTestGetFileKeyDir
+	 *
+	 * @param bool $isSystemWideMountPoint
+	 * @param string $storageRoot
+	 * @param string $expected
+	 */
+	public function testGetFileKeyDir($isSystemWideMountPoint, $storageRoot, $expected) {
+
+		$path = '/user1/files/foo/bar.txt';
+		$owner = 'user1';
+		$relativePath = '/foo/bar.txt';
+
+		$this->invokePrivate($this->storage, 'root_dir', [$storageRoot]);
+
+		$this->util->expects($this->once())->method('isSystemWideMountPoint')
+			->willReturn($isSystemWideMountPoint);
+		$this->util->expects($this->once())->method('getUidAndFilename')
+			->with($path)->willReturn([$owner, $relativePath]);
+
+		$this->assertSame($expected,
+			$this->invokePrivate($this->storage, 'getFileKeyDir', ['OC_DEFAULT_MODULE', $path])
+		);
+
+	}
+
+	public function dataTestGetFileKeyDir() {
+		return [
+			[false, '', '/user1/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
+			[true, '', '/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
+			[false, 'newStorageRoot', '/newStorageRoot/user1/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
+			[true, 'newStorageRoot', '/newStorageRoot/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
+		];
 	}
 
 }

@@ -29,10 +29,14 @@
 
 		_template: null,
 
-		initialize: function() {
+		initialize: function(options) {
+			options = options || {};
 			if (!this.id) {
 				this.id = 'detailTabView' + DetailTabView._TAB_COUNT;
 				DetailTabView._TAB_COUNT++;
+			}
+			if (options.order) {
+				this.order = options.order || 0;
 			}
 		},
 
@@ -84,6 +88,24 @@
 		 */
 		getFileInfo: function() {
 			return this.model;
+		},
+
+		/**
+		 * Load the next page of results
+		 */
+		nextPage: function() {
+			// load the next page, if applicable
+		},
+
+		/**
+		 * Returns whether the current tab is able to display
+		 * the given file info, for example based on mime type.
+		 *
+		 * @param {OCA.Files.FileInfoModel} fileInfo file info model
+		 * @return {bool} whether to display this tab
+		 */
+		canDisplay: function(fileInfo) {
+			return true;
 		}
 	});
 	DetailTabView._TAB_COUNT = 0;

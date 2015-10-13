@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Password successfully changed." : "Лозинката е успешно променета.",
     "Could not change the password. Maybe the old password was not correct." : "Лозинката не можеше да се промени. Можеби старата лозинка не беше исправна.",
+    "Cheers!" : "Поздрав!",
     "Change Password" : "Смени лозинка",
     "Old log-in password" : "Старата лозинка за најавување",
     "Current log-in password" : "Тековната лозинка за најавување",

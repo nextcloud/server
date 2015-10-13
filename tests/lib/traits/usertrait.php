@@ -13,7 +13,7 @@ namespace Test\Traits;
  */
 trait UserTrait {
 	/**
-	 * @var \OC_User_Dummy|\OCP\UserInterface
+	 * @var \Test\Util\User\Dummy|\OCP\UserInterface
 	 */
 	protected $userBackend;
 
@@ -22,7 +22,7 @@ trait UserTrait {
 	}
 
 	protected function setUpUserTrait() {
-		$this->userBackend = new \OC_User_Dummy();
+		$this->userBackend = new \Test\Util\User\Dummy();
 		\OC::$server->getUserManager()->registerBackend($this->userBackend);
 	}
 

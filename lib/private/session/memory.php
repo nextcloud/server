@@ -2,6 +2,7 @@
 /**
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Phil Davis <phil.davis@inf.org>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -93,7 +94,7 @@ class Memory extends Session {
 	 */
 	private function validateSession() {
 		if ($this->sessionClosed) {
-			throw new \Exception('Session has been closed - no further changes to the session as allowed');
+			throw new \Exception('Session has been closed - no further changes to the session are allowed');
 		}
 	}
 }

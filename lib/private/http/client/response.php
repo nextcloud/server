@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -34,17 +35,26 @@ class Response implements IResponse {
 	private $response;
 
 	/**
-	 * @param GuzzleResponse $response
+	 * @var bool
 	 */
-	public function __construct(GuzzleResponse $response) {
+	private $stream;
+
+	/**
+	 * @param GuzzleResponse $response
+	 * @param bool $stream
+	 */
+	public function __construct(GuzzleResponse $response, $stream = false) {
 		$this->response = $response;
+		$this->stream = $stream;
 	}
 
 	/**
-	 * @return string
+	 * @return string|resource
 	 */
 	public function getBody() {
-		return $this->response->getBody()->getContents();
+		return $this->stream ?
+			$this->response->getBody()->detach():
+			$this->response->getBody()->getContents();
 	}
 
 	/**

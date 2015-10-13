@@ -23,6 +23,6 @@
 class Test_User_Dummy extends Test_User_Backend {
 	protected function setUp() {
 		parent::setUp();
-		$this->backend=new OC_User_Dummy();
+		$this->backend=new \Test\Util\User\Dummy();
 	}
 }

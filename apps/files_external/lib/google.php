@@ -10,6 +10,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -248,8 +249,6 @@ class Google extends \OC\Files\Storage\Common {
 	}
 
 	public function opendir($path) {
-		// Remove leading and trailing slashes
-		$path = trim($path, '/');
 		$folder = $this->getDriveFile($path);
 		if ($folder) {
 			$files = array();

@@ -12,6 +12,7 @@
     "Application is not enabled" : "செயலி இயலுமைப்படுத்தப்படவில்லை",
     "Authentication error" : "அத்தாட்சிப்படுத்தலில் வழு",
     "Token expired. Please reload page." : "அடையாளவில்லை காலாவதியாகிவிட்டது. தயவுசெய்து பக்கத்தை மீள் ஏற்றுக.",
-    "Could not find category \"%s\"" : "பிரிவு \"%s\" ஐ கண்டுப்பிடிக்க முடியவில்லை"
+    "Could not find category \"%s\"" : "பிரிவு \"%s\" ஐ கண்டுப்பிடிக்க முடியவில்லை",
+    "Apps" : "செயலிகள்"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

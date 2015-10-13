@@ -31,16 +31,15 @@
 	 */
 	var FileInfoModel = OC.Backbone.Model.extend({
 
+		defaults: {
+			mimetype: 'application/octet-stream',
+			path: ''
+		},
+
 		initialize: function(data) {
 			if (!_.isUndefined(data.id)) {
 				data.id = parseInt(data.id, 10);
 			}
-
-			// TODO: normalize path
-			data.path = data.path || '';
-			data.name = data.name;
-
-			data.mimetype = data.mimetype || 'application/octet-stream';
 		},
 
 		/**
@@ -50,6 +49,21 @@
 		 */
 		isDirectory: function() {
 			return this.get('mimetype') === 'httpd/unix-directory';
+		},
+
+		/**
+		 * Returns whether this file is an image
+		 *
+		 * @return {boolean} true if this is an image, false otherwise
+		 */
+		isImage: function() {
+			if (!this.has('mimetype')) {
+				return false;
+			}
+			return this.get('mimetype').substr(0, 6) === 'image/'
+				|| this.get('mimetype') === 'application/postscript'
+				|| this.get('mimetype') === 'application/illustrator'
+				|| this.get('mimetype') === 'application/x-photoshop';
 		},
 
 		/**

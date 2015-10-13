@@ -30,6 +30,7 @@ namespace OC\Connector\Sabre;
 
 use OC\Connector\Sabre\Exception\InvalidPath;
 use OC\Connector\Sabre\Exception\FileLocked;
+use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Sabre\DAV\Exception\Locked;
 
@@ -110,6 +111,7 @@ class Directory extends \OC\Connector\Sabre\Node
 			// using a dummy FileInfo is acceptable here since it will be refreshed after the put is complete
 			$info = new \OC\Files\FileInfo($path, null, null, array(), null);
 			$node = new \OC\Connector\Sabre\File($this->fileView, $info);
+			$node->acquireLock(ILockingProvider::LOCK_SHARED);
 			return $node->put($data);
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());

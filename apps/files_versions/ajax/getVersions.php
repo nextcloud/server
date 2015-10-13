@@ -5,6 +5,7 @@
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Sam Tuke <mail@samtuke.com>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -44,6 +45,6 @@ if( $versions ) {
 
 } else {
 
-	\OCP\JSON::success(array('data' => array('versions' => false, 'endReached' => true)));
+	\OCP\JSON::success(array('data' => array('versions' => [], 'endReached' => true)));
 
 }

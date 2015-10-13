@@ -98,6 +98,12 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
+					if(!data.isCorrectMemcachedPHPModuleInstalled) {
+						messages.push({
+							msg: t('core', 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the <a href="{wikiLink}">memcached wiki about both modules</a>.', {wikiLink: 'https://code.google.com/p/memcached/wiki/PHPClientComparison'}),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						});
+					}
 				} else {
 					messages.push({
 						msg: t('core', 'Error occurred while checking server setup'),

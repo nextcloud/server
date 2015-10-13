@@ -70,7 +70,7 @@ OC.MimeType = {
 			return undefined;
 		}
 
-		if (mimeType in OC.MimeTypeList.aliases) {
+		while (mimeType in OC.MimeTypeList.aliases) {
 			mimeType = OC.MimeTypeList.aliases[mimeType];
 		}
 		if (mimeType in OC.MimeType._mimeTypeIcons) {

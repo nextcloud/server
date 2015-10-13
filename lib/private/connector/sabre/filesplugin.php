@@ -64,10 +64,20 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	private $isPublic;
 
 	/**
-	 * @param \Sabre\DAV\Tree $tree
+	 * @var \OC\Files\View
 	 */
-	public function __construct(\Sabre\DAV\Tree $tree, $isPublic = false) {
+	private $fileView;
+
+	/**
+	 * @param \Sabre\DAV\Tree $tree
+	 * @param \OC\Files\View $view
+	 * @param bool $isPublic
+	 */
+	public function __construct(\Sabre\DAV\Tree $tree,
+	                            \OC\Files\View $view,
+	                            $isPublic = false) {
 		$this->tree = $tree;
+		$this->fileView = $view;
 		$this->isPublic = $isPublic;
 	}
 
@@ -106,6 +116,26 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 				fclose($body);
 			}
 		});
+		$this->server->on('beforeMove', [$this, 'checkMove']);
+	}
+
+	/**
+	 * Plugin that checks if a move can actually be performed.
+	 * @param string $source source path
+	 * @param string $destination destination path
+	 * @throws \Sabre\DAV\Exception\Forbidden
+	 */
+	function checkMove($source, $destination) {
+		list($sourceDir,) = \Sabre\HTTP\URLUtil::splitPath($source);
+		list($destinationDir,) = \Sabre\HTTP\URLUtil::splitPath($destination);
+
+		if ($sourceDir !== $destinationDir) {
+			$sourceFileInfo = $this->fileView->getFileInfo($source);
+
+			if (!$sourceFileInfo->isDeletable()) {
+				throw new \Sabre\DAV\Exception\Forbidden($source . " cannot be deleted");
+			}
+		}
 	}
 
 	/**

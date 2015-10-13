@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -36,6 +35,7 @@ class SizePropagation extends TestCase {
 		$ownerView->file_put_contents('/sharedfolder/subfolder/foo.txt', 'bar');
 
 		$sharedFolderInfo = $ownerView->getFileInfo('/sharedfolder', false);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $sharedFolderInfo);
 		\OCP\Share::shareItem('folder', $sharedFolderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER1, 31);
 		$ownerRootInfo = $ownerView->getFileInfo('', false);
 
@@ -68,6 +68,7 @@ class SizePropagation extends TestCase {
 		$ownerView->file_put_contents('/sharedfolder/subfolder/foo.txt', 'bar');
 
 		$sharedFolderInfo = $ownerView->getFileInfo('/sharedfolder', false);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $sharedFolderInfo);
 		\OCP\Share::shareItem('folder', $sharedFolderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER1, 31);
 		$ownerRootInfo = $ownerView->getFileInfo('', false);
 

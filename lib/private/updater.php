@@ -69,6 +69,14 @@ class Updater extends BasicEmitter {
 	/** @var bool */
 	private $skip3rdPartyAppsDisable;
 
+	private $logLevelNames = [
+		0 => 'Debug',
+		1 => 'Info',
+		2 => 'Warning',
+		3 => 'Error',
+		4 => 'Fatal',
+	];
+
 	/**
 	 * @param HTTPHelper $httpHelper
 	 * @param IConfig $config
@@ -177,6 +185,10 @@ class Updater extends BasicEmitter {
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
 	public function upgrade() {
+		$logLevel = $this->config->getSystemValue('loglevel', \OCP\Util::WARN);
+		$this->emit('\OC\Updater', 'setDebugLogLevel', [ $logLevel, $this->logLevelNames[$logLevel] ]);
+		$this->config->setSystemValue('loglevel', \OCP\Util::DEBUG);
+
 		$wasMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
 
 		if(!$wasMaintenanceModeEnabled) {
@@ -186,15 +198,13 @@ class Updater extends BasicEmitter {
 
 		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
 		$currentVersion = implode('.', \OC_Util::getVersion());
-		if ($this->log) {
-			$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, array('app' => 'core'));
-		}
+		$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, array('app' => 'core'));
 
 		$success = true;
 		try {
 			$this->doUpgrade($currentVersion, $installedVersion);
 		} catch (\Exception $exception) {
-			\OCP\Util::logException('update', $exception);
+			$this->log->logException($exception, ['app' => 'core']);
 			$this->emit('\OC\Updater', 'failure', array(get_class($exception) . ': ' .$exception->getMessage()));
 			$success = false;
 		}
@@ -208,23 +218,34 @@ class Updater extends BasicEmitter {
 			$this->emit('\OC\Updater', 'maintenanceActive');
 		}
 
+		$this->emit('\OC\Updater', 'resetLogLevel', [ $logLevel, $this->logLevelNames[$logLevel] ]);
+		$this->config->setSystemValue('loglevel', $logLevel);
+
 		return $success;
+	}
+
+	/**
+	 * Return version from which this version is allowed to upgrade from
+	 *
+	 * @return string allowed previous version
+	 */
+	private function getAllowedPreviousVersion() {
+		// this should really be a JSON file
+		require \OC::$SERVERROOT . '/version.php';
+		/** @var array $OC_VersionCanBeUpgradedFrom */
+		return implode('.', $OC_VersionCanBeUpgradedFrom);
 	}
 
 	/**
 	 * Whether an upgrade to a specified version is possible
 	 * @param string $oldVersion
 	 * @param string $newVersion
+	 * @param string $allowedPreviousVersion
 	 * @return bool
 	 */
-	public function isUpgradePossible($oldVersion, $newVersion) {
-		$oldVersion = explode('.', $oldVersion);
-		$newVersion = explode('.', $newVersion);
-
-		if($newVersion[0] > ($oldVersion[0] + 1) || $oldVersion[0] > $newVersion[0]) {
-			return false;
-		}
-		return true;
+	public function isUpgradePossible($oldVersion, $newVersion, $allowedPreviousVersion) {
+		return (version_compare($allowedPreviousVersion, $oldVersion, '<=')
+			&& version_compare($oldVersion, $newVersion, '<='));
 	}
 
 	/**
@@ -259,8 +280,9 @@ class Updater extends BasicEmitter {
 	 */
 	private function doUpgrade($currentVersion, $installedVersion) {
 		// Stop update if the update is over several major versions
-		if (!self::isUpgradePossible($installedVersion, $currentVersion)) {
-			throw new \Exception('Updates between multiple major versions are unsupported.');
+		$allowedPreviousVersion = $this->getAllowedPreviousVersion();
+		if (!self::isUpgradePossible($installedVersion, $currentVersion, $allowedPreviousVersion)) {
+			throw new \Exception('Updates between multiple major versions and downgrades are unsupported.');
 		}
 
 		// Update .htaccess files
@@ -269,13 +291,6 @@ class Updater extends BasicEmitter {
 			Setup::protectDataDirectory();
 		} catch (\Exception $e) {
 			throw new \Exception($e->getMessage());
-		}
-
-		// FIXME: Some users do not upload the new ca-bundle.crt, let's catch this
-		// in the update. For a newer release we shall use an integrity check after
-		// the update.
-		if(!file_exists(\OC::$configDir .'/ca-bundle.crt')) {
-			throw new \Exception('Please upload the ca-bundle.crt file into the \'config\' directory.');
 		}
 
 		// create empty file in data dir, so we can later find
@@ -480,11 +495,15 @@ class Updater extends BasicEmitter {
 	 */
 	private function upgradeAppStoreApps(array $disabledApps) {
 		foreach($disabledApps as $app) {
-			if (OC_Installer::isUpdateAvailable($app)) {
-				$ocsId = \OC::$server->getConfig()->getAppValue($app, 'ocsid', '');
+			try {
+				if (OC_Installer::isUpdateAvailable($app)) {
+					$ocsId = \OC::$server->getConfig()->getAppValue($app, 'ocsid', '');
 
-				$this->emit('\OC\Updater', 'upgradeAppStoreApp', array($app));
-				OC_Installer::updateAppByOCSId($ocsId);
+					$this->emit('\OC\Updater', 'upgradeAppStoreApp', array($app));
+					OC_Installer::updateAppByOCSId($ocsId);
+				}
+			} catch (\Exception $ex) {
+				$this->log->logException($ex, ['app' => 'core']);
 			}
 		}
 	}

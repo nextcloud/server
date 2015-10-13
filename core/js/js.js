@@ -85,6 +85,7 @@ var OC={
 	appConfig: window.oc_appconfig || {},
 	theme: window.oc_defaults || {},
 	coreApps:['', 'admin','log','core/search','settings','core','3rdparty'],
+	requestToken: oc_requesttoken,
 	menuSpeed: 50,
 
 	/**
@@ -1215,6 +1216,20 @@ function object(o) {
  * Initializes core
  */
 function initCore() {
+	/**
+	 * Disable automatic evaluation of responses for $.ajax() functions (and its
+	 * higher-level alternatives like $.get() and $.post()).
+	 *
+	 * If a response to a $.ajax() request returns a content type of "application/javascript"
+	 * JQuery would previously execute the response body. This is a pretty unexpected
+	 * behaviour and can result in a bypass of our Content-Security-Policy as well as
+	 * multiple unexpected XSS vectors.
+	 */
+	$.ajaxSetup({
+		contents: {
+			script: false
+		}
+	});
 
 	/**
 	 * Set users locale to moment.js as soon as possible
@@ -1393,13 +1408,19 @@ function initCore() {
 				// if there is a scrollbar …
 				if($('#app-content').get(0).scrollHeight > $('#app-content').height()) {
 					if($(window).width() > 768) {
-						controlsWidth = $('#content').width() - $('#app-navigation').width() - $('#app-sidebar').width() - getScrollBarWidth();
+						controlsWidth = $('#content').width() - $('#app-navigation').width() - getScrollBarWidth();
+						if (!$('#app-sidebar').hasClass('hidden') && !$('#app-sidebar').hasClass('disappear')) {
+							controlsWidth -= $('#app-sidebar').width();
+						}
 					} else {
 						controlsWidth = $('#content').width() - getScrollBarWidth();
 					}
 				} else { // if there is none
 					if($(window).width() > 768) {
-						controlsWidth = $('#content').width() - $('#app-navigation').width() - $('#app-sidebar').width();
+						controlsWidth = $('#content').width() - $('#app-navigation').width();
+						if (!$('#app-sidebar').hasClass('hidden') && !$('#app-sidebar').hasClass('disappear')) {
+							controlsWidth -= $('#app-sidebar').width();
+						}
 					} else {
 						controlsWidth = $('#content').width();
 					}
@@ -1411,7 +1432,7 @@ function initCore() {
 
 		$(window).resize(_.debounce(adjustControlsWidth, 250));
 
-		$('body').delegate('#app-content', 'apprendered', adjustControlsWidth);
+		$('body').delegate('#app-content', 'apprendered appresized', adjustControlsWidth);
 
 	}
 
@@ -1513,6 +1534,10 @@ OC.Util = {
 	 * @returns {string} human readable difference from now
 	 */
 	relativeModifiedDate: function (timestamp) {
+		var diff = moment().diff(moment(timestamp));
+		if (diff >= 0 && diff < 45000 ) {
+			return t('core', 'seconds ago');
+		}
 		return moment(timestamp).fromNow();
 	},
 	/**
@@ -1574,6 +1599,85 @@ OC.Util = {
 				}
 			});
 		});
+	},
+
+	/**
+	 * Fix image scaling for IE8, since background-size is not supported.
+	 *
+	 * This scales the image to the element's actual size, the URL is
+	 * taken from the "background-image" CSS attribute.
+	 *
+	 * @param {Object} $el image element
+	 */
+	scaleFixForIE8: function($el) {
+		if (!this.isIE8()) {
+			return;
+		}
+		var self = this;
+		$($el).each(function() {
+			var url = $(this).css('background-image');
+			var r = url.match(/url\(['"]?([^'")]*)['"]?\)/);
+			if (!r) {
+				return;
+			}
+			url = r[1];
+			url = self.replaceSVGIcon(url);
+			// TODO: escape
+			url = url.replace(/'/g, '%27');
+			$(this).css({
+				'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\'' + url + '\', sizingMethod=\'scale\')',
+				'background-image': ''
+			});
+		});
+		return $el;
+	},
+
+	/**
+	 * Returns whether this is IE8
+	 *
+	 * @return {bool} true if this is IE8, false otherwise
+	 */
+	isIE8: function() {
+		return $('html').hasClass('ie8');
+	},
+
+	/**
+	 * Returns the width of a generic browser scrollbar
+	 *
+	 * @return {int} width of scrollbar
+	 */
+	getScrollBarWidth: function() {
+		if (this._scrollBarWidth) {
+			return this._scrollBarWidth;
+		}
+
+		var inner = document.createElement('p');
+		inner.style.width = "100%";
+		inner.style.height = "200px";
+
+		var outer = document.createElement('div');
+		outer.style.position = "absolute";
+		outer.style.top = "0px";
+		outer.style.left = "0px";
+		outer.style.visibility = "hidden";
+		outer.style.width = "200px";
+		outer.style.height = "150px";
+		outer.style.overflow = "hidden";
+		outer.appendChild (inner);
+
+		document.body.appendChild (outer);
+		var w1 = inner.offsetWidth;
+		outer.style.overflow = 'scroll';
+		var w2 = inner.offsetWidth;
+		if(w1 === w2) {
+			w2 = outer.clientWidth;
+		}
+
+		document.body.removeChild (outer);
+
+		this._scrollBarWidth = (w1 - w2);
+
+		return this._scrollBarWidth;
 	},
 
 	/**
@@ -1753,9 +1857,7 @@ OC.Util.History = {
 			params = OC.parseQueryString(this._decodeQuery(query));
 		}
 		// else read from query attributes
-		if (!params) {
-			params = OC.parseQueryString(this._decodeQuery(location.search));
-		}
+		params = _.extend(params || {}, OC.parseQueryString(this._decodeQuery(location.search)));
 		return params || {};
 	},
 
@@ -1868,32 +1970,11 @@ jQuery.fn.exists = function(){
 	return this.length > 0;
 };
 
+/**
+ * @deprecated use OC.Util.getScrollBarWidth() instead
+ */
 function getScrollBarWidth() {
-	var inner = document.createElement('p');
-	inner.style.width = "100%";
-	inner.style.height = "200px";
-
-	var outer = document.createElement('div');
-	outer.style.position = "absolute";
-	outer.style.top = "0px";
-	outer.style.left = "0px";
-	outer.style.visibility = "hidden";
-	outer.style.width = "200px";
-	outer.style.height = "150px";
-	outer.style.overflow = "hidden";
-	outer.appendChild (inner);
-
-	document.body.appendChild (outer);
-	var w1 = inner.offsetWidth;
-	outer.style.overflow = 'scroll';
-	var w2 = inner.offsetWidth;
-	if(w1 === w2) {
-		w2 = outer.clientWidth;
-	}
-
-	document.body.removeChild (outer);
-
-	return (w1 - w2);
+	return OC.Util.getScrollBarWidth();
 }
 
 /**
@@ -1952,4 +2033,5 @@ jQuery.fn.tipsy = function(argument) {
 		this.tooltip(argument);
 		jQuery.fn.tooltip.call(this, argument);
 	}
+	return this;
 }

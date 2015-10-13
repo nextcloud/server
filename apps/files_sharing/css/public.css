@@ -1,8 +1,12 @@
+#content {
+	height: initial;
+	min-height: calc(100vh - 120px);
+	overflow: hidden;
+}
+
 #preview {
 	background: #fff;
 	text-align: center;
-	margin: 45px auto 0;
-	min-height: 200px;
 }
 
 #preview .notCreatable {
@@ -134,9 +138,19 @@ thead {
 	margin: 2px 0 !important;
 }
 
+#save-button-confirm:disabled,
+#save-button-confirm:disabled:hover,
+#save-button-confirm:disabled:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+	filter: alpha(opacity=20);
+	opacity: .2;
+	cursor: default;
+}
+
 #save-button-confirm:hover,
 #save-button-confirm:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
 	opacity: 1;
+	cursor: pointer;
 }

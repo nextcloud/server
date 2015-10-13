@@ -15,6 +15,7 @@
     "_%n minute ago_::_%n minutes ago_" : ["prieš %n min.","Prieš % minutes","Prieš %n minučių"],
     "seconds ago" : "prieš sekundę",
     "web services under your control" : "jūsų valdomos web paslaugos",
+    "File name contains at least one invalid character" : "Failo vardas sudarytas iš neleistinų simbolių",
     "App directory already exists" : "Programos aplankas jau egzistuoja",
     "Can't create app folder. Please fix permissions. %s" : "Nepavyksta sukurti aplanko. Prašome pataisyti leidimus. %s",
     "No source specified when installing app" : "Nenurodytas šaltinis diegiant programą",
@@ -44,6 +45,7 @@
     "Set an admin password." : "Nustatyti administratoriaus slaptažodį.",
     "%s shared »%s« with you" : "%s pasidalino »%s« su tavimi",
     "Could not find category \"%s\"" : "Nepavyko rasti kategorijos „%s“",
+    "Apps" : "Programos",
     "A valid username must be provided" : "Vartotojo vardas turi būti tinkamas",
     "A valid password must be provided" : "Slaptažodis turi būti tinkamas"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"

@@ -25,6 +25,8 @@
     "Encryption App is enabled and ready" : "L'aplicacion de chiframent es activada e prèsta",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossible de deschifrar aqueste fichièr : s'agís probablament d'un fichièr partejat. Demandatz al proprietari del fichièr de lo partejar tornamai amb vos.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossible de legir aqueste fichièr, s'agís probablament d'un fichièr partejat. Demandatz al proprietari del fichièr de lo repartejar amb vos.  ",
+    "The share will expire on %s." : "Lo partiment expirarà lo %s.",
+    "Cheers!" : "A lèu !",
     "Enable recovery key" : "Activar la clau de recuperacion",
     "Disable recovery key" : "Desactivar la clau de recuperacion",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La clau de recuperacion es una clau suplementària utilizada per chifrar los fichièrs. Permet de recuperar los fichièrs dels utilizaires se doblidan lor senhal.",

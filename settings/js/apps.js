@@ -219,10 +219,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					element.val(t('settings','Disable'));
 					appItem.addClass('appwarning');
 				} else {
+					OC.Settings.Apps.rebuildNavigation();
 					appItem.data('active',false);
 					appItem.data('groups', '');
 					element.data('active',false);
-					OC.Settings.Apps.removeNavigation(appId);
 					appItem.removeClass('active');
 					element.val(t('settings','Enable'));
 					element.parent().find(".groups-enable").hide();
@@ -245,7 +245,15 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					element.val(t('settings','Enable'));
 					appItem.addClass('appwarning');
 				} else {
-					OC.Settings.Apps.addNavigation(appId);
+					if (result.data.update_required) {
+						OC.Settings.Apps.showReloadMessage();
+
+						setTimeout(function() {
+							location.reload();
+						}, 5000);
+					}
+
+					OC.Settings.Apps.rebuildNavigation();
 					appItem.data('active',true);
 					element.data('active',true);
 					appItem.addClass('active');
@@ -278,7 +286,6 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					appItem.data('errormsg', t('settings', 'Error while enabling app'));
 					appItem.data('active',false);
 					appItem.addClass('appwarning');
-					OC.Settings.Apps.removeNavigation(appId);
 					element.val(t('settings','Enable'));
 				});
 		}
@@ -312,7 +319,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				OC.Settings.Apps.showErrorMessage(appId, t('settings','Error while uninstalling app'));
 				element.val(t('settings','Uninstall'));
 			} else {
-				OC.Settings.Apps.removeNavigation(appId);
+				OC.Settings.Apps.rebuildNavigation();
 				element.parent().fadeOut(function() {
 					element.remove();
 				});
@@ -320,23 +327,15 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		},'json');
 	},
 
-	removeNavigation: function(appId){
-		$.getJSON(OC.filePath('settings', 'ajax', 'navigationdetect.php'), {app: appId}).done(function(response){
+	rebuildNavigation: function() {
+		$.getJSON(OC.filePath('settings', 'ajax', 'navigationdetect.php')).done(function(response){
 			if(response.status === 'success'){
-				var navIds=response.nav_ids;
-				for(var i=0; i< navIds.length; i++){
-					$('#apps ul').children('li[data-id="'+navIds[i]+'"]').remove();
-				}
-			}
-		});
-	},
-	addNavigation: function(appid){
-		$.getJSON(OC.filePath('settings', 'ajax', 'navigationdetect.php'), {app: appid}).done(function(response){
-			if(response.status === 'success'){
+				var idsToKeep = {};
 				var navEntries=response.nav_entries;
+				var container = $('#apps ul');
 				for(var i=0; i< navEntries.length; i++){
 					var entry = navEntries[i];
-					var container = $('#apps ul');
+					idsToKeep[entry.id] = true;
 
 					if(container.children('li[data-id="'+entry.id+'"]').length === 0){
 						var li=$('<li></li>');
@@ -377,6 +376,12 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						}
 					}
 				}
+
+				container.children('li[data-id]').each(function(index, el) {
+					if (!idsToKeep[$(el).data('id')]) {
+						$(el).remove();
+					}
+				});
 			}
 		});
 	},
@@ -391,6 +396,20 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		$('div#app-'+appId+' .warning')
 			.hide()
 			.text('');
+	},
+
+	showReloadMessage: function(appId) {
+		OC.dialogs.info(
+			t(
+				'settings',
+				'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
+			),
+			t('settings','App update'),
+			function (result) {
+				window.location.reload();
+			},
+			true
+		);
 	},
 
 	filter: function(query) {

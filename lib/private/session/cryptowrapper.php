@@ -1,6 +1,8 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Phil Davis <phil.davis@inf.org>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -39,7 +41,7 @@ use OCP\Security\ISecureRandom;
  * it as an additional small security obfuscation layer to comply with compliance
  * guidelines.
  *
- * TODO: Remove this in a future relase with an approach such as
+ * TODO: Remove this in a future release with an approach such as
  * https://github.com/owncloud/core/pull/17866
  *
  * @package OC\Session
@@ -77,7 +79,11 @@ class CryptoWrapper {
 			$secureCookie = $request->getServerProtocol() === 'https';
 			// FIXME: Required for CI
 			if (!defined('PHPUNIT_RUN')) {
-				setcookie(self::COOKIE_NAME, $this->passphrase, 0, \OC::$WEBROOT, '', $secureCookie, true);
+				$webRoot = \OC::$WEBROOT;
+				if($webRoot === '') {
+					$webRoot = '/';
+				}
+				setcookie(self::COOKIE_NAME, $this->passphrase, 0, $webRoot, '', $secureCookie, true);
 			}
 		}
 	}

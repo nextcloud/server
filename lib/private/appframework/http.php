@@ -3,6 +3,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
@@ -121,7 +122,7 @@ class Http extends BaseHttp {
 
 		// if etag or lastmodified have not changed, return a not modified
 		if ((isset($this->server['HTTP_IF_NONE_MATCH'])
-			&& trim($this->server['HTTP_IF_NONE_MATCH']) === $ETag) 
+			&& trim(trim($this->server['HTTP_IF_NONE_MATCH']), '"') === (string)$ETag)
 
 			||
 

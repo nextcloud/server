@@ -145,30 +145,6 @@ class BackendService {
 	}
 
 	/**
-	 * Get backends visible for $visibleFor
-	 *
-	 * @param int $visibleFor
-	 * @return Backend[]
-	 */
-	public function getBackendsVisibleFor($visibleFor) {
-		return array_filter($this->getAvailableBackends(), function($backend) use ($visibleFor) {
-			return $backend->isVisibleFor($visibleFor);
-		});
-	}
-
-	/**
-	 * Get backends allowed to be visible for $visibleFor
-	 *
-	 * @param int $visibleFor
-	 * @return Backend[]
-	 */
-	public function getBackendsAllowedVisibleFor($visibleFor) {
-		return array_filter($this->getAvailableBackends(), function($backend) use ($visibleFor) {
-			return $backend->isAllowedVisibleFor($visibleFor);
-		});
-	}
-
-	/**
 	 * @param string $identifier
 	 * @return Backend|null
 	 */
@@ -204,31 +180,6 @@ class BackendService {
 			return in_array($authMech->getScheme(), $schemes, true);
 		});
 	}
-
-	/**
-	 * Get authentication mechanisms visible for $visibleFor
-	 *
-	 * @param int $visibleFor
-	 * @return AuthMechanism[]
-	 */
-	public function getAuthMechanismsVisibleFor($visibleFor) {
-		return array_filter($this->getAuthMechanisms(), function($authMechanism) use ($visibleFor) {
-			return $authMechanism->isVisibleFor($visibleFor);
-		});
-	}
-
-	/**
-	 * Get authentication mechanisms allowed to be visible for $visibleFor
-	 *
-	 * @param int $visibleFor
-	 * @return AuthMechanism[]
-	 */
-	public function getAuthMechanismsAllowedVisibleFor($visibleFor) {
-		return array_filter($this->getAuthMechanisms(), function($authMechanism) use ($visibleFor) {
-			return $authMechanism->isAllowedVisibleFor($visibleFor);
-		});
-	}
-
 
 	/**
 	 * @param string $identifier

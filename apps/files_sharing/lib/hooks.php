@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
@@ -33,6 +34,7 @@ class Hooks {
 			\OC\Files\Filesystem::getMountManager(),
 			\OC\Files\Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
+			\OC::$server->getNotificationManager(),
 			$params['uid']);
 
 		$manager->removeUserShares($params['uid']);

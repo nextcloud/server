@@ -71,7 +71,8 @@ OCA = OCA || {};
 				],
 				'ldap_login_filter_mode'
 			);
-			_.bindAll(this, 'onVerifyClick');
+			_.bindAll(this, 'onVerifyClick', 'onTestLoginnameChange');
+			this.managedItems.ldap_test_loginname.$element.keyup(this.onTestLoginnameChange);
 			this.managedItems.ldap_test_loginname.$relatedElements.click(this.onVerifyClick);
 		},
 
@@ -231,6 +232,16 @@ OCA = OCA || {};
 			} else {
 				this.configModel.requestWizard('ldap_test_loginname', {ldap_test_loginname: testLogin});
 			}
+		},
+
+		/**
+		 * enables/disables the "Verify Settings" button, depending whether
+		 * the corresponding text input has a value or not
+		 */
+		onTestLoginnameChange: function() {
+			var loginName = this.managedItems.ldap_test_loginname.$element.val();
+			var beDisabled = !_.isString(loginName) || !loginName.trim();
+			this.managedItems.ldap_test_loginname.$relatedElements.prop('disabled', beDisabled);
 		}
 
 	});

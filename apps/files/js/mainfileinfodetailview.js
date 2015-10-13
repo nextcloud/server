@@ -10,14 +10,17 @@
 
 (function() {
 	var TEMPLATE =
-		'<a href="#" class="thumbnail action-default"></a><div title="{{name}}" class="fileName ellipsis">{{name}}</div>' +
-		'<div class="file-details ellipsis">' +
-		'    <a href="#" ' +
-		'    alt="{{starAltText}}"' +
-		'    class="action action-favorite favorite">' +
-		'    <img class="svg" src="{{starIcon}}" />' +
-		'    </a>' +
-		'    {{#if hasSize}}<span class="size" title="{{altSize}}">{{size}}</span>, {{/if}}<span class="date" title="{{altDate}}">{{date}}</span>' +
+		'<div class="thumbnailContainer"><a href="#" class="thumbnail action-default"><div class="stretcher"/></a></div>' +
+		'<div class="file-details-container">' +
+		'<div class="fileName"><h3 title="{{name}}" class="ellipsis">{{name}}</h3></div>' +
+		'	<div class="file-details ellipsis">' +
+		'		<a href="#" ' +
+		'		alt="{{starAltText}}"' +
+		'		class="action action-favorite favorite">' +
+		'			<img class="svg" src="{{starIcon}}" />' +
+		'		</a>' +
+		'		{{#if hasSize}}<span class="size" title="{{altSize}}">{{size}}</span>, {{/if}}<span class="date" title="{{altDate}}">{{date}}</span>' +
+		'	</div>' +
 		'</div>';
 
 	/**
@@ -103,6 +106,7 @@
 			if (this.model) {
 				var isFavorite = (this.model.get('tags') || []).indexOf(OC.TAG_FAVORITE) >= 0;
 				this.$el.html(this.template({
+					type: this.model.isImage()? 'image': '',
 					nameLabel: t('files', 'Name'),
 					name: this.model.get('displayName') || this.model.get('name'),
 					pathLabel: t('files', 'Path'),
@@ -120,26 +124,100 @@
 
 				// TODO: we really need OC.Previews
 				var $iconDiv = this.$el.find('.thumbnail');
+				var $container = this.$el.find('.thumbnailContainer');
 				if (!this.model.isDirectory()) {
-					this._fileList.lazyLoadPreview({
-						path: this.model.getFullPath(),
-						mime: this.model.get('mimetype'),
-						etag: this.model.get('etag'),
-						x: 75,
-						y: 75,
-						callback: function(previewUrl) {
-							$iconDiv.css('background-image', 'url("' + previewUrl + '")');
-						}
-					});
+					$iconDiv.addClass('icon-loading icon-32');
+					this.loadPreview(this.model.getFullPath(), this.model.get('mimetype'), this.model.get('etag'), $iconDiv, $container, this.model.isImage());
 				} else {
 					// TODO: special icons / shared / external
 					$iconDiv.css('background-image', 'url("' + OC.MimeType.getIconUrl('dir') + '")');
+					OC.Util.scaleFixForIE8($iconDiv);
 				}
 				this.$el.find('[title]').tooltip({placement: 'bottom'});
 			} else {
 				this.$el.empty();
 			}
 			this.delegateEvents();
+		},
+
+		loadPreview: function(path, mime, etag, $iconDiv, $container, isImage) {
+			var maxImageWidth  = $container.parent().width() + 50;  // 50px for negative margins
+			var maxImageHeight = maxImageWidth / (16/9);
+			var smallPreviewSize = 75;
+
+			var isLandscape = function(img) {
+				return img.width > (img.height * 1.2);
+			};
+
+			var isSmall = function(img) {
+				return (img.width * 1.1) < (maxImageWidth * window.devicePixelRatio);
+			};
+
+			var getTargetHeight = function(img) {
+				if(isImage) {
+					var targetHeight = img.height / window.devicePixelRatio;
+					if (targetHeight <= smallPreviewSize) {
+						targetHeight = smallPreviewSize;
+					}
+					return targetHeight;
+				}else{
+					return smallPreviewSize;
+				}
+			};
+
+			var getTargetRatio = function(img){
+				var ratio = img.width / img.height;
+				if (ratio > 16/9) {
+					return ratio;
+				} else {
+					return 16/9;
+				}
+			};
+
+			this._fileList.lazyLoadPreview({
+				path: path,
+				mime: mime,
+				etag: etag,
+				y: isImage ? maxImageHeight : smallPreviewSize,
+				x: isImage ? maxImageWidth : smallPreviewSize,
+				a: isImage ? 1 : null,
+				mode: isImage ? 'cover' : null,
+				callback: function (previewUrl, img) {
+					$iconDiv.previewImg = previewUrl;
+
+					// as long as we only have the mimetype icon, we only save it in case there is no preview
+					if (!img) {
+						return;
+					}
+					$iconDiv.removeClass('icon-loading icon-32');
+					var targetHeight = getTargetHeight(img);
+					if (this.model.isImage() && targetHeight > smallPreviewSize) {
+						$container.addClass((isLandscape(img) && !isSmall(img))? 'landscape': 'portrait');
+						$container.addClass('image');
+					}
+
+					// only set background when we have an actual preview
+					// when we dont have a preview we show the mime icon in the error handler
+					$iconDiv.css({
+						'background-image': 'url("' + previewUrl + '")',
+						height: (targetHeight > smallPreviewSize)? 'auto': targetHeight,
+						'max-height': isSmall(img)? targetHeight: null
+					});
+
+					var targetRatio = getTargetRatio(img);
+					$iconDiv.find('.stretcher').css({
+						'padding-bottom': (100 / targetRatio) + '%'
+					});
+				}.bind(this),
+				error: function () {
+					$iconDiv.removeClass('icon-loading icon-32');
+					this.$el.find('.thumbnailContainer').removeClass('image'); //fall back to regular view
+					$iconDiv.css({
+						'background-image': 'url("' + $iconDiv.previewImg + '")'
+					});
+					OC.Util.scaleFixForIE8($iconDiv);
+				}.bind(this)
+			});
 		}
 	});
 

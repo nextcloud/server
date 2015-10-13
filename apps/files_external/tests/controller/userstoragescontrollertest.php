@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -39,6 +40,9 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 		$this->service = $this->getMockBuilder('\OCA\Files_external\Service\UserStoragesService')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$this->service->method('getVisibilityType')
+			->willReturn(BackendService::VISIBILITY_PERSONAL);
 
 		$this->controller = new UserStoragesController(
 			'files_external',

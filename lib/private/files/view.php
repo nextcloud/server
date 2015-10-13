@@ -11,6 +11,7 @@
  * @author Klaas Freitag <freitag@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Luke Policinski <lpolicinski@gmail.com>
+ * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
@@ -153,7 +154,10 @@ class View {
 			return '/';
 		}
 
-		if (strpos($path, $this->fakeRoot) !== 0) {
+		// missing slashes can cause wrong matches!
+		$root = rtrim($this->fakeRoot, '/') . '/';
+
+		if (strpos($path, $root) !== 0) {
 			return null;
 		} else {
 			$path = substr($path, strlen($this->fakeRoot));
@@ -759,59 +763,72 @@ class View {
 
 			$this->lockFile($path2, ILockingProvider::LOCK_SHARED);
 			$this->lockFile($path1, ILockingProvider::LOCK_SHARED);
+			$lockTypePath1 = ILockingProvider::LOCK_SHARED;
+			$lockTypePath2 = ILockingProvider::LOCK_SHARED;
 
-			$exists = $this->file_exists($path2);
-			if ($this->shouldEmitHooks()) {
-				\OC_Hook::emit(
-					Filesystem::CLASSNAME,
-					Filesystem::signal_copy,
-					array(
-						Filesystem::signal_param_oldpath => $this->getHookPath($path1),
-						Filesystem::signal_param_newpath => $this->getHookPath($path2),
-						Filesystem::signal_param_run => &$run
-					)
-				);
-				$this->emit_file_hooks_pre($exists, $path2, $run);
-			}
-			if ($run) {
-				$mount1 = $this->getMount($path1);
-				$mount2 = $this->getMount($path2);
-				$storage1 = $mount1->getStorage();
-				$internalPath1 = $mount1->getInternalPath($absolutePath1);
-				$storage2 = $mount2->getStorage();
-				$internalPath2 = $mount2->getInternalPath($absolutePath2);
+			try {
 
-				$this->changeLock($path2, ILockingProvider::LOCK_EXCLUSIVE);
-
-				if ($mount1->getMountPoint() == $mount2->getMountPoint()) {
-					if ($storage1) {
-						$result = $storage1->copy($internalPath1, $internalPath2);
-					} else {
-						$result = false;
-					}
-				} else {
-					$result = $storage2->copyFromStorage($storage1, $internalPath1, $internalPath2);
-				}
-
-				$this->updater->update($path2);
-
-				$this->changeLock($path2, ILockingProvider::LOCK_SHARED);
-
-				if ($this->shouldEmitHooks() && $result !== false) {
+				$exists = $this->file_exists($path2);
+				if ($this->shouldEmitHooks()) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
-						Filesystem::signal_post_copy,
+						Filesystem::signal_copy,
 						array(
 							Filesystem::signal_param_oldpath => $this->getHookPath($path1),
-							Filesystem::signal_param_newpath => $this->getHookPath($path2)
+							Filesystem::signal_param_newpath => $this->getHookPath($path2),
+							Filesystem::signal_param_run => &$run
 						)
 					);
-					$this->emit_file_hooks_post($exists, $path2);
+					$this->emit_file_hooks_pre($exists, $path2, $run);
 				}
+				if ($run) {
+					$mount1 = $this->getMount($path1);
+					$mount2 = $this->getMount($path2);
+					$storage1 = $mount1->getStorage();
+					$internalPath1 = $mount1->getInternalPath($absolutePath1);
+					$storage2 = $mount2->getStorage();
+					$internalPath2 = $mount2->getInternalPath($absolutePath2);
 
-				$this->unlockFile($path2, ILockingProvider::LOCK_SHARED);
-				$this->unlockFile($path1, ILockingProvider::LOCK_SHARED);
+					$this->changeLock($path2, ILockingProvider::LOCK_EXCLUSIVE);
+					$lockTypePath2 = ILockingProvider::LOCK_EXCLUSIVE;
+
+					if ($mount1->getMountPoint() == $mount2->getMountPoint()) {
+						if ($storage1) {
+							$result = $storage1->copy($internalPath1, $internalPath2);
+						} else {
+							$result = false;
+						}
+					} else {
+						$result = $storage2->copyFromStorage($storage1, $internalPath1, $internalPath2);
+					}
+
+					$this->updater->update($path2);
+
+					$this->changeLock($path2, ILockingProvider::LOCK_SHARED);
+					$lockTypePath2 = ILockingProvider::LOCK_SHARED;
+
+					if ($this->shouldEmitHooks() && $result !== false) {
+						\OC_Hook::emit(
+							Filesystem::CLASSNAME,
+							Filesystem::signal_post_copy,
+							array(
+								Filesystem::signal_param_oldpath => $this->getHookPath($path1),
+								Filesystem::signal_param_newpath => $this->getHookPath($path2)
+							)
+						);
+						$this->emit_file_hooks_post($exists, $path2);
+					}
+
+				}
+			} catch (\Exception $e) {
+				$this->unlockFile($path2, $lockTypePath2);
+				$this->unlockFile($path1, $lockTypePath1);
+				throw $e;
 			}
+
+			$this->unlockFile($path2, $lockTypePath2);
+			$this->unlockFile($path1, $lockTypePath1);
+
 		}
 		return $result;
 	}
@@ -1586,25 +1603,46 @@ class View {
 
 	/**
 	 * check if it is allowed to move a mount point to a given target.
-	 * It is not allowed to move a mount point into a different mount point
+	 * It is not allowed to move a mount point into a different mount point or
+	 * into an already shared folder
 	 *
 	 * @param string $target path
 	 * @return boolean
 	 */
 	private function isTargetAllowed($target) {
 
-		$result = false;
-
-		list($targetStorage,) = \OC\Files\Filesystem::resolvePath($target);
-		if ($targetStorage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
-			$result = true;
-		} else {
+		list($targetStorage, $targetInternalPath) = \OC\Files\Filesystem::resolvePath($target);
+		if (!$targetStorage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
 			\OCP\Util::writeLog('files',
 				'It is not allowed to move one mount point into another one',
 				\OCP\Util::DEBUG);
+			return false;
 		}
 
-		return $result;
+		// note: cannot use the view because the target is already locked
+		$fileId = (int)$targetStorage->getCache()->getId($targetInternalPath);
+		if ($fileId === -1) {
+			// target might not exist, need to check parent instead
+			$fileId = (int)$targetStorage->getCache()->getId(dirname($targetInternalPath));
+		}
+
+		// check if any of the parents were shared by the current owner (include collections)
+		$shares = \OCP\Share::getItemShared(
+			'folder',
+			$fileId,
+			\OCP\Share::FORMAT_NONE,
+			null,
+			true
+		);
+
+		if (count($shares) > 0) {
+			\OCP\Util::writeLog('files',
+				'It is not allowed to move one mount point into a shared folder',
+				\OCP\Util::DEBUG);
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -1656,7 +1694,7 @@ class View {
 		if ($trimmed === '') {
 			throw new InvalidPathException($l10n->t('Empty filename is not allowed'));
 		}
-		if ($trimmed === '.' || $trimmed === '..') {
+		if (\OC\Files\Filesystem::isIgnoredDir($trimmed)) {
 			throw new InvalidPathException($l10n->t('Dot files are not allowed'));
 		}
 

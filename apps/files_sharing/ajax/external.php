@@ -1,9 +1,11 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -52,6 +54,7 @@ $externalManager = new \OCA\Files_Sharing\External\Manager(
 		\OC\Files\Filesystem::getMountManager(),
 		\OC\Files\Filesystem::getLoader(),
 		\OC::$server->getHTTPHelper(),
+		\OC::$server->getNotificationManager(),
 		\OC::$server->getUserSession()->getUser()->getUID()
 );
 

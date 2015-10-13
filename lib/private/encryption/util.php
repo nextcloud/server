@@ -3,7 +3,6 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -59,7 +58,7 @@ class Util {
 	protected $blockSize = 8192;
 
 	/** @var View */
-	protected $view;
+	protected $rootView;
 
 	/** @var array */
 	protected $ocHeaderKeys;
@@ -78,13 +77,13 @@ class Util {
 
 	/**
 	 *
-	 * @param \OC\Files\View $view
+	 * @param View $rootView
 	 * @param \OC\User\Manager $userManager
 	 * @param \OC\Group\Manager $groupManager
 	 * @param IConfig $config
 	 */
 	public function __construct(
-		\OC\Files\View $view,
+		View $rootView,
 		\OC\User\Manager $userManager,
 		\OC\Group\Manager $groupManager,
 		IConfig $config) {
@@ -93,7 +92,7 @@ class Util {
 			self::HEADER_ENCRYPTION_MODULE_KEY
 		];
 
-		$this->view = $view;
+		$this->rootView = $rootView;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->config = $config;
@@ -167,7 +166,7 @@ class Util {
 
 		while ($dirList) {
 			$dir = array_pop($dirList);
-			$content = $this->view->getDirectoryContent($dir);
+			$content = $this->rootView->getDirectoryContent($dir);
 
 			foreach ($content as $c) {
 				if ($c->getType() === 'dir') {
@@ -332,9 +331,21 @@ class Util {
 	 * @return boolean
 	 */
 	public function isExcluded($path) {
-		$normalizedPath = \OC\Files\Filesystem::normalizePath($path);
+		$normalizedPath = Filesystem::normalizePath($path);
 		$root = explode('/', $normalizedPath, 4);
 		if (count($root) > 1) {
+
+			// detect alternative key storage root
+			$rootDir = $this->getKeyStorageRoot();
+			if ($rootDir !== '' &&
+				0 === strpos(
+					Filesystem::normalizePath($path),
+					Filesystem::normalizePath($rootDir)
+				)
+			) {
+				return true;
+			}
+
 
 			//detect system wide folders
 			if (in_array($root[1], $this->excludedPaths)) {
@@ -361,6 +372,24 @@ class Util {
 		$enabled = $this->config->getUserValue($uid, 'encryption', 'recovery_enabled', '0');
 
 		return ($enabled === '1') ? true : false;
+	}
+
+	/**
+	 * set new key storage root
+	 *
+	 * @param string $root new key store root relative to the data folder
+	 */
+	public function setKeyStorageRoot($root) {
+		$this->config->setAppValue('core', 'encryption_key_storage_root', $root);
+	}
+
+	/**
+	 * get key storage root
+	 *
+	 * @return string key storage root
+	 */
+	public function getKeyStorageRoot() {
+		return $this->config->getAppValue('core', 'encryption_key_storage_root', '');
 	}
 
 	/**

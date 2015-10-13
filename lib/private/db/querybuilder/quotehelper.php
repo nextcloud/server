@@ -52,7 +52,7 @@ class QuoteHelper {
 			return (string) $string;
 		}
 
-		if ($string === null || $string === '*') {
+		if ($string === null || $string === 'null' || $string === '*') {
 			return $string;
 		}
 

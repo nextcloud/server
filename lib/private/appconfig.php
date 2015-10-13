@@ -5,12 +5,10 @@
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -28,23 +26,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-/*
- *
- * The following SQL statement is just a help for developers and will not be
- * executed!
- *
- * CREATE TABLE  `appconfig` (
- * `appid` VARCHAR( 255 ) NOT NULL ,
- * `configkey` VARCHAR( 255 ) NOT NULL ,
- * `configvalue` VARCHAR( 255 ) NOT NULL
- * )
- *
- */
 
 namespace OC;
 
-use OC\DB\Connection;
 use OCP\IAppConfig;
+use OCP\IDBConnection;
 
 /**
  * This class provides an easy way for apps to store config values in the
@@ -52,54 +38,32 @@ use OCP\IAppConfig;
  */
 class AppConfig implements IAppConfig {
 	/**
-	 * @var \OC\DB\Connection $conn
+	 * @var \OCP\IDBConnection $conn
 	 */
 	protected $conn;
 
 	private $cache = array();
 
-	private $appsLoaded = array();
-
 	/**
-	 * @var string[]
+	 * @param IDBConnection $conn
 	 */
-	private $apps = null;
-
-	/**
-	 * @param Connection $conn
-	 */
-	public function __construct(Connection $conn) {
+	public function __construct(IDBConnection $conn) {
 		$this->conn = $conn;
+		$this->configLoaded = false;
 	}
 
 	/**
 	 * @param string $app
-	 * @return string[]
-	 */
-	private function getAppCache($app) {
-		if (!isset($this->cache[$app])) {
-			$this->cache[$app] = array();
-		}
-		return $this->cache[$app];
-	}
-
-	/**
-	 * @param string $app
-	 * @return \string[]
+	 * @return array
 	 */
 	private function getAppValues($app) {
-		$appCache = $this->getAppCache($app);
-		if (array_search($app, $this->appsLoaded) === false) {
-			$query = 'SELECT `configvalue`, `configkey` FROM `*PREFIX*appconfig`'
-				. ' WHERE `appid` = ?';
-			$result = $this->conn->executeQuery($query, array($app));
-			while ($row = $result->fetch()) {
-				$appCache[$row['configkey']] = $row['configvalue'];
-			}
-			$this->appsLoaded[] = $app;
+		$this->loadConfigValues();
+
+		if (isset($this->cache[$app])) {
+			return $this->cache[$app];
 		}
-		$this->cache[$app] = $appCache;
-		return $appCache;
+
+		return [];
 	}
 
 	/**
@@ -111,18 +75,9 @@ class AppConfig implements IAppConfig {
 	 * entry in the appconfig table.
 	 */
 	public function getApps() {
-		if (is_array($this->apps)) {
-			return $this->apps;
-		}
-		$query = 'SELECT DISTINCT `appid` FROM `*PREFIX*appconfig` ORDER BY `appid`';
-		$result = $this->conn->executeQuery($query);
+		$this->loadConfigValues();
 
-		$apps = array();
-		while ($appid = $result->fetchColumn()) {
-			$apps[] = $appid;
-		}
-		$this->apps = $apps;
-		return $apps;
+		return $this->getSortedKeys($this->cache);
 	}
 
 	/**
@@ -135,8 +90,17 @@ class AppConfig implements IAppConfig {
 	 * not returned.
 	 */
 	public function getKeys($app) {
-		$values = $this->getAppValues($app);
-		$keys = array_keys($values);
+		$this->loadConfigValues();
+
+		if (isset($this->cache[$app])) {
+			return $this->getSortedKeys($this->cache[$app]);
+		}
+
+		return [];
+	}
+
+	public function getSortedKeys($data) {
+		$keys = array_keys($data);
 		sort($keys);
 		return $keys;
 	}
@@ -153,12 +117,13 @@ class AppConfig implements IAppConfig {
 	 * not exist the default value will be returned
 	 */
 	public function getValue($app, $key, $default = null) {
-		$values = $this->getAppValues($app);
-		if (isset($values[$key])) {
-			return $values[$key];
-		} else {
-			return $default;
+		$this->loadConfigValues();
+
+		if ($this->hasKey($app, $key)) {
+			return $this->cache[$app][$key];
 		}
+
+		return $default;
 	}
 
 	/**
@@ -169,8 +134,9 @@ class AppConfig implements IAppConfig {
 	 * @return bool
 	 */
 	public function hasKey($app, $key) {
-		$values = $this->getAppValues($app);
-		return array_key_exists($key, $values);
+		$this->loadConfigValues();
+
+		return isset($this->cache[$app][$key]);
 	}
 
 	/**
@@ -179,11 +145,9 @@ class AppConfig implements IAppConfig {
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $value value
-	 * @return void
+	 * @return bool True if the value was inserted or updated, false if the value was the same
 	 */
 	public function setValue($app, $key, $value) {
-		$inserted = false;
-		// Does the key exist? no: insert, yes: update.
 		if (!$this->hasKey($app, $key)) {
 			$inserted = (bool) $this->conn->insertIfNotExist('*PREFIX*appconfig', [
 				'appid' => $app,
@@ -193,29 +157,42 @@ class AppConfig implements IAppConfig {
 				'appid',
 				'configkey',
 			]);
+
+			if ($inserted) {
+				if (!isset($this->cache[$app])) {
+					$this->cache[$app] = [];
+				}
+
+				$this->cache[$app][$key] = $value;
+				return true;
+			}
 		}
 
-		if (!$inserted) {
-			$oldValue = $this->getValue($app, $key);
-			if($oldValue === strval($value)) {
-				return;
-			}
-			$data = array(
-				'configvalue' => $value,
-			);
-			$where = array(
-				'appid' => $app,
-				'configkey' => $key,
-			);
-			$this->conn->update('*PREFIX*appconfig', $data, $where);
+		$sql = $this->conn->getQueryBuilder();
+		$sql->update('appconfig')
+			->set('configvalue', $sql->createParameter('configvalue'))
+			->where($sql->expr()->eq('appid', $sql->createParameter('app')))
+			->andWhere($sql->expr()->eq('configkey', $sql->createParameter('configkey')))
+			->setParameter('configvalue', $value)
+			->setParameter('app', $app)
+			->setParameter('configkey', $key);
+
+		/*
+		 * Only limit to the existing value for non-Oracle DBs:
+		 * http://docs.oracle.com/cd/E11882_01/server.112/e26088/conditions002.htm#i1033286
+		 * > Large objects (LOBs) are not supported in comparison conditions.
+		 */
+		if (!($this->conn instanceof \OC\DB\OracleConnection)) {
+			// Only update the value when it is not the same
+			$sql->andWhere($sql->expr()->neq('configvalue', $sql->createParameter('configvalue')))
+				->setParameter('configvalue', $value);
 		}
-		if (!isset($this->cache[$app])) {
-			$this->cache[$app] = array();
-		}
-		if (is_array($this->apps) and array_search($app, $this->apps) === false) {
-			$this->apps[$app] = $app;
-		}
+
+		$changedRow = (bool) $sql->execute();
+
 		$this->cache[$app][$key] = $value;
+
+		return $changedRow;
 	}
 
 	/**
@@ -226,14 +203,17 @@ class AppConfig implements IAppConfig {
 	 * @return boolean|null
 	 */
 	public function deleteKey($app, $key) {
-		$where = array(
-			'appid' => $app,
-			'configkey' => $key,
-		);
-		$this->conn->delete('*PREFIX*appconfig', $where);
-		if (isset($this->cache[$app]) and isset($this->cache[$app][$key])) {
-			unset($this->cache[$app][$key]);
-		}
+		$this->loadConfigValues();
+
+		$sql = $this->conn->getQueryBuilder();
+		$sql->delete('appconfig')
+			->where($sql->expr()->eq('appid', $sql->createParameter('app')))
+			->andWhere($sql->expr()->eq('configkey', $sql->createParameter('configkey')))
+			->setParameter('app', $app)
+			->setParameter('configkey', $key);
+		$sql->execute();
+
+		unset($this->cache[$app][$key]);
 	}
 
 	/**
@@ -245,38 +225,65 @@ class AppConfig implements IAppConfig {
 	 * Removes all keys in appconfig belonging to the app.
 	 */
 	public function deleteApp($app) {
-		$where = array(
-			'appid' => $app,
-		);
-		$this->conn->delete('*PREFIX*appconfig', $where);
+		$this->loadConfigValues();
+
+		$sql = $this->conn->getQueryBuilder();
+		$sql->delete('appconfig')
+			->where($sql->expr()->eq('appid', $sql->createParameter('app')))
+			->setParameter('app', $app);
+		$sql->execute();
+
 		unset($this->cache[$app]);
-		unset($this->apps[$app]);
 	}
 
 	/**
-	 * get multiply values, either the app or key can be used as wildcard by setting it to false
+	 * get multiple values, either the app or key can be used as wildcard by setting it to false
 	 *
 	 * @param string|false $app
 	 * @param string|false $key
 	 * @return array|false
 	 */
 	public function getValues($app, $key) {
-		if (($app !== false) == ($key !== false)) {
+		if (($app !== false) === ($key !== false)) {
 			return false;
 		}
 
-		if ($app !== false) {
+		if ($key === false) {
 			return $this->getAppValues($app);
 		} else {
-			$query = 'SELECT `configvalue`, `appid` FROM `*PREFIX*appconfig` WHERE `configkey` = ?';
-			$result = $this->conn->executeQuery($query, array($key));
-
-			$values = array();
-			while ($row = $result->fetch((\PDO::FETCH_ASSOC))) {
-				$values[$row['appid']] = $row['configvalue'];
+			$configs = [];
+			foreach ($this->getApps() as $appId) {
+				if ($this->hasKey($appId, $key)) {
+					$configs[$appId] = $this->getValue($appId, $key);
+				}
 			}
 
-			return $values;
+			return $configs;
 		}
+	}
+
+	/**
+	 * Load all the app config values
+	 */
+	protected function loadConfigValues() {
+		if ($this->configLoaded) return;
+
+		$this->cache = [];
+
+		$sql = $this->conn->getQueryBuilder();
+		$sql->select('*')
+			->from('appconfig');
+		$result = $sql->execute();
+
+		while ($row = $result->fetch()) {
+			if (!isset($this->cache[$row['appid']])) {
+				$this->cache[$row['appid']] = [];
+			}
+
+			$this->cache[$row['appid']][$row['configkey']] = $row['configvalue'];
+		}
+		$result->closeCursor();
+
+		$this->configLoaded = true;
 	}
 }

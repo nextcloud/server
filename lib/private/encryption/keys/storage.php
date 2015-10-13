@@ -2,7 +2,6 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -27,10 +26,12 @@ namespace OC\Encryption\Keys;
 use OC\Encryption\Util;
 use OC\Files\Filesystem;
 use OC\Files\View;
-use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Encryption\Keys\IStorage;
 
 class Storage implements IStorage {
+
+	// hidden file which indicate that the folder is a valid key storage
+	const KEY_STORAGE_MARKER = '.oc_key_storage';
 
 	/** @var View */
 	private $view;
@@ -41,6 +42,10 @@ class Storage implements IStorage {
 	// base dir where all the file related keys are stored
 	/** @var string */
 	private $keys_base_dir;
+
+	// root of the key storage default is empty which means that we use the data folder
+	/** @var string */
+	private $root_dir;
 
 	/** @var string */
 	private $encryption_base_dir;
@@ -58,6 +63,7 @@ class Storage implements IStorage {
 
 		$this->encryption_base_dir = '/files_encryption';
 		$this->keys_base_dir = $this->encryption_base_dir .'/keys';
+		$this->root_dir = $this->util->getKeyStorageRoot();
 	}
 
 	/**
@@ -162,13 +168,13 @@ class Storage implements IStorage {
 	protected function constructUserKeyPath($encryptionModuleId, $keyId, $uid) {
 
 		if ($uid === null) {
-			$path = $this->encryption_base_dir . '/' . $encryptionModuleId . '/' . $keyId;
+			$path = $this->root_dir . '/' . $this->encryption_base_dir . '/' . $encryptionModuleId . '/' . $keyId;
 		} else {
-			$path = '/' . $uid . $this->encryption_base_dir . '/'
+			$path = $this->root_dir . '/' . $uid . $this->encryption_base_dir . '/'
 				. $encryptionModuleId . '/' . $uid . '.' . $keyId;
 		}
 
-		return $path;
+		return \OC\Files\Filesystem::normalizePath($path);
 	}
 
 	/**
@@ -227,9 +233,9 @@ class Storage implements IStorage {
 
 		// in case of system wide mount points the keys are stored directly in the data directory
 		if ($this->util->isSystemWideMountPoint($filename, $owner)) {
-			$keyPath = $this->keys_base_dir . $filename . '/';
+			$keyPath = $this->root_dir . '/' . $this->keys_base_dir . $filename . '/';
 		} else {
-			$keyPath = '/' . $owner . $this->keys_base_dir . $filename . '/';
+			$keyPath = $this->root_dir . '/' . $owner . $this->keys_base_dir . $filename . '/';
 		}
 
 		return Filesystem::normalizePath($keyPath . $encryptionModuleId . '/', false);
@@ -290,12 +296,12 @@ class Storage implements IStorage {
 		$systemWideMountPoint = $this->util->isSystemWideMountPoint($relativePath, $owner);
 
 		if ($systemWideMountPoint) {
-			$systemPath = $this->keys_base_dir . $relativePath . '/';
+			$systemPath = $this->root_dir . '/' . $this->keys_base_dir . $relativePath . '/';
 		} else {
-			$systemPath = '/' . $owner . $this->keys_base_dir . $relativePath . '/';
+			$systemPath = $this->root_dir . '/' . $owner . $this->keys_base_dir . $relativePath . '/';
 		}
 
-		return $systemPath;
+		return  Filesystem::normalizePath($systemPath, false);
 	}
 
 	/**

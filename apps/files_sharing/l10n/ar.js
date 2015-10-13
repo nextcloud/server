@@ -13,6 +13,7 @@ OC.L10N.register(
     "This share is password-protected" : "هذه المشاركة محمية بكلمة مرور",
     "The password is wrong. Try again." : "كلمة المرور خاطئة. حاول مرة أخرى",
     "Password" : "كلمة المرور",
+    "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
     "Name" : "اسم",
     "Sorry, this link doesn’t seem to work anymore." : "عذرا، يبدو أن هذا الرابط لم يعد يعمل.",
     "Reasons might be:" : "الأسباب الممكنة :",

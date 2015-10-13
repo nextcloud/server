@@ -1,10 +1,10 @@
 <?php
 /**
+ * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -81,9 +81,7 @@ class OC_Mount_Config {
 	 * @param array $data
 	 */
 	public static function initMountPointsHook($data) {
-		self::addStorageIdToConfig(null);
 		if ($data['user']) {
-			self::addStorageIdToConfig($data['user']);
 			$user = \OC::$server->getUserManager()->get($data['user']);
 			if (!$user) {
 				\OC::$server->getLogger()->warning(
@@ -114,7 +112,7 @@ class OC_Mount_Config {
 	 * @param string $uid user
 	 * @return array of mount point string as key, mountpoint config as value
 	 *
-	 * @deprecated 8.2.0 use UserGlobalStoragesService::getAllStorages() and UserStoragesService::getAllStorages()
+	 * @deprecated 8.2.0 use UserGlobalStoragesService::getStorages() and UserStoragesService::getStorages()
 	 */
 	public static function getAbsoluteMountPoints($uid) {
 		$mountPoints = array();
@@ -126,7 +124,7 @@ class OC_Mount_Config {
 		$userGlobalStoragesService->setUser($user);
 		$userStoragesService->setUser($user);
 
-		foreach ($userGlobalStoragesService->getAllStorages() as $storage) {
+		foreach ($userGlobalStoragesService->getStorages() as $storage) {
 			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
 			$mountEntry = self::prepareMountPointEntry($storage, false);
 			foreach ($mountEntry['options'] as &$option) {
@@ -135,7 +133,7 @@ class OC_Mount_Config {
 			$mountPoints[$mountPoint] = $mountEntry;
 		}
 
-		foreach ($userStoragesService->getAllStorages() as $storage) {
+		foreach ($userStoragesService->getStorages() as $storage) {
 			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
 			$mountEntry = self::prepareMountPointEntry($storage, true);
 			foreach ($mountEntry['options'] as &$option) {
@@ -155,13 +153,13 @@ class OC_Mount_Config {
 	 *
 	 * @return array
 	 *
-	 * @deprecated 8.2.0 use GlobalStoragesService::getAllStorages()
+	 * @deprecated 8.2.0 use GlobalStoragesService::getStorages()
 	 */
 	public static function getSystemMountPoints() {
 		$mountPoints = [];
 		$service = self::$app->getContainer()->query('OCA\Files_External\Service\GlobalStoragesService');
 
-		foreach ($service->getAllStorages() as $storage) {
+		foreach ($service->getStorages() as $storage) {
 			$mountPoints[] = self::prepareMountPointEntry($storage, false);
 		}
 
@@ -173,13 +171,13 @@ class OC_Mount_Config {
 	 *
 	 * @return array
 	 *
-	 * @deprecated 8.2.0 use UserStoragesService::getAllStorages()
+	 * @deprecated 8.2.0 use UserStoragesService::getStorages()
 	 */
 	public static function getPersonalMountPoints() {
 		$mountPoints = [];
 		$service = self::$app->getContainer()->query('OCA\Files_External\Service\UserStoragesService');
 
-		foreach ($service->getAllStorages() as $storage) {
+		foreach ($service->getStorages() as $storage) {
 			$mountPoints[] = self::prepareMountPointEntry($storage, true);
 		}
 
@@ -209,8 +207,12 @@ class OC_Mount_Config {
 			'groups' => $storage->getApplicableGroups(),
 			'users' => $storage->getApplicableUsers(),
 		];
+		// if mountpoint is applicable to all users the old API expects ['all']
+		if (empty($mountEntry['applicable']['groups']) && empty($mountEntry['applicable']['users'])) {
+			$mountEntry['applicable']['users'] = ['all'];
+		}
+
 		$mountEntry['id'] = $storage->getId();
-		// $mountEntry['storage_id'] = null; // we don't store this!
 
 		return $mountEntry;
 	}
@@ -308,14 +310,6 @@ class OC_Mount_Config {
 			$config = \OC::$server->getConfig();
 			$datadir = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/');
 			$file = $config->getSystemValue('mount_file', $datadir . '/mount.json');
-		}
-
-		foreach ($data as &$applicables) {
-			foreach ($applicables as &$mountPoints) {
-				foreach ($mountPoints as &$options) {
-					self::addStorageId($options);
-				}
-			}
 		}
 
 		$content = json_encode($data, JSON_PRETTY_PRINT);
@@ -491,61 +485,5 @@ class OC_Mount_Config {
 			)
 		);
 		return hash('md5', $data);
-	}
-
-	/**
-	 * Add storage id to the storage configurations that did not have any.
-	 *
-	 * @param string $user user for which to process storage configs
-	 */
-	private static function addStorageIdToConfig($user) {
-		$config = self::readData($user);
-
-		$needUpdate = false;
-		foreach ($config as &$applicables) {
-			foreach ($applicables as &$mountPoints) {
-				foreach ($mountPoints as &$options) {
-					$needUpdate |= !isset($options['storage_id']);
-				}
-			}
-		}
-
-		if ($needUpdate) {
-			self::writeData($user, $config);
-		}
-	}
-
-	/**
-	 * Get storage id from the numeric storage id and set
-	 * it into the given options argument. Only do this
-	 * if there was no storage id set yet.
-	 *
-	 * This might also fail if a storage wasn't fully configured yet
-	 * and couldn't be mounted, in which case this will simply return false.
-	 *
-	 * @param array $options storage options
-	 *
-	 * @return bool true if the storage id was added, false otherwise
-	 */
-	private static function addStorageId(&$options) {
-		if (isset($options['storage_id'])) {
-			return false;
-		}
-
-		$service = self::$app->getContainer()->query('OCA\Files_External\Service\BackendService');
-		$class = $service->getBackend($options['backend'])->getStorageClass();
-		try {
-			/** @var \OC\Files\Storage\Storage $storage */
-			$storage = new $class($options['options']);
-			// TODO: introduce StorageConfigException
-		} catch (\Exception $e) {
-			// storage might not be fully configured yet (ex: Dropbox)
-			// note that storage instances aren't supposed to open any connections
-			// in the constructor, so this exception is likely to be a config exception
-			return false;
-		}
-
-		$options['storage_id'] = $storage->getCache()->getNumericStorageId();
-		return true;
 	}
 }

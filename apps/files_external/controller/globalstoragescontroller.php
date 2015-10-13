@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -32,6 +33,7 @@ use \OCP\AppFramework\Http;
 use \OCA\Files_external\Service\GlobalStoragesService;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;
+use \OCA\Files_External\Service\BackendService;
 
 /**
  * Global storages controller
@@ -177,5 +179,6 @@ class GlobalStoragesController extends StoragesController {
 		);
 
 	}
+
 
 }

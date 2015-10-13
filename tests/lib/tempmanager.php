@@ -22,12 +22,13 @@ class NullLogger extends Log {
 }
 
 class TempManager extends \Test\TestCase {
-	protected $baseDir;
+
+	protected $baseDir = null;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->baseDir = get_temp_dir() . $this->getUniqueID('/oc_tmp_test');
+		$this->baseDir = $this->getManager()->getTempBaseDir() . $this->getUniqueID('/oc_tmp_test');
 		if (!is_dir($this->baseDir)) {
 			mkdir($this->baseDir);
 		}
@@ -35,18 +36,30 @@ class TempManager extends \Test\TestCase {
 
 	protected function tearDown() {
 		\OC_Helper::rmdirr($this->baseDir);
+		$this->baseDir = null;
 		parent::tearDown();
 	}
 
 	/**
 	 * @param  \OCP\ILogger $logger
+	 * @param  \OCP\IConfig $config
 	 * @return \OC\TempManager
 	 */
-	protected function getManager($logger = null) {
+	protected function getManager($logger = null, $config = null) {
 		if (!$logger) {
 			$logger = new NullLogger();
 		}
-		return new \OC\TempManager($this->baseDir, $logger);
+		if (!$config) {
+			$config = $this->getMock('\OCP\IConfig');
+			$config->method('getSystemValue')
+				->with('tempdirectory', null)
+				->willReturn('/tmp');
+		}
+		$manager = new \OC\TempManager($logger, $config);
+		if ($this->baseDir) {
+			$manager->overrideTempBaseDir($this->baseDir);
+		}
+		return $manager;
 	}
 
 	public function testGetFile() {
@@ -184,5 +197,20 @@ class TempManager extends \Test\TestCase {
 
 		$this->assertStringEndsNotWith('./Traversal\\../FileName', $tmpManager);
 		$this->assertStringEndsWith('.Traversal..FileName', $tmpManager);
+	}
+
+	public function testGetTempBaseDirFromConfig() {
+		$dir = $this->getManager()->getTemporaryFolder();
+
+		$config = $this->getMock('\OCP\IConfig');
+		$config->expects($this->once())
+			->method('getSystemValue')
+			->with('tempdirectory', null)
+			->willReturn($dir);
+
+		$this->baseDir = null; // prevent override
+		$tmpManager = $this->getManager(null, $config);
+
+		$this->assertEquals($dir, $tmpManager->getTempBaseDir());
 	}
 }

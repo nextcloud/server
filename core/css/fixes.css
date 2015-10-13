@@ -24,6 +24,10 @@ select {
 	background-image: url('../img/actions/checkmark.png');
 }
 
+.ie8 .icon-close {
+	background-image: url('../img/actions/close.png');
+}
+
 .lte9 .icon-triangle-e {
 	background-image: url('../img/actions/triangle-e.png');
 }
@@ -38,6 +42,10 @@ select {
 	background-image: url('../img/actions/settings.png');
 }
 
+/* IE8 needs PNG image for header logo */
+.ie8 #header .logo {
+	background-image: url(../img/logo-icon-175px.png);
+}
 
 /* IE8 needs background to be set to same color to make transparency look good. */
 .lte9 #body-login form input[type="text"] {
@@ -50,6 +58,15 @@ select {
 	border-right: 1px solid lightgrey;
 	border-bottom: 1px solid lightgrey;
 	background-color: white; /* don't change background on hover */
+}
+.ie8 #body-login input[type="submit"] {
+	padding: 10px 5px;
+	margin-top: 3px;
+}
+/* for whatever unexplained reason */
+.ie8 #password {
+	width: 271px !important;
+	min-width: auto !important;
 }
 
 /* disable opacity of info text on gradient

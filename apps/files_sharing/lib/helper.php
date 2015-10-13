@@ -7,6 +7,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -30,7 +31,6 @@ namespace OCA\Files_Sharing;
 class Helper {
 
 	public static function registerHooks() {
-		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OCA\Files_Sharing\External\Manager', 'setup');
 		\OCP\Util::connectHook('OC_Filesystem', 'delete', '\OC\Files\Cache\Shared_Updater', 'deleteHook');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Shared_Updater', 'renameHook');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');

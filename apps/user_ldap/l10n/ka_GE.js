@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
+    "Failed to clear the mappings." : "ბმების წაშლის დროს მოხდა შეცდომა",
     "Failed to delete the server configuration" : "შეცდომა სერვერის კონფიგურაციის წაშლისას",
     "The configuration is valid and the connection could be established!" : "კონფიგურაცია მართებულია და კავშირი დამყარდება!",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "კონფიგურაცია მართებულია, მაგრამ მიერთება ვერ მოხერხდა. გთხოვთ შეამოწმოთ სერვერის პარამეტრები და აუთენთიკაციის პარამეტრები.",

@@ -3,9 +3,11 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Oliver Kohl D.Sc. <oliver@kohl.bz>
+ * @author Phil Davis <phil.davis@inf.org>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Steffen Lindner <mail@steffen-lindner.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -113,7 +115,7 @@ try {
 			\OCP\BackgroundJob::setExecutionType('cron');
 		}
 
-		// open the file and try to lock if. If it is not locked, the background
+		// open the file and try to lock it. If it is not locked, the background
 		// job can be executed, otherwise another instance is already running
 		$fp = fopen($lockFile, 'w');
 		$isLocked = flock($fp, LOCK_EX|LOCK_NB, $wouldBlock);

@@ -50,9 +50,34 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	 */
 	private $ownerView;
 
+	/**
+	 * @var \OCA\Files_Sharing\Propagation\PropagationManager
+	 */
+	private $propagationManager;
+
+	/**
+	 * @var string
+	 */
+	private $user;
+
+	private $initialized = false;
+
 	public function __construct($arguments) {
 		$this->share = $arguments['share'];
 		$this->ownerView = $arguments['ownerView'];
+		$this->propagationManager = $arguments['propagationManager'];
+		$this->user = $arguments['user'];
+	}
+
+	private function init() {
+		if ($this->initialized) {
+			return;
+		}
+		$this->initialized = true;
+		Filesystem::initMountPoints($this->share['uid_owner']);
+
+		// for updating our etags when changes are made to the share from the owners side (probably indirectly by us trough another share)
+		$this->propagationManager->listenToOwnerChanges($this->share['uid_owner'], $this->user);
 	}
 
 	/**
@@ -80,6 +105,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	 * @return array Returns array with the keys path, permissions, and owner or false if not found
 	 */
 	public function getFile($target) {
+		$this->init();
 		if (!isset($this->files[$target])) {
 			// Check for partial files
 			if (pathinfo($target, PATHINFO_EXTENSION) === 'part') {
@@ -319,7 +345,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	}
 
 	public function rename($path1, $path2) {
-
+		$this->init();
 		// we need the paths relative to data/user/files
 		$relPath1 = $this->getMountPoint() . '/' . $path1;
 		$relPath2 = $this->getMountPoint() . '/' . $path2;
@@ -557,9 +583,6 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	}
 
 	public function getETag($path) {
-		if ($path == '') {
-			$path = $this->getMountPoint();
-		}
 		if ($source = $this->getSourcePath($path)) {
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
 			return $storage->getETag($internalPath);

@@ -55,7 +55,8 @@ module.exports = function(config) {
 					'apps/files_sharing/js/sharedfilelist.js',
 					'apps/files_sharing/js/share.js',
 					'apps/files_sharing/js/external.js',
-					'apps/files_sharing/js/public.js'
+					'apps/files_sharing/js/public.js',
+					'apps/files_sharing/js/sharetabview.js'
 				],
 				testFiles: ['apps/files_sharing/tests/js/*.js']
 			},
@@ -69,6 +70,16 @@ module.exports = function(config) {
 					'apps/files_external/js/settings.js'
 				],
 				testFiles: ['apps/files_external/tests/js/*.js']
+			},
+			{
+				name: 'files_versions',
+				srcFiles: [
+					// need to enforce loading order...
+					'apps/files_versions/js/versionmodel.js',
+					'apps/files_versions/js/versioncollection.js',
+					'apps/files_versions/js/versionstabview.js'
+				],
+				testFiles: ['apps/files_versions/tests/js/**/*.js']
 			},
 			{
 				name: 'settings',

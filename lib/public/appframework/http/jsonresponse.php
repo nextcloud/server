@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
@@ -64,7 +65,7 @@ class JSONResponse extends Response {
 	 * @throws \Exception If data could not get encoded
 	 */
 	public function render() {
-		$response = json_encode($this->data);
+		$response = json_encode($this->data, JSON_HEX_TAG);
 		if($response === false) {
 			throw new \Exception(sprintf('Could not json_encode due to invalid ' .
 				'non UTF-8 characters in the array: %s', var_export($this->data, true)));

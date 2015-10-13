@@ -29,6 +29,7 @@
     "Set an admin username." : "កំណត់​ឈ្មោះ​អ្នក​គ្រប់គ្រង។",
     "Set an admin password." : "កំណត់​ពាក្យ​សម្ងាត់​អ្នក​គ្រប់គ្រង។",
     "Could not find category \"%s\"" : "រក​មិន​ឃើញ​ចំណាត់​ក្រុម \"%s\"",
+    "Apps" : "កម្មវិធី",
     "A valid username must be provided" : "ត្រូវ​ផ្ដល់​ឈ្មោះ​អ្នក​ប្រើ​ឲ្យ​បាន​ត្រឹម​ត្រូវ",
     "A valid password must be provided" : "ត្រូវ​ផ្ដល់​ពាក្យ​សម្ងាត់​ឲ្យ​បាន​ត្រឹម​ត្រូវ"
 },"pluralForm" :"nplurals=1; plural=0;"

@@ -1,7 +1,6 @@
 <?php
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author cmeh <cmeh@users.noreply.github.com>
  * @author ideaship <ideaship@users.noreply.github.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>

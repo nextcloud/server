@@ -9,9 +9,9 @@
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Sam Tuke <mail@samtuke.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>

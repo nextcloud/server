@@ -72,7 +72,7 @@ class Filesystem extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$userBackend = new \OC_User_Dummy();
+		$userBackend = new \Test\Util\User\Dummy();
 		$userBackend->createUser(self::TEST_FILESYSTEM_USER1, self::TEST_FILESYSTEM_USER1);
 		$userBackend->createUser(self::TEST_FILESYSTEM_USER2, self::TEST_FILESYSTEM_USER2);
 		\OC::$server->getUserManager()->registerBackend($userBackend);
@@ -274,7 +274,7 @@ class Filesystem extends \Test\TestCase {
 			$user = \OC_User::getUser();
 		} else {
 			$user = self::TEST_FILESYSTEM_USER1;
-			$backend = new \OC_User_Dummy();
+			$backend = new \Test\Util\User\Dummy();
 			\OC_User::useBackend($backend);
 			$backend->createUser($user, $user);
 			$userObj = \OC::$server->getUserManager()->get($user);
@@ -325,8 +325,14 @@ class Filesystem extends \Test\TestCase {
 
 		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
 
-		$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\Storage\Home'));
-		$this->assertEquals('home::' . $userId, $homeMount->getId());
+		$this->assertTrue($homeMount->instanceOfStorage('\OCP\Files\IHomeStorage'));
+		if (getenv('RUN_OBJECTSTORE_TESTS')) {
+			$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage'));
+			$this->assertEquals('object::user:' . $userId, $homeMount->getId());
+		} else {
+			$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\Storage\Home'));
+			$this->assertEquals('home::' . $userId, $homeMount->getId());
+		}
 
 		\OC_User::deleteUser($userId);
 	}
@@ -336,6 +342,9 @@ class Filesystem extends \Test\TestCase {
 	 * for the user's mount point
 	 */
 	public function testLegacyHomeMount() {
+		if (getenv('RUN_OBJECTSTORE_TESTS')) {
+			$this->markTestSkipped('legacy storage unrelated to objectstore environments');
+		}
 		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
 		$userId = $this->getUniqueID('user_');
 
@@ -380,7 +389,7 @@ class Filesystem extends \Test\TestCase {
 			\OC\Files\Filesystem::getMountPoint('/' . $userId . '/cache')
 		);
 		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/cache');
-		$this->assertTrue($storage->instanceOfStorage('\OC\Files\Storage\Home'));
+		$this->assertTrue($storage->instanceOfStorage('\OCP\Files\IHomeStorage'));
 		$this->assertEquals('cache', $internalPath);
 		\OC_User::deleteUser($userId);
 

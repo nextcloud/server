@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Björn Schießle <schiessle@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -56,6 +57,7 @@ class SessionTest extends TestCase {
 	 * @depends testSetAndGetPrivateKey
 	 */
 	public function testIsPrivateKeySet() {
+		$this->instance->setPrivateKey('dummyPrivateKey');
 		$this->assertTrue($this->instance->isPrivateKeySet());
 
 		unset(self::$tempStorage['privateKey']);
@@ -63,6 +65,51 @@ class SessionTest extends TestCase {
 
 		// Set private key back so we can test clear method
 		self::$tempStorage['privateKey'] = 'dummyPrivateKey';
+	}
+
+	public function testDecryptAllModeActivated() {
+		$this->instance->prepareDecryptAll('user1', 'usersKey');
+		$this->assertTrue($this->instance->decryptAllModeActivated());
+		$this->assertSame('user1', $this->instance->getDecryptAllUid());
+		$this->assertSame('usersKey', $this->instance->getDecryptAllKey());
+	}
+
+	public function testDecryptAllModeDeactivated() {
+		$this->assertFalse($this->instance->decryptAllModeActivated());
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectExceptionMessage 'Please activate decrypt all mode first'
+	 */
+	public function testGetDecryptAllUidException() {
+		$this->instance->getDecryptAllUid();
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectExceptionMessage 'No uid found while in decrypt all mode'
+	 */
+	public function testGetDecryptAllUidException2() {
+		$this->instance->prepareDecryptAll(null, 'key');
+		$this->instance->getDecryptAllUid();
+	}
+
+	/**
+	 * @expectedException \OCA\Encryption\Exceptions\PrivateKeyMissingException
+	 * @expectExceptionMessage 'Please activate decrypt all mode first'
+	 */
+	public function testGetDecryptAllKeyException() {
+		$this->instance->getDecryptAllKey();
+	}
+
+	/**
+	 * @expectedException \OCA\Encryption\Exceptions\PrivateKeyMissingException
+	 * @expectExceptionMessage 'No key found while in decrypt all mode'
+	 */
+	public function testGetDecryptAllKeyException2() {
+		$this->instance->prepareDecryptAll('user', null);
+		$this->instance->getDecryptAllKey();
 	}
 
 	/**
@@ -112,6 +159,10 @@ class SessionTest extends TestCase {
 	 *
 	 */
 	public function testClearWillRemoveValues() {
+		$this->instance->setPrivateKey('privateKey');
+		$this->instance->setStatus('initStatus');
+		$this->instance->prepareDecryptAll('user', 'key');
+		$this->assertNotEmpty(self::$tempStorage);
 		$this->instance->clear();
 		$this->assertEmpty(self::$tempStorage);
 	}
@@ -137,5 +188,10 @@ class SessionTest extends TestCase {
 
 
 		$this->instance = new Session($this->sessionMock);
+	}
+
+	protected function tearDown() {
+		self::$tempStorage = [];
+		parent::tearDown();
 	}
 }

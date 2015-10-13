@@ -9,11 +9,55 @@
 
 #app-sidebar .mainFileInfoView {
 	margin-right: 20px; /* accomodate for close icon */
+	float:left;
+	display:block;
+	width: 100%;
+}
+
+#app-sidebar .file-details-container {
+	display: inline-block;
+	float: left;
+}
+
+#app-sidebar .thumbnailContainer.image {
+	margin-left: -15px;
+	margin-right: -35px; /* 15 + 20 for the close button */
+	margin-top: -15px;
+}
+
+#app-sidebar .thumbnailContainer.image.portrait {
+	margin: 0; /* if we dont fit the image anyway we give it back the margin */
+}
+
+#app-sidebar .image .thumbnail {
+	width:100%;
+	display:block;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100%;
+	float: none;
+	margin: 0;
+	height: auto;
+}
+
+#app-sidebar .image .thumbnail .stretcher {
+	content: '';
+	display: block;
+	padding-bottom: 56.25%; /* sets height of .thumbnail to 9/16 of the width */
+}
+
+#app-sidebar .image.portrait .thumbnail {
+	background-position: 50% top;
+}
+
+#app-sidebar .image.portrait .thumbnail {
+	background-size: contain;
 }
 
 #app-sidebar .thumbnail {
 	width: 75px;
 	height: 75px;
+	display: inline-block;
 	float: left;
 	margin-right: 10px;
 	background-size: 75px;
@@ -31,8 +75,14 @@
 	padding-bottom: 3px;
 }
 
+#app-sidebar .fileName h3 {
+	max-width: 300px;
+	display: inline-block;
+	padding: 5px 0;
+	margin: -5px 0;
+}
+
 #app-sidebar .file-details {
-	margin-top: 3px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	opacity: .5;
 }

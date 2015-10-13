@@ -4,6 +4,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -89,6 +90,11 @@ class Memcached extends Cache implements IMemcache {
 	public function clear($prefix = '') {
 		$prefix = $this->getNamespace() . $prefix;
 		$allKeys = self::$cache->getAllKeys();
+		if ($allKeys === false) {
+			// newer Memcached doesn't like getAllKeys(), flush everything
+			self::$cache->flush();
+			return true;
+		}
 		$keys = array();
 		$prefixLength = strlen($prefix);
 		foreach ($allKeys as $key) {

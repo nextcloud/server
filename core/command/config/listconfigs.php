@@ -32,20 +32,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ListConfigs extends Base {
 	protected $defaultOutputFormat = self::OUTPUT_FORMAT_JSON_PRETTY;
 
-	/** @var array */
-	protected $sensitiveValues = [
-		'dbpassword' => true,
-		'dbuser' => true,
-		'mail_smtpname' => true,
-		'mail_smtppassword' => true,
-		'passwordsalt' => true,
-		'secret' => true,
-		'ldap_agent_password' => true,
-		'objectstore' => ['arguments' => ['password' => true]],
-	];
-
-	const SENSITIVE_VALUE = '***REMOVED SENSITIVE VALUE***';
-
 	/** * @var SystemConfig */
 	protected $systemConfig;
 
@@ -127,10 +113,10 @@ class ListConfigs extends Base {
 
 		$configs = [];
 		foreach ($keys as $key) {
-			$value = $this->systemConfig->getValue($key, serialize(null));
-
-			if ($noSensitiveValues && isset($this->sensitiveValues[$key])) {
-				$value = $this->removeSensitiveValue($this->sensitiveValues[$key], $value);
+			if ($noSensitiveValues) {
+				$value = $this->systemConfig->getFilteredValue($key, serialize(null));
+			} else {
+				$value = $this->systemConfig->getValue($key, serialize(null));
 			}
 
 			if ($value !== 'N;') {
@@ -139,26 +125,5 @@ class ListConfigs extends Base {
 		}
 
 		return $configs;
-	}
-
-	/**
-	 * @param bool|array $keysToRemove
-	 * @param mixed $value
-	 * @return mixed
-	 */
-	protected function removeSensitiveValue($keysToRemove, $value) {
-		if ($keysToRemove === true) {
-			return self::SENSITIVE_VALUE;
-		}
-
-		if (is_array($value)) {
-			foreach ($keysToRemove as $keyToRemove => $valueToRemove) {
-				if (isset($value[$keyToRemove])) {
-					$value[$keyToRemove] = $this->removeSensitiveValue($valueToRemove, $value[$keyToRemove]);
-				}
-			}
-		}
-
-		return $value;
 	}
 }

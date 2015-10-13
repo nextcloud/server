@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -29,6 +29,8 @@ use \OC\Files\Filesystem;
 use \OCA\Files_external\Lib\StorageConfig;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_External\Service\BackendService;
+use \OCA\Files_External\Lib\Backend\Backend;
+use \OCA\Files_External\Lib\Auth\AuthMechanism;
 
 /**
  * Service class to manage external storages
@@ -172,7 +174,7 @@ abstract class StoragesService {
 
 					// the root mount point is in the format "/$user/files/the/mount/point"
 					// we remove the "/$user/files" prefix
-					$parts = explode('/', trim($rootMountPath, '/'), 3);
+					$parts = explode('/', ltrim($rootMountPath, '/'), 3);
 					if (count($parts) < 3) {
 						// something went wrong, skip
 						\OCP\Util::writeLog(
@@ -183,7 +185,7 @@ abstract class StoragesService {
 						continue;
 					}
 
-					$relativeMountPath = $parts[2];
+					$relativeMountPath = rtrim($parts[2], '/');
 
 					// note: we cannot do this after the loop because the decrypted config
 					// options might be needed for the config hash
@@ -331,13 +333,54 @@ abstract class StoragesService {
 	}
 
 	/**
-	 * Gets all storages
+	 * Gets all storages, valid or not
 	 *
 	 * @return array array of storage configs
 	 */
 	public function getAllStorages() {
 		return $this->readConfig();
 	}
+
+	/**
+	 * Gets all valid storages
+	 *
+	 * @return array
+	 */
+	public function getStorages() {
+		return array_filter($this->getAllStorages(), [$this, 'validateStorage']);
+	}
+
+	/**
+	 * Validate storage
+	 * FIXME: De-duplicate with StoragesController::validate()
+	 *
+	 * @param StorageConfig $storage
+	 * @return bool
+	 */
+	protected function validateStorage(StorageConfig $storage) {
+		/** @var Backend */
+		$backend = $storage->getBackend();
+		/** @var AuthMechanism */
+		$authMechanism = $storage->getAuthMechanism();
+
+		if (!$backend->isVisibleFor($this->getVisibilityType())) {
+			// not permitted to use backend
+			return false;
+		}
+		if (!$authMechanism->isVisibleFor($this->getVisibilityType())) {
+			// not permitted to use auth mechanism
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Get the visibility type for this controller, used in validation
+	 *
+	 * @return string BackendService::VISIBILITY_* constants
+	 */
+	abstract public function getVisibilityType();
 
 	/**
 	 * Add new storage to the configuration
@@ -507,6 +550,21 @@ abstract class StoragesService {
 		$this->writeConfig($allStorages);
 
 		$this->triggerHooks($deletedStorage, Filesystem::signal_delete_mount);
+
+		// delete oc_storages entries and oc_filecache
+		try {
+			$rustyStorageId = $this->getRustyStorageIdFromConfig($deletedStorage);
+			\OC\Files\Cache\Storage::remove($rustyStorageId);
+		} catch (\Exception $e) {
+			// can happen either for invalid configs where the storage could not
+			// be instantiated or whenever $user vars where used, in which case
+			// the storage id could not be computed
+			\OCP\Util::writeLog(
+				'files_external',
+				'Exception: "' . $e->getMessage() . '"',
+				\OCP\Util::ERROR
+			);
+		}
 	}
 
 	/**
@@ -525,6 +583,32 @@ abstract class StoragesService {
 		// will disappear once we move to DB tables to
 		// store the config
 		return (max(array_keys($allStorages)) + 1);
+	}
+
+	/**
+	 * Returns the rusty storage id from oc_storages from the given storage config.
+	 *
+	 * @param StorageConfig $storageConfig
+	 * @return string rusty storage id
+	 */
+	private function getRustyStorageIdFromConfig(StorageConfig $storageConfig) {
+		// if any of the storage options contains $user, it is not possible
+		// to compute the possible storage id as we don't know which users
+		// mounted it already (and we certainly don't want to iterate over ALL users)
+		foreach ($storageConfig->getBackendOptions() as $value) {
+			if (strpos($value, '$user') !== false) {
+				throw new \Exception('Cannot compute storage id for deletion due to $user vars in the configuration');
+			}
+		}
+
+		// note: similar to ConfigAdapter->prepateStorageConfig()
+		$storageConfig->getAuthMechanism()->manipulateStorageConfig($storageConfig);
+		$storageConfig->getBackend()->manipulateStorageConfig($storageConfig);
+
+		$class = $storageConfig->getBackend()->getStorageClass();
+		$storageImpl = new $class($storageConfig->getBackendOptions());
+
+		return $storageImpl->getId();
 	}
 
 }

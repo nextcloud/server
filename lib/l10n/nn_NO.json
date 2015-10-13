@@ -13,6 +13,7 @@
     "web services under your control" : "Vev tjenester under din kontroll",
     "Authentication error" : "Feil i autentisering",
     "%s shared »%s« with you" : "%s delte «%s» med deg",
+    "Apps" : "Program",
     "A valid username must be provided" : "Du må oppgje eit gyldig brukarnamn",
     "A valid password must be provided" : "Du må oppgje eit gyldig passord"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

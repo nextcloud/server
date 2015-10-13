@@ -4,10 +4,10 @@ OC.L10N.register(
     "Unknown error" : "غیر معروف خرابی",
     "Close" : "بند ",
     "Download" : "ڈاؤن لوڈ،",
+    "Delete" : "حذف کریں",
     "Error" : "ایرر",
     "Name" : "اسم",
     "Save" : "حفظ",
-    "Settings" : "ترتیبات",
-    "Delete" : "حذف کریں"
+    "Settings" : "ترتیبات"
 },
 "nplurals=2; plural=(n != 1);");

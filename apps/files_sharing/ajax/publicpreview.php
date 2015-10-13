@@ -4,6 +4,7 @@
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -28,8 +29,8 @@ OCP\JSON::checkAppEnabled('files_sharing');
 \OC_User::setIncognitoMode(true);
 
 $file = array_key_exists('file', $_GET) ? (string) $_GET['file'] : '';
-$maxX = array_key_exists('x', $_GET) ? (int) $_GET['x'] : '36';
-$maxY = array_key_exists('y', $_GET) ? (int) $_GET['y'] : '36';
+$maxX = array_key_exists('x', $_GET) ? (int) $_GET['x'] : '32';
+$maxY = array_key_exists('y', $_GET) ? (int) $_GET['y'] : '32';
 $scalingUp = array_key_exists('scalingup', $_GET) ? (bool) $_GET['scalingup'] : true;
 $token = array_key_exists('t', $_GET) ? (string) $_GET['t'] : '';
 $keepAspect = array_key_exists('a', $_GET) ? true : false;

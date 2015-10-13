@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
@@ -52,6 +53,10 @@ class Test_Group_Ldap extends \Test\TestCase {
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
 								 $accMethods,
 								 array($connector, $lw, $um));
+
+		$access->expects($this->any())
+			->method('getConnection')
+			->will($this->returnValue($connector));
 
 		return $access;
 	}
@@ -140,7 +145,7 @@ class Test_Group_Ldap extends \Test\TestCase {
 
 		$access->expects($this->once())
 			->method('searchGroups')
-			->will($this->returnValue(array('cn=foo,dc=barfoo,dc=bar')));
+			->will($this->returnValue([['dn' => ['cn=foo,dc=barfoo,dc=bar']]]));
 
 		$access->expects($this->once())
 			->method('dn2groupname')
@@ -216,7 +221,7 @@ class Test_Group_Ldap extends \Test\TestCase {
 
 		$access->expects($this->once())
 			->method('searchGroups')
-			->will($this->returnValue(array('cn=foo,dc=barfoo,dc=bar')));
+			->will($this->returnValue([['dn' => ['cn=foo,dc=barfoo,dc=bar']]]));
 
 		$access->expects($this->once())
 			->method('dn2groupname')
@@ -391,20 +396,19 @@ class Test_Group_Ldap extends \Test\TestCase {
 
 		$access->connection->hasPrimaryGroups = false;
 
-		$access->expects($this->once())
+		$access->expects($this->any())
 			->method('username2dn')
 			->will($this->returnValue($dn));
 
-		$access->expects($this->once())
+		$access->expects($this->exactly(3))
 			->method('readAttribute')
-			->with($dn, 'memberOf')
-			->will($this->returnValue(['cn=groupA,dc=foobar', 'cn=groupB,dc=foobar']));
+			->will($this->onConsecutiveCalls(['cn=groupA,dc=foobar', 'cn=groupB,dc=foobar'], [], []));
 
 		$access->expects($this->exactly(2))
 			->method('dn2groupname')
 			->will($this->returnArgument(0));
 
-		$access->expects($this->once())
+		$access->expects($this->exactly(3))
 			->method('groupsMatchFilter')
 			->will($this->returnArgument(0));
 

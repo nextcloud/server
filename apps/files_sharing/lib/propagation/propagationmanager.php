@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -26,6 +25,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\IConfig;
 use OCP\IUserSession;
+use OCP\Util;
 
 
 /**
@@ -82,6 +82,21 @@ class PropagationManager {
 	}
 
 	/**
+	 * Propagates etag changes for the given shares to the given user
+	 *
+	 * @param array array of shares for which to trigger etag change
+	 * @param string $user
+	 */
+	public function propagateSharesToUser($shares, $user) {
+		$changePropagator = $this->getChangePropagator($user);
+		foreach ($shares as $share) {
+			$changePropagator->addChange($share['file_target']);
+		}
+		$time = microtime(true);
+		$changePropagator->propagateChanges(floor($time));
+	}
+
+	/**
 	 * @param string $user
 	 * @return \OCA\Files_Sharing\Propagation\RecipientPropagator
 	 */
@@ -120,8 +135,9 @@ class PropagationManager {
 
 		// for marking shares owned by the active user as dirty when a file inside them changes
 		$this->listenToOwnerChanges($user->getUID(), $user->getUID());
-		\OC_Hook::connect('OC_Filesystem', 'post_write', $watcher, 'writeHook');
-		\OC_Hook::connect('OC_Filesystem', 'post_delete', $watcher, 'writeHook');
-		\OC_Hook::connect('OC_Filesystem', 'post_rename', $watcher, 'renameHook');
+		Util::connectHook('OC_Filesystem', 'post_write', $watcher, 'writeHook');
+		Util::connectHook('OC_Filesystem', 'post_delete', $watcher, 'writeHook');
+		Util::connectHook('OC_Filesystem', 'post_rename', $watcher, 'renameHook');
+		Util::connectHook('OCP\Share', 'post_update_permissions', $watcher, 'permissionsHook');
 	}
 }

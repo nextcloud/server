@@ -5,6 +5,7 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Florian Pritz <bluewind@xinu.at>
  * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Individual IT Services <info@individual-it.net>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
@@ -148,7 +149,7 @@ if ($maxUploadFileSize >= 0 and $totalSize > $maxUploadFileSize) {
 }
 
 $result = array();
-if (strpos($dir, '..') === false) {
+if (\OC\Files\Filesystem::isValidPath($dir) === true) {
 	$fileCount = count($files['name']);
 	for ($i = 0; $i < $fileCount; $i++) {
 

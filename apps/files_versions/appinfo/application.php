@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -22,6 +23,7 @@
 namespace OCA\Files_Versions\AppInfo;
 
 use OCP\AppFramework\App;
+use OCA\Files_Versions\Expiration;
 
 class Application extends App {
 	public function __construct(array $urlParams = array()) {
@@ -33,5 +35,15 @@ class Application extends App {
 		 * Register capabilities
 		 */
 		$container->registerCapability('OCA\Files_Versions\Capabilities');
+
+		/*
+		 * Register expiration
+		 */
+		$container->registerService('Expiration', function($c) {
+			return  new Expiration(
+				$c->query('ServerContainer')->getConfig(),
+				$c->query('OCP\AppFramework\Utility\ITimeFactory')
+			);
+		});
 	}
 }

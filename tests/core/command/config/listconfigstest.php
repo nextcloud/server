@@ -23,6 +23,7 @@ namespace Tests\Core\Command\Config;
 
 
 use OC\Core\Command\Config\ListConfigs;
+use OCP\IConfig;
 use Test\TestCase;
 
 class ListConfigsTest extends TestCase {
@@ -66,7 +67,7 @@ class ListConfigsTest extends TestCase {
 					'overwrite.cli.url',
 				],
 				[
-					['secret', 'N;', 'my secret'],
+					['secret', 'N;', IConfig::SENSITIVE_VALUE],
 					['overwrite.cli.url', 'N;', 'http://localhost'],
 				],
 				// app config
@@ -81,7 +82,7 @@ class ListConfigsTest extends TestCase {
 				false,
 				json_encode([
 					'system' => [
-						'secret' => ListConfigs::SENSITIVE_VALUE,
+						'secret' => IConfig::SENSITIVE_VALUE,
 						'overwrite.cli.url' => 'http://localhost',
 					],
 					'apps' => [
@@ -139,12 +140,12 @@ class ListConfigsTest extends TestCase {
 					'overwrite.cli.url',
 				],
 				[
-					['secret', 'N;', 'my secret'],
+					['secret', 'N;', IConfig::SENSITIVE_VALUE],
 					['objectstore', 'N;', [
 						'class' => 'OC\\Files\\ObjectStore\\Swift',
 						'arguments' => [
 							'username' => 'facebook100000123456789',
-							'password' => 'Secr3tPaSSWoRdt7',
+							'password' => IConfig::SENSITIVE_VALUE,
 						],
 					]],
 					['overwrite.cli.url', 'N;', 'http://localhost'],
@@ -161,12 +162,12 @@ class ListConfigsTest extends TestCase {
 				false,
 				json_encode([
 					'system' => [
-						'secret' => ListConfigs::SENSITIVE_VALUE,
+						'secret' => IConfig::SENSITIVE_VALUE,
 						'objectstore' => [
 							'class' => 'OC\\Files\\ObjectStore\\Swift',
 							'arguments' => [
 								'username' => 'facebook100000123456789',
-								'password' => ListConfigs::SENSITIVE_VALUE,
+								'password' => IConfig::SENSITIVE_VALUE,
 							],
 						],
 						'overwrite.cli.url' => 'http://localhost',
@@ -276,9 +277,15 @@ class ListConfigsTest extends TestCase {
 		$this->systemConfig->expects($this->any())
 			->method('getKeys')
 			->willReturn($systemConfigs);
-		$this->systemConfig->expects($this->any())
-			->method('getValue')
-			->willReturnMap($systemConfigMap);
+		if ($private) {
+			$this->systemConfig->expects($this->any())
+				->method('getValue')
+				->willReturnMap($systemConfigMap);
+		} else {
+			$this->systemConfig->expects($this->any())
+				->method('getFilteredValue')
+				->willReturnMap($systemConfigMap);
+		}
 
 		$this->appConfig->expects($this->any())
 			->method('getApps')

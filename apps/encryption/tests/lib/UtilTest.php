@@ -2,8 +2,6 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -130,6 +128,27 @@ class UtilTest extends TestCase {
 			return self::$tempStorage[$key];
 		}
 		return $default ?: null;
+	}
+
+	/**
+	 * @dataProvider dataTestIsMasterKeyEnabled
+	 *
+	 * @param string $value
+	 * @param bool $expect
+	 */
+	public function testIsMasterKeyEnabled($value, $expect) {
+		$this->configMock->expects($this->once())->method('getAppValue')
+			->with('encryption', 'useMasterKey', '0')->willReturn($value);
+		$this->assertSame($expect,
+			$this->instance->isMasterKeyEnabled()
+		);
+	}
+
+	public function dataTestIsMasterKeyEnabled() {
+		return [
+			['0', false],
+			['1', true]
+		];
 	}
 
 }

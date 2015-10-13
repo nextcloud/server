@@ -2,6 +2,7 @@
 /**
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -30,6 +31,7 @@ use OC\Files\Cache\ChangePropagator;
 use OC\Files\Filesystem;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
+use OC\Lock\DBLockingProvider;
 
 /**
  * Class Scanner
@@ -99,7 +101,12 @@ class Scanner extends PublicEmitter {
 		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function ($path) use ($mount, $emitter) {
 			$emitter->emit('\OC\Files\Utils\Scanner', 'scanFolder', array($mount->getMountPoint() . $path));
 		});
-
+		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFile', function ($path) use ($mount, $emitter) {
+			$emitter->emit('\OC\Files\Utils\Scanner', 'postScanFile', array($mount->getMountPoint() . $path));
+		});
+		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFolder', function ($path) use ($mount, $emitter) {
+			$emitter->emit('\OC\Files\Utils\Scanner', 'postScanFolder', array($mount->getMountPoint() . $path));
+		});
 		// propagate etag and mtimes when files are changed or removed
 		$propagator = $this->propagator;
 		$propagatorListener = function ($path) use ($mount, $propagator) {
@@ -150,9 +157,14 @@ class Scanner extends PublicEmitter {
 			$scanner = $storage->getScanner();
 			$scanner->setUseTransactions(false);
 			$this->attachListener($mount);
-			$this->db->beginTransaction();
+			$isDbLocking = \OC::$server->getLockingProvider() instanceof DBLockingProvider;
+			if (!$isDbLocking) {
+				$this->db->beginTransaction();
+			}
 			$scanner->scan($relativePath, \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
-			$this->db->commit();
+			if (!$isDbLocking) {
+				$this->db->commit();
+			}
 		}
 		$this->propagator->propagateChanges(time());
 	}

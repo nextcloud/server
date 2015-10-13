@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -59,38 +60,6 @@ class UserStoragesController extends StoragesController {
 			$l10n,
 			$userStoragesService
 		);
-	}
-
-	/**
-	 * Validate storage config
-	 *
-	 * @param StorageConfig $storage storage config
-	 *
-	 * @return DataResponse|null returns response in case of validation error
-	 */
-	protected function validate(StorageConfig $storage) {
-		$result = parent::validate($storage);
-
-		if ($result !== null) {
-			return $result;
-		}
-
-		// Verify that the mount point applies for the current user
-		// Prevent non-admin users from mounting local storage and other disabled backends
-		/** @var Backend */
-		$backend = $storage->getBackend();
-		if (!$backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) {
-			return new DataResponse(
-				array(
-					'message' => (string)$this->l10n->t('Admin-only storage backend "%s"', [
-						$storage->getBackend()->getIdentifier()
-					])
-				),
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
-		}
-
-		return null;
 	}
 
 	/**
@@ -218,4 +187,5 @@ class UserStoragesController extends StoragesController {
 	public function destroy($id) {
 		return parent::destroy($id);
 	}
+
 }

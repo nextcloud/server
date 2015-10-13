@@ -9,6 +9,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
@@ -192,6 +193,12 @@ interface IServerContainer {
 	 * @since 7.0.0
 	 */
 	public function getAppConfig();
+
+	/**
+	 * @return \OCP\L10N\IFactory
+	 * @since 8.2.0
+	 */
+	public function getL10NFactory();
 
 	/**
 	 * get an L10N instance
@@ -440,6 +447,13 @@ interface IServerContainer {
 	 */
 	public function getMimeTypeDetector();
 
+	/**
+	 * Get the MimeTypeLoader
+	 *
+	 * @return \OCP\Files\IMimeTypeLoader
+	 * @since 8.2.0
+	 */
+	public function getMimeTypeLoader();
 
 	/**
 	 * Get the EventDispatcher
@@ -448,4 +462,12 @@ interface IServerContainer {
 	 * @since 8.2.0
 	 */
 	public function getEventDispatcher();
+
+	/**
+	 * Get the Notification Manager
+	 *
+	 * @return \OC\Notification\IManager
+	 * @since 8.2.0
+	 */
+	public function getNotificationManager();
 }

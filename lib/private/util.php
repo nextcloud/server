@@ -16,17 +16,20 @@
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author helix84 <helix84@centrum.sk>
+ * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Markus Goetz <markus@woboq.com>
+ * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Marvin Thomas Rabe <mrabe@marvinrabe.de>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Michael Göhler <somebody.here@gmx.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  * @author Stefan Rado <owncloud@sradonia.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -223,7 +226,12 @@ class OC_Util {
 		if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
 			$user = \OCP\User::getUser();
 			$groupsList = \OC::$server->getAppConfig()->getValue('core', 'shareapi_exclude_groups_list', '');
-			$excludedGroups = explode(',', $groupsList);
+			$excludedGroups = json_decode($groupsList);
+			if (is_null($excludedGroups)) {
+				$excludedGroups = explode(',', $groupsList);
+				$newValue = json_encode($excludedGroups);
+				\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', $newValue);
+			}
 			$usersGroups = \OC_Group::getUserGroups($user);
 			if (!empty($usersGroups)) {
 				$remainingGroups = array_diff($usersGroups, $excludedGroups);
@@ -439,16 +447,23 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param string|null $file filename
+	 * @param bool $prepend prepend the Script to the beginning of the list
 	 * @return void
 	 */
-	public static function addScript($application, $file = null) {
+	public static function addScript($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'js', $file);
+		//TODO eliminate double code		
 		if (!in_array($path, self::$scripts)) {
 			// core js files need separate handling
 			if ($application !== 'core' && $file !== null) {
 				self::addTranslations($application);
 			}
-			self::$scripts[] = $path;
+			if ($prepend===true) {
+				array_unshift(self::$scripts, $path);
+			}
+			else {
+				self::$scripts[] = $path;
+			}
 		}
 	}
 
@@ -457,12 +472,18 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param string|null $file filename
+	 * @param bool $prepend prepend the Script to the beginning of the list
 	 * @return void
 	 */
-	public static function addVendorScript($application, $file = null) {
+	public static function addVendorScript($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'vendor', $file);
-		if (!in_array($path, self::$scripts)) {
-			self::$scripts[] = $path;
+		//TODO eliminate double code		
+		if (! in_array ( $path, self::$scripts )) {
+			if ($prepend === true) {
+				array_unshift ( self::$scripts, $path );
+			} else {
+				self::$scripts [] = $path;
+			}
 		}
 	}
 
@@ -471,8 +492,9 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param string $languageCode language code, defaults to the current language
+	 * @param bool $prepend prepend the Script to the beginning of the list 
 	 */
-	public static function addTranslations($application, $languageCode = null) {
+	public static function addTranslations($application, $languageCode = null, $prepend = false) {
 		if (is_null($languageCode)) {
 			$languageCode = \OC_L10N::findLanguage($application);
 		}
@@ -481,8 +503,13 @@ class OC_Util {
 		} else {
 			$path = "l10n/$languageCode";
 		}
+		//TODO eliminate double code		
 		if (!in_array($path, self::$scripts)) {
-			self::$scripts[] = $path;
+			if ($prepend === true) {
+				array_unshift ( self::$scripts, $path );
+			} else {
+				self::$scripts [] = $path;
+			}
 		}
 	}
 
@@ -491,12 +518,18 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param string|null $file filename
+	 * @param bool $prepend prepend the Style to the beginning of the list
 	 * @return void
 	 */
-	public static function addStyle($application, $file = null) {
+	public static function addStyle($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'css', $file);
+		//TODO eliminate double code		
 		if (!in_array($path, self::$styles)) {
-			self::$styles[] = $path;
+			if ($prepend === true) {
+				array_unshift ( self::$styles, $path );
+			} else {
+				self::$styles[] = $path;
+			}	
 		}
 	}
 
@@ -505,12 +538,18 @@ class OC_Util {
 	 *
 	 * @param string $application application id
 	 * @param string|null $file filename
+	 * @param bool $prepend prepend the Style to the beginning of the list
 	 * @return void
 	 */
-	public static function addVendorStyle($application, $file = null) {
+	public static function addVendorStyle($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'vendor', $file);
+		//TODO eliminate double code
 		if (!in_array($path, self::$styles)) {
-			self::$styles[] = $path;
+			if ($prepend === true) {
+				array_unshift ( self::$styles, $path );
+			} else {
+				self::$styles[] = $path;
+			}	
 		}
 	}
 
@@ -1054,6 +1093,7 @@ class OC_Util {
 		return $id;
 	}
 
+	protected static $encryptedToken;
 	/**
 	 * Register an get/post call. Important to prevent CSRF attacks.
 	 *
@@ -1066,6 +1106,11 @@ class OC_Util {
 	 * @see OC_Util::isCallRegistered()
 	 */
 	public static function callRegister() {
+		// Use existing token if function has already been called
+		if(isset(self::$encryptedToken)) {
+			return self::$encryptedToken;
+		}
+
 		// Check if a token exists
 		if (!\OC::$server->getSession()->exists('requesttoken')) {
 			// No valid token found, generate a new one.
@@ -1078,7 +1123,8 @@ class OC_Util {
 
 		// Encrypt the token to mitigate breach-like attacks
 		$sharedSecret = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(10);
-		return \OC::$server->getCrypto()->encrypt($requestToken, $sharedSecret) . ':' . $sharedSecret;
+		self::$encryptedToken = \OC::$server->getCrypto()->encrypt($requestToken, $sharedSecret) . ':' . $sharedSecret;
+		return self::$encryptedToken;
 	}
 
 	/**
@@ -1145,6 +1191,7 @@ class OC_Util {
 	 * @throws \OC\HintException If the test file can't get written.
 	 */
 	public function isHtaccessWorking(\OCP\IConfig $config) {
+
 		if (\OC::$CLI || !$config->getSystemValue('check_for_working_htaccess', true)) {
 			return true;
 		}
@@ -1425,7 +1472,7 @@ class OC_Util {
 		if ($trimmed === '') {
 			return false;
 		}
-		if ($trimmed === '.' || $trimmed === '..') {
+		if (\OC\Files\Filesystem::isIgnoredDir($trimmed)) {
 			return false;
 		}
 		foreach (str_split($trimmed) as $char) {
@@ -1448,8 +1495,12 @@ class OC_Util {
 		if ($config->getSystemValue('installed', false)) {
 			$installedVersion = $config->getSystemValue('version', '0.0.0');
 			$currentVersion = implode('.', OC_Util::getVersion());
-			if (version_compare($currentVersion, $installedVersion, '>')) {
+			$versionDiff = version_compare($currentVersion, $installedVersion);
+			if ($versionDiff > 0) {
 				return true;
+			} else if ($versionDiff < 0) {
+				// downgrade attempt, throw exception
+				throw new \OC\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
 			}
 
 			// also check for upgrades for apps (independently from the user)

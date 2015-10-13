@@ -1,10 +1,10 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -32,11 +32,11 @@ class AmazonS3 extends Storage {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->config = include('files_external/tests/config.php');
-		if ( ! is_array($this->config) or ! isset($this->config['amazons3']) or ! $this->config['amazons3']['run']) {
+		$this->config = include('files_external/tests/config.amazons3.php');
+		if ( ! is_array($this->config) or ! $this->config['run']) {
 			$this->markTestSkipped('AmazonS3 backend not configured');
 		}
-		$this->instance = new \OC\Files\Storage\AmazonS3($this->config['amazons3']);
+		$this->instance = new \OC\Files\Storage\AmazonS3($this->config);
 	}
 
 	protected function tearDown() {

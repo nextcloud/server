@@ -11,6 +11,7 @@
     "web services under your control" : "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්",
     "Application is not enabled" : "යෙදුම සක්‍රිය කර නොමැත",
     "Authentication error" : "සත්‍යාපන දෝෂයක්",
-    "Token expired. Please reload page." : "ටෝකනය කල් ඉකුත් වී ඇත. පිටුව නැවුම් කරන්න"
+    "Token expired. Please reload page." : "ටෝකනය කල් ඉකුත් වී ඇත. පිටුව නැවුම් කරන්න",
+    "Apps" : "යෙදුම්"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

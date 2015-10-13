@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -98,6 +97,14 @@ class ChangeWatcher {
 			$path = Filesystem::normalizePath($path);
 			$propagator->addChange($path);
 			$propagator->propagateChanges();
+		}
+	}
+
+	public function permissionsHook($params) {
+		$share = $params['share'];
+
+		if ($share['item_type'] === 'file' || $share['item_type'] === 'folder') {
+			$this->recipientPropagator->markDirty($share, microtime(true));
 		}
 	}
 }

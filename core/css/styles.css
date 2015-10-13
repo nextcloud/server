@@ -12,7 +12,18 @@ table, td, th { vertical-align:middle; }
 a { border:0; color:#000; text-decoration:none;}
 a, a *, input, input *, select, .button span, label { cursor:pointer; }
 ul { list-style:none; }
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url('../../core/img/actions/triangle-s.svg') no-repeat right 8px center rgba(240, 240, 240, 0.90);
+	outline: 0;
+	padding-right: 24px !important;
+}
 
+select:hover {
+	background-color: #fefefe;
+}
 
 body {
 	background-color: #ffffff;
@@ -147,8 +158,52 @@ textarea:hover, textarea:focus, textarea:active {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
 }
-input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
-input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
+
+.ie8 input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
+.ie8 input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
+
+/* ie8 doesn't support :checked */
+html:not(.ie8) input[type="checkbox"].checkbox {
+	margin:0;
+	padding:0;
+	height:auto;
+	width:auto;
+	display: none;
+}
+
+html:not(.ie8) input[type="checkbox"].checkbox + label:before {
+	content: "";
+	display: inline-block;
+
+	height: 20px;
+	width: 20px;
+	vertical-align: middle;
+
+	background: url('../img/actions/checkbox.svg') left top no-repeat;
+	opacity: 0.7;
+}
+
+html:not(.ie8) input[type="checkbox"].checkbox:disabled +label:before { opacity: .6; }
+
+html:not(.ie8) input[type="checkbox"].checkbox.u-left +label:before { float: left; }
+html:not(.ie8) input[type="checkbox"].checkbox.u-hidden + label:before { display: none; }
+
+html:not(.ie8) input[type="checkbox"].checkbox--white + label:before {
+	background-image: url('../img/actions/checkbox-white.svg');
+}
+
+html:not(.ie8) input[type="checkbox"].checkbox:checked + label:before {
+	background-image: url('../img/actions/checkbox-checked.svg');
+}
+
+html:not(.ie8) input[type="checkbox"].checkbox--white:checked + label:before {
+	background-image: url('../img/actions/checkbox-checked-white.svg');
+}
+
+html:not(.ie8) input[type="checkbox"].checkbox:hover+label:before, input[type="checkbox"]:focus+label:before {
+	color:#111 !important;
+}
+
 input[type="time"] {
 	width: initial;
 	height: 31px;
@@ -186,7 +241,7 @@ input img, button img, .button img {
 	background-color: transparent;
 }
 ::-webkit-scrollbar-thumb {
-	background: #ccc;
+	background: #ddd;
 }
 
 
@@ -258,21 +313,28 @@ input:disabled+label, input:disabled:hover+label, input:disabled:focus+label {
 	font-size: 1.2em;
 	padding: 3px;
 	padding-left: 25px;
-	background: #112 url('../img/actions/search-white.svg') no-repeat 6px center;
+	background: transparent url('../img/actions/search-white.svg') no-repeat 6px center;
 	color: #fff;
 	border: 0;
 	border-radius: 3px;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-	opacity: .3;
 	margin-top: 9px;
 	float: right;
-}
-.searchbox input[type="search"]:hover,
-.searchbox input[type="search"]:focus,
-.searchbox input[type="search"]:active {
+	width: 0;
+	cursor: pointer;
+	-webkit-transition: all 100ms;
+	-moz-transition: all 100ms;
+	-o-transition: all 100ms;
+	transition: all 100ms;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	opacity: .7;
+}
+.searchbox input[type="search"]:focus,
+.searchbox input[type="search"]:active {
 	color: #fff;
+	width: 155px;
+	max-width: 50%;
+	cursor: text;
+	background-color: #112;
 }
 
 input[type="submit"].enabled {
@@ -342,8 +404,7 @@ input[type="submit"].enabled {
 	width: 100%;
 }
 #content .hascontrols {
-	position: relative;
-	top: 45px;
+	margin-top: 45px;
 }
 #content-wrapper {
 	position: absolute;
@@ -363,9 +424,9 @@ input[type="submit"].enabled {
 .emptycontent {
 	font-size: 16px;
 	color: #888;
-	position: absolute;
 	text-align: center;
-	top: 30%;
+	margin-top: 100px; /* ie8 */
+	margin-top: 30vh;
 	width: 100%;
 }
 #emptycontent h2,
@@ -449,13 +510,32 @@ input[type="submit"].enabled {
 	padding: 13px;
 	margin: -13px;
 }
-/* quick fix for log in button not being aligned with input fields, should be properly fixed by input field width later */
+
+/* position log in button as confirm icon in right of password field */
 #body-login #submit.login {
-	margin-right: 7px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	border: none;
+	background-color: transparent;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	opacity: .3;
 }
+#body-login #submit.login:hover,
+#body-login #submit.login:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	opacity: .7;
+}
+#body-login input[type="password"] {
+	padding-right: 40px;
+	box-sizing: border-box;
+	min-width: 269px;
+}
+
 #body-login form {
-	width: 22em;
-	margin: 2em auto 2em;
+	position: relative;
+	width: 280px;
+	margin: 32px auto;
 	padding: 0;
 }
 #body-login form fieldset {
@@ -532,10 +612,8 @@ input[name='password-clone'] {
 /* General new input field look */
 #body-login input[type="text"],
 #body-login input[type="password"],
-#body-login input[type="email"],
-#body-login input[type="submit"] {
+#body-login input[type="email"] {
 	border: none;
-	border-radius: 5px;
 }
 
 /* Nicely grouping input field sets */
@@ -579,8 +657,15 @@ label.infield {
 	margin: 0;
 	padding: 14px;
 	padding-left: 28px;
-	margin-left: -28px;
 	vertical-align: middle;
+}
+html.ie8 #body-login form input[type="checkbox"]+label {
+	margin-left: -28px;
+	margin-top: -3px;
+	vertical-align: auto;
+}
+html.ie8 #body-login form input[type="checkbox"] {
+	margin-top: 5px;
 }
 #body-login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
 #body-login .success { background:#d7fed7; border:1px solid #0f0; width: 35%; margin: 30px auto; padding:1em; text-align: center;}
@@ -632,11 +717,14 @@ label.infield {
 	position: absolute !important;
 	height: 20px;
 	width: 24px;
-	background-image: url("../img/actions/toggle.png");
+	background-image: url('../img/actions/toggle.svg');
 	background-repeat: no-repeat;
 	background-position: center;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 	opacity: .3;
+}
+#show + label:before, #dbpassword + label:before, #personal-show + label:before {
+	display: none;
 }
 #pass2, input[name="personal-password-clone"] {
 	padding: .6em 2.5em .4em .4em;
@@ -680,7 +768,6 @@ label.infield {
 #body-login .update {
 	width: inherit;
 	text-align: center;
-	color: #ccc;
 }
 
 #body-login .update .appList {
@@ -735,7 +822,7 @@ label.infield {
 	margin: 35px auto;
 }
 #body-login .warning {
-	margin: 0 7px 5px;
+	margin: 0 7px 5px 4px;
 }
 #body-login .warning legend {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
@@ -774,8 +861,13 @@ label.infield {
 	padding: 10px 20px; /* larger log in and installation buttons */
 }
 #remember_login {
-	margin: 24px 5px 0 16px !important;
-	vertical-align: text-bottom;
+	margin: 18px 5px 0 16px !important;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	opacity: .7;
+}
+#body-login .remember-login-container {
+	margin-top: 10px;
+	text-align: center;
 }
 
 /* Sticky footer */
@@ -916,6 +1008,7 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 
 .ui-icon-circle-triangle-e{ background-image:url('../img/actions/play-next.svg'); }
 .ui-icon-circle-triangle-w{ background-image:url('../img/actions/play-previous.svg'); }
+
 .ui-datepicker-prev,.ui-datepicker-next{ border:1px solid #ddd; background:#fff; }
 
 /* ---- DIALOGS ---- */
@@ -949,6 +1042,7 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 }
 #oc-dialog-filepicker-content .filelist img {
 	margin: 2px 1em 0 4px;
+	width: 32px;
 }
 #oc-dialog-filepicker-content .filelist .date {
 	float: right;
@@ -1069,7 +1163,7 @@ div.crumb:active {
 
 /* public footer */
 #body-public footer {
-	margin-top: 65px;
+	position: relative;
 	text-align: center;
 }
 
@@ -1102,3 +1196,12 @@ fieldset.warning legend + p, fieldset.update legend + p {
 @-ms-viewport {
 	width: device-width;
 }
+
+/* hidden input type=file field */
+.hiddenuploadfield {
+   width: 0;
+   height: 0;
+   opacity: 0;
+   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+}
+

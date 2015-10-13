@@ -4,6 +4,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Normal Ra <normalraw@gmail.com>
  * @author Olivier Paroz <github@oparoz.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -29,6 +30,22 @@ namespace OC\Repair;
 use OC\Hooks\BasicEmitter;
 
 class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
+	/**
+	 * @var \OCP\IConfig
+	 */
+	protected $config;
+
+	/**
+	 * @var int
+	 */
+	protected $folderMimeTypeId;
+
+	/**
+	 * @param \OCP\IConfig $config
+	 */
+	public function __construct($config) {
+		$this->config = $config;
+	}
 
 	public function getName() {
 		return 'Repair mime types';
@@ -79,7 +96,7 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 		return \OC_DB::prepare('
 			UPDATE `*PREFIX*filecache`
 			SET `mimetype` = ?
-			WHERE `mimetype` <> ? AND `name` ILIKE ?
+			WHERE `mimetype` <> ? AND `mimetype` <> ? AND `name` ILIKE ?
 		');
 	}
 
@@ -112,6 +129,10 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 	}
 
 	private function updateMimetypes($updatedMimetypes) {
+		if (empty($this->folderMimeTypeId)) {
+			$result = \OC_DB::executeAudited(self::getIdStmt(), array('httpd/unix-directory'));
+			$this->folderMimeTypeId = (int)$result->fetchOne();
+		}
 
 		foreach ($updatedMimetypes as $extension => $mimetype) {
 			$result = \OC_DB::executeAudited(self::existsStmt(), array($mimetype));
@@ -127,7 +148,7 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 			$mimetypeId = $result->fetchOne();
 
 			// change mimetype for files with x extension
-			\OC_DB::executeAudited(self::updateByNameStmt(), array($mimetypeId, $mimetypeId, '%.' . $extension));
+			\OC_DB::executeAudited(self::updateByNameStmt(), array($mimetypeId, $this->folderMimeTypeId, $mimetypeId, '%.' . $extension));
 		}
 	}
 
@@ -239,40 +260,101 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 		self::updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceJavaMimeType() {
+		$updatedMimetypes = array(
+			'class' => 'application/java',
+			'java' => 'text/x-java-source',
+		);
+
+		self::updateMimetypes($updatedMimetypes);
+	}
+
+	private function introduceHppMimeType() {
+		$updatedMimetypes = array(
+			'hpp' => 'text/x-h',
+		);
+
+		self::updateMimetypes($updatedMimetypes);
+	}
+
+	private function introduceRssMimeType() {
+		$updatedMimetypes = array(
+			'rss' => 'application/rss+xml',
+		);
+
+		self::updateMimetypes($updatedMimetypes);
+	}
+
+	private function introduceRtfMimeType() {
+		$updatedMimetypes = array(
+			'rtf' => 'text/rtf',
+		);
+
+		self::updateMimetypes($updatedMimetypes);
+	}
+
 	/**
 	 * Fix mime types
 	 */
 	public function run() {
-		if ($this->fixOfficeMimeTypes()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed office mime types'));
+
+		$ocVersionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
+
+		// NOTE TO DEVELOPERS: when adding new mime types, please make sure to
+		// add a version comparison to avoid doing it every time
+
+		// only update mime types if necessary as it can be expensive
+		if (version_compare($ocVersionFromBeforeUpdate, '8.2.0', '<')) {
+			if ($this->fixOfficeMimeTypes()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed office mime types'));
+			}
+
+			if ($this->fixApkMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed APK mime type'));
+			}
+
+			if ($this->fixFontsMimeTypes()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed fonts mime types'));
+			}
+
+			if ($this->fixPostscriptMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed Postscript mime types'));
+			}
+
+			if ($this->introduceRawMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed Raw mime types'));
+			}
+
+			if ($this->introduce3dImagesMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed 3D images mime types'));
+			}
+
+			if ($this->introduceConfMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed Conf/cnf mime types'));
+			}
+
+			if ($this->introduceYamlMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed Yaml/Yml mime types'));
+			}
 		}
 
-		if ($this->fixApkMimeType()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed APK mime type'));
-		}
+		// Mimetype updates from #19272
+		if (version_compare($ocVersionFromBeforeUpdate, '8.2.0.8', '<')) {
+			if ($this->introduceJavaMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed java/class mime types'));
+			}
 
-		if ($this->fixFontsMimeTypes()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed fonts mime types'));
-		}
+			if ($this->introduceHppMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed hpp mime type'));
+			}
 
-		if ($this->fixPostscriptMimeType()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed Postscript mime types'));
-		}
+			if ($this->introduceRssMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed rss mime type'));
+			}
 
-		if ($this->introduceRawMimeType()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed Raw mime types'));
-		}
-
-		if ($this->introduce3dImagesMimeType()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed 3D images mime types'));
-		}
-
-		if ($this->introduceConfMimeType()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed Conf/cnf mime types'));
-		}
-
-		if ($this->introduceYamlMimeType()) {
-			$this->emit('\OC\Repair', 'info', array('Fixed Yaml/Yml mime types'));
+			if ($this->introduceRtfMimeType()) {
+				$this->emit('\OC\Repair', 'info', array('Fixed rtf mime type'));
+			}
 		}
 	}
 }

@@ -2,6 +2,7 @@
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -30,7 +31,7 @@ namespace OCP\Http\Client;
  */
 interface IResponse {
 	/**
-	 * @return string
+	 * @return string|resource
 	 * @since 8.1.0
 	 */
 	public function getBody();

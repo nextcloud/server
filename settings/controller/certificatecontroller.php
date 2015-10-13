@@ -1,6 +1,8 @@
 <?php
 /**
+ * @author Björn Schießle <schiessle@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -66,19 +68,25 @@ class CertificateController extends Controller {
 	 * @return array
 	 */
 	public function addPersonalRootCertificate() {
+		$headers = [];
+		if ($this->request->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE_8])) {
+			// due to upload iframe workaround, need to set content-type to text/plain
+			$headers['Content-Type'] = 'text/plain';
+		}
 
 		if ($this->isCertificateImportAllowed() === false) {
-			return new DataResponse('Individual certificate management disabled', Http::STATUS_FORBIDDEN);
+			return new DataResponse(['message' => 'Individual certificate management disabled'], Http::STATUS_FORBIDDEN, $headers);
 		}
 
 		$file = $this->request->getUploadedFile('rootcert_import');
 		if(empty($file)) {
-			return new DataResponse(['message' => 'No file uploaded'], Http::STATUS_UNPROCESSABLE_ENTITY);
+			return new DataResponse(['message' => 'No file uploaded'], Http::STATUS_UNPROCESSABLE_ENTITY, $headers);
 		}
 
 		try {
 			$certificate = $this->certificateManager->addCertificate(file_get_contents($file['tmp_name']), $file['name']);
-			return new DataResponse([
+			return new DataResponse(
+				[
 				'name' => $certificate->getName(),
 				'commonName' => $certificate->getCommonName(),
 				'organization' => $certificate->getOrganization(),
@@ -88,9 +96,12 @@ class CertificateController extends Controller {
 				'validTillString' => $this->l10n->l('date', $certificate->getExpireDate()),
 				'issuer' => $certificate->getIssuerName(),
 				'issuerOrganization' => $certificate->getIssuerOrganization(),
-			]);
+				],
+				Http::STATUS_OK,
+				$headers
+			);
 		} catch (\Exception $e) {
-			return new DataResponse('An error occurred.', Http::STATUS_UNPROCESSABLE_ENTITY);
+			return new DataResponse('An error occurred.', Http::STATUS_UNPROCESSABLE_ENTITY, $headers);
 		}
 	}
 
@@ -120,8 +131,9 @@ class CertificateController extends Controller {
 	protected function isCertificateImportAllowed() {
 		$externalStorageEnabled = $this->appManager->isEnabledForUser('files_external');
 		if ($externalStorageEnabled) {
-			$backends = \OC_Mount_Config::getPersonalBackends();
-			if (!empty($backends)) {
+			/** @var \OCA\Files_External\Service\BackendService $backendService */
+			$backendService = \OC_Mount_Config::$app->getContainer()->query('\OCA\Files_External\Service\BackendService');
+			if ($backendService->isUserMountingAllowed()) {
 				return true;
 			}
 		}

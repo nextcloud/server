@@ -14,7 +14,7 @@
 		'<ul>' +
 		'{{#each items}}' +
 		'<li>' +
-		'<a href="#" class="action action-{{nameLowerCase}} permanent" data-action="{{name}}">{{#if icon}}<img src="{{icon}}"/>{{else}}<span class="no-icon"></span>{{/if}}<span>{{displayName}}</span></a>' +
+		'<a href="#" class="menuitem action action-{{nameLowerCase}} permanent" data-action="{{name}}">{{#if icon}}<img class="icon" src="{{icon}}"/>{{else}}<span class="no-icon"></span>{{/if}}<span>{{displayName}}</span></a>' +
 		'</li>' +
 		'{{/each}}' +
 		'</ul>';
@@ -26,7 +26,7 @@
 	 */
 	var FileActionsMenu = OC.Backbone.View.extend({
 		tagName: 'div',
-		className: 'fileActionsMenu bubble hidden open menu',
+		className: 'fileActionsMenu popovermenu bubble hidden open menu',
 
 		/**
 		 * Current context
@@ -99,6 +99,14 @@
 					actionSpec.type === OCA.Files.FileActions.TYPE_DROPDOWN &&
 					(!defaultAction || actionSpec.name !== defaultAction.name)
 				);
+			});
+			items = items.sort(function(actionA, actionB) {
+				var orderA = actionA.order || 0;
+				var orderB = actionB.order || 0;
+				if (orderB === orderA) {
+					return OC.Util.naturalSortCompare(actionA.displayName, actionB.displayName);
+				}
+				return orderA - orderB;
 			});
 			items = _.map(items, function(item) {
 				item.nameLowerCase = item.name.toLowerCase();

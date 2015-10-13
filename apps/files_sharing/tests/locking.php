@@ -1,8 +1,7 @@
 <?php
 /**
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -30,7 +29,7 @@ use OCP\Lock\ILockingProvider;
 
 class Locking extends TestCase {
 	/**
-	 * @var \OC_User_Dummy
+	 * @var \Test\Util\User\Dummy
 	 */
 	private $userBackend;
 
@@ -40,7 +39,7 @@ class Locking extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->userBackend = new \OC_User_Dummy();
+		$this->userBackend = new \Test\Util\User\Dummy();
 		\OC::$server->getUserManager()->registerBackend($this->userBackend);
 
 		$this->ownerUid = $this->getUniqueID('owner_');

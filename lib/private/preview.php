@@ -38,6 +38,9 @@ class Preview {
 	//the thumbnail folder
 	const THUMBNAILS_FOLDER = 'thumbnails';
 
+	const MODE_FILL = 'fill';
+	const MODE_COVER = 'cover';
+
 	//config
 	private $maxScaleFactor;
 	/** @var int maximum width allowed for a preview */
@@ -56,6 +59,7 @@ class Preview {
 	private $scalingUp;
 	private $mimeType;
 	private $keepAspect = false;
+	private $mode = self::MODE_FILL;
 
 	//used to calculate the size of the preview to generate
 	/** @var int $maxPreviewWidth max width a preview can have */
@@ -248,12 +252,13 @@ class Preview {
 	 * Sets the path of the file you want a preview of
 	 *
 	 * @param string $file
+	 * @param \OCP\Files\FileInfo|null $info
 	 *
 	 * @return \OC\Preview
 	 */
-	public function setFile($file) {
+	public function setFile($file, $info = null) {
 		$this->file = $file;
-		$this->info = null;
+		$this->info = $info;
 
 		if ($file !== '') {
 			$this->getFileInfo();
@@ -332,6 +337,19 @@ class Preview {
 	}
 
 	/**
+	 * Set whether to cover or fill the specified dimensions
+	 *
+	 * @param string $mode
+	 *
+	 * @return \OC\Preview
+	 */
+	public function setMode($mode) {
+		$this->mode = $mode;
+
+		return $this;
+	}
+
+	/**
 	 * Sets whether we need to generate a preview which keeps the aspect ratio of the original file
 	 *
 	 * @param bool $keepAspect
@@ -357,7 +375,7 @@ class Preview {
 			return false;
 		}
 
-		if (!$this->fileView->file_exists($file)) {
+		if (!$this->getFileInfo() instanceof FileInfo) {
 			\OCP\Util::writeLog('core', 'File:"' . $file . '" not found', \OCP\Util::DEBUG);
 
 			return false;
@@ -461,7 +479,7 @@ class Preview {
 			$preview = $this->buildCachePath($fileId, $previewWidth, $previewHeight);
 
 			// This checks if we have a preview of those exact dimensions in the cache
-			if ($this->userView->file_exists($preview)) {
+			if ($this->thumbnailSizeExists($allThumbnails, basename($preview))) {
 				return $preview;
 			}
 
@@ -507,6 +525,24 @@ class Preview {
 	}
 
 	/**
+	 * Check if a specific thumbnail size is cached
+	 *
+	 * @param FileInfo[] $allThumbnails the list of all our cached thumbnails
+	 * @param string $name
+	 * @return bool
+	 */
+	private function thumbnailSizeExists(array $allThumbnails, $name) {
+
+		foreach ($allThumbnails as $thumbnail) {
+			if ($name === $thumbnail->getName()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Determines the size of the preview we should be looking for in the cache
 	 *
 	 * @return int[]
@@ -531,17 +567,51 @@ class Preview {
 	 * @param int $askedWidth
 	 * @param int $askedHeight
 	 *
+	 * @param int $originalWidth
+	 * @param int $originalHeight
 	 * @return \int[]
 	 */
-	private function applyAspectRatio($askedWidth, $askedHeight) {
-		$originalRatio = $this->maxPreviewWidth / $this->maxPreviewHeight;
+	private function applyAspectRatio($askedWidth, $askedHeight, $originalWidth = 0, $originalHeight = 0) {
+		if(!$originalWidth){
+			$originalWidth= $this->maxPreviewWidth;
+		}
+		if (!$originalHeight) {
+			$originalHeight = $this->maxPreviewHeight;
+		}
+		$originalRatio = $originalWidth / $originalHeight;
 		// Defines the box in which the preview has to fit
 		$scaleFactor = $this->scalingUp ? $this->maxScaleFactor : 1;
-		$askedWidth = min($askedWidth, $this->maxPreviewWidth * $scaleFactor);
-		$askedHeight = min($askedHeight, $this->maxPreviewHeight * $scaleFactor);
+		$askedWidth = min($askedWidth, $originalWidth * $scaleFactor);
+		$askedHeight = min($askedHeight, $originalHeight * $scaleFactor);
 
 		if ($askedWidth / $originalRatio < $askedHeight) {
 			// width restricted
+			$askedHeight = round($askedWidth / $originalRatio);
+		} else {
+			$askedWidth = round($askedHeight * $originalRatio);
+		}
+
+		return [(int)$askedWidth, (int)$askedHeight];
+	}
+
+	/**
+	 * Resizes the boundaries to cover the area
+	 *
+	 * @param int $askedWidth
+	 * @param int $askedHeight
+	 * @param int $previewWidth
+	 * @param int $previewHeight
+	 * @return \int[]
+	 */
+	private function applyCover($askedWidth, $askedHeight, $previewWidth, $previewHeight) {
+		$originalRatio = $previewWidth / $previewHeight;
+		// Defines the box in which the preview has to fit
+		$scaleFactor = $this->scalingUp ? $this->maxScaleFactor : 1;
+		$askedWidth = min($askedWidth, $previewWidth * $scaleFactor);
+		$askedHeight = min($askedHeight, $previewHeight * $scaleFactor);
+
+		if ($askedWidth / $originalRatio > $askedHeight) {
+			// height restricted
 			$askedHeight = round($askedWidth / $originalRatio);
 		} else {
 			$askedWidth = round($askedHeight * $originalRatio);
@@ -786,12 +856,17 @@ class Preview {
 		$askedWidth = $this->getMaxX();
 		$askedHeight = $this->getMaxY();
 
+		if ($this->mode === self::MODE_COVER) {
+			list($askedWidth, $askedHeight) =
+				$this->applyCover($askedWidth, $askedHeight, $previewWidth, $previewHeight);
+		}
+
 		/**
 		 * Phase 1: If required, adjust boundaries to keep aspect ratio
 		 */
 		if ($this->keepAspect) {
 			list($askedWidth, $askedHeight) =
-				$this->applyAspectRatio($askedWidth, $askedHeight);
+				$this->applyAspectRatio($askedWidth, $askedHeight, $previewWidth, $previewHeight);
 		}
 
 		/**
@@ -831,6 +906,7 @@ class Preview {
 
 			return;
 		}
+
 		// The preview is smaller, but we can't touch it
 		$this->storePreview($fileId, $newPreviewWidth, $newPreviewHeight);
 	}
@@ -999,6 +1075,9 @@ class Preview {
 		}
 		if ($this->keepAspect && !$isMaxPreview) {
 			$previewPath .= '-with-aspect';
+		}
+		if ($this->mode === self::MODE_COVER) {
+			$previewPath .= '-cover';
 		}
 		$previewPath .= '.png';
 
@@ -1229,6 +1308,13 @@ class Preview {
 	 * @param array $args
 	 */
 	public static function post_delete_files($args) {
+		self::post_delete($args, 'files/');
+	}
+
+	/**
+	 * @param array $args
+	 */
+	public static function post_delete_versions($args) {
 		self::post_delete($args, 'files/');
 	}
 

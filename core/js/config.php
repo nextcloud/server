@@ -3,6 +3,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Guillaume AMAT <guillaume.amat@informatique-libre.com>
+ * @author Hasso Tepper <hasso@zone.ee>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>

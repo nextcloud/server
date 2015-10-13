@@ -2,7 +2,6 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author jknockaert <jasper@knockaert.nl>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *

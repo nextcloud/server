@@ -1,5 +1,10 @@
 { "translations": {
     "Personal" : "Անձնական",
+    "Password" : "Գաղտնաբառ",
+    "URL" : "URL",
+    "Dropbox" : "Dropbox",
+    "Share" : "Կիսվել",
+    "Name" : "Անուն",
     "Delete" : "Ջնջել"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

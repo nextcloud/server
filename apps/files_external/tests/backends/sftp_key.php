@@ -2,6 +2,7 @@
 /**
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Ross Nicoll <jrn@jrn.me.uk>
+ * @author Viktor Szépe <viktor@szepe.net>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0

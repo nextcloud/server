@@ -53,7 +53,7 @@
 				settings.labels.push($(option).text().trim());
 			}
 		});
-		var button=$('<div class="multiselect button"><span>'+settings.title+'</span><span>▾</span></div>');
+		var button=$('<div class="multiselect button"><span>'+settings.title+'</span><span class="icon-triangle-s"></span></div>');
 		var span=$('<span/>');
 		span.append(button);
 		button.data('id',multiSelectId);
@@ -109,6 +109,9 @@
 				var id='ms'+multiSelectId+'-option-'+item;
 				var input=$('<input type="' + inputType + '"/>');
 				input.attr('id',id);
+				if(inputType === 'checkbox') {
+					input.addClass('checkbox');
+				}
 				if(settings.singleSelect) {
 					input.attr('name', 'ms'+multiSelectId+'-option');
 				}

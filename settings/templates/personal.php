@@ -83,7 +83,7 @@ if($_['passwordChangeSupported']) {
 		placeholder="<?php echo $l->t('New password');?>"
 		data-typetoggle="#personal-show"
 		autocomplete="off" autocapitalize="off" autocorrect="off" />
-	<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
+	<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="svg"></label>
 	<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 	<br/>
 	<div class="strengthify-wrapper"></div>
@@ -155,10 +155,11 @@ if($_['passwordChangeSupported']) {
 		<div class="avatardiv"></div><br>
 		<div class="warning hidden"></div>
 		<?php if ($_['avatarChangeSupported']): ?>
-		<div class="inlineblock button" id="uploadavatarbutton"><?php p($l->t('Upload new')); ?></div>
-		<input type="file" class="hidden" name="files[]" id="uploadavatar">
+		<label for="uploadavatar" class="inlineblock button" id="uploadavatarbutton"><?php p($l->t('Upload new')); ?></label>
 		<div class="inlineblock button" id="selectavatar"><?php p($l->t('Select new from Files')); ?></div>
-		<div class="inlineblock button" id="removeavatar"><?php p($l->t('Remove image')); ?></div><br>
+		<div class="inlineblock button" id="removeavatar"><?php p($l->t('Remove image')); ?></div>
+		<input type="file" name="files[]" id="uploadavatar" class="hiddenuploadfield">
+		<br>
 		<?php p($l->t('Either png or jpg. Ideally square but you will be able to crop it. The file is not allowed to exceed the maximum size of 20 MB.')); ?>
 		<?php else: ?>
 		<?php p($l->t('Your avatar is provided by your original account.')); ?>
@@ -239,8 +240,8 @@ if($_['passwordChangeSupported']) {
 		</tbody>
 	</table>
 	<form class="uploadButton" method="post" action="<?php p($_['urlGenerator']->linkToRoute('settings.Certificate.addPersonalRootCertificate')); ?>" target="certUploadFrame">
-		<input type="file" id="rootcert_import" name="rootcert_import" class="hidden">
-		<input type="button" id="rootcert_import_button" value="<?php p($l->t('Import root certificate')); ?>"/>
+		<label for="rootcert_import" class="inlineblock button" id="rootcert_import_button"><?php p($l->t('Import root certificate')); ?></label>
+		<input type="file" id="rootcert_import" name="rootcert_import" class="hiddenuploadfield">
 	</form>
 </div>
 <?php endif; ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -209,5 +209,14 @@ class GlobalStoragesService extends StoragesService {
 				['all']
 			);
 		}
+	}
+
+	/**
+	 * Get the visibility type for this controller, used in validation
+	 *
+	 * @return string BackendService::VISIBILITY_* constants
+	 */
+	public function getVisibilityType() {
+		return BackendService::VISIBILITY_ADMIN;
 	}
 }

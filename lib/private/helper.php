@@ -16,6 +16,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nicolas Grekas <nicolas.grekas@gmail.com>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Pellaeon Lin <nfsmwlin@gmail.com>
@@ -193,11 +194,11 @@ class OC_Helper {
 	 * Returns the path to the preview of the file.
 	 */
 	public static function previewIcon($path) {
-		return self::linkToRoute( 'core_ajax_preview', array('x' => 36, 'y' => 36, 'file' => $path ));
+		return self::linkToRoute( 'core_ajax_preview', array('x' => 32, 'y' => 32, 'file' => $path ));
 	}
 
 	public static function publicPreviewIcon( $path, $token ) {
-		return self::linkToRoute( 'core_ajax_public_preview', array('x' => 36, 'y' => 36, 'file' => $path, 't' => $token));
+		return self::linkToRoute( 'core_ajax_public_preview', array('x' => 32, 'y' => 32, 'file' => $path, 't' => $token));
 	}
 
 	/**
@@ -274,7 +275,7 @@ class OC_Helper {
 	/**
 	 * Make a computer file size
 	 * @param string $str file size in human readable format
-	 * @return int a file size in bytes
+	 * @return float a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
 	 *
@@ -283,7 +284,7 @@ class OC_Helper {
 	public static function computerFileSize($str) {
 		$str = strtolower($str);
 		if (is_numeric($str)) {
-			return $str;
+			return floatval($str);
 		}
 
 		$bytes_array = array(
@@ -742,7 +743,7 @@ class OC_Helper {
 			$freeSpace = max($freeSpace, 0);
 			return $freeSpace;
 		} else {
-			return INF;
+			return (INF > 0)? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
 		}
 	}
 

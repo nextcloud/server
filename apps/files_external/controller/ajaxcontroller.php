@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Ross Nicoll <jrn@jrn.me.uk>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -25,19 +26,19 @@ namespace OCA\Files_External\Controller;
 use OCP\AppFramework\Controller;
 use OCP\IRequest;
 use OCP\AppFramework\Http\JSONResponse;
-use phpseclib\Crypt\RSA;
+use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 
 class AjaxController extends Controller {
-	public function __construct($appName, IRequest $request) {
+	/** @var RSA */
+	private $rsaMechanism;
+
+	public function __construct($appName, IRequest $request, RSA $rsaMechanism) {
 		parent::__construct($appName, $request);
+		$this->rsaMechanism = $rsaMechanism;
 	}
 
 	private function generateSshKeys() {
-		$rsa = new RSA();
-		$rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
-		$rsa->setPassword(\OC::$server->getConfig()->getSystemValue('secret', ''));
-
-		$key = $rsa->createKey();
+		$key = $this->rsaMechanism->createKey();
 		// Replace the placeholder label with a more meaningful one
 		$key['publicKey'] = str_replace('phpseclib-generated-key', gethostname(), $key['publickey']);
 

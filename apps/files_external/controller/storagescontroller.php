@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -36,6 +37,7 @@ use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCP\Files\StorageNotAvailableException;
 use \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
+use \OCA\Files_External\Service\BackendService;
 
 /**
  * Base class for storages controllers
@@ -152,17 +154,41 @@ abstract class StoragesController extends Controller {
 		$backend = $storage->getBackend();
 		/** @var AuthMechanism */
 		$authMechanism = $storage->getAuthMechanism();
-		if (!$backend || $backend->checkDependencies()) {
+		if ($backend->checkDependencies()) {
 			// invalid backend
 			return new DataResponse(
 				array(
 					'message' => (string)$this->l10n->t('Invalid storage backend "%s"', [
-						$storage->getBackend()->getIdentifier()
+						$backend->getIdentifier()
 					])
 				),
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
+
+		if (!$backend->isVisibleFor($this->service->getVisibilityType())) {
+			// not permitted to use backend
+			return new DataResponse(
+				array(
+					'message' => (string)$this->l10n->t('Not permitted to use backend "%s"', [
+						$backend->getIdentifier()
+					])
+				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+		if (!$authMechanism->isVisibleFor($this->service->getVisibilityType())) {
+			// not permitted to use auth mechanism
+			return new DataResponse(
+				array(
+					'message' => (string)$this->l10n->t('Not permitted to use authentication mechanism "%s"', [
+						$authMechanism->getIdentifier()
+					])
+				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+
 		if (!$backend->validateStorage($storage)) {
 			// unsatisfied parameters
 			return new DataResponse(

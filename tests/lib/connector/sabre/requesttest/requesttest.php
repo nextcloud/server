@@ -45,13 +45,15 @@ abstract class RequestTest extends TestCase {
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getUserSession(),
 			\OC::$server->getMountManager(),
-			\OC::$server->getTagManager()
+			\OC::$server->getTagManager(),
+			\OC::$server->getEventDispatcher()
 		);
 	}
 
 	protected function setupUser($name, $password) {
 		$this->createUser($name, $password);
-		$this->registerMount($name, '\OC\Files\Storage\Temporary', '/' . $name);
+		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
 		$this->loginAsUser($name);
 		return new View('/' . $name . '/files');
 	}

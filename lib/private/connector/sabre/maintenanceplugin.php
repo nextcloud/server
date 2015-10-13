@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -65,7 +66,7 @@ class MaintenancePlugin extends ServerPlugin {
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
-		$this->server->on('beforeMethod', array($this, 'checkMaintenanceMode'), 10);
+		$this->server->on('beforeMethod', array($this, 'checkMaintenanceMode'), 1);
 	}
 
 	/**

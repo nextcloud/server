@@ -17,7 +17,7 @@ class Root extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->user = new \OC\User\User('', new \OC_User_Dummy);
+		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy);
 	}
 
 	protected function getFileInfo($data) {

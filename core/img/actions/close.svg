@@ -1,3 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <path d="M12.95,11.536,11.536,12.95,8,9.4142,4.4645,12.95,3.0503,11.536,6.5858,8,3.0503,4.4644,4.4645,3.0502,8,6.5858,11.516,3.0311,12.95,4.4644,9.4143,8z" fill="#000"/>
+ <defs>
+  <filter id="a" style="color-interpolation-filters:sRGB" height="1.5994" width="1.6006" y="-.29971" x="-.30029">
+   <feGaussianBlur stdDeviation="1.2386625"/>
+  </filter>
+ </defs>
+ <path d="m12.95 11.536-1.414 1.414-3.536-3.5358-3.5355 3.5358-1.4142-1.414 3.5355-3.536-3.5355-3.5356 1.4142-1.4142 3.5355 3.5356 3.516-3.5547 1.434 1.4333-3.5357 3.5356z" filter="url(#a)" stroke="#fff" stroke-width="2" fill="#fff"/>
+ <path d="m12.95 11.536-1.414 1.414-3.536-3.5358-3.5355 3.5358-1.4142-1.414 3.5355-3.536-3.5355-3.5356 1.4142-1.4142 3.5355 3.5356 3.516-3.5547 1.434 1.4333-3.5357 3.5356z"/>
 </svg>

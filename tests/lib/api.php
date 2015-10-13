@@ -34,6 +34,50 @@ class Test_API extends \Test\TestCase {
 		$this->assertEquals($success, $result->succeeded());
 	}
 
+	/**
+	 * @return array
+	 */
+	public function versionDataScriptNameProvider() {
+		return [
+			// Valid script name
+			[
+				'/master/ocs/v2.php',
+				true,
+			],
+
+			// Invalid script names
+			[
+				'/master/ocs/v2.php/someInvalidPathName',
+				false,
+			],
+			[
+				'/master/ocs/v1.php',
+				false,
+			],
+			[
+				'',
+				false,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider versionDataScriptNameProvider
+	 * @param string $scriptName
+	 * @param bool $expected
+	 */
+	public function testIsV2($scriptName, $expected) {
+		$request = $this->getMockBuilder('\OCP\IRequest')
+			->disableOriginalConstructor()
+			->getMock();
+		$request
+			->expects($this->once())
+			->method('getScriptName')
+			->will($this->returnValue($scriptName));
+
+		$this->assertEquals($expected, $this->invokePrivate(new \OC_API, 'isV2', [$request]));
+	}
+
 	function dataProviderTestOneResult() {
 		return array(
 			array(100, true),

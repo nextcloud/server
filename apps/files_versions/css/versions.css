@@ -1,59 +1,53 @@
-#dropdown.drop-versions {
-	width: 360px;
+.versionsTabView .clear-float {
+	clear: both;
 }
-
-#found_versions li {
+.versionsTabView li {
 	width: 100%;
 	cursor: default;
 	height: 56px;
 	float: left;
 	border-bottom: 1px solid rgba(100,100,100,.1);
 }
-#found_versions li:last-child {
+.versionsTabView li:last-child {
 	border-bottom: none;
 }
 
-#found_versions li > * {
-	padding: 7px;
-	float: left;
-	vertical-align: top;
+.versionsTabView li > * {
+	vertical-align: middle;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	filter: alpha(opacity=50);
 	opacity: .5;
 }
 
-#found_versions li > a,
-#found_versions li > span {
-	padding: 17px 7px;
+.versionsTabView li > a,
+.versionsTabView li > span {
+	padding: 15px 10px 11px;
 }
 
-#found_versions li > *:hover,
-#found_versions li > *:focus {
+.versionsTabView li > *:hover,
+.versionsTabView li > *:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
 	opacity: 1;
 }
 
-#found_versions img {
+.versionsTabView img {
 	cursor: pointer;
 	padding-right: 4px;
 }
 
-#found_versions img.preview {
+.versionsTabView img.preview {
 	cursor: default;
 	opacity: 1;
 }
 
-#found_versions .versionDate {
+.versionsTabView .versiondate {
 	min-width: 100px;
-	vertical-align: text-bottom;
+	vertical-align: super;
 }
 
-#found_versions .revertVersion {
+.versionsTabView .revertVersion {
 	cursor: pointer;
 	float: right;
-	max-width: 130px;
-	text-overflow: ellipsis;
-	overflow: hidden;
+	margin-right: -10px;
 }
-

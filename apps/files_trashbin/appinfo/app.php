@@ -1,10 +1,10 @@
 <?php
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Florin Peter <github@florin-peter.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -23,6 +23,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 $l = \OC::$server->getL10N('files_trashbin');
 
 // register hooks

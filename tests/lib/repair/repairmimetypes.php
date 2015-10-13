@@ -22,9 +22,21 @@ class RepairMimeTypes extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
+
+		$this->savedMimetypeLoader = \OC::$server->getMimeTypeLoader();
+		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
+
+		$config = $this->getMockBuilder('OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+		$config->expects($this->any())
+			->method('getSystemValue')
+			->with('version')
+			->will($this->returnValue('8.0.0.0'));
+
 		$this->storage = new \OC\Files\Storage\Temporary([]);
 
-		$this->repair = new \OC\Repair\RepairMimeTypes();
+		$this->repair = new \OC\Repair\RepairMimeTypes($config);
 	}
 
 	protected function tearDown() {
@@ -33,14 +45,13 @@ class RepairMimeTypes extends \Test\TestCase {
 		\OC_DB::executeAudited($sql, [$this->storage->getId()]);
 		$this->clearMimeTypes();
 
-		DummyFileCache::clearCachedMimeTypes();
-
 		parent::tearDown();
 	}
 
 	private function clearMimeTypes() {
 		$sql = 'DELETE FROM `*PREFIX*mimetypes`';
 		\OC_DB::executeAudited($sql);
+		$this->mimetypeLoader->reset();
 	}
 
 	private function addEntries($entries) {
@@ -86,8 +97,7 @@ class RepairMimeTypes extends \Test\TestCase {
 		$this->repair->run();
 
 		// force mimetype reload
-		DummyFileCache::clearCachedMimeTypes();
-		$this->storage->getCache()->loadMimeTypes();
+		$this->mimetypeLoader->reset();
 
 		$this->checkEntries($fixedMimeTypes);
 	}
@@ -273,6 +283,68 @@ class RepairMimeTypes extends \Test\TestCase {
 	}
 
 	/**
+	 * Test renaming the java mime types
+	 */
+	public function testRenameJavaMimeType() {
+		$currentMimeTypes = [
+			['test.java', 'application/octet-stream'],
+			['test.class', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.java', 'text/x-java-source'],
+			['test.class', 'application/java'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
+	 * Test renaming the hpp mime type
+	 */
+	public function testRenameHppMimeType() {
+		$currentMimeTypes = [
+			['test.hpp', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.hpp', 'text/x-h'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
+	 * Test renaming the rss mime type
+	 */
+	public function testRenameRssMimeType() {
+		$currentMimeTypes = [
+			['test.rss', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.rss', 'application/rss+xml'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
+	 * Test renaming the hpp mime type
+	 */
+	public function testRenameRtfMimeType() {
+		$currentMimeTypes = [
+			['test.rtf', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.rtf', 'text/rtf'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
 	 * Test renaming and splitting old office mime types when
 	 * new ones already exist
 	 */
@@ -389,6 +461,11 @@ class RepairMimeTypes extends \Test\TestCase {
 			['test.cnf', 'text/plain'],
 			['test.yaml', 'application/yaml'],
 			['test.yml', 'application/yaml'],
+			['test.java', 'text/x-java-source'],
+			['test.class', 'application/java'],
+			['test.hpp', 'text/x-h'],
+			['test.rss', 'application/rss+xml'],
+			['test.rtf', 'text/rtf'],
 		];
 
 		$fixedMimeTypes = [
@@ -428,20 +505,31 @@ class RepairMimeTypes extends \Test\TestCase {
 			['test.cnf', 'text/plain'],
 			['test.yaml', 'application/yaml'],
 			['test.yml', 'application/yaml'],
+			['test.java', 'text/x-java-source'],
+			['test.class', 'application/java'],
+			['test.hpp', 'text/x-h'],
+			['test.rss', 'application/rss+xml'],
+			['test.rtf', 'text/rtf'],
 		];
 
 		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
 	}
-}
 
-/**
- * Dummy class to access protected members
- */
-class DummyFileCache extends \OC\Files\Cache\Cache {
+	/**
+	 * Test that mime type renaming does not affect folders
+	 */
+	public function testDoNotChangeFolderMimeType() {
+		$currentMimeTypes = [
+			['test.conf', 'httpd/unix-directory'],
+			['test.cnf', 'httpd/unix-directory'],
+		];
 
-	public static function clearCachedMimeTypes() {
-		self::$mimetypeIds = [];
-		self::$mimetypes = [];
+		$fixedMimeTypes = [
+			['test.conf', 'httpd/unix-directory'],
+			['test.cnf', 'httpd/unix-directory'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
 	}
 }
 

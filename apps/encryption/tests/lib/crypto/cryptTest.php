@@ -2,7 +2,6 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -361,6 +360,21 @@ class cryptTest extends TestCase {
 			[['cipher' => 'AES-256-CFB'], 'HBEGIN:HENDprivateKey', 'AES-256-CFB', true, 'key'],
 			[[], 'privateKey', 'AES-128-CFB', true, 'key'],
 		];
+	}
+
+	public function testIsValidPrivateKey() {
+		$res = openssl_pkey_new();
+		openssl_pkey_export($res, $privateKey);
+
+		// valid private key
+		$this->assertTrue(
+			$this->invokePrivate($this->crypt, 'isValidPrivateKey', [$privateKey])
+		);
+
+		// invalid private key
+		$this->assertFalse(
+			$this->invokePrivate($this->crypt, 'isValidPrivateKey', ['foo'])
+		);
 	}
 
 }

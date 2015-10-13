@@ -1,9 +1,11 @@
 <?php
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -25,6 +27,7 @@
 namespace OC;
 
 use OCP\ILogger;
+use OCP\IConfig;
 use OCP\ITempManager;
 
 class TempManager implements ITempManager {
@@ -34,16 +37,20 @@ class TempManager implements ITempManager {
 	protected $tmpBaseDir;
 	/** @var ILogger */
 	protected $log;
+	/** @var IConfig */
+	protected $config;
+
 	/** Prefix */
 	const TMP_PREFIX = 'oc_tmp_';
 
 	/**
-	 * @param string $baseDir
 	 * @param \OCP\ILogger $logger
+	 * @param \OCP\IConfig $config
 	 */
-	public function __construct($baseDir, ILogger $logger) {
-		$this->tmpBaseDir = $baseDir;
+	public function __construct(ILogger $logger, IConfig $config) {
 		$this->log = $logger;
+		$this->config = $config;
+		$this->tmpBaseDir = $this->getTempBaseDir();
 	}
 
 	/**
@@ -190,4 +197,79 @@ class TempManager implements ITempManager {
 		}
 		return $files;
 	}
+
+	/**
+	 * Get the temporary base directory configured on the server
+	 *
+	 * @return string Path to the temporary directory or null
+	 * @throws \UnexpectedValueException
+	 */
+	public function getTempBaseDir() {
+		if ($this->tmpBaseDir) {
+			return $this->tmpBaseDir;
+		}
+
+		$directories = [];
+		if ($temp = $this->config->getSystemValue('tempdirectory', null)) {
+			$directories[] = $temp;
+		}
+		if ($temp = ini_get('upload_tmp_dir')) {
+			$directories[] = $temp;
+		}
+		if ($temp = getenv('TMP')) {
+			$directories[] = $temp;
+		}
+		if ($temp = getenv('TEMP')) {
+			$directories[] = $temp;
+		}
+		if ($temp = getenv('TMPDIR')) {
+			$directories[] = $temp;
+		}
+		$temp = tempnam(__FILE__, '');
+		if (file_exists($temp)) {
+			unlink($temp);
+			$directories[] = dirname($temp);
+		}
+		if ($temp = sys_get_temp_dir()) {
+			$directories[] = $temp;
+		}
+
+		foreach ($directories as $dir) {
+			if ($this->checkTemporaryDirectory($dir)) {
+				return $dir;
+			}
+		}
+		throw new \UnexpectedValueException('Unable to detect system temporary directory');
+	}
+
+	/**
+	 * Check if a temporary directory is ready for use
+	 *
+	 * @param mixed $directory
+	 * @return bool
+	 */
+	private function checkTemporaryDirectory($directory) {
+		// surpress any possible errors caused by is_writable
+		// checks missing or invalid path or characters, wrong permissions ect
+		try {
+			if (is_writeable($directory)) {
+				return true;
+			}
+		} catch (Exception $e) {
+		}
+		$this->log->warning('Temporary directory {dir} is not present or writable',
+			['dir' => $directory]
+		);
+		return false;
+	}
+
+	/**
+	 * Override the temporary base directory
+	 *
+	 * @param string $directory
+	 */
+	public function overrideTempBaseDir($directory) {
+		$this->tmpBaseDir = $directory;
+	}
+
 }

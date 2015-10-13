@@ -573,4 +573,29 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertSameAsLorem($target);
 		$this->assertTrue($this->instance->file_exists($source), $source . ' was deleted');
 	}
+
+	public function testIsCreatable() {
+		$this->instance->mkdir('source');
+		$this->assertTrue($this->instance->isCreatable('source'));
+	}
+
+	public function testIsReadable() {
+		$this->instance->mkdir('source');
+		$this->assertTrue($this->instance->isReadable('source'));
+	}
+
+	public function testIsUpdatable() {
+		$this->instance->mkdir('source');
+		$this->assertTrue($this->instance->isUpdatable('source'));
+	}
+
+	public function testIsDeletable() {
+		$this->instance->mkdir('source');
+		$this->assertTrue($this->instance->isDeletable('source'));
+	}
+
+	public function testIsShareable() {
+		$this->instance->mkdir('source');
+		$this->assertTrue($this->instance->isSharable('source'));
+	}
 }

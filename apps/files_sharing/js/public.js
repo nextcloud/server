@@ -90,8 +90,8 @@ OCA.Sharing.PublicApp = {
 		// dynamically load image previews
 		var token = $('#sharingToken').val();
 		var bottomMargin = 350;
-		var previewWidth = Math.floor($(window).width() * window.devicePixelRatio);
-		var previewHeight = Math.floor(($(window).height() - bottomMargin) * window.devicePixelRatio);
+		var previewWidth = Math.ceil($(window).width() * window.devicePixelRatio);
+		var previewHeight = Math.ceil(($(window).height() - bottomMargin) * window.devicePixelRatio);
 		previewHeight = Math.max(200, previewHeight);
 		var params = {
 			x: previewWidth,
@@ -159,9 +159,18 @@ OCA.Sharing.PublicApp = {
 			};
 
 			this.fileList.generatePreviewUrl = function (urlSpec) {
+				urlSpec = urlSpec || {};
+				if (!urlSpec.x) {
+					urlSpec.x = 32;
+				}
+				if (!urlSpec.y) {
+					urlSpec.y = 32;
+				}
+				urlSpec.x *= window.devicePixelRatio;
+				urlSpec.y *= window.devicePixelRatio;
+				urlSpec.x = Math.ceil(urlSpec.x);
+				urlSpec.y = Math.ceil(urlSpec.y);
 				urlSpec.t = $('#dirToken').val();
-				urlSpec.y = Math.floor(36 * window.devicePixelRatio);
-				urlSpec.x = Math.floor(36 * window.devicePixelRatio);
 				return OC.generateUrl('/apps/files_sharing/ajax/publicpreview.php?') + $.param(urlSpec);
 			};
 
@@ -217,6 +226,14 @@ OCA.Sharing.PublicApp = {
 			var name = $('#save').data('name');
 			var isProtected = $('#save').data('protected') ? 1 : 0;
 			OCA.Sharing.PublicApp._saveToOwnCloud(remote, token, owner, name, isProtected);
+		});
+
+		$('#remote_address').on("keyup paste", function() {
+			if ($(this).val() === '') {
+				$('#save-button-confirm').prop('disabled', true);
+			} else {
+				$('#save-button-confirm').prop('disabled', false);
+			}
 		});
 
 		$('#save #save-button').click(function () {
@@ -293,15 +310,8 @@ $(document).ready(function () {
 
 	if (window.Files) {
 		// HACK: for oc-dialogs previews that depends on Files:
-		Files.lazyLoadPreview = function (path, mime, ready, width, height, etag) {
-			return App.fileList.lazyLoadPreview({
-				path: path,
-				mime: mime,
-				callback: ready,
-				width: width,
-				height: height,
-				etag: etag
-			});
+		Files.generatePreviewUrl = function (urlSpec) {
+			return App.fileList.generatePreviewUrl(urlSpec);
 		};
 	}
 });

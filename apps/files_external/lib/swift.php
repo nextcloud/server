@@ -5,6 +5,7 @@
  * @author Christian Berendt <berendt@b1-systems.de>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
  * @author Robin Appelman <icewind@owncloud.com>
@@ -175,7 +176,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 		$dh = $this->opendir($path);
 		while ($file = readdir($dh)) {
-			if ($file === '.' || $file === '..') {
+			if (\OC\Files\Filesystem::isIgnoredDir($file)) {
 				continue;
 			}
 
@@ -429,7 +430,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 			$dh = $this->opendir($path1);
 			while ($file = readdir($dh)) {
-				if ($file === '.' || $file === '..') {
+				if (\OC\Files\Filesystem::isIgnoredDir($file)) {
 					continue;
 				}
 

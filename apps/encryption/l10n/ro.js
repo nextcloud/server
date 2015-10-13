@@ -17,6 +17,7 @@ OC.L10N.register(
     "Private key password successfully updated." : "Cheia privata a fost actualizata cu succes",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Cheie privată nevalidă pentru aplicația Încriptare. Te rog, actualizează-ți parola cheii private folosind setările personale pentru a reaccesa fișierele tale încriptate.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplicatia de criptare este activata dar tastatura nu este initializata , va rugam deconectati-va si reconectati-va",
+    "The share will expire on %s." : "Partajarea va expira în data de %s.",
     "Change Password" : "Schimbă parola",
     "ownCloud basic encryption module" : "modul de ecnriptie bazic ownCloud",
     "Enabled" : "Activat",

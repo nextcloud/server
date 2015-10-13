@@ -40,6 +40,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s подели %1$s са вама",
     "You shared %1$s via link" : "Поделили сте %1$s путем везе",
     "Shares" : "Дељења",
+    "Accept" : "Прихвати",
     "This share is password-protected" : "Дељење је заштићено лозинком",
     "The password is wrong. Try again." : "Лозинка је погрешна. Покушајте поново.",
     "Password" : "Лозинка",

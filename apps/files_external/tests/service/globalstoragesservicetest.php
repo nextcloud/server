@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -913,5 +914,33 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		$this->assertEquals('identifier:\OCA\Files_External\Lib\Backend\SFTP', $storage2->getBackend()->getIdentifier());
 		$this->assertEquals('identifier:\Auth\Mechanism', $storage2->getAuthMechanism()->getIdentifier());
 	}
+
+	public function testReadEmptyMountPoint() {
+		$configFile = $this->dataDir . '/mount.json';
+
+		$json = [
+			'user' => [
+				'user1' => [
+					'/$user/files/' => [
+						'backend' => 'identifier:\OCA\Files_External\Lib\Backend\SFTP',
+						'authMechanism' => 'identifier:\Auth\Mechanism',
+						'options' => [],
+						'mountOptions' => [],
+					],
+				]
+			]
+		];
+
+		file_put_contents($configFile, json_encode($json));
+
+		$allStorages = $this->service->getAllStorages();
+
+		$this->assertCount(1, $allStorages);
+
+		$storage1 = $allStorages[1];
+
+		$this->assertEquals('/', $storage1->getMountPoint());
+	}
+
 
 }

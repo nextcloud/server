@@ -23,6 +23,7 @@
     "PostgreSQL username and/or password not valid" : "Enw a/neu gyfrinair PostgreSQL annilys",
     "Set an admin username." : "Creu enw defnyddiwr i'r gweinyddwr.",
     "Set an admin password." : "Gosod cyfrinair y gweinyddwr.",
-    "Could not find category \"%s\"" : "Methu canfod categori \"%s\""
+    "Could not find category \"%s\"" : "Methu canfod categori \"%s\"",
+    "Apps" : "Pecynnau"
 },"pluralForm" :"nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;"
 }

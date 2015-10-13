@@ -18,7 +18,7 @@
  *    - TODO music upload button
  */
 
-/* global Files, FileList, jQuery, oc_requesttoken, humanFileSize, getUniqueName */
+/* global jQuery, oc_requesttoken, humanFileSize */
 
 /**
  * Function that will allow us to know if Ajax uploads are supported
@@ -139,6 +139,9 @@ OC.Upload = {
 		if (data.data) {
 			data.data.append('resolution', 'replace');
 		} else {
+			if (!data.formData) {
+				data.formData = [];
+			}
 			data.formData.push({name:'resolution', value:'replace'}); //hack for ie8
 		}
 		data.submit();
@@ -152,6 +155,9 @@ OC.Upload = {
 		if (data.data) {
 			data.data.append('resolution', 'autorename');
 		} else {
+			if (!data.formData) {
+				data.formData = [];
+			}
 			data.formData.push({name:'resolution', value:'autorename'}); //hack for ie8
 		}
 		data.submit();
@@ -164,8 +170,9 @@ OC.Upload = {
 		}
 	},
 	/**
-	 * TODO checks the list of existing files prior to uploading and shows a simple dialog to choose
+	 * checks the list of existing files prior to uploading and shows a simple dialog to choose
 	 * skip all, replace all or choose which files to keep
+	 *
 	 * @param {array} selection of files to upload
 	 * @param {object} callbacks - object with several callback methods
 	 * @param {function} callbacks.onNoConflicts
@@ -175,14 +182,37 @@ OC.Upload = {
 	 * @param {function} callbacks.onCancel
 	 */
 	checkExistingFiles: function (selection, callbacks) {
-		/*
-		$.each(selection.uploads, function(i, upload) {
-			var $row = OCA.Files.App.fileList.findFileEl(upload.files[0].name);
-			if ($row) {
-				// TODO check filelist before uploading and show dialog on conflicts, use callbacks
+		var fileList = OCA.Files.App.fileList;
+		var conflicts = [];
+		// only keep non-conflicting uploads
+		selection.uploads = _.filter(selection.uploads, function(upload) {
+			var fileInfo = fileList.findFile(upload.files[0].name);
+			if (fileInfo) {
+				conflicts.push([
+					// original
+					_.extend(fileInfo, {
+						directory: fileInfo.directory || fileInfo.path || fileList.getCurrentDirectory()
+					}),
+					// replacement (File object)
+					upload
+				]);
+				return false;
 			}
+			return true;
 		});
-		*/
+		if (conflicts.length) {
+			// wait for template loading
+			OC.dialogs.fileexists(null, null, null, OC.Upload).done(function() {
+				_.each(conflicts, function(conflictData) {
+					OC.dialogs.fileexists(conflictData[1], conflictData[0], conflictData[1].files[0], OC.Upload);
+				});
+			});
+		}
+
+		// upload non-conflicting files
+		// note: when reaching the server they might still meet conflicts
+		// if the folder was concurrently modified, these will get added
+		// to the already visible dialog, if applicable
 		callbacks.onNoConflicts(selection);
 	},
 
@@ -368,18 +398,18 @@ OC.Upload = {
 				},
 				submit: function(e, data) {
 					OC.Upload.rememberUpload(data);
-					if ( ! data.formData ) {
-						var fileDirectory = '';
-						if(typeof data.files[0].relativePath !== 'undefined') {
-							fileDirectory = data.files[0].relativePath;
-						}
-						// noone set update parameters, we set the minimum
-						data.formData = {
-							requesttoken: oc_requesttoken,
-							dir: data.targetDir || FileList.getCurrentDirectory(),
-							file_directory: fileDirectory
-						};
+					if (!data.formData) {
+						data.formData = [];
 					}
+
+					var fileDirectory = '';
+					if(typeof data.files[0].relativePath !== 'undefined') {
+						fileDirectory = data.files[0].relativePath;
+					}
+					// FIXME: prevent re-adding the same
+					data.formData.push({name: 'requesttoken', value: oc_requesttoken});
+					data.formData.push({name: 'dir', value: data.targetDir || FileList.getCurrentDirectory()});
+					data.formData.push({name: 'file_directory', value: fileDirectory});
 				},
 				fail: function(e, data) {
 					OC.Upload.log('fail', e, data);
@@ -551,155 +581,6 @@ OC.Upload = {
 			$('#file_upload_start').attr('multiple', 'multiple');
 		}
 
-		$(document).click(function(ev) {
-			// do not close when clicking in the dropdown
-			if ($(ev.target).closest('#new').length){
-				return;
-			}
-			$('#new>ul').hide();
-			$('#new').removeClass('active');
-			if ($('#new .error').length > 0) {
-				$('#new .error').tipsy('hide');
-			}
-			$('#new li').each(function(i,element) {
-				if ($(element).children('p').length === 0) {
-					$(element).children('form').remove();
-					$(element).append('<p>' + $(element).data('text') + '</p>');
-				}
-			});
-		});
-		$('#new').click(function(event) {
-			event.stopPropagation();
-		});
-		$('#new>a').click(function() {
-			$('#new>ul').toggle();
-			$('#new').toggleClass('active');
-		});
-		$('#new li').click(function() {
-			if ($(this).children('p').length === 0) {
-				return;
-			}
-
-			$('#new .error').tipsy('hide');
-
-			$('#new li').each(function(i, element) {
-				if ($(element).children('p').length === 0) {
-					$(element).children('form').remove();
-					$(element).append('<p>' + $(element).data('text') + '</p>');
-				}
-			});
-
-			var type = $(this).data('type');
-			var text = $(this).children('p').text();
-			$(this).data('text', text);
-			$(this).children('p').remove();
-
-			// add input field
-			var form = $('<form></form>');
-			var input = $('<input type="text">');
-			var newName = $(this).attr('data-newname') || '';
-			var fileType = 'input-' + $(this).attr('data-type');
-			if (newName) {
-				input.val(newName);
-				input.attr('id', fileType);
-			}
-			var label = $('<label class="hidden-visually" for="">' + escapeHTML(newName) + '</label>');
-			label.attr('for', fileType);
-
-			form.append(label).append(input);
-			$(this).append(form);
-			var lastPos;
-			var checkInput = function () {
-				var filename = input.val();
-				if (!Files.isFileNameValid(filename)) {
-					// Files.isFileNameValid(filename) throws an exception itself
-				} else if (FileList.inList(filename)) {
-					throw t('files', '{new_name} already exists', {new_name: filename});
-				} else {
-					return true;
-				}
-			};
-
-			// verify filename on typing
-			input.keyup(function(event) {
-				try {
-					checkInput();
-					input.tipsy('hide');
-					input.removeClass('error');
-				} catch (error) {
-					input.attr('title', error);
-					input.tipsy({gravity: 'w', trigger: 'manual'});
-					input.tipsy('show');
-					input.addClass('error');
-				}
-			});
-
-			input.focus();
-			// pre select name up to the extension
-			lastPos = newName.lastIndexOf('.');
-			if (lastPos === -1) {
-				lastPos = newName.length;
-			}
-			input.selectRange(0, lastPos);
-			form.submit(function(event) {
-				event.stopPropagation();
-				event.preventDefault();
-				try {
-					checkInput();
-					var newname = input.val();
-					if (FileList.lastAction) {
-						FileList.lastAction();
-					}
-					var name = FileList.getUniqueName(newname);
-					switch(type) {
-						case 'file':
-							$.post(
-								OC.filePath('files', 'ajax', 'newfile.php'),
-								{
-									dir: FileList.getCurrentDirectory(),
-									filename: name
-								},
-								function(result) {
-									if (result.status === 'success') {
-										FileList.add(result.data, {animate: true, scrollTo: true});
-									} else {
-										OC.dialogs.alert(result.data.message, t('core', 'Could not create file'));
-									}
-								}
-							);
-							break;
-						case 'folder':
-							$.post(
-								OC.filePath('files','ajax','newfolder.php'),
-								{
-									dir: FileList.getCurrentDirectory(),
-									foldername: name
-								},
-								function(result) {
-									if (result.status === 'success') {
-										FileList.add(result.data, {animate: true, scrollTo: true});
-									} else {
-										OC.dialogs.alert(result.data.message, t('core', 'Could not create folder'));
-									}
-								}
-							);
-							break;
-					}
-					var li = form.parent();
-					form.remove();
-					/* workaround for IE 9&10 click event trap, 2 lines: */
-					$('input').first().focus();
-					$('#content').focus();
-					li.append('<p>' + li.data('text') + '</p>');
-					$('#new>a').click();
-				} catch (error) {
-					input.attr('title', error);
-					input.tipsy({gravity: 'w', trigger: 'manual'});
-					input.tipsy('show');
-					input.addClass('error');
-				}
-			});
-		});
 		window.file_upload_param = file_upload_param;
 		return file_upload_param;
 	}

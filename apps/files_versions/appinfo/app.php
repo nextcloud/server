@@ -2,6 +2,7 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -19,7 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-OCP\Util::addscript('files_versions', 'versions');
-OCP\Util::addStyle('files_versions', 'versions');
+
+\OCP\Util::addStyle('files_versions', 'versions');
 
 \OCA\Files_Versions\Hooks::connectHooks();

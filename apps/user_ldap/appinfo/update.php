@@ -1,5 +1,7 @@
 <?php
 /**
+ * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lennart Rosam <hello@takuto.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -34,3 +36,6 @@ if(version_compare($installedVersion, '0.6.2', '<')) {
 		\OC::$server->getConfig()->deleteAppValue('user_ldap', $prefix . "ldap_nocase");
 	}
 }
+
+OCP\Backgroundjob::registerJob('OCA\user_ldap\lib\Jobs');
+OCP\Backgroundjob::registerJob('\OCA\User_LDAP\Jobs\CleanUp');

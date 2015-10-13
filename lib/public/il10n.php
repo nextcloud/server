@@ -100,7 +100,7 @@ interface IL10N {
 
 
 	/**
-	 * The code (en, de, ...) of the language that is used for this OC_L10N object
+	 * The code (en, de, ...) of the language that is used for this IL10N object
 	 *
 	 * @return string language
 	 * @since 7.0.0

@@ -39,6 +39,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "Uporabnik %2$s je omogočil souporabo %1$s",
     "You shared %1$s via link" : "Omogočili ste souporabo %1$s preko povezave",
     "Shares" : "Souporaba",
+    "Accept" : "Sprejmi",
     "This share is password-protected" : "To mesto je zaščiteno z geslom.",
     "The password is wrong. Try again." : "Geslo je napačno. Poskusite znova.",
     "Password" : "Geslo",

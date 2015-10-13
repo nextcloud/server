@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -32,8 +33,6 @@ use OCP\IRequest;
  * @package OCA\Files_Sharing\Controllers
  */
 class ExternalShareControllerTest extends \Test\TestCase {
-	/** @var bool */
-	private $incomingShareEnabled;
 	/** @var IRequest */
 	private $request;
 	/** @var \OCA\Files_Sharing\External\Manager */
@@ -57,22 +56,12 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		return new ExternalSharesController(
 			'files_sharing',
 			$this->request,
-			$this->incomingShareEnabled,
 			$this->externalManager,
 			$this->clientService
 		);
 	}
 
-	public function testIndexDisabled() {
-		$this->externalManager
-			->expects($this->never())
-			->method('getOpenShares');
-
-		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->index());
-	}
-
-	public function testIndexEnabled() {
-		$this->incomingShareEnabled = true;
+	public function testIndex() {
 		$this->externalManager
 			->expects($this->once())
 			->method('getOpenShares')
@@ -81,16 +70,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$this->assertEquals(new JSONResponse(['MyDummyArray']), $this->getExternalShareController()->index());
 	}
 
-	public function testCreateDisabled() {
-		$this->externalManager
-			->expects($this->never())
-			->method('acceptShare');
-
-		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->create(4));
-	}
-
-	public function testCreateEnabled() {
-		$this->incomingShareEnabled = true;
+	public function testCreate() {
 		$this->externalManager
 			->expects($this->once())
 			->method('acceptShare')
@@ -99,16 +79,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->create(4));
 	}
 
-	public function testDestroyDisabled() {
-		$this->externalManager
-			->expects($this->never())
-			->method('destroy');
-
-		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->destroy(4));
-	}
-
-	public function testDestroyEnabled() {
-		$this->incomingShareEnabled = true;
+	public function testDestroy() {
 		$this->externalManager
 			->expects($this->once())
 			->method('declineShare')

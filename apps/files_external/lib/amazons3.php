@@ -7,6 +7,7 @@
  * @author Christopher T. Johnson <ctjctj@gmail.com>
  * @author Johan Björk <johanimon@gmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
@@ -517,7 +518,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$dh = $this->opendir($path1);
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
-					if ($file === '.' || $file === '..') {
+					if (\OC\Files\Filesystem::isIgnoredDir($file)) {
 						continue;
 					}
 
@@ -592,7 +593,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			'key' => $this->params['key'],
 			'secret' => $this->params['secret'],
 			'base_url' => $base_url,
-			'region' => $this->params['region']
+			'region' => $this->params['region'],
+			S3Client::COMMAND_PARAMS => [
+				'PathStyle' => $this->params['use_path_style'],
+			],
 		));
 
 		if (!$this->connection->isValidBucketName($this->bucket)) {

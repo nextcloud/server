@@ -5,6 +5,7 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Craig Morrissey <craig@owncloud.com>
  * @author dampfklon <me@dampfklon.de>
+ * @author Felix Böhm <felixboehm@gmx.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
@@ -183,6 +184,37 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 
 			$result = $mailNotification->sendLinkShareMail($to_address, $file, $link, $expiration);
 			if(empty($result)) {
+				// Get the token from the link
+				$linkParts = explode('/', $link);
+				$token = array_pop($linkParts);
+
+				// Get the share for the token
+				$share = \OCP\Share::getShareByToken($token, false);
+				if ($share !== false) {
+					$currentUser = \OC::$server->getUserSession()->getUser()->getUID();
+					$file = '/' . ltrim($file, '/');
+
+					// Check whether share belongs to the user and whether the file is the same
+					if ($share['file_target'] === $file && $share['uid_owner'] === $currentUser) {
+
+						// Get the path for the user
+						$view = new \OC\Files\View('/' . $currentUser . '/files');
+						$fileId = (int) $share['item_source'];
+						$path = $view->getPath((int) $share['item_source']);
+
+						if ($path !== null) {
+							$event = \OC::$server->getActivityManager()->generateEvent();
+							$event->setApp(\OCA\Files_Sharing\Activity::FILES_SHARING_APP)
+								->setType(\OCA\Files_Sharing\Activity::TYPE_SHARED)
+								->setAuthor($currentUser)
+								->setAffectedUser($currentUser)
+								->setObject('files', $fileId, $path)
+								->setSubject(\OCA\Files_Sharing\Activity::SUBJECT_SHARED_EMAIL, [$path, $to_address]);
+							\OC::$server->getActivityManager()->publish($event);
+						}
+					}
+				}
+
 				\OCP\JSON::success();
 			} else {
 				$l = \OC::$server->getL10N('core');
@@ -379,6 +411,16 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					}
 				}
 
+				$sharingAutocompletion = \OC::$server->getConfig()
+					->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes');
+
+				if ($sharingAutocompletion !== 'yes') {
+					$searchTerm = strtolower($_GET['search']);
+					$shareWith = array_filter($shareWith, function($user) use ($searchTerm) {
+						return strtolower($user['label']) === $searchTerm
+							|| strtolower($user['value']['shareWith']) === $searchTerm;
+					});
+				}
 
 				$sorter = new \OC\Share\SearchResultSorter((string)$_GET['search'],
 														   'label',

@@ -3,7 +3,6 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
@@ -25,14 +24,12 @@
 
 namespace OC\Encryption;
 
+use OC\Encryption\Keys\Storage;
 use OC\Files\Filesystem;
-use OC\Files\Storage\Shared;
-use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
-use OC\Search\Provider\File;
+use OC\ServiceUnavailableException;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
-use OCP\Files\Mount\IMountPoint;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -51,16 +48,26 @@ class Manager implements IManager {
 	/** @var Il10n */
 	protected $l;
 
+	/** @var View  */
+	protected $rootView;
+
+	/** @var Util  */
+	protected $util;
+
 	/**
 	 * @param IConfig $config
 	 * @param ILogger $logger
 	 * @param IL10N $l10n
+	 * @param View $rootView
+	 * @param Util $util
 	 */
-	public function __construct(IConfig $config, ILogger $logger, IL10N $l10n) {
+	public function __construct(IConfig $config, ILogger $logger, IL10N $l10n, View $rootView, Util $util) {
 		$this->encryptionModules = array();
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->l = $l10n;
+		$this->rootView = $rootView;
+		$this->util = $util;
 	}
 
 	/**
@@ -82,7 +89,8 @@ class Manager implements IManager {
 	/**
 	 * check if new encryption is ready
 	 *
-	 * @return boolean
+	 * @return bool
+	 * @throws ServiceUnavailableException
 	 */
 	public function isReady() {
 		// check if we are still in transit between the old and the new encryption
@@ -94,6 +102,11 @@ class Manager implements IManager {
 			$this->logger->warning($warning);
 			return false;
 		}
+
+		if ($this->isKeyStorageReady() === false) {
+			throw new ServiceUnavailableException('Key Storage is not ready');
+		}
+
 		return true;
 	}
 
@@ -221,6 +234,31 @@ class Manager implements IManager {
 			\OC::$server->getGroupManager(),
 			\OC::$server->getConfig()
 		);
-		\OC\Files\Filesystem::addStorageWrapper('oc_encryption', array($util, 'wrapStorage'), 2);
+		Filesystem::addStorageWrapper('oc_encryption', array($util, 'wrapStorage'), 2);
 	}
+
+
+	/**
+	 * check if key storage is ready
+	 *
+	 * @return bool
+	 */
+	protected function isKeyStorageReady() {
+
+		$rootDir = $this->util->getKeyStorageRoot();
+
+		// the default root is always valid
+		if ($rootDir === '') {
+			return true;
+		}
+
+		// check if key storage is mounted correctly
+		if ($this->rootView->file_exists($rootDir . '/' . Storage::KEY_STORAGE_MARKER)) {
+			return true;
+		}
+
+		return false;
+	}
+
+
 }

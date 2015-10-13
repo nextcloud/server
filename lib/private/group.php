@@ -36,6 +36,7 @@
 /**
  * This class provides all methods needed for managing groups.
  *
+ * Note that &run is deprecated and won't work anymore.
  * Hooks provided:
  *   pre_createGroup(&run, gid)
  *   post_createGroup(gid)

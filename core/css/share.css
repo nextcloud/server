@@ -23,29 +23,25 @@
 	}
 }
 
-#dropdown.shareDropDown .unshare.icon-loading-small {
+.shareTabView .unshare.icon-loading-small {
 	margin-top: 1px;
 }
 
-#dropdown.shareDropDown .shareWithLoading,
-#dropdown.shareDropDown .linkShare .icon-loading-small {
+.shareTabView .shareWithLoading,
+.shareTabView .linkShare .icon-loading-small {
 	display: inline-block !important;
 	padding-left: 10px;
 }
-#dropdown.shareDropDown .shareWithLoading {
+.shareTabView .shareWithLoading {
 	position: relative;
 	right: 70px;
 	top: 2px;
 }
-#dropdown.shareDropDown .icon-loading-small.hidden {
+.shareTabView .icon-loading-small.hidden {
 	display: none !important;
 }
 
-#dropdown .shareWithRemoteInfo {
-	padding: 11px 20px;
-}
-
-#dropdown .avatar {
+.shareTabView .avatar {
 	margin-right: 8px;
 	display: inline-block;
 	overflow: hidden;
@@ -87,12 +83,12 @@
 #shareWithList li label{
 	margin-right: 8px;
 }
-#dropdown label {
+.shareTabView label {
 	font-weight:400;
 	white-space: nowrap;
 }
 
-#dropdown input[type="checkbox"] {
+.shareTabView input[type="checkbox"] {
 	margin:0 3px 0 8px;
 	vertical-align: middle;
 }
@@ -106,8 +102,9 @@ a.unshare {
 	display:inline;
 	float:right;
 	opacity:.5;
-	padding:5px 0 0 5px !important;
-	margin-top:-5px;
+	padding: 10px;
+	margin-top: -5px;
+	margin-right: -10px;
 }
 
 #link {
@@ -115,19 +112,22 @@ a.unshare {
 	padding-top:8px;
 }
 
-#dropdown input[type="text"],#dropdown input[type="password"] {
-	width: 86%;
+.shareTabView input[type="submit"] {
 	margin-left: 7px;
 }
 
-#dropdown form {
+.shareTabView form {
 	font-size: 100%;
 	margin-left: 0;
 	margin-right: 0;
 }
 
-#linkText,#linkPass,#expiration {
-	display:none;
+.shareTabView .error {
+	color: #e9322d;
+	border-color: #e9322d;
+	-webkit-box-shadow: 0 0 6px #f8b9b7;
+	-moz-box-shadow: 0 0 6px #f8b9b7;
+	box-shadow: 0 0 6px #f8b9b7;
 }
 
 #link #showPassword img {

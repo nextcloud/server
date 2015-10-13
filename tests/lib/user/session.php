@@ -20,7 +20,7 @@ class Session extends \Test\TestCase {
 			->with('user_id')
 			->will($this->returnValue('foo'));
 
-		$backend = $this->getMock('OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 		$backend->expects($this->once())
 			->method('userExists')
 			->with('foo')
@@ -41,7 +41,7 @@ class Session extends \Test\TestCase {
 			->with('user_id')
 			->will($this->returnValue('foo'));
 
-		$backend = $this->getMock('OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 		$backend->expects($this->once())
 			->method('userExists')
 			->with('foo')
@@ -62,7 +62,7 @@ class Session extends \Test\TestCase {
 			->with('user_id')
 			->will($this->returnValue(null));
 
-		$backend = $this->getMock('OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 		$backend->expects($this->never())
 			->method('userExists');
 
@@ -82,7 +82,7 @@ class Session extends \Test\TestCase {
 
 		$manager = $this->getMock('\OC\User\Manager');
 
-		$backend = $this->getMock('OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
 		$user->expects($this->once())
@@ -122,7 +122,7 @@ class Session extends \Test\TestCase {
 		}
 		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
-		$backend = $this->getMock('OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
 		$user->expects($this->once())
@@ -161,7 +161,7 @@ class Session extends \Test\TestCase {
 		}
 		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
-		$backend = $this->getMock('OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
 		$user->expects($this->once())
@@ -196,7 +196,7 @@ class Session extends \Test\TestCase {
 		}
 		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
-		$backend = $this->getMock('OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
 		$user->expects($this->never())
@@ -220,7 +220,7 @@ class Session extends \Test\TestCase {
 
 		$manager = $this->getMock('\OC\User\Manager');
 
-		$backend = $this->getMock('OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$manager->expects($this->once())
 			->method('checkPassword')
@@ -257,7 +257,7 @@ class Session extends \Test\TestCase {
 		}
 		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
-		$backend = $this->getMock('OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
 
@@ -305,7 +305,7 @@ class Session extends \Test\TestCase {
 		}
 		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
-		$backend = $this->getMock('OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
 
@@ -347,7 +347,7 @@ class Session extends \Test\TestCase {
 		}
 		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
-		$backend = $this->getMock('OC_User_Dummy');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
 

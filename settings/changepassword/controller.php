@@ -6,7 +6,6 @@
  * @author cmeh <cmeh@users.noreply.github.com>
  * @author Florin Peter <github@florin-peter.de>
  * @author Jakob Sack <mail@jakobsack.de>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Sam Tuke <mail@samtuke.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

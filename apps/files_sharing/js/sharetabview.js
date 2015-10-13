@@ -10,7 +10,9 @@
 
 (function() {
 	var TEMPLATE =
-		'<div><ul>{{#if owner}}<li>Owner: {{owner}}</li>{{/if}}</ul></div>';
+		'<div>' +
+		'<div class="dialogContainer"></div>' +
+		'</div>';
 
 	/**
 	 * @memberof OCA.Sharing
@@ -20,7 +22,12 @@
 		id: 'shareTabView',
 		className: 'tab shareTabView',
 
-		_template: null,
+		template: function(params) {
+			if (!this._template) {
+				this._template = Handlebars.compile(TEMPLATE);
+			}
+			return this._template(params);
+		},
 
 		getLabel: function() {
 			return t('files_sharing', 'Sharing');
@@ -30,23 +37,40 @@
 		 * Renders this details view
 		 */
 		render: function() {
-			this.$el.empty();
-
-			if (!this._template) {
-				this._template = Handlebars.compile(TEMPLATE);
+			var self = this;
+			if (this._dialog) {
+				// remove/destroy older instance
+				this._dialog.model.off();
+				this._dialog.remove();
+				this._dialog = null;
 			}
 
 			if (this.model) {
-				console.log(this.model);
-				var owner = this.model.get('shareOwner');
-				if (owner === OC.currentUser) {
-					owner = null;
-				}
-				this.$el.append(this._template({
-					owner: owner
-				}));
+				this.$el.html(this.template());
 
+				// TODO: the model should read these directly off the passed fileInfoModel
+				var attributes = {
+					itemType: this.model.isDirectory() ? 'folder' : 'file',
+				   	itemSource: this.model.get('id'),
+					possiblePermissions: this.model.get('sharePermissions')
+				};
+				var configModel = new OC.Share.ShareConfigModel();
+				var shareModel = new OC.Share.ShareItemModel(attributes, {
+					configModel: configModel,
+					fileInfoModel: this.model
+				});
+				this._dialog = new OC.Share.ShareDialogView({
+					configModel: configModel,
+					model: shareModel
+				});
+				this.$el.find('.dialogContainer').append(this._dialog.$el);
+				this._dialog.render();
+				this._dialog.model.fetch();
+				this._dialog.model.on('change', function() {
+					self.trigger('sharesChanged', shareModel);
+				});
 			} else {
+				this.$el.empty();
 				// TODO: render placeholder text?
 			}
 		}

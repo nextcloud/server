@@ -470,6 +470,11 @@ var UserList = {
 								UserList.availableGroups.push(groupName);
 							}
 
+							if (response.data.action === 'add') {
+								GroupList.incGroupCount(groupName);
+							} else {
+								GroupList.decGroupCount(groupName);
+							}
 						}
 						if (response.data.message) {
 							OC.Notification.show(response.data.message);
@@ -813,44 +818,73 @@ $(document).ready(function () {
 			});
 	});
 
+	if ($('#CheckboxStorageLocation').is(':checked')) {
+		$("#userlist .storageLocation").show();
+	}
 	// Option to display/hide the "Storage location" column
 	$('#CheckboxStorageLocation').click(function() {
 		if ($('#CheckboxStorageLocation').is(':checked')) {
 			$("#userlist .storageLocation").show();
+			OC.AppConfig.setValue('core', 'umgmt_show_storage_location', 'true');
 		} else {
 			$("#userlist .storageLocation").hide();
+			OC.AppConfig.setValue('core', 'umgmt_show_storage_location', 'false');
 		}
 	});
+
+	if ($('#CheckboxLastLogin').is(':checked')) {
+		$("#userlist .lastLogin").show();
+	}
 	// Option to display/hide the "Last Login" column
 	$('#CheckboxLastLogin').click(function() {
 		if ($('#CheckboxLastLogin').is(':checked')) {
 			$("#userlist .lastLogin").show();
+			OC.AppConfig.setValue('core', 'umgmt_show_last_login', 'true');
 		} else {
 			$("#userlist .lastLogin").hide();
+			OC.AppConfig.setValue('core', 'umgmt_show_last_login', 'false');
 		}
 	});
+
+	if ($('#CheckboxEmailAddress').is(':checked')) {
+		$("#userlist .mailAddress").show();
+	}
 	// Option to display/hide the "Mail Address" column
 	$('#CheckboxEmailAddress').click(function() {
 		if ($('#CheckboxEmailAddress').is(':checked')) {
 			$("#userlist .mailAddress").show();
+			OC.AppConfig.setValue('core', 'umgmt_show_email', 'true');
 		} else {
 			$("#userlist .mailAddress").hide();
+			OC.AppConfig.setValue('core', 'umgmt_show_email', 'false');
 		}
 	});
+
+	if ($('#CheckboxUserBackend').is(':checked')) {
+		$("#userlist .userBackend").show();
+	}
 	// Option to display/hide the "User Backend" column
 	$('#CheckboxUserBackend').click(function() {
 		if ($('#CheckboxUserBackend').is(':checked')) {
 			$("#userlist .userBackend").show();
+			OC.AppConfig.setValue('core', 'umgmt_show_backend', 'true');
 		} else {
 			$("#userlist .userBackend").hide();
+			OC.AppConfig.setValue('core', 'umgmt_show_backend', 'false');
 		}
 	});
+
+	if ($('#CheckboxMailOnUserCreate').is(':checked')) {
+		$("#newemail").show();
+	}
 	// Option to display/hide the "E-Mail" input field
 	$('#CheckboxMailOnUserCreate').click(function() {
 		if ($('#CheckboxMailOnUserCreate').is(':checked')) {
 			$("#newemail").show();
+			OC.AppConfig.setValue('core', 'umgmt_send_email', 'true');
 		} else {
 			$("#newemail").hide();
+			OC.AppConfig.setValue('core', 'umgmt_send_email', 'false');
 		}
 	});
 

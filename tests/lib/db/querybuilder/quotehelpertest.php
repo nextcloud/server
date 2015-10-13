@@ -43,6 +43,10 @@ class QuoteHelperTest extends \Test\TestCase {
 			[new Literal('literal'), 'literal'],
 			[new Literal(1), '1'],
 			[new Parameter(':param'), ':param'],
+
+			// (string) 'null' is Doctrines way to set columns to null
+			// See https://github.com/owncloud/core/issues/19314
+			['null', 'null'],
 		];
 	}
 

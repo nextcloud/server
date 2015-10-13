@@ -5,6 +5,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
@@ -78,7 +79,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService('OCP\\AppFramework\\Http\\IOutput', function($c){
-			return new Output();
+			return new Output($this->getServer()->getWebRoot());
 		});
 
 		$this->registerService('OCP\\IAvatarManager', function($c) {

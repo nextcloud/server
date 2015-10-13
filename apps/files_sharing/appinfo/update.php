@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -28,3 +29,4 @@ if (version_compare($installedVersion, '0.6.0', '<')) {
 	$m->addAcceptRow();
 }
 
+\OC::$server->getJobList()->add('OCA\Files_sharing\Lib\DeleteOrphanedSharesJob');

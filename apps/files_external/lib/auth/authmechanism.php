@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@owncloud.com>
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -92,6 +92,8 @@ class AuthMechanism implements \JsonSerializable {
 	 */
 	public function jsonSerialize() {
 		$data = $this->jsonSerializeDefinition();
+		$data += $this->jsonSerializeIdentifier();
+
 		$data['scheme'] = $this->getScheme();
 
 		return $data;

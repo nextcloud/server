@@ -356,7 +356,7 @@ var createDragShadow = function(event) {
 	var isDragSelected = $(event.target).parents('tr').find('td input:first').prop('checked');
 	if (!isDragSelected) {
 		//select dragged file
-		FileList._selectFileEl($(event.target).parents('tr:first'), true);
+		FileList._selectFileEl($(event.target).parents('tr:first'), true, false);
 	}
 
 	// do not show drag shadow for too many files
@@ -365,7 +365,7 @@ var createDragShadow = function(event) {
 
 	if (!isDragSelected && selectedFiles.length === 1) {
 		//revert the selection
-		FileList._selectFileEl($(event.target).parents('tr:first'), false);
+		FileList._selectFileEl($(event.target).parents('tr:first'), false, false);
 	}
 
 	// build dragshadow
@@ -413,22 +413,17 @@ var dragOptions={
 	cursor: 'move',
 	start: function(event, ui){
 		var $selectedFiles = $('td.filename input:checkbox:checked');
-		if($selectedFiles.length > 1){
-			$selectedFiles.parents('tr').fadeTo(250, 0.2);
+		if (!$selectedFiles.length) {
+			$selectedFiles = $(this);
 		}
-		else{
-			$(this).fadeTo(250, 0.2);
-		}
+		$selectedFiles.closest('tr').fadeTo(250, 0.2).addClass('dragging');
 	},
 	stop: function(event, ui) {
 		var $selectedFiles = $('td.filename input:checkbox:checked');
-		if($selectedFiles.length > 1){
-			$selectedFiles.parents('tr').fadeTo(250, 1);
+		if (!$selectedFiles.length) {
+			$selectedFiles = $(this);
 		}
-		else{
-			$(this).fadeTo(250, 1);
-		}
-		$('#fileList tr td.filename').addClass('ui-draggable');
+		$selectedFiles.closest('tr').fadeTo(250, 1).removeClass('dragging');
 	}
 };
 // sane browsers support using the distance option

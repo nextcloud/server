@@ -3,11 +3,11 @@
   "shippedApps": [
     "activity",
     "admin_audit",
+    "encryption",
     "enterprise_key",
     "external",
     "files",
     "files_antivirus",
-    "encryption",
     "files_external",
     "files_ldap_home",
     "files_locking",
@@ -21,6 +21,7 @@
     "firewall",
     "firstrunwizard",
     "gallery",
+    "notifications",
     "objectstore",
     "provisioning_api",
     "sharepoint",
@@ -29,7 +30,6 @@
     "user_external",
     "user_ldap",
     "user_shibboleth",
-    "user_webdavauth",
     "windows_network_drive"
   ]
 }

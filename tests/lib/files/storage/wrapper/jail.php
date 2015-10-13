@@ -30,7 +30,7 @@ class Jail extends \Test\Files\Storage\Storage {
 		$contents = array();
 		$dh = $this->sourceStorage->opendir('');
 		while ($file = readdir($dh)) {
-			if ($file !== '.' and $file !== '..') {
+			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 				$contents[] = $file;
 			}
 		}

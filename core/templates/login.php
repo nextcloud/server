@@ -3,7 +3,8 @@
 vendor_script('jsTimezoneDetect/jstz');
 script('core', [
 	'visitortimezone',
-	'lostpassword'
+	'lostpassword',
+	'login'
 ]);
 ?>
 
@@ -54,6 +55,7 @@ script('core', [
 				autocomplete="on" autocapitalize="off" autocorrect="off" required>
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
 			<img class="svg" id="password-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt=""/>
+			<input type="submit" id="submit" class="login primary icon-confirm svg" title="<?php p($l->t('Log in')); ?>" value="" disabled="disabled"/>
 		</p>
 
 		<?php if (isset($_['invalidpassword']) && ($_['invalidpassword'])): ?>
@@ -62,13 +64,14 @@ script('core', [
 		</a>
 		<?php endif; ?>
 		<?php if ($_['rememberLoginAllowed'] === true) : ?>
-		<input type="checkbox" name="remember_login" value="1" id="remember_login">
-		<label for="remember_login"><?php p($l->t('remember')); ?></label>
+		<div class="remember-login-container">
+			<input type="checkbox" name="remember_login" value="1" id="remember_login" class="checkbox checkbox--white">
+			<label for="remember_login"><?php p($l->t('remember')); ?></label>
+		</div>
 		<?php endif; ?>
 		<input type="hidden" name="timezone-offset" id="timezone-offset"/>
 		<input type="hidden" name="timezone" id="timezone"/>
 		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>">
-		<input type="submit" id="submit" class="login primary" value="<?php p($l->t('Log in')); ?>" disabled="disabled"/>
 	</fieldset>
 </form>
 <?php if (!empty($_['alt_login'])) { ?>

@@ -4,6 +4,7 @@
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Masaki Kawabata Neto <masaki.kawabata@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *

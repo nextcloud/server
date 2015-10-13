@@ -1,7 +1,7 @@
 <?php
 /**
+ * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
- * @author Robin McCorkell <rmccorkell@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -75,6 +75,8 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
 			->willReturn(true);
+		$authMech->method('isVisibleFor')
+			->willReturn(true);
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')
 			->willReturn(true);
@@ -113,6 +115,8 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	public function testUpdateStorage() {
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
+			->willReturn(true);
+		$authMech->method('isVisibleFor')
 			->willReturn(true);
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')
@@ -245,6 +249,8 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
 			->willReturn(true);
+		$authMech->method('isVisibleFor')
+			->willReturn(true);
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')
 			->willReturn(true);
@@ -338,6 +344,8 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
 			->will($this->returnValue($authMechValidate));
+		$authMech->method('isVisibleFor')
+			->willReturn(true);
 
 		$storageConfig = new StorageConfig();
 		$storageConfig->setMountPoint('mount');

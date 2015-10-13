@@ -15,6 +15,7 @@
 			?>
 		</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="referrer" content="never">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-itunes-app" content="app-id=<?php p($theme->getiTunesAppId()); ?>">
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -66,8 +67,10 @@
 					<?php if ($_['enableAvatars']): ?>
 					<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown'); } else { print_unescaped('" style="display: none'); } ?>">
 						<?php if ($_['userAvatarSet']): ?>
-							<img src="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 32]));?>?requesttoken=<?php p(urlencode($_['requesttoken'])); ?>"
-								alt="">
+							<img alt="" width="32" height="32"
+							src="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 32]));?>"
+							srcset="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 64]));?> 2x, <?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 128]));?> 4x"
+							>
 						<?php endif; ?>
 					</div>
 					<?php endif; ?>
