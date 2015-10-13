@@ -25,7 +25,7 @@ use OC\URLGenerator;
 /**
  * @package OCA\Files_Sharing\Controllers
  */
-class ShareControllerTest extends \PHPUnit_Framework_TestCase {
+class ShareControllerTest extends \Test\TestCase {
 
 	/** @var IAppContainer */
 	private $container;
@@ -41,6 +41,8 @@ class ShareControllerTest extends \PHPUnit_Framework_TestCase {
 	private $urlGenerator;
 
 	protected function setUp() {
+		parent::setUp();
+
 		$app = new Application();
 		$this->container = $app->getContainer();
 		$this->container['Config'] = $this->getMockBuilder('\OCP\IConfig')
@@ -92,6 +94,8 @@ class ShareControllerTest extends \PHPUnit_Framework_TestCase {
 		// Set old user
 		\OC_User::setUserId($this->oldUser);
 		\OC_Util::setupFS($this->oldUser);
+
+		parent::tearDown();
 	}
 
 	public function testShowAuthenticate() {
