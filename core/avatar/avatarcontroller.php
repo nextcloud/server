@@ -29,7 +29,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\IAvatarManager;
-use OCP\ICache;
+use OCP\ILogger;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -57,6 +57,9 @@ class AvatarController extends Controller {
 	/** @var IUserSession */
 	protected $userSession;
 
+	/** @var ILogger */
+	protected $logger;
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -65,6 +68,7 @@ class AvatarController extends Controller {
 	 * @param IL10N $l10n
 	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
+	 * @param ILogger $logger
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -72,7 +76,8 @@ class AvatarController extends Controller {
 								\OC\Cache\File $cache,
 								IL10N $l10n,
 								IUserManager $userManager,
-								IUserSession $userSession) {
+								IUserSession $userSession,
+								ILogger $logger) {
 		parent::__construct($appName, $request);
 
 		$this->avatarManager = $avatarManager;
@@ -80,6 +85,7 @@ class AvatarController extends Controller {
 		$this->l = $l10n;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -180,7 +186,18 @@ class AvatarController extends Controller {
 				return new DataResponse(['data' => ['message' => $this->l->t('Invalid image')]]);
 			}
 		} catch (\Exception $e) {
-			return new DataResponse(['data' => ['message' => $e->getMessage()]]);
+			$exception = array(
+				'Exception' => get_class($e),
+				'Message' => $e->getMessage(),
+				'Code' => $e->getCode(),
+				'Trace' => $e->getTraceAsString(),
+				'File' => $e->getFile(),
+				'Line' => $e->getLine(),
+			);
+			$exception['Trace'] = preg_replace('!(login|checkPassword)\(.*\)!', '$1(*** username and password replaced ***)', $exception['Trace']);
+			$this->logger->error('Exception: ' . json_encode($exception), array('app' => 'core'));
+
+			return new DataResponse(['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]]);
 		}
 	}
 
@@ -197,7 +214,18 @@ class AvatarController extends Controller {
 			$avatar->remove();
 			return new DataResponse();
 		} catch (\Exception $e) {
-			return new DataResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_BAD_REQUEST);
+			$exception = array(
+				'Exception' => get_class($e),
+				'Message' => $e->getMessage(),
+				'Code' => $e->getCode(),
+				'Trace' => $e->getTraceAsString(),
+				'File' => $e->getFile(),
+				'Line' => $e->getLine(),
+			);
+			$exception['Trace'] = preg_replace('!(login|checkPassword)\(.*\)!', '$1(*** username and password replaced ***)', $exception['Trace']);
+			$this->logger->error('Exception: ' . json_encode($exception), array( 'app' => 'core'));
+
+			return new DataResponse(['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -265,10 +293,19 @@ class AvatarController extends Controller {
 		} catch (\OC\NotSquareException $e) {
 			return new DataResponse(['data' => ['message' => $this->l->t('Crop is not square')]],
 									Http::STATUS_BAD_REQUEST);
+		} catch (\Exception $e) {
+			$exception = array(
+				'Exception' => get_class($e),
+				'Message' => $e->getMessage(),
+				'Code' => $e->getCode(),
+				'Trace' => $e->getTraceAsString(),
+				'File' => $e->getFile(),
+				'Line' => $e->getLine(),
+			);
+			$exception['Trace'] = preg_replace('!(login|checkPassword)\(.*\)!', '$1(*** username and password replaced ***)', $exception['Trace']);
+			$this->logger->error('Exception: ' . json_encode($exception), array('app' => 'core'));
 
-		}catch (\Exception $e) {
-			return new DataResponse(['data' => ['message' => $e->getMessage()]],
-									Http::STATUS_BAD_REQUEST);
+			return new DataResponse(['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]], Http::STATUS_BAD_REQUEST);
 		}
 	}
 }

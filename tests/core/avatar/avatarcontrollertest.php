@@ -72,6 +72,8 @@ class AvatarControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->container['Request'] = $this->getMockBuilder('OCP\IRequest')
 			->disableOriginalConstructor()->getMock();
+		$this->container['Logger'] = $this->getMockBuilder('OCP\ILogger')
+			->disableOriginalConstructor()->getMock();
 
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')
 			->disableOriginalConstructor()->getMock();
@@ -214,11 +216,25 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Test what happens if the removing of the avatar fails
 	 */
 	public function testDeleteAvatarException() {
-		$this->avatarMock->method('remove')->will($this->throwException(new \Exception("foo")));
+		$e = new \Exception('Foo');
+		$this->avatarMock->method('remove')->will($this->throwException($e));
 		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
 
-		$response = $this->avatarController->deleteAvatar();
-		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
+		$exception = array(
+			'Exception' => get_class($e),
+			'Message' => $e->getMessage(),
+			'Code' => $e->getCode(),
+			'Trace' => $e->getTraceAsString(),
+			'File' => $e->getFile(),
+			'Line' => $e->getLine(),
+		);
+		$exception['Trace'] = preg_replace('!(login|checkPassword)\(.*\)!', '$1(*** username and password replaced ***)', $exception['Trace']);
+
+		$this->container['Logger']->expects($this->once())
+			->method('error')
+			->with('Exception: ' . json_encode($exception), array('app' => 'core'));
+		$expectedResponse = new Http\DataResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
+		$this->assertEquals($expectedResponse, $this->avatarController->deleteAvatar());
 	}
 
 	/**

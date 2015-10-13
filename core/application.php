@@ -82,7 +82,8 @@ class Application extends App {
 				$c->query('Cache'),
 				$c->query('L10N'),
 				$c->query('UserManager'),
-				$c->query('UserSession')
+				$c->query('UserSession'),
+				$c->query('Logger')
 			);
 		});
 
@@ -123,6 +124,9 @@ class Application extends App {
 		});
 		$container->registerService('Mailer', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getMailer();
+		});
+		$container->registerService('Logger', function(SimpleContainer $c) {
+			return $c->query('ServerContainer')->getLogger();
 		});
 		$container->registerService('DefaultEmailAddress', function() {
 			return Util::getDefaultEmailAddress('lostpassword-noreply');
