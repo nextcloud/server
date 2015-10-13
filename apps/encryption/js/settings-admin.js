@@ -76,4 +76,13 @@ $(document).ready(function () {
 			});
 	});
 
+	$('#encryptHomeStorage').change(function() {
+		$.post(
+			OC.generateUrl('/apps/encryption/ajax/setEncryptHomeStorage'),
+			{
+				encryptHomeStorage: this.checked
+			}
+		);
+	});
+
 });

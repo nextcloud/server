@@ -94,9 +94,38 @@ class Util {
 		$recoveryMode = $this->config->getUserValue($uid,
 			'encryption',
 			'recoveryEnabled',
-			0);
+			'0');
 
 		return ($recoveryMode === '1');
+	}
+
+	/**
+	 * check if the home storage should be encrypted
+	 *
+	 * @return bool
+	 */
+	public function shouldEncryptHomeStorage() {
+		$encryptHomeStorage = $this->config->getAppValue(
+			'encryption',
+			'encryptHomeStorage',
+			'1'
+		);
+
+		return ($encryptHomeStorage === '1');
+	}
+
+	/**
+	 * check if the home storage should be encrypted
+	 *
+	 * @param bool $encryptHomeStorage
+	 */
+	public function setEncryptHomeStorage($encryptHomeStorage) {
+		$value = $encryptHomeStorage ? '1' : '0';
+		$this->config->setAppValue(
+			'encryption',
+			'encryptHomeStorage',
+			$value
+		);
 	}
 
 	/**
@@ -155,6 +184,17 @@ class Util {
 		}
 
 		return $owner;
+	}
+
+	/**
+	 * get storage of path
+	 *
+	 * @param string $path
+	 * @return \OC\Files\Storage\Storage
+	 */
+	public function getStorage($path) {
+		$storage = $this->files->getMount($path)->getStorage();
+		return $storage;
 	}
 
 }

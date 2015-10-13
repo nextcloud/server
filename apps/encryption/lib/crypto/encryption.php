@@ -378,6 +378,12 @@ class Encryption implements IEncryptionModule {
 	 * @return boolean
 	 */
 	public function shouldEncrypt($path) {
+		if ($this->util->shouldEncryptHomeStorage() === false) {
+			$storage = $this->util->getStorage($path);
+			if ($storage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
+				return false;
+			}
+		}
 		$parts = explode('/', $path);
 		if (count($parts) < 4) {
 			return false;

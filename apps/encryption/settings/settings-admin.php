@@ -25,12 +25,27 @@
 
 $tmpl = new OCP\Template('encryption', 'settings-admin');
 
+$crypt = new \OCA\Encryption\Crypto\Crypt(
+	\OC::$server->getLogger(),
+	\OC::$server->getUserSession(),
+	\OC::$server->getConfig());
+
+$util = new \OCA\Encryption\Util(
+	new \OC\Files\View(),
+	$crypt,
+	\OC::$server->getLogger(),
+	\OC::$server->getUserSession(),
+	\OC::$server->getConfig(),
+	\OC::$server->getUserManager());
+
 // Check if an adminRecovery account is enabled for recovering files after lost pwd
 $recoveryAdminEnabled = \OC::$server->getConfig()->getAppValue('encryption', 'recoveryAdminEnabled', '0');
 $session = new \OCA\Encryption\Session(\OC::$server->getSession());
 
+$encryptHomeStorage = $util->shouldEncryptHomeStorage($user);
 
 $tmpl->assign('recoveryEnabled', $recoveryAdminEnabled);
 $tmpl->assign('initStatus', $session->getStatus());
+$tmpl->assign('encryptHomeStorage', $encryptHomeStorage);
 
 return $tmpl->fetchPage();
