@@ -600,22 +600,24 @@ class Test_Trashbin extends \Test\TestCase {
 
 		// delete source folder
 		list($storage, $internalPath) = $this->rootView->resolvePath('/' . self::TEST_TRASHBIN_USER1 . '/files/folder');
-		$folderAbsPath = $storage->getSourcePath($internalPath);
-		// make folder read-only
-		chmod($folderAbsPath, 0555);
+		if ($storage instanceof \OC\Files\Storage\Local) {
+			$folderAbsPath = $storage->getSourcePath($internalPath);
+			// make folder read-only
+			chmod($folderAbsPath, 0555);
 
-		$this->assertTrue(
-			OCA\Files_Trashbin\Trashbin::restore(
-				'file1.txt.d' . $trashedFile->getMtime(),
-				$trashedFile->getName(),
-				$trashedFile->getMtime()
-			)
-		);
+			$this->assertTrue(
+				OCA\Files_Trashbin\Trashbin::restore(
+					'file1.txt.d' . $trashedFile->getMtime(),
+					$trashedFile->getName(),
+					$trashedFile->getMtime()
+				)
+			);
 
-		$file = $userFolder->get('file1.txt');
-		$this->assertEquals('foo', $file->getContent());
+			$file = $userFolder->get('file1.txt');
+			$this->assertEquals('foo', $file->getContent());
 
-		chmod($folderAbsPath, 0755);
+			chmod($folderAbsPath, 0755);
+		}
 	}
 
 	/**
