@@ -41,7 +41,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	const DOWNLOADURL_PROPERTYNAME = '{http://owncloud.org/ns}downloadURL';
 	const SIZE_PROPERTYNAME = '{http://owncloud.org/ns}size';
 	const GETETAG_PROPERTYNAME = '{DAV:}getetag';
-	const GETLASTMODIFIED_PROPERTYNAME = '{DAV:}getlastmodified';
+	const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
 
 	/**
 	 * Reference to main server object
@@ -101,7 +101,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 		$server->protectedProperties[] = self::DOWNLOADURL_PROPERTYNAME;
 
 		// normally these cannot be changed (RFC4918), but we want them modifiable through PROPPATCH
-		$allowedProperties = ['{DAV:}getetag', '{DAV:}getlastmodified'];
+		$allowedProperties = ['{DAV:}getetag'];
 		$server->protectedProperties = array_diff($server->protectedProperties, $allowedProperties);
 
 		$this->server = $server;
@@ -208,7 +208,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @return void
 	 */
 	public function handleUpdateProperties($path, PropPatch $propPatch) {
-		$propPatch->handle(self::GETLASTMODIFIED_PROPERTYNAME, function($time) use ($path) {
+		$propPatch->handle(self::LASTMODIFIED_PROPERTYNAME, function($time) use ($path) {
 			if (empty($time)) {
 				return false;
 			}
