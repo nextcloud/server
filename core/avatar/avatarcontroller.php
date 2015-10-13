@@ -30,7 +30,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\IAvatarManager;
-use OCP\ICache;
+use OCP\ILogger;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -62,6 +62,9 @@ class AvatarController extends Controller {
 	/** @var Folder */
 	protected $userFolder;
 
+	/** @var ILogger */
+	protected $logger;
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -71,6 +74,7 @@ class AvatarController extends Controller {
 	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
 	 * @param Folder $userFolder
+	 * @param ILogger $logger
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -79,7 +83,8 @@ class AvatarController extends Controller {
 								IL10N $l10n,
 								IUserManager $userManager,
 								IUserSession $userSession,
-								Folder $userFolder) {
+								Folder $userFolder,
+								ILogger $logger) {
 		parent::__construct($appName, $request);
 
 		$this->avatarManager = $avatarManager;
@@ -88,6 +93,7 @@ class AvatarController extends Controller {
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
 		$this->userFolder = $userFolder;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -218,11 +224,8 @@ class AvatarController extends Controller {
 				);
 			}
 		} catch (\Exception $e) {
-			return new DataResponse(
-				['data' => ['message' => $e->getMessage()]],
-				Http::STATUS_OK,
-				$headers
-			);
+			$this->logger->logException($e, ['app' => 'core']);
+			return new DataResponse(['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]], Http::STATUS_OK, $headers);
 		}
 	}
 
@@ -239,7 +242,8 @@ class AvatarController extends Controller {
 			$avatar->remove();
 			return new DataResponse();
 		} catch (\Exception $e) {
-			return new DataResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_BAD_REQUEST);
+			$this->logger->logException($e, ['app' => 'core']);
+			return new DataResponse(['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -307,10 +311,9 @@ class AvatarController extends Controller {
 		} catch (\OC\NotSquareException $e) {
 			return new DataResponse(['data' => ['message' => $this->l->t('Crop is not square')]],
 									Http::STATUS_BAD_REQUEST);
-
-		}catch (\Exception $e) {
-			return new DataResponse(['data' => ['message' => $e->getMessage()]],
-									Http::STATUS_BAD_REQUEST);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'core']);
+			return new DataResponse(['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]], Http::STATUS_BAD_REQUEST);
 		}
 	}
 }
