@@ -1679,6 +1679,62 @@ class Test_Share extends \Test\TestCase {
 		$config->deleteAppValue('core', 'shareapi_default_expire_date');
 		$config->deleteAppValue('core', 'shareapi_expire_after_n_days');
 	}
+
+	/**
+	 * Test case for #17560
+	 */
+	public function testAccesToSharedSubFolder() {
+		OC_User::setUserId($this->user1);
+		$view = new \OC\Files\View('/' . $this->user1 . '/');
+		$view->mkdir('files/folder1');
+
+		$fileInfo = $view->getFileInfo('files/folder1');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
+		$fileId = $fileInfo->getId();
+
+		$this->assertTrue(
+			OCP\Share::shareItem('folder', $fileId, OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_ALL),
+			'Failed asserting that user 1 successfully shared "test" with user 2.'
+		);
+		$this->assertTrue(
+			OCP\Share::shareItem('folder', $fileId, OCP\Share::SHARE_TYPE_USER, $this->user3, \OCP\Constants::PERMISSION_ALL),
+			'Failed asserting that user 1 successfully shared "test" with user 3.'
+		);
+
+		$view->mkdir('files/folder1/folder2');
+
+		$fileInfo = $view->getFileInfo('files/folder1/folder2');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
+		$fileId = $fileInfo->getId();
+
+		$this->assertTrue(
+			OCP\Share::shareItem('folder', $fileId, OCP\Share::SHARE_TYPE_USER, $this->user4, \OCP\Constants::PERMISSION_ALL),
+			'Failed asserting that user 1 successfully shared "test" with user 4.'
+		);
+
+		$res = OCP\Share::getItemShared(
+			'folder',
+			$fileId,
+			OCP\Share::FORMAT_NONE,
+			null,
+			true
+		);
+		$this->assertCount(3, $res);
+
+		$this->assertTrue(
+			OCP\Share::shareItem('folder', $fileId, OCP\Share::SHARE_TYPE_USER, $this->user5, \OCP\Constants::PERMISSION_ALL),
+			'Failed asserting that user 1 successfully shared "test" with user 5.'
+		);
+
+		$res = OCP\Share::getItemShared(
+			'folder',
+			$fileId,
+			OCP\Share::FORMAT_NONE,
+			null,
+			true
+		);
+		$this->assertCount(4, $res);
+	}
 }
 
 class DummyShareClass extends \OC\Share\Share {
