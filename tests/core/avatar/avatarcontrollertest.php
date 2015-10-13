@@ -76,6 +76,8 @@ class AvatarControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->container['UserFolder'] = $this->getMockBuilder('OCP\Files\Folder')
 			->disableOriginalConstructor()->getMock();
+		$this->container['Logger'] = $this->getMockBuilder('OCP\ILogger')
+			->disableOriginalConstructor()->getMock();
 
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')
 			->disableOriginalConstructor()->getMock();
@@ -217,8 +219,11 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarMock->method('remove')->will($this->throwException(new \Exception("foo")));
 		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
 
-		$response = $this->avatarController->deleteAvatar();
-		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
+		$this->container['Logger']->expects($this->once())
+			->method('logException')
+			->with(new \Exception("foo"));
+		$expectedResponse = new Http\DataResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
+		$this->assertEquals($expectedResponse, $this->avatarController->deleteAvatar());
 	}
 
 	/**
@@ -329,6 +334,26 @@ class AvatarControllerTest extends \Test\TestCase {
 	}
 
 	/**
+	 * Test what happens if the upload of the avatar fails
+	 */
+	public function testPostAvatarException() {
+		$this->container['Cache']->expects($this->once())
+			->method('set')
+			->will($this->throwException(new \Exception("foo")));
+		$file = $this->getMockBuilder('OCP\Files\File')
+			->disableOriginalConstructor()->getMock();
+		$file->method('getContent')->willReturn(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		$this->container['UserFolder']->method('get')->willReturn($file);
+
+		$this->container['Logger']->expects($this->once())
+			->method('logException')
+			->with(new \Exception("foo"));
+		$expectedResponse = new Http\DataResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_OK);
+		$this->assertEquals($expectedResponse, $this->avatarController->postAvatar('avatar.jpg'));
+	}
+
+
+	/**
 	 * Test invalid crop argument
 	 */
 	public function testPostCroppedAvatarInvalidCrop() {
@@ -370,6 +395,23 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
 		$this->assertEquals('success', $response->getData()['status']);
 	}
+
+	/**
+	 * Test what happens if the cropping of the avatar fails
+	 */
+	public function testPostCroppedAvatarException() {
+		$this->container['Cache']->method('get')->willReturn(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+
+		$this->avatarMock->method('set')->will($this->throwException(new \Exception('foo')));
+		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+
+		$this->container['Logger']->expects($this->once())
+			->method('logException')
+			->with(new \Exception('foo'));
+		$expectedResponse = new Http\DataResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
+		$this->assertEquals($expectedResponse, $this->avatarController->postCroppedAvatar(['x' => 0, 'y' => 0, 'w' => 10, 'h' => 11]));
+	}
+
 
 	/**
 	 * Check for proper reply on proper crop argument
