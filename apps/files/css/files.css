@@ -35,11 +35,13 @@
 }
 
 /* FILE TABLE */
-
 #filestable {
 	position: relative;
-	top: 44px;
 	width: 100%;
+}
+
+#filestable.has-controls {
+	top: 44px;
 }
 
 /* make sure there's enough room for the file actions */

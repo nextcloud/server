@@ -226,7 +226,11 @@
 			}
 			this.breadcrumb = new OCA.Files.BreadCrumb(breadcrumbOptions);
 
-			this.$el.find('#controls').prepend(this.breadcrumb.$el);
+			var $controls = this.$el.find('#controls');
+			if ($controls.length > 0) {
+				$controls.prepend(this.breadcrumb.$el);
+				this.$table.addClass('has-controls');
+			}
 
 			this._renderNewButton();
 

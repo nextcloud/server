@@ -1,7 +1,4 @@
 <?php /** @var $l OC_L10N */ ?>
-<div id="controls">
-	<div id="file_action_panel"></div>
-</div>
 <div id='notification'></div>
 
 <div id="emptycontent" class="hidden"></div>
