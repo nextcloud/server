@@ -418,27 +418,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	public function getMimeType($path) {
-		$path = $this->normalizePath($path);
-
-		if ($this->is_dir($path)) {
-			return 'httpd/unix-directory';
-		} else if ($this->file_exists($path)) {
-			try {
-				$result = $this->getConnection()->headObject(array(
-					'Bucket' => $this->bucket,
-					'Key' => $path
-				));
-			} catch (S3Exception $e) {
-				\OCP\Util::logException('files_external', $e);
-				return false;
-			}
-
-			return $result['ContentType'];
-		}
-		return false;
-	}
-
 	public function touch($path, $mtime = null) {
 		$path = $this->normalizePath($path);
 

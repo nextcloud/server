@@ -361,18 +361,6 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function getMimeType($path) {
-		$path = $this->normalizePath($path);
-
-		if ($this->is_dir($path)) {
-			return 'httpd/unix-directory';
-		} else if ($this->file_exists($path)) {
-			$object = $this->getContainer()->getPartialObject($path);
-			return $object->getContentType();
-		}
-		return false;
-	}
-
 	public function touch($path, $mtime = null) {
 		$path = $this->normalizePath($path);
 		if (is_null($mtime)) {
