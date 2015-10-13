@@ -347,7 +347,20 @@ class Storage {
 		$view->lockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
 		$view->lockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
 
-		$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
+		// TODO add a proper way of overwriting a file while maintaining file ids
+		if ($storage1->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage') || $storage2->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage')) {
+			$source = $storage1->fopen($internalPath1, 'r');
+			$target = $storage2->fopen($internalPath2, 'w');
+			list(, $result) = \OC_Helper::streamCopy($source, $target);
+			fclose($source);
+			fclose($target);
+
+			if ($result !== false) {
+				$storage1->unlink($internalPath1);
+			}
+		} else {
+			$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
+		}
 
 		$view->unlockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
 		$view->unlockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
