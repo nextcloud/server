@@ -34,6 +34,7 @@ class FeatureContext extends BehatContext {
 		// Initialize your context here
 		$this->baseUrl = $parameters['baseUrl'];
 		$this->adminUser = $parameters['admin'];
+		$this->regularUser = $parameters['regular_user_password'];
 
 		// in case of ci deployment we take the server url from the environment
 		$testServerUrl = getenv('TEST_SERVER_URL');
@@ -76,14 +77,34 @@ class FeatureContext extends BehatContext {
 	}
 
 	/**
+	 * Parses the xml answer to get the array of subadmins returned.
+	 */
+	public function getArrayOfSubadminsResponded($resp) {
+		$listCheckedElements = $resp->xml()->data[0]->element;
+		$extractedElementsArray = json_decode(json_encode($listCheckedElements), 1);
+		return $extractedElementsArray;
+	}
+
+	/**
+	 * This function is needed to use a vertical fashion in the gherkin tables.
+	 */
+	public function simplifyArray($arrayOfArrays){
+		$a = array_map(function($subArray) { return $subArray[0]; }, $arrayOfArrays);
+		return $a;
+	}
+   
+	/**
 	 * @Then /^users returned are$/
 	 * @param \Behat\Gherkin\Node\TableNode|null $formData
 	 */
 	public function theUsersShouldBe($usersList) {
 		if ($usersList instanceof \Behat\Gherkin\Node\TableNode) {
-			$users = $usersList->getRows()[0];
+			$users = $usersList->getRows();
+			$usersSimplified = $this->simplifyArray($users);
 			$respondedArray = $this->getArrayOfUsersResponded($this->response);
-			PHPUnit_Framework_Assert::assertEquals(asort($users), asort($respondedArray));
+			sort($usersSimplified);
+			sort($respondedArray);
+			PHPUnit_Framework_Assert::assertEquals($usersSimplified, $respondedArray);
 		}
 
 	}
@@ -94,11 +115,38 @@ class FeatureContext extends BehatContext {
 	 */
 	public function theGroupsShouldBe($groupsList) {
 		if ($groupsList instanceof \Behat\Gherkin\Node\TableNode) {
-			$groups = $groupsList->getRows()[0];
+			$groups = $groupsList->getRows();
+			$groupsSimplified = $this->simplifyArray($groups);
 			$respondedArray = $this->getArrayOfGroupsResponded($this->response);
-			PHPUnit_Framework_Assert::assertEquals(asort($groups), asort($respondedArray));
+			sort($groups);
+			sort($respondedArray);
+			PHPUnit_Framework_Assert::assertEquals($groupsSimplified, $respondedArray); 
 		}
 
+	}
+
+	/**
+	 * @Then /^subadmin groups returned are$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 */
+	public function theSubadminGroupsShouldBe($groupsList) {
+		if ($groupsList instanceof \Behat\Gherkin\Node\TableNode) {
+			$groups = $groupsList->getRows();
+			$groupsSimplified = $this->simplifyArray($groups);
+			$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
+			sort($groups);
+			sort($respondedArray);
+			PHPUnit_Framework_Assert::assertEquals($groupsSimplified, $respondedArray); 
+		}
+
+	}
+
+	/**
+	 * @Then /^subadmin users returned are$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 */
+	public function theSubadminUsersShouldBe($groupsList) {
+		$this->theSubadminGroupsShouldBe($groupsList);
 	}
 
 	/**
@@ -143,6 +191,86 @@ class FeatureContext extends BehatContext {
 		$this->response = $client->get($fullUrl, $options);
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
+
+	/**
+	 * @Given /^user "([^"]*)" belongs to group "([^"]*)"$/
+	 */
+	public function userBelongsToGroup($user, $group) {
+		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user/groups";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->get($fullUrl, $options);
+		$groups = array($group);
+		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
+		sort($groups);
+		sort($respondedArray);
+		PHPUnit_Framework_Assert::assertEquals($groups, $respondedArray);
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+	/**
+	 * @Given /^user "([^"]*)" does not belong to group "([^"]*)"$/
+	 */
+	public function userDoesNotBelongToGroup($user, $group) {
+		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user/groups";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->get($fullUrl, $options);
+		$groups = array($group);
+		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
+		sort($groups);
+		sort($respondedArray);
+		PHPUnit_Framework_Assert::assertNotEquals($groups, $respondedArray);
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+
+	/**
+	 * @Given /^user "([^"]*)" is subadmin of group "([^"]*)"$/
+	 */
+	public function userIsSubadminOfGroup($user, $group) {
+		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group/subadmins";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->get($fullUrl, $options);
+		$subadmins = array($user);
+		$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
+		sort($respondedArray);
+		PHPUnit_Framework_Assert::assertContains($user, $respondedArray);
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+	/**
+	 * @Given /^user "([^"]*)" is not a subadmin of group "([^"]*)"$/
+	 */
+	public function userIsNotSubadminOfGroup($user, $group) {
+		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group/subadmins";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->get($fullUrl, $options);
+		$subadmins = array($user);
+		$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
+		sort($respondedArray);
+		PHPUnit_Framework_Assert::assertNotContains($user, $respondedArray);
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
 
 	/**
 	 * @Given /^user "([^"]*)" does not exist$/
@@ -233,6 +361,8 @@ class FeatureContext extends BehatContext {
 		$options = [];
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = $this->regularUser;
 		}
 		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
 			$fd = $body->getRowsHash();
