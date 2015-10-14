@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace Test\Connector\Sabre\RequestTest;
+namespace OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest;
 
 use OC\AppFramework\Http;
 

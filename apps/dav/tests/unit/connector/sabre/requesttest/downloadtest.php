@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace Test\Connector\Sabre\RequestTest;
+namespace OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest;
 
 use OCP\AppFramework\Http;
 use OCP\Lock\ILockingProvider;
@@ -24,7 +24,7 @@ class DownloadTest extends RequestTest {
 	}
 
 	/**
-	 * @expectedException \OC\Connector\Sabre\Exception\FileLocked
+	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\FileLocked
 	 */
 	public function testDownloadWriteLocked() {
 		$user = $this->getUniqueID();
