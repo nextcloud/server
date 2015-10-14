@@ -1354,7 +1354,7 @@
 				) {
 					OC.redirect(OC.generateUrl('apps/files'));
 				}
-				OC.Notification.show(result.data.message);
+				OC.Notification.showTemporary(result.data.message);
 				return false;
 			}
 
@@ -1362,7 +1362,7 @@
 			if (result.status === 403) {
 				// Go home
 				this.changeDirectory('/');
-				OC.Notification.show(t('files', 'This operation is forbidden'));
+				OC.Notification.showTemporary(t('files', 'This operation is forbidden'));
 				return false;
 			}
 
@@ -1370,7 +1370,7 @@
 			if (result.status === 500) {
 				// Go home
 				this.changeDirectory('/');
-				OC.Notification.show(t('files', 'This directory is unavailable, please check the logs or contact the administrator'));
+				OC.Notification.showTemporary(t('files', 'This directory is unavailable, please check the logs or contact the administrator'));
 				return false;
 			}
 
@@ -1644,15 +1644,11 @@
 							} else {
 								OC.Notification.hide();
 								if (result.status === 'error' && result.data.message) {
-									OC.Notification.show(result.data.message);
+									OC.Notification.showTemporary(result.data.message);
 								}
 								else {
-									OC.Notification.show(t('files', 'Error moving file.'));
+									OC.Notification.showTemporary(t('files', 'Error moving file.'));
 								}
-								// hide notification after 10 sec
-								setTimeout(function() {
-									OC.Notification.hide();
-								}, 10000);
 							}
 						} else {
 							OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
@@ -2019,15 +2015,11 @@
 							OC.Notification.hide();
 						} else {
 							if (result.status === 'error' && result.data.message) {
-								OC.Notification.show(result.data.message);
+								OC.Notification.showTemporary(result.data.message);
 							}
 							else {
-								OC.Notification.show(t('files', 'Error deleting file.'));
+								OC.Notification.showTemporary(t('files', 'Error deleting file.'));
 							}
-							// hide notification after 10 sec
-							setTimeout(function() {
-								OC.Notification.hide();
-							}, 10000);
 							if (params.allfiles) {
 								// reload the page as we don't know what files were deleted
 								// and which ones remain
@@ -2268,11 +2260,7 @@
 		 */
 		_showPermissionDeniedNotification: function() {
 			var message = t('core', 'You don’t have permission to upload or create files here');
-			OC.Notification.show(message);
-			//hide notification after 10 sec
-			setTimeout(function() {
-				OC.Notification.hide();
-			}, 5000);
+			OC.Notification.showTemporary(message);
 		},
 
 		/**
