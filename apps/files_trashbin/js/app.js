@@ -43,19 +43,27 @@ OCA.Trashbin.App = {
 
 		fileActions.setDefault('dir', 'Open');
 
-		fileActions.register('all', 'Restore', OC.PERMISSION_READ, OC.imagePath('core', 'actions/history'), function(filename, context) {
-			var fileList = context.fileList;
-			var tr = fileList.findFileEl(filename);
-			var deleteAction = tr.children("td.date").children(".action.delete");
-			deleteAction.removeClass('icon-delete').addClass('icon-loading-small');
-			fileList.disableActions();
-			$.post(OC.filePath('files_trashbin', 'ajax', 'undelete.php'), {
-					files: JSON.stringify([filename]),
-					dir: fileList.getCurrentDirectory()
-				},
-				_.bind(fileList._removeCallback, fileList)
-			);
-		}, t('files_trashbin', 'Restore'));
+		fileActions.registerAction({
+			name: 'Restore',
+			displayName: t('files_trashbin', 'Restore'),
+			type: OCA.Files.FileActions.TYPE_INLINE,
+			mime: 'all',
+			permissions: OC.PERMISSION_READ,
+			icon: OC.imagePath('core', 'actions/history'),
+			actionHandler: function(filename, context) {
+				var fileList = context.fileList;
+				var tr = fileList.findFileEl(filename);
+				var deleteAction = tr.children("td.date").children(".action.delete");
+				deleteAction.removeClass('icon-delete').addClass('icon-loading-small');
+				fileList.disableActions();
+				$.post(OC.filePath('files_trashbin', 'ajax', 'undelete.php'), {
+						files: JSON.stringify([filename]),
+						dir: fileList.getCurrentDirectory()
+					},
+					_.bind(fileList._removeCallback, fileList)
+				);
+			}
+		});
 
 		fileActions.registerAction({
 			name: 'Delete',
