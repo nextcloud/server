@@ -12,6 +12,7 @@
     "last year" : "vitin e shkuar",
     "seconds ago" : "sekonda më parë",
     "web services under your control" : "shërbime web nën kontrollin tënd",
+    "File name contains at least one invalid character" : "Emri i kartelës përmban të paktën një shenjë të pavlefshme",
     "Application is not enabled" : "Programi nuk është i aktivizuar.",
     "Authentication error" : "Veprim i gabuar gjatë vërtetimit të identitetit",
     "Token expired. Please reload page." : "Përmbajtja ka skaduar. Ju lutemi ringarkoni faqen.",
@@ -32,6 +33,7 @@
     "Could not find category \"%s\"" : "Kategoria \"%s\" nuk u gjet",
     "Apps" : "App",
     "A valid username must be provided" : "Duhet të jepni një emër të vlefshëm përdoruesi",
-    "A valid password must be provided" : "Duhet të jepni një fjalëkalim te vlefshëm"
+    "A valid password must be provided" : "Duhet të jepni një fjalëkalim te vlefshëm",
+    "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Kjo ka gjasa të jetë shkaktuar nga një fshehtinë/përshpejtues i tillë si Zend OPcache ose eAccelerator."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

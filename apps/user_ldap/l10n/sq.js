@@ -5,6 +5,7 @@ OC.L10N.register(
     "Failed to delete the server configuration" : "dështoi fshirjen e konfigurimit të serverit",
     "The configuration is valid and the connection could be established!" : "Konfigurimi është i vlefshem dhe lidhja mund të kryhet",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "Konfigurimi është i saktë por lidhja dështoi. Kontrolloni konfigurimete serverit dhe kredencialet.",
+    "Select groups" : "Përzgjidhni grupe",
     "Do you really want to delete the current Server Configuration?" : "Jeni vërtetë të sigurt të fshini konfigurimet aktuale të serverit?",
     "Confirm Deletion" : "Konfirmoni Fshirjen",
     "Users" : "Përdoruesit",

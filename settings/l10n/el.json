@@ -158,6 +158,7 @@
     "Use system's cron service to call the cron.php file every 15 minutes." : "Χρησιμοποιήστε την cron υπηρεσία του συτήματος για να καλέσετε το cron.php αρχείο κάθε 15 λεπτά.",
     "Enable server-side encryption" : "Ενεργοποίηση κρυπτογράφησης από το διακομιστή",
     "Please read carefully before activating server-side encryption: " : "Παρακαλούμε διαβάστε προσεκτικά πριν ενεργοποιήσετε την κρυπτογράφηση στο διακομιστή:",
+    "Be aware that encryption always increases the file size." : "Έχετε στο νου σας πως η κρυπτογράφηση πάντα αυξάνει το μέγεθος του αρχείου",
     "This is the final warning: Do you really want to enable encryption?" : "Αυτή είναι η τελευταία προειδοποίηση: Θέλετε πραγματικά να ενεργοποιήσετε την κρυπτογράφηση;",
     "Enable encryption" : "Ενεργοποίηση κρυπτογράφησης",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Δεν έχει φορτωθεί μονάδα κρυπτογράφησης, παρακαλούμε φορτώστε μια μονάδα κρυπτογράφησης από το μενού εφαρμογών.",

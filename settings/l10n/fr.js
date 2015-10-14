@@ -40,7 +40,7 @@ OC.L10N.register(
     "Unable to delete group." : "Impossible de supprimer le groupe.",
     "log-level out of allowed range" : "niveau de journalisation hors borne",
     "Saved" : "Sauvegardé",
-    "test email settings" : "tester les paramètres e-mail",
+    "test email settings" : "Test des paramètres e-mail",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Une erreur est survenue lors de l'envoi de l'e-mail. Veuillez vérifier vos paramètres. (Erreur: %s)",
     "Email sent" : "E-mail envoyé",
     "You need to set your user email before being able to send test emails." : "Vous devez définir une adresse e-mail dans vos paramètres personnels avant de pouvoir envoyer des e-mails de test.",

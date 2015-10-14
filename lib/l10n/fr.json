@@ -106,7 +106,7 @@
     "Sharing %s failed, because the user %s is the original sharer" : "Le partage de %s a échoué car l'utilisateur %s est l'utilisateur à l'origine du partage.",
     "Sharing %s failed, because the permissions exceed permissions granted to %s" : "Le partage de %s a échoué car les permissions dépassent celles accordées à %s",
     "Sharing %s failed, because resharing is not allowed" : "Le partage de %s a échoué car le repartage n'est pas autorisé",
-    "Sharing %s failed, because the sharing backend for %s could not find its source" : "Le partage de %s a échoué car la source n'a pas été trouvée pour le partage %s.",
+    "Sharing %s failed, because the sharing backend for %s could not find its source" : "Le partage de %s a échoué car le service %s n'a pas trouvé sa source..",
     "Sharing %s failed, because the file could not be found in the file cache" : "Le partage de %s a échoué car le fichier n'a pas été trouvé dans les fichiers mis en cache.",
     "Could not find category \"%s\"" : "Impossible de trouver la catégorie \"%s\"",
     "Apps" : "Applications",

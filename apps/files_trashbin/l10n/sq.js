@@ -5,11 +5,11 @@ OC.L10N.register(
     "Couldn't restore %s" : "Nuk munda ta rivendos %s",
     "Deleted files" : "Skedarë të fshirë ",
     "Restore" : "Rivendos",
+    "Delete" : "Elimino",
     "Delete permanently" : "Fshi përfundimisht",
     "Error" : "Veprim i gabuar",
     "restored" : "rivendosur",
     "Name" : "Emri",
-    "Deleted" : "Eliminuar",
-    "Delete" : "Elimino"
+    "Deleted" : "Eliminuar"
 },
 "nplurals=2; plural=(n != 1);");
