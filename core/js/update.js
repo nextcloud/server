@@ -51,12 +51,14 @@
 			});
 			updateEventSource.listen('error', function(message) {
 				message = message || t('core', 'An error occurred.');
+				$(window).off('beforeunload.inprogress');
 				$('<span>').addClass('error').append(message).append('<br />').appendTo($el);
 				message = t('core', 'Please reload the page.');
 				$('<span>').addClass('error').append('<a href=".">'+message+'</a><br />').appendTo($el);
 				updateEventSource.close();
 			});
 			updateEventSource.listen('failure', function(message) {
+				$(window).off('beforeunload.inprogress');
 				$('<span>').addClass('error').append(message).append('<br />').appendTo($el);
 				$('<span>')
 				.addClass('bold')
