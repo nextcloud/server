@@ -26,7 +26,8 @@ OCA.Trashbin.App = {
 		this.fileList = new OCA.Trashbin.FileList(
 			$('#app-content-trashbin'), {
 				scrollContainer: $('#app-content'),
-				fileActions: this._createFileActions()
+				fileActions: this._createFileActions(),
+				detailsViewEnabled: false
 			}
 		);
 	},
