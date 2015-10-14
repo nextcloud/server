@@ -380,16 +380,6 @@ describe('OC.Share.ShareDialogView', function() {
 				dialog.$el.find('[name=expirationCheckbox]').click();
 				expect(dialog.$el.find('[name=expirationCheckbox]').prop('checked')).toEqual(true);
 			});
-			it('displayes email form when sending emails is enabled', function() {
-				$('input[name=mailPublicNotificationEnabled]').val('yes');
-				dialog.render();
-				expect(dialog.$('#emailPrivateLink').length).toEqual(1);
-			});
-			it('not renders email form when sending emails is disabled', function() {
-				$('input[name=mailPublicNotificationEnabled]').val('no');
-				dialog.render();
-				expect(dialog.$('#emailPrivateLink').length).toEqual(0);
-			});
 			it('sets picker minDate to today and no maxDate by default', function() {
 				dialog.render();
 				dialog.$el.find('[name=linkCheckbox]').click();
@@ -420,6 +410,76 @@ describe('OC.Share.ShareDialogView', function() {
 				dialog.render();
 				expect($.datepicker._defaults.minDate).toEqual(expectedMinDate);
 				expect($.datepicker._defaults.maxDate).toEqual(new Date(2014, 0, 27, 0, 0, 0, 0));
+			});
+		});
+		describe('send link by email', function() {
+			var sendEmailPrivateLinkStub;
+			var clock;
+
+			beforeEach(function() {
+				configModel.set({
+					isMailPublicNotificationEnabled: true
+				});
+
+				shareModel.set('linkShare', {
+					isLinkShare: true,
+					token: 'tehtoken',
+					permissions: OC.PERMISSION_READ,
+					expiration: null
+				});
+
+				sendEmailPrivateLinkStub = sinon.stub(dialog.model, "sendEmailPrivateLink");
+				clock = sinon.useFakeTimers();
+			});
+			afterEach(function() {
+				sendEmailPrivateLinkStub.restore();
+				clock.restore();
+			});
+
+			it('displayes form when sending emails is enabled', function() {
+				$('input[name=mailPublicNotificationEnabled]').val('yes');
+				dialog.render();
+				expect(dialog.$('#emailPrivateLink').length).toEqual(1);
+			});
+			it('form not rendered when sending emails is disabled', function() {
+				$('input[name=mailPublicNotificationEnabled]').val('no');
+				dialog.render();
+				expect(dialog.$('#emailPrivateLink').length).toEqual(0);
+			});
+			it('input cleared on success', function() {
+				var defer = $.Deferred();
+				sendEmailPrivateLinkStub.returns(defer.promise());
+
+				$('input[name=mailPublicNotificationEnabled]').val('yes');
+				dialog.render();
+
+				dialog.$el.find('#emailPrivateLink #email').val('a@b.c');
+				dialog.$el.find('#emailPrivateLink').trigger('submit');
+
+				expect(sendEmailPrivateLinkStub.callCount).toEqual(1);
+				expect(dialog.$el.find('#emailPrivateLink #email').val()).toEqual('Sending ...');
+
+				defer.resolve();
+				expect(dialog.$el.find('#emailPrivateLink #email').val()).toEqual('Email sent');
+
+				clock.tick(2000);
+				expect(dialog.$el.find('#emailPrivateLink #email').val()).toEqual('');
+			});
+			it('input not cleared on failure', function() {
+				var defer = $.Deferred();
+				sendEmailPrivateLinkStub.returns(defer.promise());
+
+				$('input[name=mailPublicNotificationEnabled]').val('yes');
+				dialog.render();
+
+				dialog.$el.find('#emailPrivateLink #email').val('a@b.c');
+				dialog.$el.find('#emailPrivateLink').trigger('submit');
+
+				expect(sendEmailPrivateLinkStub.callCount).toEqual(1);
+				expect(dialog.$el.find('#emailPrivateLink #email').val()).toEqual('Sending ...');
+
+				defer.reject();
+				expect(dialog.$el.find('#emailPrivateLink #email').val()).toEqual('a@b.c');
 			});
 		});
 	});
