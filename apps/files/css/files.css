@@ -87,19 +87,6 @@
 	background-image: url('../img/delete.svg');
 }
 
-/* move Deleted Files to bottom of sidebar */
-.nav-trashbin {
-	position: fixed !important;
-	bottom: 44px;
-	width: inherit !important;
-	background-color: #fff;
-	border-right: 1px solid #eee;
-}
-/* double padding to account for Deleted files entry, issue with Firefox */
-.app-files #app-navigation > ul li:nth-last-child(2) {
-	margin-bottom: 44px;
-}
-
 #app-navigation .nav-files a.nav-icon-files {
 	width: auto;
 }

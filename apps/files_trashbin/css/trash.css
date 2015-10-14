@@ -18,3 +18,21 @@
 #app-content-trashbin #filestable .summary .filesize {
 	display: none;
 }
+
+#app-navigation > ul {
+	padding-bottom: 44px;
+}
+
+/* move Deleted Files to bottom of sidebar */
+.nav-trashbin {
+	position: fixed !important;
+	bottom: 44px;
+	width: inherit !important;
+	background-color: #fff;
+	border-right: 1px solid #eee;
+}
+/* double padding to account for Deleted files entry, issue with Firefox */
+.app-files #app-navigation > ul li:nth-last-child(2) {
+	margin-bottom: 44px;
+}
+
