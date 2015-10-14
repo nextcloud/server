@@ -608,6 +608,14 @@ class OC {
 		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
 
+		// Subscribe to the hook
+		\OCP\Util::connectHook(
+			'\OCA\Files_Sharing\API\Server2Server',
+			'preLoginNameUsedAsUserName',
+			'\OC_User_Database',
+			'preLoginNameUsedAsUserName'
+		);
+
 		//setup extra user backends
 		if (!self::checkUpgrade(false)) {
 			OC_User::setupBackends();
