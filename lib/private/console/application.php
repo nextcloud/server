@@ -65,6 +65,7 @@ class Application {
 				}
 			} else {
 				$output->writeln("ownCloud or one of the apps require upgrade - only a limited number of commands are available");
+				$output->writeln("You may use your browser or the occ upgrade command to do the upgrade");
 			}
 		} else {
 			$output->writeln("ownCloud is not installed - only a limited number of commands are available");
