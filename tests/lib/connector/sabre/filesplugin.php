@@ -13,7 +13,7 @@ class FilesPlugin extends \Test\TestCase {
 	const FILEID_PROPERTYNAME = \OC\Connector\Sabre\FilesPlugin::FILEID_PROPERTYNAME;
 	const SIZE_PROPERTYNAME = \OC\Connector\Sabre\FilesPlugin::SIZE_PROPERTYNAME;
 	const PERMISSIONS_PROPERTYNAME = \OC\Connector\Sabre\FilesPlugin::PERMISSIONS_PROPERTYNAME;
-	const GETLASTMODIFIED_PROPERTYNAME = \OC\Connector\Sabre\FilesPlugin::GETLASTMODIFIED_PROPERTYNAME;
+	const LASTMODIFIED_PROPERTYNAME = \OC\Connector\Sabre\FilesPlugin::LASTMODIFIED_PROPERTYNAME;
 	const DOWNLOADURL_PROPERTYNAME = \OC\Connector\Sabre\FilesPlugin::DOWNLOADURL_PROPERTYNAME;
 
 	/**
@@ -190,7 +190,7 @@ class FilesPlugin extends \Test\TestCase {
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch(array(
 			self::GETETAG_PROPERTYNAME => 'newetag',
-			self::GETLASTMODIFIED_PROPERTYNAME => $testDate
+			self::LASTMODIFIED_PROPERTYNAME => $testDate
 		));
 
 		$this->plugin->handleUpdateProperties(
@@ -203,7 +203,7 @@ class FilesPlugin extends \Test\TestCase {
 		$this->assertEmpty($propPatch->getRemainingMutations());
 
 		$result = $propPatch->getResult();
-		$this->assertEquals(200, $result[self::GETLASTMODIFIED_PROPERTYNAME]);
+		$this->assertEquals(200, $result[self::LASTMODIFIED_PROPERTYNAME]);
 		$this->assertEquals(200, $result[self::GETETAG_PROPERTYNAME]);
 	}
 
