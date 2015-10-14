@@ -58,7 +58,7 @@
 			dataType: 'script',
 			url: options.zxcvbn
 		}).done(function() {
-			me.bind('keyup input change', function() {
+			me.bind('keyup input', function() {
 				var password = $(this).val(),
 					// hide strengthigy if no input is provided
 					opacity = (password === '') ? 0 : 1,
