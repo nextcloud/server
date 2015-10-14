@@ -34,12 +34,6 @@ use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 
 
 abstract class Node implements \Sabre\DAV\INode {
-	/**
-	 * Allow configuring the method used to generate Etags
-	 *
-	 * @var array(class_name, function_name)
-	 */
-	public static $ETagFunction = null;
 
 	/**
 	 * @var \OC\Files\View

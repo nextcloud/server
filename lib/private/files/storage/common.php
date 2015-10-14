@@ -372,13 +372,7 @@ abstract class Common implements Storage {
 	 * @return string|false
 	 */
 	public function getETag($path) {
-		$ETagFunction = \OCA\DAV\Connector\Sabre\Node::$ETagFunction;
-		if ($ETagFunction) {
-			$hash = call_user_func($ETagFunction, $path);
-			return $hash;
-		} else {
-			return uniqid();
-		}
+		return uniqid();
 	}
 
 	/**
