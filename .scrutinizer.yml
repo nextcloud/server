@@ -1,3 +1,13 @@
+application:
+    environment:
+        php:
+            version: 5.4
+  
+build:
+    environment:
+        php:
+            version: 5.4
+
 filter:
     excluded_paths:
         - '3rdparty/*'
