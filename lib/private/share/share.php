@@ -1914,6 +1914,7 @@ class Share extends Constants {
 				}
 			}
 			if (!empty($collectionItems)) {
+				$collectionItems = array_unique($collectionItems, SORT_REGULAR);
 				$items = array_merge($items, $collectionItems);
 			}
 
