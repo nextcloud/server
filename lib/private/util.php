@@ -1300,12 +1300,11 @@ class OC_Util {
 	/**
 	 * Get URL content
 	 * @param string $url Url to get content
-	 * @deprecated Use \OC::$server->getHTTPHelper()->getUrlContent($url);
 	 * @throws Exception If the URL does not start with http:// or https://
 	 * @return string of the response or false on error
 	 * This function get the content of a page via curl, if curl is enabled.
 	 * If not, file_get_contents is used.
-	 * @deprecated Use \OCP\Http\Client\IClientService
+	 * @deprecated Use \OC::$server->getHTTPClientService()->newClient()->get($url);
 	 */
 	public static function getUrlContent($url) {
 		try {

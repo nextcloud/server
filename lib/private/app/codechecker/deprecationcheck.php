@@ -34,6 +34,8 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 	 */
 	protected function getLocalClasses() {
 		return [
+			'OC_JSON' => '8.2.0',
+
 			'OCP\Config' => '8.0.0',
 			'OCP\Contacts' => '8.1.0',
 			'OCP\DB' => '8.1.0',
@@ -49,6 +51,15 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 	 */
 	protected function getLocalConstants() {
 		return [
+			'OC_API::GUEST_AUTH' => '8.2.0',
+			'OC_API::USER_AUTH' => '8.2.0',
+			'OC_API::SUBADMIN_AUTH' => '8.2.0',
+			'OC_API::ADMIN_AUTH' => '8.2.0',
+			'OC_API::RESPOND_UNAUTHORISED' => '8.2.0',
+			'OC_API::RESPOND_SERVER_ERROR' => '8.2.0',
+			'OC_API::RESPOND_NOT_FOUND' => '8.2.0',
+			'OC_API::RESPOND_UNKNOWN_ERROR' => '8.2.0',
+
 			'OCP::PERMISSION_CREATE' => '8.0.0',
 			'OCP::PERMISSION_READ' => '8.0.0',
 			'OCP::PERMISSION_UPDATE' => '8.0.0',
@@ -80,8 +91,13 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 	 */
 	protected function getLocalMethods() {
 		return [
+			'OC_L10N::get' => '8.2.0',
+
+			'OCP\Activity\IManager::publishActivity' => '8.2.0',
+
 			'OCP\App::register' => '8.1.0',
 			'OCP\App::addNavigationEntry' => '8.1.0',
+			'OCP\App::getActiveNavigationEntry' => '8.2.0',
 			'OCP\App::setActiveNavigationEntry' => '8.1.0',
 
 			'OCP\AppFramework\Controller::params' => '7.0.0',
@@ -115,8 +131,12 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\IAppConfig::setValue' => '8.0.0',
 			'OCP\IAppConfig::deleteApp' => '8.0.0',
 
+			'OCP\IDBConnection::createQueryBuilder' => '8.2.0',
+			'OCP\IDBConnection::getExpressionBuilder' => '8.2.0',
+
 			'OCP\ISearch::search' => '8.0.0',
 
+			'OCP\IServerContainer::getCache' => '8.2.0',
 			'OCP\IServerContainer::getDb' => '8.1.0',
 			'OCP\IServerContainer::getHTTPHelper' => '8.1.0',
 
@@ -128,20 +148,21 @@ class DeprecationCheck extends AbstractCheck implements ICheck {
 			'OCP\User::logout' => '8.1.0',
 			'OCP\User::checkPassword' => '8.1.0',
 
-			'OCP\Util::sendMail' => '8.1.0',
-			'OCP\Util::formatDate' => '8.0.0',
 			'OCP\Util::encryptedFiles' => '8.1.0',
-			'OCP\Util::linkToRoute' => '8.1.0',
-			'OCP\Util::linkTo' => '8.1.0',
+			'OCP\Util::formatDate' => '8.0.0',
+			'OCP\Util::generateRandomBytes' => '8.1.0',
 			'OCP\Util::getServerHost' => '8.1.0',
 			'OCP\Util::getServerProtocol' => '8.1.0',
 			'OCP\Util::getRequestUri' => '8.1.0',
 			'OCP\Util::getScriptName' => '8.1.0',
 			'OCP\Util::imagePath' => '8.1.0',
 			'OCP\Util::isValidFileName' => '8.1.0',
-			'OCP\Util::generateRandomBytes' => '8.1.0',
+			'OCP\Util::linkToRoute' => '8.1.0',
+			'OCP\Util::linkTo' => '8.1.0',
+			'OCP\Util::logException' => '8.2.0',
 			'OCP\Util::mb_str_replace' => '8.2.0',
 			'OCP\Util::mb_substr_replace' => '8.2.0',
+			'OCP\Util::sendMail' => '8.1.0',
 		];
 	}
 }
