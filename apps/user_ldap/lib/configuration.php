@@ -150,8 +150,9 @@ class Configuration {
 					$setMethod = 'setRawValue';
 					break;
 				case 'homeFolderNamingRule':
-					if(!empty(trim($val)) && strpos($val, 'attr:') === false) {
-						$val = 'attr:'.trim($val);
+					$trimmedVal = trim($val);
+					if(!empty($trimmedVal) && strpos($val, 'attr:') === false) {
+						$val = 'attr:'.$trimmedVal;
 					}
 					break;
 				case 'ldapBase':
