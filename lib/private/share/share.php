@@ -1100,13 +1100,32 @@ class Share extends Constants {
 	 */
 	public static function setPermissions($itemType, $itemSource, $shareType, $shareWith, $permissions) {
 		$l = \OC::$server->getL10N('lib');
+		$connection = \OC::$server->getDatabaseConnection();
+
+		$intArrayToLiteralArray = function($intArray, $eb) {
+			return array_map(function($int) use ($eb) {
+				return $eb->literal((int)$int, 'integer');
+			}, $intArray);
+		};
+		$sanitizeItem = function($item) {
+			$item['id'] = (int)$item['id'];
+			$item['premissions'] = (int)$item['permissions'];
+			return $item;
+		};
+
 		if ($rootItem = self::getItems($itemType, $itemSource, $shareType, $shareWith,
 			\OC_User::getUser(), self::FORMAT_NONE, null, 1, false)) {
 			// Check if this item is a reshare and verify that the permissions
 			// granted don't exceed the parent shared item
 			if (isset($rootItem['parent'])) {
-				$query = \OC_DB::prepare('SELECT `permissions` FROM `*PREFIX*share` WHERE `id` = ?', 1);
-				$result = $query->execute([$rootItem['parent']])->fetchRow();
+				$qb = $connection->getQueryBuilder();
+				$qb->select('permissions')
+					->from('share')
+					->where($qb->expr()->eq('id', $qb->createParameter('id')))
+					->setParameter(':id', $rootItem['parent']);
+				$result = $qb->execute();
+
+				$result = $result->fetch();
 				if (~(int)$result['permissions'] & $permissions) {
 					$message = 'Setting permissions for %s failed,'
 						.' because the permissions exceed permissions granted to %s';
@@ -1115,8 +1134,13 @@ class Share extends Constants {
 					throw new \Exception($message_t);
 				}
 			}
-			$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = ? WHERE `id` = ?');
-			$query->execute([$permissions, $rootItem['id']]);
+			$qb = $connection->getQueryBuilder();
+			$qb->update('share')
+				->set('permissions', $qb->createParameter('permissions'))
+				->where($qb->expr()->eq('id', $qb->createParameter('id')))
+				->setParameter(':id', $rootItem['id'])
+				->setParameter(':permissions', $permissions);
+			$qb->execute();
 			if ($itemType === 'file' || $itemType === 'folder') {
 				\OC_Hook::emit('OCP\Share', 'post_update_permissions', array(
 					'itemType' => $itemType,
@@ -1145,14 +1169,18 @@ class Share extends Constants {
 				// Remove permission from all children
 				$parents = [$rootItem['id']];
 				while (!empty($parents)) {
-					$parents = "'".implode("','", $parents)."'";
-					$query = \OC_DB::prepare('SELECT `id`, `permissions`, `item_type` FROM `*PREFIX*share`'
-						.' WHERE `parent` IN ('.$parents.')');
-					$result = $query->execute();
+					$parents = $intArrayToLiteralArray($parents, $qb->expr());
+					$qb = $connection->getQueryBuilder();
+					$qb->select('id', 'permissions', 'item_type')
+						->from('share')
+						->where($qb->expr()->in('parent', $parents));
+					$result = $qb->execute();
 					// Reset parents array, only go through loop again if
 					// items are found that need permissions removed
-					$parents = array();
-					while ($item = $result->fetchRow()) {
+					$parents = [];
+					while ($item = $result->fetch()) {
+						$item = $sanitizeItem($item);
+
 						$items[] = $item;
 						// Check if permissions need to be removed
 						if ($item['permissions'] & ~$permissions) {
@@ -1184,21 +1212,32 @@ class Share extends Constants {
 			 * Update all USERGROUP shares. (So group shares where the user moved his mountpoint).
 			 */
 			if ($permissions & ~(int)$rootItem['permissions']) {
-				$query = \OC_DB::prepare('SELECT `id`, `permissions`, `item_type` FROM `*PREFIX*share`'
-						.' WHERE `parent` = ? AND `share_type` = ?');
-				$result = $query->execute([$rootItem['id'], 2]);
+				$qb = $connection->getQueryBuilder();
+				$qb->select('id', 'permissions', 'item_type')
+					->from('share')
+					->where($qb->expr()->eq('parent', $qb->createParameter('parent')))
+					->andWhere($qb->expr()->eq('share_type', $qb->createParameter('share_type')))
+					->setParameter(':parent', (int)$rootItem['id'])
+					->setParameter(':share_type', 2);
+				$result = $qb->execute();
 
 				$ids = [];
-				while ($item = $result->fetchRow()) {
+				while ($item = $result->fetch()) {
+					$item = $sanitizeItem($item);
 					$items[] = $item;
 					$ids[] = $item['id'];
 				}
 
 				// Add permssions for all USERGROUP shares of this item
 				if (!empty($ids)) {
-					$ids = "'".implode("','", $ids)."'";
-					$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = ? WHERE `id` IN ('.$ids.')');
-					$query->execute(array($permissions));
+					$ids = $intArrayToLiteralArray($ids, $qb->expr());
+
+					$qb = $connection->getQueryBuilder();
+					$qb->update('share')
+						->set('permissions', $qb->createParameter('permissions'))
+						->where($qb->expr()->in('id', $ids))
+						->setParameter(':permissions', $permissions);
+					$qb->execute();
 				}
 			}
 
