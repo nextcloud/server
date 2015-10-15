@@ -67,7 +67,7 @@ OC.L10N.register(
     "LDAP Filter:" : "LDAP-Filter:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Der Filter bestimmt, welche LDAP-Gruppen Zugriff auf die %s-Instanz haben sollen.",
     "Verify settings and count groups" : "Einstellungen überprüfen und Gruppen zählen",
-    "When logging in, %s will find the user based on the following attributes:" : "Beim Anmelden wird %s die Nutzerbasis mit folgenden Attributen vorfinden:",
+    "When logging in, %s will find the user based on the following attributes:" : "Beim Anmelden wird %s den Nutzer basierend auf folgenden Attributen finden:",
     "LDAP / AD Username:" : "LDAP-/AD-Benutzername:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Erlaubt das Anmelden gegen den LDAP / AD Nutzernamen, welcher entweder eine UID oder samaccountname ist und automatisch erkannt wird.",
     "LDAP / AD Email Address:" : "LDAP-/AD-E-Mail-Adresse:",

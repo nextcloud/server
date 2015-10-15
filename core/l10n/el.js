@@ -23,6 +23,7 @@ OC.L10N.register(
     "No image or file provided" : "Δεν δόθηκε εικόνα ή αρχείο",
     "Unknown filetype" : "Άγνωστος τύπος αρχείου",
     "Invalid image" : "Μη έγκυρη εικόνα",
+    "An error occurred. Please contact your admin." : "Προέκυψε σφάλμα. Παρακαλώ επικοινωνήστε με τον διαχειριστή σας.",
     "No temporary profile picture available, try again" : "Δεν υπάρχει προσωρινή φωτογραφία προφίλ διαθέσιμη, δοκιμάστε ξανά",
     "No crop data provided" : "Δεν δόθηκαν δεδομένα περικοπής",
     "No valid crop data provided" : "Έχουν δοθεί μη έγκυρα δεδομένα περικοπής",

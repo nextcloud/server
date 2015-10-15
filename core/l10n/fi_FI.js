@@ -23,6 +23,7 @@ OC.L10N.register(
     "No image or file provided" : "Kuvaa tai tiedostoa ei määritelty",
     "Unknown filetype" : "Tuntematon tiedostotyyppi",
     "Invalid image" : "Virhellinen kuva",
+    "An error occurred. Please contact your admin." : "Tapahtui virhe. Ota yhteys ylläpitoon.",
     "No temporary profile picture available, try again" : "Väliaikaista profiilikuvaa ei ole käytettävissä, yritä uudelleen",
     "No crop data provided" : "Puutteellinen tieto",
     "No valid crop data provided" : "Kelvollisia leikkaustietoja ei määritetty",
