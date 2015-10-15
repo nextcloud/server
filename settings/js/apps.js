@@ -414,9 +414,12 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	},
 
 	filter: function(query) {
-		var $appList = $('#apps-list');
+		var $appList = $('#apps-list'),
+			$emptyList = $('#apps-list-empty');
 		if (query === '') {
 			$appList.find('.section').removeClass('hidden');
+			$appList.removeClass('hidden');
+			$emptyList.addClass('hidden');
 			return;
 		}
 		query = query.toLowerCase();
@@ -456,11 +459,16 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 		apps = _.uniq(apps, function(app){return app.id;});
 
-		_.each(apps, function (app) {
-			$('#app-' + app.id).removeClass('hidden');
-		});
+		if (apps.length === 0) {
+			$appList.addClass('hidden');
+			$emptyList.removeClass('hidden');
+		} else {
+			_.each(apps, function (app) {
+				$('#app-' + app.id).removeClass('hidden');
+			});
 
-		$('#searchresults').hide();
+			$('#searchresults').hide();
+		}
 	},
 
 	/**
