@@ -127,7 +127,7 @@ script(
 	</div>
 </script>
 
-<div id="app-navigation" class="icon-loading">
+<div id="app-navigation" class="icon-loading" data-category="<?php p($_['category']);?>">
 	<ul id="apps-categories">
 
 	</ul>

@@ -96,11 +96,13 @@ class AppSettingsController extends Controller {
 
 	/**
 	 * @NoCSRFRequired
+	 * @param int $category
 	 * @return TemplateResponse
 	 */
-	public function viewApps() {
+	public function viewApps($category = 0) {
 		$params = [];
 		$params['experimentalEnabled'] = $this->config->getSystemValue('appstore.experimental.enabled', false);
+		$params['category'] = $category;
 		$this->navigationManager->setActiveEntry('core_apps');
 
 		$templateResponse = new TemplateResponse($this->appName, 'apps', $params, 'user');

@@ -40,7 +40,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 
 		var categories = [
-			{displayName: 'Enabled', id: '0'}
+			{displayName: t('settings', 'Enabled'), id: '0'},
+			{displayName: t('settings', 'Not enabled'), id: '1'}
 		];
 
 		var source   = $("#categories-template").html();
@@ -48,7 +49,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		var html = template(categories);
 		$('#apps-categories').html(html);
 
-		OC.Settings.Apps.loadCategory(0);
+		OC.Settings.Apps.loadCategory(parseInt($('#app-navigation').attr('data-category'), 10));
 
 		this._loadCategoriesCall = $.ajax(OC.generateUrl('settings/apps/categories'), {
 			data:{},
@@ -398,14 +399,14 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			.text('');
 	},
 
-	showReloadMessage: function(appId) {
+	showReloadMessage: function() {
 		OC.dialogs.info(
 			t(
 				'settings',
 				'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
 			),
 			t('settings','App update'),
-			function (result) {
+			function () {
 				window.location.reload();
 			},
 			true
@@ -443,6 +444,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		$(document).on('click', 'ul#apps-categories li', function () {
 			var categoryId = $(this).data('categoryId');
 			OC.Settings.Apps.loadCategory(categoryId);
+			OC.Util.History.pushState('category=' + categoryId);
 		});
 
 		$(document).on('click', '.app-description-toggle-show', function () {
@@ -508,7 +510,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		});
 
 		$(document).on('click', '#enable-experimental-apps', function () {
-			var state = $(this).prop('checked')
+			var state = $(this).prop('checked');
 			$.ajax(OC.generateUrl('settings/apps/experimental'), {
 				data: {state: state},
 				type: 'POST',
