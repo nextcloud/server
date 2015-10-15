@@ -414,16 +414,45 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	},
 
 	filter: function(query) {
+		var $appList = $('#apps-list');
+		if (query === '') {
+			$appList.find('.section').removeClass('hidden');
+			return;
+		}
 		query = query.toLowerCase();
-		$('#apps-list').find('.section').addClass('hidden');
+		$appList.find('.section').addClass('hidden');
 
+		// App Name
 		var apps = _.filter(OC.Settings.Apps.State.apps, function (app) {
 			return app.name.toLowerCase().indexOf(query) !== -1;
 		});
 
+		// App Description
 		apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
 			return app.description.toLowerCase().indexOf(query) !== -1;
 		}));
+
+		// Author Name
+		apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
+			return app.author.toLowerCase().indexOf(query) !== -1;
+		}));
+
+		// App status
+		if (t('settings', 'Official').toLowerCase().indexOf(query) !== -1) {
+			apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
+				return app.level === 200;
+			}));
+		}
+		if (t('settings', 'Approved').toLowerCase().indexOf(query) !== -1) {
+			apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
+				return app.level === 100;
+			}));
+		}
+		if (t('settings', 'Experimental').toLowerCase().indexOf(query) !== -1) {
+			apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
+				return app.level !== 100 && app.level !== 200;
+			}));
+		}
 
 		apps = _.uniq(apps, function(app){return app.id;});
 
