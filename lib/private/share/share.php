@@ -625,8 +625,8 @@ class Share extends Constants {
 			// verify that the user has share permission
 			if (!\OC\Files\Filesystem::isSharable($path)) {
 				$message = 'You are not allowed to share %s';
-				$message_t = $l->t('You are not allowed to share %s', array($itemSourceName));
-				\OC_Log::write('OCP\Share', sprintf($message, $itemSourceName), \OC_Log::ERROR);
+				$message_t = $l->t('You are not allowed to share %s', [$path]);
+				\OC_Log::write('OCP\Share', sprintf($message, $path), \OC_Log::ERROR);
 				throw new \Exception($message_t);
 			}
 		}
