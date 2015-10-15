@@ -1879,15 +1879,54 @@ describe('OCA.Files.FileList tests', function() {
 				$tr2.find('td.filename .name').trigger(e);
 				expect(fileList.getSelectedFiles().length).toEqual(0);
 			});
-		})
+		});
 	});
 	describe('Details sidebar', function() {
 		beforeEach(function() {
 			fileList.setFiles(testFiles);
 			fileList.showDetailsView('Two.jpg');
 		});
+		describe('registering', function() {
+			var addTabStub;
+			var addDetailStub;
+
+			beforeEach(function() {
+				addTabStub = sinon.stub(OCA.Files.DetailsView.prototype, 'addTabView');
+				addDetailStub = sinon.stub(OCA.Files.DetailsView.prototype, 'addDetailView');
+			});
+			afterEach(function() {
+				addTabStub.restore();
+				addDetailStub.restore();
+			});
+			it('forward the registered views to the underlying DetailsView', function() {
+				fileList.destroy();
+				fileList = new OCA.Files.FileList($('#app-content-files'), {
+					detailsViewEnabled: true
+				});
+				fileList.registerTabView(new OCA.Files.DetailTabView());
+				fileList.registerDetailView(new OCA.Files.DetailFileInfoView());
+
+				expect(addTabStub.calledOnce).toEqual(true);
+				// twice because the filelist already registers one by default
+				expect(addDetailStub.calledTwice).toEqual(true);
+			});
+			it('does not error when registering panels when not details view configured', function() {
+				fileList.destroy();
+				fileList = new OCA.Files.FileList($('#app-content-files'), {
+					detailsViewEnabled: false
+				});
+				fileList.registerTabView(new OCA.Files.DetailTabView());
+				fileList.registerDetailView(new OCA.Files.DetailFileInfoView());
+
+				expect(addTabStub.notCalled).toEqual(true);
+				expect(addDetailStub.notCalled).toEqual(true);
+			});
+		});
 		it('triggers file action when clicking on row if no details view configured', function() {
-			fileList._detailsView = null;
+			fileList.destroy();
+			fileList = new OCA.Files.FileList($('#app-content-files'), {
+				detailsViewEnabled: false
+			});
 			var updateDetailsViewStub = sinon.stub(fileList, '_updateDetailsView');
 			var actionStub = sinon.stub();
 			fileList.setFiles(testFiles);

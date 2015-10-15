@@ -65,10 +65,10 @@
 			this._fileList = options.fileList;
 			this._fileActions = options.fileActions;
 			if (!this._fileList) {
-				throw 'Missing requird parameter "fileList"';
+				throw 'Missing required parameter "fileList"';
 			}
 			if (!this._fileActions) {
-				throw 'Missing requird parameter "fileActions"';
+				throw 'Missing required parameter "fileActions"';
 			}
 		},
 
