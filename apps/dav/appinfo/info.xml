@@ -2,10 +2,10 @@
 <info>
 	<id>dav</id>
 	<name>WebDAV</name>
-	<description>ownCloud WebDAV endppint</description>
+	<description>ownCloud WebDAV endpoint</description>
 	<licence>AGPL</licence>
 	<author>owncloud.org</author>
-	<requiremin>8.2</requiremin>
+	<requiremin>9.0</requiremin>
 	<shipped>true</shipped>
 	<standalone/>
 	<default_enable/>
