@@ -19,7 +19,7 @@
  *
  */
 
-namespace OC\Connector\Sabre;
+namespace OCA\DAV\Connector\Sabre;
 
 use OCP\AppFramework\Http;
 use OCP\SabrePluginEvent;
@@ -57,7 +57,7 @@ class ListenerPlugin extends ServerPlugin {
 	public function emitListener() {
 		$event = new SabrePluginEvent();
 
-		$this->dispatcher->dispatch('OC\Connector\Sabre::beforeMethod', $event);
+		$this->dispatcher->dispatch('OCA\DAV\Connector\Sabre::beforeMethod', $event);
 
 		if ($event->getStatusCode() !== Http::STATUS_OK) {
 			throw new SabrePluginException($event->getMessage(), $event->getStatusCode());

@@ -19,7 +19,7 @@
  *
  */
 
-namespace OC\Connector\Sabre;
+namespace OCA\DAV\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Node;
