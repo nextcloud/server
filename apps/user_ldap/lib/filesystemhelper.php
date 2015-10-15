@@ -37,7 +37,7 @@ class FilesystemHelper {
 
 	/**
 	 * @brief initializes the filesystem for the given user
-	 * @param string the ownCloud username of the user
+	 * @param string $uid the ownCloud username of the user
 	 */
 	public function setup($uid) {
 		\OC_Util::setupFS($uid);

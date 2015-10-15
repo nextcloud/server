@@ -75,7 +75,7 @@ class Manager {
 	 * @param \OCP\IAvatarManager $avatarManager
 	 * @param \OCP\Image $image an empty image instance
 	 * @param \OCP\IDBConnection $db
-	 * @throws Exception when the methods mentioned above do not exist
+	 * @throws \Exception when the methods mentioned above do not exist
 	 */
 	public function __construct(\OCP\IConfig $ocConfig,
 		FilesystemHelper $ocFilesystem, LogWrapper $ocLog,
@@ -101,9 +101,9 @@ class Manager {
 	/**
 	 * @brief creates an instance of User and caches (just runtime) it in the
 	 * property array
-	 * @param string the DN of the user
-	 * @param string the internal (owncloud) username
-	 * @return \OCA\user_ldap\lib\User
+	 * @param string $dn the DN of the user
+	 * @param string $uid the internal (owncloud) username
+	 * @return \OCA\user_ldap\lib\User\User
 	 */
 	private function createAndCache($dn, $uid) {
 		$this->checkAccess();
@@ -117,7 +117,7 @@ class Manager {
 
 	/**
 	 * @brief checks whether the Access instance has been set
-	 * @throws Exception if Access has not been set
+	 * @throws \Exception if Access has not been set
 	 * @return null
 	 */
 	private function checkAccess() {
@@ -189,7 +189,7 @@ class Manager {
 
 	/**
 	 * @brief returns a User object by it's ownCloud username
-	 * @param string the DN or username of the user
+	 * @param string $id the DN or username of the user
 	 * @return \OCA\user_ldap\lib\user\User|\OCA\user_ldap\lib\user\OfflineUser|null
 	 */
 	protected function createInstancyByUserName($id) {
@@ -206,7 +206,7 @@ class Manager {
 
 	/**
 	 * @brief returns a User object by it's DN or ownCloud username
-	 * @param string the DN or username of the user
+	 * @param string $id the DN or username of the user
 	 * @return \OCA\user_ldap\lib\user\User|\OCA\user_ldap\lib\user\OfflineUser|null
 	 * @throws \Exception when connection could not be established
 	 */
