@@ -87,15 +87,15 @@ class User {
 
 	/**
 	 * @brief constructor, make sure the subclasses call this one!
-	 * @param string the internal username
-	 * @param string the LDAP DN
+	 * @param string $username the internal username
+	 * @param string $dn the LDAP DN
 	 * @param IUserTools $access an instance that implements IUserTools for
 	 * LDAP interaction
-	 * @param \OCP\IConfig
-	 * @param FilesystemHelper
-	 * @param \OCP\Image any empty instance
-	 * @param LogWrapper
-	 * @param \OCP\IAvatarManager
+	 * @param \OCP\IConfig $config
+	 * @param FilesystemHelper $fs
+	 * @param \OCP\Image $image any empty instance
+	 * @param LogWrapper $log
+	 * @param \OCP\IAvatarManager $avatarManager
 	 */
 	public function __construct($username, $dn, IUserTools $access,
 		\OCP\IConfig $config, FilesystemHelper $fs, \OCP\Image $image,
@@ -368,7 +368,7 @@ class User {
 	 * @brief checks whether an update method specified by feature was run
 	 * already. If not, it will marked like this, because it is expected that
 	 * the method will be run, when false is returned.
-	 * @param string email | quota | avatar (can be extended)
+	 * @param string $feature email | quota | avatar (can be extended)
 	 * @return bool
 	 */
 	private function wasRefreshed($feature) {
