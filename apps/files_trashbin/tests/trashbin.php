@@ -236,6 +236,8 @@ class Test_Trashbin extends \Test\TestCase {
 		// user2-1.txt should have been expired
 		$this->verifyArray($filesInTrashUser2AfterDelete, array('user2-2.txt', 'user1-4.txt'));
 
+		self::loginHelper(self::TEST_TRASHBIN_USER1);
+
 		// user1-1.txt and user1-3.txt should have been expired
 		$filesInTrashUser1AfterDelete = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1);
 
