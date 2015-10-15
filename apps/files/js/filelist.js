@@ -2614,14 +2614,18 @@
 		 * Register a tab view to be added to all views
 		 */
 		registerTabView: function(tabView) {
-			this._detailsView.addTabView(tabView);
+			if (this._detailsView) {
+				this._detailsView.addTabView(tabView);
+			}
 		},
 
 		/**
 		 * Register a detail view to be added to all views
 		 */
 		registerDetailView: function(detailView) {
-			this._detailsView.addDetailView(detailView);
+			if (this._detailsView) {
+				this._detailsView.addDetailView(detailView);
+			}
 		}
 	};
 
