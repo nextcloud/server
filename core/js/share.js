@@ -1062,6 +1062,7 @@ $(document).ready(function() {
 					$button.removeClass('hidden');
 					$button.prop('disabled', false);
 					OC.Share.showLink(data.token, null, itemSource);
+					OC.Share.showExpirationDate(data.expiration);
 					$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 					OC.Share.updateIcon(itemType, itemSource);
 				});
