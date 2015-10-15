@@ -320,7 +320,7 @@ class Encryption extends Wrapper {
 	 *
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource
+	 * @return resource|bool
 	 * @throws GenericEncryptionException
 	 * @throws ModuleDoesNotExistsException
 	 */
@@ -404,6 +404,9 @@ class Encryption extends Wrapper {
 			if ($shouldEncrypt === true && $encryptionModule !== null) {
 				$headerSize = $this->getHeaderSize($path);
 				$source = $this->storage->fopen($path, $mode);
+				if (!is_resource($source)) {
+					return false;
+				}
 				$handle = \OC\Files\Stream\Encryption::wrap($source, $path, $fullPath, $header,
 					$this->uid, $encryptionModule, $this->storage, $this, $this->util, $this->fileHelper, $mode,
 					$size, $unencryptedSize, $headerSize);
