@@ -1205,6 +1205,10 @@ $(document).ready(function() {
 					OC.Share.showLink(data.token, "password set", itemSource);
 					OC.Share.updateIcon(itemType, itemSource);
 				}
+
+				if (data.expiration) {
+					OC.Share.showExpirationDate(data.expiration);
+				}
 				$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 			}, function(result) {
 				$loading.addClass('hidden');

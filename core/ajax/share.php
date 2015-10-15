@@ -64,7 +64,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 
 					$response = [];
 					if (is_string($token)) {
-						$item = OCP\Share::getShareByToken($token);
+						$item = OCP\Share::getShareByToken($token, false);
 						$response['data'] = array('token' => $token,
 							'expiration' => $item['expiration']);
 					}
