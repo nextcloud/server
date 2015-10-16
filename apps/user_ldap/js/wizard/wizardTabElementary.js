@@ -137,6 +137,10 @@ OCA = OCA || {};
 			this.setElementValue(
 				this.managedItems.ldap_agent_password.$element, agentPwd
 			);
+			if (agentPwd && $('html').hasClass('lte9')) {
+				// make it a password field again (IE fix, placeholders bug)
+				this.managedItems.ldap_agent_password.$element.attr('type', 'password');
+			}
 		},
 		/**
 		 * updates the base DN text area
