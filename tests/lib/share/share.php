@@ -1679,6 +1679,30 @@ class Test_Share extends \Test\TestCase {
 		$config->deleteAppValue('core', 'shareapi_default_expire_date');
 		$config->deleteAppValue('core', 'shareapi_expire_after_n_days');
 	}
+
+	public function testShareWithOwnerError() {
+		OC_User::setUserId($this->user1);
+		$view = new \OC\Files\View('/' . $this->user1 . '/');
+		$view->mkdir('files/folder1');
+
+		$fileInfo = $view->getFileInfo('files/folder1');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
+		$fileId = $fileInfo->getId();
+
+		$this->assertTrue(
+			OCP\Share::shareItem('folder', $fileId, OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_ALL),
+			'Failed asserting that user 1 successfully shared "test" with user 2.'
+		);
+
+		OC_User::setUserId($this->user1);
+
+		try {
+			OCP\Share::shareItem('folder', $fileId, OCP\Share::SHARE_TYPE_USER, $this->user1, \OCP\Constants::PERMISSION_ALL);
+			$this->fail();
+		} catch (\Exception $e) {
+			$this->assertEquals('Sharing /folder1 failed, because the user ' . $this->user1 . ' is the item owner', $e->getMessage());
+		}
+	}
 }
 
 class DummyShareClass extends \OC\Share\Share {
