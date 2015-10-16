@@ -6,7 +6,6 @@
 
 .shareTabView .shareWithLoading {
 	padding-left: 10px;
-	position: relative;
 	right: 30px;
 	top: 2px;
 }
@@ -73,9 +72,18 @@
 }
 
 .shareTabView .icon-loading-small {
-	position: absolute;
 	display: inline-block;
 	z-index: 1;
 	background-color: white;
-	padding: 2px;
+	padding: 2px 0;
 }
+
+.shareTabView .shareWithList .icon-loading-small,
+.shareTabView .linkShareView .icon-loading-small {
+	position: absolute;
+}
+
+.shareTabView .linkPass .icon-loading-small {
+	margin-top: 9px;
+}
+
