@@ -768,12 +768,9 @@ class OC_App {
 					if ($file[0] != '.' and is_dir($apps_dir['path'] . '/' . $file) and is_file($apps_dir['path'] . '/' . $file . '/appinfo/info.xml')) {
 
 						$apps[] = $file;
-
 					}
-
 				}
 			}
-
 		}
 
 		return $apps;
@@ -793,7 +790,8 @@ class OC_App {
 		//TODO which apps do we want to blacklist and how do we integrate
 		// blacklisting with the multi apps folder feature?
 
-		$blacklist = array('files'); //we don't want to show configuration for these
+		//we don't want to show configuration for these
+		$blacklist = \OC::$server->getAppManager()->getAlwaysEnabledApps();
 		$appList = array();
 		$l = \OC::$server->getL10N('core');
 

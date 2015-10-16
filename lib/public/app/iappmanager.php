@@ -105,4 +105,10 @@ interface IAppManager {
 	 * @since 9.0.0
 	 */
 	public function isShipped($appId);
+
+	/**
+	 * @return string[]
+	 * @since 9.0.0
+	 */
+	public function getAlwaysEnabledApps();
 }
