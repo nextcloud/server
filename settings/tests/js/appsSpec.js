@@ -24,6 +24,7 @@ describe('OC.Settings.Apps tests', function() {
 
 	beforeEach(function() {
 		var $el = $('<div id="apps-list"></div>' +
+			'<div id="apps-list-empty" class="hidden"></div>' +
 			'<div id="app-template">' +
 			// dummy template for testing
 			'<div id="app-{{id}}" data-id="{{id}}" class="section">{{name}}</div>' +
@@ -66,15 +67,26 @@ describe('OC.Settings.Apps tests', function() {
 			]);
 		});
 
-		it('does not filter when no query passed', function() {
-			Apps.filter('');
-			expect(getResultsFromDom().length).toEqual(4);
-		});
 		it('returns no results when query does not match anything', function() {
+			expect(getResultsFromDom().length).toEqual(4);
+			expect($('#apps-list:not(.hidden)').length).toEqual(1);
+			expect($('#apps-list-empty:not(.hidden)').length).toEqual(0);
+
 			Apps.filter('absurdity');
 			expect(getResultsFromDom().length).toEqual(0);
+			expect($('#apps-list:not(.hidden)').length).toEqual(0);
+			expect($('#apps-list-empty:not(.hidden)').length).toEqual(1);
+
+			Apps.filter('');
+			expect(getResultsFromDom().length).toEqual(4);
+			expect($('#apps-list:not(.hidden)').length).toEqual(1);
+			expect($('#apps-list-empty:not(.hidden)').length).toEqual(0);
+			expect(getResultsFromDom().length).toEqual(4);
 		});
 		it('returns relevant results when query matches name', function() {
+			expect($('#apps-list:not(.hidden)').length).toEqual(1);
+			expect($('#apps-list-empty:not(.hidden)').length).toEqual(0);
+
 			var results;
 			Apps.filter('app');
 			results = getResultsFromDom();
@@ -82,6 +94,9 @@ describe('OC.Settings.Apps tests', function() {
 			expect(results[0]).toEqual('appone');
 			expect(results[1]).toEqual('apptwo');
 			expect(results[2]).toEqual('appthree');
+
+			expect($('#apps-list:not(.hidden)').length).toEqual(1);
+			expect($('#apps-list-empty:not(.hidden)').length).toEqual(0);
 		});
 		it('returns relevant result when query matches name', function() {
 			var results;
