@@ -168,7 +168,16 @@ class Dropbox extends \OC\Files\Storage\Common {
 		if ($metaData) {
 			$stat['size'] = $metaData['bytes'];
 			$stat['atime'] = time();
-			$stat['mtime'] = (isset($metaData['modified'])) ? strtotime($metaData['modified']) : time();
+			$mtime = null;
+			if (isset($metaData['client_mtime'])) {
+				$mtime = strtotime($metaData['client_mtime']);
+			} else if (isset($metaData['modified'])) {
+				// note: "modified" changes on rename, so best is using client_mtime
+				$mtime = strtotime($metaData['modified']);
+			} else {
+				$mtime = time();
+			}
+			$stat['mtime'] = $mtime;
 			return $stat;
 		}
 		return false;
