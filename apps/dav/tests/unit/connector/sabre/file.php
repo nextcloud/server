@@ -822,7 +822,7 @@ class File extends \Test\TestCase {
 			'permissions' => \OCP\Constants::PERMISSION_ALL
 		), null);
 
-		$file = new \OC\Connector\Sabre\File($view, $info);
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 
 		$file->get();
 	}
