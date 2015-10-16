@@ -59,10 +59,10 @@ describe('OC.Settings.Apps tests', function() {
 
 		beforeEach(function() {
 			loadApps([
-				{id: 'appone', name: 'App One', description: 'The first app'},
-				{id: 'apptwo', name: 'App Two', description: 'The second app'},
-				{id: 'appthree', name: 'App Three', description: 'Third app'},
-				{id: 'somestuff', name: 'Some Stuff', description: 'whatever'}
+				{id: 'appone', name: 'App One', description: 'The first app', author: 'author1', level: 200},
+				{id: 'apptwo', name: 'App Two', description: 'The second app', author: 'author2', level: 100},
+				{id: 'appthree', name: 'App Three', description: 'Third app', author: 'author3', level: 0},
+				{id: 'somestuff', name: 'Some Stuff', description: 'whatever', author: 'author4', level: 0}
 			]);
 		});
 
@@ -96,6 +96,45 @@ describe('OC.Settings.Apps tests', function() {
 			results = getResultsFromDom();
 			expect(results.length).toEqual(1);
 			expect(results[0]).toEqual('somestuff');
+		});
+		it('returns relevant results when query matches author name', function() {
+			var results;
+			Apps.filter('author');
+			results = getResultsFromDom();
+			expect(results.length).toEqual(4);
+			expect(results[0]).toEqual('appone');
+			expect(results[1]).toEqual('apptwo');
+			expect(results[2]).toEqual('appthree');
+			expect(results[3]).toEqual('somestuff');
+		});
+		it('returns relevant result when query matches author name', function() {
+			var results;
+			Apps.filter('thor3');
+			results = getResultsFromDom();
+			expect(results.length).toEqual(1);
+			expect(results[0]).toEqual('appthree');
+		});
+		it('returns relevant result when query matches level name', function() {
+			var results;
+			Apps.filter('Offic');
+			results = getResultsFromDom();
+			expect(results.length).toEqual(1);
+			expect(results[0]).toEqual('appone');
+		});
+		it('returns relevant result when query matches level name', function() {
+			var results;
+			Apps.filter('Appro');
+			results = getResultsFromDom();
+			expect(results.length).toEqual(1);
+			expect(results[0]).toEqual('apptwo');
+		});
+		it('returns relevant result when query matches level name', function() {
+			var results;
+			Apps.filter('Exper');
+			results = getResultsFromDom();
+			expect(results.length).toEqual(2);
+			expect(results[0]).toEqual('appthree');
+			expect(results[1]).toEqual('somestuff');
 		});
 	});
 
