@@ -31,5 +31,9 @@
     "user_ldap",
     "user_shibboleth",
     "windows_network_drive"
+  ],
+  "alwaysEnabled": [
+    "files",
+    "dav"
   ]
 }

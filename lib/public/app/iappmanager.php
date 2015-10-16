@@ -98,4 +98,11 @@ interface IAppManager {
 	 * @since 8.1.0
 	 */
 	public function clearAppsCache();
+
+	/**
+	 * @param string $appId
+	 * @return boolean
+	 * @since 9.0.0
+	 */
+	public function isShipped($appId);
 }

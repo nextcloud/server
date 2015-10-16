@@ -61,7 +61,6 @@ class OC_App {
 	static private $appTypes = array();
 	static private $loadedApps = array();
 	static private $altLogin = array();
-	private static $shippedApps = null;
 	const officialApp = 200;
 
 	/**
@@ -223,18 +222,7 @@ class OC_App {
 	 * Check if an app that is installed is a shipped app or installed from the appstore.
 	 */
 	public static function isShipped($appId) {
-		if (is_null(self::$shippedApps)) {
-			$shippedJson = \OC::$SERVERROOT . '/core/shipped.json';
-			if (file_exists($shippedJson)) {
-				self::$shippedApps = json_decode(file_get_contents($shippedJson), true);
-				self::$shippedApps = self::$shippedApps['shippedApps'];
-			} else {
-				self::$shippedApps = ['files', 'encryption', 'files_external',
-					'files_sharing', 'files_trashbin', 'files_versions', 'provisioning_api',
-					'user_ldap', 'user_webdavauth'];
-			}
-		}
-		return in_array($appId, self::$shippedApps);
+		return \OC::$server->getAppManager()->isShipped($appId);
 	}
 
 	/**
@@ -285,9 +273,6 @@ class OC_App {
 	 * This function checks whether or not an app is enabled.
 	 */
 	public static function isEnabled($app) {
-		if ('files' == $app) {
-			return true;
-		}
 		return \OC::$server->getAppManager()->isEnabledForUser($app);
 	}
 
@@ -368,9 +353,6 @@ class OC_App {
 			$app = self::getInternalAppIdByOcs($app);
 		}
 
-		if($app === 'files') {
-			throw new \Exception("files can't be disabled.");
-		}
 		self::$enabledAppsCache = array(); // flush
 		// check if app is a shipped app or not. if not delete
 		\OC_Hook::emit('OC_App', 'pre_disable', array('app' => $app));
