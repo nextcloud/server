@@ -42,14 +42,9 @@ class Test_Group_Ldap extends \Test\TestCase {
 		$connector = $this->getMock('\OCA\user_ldap\lib\Connection',
 									$conMethods,
 									array($lw, null, null));
-		$um = new \OCA\user_ldap\lib\user\Manager(
-				$this->getMock('\OCP\IConfig'),
-				$this->getMock('\OCA\user_ldap\lib\FilesystemHelper'),
-				$this->getMock('\OCA\user_ldap\lib\LogWrapper'),
-				$this->getMock('\OCP\IAvatarManager'),
-				$this->getMock('\OCP\Image'),
-				$this->getMock('\OCP\IDBConnection')
-			);
+		$um = $this->getMockBuilder('\OCA\user_ldap\lib\user\Manager')
+			->disableOriginalConstructor()
+			->getMock();
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
 								 $accMethods,
 								 array($connector, $lw, $um));
