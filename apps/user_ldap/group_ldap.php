@@ -31,7 +31,6 @@ namespace OCA\user_ldap;
 
 use OCA\user_ldap\lib\Access;
 use OCA\user_ldap\lib\BackendUtility;
-use OCA\user_ldap\lib\user\User;
 
 class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	protected $enabled = false;
@@ -196,11 +195,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			return array();
 		}
 		$seen[$DN] = 1;
-		$user = $this->access->userManager->get($DN);
-		if(!$user instanceof User) {
-			return array();
-		}
-		$groups = $user->getMemberOfGroups();
+		$groups = $this->access->readAttribute($DN, 'memberOf');
 		if (!is_array($groups)) {
 			return array();
 		}
