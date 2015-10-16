@@ -39,7 +39,11 @@ class MessageTest extends TestCase {
 	}
 
 	/**
+	 * @requires function idn_to_ascii
 	 * @dataProvider mailAddressProvider
+	 *
+	 * @param string $unconverted
+	 * @param string $expected
 	 */
 	public function testConvertAddresses($unconverted, $expected) {
 		$this->assertSame($expected, self::invokePrivate($this->message, 'convertAddresses', array($unconverted)));
