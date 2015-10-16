@@ -209,7 +209,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 				$subGroups = $this->_getGroupDNsFromMemberOf($group, $seen);
 				$allGroups = array_merge($allGroups, $subGroups);
 			}
-		}	
+		}
 		return $allGroups;	
 	}
 
