@@ -680,9 +680,9 @@ class Share extends Constants {
 		// Verify share type and sharing conditions are met
 		if ($shareType === self::SHARE_TYPE_USER) {
 			if ($shareWith == $uidOwner) {
-				$message = 'Sharing %s failed, because the user %s is the item owner';
-				$message_t = $l->t('Sharing %s failed, because the user %s is the item owner', array($itemName, $shareWith));
-				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
+				$message = 'Sharing %s failed, because you can not share with yourself';
+				$message_t = $l->t('Sharing %s failed, because you can not share with yourself', [$itemName]);
+				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName), \OCP\Util::DEBUG);
 				throw new \Exception($message_t);
 			}
 			if (!\OC_User::userExists($shareWith)) {
@@ -2212,7 +2212,7 @@ class Share extends Constants {
 			// Check if attempting to share back to owner
 			if ($checkReshare['uid_owner'] == $shareWith && $shareType == self::SHARE_TYPE_USER) {
 				$message = 'Sharing %s failed, because the user %s is the original sharer';
-				$message_t = $l->t('Sharing %s failed, because the user %s is the original sharer', array($itemSourceName, $shareWith));
+				$message_t = $l->t('Sharing failed, because the user %s is the original sharer', [$shareWith]);
 
 				\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
 				throw new \Exception($message_t);
