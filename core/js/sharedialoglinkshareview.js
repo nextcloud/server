@@ -16,33 +16,36 @@
 	var TEMPLATE =
 			'{{#if shareAllowed}}' +
 			'<span class="icon-loading-small hidden"></span>' +
-			'<input type="checkbox" name="linkCheckbox" id="linkCheckbox" class="checkbox" value="1" {{#if isLinkShare}}checked="checked"{{/if}} /><label for="linkCheckbox">{{linkShareLabel}}</label>' +
+			'<input type="checkbox" name="linkCheckbox" id="linkCheckbox-{{cid}}" class="checkbox linkCheckbox" value="1" {{#if isLinkShare}}checked="checked"{{/if}} />' +
+			'<label for="linkCheckbox-{{cid}}">{{linkShareLabel}}</label>' +
 			'<br />' +
-			'<label for="linkText" class="hidden-visually">{{urlLabel}}</label>' +
-			'<input id="linkText" {{#unless isLinkShare}}class="hidden"{{/unless}} type="text" readonly="readonly" value="{{shareLinkURL}}" />' +
+			'<label for="linkText-{{cid}}" class="hidden-visually">{{urlLabel}}</label>' +
+			'<input id="linkText-{{cid}}" class="linkText {{#unless isLinkShare}}hidden{{/unless}}" type="text" readonly="readonly" value="{{shareLinkURL}}" />' +
 			'   {{#if showPasswordCheckBox}}' +
-			'<input type="checkbox" name="showPassword" id="showPassword" class="checkbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" /><label for="showPassword">{{enablePasswordLabel}}</label>' +
+			'<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
+			'<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
 			'   {{/if}}' +
-			'<div id="linkPass" {{#unless isPasswordSet}}class="hidden"{{/unless}}>' +
-			'    <label for="linkPassText" class="hidden-visually">{{passwordLabel}}</label>' +
-			'    <input id="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
+			'<div id="linkPass" class="linkPass {{#unless isPasswordSet}}hidden{{/unless}}">' +
+			'    <label for="linkPassText-{{cid}}" class="hidden-visually">{{passwordLabel}}</label>' +
+			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
 			'    <span class="icon-loading-small hidden"></span>' +
 			'</div>' +
 			'    {{#if publicUpload}}' +
 			'<div id="allowPublicUploadWrapper">' +
 			'    <span class="icon-loading-small hidden"></span>' +
-			'    <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload" class="checkbox" {{{publicUploadChecked}}} />' +
-			'<label for="sharingDialogAllowPublicUpload">{{publicUploadLabel}}</label>' +
+			'    <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload-{{cid}}" class="checkbox publicUploadCheckbox" {{{publicUploadChecked}}} />' +
+			'<label for="sharingDialogAllowPublicUpload-{{cid}}">{{publicUploadLabel}}</label>' +
 			'</div>' +
 			'    {{/if}}' +
 			'    {{#if mailPublicNotificationEnabled}}' +
 			'<form id="emailPrivateLink" class="emailPrivateLinkForm">' +
-			'    <input id="email" value="" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
-			'    <input id="emailButton" type="submit" value="{{mailButtonText}}" />' +
+			'    <input id="email" class="emailField" value="" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
+			'    <input id="emailButton" class="emailButton" type="submit" value="{{mailButtonText}}" />' +
 			'</form>' +
 			'    {{/if}}' +
 			'{{else}}' +
-			'<input id="shareWith" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>' +
+			// FIXME: this doesn't belong in this view
+			'<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>' +
 			'{{/if}}'
 		;
 
@@ -70,7 +73,13 @@
 		showLink: true,
 
 		events: {
-			'submit .emailPrivateLinkForm': '_onEmailPrivateLink'
+			'submit .emailPrivateLinkForm': '_onEmailPrivateLink',
+			'focusout input.linkPassText': 'onPasswordEntered',
+			'keyup input.linkPassText': 'onPasswordKeyUp',
+			'click .linkCheckbox': 'onLinkCheckBoxChange',
+			'click .linkText': 'onLinkTextClick',
+			'change .publicUploadCheckbox': 'onAllowPublicUploadChange',
+			'click .showPasswordCheckbox': 'onShowPasswordClick'
 		},
 
 		initialize: function(options) {
@@ -98,12 +107,20 @@
 				throw 'missing OC.Share.ShareConfigModel';
 			}
 
-			_.bindAll(this, 'onLinkCheckBoxChange', 'onPasswordEntered',
-				'onShowPasswordClick', 'onAllowPublicUploadChange');
+			_.bindAll(
+				this,
+				'_onEmailPrivateLink',
+				'onLinkCheckBoxChange',
+				'onPasswordEntered',
+				'onPasswordKeyUp',
+				'onLinkTextClick',
+				'onShowPasswordClick',
+				'onAllowPublicUploadChange'
+			);
 		},
 
 		onLinkCheckBoxChange: function() {
-			var $checkBox = this.$el.find('#linkCheckbox');
+			var $checkBox = this.$el.find('.linkCheckbox');
 			var $loading = $checkBox.siblings('.icon-loading-small');
 			if(!$loading.hasClass('hidden')) {
 				return false;
@@ -115,19 +132,19 @@
 					// this will create it
 					this.model.saveLinkShare();
 				} else {
-					this.$el.find('#linkPass').slideToggle(OC.menuSpeed);
+					this.$el.find('.linkPass').slideToggle(OC.menuSpeed);
 					// TODO drop with IE8 drop
 					if($('html').hasClass('ie8')) {
-						this.$el.find('#linkPassText').attr('placeholder', null);
-						this.$el.find('#linkPassText').val('');
+						this.$el.find('.linkPassText').attr('placeholder', null);
+						this.$el.find('.linkPassText').val('');
 					}
-					this.$el.find('#linkPassText').focus();
+					this.$el.find('.linkPassText').focus();
 				}
 			} else {
 				if (this.model.get('linkShare').isLinkShare) {
 					this.model.removeLinkShare();
 				} else {
-					this.$el.find('#linkPass').slideToggle(OC.menuSpeed);
+					this.$el.find('.linkPass').slideToggle(OC.menuSpeed);
 				}
 			}
 		},
@@ -138,23 +155,29 @@
 		},
 
 		onShowPasswordClick: function() {
-			this.$el.find('#linkPass').slideToggle(OC.menuSpeed);
-			if(!this.$el.find('#showPassword').is(':checked')) {
+			this.$el.find('.linkPass').slideToggle(OC.menuSpeed);
+			if(!this.$el.find('.showPasswordCheckbox').is(':checked')) {
 				this.model.setPassword('');
 				this.model.saveLinkShare();
 			} else {
-				this.$el.find('#linkPassText').focus();
+				this.$el.find('.linkPassText').focus();
+			}
+		},
+
+		onPasswordKeyUp: function(event) {
+			if(event.keyCode == 13) {
+				this.onPasswordEntered();
 			}
 		},
 
 		onPasswordEntered: function() {
 			var self = this;
-			var $loading = this.$el.find('#linkPass .icon-loading-small');
+			var $loading = this.$el.find('.linkPass .icon-loading-small');
 			if (!$loading.hasClass('hidden')) {
 				// still in process
 				return;
 			}
-			var $input = this.$el.find('#linkPassText');
+			var $input = this.$el.find('.linkPassText');
 			$input.removeClass('error');
 			var password = $input.val();
 			if(password === '') {
@@ -178,18 +201,18 @@
 		},
 
 		onAllowPublicUploadChange: function() {
-			this.$el.find('#sharingDialogAllowPublicUpload')
-					.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
-			this.model.setPublicUpload(this.$el.find('#sharingDialogAllowPublicUpload').is(':checked'));
+			var $checkbox = this.$('.publicUploadCheckbox');
+			$checkbox.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
+			this.model.setPublicUpload($checkbox.is(':checked'));
 			this.model.saveLinkShare();
 		},
 
 		_onEmailPrivateLink: function(event) {
 			event.preventDefault();
 
-			var $emailField = this.$el.find('#email');
-			var $emailButton = this.$el.find('#emailButton');
-			var email = this.$el.find('#email').val();
+			var $emailField = this.$el.find('.emailField');
+			var $emailButton = this.$el.find('.emailButton');
+			var email = $emailField.val();
 			if (email !== '') {
 				$emailField.prop('disabled', true);
 				$emailButton.prop('disabled', true);
@@ -243,6 +266,7 @@
 					|| !this.model.get('linkShare').password);
 
 			this.$el.html(linkShareTemplate({
+				cid: this.cid,
 				shareAllowed: true,
 				isLinkShare: isLinkShare,
 				shareLinkURL: this.model.get('linkShare').link,
@@ -261,20 +285,7 @@
 				mailButtonText: t('core', 'Send')
 			}));
 
-			// TODO: move this to delegate events instead
-			this.$el.find('#linkCheckbox').click(this.onLinkCheckBoxChange);
-			this.$el.find('#sharingDialogAllowPublicUpload').change(this.onAllowPublicUploadChange);
-			this.$el.find('#linkText').click(this.onLinkTextClick);
-			this.$el.find('#showPassword').click(this.onShowPasswordClick);
-			this.$el.find('#linkPassText').focusout(this.onPasswordEntered);
-			var view = this;
-			this.$el.find('#linkPassText').keyup(function(event) {
-				if(event.keyCode == 13) {
-					view.onPasswordEntered();
-				}
-			});
-
-			var $emailField = this.$el.find('#email');
+			var $emailField = this.$el.find('.emailField');
 			if (isLinkShare && $emailField.length !== 0) {
 				$emailField.autocomplete({
 					minLength: 1,
