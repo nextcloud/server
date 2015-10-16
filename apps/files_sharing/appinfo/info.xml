@@ -17,6 +17,5 @@ Turning the feature off removes shared files and folders on the server for all s
 	</types>
 	<public>
 		<files>public.php</files>
-		<webdav>publicwebdav.php</webdav>
 	</public>
 </info>

@@ -26,7 +26,7 @@
  *
  */
 
-use OC\Connector\Sabre\ExceptionLoggerPlugin;
+use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
 
