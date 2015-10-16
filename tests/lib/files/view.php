@@ -2275,4 +2275,53 @@ class View extends \Test\TestCase {
 		}
 		return null;
 	}
+
+
+	public function testRemoveMoveableMountPoint() {
+		$mountPoint = '/' . $this->user . '/files/mount/';
+
+		// Mock the mount point
+		$mount = $this->getMockBuilder('\Test\TestMoveableMountPoint')
+			->disableOriginalConstructor()
+			->getMock();
+		$mount->expects($this->once())
+			->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mount->expects($this->once())
+			->method('removeMount')
+			->willReturn('foo');
+		$mount->expects($this->any())
+			->method('getInternalPath')
+			->willReturn('');
+
+		// Register mount
+		\OC\Files\Filesystem::getMountManager()->addMount($mount);
+
+		// Listen for events
+		$eventHandler = $this->getMockBuilder('\stdclass')
+			->setMethods(['umount', 'post_umount'])
+			->getMock();
+		$eventHandler->expects($this->once())
+			->method('umount')
+			->with([\OC\Files\Filesystem::signal_param_path => '/mount']);
+		$eventHandler->expects($this->once())
+			->method('post_umount')
+			->with([\OC\Files\Filesystem::signal_param_path => '/mount']);
+		\OCP\Util::connectHook(
+			\OC\Files\Filesystem::CLASSNAME,
+			'umount',
+			$eventHandler,
+			'umount'
+		);
+		\OCP\Util::connectHook(
+			\OC\Files\Filesystem::CLASSNAME,
+			'post_umount',
+			$eventHandler,
+			'post_umount'
+		);
+
+		//Delete the mountpoint
+		$view = new \OC\Files\View('/' . $this->user . '/files');
+		$this->assertEquals('foo', $view->rmdir('mount'));
+	}
 }
