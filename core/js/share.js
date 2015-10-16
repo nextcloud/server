@@ -1062,6 +1062,9 @@ $(document).ready(function() {
 					$button.removeClass('hidden');
 					$button.prop('disabled', false);
 					OC.Share.showLink(data.token, null, itemSource);
+					if (data.expiration) {
+						OC.Share.showExpirationDate(data.expiration);
+					}
 					$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 					OC.Share.updateIcon(itemType, itemSource);
 				});
@@ -1201,6 +1204,10 @@ $(document).ready(function() {
 				if (oc_appconfig.core.enforcePasswordForPublicLink) {
 					OC.Share.showLink(data.token, "password set", itemSource);
 					OC.Share.updateIcon(itemType, itemSource);
+				}
+
+				if (data.expiration) {
+					OC.Share.showExpirationDate(data.expiration);
 				}
 				$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 			}, function(result) {
