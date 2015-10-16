@@ -16,9 +16,9 @@
 	var TEMPLATE_BASE =
 		'<div class="resharerInfoView subView"></div>' +
 		'{{#if isSharingAllowed}}' +
-		'<label for="shareWith" class="hidden-visually">{{shareLabel}}</label>' +
+		'<label for="shareWith-{{cid}}" class="hidden-visually">{{shareLabel}}</label>' +
 		'<div class="oneline">' +
-		'    <input id="shareWith" type="text" placeholder="{{sharePlaceholder}}" />' +
+		'    <input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{sharePlaceholder}}" />' +
 		'    <span class="shareWithLoading icon-loading-small hidden"></span>'+
 		'{{{remoteShareInfo}}}' +
 		'</div>' +
@@ -127,7 +127,7 @@
 				$loading.addClass('hidden');
 				$loading.removeClass('inlineblock');
 				if (result.status == 'success' && result.data.length > 0) {
-					$("#shareWith").autocomplete("option", "autoFocus", true);
+					$('.shareWithField').autocomplete("option", "autoFocus", true);
 					response(result.data);
 				} else {
 					response();
@@ -184,7 +184,7 @@
 				this._loadingOnce = true;
 				// the first time, focus on the share field after the spinner disappeared
 				_.defer(function() {
-					self.$('#shareWith').focus();
+					self.$('.shareWithField').focus();
 				});
 			}
 		},
@@ -193,13 +193,14 @@
 			var baseTemplate = this._getTemplate('base', TEMPLATE_BASE);
 
 			this.$el.html(baseTemplate({
+				cid: this.cid,
 				shareLabel: t('core', 'Share'),
 				sharePlaceholder: this._renderSharePlaceholderPart(),
 				remoteShareInfo: this._renderRemoteShareInfoPart(),
 				isSharingAllowed: this.model.sharePermissionPossible()
 			}));
 
-			var $shareField = this.$el.find('#shareWith');
+			var $shareField = this.$el.find('.shareWithField');
 			if ($shareField.length) {
 				$shareField.autocomplete({
 					minLength: 2,

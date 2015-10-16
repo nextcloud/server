@@ -8,6 +8,8 @@
  *
  */
 
+/* global moment */
+
 (function() {
 	if (!OC.Share) {
 		OC.Share = {};
@@ -19,9 +21,9 @@
 			// in the LinkShareView to ease reusing it in future. Then,
 			// modifications (getting rid of IDs) are still necessary.
 			'{{#if isLinkShare}}' +
-			'<input type="checkbox" name="expirationCheckbox" class="expirationCheckbox checkbox" id="expirationCheckbox" value="1" ' +
+			'<input type="checkbox" name="expirationCheckbox" class="expirationCheckbox checkbox" id="expirationCheckbox-{{cid}}" value="1" ' +
 				'{{#if isExpirationSet}}checked="checked"{{/if}} {{#if disableCheckbox}}disabled="disabled"{{/if}} />' +
-			'<label for="expirationCheckbox">{{setExpirationLabel}}</label>' +
+			'<label for="expirationCheckbox-{{cid}}">{{setExpirationLabel}}</label>' +
 			'<div class="expirationDateContainer {{#unless isExpirationSet}}hidden{{/unless}}">' +
 			'    <label for="expirationDate" class="hidden-visually" value="{{expirationDate}}">{{expirationLabel}}</label>' +
 			'    <input id="expirationDate" class="datepicker" type="text" placeholder="{{expirationDatePlaceholder}}" value="{{expirationValue}}" />' +
@@ -134,11 +136,11 @@
 
 			var expiration;
 			if (isExpirationSet) {
-				expiration = moment(this.model.get('linkShare').expiration, 'YYYY-MM-DD').format('DD-MM-YYYY')
+				expiration = moment(this.model.get('linkShare').expiration, 'YYYY-MM-DD').format('DD-MM-YYYY');
 			}
 
-			var expirationTemplate = this.template();
-			this.$el.html(expirationTemplate({
+			this.$el.html(this.template({
+				cid: this.cid,
 				setExpirationLabel: t('core', 'Set expiration date'),
 				expirationLabel: t('core', 'Expiration'),
 				expirationDatePlaceholder: t('core', 'Expiration date'),
@@ -186,11 +188,11 @@
 		 * @returns {Function} from Handlebars
 		 * @private
 		 */
-		template: function () {
+		template: function (data) {
 			if (!this._template) {
 				this._template = Handlebars.compile(TEMPLATE);
 			}
-			return this._template;
+			return this._template(data);
 		}
 
 	});
