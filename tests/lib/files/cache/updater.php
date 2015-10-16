@@ -161,6 +161,47 @@ class Updater extends \Test\TestCase {
 		$this->assertEquals($cached['fileid'], $cachedTarget['fileid']);
 	}
 
+	public function testUpdateStorageMTime() {
+		$this->storage->mkdir('sub');
+		$this->storage->mkdir('sub2');
+		$this->storage->file_put_contents('sub/foo.txt', 'qwerty');
+
+		$this->updater->update('sub');
+		$this->updater->update('sub/foo.txt');
+		$this->updater->update('sub2');
+
+		$cachedSourceParent = $this->cache->get('sub');
+		$cachedSource = $this->cache->get('sub/foo.txt');
+
+		$this->storage->rename('sub/foo.txt', 'sub2/bar.txt');
+
+		// simulate storage having a different mtime
+		$testmtime = 1433323578;
+
+		// source storage mtime change
+		$this->storage->touch('sub', $testmtime);
+
+		// target storage mtime change
+		$this->storage->touch('sub2', $testmtime);
+		// some storages (like Dropbox) change storage mtime on rename
+		$this->storage->touch('sub2/bar.txt', $testmtime);
+
+		$this->updater->rename('sub/foo.txt', 'sub2/bar.txt');
+
+		$cachedTargetParent = $this->cache->get('sub2');
+		$cachedTarget = $this->cache->get('sub2/bar.txt');
+
+		$this->assertEquals($cachedSource['mtime'], $cachedTarget['mtime'], 'file mtime preserved');
+
+		$this->assertNotEquals($cachedTarget['storage_mtime'], $cachedTarget['mtime'], 'mtime is not storage_mtime for moved file');
+
+		$this->assertEquals($testmtime, $cachedTarget['storage_mtime'], 'target file storage_mtime propagated');
+		$this->assertNotEquals($testmtime, $cachedTarget['mtime'], 'target file mtime changed, not from storage');
+
+		$this->assertEquals($testmtime, $cachedTargetParent['storage_mtime'], 'target parent storage_mtime propagated');
+		$this->assertNotEquals($testmtime, $cachedTargetParent['mtime'], 'target folder mtime changed, not from storage');
+	}
+
 	public function testNewFileDisabled() {
 		$this->storage->file_put_contents('foo.txt', 'bar');
 		$this->assertFalse($this->cache->inCache('foo.txt'));
