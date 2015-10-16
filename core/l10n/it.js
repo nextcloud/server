@@ -174,6 +174,7 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["scarica %n file","scarica %s file"],
     "{version} is available. Get more information on how to update." : "{version} è disponibile. Ottieni ulteriori informazioni su come eseguire l'aggiornamento.",
     "Updating {productName} to version {version}, this may take a while." : "Aggiornamento di {productName} alla versione {version}, potrebbe richiedere del tempo.",
+    "An error occurred." : "Si è verificato un errore.",
     "Please reload the page." : "Ricarica la pagina.",
     "The update was unsuccessful. " : "L'aggiornamento non è riuscito.",
     "The update was successful. There were warnings." : "L'aggiornamento è stato effettuato correttamente. Ci sono degli avvisi.",

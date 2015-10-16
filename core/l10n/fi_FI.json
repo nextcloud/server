@@ -172,6 +172,7 @@
     "_download %n file_::_download %n files_" : ["lataa %n tiedosto","lataa %n tiedostoa"],
     "{version} is available. Get more information on how to update." : "{version} on saatavilla. Tarjolla on lisätietoja päivittämisestä.",
     "Updating {productName} to version {version}, this may take a while." : "Päivitetään {productName} versioon {version}, tämä saattaa kestää hetken.",
+    "An error occurred." : "Tapahtui virhe.",
     "Please reload the page." : "Päivitä sivu.",
     "The update was unsuccessful. " : "Päivitys epäonnistui.",
     "The update was successful. There were warnings." : "Päivitys onnistui, tosin ilmeni varoituksia.",
