@@ -1063,7 +1063,8 @@ $(document).ready(function() {
 					$button.prop('disabled', false);
 					OC.Share.showLink(data.token, null, itemSource);
 					if (data.expiration) {
-						OC.Share.showExpirationDate(data.expiration);
+						var expireDate = moment(data.expiration, 'YYYY-MM-DD').format('DD-MM-YYYY');
+						OC.Share.showExpirationDate(expireDate);
 					}
 					$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 					OC.Share.updateIcon(itemType, itemSource);
@@ -1207,7 +1208,8 @@ $(document).ready(function() {
 				}
 
 				if (data.expiration) {
-					OC.Share.showExpirationDate(data.expiration);
+					var expireDate = moment(data.expiration, 'YYYY-MM-DD').format('DD-MM-YYYY');
+					OC.Share.showExpirationDate(expireDate);
 				}
 				$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 			}, function(result) {
