@@ -502,7 +502,7 @@ class OC_Installer{
 			if($dir = opendir( $app_dir['path'] )) {
 				while( false !== ( $filename = readdir( $dir ))) {
 					if( substr( $filename, 0, 1 ) != '.' and is_dir($app_dir['path']."/$filename") ) {
-						if( file_exists( $app_dir['path']."/$filename/appinfo/app.php" )) {
+						if( file_exists( $app_dir['path']."/$filename/appinfo/info.xml" )) {
 							if(!OC_Installer::isInstalled($filename)) {
 								$info=OC_App::getAppInfo($filename);
 								$enabled = isset($info['default_enable']);
