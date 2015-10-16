@@ -40,6 +40,7 @@ class Activity implements IExtension {
 	const TYPE_SHARE_CHANGED = 'file_changed';
 	const TYPE_SHARE_DELETED = 'file_deleted';
 	const TYPE_SHARE_RESTORED = 'file_restored';
+	const TYPE_SHARE_RENAMED = 'file_renamed';
 	const TYPE_FAVORITES = 'files_favorites';
 
 	/** @var IL10N */
@@ -111,6 +112,7 @@ class Activity implements IExtension {
 			],
 			self::TYPE_SHARE_DELETED => (string) $l->t('A file or folder has been <strong>deleted</strong>'),
 			self::TYPE_SHARE_RESTORED => (string) $l->t('A file or folder has been <strong>restored</strong>'),
+			self::TYPE_SHARE_RENAMED => (string) $l->t('A file or folder has been <strong>renamed or moved</strong>'),
 		];
 	}
 
@@ -128,6 +130,7 @@ class Activity implements IExtension {
 			$settings[] = self::TYPE_SHARE_CHANGED;
 			$settings[] = self::TYPE_SHARE_DELETED;
 			$settings[] = self::TYPE_SHARE_RESTORED;
+			$settings[] = self::TYPE_SHARE_RENAMED;
 			return $settings;
 		}
 
@@ -189,6 +192,10 @@ class Activity implements IExtension {
 				return (string) $l->t('You restored %1$s', $params);
 			case 'restored_by':
 				return (string) $l->t('%2$s restored %1$s', $params);
+			case 'renamed_self':
+				return (string) $l->t('You renamed %2$s to %1$s', $params);
+			case 'renamed_by':
+				return (string) $l->t('%2$s renamed %3$s to %1$s', $params);
 
 			default:
 				return false;
@@ -238,9 +245,14 @@ class Activity implements IExtension {
 				case 'deleted_by':
 				case 'restored_self':
 				case 'restored_by':
+				case 'renamed_by':
 					return [
 						0 => 'file',
 						1 => 'username',
+					];
+				case 'renamed_self':
+					return [
+						0 => 'file',
 					];
 			}
 		}
@@ -345,6 +357,7 @@ class Activity implements IExtension {
 				self::TYPE_SHARE_CHANGED,
 				self::TYPE_SHARE_DELETED,
 				self::TYPE_SHARE_RESTORED,
+				self::TYPE_SHARE_RENAMED,
 			], $types);
 		}
 		return false;
