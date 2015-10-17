@@ -77,6 +77,7 @@ OC.L10N.register(
     "Uninstalling ...." : "Удаление ...",
     "Error while uninstalling app" : "Ошибка при удалении приложения",
     "Uninstall" : "Удалить",
+    "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Приложение было включено и нуждается в обновлении. Вас перенаправит на страницу обновления через 5 секунд.",
     "An error occurred: {message}" : "Произошла ошибка: {message}",
     "Select a profile picture" : "Выберите аватар",
     "Very weak password" : "Очень слабый пароль",

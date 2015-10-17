@@ -9,6 +9,8 @@ OC.L10N.register(
     "Delete permanently" : "Fshi përfundimisht",
     "Error" : "Veprim i gabuar",
     "restored" : "rivendosur",
+    "No entries found in this folder" : "Në këtë dosje s’u gjetën zëra",
+    "Select all" : "Përzgjidhe krejt",
     "Name" : "Emri",
     "Deleted" : "Eliminuar"
 },
