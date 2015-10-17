@@ -14,12 +14,13 @@
 		<admin>admin-external-storage</admin>
 	</documentation>
 	<rememberlogin>false</rememberlogin>
+	<version>0.3.0</version>
 	<types>
 		<filesystem/>
 	</types>
 	<ocsid>166048</ocsid>
 
 	<dependencies>
-		<owncloud min-version="8" />
+		<owncloud min-version="8.2" />
 	</dependencies>
 </info>

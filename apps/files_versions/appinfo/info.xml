@@ -4,16 +4,19 @@
 	<name>Versions</name>
 	<licence>AGPL</licence>
 	<author>Frank Karlitschek, Bjoern Schiessle</author>
-	<requiremin>4.93</requiremin>
 	<shipped>true</shipped>
 	<description>
 	This application enables ownCloud to automatically maintain older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user’s directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. ownCloud then automatically manages the versions folder to ensure the user doesn’t run out of Quota because of versions.
 In addition to the expiry of versions, ownCloud’s versions app makes certain never to use more than 50% of the user’s currently available free space. If stored versions exceed this limit, ownCloud will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation. 
 
 	</description>
+	<version>1.1.0</version>
 	<types>
 		<filesystem/>
 	</types>
+	<dependencies>
+		<owncloud min-version="8.2" />
+	</dependencies>
 	<documentation>
 		<user>user-versions</user>
 	</documentation>
