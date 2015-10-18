@@ -9,12 +9,15 @@ Turning the feature off removes shared files and folders on the server for all s
 	</description>
 	<licence>AGPL</licence>
 	<author>Michael Gapczynski, Bjoern Schiessle</author>
-	<requiremin>4.93</requiremin>
 	<shipped>true</shipped>
 	<default_enable/>
+	<version>0.7.0</version>
 	<types>
 		<filesystem/>
 	</types>
+	<dependencies>
+		<owncloud min-version="8.2" />
+	</dependencies>
 	<public>
 		<files>public.php</files>
 		<webdav>publicwebdav.php</webdav>

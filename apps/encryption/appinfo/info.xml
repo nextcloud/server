@@ -14,18 +14,19 @@
 	<name>Default encryption module</name>
 	<license>AGPL</license>
 	<author>Bjoern Schiessle, Clark Tomlinson</author>
-	<requiremin>8</requiremin>
 	<shipped>true</shipped>
 	<documentation>
 		<user>user-encryption</user>
 		<admin>admin-encryption</admin>
 	</documentation>
 	<rememberlogin>false</rememberlogin>
+	<version>1.1.0</version>
 	<types>
 		<filesystem/>
 	</types>
 	<dependencies>
 		<lib>openssl</lib>
+		<owncloud min-version="8.2" />
 	</dependencies>
 
 </info>
