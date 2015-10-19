@@ -270,6 +270,7 @@ function execute_tests {
 	fi
 
 	if [ "$PRIMARY_STORAGE_CONFIG" == "swift" ] ; then
+		cd ..
 		echo "Kill the swift docker"
 		tests/objectstore/stop-swift-ceph.sh
 	fi

@@ -23,16 +23,18 @@ if [ -z "$thisFolder" ]; then
     thisFolder="."
 fi;
 
-# stopping and removing docker containers
-for container in `cat $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift`; do
-    if [ -n "$DEBUG" ]; then
-        docker logs $container
-    fi
-    echo "Stopping and removing docker container $container"
-    # kills running container and removes it
-    docker rm -f $container
-done;
+if [ -e $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift ]; then
+    # stopping and removing docker containers
+    for container in `cat $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift`; do
+        if [ -n "$DEBUG" ]; then
+            docker logs $container
+        fi
+        echo "Stopping and removing docker container $container"
+        # kills running container and removes it
+        docker rm -f $container
+    done;
+fi;
 
 # cleanup
-rm $thisFolder/swift.config.php
-rm $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
+rm -rf $thisFolder/swift.config.php
+rm -rf $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
