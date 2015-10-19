@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Log" : "Registro",
+    "Updates" : "Actualisationes",
     "Language changed" : "Linguage cambiate",
     "Invalid request" : "Requesta invalide",
     "Wrong password" : "Contrasigno errate",

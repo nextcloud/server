@@ -1,17 +1,19 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "Nuk munda ta eliminoj përfundimisht %s",
-    "Couldn't restore %s" : "Nuk munda ta rivendos %s",
-    "Deleted files" : "Skedarë të fshirë ",
-    "Restore" : "Rivendos",
-    "Delete" : "Elimino",
-    "Delete permanently" : "Fshi përfundimisht",
-    "Error" : "Veprim i gabuar",
-    "restored" : "rivendosur",
+    "Couldn't delete %s permanently" : "S’u fshi dot përgjithmonë %s",
+    "Couldn't restore %s" : "S’u rikthye dot %s",
+    "Deleted files" : "Kartela të fshira",
+    "Restore" : "Riktheje",
+    "Delete" : "Fshije",
+    "Delete permanently" : "Fshije përgjithmonë",
+    "Error" : "Gabim",
+    "restored" : "u rikthye",
+    "No deleted files" : "Pa kartela të fshira",
+    "You will be able to recover deleted files from here" : "Që këtu do të jeni në gjendje të rimerrni kartela të fshira",
     "No entries found in this folder" : "Në këtë dosje s’u gjetën zëra",
-    "Select all" : "Përzgjidhe krejt",
-    "Name" : "Emri",
-    "Deleted" : "Eliminuar"
+    "Select all" : "Përzgjidhi krejt",
+    "Name" : "Emër",
+    "Deleted" : "U fshi"
 },
 "nplurals=2; plural=(n != 1);");
