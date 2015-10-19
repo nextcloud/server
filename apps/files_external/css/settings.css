@@ -57,16 +57,27 @@ td.mountPoint, td.backend { width:160px; }
 	height: 32px;
 	padding: 3px;
 }
+.select2-results .select2-result-label > span {
+	display: block;
+	position: relative;
+}
 .select2-results .select2-result-label .avatardiv {
 	display:inline-block;
 }
 .select2-results .select2-result-label .avatardiv + span {
+	position: absolute;
+	top: 5px;
 	margin-left: 10px;
 }
 .select2-results .select2-result-label .avatardiv[data-type="group"] + span {
 	vertical-align: top;
 	top: 6px;
-	position: relative;
+	position: absolute;
+	max-width: 80%;
+	left: 30px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 #externalStorage .mountOptionsToggle .dropdown {
