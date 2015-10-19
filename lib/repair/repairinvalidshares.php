@@ -70,11 +70,43 @@ class RepairInvalidShares extends BasicEmitter implements \OC\RepairStep {
 		}
 	}
 
+	/**
+	 * Remove shares where the parent share does not exist anymore
+	 */
+	private function removeSharesNonExistingParent() {
+		$deletedEntries = 0;
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('s1.parent')
+			->from('share', 's1')
+			->where($query->expr()->isNotNull('s1.parent'))
+				->andWhere($query->expr()->isNull('s2.id'))
+			->leftJoin('s1', 'share', 's2', $query->expr()->eq('s1.parent', 's2.id'))
+			->groupBy('s1.parent');
+
+		$deleteQuery = $this->connection->getQueryBuilder();
+		$deleteQuery->delete('share')
+			->where($query->expr()->eq('parent', $deleteQuery->createParameter('parent')));
+
+		$result = $query->execute();
+		while ($row = $result->fetch()) {
+			$deletedEntries += $deleteQuery->setParameter('parent', (int) $row['parent'])
+				->execute();
+		}
+		$result->closeCursor();
+
+		if ($deletedEntries) {
+			$this->emit('\OC\Repair', 'info', array('Removed ' . $deletedEntries . ' shares where the parent did not exist'));
+		}
+	}
+
 	public function run() {
 		$ocVersionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
 		if (version_compare($ocVersionFromBeforeUpdate, '8.2.0.7', '<')) {
 			// this situation was only possible before 8.2
 			$this->removeExpirationDateFromNonLinkShares();
 		}
+
+		$this->removeSharesNonExistingParent();
 	}
 }
