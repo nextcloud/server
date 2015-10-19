@@ -193,7 +193,7 @@
 		<br />
 		<input type="checkbox" name="allowUserMounting" id="allowUserMounting" class="checkbox"
 			value="1" <?php if ($_['allowUserMounting'] == 'yes') print_unescaped(' checked="checked"'); ?> />
-		<label for="allowUserMounting"><?php p($l->t('Enable User External Storage')); ?></label> <span id="userMountingMsg" class="msg"></span>
+		<label for="allowUserMounting"><?php p($l->t('Allow users to mount external storages')); ?></label> <span id="userMountingMsg" class="msg"></span>
 
 		<p id="userMountingBackends"<?php if ($_['allowUserMounting'] != 'yes'): ?> class="hidden"<?php endif; ?>>
 			<?php p($l->t('Allow users to mount the following external storage')); ?><br />
