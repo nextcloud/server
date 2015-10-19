@@ -26,6 +26,7 @@ namespace OC\Core\Command\Maintenance;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Repair extends Command {
@@ -49,10 +50,24 @@ class Repair extends Command {
 	protected function configure() {
 		$this
 			->setName('maintenance:repair')
-			->setDescription('repair this installation');
+			->setDescription('repair this installation')
+			->addOption(
+				'include-expensive',
+				null,
+				InputOption::VALUE_NONE,
+				'Use this option when you want to include resource and load expensive tasks'
+			)
+		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		$includeExpensive = $input->getOption('include-expensive');
+		if ($includeExpensive) {
+			foreach ($this->repair->getExpensiveRepairSteps() as $step) {
+				$this->repair->addStep($step);
+			}
+		}
+
 		$maintenanceMode = $this->config->getSystemValue('maintenance', false);
 		$this->config->setSystemValue('maintenance', true);
 
