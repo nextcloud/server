@@ -290,7 +290,7 @@ class View {
 		$absolutePath = $this->getAbsolutePath($path);
 		$mount = Filesystem::getMountManager()->find($absolutePath);
 		if ($mount->getInternalPath($absolutePath) === '') {
-			return $this->removeMount($mount, $path);
+			return $this->removeMount($mount, $absolutePath);
 		}
 		if ($this->is_dir($path)) {
 			return $this->basicOperation('rmdir', $path, array('delete'));
