@@ -136,15 +136,18 @@ ceph osd pool set rbd size 1
 if [ ! -e /var/lib/ceph/osd/${CLUSTER}-0/keyring ]; then
   # bootstrap OSD
   mkdir -p /var/lib/ceph/osd/${CLUSTER}-0
-  # HACK create btrfs loopback device
-  echo "creating osd storage image"
-  dd if=/dev/zero of=/tmp/osddata bs=1M count=${OSD_SIZE}
-  mkfs.btrfs /tmp/osddata
-  echo "mounting via loopback"
-  mount -o loop /tmp/osddata /var/lib/ceph/osd/${CLUSTER}-0
-  echo "now mounted:"
-  mount
-  # end HACK
+  # skip btrfs HACK if btrfs is already in place
+  if [ "$(stat -f /var/lib/ceph/osd/${CLUSTER}-0 2>/dev/null | grep btrfs | wc -l)" == "0"  ]; then
+    # HACK create btrfs loopback device
+    echo "creating osd storage image"
+    dd if=/dev/zero of=/tmp/osddata bs=1M count=${OSD_SIZE}
+    mkfs.btrfs /tmp/osddata
+    echo "mounting via loopback"
+    mount -o loop /tmp/osddata /var/lib/ceph/osd/${CLUSTER}-0
+    echo "now mounted:"
+    mount
+    # end HACK
+  fi
   echo "creating osd"
   ceph osd create
   echo "creating osd filesystem"
