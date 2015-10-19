@@ -64,12 +64,16 @@ class Dropbox extends \OC\Files\Storage\Common {
 	 * @param string $path
 	 */
 	private function deleteMetaData($path) {
-		$path = $this->root.$path;
+		$path = ltrim($this->root.$path, '/');
 		if (isset($this->metaData[$path])) {
 			unset($this->metaData[$path]);
 			return true;
 		}
 		return false;
+	}
+
+	private function setMetaData($path, $metaData) {
+		$this->metaData[ltrim($path, '/')] = $metaData;
 	}
 
 	/**
@@ -80,7 +84,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 	 * false, null if the file doesn't exist or "false" if the operation failed
 	 */
 	private function getDropBoxMetaData($path, $list = false) {
-		$path = $this->root.$path;
+		$path = ltrim($this->root.$path, '/');
 		if ( ! $list && isset($this->metaData[$path])) {
 			return $this->metaData[$path];
 		} else {
@@ -96,14 +100,14 @@ class Dropbox extends \OC\Files\Storage\Common {
 					// Cache folder's contents
 					foreach ($response['contents'] as $file) {
 						if (!isset($file['is_deleted']) || !$file['is_deleted']) {
-							$this->metaData[$path.'/'.basename($file['path'])] = $file;
+							$this->setMetaData($path.'/'.basename($file['path']), $file);
 							$contents[] = $file;
 						}
 					}
 					unset($response['contents']);
 				}
 				if (!isset($response['is_deleted']) || !$response['is_deleted']) {
-					$this->metaData[$path] = $response;
+					$this->setMetaData($path, $response);
 				}
 				// Return contents of folder only
 				return $contents;
@@ -116,7 +120,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 
 					$response = $this->dropbox->getMetaData($requestPath, 'false');
 					if (!isset($response['is_deleted']) || !$response['is_deleted']) {
-						$this->metaData[$path] = $response;
+						$this->setMetaData($path, $response);
 						return $response;
 					}
 					return null;
