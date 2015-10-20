@@ -53,6 +53,7 @@ class Server2Server {
 				return new \OC_OCS_Result(null, 400, 'The mountpoint name contains invalid characters.');
 			}
 
+			// FIXME this should be a method in the user management instead
 			\OCP\Util::writeLog('files_sharing', 'shareWith before, ' . $shareWith, \OCP\Util::DEBUG);
 			\OCP\Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
