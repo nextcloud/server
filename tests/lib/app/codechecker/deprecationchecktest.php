@@ -38,6 +38,7 @@ class DeprecationCheckTest extends TestCase {
 			['OCP\AppFramework\IApi', 1006, 'test-deprecated-use-alias.php'],
 			['AppFramework\IApi', 1001, 'test-deprecated-use-sub.php'],
 			['OAF\IApi', 1001, 'test-deprecated-use-sub-alias.php'],
+			['OC_API::ADMIN_AUTH', 1003, 'test-const.php'],
 		];
 	}
 
@@ -61,7 +62,6 @@ class DeprecationCheckTest extends TestCase {
 			['test-extends.php'],
 			['test-implements.php'],
 			['test-static-call.php'],
-			['test-const.php'],
 			['test-new.php'],
 			['test-use.php'],
 			['test-identical-operator.php'],
