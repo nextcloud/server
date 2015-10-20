@@ -46,7 +46,7 @@ class UploadTest extends RequestTest {
 	}
 
 	/**
-	 * @expectedException \OC\Connector\Sabre\Exception\FileLocked
+	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\FileLocked
 	 */
 	public function testUploadOverWriteReadLocked() {
 		$user = $this->getUniqueID();
@@ -60,7 +60,7 @@ class UploadTest extends RequestTest {
 	}
 
 	/**
-	 * @expectedException \OC\Connector\Sabre\Exception\FileLocked
+	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\FileLocked
 	 */
 	public function testUploadOverWriteWriteLocked() {
 		$user = $this->getUniqueID();
@@ -139,7 +139,7 @@ class UploadTest extends RequestTest {
 	}
 
 	/**
-	 * @expectedException \OC\Connector\Sabre\Exception\FileLocked
+	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\FileLocked
 	 */
 	public function testChunkedUploadOutOfOrderReadLocked() {
 		$user = $this->getUniqueID();
@@ -151,7 +151,7 @@ class UploadTest extends RequestTest {
 
 		try {
 			$response = $this->request($view, $user, 'pass', 'PUT', '/foo.txt-chunking-123-2-1', 'bar', ['OC-Chunked' => '1']);
-		} catch (FileLocked $e) {
+		} catch (\OCA\DAV\Connector\Sabre\Exception\FileLocked $e) {
 			$this->fail('Didn\'t expect locked error for the first chunk on read lock');
 			return;
 		}
@@ -164,7 +164,7 @@ class UploadTest extends RequestTest {
 	}
 
 	/**
-	 * @expectedException \OC\Connector\Sabre\Exception\FileLocked
+	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\FileLocked
 	 */
 	public function testChunkedUploadOutOfOrderWriteLocked() {
 		$user = $this->getUniqueID();
@@ -176,7 +176,7 @@ class UploadTest extends RequestTest {
 
 		try {
 			$response = $this->request($view, $user, 'pass', 'PUT', '/foo.txt-chunking-123-2-1', 'bar', ['OC-Chunked' => '1']);
-		} catch (FileLocked $e) {
+		} catch (\OCA\DAV\Connector\Sabre\Exception\FileLocked $e) {
 			$this->fail('Didn\'t expect locked error for the first chunk on write lock'); // maybe forbid this in the future for write locks only?
 			return;
 		}
