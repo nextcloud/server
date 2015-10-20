@@ -33,6 +33,14 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 		'exclusive' => []
 	];
 
+	protected function hasAcquiredLock($path, $type) {
+		if ($type === self::LOCK_SHARED) {
+			return isset($this->acquiredLocks['shared'][$path]) && $this->acquiredLocks['shared'][$path] > 0;
+		} else {
+			return isset($this->acquiredLocks['exclusive'][$path]) && $this->acquiredLocks['exclusive'][$path] === true;
+		}
+	}
+
 	/**
 	 * Mark a locally acquired lock
 	 *
