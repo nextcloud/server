@@ -27,6 +27,11 @@
 			this.$el = $el;
 
 			this._started = true;
+
+			$(window).on('beforeunload.inprogress', function () {
+				return t('core', 'The upgrade is in progress, leaving this page might interrupt the process in some environments.');
+			});
+
 			this.addMessage(t(
 				'core',
 				'Updating {productName} to version {version}, this may take a while.', {
@@ -46,12 +51,14 @@
 			});
 			updateEventSource.listen('error', function(message) {
 				message = message || t('core', 'An error occurred.');
+				$(window).off('beforeunload.inprogress');
 				$('<span>').addClass('error').append(message).append('<br />').appendTo($el);
 				message = t('core', 'Please reload the page.');
 				$('<span>').addClass('error').append('<a href=".">'+message+'</a><br />').appendTo($el);
 				updateEventSource.close();
 			});
 			updateEventSource.listen('failure', function(message) {
+				$(window).off('beforeunload.inprogress');
 				$('<span>').addClass('error').append(message).append('<br />').appendTo($el);
 				$('<span>')
 				.addClass('bold')
@@ -61,6 +68,8 @@
 				.appendTo($el);
 			});
 			updateEventSource.listen('done', function() {
+				$(window).off('beforeunload.inprogress');
+
 				if (hasWarnings) {
 					$('<span>').addClass('bold')
 						.append('<br />')
