@@ -35,7 +35,6 @@
 	height: 100%;
 	width: inherit;
 	overflow: auto;
-	padding-bottom: 44px;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
 #app-navigation li {
