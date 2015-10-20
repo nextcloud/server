@@ -153,6 +153,22 @@ class UsersControllerTest extends \Test\TestCase {
 											404, 'admin@bar.com',
 											2323, 'bar@dummy.com'));
 
+		$this->container['SubAdminFactory']
+			->expects($this->at(0))
+			->method('getSubAdminsOfGroups')
+			->with('foo')
+			->will($this->returnValue([]));
+		$this->container['SubAdminFactory']
+			->expects($this->at(1))
+			->method('getSubAdminsOfGroups')
+			->with('admin')
+			->will($this->returnValue([]));
+		$this->container['SubAdminFactory']
+			->expects($this->at(2))
+			->method('getSubAdminsOfGroups')
+			->with('bar')
+			->will($this->returnValue([]));
+
 		$expectedResponse = new DataResponse(
 			array(
 				0 => array(
@@ -199,11 +215,6 @@ class UsersControllerTest extends \Test\TestCase {
 
 	public function testIndexSubAdmin() {
 		$this->container['IsAdmin'] = false;
-		$this->container['SubAdminFactory']
-			->expects($this->once())
-			->method('getSubAdminsOfGroups')
-			->with('username')
-			->will($this->returnValue(['SubGroup1', 'SubGroup2']));
 
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
@@ -320,6 +331,15 @@ class UsersControllerTest extends \Test\TestCase {
 				404, 'admin@bar.com',
 				2323, 'bar@dummy.com'
 			));
+
+		$this->container['SubAdminFactory']
+			->method('getSubAdminsOfGroups')
+			->will($this->returnValueMap([
+				['username' , ['SubGroup1', 'SubGroup2']],
+				['foo', []],
+				['admin', []],
+				['bar', []],
+			]));
 
 		$expectedResponse = new DataResponse(
 			[
@@ -452,6 +472,23 @@ class UsersControllerTest extends \Test\TestCase {
 				404, 'admin@bar.com',
 				2323, 'bar@dummy.com'));
 
+		$this->container['SubAdminFactory']
+			->expects($this->at(0))
+			->method('getSubAdminsOfGroups')
+			->with('foo')
+			->will($this->returnValue([]));
+		$this->container['SubAdminFactory']
+			->expects($this->at(1))
+			->method('getSubAdminsOfGroups')
+			->with('admin')
+			->will($this->returnValue([]));
+		$this->container['SubAdminFactory']
+			->expects($this->at(2))
+			->method('getSubAdminsOfGroups')
+			->with('bar')
+			->will($this->returnValue([]));
+
+
 		$expectedResponse = new DataResponse(
 			array(
 				0 => array(
@@ -532,6 +569,12 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('')
 			->will($this->returnValue([$user]));
 
+		$this->container['SubAdminFactory']
+			->expects($this->once())
+			->method('getSubAdminsOfGroups')
+			->with('foo')
+			->will($this->returnValue([]));
+
 		$expectedResponse = new DataResponse(
 			array(
 				0 => array(
@@ -591,6 +634,11 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('createUser')
 			->will($this->onConsecutiveCalls($user));
 
+		$this->container['SubAdminFactory']
+			->expects($this->once())
+			->method('getSubAdminsOfGroups')
+			->with('foo')
+			->will($this->returnValue([]));
 
 		$expectedResponse = new DataResponse(
 			array(
@@ -613,11 +661,6 @@ class UsersControllerTest extends \Test\TestCase {
 
 	public function testCreateSuccessfulWithoutGroupSubAdmin() {
 		$this->container['IsAdmin'] = false;
-		$this->container['SubAdminFactory']
-			->expects($this->once())
-			->method('getSubAdminsOfGroups')
-			->with('username')
-			->will($this->returnValue(['SubGroup1', 'SubGroup2']));
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$user
@@ -670,6 +713,13 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getUserGroupIds')
 			->with($user)
 			->will($this->onConsecutiveCalls(['SubGroup1', 'SubGroup2']));
+
+		$this->container['SubAdminFactory']
+			->method('getSubAdminsOfGroups')
+			->will($this->returnValueMap([
+				['username', ['SubGroup1', 'SubGroup2']],
+				['foo', []],
+			]));
 
 		$expectedResponse = new DataResponse(
 			array(
@@ -740,6 +790,12 @@ class UsersControllerTest extends \Test\TestCase {
 			->with($user)
 			->will($this->onConsecutiveCalls(array('NewGroup', 'ExistingGroup')));
 
+		$this->container['SubAdminFactory']
+			->expects($this->once())
+			->method('getSubAdminsOfGroups')
+			->with('foo')
+			->will($this->returnValue([]));
+
 		$expectedResponse = new DataResponse(
 			array(
 				'name' => 'foo',
@@ -761,11 +817,6 @@ class UsersControllerTest extends \Test\TestCase {
 
 	public function testCreateSuccessfulWithGroupSubAdmin() {
 		$this->container['IsAdmin'] = false;
-		$this->container['SubAdminFactory']
-			->expects($this->once())
-			->method('getSubAdminsOfGroups')
-			->with('username')
-			->will($this->returnValue(['SubGroup1', 'SubGroup2']));
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$user
@@ -818,6 +869,13 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getUserGroupIds')
 			->with($user)
 			->will($this->onConsecutiveCalls(['SubGroup1']));
+
+		$this->container['SubAdminFactory']
+			->method('getSubAdminsOfGroups')
+			->will($this->returnValueMap([
+				['username', ['SubGroup1', 'SubGroup2']],
+				['foo', []],
+			]));
 
 		$expectedResponse = new DataResponse(
 			array(
@@ -1286,6 +1344,11 @@ class UsersControllerTest extends \Test\TestCase {
 
 		list($user, $expectedResult) = $this->mockUser();
 
+		$this->container['SubAdminFactory']
+			->method('getSubAdminsOfGroups')
+			->with($user->getUID())
+			->will($this->returnValue([]));
+
 		$result = self::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
 		$this->assertEquals($expectedResult, $result);
 	}
@@ -1323,6 +1386,11 @@ class UsersControllerTest extends \Test\TestCase {
 			)
 			->will($this->returnValue('1'));
 
+		$this->container['SubAdminFactory']
+			->method('getSubAdminsOfGroups')
+			->with($user->getUID())
+			->will($this->returnValue([]));
+
 		$result = self::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
 		$this->assertEquals($expectedResult, $result);
 	}
@@ -1340,6 +1408,11 @@ class UsersControllerTest extends \Test\TestCase {
 			->will($this->returnValue(true));
 
 		$expectedResult['isRestoreDisabled'] = true;
+
+		$this->container['SubAdminFactory']
+			->method('getSubAdminsOfGroups')
+			->with($user->getUID())
+			->will($this->returnValue([]));
 
 		$result = self::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
 		$this->assertEquals($expectedResult, $result);
@@ -1379,6 +1452,11 @@ class UsersControllerTest extends \Test\TestCase {
 			->will($this->returnValue('0'));
 
 		$expectedResult['isRestoreDisabled'] = true;
+
+		$this->container['SubAdminFactory']
+			->method('getSubAdminsOfGroups')
+			->with($user->getUID())
+			->will($this->returnValue([]));
 
 		$result = self::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
 		$this->assertEquals($expectedResult, $result);
