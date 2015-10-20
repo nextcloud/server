@@ -234,7 +234,7 @@ class UsersTest extends TestCase {
 		$user = $this->generateUsers();
 		$user->setDisplayName('foobar');
 		$this->userSession->setUser($user);
-		$params['userid'] = $user->getUID();
+		$params = ['userid' => $user->getUID()];
 		$result = $this->api->getUser($params);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
@@ -261,7 +261,7 @@ class UsersTest extends TestCase {
 
 	public function testGetUserOnOtherUser() {
 		$users = $this->generateUsers(2);
-		$params['userid'] = $users[0];
+		$params = ['userid' => $users[0]->getUID()];
 		$this->userSession->setUser($users[1]);
 		$result = $this->api->getUser($params);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
