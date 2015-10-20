@@ -9,6 +9,7 @@
 var $userList;
 var $userListBody;
 
+var UserDeleteHandler;
 var UserList = {
 	availableGroups: [],
 	offset: 0,
@@ -785,37 +786,47 @@ $(document).ready(function () {
 				t('settings', 'Error creating user'));
 			return false;
 		}
-		var groups = $('#newusergroups').val() || [];
-		$.post(
-			OC.generateUrl('/settings/users/users'),
-			{
-				username: username,
-				password: password,
-				groups: groups,
-				email: email
-			},
-			function (result) {
-				if (result.groups) {
-					for (var i in result.groups) {
-						var gid = result.groups[i];
-						if(UserList.availableGroups.indexOf(gid) === -1) {
-							UserList.availableGroups.push(gid);
+
+		var promise;
+		if (UserDeleteHandler) {
+			promise = UserDeleteHandler.deleteEntry();
+		} else {
+			promise = $.Deferred().resolve().promise();
+		}
+
+		promise.then(function() {
+			var groups = $('#newusergroups').val() || [];
+			$.post(
+				OC.generateUrl('/settings/users/users'),
+				{
+					username: username,
+					password: password,
+					groups: groups,
+					email: email
+				},
+				function (result) {
+					if (result.groups) {
+						for (var i in result.groups) {
+							var gid = result.groups[i];
+							if(UserList.availableGroups.indexOf(gid) === -1) {
+								UserList.availableGroups.push(gid);
+							}
+							$li = GroupList.getGroupLI(gid);
+							userCount = GroupList.getUserCount($li);
+							GroupList.setUserCount($li, userCount + 1);
 						}
-						$li = GroupList.getGroupLI(gid);
-						userCount = GroupList.getUserCount($li);
-						GroupList.setUserCount($li, userCount + 1);
 					}
-				}
-				if(!UserList.has(username)) {
-					UserList.add(result, true);
-				}
-				$('#newusername').focus();
-				GroupList.incEveryoneCount();
-			}).fail(function(result, textStatus, errorThrown) {
-				OC.dialogs.alert(result.responseJSON.message, t('settings', 'Error creating user'));
-			}).success(function(){
-				$('#newuser').get(0).reset();
-			});
+					if(!UserList.has(username)) {
+						UserList.add(result, true);
+					}
+					$('#newusername').focus();
+					GroupList.incEveryoneCount();
+				}).fail(function(result, textStatus, errorThrown) {
+					OC.dialogs.alert(result.responseJSON.message, t('settings', 'Error creating user'));
+				}).success(function(){
+					$('#newuser').get(0).reset();
+				});
+		});
 	});
 
 	if ($('#CheckboxStorageLocation').is(':checked')) {
