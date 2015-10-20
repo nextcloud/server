@@ -41,7 +41,11 @@ class Internal extends Session {
 	public function __construct($name) {
 		session_name($name);
 		set_error_handler(array($this, 'trapError'));
-		session_start();
+		try {
+			session_start();
+		} catch (\Exception $e) {
+			setcookie(session_name(), null, -1, \OC::$WEBROOT ? : '/');
+		}
 		restore_error_handler();
 		if (!isset($_SESSION)) {
 			throw new \Exception('Failed to start session');
