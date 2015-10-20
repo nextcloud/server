@@ -77,13 +77,7 @@ class RepairInvalidSharesTest extends TestCase {
 			])
 			->execute();
 
-		// select because lastInsertId does not work with OCI
-		$results = $this->connection->getQueryBuilder()
-			->select('id')
-			->from('share')
-			->execute()
-			->fetchAll();
-		$bogusShareId = $results[0]['id'];
+		$bogusShareId = $this->getLastShareId();
 
 		// link share with expiration date
 		$qb = $this->connection->getQueryBuilder();
