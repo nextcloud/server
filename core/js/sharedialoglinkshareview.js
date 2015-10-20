@@ -141,6 +141,7 @@
 					this.$el.find('.linkPassText').focus();
 				}
 			} else {
+				$loading.removeClass('hidden');
 				if (this.model.get('linkShare').isLinkShare) {
 					this.model.removeLinkShare();
 				} else {
