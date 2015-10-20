@@ -46,7 +46,7 @@ abstract class TestCase extends \Test\TestCase {
 	/**
 	 * Generates a temp user
 	 * @param int $num number of users to generate
-	 * @return array
+	 * @return IUser[]|Iuser
 	 */
 	protected function generateUsers($num = 1) {
 		$users = array();
