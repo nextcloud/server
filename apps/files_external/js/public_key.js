@@ -33,7 +33,7 @@ $(document).ready(function() {
 
 		$.post(OC.filePath('files_external', 'ajax', 'public_key.php'), {}, function(result) {
 			if (result && result.status === 'success') {
-				$(config).find('[data-parameter="public_key"]').val(result.data.public_key);
+				$(config).find('[data-parameter="public_key"]').val(result.data.public_key).keyup();
 				$(config).find('[data-parameter="private_key"]').val(result.data.private_key);
 				OCA.External.Settings.mountConfig.saveStorageConfig(tr, function() {
 					// Nothing to do
