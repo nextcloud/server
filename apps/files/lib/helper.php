@@ -137,10 +137,8 @@ class Helper {
 
 		$entry['id'] = $i['fileid'];
 		$entry['parentId'] = $i['parent'];
-		$entry['date'] = \OCP\Util::formatDate($i['mtime']);
 		$entry['mtime'] = $i['mtime'] * 1000;
 		// only pick out the needed attributes
-		$entry['icon'] = \OCA\Files\Helper::determineIcon($i);
 		if (\OC::$server->getPreviewManager()->isAvailable($i)) {
 			$entry['isPreviewAvailable'] = true;
 		}

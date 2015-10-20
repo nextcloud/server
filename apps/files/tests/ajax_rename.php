@@ -117,9 +117,6 @@ class Test_OC_Files_App_Rename extends \Test\TestCase {
 		$this->assertEquals('abcdef', $result['data']['etag']);
 		$this->assertFalse(isset($result['data']['tags']));
 		$this->assertEquals('/', $result['data']['path']);
-		$icon = \OC_Helper::mimetypeIcon('dir-external');
-		$icon = substr($icon, 0, -3) . 'svg';
-		$this->assertEquals($icon, $result['data']['icon']);
 	}
 
 	/**
@@ -182,9 +179,6 @@ class Test_OC_Files_App_Rename extends \Test\TestCase {
 		$this->assertEquals('abcdef', $result['data']['etag']);
 		$this->assertEquals(array('tag1', 'tag2'), $result['data']['tags']);
 		$this->assertEquals('/', $result['data']['path']);
-		$icon = \OC_Helper::mimetypeIcon('text');
-		$icon = substr($icon, 0, -3) . 'svg';
-		$this->assertEquals($icon, $result['data']['icon']);
 
 		\OC::$server->registerService('TagManager', function ($c) use ($oldTagManager) {
 			return $oldTagManager;
