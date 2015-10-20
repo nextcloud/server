@@ -171,7 +171,6 @@ var OCdialogs = {
 
 			$('body').append(self.$filePicker);
 
-
 			self.$filePicker.ready(function() {
 				self.$filelist = self.$filePicker.find('.filelist');
 				self.$dirTree = self.$filePicker.find('.dirtree');
@@ -738,9 +737,10 @@ var OCdialogs = {
 		var dirs = [];
 		var others = [];
 		var self = this;
-		this.$filelist.empty().addClass('loading');
+		this.$filelist.empty().addClass('icon-loading');
 		this.$filePicker.data('path', dir);
 		$.when(this._getFileList(dir, this.$filePicker.data('mimetype'))).then(function(response) {
+
 			$.each(response.data.files, function(index, file) {
 				if (file.type === 'dir') {
 					dirs.push(file);
@@ -772,7 +772,7 @@ var OCdialogs = {
 				self.$filelist.append($li);
 			});
 
-			self.$filelist.removeClass('loading');
+			self.$filelist.removeClass('icon-loading');
 			if (!OC.Util.hasSVGSupport()) {
 				OC.Util.replaceSVG(self.$filePicker.find('.dirtree'));
 			}
