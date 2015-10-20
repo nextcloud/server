@@ -378,5 +378,105 @@ describe('OC.Share.ShareItemModel', function() {
 
 		});
 	});
+
+	describe('sendEmailPrivateLink', function() {
+		it('succeeds', function() {
+			loadItemStub.yields({
+				shares: [{
+					displayname_owner: 'root',
+					expiration: null,
+					file_source: 123,
+					file_target: '/folder',
+					id: 20,
+					item_source: '123',
+					item_type: 'folder',
+					mail_send: '0',
+					parent: null,
+					path: '/folder',
+					permissions: OC.PERMISSION_READ,
+					share_type: OC.Share.SHARE_TYPE_LINK,
+					share_with: null,
+					stime: 1403884258,
+					storage: 1,
+					token: 'tehtoken',
+					uid_owner: 'root'
+				}]
+			});
+			model.fetch();
+
+			var res = model.sendEmailPrivateLink('foo@bar.com');
+
+			expect(res.state()).toEqual('pending');
+			expect(fakeServer.requests.length).toEqual(1);
+			expect(fakeServer.requests[0].url).toEqual(OC.generateUrl('core/ajax/share.php'));
+			expect(OC.parseQueryString(fakeServer.requests[0].requestBody)).toEqual(
+				{
+					action: 'email',
+					toaddress: 'foo@bar.com',
+					link: model.get('linkShare').link,
+					itemType: 'file',
+					itemSource: '123',
+					file: 'shared_file_name.txt',
+					expiration: ''
+				}
+			)
+
+			fakeServer.requests[0].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({status: 'success'})
+			);
+			expect(res.state()).toEqual('resolved');
+		});
+
+		it('fails', function() {
+			loadItemStub.yields({
+				shares: [{
+					displayname_owner: 'root',
+					expiration: null,
+					file_source: 123,
+					file_target: '/folder',
+					id: 20,
+					item_source: '123',
+					item_type: 'folder',
+					mail_send: '0',
+					parent: null,
+					path: '/folder',
+					permissions: OC.PERMISSION_READ,
+					share_type: OC.Share.SHARE_TYPE_LINK,
+					share_with: null,
+					stime: 1403884258,
+					storage: 1,
+					token: 'tehtoken',
+					uid_owner: 'root'
+				}]
+			});
+			model.fetch();
+
+			var res = model.sendEmailPrivateLink('foo@bar.com');
+
+			expect(res.state()).toEqual('pending');
+			expect(fakeServer.requests.length).toEqual(1);
+			expect(fakeServer.requests[0].url).toEqual(OC.generateUrl('core/ajax/share.php'));
+			expect(OC.parseQueryString(fakeServer.requests[0].requestBody)).toEqual(
+				{
+					action: 'email',
+					toaddress: 'foo@bar.com',
+					link: model.get('linkShare').link,
+					itemType: 'file',
+					itemSource: '123',
+					file: 'shared_file_name.txt',
+					expiration: ''
+				}
+			)
+
+			fakeServer.requests[0].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({data: {message: 'fail'}, status: 'error'})
+			);
+			expect(res.state()).toEqual('rejected');
+		});
+	});
 });
 
