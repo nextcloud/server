@@ -23,6 +23,7 @@ OC.L10N.register(
     "No image or file provided" : "S’u dha figurë apo kartelë",
     "Unknown filetype" : "Lloj i panjohur kartele",
     "Invalid image" : "Figurë e pavlefshme",
+    "An error occurred. Please contact your admin." : "Ndodhi një gabim. Ju lutemi, lidhuni me përgjegjësin tuaj.",
     "No temporary profile picture available, try again" : "S’ka gati foto të përkohshme profili, riprovoni",
     "Sunday" : "E dielë",
     "Monday" : "E hënë",

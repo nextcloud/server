@@ -101,6 +101,7 @@
     "Cannot set expiration date. Shares cannot expire later than %s after they have been shared" : "S’caktohet dot data e skadimit. Ndarjet s’mund të skadojnë më vonë se %s pasi të jenë ofruar",
     "Cannot set expiration date. Expiration date is in the past" : "S’caktohet dot data e skadimit. Data e skadimit bie në të kaluarën",
     "Cannot clear expiration date. Shares are required to have an expiration date." : "S’hiqet dot data e skadimit. Ndarjet lypse të kenë një datë skadimi.",
+    "Sharing failed, because the user %s is the original sharer" : "Ndarja dështoi, ngaqë përdoruesi %s është ai që e ndau fillimisht",
     "Sharing %s failed, because the permissions exceed permissions granted to %s" : "Ndarja e %s me të tjerët dështoi, ngaqë lejet tejkalojnë lejet e akorduara për %s",
     "Sharing %s failed, because resharing is not allowed" : "Ndarja e %s me të tjerët dështoi, ngaqë nuk lejohen rindarje",
     "Sharing %s failed, because the file could not be found in the file cache" : "Ndarja e %s me të tjerët dështoi, ngaqë kartela s’u gjet dot te fshehtina e kartelave",
