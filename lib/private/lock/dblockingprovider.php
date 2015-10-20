@@ -187,7 +187,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	public function __destruct() {
 		try {
 			$this->cleanEmptyLocks();
-		} catch (\PDOException $e) {
+		} catch (\Exception $e) {
 			// If the table is missing, the clean up was successful
 			if ($this->connection->tableExists('file_locks')) {
 				throw $e;
