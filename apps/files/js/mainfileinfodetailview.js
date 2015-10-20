@@ -15,9 +15,8 @@
 		'<div class="fileName"><h3 title="{{name}}" class="ellipsis">{{name}}</h3></div>' +
 		'	<div class="file-details ellipsis">' +
 		'		<a href="#" ' +
-		'		alt="{{starAltText}}"' +
 		'		class="action action-favorite favorite">' +
-		'			<img class="svg" src="{{starIcon}}" />' +
+		'			<img class="svg" alt="{{starAltText}}" src="{{starIcon}}" />' +
 		'		</a>' +
 		'		{{#if hasSize}}<span class="size" title="{{altSize}}">{{size}}</span>, {{/if}}<span class="date" title="{{altDate}}">{{date}}</span>' +
 		'	</div>' +
