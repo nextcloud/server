@@ -115,46 +115,28 @@ class Users {
 			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
+		$data = [];
+
 		// Admin? Or SubAdmin?
 		if($this->groupManager->isAdmin($user->getUID()) || OC_SubAdmin::isUserAccessible($user->getUID(), $userId)) {
 			// Check they exist
 			if(!$this->userManager->userExists($userId)) {
 				return new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, 'The requested user could not be found');
 			}
-			// Show all
-			$return = [
-				'email',
-				'enabled',
-			];
-			if($user->getUID() !== $userId) {
-				$return[] = 'quota';
-			}
+			$data['enabled'] = $this->config->getUserValue($userId, 'core', 'enabled', 'true');
 		} else {
 			// Check they are looking up themselves
 			if($user->getUID() !== $userId) {
 				return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 			}
-			// Return some additional information compared to the core route
-			$return = array(
-				'email',
-				'displayname',
-				);
 		}
 
 		// Find the data
-		$data = [];
-		$data = self::fillStorageInfo($userId, $data);
-		$data['enabled'] = $this->config->getUserValue($userId, 'core', 'enabled', 'true');
+		$data['quota'] = self::fillStorageInfo($userId);
 		$data['email'] = $this->config->getUserValue($userId, 'settings', 'email');
-		$data['displayname'] = $this->userManager->get($parameters['userid'])->getDisplayName();
+		$data['displayname'] = $this->userManager->get($userId)->getDisplayName();
 
-		// Return the appropriate data
-		$responseData = array();
-		foreach($return as $key) {
-			$responseData[$key] = $data[$key];
-		}
-
-		return new OC_OCS_Result($responseData);
+		return new OC_OCS_Result($data);
 	}
 
 	/** 
@@ -473,19 +455,20 @@ class Users {
 	 * @return mixed
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	private static function fillStorageInfo($userId, $data) {
+	private static function fillStorageInfo($userId) {
+		$data = [];
 		try {
 			\OC_Util::tearDownFS();
 			\OC_Util::setupFS($userId);
 			$storage = OC_Helper::getStorageInfo('/');
-			$data['quota'] = [
+			$data = [
 				'free' => $storage['free'],
 				'used' => $storage['used'],
 				'total' => $storage['total'],
 				'relative' => $storage['relative'],
 			];
 		} catch (NotFoundException $ex) {
-			$data['quota'] = [];
+			$data = [];
 		}
 		return $data;
 	}
