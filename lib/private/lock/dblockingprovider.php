@@ -51,6 +51,12 @@ class DBLockingProvider extends AbstractLockingProvider {
 
 	const TTL = 3600; // how long until we clear stray locks in seconds
 
+	/**
+	 * Check if we have an open shared lock for a path
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
 	protected function isLocallyLocked($path) {
 		return isset($this->sharedLocks[$path]) && $this->sharedLocks[$path];
 	}
