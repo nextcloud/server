@@ -40,8 +40,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 
 		var categories = [
-			{displayName: t('settings', 'Enabled'), id: '0'},
-			{displayName: t('settings', 'Not enabled'), id: '1'}
+			{displayName: t('settings', 'Enabled'), ident: 'enabled', id: '0'},
+			{displayName: t('settings', 'Not enabled'), ident: 'disabled', id: '1'}
 		];
 
 		var source   = $("#categories-template").html();
@@ -49,7 +49,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		var html = template(categories);
 		$('#apps-categories').html(html);
 
-		OC.Settings.Apps.loadCategory(parseInt($('#app-navigation').attr('data-category'), 10));
+		OC.Settings.Apps.loadCategory($('#app-navigation').attr('data-category'));
 
 		this._loadCategoriesCall = $.ajax(OC.generateUrl('settings/apps/categories'), {
 			data:{},

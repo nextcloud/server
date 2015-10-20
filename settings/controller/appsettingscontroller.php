@@ -42,6 +42,8 @@ use OCP\IConfig;
  * @package OC\Settings\Controller
  */
 class AppSettingsController extends Controller {
+	const CAT_ENABLED = 0;
+	const CAT_DISABLED = 1;
 
 	/** @var \OCP\IL10N */
 	private $l10n;
@@ -95,11 +97,38 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
+	 * @param string|int $category
+	 * @return int
+	 */
+	protected function getCategory($category) {
+		if (is_string($category)) {
+			foreach ($this->listCategories() as $cat) {
+				if (isset($cat['ident']) && $cat['ident'] === $category) {
+					$category = (int) $cat['id'];
+					break;
+				}
+			}
+
+			// Didn't find the category, falling back to enabled
+			if (is_string($category)) {
+				$category = self::CAT_ENABLED;
+			}
+		}
+		return (int) $category;
+	}
+
+	/**
 	 * @NoCSRFRequired
-	 * @param int $category
+	 * @param string $category
 	 * @return TemplateResponse
 	 */
-	public function viewApps($category = 0) {
+	public function viewApps($category = '') {
+		$categoryId = $this->getCategory($category);
+		if ($categoryId === self::CAT_ENABLED) {
+			// Do not use an arbitrary input string, because we put the category in html
+			$category = 'enabled';
+		}
+
 		$params = [];
 		$params['experimentalEnabled'] = $this->config->getSystemValue('appstore.experimental.enabled', false);
 		$params['category'] = $category;
@@ -123,8 +152,8 @@ class AppSettingsController extends Controller {
 			return $this->cache->get('listCategories');
 		}
 		$categories = [
-			['id' => 0, 'displayName' => (string)$this->l10n->t('Enabled')],
-			['id' => 1, 'displayName' => (string)$this->l10n->t('Not enabled')],
+			['id' => self::CAT_ENABLED, 'ident' => 'enabled', 'displayName' => (string)$this->l10n->t('Enabled')],
+			['id' => self::CAT_DISABLED, 'ident' => 'disabled', 'displayName' => (string)$this->l10n->t('Not enabled')],
 		];
 
 		if($this->ocsClient->isAppStoreEnabled()) {
@@ -132,9 +161,12 @@ class AppSettingsController extends Controller {
 			$ocs = $this->ocsClient->getCategories(\OC_Util::getVersion());
 			if ($ocs) {
 				foreach($ocs as $k => $v) {
+					$name = str_replace('ownCloud ', '', $v);
+					$ident = str_replace(' ', '-', urlencode(strtolower($name)));
 					$categories[] = [
 						'id' => $k,
-						'displayName' => str_replace('ownCloud ', '', $v)
+						'ident' => $ident,
+						'displayName' => $name,
 					];
 				}
 			}
@@ -148,12 +180,13 @@ class AppSettingsController extends Controller {
 	/**
 	 * Get all available apps in a category
 	 *
-	 * @param int $category
+	 * @param string $category
 	 * @param bool $includeUpdateInfo Should we check whether there is an update
 	 *                                in the app store?
 	 * @return array
 	 */
-	public function listApps($category = 0, $includeUpdateInfo = true) {
+	public function listApps($category = '', $includeUpdateInfo = true) {
+		$category = $this->getCategory($category);
 		$cacheName = 'listApps-' . $category . '-' . (int) $includeUpdateInfo;
 
 		if(!is_null($this->cache->get($cacheName))) {

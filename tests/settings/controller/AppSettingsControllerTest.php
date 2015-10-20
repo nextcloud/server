@@ -132,10 +132,12 @@ class AppSettingsControllerTest extends TestCase {
 		$expected = [
 			[
 				'id' => 0,
+				'ident' => 'enabled',
 				'displayName' => 'Enabled',
 			],
 			[
 				'id' => 1,
+				'ident' => 'disabled',
 				'displayName' => 'Not enabled',
 			],
 		];
@@ -157,27 +159,33 @@ class AppSettingsControllerTest extends TestCase {
 		$expected = [
 			[
 				'id' => 0,
+				'ident' => 'enabled',
 				'displayName' => 'Enabled',
 			],
 			[
 				'id' => 1,
+				'ident' => 'disabled',
 				'displayName' => 'Not enabled',
 			],
 			[
 				'id' => 0,
+				'ident' => 'tools',
 				'displayName' => 'Tools',
 			],
 			[
 				'id' => 1,
-				'displayName' => 'Awesome Games',
+				'ident' => 'games',
+				'displayName' => 'Games',
 			],
 			[
 				'id' => 2,
-				'displayName' => 'PIM',
+				'ident' => 'productivity',
+				'displayName' => 'Productivity',
 			],
 			[
 				'id' => 3,
-				'displayName' => 'Papershop',
+				'ident' => 'multimedia',
+				'displayName' => 'Multimedia',
 			],
 		];
 
@@ -201,9 +209,9 @@ class AppSettingsControllerTest extends TestCase {
 			->will($this->returnValue(
 				[
 					'ownCloud Tools',
-					'Awesome Games',
-					'ownCloud PIM',
-					'Papershop',
+					'Games',
+					'ownCloud Productivity',
+					'Multimedia',
 				]
 			));
 
@@ -223,7 +231,7 @@ class AppSettingsControllerTest extends TestCase {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://apps.owncloud.com');
 
-		$expected = new TemplateResponse('settings', 'apps', ['experimentalEnabled' => false, 'category' => 0], 'user');
+		$expected = new TemplateResponse('settings', 'apps', ['experimentalEnabled' => false, 'category' => 'enabled'], 'user');
 		$expected->setContentSecurityPolicy($policy);
 
 		$this->assertEquals($expected, $this->appSettingsController->viewApps());
@@ -242,9 +250,9 @@ class AppSettingsControllerTest extends TestCase {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://apps.owncloud.com');
 
-		$expected = new TemplateResponse('settings', 'apps', ['experimentalEnabled' => false, 'category' => 1], 'user');
+		$expected = new TemplateResponse('settings', 'apps', ['experimentalEnabled' => false, 'category' => 'disabled'], 'user');
 		$expected->setContentSecurityPolicy($policy);
 
-		$this->assertEquals($expected, $this->appSettingsController->viewApps(1));
+		$this->assertEquals($expected, $this->appSettingsController->viewApps('disabled'));
 	}
 }
