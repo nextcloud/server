@@ -790,8 +790,11 @@ MountConfigListView.prototype = _.extend({
 		if (storageConfig.backendOptions) {
 			$td.children().each(function() {
 				var input = $(this);
-				input.val(storageConfig.backendOptions[input.data('parameter')]);
-				highlightInput(input);
+				var val = storageConfig.backendOptions[input.data('parameter')];
+				if (val !== undefined) {
+					input.val(storageConfig.backendOptions[input.data('parameter')]);
+					highlightInput(input);
+				}
 			});
 		}
 
