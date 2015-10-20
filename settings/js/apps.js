@@ -116,7 +116,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					});
 				} else {
 					$('#apps-list').addClass('hidden');
-					$('#apps-list-empty').removeClass('hidden');
+					$('#apps-list-empty').removeClass('hidden').find('h2').text(t('settings', 'No apps found for your version'));
 				}
 
 				$('.app-level .official').tipsy({fallback: t('settings', 'Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use.')});
@@ -416,12 +416,14 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	filter: function(query) {
 		var $appList = $('#apps-list'),
 			$emptyList = $('#apps-list-empty');
+		$appList.removeClass('hidden');
+		$appList.find('.section').removeClass('hidden');
+		$emptyList.addClass('hidden');
+
 		if (query === '') {
-			$appList.find('.section').removeClass('hidden');
-			$appList.removeClass('hidden');
-			$emptyList.addClass('hidden');
 			return;
 		}
+
 		query = query.toLowerCase();
 		$appList.find('.section').addClass('hidden');
 
@@ -462,6 +464,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (apps.length === 0) {
 			$appList.addClass('hidden');
 			$emptyList.removeClass('hidden');
+			$emptyList.removeClass('hidden').find('h2').text(t('settings', 'No apps found for "{query}"', {
+				query: query
+			}));
 		} else {
 			_.each(apps, function (app) {
 				$('#app-' + app.id).removeClass('hidden');
