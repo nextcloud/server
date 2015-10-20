@@ -195,7 +195,7 @@ class CheckSetupController extends Controller {
 
 		return '';
 	}
-	
+
 	/**
 	 * Whether the php version is still supported (at time of release)
 	 * according to: https://secure.php.net/supported-versions.php
@@ -244,7 +244,7 @@ class CheckSetupController extends Controller {
 		// there are two different memcached modules for PHP
 		// we only support memcached and not memcache
 		// https://code.google.com/p/memcached/wiki/PHPClientComparison
-		return !extension_loaded('memcached') && extension_loaded('memcache');
+		return !(!extension_loaded('memcached') && extension_loaded('memcache'));
 	}
 
 	/**
