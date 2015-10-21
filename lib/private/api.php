@@ -231,7 +231,8 @@ class OC_API {
 			$picked = reset($shipped['failed']);
 			$code = $picked['response']->getStatusCode();
 			$meta = $picked['response']->getMeta();
-			$response = new OC_OCS_Result($data, $code, $meta['message']);
+			$headers = $picked['response']->getHeaders();
+			$response = new OC_OCS_Result($data, $code, $meta['message'], $headers);
 			return $response;
 		} elseif(!empty($shipped['succeeded'])) {
 			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
@@ -244,13 +245,16 @@ class OC_API {
 			$picked = reset($thirdparty['failed']);
 			$code = $picked['response']->getStatusCode();
 			$meta = $picked['response']->getMeta();
-			$response = new OC_OCS_Result($data, $code, $meta['message']);
+			$headers = $picked['response']->getHeaders();
+			$response = new OC_OCS_Result($data, $code, $meta['message'], $headers);
 			return $response;
 		} else {
 			$responses = $thirdparty['succeeded'];
 		}
 		// Merge the successful responses
-		$data = array();
+		$data = [];
+		$codes = [];
+		$header = [];
 
 		foreach($responses as $response) {
 			if($response['shipped']) {
@@ -258,8 +262,9 @@ class OC_API {
 			} else {
 				$data = array_merge_recursive($data, $response['response']->getData());
 			}
-			$codes[] = array('code' => $response['response']->getStatusCode(),
-				'meta' => $response['response']->getMeta());
+			$header = array_merge_recursive($header, $response['response']->getHeaders());
+			$codes[] = ['code' => $response['response']->getStatusCode(),
+				'meta' => $response['response']->getMeta()];
 		}
 
 		// Use any non 100 status codes
@@ -273,8 +278,7 @@ class OC_API {
 			}
 		}
 
-		$result = new OC_OCS_Result($data, $statusCode, $statusMessage);
-		return $result;
+		return new OC_OCS_Result($data, $statusCode, $statusMessage, $header);
 	}
 
 	/**
