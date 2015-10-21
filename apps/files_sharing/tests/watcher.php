@@ -108,9 +108,8 @@ class Test_Files_Sharing_Watcher extends OCA\Files_sharing\Tests\TestCase {
 		$this->sharedCache->put('', array('mtime' => 10, 'storage_mtime' => 10, 'size' => '-1', 'mimetype' => 'httpd/unix-directory'));
 
 		// run the propagation code
-		$result = $this->sharedStorage->getWatcher()->checkUpdate('');
-
-		$this->assertTrue($result);
+		$this->sharedStorage->getWatcher()->checkUpdate('');
+		$this->sharedStorage->getCache()->correctFolderSize('');
 
 		// the owner's parent dirs must have increase size
 		$newSizes = self::getOwnerDirSizes('files/container/shareddir');
@@ -139,9 +138,8 @@ class Test_Files_Sharing_Watcher extends OCA\Files_sharing\Tests\TestCase {
 		$this->sharedCache->put('subdir', array('mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain'));
 
 		// run the propagation code
-		$result = $this->sharedStorage->getWatcher()->checkUpdate('subdir');
-
-		$this->assertTrue($result);
+		$this->sharedStorage->getWatcher()->checkUpdate('subdir');
+		$this->sharedStorage->getCache()->correctFolderSize('subdir');
 
 		// the owner's parent dirs must have increase size
 		$newSizes = self::getOwnerDirSizes('files/container/shareddir/subdir');

@@ -62,6 +62,8 @@ class MigrationTest extends \Test\TestCase {
 	}
 
 	protected function createDummyShareKeys($uid) {
+		$this->loginAsUser($uid);
+
 		$this->view->mkdir($uid . '/files_encryption/keys/folder1/folder2/folder3/file3');
 		$this->view->mkdir($uid . '/files_encryption/keys/folder1/folder2/file2');
 		$this->view->mkdir($uid . '/files_encryption/keys/folder1/file.1');
@@ -87,6 +89,8 @@ class MigrationTest extends \Test\TestCase {
 	}
 
 	protected function createDummyUserKeys($uid) {
+		$this->loginAsUser($uid);
+
 		$this->view->mkdir($uid . '/files_encryption/');
 		$this->view->mkdir('/files_encryption/public_keys');
 		$this->view->file_put_contents($uid . '/files_encryption/' . $uid . '.privateKey', 'privateKey');
@@ -94,6 +98,8 @@ class MigrationTest extends \Test\TestCase {
 	}
 
 	protected function createDummyFileKeys($uid) {
+		$this->loginAsUser($uid);
+
 		$this->view->mkdir($uid . '/files_encryption/keys/folder1/folder2/folder3/file3');
 		$this->view->mkdir($uid . '/files_encryption/keys/folder1/folder2/file2');
 		$this->view->mkdir($uid . '/files_encryption/keys/folder1/file.1');
@@ -105,6 +111,8 @@ class MigrationTest extends \Test\TestCase {
 	}
 
 	protected function createDummyFiles($uid) {
+		$this->loginAsUser($uid);
+
 		$this->view->mkdir($uid . '/files/folder1/folder2/folder3/file3');
 		$this->view->mkdir($uid . '/files/folder1/folder2/file2');
 		$this->view->mkdir($uid . '/files/folder1/file.1');
@@ -116,6 +124,8 @@ class MigrationTest extends \Test\TestCase {
 	}
 
 	protected function createDummyFilesInTrash($uid) {
+		$this->loginAsUser($uid);
+
 		$this->view->mkdir($uid . '/files_trashbin/keys/file1.d5457864');
 		$this->view->mkdir($uid . '/files_trashbin/keys/folder1.d7437648723/file2');
 		$this->view->file_put_contents($uid . '/files_trashbin/keys/file1.d5457864/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey' , 'data');
@@ -165,6 +175,7 @@ class MigrationTest extends \Test\TestCase {
 
 		$this->createDummySystemWideKeys();
 
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Encryption\Migration $m */
 		$m = $this->getMockBuilder('OCA\Encryption\Migration')
 			->setConstructorArgs(
 				[
@@ -176,27 +187,38 @@ class MigrationTest extends \Test\TestCase {
 			)->setMethods(['getSystemMountPoints'])->getMock();
 
 		$m->expects($this->any())->method('getSystemMountPoints')
-			->willReturn([['mountpoint' => 'folder1'], ['mountpoint' => 'folder2']]);
+			->will($this->returnValue([['mountpoint' => 'folder1'], ['mountpoint' => 'folder2']]));
 
 		$m->reorganizeFolderStructure();
 		// even if it runs twice folder should always move only once
 		$m->reorganizeFolderStructure();
+
+		$this->loginAsUser(self::TEST_ENCRYPTION_MIGRATION_USER1);
 
 		$this->assertTrue(
 			$this->view->file_exists(
 				self::TEST_ENCRYPTION_MIGRATION_USER1 . '/files_encryption/' .
 				$this->moduleId . '/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.publicKey')
 		);
+
+		$this->loginAsUser(self::TEST_ENCRYPTION_MIGRATION_USER2);
+
 		$this->assertTrue(
 			$this->view->file_exists(
 				self::TEST_ENCRYPTION_MIGRATION_USER2 . '/files_encryption/' .
 				$this->moduleId . '/' . self::TEST_ENCRYPTION_MIGRATION_USER2 . '.publicKey')
 		);
+
+		$this->loginAsUser(self::TEST_ENCRYPTION_MIGRATION_USER3);
+
 		$this->assertTrue(
 			$this->view->file_exists(
 				self::TEST_ENCRYPTION_MIGRATION_USER3 . '/files_encryption/' .
 				$this->moduleId . '/' . self::TEST_ENCRYPTION_MIGRATION_USER3 . '.publicKey')
 		);
+
+		$this->loginAsUser(self::TEST_ENCRYPTION_MIGRATION_USER1);
+
 		$this->assertTrue(
 			$this->view->file_exists(
 			    '/files_encryption/' . $this->moduleId . '/systemwide_1.publicKey')
@@ -217,6 +239,8 @@ class MigrationTest extends \Test\TestCase {
 	}
 
 	protected function verifyFilesInTrash($uid) {
+		$this->loginAsUser($uid);
+
 		// share keys
 		$this->assertTrue(
 			$this->view->file_exists($uid . '/files_encryption/keys/files_trashbin/file1.d5457864/' . $this->moduleId . '/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey')
@@ -244,6 +268,7 @@ class MigrationTest extends \Test\TestCase {
 	protected function verifyNewKeyPath($uid) {
 		// private key
 		if ($uid !== '') {
+			$this->loginAsUser($uid);
 			$this->assertTrue($this->view->file_exists($uid . '/files_encryption/' . $this->moduleId . '/'. $uid . '.privateKey'));
 		}
 		// file keys

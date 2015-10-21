@@ -2635,7 +2635,9 @@ class Share extends Constants {
 	 */
 	private static function isFileReachable($path, $ownerStorageId) {
 		// if outside the home storage, file is always considered reachable
-		if (!(substr($ownerStorageId, 0, 6) === 'home::')) {
+		if (!(substr($ownerStorageId, 0, 6) === 'home::' ||
+			substr($ownerStorageId, 0, 13) === 'object::user:'
+		)) {
 			return true;
 		}
 
