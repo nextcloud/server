@@ -337,6 +337,8 @@ class Updater extends BasicEmitter {
 	}
 
 	protected function checkCoreUpgrade() {
+		$this->emit('\OC\Updater', 'dbSimulateUpgradeBefore');
+
 		// simulate core DB upgrade
 		\OC_DB::simulateUpdateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
 
@@ -344,6 +346,8 @@ class Updater extends BasicEmitter {
 	}
 
 	protected function doCoreUpgrade() {
+		$this->emit('\OC\Updater', 'dbUpgradeBefore');
+
 		// do the real upgrade
 		\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
 
@@ -355,6 +359,7 @@ class Updater extends BasicEmitter {
 	 */
 	protected function checkAppUpgrade($version) {
 		$apps = \OC_App::getEnabledApps();
+		$this->emit('\OC\Updater', 'appUpgradeCheckBefore');
 
 		foreach ($apps as $appId) {
 			$info = \OC_App::getAppInfo($appId);
@@ -372,6 +377,7 @@ class Updater extends BasicEmitter {
 					$this->includePreUpdate($appId);
 				}
 				if (file_exists(\OC_App::getAppPath($appId) . '/appinfo/database.xml')) {
+					$this->emit('\OC\Updater', 'appSimulateUpdate', array($appId));
 					\OC_DB::simulateUpdateDbFromStructure(\OC_App::getAppPath($appId) . '/appinfo/database.xml');
 				}
 			}
