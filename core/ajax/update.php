@@ -112,15 +112,18 @@ if (OC::checkUpgrade(false)) {
 		exit();
 	}
 
-	if (!empty($incompatibleApps)) {
-		$eventSource->send('notice',
-			(string)$l->t('Following incompatible apps have been disabled: %s', implode(', ', $incompatibleApps)));
+	$disabledApps = [];
+	foreach ($disabledThirdPartyApps as $app) {
+		$disabledApps[$app] = (string) $l->t('%s (3rdparty)', [$app]);
 	}
-	if (!empty($disabledThirdPartyApps)) {
-		$eventSource->send('notice',
-			(string)$l->t('Following apps have been disabled: %s', implode(', ', $disabledThirdPartyApps)));
+	foreach ($incompatibleApps as $app) {
+		$disabledApps[$app] = (string) $l->t('%s (incompatible)', [$app]);
 	}
 
+	if (!empty($disabledApps)) {
+		$eventSource->send('notice',
+			(string)$l->t('Following apps have been disabled: %s', implode(', ', $disabledApps)));
+	}
 } else {
 	$eventSource->send('notice', (string)$l->t('Already up to date'));
 }
