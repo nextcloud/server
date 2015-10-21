@@ -43,7 +43,6 @@ class OCSControllerTest extends \Test\TestCase {
 				],
 			],
 			$this->getMock('\OCP\Security\ISecureRandom'),
-			$this->getMock('\OCP\Security\ICrypto'),
 			$this->getMock('\OCP\IConfig')
 		);
 		$controller = new ChildOCSController('app', $request, 'verbs',
@@ -65,7 +64,6 @@ class OCSControllerTest extends \Test\TestCase {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->getMock('\OCP\Security\ISecureRandom'),
-			$this->getMock('\OCP\Security\ICrypto'),
 			$this->getMock('\OCP\IConfig')
 		));
 		$expected = "<?xml version=\"1.0\"?>\n" .
@@ -98,7 +96,6 @@ class OCSControllerTest extends \Test\TestCase {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->getMock('\OCP\Security\ISecureRandom'),
-			$this->getMock('\OCP\Security\ICrypto'),
 			$this->getMock('\OCP\IConfig')
 		));
 		$expected = "<?xml version=\"1.0\"?>\n" .
@@ -131,7 +128,6 @@ class OCSControllerTest extends \Test\TestCase {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->getMock('\OCP\Security\ISecureRandom'),
-			$this->getMock('\OCP\Security\ICrypto'),
 			$this->getMock('\OCP\IConfig')
 		));
 		$expected = '{"ocs":{"meta":{"status":"failure","statuscode":400,"message":"OK",' .
