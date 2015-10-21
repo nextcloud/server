@@ -151,7 +151,20 @@ class UsersTest extends TestCase {
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
-		$this->assertEquals(['users' => array_slice($uids, 1, 2)], $result->getData());
+
+		// Disable this test for now since sorting is not done the same on all backends
+		//$this->assertEquals(['users' => array_slice($uids, 1, 2)], $result->getData());
+
+		$this->assertCount(2, $result->getData()['users']);
+
+		$counter = 0;
+		foreach ($uids as $uid) {
+			if (in_array($uid, $result->getData()['users'], true)) {
+				$counter += 1;
+			}
+		}
+
+		$this->assertEquals(2, $counter);
 	}
 
 	public function testGetUsersNoUser() {
