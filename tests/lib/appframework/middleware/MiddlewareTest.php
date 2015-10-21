@@ -61,7 +61,6 @@ class MiddlewareTest extends \Test\TestCase {
 				new Request(
 					[],
 					$this->getMock('\OCP\Security\ISecureRandom'),
-					$this->getMock('\OCP\Security\ICrypto'),
 					$this->getMock('\OCP\IConfig')
 				)
 			]

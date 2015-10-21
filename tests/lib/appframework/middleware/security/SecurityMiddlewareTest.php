@@ -322,7 +322,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 				]
 			],
 			$this->getMock('\OCP\Security\ISecureRandom'),
-			$this->getMock('\OCP\Security\ICrypto'),
 			$this->getMock('\OCP\IConfig')
 		);
 		$this->middleware = $this->getMiddleware(true, true);
