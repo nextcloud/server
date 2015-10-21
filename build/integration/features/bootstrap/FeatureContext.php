@@ -102,9 +102,7 @@ class FeatureContext extends BehatContext {
 			$users = $usersList->getRows();
 			$usersSimplified = $this->simplifyArray($users);
 			$respondedArray = $this->getArrayOfUsersResponded($this->response);
-			sort($usersSimplified);
-			sort($respondedArray);
-			PHPUnit_Framework_Assert::assertEquals($usersSimplified, $respondedArray);
+			PHPUnit_Framework_Assert::assertEquals($usersSimplified, $respondedArray, "", 0.0, 10, true);
 		}
 
 	}
@@ -118,9 +116,7 @@ class FeatureContext extends BehatContext {
 			$groups = $groupsList->getRows();
 			$groupsSimplified = $this->simplifyArray($groups);
 			$respondedArray = $this->getArrayOfGroupsResponded($this->response);
-			sort($groups);
-			sort($respondedArray);
-			PHPUnit_Framework_Assert::assertEquals($groupsSimplified, $respondedArray); 
+			PHPUnit_Framework_Assert::assertEquals($groupsSimplified, $respondedArray, "", 0.0, 10, true);
 		}
 
 	}
@@ -134,9 +130,7 @@ class FeatureContext extends BehatContext {
 			$groups = $groupsList->getRows();
 			$groupsSimplified = $this->simplifyArray($groups);
 			$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
-			sort($groups);
-			sort($respondedArray);
-			PHPUnit_Framework_Assert::assertEquals($groupsSimplified, $respondedArray); 
+			PHPUnit_Framework_Assert::assertEquals($groupsSimplified, $respondedArray, "", 0.0, 10, true);
 		}
 
 	}
@@ -206,9 +200,7 @@ class FeatureContext extends BehatContext {
 		$this->response = $client->get($fullUrl, $options);
 		$groups = array($group);
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
-		sort($groups);
-		sort($respondedArray);
-		PHPUnit_Framework_Assert::assertEquals($groups, $respondedArray);
+		PHPUnit_Framework_Assert::assertEquals($groups, $respondedArray, "", 0.0, 10, true);
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
@@ -226,9 +218,7 @@ class FeatureContext extends BehatContext {
 		$this->response = $client->get($fullUrl, $options);
 		$groups = array($group);
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
-		sort($groups);
-		sort($respondedArray);
-		PHPUnit_Framework_Assert::assertNotEquals($groups, $respondedArray);
+		PHPUnit_Framework_Assert::assertNotEquals($groups, $respondedArray, "", 0.0, 10, true);
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
