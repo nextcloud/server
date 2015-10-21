@@ -71,11 +71,13 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	private $cachedUserGroups = array();
 
+	/** @var \OC\SubAdmin */
+	private $subAdmin = null;
 
 	/**
 	 * @param \OC\User\Manager $userManager
 	 */
-	public function __construct($userManager) {
+	public function __construct(\OC\User\Manager $userManager) {
 		$this->userManager = $userManager;
 		$cachedGroups = & $this->cachedGroups;
 		$cachedUserGroups = & $this->cachedUserGroups;
@@ -313,5 +315,20 @@ class Manager extends PublicEmitter implements IGroupManager {
 			$matchingUsers[$groupUser->getUID()] = $groupUser->getDisplayName();
 		}
 		return $matchingUsers;
+	}
+
+	/**
+	 * @return \OC\SubAdmin
+	 */
+	public function getSubAdmin() {
+		if (!$this->subAdmin) {
+			$this->subAdmin = new \OC\SubAdmin(
+				$this->userManager,
+				$this,
+				\OC::$server->getDatabaseConnection()
+			);
+		}
+
+		return $this->subAdmin;
 	}
 }

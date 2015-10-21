@@ -167,7 +167,7 @@ class UsersController extends Controller {
 			'name' => $user->getUID(),
 			'displayname' => $user->getDisplayName(),
 			'groups' => (empty($userGroups)) ? $this->groupManager->getUserGroupIds($user) : $userGroups,
-			'subadmin' => \OC_SubAdmin::getSubAdminsGroups($user->getUID()),
+			'subadmin' => $this->subAdminFactory->getSubAdminsOfGroups($user->getUID()),
 			'quota' => $this->config->getUserValue($user->getUID(), 'files', 'quota', 'default'),
 			'storageLocation' => $user->getHome(),
 			'lastLogin' => $user->getLastLogin() * 1000,
