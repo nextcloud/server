@@ -735,14 +735,20 @@ describe('OC.Share.ShareDialogView', function() {
 		describe('renders the autocomplete elements', function() {
 			it('renders a group element', function() {
 				dialog.render();
-				var el = dialog.autocompleteRenderItem($("<ul></ul>"), {label: "1", value: { shareType: OC.Share.SHARE_TYPE_GROUP }});
+				var el = dialog.autocompleteRenderItem(
+						$("<ul></ul>"),
+						{label: "1", value: { shareType: OC.Share.SHARE_TYPE_GROUP }}
+				);
 				expect(el.is('li')).toEqual(true);
 				expect(el.hasClass('group')).toEqual(true);
 			});
 
 			it('renders a remote element', function() {
 				dialog.render();
-				var el = dialog.autocompleteRenderItem($("<ul></ul>"), {label: "1", value: { shareType: OC.Share.SHARE_TYPE_REMOTE }});
+				var el = dialog.autocompleteRenderItem(
+						$("<ul></ul>"),
+						{label: "1", value: { shareType: OC.Share.SHARE_TYPE_REMOTE }}
+				);
 				expect(el.is('li')).toEqual(true);
 				expect(el.hasClass('user')).toEqual(true);
 			});
