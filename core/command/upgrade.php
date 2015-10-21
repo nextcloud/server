@@ -155,8 +155,14 @@ class Upgrade extends Command {
 					}
 					$output->writeln($message);
 				});
+			$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use($output) {
+				$output->writeln('<info>Updating database schema</info>');
+			});
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {
 				$output->writeln('<info>Updated database</info>');
+			});
+			$updater->listen('\OC\Updater', 'dbSimulateUpgradeBefore', function () use($output) {
+				$output->writeln('<info>Checking whether the database schema can be updated (this can take a long time depending on the database size)</info>');
 			});
 			$updater->listen('\OC\Updater', 'dbSimulateUpgrade', function () use($output) {
 				$output->writeln('<info>Checked database schema update</info>');
@@ -175,6 +181,12 @@ class Upgrade extends Command {
 			});
 			$updater->listen('\OC\Updater', 'repairError', function ($app) use($output) {
 				$output->writeln('<error>Repair error: ' . $app . '</error>');
+			});
+			$updater->listen('\OC\Updater', 'appUpgradeCheckBefore', function () use ($output) {
+				$output->writeln('<info>Checking updates of apps</info>');
+			});
+			$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($output) {
+				$output->writeln("<info>Checking whether the database schema for <$app> can be updated (this can take a long time depending on the database size)</info>");
 			});
 			$updater->listen('\OC\Updater', 'appUpgradeCheck', function () use ($output) {
 				$output->writeln('<info>Checked database schema update for apps</info>');
