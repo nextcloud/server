@@ -22,7 +22,6 @@ OC.L10N.register(
     "Folder name" : "ფოლდერის სახელი",
     "Configuration" : "კონფიგურაცია",
     "Delete" : "წაშლა",
-    "Add storage" : "საცავის დამატება",
-    "Enable User External Storage" : "მომხმარებლის ექსტერნალ საცავის აქტივირება"
+    "Add storage" : "საცავის დამატება"
 },
 "nplurals=1; plural=0;");

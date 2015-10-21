@@ -55,7 +55,6 @@ OC.L10N.register(
     "Available for" : "Disponible pa",
     "Delete" : "Desaniciar",
     "Add storage" : "Amestar almacenamientu",
-    "Enable User External Storage" : "Habilitar almacenamientu esterno d'usuariu",
     "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamientu esternu"
 },
 "nplurals=2; plural=(n != 1);");

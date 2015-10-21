@@ -62,7 +62,6 @@ OC.L10N.register(
     "Advanced settings" : "Разширени настройки",
     "Delete" : "Изтрий",
     "Add storage" : "Добави дисково пространство",
-    "Enable User External Storage" : "Разреши Потребителско Външно Дисково Пространство",
     "Allow users to mount the following external storage" : "Разреши на потребителите да прикачват следното външно дисково пространство"
 },
 "nplurals=2; plural=(n != 1);");

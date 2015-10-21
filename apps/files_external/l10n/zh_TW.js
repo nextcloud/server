@@ -33,7 +33,6 @@ OC.L10N.register(
     "Available for" : "可用的",
     "Delete" : "刪除",
     "Add storage" : "增加儲存區",
-    "Enable User External Storage" : "啓用使用者外部儲存",
     "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存"
 },
 "nplurals=1; plural=0;");

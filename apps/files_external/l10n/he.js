@@ -21,7 +21,6 @@ OC.L10N.register(
     "External Storage" : "אחסון חיצוני",
     "Folder name" : "שם התיקייה",
     "Configuration" : "הגדרות",
-    "Delete" : "מחיקה",
-    "Enable User External Storage" : "הפעלת אחסון חיצוני למשתמשים"
+    "Delete" : "מחיקה"
 },
 "nplurals=2; plural=(n != 1);");

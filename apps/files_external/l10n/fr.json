@@ -99,7 +99,6 @@
     "Advanced settings" : "Paramètres avancés",
     "Delete" : "Supprimer",
     "Add storage" : "Ajouter un support de stockage",
-    "Enable User External Storage" : "Autoriser les utilisateurs à ajouter des stockages externes",
     "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

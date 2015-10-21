@@ -42,7 +42,6 @@ OC.L10N.register(
     "Available for" : "可用于",
     "Delete" : "删除",
     "Add storage" : "增加存储",
-    "Enable User External Storage" : "启用用户外部存储",
     "Allow users to mount the following external storage" : "允许用户挂载以下外部存储"
 },
 "nplurals=1; plural=0;");

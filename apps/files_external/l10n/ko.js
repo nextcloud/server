@@ -101,7 +101,6 @@ OC.L10N.register(
     "Advanced settings" : "고급 설정",
     "Delete" : "삭제",
     "Add storage" : "저장소 추가",
-    "Enable User External Storage" : "사용자 외부 저장소 사용",
     "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용"
 },
 "nplurals=1; plural=0;");

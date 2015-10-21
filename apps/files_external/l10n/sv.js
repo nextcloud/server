@@ -55,7 +55,6 @@ OC.L10N.register(
     "Available for" : "Tillgänglig för",
     "Delete" : "Radera",
     "Add storage" : "Lägg till lagring",
-    "Enable User External Storage" : "Aktivera extern lagring för användare",
     "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring"
 },
 "nplurals=2; plural=(n != 1);");

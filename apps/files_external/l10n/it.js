@@ -101,7 +101,6 @@ OC.L10N.register(
     "Advanced settings" : "Impostazioni avanzate",
     "Delete" : "Elimina",
     "Add storage" : "Aggiungi archiviazione",
-    "Enable User External Storage" : "Abilita la memoria esterna dell'utente",
     "Allow users to mount the following external storage" : "Consenti agli utenti di montare la seguente memoria esterna"
 },
 "nplurals=2; plural=(n != 1);");

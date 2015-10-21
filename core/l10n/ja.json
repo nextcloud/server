@@ -1,5 +1,6 @@
 { "translations": {
     "Couldn't send mail to following users: %s " : "次のユーザーにメールを送信できませんでした: %s",
+    "Preparing update" : "アップデートの準備中",
     "Turned on maintenance mode" : "メンテナンスモードがオンになりました",
     "Turned off maintenance mode" : "メンテナンスモードがオフになりました",
     "Maintenance mode is kept active" : "メンテナンスモードが継続中です",
@@ -163,6 +164,7 @@
     "_download %n file_::_download %n files_" : ["%n個のファイルをダウンロード"],
     "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。",
     "Updating {productName} to version {version}, this may take a while." : "{productName} を バージョン {version} に更新しています。しばらくお待ちください。",
+    "An error occurred." : "エラーが発生しました。",
     "Please reload the page." : "ページをリロードしてください。",
     "The update was unsuccessful. " : "アップデートに失敗しました。",
     "The update was successful. There were warnings." : "アップデートは成功しました。警告がありました。",
@@ -195,7 +197,7 @@
     "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" : "こんにちは、\n\n%s があなたと %s を共有したことをお知らせします。\nそれを表示: %s\n",
     "The share will expire on %s." : "共有は %s で有効期限が切れます。",
     "Cheers!" : "それでは！",
-    "Internal Server Error" : "内部サーバエラー",
+    "Internal Server Error" : "内部サーバーエラー",
     "The server encountered an internal error and was unable to complete your request." : "サーバー内でエラーが発生したため、リクエストを完了できませんでした。",
     "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." : "このエラーが繰り返し表示されるようであれば、以下の技術情報を添付してサーバー管理者に問い合わせてください。",
     "More details can be found in the server log." : "詳細は、サーバーのログを確認してください。",

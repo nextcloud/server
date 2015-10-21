@@ -18,7 +18,6 @@ OC.L10N.register(
     "External Storage" : "வெளி சேமிப்பு",
     "Folder name" : "கோப்புறை பெயர்",
     "Configuration" : "தகவமைப்பு",
-    "Delete" : "நீக்குக",
-    "Enable User External Storage" : "பயனாளர் வெளி சேமிப்பை இயலுமைப்படுத்துக"
+    "Delete" : "நீக்குக"
 },
 "nplurals=2; plural=(n != 1);");

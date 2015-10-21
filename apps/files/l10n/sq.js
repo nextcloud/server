@@ -27,7 +27,7 @@ OC.L10N.register(
     "Invalid directory." : "Drejtori e pavlefshme.",
     "Files" : "Kartela",
     "All files" : "Krejt kartelat",
-    "Favorites" : "Të parapëlqyer",
+    "Favorites" : "Të parapëlqyera",
     "Home" : "Kreu",
     "Close" : "Mbylle",
     "Upload cancelled." : "Ngarkimi u anulua.",
@@ -41,7 +41,7 @@ OC.L10N.register(
     "Rename" : "Riemërtojeni",
     "Delete" : "Fshije",
     "Details" : "Hollësi",
-    "Select" : "Përzgjidhni",
+    "Select" : "Përzgjidhe",
     "Pending" : "Në pritje",
     "Unable to determine date" : "S’arrihet të përcaktohet data",
     "This operation is forbidden" : "Ky veprim është i ndaluar",
@@ -119,7 +119,7 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Kartelat që po rrekeni të ngarkoni e tejkalojnë madhësinë maksimale për ngarkime kartelash në këtë shërbyes.",
     "Files are being scanned, please wait." : "Kartelat po kontrollohen, ju lutemi, pritni.",
     "Currently scanning" : "Po kontrollohet",
-    "No favorites" : "Pa të parapëlqyer",
+    "No favorites" : "Pa të parapëlqyera",
     "Files and folders you mark as favorite will show up here" : "Këtu do të duken kartelat dhe dosjet që i shënoni si të parapëlqyera"
 },
 "nplurals=2; plural=(n != 1);");

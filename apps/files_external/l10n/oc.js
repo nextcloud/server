@@ -17,7 +17,7 @@ OC.L10N.register(
     "Enable previews" : "Activar las previsualizacions",
     "Never" : "Pas jamai",
     "(group)" : "(grop)",
-    "Saved" : "Salvat",
+    "Saved" : "Enregistrat",
     "Access key" : "Clau d'accès",
     "Secret key" : "Clau secreta",
     "None" : "Pas cap",
@@ -77,7 +77,6 @@ OC.L10N.register(
     "Advanced settings" : "Paramètres avançats",
     "Delete" : "Suprimir",
     "Add storage" : "Apondre un supòrt d'emmagazinatge",
-    "Enable User External Storage" : "Autorizar los utilizaires a apondre d'emmagazinatges extèrnes",
     "Allow users to mount the following external storage" : "Autorizar los utilizaires a montar los emmagazinatges extèrnes seguents"
 },
 "nplurals=2; plural=(n > 1);");

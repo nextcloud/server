@@ -22,7 +22,6 @@ OC.L10N.register(
     "Folder name" : "Tên thư mục",
     "Configuration" : "Cấu hình",
     "Delete" : "Xóa",
-    "Add storage" : "Thêm bộ nhớ",
-    "Enable User External Storage" : "Kích hoạt tính năng lưu trữ ngoài"
+    "Add storage" : "Thêm bộ nhớ"
 },
 "nplurals=1; plural=0;");

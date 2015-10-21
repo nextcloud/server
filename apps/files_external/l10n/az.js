@@ -60,7 +60,6 @@ OC.L10N.register(
     "Advanced settings" : "İrəliləmiş quraşdırmalar",
     "Delete" : "Sil",
     "Add storage" : "Deponu əlavə et",
-    "Enable User External Storage" : "İstifadəçi kənar deponu aktivləşdir",
     "Allow users to mount the following external storage" : "Göstərilən kənar deponun bərkidilməsi üçün istifadəçilərə izin ver"
 },
 "nplurals=2; plural=(n != 1);");

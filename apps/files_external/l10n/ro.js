@@ -31,7 +31,6 @@ OC.L10N.register(
     "Configuration" : "Configurație",
     "Delete" : "Șterge",
     "Add storage" : "Adauga stocare",
-    "Enable User External Storage" : "Permite stocare externă pentru utilizatori",
     "Allow users to mount the following external storage" : "Permite utilizatorilor să monteze următoarea unitate de stocare"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

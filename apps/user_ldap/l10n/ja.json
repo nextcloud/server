@@ -96,7 +96,7 @@
     "Limit %s access to users meeting these criteria:" : "以下のフィルターに適合するユーザーのみ %s へアクセスを許可:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "ユーザーの最も一般的なオブジェクトクラスは、organizationalPerson, person, user と inetOrgPerson です。もし、どのオブジェクトを選択すれば良いか分からない場合は、ディレクトリ管理者に相談してください。",
     "The filter specifies which LDAP users shall have access to the %s instance." : "フィルターは、どのLDAPユーザーが %s にアクセスするかを指定します。",
-    "Verify settings and count users" : "設定を検証し、ユーザを数える",
+    "Verify settings and count users" : "設定を検証し、ユーザーを数える",
     "Saving" : "保存中",
     "Back" : "戻る",
     "Continue" : "続ける",

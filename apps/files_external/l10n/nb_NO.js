@@ -101,7 +101,6 @@ OC.L10N.register(
     "Advanced settings" : "Avanserte innstillinger",
     "Delete" : "Slett",
     "Add storage" : "Legg til lagringsplass",
-    "Enable User External Storage" : "Aktiver ekstern lagring for bruker",
     "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring"
 },
 "nplurals=2; plural=(n != 1);");

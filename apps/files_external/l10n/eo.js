@@ -40,7 +40,6 @@ OC.L10N.register(
     "Available for" : "Disponebla por",
     "Delete" : "Forigi",
     "Add storage" : "Aldoni memorilon",
-    "Enable User External Storage" : "Kapabligi malenan memorilon de uzanto",
     "Allow users to mount the following external storage" : "Permesi uzantojn munti la jenajn malenajn memorilojn"
 },
 "nplurals=2; plural=(n != 1);");

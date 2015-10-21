@@ -59,7 +59,6 @@ OC.L10N.register(
     "Available for" : "در دسترس برای",
     "Advanced settings" : "تنظیمات پیشرفته",
     "Delete" : "حذف",
-    "Add storage" : "اضافه کردن حافظه",
-    "Enable User External Storage" : "فعال سازی حافظه خارجی کاربر"
+    "Add storage" : "اضافه کردن حافظه"
 },
 "nplurals=1; plural=0;");

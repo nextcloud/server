@@ -70,7 +70,6 @@ OC.L10N.register(
     "Advanced settings" : "Erweiterte Einstellungen",
     "Delete" : "Löschen",
     "Add storage" : "Speicher hinzufügen",
-    "Enable User External Storage" : "Externen Speicher für Benutzer aktivieren",
     "Allow users to mount the following external storage" : "Erlauben Sie Benutzern, folgende externe Speicher einzubinden"
 },
 "nplurals=2; plural=(n != 1);");

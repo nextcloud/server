@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
+    "Please provide a valid app key and secret." : "有効なアプリのキーとパスワードを入力してください。",
     "Step 1 failed. Exception: %s" : "ステップ 1 の実行に失敗しました。例外: %s",
     "Step 2 failed. Exception: %s" : "ステップ 2 の実行に失敗しました。例外: %s",
     "External storage" : "外部ストレージ",
@@ -66,6 +67,7 @@ OC.L10N.register(
     "SMB / CIFS using OC login" : "ownCloudログインを利用したSMB / CIFS",
     "Username as share" : "共有名",
     "OpenStack Object Storage" : "OpenStack ObjectStorage",
+    "Service name" : "サービス名",
     "<b>Note:</b> " : "<b>注意:</b> ",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> PHPにcURLのエクステンションが入っていないか、有効ではありません。%s をマウントすることができません。このシステムの管理者にインストールをお願いしてください。",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> PHPにFTPのエクステンションが入っていないか、有効ではありません。%s をマウントすることができません。このシステムの管理者にインストールをお願いしてください。",
@@ -77,12 +79,12 @@ OC.L10N.register(
     "Scope" : "スコープ",
     "External Storage" : "外部ストレージ",
     "Folder name" : "フォルダー名",
+    "Authentication" : "認証",
     "Configuration" : "設定",
     "Available for" : "利用可能",
     "Advanced settings" : "詳細設定",
     "Delete" : "削除",
     "Add storage" : "ストレージを追加",
-    "Enable User External Storage" : "ユーザーの外部ストレージを有効にする",
     "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する"
 },
 "nplurals=1; plural=0;");

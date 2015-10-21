@@ -34,7 +34,6 @@ OC.L10N.register(
     "External Storage" : "বাহ্যিক সংরক্ষণাগার",
     "Folder name" : "ফোলডারের নাম",
     "Configuration" : "কনফিগারেসন",
-    "Delete" : "মুছে",
-    "Enable User External Storage" : "ব্যবহারকারীর বাহ্যিক সংরক্ষণাগার সক্রিয় কর"
+    "Delete" : "মুছে"
 },
 "nplurals=2; plural=(n != 1);");

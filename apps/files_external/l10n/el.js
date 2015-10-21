@@ -101,7 +101,6 @@ OC.L10N.register(
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Delete" : "Διαγραφή",
     "Add storage" : "Προσθηκη αποθηκευσης",
-    "Enable User External Storage" : "Ενεργοποίηση Εξωτερικού Αποθηκευτικού Χώρου Χρήστη",
     "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης"
 },
 "nplurals=2; plural=(n != 1);");

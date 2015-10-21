@@ -54,7 +54,6 @@ OC.L10N.register(
     "Available for" : "Hauentzat eskuragarri",
     "Delete" : "Ezabatu",
     "Add storage" : "Gehitu biltegiratzea",
-    "Enable User External Storage" : "Gaitu erabiltzaileentzako kanpo biltegiratzea",
     "Allow users to mount the following external storage" : "Baimendu erabiltzaileak hurrengo kanpo biltegiratzeak muntatzen"
 },
 "nplurals=2; plural=(n != 1);");

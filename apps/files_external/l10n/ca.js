@@ -69,7 +69,6 @@ OC.L10N.register(
     "Advanced settings" : "Configuració avançada",
     "Delete" : "Esborra",
     "Add storage" : "Afegeix emmagatzemament",
-    "Enable User External Storage" : "Habilita l'emmagatzemament extern d'usuari",
     "Allow users to mount the following external storage" : "Permet als usuaris muntar els dispositius externs següents"
 },
 "nplurals=2; plural=(n != 1);");

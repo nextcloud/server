@@ -78,7 +78,6 @@ OC.L10N.register(
     "Advanced settings" : "Lisäasetukset",
     "Delete" : "Poista",
     "Add storage" : "Lisää tallennustila",
-    "Enable User External Storage" : "Ota käyttöön ulkopuoliset tallennuspaikat",
     "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet"
 },
 "nplurals=2; plural=(n != 1);");
