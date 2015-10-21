@@ -315,6 +315,9 @@ class Updater extends BasicEmitter {
 		if ($this->updateStepEnabled) {
 			$this->doCoreUpgrade();
 
+			// install new shipped apps on upgrade
+			OC_Installer::installShippedApps();
+
 			// update all shipped apps
 			$disabledApps = $this->checkAppsRequirements();
 			$this->doAppUpgrade();
