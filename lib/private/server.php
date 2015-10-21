@@ -438,7 +438,6 @@ class Server extends SimpleContainer implements IServerContainer {
 					'requesttoken' => $requestToken,
 				],
 				$this->getSecureRandom(),
-				$this->getCrypto(),
 				$this->getConfig(),
 				$stream
 			);
@@ -512,7 +511,6 @@ class Server extends SimpleContainer implements IServerContainer {
 						: null,
 				],
 				new SecureRandom(),
-				$c->getCrypto(),
 				$c->getConfig()
 			);
 
