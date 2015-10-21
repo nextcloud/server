@@ -117,4 +117,100 @@ describe('OC.Upload tests', function() {
 			);
 		});
 	});
+	describe('Upload conflicts', function() {
+		var oldFileList;
+		var conflictDialogStub;
+		var callbacks;
+
+		beforeEach(function() {
+			oldFileList = FileList;
+			$('#testArea').append(
+				'<div id="tableContainer">' +
+				'<table id="filestable">' +
+				'<thead><tr>' +
+				'<th id="headerName" class="hidden column-name">' +
+				'<input type="checkbox" id="select_all_files" class="select-all">' +
+				'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
+				'<span id="selectedActionsList" class="selectedActions hidden">' +
+				'<a href class="download"><img src="actions/download.svg">Download</a>' +
+				'<a href class="delete-selected">Delete</a></span>' +
+				'</th>' +
+				'<th class="hidden column-size"><a class="columntitle" data-sort="size"><span class="sort-indicator"></span></a></th>' +
+				'<th class="hidden column-mtime"><a class="columntitle" data-sort="mtime"><span class="sort-indicator"></span></a></th>' +
+				'</tr></thead>' +
+				'<tbody id="fileList"></tbody>' +
+				'<tfoot></tfoot>' +
+				'</table>' +
+				'</div>'
+			);
+			FileList = new OCA.Files.FileList($('#tableContainer'));
+
+			FileList.add({name: 'conflict.txt', mimetype: 'text/plain'});
+			FileList.add({name: 'conflict2.txt', mimetype: 'text/plain'});
+
+			conflictDialogStub = sinon.stub(OC.dialogs, 'fileexists');
+			callbacks = {
+				onNoConflicts: sinon.stub()
+			};
+		});
+		afterEach(function() {
+			conflictDialogStub.restore();
+
+			FileList.destroy();
+			FileList = oldFileList;
+		});
+		it('does not show conflict dialog when no client side conflict', function() {
+			var selection = {
+				// yes, the format of uploads is weird...
+				uploads: [
+					{files: [{name: 'noconflict.txt'}]},
+					{files: [{name: 'noconflict2.txt'}]}
+				]
+			};
+
+			OC.Upload.checkExistingFiles(selection, callbacks);
+
+			expect(conflictDialogStub.notCalled).toEqual(true);
+			expect(callbacks.onNoConflicts.calledOnce).toEqual(true);
+			expect(callbacks.onNoConflicts.calledWith(selection)).toEqual(true);
+		});
+		it('shows conflict dialog when no client side conflict', function() {
+			var selection = {
+				// yes, the format of uploads is weird...
+				uploads: [
+					{files: [{name: 'conflict.txt'}]},
+					{files: [{name: 'conflict2.txt'}]},
+					{files: [{name: 'noconflict.txt'}]}
+				]
+			};
+
+			var deferred = $.Deferred();
+			conflictDialogStub.returns(deferred.promise());
+			deferred.resolve();
+
+			OC.Upload.checkExistingFiles(selection, callbacks);
+
+			expect(conflictDialogStub.callCount).toEqual(3);
+			expect(conflictDialogStub.getCall(1).args[0])
+				.toEqual({files: [ { name: 'conflict.txt' } ]});
+			expect(conflictDialogStub.getCall(1).args[1])
+				.toEqual({ name: 'conflict.txt', mimetype: 'text/plain', directory: '/' });
+			expect(conflictDialogStub.getCall(1).args[2]).toEqual({ name: 'conflict.txt' });
+
+			// yes, the dialog must be called several times...
+			expect(conflictDialogStub.getCall(2).args[0]).toEqual({
+				files: [ { name: 'conflict2.txt' } ]
+			});
+			expect(conflictDialogStub.getCall(2).args[1])
+				.toEqual({ name: 'conflict2.txt', mimetype: 'text/plain', directory: '/' });
+			expect(conflictDialogStub.getCall(2).args[2]).toEqual({ name: 'conflict2.txt' });
+
+			expect(callbacks.onNoConflicts.calledOnce).toEqual(true);
+			expect(callbacks.onNoConflicts.calledWith({
+				uploads: [
+					{files: [{name: 'noconflict.txt'}]}
+				]
+			})).toEqual(true);
+		});
+	});
 });
