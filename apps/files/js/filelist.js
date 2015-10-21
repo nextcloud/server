@@ -390,12 +390,15 @@
 		 * Update the details view to display the given file
 		 *
 		 * @param {string} fileName file name from the current list
+		 * @param {boolean} [show=true] whether to open the sidebar if it was closed
 		 */
-		_updateDetailsView: function(fileName) {
+		_updateDetailsView: function(fileName, show) {
 			if (!this._detailsView) {
 				return;
 			}
 
+			// show defaults to true
+			show = _.isUndefined(show) || !!show;
 			var oldFileInfo = this._detailsView.getFileInfo();
 			if (oldFileInfo) {
 				// TODO: use more efficient way, maybe track the highlight
@@ -413,7 +416,7 @@
 				return;
 			}
 
-			if (this._detailsView.$el.hasClass('disappear')) {
+			if (show && this._detailsView.$el.hasClass('disappear')) {
 				OC.Apps.showAppSidebar(this._detailsView.$el);
 			}
 
@@ -1771,7 +1774,7 @@
 								tr.remove();
 								tr = self.add(fileInfo, {updateSummary: false, silent: true});
 								self.$fileList.trigger($.Event('fileActionsReady', {fileList: self, $files: $(tr)}));
-								self._updateDetailsView(fileInfo.name);
+								self._updateDetailsView(fileInfo.name, false);
 							}
 						});
 					} else {
