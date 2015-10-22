@@ -352,7 +352,7 @@ class FeatureContext extends BehatContext {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		} else {
-			$options['auth'] = $this->regularUser;
+			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
 			$fd = $body->getRowsHash();

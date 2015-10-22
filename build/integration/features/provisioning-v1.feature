@@ -112,16 +112,6 @@ Feature: provisioning
 			| new-group |
 		And the OCS status code should be "100"
 
-	Scenario: removing a user from a group
-		Given As an "admin"
-		And user "brand-new-user" exists
-		And group "new-group" exists
-		And user "brand-new-user" belongs to group "new-group"
-		When sending "DELETE" to "/cloud/users/brand-new-user/groups" with
-			| groupid | new-group |
-		Then the OCS status code should be "100"
-		And user "brand-new-user" does not belong to group "new-group"
-
 	Scenario: adding a user which doesn't exist to a group
 		Given As an "admin"
 		And user "not-user" does not exist
@@ -155,6 +145,29 @@ Feature: provisioning
 			| groupid | new-group |
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
+
+	Scenario: get users using a subadmin
+		Given As an "admin"
+		And user "brand-new-user" exists
+		And group "new-group" exists
+		And user "brand-new-user" belongs to group "new-group"
+		And user "brand-new-user" is subadmin of group "new-group"
+		And As an "brand-new-user"
+		When sending "GET" to "/cloud/users"
+		Then users returned are
+			| brand-new-user |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+
+	Scenario: removing a user from a group
+		Given As an "admin"
+		And user "brand-new-user" exists
+		And group "new-group" exists
+		And user "brand-new-user" belongs to group "new-group"
+		When sending "DELETE" to "/cloud/users/brand-new-user/groups" with
+			| groupid | new-group |
+		Then the OCS status code should be "100"
+		And user "brand-new-user" does not belong to group "new-group"
 
 	Scenario: create a subadmin using a user which not exist
 		Given As an "admin"
