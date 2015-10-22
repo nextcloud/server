@@ -676,5 +676,83 @@ describe('OC.Share.ShareDialogView', function() {
 			});
 		});
 	});
+	describe('remote sharing', function() {
+		it('shows remote share info when allows', function() {
+			configModel.set({
+				isRemoteShareAllowed: true
+			});
+			dialog.render();
+			expect(dialog.$el.find('.shareWithRemoteInfo').length).toEqual(1);
+		});
+		it('does not show remote share info when not allowed', function() {
+			configModel.set({
+				isRemoteShareAllowed: false
+			});
+			dialog.render();
+			expect(dialog.$el.find('.shareWithRemoteInfo').length).toEqual(0);
+		});
+	});
+	describe('autocompeltion of users', function() {
+		it('triggers autocomplete display and focus with data when ajax search succeeds', function () {
+			dialog.render();
+			var response = sinon.stub();
+			dialog.autocompleteHandler({term: 'bob'}, response);
+			var jsonData = JSON.stringify({
+				"data": [{"label": "bob", "value": {"shareType": 0, "shareWith": "test"}}],
+				"status": "success"
+			});
+			fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+			);
+			expect(response.calledWithExactly(JSON.parse(jsonData).data)).toEqual(true);
+			expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+		});
+
+		it('gracefully handles successful ajax call with failure content', function () {
+			dialog.render();
+			var response = sinon.stub();
+			dialog.autocompleteHandler({term: 'bob'}, response);
+			var jsonData = JSON.stringify({"status": "failure"});
+			fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+			);
+			expect(response.calledWithExactly()).toEqual(true);
+		});
+
+		it('throws a notification when the ajax search lookup fails', function () {
+			notificationStub = sinon.stub(OC.Notification, 'show');
+			dialog.render();
+			dialog.autocompleteHandler({term: 'bob'}, sinon.stub());
+			fakeServer.requests[0].respond(500);
+			expect(notificationStub.calledOnce).toEqual(true);
+			notificationStub.restore();
+		});
+
+		describe('renders the autocomplete elements', function() {
+			it('renders a group element', function() {
+				dialog.render();
+				var el = dialog.autocompleteRenderItem(
+						$("<ul></ul>"),
+						{label: "1", value: { shareType: OC.Share.SHARE_TYPE_GROUP }}
+				);
+				expect(el.is('li')).toEqual(true);
+				expect(el.hasClass('group')).toEqual(true);
+			});
+
+			it('renders a remote element', function() {
+				dialog.render();
+				var el = dialog.autocompleteRenderItem(
+						$("<ul></ul>"),
+						{label: "1", value: { shareType: OC.Share.SHARE_TYPE_REMOTE }}
+				);
+				expect(el.is('li')).toEqual(true);
+				expect(el.hasClass('user')).toEqual(true);
+			});
+		});
+	});
 });
 
