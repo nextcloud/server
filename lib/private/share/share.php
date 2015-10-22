@@ -775,15 +775,19 @@ class Share extends Constants {
 					$updateExistingShare = true;
 				}
 
-				// Generate hash of password - same method as user passwords
-				if (is_string($shareWith) && $shareWith !== '') {
-					self::verifyPassword($shareWith);
-					$shareWith = \OC::$server->getHasher()->hash($shareWith);
+				// Generate hash of password if the password was changed on the client
+				if (isset($shareWith['passwordChanged']) && $shareWith['passwordChanged'] === 'true') {
+					$shareWith = $shareWith['password'];
+					if (is_string($shareWith) && $shareWith !== '') {
+						self::verifyPassword($shareWith);
+						$shareWith = \OC::$server->getHasher()->hash($shareWith);
+					}
 				} else {
-					// reuse the already set password, but only if we change permissions
-					// otherwise the user disabled the password protection
-					if ($checkExists && (int)$permissions !== (int)$oldPermissions) {
+					// reuse the existing password if it was not updated from the client
+					if ($updateExistingShare) {
 						$shareWith = $checkExists['share_with'];
+					} else {
+						$shareWith = '';
 					}
 				}
 
