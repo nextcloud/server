@@ -249,5 +249,42 @@ Feature: provisioning
 		And the HTTP status code should be "200"
 		And group "new-group" does not exist
 
+	Scenario: get enabled apps
+		Given As an "admin"
+		When sending "GET" to "/cloud/apps?filter=enabled"
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And apps returned are
+			| files |
+			| dav |
+			| files_sharing |
+			| files_trashbin |
+			| files_versions |
+			| provisioning_api |
+
+	Scenario: get app info
+		Given As an "admin"
+		When sending "GET" to "/cloud/apps/files"
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+
+	Scenario: enable an app
+		Given As an "admin"
+		And app "files_external" is disabled
+		When sending "POST" to "/cloud/apps/files_external"
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And app "files_external" is enabled
+
+	Scenario: disable an app
+		Given As an "admin"
+		And app "files_external" is enabled
+		When sending "DELETE" to "/cloud/apps/files_external"
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And app "files_external" is disabled
+
+	
+
 
 
