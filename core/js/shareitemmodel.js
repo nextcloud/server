@@ -116,7 +116,8 @@
 
 			// TODO: use backbone's default value mechanism once this is a separate model
 			var requiredAttributes = [
-				{ name: 'password',	   defaultValue: '' },
+				{ name: 'password', defaultValue: '' },
+				{ name: 'passwordChanged', defaultValue: false },
 				{ name: 'permissions', defaultValue: OC.PERMISSION_READ },
 				{ name: 'expiration', defaultValue: this.configModel.getDefaultExpirationDateString() }
 			];
@@ -136,11 +137,16 @@
 				}
 			});
 
+			var password = {
+				password: attributes.password,
+				passwordChanged: attributes.passwordChanged
+			};
+
 			OC.Share.share(
 				itemType,
 				itemSource,
 				OC.Share.SHARE_TYPE_LINK,
-				attributes.password,
+				password,
 				attributes.permissions,
 				this.fileInfoModel.get('name'),
 				attributes.expiration,
@@ -208,6 +214,7 @@
 		 */
 		setPassword: function(password) {
 			this.get('linkShare').password = password;
+			this.get('linkShare').passwordChanged = true;
 		},
 
 		addShare: function(attributes, options) {
