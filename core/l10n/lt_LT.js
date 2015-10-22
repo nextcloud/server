@@ -14,7 +14,6 @@ OC.L10N.register(
     "Repair error: " : "Taisymo klaida:",
     "Set log level to debug - current level: \"%s\"" : "Nustatykite žurnalų lygį į derinimas - dabar \"%s\"",
     "Reset log level to  \"%s\"" : "Atkurkite žurnalų lygį į \"%s\"",
-    "Following incompatible apps have been disabled: %s" : "Nesudarinami įskiepiai buvo išjungti: %s",
     "Following apps have been disabled: %s" : "Išjungti įskiepiai: %s",
     "Already up to date" : "Jau naujausia",
     "File is too big" : "Per didelis failas",

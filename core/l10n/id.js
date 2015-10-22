@@ -15,7 +15,6 @@ OC.L10N.register(
     "Repair error: " : "Kesalahan perbaikan:",
     "Set log level to debug - current level: \"%s\"" : "Atur level log untuk debug - level saat ini: \"%s\"",
     "Reset log level to  \"%s\"" : "Atur ulang level log menjadi \"%s\"",
-    "Following incompatible apps have been disabled: %s" : "Aplikasi tidak kompatibel berikut telah dinonaktifkan: %s",
     "Following apps have been disabled: %s" : "Aplikasi berikut telah dinonaktifkan: %s",
     "Already up to date" : "Sudah yang terbaru",
     "File is too big" : "Berkas terlalu besar",

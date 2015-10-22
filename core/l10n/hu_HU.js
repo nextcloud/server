@@ -15,7 +15,6 @@ OC.L10N.register(
     "Repair error: " : "Javítás hiba:",
     "Set log level to debug - current level: \"%s\"" : "Hibakeresési naplózási szint beállítása - jelenlegi szint: \"%s\"",
     "Reset log level to  \"%s\"" : "Naplózási szint visszaállítása \"%s\"-re",
-    "Following incompatible apps have been disabled: %s" : "A következő nem kompatibilis applikációk lettek tiltva: %s",
     "Following apps have been disabled: %s" : "A következő applikációk lettek tiltva: %s",
     "Already up to date" : "Már a legfrissebb változat",
     "File is too big" : "A fájl túl nagy",

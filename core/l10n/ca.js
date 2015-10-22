@@ -12,7 +12,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Actualitzat \"%s\" a %s",
     "Repair warning: " : "Advertiment de reparació:",
     "Repair error: " : "Error de reparació:",
-    "Following incompatible apps have been disabled: %s" : "Les següents apps incompatibles s'han deshabilitat: %s",
     "Following apps have been disabled: %s" : "Les aplicacions següents s'han deshabilitat: %s",
     "Already up to date" : "Ja actualitzat",
     "File is too big" : "El fitxer és massa gran",

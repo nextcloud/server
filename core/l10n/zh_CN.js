@@ -14,7 +14,6 @@ OC.L10N.register(
     "Repair error: " : "修复错误：",
     "Set log level to debug - current level: \"%s\"" : "设置日志级别为 调试 - 目前级别：%s",
     "Reset log level to  \"%s\"" : "重设日志级别为 \"%s\"",
-    "Following incompatible apps have been disabled: %s" : "下列不兼容应用已经被禁用：%s",
     "Following apps have been disabled: %s" : "下列应用已经被禁用：%s",
     "Already up to date" : "已经是最新",
     "File is too big" : "文件太大",

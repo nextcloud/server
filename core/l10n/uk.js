@@ -12,7 +12,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Оновлено \"%s\" до %s",
     "Repair warning: " : "Попередження відновлення:",
     "Repair error: " : "Помилка відновлення:",
-    "Following incompatible apps have been disabled: %s" : "Наступні несумісні додатки були вимкнені: %s",
     "Following apps have been disabled: %s" : "Наступні додатки були вимкнені: %s",
     "Already up to date" : "Актуально",
     "File is too big" : "Файл занадто великий",

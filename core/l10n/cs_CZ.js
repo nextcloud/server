@@ -15,7 +15,6 @@ OC.L10N.register(
     "Repair error: " : "Chyba opravy:",
     "Set log level to debug - current level: \"%s\"" : "Nastavit úroveň logování na debug - aktuální úroveň: \"%s\"",
     "Reset log level to  \"%s\"" : "Vrátit úroveň logování na \"%s\"",
-    "Following incompatible apps have been disabled: %s" : "Následující nekompatibilní aplikace byly zakázány: %s",
     "Following apps have been disabled: %s" : "Následující aplikace byly vypnuty: %s",
     "Already up to date" : "Je již aktuální",
     "File is too big" : "Soubor je příliš velký",

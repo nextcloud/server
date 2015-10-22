@@ -10,7 +10,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Mesa a jorn de « %s » cap a %s",
     "Repair warning: " : "Avertiment de reparacion :",
     "Repair error: " : "Error de reparacion :",
-    "Following incompatible apps have been disabled: %s" : "Las aplicacions incompatiblas seguentas son estadas desactivadas : %s",
     "Invalid file provided" : "Fichièr invalid",
     "No image or file provided" : "Cap de fichièr pas provesit",
     "Unknown filetype" : "Tipe de fichièr desconegut",

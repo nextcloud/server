@@ -12,7 +12,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "已更新 %s 到 %s",
     "Repair warning: " : "修復警告：",
     "Repair error: " : "修復錯誤",
-    "Following incompatible apps have been disabled: %s" : "以下不相容的應用程式已經被停用：%s",
     "Following apps have been disabled: %s" : "以下應用程式已經被停用：%s",
     "Already up to date" : "已經是最新版",
     "File is too big" : "檔案太大",

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "\"%s\" a fost actualizat până la %s",
     "Repair warning: " : "Alerte reparare:",
     "Repair error: " : "Eroare de reparare:",
-    "Following incompatible apps have been disabled: %s" : "Următoarele aplicații incompatibile au fost dezactivate: %s",
     "No image or file provided" : "Nu a fost furnizat vreo imagine sau fișier",
     "Unknown filetype" : "Tip fișier necunoscut",
     "Invalid image" : "Imagine invalidă",

@@ -15,7 +15,6 @@ OC.L10N.register(
     "Repair error: " : "Ошибка восстановления:",
     "Set log level to debug - current level: \"%s\"" : "Установить отладочное журналирование - текущий уровень: \"%s\"",
     "Reset log level to  \"%s\"" : "Сбросить уровень журналирования в \"%s\"",
-    "Following incompatible apps have been disabled: %s" : "Следующие несовместимые приложения были отключены: %s",
     "Following apps have been disabled: %s" : "Были отключены следующие приложения: %s",
     "Already up to date" : "Не нуждается в обновлении",
     "File is too big" : "Файл слишком большой",

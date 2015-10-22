@@ -10,7 +10,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Обновен \"%s\" до %s",
     "Repair warning: " : "Предупреждение при поправка:",
     "Repair error: " : "Грешка при поправка:",
-    "Following incompatible apps have been disabled: %s" : "Следните несъвместими приложения бяха изключени: %s",
     "Invalid file provided" : "Предоставен е невалиден файл",
     "No image or file provided" : "Не бяха доставени картинка или файл",
     "Unknown filetype" : "Непознат файлов тип",

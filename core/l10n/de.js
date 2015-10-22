@@ -15,7 +15,6 @@ OC.L10N.register(
     "Repair error: " : "Reperaturfehler:",
     "Set log level to debug - current level: \"%s\"" : "Log-Level auf Debug gesetzt - aktuelles Level: \"%s\"",
     "Reset log level to  \"%s\"" : "Log-Level auf \"%s\" zurückgesetzt",
-    "Following incompatible apps have been disabled: %s" : "Die folgenden inkompatiblen Apps sind deaktiviert worden: %s",
     "Following apps have been disabled: %s" : "Die folgenden Apps sind deaktiviert worden: %s",
     "Already up to date" : "Bereits aktuell",
     "File is too big" : "Datei ist zu groß",

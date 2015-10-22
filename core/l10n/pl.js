@@ -10,7 +10,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Zaktualizowano \"%s\" do %s",
     "Repair warning: " : "Ostrzeżenie naprawiania:",
     "Repair error: " : "Błąd naprawiania:",
-    "Following incompatible apps have been disabled: %s" : "Poniższe niezgodne aplikacje zostały wyłączone: %s",
     "Invalid file provided" : "Podano błędny plik",
     "No image or file provided" : "Brak obrazu lub pliku dostarczonego",
     "Unknown filetype" : "Nieznany typ pliku",

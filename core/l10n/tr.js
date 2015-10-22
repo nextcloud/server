@@ -15,7 +15,6 @@ OC.L10N.register(
     "Repair error: " : "Onarım hatası:",
     "Set log level to debug - current level: \"%s\"" : "Günlük seviyesini hata ayıklamaya ayarla - geçerli seviye: \"%s\"",
     "Reset log level to  \"%s\"" : "Günlük seviyesini \"%s\" olarak sıfırla",
-    "Following incompatible apps have been disabled: %s" : "Aşağıdaki uyumsuz uygulamalar devre dışı bırakıldı: %s",
     "Following apps have been disabled: %s" : "Aşağıdaki uygulamalar devre dışı bırakıldı: %s",
     "Already up to date" : "Zaten güncel",
     "File is too big" : "Dosya çok büyük",

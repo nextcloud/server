@@ -12,7 +12,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "„%s“ ажириран на %s",
     "Repair warning: " : "Упозорење о поправци :",
     "Repair error: " : "Грешка поправке:",
-    "Following incompatible apps have been disabled: %s" : "Следеће неусаглашене апликације су искључене: %s",
     "Following apps have been disabled: %s" : "Следеће апликације су искључене: %s",
     "File is too big" : "Фајл је превелик",
     "Invalid file provided" : "Понуђени фајл је неисправан",

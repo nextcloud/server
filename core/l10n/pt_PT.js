@@ -12,7 +12,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Atualizado \"%s\" para %s",
     "Repair warning: " : "Aviso de reparação:",
     "Repair error: " : "Corrija o erro:",
-    "Following incompatible apps have been disabled: %s" : "As seguintes apps incompatíveis foram desativadas: %s",
     "Following apps have been disabled: %s" : "As seguintes apps foram desativadas: %s",
     "Already up to date" : "Já está atualizado",
     "File is too big" : "O ficheiro é muito grande",

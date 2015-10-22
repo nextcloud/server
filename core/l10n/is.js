@@ -12,7 +12,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Uppfært \\\"%s\\\" to %s",
     "Repair warning: " : "Viðgerðar viðvörun:",
     "Repair error: " : "Viðgerðar villa:",
-    "Following incompatible apps have been disabled: %s" : "Eftirfarandi forrit eru ósamhæfð hafa verið gerð óvirk: %s",
     "Following apps have been disabled: %s" : "Eftirfarandi forrit hafa verið gerð óvirk: %s",
     "Already up to date" : "Allt uppfært nú þegar",
     "File is too big" : "Skrá er of stór",

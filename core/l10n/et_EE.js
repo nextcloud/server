@@ -11,7 +11,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Uuendatud \"%s\" -> %s",
     "Repair warning: " : "Paranda hoiatus:",
     "Repair error: " : "Paranda viga:",
-    "Following incompatible apps have been disabled: %s" : "Järgnevad mitteühilduvad rakendused on välja lülitatud: %s",
     "Following apps have been disabled: %s" : "Järgnevad rakendused on välja lülitatud: %s",
     "Already up to date" : "On juba ajakohane",
     "File is too big" : "Fail on liiga suur",
