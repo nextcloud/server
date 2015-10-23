@@ -86,6 +86,15 @@ class FeatureContext extends BehatContext {
 	}
 
 	/**
+	 * Parses the xml answer to get the array of apps returned.
+	 */
+	public function getArrayOfAppsResponded($resp) {
+		$listCheckedElements = $resp->xml()->data[0]->apps[0]->element;
+		$extractedElementsArray = json_decode(json_encode($listCheckedElements), 1);
+		return $extractedElementsArray;
+	}
+
+	/**
 	 * This function is needed to use a vertical fashion in the gherkin tables.
 	 */
 	public function simplifyArray($arrayOfArrays){
@@ -141,6 +150,20 @@ class FeatureContext extends BehatContext {
 	 */
 	public function theSubadminUsersShouldBe($groupsList) {
 		$this->theSubadminGroupsShouldBe($groupsList);
+	}
+
+	/**
+	 * @Then /^apps returned are$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 */
+	public function theAppsShouldBe($appList) {
+		if ($appList instanceof \Behat\Gherkin\Node\TableNode) {
+			$apps = $appList->getRows();
+			$appsSimplified = $this->simplifyArray($apps);
+			$respondedArray = $this->getArrayOfAppsResponded($this->response);
+			PHPUnit_Framework_Assert::assertEquals($appsSimplified, $respondedArray, "", 0.0, 10, true);
+		}
+
 	}
 
 	/**
@@ -276,6 +299,40 @@ class FeatureContext extends BehatContext {
 	}
 
 	/**
+	 * @Given /^app "([^"]*)" is disabled$/
+	 */
+	public function appIsDisabled($app) {
+		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=disabled";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->get($fullUrl, $options);
+		$respondedArray = $this->getArrayOfAppsResponded($this->response);
+		PHPUnit_Framework_Assert::assertContains($app, $respondedArray);
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+	/**
+	 * @Given /^app "([^"]*)" is enabled$/
+	 */
+	public function appIsEnabled($app) {
+		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=enabled";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->get($fullUrl, $options);
+		$respondedArray = $this->getArrayOfAppsResponded($this->response);
+		PHPUnit_Framework_Assert::assertContains($app, $respondedArray);
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+	/**
 	 * @When /^creating the user "([^"]*)r"$/
 	 */
 	public function creatingTheUser($user) {
@@ -352,7 +409,7 @@ class FeatureContext extends BehatContext {
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
 		} else {
-			$options['auth'] = $this->regularUser;
+			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
 			$fd = $body->getRowsHash();
