@@ -49,7 +49,7 @@ class Crypt {
 	 */
 	private $logger;
 	/**
-	 * @var IUser
+	 * @var string
 	 */
 	private $user;
 	/**
@@ -64,7 +64,7 @@ class Crypt {
 	 */
 	public function __construct(ILogger $logger, IUserSession $userSession, IConfig $config) {
 		$this->logger = $logger;
-		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser() : false;
+		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : '"no user given"';
 		$this->config = $config;
 	}
 
@@ -79,7 +79,7 @@ class Crypt {
 		$res = $this->getOpenSSLPKey();
 
 		if (!$res) {
-			$log->error("Encryption Library couldn't generate users key-pair for {$this->user->getUID()}",
+			$log->error("Encryption Library couldn't generate users key-pair for {$this->user}",
 				['app' => 'encryption']);
 
 			if (openssl_error_string()) {
@@ -98,7 +98,7 @@ class Crypt {
 				'privateKey' => $privateKey
 			];
 		}
-		$log->error('Encryption library couldn\'t export users private key, please check your servers OpenSSL configuration.' . $this->user->getUID(),
+		$log->error('Encryption library couldn\'t export users private key, please check your servers OpenSSL configuration.' . $this->user,
 			['app' => 'encryption']);
 		if (openssl_error_string()) {
 			$log->error('Encryption Library:' . openssl_error_string(),
