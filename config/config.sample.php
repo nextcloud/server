@@ -466,6 +466,14 @@ $CONFIG = array(
 'loglevel' => 2,
 
 /**
+ * If you maintain different instances and aggregate the logs, you may want
+ * to distinguish between them. ``syslog_tag`` can be set per instance
+ * with a unique id. Only available if ``log_type`` is set to ``syslog``.
+ * The default value is ``ownCloud``.
+ */
+'syslog_tag' => 'ownCloud',
+
+/**
  * Log condition for log level increase based on conditions. Once one of these
  * conditions is met, the required log level is set to debug. This allows to
  * debug specific requests, users or apps
