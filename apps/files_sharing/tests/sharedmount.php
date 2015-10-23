@@ -372,6 +372,85 @@ class Test_Files_Sharing_Mount extends OCA\Files_sharing\Tests\TestCase {
 		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
 	}
 
+	/**
+	 * If the permissions on a group share are upgraded be sure to still respect 
+	 * removed shares by a member of that group
+	 */
+	function testPermissionUpgradeOnUserDeletedGroupShare() {
+		\OC_Group::createGroup('testGroup');
+		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER1, 'testGroup');
+		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
+		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
+
+		$connection = \OC::$server->getDatabaseConnection();
+
+		// Share item with group
+		$fileinfo = $this->view->getFileInfo($this->folder);
+		$this->assertTrue(
+			\OCP\Share::shareItem('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,	"testGroup", \OCP\Constants::PERMISSION_READ)
+		);
+
+		// Login as user 2 and verify the item exists
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->folder));
+		$result = \OCP\Share::getItemSharedWithBySource('folder', $fileinfo['fileid']);
+		$this->assertNotEmpty($result);
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $result['permissions']);
+
+		// Delete the share
+		$this->assertTrue(\OC\Files\Filesystem::rmdir($this->folder));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->folder));
+
+		// Verify we do not get a share
+		$result = \OCP\Share::getItemSharedWithBySource('folder', $fileinfo['fileid']);
+		$this->assertEmpty($result);
+
+		// Verify that the permission is correct in the DB
+		$qb = $connection->getQueryBuilder();
+		$qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('file_source', $qb->createParameter('fileSource')))
+			->andWhere($qb->expr()->eq('share_type', $qb->createParameter('shareType')))
+			->setParameter(':fileSource', $fileinfo['fileid'])
+			->setParameter(':shareType', 2);
+		$res = $qb->execute()->fetchAll();
+
+		$this->assertCount(1, $res);
+		$this->assertEquals(0, $res[0]['permissions']);
+
+		// Login as user 1 again and change permissions
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->assertTrue(
+			\OCP\Share::setPermissions('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, "testGroup", \OCP\Constants::PERMISSION_ALL)
+		);
+
+		// Login as user 2 and verify 
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->folder));
+		$result = \OCP\Share::getItemSharedWithBySource('folder', $fileinfo['fileid']);
+		$this->assertEmpty($result);
+
+		$connection = \OC::$server->getDatabaseConnection();
+		$qb = $connection->getQueryBuilder();
+		$qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('file_source', $qb->createParameter('fileSource')))
+			->andWhere($qb->expr()->eq('share_type', $qb->createParameter('shareType')))
+			->setParameter(':fileSource', $fileinfo['fileid'])
+			->setParameter(':shareType', 2);
+		$res = $qb->execute()->fetchAll();
+
+		$this->assertCount(1, $res);
+		$this->assertEquals(0, $res[0]['permissions']);
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, 'testGroup');
+		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER1, 'testGroup');
+		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
+		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
+	}
+
 }
 
 class DummyTestClassSharedMount extends \OCA\Files_Sharing\SharedMount {
