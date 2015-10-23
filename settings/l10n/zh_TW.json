@@ -127,6 +127,7 @@
     "Download logfile" : "下載記錄檔",
     "More" : "更多",
     "Less" : "更少",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "若使用桌面版程式同步檔案，不建議使用 SQLite",
     "How to do backups" : "如何備份",
     "Advanced monitoring" : "進階監控",
     "Performance tuning" : "效能調校",

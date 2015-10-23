@@ -40,6 +40,7 @@ OC.L10N.register(
     "This share is password-protected" : "Den här delningen är lösenordsskyddad",
     "The password is wrong. Try again." : "Lösenordet är fel. Försök igen.",
     "Password" : "Lösenord",
+    "No entries found in this folder" : "nga Filer hittades i denna mapp",
     "Name" : "Namn",
     "Share time" : "Delningstid",
     "Sorry, this link doesn’t seem to work anymore." : "Tyvärr, denna länk verkar inte fungera längre.",
