@@ -30,12 +30,29 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use Exception;
+use OCP\ISession;
+use OCP\IUserSession;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\ServiceUnavailable;
 
 class Auth extends AbstractBasic {
 	const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
+
+	/** @var ISession */
+	private $session;
+	/** @var IUserSession */
+	private $userSession;
+
+	/**
+	 * @param ISession $session
+	 * @param IUserSession $userSession
+	 */
+	public function __construct(ISession $session,
+								IUserSession $userSession) {
+		$this->session = $session;
+		$this->userSession = $userSession;
+	}
 
 	/**
 	 * Whether the user has initially authenticated via DAV
@@ -49,8 +66,8 @@ class Auth extends AbstractBasic {
 	 * @return bool
 	 */
 	protected function isDavAuthenticated($username) {
-		return !is_null(\OC::$server->getSession()->get(self::DAV_AUTHENTICATED)) &&
-		\OC::$server->getSession()->get(self::DAV_AUTHENTICATED) === $username;
+		return !is_null($this->session->get(self::DAV_AUTHENTICATED)) &&
+		$this->session->get(self::DAV_AUTHENTICATED) === $username;
 	}
 
 	/**
@@ -64,24 +81,21 @@ class Auth extends AbstractBasic {
 	 * @return bool
 	 */
 	protected function validateUserPass($username, $password) {
-		if (\OC_User::isLoggedIn() &&
-			$this->isDavAuthenticated(\OC_User::getUser())
+		if ($this->userSession->isLoggedIn() &&
+			$this->isDavAuthenticated($this->userSession->getUser()->getUID())
 		) {
-			\OC_Util::setupFS(\OC_User::getUser());
-			\OC::$server->getSession()->close();
+			\OC_Util::setupFS($this->userSession->getUser()->getUID());
+			$this->session->close();
 			return true;
 		} else {
 			\OC_Util::setUpFS(); //login hooks may need early access to the filesystem
-			if(\OC_User::login($username, $password)) {
-			        // make sure we use ownCloud's internal username here
-			        // and not the HTTP auth supplied one, see issue #14048
-			        $ocUser = \OC_User::getUser();
-				\OC_Util::setUpFS($ocUser);
-				\OC::$server->getSession()->set(self::DAV_AUTHENTICATED, $ocUser);
-				\OC::$server->getSession()->close();
+			if($this->userSession->login($username, $password)) {
+				\OC_Util::setUpFS($this->userSession->getUser()->getUID());
+				$this->session->set(self::DAV_AUTHENTICATED, $this->userSession->getUser()->getUID());
+				$this->session->close();
 				return true;
 			} else {
-				\OC::$server->getSession()->close();
+				$this->session->close();
 				return false;
 			}
 		}
@@ -95,10 +109,15 @@ class Auth extends AbstractBasic {
 	 * @return string|null
 	 */
 	public function getCurrentUser() {
-		$user = \OC_User::getUser();
-		if($user && $this->isDavAuthenticated($user)) {
+		$user = $this->userSession->getUser() ? $this->userSession->getUser()->getUID() : null;
+		if($user !== null && $this->isDavAuthenticated($user)) {
 			return $user;
 		}
+
+		if($user !== null && is_null($this->session->get(self::DAV_AUTHENTICATED))) {
+			return $user;
+		}
+
 		return null;
 	}
 
@@ -114,9 +133,9 @@ class Auth extends AbstractBasic {
 	 * @param string $realm
 	 * @return bool
 	 * @throws ServiceUnavailable
+	 * @throws NotAuthenticated
 	 */
 	public function authenticate(\Sabre\DAV\Server $server, $realm) {
-
 		try {
 			$result = $this->auth($server, $realm);
 			return $result;
@@ -136,12 +155,12 @@ class Auth extends AbstractBasic {
 	 */
 	private function auth(\Sabre\DAV\Server $server, $realm) {
 		if (\OC_User::handleApacheAuth() ||
-			(\OC_User::isLoggedIn() && is_null(\OC::$server->getSession()->get(self::DAV_AUTHENTICATED)))
+			($this->userSession->isLoggedIn() && is_null($this->session->get(self::DAV_AUTHENTICATED)))
 		) {
-			$user = \OC_User::getUser();
+			$user = $this->userSession->getUser()->getUID();
 			\OC_Util::setupFS($user);
 			$this->currentUser = $user;
-			\OC::$server->getSession()->close();
+			$this->session->close();
 			return true;
 		}
 
