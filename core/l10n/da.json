@@ -249,7 +249,6 @@
     "Please try again or contact your administrator." : "Kontakt venligst din administrator.",
     "Log in" : "Log ind",
     "Wrong password. Reset it?" : "Forkert kodeord. Skal det nulstilles?",
-    "remember" : "husk",
     "Alternative Logins" : "Alternative logins",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej med dig,<br><br>Dette er blot for at informere dig om, at %s har delt <strong>%s</strong> med dig.<br><a href=\"%s\">Se det her!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Denne ownCloud instans er lige nu i enkeltbruger tilstand.",

@@ -252,7 +252,6 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Lütfen yeniden deneyin veya yöneticinizle iletişim kurun.",
     "Log in" : "Giriş yap",
     "Wrong password. Reset it?" : "Hatalı parola. Sıfırlansın mı?",
-    "remember" : "hatırla",
     "Alternative Logins" : "Alternatif Girişler",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Merhaba, <br><br>%s kullanıcısının sizinle <strong>%s</strong> paylaşımında bulunduğunu bildirmek istedik.<br><a href=\"%s\">Paylaşımı gör!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Bu ownCloud örneği şu anda tek kullanıcı kipinde.",

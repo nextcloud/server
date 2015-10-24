@@ -260,7 +260,6 @@
     "Please try again or contact your administrator." : "Ju lutemi, riprovoni ose lidhuni me përgjegjësin tuaj.",
     "Log in" : "Hyni",
     "Wrong password. Reset it?" : "Fjalëkalim i gabuar. Të ricaktohet?",
-    "remember" : "mbaje mend",
     "Alternative Logins" : "Hyrje Alternative",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Njatjeta,<br><br>thjesht po ju bëjmë të ditur që %s ndau me ju <strong>%s</strong>.<br><a href=\"%s\">Shiheni!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Kjo instancë ownCloud është aktualisht në gjendje me përdorues të vetëm.",

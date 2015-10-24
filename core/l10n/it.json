@@ -260,7 +260,6 @@
     "Please try again or contact your administrator." : "Prova ancora o contatta il tuo amministratore.",
     "Log in" : "Accedi",
     "Wrong password. Reset it?" : "Password errata. Vuoi reimpostarla?",
-    "remember" : "ricorda",
     "Alternative Logins" : "Accessi alternativi",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Ciao,<br><br>volevo informarti che %s ha condiviso <strong>%s</strong> con te.<br><a href=\"%s\">Guarda!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Questa istanza di ownCloud è in modalità utente singolo.",

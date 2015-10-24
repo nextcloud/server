@@ -260,7 +260,6 @@
     "Please try again or contact your administrator." : "Yritä uudestaan tai ota yhteys ylläpitäjään.",
     "Log in" : "Kirjaudu sisään",
     "Wrong password. Reset it?" : "Väärä salasana. Haluatko palauttaa salasanan?",
-    "remember" : "muista",
     "Alternative Logins" : "Vaihtoehtoiset kirjautumiset",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hei!<br><br>%s jakoi kanssasi kohteen <strong>%s</strong>.<br><a href=\"%s\">Tutustu siihen!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Tämä ownCloud-asennus on parhaillaan single user -tilassa.",

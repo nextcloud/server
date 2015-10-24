@@ -102,7 +102,6 @@ OC.L10N.register(
     "Log out" : "გამოსვლა",
     "Search" : "ძებნა",
     "Log in" : "შესვლა",
-    "remember" : "დამახსოვრება",
     "Alternative Logins" : "ალტერნატიული Login–ი"
 },
 "nplurals=1; plural=0;");

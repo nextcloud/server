@@ -103,7 +103,6 @@ OC.L10N.register(
     "Log out" : "התנתקות",
     "Search" : "חיפוש",
     "Log in" : "כניסה",
-    "remember" : "שמירת הססמה",
     "Alternative Logins" : "כניסות אלטרנטיביות"
 },
 "nplurals=2; plural=(n != 1);");

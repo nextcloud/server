@@ -119,7 +119,6 @@ OC.L10N.register(
     "Log out" : "Izrakstīties",
     "Search" : "Meklēt",
     "Log in" : "Ierakstīties",
-    "remember" : "atcerēties",
     "Alternative Logins" : "Alternatīvās pieteikšanās"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

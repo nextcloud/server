@@ -75,7 +75,6 @@ OC.L10N.register(
     "Finish setup" : "Setup selesai",
     "Log out" : "Log keluar",
     "Search" : "Cari",
-    "Log in" : "Log masuk",
-    "remember" : "ingat"
+    "Log in" : "Log masuk"
 },
 "nplurals=1; plural=0;");

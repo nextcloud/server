@@ -254,7 +254,6 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Παρακαλώ δοκιμάστε ξανά ή επικοινωνήστε με τον διαχειριστή σας.",
     "Log in" : "Είσοδος",
     "Wrong password. Reset it?" : "Λάθος Κωδικός. Επαναφορά;",
-    "remember" : "απομνημόνευση",
     "Alternative Logins" : "Εναλλακτικές Συνδέσεις",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Γειά χαρά,<br><br>απλά σας ενημερώνω πως ο %s μοιράστηκε το<strong>%s</strong> με εσάς.<br><a href=\"%s\">Δείτε το!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Αυτή η εγκατάσταση ownCloud είναι τώρα σε κατάσταση ενός χρήστη.",

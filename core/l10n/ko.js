@@ -255,7 +255,6 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "다시 시도하거나 관리자에게 연락하십시오.",
     "Log in" : "로그인",
     "Wrong password. Reset it?" : "암호가 잘못되었습니다. 다시 설정하시겠습니까?",
-    "remember" : "기억하기",
     "Alternative Logins" : "대체 로그인",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "안녕하세요,<br><br>%s 님이 <strong>%s</strong>을(를) 공유하였음을 알려 드립니다.<br><a href=\"%s\">보러 가기!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "ownCloud 인스턴스가 현재 단일 사용자 모드로 동작 중입니다.",

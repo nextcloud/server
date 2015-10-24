@@ -149,7 +149,6 @@ OC.L10N.register(
     "Server side authentication failed!" : "¡Falló la autenticación del servidor!",
     "Please contact your administrator." : "Por favor, contacte a su administrador.",
     "Log in" : "Iniciar sesión",
-    "remember" : "recordame",
     "Alternative Logins" : "Nombre alternativos de usuarios",
     "This ownCloud instance is currently in single user mode." : "Esta instancia de ownCloud está en modo de usuario único.",
     "This means only administrators can use the instance." : "Esto significa que solo administradores pueden usar esta instancia.",

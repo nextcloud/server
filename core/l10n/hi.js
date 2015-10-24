@@ -45,7 +45,6 @@ OC.L10N.register(
     "Database password" : "डेटाबेस पासवर्ड",
     "Database name" : "डेटाबेस का नाम",
     "Finish setup" : "सेटअप समाप्त करे",
-    "Log out" : "लोग  आउट",
-    "remember" : "याद रखें"
+    "Log out" : "लोग  आउट"
 },
 "nplurals=2; plural=(n != 1);");

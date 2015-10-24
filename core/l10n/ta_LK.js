@@ -92,7 +92,6 @@ OC.L10N.register(
     "Finish setup" : "அமைப்பை முடிக்க",
     "Log out" : "விடுபதிகை செய்க",
     "Search" : "தேடுதல்",
-    "Log in" : "புகுபதிகை",
-    "remember" : "ஞாபகப்படுத்துக"
+    "Log in" : "புகுபதிகை"
 },
 "nplurals=2; plural=(n != 1);");

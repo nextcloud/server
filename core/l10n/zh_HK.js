@@ -68,7 +68,6 @@ OC.L10N.register(
     "Database name" : "資料庫名稱",
     "Log out" : "登出",
     "Search" : "尋找",
-    "Log in" : "登入",
-    "remember" : "記住"
+    "Log in" : "登入"
 },
 "nplurals=1; plural=0;");

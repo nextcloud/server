@@ -81,7 +81,6 @@ OC.L10N.register(
     "Finish setup" : "ස්ථාපනය කිරීම අවසන් කරන්න",
     "Log out" : "නික්මීම",
     "Search" : "සොයන්න",
-    "Log in" : "ප්‍රවේශවන්න",
-    "remember" : "මතක තබාගන්න"
+    "Log in" : "ප්‍රවේශවන්න"
 },
 "nplurals=2; plural=(n != 1);");

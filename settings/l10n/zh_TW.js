@@ -98,6 +98,7 @@ OC.L10N.register(
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "未偵測到 PHP 模組 'fileinfo'。我們強烈建議啟用這個模組以取得最好的 mime-type 支援。",
     "System locale can not be set to a one which supports UTF-8." : "系統語系無法設定只支援 UTF-8",
     "This means that there might be problems with certain characters in file names." : "這個意思是指在檔名中使用一些字元可能會有問題",
+    "Open documentation" : "開啟文件",
     "Allow apps to use the Share API" : "允許 apps 使用分享 API",
     "Enforce password protection" : "強制分享連結使用密碼保護",
     "Allow public uploads" : "允許任何人上傳",
