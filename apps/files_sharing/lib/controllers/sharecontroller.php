@@ -333,8 +333,7 @@ class ShareController extends Controller {
 				OC_Util::tearDownFS();
 				OC_Util::setupFS($rootLinkItem['uid_owner']);
 				$path = Filesystem::getPath($linkItem['file_source']);
-
-				if(!empty($path) && Filesystem::isReadable($path)) {
+				if(Filesystem::isReadable($path)) {
 					return $path;
 				}
 			}

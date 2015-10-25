@@ -62,6 +62,7 @@ use OC\Cache\File;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Storage\StorageFactory;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\NotFoundException;
 use OCP\IUserManager;
 
 class Filesystem {
@@ -855,7 +856,7 @@ class Filesystem {
 	 * @param string $path
 	 * @param boolean $includeMountPoints whether to add mountpoint sizes,
 	 * defaults to true
-	 * @return \OC\Files\FileInfo
+	 * @return \OC\Files\FileInfo|bool False if file does not exist
 	 */
 	public static function getFileInfo($path, $includeMountPoints = true) {
 		return self::$defaultInstance->getFileInfo($path, $includeMountPoints);
@@ -891,6 +892,7 @@ class Filesystem {
 	 * Note that the resulting path is not guaranteed to be unique for the id, multiple paths can point to the same file
 	 *
 	 * @param int $id
+	 * @throws NotFoundException
 	 * @return string
 	 */
 	public static function getPath($id) {

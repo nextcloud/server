@@ -78,12 +78,12 @@ class OC_Hook{
 	 * @param string $signalName name of signal
 	 * @param mixed $params default: array() array with additional data
 	 * @return bool true if slots exists or false if not
-	 *
+	 * @throws \OC\ServerNotAvailableException
 	 * Emits a signal. To get data from the slot use references!
 	 *
 	 * TODO: write example
 	 */
-	static public function emit($signalClass, $signalName, $params = array()) {
+	static public function emit($signalClass, $signalName, $params = []) {
 
 		// Return false if no hook handlers are listening to this
 		// emitting class

@@ -199,8 +199,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No file found belonging to file.
+	 * @expectedException \OCP\Files\NotFoundException
 	 */
 	public function testShowShareWithDeletedFile() {
 		$this->container['UserManager']->expects($this->once())
@@ -216,8 +215,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No file found belonging to file.
+	 * @expectedException \OCP\Files\NotFoundException
 	 */
 	public function testDownloadShareWithDeletedFile() {
 		$this->container['UserManager']->expects($this->once())
