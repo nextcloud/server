@@ -31,12 +31,9 @@ namespace OC;
 use \OCP\AutoloadNotAllowedException;
 
 class Autoloader {
+	/** @var bool */
 	private $useGlobalClassPath = true;
-
-	private $prefixPaths = array();
-
-	private $classPaths = array();
-
+	/** @var array */
 	private $validRoots = [];
 
 	/**
@@ -91,9 +88,7 @@ class Autoloader {
 		$class = trim($class, '\\');
 
 		$paths = array();
-		if (array_key_exists($class, $this->classPaths)) {
-			$paths[] = $this->classPaths[$class];
-		} else if ($this->useGlobalClassPath and array_key_exists($class, \OC::$CLASSPATH)) {
+		if ($this->useGlobalClassPath && array_key_exists($class, \OC::$CLASSPATH)) {
 			$paths[] = \OC::$CLASSPATH[$class];
 			/**
 			 * @TODO: Remove this when necessary
@@ -129,6 +124,10 @@ class Autoloader {
 		return $paths;
 	}
 
+	/**
+	 * @param string $fullPath
+	 * @return bool
+	 */
 	protected function isValidPath($fullPath) {
 		foreach ($this->validRoots as $root => $true) {
 			if (substr($fullPath, 0, strlen($root) + 1) === $root . '/') {
