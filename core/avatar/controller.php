@@ -92,7 +92,7 @@ class Controller {
 				}
 			}
 		} catch (\Exception $e) {
-			\OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
+			\OC_JSON::error(array("data" => array("message" => "An error occurred. Please contact your admin." )));
 		}
 	}
 
@@ -107,7 +107,7 @@ class Controller {
 			$avatar->remove();
 			\OC_JSON::success();
 		} catch (\Exception $e) {
-			\OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
+			\OC_JSON::error(array("data" => array("message" => "An error occurred. Please contact your admin.") ));
 		}
 	}
 
@@ -158,7 +158,7 @@ class Controller {
 			\OC\Cache::remove('tmpavatar');
 			\OC_JSON::success();
 		} catch (\Exception $e) {
-			\OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
+			\OC_JSON::error(array("data" => array("message" => "An error occurred. Please contact your admin.") ));
 		}
 	}
 }
