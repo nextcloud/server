@@ -254,6 +254,7 @@
     "Please try again or contact your administrator." : "Por favor reintente nuevamente o contáctese con su administrador.",
     "Log in" : "Ingresar",
     "Wrong password. Reset it?" : "Contraseña incorrecta. ¿Restablecerla?",
+    "Stay logged in" : "Permanecer autentificado",
     "Alternative Logins" : "Inicios de sesión alternativos",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hola:<br><br>Te comentamos que %s compartió <strong>%s</strong> contigo.<br><a href=\"%s\">¡Échale un vistazo!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Esta instalación de ownCloud se encuentra en modo de usuario único.",

@@ -31,6 +31,7 @@ OC.L10N.register(
     "Enabled" : "有効なアプリ",
     "Not enabled" : "無効なアプリ",
     "Federated Cloud Sharing" : "統合されたクラウド共有",
+    "cURL is using an outdated %s version (%s). Please update your operating system or features such as %s will not work reliably." : "%s バージョン (%s) の古い cURL を使っています。OSを更新するか、この機能 %s が正しく動くアプリに更新してください。",
     "A problem occurred, please check your log files (Error: %s)" : "問題が発生しました。ログファイルを確認してください。(Error: %s)",
     "Migration Completed" : "移行が完了しました",
     "Group already exists." : "グループはすでに存在しています",

@@ -156,6 +156,7 @@ OC.L10N.register(
     "Use system's cron service to call the cron.php file every 15 minutes." : "Usar el servicio cron del sistema para llamar al archivo cron.php cada 15 minutos.",
     "Enable server-side encryption" : "Habilitar cifrado en el servidor",
     "Please read carefully before activating server-side encryption: " : "Por favor lea cuidadosamente antes de activar el cifrado del lado del servidor.",
+    "Be aware that encryption always increases the file size." : "Tenga presente que la encripción siempre incrementa el tamaño del archivo.",
     "This is the final warning: Do you really want to enable encryption?" : "Esta es la advertencia final. ¿Realmente quiere activar el cifrado?",
     "Enable encryption" : "Habilitar cifrado",
     "No encryption module loaded, please enable an encryption module in the app menu." : "No se ha cargado el modulo de cifrado. Por favor habilite un modulo de cifrado en el menú de aplicaciones.",
