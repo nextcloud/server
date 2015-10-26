@@ -151,8 +151,9 @@
 		},
 
 		onLinkTextClick: function() {
-			this.focus();
-			this.select();
+			var $el = this.$el.find('.linkText');
+			$el.focus();
+			$el.select();
 		},
 
 		onShowPasswordClick: function() {
