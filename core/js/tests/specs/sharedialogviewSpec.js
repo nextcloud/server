@@ -146,7 +146,8 @@ describe('OC.Share.ShareDialogView', function() {
 
 			expect(fakeServer.requests[1].method).toEqual('POST');
 			var body = OC.parseQueryString(fakeServer.requests[1].requestBody);
-			expect(body.shareWith).toEqual('foo');
+			expect(body['shareWith[password]']).toEqual('foo');
+			expect(body['shareWith[passwordChanged]']).toEqual('true');
 
 			fetchStub.reset();
 
@@ -185,7 +186,8 @@ describe('OC.Share.ShareDialogView', function() {
 
 			expect(fakeServer.requests[1].method).toEqual('POST');
 			var body = OC.parseQueryString(fakeServer.requests[1].requestBody);
-			expect(body.shareWith).toEqual('foo');
+			expect(body['shareWith[password]']).toEqual('foo');
+			expect(body['shareWith[passwordChanged]']).toEqual('true');
 
 			fetchStub.reset();
 

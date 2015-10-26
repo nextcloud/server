@@ -48,9 +48,28 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					$shareType = (int)$_POST['shareType'];
 					$shareWith = $_POST['shareWith'];
 					$itemSourceName = isset($_POST['itemSourceName']) ? (string)$_POST['itemSourceName'] : null;
-					if ($shareType === OCP\Share::SHARE_TYPE_LINK && $shareWith == '') {
-						$shareWith = null;
+
+					/*
+					 * Nasty nasty fix for https://github.com/owncloud/core/issues/19950
+					 */
+					$passwordChanged = null;
+					if (is_array($shareWith)) {
+						$passwordChanged = ($shareWith['passwordChanged'] === 'true');
+						if ($shareType === OCP\Share::SHARE_TYPE_LINK && $shareWith['password'] === '') {
+							$shareWith = null;
+						} else {
+							$shareWith = $shareWith['password'];
+						}
+					} else {
+						/*
+						 * We need this branch since the calendar and contacts also use this
+						 * endpoint
+						 */
+						if ($shareType === OCP\Share::SHARE_TYPE_LINK && $shareWith === '') {
+							$shareWith = null;
+						}
 					}
+
  					$itemSourceName=(isset($_POST['itemSourceName'])) ? (string)$_POST['itemSourceName']:'';
 
 					$token = OCP\Share::shareItem(
@@ -60,7 +79,8 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						$shareWith,
 						$_POST['permissions'],
 						$itemSourceName,
-						(!empty($_POST['expirationDate']) ? new \DateTime((string)$_POST['expirationDate']) : null)
+						(!empty($_POST['expirationDate']) ? new \DateTime((string)$_POST['expirationDate']) : null),
+						$passwordChanged
 					);
 
 					if (is_string($token)) {
