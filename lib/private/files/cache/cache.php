@@ -477,6 +477,9 @@ class Cache {
 		list($sourceStorageId, $sourcePath) = $sourceCache->getMoveInfo($sourcePath);
 		list($targetStorageId, $targetPath) = $this->getMoveInfo($targetPath);
 
+		// sql for final update
+		$moveSql = 'UPDATE `*PREFIX*filecache` SET `storage` =  ?, `path` = ?, `path_hash` = ?, `name` = ?, `parent` =? WHERE `fileid` = ?';
+
 		if ($sourceData['mimetype'] === 'httpd/unix-directory') {
 			//find all child entries
 			$sql = 'SELECT `path`, `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path` LIKE ?';
@@ -490,11 +493,12 @@ class Cache {
 				$newTargetPath = $targetPath . substr($child['path'], $sourceLength);
 				\OC_DB::executeAudited($query, [$targetStorageId, $newTargetPath, md5($newTargetPath), $child['fileid']]);
 			}
+			\OC_DB::executeAudited($moveSql, [$targetStorageId, $targetPath, md5($targetPath), basename($targetPath), $newParentId, $sourceId]);
 			\OC_DB::commit();
+		} else {
+			\OC_DB::executeAudited($moveSql, [$targetStorageId, $targetPath, md5($targetPath), basename($targetPath), $newParentId, $sourceId]);
 		}
 
-		$sql = 'UPDATE `*PREFIX*filecache` SET `storage` =  ?, `path` = ?, `path_hash` = ?, `name` = ?, `parent` =? WHERE `fileid` = ?';
-		\OC_DB::executeAudited($sql, [$targetStorageId, $targetPath, md5($targetPath), basename($targetPath), $newParentId, $sourceId]);
 	}
 
 	/**
