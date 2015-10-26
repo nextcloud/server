@@ -40,7 +40,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 
 		var categories = [
-			{displayName: 'Enabled', id: '0'}
+			{displayName: t('settings', 'Enabled'), ident: 'enabled', id: '0'},
+			{displayName: t('settings', 'Not enabled'), ident: 'disabled', id: '1'}
 		];
 
 		var source   = $("#categories-template").html();
@@ -48,7 +49,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		var html = template(categories);
 		$('#apps-categories').html(html);
 
-		OC.Settings.Apps.loadCategory(0);
+		OC.Settings.Apps.loadCategory($('#app-navigation').attr('data-category'));
 
 		this._loadCategoriesCall = $.ajax(OC.generateUrl('settings/apps/categories'), {
 			data:{},
@@ -115,7 +116,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					});
 				} else {
 					$('#apps-list').addClass('hidden');
-					$('#apps-list-empty').removeClass('hidden');
+					$('#apps-list-empty').removeClass('hidden').find('h2').text(t('settings', 'No apps found for your version'));
 				}
 
 				$('.app-level .official').tipsy({fallback: t('settings', 'Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use.')});
@@ -398,14 +399,14 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			.text('');
 	},
 
-	showReloadMessage: function(appId) {
+	showReloadMessage: function() {
 		OC.dialogs.info(
 			t(
 				'settings',
 				'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
 			),
 			t('settings','App update'),
-			function (result) {
+			function () {
 				window.location.reload();
 			},
 			true
@@ -413,24 +414,74 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	},
 
 	filter: function(query) {
-		query = query.toLowerCase();
-		$('#apps-list').find('.section').addClass('hidden');
+		var $appList = $('#apps-list'),
+			$emptyList = $('#apps-list-empty');
+		$appList.removeClass('hidden');
+		$appList.find('.section').removeClass('hidden');
+		$emptyList.addClass('hidden');
 
+		if (query === '') {
+			return;
+		}
+
+		query = query.toLowerCase();
+		$appList.find('.section').addClass('hidden');
+
+		// App Name
 		var apps = _.filter(OC.Settings.Apps.State.apps, function (app) {
 			return app.name.toLowerCase().indexOf(query) !== -1;
 		});
 
+		// App Description
 		apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
 			return app.description.toLowerCase().indexOf(query) !== -1;
 		}));
 
+		// Author Name
+		apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
+			return app.author.toLowerCase().indexOf(query) !== -1;
+		}));
+
+		// App status
+		if (t('settings', 'Official').toLowerCase().indexOf(query) !== -1) {
+			apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
+				return app.level === 200;
+			}));
+		}
+		if (t('settings', 'Approved').toLowerCase().indexOf(query) !== -1) {
+			apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
+				return app.level === 100;
+			}));
+		}
+		if (t('settings', 'Experimental').toLowerCase().indexOf(query) !== -1) {
+			apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
+				return app.level !== 100 && app.level !== 200;
+			}));
+		}
+
 		apps = _.uniq(apps, function(app){return app.id;});
 
-		_.each(apps, function (app) {
-			$('#app-' + app.id).removeClass('hidden');
-		});
+		if (apps.length === 0) {
+			$appList.addClass('hidden');
+			$emptyList.removeClass('hidden');
+			$emptyList.removeClass('hidden').find('h2').text(t('settings', 'No apps found for "{query}"', {
+				query: query
+			}));
+		} else {
+			_.each(apps, function (app) {
+				$('#app-' + app.id).removeClass('hidden');
+			});
 
-		$('#searchresults').hide();
+			$('#searchresults').hide();
+		}
+	},
+
+	_onPopState: function(params) {
+		params = _.extend({
+			category: 'enabled'
+		}, params);
+
+		OC.Settings.Apps.loadCategory(params.category);
 	},
 
 	/**
@@ -439,10 +490,15 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	initialize: function($el) {
 		OC.Plugins.register('OCA.Search', OC.Settings.Apps.Search);
 		OC.Settings.Apps.loadCategories();
+		OC.Util.History.addOnPopStateHandler(_.bind(this._onPopState, this));
 
 		$(document).on('click', 'ul#apps-categories li', function () {
 			var categoryId = $(this).data('categoryId');
 			OC.Settings.Apps.loadCategory(categoryId);
+			OC.Util.History.pushState({
+				category: categoryId
+			});
+			$('#searchbox').val('');
 		});
 
 		$(document).on('click', '.app-description-toggle-show', function () {
@@ -508,7 +564,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		});
 
 		$(document).on('click', '#enable-experimental-apps', function () {
-			var state = $(this).prop('checked')
+			var state = $(this).prop('checked');
 			$.ajax(OC.generateUrl('settings/apps/experimental'), {
 				data: {state: state},
 				type: 'POST',

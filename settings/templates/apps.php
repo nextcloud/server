@@ -24,7 +24,7 @@ script(
 ?>
 <script id="categories-template" type="text/x-handlebars-template">
 {{#each this}}
-	<li id="app-category-{{id}}" data-category-id="{{id}}" tabindex="0">
+	<li id="app-category-{{ident}}" data-category-id="{{ident}}" tabindex="0">
 		<a>{{displayName}}</a>
 	</li>
 {{/each}}
@@ -127,7 +127,7 @@ script(
 	</div>
 </script>
 
-<div id="app-navigation" class="icon-loading">
+<div id="app-navigation" class="icon-loading" data-category="<?php p($_['category']);?>">
 	<ul id="apps-categories">
 
 	</ul>
