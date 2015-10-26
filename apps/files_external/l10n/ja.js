@@ -37,6 +37,7 @@ OC.L10N.register(
     "Password" : "パスワード",
     "Rackspace" : "Rackspace",
     "API key" : "APIキー",
+    "Username and password" : "ユーザー名とパスワード",
     "RSA public key" : "RSA公開鍵",
     "Public key" : "公開鍵",
     "Amazon S3" : "Amazon S3",
