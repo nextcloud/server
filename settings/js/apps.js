@@ -476,17 +476,28 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 	},
 
+	_onPopState: function(params) {
+		params = _.extend({
+			category: 'enabled'
+		}, params);
+
+		OC.Settings.Apps.loadCategory(params.category);
+	},
+
 	/**
 	 * Initializes the apps list
 	 */
 	initialize: function($el) {
 		OC.Plugins.register('OCA.Search', OC.Settings.Apps.Search);
 		OC.Settings.Apps.loadCategories();
+		OC.Util.History.addOnPopStateHandler(_.bind(this._onPopState, this));
 
 		$(document).on('click', 'ul#apps-categories li', function () {
 			var categoryId = $(this).data('categoryId');
 			OC.Settings.Apps.loadCategory(categoryId);
-			OC.Util.History.pushState('category=' + categoryId);
+			OC.Util.History.pushState({
+				category: categoryId
+			});
 			$('#searchbox').val('');
 		});
 
