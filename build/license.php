@@ -21,6 +21,7 @@
 class Licenses
 {
 	protected $paths = array();
+	public $authors = [];
 
 	public function __construct() {
 		$this->licenseText = <<<EOD
@@ -82,7 +83,24 @@ EOD;
 			/** @var SplFileInfo $file */
 			$this->handleFile($file);
 		}
+	}
 
+	function writeAuthorsFile() {
+		ksort($this->authors);
+		$template = "ownCloud is written by:
+@AUTHORS@
+
+With help from many libraries and frameworks including:
+	Open Collaboration Services
+	SabreDAV
+	jQuery
+	…
+";
+		$authors = implode(PHP_EOL, array_map(function($author){
+			return " - ".$author;
+		}, $this->authors));
+		$template = str_replace('@AUTHORS@', $authors, $template);
+		file_put_contents(__DIR__.'/../AUTHORS', $template);
 	}
 
 	function handleFile($path) {
@@ -156,6 +174,7 @@ EOD;
 				'Jenkins for ownCloud <owncloud-bot@tmit.eu>']);
 		});
 		$authors = array_map(function($author){
+			$this->authors[$author] = $author;
 			return " * @author $author";
 		}, $authors);
 		return implode(PHP_EOL, $authors);
@@ -187,5 +206,5 @@ if (isset($argv[1])) {
 		'../status.php',
 		'../version.php',
 	]);
+	$licenses->writeAuthorsFile();
 }
-
