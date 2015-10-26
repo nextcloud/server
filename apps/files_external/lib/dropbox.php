@@ -288,6 +288,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 			try {
 				$this->dropbox->putFile(self::$tempFiles[$tmpFile], $handle);
 				unlink($tmpFile);
+				$this->deleteMetaData(self::$tempFiles[$tmpFile]);
 			} catch (\Exception $exception) {
 				\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 			}
