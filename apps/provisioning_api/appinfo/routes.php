@@ -1,8 +1,9 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Tom Needham <tom@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

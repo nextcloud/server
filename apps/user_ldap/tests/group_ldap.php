@@ -3,6 +3,7 @@
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

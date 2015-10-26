@@ -3,6 +3,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Volker Fröhlich <volker27@gmx.at>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0

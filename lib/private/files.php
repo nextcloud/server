@@ -7,7 +7,6 @@
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Nicolai Ehemann <en@enlightened.de>
  * @author Robin Appelman <icewind@owncloud.com>

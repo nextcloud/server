@@ -3,7 +3,7 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
  * @author Vincent Petry <pvince81@owncloud.com>

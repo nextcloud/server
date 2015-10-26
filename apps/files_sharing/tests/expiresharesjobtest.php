@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
