@@ -9,14 +9,19 @@ use Sabre\DAV\SimpleCollection;
 class RootCollection extends SimpleCollection {
 
 	public function __construct() {
+		$config = \OC::$server->getConfig();
 		$principalBackend = new Principal(
-			\OC::$server->getConfig(),
+			$config,
 			\OC::$server->getUserManager()
 		);
+		// as soon as debug mode is enabled we allow listing of principals
+		$disableListing = !$config->getSystemValue('debug', false);
+
+		// setup the first level of the dav tree
 		$principalCollection = new Collection($principalBackend);
-		$principalCollection->disableListing = true;
+		$principalCollection->disableListing = $disableListing;
 		$filesCollection = new Files\RootCollection($principalBackend);
-		$filesCollection->disableListing = true;
+		$filesCollection->disableListing = $disableListing;
 
 		$children = [
 			$principalCollection,
