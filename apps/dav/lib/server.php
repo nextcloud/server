@@ -21,7 +21,10 @@ class Server {
 		$this->server = new \OCA\DAV\Connector\Sabre\Server($root);
 
 		// Backends
-		$authBackend = new Auth();
+		$authBackend = new Auth(
+			\OC::$server->getSession(),
+			\OC::$server->getUserSession()
+		);
 
 		// Set URL explicitly due to reverse-proxy situations
 		$this->server->httpRequest->setUrl($this->request->getRequestUri());
