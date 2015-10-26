@@ -21,6 +21,14 @@
 *
 */
 
+// Show warning if PHP 7 is used as ownCloud is not compatible with PHP 7 until
+// version 8.2.0.
+if (version_compare(PHP_VERSION, '7.0.0') !== -1) {
+	echo 'This version of ownCloud is not compatible with PHP 7.<br/>';
+	echo 'You are currently running ' . PHP_VERSION . '. Please use at least ownCloud 8.2.0.';
+	return;
+}
+
 try {
 	
 	require_once 'lib/base.php';
