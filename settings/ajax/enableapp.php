@@ -2,6 +2,7 @@
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Kamil Domanski <kdomanski@kdemail.net>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Robin Appelman <icewind@owncloud.com>

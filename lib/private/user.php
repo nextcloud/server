@@ -3,8 +3,8 @@
  * @author Aldo "xoen" Giambelluca <xoen@xoen.org>
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author Bartek Przybylski <bart.p.pl@gmail.com>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Bartek Przybylski <bart.p.pl@gmail.com>
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Dominik Schmidt <dev@dominik-schmidt.de>
  * @author Florian Preinstorfer <nblock@archlinux.us>

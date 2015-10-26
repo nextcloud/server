@@ -6,8 +6,8 @@
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Fabian Henze <flyser42@gmx.de>
  * @author Felix Moeller <mail@felixmoeller.de>
- * @author François Kubler <francois@kubler.org>
  * @author Frank Karlitschek <frank@owncloud.org>
+ * @author François Kubler <francois@kubler.org>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
@@ -22,7 +22,7 @@
  * @author Pellaeon Lin <nfsmwlin@gmail.com>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Simon Könnecke <simonkoennecke@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>

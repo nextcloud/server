@@ -3,6 +3,7 @@
  * @author Alexander Bergolth <leo@strike.wu.ac.at>
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Lennart Rosam <hello@takuto.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>

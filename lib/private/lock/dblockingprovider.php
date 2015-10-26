@@ -1,6 +1,8 @@
 <?php
 /**
+ * @author Björn Schießle <schiessle@owncloud.com>
  * @author Individual IT Services <info@individual-it.net>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

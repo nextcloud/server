@@ -1,8 +1,8 @@
 <?php
 /**
  * @author Andreas Fischer <bantu@owncloud.com>
- * @author Bartek Przybylski <bart.p.pl@gmail.com>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Bartek Przybylski <bart.p.pl@gmail.com>
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Byron Marohn <combustible@live.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>

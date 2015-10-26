@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.

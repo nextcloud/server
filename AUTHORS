@@ -1,26 +1,181 @@
 ownCloud is written by:
-	Frank Karlitschek
-	Robin Appelman
-	Jakob Sack
-	Jan-Christoph Borchardt
-	Michael Gapczynski
-	Arthur Schiwon
-	Bart Visscher
-	Georg Ehrke
-	Brice Maron
-	Tom Needham
-	Marvin Thomas Rabe
-	Florian Pritz
-	Bartek Przybylski
-	Thomas Müller
-	Klaas Freitag
-	Sam Tuke
-	Simon Birnbach
-	Lukas Reschke
-	Christian Reiner
-	Daniel Molkentin
-	Vincent Petry
-	…
+ - AW-UC <git@a-wesemann.de>
+ - Adam Williamson <awilliam@redhat.com>
+ - Administrator <Administrator@WINDOWS-2012>
+ - Aldo "xoen" Giambelluca <xoen@xoen.org>
+ - Alexander Bergolth <leo@strike.wu.ac.at>
+ - Andreas Ergenzinger <andreas.ergenzinger@gmx.de>
+ - Andreas Fischer <bantu@owncloud.com>
+ - Andrew Brown <andrew@casabrown.com>
+ - André Gaul <gaul@web-yard.de>
+ - Arthur Schiwon <blizzz@owncloud.com>
+ - Bart Visscher <bartv@thisnet.nl>
+ - Bartek Przybylski <bart.p.pl@gmail.com>
+ - Bastien Ho <bastienho@urbancube.fr>
+ - Benjamin Diele <benjamin@diele.be>
+ - Benjamin Liles <benliles@arch.tamu.edu>
+ - Bernhard Posselt <dev@bernhard-posselt.com>
+ - Bernhard Reiter <ockham@raz.or.at>
+ - Birk Borkason <daniel.niccoli@gmail.com>
+ - Björn Schießle <schiessle@owncloud.com>
+ - Borjan Tchakaloff <borjan@tchakaloff.fr>
+ - Brice Maron <brice@bmaron.net>
+ - Byron Marohn <combustible@live.com>
+ - Carlos Cerrillo <ccerrillo@gmail.com>
+ - Christian Berendt <berendt@b1-systems.de>
+ - Christian Kampka <christian@kampka.net>
+ - Christian Reiner <github@christian-reiner.info>
+ - Christopher Schäpers <kondou@ts.unde.re>
+ - Christopher T. Johnson <ctjctj@gmail.com>
+ - Clark Tomlinson <fallen013@gmail.com>
+ - Craig Morrissey <craig@owncloud.com>
+ - Dan Bartram <daneybartram@gmail.com>
+ - Daniel Hansson <enoch85@gmail.com>
+ - Daniel Molkentin <daniel@molkentin.de>
+ - David Prévot <taffit@debian.org>
+ - David Reagan <reagand@lanecc.edu>
+ - Dominik Schmidt <dev@dominik-schmidt.de>
+ - Donald Buczek <buczek@molgen.mpg.de>
+ - Fabian Henze <flyser42@gmx.de>
+ - Felix Böhm <felixboehm@gmx.de>
+ - Felix Moeller <mail@felixmoeller.de>
+ - Florian Preinstorfer <nblock@archlinux.us>
+ - Florian Pritz <bluewind@xinu.at>
+ - Florian Scholz <FlorianScholz@bgstyle.de>
+ - Florin Peter <github@florin-peter.de>
+ - Frank Karlitschek <frank@owncloud.org>
+ - François Kubler <francois@kubler.org>
+ - Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
+ - Gadzy <dev@gadzy.fr>
+ - Georg Ehrke <georg@owncloud.com>
+ - Guillaume AMAT <guillaume.amat@informatique-libre.com>
+ - Hasso Tepper <hasso@zone.ee>
+ - Hugo Gonzalez Labrador <hglavra@gmail.com>
+ - Individual IT Services <info@individual-it.net>
+ - Jakob Sack <mail@jakobsack.de>
+ - Jan-Christoph Borchardt <hey@jancborchardt.net>
+ - Jean-Louis Dupond <jean-louis@dupond.be>
+ - Jens-Christian Fischer <jens-christian.fischer@switch.ch>
+ - Jesus Macias <jmacias@full-on-net.com>
+ - Joas Schilling <nickvergessen@owncloud.com>
+ - Johan Björk <johanimon@gmail.com>
+ - Johannes Willnecker <johannes@willnecker.com>
+ - Jonny007-MKD <1-23-4-5@web.de>
+ - Jost Baron <Jost.Baron@gmx.de>
+ - Jörn Friedrich Dreyer <jfd@butonic.de>
+ - Kamil Domanski <kdomanski@kdemail.net>
+ - Klaas Freitag <freitag@owncloud.com>
+ - Laurens Post <Crote@users.noreply.github.com>
+ - Laurens Post <lkpost@scept.re>
+ - Lennart Rosam <hello@takuto.de>
+ - Lennart Rosam <lennart.rosam@medien-systempartner.de>
+ - Lorenzo M. Catucci <lorenzo@sancho.ccd.uniroma2.it>
+ - Lukas Reschke <lukas@owncloud.com>
+ - Luke Policinski <lpolicinski@gmail.com>
+ - Lyonel Vincent <lyonel@ezix.org>
+ - Markus Goetz <markus@woboq.com>
+ - Martin Konrad <info@martin-konrad.net>
+ - Martin Konrad <konrad@frib.msu.edu>
+ - Martin Mattel <martin.mattel@diemattels.at>
+ - Marvin Thomas Rabe <mrabe@marvinrabe.de>
+ - Masaki Kawabata Neto <masaki.kawabata@gmail.com>
+ - Matthias Rieber <matthias@zu-con.org>
+ - Michael Gapczynski <GapczynskiM@gmail.com>
+ - Michael Göhler <somebody.here@gmx.de>
+ - Michael Kuhn <suraia@ikkoku.de>
+ - Michael Roitzsch <reactorcontrol@icloud.com>
+ - Michael Roth <michael.roth@rz.uni-augsburg.de>
+ - Michael Telatynski <7t3chguy@gmail.com>
+ - Miguel Prokop <miguel.prokop@vtu.com>
+ - Morris Jobke <hey@morrisjobke.de>
+ - Nicolai Ehemann <en@enlightened.de>
+ - Nicolas Grekas <nicolas.grekas@gmail.com>
+ - Nmz <nemesiz@nmz.lt>
+ - Normal Ra <normalraw@gmail.com>
+ - Oliver Gasser <oliver.gasser@gmail.com>
+ - Oliver Kohl D.Sc. <oliver@kohl.bz>
+ - Olivier Paroz <github@oparoz.com>
+ - Otto Sabart <ottosabart@seberm.com>
+ - Owen Winkler <a_github@midnightcircus.com>
+ - Pascal de Bruijn <pmjdebruijn@pcode.nl>
+ - Patrick Paysant <ppaysant@linagora.com>
+ - Pellaeon Lin <nfsmwlin@gmail.com>
+ - Phil Davis <phil.davis@inf.org>
+ - Philipp Kapfer <philipp.kapfer@gmx.at>
+ - Philippe Jung <phil.jung@free.fr>
+ - Philippe Le Brouster <plb@nebkha.net>
+ - Qingping Hou <dave2008713@gmail.com>
+ - Raghu Nayyar <me@iraghu.com>
+ - Ramiro Aparicio <rapariciog@gmail.com>
+ - Randolph Carter <RandolphCarter@fantasymail.de>
+ - RealRancor <Fisch.666@gmx.de>
+ - Remco Brenninkmeijer <requist1@starmail.nl>
+ - Robin Appelman <icewind@owncloud.com>
+ - Robin McCorkell <rmccorkell@karoshi.org.uk>
+ - Roeland Jago Douma <rullzer@owncloud.com>
+ - Roman Geber <rgeber@owncloudapps.com>
+ - Ross Nicoll <jrn@jrn.me.uk>
+ - SA <stephen@mthosting.net>
+ - Sam Tuke <mail@samtuke.com>
+ - Sander <brantje@gmail.com>
+ - Sascha Schmidt <realriot@realriot.de>
+ - Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
+ - Sean Comeau <sean@ftlnetworks.ca>
+ - Sebastian Döll <sebastian.doell@libasys.de>
+ - Serge Martin <edb@sigluy.net>
+ - Simon Könnecke <simonkoennecke@gmail.com>
+ - Sjors van der Pluijm <sjors@desjors.nl>
+ - Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+ - Stefan Rado <owncloud@sradonia.net>
+ - Steffen Lindner <mail@steffen-lindner.de>
+ - Stephan Peijnik <speijnik@anexia-it.com>
+ - TheSFReader <TheSFReader@gmail.com>
+ - Thibaut GRIDEL <tgridel@free.fr>
+ - Thomas Müller <thomas.mueller@tmit.eu>
+ - Thomas Schmidt <tschmidt@suse.de>
+ - Thomas Tanghus <thomas@tanghus.net>
+ - Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
+ - Tobia De Koninck <tobia@ledfan.be>
+ - Tobias Kaminsky <tobias@kaminsky.me>
+ - Tom Needham <tom@owncloud.com>
+ - Valerio Ponte <valerio.ponte@gmail.com>
+ - Victor Dubiniuk <dubiniuk@owncloud.com>
+ - Viktor Szépe <viktor@szepe.net>
+ - Vincent Cloutier <vincent1cloutier@gmail.com>
+ - Vincent Petry <pvince81@owncloud.com>
+ - Volkan Gezer <volkangezer@gmail.com>
+ - Volker Fröhlich <volker27@gmx.at>
+ - adrien <adrien.waksberg@believedigital.com>
+ - brumsel <brumsel@losecatcher.de>
+ - cetra3 <peter@parashift.com.au>
+ - cmeh <cmeh@users.noreply.github.com>
+ - dampfklon <me@dampfklon.de>
+ - davidgumberg <davidnoizgumberg@gmail.com>
+ - derkostka <sebastian.kostka@gmail.com>
+ - drarko <drarko@users.noreply.github.com>
+ - eduardo <eduardo@vnexu.net>
+ - fabian <fabian@web2.0-apps.de>
+ - goodkiller <markopraakli@gmail.com>
+ - helix84 <helix84@centrum.sk>
+ - hkjolhede <hkjolhede@gmail.com>
+ - ideaship <ideaship@users.noreply.github.com>
+ - itheiss <ingo.theiss@i-matrixx.de>
+ - j-ed <juergen@eisfair.org>
+ - jknockaert <jasper@knockaert.nl>
+ - macjohnny <estebanmarin@gmx.ch>
+ - marc0s <marcos@tenak.net>
+ - martin-rueegg <martin.rueegg@metaworx.ch>
+ - michag86 <micha_g@arcor.de>
+ - nishiki <nishiki@yaegashi.fr>
+ - root <root@oc.(none)>
+ - scambra <sergio@entrecables.com>
+ - scolebrook <scolebrook@mac.com>
+ - shkdee <louis.traynard@m4x.org>
+ - sualko <klaus@jsxc.org>
+ - tbartenstein <tbartenstein@users.noreply.github.com>
+ - tbelau666 <thomas.belau@gmx.de>
+ - unclejamal3000 <andreas.pramhaas@posteo.de>
+ - voxsim <Simon Vocella>
 
 With help from many libraries and frameworks including:
 	Open Collaboration Services
