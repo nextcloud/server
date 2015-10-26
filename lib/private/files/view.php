@@ -1191,28 +1191,26 @@ class View {
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
 
-			try {
-				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
-				$data = $cache->get($internalPath);
-				$watcher = $storage->getWatcher($internalPath);
+			$data = $cache->get($internalPath);
+			$watcher = $storage->getWatcher($internalPath);
 
-				// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
-				if (!$data) {
-					if (!$storage->file_exists($internalPath)) {
-						$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
-						return false;
-					}
-					$scanner = $storage->getScanner($internalPath);
-					$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
-					$data = $cache->get($internalPath);
-				} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->checkUpdate($internalPath, $data)) {
-					$this->updater->propagate($path);
-					$data = $cache->get($internalPath);
+			// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
+			if (!$data) {
+				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
+				if (!$storage->file_exists($internalPath)) {
+					$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
+					return false;
 				}
-				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
-			} catch (LockedException $e) {
-				// dont try to update the cache when the file is locked
+				$scanner = $storage->getScanner($internalPath);
+				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 				$data = $cache->get($internalPath);
+				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
+			} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
+				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
+				$watcher->update($internalPath, $data);
+				$this->updater->propagate($path);
+				$data = $cache->get($internalPath);
+				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 			}
 
 			if ($data and isset($data['fileid'])) {
