@@ -5,7 +5,7 @@
 	<description>ownCloud WebDAV endpoint</description>
 	<licence>AGPL</licence>
 	<author>owncloud.org</author>
-	<version>0.1</version>
+	<version>0.1.1</version>
 	<requiremin>9.0</requiremin>
 	<shipped>true</shipped>
 	<standalone/>
@@ -16,6 +16,7 @@
 	<remote>
 		<files>appinfo/v1/webdav.php</files>
 		<webdav>appinfo/v1/webdav.php</webdav>
+		<dav>appinfo/v2/remote.php</dav>
 	</remote>
 	<public>
 		<webdav>appinfo/v1/publicwebdav.php</webdav>
