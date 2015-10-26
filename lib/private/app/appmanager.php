@@ -297,16 +297,12 @@ class AppManager implements IAppManager {
 	private function loadShippedJson() {
 		if (is_null($this->shippedApps)) {
 			$shippedJson = \OC::$SERVERROOT . '/core/shipped.json';
-			if (file_exists($shippedJson)) {
-				$content = json_decode(file_get_contents($shippedJson), true);
-				$this->shippedApps = $content['shippedApps'];
-				$this->alwaysEnabled = $content['alwaysEnabled'];
-			} else {
-				$this->shippedApps = ['files', 'encryption', 'files_external',
-					'files_sharing', 'files_trashbin', 'files_versions', 'provisioning_api',
-					'user_ldap', 'user_webdavauth'];
-				$this->alwaysEnabled = ['files', 'dav'];
+			if (!file_exists($shippedJson)) {
+				throw new \Exception("File not found: $shippedJson");
 			}
+			$content = json_decode(file_get_contents($shippedJson), true);
+			$this->shippedApps = $content['shippedApps'];
+			$this->alwaysEnabled = $content['alwaysEnabled'];
 		}
 	}
 
