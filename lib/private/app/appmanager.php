@@ -33,28 +33,27 @@ use OCP\IUser;
 use OCP\IUserSession;
 
 class AppManager implements IAppManager {
-	/**
-	 * @var \OCP\IUserSession
-	 */
+
+	/** @var \OCP\IUserSession */
 	private $userSession;
 
-	/**
-	 * @var \OCP\IAppConfig
-	 */
+	/** @var \OCP\IAppConfig */
 	private $appConfig;
 
-	/**
-	 * @var \OCP\IGroupManager
-	 */
+	/** @var \OCP\IGroupManager */
 	private $groupManager;
 
 	/** @var \OCP\ICacheFactory */
 	private $memCacheFactory;
 
-	/**
-	 * @var string[] $appId => $enabled
-	 */
+	/** @var string[] $appId => $enabled */
 	private $installedAppsCache;
+
+	/** @var string[] */
+	private $shippedApps;
+
+	/** @var string[] */
+	private $alwaysEnabled;
 
 	/**
 	 * @param \OCP\IUserSession $userSession
@@ -117,6 +116,9 @@ class AppManager implements IAppManager {
 	 * @return bool
 	 */
 	public function isEnabledForUser($appId, $user = null) {
+		if ($this->isAlwaysEnabled($appId)) {
+			return true;
+		}
 		if (is_null($user)) {
 			$user = $this->userSession->getUser();
 		}
@@ -195,8 +197,8 @@ class AppManager implements IAppManager {
 	 * @throws \Exception if app can't be disabled
 	 */
 	public function disableApp($appId) {
-		if ($appId === 'files') {
-			throw new \Exception("files can't be disabled.");
+		if ($this->isAlwaysEnabled($appId)) {
+			throw new \Exception("$appId can't be disabled.");
 		}
 		unset($this->installedAppsCache[$appId]);
 		$this->appConfig->setValue($appId, 'enabled', 'no');
@@ -279,4 +281,36 @@ class AppManager implements IAppManager {
 		return $incompatibleApps;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function isShipped($appId) {
+		$this->loadShippedJson();
+		return in_array($appId, $this->shippedApps);
+	}
+
+	private function isAlwaysEnabled($appId) {
+		$alwaysEnabled = $this->getAlwaysEnabledApps();
+		return in_array($appId, $alwaysEnabled);
+	}
+
+	private function loadShippedJson() {
+		if (is_null($this->shippedApps)) {
+			$shippedJson = \OC::$SERVERROOT . '/core/shipped.json';
+			if (!file_exists($shippedJson)) {
+				throw new \Exception("File not found: $shippedJson");
+			}
+			$content = json_decode(file_get_contents($shippedJson), true);
+			$this->shippedApps = $content['shippedApps'];
+			$this->alwaysEnabled = $content['alwaysEnabled'];
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAlwaysEnabledApps() {
+		$this->loadShippedJson();
+		return $this->alwaysEnabled;
+	}
 }
