@@ -36,6 +36,11 @@ namespace OCA\Encryption\AppInfo;
 		'verb' => 'POST'
 	],
 	[
+		'name' => 'Settings#setEncryptHomeStorage',
+		'url' => '/ajax/setEncryptHomeStorage',
+		'verb' => 'POST'
+	],
+	[
 		'name' => 'Recovery#changeRecoveryPassword',
 		'url' => '/ajax/changeRecoveryPassword',
 		'verb' => 'POST'

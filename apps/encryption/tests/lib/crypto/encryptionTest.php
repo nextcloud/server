@@ -55,9 +55,14 @@ class EncryptionTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	private $l10nMock;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $storageMock;
+
 	public function setUp() {
 		parent::setUp();
 
+		$this->storageMock = $this->getMockBuilder('OCP\Files\Storage')
+			->disableOriginalConstructor()->getMock();
 		$this->cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
 			->disableOriginalConstructor()
 			->getMock();
@@ -312,7 +317,17 @@ class EncryptionTest extends TestCase {
 	 *
 	 * @dataProvider dataTestShouldEncrypt
 	 */
-	public function testShouldEncrypt($path, $expected) {
+	public function testShouldEncrypt($path, $shouldEncryptHomeStorage, $isHomeStorage, $expected) {
+		$this->utilMock->expects($this->once())->method('shouldEncryptHomeStorage')
+			->willReturn($shouldEncryptHomeStorage);
+
+		if ($shouldEncryptHomeStorage === false) {
+			$this->storageMock->expects($this->once())->method('instanceOfStorage')
+				->with('\OCP\Files\IHomeStorage')->willReturn($isHomeStorage);
+			$this->utilMock->expects($this->once())->method('getStorage')->with($path)
+				->willReturn($this->storageMock);
+		}
+
 		$this->assertSame($expected,
 			$this->instance->shouldEncrypt($path)
 		);
@@ -320,14 +335,17 @@ class EncryptionTest extends TestCase {
 
 	public function dataTestShouldEncrypt() {
 		return array(
-			array('/user1/files/foo.txt', true),
-			array('/user1/files_versions/foo.txt', true),
-			array('/user1/files_trashbin/foo.txt', true),
-			array('/user1/some_folder/foo.txt', false),
-			array('/user1/foo.txt', false),
-			array('/user1/files', false),
-			array('/user1/files_trashbin', false),
-			array('/user1/files_versions', false),
+			array('/user1/files/foo.txt', true, true, true),
+			array('/user1/files_versions/foo.txt', true, true, true),
+			array('/user1/files_trashbin/foo.txt', true, true, true),
+			array('/user1/some_folder/foo.txt', true, true, false),
+			array('/user1/foo.txt', true, true, false),
+			array('/user1/files', true, true, false),
+			array('/user1/files_trashbin', true, true, false),
+			array('/user1/files_versions', true, true, false),
+			// test if shouldEncryptHomeStorage is set to false
+			array('/user1/files/foo.txt', false, true, false),
+			array('/user1/files_versions/foo.txt', false, false, true),
 		);
 	}
 
