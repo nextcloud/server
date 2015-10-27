@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
@@ -32,7 +33,8 @@ $users = new \OCA\Provisioning_API\Users(
 	\OC::$server->getUserManager(),
 	\OC::$server->getConfig(),
 	\OC::$server->getGroupManager(),
-	\OC::$server->getUserSession()
+	\OC::$server->getUserSession(),
+	\OC::$server->getLogger()
 );
 API::register('get', '/cloud/users', [$users, 'getUsers'], 'provisioning_api', API::SUBADMIN_AUTH);
 API::register('post', '/cloud/users', [$users, 'addUser'], 'provisioning_api', API::ADMIN_AUTH);

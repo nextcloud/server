@@ -26,7 +26,6 @@
 namespace OCA\Provisioning_API;
 
 use \OC_OCS_Result;
-use \OC_SubAdmin;
 use OCP\IGroup;
 use OCP\IUser;
 
@@ -85,9 +84,16 @@ class Groups{
 		if(!$this->groupManager->groupExists($parameters['groupid'])) {
 			return new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, 'The requested group could not be found');
 		}
+
+		$isSubadminOfGroup = false;
+		$targetGroupObject =$this->groupManager->get($parameters['groupid']);
+		if($targetGroupObject !== null) {
+			$isSubadminOfGroup =$this->groupManager->getSubAdmin()->isSubAdminofGroup($user, $targetGroupObject);
+		}
+
 		// Check subadmin has access to this group
 		if($this->groupManager->isAdmin($user->getUID())
-		   || in_array($parameters['groupid'], \OC_SubAdmin::getSubAdminsGroups($user->getUID()))){
+		   || $isSubadminOfGroup) {
 			$users = $this->groupManager->get($parameters['groupid'])->getUsers();
 			$users =  array_map(function($user) {
 				/** @var IUser $user */
@@ -144,11 +150,21 @@ class Groups{
 	public function getSubAdminsOfGroup($parameters) {
 		$group = $parameters['groupid'];
 		// Check group exists
-		if(!$this->groupManager->groupExists($group)) {
+		$targetGroup = $this->groupManager->get($group);
+		if($targetGroup === null) {
 			return new OC_OCS_Result(null, 101, 'Group does not exist');
 		}
+
+		$subadmins = $this->groupManager->getSubAdmin()->getGroupsSubAdmins($targetGroup);
+		// New class returns IUser[] so convert back
+		$uids = [];
+		foreach ($subadmins as $user) {
+			$uids[] = $user->getUID();
+		}
+		$subadmins = $uids;
+
 		// Go
-		if(!$subadmins = OC_Subadmin::getGroupsSubAdmins($group)) {
+		if(!$subadmins) {
 			return new OC_OCS_Result(null, 102, 'Unknown error occured');
 		} else {
 			return new OC_OCS_Result($subadmins);

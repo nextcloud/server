@@ -77,8 +77,12 @@ class GroupsController extends Controller {
 	public function index($pattern = '', $filterGroups = false, $sortGroups = MetaData::SORT_USERCOUNT) {
 		$groupPattern = $filterGroups ? $pattern : '';
 
-		$groupsInfo = new MetaData($this->userSession->getUser()->getUID(),
-			$this->isAdmin, $this->groupManager);
+		$groupsInfo = new MetaData(
+			$this->userSession->getUser()->getUID(),
+			$this->isAdmin,
+			$this->groupManager,
+			$this->userSession
+		);
 		$groupsInfo->setSorting($sortGroups);
 		list($adminGroups, $groups) = $groupsInfo->get($groupPattern, $pattern);
 

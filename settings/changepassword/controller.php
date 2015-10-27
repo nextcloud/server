@@ -66,9 +66,16 @@ class Controller {
 		$password = isset($_POST['password']) ? $_POST['password'] : null;
 		$recoveryPassword = isset($_POST['recoveryPassword']) ? $_POST['recoveryPassword'] : null;
 
+		$isUserAccessible = false;
+		$currentUserObject = \OC::$server->getUserSession()->getUser();
+		$targetUserObject = \OC::$server->getUserManager()->get($username);
+		if($currentUserObject !== null && $targetUserObject !== null) {
+			$isUserAccessible = \OC::$server->getGroupManager()->getSubAdmin()->isUserAccessible($currentUserObject, $targetUserObject);
+		}
+
 		if (\OC_User::isAdminUser(\OC_User::getUser())) {
 			$userstatus = 'admin';
-		} elseif (\OC_SubAdmin::isUserAccessible(\OC_User::getUser(), $username)) {
+		} elseif ($isUserAccessible) {
 			$userstatus = 'subadmin';
 		} else {
 			$l = new \OC_L10n('settings');

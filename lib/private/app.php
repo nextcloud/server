@@ -430,7 +430,12 @@ class OC_App {
 			);
 
 			//SubAdmins are also allowed to access user management
-			if (OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
+			$userObject = \OC::$server->getUserSession()->getUser();
+			$isSubAdmin = false;
+			if($userObject !== null) {
+				$isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
+			}
+			if ($isSubAdmin) {
 				// admin users menu
 				$settings[] = array(
 					"id" => "core_users",
