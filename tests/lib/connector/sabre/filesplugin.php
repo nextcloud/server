@@ -251,4 +251,17 @@ class FilesPlugin extends \Test\TestCase {
 
 		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
 	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\NotFound
+	 * @expectedExceptionMessage FolderA/test.txt does not exist
+	 */
+	public function testMoveSrcNotExist() {
+		$this->view->expects($this->once())
+			->method('getFileInfo')
+			->with('FolderA/test.txt')
+			->willReturn(false);
+
+		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
+	}
 }
