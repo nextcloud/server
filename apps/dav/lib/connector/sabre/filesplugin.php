@@ -132,6 +132,10 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 		if ($sourceDir !== $destinationDir) {
 			$sourceFileInfo = $this->fileView->getFileInfo($source);
 
+			if ($sourceFileInfo === false) {
+				throw new \Sabre\DAV\Exception\NotFound($source . ' does not exist');
+			}
+
 			if (!$sourceFileInfo->isDeletable()) {
 				throw new \Sabre\DAV\Exception\Forbidden($source . " cannot be deleted");
 			}
