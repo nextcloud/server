@@ -1981,7 +1981,8 @@ jQuery.fn.tipsy = function(argument) {
 			placement: 'bottom',
 			delay: { 'show': 0, 'hide': 0},
 			trigger: 'hover',
-			html: false
+			html: false,
+			container: 'body'
 		};
 		if(argument.gravity) {
 			switch(argument.gravity) {
