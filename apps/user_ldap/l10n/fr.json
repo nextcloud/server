@@ -37,7 +37,7 @@
     "Select attributes" : "Sélectionner les attributs",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "Utilisateur introuvable. Veuillez vérifier les attributs de login et le nom d'utilisateur. Filtre effectif (à copier-coller pour valider en ligne de commande):<br/>",
     "User found and settings verified." : "Utilisateur trouvé et paramètres vérifiés.",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Paramètres vérifiés, mais seul le premier utilisateur pourra se connecter. Utilisez plutôt un filtre moins restrictif.",
+    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter.",
     "An unspecified error occurred. Please check the settings and the log." : "Une erreur inconnue s'est produite. Veuillez vérifier les paramètres et le log.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Le filtre de recherche n'est pas valide, probablement à cause de problèmes de syntaxe tels que des parenthèses manquantes. Veuillez le corriger.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Une erreur s'est produite lors de la connexion au LDAP / AD. Veuillez vérifier l'hôte, le port et les informations d'identification.",

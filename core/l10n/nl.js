@@ -262,6 +262,7 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Probeer het opnieuw of neem contact op met uw beheerder.",
     "Log in" : "Meld u aan",
     "Wrong password. Reset it?" : "Onjuist wachtwoord. Resetten?",
+    "Stay logged in" : "Ingelogd blijven",
     "Alternative Logins" : "Alternatieve inlogs",
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hallo,<br><br>%s deelt <strong>%s</strong> met u.<br><a href=\"%s\">Bekijk hier!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Deze ownCloud werkt momenteel in enkele gebruiker modus.",
