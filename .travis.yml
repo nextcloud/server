@@ -1,0 +1,39 @@
+sudo: false
+language: php
+php:
+  - 5.4
+
+env:
+  global:
+    - APP=dav
+    - TC=litmus-v2
+  matrix:
+    - DB=sqlite
+
+branches:
+  only:
+    - master
+#    - /^stable\d+(\.\d+)?$/
+
+addons:
+  apt:
+    packages:
+    - realpath
+
+before_install:
+  - bash tests/travis/before_install.sh $DB
+
+install:
+  - bash tests/travis/install.sh $DB
+
+script:
+  - bash apps/$APP/tests/travis/$TC.sh
+
+matrix:
+  include:
+    - php: 5.4
+      env: DB=pgsql;TC=litmus-v1;APP=dav
+#    - php: 5.4
+#      env: DB=mysql;TC=caldavtester;APP=dav
+
+  fast_finish: true
