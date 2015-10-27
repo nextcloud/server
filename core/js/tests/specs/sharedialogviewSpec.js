@@ -465,7 +465,7 @@ describe('OC.Share.ShareDialogView', function() {
 				clock.restore();
 			});
 
-			it('displayes form when sending emails is enabled', function() {
+			it('displays form when sending emails is enabled', function() {
 				$('input[name=mailPublicNotificationEnabled]').val('yes');
 				dialog.render();
 				expect(dialog.$('.emailPrivateLinkForm').length).toEqual(1);
@@ -702,7 +702,7 @@ describe('OC.Share.ShareDialogView', function() {
 		});
 	});
 	describe('remote sharing', function() {
-		it('shows remote share info when allows', function() {
+		it('shows remote share info when allowed', function() {
 			configModel.set({
 				isRemoteShareAllowed: true
 			});
@@ -717,7 +717,7 @@ describe('OC.Share.ShareDialogView', function() {
 			expect(dialog.$el.find('.shareWithRemoteInfo').length).toEqual(0);
 		});
 	});
-	describe('autocompeltion of users', function() {
+	describe('autocompletion of users', function() {
 		it('triggers autocomplete display and focus with data when ajax search succeeds', function () {
 			dialog.render();
 			var response = sinon.stub();
@@ -780,4 +780,3 @@ describe('OC.Share.ShareDialogView', function() {
 		});
 	});
 });
-
