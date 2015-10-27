@@ -207,7 +207,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 				$subGroups = $this->_getGroupDNsFromMemberOf($group, $seen);
 				$allGroups = array_merge($allGroups, $subGroups);
 			}
-		}	
+		}
 		return $allGroups;	
 	}
 
@@ -240,7 +240,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		if(empty($result)) {
 			return false;
 		}
-		$dn = $result[0];
+		$dn = $result[0]['dn'][0];
 
 		//and now the group name
 		//NOTE once we have separate ownCloud group IDs and group names we can
@@ -484,7 +484,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			array($this->access->connection->ldapGroupDisplayName, 'dn'));
 		if (is_array($groups)) {
 			foreach ($groups as $groupobj) {
-				$groupDN = $groupobj['dn'];
+				$groupDN = $groupobj['dn'][0];
 				$allGroups[$groupDN] = $groupobj;
 				$nestedGroups = $this->access->connection->ldapNestedGroups;
 				if (!empty($nestedGroups)) {
@@ -648,7 +648,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 						$this->access->connection->ldapLoginFilter, 'UTF-8'),
 					$this->access->getFilterPartForUserSearch($search)
 				));
-				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
+				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn', 1);
 				if(count($ldap_users) < 1) {
 					continue;
 				}
