@@ -277,7 +277,7 @@ class Test_Files_Sharing_Mount extends OCA\Files_sharing\Tests\TestCase {
 			\OCP\Constants::PERMISSION_UPDATE,
 			\OCP\Constants::PERMISSION_CREATE,
 			\OCP\Constants::PERMISSION_SHARE,
-			\OCP\Constants::PERMISSION_DELETE
+			\OCP\Constants::PERMISSION_DELETE,
 		];
 
 		$allPermissions = $powerset($permissions);

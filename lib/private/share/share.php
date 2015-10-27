@@ -1123,9 +1123,10 @@ class Share extends Constants {
 					->from('share')
 					->where($qb->expr()->eq('id', $qb->createParameter('id')))
 					->setParameter(':id', $rootItem['parent']);
-				$result = $qb->execute();
+				$dbresult = $qb->execute();
 
-				$result = $result->fetch();
+				$result = $dbresult->fetch();
+				$dbresult->closeCursor();
 				if (~(int)$result['permissions'] & $permissions) {
 					$message = 'Setting permissions for %s failed,'
 						.' because the permissions exceed permissions granted to %s';
@@ -1189,6 +1190,7 @@ class Share extends Constants {
 							$parents[] = $item['id'];
 						}
 					}
+					$result->closeCursor();
 				}
 
 				// Remove the permissions for all reshares of this item
@@ -1209,7 +1211,7 @@ class Share extends Constants {
 
 			/*
 			 * Permissions were added
-			 * Update all USERGROUP shares. (So group shares where the user moved his mountpoint).
+			 * Update all USERGROUP shares. (So group shares where the user moved their mountpoint).
 			 */
 			if ($permissions & ~(int)$rootItem['permissions']) {
 				$qb = $connection->getQueryBuilder();
@@ -1229,6 +1231,7 @@ class Share extends Constants {
 					$items[] = $item;
 					$ids[] = $item['id'];
 				}
+				$result->closeCursor();
 
 				// Add permssions for all USERGROUP shares of this item
 				if (!empty($ids)) {
