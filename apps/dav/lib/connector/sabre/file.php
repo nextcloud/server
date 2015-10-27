@@ -349,6 +349,7 @@ class File extends Node implements IFile {
 		if (empty($info)) {
 			throw new NotImplemented('Invalid chunk name');
 		}
+
 		$chunk_handler = new \OC_FileChunking($info);
 		$bytesWritten = $chunk_handler->store($info['index'], $data);
 
@@ -376,15 +377,17 @@ class File extends Node implements IFile {
 			$exists = $this->fileView->file_exists($targetPath);
 
 			try {
-				$this->emitPreHooks($exists, $targetPath);
+				$this->fileView->lockFile($targetPath, ILockingProvider::LOCK_SHARED);
 
-				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
+				$this->emitPreHooks($exists, $targetPath);
+				$this->fileView->changeLock($targetPath, ILockingProvider::LOCK_EXCLUSIVE);
+				/** @var \OC\Files\Storage\Storage $targetStorage */
+				list($targetStorage, $targetInternalPath) = $this->fileView->resolvePath($targetPath);
 
 				if ($needsPartFile) {
 					// we first assembly the target file as a part file
 					$partFile = $path . '/' . $info['name'] . '.ocTransferId' . $info['transferid'] . '.part';
-
-
+					/** @var \OC\Files\Storage\Storage $targetStorage */
 					list($partStorage, $partInternalPath) = $this->fileView->resolvePath($partFile);
 
 
@@ -392,8 +395,7 @@ class File extends Node implements IFile {
 
 					// here is the final atomic rename
 					$renameOkay = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
-
-					$fileExists = $this->fileView->file_exists($targetPath);
+					$fileExists = $targetStorage->file_exists($targetInternalPath);
 					if ($renameOkay === false || $fileExists === false) {
 						\OCP\Util::writeLog('webdav', '\OC\Files\Filesystem::rename() failed', \OCP\Util::ERROR);
 						// only delete if an error occurred and the target file was already created
@@ -403,7 +405,7 @@ class File extends Node implements IFile {
 							$partFile = null;
 							$targetStorage->unlink($targetInternalPath);
 						}
-						$this->changeLock(ILockingProvider::LOCK_SHARED);
+						$this->fileView->changeLock($targetPath, ILockingProvider::LOCK_SHARED);
 						throw new Exception('Could not rename part file assembled from chunks');
 					}
 				} else {
@@ -419,7 +421,7 @@ class File extends Node implements IFile {
 					}
 				}
 
-				$this->changeLock(ILockingProvider::LOCK_SHARED);
+				$this->fileView->changeLock($targetPath, ILockingProvider::LOCK_SHARED);
 
 				// since we skipped the view we need to scan and emit the hooks ourselves
 				$this->fileView->getUpdater()->update($targetPath);
@@ -427,6 +429,9 @@ class File extends Node implements IFile {
 				$this->emitPostHooks($exists, $targetPath);
 
 				$info = $this->fileView->getFileInfo($targetPath);
+
+				$this->fileView->unlockFile($targetPath, ILockingProvider::LOCK_SHARED);
+
 				return $info->getEtag();
 			} catch (\Exception $e) {
 				if ($partFile !== null) {
