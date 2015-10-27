@@ -531,4 +531,14 @@ class Storage extends \Test\TestCase {
 			['/schiesbn/', '/test.txt', false, false],
 		];
 	}
+
+	/**
+	 * Test that deleting a file doesn't error when nobody is logged in
+	 */
+	public function testSingleStorageDeleteFileLoggedOut() {
+		$this->logout();
+
+		$this->assertTrue($this->userView->file_exists('test.txt'));
+		$this->userView->unlink('test.txt');
+	}
 }
