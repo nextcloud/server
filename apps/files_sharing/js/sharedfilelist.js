@@ -123,6 +123,9 @@
 				this._reloadCall.abort();
 			}
 
+			// there is only root
+			this._setCurrentDir('/', false);
+
 			var promises = [];
 			var shares = $.ajax({
 				url: OC.linkToOCS('apps/files_sharing/api/v1') + 'shares',
@@ -173,17 +176,14 @@
 
 			if (shares[0].ocs && shares[0].ocs.data) {
 				files = files.concat(this._makeFilesFromShares(shares[0].ocs.data));
-			} else {
-				// TODO: error handling
 			}
 
 			if (remoteShares && remoteShares[0].ocs && remoteShares[0].ocs.data) {
 				files = files.concat(this._makeFilesFromRemoteShares(remoteShares[0].ocs.data));
-			} else {
-				// TODO: error handling
 			}
 
 			this.setFiles(files);
+			return true;
 		},
 
 		_makeFilesFromRemoteShares: function(data) {

@@ -86,6 +86,10 @@
 			if (this._reloadCall) {
 				this._reloadCall.abort();
 			}
+
+			// there is only root
+			this._setCurrentDir('/', false);
+
 			this._reloadCall = $.ajax({
 				url: OC.linkToOCS('apps/files_external/api/v1') + 'mounts',
 				data: {
@@ -106,10 +110,9 @@
 
 			if (result.ocs && result.ocs.data) {
 				this.setFiles(this._makeFiles(result.ocs.data));
+				return true;
 			}
-			else {
-				// TODO: error handling
-			}
+			return false;
 		},
 
 		/**
