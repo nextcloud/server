@@ -143,7 +143,7 @@ class File extends Node implements IFile {
 			// if content length is sent by client:
 			// double check if the file was fully received
 			// compare expected and actual size
-			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] !== 'LOCK') {
+			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
 				$expected = $_SERVER['CONTENT_LENGTH'];
 				if ($count != $expected) {
 					throw new BadRequest('expected filesize ' . $expected . ' got ' . $count);
