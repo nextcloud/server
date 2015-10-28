@@ -41,21 +41,12 @@ if (OC::checkUpgrade(false)) {
 	// avoid side effects
 	\OC_User::setIncognitoMode(true);
 
-
-
 	$logger = \OC::$server->getLogger();
-	$config = \OC::$server->getConfig();
 	$updater = new \OC\Updater(
 			\OC::$server->getHTTPHelper(),
-			$config,
+			\OC::$server->getConfig(),
 			$logger
 	);
-
-	if ($config->getSystemValue('update.skip-migration-test', false)) {
-		$eventSource->send('success', (string)$l->t('Migration tests are skipped - "update.skip-migration-test" is activated in config.php'));
-		$updater->setSimulateStepEnabled(false);
-	}
-
 	$incompatibleApps = [];
 	$disabledThirdPartyApps = [];
 
