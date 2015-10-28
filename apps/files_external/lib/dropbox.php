@@ -299,18 +299,6 @@ class Dropbox extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function getMimeType($path) {
-		if ($this->filetype($path) == 'dir') {
-			return 'httpd/unix-directory';
-		} else {
-			$metaData = $this->getDropBoxMetaData($path);
-			if ($metaData) {
-				return $metaData['mime_type'];
-			}
-		}
-		return false;
-	}
-
 	public function free_space($path) {
 		try {
 			$info = $this->dropbox->getAccountInfo();
