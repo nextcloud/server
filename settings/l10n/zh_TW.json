@@ -78,6 +78,7 @@
     "Uninstall" : "解除安裝",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "這個應用程式已經可以使用，但是需要更新，您將會在5秒後被引導至更新頁面。",
     "App update" : "應用程式更新",
+    "No apps found for \"{query}\"" : "此\"{query}\"未找到任何應用程式",
     "An error occurred: {message}" : "發生錯誤：{message}",
     "Select a profile picture" : "選擇大頭貼",
     "Very weak password" : "非常弱的密碼",

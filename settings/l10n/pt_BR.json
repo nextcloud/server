@@ -78,6 +78,7 @@
     "Uninstall" : "Desinstalar",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "O aplicativo foi habilitado, mas precisa ser atualizado. Você será redirecionado para a página de atualização em 5 segundos.",
     "App update" : "Atualização de aplicativo",
+    "No apps found for \"{query}\"" : "Nenhum aplicativo encontrado para \"{query}\"",
     "An error occurred: {message}" : "Ocorreu um erro: {message}",
     "Select a profile picture" : "Selecione uma imagem para o perfil",
     "Very weak password" : "Senha muito fraca",

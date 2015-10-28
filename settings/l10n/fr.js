@@ -80,6 +80,7 @@ OC.L10N.register(
     "Uninstall" : "Désinstaller",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "L'application a été activée mais doit être mise à jour. Vous allez être redirigé vers la page des mises à jour dans 5 secondes.",
     "App update" : "Mise à jour",
+    "No apps found for \"{query}\"" : "Aucune application trouvée pour \"{query}\"",
     "An error occurred: {message}" : "Une erreur est survenue : {message}",
     "Select a profile picture" : "Selectionnez une photo de profil ",
     "Very weak password" : "Mot de passe de très faible sécurité",

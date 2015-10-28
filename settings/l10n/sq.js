@@ -79,6 +79,7 @@ OC.L10N.register(
     "Uninstall" : "Çinstaloje",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikacioni është aktivizuar, por lyp të përditësohet. Do të ridrejtoheni te faqja e përditësimeve brenda 5 sekondash.",
     "App update" : "Përditësim aplikacioni",
+    "No apps found for \"{query}\"" : "S’u gjetën aplikacione për \"{query}\"",
     "An error occurred: {message}" : "Ndodhi një gabim: {message}",
     "Select a profile picture" : "Përzgjidhni një foto profili",
     "Very weak password" : "Fjalëkalim shumë i dobët",

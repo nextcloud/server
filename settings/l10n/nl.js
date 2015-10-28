@@ -80,6 +80,7 @@ OC.L10N.register(
     "Uninstall" : "De-installeren",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "De app is geactiveerd maar moet worden bijgewerkt. U wordt over 5 seconden doorgeleid naar de bijwerkpagina.",
     "App update" : "App update",
+    "No apps found for \"{query}\"" : "Geen apps gevonden voor \"{query}\"",
     "An error occurred: {message}" : "Er heeft zich een fout voorgedaan: {message}",
     "Select a profile picture" : "Kies een profielafbeelding",
     "Very weak password" : "Zeer zwak wachtwoord",
