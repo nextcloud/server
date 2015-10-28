@@ -370,6 +370,45 @@ class Test_User_User extends \Test\TestCase {
 		$user->updateQuota();
 	}
 
+	public function testUpdateQuotaFromValue() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$readQuota = '19 GB';
+
+		$connection->expects($this->at(0))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaDefault'))
+			->will($this->returnValue(''));
+
+		$connection->expects($this->once(1))
+			->method('__get')
+			->with($this->equalTo('ldapQuotaDefault'))
+			->will($this->returnValue(null));
+
+		$access->expects($this->never())
+			->method('readAttribute');
+
+		$config->expects($this->once())
+			->method('setUserValue')
+			->with($this->equalTo('alice'),
+				$this->equalTo('files'),
+				$this->equalTo('quota'),
+				$this->equalTo($readQuota))
+			->will($this->returnValue(true));
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+
+		$user->updateQuota($readQuota);
+	}
+
 	//the testUpdateAvatar series also implicitely tests getAvatarImage
 	public function testUpdateAvatarJpegPhotoProvided() {
 		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =

@@ -691,8 +691,9 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 * @param array $ldapRecords
 	 */
 	public function batchApplyUserAttributes(array $ldapRecords){
+		$displayNameAttribute = strtolower($this->connection->ldapUserDisplayName);
 		foreach($ldapRecords as $userRecord) {
-			$ocName  = $this->dn2ocname($userRecord['dn'][0], $userRecord[$this->connection->ldapUserDisplayName]);
+			$ocName  = $this->dn2ocname($userRecord['dn'][0], $userRecord[$displayNameAttribute]);
 			$this->cacheUserExists($ocName);
 			$user = $this->userManager->get($ocName);
 			$user->processAttributes($userRecord);
