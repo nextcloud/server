@@ -21,6 +21,7 @@ addons:
     - realpath
 
 before_install:
+  - bash tests/travis/test_for_app.sh $APP
   - bash tests/travis/before_install.sh $DB
 
 install:
