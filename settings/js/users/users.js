@@ -14,6 +14,7 @@ var UserList = {
 	availableGroups: [],
 	offset: 0,
 	usersToLoad: 10, //So many users will be loaded when user scrolls down
+	initialUsersToLoad: 250, //initial number of users to load
 	currentGid: '',
 	filter: '',
 
@@ -286,7 +287,7 @@ var UserList = {
 		if(UserList.isEmpty === false) {
 			UserList.usersToLoad = 10;
 		} else {
-			UserList.usersToLoad = 30;
+			UserList.usersToLoad = UserList.initialUsersToLoad;
 		}
 	},
 	empty: function() {
@@ -900,15 +901,19 @@ $(document).ready(function () {
 	});
 
 	// calculate initial limit of users to load
-	var initialUserCountLimit = 20,
+	var initialUserCountLimit = UserList.initialUsersToLoad,
 		containerHeight = $('#app-content').height();
 	if(containerHeight > 40) {
 		initialUserCountLimit = Math.floor(containerHeight/40);
-		while((initialUserCountLimit % UserList.usersToLoad) !== 0) {
-			// must be a multiple of this, otherwise LDAP freaks out.
-			// FIXME: solve this in LDAP backend in  8.1
-			initialUserCountLimit = initialUserCountLimit + 1;
+		if (initialUserCountLimit < UserList.initialUsersToLoad) {
+			initialUserCountLimit = UserList.initialUsersToLoad;
 		}
+	}
+	//realign initialUserCountLimit with usersToLoad as a safeguard
+	while((initialUserCountLimit % UserList.usersToLoad) !== 0) {
+		// must be a multiple of this, otherwise LDAP freaks out.
+		// FIXME: solve this in LDAP backend in  8.1
+		initialUserCountLimit = initialUserCountLimit + 1;
 	}
 
 	// trigger loading of users on startup
