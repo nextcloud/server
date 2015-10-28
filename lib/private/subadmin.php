@@ -116,6 +116,7 @@ class SubAdmin extends PublicEmitter {
 		while($row = $result->fetch()) {
 			$groups[] = $this->groupManager->get($row['gid']);
 		}
+		$result->closeCursor();
 
 		return $groups;
 	}
@@ -137,6 +138,7 @@ class SubAdmin extends PublicEmitter {
 		while($row = $result->fetch()) {
 			$users[] = $this->userManager->get($row['uid']);
 		}
+		$result->closeCursor();
 
 		return $users;
 	}
@@ -159,6 +161,8 @@ class SubAdmin extends PublicEmitter {
 				'group' => $this->groupManager->get($row['gid'])
 			];
 		}
+		$result->closeCursor();
+
 		return $subadmins;
 	}
 
@@ -171,13 +175,20 @@ class SubAdmin extends PublicEmitter {
 	public function isSubAdminofGroup(IUser $user, IGroup $group) {
 		$qb = $this->dbConn->getQueryBuilder();
 
+		/*
+		 * Primary key is ('gid', 'uid') so max 1 result possible here
+		 */
 		$result = $qb->select('*')
 			->from('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->execute();
 
-		return !empty($result->fetch()) ? true : false;
+		$fetch =  $result->fetch();
+		$result->closeCursor();
+		$result = !empty($fetch) ? true : false;
+
+		return $result;
 	}
 
 	/**
@@ -197,10 +208,14 @@ class SubAdmin extends PublicEmitter {
 			->from('group_admin')
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->setMaxResults(1)
-			->execute()
-			->fetch();
+			->execute();
 
-		return $result === false ? false : true;
+		$isSubAdmin = $result->fetch();
+		$result->closeCursor();
+
+		$result = $isSubAdmin === false ? false : true;
+
+		return $result;
 	}
 
 	/**
