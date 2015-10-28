@@ -285,8 +285,7 @@ class Test_Access extends \Test\TestCase {
 	 * @dataProvider dNAttributeProvider
 	 */
 	public function testSanitizeDN($attribute) {
-		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
-
+		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
 
 		$dnFromServer = 'cn=Mixed Cases,ou=Are Sufficient To,ou=Test,dc=example,dc=org';
 
