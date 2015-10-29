@@ -5,7 +5,7 @@ php:
 
 env:
   global:
-    - APP=dav
+    - TEST_DAV=$(tests/travis/changed_app.sh dav)
     - TC=litmus-v2
   matrix:
     - DB=sqlite
@@ -21,20 +21,22 @@ addons:
     - realpath
 
 before_install:
-  - bash tests/travis/test_for_app.sh $APP
-  - bash tests/travis/before_install.sh $DB
+  - sh -c "if [ '$TEST_DAV' = '1' ]; then bash tests/travis/before_install.sh $DB; fi"
 
 install:
-  - bash tests/travis/install.sh $DB
+  - sh -c "if [ '$TEST_DAV' = '1' ]; then bash tests/travis/install.sh $DB; fi"
 
 script:
-  - bash apps/$APP/tests/travis/$TC.sh
+  - sh -c "if [ '$TEST_DAV' != '1' ]; then echo \"Not testing DAV\"; fi"
+  - sh -c "if [ '$TEST_DAV' = '1' ]; then echo \"Testing DAV\"; fi"
+
+  - sh -c "if [ '$TEST_DAV' = '1' ]; then bash apps/dav/tests/travis/$TC.sh; fi"
 
 matrix:
   include:
     - php: 5.4
-      env: DB=pgsql;TC=litmus-v1;APP=dav
+      env: DB=pgsql;TC=litmus-v1
 #    - php: 5.4
-#      env: DB=mysql;TC=caldavtester;APP=dav
+#      env: DB=mysql;TC=caldavtester
 
   fast_finish: true
