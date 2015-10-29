@@ -304,10 +304,10 @@ GroupList = {
 		$.ajax({
 			type: "GET",
 			dataType: "json",
-			url: OC.generateUrl('/settings/ajax/geteveryonecount')
+			url: OC.generateUrl('/settings/users/stats')
 		}).success(function (data) {
-			$('#everyonegroup').data('usercount', data.count);
-			$('#everyonecount').text(data.count);
+			$('#everyonegroup').data('usercount', data.totalUsers);
+			$('#everyonecount').text(data.totalUsers);
 		});
 	}
 };
