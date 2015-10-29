@@ -1,6 +1,7 @@
 <?php
 
-use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Context\Context;
+use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
@@ -9,7 +10,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 /**
  * Features context.
  */
-class FeatureContext extends BehatContext {
+class FeatureContext implements Context, SnippetAcceptingContext {
 
 	/** @var string */
 	private $baseUrl = '';
@@ -26,18 +27,15 @@ class FeatureContext extends BehatContext {
 	/** @var SimpleXMLElement */
 	private $lastShareData = null;
 
-	/**
-	 * Initializes context.
-	 * Every scenario gets it's own context object.
-	 *
-	 * @param array $parameters context parameters (set them up through behat.yml)
-	 */
-	public function __construct(array $parameters) {
+	/** @var array */
+	private $createdUsers = [];
+
+	public function __construct($baseUrl, $admin, $regular_user_password) {
 
 		// Initialize your context here
-		$this->baseUrl = $parameters['baseUrl'];
-		$this->adminUser = $parameters['admin'];
-		$this->regularUser = $parameters['regular_user_password'];
+		$this->baseUrl = $baseUrl;
+		$this->adminUser = $admin;
+		$this->regularUser = $regular_user_password;
 
 		// in case of ci deployment we take the server url from the environment
 		$testServerUrl = getenv('TEST_SERVER_URL');
@@ -389,7 +387,7 @@ class FeatureContext extends BehatContext {
 							];
 
 		$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
-
+		$this->createdUsers[$user] = $user;
 	}
 
 	/**
@@ -604,4 +602,16 @@ class FeatureContext extends BehatContext {
 		$this->response = $client->send($client->createRequest("PUT", $fullUrl, $options));
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
+
+	/**
+	 * @BeforeScenario
+	 * @AfterScenario
+	 */
+	public function cleanupUsers()
+	{
+		foreach($this->createdUsers as $user) {
+			$this->deleteUser($user);
+		}
+	}
+
 }

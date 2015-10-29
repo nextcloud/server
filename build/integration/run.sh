@@ -14,6 +14,6 @@ PHPPID=$!
 echo $PHPPID
 
 export TEST_SERVER_URL="http://localhost:$PORT/ocs/"
-vendor/bin/behat --profile ci
+vendor/bin/behat -f junit -f pretty
 
 kill $PHPPID

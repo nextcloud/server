@@ -12,8 +12,6 @@ Feature: sharing
       | shareType | 0 |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And user "user0" does not exist
-    And user "user1" does not exist
 
   Scenario: Creating a share with a group
     Given user "user0" exists
@@ -26,9 +24,6 @@ Feature: sharing
       | shareType | 1 |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And user "user0" does not exist
-    And user "user1" does not exist
-    And group "sharing-group" does not exist
 
   Scenario: Creating a new public share
     Given user "user0" exists
@@ -39,7 +34,6 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Public shared file "welcome.txt" can be downloaded
-    And user "user0" does not exist
 
   Scenario: Creating a new public share with password
     Given user "user0" exists
@@ -51,7 +45,6 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Public shared file "welcome.txt" with password "publicpw" can be downloaded
-    And user "user0" does not exist
 
   Scenario: Creating a new public share with password and adding an expiration date
     Given user "user0" exists
@@ -64,5 +57,4 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Public shared file "welcome.txt" with password "publicpw" can be downloaded
-    And user "user0" does not exist
 
