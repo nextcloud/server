@@ -142,6 +142,13 @@ describe('OC.Share tests', function() {
 
 				checkIcon('filetypes/folder-public');
 			});
+			it('shows external storage icon if external mount point', function() {
+				$file.attr('data-type', 'dir');
+				$file.attr('data-mountType', 'external');
+				OC.Share.markFileAsShared($file, false, false);
+
+				checkIcon('filetypes/folder-external');
+			});
 		});
 
 		describe('displaying the recipoients', function() {

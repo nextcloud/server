@@ -128,8 +128,8 @@
 					$iconDiv.addClass('icon-loading icon-32');
 					this.loadPreview(this.model.getFullPath(), this.model.get('mimetype'), this.model.get('etag'), $iconDiv, $container, this.model.isImage());
 				} else {
-					// TODO: special icons / shared / external
-					$iconDiv.css('background-image', 'url("' + OC.MimeType.getIconUrl('dir') + '")');
+					var iconUrl = this.model.get('icon') || OC.MimeType.getIconUrl('dir');
+					$iconDiv.css('background-image', 'url("' + iconUrl + '")');
 					OC.Util.scaleFixForIE8($iconDiv);
 				}
 				this.$el.find('[title]').tooltip({placement: 'bottom'});

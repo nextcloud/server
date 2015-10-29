@@ -112,6 +112,20 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 
 			lazyLoadPreviewStub.restore();
 		});
+		it('uses icon from model if present in model', function() {
+			var lazyLoadPreviewStub = sinon.stub(fileList, 'lazyLoadPreview');
+			testFileInfo.set('mimetype', 'httpd/unix-directory');
+			testFileInfo.set('icon', OC.MimeType.getIconUrl('dir-external'));
+			view.setFileInfo(testFileInfo);
+
+			expect(lazyLoadPreviewStub.notCalled).toEqual(true);
+
+			expect(view.$el.find('.thumbnail').hasClass('icon-loading')).toEqual(false);
+			expect(view.$el.find('.thumbnail').css('background-image'))
+				.toContain('filetypes/folder-external.svg');
+
+			lazyLoadPreviewStub.restore();
+		});
 		it('displays thumbnail', function() {
 			var lazyLoadPreviewStub = sinon.stub(fileList, 'lazyLoadPreview');
 

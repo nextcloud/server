@@ -253,14 +253,25 @@ OC.Share = _.extend(OC.Share || {}, {
 		// update folder icon
 		if (type === 'dir' && (hasShares || hasLink || owner)) {
 			if (hasLink) {
-				shareFolderIcon = OC.imagePath('core', 'filetypes/folder-public');
+				shareFolderIcon = OC.MimeType.getIconUrl('dir-public');
 			}
 			else {
-				shareFolderIcon = OC.imagePath('core', 'filetypes/folder-shared');
+				shareFolderIcon = OC.MimeType.getIconUrl('dir-shared');
 			}
 			$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')');
+			$tr.attr('data-icon', shareFolderIcon);
 		} else if (type === 'dir') {
-			shareFolderIcon = OC.imagePath('core', 'filetypes/folder');
+			var mountType = $tr.attr('data-mounttype');
+			// FIXME: duplicate of FileList._createRow logic for external folder,
+			// need to refactor the icon logic into a single code path eventually
+			if (mountType && mountType.indexOf('external') === 0) {
+				shareFolderIcon = OC.MimeType.getIconUrl('dir-external');
+				$tr.attr('data-icon', shareFolderIcon);
+			} else {
+				shareFolderIcon = OC.MimeType.getIconUrl('dir');
+				// back to default
+				$tr.removeAttr('data-icon');
+			}
 			$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')');
 		}
 		// update share action text / icon
