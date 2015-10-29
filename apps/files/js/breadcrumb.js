@@ -133,7 +133,8 @@
 					drop: this.onDrop,
 					over: this.onOver,
 					out: this.onOut,
-					tolerance: 'pointer'
+					tolerance: 'pointer',
+					hoverClass: 'canDrop'
 				});
 			}
 
