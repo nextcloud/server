@@ -1976,8 +1976,12 @@ class View extends \Test\TestCase {
 		$view = new \OC\Files\View('/' . $this->user . '/files/');
 
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
-			->setMethods([$operation])
+			->setMethods([$operation, 'filemtime'])
 			->getMock();
+
+		$storage->expects($this->any())
+			->method('filemtime')
+			->will($this->returnValue(123456789));
 
 		$sourcePath = 'original.txt';
 		$targetPath = 'target.txt';
@@ -2117,8 +2121,12 @@ class View extends \Test\TestCase {
 			->setMethods([$storageOperation])
 			->getMock();
 		$storage2 = $this->getMockBuilder('\OC\Files\Storage\Temporary')
-			->setMethods([$storageOperation])
+			->setMethods([$storageOperation, 'filemtime'])
 			->getMock();
+
+		$storage2->expects($this->any())
+			->method('filemtime')
+			->will($this->returnValue(123456789));
 
 		$sourcePath = 'original.txt';
 		$targetPath = 'substorage/target.txt';

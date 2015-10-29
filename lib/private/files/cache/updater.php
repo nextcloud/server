@@ -194,9 +194,23 @@ class Updater {
 			$targetCache->correctFolderSize($targetInternalPath);
 			$this->correctParentStorageMtime($sourceStorage, $sourceInternalPath);
 			$this->correctParentStorageMtime($targetStorage, $targetInternalPath);
+			$this->updateStorageMTimeOnly($targetStorage, $targetInternalPath);
 			$this->propagator->addChange($source);
 			$this->propagator->addChange($target);
 			$this->propagator->propagateChanges();
+		}
+	}
+
+	private function updateStorageMTimeOnly($storage, $internalPath) {
+		$cache = $storage->getCache();
+		$fileId = $cache->getId($internalPath);
+		if ($fileId !== -1) {
+			$cache->update(
+				$fileId, [
+					'mtime' => null, // this magic tells it to not overwrite mtime
+					'storage_mtime' => $storage->filemtime($internalPath)
+				]
+			);
 		}
 	}
 

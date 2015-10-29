@@ -313,6 +313,14 @@ class Cache {
 		$fields = array(
 			'path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted',
 			'etag', 'permissions');
+
+		$doNotCopyStorageMTime = false;
+		if (array_key_exists('mtime', $data) && $data['mtime'] === null) {
+			// this horrific magic tells it to not copy storage_mtime to mtime
+			unset($data['mtime']);
+			$doNotCopyStorageMTime = true;
+		}
+
 		$params = array();
 		$queryParts = array();
 		foreach ($data as $name => $value) {
@@ -325,7 +333,7 @@ class Cache {
 					$queryParts[] = '`mimepart`';
 					$value = $this->mimetypeLoader->getId($value);
 				} elseif ($name === 'storage_mtime') {
-					if (!isset($data['mtime'])) {
+					if (!$doNotCopyStorageMTime && !isset($data['mtime'])) {
 						$params[] = $value;
 						$queryParts[] = '`mtime`';
 					}
