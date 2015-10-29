@@ -56,6 +56,28 @@
 			}
 
 			this._fileList = options && options.fileList;
+
+			this._menuItems = [{
+				id: 'file',
+				displayName: t('files', 'Text file'),
+				templateName: t('files', 'New text file.txt'),
+				iconClass: 'icon-filetype-text',
+				fileType: 'file',
+				actionHandler: function(name) {
+					self._fileList.createFile(name);
+				}
+		        }, {
+				id: 'folder',
+				displayName: t('files', 'Folder'),
+				templateName: t('files', 'New folder'),
+				iconClass: 'icon-folder',
+				fileType: 'folder',
+				actionHandler: function(name) {
+					self._fileList.createDirectory(name);
+				}
+		        }];
+
+			OC.Plugins.attach('OCA.Files.NewFileMenu', this);
 		},
 
 		template: function(data) {
@@ -163,7 +185,14 @@
 
 				if (checkInput()) {
 					var newname = $input.val();
-					self._createFile(fileType, newname);
+
+					/* Find the right actionHandler that should be called.
+					 * Actions is retrieved by using `actionSpec.id` */
+					action = _.filter(self._menuItems, function(item) {
+						return item.id == $target.attr('data-action');
+					}).pop();
+					action.actionHandler(newname);
+
 					$form.remove();
 					$target.find('.displayname').removeClass('hidden');
 					OC.hideMenus();
@@ -172,23 +201,21 @@
 		},
 
 		/**
-		 * Creates a file with the given type and name.
-		 * This calls the matching methods on the attached file list.
-		 *
-		 * @param {string} fileType file type
-		 * @param {string} name file name
-		 */
-		_createFile: function(fileType, name) {
-			switch(fileType) {
-				case 'file':
-					this._fileList.createFile(name);
-					break;
-				case 'folder':
-					this._fileList.createDirectory(name);
-					break;
-				default:
-					console.warn('Unknown file type "' + fileType + '"');
-			}
+		* Add a new item menu entry in the “New” file menu (in
+		* last position). By clicking on the item, the
+		* `actionHandler` function is called.
+		*
+		* @param {Object} actionSpec item’s properties
+		*/
+		addMenuEntry: function(actionSpec) {
+			this._menuItems.push({
+				id: actionSpec.id,
+				displayName: actionSpec.displayName,
+				templateName: actionSpec.templateName,
+				iconClass: actionSpec.iconClass,
+				fileType: actionSpec.fileType,
+				actionHandler: actionSpec.actionHandler,
+		        });
 		},
 
 		/**
@@ -198,19 +225,7 @@
 			this.$el.html(this.template({
 				uploadMaxHumanFileSize: 'TODO',
 				uploadLabel: t('files', 'Upload'),
-				items: [{
-					id: 'file',
-					displayName: t('files', 'Text file'),
-					templateName: t('files', 'New text file.txt'),
-					iconClass: 'icon-filetype-text',
-					fileType: 'file'
-				}, {
-					id: 'folder',
-					displayName: t('files', 'Folder'),
-					templateName: t('files', 'New folder'),
-					iconClass: 'icon-folder',
-					fileType: 'folder'
-				}]
+				items: this._menuItems
 			}));
 			OC.Util.scaleFixForIE8(this.$('.svg'));
 		},
