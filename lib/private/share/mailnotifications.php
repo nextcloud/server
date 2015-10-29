@@ -136,7 +136,7 @@ class MailNotifications {
 
 			$link = \OCP\Util::linkToAbsolute('files', 'index.php', $args);
 
-			list($htmlBody, $textBody) = $this->createMailBody($filename, $link, $expiration);
+			list($htmlBody, $textBody) = $this->createMailBody($filename, $link, $expiration, 'internal');
 
 			// send it out now
 			try {
@@ -210,20 +210,20 @@ class MailNotifications {
 	 * @param string $filename the shared file
 	 * @param string $link link to the shared file
 	 * @param int $expiration expiration date (timestamp)
+	 * @param bool $prefix prefix of mail template files
 	 * @return array an array of the html mail body and the plain text mail body
 	 */
-	private function createMailBody($filename, $link, $expiration) {
-
+	private function createMailBody($filename, $link, $expiration, $prefix = '') {
 		$formattedDate = $expiration ? $this->l->l('date', $expiration) : null;
 
-		$html = new \OC_Template("core", "mail", "");
+		$html = new \OC_Template('core', $prefix . 'mail', '');
 		$html->assign ('link', $link);
 		$html->assign ('user_displayname', $this->senderDisplayName);
 		$html->assign ('filename', $filename);
 		$html->assign('expiration',  $formattedDate);
 		$htmlMail = $html->fetchPage();
 
-		$plainText = new \OC_Template("core", "altmail", "");
+		$plainText = new \OC_Template('core', $prefix . 'altmail', '');
 		$plainText->assign ('link', $link);
 		$plainText->assign ('user_displayname', $this->senderDisplayName);
 		$plainText->assign ('filename', $filename);
