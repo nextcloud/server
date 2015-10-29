@@ -767,7 +767,7 @@
 		 */
 		elementToFile: function($el){
 			$el = $($el);
-			return {
+			var data = {
 				id: parseInt($el.attr('data-id'), 10),
 				name: $el.attr('data-file'),
 				mimetype: $el.attr('data-mime'),
@@ -777,6 +777,15 @@
 				etag: $el.attr('data-etag'),
 				permissions: parseInt($el.attr('data-permissions'), 10)
 			};
+			var icon = $el.attr('data-icon');
+			if (icon) {
+				data.icon = icon;
+			}
+			var mountType = $el.attr('data-mounttype');
+			if (mountType) {
+				data.mountType = mountType;
+			}
+			return data;
 		},
 
 		/**
@@ -899,11 +908,12 @@
 				mtime = parseInt(fileData.mtime, 10),
 				mime = fileData.mimetype,
 				path = fileData.path,
+				dataIcon = null,
 				linkUrl;
 			options = options || {};
 
 			if (isNaN(mtime)) {
-				mtime = new Date().getTime()
+				mtime = new Date().getTime();
 			}
 
 			if (type === 'dir') {
@@ -911,6 +921,7 @@
 
 				if (fileData.mountType && fileData.mountType.indexOf('external') === 0) {
 					icon = OC.MimeType.getIconUrl('dir-external');
+					dataIcon = icon;
 				}
 			}
 
@@ -925,6 +936,11 @@
 				"data-etag": fileData.etag,
 				"data-permissions": fileData.permissions || this.getDirectoryPermissions()
 			});
+
+			if (dataIcon) {
+				// icon override
+				tr.attr('data-icon', dataIcon);
+			}
 
 			if (fileData.mountType) {
 				tr.attr('data-mounttype', fileData.mountType);
@@ -1177,7 +1193,7 @@
 			// display actions
 			this.fileActions.display(filenameTd, !options.silent, this);
 
-			if (fileData.isPreviewAvailable) {
+			if (fileData.isPreviewAvailable && mime !== 'httpd/unix-directory') {
 				var iconDiv = filenameTd.find('.thumbnail');
 				// lazy load / newly inserted td ?
 				// the typeof check ensures that the default value of animate is true
