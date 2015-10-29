@@ -753,8 +753,9 @@ class OC_Helper {
 	 * @return int PHP upload file size limit
 	 */
 	public static function uploadLimit() {
-		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
-		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
+		$ini = \OC::$server->getIniWrapper();
+		$upload_max_filesize = OCP\Util::computerFileSize($ini->get('upload_max_filesize'));
+		$post_max_size = OCP\Util::computerFileSize($ini->get('post_max_size'));
 		if ((int)$upload_max_filesize === 0 and (int)$post_max_size === 0) {
 			return INF;
 		} elseif ((int)$upload_max_filesize === 0 or (int)$post_max_size === 0) {
@@ -774,12 +775,13 @@ class OC_Helper {
 		if (!function_exists($function_name)) {
 			return false;
 		}
-		$disabled = explode(',', ini_get('disable_functions'));
+		$ini = \OC::$server->getIniWrapper();
+		$disabled = explode(',', $ini->get('disable_functions'));
 		$disabled = array_map('trim', $disabled);
 		if (in_array($function_name, $disabled)) {
 			return false;
 		}
-		$disabled = explode(',', ini_get('suhosin.executor.func.blacklist'));
+		$disabled = explode(',', $ini->get('suhosin.executor.func.blacklist'));
 		$disabled = array_map('trim', $disabled);
 		if (in_array($function_name, $disabled)) {
 			return false;
