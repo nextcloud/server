@@ -77,13 +77,7 @@ class RepairInvalidSharesTest extends TestCase {
 			])
 			->execute();
 
-		// select because lastInsertId does not work with OCI
-		$results = $this->connection->getQueryBuilder()
-			->select('id')
-			->from('share')
-			->execute()
-			->fetchAll();
-		$bogusShareId = $results[0]['id'];
+		$bogusShareId = $this->getLastShareId();
 
 		// link share with expiration date
 		$qb = $this->connection->getQueryBuilder();
@@ -118,6 +112,84 @@ class RepairInvalidSharesTest extends TestCase {
 		$this->assertEquals($bogusShareId, $userShare['id'], 'sanity check');
 		$this->assertNull($userShare['expiration'], 'bogus expiration date was removed');
 		$this->assertNotNull($linkShare['expiration'], 'valid link share expiration date still there');
+	}
+
+	/**
+	 * Test remove shares where the parent share does not exist anymore
+	 */
+	public function testSharesNonExistingParent() {
+		$qb = $this->connection->getQueryBuilder();
+		$shareValues = [
+			'share_type' => $qb->expr()->literal(Constants::SHARE_TYPE_USER),
+			'share_with' => $qb->expr()->literal('recipientuser1'),
+			'uid_owner' => $qb->expr()->literal('user1'),
+			'item_type' => $qb->expr()->literal('folder'),
+			'item_source' => $qb->expr()->literal(123),
+			'item_target' => $qb->expr()->literal('/123'),
+			'file_source' => $qb->expr()->literal(123),
+			'file_target' => $qb->expr()->literal('/test'),
+			'permissions' => $qb->expr()->literal(1),
+			'stime' => $qb->expr()->literal(time()),
+			'expiration' => $qb->expr()->literal('2015-09-25 00:00:00')
+		];
+
+		// valid share
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->values($shareValues)
+			->execute();
+		$parent = $this->getLastShareId();
+
+		// share with existing parent
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->values(array_merge($shareValues, [
+				'parent' => $qb->expr()->literal($parent),
+			]))->execute();
+		$validChild = $this->getLastShareId();
+
+		// share with non-existing parent
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->values(array_merge($shareValues, [
+				'parent' => $qb->expr()->literal($parent + 100),
+			]))->execute();
+		$invalidChild = $this->getLastShareId();
+
+		$query = $this->connection->getQueryBuilder();
+		$result = $query->select('id')
+			->from('share')
+			->orderBy('id', 'ASC')
+			->execute();
+		$rows = $result->fetchAll();
+		$this->assertSame([['id' => $parent], ['id' => $validChild], ['id' => $invalidChild]], $rows);
+		$result->closeCursor();
+
+		$this->repair->run();
+
+		$query = $this->connection->getQueryBuilder();
+		$result = $query->select('id')
+			->from('share')
+			->orderBy('id', 'ASC')
+			->execute();
+		$rows = $result->fetchAll();
+		$this->assertSame([['id' => $parent], ['id' => $validChild]], $rows);
+		$result->closeCursor();
+	}
+
+	/**
+	 * @return int
+	 */
+	protected function getLastShareId() {
+		// select because lastInsertId does not work with OCI
+		$query = $this->connection->getQueryBuilder();
+		$result = $query->select('id')
+			->from('share')
+			->orderBy('id', 'DESC')
+			->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+		return $row['id'];
 	}
 }
 
