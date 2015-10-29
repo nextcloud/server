@@ -71,6 +71,10 @@ $(document).ready(function() {
 				if (this._reloadCall) {
 					this._reloadCall.abort();
 				}
+
+				// there is only root
+				this._setCurrentDir('/', false);
+
 				this._reloadCall = $.ajax({
 					url: OC.generateUrl('/apps/files/api/v1/tags/{tagName}/files', {tagName: tagName}),
 					type: 'GET',
@@ -86,10 +90,9 @@ $(document).ready(function() {
 
 				if (result.files) {
 					this.setFiles(result.files.sort(this._sortComparator));
+					return true;
 				}
-				else {
-					// TODO: error handling
-				}
+				return false;
 			}
 		});
 
