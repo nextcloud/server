@@ -525,4 +525,45 @@ class UsersController extends Controller {
 		);
 	}
 
+	/**
+	 * Count all unique users visible for the current admin/subadmin.
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return DataResponse
+	 */
+	public function stats() {
+		$userCount = 0;
+		if ($this->isAdmin) {
+			$countByBackend = $this->userManager->countUsers();
+
+			if (!empty($countByBackend)) {
+				foreach ($countByBackend as $count) {
+					$userCount += $count;
+				}
+			}
+		} else {
+
+			$groupNames = $this->subAdminFactory->getSubAdminsOfGroups($this->userSession->getUser()->getUID());
+
+			$uniqueUsers = [];
+			foreach ($groupNames as $groupName) {
+				$group = $this->groupManager->get($groupName);
+				if (!is_null($group)) {
+					foreach($group->getUsers() as $uid => $displayName) {
+						$uniqueUsers[$uid] = true;
+					}
+				}
+			}
+
+			$userCount = count($uniqueUsers);
+		}
+
+		return new DataResponse(
+			[
+				'totalUsers' => $userCount
+			]
+		);
+	}
+
 }
