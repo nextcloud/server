@@ -2117,15 +2117,16 @@
 				this.hideIrrelevantUIWhenNoFilesMatch();
 			}
 			var that = this;
+			filter = filter.toLowerCase();
 			this.$fileList.find('tr').each(function(i,e) {
 				var $e = $(e);
-				if ($e.data('file').toString().toLowerCase().indexOf(filter.toLowerCase()) === -1) {
+				if ($e.data('file').toString().toLowerCase().indexOf(filter) === -1) {
 					$e.addClass('hidden');
-					that.$container.trigger('scroll');
 				} else {
 					$e.removeClass('hidden');
 				}
 			});
+			that.$container.trigger('scroll');
 		},
 		hideIrrelevantUIWhenNoFilesMatch:function() {
 			if (this._filter && this.fileSummary.summary.totalDirs + this.fileSummary.summary.totalFiles === 0) {
