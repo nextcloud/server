@@ -44,6 +44,11 @@ class SubAdmin extends PublicEmitter {
 	/** @var IDBConnection */
 	private $dbConn;
 
+	/**
+	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
+	 * @param IDBConnection $dbConn
+	 */
 	public function __construct(IUserManager $userManager,
 	                            IGroupManager $groupManager,
 								IDBConnection $dbConn) {
@@ -68,7 +73,7 @@ class SubAdmin extends PublicEmitter {
 	public function createSubAdmin(IUser $user, IGroup $group) {
 		$qb = $this->dbConn->getQueryBuilder();
 
-		$result = $qb->insert('group_admin')
+		$qb->insert('group_admin')
 			->values([
 				'gid' => $qb->createNamedParameter($group->getGID()),
 				'uid' => $qb->createNamedParameter($user->getUID())
@@ -89,7 +94,7 @@ class SubAdmin extends PublicEmitter {
 	public function deleteSubAdmin(IUser $user, IGroup $group) {
 		$qb = $this->dbConn->getQueryBuilder();
 
-		$result = $qb->delete('group_admin')
+		$qb->delete('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->execute();
@@ -231,9 +236,9 @@ class SubAdmin extends PublicEmitter {
 		if($this->groupManager->isAdmin($user->getUID())) {
 			return false;
 		}
-		$accessiblegroups = $this->getSubAdminsGroups($subadmin);
-		foreach($accessiblegroups as $accessiblegroup) {
-			if($accessiblegroup->inGroup($user)) {
+		$accessibleGroups = $this->getSubAdminsGroups($subadmin);
+		foreach($accessibleGroups as $accessibleGroup) {
+			if($accessibleGroup->inGroup($user)) {
 				return true;
 			}
 		}
@@ -248,7 +253,7 @@ class SubAdmin extends PublicEmitter {
 	private function post_deleteUser($user) {
 		$qb = $this->dbConn->getQueryBuilder();
 
-		$result = $qb->delete('group_admin')
+		$qb->delete('group_admin')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->execute();
 
@@ -263,7 +268,7 @@ class SubAdmin extends PublicEmitter {
 	private function post_deleteGroup($group) {
 		$qb = $this->dbConn->getQueryBuilder();
 
-		$result = $qb->delete('group_admin')
+		$qb->delete('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
 			->execute();
 

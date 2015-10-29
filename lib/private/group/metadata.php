@@ -26,49 +26,42 @@
 
 namespace OC\Group;
 
+use OCP\IUserSession;
+
 class MetaData {
 	const SORT_NONE = 0;
 	const SORT_USERCOUNT = 1; // May have performance issues on LDAP backends
 	const SORT_GROUPNAME = 2;
 
-	/**
-	 * @var string $user
-	 */
+	/** @var string */
 	protected $user;
-
-	/**
-	 * @var bool $isAdmin
-	 */
+	/** @var bool */
 	protected $isAdmin;
-
-	/**
-	 * @var array $metaData
-	 */
+	/** @var array */
 	protected $metaData = array();
-
-	/**
-	 * @var \OCP\IGroupManager $groupManager
-	 */
+	/** @var \OCP\IGroupManager */
 	protected $groupManager;
-
-	/**
-	 * @var int $sorting
-	 */
+	/** @var bool */
 	protected $sorting = false;
+	/** @var IUserSession */
+	protected $userSession;
 
 	/**
 	 * @param string $user the uid of the current user
 	 * @param bool $isAdmin whether the current users is an admin
 	 * @param \OCP\IGroupManager $groupManager
+	 * @param IUserSession $userSession
 	 */
 	public function __construct(
 			$user,
 			$isAdmin,
-			\OCP\IGroupManager $groupManager
+			\OCP\IGroupManager $groupManager,
+			IUserSession $userSession
 			) {
 		$this->user = $user;
 		$this->isAdmin = (bool)$isAdmin;
 		$this->groupManager = $groupManager;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -190,23 +183,15 @@ class MetaData {
 	 * @param string $search a search string
 	 * @return \OCP\IGroup[]
 	 */
-	private function getGroups($search = '') {
+	protected function getGroups($search = '') {
 		if($this->isAdmin) {
 			return $this->groupManager->search($search);
 		} else {
-			// FIXME: Remove static method call
-			$groupIds = \OC_SubAdmin::getSubAdminsGroups($this->user);
-
-			/* \OC_SubAdmin::getSubAdminsGroups() returns an array of GIDs, but this
-			* method is expected to return an array with the GIDs as keys and group objects as
-			* values, so we need to convert this information.
-			*/
-			$groups = array();
-			foreach($groupIds as $gid) {
-				$group = $this->groupManager->get($gid);
-				if (!is_null($group)) {
-					$groups[$gid] = $group;
-				}
+			$userObject = $this->userSession->getUser();
+			if($userObject !== null) {
+				$groups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($userObject);
+			} else {
+				$groups = [];
 			}
 
 			return $groups;

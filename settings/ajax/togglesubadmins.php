@@ -27,11 +27,20 @@ OCP\JSON::callCheck();
 $username = (string)$_POST['username'];
 $group = (string)$_POST['group'];
 
+$subAdminManager = \OC::$server->getGroupManager()->getSubAdmin();
+$targetUserObject = \OC::$server->getUserManager()->get($username);
+$targetGroupObject = \OC::$server->getGroupManager()->get($group);
+
+$isSubAdminOfGroup = false;
+if($targetUserObject !== null && $targetUserObject !== null) {
+	$isSubAdminOfGroup = $subAdminManager->isSubAdminofGroup($targetUserObject, $targetGroupObject);
+}
+
 // Toggle group
-if(OC_SubAdmin::isSubAdminofGroup($username, $group)) {
-	OC_SubAdmin::deleteSubAdmin($username, $group);
-}else{
-	OC_SubAdmin::createSubAdmin($username, $group);
+if($isSubAdminOfGroup) {
+	$subAdminManager->deleteSubAdmin($targetUserObject, $targetGroupObject);
+} else {
+	$subAdminManager->createSubAdmin($targetUserObject, $targetGroupObject);
 }
 
 OC_JSON::success();

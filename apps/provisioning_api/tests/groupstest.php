@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Tom Needham <tom@owncloud.com>
@@ -29,15 +30,14 @@ use OCP\IGroupManager;
 use OCP\IUserSession;
 
 class GroupsTest extends TestCase {
-	
 	/** @var IUserManager */
 	protected $userManager;
-
 	/** @var IGroupManager */
 	protected $groupManager;
-
 	/** @var IUserSession */
 	protected $userSession;
+	/** @var \OCA\Provisioning_API\Groups */
+	protected $api;
 
 	protected function setup() {
 		parent::setup();
@@ -114,7 +114,7 @@ class GroupsTest extends TestCase {
 		$group->addUser($users[0]);
 		$group->addUser($users[1]);
 
-		\OC_SubAdmin::createSubAdmin($users[0]->getUID(), $group->getGID());
+		$this->groupManager->getSubAdmin()->createSubAdmin($users[0], $group);
 
 		$result = $this->api->getGroup([
 			'groupid' => $group->getGID(),
@@ -147,7 +147,7 @@ class GroupsTest extends TestCase {
 		$group1->addUser($users[1]);
 		$group2->addUser($users[0]);
 
-		\OC_SubAdmin::createSubAdmin($users[0]->getUID(), $group2->getGID());
+		$this->groupManager->getSubAdmin()->createSubAdmin($users[0], $group2);
 
 		$result = $this->api->getGroup([
 			'groupid' => $group1->getGID(),
@@ -196,7 +196,7 @@ class GroupsTest extends TestCase {
 		$this->userSession->setUser($user1);
 		$this->groupManager->get('admin')->addUser($user1);
 		$group1 = $this->groupManager->createGroup($this->getUniqueID());
-		\OC_SubAdmin::createSubAdmin($user2->getUID(), $group1->getGID());
+		$this->groupManager->getSubAdmin()->createSubAdmin($user2, $group1);
 		$result = $this->api->getSubAdminsOfGroup([
 			'groupid' => $group1->getGID(),
 		]);

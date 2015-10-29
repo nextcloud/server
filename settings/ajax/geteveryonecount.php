@@ -29,7 +29,12 @@ $userCount = 0;
 $currentUser = \OC::$server->getUserSession()->getUser()->getUID();
 
 if (!OC_User::isAdminUser($currentUser)) {
-	$groups = OC_SubAdmin::getSubAdminsGroups($currentUser);
+	$groups = \OC::$server->getGroupManager()->getSubAdmin()->getSubAdminsGroups(\OC::$server->getUserSession()->getUser());
+	// New class returns IGroup[] so convert back
+	foreach ($groups as $key => $group) {
+		$groups[$key] = $group->getGID();
+	}
+
 
 	foreach ($groups as $group) {
 		$userCount += count(OC_Group::usersInGroup($group));

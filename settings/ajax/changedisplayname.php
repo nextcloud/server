@@ -37,7 +37,15 @@ $userstatus = null;
 if(OC_User::isAdminUser(OC_User::getUser())) {
 	$userstatus = 'admin';
 }
-if(OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)) {
+
+$isUserAccessible = false;
+$subadminUserObject = \OC::$server->getUserManager()->get(\OC_User::getUser());
+$targetUserObject = \OC::$server->getUserManager()->get($username);
+if($subadminUserObject !== null && $targetUserObject !== null) {
+	$isUserAccessible = \OC::$server->getGroupManager()->getSubAdmin()->isUserAccessible($subadminUserObject, $targetUserObject);
+}
+
+if($isUserAccessible) {
 	$userstatus = 'subadmin';
 }
 

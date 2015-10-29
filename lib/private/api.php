@@ -303,9 +303,13 @@ class OC_API {
 				if(!$user) {
 					return false;
 				} else {
-					$subAdmin = OC_SubAdmin::isSubAdmin($user);
+					$userObject = \OC::$server->getUserSession()->getUser();
+					if($userObject === null) {
+						return false;
+					}
+					$isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
 					$admin = OC_User::isAdminUser($user);
-					if($subAdmin || $admin) {
+					if($isSubAdmin || $admin) {
 						return true;
 					} else {
 						return false;

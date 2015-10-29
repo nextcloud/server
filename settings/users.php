@@ -57,7 +57,12 @@ $config = \OC::$server->getConfig();
 
 $isAdmin = OC_User::isAdminUser(OC_User::getUser());
 
-$groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), $isAdmin, $groupManager);
+$groupsInfo = new \OC\Group\MetaData(
+	OC_User::getUser(),
+	$isAdmin,
+	$groupManager,
+	\OC::$server->getUserSession()
+);
 $groupsInfo->setSorting($sortGroupsBy);
 list($adminGroup, $groups) = $groupsInfo->get();
 
@@ -65,7 +70,16 @@ $recoveryAdminEnabled = OC_App::isEnabled('encryption') &&
 					    $config->getAppValue( 'encryption', 'recoveryAdminEnabled', null );
 
 if($isAdmin) {
-	$subadmins = OC_SubAdmin::getAllSubAdmins();
+	$subadmins = \OC::$server->getGroupManager()->getSubAdmin()->getAllSubAdmins();
+	// New class returns IUser[] so convert back
+	$result = [];
+	foreach ($subAdmins as $subAdmin) {
+		$result[] = [
+			'gid' => $subAdmin['group']->getGID(),
+			'uid' => $subAdmin['user']->getUID(),
+		];
+	}
+	$subadmins = $result;
 }else{
 	/* Retrieve group IDs from $groups array, so we can pass that information into OC_Group::displayNamesInGroups() */
 	$gids = array();
