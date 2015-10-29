@@ -164,11 +164,12 @@ textarea:hover, textarea:focus, textarea:active {
 
 /* ie8 doesn't support :checked */
 html:not(.ie8) input[type="checkbox"].checkbox {
-	margin:0;
-	padding:0;
-	height:auto;
-	width:auto;
-	display: none;
+	position: absolute;
+	left:-10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
 }
 
 html:not(.ie8) input[type="checkbox"].checkbox + label:before {
