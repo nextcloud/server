@@ -115,3 +115,4 @@ Vagrantfile
 /tests/data/testimage-copy.png
 /config/config-autotest-backup.php
 /config/autoconfig.php
+clover.xml
