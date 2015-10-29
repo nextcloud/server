@@ -1,7 +1,6 @@
 { "translations": {
     "Couldn't send mail to following users: %s " : "Sähköpostin lähetys seuraaville käyttäjille epäonnistui: %s",
     "Preparing update" : "Valmistellaan päivitystä",
-    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "Migraatiotestit ohitetaan - \"update.skip-migration-test\" on aktiivisena config.php-tiedostossa",
     "Turned on maintenance mode" : "Siirrytty huoltotilaan",
     "Turned off maintenance mode" : "Huoltotila asetettu pois päältä",
     "Maintenance mode is kept active" : "Huoltotila pidetään aktiivisena",
@@ -130,6 +129,7 @@
     "Set expiration date" : "Aseta päättymispäivä",
     "Expiration" : "Erääntyminen",
     "Expiration date" : "Päättymispäivä",
+    "Choose a password for the public link" : "Valitse salasana julkiselle linkille",
     "Sending ..." : "Lähetetään...",
     "Email sent" : "Sähköposti lähetetty",
     "Resharing is not allowed" : "Jakaminen uudelleen ei ole salittu",
@@ -137,7 +137,6 @@
     "Link" : "Linkki",
     "Password protect" : "Suojaa salasanalla",
     "Password" : "Salasana",
-    "Choose a password for the public link" : "Valitse salasana julkiselle linkille",
     "Allow editing" : "Salli muokkaus",
     "Email link to person" : "Lähetä linkki sähköpostitse",
     "Send" : "Lähetä",

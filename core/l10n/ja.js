@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Couldn't send mail to following users: %s " : "次のユーザーにメールを送信できませんでした: %s",
     "Preparing update" : "アップデートの準備中",
-    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "マイグレーションテストは、スキップしました - config.php で ”update.skip-migration-test\" が有効になっています。",
     "Turned on maintenance mode" : "メンテナンスモードがオンになりました",
     "Turned off maintenance mode" : "メンテナンスモードがオフになりました",
     "Maintenance mode is kept active" : "メンテナンスモードが継続中です",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Set expiration date" : "有効期限を設定",
     "Expiration" : "期限切れ",
     "Expiration date" : "有効期限",
+    "Choose a password for the public link" : "URLによる共有のパスワードを入力",
     "Sending ..." : "送信中...",
     "Email sent" : "メールを送信しました",
     "Resharing is not allowed" : "再共有は許可されていません",
@@ -139,7 +139,6 @@ OC.L10N.register(
     "Link" : "リンク",
     "Password protect" : "パスワード保護を有効化",
     "Password" : "パスワード",
-    "Choose a password for the public link" : "URLによる共有のパスワードを入力",
     "Allow editing" : "編集許可",
     "Email link to person" : "メールリンク",
     "Send" : "送信",

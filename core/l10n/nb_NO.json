@@ -1,7 +1,6 @@
 { "translations": {
     "Couldn't send mail to following users: %s " : "Klarte ikke å sende mail til følgende brukere: %s",
     "Preparing update" : "Forbereder oppdatering",
-    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "Migreringstester utføres ikke - \"update.skip-migration-test\" er aktivert i config.php",
     "Turned on maintenance mode" : "Slo på vedlikeholdsmodus",
     "Turned off maintenance mode" : "Slo av vedlikeholdsmodus",
     "Maintenance mode is kept active" : "Vedlikeholdsmodus blir beholdt aktiv",
@@ -130,6 +129,7 @@
     "Set expiration date" : "Sett utløpsdato",
     "Expiration" : "Utløpsdato",
     "Expiration date" : "Utløpsdato",
+    "Choose a password for the public link" : "Velg et passord for den offentlige lenken",
     "Sending ..." : "Sender...",
     "Email sent" : "E-post sendt",
     "Resharing is not allowed" : "Videre deling er ikke tillatt",
@@ -137,7 +137,6 @@
     "Link" : "Lenke",
     "Password protect" : "Passordbeskyttet",
     "Password" : "Passord",
-    "Choose a password for the public link" : "Velg et passord for den offentlige lenken",
     "Allow editing" : "Tillat redigering",
     "Email link to person" : "Email lenke til person",
     "Send" : "Send",

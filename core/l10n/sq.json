@@ -1,7 +1,6 @@
 { "translations": {
     "Couldn't send mail to following users: %s " : "S’u dërgua dot e-mail përdoruesve vijues: %s ",
     "Preparing update" : "Po përgatitet përditësimi",
-    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "Testet e migrimit janë anashkaluar - \"update.skip-migration-test\" është aktivizuar te config.php",
     "Turned on maintenance mode" : "Mënyra e mirëmbajtjes u aktivizua",
     "Turned off maintenance mode" : "Mënyra e mirëmbajtjes u çaktivizua",
     "Maintenance mode is kept active" : "Mënyra mirëmbajtje është mbajtur e aktivizuar",
@@ -130,6 +129,7 @@
     "Set expiration date" : "Caktoni datë skadimi",
     "Expiration" : "Skadim",
     "Expiration date" : "Datë skadimi",
+    "Choose a password for the public link" : "Zgjidhni një fjalëkalim për lidhjen publike",
     "Sending ..." : "Po dërgohet …",
     "Email sent" : "Email-i u dërgua",
     "Resharing is not allowed" : "Nuk lejohen rindarjet",
@@ -137,7 +137,6 @@
     "Link" : "Lidhje",
     "Password protect" : "Mbroje me fjalëkalim",
     "Password" : "Fjalëkalim",
-    "Choose a password for the public link" : "Zgjidhni një fjalëkalim për lidhjen publike",
     "Allow editing" : "Lejo përpunim",
     "Email link to person" : "Dërgoja personit lidhjen me email",
     "Send" : "Dërgoje",

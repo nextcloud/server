@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Couldn't send mail to following users: %s " : "ไม่สามารถส่งอีเมลไปยังผู้ใช้: %s",
     "Preparing update" : "เตรียมอัพเดท",
-    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "ทดสอบการย้ายจะถูกข้าม \"update.skip-migration-test\" สามารถเปิดใช้งานได้ใน config.php",
     "Turned on maintenance mode" : "เปิดโหมดการบำรุงรักษา",
     "Turned off maintenance mode" : "ปิดโหมดการบำรุงรักษา",
     "Maintenance mode is kept active" : "โหมดการบำรุงรักษาจะถูกเก็บไว้ใช้งาน",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Set expiration date" : "กำหนดวันที่หมดอายุ",
     "Expiration" : "การหมดอายุ",
     "Expiration date" : "วันที่หมดอายุ",
+    "Choose a password for the public link" : "เลือกรหัสผ่านสำหรับลิงค์สาธารณะ",
     "Sending ..." : "กำลังส่ง...",
     "Email sent" : "ส่งอีเมล์แล้ว",
     "Resharing is not allowed" : "ไม่อนุญาตให้แชร์ข้อมูลที่ซ้ำกัน",
@@ -133,7 +133,6 @@ OC.L10N.register(
     "Link" : "ลิงค์",
     "Password protect" : "รหัสผ่านป้องกัน",
     "Password" : "รหัสผ่าน",
-    "Choose a password for the public link" : "เลือกรหัสผ่านสำหรับลิงค์สาธารณะ",
     "Allow editing" : "อนุญาตให้แก้ไข",
     "Email link to person" : "ส่งลิงก์ให้ทางอีเมล",
     "Send" : "ส่ง",

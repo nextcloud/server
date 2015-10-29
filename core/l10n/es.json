@@ -1,7 +1,6 @@
 { "translations": {
     "Couldn't send mail to following users: %s " : "No se pudo enviar el mensaje a los siguientes usuarios: %s",
     "Preparing update" : "Preparando la actualización",
-    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "Se han saltado las pruebas de migración - \"update.skip-migration-test\" está activado en config.php",
     "Turned on maintenance mode" : "Modo mantenimiento activado",
     "Turned off maintenance mode" : "Modo mantenimiento desactivado",
     "Maintenance mode is kept active" : "El modo mantenimiento aún está activo.",
@@ -125,6 +124,7 @@
     "Set expiration date" : "Establecer fecha de caducidad",
     "Expiration" : "Expira en:",
     "Expiration date" : "Fecha de caducidad",
+    "Choose a password for the public link" : "Elija una contraseña para el enlace publico",
     "Sending ..." : "Enviando...",
     "Email sent" : "Correo electrónico enviado",
     "Resharing is not allowed" : "No se permite compartir de nuevo",
@@ -132,7 +132,6 @@
     "Link" : "Enlace",
     "Password protect" : "Protección con contraseña",
     "Password" : "Contraseña",
-    "Choose a password for the public link" : "Elija una contraseña para el enlace publico",
     "Allow editing" : "Permitir edición",
     "Email link to person" : "Enviar enlace por correo electrónico a una persona",
     "Send" : "Enviar",

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Couldn't send mail to following users: %s " : "Şu kullanıcılara posta gönderilemedi: %s",
     "Preparing update" : "Güncelleme hazırlanıyor",
-    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "Taşıma testleri atlandı - config.php içerisinde \"update.skip-migration-test\" etkinleştirildi",
     "Turned on maintenance mode" : "Bakım kipi etkinleştirildi",
     "Turned off maintenance mode" : "Bakım kipi kapatıldı",
     "Maintenance mode is kept active" : "Bakım kipi etkin tutuldu",
@@ -124,6 +123,7 @@ OC.L10N.register(
     "Set expiration date" : "Son kullanma tarihini ayarla",
     "Expiration" : "Bitiş",
     "Expiration date" : "Son kullanım tarihi",
+    "Choose a password for the public link" : "Herkese açık bağlantı için bir parola seçin",
     "Sending ..." : "Gönderiliyor...",
     "Email sent" : "E-posta gönderildi",
     "Resharing is not allowed" : "Tekrar paylaşmaya izin verilmiyor",
@@ -131,7 +131,6 @@ OC.L10N.register(
     "Link" : "Bağlantı",
     "Password protect" : "Parola koruması",
     "Password" : "Parola",
-    "Choose a password for the public link" : "Herkese açık bağlantı için bir parola seçin",
     "Allow editing" : "Düzenlemeye izin ver",
     "Email link to person" : "Bağlantıyı e-posta ile gönder",
     "Send" : "Gönder",

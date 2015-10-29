@@ -1,7 +1,6 @@
 { "translations": {
     "Couldn't send mail to following users: %s " : "Senden der E-Mail an folgende Benutzer fehlgeschlagen: %s",
     "Preparing update" : "Bereite Aktualisierung vor",
-    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "Migrierungstests werden übersprungen - \"update.skip-migration-test\" ist in der config.php aktiviert",
     "Turned on maintenance mode" : "Wartungsmodus eingeschaltet",
     "Turned off maintenance mode" : "Wartungsmodus ausgeschaltet",
     "Maintenance mode is kept active" : "Wartungsmodus wird fortgeführt",

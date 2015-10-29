@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Couldn't send mail to following users: %s " : "Nem sikerült e-mailt küldeni a következő felhasználóknak: %s",
     "Preparing update" : "Felkészülés a frissítésre",
-    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "Migrációs tesztek kihagyva - „update.skip-migration-test” aktiválva van a config.php fájlban",
     "Turned on maintenance mode" : "A karbantartási mód bekapcsolva",
     "Turned off maintenance mode" : "A karbantartási mód kikapcsolva",
     "Maintenance mode is kept active" : "Karbantartási mód aktiválva marad",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Set expiration date" : "Legyen lejárati idő",
     "Expiration" : "Lejárat",
     "Expiration date" : "A lejárati idő",
+    "Choose a password for the public link" : "Válasszon egy jelszót a nyilvános linkhez",
     "Sending ..." : "Küldés ...",
     "Email sent" : "Az e-mailt elküldtük",
     "Resharing is not allowed" : "Ezt az állományt csak a tulajdonosa oszthatja meg másokkal",
@@ -133,7 +133,6 @@ OC.L10N.register(
     "Link" : "Link",
     "Password protect" : "Jelszóval is védem",
     "Password" : "Jelszó",
-    "Choose a password for the public link" : "Válasszon egy jelszót a nyilvános linkhez",
     "Allow editing" : "Szerkesztés engedélyezése",
     "Email link to person" : "Email címre küldjük el",
     "Send" : "Küldjük el",

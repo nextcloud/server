@@ -21,6 +21,7 @@ OC.L10N.register(
     "Cancel" : "取消",
     "Add remote share" : "加入遠端分享",
     "You can upload into this folder" : "你可以上傳內容到此資料夾",
+    "No ownCloud installation (7 or higher) found at {remote}" : "沒有在 {remote} 找到 ownCloud (本版7 或 更新版)",
     "Invalid ownCloud url" : "無效的 ownCloud URL",
     "Shared by" : "由...分享",
     "Sharing" : "分享",

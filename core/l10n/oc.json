@@ -1,7 +1,6 @@
 { "translations": {
     "Couldn't send mail to following users: %s " : "Impossible de mandar un corrièl als utilizaires seguents : %s",
     "Preparing update" : "Preparacion de la mesa a jorn",
-    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "Los tèsts de migracion son ignorats - \"update.skip-migration-test\" es activat dins config.php",
     "Turned on maintenance mode" : "Mòde de mantenença activat",
     "Turned off maintenance mode" : "Mòde de mantenença desactivat",
     "Maintenance mode is kept active" : "Lo mòde de mantenença es daissat actiu",

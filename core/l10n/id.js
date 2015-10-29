@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Couldn't send mail to following users: %s " : "Tidak dapat mengirim Email ke pengguna berikut: %s",
     "Preparing update" : "Mempersiapkan pembaruan",
-    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "Percobaan migrasi dilompati - \"update.skip-migration-test\" diaktikan di config.php",
     "Turned on maintenance mode" : "Hidupkan mode perawatan",
     "Turned off maintenance mode" : "Matikan mode perawatan",
     "Maintenance mode is kept active" : "Mode Pemeliharaan masih aktif",
@@ -125,6 +124,7 @@ OC.L10N.register(
     "Set expiration date" : "Atur tanggal kedaluwarsa",
     "Expiration" : "Kedaluwarsa",
     "Expiration date" : "Tanggal kedaluwarsa",
+    "Choose a password for the public link" : "Tetapkan sandi untuk tautan publik",
     "Sending ..." : "Mengirim ...",
     "Email sent" : "Email terkirim",
     "Resharing is not allowed" : "Berbagi ulang tidak diizinkan",
@@ -132,7 +132,6 @@ OC.L10N.register(
     "Link" : "Tautan",
     "Password protect" : "Lindungi dengan sandi",
     "Password" : "Sandi",
-    "Choose a password for the public link" : "Tetapkan sandi untuk tautan publik",
     "Allow editing" : "Izinkan penyuntingan",
     "Email link to person" : "Emailkan tautan ini ke orang",
     "Send" : "Kirim",

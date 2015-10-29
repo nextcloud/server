@@ -1,7 +1,6 @@
 { "translations": {
     "Couldn't send mail to following users: %s " : "%s 님에게 메일을 보낼 수 없습니다.",
     "Preparing update" : "업데이트 준비 중",
-    "Migration tests are skipped - \"update.skip-migration-test\" is activated in config.php" : "이전 작업 테스트를 건너뛰었습니다. config.php 파일에 \"update.skip-migration-test\"가 활성화되어 있습니다",
     "Turned on maintenance mode" : "유지 보수 모드 켜짐",
     "Turned off maintenance mode" : "유지 보수 모드 꺼짐",
     "Maintenance mode is kept active" : "유지 보수 모드가 켜져 있음",
@@ -124,6 +123,7 @@
     "Set expiration date" : "만료 날짜 설정",
     "Expiration" : "만료",
     "Expiration date" : "만료 날짜",
+    "Choose a password for the public link" : "공개 링크 암호를 입력하십시오",
     "Sending ..." : "전송 중...",
     "Email sent" : "이메일 발송됨",
     "Resharing is not allowed" : "다시 공유할 수 없습니다",
@@ -131,7 +131,6 @@
     "Link" : "링크",
     "Password protect" : "암호 보호",
     "Password" : "암호",
-    "Choose a password for the public link" : "공개 링크 암호를 입력하십시오",
     "Allow editing" : "편집 허용",
     "Email link to person" : "이메일 주소",
     "Send" : "전송",
