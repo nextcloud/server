@@ -105,11 +105,7 @@
 		},
 
 		getDirectoryPermissions: function() {
-			var perms = OC.PERMISSION_READ;
-			if (this._sharedWithUser) {
-				perms |= OC.PERMISSION_DELETE;
-			}
-			return perms;
+			return OC.PERMISSION_READ | OC.PERMISSION_DELETE;
 		},
 
 		updateStorageStatistics: function() {
@@ -271,11 +267,7 @@
 						}
 						file.name = OC.basename(share.path);
 						file.path = OC.dirname(share.path);
-						if (this._sharedWithUser) {
-							file.permissions = OC.PERMISSION_ALL;
-						} else {
-							file.permissions = OC.PERMISSION_ALL - OC.PERMISSION_DELETE;
-						}
+						file.permissions = OC.PERMISSION_ALL;
 						if (file.path) {
 							file.extraData = share.path;
 						}
