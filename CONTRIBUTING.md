@@ -15,8 +15,8 @@ If you have questions about how to install or use ownCloud, please direct these 
 * __SECURITY__: Report any potential security bug to us via [our HackerOne page](https://hackerone.com/owncloud) or security@owncloud.com following our [security policy](https://owncloud.org/security/) instead of filing an issue in our bug tracker
 * The issues in other components should be reported in their respective repositories: 
   - [Android client](https://github.com/owncloud/android/issues)
-  - [iOS client](https://github.com/owncloud/ios-issues/issues)
-  - [Desktop client](https://github.com/owncloud/mirall/issues)
+  - [iOS client](https://github.com/owncloud/ios/issues)
+  - [Desktop client](https://github.com/owncloud/client/issues)
   - [Documentation](https://github.com/owncloud/documentation/issues)
   - Apps:
       - [Activity](https://github.com/owncloud/activity/issues)
