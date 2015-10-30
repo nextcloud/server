@@ -43,7 +43,6 @@ script('core', [
 				value="<?php p($_['adminlogin']); ?>"
 				autocomplete="off" autocapitalize="off" autocorrect="off" autofocus required>
 			<label for="adminlogin" class="infield"><?php p($l->t( 'Username' )); ?></label>
-			<img class="svg" src="<?php p(image_path('', 'actions/user.svg')); ?>" alt="">
 		</p>
 		<p class="groupbottom">
 			<input type="password" name="adminpass" data-typetoggle="#show" id="adminpass"
@@ -51,7 +50,6 @@ script('core', [
 				value="<?php p($_['adminpass']); ?>"
 				autocomplete="off" autocapitalize="off" autocorrect="off" required>
 			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
-			<img class="svg" id="adminpass-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt="">
 			<input type="checkbox" id="show" name="show">
 			<label for="show" class="svg"></label>
 			<div class="strengthify-wrapper"></div>

@@ -585,30 +585,6 @@ input[type="submit"].enabled {
 	color: #ccc;
 }
 
-/* Icons for username and password fields to better recognize them */
-#adminlogin,
-#adminpass,
-input[name='adminpass-clone'],
-#user,
-#password,
-input[name='password-clone'] {
-	width: 223px !important;
-	padding-left: 36px !important;
-}
-#adminlogin+label+img,
-#adminpass-icon,
-#user+label+img,
-#password-icon {
-	position: absolute;
-	left: 16px;
-	top: 22px;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-	opacity: .3;
-}
-#adminpass-icon, #password-icon {
-	top: 17px;
-}
-
 /* General new input field look */
 #body-login input[type="text"],
 #body-login input[type="password"],
@@ -1204,4 +1180,3 @@ fieldset.warning legend + p, fieldset.update legend + p {
    opacity: 0;
    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 }
-
