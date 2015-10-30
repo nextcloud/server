@@ -31,20 +31,20 @@
 
 abstract class OC_Archive{
 	/**
-	 * open any of the supported archive types
+	 * Open any of the supported archive types
+	 *
 	 * @param string $path
 	 * @return OC_Archive|void
 	 */
 	public static function open($path) {
-		$ext=substr($path, strrpos($path, '.'));
-		switch($ext) {
-			case '.zip':
+		$mime = \OC::$server->getMimeTypeDetector()->detect($path);
+
+		switch($mime) {
+			case 'application/zip':
 				return new OC_Archive_ZIP($path);
-			case '.gz':
-			case '.bz':
-			case '.bz2':
-			case '.tgz':
-			case '.tar':
+			case 'application/x-gzip':
+				return new OC_Archive_TAR($path);
+			case 'application/x-bzip2':
 				return new OC_Archive_TAR($path);
 		}
 	}
