@@ -144,6 +144,8 @@ class OC_L10N implements \OCP\IL10N {
 
 		$json = json_decode(file_get_contents($transFile), true);
 		if (!is_array($json)) {
+			$jsonError = json_last_error();
+			\OC::$server->getLogger()->warning("Failed to load $transFile - json error code: $jsonError", ['app' => 'l10n']);
 			return false;
 		}
 
