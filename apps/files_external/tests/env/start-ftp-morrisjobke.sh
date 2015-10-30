@@ -34,7 +34,7 @@ password=12345
 
 container=`docker run -d -e USERNAME=$user -e PASSWORD=$password morrisjobke/docker-proftpd`
 
-host=`docker inspect $container | grep IPAddress | cut -d '"' -f 4`
+host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
 
 cat > $thisFolder/config.ftp.php <<DELIM
 <?php
