@@ -56,6 +56,9 @@ class Redis extends Cache implements IMemcache {
 			}
 
 			self::$cache->connect($host, $port, $timeout);
+			if(isset($config['password']) && $config['password'] !== '') {
+				self::$cache->auth($config['password']);
+			}
 
 			if (isset($config['dbindex'])) {
 				self::$cache->select($config['dbindex']);
