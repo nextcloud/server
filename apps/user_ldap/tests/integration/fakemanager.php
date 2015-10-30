@@ -29,5 +29,8 @@ namespace OCA\user_ldap\tests\integration;
  * scope of these tests, we replace it with a mock.
  */
 class FakeManager extends \OCA\user_ldap\lib\user\Manager {
-	public function __construct() {}
+	public function __construct() {
+		$this->ocConfig = \OC::$server->getConfig();
+		$this->image = new \OCP\Image();
+	}
 }
