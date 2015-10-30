@@ -31,7 +31,6 @@ script('core', 'lostpassword');
 		<p>
 			<label for="password" class="infield"><?php p($l->t('New password')); ?></label>
 			<input type="password" name="password" id="password" value="" placeholder="<?php p($l->t('New Password')); ?>" required />
-			<img class="svg" id="password-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt=""/>
 		</p>
 		<input type="submit" id="submit" value="<?php p($l->t('Reset password')); ?>" />
 		<p class="text-center">
