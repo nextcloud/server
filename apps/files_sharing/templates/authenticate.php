@@ -18,7 +18,6 @@
 				placeholder="<?php p($l->t('Password')); ?>" value=""
 				autocomplete="off" autocapitalize="off" autocorrect="off"
 				autofocus />
-			<img class="svg" id="password-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt=""/>
 			<input type="submit" value=""
 				class="svg icon-confirm input-button-inline" />
 		</p>
