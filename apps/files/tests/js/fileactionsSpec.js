@@ -227,7 +227,7 @@ describe('OCA.Files.FileActions tests', function() {
 				name: 'Test',
 				type: OCA.Files.FileActions.TYPE_INLINE,
 				mime: 'all',
-				icon: OC.imagePath('core', 'actions/test'), 
+				icon: OC.imagePath('core', 'actions/test'),
 				permissions: OC.PERMISSION_READ,
 				actionHandler: actionStub
 			});
@@ -554,6 +554,47 @@ describe('OCA.Files.FileActions tests', function() {
 				actionHandler: actionStub
 			});
 			expect(handler.notCalled).toEqual(true);
+		});
+	});
+	describe('default actions', function() {
+		describe('download', function() {
+			it('redirects to URL and sets busy state to list', function() {
+				var handleDownloadStub = sinon.stub(OCA.Files.Files, 'handleDownload');
+				var busyStub = sinon.stub(fileList, 'showFileBusyState');
+				var fileData = {
+					id: 18,
+					type: 'file',
+					name: 'testName.txt',
+					mimetype: 'text/plain',
+					size: '1234',
+					etag: 'a01234c',
+					mtime: '123456',
+					permissions: OC.PERMISSION_READ | OC.PERMISSION_UPDATE
+				};
+
+				// note: FileActions.display() is called implicitly
+				fileList.add(fileData);
+
+				var model = fileList.getModelForFile('testName.txt');
+
+				fileActions.registerDefaultActions();
+				fileActions.triggerAction('Download', model, fileList);
+
+				expect(busyStub.calledOnce).toEqual(true);
+				expect(busyStub.calledWith('testName.txt', true)).toEqual(true);
+				expect(handleDownloadStub.calledOnce).toEqual(true);
+				expect(handleDownloadStub.getCall(0).args[0]).toEqual(
+					OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=testName.txt'
+				);
+				busyStub.reset();
+				handleDownloadStub.yield();
+
+				expect(busyStub.calledOnce).toEqual(true);
+				expect(busyStub.calledWith('testName.txt', false)).toEqual(true);
+
+				busyStub.restore();
+				handleDownloadStub.restore();
+			});
 		});
 	});
 });

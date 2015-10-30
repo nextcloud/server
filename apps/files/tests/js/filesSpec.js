@@ -87,4 +87,56 @@ describe('OCA.Files.Files tests', function() {
 			expect(url).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=%5B%22test%20file.txt%22%2C%22abc.txt%22%5D');
 		});
 	});
+	describe('handleDownload', function() {
+		var redirectStub;
+		var cookieStub;
+		var clock;
+		var testUrl;
+
+		beforeEach(function() {
+			testUrl = 'http://example.com/owncloud/path/download.php';
+			redirectStub = sinon.stub(OC, 'redirect');
+			cookieStub = sinon.stub(OC.Util, 'isCookieSetToValue');
+			clock = sinon.useFakeTimers();
+		});
+		afterEach(function() {
+			redirectStub.restore();
+			cookieStub.restore();
+			clock.restore();
+		});
+
+		it('appends secret to url when no existing parameters', function() {
+			Files.handleDownload(testUrl);
+			expect(redirectStub.calledOnce).toEqual(true);
+			expect(redirectStub.getCall(0).args[0]).toContain(testUrl + '?downloadStartSecret=');
+		});
+		it('appends secret to url with existing parameters', function() {
+			Files.handleDownload(testUrl + '?test=1');
+			expect(redirectStub.calledOnce).toEqual(true);
+			expect(redirectStub.getCall(0).args[0]).toContain(testUrl + '?test=1&downloadStartSecret=');
+		});
+		it('sets cookie and calls callback when cookie appears', function() {
+			var callbackStub = sinon.stub();
+			var token;
+			Files.handleDownload(testUrl, callbackStub);
+			expect(redirectStub.calledOnce).toEqual(true);
+			token = OC.parseQueryString(redirectStub.getCall(0).args[0]).downloadStartSecret;
+			expect(token).toBeDefined();
+
+			expect(cookieStub.calledOnce).toEqual(true);
+			cookieStub.returns(false);
+			clock.tick(600);
+
+			expect(cookieStub.calledTwice).toEqual(true);
+			expect(cookieStub.getCall(1).args[0]).toEqual('ocDownloadStarted');
+			expect(cookieStub.getCall(1).args[1]).toEqual(token);
+			expect(callbackStub.notCalled).toEqual(true);
+
+			cookieStub.returns(true);
+			clock.tick(2000);
+
+			expect(cookieStub.callCount).toEqual(3);
+			expect(callbackStub.calledOnce).toEqual(true);
+		});
+	});
 });

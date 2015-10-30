@@ -295,7 +295,12 @@
 					}
 				};
 
-			OC.redirect(url + '&downloadStartSecret=' + randomToken);
+			if (url.indexOf('?') >= 0) {
+				url += '&';
+			} else {
+				url += '?';
+			}
+			OC.redirect(url + 'downloadStartSecret=' + randomToken);
 			OC.Util.waitFor(checkForDownloadCookie, 500);
 		}
 	};
