@@ -120,8 +120,9 @@ class Users {
 		$groups = isset($_POST['groups']) ? $_POST['groups'] : null;
 		$user = $this->userSession->getUser();
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
+		$subAdminManager = $this->groupManager->getSubAdmin();
 
-		if (!$isAdmin && !$this->groupManager->getSubAdmin()->isSubAdmin($user)) {
+		if (!$isAdmin && !$subAdminManager->isSubAdmin($user)) {
 			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
@@ -131,11 +132,11 @@ class Users {
 		}
 
 		if(is_array($groups)) {
-			foreach ($groups as $key => $group) {
+			foreach ($groups as $group) {
 				if(!$this->groupManager->groupExists($group)){
 					return new OC_OCS_Result(null, 104, 'group '.$group.' does not exist');
 				}
-				if(!$isAdmin && !$this->groupManager->getSubAdmin()->isSubAdminofGroup($user, $this->groupManager->get($group))) {
+				if(!$isAdmin && !$subAdminManager->isSubAdminofGroup($user, $this->groupManager->get($group))) {
 					return new OC_OCS_Result(null, 105, 'insufficient privileges for group '. $group);
 				}
 			}
@@ -146,13 +147,13 @@ class Users {
 		}
 		
 		try {
-			$user = $this->userManager->createUser($userId, $password);
-			$this->logger->info('Successful addUser call with userid: '.$_POST['userid'], ['app' => 'ocs_api']);
+			$newUser = $this->userManager->createUser($userId, $password);
+			$this->logger->info('Successful addUser call with userid: '.$userId, ['app' => 'ocs_api']);
 
 			if (is_array($groups)) {
 				foreach ($groups as $group) {
-					$this->groupManager->get($group)->addUser($user);
-					$this->logger->info('Added user (' . $user->getUID() . ') to group ' . $group, ['app' => 'ocs_api']);
+					$this->groupManager->get($group)->addUser($newUser);
+					$this->logger->info('Added userid '.$userId.' to group '.$group, ['app' => 'ocs_api']);
 				}
 			}
 			return new OC_OCS_Result(null, 100);
