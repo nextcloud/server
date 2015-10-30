@@ -20,6 +20,8 @@
  */
 namespace OC\Share20;
 
+use OC\Share20\Exception\ShareNotFound;
+use OC\Share20\Exception\BackendError;
 use OCP\IUser;
 
 interface IShareProvider {
@@ -44,8 +46,9 @@ interface IShareProvider {
 	 * Delete a share
 	 *
 	 * @param Share $share
+	 * @throws BackendError
 	 */
-	public function delete(Share $share);
+	public function delete(IShare $share);
 
 	/**
 	 * Get all shares by the given user
@@ -62,7 +65,8 @@ interface IShareProvider {
 	 * Get share by id
 	 *
 	 * @param int $id
-	 * @return Share
+	 * @return IShare
+	 * @throws ShareNotFound
 	 */
 	public function getShareById($id);
 

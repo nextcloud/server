@@ -24,13 +24,10 @@ use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IGroup;
 
-class Share {
+class Share implements IShare {
 
 	/** @var string */
-	private $internalId;
-
-	/** @var string */
-	private $providerId;
+	private $id;
 
 	/** @var Node */
 	private $path;
@@ -39,7 +36,7 @@ class Share {
 	private $shareType;
 
 	/** @var IUser|IGroup|string */
-	private $shareWith;
+	private $sharedWith;
 
 	/** @var IUser|string */
 	private $sharedBy;
@@ -56,47 +53,21 @@ class Share {
 	/** @var string */
 	private $password;
 
+	/** @var string */
+	private $token;
+
+	/** @var int */
+	private $parent;
+
 	/**
-	 * Set the id of the ShareProvider
-	 * Should only be used by the share manager
+	 * Set the id of the share
 	 *
-	 * @param string $providerId
+	 * @param int id
 	 * @return Share The modified object
 	 */
-	public function setProviderId($providerId) {
-		$this->providerId = $providerId;
+	public function setId($id) {
+		$this->id = $id;
 		return $this;
-	}
-
-	/**
-	 * Get the id of the ShareProvider
-	 *
-	 * @return string
-	 */
-	public function getProviderId() {
-		return $this->providerId;
-	}
-
-	/**
-	 * Set the internal (to the provider) share id
-	 * Should only be used by the share provider
-	 *
-	 * @param string $id
-	 * @return Share The modified object
-	 */
-	public function setInternalId($id) {
-		$this->internalId = $id;
-		return $this;
-	}
-
-	/**
-	 * Get the internal (to the provider) share id
-	 * Should only be used by the share provider
-	 *
-	 * @return string
-	 */
-	public function getInternalId() {
-		return $this->internalId;
 	}
 
 	/**
@@ -105,8 +76,7 @@ class Share {
 	 * @return string
 	 */
 	public function getId() {
-		//TODO $id should be set as well as $providerId
-		return $this->providerId . ':' . $this->internalId;
+		return $this->id;
 	}
 
 	/**
@@ -150,23 +120,23 @@ class Share {
 	}
 
 	/**
-	 * Set the shareWith
+	 * Set the receiver of this share
 	 *
 	 * @param IUser|IGroup|string
 	 * @return Share The modified object
 	 */
-	public function setShareWith($shareWith) {
-		$this->shareWith = $shareWith;
+	public function setSharedWith($sharedWith) {
+		$this->sharedWith = $sharedWith;
 		return $this;
 	}
 
 	/**
-	 * Get the shareWith
+	 * Get the receiver of this share
 	 *
 	 * @return IUser|IGroup|string
 	 */
-	public function getShareWith() {
-		return $this->shareWith;
+	public function getSharedWith() {
+		return $this->sharedWith;
 	}
 
 	/**
@@ -281,5 +251,45 @@ class Share {
 	 */
 	public function getPassword($password) {
 		return $this->password;
+	}
+
+	/**
+	 * Set the token
+	 *
+	 * @param string $token
+	 * @return Share The modified object
+	 */
+	public function setToken($token) {
+		$this->token = $token;
+		return $this;
+	}
+
+	/**
+	 * Get the token
+	 *
+	 * @return string
+	 */
+	public function getToken() {
+		return $this->token;
+	}
+
+	/**
+	 * Set the parent id of this share
+	 *
+	 * @param int $parent
+	 * @return Share The modified object
+	 */
+	public function setParent($parent) {
+		$this->parent = $parent;
+		return $this;
+	}
+
+	/**
+	 * Get the parent id of this share
+	 *
+	 * @return int
+	 */
+	public function getParent() {
+		return $this->parent;
 	}
 }

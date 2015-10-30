@@ -28,8 +28,7 @@ use OCP\IUser;
 use OCP\ILogger;
 use OCP\Files\Folder;
 
-use OC\Share20\Exceptions\ShareNotFoundException;
-use OC\Share20\Exception\PreconditionFailed;
+use OC\Share20\Exception\ShareNotFound;
 
 /**
  * This class is the communication hub for all sharing related operations.
@@ -39,12 +38,7 @@ class Manager {
 	/**
 	 * @var IShareProvider[]
 	 */
-	private $shareProviders;
-
-	/**
-	 * @var string[]
-	 */
-	private $shareTypeToProviderId;
+	private $defaultProvider;
 
 	/** @var IUser */
 	private $currentUser;
@@ -79,47 +73,7 @@ class Manager {
 		$this->userFolder = $userFolder;
 
 		// TEMP SOLUTION JUST TO GET STARTED
-		$this->shareProviders['ocdef'] = $defaultProvider;
-		$this->shareTypeToProviderId = [
-			\OCP\Share::SHARE_TYPE_USER  => 'ocdef',
-			\OCP\Share::SHARE_TYPE_GROUP => 'ocdef',
-			\OCP\Share::SHARE_TYPE_LINK  => 'ocdef',
-		];
-
-		// TODO: Get storage share provider from primary storage
-	}
-
-	/**
-	 * Get a ShareProvider
-	 *
-	 * @param string $id
-	 * @return IShareProvider
-	 */
-	private function getShareProvider($id) {
-		if (!isset($this->shareProviders[$id])) {
-			//Throw exception;
-		}
-
-		// Check if we have instanciated this provider yet
-		if (!($this->shareProviders[$id] instanceOf \OC\Share20\IShareProvider)) {
-			throw new \Exception();
-		}
-
-		return $this->shareProviders[$id];
-	}
-
-	/**
-	 * Get shareProvider based on shareType
-	 *
-	 * @param int $shareType
-	 * @return IShareProvider
-	 */
-	private function getShareProviderByType($shareType) {
-		if (!isset($this->shareTypeToProviderId[$shareType])) {
-			//Throw exception
-		}
-
-		return $this->getShareProvider($this->shareTypeToProviderId[$shareType]);
+		$this->defaultProvider = $defaultProvider;
 	}
 
 	/**
@@ -146,9 +100,15 @@ class Manager {
 	 * Delete a share
 	 *
 	 * @param Share $share
+	 * @throws ShareNotFound
+	 * @throws \OC\Share20\Exception\BackendError
 	 */
-	public function deleteShare(Share $share) {
-		throw new \Exception();
+	public function deleteShare(IShare $share) {
+		if ($share->getId() === null) {
+			throw new ShareNotFound();
+		}
+
+		$this->defaultProvider->delete($share);
 	}
 
 	/**
@@ -168,10 +128,18 @@ class Manager {
 	 * @param string $id
 	 * @return Share
 	 *
-	 * @throws ShareNotFoundException
+	 * @throws ShareNotFound
 	 */
 	public function getShareById($id) {
-		throw new \Exception();
+		$share = $this->defaultProvider->getShareById($id);
+
+		if ($share->getSharedWith() !== $this->currentUser &&
+		    $share->getSharedBy()   !== $this->currentUser &&
+			$share->getShareOwner() !== $this->currentUser) {
+			throw new ShareNotFound();
+		}
+
+		return $share;
 	}
 
 	/**
