@@ -87,7 +87,6 @@ OC.Tags= {
 		}
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
-			self = this,
 			url = OC.generateUrl('/tags/{type}/ids', {type: type});
 		$.getJSON(url, {tag: tag}, function(response) {
 			if(response.status === 'success') {
@@ -108,7 +107,6 @@ OC.Tags= {
 		}
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
-			self = this,
 			url = OC.generateUrl('/tags/{type}/favorites', {type: type});
 		$.getJSON(url, function(response) {
 			if(response.status === 'success') {
@@ -129,7 +127,6 @@ OC.Tags= {
 		}
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
-			self = this,
 			url = OC.generateUrl('/tags/{type}', {type: type});
 		$.getJSON(url, function(response) {
 			if(response.status === 'success') {
@@ -152,7 +149,6 @@ OC.Tags= {
 		}
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
-			self = this,
 			url = OC.generateUrl('/tags/{type}/tag/{id}/', {type: type, id: id});
 		$.post(url, {tag: tag}, function(response) {
 			if(response.status === 'success') {
@@ -201,7 +197,6 @@ OC.Tags= {
 		}
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
-			self = this,
 			url = OC.generateUrl(
 				'/tags/{type}/favorite/{id}/',
 				{type: type, id: id}
@@ -228,7 +223,6 @@ OC.Tags= {
 		}
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
-			self = this,
 			url = OC.generateUrl(
 				'/tags/{type}/unfavorite/{id}/',
 				{type: type, id: id}
@@ -255,7 +249,6 @@ OC.Tags= {
 		}
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
-			self = this,
 			url = OC.generateUrl('/tags/{type}/add', {type: type});
 		$.post(url,{tag:tag}, function(response) {
 			if(typeof cb == 'function') {
@@ -282,12 +275,10 @@ OC.Tags= {
 		}
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
-			self = this,
 			url = OC.generateUrl('/tags/{type}/delete', {type: type});
 		if(!tags || !tags.length) {
 			throw new Error(t('core', 'No tags selected for deletion.'));
 		}
-		var self = this;
 		$.post(url, {tags:tags}, function(response) {
 			if(response.status === 'success') {
 				defer.resolve(response.tags);
