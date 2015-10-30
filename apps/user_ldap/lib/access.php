@@ -672,6 +672,20 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
+	 * counts the number of users according to a provided loginName and
+	 * utilizing the login filter.
+	 *
+	 * @param string $loginName
+	 * @return array
+	 */
+	public function countUsersByLoginName($loginName) {
+		$loginName = $this->escapeFilterPart($loginName);
+		$filter = str_replace('%uid', $loginName, $this->connection->ldapLoginFilter);
+		$users = $this->countUsers($filter);
+		return $users;
+	}
+
+	/**
 	 * @param string $filter
 	 * @param string|string[] $attr
 	 * @param int $limit
