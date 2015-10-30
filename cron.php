@@ -60,9 +60,10 @@ try {
 	\OC::$server->setSession($session);
 
 	$logger = \OC::$server->getLogger();
+	$config = \OC::$server->getConfig();
 
 	// Don't do anything if ownCloud has not been installed
-	if (!OC_Config::getValue('installed', false)) {
+	if (!$config->getSystemValue('installed', false)) {
 		exit(0);
 	}
 
@@ -99,7 +100,6 @@ try {
 			}
 		}
 
-		$config = OC::$server->getConfig();
 		$instanceId = $config->getSystemValue('instanceid');
 		$lockFileName = 'owncloud-server-' . $instanceId . '-cron.lock';
 		$lockDirectory = $config->getSystemValue('cron.lockfile.location', sys_get_temp_dir());
