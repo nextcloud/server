@@ -80,6 +80,7 @@ OC.L10N.register(
     "So-so password" : "Palavra-passe aceitável",
     "Good password" : "Palavra-passe boa",
     "Strong password" : "Palavra-passe forte",
+    "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Ocorreu um erro. Por favor, envie um certificado PEM codificado em ASCII.",
     "Valid until {date}" : "Válida até {date}",
     "Delete" : "Apagar",
     "Groups" : "Grupos",

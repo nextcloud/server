@@ -78,6 +78,7 @@
     "Uninstall" : "Copot",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikasi sudah diaktifkan tetapi perlu diperbarui. Anda akan dialihkan ke halaman pembaruan dalam 5 detik.",
     "App update" : "Pembaruan Aplikasi",
+    "No apps found for \"{query}\"" : "Tidak ada aplikasi yang ditemukan untuk \"{query}\"",
     "An error occurred: {message}" : "Sebuah kesalahan yang muncul: {message}",
     "Select a profile picture" : "Pilih foto profil",
     "Very weak password" : "Sandi sangat lemah",

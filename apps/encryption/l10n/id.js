@@ -1,7 +1,7 @@
 OC.L10N.register(
     "encryption",
     {
-    "Missing recovery key password" : "Sandi kunci pemuliahan hilang",
+    "Missing recovery key password" : "Sandi kunci pemuliahan tidak ada",
     "Please repeat the recovery key password" : "Silakan ulangi sandi kunci pemulihan",
     "Repeated recovery key password does not match the provided recovery key password" : "Sandi kunci pemulihan yang diulangi tidak cocok dengan sandi kunci pemulihan yang diberikan",
     "Recovery key successfully enabled" : "Kunci pemulihan berhasil diaktifkan",
@@ -32,6 +32,8 @@ OC.L10N.register(
     "The share will expire on %s." : "Pembagian akan berakhir pada %s.",
     "Cheers!" : "Horee!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"ownCloud basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hai,<br><br>admin mengaktifkan server-side-encryption. Berkas-berkas Anda dienkripsi menggunakan sandi <strong>%s</strong>.<br><br>Silakan masuk di antarmuka web, pergi ke bagian 'modul enkripsi dasar ownCloud' pada pengaturan pribadi Anda dan perbarui sandi enkripsi Anda dengan memasukkan sandi ini kedalam kolom 'sandi masuk yang lama' dan sandi masuk yang baru.<br><br>",
+    "Encrypt the home storage" : "Enkripsi penyimpanan rumah",
+    "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Mengaktifkan opsi ini akan mengenkripsi semua berkas yang disimpan pada penyimpanan utama, jika tidak diaktifkan maka hanya berkas pada penyimpanan eksternal saja yang akan dienkripsi.",
     "Enable recovery key" : "Aktifkan kunci pemulihan",
     "Disable recovery key" : "Nonaktifkan kunci pemulihan",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kunci pemulihan adalah kunci enkripsi tambahan yang digunakan untuk mengenkripsi berkas. Kunci pemulihan memungkinkan untuk memulihkan berkas-berkas pengguna ketika pengguna tersebut melupakan sandi mereka.",

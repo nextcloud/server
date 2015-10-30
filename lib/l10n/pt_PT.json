@@ -98,6 +98,7 @@
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Ao partilhar a interface %s deve implementar a interface OCP\\Share_Backend",
     "Sharing backend %s not found" : "Não foi encontrada a partilha da interface %s",
     "Sharing backend for %s not found" : "Não foi encontrada a partilha da interface para %s",
+    "Sharing failed, because the user %s is the original sharer" : "A partilha falhou, porque o utilizador %s é o distribuidor original",
     "Sharing %s failed, because the permissions exceed permissions granted to %s" : "Definir permissões para %s falhou, porque as permissões excedem as permissões concedidas a %s",
     "Sharing %s failed, because resharing is not allowed" : "A partilha %s falhou, porque repartilhar não é permitido",
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "A partilha %s falhou porque a partilha da interface para %s não conseguiu encontrar a sua fonte",
