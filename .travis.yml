@@ -36,6 +36,8 @@ matrix:
   include:
     - php: 5.4
       env: DB=pgsql;TC=litmus-v1
+    - php: 5.4
+      env: DB=pgsql;TC=carddavtester
 #    - php: 5.4
 #      env: DB=mysql;TC=caldavtester
 
