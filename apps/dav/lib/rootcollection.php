@@ -2,8 +2,10 @@
 
 namespace OCA\DAV;
 
+use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use Sabre\CalDAV\Principal\Collection;
+use Sabre\CardDAV\AddressBookRoot;
 use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
@@ -22,10 +24,14 @@ class RootCollection extends SimpleCollection {
 		$principalCollection->disableListing = $disableListing;
 		$filesCollection = new Files\RootCollection($principalBackend);
 		$filesCollection->disableListing = $disableListing;
+		$cardDavBackend = new CardDavBackend(\OC::$server->getDatabaseConnection());
+		$addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend);
+		$addressBookRoot->disableListing = $disableListing;
 
 		$children = [
 			$principalCollection,
 			$filesCollection,
+			$addressBookRoot,
 		];
 
 		parent::__construct('root', $children);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Connector\Sabre;
+namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 /**
  * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>

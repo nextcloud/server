@@ -18,7 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace Tests\Connector\Sabre;
+
+namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 use Test\TestCase;
 use OCP\ISession;

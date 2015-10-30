@@ -6,11 +6,10 @@
  * See the COPYING-README file.
  */
 
-namespace Test\OCA\DAV\Connector\Sabre;
+namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 
 use OC\Files\FileInfo;
-use OCA\DAV\Connector\Sabre\Directory;
 use OC\Files\Storage\Temporary;
 
 class TestDoubleFileView extends \OC\Files\View {
@@ -103,7 +102,7 @@ class ObjectTree extends \Test\TestCase {
 
 		$info = new FileInfo('', null, null, array(), null);
 
-		$rootDir = new Directory($view, $info);
+		$rootDir = new \OCA\DAV\Connector\Sabre\Directory($view, $info);
 		$objectTree = $this->getMock('\OCA\DAV\Connector\Sabre\ObjectTree',
 			array('nodeExists', 'getNodeForPath'),
 			array($rootDir, $view));
