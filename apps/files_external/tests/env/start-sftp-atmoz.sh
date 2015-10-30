@@ -34,7 +34,7 @@ password=12345
 
 container=`docker run -d atmoz/sftp $user:$password:1001`
 
-host=`docker inspect $container | grep IPAddress | cut -d '"' -f 4`
+host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
 
 cat > $thisFolder/config.sftp.php <<DELIM
 <?php

@@ -31,7 +31,7 @@ fi;
 
 container=`docker run -d -e SMB_USER=test -e SMB_PWD=test silvershell/samba`
 
-host=`docker inspect $container | grep IPAddress | cut -d '"' -f 4`
+host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
 
 cat > $thisFolder/config.smb.php <<DELIM
 <?php

@@ -190,7 +190,7 @@ function execute_tests {
 				-e MYSQL_PASSWORD=owncloud \
 				-e MYSQL_DATABASE="$DATABASENAME" \
 				-d rullzer/mariadb-owncloud)
-			DATABASEHOST=$(docker inspect "$DOCKER_CONTAINER_ID" | grep IPAddress | cut -d '"' -f 4)
+			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
 			echo "Waiting for MariaDB initialisation ..."
 
@@ -215,7 +215,7 @@ function execute_tests {
 		if [ ! -z "$USEDOCKER" ] ; then
 			echo "Fire up the postgres docker"
 			DOCKER_CONTAINER_ID=$(docker run -e POSTGRES_USER="$DATABASEUSER" -e POSTGRES_PASSWORD=owncloud -d postgres)
-			DATABASEHOST=$(docker inspect "$DOCKER_CONTAINER_ID" | grep IPAddress | cut -d '"' -f 4)
+			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
 			echo "Waiting for Postgres initialisation ..."
 
@@ -230,7 +230,7 @@ function execute_tests {
 	if [ "$DB" == "oci" ] ; then
 		echo "Fire up the oracle docker"
 		DOCKER_CONTAINER_ID=$(docker run -d deepdiver/docker-oracle-xe-11g)
-		DATABASEHOST=$(docker inspect "$DOCKER_CONTAINER_ID" | grep IPAddress | cut -d '"' -f 4)
+		DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
 		echo "Waiting for Oracle initialization ... "
 
