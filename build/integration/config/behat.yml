@@ -1,18 +1,19 @@
 default:
-    paths:
-        features: ../features
-        bootstrap: %behat.paths.features%/bootstrap
+  autoload:
+    '': %paths.base%/../features/bootstrap
+  suites:
+    default:
+      paths:
+        - %paths.base%/../features
+      contexts:
+        - FeatureContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
 
-    context:
-      parameters:
-        baseUrl:  http://localhost:8080/ocs/
-        admin:
-          - admin
-          - admin
-        regular_user_password: 123456
-
-ci:
-    formatter:
-        name:       pretty,junit
-        parameters:
-          output_path: null,./output
+  extensions:
+      jarnaiz\JUnitFormatter\JUnitFormatterExtension:
+          filename: report.xml
+          outputDir: %paths.base%/../output/
