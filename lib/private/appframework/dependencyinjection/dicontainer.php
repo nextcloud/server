@@ -252,11 +252,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService('Protocol', function($c){
-			if(isset($_SERVER['SERVER_PROTOCOL'])) {
-				return new Http($_SERVER, $_SERVER['SERVER_PROTOCOL']);
-			} else {
-				return new Http($_SERVER);
-			}
+			/** @var \OC\Server $server */
+			$server = $c->query('ServerContainer');
+			$protocol = $server->getRequest()->getHttpProtocol();
+			return new Http($_SERVER, $protocol);
 		});
 
 		$this->registerService('Dispatcher', function($c) {
