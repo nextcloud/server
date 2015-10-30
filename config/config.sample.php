@@ -879,11 +879,16 @@ $CONFIG = array(
 
 /**
  * Connection details for redis to use for memory caching.
+ *
+ * For enhanced security it is recommended to configure Redis
+ * to require a password. See http://redis.io/topics/security
+ * for more information.
  */
 'redis' => array(
 	'host' => 'localhost', // can also be a unix domain socket: '/tmp/redis.sock'
 	'port' => 6379,
 	'timeout' => 0.0,
+	'password' => '', // Optional, if not defined no password will be used.
 	'dbindex' => 0, // Optional, if undefined SELECT will not run and will use Redis Server's default DB Index.
 ),
 
