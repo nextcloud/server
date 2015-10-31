@@ -183,4 +183,391 @@ CREATE TABLE addressbookchanges (
 		</declaration>
 	</table>
 
+
+<!--
+CREATE TABLE calendarobjects (
+    id INT(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    calendardata MEDIUMBLOB,
+    uri VARBINARY(200),
+    calendarid INTEGER UNSIGNED NOT NULL,
+    lastmodified INT(11) UNSIGNED,
+    etag VARBINARY(32),
+    size INT(11) UNSIGNED NOT NULL,
+    componenttype VARBINARY(8),
+    firstoccurence INT(11) UNSIGNED,
+    lastoccurence INT(11) UNSIGNED,
+    uid VARBINARY(200),
+    UNIQUE(calendarid, uri)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-->
+<table>
+	<name>*dbprefix*calendarobjects</name>
+	<declaration>
+		<field>
+			<name>id</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<autoincrement>1</autoincrement>
+			<unsigned>true</unsigned>
+			<length>11</length>
+		</field>
+		<field>
+			<name>calendardata</name>
+			<type>blob</type>
+		</field>
+		<field>
+			<name>uri</name>
+			<type>text</type>
+		</field>
+		<field>
+			<name>calendarid</name>
+			<type>integer</type>
+			<unsigned>true</unsigned>
+			<notnull>true</notnull>
+		</field>
+		<field>
+			<name>lastmodified</name>
+			<type>integer</type>
+			<unsigned>true</unsigned>
+		</field>
+		<field>
+			<name>etag</name>
+			<type>text</type>
+			<length>32</length>
+		</field>
+		<field>
+			<name>size</name>
+			<type>integer</type>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>11</length>
+		</field>
+		<field>
+			<name>componenttype</name>
+			<type>text</type>
+		</field>
+		<field>
+			<name>firstoccurence</name>
+			<type>integer</type>
+			<unsigned>true</unsigned>
+		</field>
+		<field>
+			<name>lastoccurence</name>
+			<type>integer</type>
+			<unsigned>true</unsigned>
+		</field>
+		<field>
+			<name>uid</name>
+			<type>text</type>
+		</field>
+		<index>
+			<name>calobjects_index</name>
+			<unique>true</unique>
+			<field>
+				<name>calendarid</name>
+			</field>
+			<field>
+				<name>uri</name>
+			</field>
+		</index>
+	</declaration>
+</table>
+	<!--
+	CREATE TABLE calendars (
+		id INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+		principaluri VARBINARY(100),
+		displayname VARCHAR(100),
+		uri VARBINARY(200),
+		synctoken INTEGER UNSIGNED NOT NULL DEFAULT '1',
+		description TEXT,
+		calendarorder INT(11) UNSIGNED NOT NULL DEFAULT '0',
+		calendarcolor VARBINARY(10),
+		timezone TEXT,
+		components VARBINARY(20),
+		transparent TINYINT(1) NOT NULL DEFAULT '0',
+		UNIQUE(principaluri, uri)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	-->
+<table>
+	<name>*dbprefix*calendars</name>
+	<declaration>
+		<field>
+			<name>id</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<autoincrement>1</autoincrement>
+			<unsigned>true</unsigned>
+			<length>11</length>
+		</field>
+		<field>
+			<name>principaluri</name>
+			<type>text</type>
+		</field>
+		<field>
+			<name>displayname</name>
+			<type>text</type>
+		</field>
+		<field>
+			<name>uri</name>
+			<type>text</type>
+		</field>
+		<field>
+			<name>synctoken</name>
+			<type>integer</type>
+			<default>1</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+		</field>
+		<field>
+			<name>description</name>
+			<type>text</type>
+		</field>
+		<field>
+			<name>calendarorder</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+		</field>
+		<field>
+			<name>calendarcolor</name>
+			<type>text</type>
+		</field>
+		<field>
+			<name>timezone</name>
+			<type>text</type>
+		</field>
+		<field>
+			<name>components</name>
+			<type>text</type>
+		</field>
+		<field>
+			<name>transparent</name>
+			<type>integer</type>
+			<length>1</length>
+			<notnull>true</notnull>
+			<default>0</default>
+		</field>
+		<index>
+			<name>calendars_index</name>
+			<unique>true</unique>
+			<field>
+				<name>principaluri</name>
+			</field>
+			<field>
+				<name>uri</name>
+			</field>
+		</index>
+	</declaration>
+</table>
+	<!--
+	CREATE TABLE calendarchanges (
+		id INT(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+		uri VARBINARY(200) NOT NULL,
+		synctoken INT(11) UNSIGNED NOT NULL,
+		calendarid INT(11) UNSIGNED NOT NULL,
+		operation TINYINT(1) NOT NULL,
+		INDEX calendarid_synctoken (calendarid, synctoken)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	-->
+	<table>
+		<name>*dbprefix*calendarchanges</name>
+		<declaration>
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>11</length>
+			</field>
+			<field>
+				<name>uri</name>
+				<type>text</type>
+			</field>
+			<field>
+				<name>synctoken</name>
+				<type>integer</type>
+				<default>1</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+			</field>
+			<field>
+				<name>calendarid</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+			</field>
+			<field>
+				<name>operation</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<index>
+				<name>calendarid_synctoken</name>
+				<field>
+					<name>calendarid</name>
+				</field>
+				<field>
+					<name>synctoken</name>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
+	<!--
+	CREATE TABLE calendarsubscriptions (
+		id INT(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+		uri VARBINARY(200) NOT NULL,
+		principaluri VARBINARY(100) NOT NULL,
+		source TEXT,
+		displayname VARCHAR(100),
+		refreshrate VARCHAR(10),
+		calendarorder INT(11) UNSIGNED NOT NULL DEFAULT '0',
+		calendarcolor VARBINARY(10),
+		striptodos TINYINT(1) NULL,
+		stripalarms TINYINT(1) NULL,
+		stripattachments TINYINT(1) NULL,
+		lastmodified INT(11) UNSIGNED,
+		UNIQUE(principaluri, uri)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	-->
+<table>
+	<name>*dbprefix*calendarsubscriptions</name>
+	<declaration>
+		<field>
+			<name>id</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<autoincrement>1</autoincrement>
+			<unsigned>true</unsigned>
+			<length>11</length>
+		</field>
+		<field>
+			<name>uri</name>
+			<type>text</type>
+		</field>
+		<field>
+			<name>principaluri</name>
+			<type>text</type>
+		</field>
+		<field>
+			<name>source</name>
+			<type>text</type>
+		</field>
+		<field>
+			<name>displayname</name>
+			<type>text</type>
+			<length>100</length>
+		</field>
+		<field>
+			<name>refreshrate</name>
+			<type>text</type>
+			<length>10</length>
+		</field>
+		<field>
+			<name>calendarorder</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+		</field>
+		<field>
+			<name>calendarcolor</name>
+			<type>text</type>
+		</field>
+		<field>
+			<name>striptodos</name>
+			<type>integer</type>
+			<length>1</length>
+		</field>
+		<field>
+			<name>stripalarms</name>
+			<type>integer</type>
+			<length>1</length>
+		</field>
+		<field>
+			<name>stripattachments</name>
+			<type>integer</type>
+			<length>1</length>
+		</field>
+		<field>
+			<name>lastmodified</name>
+			<type>integer</type>
+			<unsigned>true</unsigned>
+		</field>
+		<index>
+			<name>calsub_index</name>
+			<unique>true</unique>
+			<field>
+				<name>principaluri</name>
+			</field>
+			<field>
+				<name>uri</name>
+			</field>
+		</index>
+	</declaration>
+</table>
+	<!--
+	CREATE TABLE schedulingobjects (
+		id INT(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+		principaluri VARBINARY(255),
+		calendardata MEDIUMBLOB,
+		uri VARBINARY(200),
+		lastmodified INT(11) UNSIGNED,
+		etag VARBINARY(32),
+		size INT(11) UNSIGNED NOT NULL
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	-->
+
+	<table>
+		<name>*dbprefix*schedulingobjects</name>
+		<declaration>
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>11</length>
+			</field>
+			<field>
+				<name>principaluri</name>
+				<type>text</type>
+			</field>
+			<field>
+				<name>calendardata</name>
+				<type>blob</type>
+			</field>
+			<field>
+				<name>uri</name>
+				<type>text</type>
+			</field>
+			<field>
+				<name>lastmodified</name>
+				<type>integer</type>
+				<unsigned>true</unsigned>
+			</field>
+			<field>
+				<name>etag</name>
+				<type>text</type>
+				<length>32</length>
+			</field>
+			<field>
+				<name>size</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>11</length>
+			</field>
+
+		</declaration>
+	</table>
 </database>
