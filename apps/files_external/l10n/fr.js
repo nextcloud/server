@@ -16,6 +16,7 @@ OC.L10N.register(
     "Not permitted to use authentication mechanism \"%s\"" : "Non autorisé à utiliser le mécanisme d'authentification \"%s\"",
     "Unsatisfied backend parameters" : "Paramètres manquants pour le service",
     "Unsatisfied authentication mechanism parameters" : "Paramètres manquants pour la méthode d'authentification",
+    "Insufficient data: %s" : "Données insuffisantes : %s",
     "Personal" : "Personnel",
     "System" : "Système",
     "Grant access" : "Autoriser l'accès",
