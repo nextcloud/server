@@ -32,6 +32,8 @@ OC.L10N.register(
     "The share will expire on %s." : "共有は %s で有効期限が切れます。",
     "Cheers!" : "それでは！",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"ownCloud basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "こんにちは、<br><br>管理者がサーバーサイド暗号化を有効にしました。<strong>%s</strong>というパスワードであなたのファイルが暗号化されました。<br><br>Web画面からログインして、個人設定画面の\"ownCloud 基本暗号化モジュール\"のセクションにいき、暗号化パスワードの更新をお願いします。 \"旧ログインパスワード”部分に上記パスワードを入力し、現在のログインパスワードで更新します。<br><br>",
+    "Encrypt the home storage" : "メインストレージ暗号化",
+    "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "このオプションを有効にすると、外部ストレージ接続ストレージだけが暗号化されるのではなく、メインストレージのファイル全てが暗号化されます。",
     "Enable recovery key" : "復旧キーを有効にする",
     "Disable recovery key" : "復旧キーを無効にする",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "復旧キーは、ファイルの暗号化に使う特別な暗号化キーです。ユーザがパスワードを忘れてしまった場合には、リカバリキーを使ってユーザのファイルを復元することができます。",
