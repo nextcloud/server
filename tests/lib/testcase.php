@@ -25,13 +25,15 @@ namespace Test;
 use OC\Command\QueueBus;
 use OC\Files\Filesystem;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase {
-	/**
-	 * @var \OC\Command\QueueBus
-	 */
+	/** @var \OC\Command\QueueBus */
 	private $commandBus;
+
+	/** @var IDBConnection */
+	static private $realDatabase;
 
 	protected function getTestTraits() {
 		$traits = [];
@@ -49,6 +51,16 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	protected function setUp() {
+		// detect database access
+		if (!$this->IsDatabaseAccessAllowed()) {
+			if (is_null(self::$realDatabase)) {
+				self::$realDatabase = \OC::$server->getDatabaseConnection();
+			}
+			\OC::$server->registerService('DatabaseConnection', function () {
+				$this->fail('Your test case is not allowed to access the database.');
+			});
+		}
+
 		// overwrite the command bus with one we can run ourselves
 		$this->commandBus = new QueueBus();
 		\OC::$server->registerService('AsyncCommandBus', function () {
@@ -65,6 +77,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	protected function tearDown() {
+		// restore database connection
+		if (!$this->IsDatabaseAccessAllowed()) {
+			\OC::$server->registerService('DatabaseConnection', function () {
+				return self::$realDatabase;
+			});
+		}
+
+		// further cleanup
 		$hookExceptions = \OC_Hook::$thrownExceptions;
 		\OC_Hook::$thrownExceptions = [];
 		\OC::$server->getLockingProvider()->releaseAll();
@@ -315,5 +335,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			// the lock of $type was in place
 			return true;
 		}
+	}
+
+	private function IsDatabaseAccessAllowed() {
+		$annotations = $this->getAnnotations();
+		if (isset($annotations['class']['group']) && in_array('DB', $annotations['class']['group'])) {
+			return true;
+		}
+
+		return false;
 	}
 }
