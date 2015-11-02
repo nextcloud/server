@@ -34,7 +34,6 @@
 		this.mimetype = data.mimetype || 'application/octet-stream';
 		this.mountType = data.mountType;
 		this.icon = data.icon;
-		this._props = data._props;
 
 		if (data.type) {
 			this.type = data.type;
@@ -42,6 +41,10 @@
 			this.type = 'dir';
 		} else {
 			this.type = 'file';
+		}
+
+		if (data.tags) {
+			this.tags = data.tags;
 		}
 
 		if (!this.mimetype) {

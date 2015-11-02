@@ -1377,6 +1377,13 @@
 		},
 
 		/**
+		 * Returns list of webdav properties to request
+		 */
+		_getWebdavProperties: function() {
+			return this.filesClient.getPropfindProperties();
+		},
+
+		/**
 		 * Reloads the file list using ajax call
 		 *
 		 * @return ajax call object
@@ -1390,7 +1397,12 @@
 			this._currentFileModel = null;
 			this.$el.find('.select-all').prop('checked', false);
 			this.showMask();
-			this._reloadCall = this.filesClient.getFolderContents(this.getCurrentDirectory(), {includeParent: true});
+			this._reloadCall = this.filesClient.getFolderContents(
+				this.getCurrentDirectory(), {
+					includeParent: true,
+					properties: this._getWebdavProperties()
+				}
+			);
 			if (this._detailsView) {
 				// close sidebar
 				this._updateDetailsView(null);
@@ -1939,7 +1951,11 @@
 				)
 				.done(function() {
 					// TODO: error handling / conflicts
-					self.filesClient.getFileInfo(targetPath)
+					self.filesClient.getFileInfo(
+							targetPath, {
+								properties: self._getWebdavProperties()
+							}
+						)
 						.then(function(status, data) {
 							self.add(data, {animate: true, scrollTo: true});
 							deferred.resolve(status, data);
@@ -1989,7 +2005,11 @@
 
 			this.filesClient.createDirectory(targetPath)
 				.done(function(createStatus) {
-					self.filesClient.getFileInfo(targetPath)
+					self.filesClient.getFileInfo(
+							targetPath, {
+								properties: self._getWebdavProperties()
+							}
+						)
 						.done(function(status, data) {
 							self.add(data, {animate: true, scrollTo: true});
 							deferred.resolve(status, data);
@@ -2002,7 +2022,11 @@
 				.fail(function(createStatus) {
 					// method not allowed, folder might exist already
 					if (createStatus === 405) {
-						self.filesClient.getFileInfo(targetPath)
+						self.filesClient.getFileInfo(
+								targetPath, {
+									properties: self._getWebdavProperties()
+								}
+							)
 							.done(function(status, data) {
 								// add it to the list, for completeness
 								self.add(data, {animate: true, scrollTo: true});

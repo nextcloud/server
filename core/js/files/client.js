@@ -125,9 +125,16 @@
 		/**
 		 * Client from the library
 		 *
-		 * @type nl.sara.webdav.Client
+		 * @type dav.Client
 		 */
 		_client: null,
+
+		/**
+		 * Array of file info parsing functions.
+		 *
+		 * @type Array<OC.Files.Client~parseFileInfo>
+		 */
+		_fileInfoParsers: [],
 
 		/**
 		 * Returns the configured XHR provider for davclient
@@ -273,8 +280,7 @@
 				id: this._parseFileId(props['{' + Client.NS_OWNCLOUD + '}id']),
 				path: OC.dirname(path) || '/',
 				name: OC.basename(path),
-				mtime: new Date(props['{' + Client.NS_DAV + '}getlastmodified']),
-				_props: props
+				mtime: new Date(props['{' + Client.NS_DAV + '}getlastmodified'])
 			};
 
 			var etagProp = props['{' + Client.NS_DAV + '}getetag'];
@@ -350,6 +356,11 @@
 				}
 			}
 
+			// extend the parsed data using the custom parsers
+			_.each(this._fileInfoParsers, function(parserFunction) {
+				_.extend(data, parserFunction(response) || {});
+			});
+
 			return new FileInfo(data);
 		},
 
@@ -381,7 +392,7 @@
 		 *
 		 * @return {Array.<Object>} array of properties
 		 */
-		_getPropfindProperties: function() {
+		getPropfindProperties: function() {
 			if (!this._propfindProperties) {
 				this._propfindProperties = _.map(Client._PROPFIND_PROPERTIES, function(propDef) {
 					return '{' + propDef[0] + '}' + propDef[1];
@@ -397,6 +408,7 @@
 		 * @param {Object} [options] options
 		 * @param {boolean} [options.includeParent=false] set to true to keep
 		 * the parent folder in the result list
+		 * @param {Array} [options.properties] list of Webdav properties to retrieve
 		 *
 		 * @return {Promise} promise
 		 */
@@ -404,14 +416,21 @@
 			if (!path) {
 				path = '';
 			}
+			options = options || {};
 			var self = this;
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
+			var properties;
+			if (_.isUndefined(options.properties)) {
+				properties = this.getPropfindProperties();
+			} else {
+				properties = options.properties;
+			}
 
 			// TODO: headers
 			this._client.propFind(
 				this._buildUrl(path),
-				this._getPropfindProperties(),
+				properties,
 				1
 			).then(function(result) {
 				if (self._isSuccessStatus(result.status)) {
@@ -432,23 +451,29 @@
 		 * Returns the file info of a given path.
 		 *
 		 * @param {String} path path
-		 * @param {Array} [properties] list of webdav properties to
-		 * retrieve
+		 * @param {Array} [options.properties] list of Webdav properties to retrieve
 		 *
 		 * @return {Promise} promise
 		 */
-		getFileInfo: function(path) {
+		getFileInfo: function(path, options) {
 			if (!path) {
 				path = '';
 			}
+			options = options || {};
 			var self = this;
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
+			var properties;
+			if (_.isUndefined(options.properties)) {
+				properties = this.getPropfindProperties();
+			} else {
+				properties = options.properties;
+			}
 
 			// TODO: headers
 			this._client.propFind(
 				this._buildUrl(path),
-				this._getPropfindProperties(),
+				properties,
 				0
 			).then(
 				function(result) {
@@ -633,9 +658,29 @@
 				}
 			);
 			return promise;
+		},
+
+		/**
+		 * Add a file info parser function
+		 *
+		 * @param {OC.Files.Client~parseFileInfo>}
+		 */
+		addFileInfoParser: function(parserFunction) {
+			this._fileInfoParsers.push(parserFunction);
 		}
 
 	};
+
+	/**
+	 * File info parser function
+	 *
+	 * This function receives a list of Webdav properties as input and
+	 * should return a hash array of parsed properties, if applicable.
+	 *
+	 * @callback OC.Files.Client~parseFileInfo
+	 * @param {Object} XML Webdav properties
+     * @return {Array} array of parsed property values
+	 */
 
 	if (!OC.Files) {
 		/**
