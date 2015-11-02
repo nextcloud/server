@@ -50,7 +50,7 @@
 				if (fileData.shareOwner) {
 					tr.attr('data-share-owner', fileData.shareOwner);
 					// user should always be able to rename a mount point
-					if (fileData.isShareMountPoint) {
+					if (fileData.mountType === 'shared-root') {
 						tr.attr('data-permissions', fileData.permissions | OC.PERMISSION_UPDATE);
 					}
 				}
@@ -67,6 +67,26 @@
 				fileInfo.shareOwner = $el.attr('data-share-owner') || undefined;
 				return fileInfo;
 			};
+
+			var NS_OC = 'http://owncloud.org/ns';
+
+			var oldGetWebdavProperties = fileList._getWebdavProperties;
+			fileList._getWebdavProperties = function() {
+				var props = oldGetWebdavProperties.apply(this, arguments);
+				props.push('{' + NS_OC + '}owner-display-name');
+				return props;
+			};
+
+			fileList.filesClient.addFileInfoParser(function(response) {
+				var data = {};
+				var props = response.propStat[0].properties;
+				var permissionsProp = props['{' + NS_OC + '}permissions'];
+
+				if (permissionsProp && permissionsProp.indexOf('S') >= 0) {
+					data.shareOwner = props['{' + NS_OC + '}owner-display-name'];
+				}
+				return data;
+			});
 
 			// use delegate to catch the case with multiple file lists
 			fileList.$el.on('fileActionsReady', function(ev){
