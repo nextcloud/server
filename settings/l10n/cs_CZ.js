@@ -80,6 +80,7 @@ OC.L10N.register(
     "Uninstall" : "Odinstalovat",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikace byla povolena ale je třeba ji aktualizovat. Za 5 sekund budete přesměrování na stránku pro aktualizaci.",
     "App update" : "Aktualizace aplikace",
+    "No apps found for \"{query}\"" : "Nebyly nalezeny žádné aplikace pro \"{query}\"",
     "An error occurred: {message}" : "Nastala chyba: {message}",
     "Select a profile picture" : "Vyberte profilový obrázek",
     "Very weak password" : "Velmi slabé heslo",

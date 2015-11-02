@@ -589,7 +589,7 @@
 							context.fileList.showFileBusyState(filename, false);
 						};
 
-						context.fileList.showFileBusyState(downloadFileaction, true);
+						context.fileList.showFileBusyState(filename, true);
 						OCA.Files.Files.handleDownload(url, disableLoadingState);
 					}
 				}

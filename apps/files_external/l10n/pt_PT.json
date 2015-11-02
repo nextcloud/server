@@ -12,6 +12,7 @@
     "Not permitted to use backend \"%s\"" : "Não é permitido utilizar a interface \"%s\"",
     "Not permitted to use authentication mechanism \"%s\"" : "Não é permitido utilizar o mecanismo de autenticação \"%s\"",
     "Unsatisfied authentication mechanism parameters" : "Parâmetros do mecanismo de autenticação inválidos",
+    "Insufficient data: %s" : "Dados insuficientes: %s",
     "Personal" : "Pessoal",
     "System" : "Sistema",
     "Grant access" : "Conceder acesso",

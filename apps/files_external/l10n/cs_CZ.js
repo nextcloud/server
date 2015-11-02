@@ -16,6 +16,7 @@ OC.L10N.register(
     "Not permitted to use authentication mechanism \"%s\"" : "Nebylo povoleno použití ověřovacího mechanismu \"%s\"",
     "Unsatisfied backend parameters" : "Neuspokojivé parametry služby",
     "Unsatisfied authentication mechanism parameters" : "Neuspokojivé parametry ověřovacího mechanismu",
+    "Insufficient data: %s" : "Nedostatečná data: %s",
     "Personal" : "Osobní",
     "System" : "Systém",
     "Grant access" : "Povolit přístup",

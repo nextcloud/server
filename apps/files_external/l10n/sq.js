@@ -16,6 +16,7 @@ OC.L10N.register(
     "Not permitted to use authentication mechanism \"%s\"" : "S’i lejohet të përdorë mekanizmin e mirëfilltësimit \"%s\"",
     "Unsatisfied backend parameters" : "Parametra mekanizmi shërbimi të paplotësuar",
     "Unsatisfied authentication mechanism parameters" : "Parametra mekanizmi mirëfilltësimi të papërmbushur",
+    "Insufficient data: %s" : "Të dhëna të pamjaftueshme: %s",
     "Personal" : "Personale",
     "System" : "Sistem",
     "Grant access" : "Akordoji hyrje",
