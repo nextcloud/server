@@ -23,11 +23,13 @@ OCA.Trashbin.App = {
 			return;
 		}
 		this._initialized = true;
+		var urlParams = OC.Util.History.parseUrlQuery();
 		this.fileList = new OCA.Trashbin.FileList(
 			$('#app-content-trashbin'), {
 				scrollContainer: $('#app-content'),
 				fileActions: this._createFileActions(),
-				detailsViewEnabled: false
+				detailsViewEnabled: false,
+				scrollTo: urlParams.scrollto
 			}
 		);
 	},
