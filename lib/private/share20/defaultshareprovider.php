@@ -112,8 +112,32 @@ class DefaultShareProvider implements IShareProvider {
 	public function delete(IShare $share) {
 		$this->deleteChildren($share);
 
-		$qb = $this->dbConn->getQueryBuilder();
+		// Fetch share to make sure it exists
+		$share = $this->getShareById($share->getId());
 
+		$shareType = $share->getShareType();
+		$sharedWith = '';
+		if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
+			$sharedWith = $share->getSharedWith()->getUID();
+		} else if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
+			$sharedWith = $share->getSharedWith()->getGID();
+		}
+
+		$hookParams = [
+			'id'         => $share->getId(),
+			'itemType'   => $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder',
+			'itemSource' => $share->getPath()->getId(),
+			'shareType'  => $shareType,
+			'shareWith'  => $sharedWith,
+			'itemparent' => $share->getParent(),
+			'uidOwner'   => $share->getSharedBy()->getUID(),
+			'fileSource' => $share->getPath()->getId(),
+			'fileTarget' => $share->getTarget()
+		];
+
+		\OC_Hook::emit('OCP\Share', 'pre_unshare', $hookParams);
+
+		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('share')
 			->where($qb->expr()->eq('id', $qb->createParameter('id')))
 			->setParameter(':id', $share->getId());
@@ -123,6 +147,8 @@ class DefaultShareProvider implements IShareProvider {
 		} catch (\Exception $e) {
 			throw new BackendError();
 		}
+
+		\OC_Hook::emit('OCP\Share', 'post_unshare', $hookParams);
 	}
 
 	/**
@@ -208,7 +234,8 @@ class DefaultShareProvider implements IShareProvider {
 		$share = new Share();
 		$share->setId((int)$data['id'])
 			->setShareType((int)$data['share_type'])
-			->setPermissions((int)$data['permissions']);
+			->setPermissions((int)$data['permissions'])
+			->setTarget($data['file_target']);
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$share->setSharedWith($this->userManager->get($data['share_with']));

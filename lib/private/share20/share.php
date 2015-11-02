@@ -59,6 +59,9 @@ class Share implements IShare {
 	/** @var int */
 	private $parent;
 
+	/** @var string */
+	private $target;
+
 	/**
 	 * Set the id of the share
 	 *
@@ -291,5 +294,25 @@ class Share implements IShare {
 	 */
 	public function getParent() {
 		return $this->parent;
+	}
+
+	/**
+	 * Set the target of this share
+	 *
+	 * @param string target
+	 * @return Share The modified object
+	 */
+	public function setTarget($target) {
+		$this->target = $target;
+		return $this;
+	}
+
+	/**
+	 * Get the target of this share
+	 *
+	 * @return string
+	 */
+	public function getTarget() {
+		return $this->target;
 	}
 }
