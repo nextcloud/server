@@ -229,4 +229,12 @@ interface FileInfo {
 	 * @since 8.0.0
 	 */
 	public function getMountPoint();
+
+	/**
+	 * Get the owner of the file
+	 *
+	 * @return \OCP\IUser
+	 * @since 9.0.0
+	 */
+	public function getOwner();
 }

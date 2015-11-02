@@ -1250,7 +1250,8 @@ class View {
 			$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
 		}
 
-		return new FileInfo($path, $storage, $internalPath, $data, $mount);
+		$owner = \OC::$server->getUserManager()->get($storage->getOwner($internalPath));
+		return new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
 	}
 
 	/**
@@ -1316,7 +1317,8 @@ class View {
 				if (\OCP\Util::isSharingDisabledForUser()) {
 					$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 				}
-				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount);
+				$owner = \OC::$server->getUserManager()->get($storage->getOwner($content['path']));
+				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
 			}
 
 			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
@@ -1385,7 +1387,8 @@ class View {
 								$rootEntry['permissions'] = $rootEntry['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 							}
 
-							$files[] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry, $mount);
+							$owner = \OC::$server->getUserManager()->get($subStorage->getOwner(''));
+							$files[] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry, $mount, $owner);
 						}
 					}
 				}
@@ -1507,7 +1510,8 @@ class View {
 					$internalPath = $result['path'];
 					$path = $mountPoint . $result['path'];
 					$result['path'] = substr($mountPoint . $result['path'], $rootLength);
-					$files[] = new FileInfo($path, $storage, $internalPath, $result, $mount);
+					$owner = \OC::$server->getUserManager()->get($storage->getOwner($internalPath));
+					$files[] = new FileInfo($path, $storage, $internalPath, $result, $mount, $owner);
 				}
 			}
 
@@ -1525,7 +1529,8 @@ class View {
 							$internalPath = $result['path'];
 							$result['path'] = rtrim($relativeMountPoint . $result['path'], '/');
 							$path = rtrim($mountPoint . $internalPath, '/');
-							$files[] = new FileInfo($path, $storage, $internalPath, $result, $mount);
+							$owner = \OC::$server->getUserManager()->get($storage->getOwner($internalPath));
+							$files[] = new FileInfo($path, $storage, $internalPath, $result, $mount, $owner);
 						}
 					}
 				}
@@ -1666,6 +1671,7 @@ class View {
 		$mount = $this->getMount($path);
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($this->getAbsolutePath($path));
+		$owner = \OC::$server->getUserManager()->get($storage->getOwner($internalPath));
 		return new FileInfo(
 			$this->getAbsolutePath($path),
 			$storage,
@@ -1680,7 +1686,8 @@ class View {
 				'encrypted' => false,
 				'permissions' => \OCP\Constants::PERMISSION_ALL
 			],
-			$mount
+			$mount,
+			$owner
 		);
 	}
 
