@@ -8,7 +8,9 @@
 		"handlebars/handlebars.js",
 		"blueimp-md5/js/md5.js",
 		"bootstrap/js/tooltip.js",
-		"backbone/backbone.js"
+		"backbone/backbone.js",
+		"es6-promise/dist/es6-promise.js",
+		"davclient.js/lib/client.js"
 	],
 	"libraries": [
 		"jquery-showpassword.js",
@@ -39,6 +41,8 @@
 		"setupchecks.js",
 		"../search/js/search.js",
 		"mimetype.js",
-		"mimetypelist.js"
+		"mimetypelist.js",
+		"files/fileinfo.js",
+		"files/client.js"
 	]
 }
