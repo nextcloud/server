@@ -775,6 +775,9 @@ html.ie8 #body-login form input[type="checkbox"] {
 	color: #fff !important;
 	font-weight: 600 !important;
 }
+.error a.button {
+	color: #555 !important;
+}
 .error pre {
 	white-space: pre-wrap;
 	text-align: left;
