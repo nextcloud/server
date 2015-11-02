@@ -329,7 +329,8 @@ input:disabled+label, input:disabled:hover+label, input:disabled:focus+label {
 	opacity: .7;
 }
 .searchbox input[type="search"]:focus,
-.searchbox input[type="search"]:active {
+.searchbox input[type="search"]:active,
+.searchbox input[type="search"]:valid {
 	color: #fff;
 	width: 155px;
 	max-width: 50%;

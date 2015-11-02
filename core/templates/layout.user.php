@@ -103,7 +103,7 @@
 					<?php p($l->t('Search'));?>
 				</label>
 				<input id="searchbox" class="svg" type="search" name="query"
-					value=""
+					value="" required
 					autocomplete="off" tabindex="5">
 			</form>
 		</div></header>
