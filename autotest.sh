@@ -260,14 +260,27 @@ function execute_tests {
 	if [[ "$_XDEBUG_CONFIG" ]]; then
 		export XDEBUG_CONFIG=$_XDEBUG_CONFIG
 	fi
+	if [ -z "$TEST_SELECTION" ]; then
+		TEST_SELECTION='all'
+	fi
+	GROUP=''
+	if [ "$TEST_SELECTION" == "DB" ]; then
+		GROUP='--group DB'
+	fi
+	if [ "$TEST_SELECTION" == "NODB" ]; then
+		GROUP='--exclude-group DB'
+	fi
+
+	COVER=''
 	if [ -z "$NOCOVERAGE" ]; then
-		"${PHPUNIT[@]}" --configuration phpunit-autotest.xml --log-junit "autotest-results-$DB.xml" --coverage-clover "autotest-clover-$DB.xml" --coverage-html "coverage-html-$DB" "$2" "$3"
-		RESULT=$?
+		COVER='--coverage-clover "autotest-clover-$DB.xml" --coverage-html "coverage-html-$DB"'
+		"${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP --log-junit "autotest-results-$DB.xml" --coverage-clover "autotest-clover-$DB.xml" --coverage-html "coverage-html-$DB" "$2" "$3"
 	else
 		echo "No coverage"
-		"${PHPUNIT[@]}" --configuration phpunit-autotest.xml --log-junit "autotest-results-$DB.xml" "$2" "$3"
-		RESULT=$?
 	fi
+	echo "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	"${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+		RESULT=$?
 
 	if [ "$PRIMARY_STORAGE_CONFIG" == "swift" ] ; then
 		cd ..
