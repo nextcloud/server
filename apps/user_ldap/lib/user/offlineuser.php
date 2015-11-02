@@ -86,6 +86,13 @@ class OfflineUser {
 	}
 
 	/**
+	 * remove the Delete-flag from the user.
+	 */
+	public function unmark() {
+		$this->config->setUserValue($this->ocName, 'user_ldap', 'isDeleted', '0');
+	}
+
+	/**
 	 * exports the user details in an assoc array
 	 * @return array
 	 */
