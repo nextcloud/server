@@ -45,7 +45,6 @@ script('core', [
 				<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
 				autocomplete="on" autocapitalize="off" autocorrect="off" required>
 			<label for="user" class="infield"><?php p($l->t('Username')); ?></label>
-			<img class="svg" src="<?php print_unescaped(image_path('', 'actions/user.svg')); ?>" alt=""/>
 		</p>
 
 		<p class="groupbottom">
@@ -54,7 +53,6 @@ script('core', [
 				<?php p($_['user_autofocus'] ? '' : 'autofocus'); ?>
 				autocomplete="on" autocapitalize="off" autocorrect="off" required>
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
-			<img class="svg" id="password-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt=""/>
 			<input type="submit" id="submit" class="login primary icon-confirm svg" title="<?php p($l->t('Log in')); ?>" value="" disabled="disabled"/>
 		</p>
 
