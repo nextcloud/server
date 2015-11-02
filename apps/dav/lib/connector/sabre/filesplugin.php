@@ -42,6 +42,8 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	const SIZE_PROPERTYNAME = '{http://owncloud.org/ns}size';
 	const GETETAG_PROPERTYNAME = '{DAV:}getetag';
 	const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
+	const OWNER_ID_PROPERTYNAME = '{http://owncloud.org/ns}owner-id';
+	const OWNER_DISPLAY_NAME_PROPERTYNAME = '{http://owncloud.org/ns}owner-display-name';
 
 	/**
 	 * Reference to main server object
@@ -99,6 +101,8 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 		$server->protectedProperties[] = self::PERMISSIONS_PROPERTYNAME;
 		$server->protectedProperties[] = self::SIZE_PROPERTYNAME;
 		$server->protectedProperties[] = self::DOWNLOADURL_PROPERTYNAME;
+		$server->protectedProperties[] = self::OWNER_ID_PROPERTYNAME;
+		$server->protectedProperties[] = self::OWNER_DISPLAY_NAME_PROPERTYNAME;
 
 		// normally these cannot be changed (RFC4918), but we want them modifiable through PROPPATCH
 		$allowedProperties = ['{DAV:}getetag'];
@@ -201,6 +205,16 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 				return $node->getSize();
 			});
 		}
+
+		$propFind->handle(self::OWNER_ID_PROPERTYNAME, function() use ($node) {
+			$owner = $node->getOwner();
+			return $owner->getUID();
+		});
+		$propFind->handle(self::OWNER_DISPLAY_NAME_PROPERTYNAME, function() use ($node) {
+			$owner = $node->getOwner();
+			$displayName = $owner->getDisplayName();
+			return $displayName;
+		});
 	}
 
 	/**

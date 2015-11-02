@@ -238,6 +238,10 @@ abstract class Node implements \Sabre\DAV\INode {
 		return $p;
 	}
 
+	public function getOwner() {
+		return $this->info->getOwner();
+	}
+
 	protected function verifyPath() {
 		try {
 			$fileName = basename($this->info->getPath());
