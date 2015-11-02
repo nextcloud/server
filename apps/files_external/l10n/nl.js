@@ -16,6 +16,7 @@ OC.L10N.register(
     "Not permitted to use authentication mechanism \"%s\"" : "Niet toegestaan om authenticatiemechanisme \"%s\" te gebruiken",
     "Unsatisfied backend parameters" : "Onvoldoende backend parameters",
     "Unsatisfied authentication mechanism parameters" : "Onvoldoende authenticatiemechanisme parameters",
+    "Insufficient data: %s" : "Onvoldoende gegevens: %s",
     "Personal" : "Persoonlijk",
     "System" : "Systeem",
     "Grant access" : "Sta toegang toe",

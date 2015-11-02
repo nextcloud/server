@@ -32,6 +32,8 @@ OC.L10N.register(
     "The share will expire on %s." : "De share vervalt op %s.",
     "Cheers!" : "Proficiat!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"ownCloud basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hallo daar,<br><br>de beheerder heeft server-side versleuteling ingeschakeld. Uw bestanden werden versleuteld met het wachtwoord <strong>%s</strong>.<br><br>Login op de webinterface, ga naar 'ownCloud basis cryptomodule' in uw persoonlijke instellingen en pas uw cryptowachtwoord aan door dit wachtwoord in het \"oude inlog wachtwoord\" veld in te vullen alsmede in uw huidige inlogwachtwoord.<br><br>",
+    "Encrypt the home storage" : "Versleutel de eigen serveropslag",
+    "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Het inschakelen van deze optie zorgt voor versleutelen van alle bestanden op do hoofdopslag, anders worden alleen bestanden op externe opslag versleuteld",
     "Enable recovery key" : "Activeer herstelsleutel",
     "Disable recovery key" : "Deactiveer herstelsleutel",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "De herstelsleutel is een extra cryptografische sleutel die wordt gebruikt om bestanden te versleutelen. Die maakt het mogelijk bestanden te herstellen als de gebruiker zijn of haar wachtwoord vergeet.",
