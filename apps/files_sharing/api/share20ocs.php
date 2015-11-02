@@ -62,6 +62,14 @@ class Share20OCS {
 			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		}
 
+		/*
+		 * FIXME
+		 * User the old code path for remote shares until we have our remoteshareprovider
+		 */
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
+			\OCA\Files_Sharing\API\Local::deleteShare(['id' => $id]);
+		}
+
 		try {
 			$this->shareManager->deleteShare($share);
 		} catch (\OC\Share20\Exception\BackendError $e) {
