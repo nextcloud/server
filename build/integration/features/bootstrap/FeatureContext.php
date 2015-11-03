@@ -30,6 +30,9 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	/** @var array */
 	private $createdUsers = [];
 
+	/** @var array */
+	private $createdGroups = [];
+
 	public function __construct($baseUrl, $admin, $regular_user_password) {
 
 		// Initialize your context here
@@ -354,23 +357,35 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	}
 
 	public function createUser($user) {
+		$previous_user = $this->currentUser;
+		$this->currentUser = "admin";
 		$this->creatingTheUser($user);
 		$this->userExists($user);
+		$this->currentUser = $previous_user;
 	}
 
 	public function deleteUser($user) {
+		$previous_user = $this->currentUser;
+		$this->currentUser = "admin";
 		$this->deletingTheUser($user);
 		$this->userDoesNotExist($user);
+		$this->currentUser = $previous_user;
 	}
 
 	public function createGroup($group) {
+		$previous_user = $this->currentUser;
+		$this->currentUser = "admin";
 		$this->creatingTheGroup($group);
 		$this->groupExists($group);
+		$this->currentUser = $previous_user;
 	}
 
 	public function deleteGroup($group) {
+		$previous_user = $this->currentUser;
+		$this->currentUser = "admin";
 		$this->deletingTheGroup($group);
 		$this->groupDoesNotExist($group);
+		$this->currentUser = $previous_user;
 	}
 
 	public function creatingTheUser($user) {
@@ -388,6 +403,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 
 		$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
 		$this->createdUsers[$user] = $user;
+		echo "Creating a user inside creatingTheuser\n";
 	}
 
 	/**
@@ -406,6 +422,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 							];
 
 		$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
+		$this->createdGroups[$group] = $group;
 	}
 
 	/**
@@ -603,6 +620,38 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
+	public static function createTextFile($path, $filename){
+		$myfile = fopen("$path" . "$filename", "w") or die("Unable to open file!");
+		$txt = "ownCloud test text file\n";
+		fwrite($myfile, $txt);
+		fclose($myfile);
+	}
+
+	public static function removeFile($path, $filename){
+		if (file_exists("$path" . "$filename")) {
+        	unlink("$path" . "$filename");
+        }
+	}
+
+	/**
+	 * @BeforeSuite
+	 */
+	public static function addFilesToSkeleton(){
+		for ($i=0; $i<5; $i++){
+			self::createTextFile("../../core/skeleton/", "textfile" . "$i" . ".txt");
+		}
+
+	}
+
+	/**
+	 * @AfterSuite
+	 */
+	public static function removeFilesFromSkeleton(){
+		for ($i=0; $i<5; $i++){
+			self::removeFile("../../core/skeleton/", "textfile" . "$i" . ".txt");
+        }
+	}
+
 	/**
 	 * @BeforeScenario
 	 * @AfterScenario
@@ -614,4 +663,15 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		}
 	}
 
+
+	/**
+	 * @BeforeScenario
+	 * @AfterScenario
+	 */
+	public function cleanupGroups()
+	{
+		foreach($this->createdGroups as $group) {
+			$this->deleteGroup($group);
+		}
+	}
 }
