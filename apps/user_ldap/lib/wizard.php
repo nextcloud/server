@@ -631,12 +631,12 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('missing placeholder');
 		}
 
-		$users = $this->access->fetchUsersByLoginName($loginName);
+		$users = $this->access->countUsersByLoginName($loginName);
 		if($this->ldap->errno($cr) !== 0) {
 			throw new \Exception($this->ldap->error($cr));
 		}
 		$filter = str_replace('%uid', $loginName, $this->access->connection->ldapLoginFilter);
-		$this->result->addChange('ldap_test_loginname', count($users));
+		$this->result->addChange('ldap_test_loginname', $users);
 		$this->result->addChange('ldap_test_effective_filter', $filter);
 		return $this->result;
 	}
