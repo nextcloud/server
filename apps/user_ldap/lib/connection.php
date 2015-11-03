@@ -526,30 +526,41 @@ class Connection extends LDAPUtility {
 										\OCP\Util::WARN);
 				}
 			}
-			if(!$this->configuration->ldapOverrideMainServer
-			   && !$this->getFromCache('overrideMainServer')) {
-				$this->doConnect($this->configuration->ldapHost,
-								 $this->configuration->ldapPort);
-				$bindStatus = $this->bind();
-				$error = $this->ldap->isResource($this->ldapConnectionRes) ?
-							$this->ldap->errno($this->ldapConnectionRes) : -1;
-			} else {
-				$bindStatus = false;
-				$error = null;
+
+			$bindStatus = false;
+			$error = null;
+			try {
+				if (!$this->configuration->ldapOverrideMainServer
+					&& !$this->getFromCache('overrideMainServer')
+				) {
+					$this->doConnect($this->configuration->ldapHost,
+						$this->configuration->ldapPort);
+					$bindStatus = $this->bind();
+					$error = $this->ldap->isResource($this->ldapConnectionRes) ?
+						$this->ldap->errno($this->ldapConnectionRes) : -1;
+				}
+				if($bindStatus === true) {
+					return $bindStatus;
+				}
+			} catch (\OC\ServerNotAvailableException $e) {
+				if(trim($this->configuration->ldapBackupHost) === "") {
+					throw $e;
+				}
 			}
 
 			//if LDAP server is not reachable, try the Backup (Replica!) Server
-			if((!$bindStatus && ($error !== 0))
+			if(    $error !== 0
 				|| $this->configuration->ldapOverrideMainServer
-				|| $this->getFromCache('overrideMainServer')) {
-					$this->doConnect($this->configuration->ldapBackupHost,
-									 $this->configuration->ldapBackupPort);
-					$bindStatus = $this->bind();
-					if(!$bindStatus && $error === -1) {
-						//when bind to backup server succeeded and failed to main server,
-						//skip contacting him until next cache refresh
-						$this->writeToCache('overrideMainServer', true);
-					}
+				|| $this->getFromCache('overrideMainServer'))
+			{
+				$this->doConnect($this->configuration->ldapBackupHost,
+								 $this->configuration->ldapBackupPort);
+				$bindStatus = $this->bind();
+				if($bindStatus && $error === -1) {
+					//when bind to backup server succeeded and failed to main server,
+					//skip contacting him until next cache refresh
+					$this->writeToCache('overrideMainServer', true);
+				}
 			}
 			return $bindStatus;
 		}
