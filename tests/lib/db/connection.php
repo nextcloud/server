@@ -12,6 +12,13 @@ namespace Test\DB;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OC\DB\MDB2SchemaManager;
 
+/**
+ * Class Connection
+ *
+ * @group DB
+ *
+ * @package Test\DB
+ */
 class Connection extends \Test\TestCase {
 	/**
 	 * @var \OCP\IDBConnection

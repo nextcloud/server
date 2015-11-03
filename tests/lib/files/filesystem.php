@@ -51,6 +51,13 @@ class DummyMountProvider implements IMountProvider {
 	}
 }
 
+/**
+ * Class Filesystem
+ *
+ * @group DB
+ *
+ * @package Test\Files
+ */
 class Filesystem extends \Test\TestCase {
 
 	const TEST_FILESYSTEM_USER1 = "test-filesystem-user1";

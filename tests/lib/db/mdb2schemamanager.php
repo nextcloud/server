@@ -11,6 +11,13 @@ namespace Test\DB;
 
 use Doctrine\DBAL\Platforms\OraclePlatform;
 
+/**
+ * Class MDB2SchemaManager
+ *
+ * @group DB
+ *
+ * @package Test\DB
+ */
 class MDB2SchemaManager extends \Test\TestCase {
 
 	protected function tearDown() {

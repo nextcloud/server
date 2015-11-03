@@ -24,6 +24,13 @@ namespace OCA\Files_sharing\Tests;
 
 use OC\Files\View;
 
+/**
+ * Class SizePropagation
+ *
+ * @group DB
+ *
+ * @package OCA\Files_sharing\Tests
+ */
 class SizePropagation extends TestCase {
 
 	public function testSizePropagationWhenOwnerChangesFile() {

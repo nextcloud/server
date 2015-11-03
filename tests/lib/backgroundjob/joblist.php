@@ -9,8 +9,16 @@
 namespace Test\BackgroundJob;
 
 use OCP\BackgroundJob\IJob;
+use Test\TestCase;
 
-class JobList extends \Test\TestCase {
+/**
+ * Class JobList
+ *
+ * @group DB
+ *
+ * @package Test\BackgroundJob
+ */
+class JobList extends TestCase {
 	/**
 	 * @var \OC\BackgroundJob\JobList
 	 */

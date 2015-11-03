@@ -8,6 +8,13 @@
 
 namespace Test\Files\Cache;
 
+/**
+ * Class Scanner
+ *
+ * @group DB
+ *
+ * @package Test\Files\Cache
+ */
 class Scanner extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage

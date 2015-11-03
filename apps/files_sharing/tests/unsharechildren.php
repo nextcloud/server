@@ -26,6 +26,13 @@ namespace OCA\Files_sharing\Tests;
 
 use OCA\Files\Share;
 
+/**
+ * Class UnshareChildren
+ *
+ * @group DB
+ *
+ * @package OCA\Files_sharing\Tests
+ */
 class UnshareChildren extends TestCase {
 
 	protected $subsubfolder;

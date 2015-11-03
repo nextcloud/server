@@ -20,12 +20,17 @@
 *
 */
 
+/**
+ * Class Test_Tags
+ *
+ * @group DB
+ */
 class Test_Tags extends \Test\TestCase {
 
 	protected $objectType;
-	/** @var \OC\IUser */
+	/** @var \OCP\IUser */
 	protected $user;
-	/** @var \OC\IUserSession */
+	/** @var \OCP\IUserSession */
 	protected $userSession;
 	protected $backupGlobals = FALSE;
 	/** @var \OC\Tagging\TagMapper */

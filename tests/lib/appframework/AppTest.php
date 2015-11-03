@@ -128,6 +128,7 @@ class AppTest extends \Test\TestCase {
 
 	protected function tearDown() {
 		rrmdir($this->appPath);
+		parent::tearDown();
 	}
 
 

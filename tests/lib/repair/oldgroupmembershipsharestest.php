@@ -11,6 +11,13 @@ namespace Test\Repair;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Share\Constants;
 
+/**
+ * Class OldGroupMembershipSharesTest
+ *
+ * @group DB
+ *
+ * @package Test\Repair
+ */
 class OldGroupMembershipSharesTest extends \Test\TestCase {
 
 	/** @var OldGroupMembershipShares */

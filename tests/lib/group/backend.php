@@ -20,6 +20,11 @@
 *
 */
 
+/**
+ * Class Test_Group_Backend
+ *
+ * @group DB
+ */
 abstract class Test_Group_Backend extends \Test\TestCase {
 	/**
 	 * @var OC_Group_Backend $backend

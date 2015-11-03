@@ -27,6 +27,13 @@ use OCA\Files_sharing\Tests\TestCase;
 use OCP\AppFramework\Http;
 use OCP\Share;
 
+/**
+ * Class ShareesTest
+ *
+ * @group DB
+ *
+ * @package OCA\Files_Sharing\Tests\API
+ */
 class ShareesTest extends TestCase {
 	/** @var Sharees */
 	protected $sharees;

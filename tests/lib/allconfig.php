@@ -8,6 +8,13 @@
 
 namespace Test;
 
+/**
+ * Class TestAllConfig
+ *
+ * @group DB
+ *
+ * @package Test
+ */
 class TestAllConfig extends \Test\TestCase {
 
 	/** @var  \OCP\IDBConnection */

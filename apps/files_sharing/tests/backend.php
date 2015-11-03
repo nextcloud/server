@@ -27,6 +27,8 @@ use OCA\Files_sharing\Tests\TestCase;
 
 /**
  * Class Test_Files_Sharing
+ *
+ * @group DB
  */
 class Test_Files_Sharing_Backend extends TestCase {
 

@@ -25,6 +25,11 @@
  *
  */
 
+/**
+ * Class Test_Files_Sharing_Watcher
+ *
+ * @group DB
+ */
 class Test_Files_Sharing_Watcher extends OCA\Files_sharing\Tests\TestCase {
 
 	/**

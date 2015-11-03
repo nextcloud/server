@@ -15,6 +15,13 @@ use \Doctrine\DBAL\Schema\Schema;
 use \Doctrine\DBAL\Schema\SchemaConfig;
 use OCP\IConfig;
 
+/**
+ * Class Migrator
+ *
+ * @group DB
+ *
+ * @package Test\DB
+ */
 class Migrator extends \Test\TestCase {
 	/**
 	 * @var \Doctrine\DBAL\Connection $connection

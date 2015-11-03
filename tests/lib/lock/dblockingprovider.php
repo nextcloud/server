@@ -23,6 +23,13 @@ namespace Test\Lock;
 
 use OCP\Lock\ILockingProvider;
 
+/**
+ * Class DBLockingProvider
+ *
+ * @group DB
+ *
+ * @package Test\Lock
+ */
 class DBLockingProvider extends LockingProvider {
 	/**
 	 * @var \OC\Lock\DBLockingProvider

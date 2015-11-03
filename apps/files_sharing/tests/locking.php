@@ -27,6 +27,13 @@ use OC\Files\View;
 use OC\Lock\MemcacheLockingProvider;
 use OCP\Lock\ILockingProvider;
 
+/**
+ * Class Locking
+ *
+ * @group DB
+ *
+ * @package OCA\Files_sharing\Tests
+ */
 class Locking extends TestCase {
 	/**
 	 * @var \Test\Util\User\Dummy

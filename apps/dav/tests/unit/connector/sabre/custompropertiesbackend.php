@@ -8,6 +8,14 @@ namespace OCA\DAV\Tests\Unit\Connector\Sabre;
  * later.
  * See the COPYING-README file.
  */
+
+/**
+ * Class CustomPropertiesBackend
+ *
+ * @group DB
+ *
+ * @package Tests\Connector\Sabre
+ */
 class CustomPropertiesBackend extends \Test\TestCase {
 
 	/**

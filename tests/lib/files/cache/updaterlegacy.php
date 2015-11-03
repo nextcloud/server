@@ -12,6 +12,13 @@ use \OC\Files\Filesystem as Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 
+/**
+ * Class UpdaterLegacy
+ *
+ * @group DB
+ *
+ * @package Test\Files\Cache
+ */
 class UpdaterLegacy extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage

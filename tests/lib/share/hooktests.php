@@ -25,6 +25,13 @@ namespace OC\Tests\Share;
 
 use Test\TestCase;
 
+/**
+ * Class HookTests
+ *
+ * @group DB
+ *
+ * @package OC\Tests\Share
+ */
 class HookTests extends TestCase {
 
 	protected function setUp() {

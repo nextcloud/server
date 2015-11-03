@@ -19,6 +19,8 @@ class TestCollationRepair extends \OC\Repair\Collation {
 /**
  * Tests for the converting of MySQL tables to InnoDB engine
  *
+ * @group DB
+ *
  * @see \OC\Repair\RepairMimeTypes
  */
 class TestRepairCollation extends \Test\TestCase {

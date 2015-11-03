@@ -9,6 +9,11 @@
 
 use OC\Avatar;
 
+/**
+ * Class Test_Avatar
+ *
+ * @group DB
+ */
 class Test_Avatar extends \Test\TestCase {
 	private static $trashBinStatus;
 

@@ -26,6 +26,8 @@ use OCA\Files_Sharing\Tests\TestCase;
 
 /**
  * Class Test_Files_Sharing_Api
+ *
+ * @group DB
  */
 class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 

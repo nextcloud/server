@@ -26,7 +26,11 @@ use OC\Files\Cache\Cache;
 use OC\Files\Storage\Storage;
 use OC\Files\View;
 
-
+/**
+ * Class Test_Files_Sharing_Permissions
+ *
+ * @group DB
+ */
 class Test_Files_Sharing_Permissions extends OCA\Files_sharing\Tests\TestCase {
 
 	/**

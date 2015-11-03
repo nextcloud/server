@@ -23,6 +23,13 @@ namespace OCA\ObjectStore\Tests\Unit;
 use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\ObjectStore\Swift as ObjectStoreToTest;
 
+/**
+ * Class Swift
+ *
+ * @group DB
+ *
+ * @package OCA\ObjectStore\Tests\Unit
+ */
 class Swift extends \Test\Files\Storage\Storage {
 
 	/**
