@@ -98,7 +98,7 @@
 				</div>
 			</div>
 
-			<form class="searchbox" action="#" method="post" role="search">
+			<form class="searchbox" action="#" method="post" role="search" novalidate>
 				<label for="searchbox" class="hidden-visually">
 					<?php p($l->t('Search'));?>
 				</label>
