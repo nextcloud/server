@@ -78,6 +78,7 @@
     "Uninstall" : "ถอนการติดตั้ง",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "แอพฯจะต้องเปิดใช้งานก่อนทำการอัพเดท คุณจะถูกนำไปยังหน้าอัพเดทใน 5 วินาที",
     "App update" : "อัพเดทแอพฯ",
+    "No apps found for \"{query}\"" : "ไม่พบแอพฯสำหรับ \"{query}\"",
     "An error occurred: {message}" : "เกิดข้อผิดพลาด: {message}",
     "Select a profile picture" : "เลือกรูปภาพโปรไฟล์",
     "Very weak password" : "รหัสผ่านระดับต่ำมาก",

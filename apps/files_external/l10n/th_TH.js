@@ -16,6 +16,7 @@ OC.L10N.register(
     "Not permitted to use authentication mechanism \"%s\"" : "ไม่อนุญาตให้ตรวจสอบการรับรองความถูกต้อง \"%s\"",
     "Unsatisfied backend parameters" : "พารามิเตอร์แบ็กเอนด์ไม่ได้รับอนุญาต",
     "Unsatisfied authentication mechanism parameters" : "การรับรองความถูกต้องไม่เพียงพอ",
+    "Insufficient data: %s" : "ข้อมูลไม่เพียงพอ: %s",
     "Personal" : "ส่วนตัว",
     "System" : "ระบบ",
     "Grant access" : "อนุญาตให้เข้าถึงได้",
@@ -101,6 +102,7 @@ OC.L10N.register(
     "Advanced settings" : "ตั้งค่าขั้นสูง",
     "Delete" : "ลบ",
     "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
+    "Allow users to mount external storages" : "อนุญาตให้ผู้ใช้ติดตั้งพื้นที่จัดเก็บภายนอก",
     "Allow users to mount the following external storage" : "อนุญาตให้ผู้ใช้ติดตั้งจัดเก็บข้อมูลภายนอกต่อไปนี้"
 },
 "nplurals=1; plural=0;");
