@@ -75,6 +75,7 @@ describe('OC.SetupChecks tests', function() {
 					memcacheDocs: 'https://doc.owncloud.org/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
 				})
 			);
 
@@ -109,6 +110,7 @@ describe('OC.SetupChecks tests', function() {
 					memcacheDocs: 'https://doc.owncloud.org/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
 				})
 			);
 
@@ -145,6 +147,7 @@ describe('OC.SetupChecks tests', function() {
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
 				})
 			);
 
@@ -178,6 +181,7 @@ describe('OC.SetupChecks tests', function() {
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
 				})
 			);
 
@@ -206,6 +210,7 @@ describe('OC.SetupChecks tests', function() {
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
+					hasPassedCodeIntegrityCheck: true,
 				})
 			);
 
@@ -234,6 +239,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: false,
 					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
 				})
 			);
 
@@ -283,6 +289,7 @@ describe('OC.SetupChecks tests', function() {
 					forwardedForHeadersWorking: true,
 					phpSupported: {eol: true, version: '5.4.0'},
 					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
 				})
 			);
 

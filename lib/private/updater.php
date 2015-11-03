@@ -34,6 +34,8 @@
 namespace OC;
 
 use OC\Hooks\BasicEmitter;
+use OC\IntegrityCheck\Checker;
+use OC\IntegrityCheck\Storage;
 use OC_App;
 use OC_Installer;
 use OC_Util;
@@ -61,6 +63,9 @@ class Updater extends BasicEmitter {
 	/** @var IConfig */
 	private $config;
 
+	/** @var Checker */
+	private $checker;
+
 	/** @var bool */
 	private $simulateStepEnabled;
 
@@ -81,14 +86,17 @@ class Updater extends BasicEmitter {
 	/**
 	 * @param HTTPHelper $httpHelper
 	 * @param IConfig $config
+	 * @param Checker $checker
 	 * @param ILogger $log
 	 */
 	public function __construct(HTTPHelper $httpHelper,
 								IConfig $config,
+								Checker $checker,
 								ILogger $log = null) {
 		$this->httpHelper = $httpHelper;
 		$this->log = $log;
 		$this->config = $config;
+		$this->checker = $checker;
 		$this->simulateStepEnabled = true;
 		$this->updateStepEnabled = true;
 	}
@@ -334,6 +342,13 @@ class Updater extends BasicEmitter {
 
 			//Invalidate update feed
 			$this->config->setAppValue('core', 'lastupdatedat', 0);
+
+			// Check for code integrity on the stable channel
+			if(\OC_Util::getChannel() === 'stable') {
+				$this->emit('\OC\Updater', 'startCheckCodeIntegrity');
+				$this->checker->runInstanceVerification();
+				$this->emit('\OC\Updater', 'finishedCheckCodeIntegrity');
+			}
 
 			// only set the final version if everything went well
 			$this->config->setSystemValue('version', implode('.', \OC_Util::getVersion()));
