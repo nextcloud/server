@@ -28,7 +28,7 @@
 $OC_Version = array(8, 2, 1, 0);
 
 // The human readable string
-$OC_VersionString = '8.2.1 SP1';
+$OC_VersionString = '8.2.1 RC1';
 
 $OC_VersionCanBeUpgradedFrom = array(8, 1);
 
