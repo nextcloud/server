@@ -49,7 +49,8 @@ class CoreCapabilities implements ICapability {
 	public function getCapabilities() {
 		return [
 			'core' => [
-				'pollinterval' => $this->config->getSystemValue('pollinterval', 60)
+				'pollinterval' => $this->config->getSystemValue('pollinterval', 60),
+				'webdav-root' => $this->config->getSystemValue('webdav-root', 'remote.php/webdav'),
 			]
 		];
 	}
