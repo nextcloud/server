@@ -72,6 +72,11 @@ class BackendService {
 		$this->userMountingBackends = explode(',',
 			$this->config->getAppValue('files_external', 'user_mounting_backends', '')
 		);
+
+		// if no backend is in the list an empty string is in the array and user mounting is disabled
+		if ($this->userMountingBackends === ['']) {
+			$this->userMountingAllowed = false;
+		}
 	}
 
 	/**
