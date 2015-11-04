@@ -560,6 +560,102 @@ class Encryption extends \Test\Files\Storage\Storage {
 	}
 
 	/**
+	 * @dataProvider dataTestCopyBetweenStorageVersions
+	 *
+	 * @param string $sourceInternalPath
+	 * @param string $targetInternalPath
+	 * @param bool $copyResult
+	 * @param bool $encrypted
+	 */
+	public function  testCopyBetweenStorageVersions($sourceInternalPath, $targetInternalPath, $copyResult, $encrypted) {
+
+		$sourceStorage = $this->getMockBuilder('OCP\Files\Storage')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$targetStorage = $this->getMockBuilder('OCP\Files\Storage')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
+			->disableOriginalConstructor()->getMock();
+
+		$mountPoint = '/mountPoint';
+
+		/** @var \OC\Files\Storage\Wrapper\Encryption |\PHPUnit_Framework_MockObject_MockObject  $instance */
+		$instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
+			->setConstructorArgs(
+				[
+					[
+						'storage' => $targetStorage,
+						'root' => 'foo',
+						'mountPoint' => $mountPoint,
+						'mount' => $this->mount
+					],
+					$this->encryptionManager,
+					$this->util,
+					$this->logger,
+					$this->file,
+					null,
+					$this->keyStore,
+					$this->update,
+					$this->mountManager
+				]
+			)
+			->setMethods(['updateUnencryptedSize', 'getCache'])
+			->getMock();
+
+		$targetStorage->expects($this->once())->method('copyFromStorage')
+			->with($sourceStorage, $sourceInternalPath, $targetInternalPath)
+			->willReturn($copyResult);
+
+		if ($copyResult) {
+			$instance->expects($this->once())->method('getCache')
+				->with('', $sourceStorage)
+				->willReturn($cache);
+			$cache->expects($this->once())->method('get')
+				->with($sourceInternalPath)
+				->willReturn(['encrypted' => $encrypted, 'size' => 42]);
+			if ($encrypted) {
+				$instance->expects($this->once())->method('updateUnencryptedSize')
+					->with($mountPoint . $targetInternalPath, 42);
+			} else {
+				$instance->expects($this->never())->method('updateUnencryptedSize');
+			}
+		} else {
+			$instance->expects($this->never())->method('updateUnencryptedSize');
+		}
+
+		$result = $this->invokePrivate(
+			$instance,
+			'copyBetweenStorage',
+			[
+				$sourceStorage,
+				$sourceInternalPath,
+				$targetInternalPath,
+				false,
+				false
+			]
+		);
+
+		$this->assertSame($copyResult, $result);
+	}
+
+	public function dataTestCopyBetweenStorageVersions() {
+		return [
+			['/files/foo.txt', '/files_versions/foo.txt.768743', true, true],
+			['/files/foo.txt', '/files_versions/foo.txt.768743', true, false],
+			['/files/foo.txt', '/files_versions/foo.txt.768743', false, true],
+			['/files/foo.txt', '/files_versions/foo.txt.768743', false, false],
+			['/files_versions/foo.txt.6487634', '/files/foo.txt', true, true],
+			['/files_versions/foo.txt.6487634', '/files/foo.txt', true, false],
+			['/files_versions/foo.txt.6487634', '/files/foo.txt', false, true],
+			['/files_versions/foo.txt.6487634', '/files/foo.txt', false, false],
+
+		];
+	}
+
+	/**
 	 * @dataProvider dataTestIsVersion
 	 * @param string $path
 	 * @param bool $expected
