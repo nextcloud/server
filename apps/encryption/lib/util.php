@@ -115,7 +115,7 @@ class Util {
 	}
 
 	/**
-	 * check if the home storage should be encrypted
+	 * set the home storage encryption on/off
 	 *
 	 * @param bool $encryptHomeStorage
 	 */
