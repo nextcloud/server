@@ -860,26 +860,6 @@ html.ie8 #body-login form input[type="checkbox"] {
 	height: 70px;
 }
 
-
-
-
-/* VARIOUS REUSABLE SELECTORS */
-.hidden {
-	display: none;
-}
-.hidden-visually {
-	position: absolute;
-	left:-10000px;
-	top: auto;
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
-}
-
-.bold { font-weight:600; }
-.center { text-align:center; }
-.inlineblock { display: inline-block; }
-
 /* round profile photos */
 .avatar,
 .avatar img,
