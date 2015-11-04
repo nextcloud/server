@@ -1677,4 +1677,73 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertSame($responseCode, $response->getStatus());
 	}
 
+	public function testStatsAdmin() {
+		$this->container['IsAdmin'] = true;
+
+		$this->container['UserManager']
+			->expects($this->at(0))
+			->method('countUsers')
+			->will($this->returnValue([128, 44]));
+
+		$expectedResponse = new DataResponse(
+			[
+				'totalUsers' => 172
+			]
+		);
+		$response = $this->container['UsersController']->stats();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	/**
+	 * Tests that the subadmin stats return unique users, even
+	 * when a user appears in several groups.
+	 */
+	public function testStatsSubAdmin() {
+		$this->container['IsAdmin'] = false;
+
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+
+		$this->container['UserSession']
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$group1 = $this->getMockBuilder('\OC\Group\Group')
+			->disableOriginalConstructor()->getMock();
+		$group1
+			->expects($this->once())
+			->method('getUsers')
+			->will($this->returnValue(['foo' => 'M. Foo', 'admin' => 'S. Admin']));
+
+		$group2 = $this->getMockBuilder('\OC\Group\Group')
+			->disableOriginalConstructor()->getMock();
+		$group2
+			->expects($this->once())
+			->method('getUsers')
+			->will($this->returnValue(['bar' => 'B. Ar']));
+
+		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+			->disableOriginalConstructor()
+			->getMock();
+		$subadmin
+			->expects($this->at(0))
+			->method('getSubAdminsGroups')
+			->will($this->returnValue([$group1, $group2]));
+
+		$this->container['GroupManager']
+			->expects($this->any())
+			->method('getSubAdmin')
+			->will($this->returnValue($subadmin));
+
+		$expectedResponse = new DataResponse(
+			[
+				'totalUsers' => 3
+			]
+		);
+
+		$response = $this->container['UsersController']->stats();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
 }
