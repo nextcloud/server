@@ -84,7 +84,7 @@ class Share extends \OC\Share\Constants {
 	 * @return array
 	 * @note $path needs to be relative to user data dir, e.g. 'file.txt'
 	 *       not '/admin/files/file.txt'
-	 * @since 5.0.0 - $recursive was added in 8.2.0
+	 * @since 5.0.0 - $recursive was added in 9.0.0
 	 */
 	public static function getUsersSharingFile($path, $ownerUser, $includeOwner = false, $returnUserPaths = false, $recursive = true) {
 		return \OC\Share\Share::getUsersSharingFile($path, $ownerUser, $includeOwner, $returnUserPaths, $recursive);
