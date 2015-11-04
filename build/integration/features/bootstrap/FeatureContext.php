@@ -403,7 +403,6 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 
 		$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
 		$this->createdUsers[$user] = $user;
-		echo "Creating a user inside creatingTheuser\n";
 	}
 
 	/**
@@ -620,11 +619,83 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
-	public static function createTextFile($path, $filename){
-		$myfile = fopen("$path" . "$filename", "w") or die("Unable to open file!");
-		$txt = "ownCloud test text file\n";
-		fwrite($myfile, $txt);
-		fclose($myfile);
+	public function createShare($user,
+								$path = null, 
+								$shareType = null, 
+								$shareWith = null, 
+								$publicUpload = null, 
+								$password = null, 
+								$permissions = null){
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->apiVersion}/shares";
+		$client = new Client();
+		$options = [];
+
+		if ($user === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$user, $this->regularUser];
+		}
+		$fd = [];
+		if (!is_null($path)){
+			$fd['path'] = $path; 
+		}
+		if (!is_null($shareType)){
+			$fd['shareType'] = $shareType; 
+		}
+		if (!is_null($shareWith)){
+			$fd['shareWith'] = $shareWith; 
+		}
+		if (!is_null($publicUpload)){
+			$fd['publicUpload'] = $publicUpload; 
+		}
+		if (!is_null($password)){
+			$fd['password'] = $password; 
+		}
+		if (!is_null($permissions)){
+			$fd['permissions'] = $permissions; 
+		}
+
+		$options['body'] = $fd;
+		
+		try {
+			$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
+		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+			$this->response = $ex->getResponse();
+		}
+
+	}
+
+	public function isUserInSharedData($user){
+		$data = $this->response->xml()->data[0];
+		foreach($data as $element) {
+			if ($element->share_with == $user){
+				return True;
+			}
+		}
+		return False;
+	}
+
+	/**
+	 * @Given /^file "([^"]*)" from user "([^"]*)" is shared with user "([^"]*)"$/
+	 */
+	public function assureFileIsShared($filepath, $user1, $user2){
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->apiVersion}/shares" . "?path=$filepath";
+		$client = new Client();
+		$options = [];
+		if ($user1 === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$user1, $this->regularUser];
+		}
+		$this->response = $client->get($fullUrl, $options);
+		if ($this->isUserInSharedData($user2)){
+			return;
+		} else {
+			$this->createShare($user1, $filepath, 0, $user2, null, null, null);
+		}
+		$this->response = $client->get($fullUrl, $options);
+		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserInSharedData($user2));
+		
 	}
 
 	public static function removeFile($path, $filename){
@@ -638,7 +709,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	 */
 	public static function addFilesToSkeleton(){
 		for ($i=0; $i<5; $i++){
-			self::createTextFile("../../core/skeleton/", "textfile" . "$i" . ".txt");
+			file_put_contents("../../core/skeleton/" . "textfile" . "$i" . ".txt", "ownCloud test text file\n");
 		}
 
 	}

@@ -58,3 +58,22 @@ Feature: sharing
     And the HTTP status code should be "200"
     And Public shared file "welcome.txt" with password "publicpw" can be downloaded
 
+  Scenario: getting all shares of a user
+    Given user "user0" exists
+    And user "user1" exists
+    And file "textfile0.txt" from user "user0" is shared with user "user1"
+    And As an "admin"
+    When sending "GET" to "/apps/files_sharing/api/v1/shares"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+
+
+
+
+
+
+
+
+
+
+
