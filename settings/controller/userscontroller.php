@@ -568,6 +568,7 @@ class UsersController extends Controller {
 		} else {
 			$groups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($this->userSession->getUser());
 
+			$uniqueUsers = [];
 			foreach ($groups as $group) {
 				foreach($group->getUsers() as $uid => $displayName) {
 					$uniqueUsers[$uid] = true;
