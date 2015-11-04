@@ -70,7 +70,7 @@ $recoveryAdminEnabled = OC_App::isEnabled('encryption') &&
 					    $config->getAppValue( 'encryption', 'recoveryAdminEnabled', null );
 
 if($isAdmin) {
-	$subadmins = \OC::$server->getGroupManager()->getSubAdmin()->getAllSubAdmins();
+	$subAdmins = \OC::$server->getGroupManager()->getSubAdmin()->getAllSubAdmins();
 	// New class returns IUser[] so convert back
 	$result = [];
 	foreach ($subAdmins as $subAdmin) {
@@ -79,7 +79,7 @@ if($isAdmin) {
 			'uid' => $subAdmin['user']->getUID(),
 		];
 	}
-	$subadmins = $result;
+	$subAdmins = $result;
 }else{
 	/* Retrieve group IDs from $groups array, so we can pass that information into OC_Group::displayNamesInGroups() */
 	$gids = array();
@@ -88,7 +88,7 @@ if($isAdmin) {
 			$gids[] = $group['id'];
 		}
 	}
-	$subadmins = false;
+	$subAdmins = false;
 }
 
 // load preset quotas
@@ -108,7 +108,7 @@ $tmpl->assign('groups', $groups);
 $tmpl->assign('sortGroups', $sortGroupsBy);
 $tmpl->assign('adminGroup', $adminGroup);
 $tmpl->assign('isAdmin', (int)$isAdmin);
-$tmpl->assign('subadmins', $subadmins);
+$tmpl->assign('subadmins', $subAdmins);
 $tmpl->assign('numofgroups', count($groups) + count($adminGroup));
 $tmpl->assign('quota_preset', $quotaPreset);
 $tmpl->assign('default_quota', $defaultQuota);
