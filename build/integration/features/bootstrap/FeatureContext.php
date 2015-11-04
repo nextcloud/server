@@ -659,6 +659,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		
 		try {
 			$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
+			$this->lastShareData = $this->response->xml();
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
@@ -695,7 +696,15 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		}
 		$this->response = $client->get($fullUrl, $options);
 		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserInSharedData($user2));
-		
+	}
+
+	/**
+	 * @When /^Deleting last share$/
+	 */
+	public function deletingLastShare(){
+		$share_id = $this->lastShareData->data[0]->id;
+		$url = "/apps/files_sharing/api/v{$this->apiVersion}/shares/$share_id";
+		$this->sendingToWith("DELETE", $url, null);
 	}
 
 	public static function removeFile($path, $filename){

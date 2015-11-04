@@ -67,6 +67,15 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
 
+  Scenario: delete a share
+    Given user "user0" exists
+    And user "user1" exists
+    And file "textfile0.txt" from user "user0" is shared with user "user1"
+    And As an "user0"
+    When Deleting last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+
 
 
 
