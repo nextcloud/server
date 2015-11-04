@@ -74,34 +74,55 @@ class Watcher {
 	}
 
 	/**
-	 * check $path for updates
+	 * check $path for updates and update if needed
 	 *
 	 * @param string $path
 	 * @param array $cachedEntry
 	 * @return boolean true if path was updated
 	 */
 	public function checkUpdate($path, $cachedEntry = null) {
-		if ($this->watchPolicy === self::CHECK_ALWAYS or ($this->watchPolicy === self::CHECK_ONCE and array_search($path, $this->checkedPaths) === false)) {
-			if (is_null($cachedEntry)) {
-				$cachedEntry = $this->cache->get($path);
-			}
-			$this->checkedPaths[] = $path;
-			if ($this->storage->hasUpdated($path, $cachedEntry['storage_mtime'])) {
-				if ($this->storage->is_dir($path)) {
-					$this->scanner->scan($path, Scanner::SCAN_SHALLOW);
-				} else {
-					$this->scanner->scanFile($path);
-				}
-				if ($cachedEntry['mimetype'] === 'httpd/unix-directory') {
-					$this->cleanFolder($path);
-				}
-				$this->cache->correctFolderSize($path);
-				return true;
-			}
-			return false;
+		if (is_null($cachedEntry)) {
+			$cachedEntry = $this->cache->get($path);
+		}
+		if ($this->needsUpdate($path, $cachedEntry)) {
+			$this->update($path, $cachedEntry);
+			return true;
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Update the cache for changes to $path
+	 *
+	 * @param string $path
+	 * @param array $cachedData
+	 */
+	public function update($path, $cachedData) {
+		if ($this->storage->is_dir($path)) {
+			$this->scanner->scan($path, Scanner::SCAN_SHALLOW);
+		} else {
+			$this->scanner->scanFile($path);
+		}
+		if ($cachedData['mimetype'] === 'httpd/unix-directory') {
+			$this->cleanFolder($path);
+		}
+		$this->cache->correctFolderSize($path);
+	}
+
+	/**
+	 * Check if the cache for $path needs to be updated
+	 *
+	 * @param string $path
+	 * @param array $cachedData
+	 * @return bool
+	 */
+	public function needsUpdate($path, $cachedData) {
+		if ($this->watchPolicy === self::CHECK_ALWAYS or ($this->watchPolicy === self::CHECK_ONCE and array_search($path, $this->checkedPaths) === false)) {
+			$this->checkedPaths[] = $path;
+			return $this->storage->hasUpdated($path, $cachedData['storage_mtime']);
+		}
+		return false;
 	}
 
 	/**

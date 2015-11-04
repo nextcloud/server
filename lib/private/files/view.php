@@ -1191,13 +1191,13 @@ class View {
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
 
-			try {
-				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
-				$data = $cache->get($internalPath);
-				$watcher = $storage->getWatcher($internalPath);
+			$data = $cache->get($internalPath);
+			$watcher = $storage->getWatcher($internalPath);
 
+			try {
 				// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
 				if (!$data) {
+					$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
 					if (!$storage->file_exists($internalPath)) {
 						$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 						return false;
@@ -1205,14 +1205,16 @@ class View {
 					$scanner = $storage->getScanner($internalPath);
 					$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 					$data = $cache->get($internalPath);
-				} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->checkUpdate($internalPath, $data)) {
+					$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
+				} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
+					$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
+					$watcher->update($internalPath, $data);
 					$this->updater->propagate($path);
 					$data = $cache->get($internalPath);
+					$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 				}
-				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 			} catch (LockedException $e) {
-				// dont try to update the cache when the file is locked
-				$data = $cache->get($internalPath);
+				// if the file is locked we just use the old cache info
 			}
 
 			if ($data and isset($data['fileid'])) {
@@ -1278,12 +1280,11 @@ class View {
 			 */
 			$files = array();
 
+			$data = $cache->get($internalPath);
+			$watcher = $storage->getWatcher($internalPath);
 			try {
-				$this->lockFile($directory, ILockingProvider::LOCK_SHARED);
-
-				$data = $cache->get($internalPath);
-				$watcher = $storage->getWatcher($internalPath);
 				if (!$data or $data['size'] === -1) {
+					$this->lockFile($directory, ILockingProvider::LOCK_SHARED);
 					if (!$storage->file_exists($internalPath)) {
 						$this->unlockFile($directory, ILockingProvider::LOCK_SHARED);
 						return array();
@@ -1291,19 +1292,20 @@ class View {
 					$scanner = $storage->getScanner($internalPath);
 					$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 					$data = $cache->get($internalPath);
-				} else if ($watcher->checkUpdate($internalPath, $data)) {
+					$this->unlockFile($directory, ILockingProvider::LOCK_SHARED);
+				} else if ($watcher->needsUpdate($internalPath, $data)) {
+					$this->lockFile($directory, ILockingProvider::LOCK_SHARED);
+					$watcher->update($internalPath, $data);
 					$this->updater->propagate($path);
 					$data = $cache->get($internalPath);
+					$this->unlockFile($directory, ILockingProvider::LOCK_SHARED);
 				}
-
-				$folderId = $data['fileid'];
-				$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
-
-				$this->unlockFile($directory, ILockingProvider::LOCK_SHARED);
 			} catch (LockedException $e) {
-				// dont try to update the cache when the file is locked
-				$contents = $cache->getFolderContents($internalPath);
+				// if the file is locked we just use the old cache info
 			}
+
+			$folderId = $data['fileid'];
+			$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
 
 			foreach ($contents as $content) {
 				if ($content['permissions'] === 0) {
