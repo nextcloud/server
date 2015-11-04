@@ -1296,8 +1296,8 @@ class View {
 				$this->unlockFile($directory, ILockingProvider::LOCK_SHARED);
 			}
 
-				$folderId = $data['fileid'];
-				$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
+			$folderId = $data['fileid'];
+			$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
 
 			foreach ($contents as $content) {
 				if ($content['permissions'] === 0) {
