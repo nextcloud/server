@@ -101,7 +101,6 @@ OC.L10N.register(
     "Advanced settings" : "Paramètres avançats",
     "Delete" : "Suprimir",
     "Add storage" : "Apondre un supòrt d'emmagazinatge",
-    "Allow users to mount external storages" : "Autorizar los utilizaires a montar los emmagazinatges extèrnes",
     "Allow users to mount the following external storage" : "Autorizar los utilizaires a montar los emmagazinatges extèrnes seguents"
 },
 "nplurals=2; plural=(n > 1);");

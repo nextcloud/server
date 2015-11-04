@@ -16,6 +16,7 @@ OC.L10N.register(
     "Not permitted to use authentication mechanism \"%s\"" : "Μη επιτρεπόμενος μηχανισμός πιστοποίησης \"%s\"",
     "Unsatisfied backend parameters" : "Ελλιπείς παράμετροι συστήματος",
     "Unsatisfied authentication mechanism parameters" : "Ελλιπείς παράμετροι μηχανισμού πιστοποίησης",
+    "Insufficient data: %s" : "Μη επαρκή δεδομένα: %s",
     "Personal" : "Προσωπικά",
     "System" : "Σύστημα",
     "Grant access" : "Παροχή πρόσβασης",

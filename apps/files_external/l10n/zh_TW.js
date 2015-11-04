@@ -95,7 +95,6 @@ OC.L10N.register(
     "Advanced settings" : "進階設定",
     "Delete" : "刪除",
     "Add storage" : "增加儲存區",
-    "Allow users to mount external storages" : "允許使用者能自行掛載外部儲存",
     "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存"
 },
 "nplurals=1; plural=0;");
