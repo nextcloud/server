@@ -44,6 +44,8 @@ use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IRequest;
 use OCP\ILogger;
+use OCP\App\IAppManager;
+use OCP\IAppConfig;
 use OCP\AppFramework\Controller;
 use OCP\Util;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
@@ -67,6 +69,10 @@ class SecurityMiddleware extends Middleware {
 	private $urlGenerator;
 	/** @var ILogger */
 	private $logger;
+	/** @var IAppManager */
+	private $appManager;
+	/** @var IAppConfig */
+	private $appConfig;
 	/** @var bool */
 	private $isLoggedIn;
 	/** @var bool */
@@ -80,6 +86,8 @@ class SecurityMiddleware extends Middleware {
 	 * @param INavigationManager $navigationManager
 	 * @param IURLGenerator $urlGenerator
 	 * @param ILogger $logger
+	 * @param IAppManager
+	 * @param IConfig
 	 * @param string $appName
 	 * @param bool $isLoggedIn
 	 * @param bool $isAdminUser
@@ -90,6 +98,8 @@ class SecurityMiddleware extends Middleware {
 								INavigationManager $navigationManager,
 								IURLGenerator $urlGenerator,
 								ILogger $logger,
+								IAppManager $appManager,
+								IAppConfig $appConfig,
 								$appName,
 								$isLoggedIn,
 								$isAdminUser,
@@ -99,6 +109,8 @@ class SecurityMiddleware extends Middleware {
 		$this->reflector = $reflector;
 		$this->appName = $appName;
 		$this->urlGenerator = $urlGenerator;
+		$this->appManager = $appManager;
+		$this->appConfig = $appConfig;
 		$this->logger = $logger;
 		$this->isLoggedIn = $isLoggedIn;
 		$this->isAdminUser = $isAdminUser;
@@ -143,12 +155,19 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		/**
-		 * FIXME: Use DI once available
-		 * Checks if app is enabled (also includes a check whether user is allowed to access the resource)
-		 * The getAppPath() check is here since components such as settings also use the AppFramework and
-		 * therefore won't pass this check.
+		 * If public route, check it is enabled for someone,
+		 * else check it is enabled for current user
 		 */
-		if(\OC_App::getAppPath($this->appName) !== false && !\OC_App::isEnabled($this->appName)) {
+		if($isPublicPage) {
+			if($this->appConfig->getValue($this->appName, 'enabed') === 'no') {
+				throw new AppNotEnabledException();
+			}
+		} else if(\OC_App::getAppPath($this->appName) !== false && !$this->appManager->isEnabledForUser($this->appName)){
+			/**
+			 * Checks if app is enabled (also includes a check whether user is allowed to access the resource)
+			 * The getAppPath() check is here since components such as settings also use the AppFramework and
+			 * therefore won't pass this check.
+			 */
 			throw new AppNotEnabledException();
 		}
 

@@ -34,29 +34,37 @@ use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicy;
+use OCP\App\IAppManager;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\ILogger;
 
 
 class SecurityMiddlewareTest extends \Test\TestCase {
 
 	private $middleware;
+	/** @var Controller | \PHPUnit_Framework_MockObject_MockObject */
 	private $controller;
 	private $secException;
 	private $secAjaxException;
 	private $request;
 	private $reader;
+	/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
 	private $navigationManager;
 	private $urlGenerator;
 	private $contentSecurityPolicyManager;
+	/** @var IAppManager | \PHPUnit_Framework_MockObject_MockObject */
+	private $appManager;
+	private $appConfig;
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->controller = $this->getMockBuilder('OCP\AppFramework\Controller')
-			->disableOriginalConstructor()
+				->disableOriginalConstructor()
 				->getMock();
 		$this->reader = new ControllerMethodReflector();
 		$this->logger = $this->getMockBuilder(
@@ -77,6 +85,15 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 				->getMock();
 		$this->contentSecurityPolicyManager = $this->getMockBuilder(
 				'OC\Security\CSP\ContentSecurityPolicyManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->appManager = $this->getMockBuilder(
+				'OCP\App\IAppManager')
+				->disableOriginalConstructor()
+				->getMock();
+		$this->appManager->method('isEnabledForUser')->willReturn(true);
+		$this->appConfig = $this->getMockBuilder(
+				'OCP\IAppConfig')
 				->disableOriginalConstructor()
 				->getMock();
 		$this->middleware = $this->getMiddleware(true, true);
@@ -96,6 +113,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->navigationManager,
 			$this->urlGenerator,
 			$this->logger,
+			$this->appManager,
+			$this->appConfig,
 			'files',
 			$isLoggedIn,
 			$isAdminUser,
