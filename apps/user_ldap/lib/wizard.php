@@ -1290,9 +1290,13 @@ class Wizard extends LDAPUtility {
 		if(!is_null($this->cr)) {
 			return $this->cr;
 		}
-		$cr = $this->ldap->connect(
-			$this->configuration->ldapHost.':'.$this->configuration->ldapPort,
-			$this->configuration->ldapPort);
+
+		$host = $this->configuration->ldapHost;
+		if(strpos($host, '://') !== false) {
+			//ldap_connect ignores port parameter when URLs are passed
+			$host .= ':' . $this->configuration->ldapPort;
+		}
+		$cr = $this->ldap->connect($host, $this->configuration->ldapPort);
 
 		$this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
 		$this->ldap->setOption($cr, LDAP_OPT_REFERRALS, 0);
