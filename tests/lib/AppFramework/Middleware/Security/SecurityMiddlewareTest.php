@@ -91,7 +91,9 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 				'OCP\App\IAppManager')
 				->disableOriginalConstructor()
 				->getMock();
-		$this->appManager->method('isEnabledForUser')->willReturn(true);
+		$this->appManager->method('isEnabledForUser')
+				->with('files')
+				->willReturn(true);
 		$this->appConfig = $this->getMockBuilder(
 				'OCP\IAppConfig')
 				->disableOriginalConstructor()
