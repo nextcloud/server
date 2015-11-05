@@ -55,6 +55,28 @@ class SubAdmin extends \Test\TestCase {
 		if (!$this->groupManager->groupExists('admin')) {
 			$this->groupManager->createGroup('admin');
 		}
+
+		// Create "orphaned" users and groups (scenario: temporarily disabled
+		// backend)
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('group_admin')
+			->values([
+				'gid' => $qb->createNamedParameter($this->groups[0]->getGID()),
+				'uid' => $qb->createNamedParameter('orphanedUser')
+			])
+			->execute();
+		$qb->insert('group_admin')
+			->values([
+				'gid' => $qb->createNamedParameter('orphanedGroup'),
+				'uid' => $qb->createNamedParameter('orphanedUser')
+			])
+			->execute();
+		$qb->insert('group_admin')
+			->values([
+				'gid' => $qb->createNamedParameter('orphanedGroup'),
+				'uid' => $qb->createNamedParameter($this->users[0]->getUID())
+			])
+			->execute();
 	}
 
 	public function tearDown() {
@@ -65,6 +87,12 @@ class SubAdmin extends \Test\TestCase {
 		foreach($this->groups as $group) {
 			$group->delete();
 		}
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->delete('group_admin')
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter('orphanedUser')))
+			->orWhere($qb->expr()->eq('gid', $qb->createNamedParameter('orphanedGroup')))
+			->execute();
 	}
 
 	public function testCreateSubAdmin() {
@@ -118,6 +146,7 @@ class SubAdmin extends \Test\TestCase {
 		$this->assertContains($this->groups[0], $result);
 		$this->assertContains($this->groups[1], $result);
 		$this->assertNotContains($this->groups[2], $result);
+		$this->assertNotContains(null, $result);
 
 		$this->assertTrue($subAdmin->deleteSubAdmin($this->users[0], $this->groups[0]));
 		$this->assertTrue($subAdmin->deleteSubAdmin($this->users[0], $this->groups[1]));
@@ -133,6 +162,7 @@ class SubAdmin extends \Test\TestCase {
 		$this->assertContains($this->users[0], $result);
 		$this->assertContains($this->users[1], $result);
 		$this->assertNotContains($this->users[2], $result);
+		$this->assertNotContains(null, $result);
 
 		$this->assertTrue($subAdmin->deleteSubAdmin($this->users[0], $this->groups[0]));
 		$this->assertTrue($subAdmin->deleteSubAdmin($this->users[1], $this->groups[0]));
@@ -150,6 +180,7 @@ class SubAdmin extends \Test\TestCase {
 		$this->assertContains(['user' => $this->users[0], 'group' => $this->groups[0]], $result);
 		$this->assertContains(['user' => $this->users[1], 'group' => $this->groups[1]], $result);
 		$this->assertContains(['user' => $this->users[2], 'group' => $this->groups[1]], $result);
+		$this->assertNotContains(['user' => null, 'group' => null], $result);
 	}
 
 	public function testIsSubAdminofGroup() {
