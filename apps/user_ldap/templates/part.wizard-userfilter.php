@@ -31,7 +31,7 @@
 			<label></label>
 			<select class="ldapGroupList ldapGroupListAvailable" multiple="multiple"
 					title="<?php p($l->t('Available groups'));?>"></select>
-			<span>
+			<span class="buttonSpan">
 				<button class="ldapGroupListSelect" type="button">&gt;</button><br/>
 				<button class="ldapGroupListDeselect" type="button">&lt;</button>
 			</span>

@@ -24,14 +24,14 @@
 		?>
 		</select>
 		<button type="button" id="ldap_action_add_configuration"
-			name="ldap_action_add_configuration" class="icon-add"
+			name="ldap_action_add_configuration" class="icon-add icon-default-style"
 			title="<?php p($l->t('Add a new and blank configuration'));?>">&nbsp;</button>
 		<button type="button" id="ldap_action_copy_configuration"
 			name="ldap_action_copy_configuration"
 			class="ldapIconCopy icon-default-style"
 			title="<?php p($l->t('Copy current configuration into new directory binding'));?>">&nbsp;</button>
 		<button type="button" id="ldap_action_delete_configuration"
-			name="ldap_action_delete_configuration" class="icon-delete"
+			name="ldap_action_delete_configuration" class="icon-delete icon-default-style"
 			title="<?php p($l->t('Delete the current configuration'));?>">&nbsp;</button>
 		</p>
 
@@ -44,7 +44,7 @@
 							placeholder="<?php p($l->t('Host'));?>"
 							title="<?php p($l->t('You can omit the protocol, except you require SSL. Then start with ldaps://'));?>"
 							/>
-						<span>
+						<span class="hostPortCombinatorSpan">
 							<input type="number" id="ldap_port" name="ldap_port"
 								placeholder="<?php p($l->t('Port'));?>" />
 							<button class="ldapDetectPort" name="ldapDetectPort" type="button">
