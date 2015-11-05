@@ -16,6 +16,7 @@ OC.L10N.register(
     "Not permitted to use authentication mechanism \"%s\"" : "不被允許使用驗證機制 \"%s\"",
     "Unsatisfied backend parameters" : "無法滿足後端所需的參數條件",
     "Unsatisfied authentication mechanism parameters" : "無法滿足驗證機制所需的參數條件",
+    "Insufficient data: %s" : "資料不足: %s",
     "Personal" : "個人",
     "System" : "系統",
     "Grant access" : "允許存取",
@@ -95,6 +96,7 @@ OC.L10N.register(
     "Advanced settings" : "進階設定",
     "Delete" : "刪除",
     "Add storage" : "增加儲存區",
+    "Allow users to mount external storage" : "允許使用者能自行掛載外部儲存",
     "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存"
 },
 "nplurals=1; plural=0;");

@@ -100,6 +100,7 @@ OC.L10N.register(
     "Advanced settings" : "Pokročilá nastavení",
     "Delete" : "Smazat",
     "Add storage" : "Přidat úložiště",
+    "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
     "Allow users to mount the following external storage" : "Povolit uživatelů připojit následující externí úložiště"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

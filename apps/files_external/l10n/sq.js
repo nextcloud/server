@@ -100,6 +100,7 @@ OC.L10N.register(
     "Advanced settings" : "Rregullime të mëtejshme",
     "Delete" : "Fshije",
     "Add storage" : "Shtoni depozitë",
+    "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
     "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese"
 },
 "nplurals=2; plural=(n != 1);");
