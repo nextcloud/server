@@ -666,6 +666,30 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 
 	}
 
+	public function isFieldInResponse($field, $content_expected){
+		$data = $this->response->xml()->data[0];
+		foreach($data as $element) {
+			if ($element->$field == $content_expected){
+				return True;
+			}
+		}
+		return False;
+	}
+
+	/**
+	 * @Then /^File "([^"]*)" should be included in the response$/
+	 */
+	public function checkSharedFileInResponse($filename){
+		PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse('file_target', "/$filename"));
+	}
+
+	/**
+	 * @Then /^File "([^"]*)" should not be included in the response$/
+	 */
+	public function checkSharedFileNotInResponse($filename){
+		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('file_target', "/$filename"));
+	}
+
 	public function isUserInSharedData($user){
 		$data = $this->response->xml()->data[0];
 		foreach($data as $element) {
@@ -709,7 +733,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 
 	public static function removeFile($path, $filename){
 		if (file_exists("$path" . "$filename")) {
-        	unlink("$path" . "$filename");
+			unlink("$path" . "$filename");
         }
 	}
 
