@@ -30,6 +30,9 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	/** @var array */
 	private $createdUsers = [];
 
+	/** @var array */
+	private $createdGroups = [];
+
 	public function __construct($baseUrl, $admin, $regular_user_password) {
 
 		// Initialize your context here
@@ -354,23 +357,35 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	}
 
 	public function createUser($user) {
+		$previous_user = $this->currentUser;
+		$this->currentUser = "admin";
 		$this->creatingTheUser($user);
 		$this->userExists($user);
+		$this->currentUser = $previous_user;
 	}
 
 	public function deleteUser($user) {
+		$previous_user = $this->currentUser;
+		$this->currentUser = "admin";
 		$this->deletingTheUser($user);
 		$this->userDoesNotExist($user);
+		$this->currentUser = $previous_user;
 	}
 
 	public function createGroup($group) {
+		$previous_user = $this->currentUser;
+		$this->currentUser = "admin";
 		$this->creatingTheGroup($group);
 		$this->groupExists($group);
+		$this->currentUser = $previous_user;
 	}
 
 	public function deleteGroup($group) {
+		$previous_user = $this->currentUser;
+		$this->currentUser = "admin";
 		$this->deletingTheGroup($group);
 		$this->groupDoesNotExist($group);
+		$this->currentUser = $previous_user;
 	}
 
 	public function creatingTheUser($user) {
@@ -406,6 +421,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 							];
 
 		$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
+		$this->createdGroups[$group] = $group;
 	}
 
 	/**
@@ -603,6 +619,143 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
+	public function createShare($user,
+								$path = null, 
+								$shareType = null, 
+								$shareWith = null, 
+								$publicUpload = null, 
+								$password = null, 
+								$permissions = null){
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->apiVersion}/shares";
+		$client = new Client();
+		$options = [];
+
+		if ($user === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$user, $this->regularUser];
+		}
+		$fd = [];
+		if (!is_null($path)){
+			$fd['path'] = $path; 
+		}
+		if (!is_null($shareType)){
+			$fd['shareType'] = $shareType; 
+		}
+		if (!is_null($shareWith)){
+			$fd['shareWith'] = $shareWith; 
+		}
+		if (!is_null($publicUpload)){
+			$fd['publicUpload'] = $publicUpload; 
+		}
+		if (!is_null($password)){
+			$fd['password'] = $password; 
+		}
+		if (!is_null($permissions)){
+			$fd['permissions'] = $permissions; 
+		}
+
+		$options['body'] = $fd;
+		
+		try {
+			$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
+			$this->lastShareData = $this->response->xml();
+		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+			$this->response = $ex->getResponse();
+		}
+
+	}
+
+	public function isFieldInResponse($field, $content_expected){
+		$data = $this->response->xml()->data[0];
+		foreach($data as $element) {
+			if ($element->$field == $content_expected){
+				return True;
+			}
+		}
+		return False;
+	}
+
+	/**
+	 * @Then /^File "([^"]*)" should be included in the response$/
+	 */
+	public function checkSharedFileInResponse($filename){
+		PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse('file_target', "/$filename"));
+	}
+
+	/**
+	 * @Then /^File "([^"]*)" should not be included in the response$/
+	 */
+	public function checkSharedFileNotInResponse($filename){
+		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('file_target', "/$filename"));
+	}
+
+	public function isUserInSharedData($user){
+		$data = $this->response->xml()->data[0];
+		foreach($data as $element) {
+			if ($element->share_with == $user){
+				return True;
+			}
+		}
+		return False;
+	}
+
+	/**
+	 * @Given /^file "([^"]*)" from user "([^"]*)" is shared with user "([^"]*)"$/
+	 */
+	public function assureFileIsShared($filepath, $user1, $user2){
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->apiVersion}/shares" . "?path=$filepath";
+		$client = new Client();
+		$options = [];
+		if ($user1 === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$user1, $this->regularUser];
+		}
+		$this->response = $client->get($fullUrl, $options);
+		if ($this->isUserInSharedData($user2)){
+			return;
+		} else {
+			$this->createShare($user1, $filepath, 0, $user2, null, null, null);
+		}
+		$this->response = $client->get($fullUrl, $options);
+		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserInSharedData($user2));
+	}
+
+	/**
+	 * @When /^Deleting last share$/
+	 */
+	public function deletingLastShare(){
+		$share_id = $this->lastShareData->data[0]->id;
+		$url = "/apps/files_sharing/api/v{$this->apiVersion}/shares/$share_id";
+		$this->sendingToWith("DELETE", $url, null);
+	}
+
+	public static function removeFile($path, $filename){
+		if (file_exists("$path" . "$filename")) {
+			unlink("$path" . "$filename");
+        }
+	}
+
+	/**
+	 * @BeforeSuite
+	 */
+	public static function addFilesToSkeleton(){
+		for ($i=0; $i<5; $i++){
+			file_put_contents("../../core/skeleton/" . "textfile" . "$i" . ".txt", "ownCloud test text file\n");
+		}
+
+	}
+
+	/**
+	 * @AfterSuite
+	 */
+	public static function removeFilesFromSkeleton(){
+		for ($i=0; $i<5; $i++){
+			self::removeFile("../../core/skeleton/", "textfile" . "$i" . ".txt");
+        }
+	}
+
 	/**
 	 * @BeforeScenario
 	 * @AfterScenario
@@ -614,4 +767,15 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		}
 	}
 
+
+	/**
+	 * @BeforeScenario
+	 * @AfterScenario
+	 */
+	public function cleanupGroups()
+	{
+		foreach($this->createdGroups as $group) {
+			$this->deleteGroup($group);
+		}
+	}
 }
