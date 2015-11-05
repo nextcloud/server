@@ -85,6 +85,8 @@ class DropOldTables extends BasicEmitter implements RepairStep {
 			'media_users',
 			'permissions',
 			'pictures_images_cache',
+			'principalgroups',
+			'principals',
 			'queuedtasks',
 			'sharing',
 		];
