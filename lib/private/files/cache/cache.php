@@ -499,7 +499,7 @@ class Cache {
 		if ($sourceData['mimetype'] === 'httpd/unix-directory') {
 			//find all child entries
 			$sql = 'SELECT `path`, `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path` LIKE ?';
-			$result = $this->connection->executeQuery($sql, [$sourceStorageId, $sourcePath . '/%']);
+			$result = $this->connection->executeQuery($sql, [$sourceStorageId, $this->connection->escapeLikeParameter($sourcePath) . '/%']);
 			$childEntries = $result->fetchAll();
 			$sourceLength = strlen($sourcePath);
 			$this->connection->beginTransaction();
