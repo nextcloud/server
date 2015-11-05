@@ -56,6 +56,9 @@ OC.L10N.register(
     "Override UUID detection" : "Mbivendosni gjetjen e UUID",
     "Username-LDAP User Mapping" : "Emri përdoruesit-LAPD përcaktues përdoruesi",
     "Clear Username-LDAP User Mapping" : "Fshini Emër përdoruesi-LAPD Përcaktues përdoruesi",
-    "Clear Groupname-LDAP Group Mapping" : "Fshini Emër Grupi-LADP Përcaktues grupi"
+    "Clear Groupname-LDAP Group Mapping" : "Fshini Emër Grupi-LADP Përcaktues grupi",
+    "Backup (Replica) Host" : "Strehë Kopjeruajtjeje (Replica)",
+    "Backup (Replica) Port" : "Portë Kopjeruajtjeje (Replica)",
+    "Verify settings and count users" : "Verifiko rregullimet dhe numëro përdoruesit"
 },
 "nplurals=2; plural=(n != 1);");

@@ -50,6 +50,8 @@
     "Enable password recovery:" : "Aktifkan sandi pemulihan:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Mengaktifkan opsi ini memungkinkan Anda untuk mendapatkan kembali akses ke berkas terenkripsi Anda dalam kasus kehilangan sandi",
     "Enabled" : "Diaktifkan",
-    "Disabled" : "Dinonaktifkan"
+    "Disabled" : "Dinonaktifkan",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hai,\n\nadmin mengaktifkan server-side-encryption. Berkas-berkas Anda dienkripsi menggunakan sandi '%s'.\n\nSilakan masuk di antarmuka web, pergi ke bagian 'modul enkripsi dasar ownCloud' pada pengaturan pribadi Anda dan perbarui sandi enkripsi Anda dengan memasukkan sandi ini kedalam kolom 'sandi masuk yang lama' dan sandi-masuk saat ini.\n\n",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hai,\n\nadmin mengaktifkan server-side-encryption. Berkas-berkas Anda dienkripsi menggunakan sandi '%s'.\n\nSilakan masuk di antarmuka web, pergi ke bagian 'modul enkripsi dasar ownCloud' pada pengaturan pribadi Anda dan perbarui sandi enkripsi Anda dengan memasukkan sandi ini kedalam kolom 'sandi masuk yang lama' dan sandi-masuk saat ini.\n\n"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

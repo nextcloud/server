@@ -90,6 +90,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atributo UUID para grupos:",
     "Username-LDAP User Mapping" : "Asignación del Nombre de usuario de un usuario LDAP",
     "Clear Username-LDAP User Mapping" : "Borrar la asignación de los Nombres de usuario de los usuarios LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Borrar la asignación de los Nombres de grupo de los grupos de LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Borrar la asignación de los Nombres de grupo de los grupos de LDAP",
+    "Backup (Replica) Host" : "Host para copia de seguridad (réplica)",
+    "Backup (Replica) Port" : "Puerto para copia de seguridad (réplica)"
 },
 "nplurals=2; plural=(n != 1);");

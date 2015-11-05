@@ -38,6 +38,7 @@ OC.L10N.register(
     "Select all" : "All auswielen",
     "Upload too large" : "Upload ze grouss",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Déi Dateien déi Dir probéiert erop ze lueden sinn méi grouss wei déi Maximal Gréisst déi op dësem Server erlaabt ass.",
-    "Files are being scanned, please wait." : "Fichieren gi gescannt, war weg."
+    "Files are being scanned, please wait." : "Fichieren gi gescannt, war weg.",
+    "Upload cancelled." : "Upload ofgebrach."
 },
 "nplurals=2; plural=(n != 1);");

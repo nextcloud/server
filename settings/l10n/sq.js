@@ -104,6 +104,8 @@ OC.L10N.register(
     "Last Login" : "Hyrja e fundit",
     "change full name" : "ndrysho emrin e plotë",
     "set new password" : "vendos fjalëkalim të ri",
-    "Default" : "Paracaktuar"
+    "Default" : "Paracaktuar",
+    "No apps found for your version" : "S’u gjetën aplikacione për versionin tuaj",
+    "Sync clients" : "Klientë njëkohësimi"
 },
 "nplurals=2; plural=(n != 1);");

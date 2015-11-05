@@ -57,6 +57,8 @@
     "Email Field" : "Sähköpostikenttä",
     "User Home Folder Naming Rule" : "Käyttäjän kotihakemiston nimeämissääntö",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD-atribuutti.",
-    "Internal Username" : "Sisäinen käyttäjänimi"
+    "Internal Username" : "Sisäinen käyttäjänimi",
+    "Backup (Replica) Host" : "Varmuuskopioinnin (replikointi) palvelin",
+    "Backup (Replica) Port" : "Varmuuskopioinnin (replikoinnin) portti"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

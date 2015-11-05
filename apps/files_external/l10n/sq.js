@@ -14,6 +14,10 @@ OC.L10N.register(
     "Share" : "Ndaj",
     "Name" : "Emri",
     "Folder name" : "Emri i Skedarit",
-    "Delete" : "Elimino"
+    "Delete" : "Elimino",
+    "Add storage" : "Shtoni depozitë",
+    "Builtin" : "I brendshëm",
+    "Root" : "Rrënjë",
+    "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese"
 },
 "nplurals=2; plural=(n != 1);");

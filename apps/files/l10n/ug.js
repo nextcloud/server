@@ -34,6 +34,7 @@ OC.L10N.register(
     "Settings" : "تەڭشەكلەر",
     "WebDAV" : "WebDAV",
     "Cancel upload" : "يۈكلەشتىن ۋاز كەچ",
-    "Upload too large" : "يۈكلەندىغىنى بەك چوڭ"
+    "Upload too large" : "يۈكلەندىغىنى بەك چوڭ",
+    "Upload cancelled." : "يۈكلەشتىن ۋاز كەچتى."
 },
 "nplurals=1; plural=0;");

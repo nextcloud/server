@@ -113,6 +113,7 @@ OC.L10N.register(
     "Files are being scanned, please wait." : "Dateien werden gescannt, bitte warten.",
     "Currently scanning" : "Durchsuchen läuft",
     "No favorites" : "Keine Favoriten",
-    "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die Sie als Favoriten kennzeichnen, werden hier erscheinen"
+    "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die Sie als Favoriten kennzeichnen, werden hier erscheinen",
+    "Unable to set upload directory." : "Das Upload-Verzeichnis konnte nicht gesetzt werden."
 },
 "nplurals=2; plural=(n != 1);");

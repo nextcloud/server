@@ -76,6 +76,8 @@ OC.L10N.register(
     "Quota Default" : "পূর্বনির্ধারিত কোটা",
     "in bytes" : "বাইটে",
     "Email Field" : "ইমেইল ক্ষেত্র",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "ব্যবহারকারী নামের জন্য ফাঁকা রাখুন (পূর্বনির্ধারিত)। অন্যথায়, LDAP/AD বৈশিষ্ট্য নির্ধারণ করুন।"
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "ব্যবহারকারী নামের জন্য ফাঁকা রাখুন (পূর্বনির্ধারিত)। অন্যথায়, LDAP/AD বৈশিষ্ট্য নির্ধারণ করুন।",
+    "Backup (Replica) Host" : "ব্যাকআপ (নকল) হোস্ট",
+    "Backup (Replica) Port" : "ব্যাকআপ (নকল) পোর্ট"
 },
 "nplurals=2; plural=(n != 1);");

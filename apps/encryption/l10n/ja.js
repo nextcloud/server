@@ -49,6 +49,8 @@ OC.L10N.register(
     "Enable password recovery:" : "パスワードリカバリを有効に:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "このオプションを有効にすると、パスワードを紛失した場合も、暗号化されたファイルに再度アクセスすることができるようになります。",
     "Enabled" : "有効",
-    "Disabled" : "無効"
+    "Disabled" : "無効",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "こんにちは、\n\n管理者がサーバーサイド暗号化を有効にしました。'%s'というパスワードであなたのファイルが暗号化されました。\n\nWeb画面からログインして、個人設定画面の'ownCloud 基本暗号化モジュール' セクションにいき、暗号化パスワードの更新をお願いします。 '旧ログインパスワード'部分に上記パスワードを入力し、現在のログインパスワードで更新します。\n",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "こんにちは、\n\n管理者がサーバーサイド暗号化を有効にしました。'%s'というパスワードであなたのファイルが暗号化されました。\n\nWeb画面からログインして、個人設定画面の'ownCloud 基本暗号化モジュール' セクションにいき、暗号化パスワードの更新をお願いします。 '旧ログインパスワード'部分に上記パスワードを入力し、現在のログインパスワードで更新します。\n"
 },
 "nplurals=1; plural=0;");

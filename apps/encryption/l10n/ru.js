@@ -52,6 +52,8 @@ OC.L10N.register(
     "Enable password recovery:" : "Включить восстановление пароля:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включение этой опции позволит вам получить доступ к своим зашифрованным файлам в случае утери пароля",
     "Enabled" : "Включено",
-    "Disabled" : "Отключено"
+    "Disabled" : "Отключено",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Привет,\n\nадминистратор включил шифрование на стороне сервера. Ваши файлы были зашифрованы с помощью пароля '%s'.\n\nПожалуйста войдите в веб-приложение, в разделе 'ownCloud простой модуль шифрования' в личных настройках вам нужно обновить пароль шифрования.\n\n",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Привет,\n\nадминистратор включил шифрование на стороне сервера. Ваши файлы были зашифрованы с помощью пароля '%s'.\n\nПожалуйста войдите в веб-приложение, в разделе 'ownCloud простой модуль шифрования' в личных настройках вам нужно обновить пароль шифрования.\n\n"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -23,6 +23,10 @@ OC.L10N.register(
     "Enable password recovery:" : "啟用密碼還原:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案",
     "Enabled" : "已啓用",
-    "Disabled" : "已停用"
+    "Disabled" : "已停用",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "嗨，請看這裡，\n\n系管理員啟用了伺服器端的加密功能，您的檔案將會使用密碼 '%s' 加密\n\n請從網頁登入，到 'ownCloud basic encryption module' 設置您的個人設定並透過更新加密密碼，將這個組密碼設定在 'old log-in password'  以及您的目前登入密碼\n",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "嗨，請看這裡，\n\n系管理員啟用了伺服器端的加密功能，您的檔案將會使用密碼 '%s' 加密\n\n請從網頁登入，到 'ownCloud basic encryption module' 設置您的個人設定並透過更新加密密碼，將這個組密碼設定在 'old log-in password'  以及您的目前登入密碼\n",
+    "Missing recovery key password" : "遺失還原金鑰密碼",
+    "Please repeat the recovery key password" : "請您再輸入新的還原金鑰密碼一次"
 },
 "nplurals=1; plural=0;");

@@ -102,6 +102,8 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Asignación del Nome d'usuariu LDAP",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Los nomes d'usuariu usense p'atroxar (meta) datos. En cuenta d'identificar y reconocer usuarios, cada usuariu de LDAP tendrá'l so nome d'usuariu internu polo que rique un mapéu dende'l so nome d'usuariu al usuariu de LDAP. El nome d'usuariu creáu mapeáse al UUID del usuariu de LDAP. Amás cacheamos tamién la DN p'amenorgar la intecractividá de LDAP, pero ensin usala pa la identificación. Si la DN camuda, atoparanse los cambios. L'usu internu del nome d'usuariu ye perdayures. ",
     "Clear Username-LDAP User Mapping" : "Llimpiar l'asignación de los Nomes d'usuariu de los usuarios LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Llimpiar l'asignación de los Nomes de grupu de los grupos de LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Llimpiar l'asignación de los Nomes de grupu de los grupos de LDAP",
+    "Backup (Replica) Host" : "Sirvidor de copia de seguranza (Réplica)",
+    "Backup (Replica) Port" : "Puertu pa copies de seguranza (Réplica)"
 },
 "nplurals=2; plural=(n != 1);");

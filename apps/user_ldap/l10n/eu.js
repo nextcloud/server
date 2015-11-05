@@ -98,6 +98,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Taldeentzako UUID atributuak:",
     "Username-LDAP User Mapping" : "LDAP-erabiltzaile-izena erabiltzailearen mapeatzea",
     "Clear Username-LDAP User Mapping" : "Garbitu LDAP-erabiltzaile-izenaren erabiltzaile mapaketa",
-    "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa"
+    "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa",
+    "Backup (Replica) Host" : "Babeskopia (Replica) Ostalaria",
+    "Backup (Replica) Port" : "Babeskopia (Replica) Ataka"
 },
 "nplurals=2; plural=(n != 1);");

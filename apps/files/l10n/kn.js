@@ -71,6 +71,7 @@ OC.L10N.register(
     "Files are being scanned, please wait." : "﻿ಕಡತಗಳನ್ನು ಪರೀಕ್ಷಿಸಲಾಗುತ್ತಿದೆ, ದಯವಿಟ್ಟು ನಿರೀಕ್ಷಿಸಿ.",
     "Currently scanning" : "﻿ಪ್ರಸ್ತುತ ಪರೀಕ್ಷೆ",
     "No favorites" : "ಯಾವ ಅಚ್ಚುಮೆಚ್ಚಿನವುಗಳು ಇಲ್ಲ",
-    "Files and folders you mark as favorite will show up here" : "ನೀವು ಗುರುತು ಮಾಡಿರುವ ನೆಚ್ಚಿನ ಕಡತ ಮತ್ತು ಕಡತಕೋಶಗಳನ್ನು ಇಲ್ಲಿ ತೋರಿಸಲಾಗುತ್ತಿದೆ"
+    "Files and folders you mark as favorite will show up here" : "ನೀವು ಗುರುತು ಮಾಡಿರುವ ನೆಚ್ಚಿನ ಕಡತ ಮತ್ತು ಕಡತಕೋಶಗಳನ್ನು ಇಲ್ಲಿ ತೋರಿಸಲಾಗುತ್ತಿದೆ",
+    "Upload cancelled." : "ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದು ಮಾಡಲಾಯಿತು."
 },
 "nplurals=1; plural=0;");

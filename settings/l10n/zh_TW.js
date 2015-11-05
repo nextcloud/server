@@ -213,6 +213,7 @@ OC.L10N.register(
     "change full name" : "變更全名",
     "set new password" : "設定新密碼",
     "change email address" : "更改電子郵件地址",
-    "Default" : "預設"
+    "Default" : "預設",
+    "Sync clients" : "同步客戶端"
 },
 "nplurals=1; plural=0;");

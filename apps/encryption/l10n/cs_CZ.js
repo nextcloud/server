@@ -50,6 +50,8 @@ OC.L10N.register(
     "Enable password recovery:" : "Povolit obnovu hesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Zapnutí této volby vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo",
     "Enabled" : "Povoleno",
-    "Disabled" : "Zakázáno"
+    "Disabled" : "Zakázáno",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Ahoj!\n\nAdministrátor povolil šifrování dat na serveru. Vaše soubory byly zašifrovány za použití hesla '%s'.\n\nPřihlašte se do webového rozhraní, přejděte do nastavení 'základního šifrovacího modulu ownCloud' a aktualizujte šifrovací heslo zadáním hesla výše do pole 'původní přihlašovací heslo' a svého aktuálního přihlašovacího hesla.\n\n",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Ahoj!\n\nAdministrátor povolil šifrování dat na serveru. Vaše soubory byly zašifrovány za použití hesla '%s'.\n\nPřihlašte se do webového rozhraní, přejděte do nastavení 'základního šifrovacího modulu ownCloud' a aktualizujte šifrovací heslo zadáním hesla výše do pole 'původní přihlašovací heslo' a svého aktuálního přihlašovacího hesla.\n\n"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

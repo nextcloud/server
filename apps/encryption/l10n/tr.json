@@ -50,6 +50,8 @@
     "Enable password recovery:" : "Parola kurtarmayı etkinleştir:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Bu seçeneği etkinleştirmek, parola kaybı durumunda şifrelenmiş dosyalarınıza erişimi yeniden kazanmanızı sağlayacaktır",
     "Enabled" : "Etkin",
-    "Disabled" : "Devre Dışı"
+    "Disabled" : "Devre Dışı",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Selam,\n\nSistem yöneticisi sunucu tarafında şifrelemeyi etkinleştirdi. Dosyalarınız '%s' parolası kullanılarak şifrelendi.\n\nLütfen web arayüzünde oturum açın ve kişisel ayarlarınızdan 'ownCloud temel şifreleme modülü'ne giderek 'eski oturum parolası' alanına bu parolayı girdikten sonra şifreleme parolanızı ve mevcut oturum açma parolanızı güncelleyin.\n\n",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Selam,\n\nSistem yöneticisi sunucu tarafında şifrelemeyi etkinleştirdi. Dosyalarınız '%s' parolası kullanılarak şifrelendi.\n\nLütfen web arayüzünde oturum açın ve kişisel ayarlarınızdan 'ownCloud temel şifreleme modülü'ne giderek 'eski oturum parolası' alanına bu parolayı girdikten sonra şifreleme parolanızı ve mevcut oturum açma parolanızı güncelleyin.\n\n"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

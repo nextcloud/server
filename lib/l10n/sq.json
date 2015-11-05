@@ -32,6 +32,7 @@
     "Could not find category \"%s\"" : "Kategoria \"%s\" nuk u gjet",
     "Apps" : "App",
     "A valid username must be provided" : "Duhet të jepni një emër të vlefshëm përdoruesi",
-    "A valid password must be provided" : "Duhet të jepni një fjalëkalim te vlefshëm"
+    "A valid password must be provided" : "Duhet të jepni një fjalëkalim te vlefshëm",
+    "Sharing %s failed, because the sharing backend for %s could not find its source" : "Ndarja e %s dështoi, ngaqë mekanizmi i shërbimit për ndarje për %s s’gjeti dot burimin për të"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

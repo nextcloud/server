@@ -49,6 +49,8 @@ OC.L10N.register(
     "in bytes" : "baitos",
     "Email Field" : "E-pasta lauks",
     "User Home Folder Naming Rule" : "Lietotāja mājas mapes nosaukšanas kārtula",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Atstāt tukšu lietotāja vārdam (noklusējuma). Citādi, norādi LDAP/AD atribūtu."
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Atstāt tukšu lietotāja vārdam (noklusējuma). Citādi, norādi LDAP/AD atribūtu.",
+    "Backup (Replica) Host" : "Rezerves (kopija) serveris",
+    "Backup (Replica) Port" : "Rezerves (kopijas) ports"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -32,6 +32,7 @@
     "Settings" : "تەڭشەكلەر",
     "WebDAV" : "WebDAV",
     "Cancel upload" : "يۈكلەشتىن ۋاز كەچ",
-    "Upload too large" : "يۈكلەندىغىنى بەك چوڭ"
+    "Upload too large" : "يۈكلەندىغىنى بەك چوڭ",
+    "Upload cancelled." : "يۈكلەشتىن ۋاز كەچتى."
 },"pluralForm" :"nplurals=1; plural=0;"
 }
