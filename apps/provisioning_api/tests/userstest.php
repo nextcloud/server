@@ -1357,6 +1357,16 @@ class UsersTest extends OriginalTest {
 		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'TargetUser', '_delete' => ['groupid' => 'TargetGroup']]));
 	}
 
+	public function testRemoveFromGroupWithNoTargetGroup() {
+		$loggedInUser = $this->getMock('\OCP\IUser');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$expected = new \OC_OCS_Result(null, 101);
+		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'TargetUser', '_delete' => []]));
+	}
+
 	public function testRemoveFromGroupWithNotExistingTargetGroup() {
 		$loggedInUser = $this->getMock('\OCP\IUser');
 		$this->userSession
@@ -1369,7 +1379,7 @@ class UsersTest extends OriginalTest {
 			->with('TargetGroup')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, 101);
+		$expected = new \OC_OCS_Result(null, 102);
 		$this->assertEquals($expected, $this->api->removeFromGroup(['userid' => 'TargetUser', '_delete' => ['groupid' => 'TargetGroup']]));
 	}
 
