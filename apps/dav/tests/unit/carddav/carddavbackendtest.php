@@ -24,6 +24,13 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
+/**
+ * Class CardDavBackendTest
+ *
+ * @group DB
+ *
+ * @package OCA\DAV\Tests\Unit\CardDAV
+ */
 class CardDavBackendTest extends TestCase {
 
 	/** @var CardDavBackend */
@@ -31,12 +38,20 @@ class CardDavBackendTest extends TestCase {
 
 	const UNIT_TEST_USER = 'carddav-unit-test';
 
-
 	public function setUp() {
 		parent::setUp();
 
+		$principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
+			->disableOriginalConstructor()
+			->setMethods(['getPrincipalByPath'])
+			->getMock();
+		$principal->method('getPrincipalByPath')
+			->willReturn([
+				'uri' => 'principals/best-friend'
+			]);
+
 		$db = \OC::$server->getDatabaseConnection();
-		$this->backend = new CardDavBackend($db);
+		$this->backend = new CardDavBackend($db, $principal);
 
 		$this->tearDown();
 	}
@@ -177,5 +192,29 @@ class CardDavBackendTest extends TestCase {
 		// look for changes
 		$changes = $this->backend->getChangesForAddressBook($bookId, $syncToken, 1);
 		$this->assertEquals($uri0, $changes['added'][0]);
+	}
+
+	public function testSharing() {
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(1, count($books));
+
+		$this->backend->updateShares('Example', [['href' => 'principal:principals/best-friend']], []);
+
+		$shares = $this->backend->getShares('Example');
+		$this->assertEquals(1, count($shares));
+
+		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
+		$this->assertEquals(1, count($books));
+
+		$this->backend->updateShares('Example', [], [['href' => 'principal:principals/best-friend']]);
+
+		$shares = $this->backend->getShares('Example');
+		$this->assertEquals(0, count($shares));
+
+		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
+		$this->assertEquals(0, count($books));
+
+
 	}
 }

@@ -570,4 +570,55 @@ CREATE TABLE calendarobjects (
 
 		</declaration>
 	</table>
+
+	<table>
+		<name>*dbprefix*dav_shares</name>
+		<declaration>
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>11</length>
+			</field>
+			<field>
+				<name>uri</name>
+				<type>text</type>
+			</field>
+			<field>
+				<name>principaluri</name>
+				<type>text</type>
+			</field>
+			<field>
+				<name>type</name>
+				<type>text</type>
+			</field>
+			<field>
+				<name>access</name>
+				<type>integer</type>
+				<length>1</length>
+			</field>
+			<field>
+				<name>resourceid</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+			</field>
+			<index>
+				<name>dav_shares_index</name>
+				<unique>true</unique>
+				<field>
+					<name>principaluri</name>
+				</field>
+				<field>
+					<name>uri</name>
+				</field>
+				<field>
+					<name>type</name>
+				</field>
+			</index>
+		</declaration>
+	</table>
 </database>

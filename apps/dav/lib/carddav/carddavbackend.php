@@ -22,6 +22,7 @@
 
 namespace OCA\DAV\CardDAV;
 
+use OCA\DAV\Connector\Sabre\Principal;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Plugin;
@@ -29,8 +30,12 @@ use Sabre\DAV\Exception\BadRequest;
 
 class CardDavBackend implements BackendInterface, SyncSupport {
 
-	public function __construct(\OCP\IDBConnection $db) {
+	/** @var Principal */
+	private $principalBackend;
+
+	public function __construct(\OCP\IDBConnection $db, Principal $principalBackend) {
 		$this->db = $db;
+		$this->principalBackend = $principalBackend;
 	}
 
 	/**
@@ -73,7 +78,59 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 		$result->closeCursor();
 
+		// query for shared calendars
+		$query = $this->db->getQueryBuilder();
+		$query2 = $this->db->getQueryBuilder();
+		$query2->select(['resourceid'])
+			->from('dav_shares')
+			->where($query2->expr()->eq('principaluri', $query2->createParameter('principaluri')))
+			->andWhere($query2->expr()->eq('type', $query2->createParameter('type')));
+		$result = $query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
+			->from('addressbooks')
+			->where($query->expr()->in('id', $query->createFunction($query2->getSQL())))
+			->setParameter('type', 'addressbook')
+			->setParameter('principaluri', $principalUri)
+			->execute();
+
+		while($row = $result->fetch()) {
+			$addressBooks[] = [
+				'id'  => $row['id'],
+				'uri' => $row['uri'],
+				'principaluri' => $row['principaluri'],
+				'{DAV:}displayname' => $row['displayname'],
+				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
+				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
+				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+			];
+		}
+		$result->closeCursor();
+
 		return $addressBooks;
+	}
+
+	private function getAddressBooksByUri($addressBookUri) {
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
+			->from('addressbooks')
+			->where($query->expr()->eq('uri', $query->createNamedParameter($addressBookUri)))
+			->setMaxResults(1)
+			->execute();
+
+		$row = $result->fetch();
+		if (is_null($row)) {
+			return null;
+		}
+		$result->closeCursor();
+
+		return [
+				'id'  => $row['id'],
+				'uri' => $row['uri'],
+				'principaluri' => $row['principaluri'],
+				'{DAV:}displayname' => $row['displayname'],
+				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
+				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
+				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+			];
 	}
 
 	/**
@@ -200,6 +257,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$query->delete('addressbooks')
 			->where($query->expr()->eq('id', $query->createParameter('id')))
 			->setParameter('id', $addressBookId)
+			->execute();
+
+		$query->delete('dav_shares')
+			->where($query->expr()->eq('resourceid', $query->createNamedParameter($addressBookId)))
+			->andWhere($query->expr()->eq('type', $query->createNamedParameter('addressbook')))
 			->execute();
 	}
 
@@ -561,4 +623,99 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		return $cardData;
 	}
 
+	public function updateShares($path, $add, $remove) {
+		foreach($add as $element) {
+			$this->shareWith($path, $element);
+		}
+		foreach($remove as $element) {
+			$this->unshare($path, $element);
+		}
+	}
+
+	private function shareWith($addressBookUri, $element) {
+		$user = $element['href'];
+		$parts = explode(':', $user, 2);
+		if ($parts[0] !== 'principal') {
+			return;
+		}
+		$p = $this->principalBackend->getPrincipalByPath($parts[1]);
+		if (is_null($p)) {
+			return;
+		}
+
+		$addressbook = $this->getAddressBooksByUri($addressBookUri);
+		if (is_null($addressbook)) {
+			return;
+		}
+
+		$query = $this->db->getQueryBuilder();
+		$query->insert('dav_shares')
+			->values([
+				'principaluri' => $query->createNamedParameter($parts[1]),
+				'uri' => $query->createNamedParameter($addressBookUri),
+				'type' => $query->createNamedParameter('addressbook'),
+				'access' => $query->createNamedParameter(0),
+				'resourceid' => $query->createNamedParameter($addressbook['id'])
+			]);
+		$query->execute();
+	}
+
+	private function unshare($addressBookUri, $element) {
+		$user = $element['href'];
+		$parts = explode(':', $user, 2);
+		if ($parts[0] !== 'principal') {
+			return;
+		}
+		$p = $this->principalBackend->getPrincipalByPath($parts[1]);
+		if (is_null($p)) {
+			return;
+		}
+
+		$addressbook = $this->getAddressBooksByUri($addressBookUri);
+		if (is_null($addressbook)) {
+			return;
+		}
+
+		$query = $this->db->getQueryBuilder();
+		$query->delete('dav_shares')
+			->where($query->expr()->eq('resourceid', $query->createNamedParameter($addressbook['id'])))
+			->andWhere($query->expr()->eq('type', $query->createNamedParameter('addressbook')))
+			->andWhere($query->expr()->eq('principaluri', $query->createNamedParameter($parts[1])))
+		;
+		$query->execute();
+	}
+
+	/**
+	 * Returns the list of people whom this addressbook is shared with.
+	 *
+	 * Every element in this array should have the following properties:
+	 *   * href - Often a mailto: address
+	 *   * commonName - Optional, for example a first + last name
+	 *   * status - See the Sabre\CalDAV\SharingPlugin::STATUS_ constants.
+	 *   * readOnly - boolean
+	 *   * summary - Optional, a description for the share
+	 *
+	 * @return array
+	 */
+	public function getShares($addressBookUri) {
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select(['principaluri', 'access'])
+			->from('dav_shares')
+			->where($query->expr()->eq('uri', $query->createNamedParameter($addressBookUri)))
+			->andWhere($query->expr()->eq('type', $query->createNamedParameter('addressbook')))
+			->execute();
+
+		$shares = [];
+		while($row = $result->fetch()) {
+			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
+			$shares[]= [
+				'href' => "principal:${p['uri']}",
+				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
+				'status' => 1,
+				'readOnly' => ($row['access'] === 1)
+			];
+		}
+
+		return $shares;
+	}
 }

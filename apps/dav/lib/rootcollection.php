@@ -3,11 +3,11 @@
 namespace OCA\DAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use Sabre\CalDAV\CalendarRoot;
 use Sabre\CalDAV\Principal\Collection;
-use Sabre\CardDAV\AddressBookRoot;
 use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
@@ -30,7 +30,9 @@ class RootCollection extends SimpleCollection {
 		$caldavBackend = new CalDavBackend($db);
 		$calendarRoot = new CalendarRoot($principalBackend, $caldavBackend);
 		$calendarRoot->disableListing = $disableListing;
-		$cardDavBackend = new CardDavBackend($db);
+
+		$cardDavBackend = new CardDavBackend(\OC::$server->getDatabaseConnection(), $principalBackend);
+
 		$addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend);
 		$addressBookRoot->disableListing = $disableListing;
 
