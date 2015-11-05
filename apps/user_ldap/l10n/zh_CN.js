@@ -78,6 +78,8 @@ OC.L10N.register(
     "By default, the UUID attribute is automatically detected. The UUID attribute is used to doubtlessly identify LDAP users and groups. Also, the internal username will be created based on the UUID, if not specified otherwise above. You can override the setting and pass an attribute of your choice. You must make sure that the attribute of your choice can be fetched for both users and groups and it is unique. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users and groups." : "ownCloud 默认会自动检测 UUID 属性。UUID 属性用来无误地识别 LDAP 用户和组。同时，如果上面没有特别设置，内部用户名也基于 UUID 创建。也可以覆盖设置，直接指定一个属性。但一定要确保指定的属性取得的用户和组是唯一的。留空，则执行默认操作。更改只影响新映射 (或增加) 的 LDAP 用户和组。",
     "Username-LDAP User Mapping" : "用户名-LDAP用户映射",
     "Clear Username-LDAP User Mapping" : "清除用户-LDAP用户映射",
-    "Clear Groupname-LDAP Group Mapping" : "清除组用户-LDAP级映射"
+    "Clear Groupname-LDAP Group Mapping" : "清除组用户-LDAP级映射",
+    "Backup (Replica) Host" : "备份 (镜像) 主机",
+    "Backup (Replica) Port" : "备份 (镜像) 端口"
 },
 "nplurals=1; plural=0;");

@@ -52,6 +52,8 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktiver kodeord gendannelse:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivering af denne valgmulighed tillader dig at generhverve adgang til dine krypterede filer i tilfælde af tab af kodeord",
     "Enabled" : "Aktiveret",
-    "Disabled" : "Deaktiveret"
+    "Disabled" : "Deaktiveret",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hejsa,\n\nadministrator aktiveret kryptering på serverdelen. '%s'.\n\nVenligst log på web brugerfladen, gå til sektionen \"ownCloud grundlæggende krypterings modul\" for din personlige opsætninger og opdater dine krypterings kodeord ved at indtaste dette kodeord i \"gamle kodeord log\" feltet samt dit nuværende kodeord.\n\n",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hejsa,\n\nadministrator aktiveret kryptering på serverdelen. '%s'.\n\nVenligst log på web brugerfladen, gå til sektionen \"ownCloud grundlæggende krypterings modul\" for din personlige opsætninger og opdater dine krypterings kodeord ved at indtaste dette kodeord i \"gamle kodeord log\" feltet samt dit nuværende kodeord.\n\n"
 },
 "nplurals=2; plural=(n != 1);");

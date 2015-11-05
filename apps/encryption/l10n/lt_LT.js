@@ -23,6 +23,9 @@ OC.L10N.register(
     "Enable password recovery:" : "Įjungti slaptažodžio atkūrimą:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Įjungus šią funkciją jums bus suteiktas pakartotinis priėjimas prie Jūsų šifruotų failų pamiršus slaptažodį.",
     "Enabled" : "Įjungta",
-    "Disabled" : "Išjungta"
+    "Disabled" : "Išjungta",
+    "ownCloud basic encryption module" : "ownCloud bazinis šifravimo modulis",
+    "Missing recovery key password" : "Nėra atstatymo rakto slaptažodžio",
+    "Please repeat the recovery key password" : "Pakartokite atstatymo rakto slaptažodį"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

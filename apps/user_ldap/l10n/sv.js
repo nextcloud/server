@@ -101,6 +101,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID-attribut för grupper:",
     "Username-LDAP User Mapping" : "Användarnamn-LDAP användarmappning",
     "Clear Username-LDAP User Mapping" : "Rensa användarnamn-LDAP användarmappning",
-    "Clear Groupname-LDAP Group Mapping" : "Rensa gruppnamn-LDAP gruppmappning"
+    "Clear Groupname-LDAP Group Mapping" : "Rensa gruppnamn-LDAP gruppmappning",
+    "Backup (Replica) Host" : "Säkerhetskopierings-värd (Replika)",
+    "Backup (Replica) Port" : "Säkerhetskopierins-port (Replika)"
 },
 "nplurals=2; plural=(n != 1);");

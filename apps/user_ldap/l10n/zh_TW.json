@@ -52,6 +52,9 @@
     "Email Field" : "電郵欄位",
     "User Home Folder Naming Rule" : "使用者家目錄的命名規則",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "使用者名稱請留白(預設)。若不留白請指定一個LDAP/AD屬性。",
-    "Internal Username" : "內部使用者名稱"
+    "Internal Username" : "內部使用者名稱",
+    "Backup (Replica) Host" : "備用主機",
+    "Backup (Replica) Port" : "備用（複本）連接埠",
+    "Verify settings and count users" : "驗證設定並計算使用者數"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

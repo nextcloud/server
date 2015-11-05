@@ -103,6 +103,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID Атрибут за Групите:",
     "Username-LDAP User Mapping" : "Username-LDAP User Mapping",
     "Clear Username-LDAP User Mapping" : "Изчисти Username-LDAP User Mapping",
-    "Clear Groupname-LDAP Group Mapping" : "Изчисти Groupname-LDAP Group Mapping"
+    "Clear Groupname-LDAP Group Mapping" : "Изчисти Groupname-LDAP Group Mapping",
+    "Backup (Replica) Host" : "Backup (Replica) Host",
+    "Backup (Replica) Port" : "Backup (Replica) Port"
 },
 "nplurals=2; plural=(n != 1);");

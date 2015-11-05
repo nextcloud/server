@@ -46,6 +46,8 @@ OC.L10N.register(
     "Override UUID detection" : "Perrašyti UUID aptikimą",
     "Username-LDAP User Mapping" : "Naudotojo vardo - LDAP naudotojo sąsaja",
     "Clear Username-LDAP User Mapping" : "Išvalyti naudotojo vardo - LDAP naudotojo sąsają",
-    "Clear Groupname-LDAP Group Mapping" : "Išvalyti grupės pavadinimo - LDAP naudotojo sąsają"
+    "Clear Groupname-LDAP Group Mapping" : "Išvalyti grupės pavadinimo - LDAP naudotojo sąsają",
+    "Backup (Replica) Host" : "Atsarginės kopijos (Replica) mazgas",
+    "Backup (Replica) Port" : "Atsarginės kopijos (Replica) prievadas"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

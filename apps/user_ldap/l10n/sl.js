@@ -113,6 +113,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atribut UUID za skupine:",
     "Username-LDAP User Mapping" : "Uporabniška preslikava uporabniškega imena na LDAP",
     "Clear Username-LDAP User Mapping" : "Izbriši preslikavo uporabniškega imena na LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP",
+    "Backup (Replica) Host" : "Varnostna kopija (replika) podatkov gostitelja",
+    "Backup (Replica) Port" : "Vrata varnostne kopije (replike)"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

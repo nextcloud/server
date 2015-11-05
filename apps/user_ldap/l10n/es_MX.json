@@ -83,6 +83,8 @@
     "UUID Attribute for Groups:" : "Atributo UUID para Grupos:",
     "Username-LDAP User Mapping" : "Asignación del Nombre de usuario de un usuario LDAP",
     "Clear Username-LDAP User Mapping" : "Borrar la asignación de los Nombres de usuario de los usuarios LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Borrar la asignación de los Nombres de grupo de los grupos de LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Borrar la asignación de los Nombres de grupo de los grupos de LDAP",
+    "Backup (Replica) Host" : "Servidor de copia de seguridad (Replica)",
+    "Backup (Replica) Port" : "Puerto para copias de seguridad (Replica)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

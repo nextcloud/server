@@ -50,6 +50,8 @@
     "Enable password recovery:" : "เปิดใช้งานการกู้คืนรหัสผ่าน:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "การเปิดใช้งานตัวเลือกนี้จะช่วยให้คุณได้รับการเข้าถึงไฟล์ที่มีการเข้ารหัสของคุณในกรณีที่คุณลืมรหัสผ่าน",
     "Enabled" : "เปิดการใช้งาน",
-    "Disabled" : "ปิดการใช้งาน"
+    "Disabled" : "ปิดการใช้งาน",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "นี่คุณ<br>\n<br> \nผู้ดูแลระบบเปิดใช้งานการเข้ารหัสฝั่งเซิร์ฟเวอร์ ไฟล์ของคุณจะถูกเข้ารหัสโดยใช้รหัสผ่าน <strong>%s</strong><br>\n<br>\nกรุณาเข้าสู่ระบบเว็บอินเตอร์เฟซไปที่ส่วน \"โมดูลการเข้ารหัส ownCloud พื้นฐาน\" ของการตั้งค่าส่วนบุคคลของคุณและอัพเดทการเข้ารหัสรหัสผ่านของคุณโดย ป้อนรหัสผ่านนี้ในช่อง \"รหัสผ่านเก่าที่เข้าสู่ระบบ\" และเข้าสู่ระบบด้วยรหัสผ่านปัจจุบันของคุณ<br>\n<br>\n",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "นี่คุณ<br>\n<br> \nผู้ดูแลระบบเปิดใช้งานการเข้ารหัสฝั่งเซิร์ฟเวอร์ ไฟล์ของคุณจะถูกเข้ารหัสโดยใช้รหัสผ่าน <strong>%s</strong><br>\n<br>\nกรุณาเข้าสู่ระบบเว็บอินเตอร์เฟซไปที่ส่วน \"โมดูลการเข้ารหัส ownCloud พื้นฐาน\" ของการตั้งค่าส่วนบุคคลของคุณและอัพเดทการเข้ารหัสรหัสผ่านของคุณโดย ป้อนรหัสผ่านนี้ในช่อง \"รหัสผ่านเก่าที่เข้าสู่ระบบ\" และเข้าสู่ระบบด้วยรหัสผ่านปัจจุบันของคุณ<br>\n<br>\n"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

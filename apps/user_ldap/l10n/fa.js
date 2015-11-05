@@ -85,6 +85,8 @@ OC.L10N.register(
     "UUID Attribute for Users:" : "UUID ویژگی‌ برای کاربران:",
     "Username-LDAP User Mapping" : "نام کاربری - نگاشت کاربر LDAP ",
     "Clear Username-LDAP User Mapping" : "پاک کردن نام کاربری- LDAP  نگاشت کاربر ",
-    "Clear Groupname-LDAP Group Mapping" : "پاک کردن نام گروه -LDAP گروه نقشه برداری"
+    "Clear Groupname-LDAP Group Mapping" : "پاک کردن نام گروه -LDAP گروه نقشه برداری",
+    "Backup (Replica) Host" : "پشتیبان گیری (بدل) میزبان",
+    "Backup (Replica) Port" : "پشتیبان گیری (بدل) پورت"
 },
 "nplurals=1; plural=0;");

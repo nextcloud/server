@@ -50,6 +50,8 @@
     "Enable password recovery:" : "Habilitar recuperação de senha:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar essa opção vai permitir que você obtenha novamente acesso aos seus arquivos encriptados em caso de perda de senha",
     "Enabled" : "Habilitado",
-    "Disabled" : "Desabilitado"
+    "Disabled" : "Desabilitado",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Olá,\n\nO administrador habilitou criptografia-lado-servidor. Os seus arquivos foram criptografados usando a senha '%s'.\n\nPor favor faça o login para a interface da Web, vá para a seção 'ownCloud módulo de criptografia básico' das suas definições pessoais e atualize sua senha de criptografia, inserindo esta senha no campo 'senha antiga de log-in' e sua atual senha-de-login.\n\n",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Olá,\n\nO administrador habilitou criptografia-lado-servidor. Os seus arquivos foram criptografados usando a senha '%s'.\n\nPor favor faça o login para a interface da Web, vá para a seção 'ownCloud módulo de criptografia básico' das suas definições pessoais e atualize sua senha de criptografia, inserindo esta senha no campo 'senha antiga de log-in' e sua atual senha-de-login.\n\n"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

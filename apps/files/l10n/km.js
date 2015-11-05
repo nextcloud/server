@@ -36,6 +36,7 @@ OC.L10N.register(
     "Settings" : "ការកំណត់",
     "WebDAV" : "WebDAV",
     "Cancel upload" : "បោះបង់​ការ​ផ្ទុកឡើង",
-    "Upload too large" : "ផ្ទុក​ឡើង​ធំ​ពេក"
+    "Upload too large" : "ផ្ទុក​ឡើង​ធំ​ពេក",
+    "Upload cancelled." : "បាន​បោះបង់​ការ​ផ្ទុក​ឡើង។"
 },
 "nplurals=1; plural=0;");

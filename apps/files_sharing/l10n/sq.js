@@ -21,6 +21,9 @@ OC.L10N.register(
     "sharing is disabled" : "ndarja është çaktivizuar",
     "For more info, please ask the person who sent this link." : "Për më shumë informacione, ju lutem pyesni personin që iu dërgoi këtë lidhje.",
     "Download" : "Shkarko",
-    "Direct link" : "Lidhje direkte"
+    "Direct link" : "Lidhje direkte",
+    "Shared with you" : "Të ndara me ju",
+    "Shared with others" : "Të ndara me të tjerët",
+    "Shared by link" : "Të ndara me lidhje"
 },
 "nplurals=2; plural=(n != 1);");

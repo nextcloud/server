@@ -52,6 +52,8 @@ OC.L10N.register(
     "Enable password recovery:" : "Abilita il ripristino della password:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "L'abilitazione di questa opzione ti consentirà di accedere nuovamente ai file cifrati in caso di perdita della password",
     "Enabled" : "Abilitata",
-    "Disabled" : "Disabilitata"
+    "Disabled" : "Disabilitata",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Ciao,\n\nl'amministratore ha abilitato la cifratura lato server. I tuoi file sono stati\ncifrati utilizzando la password '%s'.\n\nAccedi all'interfaccia web, vai alla sezione 'modulo di cifratura base di ownCloud' dalle nelle tue impostazioni personali e aggiorna la tua password di cifratura digitando la password nel campo 'vecchia password di accesso' e la tua nuova password.\n\n",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Ciao,\n\nl'amministratore ha abilitato la cifratura lato server. I tuoi file sono stati\ncifrati utilizzando la password '%s'.\n\nAccedi all'interfaccia web, vai alla sezione 'modulo di cifratura base di ownCloud' dalle nelle tue impostazioni personali e aggiorna la tua password di cifratura digitando la password nel campo 'vecchia password di accesso' e la tua nuova password.\n\n"
 },
 "nplurals=2; plural=(n != 1);");

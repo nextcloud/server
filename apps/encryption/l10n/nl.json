@@ -50,6 +50,8 @@
     "Enable password recovery:" : "Activeren wachtwoord herstel:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Het activeren van deze optie maakt het mogelijk om uw versleutelde bestanden te benaderen als uw wachtwoord kwijt is",
     "Enabled" : "Geactiveerd",
-    "Disabled" : "Gedeactiveerd"
+    "Disabled" : "Gedeactiveerd",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hallo daar,\n\nde beheerder heeft server-side versleuteling ingeschakeld. Uw bestanden werden versleuteld met het wachtwoord '%s'.\n\nLogin op de webinterface, ga naar 'ownCloud basis cryptomodule' in uw persoonlijke instellingen en pas uw cryptowachtwoord aan door dit wachtwoord in het 'oude inlog wachtwoord' veld in te vullen alsmede in uw huidige inlogwachtwoord.\n",
+    "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'ownCloud basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hallo daar,\n\nde beheerder heeft server-side versleuteling ingeschakeld. Uw bestanden werden versleuteld met het wachtwoord '%s'.\n\nLogin op de webinterface, ga naar 'ownCloud basis cryptomodule' in uw persoonlijke instellingen en pas uw cryptowachtwoord aan door dit wachtwoord in het 'oude inlog wachtwoord' veld in te vullen alsmede in uw huidige inlogwachtwoord.\n"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

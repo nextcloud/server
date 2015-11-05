@@ -124,6 +124,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "グループの UUID 属性:",
     "Username-LDAP User Mapping" : "ユーザー名とLDAPユーザのマッピング",
     "Clear Username-LDAP User Mapping" : "ユーザー名とLDAPユーザーのマッピングをクリアする",
-    "Clear Groupname-LDAP Group Mapping" : "グループ名とLDAPグループのマッピングをクリアする"
+    "Clear Groupname-LDAP Group Mapping" : "グループ名とLDAPグループのマッピングをクリアする",
+    "Backup (Replica) Host" : "バックアップ（レプリカ）ホスト",
+    "Backup (Replica) Port" : "バックアップ（レプリカ）ポート"
 },
 "nplurals=1; plural=0;");

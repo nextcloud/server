@@ -119,6 +119,7 @@
     "Files are being scanned, please wait." : "Dateien werden gescannt, bitte warten.",
     "Currently scanning" : "Durchsuchen läuft",
     "No favorites" : "Keine Favoriten",
-    "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die Du als Favoriten markierst, werden hier erscheinen"
+    "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die Du als Favoriten markierst, werden hier erscheinen",
+    "Unable to set upload directory." : "Das Upload-Verzeichnis konnte nicht gesetzt werden."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -62,6 +62,7 @@ OC.L10N.register(
     "Cancel upload" : "ביטול ההעלאה",
     "Upload too large" : "העלאה גדולה מידי",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",
-    "Files are being scanned, please wait." : "הקבצים נסרקים, נא להמתין."
+    "Files are being scanned, please wait." : "הקבצים נסרקים, נא להמתין.",
+    "Upload failed. Could not get file info." : "העלאה נכשלה. לא ניתן להשיג את פרטי הקובץ."
 },
 "nplurals=2; plural=(n != 1);");

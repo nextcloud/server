@@ -98,6 +98,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "A csoportok UUID attribútuma:",
     "Username-LDAP User Mapping" : "Felhasználó - LDAP felhasználó hozzárendelés",
     "Clear Username-LDAP User Mapping" : "A felhasználó - LDAP felhasználó hozzárendelés törlése",
-    "Clear Groupname-LDAP Group Mapping" : "A csoport - LDAP csoport hozzárendelés törlése"
+    "Clear Groupname-LDAP Group Mapping" : "A csoport - LDAP csoport hozzárendelés törlése",
+    "Backup (Replica) Host" : "Másodkiszolgáló (replika)",
+    "Backup (Replica) Port" : "A másodkiszolgáló (replika) portszáma"
 },
 "nplurals=2; plural=(n != 1);");

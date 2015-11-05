@@ -71,6 +71,7 @@ OC.L10N.register(
     "Delete" : "削除",
     "Add storage" : "ストレージを追加",
     "Enable User External Storage" : "ユーザーの外部ストレージを有効にする",
-    "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する"
+    "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する",
+    "Builtin" : "ビルトイン"
 },
 "nplurals=1; plural=0;");
