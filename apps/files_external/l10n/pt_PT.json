@@ -93,7 +93,6 @@
     "Advanced settings" : "Definições avançadas",
     "Delete" : "Apagar",
     "Add storage" : "Adicionar armazenamento",
-    "Allow users to mount external storages" : "Permitir que os utilizadores montem armazenamentos externos",
     "Allow users to mount the following external storage" : "Permitir que os utilizadores montem o seguinte armazenamento externo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

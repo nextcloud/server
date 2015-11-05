@@ -62,6 +62,7 @@ OC.L10N.register(
     "Username as share" : "Käyttäjänimi jakona",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Palvelun nimi",
+    "Request timeout (seconds)" : "Pyynnön aikakatkaisu (sekunneissa)",
     "<b>Note:</b> " : "<b>Huomio:</b> ",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Huomio:</b> PHP:n cURL-tuki ei ole käytössä tai sitä ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää ottamaan cURL-tuki käyttöön.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Huomio:</b> PHP:n FTP-tuki ei ole käytössä tai sitä ei ole asennettu. Kohteen %s liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää ottamaan FTP-tuki käyttöön.",
@@ -78,7 +79,7 @@ OC.L10N.register(
     "Advanced settings" : "Lisäasetukset",
     "Delete" : "Poista",
     "Add storage" : "Lisää tallennustila",
-    "Allow users to mount external storages" : "Salli käyttäjien liittää erillisiä tallennustiloja",
+    "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
     "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet"
 },
 "nplurals=2; plural=(n != 1);");

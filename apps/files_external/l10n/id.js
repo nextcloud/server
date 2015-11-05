@@ -101,7 +101,6 @@ OC.L10N.register(
     "Advanced settings" : "Pengaturan Lanjutan",
     "Delete" : "Hapus",
     "Add storage" : "Tambahkan penyimpanan",
-    "Allow users to mount external storages" : "Izinkan pengguna untuk me-mount penyimpanan eksternal",
     "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut"
 },
 "nplurals=1; plural=0;");

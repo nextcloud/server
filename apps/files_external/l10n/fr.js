@@ -102,7 +102,7 @@ OC.L10N.register(
     "Advanced settings" : "Paramètres avancés",
     "Delete" : "Supprimer",
     "Add storage" : "Ajouter un support de stockage",
-    "Allow users to mount external storages" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
+    "Allow users to mount external storage" : "Autoriser les utilisateurs à monter l'espace de stockage externe",
     "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants"
 },
 "nplurals=2; plural=(n > 1);");

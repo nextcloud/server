@@ -80,6 +80,7 @@ OC.L10N.register(
     "Uninstall" : "Απεγκατάσταση",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Η εφαρμογή έχει ενεργοποιηθεί αλλά χρειάζεται ενημέρωση. Θα μεταφερθείτε στη σελίδα ενημέρωσης σε 5 δευτερόλεπτα.",
     "App update" : "Ενημέρωση εφαρμογής",
+    "No apps found for \"{query}\"" : "Δεν βρέθηκαν εφαρμογές για \"{query\"}",
     "An error occurred: {message}" : "Παρουσιάστηκε σφάλμα: {message}",
     "Select a profile picture" : "Επιλογή εικόνας προφίλ",
     "Very weak password" : "Πολύ αδύναμο συνθηματικό",

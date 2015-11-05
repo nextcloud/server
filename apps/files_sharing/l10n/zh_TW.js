@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Server to server sharing is not enabled on this server" : "伺服器對伺服器共享在這台伺服器上面並未啟用",
+    "The mountpoint name contains invalid characters." : "掛載的名稱含有不合法的字元",
     "Invalid or untrusted SSL certificate" : "無效或是不信任的SSL憑證",
     "Could not authenticate to remote share, password might be wrong" : "無法驗證遠端分享，可能是密碼錯誤",
     "Storage not valid" : "儲存空間無法使用",
@@ -32,6 +33,7 @@ OC.L10N.register(
     "You received a new remote share from %s" : "您收到了一個遠端分享來自於 %s",
     "%1$s accepted remote share %2$s" : "%1$s 接受了遠端分享 %2$s",
     "%1$s declined remote share %2$s" : "%1$s 拒絕了遠端分享 %2$s",
+    "%1$s unshared %2$s from you" : "%1$s 取消與你分享 %2$s",
     "Public shared folder %1$s was downloaded" : "共享資料夾 %1$s 已被下載",
     "Public shared file %1$s was downloaded" : "共享檔案 %1$s 已被下載",
     "You shared %1$s with %2$s" : "您與 %2$s 分享了 %1$s",
@@ -50,6 +52,7 @@ OC.L10N.register(
     "Shared by %2$s" : "由 %2$s 分享",
     "Shared via public link" : "透過公用連結分享",
     "Shares" : "分享",
+    "You received %2$s as a remote share from %1$s" : "您收到了來自%1$s的一個遠端分享 %2$s ",
     "Accept" : "接受",
     "Decline" : "拒絕",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "可透過我的 #ownCloud 聯合 ID，與我分享，請看 %s",
