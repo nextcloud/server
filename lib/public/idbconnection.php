@@ -206,4 +206,13 @@ interface IDBConnection {
 	 * @since 8.0.0
 	 */
 	public function tableExists($table);
+
+	/**
+	 * Escape a parameter to be used in a LIKE query
+	 *
+	 * @param string $param
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function escapeLikeParameter($param);
 }
