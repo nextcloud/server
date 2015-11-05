@@ -1,9 +1,9 @@
 <div class="update" data-productname="<?php p($_['productName']) ?>" data-version="<?php p($_['version']) ?>">
 	<div class="updateOverview">
 		<?php if ($_['isAppsOnlyUpgrade']) { ?>
-		<h2 class="title bold"><?php p($l->t('App update required')); ?></h2>
+		<h2 class="title"><?php p($l->t('App update required')); ?></h2>
 		<?php } else { ?>
-		<h2 class="title bold"><?php p($l->t('%s will be updated to version %s',
+		<h2 class="title"><?php p($l->t('%s will be updated to version %s',
 			array($_['productName'], $_['version']))); ?></h2>
 		<?php } ?>
 		<?php if (!empty($_['appsToUpgrade'])) { ?>
