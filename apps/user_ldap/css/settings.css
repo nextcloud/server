@@ -56,7 +56,7 @@
 	display: table;
 }
 
-#ldapWizard1 .hostPortCombinator div span {
+#ldapWizard1 .hostPortCombinatorSpan {
 	width: 14.5%;
 	display: inline-block;
 	text-align: right;
@@ -114,13 +114,13 @@
 	width: auto;
 }
 
-.ldapManyGroupsSupport span {
+.ldapManyGroupsSupport .buttonSpan {
 	display: inline-block;
 	vertical-align: top;
 	height: 150px;
 }
 
-.ldapManyGroupsSupport span button {
+.ldapManyGroupsSupport .buttonSpan button {
 	margin-top: 35px;
 }
 

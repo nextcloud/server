@@ -241,7 +241,11 @@ OCA = OCA || {};
 		onTestLoginnameChange: function() {
 			var loginName = this.managedItems.ldap_test_loginname.$element.val();
 			var beDisabled = !_.isString(loginName) || !loginName.trim();
-			this.managedItems.ldap_test_loginname.$relatedElements.prop('disabled', beDisabled);
+			if(beDisabled) {
+				this.disableElement(this.managedItems.ldap_test_loginname.$relatedElements);
+			} else {
+				this.enableElement(this.managedItems.ldap_test_loginname.$relatedElements);
+			}
 		}
 
 	});

@@ -22,6 +22,12 @@ OCA = OCA || {};
 		 */
 		multiSelectPluginClass: 'multiSelectPlugin',
 
+		/**
+		 * @property {string} - class that identifies a multiselect-plugin
+		 * control.
+		 */
+		bjQuiButtonClass: 'ui-button',
+
 		/** @inheritdoc */
 		init: function(tabIndex, tabID) {
 			this.tabIndex = tabIndex;
@@ -233,7 +239,10 @@ OCA = OCA || {};
 
 			if($element.hasClass(this.multiSelectPluginClass) && hasOptions) {
 				$element.multiselect("enable");
-			} else if(!isMS || (isMS && hasOptions)) {
+			} else if ($element.hasClass(this.bjQuiButtonClass)) {
+				$element.button("enable");
+			}
+			else if(!isMS || (isMS && hasOptions)) {
 				$element.prop('disabled', false);
 			}
 		},
@@ -246,6 +255,8 @@ OCA = OCA || {};
 		disableElement: function($element) {
 			if($element.hasClass(this.multiSelectPluginClass)) {
 				$element.multiselect("disable");
+			} else if ($element.hasClass(this.bjQuiButtonClass)) {
+				$element.button("disable");
 			} else {
 				$element.prop('disabled', 'disabled');
 			}

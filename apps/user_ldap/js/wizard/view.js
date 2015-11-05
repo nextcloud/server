@@ -349,8 +349,7 @@ OCA = OCA || {};
 		render: function () {
 			$('#ldapAdvancedAccordion').accordion({ heightStyle: 'content', animate: 'easeInOutCirc'});
 			this.$settings.tabs({});
-			$('.ldap_submit').button();
-			$('.ldap_action_test_connection').button();
+			$('#ldapSettings button:not(.icon-default-style):not(.ui-multiselect)').button();
 			$('#ldapSettings').tabs({ beforeActivate: this.onTabChange });
 			$('#ldapSettings :input').tooltip({placement: "right", container: "body", trigger: "hover"});
 
