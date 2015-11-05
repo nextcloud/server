@@ -604,6 +604,54 @@ class Cache extends \Test\TestCase {
 		$this->assertNotEquals($fileId, $fileId2);
 	}
 
+	public function escapingProvider() {
+		return [
+				['foo'],
+				['o%'],
+				['oth_r'],
+		];
+	}
+
+	/**
+	 * @param string $name
+	 * @dataProvider escapingProvider
+	 */
+	public function testEscaping($name) {
+		$data = array('size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain');
+		$this->cache->put($name, $data);
+		$this->assertTrue($this->cache->inCache($name));
+		$retrievedData = $this->cache->get($name);
+		foreach ($data as $key => $value) {
+			$this->assertEquals($value, $retrievedData[$key]);
+		}
+		$this->cache->move($name, $name . 'asd');
+		$this->assertFalse($this->cache->inCache($name));
+		$this->assertTrue($this->cache->inCache($name . 'asd'));
+		$this->cache->remove($name . 'asd');
+		$this->assertFalse($this->cache->inCache($name . 'asd'));
+		$folderData = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
+		$this->cache->put($name, $folderData);
+		$this->cache->put('other', $folderData);
+		$childs = ['asd', 'bar', 'foo', 'sub/folder'];
+		$this->cache->put($name . '/sub/folder', $folderData);
+		$this->cache->put('other/sub/folder', $folderData);
+		foreach ($childs as $child) {
+			$this->cache->put($name . '/' . $child, $data);
+			$this->cache->put('other/' . $child, $data);
+			$this->assertTrue($this->cache->inCache($name . '/' . $child));
+		}
+		$this->cache->move($name, $name . 'asd');
+		foreach ($childs as $child) {
+			$this->assertTrue($this->cache->inCache($name . 'asd/' . $child));
+			$this->assertTrue($this->cache->inCache('other/' . $child));
+		}
+		foreach ($childs as $child) {
+			$this->cache->remove($name . 'asd/' . $child);
+			$this->assertFalse($this->cache->inCache($name . 'asd/' . $child));
+			$this->assertTrue($this->cache->inCache('other/' . $child));
+		}
+	}
+
 	protected function tearDown() {
 		if ($this->cache) {
 			$this->cache->clear();
