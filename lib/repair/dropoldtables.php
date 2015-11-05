@@ -74,6 +74,7 @@ class DropOldTables extends BasicEmitter implements RepairStep {
 			'calendar_objects',
 			'calendar_share_calendar',
 			'calendar_share_event',
+			'file_map',
 			'foldersize',
 			'fscache',
 			'locks',
