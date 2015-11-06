@@ -25,79 +25,131 @@
 
 namespace OCA\Provisioning_API\Tests;
 
-use OCP\IUserManager;
 use OCP\IGroupManager;
 use OCP\IUserSession;
+use OCP\IRequest;
 
-class GroupsTest extends TestCase {
-	/** @var IUserManager */
-	protected $userManager;
+class GroupsTest extends \Test\TestCase {
 	/** @var IGroupManager */
 	protected $groupManager;
 	/** @var IUserSession */
 	protected $userSession;
+	/** @var IRequest */
+	protected $request;
+	/** @var \OC\SubAdmin */
+	protected $subAdminManager;
 	/** @var \OCA\Provisioning_API\Groups */
 	protected $api;
 
 	protected function setup() {
-		parent::setup();
+		$this->subAdminManager = $this->getMockBuilder('OC\SubAdmin')->disableOriginalConstructor()->getMock();
 
-		$this->userManager = \OC::$server->getUserManager();
-		$this->groupManager = \OC::$server->getGroupManager();
-		$this->userSession = \OC::$server->getUserSession();
+		$this->groupManager = $this->getMockBuilder('OC\Group\Manager')->disableOriginalConstructor()->getMock();
+		$this->groupManager
+			->method('getSubAdmin')
+			->willReturn($this->subAdminManager);
+
+		$this->userSession = $this->getMock('OCP\IUserSession');
+		$this->request = $this->getMock('OCP\IRequest');
 		$this->api = new \OCA\Provisioning_API\Groups(
 			$this->groupManager,
-			$this->userSession
+			$this->userSession,
+			$this->request
 		);
 	}
 
-	public function testGetGroups() {
-		$groups = [];
-		$id = $this->getUniqueID();
+	private function createGroup($gid) {
+		$group = $this->getMock('OCP\IGroup');
+		$group
+			->method('getGID')
+			->willReturn($gid);
+		return $group;
+	}
 
-		for ($i=0; $i < 10; $i++) {
-			$groups[] = $this->groupManager->createGroup($id . '_' . $i);
-		}
+	private function createUser($uid) {
+		$user = $this->getMock('OCP\IUser');
+		$user
+			->method('getUID')
+			->willReturn($uid);
+		return $user;
+	}
 
-		$_GET = [];
-		$result = $this->api->getGroups([]);
-		$this->assertInstanceOf('OC_OCS_Result', $result);
-		$this->assertTrue($result->succeeded());
-		$this->assertCount(count($this->groupManager->search('')), $result->getData()['groups']);
-		$this->assertContains('admin', $result->getData()['groups']);
-		foreach ($groups as $group) {
-			$this->assertContains($group->getGID(), $result->getData()['groups']);
-		}
+	private function asUser() {
+		$user = $this->createUser('user');
+		$this->userSession
+			->method('getUser')
+			->willReturn($user);
+	}
 
-		$_GET = [
-			'search' => $id,
-			'limit' => 5,
-			'offset' => 2
+	private function asAdmin() {
+		$user = $this->createUser('admin');
+		$this->userSession
+			->method('getUser')
+			->willReturn($user);
+
+		$this->groupManager
+			->method('isAdmin')
+			->with('admin')
+			->willReturn(true);
+	}
+
+	private function asSubAdminOfGroup($group) {
+		$user = $this->createUser('subAdmin');
+		$this->userSession
+			->method('getUser')
+			->willReturn($user);
+
+		$this->subAdminManager
+			->method('isSubAdminOfGroup')
+			->will($this->returnCallback(function($_user, $_group) use ($user, $group) {
+				if ($_user === $user && $_group === $group) {
+					return true;
+				}
+				return false;
+			}));
+	}
+
+	public function dataGetGroups() {
+		return [
+			[null, null, null],
+			['foo', null, null],
+			[null, 1, null],
+			[null, null, 2],
+			['foo', 1, 2],
 		];
+	}
+
+	/**
+	 * @dataProvider dataGetGroups
+	 */
+	public function testGetGroups($search, $limit, $offset) {
+		$this->request
+			->expects($this->exactly(3))
+			->method('getParam')
+			->will($this->returnValueMap([
+				['search', '', $search],
+				['limit', null, $limit],
+				['offset', null, $offset],
+			]));
+
+		$groups = [$this->createGroup('group1'), $this->createGroup('group2')];
+
+		$search = $search === null ? '' : $search;
+
+		$this->groupManager
+			->expects($this->once())
+			->method('search')
+			->with($search, $limit, $offset)
+			->willReturn($groups);
+
 		$result = $this->api->getGroups([]);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
-		$this->assertCount(5, $result->getData()['groups']);
-		foreach (array_splice($groups, 2, 5) as $group) {
-			$this->assertContains($group->getGID(), $result->getData()['groups']);
-		}
-
-		foreach ($groups as $group) {
-			$group->delete();
-		}
+		$this->assertEquals(['group1', 'group2'], $result->getData()['groups']);
 	}
 
 	public function testGetGroupAsUser() {
-
-		$users = $this->generateUsers(2);
-		$this->userSession->setUser($users[0]);
-
-		$group = $this->groupManager->createGroup($this->getUniqueID());
-		$group->addUser($users[1]);
-
-		$result = $this->api->getGroup(array(
-			'groupid' => $group->getGID(),
-		));
+		$result = $this->api->getGroup([]);
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
@@ -106,80 +158,91 @@ class GroupsTest extends TestCase {
 	}
 
 	public function testGetGroupAsSubadmin() {
+		$group = $this->createGroup('group');
+		$this->asSubAdminOfGroup($group);
 
-		$users = $this->generateUsers(2);
-		$this->userSession->setUser($users[0]);
-
-		$group = $this->groupManager->createGroup($this->getUniqueID());
-		$group->addUser($users[0]);
-		$group->addUser($users[1]);
-
-		$this->groupManager->getSubAdmin()->createSubAdmin($users[0], $group);
+		$this->groupManager
+			->method('get')
+			->with('group')
+			->willReturn($group);
+		$this->groupManager
+			->method('groupExists')
+			->with('group')
+			->willReturn(true);
+		$group
+			->method('getUsers')
+			->willReturn([
+				$this->createUser('user1'),
+				$this->createUser('user2')
+			]);
 
 		$result = $this->api->getGroup([
-			'groupid' => $group->getGID(),
+			'groupid' => 'group',
 		]);
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
 		$this->assertEquals(1, sizeof($result->getData()), 'Asserting the result data array only has the "users" key');
 		$this->assertArrayHasKey('users', $result->getData());
-		$resultData = $result->getData();
-		$resultData = $resultData['users'];
-
-		$users = array_map(function($user) {
-			return $user->getUID();
-		}, $users);
-
-		sort($users);
-		sort($resultData);
-		$this->assertEquals($users, $resultData);
-
+		$this->assertEquals(['user1', 'user2'], $result->getData()['users']);
 	}
 
 	public function testGetGroupAsIrrelevantSubadmin() {
+		$group = $this->createGroup('group');
+		$otherGroup = $this->createGroup('otherGroup');
+		$this->asSubAdminOfGroup($otherGroup);
 
-		$users = $this->generateUsers(2);
-		$this->userSession->setUser($users[0]);
-
-		$group1 = $this->groupManager->createGroup($this->getUniqueID());
-		$group2 = $this->groupManager->createGroup($this->getUniqueID());
-		$group1->addUser($users[1]);
-		$group2->addUser($users[0]);
-
-		$this->groupManager->getSubAdmin()->createSubAdmin($users[0], $group2);
+		$this->groupManager
+			->method('get')
+			->with('group')
+			->willReturn($group);
+		$this->groupManager
+			->method('groupExists')
+			->with('group')
+			->willReturn(true);
 
 		$result = $this->api->getGroup([
-			'groupid' => $group1->getGID(),
+			'groupid' => 'group',
 		]);
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(\OCP\API::RESPOND_UNAUTHORISED, $result->getStatusCode());
-
 	}
 
 	public function testGetGroupAsAdmin() {
+		$group = $this->createGroup('group');
+		$this->asAdmin();
 
-		$users = $this->generateUsers(2);
-		$this->userSession->setUser($users[0]);
-
-		$group = $this->groupManager->createGroup($this->getUniqueID());
-
-		$group->addUser($users[1]);
-		$this->groupManager->get('admin')->addUser($users[0]);
+		$this->groupManager
+			->method('get')
+			->with('group')
+			->willReturn($group);
+		$this->groupManager
+			->method('groupExists')
+			->with('group')
+			->willReturn(true);
+		$group
+			->method('getUsers')
+			->willReturn([
+				$this->createUser('user1'),
+				$this->createUser('user2')
+			]);
 
 		$result = $this->api->getGroup([
-			'groupid' => $group->getGID(),
+			'groupid' => 'group',
 		]);
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
-		$this->assertEquals(['users' => [$users[1]->getUID()]], $result->getData());
-
+		$this->assertEquals(1, sizeof($result->getData()), 'Asserting the result data array only has the "users" key');
+		$this->assertArrayHasKey('users', $result->getData());
+		$this->assertEquals(['user1', 'user2'], $result->getData()['users']);
 	}
 
 	public function testGetGroupNonExisting() {
+		$this->asUser();
+
 		$result = $this->api->getGroup([
 			'groupid' => $this->getUniqueId()
 		]);
@@ -190,35 +253,72 @@ class GroupsTest extends TestCase {
 		$this->assertEquals('The requested group could not be found', $result->getMeta()['message']);
 	}
 
-	public function testGetSubAdminsOfGroup() {
-		$user1 = $this->generateUsers();
-		$user2 = $this->generateUsers();
-		$this->userSession->setUser($user1);
-		$this->groupManager->get('admin')->addUser($user1);
-		$group1 = $this->groupManager->createGroup($this->getUniqueID());
-		$this->groupManager->getSubAdmin()->createSubAdmin($user2, $group1);
+	public function testGetSubAdminsOfGroupsNotExists() {
 		$result = $this->api->getSubAdminsOfGroup([
-			'groupid' => $group1->getGID(),
+			'groupid' => 'NonExistingGroup',
 		]);
-		$this->assertInstanceOf('OC_OCS_Result', $result);
-		$this->assertTrue($result->succeeded());
-		$data = $result->getData();
-		$this->assertEquals($user2->getUID(), reset($data));
-		$group1->delete();
 
-		$user1 = $this->generateUsers();
-		$this->userSession->setUser($user1);
-		$this->groupManager->get('admin')->addUser($user1);
-		$result = $this->api->getSubAdminsOfGroup([
-			'groupid' => $this->getUniqueID(),
-		]);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(101, $result->getStatusCode());
+		$this->assertEquals('Group does not exist', $result->getMeta()['message']);
+	}
+
+	public function testGetSubAdminsOfGroup() {
+		$group = $this->createGroup('GroupWithSubAdmins');
+		$this->groupManager
+			->method('get')
+			->with('GroupWithSubAdmins')
+			->willReturn($group);
+
+		$this->subAdminManager
+			->expects($this->once())
+			->method('getGroupsSubAdmins')
+			->with($group)
+			->willReturn([
+				$this->createUser('SubAdmin1'),
+				$this->createUser('SubAdmin2'),
+			]);
+
+		$result = $this->api->getSubAdminsOfGroup([
+			'groupid' => 'GroupWithSubAdmins',
+		]);
+
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertTrue($result->succeeded());
+		$this->assertEquals(['SubAdmin1', 'SubAdmin2'], $result->getData());
+	}
+
+	public function testGetSubAdminsOfGroupEmptyList() {
+		$group = $this->createGroup('GroupWithOutSubAdmins');
+		$this->groupManager
+			->method('get')
+			->with('GroupWithOutSubAdmins')
+			->willReturn($group);
+
+		$this->subAdminManager
+			->expects($this->once())
+			->method('getGroupsSubAdmins')
+			->with($group)
+			->willReturn([
+			]);
+
+		$result = $this->api->getSubAdminsOfGroup([
+			'groupid' => 'GroupWithOutSubAdmins',
+		]);
+
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertFalse($result->succeeded());
+		$this->assertEquals(102, $result->getStatusCode());
+		$this->assertEquals('Unknown error occured', $result->getMeta()['message']);
 	}
 
 	public function testAddGroupEmptyGroup() {
-		$_POST = [];
+		$this->request
+			->method('getParam')
+			->with('groupid')
+			->willReturn('');
+
 		$result = $this->api->addGroup([]);
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
@@ -228,40 +328,47 @@ class GroupsTest extends TestCase {
 	}
 
 	public function testAddGroupExistingGroup() {
-		$group = $this->groupManager->createGroup($this->getUniqueID());
+		$this->request
+			->method('getParam')
+			->with('groupid')
+			->willReturn('ExistingGroup');
 
-		$_POST = [
-			'groupid' => $group->getGID()
-		];
+		$this->groupManager
+			->method('groupExists')
+			->with('ExistingGroup')
+			->willReturn(true);
+
 		$result = $this->api->addGroup([]);
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(102, $result->getStatusCode());
-
-		$group->delete();
 	}
 
 	public function testAddGroup() {
-		$group = $this->getUniqueId();
+		$this->request
+			->method('getParam')
+			->with('groupid')
+			->willReturn('NewGroup');
 
-		$_POST = [ 
-			'groupid' => $group
-		];
+		$this->groupManager
+			->method('groupExists')
+			->with('NewGroup')
+			->willReturn(false);
+
+		$this->groupManager
+			->expects($this->once())
+			->method('createGroup')
+			->with('NewGroup');
 
 		$result = $this->api->addGroup([]);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
-		$this->assertTrue($this->groupManager->groupExists($group));
-
-		$this->groupManager->get($group)->delete();
 	}
 
 	public function testDeleteGroupNonExisting() {
-		$group = $this->getUniqueId();
-
 		$result = $this->api->deleteGroup([
-			'groupid' => $group
+			'groupid' => 'NonExistingGroup'
 		]);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
@@ -269,6 +376,11 @@ class GroupsTest extends TestCase {
 	}
 
 	public function testDeleteAdminGroup() {
+		$this->groupManager
+			->method('groupExists')
+			->with('admin')
+			->willReturn('true');
+
 		$result = $this->api->deleteGroup([
 			'groupid' => 'admin'
 		]);
@@ -278,13 +390,25 @@ class GroupsTest extends TestCase {
 	}
 
 	public function testDeleteGroup() {
-		$group = $this->groupManager->createGroup($this->getUniqueId());
+		$this->groupManager
+			->method('groupExists')
+			->with('ExistingGroup')
+			->willReturn('true');
+
+		$group = $this->createGroup('ExistingGroup');
+		$this->groupManager
+			->method('get')
+			->with('ExistingGroup')
+			->willReturn($group);
+		$group
+			->expects($this->once())
+			->method('delete')
+			->willReturn(true);
 
 		$result = $this->api->deleteGroup([
-			'groupid' => $group->getGID()
+			'groupid' => 'ExistingGroup',
 		]);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
-		$this->assertFalse($this->groupManager->groupExists($group->getGID()));
 	}
 }
