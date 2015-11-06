@@ -117,12 +117,6 @@ class OC {
 	 * the app path list is empty or contains an invalid path
 	 */
 	public static function initPaths() {
-		// ensure we can find OC_Config
-		set_include_path(
-			OC::$SERVERROOT . '/lib' . PATH_SEPARATOR .
-			get_include_path()
-		);
-
 		if(defined('PHPUNIT_CONFIG_DIR')) {
 			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
 		} elseif(defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
