@@ -269,7 +269,7 @@ class OC_Mount_Config {
 				}
 			} catch (Exception $exception) {
 				\OCP\Util::logException('files_external', $exception);
-				throw $e;
+				throw $exception;
 			}
 		}
 		return self::STATUS_ERROR;
