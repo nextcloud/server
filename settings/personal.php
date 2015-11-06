@@ -93,6 +93,14 @@ foreach($languageCodes as $lang) {
 	}
 }
 
+// if user language is not available but set somehow: show the actual code as name
+if (!is_array($userLang)) {
+	$userLang = [
+		'code' => $userLang,
+		'name' => $userLang,
+	];
+}
+
 ksort($commonlanguages);
 
 // sort now by displayed language not the iso-code
