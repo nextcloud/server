@@ -480,6 +480,7 @@ class Encryption extends Wrapper {
 	 * @param bool $preserveMtime
 	 * @param bool $isRename
 	 * @return bool
+	 * @throws \Exception
 	 */
 	private function copyBetweenStorage(Storage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, $isRename) {
 
@@ -487,7 +488,18 @@ class Encryption extends Wrapper {
 		// key from the original file. Just create a 1:1 copy and done
 		if ($this->isVersion($targetInternalPath) ||
 			$this->isVersion($sourceInternalPath)) {
-			return $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+			$result = $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+			if ($result) {
+				$info = $this->getCache('', $sourceStorage)->get($sourceInternalPath);
+				// make sure that we update the unencrypted size for the version
+				if (isset($info['encrypted']) && $info['encrypted'] === true) {
+					$this->updateUnencryptedSize(
+						$this->getFullPath($targetInternalPath),
+						$info['size']
+					);
+				}
+			}
+			return $result;
 		}
 
 		// first copy the keys that we reuse the existing file key on the target location
