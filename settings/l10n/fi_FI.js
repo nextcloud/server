@@ -106,6 +106,7 @@ OC.L10N.register(
     "A valid password must be provided" : "Anna kelvollinen salasana",
     "A valid email must be provided" : "Tarvitaan kelvollinen sähköpostiosoite",
     "__language_name__" : "_kielen_nimi_",
+    "Sync clients" : "Synkronointisovellukset",
     "Personal info" : "Henkilökohtaiset tiedot",
     "SSL root certificates" : "SSL-juurivarmenteet",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Kaikki (vakavat ongelmat, virheet, varoitukset, tiedot, vianjäljitys)",

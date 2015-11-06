@@ -106,11 +106,13 @@
     "in seconds. A change empties the cache." : "以秒為單位。變更後會清空快取。",
     "Directory Settings" : "目錄設定",
     "User Display Name Field" : "使用者顯示名稱欄位",
+    "The LDAP attribute to use to generate the user's display name." : "LDAP設定值，用於產生使用者的顯示名稱",
     "Base User Tree" : "Base User Tree",
     "One User Base DN per line" : "一行一個使用者 Base DN",
     "User Search Attributes" : "User Search Attributes",
     "Optional; one attribute per line" : "非必要，一行一項屬性",
     "Group Display Name Field" : "群組顯示名稱欄位",
+    "The LDAP attribute to use to generate the groups's display name." : "LDAP設定值，用於產生使用者群組的顯示名稱",
     "Base Group Tree" : "Base Group Tree",
     "One Group Base DN per line" : "一行一個 Group Base DN",
     "Group Search Attributes" : "Group Search Attributes",
@@ -124,6 +126,7 @@
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "使用者名稱請留白(預設)。若不留白請指定一個LDAP/AD屬性。",
     "Internal Username" : "內部使用者名稱",
     "Internal Username Attribute:" : "內部使用者名稱屬性:",
+    "Override UUID detection" : "偵測覆寫UUID",
     "UUID Attribute for Users:" : "使用者的UUID值:",
     "UUID Attribute for Groups:" : "群組的UUID值:"
 },"pluralForm" :"nplurals=1; plural=0;"
