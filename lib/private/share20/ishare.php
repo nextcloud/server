@@ -134,6 +134,13 @@ interface IShare {
 	public function setPassword($password);
 
 	/**
+	 * Is a password set for this share
+	 *
+	 * @return string
+	 */
+	public function getPassword();
+
+	/**
 	 * Get the token
 	 *
 	 * @return string
@@ -153,4 +160,18 @@ interface IShare {
 	 * @return string
 	 */
 	public function getTarget();
+
+	/**
+	 * Get the timestamp this share was created
+	 *
+	 * @return int
+	 */
+	public function getSharetime();
+
+	/**
+	 * Get mailSend
+	 *
+	 * @return bool
+	 */
+	public function getMailSend();
 }

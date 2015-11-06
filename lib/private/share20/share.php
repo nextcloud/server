@@ -28,39 +28,32 @@ class Share implements IShare {
 
 	/** @var string */
 	private $id;
-
 	/** @var Node */
 	private $path;
-
 	/** @var int */
 	private $shareType;
-
 	/** @var IUser|IGroup|string */
 	private $sharedWith;
-
 	/** @var IUser|string */
 	private $sharedBy;
-
 	/** @var IUser|string */
 	private $shareOwner;
-
 	/** @var int */
 	private $permissions;
-
 	/** @var \DateTime */
 	private $expireDate;
-
 	/** @var string */
 	private $password;
-
 	/** @var string */
 	private $token;
-
 	/** @var int */
 	private $parent;
-
 	/** @var string */
 	private $target;
+	/** @var int */
+	private $shareTime;
+	/** @var bool */
+	private $mailSend;
 
 	/**
 	 * Set the id of the share
@@ -252,7 +245,7 @@ class Share implements IShare {
 	 *
 	 * @return string
 	 */
-	public function getPassword($password) {
+	public function getPassword() {
 		return $this->password;
 	}
 
@@ -314,5 +307,45 @@ class Share implements IShare {
 	 */
 	public function getTarget() {
 		return $this->target;
+	}
+
+	/**
+	 * Set the time this share was created
+	 *
+	 * @param int $shareTime
+	 * @return Share The modified object
+	 */
+	public function setShareTime($shareTime) {
+		$this->shareTime = $shareTime;
+		return $this;
+	}
+
+	/**
+	 * Get the timestamp this share was created
+	 *
+	 * @return int
+	 */
+	public function getSharetime() {
+		return $this->shareTime;
+	}
+
+	/**
+	 * Set mailSend
+	 *
+	 * @param bool $mailSend
+	 * @return Share The modified object
+	 */
+	public function setMailSend($mailSend) {
+		$this->mailSend = $mailSend;
+		return $this;
+	}
+
+	/**
+	 * Get mailSend
+	 *
+	 * @return bool
+	 */
+	public function getMailSend() {
+		return $this->mailSend;
 	}
 }

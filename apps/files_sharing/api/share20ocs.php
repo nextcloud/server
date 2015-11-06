@@ -20,39 +20,125 @@
  */
 namespace OCA\Files_Sharing\API;
 
+use OC\Share20\IShare;
+
 class Share20OCS {
 
-	/** @var OC\Share20\Manager */
+	/** @var \OC\Share20\Manager */
 	private $shareManager;
 
-	/** @var OCP\IGroupManager */
+	/** @var \OCP\IGroupManager */
 	private $groupManager;
 
-	/** @var OCP\IUserManager */
+	/** @var \OCP\IUserManager */
 	private $userManager;
 
-	/** @var OCP\IRequest */
+	/** @var \OCP\IRequest */
 	private $request;
 
-	/** @var OCP\Files\Folder */
+	/** @var \OCP\Files\Folder */
 	private $userFolder;
 
 	public function __construct(\OC\Share20\Manager $shareManager,
 	                            \OCP\IGroupManager $groupManager,
 	                            \OCP\IUserManager $userManager,
 	                            \OCP\IRequest $request,
-								\OCP\Files\Folder $userFolder) {
+	                            \OCP\Files\Folder $userFolder,
+	                            \OCP\IURLGenerator $urlGenerator) {
 		$this->shareManager = $shareManager;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->request = $request;
 		$this->userFolder = $userFolder;
+		$this->urlGenerator = $urlGenerator;
+	}
+
+	/**
+	 * Convert an IShare to an array for OCS output
+	 *
+	 * @param IShare $share
+	 * @return array
+	 */
+	protected function formatShare($share) {
+		$result = [
+			'id' => $share->getId(),
+			'share_type' => $share->getShareType(),
+			'uid_owner' => $share->getSharedBy()->getUID(),
+			'displayname_owner' => $share->getSharedBy()->getDisplayName(),
+			'permissions' => $share->getPermissions(),
+			'stime' => $share->getShareTime(),
+			'parent' => $share->getParent(),
+			'expiration' => null,
+			'token' => null,
+		];
+
+		$path = $share->getPath();
+		$result['path'] = $this->userFolder->getRelativePath($path->getPath());
+		if ($path instanceOf \OCP\Files\Folder) {
+			$result['item_type'] = 'folder';
+		} else {
+			$result['item_type'] = 'file';
+		}
+		$result['storage_id'] = $path->getStorage()->getId();
+		$result['storage'] = \OC\Files\Cache\Storage::getNumericStorageId($path->getStorage()->getId());
+		$result['item_source'] = $path->getId();
+		$result['file_source'] = $path->getId();
+		$result['file_parent'] = $path->getParent()->getId();
+		$result['file_target'] = $share->getTarget();
+
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+			$sharedWith = $share->getSharedWith();
+			$result['share_with'] = $sharedWith->getUID();
+			$result['share_with_displayname'] = $sharedWith->getDisplayName();
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+			$sharedWith = $share->getSharedWith();
+			$result['share_with'] = $sharedWith->getGID();
+			$result['share_with_displayname'] = $sharedWith->getGID();
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+
+			$result['share_with'] = $share->getPassword();
+			$result['share_with_displayname'] = $share->getPassword();
+
+			$result['token'] = $share->getToken();
+			$result['url'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $share->getToken()]);
+
+			$expiration = $share->getExpirationDate();
+			if ($expiration !== null) {
+				$result['expiration'] = $expiration->format('Y-m-d 00:00:00');
+			}
+
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
+			$result['share_with'] = $share->getSharedWith();
+			$result['share_with_displayname'] = $share->getSharedWith();
+			$result['token'] = $share->getToken();
+		}
+
+		$result['mail_send'] = $share->getMailSend() ? 1 : 0;
+
+		return $result;
+	}
+
+	/**
+	 * Get a specific share by id
+	 *
+	 * @param string $id
+	 * @return \OC_OCS_Result
+	 */
+	public function getShare($id) {
+		try {
+			$share = $this->shareManager->getShareById($id);
+		} catch (\OC\Share20\Exception\ShareNotFound $e) {
+			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+		}
+
+		$share = $this->formatShare($share);
+		return new \OC_OCS_Result($share);
 	}
 
 	/**
 	 * Delete a share
 	 *
-	 * @param int $id
+	 * @param string $id
 	 * @return \OC_OCS_Result
 	 */
 	public function deleteShare($id) {

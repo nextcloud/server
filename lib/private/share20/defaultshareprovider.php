@@ -235,17 +235,16 @@ class DefaultShareProvider implements IShareProvider {
 		$share->setId((int)$data['id'])
 			->setShareType((int)$data['share_type'])
 			->setPermissions((int)$data['permissions'])
-			->setTarget($data['file_target']);
+			->setTarget($data['file_target'])
+			->setShareTime((int)$data['stime'])
+			->setMailSend((bool)$data['mail_send']);
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$share->setSharedWith($this->userManager->get($data['share_with']));
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$share->setSharedWith($this->groupManager->get($data['share_with']));
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
-			/*
-			 * TODO: Clean this up, this should be set as password not sharedWith
-			 */
-			$share->setSharedWith($data['share_with']);
+			$share->setPassword($data['share_with']);
 			$share->setToken($data['token']);
 		} else {
 			$share->setSharedWith($data['share_with']);
