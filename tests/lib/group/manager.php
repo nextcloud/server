@@ -304,6 +304,32 @@ class Manager extends \Test\TestCase {
 		$this->assertEquals('group1', $group1->getGID());
 	}
 
+	public function testGetUserGroupIds() {
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Group\Manager $manager */
+		$manager = $this->getMockBuilder('OC\Group\Manager')
+			->disableOriginalConstructor()
+			->setMethods(['getUserGroups'])
+			->getMock();
+		$manager->expects($this->once())
+			->method('getUserGroups')
+			->willReturn([
+				'123' => '123',
+				'abc' => 'abc',
+			]);
+
+		/** @var \OC\User\User $user */
+		$user = $this->getMockBuilder('OC\User\User')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$groups = $manager->getUserGroupIds($user);
+		$this->assertEquals(2, count($groups));
+
+		foreach ($groups as $group) {
+			$this->assertInternalType('string', $group);
+		}
+	}
+
 	public function testInGroup() {
 		/**
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend

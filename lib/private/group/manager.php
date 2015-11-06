@@ -261,7 +261,9 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return array with group ids
 	 */
 	public function getUserGroupIds($user) {
-		return array_keys($this->getUserGroups($user));
+		return array_map(function($value) {
+			return (string) $value;
+		}, array_keys($this->getUserGroups($user)));
 	}
 
 	/**
