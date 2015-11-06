@@ -388,9 +388,14 @@ class Users {
 			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
-		$group = $this->groupManager->get(!empty($parameters['_delete']['groupid']) ? $parameters['_delete']['groupid'] : null);
+		$group = !empty($parameters['_delete']['groupid']) ? $parameters['_delete']['groupid'] : null;
 		if($group === null) {
 			return new OC_OCS_Result(null, 101);
+		}
+
+		$group = $this->groupManager->get($group);
+		if($group === null) {
+			return new OC_OCS_Result(null, 102);
 		}
 
 		$targetUser = $this->userManager->get($parameters['userid']);
