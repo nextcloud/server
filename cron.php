@@ -132,7 +132,9 @@ try {
 		$jobList = \OC::$server->getJobList();
 		$jobs = $jobList->getAll();
 		foreach ($jobs as $job) {
+			$logger->debug('Run job with ID ' . $job->getId(), ['app' => 'cron']);
 			$job->execute($jobList, $logger);
+			$logger->debug('Finished job with ID ' . $job->getId(), ['app' => 'cron']);
 		}
 
 		// unlock the file
