@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace Test\Connector\Sabre;
+namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 use OC\Files\Storage\Local;
 use Test\HookHelper;

@@ -7,7 +7,7 @@
  * See the COPYING-README file.
  */
 
-namespace Test\Connector\Sabre;
+namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 class Node extends \Test\TestCase {
 	public function davPermissionsProvider() {

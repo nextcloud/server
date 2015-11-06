@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Connector\Sabre\Exception;
+namespace OCA\DAV\Tests\Unit\Connector\Sabre\Exception;
 
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 

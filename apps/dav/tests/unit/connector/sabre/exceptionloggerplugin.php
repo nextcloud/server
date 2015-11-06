@@ -7,7 +7,7 @@
  * See the COPYING-README file.
  */
 
-namespace Test\Connector\Sabre;
+namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin as PluginToTest;

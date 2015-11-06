@@ -1,12 +1,13 @@
 <?php
 
+namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 /**
  * Copyright (c) 2013 Thomas Müller <thomas.mueller@tmit.eu>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
-class Test_OC_Connector_Sabre_QuotaPlugin extends \Test\TestCase {
+class QuotaPlugin extends \Test\TestCase {
 
 	/**
 	 * @var \Sabre\DAV\Server

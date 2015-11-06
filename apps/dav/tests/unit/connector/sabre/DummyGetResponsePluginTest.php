@@ -19,7 +19,7 @@
  *
  */
 
-namespace Test\Connector\Sabre;
+namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\DummyGetResponsePlugin;
 use Test\TestCase;
