@@ -1275,23 +1275,7 @@ function initCore() {
 		SVGSupport.checkMimeType();
 	}
 
-	// user menu
-	$('#settings #expand').keydown(function(event) {
-		if (event.which === 13 || event.which === 32) {
-			$('#expand').click();
-		}
-	});
-	$('#settings #expand').click(function(event) {
-		$('#settings #expanddiv').slideToggle(OC.menuSpeed);
-		event.stopPropagation();
-	});
-	$('#settings #expanddiv').click(function(event){
-		event.stopPropagation();
-	});
-	//hide the user menu when clicking outside it
-	$(document).click(function(){
-		$('#settings #expanddiv').slideUp(OC.menuSpeed);
-	});
+	OC.registerMenu($('#expand'), $('#expanddiv'));
 
 	// toggle for menus
 	$(document).on('mouseup.closemenus', function(event) {
@@ -1304,7 +1288,6 @@ function initCore() {
 		OC.hideMenus();
 	});
 
-
 	/**
 	 * Set up the main menu toggle to react to media query changes.
 	 * If the screen is small enough, the main menu becomes a toggle.
@@ -1312,7 +1295,7 @@ function initCore() {
 	 */
 	function setupMainMenu() {
 		// toggle the navigation
-		var $toggle = $('#header .menutoggle');
+		var $toggle = $('#header .header-appname-container');
 		var $navigation = $('#navigation');
 
 		// init the menu

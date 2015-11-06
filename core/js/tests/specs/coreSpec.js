@@ -458,12 +458,11 @@ describe('Core base tests', function() {
 		var clock;
 		var $toggle;
 		var $navigation;
-		var clock;
 
 		beforeEach(function() {
 			clock = sinon.useFakeTimers();
 			$('#testArea').append('<div id="header">' +
-				'<a class="menutoggle" href="#">' +
+				'<a class="menutoggle header-appname-container" href="#">' +
 				'<h1 class="header-appname"></h1>' +
 				'<div class="icon-caret"></div>' +
 				'</a>' +
