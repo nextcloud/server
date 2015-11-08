@@ -62,7 +62,7 @@
     "Turn off SSL certificate validation." : "Ne ellenőrizzük az SSL-tanúsítvány érvényességét",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Használata nem javasolt (kivéve tesztelési céllal). Ha a kapcsolat csak ezzel a beállítással működik, akkor importálja az LDAP-kiszolgáló SSL tanúsítványát a(z) %s kiszolgálóra!",
     "Cache Time-To-Live" : "A gyorsítótár tárolási időtartama",
-    "in seconds. A change empties the cache." : "másodpercben. A változtatás törli a cache tartalmát.",
+    "in seconds. A change empties the cache." : "másodpercen belül. A változtatás törli a gyorsítótár tartalmát.",
     "Directory Settings" : "Címtár beállítások",
     "User Display Name Field" : "A felhasználónév mezője",
     "The LDAP attribute to use to generate the user's display name." : "Ebből az LDAP attribútumból képződik a felhasználó megjelenítendő neve.",

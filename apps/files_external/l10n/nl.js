@@ -102,6 +102,7 @@ OC.L10N.register(
     "Advanced settings" : "Geavanceerde instellingen",
     "Delete" : "Verwijder",
     "Add storage" : "Toevoegen opslag",
+    "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
     "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen"
 },
 "nplurals=2; plural=(n != 1);");

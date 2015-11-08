@@ -47,6 +47,8 @@ OC.L10N.register(
     "OpenStack" : "OpenStack",
     "Username" : "Uživatelské jméno",
     "Password" : "Heslo",
+    "Tenant name" : "Jméno vlastníka",
+    "Identity endpoint URL" : "Identifikační koncový bod URL",
     "Rackspace" : "Rackspace",
     "API key" : "Klíč API",
     "Username and password" : "Uživatelské jméno a heslo",
