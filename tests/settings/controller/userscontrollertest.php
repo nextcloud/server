@@ -1746,4 +1746,173 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
+	public function testSetDisplayNameNull() {
+		$user = $this->getMock('\OCP\IUser');
+		$user->method('getUID')->willReturn('userName');
+
+		$this->container['UserSession']
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'error',
+				'data' => [
+					'message' => 'Authentication error',
+				],
+			]
+		);
+		$response = $this->container['UsersController']->setDisplayName(null, 'displayName');
+
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function dataSetDisplayName() {
+		$data = [];
+
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+		$user1->method('canChangeDisplayName')->willReturn(true);
+		$data[] = [$user1, $user1, false, false, true];
+
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+		$user1->method('canChangeDisplayName')->willReturn(false);
+		$data[] = [$user1, $user1, false, false, false];
+
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+		$user2 = $this->getMock('\OCP\IUser');
+		$user2->method('getUID')->willReturn('user2');
+		$user2->method('canChangeDisplayName')->willReturn(true);
+		$data[] = [$user1, $user2, false, false, false];
+
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+		$user2 = $this->getMock('\OCP\IUser');
+		$user2->method('getUID')->willReturn('user2');
+		$user2->method('canChangeDisplayName')->willReturn(true);
+		$data[] = [$user1, $user2, true, false, true];
+
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+		$user2 = $this->getMock('\OCP\IUser');
+		$user2->method('getUID')->willReturn('user2');
+		$user2->method('canChangeDisplayName')->willReturn(true);
+		$data[] = [$user1, $user2, false, true, true];
+
+		return $data;
+	}
+
+	/**
+	 * @dataProvider dataSetDisplayName
+	 */
+	public function testSetDisplayName($currentUser, $editUser, $isAdmin, $isSubAdmin, $valid) {
+		$this->container['UserSession']
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($currentUser);
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('get')
+			->with($editUser->getUID())
+			->willReturn($editUser);
+
+		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+			->disableOriginalConstructor()
+			->getMock();
+		$subadmin
+			->method('isUserAccessible')
+			->with($currentUser, $editUser)
+			->willReturn($isSubAdmin);
+
+		$this->container['GroupManager']
+			->method('getSubAdmin')
+			->willReturn($subadmin);
+		$this->container['GroupManager']
+			->method('isAdmin')
+			->with($currentUser->getUID())
+			->willReturn($isAdmin);
+
+		if ($valid === true) {
+			$editUser->expects($this->once())
+				->method('setDisplayName')
+				->with('newDisplayName')
+				->willReturn(true);
+			$expectedResponse = new DataResponse(
+				[
+					'status' => 'success',
+					'data' => [
+						'message' => 'Your full name has been changed.',
+						'username' => $editUser->getUID(),
+						'displayName' => 'newDisplayName',
+					],
+				]
+			);
+		} else {
+			$editUser->expects($this->never())->method('setDisplayName');
+			$expectedResponse = new DataResponse(
+				[
+					'status' => 'error',
+					'data' => [
+						'message' => 'Authentication error',
+					],
+				]
+				);
+			}
+
+		$response = $this->container['UsersController']->setDisplayName($editUser->getUID(), 'newDisplayName');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testSetDisplayNameFails() {
+		$user = $this->getMock('\OCP\IUser');
+		$user->method('canChangeDisplayname')->willReturn(true);
+		$user->method('getUID')->willReturn('user');
+		$user->expects($this->once())
+			->method('setDisplayName')
+			->with('newDisplayName')
+			->willReturn(false);
+		$user->method('getDisplayName')->willReturn('oldDisplayName');
+
+		$this->container['UserSession']
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('get')
+			->with($user->getUID())
+			->willReturn($user);
+
+		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+			->disableOriginalConstructor()
+			->getMock();
+		$subadmin
+			->method('isUserAccessible')
+			->with($user, $user)
+			->willReturn(false);
+
+		$this->container['GroupManager']
+			->method('getSubAdmin')
+			->willReturn($subadmin);
+		$this->container['GroupManager']
+			->expects($this->once())
+			->method('isAdmin')
+			->with($user->getUID())
+			->willReturn(false);
+
+		$expectedResponse = new DataResponse(
+			[
+				'status' => 'error',
+				'data' => [
+					'message' => 'Unable to change full name',
+					'displayName' => 'oldDisplayName',
+				],
+			]
+		);
+		$response = $this->container['UsersController']->setDisplayName($user->getUID(), 'newDisplayName');
+		$this->assertEquals($expectedResponse, $response);
+	}
 }

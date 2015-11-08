@@ -70,7 +70,7 @@ function changeDisplayName () {
 		// Serialize the data
 		var post = $("#displaynameform").serialize();
 		// Ajax foo
-		$.post('ajax/changedisplayname.php', post, function (data) {
+		$.post(OC.generateUrl('/settings/users/{id}/displayName', {id: OC.currentUser}), post, function (data) {
 			if (data.status === "success") {
 				$('#oldDisplayName').val($('#displayName').val());
 				// update displayName on the top right expand button
