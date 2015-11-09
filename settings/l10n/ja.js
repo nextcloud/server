@@ -10,7 +10,7 @@ OC.L10N.register(
     "Cron" : "Cron",
     "Email server" : "メールサーバー",
     "Log" : "ログ",
-    "Tips & tricks" : "Tips & tricks",
+    "Tips & tricks" : "ヒントとコツ",
     "Updates" : "アップデート",
     "Authentication error" : "認証エラー",
     "Your full name has been changed." : "名前を変更しました。",

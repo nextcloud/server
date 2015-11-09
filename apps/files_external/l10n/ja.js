@@ -102,6 +102,7 @@ OC.L10N.register(
     "Advanced settings" : "詳細設定",
     "Delete" : "削除",
     "Add storage" : "ストレージを追加",
+    "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
     "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する"
 },
 "nplurals=1; plural=0;");
