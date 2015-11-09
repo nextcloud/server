@@ -28,10 +28,25 @@
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP\Files;
+use OC\HintException;
 
 /**
  * Storage is temporarily not available
  * @since 6.0.0
+ * @changed 8.2.1 based on HintException
  */
-class StorageNotAvailableException extends \Exception {
+class StorageNotAvailableException extends HintException {
+
+	/**
+	 * StorageNotAvailableException constructor.
+	 *
+	 * @param string $message
+	 * @param int $code
+	 * @param \Exception $previous
+	 * @since 6.0.0
+	 */
+	public function __construct($message ='', $code = 0, \Exception $previous = null) {
+		$l = \OC::$server->getL10N('core');
+		parent::__construct($message, $l->t('Storage not available'), $code, $previous);
+	}
 }
