@@ -159,6 +159,14 @@ Feature: provisioning
 		And the OCS status code should be "100"
 		And the HTTP status code should be "200"
 
+	Scenario: removing a user from a group which doesn't exists
+		Given As an "admin"
+		And user "brand-new-user" exists
+		And group "not-group" does not exist
+		When sending "DELETE" to "/cloud/users/brand-new-user/groups" with
+			| groupid | not-group |
+		Then the OCS status code should be "102"
+
 	Scenario: removing a user from a group
 		Given As an "admin"
 		And user "brand-new-user" exists

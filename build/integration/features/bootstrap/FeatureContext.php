@@ -24,6 +24,9 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	/** @var int */
 	private $apiVersion = 1;
 
+	/** @var int */
+	private $sharingApiVersion = 1;
+
 	/** @var SimpleXMLElement */
 	private $lastShareData = null;
 
@@ -605,7 +608,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	 */
 	public function addingExpirationDate() {
 		$share_id = $this->lastShareData->data[0]->id;
-		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->apiVersion}/shares/$share_id";
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -626,7 +629,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 								$publicUpload = null, 
 								$password = null, 
 								$permissions = null){
-		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->apiVersion}/shares";
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
 		$options = [];
 
@@ -690,6 +693,20 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('file_target', "/$filename"));
 	}
 
+	/**
+	 * @Then /^User "([^"]*)" should be included in the response$/
+	 */
+	public function checkSharedUserInResponse($user){
+		PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse('share_with', "$user"));
+	}
+
+	/**
+	 * @Then /^User "([^"]*)" should not be included in the response$/
+	 */
+	public function checkSharedUserNotInResponse($user){
+		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('share_with', "$user"));
+	}
+
 	public function isUserInSharedData($user){
 		$data = $this->response->xml()->data[0];
 		foreach($data as $element) {
@@ -704,7 +721,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	 * @Given /^file "([^"]*)" from user "([^"]*)" is shared with user "([^"]*)"$/
 	 */
 	public function assureFileIsShared($filepath, $user1, $user2){
-		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->apiVersion}/shares" . "?path=$filepath";
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
 		$client = new Client();
 		$options = [];
 		if ($user1 === 'admin') {
