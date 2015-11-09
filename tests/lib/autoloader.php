@@ -71,7 +71,6 @@ class AutoLoader extends TestCase {
 
 	public function testLoadAppNamespace() {
 		$result = $this->loader->findClass('OCA\Files\Foobar');
-		print_r($result);
 		$this->assertEquals(2, count($result));
 		$this->assertStringEndsWith('apps/files/foobar.php', $result[0]);
 		$this->assertStringEndsWith('apps/files/lib/foobar.php', $result[1]);
