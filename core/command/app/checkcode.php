@@ -131,6 +131,10 @@ class CheckCode extends Command {
 				}
 			});
 
+			$infoChecker->listen('InfoChecker', 'duplicateRequirement', function($minMax) use ($output) {
+				$output->writeln("<error>Duplicate $minMax ownCloud version requirement found</error>");
+			});
+
 			$infoChecker->listen('InfoChecker', 'differentVersions', function($versionFile, $infoXML) use ($output) {
 				$output->writeln("<error>Different versions provided (appinfo/version: $versionFile - appinfo/info.xml: $infoXML)</error>");
 			});
