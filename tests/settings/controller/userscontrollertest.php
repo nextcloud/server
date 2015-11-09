@@ -1462,4 +1462,73 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertSame($responseCode, $response->getStatus());
 	}
 
+	public function testStatsAdmin() {
+		$this->container['IsAdmin'] = true;
+
+		$this->container['UserManager']
+			->expects($this->at(0))
+			->method('countUsers')
+			->will($this->returnValue([128, 44]));
+
+		$expectedResponse = new DataResponse(
+			[
+				'totalUsers' => 172
+			]
+		);
+		$response = $this->container['UsersController']->stats();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	/**
+	 * Tests that the subadmin stats return unique users, even
+	 * when a user appears in several groups.
+	 */
+	public function testStatsSubAdmin() {
+		$this->container['IsAdmin'] = false;
+
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('username'));
+
+		$this->container['SubAdminFactory']
+			->expects($this->once())
+			->method('getSubAdminsOfGroups')
+			->with('username')
+			->will($this->returnValue(['SubGroup1', 'SubGroup2']));
+
+		$this->container['UserSession']
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$subGroup1 = $this->getMockBuilder('\OCP\IGroup')
+			->disableOriginalConstructor()->getMock();
+		$subGroup1
+			->expects($this->once())
+			->method('getUsers')
+			->will($this->returnValue(['foo' => 'Foo', 'bar' => 'Bar']));
+		$subGroup2 = $this->getMockBuilder('\OCP\IGroup')
+			->disableOriginalConstructor()->getMock();
+		$subGroup2
+			->expects($this->once())
+			->method('getUsers')
+			->will($this->returnValue(['foo' => 'Foo', 'two' => 'Two']));
+
+		$this->container['GroupManager']
+			->expects($this->exactly(2))
+			->method('get')
+			->will($this->onConsecutiveCalls($subGroup1, $subGroup2));
+
+		$expectedResponse = new DataResponse(
+			[
+				'totalUsers' => 3
+			]
+		);
+
+		$response = $this->container['UsersController']->stats();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
 }
