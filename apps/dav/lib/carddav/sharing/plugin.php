@@ -2,6 +2,9 @@
 
 namespace OCA\DAV\CardDAV\Sharing;
 
+use OCA\DAV\Connector\Sabre\Auth;
+use OCP\IRequest;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -10,6 +13,11 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class Plugin extends ServerPlugin {
+
+	public function __construct(Auth $authBackEnd, IRequest $request) {
+		$this->auth = $authBackEnd;
+		$this->request = $request;
+	}
 
 	/**
 	 * Reference to SabreDAV server object.
@@ -86,6 +94,9 @@ class Plugin extends ServerPlugin {
 		} catch (NotFound $e) {
 			return;
 		}
+
+		// CSRF protection
+		$this->protectAgainstCSRF();
 
 		$requestBody = $request->getBodyAsString();
 
@@ -188,6 +199,19 @@ class Plugin extends ServerPlugin {
 
 		return [$set, $remove];
 
+	}
+
+	private function protectAgainstCSRF() {
+		$user = $this->auth->getCurrentUser();
+		if ($this->auth->isDavAuthenticated($user)) {
+			return true;
+		}
+
+		if ($this->request->passesCSRFCheck()) {
+			return true;
+		}
+
+		throw new BadRequest();
 	}
 
 
