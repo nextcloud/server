@@ -258,4 +258,13 @@ class Db implements IDb {
 		return $this->connection->tableExists($table);
 	}
 
+	/**
+	 * Espace a parameter to be used in a LIKE query
+	 *
+	 * @param string $param
+	 * @return string
+	 */
+	public function escapeLikeParameter($param) {
+		return $this->connection->escapeLikeParameter($param);
+	}
 }
