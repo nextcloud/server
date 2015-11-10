@@ -78,6 +78,9 @@ class ServerFactory {
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$server->on('beforeMethod', function () use ($server, $objectTree, $viewCallBack) {
+			// ensure the skeleton is copied
+			\OC::$server->getUserFolder();
+			
 			/** @var \OC\Files\View $view */
 			$view = $viewCallBack();
 			$rootInfo = $view->getFileInfo('');
