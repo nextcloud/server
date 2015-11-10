@@ -322,6 +322,22 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 		);
 	}
 
+	public function testFileOwner() {
+
+		$fileinfo = $this->view->getFileInfo($this->filename);
+
+		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_ALL);
+
+		$this->assertTrue($result);
+
+		$this->loginHelper(\Test_Files_Sharing::TEST_FILES_SHARING_API_USER2);
+
+		$info = \OC\Files\Filesystem::getFileInfo($this->filename);
+
+		$this->assertSame(\Test_Files_Sharing::TEST_FILES_SHARING_API_USER1, $info->getOwner()->getUID());
+	}
+
 	/**
 	 * @dataProvider dataProviderGetUsersSharingFile
 	 *
