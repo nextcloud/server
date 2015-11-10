@@ -707,10 +707,6 @@ class View {
 				} else if ($result) {
 					if ($internalPath1 !== '') { // dont do a cache update for moved mounts
 						$this->updater->rename($path1, $path2);
-					} else { // only do etag propagation
-						$this->getUpdater()->getPropagator()->addChange($path1);
-						$this->getUpdater()->getPropagator()->addChange($path2);
-						$this->getUpdater()->getPropagator()->propagateChanges();
 					}
 				}
 
@@ -1179,6 +1175,11 @@ class View {
 	}
 
 	/**
+	 * Get file info from cache
+	 *
+	 * If the file is not in cached it will be scanned
+	 * If the file has changed on storage the cache will be updated
+	 *
 	 * @param \OC\Files\Storage\Storage $storage
 	 * @param string $internalPath
 	 * @param string $relativePath
@@ -1266,7 +1267,7 @@ class View {
 							}
 							$subCache = $subStorage->getCache('');
 							$rootEntry = $subCache->get('');
-							$info->addSubEntry($rootEntry);
+							$info->addSubEntry($rootEntry, $mount->getMountPoint());
 						}
 					}
 				}
@@ -1357,7 +1358,7 @@ class View {
 							$entryName = substr($relativePath, 0, $pos);
 							foreach ($files as &$entry) {
 								if ($entry->getName() === $entryName) {
-									$entry->addSubEntry($rootEntry);
+									$entry->addSubEntry($rootEntry, $mountPoint);
 								}
 							}
 						} else { //mountpoint in this folder, add an entry for it

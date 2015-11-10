@@ -160,6 +160,7 @@ class Cache {
 		} else {
 			//fix types
 			$data['fileid'] = (int)$data['fileid'];
+			$data['parent'] = (int)$data['parent'];
 			$data['size'] = 0 + $data['size'];
 			$data['mtime'] = (int)$data['mtime'];
 			$data['storage_mtime'] = (int)$data['storage_mtime'];
@@ -391,12 +392,17 @@ class Cache {
 		if ($file === '') {
 			return -1;
 		} else {
-			$parent = dirname($file);
-			if ($parent === '.') {
-				$parent = '';
-			}
-			return $this->getId($parent);
+			$parent = $this->getParentPath($file);
+			return (int) $this->getId($parent);
 		}
+	}
+
+	private function getParentPath($path) {
+		$parent = dirname($path);
+		if ($parent === '.') {
+			$parent = '';
+		}
+		return $parent;
 	}
 
 	/**

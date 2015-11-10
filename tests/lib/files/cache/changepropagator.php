@@ -94,4 +94,37 @@ class ChangePropagator extends \Test\TestCase {
 		$this->assertEquals(100, $time - $cache->get('foo')['mtime']);
 		$this->assertEquals(100, $time - $cache->get('foo/bar')['mtime']);
 	}
+
+	public function testPropagateCrossStorage() {
+		$storage = new Temporary();
+		$this->view->mkdir('/foo');
+		Filesystem::mount($storage, [], $this->view->getAbsolutePath('/foo/submount'));
+		$this->view->mkdir('/foo/submount/bar');
+		$this->view->file_put_contents('/foo/submount/bar/sad.txt', 'qwerty');
+
+		$oldInfo1 = $this->view->getFileInfo('/');
+		$oldInfo2 = $this->view->getFileInfo('/foo');
+		$oldInfo3 = $this->view->getFileInfo('/foo/submount');
+		$oldInfo4 = $this->view->getFileInfo('/foo/submount/bar');
+
+		$time = time() + 50;
+
+		$this->propagator->addChange('/foo/submount/bar/sad.txt');
+		$this->propagator->propagateChanges($time);
+
+		$newInfo1 = $this->view->getFileInfo('/');
+		$newInfo2 = $this->view->getFileInfo('/foo');
+		$newInfo3 = $this->view->getFileInfo('/foo/submount');
+		$newInfo4 = $this->view->getFileInfo('/foo/submount/bar');
+
+		$this->assertEquals($newInfo1->getMTime(), $time);
+		$this->assertEquals($newInfo2->getMTime(), $time);
+		$this->assertEquals($newInfo3->getMTime(), $time);
+		$this->assertEquals($newInfo4->getMTime(), $time);
+
+		$this->assertNotSame($oldInfo1->getEtag(), $newInfo1->getEtag());
+		$this->assertNotSame($oldInfo2->getEtag(), $newInfo2->getEtag());
+		$this->assertNotSame($oldInfo3->getEtag(), $newInfo3->getEtag());
+		$this->assertNotSame($oldInfo4->getEtag(), $newInfo3->getEtag());
+	}
 }
