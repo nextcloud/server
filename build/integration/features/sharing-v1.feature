@@ -108,6 +108,33 @@ Feature: sharing
     And User "user2" should be included in the response
     And User "user3" should not be included in the response
 
+  Scenario: getting share info of a share
+    Given user "user0" exists
+    And user "user1" exists
+    And file "textfile0.txt" from user "user0" is shared with user "user1"
+    And As an "user0"
+    When Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | id | A_NUMBER |
+      | item_type | file |
+      | item_source | A_NUMBER |
+      | share_type | 0 |
+      | share_with | user1 |
+      | file_source | A_NUMBER |
+      | file_target | /textfile0.txt |
+      | path | /textfile0.txt |
+      | permissions | 23 |
+      | stime | A_NUMBER |
+      | storage | A_NUMBER |
+      | mail_send | 0 |
+      | uid_owner | user0 |
+      | storage_id | home::user0 |
+      | file_parent | A_NUMBER |
+      | share_with_displayname | user1 |
+      | displayname_owner | user0 |
+
   Scenario: delete a share
     Given user "user0" exists
     And user "user1" exists
