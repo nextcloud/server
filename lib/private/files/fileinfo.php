@@ -285,4 +285,15 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	public function getOwner() {
 		return $this->owner;
 	}
+
+	/**
+	 * Add a cache entry which is the child of this folder
+	 *
+	 * Sets the size, etag and size to for cross-storage childs
+	 *
+	 * @param array $data cache entry for the child
+	 */
+	public function addSubEntry($data) {
+		$this->data['size'] += isset($data['size']) ? $data['size'] : 0;
+	}
 }

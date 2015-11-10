@@ -1226,9 +1226,8 @@ class View {
 	 */
 	public function getFileInfo($path, $includeMountPoints = true) {
 		$this->assertPathLength($path);
-		$data = array();
 		if (!Filesystem::isValidPath($path)) {
-			return $data;
+			return false;
 		}
 		if (Cache\Scanner::isPartialFile($path)) {
 			return $this->getPartFileInfo($path);
@@ -1239,9 +1238,15 @@ class View {
 		$mount = Filesystem::getMountManager()->find($path);
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($path);
-		$data = null;
 		if ($storage) {
 			$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
+
+			if ($mount instanceof MoveableMount && $internalPath === '') {
+				$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
+			}
+
+			$owner = $this->getUserObjectForOwner($storage->getOwner($internalPath));
+			$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
 
 			if ($data and isset($data['fileid'])) {
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
@@ -1257,22 +1262,16 @@ class View {
 							}
 							$subCache = $subStorage->getCache('');
 							$rootEntry = $subCache->get('');
-							$data['size'] += isset($rootEntry['size']) ? $rootEntry['size'] : 0;
+							$info->addSubEntry($rootEntry);
 						}
 					}
 				}
 			}
-		}
-		if (!$data) {
-			return false;
+
+			return $info;
 		}
 
-		if ($mount instanceof MoveableMount && $internalPath === '') {
-			$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
-		}
-
-		$owner = $this->getUserObjectForOwner($storage->getOwner($internalPath));
-		return new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
+		return false;
 	}
 
 	/**
@@ -1284,9 +1283,8 @@ class View {
 	 */
 	public function getDirectoryContent($directory, $mimetype_filter = '') {
 		$this->assertPathLength($directory);
-		$result = array();
 		if (!Filesystem::isValidPath($directory)) {
-			return $result;
+			return [];
 		}
 		$path = $this->getAbsolutePath($directory);
 		$path = Filesystem::normalizePath($path);
@@ -1297,11 +1295,6 @@ class View {
 			$cache = $storage->getCache($internalPath);
 			$user = \OC_User::getUser();
 
-			/**
-			 * @var \OC\Files\FileInfo[] $files
-			 */
-			$files = [];
-
 			$data = $this->getCacheEntry($storage, $internalPath, $directory);
 
 			if (!is_array($data) || !isset($data['fileid'])) {
@@ -1311,18 +1304,16 @@ class View {
 			$folderId = $data['fileid'];
 			$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
 
-			foreach ($contents as $content) {
-				if ($content['permissions'] === 0) {
-					$content['permissions'] = $storage->getPermissions($content['path']);
-					$cache->update($content['fileid'], array('permissions' => $content['permissions']));
-				}
-				// if sharing was disabled for the user we remove the share permissions
+			/**
+			 * @var \OC\Files\FileInfo[] $files
+			 */
+			$files = array_map(function (array $content) use ($path, $storage, $mount) {
 				if (\OCP\Util::isSharingDisabledForUser()) {
 					$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 				}
 				$owner = $this->getUserObjectForOwner($storage->getOwner($content['path']));
-				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
-			}
+				return new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
+			}, $contents);
 
 			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 			$mounts = Filesystem::getMountManager()->findIn($path);
@@ -1333,7 +1324,8 @@ class View {
 				if ($subStorage) {
 					$subCache = $subStorage->getCache('');
 
-					if ($subCache->getStatus('') === Cache\Cache::NOT_FOUND) {
+					$rootEntry = $subCache->get('');
+					if (!$rootEntry) {
 						$subScanner = $subStorage->getScanner('');
 						try {
 							$subScanner->scanFile('');
@@ -1351,17 +1343,17 @@ class View {
 							);
 							continue;
 						}
+						$rootEntry = $subCache->get('');
 					}
 
-					$rootEntry = $subCache->get('');
 					if ($rootEntry) {
 						$relativePath = trim(substr($mountPoint, $dirLength), '/');
 						if ($pos = strpos($relativePath, '/')) {
 							//mountpoint inside subfolder add size to the correct folder
 							$entryName = substr($relativePath, 0, $pos);
 							foreach ($files as &$entry) {
-								if ($entry['name'] === $entryName) {
-									$entry['size'] += $rootEntry['size'];
+								if ($entry->getName() === $entryName) {
+									$entry->addSubEntry($rootEntry);
 								}
 							}
 						} else { //mountpoint in this folder, add an entry for it
@@ -1398,23 +1390,23 @@ class View {
 			}
 
 			if ($mimetype_filter) {
-				foreach ($files as $file) {
+				$files = array_filter($files, function (FileInfo $file) use ($mimetype_filter) {
 					if (strpos($mimetype_filter, '/')) {
-						if ($file['mimetype'] === $mimetype_filter) {
+						if ($file->getMimetype() === $mimetype_filter) {
 							$result[] = $file;
 						}
 					} else {
-						if ($file['mimepart'] === $mimetype_filter) {
+						if ($file->getMimePart() === $mimetype_filter) {
 							$result[] = $file;
 						}
 					}
-				}
-			} else {
-				$result = $files;
+				});
 			}
-		}
 
-		return $result;
+			return $files;
+		} else {
+			return [];
+		}
 	}
 
 	/**
