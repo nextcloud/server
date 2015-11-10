@@ -673,6 +673,15 @@ class OC {
 			header('HTTP/1.1 400 Bad Request');
 			header('Status: 400 Bad Request');
 
+			\OC::$server->getLogger()->warning(
+					'Trusted domain error. "{remoteAddress}" tried to access using "{host}" as host.',
+					[
+						'app' => 'core',
+						'remoteAddress' => $request->getRemoteAddress(),
+						'host' => $host,
+					]
+			);
+
 			$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
 			$tmpl->assign('domain', $request->server['SERVER_NAME']);
 			$tmpl->printPage();
