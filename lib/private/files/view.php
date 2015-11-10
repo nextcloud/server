@@ -1204,7 +1204,7 @@ class View {
 			} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
 				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
 				$watcher->update($internalPath, $data);
-				$this->updater->propagate($path);
+				$this->updater->propagate($relativePath);
 				$data = $cache->get($internalPath);
 				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 			}
