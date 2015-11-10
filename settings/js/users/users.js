@@ -315,11 +315,7 @@ var UserList = {
 			var gid = groups[i];
 			var $li = GroupList.getGroupLI(gid);
 			var userCount = GroupList.getUserCount($li);
-			if(userCount === 1) {
-				GroupList.setUserCount($li, '');
-			} else {
-				GroupList.setUserCount($li, userCount - 1);
-			}
+			GroupList.setUserCount($li, userCount - 1);
 		}
 		GroupList.decEveryoneCount();
 		UserList.hide(uid);
@@ -334,11 +330,7 @@ var UserList = {
 			var gid = groups[i];
 			var $li = GroupList.getGroupLI(gid);
 			var userCount = GroupList.getUserCount($li);
-			if(userCount === 1) {
-				GroupList.setUserCount($li, '');
-			} else {
-				GroupList.setUserCount($li, userCount + 1);
-			}
+			GroupList.setUserCount($li, userCount + 1);
 		}
 		GroupList.incEveryoneCount();
 		UserList.getRow(uid).show();
