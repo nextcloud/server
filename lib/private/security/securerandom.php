@@ -28,7 +28,7 @@ use OCP\Security\ISecureRandom;
 
 /**
  * Class SecureRandom provides a layer around RandomLib to generate
- * secure random strings.
+ * secure random strings. For PHP 7 the native CSPRNG is used.
  *
  * Usage:
  * \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(10);
@@ -77,14 +77,27 @@ class SecureRandom implements ISecureRandom {
 	/**
 	 * Generate a random string of specified length.
 	 * @param int $length The length of the generated string
-	 * @param string $characters An optional list of characters to use if no characterlist is
+	 * @param string $characters An optional list of characters to use if no character list is
 	 * 							specified all valid base64 characters are used.
 	 * @return string
 	 * @throws \Exception If the generator is not initialized.
 	 */
-	public function generate($length, $characters = '') {
+	public function generate($length,
+							 $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/') {
 		if(is_null($this->generator)) {
 			throw new \Exception('Generator is not initialized.');
+		}
+
+		if(function_exists('random_int')) {
+			$maxCharIndex = strlen($characters) - 1;
+			$randomString = '';
+
+			while($length > 0) {
+				$randomNumber = random_int(0, $maxCharIndex);
+				$randomString .= $characters[$randomNumber];
+				$length--;
+			}
+			return $randomString;
 		}
 
 		return $this->generator->generateString($length, $characters);
