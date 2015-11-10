@@ -51,7 +51,6 @@ class Test_Files_Versioning extends \Test\TestCase {
 
 		$application = new \OCA\Files_Sharing\AppInfo\Application();
 		$application->registerMountProviders();
-		$application->setupPropagation();
 
 		// create test user
 		self::loginHelper(self::TEST_VERSIONS_USER2, true);
