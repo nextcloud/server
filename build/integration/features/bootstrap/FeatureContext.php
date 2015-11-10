@@ -672,7 +672,10 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	public function isFieldInResponse($field, $content_expected){
 		$data = $this->response->xml()->data[0];
 		foreach($data as $element) {
-			if ($element->$field == $content_expected){
+			if ($content_expected == "A_NUMBER"){
+				return is_numeric((string)$element->$field);
+			} 
+			elseif ($element->$field == $content_expected){
 				return True;
 			}
 		}
@@ -744,8 +747,30 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	 */
 	public function deletingLastShare(){
 		$share_id = $this->lastShareData->data[0]->id;
-		$url = "/apps/files_sharing/api/v{$this->apiVersion}/shares/$share_id";
+		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$this->sendingToWith("DELETE", $url, null);
+	}
+
+	/**
+	 * @When /^Getting info of last share$/
+	 */
+	public function gettingInfoOfLastShare(){
+		$share_id = $this->lastShareData->data[0]->id;
+		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
+		$this->sendingToWith("GET", $url, null);
+	}
+
+	/**
+	 * @Then /^Share fields of last share match with$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 */
+	public function checkShareFields($body){
+		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+			$fd = $body->getRowsHash();
+			foreach($fd as $field => $value) {
+				PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse($field, $value));
+			}
+		}
 	}
 
 	public static function removeFile($path, $filename){
