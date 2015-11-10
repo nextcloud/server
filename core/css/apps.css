@@ -431,6 +431,75 @@
 	min-height: 100%;
 }
 
+
+
+/* app content list & detail view */
+
+.app-content-list {
+	width: 30%;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.app-content-detail {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 70%;
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+
+.app-content-list-item {
+	height: 68px;
+	border-top: 1px solid #eee;
+	position: relative;
+	cursor: pointer;
+}
+.app-content-list-item:hover,
+.app-content-list-item:focus,
+.app-content-list-item.active {
+	background-color: #f8f8f8;
+}
+
+.app-content-list-item-icon {
+	display: inline-block;
+	position: absolute;
+	padding: 5px;
+	padding-left: 10px;
+}
+
+.app-content-list-item-line-one,
+.app-content-list-item-line-two {
+	display: inline-block;
+	padding: 12px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.app-content-list-item-line-one {
+	width: 55%;
+	margin-left: 37px;
+	padding-bottom: 0;
+	opacity: .5;
+}
+.app-content-list-item-line-two {
+	padding-top: 0;
+	width: 75%;
+	margin-left: 37px;
+}
+
+
+
+
+
+
+
+
+
 /* APP-SIDEBAR ----------------------------------------------------------------*/
 
 /*
