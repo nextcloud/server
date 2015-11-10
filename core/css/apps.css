@@ -307,10 +307,15 @@
 	-o-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
 	filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
 }
+
 .ie .bubble,
 .ie #app-navigation .app-navigation-entry-menu,
 .ie .bubble:after,
-.ie #app-navigation .app-navigation-entry-menu:after {
+.ie #app-navigation .app-navigation-entry-menu:after,
+.edge .bubble,
+.edge #app-navigation .app-navigation-entry-menu,
+.edge .bubble:after,
+.edge #app-navigation .app-navigation-entry-menu:after {
 	border: 1px solid #eee;
 }
 .ie8 .bubble {

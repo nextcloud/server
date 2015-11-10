@@ -1236,6 +1236,14 @@ function initCore() {
 	 */
 	moment.locale(OC.getLocale());
 
+	if ($.browser.msie || !!navigator.userAgent.match(/Trident\/7\./)) {
+		// for IE10+ that don't have conditional comments
+		// and IE11 doesn't identify as MSIE any more...
+		$('html').addClass('ie');
+	} else if (!!navigator.userAgent.match(/Edge\/12/)) {
+		// for edge
+		$('html').addClass('edge');
+	}
 
 	/**
 	 * Calls the server periodically to ensure that session doesn't
