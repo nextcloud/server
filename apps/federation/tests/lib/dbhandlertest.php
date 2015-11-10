@@ -27,6 +27,9 @@ use OCA\Federation\DbHandler;
 use OCP\IDBConnection;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class DbHandlerTest extends TestCase {
 
 	/** @var  DbHandler */
@@ -63,8 +66,8 @@ class DbHandlerTest extends TestCase {
 		$query->execute();
 	}
 
-	public function testAdd() {
-		$id = $this->dbHandler->add('server1');
+	public function testAddServer() {
+		$id = $this->dbHandler->addServer('server1');
 
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
@@ -74,8 +77,8 @@ class DbHandlerTest extends TestCase {
 	}
 
 	public function testRemove() {
-		$id1 = $this->dbHandler->add('server1');
-		$id2 = $this->dbHandler->add('server2');
+		$id1 = $this->dbHandler->addServer('server1');
+		$id2 = $this->dbHandler->addServer('server2');
 
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
@@ -85,7 +88,7 @@ class DbHandlerTest extends TestCase {
 		$this->assertSame($id1, $result[0]['id']);
 		$this->assertSame($id2, $result[1]['id']);
 
-		$this->dbHandler->remove($id2);
+		$this->dbHandler->removeServer($id2);
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
 		$this->assertSame(1, count($result));
@@ -94,10 +97,10 @@ class DbHandlerTest extends TestCase {
 	}
 
 	public function testGetAll() {
-		$id1 = $this->dbHandler->add('server1');
-		$id2 = $this->dbHandler->add('server2');
+		$id1 = $this->dbHandler->addServer('server1');
+		$id2 = $this->dbHandler->addServer('server2');
 
-		$result = $this->dbHandler->getAll();
+		$result = $this->dbHandler->getAllServer();
 		$this->assertSame(2, count($result));
 		$this->assertSame('server1', $result[0]['url']);
 		$this->assertSame('server2', $result[1]['url']);
@@ -113,9 +116,9 @@ class DbHandlerTest extends TestCase {
 	 * @param bool $expected
 	 */
 	public function testExists($serverInTable, $checkForServer, $expected) {
-		$this->dbHandler->add($serverInTable);
+		$this->dbHandler->addServer($serverInTable);
 		$this->assertSame($expected,
-			$this->dbHandler->exists($checkForServer)
+			$this->dbHandler->serverExists($checkForServer)
 		);
 	}
 
@@ -124,6 +127,28 @@ class DbHandlerTest extends TestCase {
 			['server1', 'server1', true],
 			['server1', 'server1', true],
 			['server1', 'server2', false]
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestNormalizeUrl
+	 *
+	 * @param string $url
+	 * @param string $expected
+	 */
+	public function testNormalizeUrl($url, $expected) {
+		$this->assertSame($expected,
+			$this->invokePrivate($this->dbHandler, 'normalizeUrl', [$url])
+		);
+	}
+
+	public function dataTestNormalizeUrl() {
+		return [
+			['owncloud.org', 'owncloud.org'],
+			['http://owncloud.org', 'owncloud.org'],
+			['https://owncloud.org', 'owncloud.org'],
+			['https://owncloud.org//mycloud', 'owncloud.org/mycloud'],
+			['https://owncloud.org/mycloud/', 'owncloud.org/mycloud'],
 		];
 	}
 

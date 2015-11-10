@@ -28,7 +28,27 @@
 				<default></default>
 				<notnull>true</notnull>
 				<length>32</length>
-				<comments>md5 hash of the url</comments>
+				<comments>md5 hash of the url without the protocol</comments>
+			</field>
+			<field>
+				<name>token</name>
+				<type>text</type>
+				<length>128</length>
+				<comments>toke used to exchange the shared secret</comments>
+			</field>
+			<field>
+				<name>shared_secret</name>
+				<type>text</type>
+				<length>256</length>
+				<comments>shared secret used to authenticate</comments>
+			</field>
+			<field>
+				<name>status</name>
+				<type>integer</type>
+				<length>4</length>
+				<notnull>true</notnull>
+				<default>2</default>
+				<comments>current status of the connection</comments>
 			</field>
 			<index>
 				<name>url_hash</name>

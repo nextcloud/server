@@ -23,10 +23,19 @@
 namespace OCA\Federation;
 
 
+use OC\Files\Filesystem;
 use OC\HintException;
 use OCP\IDBConnection;
 use OCP\IL10N;
 
+/**
+ * Class DbHandler
+ *
+ * handles all database calls for the federation app
+ *
+ * @group DB
+ * @package OCA\Federation
+ */
 class DbHandler {
 
 	/** @var  IDBConnection */
@@ -53,12 +62,12 @@ class DbHandler {
 	/**
 	 * add server to the list of trusted ownCloud servers
 	 *
-	 * @param $url
+	 * @param string $url
 	 * @return int
 	 * @throws HintException
 	 */
-	public function add($url) {
-		$hash = md5($url);
+	public function addServer($url) {
+		$hash = $this->hash($url);
 		$query = $this->connection->getQueryBuilder();
 		$query->insert($this->dbTable)
 			->values(
@@ -73,14 +82,7 @@ class DbHandler {
 		$result = $query->execute();
 
 		if ($result) {
-			$id = $this->connection->lastInsertId();
-			// Fallback, if lastInterId() doesn't work we need to perform a select
-			// to get the ID (seems to happen sometimes on Oracle)
-			if (!$id) {
-				$server = $this->get($url);
-				$id = $server['id'];
-			}
-			return $id;
+			return $this->connection->lastInsertId($this->dbTable);
 		} else {
 			$message = 'Internal failure, Could not add ownCloud as trusted server: ' . $url;
 			$message_t = $this->l->t('Could not add server');
@@ -93,7 +95,7 @@ class DbHandler {
 	 *
 	 * @param int $id
 	 */
-	public function remove($id) {
+	public function removeServer($id) {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete($this->dbTable)
 			->where($query->expr()->eq('id', $query->createParameter('id')))
@@ -102,26 +104,11 @@ class DbHandler {
 	}
 
 	/**
-	 * get trusted server from database
-	 *
-	 * @param $url
-	 * @return mixed
-	 */
-	public function get($url) {
-		$query = $this->connection->getQueryBuilder();
-		$query->select('url', 'id')->from($this->dbTable)
-			->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
-			->setParameter('url_hash', md5($url));
-
-		return $query->execute()->fetch();
-	}
-
-	/**
 	 * get all trusted servers
 	 *
 	 * @return array
 	 */
-	public function getAll() {
+	public function getAllServer() {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('url', 'id')->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
@@ -134,14 +121,149 @@ class DbHandler {
 	 * @param string $url
 	 * @return bool
 	 */
-	public function exists($url) {
+	public function serverExists($url) {
+		$hash = $this->hash($url);
 		$query = $this->connection->getQueryBuilder();
 		$query->select('url')->from($this->dbTable)
 			->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
-			->setParameter('url_hash', md5($url));
+			->setParameter('url_hash', $hash);
 		$result = $query->execute()->fetchAll();
 
 		return !empty($result);
+	}
+
+	/**
+	 * write token to database. Token is used to exchange the secret
+	 *
+	 * @param string $url
+	 * @param string $token
+	 */
+	public function addToken($url, $token) {
+		$hash = $this->hash($url);
+		$query = $this->connection->getQueryBuilder();
+		$query->update($this->dbTable)
+			->set('token', $query->createParameter('token'))
+			->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
+			->setParameter('url_hash', $hash)
+			->setParameter('token', $token);
+		$query->execute();
+	}
+
+	/**
+	 * get token stored in database
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	public function getToken($url) {
+		$hash = $this->hash($url);
+		$query = $this->connection->getQueryBuilder();
+		$query->select('token')->from($this->dbTable)
+			->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
+			->setParameter('url_hash', $hash);
+
+		$result = $query->execute()->fetch();
+		return $result['token'];
+	}
+
+	/**
+	 * add shared Secret to database
+	 *
+	 * @param string $url
+	 * @param string $sharedSecret
+	 */
+	public function addSharedSecret($url, $sharedSecret) {
+		$hash = $this->hash($url);
+		$query = $this->connection->getQueryBuilder();
+		$query->update($this->dbTable)
+			->set('shared_secret', $query->createParameter('sharedSecret'))
+			->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
+			->setParameter('url_hash', $hash)
+			->setParameter('sharedSecret', $sharedSecret);
+		$query->execute();
+	}
+
+	/**
+	 * get shared secret from database
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	public function getSharedSecret($url) {
+		$hash = $this->hash($url);
+		$query = $this->connection->getQueryBuilder();
+		$query->select('shared_secret')->from($this->dbTable)
+			->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
+			->setParameter('url_hash', $hash);
+
+		$result = $query->execute()->fetch();
+		return $result['shared_secret'];
+	}
+
+	/**
+	 * set server status
+	 *
+	 * @param string $url
+	 * @param int $status
+	 */
+	public function setServerStatus($url, $status) {
+		$hash = $this->hash($url);
+		$query = $this->connection->getQueryBuilder();
+		$query->update($this->dbTable)
+				->set('status', $query->createParameter('status'))
+				->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
+				->setParameter('url_hash', $hash)
+				->setParameter('status', $status);
+		$query->execute();
+	}
+
+	/**
+	 * get server status
+	 *
+	 * @param string $url
+	 * @return int
+	 */
+	public function getServerStatus($url) {
+		$hash = $this->hash($url);
+		$query = $this->connection->getQueryBuilder();
+		$query->select('status')->from($this->dbTable)
+				->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
+				->setParameter('url_hash', $hash);
+
+		$result = $query->execute()->fetch();
+		return $result['status'];
+	}
+
+	/**
+	 * create hash from URL
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	protected function hash($url) {
+		$normalized = $this->normalizeUrl($url);
+		return md5($normalized);
+	}
+
+	/**
+	 * normalize URL, used to create the md5 hash
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	protected function normalizeUrl($url) {
+		$normalized = $url;
+
+		if (strpos($url, 'https://') === 0) {
+			$normalized = substr($url, strlen('https://'));
+		} else if (strpos($url, 'http://') === 0) {
+			$normalized = substr($url, strlen('http://'));
+		}
+
+		$normalized = Filesystem::normalizePath($normalized);
+		$normalized = trim($normalized, '/');
+
+		return $normalized;
 	}
 
 }

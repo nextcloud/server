@@ -25,11 +25,13 @@ namespace OCA\Federation\Tests\lib;
 
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
+use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
-use OCP\IDBConnection;
+use OCP\IConfig;
 use OCP\ILogger;
+use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
 class TrustedServersTest extends TestCase {
@@ -52,6 +54,15 @@ class TrustedServersTest extends TestCase {
 	/** @var  \PHPUnit_Framework_MockObject_MockObject | ILogger */
 	private $logger;
 
+	/** @var  \PHPUnit_Framework_MockObject_MockObject | IJobList */
+	private $jobList;
+
+	/** @var  \PHPUnit_Framework_MockObject_MockObject | ISecureRandom */
+	private $secureRandom;
+
+	/** @var  \PHPUnit_Framework_MockObject_MockObject | IConfig */
+	private $config;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -61,45 +72,79 @@ class TrustedServersTest extends TestCase {
 		$this->httpClient = $this->getMock('OCP\Http\Client\IClient');
 		$this->response = $this->getMock('OCP\Http\Client\IResponse');
 		$this->logger = $this->getMock('OCP\ILogger');
+		$this->jobList = $this->getMock('OCP\BackgroundJob\IJobList');
+		$this->secureRandom = $this->getMock('OCP\Security\ISecureRandom');
+		$this->config = $this->getMock('OCP\IConfig');
 
 		$this->trustedServers = new TrustedServers(
 			$this->dbHandler,
 			$this->httpClientService,
-			$this->logger
+			$this->logger,
+			$this->jobList,
+			$this->secureRandom,
+			$this->config
 		);
 
 	}
 
-	public function testAddServer() {
+	/**
+	 * @dataProvider dataTestAddServer
+	 *
+	 * @param bool $success
+	 */
+	public function testAddServer($success) {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | TrustedServers $trustedServer */
 		$trustedServers = $this->getMockBuilder('OCA\Federation\TrustedServers')
 			->setConstructorArgs(
 				[
 					$this->dbHandler,
 					$this->httpClientService,
-					$this->logger
+					$this->logger,
+					$this->jobList,
+					$this->secureRandom,
+					$this->config
 				]
 			)
-			->setMethods(['normalizeUrl'])
+			->setMethods(['normalizeUrl', 'updateProtocol'])
 			->getMock();
-		$trustedServers->expects($this->once())->method('normalizeUrl')
-			->with('url')->willReturn('normalized');
-		$this->dbHandler->expects($this->once())->method('add')->with('normalized')
-		->willReturn(true);
+		$trustedServers->expects($this->once())->method('updateProtocol')
+				->with('url')->willReturn('https://url');
+		$this->dbHandler->expects($this->once())->method('addServer')->with('https://url')
+			->willReturn($success);
 
-		$this->assertTrue(
+		if ($success) {
+			$this->secureRandom->expects($this->once())->method('getMediumStrengthGenerator')
+				->willReturn($this->secureRandom);
+			$this->secureRandom->expects($this->once())->method('generate')
+				->willReturn('token');
+			$this->dbHandler->expects($this->once())->method('addToken')->with('https://url', 'token');
+			$this->jobList->expects($this->once())->method('add')
+				->with('OCA\Federation\BackgroundJob\RequestSharedSecret',
+						['url' => 'https://url', 'token' => 'token']);
+		} else {
+			$this->jobList->expects($this->never())->method('add');
+		}
+
+		$this->assertSame($success,
 			$trustedServers->addServer('url')
 		);
 	}
 
+	public function dataTestAddServer() {
+		return [
+			[true],
+			[false]
+		];
+	}
+
 	public function testRemoveServer() {
 		$id = 42;
-		$this->dbHandler->expects($this->once())->method('remove')->with($id);
+		$this->dbHandler->expects($this->once())->method('removeServer')->with($id);
 		$this->trustedServers->removeServer($id);
 	}
 
 	public function testGetServers() {
-		$this->dbHandler->expects($this->once())->method('getAll')->willReturn(true);
+		$this->dbHandler->expects($this->once())->method('getAllServer')->willReturn(true);
 
 		$this->assertTrue(
 			$this->trustedServers->getServers()
@@ -108,24 +153,11 @@ class TrustedServersTest extends TestCase {
 
 
 	public function testIsTrustedServer() {
-		/** @var \PHPUnit_Framework_MockObject_MockObject | TrustedServers $trustedServer */
-		$trustedServers = $this->getMockBuilder('OCA\Federation\TrustedServers')
-			->setConstructorArgs(
-				[
-					$this->dbHandler,
-					$this->httpClientService,
-					$this->logger
-				]
-			)
-			->setMethods(['normalizeUrl'])
-			->getMock();
-		$trustedServers->expects($this->once())->method('normalizeUrl')
-			->with('url')->willReturn('normalized');
-		$this->dbHandler->expects($this->once())->method('exists')->with('normalized')
-		->willReturn(true);
+		$this->dbHandler->expects($this->once())->method('serverExists')->with('url')
+			->willReturn(true);
 
 		$this->assertTrue(
-			$trustedServers->isTrustedServer('url')
+			$this->trustedServers->isTrustedServer('url')
 		);
 	}
 
@@ -146,7 +178,10 @@ class TrustedServersTest extends TestCase {
 				[
 					$this->dbHandler,
 					$this->httpClientService,
-					$this->logger
+					$this->logger,
+					$this->jobList,
+					$this->secureRandom,
+					$this->config
 				]
 			)
 			->setMethods(['checkOwnCloudVersion'])
@@ -192,7 +227,7 @@ class TrustedServersTest extends TestCase {
 			->with('simulated exception', ['app' => 'federation']);
 
 		$this->httpClient->expects($this->once())->method('get')->with($server . '/status.php')
-			->willReturnCallback(function() {
+			->willReturnCallback(function () {
 				throw new \Exception('simulated exception');
 			});
 
@@ -221,24 +256,22 @@ class TrustedServersTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestNormalizeUrl
-	 *
+	 * @dataProvider dataTestUpdateProtocol
 	 * @param string $url
 	 * @param string $expected
 	 */
-	public function testNormalizeUrl($url, $expected) {
+	public function testUpdateProtocol($url, $expected) {
 		$this->assertSame($expected,
-			$this->invokePrivate($this->trustedServers, 'normalizeUrl', [$url])
+			$this->invokePrivate($this->trustedServers, 'updateProtocol', [$url])
 		);
 	}
 
-	public function dataTestNormalizeUrl() {
+	public function dataTestUpdateProtocol() {
 		return [
-			['owncloud.org', 'owncloud.org'],
-			['http://owncloud.org', 'owncloud.org'],
-			['https://owncloud.org', 'owncloud.org'],
-			['https://owncloud.org//mycloud', 'owncloud.org/mycloud'],
-			['https://owncloud.org/mycloud/', 'owncloud.org/mycloud'],
+			['http://owncloud.org', 'http://owncloud.org'],
+			['https://owncloud.org', 'https://owncloud.org'],
+			['owncloud.org', 'https://owncloud.org'],
+			['httpserver', 'https://httpserver'],
 		];
 	}
 }

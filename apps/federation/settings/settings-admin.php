@@ -31,7 +31,9 @@ $dbHandler = new \OCA\Federation\DbHandler(
 $trustedServers = new \OCA\Federation\TrustedServers(
 	$dbHandler,
 	\OC::$server->getHTTPClientService(),
-	\OC::$server->getLogger()
+	\OC::$server->getLogger(),
+	\OC::$server->getJobList(),
+	\OC::$server->getSecureRandom()
 );
 
 $template->assign('trustedServers', $trustedServers->getServers());

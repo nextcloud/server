@@ -19,17 +19,24 @@
  *
  */
 
-return [
-    'routes' => [
-		[
-			'name' => 'Settings#addServer',
-			'url' => '/trusted-servers',
-			'verb' => 'POST'
-		],
-		[
-			'name' => 'Settings#removeServer',
-			'url' => '/trusted-servers/{id}',
-			'verb' => 'DELETE'
-		],
-    ]
-];
+$application = new \OCA\Federation\AppInfo\Application();
+
+$application->registerRoutes(
+	$this,
+	[
+		'routes' => [
+			[
+				'name' => 'Settings#addServer',
+				'url' => '/trusted-servers',
+				'verb' => 'POST'
+			],
+			[
+				'name' => 'Settings#removeServer',
+				'url' => '/trusted-servers/{id}',
+				'verb' => 'DELETE'
+			],
+		]
+	]
+);
+
+$application->registerOCSApi();
