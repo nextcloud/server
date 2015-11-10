@@ -68,23 +68,23 @@
 
 /* icons for sidebar */
 .nav-icon-files {
-	background-image: url('../img/folder.svg');
+	background-image: url('../img/folder-white.svg');
 }
 .nav-icon-favorites {
-	background-image: url('../img/star.svg');
+	background-image: url('../img/star-white.svg');
 }
 .nav-icon-sharingin,
 .nav-icon-sharingout {
-	background-image: url('../img/share.svg');
+	background-image: url('../img/share-white.svg');
 }
 .nav-icon-sharinglinks {
-	background-image: url('../img/public.svg');
+	background-image: url('../img/public-white.svg');
 }
 .nav-icon-extstoragemounts {
-	background-image: url('../img/external.svg');
+	background-image: url('../img/external-white.svg');
 }
 .nav-icon-trashbin {
-	background-image: url('../img/delete.svg');
+	background-image: url('../img/delete-white.svg');
 }
 
 #app-navigation .nav-files a.nav-icon-files {

@@ -34,11 +34,11 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	right: 0;
+	width: 250px;
 	z-index: 2000;
 	height: 45px;
 	line-height: 2.5em;
-	background-color: #1d2d44;
+	background-color: #35537a;
 	box-sizing: border-box;
 }
 
@@ -122,6 +122,10 @@
 	margin-top: -24px;
 	padding: 7px 0 7px 5px;
 	vertical-align: middle;
+	max-width: 105px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 /* show caret indicator next to logo to make clear it is tappable */
 #header .icon-caret {
@@ -146,15 +150,13 @@
 	position: fixed;
 	top: 45px;
 	left: 10px;
-	width: 265px;
+	width: 250px;
 	max-height: 85%;
 	margin-top: 0;
 	padding-bottom: 10px;
 	background-color: rgba(0, 0, 0, .97);
 	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
 	border-radius: 3px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
 	display: none;
 	/*overflow-y: auto;
 	overflow-x: hidden;*/
@@ -179,7 +181,7 @@
 	left: 47%;
 }
 #expanddiv:after {
-	right: 15px;
+	right: 32px;
 }
 
 #navigation, #navigation * {
@@ -227,11 +229,13 @@
 #navigation .app-icon {
 	margin: 0 auto;
 	padding: 0;
-	max-height: 32px;
-	max-width: 32px;
+	height: 32px;
+	width: 32px;
 }
 
-/* Apps management */
+/* Admin entries in navigation */
+#admin-settings,
+#admin-users,
 #apps-management {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
 	opacity: .6;
@@ -279,7 +283,7 @@
 #header .avatardiv {
 	float: left;
 	display: inline-block;
-	margin-right: 8px;
+	margin-right: 3px;
 	cursor: pointer;
 	height: 32px;
 	width: 32px;
@@ -287,6 +291,13 @@
 #header .avatardiv img {
 	opacity: 1;
 	cursor: pointer;
+}
+/* do not show display name on mobile when profile picture is present */
+#header .avatardiv.avatardiv-shown + #expandDisplayName {
+	display: none;
+}
+#header #expand {
+	display: block;
 }
 
 #settings {
@@ -296,7 +307,7 @@
 }
 #expand {
 	display: block;
-	padding: 7px 30px 6px 10px;
+	padding: 7px 4px 38px 10px;
 	cursor: pointer;
 }
 #expand * {
@@ -320,15 +331,13 @@
 }
 #expanddiv {
 	position: absolute;
-	right: 10px;
+	right: -20px;
 	top: 45px;
 	z-index: 2000;
 	display: none;
 	background-color: rgba(0, 0, 0, .97);
 	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
 	border-radius: 3px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
 	box-sizing: border-box;
 }
 	#expanddiv a {

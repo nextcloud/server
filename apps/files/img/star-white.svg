@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="22"
+   width="22"
+   version="1.1"
+   id="svg6346"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="star-white.svg"
+   inkscape:export-filename="/home/jan/owncloud/apps/files/img/star-white.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <metadata
+     id="metadata6356">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs6354" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview6352"
+     showgrid="false"
+     inkscape:zoom="29.045455"
+     inkscape:cx="1.9796557"
+     inkscape:cy="11"
+     inkscape:current-layer="svg6346" />
+  <g
+     transform="matrix(.068322 0 0 .068322 -10.114 -50.902)"
+     id="g6348"
+     style="fill:#ffffff;fill-opacity:1">
+    <path
+       d="m330.36 858.43 43.111 108.06 117.64 9.2572-89.445 74.392 27.55 114.75-98.391-62.079-100.62 61.66 28.637-112.76-89.734-76.638 116.09-7.6094z"
+       transform="translate(-21.071,-112.5)"
+       id="path6350"
+       style="fill:#ffffff;fill-opacity:1" />
+  </g>
+</svg>

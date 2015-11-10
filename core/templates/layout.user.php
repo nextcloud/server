@@ -64,15 +64,13 @@
 					<?php if ($_['enableAvatars']): ?>
 					<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown'); } else { print_unescaped('" style="display: none'); } ?>">
 						<?php if ($_['userAvatarSet']): ?>
-							<img alt="" width="32" height="32"
+							<img alt="<?php p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?>" width="32" height="32"
 							src="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 32]));?>"
 							srcset="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 64]));?> 2x, <?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 128]));?> 4x"
 							>
 						<?php endif; ?>
 					</div>
 					<?php endif; ?>
-					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
-					<img class="svg" alt="" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>">
 				</div>
 				<div id="expanddiv">
 				<ul>
@@ -124,9 +122,27 @@
 					/* show "More apps" link to app administration directly in app navigation, as last entry */
 					if(OC_User::isAdminUser(OC_User::getUser())):
 				?>
+					<li id="admin-settings">
+						<a href="<?php print_unescaped(\OC::$server->getURLGenerator()->linkToRoute('settings_admin')); ?>" tabindex="4"
+							<?php if( $_['adminsettings_active'] ): ?> class="active"<?php endif; ?>
+							<img class="app-icon svg" alt="" src="<?php image_path('settings', 'admin.svg'); ?>">
+							<div class="icon-loading-dark" style="display:none;"></div>
+							<span>
+								<?php p($l->t('Admin')); ?>
+							</span>
+						</a>
+					</li>
+					<li id="admin-users">
+						<a href="<?php print_unescaped(\OC::$server->getURLGenerator()->linkToRoute('settings_users')); ?>" tabindex="4">
+							<img class="app-icon svg" alt="" src="<?php image_path('settings', 'users.svg'); ?>">
+							<div class="icon-loading-dark" style="display:none;"></div>
+							<span>
+								<?php p($l->t('Users')); ?>
+							</span>
+						</a>
+					</li>
 					<li id="apps-management">
-						<a href="<?php print_unescaped(\OC::$server->getURLGenerator()->linkToRoute('settings.AppSettings.viewApps')); ?>" tabindex="4"
-							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
+						<a href="<?php print_unescaped(\OC::$server->getURLGenerator()->linkToRoute('settings.AppSettings.viewApps')); ?>" tabindex="4">
 							<img class="app-icon svg" alt="" src="<?php print_unescaped(image_path('settings', 'apps.svg')); ?>">
 							<div class="icon-loading-dark" style="display:none;"></div>
 							<span>

@@ -21,9 +21,11 @@
 	box-align: center;
 }
 
-/* on mobile public share, show only the icon of the logo, hide the text */
-#body-public #header .header-appname-container {
-	display: none;
+#body-user #header,
+#body-settings #header,
+#body-public #header {
+	width: 100%;
+	right: 0;
 }
 
 /* do not show update notification on mobile */

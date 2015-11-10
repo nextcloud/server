@@ -22,13 +22,15 @@
 	height: 100%;
 	float: left;
 	box-sizing: border-box;
-	background-color: #fff;
+	background-color: #35537a;
+	color: #fff;
+	padding-top: 45px;
 	padding-bottom: 44px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	border-right: 1px solid #eee;
+	border-right: none;
 }
 #app-navigation > ul {
 	position: relative;
@@ -70,7 +72,7 @@
 	box-sizing: border-box;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	color: #000;
+	color: #fff;
 	opacity: .57;
 }
 #app-navigation .active,
@@ -80,6 +82,7 @@
 #app-navigation a:focus,
 #app-navigation .selected,
 #app-navigation .selected a {
+	color: #fff;
 	opacity: 1;
 }
 
@@ -440,7 +443,7 @@
 */
 #app-sidebar {
 	position: fixed;
-	top: 45px;
+	top: 0;
 	right: 0;
 	left: auto;
 	bottom: 0;
@@ -480,17 +483,12 @@
 #app-settings-content {
 	display: none;
 	padding: 10px;
-	background-color: #fff;
 }
 #app-settings.open #app-settings-content {
 	display: block;
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
-}
-#app-settings-content,
-#app-settings-header {
-	border-right: 1px solid #eee;
 }
 
 /* display input fields at full width */
@@ -504,8 +502,7 @@
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background-color: #fff;
-	background-image: url('../img/actions/settings.svg');
+	background-image: url('../img/actions/settings-white.svg');
 	background-position: 14px center;
 	background-repeat: no-repeat;
 	box-shadow: none;
@@ -513,15 +510,26 @@
 	border-radius: 0;
 	text-align: left;
 	padding-left: 42px;
-	font-weight: normal;
+	font-weight: 400;
+	background-color: #35537a;
+	color: #fff;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	opacity: .5;
 }
+
+#app-settings-content,
 .settings-button:hover,
-.settings-button:focus {
-	background-color: #fff;
-}
+.settings-button:focus,
 .settings-button.opened:hover,
 .settings-button.opened:focus {
-	background-color: #fff;
+	background-color: #35537a;
+	color: #fff;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	opacity: 1;
+}
+#app-settings-content a {
+	color: #fff;
+	border-bottom: 1px dotted;
 }
 
 /* buttons */

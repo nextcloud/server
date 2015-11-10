@@ -399,10 +399,11 @@ class OC_App {
 				"id" => "personal",
 				"order" => 1,
 				"href" => $urlGenerator->linkToRoute('settings_personal'),
-				"name" => $l->t("Personal"),
+				"name" => $l->t("Settings"),
 				"icon" => $urlGenerator->imagePath("settings", "personal.svg")
 			);
 
+			/*
 			//SubAdmins are also allowed to access user management
 			$userObject = \OC::$server->getUserSession()->getUser();
 			$isSubAdmin = false;
@@ -431,6 +432,7 @@ class OC_App {
 					"icon" => $urlGenerator->imagePath("settings", "admin.svg")
 				);
 			}
+			*/
 		}
 
 		$navigation = self::proceedNavigation($settings);
