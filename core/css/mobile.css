@@ -26,14 +26,6 @@
 	display: none;
 }
 
-/* do not show display name on mobile when profile picture is present */
-#header .avatardiv.avatardiv-shown + #expandDisplayName {
-	display: none;
-}
-#header #expand {
-	display: block;
-}
-
 /* do not show update notification on mobile */
 #update-notification {
 	display: none !important;

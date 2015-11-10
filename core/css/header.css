@@ -119,6 +119,7 @@
 	position: relative;
 	color: #fff;
 	font-size: 16px;
+	font-weight: 300;
 	margin: 0;
 	margin-top: -24px;
 	padding: 7px 0 7px 5px;
@@ -352,3 +353,11 @@
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 		opacity: 1;
 	}
+
+/* do not show display name when profile picture is present */
+#header .avatardiv.avatardiv-shown + #expandDisplayName {
+	display: none;
+}
+#header #expand {
+	display: block;
+}

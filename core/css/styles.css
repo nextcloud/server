@@ -27,7 +27,7 @@ select:hover {
 
 body {
 	background-color: #ffffff;
-	font-weight: 300;
+	font-weight: 400;
 	font-size: .8em;
 	line-height: 1.6em;
 	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
@@ -257,6 +257,9 @@ button, .button,
 	color: #555;
 	border: 1px solid rgba(240,240,240,.9);
 	cursor: pointer;
+}
+select, .button.multiselect {
+	font-weight: 400;
 }
 input[type="submit"]:hover, input[type="submit"]:focus,
 input[type="button"]:hover, input[type="button"]:focus,
@@ -591,6 +594,7 @@ input[type="submit"].enabled {
 #body-login input[type="password"],
 #body-login input[type="email"] {
 	border: none;
+	font-weight: 300;
 }
 
 /* Nicely grouping input field sets */
