@@ -347,4 +347,8 @@ class Node implements \OCP\Files\Node {
 	public function getMountPoint() {
 		return $this->getFileInfo()->getMountPoint();
 	}
+
+	public function getOwner() {
+		return $this->getFileInfo()->getOwner();
+	}
 }

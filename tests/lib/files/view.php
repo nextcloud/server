@@ -11,6 +11,7 @@ use OC\Files\Cache\Watcher;
 use OC\Files\Storage\Common;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
+use OCP\Files\FileInfo;
 use OCP\Lock\ILockingProvider;
 
 class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
@@ -1560,6 +1561,7 @@ class View extends \Test\TestCase {
 		$this->assertTrue($view->rename('mount1', 'renamed_mount'), 'Can rename mount point');
 		$this->assertTrue($view->rename('mount2', 'sub/moved_mount'), 'Can move a mount point into a subdirectory');
 	}
+
 	/**
 	 * Test that moving a mount point into another is forbidden
 	 */
@@ -1582,6 +1584,7 @@ class View extends \Test\TestCase {
 		$this->assertFalse($view->rename('mount1', 'mount2'), 'Cannot overwrite another mount point');
 		$this->assertFalse($view->rename('mount1', 'mount2/sub'), 'Cannot move a mount point into another');
 	}
+
 	/**
 	 * Test that moving a mount point into a shared folder is forbidden
 	 */
@@ -1765,7 +1768,7 @@ class View extends \Test\TestCase {
 		$storage->expects($this->once())
 			->method($operation)
 			->will($this->returnCallback(
-				function() use ($view, $lockedPath, &$lockTypeDuring){
+				function () use ($view, $lockedPath, &$lockTypeDuring) {
 					$lockTypeDuring = $this->getFileLockType($view, $lockedPath);
 
 					return true;
@@ -1808,7 +1811,7 @@ class View extends \Test\TestCase {
 		$storage->expects($this->once())
 			->method('fopen')
 			->will($this->returnCallback(
-				function() use ($view, $path, &$lockTypeDuring){
+				function () use ($view, $path, &$lockTypeDuring) {
 					$lockTypeDuring = $this->getFileLockType($view, $path);
 
 					return fopen('php://temp', 'r+');
@@ -1846,7 +1849,7 @@ class View extends \Test\TestCase {
 		$storage->expects($this->once())
 			->method('fopen')
 			->will($this->returnCallback(
-				function() use ($view, $path, &$lockTypeDuring){
+				function () use ($view, $path, &$lockTypeDuring) {
 					$lockTypeDuring = $this->getFileLockType($view, $path);
 
 					return fopen('php://temp', 'r+');
@@ -1903,7 +1906,7 @@ class View extends \Test\TestCase {
 		$storage->expects($this->once())
 			->method($operation)
 			->will($this->returnCallback(
-				function() {
+				function () {
 					throw new \Exception('Simulated exception');
 				}
 			));
@@ -1993,7 +1996,7 @@ class View extends \Test\TestCase {
 		$storage->expects($this->once())
 			->method($operation)
 			->will($this->returnCallback(
-				function() use ($view, $sourcePath, $targetPath, &$lockTypeSourceDuring, &$lockTypeTargetDuring){
+				function () use ($view, $sourcePath, $targetPath, &$lockTypeSourceDuring, &$lockTypeTargetDuring) {
 					$lockTypeSourceDuring = $this->getFileLockType($view, $sourcePath);
 					$lockTypeTargetDuring = $this->getFileLockType($view, $targetPath);
 
@@ -2044,7 +2047,7 @@ class View extends \Test\TestCase {
 		$storage->expects($this->once())
 			->method('copy')
 			->will($this->returnCallback(
-				function() {
+				function () {
 					throw new \Exception();
 				}
 			));
@@ -2097,6 +2100,37 @@ class View extends \Test\TestCase {
 		$view->unlockFile($targetPath, ILockingProvider::LOCK_EXCLUSIVE);
 	}
 
+	/**
+	 * Test rename operation: unlock first path when second path was locked
+	 */
+	public function testGetOwner() {
+		$this->loginAsUser('test');
+
+		$view = new \OC\Files\View('/test/files/');
+
+		$path = 'foo.txt';
+		$view->file_put_contents($path, 'meh');
+
+		$this->assertEquals('test', $view->getFileInfo($path)->getOwner()->getUID());
+
+		$folderInfo = $view->getDirectoryContent('');
+		$folderInfo = array_values(array_filter($folderInfo, function (FileInfo $info) {
+			return $info->getName() === 'foo.txt';
+		}));
+
+		$this->assertEquals('test', $folderInfo[0]->getOwner()->getUID());
+
+		$subStorage = new Temporary();
+		\OC\Files\Filesystem::mount($subStorage, [], '/test/files/asd');
+
+		$folderInfo = $view->getDirectoryContent('');
+		$folderInfo = array_values(array_filter($folderInfo, function (FileInfo $info) {
+			return $info->getName() === 'asd';
+		}));
+
+		$this->assertEquals('test', $folderInfo[0]->getOwner()->getUID());
+	}
+
 	public function lockFileRenameOrCopyCrossStorageDataProvider() {
 		return [
 			['rename', 'moveFromStorage', ILockingProvider::LOCK_EXCLUSIVE],
@@ -2141,7 +2175,7 @@ class View extends \Test\TestCase {
 		$storage2->expects($this->once())
 			->method($storageOperation)
 			->will($this->returnCallback(
-				function() use ($view, $sourcePath, $targetPath, &$lockTypeSourceDuring, &$lockTypeTargetDuring){
+				function () use ($view, $sourcePath, $targetPath, &$lockTypeSourceDuring, &$lockTypeTargetDuring) {
 					$lockTypeSourceDuring = $this->getFileLockType($view, $sourcePath);
 					$lockTypeTargetDuring = $this->getFileLockType($view, $targetPath);
 
@@ -2188,7 +2222,7 @@ class View extends \Test\TestCase {
 		$mount->expects($this->once())
 			->method('moveMount')
 			->will($this->returnCallback(
-				function($target) use ($mount, $view, $sourcePath, $targetPath, &$lockTypeSourceDuring, &$lockTypeTargetDuring, &$lockTypeSharedRootDuring){
+				function ($target) use ($mount, $view, $sourcePath, $targetPath, &$lockTypeSourceDuring, &$lockTypeTargetDuring, &$lockTypeSharedRootDuring) {
 					$lockTypeSourceDuring = $this->getFileLockType($view, $sourcePath, true);
 					$lockTypeTargetDuring = $this->getFileLockType($view, $targetPath, true);
 
@@ -2253,14 +2287,14 @@ class View extends \Test\TestCase {
 		$eventHandler->expects($this->any())
 			->method('preCallback')
 			->will($this->returnCallback(
-				function() use ($view, $path, $onMountPoint, &$lockTypePre){
+				function () use ($view, $path, $onMountPoint, &$lockTypePre) {
 					$lockTypePre = $this->getFileLockType($view, $path, $onMountPoint);
 				}
 			));
 		$eventHandler->expects($this->any())
 			->method('postCallback')
 			->will($this->returnCallback(
-				function() use ($view, $path, $onMountPoint, &$lockTypePost){
+				function () use ($view, $path, $onMountPoint, &$lockTypePost) {
 					$lockTypePost = $this->getFileLockType($view, $path, $onMountPoint);
 				}
 			));

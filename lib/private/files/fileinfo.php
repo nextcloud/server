@@ -28,6 +28,8 @@
 
 namespace OC\Files;
 
+use OCP\IUser;
+
 class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	/**
 	 * @var array $data
@@ -55,18 +57,25 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	private $mount;
 
 	/**
+	 * @var IUser
+	 */
+	private $owner;
+
+	/**
 	 * @param string|boolean $path
 	 * @param Storage\Storage $storage
 	 * @param string $internalPath
 	 * @param array $data
 	 * @param \OCP\Files\Mount\IMountPoint $mount
+	 * @param \OCP\IUser|null $owner
 	 */
-	public function __construct($path, $storage, $internalPath, $data, $mount) {
+	public function __construct($path, $storage, $internalPath, $data, $mount, $owner= null) {
 		$this->path = $path;
 		$this->storage = $storage;
 		$this->internalPath = $internalPath;
 		$this->data = $data;
 		$this->mount = $mount;
+		$this->owner = $owner;
 	}
 
 	public function offsetSet($offset, $value) {
@@ -266,5 +275,14 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	public function getMountPoint() {
 		return $this->mount;
+	}
+
+	/**
+	 * Get the owner of the file
+	 *
+	 * @return \OCP\IUser
+	 */
+	public function getOwner() {
+		return $this->owner;
 	}
 }
