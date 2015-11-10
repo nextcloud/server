@@ -97,6 +97,25 @@ class Manager {
 	}
 
 	/**
+	 * Delete all the children of this share
+	 *
+	 * @param IShare $share
+	 * @return IShare[] List of deleted shares
+	 */
+	protected function deleteChildren(IShare $share) {
+		$deletedShares = [];
+		foreach($this->defaultProvider->getChildren($share) as $child) {
+			$deletedChildren = $this->deleteChildren($child);
+			$deletedShares = array_merge($deletedShares, $deletedChildren);
+
+			$this->defaultProvider->delete($child);
+			$deletedShares[] = $child;
+		}
+
+		return $deletedShares;
+	}
+
+	/**
 	 * Delete a share
 	 *
 	 * @param Share $share
@@ -104,11 +123,58 @@ class Manager {
 	 * @throws \OC\Share20\Exception\BackendError
 	 */
 	public function deleteShare(IShare $share) {
-		if ($share->getId() === null) {
-			throw new ShareNotFound();
-		}
+		// Just to make sure we have all the info
+		$share = $this->getShareById($share->getId());
 
+		$formatHookParams = function($share) {
+			// Prepare hook
+			$shareType = $share->getShareType();
+			$sharedWith = '';
+			if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
+				$sharedWith = $share->getSharedWith()->getUID();
+			} else if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
+				$sharedWith = $share->getSharedWith()->getGID();
+			} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
+				$sharedWith = $share->getSharedWith();
+			}
+
+			$hookParams = [
+				'id'         => $share->getId(),
+				'itemType'   => $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemSource' => $share->getPath()->getId(),
+				'shareType'  => $shareType,
+				'shareWith'  => $sharedWith,
+				'itemparent' => $share->getParent(),
+				'uidOwner'   => $share->getSharedBy()->getUID(),
+				'fileSource' => $share->getPath()->getId(),
+				'fileTarget' => $share->getTarget()
+			];
+			return $hookParams;
+		};
+
+		$hookParams = $formatHookParams($share);
+
+		// Emit pre-hook
+		\OC_Hook::emit('OCP\Share', 'pre_unshare', $hookParams);
+
+		// Get all children and delete them as well
+		$deletedShares = $this->deleteChildren($share);
+
+		// Do the actual delete
 		$this->defaultProvider->delete($share);
+
+		// All the deleted shares caused by this delete
+		$deletedShares[] = $share;
+
+		//Format hook info
+		$formattedDeletedShares = array_map(function($share) use ($formatHookParams) {
+			return $formatHookParams($share);
+		}, $deletedShares);
+
+		$hookParams['deletedShares'] = $formattedDeletedShares;
+
+		// Emit post hook
+		\OC_Hook::emit('OCP\Share', 'post_unshare', $hookParams);
 	}
 
 	/**
@@ -131,6 +197,10 @@ class Manager {
 	 * @throws ShareNotFound
 	 */
 	public function getShareById($id) {
+		if ($id === null) {
+			throw new ShareNotFound();
+		}
+
 		$share = $this->defaultProvider->getShareById($id);
 
 		if ($share->getSharedWith() !== $this->currentUser &&

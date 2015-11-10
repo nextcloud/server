@@ -69,19 +69,20 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * Get all childre of this share
+	 * Get all children of this share
 	 *
-	 * @param IShare $share
+	 * @param IShare $parent
 	 * @return IShare[]
 	 */
-	private function getChildren(IShare $share) {
+	public function getChildren(IShare $parent) {
 		$children = [];
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
 			->from('share')
 			->where($qb->expr()->eq('parent', $qb->createParameter('parent')))
-			->setParameter(':parent', $share->getId());
+			->setParameter(':parent', $parent->getId())
+			->orderBy('id');
 
 		$cursor = $qb->execute();
 		while($data = $cursor->fetch()) {
@@ -93,49 +94,14 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * Delete all the children of this share
-	 *
-	 * @param IShare $share
-	 */
-	protected function deleteChildren(IShare $share) {
-		foreach($this->getChildren($share) as $child) {
-			$this->delete($child);
-		}
-	}
-
-	/**
 	 * Delete a share
 	 *
-	 * @param Share $share
+	 * @param IShare $share
 	 * @throws BackendError
 	 */
 	public function delete(IShare $share) {
-		$this->deleteChildren($share);
-
 		// Fetch share to make sure it exists
 		$share = $this->getShareById($share->getId());
-
-		$shareType = $share->getShareType();
-		$sharedWith = '';
-		if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
-			$sharedWith = $share->getSharedWith()->getUID();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
-			$sharedWith = $share->getSharedWith()->getGID();
-		}
-
-		$hookParams = [
-			'id'         => $share->getId(),
-			'itemType'   => $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder',
-			'itemSource' => $share->getPath()->getId(),
-			'shareType'  => $shareType,
-			'shareWith'  => $sharedWith,
-			'itemparent' => $share->getParent(),
-			'uidOwner'   => $share->getSharedBy()->getUID(),
-			'fileSource' => $share->getPath()->getId(),
-			'fileTarget' => $share->getTarget()
-		];
-
-		\OC_Hook::emit('OCP\Share', 'pre_unshare', $hookParams);
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('share')
@@ -147,8 +113,6 @@ class DefaultShareProvider implements IShareProvider {
 		} catch (\Exception $e) {
 			throw new BackendError();
 		}
-
-		\OC_Hook::emit('OCP\Share', 'post_unshare', $hookParams);
 	}
 
 	/**
@@ -195,8 +159,9 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Get shares for a given path
 	 *
+	 * @param \OCP\IUser $user
 	 * @param \OCP\Files\Node $path
-	 * @param Share[]
+	 * @return IShare[]
 	 */
 	public function getSharesByPath(\OCP\IUser $user, \OCP\Files\Node $path) {
 		throw new \Exception();
@@ -253,7 +218,7 @@ class DefaultShareProvider implements IShareProvider {
 		$share->setSharedBy($this->userManager->get($data['uid_owner']));
 
 		// TODO: getById can return an array. How to handle this properly??
-		$path = $this->userFolder->getById($data['file_source']);
+		$path = $this->userFolder->getById((int)$data['file_source']);
 		$path = $path[0];
 		$share->setPath($path);
 
