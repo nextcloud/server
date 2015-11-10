@@ -553,6 +553,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 
 		$groupUsers = array();
 		$isMemberUid = (strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'memberuid');
+		$attrs = $this->access->userManager->getAttributes(true);
 		foreach($members as $member) {
 			if($isMemberUid) {
 				//we got uids, need to get their DNs to 'translate' them to user names
@@ -560,11 +561,11 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 					str_replace('%uid', $member, $this->access->connection->ldapLoginFilter),
 					$this->access->getFilterPartForUserSearch($search)
 				));
-				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
+				$ldap_users = $this->access->fetchListOfUsers($filter, $attrs, 1);
 				if(count($ldap_users) < 1) {
 					continue;
 				}
-				$groupUsers[] = $this->access->dn2username($ldap_users[0]);
+				$groupUsers[] = $this->access->dn2username($ldap_users[0]['dn'][0]);
 			} else {
 				//we got DNs, check if we need to filter by search or we can give back all of them
 				if(!empty($search)) {
