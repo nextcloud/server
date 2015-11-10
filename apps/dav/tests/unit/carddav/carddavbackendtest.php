@@ -60,6 +60,7 @@ class CardDavBackendTest extends TestCase {
 
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
+		$this->assertEquals('Example', $books[0]['{DAV:}displayname']);
 
 		// update it's display name
 		$patch = new PropPatch([

@@ -134,7 +134,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $principalUri
 	 * @param string $url Just the 'basename' of the url.
 	 * @param array $properties
-	 * @return void
+	 * @throws BadRequest
 	 */
 	function createAddressBook($principalUri, $url, array $properties) {
 		$values = [
@@ -158,6 +158,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					throw new BadRequest('Unknown property: ' . $property);
 			}
 
+		}
+
+		// Fallback to make sure the displayname is set. Some clients may refuse
+		// to work with addressbooks not having a displayname.
+		if(is_null($values['displayname'])) {
+			$values['displayname'] = $url;
 		}
 
 		$query = $this->db->getQueryBuilder();
