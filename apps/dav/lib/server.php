@@ -35,6 +35,8 @@ class Server {
 
 		$this->server->addPlugin(new \Sabre\DAVACL\Plugin());
 
+		$this->server->addPlugin(new \Sabre\CardDAV\Plugin());
+
 		// wait with registering these until auth is handled and the filesystem is setup
 		$this->server->on('beforeMethod', function () {
 			// custom properties plugin must be the last one
