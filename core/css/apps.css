@@ -561,11 +561,11 @@ button.loading {
 .section h2 {
 	font-size: 20px;
 	margin-bottom: 12px;
-	font-weight: normal;
+	font-weight: 300;
 }
 .section h3 {
 	font-size: 15px;
-	font-weight: normal;
+	font-weight: 300;
 	margin: 12px 0;
 }
 /* slight position correction of checkboxes and radio buttons */

@@ -19,6 +19,7 @@ input#openid, input#webdav { width:20em; }
 	margin-top: -30px;
 }
 .clientsbox h2 {
+	font-weight: 300;
 	font-size: 20px;
 	margin: 35px 0 10px;
 }
@@ -26,7 +27,7 @@ input#openid, input#webdav { width:20em; }
 	margin-top: 10px;
 }
 .clientsbox a {
-	font-weight: bold;
+	font-weight: 600;
 }
 
 #displaynameerror {
