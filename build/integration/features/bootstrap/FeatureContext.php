@@ -595,7 +595,12 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	public function checkPublicSharedFile($filename) {
 		$client = new Client();
 		$options = [];
-		$url = $this->lastShareData->data[0]->url;
+		if (count($this->lastShareData->data->element) > 0){
+			$url = $this->lastShareData->data[0]->url;
+		}
+		else{
+			$url = $this->lastShareData->data->url;
+		}
 		$fullUrl = $url . "/download";
 		$options['save_to'] = "./$filename";
 		$this->response = $client->get($fullUrl, $options);
@@ -613,7 +618,13 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	public function checkPublicSharedFileWithPassword($filename, $password) {
 		$client = new Client();
 		$options = [];
-		$token = $this->lastShareData->data[0]->token;
+		if (count($this->lastShareData->data->element) > 0){
+			$token = $this->lastShareData->data[0]->token;
+		}
+		else{
+			$token = $this->lastShareData->data->token;
+		}
+		
 		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav";
 		$options['auth'] = [$token, $password];
 		$options['save_to'] = "./$filename";
@@ -644,6 +655,40 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		$this->response = $client->send($client->createRequest("PUT", $fullUrl, $options));
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
+
+	/**
+	 * @When /^Updating last share with$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 */
+	public function updatingLastShare($body) {
+		$share_id = $this->lastShareData->data[0]->id;
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+
+		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+			$fd = $body->getRowsHash();
+			if (array_key_exists('expireDate', $fd)){
+				$dateModification = $fd['expireDate'];
+				$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
+			}
+			$options['body'] = $fd;
+		}
+
+		try {
+			$this->response = $client->send($client->createRequest("PUT", $fullUrl, $options));
+		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+			$this->response = $ex->getResponse();
+		}
+
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
 
 	public function createShare($user,
 								$path = null, 
@@ -718,6 +763,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 					return True;
 				}
 			}
+
 			return False;
 		} else {
 			if ($contentExpected == "A_TOKEN"){
@@ -821,6 +867,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	public function checkShareFields($body){
 		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
 			$fd = $body->getRowsHash();
+
 			foreach($fd as $field => $value) {
 				PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse($field, $value));
 			}
