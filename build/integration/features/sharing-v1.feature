@@ -46,6 +46,25 @@ Feature: sharing
     And the HTTP status code should be "200"
     And Public shared file "welcome.txt" with password "publicpw" can be downloaded
 
+  Scenario: Creating a new public share of a folder
+   Given user "user0" exists
+    And As an "user0"
+    When creating a public share with
+      | path | FOLDER |
+      | shareType | 3 |
+      | password | publicpw |
+      | expireDate | +3 days |
+      | publicUpload | true |
+      | permissions | 7 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | id | A_NUMBER |
+      | permissions | 7 |
+      | expiration | +3 days |
+      | url | AN_URL |
+      | token | A_TOKEN |
+
   Scenario: Creating a new public share with password and adding an expiration date
     Given user "user0" exists
     And As an "user0"

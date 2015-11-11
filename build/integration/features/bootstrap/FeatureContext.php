@@ -562,7 +562,30 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	 * @param \Behat\Gherkin\Node\TableNode|null $formData
 	 */
 	public function createPublicShare($body) {
-		$this->sendingToWith("POST", "/apps/files_sharing/api/v1/shares", $body);
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v1/shares";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+
+		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+			$fd = $body->getRowsHash();
+			if (array_key_exists('expireDate', $fd)){
+				$dateModification = $fd['expireDate'];
+				$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
+			}
+			$options['body'] = $fd;
+		}
+
+		try {
+			$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
+		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+			$this->response = $ex->getResponse();
+		}
+
 		$this->lastShareData = $this->response->xml();
 	}
 
@@ -669,17 +692,48 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 
 	}
 
-	public function isFieldInResponse($field, $content_expected){
+	public function isExpectedUrl($possibleUrl, $finalPart){
+		$baseUrlChopped = substr($this->baseUrl, 0, -4);
+		$endCharacter = strlen($baseUrlChopped) + strlen($finalPart);
+		return (substr($possibleUrl,0,$endCharacter) ==  "$baseUrlChopped" . "$finalPart");
+	}
+
+	public function isFieldInResponse($field, $contentExpected){
 		$data = $this->response->xml()->data[0];
-		foreach($data as $element) {
-			if ($content_expected == "A_NUMBER"){
-				return is_numeric((string)$element->$field);
-			} 
-			elseif ($element->$field == $content_expected){
-				return True;
-			}
+		if ((string)$field == 'expiration'){
+			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
 		}
-		return False;
+		if (count($data->element) > 0){
+			foreach($data as $element) {
+				if ($contentExpected == "A_TOKEN"){
+					return (strlen((string)$element->$field) == 15);
+				}
+				elseif ($contentExpected == "A_NUMBER"){
+					return is_numeric((string)$element->$field);
+				}
+				elseif($contentExpected == "AN_URL"){
+					return $this->isExpectedUrl((string)$element->$field, "index.php/s/");
+				}
+				elseif ($element->$field == $contentExpected){
+					return True;
+				}
+			}
+			return False;
+		} else {
+			if ($contentExpected == "A_TOKEN"){
+					return (strlen((string)$data->$field) == 15);
+			}
+			elseif ($contentExpected == "A_NUMBER"){
+					return is_numeric((string)$data->$field);
+			}
+			elseif($contentExpected == "AN_URL"){
+					return $this->isExpectedUrl((string)$data->$field, "index.php/s/");
+			}
+			elseif ($data->$field == $contentExpected){
+					return True;
+			}
+			return False;
+		}
 	}
 
 	/**
@@ -786,6 +840,9 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		for ($i=0; $i<5; $i++){
 			file_put_contents("../../core/skeleton/" . "textfile" . "$i" . ".txt", "ownCloud test text file\n");
 		}
+		if (!file_exists("../../core/skeleton/FOLDER")) {
+    		mkdir("../../core/skeleton/FOLDER", 0777, true);
+		}
 
 	}
 
@@ -796,6 +853,9 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		for ($i=0; $i<5; $i++){
 			self::removeFile("../../core/skeleton/", "textfile" . "$i" . ".txt");
         }
+        if (!is_dir("../../core/skeleton/FOLDER")) {
+    		rmdir("../../core/skeleton/FOLDER");
+		}
 	}
 
 	/**
