@@ -115,6 +115,7 @@
     "Data directory (%s) is readable by other users" : "Data папката (%s) може да бъде разгледана от други потребители",
     "Data directory (%s) is invalid" : "Data папката (%s) e невалидна",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Моля, увери се, че data папката съдържа файл \".ocdata\" в себе си.",
-    "Could not obtain lock type %d on \"%s\"." : "Неуспешен опит за ексклузивен достъп от типa %d върху \"%s\"."
+    "Could not obtain lock type %d on \"%s\"." : "Неуспешен опит за ексклузивен достъп от типa %d върху \"%s\".",
+    "Storage not available" : "Липсва дисковото устройство."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

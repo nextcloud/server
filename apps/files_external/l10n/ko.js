@@ -16,6 +16,7 @@ OC.L10N.register(
     "Not permitted to use authentication mechanism \"%s\"" : "인증 방식 \"%s\" 사용이 허가되지 않았음",
     "Unsatisfied backend parameters" : "백엔드 인자가 부족함",
     "Unsatisfied authentication mechanism parameters" : "인증 방식 인자가 부족함",
+    "Insufficient data: %s" : "충분하지 않은 데이터: %s",
     "Personal" : "개인",
     "System" : "시스템",
     "Grant access" : "접근 권한 부여",
@@ -101,6 +102,7 @@ OC.L10N.register(
     "Advanced settings" : "고급 설정",
     "Delete" : "삭제",
     "Add storage" : "저장소 추가",
+    "Allow users to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
     "Allow users to mount the following external storage" : "사용자가 다음 외부 저장소를 마운트할 수 있도록 허용"
 },
 "nplurals=1; plural=0;");

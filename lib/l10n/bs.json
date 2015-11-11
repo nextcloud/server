@@ -12,6 +12,7 @@
     "Apps" : "Aplikacije",
     "A valid username must be provided" : "Nužno je navesti valjano korisničko ime",
     "A valid password must be provided" : "Nužno je navesti valjanu lozinku",
-    "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Uzrok tome je vjerojatno neki ubrzivač predmemorisanja kao što je Zend OPcache ili eAccelerator."
+    "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Uzrok tome je vjerojatno neki ubrzivač predmemorisanja kao što je Zend OPcache ili eAccelerator.",
+    "Storage not available" : "Pohrana je nedostupna"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

@@ -124,6 +124,7 @@
     "Check the value of \"datadirectory\" in your configuration" : "Tarkista \"datadirectory\"-arvo asetuksistasi",
     "Data directory (%s) is invalid" : "Datakansio (%s) on virheellinen",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Varmista, että datakansion juuressa on tiedosto \".ocdata\".",
-    "Could not obtain lock type %d on \"%s\"." : "Lukitustapaa %d ei saatu kohteelle \"%s\"."
+    "Could not obtain lock type %d on \"%s\"." : "Lukitustapaa %d ei saatu kohteelle \"%s\".",
+    "Storage not available" : "Tallennustila ei ole käytettävissä"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

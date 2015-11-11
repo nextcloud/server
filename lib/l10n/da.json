@@ -146,6 +146,7 @@
     "Check the value of \"datadirectory\" in your configuration" : "Tjek værdien for \"databibliotek\" i din konfiguration",
     "Data directory (%s) is invalid" : "Datamappen (%s) er ugyldig",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Tjek venligst at datamappen indeholder en fil, \".ocdata\" i dens rod.",
-    "Could not obtain lock type %d on \"%s\"." : "Kunne ikke opnå en låsetype %d på \"%s\"."
+    "Could not obtain lock type %d on \"%s\"." : "Kunne ikke opnå en låsetype %d på \"%s\".",
+    "Storage not available" : "Lagerplads er ikke tilgængeligt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

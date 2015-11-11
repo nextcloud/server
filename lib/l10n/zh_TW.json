@@ -141,6 +141,7 @@
     "Check the value of \"datadirectory\" in your configuration" : "請檢查您的設定檔中 \"datadirectory\" 的值",
     "Data directory (%s) is invalid" : "資料目錄 (%s) 無效",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "請確保資料目錄當中包含一個 .ocdata 的檔案",
-    "Could not obtain lock type %d on \"%s\"." : "無法取得鎖定：類型 %d ，檔案 %s"
+    "Could not obtain lock type %d on \"%s\"." : "無法取得鎖定：類型 %d ，檔案 %s",
+    "Storage not available" : "無法存取儲存空間"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

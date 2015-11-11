@@ -146,6 +146,7 @@
     "Check the value of \"datadirectory\" in your configuration" : "Controleer de waarde van \"datadirectory\" in uw configuratie",
     "Data directory (%s) is invalid" : "Data directory (%s) is ongeldig",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Verifieer dat de data directory een bestand \".ocdata\" in de hoofdmap heeft.",
-    "Could not obtain lock type %d on \"%s\"." : "Kon geen lock type %d krijgen op \"%s\"."
+    "Could not obtain lock type %d on \"%s\"." : "Kon geen lock type %d krijgen op \"%s\".",
+    "Storage not available" : "Opslag niet beschikbaar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

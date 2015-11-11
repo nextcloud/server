@@ -32,6 +32,7 @@
     "Apps" : "Lietotnes",
     "A valid username must be provided" : "Jānorāda derīgs lietotājvārds",
     "A valid password must be provided" : "Jānorāda derīga parole",
-    "The username is already being used" : "Šāds lietotājvārds jau tiek izmantots"
+    "The username is already being used" : "Šāds lietotājvārds jau tiek izmantots",
+    "Storage not available" : "Glabātuve nav pieejama"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

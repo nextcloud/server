@@ -32,6 +32,7 @@
     "%s shared »%s« with you" : "%s আপনার সাথে »%s« ভাগাভাগি করেছে",
     "Sharing %s failed, because the file does not exist" : "%s ভাগাভাগি ব্যার্থ, কারণ ফাইলটি নেই",
     "You are not allowed to share %s" : "আপনি %s ভাগাভাগি করতে পারবেননা",
-    "Apps" : "অ্যাপ"
+    "Apps" : "অ্যাপ",
+    "Storage not available" : "সংরক্ষণের স্থান নেই"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

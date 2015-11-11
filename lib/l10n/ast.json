@@ -105,6 +105,7 @@
     "Data directory (%s) is readable by other users" : "El direutoriu de datos (%s) ye llexible por otros usuarios",
     "Data directory (%s) is invalid" : "Ye inválidu'l direutoriu de datos (%s)",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Verifica que'l direutoriu de datos contién un ficheru \".ocdata\" nel direutoriu raigañu.",
-    "Could not obtain lock type %d on \"%s\"." : "Nun pudo facese'l bloquéu %d en \"%s\"."
+    "Could not obtain lock type %d on \"%s\"." : "Nun pudo facese'l bloquéu %d en \"%s\".",
+    "Storage not available" : "Almacenamientu non disponible"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

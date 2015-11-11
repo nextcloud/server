@@ -146,6 +146,7 @@
     "Check the value of \"datadirectory\" in your configuration" : "Periksa nilai \"datadirectory\" di konfigurasi Anda",
     "Data directory (%s) is invalid" : "Direktori data (%s) tidak sah",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Mohon periksa apakah direktori data berisi sebuah berkas \".ocdata\" di direktori induknya.",
-    "Could not obtain lock type %d on \"%s\"." : "Tidak bisa memperoleh jenis kunci %d pada \"%s\"."
+    "Could not obtain lock type %d on \"%s\"." : "Tidak bisa memperoleh jenis kunci %d pada \"%s\".",
+    "Storage not available" : "Penyimpanan tidak tersedia"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

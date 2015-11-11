@@ -32,6 +32,8 @@ OC.L10N.register(
     "The share will expire on %s." : "이 공유는 %s 까지 유지됩니다.",
     "Cheers!" : "감사합니다!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"ownCloud basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "안녕하세요,<br><br>시스템 관리자가 서버 측 암호화를 활성화했습니다. 저장된 파일이 암호 <strong>%s</strong>으(로) 암호화되었습니다.<br><br>웹 인터페이스에 로그인하여 개인 설정의 'ownCloud 기본 암호화 모듈'로 이동한 다음, '이전 로그인 암호' 필드에 위 암호를 입력하고 현재 로그인 암호로 변경하여 암호화 암호를 업데이트하십시오.<br><br>",
+    "Encrypt the home storage" : "홈 저장소 암호화",
+    "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "이 옵션을 사용하면 주 저장소에 있는 모드 파일을 암호화하며, 사용하지 않으면 외부 저장소의 파일만 암호화합니다",
     "Enable recovery key" : "복구 키 활성화",
     "Disable recovery key" : "복구 키 비활성화",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "복구 키는 파일을 암호화하는 추가 키입니다. 사용자가 암호를 잊었을 때 복구할 수 있도록 해 줍니다.",

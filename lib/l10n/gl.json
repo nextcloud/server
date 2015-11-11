@@ -142,6 +142,7 @@
     "Check the value of \"datadirectory\" in your configuration" : "Comprobe o valor de «datadirectory» na configuración",
     "Data directory (%s) is invalid" : "O directorio de datos (%s) non é correcto",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Comprobe que o directorio de datos conten un ficheiro «.ocdata» na súa raíz.",
-    "Could not obtain lock type %d on \"%s\"." : "Non foi posíbel obter un bloqueo do tipo %d en «%s»."
+    "Could not obtain lock type %d on \"%s\"." : "Non foi posíbel obter un bloqueo do tipo %d en «%s».",
+    "Storage not available" : "Almacenamento non dispoñíbel"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

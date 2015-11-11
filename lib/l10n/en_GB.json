@@ -138,6 +138,7 @@
     "Check the value of \"datadirectory\" in your configuration" : "Check the value of \"datadirectory\" in your configuration",
     "Data directory (%s) is invalid" : "Data directory (%s) is invalid",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Please check that the data directory contains a file \".ocdata\" in its root.",
-    "Could not obtain lock type %d on \"%s\"." : "Could not obtain lock type %d on \"%s\"."
+    "Could not obtain lock type %d on \"%s\"." : "Could not obtain lock type %d on \"%s\".",
+    "Storage not available" : "Storage not available"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

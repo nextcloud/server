@@ -146,6 +146,7 @@
     "Check the value of \"datadirectory\" in your configuration" : "Sjekk verdien for \"datadirectory\" i konfigurasjonen din",
     "Data directory (%s) is invalid" : "Data-mappe (%s) er ugyldig",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Sjekk at det ligger en fil \".ocdata\" i roten av data-mappen.",
-    "Could not obtain lock type %d on \"%s\"." : "Klarte ikke å låse med type %d på \"%s\"."
+    "Could not obtain lock type %d on \"%s\"." : "Klarte ikke å låse med type %d på \"%s\".",
+    "Storage not available" : "Lagringsplass ikke tilgjengelig"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

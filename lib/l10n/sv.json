@@ -116,6 +116,7 @@
     "Data directory (%s) is readable by other users" : "Datakatalogen (%s) kan läsas av andra användare",
     "Data directory (%s) is invalid" : "Datakatlogen (%s) är ogiltig",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Vänligen kontrollera att datakatalogen innehåller filen \".ocdata\" i rooten.",
-    "Could not obtain lock type %d on \"%s\"." : "Kan inte hämta låstyp %d på \"%s\"."
+    "Could not obtain lock type %d on \"%s\"." : "Kan inte hämta låstyp %d på \"%s\".",
+    "Storage not available" : "Lagring inte tillgänglig"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

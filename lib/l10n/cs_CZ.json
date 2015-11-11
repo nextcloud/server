@@ -146,6 +146,7 @@
     "Check the value of \"datadirectory\" in your configuration" : "Ověřte hodnotu \"datadirectory\" ve své konfiguraci",
     "Data directory (%s) is invalid" : "Datový adresář (%s) je neplatný",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Ověřte prosím, že kořenový adresář s daty obsahuje soubor \".ocdata\".",
-    "Could not obtain lock type %d on \"%s\"." : "Nelze získat zámek typu %d na \"%s\"."
+    "Could not obtain lock type %d on \"%s\"." : "Nelze získat zámek typu %d na \"%s\".",
+    "Storage not available" : "Úložiště není dostupné"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

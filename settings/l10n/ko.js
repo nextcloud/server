@@ -80,6 +80,7 @@ OC.L10N.register(
     "Uninstall" : "제거",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "앱이 활성화되었지만, 앱을 업데이트해야 합니다. 5초 후 앱 업데이트 페이지로 넘어갑니다.",
     "App update" : "앱 업데이트",
+    "No apps found for \"{query}\"" : "\"{query}\"에 해당하는 앱을 찾을 수 없음",
     "An error occurred: {message}" : "오류 발생: {message}",
     "Select a profile picture" : "프로필 사진 선택",
     "Very weak password" : "매우 약한 암호",
