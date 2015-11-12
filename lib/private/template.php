@@ -379,6 +379,17 @@ class OC_Template extends \OC\Template\Base {
 	 * @return bool
 	 */
 	public static function isAssetPipelineEnabled() {
+		try {
+			if (\OCP\Util::needUpgrade()) {
+				// Don't use the compiled asset when we need to do an update
+				return false;
+			}
+		} catch (\Exception $e) {
+			// Catch any exception, because this code is also called when displaying
+			// an exception error page.
+			return false;
+		}
+
 		// asset management enabled?
 		$config = \OC::$server->getConfig();
 		$useAssetPipeline = $config->getSystemValue('asset-pipeline.enabled', false);
