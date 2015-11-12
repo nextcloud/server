@@ -5,7 +5,7 @@
 		<?php p($l->t('You are accessing the server from an untrusted domain.')); ?><br>
 
 		<p class='hint'>
-			<?php p($l->t('Please contact your administrator. If you are an administrator of this instance, configure the "trusted_domain" setting in config/config.php. An example configuration is provided in config/config.sample.php.')); ?>
+			<?php p($l->t('Please contact your administrator. If you are an administrator of this instance, configure the "trusted_domains" setting in config/config.php. An example configuration is provided in config/config.sample.php.')); ?>
 			<br>
 			<?php p($l->t('Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain.')); ?>
 			<br><br>
