@@ -55,7 +55,7 @@ input[type="email"],
 input[type="url"],
 input[type="time"] {
 	-webkit-appearance:textfield; -moz-appearance:textfield;
-	-webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box;
+	box-sizing:content-box;
 }
 input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,
 input[type="password"]:hover, input[type="password"]:focus, input[type="password"]:active,
@@ -119,7 +119,7 @@ html:not(.ie8) input[type="checkbox"].checkbox:hover+label:before, input[type="c
 input[type="time"] {
 	width: initial;
 	height: 31px;
-	-moz-box-sizing: border-box; box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 select {
