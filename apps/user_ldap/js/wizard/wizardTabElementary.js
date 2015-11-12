@@ -275,7 +275,7 @@ OCA = OCA || {};
 					if(objectsFound < 1) {
 						message = t('user_ldap', 'No object found in the given Base DN. Please revise.');
 					} else if(objectsFound > 1000) {
-						message = t('user_ldap', 'More than 1.000 directory entries available.');
+						message = t('user_ldap', 'More than 1,000 directory entries available.');
 					} else {
 						message = t('user_ldap', objectsFound + ' entries available within the provided Base DN');
 					}
