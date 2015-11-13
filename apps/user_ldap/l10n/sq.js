@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "S’u zbulua dot DN Bazë, ju lutemi, jepeni dorazi.",
     "{nthServer}. Server" : "{nthServer}. Shërbyes",
     "No object found in the given Base DN. Please revise." : "Në DN Bazë të dhën s’u gjet objekt. Ju lutemi, rishikojeni.",
-    "More than 1.000 directory entries available." : "Më tepër se 1.000 zëra drejtorie gati.",
     " entries available within the provided Base DN" : " zëra të gatshëm brenda DN-së Bazë të dhënë",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Ndodhi një gabim. Ju lutemi, kontrolloni DN-në Bazë, sie dhe rregullimet për lidhjen dhe kredencialet.",
     "Do you really want to delete the current Server Configuration?" : "Doni vërtet të fshihet Formësimi i tanishëm i Shërbyesit?",

@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "Impossible de detectar lo DN de basa, especificatz-lo manualament",
     "{nthServer}. Server" : "{nthServer}. Servidor",
     "No object found in the given Base DN. Please revise." : "Cap d'objècte pas trobat dins lo DN de basa especificat. Verificatz-lo.",
-    "More than 1.000 directory entries available." : "I a mai de 1000 entradas de repertòri disponiblas.",
     " entries available within the provided Base DN" : "entradas disponiblas dins lo DN de basa especificat",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Una error s'es produsida. Verificatz lo DN de basa, e tanben los paramètres de connexion e las informacions d'identificacion.",
     "Do you really want to delete the current Server Configuration?" : "Sètz segur que volètz escafar la configuracion servidor actuala ?",

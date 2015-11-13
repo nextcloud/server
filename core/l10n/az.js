@@ -85,7 +85,6 @@ OC.L10N.register(
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Xüsusilə fayl sinxronizasiyası üçün desktop client-dən istifadə edilərsə, SQLite məsləhət görülmür.",
     "Search" : "Axtarış",
     "Log in" : "Giriş",
-    "You are accessing the server from an untrusted domain." : "Siz serverə inamsız domain-dən girməyə çalışırsız.",
-    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Xahiş olunur inzibatçı ilə əlaqə saxlayasınız. Eger siz bu xidmətin inzibatçısısınizsa, \"trusted_domain\" configini config/config.php faylinda düzgün qeyd edin.  Config nüsxəsi config/config.sample.php faylında qeyd edilmişdir."
+    "You are accessing the server from an untrusted domain." : "Siz serverə inamsız domain-dən girməyə çalışırsız."
 },
 "nplurals=2; plural=(n != 1);");

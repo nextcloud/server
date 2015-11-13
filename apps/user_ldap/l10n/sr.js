@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "Не могу да откријем базни ДН. Унесите га ручно.",
     "{nthServer}. Server" : "{nthServer}. Сервер",
     "No object found in the given Base DN. Please revise." : "Нема објекта за дати базни ДН. Проверите.",
-    "More than 1.000 directory entries available." : "Више од 1000 уноса је доступно.",
     " entries available within the provided Base DN" : "уноса доступно за дати базни ДН",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Грешка. Проверите базни ДН као и поставке везе и акредитиве.",
     "Do you really want to delete the current Server Configuration?" : "Да ли стварно желите да обришете тренутну конфигурацију сервера?",

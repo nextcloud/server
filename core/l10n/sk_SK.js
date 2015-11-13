@@ -262,7 +262,6 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktujte prosím správcu systému, ak sa táto správa objavuje opakovane alebo neočakávane.",
     "Thank you for your patience." : "Ďakujeme za Vašu trpezlivosť.",
     "You are accessing the server from an untrusted domain." : "Pristupujete na server v nedôveryhodnej doméne.",
-    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Kontaktujte správcu. Ak ste správcom tejto inštancie, nakonfigurujte správne nastavenie \"trusted_domain\" v config/config.php. Vzorová konfigurácia je uvedená v config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "V závislosti na konfigurácii, vám môže byť ako správcovi umožnené použitie tlačidla nižšie pre označenie tejto domény ako dôveryhodnej.",
     "Add \"%s\" as trusted domain" : "Pridať \"%s\" ako dôveryhodnú doménu",
     "App update required" : "Je nutná aktualizácia aplikácie",

@@ -267,7 +267,6 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "ติดต่อผู้ดูแลระบบของคุณหากข้อความนี้ยังคงมีอยู่หรือปรากฏโดยไม่คาดคิด",
     "Thank you for your patience." : "ขอบคุณสำหรับความอดทนของคุณ เราจะนำความคิดเห็นของท่านมาปรับปรุงระบบให้ดียิ่งขึ้น",
     "You are accessing the server from an untrusted domain." : "คุณกำลังเข้าถึงเซิร์ฟเวอร์จากโดเมนที่ไม่น่าเชื่อถือ",
-    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "กรุณาติดต่อผู้ดูแลระบบ หากคุณเป็นผู้ดูแลระบบโปรดกำหนดค่า \"trusted_domain\" โดยตั้งค่าใน config/config.php ยกตัวอย่างระบุการตั้งค่าใน config/config.sample.php",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "ทั้งนี้ขึ้นอยู่กับการกำหนดค่าของคุณ ผู้ดูแลระบบอาจสามารถใช้ปุ่มด้านล่างเพื่อกำหนดให้โดเมนนี้มีความน่าเชื่อถือ",
     "Add \"%s\" as trusted domain" : "ได้เพิ่ม \"%s\" เป็นโดเมนที่เชื่อถือ",
     "App update required" : "จำเป้นต้องอัพเดทแอพฯ",

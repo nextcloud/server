@@ -19,7 +19,6 @@ OC.L10N.register(
     "Select object classes" : "Vali objekti klassid",
     "Please check the credentials, they seem to be wrong." : "Palu nkontrolli kasutajaandmeid, need näivad olevat valed.",
     "{nthServer}. Server" : "{nthServer}. Server",
-    "More than 1.000 directory entries available." : "Saadaval on rohkem kui 1000 kataloogi sissekannet.",
     "Do you really want to delete the current Server Configuration?" : "Oled kindel, et tahad kustutada praegust serveri seadistust?",
     "Confirm Deletion" : "Kinnita kustutamine",
     "Mode switch" : "Režiimi lüliti",

@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "Nemožno automaticky detekovať základnú DN, zadajte ručne prosím.",
     "{nthServer}. Server" : "{nthServer}. Server",
     "No object found in the given Base DN. Please revise." : "Objekt nebol nájdený v zadanej základnej DN. Overte to prosím.",
-    "More than 1.000 directory entries available." : "K dispozícii je viac ako 1.000 priečinkov.",
     " entries available within the provided Base DN" : "dostupných záznamov v zadanej základnej DN",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Nastala chyba. Overte základnú DN, nastavenia pripojenia a prihlasovacie údaje.",
     "Do you really want to delete the current Server Configuration?" : "Naozaj chcete zmazať súčasné nastavenie servera?",

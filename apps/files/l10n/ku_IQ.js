@@ -8,8 +8,8 @@ OC.L10N.register(
     "Select" : "دیاریکردنی",
     "Error" : "هه‌ڵه",
     "Name" : "ناو",
-    "Upload" : "بارکردن",
     "Folder" : "بوخچه",
+    "Upload" : "بارکردن",
     "Save" : "پاشکه‌وتکردن",
     "Settings" : "ڕێکخستنه‌کان"
 },

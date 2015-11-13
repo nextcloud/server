@@ -269,7 +269,6 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Veuillez contacter votre administrateur système si ce message persiste ou apparaît de façon inattendue.",
     "Thank you for your patience." : "Merci de votre patience.",
     "You are accessing the server from an untrusted domain." : "Vous accédez au serveur à partir d'un domaine non approuvé.",
-    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Veuillez contacter votre administrateur. Si vous êtes administrateur de cette instance, configurez le paramètre « trusted_domain » dans le fichier config/config.php. Un exemple de configuration est fourni dans le fichier config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "En fonction de votre configuration, en tant qu'administrateur vous pouvez également utiliser le bouton ci-dessous pour approuver ce domaine.",
     "Add \"%s\" as trusted domain" : "Ajouter \"%s\" à la liste des domaines approuvés",
     "App update required" : "Mise à jour de l'application nécessaire",

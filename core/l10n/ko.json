@@ -267,7 +267,6 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "이 메시지가 계속 표시되거나, 예상하지 못하였을 때 표시된다면 시스템 관리자에게 연락하십시오",
     "Thank you for your patience." : "기다려 주셔서 감사합니다.",
     "You are accessing the server from an untrusted domain." : "신뢰할 수 없는 도메인으로 서버에 접근하고 있습니다.",
-    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "관리자에게 연락해 주십시오. 만약 이 인스턴스 관리자라면 config/config.php에서 \"trusted_domain\" 설정을 편집하십시오. 예제 설정 파일은 config/config.sample.php에 있습니다.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "설정에 따라서 관리자 권한으로 아래 단추를 눌러서 이 도메인을 신뢰하도록 설정할 수 있습니다.",
     "Add \"%s\" as trusted domain" : "\"%s\"을(를) 신뢰할 수 있는 도메인으로 추가",
     "App update required" : "앱 업데이트 필요",
