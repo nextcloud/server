@@ -112,6 +112,9 @@ class OC_Hook{
 				if (empty($message)) {
 					$message = get_class($e);
 				}
+				if($e instanceof \OC\HintException) {
+					throw $e;
+				}
 				\OCP\Util::writeLog('hook',
 					'error while running hook (' . $class . '::' . $i["name"] . '): ' . $message,
 					\OCP\Util::ERROR);
