@@ -35,9 +35,11 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\Files\Filesystem;
 use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
+use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
 use OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Files\EntityTooLargeException;
+use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
@@ -175,6 +177,8 @@ class File extends Node implements IFile {
 						\OCP\Util::writeLog('webdav', 'renaming part file to final file failed', \OCP\Util::ERROR);
 						throw new Exception('Could not rename part file to final file');
 					}
+				} catch (ForbiddenException $ex) {
+					throw new DAVForbiddenException($ex->getMessage(), $ex->getRetry());
 				} catch (\Exception $e) {
 					$partStorage->unlink($internalPartPath);
 					$this->convertToSabreException($e);
@@ -273,6 +277,8 @@ class File extends Node implements IFile {
 			throw new ServiceUnavailable("Encryption not ready: " . $e->getMessage());
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to open file: " . $e->getMessage());
+		} catch (ForbiddenException $ex) {
+			throw new DAVForbiddenException($ex->getMessage(), $ex->getRetry());
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
@@ -296,6 +302,8 @@ class File extends Node implements IFile {
 			}
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to unlink: " . $e->getMessage());
+		} catch (ForbiddenException $ex) {
+			throw new DAVForbiddenException($ex->getMessage(), $ex->getRetry());
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
@@ -473,6 +481,10 @@ class File extends Node implements IFile {
 		if ($e instanceof NotPermittedException) {
 			// a more general case - due to whatever reason the content could not be written
 			throw new Forbidden($e->getMessage(), 0, $e);
+		}
+		if ($e instanceof ForbiddenException) {
+			// the path for the file was forbidden
+			throw new DAVForbiddenException($e->getMessage(), $e->getRetry(), $e);
 		}
 		if ($e instanceof EntityTooLargeException) {
 			// the file is too big to be stored
