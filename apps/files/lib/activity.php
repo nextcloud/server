@@ -391,7 +391,7 @@ class Activity implements IExtension {
 			}
 			foreach ($favorites['folders'] as $favorite) {
 				$fileQueryList[] = '`file` LIKE ?';
-				$parameters[] = $favorite . '/%';
+				$parameters[] = \OC::$server->getDatabaseConnection()->escapeLikeParameter($favorite) . '/%';
 			}
 
 			return [
