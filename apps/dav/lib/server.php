@@ -37,6 +37,12 @@ class Server {
 
 		$this->server->addPlugin(new \Sabre\CardDAV\Plugin());
 
+		// Finder on OS X requires Class 2 WebDAV support (locking), since we do
+		// not provide locking we emulate it using a fake locking plugin.
+		if($request->isUserAgent(['/WebDAVFS/'])) {
+			$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\FakeLockerPlugin());
+		}
+
 		// wait with registering these until auth is handled and the filesystem is setup
 		$this->server->on('beforeMethod', function () {
 			// custom properties plugin must be the last one
