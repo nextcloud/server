@@ -100,7 +100,7 @@ OCA.External.StatusManager.Utils = {
         } else {
             file = $("#fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td:first-child div.thumbnail");
         }
-        file.css('background-image', route).hide().show(0);
+        // file.css('background-image', route).hide().show(0);
         // previous line is required in Chrome to force the css update so the image url
         // is stored correctly later
         //file.css('background-image', route).height();

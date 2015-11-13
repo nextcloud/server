@@ -88,14 +88,14 @@ OCA.External.StatusManager = {
                     if (response && response.status === 0) {
                         self.mountStatus[mountData.mount_point] = response;
                     } else {
-                        if (response && response.data) {
+                        if (response && response.statusMessage) {
                             // failure response with error message
                             self.mountStatus[mountData.mount_point] = {code: 'GE',
-                                                                        status: 'fail',
-                                                                        error: response.data.message};
+                                                                        status: 1,
+                                                                        error: response.statusMessage};
                         } else {
                             self.mountStatus[mountData.mount_point] = {code: 'GE',
-                                                                        status: 'fail',
+                                                                        status: 1,
                                                                         error: t('files_external', 'Empty response from the server')};
                         }
                     }
@@ -110,7 +110,7 @@ OCA.External.StatusManager = {
                         message = t('files_external', 'Couldn\'t get the information from the ownCloud server: {code} {type}', {code: jqxhr.status, type: error});
                     }
                     self.mountStatus[mountData.mount_point] = {code: 'GE',
-                                                                status: 'fail',
+                                                                status: 1,
                                                                 location: mountData.location,
                                                                 error: message};
                     afterCallback(mountData.mount_point, self.mountStatus[mountData.mount_point]);
@@ -171,7 +171,7 @@ OCA.External.StatusManager = {
     manageMountPointError : function(name) {
         var self = this;
         this.getMountStatus($.proxy(function(allMountStatus) {
-            if (typeof allMountStatus[name] !== 'undefined' || allMountStatus[name].status === 'fail') {
+            if (typeof allMountStatus[name] !== 'undefined' || allMountStatus[name].status === 1) {
                 var mountData = allMountStatus[name];
                 if ((mountData.code === 'CNP' || mountData.code === 'AD') && mountData.type === 'global' && mountData.location === 1) {
                     // admin set up mount point and let users use their credentials. Credentials
@@ -204,7 +204,7 @@ OCA.External.StatusManager = {
                     OC.dialogs.message(mountData.error, t('files_external', 'Login credentials error'));
 
                 } else {
-                    OC.dialogs.message(mountData.error, t('files_external', 'Unknown error'));
+                    OC.dialogs.message(mountData.error, t('files_external', 'External mount error'));
                 }
             }
         }, this));
@@ -222,7 +222,7 @@ OCA.External.StatusManager = {
         $.get(OC.filePath('files_external', 'ajax', 'dialog.php'),
                 sendParams,
                 function(data) {
-                    if (typeof data.status !== 'undefined' && data.status === 'success') {
+                    if (typeof data.status !== 'undefined' && data.status === 0) {
                         $('body').append(data.form);
                         var wnd_send_button_click_func = function () {
                             $('.oc-dialog-close').hide();
@@ -240,7 +240,7 @@ OCA.External.StatusManager = {
                                 data: dataToSend,
                                 success: function (data) {
                                     var dialog = $('#wnd_div_form');
-                                    if (typeof(data.status) !== 'undefined' && data.status === 'success') {
+                                    if (typeof(data.status) !== 'undefined' && data.status === 0) {
                                         dialog.ocdialog('close');
 
                                         if (successCallback && $.isFunction(successCallback)) {
@@ -284,23 +284,24 @@ OCA.External.StatusManager = {
         if (!this.notificationHasShown) {
             this.notificationHasShown = true;
             if (hasErrors) {
-                OCA.External.StatusManager.Utils.showAlert(t('files_external', 'Some of the configured Windows network drive(s) are not connected. Please click on the red row(s) for more information'));
+                OCA.External.StatusManager.Utils.showAlert(t('files_external', 'Some of the configured external mount points are not connected. Please click on the red row(s) for more information'));
             }
         }
     },
 
     processMountStatusIndividual : function(mountPoint, mountData) {
-        if (mountData.status === 'fail') {
-            var errorImage = 'folder-windows';
+        if (mountData.status === 1) {
+            var errorImage = 'folder-windows-error';
+            /*
             if (mountData.code === 'AD' || mountData.code === 'CNP') {
                 errorImage += '-credentials';
             } else if (mountData.code === 'IH' || mountData.code === 'CE') {
                 errorImage += '-timeout';
             } else {
                 errorImage += '-error';
-            }
+            }*/
             if (OCA.External.StatusManager.Utils.isCorrectViewAndRootFolder()) {
-                OCA.External.StatusManager.Utils.showIconError(mountPoint, $.proxy(OCA.External.StatusManager.manageMountPointError, OCA.External.StatusManager), OC.imagePath('files_external', errorImage));
+                OCA.External.StatusManager.Utils.showIconError(mountPoint, $.proxy(OCA.External.StatusManager.manageMountPointError, OCA.External.StatusManager), OC.imagePath('core', 'filetypes/' + errorImage));
             }
             return false;
         } else {
@@ -398,13 +399,13 @@ OCA.External.StatusManager = {
                     if (!self.notificationHasShown) {
                         var showNotification = false;
                         $.each(self.mountStatus, function(key, value){
-                            if (value.status === 'fail') {
+                            if (value.status === 1) {
                                 self.notificationHasShown = true;
                                 showNotification = true;
                             }
                         });
                         if (showNotification) {
-                            OCA.External.StatusManager.Utils.showAlert(t('files_external', 'Some of the configured Windows network drive(s) are not connected. Please click on the red row(s) for more information'));
+                            OCA.External.StatusManager.Utils.showAlert(t('files_external', 'Some of the configured external mount points are not connected. Please click on the red row(s) for more information'));
                         }
                     }
                 });
