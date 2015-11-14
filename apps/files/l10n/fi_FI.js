@@ -106,6 +106,7 @@ OC.L10N.register(
     "Maximum upload size" : "Lähetettävän tiedoston suurin sallittu koko",
     "max. possible: " : "suurin mahdollinen:",
     "Save" : "Tallenna",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM:tä käyttäen muutoksien voimaantulossa saattaa kestää 5 minuuttia.",
     "Settings" : "Asetukset",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\">käyttääksesi tiedostojasi WebDAVin kautta</a>",

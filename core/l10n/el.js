@@ -269,6 +269,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Επικοινωνήστε με το διαχειριστή του συστήματος αν αυτό το μήνυμα συνεχίζει να εμφανίζεται ή εμφανίστηκε απρόσμενα.",
     "Thank you for your patience." : "Σας ευχαριστούμε για την υπομονή σας.",
     "You are accessing the server from an untrusted domain." : "Η προσπέλαση του διακομιστή γίνεται από μη έμπιστο τομέα.",
+    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Παρακαλώ επικοινωνήστε με το διαχειριστή του συστήματος. Αν είστε ο διαχειριστής, ρυθμίστε την επιλογή \"trusted_domain\" στο αρχείο config/config.php. Μπορείτε να βρείτε παράδειγμα στο αρχείο config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Ανάλογα με τις ρυθμίσεις σας, σαν διαχειριστής θα μπορούσατε επίσης να χρησιμοποιήσετε το παρακάτω κουμπί για να εμπιστευθείτε αυτή την περιοχή.",
     "Add \"%s\" as trusted domain" : "Προσθήκη \"%s\" ως αξιόπιστη περιοχή",
     "App update required" : "Απαιτείται ενημέρωση εφαρμογής",

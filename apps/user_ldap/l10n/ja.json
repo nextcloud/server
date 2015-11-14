@@ -22,6 +22,7 @@
     "Could not detect Base DN, please enter it manually." : "ベース DN を検出できませんでした。手動で入力してください。",
     "{nthServer}. Server" : "{nthServer}. サーバー",
     "No object found in the given Base DN. Please revise." : "指定されたベース DN でオブジェクトを見つけることができませんでした。修正をお願いします。",
+    "More than 1,000 directory entries available." : "1,000以上のディレクトリエントリが利用可能です。",
     " entries available within the provided Base DN" : "入力されたベースDNでエントリーが利用可能",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "エラーが発生しました。ベースDNをチェックし、接続設定と権限についても同様に確認してください。",
     "Do you really want to delete the current Server Configuration?" : "現在のサーバー設定を本当に削除してもよろしいですか？",

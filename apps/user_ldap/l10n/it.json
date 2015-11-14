@@ -22,6 +22,7 @@
     "Could not detect Base DN, please enter it manually." : "Impossibile rilevare il DN base, digitalo manualmente.",
     "{nthServer}. Server" : "{nthServer}. server",
     "No object found in the given Base DN. Please revise." : "Nessun oggetto trovato nel DN base specificato. Controlla.",
+    "More than 1,000 directory entries available." : "Più di 1.000 cartelle disponibili.",
     " entries available within the provided Base DN" : "voci disponibili all'interno del DN base",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Si è verificato un errore. Controlla il DN base, così come le impostazioni di connessione e le credenziali.",
     "Do you really want to delete the current Server Configuration?" : "Vuoi davvero eliminare la configurazione attuale del server?",
