@@ -104,6 +104,8 @@
     "Maximum upload size" : "Taille max. d'envoi",
     "max. possible: " : "Max. possible :",
     "Save" : "Sauvegarder",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Avec PHP-FPM il peut se passer 5 minutes pour que les changements soient appliqués.",
+    "Missing permissions to edit from here." : "Manque de permissions pour éditer à partir d'ici.",
     "Settings" : "Paramètres",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Utilisez cette adresse pour <a href=\"%s\" target=\"_blank\">accéder à vos fichiers par WebDAV</a>",

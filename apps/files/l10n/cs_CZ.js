@@ -106,6 +106,8 @@ OC.L10N.register(
     "Maximum upload size" : "Maximální velikost pro odesílání",
     "max. possible: " : "největší možná: ",
     "Save" : "Uložit",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Při použití PHP-FPM může změna nastavení trvat až 5 minut od uložení.",
+    "Missing permissions to edit from here." : "Pro úpravy v aktuálním náhledu chybí oprávnění.",
     "Settings" : "Nastavení",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\">přístup k vašim souborům přes WebDAV</a>",
