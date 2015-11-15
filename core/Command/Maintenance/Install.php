@@ -64,7 +64,7 @@ class Install extends Command {
 		$server = \OC::$server;
 		$setupHelper = new Setup($this->config, $server->getIniWrapper(),
 			$server->getL10N('lib'), new \OC_Defaults(), $server->getLogger(),
-			$server->getSecureRandom());
+			$server->getSecureRandom(), $server->getURLGenerator());
 		$sysInfo = $setupHelper->getSystemInfo(true);
 		$errors = $sysInfo['errors'];
 		if (count($errors) > 0) {
