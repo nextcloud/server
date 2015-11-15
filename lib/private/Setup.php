@@ -258,6 +258,32 @@ class Setup {
 	 * @param $options
 	 * @return array
 	 */
+	public function everyTimeChecks($options) {
+		$l = $this->l10n;
+		$error = [];
+
+		$dataDir = htmlspecialchars_decode($options['directory']);
+
+		// validate the data directory
+		if (
+				(!is_dir($dataDir) and !mkdir($dataDir)) or
+				!is_writable($dataDir)
+		) {
+			$error[] = [
+					'error' => $l->t("Can't create or write into the data directory %s", array($dataDir)),
+					'hint' => '<a href="' . $this->urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">' .
+							$l->t('For more details check out the documentation.') .
+							'↗</a>',
+			];
+		}
+
+		return $error;
+	}
+
+	/**
+	 * @param $options
+	 * @return array
+	 */
 	public function install($options) {
 		$l = $this->l10n;
 
@@ -280,7 +306,6 @@ class Setup {
 
 		$username = htmlspecialchars_decode($options['adminlogin']);
 		$password = htmlspecialchars_decode($options['adminpass']);
-		$dataDir = htmlspecialchars_decode($options['directory']);
 
 		$class = self::$dbSetupClasses[$dbType];
 		/** @var \OC\Setup\AbstractDatabase $dbSetup */
@@ -288,18 +313,8 @@ class Setup {
 			$this->logger, $this->random);
 		$error = array_merge($error, $dbSetup->validate($options));
 
-		// validate the data directory
-		if (
-			(!is_dir($dataDir) and !mkdir($dataDir)) or
-			!is_writable($dataDir)
-		) {
-			$error[] = [
-				'error' => $l->t("Can't create or write into the data directory %s", array($dataDir)),
-				'hint' => '<a href="' . $this->urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">' .
-							$l->t('For more details check out the documentation.') .
-							'↗</a>',
-			];
-		}
+		$everyTimeChecks = $this->everyTimeChecks($options);
+		$error = array_merge($error, $everyTimeChecks);
 
 		if(count($error) != 0) {
 			return $error;

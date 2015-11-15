@@ -71,7 +71,10 @@ class SetupController {
 				$this->finishSetup();
 			}
 		} else {
-			$options = array_merge($opts, $post);
+			$e = $this->setupHelper->everyTimeChecks($opts);
+			$errors = array('errors' => $e);
+
+			$options = array_merge($opts, $post, $errors);
 			$this->display($options);
 		}
 	}
