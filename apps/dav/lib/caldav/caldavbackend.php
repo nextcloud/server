@@ -982,7 +982,26 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	function getSchedulingObject($principalUri, $objectUri) {
-		// TODO: Implement getSchedulingObject() method.
+		$query = $this->db->getQueryBuilder();
+		$stmt = $query->select(['uri', 'calendardata', 'lastmodified', 'etag', 'size'])
+			->from('schedulingobjects')
+			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)))
+			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($objectUri)))
+			->execute();
+
+		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+		if(!$row) {
+			return null;
+		}
+
+		return [
+				'uri'          => $row['uri'],
+				'calendardata' => $row['calendardata'],
+				'lastmodified' => $row['lastmodified'],
+				'etag'         => '"' . $row['etag'] . '"',
+				'size'         => (int)$row['size'],
+		];
 	}
 
 	/**
@@ -997,7 +1016,24 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	function getSchedulingObjects($principalUri) {
-		// TODO: Implement getSchedulingObjects() method.
+		$query = $this->db->getQueryBuilder();
+		$stmt = $query->select(['uri', 'calendardata', 'lastmodified', 'etag', 'size'])
+				->from('schedulingobjects')
+				->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)))
+				->execute();
+
+		$result = [];
+		foreach($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row) {
+			$result[] = [
+					'calendardata' => $row['calendardata'],
+					'uri'          => $row['uri'],
+					'lastmodified' => $row['lastmodified'],
+					'etag'         => '"' . $row['etag'] . '"',
+					'size'         => (int)$row['size'],
+			];
+		}
+
+		return $result;
 	}
 
 	/**
@@ -1008,7 +1044,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	function deleteSchedulingObject($principalUri, $objectUri) {
-		// TODO: Implement deleteSchedulingObject() method.
+		$query = $this->db->getQueryBuilder();
+		$query->delete('schedulingobjects')
+				->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)))
+				->andWhere($query->expr()->eq('uri', $query->createNamedParameter($objectUri)))
+				->execute();
 	}
 
 	/**
@@ -1020,7 +1060,17 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	function createSchedulingObject($principalUri, $objectUri, $objectData) {
-		// TODO: Implement createSchedulingObject() method.
+		$query = $this->db->getQueryBuilder();
+		$query->insert('schedulingobjects')
+			->values([
+				'principaluri' => $query->createNamedParameter($principalUri),
+				'calendardata' => $query->createNamedParameter($objectData),
+				'uri' => $query->createNamedParameter($objectUri),
+				'lastmodified' => $query->createNamedParameter(time()),
+				'etag' => $query->createNamedParameter(md5($objectData)),
+				'size' => $query->createNamedParameter(strlen($objectData))
+			])
+			->execute();
 	}
 
 	/**

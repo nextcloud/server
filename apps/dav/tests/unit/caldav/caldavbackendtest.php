@@ -322,4 +322,18 @@ EOD;
 		$this->assertEquals(0, count($subscriptions));
 	}
 
+	public function testScheduling() {
+		$this->backend->createSchedulingObject(self::UNIT_TEST_USER, 'Sample Schedule', '');
+
+		$sos = $this->backend->getSchedulingObjects(self::UNIT_TEST_USER);
+		$this->assertEquals(1, count($sos));
+
+		$so = $this->backend->getSchedulingObject(self::UNIT_TEST_USER, 'Sample Schedule');
+		$this->assertNotNull($so);
+
+		$this->backend->deleteSchedulingObject(self::UNIT_TEST_USER, 'Sample Schedule');
+
+		$sos = $this->backend->getSchedulingObjects(self::UNIT_TEST_USER);
+		$this->assertEquals(0, count($sos));
+	}
 }
