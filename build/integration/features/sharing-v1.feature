@@ -46,6 +46,25 @@ Feature: sharing
     And the HTTP status code should be "200"
     And Public shared file "welcome.txt" with password "publicpw" can be downloaded
 
+  Scenario: Creating a new public share of a folder
+   Given user "user0" exists
+    And As an "user0"
+    When creating a public share with
+      | path | FOLDER |
+      | shareType | 3 |
+      | password | publicpw |
+      | expireDate | +3 days |
+      | publicUpload | true |
+      | permissions | 7 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | id | A_NUMBER |
+      | permissions | 7 |
+      | expiration | +3 days |
+      | url | AN_URL |
+      | token | A_TOKEN |
+
   Scenario: Creating a new public share with password and adding an expiration date
     Given user "user0" exists
     And As an "user0"
@@ -53,10 +72,128 @@ Feature: sharing
       | path | welcome.txt |
       | shareType | 3 |
       | password | publicpw |
-    And Adding expiration date to last share
+    And Updating last share with
+      | expireDate | +3 days |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Public shared file "welcome.txt" with password "publicpw" can be downloaded
+
+  Scenario: Creating a new public share, updating its expiration date and getting its info
+    Given user "user0" exists
+    And As an "user0"
+    When creating a public share with
+      | path | FOLDER |
+      | shareType | 3 |
+    And Updating last share with
+      | expireDate | +3 days |
+    And Getting info of last share 
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | id | A_NUMBER |
+      | item_type | folder |
+      | item_source | A_NUMBER |
+      | share_type | 3 |
+      | file_source | A_NUMBER |
+      | file_target | /FOLDER |
+      | permissions | 1 |
+      | stime | A_NUMBER |
+      | expiration | +3 days |
+      | token | A_TOKEN |
+      | storage | A_NUMBER |
+      | mail_send | 0 |
+      | uid_owner | user0 |
+      | storage_id | home::user0 |
+      | file_parent | A_NUMBER |
+      | displayname_owner | user0 |
+      | url | AN_URL |
+
+  Scenario: Creating a new public share, updating its password and getting its info
+    Given user "user0" exists
+    And As an "user0"
+    When creating a public share with
+      | path | FOLDER |
+      | shareType | 3 |
+    And Updating last share with 
+      | password | publicpw |
+    And Getting info of last share 
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | id | A_NUMBER |
+      | item_type | folder |
+      | item_source | A_NUMBER |
+      | share_type | 3 |
+      | file_source | A_NUMBER |
+      | file_target | /FOLDER |
+      | permissions | 1 |
+      | stime | A_NUMBER |
+      | token | A_TOKEN |
+      | storage | A_NUMBER |
+      | mail_send | 0 |
+      | uid_owner | user0 |
+      | storage_id | home::user0 |
+      | file_parent | A_NUMBER |
+      | displayname_owner | user0 |
+      | url | AN_URL |
+
+  Scenario: Creating a new public share, updating its permissions and getting its info
+    Given user "user0" exists
+    And As an "user0"
+    When creating a public share with
+      | path | FOLDER |
+      | shareType | 3 |
+    And Updating last share with
+      | permissions | 7 |
+    And Getting info of last share 
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | id | A_NUMBER |
+      | item_type | folder |
+      | item_source | A_NUMBER |
+      | share_type | 3 |
+      | file_source | A_NUMBER |
+      | file_target | /FOLDER |
+      | permissions | 7 |
+      | stime | A_NUMBER |
+      | token | A_TOKEN |
+      | storage | A_NUMBER |
+      | mail_send | 0 |
+      | uid_owner | user0 |
+      | storage_id | home::user0 |
+      | file_parent | A_NUMBER |
+      | displayname_owner | user0 |
+      | url | AN_URL |
+
+  Scenario: Creating a new public share, updating publicUpload option and getting its info
+    Given user "user0" exists
+    And As an "user0"
+    When creating a public share with
+      | path | FOLDER |
+      | shareType | 3 |
+    And Updating last share with
+      | publicUpload | true |
+    And Getting info of last share 
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | id | A_NUMBER |
+      | item_type | folder |
+      | item_source | A_NUMBER |
+      | share_type | 3 |
+      | file_source | A_NUMBER |
+      | file_target | /FOLDER |
+      | permissions | 7 |
+      | stime | A_NUMBER |
+      | token | A_TOKEN |
+      | storage | A_NUMBER |
+      | mail_send | 0 |
+      | uid_owner | user0 |
+      | storage_id | home::user0 |
+      | file_parent | A_NUMBER |
+      | displayname_owner | user0 |
+      | url | AN_URL |
 
   Scenario: getting all shares of a user using that user
     Given user "user0" exists
