@@ -114,6 +114,7 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle("icons",null,true);
 			OC_Util::addStyle("mobile",null,true);
 			OC_Util::addStyle("header",null,true);
+			OC_Util::addStyle("inputs",null,true);
 			OC_Util::addStyle("styles",null,true);
 
 			// avatars
