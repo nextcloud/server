@@ -96,6 +96,11 @@ if ($installedVersion === '1.1.9' && (
 	}
 }
 
+// Add cron job for scanning user storages
+$jobList = \OC::$server->getJobList();
+$job = 'OCA\Files\BackgroundJob\ScanFiles';
+\OC::$server->getJobList()->add($job);
+
 /**
  * migrate old constant DEBUG to new config value 'debug'
  *

@@ -243,9 +243,6 @@
 					e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
 				});
 
-			//do a background scan if needed
-			scanFiles();
-
 			// display storage warnings
 			setTimeout(Files.displayStorageWarnings, 100);
 
@@ -322,51 +319,6 @@
 	Files._updateStorageStatisticsDebounced = _.debounce(Files._updateStorageStatistics, 250);
 	OCA.Files.Files = Files;
 })();
-
-function scanFiles(force, dir, users) {
-	if (!OC.currentUser) {
-		return;
-	}
-
-	if (!dir) {
-		dir = '';
-	}
-	force = !!force; //cast to bool
-	scanFiles.scanning = true;
-	var scannerEventSource;
-	if (users) {
-		var usersString;
-		if (users === 'all') {
-			usersString = users;
-		} else {
-			usersString = JSON.stringify(users);
-		}
-		scannerEventSource = new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force: force,dir: dir, users: usersString});
-	} else {
-		scannerEventSource = new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force: force,dir: dir});
-	}
-	scanFiles.cancel = scannerEventSource.close.bind(scannerEventSource);
-	scannerEventSource.listen('count',function(count) {
-		console.log(count + ' files scanned');
-	});
-	scannerEventSource.listen('folder',function(path) {
-		console.log('now scanning ' + path);
-	});
-	scannerEventSource.listen('error',function(message) {
-		console.error('Scanner error: ', message);
-	});
-	scannerEventSource.listen('done',function(count) {
-		scanFiles.scanning=false;
-		console.log('done after ' + count + ' files');
-		if (OCA.Files.App) {
-			OCA.Files.App.fileList.updateStorageStatistics(true);
-		}
-	});
-	scannerEventSource.listen('user',function(user) {
-		console.log('scanning files for ' + user);
-	});
-}
-scanFiles.scanning=false;
 
 // TODO: move to FileList
 var createDragShadow = function(event) {

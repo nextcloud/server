@@ -36,7 +36,6 @@ interface IJobList {
 	 *
 	 * @param \OCP\BackgroundJob\IJob|string $job
 	 * @param mixed $argument The argument to be passed to $job->run() when the job is exectured
-	 * @param string $job
 	 * @return void
 	 * @since 7.0.0
 	 */
