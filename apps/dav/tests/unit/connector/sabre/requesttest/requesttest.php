@@ -46,7 +46,8 @@ abstract class RequestTest extends TestCase {
 			\OC::$server->getUserSession(),
 			\OC::$server->getMountManager(),
 			\OC::$server->getTagManager(),
-			\OC::$server->getEventDispatcher()
+			\OC::$server->getEventDispatcher(),
+			$this->getMock('\OCP\IRequest')
 		);
 	}
 
@@ -67,6 +68,7 @@ abstract class RequestTest extends TestCase {
 	 * @param resource|string|null $body
 	 * @param array|null $headers
 	 * @return \Sabre\HTTP\Response
+	 * @throws \Exception
 	 */
 	protected function request($view, $user, $password, $method, $url, $body = null, $headers = null) {
 		if (is_string($body)) {

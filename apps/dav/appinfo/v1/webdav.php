@@ -40,7 +40,8 @@ $serverFactory = new \OCA\DAV\Connector\Sabre\ServerFactory(
 	\OC::$server->getUserSession(),
 	\OC::$server->getMountManager(),
 	\OC::$server->getTagManager(),
-	\OC::$server->getEventDispatcher()
+	\OC::$server->getEventDispatcher(),
+	\OC::$server->getRequest()
 );
 
 // Backends

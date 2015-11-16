@@ -26,12 +26,41 @@ use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
+use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use Sabre\DAV\Auth\Backend\BackendInterface;
+use Sabre\DAV\Locks\Plugin;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ServerFactory {
+	/** @var IConfig */
+	private $config;
+	/** @var ILogger */
+	private $logger;
+	/** @var IDBConnection */
+	private $databaseConnection;
+	/** @var IUserSession */
+	private $userSession;
+	/** @var IMountManager */
+	private $mountManager;
+	/** @var ITagManager */
+	private $tagManager;
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
+	/** @var IRequest */
+	private $request;
+
+	/**
+	 * @param IConfig $config
+	 * @param ILogger $logger
+	 * @param IDBConnection $databaseConnection
+	 * @param IUserSession $userSession
+	 * @param IMountManager $mountManager
+	 * @param ITagManager $tagManager
+	 * @param EventDispatcherInterface $dispatcher
+	 * @param IRequest $request
+	 */
 	public function __construct(
 		IConfig $config,
 		ILogger $logger,
@@ -39,7 +68,8 @@ class ServerFactory {
 		IUserSession $userSession,
 		IMountManager $mountManager,
 		ITagManager $tagManager,
-		EventDispatcherInterface $dispatcher
+		EventDispatcherInterface $dispatcher,
+		IRequest $request
 	) {
 		$this->config = $config;
 		$this->logger = $logger;
@@ -48,6 +78,7 @@ class ServerFactory {
 		$this->mountManager = $mountManager;
 		$this->tagManager = $tagManager;
 		$this->dispatcher = $dispatcher;
+		$this->request = $request;
 	}
 
 	/**
@@ -57,7 +88,10 @@ class ServerFactory {
 	 * @param callable $viewCallBack callback that should return the view for the dav endpoint
 	 * @return Server
 	 */
-	public function createServer($baseUri, $requestUri, BackendInterface $authBackend, callable $viewCallBack) {
+	public function createServer($baseUri,
+								 $requestUri,
+								 BackendInterface $authBackend,
+								 callable $viewCallBack) {
 		// Fire up server
 		$objectTree = new \OCA\DAV\Connector\Sabre\ObjectTree();
 		$server = new \OCA\DAV\Connector\Sabre\Server($objectTree);
@@ -75,6 +109,11 @@ class ServerFactory {
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $this->logger));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin($objectTree));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\ListenerPlugin($this->dispatcher));
+		// Finder on OS X requires Class 2 WebDAV support (locking), since we do
+		// not provide locking we emulate it using a fake locking plugin.
+		if($this->request->isUserAgent(['/WebDAVFS/'])) {
+			$server->addPlugin(new \OCA\DAV\Connector\Sabre\FakeLockerPlugin());
+		}
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$server->on('beforeMethod', function () use ($server, $objectTree, $viewCallBack) {
