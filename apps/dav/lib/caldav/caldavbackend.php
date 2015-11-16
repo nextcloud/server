@@ -902,7 +902,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			])
 			->execute();
 
-		return $this->db->lastInsertId();
+		return $this->db->lastInsertId('*PREFIX*calendarsubscriptions');
 	}
 
 	/**
