@@ -23,6 +23,7 @@ namespace Tests\Connector\Sabre;
 use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
+use Sabre\CalDAV\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\Property\Href;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
@@ -252,6 +253,9 @@ EOD;
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($calendars));
 		$this->assertEquals(self::UNIT_TEST_USER, $calendars[0]['principaluri']);
+		/** @var SupportedCalendarComponentSet $components */
+		$components = $calendars[0]['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
+		$this->assertEquals(['VEVENT','VTODO'], $components->getValue());
 		$this->assertEquals('Example', $calendars[0]['uri']);
 		$calendarId = $calendars[0]['id'];
 

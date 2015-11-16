@@ -212,6 +212,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						'uri' => $query->createNamedParameter($values['uri']),
 						'synctoken' => $query->createNamedParameter($values['synctoken']),
 						'transparent' => $query->createNamedParameter($values['transparent']),
+						'components' => $query->createNamedParameter($values['components']),
 				])
 				->execute();
 	}
