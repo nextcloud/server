@@ -48,7 +48,7 @@ container=`docker run -d \
     -e KEYSTONE_SERVICE=${service} \
     ${docker_image}`
 
-host=`docker inspect $container | grep IPAddress | cut -d '"' -f 4`
+host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
 
 
 echo "${docker_image} container: $container"
