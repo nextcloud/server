@@ -176,14 +176,8 @@ class Groups{
 		foreach ($subadmins as $user) {
 			$uids[] = $user->getUID();
 		}
-		$subadmins = $uids;
 
-		// Go
-		if(!$subadmins) {
-			return new OC_OCS_Result(null, 102, 'Unknown error occured');
-		} else {
-			return new OC_OCS_Result($subadmins);
-		}
+		return new OC_OCS_Result($uids);
 	}
 
 }
