@@ -266,7 +266,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertEquals($id, $share->getId());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_LINK, $share->getShareType());
-		$this->assertEquals('sharedWith', $share->getSharedWith());
+		$this->assertEquals('sharedWith', $share->getPassword());
 		$this->assertEquals($sharedBy, $share->getSharedBy());
 		$this->assertEquals($shareOwner, $share->getShareOwner());
 		$this->assertEquals($path, $share->getPath());

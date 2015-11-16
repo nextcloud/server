@@ -35,15 +35,16 @@ class OCSShareWrapper {
 		                   \OC::$server->getUserFolder(),
 		                    new \OC\Share20\DefaultShareProvider(
 		                       \OC::$server->getDatabaseConnection(),
-							   \OC::$server->getUserManager(),
-							   \OC::$server->getGroupManager(),
-							   \OC::$server->getUserFolder()
+		                       \OC::$server->getUserManager(),
+		                       \OC::$server->getGroupManager(),
+		                       \OC::$server->getUserFolder()
 		                   )
 		               ),
 		               \OC::$server->getGroupManager(),
 		               \OC::$server->getUserManager(),
 		               \OC::$server->getRequest(),
-		               \OC::$server->getUserFolder());
+		               \OC::$server->getUserFolder(),
+		               \OC::$server->getURLGenerator());
 	}
 
 	public function getAllShares($params) {
@@ -55,7 +56,8 @@ class OCSShareWrapper {
 	}
 
 	public function getShare($params) {
-		return \OCA\Files_Sharing\API\Local::getShare($params);
+		$id = $params['id'];
+		return $this->getShare20OCS()->getShare($id);
 	}
 
 	public function updateShare($params) {
@@ -63,7 +65,7 @@ class OCSShareWrapper {
 	}
 
 	public function deleteShare($params) {
-		$id = (int)$params['id'];
+		$id = $params['id'];
 		return $this->getShare20OCS()->deleteShare($id);
 	}
 }
