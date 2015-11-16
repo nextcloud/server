@@ -1,15 +1,15 @@
 /**
  * Strengthify - show the weakness of a password (uses zxcvbn for this)
- * https://github.com/kabum/strengthify
+ * https://github.com/MorrisJobke/strengthify
  *
- * Version: 0.4.1
- * Author: Morris Jobke (github.com/kabum)
+ * Version: 0.4.2
+ * Author: Morris Jobke (github.com/MorrisJobke)
  *
  * License:
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2013 Morris Jobke <morris.jobke@gmail.com>
+ * Copyright (c) 2013-2015 Morris Jobke <morris.jobke@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -43,23 +43,9 @@
 					'Perfect'
 				]
 			},
-			options = $.extend(defaults, paramOptions);
-
-		// add elements
-		$('.strengthify-wrapper')
-			.append('<div class="strengthify-bg" />')
-			.append('<div class="strengthify-container" />')
-			.append('<div class="strengthify-separator" style="left: 25%" />')
-			.append('<div class="strengthify-separator" style="left: 50%" />')
-			.append('<div class="strengthify-separator" style="left: 75%" />');
-
-		$.ajax({
-			cache: true,
-			dataType: 'script',
-			url: options.zxcvbn
-		}).done(function() {
-			me.bind('keyup input change', function() {
-				var password = $(this).val(),
+			options = $.extend(defaults, paramOptions),
+			drawStrengthify = function() {
+				var password = $(me).val(),
 					// hide strengthigy if no input is provided
 					opacity = (password === '') ? 0 : 1,
 					// calculate result
@@ -107,15 +93,15 @@
 				$wrapper.attr(
 					'title',
 					options.titles[result.score]
-				).tipsy({
+				).tooltip({
+					placement: 'bottom',
 					trigger: 'manual',
-					opacity: opacity
-				}).tipsy(
+				}).tooltip(
 					'show'
 				);
 
 				if(opacity === 0) {
-					$wrapper.tipsy(
+					$wrapper.tooltip(
 						'hide'
 					);
 				}
@@ -125,7 +111,24 @@
 					$container.css('width', 0);
 				}
 
-			});
+			};
+
+		// add elements
+		$('.strengthify-wrapper')
+			.append('<div class="strengthify-bg" />')
+			.append('<div class="strengthify-container" />')
+			.append('<div class="strengthify-separator" style="left: 25%" />')
+			.append('<div class="strengthify-separator" style="left: 50%" />')
+			.append('<div class="strengthify-separator" style="left: 75%" />');
+
+		me.parents().on('scroll', drawStrengthify);
+
+		$.ajax({
+			cache: true,
+			dataType: 'script',
+			url: options.zxcvbn
+		}).done(function() {
+			me.bind('keyup input change', drawStrengthify);
 		});
 
 		return me;
