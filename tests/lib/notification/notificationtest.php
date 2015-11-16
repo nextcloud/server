@@ -438,6 +438,24 @@ class NotificationTest extends TestCase {
 		$this->notification->addAction($action);
 	}
 
+	public function testAddActionSecondPrimary() {
+		/** @var \OC\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
+		$action = $this->getMockBuilder('OC\Notification\IAction')
+			->disableOriginalConstructor()
+			->getMock();
+		$action->expects($this->exactly(2))
+			->method('isValid')
+			->willReturn(true);
+		$action->expects($this->exactly(2))
+			->method('isPrimary')
+			->willReturn(true);
+
+		$this->notification->addAction($action);
+
+		$this->setExpectedException('\InvalidArgumentException');
+		$this->notification->addAction($action);
+	}
+
 	public function testAddParsedAction() {
 		/** @var \OC\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
 		$action = $this->getMockBuilder('OC\Notification\IAction')
@@ -469,6 +487,24 @@ class NotificationTest extends TestCase {
 		$action->expects($this->never())
 			->method('isValid');
 
+		$this->notification->addParsedAction($action);
+	}
+
+	public function testAddActionSecondParsedPrimary() {
+		/** @var \OC\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
+		$action = $this->getMockBuilder('OC\Notification\IAction')
+			->disableOriginalConstructor()
+			->getMock();
+		$action->expects($this->exactly(2))
+			->method('isValidParsed')
+			->willReturn(true);
+		$action->expects($this->exactly(2))
+			->method('isPrimary')
+			->willReturn(true);
+
+		$this->notification->addParsedAction($action);
+
+		$this->setExpectedException('\InvalidArgumentException');
 		$this->notification->addParsedAction($action);
 	}
 

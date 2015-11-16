@@ -61,6 +61,19 @@ interface IAction {
 	public function getParsedLabel();
 
 	/**
+	 * @param $primary bool
+	 * @throws \InvalidArgumentException if $primary is invalid
+	 * @since 9.0.0
+	 */
+	public function setPrimary($primary);
+
+	/**
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function isPrimary();
+
+	/**
 	 * @param string $link
 	 * @param string $requestType
 	 * @return $this

@@ -39,6 +39,9 @@ class Action implements IAction {
 	/** @var string */
 	protected $icon;
 
+	/** @var bool */
+	protected $primary;
+
 	/**
 	 * Constructor
 	 */
@@ -92,6 +95,27 @@ class Action implements IAction {
 	 */
 	public function getParsedLabel() {
 		return $this->labelParsed;
+	}
+
+	/**
+	 * @param $primary bool
+	 * @throws \InvalidArgumentException if $primary is invalid
+	 * @since 9.0.0
+	 */
+	public function setPrimary($primary) {
+		if (!is_bool($primary)) {
+			throw new \InvalidArgumentException('The given primary option is invalid');
+		}
+
+		$this->primary = $primary;
+	}
+
+	/**
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function isPrimary() {
+		return $this->primary;
 	}
 
 	/**

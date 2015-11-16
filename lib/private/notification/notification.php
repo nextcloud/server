@@ -68,6 +68,12 @@ class Notification implements INotification {
 	/** @var array */
 	protected $actionsParsed;
 
+	/** @var bool */
+	protected $hasPrimaryAction;
+
+	/** @var bool */
+	protected $hasPrimaryParsedAction;
+
 	/**
 	 * Constructor
 	 */
@@ -369,6 +375,15 @@ class Notification implements INotification {
 		if (!$action->isValid()) {
 			throw new \InvalidArgumentException('The given action is invalid');
 		}
+
+		if ($action->isPrimary()) {
+			if ($this->hasPrimaryAction) {
+				throw new \InvalidArgumentException('The notification already has a primary action');
+			}
+
+			$this->hasPrimaryAction = true;
+		}
+
 		$this->actions[] = $action;
 		return $this;
 	}
@@ -391,6 +406,15 @@ class Notification implements INotification {
 		if (!$action->isValidParsed()) {
 			throw new \InvalidArgumentException('The given parsed action is invalid');
 		}
+
+		if ($action->isPrimary()) {
+			if ($this->hasPrimaryParsedAction) {
+				throw new \InvalidArgumentException('The notification already has a primary action');
+			}
+
+			$this->hasPrimaryParsedAction = true;
+		}
+
 		$this->actionsParsed[] = $action;
 		return $this;
 	}
