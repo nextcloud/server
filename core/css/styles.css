@@ -437,7 +437,6 @@ input[type="submit"].enabled {
 #emptycontent h2,
 .emptycontent h2 {
 	font-weight: 600;
-	font-size: 22px;
 	margin-bottom: 10px;
 }
 #emptycontent [class^="icon-"],
@@ -483,7 +482,6 @@ input[type="submit"].enabled {
 }
 
 #body-login .update h2 {
-	font-size: 20px;
 	line-height: 130%;
 	margin-bottom: 30px;
 }
