@@ -249,14 +249,19 @@ EOD;
 	}
 
 	private function createTestCalendar() {
-		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
+		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', [
+			'{http://apple.com/ns/ical/}calendar-color' => '#1C4587FF'
+		]);
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($calendars));
 		$this->assertEquals(self::UNIT_TEST_USER, $calendars[0]['principaluri']);
 		/** @var SupportedCalendarComponentSet $components */
 		$components = $calendars[0]['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
 		$this->assertEquals(['VEVENT','VTODO'], $components->getValue());
+		$color = $calendars[0]['{http://apple.com/ns/ical/}calendar-color'];
+		$this->assertEquals('#1C4587FF', $color);
 		$this->assertEquals('Example', $calendars[0]['uri']);
+		$this->assertEquals('Example', $calendars[0]['{DAV:}displayname']);
 		$calendarId = $calendars[0]['id'];
 
 		return $calendarId;

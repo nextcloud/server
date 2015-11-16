@@ -169,19 +169,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	function createCalendar($principalUri, $calendarUri, array $properties) {
-		$fieldNames = [
-			'principaluri',
-			'uri',
-			'synctoken',
-			'transparent',
-			'components'
-		];
 		$values = [
 			'principaluri' => $principalUri,
 			'uri'          => $calendarUri,
 			'synctoken'    => 1,
 			'transparent'  => 0,
-			'components'   => 'VEVENT,VTODO'
+			'components'   => 'VEVENT,VTODO',
+			'displayname'  => $calendarUri
 		];
 
 		// Default value
@@ -199,22 +193,16 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		foreach($this->propertyMap as $xmlName=>$dbName) {
 			if (isset($properties[$xmlName])) {
-
 				$values[$dbName] = $properties[$xmlName];
-				$fieldNames[] = $dbName;
 			}
 		}
 
 		$query = $this->db->getQueryBuilder();
-		$query->insert('calendars')
-				->values([
-						'principaluri' => $query->createNamedParameter($values['principaluri']),
-						'uri' => $query->createNamedParameter($values['uri']),
-						'synctoken' => $query->createNamedParameter($values['synctoken']),
-						'transparent' => $query->createNamedParameter($values['transparent']),
-						'components' => $query->createNamedParameter($values['components']),
-				])
-				->execute();
+		$query->insert('calendars');
+		foreach($values as $column => $value) {
+			$query->setValue($column, $query->createNamedParameter($value));
+		}
+		$query->execute();
 	}
 
 	/**
