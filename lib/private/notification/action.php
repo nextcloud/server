@@ -154,28 +154,6 @@ class Action implements IAction {
 	}
 
 	/**
-	 * @param string $icon
-	 * @return $this
-	 * @throws \InvalidArgumentException if the icon is invalid
-	 * @since 8.2.0
-	 */
-	public function setIcon($icon) {
-		if (!is_string($icon) || $icon === '' || isset($icon[64])) {
-			throw new \InvalidArgumentException('The given icon is invalid');
-		}
-		$this->icon = $icon;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 * @since 8.2.0
-	 */
-	public function getIcon() {
-		return $this->icon;
-	}
-
-	/**
 	 * @return bool
 	 */
 	public function isValid() {

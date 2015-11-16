@@ -371,34 +371,6 @@ class NotificationTest extends TestCase {
 		$this->notification->setLink($link);
 	}
 
-	public function dataSetIcon() {
-		return $this->dataValidString(64);
-	}
-
-	/**
-	 * @dataProvider dataSetIcon
-	 * @param string $icon
-	 */
-	public function testSetIcon($icon) {
-		$this->assertSame('', $this->notification->getIcon());
-		$this->notification->setIcon($icon);
-		$this->assertSame($icon, $this->notification->getIcon());
-	}
-
-	public function dataSetIconInvalid() {
-		return $this->dataInvalidString(64);
-	}
-
-	/**
-	 * @dataProvider dataSetIconInvalid
-	 * @param mixed $icon
-	 *
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testSetIconInvalid($icon) {
-		$this->notification->setIcon($icon);
-	}
-
 	public function testCreateAction() {
 		$action = $this->notification->createAction();
 		$this->assertInstanceOf('OC\Notification\IAction', $action);

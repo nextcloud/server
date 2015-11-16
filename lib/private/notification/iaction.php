@@ -95,20 +95,6 @@ interface IAction {
 	public function getRequestType();
 
 	/**
-	 * @param string $icon
-	 * @return $this
-	 * @throws \InvalidArgumentException if the icon is invalid
-	 * @since 8.2.0
-	 */
-	public function setIcon($icon);
-
-	/**
-	 * @return string
-	 * @since 8.2.0
-	 */
-	public function getIcon();
-
-	/**
 	 * @return bool
 	 * @since 8.2.0
 	 */
