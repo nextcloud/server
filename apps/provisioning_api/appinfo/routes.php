@@ -51,7 +51,8 @@ API::register('get', '/cloud/users/{userid}/subadmins', [$users, 'getUserSubAdmi
 // Groups
 $groups = new \OCA\Provisioning_API\Groups(
 	\OC::$server->getGroupManager(),
-	\OC::$server->getUserSession()
+	\OC::$server->getUserSession(),
+	\OC::$server->getRequest()
 );
 API::register('get', '/cloud/groups', [$groups, 'getGroups'], 'provisioning_api', API::SUBADMIN_AUTH);
 API::register('post', '/cloud/groups', [$groups, 'addGroup'], 'provisioning_api', API::SUBADMIN_AUTH);
