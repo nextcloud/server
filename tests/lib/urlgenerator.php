@@ -53,23 +53,23 @@ class Test_Urlgenerator extends \Test\TestCase {
 
 	public function provideRoutes() {
 		return array(
-			array('files_index', 'http://localhost/owncloud/index.php/apps/files/'),
+			array('files_ajax_list', 'http://localhost/owncloud/index.php/apps/files/ajax/list.php'),
 			array('core_ajax_preview', 'http://localhost/owncloud/index.php/core/preview.png'),
 		);
 	}
 
 	public function provideDocRootAppUrlParts() {
 		return array(
-			array('files', 'index.php', array(), '/index.php/apps/files'),
-			array('files', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php/apps/files?trut=trat&dut=dat'),
+			array('files', 'ajax/list.php', array(), '/index.php/apps/files/ajax/list.php'),
+			array('files', 'ajax/list.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'),
 			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php?trut=trat&dut=dat'),
 		);
 	}
 
 	public function provideSubDirAppUrlParts() {
 		return array(
-			array('files', 'index.php', array(), '/owncloud/index.php/apps/files'),
-			array('files', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php/apps/files?trut=trat&dut=dat'),
+			array('files', 'ajax/list.php', array(), '/owncloud/index.php/apps/files/ajax/list.php'),
+			array('files', 'ajax/list.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'),
 			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php?trut=trat&dut=dat'),
 		);
 	}

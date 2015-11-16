@@ -48,14 +48,17 @@ $application->registerRoutes(
 				'verb' => 'GET',
 				'requirements' => array('tagName' => '.+'),
 			),
+			[
+				'name' => 'view#index',
+				'url' => '/',
+				'verb' => 'GET',
+			],
 		)
 	)
 );
 
 /** @var $this \OC\Route\Router */
 
-$this->create('files_index', '/')
-	->actionInclude('files/index.php');
 $this->create('files_ajax_delete', 'ajax/delete.php')
 	->actionInclude('files/ajax/delete.php');
 $this->create('files_ajax_download', 'ajax/download.php')
