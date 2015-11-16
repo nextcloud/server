@@ -26,6 +26,11 @@
 namespace Test\Files\Storage;
 
 class SFTP extends Storage {
+	/**
+	 * @var \OC\Files\Storage\SFTP instance
+	 */
+	protected $instance;
+
 	private $config;
 
 	protected function setUp() {
@@ -102,6 +107,39 @@ class SFTP extends Storage {
 					'root' => 'remotedir/subdir/',
 				],
 				'sftp::someuser@somehost:8822//remotedir/subdir/',
+			],
+			[
+				// ipv6 with port
+				[
+					'run' => true,
+					'host' => 'FE80:0000:0000:0000:0202:B3FF:FE1E:8329',
+					'user' => 'someuser',
+					'password' => 'somepassword',
+					'root' => 'remotedir/subdir/',
+				],
+				'sftp::someuser@FE80:0000:0000:0000:0202:B3FF:FE1E:8329//remotedir/subdir/',
+			],
+			[
+				// ipv6 without port
+				[
+					'run' => true,
+					'host' => 'FE80:0000:0000:0000:0202:B3FF:FE1E:8329:8822',
+					'user' => 'someuser',
+					'password' => 'somepassword',
+					'root' => 'remotedir/subdir/',
+				],
+				'sftp::someuser@FE80:0000:0000:0000:0202:B3FF:FE1E:8329:8822//remotedir/subdir/',
+			],
+			[
+				// collapsed ipv6 with port
+				[
+					'run' => true,
+					'host' => 'FE80::0202:B3FF:FE1E:8329:8822',
+					'user' => 'someuser',
+					'password' => 'somepassword',
+					'root' => 'remotedir/subdir/',
+				],
+				'sftp::someuser@FE80::0202:B3FF:FE1E:8329:8822//remotedir/subdir/',
 			],
 		];
 	}
