@@ -62,6 +62,7 @@ interface IAction {
 
 	/**
 	 * @param $primary bool
+	 * @return $this
 	 * @throws \InvalidArgumentException if $primary is invalid
 	 * @since 9.0.0
 	 */
