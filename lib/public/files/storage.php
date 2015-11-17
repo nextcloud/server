@@ -462,4 +462,10 @@ interface Storage {
 	 * @param bool $isAvailable
 	 */
 	public function setAvailability($isAvailable);
+
+	/**
+	 * @param $path path for which to retrieve the owner
+	 * @since 9.0.0
+	 */
+	public function getOwner($path);
 }
