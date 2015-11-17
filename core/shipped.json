@@ -32,7 +32,8 @@
     "user_ldap",
     "user_shibboleth",
     "windows_network_drive",
-    "password_policy"
+    "password_policy",
+    "federation"
   ],
   "alwaysEnabled": [
     "files",
