@@ -226,6 +226,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer();
 		});
 
+		$this->registerService('Symfony\Component\EventDispatcher\EventDispatcherInterface', function ($c) {
+			return $this->getServer()->getEventDispatcher();
+		});
+
 		$this->registerService('OCP\\AppFramework\\IAppContainer', function ($c) {
 			return $c;
 		});

@@ -353,18 +353,24 @@ class Test_Helper extends \Test\TestCase {
 		$this->assertEquals($expectedResult, $result);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function provideDocRootAppUrlParts() {
 		return array(
-			array('files', 'index.php', array(), '/index.php/apps/files'),
-			array('files', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php/apps/files?trut=trat&dut=dat'),
+			array('files', 'ajax/list.php', array(), '/index.php/apps/files/ajax/list.php'),
+			array('files', 'ajax/list.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'),
 			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php?trut=trat&dut=dat'),
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function provideSubDirAppUrlParts() {
 		return array(
-			array('files', 'index.php', array(), '/owncloud/index.php/apps/files'),
-			array('files', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php/apps/files?trut=trat&dut=dat'),
+			array('files', 'ajax/list.php', array(), '/owncloud/index.php/apps/files/ajax/list.php'),
+			array('files', 'ajax/list.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'),
 			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php?trut=trat&dut=dat'),
 		);
 	}
@@ -393,18 +399,24 @@ class Test_Helper extends \Test\TestCase {
 		$this->assertEquals($expectedResult, $result);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function provideDocRootAppAbsoluteUrlParts() {
 		return array(
-			array('files', 'index.php', array(), 'http://localhost/index.php/apps/files'),
-			array('files', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/index.php/apps/files?trut=trat&dut=dat'),
+			array('files', 'ajax/list.php', array(), 'http://localhost/index.php/apps/files/ajax/list.php'),
+			array('files', 'ajax/list.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'),
 			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/index.php?trut=trat&dut=dat'),
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function provideSubDirAppAbsoluteUrlParts() {
 		return array(
-			array('files', 'index.php', array(), 'http://localhost/owncloud/index.php/apps/files'),
-			array('files', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/owncloud/index.php/apps/files?trut=trat&dut=dat'),
+			array('files', 'ajax/list.php', array(), 'http://localhost/owncloud/index.php/apps/files/ajax/list.php'),
+			array('files', 'ajax/list.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/owncloud/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'),
 			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/owncloud/index.php?trut=trat&dut=dat'),
 		);
 	}
