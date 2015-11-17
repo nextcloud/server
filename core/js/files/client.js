@@ -31,22 +31,9 @@
 			this._root = this._root.substr(0, this._root.length - 1);
 		}
 
-		if (!options.port) {
-			// workaround in case port is null or empty
-			options.port = undefined;
-		}
-		var url = '';
-		var port = '';
+		var url = 'http://';
 		if (options.useHTTPS) {
-			url += 'https://';
-			if (options.port && options.port !== 443) {
-				port = ':' + options.port;
-			}
-		} else {
-			url += 'http://';
-			if (options.port && options.port !== 80) {
-				port = ':' + options.port;
-			}
+			url = 'https://';
 		}
 		var credentials = '';
 		if (options.userName) {
@@ -59,7 +46,7 @@
 			url += credentials + '@';
 		}
 
-		url += options.host + port + this._root;
+		url += options.host + this._root;
 		this._defaultHeaders = options.defaultHeaders || {'X-Requested-With': 'XMLHttpRequest'};
 		this._baseUrl = url;
 		this._client = new dav.Client({

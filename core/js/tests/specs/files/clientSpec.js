@@ -25,11 +25,10 @@ describe('OC.Files.Client tests', function() {
 	var client;
 
 	beforeEach(function() {
-		baseUrl = 'https://testhost:999/owncloud/remote.php/webdav/';
+		baseUrl = 'https://testhost/owncloud/remote.php/webdav/';
 
 		client = new Client({
 			host: 'testhost',
-			port: 999,
 			root: '/owncloud/remote.php/webdav',
 			useHTTPS: true
 		});

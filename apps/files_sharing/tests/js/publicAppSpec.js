@@ -21,13 +21,12 @@
 
 describe('OCA.Sharing.PublicApp tests', function() {
 	var App = OCA.Sharing.PublicApp;
-	var hostStub, portStub, protocolStub, webrootStub;
+	var hostStub, protocolStub, webrootStub;
 	var $preview;
 
 	beforeEach(function() {
 		protocolStub = sinon.stub(OC, 'getProtocol').returns('https');
 		hostStub = sinon.stub(OC, 'getHost').returns('example.com');
-		portStub = sinon.stub(OC, 'getPort').returns(8080);
 		webrootStub = sinon.stub(OC, 'getRootPath').returns('/owncloud');
 		$preview = $('<div id="preview"></div>');
 		$('#testArea').append($preview);
@@ -41,7 +40,6 @@ describe('OCA.Sharing.PublicApp tests', function() {
 	afterEach(function() {
 		protocolStub.restore();
 		hostStub.restore();
-		portStub.restore();
 		webrootStub.restore();
 	});
 
@@ -91,7 +89,7 @@ describe('OCA.Sharing.PublicApp tests', function() {
 		it('Uses public webdav endpoint', function() {
 			expect(fakeServer.requests.length).toEqual(1);
 			expect(fakeServer.requests[0].method).toEqual('PROPFIND');
-			expect(fakeServer.requests[0].url).toEqual('https://sh4tok@example.com:8080/owncloud/public.php/webdav/subdir');
+			expect(fakeServer.requests[0].url).toEqual('https://sh4tok@example.com/owncloud/public.php/webdav/subdir');
 		});
 
 		describe('Download Url', function() {
