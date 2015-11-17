@@ -171,47 +171,6 @@ class ActionTest extends TestCase {
 		$this->action->setLink($link, $type);
 	}
 
-	public function dataSetIcon() {
-		return [
-			['test1'],
-			[str_repeat('a', 1)],
-			[str_repeat('a', 64)],
-		];
-	}
-
-	/**
-	 * @dataProvider dataSetIcon
-	 * @param string $icon
-	 */
-	public function testSetIcon($icon) {
-		$this->assertSame('', $this->action->getIcon());
-		$this->action->setIcon($icon);
-		$this->assertSame($icon, $this->action->getIcon());
-	}
-
-	public function dataSetIconInvalid() {
-		return [
-			[true],
-			[false],
-			[0],
-			[1],
-			[''],
-			[str_repeat('a', 65)],
-			[[]],
-			[[str_repeat('a', 65)]],
-		];
-	}
-
-	/**
-	 * @dataProvider dataSetIconInvalid
-	 * @param string $icon
-	 *
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testSetIconInvalid($icon) {
-		$this->action->setIcon($icon);
-	}
-
 	public function testIsValid() {
 		$this->assertFalse($this->action->isValid());
 		$this->assertFalse($this->action->isValidParsed());

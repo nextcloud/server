@@ -180,20 +180,6 @@ interface INotification {
 	public function getLink();
 
 	/**
-	 * @param string $icon
-	 * @return $this
-	 * @throws \InvalidArgumentException if the icon are invalid
-	 * @since 8.2.0
-	 */
-	public function setIcon($icon);
-
-	/**
-	 * @return string
-	 * @since 8.2.0
-	 */
-	public function getIcon();
-
-	/**
 	 * @return IAction
 	 * @since 8.2.0
 	 */

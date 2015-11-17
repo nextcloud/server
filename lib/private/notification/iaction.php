@@ -61,6 +61,19 @@ interface IAction {
 	public function getParsedLabel();
 
 	/**
+	 * @param $primary bool
+	 * @throws \InvalidArgumentException if $primary is invalid
+	 * @since 9.0.0
+	 */
+	public function setPrimary($primary);
+
+	/**
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function isPrimary();
+
+	/**
 	 * @param string $link
 	 * @param string $requestType
 	 * @return $this
@@ -80,20 +93,6 @@ interface IAction {
 	 * @since 8.2.0
 	 */
 	public function getRequestType();
-
-	/**
-	 * @param string $icon
-	 * @return $this
-	 * @throws \InvalidArgumentException if the icon is invalid
-	 * @since 8.2.0
-	 */
-	public function setIcon($icon);
-
-	/**
-	 * @return string
-	 * @since 8.2.0
-	 */
-	public function getIcon();
 
 	/**
 	 * @return bool

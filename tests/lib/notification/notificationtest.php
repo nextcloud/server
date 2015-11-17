@@ -371,34 +371,6 @@ class NotificationTest extends TestCase {
 		$this->notification->setLink($link);
 	}
 
-	public function dataSetIcon() {
-		return $this->dataValidString(64);
-	}
-
-	/**
-	 * @dataProvider dataSetIcon
-	 * @param string $icon
-	 */
-	public function testSetIcon($icon) {
-		$this->assertSame('', $this->notification->getIcon());
-		$this->notification->setIcon($icon);
-		$this->assertSame($icon, $this->notification->getIcon());
-	}
-
-	public function dataSetIconInvalid() {
-		return $this->dataInvalidString(64);
-	}
-
-	/**
-	 * @dataProvider dataSetIconInvalid
-	 * @param mixed $icon
-	 *
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testSetIconInvalid($icon) {
-		$this->notification->setIcon($icon);
-	}
-
 	public function testCreateAction() {
 		$action = $this->notification->createAction();
 		$this->assertInstanceOf('OC\Notification\IAction', $action);
@@ -438,6 +410,24 @@ class NotificationTest extends TestCase {
 		$this->notification->addAction($action);
 	}
 
+	public function testAddActionSecondPrimary() {
+		/** @var \OC\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
+		$action = $this->getMockBuilder('OC\Notification\IAction')
+			->disableOriginalConstructor()
+			->getMock();
+		$action->expects($this->exactly(2))
+			->method('isValid')
+			->willReturn(true);
+		$action->expects($this->exactly(2))
+			->method('isPrimary')
+			->willReturn(true);
+
+		$this->notification->addAction($action);
+
+		$this->setExpectedException('\InvalidArgumentException');
+		$this->notification->addAction($action);
+	}
+
 	public function testAddParsedAction() {
 		/** @var \OC\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
 		$action = $this->getMockBuilder('OC\Notification\IAction')
@@ -469,6 +459,24 @@ class NotificationTest extends TestCase {
 		$action->expects($this->never())
 			->method('isValid');
 
+		$this->notification->addParsedAction($action);
+	}
+
+	public function testAddActionSecondParsedPrimary() {
+		/** @var \OC\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
+		$action = $this->getMockBuilder('OC\Notification\IAction')
+			->disableOriginalConstructor()
+			->getMock();
+		$action->expects($this->exactly(2))
+			->method('isValidParsed')
+			->willReturn(true);
+		$action->expects($this->exactly(2))
+			->method('isPrimary')
+			->willReturn(true);
+
+		$this->notification->addParsedAction($action);
+
+		$this->setExpectedException('\InvalidArgumentException');
 		$this->notification->addParsedAction($action);
 	}
 
