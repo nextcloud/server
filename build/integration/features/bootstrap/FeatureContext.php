@@ -238,8 +238,23 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	}
 
 	/**
-	 * @Given /^user "([^"]*)" belongs to group "([^"]*)"$/
+	 * @Then /^check that user "([^"]*)" belongs to group "([^"]*)"$/
 	 */
+	public function checkThatUserBelongsToGroup($user, $group) {
+		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user/groups";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->get($fullUrl, $options);
+		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
+		sort($respondedArray);
+		PHPUnit_Framework_Assert::assertContains($group, $respondedArray);
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
 	public function userBelongsToGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user/groups";
 		$client = new Client();
@@ -251,8 +266,26 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		$this->response = $client->get($fullUrl, $options);
 		$groups = array($group);
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
-		PHPUnit_Framework_Assert::assertEquals($groups, $respondedArray, "", 0.0, 10, true);
-		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+
+		if (array_key_exists($group, $respondedArray)) {
+			return True;
+		} else{
+			return False;
+		}
+	}
+
+	/**
+	 * @Given /^user "([^"]*)" belongs to group "([^"]*)"$/
+	 */
+	public function assureUserBelongsToGroup($user, $group){
+		if (!$this->userBelongsToGroup($user, $group)){			
+			$previous_user = $this->currentUser;
+			$this->currentUser = "admin";
+			$this->addingUserToGroup($user, $group);
+			$this->currentUser = $previous_user;
+		}
+		$this->checkThatUserBelongsToGroup($user, $group);
+
 	}
 
 	/**
@@ -818,10 +851,10 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('share_with', "$user"));
 	}
 
-	public function isUserInSharedData($user){
+	public function isUserOrGroupInSharedData($userOrGroup){
 		$data = $this->response->xml()->data[0];
 		foreach($data as $element) {
-			if ($element->share_with == $user){
+			if ($element->share_with == $userOrGroup){
 				return True;
 			}
 		}
@@ -841,13 +874,70 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 			$options['auth'] = [$user1, $this->regularUser];
 		}
 		$this->response = $client->get($fullUrl, $options);
-		if ($this->isUserInSharedData($user2)){
+		if ($this->isUserOrGroupInSharedData($user2)){
 			return;
 		} else {
 			$this->createShare($user1, $filepath, 0, $user2, null, null, null);
 		}
 		$this->response = $client->get($fullUrl, $options);
-		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserInSharedData($user2));
+		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserOrGroupInSharedData($user2));
+	}
+
+	/**
+	 * @Given /^file "([^"]*)" from user "([^"]*)" is shared with group "([^"]*)"$/
+	 */
+	public function assureFileIsSharedWithGroup($filepath, $user, $group){
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
+		$client = new Client();
+		$options = [];
+		if ($user === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$user, $this->regularUser];
+		}
+		$this->response = $client->get($fullUrl, $options);
+		if ($this->isUserOrGroupInSharedData($group)){
+			return;
+		} else {
+			$this->createShare($user, $filepath, 1, $group, null, null, null);
+		}
+		$this->response = $client->get($fullUrl, $options);
+		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserOrGroupInSharedData($group));
+	}
+
+	public function makeDavRequest($user, $method, $path, $headers){
+		$fullUrl = substr($this->baseUrl, 0, -4) . "remote.php/webdav" . "$path";
+		$client = new Client();
+		$options = [];
+		if ($user === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$user, $this->regularUser];
+		}
+		$request = $client->createRequest($method, $fullUrl, $options);
+		foreach ($headers as $key => $value) {
+			$request->addHeader($key, $value);	
+		}
+		$this->response = $client->send($request);
+	}
+
+	/**
+	 * @Given /^User "([^"]*)" moved file "([^"]*)" to "([^"]*)"$/
+	 */
+	public function userMovedFile($user, $fileSource, $fileDestination){
+		$fullUrl = substr($this->baseUrl, 0, -4) . "remote.php/webdav";
+		$headers['Destination'] = $fullUrl . $fileDestination;
+		$this->makeDavRequest($user, "MOVE", $fileSource, $headers);
+		PHPUnit_Framework_Assert::assertEquals(201, $this->response->getStatusCode());
+	}
+
+	/**
+	 * @When /^User "([^"]*)" moves file "([^"]*)" to "([^"]*)"$/
+	 */
+	public function userMovesFile($user, $fileSource, $fileDestination){
+		$fullUrl = substr($this->baseUrl, 0, -4) . "remote.php/webdav";
+		$headers['Destination'] = $fullUrl . $fileDestination;
+		$this->makeDavRequest($user, "MOVE", $fileSource, $headers);
 	}
 
 	/**
@@ -877,7 +967,9 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 			$fd = $body->getRowsHash();
 
 			foreach($fd as $field => $value) {
-				PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse($field, $value));
+				if (!$this->isFieldInResponse($field, $value)){
+					PHPUnit_Framework_Assert::fail("$field" . " doesn't have value " . "$value");
+				}
 			}
 		}
 	}
