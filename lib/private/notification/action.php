@@ -50,7 +50,7 @@ class Action implements IAction {
 		$this->labelParsed = '';
 		$this->link = '';
 		$this->requestType = '';
-		$this->icon = '';
+		$this->primary = false;
 	}
 
 	/**
@@ -99,6 +99,7 @@ class Action implements IAction {
 
 	/**
 	 * @param $primary bool
+	 * @return $this
 	 * @throws \InvalidArgumentException if $primary is invalid
 	 * @since 9.0.0
 	 */
@@ -108,6 +109,7 @@ class Action implements IAction {
 		}
 
 		$this->primary = $primary;
+		return $this;
 	}
 
 	/**
