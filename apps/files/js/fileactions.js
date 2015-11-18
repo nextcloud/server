@@ -612,10 +612,7 @@
 
 			this.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
 				var dir = context.$file.attr('data-path') || context.fileList.getCurrentDirectory();
-				if (dir !== '/') {
-					dir = dir + '/';
-				}
-				context.fileList.changeDirectory(dir + filename);
+				context.fileList.changeDirectory(OC.joinPaths(dir, filename));
 			});
 
 			this.registerAction({
