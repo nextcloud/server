@@ -30,19 +30,19 @@ class ActivityTest extends TestCase {
 	/** @var \OC\ActivityManager */
 	private $activityManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $session;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Files\ActivityHelper|\PHPUnit_Framework_MockObject_MockObject */
 	protected $activityHelper;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\L10N\IFactory|\PHPUnit_Framework_MockObject_MockObject */
 	protected $l10nFactory;
 
 	/** @var \OCA\Files\Activity */
@@ -70,7 +70,7 @@ class ActivityTest extends TestCase {
 			$this->config
 		);
 
-		$this->l10nFactory = $this->getMockBuilder('OC\L10N\Factory')
+		$this->l10nFactory = $this->getMockBuilder('OCP\L10N\IFactory')
 			->disableOriginalConstructor()
 			->getMock();
 		$deL10n = $this->getMockBuilder('OC_L10N')

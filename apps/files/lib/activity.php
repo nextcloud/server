@@ -22,7 +22,7 @@
 
 namespace OCA\Files;
 
-use OC\L10N\Factory;
+use OCP\L10N\IFactory;
 use OCP\Activity\IExtension;
 use OCP\Activity\IManager;
 use OCP\IConfig;
@@ -43,7 +43,7 @@ class Activity implements IExtension {
 	/** @var IL10N */
 	protected $l;
 
-	/** @var Factory */
+	/** @var IFactory */
 	protected $languageFactory;
 
 	/** @var IURLGenerator */
@@ -59,13 +59,13 @@ class Activity implements IExtension {
 	protected $helper;
 
 	/**
-	 * @param Factory $languageFactory
+	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $URLGenerator
 	 * @param IManager $activityManager
 	 * @param ActivityHelper $helper
 	 * @param IConfig $config
 	 */
-	public function __construct(Factory $languageFactory, IURLGenerator $URLGenerator, IManager $activityManager, ActivityHelper $helper, IConfig $config) {
+	public function __construct(IFactory $languageFactory, IURLGenerator $URLGenerator, IManager $activityManager, ActivityHelper $helper, IConfig $config) {
 		$this->languageFactory = $languageFactory;
 		$this->URLGenerator = $URLGenerator;
 		$this->l = $this->getL10N();
