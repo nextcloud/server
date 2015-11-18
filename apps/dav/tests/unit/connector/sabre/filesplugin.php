@@ -11,6 +11,7 @@ namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 class FilesPlugin extends \Test\TestCase {
 	const GETETAG_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::GETETAG_PROPERTYNAME;
 	const FILEID_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::FILEID_PROPERTYNAME;
+	const INTERNAL_FILEID_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::INTERNAL_FILEID_PROPERTYNAME;
 	const SIZE_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::SIZE_PROPERTYNAME;
 	const PERMISSIONS_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::PERMISSIONS_PROPERTYNAME;
 	const LASTMODIFIED_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::LASTMODIFIED_PROPERTYNAME;
@@ -69,7 +70,10 @@ class FilesPlugin extends \Test\TestCase {
 
 		$node->expects($this->any())
 			->method('getFileId')
-			->will($this->returnValue(123));
+			->will($this->returnValue('00000123instanceid'));
+		$node->expects($this->any())
+			->method('getInternalFileId')
+			->will($this->returnValue('123'));
 		$node->expects($this->any())
 			->method('getEtag')
 			->will($this->returnValue('"abc"'));
@@ -90,6 +94,7 @@ class FilesPlugin extends \Test\TestCase {
 			array(
 				self::GETETAG_PROPERTYNAME,
 				self::FILEID_PROPERTYNAME,
+				self::INTERNAL_FILEID_PROPERTYNAME,
 				self::SIZE_PROPERTYNAME,
 				self::PERMISSIONS_PROPERTYNAME,
 				self::DOWNLOADURL_PROPERTYNAME,
@@ -125,7 +130,8 @@ class FilesPlugin extends \Test\TestCase {
 		);
 
 		$this->assertEquals('"abc"', $propFind->get(self::GETETAG_PROPERTYNAME));
-		$this->assertEquals(123, $propFind->get(self::FILEID_PROPERTYNAME));
+		$this->assertEquals('00000123instanceid', $propFind->get(self::FILEID_PROPERTYNAME));
+		$this->assertEquals('123', $propFind->get(self::INTERNAL_FILEID_PROPERTYNAME));
 		$this->assertEquals(null, $propFind->get(self::SIZE_PROPERTYNAME));
 		$this->assertEquals('DWCKMSR', $propFind->get(self::PERMISSIONS_PROPERTYNAME));
 		$this->assertEquals('http://example.com/', $propFind->get(self::DOWNLOADURL_PROPERTYNAME));
@@ -186,7 +192,7 @@ class FilesPlugin extends \Test\TestCase {
 		);
 
 		$this->assertEquals('"abc"', $propFind->get(self::GETETAG_PROPERTYNAME));
-		$this->assertEquals(123, $propFind->get(self::FILEID_PROPERTYNAME));
+		$this->assertEquals('00000123instanceid', $propFind->get(self::FILEID_PROPERTYNAME));
 		$this->assertEquals(1025, $propFind->get(self::SIZE_PROPERTYNAME));
 		$this->assertEquals('DWCKMSR', $propFind->get(self::PERMISSIONS_PROPERTYNAME));
 		$this->assertEquals(null, $propFind->get(self::DOWNLOADURL_PROPERTYNAME));
