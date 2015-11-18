@@ -250,7 +250,7 @@ class Storage extends DAV implements ISharedStorage {
 			$response = $client->post($url, ['body' => ['password' => $password]]);
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
 			if ($e->getCode() === 401 || $e->getCode() === 403) {
-					throw new ForbiddenException();
+				throw new ForbiddenException();
 			}
 			// throw this to be on the safe side: the share will still be visible
 			// in the UI in case the failure is intermittent, and the user will
@@ -259,5 +259,10 @@ class Storage extends DAV implements ISharedStorage {
 		}
 
 		return json_decode($response->getBody(), true);
+	}
+
+	public function getOwner($path) {
+		list(, $remote) = explode('://', $this->remote, 2);
+		return $this->remoteUser . '@' . $remote;
 	}
 }
