@@ -16,6 +16,10 @@ if (!OCA.External) {
     OCA.External = {};
 }
 
+if (!OCA.External.StatusManager) {
+    OCA.External.StatusManager = {};
+}
+
 OCA.External.StatusManager = {
     mountStatus : null,
     mountPointList : null,
@@ -90,16 +94,16 @@ OCA.External.StatusManager = {
                     } else {
                         if (response && response.statusMessage) {
                             // failure response with error message
-                            self.mountStatus[mountData.mount_point] = {code: 'GE',
+                            self.mountStatus[mountData.mount_point] = { type: mountData.type,
                                                                         status: 1,
                                                                         error: response.statusMessage};
                         } else {
-                            self.mountStatus[mountData.mount_point] = {code: 'GE',
+                            self.mountStatus[mountData.mount_point] = { type: mountData.type,
                                                                         status: 1,
                                                                         error: t('files_external', 'Empty response from the server')};
                         }
                     }
-                    afterCallback(mountData.mount_point, self.mountStatus[mountData.mount_point]);
+                    afterCallback(mountData, self.mountStatus[mountData.mount_point]);
                 },
                 error : function(jqxhr, state, error) {
                     var message;
@@ -109,7 +113,7 @@ OCA.External.StatusManager = {
                     } else {
                         message = t('files_external', 'Couldn\'t get the information from the ownCloud server: {code} {type}', {code: jqxhr.status, type: error});
                     }
-                    self.mountStatus[mountData.mount_point] = {code: 'GE',
+                    self.mountStatus[mountData.mount_point] = { type: mountData.type,
                                                                 status: 1,
                                                                 location: mountData.location,
                                                                 error: message};
@@ -142,8 +146,8 @@ OCA.External.StatusManager = {
                         element.type = mount.scope;
                         element.location = "";
                         element.id = mount.id;
-                        element.backend = mount.backend;
-                        element.class = mount.class;
+                        element.backendText = mount.backend;
+                        element.backend = mount.class;
 
                         self.mountPointList.push(element);
                     });
@@ -173,38 +177,18 @@ OCA.External.StatusManager = {
         this.getMountStatus($.proxy(function(allMountStatus) {
             if (typeof allMountStatus[name] !== 'undefined' || allMountStatus[name].status === 1) {
                 var mountData = allMountStatus[name];
-                if ((mountData.code === 'CNP' || mountData.code === 'AD') && mountData.type === 'global' && mountData.location === 1) {
-                    // admin set up mount point and let users use their credentials. Credentials
-                    // aren't stored yet or are wrong (handled by the same ajax request)
-                    this.showCredentialsDialog(name, mountData, null, 'saveCredential.php',
-                                                null, this.setMountPointAsGood, this);
-
-                } else if (mountData.code === 'AD' && mountData.type === 'personal' && mountData.location === 0) {
-                    // personal set up mount point and let users use their credentials.
-                    // Credentials are wrong so they need to be updated
-                    // the "type 0" is a required parameter in the target ajax call
-                    this.showCredentialsDialog(name, mountData, {type: 0}, 'updatePersonalMountPoint.php',
-                                                null, this.setMountPointAsGood, this);
-
-                } else if (mountData.code === 'AD' && mountData.type === 'personal' && mountData.location === 2) {
-                    this.showCredentialsDialog(name, mountData, null, 'saveGlobalCredentials.php',
-                                                t('files_external', 'WARNING: This mount point uses global credentials.\n\nChanging the credentials might affect to other mount points'),
-                                                function() {
-                                                    this.recheckConnectivityForMount([name], true, true);
-                                                },
-                                                this);
-
-                } else if (mountData.code === 'AD' && mountData.type === 'global' && (mountData.location === 0 || mountData.location === 2)) {
-                    OC.dialogs.message(t('files_external', 'The credentials for this mount point are wrong. This mount point was set by the administrator, please contact him / her to provide suitable credentials'), t('files_external', 'Credentials error'));
-
-                } else if ((mountData.code === 'CE' || mountData.code === 'IH')) {
-                    OC.dialogs.message(mountData.error, t('files_external', 'Connectivity error'));
-
-                } else if ((mountData.code === 'GE' && mountData.location === 3)) {
-                    OC.dialogs.message(mountData.error, t('files_external', 'Login credentials error'));
-
+                if (mountData.type === "system") {
+                    OC.dialogs.confirm(t('files_external', 'There was an error with message: ') + mountData.error + '. Do you want to review mount point config in admin settings page?', t('files_external', 'External mount error'), function(e){
+                        if(e === true) {
+                            window.location.href = OC.generateUrl('/settings/admin#files_external');
+                        }
+                    });
                 } else {
-                    OC.dialogs.message(mountData.error, t('files_external', 'External mount error'));
+                    OC.dialogs.confirm(t('files_external', 'There was an error with message: ') + mountData.error + '. Do you want to review mount point config in personal settings page?', t('files_external', 'External mount error'), function(e){
+                        if(e === true) {
+                            window.location.href = OC.generateUrl('/settings/personal#' + t('files_external', 'goto-external-storage'));
+                        }
+                    });
                 }
             }
         }, this));
@@ -289,19 +273,15 @@ OCA.External.StatusManager = {
         }
     },
 
-    processMountStatusIndividual : function(mountPoint, mountData) {
-        if (mountData.status === 1) {
-            var errorImage = 'folder-windows-error';
-            /*
-            if (mountData.code === 'AD' || mountData.code === 'CNP') {
-                errorImage += '-credentials';
-            } else if (mountData.code === 'IH' || mountData.code === 'CE') {
-                errorImage += '-timeout';
-            } else {
-                errorImage += '-error';
-            }*/
+    processMountStatusIndividual : function(mountData, mountStatus) {
+        var mountPoint = mountData.mount_point;
+        if (mountStatus.status === 1) {
+            var trElement = $('#fileList tr[data-file=\"' + OCA.External.StatusManager.Utils.jqSelEscape(mountPoint) + '\"]');
+
+            route = OCA.External.StatusManager.Utils.getIconRoute(trElement) + '-error';
+
             if (OCA.External.StatusManager.Utils.isCorrectViewAndRootFolder()) {
-                OCA.External.StatusManager.Utils.showIconError(mountPoint, $.proxy(OCA.External.StatusManager.manageMountPointError, OCA.External.StatusManager), OC.imagePath('core', 'filetypes/' + errorImage));
+                OCA.External.StatusManager.Utils.showIconError(mountPoint, $.proxy(OCA.External.StatusManager.manageMountPointError, OCA.External.StatusManager), route);
             }
             return false;
         } else {
@@ -317,6 +297,7 @@ OCA.External.StatusManager = {
         var elementList = null;
         $.each(mountList, function(name, value){
             var trElement = $('#fileList tr[data-file=\"' + OCA.External.StatusManager.Utils.jqSelEscape(value.mount_point) + '\"]');
+            trElement.attr('data-external-backend', value.backend);
             if (elementList) {
                 elementList = elementList.add(trElement);
             } else {
@@ -327,7 +308,7 @@ OCA.External.StatusManager = {
         if (elementList instanceof $) {
             if (OCA.External.StatusManager.Utils.isCorrectViewAndRootFolder()) {
                 // Put their custom icon
-                // OCA.External.StatusManager.Utils.changeFolderIcon(elementList.find('td:first-child div.thumbnail'), "url(" + OC.imagePath('windows_network_drive', 'folder-windows') + ")");
+                OCA.External.StatusManager.Utils.changeFolderIcon(elementList);
                 // Save default view
                 OCA.External.StatusManager.Utils.storeDefaultFolderIconAndBgcolor(elementList);
                 // Disable row until check status
@@ -343,7 +324,7 @@ OCA.External.StatusManager = {
             // check if we have a list first
             if (list === undefined && !self.emptyWarningShown) {
                 self.emptyWarningShown = true;
-                OCA.External.StatusManager.Utils.showAlert(t('files_external', 'Couldn\'t get the list of Windows network drive mount points: empty response from the server'));
+                OCA.External.StatusManager.Utils.showAlert(t('files_external', 'Couldn\'t get the list of external mount points: empty response from the server'));
                 return;
             }
             if (list && list.length > 0) {
@@ -351,7 +332,7 @@ OCA.External.StatusManager = {
                 self.getMountStatus(function(mountStatus){
                     if (mountStatus === undefined && !self.notificationNoProcessListDone) {
                         self.notificationNoProcessListDone = true;
-                        OCA.External.StatusManager.Utils.showAlert(t('files_external', 'Couldn\'t get the status of the Windows network drive mounts: empty response from the server'));
+                        OCA.External.StatusManager.Utils.showAlert(t('files_external', 'Couldn\'t get the status of the external mounts: empty response from the server'));
                         if (!self.mountStatus) {
                             self.mountStatus = {};
                         }
@@ -483,5 +464,172 @@ OCA.External.StatusManager = {
 
         self.processMountList(mountListData);
         self.launchPartialConnectivityCheck(mountListData, recheck);
+    }
+};
+
+OCA.External.StatusManager.Utils = {
+
+    showAlert: function(message){
+        if (!OC.Notification.isHidden()) {
+            OC.Notification.hide();
+            OC.Notification.showHtml(message);
+        } else {
+            OC.Notification.showHtml(message);
+        }
+        setTimeout(function() {
+            if ($("#notification").text() === message) {
+                OC.Notification.hide();
+            }
+        }, 10000);
+    },
+
+    showIconError: function(folder, clickAction, errorImageUrl) {
+        var bgColor = '#F2DEDE';
+        var imageUrl = "url(" + errorImageUrl + ")";
+        var trFolder = $('#fileList tr[data-file=\"' + this.jqSelEscape(folder) + '\"]');
+        this.changeFolderIcon(folder, imageUrl);
+        this.toggleLink(folder, false, clickAction);
+        trFolder.css('background-color', bgColor);
+    },
+
+    /**
+     * @param folder string with the folder or jQuery element pointing to the tr element
+     */
+    storeDefaultFolderIconAndBgcolor: function(folder) {
+        var trFolder;
+        if (folder instanceof $) {
+            trFolder = folder;
+        } else {
+            trFolder = $('#fileList tr[data-file=\"' + this.jqSelEscape(folder) + '\"]');
+        }
+        trFolder.each(function(){
+            var thisElement = $(this);
+            if (thisElement.data('oldbgcolor') === undefined) {
+                thisElement.data('oldbgcolor', thisElement.css('background-color'));
+            }
+        });
+
+        var icon = trFolder.find('td:first-child div.thumbnail');
+        icon.each(function(){
+            var thisElement = $(this);
+            if (thisElement.data('oldImage') === undefined) {
+                thisElement.data('oldImage', thisElement.css('background-image'));
+            }
+        });
+    },
+
+    /**
+     * @param folder string with the folder or jQuery element pointing to the tr element
+     */
+    restoreFolder: function(folder) {
+        var trFolder;
+        if (folder instanceof $) {
+            trFolder = folder;
+        } else {
+            trFolder = $('#fileList tr[data-file=\"' + this.jqSelEscape(folder) + '\"]');
+        }
+        trFolder.css('background-color', '');
+        tdChilds = trFolder.find("td:first-child div.thumbnail");
+        tdChilds.each(function(){
+            var thisElement = $(this);
+            thisElement.css('background-image', thisElement.data('oldImage'));
+        });
+    },
+
+    /**
+     * @param folder string with the folder or jQuery element pointing to the first td element
+     * of the tr matching the folder name
+     */
+    changeFolderIcon: function(filename) {
+        var file;
+        var route;
+        if (filename instanceof $) {
+            //trElementList
+            $.each(filename, function(index){
+                route = OCA.External.StatusManager.Utils.getIconRoute($(this));
+                $(this).attr("data-icon", route);
+                $(this).find('td:first-child div.thumbnail').css('background-image', "url(" + route + ")").css('display', 'none').css('display', 'inline');
+            });
+        } else {
+            file = $("#fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td:first-child div.thumbnail");
+            parentTr = file.parents('tr:first');
+            route = OCA.External.StatusManager.Utils.getIconRoute(parentTr);
+            parentTr.attr("data-icon", route);
+            file.css('background-image', "url(" + route + ")").css('display', 'none').css('display', 'inline');
+        }
+    },
+
+    /**
+     * @param backend string with the name of the external storage backend
+     * of the tr matching the folder name
+     */
+    getIconRoute: function(tr) {
+        var icon = OC.imagePath('core', 'filetypes/folder-external');
+        var backend = null;
+
+        if (tr instanceof $) {
+            backend = tr.attr('data-external-backend');
+        }
+
+        switch (backend) {
+            case 'smb':
+                icon = OC.imagePath('windows_network_drive', 'folder-windows');
+                break;
+            case 'sharepoint':
+                icon = OC.imagePath('sharepoint', 'folder-sharepoint');
+                break;
+        }
+
+        return icon;
+    },
+
+    toggleLink: function(filename, active, action) {
+        var link;
+        if (filename instanceof $) {
+            link = filename;
+        } else {
+            link = $("#fileList tr[data-file=\"" + this.jqSelEscape(filename) + "\"] > td:first-child a.name");
+        }
+        if (active) {
+            link.off('click.connectivity');
+            OCA.Files.App.fileList.fileActions.display(link.parent(), true, OCA.Files.App.fileList);
+        } else {
+            link.find('.fileactions, .nametext .action').remove();  // from files/js/fileactions (display)
+            link.off('click.connectivity');
+            link.on('click.connectivity', function(e){
+                if (action && $.isFunction(action)) {
+                    action(filename);
+                }
+                e.preventDefault();
+                return false;
+            });
+        }
+    },
+
+    isCorrectViewAndRootFolder: function() {
+        // correct views = files & extstoragemounts
+        if (OCA.Files.App.getActiveView() === 'files' || OCA.Files.App.getActiveView() === 'extstoragemounts') {
+            return OCA.Files.App.getCurrentAppContainer().find('#dir').val() === '/';
+        }
+        return false;
+    },
+
+    /* escape a selector expression for jQuery */
+    jqSelEscape: function(expression) {
+        return expression.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~]/g, '\\$&');
+    },
+
+    /* Copied from http://stackoverflow.com/questions/2631001/javascript-test-for-existence-of-nested-object-key */
+    checkNested: function(cobj /*, level1, level2, ... levelN*/) {
+        var args = Array.prototype.slice.call(arguments),
+            obj = args.shift();
+
+        for (var i = 0; i < args.length; i++) {
+            if (!obj || !obj.hasOwnProperty(args[i])) {
+                return false;
+            }
+            obj = obj[args[i]];
+        }
+        return true;
     }
 };

@@ -25,7 +25,6 @@ $tmpl = new OCP\Template('files_external', 'list', '');
 
 /* Load Status Manager */
 \OCP\Util::addScript('files_external', 'statusmanager');
-\OCP\Util::addScript('files_external', 'statusmanagerutils');
 \OCP\Util::addScript('files_external', 'rollingqueue');
 
 OCP\Util::addScript('files_external', 'app');
