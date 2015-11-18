@@ -308,9 +308,8 @@ class GroupsTest extends \Test\TestCase {
 		]);
 
 		$this->assertInstanceOf('OC_OCS_Result', $result);
-		$this->assertFalse($result->succeeded());
-		$this->assertEquals(102, $result->getStatusCode());
-		$this->assertEquals('Unknown error occured', $result->getMeta()['message']);
+		$this->assertTrue($result->succeeded());
+		$this->assertEquals([], $result->getData());
 	}
 
 	public function testAddGroupEmptyGroup() {
