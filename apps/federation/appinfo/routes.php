@@ -35,6 +35,11 @@ $application->registerRoutes(
 				'url' => '/trusted-servers/{id}',
 				'verb' => 'DELETE'
 			],
+			[
+				'name' => 'Settings#autoAddServers',
+				'url' => '/auto-add-servers',
+				'verb' => 'POST'
+			],
 		]
 	]
 );

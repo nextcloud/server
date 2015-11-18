@@ -70,4 +70,13 @@ $(document).ready(function () {
 
 	});
 
+	$("#ocFederationSettings #autoAddServers").change(function() {
+		$.post(
+				OC.generateUrl('/apps/federation/auto-add-servers'),
+				{
+					autoAddServers: $(this).is(":checked")
+				}
+		);
+	});
+
 });

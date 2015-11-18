@@ -33,9 +33,11 @@ $trustedServers = new \OCA\Federation\TrustedServers(
 	\OC::$server->getHTTPClientService(),
 	\OC::$server->getLogger(),
 	\OC::$server->getJobList(),
-	\OC::$server->getSecureRandom()
+	\OC::$server->getSecureRandom(),
+	\OC::$server->getConfig()
 );
 
 $template->assign('trustedServers', $trustedServers->getServers());
+$template->assign('autoAddServers', $trustedServers->getAutoAddServers());
 
 return $template->fetchPage();

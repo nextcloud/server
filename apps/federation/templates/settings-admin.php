@@ -10,9 +10,9 @@ style('federation', 'settings-admin')
 	<h2><?php p($l->t('Federation')); ?></h2>
 	<em><?php p($l->t('ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing.')); ?></em>
 
-	<p id="ocFederationShareUsers">
-		<input type="checkbox" class="checkbox" id="shareUsers" />
-		<label for="shareUsers">Share internal user list with other ownClouds</label>
+	<p>
+		<input id="autoAddServers" type="checkbox" class="checkbox" <?php if($_['autoAddServers']) p('checked'); ?> />
+		<label for="autoAddServers">Add server automatically once a federated share was created successfully</label>
 	</p>
 
 	<h3>Trusted ownCloud Servers</h3>

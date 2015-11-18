@@ -73,7 +73,8 @@ class Application extends \OCP\AppFramework\App {
 				\OC::$server->getHTTPClientService(),
 				\OC::$server->getLogger(),
 				\OC::$server->getJobList(),
-				\OC::$server->getSecureRandom()
+				\OC::$server->getSecureRandom(),
+				\OC::$server->getConfig()
 			);
 		});
 

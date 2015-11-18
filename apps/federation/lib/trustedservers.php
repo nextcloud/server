@@ -25,6 +25,7 @@ namespace OCA\Federation;
 use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
 
@@ -52,25 +53,31 @@ class TrustedServers {
 	/** @var ISecureRandom */
 	private $secureRandom;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * @param DbHandler $dbHandler
 	 * @param IClientService $httpClientService
 	 * @param ILogger $logger
 	 * @param IJobList $jobList
 	 * @param ISecureRandom $secureRandom
+	 * @param IConfig $config
 	 */
 	public function __construct(
 		DbHandler $dbHandler,
 		IClientService $httpClientService,
 		ILogger $logger,
 		IJobList $jobList,
-		ISecureRandom $secureRandom
+		ISecureRandom $secureRandom,
+		IConfig $config
 	) {
 		$this->dbHandler = $dbHandler;
 		$this->httpClientService = $httpClientService;
 		$this->logger = $logger;
 		$this->jobList = $jobList;
 		$this->secureRandom = $secureRandom;
+		$this->config = $config;
 	}
 
 	/**
@@ -95,6 +102,28 @@ class TrustedServers {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * enable/disable to automatically add servers to the list of trusted servers
+	 * once a federated share was created and accepted successfully
+	 *
+	 * @param bool $status
+	 */
+	public function setAutoAddServers($status) {
+		$value = $status ? '1' : '0';
+		$this->config->setAppValue('federation', 'autoAddServers', $value);
+	}
+
+	/**
+	 * return if we automatically add servers to the list of trusted servers
+	 * once a federated share was created and accepted successfully
+	 *
+	 * @return bool
+	 */
+	public function getAutoAddServers() {
+		$value = $this->config->getAppValue('federation', 'autoAddServers', '1');
+		return $value === '1';
 	}
 
 	/**

@@ -26,6 +26,7 @@ use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 
@@ -84,6 +85,16 @@ class SettingsController extends Controller {
 	public function removeServer($id) {
 		$this->trustedServers->removeServer($id);
 		return new DataResponse();
+	}
+
+	/**
+	 * enable/disable to automatically add servers to the list of trusted servers
+	 * once a federated share was created and accepted successfully
+	 *
+	 * @param bool $autoAddServers
+	 */
+	public function autoAddServers($autoAddServers) {
+		$this->trustedServers->setAutoAddServers($autoAddServers);
 	}
 
 	/**

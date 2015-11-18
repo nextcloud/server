@@ -85,7 +85,8 @@ class GetSharedSecret extends QueuedJob{
 					\OC::$server->getHTTPClientService(),
 					\OC::$server->getLogger(),
 					$this->jobList,
-					\OC::$server->getSecureRandom()
+					\OC::$server->getSecureRandom(),
+					\OC::$server->getConfig()
 			);
 		}
 	}
