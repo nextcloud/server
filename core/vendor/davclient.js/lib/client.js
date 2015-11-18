@@ -198,7 +198,7 @@ dav.Client.prototype = {
                 var propNode = propIterator.iterateNext();
                 while(propNode) {
                     var content = propNode.textContent;
-                    if (!content && propNode.hasChildNodes()) {
+                    if (propNode.childNodes && propNode.childNodes.length > 0 && propNode.childNodes[0].nodeType === 1) {
                         content = propNode.childNodes;
                     }
 
