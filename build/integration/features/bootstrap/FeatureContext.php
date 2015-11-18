@@ -908,7 +908,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		for ($i=0; $i<5; $i++){
 			self::removeFile("../../core/skeleton/", "textfile" . "$i" . ".txt");
 		}
-		if (!is_dir("../../core/skeleton/FOLDER")) {
+		if (is_dir("../../core/skeleton/FOLDER")) {
 			rmdir("../../core/skeleton/FOLDER");
 		}
 	}
