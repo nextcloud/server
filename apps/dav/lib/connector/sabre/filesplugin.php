@@ -37,6 +37,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	// namespace
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	const FILEID_PROPERTYNAME = '{http://owncloud.org/ns}id';
+	const INTERNAL_FILEID_PROPERTYNAME = '{http://owncloud.org/ns}fileid';
 	const PERMISSIONS_PROPERTYNAME = '{http://owncloud.org/ns}permissions';
 	const DOWNLOADURL_PROPERTYNAME = '{http://owncloud.org/ns}downloadURL';
 	const SIZE_PROPERTYNAME = '{http://owncloud.org/ns}size';
@@ -98,6 +99,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$server->xmlNamespaces[self::NS_OWNCLOUD] = 'oc';
 		$server->protectedProperties[] = self::FILEID_PROPERTYNAME;
+		$server->protectedProperties[] = self::INTERNAL_FILEID_PROPERTYNAME;
 		$server->protectedProperties[] = self::PERMISSIONS_PROPERTYNAME;
 		$server->protectedProperties[] = self::SIZE_PROPERTYNAME;
 		$server->protectedProperties[] = self::DOWNLOADURL_PROPERTYNAME;
@@ -173,6 +175,10 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 
 			$propFind->handle(self::FILEID_PROPERTYNAME, function() use ($node) {
 				return $node->getFileId();
+			});
+
+			$propFind->handle(self::INTERNAL_FILEID_PROPERTYNAME, function() use ($node) {
+				return $node->getInternalFileId();
 			});
 
 			$propFind->handle(self::PERMISSIONS_PROPERTYNAME, function() use ($node) {

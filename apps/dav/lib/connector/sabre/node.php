@@ -207,6 +207,13 @@ abstract class Node implements \Sabre\DAV\INode {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getInternalFileId() {
+		return $this->info->getId();
+	}
+
+	/**
 	 * @return string|null
 	 */
 	public function getDavPermissions() {
