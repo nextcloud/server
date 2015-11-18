@@ -46,11 +46,13 @@ namespace OC\Files;
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Cache\Updater;
 use OC\Files\Mount\MoveableMount;
+use OC\User\User;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
+use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 
@@ -687,14 +689,14 @@ class View {
 					} else {
 						$result = false;
 					}
-				// moving a file/folder within the same mount point
+					// moving a file/folder within the same mount point
 				} elseif ($storage1 == $storage2) {
 					if ($storage1) {
 						$result = $storage1->rename($internalPath1, $internalPath2);
 					} else {
 						$result = false;
 					}
-				// moving a file/folder between storages (from $storage1 to $storage2)
+					// moving a file/folder between storages (from $storage1 to $storage2)
 				} else {
 					$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
 				}
@@ -1164,6 +1166,19 @@ class View {
 	}
 
 	/**
+	 * @param string $ownerId
+	 * @return \OC\User\User
+	 */
+	private function getUserObjectForOwner($ownerId) {
+		$owner = \OC::$server->getUserManager()->get($ownerId);
+		if ($owner instanceof IUser) {
+			return $owner;
+		} else {
+			return new User($ownerId, null);
+		}
+	}
+
+	/**
 	 * get the filesystem info
 	 *
 	 * @param string $path
@@ -1250,7 +1265,7 @@ class View {
 			$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
 		}
 
-		$owner = \OC::$server->getUserManager()->get($storage->getOwner($internalPath));
+		$owner = $this->getUserObjectForOwner($storage->getOwner($internalPath));
 		return new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
 	}
 
@@ -1317,7 +1332,7 @@ class View {
 				if (\OCP\Util::isSharingDisabledForUser()) {
 					$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 				}
-				$owner = \OC::$server->getUserManager()->get($storage->getOwner($content['path']));
+				$owner = $this->getUserObjectForOwner($storage->getOwner($content['path']));
 				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
 			}
 
@@ -1387,7 +1402,7 @@ class View {
 								$rootEntry['permissions'] = $rootEntry['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 							}
 
-							$owner = \OC::$server->getUserManager()->get($subStorage->getOwner(''));
+							$owner = $this->getUserObjectForOwner($subStorage->getOwner(''));
 							$files[] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry, $mount, $owner);
 						}
 					}
