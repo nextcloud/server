@@ -19,39 +19,31 @@
 	 * @since 8.2
 	 */
 	var FileInfo = function(data) {
-		if (!_.isUndefined(data.id)) {
+		var self = this;
+		_.each(data, function(value, key) {
+			if (!_.isFunction(value)) {
+				self[key] = value;
+			}
+		});
+
+		if (!_.isUndefined(this.id)) {
 			this.id = parseInt(data.id, 10);
 		}
 
 		// TODO: normalize path
 		this.path = data.path || '';
-		this.name = data.name;
 
-		this.mtime = data.mtime;
-		this.etag = data.etag;
-		this.permissions = data.permissions;
-		this.size = data.size;
-		this.mimetype = data.mimetype || 'application/octet-stream';
-		this.mountType = data.mountType;
-		this.icon = data.icon;
-
-		if (data.type) {
-			this.type = data.type;
-		} else if (this.mimetype === 'httpd/unix-directory') {
-			this.type = 'dir';
+		if (this.type === 'dir') {
+			this.mimetype = 'httpd/unix-directory';
 		} else {
-			this.type = 'file';
+			this.mimetype = this.mimetype || 'application/octet-stream';
 		}
 
-		if (data.tags) {
-			this.tags = data.tags;
-		}
-
-		if (!this.mimetype) {
-			if (this.type === 'dir') {
-				this.mimetype = 'httpd/unix-directory';
+		if (!this.type) {
+			if (this.mimetype === 'httpd/unix-directory') {
+				this.type = 'dir';
 			} else {
-				this.mimetype = 'application/octet-stream';
+				this.type = 'file';
 			}
 		}
 	};
@@ -104,7 +96,7 @@
 		 * @type String
 		 * @deprecated rely on mimetype instead
 		 */
-		type: 'file',
+		type: null,
 
 		/**
 		 * Permissions.
