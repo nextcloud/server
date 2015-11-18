@@ -79,9 +79,9 @@
 		 */
 		[Client.NS_DAV, 'resourcetype'],
 		/**
-		 * Compound file id, contains fileid + server instance id
+		 * File id
 		 */
-		[Client.NS_OWNCLOUD, 'id'],
+		[Client.NS_OWNCLOUD, 'fileid'],
 		/**
 		 * Letter-coded permissions
 		 */
@@ -211,20 +211,6 @@
 		},
 
 		/**
-		 * Parses the compound file id
-		 *
-		 * @param {string} compoundFileId compound file id as returned by the server
-		 *
-		 * @return {int} local file id, stripped of the instance id
-		 */
-		_parseFileId: function(compoundFileId) {
-			if (!compoundFileId || compoundFileId.length < 8) {
-				return null;
-			}
-			return parseInt(compoundFileId.substr(0, 8), 10);
-		},
-
-		/**
 		 * Parses the etag response which is in double quotes.
 		 *
 		 * @param {string} etag etag value in double quotes
@@ -264,7 +250,7 @@
 			var props = response.propStat[0].properties;
 
 			var data = {
-				id: this._parseFileId(props['{' + Client.NS_OWNCLOUD + '}id']),
+				id: props['{' + Client.NS_OWNCLOUD + '}fileid'],
 				path: OC.dirname(path) || '/',
 				name: OC.basename(path),
 				mtime: new Date(props['{' + Client.NS_DAV + '}getlastmodified'])

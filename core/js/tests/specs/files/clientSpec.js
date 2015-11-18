@@ -213,7 +213,7 @@ describe('OC.Files.Client tests', function() {
 			expect(props).toContain('{DAV:}getcontenttype');
 			expect(props).toContain('{DAV:}getetag');
 			expect(props).toContain('{DAV:}resourcetype');
-			expect(props).toContain('{http://owncloud.org/ns}id');
+			expect(props).toContain('{http://owncloud.org/ns}fileid');
 			expect(props).toContain('{http://owncloud.org/ns}size');
 			expect(props).toContain('{http://owncloud.org/ns}permissions');
 		});
@@ -350,7 +350,7 @@ describe('OC.Files.Client tests', function() {
 			expect(props).toContain('{DAV:}getcontenttype');
 			expect(props).toContain('{DAV:}getetag');
 			expect(props).toContain('{DAV:}resourcetype');
-			expect(props).toContain('{http://owncloud.org/ns}id');
+			expect(props).toContain('{http://owncloud.org/ns}fileid');
 			expect(props).toContain('{http://owncloud.org/ns}size');
 			expect(props).toContain('{http://owncloud.org/ns}permissions');
 		});
