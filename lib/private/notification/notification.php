@@ -29,8 +29,8 @@ class Notification implements INotification {
 	/** @var string */
 	protected $user;
 
-	/** @var int */
-	protected $timestamp;
+	/** @var \DateTime */
+	protected $dateTime;
 
 	/** @var string */
 	protected $objectType;
@@ -80,7 +80,8 @@ class Notification implements INotification {
 	public function __construct() {
 		$this->app = '';
 		$this->user = '';
-		$this->timestamp = 0;
+		$this->dateTime = new \DateTime();
+		$this->dateTime->setTimestamp(0);
 		$this->objectType = '';
 		$this->objectId = 0;
 		$this->subject = '';
@@ -140,25 +141,25 @@ class Notification implements INotification {
 	}
 
 	/**
-	 * @param int $timestamp
+	 * @param \DateTime $dateTime
 	 * @return $this
-	 * @throws \InvalidArgumentException if the timestamp is invalid
-	 * @since 8.2.0
+	 * @throws \InvalidArgumentException if the $dateTime is invalid
+	 * @since 9.0.0
 	 */
-	public function setTimestamp($timestamp) {
-		if (!is_int($timestamp)) {
-			throw new \InvalidArgumentException('The given timestamp is invalid');
+	public function setDateTime(\DateTime $dateTime) {
+		if ($dateTime->getTimestamp() === 0) {
+			throw new \InvalidArgumentException('The given date time is invalid');
 		}
-		$this->timestamp = $timestamp;
+		$this->dateTime = $dateTime;
 		return $this;
 	}
 
 	/**
-	 * @return int
-	 * @since 8.2.0
+	 * @return \DateTime
+	 * @since 9.0.0
 	 */
-	public function getTimestamp() {
-		return $this->timestamp;
+	public function getDateTime() {
+		return $this->dateTime;
 	}
 
 	/**
@@ -438,7 +439,7 @@ class Notification implements INotification {
 			&&
 			$this->getUser() !== ''
 			&&
-			$this->getTimestamp() !== 0
+			$this->getDateTime()->getTimestamp() !== 0
 			&&
 			$this->getObjectType() !== ''
 			&&
