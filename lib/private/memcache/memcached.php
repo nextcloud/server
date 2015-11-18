@@ -41,9 +41,9 @@ class Memcached extends Cache implements IMemcache {
 		parent::__construct($prefix);
 		if (is_null(self::$cache)) {
 			self::$cache = new \Memcached();
-			$servers = \OC_Config::getValue('memcached_servers');
+			$servers = \OC::$server->getSystemConfig()->getValue('memcached_servers');
 			if (!$servers) {
-				$server = \OC_Config::getValue('memcached_server');
+				$server = \OC::$server->getSystemConfig()->getValue('memcached_server');
 				if ($server) {
 					$servers = array($server);
 				} else {
@@ -72,10 +72,12 @@ class Memcached extends Cache implements IMemcache {
 
 	public function set($key, $value, $ttl = 0) {
 		if ($ttl > 0) {
-			return self::$cache->set($this->getNamespace() . $key, $value, $ttl);
+			$result =  self::$cache->set($this->getNamespace() . $key, $value, $ttl);
 		} else {
-			return self::$cache->set($this->getNamespace() . $key, $value);
+			$result = self::$cache->set($this->getNamespace() . $key, $value);
 		}
+		$this->verifyReturnCode();
+		return $result;
 	}
 
 	public function hasKey($key) {
@@ -84,7 +86,9 @@ class Memcached extends Cache implements IMemcache {
 	}
 
 	public function remove($key) {
-		return self::$cache->delete($this->getNamespace() . $key);
+		$result= self::$cache->delete($this->getNamespace() . $key);
+		$this->verifyReturnCode();
+		return $result;
 	}
 
 	public function clear($prefix = '') {
@@ -121,7 +125,9 @@ class Memcached extends Cache implements IMemcache {
 	 * @return bool
 	 */
 	public function add($key, $value, $ttl = 0) {
-		return self::$cache->add($this->getPrefix() . $key, $value, $ttl);
+		$result = self::$cache->add($this->getPrefix() . $key, $value, $ttl);
+		$this->verifyReturnCode();
+		return $result;
 	}
 
 	/**
@@ -133,7 +139,9 @@ class Memcached extends Cache implements IMemcache {
 	 */
 	public function inc($key, $step = 1) {
 		$this->add($key, 0);
-		return self::$cache->increment($this->getPrefix() . $key, $step);
+		$result = self::$cache->increment($this->getPrefix() . $key, $step);
+		$this->verifyReturnCode();
+		return $result;
 	}
 
 	/**
@@ -144,10 +152,24 @@ class Memcached extends Cache implements IMemcache {
 	 * @return int | bool
 	 */
 	public function dec($key, $step = 1) {
-		return self::$cache->decrement($this->getPrefix() . $key, $step);
+		$result = self::$cache->decrement($this->getPrefix() . $key, $step);
+		$this->verifyReturnCode();
+		return $result;
 	}
 
 	static public function isAvailable() {
 		return extension_loaded('memcached');
+	}
+
+	/**
+	 * @throws \Exception
+	 */
+	private function verifyReturnCode() {
+		$code = self::$cache->getResultCode();
+		if ($code === \Memcached::RES_SUCCESS) {
+			return;
+		}
+		$message = self::$cache->getResultMessage();
+		throw new \Exception("Error $code interacting with memcached : $message");
 	}
 }
