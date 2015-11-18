@@ -204,6 +204,12 @@ class CardDavBackendTest extends TestCase {
 		$shares = $this->backend->getShares('Example');
 		$this->assertEquals(1, count($shares));
 
+		// adding the same sharee again has no effect
+		$this->backend->updateShares('Example', [['href' => 'principal:principals/best-friend']], []);
+
+		$shares = $this->backend->getShares('Example');
+		$this->assertEquals(1, count($shares));
+
 		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
 		$this->assertEquals(1, count($books));
 
@@ -214,7 +220,5 @@ class CardDavBackendTest extends TestCase {
 
 		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
 		$this->assertEquals(0, count($books));
-
-
 	}
 }

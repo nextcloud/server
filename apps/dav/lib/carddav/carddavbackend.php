@@ -143,7 +143,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * Calling the handle method is like telling the PropPatch object "I
 	 * promise I can handle updating this property".
 	 *
-	 * Read the PropPatch documenation for more info and examples.
+	 * Read the PropPatch documentation for more info and examples.
 	 *
 	 * @param string $addressBookId
 	 * @param \Sabre\DAV\PropPatch $propPatch
@@ -623,6 +623,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		return $cardData;
 	}
 
+	/**
+	 * @param string $path
+	 * @param string[] $add
+	 * @param string[] $remove
+	 */
 	public function updateShares($path, $add, $remove) {
 		foreach($add as $element) {
 			$this->shareWith($path, $element);
@@ -632,6 +637,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 	}
 
+	/**
+	 * @param string $addressBookUri
+	 * @param string $element
+	 */
 	private function shareWith($addressBookUri, $element) {
 		$user = $element['href'];
 		$parts = explode(':', $user, 2);
@@ -643,10 +652,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			return;
 		}
 
-		$addressbook = $this->getAddressBooksByUri($addressBookUri);
-		if (is_null($addressbook)) {
+		$addressBook = $this->getAddressBooksByUri($addressBookUri);
+		if (is_null($addressBook)) {
 			return;
 		}
+
+		// remove the share if it already exists
+		$this->unshare($addressBookUri, $element);
 
 		$query = $this->db->getQueryBuilder();
 		$query->insert('dav_shares')
@@ -655,11 +667,15 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				'uri' => $query->createNamedParameter($addressBookUri),
 				'type' => $query->createNamedParameter('addressbook'),
 				'access' => $query->createNamedParameter(0),
-				'resourceid' => $query->createNamedParameter($addressbook['id'])
+				'resourceid' => $query->createNamedParameter($addressBook['id'])
 			]);
 		$query->execute();
 	}
 
+	/**
+	 * @param string $addressBookUri
+	 * @param string $element
+	 */
 	private function unshare($addressBookUri, $element) {
 		$user = $element['href'];
 		$parts = explode(':', $user, 2);
@@ -671,14 +687,14 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			return;
 		}
 
-		$addressbook = $this->getAddressBooksByUri($addressBookUri);
-		if (is_null($addressbook)) {
+		$addressBook = $this->getAddressBooksByUri($addressBookUri);
+		if (is_null($addressBook)) {
 			return;
 		}
 
 		$query = $this->db->getQueryBuilder();
 		$query->delete('dav_shares')
-			->where($query->expr()->eq('resourceid', $query->createNamedParameter($addressbook['id'])))
+			->where($query->expr()->eq('resourceid', $query->createNamedParameter($addressBook['id'])))
 			->andWhere($query->expr()->eq('type', $query->createNamedParameter('addressbook')))
 			->andWhere($query->expr()->eq('principaluri', $query->createNamedParameter($parts[1])))
 		;
@@ -686,7 +702,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
-	 * Returns the list of people whom this addressbook is shared with.
+	 * Returns the list of people whom this address book is shared with.
 	 *
 	 * Every element in this array should have the following properties:
 	 *   * href - Often a mailto: address
