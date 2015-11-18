@@ -24,6 +24,7 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "Base DN tespit edilemedi, lütfen elle girin.",
     "{nthServer}. Server" : "{nthServer}. Sunucu",
     "No object found in the given Base DN. Please revise." : "Girilen Base DN içerisinde nesne bulunamadı. Lütfen gözden geçirin.",
+    "More than 1,000 directory entries available." : "1000'den fazla dizin şuan müsait durumdadır.",
     " entries available within the provided Base DN" : " girdi sağlanan Base DN içerisinde mevcut",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Bir hata oluştu. Lütfen Base DN ile birlikte bağlantı ayarlarını ve kimlik bilgilerini denetleyin.",
     "Do you really want to delete the current Server Configuration?" : "Şu anki sunucu yapılandırmasını silmek istediğinizden emin misiniz?",
