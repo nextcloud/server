@@ -110,7 +110,7 @@ class DbHandler {
 	 */
 	public function getAllServer() {
 		$query = $this->connection->getQueryBuilder();
-		$query->select('url', 'id')->from($this->dbTable);
+		$query->select('url', 'id', 'status')->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
 		return $result;
 	}

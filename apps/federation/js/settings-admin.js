@@ -40,7 +40,10 @@ $(document).ready(function () {
 			).done(function (data) {
 					$('#serverUrl').attr('value', '');
 					$('ul#listOfTrustedServers').prepend(
-						$('<li>').attr('id', data.id).text(data.url)
+						$('<li>')
+								.attr('id', data.id)
+								.attr('class', 'icon-delete')
+								.html('<span class="status indeterminate"></span>' + data.url)
 					);
 					OC.msg.finishedSuccess('#ocFederationAddServer .msg', data.message);
 				})

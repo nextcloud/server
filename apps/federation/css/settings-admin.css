@@ -19,6 +19,8 @@
 
 #listOfTrustedServers li:hover {
 	cursor: pointer;
-	background: url(../../../core/img/actions/delete.svg) no-repeat left center;
-	padding-left: 20px;
+}
+
+#listOfTrustedServers .status {
+	margin-right: 10px;
 }

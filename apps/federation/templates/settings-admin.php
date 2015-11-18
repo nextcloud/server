@@ -1,5 +1,7 @@
 <?php
 /** @var array $_ */
+use OCA\Federation\TrustedServers;
+
 /** @var OC_L10N $l */
 script('federation', 'settings-admin');
 style('federation', 'settings-admin')
@@ -21,7 +23,14 @@ style('federation', 'settings-admin')
 	</p>
 	<ul id="listOfTrustedServers">
 		<?php foreach($_['trustedServers'] as $trustedServer) { ?>
-			<li id="<?php p($trustedServer['id']); ?>">
+			<li id="<?php p($trustedServer['id']); ?>" class="icon-delete">
+				<?php if((int)$trustedServer['status'] === TrustedServers::STATUS_OK) { ?>
+					<span class="status success"></span>
+				<?php } elseif((int)$trustedServer['status'] === TrustedServers::STATUS_PENDING) { ?>
+					<span class="status indeterminate"></span>
+				<?php } else {?>
+					<span class="status error"></span>
+				<?php } ?>
 				<?php p($trustedServer['url']); ?>
 			</li>
 		<?php } ?>
