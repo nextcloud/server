@@ -333,6 +333,21 @@ class ActivityTest extends TestCase {
 
 		$result = $this->activityExtension->getQueryForFilter('all');
 		$this->assertEquals([$query, $parameters], $result);
+
+		$this->executeQueryForFilter($result);
+	}
+
+	public function executeQueryForFilter(array $result) {
+		list($resultQuery, $resultParameters) = $result;
+		$resultQuery = str_replace('`file`', '`user`', $resultQuery);
+		$resultQuery = str_replace('`type`', '`key`', $resultQuery);
+
+		$connection = \OC::$server->getDatabaseConnection();
+		// Test the query on the privatedata table, because the activity table
+		// does not exist in core
+		$result = $connection->executeQuery('SELECT * FROM `*PREFIX*privatedata` WHERE ' . $resultQuery, $resultParameters);
+		$rows = $result->fetchAll();
+		$result->closeCursor();
 	}
 
 	protected function mockUserSession($user) {
