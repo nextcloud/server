@@ -28,8 +28,10 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
+use OCP\Files\ForbiddenException;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Sabre\DAV\Exception\Locked;
@@ -117,6 +119,8 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 		} catch (\OCP\Files\InvalidPathException $ex) {
 			throw new InvalidPath($ex->getMessage());
+		} catch (ForbiddenException $ex) {
+			throw new Forbidden($ex->getMessage(), $ex->getRetry());
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
@@ -146,6 +150,8 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 		} catch (\OCP\Files\InvalidPathException $ex) {
 			throw new InvalidPath($ex->getMessage());
+		} catch (ForbiddenException $ex) {
+			throw new Forbidden($ex->getMessage(), $ex->getRetry());
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
@@ -247,6 +253,8 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 				// assume it wasn't possible to remove due to permission issue
 				throw new \Sabre\DAV\Exception\Forbidden();
 			}
+		} catch (ForbiddenException $ex) {
+			throw new Forbidden($ex->getMessage(), $ex->getRetry());
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}

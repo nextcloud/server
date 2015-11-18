@@ -8,9 +8,9 @@
 
 namespace OCA\DAV\Tests\Unit\Connector\Sabre\Exception;
 
-use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 
-class InvalidPathTest extends \Test\TestCase {
+class ForbiddenTest extends \Test\TestCase {
 
 	public function testSerialization() {
 
@@ -33,7 +33,7 @@ class InvalidPathTest extends \Test\TestCase {
 
 EOD;
 
-		$ex = new InvalidPath($message, $retry);
+		$ex = new Forbidden($message, $retry);
 		$server = $this->getMock('Sabre\DAV\Server');
 		$ex->serialize($server, $error);
 
