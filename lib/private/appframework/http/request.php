@@ -674,6 +674,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool true if at least one of the given agent matches, false otherwise
 	 */
 	public function isUserAgent(array $agent) {
+		if (!isset($this->server['HTTP_USER_AGENT'])) {
+			return false;
+		}
 		foreach ($agent as $regex) {
 			if (preg_match($regex, $this->server['HTTP_USER_AGENT'])) {
 				return true;
