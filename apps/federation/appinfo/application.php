@@ -87,19 +87,6 @@ class Application extends \OCP\AppFramework\App {
 				$c->query('TrustedServers')
 			);
 		});
-
-
-		$container->registerService('AuthController', function (IAppContainer $c) {
-			$server = $c->getServer();
-			return new AuthController(
-				$c->getAppName(),
-				$server->getRequest(),
-				$server->getSecureRandom(),
-				$server->getJobList(),
-				$c->query('TrustedServers'),
-				$c->query('DbHandler')
-			);
-		});
 	}
 
 	private function registerMiddleware() {

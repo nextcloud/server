@@ -22,10 +22,10 @@
 
 namespace OCA\Federation\API;
 
-use OC\BackgroundJob\JobList;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
+use OCP\BackgroundJob\IJobList;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 use OCP\Security\StringUtils;
@@ -45,7 +45,7 @@ class OCSAuthAPI {
 	/** @var ISecureRandom  */
 	private $secureRandom;
 
-	/** @var JobList */
+	/** @var IJobList */
 	private $jobList;
 
 	/** @var TrustedServers */
@@ -55,18 +55,18 @@ class OCSAuthAPI {
 	private $dbHandler;
 
 	/**
-	 * AuthController constructor.
+	 * OCSAuthAPI constructor.
 	 *
 	 * @param IRequest $request
 	 * @param ISecureRandom $secureRandom
-	 * @param JobList $jobList
+	 * @param IJobList $jobList
 	 * @param TrustedServers $trustedServers
 	 * @param DbHandler $dbHandler
 	 */
 	public function __construct(
 		IRequest $request,
 		ISecureRandom $secureRandom,
-		JobList $jobList,
+		IJobList $jobList,
 		TrustedServers $trustedServers,
 		DbHandler $dbHandler
 	) {

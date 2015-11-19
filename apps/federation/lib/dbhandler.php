@@ -82,7 +82,7 @@ class DbHandler {
 		$result = $query->execute();
 
 		if ($result) {
-			return $this->connection->lastInsertId($this->dbTable);
+			return $this->connection->lastInsertId('*PREFIX*'.$this->dbTable);
 		} else {
 			$message = 'Internal failure, Could not add ownCloud as trusted server: ' . $url;
 			$message_t = $this->l->t('Could not add server');
@@ -110,7 +110,7 @@ class DbHandler {
 	 */
 	public function getAllServer() {
 		$query = $this->connection->getQueryBuilder();
-		$query->select('url', 'id', 'status')->from($this->dbTable);
+		$query->select(['url', 'id', 'status'])->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
 		return $result;
 	}
