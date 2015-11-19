@@ -800,7 +800,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 				elseif($contentExpected == "AN_URL"){
 					return $this->isExpectedUrl((string)$element->$field, "index.php/s/");
 				}
-				elseif ($element->$field == $contentExpected){
+				elseif ((string)$element->$field == $contentExpected){
 					return True;
 				}
 			}
@@ -956,6 +956,17 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$this->sendingToWith("GET", $url, null);
+	}
+
+	/**
+	 * @Then /^last share_id is included in the answer$/
+	 */
+	public function findingLastShareID(){
+		print_r($this->response->xml());
+		$share_id = $this->lastShareData->data[0]->id;
+		if (!$this->isFieldInResponse('id', $share_id)){
+			PHPUnit_Framework_Assert::fail("Share id $share_id not found in response");
+		}
 	}
 
 	/**

@@ -302,6 +302,16 @@ Feature: sharing
       | file_parent | A_NUMBER |
       | displayname_owner | user0 |
 
+  Scenario: Sharee can see the share
+    Given user "user0" exists
+    And user "user1" exists
+    And file "textfile0.txt" from user "user0" is shared with user "user1"
+    And As an "user1"
+    When sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share_id is included in the answer
+
   Scenario: delete a share
     Given user "user0" exists
     And user "user1" exists
