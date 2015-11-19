@@ -28,7 +28,7 @@ Feature: sharing
   Scenario: Creating a new public share
     Given user "user0" exists
     And As an "user0"
-    When creating a public share with
+    When creating a share with
       | path | welcome.txt |
       | shareType | 3 |
     Then the OCS status code should be "100"
@@ -38,7 +38,7 @@ Feature: sharing
   Scenario: Creating a new public share with password
     Given user "user0" exists
     And As an "user0"
-    When creating a public share with
+    When creating a share with
       | path | welcome.txt |
       | shareType | 3 |
       | password | publicpw |
@@ -49,7 +49,7 @@ Feature: sharing
   Scenario: Creating a new public share of a folder
    Given user "user0" exists
     And As an "user0"
-    When creating a public share with
+    When creating a share with
       | path | FOLDER |
       | shareType | 3 |
       | password | publicpw |
@@ -68,7 +68,7 @@ Feature: sharing
   Scenario: Creating a new public share with password and adding an expiration date
     Given user "user0" exists
     And As an "user0"
-    When creating a public share with
+    When creating a share with
       | path | welcome.txt |
       | shareType | 3 |
       | password | publicpw |
@@ -81,7 +81,7 @@ Feature: sharing
   Scenario: Creating a new public share, updating its expiration date and getting its info
     Given user "user0" exists
     And As an "user0"
-    When creating a public share with
+    When creating a share with
       | path | FOLDER |
       | shareType | 3 |
     And Updating last share with
@@ -111,7 +111,7 @@ Feature: sharing
   Scenario: Creating a new public share, updating its password and getting its info
     Given user "user0" exists
     And As an "user0"
-    When creating a public share with
+    When creating a share with
       | path | FOLDER |
       | shareType | 3 |
     And Updating last share with 
@@ -140,7 +140,7 @@ Feature: sharing
   Scenario: Creating a new public share, updating its permissions and getting its info
     Given user "user0" exists
     And As an "user0"
-    When creating a public share with
+    When creating a share with
       | path | FOLDER |
       | shareType | 3 |
     And Updating last share with
@@ -169,7 +169,7 @@ Feature: sharing
   Scenario: Creating a new public share, updating publicUpload option and getting its info
     Given user "user0" exists
     And As an "user0"
-    When creating a public share with
+    When creating a share with
       | path | FOLDER |
       | shareType | 3 |
     And Updating last share with
@@ -311,6 +311,27 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And last share_id is included in the answer
+
+  Scenario: User is not allowed to reshare file
+    As an "admin"
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And As an "user0"
+    And creating a share with
+      | path | /textfile0.txt |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 8 |
+    And As an "user1"
+    When creating a share with
+      | path | /textfile0. (2).txt |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 31 |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
+
 
   Scenario: Delete all group shares
     Given As an "admin"

@@ -599,10 +599,10 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	}
 
 	/**
-	 * @When /^creating a public share with$/
+	 * @When /^creating a share with$/
 	 * @param \Behat\Gherkin\Node\TableNode|null $formData
 	 */
-	public function createPublicShare($body) {
+	public function creatingShare($body) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v1/shares";
 		$client = new Client();
 		$options = [];
