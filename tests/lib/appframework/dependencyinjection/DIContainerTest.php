@@ -36,7 +36,9 @@ class DIContainerTest extends \Test\TestCase {
 
 	protected function setUp(){
 		parent::setUp();
-		$this->container = new DIContainer('name');
+		$this->container = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer',
+				['isAdminUser'], ['name']
+		);
 		$this->api = $this->getMock('OC\AppFramework\Core\API', array(), array('hi'));
 	}
 
