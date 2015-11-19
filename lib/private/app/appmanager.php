@@ -77,6 +77,12 @@ class AppManager implements IAppManager {
 	private function getInstalledAppsValues() {
 		if (!$this->installedAppsCache) {
 			$values = $this->appConfig->getValues(false, 'enabled');
+
+			$alwaysEnabledApps = $this->getAlwaysEnabledApps();
+			foreach($alwaysEnabledApps as $appId) {
+				$values[$appId] = 'yes';
+			}
+
 			$this->installedAppsCache = array_filter($values, function ($value) {
 				return $value !== 'no';
 			});
