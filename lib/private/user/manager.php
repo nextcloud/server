@@ -256,9 +256,9 @@ class Manager extends PublicEmitter implements IUserManager {
 		$l = \OC::$server->getL10N('lib');
 		// Check the name for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-"
-		if (preg_match('/[^a-zA-Z0-9 _\.@\-]/', $uid)) {
+		if (preg_match('/[^a-zA-Z0-9 _\.@\-\']/', $uid)) {
 			throw new \Exception($l->t('Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-"'));
+				. ' "a-z", "A-Z", "0-9", and "_.@-"\''));
 		}
 		// No empty username
 		if (trim($uid) == '') {
