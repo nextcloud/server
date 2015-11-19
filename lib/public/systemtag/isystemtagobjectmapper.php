@@ -110,6 +110,6 @@ interface ISystemTagObjectMapper {
 	 *
 	 * @since 9.0.0
 	 */
-	public function hasTags($objIds, $objectType, $tagId, $all = true);
+	public function haveTag($objIds, $objectType, $tagId, $all = true);
 
 }
