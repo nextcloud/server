@@ -44,6 +44,11 @@
 			'click .menuitem': '_onClickAction'
 		},
 
+		/**
+		 * @type OCA.Files.FileList
+		 */
+		fileList: null,
+
 		initialize: function(options) {
 			var self = this;
 			var $uploadEl = $('#file_upload_start');
@@ -55,25 +60,16 @@
 				console.warn('Missing upload element "file_upload_start"');
 			}
 
-			this._fileList = options && options.fileList;
+			this.fileList = options && options.fileList;
 
 			this._menuItems = [{
-				id: 'file',
-				displayName: t('files', 'Text file'),
-				templateName: t('files', 'New text file.txt'),
-				iconClass: 'icon-filetype-text',
-				fileType: 'file',
-				actionHandler: function(name) {
-					self._fileList.createFile(name);
-				}
-		        }, {
 				id: 'folder',
 				displayName: t('files', 'Folder'),
 				templateName: t('files', 'New folder'),
 				iconClass: 'icon-folder',
 				fileType: 'folder',
 				actionHandler: function(name) {
-					self._fileList.createDirectory(name);
+					self.fileList.createDirectory(name);
 				}
 		        }];
 
@@ -149,7 +145,7 @@
 				try {
 					if (!Files.isFileNameValid(filename)) {
 						// Files.isFileNameValid(filename) throws an exception itself
-					} else if (self._fileList.inList(filename)) {
+					} else if (self.fileList.inList(filename)) {
 						throw t('files', '{newname} already exists', {newname: filename});
 					} else {
 						return true;
