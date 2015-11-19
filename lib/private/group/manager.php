@@ -214,6 +214,9 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return \OC\Group\Group[]
 	 */
 	public function getUserGroups($user) {
+		if (is_null($user)) {
+			return false;
+		}
 		return $this->getUserIdGroups($user->getUID());
 	}
 

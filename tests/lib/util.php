@@ -289,38 +289,44 @@ class Test_Util extends \Test\TestCase {
 	 * @param bool $expected expected result
 	 */
 	function testIsSharingDisabledForUser($groups, $membership, $excludedGroups, $expected) {
-		$uid = "user1";
-		\OC_User::setUserId($uid);
+		$config = $this->getMockBuilder('OCP\IConfig')->disableOriginalConstructor()->getMock();
+		$groupManager = $this->getMockBuilder('OCP\IGroupManager')->disableOriginalConstructor()->getMock();
+		$user = $this->getMockBuilder('OCP\IUser')->disableOriginalConstructor()->getMock();
 
-		\OC_User::createUser($uid, "passwd");
+		$config
+				->expects($this->at(0))
+				->method('getAppValue')
+				->with('core', 'shareapi_exclude_groups', 'no')
+				->will($this->returnValue('yes'));
+		$config
+				->expects($this->at(1))
+				->method('getAppValue')
+				->with('core', 'shareapi_exclude_groups_list')
+				->will($this->returnValue(json_encode($excludedGroups)));
 
-		foreach ($groups as $group) {
-			\OC_Group::createGroup($group);
-		}
+		$groupManager
+				->expects($this->at(0))
+				->method('getUserGroups')
+				->with($user)
+				->will($this->returnValue($membership));
 
-		foreach ($membership as $group) {
-			\OC_Group::addToGroup($uid, $group);
-		}
+//		$uid = "user1";
+//		\OC_User::setUserId($uid);
+//
+//		\OC_User::createUser($uid, "passwd");
+//
+//		foreach ($groups as $group) {
+//			\OC_Group::createGroup($group);
+//		}
+//
+//		foreach ($membership as $group) {
+//			\OC_Group::addToGroup($uid, $group);
+//		}
+//
 
-		$appConfig = \OC::$server->getAppConfig();
-		$appConfig->setValue('core', 'shareapi_exclude_groups_list', json_encode($excludedGroups));
-		$appConfig->setValue('core', 'shareapi_exclude_groups', 'yes');
-
-		$result = \OCP\Util::isSharingDisabledForUser();
+		$result = \OC_Util::isSharingDisabledForUser($config, $groupManager, $user);
 
 		$this->assertSame($expected, $result);
-
-		// cleanup
-		\OC_User::deleteUser($uid);
-		\OC_User::setUserId('');
-
-		foreach ($groups as $group) {
-			\OC_Group::deleteGroup($group);
-		}
-
-		$appConfig->setValue('core', 'shareapi_exclude_groups_list', '');
-		$appConfig->setValue('core', 'shareapi_exclude_groups', 'no');
-
 	}
 
 	public function dataProviderForTestIsSharingDisabledForUser() {

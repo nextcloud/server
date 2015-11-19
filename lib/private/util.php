@@ -54,6 +54,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUser;
+
 class OC_Util {
 	public static $scripts = array();
 	public static $styles = array();
@@ -218,20 +223,21 @@ class OC_Util {
 
 	/**
 	 * check if sharing is disabled for the current user
-	 *
-	 * @return boolean
+	 * @param IConfig $config
+	 * @param IGroupManager $groupManager
+	 * @param IUser|null $user
+	 * @return bool
 	 */
-	public static function isSharingDisabledForUser() {
-		if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
-			$user = \OCP\User::getUser();
-			$groupsList = \OC::$server->getAppConfig()->getValue('core', 'shareapi_exclude_groups_list', '');
+	public static function isSharingDisabledForUser(IConfig $config, IGroupManager $groupManager, $user) {
+		if ($config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
+			$groupsList = $config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$excludedGroups = json_decode($groupsList);
 			if (is_null($excludedGroups)) {
 				$excludedGroups = explode(',', $groupsList);
 				$newValue = json_encode($excludedGroups);
-				\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', $newValue);
+				$config->setAppValue('core', 'shareapi_exclude_groups_list', $newValue);
 			}
-			$usersGroups = \OC_Group::getUserGroups($user);
+			$usersGroups = $groupManager->getUserGroups($user);
 			if (!empty($usersGroups)) {
 				$remainingGroups = array_diff($usersGroups, $excludedGroups);
 				// if the user is only in groups which are disabled for sharing then
