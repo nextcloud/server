@@ -161,9 +161,9 @@ class OC_Template extends \OC\Template\Base {
 				throw new \Exception('Cannot read core/js/core.json');
 			}
 
-			if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE_8])) {
+			if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE])) {
 				// shim for the davclient.js library
-				\OCP\Util::addScript('files/ie8davclient');
+				\OCP\Util::addScript('files/iedavclient');
 			}
 
 			self::$initTemplateEngineFirstRun = false;

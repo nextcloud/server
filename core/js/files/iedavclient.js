@@ -12,7 +12,7 @@
 (function(dav) {
 
 	/**
-	 * Override davclient.js methods with IE8-compatible logic
+	 * Override davclient.js methods with IE-compatible logic
 	 */
 	dav.Client.prototype = _.extend({}, dav.Client.prototype, {
 
