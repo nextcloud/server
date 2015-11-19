@@ -306,23 +306,9 @@ class Test_Util extends \Test\TestCase {
 
 		$groupManager
 				->expects($this->at(0))
-				->method('getUserGroups')
+				->method('getUserGroupIds')
 				->with($user)
 				->will($this->returnValue($membership));
-
-//		$uid = "user1";
-//		\OC_User::setUserId($uid);
-//
-//		\OC_User::createUser($uid, "passwd");
-//
-//		foreach ($groups as $group) {
-//			\OC_Group::createGroup($group);
-//		}
-//
-//		foreach ($membership as $group) {
-//			\OC_Group::addToGroup($uid, $group);
-//		}
-//
 
 		$result = \OC_Util::isSharingDisabledForUser($config, $groupManager, $user);
 
