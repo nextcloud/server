@@ -24,6 +24,13 @@
 
 namespace Test\Files\Storage;
 
+/**
+ * Class SMB
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class SMB extends Storage {
 
 	protected function setUp() {

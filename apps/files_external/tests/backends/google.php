@@ -28,6 +28,13 @@ namespace Test\Files\Storage;
 
 require_once 'files_external/lib/google.php';
 
+/**
+ * Class Google
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class Google extends Storage {
 
 	private $config;

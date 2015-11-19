@@ -25,6 +25,13 @@
 
 namespace Test\Files\Storage;
 
+/**
+ * Class Swift
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class Swift extends Storage {
 
 	private $config;

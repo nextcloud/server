@@ -25,6 +25,13 @@
 
 namespace Test\Files\Storage;
 
+/**
+ * Class Dropbox
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class Dropbox extends Storage {
 	private $config;
 

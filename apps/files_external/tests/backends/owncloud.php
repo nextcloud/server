@@ -23,6 +23,13 @@
 
 namespace Test\Files\Storage;
 
+/**
+ * Class OwnCloud
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class OwnCloud extends Storage {
 
 	private $config;

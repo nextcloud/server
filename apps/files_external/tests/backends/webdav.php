@@ -24,6 +24,13 @@
 
 namespace Test\Files\Storage;
 
+/**
+ * Class DAV
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class DAV extends Storage {
 
 	protected function setUp() {
