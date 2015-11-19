@@ -17,6 +17,9 @@ class Server {
 	public function __construct(IRequest $request, $baseUri) {
 		$this->request = $request;
 		$this->baseUri = $baseUri;
+		$logger = \OC::$server->getLogger();
+		$dispatcher = \OC::$server->getEventDispatcher();
+
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server($root);
 
@@ -32,6 +35,10 @@ class Server {
 
 		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->getConfig()));
 		$this->server->addPlugin(new Plugin($authBackend, 'ownCloud'));
+		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\DummyGetResponsePlugin());
+		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $logger));
+		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());
+		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\ListenerPlugin($dispatcher));
 
 		// calendar plugins
 		$this->server->addPlugin(new \Sabre\CalDAV\Plugin());

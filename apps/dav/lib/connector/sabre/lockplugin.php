@@ -39,18 +39,6 @@ class LockPlugin extends ServerPlugin {
 	private $server;
 
 	/**
-	 * @var \Sabre\DAV\Tree
-	 */
-	private $tree;
-
-	/**
-	 * @param \Sabre\DAV\Tree $tree tree
-	 */
-	public function __construct(Tree $tree) {
-		$this->tree = $tree;
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
@@ -66,7 +54,7 @@ class LockPlugin extends ServerPlugin {
 			return;
 		}
 		try {
-			$node = $this->tree->getNodeForPath($request->getPath());
+			$node = $this->server->tree->getNodeForPath($request->getPath());
 		} catch (NotFound $e) {
 			return;
 		}
@@ -84,7 +72,7 @@ class LockPlugin extends ServerPlugin {
 			return;
 		}
 		try {
-			$node = $this->tree->getNodeForPath($request->getPath());
+			$node = $this->server->tree->getNodeForPath($request->getPath());
 		} catch (NotFound $e) {
 			return;
 		}
