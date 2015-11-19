@@ -110,8 +110,18 @@ class GetSharedSecret extends QueuedJob{
 		$target = $this->argument['url'];
 		// only execute if target is still in the list of trusted domains
 		if ($this->trustedServers->isTrustedServer($target)) {
-			parent::execute($jobList, $logger);
+			$this->parentExecute($jobList, $logger);
 		}
+	}
+
+	/**
+	 * call execute() method of parent
+	 *
+	 * @param JobList $jobList
+	 * @param ILogger $logger
+	 */
+	protected function parentExecute($jobList, $logger) {
+		parent::execute($jobList, $logger);
 	}
 
 	protected function run($argument) {
@@ -146,7 +156,7 @@ class GetSharedSecret extends QueuedJob{
 			&& $status !== Http::STATUS_FORBIDDEN
 		) {
 			$this->jobList->add(
-				'OCA\Federation\Backgroundjob\GetSharedSecret',
+				'OCA\Federation\BackgroundJob\GetSharedSecret',
 				$argument
 			);
 		}  else {

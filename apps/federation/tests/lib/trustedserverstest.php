@@ -88,7 +88,7 @@ class TrustedServersTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestAddServer
+	 * @dataProvider dataTrueFalse
 	 *
 	 * @param bool $success
 	 */
@@ -130,11 +130,64 @@ class TrustedServersTest extends TestCase {
 		);
 	}
 
-	public function dataTestAddServer() {
+	public function dataTrueFalse() {
 		return [
 			[true],
 			[false]
 		];
+	}
+
+	/**
+	 * @dataProvider dataTrueFalse
+	 *
+	 * @param bool $status
+	 */
+	public function testSetAutoAddServers($status) {
+		if ($status) {
+			$this->config->expects($this->once())->method('setAppValue')
+				->with('federation', 'autoAddServers', '1');
+		} else {
+			$this->config->expects($this->once())->method('setAppValue')
+				->with('federation', 'autoAddServers', '0');
+		}
+
+		$this->trustedServers->setAutoAddServers($status);
+	}
+
+	/**
+	 * @dataProvider dataTestGetAutoAddServers
+	 *
+	 * @param string $status
+	 * @param bool $expected
+	 */
+	public function testGetAutoAddServers($status, $expected) {
+		$this->config->expects($this->once())->method('getAppValue')
+			->with('federation', 'autoAddServers', '1')->willReturn($status);
+
+		$this->assertSame($expected,
+			$this->trustedServers->getAutoAddServers($status)
+		);
+	}
+
+	public function dataTestGetAutoAddServers() {
+		return [
+			['1', true],
+			['0', false]
+		];
+	}
+
+	public function testAddSharedSecret() {
+		$this->dbHandler->expects($this->once())->method('addSharedSecret')
+			->with('url', 'secret');
+		$this->trustedServers->addSharedSecret('url', 'secret');
+	}
+
+	public function testGetSharedSecret() {
+		$this->dbHandler->expects($this->once())->method('getSharedSecret')
+			->with('url')->willReturn(true);
+		$this->assertTrue(
+			$this->trustedServers->getSharedSecret('url')
+		);
 	}
 
 	public function testRemoveServer() {
@@ -158,6 +211,20 @@ class TrustedServersTest extends TestCase {
 
 		$this->assertTrue(
 			$this->trustedServers->isTrustedServer('url')
+		);
+	}
+
+	public function testSetServerStatus() {
+		$this->dbHandler->expects($this->once())->method('setServerStatus')
+			->with('url', 'status');
+		$this->trustedServers->setServerStatus('url', 'status');
+	}
+
+	public function testGetServerStatus() {
+		$this->dbHandler->expects($this->once())->method('getServerStatus')
+			->with('url')->willReturn(true);
+		$this->assertTrue(
+			$this->trustedServers->getServerStatus('url')
 		);
 	}
 

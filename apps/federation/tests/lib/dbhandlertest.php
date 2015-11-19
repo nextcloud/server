@@ -24,6 +24,7 @@ namespace OCA\Federation\Tests\lib;
 
 
 use OCA\Federation\DbHandler;
+use OCA\Federation\TrustedServers;
 use OCP\IDBConnection;
 use Test\TestCase;
 
@@ -73,7 +74,8 @@ class DbHandlerTest extends TestCase {
 		$result = $query->execute()->fetchAll();
 		$this->assertSame(1, count($result));
 		$this->assertSame('server1', $result[0]['url']);
-		$this->assertSame($id, $result[0]['id']);
+		$this->assertSame($id, (int)$result[0]['id']);
+		$this->assertSame(TrustedServers::STATUS_PENDING, (int)$result[0]['status']);
 	}
 
 	public function testRemove() {
@@ -85,15 +87,15 @@ class DbHandlerTest extends TestCase {
 		$this->assertSame(2, count($result));
 		$this->assertSame('server1', $result[0]['url']);
 		$this->assertSame('server2', $result[1]['url']);
-		$this->assertSame($id1, $result[0]['id']);
-		$this->assertSame($id2, $result[1]['id']);
+		$this->assertSame($id1, (int)$result[0]['id']);
+		$this->assertSame($id2, (int)$result[1]['id']);
 
 		$this->dbHandler->removeServer($id2);
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
 		$this->assertSame(1, count($result));
 		$this->assertSame('server1', $result[0]['url']);
-		$this->assertSame($id1, $result[0]['id']);
+		$this->assertSame($id1, (int)$result[0]['id']);
 	}
 
 	public function testGetAll() {
@@ -104,29 +106,115 @@ class DbHandlerTest extends TestCase {
 		$this->assertSame(2, count($result));
 		$this->assertSame('server1', $result[0]['url']);
 		$this->assertSame('server2', $result[1]['url']);
-		$this->assertSame($id1, $result[0]['id']);
-		$this->assertSame($id2, $result[1]['id']);
+		$this->assertSame($id1, (int)$result[0]['id']);
+		$this->assertSame($id2, (int)$result[1]['id']);
 	}
 
 	/**
-	 * @dataProvider dataTestExists
+	 * @dataProvider dataTestServerExists
 	 *
 	 * @param string $serverInTable
 	 * @param string $checkForServer
 	 * @param bool $expected
 	 */
-	public function testExists($serverInTable, $checkForServer, $expected) {
+	public function testServerExists($serverInTable, $checkForServer, $expected) {
 		$this->dbHandler->addServer($serverInTable);
 		$this->assertSame($expected,
 			$this->dbHandler->serverExists($checkForServer)
 		);
 	}
 
-	public function dataTestExists() {
+	public function dataTestServerExists() {
 		return [
 			['server1', 'server1', true],
-			['server1', 'server1', true],
+			['server1', 'http://server1', true],
 			['server1', 'server2', false]
+		];
+	}
+
+	public function testAddToken() {
+		$this->dbHandler->addServer('server1');
+		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
+		$result = $query->execute()->fetchAll();
+		$this->assertSame(1, count($result));
+		$this->assertSame(null, $result[0]['token']);
+		$this->dbHandler->addToken('http://server1', 'token');
+		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
+		$result = $query->execute()->fetchAll();
+		$this->assertSame(1, count($result));
+		$this->assertSame('token', $result[0]['token']);
+	}
+
+	public function testGetToken() {
+		$this->dbHandler->addServer('server1');
+		$this->dbHandler->addToken('http://server1', 'token');
+		$this->assertSame('token',
+			$this->dbHandler->getToken('https://server1')
+		);
+	}
+
+	public function testAddSharedSecret() {
+		$this->dbHandler->addServer('server1');
+		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
+		$result = $query->execute()->fetchAll();
+		$this->assertSame(1, count($result));
+		$this->assertSame(null, $result[0]['shared_secret']);
+		$this->dbHandler->addSharedSecret('http://server1', 'secret');
+		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
+		$result = $query->execute()->fetchAll();
+		$this->assertSame(1, count($result));
+		$this->assertSame('secret', $result[0]['shared_secret']);
+	}
+
+	public function testGetSharedSecret() {
+		$this->dbHandler->addServer('server1');
+		$this->dbHandler->addSharedSecret('http://server1', 'secret');
+		$this->assertSame('secret',
+			$this->dbHandler->getSharedSecret('https://server1')
+		);
+	}
+
+	public function testSetServerStatus() {
+		$this->dbHandler->addServer('server1');
+		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
+		$result = $query->execute()->fetchAll();
+		$this->assertSame(1, count($result));
+		$this->assertSame(TrustedServers::STATUS_PENDING, (int)$result[0]['status']);
+		$this->dbHandler->setServerStatus('http://server1', TrustedServers::STATUS_OK);
+		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
+		$result = $query->execute()->fetchAll();
+		$this->assertSame(1, count($result));
+		$this->assertSame(TrustedServers::STATUS_OK, (int)$result[0]['status']);
+	}
+
+	public function testGetServerStatus() {
+		$this->dbHandler->addServer('server1');
+		$this->dbHandler->setServerStatus('http://server1', TrustedServers::STATUS_OK);
+		$this->assertSame(TrustedServers::STATUS_OK,
+			$this->dbHandler->getServerStatus('https://server1')
+		);
+	}
+
+	/**
+	 * hash should always be computed with the normalized URL
+	 *
+	 * @dataProvider dataTestHash
+	 *
+	 * @param string $url
+	 * @param string $expected
+	 */
+	public function testHash($url, $expected) {
+		$this->assertSame($expected,
+			$this->invokePrivate($this->dbHandler, 'hash', [$url])
+		);
+	}
+
+	public function dataTestHash() {
+		return [
+			['server1', md5('server1')],
+			['http://server1', md5('server1')],
+			['https://server1', md5('server1')],
+			['http://server1/', md5('server1')],
 		];
 	}
 

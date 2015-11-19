@@ -106,8 +106,16 @@ class RequestSharedSecret extends QueuedJob {
 		$target = $this->argument['url'];
 		// only execute if target is still in the list of trusted domains
 		if ($this->trustedServers->isTrustedServer($target)) {
-			parent::execute($jobList, $logger);
+			$this->parentExecute($jobList, $logger);
 		}
+	}
+
+	/**
+	 * @param JobList $jobList
+	 * @param ILogger $logger
+	 */
+	protected function parentExecute($jobList, $logger) {
+		parent::execute($jobList, $logger);
 	}
 
 	protected function run($argument) {

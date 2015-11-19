@@ -82,7 +82,7 @@ class DbHandler {
 		$result = $query->execute();
 
 		if ($result) {
-			return $this->connection->lastInsertId('*PREFIX*'.$this->dbTable);
+			return (int)$this->connection->lastInsertId('*PREFIX*'.$this->dbTable);
 		} else {
 			$message = 'Internal failure, Could not add ownCloud as trusted server: ' . $url;
 			$message_t = $this->l->t('Could not add server');
@@ -231,7 +231,7 @@ class DbHandler {
 				->setParameter('url_hash', $hash);
 
 		$result = $query->execute()->fetch();
-		return $result['status'];
+		return (int)$result['status'];
 	}
 
 	/**
