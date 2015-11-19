@@ -8,6 +8,8 @@
 
 namespace Test\BackgroundJob;
 
+use OCP\BackgroundJob\IJob;
+
 class JobList extends \Test\TestCase {
 	/**
 	 * @var \OC\BackgroundJob\JobList
@@ -25,6 +27,16 @@ class JobList extends \Test\TestCase {
 		$conn = \OC::$server->getDatabaseConnection();
 		$this->config = $this->getMock('\OCP\IConfig');
 		$this->instance = new \OC\BackgroundJob\JobList($conn, $this->config);
+	}
+
+	protected function getAllSorted() {
+		$jobs = $this->instance->getAll();
+
+		usort($jobs, function (IJob $job1, IJob $job2) {
+			return $job1->getId() - $job2->getId();
+		});
+
+		return $jobs;
 	}
 
 	public function argumentProvider() {
@@ -45,11 +57,11 @@ class JobList extends \Test\TestCase {
 	 * @param $argument
 	 */
 	public function testAddRemove($argument) {
-		$existingJobs = $this->instance->getAll();
+		$existingJobs = $this->getAllSorted();
 		$job = new TestJob();
 		$this->instance->add($job, $argument);
 
-		$jobs = $this->instance->getAll();
+		$jobs = $this->getAllSorted();
 
 		$this->assertCount(count($existingJobs) + 1, $jobs);
 		$addedJob = $jobs[count($jobs) - 1];
@@ -58,7 +70,7 @@ class JobList extends \Test\TestCase {
 
 		$this->instance->remove($job, $argument);
 
-		$jobs = $this->instance->getAll();
+		$jobs = $this->getAllSorted();
 		$this->assertEquals($existingJobs, $jobs);
 	}
 
@@ -67,19 +79,19 @@ class JobList extends \Test\TestCase {
 	 * @param $argument
 	 */
 	public function testRemoveDifferentArgument($argument) {
-		$existingJobs = $this->instance->getAll();
+		$existingJobs = $this->getAllSorted();
 		$job = new TestJob();
 		$this->instance->add($job, $argument);
 
-		$jobs = $this->instance->getAll();
+		$jobs = $this->getAllSorted();
 		$this->instance->remove($job, 10);
-		$jobs2 = $this->instance->getAll();
+		$jobs2 = $this->getAllSorted();
 
 		$this->assertEquals($jobs, $jobs2);
 
 		$this->instance->remove($job, $argument);
 
-		$jobs = $this->instance->getAll();
+		$jobs = $this->getAllSorted();
 		$this->assertEquals($existingJobs, $jobs);
 	}
 
@@ -126,7 +138,7 @@ class JobList extends \Test\TestCase {
 		$this->instance->add($job, 1);
 		$this->instance->add($job, 2);
 
-		$jobs = $this->instance->getAll();
+		$jobs = $this->getAllSorted();
 
 		$savedJob1 = $jobs[count($jobs) - 2];
 		$savedJob2 = $jobs[count($jobs) - 1];
@@ -149,7 +161,7 @@ class JobList extends \Test\TestCase {
 		$this->instance->add($job, 1);
 		$this->instance->add($job, 2);
 
-		$jobs = $this->instance->getAll();
+		$jobs = $this->getAllSorted();
 
 		$savedJob2 = $jobs[count($jobs) - 1];
 
@@ -174,7 +186,7 @@ class JobList extends \Test\TestCase {
 		$job = new TestJob();
 		$this->instance->add($job, $argument);
 
-		$jobs = $this->instance->getAll();
+		$jobs = $this->getAllSorted();
 
 		$addedJob = $jobs[count($jobs) - 1];
 
@@ -187,7 +199,7 @@ class JobList extends \Test\TestCase {
 		$job = new TestJob();
 		$this->instance->add($job);
 
-		$jobs = $this->instance->getAll();
+		$jobs = $this->getAllSorted();
 
 		$addedJob = $jobs[count($jobs) - 1];
 
@@ -209,7 +221,7 @@ class JobList extends \Test\TestCase {
 		$this->instance->add('\OC\Non\Existing\Class');
 		$this->instance->add($job, 2);
 
-		$jobs = $this->instance->getAll();
+		$jobs = $this->getAllSorted();
 
 		$savedJob1 = $jobs[count($jobs) - 2];
 		$savedJob2 = $jobs[count($jobs) - 1];
