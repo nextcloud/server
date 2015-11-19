@@ -65,7 +65,7 @@ class Auth extends AbstractBasic {
 	 * @param string $username
 	 * @return bool
 	 */
-	protected function isDavAuthenticated($username) {
+	public function isDavAuthenticated($username) {
 		return !is_null($this->session->get(self::DAV_AUTHENTICATED)) &&
 		$this->session->get(self::DAV_AUTHENTICATED) === $username;
 	}

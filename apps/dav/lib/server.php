@@ -50,6 +50,7 @@ class Server {
 		$this->server->addPlugin(new \Sabre\CalDAV\SharingPlugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
+		$this->server->addPlugin(new CardDAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
 
 		// addressbook plugins
 		$this->server->addPlugin(new \Sabre\CardDAV\Plugin());
