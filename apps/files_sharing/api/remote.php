@@ -98,7 +98,7 @@ class Remote {
 	 */
 	private static function extendShareInfo($share) {
 		$view = new \OC\Files\View('/' . \OC_User::getUser() . '/files/');
-		$info = $view->getFileInfo($shares['mountpoint']);
+		$info = $view->getFileInfo($share['mountpoint']);
 
 		$share['mimetype'] = $info->getMimetype();
 		$share['mtime'] = $info->getMtime();
