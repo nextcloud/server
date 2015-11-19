@@ -169,7 +169,7 @@ dav.Client.prototype = {
             }
         }.bind(this);
 
-        var responseIterator = doc.evaluate('/d:multistatus/d:response', doc, resolver);
+        var responseIterator = doc.evaluate('/d:multistatus/d:response', doc, resolver, XPathResult.ANY_TYPE, null);
 
         var result = [];
         var responseNode = responseIterator.iterateNext();
@@ -181,19 +181,19 @@ dav.Client.prototype = {
                 propStat : []
             };
 
-            response.href = doc.evaluate('string(d:href)', responseNode, resolver).stringValue;
+            response.href = doc.evaluate('string(d:href)', responseNode, resolver, XPathResult.ANY_TYPE, null).stringValue;
 
-            var propStatIterator = doc.evaluate('d:propstat', responseNode, resolver);
+            var propStatIterator = doc.evaluate('d:propstat', responseNode, resolver, XPathResult.ANY_TYPE, null);
             var propStatNode = propStatIterator.iterateNext();
 
             while(propStatNode) {
 
                 var propStat = {
-                    status : doc.evaluate('string(d:status)', propStatNode, resolver).stringValue,
+                    status : doc.evaluate('string(d:status)', propStatNode, resolver, XPathResult.ANY_TYPE, null).stringValue,
                     properties : [],
                 };
 
-                var propIterator = doc.evaluate('d:prop/*', propStatNode, resolver);
+                var propIterator = doc.evaluate('d:prop/*', propStatNode, resolver, XPathResult.ANY_TYPE, null);
 
                 var propNode = propIterator.iterateNext();
                 while(propNode) {
