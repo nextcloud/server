@@ -25,6 +25,7 @@ namespace OC\Core\Command\App;
 
 use OC\Core\Command\Base;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListApps extends Base {
@@ -34,16 +35,32 @@ class ListApps extends Base {
 		$this
 			->setName('app:list')
 			->setDescription('List all available apps')
+			->addOption(
+				'shipped',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'true - limit to shipped apps only, false - limit to non-shipped apps only'
+			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		if ($input->getOption('shipped') === 'true' || $input->getOption('shipped') === 'false'){
+			$shouldFilterShipped = true;
+			$shippedFilter = $input->getOption('shipped') === 'true';
+		} else {
+			$shouldFilterShipped = false;
+		}
+		
 		$apps = \OC_App::getAllApps();
 		$enabledApps = $disabledApps = [];
 		$versions = \OC_App::getAppVersions();
 
 		//sort enabled apps above disabled apps
 		foreach ($apps as $app) {
+			if ($shouldFilterShipped && \OC_App::isShipped($app) !== $shippedFilter){
+				continue;
+			}
 			if (\OC_App::isEnabled($app)) {
 				$enabledApps[] = $app;
 			} else {
