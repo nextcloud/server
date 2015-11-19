@@ -116,6 +116,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 		$this->server->on('afterBind', array($this, 'sendFileIdHeader'));
 		$this->server->on('afterWriteContent', array($this, 'sendFileIdHeader'));
 		$this->server->on('afterMethod:GET', [$this,'httpGet']);
+		$this->server->on('afterMethod:GET', array($this, 'handleDownloadToken'));
 		$this->server->on('afterResponse', function($request, ResponseInterface $response) {
 			$body = $response->getBody();
 			if (is_resource($body)) {
@@ -144,6 +145,32 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 
 			if (!$sourceFileInfo->isDeletable()) {
 				throw new \Sabre\DAV\Exception\Forbidden($source . " cannot be deleted");
+			}
+		}
+	}
+
+	/**
+	 * This sets a cookie to be able to recognize the start of the download
+	 * the content must not be longer than 32 characters and must only contain
+	 * alphanumeric characters
+	 *
+	 * @param RequestInterface $request
+	 * @param ResponseInterface $response
+	 */
+	function handleDownloadToken(RequestInterface $request, ResponseInterface $response) {
+		$queryParams = $request->getQueryParameters();
+
+		/**
+		 * this sets a cookie to be able to recognize the start of the download
+		 * the content must not be longer than 32 characters and must only contain
+		 * alphanumeric characters
+		 */
+		if (isset($queryParams['downloadStartSecret'])) {
+			$token = $queryParams['downloadStartSecret'];
+			if (!isset($token[32])
+				&& preg_match('!^[a-zA-Z0-9]+$!', $token) === 1) {
+				// FIXME: use $response->setHeader() instead
+				setcookie('ocDownloadStarted', $token, time() + 20, '/');
 			}
 		}
 	}
