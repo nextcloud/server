@@ -1806,10 +1806,8 @@
 			}
 
 			function updateInList(fileInfo) {
-				tr.remove();
-				tr = self.add(fileInfo, {updateSummary: false, silent: true});
-				self.$fileList.trigger($.Event('fileActionsReady', {fileList: self, $files: $(tr)}));
-				self._updateDetailsView(fileInfo.name);
+				self.updateRow(tr, fileInfo);
+				self._updateDetailsView(fileInfo.name, false);
 			}
 
 			// TODO: too many nested blocks, move parts into functions
@@ -1838,11 +1836,10 @@
 						td.children('a.name').show();
 
 						var path = tr.attr('data-path') || self.getCurrentDirectory();
-						self.filesClient.move(path + '/' + oldName, path + '/' + newName)
+						self.filesClient.move(OC.joinPaths(path, oldName), OC.joinPaths(path, newName))
 							.done(function() {
-								var fileInfo = self.files.splice(tr.index(), 1)[0];
-								fileInfo.name = newName;
-								updateInList(fileInfo);
+								oldFileInfo.name = newName;
+								updateInList(oldFileInfo);
 							})
 							.fail(function(status) {
 								// TODO: 409 means current folder does not exist, redirect ?
