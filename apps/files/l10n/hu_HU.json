@@ -104,6 +104,8 @@
     "Maximum upload size" : "Maximális feltölthető fájlméret",
     "max. possible: " : "max. lehetséges: ",
     "Save" : "Mentés",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-mel akár 5 percbe is telhet, míg ez a beállítás érvénybe lép.",
+    "Missing permissions to edit from here." : "Innen nem lehet szerkeszteni hiányzó jogosultság miatt.",
     "Settings" : "Beállítások",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Ezt a címet használja, ha <a href=\"%s\" target=\"_blank\">WebDAV-on keresztül szeretné elérni a fájljait</a>",

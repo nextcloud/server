@@ -229,7 +229,7 @@ OC.L10N.register(
     "iOS app" : "iOS 應用程式",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "若您想支援這個計畫\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">加入開發者</a>\n\t\t或\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">替我們宣傳</a>!",
     "Show First Run Wizard again" : "再次顯示首次使用精靈",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "您已經使用了 <strong>%s</strong> ，目前可用空間為 <strong>%s</strong>",
+    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "您已經使用了 <strong>%s</strong> ，總共可用空間為 <strong>%s</strong>",
     "Password" : "密碼",
     "Unable to change your password" : "無法變更您的密碼",
     "Current password" : "目前密碼",
