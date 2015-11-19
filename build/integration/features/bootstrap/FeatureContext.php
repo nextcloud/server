@@ -961,11 +961,20 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @Then /^last share_id is included in the answer$/
 	 */
-	public function findingLastShareID(){
-		print_r($this->response->xml());
+	public function checkingLastShareIDIsIncluded(){
 		$share_id = $this->lastShareData->data[0]->id;
 		if (!$this->isFieldInResponse('id', $share_id)){
 			PHPUnit_Framework_Assert::fail("Share id $share_id not found in response");
+		}
+	}
+
+	/**
+	 * @Then /^last share_id is not included in the answer$/
+	 */
+	public function checkingLastShareIDIsNotIncluded(){
+		$share_id = $this->lastShareData->data[0]->id;
+		if ($this->isFieldInResponse('id', $share_id)){
+			PHPUnit_Framework_Assert::fail("Share id $share_id has been found in response");
 		}
 	}
 
