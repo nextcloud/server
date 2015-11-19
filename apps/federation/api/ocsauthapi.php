@@ -91,6 +91,13 @@ class OCSAuthAPI {
 			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
 		}
 
+		// if both server initiated the exchange of the shared secret the greater
+		// token wins
+		$localToken = $this->dbHandler->getToken($url);
+		if (strcmp($localToken, $token) > 0) {
+			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
+		}
+
 		$this->jobList->add(
 			'OCA\Federation\BackgroundJob\GetSharedSecret',
 			[
@@ -123,6 +130,8 @@ class OCSAuthAPI {
 		$sharedSecret = $this->secureRandom->getMediumStrengthGenerator()->generate(32);
 
 		$this->trustedServers->addSharedSecret($url, $sharedSecret);
+		// reset token after the exchange of the shared secret was successful
+		$this->dbHandler->addToken($url, '');
 
 		return new \OC_OCS_Result(['sharedSecret' => $sharedSecret], Http::STATUS_OK);
 

@@ -22,6 +22,7 @@
 
 namespace OCA\Federation\BackgroundJob;
 
+use GuzzleHttp\Exception\ClientException;
 use OC\BackgroundJob\QueuedJob;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
@@ -52,6 +53,9 @@ class GetSharedSecret extends QueuedJob{
 	/** @var TrustedServers  */
 	private $trustedServers;
 
+	/** @var DbHandler */
+	private $dbHandler;
+
 	/** @var ILogger */
 	private $logger;
 
@@ -65,23 +69,26 @@ class GetSharedSecret extends QueuedJob{
 	 * @param IJobList $jobList
 	 * @param TrustedServers $trustedServers
 	 * @param ILogger $logger
+	 * @param DbHandler $dbHandler
 	 */
 	public function __construct(
 		IClient $httpClient = null,
 		IURLGenerator $urlGenerator = null,
 		IJobList $jobList = null,
 		TrustedServers $trustedServers = null,
-		ILogger $logger = null
+		ILogger $logger = null,
+		dbHandler $dbHandler = null
 	) {
 		$this->logger = $logger ? $logger : \OC::$server->getLogger();
 		$this->httpClient = $httpClient ? $httpClient : \OC::$server->getHTTPClientService()->newClient();
 		$this->jobList = $jobList ? $jobList : \OC::$server->getJobList();
 		$this->urlGenerator = $urlGenerator ? $urlGenerator : \OC::$server->getURLGenerator();
+		$this->dbHandler = $dbHandler ? $dbHandler : new DbHandler(\OC::$server->getDatabaseConnection(), \OC::$server->getL10N('federation'));
 		if ($trustedServers) {
 			$this->trustedServers = $trustedServers;
 		} else {
 			$this->trustedServers = new TrustedServers(
-					new DbHandler(\OC::$server->getDatabaseConnection(), \OC::$server->getL10N('federation')),
+					$this->dbHandler,
 					\OC::$server->getHTTPClientService(),
 					\OC::$server->getLogger(),
 					$this->jobList,
@@ -112,20 +119,25 @@ class GetSharedSecret extends QueuedJob{
 		$source = rtrim($source, '/');
 		$token = $argument['token'];
 
-		$result = $this->httpClient->get(
-			$target . $this->endPoint,
-			[
-				'query' =>
-					[
-						'url' => $source,
-						'token' => $token
-					],
-				'timeout' => 3,
-				'connect_timeout' => 3,
-			]
-		);
+		try {
+			$result = $this->httpClient->get(
+				$target . $this->endPoint,
+				[
+					'query' =>
+						[
+							'url' => $source,
+							'token' => $token
+						],
+					'timeout' => 3,
+					'connect_timeout' => 3,
+				]
+			);
 
-		$status = $result->getStatusCode();
+			$status = $result->getStatusCode();
+
+		} catch (ClientException $e) {
+			$status = $e->getCode();
+		}
 
 		// if we received a unexpected response we try again later
 		if (
@@ -133,10 +145,15 @@ class GetSharedSecret extends QueuedJob{
 			&& $status !== Http::STATUS_FORBIDDEN
 		) {
 			$this->jobList->add(
-				'OCA\Federation\Backgroundjob\RequestSharedSecret',
+				'OCA\Federation\Backgroundjob\GetSharedSecret',
 				$argument
 			);
-		} elseif ($status === Http::STATUS_OK) {
+		}  else {
+			// reset token if we received a valid response
+			$this->dbHandler->addToken($target, '');
+		}
+
+		if ($status === Http::STATUS_OK) {
 			$body = $result->getBody();
 			$result = json_decode($body, true);
 			if (isset($result['ocs']['data']['sharedSecret'])) {
@@ -152,5 +169,6 @@ class GetSharedSecret extends QueuedJob{
 				$this->trustedServers->setServerStatus($target, TrustedServers::STATUS_FAILURE);
 			}
 		}
+
 	}
 }
