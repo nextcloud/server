@@ -221,17 +221,26 @@ abstract class StoragesService {
 						$currentStorage->setMountPoint($relativeMountPath);
 					}
 
-					$this->populateStorageConfigWithLegacyOptions(
-						$currentStorage,
-						$mountType,
-						$applicable,
-						$storageOptions
-					);
+					try {
+						$this->populateStorageConfigWithLegacyOptions(
+								$currentStorage,
+								$mountType,
+								$applicable,
+								$storageOptions
+						);
 
-					if ($hasId) {
-						$storages[$configId] = $currentStorage;
-					} else {
-						$storagesWithConfigHash[$configId] = $currentStorage;
+						if ($hasId) {
+							$storages[$configId] = $currentStorage;
+						} else {
+							$storagesWithConfigHash[$configId] = $currentStorage;
+						}
+					} catch (\UnexpectedValueException $e) {
+						// dont die if a storage backend doesn't exist
+						\OCP\Util::writeLog(
+								'files_external',
+								'Could not load storage: "' . $e->getMessage() . '"',
+								\OCP\Util::ERROR
+						);
 					}
 				}
 			}
