@@ -918,7 +918,8 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		foreach ($headers as $key => $value) {
 			$request->addHeader($key, $value);	
 		}
-		$this->response = $client->send($request);
+		//$this->response = $client->send($request);
+		return $client->send($request);
 	}
 
 	/**
@@ -927,7 +928,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	public function userMovedFile($user, $fileSource, $fileDestination){
 		$fullUrl = substr($this->baseUrl, 0, -4) . "remote.php/webdav";
 		$headers['Destination'] = $fullUrl . $fileDestination;
-		$this->makeDavRequest($user, "MOVE", $fileSource, $headers);
+		$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
 		PHPUnit_Framework_Assert::assertEquals(201, $this->response->getStatusCode());
 	}
 
@@ -937,7 +938,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	public function userMovesFile($user, $fileSource, $fileDestination){
 		$fullUrl = substr($this->baseUrl, 0, -4) . "remote.php/webdav";
 		$headers['Destination'] = $fullUrl . $fileDestination;
-		$this->makeDavRequest($user, "MOVE", $fileSource, $headers);
+		$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
 	}
 
 	/**
