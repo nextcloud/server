@@ -21,6 +21,13 @@
 
 namespace Test\Preview;
 
+/**
+ * Class MP3
+ *
+ * @group DB
+ *
+ * @package Test\Preview
+ */
 class MP3 extends Provider {
 
 	public function setUp() {

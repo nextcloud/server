@@ -36,6 +36,13 @@ class CopyDirectoryStorage extends StorageNoRecursiveCopy {
 	use \OC\Files\Storage\PolyFill\CopyDirectory;
 }
 
+/**
+ * Class CopyDirectory
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class CopyDirectory extends Storage {
 
 	protected function setUp() {

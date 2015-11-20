@@ -8,8 +8,9 @@
 
 /**
  * Test the storage functions of OC_Helper
+ *
+ * @group DB
  */
-
 class Test_Helper_Storage extends \Test\TestCase {
 	/** @var string */
 	private $user;

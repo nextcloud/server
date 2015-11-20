@@ -30,6 +30,13 @@ use OC\Files\View;
 use OCP\IUserManager;
 use Test\TestCase;
 
+/**
+ * Class DecryptAllTest
+ *
+ * @group DB
+ *
+ * @package Test\Encryption
+ */
 class DecryptAllTest extends TestCase {
 
 	/** @var \PHPUnit_Framework_MockObject_MockObject | IUserManager */

@@ -44,6 +44,8 @@ function is_uploaded_file($filename) {
 /**
  * Class AvatarControllerTest
  *
+ * @group DB
+ *
  * @package OC\Core\Avatar
  */
 class AvatarControllerTest extends \Test\TestCase {

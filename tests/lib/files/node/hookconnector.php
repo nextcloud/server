@@ -17,6 +17,13 @@ use Test\TestCase;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
+/**
+ * Class HookConnector
+ *
+ * @group DB
+ * 
+ * @package Test\Files\Node
+ */
 class HookConnector extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;

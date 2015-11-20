@@ -22,6 +22,13 @@
 
 namespace Test\Files\Storage;
 
+/**
+ * Class Local
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class Local extends Storage {
 	/**
 	 * @var string tmpDir

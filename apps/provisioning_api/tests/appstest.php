@@ -23,15 +23,35 @@
  */
 
 namespace OCA\Provisioning_API\Tests;
+use OCA\Provisioning_API\Apps;
+use OCP\API;
+use OCP\App\IAppManager;
+use OCP\IUserSession;
 
+/**
+ * Class AppsTest
+ *
+ * @group DB
+ *
+ * @package OCA\Provisioning_API\Tests
+ */
 class AppsTest extends TestCase {
-	
+
+	/** @var IAppManager */
+	private $appManager;
+
+	/** @var Apps */
+	private $api;
+
+	/** @var IUserSession */
+	private $userSession;
+
 	public function setup() {
 		parent::setup();
 		$this->appManager = \OC::$server->getAppManager();
 		$this->groupManager = \OC::$server->getGroupManager();
 		$this->userSession = \OC::$server->getUserSession();
-		$this->api = new \OCA\Provisioning_API\Apps($this->appManager);
+		$this->api = new Apps($this->appManager);
 	}
 
 	public function testGetAppInfo() {
@@ -46,7 +66,7 @@ class AppsTest extends TestCase {
 		$result = $this->api->getAppInfo(['appid' => 'not_provisioning_api']);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
-		$this->assertEquals(\OCP\API::RESPOND_NOT_FOUND, $result->getStatusCode());
+		$this->assertEquals(API::RESPOND_NOT_FOUND, $result->getStatusCode());
 
 	}
 

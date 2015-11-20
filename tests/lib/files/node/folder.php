@@ -16,6 +16,13 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OC\Files\View;
 
+/**
+ * Class Folder
+ *
+ * @group DB
+ *
+ * @package Test\Files\Node
+ */
 class Folder extends \Test\TestCase {
 	private $user;
 
