@@ -93,7 +93,7 @@ interface IGroupManager {
 	public function search($search, $limit = null, $offset = null);
 
 	/**
-	 * @param \OCP\IUser $user
+	 * @param \OCP\IUser|null $user
 	 * @return \OCP\IGroup[]
 	 * @since 8.0.0
 	 */

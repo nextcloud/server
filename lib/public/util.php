@@ -173,7 +173,11 @@ class Util {
 	 * @since 7.0.0
 	 */
 	public static function isSharingDisabledForUser() {
-		return \OC_Util::isSharingDisabledForUser();
+		return \OC_Util::isSharingDisabledForUser(
+				\OC::$server->getConfig(),
+				\OC::$server->getGroupManager(),
+				\OC::$server->getUserSession()->getUser()
+		);
 	}
 
 	/**
