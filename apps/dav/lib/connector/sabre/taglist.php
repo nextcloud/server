@@ -22,82 +22,100 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
-use Sabre\DAV;
+use Sabre\Xml\Element;
+use Sabre\Xml\Reader;
+use Sabre\Xml\Writer;
 
 /**
  * TagList property
  *
  * This property contains multiple "tag" elements, each containing a tag name.
  */
-class TagList extends DAV\Property {
+class TagList implements Element {
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
-    /**
-     * tags
-     *
-     * @var array
-     */
-    private $tags;
+	/**
+	 * tags
+	 *
+	 * @var array
+	 */
+	private $tags;
 
-    /**
-     * @param array $tags
-     */
-    public function __construct(array $tags) {
-        $this->tags = $tags;
-    }
+	/**
+	 * @param array $tags
+	 */
+	public function __construct(array $tags) {
+		$this->tags = $tags;
+	}
 
-    /**
-     * Returns the tags
-     *
-     * @return array
-     */
-    public function getTags() {
+	/**
+	 * Returns the tags
+	 *
+	 * @return array
+	 */
+	public function getTags() {
 
-        return $this->tags;
+		return $this->tags;
 
-    }
+	}
 
-    /**
-     * Serializes this property.
-     *
-     * @param DAV\Server $server
-     * @param \DOMElement $dom
-     * @return void
-     */
-    public function serialize(DAV\Server $server,\DOMElement $dom) {
+	/**
+	 * The deserialize method is called during xml parsing.
+	 *
+	 * This method is called statictly, this is because in theory this method
+	 * may be used as a type of constructor, or factory method.
+	 *
+	 * Often you want to return an instance of the current class, but you are
+	 * free to return other data as well.
+	 *
+	 * You are responsible for advancing the reader to the next element. Not
+	 * doing anything will result in a never-ending loop.
+	 *
+	 * If you just want to skip parsing for this element altogether, you can
+	 * just call $reader->next();
+	 *
+	 * $reader->parseInnerTree() will parse the entire sub-tree, and advance to
+	 * the next element.
+	 *
+	 * @param Reader $reader
+	 * @return mixed
+	 */
+	static function xmlDeserialize(Reader $reader) {
+		$tags = [];
 
-        $prefix = $server->xmlNamespaces[self::NS_OWNCLOUD];
+		foreach ($reader->parseInnerTree() as $elem) {
+			if ($elem['name'] === '{' . self::NS_OWNCLOUD . '}tag') {
+				$tags[] = $elem['value'];
+			}
+		}
+		return new self($tags);
+	}
 
-        foreach($this->tags as $tag) {
+	/**
+	 * The xmlSerialize metod is called during xml writing.
+	 *
+	 * Use the $writer argument to write its own xml serialization.
+	 *
+	 * An important note: do _not_ create a parent element. Any element
+	 * implementing XmlSerializble should only ever write what's considered
+	 * its 'inner xml'.
+	 *
+	 * The parent of the current element is responsible for writing a
+	 * containing element.
+	 *
+	 * This allows serializers to be re-used for different element names.
+	 *
+	 * If you are opening new elements, you must also close them again.
+	 *
+	 * @param Writer $writer
+	 * @return void
+	 */
+	function xmlSerialize(Writer $writer) {
 
-            $elem = $dom->ownerDocument->createElement($prefix . ':tag');
-            $elem->appendChild($dom->ownerDocument->createTextNode($tag));
-
-            $dom->appendChild($elem);
-        }
-
-    }
-
-    /**
-     * Unserializes this property from a DOM Element
-     *
-     * This method returns an instance of this class.
-     * It will only decode tag values.
-     *
-     * @param \DOMElement $dom
-	 * @param array $propertyMap
-     * @return \OCA\DAV\Connector\Sabre\TagList
-     */
-    static function unserialize(\DOMElement $dom, array $propertyMap) {
-
-        $tags = array();
-        foreach($dom->childNodes as $child) {
-            if (DAV\XMLUtil::toClarkNotation($child)==='{' . self::NS_OWNCLOUD . '}tag') {
-                $tags[] = $child->textContent;
-            }
-        }
-        return new self($tags);
-
-    }
-
+		foreach ($this->tags as $tag) {
+			$writer->startElement(self::NS_OWNCLOUD . ':tag');
+			$writer->writeElement($tag);
+			$writer->endElement();
+		}
+	}
 }

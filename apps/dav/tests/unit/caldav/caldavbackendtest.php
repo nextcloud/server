@@ -23,9 +23,9 @@ namespace Tests\Connector\Sabre;
 use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
-use Sabre\CalDAV\Property\SupportedCalendarComponentSet;
-use Sabre\DAV\Property\Href;
+use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\PropPatch;
+use Sabre\DAV\Xml\Property\Href;
 use Test\TestCase;
 
 /**

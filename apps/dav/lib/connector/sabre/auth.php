@@ -35,6 +35,8 @@ use OCP\IUserSession;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\ServiceUnavailable;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 
 class Auth extends AbstractBasic {
 	const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
@@ -122,22 +124,15 @@ class Auth extends AbstractBasic {
 	}
 
 	/**
-	 * Override function here. We want to cache authentication cookies
-	 * in the syncing client to avoid HTTP-401 roundtrips.
-	 * If the sync client supplies the cookies, then OC_User::isLoggedIn()
-	 * will return true and we can see this WebDAV request as already authenticated,
-	 * even if there are no HTTP Basic Auth headers.
-	 * In other case, just fallback to the parent implementation.
-	 *
-	 * @param \Sabre\DAV\Server $server
-	 * @param string $realm
-	 * @return bool
-	 * @throws ServiceUnavailable
+	 * @param RequestInterface $request
+	 * @param ResponseInterface $response
+	 * @return array
 	 * @throws NotAuthenticated
+	 * @throws ServiceUnavailable
 	 */
-	public function authenticate(\Sabre\DAV\Server $server, $realm) {
+	function check(RequestInterface $request, ResponseInterface $response) {
 		try {
-			$result = $this->auth($server, $realm);
+			$result = $this->auth($request, $response);
 			return $result;
 		} catch (NotAuthenticated $e) {
 			throw $e;
@@ -149,11 +144,11 @@ class Auth extends AbstractBasic {
     }
 
 	/**
-	 * @param \Sabre\DAV\Server $server
-	 * @param string $realm
-	 * @return bool
+	 * @param RequestInterface $request
+	 * @param ResponseInterface $response
+	 * @return array
 	 */
-	private function auth(\Sabre\DAV\Server $server, $realm) {
+	private function auth(RequestInterface $request, ResponseInterface $response) {
 		if (\OC_User::handleApacheAuth() ||
 			($this->userSession->isLoggedIn() && is_null($this->session->get(self::DAV_AUTHENTICATED)))
 		) {
@@ -161,16 +156,16 @@ class Auth extends AbstractBasic {
 			\OC_Util::setupFS($user);
 			$this->currentUser = $user;
 			$this->session->close();
-			return true;
+			return [true, $this->principalPrefix . $user];
 		}
 
-		if ($server->httpRequest->getHeader('X-Requested-With') === 'XMLHttpRequest') {
+		if ($request->getHeader('X-Requested-With') === 'XMLHttpRequest') {
 			// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
-			$server->httpResponse->addHeader('WWW-Authenticate','DummyBasic realm="' . $realm . '"');
-			$server->httpResponse->setStatus(401);
+			$response->addHeader('WWW-Authenticate','DummyBasic realm="' . $this->realm . '"');
+			$response->setStatus(401);
 			throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
 		}
 
-		return parent::authenticate($server, $realm);
+		return parent::check($request, $response);
 	}
 }
