@@ -485,6 +485,30 @@ OCA.External.StatusManager.Utils = {
 			case 'sharepoint':
 				icon = OC.imagePath('sharepoint', 'folder-sharepoint');
 				break;
+			case 'amazons3':
+				icon = OC.imagePath('core', 'filesystem/folder-external');
+				break;
+			case 'dav':
+				icon = OC.imagePath('core', 'filesystem/folder-external');
+				break;
+			case 'dropbox':
+				icon = OC.imagePath('core', 'filesystem/folder-external');
+				break;
+			case 'ftp':
+				icon = OC.imagePath('core', 'filesystem/folder-external');
+				break;
+			case 'google':
+				icon = OC.imagePath('core', 'filesystem/folder-external');
+				break;
+			case 'owncloud':
+				icon = OC.imagePath('core', 'filesystem/folder-external');
+				break;
+			case 'sftp':
+				icon = OC.imagePath('core', 'filesystem/folder-external');
+				break;
+			case 'swift':
+				icon = OC.imagePath('core', 'filesystem/folder-external');
+				break;
 		}
 
 		return icon;
