@@ -1,6 +1,7 @@
 Feature: sharing
   Background:
     Given using api version "1"
+    Given using dav path "remote.php/webdav"
 
   Scenario: Creating a new share with user
     Given user "user0" exists

@@ -27,6 +27,9 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	/** @var int */
 	private $sharingApiVersion = 1;
 
+	/** @var string*/
+	private $davPath = "remote.php/webdav";
+
 	/** @var SimpleXMLElement */
 	private $lastShareData = null;
 
@@ -209,6 +212,13 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	 */
 	public function usingApiVersion($version) {
 		$this->apiVersion = $version;
+	}
+
+	/**
+	 * @Given /^using dav path "([^"]*)"$/
+	 */
+	public function usingDavPath($davPath) {
+		$this->davPath = $davPath;
 	}
 
 	/**
@@ -906,7 +916,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	}
 
 	public function makeDavRequest($user, $method, $path, $headers){
-		$fullUrl = substr($this->baseUrl, 0, -4) . "remote.php/webdav" . "$path";
+		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . "$path";
 		$client = new Client();
 		$options = [];
 		if ($user === 'admin') {
@@ -926,7 +936,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	 * @Given /^User "([^"]*)" moved file "([^"]*)" to "([^"]*)"$/
 	 */
 	public function userMovedFile($user, $fileSource, $fileDestination){
-		$fullUrl = substr($this->baseUrl, 0, -4) . "remote.php/webdav";
+		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath;
 		$headers['Destination'] = $fullUrl . $fileDestination;
 		$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
 		PHPUnit_Framework_Assert::assertEquals(201, $this->response->getStatusCode());
@@ -936,7 +946,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	 * @When /^User "([^"]*)" moves file "([^"]*)" to "([^"]*)"$/
 	 */
 	public function userMovesFile($user, $fileSource, $fileDestination){
-		$fullUrl = substr($this->baseUrl, 0, -4) . "remote.php/webdav";
+		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath;
 		$headers['Destination'] = $fullUrl . $fileDestination;
 		$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
 	}
