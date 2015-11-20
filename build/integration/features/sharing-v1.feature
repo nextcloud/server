@@ -333,6 +333,25 @@ Feature: sharing
     Then the OCS status code should be "404"
     And the HTTP status code should be "200"
 
+  Scenario: User is not allowed to reshare file with more permissions
+    As an "admin"
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And As an "user0"
+    And creating a share with
+      | path | /textfile0.txt |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 16 |
+    And As an "user1"
+    When creating a share with
+      | path | /textfile0. (2).txt |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 31 |
+    Then the OCS status code should be "404"
+    And the HTTP status code should be "200"
 
   Scenario: Delete all group shares
     Given As an "admin"
