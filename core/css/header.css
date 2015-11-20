@@ -152,7 +152,7 @@
 	max-height: 85%;
 	margin-top: 0;
 	padding-bottom: 10px;
-	background-color: rgba(0, 0, 0, .97);
+	background-color: rgba(255, 255, 255, .97);
 	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
 	border-radius: 3px;
 	border-top-left-radius: 0;
@@ -201,12 +201,7 @@
 }
 #navigation a span {
 	display: inline-block;
-	font-size: 13px;
-	padding-bottom: 0;
-	padding-left: 0;
 	width: 80px;
-	text-align: center;
-	color: #fff;
 	white-space:nowrap;
 	overflow:hidden;
 	text-overflow:ellipsis;
@@ -232,6 +227,11 @@
 	padding: 0;
 	max-height: 32px;
 	max-width: 32px;
+}
+/* pre 9.0, for the white icons */
+#navigation .app-icon {
+	background: #777;
+	border-radius: 3px;
 }
 
 /* Apps management */
@@ -325,7 +325,7 @@
 	top: 45px;
 	z-index: 2000;
 	display: none;
-	background-color: rgba(0, 0, 0, .97);
+	background-color: rgba(255, 255, 255, .97);
 	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
 	border-radius: 3px;
 	border-top-left-radius: 0;
@@ -335,7 +335,6 @@
 	#expanddiv a {
 		display: block;
 		height: 40px;
-		color: #fff;
 		padding: 4px 12px 0;
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 		opacity: .7;
