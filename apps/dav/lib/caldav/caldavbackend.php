@@ -217,7 +217,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 *
 	 * Read the PropPatch documentation for more info and examples.
 	 *
-	 * @param string $path
 	 * @param \Sabre\DAV\PropPatch $propPatch
 	 * @return void
 	 */
@@ -375,7 +374,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * If the backend supports this, it may allow for some speed-ups.
 	 *
 	 * @param mixed $calendarId
-	 * @param array $uris
+	 * @param string[] $uris
 	 * @return array
 	 */
 	function getMultipleCalendarObjects($calendarId, array $uris) {
@@ -422,7 +421,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param mixed $calendarId
 	 * @param string $objectUri
 	 * @param string $calendarData
-	 * @return string|null
+	 * @return string
 	 */
 	function createCalendarObject($calendarId, $objectUri, $calendarData) {
 		$extraData = $this->getDenormalizedData($calendarData);
@@ -464,7 +463,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param mixed $calendarId
 	 * @param string $objectUri
 	 * @param string $calendarData
-	 * @return string|null
+	 * @return string
 	 */
 	function updateCalendarObject($calendarId, $objectUri, $calendarData) {
 		$extraData = $this->getDenormalizedData($calendarData);

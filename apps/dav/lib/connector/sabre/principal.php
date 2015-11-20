@@ -168,7 +168,7 @@ class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 	 * The principals should be passed as a list of uri's.
 	 *
 	 * @param string $principal
-	 * @param array $members
+	 * @param string[] $members
 	 * @throws \Sabre\DAV\Exception
 	 */
 	public function setGroupMemberSet($principal, array $members) {

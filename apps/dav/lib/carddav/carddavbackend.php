@@ -343,7 +343,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * If the backend supports this, it may allow for some speed-ups.
 	 *
 	 * @param mixed $addressBookId
-	 * @param array $uris
+	 * @param string[] $uris
 	 * @return array
 	 */
 	function getMultipleCards($addressBookId, array $uris) {
@@ -390,7 +390,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param mixed $addressBookId
 	 * @param string $cardUri
 	 * @param string $cardData
-	 * @return string|null
+	 * @return string
 	 */
 	function createCard($addressBookId, $cardUri, $cardData) {
 		$etag = md5($cardData);
@@ -435,7 +435,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param mixed $addressBookId
 	 * @param string $cardUri
 	 * @param string $cardData
-	 * @return string|null
+	 * @return string
 	 */
 	function updateCard($addressBookId, $cardUri, $cardData) {
 

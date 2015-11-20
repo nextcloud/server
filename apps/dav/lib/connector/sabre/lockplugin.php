@@ -27,7 +27,6 @@ use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ServerPlugin;
-use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 
 class LockPlugin extends ServerPlugin {

@@ -55,6 +55,9 @@ class FilesPlugin extends \Test\TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
+	/**
+	 * @param string $class
+	 */
 	private function createTestNode($class) {
 		$node = $this->getMockBuilder($class)
 			->disableOriginalConstructor()
