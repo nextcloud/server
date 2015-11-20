@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 #
 # ownCloud
 #
@@ -25,20 +25,27 @@ echo "Fetch recent ${docker_image} docker image"
 docker pull ${docker_image}
 
 # retrieve current folder to place the config in the parent folder
-thisFolder=`echo $0 | replace "env/start-amazons3-ceph.sh" ""`
+thisFolder=`echo $0 | replace "env/start-swift-ceph.sh" ""`
 
 if [ -z "$thisFolder" ]; then
     thisFolder="."
 fi;
 
+port=5001
+
 user=test
-accesskey=aaabbbccc
-secretkey=cccbbbaaa
-bucket=testbucket
-port=80
+pass=testing
+tenant=testenant
+region=testregion
+service=testceph
 
 container=`docker run -d \
-    -e RGW_CIVETWEB_PORT=$port \
+    -e KEYSTONE_PUBLIC_PORT=${port} \
+    -e KEYSTONE_ADMIN_USER=${user} \
+    -e KEYSTONE_ADMIN_PASS=${pass} \
+    -e KEYSTONE_ADMIN_TENANT=${tenant} \
+    -e KEYSTONE_ENDPOINT_REGION=${region} \
+    -e KEYSTONE_SERVICE=${service} \
     ${docker_image}`
 
 host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
@@ -47,13 +54,13 @@ host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
 echo "${docker_image} container: $container"
 
 # put container IDs into a file to drop them after the test run (keep in mind that multiple tests run in parallel on the same host)
-echo $container >> $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.amazons3
+echo $container >> $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
 
 echo -n "Waiting for ceph initialization"
 starttime=$(date +%s)
 # support for GNU netcat and BSD netcat
-while ! (nc -c -w 1 ${host} ${port} </dev/null >&/dev/null \
-    || nc -w 1 ${host} ${port} </dev/null >&/dev/null); do
+while ! (nc -c -w 1 ${host} 80 </dev/null >&/dev/null \
+    || nc -w 1 ${host} 80 </dev/null >&/dev/null); do
     sleep 1
     echo -n '.'
     if (( $(date +%s) > starttime + 60 )); then
@@ -65,29 +72,23 @@ done
 echo
 sleep 1
 
-echo "Create ceph user"
-docker exec $container radosgw-admin user create \
-    --uid="$user" --display-name="$user" \
-    --access-key="$accesskey" --secret="$secretkey" \
-    >/dev/null
-
-cat > $thisFolder/config.amazons3.php <<DELIM
+cat > $thisFolder/config.swift.php <<DELIM
 <?php
 
 return array(
     'run'=>true,
-    'bucket'=>'$bucket',
-    'hostname'=>'$host',
-    'port'=>'$port',
-    'key'=>'$accesskey',
-    'secret'=>'$secretkey',
-    'use_ssl'=>false,
-    'use_path_style'=>true,
+    'url'=>'http://$host:$port/v2.0',
+    'user'=>'$user',
+    'tenant'=>'$tenant',
+    'password'=>'$pass',
+    'service_name'=>'$service',
+    'bucket'=>'swift',
+    'region' => '$region',
 );
 
 DELIM
 
 if [ -n "$DEBUG" ]; then
-    cat $thisFolder/config.amazons3.php
-    cat $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.amazons3
+    cat $thisFolder/config.swift.php
+    cat $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
 fi
