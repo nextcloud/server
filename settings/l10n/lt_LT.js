@@ -63,7 +63,6 @@ OC.L10N.register(
     "Authentication required" : "Reikalinga autentikacija",
     "Server address" : "Serverio adresas",
     "Port" : "Prievadas",
-    "Log level" : "Žurnalo išsamumas",
     "More" : "Daugiau",
     "Less" : "Mažiau",
     "Version" : "Versija",

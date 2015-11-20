@@ -171,7 +171,6 @@ OC.L10N.register(
     "Store credentials" : "Azonosítók eltárolása",
     "Test email settings" : "Az e-mail beállítások ellenőrzése",
     "Send email" : "E-mail küldése",
-    "Log level" : "Naplózási szint",
     "Download logfile" : "Naplófájl letöltése",
     "More" : "Több",
     "Less" : "Kevesebb",

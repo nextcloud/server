@@ -188,7 +188,6 @@ OC.L10N.register(
     "Store credentials" : "Enregistrer les identifiants",
     "Test email settings" : "Tester les paramètres e-mail",
     "Send email" : "Envoyer un e-mail",
-    "Log level" : "Niveau de log",
     "Download logfile" : "Télécharger le fichier de journalisation",
     "More" : "Plus",
     "Less" : "Moins",

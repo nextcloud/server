@@ -188,7 +188,6 @@ OC.L10N.register(
     "Store credentials" : "Διαπιστευτήρια αποθήκευσης",
     "Test email settings" : "Δοκιμή ρυθμίσεων email",
     "Send email" : "Αποστολή email",
-    "Log level" : "Επίπεδο καταγραφής",
     "Download logfile" : "Λήψη αρχείου ιστορικού",
     "More" : "Περισσότερα",
     "Less" : "Λιγότερα",

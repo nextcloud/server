@@ -161,7 +161,6 @@ OC.L10N.register(
     "Store credentials" : "Emmagatzemar credencials",
     "Test email settings" : "Prova l'arranjament del correu",
     "Send email" : "Envia correu",
-    "Log level" : "Nivell de registre",
     "Download logfile" : "Descarregar arxiu de registre",
     "More" : "Més",
     "Less" : "Menys",

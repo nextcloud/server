@@ -186,7 +186,6 @@ OC.L10N.register(
     "Store credentials" : "儲存帳密",
     "Test email settings" : "測試郵件設定",
     "Send email" : "寄送郵件",
-    "Log level" : "紀錄層級",
     "Download logfile" : "下載記錄檔",
     "More" : "更多",
     "Less" : "更少",

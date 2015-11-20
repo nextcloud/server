@@ -73,8 +73,6 @@
     "_%n byte_::_%n bytes_" : ["%n ไบต์"],
     "Favorited" : "รายการโปรด",
     "Favorite" : "รายการโปรด",
-    "Text file" : "ไฟล์ข้อความ",
-    "New text file.txt" : "ไฟล์ข้อความใหม่ .txt",
     "Folder" : "แฟ้มเอกสาร",
     "New folder" : "โฟลเดอร์ใหม่",
     "{newname} already exists" : "{newname} ถูกใช้ไปแล้ว",
@@ -104,6 +102,8 @@
     "Maximum upload size" : "ขนาดไฟล์สูงสุดที่อัพโหลดได้",
     "max. possible: " : "จำนวนสูงสุดที่สามารถทำได้: ",
     "Save" : "บันทึก",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "กับ PHP-FPM อาจใช้เวลา 5 นาทีสำหรับการเปลี่ยนแปลงที่ถูกนำมาใช้",
+    "Missing permissions to edit from here." : "สิทธิ์ในการแก้ไขส่วนนี้หายไป",
     "Settings" : "ตั้งค่า",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "ใช้ที่อยู่นี้เพื่อ <a href=\"%s\" target=\"_blank\">เข้าถึงไฟล์ของคุณผ่าน WebDAV</a>",
@@ -117,6 +117,8 @@
     "Files are being scanned, please wait." : "ไฟล์กำลังอยู่ระหว่างการสแกน, กรุณารอสักครู่.",
     "Currently scanning" : "ปัจจุบันกำลังสแกน",
     "No favorites" : "ไม่มีรายการโปรด",
-    "Files and folders you mark as favorite will show up here" : "ไฟล์และโฟลเดอร์ที่คุณทำเครื่องหมายเป็นรายการโปรดจะปรากฏขึ้นที่นี่"
+    "Files and folders you mark as favorite will show up here" : "ไฟล์และโฟลเดอร์ที่คุณทำเครื่องหมายเป็นรายการโปรดจะปรากฏขึ้นที่นี่",
+    "Text file" : "ไฟล์ข้อความ",
+    "New text file.txt" : "ไฟล์ข้อความใหม่ .txt"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

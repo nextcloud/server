@@ -188,7 +188,6 @@ OC.L10N.register(
     "Store credentials" : "ข้อมูลประจำตัวของร้านค้า",
     "Test email settings" : "การตั้งค่าอีเมลทดสอบ",
     "Send email" : "ส่งอีเมล",
-    "Log level" : "ระดับการเก็บบันทึก log",
     "Download logfile" : "ดาวน์โหลดไฟล์บันทึก",
     "More" : "มาก",
     "Less" : "น้อย",

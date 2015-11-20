@@ -79,7 +79,6 @@ OC.L10N.register(
     "SMTP Username" : "SMTP-uzantonomo",
     "SMTP Password" : "SMTP-pasvorto",
     "Send email" : "Sendi retpoŝton",
-    "Log level" : "Registronivelo",
     "More" : "Pli",
     "Less" : "Malpli",
     "Version" : "Eldono",

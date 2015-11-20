@@ -176,7 +176,6 @@ OC.L10N.register(
     "Store credentials" : "Säilytä tilitiedot",
     "Test email settings" : "Testaa sähköpostiasetukset",
     "Send email" : "Lähetä sähköpostiviesti",
-    "Log level" : "Lokitaso",
     "Download logfile" : "Lataa lokitiedosto",
     "More" : "Enemmän",
     "Less" : "Vähemmän",

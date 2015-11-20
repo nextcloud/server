@@ -128,7 +128,6 @@ OC.L10N.register(
     "Store credentials" : "Spremi vjerodajnice",
     "Test email settings" : "Postavke za testnu e-poštu",
     "Send email" : "Pošalji e-poštu",
-    "Log level" : "Razina zapisnika",
     "More" : "Više",
     "Less" : "Manje",
     "Version" : "Verzija",

@@ -24,6 +24,7 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "ไม่สามารถตรวจสอบ Base DN โปรดเลือกด้วยตนเอง",
     "{nthServer}. Server" : "เซิร์ฟเวอร์ {nthServer}",
     "No object found in the given Base DN. Please revise." : "ไม่พบวัตถุที่กำหนดใน Base DN กรุณาแก้ไข",
+    "More than 1,000 directory entries available." : "ไดเรกทอรีมีอยู่มากกว่า 1,000 รายการ",
     " entries available within the provided Base DN" : "รายการที่มีอยู่ใน Base DN",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "เกิดข้อผิดพลาด กรุณาตรวจสอบ Base DN เช่นเดียวกับการตั้งค่าการเชื่อมต่อและข้อมูลที่สำคัญ",
     "Do you really want to delete the current Server Configuration?" : "คุณแน่ใจแล้วหรือว่าต้องการลบการกำหนดค่าเซิร์ฟเวอร์ปัจจุบันทิ้งไป?",

@@ -56,7 +56,6 @@ OC.L10N.register(
     "Server address" : "អាសយដ្ឋាន​ម៉ាស៊ីន​បម្រើ",
     "Port" : "ច្រក",
     "Send email" : "ផ្ញើ​អ៊ីមែល",
-    "Log level" : "កម្រិត Log",
     "More" : "ច្រើន​ទៀត",
     "Less" : "តិច",
     "Version" : "កំណែ",

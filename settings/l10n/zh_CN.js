@@ -180,7 +180,6 @@ OC.L10N.register(
     "Store credentials" : "存储凭据",
     "Test email settings" : "测试电子邮件设置",
     "Send email" : "发送邮件",
-    "Log level" : "日志级别",
     "Download logfile" : "下载日志文件",
     "More" : "更多",
     "Less" : "更少",

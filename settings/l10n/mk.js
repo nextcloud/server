@@ -103,7 +103,6 @@ OC.L10N.register(
     "SMTP Password" : "SMTP лозинка",
     "Test email settings" : "Провери ги нагодувањаа за електронска пошта",
     "Send email" : "Испрати пошта",
-    "Log level" : "Ниво на логирање",
     "More" : "Повеќе",
     "Less" : "Помалку",
     "Version" : "Верзија",

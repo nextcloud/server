@@ -134,7 +134,6 @@ OC.L10N.register(
     "Store credentials" : "Gorde kredentzialak",
     "Test email settings" : "Probatu eposta ezarpenak",
     "Send email" : "Bidali eposta",
-    "Log level" : "Erregistro maila",
     "Download logfile" : "Deskargatu log fitxategia",
     "More" : "Gehiago",
     "Less" : "Gutxiago",

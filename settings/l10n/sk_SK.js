@@ -160,7 +160,6 @@ OC.L10N.register(
     "Store credentials" : "Ukladať prihlasovacie údaje",
     "Test email settings" : "Nastavenia testovacieho emailu",
     "Send email" : "Odoslať email",
-    "Log level" : "Úroveň záznamu",
     "Download logfile" : "Stiahnuť súbor logu",
     "More" : "Viac",
     "Less" : "Menej",

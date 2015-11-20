@@ -181,7 +181,6 @@ OC.L10N.register(
     "Store credentials" : "Kimlik bilgilerini depola",
     "Test email settings" : "E-posta ayarlarını sına",
     "Send email" : "E-posta gönder",
-    "Log level" : "Günlük seviyesi",
     "Download logfile" : "Günlük dosyasını indir",
     "More" : "Daha fazla",
     "Less" : "Daha az",

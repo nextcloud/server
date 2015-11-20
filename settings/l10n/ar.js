@@ -73,7 +73,6 @@ OC.L10N.register(
     "Authentication method" : "أسلوب التطابق",
     "Server address" : "عنوان الخادم",
     "Port" : "المنفذ",
-    "Log level" : "مستوى السجل",
     "More" : "المزيد",
     "Less" : "أقل",
     "Version" : "إصدار",

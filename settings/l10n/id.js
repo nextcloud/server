@@ -188,7 +188,6 @@ OC.L10N.register(
     "Store credentials" : "Simpan kredensial",
     "Test email settings" : "Pengaturan email percobaan",
     "Send email" : "Kirim email",
-    "Log level" : "Level log",
     "Download logfile" : "Unduh berkas log",
     "More" : "Lainnya",
     "Less" : "Ciutkan",

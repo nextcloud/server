@@ -149,7 +149,6 @@ OC.L10N.register(
     "Store credentials" : "Säilita kasutajaandmed",
     "Test email settings" : "Testi e-posti seadeid",
     "Send email" : "Saada kiri",
-    "Log level" : "Logi tase",
     "Download logfile" : "Laadi logifail alla",
     "More" : "Rohkem",
     "Less" : "Vähem",

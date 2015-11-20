@@ -188,7 +188,6 @@ OC.L10N.register(
     "Store credentials" : "Opslaan inloggegevens",
     "Test email settings" : "Test e-mailinstellingen",
     "Send email" : "Versturen e-mail",
-    "Log level" : "Log niveau",
     "Download logfile" : "Download logbestand",
     "More" : "Meer",
     "Less" : "Minder",

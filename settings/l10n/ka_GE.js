@@ -41,7 +41,6 @@ OC.L10N.register(
     "Server address" : "სერვერის მისამართი",
     "Port" : "პორტი",
     "Credentials" : "იუზერ/პაროლი",
-    "Log level" : "ლოგირების დონე",
     "More" : "უფრო მეტი",
     "Less" : "უფრო ნაკლები",
     "Version" : "ვერსია",

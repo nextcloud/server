@@ -82,7 +82,6 @@ OC.L10N.register(
     "SMTP Password" : "Parolă SMTP",
     "Test email settings" : "Verifică setările de e-mail",
     "Send email" : "Expediază mesajul",
-    "Log level" : "Nivel jurnal",
     "More" : "Mai mult",
     "Less" : "Mai puțin",
     "Version" : "Versiunea",

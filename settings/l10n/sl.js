@@ -151,7 +151,6 @@ OC.L10N.register(
     "Store credentials" : "Shrani poverila",
     "Test email settings" : "Preizkus nastavitev elektronske pošte",
     "Send email" : "Pošlji elektronsko sporočilo",
-    "Log level" : "Raven beleženja",
     "Download logfile" : "Prejmi dnevniško datoteko",
     "More" : "Več",
     "Less" : "Manj",

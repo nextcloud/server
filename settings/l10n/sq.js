@@ -184,7 +184,6 @@ OC.L10N.register(
     "Store credentials" : "Depozitoji kredencialet",
     "Test email settings" : "Testoni rregullimet e email-it",
     "Send email" : "Dërgo email",
-    "Log level" : "Shkallë regjistrimi",
     "Download logfile" : "Shkarkoni kartelën regjistër",
     "More" : "Më tepër",
     "Less" : "Më pak",

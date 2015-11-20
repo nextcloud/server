@@ -188,7 +188,6 @@ OC.L10N.register(
     "Store credentials" : "Сохранить учётные данные",
     "Test email settings" : "Проверить настройки почты",
     "Send email" : "Отправить email",
-    "Log level" : "Уровень детализации журнала",
     "Download logfile" : "Скачать журнал",
     "More" : "Больше",
     "Less" : "Меньше",
