@@ -210,7 +210,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	/**
-	 * @param \OC\User\User $user
+	 * @param \OC\User\User|null $user
 	 * @return \OC\Group\Group[]
 	 */
 	public function getUserGroups($user) {
