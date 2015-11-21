@@ -190,6 +190,7 @@
     "More" : "もっと見る",
     "Less" : "閉じる",
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "ログファイルが100MB以上あります。ダウンロードに時間がかかります！",
+    "What to log" : "ログ出力対象",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLiteがデータベースとして使用されています。大規模な運用では別のデータベースに切り替えることをお勧めします。",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "特にデスクトップクライアントをファイル同期に使用する場合，SQLiteは非推奨です．",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" href=\"%s\">documentation ↗</a>." : "他のデータベースに移行する場合はコマンドラインツール: 'occ db:convert-type' を使ってください。 <a target=\"_blank\" href=\"%s\">ドキュメント ↗</a>を参照してください。",

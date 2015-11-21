@@ -190,6 +190,7 @@
     "More" : "Altro",
     "Less" : "Meno",
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Il file di log è più grande di 100MB. Scaricarlo potrebbe richiedere del tempo!",
+    "What to log" : "Cosa registrare",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite è utilizzato come database. Per installazioni più grandi consigliamo di passare a un motore di database diverso.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "In particolar modo, quando si utilizza il client desktop per la sincronizzazione dei file, l'uso di SQLite è sconsigliato.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" href=\"%s\">documentation ↗</a>." : "Per migrare a un altro database, usa lo strumento da riga di comando: 'occ db:convert-type', o leggi la <a target=\"_blank\" href=\"%s\">documentazione ↗</a>.",

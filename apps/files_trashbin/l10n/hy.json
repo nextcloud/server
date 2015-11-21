@@ -3,8 +3,10 @@
     "Restore" : "Վերականգնել",
     "Delete" : "Ջնջել",
     "Delete permanently" : "Ջնջել ընդմիշտ",
+    "Error" : "Սխալ",
     "No deleted files" : "Ջնջված ֆայլեր չկան",
     "Select all" : "Նշել բոլորը",
-    "Name" : "Անուն"
+    "Name" : "Անուն",
+    "Deleted" : "Ջնջված"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

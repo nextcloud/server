@@ -188,6 +188,7 @@ OC.L10N.register(
     "More" : "Më tepër",
     "Less" : "Më pak",
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Kartela regjistër është më e madhe se 100 MB. Shkarkimi i saj mund të hajë ca kohë!",
+    "What to log" : "Ç’të regjistrohet",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "Si bazë të dhënash përdoret SQLite. Për instalime më të ngarkuara, këshillojmë të kalohet në një program tjetër baze të dhënash.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Përdorimi i SQLite-it nuk këshillohet veçanërisht kur përdoret klienti desktop për njëkohësim kartelash.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" href=\"%s\">documentation ↗</a>." : "Për të kaluar te një tjetër bazë të dhënash përdorni mjetin rresht urdhrash: 'occ db:convert-type', ose shihni <a target=\"_blank\" href=\"%s\">dokumentimin ↗</a>.",
