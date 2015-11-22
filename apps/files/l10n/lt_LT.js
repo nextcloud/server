@@ -75,8 +75,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n baitas","%n baitai","%n baitų"],
     "Favorited" : "Pažymėta mėgstamu",
     "Favorite" : "Mėgiamas",
-    "Text file" : "Teksto failas",
-    "New text file.txt" : "Naujas tekstas file.txt",
     "Folder" : "Katalogas",
     "New folder" : "Naujas aplankas",
     "{newname} already exists" : "{newname} jau egzistuoja",
@@ -106,6 +104,8 @@ OC.L10N.register(
     "Maximum upload size" : "Maksimalus įkeliamo failo dydis",
     "max. possible: " : "maks. galima:",
     "Save" : "Išsaugoti",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "Su PHP-FPM atnaujinimai gali užtrukti apie 5min.",
+    "Missing permissions to edit from here." : "Draudžiama iš čia redaguoti",
     "Settings" : "Nustatymai",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Naudokite šį adresą, kad <a href=\"%s\" target=\"_blank\">pasiektumėte savo failus per WebDAV</a>",
@@ -119,6 +119,8 @@ OC.L10N.register(
     "Files are being scanned, please wait." : "Skenuojami failai, prašome palaukti.",
     "Currently scanning" : "Šiuo metu skenuojama",
     "No favorites" : "Nėra mėgstamiausių",
-    "Files and folders you mark as favorite will show up here" : "Failai ir aplankai, kuriuos pažymite mėgstamais, atsiras čia"
+    "Files and folders you mark as favorite will show up here" : "Failai ir aplankai, kuriuos pažymite mėgstamais, atsiras čia",
+    "Text file" : "Teksto failas",
+    "New text file.txt" : "Naujas tekstas file.txt"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

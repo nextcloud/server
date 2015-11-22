@@ -1,4 +1,7 @@
 { "translations": {
+    "Cannot write into \"config\" directory!" : "Negalima rašyti į \"config\" aplanką!",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Tai gali būti ištaisyta suteikiant web serveriui rašymo teises į config aplanką",
+    "PHP %s or higher is required." : "Reikalinga PHP %s arba aukštesnė.",
     "Help" : "Pagalba",
     "Personal" : "Asmeniniai",
     "Users" : "Vartotojai",
@@ -15,6 +18,8 @@
     "_%n minute ago_::_%n minutes ago_" : ["prieš %n min.","Prieš % minutes","Prieš %n minučių"],
     "seconds ago" : "prieš sekundę",
     "web services under your control" : "jūsų valdomos web paslaugos",
+    "Empty filename is not allowed" : "Tuščias failo pavadinimas neleidžiamas",
+    "File name is a reserved word" : "Failo pavadinimas negalimas, žodis rezervuotas",
     "File name contains at least one invalid character" : "Failo vardas sudarytas iš neleistinų simbolių",
     "App directory already exists" : "Programos aplankas jau egzistuoja",
     "Can't create app folder. Please fix permissions. %s" : "Nepavyksta sukurti aplanko. Prašome pataisyti leidimus. %s",
