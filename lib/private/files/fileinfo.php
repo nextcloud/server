@@ -31,6 +31,7 @@ namespace OC\Files;
 
 use OCP\Files\Cache\ICacheEntry;
 use OCP\IUser;
+use OC\Files\Mount\MoveableMount;
 
 class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	/**
@@ -207,6 +208,14 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	public function getPermissions() {
 		$perms = $this->data['permissions'];
+		// if this is the mount point itself
+		if ($this->internalPath === '') {
+			if ($this->mount instanceof MoveableMount) {
+				$perms = $perms | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
+			} else {
+				$perms = $perms & (\OCP\Constants::PERMISSION_ALL - (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE));
+			}
+		}
 		if (\OCP\Util::isSharingDisabledForUser() || ($this->isShared() && !\OC\Share\Share::isResharingAllowed())) {
 			$perms = $perms & ~\OCP\Constants::PERMISSION_SHARE;
 		}
