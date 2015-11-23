@@ -125,23 +125,23 @@ interface IComment {
 	public function setActor($actorType, $actorId);
 
 	/**
-	 * returns the unix timestamp of the comment.
+	 * returns the creation date of the comment.
 	 *
-	 * If not explicitely set, it shall default to the time of initialization.
+	 * If not explicitly set, it shall default to the time of initialization.
 	 *
 	 * @return \DateTime
 	 * @since 9.0.0
 	 */
-	public function getTimestamp();
+	public function getCreationDateTime();
 
 	/**
-	 * sets the timestamp of the comment and returns itself
+	 * sets the creation date of the comment and returns itself
 	 *
 	 * @param \DateTime $timestamp
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setTimestamp(\DateTime $timestamp);
+	public function setCreationDateTime(\DateTime $timestamp);
 
 	/**
 	 * returns the timestamp of the most recent child
