@@ -225,12 +225,4 @@ interface Node extends FileInfo {
 	 * @since 6.0.0
 	 */
 	public function getName();
-
-	/**
-	 * Get the file owner
-	 *
-	 * @since 9.0.0
-	 * @return string
-	 */
-	public function getOwner();
 }
