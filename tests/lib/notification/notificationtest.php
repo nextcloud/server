@@ -62,14 +62,6 @@ class NotificationTest extends TestCase {
 		return $dataSets;
 	}
 
-	protected function dataValidInt() {
-		return [
-			[0],
-			[1],
-			[time()],
-		];
-	}
-
 	protected function dataInvalidInt() {
 		return [
 			[true],
@@ -139,32 +131,47 @@ class NotificationTest extends TestCase {
 		$this->notification->setUser($user);
 	}
 
-	public function dataSetTimestamp() {
-		return $this->dataValidInt();
+	public function dataSetDateTime() {
+		$past = new \DateTime();
+		$past->sub(new \DateInterval('P1Y'));
+		$current = new \DateTime();
+		$future = new \DateTime();
+		$future->add(new \DateInterval('P1Y'));
+
+		return [
+			[$past],
+			[$current],
+			[$future],
+		];
 	}
 
 	/**
-	 * @dataProvider dataSetTimestamp
-	 * @param int $timestamp
+	 * @dataProvider dataSetDateTime
+	 * @param \DateTime $dateTime
 	 */
-	public function testSetTimestamp($timestamp) {
-		$this->assertSame(0, $this->notification->getTimestamp());
-		$this->assertSame($this->notification, $this->notification->setTimestamp($timestamp));
-		$this->assertSame($timestamp, $this->notification->getTimestamp());
+	public function testSetDateTime(\DateTime $dateTime) {
+		$this->assertSame(0, $this->notification->getDateTime()->getTimestamp());
+		$this->assertSame($this->notification, $this->notification->setDateTime($dateTime));
+		$this->assertSame($dateTime, $this->notification->getDateTime());
 	}
 
-	public function dataSetTimestampInvalid() {
-		return $this->dataInvalidInt();
+	public function dataSetDateTimeZero() {
+		$nineTeenSeventy = new \DateTime();
+		$nineTeenSeventy->setTimestamp(0);
+		return [
+			[$nineTeenSeventy],
+		];
 	}
 
 	/**
-	 * @dataProvider dataSetTimestampInvalid
-	 * @param mixed $timestamp
+	 * @dataProvider dataSetDateTimeZero
+	 * @param \DateTime $dateTime
 	 *
 	 * @expectedException \InvalidArgumentException
+	 * @expectedMessage 'The given date time is invalid'
 	 */
-	public function testSetTimestampInvalid($timestamp) {
-		$this->notification->setTimestamp($timestamp);
+	public function testSetDateTimeZero($dateTime) {
+		$this->notification->setDateTime($dateTime);
 	}
 
 	public function dataSetObject() {
@@ -578,7 +585,7 @@ class NotificationTest extends TestCase {
 			->setMethods([
 				'getApp',
 				'getUser',
-				'getTimestamp',
+				'getDateTime',
 				'getObjectType',
 				'getObjectId',
 			])
@@ -592,9 +599,12 @@ class NotificationTest extends TestCase {
 			->method('getUser')
 			->willReturn($user);
 
+		$dateTime = new \DateTime();
+		$dateTime->setTimestamp($timestamp);
+
 		$notification->expects($this->any())
-			->method('getTimestamp')
-			->willReturn($timestamp);
+			->method('getDateTime')
+			->willReturn($dateTime);
 
 		$notification->expects($this->any())
 			->method('getObjectType')

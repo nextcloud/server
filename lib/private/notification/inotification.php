@@ -61,18 +61,18 @@ interface INotification {
 	public function getUser();
 
 	/**
-	 * @param int $timestamp
+	 * @param \DateTime $dateTime
 	 * @return $this
-	 * @throws \InvalidArgumentException if the timestamp are invalid
-	 * @since 8.2.0
+	 * @throws \InvalidArgumentException if the $dateTime is invalid
+	 * @since 9.0.0
 	 */
-	public function setTimestamp($timestamp);
+	public function setDateTime(\DateTime $dateTime);
 
 	/**
-	 * @return int
-	 * @since 8.2.0
+	 * @return \DateTime
+	 * @since 9.0.0
 	 */
-	public function getTimestamp();
+	public function getDateTime();
 
 	/**
 	 * @param string $type
