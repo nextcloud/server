@@ -81,7 +81,7 @@ class ListCommand extends Base {
 				'full',
 				null,
 				InputOption::VALUE_NONE,
-				'dont truncate long values in table output'
+				'don\'t truncate long values in table output'
 			);
 		parent::configure();
 	}
@@ -107,7 +107,7 @@ class ListCommand extends Base {
 			if ($userId) {
 				$output->writeln("<info>No mounts configured by $userId</info>");
 			} else {
-				$output->writeln("<info>No mounts admin configured</info>");
+				$output->writeln("<info>No admin mounts configured</info>");
 			}
 			return;
 		}
