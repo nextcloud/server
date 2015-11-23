@@ -16,6 +16,7 @@ OC.L10N.register(
     "Not permitted to use authentication mechanism \"%s\"" : "\"%s\" kimlik doğrulama mekanizmasına izin verilmiyor",
     "Unsatisfied backend parameters" : "Yetersiz arka uç parametreleri",
     "Unsatisfied authentication mechanism parameters" : "Yetersiz kimlik doğrulama mekanizması parametreleri",
+    "Insufficient data: %s" : "Yetersiz veri: %s",
     "Personal" : "Kişisel",
     "System" : "Sistem",
     "Grant access" : "Erişimi sağla",
@@ -101,6 +102,7 @@ OC.L10N.register(
     "Advanced settings" : "Gelişmiş ayarlar",
     "Delete" : "Sil",
     "Add storage" : "Depo ekle",
+    "Allow users to mount external storage" : "Kullanıcılara harici depolama bağlama izin ver",
     "Allow users to mount the following external storage" : "Kullanıcıların aşağıdaki harici depolamayı bağlamalarına izin ver"
 },
 "nplurals=2; plural=(n > 1);");

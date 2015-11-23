@@ -32,6 +32,8 @@ OC.L10N.register(
     "The share will expire on %s." : "Bu paylaşım %s tarihinde sona erecek.",
     "Cheers!" : "Hoşçakalın!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"ownCloud basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Selam,<br><br>Sistem yöneticisi sunucu tarafında şifrelemeyi etkinleştirdi. Dosyalarınız <strong>%s</strong> parolası kullanılarak şifrelendi.<br><br>Lütfen web arayüzünde oturum açın ve kişisel ayarlarınızdan 'ownCloud temel şifreleme modülü'ne giderek 'eski oturum parolası' alanına bu parolayı girdikten sonra şifreleme parolanızı ve mevcut oturum açma parolanızı güncelleyin.<br><br>",
+    "Encrypt the home storage" : "Yerel depolamayı şifrele",
+    "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Bu seçeneği etkinleştirmek ana depolamadaki bütün dosyaları şifreler, aksi takdirde sadece harici depolamadaki dosyalar şifrelenir",
     "Enable recovery key" : "Kurtarma anahtarını etkinleştir",
     "Disable recovery key" : "Kurtarma anahtarını devre dışı bırak",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kurtarma anahtarı, dosyaların şifrelenmesi için daha fazla \nşifreleme sunar. Bu kullanıcının dosyasının şifresini unuttuğunda kurtarmasına imkan verir.",

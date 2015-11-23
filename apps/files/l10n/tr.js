@@ -75,8 +75,6 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n bayt","%n bayt"],
     "Favorited" : "Sık kullanılanlara eklendi",
     "Favorite" : "Sık kullanılan",
-    "Text file" : "Metin dosyası",
-    "New text file.txt" : "Yeni metin dosyası.txt",
     "Folder" : "Klasör",
     "New folder" : "Yeni klasör",
     "{newname} already exists" : "{newname} zaten mevcut",
@@ -106,6 +104,8 @@ OC.L10N.register(
     "Maximum upload size" : "Azami yükleme boyutu",
     "max. possible: " : "mümkün olan en fazla: ",
     "Save" : "Kaydet",
+    "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM ile değişikliklerin uygulanması 5 dakika sürebilir.",
+    "Missing permissions to edit from here." : "Buradan düzenleme için eksik yetki.",
     "Settings" : "Ayarlar",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\">Dosyalarınıza WebDAV aracılığıyla erişmek için</a> bu adresi kullanın",
@@ -119,6 +119,8 @@ OC.L10N.register(
     "Files are being scanned, please wait." : "Dosyalar taranıyor, lütfen bekleyin.",
     "Currently scanning" : "Şu anda taranan",
     "No favorites" : "Sık kullanılan öge yok.",
-    "Files and folders you mark as favorite will show up here" : "Sık kullanılan olarak işaretlediğiniz dosya ve klasörler burada gösterilecek"
+    "Files and folders you mark as favorite will show up here" : "Sık kullanılan olarak işaretlediğiniz dosya ve klasörler burada gösterilecek",
+    "Text file" : "Metin dosyası",
+    "New text file.txt" : "Yeni metin dosyası.txt"
 },
 "nplurals=2; plural=(n > 1);");
