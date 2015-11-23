@@ -34,7 +34,7 @@ class OCSShareWrapper {
 					\OC::$server->getDatabaseConnection(),
 					\OC::$server->getUserManager(),
 					\OC::$server->getGroupManager(),
-					\OC::$server->getUserFolder()
+					\OC::$server->getRootFolder()
 				)
 			),
 			\OC::$server->getGroupManager(),

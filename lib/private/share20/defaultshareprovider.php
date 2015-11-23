@@ -35,17 +35,17 @@ class DefaultShareProvider implements IShareProvider {
 	/** @var \OCP\IGroupManager */
 	private $groupManager;
 
-	/** @var \OCP\Files\Folder */
-	private $userFolder;
+	/** @var \OCP\Files\IRootFolder */
+	private $rootFolder;
 
 	public function __construct(\OCP\IDBConnection $connection,
 								\OCP\IUserManager $userManager,
 								\OCP\IGroupManager $groupManager,
-								\OCP\Files\Folder $userFolder) {
+								\OCP\Files\IRootFolder $rootFolder) {
 		$this->dbConn = $connection;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
-		$this->userFolder = $userFolder;
+		$this->rootFolder = $rootFolder;
 	}
 
 	/**
@@ -218,14 +218,14 @@ class DefaultShareProvider implements IShareProvider {
 		$share->setSharedBy($this->userManager->get($data['uid_owner']));
 
 		// TODO: getById can return an array. How to handle this properly??
-		$path = $this->userFolder->getById((int)$data['file_source']);
-		$path = $path[0];
-		$share->setPath($path);
+		$folder = $this->rootFolder->getUserFolder($share->getSharedBy()->getUID());
+		$path = $folder->getById((int)$data['file_source'])[0];
 
-		$owner = $path->getStorage()->getOwner('.');
-		if ($owner !== false) {
-			$share->setShareOwner($this->userManager->get($owner));
-		}
+		$owner = $path->getOwner();
+		$share->setShareOwner($owner);
+
+		$path = $this->rootFolder->getUserFolder($owner->getUID())->getById((int)$data['file_source'])[0];
+		$share->setPath($path);
 
 		if ($data['expiration'] !== null) {
 			$expiration = \DateTime::createFromFormat('Y-m-d H:i:s', $data['expiration']);
