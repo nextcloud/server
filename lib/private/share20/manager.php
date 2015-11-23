@@ -22,11 +22,7 @@ namespace OC\Share20;
 
 
 use OCP\IAppConfig;
-use OCP\IUserManager;
-use OCP\IGroupManager;
-use OCP\IUser;
 use OCP\ILogger;
-use OCP\Files\Folder;
 
 use OC\Share20\Exception\ShareNotFound;
 
@@ -40,37 +36,19 @@ class Manager {
 	 */
 	private $defaultProvider;
 
-	/** @var IUser */
-	private $currentUser;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
 	/** @var ILogger */
 	private $logger;
 
 	/** @var IAppConfig */
 	private $appConfig;
 
-	/** @var IFolder */
-	private $userFolder;
-
-	public function __construct(IUser $user,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								ILogger $logger,
-								IAppConfig $appConfig,
-								Folder $userFolder,
-								IShareProvider $defaultProvider) {
-		$this->currentUser = $user;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
+	public function __construct(
+			ILogger $logger,
+			IAppConfig $appConfig,
+			IShareProvider $defaultProvider
+	) {
 		$this->logger = $logger;
 		$this->appConfig = $appConfig;
-		$this->userFolder = $userFolder;
 
 		// TEMP SOLUTION JUST TO GET STARTED
 		$this->defaultProvider = $defaultProvider;
@@ -118,7 +96,7 @@ class Manager {
 	/**
 	 * Delete a share
 	 *
-	 * @param Share $share
+	 * @param IShare $share
 	 * @throws ShareNotFound
 	 * @throws \OC\Share20\Exception\BackendError
 	 */
@@ -126,7 +104,7 @@ class Manager {
 		// Just to make sure we have all the info
 		$share = $this->getShareById($share->getId());
 
-		$formatHookParams = function($share) {
+		$formatHookParams = function(IShare $share) {
 			// Prepare hook
 			$shareType = $share->getShareType();
 			$sharedWith = '';
@@ -203,12 +181,6 @@ class Manager {
 
 		$share = $this->defaultProvider->getShareById($id);
 
-		if ($share->getSharedWith() !== $this->currentUser &&
-		    $share->getSharedBy()   !== $this->currentUser &&
-			$share->getShareOwner() !== $this->currentUser) {
-			throw new ShareNotFound();
-		}
-
 		return $share;
 	}
 
@@ -246,7 +218,7 @@ class Manager {
 	 *
 	 * @return Share
 	 *
-	 * @throws ShareNotFoundException
+	 * @throws ShareNotFound
 	 */
 	public function getShareByToken($token, $password=null) {
 		throw new \Exception();

@@ -24,25 +24,25 @@ use OCA\Files_Sharing\API\Share20OCS;
 
 class Share20OCSTest extends \Test\TestCase {
 
-	/** @var OC\Share20\Manager */
+	/** @var \OC\Share20\Manager */
 	private $shareManager;
 
-	/** @var OCP\IGroupManager */
+	/** @var \OCP\IGroupManager */
 	private $groupManager;
 
-	/** @var OCP\IUserManager */
+	/** @var \OCP\IUserManager */
 	private $userManager;
 
-	/** @var OCP\IRequest */
+	/** @var \OCP\IRequest */
 	private $request;
 
-	/** @var OCP\Files\Folder */
+	/** @var \OCP\Files\Folder */
 	private $userFolder;
 
-	/** @var OCP\IURLGenerator */
+	/** @var \OCP\IURLGenerator */
 	private $urlGenerator;
 
-	/** @var OCS */
+	/** @var Share20OCS */
 	private $ocs;
 
 	protected function setUp() {

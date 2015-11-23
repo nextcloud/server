@@ -26,25 +26,22 @@ class OCSShareWrapper {
 	 * @return Share20OCS
 	 */
 	private function getShare20OCS() {
-		return new Share20OCS(new \OC\Share20\Manager(
-		                   \OC::$server->getUserSession()->getUser(),
-		                   \OC::$server->getUserManager(),
-		                   \OC::$server->getGroupManager(),
-		                   \OC::$server->getLogger(),
-		                   \OC::$server->getAppConfig(),
-		                   \OC::$server->getUserFolder(),
-		                    new \OC\Share20\DefaultShareProvider(
-		                       \OC::$server->getDatabaseConnection(),
-		                       \OC::$server->getUserManager(),
-		                       \OC::$server->getGroupManager(),
-		                       \OC::$server->getUserFolder()
-		                   )
-		               ),
-		               \OC::$server->getGroupManager(),
-		               \OC::$server->getUserManager(),
-		               \OC::$server->getRequest(),
-		               \OC::$server->getUserFolder(),
-		               \OC::$server->getURLGenerator());
+		return new Share20OCS(
+			new \OC\Share20\Manager(
+				\OC::$server->getLogger(),
+				\OC::$server->getAppConfig(),
+				new \OC\Share20\DefaultShareProvider(
+					\OC::$server->getDatabaseConnection(),
+					\OC::$server->getUserManager(),
+					\OC::$server->getGroupManager(),
+					\OC::$server->getUserFolder()
+				)
+			),
+			\OC::$server->getGroupManager(),
+			\OC::$server->getUserManager(),
+			\OC::$server->getRequest(),
+			\OC::$server->getUserFolder(),
+			\OC::$server->getURLGenerator());
 	}
 
 	public function getAllShares($params) {
