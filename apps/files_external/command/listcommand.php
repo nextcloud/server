@@ -72,6 +72,11 @@ class ListCommand extends Base {
 				'user_id',
 				InputArgument::OPTIONAL,
 				'user id to list the personal mounts for, if no user is provided admin mounts will be listed'
+			)->addOption(
+				'show-password',
+				null,
+				InputOption::VALUE_NONE,
+				'show passwords and secrets'
 			);
 		parent::configure();
 	}
@@ -90,6 +95,7 @@ class ListCommand extends Base {
 			$storageService = $this->globalService;
 		}
 
+		/** @var  $mounts StorageConfig[] */
 		$mounts = $storageService->getAllStorages();
 
 		if (count($mounts) === 0) {
@@ -106,6 +112,18 @@ class ListCommand extends Base {
 		if (!$userId) {
 			$headers[] = 'Applicable Users';
 			$headers[] = 'Applicable Groups';
+		}
+
+		if (!$input->getOption('show-password')) {
+			$hideKeys = ['password', 'refresh_token', 'token', 'client_secret', 'public_key', 'private_key'];
+			foreach ($mounts as $mount) {
+				$config = $mount->getBackendOptions();
+				foreach ($config as $key => $value) {
+					if (in_array($key, $hideKeys)) {
+						$mount->setBackendOption($key, '***');
+					}
+				}
+			}
 		}
 
 		$outputType = $input->getOption('output');
