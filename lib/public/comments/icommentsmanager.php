@@ -13,6 +13,17 @@ namespace OCP\Comments;
 interface ICommentsManager {
 
 	/**
+	 * @const DELETED_USER type and id for a user that has been deleted
+	 * @see deleteReferencesOfActor
+	 * @since 9.0.0
+	 *
+	 * To be used as replacement for user type actors in deleteReferencesOfActor().
+	 *
+	 * User interfaces shall show "Deleted user" as display name, if needed.
+	 */
+	const DELETED_USER = 'deleted_user';
+
+	/**
 	 * returns a comment instance
 	 *
 	 * @param string $id the ID of the comment
@@ -28,7 +39,7 @@ interface ICommentsManager {
 	 * @param string $id
 	 * @param int $limit max number of entries to return, 0 returns all
 	 * @param int $offset the start entry
-	 * @return []
+	 * @return array
 	 * @since 9.0.0
 	 *
 	 * The return array looks like this
@@ -73,7 +84,6 @@ interface ICommentsManager {
 	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
 	 * that may be returned
 	 * @return IComment[]
-	 * @throws NotFoundException in case the requested type or id is not present
 	 * @since 9.0.0
 	 */
 	public function getForObject(
@@ -88,7 +98,6 @@ interface ICommentsManager {
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
 	 * @return Int
-	 * @throws NotFoundException in case the requested type or id is not present
 	 * @since 9.0.0
 	 */
 	public function getNumberOfCommentsForObject($objectType, $objectId);
@@ -130,16 +139,19 @@ interface ICommentsManager {
 	 * Throws NotFoundException when a comment that is to be updated does not
 	 * exist anymore at this point of time.
 	 *
-	 * @param IComment
+	 * @param IComment &$comment
 	 * @return bool
 	 * @throws NotFoundException
 	 * @since 9.0.0
 	 */
-	public function save(&$comment);
+	public function save(IComment &$comment);
 
 	/**
 	 * removes references to specific actor (e.g. on user delete) of a comment.
 	 * The comment itself must not get lost/deleted.
+	 *
+	 * A 'user' type actor (type and id) should get replaced by the
+	 * value of the DELETED_USER constant of this interface.
 	 *
 	 * @param string $actorType the actor type (e.g. 'user')
 	 * @param string $actorId a user id

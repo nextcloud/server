@@ -815,6 +815,19 @@ $CONFIG = array(
 'enforce_home_folder_naming_rule' => true,
 
 /**
+ * Comments
+ *
+ * Global settings for the Comments infrastructure
+ */
+
+/**
+ * Replaces the default Comments Manager Factory. This can be utilized if an
+ * own or 3rdParty CommentsManager should be used that – for instance – uses the
+ * filesystem instead of the database to keep the comments.
+ */
+'comments.managerFactory' => '\OC\Comments\ManagerFactory',
+
+/**
  * Maintenance
  *
  * These options are for halting user activity when you are performing server

@@ -61,6 +61,7 @@ class Server extends \Test\TestCase {
 			['CapabilitiesManager', '\OC\CapabilitiesManager'],
 			['ContactsManager', '\OC\ContactsManager'],
 			['ContactsManager', '\OCP\Contacts\IManager'],
+			['CommentsManager', '\OCP\Comments\ICommentsManager'],
 			['Crypto', '\OC\Security\Crypto'],
 			['Crypto', '\OCP\Security\ICrypto'],
 			['CryptoWrapper', '\OC\Session\CryptoWrapper'],
