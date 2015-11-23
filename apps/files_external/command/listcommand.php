@@ -77,6 +77,11 @@ class ListCommand extends Base {
 				null,
 				InputOption::VALUE_NONE,
 				'show passwords and secrets'
+			)->addOption(
+				'full',
+				null,
+				InputOption::VALUE_NONE,
+				'dont truncate long values in table output'
 			);
 		parent::configure();
 	}
@@ -154,15 +159,26 @@ class ListCommand extends Base {
 				$output->writeln(json_encode(array_values($pairs), JSON_PRETTY_PRINT));
 			}
 		} else {
+			$full = $input->getOption('full');
 			$defaultMountOptions = [
 				'encrypt' => true,
 				'previews' => true,
 				'filesystem_check_changes' => 1
 			];
-			$rows = array_map(function (StorageConfig $config) use ($userId, $defaultMountOptions) {
+			$rows = array_map(function (StorageConfig $config) use ($userId, $defaultMountOptions, $full) {
 				$storageConfig = $config->getBackendOptions();
 				$keys = array_keys($storageConfig);
 				$values = array_values($storageConfig);
+
+				if (!$full) {
+					$values = array_map(function ($value) {
+						if (is_string($value) && strlen($value) > 32) {
+							return substr($value, 0, 6) . '...' . substr($value, -6, 6);
+						} else {
+							return $value;
+						}
+					}, $values);
+				}
 
 				$configStrings = array_map(function ($key, $value) {
 					return $key . ': ' . json_encode($value);
