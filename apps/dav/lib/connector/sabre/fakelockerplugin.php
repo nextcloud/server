@@ -59,7 +59,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 * Indicate that we support LOCK and UNLOCK
 	 *
 	 * @param string $path
-	 * @return array
+	 * @return string[]
 	 */
 	public function getHTTPMethods($path) {
 		return [
@@ -71,7 +71,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	/**
 	 * Indicate that we support locking
 	 *
-	 * @return array
+	 * @return integer[]
 	 */
 	function getFeatures() {
 		return [2];

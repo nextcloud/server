@@ -41,7 +41,7 @@ class Auth implements BackendInterface {
 	 *
 	 * @param \Sabre\DAV\Server $server
 	 * @param string $realm
-	 * @return bool
+	 * @return boolean|null
 	 */
 	function authenticate(\Sabre\DAV\Server $server, $realm) {
 		$userSession = \OC::$server->getUserSession();
@@ -61,7 +61,7 @@ class Auth implements BackendInterface {
 	 *
 	 * If nobody is currently logged in, this method should return null.
 	 *
-	 * @return string|null
+	 * @return string
 	 */
 	function getCurrentUser() {
 		return $this->user;

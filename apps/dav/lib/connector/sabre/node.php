@@ -178,7 +178,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	/**
 	 * Returns the size of the node, in bytes
 	 *
-	 * @return int|float
+	 * @return integer
 	 */
 	public function getSize() {
 		return $this->info->getSize();
@@ -207,14 +207,14 @@ abstract class Node implements \Sabre\DAV\INode {
 	}
 
 	/**
-	 * @return string
+	 * @return integer
 	 */
 	public function getInternalFileId() {
 		return $this->info->getId();
 	}
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
 	public function getDavPermissions() {
 		$p = '';

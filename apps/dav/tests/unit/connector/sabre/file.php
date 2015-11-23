@@ -41,6 +41,9 @@ class File extends \Test\TestCase {
 		parent::tearDown();
 	}
 
+	/**
+	 * @param string $string
+	 */
 	private function getStream($string) {
 		$stream = fopen('php://temp', 'r+');
 		fwrite($stream, $string);
@@ -239,7 +242,7 @@ class File extends \Test\TestCase {
 	 * @param string $path path to put the file into
 	 * @param string $viewRoot root to use for the view
 	 *
-	 * @return result of the PUT operaiton which is usually the etag
+	 * @return null|string of the PUT operaiton which is usually the etag
 	 */
 	private function doPut($path, $viewRoot = null) {
 		$view = \OC\Files\Filesystem::getView();

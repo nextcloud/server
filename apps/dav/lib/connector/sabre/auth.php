@@ -150,7 +150,7 @@ class Auth extends AbstractBasic {
 
 	/**
 	 * @param \Sabre\DAV\Server $server
-	 * @param $realm
+	 * @param string $realm
 	 * @return bool
 	 */
 	private function auth(\Sabre\DAV\Server $server, $realm) {
