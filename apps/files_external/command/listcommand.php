@@ -21,11 +21,10 @@
 
 namespace OCA\Files_External\Command;
 
+use OC\Core\Command\Base;
 use OCA\Files_external\Lib\StorageConfig;
 use OCA\Files_external\Service\GlobalStoragesService;
 use OCA\Files_external\Service\UserStoragesService;
-use OCP\Files\IRootFolder;
-use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use Symfony\Component\Console\Command\Command;
@@ -36,7 +35,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ListCommand extends Command {
+class ListCommand extends Base {
 	/**
 	 * @var GlobalStoragesService
 	 */
@@ -73,8 +72,8 @@ class ListCommand extends Command {
 				'user_id',
 				InputArgument::OPTIONAL,
 				'user id to list the personal mounts for, if no user is provided admin mounts will be listed'
-			)
-			->addOption('json', null, InputOption::VALUE_NONE, 'use json output instead of a human-readable array');
+			);
+		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
@@ -109,7 +108,8 @@ class ListCommand extends Command {
 			$headers[] = 'Applicable Groups';
 		}
 
-		if ($input->getOption('json')) {
+		$outputType = $input->getOption('output');
+		if ($outputType === self::OUTPUT_FORMAT_JSON || $outputType === self::OUTPUT_FORMAT_JSON_PRETTY) {
 			$keys = array_map(function ($header) {
 				return strtolower(str_replace(' ', '_', $header));
 			}, $headers);
@@ -130,7 +130,11 @@ class ListCommand extends Command {
 
 				return array_combine($keys, $values);
 			}, $mounts);
-			$output->writeln(json_encode(array_values($pairs), JSON_PRETTY_PRINT));
+			if ($outputType === self::OUTPUT_FORMAT_JSON) {
+				$output->writeln(json_encode(array_values($pairs)));
+			} else {
+				$output->writeln(json_encode(array_values($pairs), JSON_PRETTY_PRINT));
+			}
 		} else {
 			$defaultMountOptions = [
 				'encrypt' => true,
