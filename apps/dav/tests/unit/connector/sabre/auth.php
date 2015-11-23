@@ -295,6 +295,28 @@ class Auth extends TestCase {
 		$this->auth->authenticate($server, 'TestRealm');
 	}
 
+	/**
+	 * @expectedException \Sabre\DAV\Exception\NotAuthenticated
+	 * @expectedExceptionMessage Cannot authenticate over ajax calls
+	 */
+	public function testAuthenticateNoBasicAuthenticateHeadersProvidedWithAjax() {
+		$server = $this->getMockBuilder('\Sabre\DAV\Server')
+			->disableOriginalConstructor()
+			->getMock();
+		$server->httpRequest = $this->getMockBuilder('\Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		$server->httpResponse = $this->getMockBuilder('\Sabre\HTTP\ResponseInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		$server->httpRequest
+			->expects($this->once())
+			->method('getHeader')
+			->with('X-Requested-With')
+			->will($this->returnValue('XMLHttpRequest'));
+		$this->auth->authenticate($server, 'TestRealm');
+	}
+
 	public function testAuthenticateValidCredentials() {
 		$server = $this->getMockBuilder('\Sabre\DAV\Server')
 			->disableOriginalConstructor()
@@ -303,7 +325,12 @@ class Auth extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$server->httpRequest
-			->expects($this->once())
+			->expects($this->at(0))
+			->method('getHeader')
+			->with('X-Requested-With')
+			->will($this->returnValue(null));
+		$server->httpRequest
+			->expects($this->at(1))
 			->method('getHeader')
 			->with('Authorization')
 			->will($this->returnValue('basic dXNlcm5hbWU6cGFzc3dvcmQ='));
@@ -340,7 +367,12 @@ class Auth extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$server->httpRequest
-			->expects($this->once())
+			->expects($this->at(0))
+			->method('getHeader')
+			->with('X-Requested-With')
+			->will($this->returnValue(null));
+		$server->httpRequest
+			->expects($this->at(1))
 			->method('getHeader')
 			->with('Authorization')
 			->will($this->returnValue('basic dXNlcm5hbWU6cGFzc3dvcmQ='));

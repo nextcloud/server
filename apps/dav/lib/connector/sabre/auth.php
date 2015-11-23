@@ -164,6 +164,13 @@ class Auth extends AbstractBasic {
 			return true;
 		}
 
+		if ($server->httpRequest->getHeader('X-Requested-With') === 'XMLHttpRequest') {
+			// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
+			$server->httpResponse->addHeader('WWW-Authenticate','DummyBasic realm="' . $realm . '"');
+			$server->httpResponse->setStatus(401);
+			throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
+		}
+
 		return parent::authenticate($server, $realm);
 	}
 }
