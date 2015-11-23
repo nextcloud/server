@@ -62,7 +62,9 @@ while ! (nc -c -w 1 ${host} 80 </dev/null >&/dev/null \
     fi
 done
 echo
-sleep 1
+
+# wait at least 5 more seconds - sometimes the webserver still needs some additional time
+sleep 5
 
 cat > $thisFolder/config.webdav.php <<DELIM
 <?php
