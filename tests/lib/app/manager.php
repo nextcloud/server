@@ -188,7 +188,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test2', 'enabled', 'no');
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
-		$this->assertEquals(['test1', 'test3'], $this->manager->getInstalledApps());
+		$this->assertEquals(['dav', 'files', 'test1', 'test3'], $this->manager->getInstalledApps());
 	}
 
 	public function testGetAppsForUser() {
@@ -202,7 +202,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$this->appConfig->setValue('test2', 'enabled', 'no');
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
 		$this->appConfig->setValue('test4', 'enabled', '["asd"]');
-		$this->assertEquals(['test1', 'test3'], $this->manager->getEnabledAppsForUser($user));
+		$this->assertEquals(['dav', 'files', 'test1', 'test3'], $this->manager->getEnabledAppsForUser($user));
 	}
 
 	public function testGetAppsNeedingUpgrade() {
@@ -212,6 +212,8 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$appInfos = [
+			'dav' => ['id' => 'dav'],
+			'files' => ['id' => 'files'],
 			'test1' => ['id' => 'test1', 'version' => '1.0.1', 'requiremax' => '9.0.0'],
 			'test2' => ['id' => 'test2', 'version' => '1.0.0', 'requiremin' => '8.2.0'],
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
@@ -250,6 +252,8 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$appInfos = [
+			'dav' => ['id' => 'dav'],
+			'files' => ['id' => 'files'],
 			'test1' => ['id' => 'test1', 'version' => '1.0.1', 'requiremax' => '8.0.0'],
 			'test2' => ['id' => 'test2', 'version' => '1.0.0', 'requiremin' => '8.2.0'],
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
