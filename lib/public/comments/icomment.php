@@ -65,6 +65,15 @@ interface IComment {
 	public function getChildrenCount();
 
 	/**
+	 * sets the number of children
+	 *
+	 * @param int $count
+	 * @return IComment
+	 * @since 9.0.0
+	 */
+	public function setChildrenCount($count);
+
+	/**
 	 * returns the message of the comment
 	 *
 	 * @return string
@@ -137,19 +146,28 @@ interface IComment {
 	/**
 	 * sets the creation date of the comment and returns itself
 	 *
-	 * @param \DateTime $timestamp
+	 * @param \DateTime $dateTime
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setCreationDateTime(\DateTime $timestamp);
+	public function setCreationDateTime(\DateTime $dateTime);
 
 	/**
-	 * returns the timestamp of the most recent child
+	 * returns the date of the most recent child
 	 *
-	 * @return int
+	 * @return \DateTime
 	 * @since 9.0.0
 	 */
-	public function getLatestChildTimestamp();
+	public function getLatestChildDateTime();
+
+	/**
+	 * sets the date of the most recent child
+	 *
+	 * @param \DateTime $dateTime
+	 * @return IComment
+	 * @since 9.0.0
+	 */
+	public function setLatestChildDateTime(\DateTime $dateTime);
 
 	/**
 	 * returns the object type the comment is attached to
