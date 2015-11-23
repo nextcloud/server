@@ -368,47 +368,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$cursor->closeCursor();
 
 
-		$path = $this->getMock('OCP\Files\File');
-		$path
-			->expects($this->exactly(2))
-			->method('getId')
-			->willReturn(42);
-
-		$sharedWith = $this->getMock('OCP\IUser');
-		$sharedWith
-			->expects($this->once())
-			->method('getUID')
-			->willReturn('sharedWith');
-		$sharedBy = $this->getMock('OCP\IUser');
-		$sharedBy
-			->expects($this->once())
-			->method('getUID')
-			->willReturn('sharedBy');
-
 		$share = $this->getMock('OC\Share20\IShare');
-		$share
-			->method('getId')
-			->willReturn($id);
-		$share
-			->expects($this->once())
-			->method('getShareType')
-			->willReturn(\OCP\Share::SHARE_TYPE_USER);
-		$share
-			->expects($this->exactly(3))
-			->method('getPath')
-			->willReturn($path);
-		$share
-			->expects($this->once())
-			->method('getSharedWith')
-			->willReturn($sharedWith);
-		$share
-			->expects($this->once())
-			->method('getSharedBy')
-			->willReturn($sharedBy);
-		$share
-			->expects($this->once())
-			->method('getTarget')
-			->willReturn('myTarget');
+		$share->method('getId')->willReturn($id);
 
 		$provider = $this->getMockBuilder('OC\Share20\DefaultShareProvider')
             ->setConstructorArgs([  
@@ -418,149 +379,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
                     $this->userFolder,
                 ]        
             )            
-            ->setMethods(['deleteChildren', 'getShareById'])
+            ->setMethods(['getShareById'])
             ->getMock();
-		$provider
-			->expects($this->once())
-			->method('deleteChildren');
 		$provider
 			->expects($this->once())
 			->method('getShareById')
 			->willReturn($share);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listen'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'pre_unshare', $hookListner, 'listen');
-		\OCP\Util::connectHook('OCP\Share', 'post_unshare', $hookListner, 'listen');
-
-		$hookListnerExpects = [
-			'id' => $id,
-			'itemType' => 'file',
-			'itemSource' => 42,
-			'shareType' => \OCP\Share::SHARE_TYPE_USER,
-			'shareWith' => 'sharedWith',
-			'itemparent' => null,
-			'uidOwner' => 'sharedBy',
-			'fileSource' => 42,
-			'fileTarget' => 'myTarget',
-		];
-
-		$hookListner
-			->expects($this->exactly(2))
-			->method('listen')
-			->with($hookListnerExpects);
-
-
 		$provider->delete($share);
-
-		$qb = $this->dbConn->getQueryBuilder();
-		$qb->select('*')
-			->from('share');
-
-		$cursor = $qb->execute();
-		$result = $cursor->fetchAll();
-		$cursor->closeCursor();
-
-		$this->assertEmpty($result);
-	}
-
-	public function testDeleteNestedShares() {
-		$qb = $this->dbConn->getQueryBuilder();
-		$qb->insert('share')
-			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
-				'share_with' => $qb->expr()->literal('sharedWith'),
-				'uid_owner' => $qb->expr()->literal('sharedBy'),
-				'item_type'   => $qb->expr()->literal('file'),
-				'file_source' => $qb->expr()->literal(42),
-				'file_target' => $qb->expr()->literal('myTarget'),
-				'permissions' => $qb->expr()->literal(13),
-			]);
-		$this->assertEquals(1, $qb->execute());
-
-		// Get the id
-		$qb = $this->dbConn->getQueryBuilder();
-		$cursor = $qb->select('id')
-			->from('share')
-			->setMaxResults(1)
-			->orderBy('id', 'DESC')
-			->execute();
-		$id1 = $cursor->fetch();
-		$id1 = $id1['id'];
-		$cursor->closeCursor();
-
-
-		$qb = $this->dbConn->getQueryBuilder();
-		$qb->insert('share')
-			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
-				'share_with' => $qb->expr()->literal('sharedWith'),
-				'uid_owner' => $qb->expr()->literal('sharedBy'),
-				'item_type'   => $qb->expr()->literal('file'),
-				'file_source' => $qb->expr()->literal(42),
-				'file_target' => $qb->expr()->literal('myTarget'),
-				'permissions' => $qb->expr()->literal(13),
-				'parent' => $qb->expr()->literal($id1),
-			]);
-		$this->assertEquals(1, $qb->execute());
-
-		// Get the id
-		$qb = $this->dbConn->getQueryBuilder();
-		$cursor = $qb->select('id')
-			->from('share')
-			->setMaxResults(1)
-			->orderBy('id', 'DESC')
-			->execute();
-		$id2 = $cursor->fetch();
-		$id2 = $id2['id'];
-		$cursor->closeCursor();
-
-
-		$qb = $this->dbConn->getQueryBuilder();
-		$qb->insert('share')
-			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
-				'share_with' => $qb->expr()->literal('sharedWith'),
-				'uid_owner' => $qb->expr()->literal('sharedBy'),
-				'item_type'   => $qb->expr()->literal('file'),
-				'file_source' => $qb->expr()->literal(42),
-				'file_target' => $qb->expr()->literal('myTarget'),
-				'permissions' => $qb->expr()->literal(13),
-				'parent' => $qb->expr()->literal($id2),
-			]);
-		$this->assertEquals(1, $qb->execute());
-
-		$storage = $this->getMock('OC\Files\Storage\Storage');
-		$storage
-			->method('getOwner')
-			->willReturn('shareOwner');
-		$path = $this->getMock('OCP\Files\Node');
-		$path
-			->method('getStorage')
-			->wilLReturn($storage);
-		$this->userFolder
-			->method('getById')
-			->with(42)
-			->willReturn([$path]);
-
-		$sharedWith = $this->getMock('OCP\IUser');
-		$sharedWith
-			->method('getUID')
-			->willReturn('sharedWith');
-		$sharedBy = $this->getMock('OCP\IUser');
-		$sharedBy
-			->method('getUID')
-			->willReturn('sharedBy');
-		$shareOwner = $this->getMock('OCP\IUser');
-		$this->userManager
-			->method('get')
-			->will($this->returnValueMap([
-				['sharedWith', $sharedWith],
-				['sharedBy', $sharedBy],
-				['shareOwner', $shareOwner],
-			]));
-
-		$share = $this->provider->getShareById($id1);
-		$this->provider->delete($share);
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
@@ -581,29 +407,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share
 			->method('getId')
 			->willReturn(42);
-		$share
-			->expects($this->once())
-			->method('getShareType')
-			->willReturn(\OCP\Share::SHARE_TYPE_LINK);
-
-		$path = $this->getMock('OCP\Files\Folder');
-		$path
-			->expects($this->exactly(2))
-			->method('getId')
-			->willReturn(100);
-		$share
-			->expects($this->exactly(3))
-			->method('getPath')
-			->willReturn($path);
-
-		$sharedBy = $this->getMock('OCP\IUser');
-		$sharedBy
-			->expects($this->once())
-			->method('getUID');
-		$share
-			->expects($this->once())
-			->method('getSharedBy')
-			->willReturn($sharedBy);
 
 		$expr = $this->getMock('OCP\DB\QueryBuilder\IExpressionBuilder');
 		$qb = $this->getMock('OCP\DB\QueryBuilder\IQueryBuilder');
@@ -637,12 +440,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
                     $this->userFolder,
                 ]        
             )            
-            ->setMethods(['deleteChildren', 'getShareById'])
+            ->setMethods(['getShareById'])
             ->getMock();
-		$provider
-			->expects($this->once())
-			->method('deleteChildren')
-			->with($share);
 		$provider
 			->expects($this->once())
 			->method('getShareById')
@@ -650,5 +449,124 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->willReturn($share);
 		
 		$provider->delete($share);
+	}
+
+	public function testGetChildren() {
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_with'  => $qb->expr()->literal('sharedWith'),
+				'uid_owner'   => $qb->expr()->literal('sharedBy'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(42),
+				'file_target' => $qb->expr()->literal('myTarget'),
+				'permissions' => $qb->expr()->literal(13),
+			]);
+		$qb->execute();
+
+		// Get the id
+		$qb = $this->dbConn->getQueryBuilder();
+		$cursor = $qb->select('id')
+			->from('share')
+			->setMaxResults(1)
+			->orderBy('id', 'DESC')
+			->execute();
+		$id = $cursor->fetch();
+		$id = $id['id'];
+		$cursor->closeCursor();
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_with'  => $qb->expr()->literal('user1'),
+				'uid_owner'   => $qb->expr()->literal('user2'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(1),
+				'file_target' => $qb->expr()->literal('myTarget1'),
+				'permissions' => $qb->expr()->literal(2),
+				'parent'      => $qb->expr()->literal($id),
+			]);
+		$qb->execute();
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_with'  => $qb->expr()->literal('group1'),
+				'uid_owner'   => $qb->expr()->literal('user3'),
+				'item_type'   => $qb->expr()->literal('folder'),
+				'file_source' => $qb->expr()->literal(3),
+				'file_target' => $qb->expr()->literal('myTarget2'),
+				'permissions' => $qb->expr()->literal(4),
+				'parent'      => $qb->expr()->literal($id),
+			]);
+		$qb->execute();
+
+
+		$storage = $this->getMock('OC\Files\Storage\Storage');
+		$storage
+			->method('getOwner')
+			->willReturn('shareOwner');
+		$path1 = $this->getMock('OCP\Files\File');
+		$path1->expects($this->once())->method('getStorage')->willReturn($storage);
+		$path2 = $this->getMock('OCP\Files\Folder');
+		$path2->expects($this->once())->method('getStorage')->willReturn($storage);
+		$this->userFolder
+			->method('getById')
+			->will($this->returnValueMap([
+				[1, [$path1]],
+				[3, [$path2]],
+			]));
+
+		$shareOwner = $this->getMock('OCP\IUser');
+		$user1 = $this->getMock('OCP\IUser');
+		$user2 = $this->getMock('OCP\IUser');
+		$user3 = $this->getMock('OCP\IUser');
+		$this->userManager
+			->method('get')
+			->will($this->returnValueMap([
+				['shareOwner', $shareOwner],
+				['user1', $user1],
+				['user2', $user2],
+				['user3', $user3],
+			]));
+
+		$group1 = $this->getMock('OCP\IGroup');
+		$this->groupManager
+			->method('get')
+			->will($this->returnValueMap([
+				['group1', $group1]
+			]));
+
+		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getId')->willReturn($id);
+
+		$children = $this->provider->getChildren($share);
+
+		$this->assertCount(2, $children);
+
+		//Child1
+		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $children[0]->getShareType());
+		$this->assertEquals($user1, $children[0]->getSharedWith());
+		$this->assertEquals($user2, $children[0]->getSharedBy());
+		$this->assertEquals($shareOwner, $children[0]->getShareOwner());
+		$this->assertEquals($path1, $children[0]->getPath());
+		$this->assertEquals(2, $children[0]->getPermissions());
+		$this->assertEquals(null, $children[0]->getToken());
+		$this->assertEquals(null, $children[0]->getExpirationDate());
+		$this->assertEquals('myTarget1', $children[0]->getTarget());
+
+		//Child2
+		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $children[1]->getShareType());
+		$this->assertEquals($group1, $children[1]->getSharedWith());
+		$this->assertEquals($user3, $children[1]->getSharedBy());
+		$this->assertEquals($shareOwner, $children[1]->getShareOwner());
+		$this->assertEquals($path2, $children[1]->getPath());
+		$this->assertEquals(4, $children[1]->getPermissions());
+		$this->assertEquals(null, $children[1]->getToken());
+		$this->assertEquals(null, $children[1]->getExpirationDate());
+		$this->assertEquals('myTarget2', $children[1]->getTarget());
 	}
 }
