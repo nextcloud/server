@@ -30,7 +30,7 @@
 
 /**
  * Prints a sanitized string
- * @param string|array $string the string which will be escaped and printed
+ * @param string $string the string which will be escaped and printed
  */
 function p($string) {
 	print(OC_Util::sanitizeHTML($string));
