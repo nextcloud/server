@@ -290,18 +290,18 @@ if ($_['cronErrors']) {
 			$relative_time = relative_modified_date($_['lastcron']);
 			$absolute_time = OC_Util::formatDate($_['lastcron']);
 			if (time() - $_['lastcron'] <= 3600): ?>
-				<span class="cronstatus success"></span>
+				<span class="status success"></span>
 				<span class="crondate" original-title="<?php p($absolute_time);?>">
 					<?php p($l->t("Last cron job execution: %s.", [$relative_time]));?>
 				</span>
 			<?php else: ?>
-				<span class="cronstatus error"></span>
+				<span class="status error"></span>
 				<span class="crondate" original-title="<?php p($absolute_time);?>">
 					<?php p($l->t("Last cron job execution: %s. Something seems wrong.", [$relative_time]));?>
 				</span>
 			<?php endif;
 		else: ?>
-			<span class="cronstatus error"></span>
+			<span class="status error"></span>
 			<?php p($l->t("Cron was not executed yet!"));
 		endif; ?>
 	</p>

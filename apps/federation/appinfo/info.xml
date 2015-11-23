@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<info>
+    <id>federation</id>
+    <name>Federation</name>
+    <description>ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing.</description>
+    <licence>AGPL</licence>
+    <author>Bjoern Schiessle</author>
+    <version>0.0.1</version>
+    <namespace>Federation</namespace>
+    <category>other</category>
+    <dependencies>
+        <owncloud min-version="9.0" />
+    </dependencies>
+</info>
