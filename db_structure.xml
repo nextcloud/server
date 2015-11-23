@@ -1204,5 +1204,156 @@
 
 	</table>
 
+	<table>
+		<!--
+		default place to store comment data
+		-->
+		<name>*dbprefix*comments</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+				<autoincrement>1</autoincrement>
+			</field>
+
+			<field>
+				<name>parent_id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>topmost_parent_id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>children_count</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>actor_type</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>actor_id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>message</name>
+				<type>clob</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<name>verb</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>creation_timestamp</name>
+				<type>timestamp</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<name>latest_child_timestamp</name>
+				<type>timestamp</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<name>object_type</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>object_id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+<!--
+			TODO: finalize indexes when all queries are done
+			<index>
+				<name>comments_parent_id_index</name>
+				<unique>false</unique>
+				<field>
+					<name>parent_id</name>
+					<sorting>descending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>comments_actor_index</name>
+				<unique>false</unique>
+				<field>
+					<name>actor_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>actor_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>comments_object_index</name>
+				<unique>false</unique>
+				<field>
+					<name>object_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>object_id</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>creation_timestamp</name>
+					<sorting>descending</sorting>
+				</field>
+			</index>
+-->
+
+		</declaration>
+
+	</table>
+
 
 </database>
