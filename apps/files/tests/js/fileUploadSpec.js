@@ -19,6 +19,8 @@
 *
 */
 
+/* global FileList */
+
 describe('OC.Upload tests', function() {
 	var $dummyUploader;
 	var testFile;

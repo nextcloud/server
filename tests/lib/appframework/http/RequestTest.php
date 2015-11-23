@@ -693,17 +693,34 @@ class RequestTest extends \Test\TestCase {
 	 */
 	public function testUserAgent($testAgent, $userAgent, $matches) {
 		$request = new Request(
-			[
-				'server' => [
-					'HTTP_USER_AGENT' => $testAgent,
-				]
-			],
-			$this->secureRandom,
-			$this->config,
-			$this->stream
+				[
+						'server' => [
+								'HTTP_USER_AGENT' => $testAgent,
+						]
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->stream
 		);
 
 		$this->assertSame($matches, $request->isUserAgent($userAgent));
+	}
+
+	/**
+	 * @dataProvider userAgentProvider
+	 * @param string $testAgent
+	 * @param array $userAgent
+	 * @param bool $matches
+	 */
+	public function testUndefinedUserAgent($testAgent, $userAgent, $matches) {
+		$request = new Request(
+				[],
+				$this->secureRandom,
+				$this->config,
+				$this->stream
+		);
+
+		$this->assertFalse($request->isUserAgent($userAgent));
 	}
 
 	/**

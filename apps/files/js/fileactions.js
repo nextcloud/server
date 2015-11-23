@@ -575,7 +575,8 @@
 				},
 				actionHandler: function (filename, context) {
 					var dir = context.dir || context.fileList.getCurrentDirectory();
-					var url = context.fileList.getDownloadUrl(filename, dir);
+					var isDir = context.$file.attr('data-type') === 'dir';
+					var url = context.fileList.getDownloadUrl(filename, dir, isDir);
 
 					var downloadFileaction = $(context.$file).find('.fileactions .action-download');
 
@@ -611,10 +612,7 @@
 
 			this.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
 				var dir = context.$file.attr('data-path') || context.fileList.getCurrentDirectory();
-				if (dir !== '/') {
-					dir = dir + '/';
-				}
-				context.fileList.changeDirectory(dir + filename);
+				context.fileList.changeDirectory(OC.joinPaths(dir, filename));
 			});
 
 			this.registerAction({

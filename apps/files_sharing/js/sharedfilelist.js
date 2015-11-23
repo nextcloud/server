@@ -231,6 +231,7 @@
 			files = _.chain(files)
 				// convert share data to file data
 				.map(function(share) {
+					// TODO: use OC.Files.FileInfo
 					var file = {
 						id: share.file_source,
 						icon: OC.MimeType.getIconUrl(share.mimetype),
@@ -242,9 +243,6 @@
 					}
 					else {
 						file.type = 'file';
-						if (share.isPreviewAvailable) {
-							file.isPreviewAvailable = true;
-						}
 					}
 					file.share = {
 						id: share.id,

@@ -119,6 +119,8 @@ class ViewController extends Controller {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function index($dir = '', $view = '') {
+		$nav = new \OCP\Template('files', 'appnavigation', '');
+
 		// Load the files we need
 		\OCP\Util::addStyle('files', 'files');
 		\OCP\Util::addStyle('files', 'upload');
@@ -168,8 +170,6 @@ class ViewController extends Controller {
 		// mostly for the home storage's free space
 		// FIXME: Make non static
 		$storageInfo = $this->getStorageInfo();
-
-		$nav = new \OCP\Template('files', 'appnavigation', '');
 
 		\OCA\Files\App::getNavigationManager()->add(
 			[

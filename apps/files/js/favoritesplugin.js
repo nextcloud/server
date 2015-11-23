@@ -92,7 +92,7 @@
 			// folder in the files app instead of opening it directly
 			fileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
 				OCA.Files.App.setActiveView('files', {silent: true});
-				OCA.Files.App.fileList.changeDirectory(context.$file.attr('data-path') + '/' + filename, true, true);
+				OCA.Files.App.fileList.changeDirectory(OC.joinPaths(context.$file.attr('data-path'), filename), true, true);
 			});
 			fileActions.setDefault('dir', 'Open');
 			return fileActions;

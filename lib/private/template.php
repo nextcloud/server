@@ -143,7 +143,9 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle("jquery.ocdialog");
 			OC_Util::addScript("compatibility", null, true);
 			OC_Util::addScript("placeholders", null, true);
-			
+			OC_Util::addScript('files/fileinfo');
+			OC_Util::addScript('files/client');
+
 			// Add the stuff we need always
 			// following logic will import all vendor libraries that are
 			// specified in core/js/core.json
@@ -158,7 +160,12 @@ class OC_Template extends \OC\Template\Base {
 			} else {
 				throw new \Exception('Cannot read core/js/core.json');
 			}
-			
+
+			if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE])) {
+				// shim for the davclient.js library
+				\OCP\Util::addScript('files/iedavclient');
+			}
+
 			self::$initTemplateEngineFirstRun = false;
 		}
 	
