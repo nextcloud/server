@@ -28,4 +28,8 @@ cd "$SCRIPTPATH/CalDAVTester"
 PYTHONPATH="$SCRIPTPATH/pycalendar/src" python testcaldav.py --print-details-onfail -s "$SCRIPTPATH/caldavtest/config/serverinfo.xml" -o cdt.txt \
 	"$SCRIPTPATH/caldavtest/tests/CardDAV/current-user-principal.xml" \
 	"$SCRIPTPATH/caldavtest/tests/CardDAV/sync-report.xml"
+RESULT=$?
 
+tail "$SCRIPTPATH/../../../../data-autotest/owncloud.log"
+
+exit $RESULT
