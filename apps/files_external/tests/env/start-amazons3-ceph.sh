@@ -50,19 +50,10 @@ echo "${docker_image} container: $container"
 echo $container >> $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.amazons3
 
 echo -n "Waiting for ceph initialization"
-starttime=$(date +%s)
-# support for GNU netcat and BSD netcat
-while ! (nc -c -w 1 ${host} ${port} </dev/null >&/dev/null \
-    || nc -w 1 ${host} ${port} </dev/null >&/dev/null); do
-    sleep 1
-    echo -n '.'
-    if (( $(date +%s) > starttime + 60 )); then
-	echo
-	echo "[ERROR] Waited 60 seconds, no response" >&2
-	exit 1
-    fi
-done
-echo
+if ! "$thisFolder"/env/wait-for-connection ${host} ${port} 60; then
+    echo "[ERROR] Waited 60 seconds, no response" >&2
+    exit 1
+fi
 sleep 1
 
 echo "Create ceph user"
