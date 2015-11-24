@@ -344,7 +344,12 @@
 			});
 
 			$(document).keydown(function(event) {
-				if ((event.ctrlKey || event.metaKey) && !event.shiftKey && event.keyCode === 70) { // Ctrl+F
+				if ((event.ctrlKey || event.metaKey) && // Ctrl or Command (OSX)
+					!event.shiftKey &&
+					event.keyCode === 70 && // F
+					self.hasFilter(getCurrentApp()) && // Search is enabled
+					!$searchBox.is(':focus') // if searchbox is already focused do nothing (fallback to browser default)
+				) {
 					$searchBox.focus();
 					event.preventDefault();
 				}
