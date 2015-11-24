@@ -286,8 +286,12 @@ OCA.Sharing.PublicApp = {
 
 	_saveToOwnCloud: function (remote, token, owner, name, isProtected) {
 		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
+		
+		if(remote.substr(-1) !== '/') {
+			remote += '/'
+		};
 
-		var url = remote + '/index.php/apps/files#' + 'remote=' + encodeURIComponent(location) // our location is the remote for the other server
+		var url = remote + 'index.php/apps/files#' + 'remote=' + encodeURIComponent(location) // our location is the remote for the other server
 			+ "&token=" + encodeURIComponent(token) + "&owner=" + encodeURIComponent(owner) + "&name=" + encodeURIComponent(name) + "&protected=" + isProtected;
 
 
