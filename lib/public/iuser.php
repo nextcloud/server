@@ -144,4 +144,12 @@ interface IUser {
 	 * @since 8.0.0
 	 */
 	public function setEnabled($enabled);
+
+	/**
+	 * get the users email address
+	 *
+	 * @return string|null
+	 * @since 9.0.0
+	 */
+	public function getEMailAddress();
 }

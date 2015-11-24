@@ -203,7 +203,7 @@ class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 				'{DAV:}displayname' => is_null($displayName) ? $userId : $displayName,
 		];
 
-		$email = $this->config->getUserValue($user->getUID(), 'settings', 'email');
+		$email = $user->getEMailAddress();
 		if (!empty($email)) {
 			$principal['{http://sabredav.org/ns}email-address'] = $email;
 			return $principal;

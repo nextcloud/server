@@ -41,34 +41,32 @@ class Principal extends \Test\TestCase {
 		$fooUser = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$fooUser
-				->expects($this->exactly(2))
+				->expects($this->exactly(1))
 				->method('getUID')
 				->will($this->returnValue('foo'));
 		$fooUser
 				->expects($this->exactly(1))
 				->method('getDisplayName')
 				->will($this->returnValue('Dr. Foo-Bar'));
+		$fooUser
+				->expects($this->exactly(1))
+				->method('getEMailAddress')
+				->will($this->returnValue(''));
 		$barUser = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$barUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(1))
 			->method('getUID')
 			->will($this->returnValue('bar'));
+		$barUser
+				->expects($this->exactly(1))
+				->method('getEMailAddress')
+				->will($this->returnValue('bar@owncloud.org'));
 		$this->userManager
 			->expects($this->once())
 			->method('search')
 			->with('')
 			->will($this->returnValue([$fooUser, $barUser]));
-		$this->config
-			->expects($this->at(0))
-			->method('getUserValue')
-			->with('foo', 'settings', 'email')
-			->will($this->returnValue(''));
-		$this->config
-			->expects($this->at(1))
-			->method('getUserValue')
-			->with('bar', 'settings', 'email')
-			->will($this->returnValue('bar@owncloud.org'));
 
 		$expectedResponse = [
 			0 => [
@@ -100,7 +98,7 @@ class Principal extends \Test\TestCase {
 		$fooUser = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$fooUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(1))
 			->method('getUID')
 			->will($this->returnValue('foo'));
 		$this->userManager
@@ -108,11 +106,6 @@ class Principal extends \Test\TestCase {
 			->method('get')
 			->with('foo')
 			->will($this->returnValue($fooUser));
-		$this->config
-			->expects($this->once())
-			->method('getUserValue')
-			->with('foo', 'settings', 'email')
-			->will($this->returnValue(''));
 
 		$expectedResponse = [
 			'uri' => 'principals/users/foo',
@@ -126,19 +119,18 @@ class Principal extends \Test\TestCase {
 		$fooUser = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$fooUser
-			->expects($this->exactly(2))
-			->method('getUID')
-			->will($this->returnValue('foo'));
+				->expects($this->exactly(1))
+				->method('getEMailAddress')
+				->will($this->returnValue('foo@owncloud.org'));
+		$fooUser
+				->expects($this->exactly(1))
+				->method('getUID')
+				->will($this->returnValue('foo'));
 		$this->userManager
 			->expects($this->once())
 			->method('get')
 			->with('foo')
 			->will($this->returnValue($fooUser));
-		$this->config
-			->expects($this->once())
-			->method('getUserValue')
-			->with('foo', 'settings', 'email')
-			->will($this->returnValue('foo@owncloud.org'));
 
 		$expectedResponse = [
 			'uri' => 'principals/users/foo',
@@ -164,7 +156,7 @@ class Principal extends \Test\TestCase {
 		$fooUser = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$fooUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(1))
 			->method('getUID')
 			->will($this->returnValue('foo'));
 		$this->userManager
@@ -172,11 +164,6 @@ class Principal extends \Test\TestCase {
 			->method('get')
 			->with('foo')
 			->will($this->returnValue($fooUser));
-		$this->config
-			->expects($this->once())
-			->method('getUserValue')
-			->with('foo', 'settings', 'email')
-			->will($this->returnValue('foo@owncloud.org'));
 
 		$response = $this->connector->getGroupMemberSet('principals/users/foo');
 		$this->assertSame(['principals/users/foo'], $response);
@@ -200,7 +187,7 @@ class Principal extends \Test\TestCase {
 		$fooUser = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$fooUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(1))
 			->method('getUID')
 			->will($this->returnValue('foo'));
 		$this->userManager
@@ -208,11 +195,6 @@ class Principal extends \Test\TestCase {
 			->method('get')
 			->with('foo')
 			->will($this->returnValue($fooUser));
-		$this->config
-			->expects($this->once())
-			->method('getUserValue')
-			->with('foo', 'settings', 'email')
-			->will($this->returnValue('foo@owncloud.org'));
 
 		$expectedResponse = [
 			'principals/users/foo/calendar-proxy-read',
