@@ -25,9 +25,9 @@ use OCA\Files_Sharing\API\Share20OCS;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IRequest;
-use OCP\Files\Folder;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Files\IRootFolder;
 
 class Share20OCSTest extends \Test\TestCase {
 
@@ -43,8 +43,8 @@ class Share20OCSTest extends \Test\TestCase {
 	/** @var IRequest */
 	private $request;
 
-	/** @var Folder */
-	private $userFolder;
+	/** @var IRootFolder */
+	private $rootFolder;
 
 	/** @var IURLGenerator */
 	private $urlGenerator;
@@ -62,7 +62,7 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->groupManager = $this->getMock('OCP\IGroupManager');
 		$this->userManager = $this->getMock('OCP\IUserManager');
 		$this->request = $this->getMock('OCP\IRequest');
-		$this->userFolder = $this->getMock('OCP\Files\Folder');
+		$this->rootFolder = $this->getMock('OCP\Files\IRootFolder');
 		$this->urlGenerator = $this->getMock('OCP\IURLGenerator');
 		$this->currentUser = $this->getMock('OCP\IUser');
 
@@ -71,7 +71,7 @@ class Share20OCSTest extends \Test\TestCase {
 				$this->groupManager,
 				$this->userManager,
 				$this->request,
-				$this->userFolder,
+				$this->rootFolder,
 				$this->urlGenerator,
 				$this->currentUser
 		);
@@ -135,7 +135,7 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->ocs->getShare(42));
 	}
 
-	public function createShare($id, $shareType, $sharedWith, $sharedBy, $path, $permissions,
+	public function createShare($id, $shareType, $sharedWith, $sharedBy, $shareOwner, $path, $permissions,
 								$shareTime, $expiration, $parent, $target, $mail_send, $token=null,
 								$password=null) {
 		$share = $this->getMock('OC\Share20\IShare');
@@ -143,6 +143,7 @@ class Share20OCSTest extends \Test\TestCase {
 		$share->method('getShareType')->willReturn($shareType);
 		$share->method('getSharedWith')->willReturn($sharedWith);
 		$share->method('getSharedBy')->willReturn($sharedBy);
+		$share->method('getShareOwner')->willReturn($shareOwner);
 		$share->method('getPath')->willReturn($path);
 		$share->method('getPermissions')->willReturn($permissions);
 		$share->method('getShareTime')->willReturn($shareTime);
@@ -189,17 +190,20 @@ class Share20OCSTest extends \Test\TestCase {
 		$folder->method('getParent')->willReturn($parentFolder);
 
 		// File shared with user
-		$share = $this->createShare(100, 
-									\OCP\Share::SHARE_TYPE_USER,
-									$user,
-									$owner,
-									$file,
-									4,
-									5,
-									null,
-									6,
-									'target',
-									0);
+		$share = $this->createShare(
+			100,
+			\OCP\Share::SHARE_TYPE_USER,
+			$user,
+			$owner,
+			$owner,
+			$file,
+			4,
+			5,
+			null,
+			6,
+			'target',
+			0
+		);
 		$expected = [
 			'id' => 100,
 			'share_type' => \OCP\Share::SHARE_TYPE_USER,
@@ -225,17 +229,20 @@ class Share20OCSTest extends \Test\TestCase {
 		$data[] = [$share, $expected];
 
 		// Folder shared with group
-		$share = $this->createShare(101, 
-									\OCP\Share::SHARE_TYPE_GROUP,
-									$group,
-									$owner,
-									$folder,
-									4,
-									5,
-									null,
-									6,
-									'target',
-									0);
+		$share = $this->createShare(
+			101,
+			\OCP\Share::SHARE_TYPE_GROUP,
+			$group,
+			$owner,
+			$owner,
+			$folder,
+			4,
+			5,
+			null,
+			6,
+			'target',
+			0
+		);
 		$expected = [
 			'id' => 101,
 			'share_type' => \OCP\Share::SHARE_TYPE_GROUP,
@@ -262,19 +269,22 @@ class Share20OCSTest extends \Test\TestCase {
 
 		// File shared by link with Expire
 		$expire = \DateTime::createFromFormat('Y-m-d h:i:s', '2000-01-02 01:02:03');
-		$share = $this->createShare(101, 
-									\OCP\Share::SHARE_TYPE_LINK,
-									null,
-									$owner,
-									$folder,
-									4,
-									5,
-									$expire,
-									6,
-									'target',
-									0,
-									'token',
-									'password');
+		$share = $this->createShare(
+			101,
+			\OCP\Share::SHARE_TYPE_LINK,
+			null,
+			$owner,
+			$owner,
+			$folder,
+			4,
+			5,
+			$expire,
+			6,
+			'target',
+			0,
+			'token',
+			'password'
+		);
 		$expected = [
 			'id' => 101,
 			'share_type' => \OCP\Share::SHARE_TYPE_LINK,
@@ -313,7 +323,7 @@ class Share20OCSTest extends \Test\TestCase {
 					$this->groupManager,
 					$this->userManager,
 					$this->request,
-					$this->userFolder,
+					$this->rootFolder,
 					$this->urlGenerator,
 					$this->currentUser
 				])->setMethods(['canAccessShare'])
@@ -327,9 +337,14 @@ class Share20OCSTest extends \Test\TestCase {
 			->with($share->getId())
 			->willReturn($share);
 
-		$this->userFolder
+		$userFolder = $this->getMock('OCP\Files\Folder');
+		$userFolder
 			->method('getRelativePath')
 			->will($this->returnArgument(0));
+
+		$this->rootFolder->method('getUserFolder')
+			->with($share->getShareOwner()->getUID())
+			->willReturn($userFolder);
 
 		$this->urlGenerator
 			->method('linkToRouteAbsolute')

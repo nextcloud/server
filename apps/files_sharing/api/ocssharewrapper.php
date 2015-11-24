@@ -40,7 +40,7 @@ class OCSShareWrapper {
 			\OC::$server->getGroupManager(),
 			\OC::$server->getUserManager(),
 			\OC::$server->getRequest(),
-			\OC::$server->getUserFolder(),
+			\OC::$server->getRootFolder(),
 			\OC::$server->getURLGenerator(),
 			\OC::$server->getUserSession()->getUser());
 	}

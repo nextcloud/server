@@ -28,6 +28,7 @@ use OCP\IRequest;
 use OCP\Files\Folder;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Files\IRootFolder;
 
 class Share20OCS {
 
@@ -43,8 +44,8 @@ class Share20OCS {
 	/** @var IRequest */
 	private $request;
 
-	/** @var Folder */
-	private $userFolder;
+	/** @var IRootFolder */
+	private $rootFolder;
 
 	/** @var IUrlGenerator */
 	private $urlGenerator;
@@ -57,7 +58,7 @@ class Share20OCS {
 			IGroupManager $groupManager,
 			IUserManager $userManager,
 			IRequest $request,
-			Folder $userFolder,
+			IRootFolder $rootFolder,
 			IURLGenerator $urlGenerator,
 			IUser $currentUser
 	) {
@@ -65,7 +66,7 @@ class Share20OCS {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->request = $request;
-		$this->userFolder = $userFolder;
+		$this->rootFolder = $rootFolder;
 		$this->urlGenerator = $urlGenerator;
 		$this->currentUser = $currentUser;
 	}
@@ -90,7 +91,7 @@ class Share20OCS {
 		];
 
 		$path = $share->getPath();
-		$result['path'] = $this->userFolder->getRelativePath($path->getPath());
+		$result['path'] = $this->rootFolder->getUserFolder($share->getShareOwner()->getUID())->getRelativePath($path->getPath());
 		if ($path instanceOf \OCP\Files\Folder) {
 			$result['item_type'] = 'folder';
 		} else {
