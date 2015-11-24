@@ -279,7 +279,7 @@ class Auth extends TestCase {
 			->method('close');
 
 		$response = $this->auth->check($request, $response);
-		$this->assertEquals([true, 'principals/MyWrongDavUser'], $response);
+		$this->assertEquals([true, 'principals/users/MyWrongDavUser'], $response);
 	}
 
 	public function testAuthenticateNoBasicAuthenticateHeadersProvided() {
@@ -353,7 +353,7 @@ class Auth extends TestCase {
 			->method('getUser')
 			->will($this->returnValue($user));
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);
-		$this->assertEquals([true, 'principals/username'], $response);
+		$this->assertEquals([true, 'principals/users/username'], $response);
 	}
 
 	public function testAuthenticateInvalidCredentials() {

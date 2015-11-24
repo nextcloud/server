@@ -41,9 +41,13 @@ class Server {
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\ListenerPlugin($dispatcher));
 		$this->server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 
+		// acl
+		$acl = new \Sabre\DAVACL\Plugin();
+		$acl->defaultUsernamePath = 'principals/users';
+		$this->server->addPlugin($acl);
+
 		// calendar plugins
 		$this->server->addPlugin(new \Sabre\CalDAV\Plugin());
-		$this->server->addPlugin(new \Sabre\DAVACL\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
 		$senderEmail = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$this->server->addPlugin(new \Sabre\CalDAV\Schedule\Plugin());

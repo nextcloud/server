@@ -23,9 +23,9 @@ class RootCollection extends SimpleCollection {
 		$disableListing = !$config->getSystemValue('debug', false);
 
 		// setup the first level of the dav tree
-		$principalCollection = new Collection($principalBackend);
+		$principalCollection = new Collection($principalBackend, 'principals/users');
 		$principalCollection->disableListing = $disableListing;
-		$filesCollection = new Files\RootCollection($principalBackend);
+		$filesCollection = new Files\RootCollection($principalBackend, 'principals/users');
 		$filesCollection->disableListing = $disableListing;
 		$caldavBackend = new CalDavBackend($db);
 		$calendarRoot = new CalendarRoot($principalBackend, $caldavBackend);
@@ -37,7 +37,7 @@ class RootCollection extends SimpleCollection {
 		$addressBookRoot->disableListing = $disableListing;
 
 		$children = [
-				$principalCollection,
+				new SimpleCollection('principals', [$principalCollection]),
 				$filesCollection,
 				$calendarRoot,
 				$addressBookRoot,
