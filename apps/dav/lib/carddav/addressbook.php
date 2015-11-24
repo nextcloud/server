@@ -51,4 +51,30 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareableAddres
 		$carddavBackend = $this->carddavBackend;
 		$carddavBackend->getShares($this->getName());
 	}
+
+	function getACL() {
+		$acl = parent::getACL();
+		if ($this->getOwner() === 'principals/system') {
+			$acl[] = [
+					'privilege' => '{DAV:}read',
+					'principal' => '{DAV:}authenticated',
+					'protected' => true,
+			];
+		}
+
+		return $acl;
+	}
+
+	function getChildACL() {
+		$acl = parent::getChildACL();
+		if ($this->getOwner() === 'principals/system') {
+			$acl[] = [
+					'privilege' => '{DAV:}read',
+					'principal' => '{DAV:}authenticated',
+					'protected' => true,
+			];
+		}
+
+		return $acl;
+	}
 }
