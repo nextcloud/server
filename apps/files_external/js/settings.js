@@ -1054,12 +1054,12 @@ MountConfigListView.prototype = _.extend({
 		}
 		return defaultMountPoint + append;
 	},
-	
+
 	/**
 	 * Toggles the mount options dropdown
 	 *
 	 * @param {Object} $tr configuration row
-	 */	
+	 */
 	_showMountOptionsDropdown: function($tr) {
 		if (this._preventNextDropdown) {
 			// prevented because the click was on the toggle

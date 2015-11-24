@@ -21,8 +21,14 @@ if (!OCA.External.StatusManager) {
 }
 
 OCA.External.StatusManager = {
+
 	mountStatus : null,
 	mountPointList : null,
+
+	/**
+	 * Function
+	 * @param {callback} afterCallback
+	 */
 
 	getMountStatus : function(afterCallback) {
 		var self = this;
@@ -32,35 +38,13 @@ OCA.External.StatusManager = {
 
 		if (self.mountStatus) {
 			afterCallback(self.mountStatus);
-		} else {
-			self.isGetMountStatusRunning = true;
-			$.ajax({
-				type : 'GET',
-				url : OC.filePath('files_external', 'ajax', 'connectivityCheck.php'),
-				success : function(response) {
-					self.mountStatus = response.data;
-					afterCallback(self.mountStatus);
-				},
-				error : function(jqxhr, state, error) {
-					OC.Notification.showTemporary(t('files_external', 'Couldn\'t get the status of the external mounts: {type}', {type : error}));
-					if (!self.mountStatus) {
-						self.mountStatus = {};
-					}
-					$.each(self.mountPointList, function(name, value){
-						if (!self.mountStatus[value.mount_point]) {
-							self.mountStatus[value.mount_point] = {};
-						}
-						self.mountStatus[value.mount_point].status = 'ok';
-						OCA.External.StatusManager.Utils.restoreFolder(value);
-						OCA.External.StatusManager.Utils.toggleLink(value.mount_point, true, true);
-					});
-				},
-				complete : function() {
-					self.isGetMountStatusRunning = false;
-				}
-			});
 		}
 	},
+
+	/**
+	 * Function Check mount point status from cache
+	 * @param {string} mount_point
+	 */
 
 	getMountPointListElement : function(mount_point) {
 		var element;
@@ -72,6 +56,12 @@ OCA.External.StatusManager = {
 		});
 		return element;
 	},
+
+	/**
+	 * Function Check mount point status from cache
+	 * @param {string} mount_point
+	 * @param {string} mount_point
+	 */
 
 	getMountStatusForMount : function(mountData, afterCallback) {
 		var self = this;
@@ -124,12 +114,16 @@ OCA.External.StatusManager = {
 		return defObj;
 	},
 
+	/**
+	 * Function to get external mount point list from the files_external API
+	 * @param {function} afterCallback function to be executed
+	 */
+
 	getMountPointList : function(afterCallback) {
 		var self = this;
 		if (typeof afterCallback !== 'function' || self.isGetMountPointListRunning) {
 			return;
 		}
-
 
 		if (self.mountPointList) {
 			afterCallback(self.mountPointList);
@@ -164,13 +158,10 @@ OCA.External.StatusManager = {
 		}
 	},
 
-	setMountPointAsGood : function(mountPoint) {
-		OCA.External.StatusManager.Utils.restoreFolder(mountPoint);
-		OCA.External.StatusManager.Utils.toggleLink(mountPoint, true, true);
-		delete this.mountStatus[mountPoint].code;
-		delete this.mountStatus[mountPoint].error;
-		this.mountStatus[mountPoint].status = 'ok';
-	},
+	/**
+	 * Function to manage action when a mountpoint status = 1 (Errored). Show a dialog to be redirected to settings page.
+	 * @param {string} name MountPoint Name
+	 */
 
 	manageMountPointError : function(name) {
 		var self = this;
@@ -194,27 +185,17 @@ OCA.External.StatusManager = {
 		}, this));
 	},
 
-
-	processMountStatus : function(mounts) {
-		var hasErrors = false;
-		var self = this;
-		$.each(mounts, function(mountPoint, values){
-			hasErrors = !self.processMountStatusIndividual(mountPoint, values) || hasErrors;
-		});
-
-		if (!this.notificationHasShown) {
-			this.notificationHasShown = true;
-			if (hasErrors) {
-				OC.Notification.showTemporary(t('files_external', 'Some of the configured external mount points are not connected. Please click on the red row(s) for more information'));
-			}
-		}
-	},
+	/**
+	 * Function to process a mount point in relation with their status, Called from Async Queue.
+	 * @param {object} mountData
+	 * @param {object} mountStatus
+	 */
 
 	processMountStatusIndividual : function(mountData, mountStatus) {
 
 		var mountPoint = mountData.mount_point;
 		if (mountStatus.status === 1) {
-			var trElement = FileList.findFileEl(OCA.External.StatusManager.Utils.jqSelEscape(mountPoint)); //$('#fileList tr[data-file=\"' + OCA.External.StatusManager.Utils.jqSelEscape(mountPoint) + '\"]');
+			var trElement = FileList.findFileEl(OCA.External.StatusManager.Utils.jqSelEscape(mountPoint));
 
 			route = OCA.External.StatusManager.Utils.getIconRoute(trElement) + '-error';
 
@@ -230,6 +211,12 @@ OCA.External.StatusManager = {
 			return true;
 		}
 	},
+
+	/**
+	 * Function to process a mount point in relation with their status
+	 * @param {object} mountData
+	 * @param {object} mountStatus
+	 */
 
 	processMountList : function(mountList) {
 		var elementList = null;
@@ -256,39 +243,9 @@ OCA.External.StatusManager = {
 		}
 	},
 
-	launchFullConnectivityCheck : function() {
-		var self = this;
-		this.getMountPointList(function(list){
-			// check if we have a list first
-			if (list === undefined && !self.emptyWarningShown) {
-				self.emptyWarningShown = true;
-				OC.Notification.showTemporary(t('files_external', 'Couldn\'t get the list of external mount points: empty response from the server'));
-				return;
-			}
-			if (list && list.length > 0) {
-				self.processMountList(list);
-				self.getMountStatus(function(mountStatus){
-					if (mountStatus === undefined && !self.notificationNoProcessListDone) {
-						self.notificationNoProcessListDone = true;
-						OC.Notification.showTemporary(t('files_external', 'Couldn\'t get the status of the external mounts: empty response from the server'));
-						if (!self.mountStatus) {
-							self.mountStatus = {};
-						}
-						$.each(list, function(name, value){
-							if (!self.mountStatus[value.mount_point]) {
-								self.mountStatus[value.mount_point] = {};
-							}
-							self.mountStatus[value.mount_point].status = 'ok';
-							OCA.External.StatusManager.Utils.restoreFolder(value.mount_point);
-							OCA.External.StatusManager.Utils.toggleLink(value.mount_point, true, true);
-						});
-						return;
-					}
-					self.processMountStatus(mountStatus);
-				});
-			}
-		});
-	},
+	/**
+	 * Function to process the whole mount point list in relation with their status (Async queue)
+	 */
 
 	launchFullConnectivityCheckOneByOne : function() {
 		var self = this;
@@ -333,6 +290,13 @@ OCA.External.StatusManager = {
 		});
 	},
 
+
+	/**
+	 * Function to process a mount point list in relation with their status (Async queue)
+	 * @param {object} mountListData
+	 * @param {boolean} recheck delete cached info and force api call to check mount point status
+	 */
+
 	launchPartialConnectivityCheck : function(mountListData, recheck) {
 		if (mountListData.length === 0) {
 			return;
@@ -352,7 +316,14 @@ OCA.External.StatusManager = {
 		new OCA.External.StatusManager.RollingQueue(ajaxQueue, 4).runQueue();
 	},
 
-	recheckConnectivityForMount : function(mountListNames, recheck, checkGlobal) {
+
+	/**
+	 * Function to relaunch some mount point status check
+	 * @param {string} mountListNames
+	 * @param {boolean} recheck delete cached info and force api call to check mount point status
+	 */
+
+	recheckConnectivityForMount : function(mountListNames, recheck) {
 		if (mountListNames.length === 0) {
 			return;
 		}
@@ -486,28 +457,28 @@ OCA.External.StatusManager.Utils = {
 				icon = OC.imagePath('sharepoint', 'folder-sharepoint');
 				break;
 			case 'amazons3':
-				icon = OC.imagePath('core', 'filesystem/folder-external');
+				icon = OC.imagePath('core', 'filetypes/folder-external');
 				break;
 			case 'dav':
-				icon = OC.imagePath('core', 'filesystem/folder-external');
+				icon = OC.imagePath('core', 'filetypes/folder-external');
 				break;
 			case 'dropbox':
-				icon = OC.imagePath('core', 'filesystem/folder-external');
+				icon = OC.imagePath('core', 'filetypes/folder-external');
 				break;
 			case 'ftp':
-				icon = OC.imagePath('core', 'filesystem/folder-external');
+				icon = OC.imagePath('core', 'filetypes/folder-external');
 				break;
 			case 'google':
-				icon = OC.imagePath('core', 'filesystem/folder-external');
+				icon = OC.imagePath('core', 'filetypes/folder-external');
 				break;
 			case 'owncloud':
-				icon = OC.imagePath('core', 'filesystem/folder-external');
+				icon = OC.imagePath('core', 'filetypes/folder-external');
 				break;
 			case 'sftp':
-				icon = OC.imagePath('core', 'filesystem/folder-external');
+				icon = OC.imagePath('core', 'filetypes/folder-external');
 				break;
 			case 'swift':
-				icon = OC.imagePath('core', 'filesystem/folder-external');
+				icon = OC.imagePath('core', 'filetypes/folder-external');
 				break;
 		}
 
