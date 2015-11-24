@@ -237,7 +237,7 @@ OCA.External.StatusManager = {
 				// Save default view
 				OCA.External.StatusManager.Utils.storeDefaultFolderIconAndBgcolor(elementList);
 				// Disable row until check status
-				elementList.css('background-color', '#CCC');
+				elementList.addClass('externalDisabledRow');
 				OCA.External.StatusManager.Utils.toggleLink(elementList.find('a.name'), false, false);
 			}
 		}
@@ -361,12 +361,11 @@ OCA.External.StatusManager = {
 OCA.External.StatusManager.Utils = {
 
 	showIconError: function(folder, clickAction, errorImageUrl) {
-		var bgColor = '#F2DEDE';
 		var imageUrl = "url(" + errorImageUrl + ")";
 		var trFolder = $('#fileList tr[data-file=\"' + OCA.External.StatusManager.Utils.jqSelEscape(folder) + '\"]'); //FileList.findFileEl(OCA.External.StatusManager.Utils.jqSelEscape(folder));
 		this.changeFolderIcon(folder, imageUrl);
 		this.toggleLink(folder, false, clickAction);
-		trFolder.css('background-color', bgColor);
+		trFolder.addClass('externalErroredRow');
 	},
 
 	/**
@@ -406,7 +405,7 @@ OCA.External.StatusManager.Utils = {
 			// cant use here FileList.findFileEl(OCA.External.StatusManager.Utils.jqSelEscape(folder)); return incorrect instance of filelist
 			trFolder = $('#fileList tr[data-file=\"' + OCA.External.StatusManager.Utils.jqSelEscape(folder) + '\"]');
 		}
-		trFolder.css('background-color', '');
+		trFolder.removeClass('externalErroredRow').removeClass('externalDisabledRow');
 		tdChilds = trFolder.find("td:first-child div.thumbnail");
 		tdChilds.each(function(){
 			var thisElement = $(this);
