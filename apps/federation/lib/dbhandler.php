@@ -68,6 +68,7 @@ class DbHandler {
 	 */
 	public function addServer($url) {
 		$hash = $this->hash($url);
+		$url = rtrim($url, '/');
 		$query = $this->connection->getQueryBuilder();
 		$query->insert($this->dbTable)
 			->values(

@@ -67,15 +67,31 @@ class DbHandlerTest extends TestCase {
 		$query->execute();
 	}
 
-	public function testAddServer() {
-		$id = $this->dbHandler->addServer('server1');
+	/**
+	 * @dataProvider dataTestAddServer
+	 *
+	 * @param string $url passed to the method
+	 * @param string $expectedUrl the url we expect to be written to the db
+	 * @param string $expectedHash the hash value we expect to be written to the db
+	 */
+	public function testAddServer($url, $expectedUrl, $expectedHash) {
+		$id = $this->dbHandler->addServer($url);
 
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
 		$this->assertSame(1, count($result));
-		$this->assertSame('server1', $result[0]['url']);
+		$this->assertSame($expectedUrl, $result[0]['url']);
 		$this->assertSame($id, (int)$result[0]['id']);
+		$this->assertSame($expectedHash, $result[0]['url_hash']);
 		$this->assertSame(TrustedServers::STATUS_PENDING, (int)$result[0]['status']);
+	}
+
+	public function dataTestAddServer() {
+		return [
+				['http://owncloud.org', 'http://owncloud.org', md5('owncloud.org')],
+				['https://owncloud.org', 'https://owncloud.org', md5('owncloud.org')],
+				['http://owncloud.org/', 'http://owncloud.org', md5('owncloud.org')],
+		];
 	}
 
 	public function testRemove() {
