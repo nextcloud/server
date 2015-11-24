@@ -35,40 +35,15 @@ $appContainer = \OC_Mount_Config::$app->getContainer();
 $backendService = $appContainer->query('OCA\Files_External\Service\BackendService');
 $globalStoragesService = $appContainer->query('OCA\Files_external\Service\GlobalStoragesService');
 
-OCP\Util::addScript('files_external', 'settings');
-OCP\Util::addStyle('files_external', 'settings');
-
 \OC_Util::addVendorScript('select2/select2');
 \OC_Util::addVendorStyle('select2/select2');
 
-$backends = array_filter($backendService->getAvailableBackends(), function($backend) {
-	return $backend->isVisibleFor(BackendService::VISIBILITY_ADMIN);
-});
-$authMechanisms = array_filter($backendService->getAuthMechanisms(), function($authMechanism) {
-	return $authMechanism->isVisibleFor(BackendService::VISIBILITY_ADMIN);
-});
-foreach ($backends as $backend) {
-	if ($backend->getCustomJs()) {
-		\OCP\Util::addScript('files_external', $backend->getCustomJs());
-	}
-}
-foreach ($authMechanisms as $authMechanism) {
-	if ($authMechanism->getCustomJs()) {
-		\OCP\Util::addScript('files_external', $authMechanism->getCustomJs());
-	}
-}
-
-$userBackends = array_filter($backendService->getAvailableBackends(), function($backend) {
-	return $backend->isAllowedVisibleFor(BackendService::VISIBILITY_PERSONAL);
-});
-
 $tmpl = new OCP\Template('files_external', 'settings');
 $tmpl->assign('encryptionEnabled', \OC::$server->getEncryptionManager()->isEnabled());
-$tmpl->assign('isAdminPage', true);
+$tmpl->assign('visibilityType', BackendService::VISIBILITY_ADMIN);
 $tmpl->assign('storages', $globalStoragesService->getStorages());
-$tmpl->assign('backends', $backends);
-$tmpl->assign('authMechanisms', $authMechanisms);
-$tmpl->assign('userBackends', $userBackends);
+$tmpl->assign('backends', $backendService->getAvailableBackends());
+$tmpl->assign('authMechanisms', $backendService->getAuthMechanisms());
 $tmpl->assign('dependencies', OC_Mount_Config::dependencyMessage($backendService->getBackends()));
 $tmpl->assign('allowUserMounting', $backendService->isUserMountingAllowed());
 return $tmpl->fetchPage();

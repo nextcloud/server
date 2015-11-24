@@ -1,10 +1,16 @@
 $(document).ready(function() {
 
-	OCA.External.Settings.mountConfig.whenSelectAuthMechanism(function($tr, authMechanism, scheme) {
+	OCA.External.Settings.mountConfig.whenSelectAuthMechanism(function($tr, authMechanism, scheme, onCompletion) {
 		if (scheme === 'publickey') {
 			var config = $tr.find('.configuration');
 			if ($(config).find('[name="public_key_generate"]').length === 0) {
 				setupTableRow($tr, config);
+				onCompletion.then(function() {
+					// If there's no private key, build one
+					if (0 === $(config).find('[data-parameter="private_key"]').val().length) {
+						generateKeys($tr);
+					}
+				});
 			}
 		}
 	});
@@ -22,10 +28,6 @@ $(document).ready(function() {
 			.attr('value', t('files_external', 'Generate keys'))
 			.attr('name', 'public_key_generate')
 		);
-		// If there's no private key, build one
-		if (0 === $(config).find('[data-parameter="private_key"]').val().length) {
-			generateKeys(tr);
-		}
 	}
 
 	function generateKeys(tr) {
@@ -33,7 +35,7 @@ $(document).ready(function() {
 
 		$.post(OC.filePath('files_external', 'ajax', 'public_key.php'), {}, function(result) {
 			if (result && result.status === 'success') {
-				$(config).find('[data-parameter="public_key"]').val(result.data.public_key);
+				$(config).find('[data-parameter="public_key"]').val(result.data.public_key).keyup();
 				$(config).find('[data-parameter="private_key"]').val(result.data.private_key);
 				OCA.External.Settings.mountConfig.saveStorageConfig(tr, function() {
 					// Nothing to do
