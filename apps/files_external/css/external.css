@@ -1,8 +1,8 @@
-.externalDisabledRow {
-	background-color: #CCC ! important;;
+#filestable tbody tr.externalDisabledRow {
+	background-color: #CCC;
 }
 
 
-.externalErroredRow {
-	background-color: #F2DEDE ! important;;
+#filestable tbody tr.externalErroredRow {
+	background-color: #F2DEDE;
 }
