@@ -192,6 +192,8 @@ class Manager {
 			$acceptShare->execute(array(1, $mountPoint, $hash, $id, $this->uid));
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
 
+			\OC_Hook::emit('OCP\Share', 'federated_share_added', ['server' => $share['remote']]);
+
 			//FIXME $this->scrapNotification($share['remote_id']);
 			return true;
 		}

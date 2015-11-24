@@ -19,8 +19,32 @@
  *
  */
 
-namespace OCA\Federation\AppInfo;
 
-$app = new Application();
-$app->registerSettings();
-$app->registerHooks();
+namespace OCA\Federation;
+
+
+
+class Hooks {
+
+	/** @var TrustedServers */
+	private $trustedServers;
+
+	public function __construct(TrustedServers $trustedServers) {
+		$this->trustedServers = $trustedServers;
+	}
+
+	/**
+	 * add servers to the list of trusted servers once a federated share was established
+	 *
+	 * @param array $params
+	 */
+	public function addServerHook($params) {
+		if (
+			$this->trustedServers->getAutoAddServers() === true &&
+			$this->trustedServers->isTrustedServer($params['server']) === false
+		) {
+			$this->trustedServers->addServer($params['server']);
+		}
+	}
+
+}

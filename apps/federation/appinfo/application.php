@@ -22,14 +22,15 @@
 namespace OCA\Federation\AppInfo;
 
 use OCA\Federation\API\OCSAuthAPI;
-use OCA\Federation\Controller\AuthController;
 use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\DbHandler;
+use OCA\Federation\Hooks;
 use OCA\Federation\Middleware\AddServerMiddleware;
 use OCA\Federation\TrustedServers;
 use OCP\API;
 use OCP\App;
 use OCP\AppFramework\IAppContainer;
+use OCP\Util;
 
 class Application extends \OCP\AppFramework\App {
 
@@ -125,6 +126,23 @@ class Application extends \OCP\AppFramework\App {
 			API::GUEST_AUTH
 		);
 
+	}
+
+	/**
+	 * listen to federated_share_added hooks to auto-add new servers to the
+	 * list of trusted servers.
+	 */
+	public function registerHooks() {
+
+		$container = $this->getContainer();
+		$hooksManager = new Hooks($container->query('TrustedServers'));
+
+		Util::connectHook(
+				'OCP\Share',
+				'federated_share_added',
+				$hooksManager,
+				'addServerHook'
+		);
 	}
 
 }
