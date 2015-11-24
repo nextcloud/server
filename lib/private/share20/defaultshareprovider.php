@@ -23,25 +23,39 @@ namespace OC\Share20;
 use OC\Share20\Exception\ShareNotFound;
 use OC\Share20\Exception\BackendError;
 use OCP\IUser;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\Files\IRootFolder;
+use OCP\IDBConnection;
+use OCP\Files\Node;
 
 class DefaultShareProvider implements IShareProvider {
 
-	/** @var \OCP\IDBConnection */
+	/** @var IDBConnection */
 	private $dbConn;
 
-	/** @var \OCP\IUserManager */
+	/** @var IUserManager */
 	private $userManager;
 
-	/** @var \OCP\IGroupManager */
+	/** @var IGroupManager */
 	private $groupManager;
 
-	/** @var \OCP\Files\IRootFolder */
+	/** @var IRootFolder */
 	private $rootFolder;
 
-	public function __construct(\OCP\IDBConnection $connection,
-								\OCP\IUserManager $userManager,
-								\OCP\IGroupManager $groupManager,
-								\OCP\Files\IRootFolder $rootFolder) {
+	/**
+	 * DefaultShareProvider constructor.
+	 *
+	 * @param IDBConnection $connection
+	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
+	 * @param IRootFolder $rootFolder
+	 */
+	public function __construct(
+			IDBConnection $connection,
+			IUserManager $userManager,
+			IGroupManager $groupManager,
+			IRootFolder $rootFolder) {
 		$this->dbConn = $connection;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -51,21 +65,19 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Share a path
 	 * 
-	 * @param Share $share
-	 * @return Share The share object
+	 * @param IShare $share
+	 * @return IShare The share object
 	 */
-	public function create(Share $share) {
-		throw new \Exception();
+	public function create(IShare $share) {
 	}
 
 	/**
 	 * Update a share
 	 *
-	 * @param Share $share
-	 * @return Share The share object
+	 * @param IShare $share
+	 * @return IShare The share object
 	 */
-	public function update(Share $share) {
-		throw new \Exception();
+	public function update(IShare $share) {
 	}
 
 	/**
@@ -125,7 +137,6 @@ class DefaultShareProvider implements IShareProvider {
 	 * @return Share[]
 	 */
 	public function getShares(IUser $user, $shareType, $offset, $limit) {
-		throw new \Exception();
 	}
 
 	/**
@@ -163,8 +174,7 @@ class DefaultShareProvider implements IShareProvider {
 	 * @param \OCP\Files\Node $path
 	 * @return IShare[]
 	 */
-	public function getSharesByPath(\OCP\IUser $user, \OCP\Files\Node $path) {
-		throw new \Exception();
+	public function getSharesByPath(IUser $user, Node $path) {
 	}
 
 	/**
@@ -175,7 +185,6 @@ class DefaultShareProvider implements IShareProvider {
 	 * @param Share
 	 */
 	public function getSharedWithMe(IUser $user, $shareType = null) {
-		throw new \Exception();
 	}
 
 	/**
@@ -186,7 +195,6 @@ class DefaultShareProvider implements IShareProvider {
 	 * @param Share
 	 */
 	public function getShareByToken($token, $password = null) {
-		throw new \Exception();
 	}
 	
 	/**
@@ -234,6 +242,5 @@ class DefaultShareProvider implements IShareProvider {
 
 		return $share;
 	}
-
 
 }

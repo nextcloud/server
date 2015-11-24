@@ -58,7 +58,7 @@ class Share implements IShare {
 	/**
 	 * Set the id of the share
 	 *
-	 * @param int id
+	 * @param string $id
 	 * @return Share The modified object
 	 */
 	public function setId($id) {
@@ -292,7 +292,7 @@ class Share implements IShare {
 	/**
 	 * Set the target of this share
 	 *
-	 * @param string target
+	 * @param string $target
 	 * @return Share The modified object
 	 */
 	public function setTarget($target) {

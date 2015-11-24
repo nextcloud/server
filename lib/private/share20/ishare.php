@@ -38,7 +38,7 @@ interface IShare {
 	/**
 	 * Set the path of this share
 	 *
-	 * @param File|Folder $path
+	 * @param Node $path
 	 * @return Share The modified object
 	 */
 	public function setPath(Node $path);

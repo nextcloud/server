@@ -42,6 +42,13 @@ class Manager {
 	/** @var IAppConfig */
 	private $appConfig;
 
+	/**
+	 * Manager constructor.
+	 *
+	 * @param ILogger $logger
+	 * @param IAppConfig $appConfig
+	 * @param IShareProvider $defaultProvider
+	 */
 	public function __construct(
 			ILogger $logger,
 			IAppConfig $appConfig,
@@ -56,12 +63,11 @@ class Manager {
 
 	/**
 	 * Share a path
-	 * 
+	 *
 	 * @param Share $share
 	 * @return Share The share object
 	 */
 	public function createShare(Share $share) {
-		throw new \Exception();
 	}
 
 	/**
@@ -71,7 +77,6 @@ class Manager {
 	 * @return Share The share object
 	 */
 	public function updateShare(Share $share) {
-		throw new \Exception();
 	}
 
 	/**
@@ -163,7 +168,6 @@ class Manager {
 	 * @return Share[]
 	 */
 	public function getShares($page=0, $perPage=50) {
-		throw new \Exception();
 	}
 
 	/**
@@ -194,7 +198,6 @@ class Manager {
 	 * @return Share[]
 	 */
 	public function getSharesByPath(\OCP\Files\Node $path, $page=0, $perPage=50) {
-		throw new \Exception();
 	}
 
 	/**
@@ -207,7 +210,6 @@ class Manager {
 	 * @return Share[]
 	 */
 	public function getSharedWithMe($shareType = null, $page=0, $perPage=50) {
-		throw new \Exception();
 	}
 
 	/**
@@ -221,7 +223,6 @@ class Manager {
 	 * @throws ShareNotFound
 	 */
 	public function getShareByToken($token, $password=null) {
-		throw new \Exception();
 	}
 
 	/**
@@ -249,6 +250,5 @@ class Manager {
 	 * @param \OCP\Files\Node $path
 	 */
 	public function getAccessList(\OCP\Files\Node $path) {
-		throw new \Exception();
 	}
 }

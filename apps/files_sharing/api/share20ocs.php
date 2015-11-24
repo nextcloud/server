@@ -54,12 +54,12 @@ class Share20OCS {
 
 	public function __construct(
 			\OC\Share20\Manager $shareManager,
-			\OCP\IGroupManager $groupManager,
-			\OCP\IUserManager $userManager,
-			\OCP\IRequest $request,
-			\OCP\Files\Folder $userFolder,
-			\OCP\IURLGenerator $urlGenerator,
-			\OCP\IUser $currentUser
+			IGroupManager $groupManager,
+			IUserManager $userManager,
+			IRequest $request,
+			Folder $userFolder,
+			IURLGenerator $urlGenerator,
+			IUser $currentUser
 	) {
 		$this->shareManager = $shareManager;
 		$this->userManager = $userManager;
