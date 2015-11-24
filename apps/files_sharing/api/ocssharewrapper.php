@@ -41,7 +41,8 @@ class OCSShareWrapper {
 			\OC::$server->getUserManager(),
 			\OC::$server->getRequest(),
 			\OC::$server->getUserFolder(),
-			\OC::$server->getURLGenerator());
+			\OC::$server->getURLGenerator(),
+			\OC::$server->getUserSession()->getUser());
 	}
 
 	public function getAllShares($params) {
