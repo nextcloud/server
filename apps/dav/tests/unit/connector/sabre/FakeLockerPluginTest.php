@@ -21,6 +21,7 @@
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\FakeLockerPlugin;
+use Sabre\HTTP\Response;
 use Test\TestCase;
 
 /**
@@ -141,20 +142,19 @@ class FakeLockerPluginTest extends TestCase {
 
 	public function testFakeLockProvider() {
 		$request = $this->getMock('\Sabre\HTTP\RequestInterface');
-		$response = $this->getMock('\Sabre\HTTP\ResponseInterface');
+		$response = new Response();
 		$server = $this->getMock('\Sabre\DAV\Server');
 		$this->fakeLockerPlugin->initialize($server);
 
 		$request->expects($this->exactly(2))
 			->method('getPath')
 			->will($this->returnValue('MyPath'));
-		$response->expects($this->once())
-			->method('setBody')
-			->with('<?xml version="1.0" encoding="utf-8"?>
-<d:prop xmlns:d="DAV:"><d:lockdiscovery><d:activelock><d:lockscope><d:exclusive/></d:lockscope><d:locktype><d:write/></d:locktype><d:lockroot><d:href>MyPath</d:href></d:lockroot><d:depth>infinity</d:depth><d:timeout>Second-1800</d:timeout><d:locktoken><d:href>opaquelocktoken:fe4f7f2437b151fbcb4e9f5c8118c6b1</d:href></d:locktoken><d:owner/></d:activelock></d:lockdiscovery></d:prop>
-');
 
 		$this->assertSame(false, $this->fakeLockerPlugin->fakeLockProvider($request, $response));
+
+		$expectedXml = '<?xml version="1.0" encoding="utf-8"?><d:prop xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns"><d:lockdiscovery><d:activelock><d:lockscope><d:exclusive/></d:lockscope><d:locktype><d:write/></d:locktype><d:lockroot><d:href>MyPath</d:href></d:lockroot><d:depth>infinity</d:depth><d:timeout>Second-1800</d:timeout><d:locktoken><d:href>opaquelocktoken:fe4f7f2437b151fbcb4e9f5c8118c6b1</d:href></d:locktoken><d:owner/></d:activelock></d:lockdiscovery></d:prop>';
+
+		$this->assertXmlStringEqualsXmlString($expectedXml, $response->getBody());
 	}
 
 	public function testFakeUnlockProvider() {

@@ -22,9 +22,9 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\DAV\Locks\LockInfo;
-use Sabre\DAV\Property\LockDiscovery;
-use Sabre\DAV\Property\SupportedLock;
 use Sabre\DAV\ServerPlugin;
+use Sabre\DAV\Xml\Property\LockDiscovery;
+use Sabre\DAV\Xml\Property\SupportedLock;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\DAV\PropFind;
@@ -122,12 +122,6 @@ class FakeLockerPlugin extends ServerPlugin {
 	 */
 	public function fakeLockProvider(RequestInterface $request,
 									 ResponseInterface $response) {
-		$dom = new \DOMDocument('1.0', 'utf-8');
-		$prop = $dom->createElementNS('DAV:', 'd:prop');
-		$dom->appendChild($prop);
-
-		$lockDiscovery = $dom->createElementNS('DAV:', 'd:lockdiscovery');
-		$prop->appendChild($lockDiscovery);
 
 		$lockInfo = new LockInfo();
 		$lockInfo->token = md5($request->getPath());
@@ -135,10 +129,12 @@ class FakeLockerPlugin extends ServerPlugin {
 		$lockInfo->depth = \Sabre\DAV\Server::DEPTH_INFINITY;
 		$lockInfo->timeout = 1800;
 
-		$lockObj = new LockDiscovery([$lockInfo]);
-		$lockObj->serialize($this->server, $lockDiscovery);
+		$body = $this->server->xml->write('{DAV:}prop', [
+				'{DAV:}lockdiscovery' =>
+						new LockDiscovery([$lockInfo])
+		]);
 
-		$response->setBody($dom->saveXML());
+		$response->setBody($body);
 
 		return false;
 	}

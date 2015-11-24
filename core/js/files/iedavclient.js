@@ -145,10 +145,7 @@
 					var k = 0;
 					for (k = 0; k < propNode.childNodes.length; k++) {
 						var prop = propNode.childNodes[k];
-						var value = prop.textContent || prop.text;
-						if (prop.childNodes && prop.childNodes.length > 0 && prop.childNodes[0].nodeType === 1) {
-							value = prop.childNodes;
-						}
+						var value = this._parsePropNode(prop);
 						propStat.properties['{' + prop.namespaceURI + '}' + (prop.localName || prop.baseName)] = value;
 
 					}

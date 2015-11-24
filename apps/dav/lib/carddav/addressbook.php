@@ -3,12 +3,8 @@
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\CardDAV\Sharing\IShareableAddressBook;
-use OCP\IUserManager;
 
 class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareableAddressBook {
-
-	/** @var IUserManager */
-	private $userManager;
 
 	public function __construct(CardDavBackend $carddavBackend, array $addressBookInfo) {
 		parent::__construct($carddavBackend, $addressBookInfo);
