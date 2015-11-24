@@ -22,7 +22,6 @@
 namespace OCA\Federation\AppInfo;
 
 use OCA\Federation\API\OCSAuthAPI;
-use OCA\Federation\Controller\AuthController;
 use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\DbHandler;
 use OCA\Federation\Hooks;
