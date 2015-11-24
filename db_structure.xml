@@ -684,11 +684,25 @@
 			</field>
 
 			<!-- Foreign Key users::uid -->
+            <!-- This is the initiator of the share -->
 			<field>
 				<name>uid_owner</name>
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<!-- Foreign Key users::uid -->
+            <!-- This is the owner of the file, this can be
+                 different from the initiator of the share.
+                 The naming is subobtimal but prevents huge
+                 migration steps -->
+			<field>
+				<name>uid_fileowner</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
 				<length>64</length>
 			</field>
 
