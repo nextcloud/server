@@ -148,6 +148,33 @@ dav.Client.prototype = {
 
     },
 
+    /**
+     * Parses a property node.
+     *
+     * Either returns a string if the node only contains text, or returns an
+     * array of non-text subnodes.
+     *
+     * @param {Object} propNode node to parse
+     * @return {string|Array} text content as string or array of subnodes, excluding text nodes
+     */
+    _parsePropNode: function(propNode) {
+        var content = null;
+        if (propNode.childNodes && propNode.childNodes.length > 0) {
+            var subNodes = [];
+            // filter out text nodes
+            for (var j = 0; j < propNode.childNodes.length; j++) {
+                var node = propNode.childNodes[j];
+                if (node.nodeType === 1) {
+                    subNodes.push(node);
+                }
+            }
+            if (subNodes.length) {
+                content = subNodes;
+            }
+        }
+
+        return content || propNode.textContent || propNode.text;
+    },
 
     /**
      * Parses a multi-status response body.
@@ -197,11 +224,7 @@ dav.Client.prototype = {
 
                 var propNode = propIterator.iterateNext();
                 while(propNode) {
-                    var content = propNode.textContent;
-                    if (propNode.childNodes && propNode.childNodes.length > 0 && propNode.childNodes[0].nodeType === 1) {
-                        content = propNode.childNodes;
-                    }
-
+                    var content = this._parsePropNode(propNode);
                     propStat.properties['{' + propNode.namespaceURI + '}' + propNode.localName] = content;
                     propNode = propIterator.iterateNext();
 
