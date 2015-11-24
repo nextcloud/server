@@ -12,6 +12,17 @@ default:
               - admin
               - admin
             regular_user_password: 123456
+    federation:
+      paths:
+        - %paths.base%/../federation
+      contexts:
+        - FederationContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+
 
   extensions:
       jarnaiz\JUnitFormatter\JUnitFormatterExtension:
