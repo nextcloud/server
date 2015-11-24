@@ -104,8 +104,6 @@
     "Please ask your server administrator to restart the web server." : "Molimo zamolite  svog administratora poslužitelja da ponovno pokrene web poslužitelj.",
     "PostgreSQL >= 9 required" : "Potreban je PostgreSQL >= 9",
     "Please upgrade your database version" : "Molimo, ažurirajte svoju verziju baze podataka",
-    "Error occurred while checking PostgreSQL version" : "Došlo je do pogreške tijekom provjeravanja verzije PostgreSQL",
-    "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" : "Pobrinite se da imate PostgreSQL >= 9. Za više informacija provjerite zapisnike.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Molimo promijenite dozvole na 0770 tako da se tim direktorijem ne mogu služiti drugi korisnici",
     "Data directory (%s) is readable by other users" : "Podatkovni direktorij (%s) čitljiv je za druge korisnike",
     "Data directory (%s) is invalid" : "Podatkovni direktorij (%s) nije ispravan",

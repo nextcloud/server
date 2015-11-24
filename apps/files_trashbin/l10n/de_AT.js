@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Error" : "Fehler",
-    "Delete" : "Löschen"
+    "Delete" : "Löschen",
+    "Error" : "Fehler"
 },
 "nplurals=2; plural=(n != 1);");

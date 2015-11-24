@@ -2,8 +2,6 @@ OC.L10N.register(
     "files",
     {
     "Unknown error" : "שגיאה בלתי ידועה",
-    "Could not move %s - File with this name already exists" : "לא ניתן להעביר את %s - קובץ בשם הזה כבר קיים",
-    "Could not move %s" : "לא ניתן להעביר את %s",
     "No file was uploaded. Unknown error" : "לא הועלה קובץ. טעות בלתי מזוהה.",
     "There is no error, the file uploaded with success" : "לא התרחשה שגיאה, הקובץ הועלה בהצלחה",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini: " : "הקבצים שנשלחו חורגים מהגודל שצוין בהגדרה upload_max_filesize שבקובץ php.ini:",
@@ -29,8 +27,6 @@ OC.L10N.register(
     "Details" : "פרטים",
     "Select" : "בחר",
     "Pending" : "ממתין",
-    "Error" : "שגיאה",
-    "{new_name} already exists" : "{new_name} כבר קיים",
     "Name" : "שם",
     "Size" : "גודל",
     "Modified" : "זמן שינוי",
@@ -38,7 +34,6 @@ OC.L10N.register(
     "File name cannot be empty." : "שם קובץ אינו יכול להיות ריק",
     "Your storage is almost full ({usedSpacePercent}%)" : "שטח האחסון שלך כמעט מלא ({usedSpacePercent}%)",
     "Favorite" : "מועדף",
-    "Text file" : "קובץ טקסט",
     "Folder" : "תיקייה",
     "New folder" : "תיקייה חדשה",
     "Upload" : "העלאה",
@@ -62,6 +57,7 @@ OC.L10N.register(
     "Cancel upload" : "ביטול ההעלאה",
     "Upload too large" : "העלאה גדולה מידי",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",
-    "Files are being scanned, please wait." : "הקבצים נסרקים, נא להמתין."
+    "Files are being scanned, please wait." : "הקבצים נסרקים, נא להמתין.",
+    "Text file" : "קובץ טקסט"
 },
 "nplurals=2; plural=(n != 1);");

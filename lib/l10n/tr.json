@@ -138,8 +138,6 @@
     "Please ask your server administrator to restart the web server." : "Lütfen web sunucusunu yeniden başlatması için sunucu yöneticinize danışın.",
     "PostgreSQL >= 9 required" : "PostgreSQL >= 9 gerekli",
     "Please upgrade your database version" : "Lütfen veritabanı sürümünüzü yükseltin",
-    "Error occurred while checking PostgreSQL version" : "PostgreSQL sürümü denetlenirken hata oluştu",
-    "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" : "PostgreSQL >= 9 sürümüne sahip olduğunuzu doğrulayın veya hata hakkında daha fazla bilgi için günlükleri denetleyin",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Lütfen izinleri 0770 olarak ayarlayıp dizinin diğer kullanıcılar tarafından görülememesini sağlayın.",
     "Data directory (%s) is readable by other users" : "Veri dizini (%s) diğer kullanıcılar tarafından okunabilir",
     "Data directory (%s) must be an absolute path" : "Veri dizini (%s) tam yol olmalıdır",

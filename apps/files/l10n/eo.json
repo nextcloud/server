@@ -1,10 +1,5 @@
 { "translations": {
     "Unknown error" : "Nekonata eraro",
-    "Could not move %s - File with this name already exists" : "Ne eblis movi %s: dosiero kun ĉi tiu nomo jam ekzistas",
-    "Could not move %s" : "Ne eblis movi %s",
-    "The name %s is already used in the folder %s. Please choose a different name." : "La nomo %s jam uziĝas en la dosierujo %s. Bonvolu elekti malsaman nomon.",
-    "Error when creating the file" : "Eraris la kreo de la dosiero",
-    "Error when creating the folder" : "Eraris la kreo de la dosierujo",
     "Unable to set upload directory." : "Ne povis agordiĝi la alŝuta dosierujo.",
     "No file was uploaded. Unknown error" : "Neniu dosiero alŝutiĝis. Nekonata eraro.",
     "There is no error, the file uploaded with success" : "Ne estas eraro, la dosiero alŝutiĝis sukcese.",
@@ -34,12 +29,6 @@
     "Details" : "Detaloj",
     "Select" : "Elekti",
     "Pending" : "Traktotaj",
-    "Error moving file" : "Eraris movo de dosiero",
-    "Error" : "Eraro",
-    "{new_name} already exists" : "{new_name} jam ekzistas",
-    "Could not rename file" : "Ne povis alinomiĝi dosiero",
-    "Could not create file" : "Ne povis kreiĝi dosiero",
-    "Could not create folder" : "Ne povis kreiĝi dosierujo",
     "Name" : "Nomo",
     "Size" : "Grando",
     "Modified" : "Modifita",
@@ -53,7 +42,6 @@
     "Your storage is full, files can not be updated or synced anymore!" : "Via memoro plenas, ne plu eblas ĝisdatigi aŭ sinkronigi dosierojn!",
     "Your storage is almost full ({usedSpacePercent}%)" : "Via memoro preskaŭ plenas ({usedSpacePercent}%)",
     "Favorite" : "Favorato",
-    "Text file" : "Tekstodosiero",
     "Folder" : "Dosierujo",
     "New folder" : "Nova dosierujo",
     "Upload" : "Alŝuti",
@@ -64,8 +52,6 @@
     "%2$s changed %1$s" : "%2$s ŝanĝis %1$s",
     "You deleted %1$s" : "Vi forigis %1$s",
     "%2$s deleted %1$s" : "%2$s forigis %1$s",
-    "%s could not be renamed as it has been deleted" : "%s ne povis alinomiĝi ĉar ĝi forigitis",
-    "%s could not be renamed" : "%s ne povis alinomiĝi",
     "Upload (max. %s)" : "Alŝuti (maks. %s)",
     "File handling" : "Dosieradministro",
     "Maximum upload size" : "Maksimuma alŝutogrando",
@@ -79,6 +65,7 @@
     "Select all" : "Elekti ĉion",
     "Upload too large" : "Alŝuto tro larĝa",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "La dosieroj, kiujn vi provas alŝuti, transpasas la maksimuman grandon por dosieralŝutoj en ĉi tiu servilo.",
-    "Files are being scanned, please wait." : "Dosieroj estas skanataj, bonvolu atendi."
+    "Files are being scanned, please wait." : "Dosieroj estas skanataj, bonvolu atendi.",
+    "Text file" : "Tekstodosiero"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

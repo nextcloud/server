@@ -14,12 +14,10 @@
     "Rename" : "Namakan",
     "Delete" : "Padam",
     "Pending" : "Dalam proses",
-    "Error" : "Ralat",
     "Name" : "Nama",
     "Size" : "Saiz",
     "Modified" : "Dimodifikasi",
     "New" : "Baru",
-    "Text file" : "Fail teks",
     "Folder" : "Folder",
     "Upload" : "Muat naik",
     "You created %1$s" : "Anda telah membina %1$s",
@@ -33,6 +31,7 @@
     "Cancel upload" : "Batal muat naik",
     "Upload too large" : "Muatnaik terlalu besar",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fail yang cuba dimuat naik melebihi saiz maksimum fail upload server",
-    "Files are being scanned, please wait." : "Fail sedang diimbas, harap bersabar."
+    "Files are being scanned, please wait." : "Fail sedang diimbas, harap bersabar.",
+    "Text file" : "Fail teks"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -6,6 +6,8 @@
     "Delete" : "Radera",
     "Delete permanently" : "Radera permanent",
     "Error" : "Fel",
+    "This operation is forbidden" : "Denna operation är förbjuden",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Denna katalog är inte tillgänglig, kontrollera loggarna eller kontakta administratören",
     "restored" : "återställd",
     "No deleted files" : "Inga borttagna filer",
     "You will be able to recover deleted files from here" : "Du kommer kunna återfå raderade filer härifrån",

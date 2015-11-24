@@ -5,7 +5,6 @@ OC.L10N.register(
     "Close" : "بند ",
     "Download" : "ڈاؤن لوڈ،",
     "Delete" : "حذف کریں",
-    "Error" : "ایرر",
     "Name" : "اسم",
     "Save" : "حفظ",
     "Settings" : "ترتیبات"

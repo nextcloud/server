@@ -7,7 +7,6 @@ OC.L10N.register(
     "Rename" : "ਨਾਂ ਬਦਲੋ",
     "Delete" : "ਹਟਾਓ",
     "Details" : "ਵੇਰਵ",
-    "Error" : "ਗਲਤੀ",
     "Upload" : "ਅੱਪਲੋਡ",
     "Settings" : "ਸੈਟਿੰਗ",
     "Cancel upload" : "ਅੱਪਲੋਡ ਰੱਦ ਕਰੋ"

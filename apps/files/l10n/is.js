@@ -1,8 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Could not move %s - File with this name already exists" : "Gat ekki fært %s - Skrá með þessu nafni er þegar til",
-    "Could not move %s" : "Gat ekki fært %s",
     "No file was uploaded. Unknown error" : "Engin skrá var send inn. Óþekkt villa.",
     "There is no error, the file uploaded with success" : "Engin villa, innsending heppnaðist",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini: " : "Innsend skrá er stærri en upload_max stillingin í php.ini:",
@@ -21,14 +19,11 @@ OC.L10N.register(
     "Delete" : "Eyða",
     "Select" : "Velja",
     "Pending" : "Bíður",
-    "Error" : "Villa",
-    "{new_name} already exists" : "{new_name} er þegar til",
     "Name" : "Nafn",
     "Size" : "Stærð",
     "Modified" : "Breytt",
     "New" : "Nýtt",
     "File name cannot be empty." : "Nafn skráar má ekki vera tómt",
-    "Text file" : "Texta skrá",
     "Folder" : "Mappa",
     "Upload" : "Senda inn",
     "File handling" : "Meðhöndlun skrár",
@@ -42,6 +37,7 @@ OC.L10N.register(
     "Select all" : "Velja allt",
     "Upload too large" : "Innsend skrá er of stór",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni.",
-    "Files are being scanned, please wait." : "Verið er að skima skrár, vinsamlegast hinkraðu."
+    "Files are being scanned, please wait." : "Verið er að skima skrár, vinsamlegast hinkraðu.",
+    "Text file" : "Texta skrá"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

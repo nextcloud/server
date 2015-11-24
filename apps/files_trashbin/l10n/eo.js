@@ -5,12 +5,12 @@ OC.L10N.register(
     "Couldn't restore %s" : "Ne povis restaŭriĝi %s",
     "Deleted files" : "Forigitaj dosieroj",
     "Restore" : "Restaŭri",
+    "Delete" : "Forigi",
     "Delete permanently" : "Forigi por ĉiam",
     "Error" : "Eraro",
     "restored" : "restaŭrita",
     "Select all" : "Elekti ĉion",
     "Name" : "Nomo",
-    "Deleted" : "Forigita",
-    "Delete" : "Forigi"
+    "Deleted" : "Forigita"
 },
 "nplurals=2; plural=(n != 1);");

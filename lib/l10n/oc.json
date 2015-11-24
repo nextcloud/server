@@ -137,8 +137,6 @@
     "Please ask your server administrator to restart the web server." : "Demandatz a vòstre administrator servidor que reavie lo servidor web.",
     "PostgreSQL >= 9 required" : "PostgreSQL >= 9 requesit",
     "Please upgrade your database version" : "Metètz a jorn vòstre gestionari de banca de donadas",
-    "Error occurred while checking PostgreSQL version" : "Una error s’es produsida pendent la recuperacion del numèro de version de PostgreSQL",
-    "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" : "Verificatz qu'utilizatz PostgreSQL >= 9 , o agachatz dins lo jornal d’error per mai d’informacions sus aqueste problèma",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Cambiatz las permissions del repertòri en mòde 0770 per fin que son contengut pòsca èsser listat pels autres utilizaires.",
     "Data directory (%s) is readable by other users" : "Lo repertòri de donadas (%s) es legible pels autres utilizaires",
     "Data directory (%s) must be an absolute path" : "Lo camin del dorsièr de donadas (%s) deu èsser absolut",

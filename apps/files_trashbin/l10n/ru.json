@@ -6,6 +6,8 @@
     "Delete" : "Удалить",
     "Delete permanently" : "Удалить окончательно",
     "Error" : "Ошибка",
+    "This operation is forbidden" : "Операция запрещена",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Директория недоступна, пожалуйста проверьте журнал сообщений или свяжитесь с администратором",
     "restored" : "восстановлен",
     "No deleted files" : "Нет удалённых файлов",
     "You will be able to recover deleted files from here" : "Здесь вы сможете восстановить удалённые файлы",

@@ -17,12 +17,10 @@ OC.L10N.register(
     "Rename" : "නැවත නම් කරන්න",
     "Delete" : "මකා දමන්න",
     "Select" : "තෝරන්න",
-    "Error" : "දෝෂයක්",
     "Name" : "නම",
     "Size" : "ප්‍රමාණය",
     "Modified" : "වෙනස් කළ",
     "New" : "නව",
-    "Text file" : "පෙළ ගොනුව",
     "Folder" : "ෆෝල්ඩරය",
     "Upload" : "උඩුගත කරන්න",
     "A new file or folder has been <strong>created</strong>" : "නව ගොනුවක් හෝ බහාලුමක් <strong> නිර්මාණය කර ඇත</ strong> ",
@@ -37,6 +35,7 @@ OC.L10N.register(
     "Cancel upload" : "උඩුගත කිරීම අත් හරින්න",
     "Upload too large" : "උඩුගත කිරීම විශාල වැඩිය",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ඔබ උඩුගත කිරීමට තැත් කරන ගොනු මෙම සේවාදායකයා උඩුගත කිරීමට ඉඩදී ඇති උපරිම ගොනු විශාලත්වයට වඩා වැඩිය",
-    "Files are being scanned, please wait." : "ගොනු පරික්ෂා කෙරේ. මඳක් රැඳී සිටින්න"
+    "Files are being scanned, please wait." : "ගොනු පරික්ෂා කෙරේ. මඳක් රැඳී සිටින්න",
+    "Text file" : "පෙළ ගොනුව"
 },
 "nplurals=2; plural=(n != 1);");

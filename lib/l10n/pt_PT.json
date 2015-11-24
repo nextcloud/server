@@ -129,8 +129,6 @@
     "Please ask your server administrator to restart the web server." : "Pro favor pergunte ao seu administrador do servidor para reiniciar o servidor da internet.",
     "PostgreSQL >= 9 required" : "Necessita PostgreSQL >= 9",
     "Please upgrade your database version" : "Por favor actualize a sua versão da base de dados",
-    "Error occurred while checking PostgreSQL version" : "Ocorreu um erro enquanto pesquisava a versão do PostgreSQL",
-    "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" : "Por favor confirme que tem o PostgreSQL >= 9 ou verifique os registos para mais informação sobre o erro",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Por favor altere as permissões para 0770 para que esse directório não possa ser listado por outros utilizadores.",
     "Data directory (%s) is readable by other users" : "O directório de dados (%s) é legível para outros utilizadores",
     "Data directory (%s) must be an absolute path" : "Diretório de dados (%s) deve ser um caminho absoluto",

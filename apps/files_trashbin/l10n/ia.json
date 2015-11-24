@@ -1,6 +1,6 @@
 { "translations": {
+    "Delete" : "Deler",
     "Error" : "Error",
-    "Name" : "Nomine",
-    "Delete" : "Deler"
+    "Name" : "Nomine"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

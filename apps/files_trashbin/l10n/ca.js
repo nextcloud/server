@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "No s'ha pogut restaurar %s",
     "Deleted files" : "Fitxers esborrats",
     "Restore" : "Recupera",
+    "Delete" : "Esborra",
     "Delete permanently" : "Esborra permanentment",
     "Error" : "Error",
     "restored" : "restaurat",
@@ -13,7 +14,6 @@ OC.L10N.register(
     "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",
     "Select all" : "Seleccionar tot",
     "Name" : "Nom",
-    "Deleted" : "Eliminat",
-    "Delete" : "Esborra"
+    "Deleted" : "Eliminat"
 },
 "nplurals=2; plural=(n != 1);");

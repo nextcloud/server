@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_sharing",
     {
+    "Server to server sharing is not enabled on this server" : "Compartir entre servidores no está habilitado en este servidor",
     "Cancel" : "Cancelar",
     "Shared by" : "Compartido por",
     "Sharing" : "Compartiendo",

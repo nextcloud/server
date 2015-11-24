@@ -2,8 +2,6 @@ OC.L10N.register(
     "files",
     {
     "Unknown error" : "Ukjend feil",
-    "Could not move %s - File with this name already exists" : "Klarte ikkje flytta %s – det finst allereie ei fil med dette namnet",
-    "Could not move %s" : "Klarte ikkje flytta %s",
     "Unable to set upload directory." : "Klarte ikkje å endra opplastingsmappa.",
     "Invalid Token" : "Ugyldig token",
     "No file was uploaded. Unknown error" : "Ingen filer lasta opp. Ukjend feil",
@@ -32,9 +30,6 @@ OC.L10N.register(
     "Delete" : "Slett",
     "Details" : "Detaljar",
     "Pending" : "Under vegs",
-    "Error moving file" : "Feil ved flytting av fil",
-    "Error" : "Feil",
-    "{new_name} already exists" : "{new_name} finst allereie",
     "Name" : "Namn",
     "Size" : "Storleik",
     "Modified" : "Endra",
@@ -47,7 +42,6 @@ OC.L10N.register(
     "Your storage is full, files can not be updated or synced anymore!" : "Lagringa di er full, kan ikkje lenger oppdatera eller synkronisera!",
     "Your storage is almost full ({usedSpacePercent}%)" : "Lagringa di er nesten full ({usedSpacePercent} %)",
     "Favorite" : "Favoritt",
-    "Text file" : "Tekst fil",
     "Folder" : "Mappe",
     "New folder" : "Ny mappe",
     "Upload" : "Last opp",
@@ -61,7 +55,6 @@ OC.L10N.register(
     "%2$s changed %1$s" : "%2$s endra %1$s",
     "You deleted %1$s" : "Du sletta %1$s",
     "%2$s deleted %1$s" : "%2$s sletta %1$s",
-    "%s could not be renamed" : "Klarte ikkje å omdøypa på %s",
     "File handling" : "Filhandtering",
     "Maximum upload size" : "Maksimal opplastingsstorleik",
     "max. possible: " : "maks. moglege:",
@@ -71,6 +64,7 @@ OC.L10N.register(
     "Cancel upload" : "Avbryt opplasting",
     "Upload too large" : "For stor opplasting",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filene du prøver å lasta opp er større enn maksgrensa til denne tenaren.",
-    "Files are being scanned, please wait." : "Skannar filer, ver venleg og vent."
+    "Files are being scanned, please wait." : "Skannar filer, ver venleg og vent.",
+    "Text file" : "Tekst fil"
 },
 "nplurals=2; plural=(n != 1);");

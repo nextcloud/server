@@ -138,8 +138,6 @@
     "Please ask your server administrator to restart the web server." : "Du bedes anmode din serveradministrator om at genstarte webserveren.",
     "PostgreSQL >= 9 required" : "PostgreSQL >= 9 kræves",
     "Please upgrade your database version" : "Opgradér venligst din databaseversion",
-    "Error occurred while checking PostgreSQL version" : "Der opstod fejl under tjek af PostgreSQL-versionen",
-    "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" : "Sørg venligst for at du har PostgreSQL >= 9 eller tjek loggen for flere informationer om fejlen",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Tilpas venligst rettigheder til 0770, så mappen ikke fremvises for andre brugere.",
     "Data directory (%s) is readable by other users" : "Datamappen (%s) kan læses af andre brugere",
     "Data directory (%s) must be an absolute path" : "Datamappen (%s) skal have en absolut sti",

@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Nevarēja atjaunot %s",
     "Deleted files" : "Dzēstās datnes",
     "Restore" : "Atjaunot",
+    "Delete" : "Dzēst",
     "Delete permanently" : "Dzēst pavisam",
     "Error" : "Kļūda",
     "restored" : "atjaunots",
@@ -13,7 +14,6 @@ OC.L10N.register(
     "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
     "Select all" : "Atzīmēt visu",
     "Name" : "Nosaukums",
-    "Deleted" : "Dzēsts",
-    "Delete" : "Dzēst"
+    "Deleted" : "Dzēsts"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

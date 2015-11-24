@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Close" : "మూసివేయి",
     "Delete" : "తొలగించు",
-    "Error" : "పొరపాటు",
     "Name" : "పేరు",
     "Size" : "పరిమాణం",
     "Folder" : "సంచయం",

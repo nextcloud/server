@@ -2,8 +2,6 @@ OC.L10N.register(
     "files",
     {
     "Unknown error" : "មិន​ស្គាល់​កំហុស",
-    "Could not move %s - File with this name already exists" : "មិន​អាច​ផ្លាស់​ទី %s - មាន​ឈ្មោះ​ឯកសារ​ដូច​នេះ​ហើយ",
-    "Could not move %s" : "មិន​អាច​ផ្លាស់ទី %s",
     "No file was uploaded. Unknown error" : "មិន​មាន​ឯកសារ​ដែល​បាន​ផ្ទុក​ឡើង។ មិន​ស្គាល់​កំហុស",
     "There is no error, the file uploaded with success" : "មិន​មាន​កំហុស​អ្វី​ទេ ហើយ​ឯកសារ​ត្រូវ​បាន​ផ្ទុកឡើង​ដោយ​ជោគជ័យ",
     "Files" : "ឯកសារ",
@@ -14,14 +12,11 @@ OC.L10N.register(
     "Delete" : "លុប",
     "Details" : "ព័ត៌មាន​លម្អិត",
     "Pending" : "កំពុង​រង់ចាំ",
-    "Error" : "កំហុស",
-    "{new_name} already exists" : "មាន​ឈ្មោះ {new_name} រួច​ហើយ",
     "Name" : "ឈ្មោះ",
     "Size" : "ទំហំ",
     "Modified" : "បាន​កែ​ប្រែ",
     "New" : "ថ្មី",
     "File name cannot be empty." : "ឈ្មោះ​ឯកសារ​មិន​អាច​នៅ​ទទេ​បាន​ឡើយ។",
-    "Text file" : "ឯកសារ​អក្សរ",
     "Folder" : "ថត",
     "New folder" : "ថត​ថ្មី",
     "Upload" : "ផ្ទុក​ឡើង",
@@ -36,6 +31,7 @@ OC.L10N.register(
     "Settings" : "ការកំណត់",
     "WebDAV" : "WebDAV",
     "Cancel upload" : "បោះបង់​ការ​ផ្ទុកឡើង",
-    "Upload too large" : "ផ្ទុក​ឡើង​ធំ​ពេក"
+    "Upload too large" : "ផ្ទុក​ឡើង​ធំ​ពេក",
+    "Text file" : "ឯកសារ​អក្សរ"
 },
 "nplurals=1; plural=0;");

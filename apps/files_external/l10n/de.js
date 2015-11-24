@@ -70,6 +70,7 @@ OC.L10N.register(
     "SMB / CIFS using OC login" : "SMB / CIFS mit OC-Login",
     "Username as share" : "Benutzername als Freigabe",
     "OpenStack Object Storage" : "Openstack-Objektspeicher",
+    "Service name" : "Service Name",
     "<b>Note:</b> " : "<b>Hinweis:</b> ",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Hinweis:</b> Die cURL-Unterstützung von PHP ist nicht aktiviert oder installiert. Das Hinzufügen von %s ist nicht möglich. Bitte wende Dich zur Installation an Deinen Systemadministrator.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Hinweis:</b> Die FTP Unterstützung von PHP ist nicht aktiviert oder installiert. Das Hinzufügen von %s ist nicht möglich. Bitte wende Dich sich zur Installation an Deinen Systemadministrator.",
@@ -87,6 +88,7 @@ OC.L10N.register(
     "Advanced settings" : "Erweiterte Einstellungen",
     "Delete" : "Löschen",
     "Add storage" : "Speicher hinzufügen",
+    "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
     "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:"
 },
 "nplurals=2; plural=(n != 1);");

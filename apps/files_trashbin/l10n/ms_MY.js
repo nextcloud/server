@@ -5,10 +5,10 @@ OC.L10N.register(
     "Couldn't restore %s" : "Tidak dapat memulihkan %s",
     "Deleted files" : "Fail dipadam",
     "Restore" : "Pulihkan",
+    "Delete" : "Padam",
     "Error" : "Ralat",
     "restored" : "dipulihkan",
     "Name" : "Nama",
-    "Deleted" : "Dipadam",
-    "Delete" : "Padam"
+    "Deleted" : "Dipadam"
 },
 "nplurals=1; plural=0;");

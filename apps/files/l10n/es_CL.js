@@ -6,7 +6,6 @@ OC.L10N.register(
     "Download" : "Descargar",
     "Rename" : "Renombrar",
     "Details" : "detalles",
-    "Error" : "Error",
     "New folder" : "Nuevo directorio",
     "Upload" : "Subir",
     "A new file or folder has been <strong>created</strong>" : "Un nuevo archivo o carpeta ha sido <strong>creado</strong>",

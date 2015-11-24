@@ -2,7 +2,6 @@ OC.L10N.register(
     "files",
     {
     "Unknown error" : "يوچۇن خاتالىق",
-    "Could not move %s" : "%s يۆتكىيەلمەيدۇ",
     "No file was uploaded. Unknown error" : "ھېچقانداق ھۆججەت يۈكلەنمىدى. يوچۇن خاتالىق",
     "No file was uploaded" : "ھېچقانداق ھۆججەت يۈكلەنمىدى",
     "Missing a temporary folder" : "ۋاقىتلىق قىسقۇچ كەم.",
@@ -19,14 +18,11 @@ OC.L10N.register(
     "Rename" : "ئات ئۆزگەرت",
     "Delete" : "ئۆچۈر",
     "Pending" : "كۈتۈۋاتىدۇ",
-    "Error" : "خاتالىق",
-    "{new_name} already exists" : "{new_name} مەۋجۇت",
     "Name" : "ئاتى",
     "Size" : "چوڭلۇقى",
     "Modified" : "ئۆزگەرتكەن",
     "New" : "يېڭى",
     "Favorite" : "يىغقۇچ",
-    "Text file" : "تېكىست ھۆججەت",
     "Folder" : "قىسقۇچ",
     "New folder" : "يېڭى قىسقۇچ",
     "Upload" : "يۈكلە",
@@ -34,6 +30,7 @@ OC.L10N.register(
     "Settings" : "تەڭشەكلەر",
     "WebDAV" : "WebDAV",
     "Cancel upload" : "يۈكلەشتىن ۋاز كەچ",
-    "Upload too large" : "يۈكلەندىغىنى بەك چوڭ"
+    "Upload too large" : "يۈكلەندىغىنى بەك چوڭ",
+    "Text file" : "تېكىست ھۆججەت"
 },
 "nplurals=1; plural=0;");

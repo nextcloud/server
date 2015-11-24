@@ -10,13 +10,11 @@ OC.L10N.register(
     "Close" : "Clauder",
     "Download" : "Discargar",
     "Delete" : "Deler",
-    "Error" : "Error",
     "Name" : "Nomine",
     "Size" : "Dimension",
     "Modified" : "Modificate",
     "New" : "Nove",
     "File name cannot be empty." : "Le nomine de file non pote esser vacue.",
-    "Text file" : "File de texto",
     "Folder" : "Dossier",
     "New folder" : "Nove dossier",
     "Upload" : "Incargar",
@@ -37,6 +35,7 @@ OC.L10N.register(
     "Maximum upload size" : "Dimension maxime de incargamento",
     "Save" : "Salveguardar",
     "Settings" : "Configurationes",
-    "Upload too large" : "Incargamento troppo longe"
+    "Upload too large" : "Incargamento troppo longe",
+    "Text file" : "File de texto"
 },
 "nplurals=2; plural=(n != 1);");
