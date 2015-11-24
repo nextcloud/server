@@ -176,22 +176,23 @@ class NotificationTest extends TestCase {
 
 	public function dataSetObject() {
 		return [
-			['a', 1],
-			[str_repeat('a', 64), time()],
+			['a', '21', '21'],
+			[str_repeat('a', 64), 42, '42'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataSetObject
 	 * @param string $type
-	 * @param int $id
+	 * @param int|string $id
+	 * @param string $exptectedId
 	 */
-	public function testSetObject($type, $id) {
+	public function testSetObject($type, $id, $exptectedId) {
 		$this->assertSame('', $this->notification->getObjectType());
-		$this->assertSame(0, $this->notification->getObjectId());
+		$this->assertSame('', $this->notification->getObjectId());
 		$this->assertSame($this->notification, $this->notification->setObject($type, $id));
 		$this->assertSame($type, $this->notification->getObjectType());
-		$this->assertSame($id, $this->notification->getObjectId());
+		$this->assertSame($exptectedId, $this->notification->getObjectId());
 	}
 
 	public function dataSetObjectTypeInvalid() {
@@ -210,7 +211,14 @@ class NotificationTest extends TestCase {
 	}
 
 	public function dataSetObjectIdInvalid() {
-		return $this->dataInvalidInt();
+		return [
+			[true],
+			[false],
+			[''],
+			[str_repeat('a', 64 + 1)],
+			[[]],
+			[[str_repeat('a', 64 + 1)]],
+		];
 	}
 
 	/**
@@ -560,12 +568,12 @@ class NotificationTest extends TestCase {
 
 	public function dataIsValidCommon() {
 		return [
-			['', '', 0, '', 0, false],
-			['app', '', 0, '', 0, false],
-			['app', 'user', 0, '', 0, false],
-			['app', 'user', time(), '', 0, false],
-			['app', 'user', time(), 'type', 0, false],
-			['app', 'user', time(), 'type', 42, true],
+			['', '', 0, '', '', false],
+			['app', '', 0, '', '', false],
+			['app', 'user', 0, '', '', false],
+			['app', 'user', time(), '', '', false],
+			['app', 'user', time(), 'type', '', false],
+			['app', 'user', time(), 'type', '42', true],
 		];
 	}
 
@@ -576,7 +584,7 @@ class NotificationTest extends TestCase {
 	 * @param string $user
 	 * @param int $timestamp
 	 * @param string $objectType
-	 * @param int $objectId
+	 * @param string $objectId
 	 * @param bool $expected
 	 */
 	public function testIsValidCommon($app, $user, $timestamp, $objectType, $objectId, $expected) {

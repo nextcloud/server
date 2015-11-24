@@ -35,7 +35,7 @@ class Notification implements INotification {
 	/** @var string */
 	protected $objectType;
 
-	/** @var int */
+	/** @var string */
 	protected $objectId;
 
 	/** @var string */
@@ -83,7 +83,7 @@ class Notification implements INotification {
 		$this->dateTime = new \DateTime();
 		$this->dateTime->setTimestamp(0);
 		$this->objectType = '';
-		$this->objectId = 0;
+		$this->objectId = '';
 		$this->subject = '';
 		$this->subjectParameters = [];
 		$this->subjectParsed = '';
@@ -164,10 +164,11 @@ class Notification implements INotification {
 
 	/**
 	 * @param string $type
-	 * @param int $id
+	 * @param string $id
 	 * @return $this
 	 * @throws \InvalidArgumentException if the object type or id is invalid
 	 * @since 8.2.0
+	 * @changed 9.0.0 Type of $id changed to string
 	 */
 	public function setObject($type, $id) {
 		if (!is_string($type) || $type === '' || isset($type[64])) {
@@ -175,10 +176,10 @@ class Notification implements INotification {
 		}
 		$this->objectType = $type;
 
-		if (!is_int($id)) {
+		if (!is_int($id) && (!is_string($id) || $id === '' || isset($id[64]))) {
 			throw new \InvalidArgumentException('The given object id is invalid');
 		}
-		$this->objectId = $id;
+		$this->objectId = (string) $id;
 		return $this;
 	}
 
@@ -191,8 +192,9 @@ class Notification implements INotification {
 	}
 
 	/**
-	 * @return int
+	 * @return string
 	 * @since 8.2.0
+	 * @changed 9.0.0 Return type changed to string
 	 */
 	public function getObjectId() {
 		return $this->objectId;
@@ -443,7 +445,7 @@ class Notification implements INotification {
 			&&
 			$this->getObjectType() !== ''
 			&&
-			$this->getObjectId() !== 0
+			$this->getObjectId() !== ''
 		;
 	}
 }
