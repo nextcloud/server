@@ -260,9 +260,6 @@ function execute_tests {
 	if [[ "$_XDEBUG_CONFIG" ]]; then
 		export XDEBUG_CONFIG=$_XDEBUG_CONFIG
 	fi
-	if [ -z "$TEST_SELECTION" ]; then
-		TEST_SELECTION='all'
-	fi
 	GROUP=''
 	if [ "$TEST_SELECTION" == "DB" ]; then
 		GROUP='--group DB'
