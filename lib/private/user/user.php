@@ -30,6 +30,8 @@
 namespace OC\User;
 
 use OC\Hooks\Emitter;
+use OCP\IAvatarManager;
+use OCP\IImage;
 use OCP\IUser;
 use OCP\IConfig;
 
@@ -74,17 +76,21 @@ class User implements IUser {
 	 */
 	private $config;
 
+	/** @var IAvatarManager */
+	private $avatarManager;
+
 	/**
 	 * @param string $uid
 	 * @param \OC_User_Interface $backend
 	 * @param \OC\Hooks\Emitter $emitter
 	 * @param \OCP\IConfig $config
 	 */
-	public function __construct($uid, $backend, $emitter = null, IConfig $config = null) {
+	public function __construct($uid, $backend, $emitter = null, IConfig $config = null, $avatarManager = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->emitter = $emitter;
 		$this->config = $config;
+		$this->avatarManager = $avatarManager;
 		if ($this->config) {
 			$enabled = $this->config->getUserValue($uid, 'core', 'enabled', 'true');
 			$this->enabled = ($enabled === 'true');
@@ -92,6 +98,9 @@ class User implements IUser {
 		} else {
 			$this->enabled = true;
 			$this->lastLogin = \OC::$server->getConfig()->getUserValue($uid, 'login', 'lastLogin', 0);
+		}
+		if (is_null($this->avatarManager)) {
+			$this->avatarManager = \OC::$server->getAvatarManager();
 		}
 	}
 
@@ -315,5 +324,22 @@ class User implements IUser {
 	 */
 	public function getEMailAddress() {
 		return $this->config->getUserValue($this->uid, 'settings', 'email');
+	}
+
+	/**
+	 * get the avatar image if it exists
+	 *
+	 * @param int $size
+	 * @return IImage|null
+	 * @since 9.0.0
+	 */
+	public function getAvatarImage($size) {
+		$avatar = $this->avatarManager->getAvatar($this->uid);
+		$image = $avatar->get(-1);
+		if ($image) {
+			return $image;
+		}
+
+		return null;
 	}
 }

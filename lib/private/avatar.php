@@ -79,7 +79,9 @@ class Avatar implements \OCP\IAvatar {
 			/** @var File $node */
 			$node = $this->folder->get('avatar.' . $ext);
 			$avatar->loadFromData($node->getContent());
-			$avatar->resize($size);
+			if ($size > 0) {
+				$avatar->resize($size);
+			}
 			$this->folder->newFile('avatar.' . $size . '.' . $ext)->putContent($avatar->data());
 		}
 		return $avatar;

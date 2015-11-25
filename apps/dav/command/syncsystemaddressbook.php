@@ -70,20 +70,25 @@ class SyncSystemAddressBook extends Command {
 				$name = $user->getBackendClassName();
 				$userId = $user->getUID();
 				$displayName = $user->getDisplayName();
+				//$emailAddress = $user->getEMailAddress();
+				$image = $user->getAvatarImage(-1);
+
 				$cardId = "$name:$userId.vcf";
 				$card = $this->backend->getCard($systemAddressBook['id'], $cardId);
 				if ($card === false) {
 					$vCard = new VCard();
-					$vCard->add(new Text($vCard, 'UID', $user->getUID()));
+					$vCard->add(new Text($vCard, 'UID', $userId));
 					$vCard->add(new Text($vCard, 'FN', $displayName));
-//					$vCard->add(new Text($vCard, 'EMAIL', $user->getEMailAddress()));
-					//$vCard->add(new Binary($vCard, 'PHOTO', $user->getAvatar()));
+//					$vCard->add(new Text($vCard, 'EMAIL', $emailAddress));
+					if ($image) {
+						$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
+					}
 					$vCard->validate();
 					$this->backend->createCard($systemAddressBook['id'], $cardId, $vCard->serialize());
 				} else {
 					$updated = false;
 					$vCard = Reader::read($card['carddata']);
-					if($vCard->FN !== $user->getDisplayName()) {
+					if($vCard->FN !== $displayName) {
 						$vCard->FN = new Text($vCard, 'FN', $displayName);
 						$updated = true;
 					}
