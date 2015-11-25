@@ -22,35 +22,53 @@ namespace OCA\Files_Sharing\API;
 
 use OC\Share20\IShare;
 
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\IRequest;
+use OCP\Files\Folder;
+use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\Files\IRootFolder;
+
 class Share20OCS {
 
 	/** @var \OC\Share20\Manager */
 	private $shareManager;
 
-	/** @var \OCP\IGroupManager */
+	/** @var IGroupManager */
 	private $groupManager;
 
-	/** @var \OCP\IUserManager */
+	/** @var IUserManager */
 	private $userManager;
 
-	/** @var \OCP\IRequest */
+	/** @var IRequest */
 	private $request;
 
-	/** @var \OCP\Files\Folder */
-	private $userFolder;
+	/** @var IRootFolder */
+	private $rootFolder;
 
-	public function __construct(\OC\Share20\Manager $shareManager,
-	                            \OCP\IGroupManager $groupManager,
-	                            \OCP\IUserManager $userManager,
-	                            \OCP\IRequest $request,
-	                            \OCP\Files\Folder $userFolder,
-	                            \OCP\IURLGenerator $urlGenerator) {
+	/** @var IUrlGenerator */
+	private $urlGenerator;
+
+	/** @var IUser */
+	private $currentUser;
+
+	public function __construct(
+			\OC\Share20\Manager $shareManager,
+			IGroupManager $groupManager,
+			IUserManager $userManager,
+			IRequest $request,
+			IRootFolder $rootFolder,
+			IURLGenerator $urlGenerator,
+			IUser $currentUser
+	) {
 		$this->shareManager = $shareManager;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->request = $request;
-		$this->userFolder = $userFolder;
+		$this->rootFolder = $rootFolder;
 		$this->urlGenerator = $urlGenerator;
+		$this->currentUser = $currentUser;
 	}
 
 	/**
@@ -73,7 +91,7 @@ class Share20OCS {
 		];
 
 		$path = $share->getPath();
-		$result['path'] = $this->userFolder->getRelativePath($path->getPath());
+		$result['path'] = $this->rootFolder->getUserFolder($share->getShareOwner()->getUID())->getRelativePath($path->getPath());
 		if ($path instanceOf \OCP\Files\Folder) {
 			$result['item_type'] = 'folder';
 		} else {
@@ -131,8 +149,12 @@ class Share20OCS {
 			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		}
 
-		$share = $this->formatShare($share);
-		return new \OC_OCS_Result($share);
+		if ($this->canAccessShare($share)) {
+			$share = $this->formatShare($share);
+			return new \OC_OCS_Result($share);
+		} else {
+			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+		}
 	}
 
 	/**
@@ -156,6 +178,10 @@ class Share20OCS {
 			\OCA\Files_Sharing\API\Local::deleteShare(['id' => $id]);
 		}
 
+		if (!$this->canAccessShare($share)) {
+			return new \OC_OCS_Result(null, 404, 'could not delete share');
+		}
+
 		try {
 			$this->shareManager->deleteShare($share);
 		} catch (\OC\Share20\Exception\BackendError $e) {
@@ -163,5 +189,31 @@ class Share20OCS {
 		}
 
 		return new \OC_OCS_Result();
+	}
+
+	/**
+	 * @param IShare $share
+	 * @return bool
+	 */
+	protected function canAccessShare(IShare $share) {
+		// Owner of the file and the sharer of the file can always get share
+		if ($share->getShareOwner() === $this->currentUser ||
+			$share->getSharedBy() === $this->currentUser
+		) {
+			return true;
+		}
+
+		// If the share is shared with you (or a group you are a member of)
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
+			$share->getSharedWith() === $this->currentUser) {
+			return true;
+		}
+
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP &&
+			$share->getSharedWith()->inGroup($this->currentUser)) {
+			return true;
+		}
+
+		return false;
 	}
 }

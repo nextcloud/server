@@ -29,18 +29,18 @@ interface IShareProvider {
 	/**
 	 * Share a path
 	 * 
-	 * @param Share $share
-	 * @return Share The share object
+	 * @param IShare $share
+	 * @return IShare The share object
 	 */
-	public function create(Share $share);
+	public function create(IShare $share);
 
 	/**
 	 * Update a share
 	 *
-	 * @param Share $share
-	 * @return Share The share object
+	 * @param IShare $share
+	 * @return IShare The share object
 	 */
-	public function update(Share $share);
+	public function update(IShare $share);
 
 	/**
 	 * Delete a share
