@@ -23,8 +23,10 @@ namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
 use OCA\Files_external\Lib\StorageConfig;
-use OCA\Files_external\NotFoundException;
 use OCA\Files_external\Service\GlobalStoragesService;
+use OCA\Files_external\Service\UserStoragesService;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableHelper;
@@ -33,21 +35,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Config extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	protected $globalService;
-
-	function __construct(GlobalStoragesService $globalService) {
-		parent::__construct();
-		$this->globalService = $globalService;
-	}
-
+class Option extends Config {
 	protected function configure() {
 		$this
-			->setName('files_external:config')
-			->setDescription('Manage backend configuration for a mount')
+			->setName('files_external:option')
+			->setDescription('Manage mount options for a mount')
 			->addArgument(
 				'mount_id',
 				InputArgument::REQUIRED,
@@ -55,31 +47,12 @@ class Config extends Base {
 			)->addArgument(
 				'key',
 				InputArgument::REQUIRED,
-				'key of the config option to set/get'
+				'key of the mount option to set/get'
 			)->addArgument(
 				'value',
 				InputArgument::OPTIONAL,
-				'value to set the config option to, when no value is provided the existing value will be printed'
+				'value to set the mount option to, when no value is provided the existing value will be printed'
 			);
-		parent::configure();
-	}
-
-	protected function execute(InputInterface $input, OutputInterface $output) {
-		$mountId = $input->getArgument('mount_id');
-		$key = $input->getArgument('key');
-		try {
-			$mount = $this->globalService->getStorage($mountId);
-		} catch (NotFoundException $e) {
-			$output->writeln('<error>Mount with id "' . $mountId . ' not found, check "occ files_external:list" to get available mounts"</error>');
-			return;
-		}
-
-		$value = $input->getArgument('value');
-		if ($value) {
-			$this->setOption($mount, $key, $value, $output);
-		} else {
-			$this->getOption($mount, $key, $output);
-		}
 	}
 
 	/**
@@ -88,7 +61,7 @@ class Config extends Base {
 	 * @param OutputInterface $output
 	 */
 	protected function getOption(StorageConfig $mount, $key, OutputInterface $output) {
-		$value = $mount->getBackendOption($key);
+		$value = $mount->getMountOption($key);
 		if (!is_string($value)) { // show bools and objects correctly
 			$value = json_encode($value);
 		}
@@ -106,7 +79,7 @@ class Config extends Base {
 		if (!is_null($decoded)) {
 			$value = $decoded;
 		}
-		$mount->setBackendOption($key, $value);
+		$mount->setMountOption($key, $value);
 		$this->globalService->updateStorage($mount);
 	}
 }

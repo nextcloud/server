@@ -22,6 +22,7 @@
 
 use OCA\Files_External\Command\ListCommand;
 use OCA\Files_External\Command\Config;
+use OCA\Files_External\Command\Option;
 
 $userManager = OC::$server->getUserManager();
 $userSession = OC::$server->getUserSession();
@@ -33,4 +34,5 @@ $userStorageService = $app->getContainer()->query('\OCA\Files_external\Service\U
 
 /** @var Symfony\Component\Console\Application $application */
 $application->add(new ListCommand($globalStorageService, $userStorageService, $userSession, $userManager));
-$application->add(new Config($globalStorageService, $userStorageService, $userSession, $userManager));
+$application->add(new Config($globalStorageService));
+$application->add(new Option($globalStorageService));
