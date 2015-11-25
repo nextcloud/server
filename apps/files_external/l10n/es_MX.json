@@ -19,7 +19,7 @@
     "External Storage" : "Almacenamiento externo",
     "Folder name" : "Nombre de la carpeta",
     "Configuration" : "Configuración",
-    "Delete" : "Eliminar",
-    "Add storage" : "Añadir almacenamiento"
+    "Add storage" : "Añadir almacenamiento",
+    "Delete" : "Eliminar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

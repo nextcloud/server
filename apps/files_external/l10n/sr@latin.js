@@ -48,8 +48,8 @@ OC.L10N.register(
     "Folder name" : "Ime fascikle",
     "Configuration" : "Podešavanje",
     "Available for" : "Dostupno za",
-    "Delete" : "Obriši",
     "Add storage" : "Dodaj skladište",
+    "Delete" : "Obriši",
     "Allow users to mount the following external storage" : "Omogući korisnicima da namontiraju sledeće spoljašnje skladište"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

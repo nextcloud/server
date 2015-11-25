@@ -92,9 +92,9 @@ OC.L10N.register(
     "Authentication" : "Autenticação",
     "Configuration" : "Configuração",
     "Available for" : "Disponível para ",
+    "Add storage" : "Adicionar armazenamento",
     "Advanced settings" : "Definições avançadas",
     "Delete" : "Apagar",
-    "Add storage" : "Adicionar armazenamento",
     "Allow users to mount the following external storage" : "Permitir que os utilizadores montem o seguinte armazenamento externo"
 },
 "nplurals=2; plural=(n != 1);");

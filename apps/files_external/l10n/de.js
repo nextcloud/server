@@ -85,9 +85,9 @@ OC.L10N.register(
     "Authentication" : "Authentifizierung",
     "Configuration" : "Konfiguration",
     "Available for" : "Verfügbar für",
+    "Add storage" : "Speicher hinzufügen",
     "Advanced settings" : "Erweiterte Einstellungen",
     "Delete" : "Löschen",
-    "Add storage" : "Speicher hinzufügen",
     "Allow users to mount external storage" : "Benutzern erlauben, externen Speicher einzubinden",
     "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:"
 },

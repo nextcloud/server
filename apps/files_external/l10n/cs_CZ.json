@@ -97,9 +97,9 @@
     "Authentication" : "Ověření",
     "Configuration" : "Nastavení",
     "Available for" : "Dostupné pro",
+    "Add storage" : "Přidat úložiště",
     "Advanced settings" : "Pokročilá nastavení",
     "Delete" : "Smazat",
-    "Add storage" : "Přidat úložiště",
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
     "Allow users to mount the following external storage" : "Povolit uživatelů připojit následující externí úložiště"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"

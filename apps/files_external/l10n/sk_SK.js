@@ -97,9 +97,9 @@ OC.L10N.register(
     "Authentication" : "Autentifikácia",
     "Configuration" : "Nastavenia",
     "Available for" : "K dispozícii pre",
+    "Add storage" : "Pridať úložisko",
     "Advanced settings" : "Rozšírené nastavenia",
     "Delete" : "Zmazať",
-    "Add storage" : "Pridať úložisko",
     "Allow users to mount the following external storage" : "Povoliť používateľom pripojiť tieto externé úložiská"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

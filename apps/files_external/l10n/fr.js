@@ -99,9 +99,9 @@ OC.L10N.register(
     "Authentication" : "Authentification",
     "Configuration" : "Configuration",
     "Available for" : "Disponible pour",
+    "Add storage" : "Ajouter un support de stockage",
     "Advanced settings" : "Paramètres avancés",
     "Delete" : "Supprimer",
-    "Add storage" : "Ajouter un support de stockage",
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
     "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants"
 },

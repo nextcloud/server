@@ -76,9 +76,9 @@ OC.L10N.register(
     "Authentication" : "Tunnistautuminen",
     "Configuration" : "Asetukset",
     "Available for" : "Saatavuus",
+    "Add storage" : "Lisää tallennustila",
     "Advanced settings" : "Lisäasetukset",
     "Delete" : "Poista",
-    "Add storage" : "Lisää tallennustila",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
     "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet"
 },

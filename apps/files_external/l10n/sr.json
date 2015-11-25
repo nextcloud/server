@@ -64,9 +64,9 @@
     "Folder name" : "Назив фасцикле",
     "Configuration" : "Подешавање",
     "Available for" : "Доступно за",
+    "Add storage" : "Додај складиште",
     "Advanced settings" : "Напредне поставке",
     "Delete" : "Обриши",
-    "Add storage" : "Додај складиште",
     "Allow users to mount the following external storage" : "Дозволи корисницима да монтирају следећа спољашња складишта"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

@@ -93,9 +93,9 @@ OC.L10N.register(
     "Authentication" : "Authentifizierung",
     "Configuration" : "Konfiguration",
     "Available for" : "Verfügbar für",
+    "Add storage" : "Speicher hinzufügen",
     "Advanced settings" : "Erweiterte Einstellungen",
     "Delete" : "Löschen",
-    "Add storage" : "Speicher hinzufügen",
     "Allow users to mount the following external storage" : "Erlaube Benutzern folgenden externen Speicher einzuhängen"
 },
 "nplurals=2; plural=(n != 1);");

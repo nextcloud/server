@@ -99,9 +99,9 @@ OC.L10N.register(
     "Authentication" : "認証",
     "Configuration" : "設定",
     "Available for" : "利用可能",
+    "Add storage" : "ストレージを追加",
     "Advanced settings" : "詳細設定",
     "Delete" : "削除",
-    "Add storage" : "ストレージを追加",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
     "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する"
 },

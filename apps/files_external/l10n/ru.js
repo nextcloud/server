@@ -98,9 +98,9 @@ OC.L10N.register(
     "Authentication" : "Авторизация",
     "Configuration" : "Конфигурация",
     "Available for" : "Доступно для",
+    "Add storage" : "Добавить хранилище",
     "Advanced settings" : "Расширенные настройки",
     "Delete" : "Удалить",
-    "Add storage" : "Добавить хранилище",
     "Allow users to mount the following external storage" : "Разрешить пользователям монтировать следующие сервисы хранения данных"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

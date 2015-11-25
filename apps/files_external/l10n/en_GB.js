@@ -67,9 +67,9 @@ OC.L10N.register(
     "Folder name" : "Folder name",
     "Configuration" : "Configuration",
     "Available for" : "Available for",
+    "Add storage" : "Add storage",
     "Advanced settings" : "Advanced settings",
     "Delete" : "Delete",
-    "Add storage" : "Add storage",
     "Allow users to mount the following external storage" : "Allow users to mount the following external storage"
 },
 "nplurals=2; plural=(n != 1);");

@@ -66,9 +66,9 @@ OC.L10N.register(
     "Folder name" : "Nom de la carpeta",
     "Configuration" : "Configuració",
     "Available for" : "Disponible per",
+    "Add storage" : "Afegeix emmagatzemament",
     "Advanced settings" : "Configuració avançada",
     "Delete" : "Esborra",
-    "Add storage" : "Afegeix emmagatzemament",
     "Allow users to mount the following external storage" : "Permet als usuaris muntar els dispositius externs següents"
 },
 "nplurals=2; plural=(n != 1);");

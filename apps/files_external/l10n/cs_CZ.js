@@ -99,9 +99,9 @@ OC.L10N.register(
     "Authentication" : "Ověření",
     "Configuration" : "Nastavení",
     "Available for" : "Dostupné pro",
+    "Add storage" : "Přidat úložiště",
     "Advanced settings" : "Pokročilá nastavení",
     "Delete" : "Smazat",
-    "Add storage" : "Přidat úložiště",
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
     "Allow users to mount the following external storage" : "Povolit uživatelů připojit následující externí úložiště"
 },

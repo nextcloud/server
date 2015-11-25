@@ -97,9 +97,9 @@ OC.L10N.register(
     "Authentication" : "Mirëfilltësim",
     "Configuration" : "Formësim",
     "Available for" : "E gatshme për",
+    "Add storage" : "Shtoni depozitë",
     "Advanced settings" : "Rregullime të mëtejshme",
     "Delete" : "Fshije",
-    "Add storage" : "Shtoni depozitë",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
     "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese"
 },

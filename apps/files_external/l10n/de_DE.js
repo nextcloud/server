@@ -67,9 +67,9 @@ OC.L10N.register(
     "Folder name" : "Ordnername",
     "Configuration" : "Konfiguration",
     "Available for" : "Verfügbar für",
+    "Add storage" : "Speicher hinzufügen",
     "Advanced settings" : "Erweiterte Einstellungen",
     "Delete" : "Löschen",
-    "Add storage" : "Speicher hinzufügen",
     "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:"
 },
 "nplurals=2; plural=(n != 1);");

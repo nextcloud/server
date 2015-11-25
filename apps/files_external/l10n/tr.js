@@ -99,9 +99,9 @@ OC.L10N.register(
     "Authentication" : "Kimlik Doğrulama",
     "Configuration" : "Yapılandırma",
     "Available for" : "Kullanabilenler",
+    "Add storage" : "Depo ekle",
     "Advanced settings" : "Gelişmiş ayarlar",
     "Delete" : "Sil",
-    "Add storage" : "Depo ekle",
     "Allow users to mount external storage" : "Kullanıcılara harici depolama bağlama izin ver",
     "Allow users to mount the following external storage" : "Kullanıcıların aşağıdaki harici depolamayı bağlamalarına izin ver"
 },

@@ -99,9 +99,9 @@ OC.L10N.register(
     "Authentication" : "Πιστοποίηση",
     "Configuration" : "Ρυθμίσεις",
     "Available for" : "Διαθέσιμο για",
+    "Add storage" : "Προσθηκη αποθηκευσης",
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Delete" : "Διαγραφή",
-    "Add storage" : "Προσθηκη αποθηκευσης",
     "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου",
     "Allow users to mount the following external storage" : "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης"
 },
