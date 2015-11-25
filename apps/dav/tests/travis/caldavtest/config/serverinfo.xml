@@ -180,7 +180,7 @@
 		<!-- relative path to main principal collection-->
 		<substitution>
 			<key>$principalcollection:</key>
-			<value>$root:principals/</value>
+			<value>$root:principals/users/</value>
 		</substitution>
 
 		<!-- the core recored type collections-->
