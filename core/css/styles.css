@@ -240,8 +240,7 @@ body {
 }
 
 #body-login .update h2 {
-	line-height: 130%;
-	margin-bottom: 30px;
+	margin: 12px 0 20px;
 }
 
 #body-login .update a {
