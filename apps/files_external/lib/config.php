@@ -52,10 +52,6 @@ class OC_Mount_Config {
 	const STATUS_SUCCESS = 0;
 	const STATUS_ERROR = 1;
 	const STATUS_INDETERMINATE = 2;
-	const STATUS_INCOMPLETE_CONF = 3;
-	const STATUS_UNAUTHORIZED = 4;
-	const STATUS_TIMEOUT = 5;
-	const STATUS_NETWORK_ERROR = 6;
 
 	// whether to skip backend test (for unit tests, as this static class is not mockable)
 	public static $skipTest = false;
