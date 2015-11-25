@@ -53,19 +53,10 @@ echo "samba container: $container"
 echo $container >> $thisFolder/dockerContainerSilvershell.$EXECUTOR_NUMBER.smb
 
 echo -n "Waiting for samba initialization"
-starttime=$(date +%s)
-# support for GNU netcat and BSD netcat
-while ! (nc -c -w 1 ${host} 445 </dev/null >&/dev/null \
-    || nc -w 1 ${host} 445 </dev/null >&/dev/null); do
-    sleep 1
-    echo -n '.'
-    if (( $(date +%s) > starttime + 60 )); then
-	echo
-	echo "[ERROR] Waited 60 seconds, no response" >&2
-	exit 1
-    fi
-done
-echo
+if ! "$thisFolder"/env/wait-for-connection ${host} 445 60; then
+    echo "[ERROR] Waited 60 seconds, no response" >&2
+    exit 1
+fi
 sleep 1
 
 if [ -n "$DEBUG" ]; then

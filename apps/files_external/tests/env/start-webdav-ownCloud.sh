@@ -46,22 +46,13 @@ fi
 
 container=`docker run -P $parameter -d -e ADMINLOGIN=test -e ADMINPWD=test morrisjobke/owncloud`
 
-host=`docker inspect $container | grep IPAddress | cut -d '"' -f 4`
+host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
 
 echo -n "Waiting for ownCloud initialization"
-starttime=$(date +%s)
-# support for GNU netcat and BSD netcat
-while ! (nc -c -w 1 ${host} 80 </dev/null >&/dev/null \
-    || nc -w 1 ${host} 80 </dev/null >&/dev/null); do
-    sleep 1
-    echo -n '.'
-    if (( $(date +%s) > starttime + 60 )); then
-	echo
-	echo "[ERROR] Waited 60 seconds, no response" >&2
-	exit 1
-    fi
-done
-echo
+if ! "$thisFolder"/env/wait-for-connection ${host} 80 60; then
+    echo "[ERROR] Waited 60 seconds, no response" >&2
+    exit 1
+fi
 
 # wait at least 5 more seconds - sometimes the webserver still needs some additional time
 sleep 5
