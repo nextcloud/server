@@ -707,10 +707,6 @@ class View {
 				} else if ($result) {
 					if ($internalPath1 !== '') { // dont do a cache update for moved mounts
 						$this->updater->rename($path1, $path2);
-					} else { // only do etag propagation
-						$this->getUpdater()->getPropagator()->addChange($path1);
-						$this->getUpdater()->getPropagator()->addChange($path2);
-						$this->getUpdater()->getPropagator()->propagateChanges();
 					}
 				}
 
@@ -1179,6 +1175,48 @@ class View {
 	}
 
 	/**
+	 * Get file info from cache
+	 *
+	 * If the file is not in cached it will be scanned
+	 * If the file has changed on storage the cache will be updated
+	 *
+	 * @param \OC\Files\Storage\Storage $storage
+	 * @param string $internalPath
+	 * @param string $relativePath
+	 * @return array|bool
+	 */
+	private function getCacheEntry($storage, $internalPath, $relativePath) {
+		$cache = $storage->getCache($internalPath);
+		$data = $cache->get($internalPath);
+		$watcher = $storage->getWatcher($internalPath);
+
+		try {
+			// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
+			if (!$data || $data['size'] === -1) {
+				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
+				if (!$storage->file_exists($internalPath)) {
+					$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
+					return false;
+				}
+				$scanner = $storage->getScanner($internalPath);
+				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
+				$data = $cache->get($internalPath);
+				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
+			} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
+				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
+				$watcher->update($internalPath, $data);
+				$this->updater->propagate($relativePath);
+				$data = $cache->get($internalPath);
+				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
+			}
+		} catch (LockedException $e) {
+			// if the file is locked we just use the old cache info
+		}
+
+		return $data;
+	}
+
+	/**
 	 * get the filesystem info
 	 *
 	 * @param string $path
@@ -1189,9 +1227,8 @@ class View {
 	 */
 	public function getFileInfo($path, $includeMountPoints = true) {
 		$this->assertPathLength($path);
-		$data = array();
 		if (!Filesystem::isValidPath($path)) {
-			return $data;
+			return false;
 		}
 		if (Cache\Scanner::isPartialFile($path)) {
 			return $this->getPartFileInfo($path);
@@ -1202,48 +1239,27 @@ class View {
 		$mount = Filesystem::getMountManager()->find($path);
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($path);
-		$data = null;
 		if ($storage) {
-			$cache = $storage->getCache($internalPath);
+			$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
 
-			$data = $cache->get($internalPath);
-			$watcher = $storage->getWatcher($internalPath);
-
-			try {
-				// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
-				if (!$data) {
-					$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
-					if (!$storage->file_exists($internalPath)) {
-						$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
-						return false;
-					}
-					$scanner = $storage->getScanner($internalPath);
-					$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
-					$data = $cache->get($internalPath);
-					$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
-				} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
-					$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
-					$watcher->update($internalPath, $data);
-					$this->updater->propagate($path);
-					$data = $cache->get($internalPath);
-					$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
-				}
-			} catch (LockedException $e) {
-				// if the file is locked we just use the old cache info
+			if(!is_array($data)) {
+				return false;
 			}
 
+			if ($mount instanceof MoveableMount && $internalPath === '') {
+				$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
+			}
+
+			$owner = $this->getUserObjectForOwner($storage->getOwner($internalPath));
+			$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
+
 			if ($data and isset($data['fileid'])) {
-				// upgrades from oc6 or lower might not have the permissions set in the file cache
-				if ($data['permissions'] === 0) {
-					$data['permissions'] = $storage->getPermissions($data['path']);
-					$cache->update($data['fileid'], array('permissions' => $data['permissions']));
-				}
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mount points to the folder
 					$extOnly = ($includeMountPoints === 'ext');
-					$mountPoints = Filesystem::getMountPoints($path);
-					foreach ($mountPoints as $mountPoint) {
-						$subStorage = Filesystem::getStorage($mountPoint);
+					$mounts = Filesystem::getMountManager()->findIn($path);
+					foreach ($mounts as $mount) {
+						$subStorage = $mount->getStorage();
 						if ($subStorage) {
 							// exclude shared storage ?
 							if ($extOnly && $subStorage instanceof \OC\Files\Storage\Shared) {
@@ -1251,22 +1267,16 @@ class View {
 							}
 							$subCache = $subStorage->getCache('');
 							$rootEntry = $subCache->get('');
-							$data['size'] += isset($rootEntry['size']) ? $rootEntry['size'] : 0;
+							$info->addSubEntry($rootEntry, $mount->getMountPoint());
 						}
 					}
 				}
 			}
-		}
-		if (!$data) {
-			return false;
+
+			return $info;
 		}
 
-		if ($mount instanceof MoveableMount && $internalPath === '') {
-			$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
-		}
-
-		$owner = $this->getUserObjectForOwner($storage->getOwner($internalPath));
-		return new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
+		return false;
 	}
 
 	/**
@@ -1278,9 +1288,8 @@ class View {
 	 */
 	public function getDirectoryContent($directory, $mimetype_filter = '') {
 		$this->assertPathLength($directory);
-		$result = array();
 		if (!Filesystem::isValidPath($directory)) {
-			return $result;
+			return [];
 		}
 		$path = $this->getAbsolutePath($directory);
 		$path = Filesystem::normalizePath($path);
@@ -1291,50 +1300,25 @@ class View {
 			$cache = $storage->getCache($internalPath);
 			$user = \OC_User::getUser();
 
-			/**
-			 * @var \OC\Files\FileInfo[] $files
-			 */
-			$files = array();
+			$data = $this->getCacheEntry($storage, $internalPath, $directory);
 
-			$data = $cache->get($internalPath);
-			$watcher = $storage->getWatcher($internalPath);
-			try {
-				if (!$data or $data['size'] === -1) {
-					$this->lockFile($directory, ILockingProvider::LOCK_SHARED);
-					if (!$storage->file_exists($internalPath)) {
-						$this->unlockFile($directory, ILockingProvider::LOCK_SHARED);
-						return array();
-					}
-					$scanner = $storage->getScanner($internalPath);
-					$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
-					$data = $cache->get($internalPath);
-					$this->unlockFile($directory, ILockingProvider::LOCK_SHARED);
-				} else if ($watcher->needsUpdate($internalPath, $data)) {
-					$this->lockFile($directory, ILockingProvider::LOCK_SHARED);
-					$watcher->update($internalPath, $data);
-					$this->updater->propagate($path);
-					$data = $cache->get($internalPath);
-					$this->unlockFile($directory, ILockingProvider::LOCK_SHARED);
-				}
-			} catch (LockedException $e) {
-				// if the file is locked we just use the old cache info
+			if (!is_array($data) || !isset($data['fileid'])) {
+				return [];
 			}
 
 			$folderId = $data['fileid'];
 			$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
 
-			foreach ($contents as $content) {
-				if ($content['permissions'] === 0) {
-					$content['permissions'] = $storage->getPermissions($content['path']);
-					$cache->update($content['fileid'], array('permissions' => $content['permissions']));
-				}
-				// if sharing was disabled for the user we remove the share permissions
+			/**
+			 * @var \OC\Files\FileInfo[] $files
+			 */
+			$files = array_map(function (array $content) use ($path, $storage, $mount) {
 				if (\OCP\Util::isSharingDisabledForUser()) {
 					$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 				}
 				$owner = $this->getUserObjectForOwner($storage->getOwner($content['path']));
-				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
-			}
+				return new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
+			}, $contents);
 
 			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 			$mounts = Filesystem::getMountManager()->findIn($path);
@@ -1345,7 +1329,8 @@ class View {
 				if ($subStorage) {
 					$subCache = $subStorage->getCache('');
 
-					if ($subCache->getStatus('') === Cache\Cache::NOT_FOUND) {
+					$rootEntry = $subCache->get('');
+					if (!$rootEntry) {
 						$subScanner = $subStorage->getScanner('');
 						try {
 							$subScanner->scanFile('');
@@ -1363,17 +1348,17 @@ class View {
 							);
 							continue;
 						}
+						$rootEntry = $subCache->get('');
 					}
 
-					$rootEntry = $subCache->get('');
 					if ($rootEntry) {
 						$relativePath = trim(substr($mountPoint, $dirLength), '/');
 						if ($pos = strpos($relativePath, '/')) {
 							//mountpoint inside subfolder add size to the correct folder
 							$entryName = substr($relativePath, 0, $pos);
 							foreach ($files as &$entry) {
-								if ($entry['name'] === $entryName) {
-									$entry['size'] += $rootEntry['size'];
+								if ($entry->getName() === $entryName) {
+									$entry->addSubEntry($rootEntry, $mountPoint);
 								}
 							}
 						} else { //mountpoint in this folder, add an entry for it
@@ -1410,23 +1395,23 @@ class View {
 			}
 
 			if ($mimetype_filter) {
-				foreach ($files as $file) {
+				$files = array_filter($files, function (FileInfo $file) use ($mimetype_filter) {
 					if (strpos($mimetype_filter, '/')) {
-						if ($file['mimetype'] === $mimetype_filter) {
+						if ($file->getMimetype() === $mimetype_filter) {
 							$result[] = $file;
 						}
 					} else {
-						if ($file['mimepart'] === $mimetype_filter) {
+						if ($file->getMimePart() === $mimetype_filter) {
 							$result[] = $file;
 						}
 					}
-				}
-			} else {
-				$result = $files;
+				});
 			}
-		}
 
-		return $result;
+			return $files;
+		} else {
+			return [];
+		}
 	}
 
 	/**

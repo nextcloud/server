@@ -193,7 +193,8 @@ class EtagPropagation extends TestCase {
 
 	public function testOwnerWritesToSingleFileShare() {
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
-		Filesystem::file_put_contents('/foo.txt', 'bar');
+		Filesystem::file_put_contents('/foo.txt', 'longer_bar');
+		Filesystem::touch('/foo.txt', time() - 1);
 		$this->assertEtagsNotChanged([self::TEST_FILES_SHARING_API_USER4, self::TEST_FILES_SHARING_API_USER3]);
 		$this->assertEtagsChanged([self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER2]);
 

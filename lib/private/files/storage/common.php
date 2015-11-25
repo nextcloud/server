@@ -37,6 +37,7 @@
 namespace OC\Files\Storage;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Cache\Propagator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OC\Files\Cache\Watcher;
@@ -64,6 +65,7 @@ abstract class Common implements Storage {
 	protected $cache;
 	protected $scanner;
 	protected $watcher;
+	protected $propagator;
 	protected $storageCache;
 
 	protected $mountOptions = [];
@@ -343,6 +345,22 @@ abstract class Common implements Storage {
 			$this->watcher->setPolicy((int)$this->getMountOption('filesystem_check_changes', $globalPolicy));
 		}
 		return $this->watcher;
+	}
+
+	/**
+	 * get a propagator instance for the cache
+	 *
+	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the watcher
+	 * @return \OC\Files\Cache\Propagator
+	 */
+	public function getPropagator($storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
+		if (!isset($this->propagator)) {
+			$this->propagator = new Propagator($storage);
+		}
+		return $this->propagator;
 	}
 
 	public function getStorageCache($storage = null) {

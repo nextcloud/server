@@ -42,7 +42,6 @@ $l = \OC::$server->getL10N('files_sharing');
 
 $application = new Application();
 $application->registerMountProviders();
-$application->setupPropagation();
 
 \OCP\App::registerAdmin('files_sharing', 'settings-admin');
 \OCP\App::registerPersonal('files_sharing', 'settings-personal');

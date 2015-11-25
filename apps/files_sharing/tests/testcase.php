@@ -61,7 +61,6 @@ abstract class TestCase extends \Test\TestCase {
 
 		$application = new Application();
 		$application->registerMountProviders();
-		$application->setupPropagation();
 		
 		// reset backend
 		\OC_User::clearBackends();

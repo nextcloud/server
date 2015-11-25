@@ -22,6 +22,7 @@
 
 namespace OC\Files\Cache;
 
+use OC\Files\Filesystem;
 use OC\Hooks\BasicEmitter;
 
 /**
@@ -61,23 +62,30 @@ class ChangePropagator extends BasicEmitter {
 	 * @param int $time (optional) the mtime to set for the folders, if not set the current time is used
 	 */
 	public function propagateChanges($time = null) {
-		$parents = $this->getAllParents();
-		$this->changedFiles = array();
+		$changes = $this->getChanges();
+		$this->changedFiles = [];
 		if (!$time) {
 			$time = time();
 		}
-		foreach ($parents as $parent) {
+		foreach ($changes as $change) {
 			/**
 			 * @var \OC\Files\Storage\Storage $storage
 			 * @var string $internalPath
 			 */
 
-			list($storage, $internalPath) = $this->view->resolvePath($parent);
+			$absolutePath = $this->view->getAbsolutePath($change);
+			$mount = $this->view->getMount($change);
+			$storage = $mount->getStorage();
+			$internalPath = $mount->getInternalPath($absolutePath);
 			if ($storage) {
-				$cache = $storage->getCache();
-				$entry = $cache->get($internalPath);
-				$cache->update($entry['fileid'], array('mtime' => max($time, $entry['mtime']), 'etag' => $storage->getETag($internalPath)));
-				$this->emit('\OC\Files', 'propagate', [$parent, $entry]);
+				$propagator = $storage->getPropagator();
+				$propagatedEntries = $propagator->propagateChange($internalPath, $time);
+
+				foreach ($propagatedEntries as $entry) {
+					$absolutePath = Filesystem::normalizePath($mount->getMountPoint() . '/' . $entry['path']);
+					$relativePath = $this->view->getRelativePath($absolutePath);
+					$this->emit('\OC\Files', 'propagate', [$relativePath, $entry]);
+				}
 			}
 		}
 	}

@@ -65,7 +65,6 @@ class Test_Trashbin extends \Test\TestCase {
 		\OC::registerShareHooks();
 		$application = new \OCA\Files_Sharing\AppInfo\Application();
 		$application->registerMountProviders();
-		$application->setupPropagation();
 
 		//disable encryption
 		\OC_App::disable('encryption');

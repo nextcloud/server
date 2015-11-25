@@ -430,6 +430,13 @@ class Wrapper implements \OC\Files\Storage\Storage {
 		return $this->storage->getWatcher($path, $storage);
 	}
 
+	public function getPropagator($storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
+		return $this->storage->getPropagator($storage);
+	}
+
 	/**
 	 * @return \OC\Files\Cache\Storage
 	 */
