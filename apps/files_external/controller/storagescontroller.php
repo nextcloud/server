@@ -242,10 +242,44 @@ abstract class StoragesController extends Controller {
 				$this->l10n->t('Insufficient data: %s', [$e->getMessage()])
 			);
 		} catch (StorageNotAvailableException $e) {
-			$storage->setStatus(
-				\OC_Mount_Config::STATUS_ERROR,
-				$e->getMessage()
-			);
+			switch ($e->getCode()) {
+				case 1:
+					$storage->setStatus(
+						\OC_Mount_Config::STATUS_ERROR,
+						$this->l10n->t('%s', [$e->getMessage()])
+					);
+					break;
+				case 3:
+					$storage->setStatus(
+						\OC_Mount_Config::STATUS_INCOMPLETE_CONF,
+						$this->l10n->t('Incomplete configuration. %s', [$e->getMessage()])
+					);
+					break;
+				case 4:
+					$storage->setStatus(
+						\OC_Mount_Config::STATUS_UNAUTHORIZED,
+						$this->l10n->t('Unauthorized. %s', [$e->getMessage()])
+						$e->getMessage()
+					);
+					break;
+				case 5:
+					$storage->setStatus(
+						\OC_Mount_Config::STATUS_TIMEOUT,
+						$this->l10n->t('Timeout. %s', [$e->getMessage()])
+					);
+					break;
+				case 6:
+					$storage->setStatus(
+						\OC_Mount_Config::STATUS_NETWORK_ERROR,
+						$this->l10n->t('Network error. %s', [$e->getMessage()])
+					);
+					break;
+				default:
+					$storage->setStatus(
+						\OC_Mount_Config::STATUS_ERROR,
+						$this->l10n->t('%s', [$e->getMessage()])
+					);
+			}
 		} catch (\Exception $e) {
 			// FIXME: convert storage exceptions to StorageNotAvailableException
 			$storage->setStatus(
