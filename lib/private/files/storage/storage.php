@@ -76,6 +76,14 @@ interface Storage extends \OCP\Files\Storage {
 	public function getPropagator($storage = null);
 
 	/**
+	 * get a updater instance for the cache
+	 *
+	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the watcher
+	 * @return \OC\Files\Cache\Updater
+	 */
+	public function getUpdater($storage = null);
+
+	/**
 	 * @return \OC\Files\Cache\Storage
 	 */
 	public function getStorageCache();

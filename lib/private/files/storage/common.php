@@ -39,6 +39,7 @@ namespace OC\Files\Storage;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\Propagator;
 use OC\Files\Cache\Scanner;
+use OC\Files\Cache\Updater;
 use OC\Files\Filesystem;
 use OC\Files\Cache\Watcher;
 use OCP\Files\FileNameTooLongException;
@@ -67,6 +68,7 @@ abstract class Common implements Storage {
 	protected $watcher;
 	protected $propagator;
 	protected $storageCache;
+	protected $updater;
 
 	protected $mountOptions = [];
 
@@ -361,6 +363,16 @@ abstract class Common implements Storage {
 			$this->propagator = new Propagator($storage);
 		}
 		return $this->propagator;
+	}
+
+	public function getUpdater($storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
+		if (!isset($this->updater)) {
+			$this->updater = new Updater($storage);
+		}
+		return $this->updater;
 	}
 
 	public function getStorageCache($storage = null) {

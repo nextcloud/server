@@ -192,7 +192,7 @@ class File extends Node implements IFile {
 			}
 
 			// since we skipped the view we need to scan and emit the hooks ourselves
-			$this->fileView->getUpdater()->update($this->path);
+			$storage->getUpdater()->update($internalPath);
 
 			if ($view) {
 				$this->emitPostHooks($exists);
@@ -438,7 +438,7 @@ class File extends Node implements IFile {
 				$this->fileView->changeLock($targetPath, ILockingProvider::LOCK_SHARED);
 
 				// since we skipped the view we need to scan and emit the hooks ourselves
-				$this->fileView->getUpdater()->update($targetPath);
+				$targetStorage->getUpdater()->update($targetInternalPath);
 
 				$this->emitPostHooks($exists, $targetPath);
 
