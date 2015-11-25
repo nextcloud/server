@@ -23,9 +23,20 @@ $cm = \OC::$server->getContactsManager();
 $cm->register(function() use ($cm) {
 	$db = \OC::$server->getDatabaseConnection();
 	$userId = \OC::$server->getUserSession()->getUser()->getUID();
-	$cardDav = new \OCA\DAV\CardDAV\CardDavBackend($db);
+	$principal = new \OCA\DAV\Connector\Sabre\Principal(
+			\OC::$server->getConfig(),
+			\OC::$server->getUserManager()
+	);
+	$cardDav = new \OCA\DAV\CardDAV\CardDavBackend($db, $principal, \OC::$server->getLogger());
 	$addressBooks = $cardDav->getAddressBooksForUser("principals/$userId");
-	foreach ($addressBooks as $addressBook)  {
-		$cm->registerAddressBook(new OCA\DAV\CardDAV\AddressBookImpl($addressBook));
+	foreach ($addressBooks as $addressBookInfo)  {
+		$addressBook = new \OCA\DAV\CardDAV\AddressBook($cardDav, $addressBookInfo);
+		$cm->registerAddressBook(
+				new OCA\DAV\CardDAV\AddressBookImpl(
+						$addressBook,
+						$addressBookInfo,
+						$cardDav
+				)
+		);
 	}
 });

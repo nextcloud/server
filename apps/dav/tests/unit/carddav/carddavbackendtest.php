@@ -21,7 +21,12 @@
 namespace OCA\DAV\Tests\Unit\CardDAV;
 
 use OCA\DAV\CardDAV\CardDavBackend;
+use OCA\DAV\Connector\Sabre\Principal;
+use OCP\IDBConnection;
+use OCP\ILogger;
 use Sabre\DAV\PropPatch;
+use Sabre\VObject\Component\VCard;
+use Sabre\VObject\Property\Text;
 use Test\TestCase;
 
 /**
@@ -36,22 +41,46 @@ class CardDavBackendTest extends TestCase {
 	/** @var CardDavBackend */
 	private $backend;
 
+	/** @var  Principal | \PHPUnit_Framework_MockObject_MockObject */
+	private $principal;
+
+	/** @var  ILogger | \PHPUnit_Framework_MockObject_MockObject */
+	private $logger;
+
+	/** @var  IDBConnection */
+	private $db;
+
+	/** @var string */
+	private $dbCardsTable = 'cards';
+
+	/** @var string */
+	private $dbCardsPropertiesTable = 'cards_properties';
+
 	const UNIT_TEST_USER = 'carddav-unit-test';
 
 	public function setUp() {
 		parent::setUp();
 
-		$principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
+		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
 			->disableOriginalConstructor()
 			->setMethods(['getPrincipalByPath'])
 			->getMock();
-		$principal->method('getPrincipalByPath')
+		$this->principal->method('getPrincipalByPath')
 			->willReturn([
 				'uri' => 'principals/best-friend'
 			]);
+		$this->logger = $this->getMock('\OCP\ILogger');
 
-		$db = \OC::$server->getDatabaseConnection();
-		$this->backend = new CardDavBackend($db, $principal);
+		$this->db = \OC::$server->getDatabaseConnection();
+
+		$this->backend = new CardDavBackend($this->db, $this->principal, $this->logger);
+
+		// start every test with a empty cards_properties and cards table
+		$query = $this->db->getQueryBuilder();
+		$query->delete('cards_properties')->execute();
+		$query = $this->db->getQueryBuilder();
+		$query->delete('cards')->execute();
+
 
 		$this->tearDown();
 	}
@@ -96,23 +125,31 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	public function testCardOperations() {
+
+		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
+				->setConstructorArgs([$this->db, $this->principal, $this->logger])
+				->setMethods(['updateProperties', 'purgeProperties'])->getMock();
+
 		// create a new address book
-		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
-		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
+		$backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$books = $backend->getAddressBooksForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
 		$bookId = $books[0]['id'];
 
-		// create a card
 		$uri = $this->getUniqueID('card');
-		$this->backend->createCard($bookId, $uri, '');
+		// updateProperties is expected twice, once for createCard and once for updateCard
+		$backend->expects($this->at(0))->method('updateProperties')->with($bookId, $uri, '');
+		$backend->expects($this->at(1))->method('updateProperties')->with($bookId, $uri, '***');
+		// create a card
+		$backend->createCard($bookId, $uri, '');
 
 		// get all the cards
-		$cards = $this->backend->getCards($bookId);
+		$cards = $backend->getCards($bookId);
 		$this->assertEquals(1, count($cards));
 		$this->assertEquals('', $cards[0]['carddata']);
 
 		// get the cards
-		$card = $this->backend->getCard($bookId, $uri);
+		$card = $backend->getCard($bookId, $uri);
 		$this->assertNotNull($card);
 		$this->assertArrayHasKey('id', $card);
 		$this->assertArrayHasKey('uri', $card);
@@ -122,17 +159,23 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEquals('', $card['carddata']);
 
 		// update the card
-		$this->backend->updateCard($bookId, $uri, '***');
-		$card = $this->backend->getCard($bookId, $uri);
+		$backend->updateCard($bookId, $uri, '***');
+		$card = $backend->getCard($bookId, $uri);
 		$this->assertEquals('***', $card['carddata']);
 
 		// delete the card
-		$this->backend->deleteCard($bookId, $uri);
-		$cards = $this->backend->getCards($bookId);
+		$backend->expects($this->once())->method('purgeProperties')->with($bookId, $card['id']);
+		$backend->deleteCard($bookId, $uri);
+		$cards = $backend->getCards($bookId);
 		$this->assertEquals(0, count($cards));
 	}
 
 	public function testMultiCard() {
+
+		$this->backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
+			->setConstructorArgs([$this->db, $this->principal, $this->logger])
+			->setMethods(['updateProperties'])->getMock();
+
 		// create a new address book
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
@@ -175,6 +218,11 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	public function testSyncSupport() {
+
+		$this->backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
+			->setConstructorArgs([$this->db, $this->principal, $this->logger])
+			->setMethods(['updateProperties'])->getMock();
+
 		// create a new address book
 		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
@@ -221,4 +269,258 @@ class CardDavBackendTest extends TestCase {
 		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
 		$this->assertEquals(0, count($books));
 	}
+
+	public function testUpdateProperties() {
+
+		$bookId = 42;
+		$cardUri = 'card-uri';
+		$cardId = 2;
+
+		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
+			->setConstructorArgs([$this->db, $this->principal, $this->logger])
+			->setMethods(['getCardId'])->getMock();
+
+		$backend->expects($this->any())->method('getCardId')->willReturn($cardId);
+
+		// add properties for new vCard
+		$vCard = new VCard();
+		$vCard->add(new Text($vCard, 'UID', $cardUri));
+		$vCard->add(new Text($vCard, 'FN', 'John Doe'));
+		$this->invokePrivate($backend, 'updateProperties', [$bookId, $cardUri, $vCard->serialize()]);
+
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select('*')->from('cards_properties')->execute()->fetchAll();
+
+		$this->assertSame(2, count($result));
+
+		$this->assertSame('UID', $result[0]['name']);
+		$this->assertSame($cardUri, $result[0]['value']);
+		$this->assertSame($bookId, (int)$result[0]['addressbookid']);
+		$this->assertSame($cardId, (int)$result[0]['cardid']);
+
+		$this->assertSame('FN', $result[1]['name']);
+		$this->assertSame('John Doe', $result[1]['value']);
+		$this->assertSame($bookId, (int)$result[1]['addressbookid']);
+		$this->assertSame($cardId, (int)$result[1]['cardid']);
+
+		// update properties for existing vCard
+		$vCard = new VCard();
+		$vCard->add(new Text($vCard, 'FN', 'John Doe'));
+		$this->invokePrivate($backend, 'updateProperties', [$bookId, $cardUri, $vCard->serialize()]);
+
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select('*')->from('cards_properties')->execute()->fetchAll();
+
+		$this->assertSame(1, count($result));
+
+		$this->assertSame('FN', $result[0]['name']);
+		$this->assertSame('John Doe', $result[0]['value']);
+		$this->assertSame($bookId, (int)$result[0]['addressbookid']);
+		$this->assertSame($cardId, (int)$result[0]['cardid']);
+	}
+
+	public function testPurgeProperties() {
+
+		$query = $this->db->getQueryBuilder();
+		$query->insert('cards_properties')
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter(1),
+					'cardid' => $query->createNamedParameter(1),
+					'name' => $query->createNamedParameter('name1'),
+					'value' => $query->createNamedParameter('value1'),
+					'preferred' => $query->createNamedParameter(0)
+				]
+			);
+		$query->execute();
+
+		$query = $this->db->getQueryBuilder();
+		$query->insert('cards_properties')
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter(1),
+					'cardid' => $query->createNamedParameter(2),
+					'name' => $query->createNamedParameter('name2'),
+					'value' => $query->createNamedParameter('value2'),
+					'preferred' => $query->createNamedParameter(0)
+				]
+			);
+		$query->execute();
+
+		$this->invokePrivate($this->backend, 'purgeProperties', [1, 1]);
+
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select('*')->from('cards_properties')->execute()->fetchAll();
+		$this->assertSame(1, count($result));
+		$this->assertSame(1 ,(int)$result[0]['addressbookid']);
+		$this->assertSame(2 ,(int)$result[0]['cardid']);
+
+	}
+
+	public function testGetCardId() {
+		$query = $this->db->getQueryBuilder();
+
+		$query->insert('cards')
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter(1),
+					'carddata' => $query->createNamedParameter(''),
+					'uri' => $query->createNamedParameter('uri'),
+					'lastmodified' => $query->createNamedParameter(4738743),
+					'etag' => $query->createNamedParameter('etag'),
+					'size' => $query->createNamedParameter(120)
+				]
+			);
+		$query->execute();
+		$id = $query->getLastInsertId();
+
+		$this->assertSame($id,
+			$this->invokePrivate($this->backend, 'getCardId', ['uri']));
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testGetCardIdFailed() {
+		$this->invokePrivate($this->backend, 'getCardId', ['uri']);
+	}
+
+	/**
+	 * @dataProvider dataTestSearch
+	 *
+	 * @param string $pattern
+	 * @param array $expected
+	 */
+	public function testSearch($pattern, $expected) {
+		$vCards = [];
+		$vCards[0] = new VCard();
+		$vCards[0]->add(new Text($vCards[0], 'UID', 'uid'));
+		$vCards[0]->add(new Text($vCards[0], 'FN', 'John Doe'));
+		$vCards[1] = new VCard();
+		$vCards[1]->add(new Text($vCards[1], 'UID', 'uid'));
+		$vCards[1]->add(new Text($vCards[1], 'FN', 'John M. Doe'));
+
+		$vCardIds = [];
+		$query = $this->db->getQueryBuilder();
+		for($i=0; $i<2; $i++) {
+			$query->insert($this->dbCardsTable)
+					->values(
+							[
+									'addressbookid' => $query->createNamedParameter(0),
+									'carddata' => $query->createNamedParameter($vCards[$i]->serialize()),
+									'uri' => $query->createNamedParameter('uri' . $i),
+									'lastmodified' => $query->createNamedParameter(5489543),
+									'etag' => $query->createNamedParameter('etag' . $i),
+									'size' => $query->createNamedParameter(120),
+							]
+					);
+			$query->execute();
+			$vCardIds[] = $query->getLastInsertId();
+		}
+
+		$query->insert($this->dbCardsPropertiesTable)
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter(0),
+					'cardid' => $query->createNamedParameter($vCardIds[0]),
+					'name' => $query->createNamedParameter('FN'),
+					'value' => $query->createNamedParameter('John Doe'),
+					'preferred' => $query->createNamedParameter(0)
+				]
+			);
+		$query->execute();
+		$query->insert($this->dbCardsPropertiesTable)
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter(0),
+					'cardid' => $query->createNamedParameter($vCardIds[1]),
+					'name' => $query->createNamedParameter('FN'),
+					'value' => $query->createNamedParameter('John M. Doe'),
+					'preferred' => $query->createNamedParameter(0)
+				]
+			);
+		$query->execute();
+
+		$result = $this->backend->search(0, $pattern, ['FN']);
+
+		// check result
+		$this->assertSame(count($expected), count($result));
+		$found = [];
+		foreach ($result as $r) {
+			foreach ($expected as $exp) {
+				if (strpos($r, $exp) > 0) {
+					$found[$exp] = true;
+					break;
+				}
+			}
+		}
+
+		$this->assertSame(count($expected), count($found));
+	}
+
+	public function dataTestSearch() {
+		return [
+				['John', ['John Doe', 'John M. Doe']],
+				['M. Doe', ['John M. Doe']],
+				['Do', ['John Doe', 'John M. Doe']]
+		];
+	}
+
+	public function testGetCardUri() {
+		$query = $this->db->getQueryBuilder();
+		$query->insert($this->dbCardsTable)
+				->values(
+						[
+								'addressbookid' => $query->createNamedParameter(1),
+								'carddata' => $query->createNamedParameter('carddata', \PDO::PARAM_LOB),
+								'uri' => $query->createNamedParameter('uri'),
+								'lastmodified' => $query->createNamedParameter(5489543),
+								'etag' => $query->createNamedParameter('etag'),
+								'size' => $query->createNamedParameter(120),
+						]
+				);
+		$query->execute();
+
+		$id = $query->getLastInsertId();
+
+		$this->assertSame('uri', $this->backend->getCardUri($id));
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testGetCardUriFailed() {
+		$this->backend->getCardUri(1);
+	}
+
+	public function testGetContact() {
+		$query = $this->db->getQueryBuilder();
+		for($i=0; $i<2; $i++) {
+			$query->insert($this->dbCardsTable)
+					->values(
+							[
+									'addressbookid' => $query->createNamedParameter($i),
+									'carddata' => $query->createNamedParameter('carddata' . $i, \PDO::PARAM_LOB),
+									'uri' => $query->createNamedParameter('uri' . $i),
+									'lastmodified' => $query->createNamedParameter(5489543),
+									'etag' => $query->createNamedParameter('etag' . $i),
+									'size' => $query->createNamedParameter(120),
+							]
+					);
+			$query->execute();
+		}
+
+		$result = $this->backend->getContact('uri0');
+		$this->assertSame(7, count($result));
+		$this->assertSame(0, (int)$result['addressbookid']);
+		$this->assertSame('uri0', $result['uri']);
+		$this->assertSame(5489543, (int)$result['lastmodified']);
+		$this->assertSame('etag0', $result['etag']);
+		$this->assertSame(120, (int)$result['size']);
+	}
+
+	public function testGetContactFail() {
+		$this->assertEmpty($this->backend->getContact('uri'));
+	}
+
 }

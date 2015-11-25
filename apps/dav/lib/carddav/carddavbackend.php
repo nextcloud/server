@@ -23,19 +23,47 @@
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\IDBConnection;
+use OCP\ILogger;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Plugin;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\VObject\Reader;
 
 class CardDavBackend implements BackendInterface, SyncSupport {
 
 	/** @var Principal */
 	private $principalBackend;
 
-	public function __construct(\OCP\IDBConnection $db, Principal $principalBackend) {
+	/** @var ILogger */
+	private $logger;
+
+	/** @var string */
+	private $dbCardsTable = 'cards';
+
+	/** @var string */
+	private $dbCardsPropertiesTable = 'cards_properties';
+
+	/** @var IDBConnection */
+	private $db;
+
+	/** @var array properties to index */
+	public static $indexProperties = array(
+			'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
+			'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO', 'CLOUD');
+
+	/**
+	 * CardDavBackend constructor.
+	 *
+	 * @param IDBConnection $db
+	 * @param Principal $principalBackend
+	 * @param ILogger $logger
+	 */
+	public function __construct(IDBConnection $db, Principal $principalBackend, ILogger $logger) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -263,6 +291,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->where($query->expr()->eq('resourceid', $query->createNamedParameter($addressBookId)))
 			->andWhere($query->expr()->eq('type', $query->createNamedParameter('addressbook')))
 			->execute();
+
+		$query->delete($this->dbCardsPropertiesTable)
+			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
+			->execute();
+
 	}
 
 	/**
@@ -408,6 +441,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->execute();
 
 		$this->addChange($addressBookId, $cardUri, 1);
+		$this->updateProperties($addressBookId, $cardUri, $cardData);
 
 		return '"' . $etag . '"';
 	}
@@ -451,6 +485,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->execute();
 
 		$this->addChange($addressBookId, $cardUri, 2);
+		$this->updateProperties($addressBookId, $cardUri, $cardData);
 
 		return '"' . $etag . '"';
 	}
@@ -463,6 +498,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return bool
 	 */
 	function deleteCard($addressBookId, $cardUri) {
+		$cardId = $this->getCardId($cardUri);
 		$query = $this->db->getQueryBuilder();
 		$ret = $query->delete('cards')
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
@@ -471,7 +507,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$this->addChange($addressBookId, $cardUri, 3);
 
-		return $ret === 1;
+		if ($ret === 1) {
+			$this->purgeProperties($addressBookId, $cardId);
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -638,6 +679,83 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
+	 * search contact
+	 *
+	 * @param int $addressBookId
+	 * @param string $pattern which should match within the $searchProperties
+	 * @param array $searchProperties defines the properties within the query pattern should match
+	 * @return array an array of contacts which are arrays of key-value-pairs
+	 */
+	public function search($addressBookId, $pattern, $searchProperties) {
+		$query = $this->db->getQueryBuilder();
+		$query->selectDistinct('carddata', 'c')
+				->from($this->dbCardsTable, 'c')
+				->leftJoin('c', $this->dbCardsPropertiesTable, 'cp', $query->expr()->eq('cp.cardid', 'c.id'));
+		foreach ($searchProperties as $property) {
+			$query->orWhere(
+					$query->expr()->andX(
+							$query->expr()->eq('cp.name', $query->createNamedParameter($property)),
+							$query->expr()->like('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%'))
+					)
+			);
+		}
+		$query->andWhere($query->expr()->eq('cp.addressbookid', $query->createNamedParameter($addressBookId)));
+		$result =  $query->execute();
+		$cards = $result->fetchAll();
+		$result->closeCursor();
+
+		return array_map(function($array) {return $this->readBlob($array['carddata']);}, $cards);
+
+	}
+
+	/**
+	 * get URI from a given contact
+	 *
+	 * @param int $id
+	 * @return string
+	 */
+	public function getCardUri($id) {
+		$query = $this->db->getQueryBuilder();
+		$query->select('uri')->from($this->dbCardsTable)
+				->where($query->expr()->eq('id', $query->createParameter('id')))
+				->setParameter('id', $id);
+
+		$result = $query->execute();
+		$uri = $result->fetch();
+		$result->closeCursor();
+
+		if (!isset($uri['uri'])) {
+			throw new \InvalidArgumentException('Card does not exists: ' . $id);
+		}
+
+		return $uri['uri'];
+	}
+
+	/**
+	 * return contact with the given URI
+	 *
+	 * @param string $uri
+	 * @returns array
+	 */
+	public function getContact($uri) {
+		$result = [];
+		$query = $this->db->getQueryBuilder();
+		$query->select('*')->from($this->dbCardsTable)
+				->where($query->expr()->eq('uri', $query->createParameter('uri')))
+				->setParameter('uri', $uri);
+		$queryResult = $query->execute();
+		$contact = $queryResult->fetch();
+		$queryResult->closeCursor();
+
+		if (is_array($contact)) {
+			$result = $contact;
+		}
+
+		return $result;
+	}
+
+
+	/**
 	 * @param string $addressBookUri
 	 * @param string $element
 	 */
@@ -733,5 +851,94 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 
 		return $shares;
+	}
+
+	/**
+	 * update properties table
+	 *
+	 * @param int $addressBookId
+	 * @param string $cardUri
+	 * @param string $vCardSerialized
+	 */
+	protected function updateProperties($addressBookId, $cardUri, $vCardSerialized) {
+		$cardId = $this->getCardId($cardUri);
+		$vCard = $this->readCard($vCardSerialized);
+
+		$this->purgeProperties($addressBookId, $cardId);
+
+		$query = $this->db->getQueryBuilder();
+		$query->insert($this->dbCardsPropertiesTable)
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter($addressBookId),
+					'cardid' => $query->createNamedParameter($cardId),
+					'name' => $query->createParameter('name'),
+					'value' => $query->createParameter('value'),
+					'preferred' => $query->createParameter('preferred')
+				]
+			);
+
+		foreach ($vCard->children as $property) {
+			if(!in_array($property->name, self::$indexProperties)) {
+				continue;
+			}
+			$preferred = 0;
+			foreach($property->parameters as $parameter) {
+				if ($parameter->name == 'TYPE' && strtoupper($parameter->getValue()) == 'PREF') {
+					$preferred = 1;
+					break;
+				}
+			}
+			$query->setParameter('name', $property->name);
+			$query->setParameter('value', substr($property->getValue(), 0, 254));
+			$query->setParameter('preferred', $preferred);
+			$query->execute();
+		}
+	}
+
+	/**
+	 * read vCard data into a vCard object
+	 *
+	 * @param string $cardData
+	 * @return VCard
+	 */
+	protected function readCard($cardData) {
+		return  Reader::read($cardData);
+	}
+
+	/**
+	 * delete all properties from a given card
+	 *
+	 * @param int $addressBookId
+	 * @param int $cardId
+	 */
+	protected function purgeProperties($addressBookId, $cardId) {
+		$query = $this->db->getQueryBuilder();
+		$query->delete($this->dbCardsPropertiesTable)
+			->where($query->expr()->eq('cardid', $query->createNamedParameter($cardId)))
+			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
+		$query->execute();
+	}
+
+	/**
+	 * get ID from a given contact
+	 *
+	 * @param string $uri
+	 * @return int
+	 */
+	protected function getCardId($uri) {
+		$query = $this->db->getQueryBuilder();
+		$query->select('id')->from($this->dbCardsTable)
+			->where($query->expr()->eq('uri', $query->createNamedParameter($uri)));
+
+		$result = $query->execute();
+		$cardIds = $result->fetch();
+		$result->closeCursor();
+
+		if (!isset($cardIds['id'])) {
+			throw new \InvalidArgumentException('Card does not exists: ' . $uri);
+		}
+
+		return (int)$cardIds['id'];
 	}
 }
