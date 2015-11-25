@@ -538,6 +538,8 @@ html.ie8 #body-login form input[type="checkbox"] {
 }
 .error a.button {
 	color: #555 !important;
+	display: inline-block;
+	text-align: center;
 }
 .error pre {
 	white-space: pre-wrap;
