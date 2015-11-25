@@ -28,6 +28,13 @@ use Test\TestCase;
 use OC\User\Manager;
 use OCP\Files\IRootFolder;
 
+/**
+ * Class CleanupTest
+ *
+ * @group DB
+ *
+ * @package OCA\Files_Versions\Tests\Command
+ */
 class CleanupTest extends TestCase {
 
 	/** @var  CleanUp */

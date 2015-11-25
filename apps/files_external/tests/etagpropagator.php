@@ -26,6 +26,13 @@ namespace Tests\Files_External;
 use OC\Files\Filesystem;
 use OC\User\User;
 
+/**
+ * Class EtagPropagator
+ *
+ * @group DB
+ *
+ * @package Tests\Files_External
+ */
 class EtagPropagator extends \Test\TestCase {
 	protected function getUser() {
 		return new User($this->getUniqueID(), null);

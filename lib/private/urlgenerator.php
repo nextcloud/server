@@ -62,6 +62,7 @@ class URLGenerator implements IURLGenerator {
 	 * Returns a url to the given route.
 	 */
 	public function linkToRoute($route, $parameters = array()) {
+		// TODO: mock router
 		$urlLinkTo = \OC::$server->getRouter()->generate($route, $parameters);
 		return $urlLinkTo;
 	}

@@ -24,6 +24,13 @@
 
 namespace Test\Files\Storage;
 
+/**
+ * Class OwnCloudFunctions
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class OwnCloudFunctions extends \Test\TestCase {
 
 	function configUrlProvider() {

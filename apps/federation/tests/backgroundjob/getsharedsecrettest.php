@@ -34,6 +34,13 @@ use OCP\Http\Client\IResponse;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 
+/**
+ * Class GetSharedSecretTest
+ *
+ * @group DB
+ *
+ * @package OCA\Federation\Tests\BackgroundJob
+ */
 class GetSharedSecretTest extends TestCase {
 
 	/** @var \PHPUnit_Framework_MockObject_MockObject | IClient */

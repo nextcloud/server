@@ -8,6 +8,8 @@
 
 /**
  * Tests for server check functions
+ *
+ * @group DB
  */
 class Test_Util_CheckServer extends \Test\TestCase {
 

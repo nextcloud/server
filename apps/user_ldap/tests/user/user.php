@@ -25,6 +25,13 @@ namespace OCA\user_ldap\tests;
 
 use OCA\user_ldap\lib\user\User;
 
+/**
+ * Class Test_User_User
+ *
+ * @group DB
+ *
+ * @package OCA\user_ldap\tests
+ */
 class Test_User_User extends \Test\TestCase {
 
 	private function getTestInstances() {
