@@ -240,8 +240,7 @@ body {
 }
 
 #body-login .update h2 {
-	line-height: 130%;
-	margin-bottom: 30px;
+	margin: 12px 0 20px;
 }
 
 #body-login .update a {
@@ -538,6 +537,8 @@ html.ie8 #body-login form input[type="checkbox"] {
 }
 .error a.button {
 	color: #555 !important;
+	display: inline-block;
+	text-align: center;
 }
 .error pre {
 	white-space: pre-wrap;
