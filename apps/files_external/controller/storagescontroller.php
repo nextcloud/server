@@ -241,11 +241,6 @@ abstract class StoragesController extends Controller {
 				\OC_Mount_Config::STATUS_INDETERMINATE,
 				$this->l10n->t('Insufficient data: %s', [$e->getMessage()])
 			);
-		} catch (StorageNotAvailableException $e) {
-			$storage->setStatus(
-				\OC_Mount_Config::STATUS_ERROR,
-				$this->l10n->t('%s', [$e->getMessage()])
-			);
 		} catch (ExtStorageBadConfigException $e) {
 			$storage->setStatus(
 				$e->getCode(),
@@ -264,6 +259,11 @@ abstract class StoragesController extends Controller {
 		} catch (ExtStorageConnectionException $e) {
 			$storage->setStatus(
 				$e->getCode(),
+				$this->l10n->t('%s', [$e->getMessage()])
+			);
+		} catch (StorageNotAvailableException $e) {
+			$storage->setStatus(
+				\OC_Mount_Config::STATUS_ERROR,
 				$this->l10n->t('%s', [$e->getMessage()])
 			);
 		} catch (\Exception $e) {
