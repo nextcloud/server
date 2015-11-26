@@ -1,4 +1,10 @@
-td.status > span {
+#externalStorage td.status {
+	/* overwrite conflicting core styles */
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#externalStorage td.status > span {
 	display: inline-block;
 	height: 16px;
 	width: 16px;
