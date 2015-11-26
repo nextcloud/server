@@ -37,9 +37,9 @@ class ExtStorageBadConfigException extends StorageNotAvailableException {
 	 * @param \Exception $previous
 	 * @since 9.0.0
 	 */
-	public function __construct($message = '', $code, \Exception $previous = null) {
+	public function __construct($message = '', \Exception $previous = null) {
 		$l = \OC::$server->getL10N('core');
-		parent::__construct($message, $l->t('External storage incomplete configuration'), 2, $previous);
+		parent::__construct($l->t('External storage incomplete configuration. %s', $message), self::STATUS_INCOMPLETE_CONF, $previous);
 	}
 
 }
