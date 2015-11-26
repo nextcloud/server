@@ -164,18 +164,6 @@ class Test_Helper extends \Test\TestCase {
 		$this->assertEquals($result, $expected);
 	}
 
-	function testMb_substr_replace() {
-		$result = OC_Helper::mb_substr_replace("This  is a teststring", "string", 5);
-		$expected = "This string is a teststring";
-		$this->assertEquals($result, $expected);
-	}
-
-	function testMb_str_replace() {
-		$result = OC_Helper::mb_str_replace("teststring", "string", "This is a teststring");
-		$expected = "This is a string";
-		$this->assertEquals($result, $expected);
-	}
-
 	function testRecursiveArraySearch() {
 		$haystack = array(
 			"Foo" => "own",
