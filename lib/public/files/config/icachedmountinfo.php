@@ -1,9 +1,8 @@
 <?php
 /**
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -22,28 +21,40 @@
 
 namespace OCP\Files\Config;
 
-use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Node;
 use OCP\IUser;
 
 /**
- * Manages the different mount providers
- * @since 8.0.0
+ * @since 9.0.0
  */
-interface IMountProviderCollection {
+interface ICachedMountInfo {
 	/**
-	 * Get all configured mount points for the user
-	 *
-	 * @param \OCP\IUser $user
-	 * @return \OCP\Files\Mount\IMountPoint[]
-	 * @since 8.0.0
+	 * @return IUser
+	 * @since 9.0.0
 	 */
-	public function getMountsForUser(IUser $user);
+	public function getUser();
 
 	/**
-	 * Add a provider for mount points
-	 *
-	 * @param \OCP\Files\Config\IMountProvider $provider
-	 * @since 8.0.0
+	 * @return int the numeric storage id of the mount
+	 * @since 9.0.0
 	 */
-	public function registerProvider(IMountProvider $provider);
+	public function getStorageId();
+
+	/**
+	 * @return int the fileid of the root of the mount
+	 * @since 9.0.0
+	 */
+	public function getRootId();
+
+	/**
+	 * @return Node the root node of the mount
+	 * @since 9.0.0
+	 */
+	public function getMountPointNode();
+
+	/**
+	 * @return string the mount point of the mount for the user
+	 * @since 9.0.0
+	 */
+	public function getMountPoint();
 }

@@ -47,6 +47,7 @@ use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\NullEventLogger;
 use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\QueryLogger;
+use OC\Files\Config\UserMountCache;
 use OC\Files\Node\HookConnector;
 use OC\Files\Node\Root;
 use OC\Files\View;
@@ -404,9 +405,10 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getL10N('lib', $language)
 			);
 		});
-		$this->registerService('MountConfigManager', function () {
+		$this->registerService('MountConfigManager', function (Server $c) {
 			$loader = \OC\Files\Filesystem::getLoader();
-			return new \OC\Files\Config\MountProviderCollection($loader);
+			$mountCache = new UserMountCache($c->getDatabaseConnection(), $c->getUserManager());
+			return new \OC\Files\Config\MountProviderCollection($loader, $mountCache);
 		});
 		$this->registerService('IniWrapper', function ($c) {
 			return new IniGetWrapper();
