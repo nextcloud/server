@@ -621,6 +621,9 @@ class OC_Util {
 		$webServerRestart = false;
 		$setup = new \OC\Setup($config, \OC::$server->getIniWrapper(), \OC::$server->getL10N('lib'),
 			new \OC_Defaults(), \OC::$server->getLogger(), \OC::$server->getSecureRandom());
+
+		$urlGenerator = \OC::$server->getURLGenerator();
+
 		$availableDatabases = $setup->getSupportedDatabases();
 		if (empty($availableDatabases)) {
 			$errors[] = array(
@@ -649,7 +652,7 @@ class OC_Util {
 				'error' => $l->t('Cannot write into "config" directory'),
 				'hint' => $l->t('This can usually be fixed by '
 					. '%sgiving the webserver write access to the config directory%s.',
-					array('<a href="' . \OC_Helper::linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
+					array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
 			);
 		}
 
@@ -664,7 +667,7 @@ class OC_Util {
 					'hint' => $l->t('This can usually be fixed by '
 						. '%sgiving the webserver write access to the apps directory%s'
 						. ' or disabling the appstore in the config file.',
-						array('<a href="' . \OC_Helper::linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
+						array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
 				);
 			}
 		}
@@ -679,14 +682,14 @@ class OC_Util {
 						'error' => $l->t('Cannot create "data" directory (%s)', array($CONFIG_DATADIRECTORY)),
 						'hint' => $l->t('This can usually be fixed by '
 							. '<a href="%s" target="_blank">giving the webserver write access to the root directory</a>.',
-							array(OC_Helper::linkToDocs('admin-dir_permissions')))
+							array($urlGenerator->linkToDocs('admin-dir_permissions')))
 					);
 				}
 			} else if (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 				//common hint for all file permissions error messages
 				$permissionsHint = $l->t('Permissions can usually be fixed by '
 					. '%sgiving the webserver write access to the root directory%s.',
-					array('<a href="' . \OC_Helper::linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'));
+					array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'));
 				$errors[] = array(
 					'error' => 'Data directory (' . $CONFIG_DATADIRECTORY . ') not writable by ownCloud',
 					'hint' => $permissionsHint

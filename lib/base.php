@@ -246,18 +246,21 @@ class OC {
 		$configFileWritable = is_writable($configFilePath);
 		if (!$configFileWritable && !OC_Helper::isReadOnlyConfigEnabled()
 			|| !$configFileWritable && self::checkUpgrade(false)) {
+
+			$urlGenerator = \OC::$server->getURLGenerator();
+
 			if (self::$CLI) {
 				echo $l->t('Cannot write into "config" directory!')."\n";
 				echo $l->t('This can usually be fixed by giving the webserver write access to the config directory')."\n";
 				echo "\n";
-				echo $l->t('See %s', array(\OC_Helper::linkToDocs('admin-dir_permissions')))."\n";
+				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-dir_permissions') ])."\n";
 				exit;
 			} else {
 				OC_Template::printErrorPage(
 					$l->t('Cannot write into "config" directory!'),
 					$l->t('This can usually be fixed by '
 					. '%sgiving the webserver write access to the config directory%s.',
-					 array('<a href="'.\OC_Helper::linkToDocs('admin-dir_permissions').'" target="_blank">', '</a>'))
+					 array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
 				);
 			}
 		}

@@ -154,7 +154,7 @@ function link_to( $app, $file, $args = array() ) {
  * @return string url to the online documentation
  */
 function link_to_docs($key) {
-	return OC_Helper::linkToDocs($key);
+	return \OC::$server->getURLGenerator()->linkToDocs($key);
 }
 
 /**
