@@ -69,6 +69,11 @@ interface ISystemTagObjectMapper {
 	/**
 	 * Assign the given tags to the given object.
 	 *
+	 * If at least one of the given tag ids doesn't exist, none of the tags
+	 * will be assigned.
+	 *
+	 * If the relationship already existed, fail silently.
+	 *
 	 * @param string $objId object id
 	 * @param string $objectType object type
 	 * @param string|array $tagIds tag id or array of tag ids to assign
@@ -82,6 +87,11 @@ interface ISystemTagObjectMapper {
 
 	/**
 	 * Unassign the given tags from the given object.
+	 *
+	 * If at least one of the given tag ids doesn't exist, none of the tags
+	 * will be unassigned.
+	 *
+	 * If the relationship did not exist in the first place, fail silently.
 	 *
 	 * @param string $objId object id
 	 * @param string $objectType object type
