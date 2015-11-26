@@ -33,6 +33,7 @@ OC.L10N.register(
     "Every time the filesystem is used" : "Ogni volta che il filesystem viene utilizzato",
     "All users. Type to select user or group." : "Tutti gli utenti. Digita per selezionare utente o gruppo.",
     "(group)" : "(gruppo)",
+    "Admin defined" : "Definito dall'amministratore",
     "Saved" : "Salvato",
     "Access key" : "Chiave di accesso",
     "Secret key" : "Chiave segreta",

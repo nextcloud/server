@@ -33,6 +33,7 @@ OC.L10N.register(
     "Every time the filesystem is used" : "Pokaždé když je použit souborový systém",
     "All users. Type to select user or group." : "Všichni uživatelé. Začněte psát pro výběr uživatelů a skupin.",
     "(group)" : "(skupina)",
+    "Admin defined" : "Nastaveno administrátorem",
     "Saved" : "Uloženo",
     "Access key" : "Přístupový klíč",
     "Secret key" : "Tajný klíč",

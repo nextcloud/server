@@ -8,6 +8,7 @@ OC.L10N.register(
     "Select groups" : "Pasirinkti grupes",
     "Do you really want to delete the current Server Configuration?" : "Ar tikrai norite ištrinti dabartinę serverio konfigūraciją?",
     "Confirm Deletion" : "Patvirtinkite trynimą",
+    "Select attributes" : "Pasirink atributus",
     "_%s group found_::_%s groups found_" : ["Rasta %s grupė","Rastos %s grupės","Rastos %s grupės"],
     "_%s user found_::_%s users found_" : ["Rastas %s vartotojas","Rasti %s vartotojai","Rasti %s vartotojai"],
     "Server" : "Serveris",
