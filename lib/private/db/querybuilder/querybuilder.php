@@ -301,6 +301,30 @@ class QueryBuilder implements IQueryBuilder {
 	}
 
 	/**
+	 * Specifies an item that is to be returned with a different name in the query result.
+	 *
+	 * <code>
+	 *     $qb = $conn->getQueryBuilder()
+	 *         ->selectAlias('u.id', 'user_id')
+	 *         ->from('users', 'u')
+	 *         ->leftJoin('u', 'phonenumbers', 'p', 'u.id = p.user_id');
+	 * </code>
+	 *
+	 * @param mixed $select The selection expressions.
+	 * @param string $alias The column alias used in the constructed query.
+	 *
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
+	 */
+	public function selectAlias($select, $alias) {
+
+		$this->queryBuilder->addSelect(
+			$this->helper->quoteColumnName($select) . ' AS ' . $this->helper->quoteColumnName($alias)
+		);
+
+		return $this;
+	}
+
+	/**
 	 * Adds an item that is to be returned in the query result.
 	 *
 	 * <code>
