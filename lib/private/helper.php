@@ -402,18 +402,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * get the mimetype form a local file
-	 *
-	 * @param string $path
-	 * @return string
-	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
-	 * @deprecated 8.2.0 Use \OC::$server->getMimeTypeDetector()->detect($path)
-	 */
-	static function getMimeType($path) {
-		return \OC::$server->getMimeTypeDetector()->detect($path);
-	}
-
-	/**
 	 * Get a secure mimetype that won't expose potential XSS.
 	 *
 	 * @param string $mimeType
