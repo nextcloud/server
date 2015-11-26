@@ -370,7 +370,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$stat['size'] = filesize($tmpFile);
 		$stat['mtime'] = $mTime;
 		$stat['storage_mtime'] = $mTime;
-		$stat['mimetype'] = \OC_Helper::getMimeType($tmpFile);
+		$stat['mimetype'] = \OC::$server->getMimeTypeDetector()->detect($tmpFile);
 		$stat['etag'] = $this->getETag($path);
 
 		$fileId = $this->getCache()->put($path, $stat);
