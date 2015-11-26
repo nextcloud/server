@@ -306,4 +306,14 @@ class User implements IUser {
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled);
 		}
 	}
+
+	/**
+	 * get the users email address
+	 *
+	 * @return string|null
+	 * @since 9.0.0
+	 */
+	public function getEMailAddress() {
+		return $this->config->getUserValue($this->uid, 'settings', 'email');
+	}
 }

@@ -30,9 +30,11 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IConfig;
 use \Sabre\DAV\PropPatch;
+use Sabre\HTTP\URLUtil;
 
 class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 	/** @var IConfig */
@@ -66,20 +68,9 @@ class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 	public function getPrincipalsByPrefix($prefixPath) {
 		$principals = [];
 
-		if ($prefixPath === 'principals') {
+		if ($prefixPath === 'principals/users') {
 			foreach($this->userManager->search('') as $user) {
-
-				$principal = [
-					'uri' => 'principals/' . $user->getUID(),
-					'{DAV:}displayname' => $user->getUID(),
-				];
-
-				$email = $this->config->getUserValue($user->getUID(), 'settings', 'email');
-				if(!empty($email)) {
-					$principal['{http://sabredav.org/ns}email-address'] = $email;
-				}
-
-				$principals[] = $principal;
+				$principals[] = $this->userToPrincipal($user);
 			}
 		}
 
@@ -95,21 +86,18 @@ class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
-		list($prefix, $name) = explode('/', $path);
+		$elements = explode('/', $path);
+		if ($elements[0] !== 'principals') {
+			return null;
+		}
+		if ($elements[1] !== 'users') {
+			return null;
+		}
+		$name = $elements[2];
 		$user = $this->userManager->get($name);
 
-		if ($prefix === 'principals' && !is_null($user)) {
-			$principal = [
-				'uri' => 'principals/' . $user->getUID(),
-				'{DAV:}displayname' => $user->getUID(),
-			];
-
-			$email = $this->config->getUserValue($user->getUID(), 'settings', 'email');
-			if($email) {
-				$principal['{http://sabredav.org/ns}email-address'] = $email;
-			}
-
-			return $principal;
+		if (!is_null($user)) {
+			return $this->userToPrincipal($user);
 		}
 
 		return null;
@@ -140,10 +128,10 @@ class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 	 * @throws \Sabre\DAV\Exception
 	 */
 	public function getGroupMembership($principal) {
-		list($prefix, $name) = \Sabre\HTTP\URLUtil::splitPath($principal);
+		list($prefix, $name) = URLUtil::splitPath($principal);
 
 		$group_membership = array();
-		if ($prefix === 'principals') {
+		if ($prefix === 'principals/users') {
 			$principal = $this->getPrincipalByPath($principal);
 			if (!$principal) {
 				throw new \Sabre\DAV\Exception('Principal not found');
@@ -151,8 +139,8 @@ class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 
 			// TODO: for now the user principal has only its own groups
 			return array(
-				'principals/'.$name.'/calendar-proxy-read',
-				'principals/'.$name.'/calendar-proxy-write',
+				'principals/users/'.$name.'/calendar-proxy-read',
+				'principals/users/'.$name.'/calendar-proxy-write',
 				// The addressbook groups are not supported in Sabre,
 				// see http://groups.google.com/group/sabredav-discuss/browse_thread/thread/ef2fa9759d55f8c#msg_5720afc11602e753
 				//'principals/'.$name.'/addressbook-proxy-read',
@@ -201,5 +189,25 @@ class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 	 */
 	function findByUri($uri, $principalPrefix) {
 		return '';
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return array
+	 */
+	protected function userToPrincipal($user) {
+		$userId = $user->getUID();
+		$displayName = $user->getDisplayName();
+		$principal = [
+				'uri' => "principals/users/$userId",
+				'{DAV:}displayname' => is_null($displayName) ? $userId : $displayName,
+		];
+
+		$email = $user->getEMailAddress();
+		if (!empty($email)) {
+			$principal['{http://sabredav.org/ns}email-address'] = $email;
+			return $principal;
+		}
+		return $principal;
 	}
 }

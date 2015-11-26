@@ -54,6 +54,7 @@ class Auth extends AbstractBasic {
 								IUserSession $userSession) {
 		$this->session = $session;
 		$this->userSession = $userSession;
+		$this->principalPrefix = 'principals/users/';
 	}
 
 	/**
