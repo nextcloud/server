@@ -353,6 +353,16 @@ Feature: sharing
     Then the OCS status code should be "404"
     And the HTTP status code should be "200"
 
+  Scenario: Get a share with a user which didn't received the share 
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And file "textfile0.txt" from user "user0" is shared with user "user1"
+    And As an "user2"
+    When Getting info of last share 
+    Then the OCS status code should be "404" 
+    And the HTTP status code should be "200"
+
   Scenario: Delete all group shares
     Given As an "admin"
     And user "user0" exists
