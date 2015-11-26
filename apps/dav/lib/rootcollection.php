@@ -6,6 +6,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\SystemPrincipalBackend;
 use Sabre\CalDAV\CalendarRoot;
 use Sabre\CalDAV\Principal\Collection;
 use Sabre\DAV\SimpleCollection;
@@ -23,8 +24,10 @@ class RootCollection extends SimpleCollection {
 		$disableListing = !$config->getSystemValue('debug', false);
 
 		// setup the first level of the dav tree
-		$principalCollection = new Collection($principalBackend, 'principals/users');
-		$principalCollection->disableListing = $disableListing;
+		$userPrincipals = new Collection($principalBackend, 'principals/users');
+		$userPrincipals->disableListing = $disableListing;
+		$systemPrincipals = new Collection(new SystemPrincipalBackend(), 'principals/system');
+		$systemPrincipals->disableListing = $disableListing;
 		$filesCollection = new Files\RootCollection($principalBackend, 'principals/users');
 		$filesCollection->disableListing = $disableListing;
 		$caldavBackend = new CalDavBackend($db);
@@ -37,7 +40,9 @@ class RootCollection extends SimpleCollection {
 		$addressBookRoot->disableListing = $disableListing;
 
 		$children = [
-				new SimpleCollection('principals', [$principalCollection]),
+				new SimpleCollection('principals', [
+						$userPrincipals,
+						$systemPrincipals]),
 				$filesCollection,
 				$calendarRoot,
 				$addressBookRoot,

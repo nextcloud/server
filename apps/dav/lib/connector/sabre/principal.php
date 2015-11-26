@@ -74,11 +74,6 @@ class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 			}
 		}
 
-		$principals[] = [
-				'uri' => 'principals/system',
-				'{DAV:}displayname' => 'system',
-		];
-
 		return $principals;
 	}
 
@@ -94,13 +89,6 @@ class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 		$elements = explode('/', $path);
 		if ($elements[0] !== 'principals') {
 			return null;
-		}
-		if ($elements[1] === 'system') {
-			$principal = [
-					'uri' => 'principals/system',
-					'{DAV:}displayname' => 'system',
-			];
-			return $principal;
 		}
 		if ($elements[1] !== 'users') {
 			return null;
