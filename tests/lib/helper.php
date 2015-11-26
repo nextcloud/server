@@ -71,29 +71,6 @@ class Test_Helper extends \Test\TestCase {
 		];
 	}
 
-	function testGetMimeType() {
-		$dir=OC::$SERVERROOT.'/tests/data';
-		$result = OC_Helper::getMimeType($dir."/");
-		$expected = 'httpd/unix-directory';
-		$this->assertEquals($result, $expected);
-
-		$result = OC_Helper::getMimeType($dir."/data.tar.gz");
-		$expected = 'application/x-gzip';
-		$this->assertEquals($result, $expected);
-
-		$result = OC_Helper::getMimeType($dir."/data.zip");
-		$expected = 'application/zip';
-		$this->assertEquals($result, $expected);
-
-		$result = OC_Helper::getMimeType($dir."/desktopapp.svg");
-		$expected = 'image/svg+xml';
-		$this->assertEquals($result, $expected);
-
-		$result = OC_Helper::getMimeType($dir."/desktopapp.png");
-		$expected = 'image/png';
-		$this->assertEquals($result, $expected);
-	}
-
 	function testGetSecureMimeType() {
 		$dir=OC::$SERVERROOT.'/tests/data';
 
