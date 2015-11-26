@@ -46,6 +46,7 @@ namespace OC\Files;
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Cache\Updater;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\Storage\Storage;
 use OC\User\User;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
@@ -76,15 +77,14 @@ class View {
 	/** @var string */
 	private $fakeRoot = '';
 
-	/** @var \OC\Files\Cache\Updater */
-	protected $updater;
-
 	/**
 	 * @var \OCP\Lock\ILockingProvider
 	 */
 	private $lockingProvider;
 
 	private $lockingEnabled;
+
+	private $updaterEnabled = true;
 
 	/**
 	 * @param string $root
@@ -99,7 +99,6 @@ class View {
 		}
 
 		$this->fakeRoot = $root;
-		$this->updater = new Updater($this);
 		$this->lockingProvider = \OC::$server->getLockingProvider();
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 	}
@@ -283,6 +282,35 @@ class View {
 			// because for some storages it might delete the whole contents
 			// but isn't supposed to work that way
 			return false;
+		}
+	}
+
+	public function disableCacheUpdate() {
+		$this->updaterEnabled = false;
+	}
+
+	public function enableCacheUpdate() {
+		$this->updaterEnabled = true;
+	}
+
+	protected function writeUpdate(Storage $storage, $internalPath, $time = null) {
+		if ($this->updaterEnabled) {
+			if (is_null($time)) {
+				$time = time();
+			}
+			$storage->getUpdater()->update($internalPath, $time);
+		}
+	}
+
+	protected function removeUpdate(Storage $storage, $internalPath) {
+		if ($this->updaterEnabled) {
+			$storage->getUpdater()->remove($internalPath);
+		}
+	}
+
+	protected function renameUpdate(Storage $sourceStorage, Storage $targetStorage, $sourceInternalPath, $targetInternalPath) {
+		if ($this->updaterEnabled) {
+			$targetStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
 	}
 
@@ -569,7 +597,7 @@ class View {
 					fclose($target);
 					fclose($data);
 
-					$this->updater->update($path);
+					$this->writeUpdate($storage, $internalPath);
 
 					$this->changeLock($path, ILockingProvider::LOCK_SHARED);
 
@@ -703,10 +731,11 @@ class View {
 
 				if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
-					$this->updater->update($path2);
+
+					$this->writeUpdate($storage2, $internalPath2);
 				} else if ($result) {
 					if ($internalPath1 !== '') { // dont do a cache update for moved mounts
-						$this->updater->rename($path1, $path2);
+						$this->renameUpdate($storage1, $storage2, $internalPath1, $internalPath2);
 					}
 				}
 
@@ -803,7 +832,7 @@ class View {
 						$result = $storage2->copyFromStorage($storage1, $internalPath1, $internalPath2);
 					}
 
-					$this->updater->update($path2);
+					$this->writeUpdate($storage2, $internalPath2);
 
 					$this->changeLock($path2, ILockingProvider::LOCK_SHARED);
 					$lockTypePath2 = ILockingProvider::LOCK_SHARED;
@@ -1013,6 +1042,7 @@ class View {
 			}
 
 			$run = $this->runHooks($hooks, $path);
+			/** @var \OC\Files\Storage\Storage $storage */
 			list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($run and $storage) {
 				if (in_array('write', $hooks) || in_array('delete', $hooks)) {
@@ -1034,13 +1064,13 @@ class View {
 				}
 
 				if (in_array('delete', $hooks) and $result) {
-					$this->updater->remove($path);
+					$this->removeUpdate($storage, $internalPath);
 				}
 				if (in_array('write', $hooks) and $operation !== 'fopen') {
-					$this->updater->update($path);
+					$this->writeUpdate($storage, $internalPath);
 				}
 				if (in_array('touch', $hooks)) {
-					$this->updater->update($path, $extraParam);
+					$this->writeUpdate($storage, $internalPath, $extraParam);
 				}
 
 				if ((in_array('write', $hooks) || in_array('delete', $hooks)) && ($operation !== 'fopen' || $result === false)) {
@@ -1205,7 +1235,7 @@ class View {
 			} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
 				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
 				$watcher->update($internalPath, $data);
-				$this->updater->propagate($relativePath);
+				$storage->getPropagator()->propagateChange($internalPath, time());
 				$data = $cache->get($internalPath);
 				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 			}
@@ -1242,7 +1272,7 @@ class View {
 		if ($storage) {
 			$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
 
-			if(!is_array($data)) {
+			if (!is_array($data)) {
 				return false;
 			}
 
@@ -1689,13 +1719,6 @@ class View {
 			$mount,
 			$owner
 		);
-	}
-
-	/**
-	 * @return Updater
-	 */
-	public function getUpdater() {
-		return $this->updater;
 	}
 
 	/**

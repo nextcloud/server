@@ -235,7 +235,7 @@ class Trashbin {
 			return false;
 		}
 
-		$ownerView->getUpdater()->rename('/files/' . $ownerPath, $trashPath);
+		$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 
 		if ($sizeOfAddedFiles !== false) {
 			$size = $sizeOfAddedFiles;
@@ -323,7 +323,7 @@ class Trashbin {
 
 		$result = $targetStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		if ($result) {
-			$view->getUpdater()->rename($source, $target);
+			$targetStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
 		return $result;
 	}
@@ -345,7 +345,7 @@ class Trashbin {
 
 		$result = $targetStorage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		if ($result) {
-			$view->getUpdater()->update($target);
+			$targetStorage->getUpdater()->update($targetInternalPath);
 		}
 		return $result;
 	}

@@ -29,8 +29,6 @@ namespace OC\Files\Cache;
 /**
  * Update the cache and propagate changes
  *
- * Unlike most other classes an Updater is not related to a specific storage but handles updates for all storages in a users filesystem.
- * This is needed because the propagation of mtime and etags need to cross storage boundaries
  */
 class Updater {
 	/**
@@ -39,21 +37,33 @@ class Updater {
 	protected $enabled = true;
 
 	/**
-	 * @var \OC\Files\View
+	 * @var \OC\Files\Storage\Storage
 	 */
-	protected $view;
+	protected $storage;
 
 	/**
-	 * @var \OC\Files\Cache\ChangePropagator
+	 * @var \OC\Files\Cache\Propagator
 	 */
 	protected $propagator;
 
 	/**
-	 * @param \OC\Files\View $view the view the updater works on, usually the view of the logged in user
+	 * @var Scanner
 	 */
-	public function __construct($view) {
-		$this->view = $view;
-		$this->propagator = new ChangePropagator($view);
+	protected $scanner;
+
+	/**
+	 * @var Cache
+	 */
+	protected $cache;
+
+	/**
+	 * @param \OC\Files\Storage\Storage $storage
+	 */
+	public function __construct(\OC\Files\Storage\Storage $storage) {
+		$this->storage = $storage;
+		$this->propagator = $storage->getPropagator();
+		$this->scanner = $storage->getScanner();
+		$this->cache = $storage->getCache();
 	}
 
 	/**
@@ -73,7 +83,7 @@ class Updater {
 	/**
 	 * Get the propagator for etags and mtime for the view the updater works on
 	 *
-	 * @return ChangePropagator
+	 * @return Propagator
 	 */
 	public function getPropagator() {
 		return $this->propagator;
@@ -89,8 +99,7 @@ class Updater {
 		if (Scanner::isPartialFile($path)) {
 			return;
 		}
-		$this->propagator->addChange($path);
-		$this->propagator->propagateChanges($time);
+		$this->propagator->propagateChange($path, $time);
 	}
 
 	/**
@@ -103,20 +112,14 @@ class Updater {
 		if (!$this->enabled or Scanner::isPartialFile($path)) {
 			return;
 		}
-		/**
-		 * @var \OC\Files\Storage\Storage $storage
-		 * @var string $internalPath
-		 */
-		list($storage, $internalPath) = $this->view->resolvePath($path);
-		if ($storage) {
-			$this->propagator->addChange($path);
-			$cache = $storage->getCache($internalPath);
-			$scanner = $storage->getScanner($internalPath);
-			$data = $scanner->scan($internalPath, Scanner::SCAN_SHALLOW, -1, false);
-			$this->correctParentStorageMtime($storage, $internalPath);
-			$cache->correctFolderSize($internalPath, $data);
-			$this->propagator->propagateChanges($time);
+		if (is_null($time)) {
+			$time = time();
 		}
+
+		$data = $this->scanner->scan($path, Scanner::SCAN_SHALLOW, -1, false);
+		$this->correctParentStorageMtime($path);
+		$this->cache->correctFolderSize($path, $data);
+		$this->propagator->propagateChange($path, $time);
 	}
 
 	/**
@@ -128,87 +131,71 @@ class Updater {
 		if (!$this->enabled or Scanner::isPartialFile($path)) {
 			return;
 		}
-		/**
-		 * @var \OC\Files\Storage\Storage $storage
-		 * @var string $internalPath
-		 */
-		list($storage, $internalPath) = $this->view->resolvePath($path);
-		if ($storage) {
-			$parent = dirname($internalPath);
-			if ($parent === '.') {
-				$parent = '';
-			}
-			$this->propagator->addChange($path);
-			$cache = $storage->getCache($internalPath);
-			$cache->remove($internalPath);
-			$cache->correctFolderSize($parent);
-			$this->correctParentStorageMtime($storage, $internalPath);
-			$this->propagator->propagateChanges();
+
+		$parent = dirname($path);
+		if ($parent === '.') {
+			$parent = '';
 		}
+
+		$this->cache->remove($path);
+		$this->cache->correctFolderSize($parent);
+		$this->correctParentStorageMtime($path);
+		$this->propagator->propagateChange($path, time());
 	}
 
 	/**
 	 * Rename a file or folder in the cache and update the size, etag and mtime of the parent folders
 	 *
+	 * @param \OC\Files\Storage\Storage $sourceStorage
 	 * @param string $source
 	 * @param string $target
 	 */
-	public function rename($source, $target) {
+	public function renameFromStorage(\OC\Files\Storage\Storage $sourceStorage, $source, $target) {
 		if (!$this->enabled or Scanner::isPartialFile($source) or Scanner::isPartialFile($target)) {
 			return;
 		}
-		/**
-		 * @var \OC\Files\Storage\Storage $sourceStorage
-		 * @var \OC\Files\Storage\Storage $targetStorage
-		 * @var string $sourceInternalPath
-		 * @var string $targetInternalPath
-		 */
-		list($sourceStorage, $sourceInternalPath) = $this->view->resolvePath($source);
-		// if it's a moved mountpoint we dont need to do anything
-		if ($sourceInternalPath === '') {
-			return;
-		}
-		list($targetStorage, $targetInternalPath) = $this->view->resolvePath($target);
 
-		if ($sourceStorage && $targetStorage) {
-			$targetCache = $targetStorage->getCache($sourceInternalPath);
-			if ($sourceStorage->getCache($sourceInternalPath)->inCache($sourceInternalPath)) {
-				if ($targetCache->inCache($targetInternalPath)) {
-					$targetCache->remove($targetInternalPath);
-				}
-				if ($sourceStorage === $targetStorage) {
-					$targetCache->move($sourceInternalPath, $targetInternalPath);
-				} else {
-					$targetCache->moveFromCache($sourceStorage->getCache(), $sourceInternalPath, $targetInternalPath);
-				}
+		$time = time();
+
+		$sourceCache = $sourceStorage->getCache($source);
+		$sourceUpdater = $sourceStorage->getUpdater();
+		$sourcePropagator = $sourceStorage->getPropagator();
+
+		if ($sourceCache->inCache($source)) {
+			if ($this->cache->inCache($target)) {
+				$this->cache->remove($target);
 			}
 
-			if (pathinfo($sourceInternalPath, PATHINFO_EXTENSION) !== pathinfo($targetInternalPath, PATHINFO_EXTENSION)) {
-				// handle mime type change
-				$mimeType = $targetStorage->getMimeType($targetInternalPath);
-				$fileId = $targetCache->getId($targetInternalPath);
-				$targetCache->update($fileId, array('mimetype' => $mimeType));
+			if ($sourceStorage === $this->storage) {
+				$this->cache->move($source, $target);
+			} else {
+				$this->cache->moveFromCache($sourceCache, $source, $target);
 			}
-
-			$targetCache->correctFolderSize($sourceInternalPath);
-			$targetCache->correctFolderSize($targetInternalPath);
-			$this->correctParentStorageMtime($sourceStorage, $sourceInternalPath);
-			$this->correctParentStorageMtime($targetStorage, $targetInternalPath);
-			$this->updateStorageMTimeOnly($targetStorage, $targetInternalPath);
-			$this->propagator->addChange($source);
-			$this->propagator->addChange($target);
-			$this->propagator->propagateChanges();
 		}
+
+		if (pathinfo($source, PATHINFO_EXTENSION) !== pathinfo($target, PATHINFO_EXTENSION)) {
+			// handle mime type change
+			$mimeType = $this->storage->getMimeType($target);
+			$fileId = $this->cache->getId($target);
+			$this->cache->update($fileId, ['mimetype' => $mimeType]);
+		}
+
+		$sourceCache->correctFolderSize($source);
+		$this->cache->correctFolderSize($target);
+		$sourceUpdater->correctParentStorageMtime($source);
+		$this->correctParentStorageMtime($target);
+		$this->updateStorageMTimeOnly($target);
+		$sourcePropagator->propagateChange($source, $time);
+		$this->propagator->propagateChange($target, $time);
 	}
 
-	private function updateStorageMTimeOnly($storage, $internalPath) {
-		$cache = $storage->getCache();
-		$fileId = $cache->getId($internalPath);
+	private function updateStorageMTimeOnly($internalPath) {
+		$fileId = $this->cache->getId($internalPath);
 		if ($fileId !== -1) {
-			$cache->update(
+			$this->cache->update(
 				$fileId, [
 					'mtime' => null, // this magic tells it to not overwrite mtime
-					'storage_mtime' => $storage->filemtime($internalPath)
+					'storage_mtime' => $this->storage->filemtime($internalPath)
 				]
 			);
 		}
@@ -217,20 +204,13 @@ class Updater {
 	/**
 	 * update the storage_mtime of the direct parent in the cache to the mtime from the storage
 	 *
-	 * @param \OC\Files\Storage\Storage $storage
 	 * @param string $internalPath
 	 */
-	private function correctParentStorageMtime($storage, $internalPath) {
-		$cache = $storage->getCache();
-		$parentId = $cache->getParentId($internalPath);
+	public function correctParentStorageMtime($internalPath) {
+		$parentId = $this->cache->getParentId($internalPath);
 		$parent = dirname($internalPath);
 		if ($parentId != -1) {
-			$cache->update($parentId, array('storage_mtime' => $storage->filemtime($parent)));
+			$this->cache->update($parentId, array('storage_mtime' => $this->storage->filemtime($parent)));
 		}
-	}
-
-	public function __destruct() {
-		// propagate any leftover changes
-		$this->propagator->propagateChanges();
 	}
 }
