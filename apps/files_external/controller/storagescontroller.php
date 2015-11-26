@@ -38,6 +38,7 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCP\Files\StorageNotAvailableException;
 use \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use \OCA\Files_External\Service\BackendService;
+use \OCP\Files\StorageNotAvailableException;
 
 /**
  * Base class for storages controllers
@@ -238,7 +239,7 @@ abstract class StoragesController extends Controller {
 			);
 		} catch (InsufficientDataForMeaningfulAnswerException $e) {
 			$storage->setStatus(
-				\OC_Mount_Config::STATUS_INDETERMINATE,
+				StorageNotAvailableException::STATUS_INDETERMINATE,
 				$this->l10n->t('Insufficient data: %s', [$e->getMessage()])
 			);
 		} catch (StorageNotAvailableException $e) {
@@ -249,7 +250,7 @@ abstract class StoragesController extends Controller {
 		} catch (\Exception $e) {
 			// FIXME: convert storage exceptions to StorageNotAvailableException
 			$storage->setStatus(
-				\OC_Mount_Config::STATUS_ERROR,
+				StorageNotAvailableException::STATUS_ERROR,
 				get_class($e).': '.$e->getMessage()
 			);
 		}

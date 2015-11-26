@@ -37,6 +37,9 @@ use OC\HintException;
  */
 class StorageNotAvailableException extends HintException {
 
+	const STATUS_SUCCESS = 0;
+	const STATUS_ERROR = 1;
+	const STATUS_INDETERMINATE = 2;
 	const STATUS_INCOMPLETE_CONF = 3;
 	const STATUS_UNAUTHORIZED = 4;
 	const STATUS_TIMEOUT = 5;

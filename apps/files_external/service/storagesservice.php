@@ -31,6 +31,7 @@ use \OCA\Files_external\NotFoundException;
 use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
+use \OCP\Files\StorageNotAvailableException;
 
 /**
  * Service class to manage external storages
@@ -411,7 +412,7 @@ abstract class StoragesService {
 
 		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 
-		$newStorage->setStatus(\OC_Mount_Config::STATUS_SUCCESS);
+		$newStorage->setStatus(StorageNotAvailableException::STATUS_SUCCESS);
 		return $newStorage;
 	}
 
