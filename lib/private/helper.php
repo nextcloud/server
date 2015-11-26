@@ -645,37 +645,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
-	 *
-	 * @param string $string
-	 * @param string $replacement The replacement string.
-	 * @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
-	 * @param int $length Length of the part to be replaced
-	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	 * @return string
-	 * @deprecated 8.2.0 Use substr_replace() instead.
-	 */
-	public static function mb_substr_replace($string, $replacement, $start, $length = 0, $encoding = 'UTF-8') {
-		return substr_replace($string, $replacement, $start, $length);
-	}
-
-	/**
-	 * Replace all occurrences of the search string with the replacement string
-	 *
-	 * @param string $search The value being searched for, otherwise known as the needle.
-	 * @param string $replace The replacement
-	 * @param string $subject The string or array being searched and replaced on, otherwise known as the haystack.
-	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	 * @param int $count If passed, this will be set to the number of replacements performed.
-	 * @return string
-	 * @deprecated 8.2.0 Use str_replace() instead.
-	 *
-	 */
-	public static function mb_str_replace($search, $replace, $subject, $encoding = 'UTF-8', &$count = null) {
-		return str_replace($search, $replace, $subject, $count);
-	}
-
-	/**
 	 * performs a search in a nested array
 	 * @param array $haystack the array to be searched
 	 * @param string $needle the search string
