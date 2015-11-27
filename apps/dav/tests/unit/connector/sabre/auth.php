@@ -309,11 +309,41 @@ class Auth extends TestCase {
 		$httpResponse = $this->getMockBuilder('\Sabre\HTTP\ResponseInterface')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->userSession
+			->expects($this->any())
+			->method('isLoggedIn')
+			->will($this->returnValue(false));
 		$httpRequest
 			->expects($this->once())
 			->method('getHeader')
 			->with('X-Requested-With')
 			->will($this->returnValue('XMLHttpRequest'));
+		$this->auth->check($httpRequest, $httpResponse);
+	}
+
+	public function testAuthenticateNoBasicAuthenticateHeadersProvidedWithAjaxButUserIsStillLoggedIn() {
+		/** @var \Sabre\HTTP\RequestInterface $httpRequest */
+		$httpRequest = $this->getMockBuilder('\Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		/** @var \Sabre\HTTP\ResponseInterface $httpResponse */
+		$httpResponse = $this->getMockBuilder('\Sabre\HTTP\ResponseInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession
+			->expects($this->any())
+			->method('isLoggedIn')
+			->will($this->returnValue(true));
+		$this->session
+			->expects($this->once())
+			->method('get')
+			->with('AUTHENTICATED_TO_DAV_BACKEND')
+			->will($this->returnValue('MyTestUser'));
+		$httpRequest
+			->expects($this->once())
+			->method('getHeader')
+			->with('Authorization')
+			->will($this->returnValue(null));
 		$this->auth->check($httpRequest, $httpResponse);
 	}
 
