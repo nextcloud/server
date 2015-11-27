@@ -70,7 +70,7 @@ class Scanner extends \Test\TestCase {
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection());
+		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
 		$scanner->addMount($mount);
 
 		$scanner->scan('');
@@ -92,7 +92,7 @@ class Scanner extends \Test\TestCase {
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection());
+		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
 		$scanner->addMount($mount);
 
 		$scanner->scan('');
@@ -130,7 +130,7 @@ class Scanner extends \Test\TestCase {
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new \OC\Files\Utils\Scanner($uid, \OC::$server->getDatabaseConnection());
+		$scanner = new \OC\Files\Utils\Scanner($uid, \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
 
 		$this->assertFalse($cache->inCache('folder/bar.txt'));
 		$scanner->scan('/' . $uid . '/files/foo');
@@ -152,7 +152,7 @@ class Scanner extends \Test\TestCase {
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection());
+		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
 		$originalPropagator = $scanner->getPropagator();
 		$scanner->setPropagator($propagator);
 		$scanner->addMount($mount);
@@ -214,7 +214,7 @@ class Scanner extends \Test\TestCase {
 	 * @param string $invalidPath
 	 */
 	public function testInvalidPathScanning($invalidPath) {
-		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection());
+		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
 		$scanner->scan($invalidPath);
 	}
 }
