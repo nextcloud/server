@@ -26,7 +26,7 @@ use Test\TestCase;
 
 class ExpireTest extends TestCase {
 	public function testExpireNonExistingUser() {
-		$command = new Expire('test', 0);
+		$command = new Expire('test');
 		$command->handle();
 
 		$this->assertTrue(true);
