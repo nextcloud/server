@@ -648,6 +648,26 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('http', $request->getServerProtocol());
 	}
 
+	public function testGetServerProtocolWithHttpsServerValueEmpty() {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('overwriteprotocol')
+			->will($this->returnValue(''));
+
+		$request = new Request(
+			[
+				'server' => [
+					'HTTPS' => ''
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->stream
+		);
+		$this->assertSame('http', $request->getServerProtocol());
+	}
+
 	public function testGetServerProtocolDefault() {
 		$this->config
 			->expects($this->once())
