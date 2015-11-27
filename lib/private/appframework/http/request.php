@@ -541,7 +541,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		if (isset($this->server['HTTPS'])
 			&& $this->server['HTTPS'] !== null
-			&& $this->server['HTTPS'] !== 'off') {
+			&& $this->server['HTTPS'] !== 'off'
+			&& $this->server['HTTPS'] !== '') {
 			return 'https';
 		}
 
