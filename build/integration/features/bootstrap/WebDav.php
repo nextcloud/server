@@ -78,7 +78,8 @@ trait WebDav{
 		$client = new SClient($settings);
 
 		$response = $client->propfind($this->davPath . "/", array(
-			'{DAV:}displayname',
+			'{DAV:}getetag',
+			1
 		));
 
 		print_r($response);
