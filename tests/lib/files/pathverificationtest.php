@@ -10,6 +10,13 @@ namespace Test\Files;
 use OC\Files\Storage\Local;
 use OC\Files\View;
 
+/**
+ * Class PathVerification
+ *
+ * @group DB
+ *
+ * @package Test\Files
+ */
 class PathVerification extends \Test\TestCase {
 
 	/**
