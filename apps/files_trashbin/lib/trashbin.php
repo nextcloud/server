@@ -186,7 +186,6 @@ class Trashbin {
 		// get the user for which the filesystem is setup
 		$root = Filesystem::getRoot();
 		list(, $user) = explode('/', $root);
-		$size = 0;
 		list($owner, $ownerPath) = self::getUidAndFilename($file_path);
 
 		$ownerView = new \OC\Files\View('/' . $owner);
@@ -206,8 +205,6 @@ class Trashbin {
 		$filename = $path_parts['basename'];
 		$location = $path_parts['dirname'];
 		$timestamp = time();
-
-		$userTrashSize = self::getTrashbinSize($user);
 
 		// disable proxy to prevent recursive calls
 		$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
@@ -238,7 +235,6 @@ class Trashbin {
 		$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 
 		if ($sizeOfAddedFiles !== false) {
-			$size = $sizeOfAddedFiles;
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
 			$result = $query->execute(array($filename, $timestamp, $location, $owner));
 			if (!$result) {
@@ -247,7 +243,7 @@ class Trashbin {
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', array('filePath' => \OC\Files\Filesystem::normalizePath($file_path),
 				'trashPath' => \OC\Files\Filesystem::normalizePath($filename . '.d' . $timestamp)));
 
-			$size += self::retainVersions($filename, $owner, $ownerPath, $timestamp);
+			self::retainVersions($filename, $owner, $ownerPath, $timestamp);
 
 			// if owner !== user we need to also add a copy to the owners trash
 			if ($user !== $owner) {
@@ -255,14 +251,11 @@ class Trashbin {
 			}
 		}
 
-		$userTrashSize += $size;
-		self::scheduleExpire($userTrashSize, $user);
+		self::scheduleExpire($user);
 
 		// if owner !== user we also need to update the owners trash size
 		if ($owner !== $user) {
-			$ownerTrashSize = self::getTrashbinSize($owner);
-			$ownerTrashSize += $size;
-			self::scheduleExpire($ownerTrashSize, $owner);
+			self::scheduleExpire($owner);
 		}
 
 		return ($sizeOfAddedFiles === false) ? false : true;
@@ -628,17 +621,17 @@ class Trashbin {
 		$freeSpace = self::calculateFreeSpace($size, $user);
 
 		if ($freeSpace < 0) {
-			self::scheduleExpire($size, $user);
+			self::scheduleExpire($user);
 		}
 	}
 
 	/**
 	 * clean up the trash bin
 	 *
-	 * @param int $trashBinSize current size of the trash bin
 	 * @param string $user
 	 */
-	public static function expire($trashBinSize, $user) {
+	public static function expire($user) {
+		$trashBinSize = self::getTrashbinSize($user);
 		$availableSpace = self::calculateFreeSpace($trashBinSize, $user);
 		$size = 0;
 
@@ -654,15 +647,15 @@ class Trashbin {
 		$size += self::deleteFiles(array_slice($dirContent, $count), $user, $availableSpace);
 	}
 
-	/**@param int $trashBinSize current size of the trash bin
+	/**
 	 * @param string $user
 	 */
-	private static function scheduleExpire($trashBinSize, $user) {
+	private static function scheduleExpire($user) {
 		// let the admin disable auto expire
 		$application = new Application();
 		$expiration = $application->getContainer()->query('Expiration');
 		if ($expiration->isEnabled()) {
-			\OC::$server->getCommandBus()->push(new Expire($user, $trashBinSize));
+			\OC::$server->getCommandBus()->push(new Expire($user));
 		}
 	}
 
