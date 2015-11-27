@@ -58,7 +58,7 @@ class Server {
 		$this->server->addPlugin(new CardDAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
 
 		// addressbook plugins
-		$this->server->addPlugin(new \Sabre\CardDAV\Plugin());
+		$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
 
 		// Finder on OS X requires Class 2 WebDAV support (locking), since we do
 		// not provide locking we emulate it using a fake locking plugin.

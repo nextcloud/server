@@ -11,12 +11,12 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 */
 	function getChildren() {
 
-		$addressbooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
-		$objs = [];
-		foreach($addressbooks as $addressbook) {
-			$objs[] = new AddressBook($this->carddavBackend, $addressbook);
+		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
+		$objects = [];
+		foreach($addressBooks as $addressBook) {
+			$objects[] = new AddressBook($this->carddavBackend, $addressBook);
 		}
-		return $objs;
+		return $objects;
 
 	}
 
@@ -35,7 +35,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	function getACL() {
 
 		$acl = parent::getACL();
-		if ($this->principalUri === 'principals/system') {
+		if ($this->principalUri === 'principals/system/system') {
 			$acl[] = [
 					'privilege' => '{DAV:}read',
 					'principal' => '{DAV:}authenticated',

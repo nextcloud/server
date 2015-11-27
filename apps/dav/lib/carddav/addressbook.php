@@ -54,7 +54,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareableAddres
 
 	function getACL() {
 		$acl = parent::getACL();
-		if ($this->getOwner() === 'principals/system') {
+		if ($this->getOwner() === 'principals/system/system') {
 			$acl[] = [
 					'privilege' => '{DAV:}read',
 					'principal' => '{DAV:}authenticated',
@@ -67,7 +67,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareableAddres
 
 	function getChildACL() {
 		$acl = parent::getChildACL();
-		if ($this->getOwner() === 'principals/system') {
+		if ($this->getOwner() === 'principals/system/system') {
 			$acl[] = [
 					'privilege' => '{DAV:}read',
 					'principal' => '{DAV:}authenticated',

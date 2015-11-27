@@ -100,6 +100,7 @@ class SyncSystemAddressBook extends Command {
 			}
 		}
 		$progress->finish();
+		$output->writeln('');
 	}
 
 	protected function ensureSystemAddressBookExists() {
@@ -107,7 +108,7 @@ class SyncSystemAddressBook extends Command {
 		if (!is_null($book)) {
 			return $book;
 		}
-		$systemPrincipal = "principals/system";
+		$systemPrincipal = "principals/system/system";
 		$this->backend->createAddressBook($systemPrincipal, 'system', [
 			'{' . Plugin::NS_CARDDAV . '}addressbook-description' => 'System addressbook which holds all users of this instance'
 		]);

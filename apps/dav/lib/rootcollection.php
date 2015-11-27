@@ -34,10 +34,13 @@ class RootCollection extends SimpleCollection {
 		$calendarRoot = new CalendarRoot($principalBackend, $caldavBackend, 'principals/users');
 		$calendarRoot->disableListing = $disableListing;
 
-		$cardDavBackend = new CardDavBackend(\OC::$server->getDatabaseConnection(), $principalBackend);
+		$usersCardDavBackend = new CardDavBackend($db, $principalBackend);
+		$usersAddressBookRoot = new AddressBookRoot($principalBackend, $usersCardDavBackend, 'principals/users');
+		$usersAddressBookRoot->disableListing = $disableListing;
 
-		$addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend, 'principals/users');
-		$addressBookRoot->disableListing = $disableListing;
+		$systemCardDavBackend = new CardDavBackend($db, $principalBackend);
+		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, 'principals/system');
+		$systemAddressBookRoot->disableListing = $disableListing;
 
 		$children = [
 				new SimpleCollection('principals', [
@@ -45,7 +48,9 @@ class RootCollection extends SimpleCollection {
 						$systemPrincipals]),
 				$filesCollection,
 				$calendarRoot,
-				$addressBookRoot,
+				new SimpleCollection('addressbooks', [
+						$usersAddressBookRoot,
+						$systemAddressBookRoot]),
 		];
 
 		parent::__construct('root', $children);
