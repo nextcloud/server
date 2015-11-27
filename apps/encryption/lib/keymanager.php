@@ -280,7 +280,7 @@ class KeyManager {
 
 	/**
 	 * @param $userId
-	 * @param $key
+	 * @param string $key
 	 * @return bool
 	 */
 	public function setPrivateKey($userId, $key) {
@@ -365,7 +365,7 @@ class KeyManager {
 
 	/**
 	 * @param $userId
-	 * @return mixed
+	 * @return string
 	 * @throws PrivateKeyMissingException
 	 */
 	public function getPrivateKey($userId) {
@@ -379,7 +379,7 @@ class KeyManager {
 	}
 
 	/**
-	 * @param $path
+	 * @param string $path
 	 * @param $uid
 	 * @return string
 	 */
@@ -412,7 +412,7 @@ class KeyManager {
 	/**
 	 * get the encrypted file key
 	 *
-	 * @param $path
+	 * @param string $path
 	 * @return string
 	 */
 	public function getEncryptedFileKey($path) {
@@ -508,7 +508,7 @@ class KeyManager {
 	}
 
 	/**
-	 * @param $purpose
+	 * @param string $purpose
 	 * @param bool $timestamp
 	 * @param bool $includeUserKeys
 	 */
@@ -534,13 +534,16 @@ class KeyManager {
 	}
 
 	/**
-	 * @param $uid
+	 * @param string $uid
 	 * @return bool
 	 */
 	private function deletePrivateKey($uid) {
 		return $this->keyStorage->deleteUserKey($uid, $this->privateKeyId, Encryption::ID);
 	}
 
+	/**
+	 * @param string $path
+	 */
 	public function deleteAllFileKeys($path) {
 		return $this->keyStorage->deleteAllFileKeys($path);
 	}

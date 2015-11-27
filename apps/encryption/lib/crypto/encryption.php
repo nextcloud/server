@@ -247,7 +247,7 @@ class Encryption implements IEncryptionModule {
 	 * encrypt data
 	 *
 	 * @param string $data you want to encrypt
-	 * @return mixed encrypted data
+	 * @return string encrypted data
 	 */
 	public function encrypt($data) {
 
@@ -312,7 +312,7 @@ class Encryption implements IEncryptionModule {
 	 * decrypt data
 	 *
 	 * @param string $data you want to decrypt
-	 * @return mixed decrypted data
+	 * @return string decrypted data
 	 * @throws DecryptionFailedException
 	 */
 	public function decrypt($data) {

@@ -237,7 +237,7 @@ class Migration {
 	/**
 	 * rename system wide public key
 	 *
-	 * @param $privateKey private key for which we want to rename the corresponding public key
+	 * @param string $privateKey private key for which we want to rename the corresponding public key
 	 */
 	private function renameSystemPublicKey($privateKey) {
 		$publicKey = substr($privateKey,0 , strrpos($privateKey, '.privateKey')) . '.publicKey';
