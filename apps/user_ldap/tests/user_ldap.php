@@ -313,7 +313,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 		$access->expects($this->any())
 			   ->method('combineFilterWithAnd')
 			   ->will($this->returnCallback(function($param) {
-					return $param[1];
+					return $param[2];
 			   }));
 
 		$access->expects($this->any())
