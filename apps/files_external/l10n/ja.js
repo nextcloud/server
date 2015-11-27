@@ -72,7 +72,7 @@ OC.L10N.register(
     "Secure ftps://" : "Secure ftps://",
     "Google Drive" : "Google Drive",
     "Local" : "ローカル",
-    "Location" : "位置",
+    "Location" : "場所",
     "ownCloud" : "ownCloud",
     "SFTP" : "SFTP",
     "Root" : "ルート",

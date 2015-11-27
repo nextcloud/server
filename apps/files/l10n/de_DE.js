@@ -40,6 +40,7 @@ OC.L10N.register(
     "Unable to determine date" : "Datum konnte nicht ermittelt werden",
     "This operation is forbidden" : "Diese Operation ist nicht erlaubt",
     "This directory is unavailable, please check the logs or contact the administrator" : "Dieses Verzeichnis ist nicht verfügbar, bitte überprüfen Sie die Logdateien oder kontaktieren Sie den Administrator",
+    "{newName} already exists" : "{newName} existiert bereits",
     "No entries in this folder match '{filter}'" : "Keine Einträge in diesem Ordner stimmen mit '{filter}' überein",
     "Name" : "Name",
     "Size" : "Größe",
@@ -96,6 +97,7 @@ OC.L10N.register(
     "Currently scanning" : "Durchsuchen läuft",
     "No favorites" : "Keine Favoriten",
     "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die Sie als Favoriten kennzeichnen, werden hier erscheinen",
-    "Text file" : "Textdatei"
+    "Text file" : "Textdatei",
+    "New text file.txt" : "Neue Textdatei file.txt"
 },
 "nplurals=2; plural=(n != 1);");

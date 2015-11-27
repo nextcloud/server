@@ -11,6 +11,7 @@ OC.L10N.register(
     "System" : "System",
     "Grant access" : "Zugriff gestatten",
     "Access granted" : "Zugriff gestattet",
+    "Error configuring OAuth1" : "Fehler beim Konfigurieren von OAuth1",
     "Generate keys" : "Schlüssel erzeugen",
     "Error generating key pair" : "Fehler beim Erzeugen des Schlüsselpaares",
     "Enable encryption" : "Verschlüsselung aktivieren",

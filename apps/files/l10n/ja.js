@@ -41,6 +41,7 @@ OC.L10N.register(
     "This operation is forbidden" : "この操作は禁止されています",
     "This directory is unavailable, please check the logs or contact the administrator" : "このディレクトリは利用できません。ログを確認するか管理者に問い合わせてください。",
     "Could not move \"{file}\"" : "\"{file}\" を移動できませんでした",
+    "{newName} already exists" : "{newName} はすでに存在します",
     "Could not create file \"{file}\"" : "ファイル \"{file}\" を作成できませんでした",
     "Could not create file \"{file}\" because it already exists" : "ファイル \"{file}\"は既に存在するため作成できませんでした",
     "Could not create folder \"{dir}\"" : "フォルダー \"{dir}\" を作成できませんでした",
