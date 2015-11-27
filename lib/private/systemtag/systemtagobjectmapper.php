@@ -171,6 +171,10 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	public function haveTag($objIds, $objectType, $tagId, $all = true) {
 		$this->assertTagsExist([$tagId]);
 
+		if (!is_array($objIds)) {
+			$objIds = [$objIds];
+		}
+
 		$query = $this->connection->getQueryBuilder();
 
 		if (!$all) {

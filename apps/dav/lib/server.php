@@ -60,6 +60,9 @@ class Server {
 		// addressbook plugins
 		$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
 
+		// system tags plugins
+		$this->server->addPlugin(new \OCA\DAV\SystemTag\SystemTagPlugin(\OC::$server->getSystemTagManager()));
+
 		// Finder on OS X requires Class 2 WebDAV support (locking), since we do
 		// not provide locking we emulate it using a fake locking plugin.
 		if($request->isUserAgent(['/WebDAVFS/'])) {
