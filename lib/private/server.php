@@ -297,10 +297,11 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('Router', function (Server $c) {
 			$cacheFactory = $c->getMemCacheFactory();
+			$logger = $c->getLogger();
 			if ($cacheFactory->isAvailable()) {
-				$router = new \OC\Route\CachingRouter($cacheFactory->create('route'));
+				$router = new \OC\Route\CachingRouter($cacheFactory->create('route'), $logger);
 			} else {
-				$router = new \OC\Route\Router();
+				$router = new \OC\Route\Router($logger);
 			}
 			return $router;
 		});
