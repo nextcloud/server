@@ -363,6 +363,18 @@ Feature: sharing
     Then the OCS status code should be "404" 
     And the HTTP status code should be "200"
 
+  Scenario: Share of folder and sub-folder to same user - core#20645
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "group0" exists
+    And user "user1" belongs to group "group0"
+    And file "/PARENT" from user "user0" is shared with user "user1"
+    When file "/PARENT/CHILD" from user "user0" is shared with group "group0"
+    And As an "admin"
+    Then user "user1" should see following folders
+    And the HTTP status code should be "200"
+
   Scenario: Delete all group shares
     Given As an "admin"
     And user "user0" exists

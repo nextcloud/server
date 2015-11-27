@@ -2,8 +2,9 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as GClient;
 use GuzzleHttp\Message\ResponseInterface;
+use Sabre\DAV\Client as SClient;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -22,7 +23,7 @@ trait WebDav{
 
 	public function makeDavRequest($user, $method, $path, $headers){
 		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . "$path";
-		$client = new Client();
+		$client = new GClient();
 		$options = [];
 		if ($user === 'admin') {
 			$options['auth'] = $this->adminUser;
@@ -30,10 +31,11 @@ trait WebDav{
 			$options['auth'] = [$user, $this->regularUser];
 		}
 		$request = $client->createRequest($method, $fullUrl, $options);
-		foreach ($headers as $key => $value) {
-			$request->addHeader($key, $value);	
+		if (!is_null($headers)){
+			foreach ($headers as $key => $value) {
+				$request->addHeader($key, $value);	
+			}
 		}
-		//$this->response = $client->send($request);
 		return $client->send($request);
 	}
 
@@ -55,6 +57,44 @@ trait WebDav{
 		$headers['Destination'] = $fullUrl . $fileDestination;
 		$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
 	}
+
+	public function listFolder($user, $path){
+		$fullUrl = substr($this->baseUrl, 0, -4);
+
+		$settings = array(
+			'baseUri' => $fullUrl,
+			'userName' => $user,
+		);
+
+		echo "password del admin: " . $this->adminUser[1] . "\n";
+		echo "fullUrl: " . $fullUrl . "\n";
+
+		if ($user === 'admin') {
+			$settings['password'] = $this->adminUser[1];
+		} else {
+			$settings['password'] = $this->regularUser;
+		}
+
+		$client = new SClient($settings);
+
+		$response = $client->propfind($this->davPath . "/", array(
+			'{DAV:}displayname',
+		));
+
+		print_r($response);
+		/*$features = $client->options();
+
+		print_r($features);*/
+		//return $this->response->xml();
+	}
+
+	/**
+	 * @Then /^user "([^"]*)" should see following folders$/
+	 */
+	public function checkList($user){
+		$this->listFolder($user, '/');
+	}
+	
 
 }
 
