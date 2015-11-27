@@ -30,6 +30,8 @@ use OC\Files\Cache\ChangePropagator;
 use OC\Files\Filesystem;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
+use OCP\Files\StorageNotAvailableException;
+use OCP\ILogger;
 
 /**
  * Class Scanner
@@ -57,10 +59,17 @@ class Scanner extends PublicEmitter {
 	protected $db;
 
 	/**
+	 * @var ILogger
+	 */
+	protected $logger;
+
+	/**
 	 * @param string $user
 	 * @param \OCP\IDBConnection $db
+	 * @param ILogger $logger
 	 */
-	public function __construct($user, $db) {
+	public function __construct($user, $db, ILogger $logger) {
+		$this->logger = $logger;
 		$this->user = $user;
 		$this->propagator = new ChangePropagator(new View(''));
 		$this->db = $db;
@@ -156,7 +165,12 @@ class Scanner extends PublicEmitter {
 			$scanner->setUseTransactions(false);
 			$this->attachListener($mount);
 			$this->db->beginTransaction();
-			$scanner->scan($relativePath, \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
+			try {
+				$scanner->scan($relativePath, \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
+			} catch (StorageNotAvailableException $e) {
+				$this->logger->error('Storage ' . $storage->getId() . ' not available');
+				$this->emit('\OC\Files\Utils\Scanner', 'StorageNotAvailable', [$e]);
+			}
 			$this->db->commit();
 		}
 		$this->propagator->propagateChanges(time());
