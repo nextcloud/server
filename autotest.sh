@@ -271,7 +271,6 @@ function execute_tests {
 	COVER=''
 	if [ -z "$NOCOVERAGE" ]; then
 		COVER='--coverage-clover "autotest-clover-$DB.xml" --coverage-html "coverage-html-$DB"'
-		"${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP --log-junit "autotest-results-$DB.xml" --coverage-clover "autotest-clover-$DB.xml" --coverage-html "coverage-html-$DB" "$2" "$3"
 	else
 		echo "No coverage"
 	fi
