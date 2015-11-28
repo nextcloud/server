@@ -1,34 +1,40 @@
 <?php
-
 /**
- * ownCloud - App Framework
+ * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  *
- * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
+ * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @license AGPL-3.0
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
  *
- * This library is distributed in the hope that it will be useful,
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 
 
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Request;
+use OC\Appframework\Middleware\Security\Exceptions\AppNotEnabledException;
+use OC\Appframework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
+use OC\Appframework\Middleware\Security\Exceptions\NotAdminException;
+use OC\Appframework\Middleware\Security\Exceptions\NotLoggedInException;
+use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 
 
 class SecurityMiddlewareTest extends \Test\TestCase {
@@ -71,8 +77,12 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->secAjaxException = new SecurityException('hey', true);
 	}
 
-
-	private function getMiddleware($isLoggedIn, $isAdminUser){
+	/**
+	 * @param bool $isLoggedIn
+	 * @param bool $isAdminUser
+	 * @return SecurityMiddleware
+	 */
+	private function getMiddleware($isLoggedIn, $isAdminUser) {
 		return new SecurityMiddleware(
 			$this->request,
 			$this->reader,
@@ -219,8 +229,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 		$sec = $this->getMiddleware($isLoggedIn, $isAdminUser);
 
-		if($shouldFail){
-			$this->setExpectedException('\OC\AppFramework\Middleware\Security\SecurityException');
+		if($shouldFail) {
+			$this->setExpectedException('\OC\AppFramework\Middleware\Security\Exceptions\SecurityException');
 		} else {
 			$this->assertTrue(true);
 		}
@@ -232,7 +242,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 	/**
 	 * @PublicPage
-	 * @expectedException \OC\AppFramework\Middleware\Security\SecurityException
+	 * @expectedException \OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException
 	 */
 	public function testCsrfCheck(){
 		$this->request->expects($this->once())
@@ -311,25 +321,85 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->middleware->afterException($this->controller, 'test', $ex);
 	}
 
-
-	public function testAfterExceptionReturnsRedirect(){
+	public function testAfterExceptionReturnsRedirectForNotLoggedInUser() {
 		$this->request = new Request(
-			[
-				'server' =>
 				[
-					'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-					'REQUEST_URI' => 'owncloud/index.php/apps/specialapp'
-				]
-			],
-			$this->getMock('\OCP\Security\ISecureRandom'),
-			$this->getMock('\OCP\IConfig')
+						'server' =>
+								[
+										'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+										'REQUEST_URI' => 'owncloud/index.php/apps/specialapp'
+								]
+				],
+				$this->getMock('\OCP\Security\ISecureRandom'),
+				$this->getMock('\OCP\IConfig')
 		);
-		$this->middleware = $this->getMiddleware(true, true);
-		$response = $this->middleware->afterException($this->controller, 'test',
-				$this->secException);
+		$this->middleware = $this->getMiddleware(false, false);
+		$this->urlGenerator
+				->expects($this->once())
+				->method('getAbsoluteURL')
+				->with('index.php')
+				->will($this->returnValue('http://localhost/index.php'));
+		$this->logger
+				->expects($this->once())
+				->method('debug')
+				->with('Current user is not logged in');
+		$response = $this->middleware->afterException(
+				$this->controller,
+				'test',
+				new NotLoggedInException()
+		);
 
-		$this->assertTrue($response instanceof RedirectResponse);
-		$this->assertEquals('?redirect_url=owncloud%2Findex.php%2Fapps%2Fspecialapp', $response->getRedirectURL());
+		$expected = new RedirectResponse('http://localhost/index.php?redirect_url=owncloud%2Findex.php%2Fapps%2Fspecialapp');
+		$this->assertEquals($expected , $response);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function exceptionProvider() {
+		return [
+			[
+				new AppNotEnabledException(),
+			],
+			[
+				new CrossSiteRequestForgeryException(),
+			],
+			[
+				new NotAdminException(),
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider exceptionProvider
+	 * @param SecurityException $exception
+	 */
+	public function testAfterExceptionReturnsTemplateResponse(SecurityException $exception) {
+		$this->request = new Request(
+				[
+						'server' =>
+								[
+										'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+										'REQUEST_URI' => 'owncloud/index.php/apps/specialapp'
+								]
+				],
+				$this->getMock('\OCP\Security\ISecureRandom'),
+				$this->getMock('\OCP\IConfig')
+		);
+		$this->middleware = $this->getMiddleware(false, false);
+		$this->logger
+				->expects($this->once())
+				->method('debug')
+				->with($exception->getMessage());
+		$response = $this->middleware->afterException(
+				$this->controller,
+				'test',
+				$exception
+		);
+
+		$expected = new TemplateResponse('core', '403', ['file' => $exception->getMessage()], 'guest');
+		$expected->setStatus($exception->getCode());
+		$this->assertEquals($expected , $response);
 	}
 
 

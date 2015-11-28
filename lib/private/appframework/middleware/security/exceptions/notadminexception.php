@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Lukas Reschke <lukas@owncloud.com>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  * @license AGPL-3.0
@@ -20,20 +19,18 @@
  *
  */
 
+namespace OC\Appframework\Middleware\Security\Exceptions;
 
-namespace OC\AppFramework\Middleware\Security;
-
+use OCP\AppFramework\Http;
 
 /**
- * Thrown when the security middleware encounters a security problem
+ * Class NotAdminException is thrown when a resource has been requested by a
+ * non-admin user that is not accessible to non-admin users.
+ *
+ * @package OC\Appframework\Middleware\Security\Exceptions
  */
-class SecurityException extends \Exception {
-
-	/**
-	 * @param string $msg the security error message
-	 */
-	public function __construct($msg, $code = 0) {
-		parent::__construct($msg, $code);
+class NotAdminException extends SecurityException {
+	public function __construct() {
+		parent::__construct('Logged in user must be an admin', Http::STATUS_FORBIDDEN);
 	}
-
 }

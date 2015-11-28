@@ -28,8 +28,13 @@
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http;
+use OC\Appframework\Middleware\Security\Exceptions\AppNotEnabledException;
+use OC\Appframework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
+use OC\Appframework\Middleware\Security\Exceptions\NotAdminException;
+use OC\Appframework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\JSONResponse;
@@ -39,7 +44,7 @@ use OCP\IRequest;
 use OCP\ILogger;
 use OCP\AppFramework\Controller;
 use OCP\Util;
-
+use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 
 /**
  * Used to do all the authentication and checking stuff for a controller method
@@ -75,7 +80,7 @@ class SecurityMiddleware extends Middleware {
 								ILogger $logger,
 								$appName,
 								$isLoggedIn,
-								$isAdminUser){
+								$isAdminUser) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
 		$this->reflector = $reflector;
@@ -95,7 +100,7 @@ class SecurityMiddleware extends Middleware {
 	 * @param string $methodName the name of the method
 	 * @throws SecurityException when a security check fails
 	 */
-	public function beforeController($controller, $methodName){
+	public function beforeController($controller, $methodName) {
 
 		// this will set the current navigation entry of the app, use this only
 		// for normal HTML requests and not for AJAX requests
@@ -105,12 +110,12 @@ class SecurityMiddleware extends Middleware {
 		$isPublicPage = $this->reflector->hasAnnotation('PublicPage');
 		if(!$isPublicPage) {
 			if(!$this->isLoggedIn) {
-				throw new SecurityException('Current user is not logged in', Http::STATUS_UNAUTHORIZED);
+				throw new NotLoggedInException();
 			}
 
 			if(!$this->reflector->hasAnnotation('NoAdminRequired')) {
 				if(!$this->isAdminUser) {
-					throw new SecurityException('Logged in user must be an admin', Http::STATUS_FORBIDDEN);
+					throw new NotAdminException();
 				}
 			}
 		}
@@ -119,18 +124,18 @@ class SecurityMiddleware extends Middleware {
 		Util::callRegister();
 		if(!$this->reflector->hasAnnotation('NoCSRFRequired')) {
 			if(!$this->request->passesCSRFCheck()) {
-				throw new SecurityException('CSRF check failed', Http::STATUS_PRECONDITION_FAILED);
+				throw new CrossSiteRequestForgeryException();
 			}
 		}
 
 		/**
 		 * FIXME: Use DI once available
-		 * Checks if app is enabled (also inclues a check whether user is allowed to access the resource)
+		 * Checks if app is enabled (also includes a check whether user is allowed to access the resource)
 		 * The getAppPath() check is here since components such as settings also use the AppFramework and
 		 * therefore won't pass this check.
 		 */
 		if(\OC_App::getAppPath($this->appName) !== false && !\OC_App::isEnabled($this->appName)) {
-			throw new SecurityException('App is not enabled', Http::STATUS_PRECONDITION_FAILED);
+			throw new AppNotEnabledException();
 		}
 
 	}
@@ -146,28 +151,28 @@ class SecurityMiddleware extends Middleware {
 	 * @throws \Exception the passed in exception if it cant handle it
 	 * @return Response a Response object or null in case that the exception could not be handled
 	 */
-	public function afterException($controller, $methodName, \Exception $exception){
-		if($exception instanceof SecurityException){
+	public function afterException($controller, $methodName, \Exception $exception) {
+		if($exception instanceof SecurityException) {
 
-			if (stripos($this->request->getHeader('Accept'),'html')===false) {
-
+			if (stripos($this->request->getHeader('Accept'),'html') === false) {
 				$response = new JSONResponse(
 					array('message' => $exception->getMessage()),
 					$exception->getCode()
 				);
-				$this->logger->debug($exception->getMessage());
 			} else {
-
-				// TODO: replace with link to route
-				$url = $this->urlGenerator->getAbsoluteURL('index.php');
-				// add redirect URL to redirect to the previous page after login
-				$url .= '?redirect_url=' . urlencode($this->request->server['REQUEST_URI']);
-				$response = new RedirectResponse($url);
-				$this->logger->debug($exception->getMessage());
+				if($exception instanceof NotLoggedInException) {
+					// TODO: replace with link to route
+					$url = $this->urlGenerator->getAbsoluteURL('index.php');
+					$url .= '?redirect_url=' . urlencode($this->request->server['REQUEST_URI']);
+					$response = new RedirectResponse($url);
+				} else {
+					$response = new TemplateResponse('core', '403', ['file' => $exception->getMessage()], 'guest');
+					$response->setStatus($exception->getCode());
+				}
 			}
 
+			$this->logger->debug($exception->getMessage());
 			return $response;
-
 		}
 
 		throw $exception;
