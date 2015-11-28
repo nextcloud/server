@@ -33,10 +33,9 @@
 
 use phpseclib\Crypt\AES;
 use \OCA\Files_External\Appinfo\Application;
-use \OCA\Files_External\Lib\BackendConfig;
-use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Backend\LegacyBackend;
 use \OCA\Files_External\Lib\StorageConfig;
+use \OCA\Files_External\Lib\Backend\Backend;
 
 /**
  * Class to configure mount.json globally and for users
@@ -75,7 +74,7 @@ class OC_Mount_Config {
 		return true;
 	}
 
-	/*
+	/**
 	 * Hook that mounts the given user's visible mount points
 	 *
 	 * @param array $data
@@ -245,6 +244,7 @@ class OC_Mount_Config {
 	 * @param string $class backend class name
 	 * @param array $options backend configuration options
 	 * @return int see self::STATUS_*
+	 * @throws Exception
 	 */
 	public static function getBackendStatus($class, $options, $isPersonal) {
 		if (self::$skipTest) {
@@ -255,6 +255,7 @@ class OC_Mount_Config {
 		}
 		if (class_exists($class)) {
 			try {
+				/** @var \OC\Files\Storage\Common $storage */
 				$storage = new $class($options);
 
 				try {
@@ -322,7 +323,7 @@ class OC_Mount_Config {
 	 * Get backend dependency message
 	 * TODO: move into AppFramework along with templates
 	 *
-	 * @param BackendConfig[] $backends
+	 * @param Backend[] $backends
 	 * @return string
 	 */
 	public static function dependencyMessage($backends) {
