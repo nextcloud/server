@@ -85,7 +85,9 @@ class OC_TemplateLayout extends OC_Template {
 				if(isset($data['version']) && $data['version'] != '' and $data['version'] !== Array()) {
 					$this->assign('updateAvailable', true);
 					$this->assign('updateVersion', $data['versionstring']);
-					$this->assign('updateLink', $data['web']);
+					if(substr($data['web'], 0, 8) === 'https://') {
+						$this->assign('updateLink', $data['web']);
+					}
 					\OCP\Util::addScript('core', 'update-notification');
 				} else {
 					$this->assign('updateAvailable', false); // No update available or not an admin user
