@@ -32,7 +32,7 @@ class Plugin extends ServerPlugin {
 	 * This is for example 'versioning' and is added to the DAV: header
 	 * in an OPTIONS response.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	function getFeatures() {
 
@@ -77,7 +77,7 @@ class Plugin extends ServerPlugin {
 	 *
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
-	 * @return null|bool
+	 * @return null|false
 	 */
 	function httpPost(RequestInterface $request, ResponseInterface $response) {
 
