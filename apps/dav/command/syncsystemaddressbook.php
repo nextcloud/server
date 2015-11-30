@@ -3,6 +3,7 @@
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CardDAV\CardDavBackend;
+use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -63,6 +64,7 @@ class SyncSystemAddressBook extends Command {
 
 		// ensure system addressbook exists
 		$systemAddressBook = $this->ensureSystemAddressBookExists();
+		$converter = new Converter();
 
 		$output->writeln('Syncing users ...');
 		$progress = new ProgressBar($output);
@@ -74,36 +76,15 @@ class SyncSystemAddressBook extends Command {
 				$user = $this->userManager->get($user);
 				$name = $user->getBackendClassName();
 				$userId = $user->getUID();
-				$displayName = $user->getDisplayName();
-				$emailAddress = $user->getEMailAddress();
-				$cloudId = $user->getCloudId();
-				$image = $user->getAvatarImage(-1);
 
 				$cardId = "$name:$userId.vcf";
 				$card = $this->backend->getCard($systemAddressBook['id'], $cardId);
 				if ($card === false) {
-					$vCard = new VCard();
-					$vCard->add(new Text($vCard, 'UID', $userId));
-					$vCard->add(new Text($vCard, 'FN', $displayName));
-					$vCard->add(new Text($vCard, 'EMAIL', $emailAddress));
-					$vCard->add(new Text($vCard, 'CLOUD', $cloudId));
-					if ($image) {
-						$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
-					}
-					$vCard->validate();
+					$vCard = $converter->createCardFromUser($user);
 					$this->backend->createCard($systemAddressBook['id'], $cardId, $vCard->serialize());
 				} else {
-					$updated = false;
 					$vCard = Reader::read($card['carddata']);
-					if($vCard->FN !== $displayName) {
-						$vCard->FN = new Text($vCard, 'FN', $displayName);
-						$updated = true;
-					}
-					if($vCard->EMail !== $emailAddress) {
-						$vCard->FN = new Text($vCard, 'EMAIL', $emailAddress);
-						$updated = true;
-					}
-					if ($updated) {
+					if ($converter->updateCard($vCard, $user)) {
 						$this->backend->updateCard($systemAddressBook['id'], $cardId, $vCard->serialize());
 					}
 				}
