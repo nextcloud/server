@@ -58,6 +58,22 @@ trait WebDav{
 		$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
 	}
 
+	/**
+	 * @When /^Downloading file "([^"]*)" with range "([^"]*)"$/
+	 */
+	public function downloadFileWithRange($fileSource, $range){
+		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath;
+		$headers['Range'] = $range;
+		$this->response = $this->makeDavRequest($this->currentUser, "GET", $fileSource, $headers);
+	}
+
+	/**
+	 * @Then /^Downloaded content should be "([^"]*)"$/
+	 */
+	public function downloadedContentShouldBe($content){
+		PHPUnit_Framework_Assert::assertEquals($content, (string)$this->response->getBody());
+	}
+
 	/*Returns the elements of a propfind, $folderDepth requires 1 to see elements without children*/
 	public function listFolder($user, $path, $folderDepth){
 		$fullUrl = substr($this->baseUrl, 0, -4);
