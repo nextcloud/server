@@ -55,14 +55,22 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	public function registerMounts(IUser $user, array $mounts) {
+		$mounts = array_filter($mounts, function (IMountPoint $mount) {
+			return $mount->getStorage()->getCache();
+		});
 		$mounts = array_values($mounts);
 		/** @var ICachedMountInfo[] $newMounts */
 		$newMounts = array_map(function (IMountPoint $mount) use ($user) {
 			$storage = $mount->getStorage();
 			$rootId = (int)$storage->getCache()->getId('');
 			$storageId = (int)$storage->getStorageCache()->getNumericId();
-			return new CachedMountInfo($user, $storageId, $rootId, $mount->getMountPoint());
+			if ($rootId === -1) {
+				return null;
+			} else {
+				return new CachedMountInfo($user, $storageId, $rootId, $mount->getMountPoint());
+			}
 		}, $mounts);
+		$newMounts = array_values(array_filter($newMounts));
 		$cachedMounts = $this->getMountsForUser($user);
 
 		$mountDiff = function (ICachedMountInfo $mount1, ICachedMountInfo $mount2) {
@@ -122,17 +130,14 @@ class UserMountCache implements IUserMountCache {
 	 * @return ICachedMountInfo[]
 	 */
 	public function getMountsForUser(IUser $user) {
-		if (!isset($this->mountsForUsers[$user->getUID()])) {
-			$builder = $this->connection->getQueryBuilder();
-			$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point')
-				->from('mounts')
-				->where($builder->expr()->eq('user_id', $builder->createPositionalParameter($user->getUID())));
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point')
+			->from('mounts')
+			->where($builder->expr()->eq('user_id', $builder->createPositionalParameter($user->getUID())));
 
-			$rows = $query->execute()->fetchAll();
+		$rows = $query->execute()->fetchAll();
 
-			$this->mountsForUsers[$user->getUID()] = array_map([$this, 'dbRowToMountInfo'], $rows);
-		}
-		return $this->mountsForUsers[$user->getUID()];
+		return array_map([$this, 'dbRowToMountInfo'], $rows);
 	}
 
 	/**
