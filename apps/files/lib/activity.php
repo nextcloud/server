@@ -22,6 +22,7 @@
 
 namespace OCA\Files;
 
+use OCP\IDBConnection;
 use OCP\L10N\IFactory;
 use OCP\Activity\IExtension;
 use OCP\Activity\IManager;
@@ -52,6 +53,9 @@ class Activity implements IExtension {
 	/** @var \OCP\Activity\IManager */
 	protected $activityManager;
 
+	/** @var \OCP\IDBConnection */
+	protected $connection;
+
 	/** @var \OCP\IConfig */
 	protected $config;
 
@@ -63,14 +67,16 @@ class Activity implements IExtension {
 	 * @param IURLGenerator $URLGenerator
 	 * @param IManager $activityManager
 	 * @param ActivityHelper $helper
+	 * @param IDBConnection $connection
 	 * @param IConfig $config
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $URLGenerator, IManager $activityManager, ActivityHelper $helper, IConfig $config) {
+	public function __construct(IFactory $languageFactory, IURLGenerator $URLGenerator, IManager $activityManager, ActivityHelper $helper, IDBConnection $connection, IConfig $config) {
 		$this->languageFactory = $languageFactory;
 		$this->URLGenerator = $URLGenerator;
 		$this->l = $this->getL10N();
 		$this->activityManager = $activityManager;
 		$this->helper = $helper;
+		$this->connection = $connection;
 		$this->config = $config;
 	}
 
@@ -391,7 +397,7 @@ class Activity implements IExtension {
 			}
 			foreach ($favorites['folders'] as $favorite) {
 				$fileQueryList[] = '`file` LIKE ?';
-				$parameters[] = \OC::$server->getDatabaseConnection()->escapeLikeParameter($favorite) . '/%';
+				$parameters[] = $this->connection->escapeLikeParameter($favorite) . '/%';
 			}
 
 			return [

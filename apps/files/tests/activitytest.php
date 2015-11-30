@@ -25,6 +25,12 @@ namespace OCA\Files\Tests;
 use OCA\Files\Activity;
 use Test\TestCase;
 
+/**
+ * Class ActivityTest
+ *
+ * @group DB
+ * @package OCA\Files\Tests
+ */
 class ActivityTest extends TestCase {
 
 	/** @var \OC\ActivityManager */
@@ -95,6 +101,7 @@ class ActivityTest extends TestCase {
 			$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
 			$this->activityManager,
 			$this->activityHelper,
+			\OC::$server->getDatabaseConnection(),
 			$this->config
 		);
 
