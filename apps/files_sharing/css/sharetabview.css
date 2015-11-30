@@ -28,7 +28,7 @@
 	width: 94%;
 	margin-left: 0;
 }
-.shareTabView #shareWith {
+.shareTabView input[type="text"].shareWithField {
 	width: 80%;
 }
 
