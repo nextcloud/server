@@ -195,9 +195,9 @@ $(document).ready(function () {
 					$('#password-error').removeClass('inlineblock').addClass('hidden');
 				} else {
 					if (typeof(data.data) !== "undefined") {
-						$('#password-error').html(data.data.message);
+						$('#password-error').text(data.data.message);
 					} else {
-						$('#password-error').html(t('Unable to change password'));
+						$('#password-error').text(t('Unable to change password'));
 					}
 					// Hide a possible successmsg and show errormsg
 					$('#password-changed').removeClass('inlineblock').addClass('hidden');
@@ -226,7 +226,7 @@ $(document).ready(function () {
 				location.reload();
 			}
 			else {
-				$('#passworderror').html(data.data.message);
+				$('#passworderror').text(data.data.message);
 			}
 		});
 		return false;
