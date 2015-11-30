@@ -98,7 +98,7 @@ class Updater extends BasicEmitter {
 	/**
 	 * Check if a new version is available
 	 *
-	 * @param string $updaterUrl the url to check, i.e. 'http://apps.owncloud.com/updater.php'
+	 * @param string $updaterUrl the url to check, i.e. 'https://updates.owncloud.com/server/'
 	 * @return array|bool
 	 */
 	public function check($updaterUrl = null) {
@@ -109,7 +109,7 @@ class Updater extends BasicEmitter {
 		}
 
 		if (is_null($updaterUrl)) {
-			$updaterUrl = 'https://apps.owncloud.com/updater.php';
+			$updaterUrl = 'https://updates.owncloud.com/server/';
 		}
 
 		$this->config->setAppValue('core', 'lastupdatedat', time());
@@ -138,10 +138,10 @@ class Updater extends BasicEmitter {
 			$data = @simplexml_load_string($xml);
 			libxml_disable_entity_loader($loadEntities);
 			if ($data !== false) {
-				$tmp['version'] = $data->version;
-				$tmp['versionstring'] = $data->versionstring;
-				$tmp['url'] = $data->url;
-				$tmp['web'] = $data->web;
+				$tmp['version'] = (string)$data->version;
+				$tmp['versionstring'] = (string)$data->versionstring;
+				$tmp['url'] = (string)$data->url;
+				$tmp['web'] = (string)$data->web;
 			}
 		} else {
 			$data = array();
