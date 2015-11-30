@@ -33,6 +33,7 @@ OC.L10N.register(
     "Every time the filesystem is used" : "Elke keer bij gebruik bestandssysteem",
     "All users. Type to select user or group." : "Alle gebruikers. Tikken om een gebruiker of groep te selecteren.",
     "(group)" : "(groep)",
+    "Admin defined" : "Beheerder gedefinieerd",
     "Saved" : "Bewaard",
     "Access key" : "Access Key",
     "Secret key" : "Geheime sleutel",
