@@ -199,7 +199,7 @@ Feature: sharing
   Scenario: getting all shares of a user using that user
     Given user "user0" exists
     And user "user1" exists
-    And file "textfile0.txt" from user "user0" is shared with user "user1"
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
     And As an "user0"
     When sending "GET" to "/apps/files_sharing/api/v1/shares"
     Then the OCS status code should be "100"
@@ -209,7 +209,7 @@ Feature: sharing
   Scenario: getting all shares of a user using another user
     Given user "user0" exists
     And user "user1" exists
-    And file "textfile0.txt" from user "user0" is shared with user "user1"
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
     And As an "admin"
     When sending "GET" to "/apps/files_sharing/api/v1/shares"
     Then the OCS status code should be "100"
@@ -221,8 +221,8 @@ Feature: sharing
     And user "user1" exists
     And user "user2" exists
     And user "user3" exists
-    And file "textfile0.txt" from user "user0" is shared with user "user1"
-    And file "textfile0.txt" from user "user0" is shared with user "user2"
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And file "textfile0.txt" of user "user0" is shared with user "user2"
     And As an "user0"
     When sending "GET" to "/apps/files_sharing/api/v1/shares?path=textfile0.txt"
     Then the OCS status code should be "100"
@@ -236,8 +236,8 @@ Feature: sharing
     And user "user1" exists
     And user "user2" exists
     And user "user3" exists
-    And file "textfile0.txt" from user "user0" is shared with user "user1"
-    And file "textfile0.txt" from user "user1" is shared with user "user2"
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And file "textfile0.txt" of user "user1" is shared with user "user2"
     And As an "user0"
     When sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=textfile0.txt"
     Then the OCS status code should be "100"
@@ -249,7 +249,7 @@ Feature: sharing
   Scenario: getting share info of a share
     Given user "user0" exists
     And user "user1" exists
-    And file "textfile0.txt" from user "user0" is shared with user "user1"
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
     And As an "user0"
     When Getting info of last share
     Then the OCS status code should be "100"
@@ -279,7 +279,7 @@ Feature: sharing
     And user "user1" exists
     And group "group1" exists
     And user "user1" belongs to group "group1"
-    And file "textfile0.txt" from user "user0" is shared with group "group1"
+    And file "textfile0.txt" of user "user0" is shared with group "group1"
     And User "user1" moved file "/textfile0.txt" to "/FOLDER/textfile0.txt"
     And As an "user0"
     When Updating last share with
@@ -306,7 +306,7 @@ Feature: sharing
   Scenario: Sharee can see the share
     Given user "user0" exists
     And user "user1" exists
-    And file "textfile0.txt" from user "user0" is shared with user "user1"
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
     And As an "user1"
     When sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
     Then the OCS status code should be "100"
@@ -357,7 +357,7 @@ Feature: sharing
     Given user "user0" exists
     And user "user1" exists
     And user "user2" exists
-    And file "textfile0.txt" from user "user0" is shared with user "user1"
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
     And As an "user2"
     When Getting info of last share 
     Then the OCS status code should be "404" 
@@ -369,8 +369,8 @@ Feature: sharing
     And user "user1" exists
     And group "group0" exists
     And user "user1" belongs to group "group0"
-    And file "/PARENT" from user "user0" is shared with user "user1"
-    When file "/PARENT/CHILD" from user "user0" is shared with group "group0"
+    And file "/PARENT" of user "user0" is shared with user "user1"
+    When file "/PARENT/CHILD" of user "user0" is shared with group "group0"
     Then user "user1" should see following elements
       | /FOLDER/ |
       | /PARENT/ |
@@ -385,7 +385,7 @@ Feature: sharing
     And user "user1" exists
     And group "group1" exists
     And user "user1" belongs to group "group1"
-    And file "textfile0.txt" from user "user0" is shared with group "group1"
+    And file "textfile0.txt" of user "user0" is shared with group "group1"
     And User "user1" moved file "/textfile0.txt" to "/FOLDER/textfile0.txt"
     And As an "user0"
     And Deleting last share
@@ -398,7 +398,7 @@ Feature: sharing
   Scenario: delete a share
     Given user "user0" exists
     And user "user1" exists
-    And file "textfile0.txt" from user "user0" is shared with user "user1"
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
     And As an "user0"
     When Deleting last share
     Then the OCS status code should be "100"
