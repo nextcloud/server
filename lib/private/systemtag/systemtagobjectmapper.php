@@ -21,12 +21,15 @@
 
 namespace OC\SystemTag;
 
-use \OCP\SystemTag\ISystemTagManager;
-use \OCP\IDBConnection;
-use \OCP\SystemTag\TagNotFoundException;
-use \Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\IDBConnection;
+use OCP\SystemTag\ISystemTag;
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\SystemTag\TagNotFoundException;
 
-class SystemTagObjectMapper implements \OCP\SystemTag\ISystemTagObjectMapper {
+class SystemTagObjectMapper implements ISystemTagObjectMapper {
 
 	const RELATION_TABLE = 'systemtag_object_mapping';
 
@@ -64,7 +67,7 @@ class SystemTagObjectMapper implements \OCP\SystemTag\ISystemTagObjectMapper {
 			->from(self::RELATION_TABLE)
 			->where($query->expr()->in('objectid', $query->createParameter('objectids')))
 			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
-			->setParameter('objectids', $objIds, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY)
+			->setParameter('objectids', $objIds, Connection::PARAM_INT_ARRAY)
 			->setParameter('objecttype', $objectType)
 			->addOrderBy('objectid', 'ASC')
 			->addOrderBy('systemtagid', 'ASC');
@@ -100,7 +103,7 @@ class SystemTagObjectMapper implements \OCP\SystemTag\ISystemTagObjectMapper {
 			->from(self::RELATION_TABLE)
 			->where($query->expr()->in('systemtagid', $query->createParameter('tagids')))
 			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
-			->setParameter('tagids', $tagIds, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY)
+			->setParameter('tagids', $tagIds, Connection::PARAM_INT_ARRAY)
 			->setParameter('objecttype', $objectType);
 
 		$objectIds = [];
@@ -158,7 +161,7 @@ class SystemTagObjectMapper implements \OCP\SystemTag\ISystemTagObjectMapper {
 			->andWhere($query->expr()->in('systemtagid', $query->createParameter('tagids')))
 			->setParameter('objectid', $objId)
 			->setParameter('objecttype', $objectType)
-			->setParameter('tagids', $tagIds, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY)
+			->setParameter('tagids', $tagIds, Connection::PARAM_INT_ARRAY)
 			->execute();
 	}
 
@@ -174,7 +177,7 @@ class SystemTagObjectMapper implements \OCP\SystemTag\ISystemTagObjectMapper {
 			->where($query->expr()->in('objectid', $query->createParameter('objectids')))
 			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
 			->andWhere($query->expr()->eq('systemtagid', $query->createParameter('tagid')))
-			->setParameter('objectids', $objIds, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY)
+			->setParameter('objectids', $objIds, Connection::PARAM_INT_ARRAY)
 			->setParameter('tagid', $tagId)
 			->setParameter('objecttype', $objectType)
 			->setMaxResults(1);
@@ -201,7 +204,7 @@ class SystemTagObjectMapper implements \OCP\SystemTag\ISystemTagObjectMapper {
 		if (count($tags) !== count($tagIds)) {
 			// at least one tag missing, bail out
 			$foundTagIds = array_map(
-				function($tag) {
+				function(ISystemTag $tag) {
 					return $tag->getId();
 				},
 				$tags

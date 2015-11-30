@@ -21,13 +21,14 @@
 
 namespace OC\SystemTag;
 
-use \OCP\IDBConnection;
-use \OCP\SystemTag\TagNotFoundException;
-use \OCP\SystemTag\TagAlreadyExistsException;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\IDBConnection;
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\TagAlreadyExistsException;
+use OCP\SystemTag\TagNotFoundException;
 
-use \Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-
-class SystemTagManager implements \OCP\SystemTag\ISystemTagManager {
+class SystemTagManager implements ISystemTagManager {
 
 	const TAG_TABLE = 'systemtag';
 
@@ -83,7 +84,7 @@ class SystemTagManager implements \OCP\SystemTag\ISystemTagManager {
 			->addOrderBy('name', 'ASC')
 			->addOrderBy('visibility', 'ASC')
 			->addOrderBy('editable', 'ASC')
-			->setParameter('tagids', $tagIds, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY);
+			->setParameter('tagids', $tagIds, Connection::PARAM_INT_ARRAY);
 
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
@@ -243,13 +244,13 @@ class SystemTagManager implements \OCP\SystemTag\ISystemTagManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(SystemTagObjectMapper::RELATION_TABLE)
 			->where($query->expr()->in('systemtagid', $query->createParameter('tagids')))
-			->setParameter('tagids', $tagIds, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY)
+			->setParameter('tagids', $tagIds, Connection::PARAM_INT_ARRAY)
 			->execute();
 
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(self::TAG_TABLE)
 			->where($query->expr()->in('id', $query->createParameter('tagids')))
-			->setParameter('tagids', $tagIds, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY);
+			->setParameter('tagids', $tagIds, Connection::PARAM_INT_ARRAY);
 
 		if ($query->execute() === 0) {
 			throw new TagNotFoundException(

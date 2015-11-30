@@ -21,9 +21,9 @@
 
 namespace OC\SystemTag;
 
-use \OCP\IDBConnection;
+use OCP\SystemTag\ISystemTag;
 
-class SystemTag implements \OCP\SystemTag\ISystemTag {
+class SystemTag implements ISystemTag {
 
 	/**
 	 * @var string
