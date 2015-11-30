@@ -166,7 +166,7 @@ class Activity implements IExtension {
 	 * @param string $text
 	 * @param IL10N $l
 	 * @param array $params
-	 * @return bool|string
+	 * @return string|false
 	 */
 	protected function translateLong($text, IL10N $l, array $params) {
 		switch ($text) {
@@ -198,7 +198,7 @@ class Activity implements IExtension {
 	 * @param string $text
 	 * @param IL10N $l
 	 * @param array $params
-	 * @return bool|string
+	 * @return string|false
 	 */
 	protected function translateShort($text, IL10N $l, array $params) {
 		switch ($text) {

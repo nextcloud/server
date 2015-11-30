@@ -243,6 +243,7 @@ class OC_Mount_Config {
 	 *
 	 * @param string $class backend class name
 	 * @param array $options backend configuration options
+	 * @param boolean $isPersonal
 	 * @return int see self::STATUS_*
 	 * @throws Exception
 	 */
@@ -357,7 +358,7 @@ class OC_Mount_Config {
 	 * @param \OCP\IL10N $l
 	 * @param string $module
 	 * @param string $backend
-	 * @return string
+	 * @return OC_L10N_String
 	 */
 	private static function getSingleDependencyMessage(\OCP\IL10N $l, $module, $backend) {
 		switch (strtolower($module)) {
