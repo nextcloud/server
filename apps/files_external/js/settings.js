@@ -460,7 +460,6 @@ MountOptionsDropdown.prototype = {
 
 		var $el = $(template());
 		this.$el = $el;
-		$el.addClass('hidden');
 
 		this.setOptions(mountOptions, enabledOptions);
 
