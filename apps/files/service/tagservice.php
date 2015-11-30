@@ -91,7 +91,7 @@ class TagService {
 	/**
 	 * Get all files for the given tag
 	 *
-	 * @param array $tagName tag name to filter by
+	 * @param string $tagName tag name to filter by
 	 * @return FileInfo[] list of matching files
 	 * @throws \Exception if the tag does not exist
 	 */

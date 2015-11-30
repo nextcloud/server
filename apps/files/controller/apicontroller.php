@@ -127,7 +127,7 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string[] $tagName tag name to filter by
+	 * @param string $tagName tag name to filter by
 	 * @return DataResponse
 	 */
 	public function getFilesByTag($tagName) {
