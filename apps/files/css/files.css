@@ -224,8 +224,8 @@ table th.column-last, table td.column-last {
 	box-sizing: border-box;
 	position: relative;
 	/* this can not be just width, both need to be set … table styling */
-	min-width: 130px;
-	max-width: 130px;
+	min-width: 165px;
+	max-width: 165px;
 }
 
 /* Multiselect bar */
