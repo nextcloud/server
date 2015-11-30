@@ -65,6 +65,7 @@ $templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadshe
 		new \OCA\Files\ActivityHelper(
 			\OC::$server->getTagManager()
 		),
+		\OC::$server->getDatabaseConnection(),
 		\OC::$server->getConfig()
 	);
 });

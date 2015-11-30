@@ -25,24 +25,30 @@ namespace OCA\Files\Tests;
 use OCA\Files\Activity;
 use Test\TestCase;
 
+/**
+ * Class ActivityTest
+ *
+ * @group DB
+ * @package OCA\Files\Tests
+ */
 class ActivityTest extends TestCase {
 
 	/** @var \OC\ActivityManager */
 	private $activityManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $session;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Files\ActivityHelper|\PHPUnit_Framework_MockObject_MockObject */
 	protected $activityHelper;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\L10N\IFactory|\PHPUnit_Framework_MockObject_MockObject */
 	protected $l10nFactory;
 
 	/** @var \OCA\Files\Activity */
@@ -70,7 +76,7 @@ class ActivityTest extends TestCase {
 			$this->config
 		);
 
-		$this->l10nFactory = $this->getMockBuilder('OC\L10N\Factory')
+		$this->l10nFactory = $this->getMockBuilder('OCP\L10N\IFactory')
 			->disableOriginalConstructor()
 			->getMock();
 		$deL10n = $this->getMockBuilder('OC_L10N')
@@ -95,6 +101,7 @@ class ActivityTest extends TestCase {
 			$this->getMockBuilder('OCP\IURLGenerator')->disableOriginalConstructor()->getMock(),
 			$this->activityManager,
 			$this->activityHelper,
+			\OC::$server->getDatabaseConnection(),
 			$this->config
 		);
 
@@ -290,16 +297,16 @@ class ActivityTest extends TestCase {
 					'items' => [],
 					'folders' => [],
 				],
-				' CASE WHEN `app` = ? THEN ((`type` <> ? AND `type` <> ?)) ELSE `app` <> ? END ',
-				['files', Activity::TYPE_SHARE_CREATED, Activity::TYPE_SHARE_CHANGED, 'files']
+				' CASE WHEN `app` <> ? THEN 1 WHEN `app` = ? AND ((`type` <> ? AND `type` <> ?)) THEN 1 ELSE 0 END = 1 ',
+				['files', 'files', Activity::TYPE_SHARE_CREATED, Activity::TYPE_SHARE_CHANGED]
 			],
 			[
 				[
 					'items' => ['file.txt', 'folder'],
 					'folders' => ['folder'],
 				],
-				' CASE WHEN `app` = ? THEN ((`type` <> ? AND `type` <> ?) OR `file` = ? OR `file` = ? OR `file` LIKE ?) ELSE `app` <> ? END ',
-				['files', Activity::TYPE_SHARE_CREATED, Activity::TYPE_SHARE_CHANGED, 'file.txt', 'folder', 'folder/%', 'files']
+				' CASE WHEN `app` <> ? THEN 1 WHEN `app` = ? AND ((`type` <> ? AND `type` <> ?) OR `file` = ? OR `file` = ? OR `file` LIKE ?) THEN 1 ELSE 0 END = 1 ',
+				['files', 'files', Activity::TYPE_SHARE_CREATED, Activity::TYPE_SHARE_CHANGED, 'file.txt', 'folder', 'folder/%']
 			],
 		];
 	}
@@ -333,6 +340,21 @@ class ActivityTest extends TestCase {
 
 		$result = $this->activityExtension->getQueryForFilter('all');
 		$this->assertEquals([$query, $parameters], $result);
+
+		$this->executeQueryForFilter($result);
+	}
+
+	public function executeQueryForFilter(array $result) {
+		list($resultQuery, $resultParameters) = $result;
+		$resultQuery = str_replace('`file`', '`user`', $resultQuery);
+		$resultQuery = str_replace('`type`', '`key`', $resultQuery);
+
+		$connection = \OC::$server->getDatabaseConnection();
+		// Test the query on the privatedata table, because the activity table
+		// does not exist in core
+		$result = $connection->executeQuery('SELECT * FROM `*PREFIX*privatedata` WHERE ' . $resultQuery, $resultParameters);
+		$rows = $result->fetchAll();
+		$result->closeCursor();
 	}
 
 	protected function mockUserSession($user) {
