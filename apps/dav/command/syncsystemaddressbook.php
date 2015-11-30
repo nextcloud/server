@@ -34,6 +34,7 @@ class SyncSystemAddressBook extends Command {
 	/**
 	 * @param IUserManager $userManager
 	 * @param IDBConnection $dbConnection
+	 * @param IConfig $config
 	 */
 	function __construct(IUserManager $userManager, IDBConnection $dbConnection, IConfig $config) {
 		parent::__construct();
@@ -70,7 +71,7 @@ class SyncSystemAddressBook extends Command {
 				$name = $user->getBackendClassName();
 				$userId = $user->getUID();
 				$displayName = $user->getDisplayName();
-				//$emailAddress = $user->getEMailAddress();
+				$emailAddress = $user->getEMailAddress();
 				$image = $user->getAvatarImage(-1);
 
 				$cardId = "$name:$userId.vcf";
@@ -79,7 +80,7 @@ class SyncSystemAddressBook extends Command {
 					$vCard = new VCard();
 					$vCard->add(new Text($vCard, 'UID', $userId));
 					$vCard->add(new Text($vCard, 'FN', $displayName));
-//					$vCard->add(new Text($vCard, 'EMAIL', $emailAddress));
+					$vCard->add(new Text($vCard, 'EMAIL', $emailAddress));
 					if ($image) {
 						$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
 					}
@@ -90,6 +91,10 @@ class SyncSystemAddressBook extends Command {
 					$vCard = Reader::read($card['carddata']);
 					if($vCard->FN !== $displayName) {
 						$vCard->FN = new Text($vCard, 'FN', $displayName);
+						$updated = true;
+					}
+					if($vCard->EMail !== $emailAddress) {
+						$vCard->FN = new Text($vCard, 'EMAIL', $emailAddress);
 						$updated = true;
 					}
 					if ($updated) {
