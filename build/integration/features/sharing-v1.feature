@@ -371,8 +371,12 @@ Feature: sharing
     And user "user1" belongs to group "group0"
     And file "/PARENT" from user "user0" is shared with user "user1"
     When file "/PARENT/CHILD" from user "user0" is shared with group "group0"
-    And As an "admin"
-    Then user "user1" should see following folders
+    Then user "user1" should see following elements
+      | /FOLDER/ |
+      | /PARENT/ |
+      | /CHILD/ |
+      | /PARENT/parent.txt |
+      | /CHILD/child.txt |
     And the HTTP status code should be "200"
 
   Scenario: Delete all group shares

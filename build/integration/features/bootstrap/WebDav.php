@@ -58,16 +58,14 @@ trait WebDav{
 		$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
 	}
 
-	public function listFolder($user, $path){
+	/*Returns the elements of a propfind, $folderDepth requires 1 to see elements without children*/
+	public function listFolder($user, $path, $folderDepth){
 		$fullUrl = substr($this->baseUrl, 0, -4);
 
 		$settings = array(
 			'baseUri' => $fullUrl,
 			'userName' => $user,
 		);
-
-		echo "password del admin: " . $this->adminUser[1] . "\n";
-		echo "fullUrl: " . $fullUrl . "\n";
 
 		if ($user === 'admin') {
 			$settings['password'] = $this->adminUser[1];
@@ -78,22 +76,28 @@ trait WebDav{
 		$client = new SClient($settings);
 
 		$response = $client->propfind($this->davPath . "/", array(
-			'{DAV:}getetag',
-			1
-		));
+			'{DAV:}getetag'
+		), $folderDepth);
 
-		print_r($response);
-		/*$features = $client->options();
-
-		print_r($features);*/
-		//return $this->response->xml();
+		return $response;
 	}
 
 	/**
-	 * @Then /^user "([^"]*)" should see following folders$/
+	 * @Then /^user "([^"]*)" should see following elements$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
 	 */
-	public function checkList($user){
-		$this->listFolder($user, '/');
+	public function checkElementList($user, $expectedElements){
+		$elementList = $this->listFolder($user, '/', 2);
+		if ($expectedElements instanceof \Behat\Gherkin\Node\TableNode) {
+			$elementRows = $expectedElements->getRows();
+			$elementsSimplified = $this->simplifyArray($elementRows);
+			foreach($elementsSimplified as $expectedElement) {
+				$webdavPath = "/" . $this->davPath . $expectedElement;
+				if (!array_key_exists($webdavPath,$elementList)){
+					PHPUnit_Framework_Assert::fail("$webdavPath" . " is not in propfind answer");
+				}
+			}
+		}
 	}
 	
 
