@@ -172,23 +172,32 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		$this->assertTagsExist([$tagId]);
 
 		$query = $this->connection->getQueryBuilder();
-		$query->select($query->createFunction('COUNT(1)'))
-			->from(self::RELATION_TABLE)
+
+		if (!$all) {
+			// If we only need one entry, we make the query lighter, by not
+			// counting the elements
+			$query->select('*')
+				->setMaxResults(1);
+		} else {
+			$query->select($query->createFunction('COUNT(1)'));
+		}
+
+		$query->from(self::RELATION_TABLE)
 			->where($query->expr()->in('objectid', $query->createParameter('objectids')))
 			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
 			->andWhere($query->expr()->eq('systemtagid', $query->createParameter('tagid')))
 			->setParameter('objectids', $objIds, Connection::PARAM_INT_ARRAY)
 			->setParameter('tagid', $tagId)
-			->setParameter('objecttype', $objectType)
-			->setMaxResults(1);
+			->setParameter('objecttype', $objectType);
 
 		$result = $query->execute();
 		$row = $result->fetch(\PDO::FETCH_NUM);
 		$result->closeCursor();
+
 		if ($all) {
 			return ((int)$row[0] === count($objIds));
 		} else {
-			return (int)$row[0] > 0;
+			return (bool) $row;
 		}
 	}
 
