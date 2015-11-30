@@ -31,9 +31,11 @@ interface ISystemTagManager {
 	/**
 	 * Returns the tag objects matching the given tag ids.
 	 *
-	 * @param array|string $tagIds The ID or array of IDs of the tags to retrieve
+	 * @param array|string $tagIds id or array of unique ids of the tag to retrieve
 	 *
-	 * @return \OCP\SystemTag\ISystemTag[] array of system tags or empty array if none found
+	 * @return \OCP\SystemTag\ISystemTag[] array of system tags with tag id as key
+	 *
+	 * @throws \OCP\SystemTag\TagNotFoundException if at least one given tag id did no exist
 	 *
 	 * @since 9.0.0
 	 */
@@ -72,14 +74,14 @@ interface ISystemTagManager {
 	/**
 	 * Returns all known tags, optionally filtered by visibility.
 	 *
-	 * @param bool $visibleOnly whether to only return user visible tags
+	 * @param bool|null $visibilityFilter filter by visibility if non-null
 	 * @param string $nameSearchPattern optional search pattern for the tag name
 	 *
 	 * @return \OCP\SystemTag\ISystemTag[] array of system tags or empty array if none found
 	 *
 	 * @since 9.0.0
 	 */
-	public function getAllTags($visibleOnly = false, $nameSearchPattern = null);
+	public function getAllTags($visibilityFilter = null, $nameSearchPattern = null);
 
 	/**
 	 * Updates the given tag

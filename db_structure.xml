@@ -1078,6 +1078,130 @@
 	</table>
 
 	<table>
+		<!--
+		List of system-wide tags
+		-->
+		<name>*dbprefix*systemtag</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<!-- Tag name -->
+			<field>
+				<name>name</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<!-- Visibility: 0 user-not-visible, 1 user-visible -->
+			<field>
+				<name>visibility</name>
+				<type>integer</type>
+				<default>1</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<!-- Editable: 0 user-not-editable, 1 user-editable -->
+			<field>
+				<name>editable</name>
+				<type>integer</type>
+				<default>1</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<index>
+				<name>tag_ident</name>
+				<unique>true</unique>
+				<field>
+					<name>name</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>visibility</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>editable</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
+	<table>
+
+		<!--
+		System tag to object associations per object type.
+		-->
+		<name>*dbprefix*systemtag_object_mapping</name>
+
+		<declaration>
+
+		<!-- object id (ex: file id for files)-->
+		<field>
+			<name>objectid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+		</field>
+
+		<!-- object type (ex: "files")-->
+		<field>
+			<name>objecttype</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>64</length>
+		</field>
+
+		<!-- Foreign Key systemtag::id -->
+		<field>
+			<name>systemtagid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+		</field>
+
+		<index>
+			<unique>true</unique>
+			<name>mapping</name>
+			<field>
+				<name>objecttype</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>objectid</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>systemtagid</name>
+				<sorting>ascending</sorting>
+			</field>
+		</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
 
 		<!--
 		Namespaced Key-Value Store for arbitrary data.
