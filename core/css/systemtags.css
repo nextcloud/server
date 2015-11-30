@@ -1,0 +1,80 @@
+/*
+ * Copyright (c) 2016
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+.systemtags-select2-dropdown .select2-selected {
+	display: list-item;
+	background-color: #f8f8f8;
+}
+.systemtags-select2-dropdown .select2-highlighted,
+.systemtags-select2-dropdown .select2-selected.select2-highlighted {
+	background: #3875d7;
+}
+
+.systemtags-select2-dropdown .select2-highlighted {
+	color: #000000;
+}
+.systemtags-select2-dropdown .select2-result-label .checkmark {
+	visibility: hidden;
+}
+
+.systemtags-select2-dropdown .select2-result-label .new-item .systemtags-actions {
+	display: none;
+}
+
+.systemtags-select2-dropdown .select2-selected .select2-result-label .checkmark {
+	visibility: visible;
+}
+
+.systemtags-select2-dropdown .select2-result-label .icon {
+	display: inline-block;
+}
+
+.systemtags-select2-dropdown .systemtags-actions {
+	float: right;
+}
+
+.systemtags-select2-dropdown .systemtags-rename-form {
+	display: inline;
+	margin-left: 10px;
+}
+
+.systemtags-select2-container { 
+	width: 80%;
+}
+
+.systemtags-select2-container .select2-choices {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	background: #fff;
+	color: #555;
+	box-sizing: content-box;
+	border-radius: 3px;
+	border: 1px solid #ddd;
+	margin: 3px 3px 3px 0;
+	padding: 7px 6px 5px;
+	min-height: auto;
+}
+
+.systemtags-select2-container .select2-choices .select2-search-choice {
+	border: 0;
+	box-shadow: none;
+	background: none;
+	padding: 0;
+	margin: 0;
+	line-height: 20px;
+}
+.systemtags-select2-container .select2-choices .select2-search-choice-close {
+	display: none;
+}
+.systemtags-select2-container .select2-choices .select2-search-field input {
+	margin: 0;
+	padding: 0;
+	line-height: 20px;
+}
+

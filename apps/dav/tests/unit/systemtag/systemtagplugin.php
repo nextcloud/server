@@ -201,7 +201,7 @@ class SystemTagPlugin extends \Test\TestCase {
 
 		$response->expects($this->once())
 			->method('setHeader')
-			->with('Location', 'http://example.com/dav/systemtags/1');
+			->with('Content-Location', 'http://example.com/dav/systemtags/1');
 
 		$this->plugin->httpPost($request, $response);
 	}
@@ -266,7 +266,7 @@ class SystemTagPlugin extends \Test\TestCase {
 
 		$response->expects($this->once())
 			->method('setHeader')
-			->with('Location', 'http://example.com/dav/systemtags/1');
+			->with('Content-Location', 'http://example.com/dav/systemtags/1');
 
 		$this->plugin->httpPost($request, $response);
 	}

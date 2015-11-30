@@ -12,8 +12,6 @@
 
 /**
  * Select2 extension for toggling values in a multi-select dropdown
- *
- * Inspired by http://stackoverflow.com/a/27466159 and adjusted
  */
 (function(Select2) {
 
@@ -28,28 +26,25 @@
 	var Select2TriggerSelect = Select2.class.multi.prototype.triggerSelect;
 	Select2.class.multi.prototype.triggerSelect = function (data) {
 		if (this.opts.toggleSelect && this.val().indexOf(this.id(data)) !== -1) {
-
-			var val = this.id(data);
-			var evt = $.Event('select2-removing');
-			evt.val = val;
-			evt.choice = data;
-			this.opts.element.trigger(evt);
-
-			if (evt.isDefaultPrevented()) {
-				return false;
-			}
-
 			var self = this;
-			this.results.find('.select2-result.select2-selected').each(function () {
-				var $this = $(this);
-				if (self.id($this.data('select2-data')) === val) {
-					$this.removeClass('select2-selected');
-				}
+			var val = this.id(data);
+
+			var selectionEls = this.container.find('.select2-search-choice').filter(function() {
+				return (self.id($(this).data('select2-data')) === val);
 			});
 
-			this.opts.element.trigger({ type: "select2-removed", val: this.id(data), choice: data });
-			this.triggerChange({ removed: data });
+			if (this.unselect(selectionEls)) {
+				// also unselect in dropdown
+				this.results.find('.select2-result.select2-selected').each(function () {
+					var $this = $(this);
+					if (self.id($this.data('select2-data')) === val) {
+						$this.removeClass('select2-selected');
+					}
+				});
+				this.clearSearch();
+			}
 
+			return false;
 		} else {
 			return Select2TriggerSelect.apply(this, arguments);
 		}

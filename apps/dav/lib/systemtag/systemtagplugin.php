@@ -127,7 +127,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				$url .= '/';
 			}
 
-			$response->setHeader('Location', $url . $tag->getId());
+			$response->setHeader('Content-Location', $url . $tag->getId());
 
 			// created
 			$response->setStatus(201);

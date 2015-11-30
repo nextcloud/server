@@ -44,6 +44,10 @@
 		"mimetype.js",
 		"mimetypelist.js",
 		"files/fileinfo.js",
-		"files/client.js"
+		"files/client.js",
+		"systemtags/systemtagmodel.js",
+		"systemtags/systemtagscollection.js",
+		"systemtags/systemtagsmappingcollection.js",
+		"systemtags/systemtagsinputfield.js"
 	]
 }

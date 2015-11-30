@@ -160,7 +160,7 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 		OC.Plugins._plugins = [];
 
 		// dummy select2 (which isn't loaded during the tests)
-		$.fn.select2 = function() {};
+		$.fn.select2 = function() { return this; };
 	});
 
 	afterEach(function() {

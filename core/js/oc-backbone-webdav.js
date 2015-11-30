@@ -167,7 +167,7 @@
 	}
 
 	function callPropPatch(client, options, model, headers) {
-		client.propPatch(
+		return client.propPatch(
 			options.url,
 			convertModelAttributesToDavProperties(model.changed, options.davProperties),
 			headers
