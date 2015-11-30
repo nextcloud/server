@@ -181,8 +181,7 @@
 				</verify>
 			</request>
 		</test>
-		<!--
-		<test name='6'>
+		<!-- test name='6'>
 			<require-feature>
 				<feature>sync-report-home</feature>
 			</require-feature>
@@ -236,7 +235,7 @@
 					</arg>
 				</verify>
 			</request>
-		</test>
+		</test -->
 		<test name='8'>
 			<description>remove new resource</description>
 			<request>
@@ -264,14 +263,15 @@
 					<callback>multistatusItems</callback>
 					<arg>
 						<name>okhrefs</name>
-						<value>$calendar_sync_extra_items:</value>
+						<!-- no sync on addressbook level -->
+						<!--<value>$calendar_sync_extra_items:</value>-->
 						<value>1.vcf</value>
 						<value>2.vcf</value>
 					</arg>
 				</verify>
 			</request>
 		</test>
-		<test name='10'>
+		<!--test name='10'>
 			<require-feature>
 				<feature>sync-report-home</feature>
 			</require-feature>
