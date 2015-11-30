@@ -152,6 +152,14 @@ trait BasicStructure{
 		if (!file_exists("../../core/skeleton/FOLDER")) {
 			mkdir("../../core/skeleton/FOLDER", 0777, true);
 		}
+		if (!file_exists("../../core/skeleton/PARENT")) {
+			mkdir("../../core/skeleton/PARENT", 0777, true);
+		}
+		file_put_contents("../../core/skeleton/PARENT/" . "parent.txt", "ownCloud test text file\n");
+		if (!file_exists("../../core/skeleton/PARENT/CHILD")) {
+			mkdir("../../core/skeleton/PARENT/CHILD", 0777, true);
+		}
+		file_put_contents("../../core/skeleton/PARENT/CHILD/" . "child.txt", "ownCloud test text file\n");
 
 	}
 
@@ -165,6 +173,16 @@ trait BasicStructure{
 		if (is_dir("../../core/skeleton/FOLDER")) {
 			rmdir("../../core/skeleton/FOLDER");
 		}
+		self::removeFile("../../core/skeleton/PARENT/CHILD/", "child.txt");
+		if (is_dir("../../core/skeleton/PARENT/CHILD")) {
+			rmdir("../../core/skeleton/PARENT/CHILD");
+		}
+		self::removeFile("../../core/skeleton/PARENT/", "parent.txt");
+		if (is_dir("../../core/skeleton/PARENT")) {
+			rmdir("../../core/skeleton/PARENT");
+		}
+
+
 	}
 }
 

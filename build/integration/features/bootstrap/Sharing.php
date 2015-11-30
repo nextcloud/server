@@ -273,7 +273,7 @@ trait Sharing{
 	}
 
 	/**
-	 * @Given /^file "([^"]*)" from user "([^"]*)" is shared with user "([^"]*)"$/
+	 * @Given /^file "([^"]*)" of user "([^"]*)" is shared with user "([^"]*)"$/
 	 */
 	public function assureFileIsShared($filepath, $user1, $user2){
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
@@ -295,7 +295,7 @@ trait Sharing{
 	}
 
 	/**
-	 * @Given /^file "([^"]*)" from user "([^"]*)" is shared with group "([^"]*)"$/
+	 * @Given /^file "([^"]*)" of user "([^"]*)" is shared with group "([^"]*)"$/
 	 */
 	public function assureFileIsSharedWithGroup($filepath, $user, $group){
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
