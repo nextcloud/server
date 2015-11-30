@@ -96,7 +96,7 @@ class SystemTagObjectMapper implements \OCP\SystemTag\ISystemTagObjectMapper {
 		$this->assertTagsExist($tagIds);
 
 		$query = $this->connection->getQueryBuilder();
-		$query->select($query->createFunction('DISTINCT(objectid)'))
+		$query->select($query->createFunction('DISTINCT(`objectid`)'))
 			->from(self::RELATION_TABLE)
 			->where($query->expr()->in('systemtagid', $query->createParameter('tagids')))
 			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
