@@ -15,6 +15,8 @@ use Test\TestCase;
 /**
  * Tests for the converting of legacy storages to home storages.
  *
+ * @group DB
+ *
  * @see \OC\Repair\RepairLegacyStorages
  */
 class RepairLegacyStorages extends TestCase {

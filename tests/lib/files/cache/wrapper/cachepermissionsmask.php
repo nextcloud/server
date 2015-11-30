@@ -11,6 +11,13 @@ namespace Test\Files\Cache\Wrapper;
 use OCP\Constants;
 use Test\Files\Cache\Cache;
 
+/**
+ * Class CachePermissionsMask
+ *
+ * @group DB
+ *
+ * @package Test\Files\Cache\Wrapper
+ */
 class CachePermissionsMask extends Cache {
 	/**
 	 * @var \OC\Files\Cache\Cache $sourceCache

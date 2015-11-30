@@ -16,6 +16,8 @@ use Test\TestCase;
 /**
  * Tests for repairing invalid shares
  *
+ * @group DB
+ *
  * @see \OC\Repair\RepairInvalidShares
  */
 class RepairInvalidSharesTest extends TestCase {

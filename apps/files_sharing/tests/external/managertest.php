@@ -28,6 +28,13 @@ use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
 use Test\Traits\UserTrait;
 
+/**
+ * Class ManagerTest
+ *
+ * @group DB
+ *
+ * @package OCA\Files_Sharing\Tests\External
+ */
 class ManagerTest extends TestCase {
 	use UserTrait;
 

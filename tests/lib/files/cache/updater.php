@@ -12,6 +12,13 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 
+/**
+ * Class Updater
+ *
+ * @group DB
+ *
+ * @package Test\Files\Cache
+ */
 class Updater extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage

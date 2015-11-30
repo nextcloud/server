@@ -16,6 +16,13 @@ class LongId extends \OC\Files\Storage\Temporary {
 	}
 }
 
+/**
+ * Class Cache
+ *
+ * @group DB
+ *
+ * @package Test\Files\Cache
+ */
 class Cache extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Temporary $storage ;

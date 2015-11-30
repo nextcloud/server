@@ -25,6 +25,13 @@
 
 namespace Test\Files\Storage;
 
+/**
+ * Class SFTP
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class SFTP extends Storage {
 	/**
 	 * @var \OC\Files\Storage\SFTP instance

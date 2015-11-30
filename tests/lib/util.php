@@ -167,55 +167,6 @@ class Test_Util extends \Test\TestCase {
 	}
 
 	/**
-	 * Tests that the home storage is not wrapped when no quota exists.
-	 */
-	function testHomeStorageWrapperWithoutQuota() {
-		$user1 = $this->getUniqueID();
-		\OC_User::createUser($user1, 'test');
-		\OC::$server->getConfig()->setUserValue($user1, 'files', 'quota', 'none');
-		\OC_User::setUserId($user1);
-
-		\OC_Util::setupFS($user1);
-
-		$userMount = \OC\Files\Filesystem::getMountManager()->find('/' . $user1 . '/');
-		$this->assertNotNull($userMount);
-		$this->assertNotInstanceOf('\OC\Files\Storage\Wrapper\Quota', $userMount->getStorage());
-
-		// clean up
-		\OC_User::setUserId('');
-		\OC_User::deleteUser($user1);
-		\OC::$server->getConfig()->deleteAllUserValues($user1);
-		\OC_Util::tearDownFS();
-	}
-
-	/**
-	 * Tests that the home storage is not wrapped when no quota exists.
-	 */
-	function testHomeStorageWrapperWithQuota() {
-		$user1 = $this->getUniqueID();
-		\OC_User::createUser($user1, 'test');
-		\OC::$server->getConfig()->setUserValue($user1, 'files', 'quota', '1024');
-		\OC_User::setUserId($user1);
-
-		\OC_Util::setupFS($user1);
-
-		$userMount = \OC\Files\Filesystem::getMountManager()->find('/' . $user1 . '/');
-		$this->assertNotNull($userMount);
-		$this->assertTrue($userMount->getStorage()->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota'));
-
-		// ensure that root wasn't wrapped
-		$rootMount = \OC\Files\Filesystem::getMountManager()->find('/');
-		$this->assertNotNull($rootMount);
-		$this->assertNotInstanceOf('\OC\Files\Storage\Wrapper\Quota', $rootMount->getStorage());
-
-		// clean up
-		\OC_User::setUserId('');
-		\OC_User::deleteUser($user1);
-		\OC::$server->getConfig()->deleteAllUserValues($user1);
-		\OC_Util::tearDownFS();
-	}
-
-	/**
 	 * @dataProvider baseNameProvider
 	 */
 	public function testBaseName($expected, $file) {

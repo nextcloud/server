@@ -20,6 +20,11 @@
  *
  */
 
+/**
+ * Class Test_OC_OCS_Privatedata
+ *
+ * @group DB
+ */
 class Test_OC_OCS_Privatedata extends \Test\TestCase {
 	private $appKey;
 

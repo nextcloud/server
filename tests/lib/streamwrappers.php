@@ -20,6 +20,11 @@
  *
  */
 
+/**
+ * Class Test_StreamWrappers
+ *
+ * @group DB
+ */
 class Test_StreamWrappers extends \Test\TestCase {
 
 	private static $trashBinStatus;

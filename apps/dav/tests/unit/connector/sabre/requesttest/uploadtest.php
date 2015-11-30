@@ -12,6 +12,13 @@ use OC\Connector\Sabre\Exception\FileLocked;
 use OCP\AppFramework\Http;
 use OCP\Lock\ILockingProvider;
 
+/**
+ * Class UploadTest
+ *
+ * @group DB
+ *
+ * @package OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest
+ */
 class UploadTest extends RequestTest {
 	public function testBasicUpload() {
 		$user = $this->getUniqueID();

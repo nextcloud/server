@@ -10,6 +10,13 @@ namespace Test\Files\Cache\Wrapper;
 
 use Test\Files\Cache\Cache;
 
+/**
+ * Class CacheJail
+ *
+ * @group DB
+ *
+ * @package Test\Files\Cache\Wrapper
+ */
 class CacheJail extends Cache {
 	/**
 	 * @var \OC\Files\Cache\Cache $sourceCache

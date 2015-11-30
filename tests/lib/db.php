@@ -6,6 +6,11 @@
  * See the COPYING-README file.
  */
 
+/**
+ * Class Test_DB
+ *
+ * @group DB
+ */
 class Test_DB extends \Test\TestCase {
 	protected $backupGlobals = FALSE;
 

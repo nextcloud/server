@@ -12,6 +12,13 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 
+/**
+ * Class ChangePropagator
+ *
+ * @group DB
+ *
+ * @package Test\Files\Cache
+ */
 class ChangePropagator extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Cache\ChangePropagator

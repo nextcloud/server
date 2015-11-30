@@ -28,6 +28,8 @@ use OCA\Files\Share;
 
 /**
  * Class Test_Files_Sharing_Api
+ *
+ * @group DB
  */
 class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 

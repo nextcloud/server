@@ -15,6 +15,11 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Class Test_Log_Owncloud
+ *
+ * @group DB
+ */
 class Test_Log_Owncloud extends Test\TestCase
 {
 	private $restore_logfile;
@@ -22,8 +27,8 @@ class Test_Log_Owncloud extends Test\TestCase
 
 	protected function setUp() {
 		parent::setUp();
-		$restore_logfile = OC_Config::getValue("logfile");
-		$restore_logdateformat = OC_Config::getValue('logdateformat');
+		$this->restore_logfile = OC_Config::getValue("logfile");
+		$this->restore_logdateformat = OC_Config::getValue('logdateformat');
 		
 		OC_Config::setValue("logfile", OC_Config::getValue('datadirectory') . "/logtest");
 		OC_Log_Owncloud::init();

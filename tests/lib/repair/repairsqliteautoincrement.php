@@ -10,6 +10,8 @@ namespace Test\Repair;
 
 /**
  * Tests for fixing the SQLite id recycling
+ *
+ * @group DB
  */
 class RepairSqliteAutoincrement extends \Test\TestCase {
 

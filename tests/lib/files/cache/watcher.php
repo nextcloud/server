@@ -8,6 +8,13 @@
 
 namespace Test\Files\Cache;
 
+/**
+ * Class Watcher
+ *
+ * @group DB
+ *
+ * @package Test\Files\Cache
+ */
 class Watcher extends \Test\TestCase {
 
 	/**

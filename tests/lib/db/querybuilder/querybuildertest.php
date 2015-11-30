@@ -27,6 +27,13 @@ use OC\DB\QueryBuilder\Parameter;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\IDBConnection;
 
+/**
+ * Class QueryBuilderTest
+ *
+ * @group DB
+ *
+ * @package Test\DB\QueryBuilder
+ */
 class QueryBuilderTest extends \Test\TestCase {
 	/** @var QueryBuilder */
 	protected $queryBuilder;

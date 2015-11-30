@@ -47,6 +47,12 @@ use OCA\Files_sharing\Tests\TestCase;
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/**
+ * Class Test_Files_Sharing_Cache
+ *
+ * @group DB
+ */
 class Test_Files_Sharing_Cache extends TestCase {
 
 	/**

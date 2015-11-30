@@ -23,6 +23,13 @@
 
 namespace OCA\user_ldap\tests;
 
+/**
+ * Class Test_Connection
+ *
+ * @group DB
+ *
+ * @package OCA\user_ldap\tests
+ */
 class Test_Connection extends \Test\TestCase {
 
 	public function testOriginalAgentUnchangedOnClone() {

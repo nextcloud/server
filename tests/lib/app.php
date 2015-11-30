@@ -1,11 +1,16 @@
 <?php
-
 /**
  * Copyright (c) 2012 Bernhard Posselt <dev@bernhard-posselt.com>
  * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
+ */
+
+/**
+ * Class Test_App
+ *
+ * @group DB
  */
 class Test_App extends \Test\TestCase {
 

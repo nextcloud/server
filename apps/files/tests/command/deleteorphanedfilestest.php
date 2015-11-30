@@ -25,6 +25,13 @@ namespace OCA\Files\Tests\Command;
 use OCA\Files\Command\DeleteOrphanedFiles;
 use OCP\Files\StorageNotAvailableException;
 
+/**
+ * Class DeleteOrphanedFilesTest
+ *
+ * @group DB
+ *
+ * @package OCA\Files\Tests\Command
+ */
 class DeleteOrphanedFilesTest extends \Test\TestCase {
 
 	/**

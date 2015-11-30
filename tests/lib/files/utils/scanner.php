@@ -40,6 +40,13 @@ class TestScanner extends \OC\Files\Utils\Scanner {
 	}
 }
 
+/**
+ * Class Scanner
+ *
+ * @group DB
+ *
+ * @package Test\Files\Utils
+ */
 class Scanner extends \Test\TestCase {
 	/**
 	 * @var \Test\Util\User\Dummy

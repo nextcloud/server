@@ -9,6 +9,13 @@
 
 namespace Test\User;
 
+/**
+ * Class Manager
+ *
+ * @group DB
+ *
+ * @package Test\User
+ */
 class Manager extends \Test\TestCase {
 	public function testGetBackends() {
 		$userDummyBackend = $this->getMock('\Test\Util\User\Dummy');
@@ -441,11 +448,25 @@ class Manager extends \Test\TestCase {
 	}
 
 	public function testDeleteUser() {
-		$manager = new \OC\User\Manager();
+		$config = $this->getMockBuilder('OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+		$config
+				->expects($this->at(0))
+				->method('getUserValue')
+				->with('foo', 'core', 'enabled')
+				->will($this->returnValue(true));
+		$config
+				->expects($this->at(1))
+				->method('getUserValue')
+				->with('foo', 'login', 'lastLogin')
+				->will($this->returnValue(0));
+
+		$manager = new \OC\User\Manager($config);
 		$backend = new \Test\Util\User\Dummy();
 
-		$backend->createUser('foo', 'bar');
 		$manager->registerBackend($backend);
+		$backend->createUser('foo', 'bar');
 		$this->assertTrue($manager->userExists('foo'));
 		$manager->get('foo')->delete();
 		$this->assertFalse($manager->userExists('foo'));

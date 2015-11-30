@@ -41,6 +41,13 @@ class TestDoubleFileView extends \OC\Files\View {
 	}
 }
 
+/**
+ * Class ObjectTree
+ *
+ * @group DB
+ *
+ * @package OCA\DAV\Tests\Unit\Connector\Sabre
+ */
 class ObjectTree extends \Test\TestCase {
 
 	/**

@@ -6,6 +6,11 @@
  * See the COPYING-README file.
  */
 
+/**
+ * Class TestSqliteMigration
+ *
+ * @group DB
+ */
 class TestSqliteMigration extends \Test\TestCase {
 
 	/** @var \Doctrine\DBAL\Connection */

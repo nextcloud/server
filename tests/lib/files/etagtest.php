@@ -11,6 +11,13 @@ namespace Test\Files;
 use OC\Files\Filesystem;
 use OCP\Share;
 
+/**
+ * Class EtagTest
+ *
+ * @group DB
+ *
+ * @package Test\Files
+ */
 class EtagTest extends \Test\TestCase {
 	private $datadir;
 

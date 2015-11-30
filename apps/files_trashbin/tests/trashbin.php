@@ -29,6 +29,8 @@ use OCA\Files_Trashbin;
 
 /**
  * Class Test_Encryption
+ *
+ * @group DB
  */
 class Test_Trashbin extends \Test\TestCase {
 

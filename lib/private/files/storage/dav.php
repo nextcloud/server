@@ -105,6 +105,7 @@ class DAV extends Common {
 				$this->secure = false;
 			}
 			if ($this->secure === true) {
+				// inject mock for testing
 				$certPath = \OC_User::getHome(\OC_User::getUser()) . '/files_external/rootcerts.crt';
 				if (file_exists($certPath)) {
 					$this->certPath = $certPath;

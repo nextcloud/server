@@ -38,6 +38,8 @@ use OCP\Share;
 use OC\URLGenerator;
 
 /**
+ * @group DB
+ *
  * @package OCA\Files_Sharing\Controllers
  */
 class ShareControllerTest extends \Test\TestCase {

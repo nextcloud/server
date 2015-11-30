@@ -27,6 +27,13 @@ namespace OCA\Files_sharing\Tests;
 use OC\Files\Filesystem;
 use OC\Files\View;
 
+/**
+ * Class EtagPropagation
+ *
+ * @group DB
+ *
+ * @package OCA\Files_sharing\Tests
+ */
 class EtagPropagation extends TestCase {
 	/**
 	 * @var \OC\Files\View

@@ -25,6 +25,13 @@
 
 namespace Test\Files\Storage;
 
+/**
+ * Class AmazonS3Migration
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class AmazonS3Migration extends \Test\TestCase {
 
 	/**

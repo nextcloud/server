@@ -21,6 +21,13 @@
 
 namespace Test\Preview;
 
+/**
+ * Class SVG
+ *
+ * @group DB
+ *
+ * @package Test\Preview
+ */
 class SVG extends Provider {
 
 	public function setUp() {

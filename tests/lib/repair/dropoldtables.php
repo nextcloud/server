@@ -11,6 +11,8 @@ namespace Test\Repair;
 /**
  * Tests for the dropping old tables
  *
+ * @group DB
+ *
  * @see \OC\Repair\DropOldTables
  */
 class DropOldTables extends \Test\TestCase {

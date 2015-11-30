@@ -20,6 +20,11 @@
 *
 */
 
+/**
+ * Class Test_User_Database
+ *
+ * @group DB
+ */
 class Test_User_Database extends Test_User_Backend {
 	/** @var array */
 	private $users;

@@ -11,6 +11,13 @@ namespace Test\Lib;
 
 use Test\TestCase;
 
+/**
+ * Class AppConfig
+ *
+ * @group DB
+ *
+ * @package Test\Lib
+ */
 class AppConfig extends TestCase {
 	/** @var \OCP\IAppConfig */
 	protected $appConfig;

@@ -23,10 +23,13 @@
 
 namespace OCA\Provisioning_API\Tests;
 
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IGroupManager;
 
 abstract class TestCase extends \Test\TestCase {
+
+	/** @var IUser[] */
 	protected $users = array();
 
 	/** @var IUserManager */
@@ -46,7 +49,7 @@ abstract class TestCase extends \Test\TestCase {
 	/**
 	 * Generates a temp user
 	 * @param int $num number of users to generate
-	 * @return IUser[]|Iuser
+	 * @return IUser[]|IUser
 	 */
 	protected function generateUsers($num = 1) {
 		$users = array();

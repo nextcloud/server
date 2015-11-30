@@ -23,6 +23,13 @@
 
 namespace Test\Files\Storage;
 
+/**
+ * Class SFTP_Key
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class SFTP_Key extends Storage {
 	private $config;
 

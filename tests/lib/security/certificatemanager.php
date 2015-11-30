@@ -8,6 +8,11 @@
 
 use \OC\Security\CertificateManager;
 
+/**
+ * Class CertificateManagerTest
+ *
+ * @group DB
+ */
 class CertificateManagerTest extends \Test\TestCase {
 
 	/** @var CertificateManager */

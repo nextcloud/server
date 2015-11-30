@@ -9,6 +9,13 @@
 
 namespace Test;
 
+/**
+ * Class User
+ *
+ * @group DB
+ *
+ * @package Test
+ */
 class User extends TestCase {
 	/**
 	 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend

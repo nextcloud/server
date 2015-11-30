@@ -11,6 +11,8 @@ namespace Test\Repair;
 /**
  * Tests for the cleaning the tags tables
  *
+ * @group DB
+ *
  * @see \OC\Repair\CleanTags
  */
 class CleanTags extends \Test\TestCase {
