@@ -29,20 +29,29 @@ header('Content-type: application/xml');
 
 $url=OCP\Util::getServerProtocol().'://'.substr(OCP\Util::getServerHost().OCP\Util::getRequestUri(), 0, -17).'ocs/v1.php/';
 
-echo('
-<providers>
-<provider>
- <id>ownCloud</id>
- <location>'.$url.'</location>
- <name>ownCloud</name>
- <icon></icon>
- <termsofuse></termsofuse>
- <register></register>
- <services>
-   <config ocsversion="1.7" />
-   <activity ocsversion="1.7" />
-   <cloud ocsversion="1.7" />
- </services>
-</provider>
-</providers>
-');
+$writer = new XMLWriter();
+$writer->openURI('php://output');
+$writer->startDocument('1.0','UTF-8');
+$writer->setIndent(4);
+$writer->startElement('providers');
+$writer->startElement('provider');
+$writer->writeElement('id', 'ownCloud');
+$writer->writeElement('location', $url);
+$writer->writeElement('name', 'ownCloud');
+$writer->writeElement('icon', '');
+$writer->writeElement('termsofuse', '');
+$writer->writeElement('register', '');
+$writer->startElement('services');
+$writer->startElement('config');
+$writer->writeAttribute('ocsversion', '1.7');
+$writer->endElement();
+$writer->startElement('activity');
+$writer->writeAttribute('ocsversion', '1.7');
+$writer->endElement();
+$writer->startElement('cloud');
+$writer->writeAttribute('ocsversion', '1.7');
+$writer->endElement();
+$writer->endElement();
+$writer->endElement();
+$writer->endDocument();
+$writer->flush();
