@@ -206,6 +206,14 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getSecureRandom();
 		});
 
+		$this->registerService('OCP\\SystemTag\\ISystemTagManager', function() {
+			return $this->getServer()->getSystemTagManager();
+		});
+
+		$this->registerService('OCP\\SystemTag\\ISystemTagObjectMapper', function() {
+			return $this->getServer()->getSystemTagObjectMapper();
+		});
+
 		$this->registerService('OCP\\IURLGenerator', function($c) {
 			return $this->getServer()->getURLGenerator();
 		});
