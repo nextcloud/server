@@ -3,6 +3,7 @@
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\CardDAV\Sharing\IShareableAddressBook;
+use Sabre\DAV\Exception\NotFound;
 
 class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareableAddressBook {
 
@@ -77,4 +78,13 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareableAddres
 
 		return $acl;
 	}
+
+	function getChild($name) {
+		$obj = $this->carddavBackend->getCard($this->addressBookInfo['id'], $name);
+		if (!$obj) {
+			throw new NotFound('Card not found');
+		}
+		return new Card($this->carddavBackend, $this->addressBookInfo, $obj);
+	}
+
 }
