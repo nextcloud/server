@@ -10,9 +10,10 @@
 
 namespace Test\SystemTag;
 
+use OC\SystemTag\SystemTagManager;
+use OC\SystemTag\SystemTagObjectMapper;
+use OCP\SystemTag\ISystemTag;
 use \OCP\SystemTag\ISystemTagManager;
-use \OCP\SystemTag\TagNotFoundException;
-use \OCP\SystemTag\TagAlreadyExistsException;
 use \OCP\IDBConnection;
 
 /**
@@ -37,13 +38,13 @@ class TestSystemTagManager extends \Test\TestCase {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->tagManager = new \OC\SystemTag\SystemTagManager($this->connection);
+		$this->tagManager = new SystemTagManager($this->connection);
 	} 
 
 	public function tearDown() {
 		$query = $this->connection->getQueryBuilder();
-		$query->delete(\OC\SystemTag\SystemTagObjectMapper::RELATION_TABLE)->execute();
-		$query->delete(\OC\SystemTag\SystemTagManager::TAG_TABLE)->execute();
+		$query->delete(SystemTagObjectMapper::RELATION_TABLE)->execute();
+		$query->delete(SystemTagManager::TAG_TABLE)->execute();
 	}
 
 	public function getAllTagsDataProvider() {
@@ -373,7 +374,7 @@ class TestSystemTagManager extends \Test\TestCase {
 		$tag1 = $this->tagManager->createTag('one', true, false);
 		$tag2 = $this->tagManager->createTag('two', true, true);
 
-		$tagMapper = new \OC\SystemTag\SystemTagObjectMapper($this->connection, $this->tagManager);
+		$tagMapper = new SystemTagObjectMapper($this->connection, $this->tagManager);
 
 		$tagMapper->assignTags(1, 'testtype', $tag1->getId());
 		$tagMapper->assignTags(1, 'testtype', $tag2->getId());
@@ -392,6 +393,10 @@ class TestSystemTagManager extends \Test\TestCase {
 		], $tagIdMapping);
 	}
 
+	/**
+	 * @param ISystemTag $tag1
+	 * @param ISystemTag $tag2
+	 */
 	private function assertSameTag($tag1, $tag2) {
 		$this->assertEquals($tag1->getId(), $tag2->getId());
 		$this->assertEquals($tag1->getName(), $tag2->getName());

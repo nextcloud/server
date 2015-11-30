@@ -10,13 +10,15 @@
 
 namespace Test\SystemTag;
 
+use OC\SystemTag\SystemTagManager;
+use OC\SystemTag\SystemTagObjectMapper;
 use \OCP\SystemTag\ISystemTag;
 use \OCP\SystemTag\ISystemTagManager;
 use \OCP\SystemTag\ISystemTagObjectMapper;
 use \OCP\SystemTag\TagNotFoundException;
-use \OCP\SystemTag\TagAlreadyExistsException;
 use \OCP\IDBConnection;
 use \OC\SystemTag\SystemTag;
+use Test\TestCase;
 
 /**
  * Class TestSystemTagObjectMapper
@@ -24,7 +26,7 @@ use \OC\SystemTag\SystemTag;
  * @group DB
  * @package Test\SystemTag
  */
-class TestSystemTagObjectMapper extends \Test\TestCase {
+class TestSystemTagObjectMapper extends TestCase {
 
 	/**
 	 * @var ISystemTagManager
@@ -64,7 +66,7 @@ class TestSystemTagObjectMapper extends \Test\TestCase {
 		$this->tagManager = $this->getMockBuilder('OCP\SystemTag\ISystemTagManager')
 			->getMock();
 
-		$this->tagMapper = new \OC\SystemTag\SystemTagObjectMapper($this->connection, $this->tagManager);
+		$this->tagMapper = new SystemTagObjectMapper($this->connection, $this->tagManager);
 
 		$this->tag1 = new SystemTag(1, 'testtag1', false, false);
 		$this->tag2 = new SystemTag(2, 'testtag2', true, false);
@@ -94,8 +96,8 @@ class TestSystemTagObjectMapper extends \Test\TestCase {
 
 	public function tearDown() {
 		$query = $this->connection->getQueryBuilder();
-		$query->delete(\OC\SystemTag\SystemTagObjectMapper::RELATION_TABLE)->execute();
-		$query->delete(\OC\SystemTag\SystemTagManager::TAG_TABLE)->execute();
+		$query->delete(SystemTagObjectMapper::RELATION_TABLE)->execute();
+		$query->delete(SystemTagManager::TAG_TABLE)->execute();
 	}
 
 	public function testGetTagsForObjects() {
