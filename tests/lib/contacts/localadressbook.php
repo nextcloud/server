@@ -102,4 +102,7 @@ class SimpleUserForTesting implements IUser {
 
 	public function getAvatarImage($size) {
 	}
+
+	public function getCloudId() {
+	}
 }

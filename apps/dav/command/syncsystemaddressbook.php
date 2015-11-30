@@ -49,6 +49,10 @@ class SyncSystemAddressBook extends Command {
 			->setDescription('Synchronizes users to the system addressbook');
 	}
 
+	/**
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$principalBackend = new Principal(
 				$this->config,
@@ -72,6 +76,7 @@ class SyncSystemAddressBook extends Command {
 				$userId = $user->getUID();
 				$displayName = $user->getDisplayName();
 				$emailAddress = $user->getEMailAddress();
+				$cloudId = $user->getCloudId();
 				$image = $user->getAvatarImage(-1);
 
 				$cardId = "$name:$userId.vcf";
@@ -81,6 +86,7 @@ class SyncSystemAddressBook extends Command {
 					$vCard->add(new Text($vCard, 'UID', $userId));
 					$vCard->add(new Text($vCard, 'FN', $displayName));
 					$vCard->add(new Text($vCard, 'EMAIL', $emailAddress));
+					$vCard->add(new Text($vCard, 'CLOUD', $cloudId));
 					if ($image) {
 						$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
 					}

@@ -161,4 +161,12 @@ interface IUser {
 	 * @since 9.0.0
 	 */
 	public function getAvatarImage($size);
+
+	/**
+	 * get the federation cloud id
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getCloudId();
 }

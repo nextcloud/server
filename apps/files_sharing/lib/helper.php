@@ -310,20 +310,4 @@ class Helper {
 		\OC::$server->getConfig()->setSystemValue('share_folder', $shareFolder);
 	}
 
-	/**
-	 * remove protocol from URL
-	 *
-	 * @param string $url
-	 * @return string
-	 */
-	public static function removeProtocolFromUrl($url) {
-		if (strpos($url, 'https://') === 0) {
-			return substr($url, strlen('https://'));
-		} else if (strpos($url, 'http://') === 0) {
-			return substr($url, strlen('http://'));
-		}
-
-		return $url;
-	}
-
 }

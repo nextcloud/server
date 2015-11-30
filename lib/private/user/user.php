@@ -32,52 +32,40 @@ namespace OC\User;
 use OC\Hooks\Emitter;
 use OCP\IAvatarManager;
 use OCP\IImage;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IConfig;
 
 class User implements IUser {
-	/**
-	 * @var string $uid
-	 */
+	/** @var string $uid */
 	private $uid;
 
-	/**
-	 * @var string $displayName
-	 */
+	/** @var string $displayName */
 	private $displayName;
 
-	/**
-	 * @var \OC_User_Interface $backend
-	 */
+	/** @var \OC_User_Interface $backend */
 	private $backend;
 
-	/**
-	 * @var bool $enabled
-	 */
+	/** @var bool $enabled */
 	private $enabled;
 
-	/**
-	 * @var Emitter|Manager $emitter
-	 */
+	/** @var Emitter|Manager $emitter */
 	private $emitter;
 
-	/**
-	 * @var string $home
-	 */
+	/** @var string $home */
 	private $home;
 
-	/**
-	 * @var int $lastLogin
-	 */
+	/** @var int $lastLogin */
 	private $lastLogin;
 
-	/**
-	 * @var \OCP\IConfig $config
-	 */
+	/** @var \OCP\IConfig $config */
 	private $config;
 
 	/** @var IAvatarManager */
 	private $avatarManager;
+
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	/**
 	 * @param string $uid
@@ -85,7 +73,7 @@ class User implements IUser {
 	 * @param \OC\Hooks\Emitter $emitter
 	 * @param \OCP\IConfig $config
 	 */
-	public function __construct($uid, $backend, $emitter = null, IConfig $config = null, $avatarManager = null) {
+	public function __construct($uid, $backend, $emitter = null, IConfig $config = null, $avatarManager = null, $urlGenerator = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->emitter = $emitter;
@@ -101,6 +89,9 @@ class User implements IUser {
 		}
 		if (is_null($this->avatarManager)) {
 			$this->avatarManager = \OC::$server->getAvatarManager();
+		}
+		if (is_null($this->urlGenerator)) {
+			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
 	}
 
@@ -341,5 +332,31 @@ class User implements IUser {
 		}
 
 		return null;
+	}
+
+	/**
+	 * get the federation cloud id
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getCloudId() {
+		$uid = $this->getUID();
+		$server = $this->urlGenerator->getAbsoluteURL('/');
+		return $uid . '@' . rtrim( $this->removeProtocolFromUrl($server), '/');
+	}
+
+	/**
+	 * @param string $url
+	 * @return string
+	 */
+	private function removeProtocolFromUrl($url) {
+		if (strpos($url, 'https://') === 0) {
+			return substr($url, strlen('https://'));
+		} else if (strpos($url, 'http://') === 0) {
+			return substr($url, strlen('http://'));
+		}
+
+		return $url;
 	}
 }
