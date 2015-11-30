@@ -45,9 +45,10 @@ class ConverterTests extends  TestCase {
 
 	public function providesNewUsers() {
 		return [
-			["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:12345\r\nEND:VCARD\r\n"],
-			["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
-			["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nCLOUD:foo@bar.net\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nEMAIL;TYPE=OTHER:foo@bar.net\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nCLOUD:foo@bar.net\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
 		];
 	}
 
@@ -72,10 +73,10 @@ class ConverterTests extends  TestCase {
 
 	public function providesUsersForUpdate() {
 		return [
-			["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:12345\r\nEND:VCARD\r\n"],
-			["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
-			["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nEMAIL:foo@bar.net\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
-			["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nCLOUD:foo@bar.net\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nEMAIL;TYPE=OTHER:foo@bar.net\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nCLOUD:foo@bar.net\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
 		];
 	}
 
@@ -107,10 +108,30 @@ class ConverterTests extends  TestCase {
 
 	public function providesUsersForUpdateOfRemovedElement() {
 		return [
-			["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:12345\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
-			["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:12345\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
-			["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:12345\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.7//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
 		];
 	}
 
+	/**
+	 * @dataProvider providesNames
+	 * @param $expected
+	 * @param $fullName
+	 */
+	public function testNameSplitter($expected, $fullName) {
+
+		$converter = new Converter();
+		$r = $converter->splitFullName($fullName);
+		$r = implode(';', $r);
+		$this->assertEquals($expected, $r);
+	}
+
+	public function providesNames() {
+		return [
+				['Sauron;;;;', 'Sauron'],
+				['Baggins;Bilbo;;;', 'Bilbo Baggins'],
+				['Tolkien;John;Ronald Reuel;;', 'John Ronald Reuel Tolkien'],
+		];
+	}
 }

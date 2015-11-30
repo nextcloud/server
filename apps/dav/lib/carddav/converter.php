@@ -43,9 +43,10 @@ class Converter {
 		$vCard->add(new Text($vCard, 'UID', $uid));
 		if (!empty($displayName)) {
 			$vCard->add(new Text($vCard, 'FN', $displayName));
+			$vCard->add(new Text($vCard, 'N', $this->splitFullName($displayName)));
 		}
 		if (!empty($emailAddress)) {
-			$vCard->add(new Text($vCard, 'EMAIL', $emailAddress));
+			$vCard->add(new Text($vCard, 'EMAIL', $emailAddress, ['TYPE' => 'OTHER']));
 		}
 		if (!empty($cloudId)) {
 			$vCard->add(new Text($vCard, 'CLOUD', $cloudId));
@@ -67,16 +68,22 @@ class Converter {
 		$image = $user->getAvatarImage(-1);
 
 		$updated = false;
-		if(!is_null($vCard->FN) && $vCard->FN->getValue() !== $displayName) {
+		if((is_null($vCard->FN) && !empty($image)) || (!is_null($vCard->FN) && $vCard->FN->getValue() !== $displayName)) {
 			$vCard->FN = new Text($vCard, 'FN', $displayName);
+			unset($vCard->N);
+			$vCard->add(new Text($vCard, 'N', $this->splitFullName($displayName)));
 			$updated = true;
 		}
-		if(!is_null($vCard->EMail) && $vCard->EMail->getValue() !== $emailAddress) {
+		if((is_null($vCard->EMail) && !empty($image)) || (!is_null($vCard->EMail) && $vCard->EMail->getValue() !== $emailAddress)) {
 			$vCard->EMAIL = new Text($vCard, 'EMAIL', $emailAddress);
 			$updated = true;
 		}
-		if(!is_null($vCard->CLOUD) && $vCard->CLOUD->getValue() !== $cloudId) {
+		if((is_null($vCard->CLOUD) && !empty($image)) || (!is_null($vCard->CLOUD) && $vCard->CLOUD->getValue() !== $cloudId)) {
 			$vCard->CLOUD = new Text($vCard, 'CLOUD', $cloudId);
+			$updated = true;
+		}
+		if((is_null($vCard->PHOTO) && !empty($image)) || (!is_null($vCard->PHOTO) && $vCard->PHOTO->getValue() !== $image)) {
+			$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
 			$updated = true;
 		}
 
@@ -94,5 +101,29 @@ class Converter {
 		}
 
 		return $updated;
+	}
+
+	/**
+	 * @param string $fullName
+	 * @return string[]
+	 */
+	public function splitFullName($fullName) {
+		// Very basic western style parsing. I'm not gonna implement
+		// https://github.com/android/platform_packages_providers_contactsprovider/blob/master/src/com/android/providers/contacts/NameSplitter.java ;)
+
+		$elements = explode(' ', $fullName);
+		$result = ['', '', '', '', ''];
+		if (count($elements) > 2) {
+			$result[0] = implode(' ', array_slice($elements, count($elements)-1));
+			$result[1] = $elements[0];
+			$result[2] = implode(' ', array_slice($elements, 1, count($elements)-2));
+		} elseif (count($elements) === 2) {
+			$result[0] = $elements[1];
+			$result[1] = $elements[0];
+		} else {
+			$result[0] = $elements[0];
+		}
+
+		return $result;
 	}
 }
