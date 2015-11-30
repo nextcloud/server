@@ -18,6 +18,12 @@ use \OCP\SystemTag\TagAlreadyExistsException;
 use \OCP\IDBConnection;
 use \OC\SystemTag\SystemTag;
 
+/**
+ * Class TestSystemTagObjectMapper
+ *
+ * @group DB
+ * @package Test\SystemTag
+ */
 class TestSystemTagObjectMapper extends \Test\TestCase {
 
 	/**

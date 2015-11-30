@@ -15,6 +15,12 @@ use \OCP\SystemTag\TagNotFoundException;
 use \OCP\SystemTag\TagAlreadyExistsException;
 use \OCP\IDBConnection;
 
+/**
+ * Class TestSystemTagManager
+ *
+ * @group DB
+ * @package Test\SystemTag
+ */
 class TestSystemTagManager extends \Test\TestCase {
 
 	/**
