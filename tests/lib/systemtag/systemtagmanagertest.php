@@ -12,9 +12,10 @@ namespace Test\SystemTag;
 
 use OC\SystemTag\SystemTagManager;
 use OC\SystemTag\SystemTagObjectMapper;
+use OCP\IDBConnection;
 use OCP\SystemTag\ISystemTag;
-use \OCP\SystemTag\ISystemTagManager;
-use \OCP\IDBConnection;
+use OCP\SystemTag\ISystemTagManager;
+use Test\TestCase;
 
 /**
  * Class TestSystemTagManager
@@ -22,7 +23,7 @@ use \OCP\IDBConnection;
  * @group DB
  * @package Test\SystemTag
  */
-class TestSystemTagManager extends \Test\TestCase {
+class SystemTagManagerTest extends TestCase {
 
 	/**
 	 * @var ISystemTagManager
@@ -188,7 +189,7 @@ class TestSystemTagManager extends \Test\TestCase {
 	 */
 	public function testGetAllTagsFiltered($testTags, $visibilityFilter, $nameSearch, $expectedResults) {
 		foreach ($testTags as $testTag) {
-			$tag = $this->tagManager->createTag($testTag[0], $testTag[1], $testTag[2]);
+			$this->tagManager->createTag($testTag[0], $testTag[1], $testTag[2]);
 		}
 
 		$testTagsById = [];
@@ -239,10 +240,7 @@ class TestSystemTagManager extends \Test\TestCase {
 		$this->assertSameTag($tag1, $tag2);
 	}
 
-	/**
-	 * @dataProvider oneTagMultipleFlagsProvider
-	 */
-	public function testGetExistingTagById($name, $userVisible, $userAssignable) {
+	public function testGetExistingTagById() {
 		$tag1 = $this->tagManager->createTag('one', true, false);
 		$tag2 = $this->tagManager->createTag('two', false, true);
 
