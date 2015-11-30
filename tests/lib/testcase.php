@@ -338,6 +338,11 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function IsDatabaseAccessAllowed() {
+		// on travis-ci.org we allow database access in any case - otherwise
+		// this will break all apps right away
+		if (true == getenv('TRAVIS')) {
+			return true;
+		}
 		$annotations = $this->getAnnotations();
 		if (isset($annotations['class']['group']) && in_array('DB', $annotations['class']['group'])) {
 			return true;
