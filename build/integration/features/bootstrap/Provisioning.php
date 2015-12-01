@@ -175,7 +175,7 @@ trait Provisioning {
 	 * @Given /^user "([^"]*)" belongs to group "([^"]*)"$/
 	 */
 	public function assureUserBelongsToGroup($user, $group){
-		if (!$this->userBelongsToGroup($user, $group)){			
+		if (!$this->userBelongsToGroup($user, $group)){
 			$previous_user = $this->currentUser;
 			$this->currentUser = "admin";
 			$this->addingUserToGroup($user, $group);
@@ -431,7 +431,7 @@ trait Provisioning {
 		$this->theSubadminGroupsShouldBe($groupsList);
 	}
 
-		/**
+	/**
 	 * Parses the xml answer to get the array of users returned.
 	 * @param ResponseInterface $resp
 	 * @return array
