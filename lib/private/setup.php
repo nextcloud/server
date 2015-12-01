@@ -369,11 +369,9 @@ class Setup {
 			// out that this is indeed an ownCloud data directory
 			file_put_contents($config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data').'/.ocdata', '');
 
-			// Update htaccess files for apache hosts
-			if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
-				self::updateHtaccess();
-				self::protectDataDirectory();
-			}
+			// Update .htaccess files
+			Setup::updateHtaccess();
+			Setup::protectDataDirectory();
 
 			//try to write logtimezone
 			if (date_default_timezone_get()) {
