@@ -21,7 +21,7 @@ trait WebDav{
 		$this->davPath = $davPath;
 	}	
 
-	public function makeDavRequest($user, $method, $path, $headers){
+	public function makeDavRequest($user, $method, $path, $headers, $body = null){
 		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . "$path";
 		$client = new GClient();
 		$options = [];
@@ -36,6 +36,11 @@ trait WebDav{
 				$request->addHeader($key, $value);	
 			}
 		}
+
+		if (!is_null($body)) {
+			$request->setBody($body);
+		}
+
 		return $client->send($request);
 	}
 
@@ -115,7 +120,20 @@ trait WebDav{
 			}
 		}
 	}
-	
+
+	/**
+	 * @When User :user uploads file :source to :destination
+	 */
+	public function userUploadsAFileTo($user, $source, $destination)
+	{
+		$file = \GuzzleHttp\Stream\Stream::factory(fopen($source, 'r'));
+		try {
+			$this->response = $this->makeDavRequest($user, "PUT", $destination, [], $file);
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 4xx and 5xx responses cause an exception
+			$this->response = $e->getResponse();
+		}
+	}
 
 }
 

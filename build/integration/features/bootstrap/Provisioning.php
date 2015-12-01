@@ -511,6 +511,20 @@ trait Provisioning {
 	}
 
 	/**
+	 * @Given user :user has a quota of :quota
+	 */
+	public function userHasAQuotaOf($user, $quota)
+	{
+		$body = new \Behat\Gherkin\Node\TableNode([
+			0 => ['key', 'quota'],
+			1 => ['value', $quota],
+		]);
+
+		// method used from BasicStructure trait
+		$this->sendingToWith("PUT", "/cloud/users/" . $user, $body);
+	}
+
+	/**
 	 * @BeforeScenario
 	 * @AfterScenario
 	 */
