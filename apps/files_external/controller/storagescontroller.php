@@ -38,7 +38,6 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCP\Files\StorageNotAvailableException;
 use \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use \OCA\Files_External\Service\BackendService;
-use \OCP\Files\StorageNotAvailableException;
 
 /**
  * Base class for storages controllers
