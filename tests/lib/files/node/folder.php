@@ -82,6 +82,7 @@ class Folder extends \Test\TestCase {
 			$test->assertInstanceOf('\OC\Files\Node\NonExistingFolder', $node);
 			$test->assertEquals('foo', $node->getInternalPath());
 			$test->assertEquals('/bar/foo', $node->getPath());
+			$test->assertEquals(1, $node->getId());
 			$hooksRun++;
 		};
 

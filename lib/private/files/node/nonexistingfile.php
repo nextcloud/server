@@ -46,7 +46,11 @@ class NonExistingFile extends File {
 	}
 
 	public function getId() {
-		throw new NotFoundException();
+		if ($this->fileInfo) {
+			return parent::getId();
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 	public function stat() {
@@ -54,35 +58,67 @@ class NonExistingFile extends File {
 	}
 
 	public function getMTime() {
-		throw new NotFoundException();
+		if ($this->fileInfo) {
+			return parent::getMTime();
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 	public function getSize() {
-		throw new NotFoundException();
+		if ($this->fileInfo) {
+			return parent::getSize();
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 	public function getEtag() {
-		throw new NotFoundException();
+		if ($this->fileInfo) {
+			return parent::getEtag();
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 	public function getPermissions() {
-		throw new NotFoundException();
+		if ($this->fileInfo) {
+			return parent::getPermissions();
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 	public function isReadable() {
-		throw new NotFoundException();
+		if ($this->fileInfo) {
+			return parent::isReadable();
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 	public function isUpdateable() {
-		throw new NotFoundException();
+		if ($this->fileInfo) {
+			return parent::isUpdateable();
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 	public function isDeletable() {
-		throw new NotFoundException();
+		if ($this->fileInfo) {
+			return parent::isDeletable();
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 	public function isShareable() {
-		throw new NotFoundException();
+		if ($this->fileInfo) {
+			return parent::isShareable();
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 	public function getContent() {
@@ -94,7 +130,11 @@ class NonExistingFile extends File {
 	}
 
 	public function getMimeType() {
-		throw new NotFoundException();
+		if ($this->fileInfo) {
+			return parent::getMimeType();
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 	public function fopen($mode) {
