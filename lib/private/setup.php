@@ -436,6 +436,9 @@ class Setup {
 		// Add rewrite base
 		$content.="\n<IfModule mod_rewrite.c>";
 		$content.="\n  RewriteBase ".\OC::$WEBROOT;
+		$content .= "\n  <IfModule mod_env.c>";
+		$content .= "\n    SetEnv front_controller_active true";
+		$content.="\n  </IfModule>";
 		$content.="\n</IfModule>";
 
 		if ($content !== '') {
