@@ -18,16 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP\Files;
 
 /**
- * External Storage has bad or missing config params
+ * Storage has bad or missing config params
  * @since 9.0.0
  */
-class ExtStorageBadConfigException extends StorageNotAvailableException {
+class StorageBadConfigException extends StorageNotAvailableException {
 
 	/**
 	 * ExtStorageBadConfigException constructor.
@@ -39,7 +36,7 @@ class ExtStorageBadConfigException extends StorageNotAvailableException {
 	 */
 	public function __construct($message = '', \Exception $previous = null) {
 		$l = \OC::$server->getL10N('core');
-		parent::__construct($l->t('External storage incomplete configuration. %s', $message), self::STATUS_INCOMPLETE_CONF, $previous);
+		parent::__construct($l->t('Storage incomplete configuration. %s', $message), self::STATUS_INCOMPLETE_CONF, $previous);
 	}
 
 }

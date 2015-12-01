@@ -18,19 +18,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP\Files;
 
 /**
- * External Storage authentication exception
+ * Storage authentication exception
  * @since 9.0.0
  */
-class ExtStorageTimeoutException extends StorageNotAvailableException {
+class StorageAuthException extends StorageNotAvailableException {
 
 	/**
-	 * ExtStorageTimeoutException constructor.
+	 * StorageAuthException constructor.
 	 *
 	 * @param string $message
 	 * @param int $code
@@ -39,6 +36,6 @@ class ExtStorageTimeoutException extends StorageNotAvailableException {
 	 */
 	public function __construct($message = '', \Exception $previous = null) {
 		$l = \OC::$server->getL10N('core');
-		parent::__construct($l->t('External storage connection timeout. %s', $message), self::STATUS_TIMEOUT, $previous);
+		parent::__construct($l->t('Storage unauthorized. %s', $message), self::STATUS_UNAUTHORIZED, $previous);
 	}
 }
