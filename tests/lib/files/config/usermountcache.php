@@ -10,12 +10,23 @@ namespace Test\Files\Config;
 
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
+use OC\Log;
 use OC\User\Manager;
+use OCP\Files\Config\ICachedMountInfo;
 use OCP\IDBConnection;
 use OCP\IUserManager;
-use Test\NullLogger;
 use Test\TestCase;
 use Test\Util\User\Dummy;
+
+class NullLogger extends Log {
+	public function __construct($logger = null) {
+		//disable original constructor
+	}
+
+	public function log($level, $message, array $context = array()) {
+		//noop
+	}
+}
 
 /**
  * @group DB
@@ -207,6 +218,9 @@ class UserMountCache extends TestCase {
 		$this->clearCache();
 
 		$cachedMounts = $this->cache->getMountsForStorageId(3);
+		usort($cachedMounts, function (ICachedMountInfo $a, ICachedMountInfo $b) {
+			return strcmp($a->getUser()->getUID(), $b->getUser()->getUID());
+		});
 
 		$this->assertCount(2, $cachedMounts);
 
@@ -234,6 +248,9 @@ class UserMountCache extends TestCase {
 		$this->clearCache();
 
 		$cachedMounts = $this->cache->getMountsForRootId(4);
+		usort($cachedMounts, function (ICachedMountInfo $a, ICachedMountInfo $b) {
+			return strcmp($a->getUser()->getUID(), $b->getUser()->getUID());
+		});
 
 		$this->assertCount(2, $cachedMounts);
 
