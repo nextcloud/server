@@ -7,6 +7,7 @@ use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUser;
 use OCP\IUserManager;
 use Sabre\CardDAV\Plugin;
 use Sabre\VObject\Component\VCard;
@@ -69,28 +70,24 @@ class SyncSystemAddressBook extends Command {
 		$output->writeln('Syncing users ...');
 		$progress = new ProgressBar($output);
 		$progress->start();
-		$page = 0;
-		foreach( $this->userManager->getBackends() as $backend) {
-			$users = $backend->getUsers('', 50, $page++);
-			foreach($users as $user) {
-				$user = $this->userManager->get($user);
-				$name = $user->getBackendClassName();
-				$userId = $user->getUID();
+		$this->userManager->callForAllUsers(function($user) use ($systemAddressBook, $converter, $progress) {
+			/** @var IUser $user */
+			$name = $user->getBackendClassName();
+			$userId = $user->getUID();
 
-				$cardId = "$name:$userId.vcf";
-				$card = $this->backend->getCard($systemAddressBook['id'], $cardId);
-				if ($card === false) {
-					$vCard = $converter->createCardFromUser($user);
-					$this->backend->createCard($systemAddressBook['id'], $cardId, $vCard->serialize());
-				} else {
-					$vCard = Reader::read($card['carddata']);
-					if ($converter->updateCard($vCard, $user)) {
-						$this->backend->updateCard($systemAddressBook['id'], $cardId, $vCard->serialize());
-					}
+			$cardId = "$name:$userId.vcf";
+			$card = $this->backend->getCard($systemAddressBook['id'], $cardId);
+			if ($card === false) {
+				$vCard = $converter->createCardFromUser($user);
+				$this->backend->createCard($systemAddressBook['id'], $cardId, $vCard->serialize());
+			} else {
+				$vCard = Reader::read($card['carddata']);
+				if ($converter->updateCard($vCard, $user)) {
+					$this->backend->updateCard($systemAddressBook['id'], $cardId, $vCard->serialize());
 				}
-				$progress->advance();
 			}
-		}
+			$progress->advance();
+		});
 		$progress->finish();
 		$output->writeln('');
 	}

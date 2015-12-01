@@ -294,21 +294,47 @@ class Manager extends PublicEmitter implements IUserManager {
 		$userCountStatistics = array();
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC_User_Backend::COUNT_USERS)) {
-				$backendusers = $backend->countUsers();
-				if($backendusers !== false) {
+				$backendUsers = $backend->countUsers();
+				if($backendUsers !== false) {
 					if($backend instanceof \OCP\IUserBackend) {
 						$name = $backend->getBackendName();
 					} else {
 						$name = get_class($backend);
 					}
 					if(isset($userCountStatistics[$name])) {
-						$userCountStatistics[$name] += $backendusers;
+						$userCountStatistics[$name] += $backendUsers;
 					} else {
-						$userCountStatistics[$name] = $backendusers;
+						$userCountStatistics[$name] = $backendUsers;
 					}
 				}
 			}
 		}
 		return $userCountStatistics;
+	}
+
+	/**
+	 * The callback is executed for each user on each backend.
+	 * If the callback returns false no further users will be retrieved.
+	 *
+	 * @param \Closure $callback
+	 * @return void
+	 * @since 9.0.0
+	 */
+	public function callForAllUsers(\Closure $callback, $search = '') {
+		foreach($this->getBackends() as $backend) {
+			$limit = 50;
+			$offset = 0;
+			do {
+				$users = $backend->getUsers($search, $limit, $offset);
+				foreach ($users as $user) {
+					$user = $this->get($user);
+					$return = $callback($user);
+					if ($return === false) {
+						break;
+					}
+				}
+				$offset += $limit;
+			} while (count($users) >= $limit);
+		}
 	}
 }
