@@ -290,16 +290,16 @@ class ActivityTest extends TestCase {
 					'items' => [],
 					'folders' => [],
 				],
-				' CASE WHEN `app` = ? THEN ((`type` <> ? AND `type` <> ?)) ELSE `app` <> ? END ',
-				['files', Activity::TYPE_SHARE_CREATED, Activity::TYPE_SHARE_CHANGED, 'files']
+				' CASE WHEN `app` <> ? THEN 1 WHEN `app` = ? AND ((`type` <> ? AND `type` <> ?)) THEN 1 ELSE 0 END = 1 ',
+				['files', 'files', Activity::TYPE_SHARE_CREATED, Activity::TYPE_SHARE_CHANGED]
 			],
 			[
 				[
 					'items' => ['file.txt', 'folder'],
 					'folders' => ['folder'],
 				],
-				' CASE WHEN `app` = ? THEN ((`type` <> ? AND `type` <> ?) OR `file` = ? OR `file` = ? OR `file` LIKE ?) ELSE `app` <> ? END ',
-				['files', Activity::TYPE_SHARE_CREATED, Activity::TYPE_SHARE_CHANGED, 'file.txt', 'folder', 'folder/%', 'files']
+				' CASE WHEN `app` <> ? THEN 1 WHEN `app` = ? AND ((`type` <> ? AND `type` <> ?) OR `file` = ? OR `file` = ? OR `file` LIKE ?) THEN 1 ELSE 0 END = 1 ',
+				['files', 'files', Activity::TYPE_SHARE_CREATED, Activity::TYPE_SHARE_CHANGED, 'file.txt', 'folder', 'folder/%']
 			],
 		];
 	}
@@ -333,6 +333,19 @@ class ActivityTest extends TestCase {
 
 		$result = $this->activityExtension->getQueryForFilter('all');
 		$this->assertEquals([$query, $parameters], $result);
+
+		$this->executeQueryForFilter($result);
+	}
+
+	public function executeQueryForFilter(array $result) {
+		list($resultQuery, $resultParameters) = $result;
+		$resultQuery = str_replace('`file`', '`user`', $resultQuery);
+		$resultQuery = str_replace('`type`', '`key`', $resultQuery);
+
+		$connection = \OC::$server->getDatabaseConnection();
+		$result = $connection->executeQuery('SELECT * FROM `*PREFIX*privatedata` WHERE ' . $resultQuery, $resultParameters);
+		$rows = $result->fetchAll();
+		$result->closeCursor();
 	}
 
 	protected function mockUserSession($user) {
