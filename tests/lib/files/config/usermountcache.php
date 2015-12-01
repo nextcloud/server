@@ -13,6 +13,7 @@ use OC\Files\Storage\Temporary;
 use OC\User\Manager;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use Test\NullLogger;
 use Test\TestCase;
 use Test\Util\User\Dummy;
 
@@ -42,7 +43,7 @@ class UserMountCache extends TestCase {
 		$userBackend->createUser('u1', '');
 		$userBackend->createUser('u2', '');
 		$this->userManager->registerBackend($userBackend);
-		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager);
+		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, new NullLogger());
 	}
 
 	public function tearDown() {

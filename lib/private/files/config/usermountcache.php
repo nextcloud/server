@@ -21,11 +21,13 @@
 
 namespace OC\Files\Config;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\ICache;
 use OCP\IDBConnection;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 
@@ -44,14 +46,21 @@ class UserMountCache implements IUserMountCache {
 	private $mountsForUsers = [];
 
 	/**
+	 * @var ILogger
+	 */
+	private $logger;
+
+	/**
 	 * UserMountCache constructor.
 	 *
 	 * @param IDBConnection $connection
 	 * @param IUserManager $userManager
+	 * @param ILogger $logger
 	 */
-	public function __construct(IDBConnection $connection, IUserManager $userManager) {
+	public function __construct(IDBConnection $connection, IUserManager $userManager, ILogger $logger) {
 		$this->connection = $connection;
 		$this->userManager = $userManager;
+		$this->logger = $logger;
 	}
 
 	public function registerMounts(IUser $user, array $mounts) {
@@ -108,7 +117,13 @@ class UserMountCache implements IUserMountCache {
 			':user' => $mount->getUser()->getUID(),
 			':mount' => $mount->getMountPoint()
 		]);
-		$query->execute();
+		try {
+			$query->execute();
+		} catch (UniqueConstraintViolationException $e) {
+			// seems to mainly happen in tests
+			$this->logger->error('Duplicate entry while inserting mount');
+			$this->logger->logException($e);
+		}
 	}
 
 	private function removeFromCache(ICachedMountInfo $mount) {

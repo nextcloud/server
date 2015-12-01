@@ -407,7 +407,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerService('MountConfigManager', function (Server $c) {
 			$loader = \OC\Files\Filesystem::getLoader();
-			$mountCache = new UserMountCache($c->getDatabaseConnection(), $c->getUserManager());
+			$mountCache = new UserMountCache($c->getDatabaseConnection(), $c->getUserManager(), $c->getLogger());
 			return new \OC\Files\Config\MountProviderCollection($loader, $mountCache);
 		});
 		$this->registerService('IniWrapper', function ($c) {
