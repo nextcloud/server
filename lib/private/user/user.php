@@ -79,6 +79,7 @@ class User implements IUser {
 		$this->emitter = $emitter;
 		$this->config = $config;
 		$this->avatarManager = $avatarManager;
+		$this->urlGenerator = $urlGenerator;
 		if ($this->config) {
 			$enabled = $this->config->getUserValue($uid, 'core', 'enabled', 'true');
 			$this->enabled = ($enabled === 'true');

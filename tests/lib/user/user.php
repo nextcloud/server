@@ -468,8 +468,14 @@ class User extends \Test\TestCase {
 		 */
 		$backend = $this->getMock('\Test\Util\User\Dummy');
 		$urlGenerator = $this->getMockBuilder('\OC\URLGenerator')
+				->setMethods(['getAbsoluteURL'])
 				->disableOriginalConstructor()->getMock();
+		$urlGenerator
+				->expects($this->any())
+				->method('getAbsoluteURL')
+				->withAnyParameters()
+				->willReturn('http://localhost:8888/owncloud');
 		$user = new \OC\User\User('foo', $backend, null, null, null, $urlGenerator);
-		$this->assertEquals("foo@localhost", $user->getCloudId());
+		$this->assertEquals("foo@localhost:8888/owncloud", $user->getCloudId());
 	}
 }
