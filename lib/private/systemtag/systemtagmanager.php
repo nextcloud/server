@@ -94,9 +94,7 @@ class SystemTagManager implements ISystemTagManager {
 		$result->closeCursor();
 
 		if (count($tags) !== count($tagIds)) {
-			throw new TagNotFoundException(
-				'Tag(s) with id(s) ' . json_encode(array_diff($tagIds, array_keys($tags))) . ' not found'
-			);
+			throw new TagNotFoundException(json_encode(array_diff($tagIds, array_keys($tags))));
 		}
 
 		return $tags;

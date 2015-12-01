@@ -35,7 +35,9 @@ interface ISystemTagManager {
 	 *
 	 * @return \OCP\SystemTag\ISystemTag[] array of system tags with tag id as key
 	 *
-	 * @throws \OCP\SystemTag\TagNotFoundException if at least one given tag id did no exist
+	 * @throws \InvalidArgumentException if at least one given tag ids is invalid (string instead of integer, etc.)
+	 * @throws \OCP\SystemTag\TagNotFoundException if at least one given tag ids did no exist
+	 * 			The message contains a json_encoded array of the ids that could not be found
 	 *
 	 * @since 9.0.0
 	 */
