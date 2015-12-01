@@ -195,7 +195,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @return bool|string
+	 * @return string|false
 	 */
 	private function hostKeysPath() {
 		try {

@@ -243,6 +243,7 @@ class OC_Mount_Config {
 	 *
 	 * @param string $class backend class name
 	 * @param array $options backend configuration options
+	 * @param boolean $isPersonal
 	 * @return int see self::STATUS_*
 	 * @throws Exception
 	 */
@@ -362,11 +363,11 @@ class OC_Mount_Config {
 	private static function getSingleDependencyMessage(\OCP\IL10N $l, $module, $backend) {
 		switch (strtolower($module)) {
 			case 'curl':
-				return $l->t('<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', $backend);
+				return (string)$l->t('<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', $backend);
 			case 'ftp':
-				return $l->t('<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', $backend);
+				return (string)$l->t('<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', $backend);
 			default:
-				return $l->t('<b>Note:</b> "%s" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it.', array($module, $backend));
+				return (string)$l->t('<b>Note:</b> "%s" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it.', array($module, $backend));
 		}
 	}
 
