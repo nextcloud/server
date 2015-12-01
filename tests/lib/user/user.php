@@ -11,6 +11,13 @@ namespace Test\User;
 
 use OC\Hooks\PublicEmitter;
 
+/**
+ * Class User
+ *
+ * @group DB
+ *
+ * @package Test\User
+ */
 class User extends \Test\TestCase {
 	public function testDisplayName() {
 		/**
@@ -453,5 +460,16 @@ class User extends \Test\TestCase {
 		$user = new \OC\User\User('foo', $backend, $emitter);
 		$this->assertTrue($user->delete());
 		$this->assertEquals(2, $hooksCalled);
+	}
+
+	public function testGetCloudId() {
+		/**
+		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->getMock('\Test\Util\User\Dummy');
+		$urlGenerator = $this->getMockBuilder('\OC\URLGenerator')
+				->disableOriginalConstructor()->getMock();
+		$user = new \OC\User\User('foo', $backend, null, null, null, $urlGenerator);
+		$this->assertEquals("foo@localhost", $user->getCloudId());
 	}
 }
