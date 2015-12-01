@@ -160,7 +160,11 @@ var OC={
 			url = '/' + url;
 
 		}
-		// TODO save somewhere whether the webserver is able to skip the index.php to have shorter links (e.g. for sharing)
+
+		if(oc_config.modRewriteWorking == true) {
+			return OC.webroot + _build(url, params);
+		}
+
 		return OC.webroot + '/index.php' + _build(url, params);
 	},
 

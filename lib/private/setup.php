@@ -432,6 +432,12 @@ class Setup {
 			//custom 404 error page
 			$content.= "\nErrorDocument 404 ".\OC::$WEBROOT."/core/templates/404.php";
 		}
+
+		// Add rewrite base
+		$content.="\n<IfModule mod_rewrite.c>";
+		$content.="\n  RewriteBase ".\OC::$WEBROOT;
+		$content.="\n</IfModule>";
+
 		if ($content !== '') {
 			//suppress errors in case we don't have permissions for it
 			@file_put_contents($setupHelper->pathToHtaccess(), $content . "\n", FILE_APPEND);

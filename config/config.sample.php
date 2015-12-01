@@ -213,7 +213,6 @@ $CONFIG = array(
 	)
 ),
 
-
 /**
  * Mail Parameters
  *

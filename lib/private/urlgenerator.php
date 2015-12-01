@@ -90,7 +90,7 @@ class URLGenerator implements IURLGenerator {
 	 * Returns a url to the given app and file.
 	 */
 	public function linkTo( $app, $file, $args = array() ) {
-		$frontControllerActive=($this->config->getSystemValue('front_controller_active', 'false') == 'true');
+		$frontControllerActive = (getenv('front_controller_active') === 'true');
 
 		if( $app != '' ) {
 			$app_path = \OC_App::getAppPath($app);
