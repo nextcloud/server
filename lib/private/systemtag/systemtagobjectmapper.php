@@ -219,7 +219,9 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 				$tags
 			);
 			$missingTagIds = array_diff($tagIds, $foundTagIds);
-			throw new TagNotFoundException('Tags ' . json_encode($missingTagIds) . ' do not exist');
+			throw new TagNotFoundException(
+				'Tags not found', 0, null, $missingTagIds
+			);
 		}
 	}
 }

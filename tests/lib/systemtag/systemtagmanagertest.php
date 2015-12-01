@@ -40,7 +40,7 @@ class SystemTagManagerTest extends TestCase {
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->tagManager = new SystemTagManager($this->connection);
-	} 
+	}
 
 	public function tearDown() {
 		$query = $this->connection->getQueryBuilder();

@@ -106,7 +106,7 @@ interface ISystemTagManager {
 	 *
 	 * @param string|array $tagIds array of tag ids
 	 *
-	 * @throws \OCP\SystemTag\TagNotFoundException if tag did not exist
+	 * @throws \OCP\SystemTag\TagNotFoundException if at least one tag did not exist
 	 *
 	 * @since 9.0.0
 	 */
