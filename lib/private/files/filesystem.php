@@ -415,7 +415,7 @@ class Filesystem {
 		}
 
 		$mount = new MountPoint($homeStorage['class'], '/' . $user, $homeStorage['arguments'], self::getLoader());
-		self::$mounts->addMount($mount);
+		self::getMountManager()->addMount($mount);
 
 		$home = \OC\Files\Filesystem::getStorage($user);
 
