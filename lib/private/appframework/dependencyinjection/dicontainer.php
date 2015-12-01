@@ -130,6 +130,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getQueryLogger();
 		});
 
+		$this->registerService('OCP\\Files\\IMimeTypeDetector', function($c) {
+			return $this->getServer()->getMimeTypeDetector();
+		});
+
 		$this->registerService('OCP\\Files\\Config\\IMountProviderCollection', function($c) {
 			return $this->getServer()->getMountProviderCollection();
 		});
