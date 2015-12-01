@@ -33,6 +33,7 @@
 
 namespace OC\Files\Cache;
 
+use OCP\Files\Cache\ICache;
 use \OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
 
@@ -46,7 +47,7 @@ use OCP\IDBConnection;
  * - Updater: listens to changes made to the filesystem inside of the ownCloud instance and updates the cache where needed
  * - ChangePropagator: updates the mtime and etags of parent folders whenever a change to the cache is made to the cache by the updater
  */
-class Cache {
+class Cache implements ICache {
 	const NOT_FOUND = 0;
 	const PARTIAL = 1; //only partial data available, file not cached in the database
 	const SHALLOW = 2; //folder in cache, but not all child files are completely scanned
