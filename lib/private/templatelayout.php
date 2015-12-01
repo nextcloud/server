@@ -78,8 +78,12 @@ class OC_TemplateLayout extends OC_Template {
 			// Update notification
 			if($this->config->getSystemValue('updatechecker', true) === true &&
 				OC_User::isAdminUser(OC_User::getUser())) {
-				$updater = new \OC\Updater(\OC::$server->getHTTPHelper(),
-					\OC::$server->getConfig(), \OC::$server->getLogger());
+				$updater = new \OC\Updater(
+						\OC::$server->getHTTPHelper(),
+						\OC::$server->getConfig(),
+						\OC::$server->getIntegrityCodeChecker(),
+						\OC::$server->getLogger()
+				);
 				$data = $updater->check();
 
 				if(isset($data['version']) && $data['version'] != '' and $data['version'] !== Array()) {
@@ -96,8 +100,13 @@ class OC_TemplateLayout extends OC_Template {
 				$this->assign('updateAvailable', false); // Update check is disabled
 			}
 
-			// Add navigation entry
+			// Code integrity notification
+			$integrityChecker = \OC::$server->getIntegrityCodeChecker();
+			if(!$integrityChecker->hasPassedCheck()) {
+				\OCP\Util::addScript('core', 'integritycheck-failed-notification');
+			}
 
+			// Add navigation entry
 			$this->assign( 'application', '');
 			$this->assign( 'appid', $appId );
 			$navigation = OC_App::getNavigation();

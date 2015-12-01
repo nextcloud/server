@@ -40,6 +40,7 @@ use OC\Settings\Middleware\SubadminMiddleware;
 use \OCP\AppFramework\App;
 use OCP\IContainer;
 use \OCP\Util;
+use OC\Server;
 
 /**
  * @package OC\Settings
@@ -154,7 +155,8 @@ class Application extends App {
 				$c->query('ClientService'),
 				$c->query('URLGenerator'),
 				$c->query('Util'),
-				$c->query('L10N')
+				$c->query('L10N'),
+				$c->query('Checker')
 			);
 		});
 
@@ -239,6 +241,11 @@ class Application extends App {
 		});
 		$container->registerService('CertificateManager', function(IContainer $c){
 			return $c->query('ServerContainer')->getCertificateManager();
+		});
+		$container->registerService('Checker', function(IContainer $c) {
+			/** @var Server $server */
+			$server = $c->query('ServerContainer');
+			return $server->getIntegrityCodeChecker();
 		});
 	}
 }

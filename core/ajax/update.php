@@ -47,6 +47,7 @@ if (OC::checkUpgrade(false)) {
 	$updater = new \OC\Updater(
 			\OC::$server->getHTTPHelper(),
 			$config,
+			\OC::$server->getIntegrityCodeChecker(),
 			$logger
 	);
 	$incompatibleApps = [];
@@ -107,6 +108,12 @@ if (OC::checkUpgrade(false)) {
 	});
 	$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Reset log level to  "%s"', [ $logLevelName ]));
+	});
+	$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use($eventSource, $l) {
+		$eventSource->send('success', (string)$l->t('Starting code integrity check'));
+	});
+	$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use($eventSource, $l) {
+		$eventSource->send('success', (string)$l->t('Finished code integrity check'));
 	});
 
 	try {
