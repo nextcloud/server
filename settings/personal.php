@@ -54,23 +54,24 @@ if ($config->getSystemValue('enable_avatars', true) === true) {
 }
 
 // Highlight navigation entry
-OC_App::setActiveNavigationEntry( 'personal' );
+OC::$server->getNavigationManager()->setActiveEntry('personal');
 
 $storageInfo=OC_Helper::getStorageInfo('/');
 
-$email=$config->getUserValue(OC_User::getUser(), 'settings', 'email', '');
+$user = OC::$server->getUserManager()->get(OC_User::getUser());
+$email = $user->getEMailAddress();
 
 $userLang=$config->getUserValue( OC_User::getUser(), 'core', 'lang', OC_L10N::findLanguage() );
 $languageCodes=OC_L10N::findAvailableLanguages();
 
 // array of common languages
-$commonlangcodes = array(
+$commonLangCodes = array(
 	'en', 'es', 'fr', 'de', 'de_DE', 'ja', 'ar', 'ru', 'nl', 'it', 'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
 );
 
 $languageNames=include 'languageCodes.php';
 $languages=array();
-$commonlanguages = array();
+$commonLanguages = array();
 foreach($languageCodes as $lang) {
 	$l = \OC::$server->getL10N('settings', $lang);
 	// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
@@ -82,12 +83,12 @@ foreach($languageCodes as $lang) {
 		$ln=array('code'=>$lang, 'name'=>$lang);
 	}
 
-	// put apropriate languages into apropriate arrays, to print them sorted
+	// put appropriate languages into appropriate arrays, to print them sorted
 	// used language -> common languages -> divider -> other languages
 	if ($lang === $userLang) {
 		$userLang = $ln;
-	} elseif (in_array($lang, $commonlangcodes)) {
-		$commonlanguages[array_search($lang, $commonlangcodes)]=$ln;
+	} elseif (in_array($lang, $commonLangCodes)) {
+		$commonLanguages[array_search($lang, $commonLangCodes)]=$ln;
 	} else {
 		$languages[]=$ln;
 	}
@@ -101,7 +102,7 @@ if (!is_array($userLang)) {
 	];
 }
 
-ksort($commonlanguages);
+ksort($commonLanguages);
 
 // sort now by displayed language not the iso-code
 usort( $languages, function ($a, $b) {
@@ -142,7 +143,7 @@ $tmpl->assign('usage_relative', $storageInfo['relative']);
 $tmpl->assign('clients', $clients);
 $tmpl->assign('email', $email);
 $tmpl->assign('languages', $languages);
-$tmpl->assign('commonlanguages', $commonlanguages);
+$tmpl->assign('commonlanguages', $commonLanguages);
 $tmpl->assign('activelanguage', $userLang);
 $tmpl->assign('passwordChangeSupported', OC_User::canUserChangePassword(OC_User::getUser()));
 $tmpl->assign('displayNameChangeSupported', OC_User::canUserChangeDisplayName(OC_User::getUser()));

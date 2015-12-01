@@ -164,6 +164,10 @@ class UsersController extends Controller {
 			$subAdminGroups[$key] = $subAdminGroup->getGID();
 		}
 
+		$displayName = $user->getEMailAddress();
+		if (is_null($displayName)) {
+			$displayName = '';
+		}
 		return [
 			'name' => $user->getUID(),
 			'displayname' => $user->getDisplayName(),
@@ -173,7 +177,7 @@ class UsersController extends Controller {
 			'storageLocation' => $user->getHome(),
 			'lastLogin' => $user->getLastLogin() * 1000,
 			'backend' => $user->getBackendClassName(),
-			'email' => $this->config->getUserValue($user->getUID(), 'settings', 'email', ''),
+			'email' => $displayName,
 			'isRestoreDisabled' => !$restorePossible,
 		];
 	}

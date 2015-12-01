@@ -218,13 +218,12 @@ class LostController extends Controller {
 			throw new \Exception($this->l10n->t('Couldn\'t send reset email. Please make sure your username is correct.'));
 		}
 
-		$email = $this->config->getUserValue($user, 'settings', 'email');
+		$userObject = $this->userManager->get($user);
+		$email = $userObject->getEMailAddress();
 
 		if (empty($email)) {
 			throw new \Exception(
-				$this->l10n->t('Couldn\'t send reset email because there is no '.
-					'email address for this username. Please ' .
-					'contact your administrator.')
+				$this->l10n->t('Could not send reset email because there is no email address for this username. Please contact your administrator.')
 			);
 		}
 

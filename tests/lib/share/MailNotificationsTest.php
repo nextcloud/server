@@ -22,6 +22,7 @@
 use OC\Share\MailNotifications;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IUser;
 use OCP\Mail\IMailer;
 use OCP\ILogger;
 use OCP\Defaults;
@@ -30,23 +31,21 @@ use OCP\Defaults;
  * Class MailNotificationsTest
  */
 class MailNotificationsTest extends \Test\TestCase {
-	/** @var IConfig */
-	private $config;
 	/** @var IL10N */
 	private $l10n;
-	/** @var IMailer */
+	/** @var IMailer | PHPUnit_Framework_MockObject_MockObject */
 	private $mailer;
 	/** @var ILogger */
 	private $logger;
-	/** @var Defaults */
+	/** @var Defaults | PHPUnit_Framework_MockObject_MockObject */
 	private $defaults;
+	/** @var IUser | PHPUnit_Framework_MockObject_MockObject */
+	private $user;
 
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder('\OCP\IConfig')
-			->disableOriginalConstructor()->getMock();
 		$this->l10n = $this->getMockBuilder('\OCP\IL10N')
 			->disableOriginalConstructor()->getMock();
 		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')
@@ -54,13 +53,30 @@ class MailNotificationsTest extends \Test\TestCase {
 		$this->logger = $this->getMockBuilder('\OCP\ILogger')
 			->disableOriginalConstructor()->getMock();
 		$this->defaults = $this->getMockBuilder('\OCP\Defaults')
-			->disableOriginalConstructor()->getMock();
+				->disableOriginalConstructor()->getMock();
+		$this->user = $this->getMockBuilder('\OCP\IUser')
+				->disableOriginalConstructor()->getMock();
 
 		$this->l10n->expects($this->any())
 			->method('t')
 			->will($this->returnCallback(function($text, $parameters = array()) {
 				return vsprintf($text, $parameters);
 			}));
+
+		$this->defaults
+				->expects($this->once())
+				->method('getName')
+				->will($this->returnValue('UnitTestCloud'));
+
+		$this->user
+				->expects($this->once())
+				->method('getEMailAddress')
+				->willReturn('sharer@owncloud.com');
+		$this->user
+				->expects($this->once())
+				->method('getDisplayName')
+				->willReturn('TestUser');
+
 	}
 
 	public function testSendLinkShareMailWithoutReplyTo() {
@@ -96,20 +112,8 @@ class MailNotificationsTest extends \Test\TestCase {
 			->with($message)
 			->will($this->returnValue([]));
 
-		$this->defaults
-			->expects($this->once())
-			->method('getName')
-			->will($this->returnValue('UnitTestCloud'));
-
-		$this->config
-			->expects($this->at(0))
-			->method('getUserValue')
-			->with('TestUser', 'settings', 'email', null)
-			->will($this->returnValue('sharer@owncloud.com'));
-
 		$mailNotifications = new MailNotifications(
-			'TestUser',
-			$this->config,
+			$this->user,
 			$this->l10n,
 			$this->mailer,
 			$this->logger,
@@ -156,20 +160,8 @@ class MailNotificationsTest extends \Test\TestCase {
 			->with($message)
 			->will($this->returnValue([]));
 
-		$this->defaults
-			->expects($this->once())
-			->method('getName')
-			->will($this->returnValue('UnitTestCloud'));
-
-		$this->config
-			->expects($this->at(0))
-			->method('getUserValue')
-			->with('TestUser', 'settings', 'email', null)
-			->will($this->returnValue('sharer@owncloud.com'));
-
 		$mailNotifications = new MailNotifications(
-			'TestUser',
-			$this->config,
+			$this->user,
 			$this->l10n,
 			$this->mailer,
 			$this->logger,
@@ -211,20 +203,8 @@ class MailNotificationsTest extends \Test\TestCase {
 			->with($message)
 			->will($this->throwException(new Exception('Some Exception Message')));
 
-		$this->defaults
-			->expects($this->once())
-			->method('getName')
-			->will($this->returnValue('UnitTestCloud'));
-
-		$this->config
-			->expects($this->at(0))
-			->method('getUserValue')
-			->with('TestUser', 'settings', 'email', null)
-			->will($this->returnValue('sharer@owncloud.com'));
-
 		$mailNotifications = new MailNotifications(
-			'TestUser',
-			$this->config,
+			$this->user,
 			$this->l10n,
 			$this->mailer,
 			$this->logger,
