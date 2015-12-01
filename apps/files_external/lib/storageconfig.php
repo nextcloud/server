@@ -302,6 +302,25 @@ class StorageConfig implements \JsonSerializable {
 	}
 
 	/**
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getMountOption($key) {
+		if (isset($this->mountOptions[$key])) {
+			return $this->mountOptions[$key];
+		}
+		return null;
+	}
+
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 */
+	public function setMountOption($key, $value) {
+		$this->mountOptions[$key] = $value;
+	}
+
+	/**
 	 * Gets the storage status, whether the config worked last time
 	 *
 	 * @return int $status status
