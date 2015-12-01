@@ -395,32 +395,12 @@ class Setup {
 	}
 
 	/**
-	 * Checks if the .htaccess contains the current version parameter
-	 *
-	 * @return bool
-	 */
-	private function isCurrentHtaccess() {
-		$version = \OC_Util::getVersion();
-		unset($version[3]);
-
-		return !strpos(
-			file_get_contents($this->pathToHtaccess()),
-			'Version: '.implode('.', $version)
-		) === false;
-	}
-
-	/**
 	 * Append the correct ErrorDocument path for Apache hosts
-	 *
-	 * @throws \OC\HintException If .htaccess does not include the current version
 	 */
 	public static function updateHtaccess() {
 		$setupHelper = new \OC\Setup(\OC::$server->getConfig(), \OC::$server->getIniWrapper(),
 			\OC::$server->getL10N('lib'), new \OC_Defaults(), \OC::$server->getLogger(),
 			\OC::$server->getSecureRandom());
-		if(!$setupHelper->isCurrentHtaccess()) {
-			throw new \OC\HintException('.htaccess file has the wrong version. Please upload the correct version. Maybe you forgot to replace it after updating?');
-		}
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
 		$content = '';

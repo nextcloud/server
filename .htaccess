@@ -1,4 +1,3 @@
-# Version: 9.0.0
 <IfModule mod_headers.c>
   <IfModule mod_fcgid.c>
     <IfModule mod_setenvif.c>
